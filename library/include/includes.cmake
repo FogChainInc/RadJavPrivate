@@ -138,6 +138,18 @@ if (USE_OGRE)
 	source_group ("RadJav\\V8\\C3D" FILES ${SOURCES_files_RadJav__v8__C3D__Headers})
 
 	set (SOURCES ${SOURCES_files_RadJav__v8__C3D__Headers} ${SOURCES})
+
+	set (SOURCES_files_RadJav__v8__GUI__Headers 
+		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUICanvas3D.h")
+	source_group ("RadJav\\V8\\GUI" FILES ${SOURCES_files_RadJav__v8__GUI__Headers})
+
+	set (SOURCES ${SOURCES_files_RadJav__v8__GUI__Headers} ${SOURCES})
+
+	set (SOURCES_files_RadJav__cpp__GUI__Headers 
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUICanvas3D.h")
+	source_group ("RadJav\\CPP\\GUI" FILES ${SOURCES_files_RadJav__cpp__GUI__Headers})
+
+	set (SOURCES ${SOURCES_files_RadJav__cpp__GUI__Headers} ${SOURCES})
 endif ()
 
 if (libRadJav_INCLUDE_BLOCKCHAIN_V1)
