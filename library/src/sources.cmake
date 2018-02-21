@@ -92,6 +92,38 @@ source_group ("RadJav\\Networking" FILES ${SOURCES_files_Networking__Main__Sourc
 
 set (SOURCES ${SOURCES_files_Networking__Main__Sources} ${SOURCES})
 
+set (SOURCES_files_RadJav__cpp__Global__Sources 
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPColor.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPFont.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMath.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPRectangle.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPVector2.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPVector3.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPVector4.cpp")
+source_group ("RadJav\\CPP\\Global" FILES ${SOURCES_files_RadJav__cpp__Global__Sources})
+
+set (SOURCES ${SOURCES_files_RadJav__cpp__Global__Sources} ${SOURCES})
+
+set (SOURCES_files_RadJav__cpp__GUI__Sources 
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUIGObject.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUIWindow.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUIWebView.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUIButton.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUILabel.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUIImage.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUIContainer.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUICombobox.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUITextbox.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUITextarea.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUICheckbox.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUIRadio.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUIList.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUIMenuBar.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUIMenuItem.cpp")
+source_group ("RadJav\\CPP\\GUI" FILES ${SOURCES_files_RadJav__cpp__GUI__Sources})
+
+set (SOURCES ${SOURCES_files_RadJav__cpp__GUI__Sources} ${SOURCES})
+
 if (USE_OGRE)
 	set (SOURCES_files_RadJav__v8__C3D__Sources 
 		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8C3DObject3D.cpp"

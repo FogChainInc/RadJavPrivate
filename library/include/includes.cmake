@@ -28,6 +28,8 @@ source_group ("RadJav\\V8" FILES ${SOURCES_files_RadJav__v8__Headers})
 
 set (SOURCES ${SOURCES_files_RadJav__v8__Headers} ${SOURCES})
 
+set (SOURCES ${SOURCES_files_RadJav__v8__GUI__Headers} ${SOURCES})
+
 set (SOURCES_files_RadJav__v8__GUI__Headers 
 	"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIGObject.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIWindow.h"
@@ -95,6 +97,38 @@ set (SOURCES_files_Networking__Main__Headers
 source_group ("RadJav\\Networking" FILES ${SOURCES_files_Networking__Main__Headers})
 
 set (SOURCES ${SOURCES_files_Networking__Main__Headers} ${SOURCES})
+
+set (SOURCES_files_RadJav__cpp__Global__Headers 
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPColor.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPFont.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMath.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPRectangle.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPVector2.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPVector3.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPVector4.h")
+source_group ("RadJav\\CPP\\Global" FILES ${SOURCES_files_RadJav__cpp__Global__Headers})
+
+set (SOURCES ${SOURCES_files_RadJav__cpp__Global__Headers} ${SOURCES})
+
+set (SOURCES_files_RadJav__cpp__GUI__Headers 
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIGObject.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIWindow.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIWebView.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIButton.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUILabel.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIImage.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIContainer.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUICombobox.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUITextbox.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUITextarea.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUICheckbox.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIRadio.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIList.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIMenuBar.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIMenuItem.h")
+source_group ("RadJav\\CPP\\GUI" FILES ${SOURCES_files_RadJav__cpp__GUI__Headers})
+
+set (SOURCES ${SOURCES_files_RadJav__cpp__GUI__Headers} ${SOURCES})
 
 if (USE_OGRE)
 	set (SOURCES_files_RadJav__v8__C3D__Headers 
