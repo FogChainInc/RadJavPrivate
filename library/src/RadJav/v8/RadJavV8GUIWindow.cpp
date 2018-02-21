@@ -1,6 +1,6 @@
 /*
 	MIT-LICENSE
-	Copyright (c) 2017 Higher Edge Software, LLC
+	Copyright (c) 2017-2018 Higher Edge Software, LLC
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 	and associated documentation files (the "Software"), to deal in the Software without restriction, 
@@ -24,481 +24,315 @@
 #ifdef USE_V8
 #include "v8/RadJavV8JavascriptEngine.h"
 
+#include "cpp/RadJavCPPGUIWindow.h"
+
+#define UITYPE CPP::GUI::Window
+
 namespace RadJAV
 {
-	namespace GUI
+	namespace V8B
 	{
-		#ifdef GUI_USE_WXWIDGETS
-			WindowFrame::WindowFrame(const wxString &text, const wxPoint &pos, const wxSize &size)
-				: wxFrame(NULL, wxID_ANY, text, pos, size)
+		namespace GUI
+		{
+			void Window::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 			{
+				V8_CALLBACK(object, "create", Window::create);
+				V8_CALLBACK(object, "setFont", Window::setFont);
+				V8_CALLBACK(object, "getFont", Window::getFont);
+				V8_CALLBACK(object, "setPosition", Window::setPosition);
+				V8_CALLBACK(object, "getPosition", Window::getPosition);
+				V8_CALLBACK(object, "getX", Window::getX);
+				V8_CALLBACK(object, "getY", Window::getY);
+				V8_CALLBACK(object, "setSize", Window::setSize);
+				V8_CALLBACK(object, "getSize", Window::getSize);
+				V8_CALLBACK(object, "getWidth", Window::getWidth);
+				V8_CALLBACK(object, "getHeight", Window::getHeight);
+				V8_CALLBACK(object, "setText", Window::setText);
+				V8_CALLBACK(object, "getText", Window::getText);
+				V8_CALLBACK(object, "getParent", Window::getParent);
+				V8_CALLBACK(object, "getAppObj", Window::getAppObj);
+				V8_CALLBACK(object, "setVisibility", Window::setVisibility);
+				V8_CALLBACK(object, "getVisibility", Window::getVisibility);
+				V8_CALLBACK(object, "setEnabled", Window::setEnabled);
+				V8_CALLBACK(object, "getEnabled", Window::getEnabled);
+				V8_CALLBACK(object, "on", Window::on);
 			}
 
-			void WindowFrame::onClose(wxCloseEvent &evt)
+			void Window::create(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				if (IsTopLevel() == true)
-				{
-					V8_JAVASCRIPT_ENGINE->exit(0);
+				UITYPE *appObject = RJNEW UITYPE(V8_JAVASCRIPT_ENGINE, args);
+				appObject->create();
 
-					return;
-				}
+				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_appObj", appObject);
+				v8::Local<v8::Function> _guiFinishedCreatingGObject = V8_JAVASCRIPT_ENGINE->v8GetFunction(V8_RADJAV, "_guiFinishedCreatingGObject");
+				v8::Local<v8::Object> promise = V8_JAVASCRIPT_ENGINE->createPromise(args.This(), _guiFinishedCreatingGObject);
 
-				Destroy();
+				args.GetReturnValue().Set(promise);
 			}
 
-			void WindowFrame::onJSClose(wxCloseEvent &evt)
+			void Window::setFont(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)evt.GetEventUserData();
-				v8::Local<v8::Value> result = executeEvent(pevent);
+				V8_JAVASCRIPT_ENGINE->v8SetObject(args.This(), "_font", v8::Local<v8::Object>::Cast(args[0]));
 
-				if (result.IsEmpty() == false)
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+
+				if (appObject != NULL)
 				{
-					if ((result->IsNull() == false) && (result->IsUndefined() == false))
-					{
-						v8::Local<v8::Boolean> change = v8::Local<v8::Boolean>::Cast(result);
+					CPP::Font *font = RJNEW CPP::Font(V8_JAVASCRIPT_ENGINE, v8::Local<v8::Object>::Cast(args[0]));
+					CPP::Font *oldfont = appObject->getFont();
+					DELETEOBJ(oldfont);
 
-						if (change->Value() == false)
-							evt.Veto();
-					}
+					appObject->setFont(font);
 				}
 			}
 
-			void WindowFrame::onJSMinimized(wxIconizeEvent &evt)
+			void Window::getFont(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)evt.GetEventUserData();
-				executeEvent(pevent);
-			}
-		#endif
+				v8::Local<v8::Object> font = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "_font");
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
 
-		void Window::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
-		{
-			V8_CALLBACK(object, "create", Window::create);
-			V8_CALLBACK(object, "setFont", Window::setFont);
-			V8_CALLBACK(object, "getFont", Window::getFont);
-			V8_CALLBACK(object, "setPosition", Window::setPosition);
-			V8_CALLBACK(object, "getPosition", Window::getPosition);
-			V8_CALLBACK(object, "getX", Window::getX);
-			V8_CALLBACK(object, "getY", Window::getY);
-			V8_CALLBACK(object, "setSize", Window::setSize);
-			V8_CALLBACK(object, "getSize", Window::getSize);
-			V8_CALLBACK(object, "getWidth", Window::getWidth);
-			V8_CALLBACK(object, "getHeight", Window::getHeight);
-			V8_CALLBACK(object, "setText", Window::setText);
-			V8_CALLBACK(object, "getText", Window::getText);
-			V8_CALLBACK(object, "getParent", Window::getParent);
-			V8_CALLBACK(object, "getAppObj", Window::getAppObj);
-			V8_CALLBACK(object, "setVisibility", Window::setVisibility);
-			V8_CALLBACK(object, "getVisibility", Window::getVisibility);
-			V8_CALLBACK(object, "setEnabled", Window::setEnabled);
-			V8_CALLBACK(object, "getEnabled", Window::getEnabled);
-			V8_CALLBACK(object, "on", Window::on);
-		}
+				if (appObject != NULL)
+					font = CPP::Font::toV8Object(V8_JAVASCRIPT_ENGINE, appObject->getFont());
 
-		void Window::create(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			String name = V8_JAVASCRIPT_ENGINE->v8GetString(args.This(), "name");
-			String text = V8_JAVASCRIPT_ENGINE->v8GetString(args.This(), "_text");
-			v8::Handle<v8::Object> parent = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "_parent");
-			v8::Local<v8::Object> transform = V8_JAVASCRIPT_ENGINE->v8GetObject (args.This(), "_transform");
-			RJINT x = V8_JAVASCRIPT_ENGINE->v8GetInt(transform, "x");
-			RJINT y = V8_JAVASCRIPT_ENGINE->v8GetInt(transform, "y");
-			RJINT width = V8_JAVASCRIPT_ENGINE->v8GetInt(transform, "width");
-			RJINT height = V8_JAVASCRIPT_ENGINE->v8GetInt(transform, "height");
-			RJBOOL visible = V8_JAVASCRIPT_ENGINE->v8GetBool(args.This(), "_visible");
-
-			#ifdef GUI_USE_WXWIDGETS
-				WindowFrame *object = RJNEW WindowFrame(text, wxPoint(x, y), wxSize(width, height));
-				wxPanel *panel = RJNEW wxPanel (object, wxID_ANY);
-				/*wxBoxSizer *sizer = RJNEW wxBoxSizer(wxVERTICAL);
-				panel->SetSizer(sizer);
-				sizer->SetSizeHints(object);*/
-				RadJav::app->SetTopWindow(object);
-				object->Show(visible);
-				RadJav::app->SetActive(visible, object);
-
-				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_appObj", panel);
-			#endif
-
-			setupFont(args.This());
-
-			v8::Local<v8::Function> _guiFinishedCreatingGObject = V8_JAVASCRIPT_ENGINE->v8GetFunction(V8_RADJAV, "_guiFinishedCreatingGObject");
-			v8::Local<v8::Object> promise = V8_JAVASCRIPT_ENGINE->createPromise(args.This(), _guiFinishedCreatingGObject);
-
-			args.GetReturnValue().Set(promise);
-		}
-
-		void Window::setFont(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			V8_JAVASCRIPT_ENGINE->v8SetObject(args.This(), "_font", v8::Local<v8::Object>::Cast (args[0]));
-
-			setupFont(args.This());
-		}
-
-		void Window::getFont(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			v8::Local<v8::Object> font = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "_font");
-
-			#ifdef GUI_USE_WXWIDGETS
-				WindowFrame *object = (WindowFrame *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-				WindowFrame *obj = (WindowFrame *)object->GetParent();
-				wxFont wfont = obj->GetFont();
-
-				if (wfont.IsOk() == true)
-				{
-					String fontFamily = parsewxString(wfont.GetFaceName());
-					wxColor color = obj->GetForegroundColour();
-					RJNUMBER r = color.Red () / 255;
-					RJNUMBER g = color.Green() / 255;
-					RJNUMBER b = color.Blue() / 255;
-					RJNUMBER a = color.Alpha() / 255;
-					RJINT size = wfont.GetPixelSize ().x;
-					RJBOOL underlined = false;
-					RJBOOL bold = false;
-					RJBOOL italic = false;
-
-					if (wfont.GetUnderlined() == true)
-						underlined = true;
-
-					if (wfont.GetWeight() == wxFontWeight::wxFONTWEIGHT_BOLD)
-						bold = true;
-
-					if (wfont.GetStyle () == wxFontStyle::wxFONTSTYLE_ITALIC)
-						italic = true;
-
-					V8_JAVASCRIPT_ENGINE->v8SetString(font, "fontFamily", fontFamily);
-
-					v8::Local<v8::Object> ocolor = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "color");
-					V8_JAVASCRIPT_ENGINE->v8SetNumber(ocolor, "r", r);
-					V8_JAVASCRIPT_ENGINE->v8SetNumber(ocolor, "g", g);
-					V8_JAVASCRIPT_ENGINE->v8SetNumber(ocolor, "b", b);
-					V8_JAVASCRIPT_ENGINE->v8SetNumber(ocolor, "a", a);
-
-					V8_JAVASCRIPT_ENGINE->v8SetNumber(font, "size", size);
-					V8_JAVASCRIPT_ENGINE->v8SetBool(font, "underline", underlined);
-					V8_JAVASCRIPT_ENGINE->v8SetBool(font, "bold", bold);
-					V8_JAVASCRIPT_ENGINE->v8SetBool(font, "italic", italic);
-				}
-			#endif
-
-			args.GetReturnValue().Set(font);
-		}
-
-		void Window::setPosition(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			#ifdef GUI_USE_WXWIDGETS
-				WindowFrame *object = (WindowFrame *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-				WindowFrame *obj = NULL;
-
-				if (object != NULL)
-					obj = (WindowFrame *)object->GetParent();
-			#endif
-			RJINT x = 0;
-			RJINT y = 0;
-
-			if (args.Length() > 1)
-			{
-				x = V8_JAVASCRIPT_ENGINE->v8ParseInt (args[0]);
-				y = V8_JAVASCRIPT_ENGINE->v8ParseInt (args[1]);
-			}
-			else
-			{
-				v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast (args[0]);
-				x = V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "x");
-				y = V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "y");
+				args.GetReturnValue().Set(font);
 			}
 
-			v8::Handle<v8::Object> transform = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "_transform");
-			v8::Local<v8::Value> *args2 = RJNEW v8::Local<v8::Value>[2];
-			args2[0] = v8::Number::New (args.GetIsolate (), x);
-			args2[1] = v8::Number::New(args.GetIsolate (), y);
-			V8_JAVASCRIPT_ENGINE->v8CallFunction(transform, "setPosition", 2, args2);
+			void Window::setPosition(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				RJINT x = 0;
+				RJINT y = 0;
 
-			DELETE_ARRAY(args2);
-
-			#ifdef GUI_USE_WXWIDGETS
-				if (obj != NULL)
-					obj->SetPosition(wxPoint(x, y));
-			#endif
-		}
-
-		void Window::getPosition(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			#ifdef GUI_USE_WXWIDGETS
-				WindowFrame *object = (WindowFrame *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-				WindowFrame *obj = (WindowFrame *)object->GetParent();
-			#endif
-			RJINT x = 0;
-			RJINT y = 0;
-
-			v8::Handle<v8::Object> transform = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "_transform");
-			x = V8_JAVASCRIPT_ENGINE->v8GetInt(transform, "x");
-			y = V8_JAVASCRIPT_ENGINE->v8GetInt(transform, "y");
-
-			#ifdef GUI_USE_WXWIDGETS
-				if (obj != NULL)
+				if (args.Length() > 1)
 				{
-					wxPoint pos = obj->GetPosition();
-					x = pos.x;
-					y = pos.y;
+					x = V8_JAVASCRIPT_ENGINE->v8ParseInt(args[0]);
+					y = V8_JAVASCRIPT_ENGINE->v8ParseInt(args[1]);
 				}
-			#endif
+				else
+				{
+					v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(args[0]);
+					x = V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "x");
+					y = V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "y");
+				}
 
-			v8::Local<v8::Object> vector2 = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_RADJAV, "Vector2");
-			v8::Local<v8::Object> vector2obj = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(vector2, 0, NULL);
-			vector2obj->Set(String ("x").toV8String (args.GetIsolate ()), v8::Number::New (args.GetIsolate (), x));
-			vector2obj->Set(String ("y").toV8String (args.GetIsolate ()), v8::Number::New (args.GetIsolate (), y));
+				v8::Handle<v8::Object> transform = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "_transform");
+				v8::Local<v8::Value> *args2 = RJNEW v8::Local<v8::Value>[2];
+				args2[0] = v8::Number::New(args.GetIsolate(), x);
+				args2[1] = v8::Number::New(args.GetIsolate(), y);
+				V8_JAVASCRIPT_ENGINE->v8CallFunction(transform, "setPosition", 2, args2);
 
-			args.GetReturnValue().Set(vector2obj);
-		}
+				DELETE_ARRAY(args2);
 
-		void Window::getX(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			getPosition(args);
-			v8::ReturnValue<v8::Value> ret = args.GetReturnValue();
-			v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast (ret.Get());
-
-			args.GetReturnValue().Set (V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "x"));
-		}
-
-		void Window::getY(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			getPosition(args);
-			v8::ReturnValue<v8::Value> ret = args.GetReturnValue();
-			v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(ret.Get());
-
-			args.GetReturnValue().Set(V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "y"));
-		}
-
-		void Window::setSize(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			#ifdef GUI_USE_WXWIDGETS
-				WindowFrame *object = (WindowFrame *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-				WindowFrame *obj = NULL;
-				
-				if (object != NULL)
-					obj = (WindowFrame *)object->GetParent();
-			#endif
-			RJINT x = 0;
-			RJINT y = 0;
-
-			if (args.Length() > 1)
-			{
-				x = V8_JAVASCRIPT_ENGINE->v8ParseInt(args[0]);
-				y = V8_JAVASCRIPT_ENGINE->v8ParseInt(args[1]);
-			}
-			else
-			{
-				v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(args[0]);
-				x = V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "x");
-				y = V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "y");
+				if (appObject != NULL)
+					appObject->setPosition(x, y);
 			}
 
-			v8::Handle<v8::Object> transform = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "_transform");
-			v8::Local<v8::Value> *args2 = RJNEW v8::Local<v8::Value>[2];
-			args2[0] = v8::Number::New(args.GetIsolate (), x);
-			args2[1] = v8::Number::New(args.GetIsolate (), y);
-			V8_JAVASCRIPT_ENGINE->v8CallFunction(transform, "setSize", 2, args2);
+			void Window::getPosition(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				RJINT x = 0;
+				RJINT y = 0;
 
-			DELETE_ARRAY(args2);
+				v8::Handle<v8::Object> transform = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "_transform");
+				x = V8_JAVASCRIPT_ENGINE->v8GetInt(transform, "x");
+				y = V8_JAVASCRIPT_ENGINE->v8GetInt(transform, "y");
 
-			#ifdef GUI_USE_WXWIDGETS
-				if (obj != NULL)
-					obj->SetSize(x, y);
-			#endif
-		}
+				CPP::Vector2 pos;
 
-		void Window::getSize(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			#ifdef GUI_USE_WXWIDGETS
-				WindowFrame *object = (WindowFrame *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-				WindowFrame *obj = (WindowFrame *)object->GetParent();
-			#endif
-			RJINT x = 0;
-			RJINT y = 0;
+				if (appObject != NULL)
+					pos = appObject->getPosition();
 
-			v8::Handle<v8::Object> transform = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "_transform");
-			x = V8_JAVASCRIPT_ENGINE->v8GetInt(transform, "width");
-			y = V8_JAVASCRIPT_ENGINE->v8GetInt(transform, "height");
+				x = pos.x;
+				y = pos.y;
 
-			#ifdef GUI_USE_WXWIDGETS
-				if (obj != NULL)
+				v8::Local<v8::Object> vector2 = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_RADJAV, "Vector2");
+				v8::Local<v8::Object> vector2obj = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(vector2, 0, NULL);
+				vector2obj->Set(String("x").toV8String(args.GetIsolate()), v8::Number::New(args.GetIsolate(), x));
+				vector2obj->Set(String("y").toV8String(args.GetIsolate()), v8::Number::New(args.GetIsolate(), y));
+
+				args.GetReturnValue().Set(vector2obj);
+			}
+
+			void Window::getX(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				getPosition(args);
+				v8::ReturnValue<v8::Value> ret = args.GetReturnValue();
+				v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(ret.Get());
+
+				args.GetReturnValue().Set(V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "x"));
+			}
+
+			void Window::getY(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				getPosition(args);
+				v8::ReturnValue<v8::Value> ret = args.GetReturnValue();
+				v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(ret.Get());
+
+				args.GetReturnValue().Set(V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "y"));
+			}
+
+			void Window::setSize(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				RJINT x = 0;
+				RJINT y = 0;
+
+				if (args.Length() > 1)
 				{
-					wxSize size = obj->GetSize ();
-					x = size.GetWidth ();
-					y = size.GetHeight ();
+					x = V8_JAVASCRIPT_ENGINE->v8ParseInt(args[0]);
+					y = V8_JAVASCRIPT_ENGINE->v8ParseInt(args[1]);
 				}
-			#endif
-
-			v8::Local<v8::Object> vector2 = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_RADJAV, "Vector2");
-			v8::Local<v8::Object> vector2obj = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(vector2, 0, NULL);
-			vector2obj->Set(String("x").toV8String(args.GetIsolate ()), v8::Number::New(args.GetIsolate (), x));
-			vector2obj->Set(String("y").toV8String(args.GetIsolate ()), v8::Number::New(args.GetIsolate (), y));
-
-			args.GetReturnValue().Set(vector2obj);
-		}
-
-		void Window::getWidth(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			getSize(args);
-			v8::ReturnValue<v8::Value> ret = args.GetReturnValue();
-			v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(ret.Get());
-
-			args.GetReturnValue().Set(V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "x"));
-		}
-
-		void Window::getHeight(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			getSize(args);
-			v8::ReturnValue<v8::Value> ret = args.GetReturnValue();
-			v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(ret.Get());
-
-			args.GetReturnValue().Set(V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "y"));
-		}
-
-		void Window::setText(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			v8::Local<v8::String> val = v8::Local<v8::String>::Cast (args[0]);
-			String str = parseV8Value(val);
-			V8_JAVASCRIPT_ENGINE->v8SetString(args.This(), "_text", str);
-
-			#ifdef GUI_USE_WXWIDGETS
-				WindowFrame *object = (WindowFrame *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-				WindowFrame *obj = NULL;
-
-				if (object != NULL)
+				else
 				{
-					obj = (WindowFrame *)object->GetParent();
-					obj->SetTitle(str.towxString());
-				}
-			#endif
-		}
-
-		void Window::getText(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			String text = V8_JAVASCRIPT_ENGINE->v8GetString(args.This(), "_text");
-
-			#ifdef GUI_USE_WXWIDGETS
-				WindowFrame *object = (WindowFrame *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-				WindowFrame *obj = (WindowFrame *)object->GetParent();
-				text = parsewxString(obj->GetTitle ());
-			#endif
-
-			args.GetReturnValue().Set(text.toV8String (args.GetIsolate ()));
-		}
-
-		void Window::getParent(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			v8::Handle<v8::Object> obj = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "_parent");
-			args.GetReturnValue().Set(obj);
-		}
-
-		void Window::getAppObj(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			v8::Handle<v8::External> ext = v8::Handle<v8::External>::Cast(
-					args.This()->Get(String ("_appObj").toV8String(args.GetIsolate ())));
-			args.GetReturnValue().Set(ext);
-		}
-
-		void Window::setVisibility(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			RJBOOL value = V8_JAVASCRIPT_ENGINE->v8ParseBool(args[0]);
-			V8_JAVASCRIPT_ENGINE->v8SetBool(args.This(), "_visible", value);
-
-			#ifdef GUI_USE_WXWIDGETS
-				WindowFrame *object = (WindowFrame *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-				WindowFrame *obj = NULL;
-
-				if (object != NULL)
-				{
-					obj = (WindowFrame *)object->GetParent();
-
-					if (value == true)
-						obj->Show();
-					else
-						obj->Hide();
-				}
-			#endif
-		}
-
-		void Window::getVisibility(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			RJBOOL value = V8_JAVASCRIPT_ENGINE->v8GetBool(args.This(), "_visible");
-
-			#ifdef GUI_USE_WXWIDGETS
-				WindowFrame *object = (WindowFrame *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-				WindowFrame *obj = (WindowFrame *)object->GetParent();
-
-				value = obj->IsVisible();
-			#endif
-
-			args.GetReturnValue().Set(v8::Boolean::New (args.GetIsolate (), value));
-		}
-
-		void Window::setEnabled(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			RJBOOL value = V8_JAVASCRIPT_ENGINE->v8ParseBool(args[0]);
-
-			#ifdef GUI_USE_WXWIDGETS
-				WindowFrame *object = (WindowFrame *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-				WindowFrame *obj = NULL;
-
-				if (object != NULL)
-				{
-					obj = (WindowFrame *)object->GetParent();
-
-					if (value == true)
-						obj->Enable();
-					else
-						obj->Disable();
-				}
-			#endif
-		}
-
-		void Window::getEnabled(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			RJBOOL value = false;
-
-			#ifdef GUI_USE_WXWIDGETS
-				WindowFrame *object = (WindowFrame *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-				WindowFrame *obj = (WindowFrame *)object->GetParent();
-				value = obj->IsEnabled();
-			#endif
-
-			args.GetReturnValue().Set(v8::Boolean::New(args.GetIsolate (), value));
-		}
-
-		void Window::on(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-
-			String event = parseV8Value(args[0]);
-			v8::Local<v8::Function> func = v8::Local<v8::Function>::Cast(args[1]);
-
-			#ifdef GUI_USE_WXWIDGETS
-				WindowFrame *object = (WindowFrame *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-				WindowFrame *obj = (WindowFrame *)object->GetParent();
-
-				object->addNewEvent(event, obj, func);
-
-				if (event == "close")
-				{
-					v8::Persistent<v8::Value> *pevent = obj->createEvent(event, func);
-					obj->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler (WindowFrame::onJSClose), (wxObject *)pevent);
+					v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(args[0]);
+					x = V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "x");
+					y = V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "y");
 				}
 
-				if (event == "minimize")
+				v8::Handle<v8::Object> transform = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "_transform");
+				v8::Local<v8::Value> *args2 = RJNEW v8::Local<v8::Value>[2];
+				args2[0] = v8::Number::New(args.GetIsolate(), x);
+				args2[1] = v8::Number::New(args.GetIsolate(), y);
+				V8_JAVASCRIPT_ENGINE->v8CallFunction(transform, "setSize", 2, args2);
+
+				DELETE_ARRAY(args2);
+
+				if (appObject != NULL)
+					appObject->setSize(x, y);
+			}
+
+			void Window::getSize(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				RJINT x = 0;
+				RJINT y = 0;
+
+				v8::Handle<v8::Object> transform = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "_transform");
+				x = V8_JAVASCRIPT_ENGINE->v8GetInt(transform, "width");
+				y = V8_JAVASCRIPT_ENGINE->v8GetInt(transform, "height");
+
+				if (appObject != NULL)
 				{
-					v8::Persistent<v8::Value> *pevent = obj->createEvent(event, func);
-					obj->Connect(wxEVT_ICONIZE, wxIconizeEventHandler(WindowFrame::onJSMinimized), (wxObject *)pevent);
+					CPP::Vector2 size = appObject->getSize();
+					x = size.x;
+					y = size.y;
 				}
-			#endif
+
+				v8::Local<v8::Object> vector2 = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_RADJAV, "Vector2");
+				v8::Local<v8::Object> vector2obj = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(vector2, 0, NULL);
+				vector2obj->Set(String("x").toV8String(args.GetIsolate()), v8::Number::New(args.GetIsolate(), x));
+				vector2obj->Set(String("y").toV8String(args.GetIsolate()), v8::Number::New(args.GetIsolate(), y));
+
+				args.GetReturnValue().Set(vector2obj);
+			}
+
+			void Window::getWidth(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				getSize(args);
+				v8::ReturnValue<v8::Value> ret = args.GetReturnValue();
+				v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(ret.Get());
+
+				args.GetReturnValue().Set(V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "x"));
+			}
+
+			void Window::getHeight(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				getSize(args);
+				v8::ReturnValue<v8::Value> ret = args.GetReturnValue();
+				v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(ret.Get());
+
+				args.GetReturnValue().Set(V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "y"));
+			}
+
+			void Window::setText(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				v8::Local<v8::String> val = v8::Local<v8::String>::Cast(args[0]);
+				String str = parseV8Value(val);
+				V8_JAVASCRIPT_ENGINE->v8SetString(args.This(), "_text", str);
+
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+
+				if (appObject != NULL)
+					appObject->setText(str);
+			}
+
+			void Window::getText(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				String text = V8_JAVASCRIPT_ENGINE->v8GetString(args.This(), "_text");
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+
+				if (appObject != NULL)
+					text = appObject->getText();
+
+				args.GetReturnValue().Set(text.toV8String(args.GetIsolate()));
+			}
+
+			void Window::getParent(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				v8::Handle<v8::Object> obj = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "_parent");
+				args.GetReturnValue().Set(obj);
+			}
+
+			void Window::getAppObj(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				v8::Handle<v8::External> ext = v8::Handle<v8::External>::Cast(
+					args.This()->Get(String("_appObj").toV8String(args.GetIsolate())));
+				args.GetReturnValue().Set(ext);
+			}
+
+			void Window::setVisibility(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				RJBOOL value = V8_JAVASCRIPT_ENGINE->v8ParseBool(args[0]);
+				V8_JAVASCRIPT_ENGINE->v8SetBool(args.This(), "_visible", value);
+
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+
+				if (appObject != NULL)
+					appObject->setVisibility(value);
+			}
+
+			void Window::getVisibility(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				RJBOOL value = V8_JAVASCRIPT_ENGINE->v8GetBool(args.This(), "_visible");
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+
+				if (appObject != NULL)
+					value = appObject->getVisibility();
+
+				args.GetReturnValue().Set(v8::Boolean::New(args.GetIsolate(), value));
+			}
+
+			void Window::setEnabled(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				RJBOOL value = V8_JAVASCRIPT_ENGINE->v8ParseBool(args[0]);
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+
+				if (appObject != NULL)
+					appObject->setEnabled(value);
+			}
+
+			void Window::getEnabled(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				RJBOOL value = false;
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+
+				if (appObject != NULL)
+					value = appObject->getEnabled();
+
+				args.GetReturnValue().Set(v8::Boolean::New(args.GetIsolate(), value));
+			}
+
+			void Window::on(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				String event = parseV8Value(args[0]);
+				v8::Local<v8::Function> func = v8::Local<v8::Function>::Cast(args[1]);
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+
+				if (appObject != NULL)
+					appObject->on(event, func);
+			}
 		}
 	}
 }
-
-	#ifdef GUI_USE_WXWIDGETS
-		wxBEGIN_EVENT_TABLE(RadJAV::GUI::WindowFrame, wxFrame)
-			EVT_CLOSE(RadJAV::GUI::WindowFrame::onClose)
-		wxEND_EVENT_TABLE()
-	#endif
 #endif
 

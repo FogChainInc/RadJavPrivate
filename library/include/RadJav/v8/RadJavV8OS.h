@@ -27,8 +27,10 @@
 
 	namespace RadJAV
 	{
-		class RADJAV_EXPORT OS
+		namespace V8B
 		{
+			class RADJAV_EXPORT OS
+			{
 			public:
 				static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
@@ -45,7 +47,8 @@
 				static void openFileAs(const v8::FunctionCallbackInfo<v8::Value> &args);
 
 				static v8::Persistent<v8::Value> *onReadyFunction;
-		};
+			};
+		}
 	}
 	#endif
 #endif

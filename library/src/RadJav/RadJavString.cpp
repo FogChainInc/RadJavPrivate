@@ -22,6 +22,7 @@
 #include "RadJavException.h"
 
 #include <sstream>
+#include <stdlib.h>
 
 namespace RadJAV
 {
@@ -180,12 +181,16 @@ namespace RadJAV
 		return (strTemp);
 	}
 
-	String String::fromInt(int iInteger)
+	String String::fromInt(RJINT iInteger, RJINT radix)
 	{
-		std::stringstream ssStream("");
-		ssStream << iInteger;
+		char *str = RJNEW char[65];
+		itoa(iInteger, str, radix);
 
-		return (ssStream.str());
+		String strReturn = str;
+
+		RJDELETEARRAY(str);
+
+		return (strReturn);
 	}
 
 	String String::fromUInt(unsigned int uiInteger)
@@ -369,16 +374,14 @@ namespace RadJAV
 #endif
 	}
 
-	int parseInt(String str)
+	RJINT parseInt(String str, RJINT radix)
 	{
-		std::istringstream ssStream(str);
-		int iReturn = 0;
-		ssStream >> iReturn;
+		int iReturn = std::stoi (str, NULL, radix);
 
 		return (iReturn);
 	}
 
-	long parseLong(String str)
+	RJLONG parseLong(String str)
 	{
 		std::istringstream ssStream(str);
 		long lReturn = 0;

@@ -241,9 +241,9 @@ namespace RadJAV
 					// Handle the on ready function.
 					if (firstRun == true)
 					{
-						if (OS::onReadyFunction != NULL)
+						if (V8B::OS::onReadyFunction != NULL)
 						{
-							v8::Local<v8::Function> val = v8::Local<v8::Function>::Cast(OS::onReadyFunction->Get(isolate));
+							v8::Local<v8::Function> val = v8::Local<v8::Function>::Cast(V8B::OS::onReadyFunction->Get(isolate));
 
 							if (v8IsNull(val) == false)
 								val->Call(globalContext->Global(), 0, NULL);
@@ -253,11 +253,11 @@ namespace RadJAV
 					}
 
 					#ifdef USE_BLOCKCHAIN_V1
-					if (BlockchainV1::hasBlockchainStarted == true)
+					if (V8B::BlockchainV1::hasBlockchainStarted == true)
 					{
 						if (startedBlockchainV1 == false)
 						{
-							BlockchainV1::startBlockchain();
+							V8B::BlockchainV1::startBlockchain();
 							startedBlockchainV1 = true;
 						}
 					}
@@ -637,18 +637,34 @@ namespace RadJAV
 			#endif
 
 			Ogre::String mPluginCfg = "";
+			Ogre::String mConfig = "";
+			Ogre::String mLog = "";
 
 			#ifdef _DEBUG
 				mPluginCfg = userConfigDir + "/plugins_d.cfg";
+				mConfig = userConfigDir + "/ogre_d.cfg";
+				mLog = userConfigDir + "/ogre_log_d.cfg";
 			#else
 				mPluginCfg = userConfigDir + "/plugins.cfg";
+				mConfig = userConfigDir + "/ogre.cfg";
+				mLog = userConfigDir + "/ogre_log.cfg";
 			#endif
 
 			if (mRoot == NULL)
-				mRoot = RJNEW Ogre::Root(mPluginCfg);
+				mRoot = RJNEW Ogre::Root(mPluginCfg, mConfig, mLog);
 
-			mRoot->showConfigDialog();
-			//mRoot->restoreConfig ();
+			Ogre::RenderSystemList list = mRoot->getAvailableRenderers();
+
+			#ifdef WIN32
+				mRoot->setRenderSystem(list.at (1));
+			#else
+				mRoot->setRenderSystem(list.at(0));
+			#endif
+
+			/// @bug Let the developer choose if they want to use the default render system, or a different.
+			mRoot->saveConfig();
+			//mRoot->showConfigDialog();
+			mRoot->restoreConfig ();
 
 			/*Ogre::ConfigFile configFile;
 			configFile.load(userConfigDir + "/resources.cfg");
@@ -740,13 +756,13 @@ namespace RadJAV
 			#ifdef USE_BLOCKCHAIN_V1
 			if (event == "ready")
 			{
-				if (BlockchainV1::onReadyFunction != NULL)
-					callFunctionOnNextTick(BlockchainV1::onReadyFunction, NULL, false);
+				if (V8B::BlockchainV1::onReadyFunction != NULL)
+					callFunctionOnNextTick(V8B::BlockchainV1::onReadyFunction, NULL, false);
 			}
 
 			if (event == "connectBlock")
 			{
-				if (BlockchainV1::connectBlockFunction != NULL)
+				if (V8B::BlockchainV1::connectBlockFunction != NULL)
 				{
 					v8::Persistent<v8::Array> *results = RJNEW v8::Persistent<v8::Array>();
 					v8::Local<v8::Array> ary = v8::Array::New(isolate);
@@ -756,25 +772,25 @@ namespace RadJAV
 
 					results->Reset(V8_JAVASCRIPT_ENGINE->isolate, ary);
 
-					callFunctionOnNextTick(BlockchainV1::connectBlockFunction, results, true);
+					callFunctionOnNextTick(V8B::BlockchainV1::connectBlockFunction, results, true);
 				}
 			}
 
 			if (event == "proofOfWorkFound")
 			{
-				if (BlockchainV1::proofOfWorkFoundFunction != NULL)
-					callFunctionOnNextTick(BlockchainV1::proofOfWorkFoundFunction, NULL, false);
+				if (V8B::BlockchainV1::proofOfWorkFoundFunction != NULL)
+					callFunctionOnNextTick(V8B::BlockchainV1::proofOfWorkFoundFunction, NULL, false);
 			}
 
 			if (event == "passphraseRequired")
 			{
-				if (BlockchainV1::passphraseRequiredFunction != NULL)
-					callFunctionOnNextTick(BlockchainV1::passphraseRequiredFunction, NULL, false);
+				if (V8B::BlockchainV1::passphraseRequiredFunction != NULL)
+					callFunctionOnNextTick(V8B::BlockchainV1::passphraseRequiredFunction, NULL, false);
 			}
 
 			if (event == "error")
 			{
-				if (BlockchainV1::onErrorFunction != NULL)
+				if (V8B::BlockchainV1::onErrorFunction != NULL)
 				{
 					v8::Persistent<v8::Array> *results = RJNEW v8::Persistent<v8::Array>();
 					v8::Local<v8::Array> ary = v8::Array::New(isolate);
@@ -784,7 +800,7 @@ namespace RadJAV
 
 					results->Reset(V8_JAVASCRIPT_ENGINE->isolate, ary);
 
-					callFunctionOnNextTick(BlockchainV1::onErrorFunction, results, true);
+					callFunctionOnNextTick(V8B::BlockchainV1::onErrorFunction, results, true);
 				}
 			}
 
@@ -829,60 +845,56 @@ namespace RadJAV
 		{
 			// Globals
 			{
-				Global::createV8Callbacks(isolate, globalContext->Global());
+				V8B::Global::createV8Callbacks(isolate, globalContext->Global());
 
 				if (exposeGC == true)
 				{
-					V8_CALLBACK(globalContext->Global(), "collectGarbage", Global::collectGarbage);
+					V8_CALLBACK(globalContext->Global(), "collectGarbage", V8B::Global::collectGarbage);
 				}
-			}
-
-			// Console
-			{
-				v8::Handle<v8::Function> radJavFunc = v8GetFunction(globalContext->Global(), "console");
-
-				V8_CALLBACK(radJavFunc, "exit", Global::exit);
 			}
 
 			// RadJav
 			{
 				v8::Handle<v8::Function> radJavFunc = v8GetFunction(globalContext->Global(), "RadJav");
 
-				Console::createV8Callbacks(isolate, radJavFunc);
+				V8B::Console::createV8Callbacks(isolate, radJavFunc);
+
+				V8_CALLBACK(radJavFunc, "exit", V8B::Global::exit);
+				V8_CALLBACK(radJavFunc, "quit", V8B::Global::exit);
 
 				// RadJav.OS
 				{
 					v8::Handle<v8::Function> osFunc = v8GetFunction(radJavFunc, "OS");
 
-					OS::createV8Callbacks(isolate, osFunc);
+					V8B::OS::createV8Callbacks(isolate, osFunc);
 				}
 
 				// RadJav.Console
 				{
 					v8::Handle<v8::Function> consoleFunc = v8GetFunction(radJavFunc, "Console");
 
-					Console::createV8Callbacks(isolate, consoleFunc);
+					V8B::Console::createV8Callbacks(isolate, consoleFunc);
 				}
 
 				// RadJav.IO
 				{
 					v8::Handle<v8::Function> ioFunc = v8GetFunction(radJavFunc, "IO");
 
-					IO::createV8Callbacks(isolate, ioFunc);
+					V8B::IO::createV8Callbacks(isolate, ioFunc);
 
 					// RadJav.IO.SerialComm
 					{
 						v8::Handle<v8::Function> serialCommFunc = v8GetFunction(ioFunc, "SerialComm");
 						v8::Handle<v8::Object> serialPrototype = v8GetObject(serialCommFunc, "prototype");
 
-						IO::SerialComm::createV8Callbacks(isolate, serialPrototype);
+						V8B::IO::SerialComm::createV8Callbacks(isolate, serialPrototype);
 					}
 
 					// RadJav.IO.TextFile
 					{
 						v8::Handle<v8::Function> textFileFunc = v8GetFunction(ioFunc, "TextFile");
 
-						IO::TextFile::createV8Callbacks(isolate, textFileFunc);
+						V8B::IO::TextFile::createV8Callbacks(isolate, textFileFunc);
 					}
 				}
 
@@ -890,7 +902,7 @@ namespace RadJAV
 				{
 					v8::Handle<v8::Function> netFunc = v8GetFunction(radJavFunc, "Net");
 
-					Net::createV8Callbacks(isolate, netFunc);
+					V8B::Net::createV8Callbacks(isolate, netFunc);
 				}
 
 				#ifdef USE_BLOCKCHAIN_V1
@@ -898,7 +910,7 @@ namespace RadJAV
 				{
 					v8::Handle<v8::Function> blockchainFunc = v8GetFunction(radJavFunc, "BlockchainV1");
 
-					BlockchainV1::createV8Callbacks(isolate, blockchainFunc);
+					V8B::BlockchainV1::createV8Callbacks(isolate, blockchainFunc);
 				}
 				#endif
 
@@ -911,7 +923,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> gobjectFunc = v8GetFunction(guiFunc, "GObject");
 						v8::Handle<v8::Object> gobjectPrototype = v8GetObject(gobjectFunc, "prototype");
 
-						GUI::GObject::createV8Callbacks(isolate, gobjectPrototype);
+						V8B::GUI::GObject::createV8Callbacks(isolate, gobjectPrototype);
 					}
 
 					// RadJav.GUI.Window
@@ -919,7 +931,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> windowFunc = v8GetFunction(guiFunc, "Window");
 						v8::Handle<v8::Object> windowPrototype = v8GetObject(windowFunc, "prototype");
 
-						GUI::Window::createV8Callbacks(isolate, windowPrototype);
+						V8B::GUI::Window::createV8Callbacks(isolate, windowPrototype);
 					}
 
 					// RadJav.GUI.Button
@@ -927,7 +939,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> buttonFunc = v8GetFunction(guiFunc, "Button");
 						v8::Handle<v8::Object> buttonPrototype = v8GetObject(buttonFunc, "prototype");
 
-						GUI::Button::createV8Callbacks(isolate, buttonPrototype);
+						V8B::GUI::Button::createV8Callbacks(isolate, buttonPrototype);
 					}
 
 					// RadJav.GUI.Label
@@ -935,7 +947,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> labelFunc = v8GetFunction(guiFunc, "Label");
 						v8::Handle<v8::Object> labelPrototype = v8GetObject(labelFunc, "prototype");
 
-						GUI::Label::createV8Callbacks(isolate, labelPrototype);
+						V8B::GUI::Label::createV8Callbacks(isolate, labelPrototype);
 					}
 
 					// RadJav.GUI.Image
@@ -943,7 +955,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> imageFunc = v8GetFunction(guiFunc, "Image");
 						v8::Handle<v8::Object> imagePrototype = v8GetObject(imageFunc, "prototype");
 
-						GUI::Image::createV8Callbacks(isolate, imagePrototype);
+						V8B::GUI::Image::createV8Callbacks(isolate, imagePrototype);
 					}
 
 					// RadJav.GUI.Container
@@ -951,7 +963,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> containerFunc = v8GetFunction(guiFunc, "Container");
 						v8::Handle<v8::Object> containerPrototype = v8GetObject(containerFunc, "prototype");
 
-						GUI::Container::createV8Callbacks(isolate, containerPrototype);
+						V8B::GUI::Container::createV8Callbacks(isolate, containerPrototype);
 					}
 
 					// RadJav.GUI.Combobox
@@ -959,7 +971,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> comboboxFunc = v8GetFunction(guiFunc, "Combobox");
 						v8::Handle<v8::Object> comboboxPrototype = v8GetObject(comboboxFunc, "prototype");
 
-						GUI::Combobox::createV8Callbacks(isolate, comboboxPrototype);
+						V8B::GUI::Combobox::createV8Callbacks(isolate, comboboxPrototype);
 					}
 
 					// RadJav.GUI.Textbox
@@ -967,7 +979,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> textboxFunc = v8GetFunction(guiFunc, "Textbox");
 						v8::Handle<v8::Object> textboxPrototype = v8GetObject(textboxFunc, "prototype");
 
-						GUI::Textbox::createV8Callbacks(isolate, textboxPrototype);
+						V8B::GUI::Textbox::createV8Callbacks(isolate, textboxPrototype);
 					}
 
 					// RadJav.GUI.Textarea
@@ -975,7 +987,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> textareaFunc = v8GetFunction(guiFunc, "Textarea");
 						v8::Handle<v8::Object> textareaPrototype = v8GetObject(textareaFunc, "prototype");
 
-						GUI::Textarea::createV8Callbacks(isolate, textareaPrototype);
+						V8B::GUI::Textarea::createV8Callbacks(isolate, textareaPrototype);
 					}
 
 					// RadJav.GUI.Checkbox
@@ -983,7 +995,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> checkboxFunc = v8GetFunction(guiFunc, "Checkbox");
 						v8::Handle<v8::Object> checkboxPrototype = v8GetObject(checkboxFunc, "prototype");
 
-						GUI::Checkbox::createV8Callbacks(isolate, checkboxPrototype);
+						V8B::GUI::Checkbox::createV8Callbacks(isolate, checkboxPrototype);
 					}
 
 					// RadJav.GUI.Radio
@@ -991,7 +1003,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> radioFunc = v8GetFunction(guiFunc, "Radio");
 						v8::Handle<v8::Object> radioPrototype = v8GetObject(radioFunc, "prototype");
 
-						GUI::Radio::createV8Callbacks(isolate, radioPrototype);
+						V8B::GUI::Radio::createV8Callbacks(isolate, radioPrototype);
 					}
 
 					// RadJav.GUI.List
@@ -999,7 +1011,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> listFunc = v8GetFunction(guiFunc, "List");
 						v8::Handle<v8::Object> listPrototype = v8GetObject(listFunc, "prototype");
 
-						GUI::List::createV8Callbacks(isolate, listPrototype);
+						V8B::GUI::List::createV8Callbacks(isolate, listPrototype);
 					}
 
 					// RadJav.GUI.MenuBar
@@ -1007,7 +1019,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> menuBarFunc = v8GetFunction(guiFunc, "MenuBar");
 						v8::Handle<v8::Object> menuBarPrototype = v8GetObject(menuBarFunc, "prototype");
 
-						GUI::MenuBar::createV8Callbacks(isolate, menuBarPrototype);
+						V8B::GUI::MenuBar::createV8Callbacks(isolate, menuBarPrototype);
 					}
 
 					// RadJav.GUI.MenuItem
@@ -1015,7 +1027,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> menuItemFunc = v8GetFunction(guiFunc, "MenuItem");
 						v8::Handle<v8::Object> menuItemPrototype = v8GetObject(menuItemFunc, "prototype");
 
-						GUI::MenuItem::createV8Callbacks(isolate, menuItemPrototype);
+						V8B::GUI::MenuItem::createV8Callbacks(isolate, menuItemPrototype);
 					}
 
 					// RadJav.GUI.WebView
@@ -1023,7 +1035,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> webViewFunc = v8GetFunction(guiFunc, "WebView");
 						v8::Handle<v8::Object> webViewPrototype = v8GetObject(webViewFunc, "prototype");
 
-						GUI::WebView::createV8Callbacks(isolate, webViewPrototype);
+						V8B::GUI::WebView::createV8Callbacks(isolate, webViewPrototype);
 					}
 
 					#ifdef C3D_USE_OGRE
@@ -1032,7 +1044,7 @@ namespace RadJAV
 							v8::Handle<v8::Function> canvas3DFunc = v8GetFunction(guiFunc, "Canvas3D");
 							v8::Handle<v8::Object> canvas3DFuncPrototype = v8GetObject(canvas3DFunc, "prototype");
 
-							GUI::Canvas3D::createV8Callbacks(isolate, canvas3DFuncPrototype);
+							V8B::GUI::Canvas3D::createV8Callbacks(isolate, canvas3DFuncPrototype);
 						}
 					#endif
 				}
@@ -1047,7 +1059,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> object3DFunc = v8GetFunction(c3dFunc, "Object3D");
 						v8::Handle<v8::Object> object3DPrototype = v8GetObject(object3DFunc, "prototype");
 
-						C3D::Object3D::createV8Callbacks(isolate, object3DPrototype);
+						V8B::C3D::Object3D::createV8Callbacks(isolate, object3DPrototype);
 					}
 
 					// RadJav.C3D.World
@@ -1055,7 +1067,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> worldFunc = v8GetFunction(c3dFunc, "World");
 						v8::Handle<v8::Object> worldPrototype = v8GetObject(worldFunc, "prototype");
 
-						C3D::World::createV8Callbacks(isolate, worldPrototype);
+						V8B::C3D::World::createV8Callbacks(isolate, worldPrototype);
 					}
 
 					// RadJav.C3D.Entity
@@ -1063,7 +1075,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> entityFunc = v8GetFunction(c3dFunc, "Entity");
 						v8::Handle<v8::Object> entityPrototype = v8GetObject(entityFunc, "prototype");
 
-						C3D::Entity::createV8Callbacks(isolate, entityPrototype);
+						V8B::C3D::Entity::createV8Callbacks(isolate, entityPrototype);
 					}
 
 					// RadJav.C3D.Camera
@@ -1071,7 +1083,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> cameraFunc = v8GetFunction(c3dFunc, "Camera");
 						v8::Handle<v8::Object> cameraPrototype = v8GetObject(cameraFunc, "prototype");
 
-						C3D::Camera::createV8Callbacks(isolate, cameraPrototype);
+						V8B::C3D::Camera::createV8Callbacks(isolate, cameraPrototype);
 					}*/
 				}
 				#endif

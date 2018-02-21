@@ -38,6 +38,8 @@
 
 namespace RadJAV
 {
+	namespace V8B
+	{
 	#ifdef USE_BLOCKCHAIN_V1
 	RJBOOL BlockchainV1::hasBlockchainStarted = false;
 	int BlockchainV1::connectArgsc = 0;
@@ -2244,6 +2246,7 @@ namespace RadJAV
 	}
 	#endif
 	#endif
+	}
 }
 #endif
 

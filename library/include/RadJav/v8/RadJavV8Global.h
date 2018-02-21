@@ -27,8 +27,10 @@
 
 	namespace RadJAV
 	{
-		class RADJAV_EXPORT Global
+		namespace V8B
 		{
+			class RADJAV_EXPORT Global
+			{
 			public:
 				static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
@@ -39,7 +41,8 @@
 				static void include(const v8::FunctionCallbackInfo<v8::Value> &args);
 				static void collectGarbage(const v8::FunctionCallbackInfo<v8::Value> &args);
 				static void exit(const v8::FunctionCallbackInfo<v8::Value> &args);
-		};
+			};
+		}
 	}
 	#endif
 #endif

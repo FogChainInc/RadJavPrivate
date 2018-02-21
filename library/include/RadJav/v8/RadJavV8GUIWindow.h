@@ -25,32 +25,14 @@
 
 	#include "v8/RadJavV8GUIGObject.h"
 
-	#ifdef GUI_USE_WXWIDGETS
-		#include <wx/wx.h>
-	#endif
-
 	namespace RadJAV
 	{
-		namespace GUI
+		namespace V8B
 		{
-			#ifdef GUI_USE_WXWIDGETS
-				/// The wxWidgets window to use.
-				class RADJAV_EXPORT WindowFrame : public wxFrame, public GObjectBase
-				{
-					public:
-						WindowFrame(const wxString &text, const wxPoint &pos, const wxSize &size);
-
-						void onClose(wxCloseEvent &evt);
-						void onJSClose(wxCloseEvent &evt);
-						void onJSMinimized(wxIconizeEvent &evt);
-
-					protected:
-						wxDECLARE_EVENT_TABLE();
-				};
-			#endif
-
-			class RADJAV_EXPORT Window : public GObject
+			namespace GUI
 			{
+				class RADJAV_EXPORT Window : public GObject
+				{
 				public:
 					static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
@@ -74,7 +56,8 @@
 					static void setEnabled(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void getEnabled(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void on(const v8::FunctionCallbackInfo<v8::Value> &args);
-			};
+				};
+			}
 		}
 	}
 #endif

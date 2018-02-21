@@ -33,8 +33,10 @@
 
 		namespace RadJAV
 		{
-			class RADJAV_EXPORT Net
+			namespace V8B
 			{
+				class RADJAV_EXPORT Net
+				{
 				public:
 					static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
@@ -42,21 +44,22 @@
 					static void completeHttpRequest(const v8::FunctionCallbackInfo<v8::Value> &args);
 
 					static RJINT curlWrite(RJCHAR *data, RJUINT size, RJUINT nmemb, String *output);
-			};
-
-			#ifdef GUI_USE_WXWIDGETS
-				class RADJAV_EXPORT HttpThread: public Thread
-				{
-					public:
-						HttpThread(String uri, RJLONG timeout, v8::Persistent<v8::Function> *resolvep);
-
-						wxThread::ExitCode Entry();
-
-						RJLONG timeout;
-						String uri;
-						v8::Persistent<v8::Function> *resolvep;
 				};
-			#endif
+
+#ifdef GUI_USE_WXWIDGETS
+				class RADJAV_EXPORT HttpThread : public Thread
+				{
+				public:
+					HttpThread(String uri, RJLONG timeout, v8::Persistent<v8::Function> *resolvep);
+
+					wxThread::ExitCode Entry();
+
+					RJLONG timeout;
+					String uri;
+					v8::Persistent<v8::Function> *resolvep;
+				};
+#endif
+			}
 		}
 	#endif
 #endif

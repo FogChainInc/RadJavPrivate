@@ -31,79 +31,81 @@
 
 namespace RadJAV
 {
-	void Net::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
+	namespace V8B
 	{
-		V8_CALLBACK(object, "httpRequest", Net::httpRequest);
-	}
-
-	void Net::httpRequest(const v8::FunctionCallbackInfo<v8::Value> &args)
-	{
-		v8::Local<v8::Value> uri = V8_JAVASCRIPT_ENGINE->v8GetArgument (args, 0);
-		v8::Local<v8::Value> timeout = V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1);
-
-		v8::MaybeLocal<v8::Function> func = v8::Function::New(args.This ()->CreationContext (), Net::completeHttpRequest);
-		v8::Local<v8::Function> func2 = func.ToLocalChecked();
-
-		v8::Local<v8::Array> ary = v8::Array::New (args.GetIsolate ());
-		ary->Set(0, uri);
-
-		if (timeout.IsEmpty() == false)
+		void Net::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 		{
-			if ((timeout->IsNull() == false) && (timeout->IsUndefined () == false))
-				ary->Set(1, timeout);
+			V8_CALLBACK(object, "httpRequest", Net::httpRequest);
 		}
 
-		v8::Local<v8::Object> promise = V8_JAVASCRIPT_ENGINE->createPromise(args.This(), func2, ary);
-
-		args.GetReturnValue().Set(promise);
-	}
-
-	void Net::completeHttpRequest(const v8::FunctionCallbackInfo<v8::Value> &args)
-	{
-		v8::Local<v8::Function> resolve = v8::Local<v8::Function>::Cast (V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-		v8::Local<v8::Function> reject = v8::Local<v8::Function>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
-		v8::Local<v8::Array> ary = v8::Local<v8::Array>::Cast (V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 2));
-		String uri = parseV8Value(ary->Get(0));
-		v8::Local<v8::Integer> timeout;
-		RJLONG timeoutValue = 10;
-		v8::Persistent<v8::Function> *resolvep = RJNEW v8::Persistent<v8::Function>();
-
-		resolvep->Reset(args.GetIsolate (), resolve);
-
-		if (ary->Length() > 1)
+		void Net::httpRequest(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
-			timeout = v8::Local<v8::Integer>::Cast(ary->Get(1));
-			timeoutValue = timeout->Value ();
+			v8::Local<v8::Value> uri = V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0);
+			v8::Local<v8::Value> timeout = V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1);
+
+			v8::MaybeLocal<v8::Function> func = v8::Function::New(args.This()->CreationContext(), Net::completeHttpRequest);
+			v8::Local<v8::Function> func2 = func.ToLocalChecked();
+
+			v8::Local<v8::Array> ary = v8::Array::New(args.GetIsolate());
+			ary->Set(0, uri);
+
+			if (timeout.IsEmpty() == false)
+			{
+				if ((timeout->IsNull() == false) && (timeout->IsUndefined() == false))
+					ary->Set(1, timeout);
+			}
+
+			v8::Local<v8::Object> promise = V8_JAVASCRIPT_ENGINE->createPromise(args.This(), func2, ary);
+
+			args.GetReturnValue().Set(promise);
 		}
 
-		HttpThread *thread = RJNEW HttpThread(uri, timeoutValue, resolvep);
-		V8_JAVASCRIPT_ENGINE->addThread (thread);
-	}
+		void Net::completeHttpRequest(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+			v8::Local<v8::Function> resolve = v8::Local<v8::Function>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+			v8::Local<v8::Function> reject = v8::Local<v8::Function>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
+			v8::Local<v8::Array> ary = v8::Local<v8::Array>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 2));
+			String uri = parseV8Value(ary->Get(0));
+			v8::Local<v8::Integer> timeout;
+			RJLONG timeoutValue = 10;
+			v8::Persistent<v8::Function> *resolvep = RJNEW v8::Persistent<v8::Function>();
 
-	RJINT Net::curlWrite(RJCHAR *data, RJUINT size, RJUINT nmemb, String *output)
-	{
-		if (output == NULL)
-			return (0);
+			resolvep->Reset(args.GetIsolate(), resolve);
 
-		output->append(data, (size * nmemb));
+			if (ary->Length() > 1)
+			{
+				timeout = v8::Local<v8::Integer>::Cast(ary->Get(1));
+				timeoutValue = timeout->Value();
+			}
 
-		return (size * nmemb);
-	}
+			HttpThread *thread = RJNEW HttpThread(uri, timeoutValue, resolvep);
+			V8_JAVASCRIPT_ENGINE->addThread(thread);
+		}
 
-	#ifdef GUI_USE_WXWIDGETS
-	HttpThread::HttpThread(String uri, RJLONG timeout, v8::Persistent<v8::Function> *resolvep)
-		: Thread ()
-	{
-		this->uri = uri;
-		this->timeout = timeout;
-		this->resolvep = resolvep;
-	}
+		RJINT Net::curlWrite(RJCHAR *data, RJUINT size, RJUINT nmemb, String *output)
+		{
+			if (output == NULL)
+				return (0);
 
-	wxThread::ExitCode HttpThread::Entry()
-	{
-		String *str = NULL;
+			output->append(data, (size * nmemb));
 
-		#ifdef HTTP_USE_CURL
+			return (size * nmemb);
+		}
+
+#ifdef GUI_USE_WXWIDGETS
+		HttpThread::HttpThread(String uri, RJLONG timeout, v8::Persistent<v8::Function> *resolvep)
+			: Thread()
+		{
+			this->uri = uri;
+			this->timeout = timeout;
+			this->resolvep = resolvep;
+		}
+
+		wxThread::ExitCode HttpThread::Entry()
+		{
+			String *str = NULL;
+
+#ifdef HTTP_USE_CURL
 			CURL *curl = curl_easy_init();
 
 			if (curl != NULL)
@@ -118,28 +120,29 @@ namespace RadJAV
 			}
 
 			curl_easy_cleanup(curl);
-		#endif
+#endif
 
-		RJINT numArgs = 0;
-		v8::Persistent<v8::Array> *results = NULL;
+			RJINT numArgs = 0;
+			v8::Persistent<v8::Array> *results = NULL;
 
-		if (str != NULL)
-		{
-			numArgs = 1;
-			results = RJNEW v8::Persistent<v8::Array> ();
-			v8::Local<v8::Array> ary = v8::Array::New(V8_JAVASCRIPT_ENGINE->isolate);
-			ary->Set(0, str->toV8String (V8_JAVASCRIPT_ENGINE->isolate));
-			results->Reset(V8_JAVASCRIPT_ENGINE->isolate, ary);
+			if (str != NULL)
+			{
+				numArgs = 1;
+				results = RJNEW v8::Persistent<v8::Array>();
+				v8::Local<v8::Array> ary = v8::Array::New(V8_JAVASCRIPT_ENGINE->isolate);
+				ary->Set(0, str->toV8String(V8_JAVASCRIPT_ENGINE->isolate));
+				results->Reset(V8_JAVASCRIPT_ENGINE->isolate, ary);
+			}
+
+			V8_JAVASCRIPT_ENGINE->callFunctionOnNextTick(resolvep, results);
+
+			DELETEOBJ(str);
+			V8_JAVASCRIPT_ENGINE->removeThread(this);
+
+			return (0);
 		}
-
-		V8_JAVASCRIPT_ENGINE->callFunctionOnNextTick(resolvep, results);
-
-		DELETEOBJ(str);
-		V8_JAVASCRIPT_ENGINE->removeThread(this);
-
-		return (0);
+#endif
 	}
-	#endif
 }
 #endif
 

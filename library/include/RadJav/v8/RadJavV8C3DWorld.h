@@ -25,18 +25,21 @@
 
 	namespace RadJAV
 	{
-		namespace C3D
+		namespace V8B
 		{
-			#ifdef C3D_USE_OGRE
-			class RADJAV_EXPORT World
+			namespace C3D
 			{
+#ifdef C3D_USE_OGRE
+				class RADJAV_EXPORT World
+				{
 				public:
 					static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
 					static void createEntity(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void setAmbientLight(const v8::FunctionCallbackInfo<v8::Value> &args);
-			};
-			#endif
+				};
+#endif
+			}
 		}
 	}
 #endif

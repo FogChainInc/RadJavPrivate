@@ -25,30 +25,14 @@
 
 	#include "v8/RadJavV8GUIGObject.h"
 
-	#ifdef GUI_USE_WXWIDGETS
-		#include <wx/wx.h>
-	#endif
-
 	namespace RadJAV
 	{
-		namespace GUI
+		namespace V8B
 		{
-			#ifdef GUI_USE_WXWIDGETS
-				/// The wxWidgets button to use.
-				class RADJAV_EXPORT ComboboxFrame : public wxComboBox, public GObjectBase
-				{
-					public:
-						ComboboxFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size);
-
-						void onChanged(wxCommandEvent &event);
-
-					protected:
-						wxDECLARE_EVENT_TABLE();
-				};
-			#endif
-
-			class RADJAV_EXPORT Combobox : public GObject
+			namespace GUI
 			{
+				class RADJAV_EXPORT Combobox : public GObject
+				{
 				public:
 					static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
@@ -82,7 +66,8 @@
 					static void clear(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void setSelectedItemIndex(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void getSelectedItemIndex(const v8::FunctionCallbackInfo<v8::Value> &args);
-			};
+				};
+			}
 		}
 	}
 #endif

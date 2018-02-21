@@ -27,14 +27,17 @@
 
 	namespace RadJAV
 	{
-		class RADJAV_EXPORT Console
+		namespace V8B
 		{
+			class RADJAV_EXPORT Console
+			{
 			public:
 				static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object, RJBOOL isNativeConsole = false);
 
 				static void print(const v8::FunctionCallbackInfo<v8::Value> &args);
 				static void println(const v8::FunctionCallbackInfo<v8::Value> &args);
-		};
+			};
+		}
 	}
 	#endif
 #endif

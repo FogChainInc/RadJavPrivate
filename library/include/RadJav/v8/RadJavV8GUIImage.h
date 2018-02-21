@@ -25,38 +25,14 @@
 
 	#include "v8/RadJavV8GUIGObject.h"
 
-	#ifdef GUI_USE_WXWIDGETS
-		#include <wx/wx.h>
-	#endif
-
 	namespace RadJAV
 	{
-		namespace GUI
+		namespace V8B
 		{
-			#ifdef GUI_USE_WXWIDGETS
-				/// The wxWidgets button to use.
-				class RADJAV_EXPORT ImageFrame : public wxPanel, public GObjectBase
-				{
-					public:
-						ImageFrame(wxWindow *parent, const wxString &file, wxSize fileSize, const wxPoint &pos, const wxSize &size);
-
-						wxBitmapType getImageType(wxString file);
-						void loadImage(wxString file);
-						void loadImage(wxString file, wxSize fileSize);
-						
-						void paintEvent(wxPaintEvent &event);
-						void render(wxDC &dc);
-
-					protected:
-						wxImage image;
-						wxSize imageSize;
-
-						wxDECLARE_EVENT_TABLE();
-				};
-			#endif
-
-			class RADJAV_EXPORT Image : public GObject
+			namespace GUI
 			{
+				class RADJAV_EXPORT Image : public GObject
+				{
 				public:
 					static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
@@ -82,7 +58,8 @@
 					static void on(const v8::FunctionCallbackInfo<v8::Value> &args);
 
 					static void setImage(const v8::FunctionCallbackInfo<v8::Value> &args);
-			};
+				};
+			}
 		}
 	}
 #endif

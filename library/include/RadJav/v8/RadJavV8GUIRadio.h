@@ -31,24 +31,12 @@
 
 	namespace RadJAV
 	{
-		namespace GUI
+		namespace V8B
 		{
-			#ifdef GUI_USE_WXWIDGETS
-				/// The wxWidgets button to use.
-				class RADJAV_EXPORT RadioFrame : public wxRadioButton, public GObjectBase
-				{
-					public:
-						RadioFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size);
-
-						void onChanged(wxCommandEvent &event);
-
-					protected:
-						wxDECLARE_EVENT_TABLE();
-				};
-			#endif
-
-			class RADJAV_EXPORT Radio : public GObject
+			namespace GUI
 			{
+				class RADJAV_EXPORT Radio : public GObject
+				{
 				public:
 					static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
@@ -75,7 +63,8 @@
 
 					static void setChecked(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void isChecked(const v8::FunctionCallbackInfo<v8::Value> &args);
-			};
+				};
+			}
 		}
 	}
 #endif

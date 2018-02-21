@@ -25,20 +25,18 @@
 #include "RadJavString.h"
 #include "RadJavHashMap.h"
 
-#ifdef GUI_USE_WXWIDGETS
-	#include <wx/wx.h>
-#endif
-
 #ifdef USE_V8
 namespace RadJAV
 {
-	/// Contains classes for the OS GUI.
-	namespace GUI
+	namespace V8B
 	{
+		/// Contains classes for the OS GUI.
+		namespace GUI
+		{
 			class RADJAV_EXPORT GObject
 			{
 				public:
-					static void createV8Callbacks (v8::Isolate *isolate, v8::Local<v8::Object> object);
+					static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
 					static void _createAppObj(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void create(const v8::FunctionCallbackInfo<v8::Value> &args);
@@ -61,29 +59,8 @@ namespace RadJAV
 					static void setEnabled(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void getEnabled(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void on(const v8::FunctionCallbackInfo<v8::Value> &args);
-
-					static void setupFont(v8::Local<v8::Object> gobject);
 			};
-
-			class RADJAV_EXPORT GObjectBase
-			{
-				public:
-					v8::Persistent<v8::Value> *createEvent(String event, v8::Local<v8::Function> function);
-
-					#ifdef GUI_USE_WXWIDGETS
-						void addNewEvent(String event, wxWindow *object, v8::Local<v8::Function> func);
-
-						static void onClick(wxCommandEvent &event);
-						static void onMouseEvent(wxMouseEvent &event);
-						static void onKeyUp(wxKeyEvent &event);
-					#endif
-
-					static v8::Local<v8::Value> executeEvent(
-						v8::Persistent<v8::Value> *pevent, RJINT numArgs = 0, v8::Local<v8::Value> *args = NULL);
-
-				protected:
-					HashMap<std::string, v8::Persistent<v8::Value> *> events;
-			};
+		}
 	}
 }
 #endif

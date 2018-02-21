@@ -31,11 +31,13 @@
 
 	namespace RadJAV
 	{
-		namespace C3D
+		namespace V8B
 		{
-			#ifdef C3D_USE_OGRE
-			class RADJAV_EXPORT Entity : public Object3D
+			namespace C3D
 			{
+#ifdef C3D_USE_OGRE
+				class RADJAV_EXPORT Entity : public Object3D
+				{
 				public:
 					static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
@@ -53,8 +55,9 @@
 					static void setVisibility(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void getVisibility(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void on(const v8::FunctionCallbackInfo<v8::Value> &args);
-			};
-			#endif
+				};
+#endif
+			}
 		}
 	}
 #endif

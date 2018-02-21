@@ -26,97 +26,100 @@
 
 namespace RadJAV
 {
-	namespace C3D
+	namespace V8B
 	{
-		void Object3D::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
+		namespace C3D
 		{
-			V8_CALLBACK(object, "_createC3DObj", Object3D::_createC3DObj);
-		}
-
-		void Object3D::_createC3DObj(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-		}
-
-		void Object3D::create(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-		}
-
-		void Object3D::setPosition(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-		}
-
-		void Object3D::getPosition(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-		}
-
-		void Object3D::getX(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-		}
-
-		void Object3D::getY(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-		}
-
-		void Object3D::getZ(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-		}
-
-		void Object3D::getParent(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-		}
-
-		void Object3D::getAppObj(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-		}
-
-		void Object3D::setVisibility(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-		}
-
-		void Object3D::getVisibility(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-		}
-
-		void Object3D::on(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-		}
-
-		v8::Persistent<v8::Value> *Object3DBase::createEvent(String event, v8::Local<v8::Function> function)
-		{
-			v8::Persistent<v8::Value> *persistent = RJNEW v8::Persistent<v8::Value>();
-			persistent->Reset(V8_JAVASCRIPT_ENGINE->isolate, function);
-
-			auto found = events.find (event);
-			auto end = events.end();
-
-			if (found != end)
+			void Object3D::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 			{
-				v8::Persistent<v8::Value> *evt = events.at(event);
-				DELETE_OBJ(evt);
-
-				events.erase(event);
+				V8_CALLBACK(object, "_createC3DObj", Object3D::_createC3DObj);
 			}
 
-			events.insert(HashMapPair<String, v8::Persistent<v8::Value> *> (event, persistent));
+			void Object3D::_createC3DObj(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+			}
 
-			return (persistent);
-		}
+			void Object3D::create(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+			}
 
-		#ifdef C3D_USE_OGRE
-		void Object3DBase::addNewEvent(String event, Ogre::MovableObject *object, v8::Local<v8::Function> func)
-		{
-		}
-		#endif
+			void Object3D::setPosition(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+			}
 
-		v8::Local<v8::Value> Object3DBase::executeEvent(v8::Persistent<v8::Value> *pevent, RJINT numArgs, v8::Local<v8::Value> *args)
-		{
-			v8::Local<v8::Function> func = v8::Local<v8::Function>::Cast(pevent->Get(V8_JAVASCRIPT_ENGINE->isolate));
-			v8::Local<v8::Value> result;
+			void Object3D::getPosition(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+			}
 
-			if (V8_JAVASCRIPT_ENGINE->v8IsNull(func) == false)
-				result = func->Call(V8_JAVASCRIPT_ENGINE->globalContext->Global(), numArgs, args);
+			void Object3D::getX(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+			}
 
-			return (result);
+			void Object3D::getY(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+			}
+
+			void Object3D::getZ(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+			}
+
+			void Object3D::getParent(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+			}
+
+			void Object3D::getAppObj(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+			}
+
+			void Object3D::setVisibility(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+			}
+
+			void Object3D::getVisibility(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+			}
+
+			void Object3D::on(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+			}
+
+			v8::Persistent<v8::Value> *Object3DBase::createEvent(String event, v8::Local<v8::Function> function)
+			{
+				v8::Persistent<v8::Value> *persistent = RJNEW v8::Persistent<v8::Value>();
+				persistent->Reset(V8_JAVASCRIPT_ENGINE->isolate, function);
+
+				auto found = events.find(event);
+				auto end = events.end();
+
+				if (found != end)
+				{
+					v8::Persistent<v8::Value> *evt = events.at(event);
+					DELETE_OBJ(evt);
+
+					events.erase(event);
+				}
+
+				events.insert(HashMapPair<String, v8::Persistent<v8::Value> *>(event, persistent));
+
+				return (persistent);
+			}
+
+#ifdef C3D_USE_OGRE
+			void Object3DBase::addNewEvent(String event, Ogre::MovableObject *object, v8::Local<v8::Function> func)
+			{
+			}
+#endif
+
+			v8::Local<v8::Value> Object3DBase::executeEvent(v8::Persistent<v8::Value> *pevent, RJINT numArgs, v8::Local<v8::Value> *args)
+			{
+				v8::Local<v8::Function> func = v8::Local<v8::Function>::Cast(pevent->Get(V8_JAVASCRIPT_ENGINE->isolate));
+				v8::Local<v8::Value> result;
+
+				if (V8_JAVASCRIPT_ENGINE->v8IsNull(func) == false)
+					result = func->Call(V8_JAVASCRIPT_ENGINE->globalContext->Global(), numArgs, args);
+
+				return (result);
+			}
 		}
 	}
 }

@@ -32,67 +32,69 @@
 
 namespace RadJAV
 {
-	void Global::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
+	namespace V8B
 	{
-		V8_CALLBACK(object, "setTimeout", Global::setTimeout);
-		V8_CALLBACK(object, "alert", Global::alert);
-		V8_CALLBACK(object, "confirm", Global::confirm);
-		V8_CALLBACK(object, "prompt", Global::prompt);
-		V8_CALLBACK(object, "include", Global::include);
-	}
-
-	void Global::setTimeout(const v8::FunctionCallbackInfo<v8::Value> &args)
-	{
-		v8::Local<v8::Function> func = v8::Local<v8::Function>::Cast(args[0]);
-		v8::Local<v8::Number> time = v8::Local<v8::Number>::Cast(args[1]);
-
-		v8::Persistent<v8::Function> *persistent = RJNEW v8::Persistent<v8::Function>();
-
-		persistent->Reset(V8_JAVASCRIPT_ENGINE->isolate, func);
-
-		V8_JAVASCRIPT_ENGINE->addTimeout(persistent, time->Int32Value ());
-	}
-
-	void Global::alert(const v8::FunctionCallbackInfo<v8::Value> &args)
-	{
-		String message = "";
-		String title = "";
-
-		v8::Local<v8::String> msg = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-
-		if (V8_JAVASCRIPT_ENGINE->v8IsNull(msg) == false)
-			message = parseV8Value (msg);
-
-		if (args.Length() > 1)
+		void Global::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 		{
-			v8::Local<v8::String> tite = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
-
-			if (V8_JAVASCRIPT_ENGINE->v8IsNull(tite) == false)
-				title = parseV8Value (tite);
+			V8_CALLBACK(object, "setTimeout", Global::setTimeout);
+			V8_CALLBACK(object, "alert", Global::alert);
+			V8_CALLBACK(object, "confirm", Global::confirm);
+			V8_CALLBACK(object, "prompt", Global::prompt);
+			V8_CALLBACK(object, "include", Global::include);
 		}
 
-		RadJav::showMessageBox(message, title);
-	}
-
-	void Global::confirm(const v8::FunctionCallbackInfo<v8::Value> &args)
-	{
-		String message = "";
-		String title = "";
-
-		v8::Local<v8::String> msg = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-
-		if (V8_JAVASCRIPT_ENGINE->v8IsNull(msg) == false)
-			message = parseV8Value (msg);
-
-		if (args.Length() > 1)
+		void Global::setTimeout(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
-			v8::Local<v8::String> title2 = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
+			v8::Local<v8::Function> func = v8::Local<v8::Function>::Cast(args[0]);
+			v8::Local<v8::Number> time = v8::Local<v8::Number>::Cast(args[1]);
 
-			if (V8_JAVASCRIPT_ENGINE->v8IsNull(title2) == false)
-				title = parseV8Value (title2);
+			v8::Persistent<v8::Function> *persistent = RJNEW v8::Persistent<v8::Function>();
+
+			persistent->Reset(V8_JAVASCRIPT_ENGINE->isolate, func);
+
+			V8_JAVASCRIPT_ENGINE->addTimeout(persistent, time->Int32Value());
 		}
 
-		#ifdef GUI_USE_WXWIDGETS
+		void Global::alert(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+			String message = "";
+			String title = "";
+
+			v8::Local<v8::String> msg = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+
+			if (V8_JAVASCRIPT_ENGINE->v8IsNull(msg) == false)
+				message = parseV8Value(msg);
+
+			if (args.Length() > 1)
+			{
+				v8::Local<v8::String> tite = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
+
+				if (V8_JAVASCRIPT_ENGINE->v8IsNull(tite) == false)
+					title = parseV8Value(tite);
+			}
+
+			RadJav::showMessageBox(message, title);
+		}
+
+		void Global::confirm(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+			String message = "";
+			String title = "";
+
+			v8::Local<v8::String> msg = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+
+			if (V8_JAVASCRIPT_ENGINE->v8IsNull(msg) == false)
+				message = parseV8Value(msg);
+
+			if (args.Length() > 1)
+			{
+				v8::Local<v8::String> title2 = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
+
+				if (V8_JAVASCRIPT_ENGINE->v8IsNull(title2) == false)
+					title = parseV8Value(title2);
+			}
+
+#ifdef GUI_USE_WXWIDGETS
 			RJINT result = wxMessageBox(message.towxString(), title.towxString(), wxOK | wxCANCEL);
 			RJBOOL output = false;
 
@@ -100,83 +102,84 @@ namespace RadJAV
 				output = true;
 
 			v8::Local<v8::Boolean> result2 = v8::Boolean::New(args.GetIsolate(), output);
-		#endif
+#endif
 
-		args.GetReturnValue().Set(result2);
-	}
-
-	void Global::prompt(const v8::FunctionCallbackInfo<v8::Value> &args)
-	{
-		String message = "";
-		String title = "";
-		String defaultArg = "";
-
-		v8::Local<v8::String> msg = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-
-		if (V8_JAVASCRIPT_ENGINE->v8IsNull(msg) == false)
-			message = parseV8Value(msg);
-
-		if (args.Length() > 1)
-		{
-			v8::Local<v8::String> defaultArg2 = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
-
-			if (V8_JAVASCRIPT_ENGINE->v8IsNull(defaultArg2) == false)
-				defaultArg = parseV8Value(defaultArg2);
+			args.GetReturnValue().Set(result2);
 		}
 
-		if (args.Length() > 2)
+		void Global::prompt(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
-			v8::Local<v8::String> title2 = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 2));
+			String message = "";
+			String title = "";
+			String defaultArg = "";
 
-			if (V8_JAVASCRIPT_ENGINE->v8IsNull(title2) == false)
-				title = parseV8Value(title2);
+			v8::Local<v8::String> msg = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+
+			if (V8_JAVASCRIPT_ENGINE->v8IsNull(msg) == false)
+				message = parseV8Value(msg);
+
+			if (args.Length() > 1)
+			{
+				v8::Local<v8::String> defaultArg2 = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
+
+				if (V8_JAVASCRIPT_ENGINE->v8IsNull(defaultArg2) == false)
+					defaultArg = parseV8Value(defaultArg2);
+			}
+
+			if (args.Length() > 2)
+			{
+				v8::Local<v8::String> title2 = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 2));
+
+				if (V8_JAVASCRIPT_ENGINE->v8IsNull(title2) == false)
+					title = parseV8Value(title2);
+			}
+
+#ifdef GUI_USE_WXWIDGETS
+			String result = parsewxString(wxGetTextFromUser(message.towxString(), title.towxString(), defaultArg.towxString()));
+
+			v8::Local<v8::String> result2 = result.toV8String(args.GetIsolate());
+#endif
+
+			args.GetReturnValue().Set(result2);
 		}
 
-		#ifdef GUI_USE_WXWIDGETS
-			String result = parsewxString (wxGetTextFromUser(message.towxString(), title.towxString(), defaultArg.towxString ()));
-
-			v8::Local<v8::String> result2 = result.toV8String (args.GetIsolate ());
-		#endif
-
-		args.GetReturnValue().Set(result2);
-	}
-
-	void Global::include(const v8::FunctionCallbackInfo<v8::Value> &args)
-	{
-		v8::Local<v8::String> file = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-
-		if (V8_JAVASCRIPT_ENGINE->v8IsNull(file) == true)
+		void Global::include(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
-			V8_JAVASCRIPT_ENGINE->throwException("First argument when calling an include function cannot be empty!");
+			v8::Local<v8::String> file = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 
-			return;
+			if (V8_JAVASCRIPT_ENGINE->v8IsNull(file) == true)
+			{
+				V8_JAVASCRIPT_ENGINE->throwException("First argument when calling an include function cannot be empty!");
+
+				return;
+			}
+
+			String path = parseV8Value(file);
+			String contents = IO::TextFile::getFileContents(path);
+
+			V8_JAVASCRIPT_ENGINE->executeScript(contents, path);
+
+			v8::Local<v8::Function> _emptyResolve = V8_JAVASCRIPT_ENGINE->v8GetFunction(V8_RADJAV, "_emptyResolve");
+			v8::Local<v8::Object> promise = V8_JAVASCRIPT_ENGINE->createPromise(args.This(), _emptyResolve);
+
+			args.GetReturnValue().Set(promise);
 		}
 
-		String path = parseV8Value (file);
-		String contents = IO::TextFile::getFileContents(path);
+		void Global::collectGarbage(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+			RadJav::javascriptEngine->collectGarbage();
+		}
 
-		V8_JAVASCRIPT_ENGINE->executeScript(contents, path);
+		void Global::exit(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+			RJINT exitCode = 0;
+			v8::Local<v8::Integer> exc = v8::Local<v8::Integer>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 
-		v8::Local<v8::Function> _emptyResolve = V8_JAVASCRIPT_ENGINE->v8GetFunction(V8_RADJAV, "_emptyResolve");
-		v8::Local<v8::Object> promise = V8_JAVASCRIPT_ENGINE->createPromise(args.This(), _emptyResolve);
+			if (V8_JAVASCRIPT_ENGINE->v8IsNull(exc) == false)
+				exitCode = exc->Value();
 
-		args.GetReturnValue().Set(promise);
-	}
-
-	void Global::collectGarbage(const v8::FunctionCallbackInfo<v8::Value> &args)
-	{
-		RadJav::javascriptEngine->collectGarbage();
-	}
-
-	void Global::exit(const v8::FunctionCallbackInfo<v8::Value> &args)
-	{
-		RJINT exitCode = 0;
-		v8::Local<v8::Integer> exc = v8::Local<v8::Integer>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-
-		if (V8_JAVASCRIPT_ENGINE->v8IsNull(exc) == false)
-			exitCode = exc->Value();
-
-		RadJav::javascriptEngine->exit (0);
+			RadJav::javascriptEngine->exit(0);
+		}
 	}
 }
 #endif

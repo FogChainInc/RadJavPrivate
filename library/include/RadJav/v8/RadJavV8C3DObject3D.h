@@ -36,43 +36,46 @@
 #ifdef USE_V8
 namespace RadJAV
 {
-	/// Contains classes for the 3D Engine.
-	namespace C3D
+	namespace V8B
 	{
+		/// Contains classes for the 3D Engine.
+		namespace C3D
+		{
 			class RADJAV_EXPORT Object3D
 			{
-				public:
-					static void createV8Callbacks (v8::Isolate *isolate, v8::Local<v8::Object> object);
+			public:
+				static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
-					static void _createC3DObj(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void create(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void setPosition(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void getPosition(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void getX(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void getY(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void getZ(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void getParent(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void getAppObj(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void setVisibility(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void getVisibility(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void on(const v8::FunctionCallbackInfo<v8::Value> &args);
+				static void _createC3DObj(const v8::FunctionCallbackInfo<v8::Value> &args);
+				static void create(const v8::FunctionCallbackInfo<v8::Value> &args);
+				static void setPosition(const v8::FunctionCallbackInfo<v8::Value> &args);
+				static void getPosition(const v8::FunctionCallbackInfo<v8::Value> &args);
+				static void getX(const v8::FunctionCallbackInfo<v8::Value> &args);
+				static void getY(const v8::FunctionCallbackInfo<v8::Value> &args);
+				static void getZ(const v8::FunctionCallbackInfo<v8::Value> &args);
+				static void getParent(const v8::FunctionCallbackInfo<v8::Value> &args);
+				static void getAppObj(const v8::FunctionCallbackInfo<v8::Value> &args);
+				static void setVisibility(const v8::FunctionCallbackInfo<v8::Value> &args);
+				static void getVisibility(const v8::FunctionCallbackInfo<v8::Value> &args);
+				static void on(const v8::FunctionCallbackInfo<v8::Value> &args);
 			};
 
 			class RADJAV_EXPORT Object3DBase
 			{
-				public:
-					v8::Persistent<v8::Value> *createEvent(String event, v8::Local<v8::Function> function);
+			public:
+				v8::Persistent<v8::Value> *createEvent(String event, v8::Local<v8::Function> function);
 
-					#ifdef C3D_USE_OGRE
-						void addNewEvent(String event, Ogre::MovableObject *object, v8::Local<v8::Function> func);
-					#endif
+#ifdef C3D_USE_OGRE
+				void addNewEvent(String event, Ogre::MovableObject *object, v8::Local<v8::Function> func);
+#endif
 
-					static v8::Local<v8::Value> executeEvent(
-						v8::Persistent<v8::Value> *pevent, RJINT numArgs = 0, v8::Local<v8::Value> *args = NULL);
+				static v8::Local<v8::Value> executeEvent(
+					v8::Persistent<v8::Value> *pevent, RJINT numArgs = 0, v8::Local<v8::Value> *args = NULL);
 
-				protected:
-					HashMap<std::string, v8::Persistent<v8::Value> *> events;
+			protected:
+				HashMap<std::string, v8::Persistent<v8::Value> *> events;
 			};
+		}
 	}
 }
 #endif

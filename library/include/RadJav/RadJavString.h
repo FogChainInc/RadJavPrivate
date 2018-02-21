@@ -134,7 +134,7 @@
 			String toUpperCase();
 
 			/// Convert an int into a string.
-			static String fromInt(int iInteger);
+			static String fromInt(RJINT iInteger, RJINT radix = 10);
 			/// Convert an unsigned int into a string.
 			static String fromUInt(unsigned int uiInteger);
 			/// Check if a string is a valid integer.
@@ -181,9 +181,9 @@
 		/// Parse a decimal value.
 		RDECIMAL parseDecimal(String decimal);
 		/// Convert an string into an int.
-		int parseInt(String str);
+		RJINT parseInt(String str, RJINT radix = 10);
 		/// Convert a long into a string.
-		long parseLong(String str);
+		RJLONG parseLong(String str);
 		/// Convert an unsigned long into a string.
 		unsigned long parseUnsignedLong(String str);
 		/// Convert a double into a string.

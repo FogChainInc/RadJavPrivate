@@ -27,37 +27,40 @@
 
 namespace RadJAV
 {
-	void Console::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object, RJBOOL isNativeConsole)
+	namespace V8B
 	{
-		if (isNativeConsole == true)
+		void Console::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object, RJBOOL isNativeConsole)
 		{
-			V8_CALLBACK(object, "log", Console::println);
+			if (isNativeConsole == true)
+			{
+				V8_CALLBACK(object, "log", Console::println);
+			}
+			else
+			{
+				V8_CALLBACK(object, "print", Console::print);
+				V8_CALLBACK(object, "println", Console::println);
+			}
 		}
-		else
+
+		void Console::print(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
-			V8_CALLBACK(object, "print", Console::print);
-			V8_CALLBACK(object, "println", Console::println);
+			v8::Local<v8::String> str = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+
+			if (V8_JAVASCRIPT_ENGINE->v8IsNull(str) == true)
+				return;
+
+			RadJav::printToOutputWindow(parseV8Value(str));
 		}
-	}
 
-	void Console::print(const v8::FunctionCallbackInfo<v8::Value> &args)
-	{
-		v8::Local<v8::String> str = v8::Local<v8::String>::Cast (V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+		void Console::println(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+			v8::Local<v8::String> str = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 
-		if (V8_JAVASCRIPT_ENGINE->v8IsNull(str) == true)
-			return;
+			if (V8_JAVASCRIPT_ENGINE->v8IsNull(str) == true)
+				return;
 
-		RadJav::printToOutputWindow(parseV8Value (str));
-	}
-
-	void Console::println(const v8::FunctionCallbackInfo<v8::Value> &args)
-	{
-		v8::Local<v8::String> str = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-
-		if (V8_JAVASCRIPT_ENGINE->v8IsNull(str) == true)
-			return;
-
-		RadJav::printToOutputWindow(parseV8Value(str) + "\n");
+			RadJav::printToOutputWindow(parseV8Value(str) + "\n");
+		}
 	}
 }
 #endif

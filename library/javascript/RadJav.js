@@ -177,7 +177,7 @@ RadJav._loadLanguages = function ()
 	return (promise);
 };
 
-RadJav.runApplication = function (file)
+RadJav.runApp = RadJav.runApplication = function (file)
 {
 	var promise = RadJav.initialize ().then (function ()
 		{

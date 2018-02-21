@@ -31,8 +31,10 @@
 
 		namespace RadJAV
 		{
+			namespace V8B
+			{
 			#ifdef USE_BLOCKCHAIN_V1
-				class RADJAV_EXPORT BlockchainV1: public GUI::GObjectBase
+				class RADJAV_EXPORT BlockchainV1
 				{
 					public:
 						static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
@@ -173,6 +175,8 @@
 					};
 				#endif
 			#endif
+
+			}
 		}
 	#endif
 #endif

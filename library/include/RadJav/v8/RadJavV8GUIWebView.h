@@ -32,24 +32,12 @@
 
 	namespace RadJAV
 	{
-		namespace GUI
+		namespace V8B
 		{
-			#ifdef GUI_USE_WXWIDGETS
-				/// The wxWidgets button to use.
-				class RADJAV_EXPORT WebViewFrame: public GObjectBase
-				{
-					public:
-						WebViewFrame(wxWebView *webView);
-
-						static void onPageLoaded(wxWebViewEvent &event);
-						static void onPageChange(wxWebViewEvent &event);
-
-						wxWebView *webView;
-				};
-			#endif
-
-			class RADJAV_EXPORT WebView : public GObject
+			namespace GUI
 			{
+				class RADJAV_EXPORT WebView : public GObject
+				{
 				public:
 					static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
@@ -73,7 +61,8 @@
 					static void setEnabled(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void getEnabled(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void on(const v8::FunctionCallbackInfo<v8::Value> &args);
-			};
+				};
+			}
 		}
 	}
 #endif

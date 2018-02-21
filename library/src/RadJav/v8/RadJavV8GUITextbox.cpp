@@ -24,397 +24,315 @@
 #ifdef USE_V8
 #include "v8/RadJavV8JavascriptEngine.h"
 
+#include "cpp/RadJavCPPGUITextbox.h"
+
+#define UITYPE CPP::GUI::Textbox
+
 namespace RadJAV
 {
-	namespace GUI
+	namespace V8B
 	{
-		#ifdef GUI_USE_WXWIDGETS
-			TextboxFrame::TextboxFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size)
-				: wxTextCtrl(parent, wxID_ANY, text, pos, size)
+		namespace GUI
+		{
+			void Textbox::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 			{
+				V8_CALLBACK(object, "create", Textbox::create);
+				V8_CALLBACK(object, "setFont", Textbox::setFont);
+				V8_CALLBACK(object, "getFont", Textbox::getFont);
+				V8_CALLBACK(object, "setPosition", Textbox::setPosition);
+				V8_CALLBACK(object, "getPosition", Textbox::getPosition);
+				V8_CALLBACK(object, "getX", Textbox::getX);
+				V8_CALLBACK(object, "getY", Textbox::getY);
+				V8_CALLBACK(object, "setSize", Textbox::setSize);
+				V8_CALLBACK(object, "getSize", Textbox::getSize);
+				V8_CALLBACK(object, "getWidth", Textbox::getWidth);
+				V8_CALLBACK(object, "getHeight", Textbox::getHeight);
+				V8_CALLBACK(object, "setText", Textbox::setText);
+				V8_CALLBACK(object, "getText", Textbox::getText);
+				V8_CALLBACK(object, "getParent", Textbox::getParent);
+				V8_CALLBACK(object, "getAppObj", Textbox::getAppObj);
+				V8_CALLBACK(object, "setVisibility", Textbox::setVisibility);
+				V8_CALLBACK(object, "getVisibility", Textbox::getVisibility);
+				V8_CALLBACK(object, "setEnabled", Textbox::setEnabled);
+				V8_CALLBACK(object, "getEnabled", Textbox::getEnabled);
+				V8_CALLBACK(object, "on", Textbox::on);
 			}
-		#endif
 
-		void Textbox::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
-		{
-			V8_CALLBACK(object, "create", Textbox::create);
-			V8_CALLBACK(object, "setFont", Textbox::setFont);
-			V8_CALLBACK(object, "getFont", Textbox::getFont);
-			V8_CALLBACK(object, "setPosition", Textbox::setPosition);
-			V8_CALLBACK(object, "getPosition", Textbox::getPosition);
-			V8_CALLBACK(object, "getX", Textbox::getX);
-			V8_CALLBACK(object, "getY", Textbox::getY);
-			V8_CALLBACK(object, "setSize", Textbox::setSize);
-			V8_CALLBACK(object, "getSize", Textbox::getSize);
-			V8_CALLBACK(object, "getWidth", Textbox::getWidth);
-			V8_CALLBACK(object, "getHeight", Textbox::getHeight);
-			V8_CALLBACK(object, "setText", Textbox::setText);
-			V8_CALLBACK(object, "getText", Textbox::getText);
-			V8_CALLBACK(object, "getParent", Textbox::getParent);
-			V8_CALLBACK(object, "getAppObj", Textbox::getAppObj);
-			V8_CALLBACK(object, "setVisibility", Textbox::setVisibility);
-			V8_CALLBACK(object, "getVisibility", Textbox::getVisibility);
-			V8_CALLBACK(object, "setEnabled", Textbox::setEnabled);
-			V8_CALLBACK(object, "getEnabled", Textbox::getEnabled);
-			V8_CALLBACK(object, "on", Textbox::on);
-		}
+			void Textbox::create(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				UITYPE *appObject = RJNEW UITYPE(V8_JAVASCRIPT_ENGINE, args);
+				appObject->create();
 
-		void Textbox::create(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			String name = V8_JAVASCRIPT_ENGINE->v8GetString(args.This(), "name");
-			String text = V8_JAVASCRIPT_ENGINE->v8GetString(args.This(), "_text");
-			v8::Handle<v8::Object> parent = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "_parent");
-			v8::Local<v8::Object> transform = V8_JAVASCRIPT_ENGINE->v8GetObject (args.This(), "_transform");
-			RJINT x = V8_JAVASCRIPT_ENGINE->v8GetInt(transform, "x");
-			RJINT y = V8_JAVASCRIPT_ENGINE->v8GetInt(transform, "y");
-			RJINT width = V8_JAVASCRIPT_ENGINE->v8GetInt(transform, "width");
-			RJINT height = V8_JAVASCRIPT_ENGINE->v8GetInt(transform, "height");
-			RJBOOL visible = V8_JAVASCRIPT_ENGINE->v8GetBool(args.This(), "_visible");
+				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_appObj", appObject);
+				v8::Local<v8::Function> _guiFinishedCreatingGObject = V8_JAVASCRIPT_ENGINE->v8GetFunction(V8_RADJAV, "_guiFinishedCreatingGObject");
+				v8::Local<v8::Object> promise = V8_JAVASCRIPT_ENGINE->createPromise(args.This(), _guiFinishedCreatingGObject);
 
-			#ifdef GUI_USE_WXWIDGETS
-				wxWindow *parentWin = NULL;
+				args.GetReturnValue().Set(promise);
+			}
 
-				if (V8_JAVASCRIPT_ENGINE->v8IsNull(parent) == false)
-					parentWin = (wxWindow *)V8_JAVASCRIPT_ENGINE->v8GetExternal(parent, "_appObj");
+			void Textbox::setFont(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				V8_JAVASCRIPT_ENGINE->v8SetObject(args.This(), "_font", v8::Local<v8::Object>::Cast(args[0]));
 
-				TextboxFrame *object = RJNEW TextboxFrame(parentWin, text.towxString (), wxPoint(x, y), wxSize(width, height));
-				object->Show(visible);
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
 
-				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_appObj", object);
-			#endif
-
-			setupFont(args.This());
-
-			v8::Local<v8::Function> _guiFinishedCreatingGObject = V8_JAVASCRIPT_ENGINE->v8GetFunction(V8_RADJAV, "_guiFinishedCreatingGObject");
-			v8::Local<v8::Object> promise = V8_JAVASCRIPT_ENGINE->createPromise(args.This(), _guiFinishedCreatingGObject);
-
-			args.GetReturnValue().Set(promise);
-		}
-
-		void Textbox::setFont(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			V8_JAVASCRIPT_ENGINE->v8SetObject(args.This(), "_font", v8::Local<v8::Object>::Cast (args[0]));
-
-			setupFont(args.This());
-		}
-
-		void Textbox::getFont(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			v8::Local<v8::Object> font = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "_font");
-
-			#ifdef GUI_USE_WXWIDGETS
-				TextboxFrame *object = (TextboxFrame *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-				wxFont wfont = object->GetFont();
-
-				if (wfont.IsOk() == true)
+				if (appObject != NULL)
 				{
-					String fontFamily = parsewxString(wfont.GetFaceName());
-					wxColor color = object->GetForegroundColour();
-					RJNUMBER r = color.Red () / 255;
-					RJNUMBER g = color.Green() / 255;
-					RJNUMBER b = color.Blue() / 255;
-					RJNUMBER a = color.Alpha() / 255;
-					RJINT size = wfont.GetPixelSize ().x;
-					RJBOOL underlined = false;
-					RJBOOL bold = false;
-					RJBOOL italic = false;
+					CPP::Font *font = RJNEW CPP::Font(V8_JAVASCRIPT_ENGINE, v8::Local<v8::Object>::Cast(args[0]));
+					CPP::Font *oldfont = appObject->getFont();
+					DELETEOBJ(oldfont);
 
-					if (wfont.GetUnderlined() == true)
-						underlined = true;
-
-					if (wfont.GetWeight() == wxFontWeight::wxFONTWEIGHT_BOLD)
-						bold = true;
-
-					if (wfont.GetStyle () == wxFontStyle::wxFONTSTYLE_ITALIC)
-						italic = true;
-
-					V8_JAVASCRIPT_ENGINE->v8SetString(font, "fontFamily", fontFamily);
-
-					v8::Local<v8::Object> ocolor = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "color");
-					V8_JAVASCRIPT_ENGINE->v8SetNumber(ocolor, "r", r);
-					V8_JAVASCRIPT_ENGINE->v8SetNumber(ocolor, "g", g);
-					V8_JAVASCRIPT_ENGINE->v8SetNumber(ocolor, "b", b);
-					V8_JAVASCRIPT_ENGINE->v8SetNumber(ocolor, "a", a);
-
-					V8_JAVASCRIPT_ENGINE->v8SetNumber(font, "size", size);
-					V8_JAVASCRIPT_ENGINE->v8SetBool(font, "underline", underlined);
-					V8_JAVASCRIPT_ENGINE->v8SetBool(font, "bold", bold);
-					V8_JAVASCRIPT_ENGINE->v8SetBool(font, "italic", italic);
+					appObject->setFont(font);
 				}
-			#endif
-
-			args.GetReturnValue().Set(font);
-		}
-
-		void Textbox::setPosition(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			#ifdef GUI_USE_WXWIDGETS
-				TextboxFrame *object = (TextboxFrame *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-			#endif
-			RJINT x = 0;
-			RJINT y = 0;
-
-			if (args.Length() > 1)
-			{
-				x = V8_JAVASCRIPT_ENGINE->v8ParseInt (args[0]);
-				y = V8_JAVASCRIPT_ENGINE->v8ParseInt (args[1]);
-			}
-			else
-			{
-				v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast (args[0]);
-				x = V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "x");
-				y = V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "y");
 			}
 
-			v8::Handle<v8::Object> transform = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "_transform");
-			v8::Local<v8::Value> *args2 = RJNEW v8::Local<v8::Value>[2];
-			args2[0] = v8::Number::New (V8_JAVASCRIPT_ENGINE->isolate, x);
-			args2[1] = v8::Number::New(V8_JAVASCRIPT_ENGINE->isolate, y);
-			V8_JAVASCRIPT_ENGINE->v8CallFunction(transform, "setPosition", 2, args2);
+			void Textbox::getFont(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				v8::Local<v8::Object> font = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "_font");
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
 
-			DELETE_ARRAY(args2);
+				if (appObject != NULL)
+					font = CPP::Font::toV8Object(V8_JAVASCRIPT_ENGINE, appObject->getFont());
 
-			#ifdef GUI_USE_WXWIDGETS
-				if (object != NULL)
-					object->SetPosition(wxPoint(x, y));
-			#endif
-		}
+				args.GetReturnValue().Set(font);
+			}
 
-		void Textbox::getPosition(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			#ifdef GUI_USE_WXWIDGETS
-				TextboxFrame *object = (TextboxFrame *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-			#endif
-			RJINT x = 0;
-			RJINT y = 0;
+			void Textbox::setPosition(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				RJINT x = 0;
+				RJINT y = 0;
 
-			v8::Handle<v8::Object> transform = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "_transform");
-			x = V8_JAVASCRIPT_ENGINE->v8GetInt(transform, "x");
-			y = V8_JAVASCRIPT_ENGINE->v8GetInt(transform, "y");
-
-			#ifdef GUI_USE_WXWIDGETS
-				if (object != NULL)
+				if (args.Length() > 1)
 				{
-					wxPoint pos = object->GetPosition();
-					x = pos.x;
-					y = pos.y;
+					x = V8_JAVASCRIPT_ENGINE->v8ParseInt(args[0]);
+					y = V8_JAVASCRIPT_ENGINE->v8ParseInt(args[1]);
 				}
-			#endif
-
-			v8::Local<v8::Object> vector2 = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_RADJAV, "Vector2");
-			v8::Local<v8::Object> vector2obj = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(vector2, 0, NULL);
-			vector2obj->Set(String ("x").toV8String (V8_JAVASCRIPT_ENGINE->isolate), v8::Number::New (V8_JAVASCRIPT_ENGINE->isolate, x));
-			vector2obj->Set(String ("y").toV8String (V8_JAVASCRIPT_ENGINE->isolate), v8::Number::New (V8_JAVASCRIPT_ENGINE->isolate, y));
-
-			args.GetReturnValue().Set(vector2obj);
-		}
-
-		void Textbox::getX(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			getPosition(args);
-			v8::ReturnValue<v8::Value> ret = args.GetReturnValue();
-			v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast (ret.Get());
-
-			args.GetReturnValue().Set (V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "x"));
-		}
-
-		void Textbox::getY(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			getPosition(args);
-			v8::ReturnValue<v8::Value> ret = args.GetReturnValue();
-			v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(ret.Get());
-
-			args.GetReturnValue().Set(V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "y"));
-		}
-
-		void Textbox::setSize(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			#ifdef GUI_USE_WXWIDGETS
-				TextboxFrame *object = (TextboxFrame *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-			#endif
-			RJINT x = 0;
-			RJINT y = 0;
-
-			if (args.Length() > 1)
-			{
-				x = V8_JAVASCRIPT_ENGINE->v8ParseInt(args[0]);
-				y = V8_JAVASCRIPT_ENGINE->v8ParseInt(args[1]);
-			}
-			else
-			{
-				v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(args[0]);
-				x = V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "x");
-				y = V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "y");
-			}
-
-			v8::Handle<v8::Object> transform = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "_transform");
-			v8::Local<v8::Value> *args2 = RJNEW v8::Local<v8::Value>[2];
-			args2[0] = v8::Number::New(V8_JAVASCRIPT_ENGINE->isolate, x);
-			args2[1] = v8::Number::New(V8_JAVASCRIPT_ENGINE->isolate, y);
-			V8_JAVASCRIPT_ENGINE->v8CallFunction(transform, "setSize", 2, args2);
-
-			DELETE_ARRAY(args2);
-
-			#ifdef GUI_USE_WXWIDGETS
-				if (object != NULL)
-					object->SetSize(x, y);
-			#endif
-		}
-
-		void Textbox::getSize(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			#ifdef GUI_USE_WXWIDGETS
-				TextboxFrame *object = (TextboxFrame *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-			#endif
-			RJINT x = 0;
-			RJINT y = 0;
-
-			v8::Handle<v8::Object> transform = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "_transform");
-			x = V8_JAVASCRIPT_ENGINE->v8GetInt(transform, "width");
-			y = V8_JAVASCRIPT_ENGINE->v8GetInt(transform, "height");
-
-			#ifdef GUI_USE_WXWIDGETS
-				if (object != NULL)
-				{
-					wxSize size = object->GetSize ();
-					x = size.GetWidth ();
-					y = size.GetHeight ();
-				}
-			#endif
-
-			v8::Local<v8::Object> vector2 = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_RADJAV, "Vector2");
-			v8::Local<v8::Object> vector2obj = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(vector2, 0, NULL);
-			vector2obj->Set(String("x").toV8String(V8_JAVASCRIPT_ENGINE->isolate), v8::Number::New(V8_JAVASCRIPT_ENGINE->isolate, x));
-			vector2obj->Set(String("y").toV8String(V8_JAVASCRIPT_ENGINE->isolate), v8::Number::New(V8_JAVASCRIPT_ENGINE->isolate, y));
-
-			args.GetReturnValue().Set(vector2obj);
-		}
-
-		void Textbox::getWidth(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			getSize(args);
-			v8::ReturnValue<v8::Value> ret = args.GetReturnValue();
-			v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(ret.Get());
-
-			args.GetReturnValue().Set(V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "x"));
-		}
-
-		void Textbox::getHeight(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			getSize(args);
-			v8::ReturnValue<v8::Value> ret = args.GetReturnValue();
-			v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(ret.Get());
-
-			args.GetReturnValue().Set(V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "y"));
-		}
-
-		void Textbox::setText(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			v8::Local<v8::String> val = v8::Local<v8::String>::Cast (args[0]);
-			String str = parseV8Value(val);
-			V8_JAVASCRIPT_ENGINE->v8SetString(args.This(), "_text", str);
-
-			#ifdef GUI_USE_WXWIDGETS
-				TextboxFrame *object = (TextboxFrame *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-				object->SetValue(str.towxString ());
-			#endif
-		}
-
-		void Textbox::getText(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			String text = V8_JAVASCRIPT_ENGINE->v8GetString(args.This(), "_text");
-
-			#ifdef GUI_USE_WXWIDGETS
-				TextboxFrame *object = (TextboxFrame *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-				text = parsewxString(object->GetValue());
-			#endif
-
-			args.GetReturnValue().Set(text.toV8String (V8_JAVASCRIPT_ENGINE->isolate));
-		}
-
-		void Textbox::getParent(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			v8::Handle<v8::Object> obj = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "_parent");
-			args.GetReturnValue().Set(obj);
-		}
-
-		void Textbox::getAppObj(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			v8::Handle<v8::External> ext = v8::Handle<v8::External>::Cast(
-					args.This()->Get(String ("_appObj").toV8String(V8_JAVASCRIPT_ENGINE->isolate)));
-			args.GetReturnValue().Set(ext);
-		}
-
-		void Textbox::setVisibility(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			RJBOOL value = V8_JAVASCRIPT_ENGINE->v8ParseBool(args[0]);
-			V8_JAVASCRIPT_ENGINE->v8SetBool(args.This(), "_visible", value);
-
-			#ifdef GUI_USE_WXWIDGETS
-				TextboxFrame *object = (TextboxFrame *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-				
-				if (value == true)
-					object->Show();
 				else
-					object->Hide();
-			#endif
-		}
+				{
+					v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(args[0]);
+					x = V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "x");
+					y = V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "y");
+				}
 
-		void Textbox::getVisibility(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			RJBOOL value = V8_JAVASCRIPT_ENGINE->v8GetBool(args.This(), "_visible");
+				v8::Handle<v8::Object> transform = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "_transform");
+				v8::Local<v8::Value> *args2 = RJNEW v8::Local<v8::Value>[2];
+				args2[0] = v8::Number::New(args.GetIsolate(), x);
+				args2[1] = v8::Number::New(args.GetIsolate(), y);
+				V8_JAVASCRIPT_ENGINE->v8CallFunction(transform, "setPosition", 2, args2);
 
-			#ifdef GUI_USE_WXWIDGETS
-				TextboxFrame *object = (TextboxFrame *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-				value = object->IsShown();
-			#endif
+				DELETE_ARRAY(args2);
 
-			args.GetReturnValue().Set(v8::Boolean::New (V8_JAVASCRIPT_ENGINE->isolate, value));
-		}
+				if (appObject != NULL)
+					appObject->setPosition(x, y);
+			}
 
-		void Textbox::setEnabled(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			RJBOOL value = V8_JAVASCRIPT_ENGINE->v8ParseBool(args[0]);
+			void Textbox::getPosition(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				RJINT x = 0;
+				RJINT y = 0;
 
-			#ifdef GUI_USE_WXWIDGETS
-				TextboxFrame *object = (TextboxFrame *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				v8::Handle<v8::Object> transform = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "_transform");
+				x = V8_JAVASCRIPT_ENGINE->v8GetInt(transform, "x");
+				y = V8_JAVASCRIPT_ENGINE->v8GetInt(transform, "y");
 
-				if (value == true)
-					object->Enable();
+				CPP::Vector2 pos;
+
+				if (appObject != NULL)
+					pos = appObject->getPosition();
+
+				x = pos.x;
+				y = pos.y;
+
+				v8::Local<v8::Object> vector2 = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_RADJAV, "Vector2");
+				v8::Local<v8::Object> vector2obj = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(vector2, 0, NULL);
+				vector2obj->Set(String("x").toV8String(args.GetIsolate()), v8::Number::New(args.GetIsolate(), x));
+				vector2obj->Set(String("y").toV8String(args.GetIsolate()), v8::Number::New(args.GetIsolate(), y));
+
+				args.GetReturnValue().Set(vector2obj);
+			}
+
+			void Textbox::getX(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				getPosition(args);
+				v8::ReturnValue<v8::Value> ret = args.GetReturnValue();
+				v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(ret.Get());
+
+				args.GetReturnValue().Set(V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "x"));
+			}
+
+			void Textbox::getY(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				getPosition(args);
+				v8::ReturnValue<v8::Value> ret = args.GetReturnValue();
+				v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(ret.Get());
+
+				args.GetReturnValue().Set(V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "y"));
+			}
+
+			void Textbox::setSize(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				RJINT x = 0;
+				RJINT y = 0;
+
+				if (args.Length() > 1)
+				{
+					x = V8_JAVASCRIPT_ENGINE->v8ParseInt(args[0]);
+					y = V8_JAVASCRIPT_ENGINE->v8ParseInt(args[1]);
+				}
 				else
-					object->Disable ();
-			#endif
-		}
+				{
+					v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(args[0]);
+					x = V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "x");
+					y = V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "y");
+				}
 
-		void Textbox::getEnabled(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			RJBOOL value = false;
+				v8::Handle<v8::Object> transform = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "_transform");
+				v8::Local<v8::Value> *args2 = RJNEW v8::Local<v8::Value>[2];
+				args2[0] = v8::Number::New(args.GetIsolate(), x);
+				args2[1] = v8::Number::New(args.GetIsolate(), y);
+				V8_JAVASCRIPT_ENGINE->v8CallFunction(transform, "setSize", 2, args2);
 
-			#ifdef GUI_USE_WXWIDGETS
-				TextboxFrame *object = (TextboxFrame *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-				value = object->IsEnabled();
-			#endif
+				DELETE_ARRAY(args2);
 
-			args.GetReturnValue().Set(v8::Boolean::New(V8_JAVASCRIPT_ENGINE->isolate, value));
-		}
+				if (appObject != NULL)
+					appObject->setSize(x, y);
+			}
 
-		void Textbox::on(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			String event = parseV8Value (args[0]);
-			v8::Local<v8::Function> func = v8::Local<v8::Function>::Cast (args[1]);
+			void Textbox::getSize(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				RJINT x = 0;
+				RJINT y = 0;
 
-			#ifdef GUI_USE_WXWIDGETS
-				TextboxFrame *object = (TextboxFrame *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				v8::Handle<v8::Object> transform = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "_transform");
+				x = V8_JAVASCRIPT_ENGINE->v8GetInt(transform, "width");
+				y = V8_JAVASCRIPT_ENGINE->v8GetInt(transform, "height");
 
-				object->addNewEvent(event, object, func);
-			#endif
+				if (appObject != NULL)
+				{
+					CPP::Vector2 size = appObject->getSize();
+					x = size.x;
+					y = size.y;
+				}
+
+				v8::Local<v8::Object> vector2 = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_RADJAV, "Vector2");
+				v8::Local<v8::Object> vector2obj = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(vector2, 0, NULL);
+				vector2obj->Set(String("x").toV8String(args.GetIsolate()), v8::Number::New(args.GetIsolate(), x));
+				vector2obj->Set(String("y").toV8String(args.GetIsolate()), v8::Number::New(args.GetIsolate(), y));
+
+				args.GetReturnValue().Set(vector2obj);
+			}
+
+			void Textbox::getWidth(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				getSize(args);
+				v8::ReturnValue<v8::Value> ret = args.GetReturnValue();
+				v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(ret.Get());
+
+				args.GetReturnValue().Set(V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "x"));
+			}
+
+			void Textbox::getHeight(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				getSize(args);
+				v8::ReturnValue<v8::Value> ret = args.GetReturnValue();
+				v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(ret.Get());
+
+				args.GetReturnValue().Set(V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "y"));
+			}
+
+			void Textbox::setText(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				v8::Local<v8::String> val = v8::Local<v8::String>::Cast(args[0]);
+				String str = parseV8Value(val);
+				V8_JAVASCRIPT_ENGINE->v8SetString(args.This(), "_text", str);
+
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+
+				if (appObject != NULL)
+					appObject->setText(str);
+			}
+
+			void Textbox::getText(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				String text = V8_JAVASCRIPT_ENGINE->v8GetString(args.This(), "_text");
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+
+				if (appObject != NULL)
+					text = appObject->getText();
+
+				args.GetReturnValue().Set(text.toV8String(args.GetIsolate()));
+			}
+
+			void Textbox::getParent(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				v8::Handle<v8::Object> obj = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "_parent");
+				args.GetReturnValue().Set(obj);
+			}
+
+			void Textbox::getAppObj(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				v8::Handle<v8::External> ext = v8::Handle<v8::External>::Cast(
+					args.This()->Get(String("_appObj").toV8String(args.GetIsolate())));
+				args.GetReturnValue().Set(ext);
+			}
+
+			void Textbox::setVisibility(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				RJBOOL value = V8_JAVASCRIPT_ENGINE->v8ParseBool(args[0]);
+				V8_JAVASCRIPT_ENGINE->v8SetBool(args.This(), "_visible", value);
+
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+
+				if (appObject != NULL)
+					appObject->setVisibility(value);
+			}
+
+			void Textbox::getVisibility(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				RJBOOL value = V8_JAVASCRIPT_ENGINE->v8GetBool(args.This(), "_visible");
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+
+				if (appObject != NULL)
+					value = appObject->getVisibility();
+
+				args.GetReturnValue().Set(v8::Boolean::New(args.GetIsolate(), value));
+			}
+
+			void Textbox::setEnabled(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				RJBOOL value = V8_JAVASCRIPT_ENGINE->v8ParseBool(args[0]);
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+
+				if (appObject != NULL)
+					appObject->setEnabled(value);
+			}
+
+			void Textbox::getEnabled(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				RJBOOL value = false;
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+
+				if (appObject != NULL)
+					value = appObject->getEnabled();
+
+				args.GetReturnValue().Set(v8::Boolean::New(args.GetIsolate(), value));
+			}
+
+			void Textbox::on(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				String event = parseV8Value(args[0]);
+				v8::Local<v8::Function> func = v8::Local<v8::Function>::Cast(args[1]);
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+
+				if (appObject != NULL)
+					appObject->on(event, func);
+			}
 		}
 	}
 }
-
-	#ifdef GUI_USE_WXWIDGETS
-		wxBEGIN_EVENT_TABLE(RadJAV::GUI::TextboxFrame, wxTextCtrl)
-		wxEND_EVENT_TABLE()
-	#endif
 #endif
 
