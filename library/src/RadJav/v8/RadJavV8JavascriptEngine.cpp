@@ -96,7 +96,13 @@ namespace RadJAV
 		V8JavascriptEngine::V8JavascriptEngine()
 			: JavascriptEngine()
 		{
-			v8::V8::InitializeICU();
+			String execPath = "";
+
+			#ifdef GUI_USE_WXWIDGETS
+				execPath = parsewxString (wxStandardPaths::Get ().GetExecutablePath());
+			#endif
+
+			v8::V8::InitializeICUDefaultLocation(execPath.c_str ());
 			String flags = "";
 			exposeGC = false;
 			useInspector = false;
@@ -1222,7 +1228,8 @@ namespace RadJAV
 
 		v8::Local<v8::Object> V8JavascriptEngine::v8CallAsConstructor(v8::Local<v8::Object> function, RJINT numArgs, v8::Local<v8::Value> *args)
 		{
-			v8::Local<v8::Value> result = function->CallAsConstructor(numArgs, args);
+			v8::Local<v8::Value> result = function->CallAsConstructor(
+				V8_JAVASCRIPT_ENGINE->globalContext, numArgs, args).ToLocalChecked ();
 			v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(result);
 
 			return (obj);
@@ -1316,7 +1323,7 @@ namespace RadJAV
 
 			v8::Local<v8::Value> *args3 = RJNEW v8::Local<v8::Value>[1];
 			args3[0] = newContext;
-			v8::Local<v8::Value> result = promise->CallAsConstructor(1, args3);
+			v8::Local<v8::Value> result = promise->CallAsConstructor(V8_JAVASCRIPT_ENGINE->globalContext, 1, args3);
 			v8::Local<v8::Object> promiseObject = v8::Local<v8::Object>::Cast(result);
 			DELETE_ARRAY(args3);
 
