@@ -75,6 +75,9 @@ namespace RadJAV
 			{
 				DELETEOBJ(_font);
 				DELETEOBJ(_transform);
+
+				DELETEOBJ(_parent);
+				DELETEOBJ(_appObj);
 			}
 
 			void GObject::create()
@@ -227,7 +230,7 @@ namespace RadJAV
 					}
 				#endif
 
-				return (_text);
+				return (text);
 			}
 
 			GObject *GObject::getParent()

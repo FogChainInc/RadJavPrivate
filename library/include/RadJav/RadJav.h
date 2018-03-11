@@ -117,9 +117,10 @@
 					static void logNewMemoryAlloc (MemoryAllocLog alloc);
 					static void removeMemoryAlloc (MemoryAllocLog alloc);
 					static String reportMemoryLeaks();
+					static void writeMemoryLeaksToFile(String path);
 
 					/// Memory allocations made during debug.
-					static HashMap<size_t, MemoryAllocLog> memoryAllocs;
+					static HashMap<size_t, MemoryAllocLog> *memoryAllocs;
 				#endif
 		};
 	}

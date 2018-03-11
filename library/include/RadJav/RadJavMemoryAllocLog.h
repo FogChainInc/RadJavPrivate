@@ -29,7 +29,15 @@
 		class RADJAV_EXPORT MemoryAllocLog
 		{
 			public:
-				inline MemoryAllocLog (void *alloc, String file, int line, String func)
+				inline MemoryAllocLog(void *alloc)
+				{
+					this->alloc = alloc;
+					this->file = "";
+					this->line = -1;
+					this->func = "";
+				}
+
+				inline MemoryAllocLog (void *alloc, RJSTR file, int line, RJSTR func)
 				{
 					this->alloc = alloc;
 					this->file = file;
@@ -38,9 +46,9 @@
 				}
 
 				void *alloc;
-				String file;
+				RJSTR file;
 				int line;
-				String func;
+				RJSTR func;
 		};
 	}
 #endif

@@ -38,15 +38,32 @@
 	#include <curl/curl.h>
 #endif
 
+#include <new>
 #include <iostream>
 #include <stdlib.h>
 
 #ifdef RADJAV_DEBUG
+void RadJavAlloc::logAlloc(void *alloc)
+{
+	if (alloc == NULL)
+		return;
+
+	RadJAV::MemoryAllocLog allocLog(alloc, file, line, func);
+	RadJAV::RadJav::logNewMemoryAlloc(allocLog);
+}
+
+void RadJavAlloc::logFree(void *alloc)
+{
+	RadJAV::MemoryAllocLog allocLog(alloc);
+	RadJAV::RadJav::removeMemoryAlloc(allocLog);
+	free(alloc);
+}
+
 void *operator new (size_t size, const char *file, int line, const char *func)
 {
-	void *alloc = malloc (size);
+	void *alloc = malloc(size);
 
-	//RadJAV::MemoryAllocLog allocLog (alloc, RadJAV::String (file), line, RadJAV::String (func));
+	//RadJAV::MemoryAllocLog allocLog(alloc, RadJAV::String(file), line, RadJAV::String(func));
 	//RadJAV::RadJav::logNewMemoryAlloc(allocLog);
 
 	return (alloc);
@@ -54,19 +71,82 @@ void *operator new (size_t size, const char *file, int line, const char *func)
 
 void *operator new [](size_t size, const char *file, int line, const char *func)
 {
-	void *alloc = malloc (size);
+	void *alloc = malloc(size);
 
-	//RadJAV::MemoryAllocLog allocLog (alloc, RadJAV::String (file), line, RadJAV::String (func));
+	//RadJAV::MemoryAllocLog allocLog(alloc, RadJAV::String(file), line, RadJAV::String(func));
 	//RadJAV::RadJav::logNewMemoryAlloc(allocLog);
 
 	return (alloc);
 }
 
-void operator delete (void *alloc, const char *file, int line, const char *func)
+void *operator new (size_t size) throw (std::bad_alloc)
 {
-	//RadJAV::MemoryAllocLog allocLog(alloc, RadJAV::String(file), line, RadJAV::String(func));
-	//RadJAV::RadJav::removeMemoryAlloc(allocLog);
-	free (alloc);
+	return (operator new (size, "", -1, ""));
+}
+
+void *operator new [](size_t size) throw (std::bad_alloc)
+{
+	return (operator new [](size, "", -1, ""));
+}
+
+void *operator new (size_t size, const std::nothrow_t &) _NOEXCEPT
+{
+	void *alloc = malloc(size);
+
+	return (alloc);
+}
+
+void *operator new [](size_t size, const std::nothrow_t &) throw (std::bad_alloc)
+{
+	void *alloc = malloc(size);
+
+	return (alloc);
+}
+
+void operator delete (void *alloc) _NOEXCEPT
+{
+	RadJavAlloc::logFree(alloc);
+}
+
+void operator delete [](void *alloc) _NOEXCEPT
+{
+	RadJavAlloc::logFree(alloc);
+}
+
+void operator delete (void *alloc, size_t) _NOEXCEPT
+{
+	RadJavAlloc::logFree(alloc);
+}
+
+void operator delete [](void *alloc, size_t) _NOEXCEPT
+{
+	RadJavAlloc::logFree(alloc);
+}
+
+void operator delete (void *alloc, const std::nothrow_t&) _NOEXCEPT
+{
+	operator delete (alloc, "", -1, "");
+}
+
+void operator delete [](void *alloc, const std::nothrow_t&) _NOEXCEPT
+{
+	operator delete [](alloc, "", -1, "");
+}
+
+void operator delete (void *alloc, const char *file, int line, const char *func) _NOEXCEPT
+{
+	RadJAV::MemoryAllocLog allocLog(alloc);
+	RadJAV::RadJav::removeMemoryAlloc(allocLog);
+	
+	operator delete (alloc);
+}
+
+void operator delete [](void *alloc, const char *file, int line, const char *func) _NOEXCEPT
+{
+	RadJAV::MemoryAllocLog allocLog(alloc);
+	RadJAV::RadJav::removeMemoryAlloc(allocLog);
+
+	operator delete [](alloc);
 }
 #endif
 
@@ -81,13 +161,17 @@ namespace RadJAV
 	Array<String> RadJav::arguments;
 
 	#ifdef RADJAV_DEBUG
-		HashMap<size_t, MemoryAllocLog> RadJav::memoryAllocs;
+		HashMap<size_t, MemoryAllocLog> *RadJav::memoryAllocs;
 	#endif
 
 	#ifdef GUI_USE_WXWIDGETS
 		RadJavType RadJav::initialize(Array<String> newArgs, wxWidgetsRadJav *newApp, bool initializeWxWidgets)
 		{
 			arguments = newArgs;
+
+			#ifdef RADJAV_DEBUG
+				memoryAllocs = new HashMap<size_t, MemoryAllocLog>();
+			#endif
 
 			if (newArgs.size() > 0)
 			{
@@ -342,39 +426,49 @@ namespace RadJAV
 		#ifdef HTTP_USE_CURL
 			curl_global_cleanup ();
 		#endif
+
+		#if defined (RADJAV_DEBUG) && defined (RADJAV_REPORT_LEAKS)
+			RadJav::writeMemoryLeaksToFile("./leaks.csv");
+		#endif
 	}
 
 	#ifdef RADJAV_DEBUG
 	void RadJav::logNewMemoryAlloc(MemoryAllocLog alloc)
 	{
-		memoryAllocs.insert (HashMapPair<size_t, MemoryAllocLog> ((size_t)alloc.alloc, alloc));
+		if (memoryAllocs == NULL)
+			return;
+
+		memoryAllocs->insert (HashMapPair<size_t, MemoryAllocLog> ((size_t)alloc.alloc, alloc));
 	}
 
 	void RadJav::removeMemoryAlloc(MemoryAllocLog alloc)
 	{
-		HashMap<size_t, MemoryAllocLog>::iterator it = memoryAllocs.find ((size_t)alloc.alloc);
-		memoryAllocs.erase (it);
+		if (memoryAllocs == NULL)
+			return;
+
+		HashMap<size_t, MemoryAllocLog>::iterator it = memoryAllocs->find ((size_t)alloc.alloc);
+		HashMap<size_t, MemoryAllocLog>::iterator endAlloc = memoryAllocs->end ();
+
+		if (it != endAlloc)
+			memoryAllocs->erase (it);
 	}
 
 	String RadJav::reportMemoryLeaks()
 	{
-		HashMap<size_t, MemoryAllocLog>::iterator begin = memoryAllocs.begin ();
-		HashMap<size_t, MemoryAllocLog>::iterator end = memoryAllocs.end ();
+		HashMap<size_t, MemoryAllocLog>::iterator begin = memoryAllocs->begin ();
+		HashMap<size_t, MemoryAllocLog>::iterator end = memoryAllocs->end ();
 		String memoryLeaksReport = "";
 		int numLeaks = 0;
 
-		memoryLeaksReport = "Memory Leaks Report\n";
-		memoryLeaksReport += "----------------------------------------\n";
-		memoryLeaksReport += "Memory Location - File - Line - Function\n";
-		memoryLeaksReport += "----------------------------------------\n";
+		memoryLeaksReport = "Memory Location,File,Line,Function\n";
 
 		while (begin != end)
 		{
 			MemoryAllocLog alloc = (*begin).second;
-			memoryLeaksReport += String::fromUInt((size_t)alloc.alloc) + " ";
-			memoryLeaksReport += alloc.file + " ";
-			memoryLeaksReport += String::fromInt (alloc.line) + " ";
-			memoryLeaksReport += alloc.func + "\n";
+			memoryLeaksReport += String::fromUInt((size_t)alloc.alloc) + ",";
+			memoryLeaksReport += String (alloc.file) + ",";
+			memoryLeaksReport += String::fromInt (alloc.line) + ",";
+			memoryLeaksReport += String (alloc.func) + "\n";
 			numLeaks++;
 			begin++;
 		}
@@ -383,6 +477,15 @@ namespace RadJAV
 		memoryLeaksReport += "Number of memory leaks: " + numLeaks;
 
 		return (memoryLeaksReport);
+	}
+
+	void RadJav::writeMemoryLeaksToFile(String path)
+	{
+		String leaks = RadJav::reportMemoryLeaks();
+
+		std::fstream file(path.c_str (), std::ios_base::out);
+		file.write(leaks.c_str(), leaks.size());
+		file.close();
 	}
 	#endif
 }

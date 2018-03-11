@@ -61,17 +61,20 @@
 		#define NULL 0
 	#endif
 
+	#define null NULL
+
 	#define RJINT int
 	#define RJUINT unsigned int
 	#define RJBOOL bool
 	#define RJLONG long
 	#define RJULONG unsigned long
 	#define RJCHAR char
+	#define RJSTR RJCHAR *
 	#define RJNUMBER RDECIMAL
 
 	#define PACKAGE_NAME "RadJav"
 	#define RADJAV_VERSION_MAJOR 0
-	#define RADJAV_VERSION_MINOR 11
+	#define RADJAV_VERSION_MINOR 12
 
 	#ifdef COPYRIGHT_HOLDERS
 		#undef COPYRIGHT_HOLDERS
@@ -81,17 +84,51 @@
 	#define COPYRIGHT_HOLDERS_SUBSTITUTION "Higher Edge Software"
 
 	#ifdef RADJAV_DEBUG
-		#define RJNEW new (__FILE__, __LINE__, __func__)
-		#define RJDELETE delete
-		#define RJDELETEARRAY delete []
-
 		#ifdef LINUX
 			#include <cstddef>
 		#endif
 
+		/// Memory allocator and logger.
+		class RADJAV_EXPORT RadJavAlloc
+		{
+			public:
+				inline RadJavAlloc(RJSTR newFile, RJINT newLine, RJSTR newFunc)
+				{
+					file = newFile;
+					line = newLine;
+					func = newFunc;
+				}
+
+				void logAlloc(void *alloc);
+				static void logFree(void *alloc);
+
+				template <class CAlloc>
+				CAlloc *operator->*(CAlloc *alloc)
+				{
+					logAlloc(alloc);
+
+					return (alloc);
+				}
+
+			protected:
+				RJSTR file;
+				RJINT line;
+				RJSTR func;
+		};
+
 		void *operator new (size_t size, const char *file, int line, const char *func);
-		void *operator new [](size_t size, const char *file, int line, const char *func);
+		void *operator new[](size_t size, const char *file, int line, const char *func);
 		void operator delete (void *ptr, const char *file, int line, const char *func);
+		void operator delete[](void *ptr, const char *file, int line, const char *func);
+
+		/*#define RJNEW new (__FILE__, __LINE__, __func__)
+		#define RJDELETE delete
+		#define RJDELETEARRAY delete []*/
+
+		#define RJNEW RadJavAlloc (__FILE__, __LINE__, __func__) ->* new
+		//#define RJNEW new
+		#define RJDELETE delete
+		#define RJDELETEARRAY delete []
 	#else
 		#define RJNEW new
 		#define RJDELETE delete

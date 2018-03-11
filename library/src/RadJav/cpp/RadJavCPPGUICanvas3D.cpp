@@ -210,7 +210,7 @@ namespace RadJAV
 					}
 				#endif
 
-				return (_text);
+				return (text);
 			}
 
 			void Canvas3D::setVisibility(RJBOOL visible)

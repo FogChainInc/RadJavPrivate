@@ -35,17 +35,8 @@
 		class RADJAV_EXPORT JavascriptEngine
 		{
 			public:
-				inline JavascriptEngine()
-				{
-					exposeGC = false;
-					shutdownOnException = false;
-					exceptionsDisplayMessageBox = false;
-					shutdown = false;
-
-					#ifdef C3D_USE_OGRE
-						mRoot = NULL;
-					#endif
-				}
+				JavascriptEngine();
+				virtual ~JavascriptEngine();
 
 				/// Run an application.
 				virtual void runApplication (String applicationSource, String fileName) = 0;

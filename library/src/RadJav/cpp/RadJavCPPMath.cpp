@@ -34,77 +34,77 @@ namespace RadJAV
 
 		RJNUMBER Math::sqrt(RJNUMBER num)
 		{
-			return (sqrt (num));
+			return (std::sqrt (num));
 		}
 
 		RJNUMBER Math::pow(RJNUMBER base, RJNUMBER exponent)
 		{
-			return (pow(base, exponent));
+			return (std::pow(base, exponent));
 		}
 
 		RJNUMBER Math::abs(RJNUMBER num)
 		{
-			return (abs(num));
+			return (std::abs(num));
 		}
 
 		RJNUMBER Math::cos(RJNUMBER num)
 		{
-			return (cos(num));
+			return (std::cos(num));
 		}
 
 		RJNUMBER Math::acos(RJNUMBER num)
 		{
-			return (acos(num));
+			return (std::acos(num));
 		}
 
 		RJNUMBER Math::cosh(RJNUMBER num)
 		{
-			return (cosh(num));
+			return (std::cosh(num));
 		}
 
 		RJNUMBER Math::sin(RJNUMBER num)
 		{
-			return (sin(num));
+			return (std::sin(num));
 		}
 
 		RJNUMBER Math::asin(RJNUMBER num)
 		{
-			return (asin(num));
+			return (std::asin(num));
 		}
 
 		RJNUMBER Math::sinh(RJNUMBER num)
 		{
-			return (sinh(num));
+			return (std::sinh(num));
 		}
 
 		RJNUMBER Math::tan(RJNUMBER num)
 		{
-			return (tan(num));
+			return (std::tan(num));
 		}
 
 		RJNUMBER Math::atan(RJNUMBER num)
 		{
-			return (atan(num));
+			return (std::atan(num));
 		}
 
 		RJNUMBER Math::tanh(RJNUMBER num)
 		{
-			return (tanh(num));
+			return (std::tanh(num));
 		}
 
 		RJNUMBER Math::ceil(RJNUMBER num)
 		{
-			return (ceil (num));
+			return (std::ceil (num));
 		}
 
 		RJNUMBER Math::floor(RJNUMBER num)
 		{
-			return (floor(num));
+			return (std::floor(num));
 		}
 
 		RJNUMBER Math::log(RJNUMBER num)
 		{
-			return (log(num));
+			return (std::log(num));
 		}
 
 		RJNUMBER Math::log10(RJNUMBER arg)
@@ -114,7 +114,7 @@ namespace RadJAV
 			// +   improved by: Onno Marsman
 			// +   improved by: Tod Gentille
 			// +   improved by: Brett Zamir (http://brett-zamir.me)
-			return log(arg) / 2.302585092994046; // Math.LN10
+			return std::log(arg) / 2.302585092994046; // Math.LN10
 		}
 
 		RJNUMBER Math::map(RJNUMBER value, RJNUMBER start1, RJNUMBER stop1, RJNUMBER start2, RJNUMBER stop2)

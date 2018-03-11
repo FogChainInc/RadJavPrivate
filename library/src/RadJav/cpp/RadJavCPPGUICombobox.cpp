@@ -46,6 +46,8 @@ namespace RadJAV
 				: GObject (jsEngine, args)
 			{
 				_items = RJNEW Array<Item>();
+
+
 			}
 			#endif
 
@@ -100,7 +102,7 @@ namespace RadJAV
 					}
 				#endif
 
-				return (_text);
+				return (text);
 			}
 
 			#ifdef USE_V8
@@ -167,6 +169,7 @@ namespace RadJAV
 				#ifdef GUI_USE_WXWIDGETS
 					ComboboxFrame *object = (ComboboxFrame *)_appObj;
 					item.text = parsewxString(object->GetString(index));
+					item.name = item.text;
 				#endif
 
 				return (item);

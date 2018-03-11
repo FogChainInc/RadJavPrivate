@@ -166,7 +166,7 @@ namespace RadJAV
 					}
 				#endif
 
-				return (_text);
+				return (text);
 			}
 
 			void WebView::setVisibility(RJBOOL visible)

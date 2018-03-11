@@ -43,6 +43,15 @@ macro (searchForLibrary lib debugLibraries releaseLibraries searchPath)
 		${searchPath}/out.gn/arm.debug
 		${searchPath}/out.gn/arm.debug/obj 
 		${searchPath}/out.gn/arm.debug/obj/third_party/icu 
+		${searchPath}/out.gn/ia32.release 
+		${searchPath}/out.gn/ia32.release/obj 
+		${searchPath}/out.gn/ia32.release/obj/third_party/icu 
+		${searchPath}/out.gn/x64.release 
+		${searchPath}/out.gn/x64.release/obj 
+		${searchPath}/out.gn/x64.release/obj/third_party/icu 
+		${searchPath}/out.gn/arm.release
+		${searchPath}/out.gn/arm.release/obj 
+		${searchPath}/out.gn/arm.release/obj/third_party/icu 
 		"${searchPath}/build_windows/Win32/Static Debug" 
 		${searchPath}/build/lib/Debug 
 		${searchPath}/build/src/Debug 

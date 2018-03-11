@@ -182,7 +182,7 @@ namespace RadJAV
 					}
 				#endif
 
-				return (_text);
+				return (text);
 			}
 
 			void Window::setVisibility(RJBOOL visible)

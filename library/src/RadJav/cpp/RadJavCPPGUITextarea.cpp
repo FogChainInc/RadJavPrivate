@@ -87,7 +87,7 @@ namespace RadJAV
 					}
 				#endif
 
-				return (_text);
+				return (text);
 			}
 
 			#ifdef USE_V8

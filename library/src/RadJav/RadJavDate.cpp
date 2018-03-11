@@ -18,6 +18,7 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 #include "RadJavDate.h"
+#include "RadJav.h"
 
 #include "RadJavException.h"
 

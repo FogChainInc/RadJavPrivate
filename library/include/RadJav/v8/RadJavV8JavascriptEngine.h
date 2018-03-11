@@ -87,6 +87,9 @@
 				/// Connect the native library to the Javascript library.
 				void loadNativeCode();
 
+				/// Destroy the JavaScript objects.
+				void destroyJSObjects();
+
 				/// Collect the garbage. This will only work if the engine is started with exposeGC = true.
 				void collectGarbage();
 

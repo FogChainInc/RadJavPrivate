@@ -36,6 +36,7 @@ namespace RadJAV
 
 				void ListFrame::onRowClick(wxListEvent &event)
 				{
+					#ifdef USE_V8
 					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
 					v8::Local<v8::Array> selectedRows = v8::Array::New(V8_JAVASCRIPT_ENGINE->isolate);
 
@@ -69,9 +70,11 @@ namespace RadJAV
 
 					v8::Local<v8::Value> *args = RJNEW v8::Local<v8::Value>[1];
 					args[0] = selectedRows;
+					//args[0] = v8::Number::New (V8_JAVASCRIPT_ENGINE->isolate, temp);
 
 					executeEvent(pevent, 1, args);
 					DELETE_ARRAY(args);
+					#endif
 				}
 			#endif
 
@@ -141,7 +144,10 @@ namespace RadJAV
 					if (event == "rowClick")
 					{
 						v8::Persistent<v8::Value> *pevent = object->createEvent(event, func);
-						object->Connect(wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler(ListFrame::onRowClick), (wxObject *)pevent);
+
+						#ifdef GUI_USE_WXWIDGETS
+							object->Connect(wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler(ListFrame::onRowClick), (wxObject *)pevent);
+						#endif
 					}
 				}
 			#endif

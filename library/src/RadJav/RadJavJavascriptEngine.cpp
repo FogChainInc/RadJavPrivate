@@ -21,5 +21,23 @@
 
 namespace RadJAV
 {
+	JavascriptEngine::JavascriptEngine()
+	{
+		exposeGC = false;
+		shutdownOnException = false;
+		exceptionsDisplayMessageBox = false;
+		shutdown = false;
+
+		#ifdef C3D_USE_OGRE
+			mRoot = NULL;
+		#endif
+	}
+
+	JavascriptEngine::~JavascriptEngine()
+	{
+		#ifdef C3D_USE_OGRE
+			DELETEOBJ (mRoot);
+		#endif
+	}
 }
 

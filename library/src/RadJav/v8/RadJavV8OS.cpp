@@ -51,6 +51,11 @@ namespace RadJAV
 			V8_CALLBACK(object, "openFileAs", OS::openFileAs);
 		}
 
+		void OS::destroy ()
+		{
+			DELETEOBJ (onReadyFunction);
+		}
+
 		void OS::onReady(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
 			v8::Local<v8::Function> func = v8::Local<v8::Function>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
@@ -58,8 +63,7 @@ namespace RadJAV
 
 			persistent->Reset(V8_JAVASCRIPT_ENGINE->isolate, func);
 
-			if (onReadyFunction != NULL)
-				DELETEOBJ(onReadyFunction);
+			DELETEOBJ(onReadyFunction);
 
 			onReadyFunction = persistent;
 		}

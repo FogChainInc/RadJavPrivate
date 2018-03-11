@@ -58,12 +58,32 @@ namespace RadJAV
 				V8_CALLBACK(object, "on", Label::on);
 			}
 
+			template<typename Type>
+			void Label::objectDestructor(const v8::WeakCallbackInfo<Type> &data)
+			{
+				Type *obj = data.GetParameter();
+
+				DELETEOBJ(obj);
+			}
+
 			void Label::create(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				UITYPE *appObject = RJNEW UITYPE(V8_JAVASCRIPT_ENGINE, args);
 				appObject->create();
 
-				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_appObj", appObject);
+				v8::Local<v8::ObjectTemplate> objTemplate = v8::ObjectTemplate::New(args.GetIsolate ());
+				objTemplate->SetInternalFieldCount(1);
+				v8::Local<v8::Object> obj = objTemplate->NewInstance();
+				obj->SetAlignedPointerInInternalField(0, appObject);
+
+				v8::Persistent<v8::Object> persistent;
+				persistent.Reset(args.GetIsolate (), obj);
+				persistent.SetWeak<UITYPE>(appObject, &V8B::GUI::Label::objectDestructor<UITYPE>, v8::WeakCallbackType::kParameter);
+				persistent.MarkIndependent();
+
+				args.This()->Set(String ("_appObj").toV8String (args.GetIsolate ()), v8::Local<v8::Object>::New (args.GetIsolate (), persistent));
+
+				//V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_appObj", appObject);
 				v8::Local<v8::Function> _guiFinishedCreatingGObject = V8_JAVASCRIPT_ENGINE->v8GetFunction(V8_RADJAV, "_guiFinishedCreatingGObject");
 				v8::Local<v8::Object> promise = V8_JAVASCRIPT_ENGINE->createPromise(args.This(), _guiFinishedCreatingGObject);
 
@@ -250,10 +270,10 @@ namespace RadJAV
 				String str = parseV8Value(val);
 				V8_JAVASCRIPT_ENGINE->v8SetString(args.This(), "_text", str);
 
-				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				/*UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
 
 				if (appObject != NULL)
-					appObject->setText(str);
+					appObject->setText(str);*/
 			}
 
 			void Label::getText(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -285,10 +305,10 @@ namespace RadJAV
 				RJBOOL value = V8_JAVASCRIPT_ENGINE->v8ParseBool(args[0]);
 				V8_JAVASCRIPT_ENGINE->v8SetBool(args.This(), "_visible", value);
 
-				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				/*UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
 
 				if (appObject != NULL)
-					appObject->setVisibility(value);
+					appObject->setVisibility(value);*/
 			}
 
 			void Label::getVisibility(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -326,10 +346,10 @@ namespace RadJAV
 			{
 				String event = parseV8Value(args[0]);
 				v8::Local<v8::Function> func = v8::Local<v8::Function>::Cast(args[1]);
-				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				/*UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
 
 				if (appObject != NULL)
-					appObject->on(event, func);
+					appObject->on(event, func);*/
 			}
 		}
 	}
