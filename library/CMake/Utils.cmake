@@ -10,6 +10,7 @@ macro (searchForHeader lib mainHeader searchPath useOnlyParentDir)
 		/usr/local/include /usr/include /opt/local/include /opt/include
 		/usr/local/include/${lib} /usr/include/${lib} /opt/local/include/${lib} /opt/include/${lib}
 		${searchPath}/build_windows
+		${searchPath}/build/include
 		${searchPath}/OgreMain/include
 		${searchPath}/lib/includes ${searchPath}/lib/includes/${lib}
 		/usr/include/leveldb/helpers)
@@ -23,6 +24,27 @@ macro (searchForHeader lib mainHeader searchPath useOnlyParentDir)
 
 	set (${lib}_INCLUDE ${${lib}_INCLUDE_DIR} ${${lib}_INCLUDE})
 endmacro (searchForHeader)
+
+macro (searchForHeader2 lib mainHeader searchPath useOnlyParentDir)
+	set (${lib}_HEADER_PATHS ${searchPath}/include 
+		${searchPath}/Include ${searchPath}/include/${lib} ${searchPath}/Headers
+		/usr/local/include /usr/include /opt/local/include /opt/include
+		/usr/local/include/${lib} /usr/include/${lib} /opt/local/include/${lib} /opt/include/${lib}
+		${searchPath}/build_windows
+		${searchPath}/build/include
+		${searchPath}/OgreMain/include
+		${searchPath}/lib/includes ${searchPath}/lib/includes/${lib}
+		/usr/include/leveldb/helpers)
+
+	find_path (${lib}_INCLUDE_DIR2 NAMES ${mainHeader} HINTS 
+		${searchPath} ${${lib}_HEADER_PATHS} PATH_SUFFIXES ${lib})
+
+	if (${useOnlyParentDir})
+		get_filename_component (${lib}_INCLUDE_DIR2 ${${lib}_INCLUDE_DIR2} DIRECTORY)
+	endif ()
+
+	set (${lib}_INCLUDE ${${lib}_INCLUDE_DIR2} ${${lib}_INCLUDE})
+endmacro (searchForHeader2)
 
 macro (searchForLibrary lib debugLibraries releaseLibraries searchPath)
 	set (${lib}_LIBRARY_DEBUG_PATHS ${searchPath}/lib 

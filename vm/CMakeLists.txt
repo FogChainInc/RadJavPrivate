@@ -79,9 +79,9 @@ set (CMAKE_DEBUG_POSTFIX "_d")
 #set (SOURCES_files_Languages
 #	"${RadJavVM_SOURCE_DIR}/include/RadJav/languages/${RadJavVM_LANGUAGE}.h")
 #source_group ("Languages" FILES ${SOURCES_files_Languages})
-set (SOURCES "${RadJavVM_SOURCE_DIR}/src/RadJavVM" ${SOURCES})
+set (RadJavVM_SOURCES "${RadJavVM_SOURCE_DIR}/src/RadJavVM" ${RadJavVM_SOURCES})
 
-#set (SOURCES ${SRC} ${SOURCES})
+#set (RadJavVM_SOURCES ${SRC} ${RadJavVM_SOURCES})
 
 include (includes)
 include (sources)
@@ -300,9 +300,13 @@ if (WIN32)
 	set (RadJavVM_LINK_LIBRARIES ws2_32 wldap32 ${RadJavVM_LINK_LIBRARIES})
 endif ()
 
-add_executable (RadJavVM ${ISWIN32} ${ISOSX} ${SOURCES})
+add_subdirectory (${libRadJav_PATH} ${libRadJav_PATH}/build)
 
+add_executable (RadJavVM ${ISWIN32} ${ISOSX} ${RadJavVM_SOURCES})
+
+target_link_libraries (RadJavVM libRadJav)
 target_link_libraries (RadJavVM ${RadJavVM_LINK_LIBRARIES})
+set_target_properties (RadJavVM PROPERTIES COMMAND_ARGUMENTS "${libRadJav_PATH}/../examples/window/window.js")
 
 set_target_properties (RadJavVM PROPERTIES LINKER_LANGUAGE CXX)
 set_property (TARGET RadJavVM APPEND PROPERTY COMPILE_DEFINITIONS ${RadJavVM_CPP_DEFS})
@@ -316,6 +320,13 @@ if (WIN32)
 endif ()
 
 set_property (TARGET RadJavVM PROPERTY PROJECT_LABEL "RadJavVM")
+add_dependencies (RadJavVM libRadJav)
+
+if (${CMAKE_VERSION} VERSION_GREATER "3.6.0")
+	if (MSVC)
+		set_property (DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT RadJavVM)
+	endif ()
+endif ()
 
 #if (libRadJav_EMBEDFILE)
 #	add_custom_command (OUTPUT ${libRadJav_PATH}/include/RadJav/RadJavJavascriptCode.h

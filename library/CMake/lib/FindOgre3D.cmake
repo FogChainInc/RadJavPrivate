@@ -5,7 +5,7 @@ fixPath (OGRE_SOURCE)
 set (OGRE_SEARCH_PATHS "${OGRE_SOURCE}" ${RADJAV_DEPENDENCIES})
 
 searchForHeader (OGRE Ogre.h "${OGRE_SEARCH_PATHS}" FALSE)
-searchForHeader (OGRE OgreBuildSettings.h "${OGRE_SEARCH_PATHS} ${OGRE_SEARCH_PATHS}/build/include" FALSE)
+searchForHeader2 (OGRE OgreBuildSettings.h "${OGRE_SEARCH_PATHS}" FALSE)
 searchForLibrary (OGRE OgreMain_d OgreMain ${OGRE_SEARCH_PATHS})
 
 hasLibBeenFound (OGRE)
