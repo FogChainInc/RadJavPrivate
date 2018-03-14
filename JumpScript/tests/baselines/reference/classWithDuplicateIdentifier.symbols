@@ -1,0 +1,29 @@
+=== tests/cases/compiler/classWithDuplicateIdentifier.jump ===
+class C {
+>C : Symbol(C, Decl(classWithDuplicateIdentifier.jump, 0, 0))
+
+    a(): number { return 0; } // error: duplicate identifier
+>a : Symbol(C.a, Decl(classWithDuplicateIdentifier.jump, 0, 9), Decl(classWithDuplicateIdentifier.jump, 1, 29))
+
+    a: number;
+>a : Symbol(C.a, Decl(classWithDuplicateIdentifier.jump, 0, 9), Decl(classWithDuplicateIdentifier.jump, 1, 29))
+}
+class K {
+>K : Symbol(K, Decl(classWithDuplicateIdentifier.jump, 3, 1))
+
+    b: number; // error: duplicate identifier
+>b : Symbol(K.b, Decl(classWithDuplicateIdentifier.jump, 4, 9))
+
+    b(): number { return 0; }
+>b : Symbol(K.b, Decl(classWithDuplicateIdentifier.jump, 5, 14))
+}
+class D {
+>D : Symbol(D, Decl(classWithDuplicateIdentifier.jump, 7, 1))
+
+    c: number;
+>c : Symbol(D.c, Decl(classWithDuplicateIdentifier.jump, 8, 9), Decl(classWithDuplicateIdentifier.jump, 9, 14))
+
+    c: string;
+>c : Symbol(D.c, Decl(classWithDuplicateIdentifier.jump, 8, 9), Decl(classWithDuplicateIdentifier.jump, 9, 14))
+}
+

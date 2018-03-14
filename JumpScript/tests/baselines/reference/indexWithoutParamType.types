@@ -1,0 +1,4 @@
+=== tests/cases/compiler/indexWithoutParamType.jump ===
+var y: { []; } // Error
+>y : {}
+

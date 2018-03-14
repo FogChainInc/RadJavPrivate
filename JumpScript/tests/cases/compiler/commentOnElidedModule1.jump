@@ -1,0 +1,18 @@
+//@filename: a.jump
+/*!=================
+    Keep this pinned
+   =================
+*/
+
+/*! Don't keep this pinned comment */
+module ElidedModule {
+}
+
+// Don't keep this comment.
+module ElidedModule2 {
+}
+
+//@filename: b.jump
+///<reference path="a.jump"/>
+module ElidedModule3 {
+}

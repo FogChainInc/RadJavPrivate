@@ -1,0 +1,48 @@
+=== tests/cases/compiler/constantOverloadFunctionNoSubtypeError.jump ===
+class Base { foo() { } }
+>Base : Symbol(Base, Decl(constantOverloadFunctionNoSubtypeError.jump, 0, 0))
+>foo : Symbol(Base.foo, Decl(constantOverloadFunctionNoSubtypeError.jump, 0, 12))
+
+class Derived1 extends Base { bar() { } }
+>Derived1 : Symbol(Derived1, Decl(constantOverloadFunctionNoSubtypeError.jump, 0, 24))
+>Base : Symbol(Base, Decl(constantOverloadFunctionNoSubtypeError.jump, 0, 0))
+>bar : Symbol(Derived1.bar, Decl(constantOverloadFunctionNoSubtypeError.jump, 1, 29))
+
+class Derived2 extends Base { baz() { } }
+>Derived2 : Symbol(Derived2, Decl(constantOverloadFunctionNoSubtypeError.jump, 1, 41))
+>Base : Symbol(Base, Decl(constantOverloadFunctionNoSubtypeError.jump, 0, 0))
+>baz : Symbol(Derived2.baz, Decl(constantOverloadFunctionNoSubtypeError.jump, 2, 29))
+
+class Derived3 extends Base { biz() { } }
+>Derived3 : Symbol(Derived3, Decl(constantOverloadFunctionNoSubtypeError.jump, 2, 41))
+>Base : Symbol(Base, Decl(constantOverloadFunctionNoSubtypeError.jump, 0, 0))
+>biz : Symbol(Derived3.biz, Decl(constantOverloadFunctionNoSubtypeError.jump, 3, 29))
+
+function foo(tagName: 'canvas'): Derived3;
+>foo : Symbol(foo, Decl(constantOverloadFunctionNoSubtypeError.jump, 3, 41), Decl(constantOverloadFunctionNoSubtypeError.jump, 5, 42), Decl(constantOverloadFunctionNoSubtypeError.jump, 6, 40), Decl(constantOverloadFunctionNoSubtypeError.jump, 7, 40), Decl(constantOverloadFunctionNoSubtypeError.jump, 8, 36))
+>tagName : Symbol(tagName, Decl(constantOverloadFunctionNoSubtypeError.jump, 5, 13))
+>Derived3 : Symbol(Derived3, Decl(constantOverloadFunctionNoSubtypeError.jump, 2, 41))
+
+function foo(tagName:  'div'): Derived2;
+>foo : Symbol(foo, Decl(constantOverloadFunctionNoSubtypeError.jump, 3, 41), Decl(constantOverloadFunctionNoSubtypeError.jump, 5, 42), Decl(constantOverloadFunctionNoSubtypeError.jump, 6, 40), Decl(constantOverloadFunctionNoSubtypeError.jump, 7, 40), Decl(constantOverloadFunctionNoSubtypeError.jump, 8, 36))
+>tagName : Symbol(tagName, Decl(constantOverloadFunctionNoSubtypeError.jump, 6, 13))
+>Derived2 : Symbol(Derived2, Decl(constantOverloadFunctionNoSubtypeError.jump, 1, 41))
+
+function foo(tagName: 'span'): Derived1;
+>foo : Symbol(foo, Decl(constantOverloadFunctionNoSubtypeError.jump, 3, 41), Decl(constantOverloadFunctionNoSubtypeError.jump, 5, 42), Decl(constantOverloadFunctionNoSubtypeError.jump, 6, 40), Decl(constantOverloadFunctionNoSubtypeError.jump, 7, 40), Decl(constantOverloadFunctionNoSubtypeError.jump, 8, 36))
+>tagName : Symbol(tagName, Decl(constantOverloadFunctionNoSubtypeError.jump, 7, 13))
+>Derived1 : Symbol(Derived1, Decl(constantOverloadFunctionNoSubtypeError.jump, 0, 24))
+
+function foo(tagName: number): Base;
+>foo : Symbol(foo, Decl(constantOverloadFunctionNoSubtypeError.jump, 3, 41), Decl(constantOverloadFunctionNoSubtypeError.jump, 5, 42), Decl(constantOverloadFunctionNoSubtypeError.jump, 6, 40), Decl(constantOverloadFunctionNoSubtypeError.jump, 7, 40), Decl(constantOverloadFunctionNoSubtypeError.jump, 8, 36))
+>tagName : Symbol(tagName, Decl(constantOverloadFunctionNoSubtypeError.jump, 8, 13))
+>Base : Symbol(Base, Decl(constantOverloadFunctionNoSubtypeError.jump, 0, 0))
+
+function foo(tagName: any): Base {
+>foo : Symbol(foo, Decl(constantOverloadFunctionNoSubtypeError.jump, 3, 41), Decl(constantOverloadFunctionNoSubtypeError.jump, 5, 42), Decl(constantOverloadFunctionNoSubtypeError.jump, 6, 40), Decl(constantOverloadFunctionNoSubtypeError.jump, 7, 40), Decl(constantOverloadFunctionNoSubtypeError.jump, 8, 36))
+>tagName : Symbol(tagName, Decl(constantOverloadFunctionNoSubtypeError.jump, 9, 13))
+>Base : Symbol(Base, Decl(constantOverloadFunctionNoSubtypeError.jump, 0, 0))
+
+    return null;
+}
+

@@ -1,0 +1,35 @@
+=== tests/cases/compiler/a.jump ===
+module M {
+>M : Symbol(M, Decl(a.jump, 0, 0))
+
+    export var X = 1;
+>X : Symbol(X, Decl(a.jump, 1, 14))
+}
+interface Navigator {
+>Navigator : Symbol(Navigator, Decl(a.jump, 2, 1))
+
+    getGamepads(func?: any): any;
+>getGamepads : Symbol(Navigator.getGamepads, Decl(a.jump, 3, 21))
+>func : Symbol(func, Decl(a.jump, 4, 16))
+
+    webkitGetGamepads(func?: any): any
+>webkitGetGamepads : Symbol(Navigator.webkitGetGamepads, Decl(a.jump, 4, 33))
+>func : Symbol(func, Decl(a.jump, 5, 22))
+
+    msGetGamepads(func?: any): any;
+>msGetGamepads : Symbol(Navigator.msGetGamepads, Decl(a.jump, 5, 38))
+>func : Symbol(func, Decl(a.jump, 6, 18))
+
+    webkitGamepads(func?: any): any;
+>webkitGamepads : Symbol(Navigator.webkitGamepads, Decl(a.jump, 6, 35))
+>func : Symbol(func, Decl(a.jump, 7, 19))
+}
+
+=== tests/cases/compiler/b.jump ===
+module m1 {
+>m1 : Symbol(m1, Decl(b.jump, 0, 0))
+
+    export class c1 {
+>c1 : Symbol(c1, Decl(b.jump, 0, 11))
+    }
+}

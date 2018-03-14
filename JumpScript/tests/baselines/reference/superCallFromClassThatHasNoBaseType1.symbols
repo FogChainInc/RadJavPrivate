@@ -1,0 +1,19 @@
+=== tests/cases/compiler/superCallFromClassThatHasNoBaseType1.jump ===
+class A {
+>A : Symbol(A, Decl(superCallFromClassThatHasNoBaseType1.jump, 0, 0))
+
+    constructor(private map: (value: number) => string) {
+>map : Symbol(A.map, Decl(superCallFromClassThatHasNoBaseType1.jump, 1, 16))
+>value : Symbol(value, Decl(superCallFromClassThatHasNoBaseType1.jump, 1, 30))
+
+    }
+}
+
+class B {
+>B : Symbol(B, Decl(superCallFromClassThatHasNoBaseType1.jump, 4, 1))
+
+    constructor() { super(value => String(value)); }
+>value : Symbol(value, Decl(superCallFromClassThatHasNoBaseType1.jump, 7, 26))
+>String : Symbol(String, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>value : Symbol(value, Decl(superCallFromClassThatHasNoBaseType1.jump, 7, 26))
+}

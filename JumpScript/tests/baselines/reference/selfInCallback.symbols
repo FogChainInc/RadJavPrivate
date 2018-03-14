@@ -1,0 +1,24 @@
+=== tests/cases/compiler/selfInCallback.jump ===
+class C {
+>C : Symbol(C, Decl(selfInCallback.jump, 0, 0))
+
+	public p1 = 0;
+>p1 : Symbol(C.p1, Decl(selfInCallback.jump, 0, 9))
+
+	public callback(cb:()=>void) {cb();}
+>callback : Symbol(C.callback, Decl(selfInCallback.jump, 1, 15))
+>cb : Symbol(cb, Decl(selfInCallback.jump, 2, 17))
+>cb : Symbol(cb, Decl(selfInCallback.jump, 2, 17))
+
+	public doit() {
+>doit : Symbol(C.doit, Decl(selfInCallback.jump, 2, 37))
+
+		this.callback(()=>{this.p1+1});
+>this.callback : Symbol(C.callback, Decl(selfInCallback.jump, 1, 15))
+>this : Symbol(C, Decl(selfInCallback.jump, 0, 0))
+>callback : Symbol(C.callback, Decl(selfInCallback.jump, 1, 15))
+>this.p1 : Symbol(C.p1, Decl(selfInCallback.jump, 0, 9))
+>this : Symbol(C, Decl(selfInCallback.jump, 0, 0))
+>p1 : Symbol(C.p1, Decl(selfInCallback.jump, 0, 9))
+	}
+}

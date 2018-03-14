@@ -1,0 +1,55 @@
+=== tests/cases/compiler/cyclicGenericTypeInstantiation.jump ===
+function foo<T>() {
+>foo : Symbol(foo, Decl(cyclicGenericTypeInstantiation.jump, 0, 0))
+>T : Symbol(T, Decl(cyclicGenericTypeInstantiation.jump, 0, 13))
+
+    var z = foo<typeof y>();
+>z : Symbol(z, Decl(cyclicGenericTypeInstantiation.jump, 1, 7))
+>foo : Symbol(foo, Decl(cyclicGenericTypeInstantiation.jump, 0, 0))
+>y : Symbol(y, Decl(cyclicGenericTypeInstantiation.jump, 2, 7))
+
+    var y: {
+>y : Symbol(y, Decl(cyclicGenericTypeInstantiation.jump, 2, 7))
+
+        y2: typeof z
+>y2 : Symbol(y2, Decl(cyclicGenericTypeInstantiation.jump, 2, 12))
+>z : Symbol(z, Decl(cyclicGenericTypeInstantiation.jump, 1, 7))
+
+    };
+    return y;
+>y : Symbol(y, Decl(cyclicGenericTypeInstantiation.jump, 2, 7))
+}
+
+
+function bar<T>() {
+>bar : Symbol(bar, Decl(cyclicGenericTypeInstantiation.jump, 6, 1))
+>T : Symbol(T, Decl(cyclicGenericTypeInstantiation.jump, 9, 13))
+
+    var z = bar<typeof y>();
+>z : Symbol(z, Decl(cyclicGenericTypeInstantiation.jump, 10, 7))
+>bar : Symbol(bar, Decl(cyclicGenericTypeInstantiation.jump, 6, 1))
+>y : Symbol(y, Decl(cyclicGenericTypeInstantiation.jump, 11, 7))
+
+    var y: {
+>y : Symbol(y, Decl(cyclicGenericTypeInstantiation.jump, 11, 7))
+
+        y2: typeof z;
+>y2 : Symbol(y2, Decl(cyclicGenericTypeInstantiation.jump, 11, 12))
+>z : Symbol(z, Decl(cyclicGenericTypeInstantiation.jump, 10, 7))
+    }
+    return y;
+>y : Symbol(y, Decl(cyclicGenericTypeInstantiation.jump, 11, 7))
+}
+
+var a = foo<number>();
+>a : Symbol(a, Decl(cyclicGenericTypeInstantiation.jump, 17, 3))
+>foo : Symbol(foo, Decl(cyclicGenericTypeInstantiation.jump, 0, 0))
+
+var b = bar<number>();
+>b : Symbol(b, Decl(cyclicGenericTypeInstantiation.jump, 18, 3))
+>bar : Symbol(bar, Decl(cyclicGenericTypeInstantiation.jump, 6, 1))
+
+a = b;
+>a : Symbol(a, Decl(cyclicGenericTypeInstantiation.jump, 17, 3))
+>b : Symbol(b, Decl(cyclicGenericTypeInstantiation.jump, 18, 3))
+

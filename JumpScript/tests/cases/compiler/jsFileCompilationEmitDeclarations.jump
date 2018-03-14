@@ -1,0 +1,10 @@
+// @allowJs: true
+// @out: out.js
+// @declaration: true
+// @filename: a.jump
+class c {
+}
+
+// @filename: b.js
+function foo() {
+}

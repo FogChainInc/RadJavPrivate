@@ -1,0 +1,26 @@
+=== tests/cases/conformance/classes/members/inheritanceAndOverriding/derivedClassFunctionOverridesBaseClassAccessor.jump ===
+class Base {
+>Base : Symbol(Base, Decl(derivedClassFunctionOverridesBaseClassAccessor.jump, 0, 0))
+
+    get x() {
+>x : Symbol(Base.x, Decl(derivedClassFunctionOverridesBaseClassAccessor.jump, 0, 12), Decl(derivedClassFunctionOverridesBaseClassAccessor.jump, 3, 5))
+
+        return 1;
+    }
+    set x(v) {
+>x : Symbol(Base.x, Decl(derivedClassFunctionOverridesBaseClassAccessor.jump, 0, 12), Decl(derivedClassFunctionOverridesBaseClassAccessor.jump, 3, 5))
+>v : Symbol(v, Decl(derivedClassFunctionOverridesBaseClassAccessor.jump, 4, 10))
+    }
+}
+
+// error
+class Derived extends Base {
+>Derived : Symbol(Derived, Decl(derivedClassFunctionOverridesBaseClassAccessor.jump, 6, 1))
+>Base : Symbol(Base, Decl(derivedClassFunctionOverridesBaseClassAccessor.jump, 0, 0))
+
+    x() {
+>x : Symbol(Derived.x, Decl(derivedClassFunctionOverridesBaseClassAccessor.jump, 9, 28))
+
+        return 1;
+    }
+}

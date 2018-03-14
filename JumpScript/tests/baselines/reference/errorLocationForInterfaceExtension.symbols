@@ -1,0 +1,7 @@
+=== tests/cases/compiler/errorLocationForInterfaceExtension.jump ===
+var n = '';
+>n : Symbol(n, Decl(errorLocationForInterfaceExtension.jump, 0, 3))
+
+interface x extends string { }
+>x : Symbol(x, Decl(errorLocationForInterfaceExtension.jump, 0, 11))
+

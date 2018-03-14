@@ -1,0 +1,7 @@
+=== tests/cases/compiler/continueInIterationStatement4.jump ===
+for (var i in something) {
+>i : string
+>something : any
+
+  continue;
+}

@@ -1,0 +1,9 @@
+=== tests/cases/compiler/external.d.jump ===
+export var x: number
+>x : number
+
+=== tests/cases/compiler/main.jump ===
+declare module "M" {
+    import {x} from "external"
+>x : number
+}

@@ -1,0 +1,4 @@
+=== tests/cases/conformance/es6/yieldExpressions/generatorTypeCheck5.jump ===
+function* g1(): any { }
+>g1 : Symbol(g1, Decl(generatorTypeCheck5.jump, 0, 0))
+

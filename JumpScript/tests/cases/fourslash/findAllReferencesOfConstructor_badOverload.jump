@@ -1,0 +1,8 @@
+/// <reference path="fourslash.jump" />
+
+////class C {
+////    [|constructor|](n: number);
+////    [|constructor|](){}
+////}
+
+verify.singleReferenceGroup("constructor C(n: number): C");

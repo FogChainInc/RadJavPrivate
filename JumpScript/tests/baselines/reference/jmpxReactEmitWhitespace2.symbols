@@ -1,0 +1,38 @@
+=== tests/cases/conformance/jsx/file.jmpx ===
+declare module JSX {
+>JSX : Symbol(JSX, Decl(file.jmpx, 0, 0))
+
+	interface Element { }
+>Element : Symbol(Element, Decl(file.jmpx, 0, 20))
+
+	interface IntrinsicElements {
+>IntrinsicElements : Symbol(IntrinsicElements, Decl(file.jmpx, 1, 22))
+
+		[s: string]: any;
+>s : Symbol(s, Decl(file.jmpx, 3, 3))
+	}
+}
+declare var React: any;
+>React : Symbol(React, Decl(file.jmpx, 6, 11))
+
+// Emit ' word' in the last string
+<div>word <code>code</code> word</div>;
+>div : Symbol(JSX.IntrinsicElements, Decl(file.jmpx, 1, 22))
+>code : Symbol(JSX.IntrinsicElements, Decl(file.jmpx, 1, 22))
+>code : Symbol(JSX.IntrinsicElements, Decl(file.jmpx, 1, 22))
+>div : Symbol(JSX.IntrinsicElements, Decl(file.jmpx, 1, 22))
+
+// Same here
+<div><code>code</code> word</div>;
+>div : Symbol(JSX.IntrinsicElements, Decl(file.jmpx, 1, 22))
+>code : Symbol(JSX.IntrinsicElements, Decl(file.jmpx, 1, 22))
+>code : Symbol(JSX.IntrinsicElements, Decl(file.jmpx, 1, 22))
+>div : Symbol(JSX.IntrinsicElements, Decl(file.jmpx, 1, 22))
+
+// And here
+<div><code /> word</div>;
+>div : Symbol(JSX.IntrinsicElements, Decl(file.jmpx, 1, 22))
+>code : Symbol(JSX.IntrinsicElements, Decl(file.jmpx, 1, 22))
+>div : Symbol(JSX.IntrinsicElements, Decl(file.jmpx, 1, 22))
+
+

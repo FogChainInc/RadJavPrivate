@@ -1,0 +1,23 @@
+=== tests/cases/compiler/internalImportInstantiatedModuleNotReferencingInstance.jump ===
+module A {
+>A : Symbol(A, Decl(internalImportInstantiatedModuleNotReferencingInstance.jump, 0, 0))
+
+    export interface X { s: string }
+>X : Symbol(X, Decl(internalImportInstantiatedModuleNotReferencingInstance.jump, 0, 10))
+>s : Symbol(X.s, Decl(internalImportInstantiatedModuleNotReferencingInstance.jump, 1, 24))
+
+    export var a = 10;
+>a : Symbol(a, Decl(internalImportInstantiatedModuleNotReferencingInstance.jump, 2, 14))
+}
+
+module B {
+>B : Symbol(B, Decl(internalImportInstantiatedModuleNotReferencingInstance.jump, 3, 1))
+
+    var A = 1;
+>A : Symbol(A, Decl(internalImportInstantiatedModuleNotReferencingInstance.jump, 6, 7))
+
+    import Y = A;
+>Y : Symbol(Y, Decl(internalImportInstantiatedModuleNotReferencingInstance.jump, 6, 14))
+>A : Symbol(Y, Decl(internalImportInstantiatedModuleNotReferencingInstance.jump, 0, 0))
+}
+

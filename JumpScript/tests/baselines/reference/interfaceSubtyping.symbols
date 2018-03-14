@@ -1,0 +1,18 @@
+=== tests/cases/compiler/interfaceSubtyping.jump ===
+interface iface {
+>iface : Symbol(iface, Decl(interfaceSubtyping.jump, 0, 0))
+
+    foo(): void;
+>foo : Symbol(iface.foo, Decl(interfaceSubtyping.jump, 0, 17))
+}
+class Camera implements iface{
+>Camera : Symbol(Camera, Decl(interfaceSubtyping.jump, 2, 1))
+>iface : Symbol(iface, Decl(interfaceSubtyping.jump, 0, 0))
+
+    constructor (public str: string) {
+>str : Symbol(Camera.str, Decl(interfaceSubtyping.jump, 4, 17))
+    }
+    foo() {  return "s";   }
+>foo : Symbol(Camera.foo, Decl(interfaceSubtyping.jump, 5, 5))
+}
+

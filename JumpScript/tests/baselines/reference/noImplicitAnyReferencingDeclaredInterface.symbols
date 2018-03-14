@@ -1,0 +1,12 @@
+=== tests/cases/compiler/noImplicitAnyReferencingDeclaredInterface.jump ===
+interface Entry {
+>Entry : Symbol(Entry, Decl(noImplicitAnyReferencingDeclaredInterface.jump, 0, 0))
+
+    // Should return error for implicit any.
+    new ();
+}
+
+declare var x: Entry;
+>x : Symbol(x, Decl(noImplicitAnyReferencingDeclaredInterface.jump, 5, 11))
+>Entry : Symbol(Entry, Decl(noImplicitAnyReferencingDeclaredInterface.jump, 0, 0))
+

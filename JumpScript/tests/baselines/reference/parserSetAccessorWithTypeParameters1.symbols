@@ -1,0 +1,9 @@
+=== tests/cases/conformance/parser/ecmascript5/Accessors/parserSetAccessorWithTypeParameters1.jump ===
+class C {
+>C : Symbol(C, Decl(parserSetAccessorWithTypeParameters1.jump, 0, 0))
+
+   set foo<T>(v) { }
+>foo : Symbol(C.foo, Decl(parserSetAccessorWithTypeParameters1.jump, 0, 9))
+>T : Symbol(T, Decl(parserSetAccessorWithTypeParameters1.jump, 1, 11))
+>v : Symbol(v, Decl(parserSetAccessorWithTypeParameters1.jump, 1, 14))
+}

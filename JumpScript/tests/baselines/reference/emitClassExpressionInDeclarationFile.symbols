@@ -1,0 +1,84 @@
+=== tests/cases/compiler/emitClassExpressionInDeclarationFile.jump ===
+export var simpleExample = class {
+>simpleExample : Symbol(simpleExample, Decl(emitClassExpressionInDeclarationFile.jump, 0, 10))
+
+    static getTags() { }
+>getTags : Symbol(simpleExample.getTags, Decl(emitClassExpressionInDeclarationFile.jump, 0, 34))
+
+    tags() { }
+>tags : Symbol(simpleExample.tags, Decl(emitClassExpressionInDeclarationFile.jump, 1, 24))
+}
+export var circularReference = class C {
+>circularReference : Symbol(circularReference, Decl(emitClassExpressionInDeclarationFile.jump, 4, 10))
+>C : Symbol(C, Decl(emitClassExpressionInDeclarationFile.jump, 4, 30))
+
+    static getTags(c: C): C { return c }
+>getTags : Symbol(C.getTags, Decl(emitClassExpressionInDeclarationFile.jump, 4, 40))
+>c : Symbol(c, Decl(emitClassExpressionInDeclarationFile.jump, 5, 19))
+>C : Symbol(C, Decl(emitClassExpressionInDeclarationFile.jump, 4, 30))
+>C : Symbol(C, Decl(emitClassExpressionInDeclarationFile.jump, 4, 30))
+>c : Symbol(c, Decl(emitClassExpressionInDeclarationFile.jump, 5, 19))
+
+    tags(c: C): C { return c }
+>tags : Symbol(C.tags, Decl(emitClassExpressionInDeclarationFile.jump, 5, 40))
+>c : Symbol(c, Decl(emitClassExpressionInDeclarationFile.jump, 6, 9))
+>C : Symbol(C, Decl(emitClassExpressionInDeclarationFile.jump, 4, 30))
+>C : Symbol(C, Decl(emitClassExpressionInDeclarationFile.jump, 4, 30))
+>c : Symbol(c, Decl(emitClassExpressionInDeclarationFile.jump, 6, 9))
+}
+
+// repro from #15066
+export class FooItem {
+>FooItem : Symbol(FooItem, Decl(emitClassExpressionInDeclarationFile.jump, 7, 1))
+
+    foo(): void { }
+>foo : Symbol(FooItem.foo, Decl(emitClassExpressionInDeclarationFile.jump, 10, 22))
+
+    name?: string;
+>name : Symbol(FooItem.name, Decl(emitClassExpressionInDeclarationFile.jump, 11, 19))
+}
+
+export type Constructor<T> = new(...args: any[]) => T;
+>Constructor : Symbol(Constructor, Decl(emitClassExpressionInDeclarationFile.jump, 13, 1))
+>T : Symbol(T, Decl(emitClassExpressionInDeclarationFile.jump, 15, 24))
+>args : Symbol(args, Decl(emitClassExpressionInDeclarationFile.jump, 15, 33))
+>T : Symbol(T, Decl(emitClassExpressionInDeclarationFile.jump, 15, 24))
+
+export function WithTags<T extends Constructor<FooItem>>(Base: T) {
+>WithTags : Symbol(WithTags, Decl(emitClassExpressionInDeclarationFile.jump, 15, 54))
+>T : Symbol(T, Decl(emitClassExpressionInDeclarationFile.jump, 16, 25))
+>Constructor : Symbol(Constructor, Decl(emitClassExpressionInDeclarationFile.jump, 13, 1))
+>FooItem : Symbol(FooItem, Decl(emitClassExpressionInDeclarationFile.jump, 7, 1))
+>Base : Symbol(Base, Decl(emitClassExpressionInDeclarationFile.jump, 16, 57))
+>T : Symbol(T, Decl(emitClassExpressionInDeclarationFile.jump, 16, 25))
+
+    return class extends Base {
+>Base : Symbol(Base, Decl(emitClassExpressionInDeclarationFile.jump, 16, 57))
+
+        static getTags(): void { }
+>getTags : Symbol((Anonymous class).getTags, Decl(emitClassExpressionInDeclarationFile.jump, 17, 31))
+
+        tags(): void { }
+>tags : Symbol((Anonymous class).tags, Decl(emitClassExpressionInDeclarationFile.jump, 18, 34))
+    }
+}
+
+export class Test extends WithTags(FooItem) {}
+>Test : Symbol(Test, Decl(emitClassExpressionInDeclarationFile.jump, 21, 1))
+>WithTags : Symbol(WithTags, Decl(emitClassExpressionInDeclarationFile.jump, 15, 54))
+>FooItem : Symbol(FooItem, Decl(emitClassExpressionInDeclarationFile.jump, 7, 1))
+
+const test = new Test();
+>test : Symbol(test, Decl(emitClassExpressionInDeclarationFile.jump, 25, 5))
+>Test : Symbol(Test, Decl(emitClassExpressionInDeclarationFile.jump, 21, 1))
+
+Test.getTags()
+>Test.getTags : Symbol((Anonymous class).getTags, Decl(emitClassExpressionInDeclarationFile.jump, 17, 31))
+>Test : Symbol(Test, Decl(emitClassExpressionInDeclarationFile.jump, 21, 1))
+>getTags : Symbol((Anonymous class).getTags, Decl(emitClassExpressionInDeclarationFile.jump, 17, 31))
+
+test.tags();
+>test.tags : Symbol((Anonymous class).tags, Decl(emitClassExpressionInDeclarationFile.jump, 18, 34))
+>test : Symbol(test, Decl(emitClassExpressionInDeclarationFile.jump, 25, 5))
+>tags : Symbol((Anonymous class).tags, Decl(emitClassExpressionInDeclarationFile.jump, 18, 34))
+

@@ -1,0 +1,32 @@
+=== tests/cases/conformance/dynamicImport/anotherModule.jump ===
+export class D{}
+>D : Symbol(D, Decl(anotherModule.jump, 0, 0))
+
+=== tests/cases/conformance/dynamicImport/defaultPath.jump ===
+export class C {}
+>C : Symbol(C, Decl(defaultPath.jump, 0, 0))
+
+=== tests/cases/conformance/dynamicImport/1.jump ===
+import * as defaultModule from "./defaultPath";
+>defaultModule : Symbol(defaultModule, Decl(1.jump, 0, 6))
+
+import * as anotherModule from "./anotherModule";
+>anotherModule : Symbol(anotherModule, Decl(1.jump, 1, 6))
+
+let p1: Promise<typeof anotherModule> = import("./defaultPath");
+>p1 : Symbol(p1, Decl(1.jump, 3, 3))
+>Promise : Symbol(Promise, Decl(lib.es5.d.jump, --, --), Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.iterable.d.jump, --, --), Decl(lib.es2015.promise.d.jump, --, --))
+>anotherModule : Symbol(anotherModule, Decl(1.jump, 1, 6))
+>"./defaultPath" : Symbol(defaultModule, Decl(defaultPath.jump, 0, 0))
+
+let p2 = import("./defaultPath") as Promise<typeof anotherModule>;
+>p2 : Symbol(p2, Decl(1.jump, 4, 3))
+>"./defaultPath" : Symbol(defaultModule, Decl(defaultPath.jump, 0, 0))
+>Promise : Symbol(Promise, Decl(lib.es5.d.jump, --, --), Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.iterable.d.jump, --, --), Decl(lib.es2015.promise.d.jump, --, --))
+>anotherModule : Symbol(anotherModule, Decl(1.jump, 1, 6))
+
+let p3: Promise<any> = import("./defaultPath");
+>p3 : Symbol(p3, Decl(1.jump, 5, 3))
+>Promise : Symbol(Promise, Decl(lib.es5.d.jump, --, --), Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.iterable.d.jump, --, --), Decl(lib.es2015.promise.d.jump, --, --))
+>"./defaultPath" : Symbol(defaultModule, Decl(defaultPath.jump, 0, 0))
+

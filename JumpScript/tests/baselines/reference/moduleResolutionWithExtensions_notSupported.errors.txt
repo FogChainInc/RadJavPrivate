@@ -1,0 +1,19 @@
+/a.jump(1,17): error TS6142: Module './jmpx' was resolved to '/jmpx.jmpx', but '--jsx' is not set.
+/a.jump(2,17): error TS6142: Module './jsx' was resolved to '/jsx.jsx', but '--jsx' is not set.
+
+
+==== /a.jump (2 errors) ====
+    import jmpx from "./jmpx"; // Not allowed.
+                    ~~~~~~~
+!!! error TS6142: Module './jmpx' was resolved to '/jmpx.jmpx', but '--jsx' is not set.
+    import jsx from "./jsx"; // Not allowed.
+                    ~~~~~~~
+!!! error TS6142: Module './jsx' was resolved to '/jsx.jsx', but '--jsx' is not set.
+    import js from "./js"; // OK because it's an untyped module.
+    
+==== /jmpx.jmpx (0 errors) ====
+    
+==== /jsx.jsx (0 errors) ====
+    
+==== /js.js (0 errors) ====
+    

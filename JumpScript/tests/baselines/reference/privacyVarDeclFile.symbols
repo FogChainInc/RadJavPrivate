@@ -1,0 +1,1124 @@
+=== tests/cases/compiler/privacyVarDeclFile_externalModule.jump ===
+class privateClass {
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 0, 0))
+}
+
+export class publicClass {
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 1, 1))
+}
+
+export interface publicInterfaceWithPrivatePropertyTypes {
+>publicInterfaceWithPrivatePropertyTypes : Symbol(publicInterfaceWithPrivatePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 4, 1))
+
+    myProperty: privateClass;  // Error
+>myProperty : Symbol(publicInterfaceWithPrivatePropertyTypes.myProperty, Decl(privacyVarDeclFile_externalModule.jump, 6, 58))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 0, 0))
+}
+
+export interface publicInterfaceWithPublicPropertyTypes {
+>publicInterfaceWithPublicPropertyTypes : Symbol(publicInterfaceWithPublicPropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 8, 1))
+
+    myProperty: publicClass;
+>myProperty : Symbol(publicInterfaceWithPublicPropertyTypes.myProperty, Decl(privacyVarDeclFile_externalModule.jump, 10, 57))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 1, 1))
+}
+
+interface privateInterfaceWithPrivatePropertyTypes {
+>privateInterfaceWithPrivatePropertyTypes : Symbol(privateInterfaceWithPrivatePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 12, 1))
+
+    myProperty: privateClass;
+>myProperty : Symbol(privateInterfaceWithPrivatePropertyTypes.myProperty, Decl(privacyVarDeclFile_externalModule.jump, 14, 52))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 0, 0))
+}
+
+interface privateInterfaceWithPublicPropertyTypes {
+>privateInterfaceWithPublicPropertyTypes : Symbol(privateInterfaceWithPublicPropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 16, 1))
+
+    myProperty: publicClass;
+>myProperty : Symbol(privateInterfaceWithPublicPropertyTypes.myProperty, Decl(privacyVarDeclFile_externalModule.jump, 18, 51))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 1, 1))
+}
+
+export class publicClassWithWithPrivatePropertyTypes {
+>publicClassWithWithPrivatePropertyTypes : Symbol(publicClassWithWithPrivatePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 20, 1))
+
+    static myPublicStaticProperty: privateClass; // Error
+>myPublicStaticProperty : Symbol(publicClassWithWithPrivatePropertyTypes.myPublicStaticProperty, Decl(privacyVarDeclFile_externalModule.jump, 22, 54))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 0, 0))
+
+    private static myPrivateStaticProperty: privateClass;
+>myPrivateStaticProperty : Symbol(publicClassWithWithPrivatePropertyTypes.myPrivateStaticProperty, Decl(privacyVarDeclFile_externalModule.jump, 23, 48))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 0, 0))
+
+    myPublicProperty: privateClass; // Error
+>myPublicProperty : Symbol(publicClassWithWithPrivatePropertyTypes.myPublicProperty, Decl(privacyVarDeclFile_externalModule.jump, 24, 57))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 0, 0))
+
+    private myPrivateProperty: privateClass;
+>myPrivateProperty : Symbol(publicClassWithWithPrivatePropertyTypes.myPrivateProperty, Decl(privacyVarDeclFile_externalModule.jump, 25, 35))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 0, 0))
+}
+
+export class publicClassWithWithPublicPropertyTypes {
+>publicClassWithWithPublicPropertyTypes : Symbol(publicClassWithWithPublicPropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 27, 1))
+
+    static myPublicStaticProperty: publicClass;
+>myPublicStaticProperty : Symbol(publicClassWithWithPublicPropertyTypes.myPublicStaticProperty, Decl(privacyVarDeclFile_externalModule.jump, 29, 53))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 1, 1))
+
+    private static myPrivateStaticProperty: publicClass;
+>myPrivateStaticProperty : Symbol(publicClassWithWithPublicPropertyTypes.myPrivateStaticProperty, Decl(privacyVarDeclFile_externalModule.jump, 30, 47))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 1, 1))
+
+    myPublicProperty: publicClass;
+>myPublicProperty : Symbol(publicClassWithWithPublicPropertyTypes.myPublicProperty, Decl(privacyVarDeclFile_externalModule.jump, 31, 56))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 1, 1))
+
+    private myPrivateProperty: publicClass;
+>myPrivateProperty : Symbol(publicClassWithWithPublicPropertyTypes.myPrivateProperty, Decl(privacyVarDeclFile_externalModule.jump, 32, 34))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 1, 1))
+}
+
+class privateClassWithWithPrivatePropertyTypes {
+>privateClassWithWithPrivatePropertyTypes : Symbol(privateClassWithWithPrivatePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 34, 1))
+
+    static myPublicStaticProperty: privateClass;
+>myPublicStaticProperty : Symbol(privateClassWithWithPrivatePropertyTypes.myPublicStaticProperty, Decl(privacyVarDeclFile_externalModule.jump, 36, 48))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 0, 0))
+
+    private static myPrivateStaticProperty: privateClass;
+>myPrivateStaticProperty : Symbol(privateClassWithWithPrivatePropertyTypes.myPrivateStaticProperty, Decl(privacyVarDeclFile_externalModule.jump, 37, 48))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 0, 0))
+
+    myPublicProperty: privateClass;
+>myPublicProperty : Symbol(privateClassWithWithPrivatePropertyTypes.myPublicProperty, Decl(privacyVarDeclFile_externalModule.jump, 38, 57))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 0, 0))
+
+    private myPrivateProperty: privateClass;
+>myPrivateProperty : Symbol(privateClassWithWithPrivatePropertyTypes.myPrivateProperty, Decl(privacyVarDeclFile_externalModule.jump, 39, 35))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 0, 0))
+}
+
+class privateClassWithWithPublicPropertyTypes {
+>privateClassWithWithPublicPropertyTypes : Symbol(privateClassWithWithPublicPropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 41, 1))
+
+    static myPublicStaticProperty: publicClass;
+>myPublicStaticProperty : Symbol(privateClassWithWithPublicPropertyTypes.myPublicStaticProperty, Decl(privacyVarDeclFile_externalModule.jump, 43, 47))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 1, 1))
+
+    private static myPrivateStaticProperty: publicClass;
+>myPrivateStaticProperty : Symbol(privateClassWithWithPublicPropertyTypes.myPrivateStaticProperty, Decl(privacyVarDeclFile_externalModule.jump, 44, 47))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 1, 1))
+
+    myPublicProperty: publicClass;
+>myPublicProperty : Symbol(privateClassWithWithPublicPropertyTypes.myPublicProperty, Decl(privacyVarDeclFile_externalModule.jump, 45, 56))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 1, 1))
+
+    private myPrivateProperty: publicClass;
+>myPrivateProperty : Symbol(privateClassWithWithPublicPropertyTypes.myPrivateProperty, Decl(privacyVarDeclFile_externalModule.jump, 46, 34))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 1, 1))
+}
+
+export var publicVarWithPrivatePropertyTypes: privateClass; // Error
+>publicVarWithPrivatePropertyTypes : Symbol(publicVarWithPrivatePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 50, 10))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 0, 0))
+
+export var publicVarWithPublicPropertyTypes: publicClass;
+>publicVarWithPublicPropertyTypes : Symbol(publicVarWithPublicPropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 51, 10))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 1, 1))
+
+var privateVarWithPrivatePropertyTypes: privateClass;
+>privateVarWithPrivatePropertyTypes : Symbol(privateVarWithPrivatePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 52, 3))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 0, 0))
+
+var privateVarWithPublicPropertyTypes: publicClass;
+>privateVarWithPublicPropertyTypes : Symbol(privateVarWithPublicPropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 53, 3))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 1, 1))
+
+export declare var publicAmbientVarWithPrivatePropertyTypes: privateClass; // Error
+>publicAmbientVarWithPrivatePropertyTypes : Symbol(publicAmbientVarWithPrivatePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 55, 18))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 0, 0))
+
+export declare var publicAmbientVarWithPublicPropertyTypes: publicClass;
+>publicAmbientVarWithPublicPropertyTypes : Symbol(publicAmbientVarWithPublicPropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 56, 18))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 1, 1))
+
+declare var privateAmbientVarWithPrivatePropertyTypes: privateClass;
+>privateAmbientVarWithPrivatePropertyTypes : Symbol(privateAmbientVarWithPrivatePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 57, 11))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 0, 0))
+
+declare var privateAmbientVarWithPublicPropertyTypes: publicClass;
+>privateAmbientVarWithPublicPropertyTypes : Symbol(privateAmbientVarWithPublicPropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 58, 11))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 1, 1))
+
+export interface publicInterfaceWithPrivateModulePropertyTypes {
+>publicInterfaceWithPrivateModulePropertyTypes : Symbol(publicInterfaceWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 58, 66))
+
+    myProperty: privateModule.publicClass; // Error
+>myProperty : Symbol(publicInterfaceWithPrivateModulePropertyTypes.myProperty, Decl(privacyVarDeclFile_externalModule.jump, 60, 64))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_externalModule.jump, 160, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+}
+export class publicClassWithPrivateModulePropertyTypes {
+>publicClassWithPrivateModulePropertyTypes : Symbol(publicClassWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 62, 1))
+
+    static myPublicStaticProperty: privateModule.publicClass; // Error
+>myPublicStaticProperty : Symbol(publicClassWithPrivateModulePropertyTypes.myPublicStaticProperty, Decl(privacyVarDeclFile_externalModule.jump, 63, 56))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_externalModule.jump, 160, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+
+    myPublicProperty: privateModule.publicClass; // Error
+>myPublicProperty : Symbol(publicClassWithPrivateModulePropertyTypes.myPublicProperty, Decl(privacyVarDeclFile_externalModule.jump, 64, 61))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_externalModule.jump, 160, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+}
+export var publicVarWithPrivateModulePropertyTypes: privateModule.publicClass; // Error
+>publicVarWithPrivateModulePropertyTypes : Symbol(publicVarWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 67, 10))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_externalModule.jump, 160, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+
+export declare var publicAmbientVarWithPrivateModulePropertyTypes: privateModule.publicClass; // Error
+>publicAmbientVarWithPrivateModulePropertyTypes : Symbol(publicAmbientVarWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 68, 18))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_externalModule.jump, 160, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+
+interface privateInterfaceWithPrivateModulePropertyTypes {
+>privateInterfaceWithPrivateModulePropertyTypes : Symbol(privateInterfaceWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 68, 93))
+
+    myProperty: privateModule.publicClass;
+>myProperty : Symbol(privateInterfaceWithPrivateModulePropertyTypes.myProperty, Decl(privacyVarDeclFile_externalModule.jump, 70, 58))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_externalModule.jump, 160, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+}
+class privateClassWithPrivateModulePropertyTypes {
+>privateClassWithPrivateModulePropertyTypes : Symbol(privateClassWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 72, 1))
+
+    static myPublicStaticProperty: privateModule.publicClass;
+>myPublicStaticProperty : Symbol(privateClassWithPrivateModulePropertyTypes.myPublicStaticProperty, Decl(privacyVarDeclFile_externalModule.jump, 73, 50))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_externalModule.jump, 160, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+
+    myPublicProperty: privateModule.publicClass;
+>myPublicProperty : Symbol(privateClassWithPrivateModulePropertyTypes.myPublicProperty, Decl(privacyVarDeclFile_externalModule.jump, 74, 61))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_externalModule.jump, 160, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+}
+var privateVarWithPrivateModulePropertyTypes: privateModule.publicClass;
+>privateVarWithPrivateModulePropertyTypes : Symbol(privateVarWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 77, 3))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_externalModule.jump, 160, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+
+declare var privateAmbientVarWithPrivateModulePropertyTypes: privateModule.publicClass;
+>privateAmbientVarWithPrivateModulePropertyTypes : Symbol(privateAmbientVarWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 78, 11))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_externalModule.jump, 160, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+
+export module publicModule {
+>publicModule : Symbol(publicModule, Decl(privacyVarDeclFile_externalModule.jump, 78, 87))
+
+    class privateClass {
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 80, 28))
+    }
+
+    export class publicClass {
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 82, 5))
+    }
+
+    export interface publicInterfaceWithPrivatePropertyTypes {
+>publicInterfaceWithPrivatePropertyTypes : Symbol(publicInterfaceWithPrivatePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 85, 5))
+
+        myProperty: privateClass;  // Error
+>myProperty : Symbol(publicInterfaceWithPrivatePropertyTypes.myProperty, Decl(privacyVarDeclFile_externalModule.jump, 87, 62))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 80, 28))
+    }
+
+    export interface publicInterfaceWithPublicPropertyTypes {
+>publicInterfaceWithPublicPropertyTypes : Symbol(publicInterfaceWithPublicPropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 89, 5))
+
+        myProperty: publicClass;
+>myProperty : Symbol(publicInterfaceWithPublicPropertyTypes.myProperty, Decl(privacyVarDeclFile_externalModule.jump, 91, 61))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 82, 5))
+    }
+
+    interface privateInterfaceWithPrivatePropertyTypes {
+>privateInterfaceWithPrivatePropertyTypes : Symbol(privateInterfaceWithPrivatePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 93, 5))
+
+        myProperty: privateClass;
+>myProperty : Symbol(privateInterfaceWithPrivatePropertyTypes.myProperty, Decl(privacyVarDeclFile_externalModule.jump, 95, 56))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 80, 28))
+    }
+
+    interface privateInterfaceWithPublicPropertyTypes {
+>privateInterfaceWithPublicPropertyTypes : Symbol(privateInterfaceWithPublicPropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 97, 5))
+
+        myProperty: publicClass;
+>myProperty : Symbol(privateInterfaceWithPublicPropertyTypes.myProperty, Decl(privacyVarDeclFile_externalModule.jump, 99, 55))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 82, 5))
+    }
+
+    export class publicClassWithWithPrivatePropertyTypes {
+>publicClassWithWithPrivatePropertyTypes : Symbol(publicClassWithWithPrivatePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 101, 5))
+
+        static myPublicStaticProperty: privateClass; // Error
+>myPublicStaticProperty : Symbol(publicClassWithWithPrivatePropertyTypes.myPublicStaticProperty, Decl(privacyVarDeclFile_externalModule.jump, 103, 58))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 80, 28))
+
+        private static myPrivateStaticProperty: privateClass;
+>myPrivateStaticProperty : Symbol(publicClassWithWithPrivatePropertyTypes.myPrivateStaticProperty, Decl(privacyVarDeclFile_externalModule.jump, 104, 52))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 80, 28))
+
+        myPublicProperty: privateClass; // Error
+>myPublicProperty : Symbol(publicClassWithWithPrivatePropertyTypes.myPublicProperty, Decl(privacyVarDeclFile_externalModule.jump, 105, 61))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 80, 28))
+
+        private myPrivateProperty: privateClass;
+>myPrivateProperty : Symbol(publicClassWithWithPrivatePropertyTypes.myPrivateProperty, Decl(privacyVarDeclFile_externalModule.jump, 106, 39))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 80, 28))
+    }
+
+    export class publicClassWithWithPublicPropertyTypes {
+>publicClassWithWithPublicPropertyTypes : Symbol(publicClassWithWithPublicPropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 108, 5))
+
+        static myPublicStaticProperty: publicClass;
+>myPublicStaticProperty : Symbol(publicClassWithWithPublicPropertyTypes.myPublicStaticProperty, Decl(privacyVarDeclFile_externalModule.jump, 110, 57))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 82, 5))
+
+        private static myPrivateStaticProperty: publicClass;
+>myPrivateStaticProperty : Symbol(publicClassWithWithPublicPropertyTypes.myPrivateStaticProperty, Decl(privacyVarDeclFile_externalModule.jump, 111, 51))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 82, 5))
+
+        myPublicProperty: publicClass;
+>myPublicProperty : Symbol(publicClassWithWithPublicPropertyTypes.myPublicProperty, Decl(privacyVarDeclFile_externalModule.jump, 112, 60))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 82, 5))
+
+        private myPrivateProperty: publicClass;
+>myPrivateProperty : Symbol(publicClassWithWithPublicPropertyTypes.myPrivateProperty, Decl(privacyVarDeclFile_externalModule.jump, 113, 38))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 82, 5))
+    }
+
+    class privateClassWithWithPrivatePropertyTypes {
+>privateClassWithWithPrivatePropertyTypes : Symbol(privateClassWithWithPrivatePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 115, 5))
+
+        static myPublicStaticProperty: privateClass;
+>myPublicStaticProperty : Symbol(privateClassWithWithPrivatePropertyTypes.myPublicStaticProperty, Decl(privacyVarDeclFile_externalModule.jump, 117, 52))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 80, 28))
+
+        private static myPrivateStaticProperty: privateClass;
+>myPrivateStaticProperty : Symbol(privateClassWithWithPrivatePropertyTypes.myPrivateStaticProperty, Decl(privacyVarDeclFile_externalModule.jump, 118, 52))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 80, 28))
+
+        myPublicProperty: privateClass;
+>myPublicProperty : Symbol(privateClassWithWithPrivatePropertyTypes.myPublicProperty, Decl(privacyVarDeclFile_externalModule.jump, 119, 61))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 80, 28))
+
+        private myPrivateProperty: privateClass;
+>myPrivateProperty : Symbol(privateClassWithWithPrivatePropertyTypes.myPrivateProperty, Decl(privacyVarDeclFile_externalModule.jump, 120, 39))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 80, 28))
+    }
+
+    class privateClassWithWithPublicPropertyTypes {
+>privateClassWithWithPublicPropertyTypes : Symbol(privateClassWithWithPublicPropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 122, 5))
+
+        static myPublicStaticProperty: publicClass;
+>myPublicStaticProperty : Symbol(privateClassWithWithPublicPropertyTypes.myPublicStaticProperty, Decl(privacyVarDeclFile_externalModule.jump, 124, 51))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 82, 5))
+
+        private static myPrivateStaticProperty: publicClass;
+>myPrivateStaticProperty : Symbol(privateClassWithWithPublicPropertyTypes.myPrivateStaticProperty, Decl(privacyVarDeclFile_externalModule.jump, 125, 51))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 82, 5))
+
+        myPublicProperty: publicClass;
+>myPublicProperty : Symbol(privateClassWithWithPublicPropertyTypes.myPublicProperty, Decl(privacyVarDeclFile_externalModule.jump, 126, 60))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 82, 5))
+
+        private myPrivateProperty: publicClass;
+>myPrivateProperty : Symbol(privateClassWithWithPublicPropertyTypes.myPrivateProperty, Decl(privacyVarDeclFile_externalModule.jump, 127, 38))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 82, 5))
+    }
+
+    export var publicVarWithPrivatePropertyTypes: privateClass; // Error
+>publicVarWithPrivatePropertyTypes : Symbol(publicVarWithPrivatePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 131, 14))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 80, 28))
+
+    export var publicVarWithPublicPropertyTypes: publicClass;
+>publicVarWithPublicPropertyTypes : Symbol(publicVarWithPublicPropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 132, 14))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 82, 5))
+
+    var privateVarWithPrivatePropertyTypes: privateClass;
+>privateVarWithPrivatePropertyTypes : Symbol(privateVarWithPrivatePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 133, 7))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 80, 28))
+
+    var privateVarWithPublicPropertyTypes: publicClass;
+>privateVarWithPublicPropertyTypes : Symbol(privateVarWithPublicPropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 134, 7))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 82, 5))
+
+    export declare var publicAmbientVarWithPrivatePropertyTypes: privateClass; // Error
+>publicAmbientVarWithPrivatePropertyTypes : Symbol(publicAmbientVarWithPrivatePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 136, 22))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 80, 28))
+
+    export declare var publicAmbientVarWithPublicPropertyTypes: publicClass;
+>publicAmbientVarWithPublicPropertyTypes : Symbol(publicAmbientVarWithPublicPropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 137, 22))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 82, 5))
+
+    declare var privateAmbientVarWithPrivatePropertyTypes: privateClass;
+>privateAmbientVarWithPrivatePropertyTypes : Symbol(privateAmbientVarWithPrivatePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 138, 15))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 80, 28))
+
+    declare var privateAmbientVarWithPublicPropertyTypes: publicClass;
+>privateAmbientVarWithPublicPropertyTypes : Symbol(privateAmbientVarWithPublicPropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 139, 15))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 82, 5))
+
+    export interface publicInterfaceWithPrivateModulePropertyTypes {
+>publicInterfaceWithPrivateModulePropertyTypes : Symbol(publicInterfaceWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 139, 70))
+
+        myProperty: privateModule.publicClass; // Error
+>myProperty : Symbol(publicInterfaceWithPrivateModulePropertyTypes.myProperty, Decl(privacyVarDeclFile_externalModule.jump, 141, 68))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_externalModule.jump, 160, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+    }
+    export class publicClassWithPrivateModulePropertyTypes {
+>publicClassWithPrivateModulePropertyTypes : Symbol(publicClassWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 143, 5))
+
+        static myPublicStaticProperty: privateModule.publicClass; // Error
+>myPublicStaticProperty : Symbol(publicClassWithPrivateModulePropertyTypes.myPublicStaticProperty, Decl(privacyVarDeclFile_externalModule.jump, 144, 60))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_externalModule.jump, 160, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+
+        myPublicProperty: privateModule.publicClass; // Error
+>myPublicProperty : Symbol(publicClassWithPrivateModulePropertyTypes.myPublicProperty, Decl(privacyVarDeclFile_externalModule.jump, 145, 65))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_externalModule.jump, 160, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+    }
+    export var publicVarWithPrivateModulePropertyTypes: privateModule.publicClass; // Error
+>publicVarWithPrivateModulePropertyTypes : Symbol(publicVarWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 148, 14))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_externalModule.jump, 160, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+
+    export declare var publicAmbientVarWithPrivateModulePropertyTypes: privateModule.publicClass; // Error
+>publicAmbientVarWithPrivateModulePropertyTypes : Symbol(publicAmbientVarWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 149, 22))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_externalModule.jump, 160, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+
+    interface privateInterfaceWithPrivateModulePropertyTypes {
+>privateInterfaceWithPrivateModulePropertyTypes : Symbol(privateInterfaceWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 149, 97))
+
+        myProperty: privateModule.publicClass;
+>myProperty : Symbol(privateInterfaceWithPrivateModulePropertyTypes.myProperty, Decl(privacyVarDeclFile_externalModule.jump, 151, 62))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_externalModule.jump, 160, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+    }
+    class privateClassWithPrivateModulePropertyTypes {
+>privateClassWithPrivateModulePropertyTypes : Symbol(privateClassWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 153, 5))
+
+        static myPublicStaticProperty: privateModule.publicClass;
+>myPublicStaticProperty : Symbol(privateClassWithPrivateModulePropertyTypes.myPublicStaticProperty, Decl(privacyVarDeclFile_externalModule.jump, 154, 54))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_externalModule.jump, 160, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+
+        myPublicProperty: privateModule.publicClass;
+>myPublicProperty : Symbol(privateClassWithPrivateModulePropertyTypes.myPublicProperty, Decl(privacyVarDeclFile_externalModule.jump, 155, 65))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_externalModule.jump, 160, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+    }
+    var privateVarWithPrivateModulePropertyTypes: privateModule.publicClass;
+>privateVarWithPrivateModulePropertyTypes : Symbol(privateVarWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 158, 7))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_externalModule.jump, 160, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+
+    declare var privateAmbientVarWithPrivateModulePropertyTypes: privateModule.publicClass;
+>privateAmbientVarWithPrivateModulePropertyTypes : Symbol(privateAmbientVarWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 159, 15))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_externalModule.jump, 160, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+}
+
+module privateModule {
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_externalModule.jump, 160, 1))
+
+    class privateClass {
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 162, 22))
+    }
+
+    export class publicClass {
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+    }
+
+    export interface publicInterfaceWithPrivatePropertyTypes {
+>publicInterfaceWithPrivatePropertyTypes : Symbol(publicInterfaceWithPrivatePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 167, 5))
+
+        myProperty: privateClass;  
+>myProperty : Symbol(publicInterfaceWithPrivatePropertyTypes.myProperty, Decl(privacyVarDeclFile_externalModule.jump, 169, 62))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 162, 22))
+    }
+
+    export interface publicInterfaceWithPublicPropertyTypes {
+>publicInterfaceWithPublicPropertyTypes : Symbol(publicInterfaceWithPublicPropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 171, 5))
+
+        myProperty: publicClass;
+>myProperty : Symbol(publicInterfaceWithPublicPropertyTypes.myProperty, Decl(privacyVarDeclFile_externalModule.jump, 173, 61))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+    }
+
+    interface privateInterfaceWithPrivatePropertyTypes {
+>privateInterfaceWithPrivatePropertyTypes : Symbol(privateInterfaceWithPrivatePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 175, 5))
+
+        myProperty: privateClass;
+>myProperty : Symbol(privateInterfaceWithPrivatePropertyTypes.myProperty, Decl(privacyVarDeclFile_externalModule.jump, 177, 56))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 162, 22))
+    }
+
+    interface privateInterfaceWithPublicPropertyTypes {
+>privateInterfaceWithPublicPropertyTypes : Symbol(privateInterfaceWithPublicPropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 179, 5))
+
+        myProperty: publicClass;
+>myProperty : Symbol(privateInterfaceWithPublicPropertyTypes.myProperty, Decl(privacyVarDeclFile_externalModule.jump, 181, 55))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+    }
+
+    export class publicClassWithWithPrivatePropertyTypes {
+>publicClassWithWithPrivatePropertyTypes : Symbol(publicClassWithWithPrivatePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 183, 5))
+
+        static myPublicStaticProperty: privateClass; 
+>myPublicStaticProperty : Symbol(publicClassWithWithPrivatePropertyTypes.myPublicStaticProperty, Decl(privacyVarDeclFile_externalModule.jump, 185, 58))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 162, 22))
+
+        private static myPrivateStaticProperty: privateClass;
+>myPrivateStaticProperty : Symbol(publicClassWithWithPrivatePropertyTypes.myPrivateStaticProperty, Decl(privacyVarDeclFile_externalModule.jump, 186, 52))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 162, 22))
+
+        myPublicProperty: privateClass; 
+>myPublicProperty : Symbol(publicClassWithWithPrivatePropertyTypes.myPublicProperty, Decl(privacyVarDeclFile_externalModule.jump, 187, 61))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 162, 22))
+
+        private myPrivateProperty: privateClass;
+>myPrivateProperty : Symbol(publicClassWithWithPrivatePropertyTypes.myPrivateProperty, Decl(privacyVarDeclFile_externalModule.jump, 188, 39))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 162, 22))
+    }
+
+    export class publicClassWithWithPublicPropertyTypes {
+>publicClassWithWithPublicPropertyTypes : Symbol(publicClassWithWithPublicPropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 190, 5))
+
+        static myPublicStaticProperty: publicClass;
+>myPublicStaticProperty : Symbol(publicClassWithWithPublicPropertyTypes.myPublicStaticProperty, Decl(privacyVarDeclFile_externalModule.jump, 192, 57))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+
+        private static myPrivateStaticProperty: publicClass;
+>myPrivateStaticProperty : Symbol(publicClassWithWithPublicPropertyTypes.myPrivateStaticProperty, Decl(privacyVarDeclFile_externalModule.jump, 193, 51))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+
+        myPublicProperty: publicClass;
+>myPublicProperty : Symbol(publicClassWithWithPublicPropertyTypes.myPublicProperty, Decl(privacyVarDeclFile_externalModule.jump, 194, 60))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+
+        private myPrivateProperty: publicClass;
+>myPrivateProperty : Symbol(publicClassWithWithPublicPropertyTypes.myPrivateProperty, Decl(privacyVarDeclFile_externalModule.jump, 195, 38))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+    }
+
+    class privateClassWithWithPrivatePropertyTypes {
+>privateClassWithWithPrivatePropertyTypes : Symbol(privateClassWithWithPrivatePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 197, 5))
+
+        static myPublicStaticProperty: privateClass;
+>myPublicStaticProperty : Symbol(privateClassWithWithPrivatePropertyTypes.myPublicStaticProperty, Decl(privacyVarDeclFile_externalModule.jump, 199, 52))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 162, 22))
+
+        private static myPrivateStaticProperty: privateClass;
+>myPrivateStaticProperty : Symbol(privateClassWithWithPrivatePropertyTypes.myPrivateStaticProperty, Decl(privacyVarDeclFile_externalModule.jump, 200, 52))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 162, 22))
+
+        myPublicProperty: privateClass;
+>myPublicProperty : Symbol(privateClassWithWithPrivatePropertyTypes.myPublicProperty, Decl(privacyVarDeclFile_externalModule.jump, 201, 61))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 162, 22))
+
+        private myPrivateProperty: privateClass;
+>myPrivateProperty : Symbol(privateClassWithWithPrivatePropertyTypes.myPrivateProperty, Decl(privacyVarDeclFile_externalModule.jump, 202, 39))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 162, 22))
+    }
+
+    class privateClassWithWithPublicPropertyTypes {
+>privateClassWithWithPublicPropertyTypes : Symbol(privateClassWithWithPublicPropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 204, 5))
+
+        static myPublicStaticProperty: publicClass;
+>myPublicStaticProperty : Symbol(privateClassWithWithPublicPropertyTypes.myPublicStaticProperty, Decl(privacyVarDeclFile_externalModule.jump, 206, 51))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+
+        private static myPrivateStaticProperty: publicClass;
+>myPrivateStaticProperty : Symbol(privateClassWithWithPublicPropertyTypes.myPrivateStaticProperty, Decl(privacyVarDeclFile_externalModule.jump, 207, 51))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+
+        myPublicProperty: publicClass;
+>myPublicProperty : Symbol(privateClassWithWithPublicPropertyTypes.myPublicProperty, Decl(privacyVarDeclFile_externalModule.jump, 208, 60))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+
+        private myPrivateProperty: publicClass;
+>myPrivateProperty : Symbol(privateClassWithWithPublicPropertyTypes.myPrivateProperty, Decl(privacyVarDeclFile_externalModule.jump, 209, 38))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+    }
+
+    export var publicVarWithPrivatePropertyTypes: privateClass; 
+>publicVarWithPrivatePropertyTypes : Symbol(publicVarWithPrivatePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 213, 14))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 162, 22))
+
+    export var publicVarWithPublicPropertyTypes: publicClass;
+>publicVarWithPublicPropertyTypes : Symbol(publicVarWithPublicPropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 214, 14))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+
+    var privateVarWithPrivatePropertyTypes: privateClass;
+>privateVarWithPrivatePropertyTypes : Symbol(privateVarWithPrivatePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 215, 7))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 162, 22))
+
+    var privateVarWithPublicPropertyTypes: publicClass;
+>privateVarWithPublicPropertyTypes : Symbol(privateVarWithPublicPropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 216, 7))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+
+    export declare var publicAmbientVarWithPrivatePropertyTypes: privateClass; 
+>publicAmbientVarWithPrivatePropertyTypes : Symbol(publicAmbientVarWithPrivatePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 218, 22))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 162, 22))
+
+    export declare var publicAmbientVarWithPublicPropertyTypes: publicClass;
+>publicAmbientVarWithPublicPropertyTypes : Symbol(publicAmbientVarWithPublicPropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 219, 22))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+
+    declare var privateAmbientVarWithPrivatePropertyTypes: privateClass;
+>privateAmbientVarWithPrivatePropertyTypes : Symbol(privateAmbientVarWithPrivatePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 220, 15))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_externalModule.jump, 162, 22))
+
+    declare var privateAmbientVarWithPublicPropertyTypes: publicClass;
+>privateAmbientVarWithPublicPropertyTypes : Symbol(privateAmbientVarWithPublicPropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 221, 15))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+
+    export interface publicInterfaceWithPrivateModulePropertyTypes {
+>publicInterfaceWithPrivateModulePropertyTypes : Symbol(publicInterfaceWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 221, 70))
+
+        myProperty: privateModule.publicClass; 
+>myProperty : Symbol(publicInterfaceWithPrivateModulePropertyTypes.myProperty, Decl(privacyVarDeclFile_externalModule.jump, 223, 68))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_externalModule.jump, 160, 1))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+    }
+    export class publicClassWithPrivateModulePropertyTypes {
+>publicClassWithPrivateModulePropertyTypes : Symbol(publicClassWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 225, 5))
+
+        static myPublicStaticProperty: privateModule.publicClass; 
+>myPublicStaticProperty : Symbol(publicClassWithPrivateModulePropertyTypes.myPublicStaticProperty, Decl(privacyVarDeclFile_externalModule.jump, 226, 60))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_externalModule.jump, 160, 1))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+
+        myPublicProperty: privateModule.publicClass; 
+>myPublicProperty : Symbol(publicClassWithPrivateModulePropertyTypes.myPublicProperty, Decl(privacyVarDeclFile_externalModule.jump, 227, 65))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_externalModule.jump, 160, 1))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+    }
+    export var publicVarWithPrivateModulePropertyTypes: privateModule.publicClass; 
+>publicVarWithPrivateModulePropertyTypes : Symbol(publicVarWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 230, 14))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_externalModule.jump, 160, 1))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+
+    export declare var publicAmbientVarWithPrivateModulePropertyTypes: privateModule.publicClass;
+>publicAmbientVarWithPrivateModulePropertyTypes : Symbol(publicAmbientVarWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 231, 22))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_externalModule.jump, 160, 1))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+
+    interface privateInterfaceWithPrivateModulePropertyTypes {
+>privateInterfaceWithPrivateModulePropertyTypes : Symbol(privateInterfaceWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 231, 97))
+
+        myProperty: privateModule.publicClass;
+>myProperty : Symbol(privateInterfaceWithPrivateModulePropertyTypes.myProperty, Decl(privacyVarDeclFile_externalModule.jump, 233, 62))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_externalModule.jump, 160, 1))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+    }
+    class privateClassWithPrivateModulePropertyTypes {
+>privateClassWithPrivateModulePropertyTypes : Symbol(privateClassWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 235, 5))
+
+        static myPublicStaticProperty: privateModule.publicClass;
+>myPublicStaticProperty : Symbol(privateClassWithPrivateModulePropertyTypes.myPublicStaticProperty, Decl(privacyVarDeclFile_externalModule.jump, 236, 54))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_externalModule.jump, 160, 1))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+
+        myPublicProperty: privateModule.publicClass;
+>myPublicProperty : Symbol(privateClassWithPrivateModulePropertyTypes.myPublicProperty, Decl(privacyVarDeclFile_externalModule.jump, 237, 65))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_externalModule.jump, 160, 1))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+    }
+    var privateVarWithPrivateModulePropertyTypes: privateModule.publicClass;
+>privateVarWithPrivateModulePropertyTypes : Symbol(privateVarWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 240, 7))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_externalModule.jump, 160, 1))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+
+    declare var privateAmbientVarWithPrivateModulePropertyTypes: privateModule.publicClass;
+>privateAmbientVarWithPrivateModulePropertyTypes : Symbol(privateAmbientVarWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_externalModule.jump, 241, 15))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_externalModule.jump, 160, 1))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_externalModule.jump, 164, 5))
+}
+
+=== tests/cases/compiler/privacyVarDeclFile_GlobalFile.jump ===
+class publicClassInGlobal {
+>publicClassInGlobal : Symbol(publicClassInGlobal, Decl(privacyVarDeclFile_GlobalFile.jump, 0, 0))
+}
+interface publicInterfaceWithPublicPropertyTypesInGlobal {
+>publicInterfaceWithPublicPropertyTypesInGlobal : Symbol(publicInterfaceWithPublicPropertyTypesInGlobal, Decl(privacyVarDeclFile_GlobalFile.jump, 1, 1))
+
+    myProperty: publicClassInGlobal;
+>myProperty : Symbol(publicInterfaceWithPublicPropertyTypesInGlobal.myProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 2, 58))
+>publicClassInGlobal : Symbol(publicClassInGlobal, Decl(privacyVarDeclFile_GlobalFile.jump, 0, 0))
+}
+class publicClassWithWithPublicPropertyTypesInGlobal {
+>publicClassWithWithPublicPropertyTypesInGlobal : Symbol(publicClassWithWithPublicPropertyTypesInGlobal, Decl(privacyVarDeclFile_GlobalFile.jump, 4, 1))
+
+    static myPublicStaticProperty: publicClassInGlobal;
+>myPublicStaticProperty : Symbol(publicClassWithWithPublicPropertyTypesInGlobal.myPublicStaticProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 5, 54))
+>publicClassInGlobal : Symbol(publicClassInGlobal, Decl(privacyVarDeclFile_GlobalFile.jump, 0, 0))
+
+    private static myPrivateStaticProperty: publicClassInGlobal;
+>myPrivateStaticProperty : Symbol(publicClassWithWithPublicPropertyTypesInGlobal.myPrivateStaticProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 6, 55))
+>publicClassInGlobal : Symbol(publicClassInGlobal, Decl(privacyVarDeclFile_GlobalFile.jump, 0, 0))
+
+    myPublicProperty: publicClassInGlobal;
+>myPublicProperty : Symbol(publicClassWithWithPublicPropertyTypesInGlobal.myPublicProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 7, 64))
+>publicClassInGlobal : Symbol(publicClassInGlobal, Decl(privacyVarDeclFile_GlobalFile.jump, 0, 0))
+
+    private myPrivateProperty: publicClassInGlobal;
+>myPrivateProperty : Symbol(publicClassWithWithPublicPropertyTypesInGlobal.myPrivateProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 8, 42))
+>publicClassInGlobal : Symbol(publicClassInGlobal, Decl(privacyVarDeclFile_GlobalFile.jump, 0, 0))
+}
+var publicVarWithPublicPropertyTypesInGlobal: publicClassInGlobal;
+>publicVarWithPublicPropertyTypesInGlobal : Symbol(publicVarWithPublicPropertyTypesInGlobal, Decl(privacyVarDeclFile_GlobalFile.jump, 11, 3))
+>publicClassInGlobal : Symbol(publicClassInGlobal, Decl(privacyVarDeclFile_GlobalFile.jump, 0, 0))
+
+declare var publicAmbientVarWithPublicPropertyTypesInGlobal: publicClassInGlobal;
+>publicAmbientVarWithPublicPropertyTypesInGlobal : Symbol(publicAmbientVarWithPublicPropertyTypesInGlobal, Decl(privacyVarDeclFile_GlobalFile.jump, 12, 11))
+>publicClassInGlobal : Symbol(publicClassInGlobal, Decl(privacyVarDeclFile_GlobalFile.jump, 0, 0))
+
+module publicModuleInGlobal {
+>publicModuleInGlobal : Symbol(publicModuleInGlobal, Decl(privacyVarDeclFile_GlobalFile.jump, 12, 81))
+
+    class privateClass {
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_GlobalFile.jump, 14, 29))
+    }
+
+    export class publicClass {
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 16, 5))
+    }
+
+    module privateModule {
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_GlobalFile.jump, 19, 5))
+
+        class privateClass {
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_GlobalFile.jump, 21, 26))
+        }
+
+        export class publicClass {
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 23, 9))
+        }
+
+        export interface publicInterfaceWithPrivatePropertyTypes {
+>publicInterfaceWithPrivatePropertyTypes : Symbol(publicInterfaceWithPrivatePropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 26, 9))
+
+            myProperty: privateClass;
+>myProperty : Symbol(publicInterfaceWithPrivatePropertyTypes.myProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 28, 66))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_GlobalFile.jump, 21, 26))
+        }
+
+        export interface publicInterfaceWithPublicPropertyTypes {
+>publicInterfaceWithPublicPropertyTypes : Symbol(publicInterfaceWithPublicPropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 30, 9))
+
+            myProperty: publicClass;
+>myProperty : Symbol(publicInterfaceWithPublicPropertyTypes.myProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 32, 65))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 23, 9))
+        }
+
+        interface privateInterfaceWithPrivatePropertyTypes {
+>privateInterfaceWithPrivatePropertyTypes : Symbol(privateInterfaceWithPrivatePropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 34, 9))
+
+            myProperty: privateClass;
+>myProperty : Symbol(privateInterfaceWithPrivatePropertyTypes.myProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 36, 60))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_GlobalFile.jump, 21, 26))
+        }
+
+        interface privateInterfaceWithPublicPropertyTypes {
+>privateInterfaceWithPublicPropertyTypes : Symbol(privateInterfaceWithPublicPropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 38, 9))
+
+            myProperty: publicClass;
+>myProperty : Symbol(privateInterfaceWithPublicPropertyTypes.myProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 40, 59))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 23, 9))
+        }
+
+        export class publicClassWithWithPrivatePropertyTypes {
+>publicClassWithWithPrivatePropertyTypes : Symbol(publicClassWithWithPrivatePropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 42, 9))
+
+            static myPublicStaticProperty: privateClass;
+>myPublicStaticProperty : Symbol(publicClassWithWithPrivatePropertyTypes.myPublicStaticProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 44, 62))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_GlobalFile.jump, 21, 26))
+
+            private static myPrivateStaticProperty: privateClass;
+>myPrivateStaticProperty : Symbol(publicClassWithWithPrivatePropertyTypes.myPrivateStaticProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 45, 56))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_GlobalFile.jump, 21, 26))
+
+            myPublicProperty: privateClass;
+>myPublicProperty : Symbol(publicClassWithWithPrivatePropertyTypes.myPublicProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 46, 65))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_GlobalFile.jump, 21, 26))
+
+            private myPrivateProperty: privateClass;
+>myPrivateProperty : Symbol(publicClassWithWithPrivatePropertyTypes.myPrivateProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 47, 43))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_GlobalFile.jump, 21, 26))
+        }
+
+        export class publicClassWithWithPublicPropertyTypes {
+>publicClassWithWithPublicPropertyTypes : Symbol(publicClassWithWithPublicPropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 49, 9))
+
+            static myPublicStaticProperty: publicClass;
+>myPublicStaticProperty : Symbol(publicClassWithWithPublicPropertyTypes.myPublicStaticProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 51, 61))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 23, 9))
+
+            private static myPrivateStaticProperty: publicClass;
+>myPrivateStaticProperty : Symbol(publicClassWithWithPublicPropertyTypes.myPrivateStaticProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 52, 55))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 23, 9))
+
+            myPublicProperty: publicClass;
+>myPublicProperty : Symbol(publicClassWithWithPublicPropertyTypes.myPublicProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 53, 64))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 23, 9))
+
+            private myPrivateProperty: publicClass;
+>myPrivateProperty : Symbol(publicClassWithWithPublicPropertyTypes.myPrivateProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 54, 42))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 23, 9))
+        }
+
+        class privateClassWithWithPrivatePropertyTypes {
+>privateClassWithWithPrivatePropertyTypes : Symbol(privateClassWithWithPrivatePropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 56, 9))
+
+            static myPublicStaticProperty: privateClass;
+>myPublicStaticProperty : Symbol(privateClassWithWithPrivatePropertyTypes.myPublicStaticProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 58, 56))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_GlobalFile.jump, 21, 26))
+
+            private static myPrivateStaticProperty: privateClass;
+>myPrivateStaticProperty : Symbol(privateClassWithWithPrivatePropertyTypes.myPrivateStaticProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 59, 56))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_GlobalFile.jump, 21, 26))
+
+            myPublicProperty: privateClass;
+>myPublicProperty : Symbol(privateClassWithWithPrivatePropertyTypes.myPublicProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 60, 65))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_GlobalFile.jump, 21, 26))
+
+            private myPrivateProperty: privateClass;
+>myPrivateProperty : Symbol(privateClassWithWithPrivatePropertyTypes.myPrivateProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 61, 43))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_GlobalFile.jump, 21, 26))
+        }
+
+        class privateClassWithWithPublicPropertyTypes {
+>privateClassWithWithPublicPropertyTypes : Symbol(privateClassWithWithPublicPropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 63, 9))
+
+            static myPublicStaticProperty: publicClass;
+>myPublicStaticProperty : Symbol(privateClassWithWithPublicPropertyTypes.myPublicStaticProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 65, 55))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 23, 9))
+
+            private static myPrivateStaticProperty: publicClass;
+>myPrivateStaticProperty : Symbol(privateClassWithWithPublicPropertyTypes.myPrivateStaticProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 66, 55))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 23, 9))
+
+            myPublicProperty: publicClass;
+>myPublicProperty : Symbol(privateClassWithWithPublicPropertyTypes.myPublicProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 67, 64))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 23, 9))
+
+            private myPrivateProperty: publicClass;
+>myPrivateProperty : Symbol(privateClassWithWithPublicPropertyTypes.myPrivateProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 68, 42))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 23, 9))
+        }
+
+        export var publicVarWithPrivatePropertyTypes: privateClass;
+>publicVarWithPrivatePropertyTypes : Symbol(publicVarWithPrivatePropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 72, 18))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_GlobalFile.jump, 21, 26))
+
+        export var publicVarWithPublicPropertyTypes: publicClass;
+>publicVarWithPublicPropertyTypes : Symbol(publicVarWithPublicPropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 73, 18))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 23, 9))
+
+        var privateVarWithPrivatePropertyTypes: privateClass;
+>privateVarWithPrivatePropertyTypes : Symbol(privateVarWithPrivatePropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 74, 11))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_GlobalFile.jump, 21, 26))
+
+        var privateVarWithPublicPropertyTypes: publicClass;
+>privateVarWithPublicPropertyTypes : Symbol(privateVarWithPublicPropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 75, 11))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 23, 9))
+
+        export declare var publicAmbientVarWithPrivatePropertyTypes: privateClass;
+>publicAmbientVarWithPrivatePropertyTypes : Symbol(publicAmbientVarWithPrivatePropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 77, 26))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_GlobalFile.jump, 21, 26))
+
+        export declare var publicAmbientVarWithPublicPropertyTypes: publicClass;
+>publicAmbientVarWithPublicPropertyTypes : Symbol(publicAmbientVarWithPublicPropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 78, 26))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 23, 9))
+
+        declare var privateAmbientVarWithPrivatePropertyTypes: privateClass;
+>privateAmbientVarWithPrivatePropertyTypes : Symbol(privateAmbientVarWithPrivatePropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 79, 19))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_GlobalFile.jump, 21, 26))
+
+        declare var privateAmbientVarWithPublicPropertyTypes: publicClass;
+>privateAmbientVarWithPublicPropertyTypes : Symbol(privateAmbientVarWithPublicPropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 80, 19))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 23, 9))
+
+        export interface publicInterfaceWithPrivateModulePropertyTypes {
+>publicInterfaceWithPrivateModulePropertyTypes : Symbol(publicInterfaceWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 80, 74))
+
+            myProperty: privateModule.publicClass;
+>myProperty : Symbol(publicInterfaceWithPrivateModulePropertyTypes.myProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 82, 72))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_GlobalFile.jump, 19, 5))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 23, 9))
+        }
+        export class publicClassWithPrivateModulePropertyTypes {
+>publicClassWithPrivateModulePropertyTypes : Symbol(publicClassWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 84, 9))
+
+            static myPublicStaticProperty: privateModule.publicClass;
+>myPublicStaticProperty : Symbol(publicClassWithPrivateModulePropertyTypes.myPublicStaticProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 85, 64))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_GlobalFile.jump, 19, 5))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 23, 9))
+
+            myPublicProperty: privateModule.publicClass;
+>myPublicProperty : Symbol(publicClassWithPrivateModulePropertyTypes.myPublicProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 86, 69))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_GlobalFile.jump, 19, 5))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 23, 9))
+        }
+        export var publicVarWithPrivateModulePropertyTypes: privateModule.publicClass;
+>publicVarWithPrivateModulePropertyTypes : Symbol(publicVarWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 89, 18))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_GlobalFile.jump, 19, 5))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 23, 9))
+
+        export declare var publicAmbientVarWithPrivateModulePropertyTypes: privateModule.publicClass;
+>publicAmbientVarWithPrivateModulePropertyTypes : Symbol(publicAmbientVarWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 90, 26))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_GlobalFile.jump, 19, 5))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 23, 9))
+
+        interface privateInterfaceWithPrivateModulePropertyTypes {
+>privateInterfaceWithPrivateModulePropertyTypes : Symbol(privateInterfaceWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 90, 101))
+
+            myProperty: privateModule.publicClass;
+>myProperty : Symbol(privateInterfaceWithPrivateModulePropertyTypes.myProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 92, 66))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_GlobalFile.jump, 19, 5))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 23, 9))
+        }
+        class privateClassWithPrivateModulePropertyTypes {
+>privateClassWithPrivateModulePropertyTypes : Symbol(privateClassWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 94, 9))
+
+            static myPublicStaticProperty: privateModule.publicClass;
+>myPublicStaticProperty : Symbol(privateClassWithPrivateModulePropertyTypes.myPublicStaticProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 95, 58))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_GlobalFile.jump, 19, 5))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 23, 9))
+
+            myPublicProperty: privateModule.publicClass;
+>myPublicProperty : Symbol(privateClassWithPrivateModulePropertyTypes.myPublicProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 96, 69))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_GlobalFile.jump, 19, 5))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 23, 9))
+        }
+        var privateVarWithPrivateModulePropertyTypes: privateModule.publicClass;
+>privateVarWithPrivateModulePropertyTypes : Symbol(privateVarWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 99, 11))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_GlobalFile.jump, 19, 5))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 23, 9))
+
+        declare var privateAmbientVarWithPrivateModulePropertyTypes: privateModule.publicClass;
+>privateAmbientVarWithPrivateModulePropertyTypes : Symbol(privateAmbientVarWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 100, 19))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_GlobalFile.jump, 19, 5))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 23, 9))
+    }
+
+    export interface publicInterfaceWithPrivatePropertyTypes {
+>publicInterfaceWithPrivatePropertyTypes : Symbol(publicInterfaceWithPrivatePropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 101, 5))
+
+        myProperty: privateClass;  // Error
+>myProperty : Symbol(publicInterfaceWithPrivatePropertyTypes.myProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 103, 62))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_GlobalFile.jump, 14, 29))
+    }
+
+    export interface publicInterfaceWithPublicPropertyTypes {
+>publicInterfaceWithPublicPropertyTypes : Symbol(publicInterfaceWithPublicPropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 105, 5))
+
+        myProperty: publicClass;
+>myProperty : Symbol(publicInterfaceWithPublicPropertyTypes.myProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 107, 61))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 16, 5))
+    }
+
+    interface privateInterfaceWithPrivatePropertyTypes {
+>privateInterfaceWithPrivatePropertyTypes : Symbol(privateInterfaceWithPrivatePropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 109, 5))
+
+        myProperty: privateClass;
+>myProperty : Symbol(privateInterfaceWithPrivatePropertyTypes.myProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 111, 56))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_GlobalFile.jump, 14, 29))
+    }
+
+    interface privateInterfaceWithPublicPropertyTypes {
+>privateInterfaceWithPublicPropertyTypes : Symbol(privateInterfaceWithPublicPropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 113, 5))
+
+        myProperty: publicClass;
+>myProperty : Symbol(privateInterfaceWithPublicPropertyTypes.myProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 115, 55))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 16, 5))
+    }
+
+    export class publicClassWithWithPrivatePropertyTypes {
+>publicClassWithWithPrivatePropertyTypes : Symbol(publicClassWithWithPrivatePropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 117, 5))
+
+        static myPublicStaticProperty: privateClass; // Error
+>myPublicStaticProperty : Symbol(publicClassWithWithPrivatePropertyTypes.myPublicStaticProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 119, 58))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_GlobalFile.jump, 14, 29))
+
+        private static myPrivateStaticProperty: privateClass;
+>myPrivateStaticProperty : Symbol(publicClassWithWithPrivatePropertyTypes.myPrivateStaticProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 120, 52))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_GlobalFile.jump, 14, 29))
+
+        myPublicProperty: privateClass; // Error
+>myPublicProperty : Symbol(publicClassWithWithPrivatePropertyTypes.myPublicProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 121, 61))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_GlobalFile.jump, 14, 29))
+
+        private myPrivateProperty: privateClass;
+>myPrivateProperty : Symbol(publicClassWithWithPrivatePropertyTypes.myPrivateProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 122, 39))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_GlobalFile.jump, 14, 29))
+    }
+
+    export class publicClassWithWithPublicPropertyTypes {
+>publicClassWithWithPublicPropertyTypes : Symbol(publicClassWithWithPublicPropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 124, 5))
+
+        static myPublicStaticProperty: publicClass;
+>myPublicStaticProperty : Symbol(publicClassWithWithPublicPropertyTypes.myPublicStaticProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 126, 57))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 16, 5))
+
+        private static myPrivateStaticProperty: publicClass;
+>myPrivateStaticProperty : Symbol(publicClassWithWithPublicPropertyTypes.myPrivateStaticProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 127, 51))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 16, 5))
+
+        myPublicProperty: publicClass;
+>myPublicProperty : Symbol(publicClassWithWithPublicPropertyTypes.myPublicProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 128, 60))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 16, 5))
+
+        private myPrivateProperty: publicClass;
+>myPrivateProperty : Symbol(publicClassWithWithPublicPropertyTypes.myPrivateProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 129, 38))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 16, 5))
+    }
+
+    class privateClassWithWithPrivatePropertyTypes {
+>privateClassWithWithPrivatePropertyTypes : Symbol(privateClassWithWithPrivatePropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 131, 5))
+
+        static myPublicStaticProperty: privateClass;
+>myPublicStaticProperty : Symbol(privateClassWithWithPrivatePropertyTypes.myPublicStaticProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 133, 52))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_GlobalFile.jump, 14, 29))
+
+        private static myPrivateStaticProperty: privateClass;
+>myPrivateStaticProperty : Symbol(privateClassWithWithPrivatePropertyTypes.myPrivateStaticProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 134, 52))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_GlobalFile.jump, 14, 29))
+
+        myPublicProperty: privateClass;
+>myPublicProperty : Symbol(privateClassWithWithPrivatePropertyTypes.myPublicProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 135, 61))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_GlobalFile.jump, 14, 29))
+
+        private myPrivateProperty: privateClass;
+>myPrivateProperty : Symbol(privateClassWithWithPrivatePropertyTypes.myPrivateProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 136, 39))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_GlobalFile.jump, 14, 29))
+    }
+
+    class privateClassWithWithPublicPropertyTypes {
+>privateClassWithWithPublicPropertyTypes : Symbol(privateClassWithWithPublicPropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 138, 5))
+
+        static myPublicStaticProperty: publicClass;
+>myPublicStaticProperty : Symbol(privateClassWithWithPublicPropertyTypes.myPublicStaticProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 140, 51))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 16, 5))
+
+        private static myPrivateStaticProperty: publicClass;
+>myPrivateStaticProperty : Symbol(privateClassWithWithPublicPropertyTypes.myPrivateStaticProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 141, 51))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 16, 5))
+
+        myPublicProperty: publicClass;
+>myPublicProperty : Symbol(privateClassWithWithPublicPropertyTypes.myPublicProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 142, 60))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 16, 5))
+
+        private myPrivateProperty: publicClass;
+>myPrivateProperty : Symbol(privateClassWithWithPublicPropertyTypes.myPrivateProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 143, 38))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 16, 5))
+    }
+
+    export var publicVarWithPrivatePropertyTypes: privateClass; // Error
+>publicVarWithPrivatePropertyTypes : Symbol(publicVarWithPrivatePropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 147, 14))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_GlobalFile.jump, 14, 29))
+
+    export var publicVarWithPublicPropertyTypes: publicClass;
+>publicVarWithPublicPropertyTypes : Symbol(publicVarWithPublicPropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 148, 14))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 16, 5))
+
+    var privateVarWithPrivatePropertyTypes: privateClass;
+>privateVarWithPrivatePropertyTypes : Symbol(privateVarWithPrivatePropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 149, 7))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_GlobalFile.jump, 14, 29))
+
+    var privateVarWithPublicPropertyTypes: publicClass;
+>privateVarWithPublicPropertyTypes : Symbol(privateVarWithPublicPropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 150, 7))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 16, 5))
+
+    export declare var publicAmbientVarWithPrivatePropertyTypes: privateClass; // Error
+>publicAmbientVarWithPrivatePropertyTypes : Symbol(publicAmbientVarWithPrivatePropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 152, 22))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_GlobalFile.jump, 14, 29))
+
+    export declare var publicAmbientVarWithPublicPropertyTypes: publicClass;
+>publicAmbientVarWithPublicPropertyTypes : Symbol(publicAmbientVarWithPublicPropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 153, 22))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 16, 5))
+
+    declare var privateAmbientVarWithPrivatePropertyTypes: privateClass;
+>privateAmbientVarWithPrivatePropertyTypes : Symbol(privateAmbientVarWithPrivatePropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 154, 15))
+>privateClass : Symbol(privateClass, Decl(privacyVarDeclFile_GlobalFile.jump, 14, 29))
+
+    declare var privateAmbientVarWithPublicPropertyTypes: publicClass;
+>privateAmbientVarWithPublicPropertyTypes : Symbol(privateAmbientVarWithPublicPropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 155, 15))
+>publicClass : Symbol(publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 16, 5))
+
+    export interface publicInterfaceWithPrivateModulePropertyTypes {
+>publicInterfaceWithPrivateModulePropertyTypes : Symbol(publicInterfaceWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 155, 70))
+
+        myProperty: privateModule.publicClass; // Error
+>myProperty : Symbol(publicInterfaceWithPrivateModulePropertyTypes.myProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 157, 68))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_GlobalFile.jump, 19, 5))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 23, 9))
+    }
+    export class publicClassWithPrivateModulePropertyTypes {
+>publicClassWithPrivateModulePropertyTypes : Symbol(publicClassWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 159, 5))
+
+        static myPublicStaticProperty: privateModule.publicClass; // Error
+>myPublicStaticProperty : Symbol(publicClassWithPrivateModulePropertyTypes.myPublicStaticProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 160, 60))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_GlobalFile.jump, 19, 5))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 23, 9))
+
+        myPublicProperty: privateModule.publicClass; // Error
+>myPublicProperty : Symbol(publicClassWithPrivateModulePropertyTypes.myPublicProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 161, 65))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_GlobalFile.jump, 19, 5))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 23, 9))
+    }
+    export var publicVarWithPrivateModulePropertyTypes: privateModule.publicClass; // Error
+>publicVarWithPrivateModulePropertyTypes : Symbol(publicVarWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 164, 14))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_GlobalFile.jump, 19, 5))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 23, 9))
+
+    export declare var publicAmbientVarWithPrivateModulePropertyTypes: privateModule.publicClass; // Error
+>publicAmbientVarWithPrivateModulePropertyTypes : Symbol(publicAmbientVarWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 165, 22))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_GlobalFile.jump, 19, 5))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 23, 9))
+
+    interface privateInterfaceWithPrivateModulePropertyTypes {
+>privateInterfaceWithPrivateModulePropertyTypes : Symbol(privateInterfaceWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 165, 97))
+
+        myProperty: privateModule.publicClass;
+>myProperty : Symbol(privateInterfaceWithPrivateModulePropertyTypes.myProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 167, 62))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_GlobalFile.jump, 19, 5))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 23, 9))
+    }
+    class privateClassWithPrivateModulePropertyTypes {
+>privateClassWithPrivateModulePropertyTypes : Symbol(privateClassWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 169, 5))
+
+        static myPublicStaticProperty: privateModule.publicClass;
+>myPublicStaticProperty : Symbol(privateClassWithPrivateModulePropertyTypes.myPublicStaticProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 170, 54))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_GlobalFile.jump, 19, 5))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 23, 9))
+
+        myPublicProperty: privateModule.publicClass;
+>myPublicProperty : Symbol(privateClassWithPrivateModulePropertyTypes.myPublicProperty, Decl(privacyVarDeclFile_GlobalFile.jump, 171, 65))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_GlobalFile.jump, 19, 5))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 23, 9))
+    }
+    var privateVarWithPrivateModulePropertyTypes: privateModule.publicClass;
+>privateVarWithPrivateModulePropertyTypes : Symbol(privateVarWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 174, 7))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_GlobalFile.jump, 19, 5))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 23, 9))
+
+    declare var privateAmbientVarWithPrivateModulePropertyTypes: privateModule.publicClass;
+>privateAmbientVarWithPrivateModulePropertyTypes : Symbol(privateAmbientVarWithPrivateModulePropertyTypes, Decl(privacyVarDeclFile_GlobalFile.jump, 175, 15))
+>privateModule : Symbol(privateModule, Decl(privacyVarDeclFile_GlobalFile.jump, 19, 5))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyVarDeclFile_GlobalFile.jump, 23, 9))
+}

@@ -1,0 +1,7 @@
+=== tests/cases/compiler/breakInIterationOrSwitchStatement2.jump ===
+do {
+  break;
+}
+while (true);
+>true : true
+

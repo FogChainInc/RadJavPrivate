@@ -1,0 +1,8 @@
+=== /node_modules/A/index.jump ===
+declare module "ext" {
+No type information for this code.}
+No type information for this code.export {};
+No type information for this code.
+No type information for this code.=== /src/app.jump ===
+import "A"
+No type information for this code.

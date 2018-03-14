@@ -1,0 +1,135 @@
+=== tests/cases/compiler/duplicateSymbolsExportMatching.jump ===
+module M {
+>M : Symbol(M, Decl(duplicateSymbolsExportMatching.jump, 0, 0), Decl(duplicateSymbolsExportMatching.jump, 3, 1), Decl(duplicateSymbolsExportMatching.jump, 7, 1), Decl(duplicateSymbolsExportMatching.jump, 27, 1), Decl(duplicateSymbolsExportMatching.jump, 45, 1) ... and 1 more)
+
+    export interface E { }
+>E : Symbol(E, Decl(duplicateSymbolsExportMatching.jump, 0, 10), Decl(duplicateSymbolsExportMatching.jump, 4, 10))
+
+    interface I { }
+>I : Symbol(I, Decl(duplicateSymbolsExportMatching.jump, 1, 26))
+}
+module M {
+>M : Symbol(M, Decl(duplicateSymbolsExportMatching.jump, 0, 0), Decl(duplicateSymbolsExportMatching.jump, 3, 1), Decl(duplicateSymbolsExportMatching.jump, 7, 1), Decl(duplicateSymbolsExportMatching.jump, 27, 1), Decl(duplicateSymbolsExportMatching.jump, 45, 1) ... and 1 more)
+
+    export interface E { } // ok
+>E : Symbol(E, Decl(duplicateSymbolsExportMatching.jump, 0, 10), Decl(duplicateSymbolsExportMatching.jump, 4, 10))
+
+    interface I { } // ok
+>I : Symbol(I, Decl(duplicateSymbolsExportMatching.jump, 5, 26))
+}
+
+// Doesn't match export visibility, but it's in a different parent, so it's ok
+module M {
+>M : Symbol(M, Decl(duplicateSymbolsExportMatching.jump, 0, 0), Decl(duplicateSymbolsExportMatching.jump, 3, 1), Decl(duplicateSymbolsExportMatching.jump, 7, 1), Decl(duplicateSymbolsExportMatching.jump, 27, 1), Decl(duplicateSymbolsExportMatching.jump, 45, 1) ... and 1 more)
+
+    interface E { } // ok
+>E : Symbol(E, Decl(duplicateSymbolsExportMatching.jump, 10, 10))
+
+    export interface I { } // ok
+>I : Symbol(I, Decl(duplicateSymbolsExportMatching.jump, 11, 19))
+}
+
+module N {
+>N : Symbol(N, Decl(duplicateSymbolsExportMatching.jump, 13, 1))
+
+    interface I { }
+>I : Symbol(I, Decl(duplicateSymbolsExportMatching.jump, 15, 10), Decl(duplicateSymbolsExportMatching.jump, 16, 19))
+
+    interface I { } // ok
+>I : Symbol(I, Decl(duplicateSymbolsExportMatching.jump, 15, 10), Decl(duplicateSymbolsExportMatching.jump, 16, 19))
+
+    export interface E { }
+>E : Symbol(E, Decl(duplicateSymbolsExportMatching.jump, 17, 19), Decl(duplicateSymbolsExportMatching.jump, 18, 26))
+
+    export interface E { } // ok
+>E : Symbol(E, Decl(duplicateSymbolsExportMatching.jump, 17, 19), Decl(duplicateSymbolsExportMatching.jump, 18, 26))
+}
+
+module N2 {
+>N2 : Symbol(N2, Decl(duplicateSymbolsExportMatching.jump, 20, 1))
+
+    interface I { }
+>I : Symbol(I, Decl(duplicateSymbolsExportMatching.jump, 22, 11), Decl(duplicateSymbolsExportMatching.jump, 23, 19))
+
+    export interface I { } // error
+>I : Symbol(I, Decl(duplicateSymbolsExportMatching.jump, 23, 19))
+
+    export interface E { }
+>E : Symbol(E, Decl(duplicateSymbolsExportMatching.jump, 24, 26))
+
+    interface E { } // error
+>E : Symbol(E, Decl(duplicateSymbolsExportMatching.jump, 24, 26), Decl(duplicateSymbolsExportMatching.jump, 25, 26))
+}
+
+// Should report error only once for instantiated module
+module M {
+>M : Symbol(M, Decl(duplicateSymbolsExportMatching.jump, 0, 0), Decl(duplicateSymbolsExportMatching.jump, 3, 1), Decl(duplicateSymbolsExportMatching.jump, 7, 1), Decl(duplicateSymbolsExportMatching.jump, 27, 1), Decl(duplicateSymbolsExportMatching.jump, 45, 1) ... and 1 more)
+
+    module inst {
+>inst : Symbol(inst, Decl(duplicateSymbolsExportMatching.jump, 30, 10), Decl(duplicateSymbolsExportMatching.jump, 33, 5))
+
+        var t;
+>t : Symbol(t, Decl(duplicateSymbolsExportMatching.jump, 32, 11))
+    }
+    export module inst { // one error
+>inst : Symbol(inst, Decl(duplicateSymbolsExportMatching.jump, 33, 5))
+
+        var t;
+>t : Symbol(t, Decl(duplicateSymbolsExportMatching.jump, 35, 11))
+    }
+}
+
+// Variables of the same / different type
+module M2 {
+>M2 : Symbol(M2, Decl(duplicateSymbolsExportMatching.jump, 37, 1))
+
+    var v: string;
+>v : Symbol(v, Decl(duplicateSymbolsExportMatching.jump, 41, 7), Decl(duplicateSymbolsExportMatching.jump, 42, 14))
+
+    export var v: string; // one error (visibility)
+>v : Symbol(v, Decl(duplicateSymbolsExportMatching.jump, 42, 14))
+
+    var w: number;
+>w : Symbol(w, Decl(duplicateSymbolsExportMatching.jump, 43, 7), Decl(duplicateSymbolsExportMatching.jump, 44, 14))
+
+    export var w: string; // two errors (visibility and type mismatch)
+>w : Symbol(w, Decl(duplicateSymbolsExportMatching.jump, 44, 14))
+}
+
+module M {
+>M : Symbol(M, Decl(duplicateSymbolsExportMatching.jump, 0, 0), Decl(duplicateSymbolsExportMatching.jump, 3, 1), Decl(duplicateSymbolsExportMatching.jump, 7, 1), Decl(duplicateSymbolsExportMatching.jump, 27, 1), Decl(duplicateSymbolsExportMatching.jump, 45, 1) ... and 1 more)
+
+    module F {
+>F : Symbol(F, Decl(duplicateSymbolsExportMatching.jump, 47, 10), Decl(duplicateSymbolsExportMatching.jump, 50, 5))
+
+        var t;
+>t : Symbol(t, Decl(duplicateSymbolsExportMatching.jump, 49, 11))
+    }
+    export function F() { } // Only one error for duplicate identifier (don't consider visibility)
+>F : Symbol(F, Decl(duplicateSymbolsExportMatching.jump, 50, 5))
+}
+
+module M {
+>M : Symbol(M, Decl(duplicateSymbolsExportMatching.jump, 0, 0), Decl(duplicateSymbolsExportMatching.jump, 3, 1), Decl(duplicateSymbolsExportMatching.jump, 7, 1), Decl(duplicateSymbolsExportMatching.jump, 27, 1), Decl(duplicateSymbolsExportMatching.jump, 45, 1) ... and 1 more)
+
+    class C { }
+>C : Symbol(C, Decl(duplicateSymbolsExportMatching.jump, 54, 10), Decl(duplicateSymbolsExportMatching.jump, 55, 15), Decl(duplicateSymbolsExportMatching.jump, 56, 16))
+
+    module C { }
+>C : Symbol(C, Decl(duplicateSymbolsExportMatching.jump, 54, 10), Decl(duplicateSymbolsExportMatching.jump, 55, 15), Decl(duplicateSymbolsExportMatching.jump, 56, 16))
+
+    export module C { // Two visibility errors (one for the clodule symbol, and one for the merged container symbol)
+>C : Symbol(C, Decl(duplicateSymbolsExportMatching.jump, 56, 16))
+
+        var t;
+>t : Symbol(t, Decl(duplicateSymbolsExportMatching.jump, 58, 11))
+    }
+}
+
+// Top level
+interface D { }
+>D : Symbol(D, Decl(duplicateSymbolsExportMatching.jump, 60, 1), Decl(duplicateSymbolsExportMatching.jump, 63, 15))
+
+export interface D { }
+>D : Symbol(D, Decl(duplicateSymbolsExportMatching.jump, 63, 15))
+

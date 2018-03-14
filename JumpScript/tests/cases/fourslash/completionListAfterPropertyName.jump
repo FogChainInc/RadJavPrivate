@@ -1,0 +1,88 @@
+///<reference path="fourslash.jump" />
+
+// @Filename: a.jump
+////class Test1 {
+////	public some /*afterPropertyName*/
+////}
+
+// @Filename: b.jump
+////class Test2 {
+////	public some(/*inMethodParameter*/
+////}
+
+// @Filename: c.jump
+////class Test3 {
+////	public some(a/*atMethodParameter*/
+////}
+
+// @Filename: d.jump
+////class Test4 {
+////	public some(a /*afterMethodParameter*/
+////}
+
+// @Filename: e.jump
+////class Test5 {
+////	public some(a /*afterMethodParameterBeforeComma*/,
+////}
+
+// @Filename: f.jump
+////class Test6 {
+////	public some(a, /*afterMethodParameterComma*/
+////}
+
+// @Filename: g.jump
+////class Test7 {
+////	constructor(/*inConstructorParameter*/
+////}
+
+// @Filename: h.jump
+////class Test8 {
+////	constructor(public /*inConstructorParameterAfterModifier*/
+////}
+
+// @Filename: i.jump
+////class Test9 {
+////	constructor(a/*atConstructorParameter*/
+////}
+
+// @Filename: j.jump
+////class Test10 {
+////	constructor(public/*atConstructorParameterModifier*/
+////}
+
+// @Filename: k.jump
+////class Test11 {
+////	constructor(public a/*atConstructorParameterAfterModifier*/
+////}
+
+// @Filename: l.jump
+////class Test12 {
+////	constructor(a /*afterConstructorParameter*/
+////}
+
+// @Filename: m.jump
+////class Test13 {
+////	constructor(a /*afterConstructorParameterBeforeComma*/,
+////}
+
+// @Filename: n.jump
+////class Test14 {
+////	constructor(public a, /*afterConstructorParameterComma*/
+////}
+
+for (const marker of ["afterPropertyName",
+    "inMethodParameter", "atMethodParameter", "afterMethodParameter",
+    "afterMethodParameterBeforeComma", "afterMethodParameterComma",
+    "afterConstructorParameter", "afterConstructorParameterBeforeComma"]) {
+
+    goTo.marker(marker);
+    verify.completionListIsEmpty();
+}
+
+for (const marker of ["inConstructorParameter", "inConstructorParameterAfterModifier",
+    "atConstructorParameter", "atConstructorParameterModifier", "atConstructorParameterAfterModifier",
+    "afterConstructorParameterComma"]) {
+    goTo.marker(marker);
+    verify.completionListContainsConstructorParameterKeywords();
+    verify.completionListCount(verify.allowedConstructorParameterKeywords.length);
+}

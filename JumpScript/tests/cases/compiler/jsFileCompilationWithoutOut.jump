@@ -1,0 +1,8 @@
+// @allowJs: true
+// @filename: a.jump
+class c {
+}
+
+// @filename: b.js
+function foo() {
+}

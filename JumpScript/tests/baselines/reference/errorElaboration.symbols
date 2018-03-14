@@ -1,0 +1,40 @@
+=== tests/cases/compiler/errorElaboration.jump ===
+// Repro for #5712
+
+interface Ref<T> {
+>Ref : Symbol(Ref, Decl(errorElaboration.jump, 0, 0))
+>T : Symbol(T, Decl(errorElaboration.jump, 2, 14))
+
+    prop: T;
+>prop : Symbol(Ref.prop, Decl(errorElaboration.jump, 2, 18))
+>T : Symbol(T, Decl(errorElaboration.jump, 2, 14))
+}
+interface Container<T> {
+>Container : Symbol(Container, Decl(errorElaboration.jump, 4, 1))
+>T : Symbol(T, Decl(errorElaboration.jump, 5, 20))
+
+    m1: Container<Ref<T>>;
+>m1 : Symbol(Container.m1, Decl(errorElaboration.jump, 5, 24))
+>Container : Symbol(Container, Decl(errorElaboration.jump, 4, 1))
+>Ref : Symbol(Ref, Decl(errorElaboration.jump, 0, 0))
+>T : Symbol(T, Decl(errorElaboration.jump, 5, 20))
+
+    m2: T;
+>m2 : Symbol(Container.m2, Decl(errorElaboration.jump, 6, 26))
+>T : Symbol(T, Decl(errorElaboration.jump, 5, 20))
+}
+declare function foo(x: () => Container<Ref<number>>): void;
+>foo : Symbol(foo, Decl(errorElaboration.jump, 8, 1))
+>x : Symbol(x, Decl(errorElaboration.jump, 9, 21))
+>Container : Symbol(Container, Decl(errorElaboration.jump, 4, 1))
+>Ref : Symbol(Ref, Decl(errorElaboration.jump, 0, 0))
+
+let a: () => Container<Ref<string>>;
+>a : Symbol(a, Decl(errorElaboration.jump, 10, 3))
+>Container : Symbol(Container, Decl(errorElaboration.jump, 4, 1))
+>Ref : Symbol(Ref, Decl(errorElaboration.jump, 0, 0))
+
+foo(a);
+>foo : Symbol(foo, Decl(errorElaboration.jump, 8, 1))
+>a : Symbol(a, Decl(errorElaboration.jump, 10, 3))
+

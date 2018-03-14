@@ -1,0 +1,12 @@
+tests/cases/compiler/a.jump(2,1): error TS1203: Export assignment cannot be used when targeting ECMAScript modules. Consider using 'export default' or another module format instead.
+
+
+==== tests/cases/compiler/a.jump (1 errors) ====
+    var a = 10;
+    export = a;  // Error: export = not allowed in ES6
+    ~~~~~~~~~~~
+!!! error TS1203: Export assignment cannot be used when targeting ECMAScript modules. Consider using 'export default' or another module format instead.
+    
+==== tests/cases/compiler/b.jump (0 errors) ====
+    import * as a from "a";
+    

@@ -1,0 +1,20 @@
+=== tests/cases/compiler/moduleReopenedTypeOtherBlock.jump ===
+module M {
+>M : Symbol(M, Decl(moduleReopenedTypeOtherBlock.jump, 0, 0), Decl(moduleReopenedTypeOtherBlock.jump, 3, 1))
+
+    export class C1 { }
+>C1 : Symbol(C1, Decl(moduleReopenedTypeOtherBlock.jump, 0, 10))
+
+    export interface I { n: number; }
+>I : Symbol(I, Decl(moduleReopenedTypeOtherBlock.jump, 1, 23))
+>n : Symbol(I.n, Decl(moduleReopenedTypeOtherBlock.jump, 2, 24))
+}
+module M {
+>M : Symbol(M, Decl(moduleReopenedTypeOtherBlock.jump, 0, 0), Decl(moduleReopenedTypeOtherBlock.jump, 3, 1))
+
+    export class C2 { f(): I { return null; } }
+>C2 : Symbol(C2, Decl(moduleReopenedTypeOtherBlock.jump, 4, 10))
+>f : Symbol(C2.f, Decl(moduleReopenedTypeOtherBlock.jump, 5, 21))
+>I : Symbol(I, Decl(moduleReopenedTypeOtherBlock.jump, 1, 23))
+}
+

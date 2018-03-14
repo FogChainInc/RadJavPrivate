@@ -1,0 +1,62 @@
+=== tests/cases/compiler/usingModuleWithExportImportInValuePosition.jump ===
+module A {
+>A : Symbol(A, Decl(usingModuleWithExportImportInValuePosition.jump, 0, 0))
+
+export var x = 'hello world'
+>x : Symbol(x, Decl(usingModuleWithExportImportInValuePosition.jump, 1, 10))
+
+export class Point {
+>Point : Symbol(Point, Decl(usingModuleWithExportImportInValuePosition.jump, 1, 28))
+
+        constructor(public x: number, public y: number) { }
+>x : Symbol(Point.x, Decl(usingModuleWithExportImportInValuePosition.jump, 3, 20))
+>y : Symbol(Point.y, Decl(usingModuleWithExportImportInValuePosition.jump, 3, 37))
+    }
+    export module B {
+>B : Symbol(B, Decl(usingModuleWithExportImportInValuePosition.jump, 4, 5))
+
+        export interface Id {
+>Id : Symbol(Id, Decl(usingModuleWithExportImportInValuePosition.jump, 5, 21))
+
+            name: string;
+>name : Symbol(Id.name, Decl(usingModuleWithExportImportInValuePosition.jump, 6, 29))
+        }
+    }
+}
+module C {
+>C : Symbol(C, Decl(usingModuleWithExportImportInValuePosition.jump, 10, 1))
+
+    export import a = A;
+>a : Symbol(a, Decl(usingModuleWithExportImportInValuePosition.jump, 11, 10))
+>A : Symbol(a, Decl(usingModuleWithExportImportInValuePosition.jump, 0, 0))
+}
+
+var a: string = C.a.x;
+>a : Symbol(a, Decl(usingModuleWithExportImportInValuePosition.jump, 15, 3))
+>C.a.x : Symbol(A.x, Decl(usingModuleWithExportImportInValuePosition.jump, 1, 10))
+>C.a : Symbol(C.a, Decl(usingModuleWithExportImportInValuePosition.jump, 11, 10))
+>C : Symbol(C, Decl(usingModuleWithExportImportInValuePosition.jump, 10, 1))
+>a : Symbol(C.a, Decl(usingModuleWithExportImportInValuePosition.jump, 11, 10))
+>x : Symbol(A.x, Decl(usingModuleWithExportImportInValuePosition.jump, 1, 10))
+
+var b: { x: number; y: number; } = new C.a.Point(0, 0);
+>b : Symbol(b, Decl(usingModuleWithExportImportInValuePosition.jump, 16, 3))
+>x : Symbol(x, Decl(usingModuleWithExportImportInValuePosition.jump, 16, 8))
+>y : Symbol(y, Decl(usingModuleWithExportImportInValuePosition.jump, 16, 19))
+>C.a.Point : Symbol(A.Point, Decl(usingModuleWithExportImportInValuePosition.jump, 1, 28))
+>C.a : Symbol(C.a, Decl(usingModuleWithExportImportInValuePosition.jump, 11, 10))
+>C : Symbol(C, Decl(usingModuleWithExportImportInValuePosition.jump, 10, 1))
+>a : Symbol(C.a, Decl(usingModuleWithExportImportInValuePosition.jump, 11, 10))
+>Point : Symbol(A.Point, Decl(usingModuleWithExportImportInValuePosition.jump, 1, 28))
+
+var c: { name: string };
+>c : Symbol(c, Decl(usingModuleWithExportImportInValuePosition.jump, 17, 3), Decl(usingModuleWithExportImportInValuePosition.jump, 18, 3))
+>name : Symbol(name, Decl(usingModuleWithExportImportInValuePosition.jump, 17, 8))
+
+var c: C.a.B.Id;
+>c : Symbol(c, Decl(usingModuleWithExportImportInValuePosition.jump, 17, 3), Decl(usingModuleWithExportImportInValuePosition.jump, 18, 3))
+>C : Symbol(C, Decl(usingModuleWithExportImportInValuePosition.jump, 10, 1))
+>a : Symbol(C.a, Decl(usingModuleWithExportImportInValuePosition.jump, 11, 10))
+>B : Symbol(A.B, Decl(usingModuleWithExportImportInValuePosition.jump, 4, 5))
+>Id : Symbol(A.B.Id, Decl(usingModuleWithExportImportInValuePosition.jump, 5, 21))
+

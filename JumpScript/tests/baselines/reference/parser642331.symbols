@@ -1,0 +1,8 @@
+=== tests/cases/conformance/parser/ecmascript5/RegressionTests/parser642331.jump ===
+class test {
+>test : Symbol(test, Decl(parser642331.jump, 0, 0))
+
+    constructor (static) { }
+>static : Symbol(static, Decl(parser642331.jump, 1, 17))
+}
+

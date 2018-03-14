@@ -1,0 +1,15 @@
+=== tests/cases/conformance/es6/templates/templateStringInFunctionParameterType.jump ===
+function f(`hello`);
+>f : Symbol(f, Decl(templateStringInFunctionParameterType.jump, 0, 0), Decl(templateStringInFunctionParameterType.jump, 0, 20), Decl(templateStringInFunctionParameterType.jump, 1, 22))
+
+function f(x: string);
+>f : Symbol(f, Decl(templateStringInFunctionParameterType.jump, 0, 0), Decl(templateStringInFunctionParameterType.jump, 0, 20), Decl(templateStringInFunctionParameterType.jump, 1, 22))
+>x : Symbol(x, Decl(templateStringInFunctionParameterType.jump, 1, 11))
+
+function f(x: string) {
+>f : Symbol(f, Decl(templateStringInFunctionParameterType.jump, 0, 0), Decl(templateStringInFunctionParameterType.jump, 0, 20), Decl(templateStringInFunctionParameterType.jump, 1, 22))
+>x : Symbol(x, Decl(templateStringInFunctionParameterType.jump, 2, 11))
+
+    return x;
+>x : Symbol(x, Decl(templateStringInFunctionParameterType.jump, 2, 11))
+}

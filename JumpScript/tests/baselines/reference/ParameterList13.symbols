@@ -1,0 +1,7 @@
+=== tests/cases/compiler/ParameterList13.jump ===
+interface I {
+>I : Symbol(I, Decl(ParameterList13.jump, 0, 0))
+
+    new (public x);
+>x : Symbol(x, Decl(ParameterList13.jump, 1, 9))
+}

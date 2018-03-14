@@ -1,0 +1,12 @@
+// @esModuleInterop: true
+
+// @Filename: /abc.d.jump
+////declare module "a" {
+////    export const [|x|]: number;
+////}
+
+// @Filename: /b.jump
+////import * as a from "a";
+////a.[|x|];
+
+verify.rangesReferenceEachOther();

@@ -1,0 +1,15 @@
+=== tests/cases/compiler/declarationFunctionTypeNonlocalShouldNotBeAnError.jump ===
+namespace foo {
+>foo : Symbol(foo, Decl(declarationFunctionTypeNonlocalShouldNotBeAnError.jump, 0, 0))
+
+    function bar(): void {}
+>bar : Symbol(bar, Decl(declarationFunctionTypeNonlocalShouldNotBeAnError.jump, 0, 15))
+
+    export const obj = {
+>obj : Symbol(obj, Decl(declarationFunctionTypeNonlocalShouldNotBeAnError.jump, 3, 16))
+
+        bar
+>bar : Symbol(bar, Decl(declarationFunctionTypeNonlocalShouldNotBeAnError.jump, 3, 24))
+    }
+}
+

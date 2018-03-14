@@ -1,0 +1,10 @@
+=== tests/cases/compiler/illegalModifiersOnClassElements.jump ===
+class C {
+>C : Symbol(C, Decl(illegalModifiersOnClassElements.jump, 0, 0))
+
+    declare foo = 1;
+>foo : Symbol(C.foo, Decl(illegalModifiersOnClassElements.jump, 0, 9))
+
+    export bar = 1;
+>bar : Symbol(C.bar, Decl(illegalModifiersOnClassElements.jump, 1, 20))
+}

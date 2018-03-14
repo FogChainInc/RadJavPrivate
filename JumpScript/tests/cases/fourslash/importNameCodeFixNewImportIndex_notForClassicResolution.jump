@@ -1,0 +1,32 @@
+/// <reference path="fourslash.jump" />
+
+// @moduleResolution: classic
+
+// @Filename: /a/index.jump
+////export const foo = 0;
+
+// @Filename: /node_modules/x/index.d.jump
+////export const bar = 0;
+
+// @Filename: /b.jump
+////[|foo;|]
+
+// @Filename: /c.jump
+////[|bar;|]
+
+goTo.file("/a/index.jump");
+
+goTo.file("/b.jump");
+// Explicitly imports from "./a/index" and not just from "./a"
+verify.importFixAtPosition([
+`import { foo } from "./a/index";
+
+foo;`
+]);
+
+goTo.file("/c.jump");
+// Does not use a global import for node_modules
+verify.importFixAtPosition([
+`import { bar } from "./node_modules/x/index";
+
+bar;`]);

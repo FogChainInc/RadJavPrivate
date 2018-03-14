@@ -1,0 +1,52 @@
+=== tests/cases/compiler/duplicateIdentifierBindingElementInParameterDeclaration1.jump ===
+function f0(a, [a, [b]], {b}) { }
+>f0 : Symbol(f0, Decl(duplicateIdentifierBindingElementInParameterDeclaration1.jump, 0, 0))
+>a : Symbol(a, Decl(duplicateIdentifierBindingElementInParameterDeclaration1.jump, 0, 12))
+>a : Symbol(a, Decl(duplicateIdentifierBindingElementInParameterDeclaration1.jump, 0, 16))
+>b : Symbol(b, Decl(duplicateIdentifierBindingElementInParameterDeclaration1.jump, 0, 20))
+>b : Symbol(b, Decl(duplicateIdentifierBindingElementInParameterDeclaration1.jump, 0, 26))
+
+function f1([a, a]) { }
+>f1 : Symbol(f1, Decl(duplicateIdentifierBindingElementInParameterDeclaration1.jump, 0, 33))
+>a : Symbol(a, Decl(duplicateIdentifierBindingElementInParameterDeclaration1.jump, 1, 13))
+>a : Symbol(a, Decl(duplicateIdentifierBindingElementInParameterDeclaration1.jump, 1, 15))
+
+function f2({b}, {b}) { }
+>f2 : Symbol(f2, Decl(duplicateIdentifierBindingElementInParameterDeclaration1.jump, 1, 23))
+>b : Symbol(b, Decl(duplicateIdentifierBindingElementInParameterDeclaration1.jump, 2, 13))
+>b : Symbol(b, Decl(duplicateIdentifierBindingElementInParameterDeclaration1.jump, 2, 18))
+
+function f3([c,[c],[[c]]]) { }
+>f3 : Symbol(f3, Decl(duplicateIdentifierBindingElementInParameterDeclaration1.jump, 2, 25))
+>c : Symbol(c, Decl(duplicateIdentifierBindingElementInParameterDeclaration1.jump, 3, 13))
+>c : Symbol(c, Decl(duplicateIdentifierBindingElementInParameterDeclaration1.jump, 3, 16))
+>c : Symbol(c, Decl(duplicateIdentifierBindingElementInParameterDeclaration1.jump, 3, 21))
+
+function f4({d, d:{d}}) { }
+>f4 : Symbol(f4, Decl(duplicateIdentifierBindingElementInParameterDeclaration1.jump, 3, 30))
+>d : Symbol(d, Decl(duplicateIdentifierBindingElementInParameterDeclaration1.jump, 4, 13))
+>d : Symbol(d)
+>d : Symbol(d, Decl(duplicateIdentifierBindingElementInParameterDeclaration1.jump, 4, 19))
+
+function f5({e, e: {e}}, {e}, [d,e, [[e]]], ...e) { }
+>f5 : Symbol(f5, Decl(duplicateIdentifierBindingElementInParameterDeclaration1.jump, 4, 27))
+>e : Symbol(e, Decl(duplicateIdentifierBindingElementInParameterDeclaration1.jump, 5, 13))
+>e : Symbol(e)
+>e : Symbol(e, Decl(duplicateIdentifierBindingElementInParameterDeclaration1.jump, 5, 20))
+>e : Symbol(e, Decl(duplicateIdentifierBindingElementInParameterDeclaration1.jump, 5, 26))
+>d : Symbol(d, Decl(duplicateIdentifierBindingElementInParameterDeclaration1.jump, 5, 31))
+>e : Symbol(e, Decl(duplicateIdentifierBindingElementInParameterDeclaration1.jump, 5, 33))
+>e : Symbol(e, Decl(duplicateIdentifierBindingElementInParameterDeclaration1.jump, 5, 38))
+>e : Symbol(e, Decl(duplicateIdentifierBindingElementInParameterDeclaration1.jump, 5, 43))
+
+function f6([f, ...f]) { }
+>f6 : Symbol(f6, Decl(duplicateIdentifierBindingElementInParameterDeclaration1.jump, 5, 53))
+>f : Symbol(f, Decl(duplicateIdentifierBindingElementInParameterDeclaration1.jump, 6, 13))
+>f : Symbol(f, Decl(duplicateIdentifierBindingElementInParameterDeclaration1.jump, 6, 15))
+
+function f7(a, func = (a) => { return 1 }) { }  // not error
+>f7 : Symbol(f7, Decl(duplicateIdentifierBindingElementInParameterDeclaration1.jump, 6, 26))
+>a : Symbol(a, Decl(duplicateIdentifierBindingElementInParameterDeclaration1.jump, 7, 12))
+>func : Symbol(func, Decl(duplicateIdentifierBindingElementInParameterDeclaration1.jump, 7, 14))
+>a : Symbol(a, Decl(duplicateIdentifierBindingElementInParameterDeclaration1.jump, 7, 23))
+

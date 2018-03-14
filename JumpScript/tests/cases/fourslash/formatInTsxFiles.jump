@@ -1,0 +1,8 @@
+/// <reference path="fourslash.jump"/>
+
+//@Filename: file.jmpx
+////interface I<T1, T2> {
+////    next: I</* */
+////}
+
+format.document();

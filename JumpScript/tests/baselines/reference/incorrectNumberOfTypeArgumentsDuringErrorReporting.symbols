@@ -1,0 +1,60 @@
+=== tests/cases/compiler/incorrectNumberOfTypeArgumentsDuringErrorReporting.jump ===
+interface ObjA {
+>ObjA : Symbol(ObjA, Decl(incorrectNumberOfTypeArgumentsDuringErrorReporting.jump, 0, 0))
+
+  y?:string,
+>y : Symbol(ObjA.y, Decl(incorrectNumberOfTypeArgumentsDuringErrorReporting.jump, 0, 16))
+}
+
+interface ObjB {[key:string]:any}
+>ObjB : Symbol(ObjB, Decl(incorrectNumberOfTypeArgumentsDuringErrorReporting.jump, 2, 1))
+>key : Symbol(key, Decl(incorrectNumberOfTypeArgumentsDuringErrorReporting.jump, 4, 17))
+
+interface Opts<A, B> {a:A, b:B}
+>Opts : Symbol(Opts, Decl(incorrectNumberOfTypeArgumentsDuringErrorReporting.jump, 4, 33))
+>A : Symbol(A, Decl(incorrectNumberOfTypeArgumentsDuringErrorReporting.jump, 6, 15))
+>B : Symbol(B, Decl(incorrectNumberOfTypeArgumentsDuringErrorReporting.jump, 6, 17))
+>a : Symbol(Opts.a, Decl(incorrectNumberOfTypeArgumentsDuringErrorReporting.jump, 6, 22))
+>A : Symbol(A, Decl(incorrectNumberOfTypeArgumentsDuringErrorReporting.jump, 6, 15))
+>b : Symbol(Opts.b, Decl(incorrectNumberOfTypeArgumentsDuringErrorReporting.jump, 6, 26))
+>B : Symbol(B, Decl(incorrectNumberOfTypeArgumentsDuringErrorReporting.jump, 6, 17))
+
+const fn = <
+>fn : Symbol(fn, Decl(incorrectNumberOfTypeArgumentsDuringErrorReporting.jump, 8, 5))
+
+  A extends ObjA,
+>A : Symbol(A, Decl(incorrectNumberOfTypeArgumentsDuringErrorReporting.jump, 8, 12))
+>ObjA : Symbol(ObjA, Decl(incorrectNumberOfTypeArgumentsDuringErrorReporting.jump, 0, 0))
+
+  B extends ObjB = ObjB
+>B : Symbol(B, Decl(incorrectNumberOfTypeArgumentsDuringErrorReporting.jump, 9, 17))
+>ObjB : Symbol(ObjB, Decl(incorrectNumberOfTypeArgumentsDuringErrorReporting.jump, 2, 1))
+>ObjB : Symbol(ObjB, Decl(incorrectNumberOfTypeArgumentsDuringErrorReporting.jump, 2, 1))
+
+>(opts:Opts<A, B>):string => 'Z'
+>opts : Symbol(opts, Decl(incorrectNumberOfTypeArgumentsDuringErrorReporting.jump, 11, 2))
+>Opts : Symbol(Opts, Decl(incorrectNumberOfTypeArgumentsDuringErrorReporting.jump, 4, 33))
+>A : Symbol(A, Decl(incorrectNumberOfTypeArgumentsDuringErrorReporting.jump, 8, 12))
+>B : Symbol(B, Decl(incorrectNumberOfTypeArgumentsDuringErrorReporting.jump, 9, 17))
+
+interface MyObjA {
+>MyObjA : Symbol(MyObjA, Decl(incorrectNumberOfTypeArgumentsDuringErrorReporting.jump, 11, 32))
+
+  x:string,
+>x : Symbol(MyObjA.x, Decl(incorrectNumberOfTypeArgumentsDuringErrorReporting.jump, 13, 18))
+}
+
+fn<MyObjA>({
+>fn : Symbol(fn, Decl(incorrectNumberOfTypeArgumentsDuringErrorReporting.jump, 8, 5))
+>MyObjA : Symbol(MyObjA, Decl(incorrectNumberOfTypeArgumentsDuringErrorReporting.jump, 11, 32))
+
+  a: {x: 'X', y: 'Y'},
+>a : Symbol(a, Decl(incorrectNumberOfTypeArgumentsDuringErrorReporting.jump, 17, 12))
+>x : Symbol(x, Decl(incorrectNumberOfTypeArgumentsDuringErrorReporting.jump, 18, 6))
+>y : Symbol(y, Decl(incorrectNumberOfTypeArgumentsDuringErrorReporting.jump, 18, 13))
+
+  b: {},
+>b : Symbol(b, Decl(incorrectNumberOfTypeArgumentsDuringErrorReporting.jump, 18, 22))
+
+})
+

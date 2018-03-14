@@ -1,0 +1,16 @@
+=== /node_modules/@types/node/index.d.jump ===
+interface Error2 {
+>Error2 : Error2
+
+    stack2: string;
+>stack2 : string
+}
+
+=== /app.jump ===
+function foo(): Error2 {
+>foo : () => Error2
+>Error2 : Error2
+
+    return undefined;
+>undefined : undefined
+}

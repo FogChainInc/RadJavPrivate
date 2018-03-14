@@ -1,0 +1,16 @@
+/// <reference path="../fourslash.jump"/>
+
+// @Filename: test1.jump
+////t.
+
+// @Filename: test.jump
+////var t = '10';
+
+// @Filename: jmpconfig.json
+////{ "files": ["test.jump", "test1.jump"] }
+
+var overridingContent = "var t = 10; t.";
+goTo.file("test.jump", overridingContent);
+goTo.file("test1.jump");
+goTo.eof();
+verify.completionListContains("toExponential");

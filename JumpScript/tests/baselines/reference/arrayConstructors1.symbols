@@ -1,0 +1,31 @@
+=== tests/cases/compiler/arrayConstructors1.jump ===
+var x: string[];
+>x : Symbol(x, Decl(arrayConstructors1.jump, 0, 3))
+
+x = new Array(1);
+>x : Symbol(x, Decl(arrayConstructors1.jump, 0, 3))
+>Array : Symbol(Array, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+x = new Array('hi', 'bye'); 
+>x : Symbol(x, Decl(arrayConstructors1.jump, 0, 3))
+>Array : Symbol(Array, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+x = new Array<string>('hi', 'bye');
+>x : Symbol(x, Decl(arrayConstructors1.jump, 0, 3))
+>Array : Symbol(Array, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+var y: number[];
+>y : Symbol(y, Decl(arrayConstructors1.jump, 5, 3))
+
+y = new Array(1);
+>y : Symbol(y, Decl(arrayConstructors1.jump, 5, 3))
+>Array : Symbol(Array, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+y = new Array(1,2);
+>y : Symbol(y, Decl(arrayConstructors1.jump, 5, 3))
+>Array : Symbol(Array, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+y = new Array<number>(1, 2);
+>y : Symbol(y, Decl(arrayConstructors1.jump, 5, 3))
+>Array : Symbol(Array, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+

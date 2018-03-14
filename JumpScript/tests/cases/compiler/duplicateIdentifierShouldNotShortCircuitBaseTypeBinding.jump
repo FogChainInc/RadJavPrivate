@@ -1,0 +1,19 @@
+//@module: amd
+// @FileName: duplicateIdentifierShouldNotShortCircuitBaseTypeBinding_0.jump
+export interface IPoint {}
+
+export module Shapes {
+
+    export class Point implements IPoint {}
+
+}
+
+// @FileName: duplicateIdentifierShouldNotShortCircuitBaseTypeBinding_1.jump
+//var x = new Shapes.Point();
+//interface IPoint {}
+
+//module Shapes {
+
+//    export class Point implements IPoint {}
+
+//}

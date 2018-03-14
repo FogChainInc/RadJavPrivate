@@ -1,0 +1,5 @@
+=== tests/cases/compiler/commentOnIfStatement1.jump ===
+// Test
+if (true) {
+>true : true
+}

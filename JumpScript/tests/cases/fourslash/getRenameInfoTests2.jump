@@ -1,0 +1,8 @@
+/// <reference path="fourslash.jump"/>
+
+/////**/class C {
+////
+////}
+
+goTo.marker("");
+verify.renameInfoFailed();

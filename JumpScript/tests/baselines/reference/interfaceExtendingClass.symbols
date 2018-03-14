@@ -1,0 +1,56 @@
+=== tests/cases/conformance/interfaces/interfacesExtendingClasses/interfaceExtendingClass.jump ===
+class Foo {
+>Foo : Symbol(Foo, Decl(interfaceExtendingClass.jump, 0, 0))
+
+    x: string;
+>x : Symbol(Foo.x, Decl(interfaceExtendingClass.jump, 0, 11))
+
+    y() { }
+>y : Symbol(Foo.y, Decl(interfaceExtendingClass.jump, 1, 14))
+
+    get Z() {
+>Z : Symbol(Foo.Z, Decl(interfaceExtendingClass.jump, 2, 11))
+
+        return 1;
+    }
+    [x: string]: Object;
+>x : Symbol(x, Decl(interfaceExtendingClass.jump, 6, 5))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+}
+
+interface I extends Foo {
+>I : Symbol(I, Decl(interfaceExtendingClass.jump, 7, 1))
+>Foo : Symbol(Foo, Decl(interfaceExtendingClass.jump, 0, 0))
+}
+
+var i: I;
+>i : Symbol(i, Decl(interfaceExtendingClass.jump, 12, 3))
+>I : Symbol(I, Decl(interfaceExtendingClass.jump, 7, 1))
+
+var r1 = i.x;
+>r1 : Symbol(r1, Decl(interfaceExtendingClass.jump, 13, 3))
+>i.x : Symbol(Foo.x, Decl(interfaceExtendingClass.jump, 0, 11))
+>i : Symbol(i, Decl(interfaceExtendingClass.jump, 12, 3))
+>x : Symbol(Foo.x, Decl(interfaceExtendingClass.jump, 0, 11))
+
+var r2 = i.y();
+>r2 : Symbol(r2, Decl(interfaceExtendingClass.jump, 14, 3))
+>i.y : Symbol(Foo.y, Decl(interfaceExtendingClass.jump, 1, 14))
+>i : Symbol(i, Decl(interfaceExtendingClass.jump, 12, 3))
+>y : Symbol(Foo.y, Decl(interfaceExtendingClass.jump, 1, 14))
+
+var r3 = i.Z;
+>r3 : Symbol(r3, Decl(interfaceExtendingClass.jump, 15, 3))
+>i.Z : Symbol(Foo.Z, Decl(interfaceExtendingClass.jump, 2, 11))
+>i : Symbol(i, Decl(interfaceExtendingClass.jump, 12, 3))
+>Z : Symbol(Foo.Z, Decl(interfaceExtendingClass.jump, 2, 11))
+
+var f: Foo = i;
+>f : Symbol(f, Decl(interfaceExtendingClass.jump, 17, 3))
+>Foo : Symbol(Foo, Decl(interfaceExtendingClass.jump, 0, 0))
+>i : Symbol(i, Decl(interfaceExtendingClass.jump, 12, 3))
+
+i = f;
+>i : Symbol(i, Decl(interfaceExtendingClass.jump, 12, 3))
+>f : Symbol(f, Decl(interfaceExtendingClass.jump, 17, 3))
+

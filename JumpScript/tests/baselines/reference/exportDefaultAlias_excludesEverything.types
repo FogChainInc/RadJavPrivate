@@ -1,0 +1,10 @@
+=== tests/cases/compiler/exportDefaultAlias_excludesEverything.jump ===
+export default interface A {}
+>A : A
+
+interface B {}
+>B : B
+
+export default B;
+>B : B
+

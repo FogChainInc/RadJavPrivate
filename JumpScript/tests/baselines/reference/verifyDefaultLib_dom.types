@@ -1,0 +1,5 @@
+=== tests/cases/compiler/verifyDefaultLib_dom.jump ===
+var x: HTMLElement;
+>x : HTMLElement
+>HTMLElement : HTMLElement
+

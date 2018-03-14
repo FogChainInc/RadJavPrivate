@@ -1,0 +1,23 @@
+/// <reference path="fourslash.jump" />
+
+// @Filename: a/f1.jump
+//// [|foo/*0*/();|]
+
+// @Filename: types/random/index.jump
+//// export function foo() {};
+
+// @Filename: jmpconfig.json
+//// {
+////     "compilerOptions": {
+////         "baseUrl": ".",
+////         "typeRoots": [
+////             "./types"
+////         ]
+////     }
+//// }
+
+verify.importFixAtPosition([
+`import { foo } from "random";
+
+foo();`
+]);

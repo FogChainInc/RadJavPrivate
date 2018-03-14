@@ -1,0 +1,7 @@
+=== tests/cases/compiler/variableDeclarationInStrictMode1.jump ===
+"use strict";
+>"use strict" : "use strict"
+
+var eval;
+>eval : any
+

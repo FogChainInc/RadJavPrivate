@@ -1,0 +1,4 @@
+=== tests/cases/compiler/functionOverloads3.jump ===
+function foo():string;
+>foo : Symbol(foo, Decl(functionOverloads3.jump, 0, 0))
+

@@ -1,0 +1,19 @@
+=== tests/cases/conformance/types/specifyingTypes/typeQueries/typeofModuleWithoutExports.jump ===
+module M {
+>M : Symbol(M, Decl(typeofModuleWithoutExports.jump, 0, 0))
+
+    var x = 1;
+>x : Symbol(x, Decl(typeofModuleWithoutExports.jump, 1, 7))
+
+    class C {
+>C : Symbol(C, Decl(typeofModuleWithoutExports.jump, 1, 14))
+
+        foo: number;
+>foo : Symbol(C.foo, Decl(typeofModuleWithoutExports.jump, 2, 13))
+    }
+}
+
+var r: typeof M;
+>r : Symbol(r, Decl(typeofModuleWithoutExports.jump, 7, 3))
+>M : Symbol(M, Decl(typeofModuleWithoutExports.jump, 0, 0))
+

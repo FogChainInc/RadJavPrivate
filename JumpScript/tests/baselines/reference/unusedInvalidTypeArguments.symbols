@@ -1,0 +1,98 @@
+=== /typeReference.jump ===
+// Tests that types are marked as used, even if used in places that don't accept type arguments.
+
+
+type N = number;
+>N : Symbol(N, Decl(typeReference.jump, 0, 0))
+
+type U = number;
+>U : Symbol(U, Decl(typeReference.jump, 3, 16))
+
+export type Z = U<N>;
+>Z : Symbol(Z, Decl(typeReference.jump, 4, 16))
+>U : Symbol(U, Decl(typeReference.jump, 3, 16))
+>N : Symbol(N, Decl(typeReference.jump, 0, 0))
+
+=== /classReference.jump ===
+type N = number;
+>N : Symbol(N, Decl(classReference.jump, 0, 0))
+
+class C { }
+>C : Symbol(C, Decl(classReference.jump, 0, 16))
+
+// This uses getTypeFromClassOrInterfaceReference instead of getTypeFromTypeAliasReference.
+export class D extends C<N> {}
+>D : Symbol(D, Decl(classReference.jump, 1, 11))
+>C : Symbol(C, Decl(classReference.jump, 0, 16))
+>N : Symbol(N, Decl(classReference.jump, 0, 0))
+
+=== /interface.jump ===
+import { Foo } from "unknown";
+>Foo : Symbol(Foo, Decl(interface.jump, 0, 8))
+
+export interface I<T> { x: Foo<T>; }
+>I : Symbol(I, Decl(interface.jump, 0, 30))
+>T : Symbol(T, Decl(interface.jump, 1, 19))
+>x : Symbol(I.x, Decl(interface.jump, 1, 23))
+>Foo : Symbol(Foo, Decl(interface.jump, 0, 8))
+>T : Symbol(T, Decl(interface.jump, 1, 19))
+
+=== /call.jump ===
+import { foo } from "unknown";
+>foo : Symbol(foo, Decl(call.jump, 0, 8))
+
+type T = number;
+>T : Symbol(T, Decl(call.jump, 0, 30))
+
+foo<T>();
+>foo : Symbol(foo, Decl(call.jump, 0, 8))
+>T : Symbol(T, Decl(call.jump, 0, 30))
+
+=== /new.jump ===
+import { Foo } from "unkown";
+>Foo : Symbol(Foo, Decl(new.jump, 0, 8))
+
+type T = number;
+>T : Symbol(T, Decl(new.jump, 0, 29))
+
+new Foo<T>();
+>Foo : Symbol(Foo, Decl(new.jump, 0, 8))
+>T : Symbol(T, Decl(new.jump, 0, 29))
+
+=== /callAny.jump ===
+declare var g: any;
+>g : Symbol(g, Decl(callAny.jump, 0, 11))
+
+type U = number;
+>U : Symbol(U, Decl(callAny.jump, 0, 19))
+
+g<U>();
+>g : Symbol(g, Decl(callAny.jump, 0, 11))
+>U : Symbol(U, Decl(callAny.jump, 0, 19))
+
+g<InvalidReference>(); // Should get error for type argument
+>g : Symbol(g, Decl(callAny.jump, 0, 11))
+
+=== /super.jump ===
+import { A, B } from "unknown";
+>A : Symbol(A, Decl(super.jump, 0, 8))
+>B : Symbol(B, Decl(super.jump, 0, 11))
+
+type T = number;
+>T : Symbol(T, Decl(super.jump, 0, 31))
+
+export class C extends A<B> {
+>C : Symbol(C, Decl(super.jump, 2, 16))
+>A : Symbol(A, Decl(super.jump, 0, 8))
+>B : Symbol(B, Decl(super.jump, 0, 11))
+
+    m() {
+>m : Symbol(C.m, Decl(super.jump, 4, 29))
+
+        super.m<T>(1);
+>T : Symbol(T, Decl(super.jump, 0, 31))
+
+        super.m<InvalidReference>(); // Should get error for type argument
+    }
+}
+

@@ -1,0 +1,13 @@
+=== tests/cases/compiler/generatorES6_6.jump ===
+class C {
+>C : Symbol(C, Decl(generatorES6_6.jump, 0, 0))
+
+  *[Symbol.iterator]() {
+>Symbol.iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+
+    let a = yield 1;
+>a : Symbol(a, Decl(generatorES6_6.jump, 2, 7))
+  }
+}

@@ -1,0 +1,7 @@
+=== tests/cases/compiler/unusedPrivateVariableInClass1.jump ===
+class greeter {
+>greeter : Symbol(greeter, Decl(unusedPrivateVariableInClass1.jump, 0, 0))
+
+    private x: string;
+>x : Symbol(greeter.x, Decl(unusedPrivateVariableInClass1.jump, 0, 15))
+}

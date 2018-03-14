@@ -1,0 +1,16 @@
+=== tests/cases/conformance/parser/ecmascript5/EnumDeclarations/parserEnumDeclaration5.jump ===
+enum E {
+>E : Symbol(E, Decl(parserEnumDeclaration5.jump, 0, 0))
+
+    A = 1,
+>A : Symbol(E.A, Decl(parserEnumDeclaration5.jump, 0, 8))
+
+    B,
+>B : Symbol(E.B, Decl(parserEnumDeclaration5.jump, 1, 10))
+
+    C = 2,
+>C : Symbol(E.C, Decl(parserEnumDeclaration5.jump, 2, 6))
+
+    D
+>D : Symbol(E.D, Decl(parserEnumDeclaration5.jump, 3, 10))
+}

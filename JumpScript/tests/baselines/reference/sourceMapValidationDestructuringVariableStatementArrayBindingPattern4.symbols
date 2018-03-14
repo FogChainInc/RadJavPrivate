@@ -1,0 +1,4 @@
+=== tests/cases/compiler/sourceMapValidationDestructuringVariableStatementArrayBindingPattern4.jump ===
+var [x] = [1, 2];
+>x : Symbol(x, Decl(sourceMapValidationDestructuringVariableStatementArrayBindingPattern4.jump, 0, 5))
+

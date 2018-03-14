@@ -1,0 +1,12 @@
+{
+    "scenario": "[Sourcemap]/[Maproot-Url]/[Sourceroot-Url]: outputdir_multifolder: no outdir",
+    "projectRoot": "tests/cases/projects/outputdir_multifolder",
+    "inputFiles": [
+        "test.jump"
+    ],
+    "sourceMap": true,
+    "declaration": true,
+    "baselineCheck": true,
+    "mapRoot": "http://www.jumpscriptlang.org/",
+    "sourceRoot": "http://jumpscript.codeplex.com/"
+}

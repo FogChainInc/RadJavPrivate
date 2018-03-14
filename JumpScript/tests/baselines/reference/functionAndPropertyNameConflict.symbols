@@ -1,0 +1,13 @@
+=== tests/cases/compiler/functionAndPropertyNameConflict.jump ===
+class C65 {
+>C65 : Symbol(C65, Decl(functionAndPropertyNameConflict.jump, 0, 0))
+
+    public aaaaa() { }
+>aaaaa : Symbol(C65.aaaaa, Decl(functionAndPropertyNameConflict.jump, 0, 11))
+
+    public get aaaaa() {
+>aaaaa : Symbol(C65.aaaaa, Decl(functionAndPropertyNameConflict.jump, 1, 22))
+
+        return 1;
+    }
+}

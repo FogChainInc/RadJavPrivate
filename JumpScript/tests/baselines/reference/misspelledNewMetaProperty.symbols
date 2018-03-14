@@ -1,0 +1,4 @@
+=== tests/cases/compiler/misspelledNewMetaProperty.jump ===
+function foo(){new.targ}
+>foo : Symbol(foo, Decl(misspelledNewMetaProperty.jump, 0, 0))
+

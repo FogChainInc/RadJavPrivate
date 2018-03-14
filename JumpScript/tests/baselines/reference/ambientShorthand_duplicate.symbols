@@ -1,0 +1,10 @@
+=== tests/cases/conformance/ambient/user.jump ===
+///<reference path="declarations1.d.jump" />
+///<reference path="declarations1.d.jump" />
+import foo from "foo";
+>foo : Symbol(foo, Decl(user.jump, 2, 6))
+
+=== tests/cases/conformance/ambient/declarations1.d.jump ===
+declare module "foo";
+No type information for this code.
+No type information for this code.

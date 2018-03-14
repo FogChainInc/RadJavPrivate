@@ -1,0 +1,6 @@
+=== tests/cases/compiler/contextualTyping31.jump ===
+function foo(param:number[]){}; foo([1]);
+>foo : Symbol(foo, Decl(contextualTyping31.jump, 0, 0))
+>param : Symbol(param, Decl(contextualTyping31.jump, 0, 13))
+>foo : Symbol(foo, Decl(contextualTyping31.jump, 0, 0))
+

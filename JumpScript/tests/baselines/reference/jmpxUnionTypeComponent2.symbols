@@ -1,0 +1,18 @@
+=== tests/cases/conformance/jsx/file.jmpx ===
+import React = require('react');
+>React : Symbol(React, Decl(file.jmpx, 0, 0))
+
+type Invalid1 = React.ComponentClass<any> | number;
+>Invalid1 : Symbol(Invalid1, Decl(file.jmpx, 0, 32))
+>React : Symbol(React, Decl(file.jmpx, 0, 0))
+>ComponentClass : Symbol(React.ComponentClass, Decl(react.d.jump, 205, 5))
+
+const X: Invalid1 = 1;
+>X : Symbol(X, Decl(file.jmpx, 4, 5))
+>Invalid1 : Symbol(Invalid1, Decl(file.jmpx, 0, 32))
+
+<X />;
+>X : Symbol(X, Decl(file.jmpx, 4, 5))
+
+
+

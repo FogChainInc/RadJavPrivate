@@ -1,0 +1,4 @@
+=== tests/cases/compiler/exportEqualsCommonJs.jump ===
+export = { ["hi"]: "there" };
+>"hi" : Symbol(["hi"], Decl(exportEqualsCommonJs.jump, 0, 10))
+

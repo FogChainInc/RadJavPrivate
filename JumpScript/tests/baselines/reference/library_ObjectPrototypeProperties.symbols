@@ -1,0 +1,53 @@
+=== tests/cases/compiler/library_ObjectPrototypeProperties.jump ===
+// Properties of the Object Prototype Object as per ES5 spec
+// http://www.ecma-international.org/ecma-262/5.1/#sec-15.2.4
+Object.prototype.constructor;
+>Object.prototype.constructor : Symbol(Object.constructor, Decl(lib.d.jump, --, --))
+>Object.prototype : Symbol(ObjectConstructor.prototype, Decl(lib.d.jump, --, --))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>prototype : Symbol(ObjectConstructor.prototype, Decl(lib.d.jump, --, --))
+>constructor : Symbol(Object.constructor, Decl(lib.d.jump, --, --))
+
+Object.prototype.toString();
+>Object.prototype.toString : Symbol(Object.toString, Decl(lib.d.jump, --, --))
+>Object.prototype : Symbol(ObjectConstructor.prototype, Decl(lib.d.jump, --, --))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>prototype : Symbol(ObjectConstructor.prototype, Decl(lib.d.jump, --, --))
+>toString : Symbol(Object.toString, Decl(lib.d.jump, --, --))
+
+Object.prototype.toLocaleString();
+>Object.prototype.toLocaleString : Symbol(Object.toLocaleString, Decl(lib.d.jump, --, --))
+>Object.prototype : Symbol(ObjectConstructor.prototype, Decl(lib.d.jump, --, --))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>prototype : Symbol(ObjectConstructor.prototype, Decl(lib.d.jump, --, --))
+>toLocaleString : Symbol(Object.toLocaleString, Decl(lib.d.jump, --, --))
+
+Object.prototype.valueOf();
+>Object.prototype.valueOf : Symbol(Object.valueOf, Decl(lib.d.jump, --, --))
+>Object.prototype : Symbol(ObjectConstructor.prototype, Decl(lib.d.jump, --, --))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>prototype : Symbol(ObjectConstructor.prototype, Decl(lib.d.jump, --, --))
+>valueOf : Symbol(Object.valueOf, Decl(lib.d.jump, --, --))
+
+Object.prototype.hasOwnProperty("string");
+>Object.prototype.hasOwnProperty : Symbol(Object.hasOwnProperty, Decl(lib.d.jump, --, --))
+>Object.prototype : Symbol(ObjectConstructor.prototype, Decl(lib.d.jump, --, --))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>prototype : Symbol(ObjectConstructor.prototype, Decl(lib.d.jump, --, --))
+>hasOwnProperty : Symbol(Object.hasOwnProperty, Decl(lib.d.jump, --, --))
+
+Object.prototype.isPrototypeOf(Object);
+>Object.prototype.isPrototypeOf : Symbol(Object.isPrototypeOf, Decl(lib.d.jump, --, --))
+>Object.prototype : Symbol(ObjectConstructor.prototype, Decl(lib.d.jump, --, --))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>prototype : Symbol(ObjectConstructor.prototype, Decl(lib.d.jump, --, --))
+>isPrototypeOf : Symbol(Object.isPrototypeOf, Decl(lib.d.jump, --, --))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+Object.prototype.propertyIsEnumerable("string");
+>Object.prototype.propertyIsEnumerable : Symbol(Object.propertyIsEnumerable, Decl(lib.d.jump, --, --))
+>Object.prototype : Symbol(ObjectConstructor.prototype, Decl(lib.d.jump, --, --))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>prototype : Symbol(ObjectConstructor.prototype, Decl(lib.d.jump, --, --))
+>propertyIsEnumerable : Symbol(Object.propertyIsEnumerable, Decl(lib.d.jump, --, --))
+

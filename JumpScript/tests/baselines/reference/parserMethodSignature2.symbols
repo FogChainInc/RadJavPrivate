@@ -1,0 +1,7 @@
+=== tests/cases/conformance/parser/ecmascript5/MethodSignatures/parserMethodSignature2.jump ===
+interface I {
+>I : Symbol(I, Decl(parserMethodSignature2.jump, 0, 0))
+
+  B?();
+>B : Symbol(I.B, Decl(parserMethodSignature2.jump, 0, 13))
+}

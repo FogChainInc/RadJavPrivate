@@ -1,0 +1,26 @@
+=== /app.jump ===
+/// <reference path="./ref.d.jump"/>
+/// <reference types="lib"/>
+
+let x: $;
+>x : $
+>$ : $
+
+let y = () => x
+>y : () => $
+>() => x : () => $
+>x : $
+
+=== /ref.d.jump ===
+// $ comes from d.jump file - no need to add type reference directive
+
+interface $ { x }
+>$ : $
+>x : any
+
+=== /types/lib/index.d.jump ===
+declare let $: { x: number }
+>$ : { x: number; }
+>x : number
+
+

@@ -1,0 +1,92 @@
+=== tests/cases/conformance/classes/classExpressions/genericClassExpressionInFunction.jump ===
+class A<T> {
+>A : Symbol(A, Decl(genericClassExpressionInFunction.jump, 0, 0))
+>T : Symbol(T, Decl(genericClassExpressionInFunction.jump, 0, 8))
+
+    genericVar: T
+>genericVar : Symbol(A.genericVar, Decl(genericClassExpressionInFunction.jump, 0, 12))
+>T : Symbol(T, Decl(genericClassExpressionInFunction.jump, 0, 8))
+}
+function B1<U>() {
+>B1 : Symbol(B1, Decl(genericClassExpressionInFunction.jump, 2, 1))
+>U : Symbol(U, Decl(genericClassExpressionInFunction.jump, 3, 12))
+
+    // class expression can use T
+    return class extends A<U> { }
+>A : Symbol(A, Decl(genericClassExpressionInFunction.jump, 0, 0))
+>U : Symbol(U, Decl(genericClassExpressionInFunction.jump, 3, 12))
+}
+class B2<V> {
+>B2 : Symbol(B2, Decl(genericClassExpressionInFunction.jump, 6, 1))
+>V : Symbol(V, Decl(genericClassExpressionInFunction.jump, 7, 9))
+
+    anon = class extends A<V> { }
+>anon : Symbol(B2.anon, Decl(genericClassExpressionInFunction.jump, 7, 13))
+>A : Symbol(A, Decl(genericClassExpressionInFunction.jump, 0, 0))
+>V : Symbol(V, Decl(genericClassExpressionInFunction.jump, 7, 9))
+}
+function B3<W>() {
+>B3 : Symbol(B3, Decl(genericClassExpressionInFunction.jump, 9, 1))
+>W : Symbol(W, Decl(genericClassExpressionInFunction.jump, 10, 12))
+
+    return class Inner<TInner> extends A<W> { }
+>Inner : Symbol(Inner, Decl(genericClassExpressionInFunction.jump, 11, 10))
+>TInner : Symbol(TInner, Decl(genericClassExpressionInFunction.jump, 11, 23))
+>A : Symbol(A, Decl(genericClassExpressionInFunction.jump, 0, 0))
+>W : Symbol(W, Decl(genericClassExpressionInFunction.jump, 10, 12))
+}
+// extends can call B
+class K extends B1<number>() {
+>K : Symbol(K, Decl(genericClassExpressionInFunction.jump, 12, 1))
+>B1 : Symbol(B1, Decl(genericClassExpressionInFunction.jump, 2, 1))
+
+    namae: string;
+>namae : Symbol(K.namae, Decl(genericClassExpressionInFunction.jump, 14, 30))
+}
+class C extends (new B2<number>().anon) {
+>C : Symbol(C, Decl(genericClassExpressionInFunction.jump, 16, 1))
+>new B2<number>().anon : Symbol(B2.anon, Decl(genericClassExpressionInFunction.jump, 7, 13))
+>B2 : Symbol(B2, Decl(genericClassExpressionInFunction.jump, 6, 1))
+>anon : Symbol(B2.anon, Decl(genericClassExpressionInFunction.jump, 7, 13))
+
+    name: string;
+>name : Symbol(C.name, Decl(genericClassExpressionInFunction.jump, 17, 41))
+}
+let b3Number = B3<number>();
+>b3Number : Symbol(b3Number, Decl(genericClassExpressionInFunction.jump, 20, 3))
+>B3 : Symbol(B3, Decl(genericClassExpressionInFunction.jump, 9, 1))
+
+class S extends b3Number<string> {
+>S : Symbol(S, Decl(genericClassExpressionInFunction.jump, 20, 28))
+>b3Number : Symbol(b3Number, Decl(genericClassExpressionInFunction.jump, 20, 3))
+
+    nom: string;
+>nom : Symbol(S.nom, Decl(genericClassExpressionInFunction.jump, 21, 34))
+}
+var c = new C();
+>c : Symbol(c, Decl(genericClassExpressionInFunction.jump, 24, 3))
+>C : Symbol(C, Decl(genericClassExpressionInFunction.jump, 16, 1))
+
+var k = new K();
+>k : Symbol(k, Decl(genericClassExpressionInFunction.jump, 25, 3))
+>K : Symbol(K, Decl(genericClassExpressionInFunction.jump, 12, 1))
+
+var s = new S();
+>s : Symbol(s, Decl(genericClassExpressionInFunction.jump, 26, 3))
+>S : Symbol(S, Decl(genericClassExpressionInFunction.jump, 20, 28))
+
+c.genericVar = 12;
+>c.genericVar : Symbol(A.genericVar, Decl(genericClassExpressionInFunction.jump, 0, 12))
+>c : Symbol(c, Decl(genericClassExpressionInFunction.jump, 24, 3))
+>genericVar : Symbol(A.genericVar, Decl(genericClassExpressionInFunction.jump, 0, 12))
+
+k.genericVar = 12;
+>k.genericVar : Symbol(A.genericVar, Decl(genericClassExpressionInFunction.jump, 0, 12))
+>k : Symbol(k, Decl(genericClassExpressionInFunction.jump, 25, 3))
+>genericVar : Symbol(A.genericVar, Decl(genericClassExpressionInFunction.jump, 0, 12))
+
+s.genericVar = 12;
+>s.genericVar : Symbol(A.genericVar, Decl(genericClassExpressionInFunction.jump, 0, 12))
+>s : Symbol(s, Decl(genericClassExpressionInFunction.jump, 26, 3))
+>genericVar : Symbol(A.genericVar, Decl(genericClassExpressionInFunction.jump, 0, 12))
+

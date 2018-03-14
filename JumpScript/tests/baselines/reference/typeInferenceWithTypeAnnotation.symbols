@@ -1,0 +1,15 @@
+=== tests/cases/compiler/typeInferenceWithTypeAnnotation.jump ===
+declare function f<T>(p: (t: T) => T): T;
+>f : Symbol(f, Decl(typeInferenceWithTypeAnnotation.jump, 0, 0))
+>T : Symbol(T, Decl(typeInferenceWithTypeAnnotation.jump, 0, 19))
+>p : Symbol(p, Decl(typeInferenceWithTypeAnnotation.jump, 0, 22))
+>t : Symbol(t, Decl(typeInferenceWithTypeAnnotation.jump, 0, 26))
+>T : Symbol(T, Decl(typeInferenceWithTypeAnnotation.jump, 0, 19))
+>T : Symbol(T, Decl(typeInferenceWithTypeAnnotation.jump, 0, 19))
+>T : Symbol(T, Decl(typeInferenceWithTypeAnnotation.jump, 0, 19))
+
+f((n: number) => n); 
+>f : Symbol(f, Decl(typeInferenceWithTypeAnnotation.jump, 0, 0))
+>n : Symbol(n, Decl(typeInferenceWithTypeAnnotation.jump, 2, 3))
+>n : Symbol(n, Decl(typeInferenceWithTypeAnnotation.jump, 2, 3))
+

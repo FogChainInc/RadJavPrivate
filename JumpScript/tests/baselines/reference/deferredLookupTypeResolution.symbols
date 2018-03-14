@@ -1,0 +1,76 @@
+=== tests/cases/compiler/deferredLookupTypeResolution.jump ===
+// Repro from #17456
+
+type StringContains<S extends string, L extends string> = (
+>StringContains : Symbol(StringContains, Decl(deferredLookupTypeResolution.jump, 0, 0))
+>S : Symbol(S, Decl(deferredLookupTypeResolution.jump, 2, 20))
+>L : Symbol(L, Decl(deferredLookupTypeResolution.jump, 2, 37))
+
+    { [K in S]:      'true' } &
+>K : Symbol(K, Decl(deferredLookupTypeResolution.jump, 3, 7))
+>S : Symbol(S, Decl(deferredLookupTypeResolution.jump, 2, 20))
+
+    { [key: string]: 'false' }
+>key : Symbol(key, Decl(deferredLookupTypeResolution.jump, 4, 7))
+
+  )[L]
+>L : Symbol(L, Decl(deferredLookupTypeResolution.jump, 2, 37))
+
+type ObjectHasKey<O, L extends string> = StringContains<keyof O, L>
+>ObjectHasKey : Symbol(ObjectHasKey, Decl(deferredLookupTypeResolution.jump, 5, 6))
+>O : Symbol(O, Decl(deferredLookupTypeResolution.jump, 7, 18))
+>L : Symbol(L, Decl(deferredLookupTypeResolution.jump, 7, 20))
+>StringContains : Symbol(StringContains, Decl(deferredLookupTypeResolution.jump, 0, 0))
+>O : Symbol(O, Decl(deferredLookupTypeResolution.jump, 7, 18))
+>L : Symbol(L, Decl(deferredLookupTypeResolution.jump, 7, 20))
+
+type First<T> = ObjectHasKey<T, '0'>;  // Should be deferred
+>First : Symbol(First, Decl(deferredLookupTypeResolution.jump, 7, 67))
+>T : Symbol(T, Decl(deferredLookupTypeResolution.jump, 9, 11))
+>ObjectHasKey : Symbol(ObjectHasKey, Decl(deferredLookupTypeResolution.jump, 5, 6))
+>T : Symbol(T, Decl(deferredLookupTypeResolution.jump, 9, 11))
+
+type T1 = ObjectHasKey<{ a: string }, 'a'>;  // 'true'
+>T1 : Symbol(T1, Decl(deferredLookupTypeResolution.jump, 9, 37))
+>ObjectHasKey : Symbol(ObjectHasKey, Decl(deferredLookupTypeResolution.jump, 5, 6))
+>a : Symbol(a, Decl(deferredLookupTypeResolution.jump, 11, 24))
+
+type T2 = ObjectHasKey<{ a: string }, 'b'>;  // 'false'
+>T2 : Symbol(T2, Decl(deferredLookupTypeResolution.jump, 11, 43))
+>ObjectHasKey : Symbol(ObjectHasKey, Decl(deferredLookupTypeResolution.jump, 5, 6))
+>a : Symbol(a, Decl(deferredLookupTypeResolution.jump, 12, 24))
+
+// Verify that mapped type isn't eagerly resolved in type-to-string operation
+
+declare function f1<A extends string, B extends string>(a: A, b: B): { [P in A | B]: any };
+>f1 : Symbol(f1, Decl(deferredLookupTypeResolution.jump, 12, 43))
+>A : Symbol(A, Decl(deferredLookupTypeResolution.jump, 16, 20))
+>B : Symbol(B, Decl(deferredLookupTypeResolution.jump, 16, 37))
+>a : Symbol(a, Decl(deferredLookupTypeResolution.jump, 16, 56))
+>A : Symbol(A, Decl(deferredLookupTypeResolution.jump, 16, 20))
+>b : Symbol(b, Decl(deferredLookupTypeResolution.jump, 16, 61))
+>B : Symbol(B, Decl(deferredLookupTypeResolution.jump, 16, 37))
+>P : Symbol(P, Decl(deferredLookupTypeResolution.jump, 16, 72))
+>A : Symbol(A, Decl(deferredLookupTypeResolution.jump, 16, 20))
+>B : Symbol(B, Decl(deferredLookupTypeResolution.jump, 16, 37))
+
+function f2<A extends string>(a: A) {
+>f2 : Symbol(f2, Decl(deferredLookupTypeResolution.jump, 16, 91))
+>A : Symbol(A, Decl(deferredLookupTypeResolution.jump, 18, 12))
+>a : Symbol(a, Decl(deferredLookupTypeResolution.jump, 18, 30))
+>A : Symbol(A, Decl(deferredLookupTypeResolution.jump, 18, 12))
+
+    return f1(a, 'x');
+>f1 : Symbol(f1, Decl(deferredLookupTypeResolution.jump, 12, 43))
+>a : Symbol(a, Decl(deferredLookupTypeResolution.jump, 18, 30))
+}
+
+function f3(x: 'a' | 'b') {
+>f3 : Symbol(f3, Decl(deferredLookupTypeResolution.jump, 20, 1))
+>x : Symbol(x, Decl(deferredLookupTypeResolution.jump, 22, 12))
+
+    return f2(x);
+>f2 : Symbol(f2, Decl(deferredLookupTypeResolution.jump, 16, 91))
+>x : Symbol(x, Decl(deferredLookupTypeResolution.jump, 22, 12))
+}
+

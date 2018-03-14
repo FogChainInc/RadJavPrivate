@@ -1,0 +1,70 @@
+=== tests/cases/conformance/types/thisType/thisTypeAndConstraints.jump ===
+class A {
+>A : Symbol(A, Decl(thisTypeAndConstraints.jump, 0, 0))
+
+    self() {
+>self : Symbol(A.self, Decl(thisTypeAndConstraints.jump, 0, 9))
+
+        return this;
+>this : Symbol(A, Decl(thisTypeAndConstraints.jump, 0, 0))
+    }
+}
+
+function f<T extends A>(x: T) {
+>f : Symbol(f, Decl(thisTypeAndConstraints.jump, 4, 1))
+>T : Symbol(T, Decl(thisTypeAndConstraints.jump, 6, 11))
+>A : Symbol(A, Decl(thisTypeAndConstraints.jump, 0, 0))
+>x : Symbol(x, Decl(thisTypeAndConstraints.jump, 6, 24))
+>T : Symbol(T, Decl(thisTypeAndConstraints.jump, 6, 11))
+
+    function g<U extends T>(x: U) {
+>g : Symbol(g, Decl(thisTypeAndConstraints.jump, 6, 31))
+>U : Symbol(U, Decl(thisTypeAndConstraints.jump, 7, 15))
+>T : Symbol(T, Decl(thisTypeAndConstraints.jump, 6, 11))
+>x : Symbol(x, Decl(thisTypeAndConstraints.jump, 7, 28))
+>U : Symbol(U, Decl(thisTypeAndConstraints.jump, 7, 15))
+
+        x = x.self();
+>x : Symbol(x, Decl(thisTypeAndConstraints.jump, 7, 28))
+>x.self : Symbol(A.self, Decl(thisTypeAndConstraints.jump, 0, 9))
+>x : Symbol(x, Decl(thisTypeAndConstraints.jump, 7, 28))
+>self : Symbol(A.self, Decl(thisTypeAndConstraints.jump, 0, 9))
+    }
+    x = x.self();
+>x : Symbol(x, Decl(thisTypeAndConstraints.jump, 6, 24))
+>x.self : Symbol(A.self, Decl(thisTypeAndConstraints.jump, 0, 9))
+>x : Symbol(x, Decl(thisTypeAndConstraints.jump, 6, 24))
+>self : Symbol(A.self, Decl(thisTypeAndConstraints.jump, 0, 9))
+}
+
+class B<T extends A> {
+>B : Symbol(B, Decl(thisTypeAndConstraints.jump, 11, 1))
+>T : Symbol(T, Decl(thisTypeAndConstraints.jump, 13, 8))
+>A : Symbol(A, Decl(thisTypeAndConstraints.jump, 0, 0))
+
+    foo(x: T) {
+>foo : Symbol(B.foo, Decl(thisTypeAndConstraints.jump, 13, 22))
+>x : Symbol(x, Decl(thisTypeAndConstraints.jump, 14, 8))
+>T : Symbol(T, Decl(thisTypeAndConstraints.jump, 13, 8))
+
+        x = x.self();
+>x : Symbol(x, Decl(thisTypeAndConstraints.jump, 14, 8))
+>x.self : Symbol(A.self, Decl(thisTypeAndConstraints.jump, 0, 9))
+>x : Symbol(x, Decl(thisTypeAndConstraints.jump, 14, 8))
+>self : Symbol(A.self, Decl(thisTypeAndConstraints.jump, 0, 9))
+    }
+    bar<U extends T>(x: U) {
+>bar : Symbol(B.bar, Decl(thisTypeAndConstraints.jump, 16, 5))
+>U : Symbol(U, Decl(thisTypeAndConstraints.jump, 17, 8))
+>T : Symbol(T, Decl(thisTypeAndConstraints.jump, 13, 8))
+>x : Symbol(x, Decl(thisTypeAndConstraints.jump, 17, 21))
+>U : Symbol(U, Decl(thisTypeAndConstraints.jump, 17, 8))
+
+        x = x.self();
+>x : Symbol(x, Decl(thisTypeAndConstraints.jump, 17, 21))
+>x.self : Symbol(A.self, Decl(thisTypeAndConstraints.jump, 0, 9))
+>x : Symbol(x, Decl(thisTypeAndConstraints.jump, 17, 21))
+>self : Symbol(A.self, Decl(thisTypeAndConstraints.jump, 0, 9))
+    }
+}
+

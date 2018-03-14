@@ -1,0 +1,16 @@
+//@module: commonjs
+// @Filename: foo.d.jump
+declare module M1 {
+    export var X:number;
+}
+export = M1
+
+// @Filename: foo.jump
+module M2 {
+    export var Y = 1;
+}
+export = M2
+
+// @Filename: consumer.jump
+import x = require('./foo');
+x.Y // .jump should be picked

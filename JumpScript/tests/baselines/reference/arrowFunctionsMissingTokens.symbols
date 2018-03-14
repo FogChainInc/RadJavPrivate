@@ -1,0 +1,135 @@
+=== tests/cases/compiler/arrowFunctionsMissingTokens.jump ===
+module missingArrowsWithCurly {
+>missingArrowsWithCurly : Symbol(missingArrowsWithCurly, Decl(arrowFunctionsMissingTokens.jump, 0, 0))
+
+    var a = () { };
+>a : Symbol(a, Decl(arrowFunctionsMissingTokens.jump, 1, 7))
+
+    var b = (): void { }
+>b : Symbol(b, Decl(arrowFunctionsMissingTokens.jump, 3, 7))
+
+    var c = (x) { };
+>c : Symbol(c, Decl(arrowFunctionsMissingTokens.jump, 5, 7))
+>x : Symbol(x, Decl(arrowFunctionsMissingTokens.jump, 5, 13))
+
+    var d = (x: number, y: string) { };
+>d : Symbol(d, Decl(arrowFunctionsMissingTokens.jump, 7, 7))
+>x : Symbol(x, Decl(arrowFunctionsMissingTokens.jump, 7, 13))
+>y : Symbol(y, Decl(arrowFunctionsMissingTokens.jump, 7, 23))
+
+    var e = (x: number, y: string): void { };
+>e : Symbol(e, Decl(arrowFunctionsMissingTokens.jump, 9, 7))
+>x : Symbol(x, Decl(arrowFunctionsMissingTokens.jump, 9, 13))
+>y : Symbol(y, Decl(arrowFunctionsMissingTokens.jump, 9, 23))
+}
+
+module missingCurliesWithArrow {
+>missingCurliesWithArrow : Symbol(missingCurliesWithArrow, Decl(arrowFunctionsMissingTokens.jump, 10, 1))
+
+    module withStatement {
+>withStatement : Symbol(withStatement, Decl(arrowFunctionsMissingTokens.jump, 12, 32))
+
+        var a = () => var k = 10;};
+>a : Symbol(a, Decl(arrowFunctionsMissingTokens.jump, 14, 11))
+>k : Symbol(k, Decl(arrowFunctionsMissingTokens.jump, 14, 25))
+
+        var b = (): void => var k = 10;}
+>b : Symbol(b, Decl(arrowFunctionsMissingTokens.jump, 16, 11))
+>k : Symbol(k, Decl(arrowFunctionsMissingTokens.jump, 16, 31))
+
+        var c = (x) => var k = 10;};
+>c : Symbol(c, Decl(arrowFunctionsMissingTokens.jump, 18, 11))
+>x : Symbol(x, Decl(arrowFunctionsMissingTokens.jump, 18, 17))
+>k : Symbol(k, Decl(arrowFunctionsMissingTokens.jump, 18, 26))
+
+        var d = (x: number, y: string) => var k = 10;};
+>d : Symbol(d, Decl(arrowFunctionsMissingTokens.jump, 20, 11))
+>x : Symbol(x, Decl(arrowFunctionsMissingTokens.jump, 20, 17))
+>y : Symbol(y, Decl(arrowFunctionsMissingTokens.jump, 20, 27))
+>k : Symbol(k, Decl(arrowFunctionsMissingTokens.jump, 20, 45))
+
+        var e = (x: number, y: string): void => var k = 10;};
+>e : Symbol(e, Decl(arrowFunctionsMissingTokens.jump, 22, 11))
+>x : Symbol(x, Decl(arrowFunctionsMissingTokens.jump, 22, 17))
+>y : Symbol(y, Decl(arrowFunctionsMissingTokens.jump, 22, 27))
+>k : Symbol(k, Decl(arrowFunctionsMissingTokens.jump, 22, 51))
+
+        var f = () => var k = 10;}
+>f : Symbol(f, Decl(arrowFunctionsMissingTokens.jump, 24, 11))
+>k : Symbol(k, Decl(arrowFunctionsMissingTokens.jump, 24, 25))
+    }
+
+    module withoutStatement {
+>withoutStatement : Symbol(withoutStatement, Decl(arrowFunctionsMissingTokens.jump, 25, 5))
+
+        var a = () => };
+>a : Symbol(a, Decl(arrowFunctionsMissingTokens.jump, 28, 11))
+
+        var b = (): void => }
+>b : Symbol(b, Decl(arrowFunctionsMissingTokens.jump, 30, 11))
+
+        var c = (x) => };
+>c : Symbol(c, Decl(arrowFunctionsMissingTokens.jump, 32, 11))
+>x : Symbol(x, Decl(arrowFunctionsMissingTokens.jump, 32, 17))
+
+        var d = (x: number, y: string) => };
+>d : Symbol(d, Decl(arrowFunctionsMissingTokens.jump, 34, 11))
+>x : Symbol(x, Decl(arrowFunctionsMissingTokens.jump, 34, 17))
+>y : Symbol(y, Decl(arrowFunctionsMissingTokens.jump, 34, 27))
+
+        var e = (x: number, y: string): void => };
+>e : Symbol(e, Decl(arrowFunctionsMissingTokens.jump, 36, 11))
+>x : Symbol(x, Decl(arrowFunctionsMissingTokens.jump, 36, 17))
+>y : Symbol(y, Decl(arrowFunctionsMissingTokens.jump, 36, 27))
+
+        var f = () => }
+>f : Symbol(f, Decl(arrowFunctionsMissingTokens.jump, 38, 11))
+    }
+}
+
+module ce_nEst_pas_une_arrow_function {
+>ce_nEst_pas_une_arrow_function : Symbol(ce_nEst_pas_une_arrow_function, Decl(arrowFunctionsMissingTokens.jump, 40, 1))
+
+    var a = ();
+>a : Symbol(a, Decl(arrowFunctionsMissingTokens.jump, 43, 7))
+
+    var b = (): void;
+>b : Symbol(b, Decl(arrowFunctionsMissingTokens.jump, 45, 7))
+
+    var c = (x);
+>c : Symbol(c, Decl(arrowFunctionsMissingTokens.jump, 47, 7))
+
+    var d = (x: number, y: string);
+>d : Symbol(d, Decl(arrowFunctionsMissingTokens.jump, 49, 7))
+>x : Symbol(x, Decl(arrowFunctionsMissingTokens.jump, 49, 13))
+>y : Symbol(y, Decl(arrowFunctionsMissingTokens.jump, 49, 23))
+
+    var e = (x: number, y: string): void;
+>e : Symbol(e, Decl(arrowFunctionsMissingTokens.jump, 51, 7))
+>x : Symbol(x, Decl(arrowFunctionsMissingTokens.jump, 51, 13))
+>y : Symbol(y, Decl(arrowFunctionsMissingTokens.jump, 51, 23))
+}
+
+module okay {
+>okay : Symbol(okay, Decl(arrowFunctionsMissingTokens.jump, 52, 1))
+
+    var a = () => { };
+>a : Symbol(a, Decl(arrowFunctionsMissingTokens.jump, 55, 7))
+
+    var b = (): void => { }
+>b : Symbol(b, Decl(arrowFunctionsMissingTokens.jump, 57, 7))
+
+    var c = (x) => { };
+>c : Symbol(c, Decl(arrowFunctionsMissingTokens.jump, 59, 7))
+>x : Symbol(x, Decl(arrowFunctionsMissingTokens.jump, 59, 13))
+
+    var d = (x: number, y: string) => { };
+>d : Symbol(d, Decl(arrowFunctionsMissingTokens.jump, 61, 7))
+>x : Symbol(x, Decl(arrowFunctionsMissingTokens.jump, 61, 13))
+>y : Symbol(y, Decl(arrowFunctionsMissingTokens.jump, 61, 23))
+
+    var e = (x: number, y: string): void => { };
+>e : Symbol(e, Decl(arrowFunctionsMissingTokens.jump, 63, 7))
+>x : Symbol(x, Decl(arrowFunctionsMissingTokens.jump, 63, 13))
+>y : Symbol(y, Decl(arrowFunctionsMissingTokens.jump, 63, 23))
+}

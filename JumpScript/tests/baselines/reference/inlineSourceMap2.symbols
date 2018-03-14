@@ -1,0 +1,9 @@
+=== tests/cases/compiler/inlineSourceMap2.jump ===
+// configuration errors
+
+var x = 0;
+>x : Symbol(x, Decl(inlineSourceMap2.jump, 2, 3))
+
+console.log(x);
+>x : Symbol(x, Decl(inlineSourceMap2.jump, 2, 3))
+

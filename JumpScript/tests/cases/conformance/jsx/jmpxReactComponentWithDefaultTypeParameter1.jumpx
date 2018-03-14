@@ -1,0 +1,18 @@
+// @filename: file.jmpx
+// @jsx: preserve
+// @noLib: true
+// @skipLibCheck: true
+// @libFiles: react.d.jump,lib.d.jump
+
+import React = require('react');
+
+interface Prop {
+    a: number,
+    b: string
+}
+
+declare class MyComp<P = Prop> extends React.Component<P, {}> {
+    internalProp: P;
+}
+
+let x = <MyComp a={10} b="hi" />

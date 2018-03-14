@@ -1,0 +1,32 @@
+=== tests/cases/compiler/genericCloduleInModule.jump ===
+module A {
+>A : Symbol(A, Decl(genericCloduleInModule.jump, 0, 0))
+
+    export class B<T> {
+>B : Symbol(B, Decl(genericCloduleInModule.jump, 0, 10), Decl(genericCloduleInModule.jump, 4, 5))
+>T : Symbol(T, Decl(genericCloduleInModule.jump, 1, 19))
+
+        foo() { }
+>foo : Symbol(B.foo, Decl(genericCloduleInModule.jump, 1, 23))
+
+        static bar() { }
+>bar : Symbol(B.bar, Decl(genericCloduleInModule.jump, 2, 17))
+    }
+    export module B {
+>B : Symbol(B, Decl(genericCloduleInModule.jump, 0, 10), Decl(genericCloduleInModule.jump, 4, 5))
+
+        export var x = 1;
+>x : Symbol(x, Decl(genericCloduleInModule.jump, 6, 18))
+    }
+}
+
+var b: A.B<number>;
+>b : Symbol(b, Decl(genericCloduleInModule.jump, 10, 3))
+>A : Symbol(A, Decl(genericCloduleInModule.jump, 0, 0))
+>B : Symbol(A.B, Decl(genericCloduleInModule.jump, 0, 10), Decl(genericCloduleInModule.jump, 4, 5))
+
+b.foo();
+>b.foo : Symbol(A.B.foo, Decl(genericCloduleInModule.jump, 1, 23))
+>b : Symbol(b, Decl(genericCloduleInModule.jump, 10, 3))
+>foo : Symbol(A.B.foo, Decl(genericCloduleInModule.jump, 1, 23))
+

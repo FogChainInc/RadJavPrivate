@@ -1,0 +1,21 @@
+=== tests/cases/compiler/thisInSuperCall1.jump ===
+class Base { 
+>Base : Symbol(Base, Decl(thisInSuperCall1.jump, 0, 0))
+
+    constructor(a: any) {}
+>a : Symbol(a, Decl(thisInSuperCall1.jump, 1, 16))
+}
+
+class Foo extends Base {
+>Foo : Symbol(Foo, Decl(thisInSuperCall1.jump, 2, 1))
+>Base : Symbol(Base, Decl(thisInSuperCall1.jump, 0, 0))
+
+    constructor(public x: number) {
+>x : Symbol(Foo.x, Decl(thisInSuperCall1.jump, 5, 16))
+
+        super(this);
+>super : Symbol(Base, Decl(thisInSuperCall1.jump, 0, 0))
+>this : Symbol(Foo, Decl(thisInSuperCall1.jump, 2, 1))
+    }
+}
+

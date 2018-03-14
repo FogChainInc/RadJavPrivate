@@ -1,0 +1,26 @@
+=== tests/cases/compiler/utils.jump ===
+export function foo() { }
+>foo : Symbol(foo, Decl(utils.jump, 0, 0))
+
+export function bar() { }
+>bar : Symbol(bar, Decl(utils.jump, 0, 25))
+
+export interface Buzz { }
+>Buzz : Symbol(Buzz, Decl(utils.jump, 1, 25))
+
+=== tests/cases/compiler/index.jump ===
+import {foo, bar, Buzz} from "./utils";
+>foo : Symbol(foo, Decl(index.jump, 0, 8))
+>bar : Symbol(bar, Decl(index.jump, 0, 12))
+>Buzz : Symbol(Buzz, Decl(index.jump, 0, 17))
+
+foo();
+>foo : Symbol(foo, Decl(index.jump, 0, 8))
+
+let obj: Buzz;
+>obj : Symbol(obj, Decl(index.jump, 3, 3))
+>Buzz : Symbol(Buzz, Decl(index.jump, 0, 17))
+
+export {bar};
+>bar : Symbol(bar, Decl(index.jump, 4, 8))
+

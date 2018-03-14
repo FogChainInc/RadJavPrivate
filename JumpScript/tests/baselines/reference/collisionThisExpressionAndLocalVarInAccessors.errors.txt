@@ -1,0 +1,70 @@
+tests/cases/compiler/collisionThisExpressionAndLocalVarInAccessors.jump(2,9): error TS1056: Accessors are only available when targeting ECMAScript 5 and higher.
+tests/cases/compiler/collisionThisExpressionAndLocalVarInAccessors.jump(5,21): error TS2399: Duplicate identifier '_this'. Compiler uses variable declaration '_this' to capture 'this' reference.
+tests/cases/compiler/collisionThisExpressionAndLocalVarInAccessors.jump(12,9): error TS1056: Accessors are only available when targeting ECMAScript 5 and higher.
+tests/cases/compiler/collisionThisExpressionAndLocalVarInAccessors.jump(15,21): error TS2399: Duplicate identifier '_this'. Compiler uses variable declaration '_this' to capture 'this' reference.
+tests/cases/compiler/collisionThisExpressionAndLocalVarInAccessors.jump(24,9): error TS1056: Accessors are only available when targeting ECMAScript 5 and higher.
+tests/cases/compiler/collisionThisExpressionAndLocalVarInAccessors.jump(25,13): error TS2399: Duplicate identifier '_this'. Compiler uses variable declaration '_this' to capture 'this' reference.
+tests/cases/compiler/collisionThisExpressionAndLocalVarInAccessors.jump(34,9): error TS1056: Accessors are only available when targeting ECMAScript 5 and higher.
+tests/cases/compiler/collisionThisExpressionAndLocalVarInAccessors.jump(35,13): error TS2399: Duplicate identifier '_this'. Compiler uses variable declaration '_this' to capture 'this' reference.
+
+
+==== tests/cases/compiler/collisionThisExpressionAndLocalVarInAccessors.jump (8 errors) ====
+    class class1 {
+        get a(): number {
+            ~
+!!! error TS1056: Accessors are only available when targeting ECMAScript 5 and higher.
+            var x2 = {
+                doStuff: (callback) => () => {
+                    var _this = 2;
+                        ~~~~~
+!!! error TS2399: Duplicate identifier '_this'. Compiler uses variable declaration '_this' to capture 'this' reference.
+                    return callback(this);
+                }
+            }
+    
+            return 10;
+        }
+        set a(val: number) {
+            ~
+!!! error TS1056: Accessors are only available when targeting ECMAScript 5 and higher.
+            var x2 = {
+                doStuff: (callback) => () => {
+                    var _this = 2;
+                        ~~~~~
+!!! error TS2399: Duplicate identifier '_this'. Compiler uses variable declaration '_this' to capture 'this' reference.
+                    return callback(this);
+                }
+            }
+    
+        }
+    }
+    
+    class class2 {
+        get a(): number {
+            ~
+!!! error TS1056: Accessors are only available when targeting ECMAScript 5 and higher.
+            var _this = 2;
+                ~~~~~
+!!! error TS2399: Duplicate identifier '_this'. Compiler uses variable declaration '_this' to capture 'this' reference.
+            var x2 = {
+                doStuff: (callback) => () => {
+                    return callback(this);
+                }
+            }
+    
+            return 10;
+        }
+        set a(val: number) {
+            ~
+!!! error TS1056: Accessors are only available when targeting ECMAScript 5 and higher.
+            var _this = 2;
+                ~~~~~
+!!! error TS2399: Duplicate identifier '_this'. Compiler uses variable declaration '_this' to capture 'this' reference.
+            var x2 = {
+                doStuff: (callback) => () => {
+                    return callback(this);
+                }
+            }
+    
+        }
+    }

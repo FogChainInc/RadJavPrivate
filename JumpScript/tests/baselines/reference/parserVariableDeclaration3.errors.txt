@@ -1,0 +1,21 @@
+tests/cases/conformance/parser/ecmascript5/VariableDeclarations/parserVariableDeclaration3.jump(2,23): error TS2304: Cannot find name 'Harness'.
+tests/cases/conformance/parser/ecmascript5/VariableDeclarations/parserVariableDeclaration3.jump(3,22): error TS2304: Cannot find name 'Harness'.
+tests/cases/conformance/parser/ecmascript5/VariableDeclarations/parserVariableDeclaration3.jump(4,21): error TS2503: Cannot find namespace 'JumpScript'.
+tests/cases/conformance/parser/ecmascript5/VariableDeclarations/parserVariableDeclaration3.jump(4,55): error TS2304: Cannot find name 'JumpScript'.
+
+
+==== tests/cases/conformance/parser/ecmascript5/VariableDeclarations/parserVariableDeclaration3.jump (4 errors) ====
+    function runTests() {
+        var outfile = new Harness.Compiler.WriterAggregator()
+                          ~~~~~~~
+!!! error TS2304: Cannot find name 'Harness'.
+          , outerr = new Harness.Compiler.WriterAggregator()
+                         ~~~~~~~
+!!! error TS2304: Cannot find name 'Harness'.
+          , compiler = <JumpScript.JumpScriptCompiler>new JumpScript.JumpScriptCompiler(outerr)
+                        ~~~~~~~~~~
+!!! error TS2503: Cannot find namespace 'JumpScript'.
+                                                          ~~~~~~~~~~
+!!! error TS2304: Cannot find name 'JumpScript'.
+          , code;
+    }

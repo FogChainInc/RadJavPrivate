@@ -1,0 +1,7 @@
+=== tests/cases/compiler/numericMethodName1.jump ===
+class C {
+>C : Symbol(C, Decl(numericMethodName1.jump, 0, 0))
+
+  1 = 2;
+}
+

@@ -1,0 +1,15 @@
+=== tests/cases/compiler/untypedArgumentInLambdaExpression.jump ===
+declare function f(fn: (a: string) => string);
+>f : Symbol(f, Decl(untypedArgumentInLambdaExpression.jump, 0, 0))
+>fn : Symbol(fn, Decl(untypedArgumentInLambdaExpression.jump, 0, 19))
+>a : Symbol(a, Decl(untypedArgumentInLambdaExpression.jump, 0, 24))
+ 
+f((input): string => {
+>f : Symbol(f, Decl(untypedArgumentInLambdaExpression.jump, 0, 0))
+>input : Symbol(input, Decl(untypedArgumentInLambdaExpression.jump, 2, 3))
+
+    return "." + input;
+>input : Symbol(input, Decl(untypedArgumentInLambdaExpression.jump, 2, 3))
+
+});
+ 

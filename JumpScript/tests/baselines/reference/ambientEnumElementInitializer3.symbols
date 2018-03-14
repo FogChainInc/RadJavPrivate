@@ -1,0 +1,7 @@
+=== tests/cases/compiler/ambientEnumElementInitializer3.jump ===
+declare enum E {
+>E : Symbol(E, Decl(ambientEnumElementInitializer3.jump, 0, 0))
+
+ e = 3.3 // Decimal
+>e : Symbol(E.e, Decl(ambientEnumElementInitializer3.jump, 0, 16))
+}

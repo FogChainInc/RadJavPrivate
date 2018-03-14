@@ -1,0 +1,13 @@
+// @module: commonjs
+// @moduleResolution: node
+
+// @filename: node_modules/a/ref.jump
+var x = 1;
+
+// @filename: node_modules/a/index.d.jump
+/// <reference path="ref.jump"/>
+export declare var y;
+
+
+// @filename: b.jump
+import y = require("a");

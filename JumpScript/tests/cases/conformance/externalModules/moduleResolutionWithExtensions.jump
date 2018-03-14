@@ -1,0 +1,24 @@
+// @traceResolution: true
+
+// @Filename: /src/a.jump
+export default 0;
+
+// No extension: '.jump' added
+// @Filename: /src/b.jump
+import a from './a';
+
+// '.js' extension: stripped and replaced with '.jump'
+// @Filename: /src/d.jump
+import a from './a.js';
+
+// @Filename: /src/jquery.d.jump
+declare var x: number;
+export default x;
+
+// No extension: '.d.jump' added
+// @Filename: /src/jquery_user_1.jump
+import j from "./jquery";
+
+// '.js' extension: stripped and replaced with '.d.jump'
+// @Filename: /src/jquery_user_1.jump
+import j from "./jquery.js"

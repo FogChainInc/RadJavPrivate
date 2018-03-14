@@ -1,0 +1,40 @@
+=== tests/cases/compiler/typePredicatesInUnion.jump ===
+interface A {
+>A : Symbol(A, Decl(typePredicatesInUnion.jump, 0, 0))
+
+    pred(x: {}): x is boolean;
+>pred : Symbol(A.pred, Decl(typePredicatesInUnion.jump, 0, 13))
+>x : Symbol(x, Decl(typePredicatesInUnion.jump, 1, 9))
+>x : Symbol(x, Decl(typePredicatesInUnion.jump, 1, 9))
+}
+interface B {
+>B : Symbol(B, Decl(typePredicatesInUnion.jump, 2, 1))
+
+    pred(x: {}): x is string;
+>pred : Symbol(B.pred, Decl(typePredicatesInUnion.jump, 3, 13))
+>x : Symbol(x, Decl(typePredicatesInUnion.jump, 4, 9))
+>x : Symbol(x, Decl(typePredicatesInUnion.jump, 4, 9))
+}
+
+type Or = A | B;
+>Or : Symbol(Or, Decl(typePredicatesInUnion.jump, 5, 1))
+>A : Symbol(A, Decl(typePredicatesInUnion.jump, 0, 0))
+>B : Symbol(B, Decl(typePredicatesInUnion.jump, 2, 1))
+
+function f(o: Or, x: {}) {
+>f : Symbol(f, Decl(typePredicatesInUnion.jump, 7, 16))
+>o : Symbol(o, Decl(typePredicatesInUnion.jump, 9, 11))
+>Or : Symbol(Or, Decl(typePredicatesInUnion.jump, 5, 1))
+>x : Symbol(x, Decl(typePredicatesInUnion.jump, 9, 17))
+
+    if (o.pred(x)) {
+>o.pred : Symbol(pred, Decl(typePredicatesInUnion.jump, 0, 13), Decl(typePredicatesInUnion.jump, 3, 13))
+>o : Symbol(o, Decl(typePredicatesInUnion.jump, 9, 11))
+>pred : Symbol(pred, Decl(typePredicatesInUnion.jump, 0, 13), Decl(typePredicatesInUnion.jump, 3, 13))
+>x : Symbol(x, Decl(typePredicatesInUnion.jump, 9, 17))
+
+        x;
+>x : Symbol(x, Decl(typePredicatesInUnion.jump, 9, 17))
+    }
+}
+

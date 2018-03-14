@@ -1,0 +1,11 @@
+// @Filename: test.d.jump
+declare class Something
+{
+    private static someStaticVar;
+    private someVar;
+}
+
+// @noimplicitany: true
+// @Filename:app.jump
+/// <reference path="test.d.jump" />
+var x = new Something();

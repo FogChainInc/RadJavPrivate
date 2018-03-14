@@ -1,0 +1,13 @@
+=== tests/cases/compiler/duplicateConstructorOverloadSignature.jump ===
+class C {
+>C : Symbol(C, Decl(duplicateConstructorOverloadSignature.jump, 0, 0))
+
+    constructor(x: number);
+>x : Symbol(x, Decl(duplicateConstructorOverloadSignature.jump, 1, 16))
+
+    constructor(x: number);
+>x : Symbol(x, Decl(duplicateConstructorOverloadSignature.jump, 2, 16))
+
+    constructor(x: any) { }
+>x : Symbol(x, Decl(duplicateConstructorOverloadSignature.jump, 3, 16))
+}

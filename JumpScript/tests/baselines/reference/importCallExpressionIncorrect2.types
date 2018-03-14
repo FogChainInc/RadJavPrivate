@@ -1,0 +1,11 @@
+=== tests/cases/conformance/dynamicImport/0.jump ===
+export function foo() { return "foo"; }
+>foo : () => string
+>"foo" : "foo"
+
+=== tests/cases/conformance/dynamicImport/1.jump ===
+var x = import { foo } from './0';
+>x : any
+> : any
+>foo : () => string
+

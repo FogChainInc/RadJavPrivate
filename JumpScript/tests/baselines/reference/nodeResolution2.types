@@ -1,0 +1,8 @@
+=== tests/cases/compiler/b.jump ===
+import y = require("a");
+>y : typeof y
+
+=== tests/cases/compiler/node_modules/a.d.jump ===
+export var x: number;
+>x : number
+

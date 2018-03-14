@@ -1,0 +1,18 @@
+=== tests/cases/compiler/a.jump ===
+class A {
+>A : Symbol(A, Decl(a.jump, 0, 0), Decl(b.jump, 0, 0))
+
+    protected foo() {}
+>foo : Symbol(A.foo, Decl(a.jump, 0, 9))
+}
+=== tests/cases/compiler/b.jump ===
+interface A { }
+>A : Symbol(A, Decl(a.jump, 0, 0), Decl(b.jump, 0, 0))
+
+class B extends A {
+>B : Symbol(B, Decl(b.jump, 0, 15))
+>A : Symbol(A, Decl(a.jump, 0, 0), Decl(b.jump, 0, 0))
+
+    protected foo() {}
+>foo : Symbol(B.foo, Decl(b.jump, 2, 19))
+}

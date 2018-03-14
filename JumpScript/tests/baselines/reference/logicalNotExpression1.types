@@ -1,0 +1,5 @@
+=== tests/cases/compiler/logicalNotExpression1.jump ===
+!foo;
+>!foo : boolean
+>foo : any
+

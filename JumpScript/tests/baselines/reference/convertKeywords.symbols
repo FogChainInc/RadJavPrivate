@@ -1,0 +1,6 @@
+=== tests/cases/compiler/convertKeywords.jump ===
+var abstract;
+>abstract : Symbol(abstract, Decl(convertKeywords.jump, 0, 3))
+
+
+

@@ -1,0 +1,114 @@
+=== tests/cases/compiler/genericsAndHigherOrderFunctions.jump ===
+// no errors expected
+
+var combine: <T, S>(f: (_: T) => S) =>
+>combine : Symbol(combine, Decl(genericsAndHigherOrderFunctions.jump, 2, 3))
+>T : Symbol(T, Decl(genericsAndHigherOrderFunctions.jump, 2, 14))
+>S : Symbol(S, Decl(genericsAndHigherOrderFunctions.jump, 2, 16))
+>f : Symbol(f, Decl(genericsAndHigherOrderFunctions.jump, 2, 20))
+>_ : Symbol(_, Decl(genericsAndHigherOrderFunctions.jump, 2, 24))
+>T : Symbol(T, Decl(genericsAndHigherOrderFunctions.jump, 2, 14))
+>S : Symbol(S, Decl(genericsAndHigherOrderFunctions.jump, 2, 16))
+
+    <U>(g: (_: U) => T) =>
+>U : Symbol(U, Decl(genericsAndHigherOrderFunctions.jump, 3, 5))
+>g : Symbol(g, Decl(genericsAndHigherOrderFunctions.jump, 3, 8))
+>_ : Symbol(_, Decl(genericsAndHigherOrderFunctions.jump, 3, 12))
+>U : Symbol(U, Decl(genericsAndHigherOrderFunctions.jump, 3, 5))
+>T : Symbol(T, Decl(genericsAndHigherOrderFunctions.jump, 2, 14))
+
+    (x: U) => S
+>x : Symbol(x, Decl(genericsAndHigherOrderFunctions.jump, 4, 5))
+>U : Symbol(U, Decl(genericsAndHigherOrderFunctions.jump, 3, 5))
+>S : Symbol(S, Decl(genericsAndHigherOrderFunctions.jump, 2, 16))
+
+    = <T, S>(f: (_: T) => S) =>
+>T : Symbol(T, Decl(genericsAndHigherOrderFunctions.jump, 6, 7))
+>S : Symbol(S, Decl(genericsAndHigherOrderFunctions.jump, 6, 9))
+>f : Symbol(f, Decl(genericsAndHigherOrderFunctions.jump, 6, 13))
+>_ : Symbol(_, Decl(genericsAndHigherOrderFunctions.jump, 6, 17))
+>T : Symbol(T, Decl(genericsAndHigherOrderFunctions.jump, 6, 7))
+>S : Symbol(S, Decl(genericsAndHigherOrderFunctions.jump, 6, 9))
+
+        <U>(g: (_: U) => T) =>
+>U : Symbol(U, Decl(genericsAndHigherOrderFunctions.jump, 7, 9))
+>g : Symbol(g, Decl(genericsAndHigherOrderFunctions.jump, 7, 12))
+>_ : Symbol(_, Decl(genericsAndHigherOrderFunctions.jump, 7, 16))
+>U : Symbol(U, Decl(genericsAndHigherOrderFunctions.jump, 7, 9))
+>T : Symbol(T, Decl(genericsAndHigherOrderFunctions.jump, 6, 7))
+
+            (x: U) => f(g(x))
+>x : Symbol(x, Decl(genericsAndHigherOrderFunctions.jump, 8, 13))
+>U : Symbol(U, Decl(genericsAndHigherOrderFunctions.jump, 7, 9))
+>f : Symbol(f, Decl(genericsAndHigherOrderFunctions.jump, 6, 13))
+>g : Symbol(g, Decl(genericsAndHigherOrderFunctions.jump, 7, 12))
+>x : Symbol(x, Decl(genericsAndHigherOrderFunctions.jump, 8, 13))
+
+var foo: <K, N>(g: (x: K) => N) =>
+>foo : Symbol(foo, Decl(genericsAndHigherOrderFunctions.jump, 10, 3))
+>K : Symbol(K, Decl(genericsAndHigherOrderFunctions.jump, 10, 10))
+>N : Symbol(N, Decl(genericsAndHigherOrderFunctions.jump, 10, 12))
+>g : Symbol(g, Decl(genericsAndHigherOrderFunctions.jump, 10, 16))
+>x : Symbol(x, Decl(genericsAndHigherOrderFunctions.jump, 10, 20))
+>K : Symbol(K, Decl(genericsAndHigherOrderFunctions.jump, 10, 10))
+>N : Symbol(N, Decl(genericsAndHigherOrderFunctions.jump, 10, 12))
+
+    (h: <M>(_: (_: K) => (_: M) => M) => (_: M) => M) =>
+>h : Symbol(h, Decl(genericsAndHigherOrderFunctions.jump, 11, 5))
+>M : Symbol(M, Decl(genericsAndHigherOrderFunctions.jump, 11, 9))
+>_ : Symbol(_, Decl(genericsAndHigherOrderFunctions.jump, 11, 12))
+>_ : Symbol(_, Decl(genericsAndHigherOrderFunctions.jump, 11, 16))
+>K : Symbol(K, Decl(genericsAndHigherOrderFunctions.jump, 10, 10))
+>_ : Symbol(_, Decl(genericsAndHigherOrderFunctions.jump, 11, 26))
+>M : Symbol(M, Decl(genericsAndHigherOrderFunctions.jump, 11, 9))
+>M : Symbol(M, Decl(genericsAndHigherOrderFunctions.jump, 11, 9))
+>_ : Symbol(_, Decl(genericsAndHigherOrderFunctions.jump, 11, 42))
+>M : Symbol(M, Decl(genericsAndHigherOrderFunctions.jump, 11, 9))
+>M : Symbol(M, Decl(genericsAndHigherOrderFunctions.jump, 11, 9))
+
+    <R>(f: (_: N) => (_: R) => R) => (_: R) => R
+>R : Symbol(R, Decl(genericsAndHigherOrderFunctions.jump, 12, 5))
+>f : Symbol(f, Decl(genericsAndHigherOrderFunctions.jump, 12, 8))
+>_ : Symbol(_, Decl(genericsAndHigherOrderFunctions.jump, 12, 12))
+>N : Symbol(N, Decl(genericsAndHigherOrderFunctions.jump, 10, 12))
+>_ : Symbol(_, Decl(genericsAndHigherOrderFunctions.jump, 12, 22))
+>R : Symbol(R, Decl(genericsAndHigherOrderFunctions.jump, 12, 5))
+>R : Symbol(R, Decl(genericsAndHigherOrderFunctions.jump, 12, 5))
+>_ : Symbol(_, Decl(genericsAndHigherOrderFunctions.jump, 12, 38))
+>R : Symbol(R, Decl(genericsAndHigherOrderFunctions.jump, 12, 5))
+>R : Symbol(R, Decl(genericsAndHigherOrderFunctions.jump, 12, 5))
+
+    = <K, N>(g: (x: K) => N) =>
+>K : Symbol(K, Decl(genericsAndHigherOrderFunctions.jump, 14, 7))
+>N : Symbol(N, Decl(genericsAndHigherOrderFunctions.jump, 14, 9))
+>g : Symbol(g, Decl(genericsAndHigherOrderFunctions.jump, 14, 13))
+>x : Symbol(x, Decl(genericsAndHigherOrderFunctions.jump, 14, 17))
+>K : Symbol(K, Decl(genericsAndHigherOrderFunctions.jump, 14, 7))
+>N : Symbol(N, Decl(genericsAndHigherOrderFunctions.jump, 14, 9))
+
+        (h: <M>(_: (_: K) => (_: M) => M) => (_: M) => M) =>
+>h : Symbol(h, Decl(genericsAndHigherOrderFunctions.jump, 15, 9))
+>M : Symbol(M, Decl(genericsAndHigherOrderFunctions.jump, 15, 13))
+>_ : Symbol(_, Decl(genericsAndHigherOrderFunctions.jump, 15, 16))
+>_ : Symbol(_, Decl(genericsAndHigherOrderFunctions.jump, 15, 20))
+>K : Symbol(K, Decl(genericsAndHigherOrderFunctions.jump, 14, 7))
+>_ : Symbol(_, Decl(genericsAndHigherOrderFunctions.jump, 15, 30))
+>M : Symbol(M, Decl(genericsAndHigherOrderFunctions.jump, 15, 13))
+>M : Symbol(M, Decl(genericsAndHigherOrderFunctions.jump, 15, 13))
+>_ : Symbol(_, Decl(genericsAndHigherOrderFunctions.jump, 15, 46))
+>M : Symbol(M, Decl(genericsAndHigherOrderFunctions.jump, 15, 13))
+>M : Symbol(M, Decl(genericsAndHigherOrderFunctions.jump, 15, 13))
+
+            <R>(f: (_: N) => (_: R) => R) => h(combine(f)(g))
+>R : Symbol(R, Decl(genericsAndHigherOrderFunctions.jump, 16, 13))
+>f : Symbol(f, Decl(genericsAndHigherOrderFunctions.jump, 16, 16))
+>_ : Symbol(_, Decl(genericsAndHigherOrderFunctions.jump, 16, 20))
+>N : Symbol(N, Decl(genericsAndHigherOrderFunctions.jump, 14, 9))
+>_ : Symbol(_, Decl(genericsAndHigherOrderFunctions.jump, 16, 30))
+>R : Symbol(R, Decl(genericsAndHigherOrderFunctions.jump, 16, 13))
+>R : Symbol(R, Decl(genericsAndHigherOrderFunctions.jump, 16, 13))
+>h : Symbol(h, Decl(genericsAndHigherOrderFunctions.jump, 15, 9))
+>combine : Symbol(combine, Decl(genericsAndHigherOrderFunctions.jump, 2, 3))
+>f : Symbol(f, Decl(genericsAndHigherOrderFunctions.jump, 16, 16))
+>g : Symbol(g, Decl(genericsAndHigherOrderFunctions.jump, 14, 13))
+

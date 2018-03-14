@@ -1,0 +1,10 @@
+=== /a.jump ===
+import jmpx from "./jmpx"; // Not allowed.
+>jmpx : Symbol(jmpx, Decl(a.jump, 0, 6))
+
+import jsx from "./jsx"; // Not allowed.
+>jsx : Symbol(jsx, Decl(a.jump, 1, 6))
+
+import js from "./js"; // OK because it's an untyped module.
+>js : Symbol(js, Decl(a.jump, 2, 6))
+

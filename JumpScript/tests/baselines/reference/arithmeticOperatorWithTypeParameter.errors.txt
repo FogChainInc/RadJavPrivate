@@ -1,0 +1,672 @@
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(9,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(10,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(11,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(12,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(13,21): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(14,21): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(15,22): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(16,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(17,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(18,21): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(20,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(21,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(22,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(23,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(24,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(25,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(26,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(27,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(28,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(29,17): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(31,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(31,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(32,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(32,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(33,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(33,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(34,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(34,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(35,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(35,21): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(36,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(36,21): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(37,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(37,22): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(38,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(38,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(39,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(39,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(40,17): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(40,21): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(42,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(42,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(43,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(43,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(44,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(44,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(45,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(45,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(46,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(46,21): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(47,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(47,21): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(48,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(48,22): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(49,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(49,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(50,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(50,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(51,17): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(51,21): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(53,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(54,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(55,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(56,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(57,21): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(58,21): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(59,22): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(60,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(61,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(62,21): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(64,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(65,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(66,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(67,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(68,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(69,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(70,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(71,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(72,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(73,17): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(75,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(75,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(76,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(76,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(77,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(77,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(78,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(78,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(79,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(79,21): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(80,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(80,21): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(81,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(81,22): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(82,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(82,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(83,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(83,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(84,17): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(84,21): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(86,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(86,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(87,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(87,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(88,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(88,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(89,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(89,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(90,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(90,21): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(91,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(91,21): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(92,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(92,22): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(93,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(93,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(94,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(94,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(95,17): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(95,21): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(97,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(97,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(98,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(98,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(99,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(99,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(100,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(100,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(101,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(101,21): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(102,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(102,21): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(103,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(103,22): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(104,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(104,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(105,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(105,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(106,17): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(106,21): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(108,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(108,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(109,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(109,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(110,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(110,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(111,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(111,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(112,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(112,21): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(113,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(113,21): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(114,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(114,22): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(115,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(115,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(116,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(116,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(117,17): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(117,21): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(119,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(119,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(120,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(120,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(121,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(121,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(122,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(122,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(123,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(123,21): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(124,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(124,21): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(125,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(125,22): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(126,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(126,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(127,16): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(127,20): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(128,17): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump(128,21): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+
+
+==== tests/cases/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.jump (180 errors) ====
+    // type parameter type is not valid for arithmetic operand
+    function foo<T>(t: T) {
+        var a: any;
+        var b: boolean;
+        var c: number;
+        var d: string;
+        var e: {};
+    
+        var r1a1 = a * t;
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1a2 = a / t;
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1a3 = a % t;
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1a4 = a - t;
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1a5 = a << t;
+                        ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1a6 = a >> t;
+                        ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1a7 = a >>> t;
+                         ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1a8 = a & t;
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1a9 = a ^ t;
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1a10 = a | t;
+                        ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    
+        var r2a1 = t * a;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2a2 = t / a;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2a3 = t % a;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2a4 = t - a;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2a5 = t << a;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2a6 = t >> a;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2a7 = t >>> a;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2a8 = t & a;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2a9 = t ^ a;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2a10 = t | a;
+                    ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    
+        var r1b1 = b * t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1b2 = b / t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1b3 = b % t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1b4 = b - t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1b5 = b << t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                        ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1b6 = b >> t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                        ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1b7 = b >>> t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                         ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1b8 = b & t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1b9 = b ^ t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1b10 = b | t;
+                    ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                        ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    
+        var r2b1 = t * b;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2b2 = t / b;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2b3 = t % b;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2b4 = t - b;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2b5 = t << b;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                        ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2b6 = t >> b;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                        ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2b7 = t >>> b;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                         ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2b8 = t & b;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2b9 = t ^ b;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2b10 = t | b;
+                    ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                        ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    
+        var r1c1 = c * t;
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1c2 = c / t;
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1c3 = c % t;
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1c4 = c - t;
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1c5 = c << t;
+                        ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1c6 = c >> t;
+                        ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1c7 = c >>> t;
+                         ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1c8 = c & t;
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1c9 = c ^ t;
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1c10 = c | t;
+                        ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    
+        var r2c1 = t * c;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2c2 = t / c;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2c3 = t % c;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2c4 = t - c;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2c5 = t << c;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2c6 = t >> c;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2c7 = t >>> c;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2c8 = t & c;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2c9 = t ^ c;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2c10 = t | c;
+                    ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    
+        var r1d1 = d * t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1d2 = d / t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1d3 = d % t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1d4 = d - t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1d5 = d << t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                        ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1d6 = d >> t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                        ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1d7 = d >>> t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                         ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1d8 = d & t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1d9 = d ^ t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1d10 = d | t;
+                    ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                        ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    
+        var r2d1 = t * d;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2d2 = t / d;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2d3 = t % d;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2d4 = t - d;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2d5 = t << d;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                        ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2d6 = t >> d;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                        ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2d7 = t >>> d;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                         ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2d8 = t & d;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2d9 = t ^ d;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2d10 = t | d;
+                    ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                        ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    
+        var r1e1 = e * t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1e2 = e / t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1e3 = e % t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1e4 = e - t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1e5 = e << t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                        ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1e6 = e >> t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                        ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1e7 = e >>> t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                         ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1e8 = e & t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1e9 = e ^ t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1e10 = e | t;
+                    ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                        ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    
+        var r2e1 = t * e;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2e2 = t / e;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2e3 = t % e;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2e4 = t - e;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2e5 = t << e;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                        ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2e6 = t >> e;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                        ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2e7 = t >>> e;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                         ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2e8 = t & e;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2e9 = t ^ e;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r2e10 = t | e;
+                    ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                        ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    
+        var r1f1 = t * t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1f2 = t / t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1f3 = t % t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1f4 = t - t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1f5 = t << t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                        ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1f6 = t >> t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                        ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1f7 = t >>> t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                         ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1f8 = t & t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1f9 = t ^ t;
+                   ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                       ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+        var r1f10 = t | t;
+                    ~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                        ~
+!!! error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    }

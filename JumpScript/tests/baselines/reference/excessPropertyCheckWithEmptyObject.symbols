@@ -1,0 +1,32 @@
+=== tests/cases/compiler/excessPropertyCheckWithEmptyObject.jump ===
+// Repro from #14910
+
+// Excess property error expected here
+Object.defineProperty(window, "prop", { value: "v1.0.0", readonly: false });
+>Object.defineProperty : Symbol(ObjectConstructor.defineProperty, Decl(lib.d.jump, --, --))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>defineProperty : Symbol(ObjectConstructor.defineProperty, Decl(lib.d.jump, --, --))
+>value : Symbol(value, Decl(excessPropertyCheckWithEmptyObject.jump, 3, 39))
+>readonly : Symbol(readonly, Decl(excessPropertyCheckWithEmptyObject.jump, 3, 56))
+
+interface A { x?: string }
+>A : Symbol(A, Decl(excessPropertyCheckWithEmptyObject.jump, 3, 76))
+>x : Symbol(A.x, Decl(excessPropertyCheckWithEmptyObject.jump, 5, 13))
+
+// Excess property error expected here
+let a: A & ThisType<any> = { y: 10 };
+>a : Symbol(a, Decl(excessPropertyCheckWithEmptyObject.jump, 8, 3))
+>A : Symbol(A, Decl(excessPropertyCheckWithEmptyObject.jump, 3, 76))
+>ThisType : Symbol(ThisType, Decl(lib.d.jump, --, --))
+>y : Symbol(y, Decl(excessPropertyCheckWithEmptyObject.jump, 8, 28))
+
+interface Empty {}
+>Empty : Symbol(Empty, Decl(excessPropertyCheckWithEmptyObject.jump, 8, 37))
+
+// Excess property error expected here
+let x: Empty & { x: number } = { y: "hello" };
+>x : Symbol(x, Decl(excessPropertyCheckWithEmptyObject.jump, 13, 3))
+>Empty : Symbol(Empty, Decl(excessPropertyCheckWithEmptyObject.jump, 8, 37))
+>x : Symbol(x, Decl(excessPropertyCheckWithEmptyObject.jump, 13, 16))
+>y : Symbol(y, Decl(excessPropertyCheckWithEmptyObject.jump, 13, 32))
+

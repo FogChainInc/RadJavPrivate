@@ -1,0 +1,45 @@
+=== tests/cases/compiler/promiseIdentityWithAny.jump ===
+export interface IPromise<T, V> {
+>IPromise : Symbol(IPromise, Decl(promiseIdentityWithAny.jump, 0, 0))
+>T : Symbol(T, Decl(promiseIdentityWithAny.jump, 0, 26))
+>V : Symbol(V, Decl(promiseIdentityWithAny.jump, 0, 28))
+
+    then<U, W>(callback: (x: T) => IPromise<U, W>): IPromise<U, W>;
+>then : Symbol(IPromise.then, Decl(promiseIdentityWithAny.jump, 0, 33))
+>U : Symbol(U, Decl(promiseIdentityWithAny.jump, 1, 9))
+>W : Symbol(W, Decl(promiseIdentityWithAny.jump, 1, 11))
+>callback : Symbol(callback, Decl(promiseIdentityWithAny.jump, 1, 15))
+>x : Symbol(x, Decl(promiseIdentityWithAny.jump, 1, 26))
+>T : Symbol(T, Decl(promiseIdentityWithAny.jump, 0, 26))
+>IPromise : Symbol(IPromise, Decl(promiseIdentityWithAny.jump, 0, 0))
+>U : Symbol(U, Decl(promiseIdentityWithAny.jump, 1, 9))
+>W : Symbol(W, Decl(promiseIdentityWithAny.jump, 1, 11))
+>IPromise : Symbol(IPromise, Decl(promiseIdentityWithAny.jump, 0, 0))
+>U : Symbol(U, Decl(promiseIdentityWithAny.jump, 1, 9))
+>W : Symbol(W, Decl(promiseIdentityWithAny.jump, 1, 11))
+}
+export interface Promise<T, V> {
+>Promise : Symbol(Promise, Decl(promiseIdentityWithAny.jump, 2, 1))
+>T : Symbol(T, Decl(promiseIdentityWithAny.jump, 3, 25))
+>V : Symbol(V, Decl(promiseIdentityWithAny.jump, 3, 27))
+
+    then<U, W>(callback: (x: T) => Promise<any, any>): Promise<any, any>;
+>then : Symbol(Promise.then, Decl(promiseIdentityWithAny.jump, 3, 32))
+>U : Symbol(U, Decl(promiseIdentityWithAny.jump, 4, 9))
+>W : Symbol(W, Decl(promiseIdentityWithAny.jump, 4, 11))
+>callback : Symbol(callback, Decl(promiseIdentityWithAny.jump, 4, 15))
+>x : Symbol(x, Decl(promiseIdentityWithAny.jump, 4, 26))
+>T : Symbol(T, Decl(promiseIdentityWithAny.jump, 3, 25))
+>Promise : Symbol(Promise, Decl(promiseIdentityWithAny.jump, 2, 1))
+>Promise : Symbol(Promise, Decl(promiseIdentityWithAny.jump, 2, 1))
+}
+
+// Should be ok because signature type parameters get erased to any
+var x: IPromise<string, number>;
+>x : Symbol(x, Decl(promiseIdentityWithAny.jump, 8, 3), Decl(promiseIdentityWithAny.jump, 9, 3))
+>IPromise : Symbol(IPromise, Decl(promiseIdentityWithAny.jump, 0, 0))
+
+var x: Promise<string, boolean>;
+>x : Symbol(x, Decl(promiseIdentityWithAny.jump, 8, 3), Decl(promiseIdentityWithAny.jump, 9, 3))
+>Promise : Symbol(Promise, Decl(promiseIdentityWithAny.jump, 2, 1))
+

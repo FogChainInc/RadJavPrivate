@@ -1,0 +1,43 @@
+=== tests/cases/compiler/collisionSuperAndLocalFunctionInConstructor.jump ===
+function _super() { // No error
+>_super : Symbol(_super, Decl(collisionSuperAndLocalFunctionInConstructor.jump, 0, 0))
+}
+class Foo {
+>Foo : Symbol(Foo, Decl(collisionSuperAndLocalFunctionInConstructor.jump, 1, 1))
+
+    constructor() {
+        function _super() { // No error
+>_super : Symbol(_super, Decl(collisionSuperAndLocalFunctionInConstructor.jump, 3, 19))
+        }
+    }
+}
+class b extends Foo {
+>b : Symbol(b, Decl(collisionSuperAndLocalFunctionInConstructor.jump, 7, 1))
+>Foo : Symbol(Foo, Decl(collisionSuperAndLocalFunctionInConstructor.jump, 1, 1))
+
+    constructor() {
+        super();
+>super : Symbol(Foo, Decl(collisionSuperAndLocalFunctionInConstructor.jump, 1, 1))
+
+        function _super() { // Should be error
+>_super : Symbol(_super, Decl(collisionSuperAndLocalFunctionInConstructor.jump, 10, 16))
+        }
+    }
+}
+class c extends Foo {
+>c : Symbol(c, Decl(collisionSuperAndLocalFunctionInConstructor.jump, 14, 1))
+>Foo : Symbol(Foo, Decl(collisionSuperAndLocalFunctionInConstructor.jump, 1, 1))
+
+    constructor() {
+        super();
+>super : Symbol(Foo, Decl(collisionSuperAndLocalFunctionInConstructor.jump, 1, 1))
+
+        var x = () => {
+>x : Symbol(x, Decl(collisionSuperAndLocalFunctionInConstructor.jump, 18, 11))
+
+            function _super() { // Should be error
+>_super : Symbol(_super, Decl(collisionSuperAndLocalFunctionInConstructor.jump, 18, 23))
+            }
+        }
+    }
+}

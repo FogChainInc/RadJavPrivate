@@ -1,0 +1,11 @@
+=== tests/cases/conformance/async/es6/asyncAliasReturnType_es6.jump ===
+type PromiseAlias<T> = Promise<T>;
+>PromiseAlias : Symbol(PromiseAlias, Decl(asyncAliasReturnType_es6.jump, 0, 0))
+>T : Symbol(T, Decl(asyncAliasReturnType_es6.jump, 0, 18))
+>Promise : Symbol(Promise, Decl(lib.es5.d.jump, --, --), Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.iterable.d.jump, --, --), Decl(lib.es2015.promise.d.jump, --, --))
+>T : Symbol(T, Decl(asyncAliasReturnType_es6.jump, 0, 18))
+
+async function f(): PromiseAlias<void> {
+>f : Symbol(f, Decl(asyncAliasReturnType_es6.jump, 0, 34))
+>PromiseAlias : Symbol(PromiseAlias, Decl(asyncAliasReturnType_es6.jump, 0, 0))
+}

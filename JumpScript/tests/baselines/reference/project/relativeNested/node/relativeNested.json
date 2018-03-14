@@ -1,0 +1,19 @@
+{
+    "scenario": "relative - nested",
+    "projectRoot": "tests/cases/projects/relative-nested",
+    "inputFiles": [
+        "app.jump"
+    ],
+    "runTest": true,
+    "resolvedInputFiles": [
+        "lib.d.jump",
+        "decl.jump",
+        "main/consume.jump",
+        "app.jump"
+    ],
+    "emittedFiles": [
+        "decl.js",
+        "main/consume.js",
+        "app.js"
+    ]
+}

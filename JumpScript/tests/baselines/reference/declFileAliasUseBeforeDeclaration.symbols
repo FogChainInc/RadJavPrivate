@@ -1,0 +1,14 @@
+=== tests/cases/compiler/declFileAliasUseBeforeDeclaration_test.jump ===
+export function bar(a: foo.Foo) { }
+>bar : Symbol(bar, Decl(declFileAliasUseBeforeDeclaration_test.jump, 0, 0))
+>a : Symbol(a, Decl(declFileAliasUseBeforeDeclaration_test.jump, 0, 20))
+>foo : Symbol(foo, Decl(declFileAliasUseBeforeDeclaration_test.jump, 0, 35))
+>Foo : Symbol(foo.Foo, Decl(declFileAliasUseBeforeDeclaration_foo.jump, 0, 0))
+
+import foo = require("./declFileAliasUseBeforeDeclaration_foo");
+>foo : Symbol(foo, Decl(declFileAliasUseBeforeDeclaration_test.jump, 0, 35))
+
+=== tests/cases/compiler/declFileAliasUseBeforeDeclaration_foo.jump ===
+export class Foo { }
+>Foo : Symbol(Foo, Decl(declFileAliasUseBeforeDeclaration_foo.jump, 0, 0))
+

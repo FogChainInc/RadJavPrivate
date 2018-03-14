@@ -1,0 +1,12 @@
+=== tests/cases/compiler/unusedParametersInLambda1.jump ===
+class A {
+>A : Symbol(A, Decl(unusedParametersInLambda1.jump, 0, 0))
+
+    public f1() {
+>f1 : Symbol(A.f1, Decl(unusedParametersInLambda1.jump, 0, 9))
+
+        return (X) => {
+>X : Symbol(X, Decl(unusedParametersInLambda1.jump, 2, 16))
+        }
+    }
+}

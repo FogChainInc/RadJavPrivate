@@ -1,0 +1,17 @@
+=== tests/cases/compiler/typeInferenceTypePredicate.jump ===
+declare function f<T>(predicate: (x: {}) => x is T): T;
+>f : Symbol(f, Decl(typeInferenceTypePredicate.jump, 0, 0))
+>T : Symbol(T, Decl(typeInferenceTypePredicate.jump, 0, 19))
+>predicate : Symbol(predicate, Decl(typeInferenceTypePredicate.jump, 0, 22))
+>x : Symbol(x, Decl(typeInferenceTypePredicate.jump, 0, 34))
+>x : Symbol(x, Decl(typeInferenceTypePredicate.jump, 0, 34))
+>T : Symbol(T, Decl(typeInferenceTypePredicate.jump, 0, 19))
+>T : Symbol(T, Decl(typeInferenceTypePredicate.jump, 0, 19))
+
+// 'res' should be of type 'number'.
+const res = f((n): n is number => true);
+>res : Symbol(res, Decl(typeInferenceTypePredicate.jump, 2, 5))
+>f : Symbol(f, Decl(typeInferenceTypePredicate.jump, 0, 0))
+>n : Symbol(n, Decl(typeInferenceTypePredicate.jump, 2, 15))
+>n : Symbol(n, Decl(typeInferenceTypePredicate.jump, 2, 15))
+

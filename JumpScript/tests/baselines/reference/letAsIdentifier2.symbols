@@ -1,0 +1,4 @@
+=== tests/cases/compiler/letAsIdentifier2.jump ===
+function let() {}
+>let : Symbol(let, Decl(letAsIdentifier2.jump, 0, 0))
+

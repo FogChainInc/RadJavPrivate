@@ -1,0 +1,8 @@
+=== tests/cases/compiler/conditionalExpressionNewLine9.jump ===
+var v = a 
+>v : Symbol(v, Decl(conditionalExpressionNewLine9.jump, 0, 3))
+
+  ? b
+    ? d : e
+  : c
+    ? f : g;

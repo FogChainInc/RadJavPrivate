@@ -1,0 +1,38 @@
+=== tests/cases/compiler/implicitAnyDeclareFunctionWithoutFormalType.jump ===
+// these should be errors
+function foo(x) { };
+>foo : Symbol(foo, Decl(implicitAnyDeclareFunctionWithoutFormalType.jump, 0, 0))
+>x : Symbol(x, Decl(implicitAnyDeclareFunctionWithoutFormalType.jump, 1, 13))
+
+function bar(x: number, y) { };  // error at "y"; no error at "x"
+>bar : Symbol(bar, Decl(implicitAnyDeclareFunctionWithoutFormalType.jump, 1, 20))
+>x : Symbol(x, Decl(implicitAnyDeclareFunctionWithoutFormalType.jump, 2, 13))
+>y : Symbol(y, Decl(implicitAnyDeclareFunctionWithoutFormalType.jump, 2, 23))
+
+function func2(a, b, c) { };     // error at "a,b,c"
+>func2 : Symbol(func2, Decl(implicitAnyDeclareFunctionWithoutFormalType.jump, 2, 31))
+>a : Symbol(a, Decl(implicitAnyDeclareFunctionWithoutFormalType.jump, 3, 15))
+>b : Symbol(b, Decl(implicitAnyDeclareFunctionWithoutFormalType.jump, 3, 17))
+>c : Symbol(c, Decl(implicitAnyDeclareFunctionWithoutFormalType.jump, 3, 20))
+
+function func3(...args) { };     // error at "args" 
+>func3 : Symbol(func3, Decl(implicitAnyDeclareFunctionWithoutFormalType.jump, 3, 28))
+>args : Symbol(args, Decl(implicitAnyDeclareFunctionWithoutFormalType.jump, 4, 15))
+
+function func4(z= null, w= undefined) { };  // error at "z,w"
+>func4 : Symbol(func4, Decl(implicitAnyDeclareFunctionWithoutFormalType.jump, 4, 28))
+>z : Symbol(z, Decl(implicitAnyDeclareFunctionWithoutFormalType.jump, 5, 15))
+>w : Symbol(w, Decl(implicitAnyDeclareFunctionWithoutFormalType.jump, 5, 23))
+>undefined : Symbol(undefined)
+
+// these shouldn't be errors
+function noError1(x= 3, y= 2) { };
+>noError1 : Symbol(noError1, Decl(implicitAnyDeclareFunctionWithoutFormalType.jump, 5, 42))
+>x : Symbol(x, Decl(implicitAnyDeclareFunctionWithoutFormalType.jump, 8, 18))
+>y : Symbol(y, Decl(implicitAnyDeclareFunctionWithoutFormalType.jump, 8, 23))
+
+function noError2(x: number, y: string) { };
+>noError2 : Symbol(noError2, Decl(implicitAnyDeclareFunctionWithoutFormalType.jump, 8, 34))
+>x : Symbol(x, Decl(implicitAnyDeclareFunctionWithoutFormalType.jump, 9, 18))
+>y : Symbol(y, Decl(implicitAnyDeclareFunctionWithoutFormalType.jump, 9, 28))
+

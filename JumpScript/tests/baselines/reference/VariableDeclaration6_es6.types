@@ -1,0 +1,4 @@
+=== tests/cases/conformance/es6/variableDeclarations/VariableDeclaration6_es6.jump ===
+let
+>let : any
+

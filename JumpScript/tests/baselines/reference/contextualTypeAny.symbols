@@ -1,0 +1,15 @@
+=== tests/cases/compiler/contextualTypeAny.jump ===
+var x: any;
+>x : Symbol(x, Decl(contextualTypeAny.jump, 0, 3))
+
+var obj: { [s: string]: number } = { p: "", q: x };
+>obj : Symbol(obj, Decl(contextualTypeAny.jump, 2, 3))
+>s : Symbol(s, Decl(contextualTypeAny.jump, 2, 12))
+>p : Symbol(p, Decl(contextualTypeAny.jump, 2, 36))
+>q : Symbol(q, Decl(contextualTypeAny.jump, 2, 43))
+>x : Symbol(x, Decl(contextualTypeAny.jump, 0, 3))
+
+var arr: number[] = ["", x];
+>arr : Symbol(arr, Decl(contextualTypeAny.jump, 4, 3))
+>x : Symbol(x, Decl(contextualTypeAny.jump, 0, 3))
+

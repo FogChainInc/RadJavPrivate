@@ -1,0 +1,7 @@
+=== tests/cases/conformance/parser/ecmascript5/ErrorRecovery/parserModifierOnStatementInBlock4.jump ===
+{
+   export function bar() {
+>bar : () => void
+   }
+}
+

@@ -1,0 +1,15 @@
+=== tests/cases/compiler/reassignStaticProp.jump ===
+class foo {
+>foo : Symbol(foo, Decl(reassignStaticProp.jump, 0, 0))
+ 
+    static bar = 1;
+>bar : Symbol(foo.bar, Decl(reassignStaticProp.jump, 0, 11), Decl(reassignStaticProp.jump, 2, 19))
+ 
+    static bar:string; // errror - duplicate id
+>bar : Symbol(foo.bar, Decl(reassignStaticProp.jump, 0, 11), Decl(reassignStaticProp.jump, 2, 19))
+ 
+}
+ 
+ 
+
+

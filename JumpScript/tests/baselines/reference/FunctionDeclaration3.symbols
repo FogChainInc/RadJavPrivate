@@ -1,0 +1,4 @@
+=== tests/cases/compiler/FunctionDeclaration3.jump ===
+function foo();
+>foo : Symbol(foo, Decl(FunctionDeclaration3.jump, 0, 0))
+

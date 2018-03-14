@@ -1,0 +1,11 @@
+=== tests/cases/compiler/genericArrayAssignment1.jump ===
+var s: string[];
+>s : Symbol(s, Decl(genericArrayAssignment1.jump, 0, 3))
+
+var n: number[];
+>n : Symbol(n, Decl(genericArrayAssignment1.jump, 1, 3))
+
+s = n;
+>s : Symbol(s, Decl(genericArrayAssignment1.jump, 0, 3))
+>n : Symbol(n, Decl(genericArrayAssignment1.jump, 1, 3))
+

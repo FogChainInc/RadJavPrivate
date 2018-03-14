@@ -1,0 +1,15 @@
+=== tests/cases/compiler/collisionCodeGenModuleWithEnumMemberConflict.jump ===
+module m1 {
+>m1 : Symbol(m1, Decl(collisionCodeGenModuleWithEnumMemberConflict.jump, 0, 0))
+
+    enum e {
+>e : Symbol(e, Decl(collisionCodeGenModuleWithEnumMemberConflict.jump, 0, 11))
+
+        m1, 
+>m1 : Symbol(e.m1, Decl(collisionCodeGenModuleWithEnumMemberConflict.jump, 1, 12))
+
+        m2 = m1
+>m2 : Symbol(e.m2, Decl(collisionCodeGenModuleWithEnumMemberConflict.jump, 2, 11))
+>m1 : Symbol(e.m1, Decl(collisionCodeGenModuleWithEnumMemberConflict.jump, 1, 12))
+    }
+}

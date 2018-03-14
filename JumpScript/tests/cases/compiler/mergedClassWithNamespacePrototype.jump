@@ -1,0 +1,9 @@
+// @Filename: /a.d.jump
+declare class Foo {}
+
+// @Filename: /b.jump
+declare namespace Foo {
+    namespace prototype {
+        function f(): void;
+    }
+}

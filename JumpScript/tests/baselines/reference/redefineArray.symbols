@@ -1,0 +1,7 @@
+=== tests/cases/compiler/redefineArray.jump ===
+Array = function (n:number, s:string) {return n;};
+>Array : Symbol(Array, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>n : Symbol(n, Decl(redefineArray.jump, 0, 18))
+>s : Symbol(s, Decl(redefineArray.jump, 0, 27))
+>n : Symbol(n, Decl(redefineArray.jump, 0, 18))
+

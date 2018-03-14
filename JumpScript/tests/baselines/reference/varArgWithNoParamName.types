@@ -1,0 +1,5 @@
+=== tests/cases/compiler/varArgWithNoParamName.jump ===
+function t1(...) {}
+>t1 : (...: any[]) => void
+> : any[]
+

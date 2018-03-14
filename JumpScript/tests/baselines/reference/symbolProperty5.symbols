@@ -1,0 +1,22 @@
+=== tests/cases/conformance/es6/Symbols/symbolProperty5.jump ===
+var x = {
+>x : Symbol(x, Decl(symbolProperty5.jump, 0, 3))
+
+    [Symbol.iterator]: 0,
+>Symbol.iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+
+    [Symbol.toPrimitive]() { },
+>Symbol.toPrimitive : Symbol(SymbolConstructor.toPrimitive, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>toPrimitive : Symbol(SymbolConstructor.toPrimitive, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+
+    get [Symbol.toStringTag]() {
+>Symbol.toStringTag : Symbol(SymbolConstructor.toStringTag, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>toStringTag : Symbol(SymbolConstructor.toStringTag, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+
+        return 0;
+    }
+}

@@ -1,0 +1,61 @@
+=== tests/cases/compiler/overEagerReturnTypeSpecialization.jump ===
+//Note: Below simpler repro
+
+interface I1<T> {
+>I1 : Symbol(I1, Decl(overEagerReturnTypeSpecialization.jump, 0, 0))
+>T : Symbol(T, Decl(overEagerReturnTypeSpecialization.jump, 2, 13))
+
+    func<U>(callback: (value: T) => U): I1<U>;
+>func : Symbol(I1.func, Decl(overEagerReturnTypeSpecialization.jump, 2, 17))
+>U : Symbol(U, Decl(overEagerReturnTypeSpecialization.jump, 3, 9))
+>callback : Symbol(callback, Decl(overEagerReturnTypeSpecialization.jump, 3, 12))
+>value : Symbol(value, Decl(overEagerReturnTypeSpecialization.jump, 3, 23))
+>T : Symbol(T, Decl(overEagerReturnTypeSpecialization.jump, 2, 13))
+>U : Symbol(U, Decl(overEagerReturnTypeSpecialization.jump, 3, 9))
+>I1 : Symbol(I1, Decl(overEagerReturnTypeSpecialization.jump, 0, 0))
+>U : Symbol(U, Decl(overEagerReturnTypeSpecialization.jump, 3, 9))
+}
+ 
+declare var v1: I1<number>;
+>v1 : Symbol(v1, Decl(overEagerReturnTypeSpecialization.jump, 6, 11))
+>I1 : Symbol(I1, Decl(overEagerReturnTypeSpecialization.jump, 0, 0))
+
+var r1: I1<string> = v1.func(num => num.toString()) // Correctly returns an I1<string>
+>r1 : Symbol(r1, Decl(overEagerReturnTypeSpecialization.jump, 7, 3))
+>I1 : Symbol(I1, Decl(overEagerReturnTypeSpecialization.jump, 0, 0))
+>v1.func(num => num.toString()) // Correctly returns an I1<string>           .func : Symbol(I1.func, Decl(overEagerReturnTypeSpecialization.jump, 2, 17))
+>v1.func : Symbol(I1.func, Decl(overEagerReturnTypeSpecialization.jump, 2, 17))
+>v1 : Symbol(v1, Decl(overEagerReturnTypeSpecialization.jump, 6, 11))
+>func : Symbol(I1.func, Decl(overEagerReturnTypeSpecialization.jump, 2, 17))
+>num : Symbol(num, Decl(overEagerReturnTypeSpecialization.jump, 7, 29))
+>num.toString : Symbol(Number.toString, Decl(lib.d.jump, --, --))
+>num : Symbol(num, Decl(overEagerReturnTypeSpecialization.jump, 7, 29))
+>toString : Symbol(Number.toString, Decl(lib.d.jump, --, --))
+
+           .func(str => str.length);    // should error
+>func : Symbol(I1.func, Decl(overEagerReturnTypeSpecialization.jump, 2, 17))
+>str : Symbol(str, Decl(overEagerReturnTypeSpecialization.jump, 8, 17))
+>str.length : Symbol(String.length, Decl(lib.d.jump, --, --))
+>str : Symbol(str, Decl(overEagerReturnTypeSpecialization.jump, 8, 17))
+>length : Symbol(String.length, Decl(lib.d.jump, --, --))
+
+var r2: I1<number> = v1.func(num => num.toString()) // Correctly returns an I1<string>
+>r2 : Symbol(r2, Decl(overEagerReturnTypeSpecialization.jump, 10, 3))
+>I1 : Symbol(I1, Decl(overEagerReturnTypeSpecialization.jump, 0, 0))
+>v1.func(num => num.toString()) // Correctly returns an I1<string>           .func : Symbol(I1.func, Decl(overEagerReturnTypeSpecialization.jump, 2, 17))
+>v1.func : Symbol(I1.func, Decl(overEagerReturnTypeSpecialization.jump, 2, 17))
+>v1 : Symbol(v1, Decl(overEagerReturnTypeSpecialization.jump, 6, 11))
+>func : Symbol(I1.func, Decl(overEagerReturnTypeSpecialization.jump, 2, 17))
+>num : Symbol(num, Decl(overEagerReturnTypeSpecialization.jump, 10, 29))
+>num.toString : Symbol(Number.toString, Decl(lib.d.jump, --, --))
+>num : Symbol(num, Decl(overEagerReturnTypeSpecialization.jump, 10, 29))
+>toString : Symbol(Number.toString, Decl(lib.d.jump, --, --))
+
+           .func(str => str.length);    // should be ok 
+>func : Symbol(I1.func, Decl(overEagerReturnTypeSpecialization.jump, 2, 17))
+>str : Symbol(str, Decl(overEagerReturnTypeSpecialization.jump, 11, 17))
+>str.length : Symbol(String.length, Decl(lib.d.jump, --, --))
+>str : Symbol(str, Decl(overEagerReturnTypeSpecialization.jump, 11, 17))
+>length : Symbol(String.length, Decl(lib.d.jump, --, --))
+ 
+ 

@@ -1,0 +1,9 @@
+// @module: commonjs
+// @declaration: true
+
+// @filename: server.jump
+export var a = 10;
+
+// @filename: client.jump
+export import defaultBinding, * as nameSpaceBinding  from "./server";
+export var x: number = nameSpaceBinding.a;

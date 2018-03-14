@@ -1,0 +1,27 @@
+=== tests/cases/conformance/types/spread/spreadContextualTypedBindingPattern.jump ===
+// #18308
+interface Person {
+>Person : Symbol(Person, Decl(spreadContextualTypedBindingPattern.jump, 0, 0))
+
+  naam: string,
+>naam : Symbol(Person.naam, Decl(spreadContextualTypedBindingPattern.jump, 1, 18))
+
+  age: number
+>age : Symbol(Person.age, Decl(spreadContextualTypedBindingPattern.jump, 2, 15))
+}
+
+declare const bob: Person
+>bob : Symbol(bob, Decl(spreadContextualTypedBindingPattern.jump, 6, 13))
+>Person : Symbol(Person, Decl(spreadContextualTypedBindingPattern.jump, 0, 0))
+
+declare const alice: Person
+>alice : Symbol(alice, Decl(spreadContextualTypedBindingPattern.jump, 7, 13))
+>Person : Symbol(Person, Decl(spreadContextualTypedBindingPattern.jump, 0, 0))
+
+// [ts] Initializer provides no value for this binding element and the binding element has no default value.
+const { naam, age } = {...bob, ...alice}
+>naam : Symbol(naam, Decl(spreadContextualTypedBindingPattern.jump, 10, 7))
+>age : Symbol(age, Decl(spreadContextualTypedBindingPattern.jump, 10, 13))
+>bob : Symbol(bob, Decl(spreadContextualTypedBindingPattern.jump, 6, 13))
+>alice : Symbol(alice, Decl(spreadContextualTypedBindingPattern.jump, 7, 13))
+

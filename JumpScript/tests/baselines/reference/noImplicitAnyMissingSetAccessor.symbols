@@ -1,0 +1,18 @@
+=== tests/cases/compiler/noImplicitAnyMissingSetAccessor.jump ===
+abstract class Parent
+>Parent : Symbol(Parent, Decl(noImplicitAnyMissingSetAccessor.jump, 0, 0))
+{
+    public abstract get message();
+>message : Symbol(Parent.message, Decl(noImplicitAnyMissingSetAccessor.jump, 1, 1))
+}
+
+class Child extends Parent {
+>Child : Symbol(Child, Decl(noImplicitAnyMissingSetAccessor.jump, 3, 1))
+>Parent : Symbol(Parent, Decl(noImplicitAnyMissingSetAccessor.jump, 0, 0))
+
+    public get message() {
+>message : Symbol(Child.message, Decl(noImplicitAnyMissingSetAccessor.jump, 5, 28))
+
+        return "";
+    }
+}

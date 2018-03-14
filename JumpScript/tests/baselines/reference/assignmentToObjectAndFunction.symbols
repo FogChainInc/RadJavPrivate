@@ -1,0 +1,69 @@
+=== tests/cases/compiler/assignmentToObjectAndFunction.jump ===
+var errObj: Object = { toString: 0 }; // Error, incompatible toString
+>errObj : Symbol(errObj, Decl(assignmentToObjectAndFunction.jump, 0, 3))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>toString : Symbol(toString, Decl(assignmentToObjectAndFunction.jump, 0, 22))
+
+var goodObj: Object = {
+>goodObj : Symbol(goodObj, Decl(assignmentToObjectAndFunction.jump, 1, 3))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+    toString(x?) {
+>toString : Symbol(toString, Decl(assignmentToObjectAndFunction.jump, 1, 23))
+>x : Symbol(x, Decl(assignmentToObjectAndFunction.jump, 2, 13))
+
+        return "";
+    }
+}; // Ok, because toString is a subtype of Object's toString
+
+var errFun: Function = {}; // Error for no call signature
+>errFun : Symbol(errFun, Decl(assignmentToObjectAndFunction.jump, 7, 3))
+>Function : Symbol(Function, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+function foo() { }
+>foo : Symbol(foo, Decl(assignmentToObjectAndFunction.jump, 7, 26), Decl(assignmentToObjectAndFunction.jump, 9, 18))
+
+module foo {
+>foo : Symbol(foo, Decl(assignmentToObjectAndFunction.jump, 7, 26), Decl(assignmentToObjectAndFunction.jump, 9, 18))
+
+    export var boom = 0;
+>boom : Symbol(boom, Decl(assignmentToObjectAndFunction.jump, 11, 14))
+}
+
+var goodFundule: Function = foo; // ok
+>goodFundule : Symbol(goodFundule, Decl(assignmentToObjectAndFunction.jump, 14, 3))
+>Function : Symbol(Function, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>foo : Symbol(foo, Decl(assignmentToObjectAndFunction.jump, 7, 26), Decl(assignmentToObjectAndFunction.jump, 9, 18))
+
+function bar() { }
+>bar : Symbol(bar, Decl(assignmentToObjectAndFunction.jump, 14, 32), Decl(assignmentToObjectAndFunction.jump, 16, 18))
+
+module bar {
+>bar : Symbol(bar, Decl(assignmentToObjectAndFunction.jump, 14, 32), Decl(assignmentToObjectAndFunction.jump, 16, 18))
+
+    export function apply(thisArg: string, argArray?: string) { }
+>apply : Symbol(apply, Decl(assignmentToObjectAndFunction.jump, 17, 12))
+>thisArg : Symbol(thisArg, Decl(assignmentToObjectAndFunction.jump, 18, 26))
+>argArray : Symbol(argArray, Decl(assignmentToObjectAndFunction.jump, 18, 42))
+}
+
+var goodFundule2: Function = bar; // ok
+>goodFundule2 : Symbol(goodFundule2, Decl(assignmentToObjectAndFunction.jump, 21, 3))
+>Function : Symbol(Function, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>bar : Symbol(bar, Decl(assignmentToObjectAndFunction.jump, 14, 32), Decl(assignmentToObjectAndFunction.jump, 16, 18))
+
+function bad() { }
+>bad : Symbol(bad, Decl(assignmentToObjectAndFunction.jump, 21, 33), Decl(assignmentToObjectAndFunction.jump, 23, 18))
+
+module bad {
+>bad : Symbol(bad, Decl(assignmentToObjectAndFunction.jump, 21, 33), Decl(assignmentToObjectAndFunction.jump, 23, 18))
+
+    export var apply = 0;
+>apply : Symbol(apply, Decl(assignmentToObjectAndFunction.jump, 25, 14))
+}
+
+var badFundule: Function = bad; // error
+>badFundule : Symbol(badFundule, Decl(assignmentToObjectAndFunction.jump, 28, 3))
+>Function : Symbol(Function, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>bad : Symbol(bad, Decl(assignmentToObjectAndFunction.jump, 21, 33), Decl(assignmentToObjectAndFunction.jump, 23, 18))
+

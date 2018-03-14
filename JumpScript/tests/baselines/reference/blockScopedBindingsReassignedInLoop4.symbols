@@ -1,0 +1,28 @@
+=== tests/cases/compiler/blockScopedBindingsReassignedInLoop4.jump ===
+function f1() {
+>f1 : Symbol(f1, Decl(blockScopedBindingsReassignedInLoop4.jump, 0, 0))
+
+    for (let x = 1, y = 2; x < y; ++x, --y) {
+>x : Symbol(x, Decl(blockScopedBindingsReassignedInLoop4.jump, 1, 12))
+>y : Symbol(y, Decl(blockScopedBindingsReassignedInLoop4.jump, 1, 19))
+>x : Symbol(x, Decl(blockScopedBindingsReassignedInLoop4.jump, 1, 12))
+>y : Symbol(y, Decl(blockScopedBindingsReassignedInLoop4.jump, 1, 19))
+>x : Symbol(x, Decl(blockScopedBindingsReassignedInLoop4.jump, 1, 12))
+>y : Symbol(y, Decl(blockScopedBindingsReassignedInLoop4.jump, 1, 19))
+
+        let a = () => x++ + y++;
+>a : Symbol(a, Decl(blockScopedBindingsReassignedInLoop4.jump, 2, 11))
+>x : Symbol(x, Decl(blockScopedBindingsReassignedInLoop4.jump, 1, 12))
+>y : Symbol(y, Decl(blockScopedBindingsReassignedInLoop4.jump, 1, 19))
+
+        if (x == 1) {
+>x : Symbol(x, Decl(blockScopedBindingsReassignedInLoop4.jump, 1, 12))
+
+            return 1;
+        }
+        else {
+            y = 5;
+>y : Symbol(y, Decl(blockScopedBindingsReassignedInLoop4.jump, 1, 19))
+        }
+    }
+}

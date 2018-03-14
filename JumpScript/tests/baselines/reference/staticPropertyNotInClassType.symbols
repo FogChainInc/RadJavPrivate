@@ -1,0 +1,114 @@
+=== tests/cases/conformance/classes/members/classTypes/staticPropertyNotInClassType.jump ===
+module NonGeneric {
+>NonGeneric : Symbol(NonGeneric, Decl(staticPropertyNotInClassType.jump, 0, 0))
+
+    class C {
+>C : Symbol(C, Decl(staticPropertyNotInClassType.jump, 0, 19), Decl(staticPropertyNotInClassType.jump, 7, 5))
+
+        fn() { return this; }
+>fn : Symbol(C.fn, Decl(staticPropertyNotInClassType.jump, 1, 13))
+>this : Symbol(C, Decl(staticPropertyNotInClassType.jump, 0, 19), Decl(staticPropertyNotInClassType.jump, 7, 5))
+
+        static get x() { return 1; }
+>x : Symbol(C.x, Decl(staticPropertyNotInClassType.jump, 2, 29), Decl(staticPropertyNotInClassType.jump, 3, 36))
+
+        static set x(v) { }
+>x : Symbol(C.x, Decl(staticPropertyNotInClassType.jump, 2, 29), Decl(staticPropertyNotInClassType.jump, 3, 36))
+>v : Symbol(v, Decl(staticPropertyNotInClassType.jump, 4, 21))
+
+        constructor(public a: number, private b: number) { }
+>a : Symbol(C.a, Decl(staticPropertyNotInClassType.jump, 5, 20))
+>b : Symbol(C.b, Decl(staticPropertyNotInClassType.jump, 5, 37))
+
+        static foo: string; // not reflected in class type
+>foo : Symbol(C.foo, Decl(staticPropertyNotInClassType.jump, 5, 60))
+    }
+
+    module C {
+>C : Symbol(C, Decl(staticPropertyNotInClassType.jump, 0, 19), Decl(staticPropertyNotInClassType.jump, 7, 5))
+
+        export var bar = ''; // not reflected in class type
+>bar : Symbol(bar, Decl(staticPropertyNotInClassType.jump, 10, 18))
+    }
+
+    var c = new C(1, 2);
+>c : Symbol(c, Decl(staticPropertyNotInClassType.jump, 13, 7))
+>C : Symbol(C, Decl(staticPropertyNotInClassType.jump, 0, 19), Decl(staticPropertyNotInClassType.jump, 7, 5))
+
+    var r = c.fn();
+>r : Symbol(r, Decl(staticPropertyNotInClassType.jump, 14, 7))
+>c.fn : Symbol(C.fn, Decl(staticPropertyNotInClassType.jump, 1, 13))
+>c : Symbol(c, Decl(staticPropertyNotInClassType.jump, 13, 7))
+>fn : Symbol(C.fn, Decl(staticPropertyNotInClassType.jump, 1, 13))
+
+    var r4 = c.foo; // error
+>r4 : Symbol(r4, Decl(staticPropertyNotInClassType.jump, 15, 7))
+>c : Symbol(c, Decl(staticPropertyNotInClassType.jump, 13, 7))
+
+    var r5 = c.bar; // error
+>r5 : Symbol(r5, Decl(staticPropertyNotInClassType.jump, 16, 7))
+>c : Symbol(c, Decl(staticPropertyNotInClassType.jump, 13, 7))
+
+    var r6 = c.x; // error
+>r6 : Symbol(r6, Decl(staticPropertyNotInClassType.jump, 17, 7))
+>c : Symbol(c, Decl(staticPropertyNotInClassType.jump, 13, 7))
+}
+
+module Generic {
+>Generic : Symbol(Generic, Decl(staticPropertyNotInClassType.jump, 18, 1))
+
+    class C<T, U> {
+>C : Symbol(C, Decl(staticPropertyNotInClassType.jump, 20, 16), Decl(staticPropertyNotInClassType.jump, 27, 5))
+>T : Symbol(T, Decl(staticPropertyNotInClassType.jump, 21, 12))
+>U : Symbol(U, Decl(staticPropertyNotInClassType.jump, 21, 14))
+
+        fn() { return this; }
+>fn : Symbol(C.fn, Decl(staticPropertyNotInClassType.jump, 21, 19))
+>this : Symbol(C, Decl(staticPropertyNotInClassType.jump, 20, 16), Decl(staticPropertyNotInClassType.jump, 27, 5))
+
+        static get x() { return 1; }
+>x : Symbol(C.x, Decl(staticPropertyNotInClassType.jump, 22, 29), Decl(staticPropertyNotInClassType.jump, 23, 36))
+
+        static set x(v) { }
+>x : Symbol(C.x, Decl(staticPropertyNotInClassType.jump, 22, 29), Decl(staticPropertyNotInClassType.jump, 23, 36))
+>v : Symbol(v, Decl(staticPropertyNotInClassType.jump, 24, 21))
+
+        constructor(public a: T, private b: U) { }
+>a : Symbol(C.a, Decl(staticPropertyNotInClassType.jump, 25, 20))
+>T : Symbol(T, Decl(staticPropertyNotInClassType.jump, 21, 12))
+>b : Symbol(C.b, Decl(staticPropertyNotInClassType.jump, 25, 32))
+>U : Symbol(U, Decl(staticPropertyNotInClassType.jump, 21, 14))
+
+        static foo: T; // not reflected in class type
+>foo : Symbol(C.foo, Decl(staticPropertyNotInClassType.jump, 25, 50))
+    }
+
+    module C {
+>C : Symbol(C, Decl(staticPropertyNotInClassType.jump, 20, 16), Decl(staticPropertyNotInClassType.jump, 27, 5))
+
+        export var bar = ''; // not reflected in class type
+>bar : Symbol(bar, Decl(staticPropertyNotInClassType.jump, 30, 18))
+    }
+
+    var c = new C(1, '');
+>c : Symbol(c, Decl(staticPropertyNotInClassType.jump, 33, 7))
+>C : Symbol(C, Decl(staticPropertyNotInClassType.jump, 20, 16), Decl(staticPropertyNotInClassType.jump, 27, 5))
+
+    var r = c.fn();
+>r : Symbol(r, Decl(staticPropertyNotInClassType.jump, 34, 7))
+>c.fn : Symbol(C.fn, Decl(staticPropertyNotInClassType.jump, 21, 19))
+>c : Symbol(c, Decl(staticPropertyNotInClassType.jump, 33, 7))
+>fn : Symbol(C.fn, Decl(staticPropertyNotInClassType.jump, 21, 19))
+
+    var r4 = c.foo; // error
+>r4 : Symbol(r4, Decl(staticPropertyNotInClassType.jump, 35, 7))
+>c : Symbol(c, Decl(staticPropertyNotInClassType.jump, 33, 7))
+
+    var r5 = c.bar; // error
+>r5 : Symbol(r5, Decl(staticPropertyNotInClassType.jump, 36, 7))
+>c : Symbol(c, Decl(staticPropertyNotInClassType.jump, 33, 7))
+
+    var r6 = c.x; // error
+>r6 : Symbol(r6, Decl(staticPropertyNotInClassType.jump, 37, 7))
+>c : Symbol(c, Decl(staticPropertyNotInClassType.jump, 33, 7))
+}

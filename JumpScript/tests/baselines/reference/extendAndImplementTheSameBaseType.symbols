@@ -1,0 +1,43 @@
+=== tests/cases/compiler/extendAndImplementTheSameBaseType.jump ===
+class C {
+>C : Symbol(C, Decl(extendAndImplementTheSameBaseType.jump, 0, 0))
+
+    foo: number
+>foo : Symbol(C.foo, Decl(extendAndImplementTheSameBaseType.jump, 0, 9))
+
+    bar() {}
+>bar : Symbol(C.bar, Decl(extendAndImplementTheSameBaseType.jump, 1, 15))
+}
+class D extends C implements C {
+>D : Symbol(D, Decl(extendAndImplementTheSameBaseType.jump, 3, 1))
+>C : Symbol(C, Decl(extendAndImplementTheSameBaseType.jump, 0, 0))
+>C : Symbol(C, Decl(extendAndImplementTheSameBaseType.jump, 0, 0))
+
+    baz() { }
+>baz : Symbol(D.baz, Decl(extendAndImplementTheSameBaseType.jump, 4, 32))
+}
+
+var c: C;
+>c : Symbol(c, Decl(extendAndImplementTheSameBaseType.jump, 8, 3))
+>C : Symbol(C, Decl(extendAndImplementTheSameBaseType.jump, 0, 0))
+
+var d: D = new D();
+>d : Symbol(d, Decl(extendAndImplementTheSameBaseType.jump, 9, 3))
+>D : Symbol(D, Decl(extendAndImplementTheSameBaseType.jump, 3, 1))
+>D : Symbol(D, Decl(extendAndImplementTheSameBaseType.jump, 3, 1))
+
+d.bar();
+>d.bar : Symbol(C.bar, Decl(extendAndImplementTheSameBaseType.jump, 1, 15))
+>d : Symbol(d, Decl(extendAndImplementTheSameBaseType.jump, 9, 3))
+>bar : Symbol(C.bar, Decl(extendAndImplementTheSameBaseType.jump, 1, 15))
+
+d.baz();
+>d.baz : Symbol(D.baz, Decl(extendAndImplementTheSameBaseType.jump, 4, 32))
+>d : Symbol(d, Decl(extendAndImplementTheSameBaseType.jump, 9, 3))
+>baz : Symbol(D.baz, Decl(extendAndImplementTheSameBaseType.jump, 4, 32))
+
+d.foo;
+>d.foo : Symbol(C.foo, Decl(extendAndImplementTheSameBaseType.jump, 0, 9))
+>d : Symbol(d, Decl(extendAndImplementTheSameBaseType.jump, 9, 3))
+>foo : Symbol(C.foo, Decl(extendAndImplementTheSameBaseType.jump, 0, 9))
+

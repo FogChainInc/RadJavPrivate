@@ -1,0 +1,26 @@
+=== tests/cases/compiler/constructorParametersThatShadowExternalNamesInVariableDeclarations.jump ===
+var x = 1;
+>x : Symbol(x, Decl(constructorParametersThatShadowExternalNamesInVariableDeclarations.jump, 0, 3))
+
+class A {
+>A : Symbol(A, Decl(constructorParametersThatShadowExternalNamesInVariableDeclarations.jump, 0, 10))
+
+    private a = x;
+>a : Symbol(A.a, Decl(constructorParametersThatShadowExternalNamesInVariableDeclarations.jump, 1, 9))
+
+    constructor(x: number) {
+>x : Symbol(x, Decl(constructorParametersThatShadowExternalNamesInVariableDeclarations.jump, 3, 16))
+    }
+}
+
+class B {
+>B : Symbol(B, Decl(constructorParametersThatShadowExternalNamesInVariableDeclarations.jump, 5, 1))
+
+    private a = x;
+>a : Symbol(B.a, Decl(constructorParametersThatShadowExternalNamesInVariableDeclarations.jump, 7, 9))
+
+    constructor() {
+        var x = "";
+>x : Symbol(x, Decl(constructorParametersThatShadowExternalNamesInVariableDeclarations.jump, 10, 11))
+    }
+}

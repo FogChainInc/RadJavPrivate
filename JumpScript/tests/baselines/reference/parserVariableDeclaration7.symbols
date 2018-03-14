@@ -1,0 +1,5 @@
+=== tests/cases/conformance/parser/ecmascript5/VariableDeclarations/parserVariableDeclaration7.jump ===
+var a,b
+>a : Symbol(a, Decl(parserVariableDeclaration7.jump, 0, 3))
+>b : Symbol(b, Decl(parserVariableDeclaration7.jump, 0, 6))
+

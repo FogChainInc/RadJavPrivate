@@ -1,0 +1,5 @@
+=== tests/cases/compiler/declarationEmitTypeAliasTypeParameterExtendingUnknownSymbol.jump ===
+type A<T extends Unknown> = {}
+>A : Symbol(A, Decl(declarationEmitTypeAliasTypeParameterExtendingUnknownSymbol.jump, 0, 0))
+>T : Symbol(T, Decl(declarationEmitTypeAliasTypeParameterExtendingUnknownSymbol.jump, 0, 7))
+

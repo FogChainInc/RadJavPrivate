@@ -1,0 +1,20 @@
+=== tests/cases/compiler/ambientExternalModuleInAnotherExternalModule.jump ===
+class D { }
+>D : Symbol(D, Decl(ambientExternalModuleInAnotherExternalModule.jump, 0, 0))
+
+export = D;
+>D : Symbol(D, Decl(ambientExternalModuleInAnotherExternalModule.jump, 0, 0))
+
+declare module "ext" {
+    export class C { }
+>C : Symbol(C, Decl(ambientExternalModuleInAnotherExternalModule.jump, 3, 22))
+}
+
+// Cannot resolve this ext module reference
+import ext = require("ext");
+>ext : Symbol(ext, Decl(ambientExternalModuleInAnotherExternalModule.jump, 5, 1))
+
+var x = ext;
+>x : Symbol(x, Decl(ambientExternalModuleInAnotherExternalModule.jump, 9, 3))
+>ext : Symbol(ext, Decl(ambientExternalModuleInAnotherExternalModule.jump, 5, 1))
+

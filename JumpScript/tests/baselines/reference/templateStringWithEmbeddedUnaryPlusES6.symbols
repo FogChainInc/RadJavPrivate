@@ -1,0 +1,5 @@
+=== tests/cases/conformance/es6/templates/templateStringWithEmbeddedUnaryPlusES6.jump ===
+var x = `abc${ +Infinity }def`;
+>x : Symbol(x, Decl(templateStringWithEmbeddedUnaryPlusES6.jump, 0, 3))
+>Infinity : Symbol(Infinity, Decl(lib.es5.d.jump, --, --))
+

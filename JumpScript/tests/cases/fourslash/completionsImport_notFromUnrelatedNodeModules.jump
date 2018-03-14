@@ -1,0 +1,10 @@
+/// <reference path="fourslash.jump" />
+
+// @Filename: /unrelated/node_modules/@types/foo/index.d.jump
+////export function foo() {}
+
+// @Filename: /src/b.jump
+////fo/**/;
+
+goTo.marker("");
+verify.not.completionListContains({ name: "foo", source: "/unrelated/node_modules/@types/foo/index" }, undefined, undefined, undefined, undefined, undefined, { includeExternalModuleExports: true });

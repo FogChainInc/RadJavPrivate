@@ -1,0 +1,6 @@
+=== tests/cases/conformance/parser/ecmascript5/RegressionTests/parser509669.jump ===
+function foo():any {
+>foo : Symbol(foo, Decl(parser509669.jump, 0, 0))
+
+ return ():void {};
+}

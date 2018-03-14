@@ -1,0 +1,50 @@
+=== tests/cases/conformance/types/union/unionTypeEquivalence.jump ===
+// A | B is equivalent to A if B is a subtype of A
+class C { }
+>C : Symbol(C, Decl(unionTypeEquivalence.jump, 0, 0))
+
+class D extends C { foo() { } }
+>D : Symbol(D, Decl(unionTypeEquivalence.jump, 1, 11))
+>C : Symbol(C, Decl(unionTypeEquivalence.jump, 0, 0))
+>foo : Symbol(D.foo, Decl(unionTypeEquivalence.jump, 2, 19))
+
+var x: C;
+>x : Symbol(x, Decl(unionTypeEquivalence.jump, 3, 3), Decl(unionTypeEquivalence.jump, 4, 3))
+>C : Symbol(C, Decl(unionTypeEquivalence.jump, 0, 0))
+
+var x : C | D;
+>x : Symbol(x, Decl(unionTypeEquivalence.jump, 3, 3), Decl(unionTypeEquivalence.jump, 4, 3))
+>C : Symbol(C, Decl(unionTypeEquivalence.jump, 0, 0))
+>D : Symbol(D, Decl(unionTypeEquivalence.jump, 1, 11))
+
+// A | B is equivalent to B | A.
+var y: string | number;
+>y : Symbol(y, Decl(unionTypeEquivalence.jump, 7, 3), Decl(unionTypeEquivalence.jump, 8, 3))
+
+var y : number | string;
+>y : Symbol(y, Decl(unionTypeEquivalence.jump, 7, 3), Decl(unionTypeEquivalence.jump, 8, 3))
+
+// AB | C is equivalent to A | BC, where AB is A | B and BC is B | C.
+var z : string | number | boolean;
+>z : Symbol(z, Decl(unionTypeEquivalence.jump, 11, 3), Decl(unionTypeEquivalence.jump, 12, 3), Decl(unionTypeEquivalence.jump, 13, 3))
+
+var z : (string | number) | boolean;
+>z : Symbol(z, Decl(unionTypeEquivalence.jump, 11, 3), Decl(unionTypeEquivalence.jump, 12, 3), Decl(unionTypeEquivalence.jump, 13, 3))
+
+var z : string | (number | boolean);
+>z : Symbol(z, Decl(unionTypeEquivalence.jump, 11, 3), Decl(unionTypeEquivalence.jump, 12, 3), Decl(unionTypeEquivalence.jump, 13, 3))
+
+var AB : string | number;
+>AB : Symbol(AB, Decl(unionTypeEquivalence.jump, 14, 3))
+
+var BC : number | boolean;
+>BC : Symbol(BC, Decl(unionTypeEquivalence.jump, 15, 3))
+
+var z1: typeof AB | boolean;
+>z1 : Symbol(z1, Decl(unionTypeEquivalence.jump, 16, 3), Decl(unionTypeEquivalence.jump, 17, 3))
+>AB : Symbol(AB, Decl(unionTypeEquivalence.jump, 14, 3))
+
+var z1: string | typeof BC;
+>z1 : Symbol(z1, Decl(unionTypeEquivalence.jump, 16, 3), Decl(unionTypeEquivalence.jump, 17, 3))
+>BC : Symbol(BC, Decl(unionTypeEquivalence.jump, 15, 3))
+

@@ -1,0 +1,102 @@
+=== tests/cases/conformance/types/members/duplicatePropertyNames.jump ===
+// duplicate property names are an error in all types
+
+interface Number {
+>Number : Symbol(Number, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(duplicatePropertyNames.jump, 0, 0))
+
+    foo: string;
+>foo : Symbol(Number.foo, Decl(duplicatePropertyNames.jump, 2, 18), Decl(duplicatePropertyNames.jump, 3, 16))
+
+    foo: string;
+>foo : Symbol(Number.foo, Decl(duplicatePropertyNames.jump, 2, 18), Decl(duplicatePropertyNames.jump, 3, 16))
+}
+
+interface String {
+>String : Symbol(String, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(duplicatePropertyNames.jump, 5, 1))
+
+    foo(): string;
+>foo : Symbol(String.foo, Decl(duplicatePropertyNames.jump, 7, 18), Decl(duplicatePropertyNames.jump, 8, 18))
+
+    foo(): string;
+>foo : Symbol(String.foo, Decl(duplicatePropertyNames.jump, 7, 18), Decl(duplicatePropertyNames.jump, 8, 18))
+}
+
+interface Array<T> {
+>Array : Symbol(Array, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(duplicatePropertyNames.jump, 10, 1))
+>T : Symbol(T, Decl(lib.d.jump, --, --), Decl(duplicatePropertyNames.jump, 12, 16))
+
+    foo: T;
+>foo : Symbol(Array.foo, Decl(duplicatePropertyNames.jump, 12, 20), Decl(duplicatePropertyNames.jump, 13, 11))
+>T : Symbol(T, Decl(lib.d.jump, --, --), Decl(duplicatePropertyNames.jump, 12, 16))
+
+    foo: T;
+>foo : Symbol(Array.foo, Decl(duplicatePropertyNames.jump, 12, 20), Decl(duplicatePropertyNames.jump, 13, 11))
+>T : Symbol(T, Decl(lib.d.jump, --, --), Decl(duplicatePropertyNames.jump, 12, 16))
+}
+
+class C {
+>C : Symbol(C, Decl(duplicatePropertyNames.jump, 15, 1))
+
+    foo: string;
+>foo : Symbol(C.foo, Decl(duplicatePropertyNames.jump, 17, 9), Decl(duplicatePropertyNames.jump, 18, 16))
+
+    foo: string;
+>foo : Symbol(C.foo, Decl(duplicatePropertyNames.jump, 17, 9), Decl(duplicatePropertyNames.jump, 18, 16))
+
+    bar(x) { }
+>bar : Symbol(C.bar, Decl(duplicatePropertyNames.jump, 19, 16), Decl(duplicatePropertyNames.jump, 21, 14))
+>x : Symbol(x, Decl(duplicatePropertyNames.jump, 21, 8))
+
+    bar(x) { }
+>bar : Symbol(C.bar, Decl(duplicatePropertyNames.jump, 19, 16), Decl(duplicatePropertyNames.jump, 21, 14))
+>x : Symbol(x, Decl(duplicatePropertyNames.jump, 22, 8))
+
+    baz = () => { }
+>baz : Symbol(C.baz, Decl(duplicatePropertyNames.jump, 22, 14), Decl(duplicatePropertyNames.jump, 24, 19))
+
+    baz = () => { }
+>baz : Symbol(C.baz, Decl(duplicatePropertyNames.jump, 22, 14), Decl(duplicatePropertyNames.jump, 24, 19))
+}
+
+interface I {
+>I : Symbol(I, Decl(duplicatePropertyNames.jump, 26, 1))
+
+    foo: string;
+>foo : Symbol(I.foo, Decl(duplicatePropertyNames.jump, 28, 13), Decl(duplicatePropertyNames.jump, 29, 16))
+
+    foo: string;
+>foo : Symbol(I.foo, Decl(duplicatePropertyNames.jump, 28, 13), Decl(duplicatePropertyNames.jump, 29, 16))
+}
+
+var a: {
+>a : Symbol(a, Decl(duplicatePropertyNames.jump, 33, 3))
+
+    foo: string;
+>foo : Symbol(foo, Decl(duplicatePropertyNames.jump, 33, 8), Decl(duplicatePropertyNames.jump, 34, 16))
+
+    foo: string;
+>foo : Symbol(foo, Decl(duplicatePropertyNames.jump, 33, 8), Decl(duplicatePropertyNames.jump, 34, 16))
+
+    bar: () => {};
+>bar : Symbol(bar, Decl(duplicatePropertyNames.jump, 35, 16), Decl(duplicatePropertyNames.jump, 37, 18))
+
+    bar: () => {};
+>bar : Symbol(bar, Decl(duplicatePropertyNames.jump, 35, 16), Decl(duplicatePropertyNames.jump, 37, 18))
+}
+
+var b = {
+>b : Symbol(b, Decl(duplicatePropertyNames.jump, 41, 3))
+
+    foo: '',
+>foo : Symbol(foo, Decl(duplicatePropertyNames.jump, 41, 9), Decl(duplicatePropertyNames.jump, 42, 12))
+
+    foo: '',
+>foo : Symbol(foo, Decl(duplicatePropertyNames.jump, 41, 9), Decl(duplicatePropertyNames.jump, 42, 12))
+
+    bar: () => { },
+>bar : Symbol(bar, Decl(duplicatePropertyNames.jump, 43, 12), Decl(duplicatePropertyNames.jump, 44, 19))
+
+    bar: () => { }
+>bar : Symbol(bar, Decl(duplicatePropertyNames.jump, 43, 12), Decl(duplicatePropertyNames.jump, 44, 19))
+}
+

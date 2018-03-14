@@ -1,0 +1,8 @@
+=== tests/cases/compiler/libdtsFix.jump ===
+interface HTMLElement {
+>HTMLElement : Symbol(HTMLElement, Decl(libdtsFix.jump, 0, 0))
+
+    type: string;
+>type : Symbol(HTMLElement.type, Decl(libdtsFix.jump, 0, 23))
+}
+

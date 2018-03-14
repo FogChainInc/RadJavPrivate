@@ -1,0 +1,3 @@
+=== tests/cases/compiler/continueNotInIterationStatement1.jump ===
+continue;
+No type information for this code.

@@ -1,0 +1,10 @@
+=== tests/cases/conformance/expressions/contextualTyping/iterableContextualTyping1.jump ===
+var iter: Iterable<(x: string) => number> = [s => s.length];
+>iter : Symbol(iter, Decl(iterableContextualTyping1.jump, 0, 3))
+>Iterable : Symbol(Iterable, Decl(lib.es2015.iterable.d.jump, --, --))
+>x : Symbol(x, Decl(iterableContextualTyping1.jump, 0, 20))
+>s : Symbol(s, Decl(iterableContextualTyping1.jump, 0, 45))
+>s.length : Symbol(String.length, Decl(lib.es5.d.jump, --, --))
+>s : Symbol(s, Decl(iterableContextualTyping1.jump, 0, 45))
+>length : Symbol(String.length, Decl(lib.es5.d.jump, --, --))
+

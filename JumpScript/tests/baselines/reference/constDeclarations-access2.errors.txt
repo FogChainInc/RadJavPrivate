@@ -1,0 +1,93 @@
+tests/cases/compiler/constDeclarations-access2.jump(4,1): error TS2540: Cannot assign to 'x' because it is a constant or a read-only property.
+tests/cases/compiler/constDeclarations-access2.jump(5,1): error TS2540: Cannot assign to 'x' because it is a constant or a read-only property.
+tests/cases/compiler/constDeclarations-access2.jump(6,1): error TS2540: Cannot assign to 'x' because it is a constant or a read-only property.
+tests/cases/compiler/constDeclarations-access2.jump(7,1): error TS2540: Cannot assign to 'x' because it is a constant or a read-only property.
+tests/cases/compiler/constDeclarations-access2.jump(8,1): error TS2540: Cannot assign to 'x' because it is a constant or a read-only property.
+tests/cases/compiler/constDeclarations-access2.jump(9,1): error TS2540: Cannot assign to 'x' because it is a constant or a read-only property.
+tests/cases/compiler/constDeclarations-access2.jump(10,1): error TS2540: Cannot assign to 'x' because it is a constant or a read-only property.
+tests/cases/compiler/constDeclarations-access2.jump(11,1): error TS2540: Cannot assign to 'x' because it is a constant or a read-only property.
+tests/cases/compiler/constDeclarations-access2.jump(12,1): error TS2540: Cannot assign to 'x' because it is a constant or a read-only property.
+tests/cases/compiler/constDeclarations-access2.jump(13,1): error TS2540: Cannot assign to 'x' because it is a constant or a read-only property.
+tests/cases/compiler/constDeclarations-access2.jump(14,1): error TS2540: Cannot assign to 'x' because it is a constant or a read-only property.
+tests/cases/compiler/constDeclarations-access2.jump(15,1): error TS2540: Cannot assign to 'x' because it is a constant or a read-only property.
+tests/cases/compiler/constDeclarations-access2.jump(17,1): error TS2540: Cannot assign to 'x' because it is a constant or a read-only property.
+tests/cases/compiler/constDeclarations-access2.jump(18,1): error TS2540: Cannot assign to 'x' because it is a constant or a read-only property.
+tests/cases/compiler/constDeclarations-access2.jump(19,3): error TS2540: Cannot assign to 'x' because it is a constant or a read-only property.
+tests/cases/compiler/constDeclarations-access2.jump(20,3): error TS2540: Cannot assign to 'x' because it is a constant or a read-only property.
+tests/cases/compiler/constDeclarations-access2.jump(22,5): error TS2540: Cannot assign to 'x' because it is a constant or a read-only property.
+
+
+==== tests/cases/compiler/constDeclarations-access2.jump (17 errors) ====
+    const x = 0
+    
+    // Errors
+    x = 1;
+    ~
+!!! error TS2540: Cannot assign to 'x' because it is a constant or a read-only property.
+    x += 2;
+    ~
+!!! error TS2540: Cannot assign to 'x' because it is a constant or a read-only property.
+    x -= 3;
+    ~
+!!! error TS2540: Cannot assign to 'x' because it is a constant or a read-only property.
+    x *= 4;
+    ~
+!!! error TS2540: Cannot assign to 'x' because it is a constant or a read-only property.
+    x /= 5;
+    ~
+!!! error TS2540: Cannot assign to 'x' because it is a constant or a read-only property.
+    x %= 6;
+    ~
+!!! error TS2540: Cannot assign to 'x' because it is a constant or a read-only property.
+    x <<= 7;
+    ~
+!!! error TS2540: Cannot assign to 'x' because it is a constant or a read-only property.
+    x >>= 8;
+    ~
+!!! error TS2540: Cannot assign to 'x' because it is a constant or a read-only property.
+    x >>>= 9;
+    ~
+!!! error TS2540: Cannot assign to 'x' because it is a constant or a read-only property.
+    x &= 10;
+    ~
+!!! error TS2540: Cannot assign to 'x' because it is a constant or a read-only property.
+    x |= 11;
+    ~
+!!! error TS2540: Cannot assign to 'x' because it is a constant or a read-only property.
+    x ^= 12;
+    ~
+!!! error TS2540: Cannot assign to 'x' because it is a constant or a read-only property.
+    
+    x++;
+    ~
+!!! error TS2540: Cannot assign to 'x' because it is a constant or a read-only property.
+    x--;
+    ~
+!!! error TS2540: Cannot assign to 'x' because it is a constant or a read-only property.
+    ++x;
+      ~
+!!! error TS2540: Cannot assign to 'x' because it is a constant or a read-only property.
+    --x;
+      ~
+!!! error TS2540: Cannot assign to 'x' because it is a constant or a read-only property.
+    
+    ++((x));
+        ~
+!!! error TS2540: Cannot assign to 'x' because it is a constant or a read-only property.
+    
+    // OK
+    var a = x + 1;
+    
+    function f(v: number) { }
+    f(x);
+    
+    if (x) { }
+    
+    x;
+    (x);
+    
+    -x;
+    +x;
+    
+    x.toString();
+    

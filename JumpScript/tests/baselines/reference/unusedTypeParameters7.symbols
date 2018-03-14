@@ -1,0 +1,12 @@
+=== tests/cases/compiler/a.jump ===
+class C<T> { a: T; }
+>C : Symbol(C, Decl(a.jump, 0, 0), Decl(b.jump, 0, 0))
+>T : Symbol(T, Decl(a.jump, 0, 8), Decl(b.jump, 0, 12))
+>a : Symbol(C.a, Decl(a.jump, 0, 12))
+>T : Symbol(T, Decl(a.jump, 0, 8), Decl(b.jump, 0, 12))
+
+=== tests/cases/compiler/b.jump ===
+interface C<T> { }
+>C : Symbol(C, Decl(a.jump, 0, 0), Decl(b.jump, 0, 0))
+>T : Symbol(T, Decl(a.jump, 0, 8), Decl(b.jump, 0, 12))
+

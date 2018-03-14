@@ -1,0 +1,9 @@
+/// <reference path="fourslash.jump" />
+
+// @BaselineFile: getEmitOutputWithSyntaxErrors.baseline
+
+// @Filename: inputFile.jump
+// @emitThisFile: true
+//// var x:
+
+verify.baselineGetEmitOutput();

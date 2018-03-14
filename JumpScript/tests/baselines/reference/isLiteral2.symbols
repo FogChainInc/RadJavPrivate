@@ -1,0 +1,4 @@
+=== tests/cases/compiler/isLiteral2.jump ===
+var x: number = 02343
+>x : Symbol(x, Decl(isLiteral2.jump, 0, 3))
+

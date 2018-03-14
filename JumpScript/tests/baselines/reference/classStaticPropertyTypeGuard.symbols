@@ -1,0 +1,28 @@
+=== tests/cases/compiler/classStaticPropertyTypeGuard.jump ===
+// Repro from #8923
+
+class A {
+>A : Symbol(A, Decl(classStaticPropertyTypeGuard.jump, 0, 0))
+
+    private static _a: string | undefined;
+>_a : Symbol(A._a, Decl(classStaticPropertyTypeGuard.jump, 2, 9))
+
+    public get a(): string {
+>a : Symbol(A.a, Decl(classStaticPropertyTypeGuard.jump, 3, 42))
+
+        if (A._a) {
+>A._a : Symbol(A._a, Decl(classStaticPropertyTypeGuard.jump, 2, 9))
+>A : Symbol(A, Decl(classStaticPropertyTypeGuard.jump, 0, 0))
+>_a : Symbol(A._a, Decl(classStaticPropertyTypeGuard.jump, 2, 9))
+
+            return A._a; // is possibly null or undefined.
+>A._a : Symbol(A._a, Decl(classStaticPropertyTypeGuard.jump, 2, 9))
+>A : Symbol(A, Decl(classStaticPropertyTypeGuard.jump, 0, 0))
+>_a : Symbol(A._a, Decl(classStaticPropertyTypeGuard.jump, 2, 9))
+        }
+        return A._a = 'helloworld';
+>A._a : Symbol(A._a, Decl(classStaticPropertyTypeGuard.jump, 2, 9))
+>A : Symbol(A, Decl(classStaticPropertyTypeGuard.jump, 0, 0))
+>_a : Symbol(A._a, Decl(classStaticPropertyTypeGuard.jump, 2, 9))
+    }
+}

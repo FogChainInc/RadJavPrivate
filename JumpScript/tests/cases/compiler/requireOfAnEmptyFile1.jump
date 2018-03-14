@@ -1,0 +1,7 @@
+// @module: commonjs
+//requireOfAnEmptyFile1
+
+// @Filename: requireOfAnEmptyFile1_a.jump
+import fs = require('./requireOfAnEmptyFile1_b');
+
+// @Filename: requireOfAnEmptyFile1_b.jump

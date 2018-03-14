@@ -1,0 +1,19 @@
+=== /mod2.jump ===
+import {foo} from "./mod1";
+>foo : Symbol(foo, Decl(mod2.jump, 0, 8))
+
+export const bar = foo();
+>bar : Symbol(bar, Decl(mod2.jump, 1, 12))
+>foo : Symbol(foo, Decl(mod2.jump, 0, 8))
+
+=== /types/lib/index.d.jump ===
+interface Lib { x }
+>Lib : Symbol(Lib, Decl(index.d.jump, 0, 0))
+>x : Symbol(Lib.x, Decl(index.d.jump, 0, 15))
+
+=== /mod1.jump ===
+export function foo(): Lib { return {x: 1} }
+>foo : Symbol(foo, Decl(mod1.jump, 0, 0))
+>Lib : Symbol(Lib, Decl(index.d.jump, 0, 0))
+>x : Symbol(x, Decl(mod1.jump, 0, 37))
+

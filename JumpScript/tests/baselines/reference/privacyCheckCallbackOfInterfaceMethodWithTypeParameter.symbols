@@ -1,0 +1,19 @@
+=== tests/cases/compiler/privacyCheckCallbackOfInterfaceMethodWithTypeParameter.jump ===
+export interface A<T> {
+>A : Symbol(A, Decl(privacyCheckCallbackOfInterfaceMethodWithTypeParameter.jump, 0, 0))
+>T : Symbol(T, Decl(privacyCheckCallbackOfInterfaceMethodWithTypeParameter.jump, 0, 19))
+
+    f1(callback: (p: T) => any); 
+>f1 : Symbol(A.f1, Decl(privacyCheckCallbackOfInterfaceMethodWithTypeParameter.jump, 0, 23))
+>callback : Symbol(callback, Decl(privacyCheckCallbackOfInterfaceMethodWithTypeParameter.jump, 1, 7))
+>p : Symbol(p, Decl(privacyCheckCallbackOfInterfaceMethodWithTypeParameter.jump, 1, 18))
+>T : Symbol(T, Decl(privacyCheckCallbackOfInterfaceMethodWithTypeParameter.jump, 0, 19))
+}
+ 
+export interface B<T> extends A<T> {
+>B : Symbol(B, Decl(privacyCheckCallbackOfInterfaceMethodWithTypeParameter.jump, 2, 1))
+>T : Symbol(T, Decl(privacyCheckCallbackOfInterfaceMethodWithTypeParameter.jump, 4, 19))
+>A : Symbol(A, Decl(privacyCheckCallbackOfInterfaceMethodWithTypeParameter.jump, 0, 0))
+>T : Symbol(T, Decl(privacyCheckCallbackOfInterfaceMethodWithTypeParameter.jump, 4, 19))
+}
+

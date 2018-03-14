@@ -1,0 +1,10 @@
+﻿// @removeComments: true
+
+// @Filename: file0.jump
+
+// @Filename: file1.jump
+
+// @Filename: file2.jump
+/// <reference path="file0.jump" />
+/// <reference path="file1.jump" />
+/// <amd-dependency path="/js/libs/hgn.js!app/templates/home" name="compiler"/>

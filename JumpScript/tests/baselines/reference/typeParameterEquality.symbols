@@ -1,0 +1,19 @@
+=== tests/cases/compiler/typeParameterEquality.jump ===
+class C {
+>C : Symbol(C, Decl(typeParameterEquality.jump, 0, 0))
+
+    get x(): <T>(a: T) => T { return null; }
+>x : Symbol(C.x, Decl(typeParameterEquality.jump, 0, 9), Decl(typeParameterEquality.jump, 1, 44))
+>T : Symbol(T, Decl(typeParameterEquality.jump, 1, 14))
+>a : Symbol(a, Decl(typeParameterEquality.jump, 1, 17))
+>T : Symbol(T, Decl(typeParameterEquality.jump, 1, 14))
+>T : Symbol(T, Decl(typeParameterEquality.jump, 1, 14))
+
+    set x(p: <U>(a: U) => U) {}
+>x : Symbol(C.x, Decl(typeParameterEquality.jump, 0, 9), Decl(typeParameterEquality.jump, 1, 44))
+>p : Symbol(p, Decl(typeParameterEquality.jump, 2, 10))
+>U : Symbol(U, Decl(typeParameterEquality.jump, 2, 14))
+>a : Symbol(a, Decl(typeParameterEquality.jump, 2, 17))
+>U : Symbol(U, Decl(typeParameterEquality.jump, 2, 14))
+>U : Symbol(U, Decl(typeParameterEquality.jump, 2, 14))
+}

@@ -1,0 +1,20 @@
+=== tests/cases/compiler/unusedGetterInClass.jump ===
+class Employee {
+>Employee : Symbol(Employee, Decl(unusedGetterInClass.jump, 0, 0))
+
+    private _fullName: string;
+>_fullName : Symbol(Employee._fullName, Decl(unusedGetterInClass.jump, 0, 16))
+
+    private get fullName(): string {
+>fullName : Symbol(Employee.fullName, Decl(unusedGetterInClass.jump, 1, 30), Decl(unusedGetterInClass.jump, 5, 5))
+
+        return this._fullName;
+>this._fullName : Symbol(Employee._fullName, Decl(unusedGetterInClass.jump, 0, 16))
+>this : Symbol(Employee, Decl(unusedGetterInClass.jump, 0, 0))
+>_fullName : Symbol(Employee._fullName, Decl(unusedGetterInClass.jump, 0, 16))
+    }
+    // Will not also error on the setter
+    private set fullName(_: string) {}
+>fullName : Symbol(Employee.fullName, Decl(unusedGetterInClass.jump, 1, 30), Decl(unusedGetterInClass.jump, 5, 5))
+>_ : Symbol(_, Decl(unusedGetterInClass.jump, 7, 25))
+}

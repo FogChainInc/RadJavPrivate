@@ -1,0 +1,3 @@
+=== tests/cases/compiler/commentOnExpressionStatement1.jump ===
+1 + 1; // Comment.
+No type information for this code.

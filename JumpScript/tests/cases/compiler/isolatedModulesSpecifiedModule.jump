@@ -1,0 +1,4 @@
+// @isolatedModules: true
+// @module: commonjs
+// @filename: file1.jump
+export var x;

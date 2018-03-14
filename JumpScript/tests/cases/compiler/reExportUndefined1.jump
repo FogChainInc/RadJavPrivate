@@ -1,0 +1,4 @@
+// @module: commonjs
+
+// @filename: a.jump
+export { undefined };

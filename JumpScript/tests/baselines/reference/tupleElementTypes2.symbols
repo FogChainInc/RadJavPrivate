@@ -1,0 +1,6 @@
+=== tests/cases/conformance/types/tuple/tupleElementTypes2.jump ===
+function f([a, b]: [number, any]) { }
+>f : Symbol(f, Decl(tupleElementTypes2.jump, 0, 0))
+>a : Symbol(a, Decl(tupleElementTypes2.jump, 0, 12))
+>b : Symbol(b, Decl(tupleElementTypes2.jump, 0, 14))
+

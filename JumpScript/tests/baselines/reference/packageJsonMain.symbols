@@ -1,0 +1,15 @@
+=== /a.jump ===
+import foo = require("foo");
+>foo : Symbol(foo, Decl(a.jump, 0, 0))
+
+import bar = require("bar");
+>bar : Symbol(bar, Decl(a.jump, 0, 28))
+
+import baz = require("baz");
+>baz : Symbol(baz, Decl(a.jump, 1, 28))
+
+foo + bar + baz;
+>foo : Symbol(foo, Decl(a.jump, 0, 0))
+>bar : Symbol(bar, Decl(a.jump, 0, 28))
+>baz : Symbol(baz, Decl(a.jump, 1, 28))
+

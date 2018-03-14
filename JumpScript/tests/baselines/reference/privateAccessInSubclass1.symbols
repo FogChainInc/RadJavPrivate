@@ -1,0 +1,21 @@
+=== tests/cases/compiler/privateAccessInSubclass1.jump ===
+class Base {
+>Base : Symbol(Base, Decl(privateAccessInSubclass1.jump, 0, 0))
+
+  private options: any;
+>options : Symbol(Base.options, Decl(privateAccessInSubclass1.jump, 0, 12))
+}
+
+class D extends Base {
+>D : Symbol(D, Decl(privateAccessInSubclass1.jump, 2, 1))
+>Base : Symbol(Base, Decl(privateAccessInSubclass1.jump, 0, 0))
+
+  myMethod() {
+>myMethod : Symbol(D.myMethod, Decl(privateAccessInSubclass1.jump, 4, 22))
+
+    this.options;
+>this.options : Symbol(Base.options, Decl(privateAccessInSubclass1.jump, 0, 12))
+>this : Symbol(D, Decl(privateAccessInSubclass1.jump, 2, 1))
+>options : Symbol(Base.options, Decl(privateAccessInSubclass1.jump, 0, 12))
+  }
+}

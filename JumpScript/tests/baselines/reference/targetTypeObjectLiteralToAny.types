@@ -1,0 +1,33 @@
+=== tests/cases/compiler/targetTypeObjectLiteralToAny.jump ===
+function suggest(){ 
+>suggest : () => void
+
+	var JumpScriptKeywords:string[];  
+>JumpScriptKeywords : string[]
+
+	var result:any;	
+>result : any
+					
+	JumpScriptKeywords.forEach(function(keyword) {						
+>JumpScriptKeywords.forEach(function(keyword) {								result.push({text:keyword, type:"keyword"}); // this should not cause a crash - push should be typed to any	}) : void
+>JumpScriptKeywords.forEach : (callbackfn: (value: string, index: number, array: string[]) => void, thisArg?: any) => void
+>JumpScriptKeywords : string[]
+>forEach : (callbackfn: (value: string, index: number, array: string[]) => void, thisArg?: any) => void
+>function(keyword) {								result.push({text:keyword, type:"keyword"}); // this should not cause a crash - push should be typed to any	} : (keyword: string) => void
+>keyword : string
+
+		result.push({text:keyword, type:"keyword"}); // this should not cause a crash - push should be typed to any
+>result.push({text:keyword, type:"keyword"}) : any
+>result.push : any
+>result : any
+>push : any
+>{text:keyword, type:"keyword"} : { text: string; type: string; }
+>text : string
+>keyword : string
+>type : string
+>"keyword" : "keyword"
+
+	});			
+}
+
+

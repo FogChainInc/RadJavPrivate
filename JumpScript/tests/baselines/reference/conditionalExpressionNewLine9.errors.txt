@@ -1,0 +1,29 @@
+tests/cases/compiler/conditionalExpressionNewLine9.jump(1,9): error TS2304: Cannot find name 'a'.
+tests/cases/compiler/conditionalExpressionNewLine9.jump(2,5): error TS2304: Cannot find name 'b'.
+tests/cases/compiler/conditionalExpressionNewLine9.jump(3,7): error TS2304: Cannot find name 'd'.
+tests/cases/compiler/conditionalExpressionNewLine9.jump(3,11): error TS2304: Cannot find name 'e'.
+tests/cases/compiler/conditionalExpressionNewLine9.jump(4,5): error TS2304: Cannot find name 'c'.
+tests/cases/compiler/conditionalExpressionNewLine9.jump(5,7): error TS2304: Cannot find name 'f'.
+tests/cases/compiler/conditionalExpressionNewLine9.jump(5,11): error TS2304: Cannot find name 'g'.
+
+
+==== tests/cases/compiler/conditionalExpressionNewLine9.jump (7 errors) ====
+    var v = a 
+            ~
+!!! error TS2304: Cannot find name 'a'.
+      ? b
+        ~
+!!! error TS2304: Cannot find name 'b'.
+        ? d : e
+          ~
+!!! error TS2304: Cannot find name 'd'.
+              ~
+!!! error TS2304: Cannot find name 'e'.
+      : c
+        ~
+!!! error TS2304: Cannot find name 'c'.
+        ? f : g;
+          ~
+!!! error TS2304: Cannot find name 'f'.
+              ~
+!!! error TS2304: Cannot find name 'g'.

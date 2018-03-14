@@ -1,0 +1,17 @@
+=== tests/cases/compiler/propertyAccessOnObjectLiteral.jump ===
+class A { }
+>A : Symbol(A, Decl(propertyAccessOnObjectLiteral.jump, 0, 0))
+
+(<A>{}).toString();
+>(<A>{}).toString : Symbol(Object.toString, Decl(lib.d.jump, --, --))
+>A : Symbol(A, Decl(propertyAccessOnObjectLiteral.jump, 0, 0))
+>toString : Symbol(Object.toString, Decl(lib.d.jump, --, --))
+
+(() => {
+    (<A>{}).toString();
+>(<A>{}).toString : Symbol(Object.toString, Decl(lib.d.jump, --, --))
+>A : Symbol(A, Decl(propertyAccessOnObjectLiteral.jump, 0, 0))
+>toString : Symbol(Object.toString, Decl(lib.d.jump, --, --))
+
+})();
+

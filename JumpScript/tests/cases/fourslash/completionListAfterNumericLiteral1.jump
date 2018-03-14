@@ -1,0 +1,6 @@
+/// <reference path="fourslash.jump" />
+
+////5../**/
+
+goTo.marker();
+verify.completionListContains("toFixed");

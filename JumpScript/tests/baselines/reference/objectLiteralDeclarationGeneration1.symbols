@@ -1,0 +1,5 @@
+=== tests/cases/compiler/objectLiteralDeclarationGeneration1.jump ===
+class y<T extends {}>{ }
+>y : Symbol(y, Decl(objectLiteralDeclarationGeneration1.jump, 0, 0))
+>T : Symbol(T, Decl(objectLiteralDeclarationGeneration1.jump, 0, 8))
+

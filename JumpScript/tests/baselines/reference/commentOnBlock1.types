@@ -1,0 +1,7 @@
+=== tests/cases/compiler/commentOnBlock1.jump ===
+// asdf
+function f() {
+>f : () => void
+
+ /*asdf*/{}
+}

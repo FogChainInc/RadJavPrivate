@@ -1,0 +1,15 @@
+=== tests/cases/conformance/declarationEmit/classDoesNotDependOnPrivateMember.jump ===
+module M {
+>M : Symbol(M, Decl(classDoesNotDependOnPrivateMember.jump, 0, 0))
+
+    interface I { }
+>I : Symbol(I, Decl(classDoesNotDependOnPrivateMember.jump, 0, 10))
+
+    export class C {
+>C : Symbol(C, Decl(classDoesNotDependOnPrivateMember.jump, 1, 19))
+
+        private x: I;
+>x : Symbol(C.x, Decl(classDoesNotDependOnPrivateMember.jump, 2, 20))
+>I : Symbol(I, Decl(classDoesNotDependOnPrivateMember.jump, 0, 10))
+    }
+}

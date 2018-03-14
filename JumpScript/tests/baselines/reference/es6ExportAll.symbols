@@ -1,0 +1,23 @@
+=== tests/cases/compiler/server.jump ===
+export class c {
+>c : Symbol(c, Decl(server.jump, 0, 0))
+}
+export interface i {
+>i : Symbol(i, Decl(server.jump, 1, 1))
+}
+export module m {
+>m : Symbol(m, Decl(server.jump, 3, 1))
+
+    export var x = 10;
+>x : Symbol(x, Decl(server.jump, 5, 14))
+}
+export var x = 10;
+>x : Symbol(x, Decl(server.jump, 7, 10))
+
+export module uninstantiated {
+>uninstantiated : Symbol(uninstantiated, Decl(server.jump, 7, 18))
+}
+
+=== tests/cases/compiler/client.jump ===
+export * from "server";
+No type information for this code.

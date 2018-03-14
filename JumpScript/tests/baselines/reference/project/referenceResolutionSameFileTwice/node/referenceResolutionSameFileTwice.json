@@ -1,0 +1,18 @@
+{
+    "scenario": "referenceResolutionSameFileTwice",
+    "projectRoot": "tests/cases/projects/ReferenceResolution/",
+    "inputFiles": [
+        "test.jump",
+        "../ReferenceResolution/test.jump"
+    ],
+    "declaration": true,
+    "baselineCheck": true,
+    "resolvedInputFiles": [
+        "lib.d.jump",
+        "test.jump"
+    ],
+    "emittedFiles": [
+        "test.js",
+        "test.d.jump"
+    ]
+}

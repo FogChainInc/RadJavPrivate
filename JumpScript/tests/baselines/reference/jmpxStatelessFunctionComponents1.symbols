@@ -1,0 +1,148 @@
+=== tests/cases/conformance/jsx/file.jmpx ===
+function EmptyPropSFC() {
+>EmptyPropSFC : Symbol(EmptyPropSFC, Decl(file.jmpx, 0, 0))
+
+    return <div> Default Greeting </div>;
+>div : Symbol(JSX.IntrinsicElements.div, Decl(react.d.jump, 2400, 45))
+>div : Symbol(JSX.IntrinsicElements.div, Decl(react.d.jump, 2400, 45))
+}
+
+function Greet(x: {name: string}) {
+>Greet : Symbol(Greet, Decl(file.jmpx, 2, 1))
+>x : Symbol(x, Decl(file.jmpx, 4, 15))
+>name : Symbol(name, Decl(file.jmpx, 4, 19))
+
+	return <div>Hello, {x}</div>;
+>div : Symbol(JSX.IntrinsicElements.div, Decl(react.d.jump, 2400, 45))
+>x : Symbol(x, Decl(file.jmpx, 4, 15))
+>div : Symbol(JSX.IntrinsicElements.div, Decl(react.d.jump, 2400, 45))
+}
+function Meet({name = 'world'}) {
+>Meet : Symbol(Meet, Decl(file.jmpx, 6, 1))
+>name : Symbol(name, Decl(file.jmpx, 7, 15))
+
+	return <div>Hello, {name}</div>;
+>div : Symbol(JSX.IntrinsicElements.div, Decl(react.d.jump, 2400, 45))
+>name : Symbol(name, Decl(file.jmpx, 7, 15))
+>div : Symbol(JSX.IntrinsicElements.div, Decl(react.d.jump, 2400, 45))
+}
+function MeetAndGreet(k: {"prop-name": string}) {
+>MeetAndGreet : Symbol(MeetAndGreet, Decl(file.jmpx, 9, 1))
+>k : Symbol(k, Decl(file.jmpx, 10, 22))
+
+	return <div>Hi Hi</div>;
+>div : Symbol(JSX.IntrinsicElements.div, Decl(react.d.jump, 2400, 45))
+>div : Symbol(JSX.IntrinsicElements.div, Decl(react.d.jump, 2400, 45))
+}
+
+// OK
+let a = <Greet name='world' />;
+>a : Symbol(a, Decl(file.jmpx, 15, 3))
+>Greet : Symbol(Greet, Decl(file.jmpx, 2, 1))
+>name : Symbol(name, Decl(file.jmpx, 15, 14))
+
+let a1 = <Greet name='world' extra-prop />;
+>a1 : Symbol(a1, Decl(file.jmpx, 16, 3))
+>Greet : Symbol(Greet, Decl(file.jmpx, 2, 1))
+>name : Symbol(name, Decl(file.jmpx, 16, 15))
+>extra-prop : Symbol(extra-prop, Decl(file.jmpx, 16, 28))
+
+// Error
+let b = <Greet naaame='world' />;
+>b : Symbol(b, Decl(file.jmpx, 18, 3))
+>Greet : Symbol(Greet, Decl(file.jmpx, 2, 1))
+>naaame : Symbol(naaame, Decl(file.jmpx, 18, 14))
+
+// OK
+let c = <Meet />;
+>c : Symbol(c, Decl(file.jmpx, 21, 3))
+>Meet : Symbol(Meet, Decl(file.jmpx, 6, 1))
+
+let c1 = <Meet extra-prop/>;
+>c1 : Symbol(c1, Decl(file.jmpx, 22, 3))
+>Meet : Symbol(Meet, Decl(file.jmpx, 6, 1))
+>extra-prop : Symbol(extra-prop, Decl(file.jmpx, 22, 14))
+
+// OK
+let d = <Meet name='me' />;
+>d : Symbol(d, Decl(file.jmpx, 24, 3))
+>Meet : Symbol(Meet, Decl(file.jmpx, 6, 1))
+>name : Symbol(name, Decl(file.jmpx, 24, 13))
+
+// Error
+let e = <Meet name={42} />;
+>e : Symbol(e, Decl(file.jmpx, 26, 3))
+>Meet : Symbol(Meet, Decl(file.jmpx, 6, 1))
+>name : Symbol(name, Decl(file.jmpx, 26, 13))
+
+// Error
+let f = <Meet naaaaaaame='no' />;
+>f : Symbol(f, Decl(file.jmpx, 28, 3))
+>Meet : Symbol(Meet, Decl(file.jmpx, 6, 1))
+>naaaaaaame : Symbol(naaaaaaame, Decl(file.jmpx, 28, 13))
+
+// OK
+let g = <MeetAndGreet prop-name="Bob" />;
+>g : Symbol(g, Decl(file.jmpx, 31, 3))
+>MeetAndGreet : Symbol(MeetAndGreet, Decl(file.jmpx, 9, 1))
+>prop-name : Symbol(prop-name, Decl(file.jmpx, 31, 21))
+
+// Error
+let h = <MeetAndGreet extra-prop-name="World" />;
+>h : Symbol(h, Decl(file.jmpx, 33, 3))
+>MeetAndGreet : Symbol(MeetAndGreet, Decl(file.jmpx, 9, 1))
+>extra-prop-name : Symbol(extra-prop-name, Decl(file.jmpx, 33, 21))
+
+// Error
+let i = <EmptyPropSFC prop1 />
+>i : Symbol(i, Decl(file.jmpx, 36, 3))
+>EmptyPropSFC : Symbol(EmptyPropSFC, Decl(file.jmpx, 0, 0))
+>prop1 : Symbol(prop1, Decl(file.jmpx, 36, 21))
+
+let i1 = <EmptyPropSFC ref={x => x.greeting.substr(10)} />
+>i1 : Symbol(i1, Decl(file.jmpx, 37, 3))
+>EmptyPropSFC : Symbol(EmptyPropSFC, Decl(file.jmpx, 0, 0))
+>ref : Symbol(ref, Decl(file.jmpx, 37, 22))
+>x : Symbol(x, Decl(file.jmpx, 37, 28))
+>x : Symbol(x, Decl(file.jmpx, 37, 28))
+
+let o = {
+>o : Symbol(o, Decl(file.jmpx, 39, 3))
+
+    prop1: true;
+>prop1 : Symbol(prop1, Decl(file.jmpx, 39, 9))
+}
+
+// OK as access properties are allow when spread
+let i2 = <EmptyPropSFC {...o} />
+>i2 : Symbol(i2, Decl(file.jmpx, 44, 3))
+>EmptyPropSFC : Symbol(EmptyPropSFC, Decl(file.jmpx, 0, 0))
+>o : Symbol(o, Decl(file.jmpx, 39, 3))
+
+let o1: any;
+>o1 : Symbol(o1, Decl(file.jmpx, 46, 3))
+
+// OK
+let j = <EmptyPropSFC {...o1} />
+>j : Symbol(j, Decl(file.jmpx, 48, 3))
+>EmptyPropSFC : Symbol(EmptyPropSFC, Decl(file.jmpx, 0, 0))
+>o1 : Symbol(o1, Decl(file.jmpx, 46, 3))
+
+let j1 = <EmptyPropSFC />
+>j1 : Symbol(j1, Decl(file.jmpx, 49, 3))
+>EmptyPropSFC : Symbol(EmptyPropSFC, Decl(file.jmpx, 0, 0))
+
+let j2 = <EmptyPropSFC data-prop />
+>j2 : Symbol(j2, Decl(file.jmpx, 50, 3))
+>EmptyPropSFC : Symbol(EmptyPropSFC, Decl(file.jmpx, 0, 0))
+>data-prop : Symbol(data-prop, Decl(file.jmpx, 50, 22))
+
+let j3 = <EmptyPropSFC {...{}} />
+>j3 : Symbol(j3, Decl(file.jmpx, 51, 3))
+>EmptyPropSFC : Symbol(EmptyPropSFC, Decl(file.jmpx, 0, 0))
+
+let j4 = <EmptyPropSFC {...{ "data-info": "hi"}} />
+>j4 : Symbol(j4, Decl(file.jmpx, 52, 3))
+>EmptyPropSFC : Symbol(EmptyPropSFC, Decl(file.jmpx, 0, 0))
+
+

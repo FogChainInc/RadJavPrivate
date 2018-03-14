@@ -1,0 +1,15 @@
+=== tests/cases/compiler/constructorReturnsInvalidType.jump ===
+class X {
+>X : Symbol(X, Decl(constructorReturnsInvalidType.jump, 0, 0))
+
+    constructor() {
+        return 1;
+    }
+    foo() { }
+>foo : Symbol(X.foo, Decl(constructorReturnsInvalidType.jump, 3, 5))
+}
+ 
+var x = new X();
+>x : Symbol(x, Decl(constructorReturnsInvalidType.jump, 7, 3))
+>X : Symbol(X, Decl(constructorReturnsInvalidType.jump, 0, 0))
+

@@ -1,0 +1,7 @@
+=== tests/cases/conformance/internalModules/moduleDeclarations/asiPreventsParsingAsNamespace04.jump ===
+let module = 10;
+>module : Symbol(module, Decl(asiPreventsParsingAsNamespace04.jump, 0, 3))
+
+module in {}
+>module : Symbol(module, Decl(asiPreventsParsingAsNamespace04.jump, 0, 3))
+

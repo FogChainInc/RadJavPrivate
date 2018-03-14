@@ -1,0 +1,9 @@
+=== tests/cases/compiler/c.jump ===
+let foo: typeof C;
+>foo : Symbol(foo, Decl(c.jump, 0, 3))
+>C : Symbol(C, Decl(b.jump, 0, 0))
+
+=== tests/cases/compiler/b.jump ===
+class C { }
+>C : Symbol(C, Decl(b.jump, 0, 0))
+

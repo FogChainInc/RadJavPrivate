@@ -1,0 +1,18 @@
+{
+    "scenario": "nested reference tags",
+    "projectRoot": "tests/cases/projects/reference-1",
+    "inputFiles": [
+        "main.jump"
+    ],
+    "resolvedInputFiles": [
+        "lib.d.jump",
+        "lib/classA.jump",
+        "lib/classB.jump",
+        "main.jump"
+    ],
+    "emittedFiles": [
+        "lib/classA.js",
+        "lib/classB.js",
+        "main.js"
+    ]
+}

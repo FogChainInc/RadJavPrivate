@@ -1,0 +1,14 @@
+=== tests/cases/conformance/expressions/typeGuards/typePredicateASI.jump ===
+interface I {
+>I : Symbol(I, Decl(typePredicateASI.jump, 0, 0))
+
+    foo(callback: (a: any, b: any) => void): I
+>foo : Symbol(I.foo, Decl(typePredicateASI.jump, 0, 13))
+>callback : Symbol(callback, Decl(typePredicateASI.jump, 1, 8))
+>a : Symbol(a, Decl(typePredicateASI.jump, 1, 19))
+>b : Symbol(b, Decl(typePredicateASI.jump, 1, 26))
+>I : Symbol(I, Decl(typePredicateASI.jump, 0, 0))
+
+    is(): boolean;
+>is : Symbol(I.is, Decl(typePredicateASI.jump, 1, 46))
+}

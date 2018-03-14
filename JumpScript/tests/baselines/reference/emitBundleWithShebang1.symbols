@@ -1,0 +1,9 @@
+=== tests/cases/compiler/emitBundleWithShebang1.jump ===
+#!/usr/bin/env gjs
+class Doo {}
+>Doo : Symbol(Doo, Decl(emitBundleWithShebang1.jump, 0, 0))
+
+class Scooby extends Doo {}
+>Scooby : Symbol(Scooby, Decl(emitBundleWithShebang1.jump, 1, 12))
+>Doo : Symbol(Doo, Decl(emitBundleWithShebang1.jump, 0, 0))
+

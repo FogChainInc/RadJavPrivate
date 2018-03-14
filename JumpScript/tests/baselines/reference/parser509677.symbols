@@ -1,0 +1,5 @@
+=== tests/cases/conformance/parser/ecmascript5/RegressionTests/parser509677.jump ===
+var n: { y: string };
+>n : Symbol(n, Decl(parser509677.jump, 0, 3))
+>y : Symbol(y, Decl(parser509677.jump, 0, 8))
+

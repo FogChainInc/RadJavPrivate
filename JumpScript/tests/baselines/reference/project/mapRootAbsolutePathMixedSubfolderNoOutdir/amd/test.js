@@ -1,0 +1,13 @@
+/// <reference path='ref/m1.jump'/>
+/// <reference path='ref/m2.jump'/>
+var a1 = 10;
+var c1 = /** @class */ (function () {
+    function c1() {
+    }
+    return c1;
+}());
+var instance1 = new c1();
+function f1() {
+    return instance1;
+}
+//# sourceMappingURL=/tests/cases/projects/outputdir_mixed_subfolder/mapFiles/test.js.map

@@ -1,0 +1,8 @@
+=== tests/cases/conformance/jsx/jmpxDynamicTagName1.jmpx ===
+var CustomTag = "h1";
+>CustomTag : Symbol(CustomTag, Decl(jmpxDynamicTagName1.jmpx, 0, 3))
+
+<CustomTag> Hello World </CustomTag>  // No error
+>CustomTag : Symbol(CustomTag, Decl(jmpxDynamicTagName1.jmpx, 0, 3))
+>CustomTag : Symbol(CustomTag, Decl(jmpxDynamicTagName1.jmpx, 0, 3))
+

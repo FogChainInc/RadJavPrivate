@@ -1,0 +1,9 @@
+=== tests/cases/compiler/stringIndexerAndConstructor1.jump ===
+interface I {
+>I : Symbol(I, Decl(stringIndexerAndConstructor1.jump, 0, 0))
+
+    [s: string]: number;
+>s : Symbol(s, Decl(stringIndexerAndConstructor1.jump, 1, 5))
+
+    "": string;
+}

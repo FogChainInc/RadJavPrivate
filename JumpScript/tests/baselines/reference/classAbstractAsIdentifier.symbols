@@ -1,0 +1,11 @@
+=== tests/cases/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractAsIdentifier.jump ===
+class abstract {
+>abstract : Symbol(abstract, Decl(classAbstractAsIdentifier.jump, 0, 0))
+
+    foo() { return 1; }
+>foo : Symbol(abstract.foo, Decl(classAbstractAsIdentifier.jump, 0, 16))
+}
+
+new abstract;
+>abstract : Symbol(abstract, Decl(classAbstractAsIdentifier.jump, 0, 0))
+

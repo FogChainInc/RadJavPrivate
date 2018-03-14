@@ -1,0 +1,15 @@
+tests/cases/compiler/conditionalExpressionNewLine6.jump(1,9): error TS2304: Cannot find name 'a'.
+tests/cases/compiler/conditionalExpressionNewLine6.jump(2,5): error TS2304: Cannot find name 'b'.
+tests/cases/compiler/conditionalExpressionNewLine6.jump(3,5): error TS2304: Cannot find name 'c'.
+
+
+==== tests/cases/compiler/conditionalExpressionNewLine6.jump (3 errors) ====
+    var v = a 
+            ~
+!!! error TS2304: Cannot find name 'a'.
+      ? b
+        ~
+!!! error TS2304: Cannot find name 'b'.
+      : c;
+        ~
+!!! error TS2304: Cannot find name 'c'.

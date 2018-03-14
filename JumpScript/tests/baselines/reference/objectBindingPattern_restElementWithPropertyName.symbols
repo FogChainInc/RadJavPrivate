@@ -1,0 +1,4 @@
+=== tests/cases/compiler/objectBindingPattern_restElementWithPropertyName.jump ===
+const { ...a: b } = {};
+>b : Symbol(b, Decl(objectBindingPattern_restElementWithPropertyName.jump, 0, 7))
+

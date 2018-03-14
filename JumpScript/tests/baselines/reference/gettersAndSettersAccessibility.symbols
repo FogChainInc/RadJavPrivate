@@ -1,0 +1,12 @@
+=== tests/cases/compiler/gettersAndSettersAccessibility.jump ===
+class C99 {
+>C99 : Symbol(C99, Decl(gettersAndSettersAccessibility.jump, 0, 0))
+
+	private get Baz():number { return 0; }
+>Baz : Symbol(C99.Baz, Decl(gettersAndSettersAccessibility.jump, 0, 11), Decl(gettersAndSettersAccessibility.jump, 1, 39))
+
+	public set Baz(n:number) {} // error - accessors do not agree in visibility
+>Baz : Symbol(C99.Baz, Decl(gettersAndSettersAccessibility.jump, 0, 11), Decl(gettersAndSettersAccessibility.jump, 1, 39))
+>n : Symbol(n, Decl(gettersAndSettersAccessibility.jump, 2, 16))
+}
+

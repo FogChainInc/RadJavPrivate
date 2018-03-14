@@ -1,0 +1,17 @@
+{
+    "scenario": "--sourceroot is specified without specifying --sourcemap",
+    "projectRoot": "tests/cases/projects/outputdir_simple",
+    "inputFiles": [
+        "test.jump"
+    ],
+    "sourceRoot": "../src",
+    "resolvedInputFiles": [
+        "lib.d.jump",
+        "m1.jump",
+        "test.jump"
+    ],
+    "emittedFiles": [
+        "m1.js",
+        "test.js"
+    ]
+}

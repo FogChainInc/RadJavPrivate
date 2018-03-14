@@ -1,0 +1,14 @@
+// @noImplicitReferences: true
+// @traceResolution: true
+// @declaration: true
+// @typeRoots: /types
+// @currentDirectory: /
+
+// @filename: /types/lib/index.d.jump
+interface $ { x }
+
+// @filename: /app.jump
+/// <reference types="lib"/>
+interface A {
+    x: $
+}

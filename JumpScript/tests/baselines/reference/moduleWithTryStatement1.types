@@ -1,0 +1,14 @@
+=== tests/cases/compiler/moduleWithTryStatement1.jump ===
+module M {
+>M : typeof M
+
+  try {
+  }
+  catch (e) {
+>e : any
+  }
+}
+var v = M;
+>v : typeof M
+>M : typeof M
+

@@ -1,0 +1,141 @@
+=== tests/cases/conformance/types/specifyingTypes/typeQueries/typeofANonExportedType.jump ===
+var x = 1;
+>x : Symbol(x, Decl(typeofANonExportedType.jump, 0, 3))
+
+export var r1: typeof x;
+>r1 : Symbol(r1, Decl(typeofANonExportedType.jump, 1, 10))
+>x : Symbol(x, Decl(typeofANonExportedType.jump, 0, 3))
+
+var y = { foo: '' };
+>y : Symbol(y, Decl(typeofANonExportedType.jump, 2, 3))
+>foo : Symbol(foo, Decl(typeofANonExportedType.jump, 2, 9))
+
+export var r2: typeof y;
+>r2 : Symbol(r2, Decl(typeofANonExportedType.jump, 3, 10))
+>y : Symbol(y, Decl(typeofANonExportedType.jump, 2, 3))
+
+class C {
+>C : Symbol(C, Decl(typeofANonExportedType.jump, 3, 24))
+
+    foo: string;
+>foo : Symbol(C.foo, Decl(typeofANonExportedType.jump, 4, 9))
+}
+export var c: C;
+>c : Symbol(c, Decl(typeofANonExportedType.jump, 7, 10))
+>C : Symbol(C, Decl(typeofANonExportedType.jump, 3, 24))
+
+var c2: C;
+>c2 : Symbol(c2, Decl(typeofANonExportedType.jump, 8, 3))
+>C : Symbol(C, Decl(typeofANonExportedType.jump, 3, 24))
+
+export var r3: typeof C;
+>r3 : Symbol(r3, Decl(typeofANonExportedType.jump, 10, 10))
+>C : Symbol(C, Decl(typeofANonExportedType.jump, 3, 24))
+
+export var r4: typeof c;
+>r4 : Symbol(r4, Decl(typeofANonExportedType.jump, 11, 10))
+>c : Symbol(c, Decl(typeofANonExportedType.jump, 7, 10))
+
+export var r4b: typeof c2;
+>r4b : Symbol(r4b, Decl(typeofANonExportedType.jump, 12, 10))
+>c2 : Symbol(c2, Decl(typeofANonExportedType.jump, 8, 3))
+
+interface I {
+>I : Symbol(I, Decl(typeofANonExportedType.jump, 12, 26))
+
+    foo: string;
+>foo : Symbol(I.foo, Decl(typeofANonExportedType.jump, 14, 13))
+}
+export var i: I;
+>i : Symbol(i, Decl(typeofANonExportedType.jump, 17, 10))
+>I : Symbol(I, Decl(typeofANonExportedType.jump, 12, 26))
+
+var i2: I;
+>i2 : Symbol(i2, Decl(typeofANonExportedType.jump, 18, 3))
+>I : Symbol(I, Decl(typeofANonExportedType.jump, 12, 26))
+
+export var r5: typeof i;
+>r5 : Symbol(r5, Decl(typeofANonExportedType.jump, 19, 10), Decl(typeofANonExportedType.jump, 20, 10))
+>i : Symbol(i, Decl(typeofANonExportedType.jump, 17, 10))
+
+export var r5: typeof i2;
+>r5 : Symbol(r5, Decl(typeofANonExportedType.jump, 19, 10), Decl(typeofANonExportedType.jump, 20, 10))
+>i2 : Symbol(i2, Decl(typeofANonExportedType.jump, 18, 3))
+
+module M {
+>M : Symbol(M, Decl(typeofANonExportedType.jump, 20, 25))
+
+    export var foo = '';
+>foo : Symbol(foo, Decl(typeofANonExportedType.jump, 23, 14))
+
+    export class C {
+>C : Symbol(C, Decl(typeofANonExportedType.jump, 23, 24))
+
+        foo: string;
+>foo : Symbol(C.foo, Decl(typeofANonExportedType.jump, 24, 20))
+    }
+}
+export var r6: typeof M;
+>r6 : Symbol(r6, Decl(typeofANonExportedType.jump, 28, 10))
+>M : Symbol(M, Decl(typeofANonExportedType.jump, 20, 25))
+
+export var r7: typeof M.foo;
+>r7 : Symbol(r7, Decl(typeofANonExportedType.jump, 29, 10))
+>M.foo : Symbol(Z.foo, Decl(typeofANonExportedType.jump, 23, 14))
+>M : Symbol(M, Decl(typeofANonExportedType.jump, 20, 25))
+>foo : Symbol(Z.foo, Decl(typeofANonExportedType.jump, 23, 14))
+
+import Z = M;
+>Z : Symbol(Z, Decl(typeofANonExportedType.jump, 29, 28))
+>M : Symbol(M, Decl(typeofANonExportedType.jump, 20, 25))
+
+export var r8: typeof Z;
+>r8 : Symbol(r8, Decl(typeofANonExportedType.jump, 32, 10))
+>Z : Symbol(Z, Decl(typeofANonExportedType.jump, 29, 28))
+
+export var r9: typeof Z.foo;
+>r9 : Symbol(r9, Decl(typeofANonExportedType.jump, 33, 10))
+>Z.foo : Symbol(Z.foo, Decl(typeofANonExportedType.jump, 23, 14))
+>Z : Symbol(Z, Decl(typeofANonExportedType.jump, 29, 28))
+>foo : Symbol(Z.foo, Decl(typeofANonExportedType.jump, 23, 14))
+
+enum E {
+>E : Symbol(E, Decl(typeofANonExportedType.jump, 33, 28))
+
+    A
+>A : Symbol(E.A, Decl(typeofANonExportedType.jump, 35, 8))
+}
+export var r10: typeof E;
+>r10 : Symbol(r10, Decl(typeofANonExportedType.jump, 38, 10))
+>E : Symbol(E, Decl(typeofANonExportedType.jump, 33, 28))
+
+export var r11: typeof E.A;
+>r11 : Symbol(r11, Decl(typeofANonExportedType.jump, 39, 10))
+>E.A : Symbol(E.A, Decl(typeofANonExportedType.jump, 35, 8))
+>E : Symbol(E, Decl(typeofANonExportedType.jump, 33, 28))
+>A : Symbol(E.A, Decl(typeofANonExportedType.jump, 35, 8))
+
+export var r12: typeof r12;
+>r12 : Symbol(r12, Decl(typeofANonExportedType.jump, 41, 10))
+>r12 : Symbol(r12, Decl(typeofANonExportedType.jump, 41, 10))
+
+function foo() { }
+>foo : Symbol(foo, Decl(typeofANonExportedType.jump, 41, 27), Decl(typeofANonExportedType.jump, 43, 18))
+
+module foo {
+>foo : Symbol(foo, Decl(typeofANonExportedType.jump, 41, 27), Decl(typeofANonExportedType.jump, 43, 18))
+
+    export var y = 1;
+>y : Symbol(y, Decl(typeofANonExportedType.jump, 45, 14))
+
+    export class C {
+>C : Symbol(C, Decl(typeofANonExportedType.jump, 45, 21))
+
+        foo: string;
+>foo : Symbol(C.foo, Decl(typeofANonExportedType.jump, 46, 20))
+    }
+}
+export var r13: typeof foo;
+>r13 : Symbol(r13, Decl(typeofANonExportedType.jump, 50, 10))
+>foo : Symbol(foo, Decl(typeofANonExportedType.jump, 41, 27), Decl(typeofANonExportedType.jump, 43, 18))
+

@@ -1,0 +1,8 @@
+=== tests/cases/compiler/overloadingStaticFunctionsInFunctions.jump ===
+function boo {
+>boo : Symbol(boo, Decl(overloadingStaticFunctionsInFunctions.jump, 0, 0))
+
+  static test()
+  static test(name:string)
+  static test(name?:any){ }
+}

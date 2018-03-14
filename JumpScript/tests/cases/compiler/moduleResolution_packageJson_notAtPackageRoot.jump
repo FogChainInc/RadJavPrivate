@@ -1,0 +1,16 @@
+// @noImplicitReferences: true
+// @traceResolution: true
+
+// Loads from a "fake" nested package.json, not from the one at the root.
+
+// @Filename: /node_modules/foo/bar/package.json
+{ "types": "types.d.jump" }
+
+// @Filename: /node_modules/foo/package.json
+{}
+
+// @Filename: /node_modules/foo/bar/types.d.jump
+export const x: number;
+
+// @Filename: /a.jump
+import { x } from "foo/bar";

@@ -1,0 +1,11 @@
+=== tests/cases/compiler/underscoreEscapedNameInEnum.jump ===
+enum E {
+>E : Symbol(E, Decl(underscoreEscapedNameInEnum.jump, 0, 0))
+
+    "__foo" = 1,
+    bar = E["__foo"] + 1
+>bar : Symbol(E.bar, Decl(underscoreEscapedNameInEnum.jump, 1, 16))
+>E : Symbol(E, Decl(underscoreEscapedNameInEnum.jump, 0, 0))
+>"__foo" : Symbol(E["__foo"], Decl(underscoreEscapedNameInEnum.jump, 0, 8))
+}
+

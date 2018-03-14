@@ -1,0 +1,61 @@
+=== tests/cases/conformance/types/objectTypeLiteral/callSignatures/identicalCallSignatures.jump ===
+// Each pair of call signatures in these types have a duplicate signature error.
+// Identical call signatures should generate an error.
+interface I {
+>I : Symbol(I, Decl(identicalCallSignatures.jump, 0, 0))
+
+    (x): number;
+>x : Symbol(x, Decl(identicalCallSignatures.jump, 3, 5))
+
+    (x: any): number;
+>x : Symbol(x, Decl(identicalCallSignatures.jump, 4, 5))
+
+    <T>(x: T): T;
+>T : Symbol(T, Decl(identicalCallSignatures.jump, 5, 5))
+>x : Symbol(x, Decl(identicalCallSignatures.jump, 5, 8))
+>T : Symbol(T, Decl(identicalCallSignatures.jump, 5, 5))
+>T : Symbol(T, Decl(identicalCallSignatures.jump, 5, 5))
+
+    <U>(x: U): U; // error
+>U : Symbol(U, Decl(identicalCallSignatures.jump, 6, 5))
+>x : Symbol(x, Decl(identicalCallSignatures.jump, 6, 8))
+>U : Symbol(U, Decl(identicalCallSignatures.jump, 6, 5))
+>U : Symbol(U, Decl(identicalCallSignatures.jump, 6, 5))
+}
+
+interface I2<T> {
+>I2 : Symbol(I2, Decl(identicalCallSignatures.jump, 7, 1))
+>T : Symbol(T, Decl(identicalCallSignatures.jump, 9, 13))
+
+    (x: T): T;
+>x : Symbol(x, Decl(identicalCallSignatures.jump, 10, 5))
+>T : Symbol(T, Decl(identicalCallSignatures.jump, 9, 13))
+>T : Symbol(T, Decl(identicalCallSignatures.jump, 9, 13))
+
+    (x: T): T; // error
+>x : Symbol(x, Decl(identicalCallSignatures.jump, 11, 5))
+>T : Symbol(T, Decl(identicalCallSignatures.jump, 9, 13))
+>T : Symbol(T, Decl(identicalCallSignatures.jump, 9, 13))
+}
+
+var a: {
+>a : Symbol(a, Decl(identicalCallSignatures.jump, 14, 3))
+
+    (x): number;
+>x : Symbol(x, Decl(identicalCallSignatures.jump, 15, 5))
+
+    (x: any): number;
+>x : Symbol(x, Decl(identicalCallSignatures.jump, 16, 5))
+
+    <T>(x: T): T;
+>T : Symbol(T, Decl(identicalCallSignatures.jump, 17, 5))
+>x : Symbol(x, Decl(identicalCallSignatures.jump, 17, 8))
+>T : Symbol(T, Decl(identicalCallSignatures.jump, 17, 5))
+>T : Symbol(T, Decl(identicalCallSignatures.jump, 17, 5))
+
+    <T>(x: T): T; // error
+>T : Symbol(T, Decl(identicalCallSignatures.jump, 18, 5))
+>x : Symbol(x, Decl(identicalCallSignatures.jump, 18, 8))
+>T : Symbol(T, Decl(identicalCallSignatures.jump, 18, 5))
+>T : Symbol(T, Decl(identicalCallSignatures.jump, 18, 5))
+}

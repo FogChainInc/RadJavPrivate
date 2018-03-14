@@ -1,0 +1,10 @@
+// @module: commonjs
+// @Filename: importUsedInExtendsList1_require.jump
+export class Super { foo: string; }
+
+// @Filename: importUsedInExtendsList1_1.jump
+///<reference path='importUsedInExtendsList1_require.jump'/>
+import foo = require('./importUsedInExtendsList1_require');
+class Sub extends foo.Super { }
+var s: Sub;
+var r: string = s.foo;

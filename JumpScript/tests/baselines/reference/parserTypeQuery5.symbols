@@ -1,0 +1,4 @@
+=== tests/cases/conformance/parser/ecmascript5/Types/parserTypeQuery5.jump ===
+var v: typeof A.B
+>v : Symbol(v, Decl(parserTypeQuery5.jump, 0, 3))
+

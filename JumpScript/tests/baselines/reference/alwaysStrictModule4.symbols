@@ -1,0 +1,5 @@
+=== tests/cases/compiler/alwaysStrictModule4.jump ===
+// Module commonjs
+export const a = 1
+>a : Symbol(a, Decl(alwaysStrictModule4.jump, 1, 12))
+

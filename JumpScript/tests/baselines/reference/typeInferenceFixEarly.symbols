@@ -1,0 +1,14 @@
+=== tests/cases/compiler/typeInferenceFixEarly.jump ===
+declare function f<T>(p: (t: T) => T): T;
+>f : Symbol(f, Decl(typeInferenceFixEarly.jump, 0, 0))
+>T : Symbol(T, Decl(typeInferenceFixEarly.jump, 0, 19))
+>p : Symbol(p, Decl(typeInferenceFixEarly.jump, 0, 22))
+>t : Symbol(t, Decl(typeInferenceFixEarly.jump, 0, 26))
+>T : Symbol(T, Decl(typeInferenceFixEarly.jump, 0, 19))
+>T : Symbol(T, Decl(typeInferenceFixEarly.jump, 0, 19))
+>T : Symbol(T, Decl(typeInferenceFixEarly.jump, 0, 19))
+
+f(n => 3);
+>f : Symbol(f, Decl(typeInferenceFixEarly.jump, 0, 0))
+>n : Symbol(n, Decl(typeInferenceFixEarly.jump, 2, 2))
+

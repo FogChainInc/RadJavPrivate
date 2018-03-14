@@ -1,0 +1,33 @@
+=== tests/cases/compiler/importOnAliasedIdentifiers.jump ===
+module A {
+>A : Symbol(A, Decl(importOnAliasedIdentifiers.jump, 0, 0))
+
+    export interface X { s: string }
+>X : Symbol(X, Decl(importOnAliasedIdentifiers.jump, 0, 10), Decl(importOnAliasedIdentifiers.jump, 2, 14))
+>s : Symbol(X.s, Decl(importOnAliasedIdentifiers.jump, 1, 24))
+
+    export var X: X;
+>X : Symbol(X, Decl(importOnAliasedIdentifiers.jump, 0, 10), Decl(importOnAliasedIdentifiers.jump, 2, 14))
+>X : Symbol(X, Decl(importOnAliasedIdentifiers.jump, 0, 10), Decl(importOnAliasedIdentifiers.jump, 2, 14))
+}
+module B {
+>B : Symbol(B, Decl(importOnAliasedIdentifiers.jump, 3, 1))
+
+    interface A { n: number }
+>A : Symbol(A, Decl(importOnAliasedIdentifiers.jump, 4, 10))
+>n : Symbol(A.n, Decl(importOnAliasedIdentifiers.jump, 5, 17))
+
+    import Y = A; // Alias only for module A
+>Y : Symbol(Y, Decl(importOnAliasedIdentifiers.jump, 5, 29))
+>A : Symbol(Y, Decl(importOnAliasedIdentifiers.jump, 0, 0))
+
+    import Z = A.X; // Alias for both type and member A.X
+>Z : Symbol(Z, Decl(importOnAliasedIdentifiers.jump, 6, 17))
+>A : Symbol(Y, Decl(importOnAliasedIdentifiers.jump, 0, 0))
+>X : Symbol(Y.X, Decl(importOnAliasedIdentifiers.jump, 0, 10), Decl(importOnAliasedIdentifiers.jump, 2, 14))
+
+    var v: Z = Z;
+>v : Symbol(v, Decl(importOnAliasedIdentifiers.jump, 8, 7))
+>Z : Symbol(Z, Decl(importOnAliasedIdentifiers.jump, 6, 17))
+>Z : Symbol(Z, Decl(importOnAliasedIdentifiers.jump, 6, 17))
+}

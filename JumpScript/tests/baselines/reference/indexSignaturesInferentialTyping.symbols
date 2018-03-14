@@ -1,0 +1,33 @@
+=== tests/cases/compiler/indexSignaturesInferentialTyping.jump ===
+function foo<T>(items: { [index: number]: T }): T { return undefined; }
+>foo : Symbol(foo, Decl(indexSignaturesInferentialTyping.jump, 0, 0))
+>T : Symbol(T, Decl(indexSignaturesInferentialTyping.jump, 0, 13))
+>items : Symbol(items, Decl(indexSignaturesInferentialTyping.jump, 0, 16))
+>index : Symbol(index, Decl(indexSignaturesInferentialTyping.jump, 0, 26))
+>T : Symbol(T, Decl(indexSignaturesInferentialTyping.jump, 0, 13))
+>T : Symbol(T, Decl(indexSignaturesInferentialTyping.jump, 0, 13))
+>undefined : Symbol(undefined)
+
+function bar<T>(items: { [index: string]: T }): T { return undefined; }
+>bar : Symbol(bar, Decl(indexSignaturesInferentialTyping.jump, 0, 71))
+>T : Symbol(T, Decl(indexSignaturesInferentialTyping.jump, 1, 13))
+>items : Symbol(items, Decl(indexSignaturesInferentialTyping.jump, 1, 16))
+>index : Symbol(index, Decl(indexSignaturesInferentialTyping.jump, 1, 26))
+>T : Symbol(T, Decl(indexSignaturesInferentialTyping.jump, 1, 13))
+>T : Symbol(T, Decl(indexSignaturesInferentialTyping.jump, 1, 13))
+>undefined : Symbol(undefined)
+
+var x1 = foo({ 0: 0, 1: 1 });       // type should be number
+>x1 : Symbol(x1, Decl(indexSignaturesInferentialTyping.jump, 3, 3))
+>foo : Symbol(foo, Decl(indexSignaturesInferentialTyping.jump, 0, 0))
+
+var x2 = bar({ 0: 0, 1: 1 });
+>x2 : Symbol(x2, Decl(indexSignaturesInferentialTyping.jump, 4, 3))
+>bar : Symbol(bar, Decl(indexSignaturesInferentialTyping.jump, 0, 71))
+
+var x3 = bar({ zero: 0, one: 1 });  // type should be number
+>x3 : Symbol(x3, Decl(indexSignaturesInferentialTyping.jump, 5, 3))
+>bar : Symbol(bar, Decl(indexSignaturesInferentialTyping.jump, 0, 71))
+>zero : Symbol(zero, Decl(indexSignaturesInferentialTyping.jump, 5, 14))
+>one : Symbol(one, Decl(indexSignaturesInferentialTyping.jump, 5, 23))
+

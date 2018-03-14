@@ -1,0 +1,1967 @@
+=== tests/cases/compiler/privacyFunctionParameterDeclFile_externalModule.jump ===
+class privateClass {
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 0, 0))
+}
+
+export class publicClass {
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 1, 1))
+}
+
+export interface publicInterfaceWithPrivateParmeterTypes {
+>publicInterfaceWithPrivateParmeterTypes : Symbol(publicInterfaceWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 4, 1))
+
+    new (param: privateClass): publicClass; // Error
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 7, 9))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 0, 0))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 1, 1))
+
+    (param: privateClass): publicClass; // Error
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 8, 5))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 0, 0))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 1, 1))
+
+    myMethod(param: privateClass): void; // Error
+>myMethod : Symbol(publicInterfaceWithPrivateParmeterTypes.myMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 8, 39))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 9, 13))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 0, 0))
+}
+
+export interface publicInterfaceWithPublicParmeterTypes {
+>publicInterfaceWithPublicParmeterTypes : Symbol(publicInterfaceWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 10, 1))
+
+    new (param: publicClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 13, 9))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 1, 1))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 1, 1))
+
+    (param: publicClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 14, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 1, 1))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 1, 1))
+
+    myMethod(param: publicClass): void;
+>myMethod : Symbol(publicInterfaceWithPublicParmeterTypes.myMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 14, 38))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 15, 13))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 1, 1))
+}
+
+interface privateInterfaceWithPrivateParmeterTypes {
+>privateInterfaceWithPrivateParmeterTypes : Symbol(privateInterfaceWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 16, 1))
+
+    new (param: privateClass): privateClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 19, 9))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 0, 0))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 0, 0))
+
+    (param: privateClass): privateClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 20, 5))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 0, 0))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 0, 0))
+
+    myMethod(param: privateClass): void;
+>myMethod : Symbol(privateInterfaceWithPrivateParmeterTypes.myMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 20, 40))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 21, 13))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 0, 0))
+}
+
+interface privateInterfaceWithPublicParmeterTypes {
+>privateInterfaceWithPublicParmeterTypes : Symbol(privateInterfaceWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 22, 1))
+
+    new (param: publicClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 25, 9))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 1, 1))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 1, 1))
+
+    (param: publicClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 26, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 1, 1))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 1, 1))
+
+    myMethod(param: publicClass): void;
+>myMethod : Symbol(privateInterfaceWithPublicParmeterTypes.myMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 26, 38))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 27, 13))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 1, 1))
+}
+
+export class publicClassWithWithPrivateParmeterTypes {
+>publicClassWithWithPrivateParmeterTypes : Symbol(publicClassWithWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 28, 1))
+
+    static myPublicStaticMethod(param: privateClass) { // Error
+>myPublicStaticMethod : Symbol(publicClassWithWithPrivateParmeterTypes.myPublicStaticMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 30, 54))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 31, 32))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 0, 0))
+    }
+    private static myPrivateStaticMethod(param: privateClass) {
+>myPrivateStaticMethod : Symbol(publicClassWithWithPrivateParmeterTypes.myPrivateStaticMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 32, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 33, 41))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 0, 0))
+    }
+    myPublicMethod(param: privateClass) { // Error
+>myPublicMethod : Symbol(publicClassWithWithPrivateParmeterTypes.myPublicMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 34, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 35, 19))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 0, 0))
+    }
+    private myPrivateMethod(param: privateClass) {
+>myPrivateMethod : Symbol(publicClassWithWithPrivateParmeterTypes.myPrivateMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 36, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 37, 28))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 0, 0))
+    }
+    constructor(param: privateClass, private param1: privateClass, public param2: privateClass) { // Error
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 39, 16))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 0, 0))
+>param1 : Symbol(publicClassWithWithPrivateParmeterTypes.param1, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 39, 36))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 0, 0))
+>param2 : Symbol(publicClassWithWithPrivateParmeterTypes.param2, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 39, 66))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 0, 0))
+    }
+}
+
+export class publicClassWithWithPublicParmeterTypes {
+>publicClassWithWithPublicParmeterTypes : Symbol(publicClassWithWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 41, 1))
+
+    static myPublicStaticMethod(param: publicClass) {
+>myPublicStaticMethod : Symbol(publicClassWithWithPublicParmeterTypes.myPublicStaticMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 43, 53))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 44, 32))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 1, 1))
+    }
+    private static myPrivateStaticMethod(param: publicClass) {
+>myPrivateStaticMethod : Symbol(publicClassWithWithPublicParmeterTypes.myPrivateStaticMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 45, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 46, 41))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 1, 1))
+    }
+    myPublicMethod(param: publicClass) {
+>myPublicMethod : Symbol(publicClassWithWithPublicParmeterTypes.myPublicMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 47, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 48, 19))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 1, 1))
+    }
+    private myPrivateMethod(param: publicClass) {
+>myPrivateMethod : Symbol(publicClassWithWithPublicParmeterTypes.myPrivateMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 49, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 50, 28))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 1, 1))
+    }
+    constructor(param: publicClass, private param1: publicClass, public param2: publicClass) {
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 52, 16))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 1, 1))
+>param1 : Symbol(publicClassWithWithPublicParmeterTypes.param1, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 52, 35))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 1, 1))
+>param2 : Symbol(publicClassWithWithPublicParmeterTypes.param2, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 52, 64))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 1, 1))
+    }
+}
+
+class privateClassWithWithPrivateParmeterTypes {
+>privateClassWithWithPrivateParmeterTypes : Symbol(privateClassWithWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 54, 1))
+
+    static myPublicStaticMethod(param: privateClass) {
+>myPublicStaticMethod : Symbol(privateClassWithWithPrivateParmeterTypes.myPublicStaticMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 56, 48))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 57, 32))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 0, 0))
+    }
+    private static myPrivateStaticMethod(param: privateClass) {
+>myPrivateStaticMethod : Symbol(privateClassWithWithPrivateParmeterTypes.myPrivateStaticMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 58, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 59, 41))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 0, 0))
+    }
+    myPublicMethod(param: privateClass) { 
+>myPublicMethod : Symbol(privateClassWithWithPrivateParmeterTypes.myPublicMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 60, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 61, 19))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 0, 0))
+    }
+    private myPrivateMethod(param: privateClass) {
+>myPrivateMethod : Symbol(privateClassWithWithPrivateParmeterTypes.myPrivateMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 62, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 63, 28))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 0, 0))
+    }
+    constructor(param: privateClass, private param1: privateClass, public param2: privateClass) {
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 65, 16))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 0, 0))
+>param1 : Symbol(privateClassWithWithPrivateParmeterTypes.param1, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 65, 36))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 0, 0))
+>param2 : Symbol(privateClassWithWithPrivateParmeterTypes.param2, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 65, 66))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 0, 0))
+    }
+}
+
+class privateClassWithWithPublicParmeterTypes {
+>privateClassWithWithPublicParmeterTypes : Symbol(privateClassWithWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 67, 1))
+
+    static myPublicStaticMethod(param: publicClass) {
+>myPublicStaticMethod : Symbol(privateClassWithWithPublicParmeterTypes.myPublicStaticMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 69, 47))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 70, 32))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 1, 1))
+    }
+    private static myPrivateStaticMethod(param: publicClass) {
+>myPrivateStaticMethod : Symbol(privateClassWithWithPublicParmeterTypes.myPrivateStaticMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 71, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 72, 41))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 1, 1))
+    }
+    myPublicMethod(param: publicClass) {
+>myPublicMethod : Symbol(privateClassWithWithPublicParmeterTypes.myPublicMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 73, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 74, 19))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 1, 1))
+    }
+    private myPrivateMethod(param: publicClass) {
+>myPrivateMethod : Symbol(privateClassWithWithPublicParmeterTypes.myPrivateMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 75, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 76, 28))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 1, 1))
+    }
+    constructor(param: publicClass, private param1: publicClass, public param2: publicClass) {
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 78, 16))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 1, 1))
+>param1 : Symbol(privateClassWithWithPublicParmeterTypes.param1, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 78, 35))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 1, 1))
+>param2 : Symbol(privateClassWithWithPublicParmeterTypes.param2, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 78, 64))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 1, 1))
+    }
+}
+
+export function publicFunctionWithPrivateParmeterTypes(param: privateClass) { // Error
+>publicFunctionWithPrivateParmeterTypes : Symbol(publicFunctionWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 80, 1))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 82, 55))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 0, 0))
+}
+export function publicFunctionWithPublicParmeterTypes(param: publicClass) {
+>publicFunctionWithPublicParmeterTypes : Symbol(publicFunctionWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 83, 1))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 84, 54))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 1, 1))
+}
+function privateFunctionWithPrivateParmeterTypes(param: privateClass) {
+>privateFunctionWithPrivateParmeterTypes : Symbol(privateFunctionWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 85, 1))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 86, 49))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 0, 0))
+}
+function privateFunctionWithPublicParmeterTypes(param: publicClass) {
+>privateFunctionWithPublicParmeterTypes : Symbol(privateFunctionWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 87, 1))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 88, 48))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 1, 1))
+}
+
+export declare function publicAmbientFunctionWithPrivateParmeterTypes(param: privateClass): void; // Error
+>publicAmbientFunctionWithPrivateParmeterTypes : Symbol(publicAmbientFunctionWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 89, 1))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 91, 70))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 0, 0))
+
+export declare function publicAmbientFunctionWithPublicParmeterTypes(param: publicClass): void;
+>publicAmbientFunctionWithPublicParmeterTypes : Symbol(publicAmbientFunctionWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 91, 97))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 92, 69))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 1, 1))
+
+declare function privateAmbientFunctionWithPrivateParmeterTypes(param: privateClass): void;
+>privateAmbientFunctionWithPrivateParmeterTypes : Symbol(privateAmbientFunctionWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 92, 95))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 93, 64))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 0, 0))
+
+declare function privateAmbientFunctionWithPublicParmeterTypes(param: publicClass): void;
+>privateAmbientFunctionWithPublicParmeterTypes : Symbol(privateAmbientFunctionWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 93, 91))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 94, 63))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 1, 1))
+
+export interface publicInterfaceWithPrivateModuleParameterTypes {
+>publicInterfaceWithPrivateModuleParameterTypes : Symbol(publicInterfaceWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 94, 89))
+
+    new (param: privateModule.publicClass): publicClass; // Error
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 97, 9))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 1, 1))
+
+    (param: privateModule.publicClass): publicClass; // Error
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 98, 5))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 1, 1))
+
+    myMethod(param: privateModule.publicClass): void; // Error
+>myMethod : Symbol(publicInterfaceWithPrivateModuleParameterTypes.myMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 98, 52))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 99, 13))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+}
+export class publicClassWithPrivateModuleParameterTypes {
+>publicClassWithPrivateModuleParameterTypes : Symbol(publicClassWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 100, 1))
+
+    static myPublicStaticMethod(param: privateModule.publicClass) { // Error
+>myPublicStaticMethod : Symbol(publicClassWithPrivateModuleParameterTypes.myPublicStaticMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 101, 57))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 102, 32))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+    }
+    myPublicMethod(param: privateModule.publicClass) { // Error
+>myPublicMethod : Symbol(publicClassWithPrivateModuleParameterTypes.myPublicMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 103, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 104, 19))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+    }
+    constructor(param: privateModule.publicClass, private param1: privateModule.publicClass, public param2: privateModule.publicClass) { // Error
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 106, 16))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+>param1 : Symbol(publicClassWithPrivateModuleParameterTypes.param1, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 106, 49))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+>param2 : Symbol(publicClassWithPrivateModuleParameterTypes.param2, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 106, 92))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+    }
+}
+export function publicFunctionWithPrivateModuleParameterTypes(param: privateModule.publicClass) { // Error
+>publicFunctionWithPrivateModuleParameterTypes : Symbol(publicFunctionWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 108, 1))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 109, 62))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+}
+export declare function publicAmbientFunctionWithPrivateModuleParameterTypes(param: privateModule.publicClass): void; // Error
+>publicAmbientFunctionWithPrivateModuleParameterTypes : Symbol(publicAmbientFunctionWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 110, 1))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 111, 77))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+
+interface privateInterfaceWithPrivateModuleParameterTypes {
+>privateInterfaceWithPrivateModuleParameterTypes : Symbol(privateInterfaceWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 111, 117))
+
+    new (param: privateModule.publicClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 114, 9))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 1, 1))
+
+    (param: privateModule.publicClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 115, 5))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 1, 1))
+
+    myMethod(param: privateModule.publicClass): void;
+>myMethod : Symbol(privateInterfaceWithPrivateModuleParameterTypes.myMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 115, 52))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 116, 13))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+}
+class privateClassWithPrivateModuleParameterTypes {
+>privateClassWithPrivateModuleParameterTypes : Symbol(privateClassWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 117, 1))
+
+    static myPublicStaticMethod(param: privateModule.publicClass) {
+>myPublicStaticMethod : Symbol(privateClassWithPrivateModuleParameterTypes.myPublicStaticMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 118, 51))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 119, 32))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+    }
+    myPublicMethod(param: privateModule.publicClass) {
+>myPublicMethod : Symbol(privateClassWithPrivateModuleParameterTypes.myPublicMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 120, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 121, 19))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+    }
+    constructor(param: privateModule.publicClass, private param1: privateModule.publicClass, public param2: privateModule.publicClass) {
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 123, 16))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+>param1 : Symbol(privateClassWithPrivateModuleParameterTypes.param1, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 123, 49))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+>param2 : Symbol(privateClassWithPrivateModuleParameterTypes.param2, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 123, 92))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+    }
+}
+function privateFunctionWithPrivateModuleParameterTypes(param: privateModule.publicClass) {
+>privateFunctionWithPrivateModuleParameterTypes : Symbol(privateFunctionWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 125, 1))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 126, 56))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+}
+declare function privateAmbientFunctionWithPrivateModuleParameterTypes(param: privateModule.publicClass): void;
+>privateAmbientFunctionWithPrivateModuleParameterTypes : Symbol(privateAmbientFunctionWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 127, 1))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 128, 71))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+
+export module publicModule {
+>publicModule : Symbol(publicModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 128, 111))
+
+    class privateClass {
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 130, 28))
+    }
+
+    export class publicClass {
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 132, 5))
+    }
+
+
+    export interface publicInterfaceWithPrivateParmeterTypes {
+>publicInterfaceWithPrivateParmeterTypes : Symbol(publicInterfaceWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 135, 5))
+
+        new (param: privateClass): publicClass; // Error
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 139, 13))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 130, 28))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 132, 5))
+
+        (param: privateClass): publicClass; // Error
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 140, 9))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 130, 28))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 132, 5))
+
+        myMethod(param: privateClass): void; // Error
+>myMethod : Symbol(publicInterfaceWithPrivateParmeterTypes.myMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 140, 43))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 141, 17))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 130, 28))
+    }
+
+    export interface publicInterfaceWithPublicParmeterTypes {
+>publicInterfaceWithPublicParmeterTypes : Symbol(publicInterfaceWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 142, 5))
+
+        new (param: publicClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 145, 13))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 132, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 132, 5))
+
+        (param: publicClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 146, 9))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 132, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 132, 5))
+
+        myMethod(param: publicClass): void;
+>myMethod : Symbol(publicInterfaceWithPublicParmeterTypes.myMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 146, 42))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 147, 17))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 132, 5))
+    }
+
+    interface privateInterfaceWithPrivateParmeterTypes {
+>privateInterfaceWithPrivateParmeterTypes : Symbol(privateInterfaceWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 148, 5))
+
+        new (param: privateClass): privateClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 151, 13))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 130, 28))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 130, 28))
+
+        (param: privateClass): privateClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 152, 9))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 130, 28))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 130, 28))
+
+        myMethod(param: privateClass): void;
+>myMethod : Symbol(privateInterfaceWithPrivateParmeterTypes.myMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 152, 44))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 153, 17))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 130, 28))
+    }
+
+    interface privateInterfaceWithPublicParmeterTypes {
+>privateInterfaceWithPublicParmeterTypes : Symbol(privateInterfaceWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 154, 5))
+
+        new (param: publicClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 157, 13))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 132, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 132, 5))
+
+        (param: publicClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 158, 9))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 132, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 132, 5))
+
+        myMethod(param: publicClass): void;
+>myMethod : Symbol(privateInterfaceWithPublicParmeterTypes.myMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 158, 42))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 159, 17))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 132, 5))
+    }
+
+    export class publicClassWithWithPrivateParmeterTypes {
+>publicClassWithWithPrivateParmeterTypes : Symbol(publicClassWithWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 160, 5))
+
+        static myPublicStaticMethod(param: privateClass) { // Error
+>myPublicStaticMethod : Symbol(publicClassWithWithPrivateParmeterTypes.myPublicStaticMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 162, 58))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 163, 36))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 130, 28))
+        }
+        private static myPrivateStaticMethod(param: privateClass) {
+>myPrivateStaticMethod : Symbol(publicClassWithWithPrivateParmeterTypes.myPrivateStaticMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 164, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 165, 45))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 130, 28))
+        }
+        myPublicMethod(param: privateClass) { // Error
+>myPublicMethod : Symbol(publicClassWithWithPrivateParmeterTypes.myPublicMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 166, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 167, 23))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 130, 28))
+        }
+        private myPrivateMethod(param: privateClass) {
+>myPrivateMethod : Symbol(publicClassWithWithPrivateParmeterTypes.myPrivateMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 168, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 169, 32))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 130, 28))
+        }
+        constructor(param: privateClass, private param1: privateClass, public param2: privateClass) { // Error
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 171, 20))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 130, 28))
+>param1 : Symbol(publicClassWithWithPrivateParmeterTypes.param1, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 171, 40))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 130, 28))
+>param2 : Symbol(publicClassWithWithPrivateParmeterTypes.param2, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 171, 70))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 130, 28))
+        }
+    }
+
+    export class publicClassWithWithPublicParmeterTypes {
+>publicClassWithWithPublicParmeterTypes : Symbol(publicClassWithWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 173, 5))
+
+        static myPublicStaticMethod(param: publicClass) {
+>myPublicStaticMethod : Symbol(publicClassWithWithPublicParmeterTypes.myPublicStaticMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 175, 57))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 176, 36))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 132, 5))
+        }
+        private static myPrivateStaticMethod(param: publicClass) {
+>myPrivateStaticMethod : Symbol(publicClassWithWithPublicParmeterTypes.myPrivateStaticMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 177, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 178, 45))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 132, 5))
+        }
+        myPublicMethod(param: publicClass) {
+>myPublicMethod : Symbol(publicClassWithWithPublicParmeterTypes.myPublicMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 179, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 180, 23))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 132, 5))
+        }
+        private myPrivateMethod(param: publicClass) {
+>myPrivateMethod : Symbol(publicClassWithWithPublicParmeterTypes.myPrivateMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 181, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 182, 32))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 132, 5))
+        }
+        constructor(param: publicClass, private param1: publicClass, public param2: publicClass) {
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 184, 20))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 132, 5))
+>param1 : Symbol(publicClassWithWithPublicParmeterTypes.param1, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 184, 39))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 132, 5))
+>param2 : Symbol(publicClassWithWithPublicParmeterTypes.param2, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 184, 68))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 132, 5))
+        }
+    }
+
+    class privateClassWithWithPrivateParmeterTypes {
+>privateClassWithWithPrivateParmeterTypes : Symbol(privateClassWithWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 186, 5))
+
+        static myPublicStaticMethod(param: privateClass) {
+>myPublicStaticMethod : Symbol(privateClassWithWithPrivateParmeterTypes.myPublicStaticMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 188, 52))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 189, 36))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 130, 28))
+        }
+        private static myPrivateStaticMethod(param: privateClass) {
+>myPrivateStaticMethod : Symbol(privateClassWithWithPrivateParmeterTypes.myPrivateStaticMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 190, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 191, 45))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 130, 28))
+        }
+        myPublicMethod(param: privateClass) {
+>myPublicMethod : Symbol(privateClassWithWithPrivateParmeterTypes.myPublicMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 192, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 193, 23))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 130, 28))
+        }
+        private myPrivateMethod(param: privateClass) {
+>myPrivateMethod : Symbol(privateClassWithWithPrivateParmeterTypes.myPrivateMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 194, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 195, 32))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 130, 28))
+        }
+        constructor(param: privateClass, private param1: privateClass, public param2: privateClass) {
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 197, 20))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 130, 28))
+>param1 : Symbol(privateClassWithWithPrivateParmeterTypes.param1, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 197, 40))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 130, 28))
+>param2 : Symbol(privateClassWithWithPrivateParmeterTypes.param2, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 197, 70))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 130, 28))
+        }
+    }
+
+    class privateClassWithWithPublicParmeterTypes {
+>privateClassWithWithPublicParmeterTypes : Symbol(privateClassWithWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 199, 5))
+
+        static myPublicStaticMethod(param: publicClass) {
+>myPublicStaticMethod : Symbol(privateClassWithWithPublicParmeterTypes.myPublicStaticMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 201, 51))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 202, 36))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 132, 5))
+        }
+        private static myPrivateStaticMethod(param: publicClass) {
+>myPrivateStaticMethod : Symbol(privateClassWithWithPublicParmeterTypes.myPrivateStaticMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 203, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 204, 45))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 132, 5))
+        }
+        myPublicMethod(param: publicClass) {
+>myPublicMethod : Symbol(privateClassWithWithPublicParmeterTypes.myPublicMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 205, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 206, 23))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 132, 5))
+        }
+        private myPrivateMethod(param: publicClass) {
+>myPrivateMethod : Symbol(privateClassWithWithPublicParmeterTypes.myPrivateMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 207, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 208, 32))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 132, 5))
+        }
+        constructor(param: publicClass, private param1: publicClass, public param2: publicClass) {
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 210, 20))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 132, 5))
+>param1 : Symbol(privateClassWithWithPublicParmeterTypes.param1, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 210, 39))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 132, 5))
+>param2 : Symbol(privateClassWithWithPublicParmeterTypes.param2, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 210, 68))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 132, 5))
+        }
+    }
+
+    export function publicFunctionWithPrivateParmeterTypes(param: privateClass) { // Error
+>publicFunctionWithPrivateParmeterTypes : Symbol(publicFunctionWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 212, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 214, 59))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 130, 28))
+    }
+    export function publicFunctionWithPublicParmeterTypes(param: publicClass) {
+>publicFunctionWithPublicParmeterTypes : Symbol(publicFunctionWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 215, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 216, 58))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 132, 5))
+    }
+    function privateFunctionWithPrivateParmeterTypes(param: privateClass) {
+>privateFunctionWithPrivateParmeterTypes : Symbol(privateFunctionWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 217, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 218, 53))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 130, 28))
+    }
+    function privateFunctionWithPublicParmeterTypes(param: publicClass) {
+>privateFunctionWithPublicParmeterTypes : Symbol(privateFunctionWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 219, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 220, 52))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 132, 5))
+    }
+
+    export declare function publicAmbientFunctionWithPrivateParmeterTypes(param: privateClass): void; // Error
+>publicAmbientFunctionWithPrivateParmeterTypes : Symbol(publicAmbientFunctionWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 221, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 223, 74))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 130, 28))
+
+    export declare function publicAmbientFunctionWithPublicParmeterTypes(param: publicClass): void;
+>publicAmbientFunctionWithPublicParmeterTypes : Symbol(publicAmbientFunctionWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 223, 101))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 224, 73))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 132, 5))
+
+    declare function privateAmbientFunctionWithPrivateParmeterTypes(param: privateClass): void;
+>privateAmbientFunctionWithPrivateParmeterTypes : Symbol(privateAmbientFunctionWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 224, 99))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 225, 68))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 130, 28))
+
+    declare function privateAmbientFunctionWithPublicParmeterTypes(param: publicClass): void;
+>privateAmbientFunctionWithPublicParmeterTypes : Symbol(privateAmbientFunctionWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 225, 95))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 226, 67))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 132, 5))
+
+    export interface publicInterfaceWithPrivateModuleParameterTypes {
+>publicInterfaceWithPrivateModuleParameterTypes : Symbol(publicInterfaceWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 226, 93))
+
+        new (param: privateModule.publicClass): publicClass; // Error
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 229, 13))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 132, 5))
+
+        (param: privateModule.publicClass): publicClass; // Error
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 230, 9))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 132, 5))
+
+        myMethod(param: privateModule.publicClass): void; // Error
+>myMethod : Symbol(publicInterfaceWithPrivateModuleParameterTypes.myMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 230, 56))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 231, 17))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+    }
+    export class publicClassWithPrivateModuleParameterTypes {
+>publicClassWithPrivateModuleParameterTypes : Symbol(publicClassWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 232, 5))
+
+        static myPublicStaticMethod(param: privateModule.publicClass) { // Error
+>myPublicStaticMethod : Symbol(publicClassWithPrivateModuleParameterTypes.myPublicStaticMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 233, 61))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 234, 36))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+        }
+        myPublicMethod(param: privateModule.publicClass) { // Error
+>myPublicMethod : Symbol(publicClassWithPrivateModuleParameterTypes.myPublicMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 235, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 236, 23))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+        }
+        constructor(param: privateModule.publicClass, private param1: privateModule.publicClass, public param2: privateModule.publicClass) { // Error
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 238, 20))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+>param1 : Symbol(publicClassWithPrivateModuleParameterTypes.param1, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 238, 53))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+>param2 : Symbol(publicClassWithPrivateModuleParameterTypes.param2, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 238, 96))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+        }
+    }
+    export function publicFunctionWithPrivateModuleParameterTypes(param: privateModule.publicClass) { // Error
+>publicFunctionWithPrivateModuleParameterTypes : Symbol(publicFunctionWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 240, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 241, 66))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+    }
+    export declare function publicAmbientFunctionWithPrivateModuleParameterTypes(param: privateModule.publicClass): void; // Error
+>publicAmbientFunctionWithPrivateModuleParameterTypes : Symbol(publicAmbientFunctionWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 242, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 243, 81))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+
+    interface privateInterfaceWithPrivateModuleParameterTypes {
+>privateInterfaceWithPrivateModuleParameterTypes : Symbol(privateInterfaceWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 243, 121))
+
+        new (param: privateModule.publicClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 246, 13))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 132, 5))
+
+        (param: privateModule.publicClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 247, 9))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 132, 5))
+
+        myMethod(param: privateModule.publicClass): void;
+>myMethod : Symbol(privateInterfaceWithPrivateModuleParameterTypes.myMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 247, 56))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 248, 17))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+    }
+    class privateClassWithPrivateModuleParameterTypes {
+>privateClassWithPrivateModuleParameterTypes : Symbol(privateClassWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 249, 5))
+
+        static myPublicStaticMethod(param: privateModule.publicClass) {
+>myPublicStaticMethod : Symbol(privateClassWithPrivateModuleParameterTypes.myPublicStaticMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 250, 55))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 251, 36))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+        }
+        myPublicMethod(param: privateModule.publicClass) {
+>myPublicMethod : Symbol(privateClassWithPrivateModuleParameterTypes.myPublicMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 252, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 253, 23))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+        }
+        constructor(param: privateModule.publicClass, private param1: privateModule.publicClass, public param2: privateModule.publicClass) {
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 255, 20))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+>param1 : Symbol(privateClassWithPrivateModuleParameterTypes.param1, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 255, 53))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+>param2 : Symbol(privateClassWithPrivateModuleParameterTypes.param2, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 255, 96))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+        }
+    }
+    function privateFunctionWithPrivateModuleParameterTypes(param: privateModule.publicClass) {
+>privateFunctionWithPrivateModuleParameterTypes : Symbol(privateFunctionWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 257, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 258, 60))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+    }
+    declare function privateAmbientFunctionWithPrivateModuleParameterTypes(param: privateModule.publicClass): void;
+>privateAmbientFunctionWithPrivateModuleParameterTypes : Symbol(privateAmbientFunctionWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 259, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 260, 75))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+
+}
+
+module privateModule {
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+
+    class privateClass {
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 264, 22))
+    }
+
+    export class publicClass {
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+    }
+
+    export interface publicInterfaceWithPrivateParmeterTypes {
+>publicInterfaceWithPrivateParmeterTypes : Symbol(publicInterfaceWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 269, 5))
+
+        new (param: privateClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 272, 13))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 264, 22))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+
+        (param: privateClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 273, 9))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 264, 22))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+
+        myMethod(param: privateClass): void;
+>myMethod : Symbol(publicInterfaceWithPrivateParmeterTypes.myMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 273, 43))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 274, 17))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 264, 22))
+    }
+
+    export interface publicInterfaceWithPublicParmeterTypes {
+>publicInterfaceWithPublicParmeterTypes : Symbol(publicInterfaceWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 275, 5))
+
+        new (param: publicClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 278, 13))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+
+        (param: publicClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 279, 9))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+
+        myMethod(param: publicClass): void;
+>myMethod : Symbol(publicInterfaceWithPublicParmeterTypes.myMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 279, 42))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 280, 17))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+    }
+
+    interface privateInterfaceWithPrivateParmeterTypes {
+>privateInterfaceWithPrivateParmeterTypes : Symbol(privateInterfaceWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 281, 5))
+
+        new (param: privateClass): privateClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 284, 13))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 264, 22))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 264, 22))
+
+        (param: privateClass): privateClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 285, 9))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 264, 22))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 264, 22))
+
+        myMethod(param: privateClass): void;
+>myMethod : Symbol(privateInterfaceWithPrivateParmeterTypes.myMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 285, 44))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 286, 17))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 264, 22))
+    }
+
+    interface privateInterfaceWithPublicParmeterTypes {
+>privateInterfaceWithPublicParmeterTypes : Symbol(privateInterfaceWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 287, 5))
+
+        new (param: publicClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 290, 13))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+
+        (param: publicClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 291, 9))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+
+        myMethod(param: publicClass): void;
+>myMethod : Symbol(privateInterfaceWithPublicParmeterTypes.myMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 291, 42))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 292, 17))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+    }
+
+    export class publicClassWithWithPrivateParmeterTypes {
+>publicClassWithWithPrivateParmeterTypes : Symbol(publicClassWithWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 293, 5))
+
+        static myPublicStaticMethod(param: privateClass) {
+>myPublicStaticMethod : Symbol(publicClassWithWithPrivateParmeterTypes.myPublicStaticMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 295, 58))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 296, 36))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 264, 22))
+        }
+        private static myPrivateStaticMethod(param: privateClass) {
+>myPrivateStaticMethod : Symbol(publicClassWithWithPrivateParmeterTypes.myPrivateStaticMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 297, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 298, 45))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 264, 22))
+        }
+        myPublicMethod(param: privateClass) {
+>myPublicMethod : Symbol(publicClassWithWithPrivateParmeterTypes.myPublicMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 299, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 300, 23))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 264, 22))
+        }
+        private myPrivateMethod(param: privateClass) {
+>myPrivateMethod : Symbol(publicClassWithWithPrivateParmeterTypes.myPrivateMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 301, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 302, 32))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 264, 22))
+        }
+        constructor(param: privateClass, private param1: privateClass, public param2: privateClass) {
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 304, 20))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 264, 22))
+>param1 : Symbol(publicClassWithWithPrivateParmeterTypes.param1, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 304, 40))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 264, 22))
+>param2 : Symbol(publicClassWithWithPrivateParmeterTypes.param2, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 304, 70))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 264, 22))
+        }
+    }
+
+    export class publicClassWithWithPublicParmeterTypes {
+>publicClassWithWithPublicParmeterTypes : Symbol(publicClassWithWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 306, 5))
+
+        static myPublicStaticMethod(param: publicClass) {
+>myPublicStaticMethod : Symbol(publicClassWithWithPublicParmeterTypes.myPublicStaticMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 308, 57))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 309, 36))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+        }
+        private static myPrivateStaticMethod(param: publicClass) {
+>myPrivateStaticMethod : Symbol(publicClassWithWithPublicParmeterTypes.myPrivateStaticMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 310, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 311, 45))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+        }
+        myPublicMethod(param: publicClass) {
+>myPublicMethod : Symbol(publicClassWithWithPublicParmeterTypes.myPublicMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 312, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 313, 23))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+        }
+        private myPrivateMethod(param: publicClass) {
+>myPrivateMethod : Symbol(publicClassWithWithPublicParmeterTypes.myPrivateMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 314, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 315, 32))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+        }
+        constructor(param: publicClass, private param1: publicClass, public param2: publicClass) {
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 317, 20))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+>param1 : Symbol(publicClassWithWithPublicParmeterTypes.param1, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 317, 39))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+>param2 : Symbol(publicClassWithWithPublicParmeterTypes.param2, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 317, 68))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+        }
+    }
+
+    class privateClassWithWithPrivateParmeterTypes {
+>privateClassWithWithPrivateParmeterTypes : Symbol(privateClassWithWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 319, 5))
+
+        static myPublicStaticMethod(param: privateClass) {
+>myPublicStaticMethod : Symbol(privateClassWithWithPrivateParmeterTypes.myPublicStaticMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 321, 52))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 322, 36))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 264, 22))
+        }
+        private static myPrivateStaticMethod(param: privateClass) {
+>myPrivateStaticMethod : Symbol(privateClassWithWithPrivateParmeterTypes.myPrivateStaticMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 323, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 324, 45))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 264, 22))
+        }
+        myPublicMethod(param: privateClass) {
+>myPublicMethod : Symbol(privateClassWithWithPrivateParmeterTypes.myPublicMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 325, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 326, 23))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 264, 22))
+        }
+        private myPrivateMethod(param: privateClass) {
+>myPrivateMethod : Symbol(privateClassWithWithPrivateParmeterTypes.myPrivateMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 327, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 328, 32))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 264, 22))
+        }
+        constructor(param: privateClass, private param1: privateClass, public param2: privateClass) {
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 330, 20))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 264, 22))
+>param1 : Symbol(privateClassWithWithPrivateParmeterTypes.param1, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 330, 40))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 264, 22))
+>param2 : Symbol(privateClassWithWithPrivateParmeterTypes.param2, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 330, 70))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 264, 22))
+        }
+    }
+
+    class privateClassWithWithPublicParmeterTypes {
+>privateClassWithWithPublicParmeterTypes : Symbol(privateClassWithWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 332, 5))
+
+        static myPublicStaticMethod(param: publicClass) {
+>myPublicStaticMethod : Symbol(privateClassWithWithPublicParmeterTypes.myPublicStaticMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 334, 51))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 335, 36))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+        }
+        private static myPrivateStaticMethod(param: publicClass) {
+>myPrivateStaticMethod : Symbol(privateClassWithWithPublicParmeterTypes.myPrivateStaticMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 336, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 337, 45))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+        }
+        myPublicMethod(param: publicClass) {
+>myPublicMethod : Symbol(privateClassWithWithPublicParmeterTypes.myPublicMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 338, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 339, 23))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+        }
+        private myPrivateMethod(param: publicClass) {
+>myPrivateMethod : Symbol(privateClassWithWithPublicParmeterTypes.myPrivateMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 340, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 341, 32))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+        }
+        constructor(param: publicClass, private param1: publicClass, public param2: publicClass) {
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 343, 20))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+>param1 : Symbol(privateClassWithWithPublicParmeterTypes.param1, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 343, 39))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+>param2 : Symbol(privateClassWithWithPublicParmeterTypes.param2, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 343, 68))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+        }
+    }
+
+    export function publicFunctionWithPrivateParmeterTypes(param: privateClass) {
+>publicFunctionWithPrivateParmeterTypes : Symbol(publicFunctionWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 345, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 347, 59))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 264, 22))
+    }
+    export function publicFunctionWithPublicParmeterTypes(param: publicClass) {
+>publicFunctionWithPublicParmeterTypes : Symbol(publicFunctionWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 348, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 349, 58))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+    }
+    function privateFunctionWithPrivateParmeterTypes(param: privateClass) {
+>privateFunctionWithPrivateParmeterTypes : Symbol(privateFunctionWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 350, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 351, 53))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 264, 22))
+    }
+    function privateFunctionWithPublicParmeterTypes(param: publicClass) {
+>privateFunctionWithPublicParmeterTypes : Symbol(privateFunctionWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 352, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 353, 52))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+    }
+
+    export declare function publicAmbientFunctionWithPrivateParmeterTypes(param: privateClass): void;
+>publicAmbientFunctionWithPrivateParmeterTypes : Symbol(publicAmbientFunctionWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 354, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 356, 74))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 264, 22))
+
+    export declare function publicAmbientFunctionWithPublicParmeterTypes(param: publicClass): void;
+>publicAmbientFunctionWithPublicParmeterTypes : Symbol(publicAmbientFunctionWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 356, 101))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 357, 73))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+
+    declare function privateAmbientFunctionWithPrivateParmeterTypes(param: privateClass): void;
+>privateAmbientFunctionWithPrivateParmeterTypes : Symbol(privateAmbientFunctionWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 357, 99))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 358, 68))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 264, 22))
+
+    declare function privateAmbientFunctionWithPublicParmeterTypes(param: publicClass): void;
+>privateAmbientFunctionWithPublicParmeterTypes : Symbol(privateAmbientFunctionWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 358, 95))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 359, 67))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+
+    export interface publicInterfaceWithPrivateModuleParameterTypes {
+>publicInterfaceWithPrivateModuleParameterTypes : Symbol(publicInterfaceWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 359, 93))
+
+        new (param: privateModule.publicClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 362, 13))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+
+        (param: privateModule.publicClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 363, 9))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+
+        myMethod(param: privateModule.publicClass): void;
+>myMethod : Symbol(publicInterfaceWithPrivateModuleParameterTypes.myMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 363, 56))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 364, 17))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+    }
+    export class publicClassWithPrivateModuleParameterTypes {
+>publicClassWithPrivateModuleParameterTypes : Symbol(publicClassWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 365, 5))
+
+        static myPublicStaticMethod(param: privateModule.publicClass) {
+>myPublicStaticMethod : Symbol(publicClassWithPrivateModuleParameterTypes.myPublicStaticMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 366, 61))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 367, 36))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+        }
+        myPublicMethod(param: privateModule.publicClass) {
+>myPublicMethod : Symbol(publicClassWithPrivateModuleParameterTypes.myPublicMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 368, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 369, 23))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+        }
+        constructor(param: privateModule.publicClass, private param1: privateModule.publicClass, public param2: privateModule.publicClass) {
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 371, 20))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+>param1 : Symbol(publicClassWithPrivateModuleParameterTypes.param1, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 371, 53))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+>param2 : Symbol(publicClassWithPrivateModuleParameterTypes.param2, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 371, 96))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+        }
+    }
+    export function publicFunctionWithPrivateModuleParameterTypes(param: privateModule.publicClass) {
+>publicFunctionWithPrivateModuleParameterTypes : Symbol(publicFunctionWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 373, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 374, 66))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+    }
+    export declare function publicAmbientFunctionWithPrivateModuleParameterTypes(param: privateModule.publicClass): void;
+>publicAmbientFunctionWithPrivateModuleParameterTypes : Symbol(publicAmbientFunctionWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 375, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 376, 81))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+
+    interface privateInterfaceWithPrivateModuleParameterTypes {
+>privateInterfaceWithPrivateModuleParameterTypes : Symbol(privateInterfaceWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 376, 121))
+
+        new (param: privateModule.publicClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 379, 13))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+
+        (param: privateModule.publicClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 380, 9))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+
+        myMethod(param: privateModule.publicClass): void;
+>myMethod : Symbol(privateInterfaceWithPrivateModuleParameterTypes.myMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 380, 56))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 381, 17))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+    }
+    class privateClassWithPrivateModuleParameterTypes {
+>privateClassWithPrivateModuleParameterTypes : Symbol(privateClassWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 382, 5))
+
+        static myPublicStaticMethod(param: privateModule.publicClass) {
+>myPublicStaticMethod : Symbol(privateClassWithPrivateModuleParameterTypes.myPublicStaticMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 383, 55))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 384, 36))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+        }
+        myPublicMethod(param: privateModule.publicClass) {
+>myPublicMethod : Symbol(privateClassWithPrivateModuleParameterTypes.myPublicMethod, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 385, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 386, 23))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+        }
+        constructor(param: privateModule.publicClass, private param1: privateModule.publicClass, public param2: privateModule.publicClass) {
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 388, 20))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+>param1 : Symbol(privateClassWithPrivateModuleParameterTypes.param1, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 388, 53))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+>param2 : Symbol(privateClassWithPrivateModuleParameterTypes.param2, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 388, 96))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+        }
+    }
+    function privateFunctionWithPrivateModuleParameterTypes(param: privateModule.publicClass) {
+>privateFunctionWithPrivateModuleParameterTypes : Symbol(privateFunctionWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 390, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 391, 60))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+    }
+    declare function privateAmbientFunctionWithPrivateModuleParameterTypes(param: privateModule.publicClass): void;
+>privateAmbientFunctionWithPrivateModuleParameterTypes : Symbol(privateAmbientFunctionWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 392, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 393, 75))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 262, 1))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_externalModule.jump, 266, 5))
+}
+
+=== tests/cases/compiler/privacyFunctionParameterDeclFile_GlobalFile.jump ===
+class publicClassInGlobal {
+>publicClassInGlobal : Symbol(publicClassInGlobal, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 0, 0))
+}
+interface publicInterfaceWithPublicParmeterTypesInGlobal {
+>publicInterfaceWithPublicParmeterTypesInGlobal : Symbol(publicInterfaceWithPublicParmeterTypesInGlobal, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 1, 1))
+
+    new (param: publicClassInGlobal): publicClassInGlobal;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 3, 9))
+>publicClassInGlobal : Symbol(publicClassInGlobal, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 0, 0))
+>publicClassInGlobal : Symbol(publicClassInGlobal, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 0, 0))
+
+    (param: publicClassInGlobal): publicClassInGlobal;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 4, 5))
+>publicClassInGlobal : Symbol(publicClassInGlobal, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 0, 0))
+>publicClassInGlobal : Symbol(publicClassInGlobal, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 0, 0))
+
+    myMethod(param: publicClassInGlobal): void;
+>myMethod : Symbol(publicInterfaceWithPublicParmeterTypesInGlobal.myMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 4, 54))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 5, 13))
+>publicClassInGlobal : Symbol(publicClassInGlobal, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 0, 0))
+}
+class publicClassWithWithPublicParmeterTypesInGlobal {
+>publicClassWithWithPublicParmeterTypesInGlobal : Symbol(publicClassWithWithPublicParmeterTypesInGlobal, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 6, 1))
+
+    static myPublicStaticMethod(param: publicClassInGlobal) {
+>myPublicStaticMethod : Symbol(publicClassWithWithPublicParmeterTypesInGlobal.myPublicStaticMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 7, 54))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 8, 32))
+>publicClassInGlobal : Symbol(publicClassInGlobal, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 0, 0))
+    }
+    private static myPrivateStaticMethod(param: publicClassInGlobal) {
+>myPrivateStaticMethod : Symbol(publicClassWithWithPublicParmeterTypesInGlobal.myPrivateStaticMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 9, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 10, 41))
+>publicClassInGlobal : Symbol(publicClassInGlobal, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 0, 0))
+    }
+    myPublicMethod(param: publicClassInGlobal) {
+>myPublicMethod : Symbol(publicClassWithWithPublicParmeterTypesInGlobal.myPublicMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 11, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 12, 19))
+>publicClassInGlobal : Symbol(publicClassInGlobal, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 0, 0))
+    }
+    private myPrivateMethod(param: publicClassInGlobal) {
+>myPrivateMethod : Symbol(publicClassWithWithPublicParmeterTypesInGlobal.myPrivateMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 13, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 14, 28))
+>publicClassInGlobal : Symbol(publicClassInGlobal, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 0, 0))
+    }
+    constructor(param: publicClassInGlobal, private param1: publicClassInGlobal, public param2: publicClassInGlobal) {
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 16, 16))
+>publicClassInGlobal : Symbol(publicClassInGlobal, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 0, 0))
+>param1 : Symbol(publicClassWithWithPublicParmeterTypesInGlobal.param1, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 16, 43))
+>publicClassInGlobal : Symbol(publicClassInGlobal, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 0, 0))
+>param2 : Symbol(publicClassWithWithPublicParmeterTypesInGlobal.param2, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 16, 80))
+>publicClassInGlobal : Symbol(publicClassInGlobal, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 0, 0))
+    }
+}
+function publicFunctionWithPublicParmeterTypesInGlobal(param: publicClassInGlobal) {
+>publicFunctionWithPublicParmeterTypesInGlobal : Symbol(publicFunctionWithPublicParmeterTypesInGlobal, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 18, 1))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 19, 55))
+>publicClassInGlobal : Symbol(publicClassInGlobal, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 0, 0))
+}
+declare function publicAmbientFunctionWithPublicParmeterTypesInGlobal(param: publicClassInGlobal): void;
+>publicAmbientFunctionWithPublicParmeterTypesInGlobal : Symbol(publicAmbientFunctionWithPublicParmeterTypesInGlobal, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 20, 1))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 21, 70))
+>publicClassInGlobal : Symbol(publicClassInGlobal, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 0, 0))
+
+module publicModuleInGlobal {
+>publicModuleInGlobal : Symbol(publicModuleInGlobal, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 21, 104))
+
+    class privateClass {
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 23, 29))
+    }
+
+    export class publicClass {
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 25, 5))
+    }
+
+    module privateModule {
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+
+        class privateClass {
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 30, 26))
+        }
+
+        export class publicClass {
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+        }
+
+        export interface publicInterfaceWithPrivateParmeterTypes {
+>publicInterfaceWithPrivateParmeterTypes : Symbol(publicInterfaceWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 35, 9))
+
+            new (param: privateClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 38, 17))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 30, 26))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+
+            (param: privateClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 39, 13))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 30, 26))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+
+            myMethod(param: privateClass): void;
+>myMethod : Symbol(publicInterfaceWithPrivateParmeterTypes.myMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 39, 47))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 40, 21))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 30, 26))
+        }
+
+        export interface publicInterfaceWithPublicParmeterTypes {
+>publicInterfaceWithPublicParmeterTypes : Symbol(publicInterfaceWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 41, 9))
+
+            new (param: publicClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 44, 17))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+
+            (param: publicClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 45, 13))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+
+            myMethod(param: publicClass): void;
+>myMethod : Symbol(publicInterfaceWithPublicParmeterTypes.myMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 45, 46))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 46, 21))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+        }
+
+        interface privateInterfaceWithPrivateParmeterTypes {
+>privateInterfaceWithPrivateParmeterTypes : Symbol(privateInterfaceWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 47, 9))
+
+            new (param: privateClass): privateClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 50, 17))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 30, 26))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 30, 26))
+
+            (param: privateClass): privateClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 51, 13))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 30, 26))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 30, 26))
+
+            myMethod(param: privateClass): void;
+>myMethod : Symbol(privateInterfaceWithPrivateParmeterTypes.myMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 51, 48))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 52, 21))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 30, 26))
+        }
+
+        interface privateInterfaceWithPublicParmeterTypes {
+>privateInterfaceWithPublicParmeterTypes : Symbol(privateInterfaceWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 53, 9))
+
+            new (param: publicClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 56, 17))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+
+            (param: publicClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 57, 13))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+
+            myMethod(param: publicClass): void;
+>myMethod : Symbol(privateInterfaceWithPublicParmeterTypes.myMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 57, 46))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 58, 21))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+        }
+
+        export class publicClassWithWithPrivateParmeterTypes {
+>publicClassWithWithPrivateParmeterTypes : Symbol(publicClassWithWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 59, 9))
+
+            static myPublicStaticMethod(param: privateClass) {
+>myPublicStaticMethod : Symbol(publicClassWithWithPrivateParmeterTypes.myPublicStaticMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 61, 62))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 62, 40))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 30, 26))
+            }
+            private static myPrivateStaticMethod(param: privateClass) {
+>myPrivateStaticMethod : Symbol(publicClassWithWithPrivateParmeterTypes.myPrivateStaticMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 63, 13))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 64, 49))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 30, 26))
+            }
+            myPublicMethod(param: privateClass) {
+>myPublicMethod : Symbol(publicClassWithWithPrivateParmeterTypes.myPublicMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 65, 13))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 66, 27))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 30, 26))
+            }
+            private myPrivateMethod(param: privateClass) {
+>myPrivateMethod : Symbol(publicClassWithWithPrivateParmeterTypes.myPrivateMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 67, 13))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 68, 36))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 30, 26))
+            }
+            constructor(param: privateClass, private param1: privateClass, public param2: privateClass) {
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 70, 24))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 30, 26))
+>param1 : Symbol(publicClassWithWithPrivateParmeterTypes.param1, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 70, 44))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 30, 26))
+>param2 : Symbol(publicClassWithWithPrivateParmeterTypes.param2, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 70, 74))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 30, 26))
+            }
+        }
+
+        export class publicClassWithWithPublicParmeterTypes {
+>publicClassWithWithPublicParmeterTypes : Symbol(publicClassWithWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 72, 9))
+
+            static myPublicStaticMethod(param: publicClass) {
+>myPublicStaticMethod : Symbol(publicClassWithWithPublicParmeterTypes.myPublicStaticMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 74, 61))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 75, 40))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+            }
+            private static myPrivateStaticMethod(param: publicClass) {
+>myPrivateStaticMethod : Symbol(publicClassWithWithPublicParmeterTypes.myPrivateStaticMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 76, 13))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 77, 49))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+            }
+            myPublicMethod(param: publicClass) {
+>myPublicMethod : Symbol(publicClassWithWithPublicParmeterTypes.myPublicMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 78, 13))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 79, 27))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+            }
+            private myPrivateMethod(param: publicClass) {
+>myPrivateMethod : Symbol(publicClassWithWithPublicParmeterTypes.myPrivateMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 80, 13))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 81, 36))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+            }
+            constructor(param: publicClass, private param1: publicClass, public param2: publicClass) {
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 83, 24))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+>param1 : Symbol(publicClassWithWithPublicParmeterTypes.param1, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 83, 43))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+>param2 : Symbol(publicClassWithWithPublicParmeterTypes.param2, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 83, 72))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+            }
+        }
+
+        class privateClassWithWithPrivateParmeterTypes {
+>privateClassWithWithPrivateParmeterTypes : Symbol(privateClassWithWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 85, 9))
+
+            static myPublicStaticMethod(param: privateClass) {
+>myPublicStaticMethod : Symbol(privateClassWithWithPrivateParmeterTypes.myPublicStaticMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 87, 56))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 88, 40))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 30, 26))
+            }
+            private static myPrivateStaticMethod(param: privateClass) {
+>myPrivateStaticMethod : Symbol(privateClassWithWithPrivateParmeterTypes.myPrivateStaticMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 89, 13))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 90, 49))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 30, 26))
+            }
+            myPublicMethod(param: privateClass) {
+>myPublicMethod : Symbol(privateClassWithWithPrivateParmeterTypes.myPublicMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 91, 13))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 92, 27))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 30, 26))
+            }
+            private myPrivateMethod(param: privateClass) {
+>myPrivateMethod : Symbol(privateClassWithWithPrivateParmeterTypes.myPrivateMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 93, 13))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 94, 36))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 30, 26))
+            }
+            constructor(param: privateClass, private param1: privateClass, public param2: privateClass) {
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 96, 24))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 30, 26))
+>param1 : Symbol(privateClassWithWithPrivateParmeterTypes.param1, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 96, 44))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 30, 26))
+>param2 : Symbol(privateClassWithWithPrivateParmeterTypes.param2, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 96, 74))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 30, 26))
+            }
+        }
+
+        class privateClassWithWithPublicParmeterTypes {
+>privateClassWithWithPublicParmeterTypes : Symbol(privateClassWithWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 98, 9))
+
+            static myPublicStaticMethod(param: publicClass) {
+>myPublicStaticMethod : Symbol(privateClassWithWithPublicParmeterTypes.myPublicStaticMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 100, 55))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 101, 40))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+            }
+            private static myPrivateStaticMethod(param: publicClass) {
+>myPrivateStaticMethod : Symbol(privateClassWithWithPublicParmeterTypes.myPrivateStaticMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 102, 13))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 103, 49))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+            }
+            myPublicMethod(param: publicClass) {
+>myPublicMethod : Symbol(privateClassWithWithPublicParmeterTypes.myPublicMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 104, 13))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 105, 27))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+            }
+            private myPrivateMethod(param: publicClass) {
+>myPrivateMethod : Symbol(privateClassWithWithPublicParmeterTypes.myPrivateMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 106, 13))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 107, 36))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+            }
+            constructor(param: publicClass, private param1: publicClass, public param2: publicClass) {
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 109, 24))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+>param1 : Symbol(privateClassWithWithPublicParmeterTypes.param1, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 109, 43))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+>param2 : Symbol(privateClassWithWithPublicParmeterTypes.param2, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 109, 72))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+            }
+        }
+
+        export function publicFunctionWithPrivateParmeterTypes(param: privateClass) {
+>publicFunctionWithPrivateParmeterTypes : Symbol(publicFunctionWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 111, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 113, 63))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 30, 26))
+        }
+        export function publicFunctionWithPublicParmeterTypes(param: publicClass) {
+>publicFunctionWithPublicParmeterTypes : Symbol(publicFunctionWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 114, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 115, 62))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+        }
+        function privateFunctionWithPrivateParmeterTypes(param: privateClass) {
+>privateFunctionWithPrivateParmeterTypes : Symbol(privateFunctionWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 116, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 117, 57))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 30, 26))
+        }
+        function privateFunctionWithPublicParmeterTypes(param: publicClass) {
+>privateFunctionWithPublicParmeterTypes : Symbol(privateFunctionWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 118, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 119, 56))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+        }
+
+        export declare function publicAmbientFunctionWithPrivateParmeterTypes(param: privateClass): void;
+>publicAmbientFunctionWithPrivateParmeterTypes : Symbol(publicAmbientFunctionWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 120, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 122, 78))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 30, 26))
+
+        export declare function publicAmbientFunctionWithPublicParmeterTypes(param: publicClass): void;
+>publicAmbientFunctionWithPublicParmeterTypes : Symbol(publicAmbientFunctionWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 122, 105))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 123, 77))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+
+        declare function privateAmbientFunctionWithPrivateParmeterTypes(param: privateClass): void;
+>privateAmbientFunctionWithPrivateParmeterTypes : Symbol(privateAmbientFunctionWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 123, 103))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 124, 72))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 30, 26))
+
+        declare function privateAmbientFunctionWithPublicParmeterTypes(param: publicClass): void;
+>privateAmbientFunctionWithPublicParmeterTypes : Symbol(privateAmbientFunctionWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 124, 99))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 125, 71))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+
+        export interface publicInterfaceWithPrivateModuleParameterTypes {
+>publicInterfaceWithPrivateModuleParameterTypes : Symbol(publicInterfaceWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 125, 97))
+
+            new (param: privateModule.publicClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 128, 17))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+
+            (param: privateModule.publicClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 129, 13))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+
+            myMethod(param: privateModule.publicClass): void;
+>myMethod : Symbol(publicInterfaceWithPrivateModuleParameterTypes.myMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 129, 60))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 130, 21))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+        }
+        export class publicClassWithPrivateModuleParameterTypes {
+>publicClassWithPrivateModuleParameterTypes : Symbol(publicClassWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 131, 9))
+
+            static myPublicStaticMethod(param: privateModule.publicClass) {
+>myPublicStaticMethod : Symbol(publicClassWithPrivateModuleParameterTypes.myPublicStaticMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 132, 65))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 133, 40))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+            }
+            myPublicMethod(param: privateModule.publicClass) {
+>myPublicMethod : Symbol(publicClassWithPrivateModuleParameterTypes.myPublicMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 134, 13))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 135, 27))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+            }
+            constructor(param: privateModule.publicClass, private param1: privateModule.publicClass, public param2: privateModule.publicClass) {
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 137, 24))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+>param1 : Symbol(publicClassWithPrivateModuleParameterTypes.param1, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 137, 57))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+>param2 : Symbol(publicClassWithPrivateModuleParameterTypes.param2, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 137, 100))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+            }
+        }
+        export function publicFunctionWithPrivateModuleParameterTypes(param: privateModule.publicClass) {
+>publicFunctionWithPrivateModuleParameterTypes : Symbol(publicFunctionWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 139, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 140, 70))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+        }
+        export declare function publicAmbientFunctionWithPrivateModuleParameterTypes(param: privateModule.publicClass): void;
+>publicAmbientFunctionWithPrivateModuleParameterTypes : Symbol(publicAmbientFunctionWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 141, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 142, 85))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+
+        interface privateInterfaceWithPrivateModuleParameterTypes {
+>privateInterfaceWithPrivateModuleParameterTypes : Symbol(privateInterfaceWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 142, 125))
+
+            new (param: privateModule.publicClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 145, 17))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+
+            (param: privateModule.publicClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 146, 13))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+
+            myMethod(param: privateModule.publicClass): void;
+>myMethod : Symbol(privateInterfaceWithPrivateModuleParameterTypes.myMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 146, 60))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 147, 21))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+        }
+        class privateClassWithPrivateModuleParameterTypes {
+>privateClassWithPrivateModuleParameterTypes : Symbol(privateClassWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 148, 9))
+
+            static myPublicStaticMethod(param: privateModule.publicClass) {
+>myPublicStaticMethod : Symbol(privateClassWithPrivateModuleParameterTypes.myPublicStaticMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 149, 59))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 150, 40))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+            }
+            myPublicMethod(param: privateModule.publicClass) {
+>myPublicMethod : Symbol(privateClassWithPrivateModuleParameterTypes.myPublicMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 151, 13))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 152, 27))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+            }
+            constructor(param: privateModule.publicClass, private param1: privateModule.publicClass, public param2: privateModule.publicClass) {
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 154, 24))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+>param1 : Symbol(privateClassWithPrivateModuleParameterTypes.param1, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 154, 57))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+>param2 : Symbol(privateClassWithPrivateModuleParameterTypes.param2, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 154, 100))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+            }
+        }
+        function privateFunctionWithPrivateModuleParameterTypes(param: privateModule.publicClass) {
+>privateFunctionWithPrivateModuleParameterTypes : Symbol(privateFunctionWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 156, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 157, 64))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+        }
+        declare function privateAmbientFunctionWithPrivateModuleParameterTypes(param: privateModule.publicClass): void;
+>privateAmbientFunctionWithPrivateModuleParameterTypes : Symbol(privateAmbientFunctionWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 158, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 159, 79))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+    }
+
+    export interface publicInterfaceWithPrivateParmeterTypes {
+>publicInterfaceWithPrivateParmeterTypes : Symbol(publicInterfaceWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 160, 5))
+
+        new (param: privateClass): publicClass; // Error
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 163, 13))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 23, 29))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 25, 5))
+
+        (param: privateClass): publicClass; // Error
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 164, 9))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 23, 29))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 25, 5))
+
+        myMethod(param: privateClass): void; // Error
+>myMethod : Symbol(publicInterfaceWithPrivateParmeterTypes.myMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 164, 43))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 165, 17))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 23, 29))
+    }
+
+    export interface publicInterfaceWithPublicParmeterTypes {
+>publicInterfaceWithPublicParmeterTypes : Symbol(publicInterfaceWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 166, 5))
+
+        new (param: publicClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 169, 13))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 25, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 25, 5))
+
+        (param: publicClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 170, 9))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 25, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 25, 5))
+
+        myMethod(param: publicClass): void;
+>myMethod : Symbol(publicInterfaceWithPublicParmeterTypes.myMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 170, 42))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 171, 17))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 25, 5))
+    }
+
+    interface privateInterfaceWithPrivateParmeterTypes {
+>privateInterfaceWithPrivateParmeterTypes : Symbol(privateInterfaceWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 172, 5))
+
+        new (param: privateClass): privateClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 175, 13))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 23, 29))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 23, 29))
+
+        (param: privateClass): privateClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 176, 9))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 23, 29))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 23, 29))
+
+        myMethod(param: privateClass): void;
+>myMethod : Symbol(privateInterfaceWithPrivateParmeterTypes.myMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 176, 44))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 177, 17))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 23, 29))
+    }
+
+    interface privateInterfaceWithPublicParmeterTypes {
+>privateInterfaceWithPublicParmeterTypes : Symbol(privateInterfaceWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 178, 5))
+
+        new (param: publicClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 181, 13))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 25, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 25, 5))
+
+        (param: publicClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 182, 9))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 25, 5))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 25, 5))
+
+        myMethod(param: publicClass): void;
+>myMethod : Symbol(privateInterfaceWithPublicParmeterTypes.myMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 182, 42))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 183, 17))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 25, 5))
+    }
+
+    export class publicClassWithWithPrivateParmeterTypes {
+>publicClassWithWithPrivateParmeterTypes : Symbol(publicClassWithWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 184, 5))
+
+        static myPublicStaticMethod(param: privateClass) { // Error
+>myPublicStaticMethod : Symbol(publicClassWithWithPrivateParmeterTypes.myPublicStaticMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 186, 58))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 187, 36))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 23, 29))
+        }
+        private static myPrivateStaticMethod(param: privateClass) {
+>myPrivateStaticMethod : Symbol(publicClassWithWithPrivateParmeterTypes.myPrivateStaticMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 188, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 189, 45))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 23, 29))
+        }
+        myPublicMethod(param: privateClass) { // Error
+>myPublicMethod : Symbol(publicClassWithWithPrivateParmeterTypes.myPublicMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 190, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 191, 23))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 23, 29))
+        }
+        private myPrivateMethod(param: privateClass) {
+>myPrivateMethod : Symbol(publicClassWithWithPrivateParmeterTypes.myPrivateMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 192, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 193, 32))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 23, 29))
+        }
+        constructor(param: privateClass, private param1: privateClass, public param2: privateClass) { // Error
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 195, 20))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 23, 29))
+>param1 : Symbol(publicClassWithWithPrivateParmeterTypes.param1, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 195, 40))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 23, 29))
+>param2 : Symbol(publicClassWithWithPrivateParmeterTypes.param2, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 195, 70))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 23, 29))
+        }
+    }
+
+    export class publicClassWithWithPublicParmeterTypes {
+>publicClassWithWithPublicParmeterTypes : Symbol(publicClassWithWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 197, 5))
+
+        static myPublicStaticMethod(param: publicClass) {
+>myPublicStaticMethod : Symbol(publicClassWithWithPublicParmeterTypes.myPublicStaticMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 199, 57))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 200, 36))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 25, 5))
+        }
+        private static myPrivateStaticMethod(param: publicClass) {
+>myPrivateStaticMethod : Symbol(publicClassWithWithPublicParmeterTypes.myPrivateStaticMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 201, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 202, 45))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 25, 5))
+        }
+        myPublicMethod(param: publicClass) {
+>myPublicMethod : Symbol(publicClassWithWithPublicParmeterTypes.myPublicMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 203, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 204, 23))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 25, 5))
+        }
+        private myPrivateMethod(param: publicClass) {
+>myPrivateMethod : Symbol(publicClassWithWithPublicParmeterTypes.myPrivateMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 205, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 206, 32))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 25, 5))
+        }
+        constructor(param: publicClass, private param1: publicClass, public param2: publicClass) {
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 208, 20))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 25, 5))
+>param1 : Symbol(publicClassWithWithPublicParmeterTypes.param1, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 208, 39))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 25, 5))
+>param2 : Symbol(publicClassWithWithPublicParmeterTypes.param2, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 208, 68))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 25, 5))
+        }
+    }
+
+    class privateClassWithWithPrivateParmeterTypes {
+>privateClassWithWithPrivateParmeterTypes : Symbol(privateClassWithWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 210, 5))
+
+        static myPublicStaticMethod(param: privateClass) {
+>myPublicStaticMethod : Symbol(privateClassWithWithPrivateParmeterTypes.myPublicStaticMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 212, 52))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 213, 36))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 23, 29))
+        }
+        private static myPrivateStaticMethod(param: privateClass) {
+>myPrivateStaticMethod : Symbol(privateClassWithWithPrivateParmeterTypes.myPrivateStaticMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 214, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 215, 45))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 23, 29))
+        }
+        myPublicMethod(param: privateClass) {
+>myPublicMethod : Symbol(privateClassWithWithPrivateParmeterTypes.myPublicMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 216, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 217, 23))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 23, 29))
+        }
+        private myPrivateMethod(param: privateClass) {
+>myPrivateMethod : Symbol(privateClassWithWithPrivateParmeterTypes.myPrivateMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 218, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 219, 32))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 23, 29))
+        }
+        constructor(param: privateClass, private param1: privateClass, public param2: privateClass) {
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 221, 20))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 23, 29))
+>param1 : Symbol(privateClassWithWithPrivateParmeterTypes.param1, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 221, 40))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 23, 29))
+>param2 : Symbol(privateClassWithWithPrivateParmeterTypes.param2, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 221, 70))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 23, 29))
+        }
+    }
+
+    class privateClassWithWithPublicParmeterTypes {
+>privateClassWithWithPublicParmeterTypes : Symbol(privateClassWithWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 223, 5))
+
+        static myPublicStaticMethod(param: publicClass) {
+>myPublicStaticMethod : Symbol(privateClassWithWithPublicParmeterTypes.myPublicStaticMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 225, 51))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 226, 36))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 25, 5))
+        }
+        private static myPrivateStaticMethod(param: publicClass) {
+>myPrivateStaticMethod : Symbol(privateClassWithWithPublicParmeterTypes.myPrivateStaticMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 227, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 228, 45))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 25, 5))
+        }
+        myPublicMethod(param: publicClass) {
+>myPublicMethod : Symbol(privateClassWithWithPublicParmeterTypes.myPublicMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 229, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 230, 23))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 25, 5))
+        }
+        private myPrivateMethod(param: publicClass) {
+>myPrivateMethod : Symbol(privateClassWithWithPublicParmeterTypes.myPrivateMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 231, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 232, 32))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 25, 5))
+        }
+        constructor(param: publicClass, private param1: publicClass, public param2: publicClass) {
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 234, 20))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 25, 5))
+>param1 : Symbol(privateClassWithWithPublicParmeterTypes.param1, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 234, 39))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 25, 5))
+>param2 : Symbol(privateClassWithWithPublicParmeterTypes.param2, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 234, 68))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 25, 5))
+        }
+    }
+
+    export function publicFunctionWithPrivateParmeterTypes(param: privateClass) { // Error
+>publicFunctionWithPrivateParmeterTypes : Symbol(publicFunctionWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 236, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 238, 59))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 23, 29))
+    }
+    export function publicFunctionWithPublicParmeterTypes(param: publicClass) {
+>publicFunctionWithPublicParmeterTypes : Symbol(publicFunctionWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 239, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 240, 58))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 25, 5))
+    }
+    function privateFunctionWithPrivateParmeterTypes(param: privateClass) {
+>privateFunctionWithPrivateParmeterTypes : Symbol(privateFunctionWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 241, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 242, 53))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 23, 29))
+    }
+    function privateFunctionWithPublicParmeterTypes(param: publicClass) {
+>privateFunctionWithPublicParmeterTypes : Symbol(privateFunctionWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 243, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 244, 52))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 25, 5))
+    }
+
+    export declare function publicAmbientFunctionWithPrivateParmeterTypes(param: privateClass): void; // Error
+>publicAmbientFunctionWithPrivateParmeterTypes : Symbol(publicAmbientFunctionWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 245, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 247, 74))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 23, 29))
+
+    export declare function publicAmbientFunctionWithPublicParmeterTypes(param: publicClass): void;
+>publicAmbientFunctionWithPublicParmeterTypes : Symbol(publicAmbientFunctionWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 247, 101))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 248, 73))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 25, 5))
+
+    declare function privateAmbientFunctionWithPrivateParmeterTypes(param: privateClass): void;
+>privateAmbientFunctionWithPrivateParmeterTypes : Symbol(privateAmbientFunctionWithPrivateParmeterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 248, 99))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 249, 68))
+>privateClass : Symbol(privateClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 23, 29))
+
+    declare function privateAmbientFunctionWithPublicParmeterTypes(param: publicClass): void;
+>privateAmbientFunctionWithPublicParmeterTypes : Symbol(privateAmbientFunctionWithPublicParmeterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 249, 95))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 250, 67))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 25, 5))
+
+    export interface publicInterfaceWithPrivateModuleParameterTypes {
+>publicInterfaceWithPrivateModuleParameterTypes : Symbol(publicInterfaceWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 250, 93))
+
+        new (param: privateModule.publicClass): publicClass; // Error
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 253, 13))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 25, 5))
+
+        (param: privateModule.publicClass): publicClass; // Error
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 254, 9))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 25, 5))
+
+        myMethod(param: privateModule.publicClass): void; // Error
+>myMethod : Symbol(publicInterfaceWithPrivateModuleParameterTypes.myMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 254, 56))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 255, 17))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+    }
+    export class publicClassWithPrivateModuleParameterTypes {
+>publicClassWithPrivateModuleParameterTypes : Symbol(publicClassWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 256, 5))
+
+        static myPublicStaticMethod(param: privateModule.publicClass) { // Error
+>myPublicStaticMethod : Symbol(publicClassWithPrivateModuleParameterTypes.myPublicStaticMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 257, 61))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 258, 36))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+        }
+        myPublicMethod(param: privateModule.publicClass) { // Error
+>myPublicMethod : Symbol(publicClassWithPrivateModuleParameterTypes.myPublicMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 259, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 260, 23))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+        }
+        constructor(param: privateModule.publicClass, private param1: privateModule.publicClass, public param2: privateModule.publicClass) { // Error
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 262, 20))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+>param1 : Symbol(publicClassWithPrivateModuleParameterTypes.param1, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 262, 53))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+>param2 : Symbol(publicClassWithPrivateModuleParameterTypes.param2, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 262, 96))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+        }
+    }
+    export function publicFunctionWithPrivateModuleParameterTypes(param: privateModule.publicClass) { // Error
+>publicFunctionWithPrivateModuleParameterTypes : Symbol(publicFunctionWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 264, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 265, 66))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+    }
+    export declare function publicAmbientFunctionWithPrivateModuleParameterTypes(param: privateModule.publicClass): void; // Error
+>publicAmbientFunctionWithPrivateModuleParameterTypes : Symbol(publicAmbientFunctionWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 266, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 267, 81))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+
+    interface privateInterfaceWithPrivateModuleParameterTypes {
+>privateInterfaceWithPrivateModuleParameterTypes : Symbol(privateInterfaceWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 267, 121))
+
+        new (param: privateModule.publicClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 270, 13))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 25, 5))
+
+        (param: privateModule.publicClass): publicClass;
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 271, 9))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+>publicClass : Symbol(publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 25, 5))
+
+        myMethod(param: privateModule.publicClass): void;
+>myMethod : Symbol(privateInterfaceWithPrivateModuleParameterTypes.myMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 271, 56))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 272, 17))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+    }
+    class privateClassWithPrivateModuleParameterTypes {
+>privateClassWithPrivateModuleParameterTypes : Symbol(privateClassWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 273, 5))
+
+        static myPublicStaticMethod(param: privateModule.publicClass) {
+>myPublicStaticMethod : Symbol(privateClassWithPrivateModuleParameterTypes.myPublicStaticMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 274, 55))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 275, 36))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+        }
+        myPublicMethod(param: privateModule.publicClass) {
+>myPublicMethod : Symbol(privateClassWithPrivateModuleParameterTypes.myPublicMethod, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 276, 9))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 277, 23))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+        }
+        constructor(param: privateModule.publicClass, private param1: privateModule.publicClass, public param2: privateModule.publicClass) {
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 279, 20))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+>param1 : Symbol(privateClassWithPrivateModuleParameterTypes.param1, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 279, 53))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+>param2 : Symbol(privateClassWithPrivateModuleParameterTypes.param2, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 279, 96))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+        }
+    }
+    function privateFunctionWithPrivateModuleParameterTypes(param: privateModule.publicClass) {
+>privateFunctionWithPrivateModuleParameterTypes : Symbol(privateFunctionWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 281, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 282, 60))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+    }
+    declare function privateAmbientFunctionWithPrivateModuleParameterTypes(param: privateModule.publicClass): void;
+>privateAmbientFunctionWithPrivateModuleParameterTypes : Symbol(privateAmbientFunctionWithPrivateModuleParameterTypes, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 283, 5))
+>param : Symbol(param, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 284, 75))
+>privateModule : Symbol(privateModule, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 28, 5))
+>publicClass : Symbol(privateModule.publicClass, Decl(privacyFunctionParameterDeclFile_GlobalFile.jump, 32, 9))
+}

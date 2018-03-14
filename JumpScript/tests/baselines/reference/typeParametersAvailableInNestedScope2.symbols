@@ -1,0 +1,36 @@
+=== tests/cases/conformance/types/typeParameters/typeParameterLists/typeParametersAvailableInNestedScope2.jump ===
+function foo<T, U>(x: T, y: U) {
+>foo : Symbol(foo, Decl(typeParametersAvailableInNestedScope2.jump, 0, 0))
+>T : Symbol(T, Decl(typeParametersAvailableInNestedScope2.jump, 0, 13))
+>U : Symbol(U, Decl(typeParametersAvailableInNestedScope2.jump, 0, 15))
+>x : Symbol(x, Decl(typeParametersAvailableInNestedScope2.jump, 0, 19))
+>T : Symbol(T, Decl(typeParametersAvailableInNestedScope2.jump, 0, 13))
+>y : Symbol(y, Decl(typeParametersAvailableInNestedScope2.jump, 0, 24))
+>U : Symbol(U, Decl(typeParametersAvailableInNestedScope2.jump, 0, 15))
+
+    function bar<V>(z: V) {
+>bar : Symbol(bar, Decl(typeParametersAvailableInNestedScope2.jump, 0, 32))
+>V : Symbol(V, Decl(typeParametersAvailableInNestedScope2.jump, 1, 17))
+>z : Symbol(z, Decl(typeParametersAvailableInNestedScope2.jump, 1, 20))
+>V : Symbol(V, Decl(typeParametersAvailableInNestedScope2.jump, 1, 17))
+
+        function baz<W>(a: W) {
+>baz : Symbol(baz, Decl(typeParametersAvailableInNestedScope2.jump, 1, 27))
+>W : Symbol(W, Decl(typeParametersAvailableInNestedScope2.jump, 2, 21))
+>a : Symbol(a, Decl(typeParametersAvailableInNestedScope2.jump, 2, 24))
+>W : Symbol(W, Decl(typeParametersAvailableInNestedScope2.jump, 2, 21))
+
+            var c: T;
+>c : Symbol(c, Decl(typeParametersAvailableInNestedScope2.jump, 3, 15))
+>T : Symbol(T, Decl(typeParametersAvailableInNestedScope2.jump, 0, 13))
+
+            var d: U;
+>d : Symbol(d, Decl(typeParametersAvailableInNestedScope2.jump, 4, 15))
+>U : Symbol(U, Decl(typeParametersAvailableInNestedScope2.jump, 0, 15))
+
+            var e: V;
+>e : Symbol(e, Decl(typeParametersAvailableInNestedScope2.jump, 5, 15))
+>V : Symbol(V, Decl(typeParametersAvailableInNestedScope2.jump, 1, 17))
+        }
+    }
+}

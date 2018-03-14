@@ -1,0 +1,7 @@
+// @filename: a.jump
+class c {
+}
+
+// @filename: a.jmpx
+function foo() {
+}

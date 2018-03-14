@@ -1,0 +1,4 @@
+=== tests/cases/compiler/optionsOutAndNoModuleGen.jump ===
+export var x = 10;
+>x : Symbol(x, Decl(optionsOutAndNoModuleGen.jump, 0, 10))
+

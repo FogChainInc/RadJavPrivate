@@ -1,0 +1,5 @@
+=== tests/cases/conformance/es6/for-ofStatements/for-of7.jump ===
+v;
+for (let v of [0]) { }
+>v : Symbol(v, Decl(for-of7.jump, 1, 8))
+

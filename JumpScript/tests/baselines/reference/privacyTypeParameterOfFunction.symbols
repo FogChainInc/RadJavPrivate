@@ -1,0 +1,303 @@
+=== tests/cases/compiler/privacyTypeParameterOfFunction.jump ===
+class privateClass {
+>privateClass : Symbol(privateClass, Decl(privacyTypeParameterOfFunction.jump, 0, 0))
+}
+
+export class publicClass {
+>publicClass : Symbol(publicClass, Decl(privacyTypeParameterOfFunction.jump, 1, 1))
+}
+
+export interface publicInterfaceWithPrivateTypeParameters {
+>publicInterfaceWithPrivateTypeParameters : Symbol(publicInterfaceWithPrivateTypeParameters, Decl(privacyTypeParameterOfFunction.jump, 4, 1))
+
+    // TypeParameter_0_of_constructor_signature_from_exported_interface_has_or_is_using_private_type_1
+    new <T extends privateClass>(): privateClass; 
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 8, 9))
+>privateClass : Symbol(privateClass, Decl(privacyTypeParameterOfFunction.jump, 0, 0))
+>privateClass : Symbol(privateClass, Decl(privacyTypeParameterOfFunction.jump, 0, 0))
+
+    // TypeParameter_0_of_constructor_signature_from_exported_interface_has_or_is_using_private_type_1
+    <T extends privateClass>(): privateClass;
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 11, 5))
+>privateClass : Symbol(privateClass, Decl(privacyTypeParameterOfFunction.jump, 0, 0))
+>privateClass : Symbol(privateClass, Decl(privacyTypeParameterOfFunction.jump, 0, 0))
+
+    // TypeParameter_0_of_method_from_exported_interface_has_or_is_using_private_type_1
+    myMethod<T extends privateClass>(): privateClass;
+>myMethod : Symbol(publicInterfaceWithPrivateTypeParameters.myMethod, Decl(privacyTypeParameterOfFunction.jump, 11, 45))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 14, 13))
+>privateClass : Symbol(privateClass, Decl(privacyTypeParameterOfFunction.jump, 0, 0))
+>privateClass : Symbol(privateClass, Decl(privacyTypeParameterOfFunction.jump, 0, 0))
+}
+
+export interface publicInterfaceWithPublicTypeParameters {
+>publicInterfaceWithPublicTypeParameters : Symbol(publicInterfaceWithPublicTypeParameters, Decl(privacyTypeParameterOfFunction.jump, 15, 1))
+
+    new <T extends publicClass>(): publicClass;
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 18, 9))
+>publicClass : Symbol(publicClass, Decl(privacyTypeParameterOfFunction.jump, 1, 1))
+>publicClass : Symbol(publicClass, Decl(privacyTypeParameterOfFunction.jump, 1, 1))
+
+    <T extends publicClass>(): publicClass;
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 19, 5))
+>publicClass : Symbol(publicClass, Decl(privacyTypeParameterOfFunction.jump, 1, 1))
+>publicClass : Symbol(publicClass, Decl(privacyTypeParameterOfFunction.jump, 1, 1))
+
+    myMethod<T extends publicClass>(): publicClass;
+>myMethod : Symbol(publicInterfaceWithPublicTypeParameters.myMethod, Decl(privacyTypeParameterOfFunction.jump, 19, 43))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 20, 13))
+>publicClass : Symbol(publicClass, Decl(privacyTypeParameterOfFunction.jump, 1, 1))
+>publicClass : Symbol(publicClass, Decl(privacyTypeParameterOfFunction.jump, 1, 1))
+}
+
+interface privateInterfaceWithPrivateTypeParameters {
+>privateInterfaceWithPrivateTypeParameters : Symbol(privateInterfaceWithPrivateTypeParameters, Decl(privacyTypeParameterOfFunction.jump, 21, 1))
+
+    new <T extends privateClass>(): privateClass;
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 24, 9))
+>privateClass : Symbol(privateClass, Decl(privacyTypeParameterOfFunction.jump, 0, 0))
+>privateClass : Symbol(privateClass, Decl(privacyTypeParameterOfFunction.jump, 0, 0))
+
+    <T extends privateClass>(): privateClass;
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 25, 5))
+>privateClass : Symbol(privateClass, Decl(privacyTypeParameterOfFunction.jump, 0, 0))
+>privateClass : Symbol(privateClass, Decl(privacyTypeParameterOfFunction.jump, 0, 0))
+
+    myMethod<T extends privateClass>(): privateClass;
+>myMethod : Symbol(privateInterfaceWithPrivateTypeParameters.myMethod, Decl(privacyTypeParameterOfFunction.jump, 25, 45))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 26, 13))
+>privateClass : Symbol(privateClass, Decl(privacyTypeParameterOfFunction.jump, 0, 0))
+>privateClass : Symbol(privateClass, Decl(privacyTypeParameterOfFunction.jump, 0, 0))
+}
+
+interface privateInterfaceWithPublicTypeParameters {
+>privateInterfaceWithPublicTypeParameters : Symbol(privateInterfaceWithPublicTypeParameters, Decl(privacyTypeParameterOfFunction.jump, 27, 1))
+
+    new <T extends publicClass>(): publicClass;
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 30, 9))
+>publicClass : Symbol(publicClass, Decl(privacyTypeParameterOfFunction.jump, 1, 1))
+>publicClass : Symbol(publicClass, Decl(privacyTypeParameterOfFunction.jump, 1, 1))
+
+    <T extends publicClass>(): publicClass;
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 31, 5))
+>publicClass : Symbol(publicClass, Decl(privacyTypeParameterOfFunction.jump, 1, 1))
+>publicClass : Symbol(publicClass, Decl(privacyTypeParameterOfFunction.jump, 1, 1))
+
+    myMethod<T extends publicClass>(): publicClass;
+>myMethod : Symbol(privateInterfaceWithPublicTypeParameters.myMethod, Decl(privacyTypeParameterOfFunction.jump, 31, 43))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 32, 13))
+>publicClass : Symbol(publicClass, Decl(privacyTypeParameterOfFunction.jump, 1, 1))
+>publicClass : Symbol(publicClass, Decl(privacyTypeParameterOfFunction.jump, 1, 1))
+}
+
+export class publicClassWithWithPrivateTypeParameters {
+>publicClassWithWithPrivateTypeParameters : Symbol(publicClassWithWithPrivateTypeParameters, Decl(privacyTypeParameterOfFunction.jump, 33, 1))
+
+    // TypeParameter_0_of_public_static_method_from_exported_class_has_or_is_using_private_type_1
+    static myPublicStaticMethod<T extends privateClass>() {
+>myPublicStaticMethod : Symbol(publicClassWithWithPrivateTypeParameters.myPublicStaticMethod, Decl(privacyTypeParameterOfFunction.jump, 35, 55))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 37, 32))
+>privateClass : Symbol(privateClass, Decl(privacyTypeParameterOfFunction.jump, 0, 0))
+    }
+    private static myPrivateStaticMethod<T extends privateClass>() { // No error
+>myPrivateStaticMethod : Symbol(publicClassWithWithPrivateTypeParameters.myPrivateStaticMethod, Decl(privacyTypeParameterOfFunction.jump, 38, 5))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 39, 41))
+>privateClass : Symbol(privateClass, Decl(privacyTypeParameterOfFunction.jump, 0, 0))
+    }
+    // TypeParameter_0_of_public_method_from_exported_class_has_or_is_using_private_type_1
+    myPublicMethod<T extends privateClass>() {
+>myPublicMethod : Symbol(publicClassWithWithPrivateTypeParameters.myPublicMethod, Decl(privacyTypeParameterOfFunction.jump, 40, 5))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 42, 19))
+>privateClass : Symbol(privateClass, Decl(privacyTypeParameterOfFunction.jump, 0, 0))
+    }
+    private myPrivateMethod<T extends privateClass>() { // No error
+>myPrivateMethod : Symbol(publicClassWithWithPrivateTypeParameters.myPrivateMethod, Decl(privacyTypeParameterOfFunction.jump, 43, 5))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 44, 28))
+>privateClass : Symbol(privateClass, Decl(privacyTypeParameterOfFunction.jump, 0, 0))
+    }
+}
+
+export class publicClassWithWithPublicTypeParameters {
+>publicClassWithWithPublicTypeParameters : Symbol(publicClassWithWithPublicTypeParameters, Decl(privacyTypeParameterOfFunction.jump, 46, 1))
+
+    static myPublicStaticMethod<T extends publicClass>() {
+>myPublicStaticMethod : Symbol(publicClassWithWithPublicTypeParameters.myPublicStaticMethod, Decl(privacyTypeParameterOfFunction.jump, 48, 54))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 49, 32))
+>publicClass : Symbol(publicClass, Decl(privacyTypeParameterOfFunction.jump, 1, 1))
+    }
+    private static myPrivateStaticMethod<T extends publicClass>() { 
+>myPrivateStaticMethod : Symbol(publicClassWithWithPublicTypeParameters.myPrivateStaticMethod, Decl(privacyTypeParameterOfFunction.jump, 50, 5))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 51, 41))
+>publicClass : Symbol(publicClass, Decl(privacyTypeParameterOfFunction.jump, 1, 1))
+    }
+    myPublicMethod<T extends publicClass>() {
+>myPublicMethod : Symbol(publicClassWithWithPublicTypeParameters.myPublicMethod, Decl(privacyTypeParameterOfFunction.jump, 52, 5))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 53, 19))
+>publicClass : Symbol(publicClass, Decl(privacyTypeParameterOfFunction.jump, 1, 1))
+    }
+    private myPrivateMethod<T extends publicClass>() {
+>myPrivateMethod : Symbol(publicClassWithWithPublicTypeParameters.myPrivateMethod, Decl(privacyTypeParameterOfFunction.jump, 54, 5))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 55, 28))
+>publicClass : Symbol(publicClass, Decl(privacyTypeParameterOfFunction.jump, 1, 1))
+    }
+}
+
+class privateClassWithWithPrivateTypeParameters {
+>privateClassWithWithPrivateTypeParameters : Symbol(privateClassWithWithPrivateTypeParameters, Decl(privacyTypeParameterOfFunction.jump, 57, 1))
+
+    static myPublicStaticMethod<T extends privateClass>() {
+>myPublicStaticMethod : Symbol(privateClassWithWithPrivateTypeParameters.myPublicStaticMethod, Decl(privacyTypeParameterOfFunction.jump, 59, 49))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 60, 32))
+>privateClass : Symbol(privateClass, Decl(privacyTypeParameterOfFunction.jump, 0, 0))
+    }
+    private static myPrivateStaticMethod<T extends privateClass>() { // No error
+>myPrivateStaticMethod : Symbol(privateClassWithWithPrivateTypeParameters.myPrivateStaticMethod, Decl(privacyTypeParameterOfFunction.jump, 61, 5))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 62, 41))
+>privateClass : Symbol(privateClass, Decl(privacyTypeParameterOfFunction.jump, 0, 0))
+    }
+    myPublicMethod<T extends privateClass>() {
+>myPublicMethod : Symbol(privateClassWithWithPrivateTypeParameters.myPublicMethod, Decl(privacyTypeParameterOfFunction.jump, 63, 5))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 64, 19))
+>privateClass : Symbol(privateClass, Decl(privacyTypeParameterOfFunction.jump, 0, 0))
+    }
+    private myPrivateMethod<T extends privateClass>() { // No error
+>myPrivateMethod : Symbol(privateClassWithWithPrivateTypeParameters.myPrivateMethod, Decl(privacyTypeParameterOfFunction.jump, 65, 5))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 66, 28))
+>privateClass : Symbol(privateClass, Decl(privacyTypeParameterOfFunction.jump, 0, 0))
+    }
+}
+
+class privateClassWithWithPublicTypeParameters {
+>privateClassWithWithPublicTypeParameters : Symbol(privateClassWithWithPublicTypeParameters, Decl(privacyTypeParameterOfFunction.jump, 68, 1))
+
+    static myPublicStaticMethod<T extends publicClass>() {
+>myPublicStaticMethod : Symbol(privateClassWithWithPublicTypeParameters.myPublicStaticMethod, Decl(privacyTypeParameterOfFunction.jump, 70, 48))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 71, 32))
+>publicClass : Symbol(publicClass, Decl(privacyTypeParameterOfFunction.jump, 1, 1))
+    }
+    private static myPrivateStaticMethod<T extends publicClass>() {
+>myPrivateStaticMethod : Symbol(privateClassWithWithPublicTypeParameters.myPrivateStaticMethod, Decl(privacyTypeParameterOfFunction.jump, 72, 5))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 73, 41))
+>publicClass : Symbol(publicClass, Decl(privacyTypeParameterOfFunction.jump, 1, 1))
+    }
+    myPublicMethod<T extends publicClass>() {
+>myPublicMethod : Symbol(privateClassWithWithPublicTypeParameters.myPublicMethod, Decl(privacyTypeParameterOfFunction.jump, 74, 5))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 75, 19))
+>publicClass : Symbol(publicClass, Decl(privacyTypeParameterOfFunction.jump, 1, 1))
+    }
+    private myPrivateMethod<T extends publicClass>() {
+>myPrivateMethod : Symbol(privateClassWithWithPublicTypeParameters.myPrivateMethod, Decl(privacyTypeParameterOfFunction.jump, 76, 5))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 77, 28))
+>publicClass : Symbol(publicClass, Decl(privacyTypeParameterOfFunction.jump, 1, 1))
+    }
+}
+
+// TypeParameter_0_of_exported_function_has_or_is_using_private_type_1
+export function publicFunctionWithPrivateTypeParameters<T extends privateClass>() {
+>publicFunctionWithPrivateTypeParameters : Symbol(publicFunctionWithPrivateTypeParameters, Decl(privacyTypeParameterOfFunction.jump, 79, 1))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 82, 56))
+>privateClass : Symbol(privateClass, Decl(privacyTypeParameterOfFunction.jump, 0, 0))
+}
+
+export function publicFunctionWithPublicTypeParameters<T extends publicClass>() {
+>publicFunctionWithPublicTypeParameters : Symbol(publicFunctionWithPublicTypeParameters, Decl(privacyTypeParameterOfFunction.jump, 83, 1))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 85, 55))
+>publicClass : Symbol(publicClass, Decl(privacyTypeParameterOfFunction.jump, 1, 1))
+}
+
+function privateFunctionWithPrivateTypeParameters<T extends privateClass>() {
+>privateFunctionWithPrivateTypeParameters : Symbol(privateFunctionWithPrivateTypeParameters, Decl(privacyTypeParameterOfFunction.jump, 86, 1))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 88, 50))
+>privateClass : Symbol(privateClass, Decl(privacyTypeParameterOfFunction.jump, 0, 0))
+}
+
+function privateFunctionWithPublicTypeParameters<T extends publicClass>() {
+>privateFunctionWithPublicTypeParameters : Symbol(privateFunctionWithPublicTypeParameters, Decl(privacyTypeParameterOfFunction.jump, 89, 1))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 91, 49))
+>publicClass : Symbol(publicClass, Decl(privacyTypeParameterOfFunction.jump, 1, 1))
+}
+
+export interface publicInterfaceWithPublicTypeParametersWithoutExtends {
+>publicInterfaceWithPublicTypeParametersWithoutExtends : Symbol(publicInterfaceWithPublicTypeParametersWithoutExtends, Decl(privacyTypeParameterOfFunction.jump, 92, 1))
+
+    new <T>(): publicClass;
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 95, 9))
+>publicClass : Symbol(publicClass, Decl(privacyTypeParameterOfFunction.jump, 1, 1))
+
+    <T>(): publicClass;
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 96, 5))
+>publicClass : Symbol(publicClass, Decl(privacyTypeParameterOfFunction.jump, 1, 1))
+
+    myMethod<T>(): publicClass;
+>myMethod : Symbol(publicInterfaceWithPublicTypeParametersWithoutExtends.myMethod, Decl(privacyTypeParameterOfFunction.jump, 96, 23))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 97, 13))
+>publicClass : Symbol(publicClass, Decl(privacyTypeParameterOfFunction.jump, 1, 1))
+}
+
+interface privateInterfaceWithPublicTypeParametersWithoutExtends {
+>privateInterfaceWithPublicTypeParametersWithoutExtends : Symbol(privateInterfaceWithPublicTypeParametersWithoutExtends, Decl(privacyTypeParameterOfFunction.jump, 98, 1))
+
+    new <T>(): publicClass;
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 101, 9))
+>publicClass : Symbol(publicClass, Decl(privacyTypeParameterOfFunction.jump, 1, 1))
+
+    <T>(): publicClass;
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 102, 5))
+>publicClass : Symbol(publicClass, Decl(privacyTypeParameterOfFunction.jump, 1, 1))
+
+    myMethod<T>(): publicClass;
+>myMethod : Symbol(privateInterfaceWithPublicTypeParametersWithoutExtends.myMethod, Decl(privacyTypeParameterOfFunction.jump, 102, 23))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 103, 13))
+>publicClass : Symbol(publicClass, Decl(privacyTypeParameterOfFunction.jump, 1, 1))
+}
+
+export class publicClassWithWithPublicTypeParametersWithoutExtends {
+>publicClassWithWithPublicTypeParametersWithoutExtends : Symbol(publicClassWithWithPublicTypeParametersWithoutExtends, Decl(privacyTypeParameterOfFunction.jump, 104, 1))
+
+    static myPublicStaticMethod<T>() {
+>myPublicStaticMethod : Symbol(publicClassWithWithPublicTypeParametersWithoutExtends.myPublicStaticMethod, Decl(privacyTypeParameterOfFunction.jump, 106, 68))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 107, 32))
+    }
+    private static myPrivateStaticMethod<T>() {
+>myPrivateStaticMethod : Symbol(publicClassWithWithPublicTypeParametersWithoutExtends.myPrivateStaticMethod, Decl(privacyTypeParameterOfFunction.jump, 108, 5))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 109, 41))
+    }
+    myPublicMethod<T>() {
+>myPublicMethod : Symbol(publicClassWithWithPublicTypeParametersWithoutExtends.myPublicMethod, Decl(privacyTypeParameterOfFunction.jump, 110, 5))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 111, 19))
+    }
+    private myPrivateMethod<T>() {
+>myPrivateMethod : Symbol(publicClassWithWithPublicTypeParametersWithoutExtends.myPrivateMethod, Decl(privacyTypeParameterOfFunction.jump, 112, 5))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 113, 28))
+    }
+}
+class privateClassWithWithPublicTypeParametersWithoutExtends {
+>privateClassWithWithPublicTypeParametersWithoutExtends : Symbol(privateClassWithWithPublicTypeParametersWithoutExtends, Decl(privacyTypeParameterOfFunction.jump, 115, 1))
+
+    static myPublicStaticMethod<T>() {
+>myPublicStaticMethod : Symbol(privateClassWithWithPublicTypeParametersWithoutExtends.myPublicStaticMethod, Decl(privacyTypeParameterOfFunction.jump, 116, 62))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 117, 32))
+    }
+    private static myPrivateStaticMethod<T>() {
+>myPrivateStaticMethod : Symbol(privateClassWithWithPublicTypeParametersWithoutExtends.myPrivateStaticMethod, Decl(privacyTypeParameterOfFunction.jump, 118, 5))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 119, 41))
+    }
+    myPublicMethod<T>() {
+>myPublicMethod : Symbol(privateClassWithWithPublicTypeParametersWithoutExtends.myPublicMethod, Decl(privacyTypeParameterOfFunction.jump, 120, 5))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 121, 19))
+    }
+    private myPrivateMethod<T>() {
+>myPrivateMethod : Symbol(privateClassWithWithPublicTypeParametersWithoutExtends.myPrivateMethod, Decl(privacyTypeParameterOfFunction.jump, 122, 5))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 123, 28))
+    }
+}
+
+export function publicFunctionWithPublicTypeParametersWithoutExtends<T>() {
+>publicFunctionWithPublicTypeParametersWithoutExtends : Symbol(publicFunctionWithPublicTypeParametersWithoutExtends, Decl(privacyTypeParameterOfFunction.jump, 125, 1))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 127, 69))
+}
+
+function privateFunctionWithPublicTypeParametersWithoutExtends<T>() {
+>privateFunctionWithPublicTypeParametersWithoutExtends : Symbol(privateFunctionWithPublicTypeParametersWithoutExtends, Decl(privacyTypeParameterOfFunction.jump, 128, 1))
+>T : Symbol(T, Decl(privacyTypeParameterOfFunction.jump, 130, 63))
+}

@@ -1,0 +1,22 @@
+=== tests/cases/compiler/internalAliasInterfaceInsideLocalModuleWithoutExport.jump ===
+export module a {
+>a : Symbol(a, Decl(internalAliasInterfaceInsideLocalModuleWithoutExport.jump, 0, 0))
+
+    export interface I {
+>I : Symbol(I, Decl(internalAliasInterfaceInsideLocalModuleWithoutExport.jump, 0, 17))
+    }
+}
+
+export module c {
+>c : Symbol(c, Decl(internalAliasInterfaceInsideLocalModuleWithoutExport.jump, 3, 1))
+
+    import b = a.I;
+>b : Symbol(b, Decl(internalAliasInterfaceInsideLocalModuleWithoutExport.jump, 5, 17))
+>a : Symbol(a, Decl(internalAliasInterfaceInsideLocalModuleWithoutExport.jump, 0, 0))
+>I : Symbol(b, Decl(internalAliasInterfaceInsideLocalModuleWithoutExport.jump, 0, 17))
+
+    export var x: b;
+>x : Symbol(x, Decl(internalAliasInterfaceInsideLocalModuleWithoutExport.jump, 7, 14))
+>b : Symbol(b, Decl(internalAliasInterfaceInsideLocalModuleWithoutExport.jump, 5, 17))
+}
+

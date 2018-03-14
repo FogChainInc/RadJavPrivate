@@ -1,0 +1,21 @@
+=== tests/cases/compiler/optionalParameterProperty.jump ===
+class C {
+>C : C
+
+    p: number;
+>p : number
+}
+
+class D extends C { 
+>D : D
+>C : C
+
+    constructor(public p?: number) {
+>p : number | undefined
+
+        super();
+>super() : void
+>super : typeof C
+    }
+}
+

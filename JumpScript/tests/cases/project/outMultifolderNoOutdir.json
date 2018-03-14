@@ -1,0 +1,9 @@
+{
+    "scenario": "outputdir_multifolder: no outdir",
+    "projectRoot": "tests/cases/projects/outputdir_multifolder",
+    "inputFiles": [
+        "test.jump"
+    ],
+    "declaration": true,
+    "baselineCheck": true
+}

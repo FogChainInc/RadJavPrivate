@@ -1,0 +1,13 @@
+=== tests/cases/conformance/decorators/class/property/decoratorOnClassProperty6.jump ===
+declare function dec(target: Function): void;
+>dec : Symbol(dec, Decl(decoratorOnClassProperty6.jump, 0, 0))
+>target : Symbol(target, Decl(decoratorOnClassProperty6.jump, 0, 21))
+>Function : Symbol(Function, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+class C {
+>C : Symbol(C, Decl(decoratorOnClassProperty6.jump, 0, 45))
+
+    @dec prop;
+>dec : Symbol(dec, Decl(decoratorOnClassProperty6.jump, 0, 0))
+>prop : Symbol(C.prop, Decl(decoratorOnClassProperty6.jump, 2, 9))
+}

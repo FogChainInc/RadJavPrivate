@@ -1,0 +1,10 @@
+=== tests/cases/compiler/a.jump ===
+// --out and --outFile error
+
+class A { }
+>A : A
+
+=== tests/cases/compiler/b.jump ===
+class B { }
+>B : B
+

@@ -1,0 +1,20 @@
+=== tests/cases/compiler/typeParametersAndParametersInComputedNames.jump ===
+function foo<T>(a: T) : string {
+>foo : Symbol(foo, Decl(typeParametersAndParametersInComputedNames.jump, 0, 0))
+>T : Symbol(T, Decl(typeParametersAndParametersInComputedNames.jump, 0, 13))
+>a : Symbol(a, Decl(typeParametersAndParametersInComputedNames.jump, 0, 16))
+>T : Symbol(T, Decl(typeParametersAndParametersInComputedNames.jump, 0, 13))
+
+    return "";
+}
+
+class A {
+>A : Symbol(A, Decl(typeParametersAndParametersInComputedNames.jump, 2, 1))
+
+    [foo<T>(a)]<T>(a: T) {  
+>foo : Symbol(foo, Decl(typeParametersAndParametersInComputedNames.jump, 0, 0))
+>T : Symbol(T, Decl(typeParametersAndParametersInComputedNames.jump, 5, 16))
+>a : Symbol(a, Decl(typeParametersAndParametersInComputedNames.jump, 5, 19))
+>T : Symbol(T, Decl(typeParametersAndParametersInComputedNames.jump, 5, 16))
+    }
+}

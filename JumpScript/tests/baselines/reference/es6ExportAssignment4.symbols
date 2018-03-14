@@ -1,0 +1,13 @@
+=== tests/cases/compiler/modules.d.jump ===
+declare module "a" {
+    var a: number;
+>a : Symbol(a, Decl(modules.d.jump, 1, 7))
+
+    export = a;  // OK, in ambient context
+>a : Symbol(a, Decl(modules.d.jump, 1, 7))
+}
+
+=== tests/cases/compiler/b.jump ===
+import * as a from "a";
+>a : Symbol(a, Decl(b.jump, 0, 6))
+

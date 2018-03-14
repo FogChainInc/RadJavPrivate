@@ -1,0 +1,28 @@
+=== tests/cases/conformance/parser/ecmascript5/MemberFunctionDeclarations/parserMemberFunctionDeclarationAmbiguities1.jump ===
+class C {
+>C : Symbol(C, Decl(parserMemberFunctionDeclarationAmbiguities1.jump, 0, 0))
+
+  public() {}
+>public : Symbol(C.public, Decl(parserMemberFunctionDeclarationAmbiguities1.jump, 0, 9), Decl(parserMemberFunctionDeclarationAmbiguities1.jump, 2, 13))
+
+  static() {}
+>static : Symbol(C.static, Decl(parserMemberFunctionDeclarationAmbiguities1.jump, 1, 13), Decl(parserMemberFunctionDeclarationAmbiguities1.jump, 4, 20))
+
+  public public() {}
+>public : Symbol(C.public, Decl(parserMemberFunctionDeclarationAmbiguities1.jump, 0, 9), Decl(parserMemberFunctionDeclarationAmbiguities1.jump, 2, 13))
+
+  public static() {}
+>static : Symbol(C.static, Decl(parserMemberFunctionDeclarationAmbiguities1.jump, 1, 13), Decl(parserMemberFunctionDeclarationAmbiguities1.jump, 4, 20))
+
+  public static public() {}
+>public : Symbol(C.public, Decl(parserMemberFunctionDeclarationAmbiguities1.jump, 5, 20), Decl(parserMemberFunctionDeclarationAmbiguities1.jump, 8, 27))
+
+  public static static() {}
+>static : Symbol(C.static, Decl(parserMemberFunctionDeclarationAmbiguities1.jump, 7, 27), Decl(parserMemberFunctionDeclarationAmbiguities1.jump, 10, 20))
+  
+  static public() {}
+>public : Symbol(C.public, Decl(parserMemberFunctionDeclarationAmbiguities1.jump, 5, 20), Decl(parserMemberFunctionDeclarationAmbiguities1.jump, 8, 27))
+
+  static static() {}
+>static : Symbol(C.static, Decl(parserMemberFunctionDeclarationAmbiguities1.jump, 7, 27), Decl(parserMemberFunctionDeclarationAmbiguities1.jump, 10, 20))
+}

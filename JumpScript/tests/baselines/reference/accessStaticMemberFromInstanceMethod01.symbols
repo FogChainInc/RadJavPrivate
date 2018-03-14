@@ -1,0 +1,14 @@
+=== tests/cases/compiler/accessStaticMemberFromInstanceMethod01.jump ===
+class C {
+>C : Symbol(C, Decl(accessStaticMemberFromInstanceMethod01.jump, 0, 0))
+
+    foo: string;
+>foo : Symbol(C.foo, Decl(accessStaticMemberFromInstanceMethod01.jump, 0, 9))
+
+    static bar() {
+>bar : Symbol(C.bar, Decl(accessStaticMemberFromInstanceMethod01.jump, 1, 16))
+
+        let k = foo;
+>k : Symbol(k, Decl(accessStaticMemberFromInstanceMethod01.jump, 4, 11))
+    }
+}

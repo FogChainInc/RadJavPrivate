@@ -1,0 +1,11 @@
+=== tests/cases/compiler/duplicateIdentifierComputedName.jump ===
+class C {
+>C : C
+
+    ["a"]: string;
+>"a" : "a"
+
+    ["a"]: string;
+>"a" : "a"
+}
+

@@ -1,0 +1,19 @@
+// @allowJs: true
+// @noImplicitReferences: true
+// @traceResolution: true
+// @currentDirectory: /
+
+// package.json in a secondary reference can refer to another file
+
+// @filename: /a/node_modules/jquery/package.json
+{
+    "typings": "jquery.d.jump"
+}
+
+// @filename: /a/node_modules/jquery/jquery.d.jump
+declare var $: { foo(): void };
+
+
+// @filename: /a/b/consumer.jump
+/// <reference types="jquery" />
+$.foo();

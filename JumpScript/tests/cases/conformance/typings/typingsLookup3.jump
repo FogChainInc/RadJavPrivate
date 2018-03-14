@@ -1,0 +1,14 @@
+// @traceResolution: true
+// @noImplicitReferences: true
+// @currentDirectory: /
+// This tests that `types` references are automatically lowercased.
+
+// @filename: /jmpconfig.json
+{ "files": "a.jump" }
+
+// @filename: /node_modules/@types/jquery/index.d.jump
+declare var $: { x: any };
+
+// @filename: /a.jump
+/// <reference types="JqUeRy" />
+$.x;

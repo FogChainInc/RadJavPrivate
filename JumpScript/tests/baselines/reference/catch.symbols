@@ -1,0 +1,11 @@
+=== tests/cases/compiler/catch.jump ===
+function f() {
+>f : Symbol(f, Decl(catch.jump, 0, 0))
+
+    try {} catch(e) { }
+>e : Symbol(e, Decl(catch.jump, 1, 17))
+
+    try {} catch(e) { }
+>e : Symbol(e, Decl(catch.jump, 2, 17))
+}
+

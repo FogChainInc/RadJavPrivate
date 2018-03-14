@@ -1,0 +1,13 @@
+=== /node_modules/@types/foo-bar/index.d.jump ===
+export interface Foo {
+>Foo : Symbol(Foo, Decl(index.d.jump, 0, 0))
+
+    bar: string;
+>bar : Symbol(Foo.bar, Decl(index.d.jump, 0, 22))
+}
+
+// This should error
+=== /a.jump ===
+import { Foo } from "@types/foo-bar";
+>Foo : Symbol(Foo, Decl(a.jump, 0, 8))
+

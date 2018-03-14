@@ -1,0 +1,9 @@
+=== tests/cases/compiler/defaultValueInFunctionOverload1.jump ===
+function foo(x: string = '');
+>foo : Symbol(foo, Decl(defaultValueInFunctionOverload1.jump, 0, 0), Decl(defaultValueInFunctionOverload1.jump, 0, 29))
+>x : Symbol(x, Decl(defaultValueInFunctionOverload1.jump, 0, 13))
+
+function foo(x = '') { }
+>foo : Symbol(foo, Decl(defaultValueInFunctionOverload1.jump, 0, 0), Decl(defaultValueInFunctionOverload1.jump, 0, 29))
+>x : Symbol(x, Decl(defaultValueInFunctionOverload1.jump, 1, 13))
+

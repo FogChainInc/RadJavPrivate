@@ -1,0 +1,442 @@
+=== tests/cases/compiler/variableDeclaratorResolvedDuringContextualTyping.jump ===
+module WinJS {
+>WinJS : Symbol(WinJS, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 0, 0))
+
+    export interface ValueCallback {
+>ValueCallback : Symbol(ValueCallback, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 0, 14))
+
+        (value: any): any;
+>value : Symbol(value, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 2, 9))
+    }
+
+    export interface EventCallback {
+>EventCallback : Symbol(EventCallback, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 3, 5))
+
+        (value: any): void;
+>value : Symbol(value, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 6, 9))
+    }
+
+    export interface ErrorCallback {
+>ErrorCallback : Symbol(ErrorCallback, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 7, 5))
+
+        (error: any): any;
+>error : Symbol(error, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 10, 9))
+    }
+
+    export interface ProgressCallback {
+>ProgressCallback : Symbol(ProgressCallback, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 11, 5))
+
+        (progress: any): any;
+>progress : Symbol(progress, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 14, 9))
+    }
+
+    export declare class Promise {
+>Promise : Symbol(Promise, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 15, 5))
+
+        constructor(init: (complete: ValueCallback, error: ErrorCallback, progress: ProgressCallback) => void, oncancel?: any);
+>init : Symbol(init, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 18, 20))
+>complete : Symbol(complete, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 18, 27))
+>ValueCallback : Symbol(ValueCallback, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 0, 14))
+>error : Symbol(error, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 18, 51))
+>ErrorCallback : Symbol(ErrorCallback, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 7, 5))
+>progress : Symbol(progress, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 18, 73))
+>ProgressCallback : Symbol(ProgressCallback, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 11, 5))
+>oncancel : Symbol(oncancel, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 18, 110))
+
+        static as(value: any): Promise;
+>as : Symbol(Promise.as, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 18, 127))
+>value : Symbol(value, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 20, 18))
+>Promise : Symbol(Promise, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 15, 5))
+
+        static join(promises: { [name: string]: Promise; }): Promise;
+>join : Symbol(Promise.join, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 20, 39), Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 21, 69))
+>promises : Symbol(promises, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 21, 20))
+>name : Symbol(name, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 21, 33))
+>Promise : Symbol(Promise, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 15, 5))
+>Promise : Symbol(Promise, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 15, 5))
+
+        static join(promises: Promise[]): Promise;
+>join : Symbol(Promise.join, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 20, 39), Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 21, 69))
+>promises : Symbol(promises, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 22, 20))
+>Promise : Symbol(Promise, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 15, 5))
+>Promise : Symbol(Promise, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 15, 5))
+
+        static any(promises: Promise[]): Promise;
+>any : Symbol(Promise.any, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 22, 50))
+>promises : Symbol(promises, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 23, 19))
+>Promise : Symbol(Promise, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 15, 5))
+>Promise : Symbol(Promise, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 15, 5))
+
+        static timeout(delay: number): Promise;
+>timeout : Symbol(Promise.timeout, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 23, 49))
+>delay : Symbol(delay, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 24, 23))
+>Promise : Symbol(Promise, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 15, 5))
+
+        static wrapError(error: any): Promise;
+>wrapError : Symbol(Promise.wrapError, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 24, 47))
+>error : Symbol(error, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 25, 25))
+>Promise : Symbol(Promise, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 15, 5))
+
+        static is(value: any): boolean;
+>is : Symbol(Promise.is, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 25, 46))
+>value : Symbol(value, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 26, 18))
+
+        static addEventListener(type: string, fn: EventCallback);
+>addEventListener : Symbol(Promise.addEventListener, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 26, 39))
+>type : Symbol(type, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 27, 32))
+>fn : Symbol(fn, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 27, 45))
+>EventCallback : Symbol(EventCallback, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 3, 5))
+
+        public then(success?: ValueCallback, error?: ErrorCallback, progress?: ProgressCallback): Promise;
+>then : Symbol(Promise.then, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 27, 65))
+>success : Symbol(success, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 29, 20))
+>ValueCallback : Symbol(ValueCallback, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 0, 14))
+>error : Symbol(error, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 29, 44))
+>ErrorCallback : Symbol(ErrorCallback, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 7, 5))
+>progress : Symbol(progress, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 29, 67))
+>ProgressCallback : Symbol(ProgressCallback, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 11, 5))
+>Promise : Symbol(Promise, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 15, 5))
+
+        public done(success?: ValueCallback, error?: ErrorCallback, progress?: ProgressCallback): void;
+>done : Symbol(Promise.done, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 29, 106))
+>success : Symbol(success, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 30, 20))
+>ValueCallback : Symbol(ValueCallback, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 0, 14))
+>error : Symbol(error, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 30, 44))
+>ErrorCallback : Symbol(ErrorCallback, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 7, 5))
+>progress : Symbol(progress, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 30, 67))
+>ProgressCallback : Symbol(ProgressCallback, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 11, 5))
+
+        public cancel(): void;
+>cancel : Symbol(Promise.cancel, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 30, 103))
+    }
+
+    export declare class TPromise<V> {
+>TPromise : Symbol(TPromise, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 32, 5))
+>V : Symbol(V, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 34, 34))
+
+        constructor(init: (complete: (value: V) => void, error: (err: any) => void, progress: ProgressCallback) => void, oncancel?: any);
+>init : Symbol(init, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 36, 20))
+>complete : Symbol(complete, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 36, 27))
+>value : Symbol(value, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 36, 38))
+>V : Symbol(V, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 34, 34))
+>error : Symbol(error, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 36, 56))
+>err : Symbol(err, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 36, 65))
+>progress : Symbol(progress, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 36, 83))
+>ProgressCallback : Symbol(ProgressCallback, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 11, 5))
+>oncancel : Symbol(oncancel, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 36, 120))
+
+        public then<U>(success?: (value: V) => TPromise<U>, error?: (err: any) => TPromise<U>, progress?: ProgressCallback): TPromise<U>;
+>then : Symbol(TPromise.then, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 36, 137), Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 38, 137), Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 39, 127), Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 40, 127))
+>U : Symbol(U, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 38, 20))
+>success : Symbol(success, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 38, 23))
+>value : Symbol(value, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 38, 34))
+>V : Symbol(V, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 34, 34))
+>TPromise : Symbol(TPromise, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 32, 5))
+>U : Symbol(U, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 38, 20))
+>error : Symbol(error, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 38, 59))
+>err : Symbol(err, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 38, 69))
+>TPromise : Symbol(TPromise, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 32, 5))
+>U : Symbol(U, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 38, 20))
+>progress : Symbol(progress, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 38, 94))
+>ProgressCallback : Symbol(ProgressCallback, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 11, 5))
+>TPromise : Symbol(TPromise, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 32, 5))
+>U : Symbol(U, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 38, 20))
+
+        public then<U>(success?: (value: V) => TPromise<U>, error?: (err: any) => U, progress?: ProgressCallback): TPromise<U>;
+>then : Symbol(TPromise.then, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 36, 137), Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 38, 137), Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 39, 127), Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 40, 127))
+>U : Symbol(U, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 39, 20))
+>success : Symbol(success, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 39, 23))
+>value : Symbol(value, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 39, 34))
+>V : Symbol(V, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 34, 34))
+>TPromise : Symbol(TPromise, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 32, 5))
+>U : Symbol(U, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 39, 20))
+>error : Symbol(error, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 39, 59))
+>err : Symbol(err, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 39, 69))
+>U : Symbol(U, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 39, 20))
+>progress : Symbol(progress, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 39, 84))
+>ProgressCallback : Symbol(ProgressCallback, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 11, 5))
+>TPromise : Symbol(TPromise, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 32, 5))
+>U : Symbol(U, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 39, 20))
+
+        public then<U>(success?: (value: V) => U, error?: (err: any) => TPromise<U>, progress?: ProgressCallback): TPromise<U>;
+>then : Symbol(TPromise.then, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 36, 137), Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 38, 137), Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 39, 127), Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 40, 127))
+>U : Symbol(U, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 40, 20))
+>success : Symbol(success, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 40, 23))
+>value : Symbol(value, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 40, 34))
+>V : Symbol(V, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 34, 34))
+>U : Symbol(U, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 40, 20))
+>error : Symbol(error, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 40, 49))
+>err : Symbol(err, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 40, 59))
+>TPromise : Symbol(TPromise, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 32, 5))
+>U : Symbol(U, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 40, 20))
+>progress : Symbol(progress, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 40, 84))
+>ProgressCallback : Symbol(ProgressCallback, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 11, 5))
+>TPromise : Symbol(TPromise, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 32, 5))
+>U : Symbol(U, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 40, 20))
+
+        public then<U>(success?: (value: V) => U, error?: (err: any) => U, progress?: ProgressCallback): TPromise<U>;
+>then : Symbol(TPromise.then, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 36, 137), Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 38, 137), Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 39, 127), Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 40, 127))
+>U : Symbol(U, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 41, 20))
+>success : Symbol(success, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 41, 23))
+>value : Symbol(value, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 41, 34))
+>V : Symbol(V, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 34, 34))
+>U : Symbol(U, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 41, 20))
+>error : Symbol(error, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 41, 49))
+>err : Symbol(err, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 41, 59))
+>U : Symbol(U, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 41, 20))
+>progress : Symbol(progress, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 41, 74))
+>ProgressCallback : Symbol(ProgressCallback, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 11, 5))
+>TPromise : Symbol(TPromise, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 32, 5))
+>U : Symbol(U, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 41, 20))
+
+        public done(success?: (value: V) => void, error?: (err: any) => any, progress?: ProgressCallback): void;
+>done : Symbol(TPromise.done, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 41, 117))
+>success : Symbol(success, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 43, 20))
+>value : Symbol(value, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 43, 31))
+>V : Symbol(V, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 34, 34))
+>error : Symbol(error, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 43, 49))
+>err : Symbol(err, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 43, 59))
+>progress : Symbol(progress, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 43, 76))
+>ProgressCallback : Symbol(ProgressCallback, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 11, 5))
+
+        public cancel(): void;
+>cancel : Symbol(TPromise.cancel, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 43, 112))
+
+        public static as<ValueType>(value: ValueType): TPromise<ValueType>;
+>as : Symbol(TPromise.as, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 44, 30))
+>ValueType : Symbol(ValueType, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 46, 25))
+>value : Symbol(value, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 46, 36))
+>ValueType : Symbol(ValueType, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 46, 25))
+>TPromise : Symbol(TPromise, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 32, 5))
+>ValueType : Symbol(ValueType, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 46, 25))
+
+        public static timeout(delay: number): TPromise<void>;
+>timeout : Symbol(TPromise.timeout, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 46, 75))
+>delay : Symbol(delay, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 47, 30))
+>TPromise : Symbol(TPromise, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 32, 5))
+
+        public static join<ValueType>(promises: TPromise<ValueType>[]): TPromise<ValueType[]>;
+>join : Symbol(TPromise.join, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 47, 61))
+>ValueType : Symbol(ValueType, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 48, 27))
+>promises : Symbol(promises, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 48, 38))
+>TPromise : Symbol(TPromise, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 32, 5))
+>ValueType : Symbol(ValueType, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 48, 27))
+>TPromise : Symbol(TPromise, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 32, 5))
+>ValueType : Symbol(ValueType, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 48, 27))
+
+        public static any<ValueType>(promises: TPromise<ValueType>[]): TPromise<ValueType>;
+>any : Symbol(TPromise.any, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 48, 94))
+>ValueType : Symbol(ValueType, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 49, 26))
+>promises : Symbol(promises, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 49, 37))
+>TPromise : Symbol(TPromise, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 32, 5))
+>ValueType : Symbol(ValueType, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 49, 26))
+>TPromise : Symbol(TPromise, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 32, 5))
+>ValueType : Symbol(ValueType, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 49, 26))
+
+        public static wrapError<ValueType>(error: any): TPromise<ValueType>;
+>wrapError : Symbol(TPromise.wrapError, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 49, 91))
+>ValueType : Symbol(ValueType, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 50, 32))
+>error : Symbol(error, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 50, 43))
+>TPromise : Symbol(TPromise, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 32, 5))
+>ValueType : Symbol(ValueType, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 50, 32))
+    }
+
+    export interface IXHROptions {
+>IXHROptions : Symbol(IXHROptions, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 51, 5))
+
+        type?: string;
+>type : Symbol(IXHROptions.type, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 53, 34))
+
+        url?: string;
+>url : Symbol(IXHROptions.url, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 54, 22))
+
+        user?: string;
+>user : Symbol(IXHROptions.user, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 55, 21))
+
+        password?: string;
+>password : Symbol(IXHROptions.password, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 56, 22))
+
+        responseType?: string;
+>responseType : Symbol(IXHROptions.responseType, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 57, 26))
+
+        headers?: any;
+>headers : Symbol(IXHROptions.headers, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 58, 30))
+
+        customRequestInitializer?: (req: any) => void;
+>customRequestInitializer : Symbol(IXHROptions.customRequestInitializer, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 59, 22))
+>req : Symbol(req, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 60, 36))
+
+        data?: any;
+>data : Symbol(IXHROptions.data, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 60, 54))
+    }
+}
+
+module Services {
+>Services : Symbol(Services, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 63, 1))
+
+    export interface IRequestService {
+>IRequestService : Symbol(IRequestService, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 65, 17))
+
+        /**
+         * Returns the URL that can be used to access the provided service. The optional second argument can
+         * be provided to narrow down the request URL to a specific file system resource. The third argument
+         * allows to specify to return a fully absolute server URL. 
+         */
+        getRequestUrl(service: string, path?: string): string;
+>getRequestUrl : Symbol(IRequestService.getRequestUrl, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 66, 38), Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 72, 62))
+>service : Symbol(service, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 72, 22))
+>path : Symbol(path, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 72, 38))
+
+        getRequestUrl(service: string, path?: string, absolute?: boolean): string;
+>getRequestUrl : Symbol(IRequestService.getRequestUrl, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 66, 38), Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 72, 62))
+>service : Symbol(service, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 73, 22))
+>path : Symbol(path, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 73, 38))
+>absolute : Symbol(absolute, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 73, 53))
+
+        /**
+         * Wraps the call into WinJS.XHR to allow for mocking and telemetry. Use this instead
+         * of calling WinJS.XHR directly.
+         */
+        makeRequest(options: WinJS.IXHROptions): WinJS.Promise;
+>makeRequest : Symbol(IRequestService.makeRequest, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 73, 82))
+>options : Symbol(options, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 79, 20))
+>WinJS : Symbol(WinJS, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 0, 0))
+>IXHROptions : Symbol(WinJS.IXHROptions, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 51, 5))
+>WinJS : Symbol(WinJS, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 0, 0))
+>Promise : Symbol(WinJS.Promise, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 15, 5))
+    }
+}
+
+module Errors {
+>Errors : Symbol(Errors, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 81, 1))
+
+    export class ConnectionError /* extends Error */ {
+>ConnectionError : Symbol(ConnectionError, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 83, 15))
+
+        constructor(request: XMLHttpRequest) {
+>request : Symbol(request, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 85, 20))
+>XMLHttpRequest : Symbol(XMLHttpRequest, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 95, 1))
+        }
+    }
+}
+
+module Files {
+>Files : Symbol(Files, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 88, 1))
+
+    export interface IUploadResult {
+>IUploadResult : Symbol(IUploadResult, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 90, 14))
+
+        stat: string;
+>stat : Symbol(IUploadResult.stat, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 91, 36))
+
+        isNew: boolean;
+>isNew : Symbol(IUploadResult.isNew, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 92, 21))
+    }
+}
+
+interface XMLHttpRequest {
+>XMLHttpRequest : Symbol(XMLHttpRequest, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 95, 1))
+
+    status: number;
+>status : Symbol(XMLHttpRequest.status, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 97, 26))
+
+    responseText: string;
+>responseText : Symbol(XMLHttpRequest.responseText, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 98, 19))
+
+    statusText: string;
+>statusText : Symbol(XMLHttpRequest.statusText, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 99, 25))
+
+}
+
+class FileService {
+>FileService : Symbol(FileService, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 102, 1))
+
+    private requestService: Services.IRequestService;
+>requestService : Symbol(FileService.requestService, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 104, 19))
+>Services : Symbol(Services, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 63, 1))
+>IRequestService : Symbol(Services.IRequestService, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 65, 17))
+
+    public uploadData(): WinJS.TPromise<Files.IUploadResult> {
+>uploadData : Symbol(FileService.uploadData, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 105, 53))
+>WinJS : Symbol(WinJS, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 0, 0))
+>TPromise : Symbol(WinJS.TPromise, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 32, 5))
+>Files : Symbol(Files, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 88, 1))
+>IUploadResult : Symbol(Files.IUploadResult, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 90, 14))
+
+        var path = "";
+>path : Symbol(path, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 107, 11))
+
+        return this.requestService.makeRequest({
+>this.requestService.makeRequest({            url: this.requestService.getRequestUrl('root', path),            type: 'POST',            headers: {},            data: "someData"        }).then : Symbol(WinJS.Promise.then, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 27, 65))
+>this.requestService.makeRequest : Symbol(Services.IRequestService.makeRequest, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 73, 82))
+>this.requestService : Symbol(FileService.requestService, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 104, 19))
+>this : Symbol(FileService, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 102, 1))
+>requestService : Symbol(FileService.requestService, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 104, 19))
+>makeRequest : Symbol(Services.IRequestService.makeRequest, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 73, 82))
+
+            url: this.requestService.getRequestUrl('root', path),
+>url : Symbol(url, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 108, 48))
+>this.requestService.getRequestUrl : Symbol(Services.IRequestService.getRequestUrl, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 66, 38), Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 72, 62))
+>this.requestService : Symbol(FileService.requestService, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 104, 19))
+>this : Symbol(FileService, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 102, 1))
+>requestService : Symbol(FileService.requestService, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 104, 19))
+>getRequestUrl : Symbol(Services.IRequestService.getRequestUrl, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 66, 38), Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 72, 62))
+>path : Symbol(path, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 107, 11))
+
+            type: 'POST',
+>type : Symbol(type, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 109, 65))
+
+            headers: {},
+>headers : Symbol(headers, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 110, 25))
+
+            data: "someData"
+>data : Symbol(data, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 111, 24))
+
+        }).then((response: XMLHttpRequest) => {
+>then : Symbol(WinJS.Promise.then, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 27, 65))
+>response : Symbol(response, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 113, 17))
+>XMLHttpRequest : Symbol(XMLHttpRequest, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 95, 1))
+
+                var result: IUploadResult = { // This should be error
+>result : Symbol(result, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 114, 19))
+
+                    stat: this.jsonToStat(newFilePath, "someString"), // _this needs to be emitted to the js file
+>stat : Symbol(stat, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 114, 45))
+>this : Symbol(FileService, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 102, 1))
+
+                    isNew: response.status === 201
+>isNew : Symbol(isNew, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 115, 69))
+>response.status : Symbol(XMLHttpRequest.status, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 97, 26))
+>response : Symbol(response, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 113, 17))
+>status : Symbol(XMLHttpRequest.status, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 97, 26))
+
+                };
+
+                return WinJS.TPromise.as<Files.IUploadResult>(result);
+>WinJS.TPromise.as : Symbol(WinJS.TPromise.as, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 44, 30))
+>WinJS.TPromise : Symbol(WinJS.TPromise, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 32, 5))
+>WinJS : Symbol(WinJS, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 0, 0))
+>TPromise : Symbol(WinJS.TPromise, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 32, 5))
+>as : Symbol(WinJS.TPromise.as, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 44, 30))
+>Files : Symbol(Files, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 88, 1))
+>IUploadResult : Symbol(Files.IUploadResult, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 90, 14))
+>result : Symbol(result, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 114, 19))
+
+            }, (xhr: XMLHttpRequest) => {
+>xhr : Symbol(xhr, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 120, 16))
+>XMLHttpRequest : Symbol(XMLHttpRequest, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 95, 1))
+
+                return WinJS.Promise.wrapError(new Errors.ConnectionError(xhr));
+>WinJS.Promise.wrapError : Symbol(WinJS.Promise.wrapError, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 24, 47))
+>WinJS.Promise : Symbol(WinJS.Promise, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 15, 5))
+>WinJS : Symbol(WinJS, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 0, 0))
+>Promise : Symbol(WinJS.Promise, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 15, 5))
+>wrapError : Symbol(WinJS.Promise.wrapError, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 24, 47))
+>Errors.ConnectionError : Symbol(Errors.ConnectionError, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 83, 15))
+>Errors : Symbol(Errors, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 81, 1))
+>ConnectionError : Symbol(Errors.ConnectionError, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 83, 15))
+>xhr : Symbol(xhr, Decl(variableDeclaratorResolvedDuringContextualTyping.jump, 120, 16))
+
+            });
+    }
+}

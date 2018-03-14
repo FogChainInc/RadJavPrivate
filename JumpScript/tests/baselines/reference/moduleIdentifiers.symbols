@@ -1,0 +1,23 @@
+=== tests/cases/compiler/moduleIdentifiers.jump ===
+module M {
+>M : Symbol(M, Decl(moduleIdentifiers.jump, 0, 0))
+
+    interface P { x: number; y: number; }
+>P : Symbol(P, Decl(moduleIdentifiers.jump, 0, 10))
+>x : Symbol(P.x, Decl(moduleIdentifiers.jump, 1, 17))
+>y : Symbol(P.y, Decl(moduleIdentifiers.jump, 1, 28))
+
+    export var a = 1
+>a : Symbol(a, Decl(moduleIdentifiers.jump, 2, 14))
+}
+
+//var p: M.P;
+//var m: M = M;
+var x1 = M.a;
+>x1 : Symbol(x1, Decl(moduleIdentifiers.jump, 7, 3))
+>M.a : Symbol(M.a, Decl(moduleIdentifiers.jump, 2, 14))
+>M : Symbol(M, Decl(moduleIdentifiers.jump, 0, 0))
+>a : Symbol(M.a, Decl(moduleIdentifiers.jump, 2, 14))
+
+//var x2 = m.a;
+//var q: m.P;

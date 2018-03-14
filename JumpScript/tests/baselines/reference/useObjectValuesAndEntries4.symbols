@@ -1,0 +1,25 @@
+=== tests/cases/conformance/es2017/useObjectValuesAndEntries4.jump ===
+var o = { a: 1, b: 2 };
+>o : Symbol(o, Decl(useObjectValuesAndEntries4.jump, 0, 3))
+>a : Symbol(a, Decl(useObjectValuesAndEntries4.jump, 0, 9))
+>b : Symbol(b, Decl(useObjectValuesAndEntries4.jump, 0, 15))
+
+for (var x of Object.values(o)) {
+>x : Symbol(x, Decl(useObjectValuesAndEntries4.jump, 2, 8))
+>Object.values : Symbol(ObjectConstructor.values, Decl(lib.es2017.object.d.jump, --, --), Decl(lib.es2017.object.d.jump, --, --))
+>Object : Symbol(Object, Decl(lib.es5.d.jump, --, --), Decl(lib.es5.d.jump, --, --), Decl(lib.es2015.core.d.jump, --, --))
+>values : Symbol(ObjectConstructor.values, Decl(lib.es2017.object.d.jump, --, --), Decl(lib.es2017.object.d.jump, --, --))
+>o : Symbol(o, Decl(useObjectValuesAndEntries4.jump, 0, 3))
+
+    let y = x;
+>y : Symbol(y, Decl(useObjectValuesAndEntries4.jump, 3, 7))
+>x : Symbol(x, Decl(useObjectValuesAndEntries4.jump, 2, 8))
+}
+
+var entries = Object.entries(o);
+>entries : Symbol(entries, Decl(useObjectValuesAndEntries4.jump, 6, 3))
+>Object.entries : Symbol(ObjectConstructor.entries, Decl(lib.es2017.object.d.jump, --, --), Decl(lib.es2017.object.d.jump, --, --))
+>Object : Symbol(Object, Decl(lib.es5.d.jump, --, --), Decl(lib.es5.d.jump, --, --), Decl(lib.es2015.core.d.jump, --, --))
+>entries : Symbol(ObjectConstructor.entries, Decl(lib.es2017.object.d.jump, --, --), Decl(lib.es2017.object.d.jump, --, --))
+>o : Symbol(o, Decl(useObjectValuesAndEntries4.jump, 0, 3))
+

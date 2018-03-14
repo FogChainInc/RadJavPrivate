@@ -1,0 +1,7 @@
+=== tests/cases/compiler/separate1-2.jump ===
+module X {
+>X : typeof X
+
+    export function f() { }
+>f : () => void
+}

@@ -1,0 +1,7 @@
+=== tests/cases/compiler/classMethodWithKeywordName1.jump ===
+class C {
+>C : C
+
+ static try() {}
+>try : () => void
+}

@@ -1,0 +1,9 @@
+=== tests/cases/compiler/typeParametersInStaticProperties.jump ===
+class foo<T> {
+>foo : foo<T>
+>T : T
+
+    static P: T;
+>P : any
+>T : No type information available!
+} 

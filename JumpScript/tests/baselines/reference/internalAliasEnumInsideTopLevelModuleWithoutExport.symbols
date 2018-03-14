@@ -1,0 +1,30 @@
+=== tests/cases/compiler/internalAliasEnumInsideTopLevelModuleWithoutExport.jump ===
+export module a {
+>a : Symbol(a, Decl(internalAliasEnumInsideTopLevelModuleWithoutExport.jump, 0, 0))
+
+    export enum weekend {
+>weekend : Symbol(weekend, Decl(internalAliasEnumInsideTopLevelModuleWithoutExport.jump, 0, 17))
+
+        Friday,
+>Friday : Symbol(b.Friday, Decl(internalAliasEnumInsideTopLevelModuleWithoutExport.jump, 1, 25))
+
+        Saturday,
+>Saturday : Symbol(b.Saturday, Decl(internalAliasEnumInsideTopLevelModuleWithoutExport.jump, 2, 15))
+
+        Sunday
+>Sunday : Symbol(b.Sunday, Decl(internalAliasEnumInsideTopLevelModuleWithoutExport.jump, 3, 17))
+    }
+}
+
+import b = a.weekend;
+>b : Symbol(b, Decl(internalAliasEnumInsideTopLevelModuleWithoutExport.jump, 6, 1))
+>a : Symbol(a, Decl(internalAliasEnumInsideTopLevelModuleWithoutExport.jump, 0, 0))
+>weekend : Symbol(b, Decl(internalAliasEnumInsideTopLevelModuleWithoutExport.jump, 0, 17))
+
+export var bVal: b = b.Sunday;
+>bVal : Symbol(bVal, Decl(internalAliasEnumInsideTopLevelModuleWithoutExport.jump, 9, 10))
+>b : Symbol(b, Decl(internalAliasEnumInsideTopLevelModuleWithoutExport.jump, 6, 1))
+>b.Sunday : Symbol(b.Sunday, Decl(internalAliasEnumInsideTopLevelModuleWithoutExport.jump, 3, 17))
+>b : Symbol(b, Decl(internalAliasEnumInsideTopLevelModuleWithoutExport.jump, 6, 1))
+>Sunday : Symbol(b.Sunday, Decl(internalAliasEnumInsideTopLevelModuleWithoutExport.jump, 3, 17))
+

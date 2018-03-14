@@ -1,0 +1,5 @@
+=== tests/cases/compiler/undefinedTypeAssignment3.jump ===
+var undefined = null;
+>undefined : any
+>null : null
+

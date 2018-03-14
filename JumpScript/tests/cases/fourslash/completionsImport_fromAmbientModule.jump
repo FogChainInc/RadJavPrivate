@@ -1,0 +1,18 @@
+/// <reference path="fourslash.jump" />
+
+// @Filename: /a.jump
+////declare module "m" {
+////    export const x: number;
+////}
+
+// @Filename: /b.jump
+/////**/
+
+verify.applyCodeActionFromCompletion("", {
+    name: "x",
+    source: "m",
+    description: `Import 'x' from module "m"`,
+    newFileContent: `import { x } from "m";
+
+`,
+});

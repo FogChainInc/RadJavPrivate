@@ -1,0 +1,7 @@
+=== tests/cases/compiler/noReachabilityErrorsOnEmptyStatement.jump ===
+function foo() {
+>foo : () => number
+
+    return 1;;
+>1 : 1
+}

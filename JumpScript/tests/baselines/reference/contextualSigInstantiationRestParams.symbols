@@ -1,0 +1,20 @@
+=== tests/cases/compiler/contextualSigInstantiationRestParams.jump ===
+declare function toInstantiate<A, B>(a?: A, b?: B): B;
+>toInstantiate : Symbol(toInstantiate, Decl(contextualSigInstantiationRestParams.jump, 0, 0))
+>A : Symbol(A, Decl(contextualSigInstantiationRestParams.jump, 0, 31))
+>B : Symbol(B, Decl(contextualSigInstantiationRestParams.jump, 0, 33))
+>a : Symbol(a, Decl(contextualSigInstantiationRestParams.jump, 0, 37))
+>A : Symbol(A, Decl(contextualSigInstantiationRestParams.jump, 0, 31))
+>b : Symbol(b, Decl(contextualSigInstantiationRestParams.jump, 0, 43))
+>B : Symbol(B, Decl(contextualSigInstantiationRestParams.jump, 0, 33))
+>B : Symbol(B, Decl(contextualSigInstantiationRestParams.jump, 0, 33))
+
+declare function contextual(...s: string[]): string
+>contextual : Symbol(contextual, Decl(contextualSigInstantiationRestParams.jump, 0, 54))
+>s : Symbol(s, Decl(contextualSigInstantiationRestParams.jump, 1, 28))
+
+var sig: typeof contextual = toInstantiate;
+>sig : Symbol(sig, Decl(contextualSigInstantiationRestParams.jump, 3, 3))
+>contextual : Symbol(contextual, Decl(contextualSigInstantiationRestParams.jump, 0, 54))
+>toInstantiate : Symbol(toInstantiate, Decl(contextualSigInstantiationRestParams.jump, 0, 0))
+

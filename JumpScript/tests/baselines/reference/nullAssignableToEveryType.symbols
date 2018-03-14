@@ -1,0 +1,125 @@
+=== tests/cases/conformance/types/typeRelationships/assignmentCompatibility/nullAssignableToEveryType.jump ===
+class C {
+>C : Symbol(C, Decl(nullAssignableToEveryType.jump, 0, 0))
+
+    foo: string;
+>foo : Symbol(C.foo, Decl(nullAssignableToEveryType.jump, 0, 9))
+}
+var ac: C;
+>ac : Symbol(ac, Decl(nullAssignableToEveryType.jump, 3, 3))
+>C : Symbol(C, Decl(nullAssignableToEveryType.jump, 0, 0))
+
+interface I {
+>I : Symbol(I, Decl(nullAssignableToEveryType.jump, 3, 10))
+
+    foo: string;
+>foo : Symbol(I.foo, Decl(nullAssignableToEveryType.jump, 4, 13))
+}
+var ai: I;
+>ai : Symbol(ai, Decl(nullAssignableToEveryType.jump, 7, 3))
+>I : Symbol(I, Decl(nullAssignableToEveryType.jump, 3, 10))
+
+enum E { A }
+>E : Symbol(E, Decl(nullAssignableToEveryType.jump, 7, 10))
+>A : Symbol(E.A, Decl(nullAssignableToEveryType.jump, 9, 8))
+
+var ae: E;
+>ae : Symbol(ae, Decl(nullAssignableToEveryType.jump, 10, 3))
+>E : Symbol(E, Decl(nullAssignableToEveryType.jump, 7, 10))
+
+var b: number = null;
+>b : Symbol(b, Decl(nullAssignableToEveryType.jump, 12, 3))
+
+var c: string = null;
+>c : Symbol(c, Decl(nullAssignableToEveryType.jump, 13, 3))
+
+var d: boolean = null;
+>d : Symbol(d, Decl(nullAssignableToEveryType.jump, 14, 3))
+
+var e: Date = null;
+>e : Symbol(e, Decl(nullAssignableToEveryType.jump, 15, 3))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+var f: any = null;
+>f : Symbol(f, Decl(nullAssignableToEveryType.jump, 16, 3))
+
+var g: void = null;
+>g : Symbol(g, Decl(nullAssignableToEveryType.jump, 17, 3))
+
+var h: Object = null;
+>h : Symbol(h, Decl(nullAssignableToEveryType.jump, 18, 3))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+var i: {} = null;
+>i : Symbol(i, Decl(nullAssignableToEveryType.jump, 19, 3))
+
+var j: () => {} = null;
+>j : Symbol(j, Decl(nullAssignableToEveryType.jump, 20, 3))
+
+var k: Function = null;
+>k : Symbol(k, Decl(nullAssignableToEveryType.jump, 21, 3))
+>Function : Symbol(Function, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+var l: (x: number) => string = null;
+>l : Symbol(l, Decl(nullAssignableToEveryType.jump, 22, 3))
+>x : Symbol(x, Decl(nullAssignableToEveryType.jump, 22, 8))
+
+ac = null;
+>ac : Symbol(ac, Decl(nullAssignableToEveryType.jump, 3, 3))
+
+ai = null;
+>ai : Symbol(ai, Decl(nullAssignableToEveryType.jump, 7, 3))
+
+ae = null;
+>ae : Symbol(ae, Decl(nullAssignableToEveryType.jump, 10, 3))
+
+var m: number[] = null;
+>m : Symbol(m, Decl(nullAssignableToEveryType.jump, 26, 3))
+
+var n: { foo: string } = null;
+>n : Symbol(n, Decl(nullAssignableToEveryType.jump, 27, 3))
+>foo : Symbol(foo, Decl(nullAssignableToEveryType.jump, 27, 8))
+
+var o: <T>(x: T) => T = null;
+>o : Symbol(o, Decl(nullAssignableToEveryType.jump, 28, 3))
+>T : Symbol(T, Decl(nullAssignableToEveryType.jump, 28, 8))
+>x : Symbol(x, Decl(nullAssignableToEveryType.jump, 28, 11))
+>T : Symbol(T, Decl(nullAssignableToEveryType.jump, 28, 8))
+>T : Symbol(T, Decl(nullAssignableToEveryType.jump, 28, 8))
+
+var p: Number = null;
+>p : Symbol(p, Decl(nullAssignableToEveryType.jump, 29, 3))
+>Number : Symbol(Number, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+var q: String = null;
+>q : Symbol(q, Decl(nullAssignableToEveryType.jump, 30, 3))
+>String : Symbol(String, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+function foo<T, U, V extends Date>(x: T, y: U, z: V) {
+>foo : Symbol(foo, Decl(nullAssignableToEveryType.jump, 30, 21))
+>T : Symbol(T, Decl(nullAssignableToEveryType.jump, 32, 13))
+>U : Symbol(U, Decl(nullAssignableToEveryType.jump, 32, 15))
+>V : Symbol(V, Decl(nullAssignableToEveryType.jump, 32, 18))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(nullAssignableToEveryType.jump, 32, 35))
+>T : Symbol(T, Decl(nullAssignableToEveryType.jump, 32, 13))
+>y : Symbol(y, Decl(nullAssignableToEveryType.jump, 32, 40))
+>U : Symbol(U, Decl(nullAssignableToEveryType.jump, 32, 15))
+>z : Symbol(z, Decl(nullAssignableToEveryType.jump, 32, 46))
+>V : Symbol(V, Decl(nullAssignableToEveryType.jump, 32, 18))
+
+    x = null;
+>x : Symbol(x, Decl(nullAssignableToEveryType.jump, 32, 35))
+
+    y = null;
+>y : Symbol(y, Decl(nullAssignableToEveryType.jump, 32, 40))
+
+    z = null;
+>z : Symbol(z, Decl(nullAssignableToEveryType.jump, 32, 46))
+}
+
+//function foo<T, U extends T, V extends Date>(x: T, y: U, z: V) {
+//    x = null;
+//    y = null;
+//    z = null;
+//}

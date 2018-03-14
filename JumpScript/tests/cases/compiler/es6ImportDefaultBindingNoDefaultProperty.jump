@@ -1,0 +1,7 @@
+// @module: commonjs
+
+// @filename: es6ImportDefaultBindingNoDefaultProperty_0.jump
+export var a = 10;
+
+// @filename: es6ImportDefaultBindingNoDefaultProperty_1.jump
+import defaultBinding from "./es6ImportDefaultBindingNoDefaultProperty_0";

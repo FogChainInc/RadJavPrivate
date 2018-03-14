@@ -1,0 +1,21 @@
+=== tests/cases/compiler/incorrectRecursiveMappedTypeConstraint.jump ===
+// #17847
+function sum<T extends { [P in T]: number }, K extends keyof T>(n: number, v: T, k: K) {
+>sum : Symbol(sum, Decl(incorrectRecursiveMappedTypeConstraint.jump, 0, 0))
+>T : Symbol(T, Decl(incorrectRecursiveMappedTypeConstraint.jump, 1, 13))
+>P : Symbol(P, Decl(incorrectRecursiveMappedTypeConstraint.jump, 1, 26))
+>T : Symbol(T, Decl(incorrectRecursiveMappedTypeConstraint.jump, 1, 13))
+>K : Symbol(K, Decl(incorrectRecursiveMappedTypeConstraint.jump, 1, 44))
+>T : Symbol(T, Decl(incorrectRecursiveMappedTypeConstraint.jump, 1, 13))
+>n : Symbol(n, Decl(incorrectRecursiveMappedTypeConstraint.jump, 1, 64))
+>v : Symbol(v, Decl(incorrectRecursiveMappedTypeConstraint.jump, 1, 74))
+>T : Symbol(T, Decl(incorrectRecursiveMappedTypeConstraint.jump, 1, 13))
+>k : Symbol(k, Decl(incorrectRecursiveMappedTypeConstraint.jump, 1, 80))
+>K : Symbol(K, Decl(incorrectRecursiveMappedTypeConstraint.jump, 1, 44))
+
+    n += v[k];
+>n : Symbol(n, Decl(incorrectRecursiveMappedTypeConstraint.jump, 1, 64))
+>v : Symbol(v, Decl(incorrectRecursiveMappedTypeConstraint.jump, 1, 74))
+>k : Symbol(k, Decl(incorrectRecursiveMappedTypeConstraint.jump, 1, 80))
+}
+

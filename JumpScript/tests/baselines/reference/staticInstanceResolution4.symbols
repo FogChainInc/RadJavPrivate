@@ -1,0 +1,11 @@
+=== tests/cases/compiler/staticInstanceResolution4.jump ===
+class A {
+>A : Symbol(A, Decl(staticInstanceResolution4.jump, 0, 0))
+
+   public foo() {}
+>foo : Symbol(A.foo, Decl(staticInstanceResolution4.jump, 0, 9))
+}
+
+A.foo();
+>A : Symbol(A, Decl(staticInstanceResolution4.jump, 0, 0))
+

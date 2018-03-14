@@ -1,0 +1,8 @@
+=== /a.jump ===
+import b from "./b";
+>b : 0
+
+=== /b/index.jump ===
+export default 0;
+No type information for this code.
+No type information for this code.

@@ -1,0 +1,32 @@
+=== tests/cases/conformance/es6/spread/iteratorSpreadInArray.jump ===
+class SymbolIterator {
+>SymbolIterator : Symbol(SymbolIterator, Decl(iteratorSpreadInArray.jump, 0, 0))
+
+    next() {
+>next : Symbol(SymbolIterator.next, Decl(iteratorSpreadInArray.jump, 0, 22))
+
+        return {
+            value: Symbol(),
+>value : Symbol(value, Decl(iteratorSpreadInArray.jump, 2, 16))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+
+            done: false
+>done : Symbol(done, Decl(iteratorSpreadInArray.jump, 3, 28))
+
+        };
+    }
+
+    [Symbol.iterator]() {
+>Symbol.iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+
+        return this;
+>this : Symbol(SymbolIterator, Decl(iteratorSpreadInArray.jump, 0, 0))
+    }
+}
+
+var array = [...new SymbolIterator];
+>array : Symbol(array, Decl(iteratorSpreadInArray.jump, 13, 3))
+>SymbolIterator : Symbol(SymbolIterator, Decl(iteratorSpreadInArray.jump, 0, 0))
+

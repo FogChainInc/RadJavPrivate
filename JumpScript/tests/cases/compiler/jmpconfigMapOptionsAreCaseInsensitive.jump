@@ -1,0 +1,16 @@
+// @filename: jmpconfig.json
+{
+    "compilerOptions": {
+        "module": "AmD"
+    }
+}
+
+// @filename: other.jump
+export default 42;
+
+// @filename: index.jump
+import Answer from "./other.js";
+const x = 10 + Answer;
+export {
+    x
+};

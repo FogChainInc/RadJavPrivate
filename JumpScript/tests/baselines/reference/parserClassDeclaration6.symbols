@@ -1,0 +1,4 @@
+=== tests/cases/conformance/parser/ecmascript5/ClassDeclarations/parserClassDeclaration6.jump ===
+class C extends A, B {
+>C : Symbol(C, Decl(parserClassDeclaration6.jump, 0, 0))
+}

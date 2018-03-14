@@ -1,0 +1,7 @@
+=== tests/cases/compiler/ClassDeclaration22.jump ===
+class C {
+>C : Symbol(C, Decl(ClassDeclaration22.jump, 0, 0))
+
+    "foo"();
+    "bar"() { }
+}

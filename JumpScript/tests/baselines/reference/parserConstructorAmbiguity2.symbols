@@ -1,0 +1,4 @@
+=== tests/cases/conformance/parser/ecmascript5/Generics/parserConstructorAmbiguity2.jump ===
+new Date<A
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+

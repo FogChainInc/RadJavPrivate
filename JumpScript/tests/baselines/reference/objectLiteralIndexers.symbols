@@ -1,0 +1,49 @@
+=== tests/cases/compiler/objectLiteralIndexers.jump ===
+interface A {
+>A : Symbol(A, Decl(objectLiteralIndexers.jump, 0, 0))
+
+    x: number;
+>x : Symbol(A.x, Decl(objectLiteralIndexers.jump, 0, 13))
+}
+
+interface B extends A {
+>B : Symbol(B, Decl(objectLiteralIndexers.jump, 2, 1))
+>A : Symbol(A, Decl(objectLiteralIndexers.jump, 0, 0))
+
+    y: string;
+>y : Symbol(B.y, Decl(objectLiteralIndexers.jump, 4, 23))
+}
+
+var a: A;
+>a : Symbol(a, Decl(objectLiteralIndexers.jump, 8, 3))
+>A : Symbol(A, Decl(objectLiteralIndexers.jump, 0, 0))
+
+var b: B;
+>b : Symbol(b, Decl(objectLiteralIndexers.jump, 9, 3))
+>B : Symbol(B, Decl(objectLiteralIndexers.jump, 2, 1))
+
+var c: any;
+>c : Symbol(c, Decl(objectLiteralIndexers.jump, 10, 3))
+
+var o1: { [s: string]: A;[n: number]: B; } = { x: a, 0: b }; // string indexer is A, number indexer is B
+>o1 : Symbol(o1, Decl(objectLiteralIndexers.jump, 12, 3))
+>s : Symbol(s, Decl(objectLiteralIndexers.jump, 12, 11))
+>A : Symbol(A, Decl(objectLiteralIndexers.jump, 0, 0))
+>n : Symbol(n, Decl(objectLiteralIndexers.jump, 12, 26))
+>B : Symbol(B, Decl(objectLiteralIndexers.jump, 2, 1))
+>x : Symbol(x, Decl(objectLiteralIndexers.jump, 12, 46))
+>a : Symbol(a, Decl(objectLiteralIndexers.jump, 8, 3))
+>b : Symbol(b, Decl(objectLiteralIndexers.jump, 9, 3))
+
+o1 = { x: b, 0: c }; // both indexers are any
+>o1 : Symbol(o1, Decl(objectLiteralIndexers.jump, 12, 3))
+>x : Symbol(x, Decl(objectLiteralIndexers.jump, 13, 6))
+>b : Symbol(b, Decl(objectLiteralIndexers.jump, 9, 3))
+>c : Symbol(c, Decl(objectLiteralIndexers.jump, 10, 3))
+
+o1 = { x: c, 0: b }; // string indexer is any, number indexer is B
+>o1 : Symbol(o1, Decl(objectLiteralIndexers.jump, 12, 3))
+>x : Symbol(x, Decl(objectLiteralIndexers.jump, 14, 6))
+>c : Symbol(c, Decl(objectLiteralIndexers.jump, 10, 3))
+>b : Symbol(b, Decl(objectLiteralIndexers.jump, 9, 3))
+

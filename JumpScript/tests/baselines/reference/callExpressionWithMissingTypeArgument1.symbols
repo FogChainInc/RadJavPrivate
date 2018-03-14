@@ -1,0 +1,3 @@
+=== tests/cases/compiler/callExpressionWithMissingTypeArgument1.jump ===
+Foo<a,,b>();
+No type information for this code.

@@ -1,0 +1,4 @@
+=== tests/cases/compiler/index.jump ===
+if (true) {
+>true : true
+

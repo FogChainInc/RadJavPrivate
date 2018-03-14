@@ -1,0 +1,33 @@
+=== tests/cases/compiler/optionalArgsWithDefaultValues.jump ===
+function foo(x: number, y?:boolean=false, z?=0) {}
+>foo : Symbol(foo, Decl(optionalArgsWithDefaultValues.jump, 0, 0))
+>x : Symbol(x, Decl(optionalArgsWithDefaultValues.jump, 0, 13))
+>y : Symbol(y, Decl(optionalArgsWithDefaultValues.jump, 0, 23))
+>z : Symbol(z, Decl(optionalArgsWithDefaultValues.jump, 0, 41))
+
+class CCC {
+>CCC : Symbol(CCC, Decl(optionalArgsWithDefaultValues.jump, 0, 50))
+
+    public foo(x: number, y?:boolean=false, z?=0) {}
+>foo : Symbol(CCC.foo, Decl(optionalArgsWithDefaultValues.jump, 2, 11))
+>x : Symbol(x, Decl(optionalArgsWithDefaultValues.jump, 3, 15))
+>y : Symbol(y, Decl(optionalArgsWithDefaultValues.jump, 3, 25))
+>z : Symbol(z, Decl(optionalArgsWithDefaultValues.jump, 3, 43))
+
+    static foo2(x: number, y?:boolean=false, z?=0) {}
+>foo2 : Symbol(CCC.foo2, Decl(optionalArgsWithDefaultValues.jump, 3, 52))
+>x : Symbol(x, Decl(optionalArgsWithDefaultValues.jump, 4, 16))
+>y : Symbol(y, Decl(optionalArgsWithDefaultValues.jump, 4, 26))
+>z : Symbol(z, Decl(optionalArgsWithDefaultValues.jump, 4, 44))
+}
+
+var a = (x?=0) => { return 1; };
+>a : Symbol(a, Decl(optionalArgsWithDefaultValues.jump, 7, 3))
+>x : Symbol(x, Decl(optionalArgsWithDefaultValues.jump, 7, 9))
+
+var b = (x, y?:number = 2) => { x; };
+>b : Symbol(b, Decl(optionalArgsWithDefaultValues.jump, 8, 3))
+>x : Symbol(x, Decl(optionalArgsWithDefaultValues.jump, 8, 9))
+>y : Symbol(y, Decl(optionalArgsWithDefaultValues.jump, 8, 11))
+>x : Symbol(x, Decl(optionalArgsWithDefaultValues.jump, 8, 9))
+

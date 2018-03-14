@@ -1,0 +1,5 @@
+=== tests/cases/conformance/async/es6/functionDeclarations/asyncFunctionDeclaration2_es6.jump ===
+function f(await) {
+>f : Symbol(f, Decl(asyncFunctionDeclaration2_es6.jump, 0, 0))
+>await : Symbol(await, Decl(asyncFunctionDeclaration2_es6.jump, 0, 11))
+}

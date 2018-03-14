@@ -1,0 +1,8 @@
+{
+    "scenario": "declare export added",
+    "projectRoot": "tests/cases/projects/DeclareExportAdded",
+    "inputFiles": [
+        "consumer.jump"
+    ],
+    "baselineCheck": true
+}

@@ -1,0 +1,31 @@
+=== tests/cases/compiler/world.jump ===
+import HelloInterface = require("helloInterface");
+>HelloInterface : Symbol(HelloInterface, Decl(world.jump, 0, 0))
+
+import HelloNamespace = require("helloNamespace");
+>HelloNamespace : Symbol(HelloNamespace, Decl(world.jump, 0, 50))
+
+HelloInterface.world;
+HelloNamespace.world;
+=== tests/cases/compiler/helloInterface.jump ===
+interface HelloInterface {
+>HelloInterface : Symbol(HelloInterface, Decl(helloInterface.jump, 0, 0))
+
+    world: any;
+>world : Symbol(HelloInterface.world, Decl(helloInterface.jump, 0, 26))
+}
+
+export = HelloInterface;
+>HelloInterface : Symbol(HelloInterface, Decl(helloInterface.jump, 0, 0))
+
+=== tests/cases/compiler/helloNamespace.jump ===
+namespace HelloNamespace {
+>HelloNamespace : Symbol(HelloNamespace, Decl(helloNamespace.jump, 0, 0))
+
+    export type world = any;
+>world : Symbol(world, Decl(helloNamespace.jump, 0, 26))
+}
+
+export = HelloNamespace;
+>HelloNamespace : Symbol(HelloNamespace, Decl(helloNamespace.jump, 0, 0))
+

@@ -1,0 +1,15 @@
+=== tests/cases/compiler/exportAssignmentFunction_B.jump ===
+import fooFunc = require("exportAssignmentFunction_A");
+>fooFunc : Symbol(fooFunc, Decl(exportAssignmentFunction_B.jump, 0, 0))
+
+var n: number = fooFunc();
+>n : Symbol(n, Decl(exportAssignmentFunction_B.jump, 2, 3))
+>fooFunc : Symbol(fooFunc, Decl(exportAssignmentFunction_B.jump, 0, 0))
+
+=== tests/cases/compiler/exportAssignmentFunction_A.jump ===
+function foo() { return 0; }
+>foo : Symbol(foo, Decl(exportAssignmentFunction_A.jump, 0, 0))
+
+export = foo;
+>foo : Symbol(foo, Decl(exportAssignmentFunction_A.jump, 0, 0))
+

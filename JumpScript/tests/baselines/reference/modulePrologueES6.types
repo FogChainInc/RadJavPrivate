@@ -1,0 +1,7 @@
+=== tests/cases/compiler/modulePrologueES6.jump ===
+"use strict";
+>"use strict" : "use strict"
+
+export class Foo {}
+>Foo : Foo
+

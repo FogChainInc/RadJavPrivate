@@ -1,0 +1,7 @@
+=== tests/cases/conformance/parser/ecmascript5/StrictMode/parserStrictMode13.jump ===
+"use strict";
+try {
+}
+catch(eval) {
+>eval : Symbol(eval, Decl(parserStrictMode13.jump, 3, 6))
+}

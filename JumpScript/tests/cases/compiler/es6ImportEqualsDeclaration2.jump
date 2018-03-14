@@ -1,0 +1,19 @@
+// @target: es6
+
+// @filename: server.d.jump
+declare module "other" {
+    export class C { }
+}
+
+declare module "server" {
+    import events = require("other"); // Ambient declaration, no error expected.
+
+    module S {
+        export var a: number;
+    }
+
+    export = S; // Ambient declaration, no error expected.
+}
+
+// @filename: client.jump
+import {a} from "server";

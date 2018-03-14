@@ -1,0 +1,21 @@
+=== tests/cases/conformance/types/typeRelationships/typeAndMemberIdentity/unionTypeIdentity.jump ===
+// Two types are considered identical when
+// they are union types with identical sets of constituent types, or
+var strOrNum: string | boolean;
+>strOrNum : Symbol(strOrNum, Decl(unionTypeIdentity.jump, 2, 3), Decl(unionTypeIdentity.jump, 3, 3), Decl(unionTypeIdentity.jump, 4, 3), Decl(unionTypeIdentity.jump, 5, 3), Decl(unionTypeIdentity.jump, 6, 3) ... and 1 more)
+
+var strOrNum: boolean | string;
+>strOrNum : Symbol(strOrNum, Decl(unionTypeIdentity.jump, 2, 3), Decl(unionTypeIdentity.jump, 3, 3), Decl(unionTypeIdentity.jump, 4, 3), Decl(unionTypeIdentity.jump, 5, 3), Decl(unionTypeIdentity.jump, 6, 3) ... and 1 more)
+
+var strOrNum: boolean | string | boolean;
+>strOrNum : Symbol(strOrNum, Decl(unionTypeIdentity.jump, 2, 3), Decl(unionTypeIdentity.jump, 3, 3), Decl(unionTypeIdentity.jump, 4, 3), Decl(unionTypeIdentity.jump, 5, 3), Decl(unionTypeIdentity.jump, 6, 3) ... and 1 more)
+
+var strOrNum: string; // error
+>strOrNum : Symbol(strOrNum, Decl(unionTypeIdentity.jump, 2, 3), Decl(unionTypeIdentity.jump, 3, 3), Decl(unionTypeIdentity.jump, 4, 3), Decl(unionTypeIdentity.jump, 5, 3), Decl(unionTypeIdentity.jump, 6, 3) ... and 1 more)
+
+var strOrNum: boolean; // error
+>strOrNum : Symbol(strOrNum, Decl(unionTypeIdentity.jump, 2, 3), Decl(unionTypeIdentity.jump, 3, 3), Decl(unionTypeIdentity.jump, 4, 3), Decl(unionTypeIdentity.jump, 5, 3), Decl(unionTypeIdentity.jump, 6, 3) ... and 1 more)
+
+var strOrNum: number; // error
+>strOrNum : Symbol(strOrNum, Decl(unionTypeIdentity.jump, 2, 3), Decl(unionTypeIdentity.jump, 3, 3), Decl(unionTypeIdentity.jump, 4, 3), Decl(unionTypeIdentity.jump, 5, 3), Decl(unionTypeIdentity.jump, 6, 3) ... and 1 more)
+

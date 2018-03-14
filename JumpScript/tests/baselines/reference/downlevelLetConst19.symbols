@@ -1,0 +1,42 @@
+=== tests/cases/compiler/downlevelLetConst19.jump ===
+'use strict'
+declare function use(a: any);
+>use : Symbol(use, Decl(downlevelLetConst19.jump, 0, 12))
+>a : Symbol(a, Decl(downlevelLetConst19.jump, 1, 21))
+
+var x;
+>x : Symbol(x, Decl(downlevelLetConst19.jump, 2, 3))
+
+function a() {
+>a : Symbol(a, Decl(downlevelLetConst19.jump, 2, 6))
+  {
+    let x;
+>x : Symbol(x, Decl(downlevelLetConst19.jump, 5, 7))
+
+    use(x);
+>use : Symbol(use, Decl(downlevelLetConst19.jump, 0, 12))
+>x : Symbol(x, Decl(downlevelLetConst19.jump, 5, 7))
+
+    function b() {
+>b : Symbol(b, Decl(downlevelLetConst19.jump, 6, 11))
+        {
+            let x;
+>x : Symbol(x, Decl(downlevelLetConst19.jump, 10, 15))
+
+            use(x);
+>use : Symbol(use, Decl(downlevelLetConst19.jump, 0, 12))
+>x : Symbol(x, Decl(downlevelLetConst19.jump, 10, 15))
+        }
+        use(x);
+>use : Symbol(use, Decl(downlevelLetConst19.jump, 0, 12))
+>x : Symbol(x, Decl(downlevelLetConst19.jump, 5, 7))
+    }
+  }
+  use(x)
+>use : Symbol(use, Decl(downlevelLetConst19.jump, 0, 12))
+>x : Symbol(x, Decl(downlevelLetConst19.jump, 2, 3))
+}
+use(x)
+>use : Symbol(use, Decl(downlevelLetConst19.jump, 0, 12))
+>x : Symbol(x, Decl(downlevelLetConst19.jump, 2, 3))
+

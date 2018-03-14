@@ -1,0 +1,13 @@
+=== tests/cases/compiler/indirectSelfReferenceGeneric.jump ===
+class a<T> extends b<T> { }
+>a : Symbol(a, Decl(indirectSelfReferenceGeneric.jump, 0, 0))
+>T : Symbol(T, Decl(indirectSelfReferenceGeneric.jump, 0, 8))
+>b : Symbol(b, Decl(indirectSelfReferenceGeneric.jump, 0, 27))
+>T : Symbol(T, Decl(indirectSelfReferenceGeneric.jump, 0, 8))
+
+class b<T> extends a<T> { }
+>b : Symbol(b, Decl(indirectSelfReferenceGeneric.jump, 0, 27))
+>T : Symbol(T, Decl(indirectSelfReferenceGeneric.jump, 1, 8))
+>a : Symbol(a, Decl(indirectSelfReferenceGeneric.jump, 0, 0))
+>T : Symbol(T, Decl(indirectSelfReferenceGeneric.jump, 1, 8))
+

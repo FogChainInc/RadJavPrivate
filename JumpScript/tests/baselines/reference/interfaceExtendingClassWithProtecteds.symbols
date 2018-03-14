@@ -1,0 +1,40 @@
+=== tests/cases/conformance/interfaces/interfacesExtendingClasses/interfaceExtendingClassWithProtecteds.jump ===
+class Foo {
+>Foo : Symbol(Foo, Decl(interfaceExtendingClassWithProtecteds.jump, 0, 0))
+
+    protected x: string;
+>x : Symbol(Foo.x, Decl(interfaceExtendingClassWithProtecteds.jump, 0, 11))
+}
+
+interface I extends Foo { // error
+>I : Symbol(I, Decl(interfaceExtendingClassWithProtecteds.jump, 2, 1))
+>Foo : Symbol(Foo, Decl(interfaceExtendingClassWithProtecteds.jump, 0, 0))
+
+    x: string;
+>x : Symbol(I.x, Decl(interfaceExtendingClassWithProtecteds.jump, 4, 25))
+}
+
+interface I2 extends Foo {
+>I2 : Symbol(I2, Decl(interfaceExtendingClassWithProtecteds.jump, 6, 1))
+>Foo : Symbol(Foo, Decl(interfaceExtendingClassWithProtecteds.jump, 0, 0))
+
+    y: string;
+>y : Symbol(I2.y, Decl(interfaceExtendingClassWithProtecteds.jump, 8, 26))
+}
+
+var i: I2;
+>i : Symbol(i, Decl(interfaceExtendingClassWithProtecteds.jump, 12, 3))
+>I2 : Symbol(I2, Decl(interfaceExtendingClassWithProtecteds.jump, 6, 1))
+
+var r = i.y;
+>r : Symbol(r, Decl(interfaceExtendingClassWithProtecteds.jump, 13, 3))
+>i.y : Symbol(I2.y, Decl(interfaceExtendingClassWithProtecteds.jump, 8, 26))
+>i : Symbol(i, Decl(interfaceExtendingClassWithProtecteds.jump, 12, 3))
+>y : Symbol(I2.y, Decl(interfaceExtendingClassWithProtecteds.jump, 8, 26))
+
+var r2 = i.x; // error
+>r2 : Symbol(r2, Decl(interfaceExtendingClassWithProtecteds.jump, 14, 3))
+>i.x : Symbol(Foo.x, Decl(interfaceExtendingClassWithProtecteds.jump, 0, 11))
+>i : Symbol(i, Decl(interfaceExtendingClassWithProtecteds.jump, 12, 3))
+>x : Symbol(Foo.x, Decl(interfaceExtendingClassWithProtecteds.jump, 0, 11))
+

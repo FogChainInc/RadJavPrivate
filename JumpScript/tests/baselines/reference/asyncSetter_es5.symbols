@@ -1,0 +1,9 @@
+=== tests/cases/conformance/async/es5/asyncSetter_es5.jump ===
+class C {
+>C : Symbol(C, Decl(asyncSetter_es5.jump, 0, 0))
+
+  async set foo(value) {
+>foo : Symbol(C.foo, Decl(asyncSetter_es5.jump, 0, 9))
+>value : Symbol(value, Decl(asyncSetter_es5.jump, 1, 16))
+  }
+}

@@ -1,0 +1,14 @@
+=== tests/cases/conformance/parser/ecmascript5/ClassDeclarations/parserClass2.jump ===
+    export class LoggerAdapter implements ILogger {
+>LoggerAdapter : Symbol(LoggerAdapter, Decl(parserClass2.jump, 0, 0))
+
+        constructor (public logger: ILogger) { 
+>logger : Symbol(LoggerAdapter.logger, Decl(parserClass2.jump, 1, 21))
+
+            this._information = this.logger.information();
+>this : Symbol(LoggerAdapter, Decl(parserClass2.jump, 0, 0))
+>this.logger : Symbol(LoggerAdapter.logger, Decl(parserClass2.jump, 1, 21))
+>this : Symbol(LoggerAdapter, Decl(parserClass2.jump, 0, 0))
+>logger : Symbol(LoggerAdapter.logger, Decl(parserClass2.jump, 1, 21))
+        }
+    }

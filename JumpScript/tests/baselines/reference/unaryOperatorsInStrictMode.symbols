@@ -1,0 +1,20 @@
+=== tests/cases/compiler/unaryOperatorsInStrictMode.jump ===
+"use strict"
+
+++eval;
+>eval : Symbol(eval, Decl(lib.d.jump, --, --))
+
+--eval;
+>eval : Symbol(eval, Decl(lib.d.jump, --, --))
+
+++arguments;
+--arguments;
+eval++;
+>eval : Symbol(eval, Decl(lib.d.jump, --, --))
+
+eval--;
+>eval : Symbol(eval, Decl(lib.d.jump, --, --))
+
+arguments++;
+arguments--;
+

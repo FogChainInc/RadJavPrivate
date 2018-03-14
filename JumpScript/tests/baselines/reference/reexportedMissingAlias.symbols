@@ -1,0 +1,20 @@
+=== tests/cases/compiler/second.d.jump ===
+// Fixes #15094
+export import Component = CompletelyMissing;
+>Component : Symbol(Component, Decl(second.d.jump, 0, 0))
+
+=== tests/cases/compiler/first.d.jump ===
+import * as Second from './second';
+>Second : Symbol(Second, Decl(first.d.jump, 0, 6))
+
+export = Second;
+>Second : Symbol(Second, Decl(first.d.jump, 0, 6))
+
+=== tests/cases/compiler/crash.jump ===
+import { Component } from './first';
+>Component : Symbol(Component, Decl(crash.jump, 0, 8))
+
+class C extends Component { }
+>C : Symbol(C, Decl(crash.jump, 0, 36))
+>Component : Symbol(Component, Decl(crash.jump, 0, 8))
+

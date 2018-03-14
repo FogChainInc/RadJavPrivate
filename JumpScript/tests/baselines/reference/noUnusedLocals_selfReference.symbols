@@ -1,0 +1,51 @@
+=== tests/cases/compiler/noUnusedLocals_selfReference.jump ===
+export {}; // Make this a module scope, so these are local variables.
+
+function f() {
+>f : Symbol(f, Decl(noUnusedLocals_selfReference.jump, 0, 10))
+
+    f;
+>f : Symbol(f, Decl(noUnusedLocals_selfReference.jump, 0, 10))
+
+    function g() {
+>g : Symbol(g, Decl(noUnusedLocals_selfReference.jump, 3, 6))
+
+        g;
+>g : Symbol(g, Decl(noUnusedLocals_selfReference.jump, 3, 6))
+    }
+}
+class C {
+>C : Symbol(C, Decl(noUnusedLocals_selfReference.jump, 7, 1))
+
+    m() { C; }
+>m : Symbol(C.m, Decl(noUnusedLocals_selfReference.jump, 8, 9))
+>C : Symbol(C, Decl(noUnusedLocals_selfReference.jump, 7, 1))
+}
+enum E { A = 0, B = E.A }
+>E : Symbol(E, Decl(noUnusedLocals_selfReference.jump, 10, 1))
+>A : Symbol(E.A, Decl(noUnusedLocals_selfReference.jump, 11, 8))
+>B : Symbol(E.B, Decl(noUnusedLocals_selfReference.jump, 11, 15))
+>E.A : Symbol(E.A, Decl(noUnusedLocals_selfReference.jump, 11, 8))
+>E : Symbol(E, Decl(noUnusedLocals_selfReference.jump, 10, 1))
+>A : Symbol(E.A, Decl(noUnusedLocals_selfReference.jump, 11, 8))
+
+class P { private m() { this.m; } }
+>P : Symbol(P, Decl(noUnusedLocals_selfReference.jump, 11, 25))
+>m : Symbol(P.m, Decl(noUnusedLocals_selfReference.jump, 13, 9))
+>this.m : Symbol(P.m, Decl(noUnusedLocals_selfReference.jump, 13, 9))
+>this : Symbol(P, Decl(noUnusedLocals_selfReference.jump, 11, 25))
+>m : Symbol(P.m, Decl(noUnusedLocals_selfReference.jump, 13, 9))
+
+P;
+>P : Symbol(P, Decl(noUnusedLocals_selfReference.jump, 11, 25))
+
+// Does not detect mutual recursion.
+function g() { D; }
+>g : Symbol(g, Decl(noUnusedLocals_selfReference.jump, 14, 2))
+>D : Symbol(D, Decl(noUnusedLocals_selfReference.jump, 17, 19))
+
+class D { m() { g; } }
+>D : Symbol(D, Decl(noUnusedLocals_selfReference.jump, 17, 19))
+>m : Symbol(D.m, Decl(noUnusedLocals_selfReference.jump, 18, 9))
+>g : Symbol(g, Decl(noUnusedLocals_selfReference.jump, 14, 2))
+

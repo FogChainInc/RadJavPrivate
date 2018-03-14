@@ -1,0 +1,12 @@
+=== tests/cases/compiler/declFileForInterfaceWithOptionalFunction.jump ===
+interface I {
+>I : Symbol(I, Decl(declFileForInterfaceWithOptionalFunction.jump, 0, 0))
+
+    foo? (x?);
+>foo : Symbol(I.foo, Decl(declFileForInterfaceWithOptionalFunction.jump, 0, 13))
+>x : Symbol(x, Decl(declFileForInterfaceWithOptionalFunction.jump, 1, 10))
+
+    foo2? (x?: number): number;
+>foo2 : Symbol(I.foo2, Decl(declFileForInterfaceWithOptionalFunction.jump, 1, 14))
+>x : Symbol(x, Decl(declFileForInterfaceWithOptionalFunction.jump, 2, 11))
+}

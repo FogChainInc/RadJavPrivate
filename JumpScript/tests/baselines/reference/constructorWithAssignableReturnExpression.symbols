@@ -1,0 +1,62 @@
+=== tests/cases/conformance/classes/constructorDeclarations/constructorWithAssignableReturnExpression.jump ===
+// a class constructor may return an expression, it must be assignable to the class instance type to be valid
+
+class C {
+>C : Symbol(C, Decl(constructorWithAssignableReturnExpression.jump, 0, 0))
+
+    constructor() {
+        return 1;
+    }
+}
+
+class D {
+>D : Symbol(D, Decl(constructorWithAssignableReturnExpression.jump, 6, 1))
+
+    x: number;
+>x : Symbol(D.x, Decl(constructorWithAssignableReturnExpression.jump, 8, 9))
+
+    constructor() {
+        return 1; // error
+    }
+}
+
+class E {
+>E : Symbol(E, Decl(constructorWithAssignableReturnExpression.jump, 13, 1))
+
+    x: number;
+>x : Symbol(E.x, Decl(constructorWithAssignableReturnExpression.jump, 15, 9))
+
+    constructor() {
+        return { x: 1 };
+>x : Symbol(x, Decl(constructorWithAssignableReturnExpression.jump, 18, 16))
+    }
+}
+
+class F<T> {
+>F : Symbol(F, Decl(constructorWithAssignableReturnExpression.jump, 20, 1))
+>T : Symbol(T, Decl(constructorWithAssignableReturnExpression.jump, 22, 8))
+
+    x: T;
+>x : Symbol(F.x, Decl(constructorWithAssignableReturnExpression.jump, 22, 12))
+>T : Symbol(T, Decl(constructorWithAssignableReturnExpression.jump, 22, 8))
+
+    constructor() {
+        return { x: 1 }; // error
+>x : Symbol(x, Decl(constructorWithAssignableReturnExpression.jump, 25, 16))
+    }
+}
+
+class G<T> {
+>G : Symbol(G, Decl(constructorWithAssignableReturnExpression.jump, 27, 1))
+>T : Symbol(T, Decl(constructorWithAssignableReturnExpression.jump, 29, 8))
+
+    x: T;
+>x : Symbol(G.x, Decl(constructorWithAssignableReturnExpression.jump, 29, 12))
+>T : Symbol(T, Decl(constructorWithAssignableReturnExpression.jump, 29, 8))
+
+    constructor() {
+        return { x: <T>null };
+>x : Symbol(x, Decl(constructorWithAssignableReturnExpression.jump, 32, 16))
+>T : Symbol(T, Decl(constructorWithAssignableReturnExpression.jump, 29, 8))
+    }
+}

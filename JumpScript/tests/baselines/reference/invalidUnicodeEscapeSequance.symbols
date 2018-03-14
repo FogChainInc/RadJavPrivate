@@ -1,0 +1,5 @@
+=== tests/cases/compiler/invalidUnicodeEscapeSequance.jump ===
+var arg\u003
+>arg : Symbol(arg, Decl(invalidUnicodeEscapeSequance.jump, 0, 3))
+>u003 : Symbol(u003, Decl(invalidUnicodeEscapeSequance.jump, 0, 8))
+

@@ -1,0 +1,10 @@
+//@module: amd
+//@Filename: m1.jump
+const enum E {
+    V = 100
+}
+
+export = E
+//@Filename: m2.jump
+import A = require('m1')
+var v = A.V;

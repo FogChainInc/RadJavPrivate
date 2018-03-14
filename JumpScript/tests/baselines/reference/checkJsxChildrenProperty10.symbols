@@ -1,0 +1,73 @@
+=== tests/cases/conformance/jsx/file.jmpx ===
+declare module JSX {
+>JSX : Symbol(JSX, Decl(file.jmpx, 0, 0))
+
+	interface Element { }
+>Element : Symbol(Element, Decl(file.jmpx, 0, 20))
+
+	interface ElementAttributesProperty { props: {} }
+>ElementAttributesProperty : Symbol(ElementAttributesProperty, Decl(file.jmpx, 1, 22))
+>props : Symbol(ElementAttributesProperty.props, Decl(file.jmpx, 2, 38))
+
+	interface IntrinsicElements { 
+>IntrinsicElements : Symbol(IntrinsicElements, Decl(file.jmpx, 2, 50))
+
+		div: any;
+>div : Symbol(IntrinsicElements.div, Decl(file.jmpx, 3, 30))
+
+		h2: any;
+>h2 : Symbol(IntrinsicElements.h2, Decl(file.jmpx, 4, 11))
+
+		h1: any;
+>h1 : Symbol(IntrinsicElements.h1, Decl(file.jmpx, 5, 10))
+	}
+}
+
+class Button {
+>Button : Symbol(Button, Decl(file.jmpx, 8, 1))
+
+	props: {}
+>props : Symbol(Button.props, Decl(file.jmpx, 10, 14))
+
+    render() {
+>render : Symbol(Button.render, Decl(file.jmpx, 11, 10))
+
+        return (<div>My Button</div>)
+>div : Symbol(JSX.IntrinsicElements.div, Decl(file.jmpx, 3, 30))
+>div : Symbol(JSX.IntrinsicElements.div, Decl(file.jmpx, 3, 30))
+    }
+}
+
+// OK
+let k1 = <div> <h2> Hello </h2> <h1> world </h1></div>;
+>k1 : Symbol(k1, Decl(file.jmpx, 18, 3))
+>div : Symbol(JSX.IntrinsicElements.div, Decl(file.jmpx, 3, 30))
+>h2 : Symbol(JSX.IntrinsicElements.h2, Decl(file.jmpx, 4, 11))
+>h2 : Symbol(JSX.IntrinsicElements.h2, Decl(file.jmpx, 4, 11))
+>h1 : Symbol(JSX.IntrinsicElements.h1, Decl(file.jmpx, 5, 10))
+>h1 : Symbol(JSX.IntrinsicElements.h1, Decl(file.jmpx, 5, 10))
+>div : Symbol(JSX.IntrinsicElements.div, Decl(file.jmpx, 3, 30))
+
+let k2 = <div> <h2> Hello </h2> {(user: any) => <h2>{user.name}</h2>}</div>;
+>k2 : Symbol(k2, Decl(file.jmpx, 19, 3))
+>div : Symbol(JSX.IntrinsicElements.div, Decl(file.jmpx, 3, 30))
+>h2 : Symbol(JSX.IntrinsicElements.h2, Decl(file.jmpx, 4, 11))
+>h2 : Symbol(JSX.IntrinsicElements.h2, Decl(file.jmpx, 4, 11))
+>user : Symbol(user, Decl(file.jmpx, 19, 34))
+>h2 : Symbol(JSX.IntrinsicElements.h2, Decl(file.jmpx, 4, 11))
+>user : Symbol(user, Decl(file.jmpx, 19, 34))
+>h2 : Symbol(JSX.IntrinsicElements.h2, Decl(file.jmpx, 4, 11))
+>div : Symbol(JSX.IntrinsicElements.div, Decl(file.jmpx, 3, 30))
+
+let k3 = <div> {1} {"That is a number"} </div>;
+>k3 : Symbol(k3, Decl(file.jmpx, 20, 3))
+>div : Symbol(JSX.IntrinsicElements.div, Decl(file.jmpx, 3, 30))
+>div : Symbol(JSX.IntrinsicElements.div, Decl(file.jmpx, 3, 30))
+
+let k4 = <Button> <h2> Hello </h2> </Button>;
+>k4 : Symbol(k4, Decl(file.jmpx, 21, 3))
+>Button : Symbol(Button, Decl(file.jmpx, 8, 1))
+>h2 : Symbol(JSX.IntrinsicElements.h2, Decl(file.jmpx, 4, 11))
+>h2 : Symbol(JSX.IntrinsicElements.h2, Decl(file.jmpx, 4, 11))
+>Button : Symbol(Button, Decl(file.jmpx, 8, 1))
+

@@ -1,0 +1,39 @@
+=== tests/cases/compiler/mutuallyRecursiveGenericBaseTypes1.jump ===
+interface A<T> {
+>A : Symbol(A, Decl(mutuallyRecursiveGenericBaseTypes1.jump, 0, 0))
+>T : Symbol(T, Decl(mutuallyRecursiveGenericBaseTypes1.jump, 0, 12))
+
+    foo(): B<T>; // instead of B does see this
+>foo : Symbol(A.foo, Decl(mutuallyRecursiveGenericBaseTypes1.jump, 0, 16), Decl(mutuallyRecursiveGenericBaseTypes1.jump, 1, 16))
+>B : Symbol(B, Decl(mutuallyRecursiveGenericBaseTypes1.jump, 5, 1))
+>T : Symbol(T, Decl(mutuallyRecursiveGenericBaseTypes1.jump, 0, 12))
+
+    foo(): void; // instead of B does see this
+>foo : Symbol(A.foo, Decl(mutuallyRecursiveGenericBaseTypes1.jump, 0, 16), Decl(mutuallyRecursiveGenericBaseTypes1.jump, 1, 16))
+ 
+    foo2(): B<number>;
+>foo2 : Symbol(A.foo2, Decl(mutuallyRecursiveGenericBaseTypes1.jump, 2, 16))
+>B : Symbol(B, Decl(mutuallyRecursiveGenericBaseTypes1.jump, 5, 1))
+}
+ 
+interface B<T> extends A<T> {
+>B : Symbol(B, Decl(mutuallyRecursiveGenericBaseTypes1.jump, 5, 1))
+>T : Symbol(T, Decl(mutuallyRecursiveGenericBaseTypes1.jump, 7, 12))
+>A : Symbol(A, Decl(mutuallyRecursiveGenericBaseTypes1.jump, 0, 0))
+>T : Symbol(T, Decl(mutuallyRecursiveGenericBaseTypes1.jump, 7, 12))
+
+    bar(): void;
+>bar : Symbol(B.bar, Decl(mutuallyRecursiveGenericBaseTypes1.jump, 7, 29))
+}
+ 
+var b: B<number>;
+>b : Symbol(b, Decl(mutuallyRecursiveGenericBaseTypes1.jump, 11, 3))
+>B : Symbol(B, Decl(mutuallyRecursiveGenericBaseTypes1.jump, 5, 1))
+
+b.foo(); // should not error
+>b.foo : Symbol(A.foo, Decl(mutuallyRecursiveGenericBaseTypes1.jump, 0, 16), Decl(mutuallyRecursiveGenericBaseTypes1.jump, 1, 16))
+>b : Symbol(b, Decl(mutuallyRecursiveGenericBaseTypes1.jump, 11, 3))
+>foo : Symbol(A.foo, Decl(mutuallyRecursiveGenericBaseTypes1.jump, 0, 16), Decl(mutuallyRecursiveGenericBaseTypes1.jump, 1, 16))
+
+ 
+

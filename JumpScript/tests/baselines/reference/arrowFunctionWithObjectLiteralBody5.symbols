@@ -1,0 +1,24 @@
+=== tests/cases/compiler/arrowFunctionWithObjectLiteralBody5.jump ===
+var a = () => <Error>{ name: "foo", message: "bar" };      
+>a : Symbol(a, Decl(arrowFunctionWithObjectLiteralBody5.jump, 0, 3))
+>Error : Symbol(Error, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>name : Symbol(name, Decl(arrowFunctionWithObjectLiteralBody5.jump, 0, 22))
+>message : Symbol(message, Decl(arrowFunctionWithObjectLiteralBody5.jump, 0, 35))
+
+var b = () => (<Error>{ name: "foo", message: "bar" });    
+>b : Symbol(b, Decl(arrowFunctionWithObjectLiteralBody5.jump, 2, 3))
+>Error : Symbol(Error, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>name : Symbol(name, Decl(arrowFunctionWithObjectLiteralBody5.jump, 2, 23))
+>message : Symbol(message, Decl(arrowFunctionWithObjectLiteralBody5.jump, 2, 36))
+
+var c = () => ({ name: "foo", message: "bar" });           
+>c : Symbol(c, Decl(arrowFunctionWithObjectLiteralBody5.jump, 4, 3))
+>name : Symbol(name, Decl(arrowFunctionWithObjectLiteralBody5.jump, 4, 16))
+>message : Symbol(message, Decl(arrowFunctionWithObjectLiteralBody5.jump, 4, 29))
+
+var d = () => ((<Error>({ name: "foo", message: "bar" })));
+>d : Symbol(d, Decl(arrowFunctionWithObjectLiteralBody5.jump, 6, 3))
+>Error : Symbol(Error, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>name : Symbol(name, Decl(arrowFunctionWithObjectLiteralBody5.jump, 6, 25))
+>message : Symbol(message, Decl(arrowFunctionWithObjectLiteralBody5.jump, 6, 38))
+

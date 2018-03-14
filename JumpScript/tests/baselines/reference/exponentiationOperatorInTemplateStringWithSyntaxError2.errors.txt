@@ -1,0 +1,165 @@
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(7,10): error TS17006: An unary expression with the '-' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(8,10): error TS17006: An unary expression with the '-' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(9,10): error TS17006: An unary expression with the '-' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(10,10): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(10,10): error TS17006: An unary expression with the '!' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(11,10): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(11,10): error TS17006: An unary expression with the 'typeof' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(12,14): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(12,14): error TS17006: An unary expression with the 'typeof' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(14,10): error TS17006: An unary expression with the '-' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(14,27): error TS17006: An unary expression with the '-' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(15,10): error TS17006: An unary expression with the '-' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(15,29): error TS17006: An unary expression with the '-' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(16,10): error TS17006: An unary expression with the '-' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(16,29): error TS17006: An unary expression with the '-' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(17,10): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(17,10): error TS17006: An unary expression with the '!' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(17,31): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(17,31): error TS17006: An unary expression with the '!' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(18,10): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(18,10): error TS17006: An unary expression with the 'typeof' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(18,34): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(18,34): error TS17006: An unary expression with the 'typeof' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(19,14): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(19,14): error TS17006: An unary expression with the 'typeof' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(19,42): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(19,42): error TS17006: An unary expression with the 'typeof' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(21,10): error TS17006: An unary expression with the '-' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(21,40): error TS17006: An unary expression with the '-' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(22,10): error TS17006: An unary expression with the '-' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(22,42): error TS17006: An unary expression with the '-' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(23,10): error TS17006: An unary expression with the '-' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(23,42): error TS17006: An unary expression with the '-' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(24,10): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(24,10): error TS17006: An unary expression with the '!' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(24,44): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(24,44): error TS17006: An unary expression with the '!' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(25,10): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(25,10): error TS17006: An unary expression with the 'typeof' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(25,47): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(25,47): error TS17006: An unary expression with the 'typeof' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(26,14): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(26,14): error TS17006: An unary expression with the 'typeof' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(26,55): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump(26,55): error TS17006: An unary expression with the 'typeof' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+
+
+==== tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2.jump (45 errors) ====
+    var t1 = 10;
+    var t2 = 10;
+    var s;
+    
+    // Error: early syntax error using ES7 SimpleUnaryExpression on left-hand side without ()
+    // With templateHead
+    `hello ${-t1 ** t2 - t1}`;
+             ~~~
+!!! error TS17006: An unary expression with the '-' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+    `hello ${-++t1 ** t2 - t1}`;
+             ~~~~~
+!!! error TS17006: An unary expression with the '-' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+    `hello ${-t1++ ** t2 - t1}`;
+             ~~~~~
+!!! error TS17006: An unary expression with the '-' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+    `hello ${!t1 ** t2 ** --t1 }`;
+             ~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+             ~~~
+!!! error TS17006: An unary expression with the '!' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+    `hello ${typeof t1 ** t2 ** t1}`;
+             ~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+             ~~~~~~~~~
+!!! error TS17006: An unary expression with the 'typeof' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+    `hello ${1 + typeof t1 ** t2 ** t1}`;
+                 ~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                 ~~~~~~~~~
+!!! error TS17006: An unary expression with the 'typeof' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+    
+    `hello ${-t1 ** t2 - t1}${-t1 ** t2 - t1}`;
+             ~~~
+!!! error TS17006: An unary expression with the '-' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+                              ~~~
+!!! error TS17006: An unary expression with the '-' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+    `hello ${-++t1 ** t2 - t1}${-++t1 ** t2 - t1}`;
+             ~~~~~
+!!! error TS17006: An unary expression with the '-' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+                                ~~~~~
+!!! error TS17006: An unary expression with the '-' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+    `hello ${-t1++ ** t2 - t1}${-t1++ ** t2 - t1}`;
+             ~~~~~
+!!! error TS17006: An unary expression with the '-' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+                                ~~~~~
+!!! error TS17006: An unary expression with the '-' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+    `hello ${!t1 ** t2 ** --t1 }${!t1 ** t2 ** --t1 }`;
+             ~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+             ~~~
+!!! error TS17006: An unary expression with the '!' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+                                  ~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                                  ~~~
+!!! error TS17006: An unary expression with the '!' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+    `hello ${typeof t1 ** t2 ** t1}${typeof t1 ** t2 ** t1}`;
+             ~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+             ~~~~~~~~~
+!!! error TS17006: An unary expression with the 'typeof' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+                                     ~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                                     ~~~~~~~~~
+!!! error TS17006: An unary expression with the 'typeof' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+    `hello ${1 + typeof t1 ** t2 ** t1}${1 + typeof t1 ** t2 ** t1}`;
+                 ~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                 ~~~~~~~~~
+!!! error TS17006: An unary expression with the 'typeof' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+                                             ~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                                             ~~~~~~~~~
+!!! error TS17006: An unary expression with the 'typeof' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+    
+    `hello ${-t1 ** t2 - t1} hello world ${-t1 ** t2 - t1}`;
+             ~~~
+!!! error TS17006: An unary expression with the '-' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+                                           ~~~
+!!! error TS17006: An unary expression with the '-' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+    `hello ${-++t1 ** t2 - t1} hello world ${-++t1 ** t2 - t1}`;
+             ~~~~~
+!!! error TS17006: An unary expression with the '-' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+                                             ~~~~~
+!!! error TS17006: An unary expression with the '-' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+    `hello ${-t1++ ** t2 - t1} hello world ${-t1++ ** t2 - t1}`;
+             ~~~~~
+!!! error TS17006: An unary expression with the '-' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+                                             ~~~~~
+!!! error TS17006: An unary expression with the '-' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+    `hello ${!t1 ** t2 ** --t1 } hello world ${!t1 ** t2 ** --t1 }`;
+             ~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+             ~~~
+!!! error TS17006: An unary expression with the '!' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+                                               ~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                                               ~~~
+!!! error TS17006: An unary expression with the '!' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+    `hello ${typeof t1 ** t2 ** t1} hello world ${typeof t1 ** t2 ** t1}`;
+             ~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+             ~~~~~~~~~
+!!! error TS17006: An unary expression with the 'typeof' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+                                                  ~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                                                  ~~~~~~~~~
+!!! error TS17006: An unary expression with the 'typeof' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+    `hello ${1 + typeof t1 ** t2 ** t1} hello world ${1 + typeof t1 ** t2 ** t1}`;
+                 ~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                 ~~~~~~~~~
+!!! error TS17006: An unary expression with the 'typeof' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+                                                          ~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                                                          ~~~~~~~~~
+!!! error TS17006: An unary expression with the 'typeof' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+    

@@ -1,0 +1,4 @@
+=== tests/cases/conformance/types/primitives/null/directReferenceToNull.jump ===
+var x: Null;
+>x : Symbol(x, Decl(directReferenceToNull.jump, 0, 3))
+

@@ -1,0 +1,11 @@
+=== tests/cases/conformance/parser/ecmascript5/ErrorRecovery/ClassElements/parserErrorRecovery_ClassElement2.jump ===
+module M {
+>M : Symbol(M, Decl(parserErrorRecovery_ClassElement2.jump, 0, 0))
+
+  class C {
+>C : Symbol(C, Decl(parserErrorRecovery_ClassElement2.jump, 0, 10))
+
+  enum E {
+>E : Symbol(E, Decl(parserErrorRecovery_ClassElement2.jump, 1, 11))
+  }
+}

@@ -1,0 +1,16 @@
+=== tests/cases/compiler/classImplementingInterfaceIndexer.jump ===
+interface I {
+>I : Symbol(I, Decl(classImplementingInterfaceIndexer.jump, 0, 0))
+
+    [index: string]: { prop }
+>index : Symbol(index, Decl(classImplementingInterfaceIndexer.jump, 1, 5))
+>prop : Symbol(prop, Decl(classImplementingInterfaceIndexer.jump, 1, 22))
+}
+class A implements I {
+>A : Symbol(A, Decl(classImplementingInterfaceIndexer.jump, 2, 1))
+>I : Symbol(I, Decl(classImplementingInterfaceIndexer.jump, 0, 0))
+
+    [index: string]: { prop }
+>index : Symbol(index, Decl(classImplementingInterfaceIndexer.jump, 4, 5))
+>prop : Symbol(prop, Decl(classImplementingInterfaceIndexer.jump, 4, 22))
+}

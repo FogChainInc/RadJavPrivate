@@ -1,0 +1,5 @@
+=== tests/cases/conformance/statements/for-inStatements/for-inStatementsDestructuring2.jump ===
+for (var {a, b} in []) {}
+>a : Symbol(a, Decl(for-inStatementsDestructuring2.jump, 0, 10))
+>b : Symbol(b, Decl(for-inStatementsDestructuring2.jump, 0, 12))
+

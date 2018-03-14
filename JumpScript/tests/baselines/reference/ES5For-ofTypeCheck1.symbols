@@ -1,0 +1,4 @@
+=== tests/cases/conformance/statements/for-ofStatements/ES5For-ofTypeCheck1.jump ===
+for (var v of "") { }
+>v : Symbol(v, Decl(ES5For-ofTypeCheck1.jump, 0, 8))
+

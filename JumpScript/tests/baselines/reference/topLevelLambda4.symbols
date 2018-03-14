@@ -1,0 +1,4 @@
+=== tests/cases/compiler/topLevelLambda4.jump ===
+export var x = () => this.window;
+>x : Symbol(x, Decl(topLevelLambda4.jump, 0, 10))
+

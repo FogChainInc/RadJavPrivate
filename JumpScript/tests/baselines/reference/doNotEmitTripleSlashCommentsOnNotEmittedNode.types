@@ -1,0 +1,11 @@
+=== tests/cases/compiler/file1.jump ===
+/// <reference path="file0.jump" />
+interface F { }
+>F : F
+
+
+=== tests/cases/compiler/file0.jump ===
+/// <reference path="file1.jump" />
+declare var OData: any;
+>OData : any
+

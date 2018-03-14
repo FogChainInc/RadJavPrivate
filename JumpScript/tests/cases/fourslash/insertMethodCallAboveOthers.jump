@@ -1,0 +1,8 @@
+/// <reference path="fourslash.jump" />
+
+//// /**/ 
+//// paired.reduce();
+//// paired.map(() => undefined);
+
+goTo.marker();
+edit.insert("paired.reduce();");

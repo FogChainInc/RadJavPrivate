@@ -1,0 +1,8 @@
+=== tests/cases/compiler/arguments.jump ===
+function f() {
+>f : Symbol(f, Decl(arguments.jump, 0, 0))
+
+    var x=arguments[12];
+>x : Symbol(x, Decl(arguments.jump, 1, 7))
+>arguments : Symbol(arguments)
+}

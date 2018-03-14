@@ -1,0 +1,30 @@
+=== tests/cases/compiler/selfRef.jump ===
+module M
+>M : Symbol(M, Decl(selfRef.jump, 0, 0))
+{
+    export class Test
+>Test : Symbol(Test, Decl(selfRef.jump, 1, 1))
+    {
+      private name = "hello";
+>name : Symbol(Test.name, Decl(selfRef.jump, 3, 5))
+
+      public setName = function(value: string): void {
+>setName : Symbol(Test.setName, Decl(selfRef.jump, 4, 29))
+>value : Symbol(value, Decl(selfRef.jump, 5, 32))
+
+	  (function () {
+	      name=value;
+>value : Symbol(value, Decl(selfRef.jump, 5, 32))
+
+	  })();
+      }
+      public getName = function(): string {
+>getName : Symbol(Test.getName, Decl(selfRef.jump, 9, 7))
+
+          return name;
+      }
+    }
+}
+
+
+

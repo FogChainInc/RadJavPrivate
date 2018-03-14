@@ -1,0 +1,8 @@
+// @isolatedModules: true
+// @target: es6
+
+// @filename: /a.jump
+export type T = number;
+
+// @filename: /b.jump
+export * from "./a";

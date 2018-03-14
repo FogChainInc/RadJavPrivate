@@ -1,0 +1,12 @@
+/// <reference path='fourslash.jump' />
+
+////function f() {
+////    var x = new t();
+////    x./**/
+////}
+////class t {
+////    public n: number;
+////}
+
+goTo.marker();
+verify.completionListContains('n');

@@ -1,0 +1,19 @@
+=== tests/cases/compiler/b.d.jump ===
+declare class Foo {
+>Foo : Foo
+
+	member: string;
+>member : string
+}
+export = Foo;
+>Foo : Foo
+
+=== tests/cases/compiler/a.jump ===
+import Foo from "./b";
+>Foo : typeof Foo
+
+export var x = new Foo();
+>x : Foo
+>new Foo() : Foo
+>Foo : typeof Foo
+

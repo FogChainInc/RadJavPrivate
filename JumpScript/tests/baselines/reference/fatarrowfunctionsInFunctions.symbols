@@ -1,0 +1,33 @@
+=== tests/cases/compiler/fatarrowfunctionsInFunctions.jump ===
+declare function setTimeout(expression: any, msec?: number, language?: any): number;
+>setTimeout : Symbol(setTimeout, Decl(fatarrowfunctionsInFunctions.jump, 0, 0))
+>expression : Symbol(expression, Decl(fatarrowfunctionsInFunctions.jump, 0, 28))
+>msec : Symbol(msec, Decl(fatarrowfunctionsInFunctions.jump, 0, 44))
+>language : Symbol(language, Decl(fatarrowfunctionsInFunctions.jump, 0, 59))
+
+var messenger = {
+>messenger : Symbol(messenger, Decl(fatarrowfunctionsInFunctions.jump, 2, 3))
+
+    message: "Hello World",
+>message : Symbol(message, Decl(fatarrowfunctionsInFunctions.jump, 2, 17))
+
+    start: function() {
+>start : Symbol(start, Decl(fatarrowfunctionsInFunctions.jump, 3, 27))
+
+        var _self = this;
+>_self : Symbol(_self, Decl(fatarrowfunctionsInFunctions.jump, 5, 11))
+
+        setTimeout(function() {
+>setTimeout : Symbol(setTimeout, Decl(fatarrowfunctionsInFunctions.jump, 0, 0))
+
+            _self.message.toString(); 
+>_self : Symbol(_self, Decl(fatarrowfunctionsInFunctions.jump, 5, 11))
+
+        }, 3000); 
+    }
+}; 
+messenger.start(); 
+>messenger.start : Symbol(start, Decl(fatarrowfunctionsInFunctions.jump, 3, 27))
+>messenger : Symbol(messenger, Decl(fatarrowfunctionsInFunctions.jump, 2, 3))
+>start : Symbol(start, Decl(fatarrowfunctionsInFunctions.jump, 3, 27))
+

@@ -1,0 +1,362 @@
+=== tests/cases/conformance/classes/propertyMemberDeclarations/staticPropertyNameConflicts.jump ===
+// name
+class StaticName {
+>StaticName : Symbol(StaticName, Decl(staticPropertyNameConflicts.jump, 0, 0))
+
+    static name: number; // error
+>name : Symbol(StaticName.name, Decl(staticPropertyNameConflicts.jump, 1, 18))
+
+    name: string; // ok
+>name : Symbol(StaticName.name, Decl(staticPropertyNameConflicts.jump, 2, 24))
+}
+
+class StaticNameFn {
+>StaticNameFn : Symbol(StaticNameFn, Decl(staticPropertyNameConflicts.jump, 4, 1))
+
+    static name() {} // error
+>name : Symbol(StaticNameFn.name, Decl(staticPropertyNameConflicts.jump, 6, 20))
+
+    name() {} // ok
+>name : Symbol(StaticNameFn.name, Decl(staticPropertyNameConflicts.jump, 7, 20))
+}
+
+// length
+class StaticLength {
+>StaticLength : Symbol(StaticLength, Decl(staticPropertyNameConflicts.jump, 9, 1))
+
+    static length: number; // error
+>length : Symbol(StaticLength.length, Decl(staticPropertyNameConflicts.jump, 12, 20))
+
+    length: string; // ok
+>length : Symbol(StaticLength.length, Decl(staticPropertyNameConflicts.jump, 13, 26))
+}
+
+class StaticLengthFn {
+>StaticLengthFn : Symbol(StaticLengthFn, Decl(staticPropertyNameConflicts.jump, 15, 1))
+
+    static length() {} // error
+>length : Symbol(StaticLengthFn.length, Decl(staticPropertyNameConflicts.jump, 17, 22))
+
+    length() {} // ok
+>length : Symbol(StaticLengthFn.length, Decl(staticPropertyNameConflicts.jump, 18, 22))
+}
+
+// prototype
+class StaticPrototype {
+>StaticPrototype : Symbol(StaticPrototype, Decl(staticPropertyNameConflicts.jump, 20, 1))
+
+    static prototype: number; // error
+>prototype : Symbol(StaticPrototype.prototype, Decl(staticPropertyNameConflicts.jump, 23, 23))
+
+    prototype: string; // ok
+>prototype : Symbol(StaticPrototype.prototype, Decl(staticPropertyNameConflicts.jump, 24, 29))
+}
+
+class StaticPrototypeFn {
+>StaticPrototypeFn : Symbol(StaticPrototypeFn, Decl(staticPropertyNameConflicts.jump, 26, 1))
+
+    static prototype() {} // error
+>prototype : Symbol(StaticPrototypeFn.prototype, Decl(staticPropertyNameConflicts.jump, 28, 25))
+
+    prototype() {} // ok
+>prototype : Symbol(StaticPrototypeFn.prototype, Decl(staticPropertyNameConflicts.jump, 29, 25))
+}
+
+// caller
+class StaticCaller {
+>StaticCaller : Symbol(StaticCaller, Decl(staticPropertyNameConflicts.jump, 31, 1))
+
+    static caller: number; // error
+>caller : Symbol(StaticCaller.caller, Decl(staticPropertyNameConflicts.jump, 34, 20))
+
+    caller: string; // ok
+>caller : Symbol(StaticCaller.caller, Decl(staticPropertyNameConflicts.jump, 35, 26))
+}
+
+class StaticCallerFn {
+>StaticCallerFn : Symbol(StaticCallerFn, Decl(staticPropertyNameConflicts.jump, 37, 1))
+
+    static caller() {} // error
+>caller : Symbol(StaticCallerFn.caller, Decl(staticPropertyNameConflicts.jump, 39, 22))
+
+    caller() {} // ok
+>caller : Symbol(StaticCallerFn.caller, Decl(staticPropertyNameConflicts.jump, 40, 22))
+}
+
+// arguments
+class StaticArguments {
+>StaticArguments : Symbol(StaticArguments, Decl(staticPropertyNameConflicts.jump, 42, 1))
+
+    static arguments: number; // error
+>arguments : Symbol(StaticArguments.arguments, Decl(staticPropertyNameConflicts.jump, 45, 23))
+
+    arguments: string; // ok
+>arguments : Symbol(StaticArguments.arguments, Decl(staticPropertyNameConflicts.jump, 46, 29))
+}
+
+class StaticArgumentsFn {
+>StaticArgumentsFn : Symbol(StaticArgumentsFn, Decl(staticPropertyNameConflicts.jump, 48, 1))
+
+    static arguments() {} // error
+>arguments : Symbol(StaticArgumentsFn.arguments, Decl(staticPropertyNameConflicts.jump, 50, 25))
+
+    arguments() {} // ok
+>arguments : Symbol(StaticArgumentsFn.arguments, Decl(staticPropertyNameConflicts.jump, 51, 25))
+}
+
+
+
+// === Static properties on anonymous classes ===
+
+// name
+var StaticName_Anonymous = class {
+>StaticName_Anonymous : Symbol(StaticName_Anonymous, Decl(staticPropertyNameConflicts.jump, 60, 3))
+
+    static name: number; // error
+>name : Symbol(StaticName_Anonymous.name, Decl(staticPropertyNameConflicts.jump, 60, 34))
+
+    name: string; // ok
+>name : Symbol(StaticName_Anonymous.name, Decl(staticPropertyNameConflicts.jump, 61, 24))
+}
+
+var StaticNameFn_Anonymous = class {
+>StaticNameFn_Anonymous : Symbol(StaticNameFn_Anonymous, Decl(staticPropertyNameConflicts.jump, 65, 3))
+
+    static name() {} // error
+>name : Symbol(StaticNameFn_Anonymous.name, Decl(staticPropertyNameConflicts.jump, 65, 36))
+
+    name() {} // ok
+>name : Symbol(StaticNameFn_Anonymous.name, Decl(staticPropertyNameConflicts.jump, 66, 20))
+}
+
+// length
+var StaticLength_Anonymous = class {
+>StaticLength_Anonymous : Symbol(StaticLength_Anonymous, Decl(staticPropertyNameConflicts.jump, 71, 3))
+
+    static length: number; // error
+>length : Symbol(StaticLength_Anonymous.length, Decl(staticPropertyNameConflicts.jump, 71, 36))
+
+    length: string; // ok
+>length : Symbol(StaticLength_Anonymous.length, Decl(staticPropertyNameConflicts.jump, 72, 26))
+}
+
+var StaticLengthFn_Anonymous = class {
+>StaticLengthFn_Anonymous : Symbol(StaticLengthFn_Anonymous, Decl(staticPropertyNameConflicts.jump, 76, 3))
+
+    static length() {} // error
+>length : Symbol(StaticLengthFn_Anonymous.length, Decl(staticPropertyNameConflicts.jump, 76, 38))
+
+    length() {} // ok
+>length : Symbol(StaticLengthFn_Anonymous.length, Decl(staticPropertyNameConflicts.jump, 77, 22))
+}
+
+// prototype
+var StaticPrototype_Anonymous = class {
+>StaticPrototype_Anonymous : Symbol(StaticPrototype_Anonymous, Decl(staticPropertyNameConflicts.jump, 82, 3))
+
+    static prototype: number; // error
+>prototype : Symbol(StaticPrototype_Anonymous.prototype, Decl(staticPropertyNameConflicts.jump, 82, 39))
+
+    prototype: string; // ok
+>prototype : Symbol(StaticPrototype_Anonymous.prototype, Decl(staticPropertyNameConflicts.jump, 83, 29))
+}
+
+var StaticPrototypeFn_Anonymous = class {
+>StaticPrototypeFn_Anonymous : Symbol(StaticPrototypeFn_Anonymous, Decl(staticPropertyNameConflicts.jump, 87, 3))
+
+    static prototype() {} // error
+>prototype : Symbol(StaticPrototypeFn_Anonymous.prototype, Decl(staticPropertyNameConflicts.jump, 87, 41))
+
+    prototype() {} // ok
+>prototype : Symbol(StaticPrototypeFn_Anonymous.prototype, Decl(staticPropertyNameConflicts.jump, 88, 25))
+}
+
+// caller
+var StaticCaller_Anonymous = class {
+>StaticCaller_Anonymous : Symbol(StaticCaller_Anonymous, Decl(staticPropertyNameConflicts.jump, 93, 3))
+
+    static caller: number; // error
+>caller : Symbol(StaticCaller_Anonymous.caller, Decl(staticPropertyNameConflicts.jump, 93, 36))
+
+    caller: string; // ok
+>caller : Symbol(StaticCaller_Anonymous.caller, Decl(staticPropertyNameConflicts.jump, 94, 26))
+}
+
+var StaticCallerFn_Anonymous = class {
+>StaticCallerFn_Anonymous : Symbol(StaticCallerFn_Anonymous, Decl(staticPropertyNameConflicts.jump, 98, 3))
+
+    static caller() {} // error
+>caller : Symbol(StaticCallerFn_Anonymous.caller, Decl(staticPropertyNameConflicts.jump, 98, 38))
+
+    caller() {} // ok
+>caller : Symbol(StaticCallerFn_Anonymous.caller, Decl(staticPropertyNameConflicts.jump, 99, 22))
+}
+
+// arguments
+var StaticArguments_Anonymous = class {
+>StaticArguments_Anonymous : Symbol(StaticArguments_Anonymous, Decl(staticPropertyNameConflicts.jump, 104, 3))
+
+    static arguments: number; // error
+>arguments : Symbol(StaticArguments_Anonymous.arguments, Decl(staticPropertyNameConflicts.jump, 104, 39))
+
+    arguments: string; // ok
+>arguments : Symbol(StaticArguments_Anonymous.arguments, Decl(staticPropertyNameConflicts.jump, 105, 29))
+}
+
+var StaticArgumentsFn_Anonymous = class {
+>StaticArgumentsFn_Anonymous : Symbol(StaticArgumentsFn_Anonymous, Decl(staticPropertyNameConflicts.jump, 109, 3))
+
+    static arguments() {} // error
+>arguments : Symbol(StaticArgumentsFn_Anonymous.arguments, Decl(staticPropertyNameConflicts.jump, 109, 41))
+
+    arguments() {} // ok
+>arguments : Symbol(StaticArgumentsFn_Anonymous.arguments, Decl(staticPropertyNameConflicts.jump, 110, 25))
+}
+
+
+// === Static properties on default exported classes ===
+
+// name
+module TestOnDefaultExportedClass_1 {
+>TestOnDefaultExportedClass_1 : Symbol(TestOnDefaultExportedClass_1, Decl(staticPropertyNameConflicts.jump, 112, 1))
+
+    class StaticName {
+>StaticName : Symbol(StaticName, Decl(staticPropertyNameConflicts.jump, 118, 37))
+
+        static name: number; // error
+>name : Symbol(StaticName.name, Decl(staticPropertyNameConflicts.jump, 119, 22))
+
+        name: string; // ok
+>name : Symbol(StaticName.name, Decl(staticPropertyNameConflicts.jump, 120, 28))
+    }
+}
+
+module TestOnDefaultExportedClass_2 {
+>TestOnDefaultExportedClass_2 : Symbol(TestOnDefaultExportedClass_2, Decl(staticPropertyNameConflicts.jump, 123, 1))
+
+    class StaticNameFn {
+>StaticNameFn : Symbol(StaticNameFn, Decl(staticPropertyNameConflicts.jump, 125, 37))
+
+        static name() {} // error
+>name : Symbol(StaticNameFn.name, Decl(staticPropertyNameConflicts.jump, 126, 24))
+
+        name() {} // ok
+>name : Symbol(StaticNameFn.name, Decl(staticPropertyNameConflicts.jump, 127, 24))
+    }
+}
+
+// length
+module TestOnDefaultExportedClass_3 {
+>TestOnDefaultExportedClass_3 : Symbol(TestOnDefaultExportedClass_3, Decl(staticPropertyNameConflicts.jump, 130, 1))
+
+    export default class StaticLength {
+>StaticLength : Symbol(StaticLength, Decl(staticPropertyNameConflicts.jump, 133, 37))
+
+        static length: number; // error
+>length : Symbol(StaticLength.length, Decl(staticPropertyNameConflicts.jump, 134, 39))
+
+        length: string; // ok
+>length : Symbol(StaticLength.length, Decl(staticPropertyNameConflicts.jump, 135, 30))
+    }
+}
+
+module TestOnDefaultExportedClass_4 {
+>TestOnDefaultExportedClass_4 : Symbol(TestOnDefaultExportedClass_4, Decl(staticPropertyNameConflicts.jump, 138, 1))
+
+    export default class StaticLengthFn {
+>StaticLengthFn : Symbol(StaticLengthFn, Decl(staticPropertyNameConflicts.jump, 140, 37))
+
+        static length() {} // error
+>length : Symbol(StaticLengthFn.length, Decl(staticPropertyNameConflicts.jump, 141, 41))
+
+        length() {} // ok
+>length : Symbol(StaticLengthFn.length, Decl(staticPropertyNameConflicts.jump, 142, 26))
+    }
+}
+
+// prototype
+module TestOnDefaultExportedClass_5 {    
+>TestOnDefaultExportedClass_5 : Symbol(TestOnDefaultExportedClass_5, Decl(staticPropertyNameConflicts.jump, 145, 1))
+
+    export default class StaticPrototype {
+>StaticPrototype : Symbol(StaticPrototype, Decl(staticPropertyNameConflicts.jump, 148, 37))
+
+        static prototype: number; // error
+>prototype : Symbol(StaticPrototype.prototype, Decl(staticPropertyNameConflicts.jump, 149, 42))
+
+        prototype: string; // ok
+>prototype : Symbol(StaticPrototype.prototype, Decl(staticPropertyNameConflicts.jump, 150, 33))
+    }
+}
+
+module TestOnDefaultExportedClass_6 {
+>TestOnDefaultExportedClass_6 : Symbol(TestOnDefaultExportedClass_6, Decl(staticPropertyNameConflicts.jump, 153, 1))
+
+    export default class StaticPrototypeFn {
+>StaticPrototypeFn : Symbol(StaticPrototypeFn, Decl(staticPropertyNameConflicts.jump, 155, 37))
+
+        static prototype() {} // error
+>prototype : Symbol(StaticPrototypeFn.prototype, Decl(staticPropertyNameConflicts.jump, 156, 44))
+
+        prototype() {} // ok
+>prototype : Symbol(StaticPrototypeFn.prototype, Decl(staticPropertyNameConflicts.jump, 157, 29))
+    }
+}
+
+// caller
+module TestOnDefaultExportedClass_7 {
+>TestOnDefaultExportedClass_7 : Symbol(TestOnDefaultExportedClass_7, Decl(staticPropertyNameConflicts.jump, 160, 1))
+
+    export default class StaticCaller {
+>StaticCaller : Symbol(StaticCaller, Decl(staticPropertyNameConflicts.jump, 163, 37))
+
+        static caller: number; // error
+>caller : Symbol(StaticCaller.caller, Decl(staticPropertyNameConflicts.jump, 164, 39))
+
+        caller: string; // ok
+>caller : Symbol(StaticCaller.caller, Decl(staticPropertyNameConflicts.jump, 165, 30))
+    }
+}
+
+module TestOnDefaultExportedClass_8 {
+>TestOnDefaultExportedClass_8 : Symbol(TestOnDefaultExportedClass_8, Decl(staticPropertyNameConflicts.jump, 168, 1))
+
+    export default class StaticCallerFn {
+>StaticCallerFn : Symbol(StaticCallerFn, Decl(staticPropertyNameConflicts.jump, 170, 37))
+
+        static caller() {} // error
+>caller : Symbol(StaticCallerFn.caller, Decl(staticPropertyNameConflicts.jump, 171, 41))
+
+        caller() {} // ok
+>caller : Symbol(StaticCallerFn.caller, Decl(staticPropertyNameConflicts.jump, 172, 26))
+    }
+}
+
+// arguments
+module TestOnDefaultExportedClass_9 {
+>TestOnDefaultExportedClass_9 : Symbol(TestOnDefaultExportedClass_9, Decl(staticPropertyNameConflicts.jump, 175, 1))
+
+    export default class StaticArguments {
+>StaticArguments : Symbol(StaticArguments, Decl(staticPropertyNameConflicts.jump, 178, 37))
+
+        static arguments: number; // error
+>arguments : Symbol(StaticArguments.arguments, Decl(staticPropertyNameConflicts.jump, 179, 42))
+
+        arguments: string; // ok
+>arguments : Symbol(StaticArguments.arguments, Decl(staticPropertyNameConflicts.jump, 180, 33))
+    }
+}
+
+module TestOnDefaultExportedClass_10 {
+>TestOnDefaultExportedClass_10 : Symbol(TestOnDefaultExportedClass_10, Decl(staticPropertyNameConflicts.jump, 183, 1))
+
+    export default class StaticArgumentsFn {
+>StaticArgumentsFn : Symbol(StaticArgumentsFn, Decl(staticPropertyNameConflicts.jump, 185, 38))
+
+        static arguments() {} // error
+>arguments : Symbol(StaticArgumentsFn.arguments, Decl(staticPropertyNameConflicts.jump, 186, 44))
+
+        arguments() {} // ok
+>arguments : Symbol(StaticArgumentsFn.arguments, Decl(staticPropertyNameConflicts.jump, 187, 29))
+    }
+}

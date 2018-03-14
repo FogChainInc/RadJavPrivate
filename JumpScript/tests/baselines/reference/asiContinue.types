@@ -1,0 +1,4 @@
+=== tests/cases/compiler/asiContinue.jump ===
+while (true) continue
+>true : true
+

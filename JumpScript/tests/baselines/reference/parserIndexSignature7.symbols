@@ -1,0 +1,7 @@
+=== tests/cases/conformance/parser/ecmascript5/IndexSignatures/parserIndexSignature7.jump ===
+interface I {
+>I : Symbol(I, Decl(parserIndexSignature7.jump, 0, 0))
+
+  [a:string]
+>a : Symbol(a, Decl(parserIndexSignature7.jump, 1, 3))
+}

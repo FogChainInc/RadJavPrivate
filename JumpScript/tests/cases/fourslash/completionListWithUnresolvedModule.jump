@@ -1,0 +1,10 @@
+/// <reference path="fourslash.jump" />
+
+////module m {
+////    import foo = module('_foo');
+////    var n: num/**/
+////}
+
+goTo.marker();
+
+verify.completionListContains('number');

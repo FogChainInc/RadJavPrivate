@@ -1,0 +1,109 @@
+=== tests/cases/compiler/derivedInterfaceCallSignature.jump ===
+interface D3SvgPath {
+>D3SvgPath : Symbol(D3SvgPath, Decl(derivedInterfaceCallSignature.jump, 0, 0))
+
+    (data: any, index?: number): string;
+>data : Symbol(data, Decl(derivedInterfaceCallSignature.jump, 1, 5))
+>index : Symbol(index, Decl(derivedInterfaceCallSignature.jump, 1, 15))
+
+    x(): (data: any, index?: number) => number;
+>x : Symbol(D3SvgPath.x, Decl(derivedInterfaceCallSignature.jump, 1, 40))
+>data : Symbol(data, Decl(derivedInterfaceCallSignature.jump, 3, 10))
+>index : Symbol(index, Decl(derivedInterfaceCallSignature.jump, 3, 20))
+
+    y(): (data: any, index?: number) => number;
+>y : Symbol(D3SvgPath.y, Decl(derivedInterfaceCallSignature.jump, 3, 47))
+>data : Symbol(data, Decl(derivedInterfaceCallSignature.jump, 4, 10))
+>index : Symbol(index, Decl(derivedInterfaceCallSignature.jump, 4, 20))
+
+    interpolate(): string;
+>interpolate : Symbol(D3SvgPath.interpolate, Decl(derivedInterfaceCallSignature.jump, 4, 47))
+
+    tension(): number;
+>tension : Symbol(D3SvgPath.tension, Decl(derivedInterfaceCallSignature.jump, 5, 26))
+
+    defined(): (data: any, index?: number) => boolean;
+>defined : Symbol(D3SvgPath.defined, Decl(derivedInterfaceCallSignature.jump, 6, 22))
+>data : Symbol(data, Decl(derivedInterfaceCallSignature.jump, 7, 16))
+>index : Symbol(index, Decl(derivedInterfaceCallSignature.jump, 7, 26))
+}
+
+interface D3SvgArea extends D3SvgPath {
+>D3SvgArea : Symbol(D3SvgArea, Decl(derivedInterfaceCallSignature.jump, 8, 1))
+>D3SvgPath : Symbol(D3SvgPath, Decl(derivedInterfaceCallSignature.jump, 0, 0))
+
+    x(x: (data: any, index?: number) => number): D3SvgArea;
+>x : Symbol(D3SvgArea.x, Decl(derivedInterfaceCallSignature.jump, 10, 39))
+>x : Symbol(x, Decl(derivedInterfaceCallSignature.jump, 11, 6))
+>data : Symbol(data, Decl(derivedInterfaceCallSignature.jump, 11, 10))
+>index : Symbol(index, Decl(derivedInterfaceCallSignature.jump, 11, 20))
+>D3SvgArea : Symbol(D3SvgArea, Decl(derivedInterfaceCallSignature.jump, 8, 1))
+
+    y(y: (data: any, index?: number) => number): D3SvgArea;
+>y : Symbol(D3SvgArea.y, Decl(derivedInterfaceCallSignature.jump, 11, 59))
+>y : Symbol(y, Decl(derivedInterfaceCallSignature.jump, 12, 6))
+>data : Symbol(data, Decl(derivedInterfaceCallSignature.jump, 12, 10))
+>index : Symbol(index, Decl(derivedInterfaceCallSignature.jump, 12, 20))
+>D3SvgArea : Symbol(D3SvgArea, Decl(derivedInterfaceCallSignature.jump, 8, 1))
+
+    y0(): (data: any, index?: number) => number;
+>y0 : Symbol(D3SvgArea.y0, Decl(derivedInterfaceCallSignature.jump, 12, 59), Decl(derivedInterfaceCallSignature.jump, 13, 48), Decl(derivedInterfaceCallSignature.jump, 14, 29))
+>data : Symbol(data, Decl(derivedInterfaceCallSignature.jump, 13, 11))
+>index : Symbol(index, Decl(derivedInterfaceCallSignature.jump, 13, 21))
+
+    y0(y: number): D3SvgArea;
+>y0 : Symbol(D3SvgArea.y0, Decl(derivedInterfaceCallSignature.jump, 12, 59), Decl(derivedInterfaceCallSignature.jump, 13, 48), Decl(derivedInterfaceCallSignature.jump, 14, 29))
+>y : Symbol(y, Decl(derivedInterfaceCallSignature.jump, 14, 7))
+>D3SvgArea : Symbol(D3SvgArea, Decl(derivedInterfaceCallSignature.jump, 8, 1))
+
+    y0(y: (data: any, index?: number) => number): D3SvgArea;
+>y0 : Symbol(D3SvgArea.y0, Decl(derivedInterfaceCallSignature.jump, 12, 59), Decl(derivedInterfaceCallSignature.jump, 13, 48), Decl(derivedInterfaceCallSignature.jump, 14, 29))
+>y : Symbol(y, Decl(derivedInterfaceCallSignature.jump, 15, 7))
+>data : Symbol(data, Decl(derivedInterfaceCallSignature.jump, 15, 11))
+>index : Symbol(index, Decl(derivedInterfaceCallSignature.jump, 15, 21))
+>D3SvgArea : Symbol(D3SvgArea, Decl(derivedInterfaceCallSignature.jump, 8, 1))
+
+    y1(): (data: any, index?: number) => number;
+>y1 : Symbol(D3SvgArea.y1, Decl(derivedInterfaceCallSignature.jump, 15, 60), Decl(derivedInterfaceCallSignature.jump, 16, 48), Decl(derivedInterfaceCallSignature.jump, 17, 29))
+>data : Symbol(data, Decl(derivedInterfaceCallSignature.jump, 16, 11))
+>index : Symbol(index, Decl(derivedInterfaceCallSignature.jump, 16, 21))
+
+    y1(y: number): D3SvgArea;
+>y1 : Symbol(D3SvgArea.y1, Decl(derivedInterfaceCallSignature.jump, 15, 60), Decl(derivedInterfaceCallSignature.jump, 16, 48), Decl(derivedInterfaceCallSignature.jump, 17, 29))
+>y : Symbol(y, Decl(derivedInterfaceCallSignature.jump, 17, 7))
+>D3SvgArea : Symbol(D3SvgArea, Decl(derivedInterfaceCallSignature.jump, 8, 1))
+
+    y1(y: (data: any, index?: number) => number): D3SvgArea;
+>y1 : Symbol(D3SvgArea.y1, Decl(derivedInterfaceCallSignature.jump, 15, 60), Decl(derivedInterfaceCallSignature.jump, 16, 48), Decl(derivedInterfaceCallSignature.jump, 17, 29))
+>y : Symbol(y, Decl(derivedInterfaceCallSignature.jump, 18, 7))
+>data : Symbol(data, Decl(derivedInterfaceCallSignature.jump, 18, 11))
+>index : Symbol(index, Decl(derivedInterfaceCallSignature.jump, 18, 21))
+>D3SvgArea : Symbol(D3SvgArea, Decl(derivedInterfaceCallSignature.jump, 8, 1))
+
+    interpolate(interpolator: string): D3SvgArea;
+>interpolate : Symbol(D3SvgArea.interpolate, Decl(derivedInterfaceCallSignature.jump, 18, 60))
+>interpolator : Symbol(interpolator, Decl(derivedInterfaceCallSignature.jump, 20, 16))
+>D3SvgArea : Symbol(D3SvgArea, Decl(derivedInterfaceCallSignature.jump, 8, 1))
+
+    tension(tension: number): D3SvgArea;
+>tension : Symbol(D3SvgArea.tension, Decl(derivedInterfaceCallSignature.jump, 20, 49))
+>tension : Symbol(tension, Decl(derivedInterfaceCallSignature.jump, 21, 12))
+>D3SvgArea : Symbol(D3SvgArea, Decl(derivedInterfaceCallSignature.jump, 8, 1))
+
+    defined(defined: (data: any, index?: number) => boolean): D3SvgArea;
+>defined : Symbol(D3SvgArea.defined, Decl(derivedInterfaceCallSignature.jump, 21, 40))
+>defined : Symbol(defined, Decl(derivedInterfaceCallSignature.jump, 22, 12))
+>data : Symbol(data, Decl(derivedInterfaceCallSignature.jump, 22, 22))
+>index : Symbol(index, Decl(derivedInterfaceCallSignature.jump, 22, 32))
+>D3SvgArea : Symbol(D3SvgArea, Decl(derivedInterfaceCallSignature.jump, 8, 1))
+}
+
+var area: D3SvgArea;
+>area : Symbol(area, Decl(derivedInterfaceCallSignature.jump, 25, 3))
+>D3SvgArea : Symbol(D3SvgArea, Decl(derivedInterfaceCallSignature.jump, 8, 1))
+
+area.interpolate('two')('one');
+>area.interpolate : Symbol(D3SvgArea.interpolate, Decl(derivedInterfaceCallSignature.jump, 18, 60))
+>area : Symbol(area, Decl(derivedInterfaceCallSignature.jump, 25, 3))
+>interpolate : Symbol(D3SvgArea.interpolate, Decl(derivedInterfaceCallSignature.jump, 18, 60))
+

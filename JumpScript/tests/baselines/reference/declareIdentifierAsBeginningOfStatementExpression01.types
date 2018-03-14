@@ -1,0 +1,13 @@
+=== tests/cases/compiler/declareIdentifierAsBeginningOfStatementExpression01.jump ===
+class C {
+>C : C
+}
+
+var declare: any;
+>declare : any
+
+declare instanceof C;
+>declare instanceof C : boolean
+>declare : any
+>C : typeof C
+

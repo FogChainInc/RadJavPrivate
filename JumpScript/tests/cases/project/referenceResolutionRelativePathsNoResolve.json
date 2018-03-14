@@ -1,0 +1,11 @@
+{
+    "scenario": "referenceResolution1_FromFooFolder_NoResolve",
+    "projectRoot": "tests/cases/projects/ReferenceResolution/src/ts/foo",
+    "inputFiles": [
+        "foo.jump",
+        "../../../bar/bar.jump"
+    ],
+    "noResolve":  true,
+    "declaration": true,
+    "baselineCheck": true
+}

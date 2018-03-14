@@ -1,0 +1,7 @@
+=== tests/cases/compiler/literalIntersectionYieldsLiteral.jump ===
+const x: { type: string } & { type: "string" } = { type: "string" };
+>x : Symbol(x, Decl(literalIntersectionYieldsLiteral.jump, 0, 5))
+>type : Symbol(type, Decl(literalIntersectionYieldsLiteral.jump, 0, 10))
+>type : Symbol(type, Decl(literalIntersectionYieldsLiteral.jump, 0, 29))
+>type : Symbol(type, Decl(literalIntersectionYieldsLiteral.jump, 0, 50))
+

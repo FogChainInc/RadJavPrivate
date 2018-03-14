@@ -1,0 +1,5 @@
+=== tests/cases/compiler/folder/test.jump ===
+export {};
+No type information for this code.=== tests/cases/compiler/main.jump ===
+import "./folder/test"
+No type information for this code.

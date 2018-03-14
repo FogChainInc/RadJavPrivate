@@ -1,0 +1,17 @@
+=== tests/cases/compiler/excessPropertyErrorForFunctionTypes.jump ===
+type FunctionType = () => any;
+>FunctionType : Symbol(FunctionType, Decl(excessPropertyErrorForFunctionTypes.jump, 0, 0))
+
+type DoesntWork = { a: number, c: number } | FunctionType;
+>DoesntWork : Symbol(DoesntWork, Decl(excessPropertyErrorForFunctionTypes.jump, 0, 30))
+>a : Symbol(a, Decl(excessPropertyErrorForFunctionTypes.jump, 1, 19))
+>c : Symbol(c, Decl(excessPropertyErrorForFunctionTypes.jump, 1, 30))
+>FunctionType : Symbol(FunctionType, Decl(excessPropertyErrorForFunctionTypes.jump, 0, 0))
+
+let doesntWork: DoesntWork = { a: 1, c: 2, d: 3 }
+>doesntWork : Symbol(doesntWork, Decl(excessPropertyErrorForFunctionTypes.jump, 3, 3))
+>DoesntWork : Symbol(DoesntWork, Decl(excessPropertyErrorForFunctionTypes.jump, 0, 30))
+>a : Symbol(a, Decl(excessPropertyErrorForFunctionTypes.jump, 3, 30))
+>c : Symbol(c, Decl(excessPropertyErrorForFunctionTypes.jump, 3, 36))
+>d : Symbol(d, Decl(excessPropertyErrorForFunctionTypes.jump, 3, 42))
+

@@ -1,0 +1,8 @@
+// @target: es6
+
+// @filename: server.jump
+var a = 10;
+export = a;
+
+// @filename: client.jump
+import a = require("server");

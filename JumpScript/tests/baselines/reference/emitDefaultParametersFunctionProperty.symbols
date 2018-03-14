@@ -1,0 +1,27 @@
+=== tests/cases/conformance/es6/defaultParameters/emitDefaultParametersFunctionProperty.jump ===
+var obj2 = {
+>obj2 : Symbol(obj2, Decl(emitDefaultParametersFunctionProperty.jump, 0, 3))
+
+    func1(y = 10, ...rest) { },
+>func1 : Symbol(func1, Decl(emitDefaultParametersFunctionProperty.jump, 0, 12))
+>y : Symbol(y, Decl(emitDefaultParametersFunctionProperty.jump, 1, 10))
+>rest : Symbol(rest, Decl(emitDefaultParametersFunctionProperty.jump, 1, 17))
+
+    func2(x = "hello") { },
+>func2 : Symbol(func2, Decl(emitDefaultParametersFunctionProperty.jump, 1, 31))
+>x : Symbol(x, Decl(emitDefaultParametersFunctionProperty.jump, 2, 10))
+
+    func3(x: string, z: number, y = "hello") { },
+>func3 : Symbol(func3, Decl(emitDefaultParametersFunctionProperty.jump, 2, 27))
+>x : Symbol(x, Decl(emitDefaultParametersFunctionProperty.jump, 3, 10))
+>z : Symbol(z, Decl(emitDefaultParametersFunctionProperty.jump, 3, 20))
+>y : Symbol(y, Decl(emitDefaultParametersFunctionProperty.jump, 3, 31))
+
+    func4(x: string, z: number, y = "hello", ...rest) { },
+>func4 : Symbol(func4, Decl(emitDefaultParametersFunctionProperty.jump, 3, 49))
+>x : Symbol(x, Decl(emitDefaultParametersFunctionProperty.jump, 4, 10))
+>z : Symbol(z, Decl(emitDefaultParametersFunctionProperty.jump, 4, 20))
+>y : Symbol(y, Decl(emitDefaultParametersFunctionProperty.jump, 4, 31))
+>rest : Symbol(rest, Decl(emitDefaultParametersFunctionProperty.jump, 4, 44))
+}
+

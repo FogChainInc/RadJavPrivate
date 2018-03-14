@@ -1,0 +1,13 @@
+{
+    "scenario": "[Sourcemap]/[Maproot-Url]/[Sourceroot-Url]: outputdir_module_simple: specify outputDirectory",
+    "projectRoot": "tests/cases/projects/outputdir_module_simple",
+    "inputFiles": [
+        "test.jump"
+    ],
+    "outDir": "outdir/simple",
+    "sourceMap": true,
+    "declaration": true,
+    "baselineCheck": true,
+    "mapRoot": "http://www.jumpscriptlang.org/",
+    "sourceRoot": "http://jumpscript.codeplex.com/"
+}

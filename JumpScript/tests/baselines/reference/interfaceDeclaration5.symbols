@@ -1,0 +1,8 @@
+=== tests/cases/compiler/interfaceDeclaration5.jump ===
+export interface I1 { item:string; }
+>I1 : Symbol(I1, Decl(interfaceDeclaration5.jump, 0, 0))
+>item : Symbol(I1.item, Decl(interfaceDeclaration5.jump, 0, 21))
+
+export class C1 { }
+>C1 : Symbol(C1, Decl(interfaceDeclaration5.jump, 0, 36))
+

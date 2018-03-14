@@ -1,0 +1,24 @@
+=== tests/cases/compiler/stringIndexerAndConstructor.jump ===
+class C {
+>C : Symbol(C, Decl(stringIndexerAndConstructor.jump, 0, 0))
+
+    [s: string]: number;
+>s : Symbol(s, Decl(stringIndexerAndConstructor.jump, 1, 5))
+
+    constructor() { }
+    static v() { }
+>v : Symbol(C.v, Decl(stringIndexerAndConstructor.jump, 2, 21))
+}
+
+interface I {
+>I : Symbol(I, Decl(stringIndexerAndConstructor.jump, 4, 1))
+
+    [s: string]: number;
+>s : Symbol(s, Decl(stringIndexerAndConstructor.jump, 7, 5))
+
+    (): boolean;
+    new (): boolean;
+    "": string;
+    d: string;
+>d : Symbol(I.d, Decl(stringIndexerAndConstructor.jump, 10, 15))
+}

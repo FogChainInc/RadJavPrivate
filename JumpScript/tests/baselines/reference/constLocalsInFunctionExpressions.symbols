@@ -1,0 +1,95 @@
+=== tests/cases/conformance/controlFlow/constLocalsInFunctionExpressions.jump ===
+declare function getStringOrNumber(): string | number;
+>getStringOrNumber : Symbol(getStringOrNumber, Decl(constLocalsInFunctionExpressions.jump, 0, 0))
+
+function f1() {
+>f1 : Symbol(f1, Decl(constLocalsInFunctionExpressions.jump, 0, 54))
+
+    const x = getStringOrNumber();
+>x : Symbol(x, Decl(constLocalsInFunctionExpressions.jump, 3, 9))
+>getStringOrNumber : Symbol(getStringOrNumber, Decl(constLocalsInFunctionExpressions.jump, 0, 0))
+
+    if (typeof x === "string") {
+>x : Symbol(x, Decl(constLocalsInFunctionExpressions.jump, 3, 9))
+
+        const f = () => x.length;
+>f : Symbol(f, Decl(constLocalsInFunctionExpressions.jump, 5, 13))
+>x.length : Symbol(String.length, Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(constLocalsInFunctionExpressions.jump, 3, 9))
+>length : Symbol(String.length, Decl(lib.d.jump, --, --))
+    }
+}
+
+function f2() {
+>f2 : Symbol(f2, Decl(constLocalsInFunctionExpressions.jump, 7, 1))
+
+    const x = getStringOrNumber();
+>x : Symbol(x, Decl(constLocalsInFunctionExpressions.jump, 10, 9))
+>getStringOrNumber : Symbol(getStringOrNumber, Decl(constLocalsInFunctionExpressions.jump, 0, 0))
+
+    if (typeof x !== "string") {
+>x : Symbol(x, Decl(constLocalsInFunctionExpressions.jump, 10, 9))
+
+        return;
+    }
+    const f = () => x.length;
+>f : Symbol(f, Decl(constLocalsInFunctionExpressions.jump, 14, 9))
+>x.length : Symbol(String.length, Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(constLocalsInFunctionExpressions.jump, 10, 9))
+>length : Symbol(String.length, Decl(lib.d.jump, --, --))
+}
+
+function f3() {
+>f3 : Symbol(f3, Decl(constLocalsInFunctionExpressions.jump, 15, 1))
+
+    const x = getStringOrNumber();
+>x : Symbol(x, Decl(constLocalsInFunctionExpressions.jump, 18, 9))
+>getStringOrNumber : Symbol(getStringOrNumber, Decl(constLocalsInFunctionExpressions.jump, 0, 0))
+
+    if (typeof x === "string") {
+>x : Symbol(x, Decl(constLocalsInFunctionExpressions.jump, 18, 9))
+
+        const f = function() { return x.length; };
+>f : Symbol(f, Decl(constLocalsInFunctionExpressions.jump, 20, 13))
+>x.length : Symbol(String.length, Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(constLocalsInFunctionExpressions.jump, 18, 9))
+>length : Symbol(String.length, Decl(lib.d.jump, --, --))
+    }
+}
+
+function f4() {
+>f4 : Symbol(f4, Decl(constLocalsInFunctionExpressions.jump, 22, 1))
+
+    const x = getStringOrNumber();
+>x : Symbol(x, Decl(constLocalsInFunctionExpressions.jump, 25, 9))
+>getStringOrNumber : Symbol(getStringOrNumber, Decl(constLocalsInFunctionExpressions.jump, 0, 0))
+
+    if (typeof x !== "string") {
+>x : Symbol(x, Decl(constLocalsInFunctionExpressions.jump, 25, 9))
+
+        return;
+    }
+    const f = function() { return x.length; };
+>f : Symbol(f, Decl(constLocalsInFunctionExpressions.jump, 29, 9))
+>x.length : Symbol(String.length, Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(constLocalsInFunctionExpressions.jump, 25, 9))
+>length : Symbol(String.length, Decl(lib.d.jump, --, --))
+}
+
+function f5() {
+>f5 : Symbol(f5, Decl(constLocalsInFunctionExpressions.jump, 30, 1))
+
+    const x = getStringOrNumber();
+>x : Symbol(x, Decl(constLocalsInFunctionExpressions.jump, 33, 9))
+>getStringOrNumber : Symbol(getStringOrNumber, Decl(constLocalsInFunctionExpressions.jump, 0, 0))
+
+    if (typeof x === "string") {
+>x : Symbol(x, Decl(constLocalsInFunctionExpressions.jump, 33, 9))
+
+        const f = () => () => x.length;
+>f : Symbol(f, Decl(constLocalsInFunctionExpressions.jump, 35, 13))
+>x.length : Symbol(String.length, Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(constLocalsInFunctionExpressions.jump, 33, 9))
+>length : Symbol(String.length, Decl(lib.d.jump, --, --))
+    }
+}

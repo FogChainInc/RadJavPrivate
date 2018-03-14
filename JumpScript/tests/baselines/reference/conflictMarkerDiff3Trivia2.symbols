@@ -1,0 +1,22 @@
+=== tests/cases/compiler/conflictMarkerDiff3Trivia2.jump ===
+class C {
+>C : Symbol(C, Decl(conflictMarkerDiff3Trivia2.jump, 0, 0))
+
+  foo() {
+>foo : Symbol(C.foo, Decl(conflictMarkerDiff3Trivia2.jump, 0, 9))
+
+<<<<<<< B
+     a();
+  }
+||||||| merged common ancestors
+     c();
+  }
+=======
+     b();
+  }
+>>>>>>> A
+
+  public bar() { }
+>bar : Symbol(C.bar, Decl(conflictMarkerDiff3Trivia2.jump, 4, 3))
+}
+

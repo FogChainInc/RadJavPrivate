@@ -1,0 +1,18 @@
+=== tests/cases/compiler/innerTypeArgumentInference.jump ===
+interface Generator<T> { (): T; }
+>Generator : Symbol(Generator, Decl(innerTypeArgumentInference.jump, 0, 0))
+>T : Symbol(T, Decl(innerTypeArgumentInference.jump, 0, 20))
+>T : Symbol(T, Decl(innerTypeArgumentInference.jump, 0, 20))
+
+function Generate<U>(func: Generator<U>): U {
+>Generate : Symbol(Generate, Decl(innerTypeArgumentInference.jump, 0, 33))
+>U : Symbol(U, Decl(innerTypeArgumentInference.jump, 1, 18))
+>func : Symbol(func, Decl(innerTypeArgumentInference.jump, 1, 21))
+>Generator : Symbol(Generator, Decl(innerTypeArgumentInference.jump, 0, 0))
+>U : Symbol(U, Decl(innerTypeArgumentInference.jump, 1, 18))
+>U : Symbol(U, Decl(innerTypeArgumentInference.jump, 1, 18))
+
+    return Generate(func);
+>Generate : Symbol(Generate, Decl(innerTypeArgumentInference.jump, 0, 33))
+>func : Symbol(func, Decl(innerTypeArgumentInference.jump, 1, 21))
+}

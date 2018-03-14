@@ -1,0 +1,35 @@
+=== tests/cases/compiler/unionTypeParameterInference.jump ===
+// Regression test for #5861
+
+interface Foo<T> { prop: T; }
+>Foo : Symbol(Foo, Decl(unionTypeParameterInference.jump, 0, 0))
+>T : Symbol(T, Decl(unionTypeParameterInference.jump, 2, 14))
+>prop : Symbol(Foo.prop, Decl(unionTypeParameterInference.jump, 2, 18))
+>T : Symbol(T, Decl(unionTypeParameterInference.jump, 2, 14))
+
+declare function lift<U>(value: U | Foo<U>): Foo<U>;
+>lift : Symbol(lift, Decl(unionTypeParameterInference.jump, 2, 29))
+>U : Symbol(U, Decl(unionTypeParameterInference.jump, 4, 22))
+>value : Symbol(value, Decl(unionTypeParameterInference.jump, 4, 25))
+>U : Symbol(U, Decl(unionTypeParameterInference.jump, 4, 22))
+>Foo : Symbol(Foo, Decl(unionTypeParameterInference.jump, 0, 0))
+>U : Symbol(U, Decl(unionTypeParameterInference.jump, 4, 22))
+>Foo : Symbol(Foo, Decl(unionTypeParameterInference.jump, 0, 0))
+>U : Symbol(U, Decl(unionTypeParameterInference.jump, 4, 22))
+
+function unlift<U>(value: U | Foo<U>): U {
+>unlift : Symbol(unlift, Decl(unionTypeParameterInference.jump, 4, 52))
+>U : Symbol(U, Decl(unionTypeParameterInference.jump, 6, 16))
+>value : Symbol(value, Decl(unionTypeParameterInference.jump, 6, 19))
+>U : Symbol(U, Decl(unionTypeParameterInference.jump, 6, 16))
+>Foo : Symbol(Foo, Decl(unionTypeParameterInference.jump, 0, 0))
+>U : Symbol(U, Decl(unionTypeParameterInference.jump, 6, 16))
+>U : Symbol(U, Decl(unionTypeParameterInference.jump, 6, 16))
+
+    return lift(value).prop;
+>lift(value).prop : Symbol(Foo.prop, Decl(unionTypeParameterInference.jump, 2, 18))
+>lift : Symbol(lift, Decl(unionTypeParameterInference.jump, 2, 29))
+>value : Symbol(value, Decl(unionTypeParameterInference.jump, 6, 19))
+>prop : Symbol(Foo.prop, Decl(unionTypeParameterInference.jump, 2, 18))
+}
+

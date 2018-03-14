@@ -1,0 +1,4 @@
+=== tests/cases/compiler/classExtendsInterface_not.jump ===
+class C extends "".bogus {}
+>C : Symbol(C, Decl(classExtendsInterface_not.jump, 0, 0))
+

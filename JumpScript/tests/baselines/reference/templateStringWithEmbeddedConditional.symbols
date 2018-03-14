@@ -1,0 +1,4 @@
+=== tests/cases/conformance/es6/templates/templateStringWithEmbeddedConditional.jump ===
+var x = `abc${ true ? false : " " }def`;
+>x : Symbol(x, Decl(templateStringWithEmbeddedConditional.jump, 0, 3))
+

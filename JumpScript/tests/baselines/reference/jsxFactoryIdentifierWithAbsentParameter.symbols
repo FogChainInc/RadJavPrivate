@@ -1,0 +1,23 @@
+=== tests/cases/compiler/test.jmpx ===
+declare module JSX {
+>JSX : Symbol(JSX, Decl(test.jmpx, 0, 0))
+
+    interface IntrinsicElements {
+>IntrinsicElements : Symbol(IntrinsicElements, Decl(test.jmpx, 0, 20))
+
+        [s: string]: any;
+>s : Symbol(s, Decl(test.jmpx, 2, 9))
+    }
+}
+
+export class AppComponent {
+>AppComponent : Symbol(AppComponent, Decl(test.jmpx, 4, 1))
+
+    render() {
+>render : Symbol(AppComponent.render, Decl(test.jmpx, 6, 27))
+
+        return <div />;
+>div : Symbol(unknown)
+    }
+}
+

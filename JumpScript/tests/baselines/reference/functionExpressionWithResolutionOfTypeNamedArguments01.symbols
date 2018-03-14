@@ -1,0 +1,13 @@
+=== tests/cases/compiler/functionExpressionWithResolutionOfTypeNamedArguments01.jump ===
+interface arguments {
+>arguments : Symbol(arguments, Decl(functionExpressionWithResolutionOfTypeNamedArguments01.jump, 0, 0))
+}
+
+var x = function f() {
+>x : Symbol(x, Decl(functionExpressionWithResolutionOfTypeNamedArguments01.jump, 3, 3))
+>f : Symbol(f, Decl(functionExpressionWithResolutionOfTypeNamedArguments01.jump, 3, 7))
+
+    <arguments>arguments;
+>arguments : Symbol(arguments, Decl(functionExpressionWithResolutionOfTypeNamedArguments01.jump, 0, 0))
+>arguments : Symbol(arguments)
+}

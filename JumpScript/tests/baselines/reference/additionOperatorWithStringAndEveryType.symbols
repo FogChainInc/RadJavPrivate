@@ -1,0 +1,136 @@
+=== tests/cases/conformance/expressions/binaryOperators/additionOperator/additionOperatorWithStringAndEveryType.jump ===
+enum E { a, b, c }
+>E : Symbol(E, Decl(additionOperatorWithStringAndEveryType.jump, 0, 0))
+>a : Symbol(E.a, Decl(additionOperatorWithStringAndEveryType.jump, 0, 8))
+>b : Symbol(E.b, Decl(additionOperatorWithStringAndEveryType.jump, 0, 11))
+>c : Symbol(E.c, Decl(additionOperatorWithStringAndEveryType.jump, 0, 14))
+
+var a: any;
+>a : Symbol(a, Decl(additionOperatorWithStringAndEveryType.jump, 2, 3))
+
+var b: boolean;
+>b : Symbol(b, Decl(additionOperatorWithStringAndEveryType.jump, 3, 3))
+
+var c: number;
+>c : Symbol(c, Decl(additionOperatorWithStringAndEveryType.jump, 4, 3))
+
+var d: string;
+>d : Symbol(d, Decl(additionOperatorWithStringAndEveryType.jump, 5, 3))
+
+var e: Object;
+>e : Symbol(e, Decl(additionOperatorWithStringAndEveryType.jump, 6, 3))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+var f: void;
+>f : Symbol(f, Decl(additionOperatorWithStringAndEveryType.jump, 7, 3))
+
+var g: E;
+>g : Symbol(g, Decl(additionOperatorWithStringAndEveryType.jump, 8, 3))
+>E : Symbol(E, Decl(additionOperatorWithStringAndEveryType.jump, 0, 0))
+
+var x: string;
+>x : Symbol(x, Decl(additionOperatorWithStringAndEveryType.jump, 10, 3))
+
+// string could plus every type, and the result is always string
+// string as left operand
+var r1 = x + a;
+>r1 : Symbol(r1, Decl(additionOperatorWithStringAndEveryType.jump, 14, 3))
+>x : Symbol(x, Decl(additionOperatorWithStringAndEveryType.jump, 10, 3))
+>a : Symbol(a, Decl(additionOperatorWithStringAndEveryType.jump, 2, 3))
+
+var r2 = x + b;
+>r2 : Symbol(r2, Decl(additionOperatorWithStringAndEveryType.jump, 15, 3))
+>x : Symbol(x, Decl(additionOperatorWithStringAndEveryType.jump, 10, 3))
+>b : Symbol(b, Decl(additionOperatorWithStringAndEveryType.jump, 3, 3))
+
+var r3 = x + c;
+>r3 : Symbol(r3, Decl(additionOperatorWithStringAndEveryType.jump, 16, 3))
+>x : Symbol(x, Decl(additionOperatorWithStringAndEveryType.jump, 10, 3))
+>c : Symbol(c, Decl(additionOperatorWithStringAndEveryType.jump, 4, 3))
+
+var r4 = x + d;
+>r4 : Symbol(r4, Decl(additionOperatorWithStringAndEveryType.jump, 17, 3))
+>x : Symbol(x, Decl(additionOperatorWithStringAndEveryType.jump, 10, 3))
+>d : Symbol(d, Decl(additionOperatorWithStringAndEveryType.jump, 5, 3))
+
+var r5 = x + e;
+>r5 : Symbol(r5, Decl(additionOperatorWithStringAndEveryType.jump, 18, 3))
+>x : Symbol(x, Decl(additionOperatorWithStringAndEveryType.jump, 10, 3))
+>e : Symbol(e, Decl(additionOperatorWithStringAndEveryType.jump, 6, 3))
+
+var r6 = x + f;
+>r6 : Symbol(r6, Decl(additionOperatorWithStringAndEveryType.jump, 19, 3))
+>x : Symbol(x, Decl(additionOperatorWithStringAndEveryType.jump, 10, 3))
+>f : Symbol(f, Decl(additionOperatorWithStringAndEveryType.jump, 7, 3))
+
+var r7 = x + g;
+>r7 : Symbol(r7, Decl(additionOperatorWithStringAndEveryType.jump, 20, 3))
+>x : Symbol(x, Decl(additionOperatorWithStringAndEveryType.jump, 10, 3))
+>g : Symbol(g, Decl(additionOperatorWithStringAndEveryType.jump, 8, 3))
+
+// string as right operand
+var r8 = a + x;
+>r8 : Symbol(r8, Decl(additionOperatorWithStringAndEveryType.jump, 23, 3))
+>a : Symbol(a, Decl(additionOperatorWithStringAndEveryType.jump, 2, 3))
+>x : Symbol(x, Decl(additionOperatorWithStringAndEveryType.jump, 10, 3))
+
+var r9 = b + x;
+>r9 : Symbol(r9, Decl(additionOperatorWithStringAndEveryType.jump, 24, 3))
+>b : Symbol(b, Decl(additionOperatorWithStringAndEveryType.jump, 3, 3))
+>x : Symbol(x, Decl(additionOperatorWithStringAndEveryType.jump, 10, 3))
+
+var r10 = c + x;
+>r10 : Symbol(r10, Decl(additionOperatorWithStringAndEveryType.jump, 25, 3))
+>c : Symbol(c, Decl(additionOperatorWithStringAndEveryType.jump, 4, 3))
+>x : Symbol(x, Decl(additionOperatorWithStringAndEveryType.jump, 10, 3))
+
+var r11 = d + x;
+>r11 : Symbol(r11, Decl(additionOperatorWithStringAndEveryType.jump, 26, 3))
+>d : Symbol(d, Decl(additionOperatorWithStringAndEveryType.jump, 5, 3))
+>x : Symbol(x, Decl(additionOperatorWithStringAndEveryType.jump, 10, 3))
+
+var r12 = e + x;
+>r12 : Symbol(r12, Decl(additionOperatorWithStringAndEveryType.jump, 27, 3))
+>e : Symbol(e, Decl(additionOperatorWithStringAndEveryType.jump, 6, 3))
+>x : Symbol(x, Decl(additionOperatorWithStringAndEveryType.jump, 10, 3))
+
+var r13 = f + x;
+>r13 : Symbol(r13, Decl(additionOperatorWithStringAndEveryType.jump, 28, 3))
+>f : Symbol(f, Decl(additionOperatorWithStringAndEveryType.jump, 7, 3))
+>x : Symbol(x, Decl(additionOperatorWithStringAndEveryType.jump, 10, 3))
+
+var r14 = g + x;
+>r14 : Symbol(r14, Decl(additionOperatorWithStringAndEveryType.jump, 29, 3))
+>g : Symbol(g, Decl(additionOperatorWithStringAndEveryType.jump, 8, 3))
+>x : Symbol(x, Decl(additionOperatorWithStringAndEveryType.jump, 10, 3))
+
+// other cases
+var r15 = x + E;
+>r15 : Symbol(r15, Decl(additionOperatorWithStringAndEveryType.jump, 32, 3))
+>x : Symbol(x, Decl(additionOperatorWithStringAndEveryType.jump, 10, 3))
+>E : Symbol(E, Decl(additionOperatorWithStringAndEveryType.jump, 0, 0))
+
+var r16 = x + E.a;
+>r16 : Symbol(r16, Decl(additionOperatorWithStringAndEveryType.jump, 33, 3))
+>x : Symbol(x, Decl(additionOperatorWithStringAndEveryType.jump, 10, 3))
+>E.a : Symbol(E.a, Decl(additionOperatorWithStringAndEveryType.jump, 0, 8))
+>E : Symbol(E, Decl(additionOperatorWithStringAndEveryType.jump, 0, 0))
+>a : Symbol(E.a, Decl(additionOperatorWithStringAndEveryType.jump, 0, 8))
+
+var r17 = x + '';
+>r17 : Symbol(r17, Decl(additionOperatorWithStringAndEveryType.jump, 34, 3))
+>x : Symbol(x, Decl(additionOperatorWithStringAndEveryType.jump, 10, 3))
+
+var r18 = x + 0;
+>r18 : Symbol(r18, Decl(additionOperatorWithStringAndEveryType.jump, 35, 3))
+>x : Symbol(x, Decl(additionOperatorWithStringAndEveryType.jump, 10, 3))
+
+var r19 = x + { a: '' };
+>r19 : Symbol(r19, Decl(additionOperatorWithStringAndEveryType.jump, 36, 3))
+>x : Symbol(x, Decl(additionOperatorWithStringAndEveryType.jump, 10, 3))
+>a : Symbol(a, Decl(additionOperatorWithStringAndEveryType.jump, 36, 15))
+
+var r20 = x + [];
+>r20 : Symbol(r20, Decl(additionOperatorWithStringAndEveryType.jump, 37, 3))
+>x : Symbol(x, Decl(additionOperatorWithStringAndEveryType.jump, 10, 3))
+

@@ -1,0 +1,16 @@
+=== tests/cases/compiler/noEmitHelpers2.jump ===
+declare var decorator: any;
+>decorator : Symbol(decorator, Decl(noEmitHelpers2.jump, 0, 11))
+
+@decorator
+>decorator : Symbol(decorator, Decl(noEmitHelpers2.jump, 0, 11))
+
+class A {
+>A : Symbol(A, Decl(noEmitHelpers2.jump, 0, 27))
+
+    constructor(a: number, @decorator b: string) {
+>a : Symbol(a, Decl(noEmitHelpers2.jump, 4, 16))
+>decorator : Symbol(decorator, Decl(noEmitHelpers2.jump, 0, 11))
+>b : Symbol(b, Decl(noEmitHelpers2.jump, 4, 26))
+    }
+}

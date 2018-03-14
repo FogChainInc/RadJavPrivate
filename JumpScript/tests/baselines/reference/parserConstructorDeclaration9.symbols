@@ -1,0 +1,7 @@
+=== tests/cases/conformance/parser/ecmascript5/ConstructorDeclarations/parserConstructorDeclaration9.jump ===
+class C {
+>C : Symbol(C, Decl(parserConstructorDeclaration9.jump, 0, 0))
+
+  constructor<T>() { }
+>T : Symbol(T, Decl(parserConstructorDeclaration9.jump, 1, 14))
+}

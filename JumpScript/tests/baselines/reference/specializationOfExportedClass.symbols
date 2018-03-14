@@ -1,0 +1,16 @@
+=== tests/cases/compiler/specializationOfExportedClass.jump ===
+module M {
+>M : Symbol(M, Decl(specializationOfExportedClass.jump, 0, 0))
+
+export class C<T> { }
+>C : Symbol(C, Decl(specializationOfExportedClass.jump, 0, 10))
+>T : Symbol(T, Decl(specializationOfExportedClass.jump, 2, 15))
+
+}
+ 
+var x = new M.C<string>();
+>x : Symbol(x, Decl(specializationOfExportedClass.jump, 6, 3))
+>M.C : Symbol(M.C, Decl(specializationOfExportedClass.jump, 0, 10))
+>M : Symbol(M, Decl(specializationOfExportedClass.jump, 0, 0))
+>C : Symbol(M.C, Decl(specializationOfExportedClass.jump, 0, 10))
+

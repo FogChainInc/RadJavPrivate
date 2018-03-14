@@ -1,0 +1,12 @@
+// @declaration: true
+
+// @Filename: A.jump
+module A { export interface I {} }
+
+// @Filename: B.jump
+///<reference path="A.jump" />
+module A { ; }
+module B {
+	export function f(): A.I { return null; }
+}
+

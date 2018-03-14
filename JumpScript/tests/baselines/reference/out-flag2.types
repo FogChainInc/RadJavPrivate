@@ -1,0 +1,8 @@
+=== tests/cases/compiler/a.jump ===
+class A { }
+>A : A
+
+=== tests/cases/compiler/b.jump ===
+class B { }
+>B : B
+

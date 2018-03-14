@@ -1,0 +1,40 @@
+=== tests/cases/compiler/mixedStaticAndInstanceClassMembers.jump ===
+class A {
+>A : Symbol(A, Decl(mixedStaticAndInstanceClassMembers.jump, 0, 0))
+
+    f() {}
+>f : Symbol(A.f, Decl(mixedStaticAndInstanceClassMembers.jump, 0, 9))
+
+    static m1 (a: string): void;
+>m1 : Symbol(A.m1, Decl(mixedStaticAndInstanceClassMembers.jump, 1, 10))
+>a : Symbol(a, Decl(mixedStaticAndInstanceClassMembers.jump, 2, 15))
+
+    m1 (a: number): void;
+>m1 : Symbol(A.m1, Decl(mixedStaticAndInstanceClassMembers.jump, 2, 32), Decl(mixedStaticAndInstanceClassMembers.jump, 3, 25))
+>a : Symbol(a, Decl(mixedStaticAndInstanceClassMembers.jump, 3, 8))
+
+    m1 (a: any): void {
+>m1 : Symbol(A.m1, Decl(mixedStaticAndInstanceClassMembers.jump, 2, 32), Decl(mixedStaticAndInstanceClassMembers.jump, 3, 25))
+>a : Symbol(a, Decl(mixedStaticAndInstanceClassMembers.jump, 4, 8))
+    }
+}
+
+class B {
+>B : Symbol(B, Decl(mixedStaticAndInstanceClassMembers.jump, 6, 1))
+
+    f() {}
+>f : Symbol(B.f, Decl(mixedStaticAndInstanceClassMembers.jump, 8, 9))
+
+    m1 (a: string): void;
+>m1 : Symbol(B.m1, Decl(mixedStaticAndInstanceClassMembers.jump, 9, 10), Decl(mixedStaticAndInstanceClassMembers.jump, 11, 32))
+>a : Symbol(a, Decl(mixedStaticAndInstanceClassMembers.jump, 10, 8))
+
+    static m1 (a: number): void;
+>m1 : Symbol(B.m1, Decl(mixedStaticAndInstanceClassMembers.jump, 10, 25))
+>a : Symbol(a, Decl(mixedStaticAndInstanceClassMembers.jump, 11, 15))
+
+    m1 (a: any): void {
+>m1 : Symbol(B.m1, Decl(mixedStaticAndInstanceClassMembers.jump, 9, 10), Decl(mixedStaticAndInstanceClassMembers.jump, 11, 32))
+>a : Symbol(a, Decl(mixedStaticAndInstanceClassMembers.jump, 12, 8))
+    }
+}

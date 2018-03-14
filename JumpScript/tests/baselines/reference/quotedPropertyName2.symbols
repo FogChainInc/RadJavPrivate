@@ -1,0 +1,6 @@
+=== tests/cases/compiler/quotedPropertyName2.jump ===
+class Test1 {
+>Test1 : Symbol(Test1, Decl(quotedPropertyName2.jump, 0, 0))
+
+  static "prop1" = 0;
+}

@@ -1,0 +1,18 @@
+=== tests/cases/conformance/types/contextualTypes/partiallyAnnotatedFunction/partiallyAnnotatedFunctionWitoutTypeParameter.jump ===
+// simple case
+declare function simple(f: (a: number, b: number) => void): {}
+>simple : Symbol(simple, Decl(partiallyAnnotatedFunctionWitoutTypeParameter.jump, 0, 0))
+>f : Symbol(f, Decl(partiallyAnnotatedFunctionWitoutTypeParameter.jump, 1, 24))
+>a : Symbol(a, Decl(partiallyAnnotatedFunctionWitoutTypeParameter.jump, 1, 28))
+>b : Symbol(b, Decl(partiallyAnnotatedFunctionWitoutTypeParameter.jump, 1, 38))
+
+simple((a: number, b) => {})
+>simple : Symbol(simple, Decl(partiallyAnnotatedFunctionWitoutTypeParameter.jump, 0, 0))
+>a : Symbol(a, Decl(partiallyAnnotatedFunctionWitoutTypeParameter.jump, 3, 8))
+>b : Symbol(b, Decl(partiallyAnnotatedFunctionWitoutTypeParameter.jump, 3, 18))
+
+simple((a, b: number) => {})
+>simple : Symbol(simple, Decl(partiallyAnnotatedFunctionWitoutTypeParameter.jump, 0, 0))
+>a : Symbol(a, Decl(partiallyAnnotatedFunctionWitoutTypeParameter.jump, 4, 8))
+>b : Symbol(b, Decl(partiallyAnnotatedFunctionWitoutTypeParameter.jump, 4, 10))
+

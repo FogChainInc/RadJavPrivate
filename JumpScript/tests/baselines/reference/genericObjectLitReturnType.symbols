@@ -1,0 +1,30 @@
+=== tests/cases/compiler/genericObjectLitReturnType.jump ===
+class X<T>
+>X : Symbol(X, Decl(genericObjectLitReturnType.jump, 0, 0))
+>T : Symbol(T, Decl(genericObjectLitReturnType.jump, 0, 8))
+{
+    f(t: T) { return { a: t }; }
+>f : Symbol(X.f, Decl(genericObjectLitReturnType.jump, 1, 1))
+>t : Symbol(t, Decl(genericObjectLitReturnType.jump, 2, 6))
+>T : Symbol(T, Decl(genericObjectLitReturnType.jump, 0, 8))
+>a : Symbol(a, Decl(genericObjectLitReturnType.jump, 2, 22))
+>t : Symbol(t, Decl(genericObjectLitReturnType.jump, 2, 6))
+}
+
+ 
+var x: X<number>;
+>x : Symbol(x, Decl(genericObjectLitReturnType.jump, 6, 3))
+>X : Symbol(X, Decl(genericObjectLitReturnType.jump, 0, 0))
+
+var t1 = x.f(5);
+>t1 : Symbol(t1, Decl(genericObjectLitReturnType.jump, 7, 3))
+>x.f : Symbol(X.f, Decl(genericObjectLitReturnType.jump, 1, 1))
+>x : Symbol(x, Decl(genericObjectLitReturnType.jump, 6, 3))
+>f : Symbol(X.f, Decl(genericObjectLitReturnType.jump, 1, 1))
+
+t1.a = 5; // Should not error: t1 should have type {a: number}, instead has type {a: T}
+>t1.a : Symbol(a, Decl(genericObjectLitReturnType.jump, 2, 22))
+>t1 : Symbol(t1, Decl(genericObjectLitReturnType.jump, 7, 3))
+>a : Symbol(a, Decl(genericObjectLitReturnType.jump, 2, 22))
+ 
+

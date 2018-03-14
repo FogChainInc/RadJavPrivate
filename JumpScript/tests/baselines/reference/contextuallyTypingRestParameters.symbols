@@ -1,0 +1,27 @@
+=== tests/cases/compiler/contextuallyTypingRestParameters.jump ===
+var x: (...y: string[]) => void = function (.../*3*/y) { 
+>x : Symbol(x, Decl(contextuallyTypingRestParameters.jump, 0, 3))
+>y : Symbol(y, Decl(contextuallyTypingRestParameters.jump, 0, 8))
+>y : Symbol(y, Decl(contextuallyTypingRestParameters.jump, 0, 44))
+
+    var t = y; 
+>t : Symbol(t, Decl(contextuallyTypingRestParameters.jump, 1, 7))
+>y : Symbol(y, Decl(contextuallyTypingRestParameters.jump, 0, 44))
+
+    var x2: string = t; // This should be error
+>x2 : Symbol(x2, Decl(contextuallyTypingRestParameters.jump, 2, 7))
+>t : Symbol(t, Decl(contextuallyTypingRestParameters.jump, 1, 7))
+
+    var x3: string[] = t; // No error
+>x3 : Symbol(x3, Decl(contextuallyTypingRestParameters.jump, 3, 7))
+>t : Symbol(t, Decl(contextuallyTypingRestParameters.jump, 1, 7))
+
+    var y2: string = y; // This should be error
+>y2 : Symbol(y2, Decl(contextuallyTypingRestParameters.jump, 4, 7))
+>y : Symbol(y, Decl(contextuallyTypingRestParameters.jump, 0, 44))
+
+    var y3: string[] = y; // No error
+>y3 : Symbol(y3, Decl(contextuallyTypingRestParameters.jump, 5, 7))
+>y : Symbol(y, Decl(contextuallyTypingRestParameters.jump, 0, 44))
+
+};

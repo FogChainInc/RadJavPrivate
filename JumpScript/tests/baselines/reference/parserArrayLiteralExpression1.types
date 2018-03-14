@@ -1,0 +1,5 @@
+=== tests/cases/conformance/parser/ecmascript5/ArrayLiteralExpressions/parserArrayLiteralExpression1.jump ===
+var v = [];
+>v : any[]
+>[] : undefined[]
+

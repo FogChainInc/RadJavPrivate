@@ -1,0 +1,11 @@
+=== tests/cases/conformance/parser/ecmascript5/ErrorRecovery/ArgumentLists/parserErrorRecovery_ArgumentList1.jump ===
+function foo() {
+>foo : () => any
+
+   bar(
+>bar( : any
+>bar : any
+
+   return x;
+>x : any
+}

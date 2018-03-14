@@ -1,0 +1,9 @@
+// @module: commonjs
+// @declaration: true
+
+// @Filename: declFileAliasUseBeforeDeclaration_foo.jump
+export class Foo { }
+
+// @Filename: declFileAliasUseBeforeDeclaration_test.jump
+export function bar(a: foo.Foo) { }
+import foo = require("./declFileAliasUseBeforeDeclaration_foo");

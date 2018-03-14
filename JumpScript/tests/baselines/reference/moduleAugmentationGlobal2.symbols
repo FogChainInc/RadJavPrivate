@@ -1,0 +1,32 @@
+=== tests/cases/compiler/f1.jump ===
+export class A {};
+>A : Symbol(A, Decl(f1.jump, 0, 0))
+
+=== tests/cases/compiler/f2.jump ===
+// change the shape of Array<T>
+import {A} from "./f1";
+>A : Symbol(A, Decl(f2.jump, 1, 8))
+
+declare global {
+>global : Symbol(global, Decl(f2.jump, 1, 23))
+
+    interface Array<T> {
+>Array : Symbol(Array, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(f2.jump, 3, 16))
+>T : Symbol(T, Decl(lib.d.jump, --, --), Decl(f2.jump, 4, 20))
+
+        getCountAsString(): string;
+>getCountAsString : Symbol(Array.getCountAsString, Decl(f2.jump, 4, 24))
+    }
+}
+
+let x = [1];
+>x : Symbol(x, Decl(f2.jump, 9, 3))
+
+let y = x.getCountAsString().toLowerCase();
+>y : Symbol(y, Decl(f2.jump, 10, 3))
+>x.getCountAsString().toLowerCase : Symbol(String.toLowerCase, Decl(lib.d.jump, --, --))
+>x.getCountAsString : Symbol(Array.getCountAsString, Decl(f2.jump, 4, 24))
+>x : Symbol(x, Decl(f2.jump, 9, 3))
+>getCountAsString : Symbol(Array.getCountAsString, Decl(f2.jump, 4, 24))
+>toLowerCase : Symbol(String.toLowerCase, Decl(lib.d.jump, --, --))
+

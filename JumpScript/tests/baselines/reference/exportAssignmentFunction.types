@@ -1,0 +1,17 @@
+=== tests/cases/compiler/exportAssignmentFunction_B.jump ===
+import fooFunc = require("exportAssignmentFunction_A");
+>fooFunc : () => number
+
+var n: number = fooFunc();
+>n : number
+>fooFunc() : number
+>fooFunc : () => number
+
+=== tests/cases/compiler/exportAssignmentFunction_A.jump ===
+function foo() { return 0; }
+>foo : () => number
+>0 : 0
+
+export = foo;
+>foo : () => number
+

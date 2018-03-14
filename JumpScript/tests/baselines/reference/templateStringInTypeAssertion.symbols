@@ -1,0 +1,4 @@
+=== tests/cases/conformance/es6/templates/templateStringInTypeAssertion.jump ===
+var x = <any>`abc${ 123 }def`;
+>x : Symbol(x, Decl(templateStringInTypeAssertion.jump, 0, 3))
+

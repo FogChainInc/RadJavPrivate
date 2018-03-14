@@ -1,0 +1,27 @@
+=== tests/cases/compiler/app.jump ===
+///<reference path='jquery.d.jump' />
+interface SecondEvent {
+>SecondEvent : Symbol(SecondEvent, Decl(app.jump, 0, 0))
+
+    data: any;
+>data : Symbol(SecondEvent.data, Decl(app.jump, 1, 23))
+}
+interface Third extends JQueryEventObjectTest, SecondEvent {}
+>Third : Symbol(Third, Decl(app.jump, 3, 1))
+>JQueryEventObjectTest : Symbol(JQueryEventObjectTest, Decl(jquery.d.jump, 0, 0))
+>SecondEvent : Symbol(SecondEvent, Decl(app.jump, 0, 0))
+
+=== tests/cases/compiler/jquery.d.jump ===
+interface JQueryEventObjectTest {
+>JQueryEventObjectTest : Symbol(JQueryEventObjectTest, Decl(jquery.d.jump, 0, 0))
+
+    data: any;
+>data : Symbol(JQueryEventObjectTest.data, Decl(jquery.d.jump, 0, 33))
+
+    which: number;
+>which : Symbol(JQueryEventObjectTest.which, Decl(jquery.d.jump, 1, 14))
+
+    metaKey: any;
+>metaKey : Symbol(JQueryEventObjectTest.metaKey, Decl(jquery.d.jump, 2, 18))
+}
+

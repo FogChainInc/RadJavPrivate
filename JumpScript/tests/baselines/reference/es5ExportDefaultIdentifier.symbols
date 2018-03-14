@@ -1,0 +1,7 @@
+=== tests/cases/compiler/es5ExportDefaultIdentifier.jump ===
+export function f() { }
+>f : Symbol(f, Decl(es5ExportDefaultIdentifier.jump, 0, 0))
+
+export default f;
+>f : Symbol(f, Decl(es5ExportDefaultIdentifier.jump, 0, 0))
+

@@ -1,0 +1,5 @@
+=== tests/cases/compiler/undeclaredVarEmit.jump ===
+f: number;
+>f : any
+>number : any
+

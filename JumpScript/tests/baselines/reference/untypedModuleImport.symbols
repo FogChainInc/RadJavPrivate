@@ -1,0 +1,25 @@
+=== /c.jump ===
+import foo, { bar } from "foo";
+>foo : Symbol(foo, Decl(c.jump, 0, 6))
+>bar : Symbol(bar, Decl(c.jump, 0, 13))
+
+import "./a";
+import "./b";
+foo(bar());
+>foo : Symbol(foo, Decl(c.jump, 0, 6))
+>bar : Symbol(bar, Decl(c.jump, 0, 13))
+
+=== /a.jump ===
+import * as foo from "foo";
+>foo : Symbol(foo, Decl(a.jump, 0, 6))
+
+foo.bar();
+>foo : Symbol(foo, Decl(a.jump, 0, 6))
+
+=== /b.jump ===
+import foo = require("foo");
+>foo : Symbol(foo, Decl(b.jump, 0, 0))
+
+foo();
+>foo : Symbol(foo, Decl(b.jump, 0, 0))
+

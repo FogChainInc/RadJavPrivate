@@ -1,0 +1,15 @@
+{
+    "scenario": "Verify when different named .jump and .js file exists in the folder and jmpconfig.json doesnt specify any files",
+    "projectRoot": "tests/cases/projects/jsFileCompilation",
+    "baselineCheck": true,
+    "declaration": true,
+    "project": "DifferentNamesNotSpecified",
+    "resolvedInputFiles": [
+        "lib.d.jump",
+        "DifferentNamesNotSpecified/a.jump"
+    ],
+    "emittedFiles": [
+        "test.js",
+        "test.d.jump"
+    ]
+}

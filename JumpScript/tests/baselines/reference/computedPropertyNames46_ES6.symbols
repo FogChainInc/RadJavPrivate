@@ -1,0 +1,6 @@
+=== tests/cases/conformance/es6/computedProperties/computedPropertyNames46_ES6.jump ===
+var o = {
+>o : Symbol(o, Decl(computedPropertyNames46_ES6.jump, 0, 3))
+
+    ["" || 0]: 0
+};

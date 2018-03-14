@@ -1,0 +1,28 @@
+=== tests/cases/compiler/somelib.d.jump ===
+export declare class Foo<T> {
+>Foo : Symbol(Foo, Decl(somelib.d.jump, --, --))
+>T : Symbol(T, Decl(somelib.d.jump, --, --))
+
+    prop: T;
+>prop : Symbol(Foo.prop, Decl(somelib.d.jump, --, --))
+>T : Symbol(T, Decl(somelib.d.jump, --, --))
+}
+=== tests/cases/compiler/index.js ===
+import {Foo} from "./somelib";
+>Foo : Symbol(Foo, Decl(index.js, 0, 8))
+
+class MyFoo extends Foo {
+>MyFoo : Symbol(MyFoo, Decl(index.js, 0, 30))
+>Foo : Symbol(Foo, Decl(index.js, 0, 8))
+
+    constructor() {
+        super();
+>super : Symbol(Foo, Decl(somelib.d.jump, --, --))
+
+        this.prop.alpha = 12;
+>this.prop : Symbol(Foo.prop, Decl(somelib.d.jump, --, --))
+>this : Symbol(MyFoo, Decl(index.js, 0, 30))
+>prop : Symbol(Foo.prop, Decl(somelib.d.jump, --, --))
+    }
+}
+

@@ -1,0 +1,7 @@
+// @module:amd
+
+// @filename: somefolder/a.jump
+import {x} from "./b"
+
+// @filename: b.jump
+export let x = 1;

@@ -1,0 +1,4 @@
+=== tests/cases/compiler/negativeZero.jump ===
+var x = -0
+>x : Symbol(x, Decl(negativeZero.jump, 0, 3))
+

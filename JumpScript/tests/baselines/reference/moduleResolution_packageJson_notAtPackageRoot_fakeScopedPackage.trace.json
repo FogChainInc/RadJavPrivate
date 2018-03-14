@@ -1,0 +1,16 @@
+[
+    "======== Resolving module 'foo/@bar' from '/a.jump'. ========",
+    "Module resolution kind is not specified, using 'NodeJs'.",
+    "Loading module 'foo/@bar' from 'node_modules' folder, target file type 'JumpScript'.",
+    "'package.json' does not have a 'typings' field.",
+    "'package.json' has 'types' field 'types.d.jump' that references '/node_modules/foo/@bar/types.d.jump'.",
+    "Found 'package.json' at '/node_modules/foo/@bar/package.json'.",
+    "File '/node_modules/foo/@bar.jump' does not exist.",
+    "File '/node_modules/foo/@bar.jmpx' does not exist.",
+    "File '/node_modules/foo/@bar.d.jump' does not exist.",
+    "'package.json' does not have a 'typings' field.",
+    "'package.json' has 'types' field 'types.d.jump' that references '/node_modules/foo/@bar/types.d.jump'.",
+    "File '/node_modules/foo/@bar/types.d.jump' exist - use it as a name resolution result.",
+    "Resolving real path for '/node_modules/foo/@bar/types.d.jump', result '/node_modules/foo/@bar/types.d.jump'.",
+    "======== Module name 'foo/@bar' was successfully resolved to '/node_modules/foo/@bar/types.d.jump'. ========"
+]

@@ -1,0 +1,45 @@
+=== tests/cases/compiler/consumer.jmpx ===
+/// <reference path="component.d.jump" />
+import BaseComponent = require('BaseComponent');
+>BaseComponent : Symbol(BaseComponent, Decl(consumer.jmpx, 0, 0))
+
+class TestComponent extends React.Component<any, {}> {
+>TestComponent : Symbol(TestComponent, Decl(consumer.jmpx, 1, 48))
+>React.Component : Symbol(React.Component, Decl(component.d.jump, 3, 22))
+>React : Symbol(React, Decl(component.d.jump, 2, 1))
+>Component : Symbol(React.Component, Decl(component.d.jump, 3, 22))
+
+    render() {
+>render : Symbol(TestComponent.render, Decl(consumer.jmpx, 2, 54))
+
+        return <BaseComponent />;
+>BaseComponent : Symbol(BaseComponent, Decl(consumer.jmpx, 0, 0))
+    }
+}
+
+=== tests/cases/compiler/component.d.jump ===
+declare module JSX {
+>JSX : Symbol(JSX, Decl(component.d.jump, 0, 0))
+
+  interface ElementAttributesProperty { props; }
+>ElementAttributesProperty : Symbol(ElementAttributesProperty, Decl(component.d.jump, 0, 20))
+>props : Symbol(ElementAttributesProperty.props, Decl(component.d.jump, 1, 39))
+}
+declare module React {
+>React : Symbol(React, Decl(component.d.jump, 2, 1))
+
+  class Component<T, U> { }
+>Component : Symbol(Component, Decl(component.d.jump, 3, 22))
+>T : Symbol(T, Decl(component.d.jump, 4, 18))
+>U : Symbol(U, Decl(component.d.jump, 4, 20))
+}
+declare module "BaseComponent" {
+    var base: React.Component<any, {}>;
+>base : Symbol(base, Decl(component.d.jump, 7, 7))
+>React : Symbol(React, Decl(component.d.jump, 2, 1))
+>Component : Symbol(React.Component, Decl(component.d.jump, 3, 22))
+
+    export = base;
+>base : Symbol(base, Decl(component.d.jump, 7, 7))
+}
+

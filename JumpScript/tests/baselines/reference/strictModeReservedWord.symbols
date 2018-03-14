@@ -1,0 +1,76 @@
+=== tests/cases/compiler/strictModeReservedWord.jump ===
+let let = 10;
+>let : Symbol(let, Decl(strictModeReservedWord.jump, 0, 3))
+
+function foo() {
+>foo : Symbol(foo, Decl(strictModeReservedWord.jump, 0, 13))
+
+    "use strict"
+    var public = 10;
+>public : Symbol(public, Decl(strictModeReservedWord.jump, 4, 7))
+
+    var static = "hi";
+>static : Symbol(static, Decl(strictModeReservedWord.jump, 5, 7))
+
+    let let = "blah";
+>let : Symbol(let, Decl(strictModeReservedWord.jump, 6, 7))
+
+    var package = "hello"
+>package : Symbol(package, Decl(strictModeReservedWord.jump, 7, 7))
+
+    function package() { }
+>package : Symbol(package, Decl(strictModeReservedWord.jump, 7, 25))
+
+    function bar(private, implements, let) { }
+>bar : Symbol(bar, Decl(strictModeReservedWord.jump, 8, 26))
+>private : Symbol(private, Decl(strictModeReservedWord.jump, 9, 17))
+>implements : Symbol(implements, Decl(strictModeReservedWord.jump, 9, 25))
+>let : Symbol(let, Decl(strictModeReservedWord.jump, 9, 37))
+
+    function baz<implements, protected>() { }
+>baz : Symbol(baz, Decl(strictModeReservedWord.jump, 9, 46))
+>implements : Symbol(implements, Decl(strictModeReservedWord.jump, 10, 17))
+>protected : Symbol(protected, Decl(strictModeReservedWord.jump, 10, 28))
+
+    function barn(cb: (private, public, package) => void) { }
+>barn : Symbol(barn, Decl(strictModeReservedWord.jump, 10, 45))
+>cb : Symbol(cb, Decl(strictModeReservedWord.jump, 11, 18))
+>private : Symbol(private, Decl(strictModeReservedWord.jump, 11, 23))
+>public : Symbol(public, Decl(strictModeReservedWord.jump, 11, 31))
+>package : Symbol(package, Decl(strictModeReservedWord.jump, 11, 39))
+
+    barn((private, public, package) => { });
+>barn : Symbol(barn, Decl(strictModeReservedWord.jump, 10, 45))
+>private : Symbol(private, Decl(strictModeReservedWord.jump, 12, 10))
+>public : Symbol(public, Decl(strictModeReservedWord.jump, 12, 18))
+>package : Symbol(package, Decl(strictModeReservedWord.jump, 12, 26))
+
+    var myClass = class package extends public {}
+>myClass : Symbol(myClass, Decl(strictModeReservedWord.jump, 14, 7))
+>package : Symbol(package, Decl(strictModeReservedWord.jump, 14, 17))
+>public : Symbol(public, Decl(strictModeReservedWord.jump, 4, 7))
+
+    var b: public.bar;
+>b : Symbol(b, Decl(strictModeReservedWord.jump, 16, 7))
+
+    function foo(x: private.x) { }
+>foo : Symbol(foo, Decl(strictModeReservedWord.jump, 16, 22))
+>x : Symbol(x, Decl(strictModeReservedWord.jump, 18, 17))
+
+    function foo1(x: private.package.x) { }
+>foo1 : Symbol(foo1, Decl(strictModeReservedWord.jump, 18, 34))
+>x : Symbol(x, Decl(strictModeReservedWord.jump, 19, 18))
+
+    function foo2(x: private.package.protected) { }
+>foo2 : Symbol(foo2, Decl(strictModeReservedWord.jump, 19, 43))
+>x : Symbol(x, Decl(strictModeReservedWord.jump, 20, 18))
+
+    let b: interface.package.implements.B;
+>b : Symbol(b, Decl(strictModeReservedWord.jump, 21, 7))
+
+    ublic();
+    static();
+>static : Symbol(static, Decl(strictModeReservedWord.jump, 5, 7))
+}
+
+

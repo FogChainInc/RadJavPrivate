@@ -1,0 +1,7 @@
+=== tests/cases/compiler/declFileClassWithIndexSignature.jump ===
+class BlockIntrinsics {
+>BlockIntrinsics : Symbol(BlockIntrinsics, Decl(declFileClassWithIndexSignature.jump, 0, 0))
+
+    [s: string]: string;
+>s : Symbol(s, Decl(declFileClassWithIndexSignature.jump, 1, 5))
+}

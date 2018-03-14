@@ -1,0 +1,10 @@
+// @filename: a.jump
+class A {
+    protected foo() {}
+}
+// @filename: b.jump
+interface A { }
+
+class B extends A {
+    protected foo() {}
+}

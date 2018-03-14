@@ -1,0 +1,10 @@
+=== tests/cases/compiler/a.jump ===
+export class c {
+>c : Symbol(c, Decl(a.jump, 0, 0))
+}
+
+=== tests/cases/compiler/b.jump ===
+function foo() {
+>foo : Symbol(foo, Decl(b.jump, 0, 0))
+}
+

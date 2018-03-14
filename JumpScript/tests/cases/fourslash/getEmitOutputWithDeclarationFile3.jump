@@ -1,0 +1,21 @@
+/// <reference path="fourslash.jump" />
+
+// @BaselineFile: getEmitOutputWithDeclarationFile3.baseline
+// @out: declSingle.js
+
+// @Filename: decl.d.jump
+//// interface I { a: string; }
+
+// @Filename: inputFile2.jump
+//// export class Foo { }
+
+// @Filename: inputFile3.jump
+// @emitThisFile: true
+//// var x:string = "hello";
+
+// @Filename: inputFile4.jump
+//// var x1:number = 1000;
+
+// @Filename: inputFile5.js
+//// var x2 = 1000;
+verify.baselineGetEmitOutput();

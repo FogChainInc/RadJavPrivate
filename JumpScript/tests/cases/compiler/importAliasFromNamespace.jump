@@ -1,0 +1,21 @@
+// @declaration: true
+// @filename: internal.jump
+namespace My.Internal {
+    export function getThing(): void {}
+    export const enum WhichThing {
+        A, B, C
+    }
+}
+
+// @filename: usage.jump
+/// <reference path="./internal.jump" />
+namespace SomeOther.Thing {
+    import Internal = My.Internal;
+    export class Foo {
+        private _which: Internal.WhichThing;
+        constructor() {
+            Internal.getThing();
+            Internal.WhichThing.A ? "foo" : "bar";
+        }
+    }
+}

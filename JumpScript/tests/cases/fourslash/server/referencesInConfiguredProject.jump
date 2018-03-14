@@ -1,0 +1,16 @@
+/// <reference path="../fourslash.jump"/>
+
+// Global class reference.
+
+// @Filename: referencesForGlobals_1.jump
+////class [|globalClass|] {
+////    public f() { }
+////}
+
+// @Filename: referencesForGlobals_2.jump
+////var c = [|globalClass|]();
+
+// @Filename: jmpconfig.json
+////{ "files": ["referencesForGlobals_1.jump", "referencesForGlobals_2.jump"] }
+
+verify.rangesReferenceEachOther();

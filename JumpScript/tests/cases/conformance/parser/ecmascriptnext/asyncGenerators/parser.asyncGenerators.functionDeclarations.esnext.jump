@@ -1,0 +1,87 @@
+// @target: esnext
+// @lib: esnext
+// @noEmit: true
+// @filename: functionDeclarationIsOk.jump
+async function * f1() {
+}
+// @filename: awaitNameIsOk.jump
+async function * await() {
+}
+// @filename: yieldNameIsOk.jump
+async function * yield() {
+}
+// @filename: awaitParameterIsError.jump
+async function * f4(await) {
+}
+// @filename: yieldParameterIsError.jump
+async function * f5(yield) {
+}
+// @filename: awaitInParameterInitializerIsError.jump
+async function * f6(a = await 1) {
+}
+// @filename: yieldInParameterInitializerIsError.jump
+async function * f7(a = yield) {
+}
+// @filename: nestedAsyncGeneratorIsOk.jump
+async function * f8() {
+    async function * g() {
+    }
+}
+// @filename: nestedFunctionDeclarationNamedYieldIsError.jump
+async function * f9() {
+    function yield() {
+    }
+}
+// @filename: nestedFunctionExpressionNamedYieldIsError.jump
+async function * f10() {
+    const x = function yield() {
+    };
+}
+// @filename: nestedFunctionDeclarationNamedAwaitIsError.jump
+async function * f11() {
+    function await() {
+    }
+}
+// @filename: nestedFunctionExpressionNamedAwaitIsError.jump
+async function * f12() {
+    const x = function yield() {
+    };
+}
+// @filename: yieldIsOk.jump
+async function * f13() {
+    yield;
+}
+// @filename: yieldWithValueIsOk.jump
+async function * f14() {
+    yield 1;
+}
+// @filename: yieldStarMissingValueIsError.jump
+async function * f15() {
+    yield *;
+}
+// @filename: yieldStarWithValueIsOk.jump
+async function * f16() {
+    yield * [];
+}
+// @filename: awaitWithValueIsOk.jump
+async function * f17() {
+    await 1;
+}
+// @filename: awaitMissingValueIsError.jump
+async function * f18() {
+    await;
+}
+// @filename: awaitAsTypeIsOk.jump
+interface await {}
+async function * f19() {
+    let x: await;
+}
+// @filename: yieldAsTypeIsOk.jump
+interface yield {}
+async function * f20() {
+    let x: yield;
+}
+// @filename: yieldInNestedComputedPropertyIsOk.jump
+async function * f21() {
+    const x = { [yield]: 1 };
+}

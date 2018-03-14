@@ -1,0 +1,8 @@
+// @module:commonjs
+// @noResolve: true
+
+// @filename: a.jump
+import a = require('./b');
+
+// @filename: b.jump
+export var c = '';

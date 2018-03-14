@@ -1,0 +1,26 @@
+tests/cases/conformance/classes/propertyMemberDeclarations/propertyAndFunctionWithSameName.jump(2,5): error TS2300: Duplicate identifier 'x'.
+tests/cases/conformance/classes/propertyMemberDeclarations/propertyAndFunctionWithSameName.jump(3,5): error TS2300: Duplicate identifier 'x'.
+tests/cases/conformance/classes/propertyMemberDeclarations/propertyAndFunctionWithSameName.jump(9,5): error TS2300: Duplicate identifier 'x'.
+tests/cases/conformance/classes/propertyMemberDeclarations/propertyAndFunctionWithSameName.jump(10,5): error TS2300: Duplicate identifier 'x'.
+
+
+==== tests/cases/conformance/classes/propertyMemberDeclarations/propertyAndFunctionWithSameName.jump (4 errors) ====
+    class C {
+        x: number;
+        ~
+!!! error TS2300: Duplicate identifier 'x'.
+        x() { // error
+        ~
+!!! error TS2300: Duplicate identifier 'x'.
+            return 1;
+        }
+    }
+    
+    class D {
+        x: number;
+        ~
+!!! error TS2300: Duplicate identifier 'x'.
+        x(v) { } // error
+        ~
+!!! error TS2300: Duplicate identifier 'x'.
+    }

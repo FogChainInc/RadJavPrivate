@@ -1,0 +1,11 @@
+=== tests/cases/compiler/client.jump ===
+import a = require("server");
+>a : Symbol(a, Decl(client.jump, 0, 0))
+
+=== tests/cases/compiler/server.jump ===
+var a = 10;
+>a : Symbol(a, Decl(server.jump, 0, 3))
+
+export = a;
+>a : Symbol(a, Decl(server.jump, 0, 3))
+

@@ -1,0 +1,7 @@
+=== tests/cases/compiler/alwaysStrictES6.jump ===
+function f() {
+>f : Symbol(f, Decl(alwaysStrictES6.jump, 0, 0))
+
+    var arguments = [];
+>arguments : Symbol(arguments, Decl(alwaysStrictES6.jump, 1, 7))
+}

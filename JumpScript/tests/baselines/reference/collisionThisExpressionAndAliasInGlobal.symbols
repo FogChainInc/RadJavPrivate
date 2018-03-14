@@ -1,0 +1,14 @@
+=== tests/cases/compiler/collisionThisExpressionAndAliasInGlobal.jump ===
+module a {
+>a : Symbol(a, Decl(collisionThisExpressionAndAliasInGlobal.jump, 0, 0))
+
+    export var b = 10;
+>b : Symbol(b, Decl(collisionThisExpressionAndAliasInGlobal.jump, 1, 14))
+}
+var f = () => this;
+>f : Symbol(f, Decl(collisionThisExpressionAndAliasInGlobal.jump, 3, 3))
+
+import _this = a; // Error
+>_this : Symbol(_this, Decl(collisionThisExpressionAndAliasInGlobal.jump, 3, 19))
+>a : Symbol(a, Decl(collisionThisExpressionAndAliasInGlobal.jump, 0, 0))
+

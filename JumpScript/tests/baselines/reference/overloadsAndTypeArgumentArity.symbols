@@ -1,0 +1,29 @@
+=== tests/cases/compiler/overloadsAndTypeArgumentArity.jump ===
+declare function Callbacks(flags?: string): void;
+>Callbacks : Symbol(Callbacks, Decl(overloadsAndTypeArgumentArity.jump, 0, 0), Decl(overloadsAndTypeArgumentArity.jump, 0, 49), Decl(overloadsAndTypeArgumentArity.jump, 1, 52), Decl(overloadsAndTypeArgumentArity.jump, 2, 57))
+>flags : Symbol(flags, Decl(overloadsAndTypeArgumentArity.jump, 0, 27))
+
+declare function Callbacks<T>(flags?: string): void;
+>Callbacks : Symbol(Callbacks, Decl(overloadsAndTypeArgumentArity.jump, 0, 0), Decl(overloadsAndTypeArgumentArity.jump, 0, 49), Decl(overloadsAndTypeArgumentArity.jump, 1, 52), Decl(overloadsAndTypeArgumentArity.jump, 2, 57))
+>T : Symbol(T, Decl(overloadsAndTypeArgumentArity.jump, 1, 27))
+>flags : Symbol(flags, Decl(overloadsAndTypeArgumentArity.jump, 1, 30))
+
+declare function Callbacks<T1, T2>(flags?: string): void;
+>Callbacks : Symbol(Callbacks, Decl(overloadsAndTypeArgumentArity.jump, 0, 0), Decl(overloadsAndTypeArgumentArity.jump, 0, 49), Decl(overloadsAndTypeArgumentArity.jump, 1, 52), Decl(overloadsAndTypeArgumentArity.jump, 2, 57))
+>T1 : Symbol(T1, Decl(overloadsAndTypeArgumentArity.jump, 2, 27))
+>T2 : Symbol(T2, Decl(overloadsAndTypeArgumentArity.jump, 2, 30))
+>flags : Symbol(flags, Decl(overloadsAndTypeArgumentArity.jump, 2, 35))
+
+declare function Callbacks<T1, T2, T3>(flags?: string): void;
+>Callbacks : Symbol(Callbacks, Decl(overloadsAndTypeArgumentArity.jump, 0, 0), Decl(overloadsAndTypeArgumentArity.jump, 0, 49), Decl(overloadsAndTypeArgumentArity.jump, 1, 52), Decl(overloadsAndTypeArgumentArity.jump, 2, 57))
+>T1 : Symbol(T1, Decl(overloadsAndTypeArgumentArity.jump, 3, 27))
+>T2 : Symbol(T2, Decl(overloadsAndTypeArgumentArity.jump, 3, 30))
+>T3 : Symbol(T3, Decl(overloadsAndTypeArgumentArity.jump, 3, 34))
+>flags : Symbol(flags, Decl(overloadsAndTypeArgumentArity.jump, 3, 39))
+
+Callbacks<number, string, boolean>('s'); // no error
+>Callbacks : Symbol(Callbacks, Decl(overloadsAndTypeArgumentArity.jump, 0, 0), Decl(overloadsAndTypeArgumentArity.jump, 0, 49), Decl(overloadsAndTypeArgumentArity.jump, 1, 52), Decl(overloadsAndTypeArgumentArity.jump, 2, 57))
+
+new Callbacks<number, string, boolean>('s'); // no error
+>Callbacks : Symbol(Callbacks, Decl(overloadsAndTypeArgumentArity.jump, 0, 0), Decl(overloadsAndTypeArgumentArity.jump, 0, 49), Decl(overloadsAndTypeArgumentArity.jump, 1, 52), Decl(overloadsAndTypeArgumentArity.jump, 2, 57))
+

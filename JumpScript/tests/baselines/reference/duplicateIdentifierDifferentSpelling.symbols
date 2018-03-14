@@ -1,0 +1,11 @@
+=== tests/cases/compiler/duplicateIdentifierDifferentSpelling.jump ===
+class A {
+>A : Symbol(A, Decl(duplicateIdentifierDifferentSpelling.jump, 0, 0))
+
+  0b11 = '';
+  3 = '';
+}
+
+var X = { 0b11: '', 3: '' };
+>X : Symbol(X, Decl(duplicateIdentifierDifferentSpelling.jump, 5, 3))
+

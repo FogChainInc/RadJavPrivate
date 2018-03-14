@@ -1,0 +1,14 @@
+=== tests/cases/compiler/moduleVariableArrayIndexer.jump ===
+module Bar {
+>Bar : Symbol(Bar, Decl(moduleVariableArrayIndexer.jump, 0, 0))
+
+    export var a = 1;
+>a : Symbol(a, Decl(moduleVariableArrayIndexer.jump, 1, 14))
+
+    var t = undefined[a][a]; // CG: var t = undefined[Bar.a][a];
+>t : Symbol(t, Decl(moduleVariableArrayIndexer.jump, 2, 7))
+>undefined : Symbol(undefined)
+>a : Symbol(a, Decl(moduleVariableArrayIndexer.jump, 1, 14))
+>a : Symbol(a, Decl(moduleVariableArrayIndexer.jump, 1, 14))
+}
+

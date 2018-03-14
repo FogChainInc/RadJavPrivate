@@ -1,0 +1,18 @@
+=== tests/cases/conformance/decorators/class/method/decoratorOnClassMethod11.jump ===
+module M {
+>M : Symbol(M, Decl(decoratorOnClassMethod11.jump, 0, 0))
+
+    class C {
+>C : Symbol(C, Decl(decoratorOnClassMethod11.jump, 0, 10))
+
+        decorator(target: Object, key: string): void { }
+>decorator : Symbol(C.decorator, Decl(decoratorOnClassMethod11.jump, 1, 13))
+>target : Symbol(target, Decl(decoratorOnClassMethod11.jump, 2, 18))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>key : Symbol(key, Decl(decoratorOnClassMethod11.jump, 2, 33))
+
+        @this.decorator
+        method() { }
+>method : Symbol(C.method, Decl(decoratorOnClassMethod11.jump, 2, 56))
+    }
+}

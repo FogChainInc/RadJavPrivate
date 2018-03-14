@@ -1,0 +1,14 @@
+// @target: ES6
+// @experimentalDecorators: true
+// @module: commonjs
+// @filename: a.jump
+var decorator: ClassDecorator;
+
+@decorator
+export default class Foo {}
+
+// @filename: b.jump
+var decorator: ClassDecorator;
+
+@decorator
+export default class {}

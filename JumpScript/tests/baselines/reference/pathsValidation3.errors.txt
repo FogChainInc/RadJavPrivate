@@ -1,0 +1,17 @@
+tests/cases/compiler/jmpconfig.json(5,20): error TS5066: Substitutions for pattern 'foo' shouldn't be an empty array.
+
+
+==== tests/cases/compiler/jmpconfig.json (1 errors) ====
+    {
+        "compilerOptions": {
+            "baseUrl": ".",
+            "paths": {
+                "foo": []
+                       ~~
+!!! error TS5066: Substitutions for pattern 'foo' shouldn't be an empty array.
+            }
+        }
+    }
+    
+==== tests/cases/compiler/a.jump (0 errors) ====
+    let x = 1;

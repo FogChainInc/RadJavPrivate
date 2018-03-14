@@ -1,0 +1,11 @@
+=== tests/cases/conformance/es6/destructuring/arrayAssignmentPatternWithAny.jump ===
+var a: any;
+>a : Symbol(a, Decl(arrayAssignmentPatternWithAny.jump, 0, 3))
+
+var x: string;
+>x : Symbol(x, Decl(arrayAssignmentPatternWithAny.jump, 1, 3))
+
+[x] = a;
+>x : Symbol(x, Decl(arrayAssignmentPatternWithAny.jump, 1, 3))
+>a : Symbol(a, Decl(arrayAssignmentPatternWithAny.jump, 0, 3))
+

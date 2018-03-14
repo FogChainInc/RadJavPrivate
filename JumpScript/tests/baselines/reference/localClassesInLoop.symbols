@@ -1,0 +1,29 @@
+=== tests/cases/compiler/localClassesInLoop.jump ===
+declare function use(a: any);
+>use : Symbol(use, Decl(localClassesInLoop.jump, 0, 0))
+>a : Symbol(a, Decl(localClassesInLoop.jump, 0, 21))
+
+"use strict"
+var data = [];
+>data : Symbol(data, Decl(localClassesInLoop.jump, 3, 3))
+
+for (let x = 0; x < 2; ++x) {
+>x : Symbol(x, Decl(localClassesInLoop.jump, 4, 8))
+>x : Symbol(x, Decl(localClassesInLoop.jump, 4, 8))
+>x : Symbol(x, Decl(localClassesInLoop.jump, 4, 8))
+
+    class C { }
+>C : Symbol(C, Decl(localClassesInLoop.jump, 4, 29))
+
+    data.push(() => C);
+>data.push : Symbol(Array.push, Decl(lib.d.jump, --, --))
+>data : Symbol(data, Decl(localClassesInLoop.jump, 3, 3))
+>push : Symbol(Array.push, Decl(lib.d.jump, --, --))
+>C : Symbol(C, Decl(localClassesInLoop.jump, 4, 29))
+}
+
+use(data[0]() === data[1]());
+>use : Symbol(use, Decl(localClassesInLoop.jump, 0, 0))
+>data : Symbol(data, Decl(localClassesInLoop.jump, 3, 3))
+>data : Symbol(data, Decl(localClassesInLoop.jump, 3, 3))
+

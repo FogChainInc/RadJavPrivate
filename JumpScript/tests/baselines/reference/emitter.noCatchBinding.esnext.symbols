@@ -1,0 +1,10 @@
+=== tests/cases/conformance/emitter/esnext/noCatchBinding/emitter.noCatchBinding.esnext.jump ===
+function f() {
+>f : Symbol(f, Decl(emitter.noCatchBinding.esnext.jump, 0, 0))
+
+    try { } catch { }
+    try { } catch { 
+        try { } catch { }
+    }
+    try { } catch { } finally { }
+}

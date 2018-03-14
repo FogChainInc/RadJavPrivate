@@ -1,0 +1,22 @@
+=== tests/cases/compiler/unknownTypeArgOnCall.jump ===
+class Foo<T> {
+>Foo : Symbol(Foo, Decl(unknownTypeArgOnCall.jump, 0, 0))
+>T : Symbol(T, Decl(unknownTypeArgOnCall.jump, 0, 10))
+
+  public clone<U>() {
+>clone : Symbol(Foo.clone, Decl(unknownTypeArgOnCall.jump, 0, 14))
+>U : Symbol(U, Decl(unknownTypeArgOnCall.jump, 1, 15))
+
+   return null;
+   }
+}
+var f = new Foo<number>();
+>f : Symbol(f, Decl(unknownTypeArgOnCall.jump, 5, 3))
+>Foo : Symbol(Foo, Decl(unknownTypeArgOnCall.jump, 0, 0))
+
+var r = f.clone<Uhhhh>()
+>r : Symbol(r, Decl(unknownTypeArgOnCall.jump, 6, 3))
+>f.clone : Symbol(Foo.clone, Decl(unknownTypeArgOnCall.jump, 0, 14))
+>f : Symbol(f, Decl(unknownTypeArgOnCall.jump, 5, 3))
+>clone : Symbol(Foo.clone, Decl(unknownTypeArgOnCall.jump, 0, 14))
+

@@ -1,0 +1,10 @@
+tests/cases/compiler/topLevelLambda.jump(2,17): error TS2331: 'this' cannot be referenced in a module or namespace body.
+
+
+==== tests/cases/compiler/topLevelLambda.jump (1 errors) ====
+    module M {
+    	var f = () => {this.window;}
+    	               ~~~~
+!!! error TS2331: 'this' cannot be referenced in a module or namespace body.
+    }
+    

@@ -1,0 +1,5 @@
+=== tests/cases/compiler/spaceBeforeQuestionMarkInPropertyAssignment.jump ===
+var x = {x ?: 1} // should not crash
+>x : Symbol(x, Decl(spaceBeforeQuestionMarkInPropertyAssignment.jump, 0, 3))
+>x : Symbol(x, Decl(spaceBeforeQuestionMarkInPropertyAssignment.jump, 0, 9))
+

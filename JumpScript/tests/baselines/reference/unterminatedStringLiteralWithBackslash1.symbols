@@ -1,0 +1,3 @@
+=== tests/cases/compiler/unterminatedStringLiteralWithBackslash1.jump ===
+"\
+No type information for this code.

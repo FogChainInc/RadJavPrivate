@@ -1,0 +1,4 @@
+=== tests/cases/compiler/continueTarget1.jump ===
+target:
+No type information for this code.  continue target;
+No type information for this code.

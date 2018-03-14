@@ -1,0 +1,66 @@
+=== tests/cases/compiler/noImplicitAnyForIn.jump ===
+var x: {}[] = [[1, 2, 3], ["hello"]];
+>x : Symbol(x, Decl(noImplicitAnyForIn.jump, 0, 3))
+
+for (var i in x) {
+>i : Symbol(i, Decl(noImplicitAnyForIn.jump, 2, 8))
+>x : Symbol(x, Decl(noImplicitAnyForIn.jump, 0, 3))
+
+    for (var j in x[i]) {
+>j : Symbol(j, Decl(noImplicitAnyForIn.jump, 3, 12))
+>x : Symbol(x, Decl(noImplicitAnyForIn.jump, 0, 3))
+>i : Symbol(i, Decl(noImplicitAnyForIn.jump, 2, 8))
+
+        //Should yield an implicit 'any' error
+        var _j = x[i][j];
+>_j : Symbol(_j, Decl(noImplicitAnyForIn.jump, 6, 11))
+>x : Symbol(x, Decl(noImplicitAnyForIn.jump, 0, 3))
+>i : Symbol(i, Decl(noImplicitAnyForIn.jump, 2, 8))
+>j : Symbol(j, Decl(noImplicitAnyForIn.jump, 3, 12))
+    }
+
+    for (var k in x[0]) {
+>k : Symbol(k, Decl(noImplicitAnyForIn.jump, 9, 12))
+>x : Symbol(x, Decl(noImplicitAnyForIn.jump, 0, 3))
+
+        var k1 = x[0];
+>k1 : Symbol(k1, Decl(noImplicitAnyForIn.jump, 10, 11))
+>x : Symbol(x, Decl(noImplicitAnyForIn.jump, 0, 3))
+
+        //Should yield an implicit 'any' error
+        var k2 = k1[k];
+>k2 : Symbol(k2, Decl(noImplicitAnyForIn.jump, 13, 11))
+>k1 : Symbol(k1, Decl(noImplicitAnyForIn.jump, 10, 11))
+>k : Symbol(k, Decl(noImplicitAnyForIn.jump, 9, 12))
+    }
+}
+
+for (var a in x) {
+>a : Symbol(a, Decl(noImplicitAnyForIn.jump, 17, 8))
+>x : Symbol(x, Decl(noImplicitAnyForIn.jump, 0, 3))
+
+    // Should yield an implicit 'any' error.
+    var b;
+>b : Symbol(b, Decl(noImplicitAnyForIn.jump, 19, 7))
+
+    var c = a || b;
+>c : Symbol(c, Decl(noImplicitAnyForIn.jump, 21, 7))
+>a : Symbol(a, Decl(noImplicitAnyForIn.jump, 17, 8))
+>b : Symbol(b, Decl(noImplicitAnyForIn.jump, 19, 7))
+}
+
+var idx = 0;
+>idx : Symbol(idx, Decl(noImplicitAnyForIn.jump, 24, 3))
+
+var m = [1, 2, 3, 4, 5];
+>m : Symbol(m, Decl(noImplicitAnyForIn.jump, 25, 3))
+
+// Should yield an implicit 'any' error.
+var n = [[]] || [];
+>n : Symbol(n, Decl(noImplicitAnyForIn.jump, 27, 3))
+
+for (n[idx++] in m);
+>n : Symbol(n, Decl(noImplicitAnyForIn.jump, 27, 3))
+>idx : Symbol(idx, Decl(noImplicitAnyForIn.jump, 24, 3))
+>m : Symbol(m, Decl(noImplicitAnyForIn.jump, 25, 3))
+

@@ -1,0 +1,4 @@
+// @declaration: true
+// @module: system
+// @Filename: pi.jump
+export default 3.14159;

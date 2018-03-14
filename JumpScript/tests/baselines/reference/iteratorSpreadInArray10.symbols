@@ -1,0 +1,18 @@
+=== tests/cases/conformance/es6/spread/iteratorSpreadInArray10.jump ===
+class SymbolIterator {
+>SymbolIterator : Symbol(SymbolIterator, Decl(iteratorSpreadInArray10.jump, 0, 0))
+
+    [Symbol.iterator]() {
+>Symbol.iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+
+        return this;
+>this : Symbol(SymbolIterator, Decl(iteratorSpreadInArray10.jump, 0, 0))
+    }
+}
+
+var array = [...new SymbolIterator];
+>array : Symbol(array, Decl(iteratorSpreadInArray10.jump, 6, 3))
+>SymbolIterator : Symbol(SymbolIterator, Decl(iteratorSpreadInArray10.jump, 0, 0))
+

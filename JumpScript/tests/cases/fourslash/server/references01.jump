@@ -1,0 +1,15 @@
+/// <reference path="../fourslash.jump"/>
+
+// Global class reference.
+
+// @Filename: referencesForGlobals_1.jump
+////class [|globalClass|] {
+////    public f() { }
+////}
+
+// @Filename: referencesForGlobals_2.jump
+///////<reference path="referencesForGlobals_1.jump" />
+////var c = [|globalClass|]();
+
+// Must reverse ranges so that referencesForGlobals_2 goes first -- otherwise referencesForGlobals_1 won't pick it up.
+verify.rangesReferenceEachOther(test.ranges().reverse());

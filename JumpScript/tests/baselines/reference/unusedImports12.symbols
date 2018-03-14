@@ -1,0 +1,23 @@
+=== tests/cases/compiler/a.jump ===
+import { Member } from './b';
+>Member : Symbol(Member, Decl(a.jump, 0, 8))
+
+import d, { Member as M } from './b';
+>d : Symbol(d, Decl(a.jump, 1, 6))
+>Member : Symbol(M, Decl(a.jump, 1, 11))
+>M : Symbol(M, Decl(a.jump, 1, 11))
+
+import * as ns from './b';
+>ns : Symbol(ns, Decl(a.jump, 2, 6))
+
+import r = require("./b");
+>r : Symbol(r, Decl(a.jump, 2, 26))
+
+=== tests/cases/compiler/b.jump ===
+export class Member {}
+>Member : Symbol(Member, Decl(b.jump, 0, 0))
+
+export default Member;
+>Member : Symbol(Member, Decl(b.jump, 0, 0))
+
+

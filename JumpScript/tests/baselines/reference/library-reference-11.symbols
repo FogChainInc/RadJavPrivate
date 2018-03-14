@@ -1,0 +1,13 @@
+=== /a/b/consumer.jump ===
+/// <reference types="jquery" />
+$.foo();
+>$.foo : Symbol(foo, Decl(jquery.d.jump, 0, 16))
+>$ : Symbol($, Decl(jquery.d.jump, 0, 11))
+>foo : Symbol(foo, Decl(jquery.d.jump, 0, 16))
+
+=== /a/node_modules/jquery/jquery.d.jump ===
+declare var $: { foo(): void };
+>$ : Symbol($, Decl(jquery.d.jump, 0, 11))
+>foo : Symbol(foo, Decl(jquery.d.jump, 0, 16))
+
+

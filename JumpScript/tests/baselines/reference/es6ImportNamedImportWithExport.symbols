@@ -1,0 +1,121 @@
+=== tests/cases/compiler/server.jump ===
+export var a = 10;
+>a : Symbol(a, Decl(server.jump, 0, 10))
+
+export var x = a;
+>x : Symbol(x, Decl(server.jump, 1, 10))
+>a : Symbol(a, Decl(server.jump, 0, 10))
+
+export var m = a;
+>m : Symbol(m, Decl(server.jump, 2, 10))
+>a : Symbol(a, Decl(server.jump, 0, 10))
+
+export var a1 = 10;
+>a1 : Symbol(a1, Decl(server.jump, 3, 10))
+
+export var x1 = 10;
+>x1 : Symbol(x1, Decl(server.jump, 4, 10))
+
+export var z1 = 10;
+>z1 : Symbol(z1, Decl(server.jump, 5, 10))
+
+export var z2 = 10;
+>z2 : Symbol(z2, Decl(server.jump, 6, 10))
+
+export var aaaa = 10;
+>aaaa : Symbol(aaaa, Decl(server.jump, 7, 10))
+
+=== tests/cases/compiler/client.jump ===
+export import { } from "./server";
+export import { a } from "./server";
+>a : Symbol(a, Decl(client.jump, 1, 15))
+
+export var xxxx = a;
+>xxxx : Symbol(xxxx, Decl(client.jump, 2, 10), Decl(client.jump, 4, 10), Decl(client.jump, 6, 10), Decl(client.jump, 7, 10), Decl(client.jump, 9, 10) ... and 5 more)
+>a : Symbol(a, Decl(client.jump, 1, 15))
+
+export import { a as b } from "./server";
+>a : Symbol(b, Decl(client.jump, 3, 15))
+>b : Symbol(b, Decl(client.jump, 3, 15))
+
+export var xxxx = b;
+>xxxx : Symbol(xxxx, Decl(client.jump, 2, 10), Decl(client.jump, 4, 10), Decl(client.jump, 6, 10), Decl(client.jump, 7, 10), Decl(client.jump, 9, 10) ... and 5 more)
+>b : Symbol(b, Decl(client.jump, 3, 15))
+
+export import { x, a as y } from "./server";
+>x : Symbol(x, Decl(client.jump, 5, 15))
+>a : Symbol(y, Decl(client.jump, 5, 18))
+>y : Symbol(y, Decl(client.jump, 5, 18))
+
+export var xxxx = x;
+>xxxx : Symbol(xxxx, Decl(client.jump, 2, 10), Decl(client.jump, 4, 10), Decl(client.jump, 6, 10), Decl(client.jump, 7, 10), Decl(client.jump, 9, 10) ... and 5 more)
+>x : Symbol(x, Decl(client.jump, 5, 15))
+
+export var xxxx = y;
+>xxxx : Symbol(xxxx, Decl(client.jump, 2, 10), Decl(client.jump, 4, 10), Decl(client.jump, 6, 10), Decl(client.jump, 7, 10), Decl(client.jump, 9, 10) ... and 5 more)
+>y : Symbol(y, Decl(client.jump, 5, 18))
+
+export import { x as z,  } from "./server";
+>x : Symbol(z, Decl(client.jump, 8, 15))
+>z : Symbol(z, Decl(client.jump, 8, 15))
+
+export var xxxx = z;
+>xxxx : Symbol(xxxx, Decl(client.jump, 2, 10), Decl(client.jump, 4, 10), Decl(client.jump, 6, 10), Decl(client.jump, 7, 10), Decl(client.jump, 9, 10) ... and 5 more)
+>z : Symbol(z, Decl(client.jump, 8, 15))
+
+export import { m,  } from "./server";
+>m : Symbol(m, Decl(client.jump, 10, 15))
+
+export var xxxx = m;
+>xxxx : Symbol(xxxx, Decl(client.jump, 2, 10), Decl(client.jump, 4, 10), Decl(client.jump, 6, 10), Decl(client.jump, 7, 10), Decl(client.jump, 9, 10) ... and 5 more)
+>m : Symbol(m, Decl(client.jump, 10, 15))
+
+export import { a1, x1 } from "./server";
+>a1 : Symbol(a1, Decl(client.jump, 12, 15))
+>x1 : Symbol(x1, Decl(client.jump, 12, 19))
+
+export var xxxx = a1;
+>xxxx : Symbol(xxxx, Decl(client.jump, 2, 10), Decl(client.jump, 4, 10), Decl(client.jump, 6, 10), Decl(client.jump, 7, 10), Decl(client.jump, 9, 10) ... and 5 more)
+>a1 : Symbol(a1, Decl(client.jump, 12, 15))
+
+export var xxxx = x1;
+>xxxx : Symbol(xxxx, Decl(client.jump, 2, 10), Decl(client.jump, 4, 10), Decl(client.jump, 6, 10), Decl(client.jump, 7, 10), Decl(client.jump, 9, 10) ... and 5 more)
+>x1 : Symbol(x1, Decl(client.jump, 12, 19))
+
+export import { a1 as a11, x1 as x11 } from "./server";
+>a1 : Symbol(a11, Decl(client.jump, 15, 15))
+>a11 : Symbol(a11, Decl(client.jump, 15, 15))
+>x1 : Symbol(x11, Decl(client.jump, 15, 26))
+>x11 : Symbol(x11, Decl(client.jump, 15, 26))
+
+export var xxxx = a11;
+>xxxx : Symbol(xxxx, Decl(client.jump, 2, 10), Decl(client.jump, 4, 10), Decl(client.jump, 6, 10), Decl(client.jump, 7, 10), Decl(client.jump, 9, 10) ... and 5 more)
+>a11 : Symbol(a11, Decl(client.jump, 15, 15))
+
+export var xxxx = x11;
+>xxxx : Symbol(xxxx, Decl(client.jump, 2, 10), Decl(client.jump, 4, 10), Decl(client.jump, 6, 10), Decl(client.jump, 7, 10), Decl(client.jump, 9, 10) ... and 5 more)
+>x11 : Symbol(x11, Decl(client.jump, 15, 26))
+
+export import { z1 } from "./server";
+>z1 : Symbol(z1, Decl(client.jump, 18, 15))
+
+export var z111 = z1;
+>z111 : Symbol(z111, Decl(client.jump, 19, 10))
+>z1 : Symbol(z1, Decl(client.jump, 18, 15))
+
+export import { z2 as z3 } from "./server";
+>z2 : Symbol(z3, Decl(client.jump, 20, 15))
+>z3 : Symbol(z3, Decl(client.jump, 20, 15))
+
+export var z2 = z3; // z2 shouldn't give redeclare error
+>z2 : Symbol(z2, Decl(client.jump, 21, 10))
+>z3 : Symbol(z3, Decl(client.jump, 20, 15))
+
+// Non referenced imports
+export import { aaaa } from "./server";
+>aaaa : Symbol(aaaa, Decl(client.jump, 24, 15))
+
+export import { aaaa as bbbb } from "./server";
+>aaaa : Symbol(bbbb, Decl(client.jump, 25, 15))
+>bbbb : Symbol(bbbb, Decl(client.jump, 25, 15))
+

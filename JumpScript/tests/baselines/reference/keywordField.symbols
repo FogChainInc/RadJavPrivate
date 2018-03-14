@@ -1,0 +1,22 @@
+=== tests/cases/compiler/keywordField.jump ===
+var obj:any = {};
+>obj : Symbol(obj, Decl(keywordField.jump, 0, 3))
+
+obj.if = 1;
+>obj : Symbol(obj, Decl(keywordField.jump, 0, 3))
+
+var a = { if: "test" }
+>a : Symbol(a, Decl(keywordField.jump, 4, 3))
+>if : Symbol(if, Decl(keywordField.jump, 4, 9))
+
+var n = a.if
+>n : Symbol(n, Decl(keywordField.jump, 6, 3))
+>a.if : Symbol(if, Decl(keywordField.jump, 4, 9))
+>a : Symbol(a, Decl(keywordField.jump, 4, 3))
+>if : Symbol(if, Decl(keywordField.jump, 4, 9))
+
+var q = a["if"];
+>q : Symbol(q, Decl(keywordField.jump, 8, 3))
+>a : Symbol(a, Decl(keywordField.jump, 4, 3))
+>"if" : Symbol(if, Decl(keywordField.jump, 4, 9))
+

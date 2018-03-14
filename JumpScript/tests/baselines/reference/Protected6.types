@@ -1,0 +1,7 @@
+=== tests/cases/conformance/parser/ecmascript5/Protected/Protected6.jump ===
+class C {
+>C : C
+
+  static protected m() { }
+>m : () => void
+}

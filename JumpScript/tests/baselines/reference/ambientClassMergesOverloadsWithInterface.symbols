@@ -1,0 +1,22 @@
+=== tests/cases/compiler/ambientClassMergesOverloadsWithInterface.jump ===
+declare class C {
+>C : Symbol(C, Decl(ambientClassMergesOverloadsWithInterface.jump, 0, 0), Decl(ambientClassMergesOverloadsWithInterface.jump, 3, 1))
+
+    baz(): any;
+>baz : Symbol(C.baz, Decl(ambientClassMergesOverloadsWithInterface.jump, 0, 17))
+
+    foo(n: number): any;
+>foo : Symbol(C.foo, Decl(ambientClassMergesOverloadsWithInterface.jump, 1, 15), Decl(ambientClassMergesOverloadsWithInterface.jump, 4, 13))
+>n : Symbol(n, Decl(ambientClassMergesOverloadsWithInterface.jump, 2, 8))
+}
+interface C {
+>C : Symbol(C, Decl(ambientClassMergesOverloadsWithInterface.jump, 0, 0), Decl(ambientClassMergesOverloadsWithInterface.jump, 3, 1))
+
+    foo(n: number): any;
+>foo : Symbol(C.foo, Decl(ambientClassMergesOverloadsWithInterface.jump, 1, 15), Decl(ambientClassMergesOverloadsWithInterface.jump, 4, 13))
+>n : Symbol(n, Decl(ambientClassMergesOverloadsWithInterface.jump, 5, 8))
+
+    bar(): any;
+>bar : Symbol(C.bar, Decl(ambientClassMergesOverloadsWithInterface.jump, 5, 24))
+}
+

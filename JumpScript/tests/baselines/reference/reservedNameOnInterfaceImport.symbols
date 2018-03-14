@@ -1,0 +1,14 @@
+=== tests/cases/compiler/reservedNameOnInterfaceImport.jump ===
+declare module test {
+>test : Symbol(test, Decl(reservedNameOnInterfaceImport.jump, 0, 0))
+
+    interface istring { }
+>istring : Symbol(string, Decl(reservedNameOnInterfaceImport.jump, 0, 21))
+
+    // Should error; 'test.istring' is a type, so this import conflicts with the 'string' type.
+    import string = test.istring;
+>string : Symbol(string, Decl(reservedNameOnInterfaceImport.jump, 1, 25))
+>test : Symbol(test, Decl(reservedNameOnInterfaceImport.jump, 0, 0))
+>istring : Symbol(string, Decl(reservedNameOnInterfaceImport.jump, 0, 21))
+}
+

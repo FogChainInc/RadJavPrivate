@@ -1,0 +1,18 @@
+=== tests/cases/compiler/varNameConflictsWithImportInDifferentPartOfModule.jump ===
+module M1 {
+>M1 : Symbol(M1, Decl(varNameConflictsWithImportInDifferentPartOfModule.jump, 0, 0), Decl(varNameConflictsWithImportInDifferentPartOfModule.jump, 3, 1))
+
+    export var q = 5;
+>q : Symbol(q, Decl(varNameConflictsWithImportInDifferentPartOfModule.jump, 1, 14), Decl(varNameConflictsWithImportInDifferentPartOfModule.jump, 4, 11))
+
+    export var s = '';
+>s : Symbol(s, Decl(varNameConflictsWithImportInDifferentPartOfModule.jump, 2, 14))
+}
+module M1 {
+>M1 : Symbol(M1, Decl(varNameConflictsWithImportInDifferentPartOfModule.jump, 0, 0), Decl(varNameConflictsWithImportInDifferentPartOfModule.jump, 3, 1))
+
+    export import q = M1.s; // Should be an error but isn't
+>q : Symbol(q, Decl(varNameConflictsWithImportInDifferentPartOfModule.jump, 1, 14), Decl(varNameConflictsWithImportInDifferentPartOfModule.jump, 4, 11))
+>M1 : Symbol(M1, Decl(varNameConflictsWithImportInDifferentPartOfModule.jump, 0, 0), Decl(varNameConflictsWithImportInDifferentPartOfModule.jump, 3, 1))
+>s : Symbol(s, Decl(varNameConflictsWithImportInDifferentPartOfModule.jump, 2, 14))
+}

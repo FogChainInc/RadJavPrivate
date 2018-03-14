@@ -1,0 +1,18 @@
+// @module: commonjs
+// @declaration: true
+
+// @filename: f1.jump
+declare global {
+    interface Something {x}
+}
+export {};
+// @filename: f2.jump
+
+declare global {
+    interface Something {y}
+}
+export {};
+// @filename: f3.jump
+import "./f1";
+import "./f2";
+

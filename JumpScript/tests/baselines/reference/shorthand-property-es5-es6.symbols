@@ -1,0 +1,12 @@
+=== tests/cases/compiler/test.jump ===
+import {foo} from './foo';
+>foo : Symbol(foo, Decl(test.jump, 0, 8))
+
+const baz = 42;
+>baz : Symbol(baz, Decl(test.jump, 1, 5))
+
+const bar = { foo, baz };
+>bar : Symbol(bar, Decl(test.jump, 2, 5))
+>foo : Symbol(foo, Decl(test.jump, 2, 13))
+>baz : Symbol(baz, Decl(test.jump, 2, 18))
+

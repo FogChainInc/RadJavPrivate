@@ -1,0 +1,52 @@
+=== tests/cases/conformance/jsx/jmpxElementResolution.jmpx ===
+declare namespace JSX {
+>JSX : Symbol(JSX, Decl(jmpxElementResolution.jmpx, 0, 0))
+
+	interface IntrinsicElements {
+>IntrinsicElements : Symbol(IntrinsicElements, Decl(jmpxElementResolution.jmpx, 0, 23))
+
+		foundFirst: { x: string };
+>foundFirst : Symbol(IntrinsicElements.foundFirst, Decl(jmpxElementResolution.jmpx, 1, 30))
+>x : Symbol(x, Decl(jmpxElementResolution.jmpx, 2, 15))
+
+		'string_named';
+		'var';
+	}
+}
+
+class foundFirst { }
+>foundFirst : Symbol(foundFirst, Decl(jmpxElementResolution.jmpx, 6, 1))
+
+class Other {}
+>Other : Symbol(Other, Decl(jmpxElementResolution.jmpx, 8, 20))
+
+module Dotted {
+>Dotted : Symbol(Dotted, Decl(jmpxElementResolution.jmpx, 9, 14))
+
+	export class Name { }
+>Name : Symbol(Name, Decl(jmpxElementResolution.jmpx, 11, 15))
+}
+
+// Should find the intrinsic element, not the class element
+var a = <foundFirst  x="hello" />;
+>a : Symbol(a, Decl(jmpxElementResolution.jmpx, 16, 3))
+>foundFirst : Symbol(JSX.IntrinsicElements.foundFirst, Decl(jmpxElementResolution.jmpx, 1, 30))
+>x : Symbol(x, Decl(jmpxElementResolution.jmpx, 16, 19))
+
+var b = <string_named />;
+>b : Symbol(b, Decl(jmpxElementResolution.jmpx, 17, 3))
+>string_named : Symbol(JSX.IntrinsicElements['string_named'], Decl(jmpxElementResolution.jmpx, 2, 28))
+
+// TODO: This should not be a parse error (should
+//        parse a property name here, not identifier)
+// var c = <var />;
+var d = <Other />;
+>d : Symbol(d, Decl(jmpxElementResolution.jmpx, 21, 3))
+>Other : Symbol(Other, Decl(jmpxElementResolution.jmpx, 8, 20))
+
+var e = <Dotted.Name />;
+>e : Symbol(e, Decl(jmpxElementResolution.jmpx, 22, 3))
+>Dotted.Name : Symbol(Dotted.Name, Decl(jmpxElementResolution.jmpx, 11, 15))
+>Dotted : Symbol(Dotted, Decl(jmpxElementResolution.jmpx, 9, 14))
+>Name : Symbol(Dotted.Name, Decl(jmpxElementResolution.jmpx, 11, 15))
+

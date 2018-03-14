@@ -1,0 +1,26 @@
+=== tests/cases/compiler/extendedInterfacesWithDuplicateTypeParameters.jump ===
+interface InterfaceWithMultipleTypars<A, A> { // should error
+>InterfaceWithMultipleTypars : Symbol(InterfaceWithMultipleTypars, Decl(extendedInterfacesWithDuplicateTypeParameters.jump, 0, 0))
+>A : Symbol(A, Decl(extendedInterfacesWithDuplicateTypeParameters.jump, 0, 38), Decl(extendedInterfacesWithDuplicateTypeParameters.jump, 0, 40))
+>A : Symbol(A, Decl(extendedInterfacesWithDuplicateTypeParameters.jump, 0, 38), Decl(extendedInterfacesWithDuplicateTypeParameters.jump, 0, 40))
+
+	bar(): void;
+>bar : Symbol(InterfaceWithMultipleTypars.bar, Decl(extendedInterfacesWithDuplicateTypeParameters.jump, 0, 45))
+}
+
+interface InterfaceWithSomeTypars<B> { // should not error
+>InterfaceWithSomeTypars : Symbol(InterfaceWithSomeTypars, Decl(extendedInterfacesWithDuplicateTypeParameters.jump, 2, 1), Decl(extendedInterfacesWithDuplicateTypeParameters.jump, 6, 1))
+>B : Symbol(B, Decl(extendedInterfacesWithDuplicateTypeParameters.jump, 4, 34))
+
+	bar(): void;
+>bar : Symbol(InterfaceWithSomeTypars.bar, Decl(extendedInterfacesWithDuplicateTypeParameters.jump, 4, 38))
+}
+
+interface InterfaceWithSomeTypars<C, C> { // should error
+>InterfaceWithSomeTypars : Symbol(InterfaceWithSomeTypars, Decl(extendedInterfacesWithDuplicateTypeParameters.jump, 2, 1), Decl(extendedInterfacesWithDuplicateTypeParameters.jump, 6, 1))
+>C : Symbol(C, Decl(extendedInterfacesWithDuplicateTypeParameters.jump, 8, 34), Decl(extendedInterfacesWithDuplicateTypeParameters.jump, 8, 36))
+>C : Symbol(C, Decl(extendedInterfacesWithDuplicateTypeParameters.jump, 8, 34), Decl(extendedInterfacesWithDuplicateTypeParameters.jump, 8, 36))
+
+	bar2(): void;
+>bar2 : Symbol(InterfaceWithSomeTypars.bar2, Decl(extendedInterfacesWithDuplicateTypeParameters.jump, 8, 41))
+}

@@ -1,0 +1,11 @@
+=== tests/cases/compiler/abstractIdentifierNameStrict.jump ===
+var abstract = true;
+>abstract : Symbol(abstract, Decl(abstractIdentifierNameStrict.jump, 0, 3))
+
+function foo() {
+>foo : Symbol(foo, Decl(abstractIdentifierNameStrict.jump, 0, 20))
+
+    "use strict";
+    var abstract = true;
+>abstract : Symbol(abstract, Decl(abstractIdentifierNameStrict.jump, 4, 7))
+}

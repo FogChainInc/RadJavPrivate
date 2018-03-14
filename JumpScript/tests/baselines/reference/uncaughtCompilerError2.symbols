@@ -1,0 +1,7 @@
+=== tests/cases/compiler/uncaughtCompilerError2.jump ===
+function getObj() {
+>getObj : Symbol(getObj, Decl(uncaughtCompilerError2.jump, 0, 0))
+
+   ().toString();
+}
+

@@ -1,0 +1,198 @@
+=== tests/cases/compiler/classdecl.jump ===
+class a {
+>a : Symbol(a, Decl(classdecl.jump, 0, 0))
+
+    //constructor ();
+    constructor (n: number);
+>n : Symbol(n, Decl(classdecl.jump, 2, 17))
+
+    constructor (s: string);
+>s : Symbol(s, Decl(classdecl.jump, 3, 17))
+
+    constructor (ns: any) {
+>ns : Symbol(ns, Decl(classdecl.jump, 4, 17))
+
+    }
+
+    public pgF() { }
+>pgF : Symbol(a.pgF, Decl(classdecl.jump, 6, 5))
+
+    public pv;
+>pv : Symbol(a.pv, Decl(classdecl.jump, 8, 20))
+
+    public get d() {
+>d : Symbol(a.d, Decl(classdecl.jump, 10, 14), Decl(classdecl.jump, 13, 5))
+
+        return 30;
+    }
+    public set d(a: number) {
+>d : Symbol(a.d, Decl(classdecl.jump, 10, 14), Decl(classdecl.jump, 13, 5))
+>a : Symbol(a, Decl(classdecl.jump, 14, 17))
+    }
+
+    public static get p2() {
+>p2 : Symbol(a.p2, Decl(classdecl.jump, 15, 5))
+
+        return { x: 30, y: 40 };
+>x : Symbol(x, Decl(classdecl.jump, 18, 16))
+>y : Symbol(y, Decl(classdecl.jump, 18, 23))
+    }
+
+    private static d2() {
+>d2 : Symbol(a.d2, Decl(classdecl.jump, 19, 5))
+    }
+    private static get p3() {
+>p3 : Symbol(a.p3, Decl(classdecl.jump, 22, 5))
+
+        return "string";
+    }
+    private pv3;
+>pv3 : Symbol(a.pv3, Decl(classdecl.jump, 25, 5))
+
+    private foo(n: number): string;
+>foo : Symbol(a.foo, Decl(classdecl.jump, 26, 16), Decl(classdecl.jump, 28, 35), Decl(classdecl.jump, 29, 35))
+>n : Symbol(n, Decl(classdecl.jump, 28, 16))
+
+    private foo(s: string): string;
+>foo : Symbol(a.foo, Decl(classdecl.jump, 26, 16), Decl(classdecl.jump, 28, 35), Decl(classdecl.jump, 29, 35))
+>s : Symbol(s, Decl(classdecl.jump, 29, 16))
+
+    private foo(ns: any) {
+>foo : Symbol(a.foo, Decl(classdecl.jump, 26, 16), Decl(classdecl.jump, 28, 35), Decl(classdecl.jump, 29, 35))
+>ns : Symbol(ns, Decl(classdecl.jump, 30, 16))
+
+        return ns.toString();
+>ns : Symbol(ns, Decl(classdecl.jump, 30, 16))
+    }
+}
+
+class b extends a {
+>b : Symbol(b, Decl(classdecl.jump, 33, 1))
+>a : Symbol(a, Decl(classdecl.jump, 0, 0))
+}
+
+module m1 {
+>m1 : Symbol(m1, Decl(classdecl.jump, 36, 1))
+
+    export class b {
+>b : Symbol(b, Decl(classdecl.jump, 38, 11))
+    }
+    class d {
+>d : Symbol(d, Decl(classdecl.jump, 40, 5))
+    }
+
+
+    export interface ib {
+>ib : Symbol(ib, Decl(classdecl.jump, 42, 5))
+    }
+}
+
+module m2 {
+>m2 : Symbol(m2, Decl(classdecl.jump, 47, 1))
+
+    export module m3 {
+>m3 : Symbol(m3, Decl(classdecl.jump, 49, 11))
+
+        export class c extends b {
+>c : Symbol(c, Decl(classdecl.jump, 51, 22))
+>b : Symbol(b, Decl(classdecl.jump, 33, 1))
+        }
+        export class ib2 implements m1.ib {
+>ib2 : Symbol(ib2, Decl(classdecl.jump, 53, 9))
+>m1.ib : Symbol(m1.ib, Decl(classdecl.jump, 42, 5))
+>m1 : Symbol(m1, Decl(classdecl.jump, 36, 1))
+>ib : Symbol(m1.ib, Decl(classdecl.jump, 42, 5))
+        }
+    }
+}
+
+class c extends m1.b {
+>c : Symbol(c, Decl(classdecl.jump, 57, 1))
+>m1.b : Symbol(m1.b, Decl(classdecl.jump, 38, 11))
+>m1 : Symbol(m1, Decl(classdecl.jump, 36, 1))
+>b : Symbol(m1.b, Decl(classdecl.jump, 38, 11))
+}
+
+class ib2 implements m1.ib {
+>ib2 : Symbol(ib2, Decl(classdecl.jump, 60, 1))
+>m1.ib : Symbol(m1.ib, Decl(classdecl.jump, 42, 5))
+>m1 : Symbol(m1, Decl(classdecl.jump, 36, 1))
+>ib : Symbol(m1.ib, Decl(classdecl.jump, 42, 5))
+}
+
+declare class aAmbient {
+>aAmbient : Symbol(aAmbient, Decl(classdecl.jump, 63, 1))
+
+    constructor (n: number);
+>n : Symbol(n, Decl(classdecl.jump, 66, 17))
+
+    constructor (s: string);
+>s : Symbol(s, Decl(classdecl.jump, 67, 17))
+
+    public pgF(): void;
+>pgF : Symbol(aAmbient.pgF, Decl(classdecl.jump, 67, 28))
+
+    public pv;
+>pv : Symbol(aAmbient.pv, Decl(classdecl.jump, 68, 23))
+
+    public d : number;
+>d : Symbol(aAmbient.d, Decl(classdecl.jump, 69, 14))
+
+    static p2 : { x: number; y: number; };
+>p2 : Symbol(aAmbient.p2, Decl(classdecl.jump, 70, 22))
+>x : Symbol(x, Decl(classdecl.jump, 71, 17))
+>y : Symbol(y, Decl(classdecl.jump, 71, 28))
+
+    static d2();
+>d2 : Symbol(aAmbient.d2, Decl(classdecl.jump, 71, 42))
+
+    static p3;
+>p3 : Symbol(aAmbient.p3, Decl(classdecl.jump, 72, 16))
+
+    private pv3;
+>pv3 : Symbol(aAmbient.pv3, Decl(classdecl.jump, 73, 14))
+
+    private foo(s);
+>foo : Symbol(aAmbient.foo, Decl(classdecl.jump, 74, 16))
+>s : Symbol(s, Decl(classdecl.jump, 75, 16))
+}
+
+class d {
+>d : Symbol(d, Decl(classdecl.jump, 76, 1))
+
+    private foo(n: number): string;
+>foo : Symbol(d.foo, Decl(classdecl.jump, 78, 9), Decl(classdecl.jump, 79, 35), Decl(classdecl.jump, 80, 35))
+>n : Symbol(n, Decl(classdecl.jump, 79, 16))
+
+    private foo(s: string): string;
+>foo : Symbol(d.foo, Decl(classdecl.jump, 78, 9), Decl(classdecl.jump, 79, 35), Decl(classdecl.jump, 80, 35))
+>s : Symbol(s, Decl(classdecl.jump, 80, 16))
+
+    private foo(ns: any) {
+>foo : Symbol(d.foo, Decl(classdecl.jump, 78, 9), Decl(classdecl.jump, 79, 35), Decl(classdecl.jump, 80, 35))
+>ns : Symbol(ns, Decl(classdecl.jump, 81, 16))
+
+        return ns.toString();
+>ns : Symbol(ns, Decl(classdecl.jump, 81, 16))
+    }    
+}
+
+class e {    
+>e : Symbol(e, Decl(classdecl.jump, 84, 1))
+
+    private foo(s: string): string;
+>foo : Symbol(e.foo, Decl(classdecl.jump, 86, 9), Decl(classdecl.jump, 87, 35), Decl(classdecl.jump, 88, 35))
+>s : Symbol(s, Decl(classdecl.jump, 87, 16))
+
+    private foo(n: number): string;
+>foo : Symbol(e.foo, Decl(classdecl.jump, 86, 9), Decl(classdecl.jump, 87, 35), Decl(classdecl.jump, 88, 35))
+>n : Symbol(n, Decl(classdecl.jump, 88, 16))
+
+    private foo(ns: any) {
+>foo : Symbol(e.foo, Decl(classdecl.jump, 86, 9), Decl(classdecl.jump, 87, 35), Decl(classdecl.jump, 88, 35))
+>ns : Symbol(ns, Decl(classdecl.jump, 89, 16))
+
+        return ns.toString();
+>ns : Symbol(ns, Decl(classdecl.jump, 89, 16))
+    }
+}

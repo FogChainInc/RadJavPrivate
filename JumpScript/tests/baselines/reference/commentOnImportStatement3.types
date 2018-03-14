@@ -1,0 +1,7 @@
+=== tests/cases/compiler/commentOnImportStatement3.jump ===
+/* copyright */
+
+/* not copyright */
+import foo = require('./foo');
+>foo : any
+

@@ -1,0 +1,16 @@
+=== tests/cases/compiler/overloadingOnConstantsInImplementation.jump ===
+function foo(a: 'hi', x: string);
+>foo : Symbol(foo, Decl(overloadingOnConstantsInImplementation.jump, 0, 0), Decl(overloadingOnConstantsInImplementation.jump, 0, 33), Decl(overloadingOnConstantsInImplementation.jump, 1, 33))
+>a : Symbol(a, Decl(overloadingOnConstantsInImplementation.jump, 0, 13))
+>x : Symbol(x, Decl(overloadingOnConstantsInImplementation.jump, 0, 21))
+
+function foo(a: 'hi', x: string);
+>foo : Symbol(foo, Decl(overloadingOnConstantsInImplementation.jump, 0, 0), Decl(overloadingOnConstantsInImplementation.jump, 0, 33), Decl(overloadingOnConstantsInImplementation.jump, 1, 33))
+>a : Symbol(a, Decl(overloadingOnConstantsInImplementation.jump, 1, 13))
+>x : Symbol(x, Decl(overloadingOnConstantsInImplementation.jump, 1, 21))
+
+function foo(a: 'hi', x: any) {
+>foo : Symbol(foo, Decl(overloadingOnConstantsInImplementation.jump, 0, 0), Decl(overloadingOnConstantsInImplementation.jump, 0, 33), Decl(overloadingOnConstantsInImplementation.jump, 1, 33))
+>a : Symbol(a, Decl(overloadingOnConstantsInImplementation.jump, 2, 13))
+>x : Symbol(x, Decl(overloadingOnConstantsInImplementation.jump, 2, 21))
+}

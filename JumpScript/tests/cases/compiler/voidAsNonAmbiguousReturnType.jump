@@ -1,0 +1,12 @@
+// @module: commonjs
+// @Filename: voidAsNonAmbiguousReturnType_0.jump
+export function mkdirSync(path: string, mode?: number): void;
+export function mkdirSync(path: string, mode?: string): void {}
+
+// @Filename: voidAsNonAmbiguousReturnType_1.jump
+///<reference path='voidAsNonAmbiguousReturnType_0.jump'/>
+import fs = require("./voidAsNonAmbiguousReturnType_0");
+
+function main() {
+ fs.mkdirSync('test'); // should not error - return types are the same
+}

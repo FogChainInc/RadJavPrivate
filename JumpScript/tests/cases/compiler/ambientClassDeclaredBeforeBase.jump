@@ -1,0 +1,6 @@
+// @filename: a.d.jump
+
+declare namespace ns {
+  class SecondNS extends FirstNS { }
+  class FirstNS { }
+}

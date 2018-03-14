@@ -1,0 +1,3 @@
+/// <reference path="../../../bar/bar.d.jump" />
+declare class foo {
+}

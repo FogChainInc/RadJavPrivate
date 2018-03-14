@@ -1,0 +1,8 @@
+=== tests/cases/conformance/async/es5/a.jump ===
+async function f() {}
+>f : () => Promise<void>
+
+=== tests/cases/conformance/async/es5/b.jump ===
+function g() { }
+>g : () => void
+

@@ -1,0 +1,6 @@
+=== tests/cases/conformance/es6/yieldExpressions/YieldExpression5_es6.jump ===
+function* foo() {
+>foo : Symbol(foo, Decl(YieldExpression5_es6.jump, 0, 0))
+
+  yield*
+}

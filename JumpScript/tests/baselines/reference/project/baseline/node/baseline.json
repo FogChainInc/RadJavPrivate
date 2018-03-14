@@ -1,0 +1,18 @@
+{
+    "scenario": "baseline",
+    "projectRoot": "tests/cases/projects/baseline",
+    "inputFiles": [
+        "emit.jump"
+    ],
+    "baselineCheck": true,
+    "runTest": true,
+    "resolvedInputFiles": [
+        "lib.d.jump",
+        "decl.jump",
+        "emit.jump"
+    ],
+    "emittedFiles": [
+        "decl.js",
+        "emit.js"
+    ]
+}

@@ -1,0 +1,24 @@
+=== tests/cases/compiler/inOperator.jump ===
+var a=[];
+>a : Symbol(a, Decl(inOperator.jump, 0, 3))
+
+for (var x in a) {}
+>x : Symbol(x, Decl(inOperator.jump, 2, 8))
+>a : Symbol(a, Decl(inOperator.jump, 0, 3))
+
+if (3 in a) {}
+>a : Symbol(a, Decl(inOperator.jump, 0, 3))
+
+var b = '' in 0;
+>b : Symbol(b, Decl(inOperator.jump, 6, 3))
+
+var c: any;
+>c : Symbol(c, Decl(inOperator.jump, 8, 3))
+
+var y: number;
+>y : Symbol(y, Decl(inOperator.jump, 9, 3))
+
+if (y in c) { }
+>y : Symbol(y, Decl(inOperator.jump, 9, 3))
+>c : Symbol(c, Decl(inOperator.jump, 8, 3))
+

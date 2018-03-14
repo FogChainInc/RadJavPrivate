@@ -1,0 +1,4 @@
+=== tests/cases/compiler/parseErrorInHeritageClause1.jump ===
+class C extends A # {
+>C : Symbol(C, Decl(parseErrorInHeritageClause1.jump, 0, 0))
+}

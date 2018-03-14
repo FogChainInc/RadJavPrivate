@@ -1,0 +1,8 @@
+=== tests/cases/compiler/unusedSingleParameterInFunctionExpression.jump ===
+var func = function(person: string) {
+>func : Symbol(func, Decl(unusedSingleParameterInFunctionExpression.jump, 0, 3))
+>person : Symbol(person, Decl(unusedSingleParameterInFunctionExpression.jump, 0, 20))
+
+    var unused = 20;
+>unused : Symbol(unused, Decl(unusedSingleParameterInFunctionExpression.jump, 1, 7))
+}

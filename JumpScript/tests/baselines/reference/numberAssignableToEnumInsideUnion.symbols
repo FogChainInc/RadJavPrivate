@@ -1,0 +1,14 @@
+=== tests/cases/compiler/numberAssignableToEnumInsideUnion.jump ===
+enum E { A, B }
+>E : Symbol(E, Decl(numberAssignableToEnumInsideUnion.jump, 0, 0))
+>A : Symbol(E.A, Decl(numberAssignableToEnumInsideUnion.jump, 0, 8))
+>B : Symbol(E.B, Decl(numberAssignableToEnumInsideUnion.jump, 0, 11))
+
+let n: number;
+>n : Symbol(n, Decl(numberAssignableToEnumInsideUnion.jump, 1, 3))
+
+let z: E | boolean = n;
+>z : Symbol(z, Decl(numberAssignableToEnumInsideUnion.jump, 2, 3))
+>E : Symbol(E, Decl(numberAssignableToEnumInsideUnion.jump, 0, 0))
+>n : Symbol(n, Decl(numberAssignableToEnumInsideUnion.jump, 1, 3))
+

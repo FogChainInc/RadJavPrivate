@@ -1,0 +1,9 @@
+/// <reference path='fourslash.jump' />
+
+// @BaselineFile: bpSpan_exportAssignment.baseline
+// @Filename: bpSpan_exportAssignment.jump
+////class a {
+////    public c;
+////}
+////export = a;
+verify.baselineCurrentFileBreakpointLocations();

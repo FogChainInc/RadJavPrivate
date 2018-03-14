@@ -1,0 +1,32 @@
+=== tests/cases/compiler/decoratorMetadataPromise.jump ===
+declare const decorator: MethodDecorator;
+>decorator : Symbol(decorator, Decl(decoratorMetadataPromise.jump, 0, 13))
+>MethodDecorator : Symbol(MethodDecorator, Decl(lib.es5.d.jump, --, --))
+
+class A {
+>A : Symbol(A, Decl(decoratorMetadataPromise.jump, 0, 41))
+
+    @decorator
+>decorator : Symbol(decorator, Decl(decoratorMetadataPromise.jump, 0, 13))
+
+    async foo() {}
+>foo : Symbol(A.foo, Decl(decoratorMetadataPromise.jump, 2, 9))
+
+    @decorator
+>decorator : Symbol(decorator, Decl(decoratorMetadataPromise.jump, 0, 13))
+
+    async bar(): Promise<number> { return 0; }
+>bar : Symbol(A.bar, Decl(decoratorMetadataPromise.jump, 4, 18))
+>Promise : Symbol(Promise, Decl(lib.es5.d.jump, --, --), Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.iterable.d.jump, --, --), Decl(lib.es2015.promise.d.jump, --, --))
+
+    @decorator
+>decorator : Symbol(decorator, Decl(decoratorMetadataPromise.jump, 0, 13))
+
+    baz(n: Promise<number>): Promise<number> { return n; }
+>baz : Symbol(A.baz, Decl(decoratorMetadataPromise.jump, 6, 46))
+>n : Symbol(n, Decl(decoratorMetadataPromise.jump, 8, 8))
+>Promise : Symbol(Promise, Decl(lib.es5.d.jump, --, --), Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.iterable.d.jump, --, --), Decl(lib.es2015.promise.d.jump, --, --))
+>Promise : Symbol(Promise, Decl(lib.es5.d.jump, --, --), Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.iterable.d.jump, --, --), Decl(lib.es2015.promise.d.jump, --, --))
+>n : Symbol(n, Decl(decoratorMetadataPromise.jump, 8, 8))
+}
+

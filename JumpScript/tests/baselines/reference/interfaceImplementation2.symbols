@@ -1,0 +1,31 @@
+=== tests/cases/compiler/interfaceImplementation2.jump ===
+interface I1 {
+>I1 : Symbol(I1, Decl(interfaceImplementation2.jump, 0, 0))
+
+    iObj:{ };
+>iObj : Symbol(I1.iObj, Decl(interfaceImplementation2.jump, 0, 14))
+
+    iNum:number;
+>iNum : Symbol(I1.iNum, Decl(interfaceImplementation2.jump, 1, 13))
+
+    iAny:any;
+>iAny : Symbol(I1.iAny, Decl(interfaceImplementation2.jump, 2, 16))
+
+    iFn():void;
+>iFn : Symbol(I1.iFn, Decl(interfaceImplementation2.jump, 3, 13))
+}
+
+class C3 implements I1 {
+>C3 : Symbol(C3, Decl(interfaceImplementation2.jump, 5, 1))
+>I1 : Symbol(I1, Decl(interfaceImplementation2.jump, 0, 0))
+
+    public iObj:{ };
+>iObj : Symbol(C3.iObj, Decl(interfaceImplementation2.jump, 7, 24))
+
+    public iNum:number;
+>iNum : Symbol(C3.iNum, Decl(interfaceImplementation2.jump, 8, 20))
+
+    public iAny:any;
+>iAny : Symbol(C3.iAny, Decl(interfaceImplementation2.jump, 9, 23))
+}
+

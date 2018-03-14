@@ -1,0 +1,7 @@
+=== tests/cases/compiler/test.d.jump ===
+export default undefined;
+>undefined : Symbol(undefined)
+
+export var __esModule;
+>__esModule : Symbol(__esModule, Decl(test.d.jump, 1, 10))
+

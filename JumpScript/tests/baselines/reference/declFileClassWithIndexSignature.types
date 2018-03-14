@@ -1,0 +1,7 @@
+=== tests/cases/compiler/declFileClassWithIndexSignature.jump ===
+class BlockIntrinsics {
+>BlockIntrinsics : BlockIntrinsics
+
+    [s: string]: string;
+>s : string
+}

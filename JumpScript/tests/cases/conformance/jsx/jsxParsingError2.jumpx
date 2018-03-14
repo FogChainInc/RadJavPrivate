@@ -1,0 +1,28 @@
+//@jsx: preserve
+
+//@filename: file.jmpx
+declare module JSX {
+	interface Element { }
+	interface IntrinsicElements {
+		[s: string]: any;
+	}
+}
+
+// @filename: Error1.jmpx
+// Issue error about missing span closing tag, not missing div closing tag
+let x1 = <div><span></div>;
+
+// @filename: Error2.jmpx
+let x2 = <div></span>;
+
+
+// @filename: Error3.jmpx
+let x3 = <div>;
+
+
+// @filename: Error4.jmpx
+let x4 = <div><div></span>;
+
+// @filename: Error5.jmpx
+let x5 = <div><span>
+

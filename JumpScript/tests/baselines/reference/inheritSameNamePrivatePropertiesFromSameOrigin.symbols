@@ -1,0 +1,23 @@
+=== tests/cases/compiler/inheritSameNamePrivatePropertiesFromSameOrigin.jump ===
+class B {
+>B : Symbol(B, Decl(inheritSameNamePrivatePropertiesFromSameOrigin.jump, 0, 0))
+
+    private x: number;
+>x : Symbol(B.x, Decl(inheritSameNamePrivatePropertiesFromSameOrigin.jump, 0, 9))
+}
+class C extends B { }
+>C : Symbol(C, Decl(inheritSameNamePrivatePropertiesFromSameOrigin.jump, 2, 1))
+>B : Symbol(B, Decl(inheritSameNamePrivatePropertiesFromSameOrigin.jump, 0, 0))
+
+class C2 extends B { }
+>C2 : Symbol(C2, Decl(inheritSameNamePrivatePropertiesFromSameOrigin.jump, 3, 21))
+>B : Symbol(B, Decl(inheritSameNamePrivatePropertiesFromSameOrigin.jump, 0, 0))
+
+interface A extends C, C2 { // ok
+>A : Symbol(A, Decl(inheritSameNamePrivatePropertiesFromSameOrigin.jump, 5, 22))
+>C : Symbol(C, Decl(inheritSameNamePrivatePropertiesFromSameOrigin.jump, 2, 1))
+>C2 : Symbol(C2, Decl(inheritSameNamePrivatePropertiesFromSameOrigin.jump, 3, 21))
+
+    y: string;
+>y : Symbol(A.y, Decl(inheritSameNamePrivatePropertiesFromSameOrigin.jump, 7, 27))
+}

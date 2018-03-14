@@ -1,0 +1,120 @@
+=== tests/cases/conformance/expressions/superCalls/errorSuperCalls.jump ===
+//super call in class constructor with no base type
+class NoBase {
+>NoBase : Symbol(NoBase, Decl(errorSuperCalls.jump, 0, 0))
+
+    constructor() {
+        super();
+    }
+
+    //super call in class member function with no base type
+    fn() {
+>fn : Symbol(NoBase.fn, Decl(errorSuperCalls.jump, 4, 5))
+
+        super();
+    }
+
+    //super call in class accessor (get and set) with no base type
+    get foo() {
+>foo : Symbol(NoBase.foo, Decl(errorSuperCalls.jump, 9, 5), Decl(errorSuperCalls.jump, 15, 5))
+
+        super();
+        return null;
+    }
+    set foo(v) {
+>foo : Symbol(NoBase.foo, Decl(errorSuperCalls.jump, 9, 5), Decl(errorSuperCalls.jump, 15, 5))
+>v : Symbol(v, Decl(errorSuperCalls.jump, 16, 12))
+
+        super();
+    }
+
+    //super call in class member initializer with no base type
+    p = super();
+>p : Symbol(NoBase.p, Decl(errorSuperCalls.jump, 18, 5))
+
+    //super call in static class member function with no base type
+    static fn() {
+>fn : Symbol(NoBase.fn, Decl(errorSuperCalls.jump, 21, 16))
+
+        super();
+    }
+
+    //super call in static class member initializer with no base type
+    static k = super();
+>k : Symbol(NoBase.k, Decl(errorSuperCalls.jump, 26, 5))
+
+    //super call in static class accessor (get and set) with no base type
+    static get q() {
+>q : Symbol(NoBase.q, Decl(errorSuperCalls.jump, 29, 23), Decl(errorSuperCalls.jump, 35, 5))
+
+        super();
+        return null;
+    }
+    static set q(n) {
+>q : Symbol(NoBase.q, Decl(errorSuperCalls.jump, 29, 23), Decl(errorSuperCalls.jump, 35, 5))
+>n : Symbol(n, Decl(errorSuperCalls.jump, 36, 17))
+
+        super();
+    }
+}
+
+class Base<T> { private n: T; }
+>Base : Symbol(Base, Decl(errorSuperCalls.jump, 39, 1))
+>T : Symbol(T, Decl(errorSuperCalls.jump, 41, 11))
+>n : Symbol(Base.n, Decl(errorSuperCalls.jump, 41, 15))
+>T : Symbol(T, Decl(errorSuperCalls.jump, 41, 11))
+
+class Derived<T> extends Base<T> {
+>Derived : Symbol(Derived, Decl(errorSuperCalls.jump, 41, 31))
+>T : Symbol(T, Decl(errorSuperCalls.jump, 42, 14))
+>Base : Symbol(Base, Decl(errorSuperCalls.jump, 39, 1))
+>T : Symbol(T, Decl(errorSuperCalls.jump, 42, 14))
+
+    //super call with type arguments 
+    constructor() {
+        super<string>();
+>super : Symbol(Base, Decl(errorSuperCalls.jump, 39, 1))
+
+        super();
+>super : Symbol(Base, Decl(errorSuperCalls.jump, 39, 1))
+    }
+}
+
+
+class OtherBase {
+>OtherBase : Symbol(OtherBase, Decl(errorSuperCalls.jump, 48, 1))
+
+    private n: string;
+>n : Symbol(OtherBase.n, Decl(errorSuperCalls.jump, 51, 17))
+}
+
+class OtherDerived extends OtherBase {
+>OtherDerived : Symbol(OtherDerived, Decl(errorSuperCalls.jump, 53, 1))
+>OtherBase : Symbol(OtherBase, Decl(errorSuperCalls.jump, 48, 1))
+
+    //super call in class member initializer of derived type
+    t = super();
+>t : Symbol(OtherDerived.t, Decl(errorSuperCalls.jump, 55, 38))
+
+    fn() {
+>fn : Symbol(OtherDerived.fn, Decl(errorSuperCalls.jump, 57, 16))
+
+        //super call in class member function of derived type
+        super();
+    }
+
+    //super call in class accessor (get and set) of derived type
+    get foo() {
+>foo : Symbol(OtherDerived.foo, Decl(errorSuperCalls.jump, 62, 5), Decl(errorSuperCalls.jump, 68, 5))
+
+        super();
+        return null;
+    }
+    set foo(n) {
+>foo : Symbol(OtherDerived.foo, Decl(errorSuperCalls.jump, 62, 5), Decl(errorSuperCalls.jump, 68, 5))
+>n : Symbol(n, Decl(errorSuperCalls.jump, 69, 12))
+
+        super();
+    }
+}
+

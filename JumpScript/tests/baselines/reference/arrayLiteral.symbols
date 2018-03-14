@@ -1,0 +1,37 @@
+=== tests/cases/conformance/types/specifyingTypes/typeLiterals/arrayLiteral.jump ===
+// valid uses of array literals
+
+var x = [];
+>x : Symbol(x, Decl(arrayLiteral.jump, 2, 3), Decl(arrayLiteral.jump, 3, 3))
+
+var x = new Array(1);
+>x : Symbol(x, Decl(arrayLiteral.jump, 2, 3), Decl(arrayLiteral.jump, 3, 3))
+>Array : Symbol(Array, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+var y = [1];
+>y : Symbol(y, Decl(arrayLiteral.jump, 5, 3), Decl(arrayLiteral.jump, 6, 3), Decl(arrayLiteral.jump, 7, 3))
+
+var y = [1, 2];
+>y : Symbol(y, Decl(arrayLiteral.jump, 5, 3), Decl(arrayLiteral.jump, 6, 3), Decl(arrayLiteral.jump, 7, 3))
+
+var y = new Array<number>();
+>y : Symbol(y, Decl(arrayLiteral.jump, 5, 3), Decl(arrayLiteral.jump, 6, 3), Decl(arrayLiteral.jump, 7, 3))
+>Array : Symbol(Array, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+var x2: number[] = [];
+>x2 : Symbol(x2, Decl(arrayLiteral.jump, 9, 3), Decl(arrayLiteral.jump, 10, 3))
+
+var x2: number[] = new Array(1);
+>x2 : Symbol(x2, Decl(arrayLiteral.jump, 9, 3), Decl(arrayLiteral.jump, 10, 3))
+>Array : Symbol(Array, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+var y2: number[] = [1];
+>y2 : Symbol(y2, Decl(arrayLiteral.jump, 12, 3), Decl(arrayLiteral.jump, 13, 3), Decl(arrayLiteral.jump, 14, 3))
+
+var y2: number[] = [1, 2];
+>y2 : Symbol(y2, Decl(arrayLiteral.jump, 12, 3), Decl(arrayLiteral.jump, 13, 3), Decl(arrayLiteral.jump, 14, 3))
+
+var y2: number[] = new Array<number>();
+>y2 : Symbol(y2, Decl(arrayLiteral.jump, 12, 3), Decl(arrayLiteral.jump, 13, 3), Decl(arrayLiteral.jump, 14, 3))
+>Array : Symbol(Array, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+

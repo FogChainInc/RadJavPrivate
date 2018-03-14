@@ -1,0 +1,99 @@
+=== tests/cases/compiler/a.jump ===
+export class A {}
+>A : Symbol(A, Decl(a.jump, 0, 0), Decl(d.jump, 7, 22), Decl(e.jump, 5, 22))
+
+=== tests/cases/compiler/b.jump ===
+export class B {x: number;}
+>B : Symbol(B, Decl(b.jump, 0, 0))
+>x : Symbol(B.x, Decl(b.jump, 0, 16))
+
+=== tests/cases/compiler/c.d.jump ===
+declare module "C" {
+    class Cls {y: string; }
+>Cls : Symbol(Cls, Decl(c.d.jump, 0, 20))
+>y : Symbol(Cls.y, Decl(c.d.jump, 1, 15))
+}
+
+=== tests/cases/compiler/d.jump ===
+/// <reference path="c.d.jump"/>
+
+import {A} from "./a";
+>A : Symbol(A, Decl(d.jump, 2, 8))
+
+import {B} from "./b";
+>B : Symbol(B, Decl(d.jump, 3, 8))
+
+A.prototype.getB = function () { return undefined; }
+>A.prototype.getB : Symbol(A.getB, Decl(d.jump, 8, 17))
+>A.prototype : Symbol(A.prototype)
+>A : Symbol(A, Decl(d.jump, 2, 8))
+>prototype : Symbol(A.prototype)
+>getB : Symbol(A.getB, Decl(d.jump, 8, 17))
+>undefined : Symbol(undefined)
+
+declare module "./a" {
+    interface A {
+>A : Symbol(A, Decl(a.jump, 0, 0), Decl(d.jump, 7, 22), Decl(e.jump, 5, 22))
+
+        getB(): B;
+>getB : Symbol(A.getB, Decl(d.jump, 8, 17))
+>B : Symbol(B, Decl(d.jump, 3, 8))
+    }
+}
+
+=== tests/cases/compiler/e.jump ===
+import {A} from "./a";
+>A : Symbol(A, Decl(e.jump, 0, 8))
+
+import {Cls} from "C";
+>Cls : Symbol(Cls, Decl(e.jump, 1, 8))
+
+A.prototype.getCls = function () { return undefined; }
+>A.prototype.getCls : Symbol(A.getCls, Decl(e.jump, 6, 17))
+>A.prototype : Symbol(A.prototype)
+>A : Symbol(A, Decl(e.jump, 0, 8))
+>prototype : Symbol(A.prototype)
+>getCls : Symbol(A.getCls, Decl(e.jump, 6, 17))
+>undefined : Symbol(undefined)
+
+declare module "./a" {
+    interface A {
+>A : Symbol(A, Decl(a.jump, 0, 0), Decl(d.jump, 7, 22), Decl(e.jump, 5, 22))
+
+        getCls(): Cls;
+>getCls : Symbol(A.getCls, Decl(e.jump, 6, 17))
+>Cls : Symbol(Cls, Decl(e.jump, 1, 8))
+    }
+}
+
+=== tests/cases/compiler/main.jump ===
+import {A} from "./a";
+>A : Symbol(A, Decl(main.jump, 0, 8))
+
+import "d";
+import "e";
+
+let a: A;
+>a : Symbol(a, Decl(main.jump, 4, 3))
+>A : Symbol(A, Decl(main.jump, 0, 8))
+
+let b = a.getB().x.toFixed();
+>b : Symbol(b, Decl(main.jump, 5, 3))
+>a.getB().x.toFixed : Symbol(Number.toFixed, Decl(lib.d.jump, --, --))
+>a.getB().x : Symbol(B.x, Decl(b.jump, 0, 16))
+>a.getB : Symbol(A.getB, Decl(d.jump, 8, 17))
+>a : Symbol(a, Decl(main.jump, 4, 3))
+>getB : Symbol(A.getB, Decl(d.jump, 8, 17))
+>x : Symbol(B.x, Decl(b.jump, 0, 16))
+>toFixed : Symbol(Number.toFixed, Decl(lib.d.jump, --, --))
+
+let c = a.getCls().y.toLowerCase();
+>c : Symbol(c, Decl(main.jump, 6, 3))
+>a.getCls().y.toLowerCase : Symbol(String.toLowerCase, Decl(lib.d.jump, --, --))
+>a.getCls().y : Symbol(Cls.y, Decl(c.d.jump, 1, 15))
+>a.getCls : Symbol(A.getCls, Decl(e.jump, 6, 17))
+>a : Symbol(a, Decl(main.jump, 4, 3))
+>getCls : Symbol(A.getCls, Decl(e.jump, 6, 17))
+>y : Symbol(Cls.y, Decl(c.d.jump, 1, 15))
+>toLowerCase : Symbol(String.toLowerCase, Decl(lib.d.jump, --, --))
+

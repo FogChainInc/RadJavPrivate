@@ -1,0 +1,13 @@
+﻿/// <reference path='fourslash.jump'/>
+
+// @Filename: file1.jump
+//// interface interface1 extends interface1 {
+////    [|doStuff|](): void;
+////    [|propName|]: string;
+//// }
+////
+//// var v: interface1;
+//// v.[|propName|];
+//// v.[|doStuff|]();
+
+verify.rangesWithSameTextAreDocumentHighlights();

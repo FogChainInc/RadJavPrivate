@@ -1,0 +1,11 @@
+=== tests/cases/compiler/arrowFunctionInConstructorArgument1.jump ===
+class C {
+>C : Symbol(C, Decl(arrowFunctionInConstructorArgument1.jump, 0, 0))
+
+    constructor(x: () => void) { }
+>x : Symbol(x, Decl(arrowFunctionInConstructorArgument1.jump, 1, 16))
+}
+var c = new C(() => { return asdf; } ) // should error
+>c : Symbol(c, Decl(arrowFunctionInConstructorArgument1.jump, 3, 3))
+>C : Symbol(C, Decl(arrowFunctionInConstructorArgument1.jump, 0, 0))
+

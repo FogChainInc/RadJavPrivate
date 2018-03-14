@@ -1,0 +1,10 @@
+=== tests/cases/compiler/staticModifierAlreadySeen.jump ===
+class C {
+>C : Symbol(C, Decl(staticModifierAlreadySeen.jump, 0, 0))
+
+    static static foo = 1;
+>foo : Symbol(C.foo, Decl(staticModifierAlreadySeen.jump, 0, 9))
+
+    public static static bar() { }
+>bar : Symbol(C.bar, Decl(staticModifierAlreadySeen.jump, 1, 26))
+}

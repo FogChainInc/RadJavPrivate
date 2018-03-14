@@ -1,0 +1,55 @@
+=== tests/cases/compiler/hidingCallSignatures.jump ===
+interface C {
+>C : Symbol(C, Decl(hidingCallSignatures.jump, 0, 0))
+
+    new (a: string): string;
+>a : Symbol(a, Decl(hidingCallSignatures.jump, 1, 9))
+}
+
+interface D extends C {
+>D : Symbol(D, Decl(hidingCallSignatures.jump, 2, 1))
+>C : Symbol(C, Decl(hidingCallSignatures.jump, 0, 0))
+
+    (a: string): number; // Should be ok
+>a : Symbol(a, Decl(hidingCallSignatures.jump, 5, 5))
+}
+
+interface E {
+>E : Symbol(E, Decl(hidingCallSignatures.jump, 6, 1))
+
+    (a: string): {};
+>a : Symbol(a, Decl(hidingCallSignatures.jump, 9, 5))
+}
+
+interface F extends E {
+>F : Symbol(F, Decl(hidingCallSignatures.jump, 10, 1))
+>E : Symbol(E, Decl(hidingCallSignatures.jump, 6, 1))
+
+    (a: string): string;
+>a : Symbol(a, Decl(hidingCallSignatures.jump, 13, 5))
+}
+
+var d: D;
+>d : Symbol(d, Decl(hidingCallSignatures.jump, 16, 3))
+>D : Symbol(D, Decl(hidingCallSignatures.jump, 2, 1))
+
+d(""); // number
+>d : Symbol(d, Decl(hidingCallSignatures.jump, 16, 3))
+
+new d(""); // should be string
+>d : Symbol(d, Decl(hidingCallSignatures.jump, 16, 3))
+
+var f: F;
+>f : Symbol(f, Decl(hidingCallSignatures.jump, 20, 3))
+>F : Symbol(F, Decl(hidingCallSignatures.jump, 10, 1))
+
+f(""); // string
+>f : Symbol(f, Decl(hidingCallSignatures.jump, 20, 3))
+
+var e: E;
+>e : Symbol(e, Decl(hidingCallSignatures.jump, 23, 3))
+>E : Symbol(E, Decl(hidingCallSignatures.jump, 6, 1))
+
+e(""); // {}
+>e : Symbol(e, Decl(hidingCallSignatures.jump, 23, 3))
+

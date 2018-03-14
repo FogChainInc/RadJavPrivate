@@ -1,0 +1,25 @@
+=== tests/cases/compiler/declFileObjectLiteralWithOnlySetter.jump ===
+function /*1*/makePoint(x: number) { 
+>makePoint : Symbol(makePoint, Decl(declFileObjectLiteralWithOnlySetter.jump, 0, 0))
+>x : Symbol(x, Decl(declFileObjectLiteralWithOnlySetter.jump, 0, 24))
+
+    return {
+        b: 10,
+>b : Symbol(b, Decl(declFileObjectLiteralWithOnlySetter.jump, 1, 12))
+
+        set x(a: number) { this.b = a; }
+>x : Symbol(x, Decl(declFileObjectLiteralWithOnlySetter.jump, 2, 14))
+>a : Symbol(a, Decl(declFileObjectLiteralWithOnlySetter.jump, 3, 14))
+>a : Symbol(a, Decl(declFileObjectLiteralWithOnlySetter.jump, 3, 14))
+
+    };
+};
+var /*3*/point = makePoint(2);
+>point : Symbol(point, Decl(declFileObjectLiteralWithOnlySetter.jump, 6, 3))
+>makePoint : Symbol(makePoint, Decl(declFileObjectLiteralWithOnlySetter.jump, 0, 0))
+
+point./*2*/x = 30;
+>point./*2*/x : Symbol(x, Decl(declFileObjectLiteralWithOnlySetter.jump, 2, 14))
+>point : Symbol(point, Decl(declFileObjectLiteralWithOnlySetter.jump, 6, 3))
+>x : Symbol(x, Decl(declFileObjectLiteralWithOnlySetter.jump, 2, 14))
+

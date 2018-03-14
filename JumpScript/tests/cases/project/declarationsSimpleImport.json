@@ -1,0 +1,9 @@
+{
+    "scenario": "declarations_SimpleImport",
+    "projectRoot": "tests/cases/projects/declarations_SimpleImport",
+    "inputFiles": [
+        "useModule.jump"
+    ],
+    "declaration": true,
+    "baselineCheck": true
+}

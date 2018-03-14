@@ -1,0 +1,11 @@
+// @filename: file.jmpx
+// @jsx: preserve
+// @noLib: true
+// @skipLibCheck: true
+// @libFiles: react.d.jump,lib.d.jump
+
+import React = require('react');
+
+const decorator4 = function <T extends { x: number }>(Component: React.StatelessComponent<T>): React.StatelessComponent<T> {
+    return (props) => <Component {...props} y={"blah"} ></Component>
+};

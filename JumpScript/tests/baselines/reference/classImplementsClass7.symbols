@@ -1,0 +1,12 @@
+=== tests/cases/compiler/classImplementsClass7.jump ===
+class A {
+>A : Symbol(A, Decl(classImplementsClass7.jump, 0, 0))
+
+    private x: number;
+>x : Symbol(A.x, Decl(classImplementsClass7.jump, 0, 9))
+}
+
+class B implements A {}
+>B : Symbol(B, Decl(classImplementsClass7.jump, 2, 1))
+>A : Symbol(A, Decl(classImplementsClass7.jump, 0, 0))
+

@@ -1,0 +1,11 @@
+=== tests/cases/compiler/catch.jump ===
+function f() {
+>f : () => void
+
+    try {} catch(e) { }
+>e : any
+
+    try {} catch(e) { }
+>e : any
+}
+

@@ -1,0 +1,62 @@
+=== tests/cases/conformance/classes/propertyMemberDeclarations/initializerReferencingConstructorParameters.jump ===
+// Initializer expressions for instance member variables are evaluated in the scope of the class constructor body but are not permitted to reference parameters or local variables of the constructor. 
+
+class C {
+>C : Symbol(C, Decl(initializerReferencingConstructorParameters.jump, 0, 0))
+
+    a = x; // error
+>a : Symbol(C.a, Decl(initializerReferencingConstructorParameters.jump, 2, 9))
+
+    b: typeof x; // error
+>b : Symbol(C.b, Decl(initializerReferencingConstructorParameters.jump, 3, 10))
+
+    constructor(x) { }
+>x : Symbol(x, Decl(initializerReferencingConstructorParameters.jump, 5, 16))
+}
+
+class D {
+>D : Symbol(D, Decl(initializerReferencingConstructorParameters.jump, 6, 1))
+
+    a = x; // error
+>a : Symbol(D.a, Decl(initializerReferencingConstructorParameters.jump, 8, 9))
+
+    b: typeof x; // error
+>b : Symbol(D.b, Decl(initializerReferencingConstructorParameters.jump, 9, 10))
+
+    constructor(public x) { }
+>x : Symbol(D.x, Decl(initializerReferencingConstructorParameters.jump, 11, 16))
+}
+
+class E {
+>E : Symbol(E, Decl(initializerReferencingConstructorParameters.jump, 12, 1))
+
+    a = this.x; // ok
+>a : Symbol(E.a, Decl(initializerReferencingConstructorParameters.jump, 14, 9))
+>this.x : Symbol(E.x, Decl(initializerReferencingConstructorParameters.jump, 17, 16))
+>this : Symbol(E, Decl(initializerReferencingConstructorParameters.jump, 12, 1))
+>x : Symbol(E.x, Decl(initializerReferencingConstructorParameters.jump, 17, 16))
+
+    b: typeof this.x; // error
+>b : Symbol(E.b, Decl(initializerReferencingConstructorParameters.jump, 15, 15))
+
+    constructor(public x) { }
+>x : Symbol(E.x, Decl(initializerReferencingConstructorParameters.jump, 17, 16))
+}
+
+class F<T> {
+>F : Symbol(F, Decl(initializerReferencingConstructorParameters.jump, 18, 1))
+>T : Symbol(T, Decl(initializerReferencingConstructorParameters.jump, 20, 8))
+
+    a = this.x; // ok
+>a : Symbol(F.a, Decl(initializerReferencingConstructorParameters.jump, 20, 12))
+>this.x : Symbol(F.x, Decl(initializerReferencingConstructorParameters.jump, 23, 16))
+>this : Symbol(F, Decl(initializerReferencingConstructorParameters.jump, 18, 1))
+>x : Symbol(F.x, Decl(initializerReferencingConstructorParameters.jump, 23, 16))
+
+    b = x; // error
+>b : Symbol(F.b, Decl(initializerReferencingConstructorParameters.jump, 21, 15))
+
+    constructor(public x: T) { }
+>x : Symbol(F.x, Decl(initializerReferencingConstructorParameters.jump, 23, 16))
+>T : Symbol(T, Decl(initializerReferencingConstructorParameters.jump, 20, 8))
+}

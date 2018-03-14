@@ -1,0 +1,33 @@
+=== tests/cases/compiler/x.jump ===
+export default 0;
+No type information for this code.
+No type information for this code.=== tests/cases/compiler/y.jmpx ===
+export default 0;
+No type information for this code.
+No type information for this code.=== tests/cases/compiler/z.d.jump ===
+declare const x: number;
+>x : Symbol(x, Decl(z.d.jump, 0, 13))
+
+export default x;
+>x : Symbol(x, Decl(z.d.jump, 0, 13))
+
+=== tests/cases/compiler/user.jump ===
+import x from "./x.jump";
+>x : Symbol(x, Decl(user.jump, 0, 6))
+
+import y from "./y.jmpx";
+>y : Symbol(y, Decl(user.jump, 1, 6))
+
+import z from "./z.d.jump";
+>z : Symbol(z, Decl(user.jump, 2, 6))
+
+// Making sure the suggested fixes are valid:
+import x2 from "./x";
+>x2 : Symbol(x2, Decl(user.jump, 5, 6))
+
+import y2 from "./y";
+>y2 : Symbol(y2, Decl(user.jump, 6, 6))
+
+import z2 from "./z";
+>z2 : Symbol(z2, Decl(user.jump, 7, 6))
+

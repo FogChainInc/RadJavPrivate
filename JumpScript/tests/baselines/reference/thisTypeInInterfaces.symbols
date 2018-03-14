@@ -1,0 +1,79 @@
+=== tests/cases/conformance/types/thisType/thisTypeInInterfaces.jump ===
+interface I1 {
+>I1 : Symbol(I1, Decl(thisTypeInInterfaces.jump, 0, 0))
+
+    x: this;
+>x : Symbol(I1.x, Decl(thisTypeInInterfaces.jump, 0, 14))
+
+    f(x: this): this;
+>f : Symbol(I1.f, Decl(thisTypeInInterfaces.jump, 1, 12))
+>x : Symbol(x, Decl(thisTypeInInterfaces.jump, 2, 6))
+}
+
+interface I2 {
+>I2 : Symbol(I2, Decl(thisTypeInInterfaces.jump, 3, 1))
+
+    (x: this): this;
+>x : Symbol(x, Decl(thisTypeInInterfaces.jump, 6, 5))
+
+    new (x: this): this;
+>x : Symbol(x, Decl(thisTypeInInterfaces.jump, 7, 9))
+
+    [x: string]: this;
+>x : Symbol(x, Decl(thisTypeInInterfaces.jump, 8, 5))
+}
+
+interface Foo<T> {
+>Foo : Symbol(Foo, Decl(thisTypeInInterfaces.jump, 9, 1))
+>T : Symbol(T, Decl(thisTypeInInterfaces.jump, 11, 14))
+
+    x: T;
+>x : Symbol(Foo.x, Decl(thisTypeInInterfaces.jump, 11, 18))
+>T : Symbol(T, Decl(thisTypeInInterfaces.jump, 11, 14))
+
+    y: this;
+>y : Symbol(Foo.y, Decl(thisTypeInInterfaces.jump, 12, 9))
+}
+
+interface I3 {
+>I3 : Symbol(I3, Decl(thisTypeInInterfaces.jump, 14, 1))
+
+    a: this[];
+>a : Symbol(I3.a, Decl(thisTypeInInterfaces.jump, 16, 14))
+
+    b: [this, this];
+>b : Symbol(I3.b, Decl(thisTypeInInterfaces.jump, 17, 14))
+
+    c: this | Date;
+>c : Symbol(I3.c, Decl(thisTypeInInterfaces.jump, 18, 20))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+    d: this & Date;
+>d : Symbol(I3.d, Decl(thisTypeInInterfaces.jump, 19, 19))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+    e: (((this)));
+>e : Symbol(I3.e, Decl(thisTypeInInterfaces.jump, 20, 19))
+
+    f: (x: this) => this;
+>f : Symbol(I3.f, Decl(thisTypeInInterfaces.jump, 21, 18))
+>x : Symbol(x, Decl(thisTypeInInterfaces.jump, 22, 8))
+
+    g: new (x: this) => this;
+>g : Symbol(I3.g, Decl(thisTypeInInterfaces.jump, 22, 25))
+>x : Symbol(x, Decl(thisTypeInInterfaces.jump, 23, 12))
+
+    h: Foo<this>;
+>h : Symbol(I3.h, Decl(thisTypeInInterfaces.jump, 23, 29))
+>Foo : Symbol(Foo, Decl(thisTypeInInterfaces.jump, 9, 1))
+
+    i: Foo<this | (() => this)>;
+>i : Symbol(I3.i, Decl(thisTypeInInterfaces.jump, 24, 17))
+>Foo : Symbol(Foo, Decl(thisTypeInInterfaces.jump, 9, 1))
+
+    j: (x: any) => x is this;
+>j : Symbol(I3.j, Decl(thisTypeInInterfaces.jump, 25, 32))
+>x : Symbol(x, Decl(thisTypeInInterfaces.jump, 26, 8))
+>x : Symbol(x, Decl(thisTypeInInterfaces.jump, 26, 8))
+}
+

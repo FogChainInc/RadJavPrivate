@@ -1,0 +1,7 @@
+=== tests/cases/compiler/selfReferencingFile.jump ===
+///<reference path='selfReferencingFile.jump'/>
+
+class selfReferencingFile {
+>selfReferencingFile : selfReferencingFile
+
+}

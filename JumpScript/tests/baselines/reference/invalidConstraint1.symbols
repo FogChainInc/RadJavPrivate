@@ -1,0 +1,16 @@
+=== tests/cases/compiler/invalidConstraint1.jump ===
+function f<T, U extends { a: T }>() {
+>f : Symbol(f, Decl(invalidConstraint1.jump, 0, 0))
+>T : Symbol(T, Decl(invalidConstraint1.jump, 0, 11))
+>U : Symbol(U, Decl(invalidConstraint1.jump, 0, 13))
+>a : Symbol(a, Decl(invalidConstraint1.jump, 0, 25))
+>T : Symbol(T, Decl(invalidConstraint1.jump, 0, 11))
+
+    return undefined;
+>undefined : Symbol(undefined)
+}
+f<string, { a: number }>(); // should error
+>f : Symbol(f, Decl(invalidConstraint1.jump, 0, 0))
+>a : Symbol(a, Decl(invalidConstraint1.jump, 3, 11))
+
+

@@ -1,0 +1,41 @@
+=== tests/cases/compiler/genericInterfaceImplementation.jump ===
+interface IOption<A> {
+>IOption : Symbol(IOption, Decl(genericInterfaceImplementation.jump, 0, 0))
+>A : Symbol(A, Decl(genericInterfaceImplementation.jump, 0, 18))
+
+    get(): A;
+>get : Symbol(IOption.get, Decl(genericInterfaceImplementation.jump, 0, 22))
+>A : Symbol(A, Decl(genericInterfaceImplementation.jump, 0, 18))
+
+    flatten<B>(): IOption<B>;
+>flatten : Symbol(IOption.flatten, Decl(genericInterfaceImplementation.jump, 1, 13))
+>B : Symbol(B, Decl(genericInterfaceImplementation.jump, 3, 12))
+>IOption : Symbol(IOption, Decl(genericInterfaceImplementation.jump, 0, 0))
+>B : Symbol(B, Decl(genericInterfaceImplementation.jump, 3, 12))
+}
+
+class None<T> implements IOption<T>{
+>None : Symbol(None, Decl(genericInterfaceImplementation.jump, 4, 1))
+>T : Symbol(T, Decl(genericInterfaceImplementation.jump, 6, 11))
+>IOption : Symbol(IOption, Decl(genericInterfaceImplementation.jump, 0, 0))
+>T : Symbol(T, Decl(genericInterfaceImplementation.jump, 6, 11))
+
+    get(): T {
+>get : Symbol(None.get, Decl(genericInterfaceImplementation.jump, 6, 36))
+>T : Symbol(T, Decl(genericInterfaceImplementation.jump, 6, 11))
+
+        throw null;
+    }
+
+    flatten<U>() : IOption<U> {
+>flatten : Symbol(None.flatten, Decl(genericInterfaceImplementation.jump, 9, 5))
+>U : Symbol(U, Decl(genericInterfaceImplementation.jump, 11, 12))
+>IOption : Symbol(IOption, Decl(genericInterfaceImplementation.jump, 0, 0))
+>U : Symbol(U, Decl(genericInterfaceImplementation.jump, 11, 12))
+
+        return new None<U>();
+>None : Symbol(None, Decl(genericInterfaceImplementation.jump, 4, 1))
+>U : Symbol(U, Decl(genericInterfaceImplementation.jump, 11, 12))
+    }
+}
+

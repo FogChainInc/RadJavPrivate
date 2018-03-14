@@ -1,0 +1,214 @@
+=== tests/cases/compiler/blockScopedVariablesUseBeforeDef.jump ===
+function foo0() {
+>foo0 : Symbol(foo0, Decl(blockScopedVariablesUseBeforeDef.jump, 0, 0))
+
+    let a = x;
+>a : Symbol(a, Decl(blockScopedVariablesUseBeforeDef.jump, 1, 7))
+>x : Symbol(x, Decl(blockScopedVariablesUseBeforeDef.jump, 2, 7))
+
+    let x;
+>x : Symbol(x, Decl(blockScopedVariablesUseBeforeDef.jump, 2, 7))
+}
+
+function foo1() {
+>foo1 : Symbol(foo1, Decl(blockScopedVariablesUseBeforeDef.jump, 3, 1))
+
+    let a = () => x;
+>a : Symbol(a, Decl(blockScopedVariablesUseBeforeDef.jump, 6, 7))
+>x : Symbol(x, Decl(blockScopedVariablesUseBeforeDef.jump, 7, 7))
+
+    let x;
+>x : Symbol(x, Decl(blockScopedVariablesUseBeforeDef.jump, 7, 7))
+}
+
+function foo2() {
+>foo2 : Symbol(foo2, Decl(blockScopedVariablesUseBeforeDef.jump, 8, 1))
+
+    let a = function () { return x; }
+>a : Symbol(a, Decl(blockScopedVariablesUseBeforeDef.jump, 11, 7))
+>x : Symbol(x, Decl(blockScopedVariablesUseBeforeDef.jump, 12, 7))
+
+    let x;
+>x : Symbol(x, Decl(blockScopedVariablesUseBeforeDef.jump, 12, 7))
+}
+
+function foo3() {
+>foo3 : Symbol(foo3, Decl(blockScopedVariablesUseBeforeDef.jump, 13, 1))
+
+    class X {
+>X : Symbol(X, Decl(blockScopedVariablesUseBeforeDef.jump, 15, 17))
+
+        m() { return x;}
+>m : Symbol(X.m, Decl(blockScopedVariablesUseBeforeDef.jump, 16, 13))
+>x : Symbol(x, Decl(blockScopedVariablesUseBeforeDef.jump, 19, 7))
+    }
+    let x;
+>x : Symbol(x, Decl(blockScopedVariablesUseBeforeDef.jump, 19, 7))
+}
+
+function foo4() {
+>foo4 : Symbol(foo4, Decl(blockScopedVariablesUseBeforeDef.jump, 20, 1))
+
+    let y = class {
+>y : Symbol(y, Decl(blockScopedVariablesUseBeforeDef.jump, 23, 7))
+
+        m() { return x; }
+>m : Symbol(y.m, Decl(blockScopedVariablesUseBeforeDef.jump, 23, 19))
+>x : Symbol(x, Decl(blockScopedVariablesUseBeforeDef.jump, 26, 7))
+
+    };
+    let x;
+>x : Symbol(x, Decl(blockScopedVariablesUseBeforeDef.jump, 26, 7))
+}
+
+function foo5() {
+>foo5 : Symbol(foo5, Decl(blockScopedVariablesUseBeforeDef.jump, 27, 1))
+
+    let x = () => y;
+>x : Symbol(x, Decl(blockScopedVariablesUseBeforeDef.jump, 30, 7))
+>y : Symbol(y, Decl(blockScopedVariablesUseBeforeDef.jump, 31, 7))
+
+    let y = () => x;
+>y : Symbol(y, Decl(blockScopedVariablesUseBeforeDef.jump, 31, 7))
+>x : Symbol(x, Decl(blockScopedVariablesUseBeforeDef.jump, 30, 7))
+}
+
+function foo6() {
+>foo6 : Symbol(foo6, Decl(blockScopedVariablesUseBeforeDef.jump, 32, 1))
+
+    function f() {
+>f : Symbol(f, Decl(blockScopedVariablesUseBeforeDef.jump, 34, 17))
+
+        return x;
+>x : Symbol(x, Decl(blockScopedVariablesUseBeforeDef.jump, 38, 7))
+    }
+    let x;
+>x : Symbol(x, Decl(blockScopedVariablesUseBeforeDef.jump, 38, 7))
+}
+
+function foo7() {
+>foo7 : Symbol(foo7, Decl(blockScopedVariablesUseBeforeDef.jump, 39, 1))
+
+    class A {
+>A : Symbol(A, Decl(blockScopedVariablesUseBeforeDef.jump, 41, 17))
+
+        a = x;
+>a : Symbol(A.a, Decl(blockScopedVariablesUseBeforeDef.jump, 42, 13))
+>x : Symbol(x, Decl(blockScopedVariablesUseBeforeDef.jump, 45, 7))
+    }
+    let x;
+>x : Symbol(x, Decl(blockScopedVariablesUseBeforeDef.jump, 45, 7))
+}
+
+function foo8() {
+>foo8 : Symbol(foo8, Decl(blockScopedVariablesUseBeforeDef.jump, 46, 1))
+
+    let y = class {
+>y : Symbol(y, Decl(blockScopedVariablesUseBeforeDef.jump, 49, 7))
+
+        a = x;
+>a : Symbol(y.a, Decl(blockScopedVariablesUseBeforeDef.jump, 49, 19))
+>x : Symbol(x, Decl(blockScopedVariablesUseBeforeDef.jump, 52, 7))
+    }
+    let x;
+>x : Symbol(x, Decl(blockScopedVariablesUseBeforeDef.jump, 52, 7))
+}
+
+function foo9() {
+>foo9 : Symbol(foo9, Decl(blockScopedVariablesUseBeforeDef.jump, 53, 1))
+
+    let y = class {
+>y : Symbol(y, Decl(blockScopedVariablesUseBeforeDef.jump, 56, 7))
+
+        static a = x;
+>a : Symbol(y.a, Decl(blockScopedVariablesUseBeforeDef.jump, 56, 19))
+>x : Symbol(x, Decl(blockScopedVariablesUseBeforeDef.jump, 59, 7))
+    }
+    let x;
+>x : Symbol(x, Decl(blockScopedVariablesUseBeforeDef.jump, 59, 7))
+}
+
+function foo10() {
+>foo10 : Symbol(foo10, Decl(blockScopedVariablesUseBeforeDef.jump, 60, 1))
+
+    class A {
+>A : Symbol(A, Decl(blockScopedVariablesUseBeforeDef.jump, 62, 18))
+
+        static a = x;
+>a : Symbol(A.a, Decl(blockScopedVariablesUseBeforeDef.jump, 63, 13))
+>x : Symbol(x, Decl(blockScopedVariablesUseBeforeDef.jump, 66, 7))
+    }
+    let x;
+>x : Symbol(x, Decl(blockScopedVariablesUseBeforeDef.jump, 66, 7))
+}
+
+function foo11() {
+>foo11 : Symbol(foo11, Decl(blockScopedVariablesUseBeforeDef.jump, 67, 1))
+
+    function f () {
+>f : Symbol(f, Decl(blockScopedVariablesUseBeforeDef.jump, 69, 18))
+
+        let y = class {
+>y : Symbol(y, Decl(blockScopedVariablesUseBeforeDef.jump, 71, 11))
+
+            static a = x;
+>a : Symbol(y.a, Decl(blockScopedVariablesUseBeforeDef.jump, 71, 23))
+>x : Symbol(x, Decl(blockScopedVariablesUseBeforeDef.jump, 75, 7))
+        }
+    }
+    let x;
+>x : Symbol(x, Decl(blockScopedVariablesUseBeforeDef.jump, 75, 7))
+}
+
+function foo12() {
+>foo12 : Symbol(foo12, Decl(blockScopedVariablesUseBeforeDef.jump, 76, 1))
+
+    function f () {
+>f : Symbol(f, Decl(blockScopedVariablesUseBeforeDef.jump, 78, 18))
+
+        let y = class {
+>y : Symbol(y, Decl(blockScopedVariablesUseBeforeDef.jump, 80, 11))
+
+            a;
+>a : Symbol(y.a, Decl(blockScopedVariablesUseBeforeDef.jump, 80, 23))
+
+            constructor() {
+                this.a = x;
+>this.a : Symbol(y.a, Decl(blockScopedVariablesUseBeforeDef.jump, 80, 23))
+>this : Symbol(y, Decl(blockScopedVariablesUseBeforeDef.jump, 80, 15))
+>a : Symbol(y.a, Decl(blockScopedVariablesUseBeforeDef.jump, 80, 23))
+>x : Symbol(x, Decl(blockScopedVariablesUseBeforeDef.jump, 87, 7))
+            }
+        }
+    }
+    let x;
+>x : Symbol(x, Decl(blockScopedVariablesUseBeforeDef.jump, 87, 7))
+}
+
+function foo13() {
+>foo13 : Symbol(foo13, Decl(blockScopedVariablesUseBeforeDef.jump, 88, 1))
+
+    let a = {
+>a : Symbol(a, Decl(blockScopedVariablesUseBeforeDef.jump, 91, 7))
+
+        get a() { return x } 
+>a : Symbol(a, Decl(blockScopedVariablesUseBeforeDef.jump, 91, 13))
+>x : Symbol(x, Decl(blockScopedVariablesUseBeforeDef.jump, 94, 7))
+    }
+    let x
+>x : Symbol(x, Decl(blockScopedVariablesUseBeforeDef.jump, 94, 7))
+}
+
+function foo14() {
+>foo14 : Symbol(foo14, Decl(blockScopedVariablesUseBeforeDef.jump, 95, 1))
+
+    let a = {
+>a : Symbol(a, Decl(blockScopedVariablesUseBeforeDef.jump, 98, 7))
+
+        a: x 
+>a : Symbol(a, Decl(blockScopedVariablesUseBeforeDef.jump, 98, 13))
+>x : Symbol(x, Decl(blockScopedVariablesUseBeforeDef.jump, 101, 7))
+    }
+    let x
+>x : Symbol(x, Decl(blockScopedVariablesUseBeforeDef.jump, 101, 7))
+}

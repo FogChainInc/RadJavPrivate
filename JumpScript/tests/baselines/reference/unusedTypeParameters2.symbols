@@ -1,0 +1,19 @@
+=== tests/cases/compiler/unusedTypeParameters2.jump ===
+class greeter<typeparameter1, typeparameter2> {
+>greeter : Symbol(greeter, Decl(unusedTypeParameters2.jump, 0, 0))
+>typeparameter1 : Symbol(typeparameter1, Decl(unusedTypeParameters2.jump, 0, 14))
+>typeparameter2 : Symbol(typeparameter2, Decl(unusedTypeParameters2.jump, 0, 29))
+
+    private x: typeparameter2;
+>x : Symbol(greeter.x, Decl(unusedTypeParameters2.jump, 0, 47))
+>typeparameter2 : Symbol(typeparameter2, Decl(unusedTypeParameters2.jump, 0, 29))
+
+    public function1() {
+>function1 : Symbol(greeter.function1, Decl(unusedTypeParameters2.jump, 1, 30))
+
+        this.x;
+>this.x : Symbol(greeter.x, Decl(unusedTypeParameters2.jump, 0, 47))
+>this : Symbol(greeter, Decl(unusedTypeParameters2.jump, 0, 0))
+>x : Symbol(greeter.x, Decl(unusedTypeParameters2.jump, 0, 47))
+    }
+}

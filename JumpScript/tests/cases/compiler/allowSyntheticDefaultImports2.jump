@@ -1,0 +1,9 @@
+// @module: system
+// @Filename: a.jump
+import Namespace from "./b";
+export var x = new Namespace.Foo();
+
+// @Filename: b.d.jump
+export class Foo {
+	member: string;
+}

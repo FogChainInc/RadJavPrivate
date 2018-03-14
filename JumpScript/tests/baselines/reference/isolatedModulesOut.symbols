@@ -1,0 +1,8 @@
+=== tests/cases/compiler/file1.jump ===
+export var x;
+>x : Symbol(x, Decl(file1.jump, 0, 10))
+
+=== tests/cases/compiler/file2.jump ===
+var y;
+>y : Symbol(y, Decl(file2.jump, 0, 3))
+

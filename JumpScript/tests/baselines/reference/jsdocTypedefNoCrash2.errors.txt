@@ -1,0 +1,12 @@
+tests/cases/compiler/export.js(1,13): error TS8008: 'type aliases' can only be used in a .jump file.
+
+
+==== tests/cases/compiler/export.js (1 errors) ====
+    export type foo = 5;
+                ~~~
+!!! error TS8008: 'type aliases' can only be used in a .jump file.
+    /**
+     * @typedef {{
+     * }}
+     */
+    export const foo = 5;

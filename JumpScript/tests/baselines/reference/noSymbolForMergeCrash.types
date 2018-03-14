@@ -1,0 +1,11 @@
+=== tests/cases/compiler/initial.jump ===
+interface A { }
+>A : A
+
+namespace A {}
+>A : any
+
+=== tests/cases/compiler/final.jump ===
+type A = {}
+>A : {}
+

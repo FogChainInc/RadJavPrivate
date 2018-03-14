@@ -1,0 +1,28 @@
+=== tests/cases/compiler/collisionExportsRequireAndAmbientFunctionInGlobalFile.jump ===
+declare function exports(): number;
+>exports : Symbol(exports, Decl(collisionExportsRequireAndAmbientFunctionInGlobalFile.jump, 0, 0))
+
+declare function require(): string;
+>require : Symbol(require, Decl(collisionExportsRequireAndAmbientFunctionInGlobalFile.jump, 0, 35))
+
+declare module m3 {
+>m3 : Symbol(m3, Decl(collisionExportsRequireAndAmbientFunctionInGlobalFile.jump, 1, 35))
+
+    function exports(): string[];
+>exports : Symbol(exports, Decl(collisionExportsRequireAndAmbientFunctionInGlobalFile.jump, 2, 19))
+
+    function require(): number[];
+>require : Symbol(require, Decl(collisionExportsRequireAndAmbientFunctionInGlobalFile.jump, 3, 33))
+}
+module m4 {
+>m4 : Symbol(m4, Decl(collisionExportsRequireAndAmbientFunctionInGlobalFile.jump, 5, 1))
+
+    export declare function exports(): string;
+>exports : Symbol(exports, Decl(collisionExportsRequireAndAmbientFunctionInGlobalFile.jump, 6, 11))
+
+    export declare function require(): string;
+>require : Symbol(require, Decl(collisionExportsRequireAndAmbientFunctionInGlobalFile.jump, 7, 46))
+
+    var a = 10;
+>a : Symbol(a, Decl(collisionExportsRequireAndAmbientFunctionInGlobalFile.jump, 9, 7))
+}

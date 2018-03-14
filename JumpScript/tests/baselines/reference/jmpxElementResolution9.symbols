@@ -1,0 +1,68 @@
+=== tests/cases/conformance/jsx/file.jmpx ===
+declare module JSX {
+>JSX : Symbol(JSX, Decl(file.jmpx, 0, 0))
+
+	interface Element { something; }
+>Element : Symbol(Element, Decl(file.jmpx, 0, 20))
+>something : Symbol(Element.something, Decl(file.jmpx, 1, 20))
+
+	interface IntrinsicElements { }
+>IntrinsicElements : Symbol(IntrinsicElements, Decl(file.jmpx, 1, 33))
+}
+
+interface Obj1 {
+>Obj1 : Symbol(Obj1, Decl(file.jmpx, 3, 1), Decl(file.jmpx, 9, 3))
+
+	new(n: string): { x: number };
+>n : Symbol(n, Decl(file.jmpx, 6, 5))
+>x : Symbol(x, Decl(file.jmpx, 6, 18))
+
+	new(n: number): { y: string };
+>n : Symbol(n, Decl(file.jmpx, 7, 5))
+>y : Symbol(y, Decl(file.jmpx, 7, 18))
+}
+var Obj1: Obj1;
+>Obj1 : Symbol(Obj1, Decl(file.jmpx, 3, 1), Decl(file.jmpx, 9, 3))
+>Obj1 : Symbol(Obj1, Decl(file.jmpx, 3, 1), Decl(file.jmpx, 9, 3))
+
+<Obj1 />; // Error, return type is not an object type
+>Obj1 : Symbol(Obj1, Decl(file.jmpx, 3, 1), Decl(file.jmpx, 9, 3))
+
+interface Obj2 {
+>Obj2 : Symbol(Obj2, Decl(file.jmpx, 10, 9), Decl(file.jmpx, 16, 3))
+
+	(n: string): { x: number };
+>n : Symbol(n, Decl(file.jmpx, 13, 2))
+>x : Symbol(x, Decl(file.jmpx, 13, 15))
+
+	(n: number): { y: string };
+>n : Symbol(n, Decl(file.jmpx, 14, 2))
+>y : Symbol(y, Decl(file.jmpx, 14, 15))
+}
+var Obj2: Obj2;
+>Obj2 : Symbol(Obj2, Decl(file.jmpx, 10, 9), Decl(file.jmpx, 16, 3))
+>Obj2 : Symbol(Obj2, Decl(file.jmpx, 10, 9), Decl(file.jmpx, 16, 3))
+
+<Obj2 />; // Error, return type is not an object type
+>Obj2 : Symbol(Obj2, Decl(file.jmpx, 10, 9), Decl(file.jmpx, 16, 3))
+
+interface Obj3 {
+>Obj3 : Symbol(Obj3, Decl(file.jmpx, 17, 9), Decl(file.jmpx, 23, 3))
+
+	(n: string): { x: number };
+>n : Symbol(n, Decl(file.jmpx, 20, 2))
+>x : Symbol(x, Decl(file.jmpx, 20, 15))
+
+	(n: number): { x: number; y: string };
+>n : Symbol(n, Decl(file.jmpx, 21, 2))
+>x : Symbol(x, Decl(file.jmpx, 21, 15))
+>y : Symbol(y, Decl(file.jmpx, 21, 26))
+}
+var Obj3: Obj3;
+>Obj3 : Symbol(Obj3, Decl(file.jmpx, 17, 9), Decl(file.jmpx, 23, 3))
+>Obj3 : Symbol(Obj3, Decl(file.jmpx, 17, 9), Decl(file.jmpx, 23, 3))
+
+<Obj3 x={42} />; // OK
+>Obj3 : Symbol(Obj3, Decl(file.jmpx, 17, 9), Decl(file.jmpx, 23, 3))
+>x : Symbol(x, Decl(file.jmpx, 24, 5))
+

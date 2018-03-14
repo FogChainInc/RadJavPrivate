@@ -1,0 +1,91 @@
+=== tests/cases/conformance/jsx/file.jmpx ===
+declare module JSX {
+>JSX : Symbol(JSX, Decl(file.jmpx, 0, 0))
+
+	interface Element { }
+>Element : Symbol(Element, Decl(file.jmpx, 0, 20))
+
+	interface ElementAttributesProperty { pr: any; }
+>ElementAttributesProperty : Symbol(ElementAttributesProperty, Decl(file.jmpx, 1, 22))
+>pr : Symbol(ElementAttributesProperty.pr, Decl(file.jmpx, 2, 38))
+
+	interface IntrinsicElements { }
+>IntrinsicElements : Symbol(IntrinsicElements, Decl(file.jmpx, 2, 49))
+}
+
+interface Obj1type {
+>Obj1type : Symbol(Obj1type, Decl(file.jmpx, 4, 1))
+
+	new(n: string): any;
+>n : Symbol(n, Decl(file.jmpx, 7, 5))
+}
+var Obj1: Obj1type;
+>Obj1 : Symbol(Obj1, Decl(file.jmpx, 9, 3))
+>Obj1type : Symbol(Obj1type, Decl(file.jmpx, 4, 1))
+
+<Obj1 x={10} />; // OK
+>Obj1 : Symbol(Obj1, Decl(file.jmpx, 9, 3))
+>x : Symbol(x, Decl(file.jmpx, 10, 5))
+
+interface Obj2type {
+>Obj2type : Symbol(Obj2type, Decl(file.jmpx, 10, 16))
+
+	new(n: string): { q?: number; pr: any };
+>n : Symbol(n, Decl(file.jmpx, 13, 5))
+>q : Symbol(q, Decl(file.jmpx, 13, 18))
+>pr : Symbol(pr, Decl(file.jmpx, 13, 30))
+}
+var Obj2: Obj2type;
+>Obj2 : Symbol(Obj2, Decl(file.jmpx, 15, 3))
+>Obj2type : Symbol(Obj2type, Decl(file.jmpx, 10, 16))
+
+<Obj2 x={10} />; // OK
+>Obj2 : Symbol(Obj2, Decl(file.jmpx, 15, 3))
+>x : Symbol(x, Decl(file.jmpx, 16, 5))
+
+interface Obj3type {
+>Obj3type : Symbol(Obj3type, Decl(file.jmpx, 16, 16))
+
+	new(n: string): { x: number; };
+>n : Symbol(n, Decl(file.jmpx, 19, 5))
+>x : Symbol(x, Decl(file.jmpx, 19, 18))
+}
+var Obj3: Obj3type;
+>Obj3 : Symbol(Obj3, Decl(file.jmpx, 21, 3))
+>Obj3type : Symbol(Obj3type, Decl(file.jmpx, 16, 16))
+
+<Obj3 x={10} />; // Error
+>Obj3 : Symbol(Obj3, Decl(file.jmpx, 21, 3))
+>x : Symbol(x, Decl(file.jmpx, 22, 5))
+
+var attributes: any;
+>attributes : Symbol(attributes, Decl(file.jmpx, 23, 3))
+
+<Obj3 {...attributes} />; // Error
+>Obj3 : Symbol(Obj3, Decl(file.jmpx, 21, 3))
+>attributes : Symbol(attributes, Decl(file.jmpx, 23, 3))
+
+<Obj3 {...{}} />; // OK
+>Obj3 : Symbol(Obj3, Decl(file.jmpx, 21, 3))
+
+interface Obj4type {
+>Obj4type : Symbol(Obj4type, Decl(file.jmpx, 25, 17))
+
+	new(n: string): { x: number; pr: { x: number; } };
+>n : Symbol(n, Decl(file.jmpx, 28, 5))
+>x : Symbol(x, Decl(file.jmpx, 28, 18))
+>pr : Symbol(pr, Decl(file.jmpx, 28, 29))
+>x : Symbol(x, Decl(file.jmpx, 28, 35))
+}
+var Obj4: Obj4type;
+>Obj4 : Symbol(Obj4, Decl(file.jmpx, 30, 3))
+>Obj4type : Symbol(Obj4type, Decl(file.jmpx, 25, 17))
+
+<Obj4 x={10} />; // OK
+>Obj4 : Symbol(Obj4, Decl(file.jmpx, 30, 3))
+>x : Symbol(x, Decl(file.jmpx, 31, 5))
+
+<Obj4 x={'10'} />; // Error
+>Obj4 : Symbol(Obj4, Decl(file.jmpx, 30, 3))
+>x : Symbol(x, Decl(file.jmpx, 32, 5))
+

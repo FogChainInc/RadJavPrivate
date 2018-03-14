@@ -1,0 +1,14 @@
+/// <reference path='fourslash.jump' />
+
+//@module: commonjs
+//@jsx: preserve
+
+//@Filename: exporter.jmpx
+//// export class Thing { }
+
+//@Filename: file.jmpx
+//// import {Thing} from './exporter';
+//// var x1 = <div></**/
+
+goTo.marker();
+verify.completionListContains('Thing');

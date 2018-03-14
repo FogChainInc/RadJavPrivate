@@ -1,0 +1,7 @@
+=== tests/cases/compiler/collisionThisExpressionAndVarInGlobal.jump ===
+var _this = 1;
+>_this : Symbol(_this, Decl(collisionThisExpressionAndVarInGlobal.jump, 0, 3))
+
+var f = () => this;
+>f : Symbol(f, Decl(collisionThisExpressionAndVarInGlobal.jump, 1, 3))
+

@@ -1,0 +1,9 @@
+=== tests/cases/compiler/superCallFromFunction1.jump ===
+function foo() {
+>foo : Symbol(foo, Decl(superCallFromFunction1.jump, 0, 0))
+
+    super(value => String(value));
+>value : Symbol(value, Decl(superCallFromFunction1.jump, 1, 10))
+>String : Symbol(String, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>value : Symbol(value, Decl(superCallFromFunction1.jump, 1, 10))
+}

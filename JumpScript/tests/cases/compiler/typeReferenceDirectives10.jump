@@ -1,0 +1,18 @@
+// @noImplicitReferences: true
+// @declaration: true
+// @typeRoots: /types
+// @traceResolution: true
+// @currentDirectory: /
+
+// @filename: /ref.d.jump
+export interface $ { x }
+
+// @filename: /types/lib/index.d.jump
+declare let $: { x: number }
+
+// @filename: /app.jump
+/// <reference types="lib"/>
+import {$} from "./ref";
+export interface A {
+    x: $
+}

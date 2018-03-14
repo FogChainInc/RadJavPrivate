@@ -1,0 +1,38 @@
+=== tests/cases/compiler/overloadRet.jump ===
+interface I {
+>I : Symbol(I, Decl(overloadRet.jump, 0, 0))
+
+    f(s:string):number;  
+>f : Symbol(I.f, Decl(overloadRet.jump, 0, 13), Decl(overloadRet.jump, 1, 23))
+>s : Symbol(s, Decl(overloadRet.jump, 1, 6))
+
+    f(n:number):string;
+>f : Symbol(I.f, Decl(overloadRet.jump, 0, 13), Decl(overloadRet.jump, 1, 23))
+>n : Symbol(n, Decl(overloadRet.jump, 2, 6))
+
+    g(n:number):any; 
+>g : Symbol(I.g, Decl(overloadRet.jump, 2, 23), Decl(overloadRet.jump, 3, 20))
+>n : Symbol(n, Decl(overloadRet.jump, 3, 6))
+
+    g(n:number,m:number):string;
+>g : Symbol(I.g, Decl(overloadRet.jump, 2, 23), Decl(overloadRet.jump, 3, 20))
+>n : Symbol(n, Decl(overloadRet.jump, 4, 6))
+>m : Symbol(m, Decl(overloadRet.jump, 4, 15))
+
+    h(n:number):I;  
+>h : Symbol(I.h, Decl(overloadRet.jump, 4, 32), Decl(overloadRet.jump, 5, 18))
+>n : Symbol(n, Decl(overloadRet.jump, 5, 6))
+>I : Symbol(I, Decl(overloadRet.jump, 0, 0))
+
+    h(b:boolean):number;
+>h : Symbol(I.h, Decl(overloadRet.jump, 4, 32), Decl(overloadRet.jump, 5, 18))
+>b : Symbol(b, Decl(overloadRet.jump, 6, 6))
+
+    i(b:boolean):number;
+>i : Symbol(I.i, Decl(overloadRet.jump, 6, 24), Decl(overloadRet.jump, 7, 24))
+>b : Symbol(b, Decl(overloadRet.jump, 7, 6))
+
+    i(b:boolean):any;
+>i : Symbol(I.i, Decl(overloadRet.jump, 6, 24), Decl(overloadRet.jump, 7, 24))
+>b : Symbol(b, Decl(overloadRet.jump, 8, 6))
+}

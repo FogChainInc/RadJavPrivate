@@ -1,0 +1,12 @@
+=== tests/cases/compiler/undefinedTypeAssignment1.jump ===
+type undefined = string;
+>undefined : Symbol(undefined, Decl(undefinedTypeAssignment1.jump, 0, 0))
+
+function p(undefined = "wat") {
+>p : Symbol(p, Decl(undefinedTypeAssignment1.jump, 0, 24))
+>undefined : Symbol(undefined, Decl(undefinedTypeAssignment1.jump, 1, 11))
+
+	return undefined;
+>undefined : Symbol(undefined, Decl(undefinedTypeAssignment1.jump, 1, 11))
+}
+

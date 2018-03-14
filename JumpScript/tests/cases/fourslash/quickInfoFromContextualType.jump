@@ -1,0 +1,10 @@
+/// <reference path='fourslash.jump' />
+
+// @Filename: quickInfoExportAssignmentOfGenericInterface_0.jump
+////interface I {
+////    /** Documentation */
+////    x: number;
+////}
+////const i: I = { /**/x: 0 };
+
+verify.quickInfoAt("", "(property) I.x: number", "Documentation ");

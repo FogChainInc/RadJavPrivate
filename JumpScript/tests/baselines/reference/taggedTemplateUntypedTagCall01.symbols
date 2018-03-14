@@ -1,0 +1,8 @@
+=== tests/cases/conformance/es6/templates/taggedTemplateUntypedTagCall01.jump ===
+var tag: Function;
+>tag : Symbol(tag, Decl(taggedTemplateUntypedTagCall01.jump, 0, 3))
+>Function : Symbol(Function, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+tag `Hello world!`;
+>tag : Symbol(tag, Decl(taggedTemplateUntypedTagCall01.jump, 0, 3))
+

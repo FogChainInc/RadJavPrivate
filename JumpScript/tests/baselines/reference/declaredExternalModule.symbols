@@ -1,0 +1,45 @@
+=== tests/cases/compiler/declaredExternalModule.jump ===
+declare module 'connect' {
+
+    interface connectModule {
+>connectModule : Symbol(connectModule, Decl(declaredExternalModule.jump, 0, 26))
+
+        (res, req, next): void;
+>res : Symbol(res, Decl(declaredExternalModule.jump, 4, 9))
+>req : Symbol(req, Decl(declaredExternalModule.jump, 4, 13))
+>next : Symbol(next, Decl(declaredExternalModule.jump, 4, 18))
+
+    }
+
+    interface connectExport {
+>connectExport : Symbol(connectExport, Decl(declaredExternalModule.jump, 6, 5))
+
+        use: (mod: connectModule) => connectExport;
+>use : Symbol(connectExport.use, Decl(declaredExternalModule.jump, 8, 29))
+>mod : Symbol(mod, Decl(declaredExternalModule.jump, 10, 14))
+>connectModule : Symbol(connectModule, Decl(declaredExternalModule.jump, 0, 26))
+>connectExport : Symbol(connectExport, Decl(declaredExternalModule.jump, 6, 5))
+
+        listen: (port: number) => void;
+>listen : Symbol(connectExport.listen, Decl(declaredExternalModule.jump, 10, 51))
+>port : Symbol(port, Decl(declaredExternalModule.jump, 12, 17))
+
+    }
+
+    var server: {
+>server : Symbol(server, Decl(declaredExternalModule.jump, 16, 7))
+
+        (): connectExport;
+>connectExport : Symbol(connectExport, Decl(declaredExternalModule.jump, 6, 5))
+
+        test1: connectModule;   // No error
+>test1 : Symbol(test1, Decl(declaredExternalModule.jump, 18, 26))
+>connectModule : Symbol(connectModule, Decl(declaredExternalModule.jump, 0, 26))
+
+        test2(): connectModule; // ERROR: Return type of method from exported interface has or is using private type ''connect'.connectModule'.
+>test2 : Symbol(test2, Decl(declaredExternalModule.jump, 20, 29))
+>connectModule : Symbol(connectModule, Decl(declaredExternalModule.jump, 0, 26))
+
+    };
+}
+

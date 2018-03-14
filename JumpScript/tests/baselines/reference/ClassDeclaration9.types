@@ -1,0 +1,7 @@
+=== tests/cases/compiler/ClassDeclaration9.jump ===
+class C {
+>C : C
+
+   foo();
+>foo : () => any
+}

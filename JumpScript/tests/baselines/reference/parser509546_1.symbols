@@ -1,0 +1,8 @@
+=== tests/cases/conformance/parser/ecmascript5/RegressionTests/parser509546_1.jump ===
+export class Logger { 
+>Logger : Symbol(Logger, Decl(parser509546_1.jump, 0, 0))
+
+     public
+>public : Symbol(Logger.public, Decl(parser509546_1.jump, 0, 21))
+}
+

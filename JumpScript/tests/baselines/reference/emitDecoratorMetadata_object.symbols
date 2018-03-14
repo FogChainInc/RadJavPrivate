@@ -1,0 +1,26 @@
+=== tests/cases/compiler/emitDecoratorMetadata_object.jump ===
+declare const MyClassDecorator: ClassDecorator;
+>MyClassDecorator : Symbol(MyClassDecorator, Decl(emitDecoratorMetadata_object.jump, 0, 13))
+>ClassDecorator : Symbol(ClassDecorator, Decl(lib.d.jump, --, --))
+
+declare const MyMethodDecorator: MethodDecorator;
+>MyMethodDecorator : Symbol(MyMethodDecorator, Decl(emitDecoratorMetadata_object.jump, 1, 13))
+>MethodDecorator : Symbol(MethodDecorator, Decl(lib.d.jump, --, --))
+
+@MyClassDecorator
+>MyClassDecorator : Symbol(MyClassDecorator, Decl(emitDecoratorMetadata_object.jump, 0, 13))
+
+class A {
+>A : Symbol(A, Decl(emitDecoratorMetadata_object.jump, 1, 49))
+
+    constructor(hi: object) {}
+>hi : Symbol(hi, Decl(emitDecoratorMetadata_object.jump, 5, 16))
+
+    @MyMethodDecorator
+>MyMethodDecorator : Symbol(MyMethodDecorator, Decl(emitDecoratorMetadata_object.jump, 1, 13))
+
+    method(there: object) {}
+>method : Symbol(A.method, Decl(emitDecoratorMetadata_object.jump, 5, 30))
+>there : Symbol(there, Decl(emitDecoratorMetadata_object.jump, 7, 11))
+}
+

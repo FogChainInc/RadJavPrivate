@@ -1,0 +1,21 @@
+=== tests/cases/compiler/genericCallWithFixedArguments.jump ===
+class A { foo() { } }
+>A : Symbol(A, Decl(genericCallWithFixedArguments.jump, 0, 0))
+>foo : Symbol(A.foo, Decl(genericCallWithFixedArguments.jump, 0, 9))
+
+class B { bar() { }} 
+>B : Symbol(B, Decl(genericCallWithFixedArguments.jump, 0, 21))
+>bar : Symbol(B.bar, Decl(genericCallWithFixedArguments.jump, 1, 9))
+
+function g<T, U>(x) { }
+>g : Symbol(g, Decl(genericCallWithFixedArguments.jump, 1, 20))
+>T : Symbol(T, Decl(genericCallWithFixedArguments.jump, 3, 11))
+>U : Symbol(U, Decl(genericCallWithFixedArguments.jump, 3, 13))
+>x : Symbol(x, Decl(genericCallWithFixedArguments.jump, 3, 17))
+
+g<A, B>(7) // the parameter list is fixed, so this should not error
+>g : Symbol(g, Decl(genericCallWithFixedArguments.jump, 1, 20))
+>A : Symbol(A, Decl(genericCallWithFixedArguments.jump, 0, 0))
+>B : Symbol(B, Decl(genericCallWithFixedArguments.jump, 0, 21))
+ 
+

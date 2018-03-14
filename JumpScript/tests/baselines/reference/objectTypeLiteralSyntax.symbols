@@ -1,0 +1,20 @@
+=== tests/cases/conformance/types/objectTypeLiteral/objectTypeLiteralSyntax.jump ===
+var x: {
+>x : Symbol(x, Decl(objectTypeLiteralSyntax.jump, 0, 3))
+
+    foo: string;
+>foo : Symbol(foo, Decl(objectTypeLiteralSyntax.jump, 0, 8))
+
+    bar: string;
+>bar : Symbol(bar, Decl(objectTypeLiteralSyntax.jump, 1, 16))
+}
+
+var y: {
+>y : Symbol(y, Decl(objectTypeLiteralSyntax.jump, 5, 3))
+
+    foo: string;
+>foo : Symbol(foo, Decl(objectTypeLiteralSyntax.jump, 5, 8))
+
+    bar: string
+>bar : Symbol(bar, Decl(objectTypeLiteralSyntax.jump, 6, 16))
+}

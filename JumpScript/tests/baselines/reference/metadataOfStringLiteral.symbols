@@ -1,0 +1,16 @@
+=== tests/cases/compiler/metadataOfStringLiteral.jump ===
+function PropDeco(target: Object, propKey: string | symbol) { }
+>PropDeco : Symbol(PropDeco, Decl(metadataOfStringLiteral.jump, 0, 0))
+>target : Symbol(target, Decl(metadataOfStringLiteral.jump, 0, 18))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>propKey : Symbol(propKey, Decl(metadataOfStringLiteral.jump, 0, 33))
+
+class Foo {
+>Foo : Symbol(Foo, Decl(metadataOfStringLiteral.jump, 0, 63))
+
+    @PropDeco
+>PropDeco : Symbol(PropDeco, Decl(metadataOfStringLiteral.jump, 0, 0))
+
+    public foo: "foo" | "bar";
+>foo : Symbol(Foo.foo, Decl(metadataOfStringLiteral.jump, 2, 11))
+}

@@ -1,0 +1,12 @@
+=== tests/cases/compiler/bar.jump ===
+export async function foo({ foo = await import("./bar") }) {
+>foo : Symbol(foo, Decl(bar.jump, 0, 0))
+>foo : Symbol(foo, Decl(bar.jump, 0, 27))
+>"./bar" : Symbol("tests/cases/compiler/bar", Decl(bar.jump, 0, 0))
+}
+
+export function* foo2({ foo = yield "a" }) {
+>foo2 : Symbol(foo2, Decl(bar.jump, 1, 1))
+>foo : Symbol(foo, Decl(bar.jump, 3, 23))
+}
+

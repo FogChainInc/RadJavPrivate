@@ -1,0 +1,4 @@
+=== tests/cases/compiler/primitiveTypeAsInterfaceName.jump ===
+interface number {}
+>number : Symbol(number, Decl(primitiveTypeAsInterfaceName.jump, 0, 0))
+

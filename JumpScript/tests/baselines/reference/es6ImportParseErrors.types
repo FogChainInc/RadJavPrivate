@@ -1,0 +1,4 @@
+=== tests/cases/compiler/es6ImportParseErrors.jump ===
+import 10;
+>10 : 10
+

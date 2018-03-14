@@ -1,0 +1,73 @@
+=== tests/cases/conformance/classes/members/inheritanceAndOverriding/derivedClassWithPrivateInstanceShadowingPublicInstance.jump ===
+class Base {
+>Base : Symbol(Base, Decl(derivedClassWithPrivateInstanceShadowingPublicInstance.jump, 0, 0))
+
+    public x: string;
+>x : Symbol(Base.x, Decl(derivedClassWithPrivateInstanceShadowingPublicInstance.jump, 0, 12))
+
+    public fn(): string {
+>fn : Symbol(Base.fn, Decl(derivedClassWithPrivateInstanceShadowingPublicInstance.jump, 1, 21))
+
+        return '';
+    }
+
+    public get a() { return 1; }
+>a : Symbol(Base.a, Decl(derivedClassWithPrivateInstanceShadowingPublicInstance.jump, 4, 5), Decl(derivedClassWithPrivateInstanceShadowingPublicInstance.jump, 6, 32))
+
+    public set a(v) { }
+>a : Symbol(Base.a, Decl(derivedClassWithPrivateInstanceShadowingPublicInstance.jump, 4, 5), Decl(derivedClassWithPrivateInstanceShadowingPublicInstance.jump, 6, 32))
+>v : Symbol(v, Decl(derivedClassWithPrivateInstanceShadowingPublicInstance.jump, 7, 17))
+}
+
+// error, not a subtype
+class Derived extends Base {
+>Derived : Symbol(Derived, Decl(derivedClassWithPrivateInstanceShadowingPublicInstance.jump, 8, 1))
+>Base : Symbol(Base, Decl(derivedClassWithPrivateInstanceShadowingPublicInstance.jump, 0, 0))
+
+    private x: string; 
+>x : Symbol(Derived.x, Decl(derivedClassWithPrivateInstanceShadowingPublicInstance.jump, 11, 28))
+
+    private fn(): string {
+>fn : Symbol(Derived.fn, Decl(derivedClassWithPrivateInstanceShadowingPublicInstance.jump, 12, 22))
+
+        return '';
+    }
+
+    private get a() { return 1; }
+>a : Symbol(Derived.a, Decl(derivedClassWithPrivateInstanceShadowingPublicInstance.jump, 15, 5), Decl(derivedClassWithPrivateInstanceShadowingPublicInstance.jump, 17, 33))
+
+    private set a(v) { }
+>a : Symbol(Derived.a, Decl(derivedClassWithPrivateInstanceShadowingPublicInstance.jump, 15, 5), Decl(derivedClassWithPrivateInstanceShadowingPublicInstance.jump, 17, 33))
+>v : Symbol(v, Decl(derivedClassWithPrivateInstanceShadowingPublicInstance.jump, 18, 18))
+}
+
+var r = Base.x; // ok
+>r : Symbol(r, Decl(derivedClassWithPrivateInstanceShadowingPublicInstance.jump, 21, 3))
+>Base : Symbol(Base, Decl(derivedClassWithPrivateInstanceShadowingPublicInstance.jump, 0, 0))
+
+var r2 = Derived.x; // error
+>r2 : Symbol(r2, Decl(derivedClassWithPrivateInstanceShadowingPublicInstance.jump, 22, 3))
+>Derived : Symbol(Derived, Decl(derivedClassWithPrivateInstanceShadowingPublicInstance.jump, 8, 1))
+
+var r3 = Base.fn(); // ok
+>r3 : Symbol(r3, Decl(derivedClassWithPrivateInstanceShadowingPublicInstance.jump, 24, 3))
+>Base : Symbol(Base, Decl(derivedClassWithPrivateInstanceShadowingPublicInstance.jump, 0, 0))
+
+var r4 = Derived.fn(); // error
+>r4 : Symbol(r4, Decl(derivedClassWithPrivateInstanceShadowingPublicInstance.jump, 25, 3))
+>Derived : Symbol(Derived, Decl(derivedClassWithPrivateInstanceShadowingPublicInstance.jump, 8, 1))
+
+var r5 = Base.a; // ok
+>r5 : Symbol(r5, Decl(derivedClassWithPrivateInstanceShadowingPublicInstance.jump, 27, 3))
+>Base : Symbol(Base, Decl(derivedClassWithPrivateInstanceShadowingPublicInstance.jump, 0, 0))
+
+Base.a = 2; // ok
+>Base : Symbol(Base, Decl(derivedClassWithPrivateInstanceShadowingPublicInstance.jump, 0, 0))
+
+var r6 = Derived.a; // error
+>r6 : Symbol(r6, Decl(derivedClassWithPrivateInstanceShadowingPublicInstance.jump, 30, 3))
+>Derived : Symbol(Derived, Decl(derivedClassWithPrivateInstanceShadowingPublicInstance.jump, 8, 1))
+
+Derived.a = 2; // error
+>Derived : Symbol(Derived, Decl(derivedClassWithPrivateInstanceShadowingPublicInstance.jump, 8, 1))
+

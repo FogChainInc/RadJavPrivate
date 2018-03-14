@@ -1,0 +1,37 @@
+=== tests/cases/compiler/scopeTests.jump ===
+class C { private v; public p; static s; }
+>C : Symbol(C, Decl(scopeTests.jump, 0, 0))
+>v : Symbol(C.v, Decl(scopeTests.jump, 0, 9))
+>p : Symbol(C.p, Decl(scopeTests.jump, 0, 20))
+>s : Symbol(C.s, Decl(scopeTests.jump, 0, 30))
+
+class D extends C {
+>D : Symbol(D, Decl(scopeTests.jump, 0, 42))
+>C : Symbol(C, Decl(scopeTests.jump, 0, 0))
+
+  public v: number;
+>v : Symbol(D.v, Decl(scopeTests.jump, 1, 19))
+
+  public p: number
+>p : Symbol(D.p, Decl(scopeTests.jump, 2, 19))
+
+  constructor() {
+   super()
+>super : Symbol(C, Decl(scopeTests.jump, 0, 0))
+
+   this.v = 1;
+>this.v : Symbol(D.v, Decl(scopeTests.jump, 1, 19))
+>this : Symbol(D, Decl(scopeTests.jump, 0, 42))
+>v : Symbol(D.v, Decl(scopeTests.jump, 1, 19))
+
+   this.p = 1;
+>this.p : Symbol(D.p, Decl(scopeTests.jump, 2, 19))
+>this : Symbol(D, Decl(scopeTests.jump, 0, 42))
+>p : Symbol(D.p, Decl(scopeTests.jump, 2, 19))
+
+   C.s = 1;
+>C.s : Symbol(C.s, Decl(scopeTests.jump, 0, 30))
+>C : Symbol(C, Decl(scopeTests.jump, 0, 0))
+>s : Symbol(C.s, Decl(scopeTests.jump, 0, 30))
+  }
+}

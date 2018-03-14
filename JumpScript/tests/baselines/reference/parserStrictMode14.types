@@ -1,0 +1,7 @@
+=== tests/cases/conformance/parser/ecmascript5/StrictMode/parserStrictMode14.jump ===
+"use strict";
+>"use strict" : "use strict"
+
+with (a) {
+>a : any
+}

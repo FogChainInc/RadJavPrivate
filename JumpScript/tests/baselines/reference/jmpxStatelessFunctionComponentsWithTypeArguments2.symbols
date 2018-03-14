@@ -1,0 +1,106 @@
+=== tests/cases/conformance/jsx/file.jmpx ===
+import React = require('react')
+>React : Symbol(React, Decl(file.jmpx, 0, 0))
+
+declare function ComponentSpecific1<U>(l: {prop: U, "ignore-prop": string}): JSX.Element;
+>ComponentSpecific1 : Symbol(ComponentSpecific1, Decl(file.jmpx, 0, 31))
+>U : Symbol(U, Decl(file.jmpx, 2, 36))
+>l : Symbol(l, Decl(file.jmpx, 2, 39))
+>prop : Symbol(prop, Decl(file.jmpx, 2, 43))
+>U : Symbol(U, Decl(file.jmpx, 2, 36))
+>JSX : Symbol(JSX, Decl(react.d.jump, 2353, 1))
+>Element : Symbol(JSX.Element, Decl(react.d.jump, 2356, 27))
+
+declare function ComponentSpecific2<U>(l: {prop: U}): JSX.Element;
+>ComponentSpecific2 : Symbol(ComponentSpecific2, Decl(file.jmpx, 2, 89))
+>U : Symbol(U, Decl(file.jmpx, 3, 36))
+>l : Symbol(l, Decl(file.jmpx, 3, 39))
+>prop : Symbol(prop, Decl(file.jmpx, 3, 43))
+>U : Symbol(U, Decl(file.jmpx, 3, 36))
+>JSX : Symbol(JSX, Decl(react.d.jump, 2353, 1))
+>Element : Symbol(JSX.Element, Decl(react.d.jump, 2356, 27))
+
+// Error
+function Bar<T extends {prop: number}>(arg: T) {
+>Bar : Symbol(Bar, Decl(file.jmpx, 3, 66))
+>T : Symbol(T, Decl(file.jmpx, 6, 13))
+>prop : Symbol(prop, Decl(file.jmpx, 6, 24))
+>arg : Symbol(arg, Decl(file.jmpx, 6, 39))
+>T : Symbol(T, Decl(file.jmpx, 6, 13))
+
+    let a1 = <ComponentSpecific1 {...arg} ignore-prop={10} />;
+>a1 : Symbol(a1, Decl(file.jmpx, 7, 7))
+>ComponentSpecific1 : Symbol(ComponentSpecific1, Decl(file.jmpx, 0, 31))
+>arg : Symbol(arg, Decl(file.jmpx, 6, 39))
+>ignore-prop : Symbol(ignore-prop, Decl(file.jmpx, 7, 41))
+ }
+
+// Error
+function Baz<T>(arg: T) {
+>Baz : Symbol(Baz, Decl(file.jmpx, 8, 2))
+>T : Symbol(T, Decl(file.jmpx, 11, 13))
+>arg : Symbol(arg, Decl(file.jmpx, 11, 16))
+>T : Symbol(T, Decl(file.jmpx, 11, 13))
+
+    let a0 = <ComponentSpecific1 {...arg} />
+>a0 : Symbol(a0, Decl(file.jmpx, 12, 7))
+>ComponentSpecific1 : Symbol(ComponentSpecific1, Decl(file.jmpx, 0, 31))
+>arg : Symbol(arg, Decl(file.jmpx, 11, 16))
+}
+
+declare function Link<U>(l: {func: (arg: U)=>void}): JSX.Element;
+>Link : Symbol(Link, Decl(file.jmpx, 13, 1))
+>U : Symbol(U, Decl(file.jmpx, 15, 22))
+>l : Symbol(l, Decl(file.jmpx, 15, 25))
+>func : Symbol(func, Decl(file.jmpx, 15, 29))
+>arg : Symbol(arg, Decl(file.jmpx, 15, 36))
+>U : Symbol(U, Decl(file.jmpx, 15, 22))
+>JSX : Symbol(JSX, Decl(react.d.jump, 2353, 1))
+>Element : Symbol(JSX.Element, Decl(react.d.jump, 2356, 27))
+
+// Error
+function createLink(func: (a: number, b: string)=>void) {
+>createLink : Symbol(createLink, Decl(file.jmpx, 15, 65))
+>func : Symbol(func, Decl(file.jmpx, 18, 20))
+>a : Symbol(a, Decl(file.jmpx, 18, 27))
+>b : Symbol(b, Decl(file.jmpx, 18, 37))
+
+    let o = <Link func={func} />
+>o : Symbol(o, Decl(file.jmpx, 19, 7))
+>Link : Symbol(Link, Decl(file.jmpx, 13, 1))
+>func : Symbol(func, Decl(file.jmpx, 19, 17))
+>func : Symbol(func, Decl(file.jmpx, 18, 20))
+}
+
+interface InferParamProp<T> {
+>InferParamProp : Symbol(InferParamProp, Decl(file.jmpx, 20, 1))
+>T : Symbol(T, Decl(file.jmpx, 22, 25))
+
+    values: Array<T>;
+>values : Symbol(InferParamProp.values, Decl(file.jmpx, 22, 29))
+>Array : Symbol(Array, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>T : Symbol(T, Decl(file.jmpx, 22, 25))
+
+    selectHandler: (selectedVal: T) => void;
+>selectHandler : Symbol(InferParamProp.selectHandler, Decl(file.jmpx, 23, 21))
+>selectedVal : Symbol(selectedVal, Decl(file.jmpx, 24, 20))
+>T : Symbol(T, Decl(file.jmpx, 22, 25))
+}
+
+declare function InferParamComponent<T>(attr: InferParamProp<T>): JSX.Element;
+>InferParamComponent : Symbol(InferParamComponent, Decl(file.jmpx, 25, 1))
+>T : Symbol(T, Decl(file.jmpx, 27, 37))
+>attr : Symbol(attr, Decl(file.jmpx, 27, 40))
+>InferParamProp : Symbol(InferParamProp, Decl(file.jmpx, 20, 1))
+>T : Symbol(T, Decl(file.jmpx, 27, 37))
+>JSX : Symbol(JSX, Decl(react.d.jump, 2353, 1))
+>Element : Symbol(JSX.Element, Decl(react.d.jump, 2356, 27))
+
+// Error
+let i = <InferParamComponent values={[1, 2, 3, 4]} selectHandler={(val: string) => { }} />;
+>i : Symbol(i, Decl(file.jmpx, 30, 3))
+>InferParamComponent : Symbol(InferParamComponent, Decl(file.jmpx, 25, 1))
+>values : Symbol(values, Decl(file.jmpx, 30, 28))
+>selectHandler : Symbol(selectHandler, Decl(file.jmpx, 30, 50))
+>val : Symbol(val, Decl(file.jmpx, 30, 67))
+

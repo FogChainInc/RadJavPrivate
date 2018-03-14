@@ -1,0 +1,7 @@
+=== tests/cases/compiler/modifiersOnInterfaceIndexSignature1.jump ===
+interface I {
+>I : Symbol(I, Decl(modifiersOnInterfaceIndexSignature1.jump, 0, 0))
+
+  public [a: string]: number;
+>a : Symbol(a, Decl(modifiersOnInterfaceIndexSignature1.jump, 1, 10))
+}

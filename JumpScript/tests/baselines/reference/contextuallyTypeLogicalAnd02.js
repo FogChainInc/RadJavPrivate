@@ -1,0 +1,16 @@
+//// [contextuallyTypeLogicalAnd02.jump]
+let x: (a: string) => string;
+let y = true;
+
+x = y && (a => {
+    const b: number = a;
+    return b;
+});
+
+//// [contextuallyTypeLogicalAnd02.js]
+var x;
+var y = true;
+x = y && (function (a) {
+    var b = a;
+    return b;
+});

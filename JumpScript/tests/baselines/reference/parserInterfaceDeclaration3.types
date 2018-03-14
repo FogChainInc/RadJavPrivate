@@ -1,0 +1,4 @@
+=== tests/cases/conformance/parser/ecmascript5/InterfaceDeclarations/parserInterfaceDeclaration3.jump ===
+public interface I {
+>I : I
+}

@@ -1,0 +1,18 @@
+=== tests/cases/compiler/genericConstructSignatureInInterface.jump ===
+interface C {
+>C : Symbol(C, Decl(genericConstructSignatureInInterface.jump, 0, 0))
+
+    new <T>(x: T);
+>T : Symbol(T, Decl(genericConstructSignatureInInterface.jump, 1, 9))
+>x : Symbol(x, Decl(genericConstructSignatureInInterface.jump, 1, 12))
+>T : Symbol(T, Decl(genericConstructSignatureInInterface.jump, 1, 9))
+}
+
+var v: C;
+>v : Symbol(v, Decl(genericConstructSignatureInInterface.jump, 4, 3))
+>C : Symbol(C, Decl(genericConstructSignatureInInterface.jump, 0, 0))
+
+var r = new v<number>(1);
+>r : Symbol(r, Decl(genericConstructSignatureInInterface.jump, 5, 3))
+>v : Symbol(v, Decl(genericConstructSignatureInInterface.jump, 4, 3))
+

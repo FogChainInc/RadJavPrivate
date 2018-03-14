@@ -1,0 +1,40 @@
+=== tests/cases/compiler/collisionSuperAndLocalVarInMethod.jump ===
+var _super = 10; // No Error
+>_super : Symbol(_super, Decl(collisionSuperAndLocalVarInMethod.jump, 0, 3))
+
+class Foo {
+>Foo : Symbol(Foo, Decl(collisionSuperAndLocalVarInMethod.jump, 0, 16))
+
+    x() {
+>x : Symbol(Foo.x, Decl(collisionSuperAndLocalVarInMethod.jump, 1, 11))
+
+        var _super = 10; // No error
+>_super : Symbol(_super, Decl(collisionSuperAndLocalVarInMethod.jump, 3, 11))
+    }
+}
+class b extends Foo {
+>b : Symbol(b, Decl(collisionSuperAndLocalVarInMethod.jump, 5, 1))
+>Foo : Symbol(Foo, Decl(collisionSuperAndLocalVarInMethod.jump, 0, 16))
+
+    public foo() {
+>foo : Symbol(b.foo, Decl(collisionSuperAndLocalVarInMethod.jump, 6, 21))
+
+        var _super = 10; // Should be error 
+>_super : Symbol(_super, Decl(collisionSuperAndLocalVarInMethod.jump, 8, 11))
+    }
+}
+class c extends Foo {
+>c : Symbol(c, Decl(collisionSuperAndLocalVarInMethod.jump, 10, 1))
+>Foo : Symbol(Foo, Decl(collisionSuperAndLocalVarInMethod.jump, 0, 16))
+
+    public foo() {
+>foo : Symbol(c.foo, Decl(collisionSuperAndLocalVarInMethod.jump, 11, 21))
+
+        var x = () => {
+>x : Symbol(x, Decl(collisionSuperAndLocalVarInMethod.jump, 13, 11))
+
+            var _super = 10; // Should be error
+>_super : Symbol(_super, Decl(collisionSuperAndLocalVarInMethod.jump, 14, 15))
+        }
+    }
+}

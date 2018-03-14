@@ -1,0 +1,11 @@
+=== tests/cases/conformance/parser/ecmascript5/ErrorRecovery/ModuleElements/parserErrorRecovery_ModuleElement2.jump ===
+function foo() {
+>foo : Symbol(foo, Decl(parserErrorRecovery_ModuleElement2.jump, 0, 0), Decl(parserErrorRecovery_ModuleElement2.jump, 1, 1))
+}
+
+function foo() {
+>foo : Symbol(foo, Decl(parserErrorRecovery_ModuleElement2.jump, 0, 0), Decl(parserErrorRecovery_ModuleElement2.jump, 1, 1))
+}
+
+)
+)

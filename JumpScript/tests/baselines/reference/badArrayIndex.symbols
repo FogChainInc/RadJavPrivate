@@ -1,0 +1,4 @@
+=== tests/cases/compiler/badArrayIndex.jump ===
+var results = number[];
+>results : Symbol(results, Decl(badArrayIndex.jump, 0, 3))
+

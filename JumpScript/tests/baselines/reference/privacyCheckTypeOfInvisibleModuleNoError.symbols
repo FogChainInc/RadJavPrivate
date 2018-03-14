@@ -1,0 +1,16 @@
+=== tests/cases/compiler/privacyCheckTypeOfInvisibleModuleNoError.jump ===
+module Outer {
+>Outer : Symbol(Outer, Decl(privacyCheckTypeOfInvisibleModuleNoError.jump, 0, 0))
+
+    module Inner {
+>Inner : Symbol(Inner, Decl(privacyCheckTypeOfInvisibleModuleNoError.jump, 0, 14))
+
+        export var m: number;
+>m : Symbol(m, Decl(privacyCheckTypeOfInvisibleModuleNoError.jump, 2, 18))
+    }
+
+    export var f: typeof Inner; // Since we dont unwind inner any more, it is error here
+>f : Symbol(f, Decl(privacyCheckTypeOfInvisibleModuleNoError.jump, 5, 14))
+>Inner : Symbol(Inner, Decl(privacyCheckTypeOfInvisibleModuleNoError.jump, 0, 14))
+}
+

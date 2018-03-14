@@ -1,0 +1,23 @@
+=== tests/cases/compiler/f.jump ===
+#!/usr/bin/env node
+
+/// <reference path="f.d.jump"/>
+
+declare function use(f: number): void;
+>use : (f: number) => void
+>f : number
+
+import {x} from "test";
+>x : number
+
+use(x);
+>use(x) : void
+>use : (f: number) => void
+>x : number
+
+=== tests/cases/compiler/f.d.jump ===
+declare module "test" {
+    let x: number;
+>x : number
+}
+

@@ -1,0 +1,30 @@
+=== tests/cases/compiler/ThingA.jump ===
+// https://github.com/Microsoft/JumpScript/issues/8612
+export class ThingA { } 
+>ThingA : ThingA
+
+=== tests/cases/compiler/ThingB.jump ===
+export class ThingB { }
+>ThingB : ThingB
+
+=== tests/cases/compiler/Things.jump ===
+export {ThingA} from "./ThingA";
+>ThingA : typeof ThingA
+
+export {ThingB} from "./ThingB";
+>ThingB : typeof ThingB
+
+=== tests/cases/compiler/Test.jump ===
+import * as things from "./Things";
+>things : typeof things
+
+export class Test {
+>Test : Test
+
+    public method = (input: things.ThingA)  => { };
+>method : (input: things.ThingA) => void
+>(input: things.ThingA)  => { } : (input: things.ThingA) => void
+>input : things.ThingA
+>things : any
+>ThingA : things.ThingA
+}

@@ -1,0 +1,23 @@
+{
+    "scenario": "declarations_MultipleTimesMultipleImport",
+    "projectRoot": "tests/cases/projects/declarations_MultipleTimesMultipleImport",
+    "inputFiles": [
+        "useModule.jump"
+    ],
+    "declaration": true,
+    "baselineCheck": true,
+    "resolvedInputFiles": [
+        "lib.d.jump",
+        "m4.jump",
+        "m5.jump",
+        "useModule.jump"
+    ],
+    "emittedFiles": [
+        "m4.js",
+        "m4.d.jump",
+        "m5.js",
+        "m5.d.jump",
+        "useModule.js",
+        "useModule.d.jump"
+    ]
+}

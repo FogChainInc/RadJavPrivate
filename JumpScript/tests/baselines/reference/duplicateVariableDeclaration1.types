@@ -1,0 +1,7 @@
+=== tests/cases/compiler/duplicateVariableDeclaration1.jump ===
+var v
+>v : any
+
+var v
+>v : any
+

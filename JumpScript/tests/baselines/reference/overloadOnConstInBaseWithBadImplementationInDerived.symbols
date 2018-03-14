@@ -1,0 +1,22 @@
+=== tests/cases/compiler/overloadOnConstInBaseWithBadImplementationInDerived.jump ===
+interface I {
+>I : Symbol(I, Decl(overloadOnConstInBaseWithBadImplementationInDerived.jump, 0, 0))
+
+    x1(a: number, callback: (x: 'hi') => number);
+>x1 : Symbol(I.x1, Decl(overloadOnConstInBaseWithBadImplementationInDerived.jump, 0, 13))
+>a : Symbol(a, Decl(overloadOnConstInBaseWithBadImplementationInDerived.jump, 1, 7))
+>callback : Symbol(callback, Decl(overloadOnConstInBaseWithBadImplementationInDerived.jump, 1, 17))
+>x : Symbol(x, Decl(overloadOnConstInBaseWithBadImplementationInDerived.jump, 1, 29))
+}
+
+class C implements I {
+>C : Symbol(C, Decl(overloadOnConstInBaseWithBadImplementationInDerived.jump, 2, 1))
+>I : Symbol(I, Decl(overloadOnConstInBaseWithBadImplementationInDerived.jump, 0, 0))
+
+    x1(a: number, callback: (x: 'hi') => number) { // error
+>x1 : Symbol(C.x1, Decl(overloadOnConstInBaseWithBadImplementationInDerived.jump, 4, 22))
+>a : Symbol(a, Decl(overloadOnConstInBaseWithBadImplementationInDerived.jump, 5, 7))
+>callback : Symbol(callback, Decl(overloadOnConstInBaseWithBadImplementationInDerived.jump, 5, 17))
+>x : Symbol(x, Decl(overloadOnConstInBaseWithBadImplementationInDerived.jump, 5, 29))
+    }
+}

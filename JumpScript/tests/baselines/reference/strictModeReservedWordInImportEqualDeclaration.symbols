@@ -1,0 +1,5 @@
+=== tests/cases/compiler/strictModeReservedWordInImportEqualDeclaration.jump ===
+"use strict"
+import public = require("1");
+>public : Symbol(public, Decl(strictModeReservedWordInImportEqualDeclaration.jump, 0, 12))
+

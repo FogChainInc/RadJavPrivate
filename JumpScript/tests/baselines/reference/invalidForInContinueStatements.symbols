@@ -1,0 +1,54 @@
+=== tests/cases/conformance/statements/continueStatements/invalidForInContinueStatements.jump ===
+// All errors
+
+// naked continue not allowed
+continue;
+
+// non-existent label
+ONE:
+for (var x in {}) continue TWO;
+>x : Symbol(x, Decl(invalidForInContinueStatements.jump, 7, 8), Decl(invalidForInContinueStatements.jump, 11, 8), Decl(invalidForInContinueStatements.jump, 18, 8), Decl(invalidForInContinueStatements.jump, 25, 8), Decl(invalidForInContinueStatements.jump, 28, 12) ... and 1 more)
+
+// continue from inside function
+TWO:
+for (var x in {}) {
+>x : Symbol(x, Decl(invalidForInContinueStatements.jump, 7, 8), Decl(invalidForInContinueStatements.jump, 11, 8), Decl(invalidForInContinueStatements.jump, 18, 8), Decl(invalidForInContinueStatements.jump, 25, 8), Decl(invalidForInContinueStatements.jump, 28, 12) ... and 1 more)
+
+    var fn = () => {
+>fn : Symbol(fn, Decl(invalidForInContinueStatements.jump, 12, 7), Decl(invalidForInContinueStatements.jump, 19, 7))
+
+        continue TWO;
+    }
+}
+
+THREE:
+for (var x in {}) {
+>x : Symbol(x, Decl(invalidForInContinueStatements.jump, 7, 8), Decl(invalidForInContinueStatements.jump, 11, 8), Decl(invalidForInContinueStatements.jump, 18, 8), Decl(invalidForInContinueStatements.jump, 25, 8), Decl(invalidForInContinueStatements.jump, 28, 12) ... and 1 more)
+
+    var fn = function () {
+>fn : Symbol(fn, Decl(invalidForInContinueStatements.jump, 12, 7), Decl(invalidForInContinueStatements.jump, 19, 7))
+
+        continue THREE;
+    }
+}
+
+// continue forward
+for (var x in {}) {
+>x : Symbol(x, Decl(invalidForInContinueStatements.jump, 7, 8), Decl(invalidForInContinueStatements.jump, 11, 8), Decl(invalidForInContinueStatements.jump, 18, 8), Decl(invalidForInContinueStatements.jump, 25, 8), Decl(invalidForInContinueStatements.jump, 28, 12) ... and 1 more)
+
+    continue FIVE;
+    FIVE:
+    for (var x in {}) { }
+>x : Symbol(x, Decl(invalidForInContinueStatements.jump, 7, 8), Decl(invalidForInContinueStatements.jump, 11, 8), Decl(invalidForInContinueStatements.jump, 18, 8), Decl(invalidForInContinueStatements.jump, 25, 8), Decl(invalidForInContinueStatements.jump, 28, 12) ... and 1 more)
+}
+
+// label on non-loop statement
+NINE:
+var y = 12;
+>y : Symbol(y, Decl(invalidForInContinueStatements.jump, 33, 3))
+
+for (var x in {}) {
+>x : Symbol(x, Decl(invalidForInContinueStatements.jump, 7, 8), Decl(invalidForInContinueStatements.jump, 11, 8), Decl(invalidForInContinueStatements.jump, 18, 8), Decl(invalidForInContinueStatements.jump, 25, 8), Decl(invalidForInContinueStatements.jump, 28, 12) ... and 1 more)
+
+    continue NINE;
+}

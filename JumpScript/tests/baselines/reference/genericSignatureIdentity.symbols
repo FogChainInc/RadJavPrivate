@@ -1,0 +1,49 @@
+=== tests/cases/compiler/genericSignatureIdentity.jump ===
+// This test is here to remind us of our current limits of type identity checking.
+// Ideally all of the below declarations would be considered different (and thus errors)
+// but they aren't because we erase type parameters to type any and don't check that
+// constraints are identical.
+
+var x: {
+>x : Symbol(x, Decl(genericSignatureIdentity.jump, 5, 3), Decl(genericSignatureIdentity.jump, 9, 3), Decl(genericSignatureIdentity.jump, 13, 3), Decl(genericSignatureIdentity.jump, 17, 3))
+
+    <T extends Date>(x: T): T;
+>T : Symbol(T, Decl(genericSignatureIdentity.jump, 6, 5))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(genericSignatureIdentity.jump, 6, 21))
+>T : Symbol(T, Decl(genericSignatureIdentity.jump, 6, 5))
+>T : Symbol(T, Decl(genericSignatureIdentity.jump, 6, 5))
+
+};
+
+var x: {
+>x : Symbol(x, Decl(genericSignatureIdentity.jump, 5, 3), Decl(genericSignatureIdentity.jump, 9, 3), Decl(genericSignatureIdentity.jump, 13, 3), Decl(genericSignatureIdentity.jump, 17, 3))
+
+    <T extends number>(x: T): T;
+>T : Symbol(T, Decl(genericSignatureIdentity.jump, 10, 5))
+>x : Symbol(x, Decl(genericSignatureIdentity.jump, 10, 23))
+>T : Symbol(T, Decl(genericSignatureIdentity.jump, 10, 5))
+>T : Symbol(T, Decl(genericSignatureIdentity.jump, 10, 5))
+
+};
+
+var x: {
+>x : Symbol(x, Decl(genericSignatureIdentity.jump, 5, 3), Decl(genericSignatureIdentity.jump, 9, 3), Decl(genericSignatureIdentity.jump, 13, 3), Decl(genericSignatureIdentity.jump, 17, 3))
+
+    <T>(x: T): T;
+>T : Symbol(T, Decl(genericSignatureIdentity.jump, 14, 5))
+>x : Symbol(x, Decl(genericSignatureIdentity.jump, 14, 8))
+>T : Symbol(T, Decl(genericSignatureIdentity.jump, 14, 5))
+>T : Symbol(T, Decl(genericSignatureIdentity.jump, 14, 5))
+
+};
+
+var x: {
+>x : Symbol(x, Decl(genericSignatureIdentity.jump, 5, 3), Decl(genericSignatureIdentity.jump, 9, 3), Decl(genericSignatureIdentity.jump, 13, 3), Decl(genericSignatureIdentity.jump, 17, 3))
+
+    <T>(x: any): any;
+>T : Symbol(T, Decl(genericSignatureIdentity.jump, 18, 5))
+>x : Symbol(x, Decl(genericSignatureIdentity.jump, 18, 8))
+
+};
+

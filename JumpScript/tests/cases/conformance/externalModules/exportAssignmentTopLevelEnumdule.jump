@@ -1,0 +1,16 @@
+// @module: amd
+// @Filename: foo_0.jump
+enum foo {
+	red, green, blue
+}
+module foo {
+	export var answer = 42;
+}
+export = foo;
+
+// @Filename: foo_1.jump
+import foo = require("./foo_0");
+var color: foo;
+if(color === foo.green){
+	color = foo.answer;
+}

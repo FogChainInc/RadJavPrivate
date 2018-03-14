@@ -1,0 +1,20 @@
+=== tests/cases/conformance/parser/ecmascript5/parserOverloadOnConstants1.jump ===
+interface Document {
+>Document : Symbol(Document, Decl(parserOverloadOnConstants1.jump, 0, 0))
+
+    createElement(tagName: string): HTMLElement;
+>createElement : Symbol(Document.createElement, Decl(parserOverloadOnConstants1.jump, 0, 20), Decl(parserOverloadOnConstants1.jump, 1, 48), Decl(parserOverloadOnConstants1.jump, 2, 56), Decl(parserOverloadOnConstants1.jump, 3, 50))
+>tagName : Symbol(tagName, Decl(parserOverloadOnConstants1.jump, 1, 18))
+
+    createElement(tagName: 'canvas'): HTMLCanvasElement;
+>createElement : Symbol(Document.createElement, Decl(parserOverloadOnConstants1.jump, 0, 20), Decl(parserOverloadOnConstants1.jump, 1, 48), Decl(parserOverloadOnConstants1.jump, 2, 56), Decl(parserOverloadOnConstants1.jump, 3, 50))
+>tagName : Symbol(tagName, Decl(parserOverloadOnConstants1.jump, 2, 18))
+
+    createElement(tagName: 'div'): HTMLDivElement;
+>createElement : Symbol(Document.createElement, Decl(parserOverloadOnConstants1.jump, 0, 20), Decl(parserOverloadOnConstants1.jump, 1, 48), Decl(parserOverloadOnConstants1.jump, 2, 56), Decl(parserOverloadOnConstants1.jump, 3, 50))
+>tagName : Symbol(tagName, Decl(parserOverloadOnConstants1.jump, 3, 18))
+
+    createElement(tagName: 'span'): HTMLSpanElement;
+>createElement : Symbol(Document.createElement, Decl(parserOverloadOnConstants1.jump, 0, 20), Decl(parserOverloadOnConstants1.jump, 1, 48), Decl(parserOverloadOnConstants1.jump, 2, 56), Decl(parserOverloadOnConstants1.jump, 3, 50))
+>tagName : Symbol(tagName, Decl(parserOverloadOnConstants1.jump, 4, 18))
+}

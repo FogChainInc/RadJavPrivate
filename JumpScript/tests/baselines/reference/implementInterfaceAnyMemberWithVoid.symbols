@@ -1,0 +1,19 @@
+=== tests/cases/compiler/implementInterfaceAnyMemberWithVoid.jump ===
+interface I {
+>I : Symbol(I, Decl(implementInterfaceAnyMemberWithVoid.jump, 0, 0))
+
+    foo(value: number);
+>foo : Symbol(I.foo, Decl(implementInterfaceAnyMemberWithVoid.jump, 0, 13))
+>value : Symbol(value, Decl(implementInterfaceAnyMemberWithVoid.jump, 1, 8))
+}
+
+class Bug implements I {
+>Bug : Symbol(Bug, Decl(implementInterfaceAnyMemberWithVoid.jump, 2, 1))
+>I : Symbol(I, Decl(implementInterfaceAnyMemberWithVoid.jump, 0, 0))
+
+    public foo(value: number) {
+>foo : Symbol(Bug.foo, Decl(implementInterfaceAnyMemberWithVoid.jump, 4, 24))
+>value : Symbol(value, Decl(implementInterfaceAnyMemberWithVoid.jump, 5, 15))
+    }
+}
+

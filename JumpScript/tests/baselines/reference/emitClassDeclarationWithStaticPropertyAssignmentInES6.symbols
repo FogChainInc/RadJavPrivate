@@ -1,0 +1,18 @@
+=== tests/cases/conformance/es6/classDeclaration/emitClassDeclarationWithStaticPropertyAssignmentInES6.jump ===
+class C {
+>C : Symbol(C, Decl(emitClassDeclarationWithStaticPropertyAssignmentInES6.jump, 0, 0))
+
+    static z: string = "Foo";
+>z : Symbol(C.z, Decl(emitClassDeclarationWithStaticPropertyAssignmentInES6.jump, 0, 9))
+}
+
+class D {
+>D : Symbol(D, Decl(emitClassDeclarationWithStaticPropertyAssignmentInES6.jump, 2, 1))
+
+    x = 20000;
+>x : Symbol(D.x, Decl(emitClassDeclarationWithStaticPropertyAssignmentInES6.jump, 4, 9))
+
+    static b = true;
+>b : Symbol(D.b, Decl(emitClassDeclarationWithStaticPropertyAssignmentInES6.jump, 5, 14))
+}
+

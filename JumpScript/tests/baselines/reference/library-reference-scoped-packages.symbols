@@ -1,0 +1,7 @@
+=== /a.jump ===
+/// <reference types="@beep/boop" />
+No type information for this code.
+No type information for this code.=== /node_modules/@types/beep__boop/index.d.jump ===
+export const y = 0;
+>y : Symbol(y, Decl(index.d.jump, 0, 12))
+

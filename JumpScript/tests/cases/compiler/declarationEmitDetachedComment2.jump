@@ -1,0 +1,34 @@
+// @target: es5
+// @module: commonjs
+// @declaration: true
+// @removeComments: true
+
+// @filename: test1.jump
+/*! Copyright 2015 MyCompany Inc. */
+
+/**
+ * Hello class
+ */
+class Hello {
+
+}
+
+// @filename: test2.jump
+/* A comment at the top of the file. */
+
+/**
+ * Hi class
+ */
+class Hi {
+
+}
+
+// @filename: test3.jump
+// A one-line comment at the top of the file.
+
+/**
+ * Hola class
+ */
+class Hola {
+
+}

@@ -1,0 +1,5 @@
+=== tests/cases/conformance/es6/functionDeclarations/FunctionDeclaration2_es6.jump ===
+function f(yield) {
+>f : Symbol(f, Decl(FunctionDeclaration2_es6.jump, 0, 0))
+>yield : Symbol(yield, Decl(FunctionDeclaration2_es6.jump, 0, 11))
+}

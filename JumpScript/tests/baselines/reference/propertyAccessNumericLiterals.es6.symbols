@@ -1,0 +1,21 @@
+=== tests/cases/conformance/es6/propertyAccess/propertyAccessNumericLiterals.es6.jump ===
+0xffffffff.toString();
+>0xffffffff.toString : Symbol(Number.toString, Decl(lib.es5.d.jump, --, --))
+>toString : Symbol(Number.toString, Decl(lib.es5.d.jump, --, --))
+
+0o01234.toString();
+>0o01234.toString : Symbol(Number.toString, Decl(lib.es5.d.jump, --, --))
+>toString : Symbol(Number.toString, Decl(lib.es5.d.jump, --, --))
+
+0b01101101.toString();
+>0b01101101.toString : Symbol(Number.toString, Decl(lib.es5.d.jump, --, --))
+>toString : Symbol(Number.toString, Decl(lib.es5.d.jump, --, --))
+
+1234..toString();
+>1234..toString : Symbol(Number.toString, Decl(lib.es5.d.jump, --, --))
+>toString : Symbol(Number.toString, Decl(lib.es5.d.jump, --, --))
+
+1e0.toString();
+>1e0.toString : Symbol(Number.toString, Decl(lib.es5.d.jump, --, --))
+>toString : Symbol(Number.toString, Decl(lib.es5.d.jump, --, --))
+

@@ -1,0 +1,5 @@
+=== tests/cases/compiler/main.jump ===
+/// <amd-module name="a"/>
+export const a = 1;
+>a : Symbol(a, Decl(main.jump, 1, 12))
+

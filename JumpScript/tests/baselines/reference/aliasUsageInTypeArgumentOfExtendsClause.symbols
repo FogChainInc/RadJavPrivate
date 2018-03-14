@@ -1,0 +1,55 @@
+=== tests/cases/compiler/aliasUsageInTypeArgumentOfExtendsClause_main.jump ===
+import Backbone = require("./aliasUsageInTypeArgumentOfExtendsClause_backbone");
+>Backbone : Symbol(Backbone, Decl(aliasUsageInTypeArgumentOfExtendsClause_main.jump, 0, 0))
+
+import moduleA = require("./aliasUsageInTypeArgumentOfExtendsClause_moduleA");
+>moduleA : Symbol(moduleA, Decl(aliasUsageInTypeArgumentOfExtendsClause_main.jump, 0, 80))
+
+interface IHasVisualizationModel {
+>IHasVisualizationModel : Symbol(IHasVisualizationModel, Decl(aliasUsageInTypeArgumentOfExtendsClause_main.jump, 1, 78))
+
+    VisualizationModel: typeof Backbone.Model;
+>VisualizationModel : Symbol(IHasVisualizationModel.VisualizationModel, Decl(aliasUsageInTypeArgumentOfExtendsClause_main.jump, 2, 34))
+>Backbone.Model : Symbol(Backbone.Model, Decl(aliasUsageInTypeArgumentOfExtendsClause_backbone.jump, 0, 0))
+>Backbone : Symbol(Backbone, Decl(aliasUsageInTypeArgumentOfExtendsClause_main.jump, 0, 0))
+>Model : Symbol(Backbone.Model, Decl(aliasUsageInTypeArgumentOfExtendsClause_backbone.jump, 0, 0))
+}
+class C<T extends IHasVisualizationModel> {
+>C : Symbol(C, Decl(aliasUsageInTypeArgumentOfExtendsClause_main.jump, 4, 1))
+>T : Symbol(T, Decl(aliasUsageInTypeArgumentOfExtendsClause_main.jump, 5, 8))
+>IHasVisualizationModel : Symbol(IHasVisualizationModel, Decl(aliasUsageInTypeArgumentOfExtendsClause_main.jump, 1, 78))
+
+    x: T;
+>x : Symbol(C.x, Decl(aliasUsageInTypeArgumentOfExtendsClause_main.jump, 5, 43))
+>T : Symbol(T, Decl(aliasUsageInTypeArgumentOfExtendsClause_main.jump, 5, 8))
+}
+class D extends C<IHasVisualizationModel> {
+>D : Symbol(D, Decl(aliasUsageInTypeArgumentOfExtendsClause_main.jump, 7, 1))
+>C : Symbol(C, Decl(aliasUsageInTypeArgumentOfExtendsClause_main.jump, 4, 1))
+>IHasVisualizationModel : Symbol(IHasVisualizationModel, Decl(aliasUsageInTypeArgumentOfExtendsClause_main.jump, 1, 78))
+
+    x = moduleA;
+>x : Symbol(D.x, Decl(aliasUsageInTypeArgumentOfExtendsClause_main.jump, 8, 43))
+>moduleA : Symbol(moduleA, Decl(aliasUsageInTypeArgumentOfExtendsClause_main.jump, 0, 80))
+}
+=== tests/cases/compiler/aliasUsageInTypeArgumentOfExtendsClause_backbone.jump ===
+export class Model {
+>Model : Symbol(Model, Decl(aliasUsageInTypeArgumentOfExtendsClause_backbone.jump, 0, 0))
+
+    public someData: string;
+>someData : Symbol(Model.someData, Decl(aliasUsageInTypeArgumentOfExtendsClause_backbone.jump, 0, 20))
+}
+
+=== tests/cases/compiler/aliasUsageInTypeArgumentOfExtendsClause_moduleA.jump ===
+import Backbone = require("./aliasUsageInTypeArgumentOfExtendsClause_backbone");
+>Backbone : Symbol(Backbone, Decl(aliasUsageInTypeArgumentOfExtendsClause_moduleA.jump, 0, 0))
+
+export class VisualizationModel extends Backbone.Model {
+>VisualizationModel : Symbol(VisualizationModel, Decl(aliasUsageInTypeArgumentOfExtendsClause_moduleA.jump, 0, 80))
+>Backbone.Model : Symbol(Backbone.Model, Decl(aliasUsageInTypeArgumentOfExtendsClause_backbone.jump, 0, 0))
+>Backbone : Symbol(Backbone, Decl(aliasUsageInTypeArgumentOfExtendsClause_moduleA.jump, 0, 0))
+>Model : Symbol(Backbone.Model, Decl(aliasUsageInTypeArgumentOfExtendsClause_backbone.jump, 0, 0))
+
+    // interesting stuff here
+}
+

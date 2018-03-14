@@ -1,0 +1,4 @@
+=== /src/a.jump ===
+import * as b from "./b";
+>b : Symbol(b, Decl(a.jump, 0, 6))
+

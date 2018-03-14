@@ -1,0 +1,32 @@
+=== tests/cases/compiler/collisionExportsRequireAndAlias_file2.jump ===
+import require = require('collisionExportsRequireAndAlias_file1'); // Error
+>require : Symbol(require, Decl(collisionExportsRequireAndAlias_file2.jump, 0, 0))
+
+import exports = require('collisionExportsRequireAndAlias_file3333'); // Error
+>exports : Symbol(exports, Decl(collisionExportsRequireAndAlias_file2.jump, 0, 66))
+
+export function foo() {
+>foo : Symbol(foo, Decl(collisionExportsRequireAndAlias_file2.jump, 1, 69))
+
+    require.bar();
+>require.bar : Symbol(require.bar, Decl(collisionExportsRequireAndAlias_file1.jump, 0, 0))
+>require : Symbol(require, Decl(collisionExportsRequireAndAlias_file2.jump, 0, 0))
+>bar : Symbol(require.bar, Decl(collisionExportsRequireAndAlias_file1.jump, 0, 0))
+}
+export function foo2() {
+>foo2 : Symbol(foo2, Decl(collisionExportsRequireAndAlias_file2.jump, 4, 1))
+
+    exports.bar2();
+>exports.bar2 : Symbol(exports.bar2, Decl(collisionExportsRequireAndAlias_file3333.jump, 0, 0))
+>exports : Symbol(exports, Decl(collisionExportsRequireAndAlias_file2.jump, 0, 66))
+>bar2 : Symbol(exports.bar2, Decl(collisionExportsRequireAndAlias_file3333.jump, 0, 0))
+}
+=== tests/cases/compiler/collisionExportsRequireAndAlias_file1.jump ===
+export function bar() {
+>bar : Symbol(bar, Decl(collisionExportsRequireAndAlias_file1.jump, 0, 0))
+}
+
+=== tests/cases/compiler/collisionExportsRequireAndAlias_file3333.jump ===
+export function bar2() {
+>bar2 : Symbol(bar2, Decl(collisionExportsRequireAndAlias_file3333.jump, 0, 0))
+}

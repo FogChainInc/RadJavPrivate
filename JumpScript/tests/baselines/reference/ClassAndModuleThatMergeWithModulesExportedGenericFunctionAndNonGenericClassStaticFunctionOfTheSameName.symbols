@@ -1,0 +1,36 @@
+=== tests/cases/conformance/internalModules/DeclarationMerging/ClassAndModuleThatMergeWithModulesExportedGenericFunctionAndNonGenericClassStaticFunctionOfTheSameName.jump ===
+class clodule<T> {
+>clodule : Symbol(clodule, Decl(ClassAndModuleThatMergeWithModulesExportedGenericFunctionAndNonGenericClassStaticFunctionOfTheSameName.jump, 0, 0), Decl(ClassAndModuleThatMergeWithModulesExportedGenericFunctionAndNonGenericClassStaticFunctionOfTheSameName.jump, 5, 1))
+>T : Symbol(T, Decl(ClassAndModuleThatMergeWithModulesExportedGenericFunctionAndNonGenericClassStaticFunctionOfTheSameName.jump, 0, 14))
+
+    id: string;
+>id : Symbol(clodule.id, Decl(ClassAndModuleThatMergeWithModulesExportedGenericFunctionAndNonGenericClassStaticFunctionOfTheSameName.jump, 0, 18))
+
+    value: T;
+>value : Symbol(clodule.value, Decl(ClassAndModuleThatMergeWithModulesExportedGenericFunctionAndNonGenericClassStaticFunctionOfTheSameName.jump, 1, 15))
+>T : Symbol(T, Decl(ClassAndModuleThatMergeWithModulesExportedGenericFunctionAndNonGenericClassStaticFunctionOfTheSameName.jump, 0, 14))
+
+    static fn(id: string) { }
+>fn : Symbol(clodule.fn, Decl(ClassAndModuleThatMergeWithModulesExportedGenericFunctionAndNonGenericClassStaticFunctionOfTheSameName.jump, 2, 13))
+>id : Symbol(id, Decl(ClassAndModuleThatMergeWithModulesExportedGenericFunctionAndNonGenericClassStaticFunctionOfTheSameName.jump, 4, 14))
+}
+
+module clodule {
+>clodule : Symbol(clodule, Decl(ClassAndModuleThatMergeWithModulesExportedGenericFunctionAndNonGenericClassStaticFunctionOfTheSameName.jump, 0, 0), Decl(ClassAndModuleThatMergeWithModulesExportedGenericFunctionAndNonGenericClassStaticFunctionOfTheSameName.jump, 5, 1))
+
+    // error: duplicate identifier expected
+    export function fn<T>(x: T, y: T): T {
+>fn : Symbol(clodule.fn, Decl(ClassAndModuleThatMergeWithModulesExportedGenericFunctionAndNonGenericClassStaticFunctionOfTheSameName.jump, 7, 16))
+>T : Symbol(T, Decl(ClassAndModuleThatMergeWithModulesExportedGenericFunctionAndNonGenericClassStaticFunctionOfTheSameName.jump, 9, 23))
+>x : Symbol(x, Decl(ClassAndModuleThatMergeWithModulesExportedGenericFunctionAndNonGenericClassStaticFunctionOfTheSameName.jump, 9, 26))
+>T : Symbol(T, Decl(ClassAndModuleThatMergeWithModulesExportedGenericFunctionAndNonGenericClassStaticFunctionOfTheSameName.jump, 9, 23))
+>y : Symbol(y, Decl(ClassAndModuleThatMergeWithModulesExportedGenericFunctionAndNonGenericClassStaticFunctionOfTheSameName.jump, 9, 31))
+>T : Symbol(T, Decl(ClassAndModuleThatMergeWithModulesExportedGenericFunctionAndNonGenericClassStaticFunctionOfTheSameName.jump, 9, 23))
+>T : Symbol(T, Decl(ClassAndModuleThatMergeWithModulesExportedGenericFunctionAndNonGenericClassStaticFunctionOfTheSameName.jump, 9, 23))
+
+        return x;
+>x : Symbol(x, Decl(ClassAndModuleThatMergeWithModulesExportedGenericFunctionAndNonGenericClassStaticFunctionOfTheSameName.jump, 9, 26))
+    }
+}
+
+

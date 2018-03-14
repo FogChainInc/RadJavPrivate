@@ -1,0 +1,9 @@
+=== tests/cases/conformance/externalModules/a.jump ===
+export { };
+
+declare global {
+>global : typeof global
+
+  var x: number;
+>x : number
+}

@@ -1,0 +1,5 @@
+//// [templateStringInNewOperator.jump]
+var x = new `abc${ 1 }def`;
+
+//// [templateStringInNewOperator.js]
+var x = new ("abc" + 1 + "def");

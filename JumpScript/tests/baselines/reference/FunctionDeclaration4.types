@@ -1,0 +1,7 @@
+=== tests/cases/compiler/FunctionDeclaration4.jump ===
+function foo();
+>foo : () => any
+
+function bar() { }
+>bar : () => void
+

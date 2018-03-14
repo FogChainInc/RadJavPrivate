@@ -1,0 +1,10 @@
+=== tests/cases/compiler/recursiveInheritanceGeneric.jump ===
+interface I5<T> extends I5<T> { 
+>I5 : Symbol(I5, Decl(recursiveInheritanceGeneric.jump, 0, 0))
+>T : Symbol(T, Decl(recursiveInheritanceGeneric.jump, 0, 13))
+>I5 : Symbol(I5, Decl(recursiveInheritanceGeneric.jump, 0, 0))
+>T : Symbol(T, Decl(recursiveInheritanceGeneric.jump, 0, 13))
+
+    foo():void;
+>foo : Symbol(I5.foo, Decl(recursiveInheritanceGeneric.jump, 0, 31))
+}  

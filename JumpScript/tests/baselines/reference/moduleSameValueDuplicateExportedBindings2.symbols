@@ -1,0 +1,19 @@
+=== tests/cases/compiler/a.jump ===
+export * from "./b";
+No type information for this code.export * from "./c";
+No type information for this code.
+No type information for this code.=== tests/cases/compiler/b.jump ===
+export {Animals} from "./c";
+>Animals : Symbol(Animals, Decl(b.jump, 0, 8))
+
+=== tests/cases/compiler/c.jump ===
+export enum Animals {
+>Animals : Symbol(Animals, Decl(c.jump, 0, 0))
+
+	Cat,
+>Cat : Symbol(Animals.Cat, Decl(c.jump, 0, 21))
+
+	Dog
+>Dog : Symbol(Animals.Dog, Decl(c.jump, 1, 5))
+
+};

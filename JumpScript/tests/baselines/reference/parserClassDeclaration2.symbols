@@ -1,0 +1,4 @@
+=== tests/cases/conformance/parser/ecmascript5/ClassDeclarations/parserClassDeclaration2.jump ===
+class C implements A implements B {
+>C : Symbol(C, Decl(parserClassDeclaration2.jump, 0, 0))
+}

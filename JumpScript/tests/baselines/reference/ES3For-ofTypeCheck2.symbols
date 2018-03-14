@@ -1,0 +1,4 @@
+=== tests/cases/conformance/statements/for-ofStatements/ES3For-ofTypeCheck2.jump ===
+for (var v of [true]) { }
+>v : Symbol(v, Decl(ES3For-ofTypeCheck2.jump, 0, 8))
+

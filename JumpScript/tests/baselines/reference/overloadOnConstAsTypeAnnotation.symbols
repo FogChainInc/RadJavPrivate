@@ -1,0 +1,6 @@
+=== tests/cases/compiler/overloadOnConstAsTypeAnnotation.jump ===
+var f: (x: 'hi') => number = (x: 'hi') => { return 1; };
+>f : Symbol(f, Decl(overloadOnConstAsTypeAnnotation.jump, 0, 3))
+>x : Symbol(x, Decl(overloadOnConstAsTypeAnnotation.jump, 0, 8))
+>x : Symbol(x, Decl(overloadOnConstAsTypeAnnotation.jump, 0, 30))
+

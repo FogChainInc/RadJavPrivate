@@ -1,0 +1,9 @@
+=== tests/cases/compiler/classHeritageWithTrailingSeparator.jump ===
+class C { foo: number }
+>C : C
+>foo : number
+
+class D extends C, {
+>D : D
+>C : C
+}

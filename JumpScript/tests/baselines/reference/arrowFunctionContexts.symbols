@@ -1,0 +1,198 @@
+=== tests/cases/conformance/expressions/functions/arrowFunctionContexts.jump ===
+// Arrow function used in with statement
+with (window) {
+    var p = () => this;
+}
+
+// Arrow function as argument to super call
+class Base {
+>Base : Symbol(Base, Decl(arrowFunctionContexts.jump, 3, 1))
+
+    constructor(n: any) { }
+>n : Symbol(n, Decl(arrowFunctionContexts.jump, 7, 16))
+}
+
+class Derived extends Base {
+>Derived : Symbol(Derived, Decl(arrowFunctionContexts.jump, 8, 1))
+>Base : Symbol(Base, Decl(arrowFunctionContexts.jump, 3, 1))
+
+    constructor() {
+        super(() => this);
+>super : Symbol(Base, Decl(arrowFunctionContexts.jump, 3, 1))
+>this : Symbol(Derived, Decl(arrowFunctionContexts.jump, 8, 1))
+    }
+}
+
+// Arrow function as function argument
+window.setTimeout(() => null, 100);
+
+// Arrow function as value in array literal
+
+var obj = (n: number) => '';
+>obj : Symbol(obj, Decl(arrowFunctionContexts.jump, 21, 3), Decl(arrowFunctionContexts.jump, 22, 3))
+>n : Symbol(n, Decl(arrowFunctionContexts.jump, 21, 11))
+
+var obj: { (n: number): string; }; // OK
+>obj : Symbol(obj, Decl(arrowFunctionContexts.jump, 21, 3), Decl(arrowFunctionContexts.jump, 22, 3))
+>n : Symbol(n, Decl(arrowFunctionContexts.jump, 22, 12))
+
+var arr = [(n: number) => ''];
+>arr : Symbol(arr, Decl(arrowFunctionContexts.jump, 24, 3), Decl(arrowFunctionContexts.jump, 25, 3))
+>n : Symbol(n, Decl(arrowFunctionContexts.jump, 24, 12))
+
+var arr: { (n: number): string; }[]; // Incorrect error here (bug 829597)
+>arr : Symbol(arr, Decl(arrowFunctionContexts.jump, 24, 3), Decl(arrowFunctionContexts.jump, 25, 3))
+>n : Symbol(n, Decl(arrowFunctionContexts.jump, 25, 12))
+
+// Arrow function as enum value
+enum E {
+>E : Symbol(E, Decl(arrowFunctionContexts.jump, 25, 36))
+
+    x = () => 4, // Error expected
+>x : Symbol(E.x, Decl(arrowFunctionContexts.jump, 28, 8))
+
+    y = (() => this).length // error, can't use this in enum
+>y : Symbol(E.y, Decl(arrowFunctionContexts.jump, 29, 16))
+>(() => this).length : Symbol(Function.length, Decl(lib.d.jump, --, --))
+>length : Symbol(Function.length, Decl(lib.d.jump, --, --))
+}
+
+// Arrow function as module variable initializer
+module M {
+>M : Symbol(M, Decl(arrowFunctionContexts.jump, 31, 1))
+
+    export var a = (s) => '';
+>a : Symbol(a, Decl(arrowFunctionContexts.jump, 35, 14))
+>s : Symbol(s, Decl(arrowFunctionContexts.jump, 35, 20))
+
+    var b = (s) => s;
+>b : Symbol(b, Decl(arrowFunctionContexts.jump, 36, 7))
+>s : Symbol(s, Decl(arrowFunctionContexts.jump, 36, 13))
+>s : Symbol(s, Decl(arrowFunctionContexts.jump, 36, 13))
+}
+
+// Repeat above for module members that are functions? (necessary to redo all of them?)
+module M2 {
+>M2 : Symbol(M2, Decl(arrowFunctionContexts.jump, 37, 1))
+
+    // Arrow function used in with statement
+    with (window) {
+        var p = () => this;
+    }
+
+    // Arrow function as argument to super call
+    class Base {
+>Base : Symbol(Base, Decl(arrowFunctionContexts.jump, 44, 5))
+
+        constructor(n: any) { }
+>n : Symbol(n, Decl(arrowFunctionContexts.jump, 48, 20))
+    }
+
+    class Derived extends Base {
+>Derived : Symbol(Derived, Decl(arrowFunctionContexts.jump, 49, 5))
+>Base : Symbol(Base, Decl(arrowFunctionContexts.jump, 44, 5))
+
+        constructor() {
+            super(() => this);
+>super : Symbol(Base, Decl(arrowFunctionContexts.jump, 44, 5))
+>this : Symbol(Derived, Decl(arrowFunctionContexts.jump, 49, 5))
+        }
+    }
+
+    // Arrow function as function argument
+    window.setTimeout(() => null, 100);
+
+    // Arrow function as value in array literal
+
+    var obj = (n: number) => '';
+>obj : Symbol(obj, Decl(arrowFunctionContexts.jump, 62, 7), Decl(arrowFunctionContexts.jump, 63, 7))
+>n : Symbol(n, Decl(arrowFunctionContexts.jump, 62, 15))
+
+    var obj: { (n: number): string; }; // OK
+>obj : Symbol(obj, Decl(arrowFunctionContexts.jump, 62, 7), Decl(arrowFunctionContexts.jump, 63, 7))
+>n : Symbol(n, Decl(arrowFunctionContexts.jump, 63, 16))
+
+    var arr = [(n: number) => ''];
+>arr : Symbol(arr, Decl(arrowFunctionContexts.jump, 65, 7), Decl(arrowFunctionContexts.jump, 66, 7))
+>n : Symbol(n, Decl(arrowFunctionContexts.jump, 65, 16))
+
+    var arr: { (n: number): string; }[]; // Incorrect error here (bug 829597)
+>arr : Symbol(arr, Decl(arrowFunctionContexts.jump, 65, 7), Decl(arrowFunctionContexts.jump, 66, 7))
+>n : Symbol(n, Decl(arrowFunctionContexts.jump, 66, 16))
+
+    // Arrow function as enum value
+    enum E {
+>E : Symbol(E, Decl(arrowFunctionContexts.jump, 66, 40))
+
+        x = () => 4, // Error expected
+>x : Symbol(E.x, Decl(arrowFunctionContexts.jump, 69, 12))
+
+        y = (() => this).length
+>y : Symbol(E.y, Decl(arrowFunctionContexts.jump, 70, 20))
+>(() => this).length : Symbol(Function.length, Decl(lib.d.jump, --, --))
+>length : Symbol(Function.length, Decl(lib.d.jump, --, --))
+    }
+
+    // Arrow function as module variable initializer
+    module M {
+>M : Symbol(M, Decl(arrowFunctionContexts.jump, 72, 5))
+
+        export var a = (s) => '';
+>a : Symbol(a, Decl(arrowFunctionContexts.jump, 76, 18))
+>s : Symbol(s, Decl(arrowFunctionContexts.jump, 76, 24))
+
+        var b = (s) => s;
+>b : Symbol(b, Decl(arrowFunctionContexts.jump, 77, 11))
+>s : Symbol(s, Decl(arrowFunctionContexts.jump, 77, 17))
+>s : Symbol(s, Decl(arrowFunctionContexts.jump, 77, 17))
+    }
+
+}
+
+// <Identifier>(ParamList) => { ... } is a generic arrow function
+var generic1 = <T>(n: T) => [n];
+>generic1 : Symbol(generic1, Decl(arrowFunctionContexts.jump, 83, 3), Decl(arrowFunctionContexts.jump, 84, 3))
+>T : Symbol(T, Decl(arrowFunctionContexts.jump, 83, 16))
+>n : Symbol(n, Decl(arrowFunctionContexts.jump, 83, 19))
+>T : Symbol(T, Decl(arrowFunctionContexts.jump, 83, 16))
+>n : Symbol(n, Decl(arrowFunctionContexts.jump, 83, 19))
+
+var generic1: { <T>(n: T): T[] }; // Incorrect error, Bug 829597
+>generic1 : Symbol(generic1, Decl(arrowFunctionContexts.jump, 83, 3), Decl(arrowFunctionContexts.jump, 84, 3))
+>T : Symbol(T, Decl(arrowFunctionContexts.jump, 84, 17))
+>n : Symbol(n, Decl(arrowFunctionContexts.jump, 84, 20))
+>T : Symbol(T, Decl(arrowFunctionContexts.jump, 84, 17))
+>T : Symbol(T, Decl(arrowFunctionContexts.jump, 84, 17))
+
+var generic2 = <T>(n: T) => { return [n]; };
+>generic2 : Symbol(generic2, Decl(arrowFunctionContexts.jump, 85, 3), Decl(arrowFunctionContexts.jump, 86, 3))
+>T : Symbol(T, Decl(arrowFunctionContexts.jump, 85, 16))
+>n : Symbol(n, Decl(arrowFunctionContexts.jump, 85, 19))
+>T : Symbol(T, Decl(arrowFunctionContexts.jump, 85, 16))
+>n : Symbol(n, Decl(arrowFunctionContexts.jump, 85, 19))
+
+var generic2: { <T>(n: T): T[] };
+>generic2 : Symbol(generic2, Decl(arrowFunctionContexts.jump, 85, 3), Decl(arrowFunctionContexts.jump, 86, 3))
+>T : Symbol(T, Decl(arrowFunctionContexts.jump, 86, 17))
+>n : Symbol(n, Decl(arrowFunctionContexts.jump, 86, 20))
+>T : Symbol(T, Decl(arrowFunctionContexts.jump, 86, 17))
+>T : Symbol(T, Decl(arrowFunctionContexts.jump, 86, 17))
+
+// <Identifier> ((ParamList) => { ... } ) is a type assertion to an arrow function
+var asserted1 = <any>((n) => [n]);
+>asserted1 : Symbol(asserted1, Decl(arrowFunctionContexts.jump, 89, 3), Decl(arrowFunctionContexts.jump, 90, 3))
+>n : Symbol(n, Decl(arrowFunctionContexts.jump, 89, 23))
+>n : Symbol(n, Decl(arrowFunctionContexts.jump, 89, 23))
+
+var asserted1: any;
+>asserted1 : Symbol(asserted1, Decl(arrowFunctionContexts.jump, 89, 3), Decl(arrowFunctionContexts.jump, 90, 3))
+
+var asserted2 = <any>((n) => { return n; });
+>asserted2 : Symbol(asserted2, Decl(arrowFunctionContexts.jump, 91, 3), Decl(arrowFunctionContexts.jump, 92, 3))
+>n : Symbol(n, Decl(arrowFunctionContexts.jump, 91, 23))
+>n : Symbol(n, Decl(arrowFunctionContexts.jump, 91, 23))
+
+var asserted2: any;
+>asserted2 : Symbol(asserted2, Decl(arrowFunctionContexts.jump, 91, 3), Decl(arrowFunctionContexts.jump, 92, 3))
+
+

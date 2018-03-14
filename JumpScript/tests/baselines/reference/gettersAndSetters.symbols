@@ -1,0 +1,116 @@
+=== tests/cases/compiler/gettersAndSetters.jump ===
+// classes
+class C {
+>C : Symbol(C, Decl(gettersAndSetters.jump, 0, 0))
+
+    public fooBack = "";
+>fooBack : Symbol(C.fooBack, Decl(gettersAndSetters.jump, 1, 9))
+
+    static barBack:string = "";
+>barBack : Symbol(C.barBack, Decl(gettersAndSetters.jump, 2, 24))
+
+    public bazBack = "";
+>bazBack : Symbol(C.bazBack, Decl(gettersAndSetters.jump, 3, 31))
+    
+    public get Foo() { return this.fooBack;} // ok
+>Foo : Symbol(C.Foo, Decl(gettersAndSetters.jump, 4, 24), Decl(gettersAndSetters.jump, 6, 44))
+>this.fooBack : Symbol(C.fooBack, Decl(gettersAndSetters.jump, 1, 9))
+>this : Symbol(C, Decl(gettersAndSetters.jump, 0, 0))
+>fooBack : Symbol(C.fooBack, Decl(gettersAndSetters.jump, 1, 9))
+
+    public set Foo(foo:string) {this.fooBack = foo;} // ok
+>Foo : Symbol(C.Foo, Decl(gettersAndSetters.jump, 4, 24), Decl(gettersAndSetters.jump, 6, 44))
+>foo : Symbol(foo, Decl(gettersAndSetters.jump, 7, 19))
+>this.fooBack : Symbol(C.fooBack, Decl(gettersAndSetters.jump, 1, 9))
+>this : Symbol(C, Decl(gettersAndSetters.jump, 0, 0))
+>fooBack : Symbol(C.fooBack, Decl(gettersAndSetters.jump, 1, 9))
+>foo : Symbol(foo, Decl(gettersAndSetters.jump, 7, 19))
+
+    static get Bar() {return C.barBack;} // ok
+>Bar : Symbol(C.Bar, Decl(gettersAndSetters.jump, 7, 52), Decl(gettersAndSetters.jump, 9, 40))
+>C.barBack : Symbol(C.barBack, Decl(gettersAndSetters.jump, 2, 24))
+>C : Symbol(C, Decl(gettersAndSetters.jump, 0, 0))
+>barBack : Symbol(C.barBack, Decl(gettersAndSetters.jump, 2, 24))
+
+    static set Bar(bar:string) {C.barBack = bar;} // ok
+>Bar : Symbol(C.Bar, Decl(gettersAndSetters.jump, 7, 52), Decl(gettersAndSetters.jump, 9, 40))
+>bar : Symbol(bar, Decl(gettersAndSetters.jump, 10, 19))
+>C.barBack : Symbol(C.barBack, Decl(gettersAndSetters.jump, 2, 24))
+>C : Symbol(C, Decl(gettersAndSetters.jump, 0, 0))
+>barBack : Symbol(C.barBack, Decl(gettersAndSetters.jump, 2, 24))
+>bar : Symbol(bar, Decl(gettersAndSetters.jump, 10, 19))
+
+    public get = function() {} // ok
+>get : Symbol(C.get, Decl(gettersAndSetters.jump, 10, 49))
+
+    public set = function() {} // ok
+>set : Symbol(C.set, Decl(gettersAndSetters.jump, 12, 30))
+}
+
+var c = new C();
+>c : Symbol(c, Decl(gettersAndSetters.jump, 16, 3))
+>C : Symbol(C, Decl(gettersAndSetters.jump, 0, 0))
+
+var foo = c.Foo;
+>foo : Symbol(foo, Decl(gettersAndSetters.jump, 18, 3))
+>c.Foo : Symbol(C.Foo, Decl(gettersAndSetters.jump, 4, 24), Decl(gettersAndSetters.jump, 6, 44))
+>c : Symbol(c, Decl(gettersAndSetters.jump, 16, 3))
+>Foo : Symbol(C.Foo, Decl(gettersAndSetters.jump, 4, 24), Decl(gettersAndSetters.jump, 6, 44))
+
+c.Foo = "foov";
+>c.Foo : Symbol(C.Foo, Decl(gettersAndSetters.jump, 4, 24), Decl(gettersAndSetters.jump, 6, 44))
+>c : Symbol(c, Decl(gettersAndSetters.jump, 16, 3))
+>Foo : Symbol(C.Foo, Decl(gettersAndSetters.jump, 4, 24), Decl(gettersAndSetters.jump, 6, 44))
+
+var bar = C.Bar;
+>bar : Symbol(bar, Decl(gettersAndSetters.jump, 21, 3))
+>C.Bar : Symbol(C.Bar, Decl(gettersAndSetters.jump, 7, 52), Decl(gettersAndSetters.jump, 9, 40))
+>C : Symbol(C, Decl(gettersAndSetters.jump, 0, 0))
+>Bar : Symbol(C.Bar, Decl(gettersAndSetters.jump, 7, 52), Decl(gettersAndSetters.jump, 9, 40))
+
+C.Bar = "barv";
+>C.Bar : Symbol(C.Bar, Decl(gettersAndSetters.jump, 7, 52), Decl(gettersAndSetters.jump, 9, 40))
+>C : Symbol(C, Decl(gettersAndSetters.jump, 0, 0))
+>Bar : Symbol(C.Bar, Decl(gettersAndSetters.jump, 7, 52), Decl(gettersAndSetters.jump, 9, 40))
+
+var baz = c.Baz;
+>baz : Symbol(baz, Decl(gettersAndSetters.jump, 24, 3))
+>c : Symbol(c, Decl(gettersAndSetters.jump, 16, 3))
+
+c.Baz = "bazv";
+>c : Symbol(c, Decl(gettersAndSetters.jump, 16, 3))
+
+// The Foo accessors' return and param types should be contextually typed to the Foo field
+var o : {Foo:number;} = {get Foo() {return 0;}, set Foo(val:number){val}}; // o
+>o : Symbol(o, Decl(gettersAndSetters.jump, 28, 3))
+>Foo : Symbol(Foo, Decl(gettersAndSetters.jump, 28, 9))
+>Foo : Symbol(Foo, Decl(gettersAndSetters.jump, 28, 25), Decl(gettersAndSetters.jump, 28, 47))
+>Foo : Symbol(Foo, Decl(gettersAndSetters.jump, 28, 25), Decl(gettersAndSetters.jump, 28, 47))
+>val : Symbol(val, Decl(gettersAndSetters.jump, 28, 56))
+>val : Symbol(val, Decl(gettersAndSetters.jump, 28, 56))
+
+var ofg = o.Foo;
+>ofg : Symbol(ofg, Decl(gettersAndSetters.jump, 30, 3))
+>o.Foo : Symbol(Foo, Decl(gettersAndSetters.jump, 28, 9))
+>o : Symbol(o, Decl(gettersAndSetters.jump, 28, 3))
+>Foo : Symbol(Foo, Decl(gettersAndSetters.jump, 28, 9))
+
+o.Foo = 0;
+>o.Foo : Symbol(Foo, Decl(gettersAndSetters.jump, 28, 9))
+>o : Symbol(o, Decl(gettersAndSetters.jump, 28, 3))
+>Foo : Symbol(Foo, Decl(gettersAndSetters.jump, 28, 9))
+
+
+interface I1 {
+>I1 : Symbol(I1, Decl(gettersAndSetters.jump, 31, 10))
+
+    (n:number):number;
+>n : Symbol(n, Decl(gettersAndSetters.jump, 35, 5))
+}
+
+var i:I1 = function (n) {return n;}
+>i : Symbol(i, Decl(gettersAndSetters.jump, 38, 3))
+>I1 : Symbol(I1, Decl(gettersAndSetters.jump, 31, 10))
+>n : Symbol(n, Decl(gettersAndSetters.jump, 38, 21))
+>n : Symbol(n, Decl(gettersAndSetters.jump, 38, 21))
+

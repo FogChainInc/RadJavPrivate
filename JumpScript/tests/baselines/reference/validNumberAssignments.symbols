@@ -1,0 +1,36 @@
+=== tests/cases/conformance/types/primitives/number/validNumberAssignments.jump ===
+var x = 1;
+>x : Symbol(x, Decl(validNumberAssignments.jump, 0, 3))
+
+var a: any = x;
+>a : Symbol(a, Decl(validNumberAssignments.jump, 2, 3))
+>x : Symbol(x, Decl(validNumberAssignments.jump, 0, 3))
+
+var b: Object = x;
+>b : Symbol(b, Decl(validNumberAssignments.jump, 3, 3))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(validNumberAssignments.jump, 0, 3))
+
+var c: number = x;
+>c : Symbol(c, Decl(validNumberAssignments.jump, 4, 3))
+>x : Symbol(x, Decl(validNumberAssignments.jump, 0, 3))
+
+enum E { A };
+>E : Symbol(E, Decl(validNumberAssignments.jump, 4, 18))
+>A : Symbol(E.A, Decl(validNumberAssignments.jump, 5, 8))
+
+var d: E = x;
+>d : Symbol(d, Decl(validNumberAssignments.jump, 6, 3))
+>E : Symbol(E, Decl(validNumberAssignments.jump, 4, 18))
+>x : Symbol(x, Decl(validNumberAssignments.jump, 0, 3))
+
+var e = E.A;
+>e : Symbol(e, Decl(validNumberAssignments.jump, 7, 3))
+>E.A : Symbol(E.A, Decl(validNumberAssignments.jump, 5, 8))
+>E : Symbol(E, Decl(validNumberAssignments.jump, 4, 18))
+>A : Symbol(E.A, Decl(validNumberAssignments.jump, 5, 8))
+
+e = x;
+>e : Symbol(e, Decl(validNumberAssignments.jump, 7, 3))
+>x : Symbol(x, Decl(validNumberAssignments.jump, 0, 3))
+

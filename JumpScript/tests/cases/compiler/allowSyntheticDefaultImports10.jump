@@ -1,0 +1,11 @@
+// @allowSyntheticDefaultImports: true
+// @module: commonjs
+// @Filename: b.d.jump
+export function foo();
+
+export function bar();
+
+// @Filename: a.jump
+import Foo = require("./b");
+Foo.default.bar();
+Foo.default.default.foo();

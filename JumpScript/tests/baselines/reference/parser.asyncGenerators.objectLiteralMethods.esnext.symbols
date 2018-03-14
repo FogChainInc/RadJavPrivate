@@ -1,0 +1,252 @@
+=== tests/cases/conformance/parser/ecmascriptnext/asyncGenerators/methodIsOk.jump ===
+const o1 = {
+>o1 : Symbol(o1, Decl(methodIsOk.jump, 0, 5))
+
+    async * f() {
+>f : Symbol(f, Decl(methodIsOk.jump, 0, 12))
+    }
+};
+=== tests/cases/conformance/parser/ecmascriptnext/asyncGenerators/awaitMethodNameIsOk.jump ===
+const o2 = {
+>o2 : Symbol(o2, Decl(awaitMethodNameIsOk.jump, 0, 5))
+
+    async * await() {
+>await : Symbol(await, Decl(awaitMethodNameIsOk.jump, 0, 12))
+    }
+};
+=== tests/cases/conformance/parser/ecmascriptnext/asyncGenerators/yieldMethodNameIsOk.jump ===
+const o3 = {
+>o3 : Symbol(o3, Decl(yieldMethodNameIsOk.jump, 0, 5))
+
+    async * yield() {
+>yield : Symbol(yield, Decl(yieldMethodNameIsOk.jump, 0, 12))
+    }
+};
+=== tests/cases/conformance/parser/ecmascriptnext/asyncGenerators/awaitParameterIsError.jump ===
+const o4 = {
+>o4 : Symbol(o4, Decl(awaitParameterIsError.jump, 0, 5))
+
+    async * f(await) {
+>f : Symbol(f, Decl(awaitParameterIsError.jump, 0, 12))
+>await : Symbol(await, Decl(awaitParameterIsError.jump, 1, 14))
+    }
+};
+=== tests/cases/conformance/parser/ecmascriptnext/asyncGenerators/yieldParameterIsError.jump ===
+const o5 = {
+>o5 : Symbol(o5, Decl(yieldParameterIsError.jump, 0, 5))
+
+    async * f(yield) {
+>f : Symbol(f, Decl(yieldParameterIsError.jump, 0, 12))
+>yield : Symbol(yield, Decl(yieldParameterIsError.jump, 1, 14))
+    }
+};
+=== tests/cases/conformance/parser/ecmascriptnext/asyncGenerators/awaitInParameterInitializerIsError.jump ===
+const o6 = {
+>o6 : Symbol(o6, Decl(awaitInParameterInitializerIsError.jump, 0, 5))
+
+    async * f(a = await 1) {
+>f : Symbol(f, Decl(awaitInParameterInitializerIsError.jump, 0, 12))
+>a : Symbol(a, Decl(awaitInParameterInitializerIsError.jump, 1, 14))
+    }
+};
+=== tests/cases/conformance/parser/ecmascriptnext/asyncGenerators/yieldInParameterInitializerIsError.jump ===
+const o7 = {
+>o7 : Symbol(o7, Decl(yieldInParameterInitializerIsError.jump, 0, 5))
+
+    async * f(a = yield) {
+>f : Symbol(f, Decl(yieldInParameterInitializerIsError.jump, 0, 12))
+>a : Symbol(a, Decl(yieldInParameterInitializerIsError.jump, 1, 14))
+    }
+};
+=== tests/cases/conformance/parser/ecmascriptnext/asyncGenerators/nestedAsyncGeneratorIsOk.jump ===
+const o8 = {
+>o8 : Symbol(o8, Decl(nestedAsyncGeneratorIsOk.jump, 0, 5))
+
+    async * f() {
+>f : Symbol(f, Decl(nestedAsyncGeneratorIsOk.jump, 0, 12))
+
+        async function * g() {
+>g : Symbol(g, Decl(nestedAsyncGeneratorIsOk.jump, 1, 17))
+        }
+    }
+};
+=== tests/cases/conformance/parser/ecmascriptnext/asyncGenerators/nestedFunctionDeclarationNamedYieldIsError.jump ===
+const o9 = {
+>o9 : Symbol(o9, Decl(nestedFunctionDeclarationNamedYieldIsError.jump, 0, 5))
+
+    async * f() {
+>f : Symbol(f, Decl(nestedFunctionDeclarationNamedYieldIsError.jump, 0, 12))
+
+        function yield() {
+> : Symbol((Missing), Decl(nestedFunctionDeclarationNamedYieldIsError.jump, 1, 17))
+        }
+    }
+};
+=== tests/cases/conformance/parser/ecmascriptnext/asyncGenerators/nestedFunctionExpressionNamedYieldIsError.jump ===
+const o10 = {
+>o10 : Symbol(o10, Decl(nestedFunctionExpressionNamedYieldIsError.jump, 0, 5))
+
+    async * f() {
+>f : Symbol(f, Decl(nestedFunctionExpressionNamedYieldIsError.jump, 0, 13))
+
+        const x = function yield() {
+>x : Symbol(x, Decl(nestedFunctionExpressionNamedYieldIsError.jump, 2, 13))
+
+        };
+    }
+};
+=== tests/cases/conformance/parser/ecmascriptnext/asyncGenerators/nestedFunctionDeclarationNamedAwaitIsError.jump ===
+const o11 = {
+>o11 : Symbol(o11, Decl(nestedFunctionDeclarationNamedAwaitIsError.jump, 0, 5))
+
+    async * f() {
+>f : Symbol(f, Decl(nestedFunctionDeclarationNamedAwaitIsError.jump, 0, 13))
+
+        function await() {
+> : Symbol((Missing), Decl(nestedFunctionDeclarationNamedAwaitIsError.jump, 1, 17))
+        }
+    }
+};
+=== tests/cases/conformance/parser/ecmascriptnext/asyncGenerators/nestedFunctionExpressionNamedAwaitIsError.jump ===
+const o12 = {
+>o12 : Symbol(o12, Decl(nestedFunctionExpressionNamedAwaitIsError.jump, 0, 5))
+
+    async * f() {
+>f : Symbol(f, Decl(nestedFunctionExpressionNamedAwaitIsError.jump, 0, 13))
+
+        const x = function await() {
+>x : Symbol(x, Decl(nestedFunctionExpressionNamedAwaitIsError.jump, 2, 13))
+
+        };
+    }
+};
+=== tests/cases/conformance/parser/ecmascriptnext/asyncGenerators/yieldIsOk.jump ===
+const o13 = {
+>o13 : Symbol(o13, Decl(yieldIsOk.jump, 0, 5))
+
+    async * f() {
+>f : Symbol(f, Decl(yieldIsOk.jump, 0, 13))
+
+        yield;
+    }
+};
+=== tests/cases/conformance/parser/ecmascriptnext/asyncGenerators/yieldWithValueIsOk.jump ===
+const o14 = {
+>o14 : Symbol(o14, Decl(yieldWithValueIsOk.jump, 0, 5))
+
+    async * f() {
+>f : Symbol(f, Decl(yieldWithValueIsOk.jump, 0, 13))
+
+        yield 1;
+    }
+};
+=== tests/cases/conformance/parser/ecmascriptnext/asyncGenerators/yieldStarMissingValueIsError.jump ===
+const o15 = {
+>o15 : Symbol(o15, Decl(yieldStarMissingValueIsError.jump, 0, 5))
+
+    async * f() {
+>f : Symbol(f, Decl(yieldStarMissingValueIsError.jump, 0, 13))
+
+        yield *;
+    }
+};
+=== tests/cases/conformance/parser/ecmascriptnext/asyncGenerators/yieldStarWithValueIsOk.jump ===
+const o16 = {
+>o16 : Symbol(o16, Decl(yieldStarWithValueIsOk.jump, 0, 5))
+
+    async * f() {
+>f : Symbol(f, Decl(yieldStarWithValueIsOk.jump, 0, 13))
+
+        yield * [];
+    }
+};
+=== tests/cases/conformance/parser/ecmascriptnext/asyncGenerators/awaitWithValueIsOk.jump ===
+const o17 = {
+>o17 : Symbol(o17, Decl(awaitWithValueIsOk.jump, 0, 5))
+
+    async * f() {
+>f : Symbol(f, Decl(awaitWithValueIsOk.jump, 0, 13))
+
+        await 1;
+    }
+};
+=== tests/cases/conformance/parser/ecmascriptnext/asyncGenerators/awaitMissingValueIsError.jump ===
+const o18 = {
+>o18 : Symbol(o18, Decl(awaitMissingValueIsError.jump, 0, 5))
+
+    async * f() {
+>f : Symbol(f, Decl(awaitMissingValueIsError.jump, 0, 13))
+
+        await;
+    }
+};
+=== tests/cases/conformance/parser/ecmascriptnext/asyncGenerators/awaitAsTypeIsOk.jump ===
+interface await {}
+>await : Symbol(await, Decl(awaitAsTypeIsOk.jump, 0, 0))
+
+const o19 = {
+>o19 : Symbol(o19, Decl(awaitAsTypeIsOk.jump, 1, 5))
+
+    async * f() {
+>f : Symbol(f, Decl(awaitAsTypeIsOk.jump, 1, 13))
+
+        let x: await;
+>x : Symbol(x, Decl(awaitAsTypeIsOk.jump, 3, 11))
+>await : Symbol(await, Decl(awaitAsTypeIsOk.jump, 0, 0))
+    }
+};
+=== tests/cases/conformance/parser/ecmascriptnext/asyncGenerators/yieldAsTypeIsOk.jump ===
+interface yield {}
+>yield : Symbol(yield, Decl(yieldAsTypeIsOk.jump, 0, 0))
+
+const o20 = {
+>o20 : Symbol(o20, Decl(yieldAsTypeIsOk.jump, 1, 5))
+
+    async * f() {
+>f : Symbol(f, Decl(yieldAsTypeIsOk.jump, 1, 13))
+
+        let x: yield;
+>x : Symbol(x, Decl(yieldAsTypeIsOk.jump, 3, 11))
+>yield : Symbol(yield, Decl(yieldAsTypeIsOk.jump, 0, 0))
+    }
+};
+=== tests/cases/conformance/parser/ecmascriptnext/asyncGenerators/yieldInNestedComputedPropertyIsOk.jump ===
+const o21 = {
+>o21 : Symbol(o21, Decl(yieldInNestedComputedPropertyIsOk.jump, 0, 5))
+
+    async * f() {
+>f : Symbol(f, Decl(yieldInNestedComputedPropertyIsOk.jump, 0, 13))
+
+        const x = { [yield]: 1 };
+>x : Symbol(x, Decl(yieldInNestedComputedPropertyIsOk.jump, 2, 13))
+    }
+};
+=== tests/cases/conformance/parser/ecmascriptnext/asyncGenerators/asyncGeneratorGetAccessorIsError.jump ===
+const o22 = {
+>o22 : Symbol(o22, Decl(asyncGeneratorGetAccessorIsError.jump, 0, 5))
+
+    async * get x() {
+>get : Symbol(get, Decl(asyncGeneratorGetAccessorIsError.jump, 0, 13))
+>x : Symbol(x, Decl(asyncGeneratorGetAccessorIsError.jump, 1, 15))
+
+        return 1;
+    }
+};
+=== tests/cases/conformance/parser/ecmascriptnext/asyncGenerators/asyncGeneratorSetAccessorIsError.jump ===
+const o23 = {
+>o23 : Symbol(o23, Decl(asyncGeneratorSetAccessorIsError.jump, 0, 5))
+
+    async * set x(value: number) {
+>set : Symbol(set, Decl(asyncGeneratorSetAccessorIsError.jump, 0, 13))
+>x : Symbol(x, Decl(asyncGeneratorSetAccessorIsError.jump, 1, 15))
+>value : Symbol(value, Decl(asyncGeneratorSetAccessorIsError.jump, 1, 18))
+    }
+};
+=== tests/cases/conformance/parser/ecmascriptnext/asyncGenerators/asyncGeneratorPropertyIsError.jump ===
+const o24 = {
+>o24 : Symbol(o24, Decl(asyncGeneratorPropertyIsError.jump, 0, 5))
+
+    async * x: 1;
+>x : Symbol(x, Decl(asyncGeneratorPropertyIsError.jump, 0, 13))
+
+};

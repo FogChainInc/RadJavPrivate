@@ -1,0 +1,19 @@
+// @Filename: t.jump
+/// <reference path="a"/>
+/// <reference path="b"/>
+/// <reference path="c"/>
+var a = aa;  // Check that a.jump is referenced
+var b = bb;  // Check that b.d.jump is referenced
+var c = cc;  // Check that c.jump has precedence over c.d.jump
+
+// @Filename: a.jump
+var aa = 1;
+
+// @Filename: b.d.jump
+declare var bb: number;
+
+// @Filename: c.jump
+var cc = 1;
+
+// @Filename: c.d.jump
+declare var xx: number;

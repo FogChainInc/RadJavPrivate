@@ -1,0 +1,12 @@
+SameNameDTsSpecifiedWithAllowJs/jmpconfig.json(2,24): error TS5053: Option 'allowJs' cannot be specified with option 'declaration'.
+
+
+==== SameNameDTsSpecifiedWithAllowJs/jmpconfig.json (1 errors) ====
+    {
+      "compilerOptions": { "allowJs": true },
+                           ~~~~~~~~~
+!!! error TS5053: Option 'allowJs' cannot be specified with option 'declaration'.
+      "files": [ "a.d.jump" ]
+    }
+==== SameNameDTsSpecifiedWithAllowJs/a.d.jump (0 errors) ====
+    declare var test: number;

@@ -1,0 +1,27 @@
+=== tests/cases/compiler/privacyCheckOnTypeParameterReferenceInConstructorParameter.jump ===
+export class A<T1>{
+>A : Symbol(A, Decl(privacyCheckOnTypeParameterReferenceInConstructorParameter.jump, 0, 0))
+>T1 : Symbol(T1, Decl(privacyCheckOnTypeParameterReferenceInConstructorParameter.jump, 0, 15))
+
+    constructor(callback: (self: A<T1>) => void) {
+>callback : Symbol(callback, Decl(privacyCheckOnTypeParameterReferenceInConstructorParameter.jump, 1, 16))
+>self : Symbol(self, Decl(privacyCheckOnTypeParameterReferenceInConstructorParameter.jump, 1, 27))
+>A : Symbol(A, Decl(privacyCheckOnTypeParameterReferenceInConstructorParameter.jump, 0, 0))
+>T1 : Symbol(T1, Decl(privacyCheckOnTypeParameterReferenceInConstructorParameter.jump, 0, 15))
+
+        var child = new B(this);
+>child : Symbol(child, Decl(privacyCheckOnTypeParameterReferenceInConstructorParameter.jump, 2, 11))
+>B : Symbol(B, Decl(privacyCheckOnTypeParameterReferenceInConstructorParameter.jump, 4, 1))
+>this : Symbol(A, Decl(privacyCheckOnTypeParameterReferenceInConstructorParameter.jump, 0, 0))
+    }
+}
+
+export class B<T2> {
+>B : Symbol(B, Decl(privacyCheckOnTypeParameterReferenceInConstructorParameter.jump, 4, 1))
+>T2 : Symbol(T2, Decl(privacyCheckOnTypeParameterReferenceInConstructorParameter.jump, 6, 15))
+
+    constructor(parent: T2) { }
+>parent : Symbol(parent, Decl(privacyCheckOnTypeParameterReferenceInConstructorParameter.jump, 7, 16))
+>T2 : Symbol(T2, Decl(privacyCheckOnTypeParameterReferenceInConstructorParameter.jump, 6, 15))
+}
+

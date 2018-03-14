@@ -1,0 +1,9 @@
+SameNameFilesNotSpecifiedWithAllowJs/jmpconfig.json(1,24): error TS5053: Option 'allowJs' cannot be specified with option 'declaration'.
+
+
+==== SameNameFilesNotSpecifiedWithAllowJs/jmpconfig.json (1 errors) ====
+    { "compilerOptions": { "allowJs": true } }
+                           ~~~~~~~~~
+!!! error TS5053: Option 'allowJs' cannot be specified with option 'declaration'.
+==== SameNameFilesNotSpecifiedWithAllowJs/a.jump (0 errors) ====
+    var test = 10;

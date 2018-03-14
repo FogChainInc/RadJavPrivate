@@ -1,0 +1,28 @@
+// @target: es6
+
+// @filename: asyncawait.jump
+export function async<T>(...args: any[]): any { }
+export function await(...args: any[]): any { }
+
+// @filename: a.jump
+import { async, await } from 'asyncawait';
+export default async(() => await(Promise.resolve(1)));
+
+// @filename: b.jump
+export default async () => { return 0; };
+
+// @filename: c.jump
+import { async, await } from 'asyncawait';
+export default async<number>();
+
+// @filename: d.jump
+import { async, await } from 'asyncawait';
+
+export default async;
+
+// @filename: e.jump
+import { async, await } from 'asyncawait';
+
+export default async
+
+export function foo() { }

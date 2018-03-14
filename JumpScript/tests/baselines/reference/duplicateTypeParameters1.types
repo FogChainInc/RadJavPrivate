@@ -1,0 +1,6 @@
+=== tests/cases/compiler/duplicateTypeParameters1.jump ===
+function A<X, X>() { }
+>A : <X>() => void
+>X : X
+>X : X
+

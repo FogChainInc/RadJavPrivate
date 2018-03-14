@@ -1,0 +1,29 @@
+=== tests/cases/conformance/expressions/typeGuards/typeGuardInClass.jump ===
+let x: string | number;
+>x : Symbol(x, Decl(typeGuardInClass.jump, 0, 3))
+
+if (typeof x === "string") {
+>x : Symbol(x, Decl(typeGuardInClass.jump, 0, 3))
+
+    let n = class {
+>n : Symbol(n, Decl(typeGuardInClass.jump, 3, 7))
+
+        constructor() {
+            let y: string = x;
+>y : Symbol(y, Decl(typeGuardInClass.jump, 5, 15))
+>x : Symbol(x, Decl(typeGuardInClass.jump, 0, 3))
+        }
+    }
+}
+else {
+    let m = class {
+>m : Symbol(m, Decl(typeGuardInClass.jump, 10, 7))
+
+        constructor() {
+            let y: number = x;
+>y : Symbol(y, Decl(typeGuardInClass.jump, 12, 15))
+>x : Symbol(x, Decl(typeGuardInClass.jump, 0, 3))
+        }
+    }
+}
+

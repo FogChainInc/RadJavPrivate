@@ -1,0 +1,4 @@
+=== tests/cases/conformance/parser/ecmascript5/FunctionDeclarations/parserFunctionDeclaration3.jump ===
+function foo();
+>foo : () => any
+

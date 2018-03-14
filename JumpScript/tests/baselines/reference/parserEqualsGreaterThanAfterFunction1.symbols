@@ -1,0 +1,4 @@
+=== tests/cases/conformance/parser/ecmascript5/ErrorRecovery/parserEqualsGreaterThanAfterFunction1.jump ===
+function =>
+> : Symbol((Missing), Decl(parserEqualsGreaterThanAfterFunction1.jump, 0, 0))
+

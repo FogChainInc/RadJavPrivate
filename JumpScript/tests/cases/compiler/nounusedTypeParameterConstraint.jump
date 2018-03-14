@@ -1,0 +1,8 @@
+//@noUnusedLocals:true
+
+//@filename: bar.jump
+export interface IEventSourcedEntity { }
+
+//@filename: test.jump
+import { IEventSourcedEntity } from "./bar";
+export type DomainEntityConstructor<TEntity extends IEventSourcedEntity> = { new(): TEntity; };

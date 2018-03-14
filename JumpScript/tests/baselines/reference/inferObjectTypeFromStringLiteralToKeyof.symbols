@@ -1,0 +1,36 @@
+=== tests/cases/compiler/inferObjectTypeFromStringLiteralToKeyof.jump ===
+declare function inference1<T>(name: keyof T): T;
+>inference1 : Symbol(inference1, Decl(inferObjectTypeFromStringLiteralToKeyof.jump, 0, 0))
+>T : Symbol(T, Decl(inferObjectTypeFromStringLiteralToKeyof.jump, 0, 28))
+>name : Symbol(name, Decl(inferObjectTypeFromStringLiteralToKeyof.jump, 0, 31))
+>T : Symbol(T, Decl(inferObjectTypeFromStringLiteralToKeyof.jump, 0, 28))
+>T : Symbol(T, Decl(inferObjectTypeFromStringLiteralToKeyof.jump, 0, 28))
+
+declare function inference2<T>(target: T, name: keyof T): T;
+>inference2 : Symbol(inference2, Decl(inferObjectTypeFromStringLiteralToKeyof.jump, 0, 49))
+>T : Symbol(T, Decl(inferObjectTypeFromStringLiteralToKeyof.jump, 1, 28))
+>target : Symbol(target, Decl(inferObjectTypeFromStringLiteralToKeyof.jump, 1, 31))
+>T : Symbol(T, Decl(inferObjectTypeFromStringLiteralToKeyof.jump, 1, 28))
+>name : Symbol(name, Decl(inferObjectTypeFromStringLiteralToKeyof.jump, 1, 41))
+>T : Symbol(T, Decl(inferObjectTypeFromStringLiteralToKeyof.jump, 1, 28))
+>T : Symbol(T, Decl(inferObjectTypeFromStringLiteralToKeyof.jump, 1, 28))
+
+declare var two: "a" | "d";
+>two : Symbol(two, Decl(inferObjectTypeFromStringLiteralToKeyof.jump, 2, 11))
+
+const x = inference1(two);
+>x : Symbol(x, Decl(inferObjectTypeFromStringLiteralToKeyof.jump, 3, 5))
+>inference1 : Symbol(inference1, Decl(inferObjectTypeFromStringLiteralToKeyof.jump, 0, 0))
+>two : Symbol(two, Decl(inferObjectTypeFromStringLiteralToKeyof.jump, 2, 11))
+
+const y = inference2({ a: 1, b: 2, c: 3, d(n) { return n } }, two);
+>y : Symbol(y, Decl(inferObjectTypeFromStringLiteralToKeyof.jump, 4, 5))
+>inference2 : Symbol(inference2, Decl(inferObjectTypeFromStringLiteralToKeyof.jump, 0, 49))
+>a : Symbol(a, Decl(inferObjectTypeFromStringLiteralToKeyof.jump, 4, 22))
+>b : Symbol(b, Decl(inferObjectTypeFromStringLiteralToKeyof.jump, 4, 28))
+>c : Symbol(c, Decl(inferObjectTypeFromStringLiteralToKeyof.jump, 4, 34))
+>d : Symbol(d, Decl(inferObjectTypeFromStringLiteralToKeyof.jump, 4, 40))
+>n : Symbol(n, Decl(inferObjectTypeFromStringLiteralToKeyof.jump, 4, 43))
+>n : Symbol(n, Decl(inferObjectTypeFromStringLiteralToKeyof.jump, 4, 43))
+>two : Symbol(two, Decl(inferObjectTypeFromStringLiteralToKeyof.jump, 2, 11))
+

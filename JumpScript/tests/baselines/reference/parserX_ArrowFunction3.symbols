@@ -1,0 +1,6 @@
+=== tests/cases/conformance/parser/ecmascript5/ErrorRecovery/ArrowFunctions/parserX_ArrowFunction3.jump ===
+var v = (a): => {
+>v : Symbol(v, Decl(parserX_ArrowFunction3.jump, 0, 3))
+>a : Symbol(a, Decl(parserX_ArrowFunction3.jump, 0, 9))
+   
+};

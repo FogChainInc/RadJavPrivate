@@ -1,0 +1,13 @@
+=== tests/cases/compiler/implementsClauseAlreadySeen.jump ===
+class C {
+>C : Symbol(C, Decl(implementsClauseAlreadySeen.jump, 0, 0))
+    
+}
+class D implements C implements C {
+>D : Symbol(D, Decl(implementsClauseAlreadySeen.jump, 2, 1))
+>C : Symbol(C, Decl(implementsClauseAlreadySeen.jump, 0, 0))
+>C : Symbol(C, Decl(implementsClauseAlreadySeen.jump, 0, 0))
+
+    baz() { }
+>baz : Symbol(D.baz, Decl(implementsClauseAlreadySeen.jump, 3, 35))
+}

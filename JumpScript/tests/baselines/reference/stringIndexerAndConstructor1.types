@@ -1,0 +1,9 @@
+=== tests/cases/compiler/stringIndexerAndConstructor1.jump ===
+interface I {
+>I : I
+
+    [s: string]: number;
+>s : string
+
+    "": string;
+}

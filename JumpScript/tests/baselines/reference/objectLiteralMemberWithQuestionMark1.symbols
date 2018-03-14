@@ -1,0 +1,5 @@
+=== tests/cases/compiler/objectLiteralMemberWithQuestionMark1.jump ===
+var v = { foo?() { } }
+>v : Symbol(v, Decl(objectLiteralMemberWithQuestionMark1.jump, 0, 3))
+>foo : Symbol(foo, Decl(objectLiteralMemberWithQuestionMark1.jump, 0, 9))
+

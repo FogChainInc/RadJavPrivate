@@ -1,0 +1,24 @@
+=== tests/cases/compiler/capturedLetConstInLoop11_ES6.jump ===
+for (;;) {
+    let x = 1;
+>x : Symbol(x, Decl(capturedLetConstInLoop11_ES6.jump, 1, 7))
+
+    () => x;
+>x : Symbol(x, Decl(capturedLetConstInLoop11_ES6.jump, 1, 7))
+}
+
+function foo() {
+>foo : Symbol(foo, Decl(capturedLetConstInLoop11_ES6.jump, 3, 1))
+
+    for (;;) {
+        const a = 0;
+>a : Symbol(a, Decl(capturedLetConstInLoop11_ES6.jump, 7, 13))
+
+        switch(a) {
+>a : Symbol(a, Decl(capturedLetConstInLoop11_ES6.jump, 7, 13))
+
+            case 0: return () => a;
+>a : Symbol(a, Decl(capturedLetConstInLoop11_ES6.jump, 7, 13))
+        }
+    }
+}

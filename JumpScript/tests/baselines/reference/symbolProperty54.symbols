@@ -1,0 +1,10 @@
+=== tests/cases/conformance/es6/Symbols/symbolProperty54.jump ===
+var obj = {
+>obj : Symbol(obj, Decl(symbolProperty54.jump, 0, 3))
+
+    [Symbol.prototype]: 0
+>Symbol.prototype : Symbol(SymbolConstructor.prototype, Decl(lib.es2015.symbol.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>prototype : Symbol(SymbolConstructor.prototype, Decl(lib.es2015.symbol.d.jump, --, --))
+
+};

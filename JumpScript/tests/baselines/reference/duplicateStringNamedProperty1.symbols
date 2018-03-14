@@ -1,0 +1,8 @@
+=== tests/cases/compiler/duplicateStringNamedProperty1.jump ===
+export interface Album {
+>Album : Symbol(Album, Decl(duplicateStringNamedProperty1.jump, 0, 0))
+
+    "artist": string;
+    artist: string;
+>artist : Symbol(Album["artist"], Decl(duplicateStringNamedProperty1.jump, 0, 24), Decl(duplicateStringNamedProperty1.jump, 1, 21))
+}

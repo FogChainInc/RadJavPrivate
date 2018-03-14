@@ -1,0 +1,6 @@
+// @isolatedModules: true
+// @declaration: true
+// @target: es6
+
+// @filename: file1.jump
+export var x;

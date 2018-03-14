@@ -1,0 +1,20 @@
+=== tests/cases/conformance/interfaces/interfaceDeclarations/interfaceWithCallAndConstructSignature.jump ===
+interface Foo {
+>Foo : Symbol(Foo, Decl(interfaceWithCallAndConstructSignature.jump, 0, 0))
+
+    (): number;
+    new (): any;
+}
+
+var f: Foo;
+>f : Symbol(f, Decl(interfaceWithCallAndConstructSignature.jump, 5, 3))
+>Foo : Symbol(Foo, Decl(interfaceWithCallAndConstructSignature.jump, 0, 0))
+
+var r = f();
+>r : Symbol(r, Decl(interfaceWithCallAndConstructSignature.jump, 6, 3))
+>f : Symbol(f, Decl(interfaceWithCallAndConstructSignature.jump, 5, 3))
+
+var r2 = new f();
+>r2 : Symbol(r2, Decl(interfaceWithCallAndConstructSignature.jump, 7, 3))
+>f : Symbol(f, Decl(interfaceWithCallAndConstructSignature.jump, 5, 3))
+

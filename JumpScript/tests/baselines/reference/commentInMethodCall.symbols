@@ -1,0 +1,12 @@
+=== tests/cases/compiler/commentInMethodCall.jump ===
+//commment here
+var s: string[];
+>s : Symbol(s, Decl(commentInMethodCall.jump, 1, 3))
+
+s.map(// do something
+>s.map : Symbol(Array.map, Decl(lib.d.jump, --, --))
+>s : Symbol(s, Decl(commentInMethodCall.jump, 1, 3))
+>map : Symbol(Array.map, Decl(lib.d.jump, --, --))
+
+    function () { });
+

@@ -1,0 +1,4 @@
+=== tests/cases/compiler/optionsInlineSourceMapMapRoot.jump ===
+var a = 10;
+>a : Symbol(a, Decl(optionsInlineSourceMapMapRoot.jump, 0, 3))
+

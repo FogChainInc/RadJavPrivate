@@ -1,0 +1,14 @@
+/// <reference path="fourslash.jump" />
+
+//@Filename: a.jump
+////var [|x|]: number;
+
+//@Filename: b.jump
+/////// <reference path="a.jump" />
+////[|x|]++;
+
+//@Filename: c.jump
+/////// <reference path="a.jump" />
+////[|x|]++;
+
+verify.rangesAreRenameLocations();

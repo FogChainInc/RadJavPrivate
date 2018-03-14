@@ -1,0 +1,18 @@
+[
+    "======== Resolving module 'foo' from '/a.jump'. ========",
+    "Module resolution kind is not specified, using 'NodeJs'.",
+    "'baseUrl' option is set to '/', using this value to resolve non-relative module name 'foo'.",
+    "'paths' option is specified, looking for a pattern to match module name 'foo'.",
+    "Module name 'foo', matched pattern 'foo'.",
+    "Trying substitution 'foo/foo.jump', candidate module location: 'foo/foo.jump'.",
+    "File '/foo/foo.jump' exist - use it as a name resolution result.",
+    "======== Module name 'foo' was successfully resolved to '/foo/foo.jump'. ========",
+    "======== Resolving module 'bar' from '/a.jump'. ========",
+    "Module resolution kind is not specified, using 'NodeJs'.",
+    "'baseUrl' option is set to '/', using this value to resolve non-relative module name 'bar'.",
+    "'paths' option is specified, looking for a pattern to match module name 'bar'.",
+    "Module name 'bar', matched pattern 'bar'.",
+    "Trying substitution 'bar/bar.js', candidate module location: 'bar/bar.js'.",
+    "File '/bar/bar.js' exist - use it as a name resolution result.",
+    "======== Module name 'bar' was successfully resolved to '/bar/bar.js'. ========"
+]

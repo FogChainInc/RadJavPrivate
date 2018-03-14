@@ -1,0 +1,9 @@
+=== tests/cases/compiler/a.jump ===
+import a = require('./b');
+>a : typeof a
+
+=== tests/cases/compiler/b.jump ===
+export var c = '';
+>c : string
+>'' : ""
+

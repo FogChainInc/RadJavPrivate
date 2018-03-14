@@ -1,0 +1,32 @@
+=== tests/cases/compiler/recursiveTypeIdentity.jump ===
+interface A {
+>A : Symbol(A, Decl(recursiveTypeIdentity.jump, 0, 0))
+
+    <T extends A>(x: T): void;
+>T : Symbol(T, Decl(recursiveTypeIdentity.jump, 1, 5))
+>A : Symbol(A, Decl(recursiveTypeIdentity.jump, 0, 0))
+>x : Symbol(x, Decl(recursiveTypeIdentity.jump, 1, 18))
+>T : Symbol(T, Decl(recursiveTypeIdentity.jump, 1, 5))
+}
+
+interface B {
+>B : Symbol(B, Decl(recursiveTypeIdentity.jump, 2, 1))
+
+    <T extends B>(x: T): void;
+>T : Symbol(T, Decl(recursiveTypeIdentity.jump, 5, 5))
+>B : Symbol(B, Decl(recursiveTypeIdentity.jump, 2, 1))
+>x : Symbol(x, Decl(recursiveTypeIdentity.jump, 5, 18))
+>T : Symbol(T, Decl(recursiveTypeIdentity.jump, 5, 5))
+}
+
+interface C {
+>C : Symbol(C, Decl(recursiveTypeIdentity.jump, 6, 1))
+
+    (x: A): void;
+>x : Symbol(x, Decl(recursiveTypeIdentity.jump, 9, 5))
+>A : Symbol(A, Decl(recursiveTypeIdentity.jump, 0, 0))
+
+    (x: B): void;
+>x : Symbol(x, Decl(recursiveTypeIdentity.jump, 10, 5))
+>B : Symbol(B, Decl(recursiveTypeIdentity.jump, 2, 1))
+}

@@ -1,0 +1,13 @@
+=== tests/cases/compiler/overloadOnConstNoNonSpecializedSignature.jump ===
+class C {
+>C : Symbol(C, Decl(overloadOnConstNoNonSpecializedSignature.jump, 0, 0))
+
+   x1(a: 'hi'); // error, no non-specialized signature in overload list
+>x1 : Symbol(C.x1, Decl(overloadOnConstNoNonSpecializedSignature.jump, 0, 9), Decl(overloadOnConstNoNonSpecializedSignature.jump, 1, 15))
+>a : Symbol(a, Decl(overloadOnConstNoNonSpecializedSignature.jump, 1, 6))
+
+   x1(a: string) { }
+>x1 : Symbol(C.x1, Decl(overloadOnConstNoNonSpecializedSignature.jump, 0, 9), Decl(overloadOnConstNoNonSpecializedSignature.jump, 1, 15))
+>a : Symbol(a, Decl(overloadOnConstNoNonSpecializedSignature.jump, 2, 6))
+}
+

@@ -1,0 +1,7 @@
+=== tests/cases/compiler/interfaceWithOptionalProperty.jump ===
+interface I {
+>I : I
+
+    x?: number;
+>x : number
+}

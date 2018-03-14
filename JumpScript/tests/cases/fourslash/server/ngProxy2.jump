@@ -1,0 +1,20 @@
+/// <reference path="../fourslash.jump"/>
+
+// @Filename: jmpconfig.json
+//// {
+////     "compilerOptions": {
+////         "plugins": [
+////             { "name": "invalidmodulename" }
+////         ]
+////     },
+////     "files": ["a.jump"]
+//// }
+
+// @Filename: a.jump
+//// let x = [1, 2];
+//// x/**/
+//// 
+
+// LS shouldn't crash/fail if a plugin fails to load
+goTo.marker();
+verify.quickInfoIs('let x: number[]');

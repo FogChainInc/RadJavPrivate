@@ -1,0 +1,12 @@
+=== tests/cases/compiler/m1.jump ===
+module foo {
+>foo : typeof foo
+
+    const enum E { X }
+>E : E
+>X : E
+}
+
+export = foo
+>foo : typeof foo
+

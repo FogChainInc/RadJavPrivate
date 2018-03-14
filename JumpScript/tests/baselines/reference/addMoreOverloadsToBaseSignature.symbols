@@ -1,0 +1,17 @@
+=== tests/cases/compiler/addMoreOverloadsToBaseSignature.jump ===
+interface Foo {
+>Foo : Symbol(Foo, Decl(addMoreOverloadsToBaseSignature.jump, 0, 0))
+
+    f(): string;
+>f : Symbol(Foo.f, Decl(addMoreOverloadsToBaseSignature.jump, 0, 15))
+}
+
+interface Bar extends Foo {
+>Bar : Symbol(Bar, Decl(addMoreOverloadsToBaseSignature.jump, 2, 1))
+>Foo : Symbol(Foo, Decl(addMoreOverloadsToBaseSignature.jump, 0, 0))
+
+    f(key: string): string;
+>f : Symbol(Bar.f, Decl(addMoreOverloadsToBaseSignature.jump, 4, 27))
+>key : Symbol(key, Decl(addMoreOverloadsToBaseSignature.jump, 5, 6))
+}
+

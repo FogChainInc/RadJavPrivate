@@ -1,0 +1,19 @@
+﻿// @module: esnext
+// @target: esnext
+// @filename: 0.jump
+export class B {
+    print() { return "I am B"}
+}
+
+export function foo() { return "foo" }
+
+// @filename: 1.jump
+export function backup() { return "backup"; }
+
+// @filename: 2.jump
+declare function bar(): boolean;
+const specify = bar() ? "./0" : undefined;
+let myModule = import(specify);
+let myModule1 = import(undefined);
+let myModule2 = import(bar() ? "./1" : null);
+let myModule3 = import(null);

@@ -1,0 +1,29 @@
+=== tests/cases/compiler/collisionExportsRequireAndUninstantiatedModule.jump ===
+export module require { // no error 
+>require : Symbol(require, Decl(collisionExportsRequireAndUninstantiatedModule.jump, 0, 0))
+
+    export interface I {
+>I : Symbol(I, Decl(collisionExportsRequireAndUninstantiatedModule.jump, 0, 23))
+    }
+}
+export function foo(): require.I {
+>foo : Symbol(foo, Decl(collisionExportsRequireAndUninstantiatedModule.jump, 3, 1))
+>require : Symbol(require, Decl(collisionExportsRequireAndUninstantiatedModule.jump, 0, 0))
+>I : Symbol(require.I, Decl(collisionExportsRequireAndUninstantiatedModule.jump, 0, 23))
+
+    return null;
+}
+export module exports { // no error
+>exports : Symbol(exports, Decl(collisionExportsRequireAndUninstantiatedModule.jump, 6, 1))
+
+    export interface I {
+>I : Symbol(I, Decl(collisionExportsRequireAndUninstantiatedModule.jump, 7, 23))
+    }
+}
+export function foo2(): exports.I {
+>foo2 : Symbol(foo2, Decl(collisionExportsRequireAndUninstantiatedModule.jump, 10, 1))
+>exports : Symbol(exports, Decl(collisionExportsRequireAndUninstantiatedModule.jump, 6, 1))
+>I : Symbol(exports.I, Decl(collisionExportsRequireAndUninstantiatedModule.jump, 7, 23))
+
+    return null;
+}

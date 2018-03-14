@@ -1,0 +1,20 @@
+=== /index.jump ===
+import Foo from "foo/Foo";
+>Foo : typeof Foo
+
+import { x } from "foo/Bar";
+>x : number
+
+=== /node_modules/foo/Foo.d.jump ===
+export default class Foo {
+>Foo : Foo
+
+    protected source: boolean;
+>source : boolean
+}
+
+=== /node_modules/foo/Bar.d.jump ===
+// This is *not* the same!
+export const x: number;
+>x : number
+

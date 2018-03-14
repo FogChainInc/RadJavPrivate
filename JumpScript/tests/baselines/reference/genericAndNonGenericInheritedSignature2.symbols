@@ -1,0 +1,24 @@
+=== tests/cases/compiler/genericAndNonGenericInheritedSignature2.jump ===
+interface Foo {
+>Foo : Symbol(Foo, Decl(genericAndNonGenericInheritedSignature2.jump, 0, 0))
+
+    f(x: any): any;
+>f : Symbol(Foo.f, Decl(genericAndNonGenericInheritedSignature2.jump, 0, 15))
+>x : Symbol(x, Decl(genericAndNonGenericInheritedSignature2.jump, 1, 6))
+}
+interface Bar {
+>Bar : Symbol(Bar, Decl(genericAndNonGenericInheritedSignature2.jump, 2, 1))
+
+    f<T>(x: T): T;
+>f : Symbol(Bar.f, Decl(genericAndNonGenericInheritedSignature2.jump, 3, 15))
+>T : Symbol(T, Decl(genericAndNonGenericInheritedSignature2.jump, 4, 6))
+>x : Symbol(x, Decl(genericAndNonGenericInheritedSignature2.jump, 4, 9))
+>T : Symbol(T, Decl(genericAndNonGenericInheritedSignature2.jump, 4, 6))
+>T : Symbol(T, Decl(genericAndNonGenericInheritedSignature2.jump, 4, 6))
+}
+interface Hello extends Bar, Foo {
+>Hello : Symbol(Hello, Decl(genericAndNonGenericInheritedSignature2.jump, 5, 1))
+>Bar : Symbol(Bar, Decl(genericAndNonGenericInheritedSignature2.jump, 2, 1))
+>Foo : Symbol(Foo, Decl(genericAndNonGenericInheritedSignature2.jump, 0, 0))
+}
+

@@ -1,0 +1,71 @@
+=== tests/cases/compiler/conditionallyDuplicateOverloadsCausedByOverloadResolution.jump ===
+declare function foo(func: (x: string, y: string) => any): boolean;
+>foo : Symbol(foo, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 0, 0), Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 0, 67))
+>func : Symbol(func, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 0, 21))
+>x : Symbol(x, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 0, 28))
+>y : Symbol(y, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 0, 38))
+
+declare function foo(func: (x: string, y: number) => any): string;
+>foo : Symbol(foo, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 0, 0), Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 0, 67))
+>func : Symbol(func, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 1, 21))
+>x : Symbol(x, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 1, 28))
+>y : Symbol(y, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 1, 38))
+
+var out = foo((x, y) => {
+>out : Symbol(out, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 3, 3))
+>foo : Symbol(foo, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 0, 0), Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 0, 67))
+>x : Symbol(x, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 3, 15))
+>y : Symbol(y, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 3, 17))
+
+    function bar(a: typeof x): void;
+>bar : Symbol(bar, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 3, 25), Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 4, 36), Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 5, 36))
+>a : Symbol(a, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 4, 17))
+>x : Symbol(x, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 3, 15))
+
+    function bar(b: typeof y): void;
+>bar : Symbol(bar, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 3, 25), Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 4, 36), Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 5, 36))
+>b : Symbol(b, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 5, 17))
+>y : Symbol(y, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 3, 17))
+
+    function bar() { }
+>bar : Symbol(bar, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 3, 25), Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 4, 36), Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 5, 36))
+
+    return bar;
+>bar : Symbol(bar, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 3, 25), Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 4, 36), Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 5, 36))
+
+});
+
+declare function foo2(func: (x: string, y: string) => any): boolean;
+>foo2 : Symbol(foo2, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 8, 3), Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 10, 68))
+>func : Symbol(func, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 10, 22))
+>x : Symbol(x, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 10, 29))
+>y : Symbol(y, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 10, 39))
+
+declare function foo2(func: (x: string, y: number) => any): string;
+>foo2 : Symbol(foo2, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 8, 3), Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 10, 68))
+>func : Symbol(func, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 11, 22))
+>x : Symbol(x, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 11, 29))
+>y : Symbol(y, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 11, 39))
+
+var out2 = foo2((x, y) => {
+>out2 : Symbol(out2, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 13, 3))
+>foo2 : Symbol(foo2, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 8, 3), Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 10, 68))
+>x : Symbol(x, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 13, 17))
+>y : Symbol(y, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 13, 19))
+
+    var bar: {
+>bar : Symbol(bar, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 14, 7))
+
+        (a: typeof x): void;
+>a : Symbol(a, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 15, 9))
+>x : Symbol(x, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 13, 17))
+
+        (b: typeof y): void;
+>b : Symbol(b, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 16, 9))
+>y : Symbol(y, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 13, 19))
+
+    };
+    return bar;
+>bar : Symbol(bar, Decl(conditionallyDuplicateOverloadsCausedByOverloadResolution.jump, 14, 7))
+
+});

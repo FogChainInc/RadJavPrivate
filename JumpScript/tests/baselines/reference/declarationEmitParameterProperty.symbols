@@ -1,0 +1,9 @@
+=== tests/cases/compiler/declarationEmitParameterProperty.jump ===
+export class Foo {
+>Foo : Symbol(Foo, Decl(declarationEmitParameterProperty.jump, 0, 0))
+
+  constructor(public bar?: string) {
+>bar : Symbol(Foo.bar, Decl(declarationEmitParameterProperty.jump, 1, 14))
+  }
+}
+

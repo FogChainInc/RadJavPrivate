@@ -1,0 +1,17 @@
+=== tests/cases/compiler/parameterPropertyInConstructor2.jump ===
+module mod {
+>mod : Symbol(mod, Decl(parameterPropertyInConstructor2.jump, 0, 0))
+
+  class Customers {
+>Customers : Symbol(Customers, Decl(parameterPropertyInConstructor2.jump, 0, 12))
+
+    constructor(public names: string);
+>names : Symbol(Customers.names, Decl(parameterPropertyInConstructor2.jump, 2, 16), Decl(parameterPropertyInConstructor2.jump, 3, 16))
+
+    constructor(public names: string, public ages: number) {
+>names : Symbol(Customers.names, Decl(parameterPropertyInConstructor2.jump, 2, 16), Decl(parameterPropertyInConstructor2.jump, 3, 16))
+>ages : Symbol(Customers.ages, Decl(parameterPropertyInConstructor2.jump, 3, 37))
+    }
+  }
+}
+

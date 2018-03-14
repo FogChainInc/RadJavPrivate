@@ -1,0 +1,17 @@
+=== tests/cases/compiler/importAsBaseClass_1.jump ===
+import Greeter = require("./importAsBaseClass_0");
+>Greeter : typeof Greeter
+
+class Hello extends Greeter { }
+>Hello : Hello
+>Greeter : typeof Greeter
+
+=== tests/cases/compiler/importAsBaseClass_0.jump ===
+export class Greeter {
+>Greeter : Greeter
+
+   greet() { return 'greet' }
+>greet : () => string
+>'greet' : "greet"
+}
+

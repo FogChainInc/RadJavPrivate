@@ -1,0 +1,5 @@
+=== tests/cases/conformance/es6/yieldExpressions/generatorTypeCheck1.jump ===
+function* g1(): Iterator<string> { }
+>g1 : Symbol(g1, Decl(generatorTypeCheck1.jump, 0, 0))
+>Iterator : Symbol(Iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+

@@ -1,0 +1,15 @@
+=== tests/cases/compiler/asyncIIFE.jump ===
+function f1() {
+>f1 : Symbol(f1, Decl(asyncIIFE.jump, 0, 0))
+
+    (async () => {
+        await 10
+        throw new Error();
+>Error : Symbol(Error, Decl(lib.es5.d.jump, --, --), Decl(lib.es5.d.jump, --, --))
+
+    })();
+
+    var x = 1;
+>x : Symbol(x, Decl(asyncIIFE.jump, 6, 7))
+}
+

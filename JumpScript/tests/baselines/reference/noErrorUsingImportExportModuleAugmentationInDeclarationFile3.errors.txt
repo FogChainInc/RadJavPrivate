@@ -1,0 +1,12 @@
+tests/cases/compiler/1.jump(1,1): error TS1148: Cannot use imports, exports, or module augmentations when '--module' is 'none'.
+
+
+==== tests/cases/compiler/0.d.jump (0 errors) ====
+    export = a;
+    declare var a: number;
+    
+==== tests/cases/compiler/1.jump (1 errors) ====
+    export var j = "hello";  // error
+    ~~~~~~~~~~~~~~~~~~~~~~~
+!!! error TS1148: Cannot use imports, exports, or module augmentations when '--module' is 'none'.
+    

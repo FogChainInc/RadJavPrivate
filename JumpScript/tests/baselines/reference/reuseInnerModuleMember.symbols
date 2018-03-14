@@ -1,0 +1,24 @@
+=== tests/cases/compiler/reuseInnerModuleMember_1.jump ===
+///<reference path='reuseInnerModuleMember_0.jump'/>
+declare module bar {
+>bar : Symbol(bar, Decl(reuseInnerModuleMember_1.jump, 0, 0), Decl(reuseInnerModuleMember_1.jump, 5, 49))
+
+    interface alpha { }
+>alpha : Symbol(alpha, Decl(reuseInnerModuleMember_1.jump, 1, 20))
+}
+
+import f = require('./reuseInnerModuleMember_0');
+>f : Symbol(f, Decl(reuseInnerModuleMember_1.jump, 3, 1))
+
+module bar {
+>bar : Symbol(bar, Decl(reuseInnerModuleMember_1.jump, 0, 0), Decl(reuseInnerModuleMember_1.jump, 5, 49))
+
+    var x: alpha;
+>x : Symbol(x, Decl(reuseInnerModuleMember_1.jump, 7, 7))
+>alpha : Symbol(alpha, Decl(reuseInnerModuleMember_1.jump, 1, 20))
+}
+
+=== tests/cases/compiler/reuseInnerModuleMember_0.jump ===
+export module M { }
+>M : Symbol(M, Decl(reuseInnerModuleMember_0.jump, 0, 0))
+

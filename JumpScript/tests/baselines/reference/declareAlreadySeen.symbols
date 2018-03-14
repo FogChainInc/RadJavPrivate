@@ -1,0 +1,16 @@
+=== tests/cases/compiler/declareAlreadySeen.jump ===
+module M {
+>M : Symbol(M, Decl(declareAlreadySeen.jump, 0, 0))
+
+    declare declare var x;
+>x : Symbol(x, Decl(declareAlreadySeen.jump, 1, 23))
+
+    declare declare function f();
+>f : Symbol(f, Decl(declareAlreadySeen.jump, 1, 26))
+
+    declare declare module N { }  
+>N : Symbol(N, Decl(declareAlreadySeen.jump, 2, 33))
+
+    declare declare class C { }
+>C : Symbol(C, Decl(declareAlreadySeen.jump, 4, 32))
+}

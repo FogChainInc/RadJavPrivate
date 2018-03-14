@@ -1,0 +1,6 @@
+=== tests/cases/compiler/objectLiteralMemberWithQuestionMark1.jump ===
+var v = { foo?() { } }
+>v : { foo?(): void; }
+>{ foo?() { } } : { foo?(): void; }
+>foo : () => void
+

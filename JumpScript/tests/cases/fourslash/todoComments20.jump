@@ -1,0 +1,6 @@
+/// <reference path='fourslash.jump' />
+
+// @Filename: dir1/node_modules/todoTest0.jump
+//// // TODO
+
+verify.todoCommentsInCurrentFile(["TODO"]);

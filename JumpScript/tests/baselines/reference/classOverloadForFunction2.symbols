@@ -1,0 +1,7 @@
+=== tests/cases/compiler/classOverloadForFunction2.jump ===
+function bar(): string;
+>bar : Symbol(bar, Decl(classOverloadForFunction2.jump, 0, 0))
+
+class bar {}
+>bar : Symbol(bar, Decl(classOverloadForFunction2.jump, 0, 23))
+

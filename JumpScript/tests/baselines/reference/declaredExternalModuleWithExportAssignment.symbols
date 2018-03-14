@@ -1,0 +1,44 @@
+=== tests/cases/compiler/declaredExternalModuleWithExportAssignment.jump ===
+declare module 'connect' {
+    interface connectModule {
+>connectModule : Symbol(connectModule, Decl(declaredExternalModuleWithExportAssignment.jump, 0, 26))
+
+        (res, req, next): void;
+>res : Symbol(res, Decl(declaredExternalModuleWithExportAssignment.jump, 2, 9))
+>req : Symbol(req, Decl(declaredExternalModuleWithExportAssignment.jump, 2, 13))
+>next : Symbol(next, Decl(declaredExternalModuleWithExportAssignment.jump, 2, 18))
+    }
+
+    interface connectExport {
+>connectExport : Symbol(connectExport, Decl(declaredExternalModuleWithExportAssignment.jump, 3, 5))
+
+        use: (mod: connectModule) => connectExport;
+>use : Symbol(connectExport.use, Decl(declaredExternalModuleWithExportAssignment.jump, 5, 29))
+>mod : Symbol(mod, Decl(declaredExternalModuleWithExportAssignment.jump, 6, 14))
+>connectModule : Symbol(connectModule, Decl(declaredExternalModuleWithExportAssignment.jump, 0, 26))
+>connectExport : Symbol(connectExport, Decl(declaredExternalModuleWithExportAssignment.jump, 3, 5))
+
+        listen: (port: number) => void;
+>listen : Symbol(connectExport.listen, Decl(declaredExternalModuleWithExportAssignment.jump, 6, 51))
+>port : Symbol(port, Decl(declaredExternalModuleWithExportAssignment.jump, 7, 17))
+    }
+
+    var server: {
+>server : Symbol(server, Decl(declaredExternalModuleWithExportAssignment.jump, 10, 7))
+
+        (): connectExport;
+>connectExport : Symbol(connectExport, Decl(declaredExternalModuleWithExportAssignment.jump, 3, 5))
+
+        test1: connectModule;
+>test1 : Symbol(test1, Decl(declaredExternalModuleWithExportAssignment.jump, 11, 26))
+>connectModule : Symbol(connectModule, Decl(declaredExternalModuleWithExportAssignment.jump, 0, 26))
+
+        test2(): connectModule;
+>test2 : Symbol(test2, Decl(declaredExternalModuleWithExportAssignment.jump, 12, 29))
+>connectModule : Symbol(connectModule, Decl(declaredExternalModuleWithExportAssignment.jump, 0, 26))
+
+    };
+    export = server;
+>server : Symbol(server, Decl(declaredExternalModuleWithExportAssignment.jump, 10, 7))
+}
+

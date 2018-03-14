@@ -1,0 +1,14 @@
+=== /a.jump ===
+/// <reference path="./declarations.d.jump" />
+import { x } from "foo";
+>x : number
+
+x;
+>x : number
+
+=== /declarations.d.jump ===
+declare module "foo" {
+    export const x: number;
+>x : number
+}
+

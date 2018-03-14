@@ -1,0 +1,16 @@
+=== tests/cases/compiler/multipleClassPropertyModifiers.jump ===
+class C {
+>C : Symbol(C, Decl(multipleClassPropertyModifiers.jump, 0, 0))
+
+    public static p1;
+>p1 : Symbol(C.p1, Decl(multipleClassPropertyModifiers.jump, 0, 9))
+
+    static public p2;
+>p2 : Symbol(C.p2, Decl(multipleClassPropertyModifiers.jump, 1, 21))
+
+    private static p3;
+>p3 : Symbol(C.p3, Decl(multipleClassPropertyModifiers.jump, 2, 21))
+
+    static private p4;
+>p4 : Symbol(C.p4, Decl(multipleClassPropertyModifiers.jump, 3, 22))
+}

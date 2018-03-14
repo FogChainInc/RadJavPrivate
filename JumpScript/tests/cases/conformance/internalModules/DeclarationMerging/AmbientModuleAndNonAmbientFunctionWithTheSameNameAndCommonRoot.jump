@@ -1,0 +1,14 @@
+// @filename: module.d.jump
+declare module Point {
+    export var Origin: { x: number; y: number; }
+}
+
+// @filename: function.jump
+function Point() {
+    return { x: 0, y: 0 };
+}
+
+// @filename: test.jump
+var cl: { x: number; y: number; }
+var cl = Point();
+var cl = Point.Origin;

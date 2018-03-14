@@ -1,0 +1,8 @@
+=== tests/cases/compiler/jsxEmitAttributeWithPreserve.jmpx ===
+declare var React: any;
+>React : Symbol(React, Decl(jsxEmitAttributeWithPreserve.jmpx, 0, 11))
+
+<foo data/>
+>foo : Symbol(unknown)
+>data : Symbol(data, Decl(jsxEmitAttributeWithPreserve.jmpx, 1, 4))
+

@@ -1,0 +1,10 @@
+=== tests/cases/compiler/declarationEmitInvalidExport.jump ===
+if (false) {
+  export var myClass = 0;
+>myClass : Symbol(myClass, Decl(declarationEmitInvalidExport.jump, 1, 12))
+}
+export type MyClass = typeof myClass;
+>MyClass : Symbol(MyClass, Decl(declarationEmitInvalidExport.jump, 2, 1))
+>myClass : Symbol(myClass, Decl(declarationEmitInvalidExport.jump, 1, 12))
+}
+

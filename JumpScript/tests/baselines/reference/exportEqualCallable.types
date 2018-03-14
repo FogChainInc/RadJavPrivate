@@ -1,0 +1,18 @@
+=== tests/cases/compiler/exportEqualCallable_1.jump ===
+///<reference path='exportEqualCallable_0.jump'/>
+import connect = require('exportEqualCallable_0');
+>connect : () => any
+
+connect();
+>connect() : any
+>connect : () => any
+
+=== tests/cases/compiler/exportEqualCallable_0.jump ===
+var server: {
+>server : () => any
+
+    (): any;
+};
+export = server;
+>server : () => any
+

@@ -1,0 +1,7 @@
+=== tests/cases/compiler/classMemberWithMissingIdentifier2.jump ===
+class C { 
+>C : Symbol(C, Decl(classMemberWithMissingIdentifier2.jump, 0, 0))
+
+    public {[name:string]:VariableDeclaration};
+> : Symbol(C[(Missing)], Decl(classMemberWithMissingIdentifier2.jump, 0, 9))
+}

@@ -1,0 +1,6 @@
+=== tests/cases/compiler/quotedAccessorName1.jump ===
+class C {
+>C : Symbol(C, Decl(quotedAccessorName1.jump, 0, 0))
+
+    get "foo"() { return 0; }
+}

@@ -1,0 +1,26 @@
+=== tests/cases/compiler/staticInterfaceAssignmentCompat.jump ===
+class Shape {
+>Shape : Symbol(Shape, Decl(staticInterfaceAssignmentCompat.jump, 0, 0))
+
+    static create(): Shape {
+>create : Symbol(Shape.create, Decl(staticInterfaceAssignmentCompat.jump, 0, 13))
+>Shape : Symbol(Shape, Decl(staticInterfaceAssignmentCompat.jump, 0, 0))
+
+        return new Shape();
+>Shape : Symbol(Shape, Decl(staticInterfaceAssignmentCompat.jump, 0, 0))
+    }
+}
+
+interface ShapeFactory {
+>ShapeFactory : Symbol(ShapeFactory, Decl(staticInterfaceAssignmentCompat.jump, 4, 1))
+
+    create(): Shape;
+>create : Symbol(ShapeFactory.create, Decl(staticInterfaceAssignmentCompat.jump, 6, 24))
+>Shape : Symbol(Shape, Decl(staticInterfaceAssignmentCompat.jump, 0, 0))
+}
+
+var x: ShapeFactory = Shape;
+>x : Symbol(x, Decl(staticInterfaceAssignmentCompat.jump, 10, 3))
+>ShapeFactory : Symbol(ShapeFactory, Decl(staticInterfaceAssignmentCompat.jump, 4, 1))
+>Shape : Symbol(Shape, Decl(staticInterfaceAssignmentCompat.jump, 0, 0))
+

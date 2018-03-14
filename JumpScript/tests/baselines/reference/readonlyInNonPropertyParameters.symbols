@@ -1,0 +1,20 @@
+=== tests/cases/compiler/readonlyInNonPropertyParameters.jump ===
+// `readonly` won't work outside of property parameters
+class X {
+>X : Symbol(X, Decl(readonlyInNonPropertyParameters.jump, 0, 0))
+
+	method(readonly x: number) {}
+>method : Symbol(X.method, Decl(readonlyInNonPropertyParameters.jump, 1, 9))
+>x : Symbol(x, Decl(readonlyInNonPropertyParameters.jump, 2, 8))
+
+	set x(readonly value: number) {}
+>x : Symbol(X.x, Decl(readonlyInNonPropertyParameters.jump, 2, 30))
+>value : Symbol(value, Decl(readonlyInNonPropertyParameters.jump, 3, 7))
+}
+(readonly x) => 0;
+>x : Symbol(x, Decl(readonlyInNonPropertyParameters.jump, 5, 1))
+
+// OK to use `readonly` as a name
+(readonly) => 0;
+>readonly : Symbol(readonly, Decl(readonlyInNonPropertyParameters.jump, 7, 1))
+

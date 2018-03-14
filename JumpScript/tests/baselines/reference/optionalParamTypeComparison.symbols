@@ -1,0 +1,19 @@
+=== tests/cases/compiler/optionalParamTypeComparison.jump ===
+var f: (s: string, n?: number) => void;
+>f : Symbol(f, Decl(optionalParamTypeComparison.jump, 0, 3))
+>s : Symbol(s, Decl(optionalParamTypeComparison.jump, 0, 8))
+>n : Symbol(n, Decl(optionalParamTypeComparison.jump, 0, 18))
+
+var g: (s: string, b?: boolean) => void;
+>g : Symbol(g, Decl(optionalParamTypeComparison.jump, 1, 3))
+>s : Symbol(s, Decl(optionalParamTypeComparison.jump, 1, 8))
+>b : Symbol(b, Decl(optionalParamTypeComparison.jump, 1, 18))
+
+f = g;
+>f : Symbol(f, Decl(optionalParamTypeComparison.jump, 0, 3))
+>g : Symbol(g, Decl(optionalParamTypeComparison.jump, 1, 3))
+
+g = f;
+>g : Symbol(g, Decl(optionalParamTypeComparison.jump, 1, 3))
+>f : Symbol(f, Decl(optionalParamTypeComparison.jump, 0, 3))
+

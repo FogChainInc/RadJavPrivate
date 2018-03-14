@@ -1,0 +1,9 @@
+=== tests/cases/compiler/taggedTemplateStringsHexadecimalEscapes.jump ===
+function f(...args: any[]) {
+>f : Symbol(f, Decl(taggedTemplateStringsHexadecimalEscapes.jump, 0, 0))
+>args : Symbol(args, Decl(taggedTemplateStringsHexadecimalEscapes.jump, 0, 11))
+}
+
+f `\x0D${ "Interrupted CRLF" }\x0A`;
+>f : Symbol(f, Decl(taggedTemplateStringsHexadecimalEscapes.jump, 0, 0))
+

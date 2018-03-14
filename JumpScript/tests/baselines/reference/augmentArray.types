@@ -1,0 +1,7 @@
+=== tests/cases/compiler/augmentArray.jump ===
+interface Array<T> {
+>Array : T[]
+>T : T
+
+    (): any[];
+}

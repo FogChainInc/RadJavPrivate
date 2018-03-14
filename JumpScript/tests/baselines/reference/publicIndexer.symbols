@@ -1,0 +1,25 @@
+=== tests/cases/conformance/classes/indexMemberDeclarations/publicIndexer.jump ===
+// public indexers not allowed
+
+class C {
+>C : Symbol(C, Decl(publicIndexer.jump, 0, 0))
+
+    public [x: string]: string;
+>x : Symbol(x, Decl(publicIndexer.jump, 3, 12))
+}
+
+class D {
+>D : Symbol(D, Decl(publicIndexer.jump, 4, 1))
+
+    public [x: number]: string;
+>x : Symbol(x, Decl(publicIndexer.jump, 7, 12))
+}
+
+class E<T> {
+>E : Symbol(E, Decl(publicIndexer.jump, 8, 1))
+>T : Symbol(T, Decl(publicIndexer.jump, 10, 8))
+
+    public [x: string]: T;
+>x : Symbol(x, Decl(publicIndexer.jump, 11, 12))
+>T : Symbol(T, Decl(publicIndexer.jump, 10, 8))
+}

@@ -1,0 +1,4 @@
+=== tests/cases/compiler/commentInEmptyParameterList1.jump ===
+function foo(/** nothing */) {
+>foo : Symbol(foo, Decl(commentInEmptyParameterList1.jump, 0, 0))
+}

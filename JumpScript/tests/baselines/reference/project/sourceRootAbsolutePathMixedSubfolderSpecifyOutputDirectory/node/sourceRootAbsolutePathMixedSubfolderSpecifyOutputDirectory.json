@@ -1,0 +1,30 @@
+{
+    "scenario": "[Sourcemap]/[Sourceroot-AbsolutePath]: outputdir_mixed_subfolder: specify outputDirectory",
+    "projectRoot": "tests/cases/projects/outputdir_mixed_subfolder",
+    "inputFiles": [
+        "test.jump"
+    ],
+    "outDir": "outdir/simple",
+    "sourceMap": true,
+    "declaration": true,
+    "baselineCheck": true,
+    "sourceRoot": "tests/cases/projects/outputdir_mixed_subfolder/src",
+    "resolveSourceRoot": true,
+    "resolvedInputFiles": [
+        "lib.d.jump",
+        "ref/m1.jump",
+        "ref/m2.jump",
+        "test.jump"
+    ],
+    "emittedFiles": [
+        "outdir/simple/ref/m1.js.map",
+        "outdir/simple/ref/m1.js",
+        "outdir/simple/ref/m1.d.jump",
+        "outdir/simple/ref/m2.js.map",
+        "outdir/simple/ref/m2.js",
+        "outdir/simple/ref/m2.d.jump",
+        "outdir/simple/test.js.map",
+        "outdir/simple/test.js",
+        "outdir/simple/test.d.jump"
+    ]
+}

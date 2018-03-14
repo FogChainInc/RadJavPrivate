@@ -1,0 +1,17 @@
+=== tests/cases/compiler/undefinedInferentialTyping.jump ===
+function f<T>(arr: T[], elemnt: T): T {
+>f : Symbol(f, Decl(undefinedInferentialTyping.jump, 0, 0))
+>T : Symbol(T, Decl(undefinedInferentialTyping.jump, 0, 11))
+>arr : Symbol(arr, Decl(undefinedInferentialTyping.jump, 0, 14))
+>T : Symbol(T, Decl(undefinedInferentialTyping.jump, 0, 11))
+>elemnt : Symbol(elemnt, Decl(undefinedInferentialTyping.jump, 0, 23))
+>T : Symbol(T, Decl(undefinedInferentialTyping.jump, 0, 11))
+>T : Symbol(T, Decl(undefinedInferentialTyping.jump, 0, 11))
+
+    return null;
+}
+
+var a = f([], 3); // should be number
+>a : Symbol(a, Decl(undefinedInferentialTyping.jump, 4, 3))
+>f : Symbol(f, Decl(undefinedInferentialTyping.jump, 0, 0))
+

@@ -1,0 +1,13 @@
+=== tests/cases/compiler/functionWithNoBestCommonType2.jump ===
+var v = function () {
+>v : Symbol(v, Decl(functionWithNoBestCommonType2.jump, 0, 3))
+
+   return true;
+   return bar();
+>bar : Symbol(bar, Decl(functionWithNoBestCommonType2.jump, 3, 2))
+
+};
+
+function bar(): void {
+>bar : Symbol(bar, Decl(functionWithNoBestCommonType2.jump, 3, 2))
+}

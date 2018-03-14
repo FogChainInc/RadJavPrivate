@@ -1,0 +1,7 @@
+=== tests/cases/conformance/parser/ecmascript5/MemberVariableDeclarations/parserMemberVariableDeclaration3.jump ===
+class C {
+>C : Symbol(C, Decl(parserMemberVariableDeclaration3.jump, 0, 0))
+
+  static public Foo;
+>Foo : Symbol(C.Foo, Decl(parserMemberVariableDeclaration3.jump, 0, 9))
+}

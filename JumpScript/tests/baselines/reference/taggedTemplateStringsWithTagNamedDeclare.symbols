@@ -1,0 +1,10 @@
+=== tests/cases/conformance/es6/templates/taggedTemplateStringsWithTagNamedDeclare.jump ===
+function declare(x: any, ...ys: any[]) {
+>declare : Symbol(declare, Decl(taggedTemplateStringsWithTagNamedDeclare.jump, 0, 0))
+>x : Symbol(x, Decl(taggedTemplateStringsWithTagNamedDeclare.jump, 0, 17))
+>ys : Symbol(ys, Decl(taggedTemplateStringsWithTagNamedDeclare.jump, 0, 24))
+}
+
+declare `Hello ${0} world!`;
+>declare : Symbol(declare, Decl(taggedTemplateStringsWithTagNamedDeclare.jump, 0, 0))
+

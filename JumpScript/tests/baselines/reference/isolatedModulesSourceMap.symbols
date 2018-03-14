@@ -1,0 +1,4 @@
+=== tests/cases/compiler/file1.jump ===
+export var x = 1;
+>x : Symbol(x, Decl(file1.jump, 0, 10))
+

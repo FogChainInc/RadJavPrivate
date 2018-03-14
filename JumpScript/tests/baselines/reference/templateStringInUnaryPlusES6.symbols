@@ -1,0 +1,4 @@
+=== tests/cases/conformance/es6/templates/templateStringInUnaryPlusES6.jump ===
+var x = +`abc${ 123 }def`;
+>x : Symbol(x, Decl(templateStringInUnaryPlusES6.jump, 0, 3))
+

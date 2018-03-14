@@ -1,0 +1,8 @@
+{
+    "scenario": "relative - global",
+    "projectRoot": "tests/cases/projects/relative-global",
+    "inputFiles": [
+        "consume.jump"
+    ],
+    "runTest": true
+}

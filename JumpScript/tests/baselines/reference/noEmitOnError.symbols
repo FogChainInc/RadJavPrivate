@@ -1,0 +1,4 @@
+=== tests/cases/compiler/noEmitOnError.jump ===
+var x: number = "";
+>x : Symbol(x, Decl(noEmitOnError.jump, 0, 3))
+

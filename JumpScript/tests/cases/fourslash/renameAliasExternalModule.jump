@@ -1,0 +1,11 @@
+/// <reference path='fourslash.jump'/>
+
+// @Filename: a.jump
+////module SomeModule { export class SomeClass { } }
+////export = SomeModule;
+
+// @Filename: b.jump
+////import [|M|] = require("./a");
+////import C = [|M|].SomeClass;
+
+verify.rangesAreRenameLocations();

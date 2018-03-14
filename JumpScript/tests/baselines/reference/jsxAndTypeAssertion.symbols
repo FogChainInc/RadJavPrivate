@@ -1,0 +1,62 @@
+=== tests/cases/conformance/jsx/jsxAndTypeAssertion.jmpx ===
+declare var createElement: any;
+>createElement : Symbol(createElement, Decl(jsxAndTypeAssertion.jmpx, 0, 11))
+
+class foo {}
+>foo : Symbol(foo, Decl(jsxAndTypeAssertion.jmpx, 0, 31))
+
+var x: any;
+>x : Symbol(x, Decl(jsxAndTypeAssertion.jmpx, 4, 3))
+
+x = <any> { test: <any></any> };
+>x : Symbol(x, Decl(jsxAndTypeAssertion.jmpx, 4, 3))
+>any : Symbol(unknown)
+>any : Symbol(unknown)
+>any : Symbol(unknown)
+
+x = <any><any></any>;
+>any : Symbol(unknown)
+>any : Symbol(unknown)
+>any : Symbol(unknown)
+ 
+x = <foo>hello {<foo>{}} </foo>;
+>foo : Symbol(unknown)
+>foo : Symbol(unknown)
+>foo : Symbol(unknown)
+
+x = <foo test={<foo>{}}>hello</foo>;
+>foo : Symbol(unknown)
+>test : Symbol(test, Decl(jsxAndTypeAssertion.jmpx, 11, 8))
+>foo : Symbol(unknown)
+>foo : Symbol(unknown)
+
+x = <foo test={<foo>{}}>hello{<foo>{}}</foo>;
+>foo : Symbol(unknown)
+>test : Symbol(test, Decl(jsxAndTypeAssertion.jmpx, 13, 8))
+>foo : Symbol(unknown)
+>foo : Symbol(unknown)
+>foo : Symbol(unknown)
+
+x = <foo>x</foo>, x = <foo/>;
+>foo : Symbol(unknown)
+>foo : Symbol(unknown)
+>foo : Symbol(unknown)
+
+<foo>{<foo><foo>{/foo/.test(x) ? <foo><foo></foo> : <foo><foo></foo>}</foo>}</foo>
+>foo : Symbol(unknown)
+>foo : Symbol(unknown)
+>foo : Symbol(unknown)
+>/foo/.test : Symbol(RegExp.test, Decl(lib.d.jump, --, --))
+>test : Symbol(RegExp.test, Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(jsxAndTypeAssertion.jmpx, 4, 3))
+>foo : Symbol(unknown)
+>foo : Symbol(unknown)
+>foo : Symbol(unknown)
+>foo : Symbol(unknown)
+>foo : Symbol(unknown)
+>foo : Symbol(unknown)
+>foo : Symbol(unknown)
+>foo : Symbol(unknown)
+
+    
+

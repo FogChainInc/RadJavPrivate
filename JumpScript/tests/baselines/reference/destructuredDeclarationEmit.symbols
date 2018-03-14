@@ -1,0 +1,73 @@
+=== tests/cases/compiler/foo.jump ===
+const foo = { bar: 'hello', bat: 'world', bam: { bork: { bar: 'a', baz: 'b' } } };
+>foo : Symbol(foo, Decl(foo.jump, 0, 5))
+>bar : Symbol(bar, Decl(foo.jump, 0, 13))
+>bat : Symbol(bat, Decl(foo.jump, 0, 27))
+>bam : Symbol(bam, Decl(foo.jump, 0, 41))
+>bork : Symbol(bork, Decl(foo.jump, 0, 48))
+>bar : Symbol(bar, Decl(foo.jump, 0, 56))
+>baz : Symbol(baz, Decl(foo.jump, 0, 66))
+
+const arr: [0, 1, 2, ['a', 'b', 'c', [{def: 'def'}, {sec: 'sec'}]]] = [0, 1, 2, ['a', 'b', 'c', [{def: 'def'}, {sec: 'sec'}]]];
+>arr : Symbol(arr, Decl(foo.jump, 1, 5))
+>def : Symbol(def, Decl(foo.jump, 1, 39))
+>sec : Symbol(sec, Decl(foo.jump, 1, 53))
+>def : Symbol(def, Decl(foo.jump, 1, 98))
+>sec : Symbol(sec, Decl(foo.jump, 1, 112))
+
+export { foo, arr };
+>foo : Symbol(foo, Decl(foo.jump, 2, 8))
+>arr : Symbol(arr, Decl(foo.jump, 2, 13))
+
+=== tests/cases/compiler/index.jump ===
+import { foo, arr } from './foo';
+>foo : Symbol(foo, Decl(index.jump, 0, 8))
+>arr : Symbol(arr, Decl(index.jump, 0, 13))
+
+export { foo, arr };
+>foo : Symbol(foo, Decl(index.jump, 1, 8))
+>arr : Symbol(arr, Decl(index.jump, 1, 13))
+
+const { bar: baz, bat, bam: { bork: { bar: ibar, baz: ibaz } } } = foo;
+>bar : Symbol(bar, Decl(foo.jump, 0, 13))
+>baz : Symbol(baz, Decl(index.jump, 3, 7))
+>bat : Symbol(bat, Decl(index.jump, 3, 17))
+>bam : Symbol(bam, Decl(foo.jump, 0, 41))
+>bork : Symbol(bork, Decl(foo.jump, 0, 48))
+>bar : Symbol(bar, Decl(foo.jump, 0, 56))
+>ibar : Symbol(ibar, Decl(index.jump, 3, 37))
+>baz : Symbol(baz, Decl(foo.jump, 0, 66))
+>ibaz : Symbol(ibaz, Decl(index.jump, 3, 48))
+>foo : Symbol(foo, Decl(index.jump, 0, 8))
+
+export { baz, ibaz };
+>baz : Symbol(baz, Decl(index.jump, 4, 8))
+>ibaz : Symbol(ibaz, Decl(index.jump, 4, 13))
+
+const [ , one, , [, bee, , [, {sec} ]]] = arr;
+>one : Symbol(one, Decl(index.jump, 6, 9))
+>bee : Symbol(bee, Decl(index.jump, 6, 19))
+>sec : Symbol(sec, Decl(index.jump, 6, 31))
+>arr : Symbol(arr, Decl(index.jump, 0, 13))
+
+export { one, bee, sec };
+>one : Symbol(one, Decl(index.jump, 7, 8))
+>bee : Symbol(bee, Decl(index.jump, 7, 13))
+>sec : Symbol(sec, Decl(index.jump, 7, 18))
+
+const getFoo = () => ({
+>getFoo : Symbol(getFoo, Decl(index.jump, 9, 5))
+
+    foo: 'foo'
+>foo : Symbol(foo, Decl(index.jump, 9, 23))
+
+});
+
+const { foo: foo2 } = getFoo();
+>foo : Symbol(foo, Decl(index.jump, 9, 23))
+>foo2 : Symbol(foo2, Decl(index.jump, 13, 7))
+>getFoo : Symbol(getFoo, Decl(index.jump, 9, 5))
+
+export { foo2 };
+>foo2 : Symbol(foo2, Decl(index.jump, 14, 8))
+

@@ -1,0 +1,5 @@
+=== tests/cases/conformance/types/primitives/null/directReferenceToNull.jump ===
+var x: Null;
+>x : any
+>Null : No type information available!
+

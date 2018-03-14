@@ -1,0 +1,146 @@
+=== tests/cases/compiler/underscoreMapFirst.jump ===
+declare module _ {
+>_ : Symbol(_, Decl(underscoreMapFirst.jump, 0, 0))
+
+    interface Collection<T> { }
+>Collection : Symbol(Collection, Decl(underscoreMapFirst.jump, 0, 18))
+>T : Symbol(T, Decl(underscoreMapFirst.jump, 1, 25))
+
+    interface List<T> extends Collection<T> {
+>List : Symbol(List, Decl(underscoreMapFirst.jump, 1, 31))
+>T : Symbol(T, Decl(underscoreMapFirst.jump, 2, 19))
+>Collection : Symbol(Collection, Decl(underscoreMapFirst.jump, 0, 18))
+>T : Symbol(T, Decl(underscoreMapFirst.jump, 2, 19))
+
+        [index: number]: T;
+>index : Symbol(index, Decl(underscoreMapFirst.jump, 3, 9))
+>T : Symbol(T, Decl(underscoreMapFirst.jump, 2, 19))
+
+        length: number;
+>length : Symbol(List.length, Decl(underscoreMapFirst.jump, 3, 27))
+    }
+
+    interface ListIterator<T, TResult> {
+>ListIterator : Symbol(ListIterator, Decl(underscoreMapFirst.jump, 5, 5))
+>T : Symbol(T, Decl(underscoreMapFirst.jump, 7, 27))
+>TResult : Symbol(TResult, Decl(underscoreMapFirst.jump, 7, 29))
+
+        (value: T, index: number, list: T[]): TResult;
+>value : Symbol(value, Decl(underscoreMapFirst.jump, 8, 9))
+>T : Symbol(T, Decl(underscoreMapFirst.jump, 7, 27))
+>index : Symbol(index, Decl(underscoreMapFirst.jump, 8, 18))
+>list : Symbol(list, Decl(underscoreMapFirst.jump, 8, 33))
+>T : Symbol(T, Decl(underscoreMapFirst.jump, 7, 27))
+>TResult : Symbol(TResult, Decl(underscoreMapFirst.jump, 7, 29))
+    }
+
+    interface Dictionary<T> extends Collection<T> {
+>Dictionary : Symbol(Dictionary, Decl(underscoreMapFirst.jump, 9, 5))
+>T : Symbol(T, Decl(underscoreMapFirst.jump, 11, 25))
+>Collection : Symbol(Collection, Decl(underscoreMapFirst.jump, 0, 18))
+>T : Symbol(T, Decl(underscoreMapFirst.jump, 11, 25))
+
+        [index: string]: T;
+>index : Symbol(index, Decl(underscoreMapFirst.jump, 12, 9))
+>T : Symbol(T, Decl(underscoreMapFirst.jump, 11, 25))
+    }
+    export function pluck<T extends {}>(
+>pluck : Symbol(pluck, Decl(underscoreMapFirst.jump, 13, 5))
+>T : Symbol(T, Decl(underscoreMapFirst.jump, 14, 26))
+
+        list: Collection<T>,
+>list : Symbol(list, Decl(underscoreMapFirst.jump, 14, 40))
+>Collection : Symbol(Collection, Decl(underscoreMapFirst.jump, 0, 18))
+>T : Symbol(T, Decl(underscoreMapFirst.jump, 14, 26))
+
+        propertyName: string): any[];
+>propertyName : Symbol(propertyName, Decl(underscoreMapFirst.jump, 15, 28))
+
+    export function map<T, TResult>(
+>map : Symbol(map, Decl(underscoreMapFirst.jump, 16, 37))
+>T : Symbol(T, Decl(underscoreMapFirst.jump, 18, 24))
+>TResult : Symbol(TResult, Decl(underscoreMapFirst.jump, 18, 26))
+
+        list: List<T>,
+>list : Symbol(list, Decl(underscoreMapFirst.jump, 18, 36))
+>List : Symbol(List, Decl(underscoreMapFirst.jump, 1, 31))
+>T : Symbol(T, Decl(underscoreMapFirst.jump, 18, 24))
+
+        iterator: ListIterator<T, TResult>,
+>iterator : Symbol(iterator, Decl(underscoreMapFirst.jump, 19, 22))
+>ListIterator : Symbol(ListIterator, Decl(underscoreMapFirst.jump, 5, 5))
+>T : Symbol(T, Decl(underscoreMapFirst.jump, 18, 24))
+>TResult : Symbol(TResult, Decl(underscoreMapFirst.jump, 18, 26))
+
+        context?: any): TResult[];
+>context : Symbol(context, Decl(underscoreMapFirst.jump, 20, 43))
+>TResult : Symbol(TResult, Decl(underscoreMapFirst.jump, 18, 26))
+
+    export function first<T>(array: List<T>): T;
+>first : Symbol(first, Decl(underscoreMapFirst.jump, 21, 34))
+>T : Symbol(T, Decl(underscoreMapFirst.jump, 23, 26))
+>array : Symbol(array, Decl(underscoreMapFirst.jump, 23, 29))
+>List : Symbol(List, Decl(underscoreMapFirst.jump, 1, 31))
+>T : Symbol(T, Decl(underscoreMapFirst.jump, 23, 26))
+>T : Symbol(T, Decl(underscoreMapFirst.jump, 23, 26))
+}
+
+declare class View {
+>View : Symbol(View, Decl(underscoreMapFirst.jump, 24, 1))
+
+    model: any;
+>model : Symbol(View.model, Decl(underscoreMapFirst.jump, 26, 20))
+}
+
+interface IData {
+>IData : Symbol(IData, Decl(underscoreMapFirst.jump, 28, 1))
+
+    series: ISeries[];
+>series : Symbol(IData.series, Decl(underscoreMapFirst.jump, 30, 17))
+>ISeries : Symbol(ISeries, Decl(underscoreMapFirst.jump, 32, 1))
+}
+
+interface ISeries {
+>ISeries : Symbol(ISeries, Decl(underscoreMapFirst.jump, 32, 1))
+
+    items: any[];
+>items : Symbol(ISeries.items, Decl(underscoreMapFirst.jump, 34, 19))
+
+    key: string;
+>key : Symbol(ISeries.key, Decl(underscoreMapFirst.jump, 35, 17))
+}
+
+class MyView extends View {
+>MyView : Symbol(MyView, Decl(underscoreMapFirst.jump, 37, 1))
+>View : Symbol(View, Decl(underscoreMapFirst.jump, 24, 1))
+
+    public getDataSeries(): ISeries[] {
+>getDataSeries : Symbol(MyView.getDataSeries, Decl(underscoreMapFirst.jump, 39, 27))
+>ISeries : Symbol(ISeries, Decl(underscoreMapFirst.jump, 32, 1))
+
+        var data: IData[] = this.model.get("data");
+>data : Symbol(data, Decl(underscoreMapFirst.jump, 41, 11))
+>IData : Symbol(IData, Decl(underscoreMapFirst.jump, 28, 1))
+>this.model : Symbol(View.model, Decl(underscoreMapFirst.jump, 26, 20))
+>this : Symbol(MyView, Decl(underscoreMapFirst.jump, 37, 1))
+>model : Symbol(View.model, Decl(underscoreMapFirst.jump, 26, 20))
+
+        var allSeries: ISeries[][] = _.pluck(data, "series");
+>allSeries : Symbol(allSeries, Decl(underscoreMapFirst.jump, 42, 11))
+>ISeries : Symbol(ISeries, Decl(underscoreMapFirst.jump, 32, 1))
+>_.pluck : Symbol(_.pluck, Decl(underscoreMapFirst.jump, 13, 5))
+>_ : Symbol(_, Decl(underscoreMapFirst.jump, 0, 0))
+>pluck : Symbol(_.pluck, Decl(underscoreMapFirst.jump, 13, 5))
+>data : Symbol(data, Decl(underscoreMapFirst.jump, 41, 11))
+
+        return _.map(allSeries, _.first);
+>_.map : Symbol(_.map, Decl(underscoreMapFirst.jump, 16, 37))
+>_ : Symbol(_, Decl(underscoreMapFirst.jump, 0, 0))
+>map : Symbol(_.map, Decl(underscoreMapFirst.jump, 16, 37))
+>allSeries : Symbol(allSeries, Decl(underscoreMapFirst.jump, 42, 11))
+>_.first : Symbol(_.first, Decl(underscoreMapFirst.jump, 21, 34))
+>_ : Symbol(_, Decl(underscoreMapFirst.jump, 0, 0))
+>first : Symbol(_.first, Decl(underscoreMapFirst.jump, 21, 34))
+    }
+}
+

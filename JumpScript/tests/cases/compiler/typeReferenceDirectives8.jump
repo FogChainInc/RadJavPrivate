@@ -1,0 +1,19 @@
+// @noImplicitReferences: true
+// @declaration: true
+// @typeRoots: /types
+// @traceResolution: true
+// @types: lib
+// @currentDirectory: /
+
+// @filename: /types/lib/index.d.jump
+
+interface Lib { x }
+
+// @filename: /mod1.jump
+
+export function foo(): Lib { return {x: 1} }
+
+// @filename: /mod2.jump
+
+import {foo} from "./mod1";
+export const bar = foo();

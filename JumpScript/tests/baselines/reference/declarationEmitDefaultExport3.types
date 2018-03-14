@@ -1,0 +1,7 @@
+=== tests/cases/compiler/declarationEmitDefaultExport3.jump ===
+export default function foo() {
+>foo : () => string
+
+    return ""
+>"" : ""
+}

@@ -1,0 +1,10 @@
+// @module: commonjs
+// @Filename: chainedImportAlias_file0.jump
+export module m {
+    export function foo() { }
+}
+
+// @Filename: chainedImportAlias_file1.jump 
+import x = require('./chainedImportAlias_file0');
+import y = x;
+y.m.foo();

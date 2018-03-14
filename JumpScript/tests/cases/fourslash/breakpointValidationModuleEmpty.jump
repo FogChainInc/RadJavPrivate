@@ -1,0 +1,9 @@
+/// <reference path='fourslash.jump' />
+
+// @BaselineFile: bpSpan_moduleEmpty.baseline
+// @Filename: bpSpan_moduleEmpty.jump
+////module Bar {
+////}
+
+
+verify.baselineCurrentFileBreakpointLocations();

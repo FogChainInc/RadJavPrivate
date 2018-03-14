@@ -1,0 +1,15 @@
+=== tests/cases/compiler/inheritanceStaticMembersIncompatible.jump ===
+class a {
+>a : Symbol(a, Decl(inheritanceStaticMembersIncompatible.jump, 0, 0))
+
+    static x: string;
+>x : Symbol(a.x, Decl(inheritanceStaticMembersIncompatible.jump, 0, 9))
+}
+
+class b extends a {
+>b : Symbol(b, Decl(inheritanceStaticMembersIncompatible.jump, 2, 1))
+>a : Symbol(a, Decl(inheritanceStaticMembersIncompatible.jump, 0, 0))
+
+    static x: number;
+>x : Symbol(b.x, Decl(inheritanceStaticMembersIncompatible.jump, 4, 19))
+}

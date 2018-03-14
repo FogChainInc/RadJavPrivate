@@ -1,0 +1,16 @@
+=== tests/cases/compiler/systemModule7.jump ===
+// filename: instantiatedModule.jump
+export module M {
+>M : Symbol(M, Decl(systemModule7.jump, 0, 0), Decl(systemModule7.jump, 3, 1))
+
+    var x = 1;
+>x : Symbol(x, Decl(systemModule7.jump, 2, 7))
+}
+
+// filename: nonInstantiatedModule.jump
+export module M {
+>M : Symbol(M, Decl(systemModule7.jump, 0, 0), Decl(systemModule7.jump, 3, 1))
+
+    interface I {}
+>I : Symbol(I, Decl(systemModule7.jump, 6, 17))
+}

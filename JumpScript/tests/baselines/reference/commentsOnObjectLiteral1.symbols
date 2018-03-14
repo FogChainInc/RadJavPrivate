@@ -1,0 +1,10 @@
+=== tests/cases/compiler/commentsOnObjectLiteral1.jump ===
+var Person = makeClass( 
+>Person : Symbol(Person, Decl(commentsOnObjectLiteral1.jump, 0, 3))
+
+   /** 
+     @scope Person 
+   */ 
+   {
+   } 
+);

@@ -1,0 +1,8 @@
+=== tests/cases/compiler/abstractInterfaceIdentifierName.jump ===
+interface abstract {
+>abstract : Symbol(abstract, Decl(abstractInterfaceIdentifierName.jump, 0, 0))
+
+    abstract(): void;
+>abstract : Symbol(abstract.abstract, Decl(abstractInterfaceIdentifierName.jump, 0, 20))
+}
+

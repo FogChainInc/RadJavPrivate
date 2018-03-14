@@ -1,0 +1,193 @@
+=== tests/cases/compiler/functionsMissingReturnStatementsAndExpressions.jump ===
+function f1(): string {
+>f1 : Symbol(f1, Decl(functionsMissingReturnStatementsAndExpressions.jump, 0, 0))
+
+    // errors because there are no return statements
+}
+
+function f2(): string {
+>f2 : Symbol(f2, Decl(functionsMissingReturnStatementsAndExpressions.jump, 2, 1))
+
+    // Permissible; returns undefined.
+    return;
+}
+
+function f3(): string {
+>f3 : Symbol(f3, Decl(functionsMissingReturnStatementsAndExpressions.jump, 7, 1))
+
+    return "Okay, because this is a return expression.";
+}
+
+function f4(): void {
+>f4 : Symbol(f4, Decl(functionsMissingReturnStatementsAndExpressions.jump, 11, 1))
+
+    // Fine since we are typed void.
+}
+
+function f5(): void {
+>f5 : Symbol(f5, Decl(functionsMissingReturnStatementsAndExpressions.jump, 15, 1))
+
+    // Fine since we are typed void.
+    return;
+}
+
+function f6(): void {
+>f6 : Symbol(f6, Decl(functionsMissingReturnStatementsAndExpressions.jump, 20, 1))
+
+    // Fine since we are typed void and return undefined
+    return undefined;
+>undefined : Symbol(undefined)
+}
+
+function f7(): void {
+>f7 : Symbol(f7, Decl(functionsMissingReturnStatementsAndExpressions.jump, 25, 1))
+
+    // Fine since we are typed void and return null
+    return null;
+}
+
+function f8(): void {
+>f8 : Symbol(f8, Decl(functionsMissingReturnStatementsAndExpressions.jump, 30, 1))
+
+    // Fine since are typed any.
+    return;
+}
+
+function f9(): void {
+>f9 : Symbol(f9, Decl(functionsMissingReturnStatementsAndExpressions.jump, 35, 1))
+
+    // Fine since we are typed any and return undefined
+    return undefined;
+>undefined : Symbol(undefined)
+}
+
+function f10(): void {
+>f10 : Symbol(f10, Decl(functionsMissingReturnStatementsAndExpressions.jump, 40, 1))
+
+    // Fine since we are typed any and return null
+    return null;
+}
+
+function f11(): string {
+>f11 : Symbol(f11, Decl(functionsMissingReturnStatementsAndExpressions.jump, 45, 1))
+
+    // Fine since we consist of a single throw statement.
+    throw undefined;
+>undefined : Symbol(undefined)
+}
+
+function f12(): void {
+>f12 : Symbol(f12, Decl(functionsMissingReturnStatementsAndExpressions.jump, 50, 1))
+
+    // Fine since we consist of a single throw statement.
+    throw undefined;
+>undefined : Symbol(undefined)
+}
+
+function f13(): any {
+>f13 : Symbol(f13, Decl(functionsMissingReturnStatementsAndExpressions.jump, 55, 1))
+
+    // Fine since we consist of a single throw statement.
+    throw undefined;
+>undefined : Symbol(undefined)
+}
+
+function f14(): number {
+>f14 : Symbol(f14, Decl(functionsMissingReturnStatementsAndExpressions.jump, 60, 1))
+
+    // Not fine, since we can *only* consist of a single throw statement
+    // if no return statements are present but we are annotated.
+    throw undefined;
+>undefined : Symbol(undefined)
+
+    throw null;
+}
+
+function f15(): number {
+>f15 : Symbol(f15, Decl(functionsMissingReturnStatementsAndExpressions.jump, 67, 1))
+
+    // Fine, since we have a return statement somewhere.
+    throw undefined;
+>undefined : Symbol(undefined)
+
+    throw null;
+    return;
+}
+
+
+function f16() {
+>f16 : Symbol(f16, Decl(functionsMissingReturnStatementsAndExpressions.jump, 74, 1))
+
+    // Okay; not type annotated.
+}
+
+function f17() {
+>f17 : Symbol(f17, Decl(functionsMissingReturnStatementsAndExpressions.jump, 79, 1))
+
+    // Okay; not type annotated.
+    return;
+}
+
+function f18() {
+>f18 : Symbol(f18, Decl(functionsMissingReturnStatementsAndExpressions.jump, 84, 1))
+
+    return "Okay, not type annotated.";
+}
+
+function f19(): void | number {
+>f19 : Symbol(f19, Decl(functionsMissingReturnStatementsAndExpressions.jump, 88, 1))
+
+    // Okay; function return type is union containing void
+}
+
+function f20(): any | number {
+>f20 : Symbol(f20, Decl(functionsMissingReturnStatementsAndExpressions.jump, 92, 1))
+
+    // Okay; function return type is union containing any
+}
+
+function f21(): number | string {
+>f21 : Symbol(f21, Decl(functionsMissingReturnStatementsAndExpressions.jump, 96, 1))
+
+    // Not okay; union does not contain void or any
+}
+
+class C {
+>C : Symbol(C, Decl(functionsMissingReturnStatementsAndExpressions.jump, 100, 1))
+
+    public get m1() {
+>m1 : Symbol(C.m1, Decl(functionsMissingReturnStatementsAndExpressions.jump, 102, 9))
+
+        // Errors; get accessors must return a value.
+    }
+
+    public get m2() {
+>m2 : Symbol(C.m2, Decl(functionsMissingReturnStatementsAndExpressions.jump, 105, 5))
+
+        // Permissible; returns undefined.
+        return;
+    }
+
+    public get m3() {
+>m3 : Symbol(C.m3, Decl(functionsMissingReturnStatementsAndExpressions.jump, 110, 5))
+
+        return "Okay, because this is a return expression.";
+    }
+
+    public get m4() {
+>m4 : Symbol(C.m4, Decl(functionsMissingReturnStatementsAndExpressions.jump, 114, 5))
+
+        // Fine since this consists of a single throw statement.
+        throw null;
+    }
+
+    public get m5() {
+>m5 : Symbol(C.m5, Decl(functionsMissingReturnStatementsAndExpressions.jump, 119, 5))
+
+        // Not fine, since we can *only* consist of a single throw statement
+        // if no return statements are present but we are a get accessor.
+        throw null;
+        throw undefined.
+>undefined : Symbol(undefined)
+    }
+}

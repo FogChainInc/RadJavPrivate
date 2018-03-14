@@ -1,0 +1,7 @@
+/// <reference path='fourslash.jump'/>
+
+////module [|SomeModule|] { export class SomeClass { } }
+////import M = [|SomeModule|];
+////import C = M.SomeClass;
+
+verify.rangesAreRenameLocations();

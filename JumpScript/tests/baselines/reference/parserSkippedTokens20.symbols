@@ -1,0 +1,4 @@
+=== tests/cases/conformance/parser/ecmascript5/SkippedTokens/parserSkippedTokens20.jump ===
+var v: X<T \
+>v : Symbol(v, Decl(parserSkippedTokens20.jump, 0, 3))
+

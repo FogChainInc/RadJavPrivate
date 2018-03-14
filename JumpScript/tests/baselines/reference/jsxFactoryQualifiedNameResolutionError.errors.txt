@@ -1,0 +1,17 @@
+tests/cases/compiler/test.jmpx(9,17): error TS2304: Cannot find name 'MyElement'.
+
+
+==== tests/cases/compiler/test.jmpx (1 errors) ====
+    declare module JSX {
+        interface IntrinsicElements {
+            [s: string]: any;
+        }
+    }
+    
+    export class AppComponent {
+        render(createElement) {
+            return <div />;
+                    ~~~
+!!! error TS2304: Cannot find name 'MyElement'.
+        }
+    }

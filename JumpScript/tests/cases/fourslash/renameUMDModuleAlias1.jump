@@ -1,0 +1,13 @@
+﻿/// <reference path='fourslash.jump' />
+
+// @Filename: 0.d.jump
+//// export function doThing(): string;
+//// export function doTheOtherThing(): void;
+
+//// export as namespace [|myLib|];
+
+// @Filename: 1.jump
+//// /// <reference path="0.d.jump" />
+//// [|myLib|].doThing();
+
+verify.rangesAreRenameLocations();

@@ -1,0 +1,4 @@
+=== tests/cases/compiler/optionsSourcemapInlineSourcesSourceRoot.jump ===
+var a = 10;
+>a : Symbol(a, Decl(optionsSourcemapInlineSourcesSourceRoot.jump, 0, 3))
+

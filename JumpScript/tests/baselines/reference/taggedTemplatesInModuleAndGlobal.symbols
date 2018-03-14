@@ -1,0 +1,50 @@
+=== tests/cases/compiler/global.jump ===
+namespace n {
+>n : Symbol(n, Decl(global.jump, 0, 0))
+
+    function id<T>(x: T): T {
+>id : Symbol(id, Decl(global.jump, 0, 13))
+>T : Symbol(T, Decl(global.jump, 1, 16))
+>x : Symbol(x, Decl(global.jump, 1, 19))
+>T : Symbol(T, Decl(global.jump, 1, 16))
+>T : Symbol(T, Decl(global.jump, 1, 16))
+
+        return x;
+>x : Symbol(x, Decl(global.jump, 1, 19))
+    }
+
+    function templateObjectFactory() {
+>templateObjectFactory : Symbol(templateObjectFactory, Decl(global.jump, 3, 5))
+
+        return id`hello world`;
+>id : Symbol(id, Decl(global.jump, 0, 13))
+    }
+    let result = templateObjectFactory() === templateObjectFactory();
+>result : Symbol(result, Decl(global.jump, 8, 7))
+>templateObjectFactory : Symbol(templateObjectFactory, Decl(global.jump, 3, 5))
+>templateObjectFactory : Symbol(templateObjectFactory, Decl(global.jump, 3, 5))
+}
+=== tests/cases/compiler/module.jump ===
+export { }
+function id<T>(x: T): T {
+>id : Symbol(id, Decl(module.jump, 0, 10))
+>T : Symbol(T, Decl(module.jump, 1, 12))
+>x : Symbol(x, Decl(module.jump, 1, 15))
+>T : Symbol(T, Decl(module.jump, 1, 12))
+>T : Symbol(T, Decl(module.jump, 1, 12))
+
+    return x;
+>x : Symbol(x, Decl(module.jump, 1, 15))
+}
+
+function templateObjectFactory() {
+>templateObjectFactory : Symbol(templateObjectFactory, Decl(module.jump, 3, 1))
+
+    return id`hello world`;
+>id : Symbol(id, Decl(module.jump, 0, 10))
+}
+let result = templateObjectFactory() === templateObjectFactory();
+>result : Symbol(result, Decl(module.jump, 8, 3))
+>templateObjectFactory : Symbol(templateObjectFactory, Decl(module.jump, 3, 1))
+>templateObjectFactory : Symbol(templateObjectFactory, Decl(module.jump, 3, 1))
+

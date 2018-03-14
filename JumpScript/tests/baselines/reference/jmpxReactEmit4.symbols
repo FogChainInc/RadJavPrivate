@@ -1,0 +1,36 @@
+=== tests/cases/conformance/jsx/file.jmpx ===
+declare module JSX {
+>JSX : Symbol(JSX, Decl(file.jmpx, 0, 0))
+
+	interface Element { }
+>Element : Symbol(Element, Decl(file.jmpx, 0, 20))
+
+	interface IntrinsicElements {
+>IntrinsicElements : Symbol(IntrinsicElements, Decl(file.jmpx, 1, 22))
+
+		[s: string]: any;
+>s : Symbol(s, Decl(file.jmpx, 3, 3))
+	}
+}
+declare var React: any;
+>React : Symbol(React, Decl(file.jmpx, 6, 11))
+
+var p: any;
+>p : Symbol(p, Decl(file.jmpx, 8, 3))
+
+var openClosed1 = <div>
+>openClosed1 : Symbol(openClosed1, Decl(file.jmpx, 9, 3))
+>div : Symbol(JSX.IntrinsicElements, Decl(file.jmpx, 1, 22))
+
+   {blah}
+
+</div>;
+>div : Symbol(JSX.IntrinsicElements, Decl(file.jmpx, 1, 22))
+
+// Should emit React.__spread({}, p, {x: 0})
+var spread1 = <div {...p} x={0} />;
+>spread1 : Symbol(spread1, Decl(file.jmpx, 16, 3))
+>div : Symbol(JSX.IntrinsicElements, Decl(file.jmpx, 1, 22))
+>p : Symbol(p, Decl(file.jmpx, 8, 3))
+>x : Symbol(x, Decl(file.jmpx, 16, 25))
+

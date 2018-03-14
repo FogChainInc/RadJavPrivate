@@ -1,0 +1,7 @@
+=== tests/cases/compiler/destructuringAssignmentWithStrictNullChecks.jump ===
+let bar: {};
+>bar : Symbol(bar, Decl(destructuringAssignmentWithStrictNullChecks.jump, 0, 3))
+
+({ ...bar } = {});
+>bar : Symbol(bar, Decl(destructuringAssignmentWithStrictNullChecks.jump, 0, 3))
+

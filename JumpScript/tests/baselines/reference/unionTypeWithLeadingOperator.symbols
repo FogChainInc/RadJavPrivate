@@ -1,0 +1,16 @@
+=== tests/cases/compiler/unionTypeWithLeadingOperator.jump ===
+type A = | string;
+>A : Symbol(A, Decl(unionTypeWithLeadingOperator.jump, 0, 0))
+
+type B =
+>B : Symbol(B, Decl(unionTypeWithLeadingOperator.jump, 0, 18))
+
+  | { type: "INCREMENT" }
+>type : Symbol(type, Decl(unionTypeWithLeadingOperator.jump, 2, 5))
+
+  | { type: "DECREMENT" };
+>type : Symbol(type, Decl(unionTypeWithLeadingOperator.jump, 3, 5))
+
+type C = [| 0 | 1, | "foo" | "bar"];
+>C : Symbol(C, Decl(unionTypeWithLeadingOperator.jump, 3, 26))
+

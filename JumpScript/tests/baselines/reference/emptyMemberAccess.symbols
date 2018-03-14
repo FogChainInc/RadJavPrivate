@@ -1,0 +1,8 @@
+=== tests/cases/compiler/emptyMemberAccess.jump ===
+function getObj() {
+>getObj : Symbol(getObj, Decl(emptyMemberAccess.jump, 0, 0))
+
+   ().toString();
+
+}
+ 

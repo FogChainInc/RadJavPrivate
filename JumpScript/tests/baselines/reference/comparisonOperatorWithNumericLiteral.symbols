@@ -1,0 +1,97 @@
+=== tests/cases/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithNumericLiteral.jump ===
+type BrandedNum = number & { __numberBrand: any };
+>BrandedNum : Symbol(BrandedNum, Decl(comparisonOperatorWithNumericLiteral.jump, 0, 0))
+>__numberBrand : Symbol(__numberBrand, Decl(comparisonOperatorWithNumericLiteral.jump, 0, 28))
+
+var x : BrandedNum;
+>x : Symbol(x, Decl(comparisonOperatorWithNumericLiteral.jump, 1, 3))
+>BrandedNum : Symbol(BrandedNum, Decl(comparisonOperatorWithNumericLiteral.jump, 0, 0))
+
+// operator >
+x > 0;
+>x : Symbol(x, Decl(comparisonOperatorWithNumericLiteral.jump, 1, 3))
+
+x > <number>0;
+>x : Symbol(x, Decl(comparisonOperatorWithNumericLiteral.jump, 1, 3))
+
+x > <BrandedNum>0;
+>x : Symbol(x, Decl(comparisonOperatorWithNumericLiteral.jump, 1, 3))
+>BrandedNum : Symbol(BrandedNum, Decl(comparisonOperatorWithNumericLiteral.jump, 0, 0))
+
+// operator <
+x < 0;
+>x : Symbol(x, Decl(comparisonOperatorWithNumericLiteral.jump, 1, 3))
+
+x < <number>0;
+>x : Symbol(x, Decl(comparisonOperatorWithNumericLiteral.jump, 1, 3))
+
+x < <BrandedNum>0;
+>x : Symbol(x, Decl(comparisonOperatorWithNumericLiteral.jump, 1, 3))
+>BrandedNum : Symbol(BrandedNum, Decl(comparisonOperatorWithNumericLiteral.jump, 0, 0))
+
+// operator >=
+x >= 0;
+>x : Symbol(x, Decl(comparisonOperatorWithNumericLiteral.jump, 1, 3))
+
+x >= <number>0;
+>x : Symbol(x, Decl(comparisonOperatorWithNumericLiteral.jump, 1, 3))
+
+x >= <BrandedNum>0;
+>x : Symbol(x, Decl(comparisonOperatorWithNumericLiteral.jump, 1, 3))
+>BrandedNum : Symbol(BrandedNum, Decl(comparisonOperatorWithNumericLiteral.jump, 0, 0))
+
+// operator <=
+x <= 0;
+>x : Symbol(x, Decl(comparisonOperatorWithNumericLiteral.jump, 1, 3))
+
+x <= <number>0;
+>x : Symbol(x, Decl(comparisonOperatorWithNumericLiteral.jump, 1, 3))
+
+x <= <BrandedNum>0;
+>x : Symbol(x, Decl(comparisonOperatorWithNumericLiteral.jump, 1, 3))
+>BrandedNum : Symbol(BrandedNum, Decl(comparisonOperatorWithNumericLiteral.jump, 0, 0))
+
+// operator ==
+x == 0;
+>x : Symbol(x, Decl(comparisonOperatorWithNumericLiteral.jump, 1, 3))
+
+x == <number>0;
+>x : Symbol(x, Decl(comparisonOperatorWithNumericLiteral.jump, 1, 3))
+
+x == <BrandedNum>0;
+>x : Symbol(x, Decl(comparisonOperatorWithNumericLiteral.jump, 1, 3))
+>BrandedNum : Symbol(BrandedNum, Decl(comparisonOperatorWithNumericLiteral.jump, 0, 0))
+
+// operator !=
+x != 0;
+>x : Symbol(x, Decl(comparisonOperatorWithNumericLiteral.jump, 1, 3))
+
+x != <number>0;
+>x : Symbol(x, Decl(comparisonOperatorWithNumericLiteral.jump, 1, 3))
+
+x != <BrandedNum>0;
+>x : Symbol(x, Decl(comparisonOperatorWithNumericLiteral.jump, 1, 3))
+>BrandedNum : Symbol(BrandedNum, Decl(comparisonOperatorWithNumericLiteral.jump, 0, 0))
+
+// operator ===
+x === 0;
+>x : Symbol(x, Decl(comparisonOperatorWithNumericLiteral.jump, 1, 3))
+
+x === <number>0;
+>x : Symbol(x, Decl(comparisonOperatorWithNumericLiteral.jump, 1, 3))
+
+x === <BrandedNum>0;
+>x : Symbol(x, Decl(comparisonOperatorWithNumericLiteral.jump, 1, 3))
+>BrandedNum : Symbol(BrandedNum, Decl(comparisonOperatorWithNumericLiteral.jump, 0, 0))
+
+// operator !==
+x !== 0;
+>x : Symbol(x, Decl(comparisonOperatorWithNumericLiteral.jump, 1, 3))
+
+x !== <number>0;
+>x : Symbol(x, Decl(comparisonOperatorWithNumericLiteral.jump, 1, 3))
+
+x !== <BrandedNum>0;
+>x : Symbol(x, Decl(comparisonOperatorWithNumericLiteral.jump, 1, 3))
+>BrandedNum : Symbol(BrandedNum, Decl(comparisonOperatorWithNumericLiteral.jump, 0, 0))
+

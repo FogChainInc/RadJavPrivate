@@ -1,0 +1,7 @@
+=== tests/cases/compiler/duplicateConstructSignature.jump ===
+interface I {
+>I : I
+
+    (): number;
+    (): string;
+}

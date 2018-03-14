@@ -1,0 +1,8 @@
+// @module: amd
+
+// @filename: file1.jump
+export interface Foo { x }
+
+// @filename: file2.jump
+export * from "file1"
+export var x;

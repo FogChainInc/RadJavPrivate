@@ -1,0 +1,10 @@
+// @module: amd
+// @Filename: instanceOfInExternalModules_require.jump
+export class Foo { foo: string; }
+
+// @Filename: instanceOfInExternalModules_1.jump
+///<reference path='instanceOfInExternalModules_require.jump'/>
+import Bar = require("instanceOfInExternalModules_require");
+function IsFoo(value: any): boolean {
+    return value instanceof Bar.Foo;
+}

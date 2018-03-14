@@ -1,0 +1,8 @@
+=== tests/cases/compiler/ambientNameRestrictions.jump ===
+export declare namespace Foo {
+>Foo : Symbol(Foo, Decl(ambientNameRestrictions.jump, 0, 0))
+
+  export var static: any;
+>static : Symbol(static, Decl(ambientNameRestrictions.jump, 1, 12))
+}
+

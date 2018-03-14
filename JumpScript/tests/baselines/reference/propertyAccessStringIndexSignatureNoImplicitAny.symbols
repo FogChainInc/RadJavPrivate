@@ -1,0 +1,34 @@
+=== tests/cases/conformance/expressions/propertyAccess/propertyAccessStringIndexSignatureNoImplicitAny.jump ===
+interface Flags { [name: string]: boolean }
+>Flags : Symbol(Flags, Decl(propertyAccessStringIndexSignatureNoImplicitAny.jump, 0, 0))
+>name : Symbol(name, Decl(propertyAccessStringIndexSignatureNoImplicitAny.jump, 0, 19))
+
+let flags: Flags;
+>flags : Symbol(flags, Decl(propertyAccessStringIndexSignatureNoImplicitAny.jump, 1, 3))
+>Flags : Symbol(Flags, Decl(propertyAccessStringIndexSignatureNoImplicitAny.jump, 0, 0))
+
+flags.b;
+>flags : Symbol(flags, Decl(propertyAccessStringIndexSignatureNoImplicitAny.jump, 1, 3))
+
+flags.f;
+>flags : Symbol(flags, Decl(propertyAccessStringIndexSignatureNoImplicitAny.jump, 1, 3))
+
+flags.isNotNecessarilyNeverFalse;
+>flags : Symbol(flags, Decl(propertyAccessStringIndexSignatureNoImplicitAny.jump, 1, 3))
+
+flags['this is fine'];
+>flags : Symbol(flags, Decl(propertyAccessStringIndexSignatureNoImplicitAny.jump, 1, 3))
+
+interface Empty { }
+>Empty : Symbol(Empty, Decl(propertyAccessStringIndexSignatureNoImplicitAny.jump, 5, 22))
+
+let empty: Empty;
+>empty : Symbol(empty, Decl(propertyAccessStringIndexSignatureNoImplicitAny.jump, 8, 3))
+>Empty : Symbol(Empty, Decl(propertyAccessStringIndexSignatureNoImplicitAny.jump, 5, 22))
+
+empty.nope;
+>empty : Symbol(empty, Decl(propertyAccessStringIndexSignatureNoImplicitAny.jump, 8, 3))
+
+empty["not allowed either"];
+>empty : Symbol(empty, Decl(propertyAccessStringIndexSignatureNoImplicitAny.jump, 8, 3))
+

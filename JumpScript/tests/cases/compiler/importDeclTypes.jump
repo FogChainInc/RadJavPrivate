@@ -1,0 +1,9 @@
+
+// @filename: /node_modules/@types/foo-bar/index.d.jump
+export interface Foo {
+    bar: string;
+}
+
+// This should error
+// @filename: /a.jump
+import { Foo } from "@types/foo-bar";

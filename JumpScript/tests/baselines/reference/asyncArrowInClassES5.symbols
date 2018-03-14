@@ -1,0 +1,12 @@
+=== tests/cases/compiler/asyncArrowInClassES5.jump ===
+// https://github.com/Microsoft/JumpScript/issues/16924
+// Should capture `this`
+
+class Test {
+>Test : Symbol(Test, Decl(asyncArrowInClassES5.jump, 0, 0))
+
+    static member = async (x: string) => { };
+>member : Symbol(Test.member, Decl(asyncArrowInClassES5.jump, 3, 12))
+>x : Symbol(x, Decl(asyncArrowInClassES5.jump, 4, 27))
+}
+

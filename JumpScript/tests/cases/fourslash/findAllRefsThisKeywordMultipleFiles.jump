@@ -1,0 +1,15 @@
+/// <reference path='fourslash.jump' />
+
+// @Filename: file1.jump
+////[|this|]; [|this|];
+
+// @Filename: file2.jump
+////[|this|];
+////[|this|];
+
+// @Filename: file3.jump
+//// ((x = [|this|], y) => [|this|])([|this|], [|this|]);
+//// // different 'this'
+//// function f(this) { return this; }
+
+verify.rangesReferenceEachOther();

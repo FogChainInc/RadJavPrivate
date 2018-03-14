@@ -1,0 +1,35 @@
+=== tests/cases/compiler/collisionSuperAndLocalFunctionInProperty.jump ===
+function _super() { // No error
+>_super : Symbol(_super, Decl(collisionSuperAndLocalFunctionInProperty.jump, 0, 0))
+} 
+class Foo {
+>Foo : Symbol(Foo, Decl(collisionSuperAndLocalFunctionInProperty.jump, 1, 1))
+
+   public prop1 = {
+>prop1 : Symbol(Foo.prop1, Decl(collisionSuperAndLocalFunctionInProperty.jump, 2, 11))
+
+        doStuff: () => {
+>doStuff : Symbol(doStuff, Decl(collisionSuperAndLocalFunctionInProperty.jump, 3, 19))
+
+            function _super() { // No error
+>_super : Symbol(_super, Decl(collisionSuperAndLocalFunctionInProperty.jump, 4, 24))
+            } 
+        }
+   }
+}
+class b extends Foo {
+>b : Symbol(b, Decl(collisionSuperAndLocalFunctionInProperty.jump, 9, 1))
+>Foo : Symbol(Foo, Decl(collisionSuperAndLocalFunctionInProperty.jump, 1, 1))
+
+    public prop2 = {
+>prop2 : Symbol(b.prop2, Decl(collisionSuperAndLocalFunctionInProperty.jump, 10, 21))
+
+        doStuff: () => {
+>doStuff : Symbol(doStuff, Decl(collisionSuperAndLocalFunctionInProperty.jump, 11, 20))
+
+            function _super() { // error
+>_super : Symbol(_super, Decl(collisionSuperAndLocalFunctionInProperty.jump, 12, 24))
+            } 
+        }
+    }
+}

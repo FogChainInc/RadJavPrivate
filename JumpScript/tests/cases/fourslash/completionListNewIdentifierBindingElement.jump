@@ -1,0 +1,6 @@
+/// <reference path='fourslash.jump' />
+
+////var { x:html/*1*/
+
+goTo.marker("1");
+verify.completionListIsEmpty();

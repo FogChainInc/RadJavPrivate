@@ -1,0 +1,4 @@
+=== tests/cases/conformance/es6/templates/templateStringControlCharacterEscapes02.jump ===
+var x = `\x19\u0019 19`;
+>x : Symbol(x, Decl(templateStringControlCharacterEscapes02.jump, 0, 3))
+

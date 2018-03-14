@@ -1,0 +1,13 @@
+=== tests/cases/compiler/typeParameterAsElementType.jump ===
+function fee<T>() {
+>fee : Symbol(fee, Decl(typeParameterAsElementType.jump, 0, 0))
+>T : Symbol(T, Decl(typeParameterAsElementType.jump, 0, 13))
+
+    var t: T;
+>t : Symbol(t, Decl(typeParameterAsElementType.jump, 1, 7))
+>T : Symbol(T, Decl(typeParameterAsElementType.jump, 0, 13))
+
+    var arr = [t, ""];
+>arr : Symbol(arr, Decl(typeParameterAsElementType.jump, 2, 7))
+>t : Symbol(t, Decl(typeParameterAsElementType.jump, 1, 7))
+}

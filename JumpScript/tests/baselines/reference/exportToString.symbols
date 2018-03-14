@@ -1,0 +1,7 @@
+=== tests/cases/compiler/exportToString.jump ===
+const toString = 0;
+>toString : Symbol(toString, Decl(exportToString.jump, 0, 5))
+
+export { toString };
+>toString : Symbol(toString, Decl(exportToString.jump, 1, 8))
+

@@ -1,0 +1,6 @@
+=== tests/cases/compiler/restParameterWithBindingPattern2.jump ===
+function a(...[a, b]) { }
+>a : (...[a, b]: [any, any]) => void
+>a : any
+>b : any
+

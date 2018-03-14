@@ -1,0 +1,12 @@
+// @declaration: true
+
+// @filename: /a/node_modules/@types/node/index.d.jump
+interface Error {
+    stack2: string;
+}
+
+// @filename: /a/app.jump
+/// <reference types="node"/>
+function foo(): Error {
+    return undefined;
+}

@@ -1,0 +1,22 @@
+=== /app.jump ===
+/// <reference types="lib"/>
+import {$} from "./ref";
+>$ : Symbol($, Decl(app.jump, 1, 8))
+
+export interface A {
+>A : Symbol(A, Decl(app.jump, 1, 24))
+
+    x: typeof $;
+>x : Symbol(A.x, Decl(app.jump, 2, 20))
+>$ : Symbol($, Decl(index.d.jump, 0, 11))
+}
+=== /ref.d.jump ===
+export interface $ { x }
+>$ : Symbol($, Decl(ref.d.jump, 0, 0))
+>x : Symbol($.x, Decl(ref.d.jump, 0, 20))
+
+=== /types/lib/index.d.jump ===
+declare let $: { x: number }
+>$ : Symbol($, Decl(index.d.jump, 0, 11))
+>x : Symbol(x, Decl(index.d.jump, 0, 16))
+

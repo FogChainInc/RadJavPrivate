@@ -1,0 +1,12 @@
+=== tests/cases/compiler/declFileModuleWithPropertyOfTypeModule.jump ===
+module m {
+>m : Symbol(m, Decl(declFileModuleWithPropertyOfTypeModule.jump, 0, 0))
+
+    export class c {
+>c : Symbol(c, Decl(declFileModuleWithPropertyOfTypeModule.jump, 0, 10))
+    }
+
+    export var a = m;
+>a : Symbol(a, Decl(declFileModuleWithPropertyOfTypeModule.jump, 4, 14))
+>m : Symbol(m, Decl(declFileModuleWithPropertyOfTypeModule.jump, 0, 0))
+}

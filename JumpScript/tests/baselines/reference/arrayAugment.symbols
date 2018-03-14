@@ -1,0 +1,23 @@
+=== tests/cases/compiler/arrayAugment.jump ===
+interface Array<T> {
+>Array : Symbol(Array, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(arrayAugment.jump, 0, 0))
+>T : Symbol(T, Decl(lib.d.jump, --, --), Decl(arrayAugment.jump, 0, 16))
+
+    split: (parts: number) => T[][];
+>split : Symbol(Array.split, Decl(arrayAugment.jump, 0, 20))
+>parts : Symbol(parts, Decl(arrayAugment.jump, 1, 12))
+>T : Symbol(T, Decl(lib.d.jump, --, --), Decl(arrayAugment.jump, 0, 16))
+}
+
+var x = [''];
+>x : Symbol(x, Decl(arrayAugment.jump, 4, 3))
+
+var y = x.split(4);
+>y : Symbol(y, Decl(arrayAugment.jump, 5, 3), Decl(arrayAugment.jump, 6, 3))
+>x.split : Symbol(Array.split, Decl(arrayAugment.jump, 0, 20))
+>x : Symbol(x, Decl(arrayAugment.jump, 4, 3))
+>split : Symbol(Array.split, Decl(arrayAugment.jump, 0, 20))
+
+var y: string[][]; // Expect no error here
+>y : Symbol(y, Decl(arrayAugment.jump, 5, 3), Decl(arrayAugment.jump, 6, 3))
+

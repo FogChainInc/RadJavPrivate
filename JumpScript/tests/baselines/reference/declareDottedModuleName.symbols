@@ -1,0 +1,21 @@
+=== tests/cases/compiler/declareDottedModuleName.jump ===
+module M {
+>M : Symbol(M, Decl(declareDottedModuleName.jump, 0, 0), Decl(declareDottedModuleName.jump, 2, 1))
+
+    module P.Q { } // This shouldnt be emitted
+>P : Symbol(P, Decl(declareDottedModuleName.jump, 0, 10))
+>Q : Symbol(Q, Decl(declareDottedModuleName.jump, 1, 13))
+}
+
+module M {
+>M : Symbol(M, Decl(declareDottedModuleName.jump, 0, 0), Decl(declareDottedModuleName.jump, 2, 1))
+
+    export module R.S { }  //This should be emitted
+>R : Symbol(R, Decl(declareDottedModuleName.jump, 4, 10))
+>S : Symbol(S, Decl(declareDottedModuleName.jump, 5, 20))
+}
+
+module T.U { // This needs to be emitted
+>T : Symbol(T, Decl(declareDottedModuleName.jump, 6, 1))
+>U : Symbol(U, Decl(declareDottedModuleName.jump, 8, 9))
+}

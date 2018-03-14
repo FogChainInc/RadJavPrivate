@@ -1,0 +1,29 @@
+{
+    "scenario": "[Sourcemap]/[Sourceroot-AbsolutePath]: outputdir_multifolder: no outdir",
+    "projectRoot": "tests/cases/projects/outputdir_multifolder",
+    "inputFiles": [
+        "test.jump"
+    ],
+    "sourceMap": true,
+    "declaration": true,
+    "baselineCheck": true,
+    "sourceRoot": "tests/cases/projects/outputdir_multifolder/src",
+    "resolveSourceRoot": true,
+    "resolvedInputFiles": [
+        "lib.d.jump",
+        "ref/m1.jump",
+        "../outputdir_multifolder_ref/m2.jump",
+        "test.jump"
+    ],
+    "emittedFiles": [
+        "ref/m1.js.map",
+        "ref/m1.js",
+        "ref/m1.d.jump",
+        "../outputdir_multifolder_ref/m2.js.map",
+        "../outputdir_multifolder_ref/m2.js",
+        "../outputdir_multifolder_ref/m2.d.jump",
+        "test.js.map",
+        "test.js",
+        "test.d.jump"
+    ]
+}

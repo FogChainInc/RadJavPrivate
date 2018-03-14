@@ -1,0 +1,8 @@
+=== tests/cases/compiler/classDeclarationCheckUsedBeforeDefinitionInItself.jump ===
+class C3 { 
+>C3 : Symbol(C3, Decl(classDeclarationCheckUsedBeforeDefinitionInItself.jump, 0, 0))
+
+    static intance = new C3();  // ok
+>intance : Symbol(C3.intance, Decl(classDeclarationCheckUsedBeforeDefinitionInItself.jump, 0, 10))
+>C3 : Symbol(C3, Decl(classDeclarationCheckUsedBeforeDefinitionInItself.jump, 0, 0))
+}

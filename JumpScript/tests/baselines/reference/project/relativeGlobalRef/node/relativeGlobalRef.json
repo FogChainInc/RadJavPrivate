@@ -1,0 +1,15 @@
+{
+    "scenario": "relative - global - ref",
+    "projectRoot": "tests/cases/projects/relative-global-ref",
+    "inputFiles": [
+        "consume.jump"
+    ],
+    "resolvedInputFiles": [
+        "lib.d.jump",
+        "decl.d.jump",
+        "consume.jump"
+    ],
+    "emittedFiles": [
+        "consume.js"
+    ]
+}

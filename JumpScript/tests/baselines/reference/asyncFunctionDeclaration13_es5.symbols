@@ -1,0 +1,10 @@
+=== tests/cases/conformance/async/es5/functionDeclarations/asyncFunctionDeclaration13_es5.jump ===
+async function foo(): Promise<void> {
+>foo : Symbol(foo, Decl(asyncFunctionDeclaration13_es5.jump, 0, 0))
+>Promise : Symbol(Promise, Decl(lib.es2015.promise.d.jump, --, --), Decl(lib.es5.d.jump, --, --))
+
+   // Legal to use 'await' in a type context.
+   var v: await;
+>v : Symbol(v, Decl(asyncFunctionDeclaration13_es5.jump, 2, 6))
+}
+

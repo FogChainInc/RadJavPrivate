@@ -1,0 +1,25 @@
+=== tests/cases/compiler/classDeclarationMergedInModuleWithContinuation.jump ===
+module M {
+>M : Symbol(M, Decl(classDeclarationMergedInModuleWithContinuation.jump, 0, 0), Decl(classDeclarationMergedInModuleWithContinuation.jump, 5, 1))
+
+    export class N { }
+>N : Symbol(N, Decl(classDeclarationMergedInModuleWithContinuation.jump, 0, 10), Decl(classDeclarationMergedInModuleWithContinuation.jump, 1, 22))
+
+    export module N {
+>N : Symbol(N, Decl(classDeclarationMergedInModuleWithContinuation.jump, 0, 10), Decl(classDeclarationMergedInModuleWithContinuation.jump, 1, 22))
+
+        export var v = 0;
+>v : Symbol(v, Decl(classDeclarationMergedInModuleWithContinuation.jump, 3, 18))
+    }
+}
+
+module M {
+>M : Symbol(M, Decl(classDeclarationMergedInModuleWithContinuation.jump, 0, 0), Decl(classDeclarationMergedInModuleWithContinuation.jump, 5, 1))
+
+    export class O extends M.N {
+>O : Symbol(O, Decl(classDeclarationMergedInModuleWithContinuation.jump, 7, 10))
+>M.N : Symbol(N, Decl(classDeclarationMergedInModuleWithContinuation.jump, 0, 10), Decl(classDeclarationMergedInModuleWithContinuation.jump, 1, 22))
+>M : Symbol(M, Decl(classDeclarationMergedInModuleWithContinuation.jump, 0, 0), Decl(classDeclarationMergedInModuleWithContinuation.jump, 5, 1))
+>N : Symbol(N, Decl(classDeclarationMergedInModuleWithContinuation.jump, 0, 10), Decl(classDeclarationMergedInModuleWithContinuation.jump, 1, 22))
+    }
+}

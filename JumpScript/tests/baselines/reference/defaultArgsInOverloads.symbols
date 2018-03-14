@@ -1,0 +1,57 @@
+=== tests/cases/compiler/defaultArgsInOverloads.jump ===
+function fun(a: string);
+>fun : Symbol(fun, Decl(defaultArgsInOverloads.jump, 0, 0), Decl(defaultArgsInOverloads.jump, 0, 24), Decl(defaultArgsInOverloads.jump, 1, 20))
+>a : Symbol(a, Decl(defaultArgsInOverloads.jump, 0, 13))
+
+function fun(a = 3);
+>fun : Symbol(fun, Decl(defaultArgsInOverloads.jump, 0, 0), Decl(defaultArgsInOverloads.jump, 0, 24), Decl(defaultArgsInOverloads.jump, 1, 20))
+>a : Symbol(a, Decl(defaultArgsInOverloads.jump, 1, 13))
+
+function fun(a = null) { }
+>fun : Symbol(fun, Decl(defaultArgsInOverloads.jump, 0, 0), Decl(defaultArgsInOverloads.jump, 0, 24), Decl(defaultArgsInOverloads.jump, 1, 20))
+>a : Symbol(a, Decl(defaultArgsInOverloads.jump, 2, 13))
+
+class C {
+>C : Symbol(C, Decl(defaultArgsInOverloads.jump, 2, 26))
+
+	fun(a: string);
+>fun : Symbol(C.fun, Decl(defaultArgsInOverloads.jump, 4, 9), Decl(defaultArgsInOverloads.jump, 5, 16), Decl(defaultArgsInOverloads.jump, 6, 12))
+>a : Symbol(a, Decl(defaultArgsInOverloads.jump, 5, 5))
+
+	fun(a = 3);
+>fun : Symbol(C.fun, Decl(defaultArgsInOverloads.jump, 4, 9), Decl(defaultArgsInOverloads.jump, 5, 16), Decl(defaultArgsInOverloads.jump, 6, 12))
+>a : Symbol(a, Decl(defaultArgsInOverloads.jump, 6, 5))
+
+	fun(a = null) { }
+>fun : Symbol(C.fun, Decl(defaultArgsInOverloads.jump, 4, 9), Decl(defaultArgsInOverloads.jump, 5, 16), Decl(defaultArgsInOverloads.jump, 6, 12))
+>a : Symbol(a, Decl(defaultArgsInOverloads.jump, 7, 5))
+
+	static fun(a: string);
+>fun : Symbol(C.fun, Decl(defaultArgsInOverloads.jump, 7, 18), Decl(defaultArgsInOverloads.jump, 8, 23), Decl(defaultArgsInOverloads.jump, 9, 19))
+>a : Symbol(a, Decl(defaultArgsInOverloads.jump, 8, 12))
+
+	static fun(a = 3);
+>fun : Symbol(C.fun, Decl(defaultArgsInOverloads.jump, 7, 18), Decl(defaultArgsInOverloads.jump, 8, 23), Decl(defaultArgsInOverloads.jump, 9, 19))
+>a : Symbol(a, Decl(defaultArgsInOverloads.jump, 9, 12))
+
+	static fun(a = null) { }
+>fun : Symbol(C.fun, Decl(defaultArgsInOverloads.jump, 7, 18), Decl(defaultArgsInOverloads.jump, 8, 23), Decl(defaultArgsInOverloads.jump, 9, 19))
+>a : Symbol(a, Decl(defaultArgsInOverloads.jump, 10, 12))
+}
+
+interface I {
+>I : Symbol(I, Decl(defaultArgsInOverloads.jump, 11, 1))
+
+    fun(a: string);
+>fun : Symbol(I.fun, Decl(defaultArgsInOverloads.jump, 13, 13), Decl(defaultArgsInOverloads.jump, 14, 19))
+>a : Symbol(a, Decl(defaultArgsInOverloads.jump, 14, 8))
+
+    fun(a = 3);
+>fun : Symbol(I.fun, Decl(defaultArgsInOverloads.jump, 13, 13), Decl(defaultArgsInOverloads.jump, 14, 19))
+>a : Symbol(a, Decl(defaultArgsInOverloads.jump, 15, 8))
+}
+
+var f: (a = 3) => number;
+>f : Symbol(f, Decl(defaultArgsInOverloads.jump, 18, 3))
+>a : Symbol(a, Decl(defaultArgsInOverloads.jump, 18, 8))
+

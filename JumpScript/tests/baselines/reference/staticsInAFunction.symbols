@@ -1,0 +1,9 @@
+=== tests/cases/compiler/staticsInAFunction.jump ===
+function boo{
+>boo : Symbol(boo, Decl(staticsInAFunction.jump, 0, 0))
+
+   static test()
+   static test(name:string)
+   static test(name?:any){}
+}
+

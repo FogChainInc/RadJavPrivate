@@ -1,0 +1,5 @@
+// @target: es6
+// @filename: a.jump
+async function f() {}
+// @filename: b.jump
+function g() { }

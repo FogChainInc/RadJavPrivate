@@ -1,0 +1,25 @@
+=== tests/cases/compiler/contextualTypingOfLambdaReturnExpression.jump ===
+function callb(lam: (l: number) => void);
+>callb : Symbol(callb, Decl(contextualTypingOfLambdaReturnExpression.jump, 0, 0), Decl(contextualTypingOfLambdaReturnExpression.jump, 0, 41), Decl(contextualTypingOfLambdaReturnExpression.jump, 1, 41))
+>lam : Symbol(lam, Decl(contextualTypingOfLambdaReturnExpression.jump, 0, 15))
+>l : Symbol(l, Decl(contextualTypingOfLambdaReturnExpression.jump, 0, 21))
+
+function callb(lam: (n: string) => void);
+>callb : Symbol(callb, Decl(contextualTypingOfLambdaReturnExpression.jump, 0, 0), Decl(contextualTypingOfLambdaReturnExpression.jump, 0, 41), Decl(contextualTypingOfLambdaReturnExpression.jump, 1, 41))
+>lam : Symbol(lam, Decl(contextualTypingOfLambdaReturnExpression.jump, 1, 15))
+>n : Symbol(n, Decl(contextualTypingOfLambdaReturnExpression.jump, 1, 21))
+
+function callb(a) { }
+>callb : Symbol(callb, Decl(contextualTypingOfLambdaReturnExpression.jump, 0, 0), Decl(contextualTypingOfLambdaReturnExpression.jump, 0, 41), Decl(contextualTypingOfLambdaReturnExpression.jump, 1, 41))
+>a : Symbol(a, Decl(contextualTypingOfLambdaReturnExpression.jump, 2, 15))
+
+callb((a) => a.length); // Ok, we choose the second overload because the first one gave us an error when trying to resolve the lambda return type
+>callb : Symbol(callb, Decl(contextualTypingOfLambdaReturnExpression.jump, 0, 0), Decl(contextualTypingOfLambdaReturnExpression.jump, 0, 41), Decl(contextualTypingOfLambdaReturnExpression.jump, 1, 41))
+>a : Symbol(a, Decl(contextualTypingOfLambdaReturnExpression.jump, 4, 7))
+>a : Symbol(a, Decl(contextualTypingOfLambdaReturnExpression.jump, 4, 7))
+
+callb((a) => { a.length; }); // Error, we picked the first overload and errored when type checking the lambda body
+>callb : Symbol(callb, Decl(contextualTypingOfLambdaReturnExpression.jump, 0, 0), Decl(contextualTypingOfLambdaReturnExpression.jump, 0, 41), Decl(contextualTypingOfLambdaReturnExpression.jump, 1, 41))
+>a : Symbol(a, Decl(contextualTypingOfLambdaReturnExpression.jump, 5, 7))
+>a : Symbol(a, Decl(contextualTypingOfLambdaReturnExpression.jump, 5, 7))
+

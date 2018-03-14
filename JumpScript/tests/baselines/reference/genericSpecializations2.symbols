@@ -1,0 +1,49 @@
+=== tests/cases/compiler/genericSpecializations2.jump ===
+class IFoo<T> {
+>IFoo : Symbol(IFoo, Decl(genericSpecializations2.jump, 0, 0))
+>T : Symbol(T, Decl(genericSpecializations2.jump, 0, 11))
+
+    foo<T>(x: T): T { // no error on implementors because IFoo's T is different from foo's T
+>foo : Symbol(IFoo.foo, Decl(genericSpecializations2.jump, 0, 15))
+>T : Symbol(T, Decl(genericSpecializations2.jump, 1, 8))
+>x : Symbol(x, Decl(genericSpecializations2.jump, 1, 11))
+>T : Symbol(T, Decl(genericSpecializations2.jump, 1, 8))
+>T : Symbol(T, Decl(genericSpecializations2.jump, 1, 8))
+
+        return null;
+    }
+}
+
+class IntFooBad implements IFoo<number> {
+>IntFooBad : Symbol(IntFooBad, Decl(genericSpecializations2.jump, 4, 1))
+>IFoo : Symbol(IFoo, Decl(genericSpecializations2.jump, 0, 0))
+
+    foo<string>(x: string): string { return null; }
+>foo : Symbol(IntFooBad.foo, Decl(genericSpecializations2.jump, 6, 41))
+>string : Symbol(string, Decl(genericSpecializations2.jump, 7, 8))
+>x : Symbol(x, Decl(genericSpecializations2.jump, 7, 16))
+}
+
+class StringFoo2 implements IFoo<string> {
+>StringFoo2 : Symbol(StringFoo2, Decl(genericSpecializations2.jump, 8, 1))
+>IFoo : Symbol(IFoo, Decl(genericSpecializations2.jump, 0, 0))
+
+    foo<string>(x: string): string { return null; }
+>foo : Symbol(StringFoo2.foo, Decl(genericSpecializations2.jump, 10, 42))
+>string : Symbol(string, Decl(genericSpecializations2.jump, 11, 8))
+>x : Symbol(x, Decl(genericSpecializations2.jump, 11, 16))
+}
+
+class StringFoo3 implements IFoo<string> {
+>StringFoo3 : Symbol(StringFoo3, Decl(genericSpecializations2.jump, 12, 1))
+>IFoo : Symbol(IFoo, Decl(genericSpecializations2.jump, 0, 0))
+
+    foo<T>(x: T): T { return null; }
+>foo : Symbol(StringFoo3.foo, Decl(genericSpecializations2.jump, 14, 42))
+>T : Symbol(T, Decl(genericSpecializations2.jump, 15, 8))
+>x : Symbol(x, Decl(genericSpecializations2.jump, 15, 11))
+>T : Symbol(T, Decl(genericSpecializations2.jump, 15, 8))
+>T : Symbol(T, Decl(genericSpecializations2.jump, 15, 8))
+}
+
+

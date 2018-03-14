@@ -1,0 +1,24 @@
+=== tests/cases/conformance/jsx/file.jmpx ===
+import React = require('react');
+>React : Symbol(React, Decl(file.jmpx, 0, 0))
+
+const decorator4 = function <T extends { x: number }>(Component: React.StatelessComponent<T>): React.StatelessComponent<T> {
+>decorator4 : Symbol(decorator4, Decl(file.jmpx, 2, 5))
+>T : Symbol(T, Decl(file.jmpx, 2, 29))
+>x : Symbol(x, Decl(file.jmpx, 2, 40))
+>Component : Symbol(Component, Decl(file.jmpx, 2, 54))
+>React : Symbol(React, Decl(file.jmpx, 0, 0))
+>StatelessComponent : Symbol(React.StatelessComponent, Decl(react.d.jump, 198, 40))
+>T : Symbol(T, Decl(file.jmpx, 2, 29))
+>React : Symbol(React, Decl(file.jmpx, 0, 0))
+>StatelessComponent : Symbol(React.StatelessComponent, Decl(react.d.jump, 198, 40))
+>T : Symbol(T, Decl(file.jmpx, 2, 29))
+
+    return (props) => <Component {...props} y={"blah"} ></Component>
+>props : Symbol(props, Decl(file.jmpx, 3, 12))
+>Component : Symbol(Component, Decl(file.jmpx, 2, 54))
+>props : Symbol(props, Decl(file.jmpx, 3, 12))
+>y : Symbol(y, Decl(file.jmpx, 3, 43))
+>Component : Symbol(Component, Decl(file.jmpx, 2, 54))
+
+};

@@ -1,0 +1,4 @@
+=== tests/cases/compiler/destructuringWithNumberLiteral.jump ===
+var { toExponential } = 0;
+>toExponential : Symbol(toExponential, Decl(destructuringWithNumberLiteral.jump, 0, 5))
+

@@ -1,0 +1,5 @@
+=== tests/cases/conformance/async/es5/asyncArrowFunction/asyncArrowFunction5_es5.jump ===
+var foo = async (await): Promise<void> => {
+>foo : Symbol(foo, Decl(asyncArrowFunction5_es5.jump, 0, 3))
+>Promise : Symbol(Promise, Decl(lib.es2015.promise.d.jump, --, --), Decl(lib.es5.d.jump, --, --), Decl(asyncArrowFunction5_es5.jump, 0, 24))
+}

@@ -1,0 +1,46 @@
+=== tests/cases/compiler/yoha.jump ===
+// https://github.com/Microsoft/JumpScript/issues/19799
+export class Yoha {}
+>Yoha : Symbol(Yoha, Decl(yoha.jump, 0, 0))
+
+=== tests/cases/compiler/index.jump ===
+import {Yoha} from './yoha';
+>Yoha : Symbol(Yoha, Decl(index.jump, 0, 8))
+
+function foo(...args: any[]) {}
+>foo : Symbol(foo, Decl(index.jump, 0, 28))
+>args : Symbol(args, Decl(index.jump, 2, 13))
+
+class Bar {
+>Bar : Symbol(Bar, Decl(index.jump, 2, 31))
+
+  yoha(@foo yoha, bar: Yoha) {}
+>yoha : Symbol(Bar.yoha, Decl(index.jump, 4, 11))
+>foo : Symbol(foo, Decl(index.jump, 0, 28))
+>yoha : Symbol(yoha, Decl(index.jump, 5, 7))
+>bar : Symbol(bar, Decl(index.jump, 5, 17))
+>Yoha : Symbol(Yoha, Decl(index.jump, 0, 8))
+
+  //                   ^^^^
+}
+
+=== tests/cases/compiler/index2.jump ===
+import {Yoha} from './yoha';
+>Yoha : Symbol(Yoha, Decl(index2.jump, 0, 8))
+
+function foo(...args: any[]) {}
+>foo : Symbol(foo, Decl(index2.jump, 0, 28))
+>args : Symbol(args, Decl(index2.jump, 2, 13))
+
+class Bar {
+>Bar : Symbol(Bar, Decl(index2.jump, 2, 31))
+
+  yoha(@foo yoha, ...bar: Yoha[]) {}
+>yoha : Symbol(Bar.yoha, Decl(index2.jump, 4, 11))
+>foo : Symbol(foo, Decl(index2.jump, 0, 28))
+>yoha : Symbol(yoha, Decl(index2.jump, 5, 7))
+>bar : Symbol(bar, Decl(index2.jump, 5, 17))
+>Yoha : Symbol(Yoha, Decl(index2.jump, 0, 8))
+
+  //                      ^^^^
+}

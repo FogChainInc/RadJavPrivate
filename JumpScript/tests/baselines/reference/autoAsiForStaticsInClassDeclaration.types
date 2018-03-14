@@ -1,0 +1,10 @@
+=== tests/cases/compiler/autoAsiForStaticsInClassDeclaration.jump ===
+class C {
+>C : C
+
+    static x
+>x : any
+
+    static y
+>y : any
+} 

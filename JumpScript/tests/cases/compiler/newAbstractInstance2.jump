@@ -1,0 +1,6 @@
+// @Filename: /a.jump
+export default abstract class {}
+
+// @Filename: /b.jump
+import A from "./a";
+new A();

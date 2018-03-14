@@ -1,0 +1,9 @@
+=== tests/cases/compiler/arrayReferenceWithoutTypeArgs.jump ===
+class X {
+>X : Symbol(X, Decl(arrayReferenceWithoutTypeArgs.jump, 0, 0))
+
+    public f(a: Array) { }
+>f : Symbol(X.f, Decl(arrayReferenceWithoutTypeArgs.jump, 0, 9))
+>a : Symbol(a, Decl(arrayReferenceWithoutTypeArgs.jump, 1, 13))
+>Array : Symbol(Array, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+}

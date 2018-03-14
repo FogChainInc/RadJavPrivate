@@ -1,0 +1,16 @@
+=== tests/cases/conformance/classes/propertyMemberDeclarations/staticAndNonStaticPropertiesSameName.jump ===
+class C {
+>C : Symbol(C, Decl(staticAndNonStaticPropertiesSameName.jump, 0, 0))
+
+    x: number;
+>x : Symbol(C.x, Decl(staticAndNonStaticPropertiesSameName.jump, 0, 9))
+
+    static x: number;
+>x : Symbol(C.x, Decl(staticAndNonStaticPropertiesSameName.jump, 1, 14))
+
+    f() { }
+>f : Symbol(C.f, Decl(staticAndNonStaticPropertiesSameName.jump, 2, 21))
+
+    static f() { }
+>f : Symbol(C.f, Decl(staticAndNonStaticPropertiesSameName.jump, 4, 11))
+}

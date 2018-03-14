@@ -1,0 +1,14 @@
+{
+    "scenario": "nested declare",
+    "projectRoot": "tests/cases/projects/NestedDeclare",
+    "inputFiles": [
+        "consume.jump"
+    ],
+    "resolvedInputFiles": [
+        "lib.d.jump",
+        "consume.jump"
+    ],
+    "emittedFiles": [
+        "consume.js"
+    ]
+}

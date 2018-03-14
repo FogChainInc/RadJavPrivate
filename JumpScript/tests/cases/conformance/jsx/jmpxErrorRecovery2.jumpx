@@ -1,0 +1,10 @@
+//@jsx: preserve
+
+//@filename: file1.jmpx
+declare namespace JSX { interface Element { } }
+
+<div></div>
+<div></div>
+
+//@filename: file2.jmpx
+var x = <div></div><div></div>

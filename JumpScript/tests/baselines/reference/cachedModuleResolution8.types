@@ -1,0 +1,8 @@
+=== /a/b/c/d/e/app.jump ===
+import {x} from "foo";
+>x : any
+
+=== /a/b/c/lib.jump ===
+import {x} from "foo";
+>x : any
+

@@ -1,0 +1,6 @@
+=== tests/cases/conformance/parser/ecmascript5/EnumDeclarations/parserEnum4.jump ===
+    export enum SignatureFlags {
+>SignatureFlags : Symbol(SignatureFlags, Decl(parserEnum4.jump, 0, 0))
+
+        ,
+    }

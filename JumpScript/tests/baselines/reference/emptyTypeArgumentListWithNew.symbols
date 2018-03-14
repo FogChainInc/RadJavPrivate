@@ -1,0 +1,8 @@
+=== tests/cases/compiler/emptyTypeArgumentListWithNew.jump ===
+class foo<T> { }
+>foo : Symbol(foo, Decl(emptyTypeArgumentListWithNew.jump, 0, 0))
+>T : Symbol(T, Decl(emptyTypeArgumentListWithNew.jump, 0, 10))
+
+new foo<>();
+>foo : Symbol(foo, Decl(emptyTypeArgumentListWithNew.jump, 0, 0))
+

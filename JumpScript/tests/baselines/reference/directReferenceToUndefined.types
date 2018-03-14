@@ -1,0 +1,9 @@
+=== tests/cases/conformance/types/primitives/undefined/directReferenceToUndefined.jump ===
+var x: Undefined;
+>x : any
+>Undefined : No type information available!
+
+var y = undefined;
+>y : any
+>undefined : undefined
+

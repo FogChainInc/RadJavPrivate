@@ -1,0 +1,20 @@
+=== tests/cases/compiler/es6ImportNamedImportInIndirectExportAssignment_0.jump ===
+export module a {
+>a : Symbol(a, Decl(es6ImportNamedImportInIndirectExportAssignment_0.jump, 0, 0))
+
+    export class c {
+>c : Symbol(c, Decl(es6ImportNamedImportInIndirectExportAssignment_0.jump, 0, 17))
+    }
+}
+
+=== tests/cases/compiler/es6ImportNamedImportInIndirectExportAssignment_1.jump ===
+import { a } from "./es6ImportNamedImportInIndirectExportAssignment_0";
+>a : Symbol(a, Decl(es6ImportNamedImportInIndirectExportAssignment_1.jump, 0, 8))
+
+import x = a;
+>x : Symbol(x, Decl(es6ImportNamedImportInIndirectExportAssignment_1.jump, 0, 71))
+>a : Symbol(a, Decl(es6ImportNamedImportInIndirectExportAssignment_1.jump, 0, 8))
+
+export = x;
+>x : Symbol(x, Decl(es6ImportNamedImportInIndirectExportAssignment_1.jump, 0, 71))
+

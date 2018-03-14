@@ -1,0 +1,100 @@
+=== tests/cases/conformance/types/tuple/typeInferenceWithTupleType.jump ===
+function combine<T, U>(x: T, y: U): [T, U] {
+>combine : Symbol(combine, Decl(typeInferenceWithTupleType.jump, 0, 0))
+>T : Symbol(T, Decl(typeInferenceWithTupleType.jump, 0, 17))
+>U : Symbol(U, Decl(typeInferenceWithTupleType.jump, 0, 19))
+>x : Symbol(x, Decl(typeInferenceWithTupleType.jump, 0, 23))
+>T : Symbol(T, Decl(typeInferenceWithTupleType.jump, 0, 17))
+>y : Symbol(y, Decl(typeInferenceWithTupleType.jump, 0, 28))
+>U : Symbol(U, Decl(typeInferenceWithTupleType.jump, 0, 19))
+>T : Symbol(T, Decl(typeInferenceWithTupleType.jump, 0, 17))
+>U : Symbol(U, Decl(typeInferenceWithTupleType.jump, 0, 19))
+
+    return [x, y];
+>x : Symbol(x, Decl(typeInferenceWithTupleType.jump, 0, 23))
+>y : Symbol(y, Decl(typeInferenceWithTupleType.jump, 0, 28))
+}
+
+var combineResult = combine("string", 10);
+>combineResult : Symbol(combineResult, Decl(typeInferenceWithTupleType.jump, 4, 3))
+>combine : Symbol(combine, Decl(typeInferenceWithTupleType.jump, 0, 0))
+
+var combineEle1 = combineResult[0]; // string
+>combineEle1 : Symbol(combineEle1, Decl(typeInferenceWithTupleType.jump, 5, 3))
+>combineResult : Symbol(combineResult, Decl(typeInferenceWithTupleType.jump, 4, 3))
+>0 : Symbol(0)
+
+var combineEle2 = combineResult[1]; // number
+>combineEle2 : Symbol(combineEle2, Decl(typeInferenceWithTupleType.jump, 6, 3))
+>combineResult : Symbol(combineResult, Decl(typeInferenceWithTupleType.jump, 4, 3))
+>1 : Symbol(1)
+
+function zip<T, U>(array1: T[], array2: U[]): [[T, U]] {
+>zip : Symbol(zip, Decl(typeInferenceWithTupleType.jump, 6, 35))
+>T : Symbol(T, Decl(typeInferenceWithTupleType.jump, 8, 13))
+>U : Symbol(U, Decl(typeInferenceWithTupleType.jump, 8, 15))
+>array1 : Symbol(array1, Decl(typeInferenceWithTupleType.jump, 8, 19))
+>T : Symbol(T, Decl(typeInferenceWithTupleType.jump, 8, 13))
+>array2 : Symbol(array2, Decl(typeInferenceWithTupleType.jump, 8, 31))
+>U : Symbol(U, Decl(typeInferenceWithTupleType.jump, 8, 15))
+>T : Symbol(T, Decl(typeInferenceWithTupleType.jump, 8, 13))
+>U : Symbol(U, Decl(typeInferenceWithTupleType.jump, 8, 15))
+
+    if (array1.length != array2.length) {
+>array1.length : Symbol(Array.length, Decl(lib.d.jump, --, --))
+>array1 : Symbol(array1, Decl(typeInferenceWithTupleType.jump, 8, 19))
+>length : Symbol(Array.length, Decl(lib.d.jump, --, --))
+>array2.length : Symbol(Array.length, Decl(lib.d.jump, --, --))
+>array2 : Symbol(array2, Decl(typeInferenceWithTupleType.jump, 8, 31))
+>length : Symbol(Array.length, Decl(lib.d.jump, --, --))
+
+        return [[undefined, undefined]];
+>undefined : Symbol(undefined)
+>undefined : Symbol(undefined)
+    }
+    var length = array1.length;
+>length : Symbol(length, Decl(typeInferenceWithTupleType.jump, 12, 7))
+>array1.length : Symbol(Array.length, Decl(lib.d.jump, --, --))
+>array1 : Symbol(array1, Decl(typeInferenceWithTupleType.jump, 8, 19))
+>length : Symbol(Array.length, Decl(lib.d.jump, --, --))
+
+    var zipResult: [[T, U]];
+>zipResult : Symbol(zipResult, Decl(typeInferenceWithTupleType.jump, 13, 7))
+>T : Symbol(T, Decl(typeInferenceWithTupleType.jump, 8, 13))
+>U : Symbol(U, Decl(typeInferenceWithTupleType.jump, 8, 15))
+
+    for (var i = 0; i < length; ++i) {
+>i : Symbol(i, Decl(typeInferenceWithTupleType.jump, 14, 12))
+>i : Symbol(i, Decl(typeInferenceWithTupleType.jump, 14, 12))
+>length : Symbol(length, Decl(typeInferenceWithTupleType.jump, 12, 7))
+>i : Symbol(i, Decl(typeInferenceWithTupleType.jump, 14, 12))
+
+        zipResult.push([array1[i], array2[i]]);
+>zipResult.push : Symbol(Array.push, Decl(lib.d.jump, --, --))
+>zipResult : Symbol(zipResult, Decl(typeInferenceWithTupleType.jump, 13, 7))
+>push : Symbol(Array.push, Decl(lib.d.jump, --, --))
+>array1 : Symbol(array1, Decl(typeInferenceWithTupleType.jump, 8, 19))
+>i : Symbol(i, Decl(typeInferenceWithTupleType.jump, 14, 12))
+>array2 : Symbol(array2, Decl(typeInferenceWithTupleType.jump, 8, 31))
+>i : Symbol(i, Decl(typeInferenceWithTupleType.jump, 14, 12))
+    }
+    return zipResult;
+>zipResult : Symbol(zipResult, Decl(typeInferenceWithTupleType.jump, 13, 7))
+}
+
+var zipResult = zip(["foo", "bar"], [5, 6]);
+>zipResult : Symbol(zipResult, Decl(typeInferenceWithTupleType.jump, 20, 3))
+>zip : Symbol(zip, Decl(typeInferenceWithTupleType.jump, 6, 35))
+
+var zipResultEle = zipResult[0]; // [string, number]
+>zipResultEle : Symbol(zipResultEle, Decl(typeInferenceWithTupleType.jump, 21, 3))
+>zipResult : Symbol(zipResult, Decl(typeInferenceWithTupleType.jump, 20, 3))
+>0 : Symbol(0)
+
+var zipResultEleEle = zipResult[0][0]; // string
+>zipResultEleEle : Symbol(zipResultEleEle, Decl(typeInferenceWithTupleType.jump, 22, 3))
+>zipResult : Symbol(zipResult, Decl(typeInferenceWithTupleType.jump, 20, 3))
+>0 : Symbol(0)
+>0 : Symbol(0)
+
+

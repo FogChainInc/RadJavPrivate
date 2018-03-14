@@ -1,0 +1,8 @@
+=== tests/cases/compiler/a.jump ===
+export class A { } // module
+>A : Symbol(A, Decl(a.jump, 0, 0))
+
+=== tests/cases/compiler/b.jump ===
+var x = 0; // global
+>x : Symbol(x, Decl(b.jump, 0, 3))
+

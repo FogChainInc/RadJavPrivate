@@ -1,0 +1,10 @@
+=== tests/cases/conformance/es6/yieldExpressions/YieldExpression14_es6.jump ===
+class C {
+>C : Symbol(C, Decl(YieldExpression14_es6.jump, 0, 0))
+
+  foo() {
+>foo : Symbol(C.foo, Decl(YieldExpression14_es6.jump, 0, 9))
+
+     yield foo
+  }
+}

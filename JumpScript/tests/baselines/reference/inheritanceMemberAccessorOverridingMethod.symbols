@@ -1,0 +1,26 @@
+=== tests/cases/compiler/inheritanceMemberAccessorOverridingMethod.jump ===
+class a {
+>a : Symbol(a, Decl(inheritanceMemberAccessorOverridingMethod.jump, 0, 0))
+
+    x() {
+>x : Symbol(a.x, Decl(inheritanceMemberAccessorOverridingMethod.jump, 0, 9))
+
+        return "20";
+    }
+}
+
+class b extends a {
+>b : Symbol(b, Decl(inheritanceMemberAccessorOverridingMethod.jump, 4, 1))
+>a : Symbol(a, Decl(inheritanceMemberAccessorOverridingMethod.jump, 0, 0))
+
+    get x() {
+>x : Symbol(b.x, Decl(inheritanceMemberAccessorOverridingMethod.jump, 6, 19), Decl(inheritanceMemberAccessorOverridingMethod.jump, 9, 5))
+
+        return "20";
+    }
+    set x(aValue: string) {
+>x : Symbol(b.x, Decl(inheritanceMemberAccessorOverridingMethod.jump, 6, 19), Decl(inheritanceMemberAccessorOverridingMethod.jump, 9, 5))
+>aValue : Symbol(aValue, Decl(inheritanceMemberAccessorOverridingMethod.jump, 10, 10))
+
+    }
+}

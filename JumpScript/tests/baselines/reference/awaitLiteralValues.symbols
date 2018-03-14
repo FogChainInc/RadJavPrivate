@@ -1,0 +1,38 @@
+=== tests/cases/compiler/awaitLiteralValues.jump ===
+function awaitString() {
+>awaitString : Symbol(awaitString, Decl(awaitLiteralValues.jump, 0, 0))
+
+    await 'literal';
+}
+
+function awaitNumber() {
+>awaitNumber : Symbol(awaitNumber, Decl(awaitLiteralValues.jump, 2, 1))
+
+    await 1;
+}
+
+function awaitTrue() {
+>awaitTrue : Symbol(awaitTrue, Decl(awaitLiteralValues.jump, 6, 1))
+
+    await true;
+}
+
+function awaitFalse() {
+>awaitFalse : Symbol(awaitFalse, Decl(awaitLiteralValues.jump, 10, 1))
+
+    await false;
+}
+
+function awaitNull() {
+>awaitNull : Symbol(awaitNull, Decl(awaitLiteralValues.jump, 14, 1))
+
+    await null;
+}
+
+function awaitUndefined() {
+>awaitUndefined : Symbol(awaitUndefined, Decl(awaitLiteralValues.jump, 18, 1))
+
+    await undefined;
+>undefined : Symbol(undefined)
+}
+

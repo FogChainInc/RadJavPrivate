@@ -1,0 +1,24 @@
+=== tests/cases/compiler/restParamsWithNonRestParams.jump ===
+function foo(...b:number[]){}
+>foo : Symbol(foo, Decl(restParamsWithNonRestParams.jump, 0, 0))
+>b : Symbol(b, Decl(restParamsWithNonRestParams.jump, 0, 13))
+
+foo(); // ok
+>foo : Symbol(foo, Decl(restParamsWithNonRestParams.jump, 0, 0))
+
+function foo2(a:string, ...b:number[]){}
+>foo2 : Symbol(foo2, Decl(restParamsWithNonRestParams.jump, 1, 6))
+>a : Symbol(a, Decl(restParamsWithNonRestParams.jump, 2, 14))
+>b : Symbol(b, Decl(restParamsWithNonRestParams.jump, 2, 23))
+
+foo2(); // should be an error
+>foo2 : Symbol(foo2, Decl(restParamsWithNonRestParams.jump, 1, 6))
+
+function foo3(a?:string, ...b:number[]){}
+>foo3 : Symbol(foo3, Decl(restParamsWithNonRestParams.jump, 3, 7))
+>a : Symbol(a, Decl(restParamsWithNonRestParams.jump, 4, 14))
+>b : Symbol(b, Decl(restParamsWithNonRestParams.jump, 4, 24))
+
+foo3(); // error but shouldn't be
+>foo3 : Symbol(foo3, Decl(restParamsWithNonRestParams.jump, 3, 7))
+

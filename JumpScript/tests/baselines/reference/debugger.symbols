@@ -1,0 +1,9 @@
+=== tests/cases/compiler/debugger.jump ===
+debugger;
+
+function foo() {
+>foo : Symbol(foo, Decl(debugger.jump, 0, 9))
+
+    debugger;
+
+}

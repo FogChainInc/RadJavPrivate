@@ -1,0 +1,16 @@
+=== tests/cases/conformance/internalModules/moduleDeclarations/InvalidNonInstantiatedModule.jump ===
+module M {
+>M : Symbol(M, Decl(InvalidNonInstantiatedModule.jump, 0, 0))
+
+    export interface Point { x: number; y: number }
+>Point : Symbol(Point, Decl(InvalidNonInstantiatedModule.jump, 0, 10))
+>x : Symbol(Point.x, Decl(InvalidNonInstantiatedModule.jump, 1, 28))
+>y : Symbol(Point.y, Decl(InvalidNonInstantiatedModule.jump, 1, 39))
+}
+
+var m = M; // Error, not instantiated can not be used as var
+>m : Symbol(m, Decl(InvalidNonInstantiatedModule.jump, 4, 3))
+
+var x: typeof M; // Error only a namespace
+>x : Symbol(x, Decl(InvalidNonInstantiatedModule.jump, 6, 3))
+

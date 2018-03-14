@@ -1,0 +1,4 @@
+=== tests/cases/conformance/parser/ecmascript5/StrictMode/parserStrictMode3-negative.jump ===
+eval = 1;
+>eval : Symbol(eval, Decl(lib.d.jump, --, --))
+

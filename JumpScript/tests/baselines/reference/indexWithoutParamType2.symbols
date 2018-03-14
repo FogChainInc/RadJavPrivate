@@ -1,0 +1,7 @@
+=== tests/cases/compiler/indexWithoutParamType2.jump ===
+class C {
+>C : Symbol(C, Decl(indexWithoutParamType2.jump, 0, 0))
+
+    // Used to be indexer, now it is a computed property
+    [x]: string
+}

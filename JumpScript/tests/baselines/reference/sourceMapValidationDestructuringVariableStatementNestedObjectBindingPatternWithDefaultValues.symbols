@@ -1,0 +1,127 @@
+=== tests/cases/compiler/sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump ===
+declare var console: {
+>console : Symbol(console, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 0, 11))
+
+    log(msg: string): void;
+>log : Symbol(log, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 0, 22))
+>msg : Symbol(msg, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 1, 8))
+}
+interface Robot {
+>Robot : Symbol(Robot, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 2, 1))
+
+    name: string;
+>name : Symbol(Robot.name, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 3, 17))
+
+    skills: {
+>skills : Symbol(Robot.skills, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 4, 17))
+
+        primary?: string;
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 5, 13))
+
+        secondary?: string;
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 6, 25))
+
+    };
+}
+var robotA: Robot = { name: "mower", skills: { primary: "mowing", secondary: "none" } };
+>robotA : Symbol(robotA, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 10, 3))
+>Robot : Symbol(Robot, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 2, 1))
+>name : Symbol(name, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 10, 21))
+>skills : Symbol(skills, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 10, 36))
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 10, 46))
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 10, 65))
+
+var robotB: Robot = { name: "trimmer", skills: { primary: "trimming", secondary: "edging" } };
+>robotB : Symbol(robotB, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 11, 3))
+>Robot : Symbol(Robot, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 2, 1))
+>name : Symbol(name, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 11, 21))
+>skills : Symbol(skills, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 11, 38))
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 11, 48))
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 11, 69))
+
+var {
+    skills: {
+>skills : Symbol(Robot.skills, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 4, 17))
+
+        primary: primaryA = "noSkill",
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 5, 13))
+>primaryA : Symbol(primaryA, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 14, 13))
+
+        secondary: secondaryA = "noSkill"
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 6, 25))
+>secondaryA : Symbol(secondaryA, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 15, 38))
+
+    } = { primary: "noSkill", secondary: "noSkill" }
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 17, 9))
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 17, 29))
+
+} = robotA;
+>robotA : Symbol(robotA, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 10, 3))
+
+var {
+    name: nameB = "noNameSpecified",
+>name : Symbol(Robot.name, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 3, 17))
+>nameB : Symbol(nameB, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 19, 5))
+
+    skills: {
+>skills : Symbol(Robot.skills, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 4, 17))
+
+        primary: primaryB = "noSkill",
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 5, 13))
+>primaryB : Symbol(primaryB, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 21, 13), Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 28, 13))
+
+        secondary: secondaryB = "noSkill"
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 6, 25))
+>secondaryB : Symbol(secondaryB, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 22, 38), Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 29, 38))
+
+    } = { primary: "noSkill", secondary: "noSkill" }
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 24, 9))
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 24, 29))
+
+} = robotB;
+>robotB : Symbol(robotB, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 11, 3))
+
+var {
+    name: nameC = "noNameSpecified",
+>name : Symbol(Robot.name, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 3, 17))
+>nameC : Symbol(nameC, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 26, 5))
+
+    skills: {
+>skills : Symbol(Robot.skills, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 4, 17))
+
+        primary: primaryB = "noSkill",
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 5, 13))
+>primaryB : Symbol(primaryB, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 21, 13), Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 28, 13))
+
+        secondary: secondaryB = "noSkill"
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 6, 25))
+>secondaryB : Symbol(secondaryB, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 22, 38), Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 29, 38))
+
+    } = { primary: "noSkill", secondary: "noSkill" }
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 31, 9))
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 31, 29))
+
+} = <Robot>{ name: "Edger", skills: { primary: "edging", secondary: "branch trimming" } };
+>Robot : Symbol(Robot, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 2, 1))
+>name : Symbol(name, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 32, 12))
+>skills : Symbol(skills, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 32, 27))
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 32, 37))
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 32, 56))
+
+if (nameB == nameB) {
+>nameB : Symbol(nameB, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 19, 5))
+>nameB : Symbol(nameB, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 19, 5))
+
+    console.log(nameC);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 0, 22))
+>nameC : Symbol(nameC, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 26, 5))
+}
+else {
+    console.log(nameC);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 0, 22))
+>nameC : Symbol(nameC, Decl(sourceMapValidationDestructuringVariableStatementNestedObjectBindingPatternWithDefaultValues.jump, 26, 5))
+}

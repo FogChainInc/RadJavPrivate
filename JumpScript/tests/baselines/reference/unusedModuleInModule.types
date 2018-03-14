@@ -1,0 +1,7 @@
+=== tests/cases/compiler/unusedModuleInModule.jump ===
+module A {
+>A : any
+
+    module B {}
+>B : any
+}

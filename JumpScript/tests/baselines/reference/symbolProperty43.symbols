@@ -1,0 +1,16 @@
+=== tests/cases/conformance/es6/Symbols/symbolProperty43.jump ===
+class C {
+>C : Symbol(C, Decl(symbolProperty43.jump, 0, 0))
+
+    [Symbol.iterator](x: string): string;
+>Symbol.iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+>x : Symbol(x, Decl(symbolProperty43.jump, 1, 22))
+
+    [Symbol.iterator](x: number): number;
+>Symbol.iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+>x : Symbol(x, Decl(symbolProperty43.jump, 2, 22))
+}

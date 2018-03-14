@@ -1,0 +1,19 @@
+=== tests/cases/compiler/a.jump ===
+export * from "./b";
+No type information for this code.export * from "./c";
+No type information for this code.
+No type information for this code.=== tests/cases/compiler/b.jump ===
+export {Animals} from "./c";
+>Animals : typeof Animals
+
+=== tests/cases/compiler/c.jump ===
+export enum Animals {
+>Animals : Animals
+
+	Cat,
+>Cat : Animals.Cat
+
+	Dog
+>Dog : Animals.Dog
+
+};

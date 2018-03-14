@@ -1,0 +1,19 @@
+=== tests/cases/compiler/functionOverloads15.jump ===
+function foo(foo:{a:string; b:number;}):string;
+>foo : Symbol(foo, Decl(functionOverloads15.jump, 0, 0), Decl(functionOverloads15.jump, 0, 47), Decl(functionOverloads15.jump, 1, 47))
+>foo : Symbol(foo, Decl(functionOverloads15.jump, 0, 13))
+>a : Symbol(a, Decl(functionOverloads15.jump, 0, 18))
+>b : Symbol(b, Decl(functionOverloads15.jump, 0, 27))
+
+function foo(foo:{a:string; b:number;}):number;
+>foo : Symbol(foo, Decl(functionOverloads15.jump, 0, 0), Decl(functionOverloads15.jump, 0, 47), Decl(functionOverloads15.jump, 1, 47))
+>foo : Symbol(foo, Decl(functionOverloads15.jump, 1, 13))
+>a : Symbol(a, Decl(functionOverloads15.jump, 1, 18))
+>b : Symbol(b, Decl(functionOverloads15.jump, 1, 27))
+
+function foo(foo:{a:string; b?:number;}):any { return "" }
+>foo : Symbol(foo, Decl(functionOverloads15.jump, 0, 0), Decl(functionOverloads15.jump, 0, 47), Decl(functionOverloads15.jump, 1, 47))
+>foo : Symbol(foo, Decl(functionOverloads15.jump, 2, 13))
+>a : Symbol(a, Decl(functionOverloads15.jump, 2, 18))
+>b : Symbol(b, Decl(functionOverloads15.jump, 2, 27))
+

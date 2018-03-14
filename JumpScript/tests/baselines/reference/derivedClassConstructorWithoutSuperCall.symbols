@@ -1,0 +1,63 @@
+=== tests/cases/conformance/classes/constructorDeclarations/superCalls/derivedClassConstructorWithoutSuperCall.jump ===
+// derived class constructors must contain a super call
+
+class Base {
+>Base : Symbol(Base, Decl(derivedClassConstructorWithoutSuperCall.jump, 0, 0))
+
+    x: string;
+>x : Symbol(Base.x, Decl(derivedClassConstructorWithoutSuperCall.jump, 2, 12))
+}
+
+class Derived extends Base {
+>Derived : Symbol(Derived, Decl(derivedClassConstructorWithoutSuperCall.jump, 4, 1))
+>Base : Symbol(Base, Decl(derivedClassConstructorWithoutSuperCall.jump, 0, 0))
+
+    constructor() { // error
+    }
+}
+
+class Base2<T> {
+>Base2 : Symbol(Base2, Decl(derivedClassConstructorWithoutSuperCall.jump, 9, 1))
+>T : Symbol(T, Decl(derivedClassConstructorWithoutSuperCall.jump, 11, 12))
+
+    x: T;
+>x : Symbol(Base2.x, Decl(derivedClassConstructorWithoutSuperCall.jump, 11, 16))
+>T : Symbol(T, Decl(derivedClassConstructorWithoutSuperCall.jump, 11, 12))
+}
+
+class Derived2<T> extends Base2<T> {
+>Derived2 : Symbol(Derived2, Decl(derivedClassConstructorWithoutSuperCall.jump, 13, 1))
+>T : Symbol(T, Decl(derivedClassConstructorWithoutSuperCall.jump, 15, 15))
+>Base2 : Symbol(Base2, Decl(derivedClassConstructorWithoutSuperCall.jump, 9, 1))
+>T : Symbol(T, Decl(derivedClassConstructorWithoutSuperCall.jump, 15, 15))
+
+    constructor() { // error for no super call (nested scopes don't count)
+        var r2 = () => super(); // error for misplaced super call (nested function)
+>r2 : Symbol(r2, Decl(derivedClassConstructorWithoutSuperCall.jump, 17, 11))
+    }
+}
+
+class Derived3<T> extends Base2<T> {
+>Derived3 : Symbol(Derived3, Decl(derivedClassConstructorWithoutSuperCall.jump, 19, 1))
+>T : Symbol(T, Decl(derivedClassConstructorWithoutSuperCall.jump, 21, 15))
+>Base2 : Symbol(Base2, Decl(derivedClassConstructorWithoutSuperCall.jump, 9, 1))
+>T : Symbol(T, Decl(derivedClassConstructorWithoutSuperCall.jump, 21, 15))
+
+    constructor() { // error
+        var r = function () { super() } // error
+>r : Symbol(r, Decl(derivedClassConstructorWithoutSuperCall.jump, 23, 11))
+    }
+}
+
+class Derived4<T> extends Base2<T> {
+>Derived4 : Symbol(Derived4, Decl(derivedClassConstructorWithoutSuperCall.jump, 25, 1))
+>T : Symbol(T, Decl(derivedClassConstructorWithoutSuperCall.jump, 27, 15))
+>Base2 : Symbol(Base2, Decl(derivedClassConstructorWithoutSuperCall.jump, 9, 1))
+>T : Symbol(T, Decl(derivedClassConstructorWithoutSuperCall.jump, 27, 15))
+
+    constructor() {
+        var r = super(); // ok
+>r : Symbol(r, Decl(derivedClassConstructorWithoutSuperCall.jump, 29, 11))
+>super : Symbol(Base2, Decl(derivedClassConstructorWithoutSuperCall.jump, 9, 1))
+    }
+}

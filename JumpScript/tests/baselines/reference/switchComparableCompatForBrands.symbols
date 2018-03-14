@@ -1,0 +1,22 @@
+=== tests/cases/compiler/switchComparableCompatForBrands.jump ===
+class MyBrand
+>MyBrand : Symbol(MyBrand, Decl(switchComparableCompatForBrands.jump, 0, 0))
+{
+    private _a: number;
+>_a : Symbol(MyBrand._a, Decl(switchComparableCompatForBrands.jump, 1, 1))
+}
+
+function test(strInput: string & MyBrand) {
+>test : Symbol(test, Decl(switchComparableCompatForBrands.jump, 3, 1))
+>strInput : Symbol(strInput, Decl(switchComparableCompatForBrands.jump, 5, 14))
+>MyBrand : Symbol(MyBrand, Decl(switchComparableCompatForBrands.jump, 0, 0))
+
+    switch(strInput)
+>strInput : Symbol(strInput, Decl(switchComparableCompatForBrands.jump, 5, 14))
+    {
+        case "a":
+        return 1;
+    }
+    return 0;
+}
+

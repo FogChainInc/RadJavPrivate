@@ -1,0 +1,13 @@
+=== /app.jump ===
+interface A {
+>A : A
+
+    x: $
+>x : $
+>$ : $
+}
+=== /types/lib/index.d.jump ===
+interface $ { x }
+>$ : $
+>x : any
+

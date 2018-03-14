@@ -1,0 +1,11 @@
+=== tests/cases/compiler/mismatchedClassConstructorVariable.jump ===
+var baz: foo;
+>baz : Symbol(baz, Decl(mismatchedClassConstructorVariable.jump, 0, 3))
+>foo : Symbol(foo, Decl(mismatchedClassConstructorVariable.jump, 1, 13))
+
+class baz { }
+>baz : Symbol(baz, Decl(mismatchedClassConstructorVariable.jump, 0, 13))
+
+class foo { }
+>foo : Symbol(foo, Decl(mismatchedClassConstructorVariable.jump, 1, 13))
+

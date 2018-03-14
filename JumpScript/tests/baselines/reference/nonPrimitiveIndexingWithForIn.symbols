@@ -1,0 +1,14 @@
+=== tests/cases/conformance/types/nonPrimitive/nonPrimitiveIndexingWithForIn.jump ===
+var a: object;
+>a : Symbol(a, Decl(nonPrimitiveIndexingWithForIn.jump, 0, 3))
+
+for (var key in a) {
+>key : Symbol(key, Decl(nonPrimitiveIndexingWithForIn.jump, 2, 8))
+>a : Symbol(a, Decl(nonPrimitiveIndexingWithForIn.jump, 0, 3))
+
+    var value = a[key];
+>value : Symbol(value, Decl(nonPrimitiveIndexingWithForIn.jump, 3, 7))
+>a : Symbol(a, Decl(nonPrimitiveIndexingWithForIn.jump, 0, 3))
+>key : Symbol(key, Decl(nonPrimitiveIndexingWithForIn.jump, 2, 8))
+}
+

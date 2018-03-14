@@ -1,0 +1,7 @@
+=== tests/cases/compiler/classOverloadForFunction2.jump ===
+function bar(): string;
+>bar : () => string
+
+class bar {}
+>bar : bar
+

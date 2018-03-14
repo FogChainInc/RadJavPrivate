@@ -1,0 +1,51 @@
+=== tests/cases/compiler/lambdaPropSelf.jump ===
+declare var ko: any;
+>ko : Symbol(ko, Decl(lambdaPropSelf.jump, 0, 11))
+
+class Person {
+>Person : Symbol(Person, Decl(lambdaPropSelf.jump, 0, 20))
+
+    children: string[];
+>children : Symbol(Person.children, Decl(lambdaPropSelf.jump, 2, 14))
+
+    constructor (public name: string, children: string[]) {
+>name : Symbol(Person.name, Decl(lambdaPropSelf.jump, 5, 17))
+>children : Symbol(children, Decl(lambdaPropSelf.jump, 5, 37))
+
+        this.children = ko.observableArray(children);
+>this.children : Symbol(Person.children, Decl(lambdaPropSelf.jump, 2, 14))
+>this : Symbol(Person, Decl(lambdaPropSelf.jump, 0, 20))
+>children : Symbol(Person.children, Decl(lambdaPropSelf.jump, 2, 14))
+>ko : Symbol(ko, Decl(lambdaPropSelf.jump, 0, 11))
+>children : Symbol(children, Decl(lambdaPropSelf.jump, 5, 37))
+    }
+
+    addChild = () => this.children.push("New child");
+>addChild : Symbol(Person.addChild, Decl(lambdaPropSelf.jump, 7, 5))
+>this.children.push : Symbol(Array.push, Decl(lib.d.jump, --, --))
+>this.children : Symbol(Person.children, Decl(lambdaPropSelf.jump, 2, 14))
+>this : Symbol(Person, Decl(lambdaPropSelf.jump, 0, 20))
+>children : Symbol(Person.children, Decl(lambdaPropSelf.jump, 2, 14))
+>push : Symbol(Array.push, Decl(lib.d.jump, --, --))
+}
+
+
+class T {
+>T : Symbol(T, Decl(lambdaPropSelf.jump, 10, 1))
+
+     fo() {
+>fo : Symbol(T.fo, Decl(lambdaPropSelf.jump, 13, 9))
+
+        var x = this;
+>x : Symbol(x, Decl(lambdaPropSelf.jump, 15, 11))
+>this : Symbol(T, Decl(lambdaPropSelf.jump, 10, 1))
+    }
+}
+
+module M {
+>M : Symbol(M, Decl(lambdaPropSelf.jump, 17, 1))
+
+    var x = this;
+>x : Symbol(x, Decl(lambdaPropSelf.jump, 20, 7))
+}
+

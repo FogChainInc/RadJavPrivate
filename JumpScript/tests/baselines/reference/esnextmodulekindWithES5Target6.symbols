@@ -1,0 +1,16 @@
+=== tests/cases/conformance/externalModules/esnext/esnextmodulekindWithES5Target6.jump ===
+export function f1(d = 0) {
+>f1 : Symbol(f1, Decl(esnextmodulekindWithES5Target6.jump, 0, 0))
+>d : Symbol(d, Decl(esnextmodulekindWithES5Target6.jump, 0, 19))
+}
+
+export function f2(...arg) {
+>f2 : Symbol(f2, Decl(esnextmodulekindWithES5Target6.jump, 1, 1))
+>arg : Symbol(arg, Decl(esnextmodulekindWithES5Target6.jump, 3, 19))
+}
+
+export default function f3(d = 0) {
+>f3 : Symbol(f3, Decl(esnextmodulekindWithES5Target6.jump, 4, 1))
+>d : Symbol(d, Decl(esnextmodulekindWithES5Target6.jump, 6, 27))
+}
+

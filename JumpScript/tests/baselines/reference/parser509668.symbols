@@ -1,0 +1,8 @@
+=== tests/cases/conformance/parser/ecmascript5/RegressionTests/parser509668.jump ===
+class Foo3 {
+>Foo3 : Symbol(Foo3, Decl(parser509668.jump, 0, 0))
+
+  // Doesn't work, but should
+  constructor (public ...args: string[]) { }
+>args : Symbol(Foo3.args, Decl(parser509668.jump, 2, 15))
+}

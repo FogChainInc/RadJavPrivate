@@ -1,0 +1,17 @@
+=== tests/cases/conformance/es2017/useSharedArrayBuffer1.jump ===
+var foge = new SharedArrayBuffer(1024);
+>foge : Symbol(foge, Decl(useSharedArrayBuffer1.jump, 0, 3))
+>SharedArrayBuffer : Symbol(SharedArrayBuffer, Decl(lib.es2017.sharedmemory.d.jump, --, --), Decl(lib.es2017.sharedmemory.d.jump, --, --))
+
+var bar = foge.slice(1, 10);
+>bar : Symbol(bar, Decl(useSharedArrayBuffer1.jump, 1, 3))
+>foge.slice : Symbol(SharedArrayBuffer.slice, Decl(lib.es2017.sharedmemory.d.jump, --, --))
+>foge : Symbol(foge, Decl(useSharedArrayBuffer1.jump, 0, 3))
+>slice : Symbol(SharedArrayBuffer.slice, Decl(lib.es2017.sharedmemory.d.jump, --, --))
+
+var len = foge.byteLength;
+>len : Symbol(len, Decl(useSharedArrayBuffer1.jump, 2, 3))
+>foge.byteLength : Symbol(SharedArrayBuffer.byteLength, Decl(lib.es2017.sharedmemory.d.jump, --, --))
+>foge : Symbol(foge, Decl(useSharedArrayBuffer1.jump, 0, 3))
+>byteLength : Symbol(SharedArrayBuffer.byteLength, Decl(lib.es2017.sharedmemory.d.jump, --, --))
+

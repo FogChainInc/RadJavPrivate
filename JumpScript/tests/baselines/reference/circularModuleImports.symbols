@@ -1,0 +1,16 @@
+=== tests/cases/compiler/circularModuleImports.jump ===
+module M
+>M : Symbol(M, Decl(circularModuleImports.jump, 0, 0))
+ 
+{
+ 
+    import A = B;
+>A : Symbol(A, Decl(circularModuleImports.jump, 2, 1))
+>B : Symbol(B, Decl(circularModuleImports.jump, 4, 17))
+ 
+    import B = A;
+>B : Symbol(B, Decl(circularModuleImports.jump, 4, 17))
+>A : Symbol(A, Decl(circularModuleImports.jump, 2, 1))
+ 
+}
+

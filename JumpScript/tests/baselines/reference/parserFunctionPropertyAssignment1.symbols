@@ -1,0 +1,5 @@
+=== tests/cases/conformance/parser/ecmascript5/PropertyAssignments/parserFunctionPropertyAssignment1.jump ===
+var v = { foo() { } };
+>v : Symbol(v, Decl(parserFunctionPropertyAssignment1.jump, 0, 3))
+>foo : Symbol(foo, Decl(parserFunctionPropertyAssignment1.jump, 0, 9))
+

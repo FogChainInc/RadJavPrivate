@@ -1,0 +1,11 @@
+=== tests/cases/compiler/a.d.jump ===
+declare var a: number;
+>a : number
+
+export = a;  // OK, in ambient context
+>a : number
+
+=== tests/cases/compiler/b.jump ===
+import * as a from "a";
+>a : number
+

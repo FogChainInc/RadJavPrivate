@@ -1,0 +1,46 @@
+=== tests/cases/conformance/es6/shorthandPropertyAssignment/objectLiteralShorthandProperties.jump ===
+var a, b, c;
+>a : Symbol(a, Decl(objectLiteralShorthandProperties.jump, 0, 3))
+>b : Symbol(b, Decl(objectLiteralShorthandProperties.jump, 0, 6))
+>c : Symbol(c, Decl(objectLiteralShorthandProperties.jump, 0, 9))
+
+var x1 = {
+>x1 : Symbol(x1, Decl(objectLiteralShorthandProperties.jump, 2, 3))
+
+    a
+>a : Symbol(a, Decl(objectLiteralShorthandProperties.jump, 2, 10))
+
+};
+
+var x2 = {
+>x2 : Symbol(x2, Decl(objectLiteralShorthandProperties.jump, 6, 3))
+
+    a,
+>a : Symbol(a, Decl(objectLiteralShorthandProperties.jump, 6, 10))
+}
+
+var x3 = {
+>x3 : Symbol(x3, Decl(objectLiteralShorthandProperties.jump, 10, 3))
+
+    a: 0,
+>a : Symbol(a, Decl(objectLiteralShorthandProperties.jump, 10, 10))
+
+    b,
+>b : Symbol(b, Decl(objectLiteralShorthandProperties.jump, 11, 9))
+
+    c,
+>c : Symbol(c, Decl(objectLiteralShorthandProperties.jump, 12, 6))
+
+    d() { },
+>d : Symbol(d, Decl(objectLiteralShorthandProperties.jump, 13, 6))
+
+    x3,
+>x3 : Symbol(x3, Decl(objectLiteralShorthandProperties.jump, 14, 12))
+
+    parent: x3
+>parent : Symbol(parent, Decl(objectLiteralShorthandProperties.jump, 15, 7))
+>x3 : Symbol(x3, Decl(objectLiteralShorthandProperties.jump, 10, 3))
+
+};
+
+

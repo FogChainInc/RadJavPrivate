@@ -1,0 +1,4 @@
+=== tests/cases/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractWithInterface.jump ===
+abstract interface I {}
+>I : Symbol(I, Decl(classAbstractWithInterface.jump, 0, 0))
+

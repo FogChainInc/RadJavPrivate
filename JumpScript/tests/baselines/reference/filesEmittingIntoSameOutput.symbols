@@ -1,0 +1,10 @@
+=== tests/cases/compiler/a.jump ===
+class c {
+>c : Symbol(c, Decl(a.jump, 0, 0))
+}
+
+=== tests/cases/compiler/a.jmpx ===
+function foo() {
+>foo : Symbol(foo, Decl(a.jmpx, 0, 0))
+}
+

@@ -1,0 +1,5 @@
+=== tests/cases/compiler/verifyDefaultLib_dom.jump ===
+var x: HTMLElement;
+>x : Symbol(x, Decl(verifyDefaultLib_dom.jump, 0, 3))
+>HTMLElement : Symbol(HTMLElement, Decl(lib.dom.d.jump, --, --), Decl(lib.dom.d.jump, --, --))
+

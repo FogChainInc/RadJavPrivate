@@ -1,0 +1,91 @@
+=== tests/cases/compiler/collisionCodeGenModuleWithModuleChildren.jump ===
+module M {
+>M : Symbol(M, Decl(collisionCodeGenModuleWithModuleChildren.jump, 0, 0), Decl(collisionCodeGenModuleWithModuleChildren.jump, 6, 1), Decl(collisionCodeGenModuleWithModuleChildren.jump, 15, 1), Decl(collisionCodeGenModuleWithModuleChildren.jump, 24, 1), Decl(collisionCodeGenModuleWithModuleChildren.jump, 33, 1))
+
+    export var x = 3;
+>x : Symbol(x, Decl(collisionCodeGenModuleWithModuleChildren.jump, 1, 14))
+
+    module m1 {
+>m1 : Symbol(m1, Decl(collisionCodeGenModuleWithModuleChildren.jump, 1, 21))
+
+        var M = 10;
+>M : Symbol(M, Decl(collisionCodeGenModuleWithModuleChildren.jump, 3, 11))
+
+        var p = x;
+>p : Symbol(p, Decl(collisionCodeGenModuleWithModuleChildren.jump, 4, 11))
+>x : Symbol(x, Decl(collisionCodeGenModuleWithModuleChildren.jump, 1, 14))
+    }
+}
+
+module M {
+>M : Symbol(M, Decl(collisionCodeGenModuleWithModuleChildren.jump, 0, 0), Decl(collisionCodeGenModuleWithModuleChildren.jump, 6, 1), Decl(collisionCodeGenModuleWithModuleChildren.jump, 15, 1), Decl(collisionCodeGenModuleWithModuleChildren.jump, 24, 1), Decl(collisionCodeGenModuleWithModuleChildren.jump, 33, 1))
+
+    module m2 {
+>m2 : Symbol(m2, Decl(collisionCodeGenModuleWithModuleChildren.jump, 8, 10))
+
+        class M {
+>M : Symbol(M, Decl(collisionCodeGenModuleWithModuleChildren.jump, 9, 15))
+        }
+        var p = x;
+>p : Symbol(p, Decl(collisionCodeGenModuleWithModuleChildren.jump, 12, 11))
+>x : Symbol(x, Decl(collisionCodeGenModuleWithModuleChildren.jump, 1, 14))
+
+        var p2 = new M();
+>p2 : Symbol(p2, Decl(collisionCodeGenModuleWithModuleChildren.jump, 13, 11))
+>M : Symbol(M, Decl(collisionCodeGenModuleWithModuleChildren.jump, 9, 15))
+    }
+}
+
+module M {
+>M : Symbol(M, Decl(collisionCodeGenModuleWithModuleChildren.jump, 0, 0), Decl(collisionCodeGenModuleWithModuleChildren.jump, 6, 1), Decl(collisionCodeGenModuleWithModuleChildren.jump, 15, 1), Decl(collisionCodeGenModuleWithModuleChildren.jump, 24, 1), Decl(collisionCodeGenModuleWithModuleChildren.jump, 33, 1))
+
+    module m3 {
+>m3 : Symbol(m3, Decl(collisionCodeGenModuleWithModuleChildren.jump, 17, 10))
+
+        function M() {
+>M : Symbol(M, Decl(collisionCodeGenModuleWithModuleChildren.jump, 18, 15))
+        }
+        var p = x;
+>p : Symbol(p, Decl(collisionCodeGenModuleWithModuleChildren.jump, 21, 11))
+>x : Symbol(x, Decl(collisionCodeGenModuleWithModuleChildren.jump, 1, 14))
+
+        var p2 = M();
+>p2 : Symbol(p2, Decl(collisionCodeGenModuleWithModuleChildren.jump, 22, 11))
+>M : Symbol(M, Decl(collisionCodeGenModuleWithModuleChildren.jump, 18, 15))
+    }
+}
+
+module M { // shouldnt be _M
+>M : Symbol(M, Decl(collisionCodeGenModuleWithModuleChildren.jump, 0, 0), Decl(collisionCodeGenModuleWithModuleChildren.jump, 6, 1), Decl(collisionCodeGenModuleWithModuleChildren.jump, 15, 1), Decl(collisionCodeGenModuleWithModuleChildren.jump, 24, 1), Decl(collisionCodeGenModuleWithModuleChildren.jump, 33, 1))
+
+    module m3 {
+>m3 : Symbol(m3, Decl(collisionCodeGenModuleWithModuleChildren.jump, 26, 10))
+
+        interface M {
+>M : Symbol(M, Decl(collisionCodeGenModuleWithModuleChildren.jump, 27, 15))
+        }
+        var p = x;
+>p : Symbol(p, Decl(collisionCodeGenModuleWithModuleChildren.jump, 30, 11))
+>x : Symbol(x, Decl(collisionCodeGenModuleWithModuleChildren.jump, 1, 14))
+
+        var p2: M;
+>p2 : Symbol(p2, Decl(collisionCodeGenModuleWithModuleChildren.jump, 31, 11))
+>M : Symbol(M, Decl(collisionCodeGenModuleWithModuleChildren.jump, 27, 15))
+    }
+}
+
+module M {
+>M : Symbol(M, Decl(collisionCodeGenModuleWithModuleChildren.jump, 0, 0), Decl(collisionCodeGenModuleWithModuleChildren.jump, 6, 1), Decl(collisionCodeGenModuleWithModuleChildren.jump, 15, 1), Decl(collisionCodeGenModuleWithModuleChildren.jump, 24, 1), Decl(collisionCodeGenModuleWithModuleChildren.jump, 33, 1))
+
+    module m4 {
+>m4 : Symbol(m4, Decl(collisionCodeGenModuleWithModuleChildren.jump, 35, 10))
+
+        module M {
+>M : Symbol(M, Decl(collisionCodeGenModuleWithModuleChildren.jump, 36, 15))
+
+            var p = x;
+>p : Symbol(p, Decl(collisionCodeGenModuleWithModuleChildren.jump, 38, 15))
+>x : Symbol(x, Decl(collisionCodeGenModuleWithModuleChildren.jump, 1, 14))
+        }
+    }
+}

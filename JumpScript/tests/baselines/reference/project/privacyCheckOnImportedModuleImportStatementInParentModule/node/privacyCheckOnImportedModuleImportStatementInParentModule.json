@@ -1,0 +1,14 @@
+{
+    "scenario": "privacy Check on imported module - import statement in parent module",
+    "projectRoot": "tests/cases/projects/privacyCheck-ImportInParent",
+    "inputFiles": [
+        "test.jump"
+    ],
+    "resolvedInputFiles": [
+        "lib.d.jump",
+        "test.jump"
+    ],
+    "emittedFiles": [
+        "test.js"
+    ]
+}

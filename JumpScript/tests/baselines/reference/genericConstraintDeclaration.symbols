@@ -1,0 +1,16 @@
+=== tests/cases/compiler/genericConstraintDeclaration.jump ===
+class List<T extends {}>{
+>List : Symbol(List, Decl(genericConstraintDeclaration.jump, 0, 0))
+>T : Symbol(T, Decl(genericConstraintDeclaration.jump, 0, 11))
+
+    static empty<T extends {}>(): List<T>{return null;}
+>empty : Symbol(List.empty, Decl(genericConstraintDeclaration.jump, 0, 25))
+>T : Symbol(T, Decl(genericConstraintDeclaration.jump, 1, 17))
+>List : Symbol(List, Decl(genericConstraintDeclaration.jump, 0, 0))
+>T : Symbol(T, Decl(genericConstraintDeclaration.jump, 1, 17))
+}
+
+
+
+
+

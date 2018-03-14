@@ -1,0 +1,38 @@
+=== tests/cases/conformance/internalModules/exportDeclarations/ExportClassWhichExtendsInterfaceWithInaccessibleType.jump ===
+module A {
+>A : Symbol(A, Decl(ExportClassWhichExtendsInterfaceWithInaccessibleType.jump, 0, 0))
+
+    interface Point {
+>Point : Symbol(Point, Decl(ExportClassWhichExtendsInterfaceWithInaccessibleType.jump, 0, 10))
+
+        x: number;
+>x : Symbol(Point.x, Decl(ExportClassWhichExtendsInterfaceWithInaccessibleType.jump, 2, 21))
+
+        y: number;
+>y : Symbol(Point.y, Decl(ExportClassWhichExtendsInterfaceWithInaccessibleType.jump, 3, 18))
+
+        fromOrigin(p: Point): number;
+>fromOrigin : Symbol(Point.fromOrigin, Decl(ExportClassWhichExtendsInterfaceWithInaccessibleType.jump, 4, 18))
+>p : Symbol(p, Decl(ExportClassWhichExtendsInterfaceWithInaccessibleType.jump, 6, 19))
+>Point : Symbol(Point, Decl(ExportClassWhichExtendsInterfaceWithInaccessibleType.jump, 0, 10))
+    }
+
+    export class Point2d implements Point {
+>Point2d : Symbol(Point2d, Decl(ExportClassWhichExtendsInterfaceWithInaccessibleType.jump, 7, 5))
+>Point : Symbol(Point, Decl(ExportClassWhichExtendsInterfaceWithInaccessibleType.jump, 0, 10))
+
+        constructor(public x: number, public y: number) { }
+>x : Symbol(Point2d.x, Decl(ExportClassWhichExtendsInterfaceWithInaccessibleType.jump, 10, 20))
+>y : Symbol(Point2d.y, Decl(ExportClassWhichExtendsInterfaceWithInaccessibleType.jump, 10, 37))
+
+        fromOrigin(p: Point) {
+>fromOrigin : Symbol(Point2d.fromOrigin, Decl(ExportClassWhichExtendsInterfaceWithInaccessibleType.jump, 10, 59))
+>p : Symbol(p, Decl(ExportClassWhichExtendsInterfaceWithInaccessibleType.jump, 12, 19))
+>Point : Symbol(Point, Decl(ExportClassWhichExtendsInterfaceWithInaccessibleType.jump, 0, 10))
+
+            return 1;
+        }
+    }
+}
+
+

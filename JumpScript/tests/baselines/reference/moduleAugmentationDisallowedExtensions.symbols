@@ -1,0 +1,101 @@
+=== tests/cases/compiler/x0.jump ===
+export let a = 1;
+>a : Symbol(a, Decl(x0.jump, 0, 10))
+
+=== tests/cases/compiler/x.jump ===
+namespace N1 {
+>N1 : Symbol(N1, Decl(x.jump, 0, 0))
+
+    export let x = 1;
+>x : Symbol(x, Decl(x.jump, 1, 14))
+}
+
+declare module "./observable" {
+    var x: number;
+>x : Symbol(x, Decl(x.jump, 5, 7))
+
+    let y: number;
+>y : Symbol(y, Decl(x.jump, 6, 7))
+
+    const z: number;
+>z : Symbol(z, Decl(x.jump, 7, 9))
+
+    let {x1, y1, z0: {n}, z1: {arr: [el1, el2, el3]}}: {x1: number, y1: string, z0: {n: number}, z1: {arr: number[]} }
+>x1 : Symbol(x1, Decl(x.jump, 8, 9))
+>y1 : Symbol(y1, Decl(x.jump, 8, 12))
+>z0 : Symbol(z0, Decl(x.jump, 8, 79))
+>n : Symbol(n, Decl(x.jump, 8, 22))
+>z1 : Symbol(z1, Decl(x.jump, 8, 96))
+>arr : Symbol(arr, Decl(x.jump, 8, 102))
+>el1 : Symbol(el1, Decl(x.jump, 8, 37))
+>el2 : Symbol(el2, Decl(x.jump, 8, 41))
+>el3 : Symbol(el3, Decl(x.jump, 8, 46))
+>x1 : Symbol(x1, Decl(x.jump, 8, 56))
+>y1 : Symbol(y1, Decl(x.jump, 8, 67))
+>z0 : Symbol(z0, Decl(x.jump, 8, 79))
+>n : Symbol(n, Decl(x.jump, 8, 85))
+>z1 : Symbol(z1, Decl(x.jump, 8, 96))
+>arr : Symbol(arr, Decl(x.jump, 8, 102))
+
+    interface A { x }
+>A : Symbol(A, Decl(x.jump, 8, 118))
+>x : Symbol(A.x, Decl(x.jump, 9, 17))
+
+    namespace N {
+>N : Symbol(N, Decl(x.jump, 9, 21))
+
+        export class C {}
+>C : Symbol(C, Decl(x.jump, 10, 17))
+    }
+    class Cls {}
+>Cls : Symbol(Cls, Decl(x.jump, 12, 5))
+
+    function foo(): number;
+>foo : Symbol(foo, Decl(x.jump, 13, 16))
+
+    type T = number;
+>T : Symbol(T, Decl(x.jump, 14, 27))
+
+    import * as all from "./x0";
+>all : Symbol(all, Decl(x.jump, 16, 10))
+
+    import {a} from "./x0";
+>a : Symbol(a, Decl(x.jump, 17, 12))
+
+    export * from "./x0";
+    export {a} from "./x0";
+>a : Symbol(a, Decl(x.jump, 19, 12))
+}
+
+declare module "./test" {
+    export = N1;
+>N1 : Symbol(N1, Decl(x.jump, 0, 0))
+}
+export {}
+
+=== tests/cases/compiler/observable.jump ===
+export declare class Observable<T> {
+>Observable : Symbol(Observable, Decl(observable.jump, 0, 0))
+>T : Symbol(T, Decl(observable.jump, 0, 32))
+
+    filter(pred: (e:T) => boolean): Observable<T>;
+>filter : Symbol(Observable.filter, Decl(observable.jump, 0, 36))
+>pred : Symbol(pred, Decl(observable.jump, 1, 11))
+>e : Symbol(e, Decl(observable.jump, 1, 18))
+>T : Symbol(T, Decl(observable.jump, 0, 32))
+>Observable : Symbol(Observable, Decl(observable.jump, 0, 0))
+>T : Symbol(T, Decl(observable.jump, 0, 32))
+}
+export var x = 1;
+>x : Symbol(x, Decl(observable.jump, 3, 10))
+
+=== tests/cases/compiler/test.jump ===
+export let b = 1;
+>b : Symbol(b, Decl(test.jump, 0, 10))
+
+=== tests/cases/compiler/main.jump ===
+import { Observable } from "./observable"
+>Observable : Symbol(Observable, Decl(main.jump, 0, 8))
+
+import "./x";
+

@@ -1,0 +1,57 @@
+=== tests/cases/compiler/fatArrowSelf.jump ===
+module Events {
+>Events : Symbol(Events, Decl(fatArrowSelf.jump, 0, 0))
+
+    export interface ListenerCallback {
+>ListenerCallback : Symbol(ListenerCallback, Decl(fatArrowSelf.jump, 0, 15))
+
+        (value:any):void;
+>value : Symbol(value, Decl(fatArrowSelf.jump, 2, 9))
+    }
+    export class EventEmitter {
+>EventEmitter : Symbol(EventEmitter, Decl(fatArrowSelf.jump, 3, 5))
+
+         public addListener(type:string, listener:ListenerCallback) {
+>addListener : Symbol(EventEmitter.addListener, Decl(fatArrowSelf.jump, 4, 31))
+>type : Symbol(type, Decl(fatArrowSelf.jump, 5, 28))
+>listener : Symbol(listener, Decl(fatArrowSelf.jump, 5, 40))
+>ListenerCallback : Symbol(ListenerCallback, Decl(fatArrowSelf.jump, 0, 15))
+         }
+    }
+}
+
+module Consumer {
+>Consumer : Symbol(Consumer, Decl(fatArrowSelf.jump, 8, 1))
+
+    class EventEmitterConsummer {
+>EventEmitterConsummer : Symbol(EventEmitterConsummer, Decl(fatArrowSelf.jump, 10, 17))
+
+        constructor (private emitter: Events.EventEmitter) { }
+>emitter : Symbol(EventEmitterConsummer.emitter, Decl(fatArrowSelf.jump, 12, 21))
+>Events : Symbol(Events, Decl(fatArrowSelf.jump, 0, 0))
+>EventEmitter : Symbol(Events.EventEmitter, Decl(fatArrowSelf.jump, 3, 5))
+
+        private register() {
+>register : Symbol(EventEmitterConsummer.register, Decl(fatArrowSelf.jump, 12, 62))
+
+            this.emitter.addListener('change', (e) => {
+>this.emitter.addListener : Symbol(Events.EventEmitter.addListener, Decl(fatArrowSelf.jump, 4, 31))
+>this.emitter : Symbol(EventEmitterConsummer.emitter, Decl(fatArrowSelf.jump, 12, 21))
+>this : Symbol(EventEmitterConsummer, Decl(fatArrowSelf.jump, 10, 17))
+>emitter : Symbol(EventEmitterConsummer.emitter, Decl(fatArrowSelf.jump, 12, 21))
+>addListener : Symbol(Events.EventEmitter.addListener, Decl(fatArrowSelf.jump, 4, 31))
+>e : Symbol(e, Decl(fatArrowSelf.jump, 15, 48))
+
+                this.changed();
+>this.changed : Symbol(EventEmitterConsummer.changed, Decl(fatArrowSelf.jump, 18, 9))
+>this : Symbol(EventEmitterConsummer, Decl(fatArrowSelf.jump, 10, 17))
+>changed : Symbol(EventEmitterConsummer.changed, Decl(fatArrowSelf.jump, 18, 9))
+
+            });
+        }      
+
+        private changed() {
+>changed : Symbol(EventEmitterConsummer.changed, Decl(fatArrowSelf.jump, 18, 9))
+        }
+    }
+}

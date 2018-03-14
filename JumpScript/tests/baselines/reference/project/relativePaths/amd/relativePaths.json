@@ -1,0 +1,18 @@
+{
+    "scenario": "relative paths",
+    "projectRoot": "tests/cases/projects/RelativePaths",
+    "inputFiles": [
+        "app.jump"
+    ],
+    "resolvedInputFiles": [
+        "lib.d.jump",
+        "A/b.jump",
+        "A/a.jump",
+        "app.jump"
+    ],
+    "emittedFiles": [
+        "A/b.js",
+        "A/a.js",
+        "app.js"
+    ]
+}

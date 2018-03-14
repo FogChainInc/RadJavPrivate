@@ -1,0 +1,13 @@
+=== /a.jump ===
+export default class C {};
+>C : Symbol(C, Decl(a.jump, 0, 0))
+
+=== /b.jump ===
+import * as a from "./a";
+>a : Symbol(a, Decl(b.jump, 0, 6))
+
+export default a.default;
+>a.default : Symbol(a.default, Decl(a.jump, 0, 0))
+>a : Symbol(a, Decl(b.jump, 0, 6))
+>default : Symbol(a.default, Decl(a.jump, 0, 0))
+

@@ -1,0 +1,10 @@
+=== tests/cases/compiler/invocationExpressionInFunctionParameter.jump ===
+function foo1(val: string) {
+>foo1 : Symbol(foo1, Decl(invocationExpressionInFunctionParameter.jump, 0, 0))
+>val : Symbol(val, Decl(invocationExpressionInFunctionParameter.jump, 0, 14))
+}
+function foo3(x = foo1(123)) { //should error, 123 is not string
+>foo3 : Symbol(foo3, Decl(invocationExpressionInFunctionParameter.jump, 1, 1))
+>x : Symbol(x, Decl(invocationExpressionInFunctionParameter.jump, 2, 14))
+>foo1 : Symbol(foo1, Decl(invocationExpressionInFunctionParameter.jump, 0, 0))
+}

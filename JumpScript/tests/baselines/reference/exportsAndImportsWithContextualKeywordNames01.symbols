@@ -1,0 +1,29 @@
+=== tests/cases/conformance/es6/modules/t1.jump ===
+let set = {
+>set : Symbol(set, Decl(t1.jump, 0, 3))
+
+    set foo(x: number) {
+>foo : Symbol(foo, Decl(t1.jump, 0, 11))
+>x : Symbol(x, Decl(t1.jump, 1, 12))
+    }
+}
+let get = 10;
+>get : Symbol(get, Decl(t1.jump, 4, 3))
+
+export { set, get };
+>set : Symbol(set, Decl(t1.jump, 6, 8))
+>get : Symbol(get, Decl(t1.jump, 6, 13))
+
+=== tests/cases/conformance/es6/modules/t2.jump ===
+import * as set from "./t1";
+>set : Symbol(set, Decl(t2.jump, 0, 6))
+
+=== tests/cases/conformance/es6/modules/t3.jump ===
+import { set as yield } from "./t1";
+>set : Symbol(yield, Decl(t3.jump, 0, 8))
+>yield : Symbol(yield, Decl(t3.jump, 0, 8))
+
+=== tests/cases/conformance/es6/modules/t4.jump ===
+import { get } from "./t1";
+>get : Symbol(get, Decl(t4.jump, 0, 8))
+

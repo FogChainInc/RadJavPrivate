@@ -1,0 +1,43 @@
+=== tests/cases/compiler/specializationsShouldNotAffectEachOther.jump ===
+interface Series  {
+>Series : Symbol(Series, Decl(specializationsShouldNotAffectEachOther.jump, 0, 0))
+
+    data: string[];
+>data : Symbol(Series.data, Decl(specializationsShouldNotAffectEachOther.jump, 0, 19))
+}
+
+var series: Series;
+>series : Symbol(series, Decl(specializationsShouldNotAffectEachOther.jump, 4, 3))
+>Series : Symbol(Series, Decl(specializationsShouldNotAffectEachOther.jump, 0, 0))
+
+
+function foo() {
+>foo : Symbol(foo, Decl(specializationsShouldNotAffectEachOther.jump, 4, 19))
+
+    var seriesExtent = (series) => null;
+>seriesExtent : Symbol(seriesExtent, Decl(specializationsShouldNotAffectEachOther.jump, 9, 7))
+>series : Symbol(series, Decl(specializationsShouldNotAffectEachOther.jump, 9, 24))
+
+    var series2: number[];
+>series2 : Symbol(series2, Decl(specializationsShouldNotAffectEachOther.jump, 11, 7))
+
+    series2.map(seriesExtent);
+>series2.map : Symbol(Array.map, Decl(lib.d.jump, --, --))
+>series2 : Symbol(series2, Decl(specializationsShouldNotAffectEachOther.jump, 11, 7))
+>map : Symbol(Array.map, Decl(lib.d.jump, --, --))
+>seriesExtent : Symbol(seriesExtent, Decl(specializationsShouldNotAffectEachOther.jump, 9, 7))
+
+    return null;
+}
+
+
+var keyExtent2: any[] = series.data.map(function (d: string) { return d; });
+>keyExtent2 : Symbol(keyExtent2, Decl(specializationsShouldNotAffectEachOther.jump, 18, 3))
+>series.data.map : Symbol(Array.map, Decl(lib.d.jump, --, --))
+>series.data : Symbol(Series.data, Decl(specializationsShouldNotAffectEachOther.jump, 0, 19))
+>series : Symbol(series, Decl(specializationsShouldNotAffectEachOther.jump, 4, 3))
+>data : Symbol(Series.data, Decl(specializationsShouldNotAffectEachOther.jump, 0, 19))
+>map : Symbol(Array.map, Decl(lib.d.jump, --, --))
+>d : Symbol(d, Decl(specializationsShouldNotAffectEachOther.jump, 18, 50))
+>d : Symbol(d, Decl(specializationsShouldNotAffectEachOther.jump, 18, 50))
+

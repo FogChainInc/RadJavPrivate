@@ -1,0 +1,94 @@
+=== tests/cases/conformance/types/intersection/intersectionsAndEmptyObjects.jump ===
+// Empty object type literals are removed from intersections types
+// that contain other object types
+
+type A = { a: number };
+>A : Symbol(A, Decl(intersectionsAndEmptyObjects.jump, 0, 0))
+>a : Symbol(a, Decl(intersectionsAndEmptyObjects.jump, 3, 10))
+
+type B = { b: string };
+>B : Symbol(B, Decl(intersectionsAndEmptyObjects.jump, 3, 23))
+>b : Symbol(b, Decl(intersectionsAndEmptyObjects.jump, 4, 10))
+
+type C = {};
+>C : Symbol(C, Decl(intersectionsAndEmptyObjects.jump, 4, 23))
+
+let x01: A & B;
+>x01 : Symbol(x01, Decl(intersectionsAndEmptyObjects.jump, 7, 3))
+>A : Symbol(A, Decl(intersectionsAndEmptyObjects.jump, 0, 0))
+>B : Symbol(B, Decl(intersectionsAndEmptyObjects.jump, 3, 23))
+
+let x02: A & C;
+>x02 : Symbol(x02, Decl(intersectionsAndEmptyObjects.jump, 8, 3))
+>A : Symbol(A, Decl(intersectionsAndEmptyObjects.jump, 0, 0))
+>C : Symbol(C, Decl(intersectionsAndEmptyObjects.jump, 4, 23))
+
+let x03: B & C;
+>x03 : Symbol(x03, Decl(intersectionsAndEmptyObjects.jump, 9, 3))
+>B : Symbol(B, Decl(intersectionsAndEmptyObjects.jump, 3, 23))
+>C : Symbol(C, Decl(intersectionsAndEmptyObjects.jump, 4, 23))
+
+let x04: A & B & C;
+>x04 : Symbol(x04, Decl(intersectionsAndEmptyObjects.jump, 10, 3))
+>A : Symbol(A, Decl(intersectionsAndEmptyObjects.jump, 0, 0))
+>B : Symbol(B, Decl(intersectionsAndEmptyObjects.jump, 3, 23))
+>C : Symbol(C, Decl(intersectionsAndEmptyObjects.jump, 4, 23))
+
+let x05: string & C;
+>x05 : Symbol(x05, Decl(intersectionsAndEmptyObjects.jump, 11, 3))
+>C : Symbol(C, Decl(intersectionsAndEmptyObjects.jump, 4, 23))
+
+let x06: C & string;
+>x06 : Symbol(x06, Decl(intersectionsAndEmptyObjects.jump, 12, 3))
+>C : Symbol(C, Decl(intersectionsAndEmptyObjects.jump, 4, 23))
+
+let x07: C;
+>x07 : Symbol(x07, Decl(intersectionsAndEmptyObjects.jump, 13, 3))
+>C : Symbol(C, Decl(intersectionsAndEmptyObjects.jump, 4, 23))
+
+let x08: C & {};
+>x08 : Symbol(x08, Decl(intersectionsAndEmptyObjects.jump, 14, 3))
+>C : Symbol(C, Decl(intersectionsAndEmptyObjects.jump, 4, 23))
+
+let x09: {} & A & {} & B & {} & C & {};
+>x09 : Symbol(x09, Decl(intersectionsAndEmptyObjects.jump, 15, 3))
+>A : Symbol(A, Decl(intersectionsAndEmptyObjects.jump, 0, 0))
+>B : Symbol(B, Decl(intersectionsAndEmptyObjects.jump, 3, 23))
+>C : Symbol(C, Decl(intersectionsAndEmptyObjects.jump, 4, 23))
+
+interface D {}
+>D : Symbol(D, Decl(intersectionsAndEmptyObjects.jump, 15, 39))
+
+interface E {}
+>E : Symbol(E, Decl(intersectionsAndEmptyObjects.jump, 17, 14))
+
+let x10: A & D;
+>x10 : Symbol(x10, Decl(intersectionsAndEmptyObjects.jump, 20, 3))
+>A : Symbol(A, Decl(intersectionsAndEmptyObjects.jump, 0, 0))
+>D : Symbol(D, Decl(intersectionsAndEmptyObjects.jump, 15, 39))
+
+let x11: C & D;
+>x11 : Symbol(x11, Decl(intersectionsAndEmptyObjects.jump, 21, 3))
+>C : Symbol(C, Decl(intersectionsAndEmptyObjects.jump, 4, 23))
+>D : Symbol(D, Decl(intersectionsAndEmptyObjects.jump, 15, 39))
+
+let x12: A & B & C & D;
+>x12 : Symbol(x12, Decl(intersectionsAndEmptyObjects.jump, 22, 3))
+>A : Symbol(A, Decl(intersectionsAndEmptyObjects.jump, 0, 0))
+>B : Symbol(B, Decl(intersectionsAndEmptyObjects.jump, 3, 23))
+>C : Symbol(C, Decl(intersectionsAndEmptyObjects.jump, 4, 23))
+>D : Symbol(D, Decl(intersectionsAndEmptyObjects.jump, 15, 39))
+
+let x13: D & E;
+>x13 : Symbol(x13, Decl(intersectionsAndEmptyObjects.jump, 23, 3))
+>D : Symbol(D, Decl(intersectionsAndEmptyObjects.jump, 15, 39))
+>E : Symbol(E, Decl(intersectionsAndEmptyObjects.jump, 17, 14))
+
+let x14: A & B & C & D & E;
+>x14 : Symbol(x14, Decl(intersectionsAndEmptyObjects.jump, 24, 3))
+>A : Symbol(A, Decl(intersectionsAndEmptyObjects.jump, 0, 0))
+>B : Symbol(B, Decl(intersectionsAndEmptyObjects.jump, 3, 23))
+>C : Symbol(C, Decl(intersectionsAndEmptyObjects.jump, 4, 23))
+>D : Symbol(D, Decl(intersectionsAndEmptyObjects.jump, 15, 39))
+>E : Symbol(E, Decl(intersectionsAndEmptyObjects.jump, 17, 14))
+

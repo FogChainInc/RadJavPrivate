@@ -1,0 +1,9 @@
+=== tests/cases/compiler/constructorArgsErrors4.jump ===
+class foo {
+>foo : Symbol(foo, Decl(constructorArgsErrors4.jump, 0, 0))
+
+    constructor (private public a: number) {
+>a : Symbol(foo.a, Decl(constructorArgsErrors4.jump, 1, 17))
+    }
+}
+

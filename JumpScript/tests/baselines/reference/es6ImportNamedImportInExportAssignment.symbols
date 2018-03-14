@@ -1,0 +1,11 @@
+=== tests/cases/compiler/es6ImportNamedImportInExportAssignment_0.jump ===
+export var a = 10;
+>a : Symbol(a, Decl(es6ImportNamedImportInExportAssignment_0.jump, 0, 10))
+
+=== tests/cases/compiler/es6ImportNamedImportInExportAssignment_1.jump ===
+import { a } from "./es6ImportNamedImportInExportAssignment_0";
+>a : Symbol(a, Decl(es6ImportNamedImportInExportAssignment_1.jump, 0, 8))
+
+export = a;
+>a : Symbol(a, Decl(es6ImportNamedImportInExportAssignment_1.jump, 0, 8))
+

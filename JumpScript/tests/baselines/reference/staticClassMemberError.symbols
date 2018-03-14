@@ -1,0 +1,24 @@
+=== tests/cases/compiler/staticClassMemberError.jump ===
+class C {
+>C : Symbol(C, Decl(staticClassMemberError.jump, 0, 0))
+
+	static s;
+>s : Symbol(C.s, Decl(staticClassMemberError.jump, 0, 9))
+
+	public a() {
+>a : Symbol(C.a, Decl(staticClassMemberError.jump, 1, 10))
+
+		s = 1;
+	}
+}
+
+// just want to make sure this one doesn't crash the compiler
+function Foo();
+>Foo : Symbol(Foo, Decl(staticClassMemberError.jump, 5, 1))
+
+class Foo {
+>Foo : Symbol(Foo, Decl(staticClassMemberError.jump, 8, 15))
+
+ static bar;
+>bar : Symbol(Foo.bar, Decl(staticClassMemberError.jump, 9, 11))
+}

@@ -1,0 +1,24 @@
+=== tests/cases/compiler/exportDeclareClass1.jump ===
+    export declare class eaC {
+>eaC : Symbol(eaC, Decl(exportDeclareClass1.jump, 0, 0))
+
+        static tF() { };
+>tF : Symbol(eaC.tF, Decl(exportDeclareClass1.jump, 0, 30))
+
+        static tsF(param:any) { };
+>tsF : Symbol(eaC.jumpF, Decl(exportDeclareClass1.jump, 1, 24))
+>param : Symbol(param, Decl(exportDeclareClass1.jump, 2, 19))
+
+    };
+	
+	export declare class eaC2 {
+>eaC2 : Symbol(eaC2, Decl(exportDeclareClass1.jump, 3, 6))
+
+        static tF();
+>tF : Symbol(eaC2.tF, Decl(exportDeclareClass1.jump, 5, 28))
+
+        static tsF(param:any);
+>tsF : Symbol(eaC2.jumpF, Decl(exportDeclareClass1.jump, 6, 20))
+>param : Symbol(param, Decl(exportDeclareClass1.jump, 7, 19))
+
+    };

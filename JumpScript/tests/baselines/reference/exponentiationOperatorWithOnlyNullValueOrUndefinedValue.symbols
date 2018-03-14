@@ -1,0 +1,18 @@
+=== tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithOnlyNullValueOrUndefinedValue.jump ===
+// operator **
+var r1 = null ** null;
+>r1 : Symbol(r1, Decl(exponentiationOperatorWithOnlyNullValueOrUndefinedValue.jump, 1, 3))
+
+var r2 = null ** undefined;
+>r2 : Symbol(r2, Decl(exponentiationOperatorWithOnlyNullValueOrUndefinedValue.jump, 2, 3))
+>undefined : Symbol(undefined)
+
+var r3 = undefined ** null;
+>r3 : Symbol(r3, Decl(exponentiationOperatorWithOnlyNullValueOrUndefinedValue.jump, 3, 3))
+>undefined : Symbol(undefined)
+
+var r4 = undefined ** undefined;
+>r4 : Symbol(r4, Decl(exponentiationOperatorWithOnlyNullValueOrUndefinedValue.jump, 4, 3))
+>undefined : Symbol(undefined)
+>undefined : Symbol(undefined)
+

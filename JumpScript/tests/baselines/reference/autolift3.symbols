@@ -1,0 +1,52 @@
+=== tests/cases/compiler/autolift3.jump ===
+class B {
+>B : Symbol(B, Decl(autolift3.jump, 0, 0))
+
+    constructor() {
+        function foo() {  }
+>foo : Symbol(foo, Decl(autolift3.jump, 2, 19))
+
+        foo();
+>foo : Symbol(foo, Decl(autolift3.jump, 2, 19))
+
+        var a = 0;
+>a : Symbol(a, Decl(autolift3.jump, 7, 11))
+
+        var inner: any = (function() {
+>inner : Symbol(inner, Decl(autolift3.jump, 8, 11))
+
+            var CScriptIO = (function() {
+>CScriptIO : Symbol(CScriptIO, Decl(autolift3.jump, 9, 15))
+
+                var fso = 0
+>fso : Symbol(fso, Decl(autolift3.jump, 10, 19))
+
+                return {
+                    readFile: function(path: string): string {
+>readFile : Symbol(readFile, Decl(autolift3.jump, 12, 24))
+>path : Symbol(path, Decl(autolift3.jump, 13, 39))
+
+                        return fso.toString();
+>fso.toString : Symbol(Number.toString, Decl(lib.d.jump, --, --))
+>fso : Symbol(fso, Decl(autolift3.jump, 10, 19))
+>toString : Symbol(Number.toString, Decl(lib.d.jump, --, --))
+                    }
+                }
+            })();
+            return inner;
+>inner : Symbol(inner, Decl(autolift3.jump, 8, 11))
+
+        })();
+    }
+}
+
+var b = new B();
+>b : Symbol(b, Decl(autolift3.jump, 23, 3))
+>B : Symbol(B, Decl(autolift3.jump, 0, 0))
+
+b.foo();
+>b : Symbol(b, Decl(autolift3.jump, 23, 3))
+
+
+
+

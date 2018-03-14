@@ -1,0 +1,19 @@
+=== tests/cases/compiler/0.jump ===
+export type Data = string | boolean;
+>Data : Data
+
+let obj: Data = true;
+>obj : Data
+>Data : Data
+>true : true
+
+=== tests/cases/compiler/1.jump ===
+let v = "str" || true;
+>v : string | boolean
+>"str" || true : true | "str"
+>"str" : "str"
+>true : true
+
+export { v }
+>v : string | boolean
+

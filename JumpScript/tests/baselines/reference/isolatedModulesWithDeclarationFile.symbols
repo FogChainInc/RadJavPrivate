@@ -1,0 +1,8 @@
+=== tests/cases/compiler/file1.d.jump ===
+declare function foo(): void;
+>foo : Symbol(foo, Decl(file1.d.jump, 0, 0))
+
+=== tests/cases/compiler/file1.jump ===
+export var x;
+>x : Symbol(x, Decl(file1.jump, 0, 10))
+

@@ -1,0 +1,22 @@
+=== tests/cases/compiler/captureThisInSuperCall.jump ===
+class A {
+>A : Symbol(A, Decl(captureThisInSuperCall.jump, 0, 0))
+
+    constructor(p:any) {}
+>p : Symbol(p, Decl(captureThisInSuperCall.jump, 1, 16))
+}
+
+class B extends A {
+>B : Symbol(B, Decl(captureThisInSuperCall.jump, 2, 1))
+>A : Symbol(A, Decl(captureThisInSuperCall.jump, 0, 0))
+
+    constructor() { super({ test: () => this.someMethod()}); } 
+>super : Symbol(A, Decl(captureThisInSuperCall.jump, 0, 0))
+>test : Symbol(test, Decl(captureThisInSuperCall.jump, 5, 27))
+>this.someMethod : Symbol(B.someMethod, Decl(captureThisInSuperCall.jump, 5, 62))
+>this : Symbol(B, Decl(captureThisInSuperCall.jump, 2, 1))
+>someMethod : Symbol(B.someMethod, Decl(captureThisInSuperCall.jump, 5, 62))
+
+    someMethod() {}
+>someMethod : Symbol(B.someMethod, Decl(captureThisInSuperCall.jump, 5, 62))
+}

@@ -1,0 +1,5 @@
+=== tests/cases/conformance/es6/templates/templateStringWithPropertyAccess.jump ===
+`abc${0}abc`.indexOf(`abc`);
+>`abc${0}abc`.indexOf : Symbol(String.indexOf, Decl(lib.d.jump, --, --))
+>indexOf : Symbol(String.indexOf, Decl(lib.d.jump, --, --))
+

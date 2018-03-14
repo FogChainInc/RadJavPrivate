@@ -1,0 +1,19 @@
+{
+    "scenario": "declarations_ExportNamespace",
+    "projectRoot": "tests/cases/projects/declarations_ExportNamespace",
+    "inputFiles": [
+        "decl.d.jump",
+        "useModule.jump"
+    ],
+    "declaration": true,
+    "baselineCheck": true,
+    "emittedFiles": [
+        "useModule.js",
+        "useModule.d.jump"
+    ],
+    "resolvedInputFiles": [
+        "lib.d.jump",
+        "decl.d.jump",
+        "useModule.jump"
+    ]
+}

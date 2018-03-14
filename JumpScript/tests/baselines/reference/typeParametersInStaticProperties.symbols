@@ -1,0 +1,8 @@
+=== tests/cases/compiler/typeParametersInStaticProperties.jump ===
+class foo<T> {
+>foo : Symbol(foo, Decl(typeParametersInStaticProperties.jump, 0, 0))
+>T : Symbol(T, Decl(typeParametersInStaticProperties.jump, 0, 10))
+
+    static P: T;
+>P : Symbol(foo.P, Decl(typeParametersInStaticProperties.jump, 0, 14))
+} 

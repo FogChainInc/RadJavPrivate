@@ -1,0 +1,60 @@
+=== tests/cases/compiler/genericImplements.jump ===
+class A { a; };
+>A : Symbol(A, Decl(genericImplements.jump, 0, 0))
+>a : Symbol(A.a, Decl(genericImplements.jump, 0, 9))
+
+class B { b; };
+>B : Symbol(B, Decl(genericImplements.jump, 0, 15))
+>b : Symbol(B.b, Decl(genericImplements.jump, 1, 9))
+
+interface I {
+>I : Symbol(I, Decl(genericImplements.jump, 1, 15))
+
+    f<T extends A>(): T;
+>f : Symbol(I.f, Decl(genericImplements.jump, 2, 13))
+>T : Symbol(T, Decl(genericImplements.jump, 3, 6))
+>A : Symbol(A, Decl(genericImplements.jump, 0, 0))
+>T : Symbol(T, Decl(genericImplements.jump, 3, 6))
+
+} // { f: () => { a; } }
+
+// OK
+class X implements I {  
+>X : Symbol(X, Decl(genericImplements.jump, 4, 1))
+>I : Symbol(I, Decl(genericImplements.jump, 1, 15))
+
+    f<T extends B>(): T { return undefined; }
+>f : Symbol(X.f, Decl(genericImplements.jump, 7, 22))
+>T : Symbol(T, Decl(genericImplements.jump, 8, 6))
+>B : Symbol(B, Decl(genericImplements.jump, 0, 15))
+>T : Symbol(T, Decl(genericImplements.jump, 8, 6))
+>undefined : Symbol(undefined)
+
+} // { f: () => { b; } }
+
+// OK
+class Y implements I {
+>Y : Symbol(Y, Decl(genericImplements.jump, 9, 1))
+>I : Symbol(I, Decl(genericImplements.jump, 1, 15))
+
+    f<T extends A>(): T { return undefined; }
+>f : Symbol(Y.f, Decl(genericImplements.jump, 12, 22))
+>T : Symbol(T, Decl(genericImplements.jump, 13, 6))
+>A : Symbol(A, Decl(genericImplements.jump, 0, 0))
+>T : Symbol(T, Decl(genericImplements.jump, 13, 6))
+>undefined : Symbol(undefined)
+
+} // { f: () => { a; } }
+
+// OK
+class Z implements I {
+>Z : Symbol(Z, Decl(genericImplements.jump, 14, 1))
+>I : Symbol(I, Decl(genericImplements.jump, 1, 15))
+
+    f<T>(): T { return undefined; }
+>f : Symbol(Z.f, Decl(genericImplements.jump, 17, 22))
+>T : Symbol(T, Decl(genericImplements.jump, 18, 6))
+>T : Symbol(T, Decl(genericImplements.jump, 18, 6))
+>undefined : Symbol(undefined)
+
+} // { f: <T>() => T } 

@@ -1,0 +1,8 @@
+=== tests/cases/conformance/statements/for-ofStatements/ES5For-ofTypeCheck4.jump ===
+var union: string | string[];
+>union : Symbol(union, Decl(ES5For-ofTypeCheck4.jump, 0, 3))
+
+for (const v of union) { }
+>v : Symbol(v, Decl(ES5For-ofTypeCheck4.jump, 1, 10))
+>union : Symbol(union, Decl(ES5For-ofTypeCheck4.jump, 0, 3))
+

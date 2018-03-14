@@ -1,0 +1,6 @@
+=== tests/cases/conformance/parser/ecmascript5/ComputedPropertyNames/parserES5ComputedPropertyName11.jump ===
+class C {
+>C : Symbol(C, Decl(parserES5ComputedPropertyName11.jump, 0, 0))
+
+   [e]();
+}

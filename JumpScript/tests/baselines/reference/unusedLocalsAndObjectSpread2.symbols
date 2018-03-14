@@ -1,0 +1,37 @@
+=== tests/cases/compiler/unusedLocalsAndObjectSpread2.jump ===
+declare let props: any;
+>props : Symbol(props, Decl(unusedLocalsAndObjectSpread2.jump, 0, 11))
+
+const {
+    children, // here!
+>children : Symbol(children, Decl(unusedLocalsAndObjectSpread2.jump, 1, 7))
+
+    active: _a, // here!
+>_a : Symbol(_a, Decl(unusedLocalsAndObjectSpread2.jump, 2, 13))
+
+  ...rest,
+>rest : Symbol(rest, Decl(unusedLocalsAndObjectSpread2.jump, 3, 15))
+
+} = props;
+>props : Symbol(props, Decl(unusedLocalsAndObjectSpread2.jump, 0, 11))
+
+function foo() {
+>foo : Symbol(foo, Decl(unusedLocalsAndObjectSpread2.jump, 5, 10))
+
+    const {
+        children,
+>children : Symbol(children, Decl(unusedLocalsAndObjectSpread2.jump, 8, 11))
+
+        active: _a,
+>_a : Symbol(_a, Decl(unusedLocalsAndObjectSpread2.jump, 9, 17))
+
+    ...rest,
+>rest : Symbol(rest, Decl(unusedLocalsAndObjectSpread2.jump, 10, 19))
+
+  } = props;
+>props : Symbol(props, Decl(unusedLocalsAndObjectSpread2.jump, 0, 11))
+}
+
+export const asdf = 123;
+>asdf : Symbol(asdf, Decl(unusedLocalsAndObjectSpread2.jump, 15, 12))
+

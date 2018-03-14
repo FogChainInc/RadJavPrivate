@@ -1,0 +1,44 @@
+=== tests/cases/compiler/parameterInitializerBeforeDestructuringEmit.jump ===
+interface Foo {
+>Foo : Symbol(Foo, Decl(parameterInitializerBeforeDestructuringEmit.jump, 0, 0))
+
+    bar?: any;
+>bar : Symbol(Foo.bar, Decl(parameterInitializerBeforeDestructuringEmit.jump, 0, 15))
+
+    baz?: any;
+>baz : Symbol(Foo.baz, Decl(parameterInitializerBeforeDestructuringEmit.jump, 1, 14))
+}
+
+function foobar({ bar = {}, ...opts }: Foo = {}) {
+>foobar : Symbol(foobar, Decl(parameterInitializerBeforeDestructuringEmit.jump, 3, 1))
+>bar : Symbol(bar, Decl(parameterInitializerBeforeDestructuringEmit.jump, 5, 17))
+>opts : Symbol(opts, Decl(parameterInitializerBeforeDestructuringEmit.jump, 5, 27))
+>Foo : Symbol(Foo, Decl(parameterInitializerBeforeDestructuringEmit.jump, 0, 0))
+
+    "use strict";
+    "Some other prologue";
+    opts.baz(bar);
+>opts.baz : Symbol(Foo.baz, Decl(parameterInitializerBeforeDestructuringEmit.jump, 1, 14))
+>opts : Symbol(opts, Decl(parameterInitializerBeforeDestructuringEmit.jump, 5, 27))
+>baz : Symbol(Foo.baz, Decl(parameterInitializerBeforeDestructuringEmit.jump, 1, 14))
+>bar : Symbol(bar, Decl(parameterInitializerBeforeDestructuringEmit.jump, 5, 17))
+}
+
+class C {
+>C : Symbol(C, Decl(parameterInitializerBeforeDestructuringEmit.jump, 9, 1))
+
+    constructor({ bar = {}, ...opts }: Foo = {}) {
+>bar : Symbol(bar, Decl(parameterInitializerBeforeDestructuringEmit.jump, 12, 17))
+>opts : Symbol(opts, Decl(parameterInitializerBeforeDestructuringEmit.jump, 12, 27))
+>Foo : Symbol(Foo, Decl(parameterInitializerBeforeDestructuringEmit.jump, 0, 0))
+
+        "use strict";
+        "Some other prologue";
+        opts.baz(bar);
+>opts.baz : Symbol(Foo.baz, Decl(parameterInitializerBeforeDestructuringEmit.jump, 1, 14))
+>opts : Symbol(opts, Decl(parameterInitializerBeforeDestructuringEmit.jump, 12, 27))
+>baz : Symbol(Foo.baz, Decl(parameterInitializerBeforeDestructuringEmit.jump, 1, 14))
+>bar : Symbol(bar, Decl(parameterInitializerBeforeDestructuringEmit.jump, 12, 17))
+    }
+}
+

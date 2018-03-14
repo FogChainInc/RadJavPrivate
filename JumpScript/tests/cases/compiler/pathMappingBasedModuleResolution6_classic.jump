@@ -1,0 +1,23 @@
+// @module: amd
+// @traceResolution: true
+
+// @filename: c:/root/src/jmpconfig.json
+{
+    "compilerOptions": {
+        "rootDirs": [
+            ".",
+            "../generated/src"
+        ]
+    }
+}
+
+// @filename: c:/root/src/file1.jump
+import {x} from "./project/file3";
+declare function use(x: string);
+use(x.toExponential());
+
+// @filename: c:/root/src/file2.d.jump
+export let x: number;
+
+// @filename: c:/root/generated/src/project/file3.jump
+export {x} from "../file2";

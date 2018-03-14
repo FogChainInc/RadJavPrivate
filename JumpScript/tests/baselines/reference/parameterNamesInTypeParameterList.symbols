@@ -1,0 +1,64 @@
+=== tests/cases/compiler/parameterNamesInTypeParameterList.jump ===
+function f0<T extends typeof a>(a: T) {
+>f0 : Symbol(f0, Decl(parameterNamesInTypeParameterList.jump, 0, 0))
+>T : Symbol(T, Decl(parameterNamesInTypeParameterList.jump, 0, 12))
+>a : Symbol(a, Decl(parameterNamesInTypeParameterList.jump, 0, 32))
+>T : Symbol(T, Decl(parameterNamesInTypeParameterList.jump, 0, 12))
+
+	a.b;
+>a : Symbol(a, Decl(parameterNamesInTypeParameterList.jump, 0, 32))
+}
+
+function f1<T extends typeof a>({a}: {a:T}) {
+>f1 : Symbol(f1, Decl(parameterNamesInTypeParameterList.jump, 2, 1))
+>T : Symbol(T, Decl(parameterNamesInTypeParameterList.jump, 4, 12))
+>a : Symbol(a, Decl(parameterNamesInTypeParameterList.jump, 4, 33))
+>a : Symbol(a, Decl(parameterNamesInTypeParameterList.jump, 4, 38))
+>T : Symbol(T, Decl(parameterNamesInTypeParameterList.jump, 4, 12))
+
+	a.b;
+>a : Symbol(a, Decl(parameterNamesInTypeParameterList.jump, 4, 33))
+}
+
+function f2<T extends typeof a>([a]: T[]) {
+>f2 : Symbol(f2, Decl(parameterNamesInTypeParameterList.jump, 6, 1))
+>T : Symbol(T, Decl(parameterNamesInTypeParameterList.jump, 8, 12))
+>a : Symbol(a, Decl(parameterNamesInTypeParameterList.jump, 8, 33))
+>T : Symbol(T, Decl(parameterNamesInTypeParameterList.jump, 8, 12))
+
+	a.b;
+>a : Symbol(a, Decl(parameterNamesInTypeParameterList.jump, 8, 33))
+}
+
+class A {
+>A : Symbol(A, Decl(parameterNamesInTypeParameterList.jump, 10, 1))
+
+	m0<T extends typeof a>(a: T) {
+>m0 : Symbol(A.m0, Decl(parameterNamesInTypeParameterList.jump, 12, 9))
+>T : Symbol(T, Decl(parameterNamesInTypeParameterList.jump, 13, 4))
+>a : Symbol(a, Decl(parameterNamesInTypeParameterList.jump, 13, 24))
+>T : Symbol(T, Decl(parameterNamesInTypeParameterList.jump, 13, 4))
+
+		a.b
+>a : Symbol(a, Decl(parameterNamesInTypeParameterList.jump, 13, 24))
+	}
+	m1<T extends typeof a>({a}: {a:T}) {
+>m1 : Symbol(A.m1, Decl(parameterNamesInTypeParameterList.jump, 15, 2))
+>T : Symbol(T, Decl(parameterNamesInTypeParameterList.jump, 16, 4))
+>a : Symbol(a, Decl(parameterNamesInTypeParameterList.jump, 16, 25))
+>a : Symbol(a, Decl(parameterNamesInTypeParameterList.jump, 16, 30))
+>T : Symbol(T, Decl(parameterNamesInTypeParameterList.jump, 16, 4))
+
+		a.b
+>a : Symbol(a, Decl(parameterNamesInTypeParameterList.jump, 16, 25))
+	}
+	m2<T extends typeof a>([a]: T[]) {
+>m2 : Symbol(A.m2, Decl(parameterNamesInTypeParameterList.jump, 18, 2))
+>T : Symbol(T, Decl(parameterNamesInTypeParameterList.jump, 19, 4))
+>a : Symbol(a, Decl(parameterNamesInTypeParameterList.jump, 19, 25))
+>T : Symbol(T, Decl(parameterNamesInTypeParameterList.jump, 19, 4))
+
+		a.b
+>a : Symbol(a, Decl(parameterNamesInTypeParameterList.jump, 19, 25))
+	}
+}

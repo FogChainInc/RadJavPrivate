@@ -1,0 +1,4 @@
+=== tests/cases/conformance/parser/ecmascript5/Expressions/parserUnaryExpression2.jump ===
+++function(e) { }
+>e : Symbol(e, Decl(parserUnaryExpression2.jump, 0, 11))
+

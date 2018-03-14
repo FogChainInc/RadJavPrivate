@@ -1,0 +1,9 @@
+=== tests/cases/compiler/out.d.jump ===
+declare class c {
+>c : c
+}
+
+=== tests/cases/compiler/a.jump ===
+class d {
+>d : d
+}

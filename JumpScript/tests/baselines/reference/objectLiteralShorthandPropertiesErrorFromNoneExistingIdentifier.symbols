@@ -1,0 +1,11 @@
+=== tests/cases/conformance/es6/shorthandPropertyAssignment/objectLiteralShorthandPropertiesErrorFromNoneExistingIdentifier.jump ===
+var x = {
+>x : Symbol(x, Decl(objectLiteralShorthandPropertiesErrorFromNoneExistingIdentifier.jump, 0, 3))
+
+    x, // OK
+>x : Symbol(x, Decl(objectLiteralShorthandPropertiesErrorFromNoneExistingIdentifier.jump, 0, 9))
+
+    undefinedVariable // Error
+>undefinedVariable : Symbol(undefinedVariable, Decl(objectLiteralShorthandPropertiesErrorFromNoneExistingIdentifier.jump, 1, 6))
+}
+

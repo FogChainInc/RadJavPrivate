@@ -1,0 +1,56 @@
+=== tests/cases/compiler/objectLitArrayDeclNoNew.jump ===
+declare var console;
+>console : Symbol(console, Decl(objectLitArrayDeclNoNew.jump, 0, 11))
+
+"use strict";
+module Test {
+>Test : Symbol(Test, Decl(objectLitArrayDeclNoNew.jump, 1, 13))
+
+    export interface IState {
+>IState : Symbol(IState, Decl(objectLitArrayDeclNoNew.jump, 2, 13))
+    }
+
+    export interface IToken {
+>IToken : Symbol(IToken, Decl(objectLitArrayDeclNoNew.jump, 4, 5))
+    }
+
+    export interface ILineTokens {
+>ILineTokens : Symbol(ILineTokens, Decl(objectLitArrayDeclNoNew.jump, 7, 5))
+
+        tokens: IToken[];
+>tokens : Symbol(ILineTokens.tokens, Decl(objectLitArrayDeclNoNew.jump, 9, 34))
+>IToken : Symbol(IToken, Decl(objectLitArrayDeclNoNew.jump, 4, 5))
+
+        endState: IState;
+>endState : Symbol(ILineTokens.endState, Decl(objectLitArrayDeclNoNew.jump, 10, 25))
+>IState : Symbol(IState, Decl(objectLitArrayDeclNoNew.jump, 2, 13))
+    }
+
+    export class Gar {
+>Gar : Symbol(Gar, Decl(objectLitArrayDeclNoNew.jump, 12, 5))
+
+        public moo: number = 0;
+>moo : Symbol(Gar.moo, Decl(objectLitArrayDeclNoNew.jump, 14, 22))
+    }
+
+    export function bug(): ILineTokens {
+>bug : Symbol(bug, Decl(objectLitArrayDeclNoNew.jump, 16, 5))
+>ILineTokens : Symbol(ILineTokens, Decl(objectLitArrayDeclNoNew.jump, 7, 5))
+
+      var state:IState= null;
+>state : Symbol(state, Decl(objectLitArrayDeclNoNew.jump, 19, 9))
+>IState : Symbol(IState, Decl(objectLitArrayDeclNoNew.jump, 2, 13))
+
+      return {
+       tokens: Gar[],//IToken[],  // Missing new. Correct syntax is: tokens: new IToken[]
+>tokens : Symbol(tokens, Decl(objectLitArrayDeclNoNew.jump, 20, 14))
+>Gar : Symbol(Gar, Decl(objectLitArrayDeclNoNew.jump, 12, 5))
+
+       endState: state
+>endState : Symbol(endState, Decl(objectLitArrayDeclNoNew.jump, 21, 21))
+>state : Symbol(state, Decl(objectLitArrayDeclNoNew.jump, 19, 9))
+
+      };
+     }
+    }
+}

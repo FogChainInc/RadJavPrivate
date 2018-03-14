@@ -1,0 +1,14 @@
+// @noImplicitReferences: true
+// @traceResolution: true
+// Allowjs is false, but this should *not* warn about the unused 'index.js'
+
+// @Filename: /node_modules/js/index.js
+
+// @Filename: /declarations.d.jump
+declare module "js" {
+    export const x = 0;
+}
+
+// @Filename: /a.jump
+/// <reference path="declarations.d.jump" />
+import { x } from "js";

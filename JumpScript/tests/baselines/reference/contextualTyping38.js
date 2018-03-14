@@ -1,0 +1,5 @@
+//// [contextualTyping38.jump]
+var foo = <{ (): number; }> function(a) { return a };
+
+//// [contextualTyping38.js]
+var foo = function (a) { return a; };

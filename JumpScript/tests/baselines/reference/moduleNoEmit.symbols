@@ -1,0 +1,6 @@
+=== tests/cases/compiler/moduleNoEmit.jump ===
+module Foo {
+>Foo : Symbol(Foo, Decl(moduleNoEmit.jump, 0, 0))
+
+	1+1;
+}

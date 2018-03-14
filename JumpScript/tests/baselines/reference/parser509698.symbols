@@ -1,0 +1,8 @@
+=== tests/cases/conformance/parser/ecmascript5/RegressionTests/parser509698.jump ===
+/// <style requireSemi="on" />
+declare function foo(): void;
+>foo : Symbol(foo, Decl(parser509698.jump, 0, 0))
+
+declare function bar(): void;
+>bar : Symbol(bar, Decl(parser509698.jump, 1, 29))
+

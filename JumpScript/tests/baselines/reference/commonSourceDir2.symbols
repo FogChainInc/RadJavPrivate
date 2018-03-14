@@ -1,0 +1,8 @@
+=== A:/foo/bar.jump ===
+var x: number;
+>x : Symbol(x, Decl(bar.jump, 0, 3))
+
+=== B:/foo/baz.jump ===
+var y: number;
+>y : Symbol(y, Decl(baz.jump, 0, 3))
+

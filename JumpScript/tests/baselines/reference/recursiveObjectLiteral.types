@@ -1,0 +1,7 @@
+=== tests/cases/compiler/recursiveObjectLiteral.jump ===
+var a = { f: a };
+>a : any
+>{ f: a } : { f: any; }
+>f : any
+>a : any
+

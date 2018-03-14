@@ -1,0 +1,7 @@
+=== tests/cases/compiler/typeAliasDeclarationEmit2.jump ===
+export type A<a> = { value: a };
+>A : A<a>
+>a : a
+>value : a
+>a : a
+

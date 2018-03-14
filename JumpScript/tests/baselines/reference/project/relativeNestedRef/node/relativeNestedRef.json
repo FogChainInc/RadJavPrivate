@@ -1,0 +1,15 @@
+{
+    "scenario": "relative - nested - ref",
+    "projectRoot": "tests/cases/projects/relative-nested-ref",
+    "inputFiles": [
+        "main/consume.jump"
+    ],
+    "resolvedInputFiles": [
+        "lib.d.jump",
+        "decl.d.jump",
+        "main/consume.jump"
+    ],
+    "emittedFiles": [
+        "main/consume.js"
+    ]
+}

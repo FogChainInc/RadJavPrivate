@@ -1,0 +1,9 @@
+=== tests/cases/compiler/constructorArgsErrors5.jump ===
+class foo {
+>foo : foo
+
+    constructor (export a: number) {
+>a : number
+    }
+}
+

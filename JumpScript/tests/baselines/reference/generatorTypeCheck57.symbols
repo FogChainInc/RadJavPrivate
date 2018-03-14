@@ -1,0 +1,12 @@
+=== tests/cases/conformance/es6/yieldExpressions/generatorTypeCheck57.jump ===
+function* g() {
+>g : Symbol(g, Decl(generatorTypeCheck57.jump, 0, 0))
+
+    class C {
+>C : Symbol(C, Decl(generatorTypeCheck57.jump, 0, 15))
+
+        x = yield 0;
+>x : Symbol(C.x, Decl(generatorTypeCheck57.jump, 1, 13))
+
+    };
+}

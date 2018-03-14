@@ -1,0 +1,8 @@
+/// <reference path="fourslash.jump" />
+
+////class Foo {
+////    constructor(/*/**/) { }
+////}
+
+goTo.marker();
+// verify.completionListIsEmpty(); // TODO: difference between LS and FourSlash

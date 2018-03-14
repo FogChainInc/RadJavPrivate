@@ -1,0 +1,18 @@
+=== tests/cases/conformance/parser/ecmascript5/SkippedTokens/parserSkippedTokens16.jump ===
+foo(): Bar { }
+function Foo      () #   { }
+>Foo : Symbol(Foo, Decl(parserSkippedTokens16.jump, 0, 14))
+
+4+:5
+module M {
+>M : Symbol(M, Decl(parserSkippedTokens16.jump, 2, 4))
+
+function a(
+>a : Symbol(a, Decl(parserSkippedTokens16.jump, 3, 10))
+
+    : T) { }
+>T : Symbol(T, Decl(parserSkippedTokens16.jump, 5, 5))
+}
+var x       =
+>x : Symbol(x, Decl(parserSkippedTokens16.jump, 7, 3))
+

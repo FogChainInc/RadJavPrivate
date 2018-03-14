@@ -1,0 +1,13 @@
+=== tests/cases/compiler/doNotEmitPinnedCommentNotOnTopOfFile.jump ===
+var x = 10;
+>x : Symbol(x, Decl(doNotEmitPinnedCommentNotOnTopOfFile.jump, 0, 3), Decl(doNotEmitPinnedCommentNotOnTopOfFile.jump, 8, 3))
+
+/*!
+
+    multi line
+    comment
+*/
+
+var x = 10;
+>x : Symbol(x, Decl(doNotEmitPinnedCommentNotOnTopOfFile.jump, 0, 3), Decl(doNotEmitPinnedCommentNotOnTopOfFile.jump, 8, 3))
+

@@ -1,0 +1,7 @@
+=== tests/cases/compiler/modifierOnParameter1.jump ===
+class C {
+>C : Symbol(C, Decl(modifierOnParameter1.jump, 0, 0))
+
+   constructor(declare p) { }
+>p : Symbol(p, Decl(modifierOnParameter1.jump, 1, 15))
+}

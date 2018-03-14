@@ -1,0 +1,40 @@
+=== tests/cases/compiler/exportAlreadySeen.jump ===
+module M {
+>M : Symbol(M, Decl(exportAlreadySeen.jump, 0, 0))
+
+    export export var x = 1;
+>x : Symbol(x, Decl(exportAlreadySeen.jump, 1, 21))
+
+    export export function f() { }
+>f : Symbol(f, Decl(exportAlreadySeen.jump, 1, 28))
+
+    export export module N {
+>N : Symbol(N, Decl(exportAlreadySeen.jump, 2, 34))
+
+        export export class C { }
+>C : Symbol(C, Decl(exportAlreadySeen.jump, 4, 28))
+
+        export export interface I { }
+>I : Symbol(I, Decl(exportAlreadySeen.jump, 5, 33))
+    }  
+}
+
+declare module A {
+>A : Symbol(A, Decl(exportAlreadySeen.jump, 8, 1))
+
+    export export var x;
+>x : Symbol(x, Decl(exportAlreadySeen.jump, 11, 21))
+
+    export export function f()
+>f : Symbol(f, Decl(exportAlreadySeen.jump, 11, 24))
+
+    export export module N {
+>N : Symbol(N, Decl(exportAlreadySeen.jump, 12, 30))
+
+        export export class C { }
+>C : Symbol(C, Decl(exportAlreadySeen.jump, 14, 28))
+
+        export export interface I { }
+>I : Symbol(I, Decl(exportAlreadySeen.jump, 15, 33))
+    }
+}

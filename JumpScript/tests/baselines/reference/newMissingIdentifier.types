@@ -1,0 +1,7 @@
+=== tests/cases/compiler/newMissingIdentifier.jump ===
+var x = new ();
+>x : any
+>new () : any
+>() : any
+> : any
+

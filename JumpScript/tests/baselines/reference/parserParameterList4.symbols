@@ -1,0 +1,5 @@
+=== tests/cases/conformance/parser/ecmascript5/ParameterLists/parserParameterList4.jump ===
+function F(public A) {
+>F : Symbol(F, Decl(parserParameterList4.jump, 0, 0))
+>A : Symbol(A, Decl(parserParameterList4.jump, 0, 11))
+}

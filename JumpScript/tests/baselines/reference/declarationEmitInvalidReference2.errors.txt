@@ -1,0 +1,8 @@
+tests/cases/compiler/declarationEmitInvalidReference2.jump(1,22): error TS6053: File 'tests/cases/compiler/invalid.jump' not found.
+
+
+==== tests/cases/compiler/declarationEmitInvalidReference2.jump (1 errors) ====
+    /// <reference path="invalid.jump" />
+                         ~~~~~~~~~~
+!!! error TS6053: File 'tests/cases/compiler/invalid.jump' not found.
+    var x = 0;

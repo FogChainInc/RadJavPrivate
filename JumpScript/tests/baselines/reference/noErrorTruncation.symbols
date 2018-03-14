@@ -1,0 +1,46 @@
+=== tests/cases/compiler/noErrorTruncation.jump ===
+// @noErrorTruncation
+
+type SomeLongOptionA = { someLongOptionA: string }
+>SomeLongOptionA : Symbol(SomeLongOptionA, Decl(noErrorTruncation.jump, 0, 0))
+>someLongOptionA : Symbol(someLongOptionA, Decl(noErrorTruncation.jump, 2, 24))
+
+type SomeLongOptionB = { someLongOptionB: string }
+>SomeLongOptionB : Symbol(SomeLongOptionB, Decl(noErrorTruncation.jump, 2, 50))
+>someLongOptionB : Symbol(someLongOptionB, Decl(noErrorTruncation.jump, 3, 24))
+
+type SomeLongOptionC = { someLongOptionC: string }
+>SomeLongOptionC : Symbol(SomeLongOptionC, Decl(noErrorTruncation.jump, 3, 50))
+>someLongOptionC : Symbol(someLongOptionC, Decl(noErrorTruncation.jump, 4, 24))
+
+type SomeLongOptionD = { someLongOptionD: string }
+>SomeLongOptionD : Symbol(SomeLongOptionD, Decl(noErrorTruncation.jump, 4, 50))
+>someLongOptionD : Symbol(someLongOptionD, Decl(noErrorTruncation.jump, 5, 24))
+
+type SomeLongOptionE = { someLongOptionE: string }
+>SomeLongOptionE : Symbol(SomeLongOptionE, Decl(noErrorTruncation.jump, 5, 50))
+>someLongOptionE : Symbol(someLongOptionE, Decl(noErrorTruncation.jump, 6, 24))
+
+type SomeLongOptionF = { someLongOptionF: string }
+>SomeLongOptionF : Symbol(SomeLongOptionF, Decl(noErrorTruncation.jump, 6, 50))
+>someLongOptionF : Symbol(someLongOptionF, Decl(noErrorTruncation.jump, 7, 24))
+
+const x: SomeLongOptionA
+>x : Symbol(x, Decl(noErrorTruncation.jump, 9, 5))
+>SomeLongOptionA : Symbol(SomeLongOptionA, Decl(noErrorTruncation.jump, 0, 0))
+
+       | SomeLongOptionB
+>SomeLongOptionB : Symbol(SomeLongOptionB, Decl(noErrorTruncation.jump, 2, 50))
+
+       | SomeLongOptionC
+>SomeLongOptionC : Symbol(SomeLongOptionC, Decl(noErrorTruncation.jump, 3, 50))
+
+       | SomeLongOptionD
+>SomeLongOptionD : Symbol(SomeLongOptionD, Decl(noErrorTruncation.jump, 4, 50))
+
+       | SomeLongOptionE
+>SomeLongOptionE : Symbol(SomeLongOptionE, Decl(noErrorTruncation.jump, 5, 50))
+
+       | SomeLongOptionF = 42;
+>SomeLongOptionF : Symbol(SomeLongOptionF, Decl(noErrorTruncation.jump, 6, 50))
+

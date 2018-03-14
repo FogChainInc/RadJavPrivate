@@ -1,0 +1,11 @@
+tests/cases/compiler/duplicateTypeParameters3.jump(2,14): error TS2300: Duplicate identifier 'A'.
+
+
+==== tests/cases/compiler/duplicateTypeParameters3.jump (1 errors) ====
+    interface X {
+    x: () => <A, A>() => void;
+                 ~
+!!! error TS2300: Duplicate identifier 'A'.
+    }
+     
+    

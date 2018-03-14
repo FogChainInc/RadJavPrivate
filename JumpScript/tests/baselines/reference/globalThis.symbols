@@ -1,0 +1,7 @@
+=== tests/cases/compiler/globalThis.jump ===
+var __e = Math.E;  // should not generate 'this.Math.E'
+>__e : Symbol(__e, Decl(globalThis.jump, 0, 3))
+>Math.E : Symbol(Math.E, Decl(lib.d.jump, --, --))
+>Math : Symbol(Math, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>E : Symbol(Math.E, Decl(lib.d.jump, --, --))
+

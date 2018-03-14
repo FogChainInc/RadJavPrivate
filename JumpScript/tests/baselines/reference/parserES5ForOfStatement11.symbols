@@ -1,0 +1,5 @@
+=== tests/cases/conformance/parser/ecmascript5/Statements/parserES5ForOfStatement11.jump ===
+for (const [a, b] of X) {
+>a : Symbol(a, Decl(parserES5ForOfStatement11.jump, 0, 12))
+>b : Symbol(b, Decl(parserES5ForOfStatement11.jump, 0, 14))
+}

@@ -1,0 +1,48 @@
+=== tests/cases/conformance/classes/propertyMemberDeclarations/memberFunctionDeclarations/memberFunctionOverloadMixingStaticAndInstance.jump ===
+class C {
+>C : Symbol(C, Decl(memberFunctionOverloadMixingStaticAndInstance.jump, 0, 0))
+
+    foo();
+>foo : Symbol(C.foo, Decl(memberFunctionOverloadMixingStaticAndInstance.jump, 0, 9))
+
+    static foo(); // error
+>foo : Symbol(C.foo, Decl(memberFunctionOverloadMixingStaticAndInstance.jump, 1, 10))
+}
+
+class D {
+>D : Symbol(D, Decl(memberFunctionOverloadMixingStaticAndInstance.jump, 3, 1))
+
+    static foo();
+>foo : Symbol(D.foo, Decl(memberFunctionOverloadMixingStaticAndInstance.jump, 5, 9))
+
+    foo(); // error    
+>foo : Symbol(D.foo, Decl(memberFunctionOverloadMixingStaticAndInstance.jump, 6, 17))
+}
+
+class E<T> {
+>E : Symbol(E, Decl(memberFunctionOverloadMixingStaticAndInstance.jump, 8, 1))
+>T : Symbol(T, Decl(memberFunctionOverloadMixingStaticAndInstance.jump, 10, 8))
+
+    foo(x: T);
+>foo : Symbol(E.foo, Decl(memberFunctionOverloadMixingStaticAndInstance.jump, 10, 12))
+>x : Symbol(x, Decl(memberFunctionOverloadMixingStaticAndInstance.jump, 11, 8))
+>T : Symbol(T, Decl(memberFunctionOverloadMixingStaticAndInstance.jump, 10, 8))
+
+    static foo(x: number); // error
+>foo : Symbol(E.foo, Decl(memberFunctionOverloadMixingStaticAndInstance.jump, 11, 14))
+>x : Symbol(x, Decl(memberFunctionOverloadMixingStaticAndInstance.jump, 12, 15))
+}
+
+class F<T> {
+>F : Symbol(F, Decl(memberFunctionOverloadMixingStaticAndInstance.jump, 13, 1))
+>T : Symbol(T, Decl(memberFunctionOverloadMixingStaticAndInstance.jump, 15, 8))
+
+    static foo(x: number);
+>foo : Symbol(F.foo, Decl(memberFunctionOverloadMixingStaticAndInstance.jump, 15, 12))
+>x : Symbol(x, Decl(memberFunctionOverloadMixingStaticAndInstance.jump, 16, 15))
+
+    foo(x: T); // error    
+>foo : Symbol(F.foo, Decl(memberFunctionOverloadMixingStaticAndInstance.jump, 16, 26))
+>x : Symbol(x, Decl(memberFunctionOverloadMixingStaticAndInstance.jump, 17, 8))
+>T : Symbol(T, Decl(memberFunctionOverloadMixingStaticAndInstance.jump, 15, 8))
+}

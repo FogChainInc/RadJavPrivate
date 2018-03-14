@@ -1,0 +1,17 @@
+=== tests/cases/compiler/app.jump ===
+/// <reference path="test.d.jump" />
+var x = new Something();
+>x : Symbol(x, Decl(app.jump, 1, 3))
+>Something : Symbol(Something, Decl(test.d.jump, 0, 0))
+
+=== tests/cases/compiler/test.d.jump ===
+declare class Something
+>Something : Symbol(Something, Decl(test.d.jump, 0, 0))
+{
+    private static someStaticVar;
+>someStaticVar : Symbol(Something.someStaticVar, Decl(test.d.jump, 1, 1))
+
+    private someVar;
+>someVar : Symbol(Something.someVar, Decl(test.d.jump, 2, 33))
+}
+

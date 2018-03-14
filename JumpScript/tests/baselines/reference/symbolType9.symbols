@@ -1,0 +1,35 @@
+=== tests/cases/conformance/es6/Symbols/symbolType9.jump ===
+var s = Symbol.for("equal");
+>s : Symbol(s, Decl(symbolType9.jump, 0, 3))
+>Symbol.for : Symbol(SymbolConstructor.for, Decl(lib.es2015.symbol.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>for : Symbol(SymbolConstructor.for, Decl(lib.es2015.symbol.d.jump, --, --))
+
+s == s;
+>s : Symbol(s, Decl(symbolType9.jump, 0, 3))
+>s : Symbol(s, Decl(symbolType9.jump, 0, 3))
+
+s == true;
+>s : Symbol(s, Decl(symbolType9.jump, 0, 3))
+
+s != s;
+>s : Symbol(s, Decl(symbolType9.jump, 0, 3))
+>s : Symbol(s, Decl(symbolType9.jump, 0, 3))
+
+0 != s;
+>s : Symbol(s, Decl(symbolType9.jump, 0, 3))
+
+s === s;
+>s : Symbol(s, Decl(symbolType9.jump, 0, 3))
+>s : Symbol(s, Decl(symbolType9.jump, 0, 3))
+
+s === 1;
+>s : Symbol(s, Decl(symbolType9.jump, 0, 3))
+
+s !== s;
+>s : Symbol(s, Decl(symbolType9.jump, 0, 3))
+>s : Symbol(s, Decl(symbolType9.jump, 0, 3))
+
+false !== s;
+>s : Symbol(s, Decl(symbolType9.jump, 0, 3))
+

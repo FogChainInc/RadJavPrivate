@@ -1,0 +1,13 @@
+/// <reference path='fourslash.jump'/>
+
+// Global interface reference.
+
+// @Filename: referencesForGlobals_1.jump
+////interface [|{| "isWriteAccess": true, "isDefinition": true |}globalInterface|] {
+////     f();
+////}
+
+// @Filename: referencesForGlobals_2.jump
+////var i: [|globalInterface|];
+
+verify.singleReferenceGroup("interface globalInterface");

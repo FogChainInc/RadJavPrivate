@@ -1,0 +1,48 @@
+=== tests/cases/compiler/thisInOuterClassBody.jump ===
+class Foo {
+>Foo : Symbol(Foo, Decl(thisInOuterClassBody.jump, 0, 0))
+
+    x = this;
+>x : Symbol(Foo.x, Decl(thisInOuterClassBody.jump, 0, 11))
+>this : Symbol(Foo, Decl(thisInOuterClassBody.jump, 0, 0))
+
+    static y = this;
+>y : Symbol(Foo.y, Decl(thisInOuterClassBody.jump, 2, 13))
+>this : Symbol(Foo, Decl(thisInOuterClassBody.jump, 0, 0))
+
+    bar() {
+>bar : Symbol(Foo.bar, Decl(thisInOuterClassBody.jump, 4, 20))
+ 
+        this.x; // 'this' is type 'Foo'
+>this.x : Symbol(Foo.x, Decl(thisInOuterClassBody.jump, 0, 11))
+>this : Symbol(Foo, Decl(thisInOuterClassBody.jump, 0, 0))
+>x : Symbol(Foo.x, Decl(thisInOuterClassBody.jump, 0, 11))
+ 
+        var f = () => this.x; // 'this' should be type 'Foo' as well
+>f : Symbol(f, Decl(thisInOuterClassBody.jump, 10, 11))
+>this.x : Symbol(Foo.x, Decl(thisInOuterClassBody.jump, 0, 11))
+>this : Symbol(Foo, Decl(thisInOuterClassBody.jump, 0, 0))
+>x : Symbol(Foo.x, Decl(thisInOuterClassBody.jump, 0, 11))
+
+        var p = this.y;
+>p : Symbol(p, Decl(thisInOuterClassBody.jump, 11, 11))
+>this : Symbol(Foo, Decl(thisInOuterClassBody.jump, 0, 0))
+
+        return this;
+>this : Symbol(Foo, Decl(thisInOuterClassBody.jump, 0, 0))
+    }
+
+    static bar2() {
+>bar2 : Symbol(Foo.bar2, Decl(thisInOuterClassBody.jump, 13, 5))
+
+        var a = this.y;
+>a : Symbol(a, Decl(thisInOuterClassBody.jump, 16, 11))
+>this.y : Symbol(Foo.y, Decl(thisInOuterClassBody.jump, 2, 13))
+>this : Symbol(Foo, Decl(thisInOuterClassBody.jump, 0, 0))
+>y : Symbol(Foo.y, Decl(thisInOuterClassBody.jump, 2, 13))
+
+        var b = this.x;
+>b : Symbol(b, Decl(thisInOuterClassBody.jump, 17, 11))
+>this : Symbol(Foo, Decl(thisInOuterClassBody.jump, 0, 0))
+    }
+}

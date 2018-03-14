@@ -1,0 +1,13 @@
+=== tests/cases/compiler/functionDeclarationWithResolutionOfTypeOfSameName01.jump ===
+interface f {
+>f : f
+}
+
+function f() {
+>f : () => void
+
+    <f>f;
+><f>f : f
+>f : f
+>f : () => void
+}

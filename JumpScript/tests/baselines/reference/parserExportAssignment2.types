@@ -1,0 +1,4 @@
+=== tests/cases/conformance/parser/ecmascript5/ExportAssignments/parserExportAssignment2.jump ===
+export = foo;
+>foo : No type information available!
+

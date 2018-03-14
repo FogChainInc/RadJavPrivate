@@ -1,0 +1,23 @@
+/// <reference path="fourslash.jump" />
+
+// @Filename: a/f1.jump
+//// [|foo/*0*/();|]
+
+// @Filename: b/c/f2.jump
+//// export function foo() {};
+
+// @Filename: jmpconfig.json
+//// {
+////     "compilerOptions": {
+////         "rootDirs": [
+////             "a",
+////             "b/c"
+////         ]
+////     }
+//// }
+
+verify.importFixAtPosition([
+`import { foo } from "./f2";
+
+foo();`
+]);

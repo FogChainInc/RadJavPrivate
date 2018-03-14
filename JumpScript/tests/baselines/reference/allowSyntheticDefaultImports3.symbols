@@ -1,0 +1,16 @@
+=== tests/cases/compiler/a.jump ===
+import Namespace from "./b";
+>Namespace : Symbol(Namespace, Decl(a.jump, 0, 6))
+
+export var x = new Namespace.Foo();
+>x : Symbol(x, Decl(a.jump, 1, 10))
+>Namespace : Symbol(Namespace, Decl(a.jump, 0, 6))
+
+=== tests/cases/compiler/b.jump ===
+export class Foo {
+>Foo : Symbol(Foo, Decl(b.jump, 0, 0))
+
+	member: string;
+>member : Symbol(Foo.member, Decl(b.jump, 0, 18))
+}
+

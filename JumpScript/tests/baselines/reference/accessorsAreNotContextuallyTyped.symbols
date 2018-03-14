@@ -1,0 +1,30 @@
+=== tests/cases/conformance/classes/propertyMemberDeclarations/memberAccessorDeclarations/accessorsAreNotContextuallyTyped.jump ===
+// accessors are not contextually typed
+
+class C {
+>C : Symbol(C, Decl(accessorsAreNotContextuallyTyped.jump, 0, 0))
+
+    set x(v: (a: string) => string) {
+>x : Symbol(C.x, Decl(accessorsAreNotContextuallyTyped.jump, 2, 9), Decl(accessorsAreNotContextuallyTyped.jump, 4, 5))
+>v : Symbol(v, Decl(accessorsAreNotContextuallyTyped.jump, 3, 10))
+>a : Symbol(a, Decl(accessorsAreNotContextuallyTyped.jump, 3, 14))
+    }
+
+    get x() {
+>x : Symbol(C.x, Decl(accessorsAreNotContextuallyTyped.jump, 2, 9), Decl(accessorsAreNotContextuallyTyped.jump, 4, 5))
+
+        return (x: string) => "";
+>x : Symbol(x, Decl(accessorsAreNotContextuallyTyped.jump, 7, 16))
+    }
+}
+
+var c: C;
+>c : Symbol(c, Decl(accessorsAreNotContextuallyTyped.jump, 11, 3))
+>C : Symbol(C, Decl(accessorsAreNotContextuallyTyped.jump, 0, 0))
+
+var r = c.x(''); // string
+>r : Symbol(r, Decl(accessorsAreNotContextuallyTyped.jump, 12, 3))
+>c.x : Symbol(C.x, Decl(accessorsAreNotContextuallyTyped.jump, 2, 9), Decl(accessorsAreNotContextuallyTyped.jump, 4, 5))
+>c : Symbol(c, Decl(accessorsAreNotContextuallyTyped.jump, 11, 3))
+>x : Symbol(C.x, Decl(accessorsAreNotContextuallyTyped.jump, 2, 9), Decl(accessorsAreNotContextuallyTyped.jump, 4, 5))
+

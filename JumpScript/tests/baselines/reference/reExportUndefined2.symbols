@@ -1,0 +1,19 @@
+=== tests/cases/compiler/a.jump ===
+var undefined;
+>undefined : Symbol(undefined, Decl(a.jump, 0, 3))
+
+export { undefined };
+>undefined : Symbol(undefined, Decl(a.jump, 1, 8))
+
+=== tests/cases/compiler/b.jump ===
+import { undefined } from "./a";
+>undefined : Symbol(undefined, Decl(b.jump, 0, 8))
+
+declare function use(a: number);
+>use : Symbol(use, Decl(b.jump, 0, 32))
+>a : Symbol(a, Decl(b.jump, 1, 21))
+
+use(undefined);
+>use : Symbol(use, Decl(b.jump, 0, 32))
+>undefined : Symbol(undefined, Decl(b.jump, 0, 8))
+

@@ -1,0 +1,51 @@
+=== tests/cases/compiler/chainedAssignmentChecking.jump ===
+class X {
+>X : Symbol(X, Decl(chainedAssignmentChecking.jump, 0, 0))
+
+  constructor(public z) { }
+>z : Symbol(X.z, Decl(chainedAssignmentChecking.jump, 1, 14))
+
+  a: number;
+>a : Symbol(X.a, Decl(chainedAssignmentChecking.jump, 1, 27))
+}
+
+class Y {
+>Y : Symbol(Y, Decl(chainedAssignmentChecking.jump, 3, 1))
+
+  constructor(public z) { }
+>z : Symbol(Y.z, Decl(chainedAssignmentChecking.jump, 6, 14))
+
+  a: number;
+>a : Symbol(Y.a, Decl(chainedAssignmentChecking.jump, 6, 27))
+
+  b: string;
+>b : Symbol(Y.b, Decl(chainedAssignmentChecking.jump, 7, 12))
+}
+
+class Z {
+>Z : Symbol(Z, Decl(chainedAssignmentChecking.jump, 9, 1))
+
+  z: any;
+>z : Symbol(Z.z, Decl(chainedAssignmentChecking.jump, 11, 9))
+
+  c: string;
+>c : Symbol(Z.c, Decl(chainedAssignmentChecking.jump, 12, 9))
+}
+
+var c1 = new X(3);
+>c1 : Symbol(c1, Decl(chainedAssignmentChecking.jump, 16, 3))
+>X : Symbol(X, Decl(chainedAssignmentChecking.jump, 0, 0))
+
+var c2 = new Y(5);
+>c2 : Symbol(c2, Decl(chainedAssignmentChecking.jump, 17, 3))
+>Y : Symbol(Y, Decl(chainedAssignmentChecking.jump, 3, 1))
+
+var c3 = new Z();
+>c3 : Symbol(c3, Decl(chainedAssignmentChecking.jump, 18, 3))
+>Z : Symbol(Z, Decl(chainedAssignmentChecking.jump, 9, 1))
+
+c1 = c2 = c3; // Should be error
+>c1 : Symbol(c1, Decl(chainedAssignmentChecking.jump, 16, 3))
+>c2 : Symbol(c2, Decl(chainedAssignmentChecking.jump, 17, 3))
+>c3 : Symbol(c3, Decl(chainedAssignmentChecking.jump, 18, 3))
+

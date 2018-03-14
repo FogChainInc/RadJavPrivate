@@ -1,0 +1,8 @@
+=== tests/cases/compiler/declaration.d.jump ===
+export declare class D {
+>D : D
+}
+export declare class E extends D {
+>E : E
+>D : D
+}

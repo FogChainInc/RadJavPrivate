@@ -1,0 +1,121 @@
+=== tests/cases/conformance/expressions/commaOperator/commaOperatorWithSecondOperandObjectType.jump ===
+var ANY: any;
+>ANY : Symbol(ANY, Decl(commaOperatorWithSecondOperandObjectType.jump, 0, 3))
+
+var BOOLEAN: boolean;
+>BOOLEAN : Symbol(BOOLEAN, Decl(commaOperatorWithSecondOperandObjectType.jump, 1, 3))
+
+var NUMBER: number;
+>NUMBER : Symbol(NUMBER, Decl(commaOperatorWithSecondOperandObjectType.jump, 2, 3))
+
+var STRING: string;
+>STRING : Symbol(STRING, Decl(commaOperatorWithSecondOperandObjectType.jump, 3, 3))
+
+var OBJECT: Object;
+>OBJECT : Symbol(OBJECT, Decl(commaOperatorWithSecondOperandObjectType.jump, 4, 3))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+class CLASS {
+>CLASS : Symbol(CLASS, Decl(commaOperatorWithSecondOperandObjectType.jump, 4, 19))
+
+    num: number;
+>num : Symbol(CLASS.num, Decl(commaOperatorWithSecondOperandObjectType.jump, 6, 13))
+}
+
+//The second operand type is Object
+ANY, OBJECT;
+>ANY : Symbol(ANY, Decl(commaOperatorWithSecondOperandObjectType.jump, 0, 3))
+>OBJECT : Symbol(OBJECT, Decl(commaOperatorWithSecondOperandObjectType.jump, 4, 3))
+
+BOOLEAN, OBJECT;
+>BOOLEAN : Symbol(BOOLEAN, Decl(commaOperatorWithSecondOperandObjectType.jump, 1, 3))
+>OBJECT : Symbol(OBJECT, Decl(commaOperatorWithSecondOperandObjectType.jump, 4, 3))
+
+NUMBER, OBJECT;
+>NUMBER : Symbol(NUMBER, Decl(commaOperatorWithSecondOperandObjectType.jump, 2, 3))
+>OBJECT : Symbol(OBJECT, Decl(commaOperatorWithSecondOperandObjectType.jump, 4, 3))
+
+STRING, OBJECT;
+>STRING : Symbol(STRING, Decl(commaOperatorWithSecondOperandObjectType.jump, 3, 3))
+>OBJECT : Symbol(OBJECT, Decl(commaOperatorWithSecondOperandObjectType.jump, 4, 3))
+
+OBJECT, OBJECT;
+>OBJECT : Symbol(OBJECT, Decl(commaOperatorWithSecondOperandObjectType.jump, 4, 3))
+>OBJECT : Symbol(OBJECT, Decl(commaOperatorWithSecondOperandObjectType.jump, 4, 3))
+
+//Return type is Object
+var resultIsObject1 = (ANY, OBJECT);
+>resultIsObject1 : Symbol(resultIsObject1, Decl(commaOperatorWithSecondOperandObjectType.jump, 18, 3))
+>ANY : Symbol(ANY, Decl(commaOperatorWithSecondOperandObjectType.jump, 0, 3))
+>OBJECT : Symbol(OBJECT, Decl(commaOperatorWithSecondOperandObjectType.jump, 4, 3))
+
+var resultIsObject2 = (BOOLEAN, OBJECT);
+>resultIsObject2 : Symbol(resultIsObject2, Decl(commaOperatorWithSecondOperandObjectType.jump, 19, 3))
+>BOOLEAN : Symbol(BOOLEAN, Decl(commaOperatorWithSecondOperandObjectType.jump, 1, 3))
+>OBJECT : Symbol(OBJECT, Decl(commaOperatorWithSecondOperandObjectType.jump, 4, 3))
+
+var resultIsObject3 = (NUMBER, OBJECT);
+>resultIsObject3 : Symbol(resultIsObject3, Decl(commaOperatorWithSecondOperandObjectType.jump, 20, 3))
+>NUMBER : Symbol(NUMBER, Decl(commaOperatorWithSecondOperandObjectType.jump, 2, 3))
+>OBJECT : Symbol(OBJECT, Decl(commaOperatorWithSecondOperandObjectType.jump, 4, 3))
+
+var resultIsObject4 = (STRING, OBJECT);
+>resultIsObject4 : Symbol(resultIsObject4, Decl(commaOperatorWithSecondOperandObjectType.jump, 21, 3))
+>STRING : Symbol(STRING, Decl(commaOperatorWithSecondOperandObjectType.jump, 3, 3))
+>OBJECT : Symbol(OBJECT, Decl(commaOperatorWithSecondOperandObjectType.jump, 4, 3))
+
+var resultIsObject5 = (OBJECT, OBJECT);
+>resultIsObject5 : Symbol(resultIsObject5, Decl(commaOperatorWithSecondOperandObjectType.jump, 22, 3))
+>OBJECT : Symbol(OBJECT, Decl(commaOperatorWithSecondOperandObjectType.jump, 4, 3))
+>OBJECT : Symbol(OBJECT, Decl(commaOperatorWithSecondOperandObjectType.jump, 4, 3))
+
+//Literal and expression
+null, OBJECT
+>OBJECT : Symbol(OBJECT, Decl(commaOperatorWithSecondOperandObjectType.jump, 4, 3))
+
+ANY = null, OBJECT
+>ANY : Symbol(ANY, Decl(commaOperatorWithSecondOperandObjectType.jump, 0, 3))
+>OBJECT : Symbol(OBJECT, Decl(commaOperatorWithSecondOperandObjectType.jump, 4, 3))
+
+true, {}
+!BOOLEAN, []
+>BOOLEAN : Symbol(BOOLEAN, Decl(commaOperatorWithSecondOperandObjectType.jump, 1, 3))
+
+"string", new Date()
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+STRING.toLowerCase(), new CLASS()
+>STRING.toLowerCase : Symbol(String.toLowerCase, Decl(lib.d.jump, --, --))
+>STRING : Symbol(STRING, Decl(commaOperatorWithSecondOperandObjectType.jump, 3, 3))
+>toLowerCase : Symbol(String.toLowerCase, Decl(lib.d.jump, --, --))
+>CLASS : Symbol(CLASS, Decl(commaOperatorWithSecondOperandObjectType.jump, 4, 19))
+
+var resultIsObject6 = (null, OBJECT);
+>resultIsObject6 : Symbol(resultIsObject6, Decl(commaOperatorWithSecondOperandObjectType.jump, 32, 3))
+>OBJECT : Symbol(OBJECT, Decl(commaOperatorWithSecondOperandObjectType.jump, 4, 3))
+
+var resultIsObject7 = (ANY = null, OBJECT);
+>resultIsObject7 : Symbol(resultIsObject7, Decl(commaOperatorWithSecondOperandObjectType.jump, 33, 3))
+>ANY : Symbol(ANY, Decl(commaOperatorWithSecondOperandObjectType.jump, 0, 3))
+>OBJECT : Symbol(OBJECT, Decl(commaOperatorWithSecondOperandObjectType.jump, 4, 3))
+
+var resultIsObject8 = (true, {});
+>resultIsObject8 : Symbol(resultIsObject8, Decl(commaOperatorWithSecondOperandObjectType.jump, 34, 3))
+
+var resultIsObject9 = (!BOOLEAN, { a: 1, b: "s" });
+>resultIsObject9 : Symbol(resultIsObject9, Decl(commaOperatorWithSecondOperandObjectType.jump, 35, 3))
+>BOOLEAN : Symbol(BOOLEAN, Decl(commaOperatorWithSecondOperandObjectType.jump, 1, 3))
+>a : Symbol(a, Decl(commaOperatorWithSecondOperandObjectType.jump, 35, 34))
+>b : Symbol(b, Decl(commaOperatorWithSecondOperandObjectType.jump, 35, 40))
+
+var resultIsObject10 = ("string", new Date());
+>resultIsObject10 : Symbol(resultIsObject10, Decl(commaOperatorWithSecondOperandObjectType.jump, 36, 3))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+var resultIsObject11 = (STRING.toLowerCase(), new CLASS());
+>resultIsObject11 : Symbol(resultIsObject11, Decl(commaOperatorWithSecondOperandObjectType.jump, 37, 3))
+>STRING.toLowerCase : Symbol(String.toLowerCase, Decl(lib.d.jump, --, --))
+>STRING : Symbol(STRING, Decl(commaOperatorWithSecondOperandObjectType.jump, 3, 3))
+>toLowerCase : Symbol(String.toLowerCase, Decl(lib.d.jump, --, --))
+>CLASS : Symbol(CLASS, Decl(commaOperatorWithSecondOperandObjectType.jump, 4, 19))
+

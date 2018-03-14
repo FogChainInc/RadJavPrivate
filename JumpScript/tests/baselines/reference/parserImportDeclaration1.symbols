@@ -1,0 +1,4 @@
+=== tests/cases/conformance/parser/ecmascript5/parserImportDeclaration1.jump ===
+import JumpScript = JumpScriptServices.JumpScript;
+>JumpScript : Symbol(JumpScript, Decl(parserImportDeclaration1.jump, 0, 0))
+

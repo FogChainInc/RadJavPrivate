@@ -1,0 +1,11 @@
+// @target: ES5
+// @module: commonjs
+// @declaration: true
+// @filename: 10_lib.jump
+
+export function Foo() {}
+
+// @filename: main.jump
+import { Foo } from './10_lib';
+
+Foo();

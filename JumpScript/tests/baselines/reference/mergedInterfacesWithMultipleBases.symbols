@@ -1,0 +1,121 @@
+=== tests/cases/conformance/interfaces/declarationMerging/mergedInterfacesWithMultipleBases.jump ===
+// merged interfaces behave as if all extends clauses from each declaration are merged together
+// no errors expected
+
+class C {
+>C : Symbol(C, Decl(mergedInterfacesWithMultipleBases.jump, 0, 0))
+
+    a: number;
+>a : Symbol(C.a, Decl(mergedInterfacesWithMultipleBases.jump, 3, 9))
+}
+
+class C2 {
+>C2 : Symbol(C2, Decl(mergedInterfacesWithMultipleBases.jump, 5, 1))
+
+    b: number;
+>b : Symbol(C2.b, Decl(mergedInterfacesWithMultipleBases.jump, 7, 10))
+}
+
+interface A extends C {
+>A : Symbol(A, Decl(mergedInterfacesWithMultipleBases.jump, 9, 1), Decl(mergedInterfacesWithMultipleBases.jump, 13, 1))
+>C : Symbol(C, Decl(mergedInterfacesWithMultipleBases.jump, 0, 0))
+
+    y: string;
+>y : Symbol(A.y, Decl(mergedInterfacesWithMultipleBases.jump, 11, 23))
+}
+
+interface A extends C2 {
+>A : Symbol(A, Decl(mergedInterfacesWithMultipleBases.jump, 9, 1), Decl(mergedInterfacesWithMultipleBases.jump, 13, 1))
+>C2 : Symbol(C2, Decl(mergedInterfacesWithMultipleBases.jump, 5, 1))
+
+    z: string;
+>z : Symbol(A.z, Decl(mergedInterfacesWithMultipleBases.jump, 15, 24))
+}
+
+class D implements A {
+>D : Symbol(D, Decl(mergedInterfacesWithMultipleBases.jump, 17, 1))
+>A : Symbol(A, Decl(mergedInterfacesWithMultipleBases.jump, 9, 1), Decl(mergedInterfacesWithMultipleBases.jump, 13, 1))
+
+    a: number;
+>a : Symbol(D.a, Decl(mergedInterfacesWithMultipleBases.jump, 19, 22))
+
+    b: number;
+>b : Symbol(D.b, Decl(mergedInterfacesWithMultipleBases.jump, 20, 14))
+
+    y: string;
+>y : Symbol(D.y, Decl(mergedInterfacesWithMultipleBases.jump, 21, 14))
+
+    z: string;
+>z : Symbol(D.z, Decl(mergedInterfacesWithMultipleBases.jump, 22, 14))
+}
+
+var a: A;
+>a : Symbol(a, Decl(mergedInterfacesWithMultipleBases.jump, 26, 3))
+>A : Symbol(A, Decl(mergedInterfacesWithMultipleBases.jump, 9, 1), Decl(mergedInterfacesWithMultipleBases.jump, 13, 1))
+
+var r = a.a;
+>r : Symbol(r, Decl(mergedInterfacesWithMultipleBases.jump, 27, 3))
+>a.a : Symbol(C.a, Decl(mergedInterfacesWithMultipleBases.jump, 3, 9))
+>a : Symbol(a, Decl(mergedInterfacesWithMultipleBases.jump, 26, 3))
+>a : Symbol(C.a, Decl(mergedInterfacesWithMultipleBases.jump, 3, 9))
+
+// generic interfaces in a module
+module M {
+>M : Symbol(M, Decl(mergedInterfacesWithMultipleBases.jump, 27, 12))
+
+    class C<T> {
+>C : Symbol(C, Decl(mergedInterfacesWithMultipleBases.jump, 30, 10))
+>T : Symbol(T, Decl(mergedInterfacesWithMultipleBases.jump, 31, 12))
+
+        a: T;
+>a : Symbol(C.a, Decl(mergedInterfacesWithMultipleBases.jump, 31, 16))
+>T : Symbol(T, Decl(mergedInterfacesWithMultipleBases.jump, 31, 12))
+    }
+
+    class C2<T> {
+>C2 : Symbol(C2, Decl(mergedInterfacesWithMultipleBases.jump, 33, 5))
+>T : Symbol(T, Decl(mergedInterfacesWithMultipleBases.jump, 35, 13))
+
+        b: T;
+>b : Symbol(C2.b, Decl(mergedInterfacesWithMultipleBases.jump, 35, 17))
+>T : Symbol(T, Decl(mergedInterfacesWithMultipleBases.jump, 35, 13))
+    }
+
+    interface A<T> extends C<T> {
+>A : Symbol(A, Decl(mergedInterfacesWithMultipleBases.jump, 37, 5), Decl(mergedInterfacesWithMultipleBases.jump, 41, 5))
+>T : Symbol(T, Decl(mergedInterfacesWithMultipleBases.jump, 39, 16), Decl(mergedInterfacesWithMultipleBases.jump, 43, 16))
+>C : Symbol(C, Decl(mergedInterfacesWithMultipleBases.jump, 30, 10))
+>T : Symbol(T, Decl(mergedInterfacesWithMultipleBases.jump, 39, 16), Decl(mergedInterfacesWithMultipleBases.jump, 43, 16))
+
+        y: T;
+>y : Symbol(A.y, Decl(mergedInterfacesWithMultipleBases.jump, 39, 33))
+>T : Symbol(T, Decl(mergedInterfacesWithMultipleBases.jump, 39, 16), Decl(mergedInterfacesWithMultipleBases.jump, 43, 16))
+    }
+
+    interface A<T> extends C2<string> {
+>A : Symbol(A, Decl(mergedInterfacesWithMultipleBases.jump, 37, 5), Decl(mergedInterfacesWithMultipleBases.jump, 41, 5))
+>T : Symbol(T, Decl(mergedInterfacesWithMultipleBases.jump, 39, 16), Decl(mergedInterfacesWithMultipleBases.jump, 43, 16))
+>C2 : Symbol(C2, Decl(mergedInterfacesWithMultipleBases.jump, 33, 5))
+
+        z: T;
+>z : Symbol(A.z, Decl(mergedInterfacesWithMultipleBases.jump, 43, 39))
+>T : Symbol(T, Decl(mergedInterfacesWithMultipleBases.jump, 39, 16), Decl(mergedInterfacesWithMultipleBases.jump, 43, 16))
+    }
+
+    class D implements A<boolean> {
+>D : Symbol(D, Decl(mergedInterfacesWithMultipleBases.jump, 45, 5))
+>A : Symbol(A, Decl(mergedInterfacesWithMultipleBases.jump, 37, 5), Decl(mergedInterfacesWithMultipleBases.jump, 41, 5))
+
+        a: boolean;
+>a : Symbol(D.a, Decl(mergedInterfacesWithMultipleBases.jump, 47, 35))
+
+        b: string;
+>b : Symbol(D.b, Decl(mergedInterfacesWithMultipleBases.jump, 48, 19))
+
+        y: boolean;
+>y : Symbol(D.y, Decl(mergedInterfacesWithMultipleBases.jump, 49, 18))
+
+        z: boolean;
+>z : Symbol(D.z, Decl(mergedInterfacesWithMultipleBases.jump, 50, 19))
+    }
+}

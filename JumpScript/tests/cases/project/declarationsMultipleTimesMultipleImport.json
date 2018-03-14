@@ -1,0 +1,9 @@
+{
+    "scenario": "declarations_MultipleTimesMultipleImport",
+    "projectRoot": "tests/cases/projects/declarations_MultipleTimesMultipleImport",
+    "inputFiles": [
+        "useModule.jump"
+    ],
+    "declaration": true,
+    "baselineCheck": true
+}

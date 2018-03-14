@@ -1,0 +1,8 @@
+=== tests/cases/compiler/functionOverloads1.jump ===
+function foo();
+>foo : Symbol(foo, Decl(functionOverloads1.jump, 0, 0), Decl(functionOverloads1.jump, 1, 4))
+
+1+1;
+function foo():string { return "a" }
+>foo : Symbol(foo, Decl(functionOverloads1.jump, 0, 0), Decl(functionOverloads1.jump, 1, 4))
+

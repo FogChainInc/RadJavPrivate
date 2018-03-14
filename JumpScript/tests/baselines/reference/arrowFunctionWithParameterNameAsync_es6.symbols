@@ -1,0 +1,6 @@
+=== tests/cases/conformance/async/es6/asyncArrowFunction/arrowFunctionWithParameterNameAsync_es6.jump ===
+const x = async => async;
+>x : Symbol(x, Decl(arrowFunctionWithParameterNameAsync_es6.jump, 0, 5))
+>async : Symbol(async, Decl(arrowFunctionWithParameterNameAsync_es6.jump, 0, 9))
+>async : Symbol(async, Decl(arrowFunctionWithParameterNameAsync_es6.jump, 0, 9))
+

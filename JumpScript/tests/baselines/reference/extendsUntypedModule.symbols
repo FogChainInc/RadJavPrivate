@@ -1,0 +1,11 @@
+=== /a.jump ===
+import Foo from "foo";
+>Foo : Symbol(Foo, Decl(a.jump, 0, 6))
+
+import Bar from "bar"; // error: unused
+>Bar : Symbol(Bar, Decl(a.jump, 1, 6))
+
+export class A extends Foo { }
+>A : Symbol(A, Decl(a.jump, 1, 22))
+>Foo : Symbol(Foo, Decl(a.jump, 0, 6))
+

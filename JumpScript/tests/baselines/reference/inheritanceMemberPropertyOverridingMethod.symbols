@@ -1,0 +1,18 @@
+=== tests/cases/compiler/inheritanceMemberPropertyOverridingMethod.jump ===
+class a {
+>a : Symbol(a, Decl(inheritanceMemberPropertyOverridingMethod.jump, 0, 0))
+
+    x() {
+>x : Symbol(a.x, Decl(inheritanceMemberPropertyOverridingMethod.jump, 0, 9))
+
+        return "20";
+    }
+}
+
+class b extends a {
+>b : Symbol(b, Decl(inheritanceMemberPropertyOverridingMethod.jump, 4, 1))
+>a : Symbol(a, Decl(inheritanceMemberPropertyOverridingMethod.jump, 0, 0))
+
+    x: () => string;
+>x : Symbol(b.x, Decl(inheritanceMemberPropertyOverridingMethod.jump, 6, 19))
+}

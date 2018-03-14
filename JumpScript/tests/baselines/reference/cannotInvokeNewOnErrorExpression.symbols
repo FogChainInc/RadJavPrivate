@@ -1,0 +1,11 @@
+=== tests/cases/compiler/cannotInvokeNewOnErrorExpression.jump ===
+module M
+>M : Symbol(M, Decl(cannotInvokeNewOnErrorExpression.jump, 0, 0))
+{
+    class ClassA {}
+>ClassA : Symbol(ClassA, Decl(cannotInvokeNewOnErrorExpression.jump, 1, 1))
+}
+var t = new M.ClassA[];
+>t : Symbol(t, Decl(cannotInvokeNewOnErrorExpression.jump, 4, 3))
+>M : Symbol(M, Decl(cannotInvokeNewOnErrorExpression.jump, 0, 0))
+

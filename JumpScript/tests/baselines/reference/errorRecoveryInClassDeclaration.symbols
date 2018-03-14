@@ -1,0 +1,14 @@
+=== tests/cases/compiler/errorRecoveryInClassDeclaration.jump ===
+class C {
+>C : Symbol(C, Decl(errorRecoveryInClassDeclaration.jump, 0, 0))
+
+    public bar() {
+>bar : Symbol(C.bar, Decl(errorRecoveryInClassDeclaration.jump, 0, 9))
+
+        var v = foo(
+>v : Symbol(v, Decl(errorRecoveryInClassDeclaration.jump, 2, 11))
+
+            public blaz() {}
+            );
+    }
+}

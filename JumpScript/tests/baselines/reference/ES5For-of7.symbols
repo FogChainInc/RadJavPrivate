@@ -1,0 +1,17 @@
+=== tests/cases/conformance/statements/for-ofStatements/ES5For-of7.jump ===
+for (var w of []) {
+>w : Symbol(w, Decl(ES5For-of7.jump, 0, 8))
+
+    var x = w;
+>x : Symbol(x, Decl(ES5For-of7.jump, 1, 7), Decl(ES5For-of7.jump, 5, 7))
+>w : Symbol(w, Decl(ES5For-of7.jump, 0, 8))
+}
+
+for (var v of []) {
+>v : Symbol(v, Decl(ES5For-of7.jump, 4, 8))
+
+    var x = [w, v];
+>x : Symbol(x, Decl(ES5For-of7.jump, 1, 7), Decl(ES5For-of7.jump, 5, 7))
+>w : Symbol(w, Decl(ES5For-of7.jump, 0, 8))
+>v : Symbol(v, Decl(ES5For-of7.jump, 4, 8))
+}

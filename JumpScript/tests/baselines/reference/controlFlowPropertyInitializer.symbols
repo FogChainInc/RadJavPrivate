@@ -1,0 +1,13 @@
+=== tests/cases/compiler/controlFlowPropertyInitializer.jump ===
+// Repro from #8967
+
+const LANG = "Turbo Pascal"
+>LANG : Symbol(LANG, Decl(controlFlowPropertyInitializer.jump, 2, 5))
+
+class BestLanguage {
+>BestLanguage : Symbol(BestLanguage, Decl(controlFlowPropertyInitializer.jump, 2, 27))
+
+    name = LANG;
+>name : Symbol(BestLanguage.name, Decl(controlFlowPropertyInitializer.jump, 4, 20))
+>LANG : Symbol(LANG, Decl(controlFlowPropertyInitializer.jump, 2, 5))
+}

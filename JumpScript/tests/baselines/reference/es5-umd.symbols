@@ -1,0 +1,16 @@
+=== tests/cases/compiler/es5-umd.jump ===
+class A
+>A : Symbol(A, Decl(es5-umd.jump, 0, 0))
+{
+    constructor ()
+    {
+
+    }
+
+    public B()
+>B : Symbol(A.B, Decl(es5-umd.jump, 5, 5))
+    {
+        return 42;
+    }
+}
+

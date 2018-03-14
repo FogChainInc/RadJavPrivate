@@ -1,0 +1,25 @@
+=== tests/cases/compiler/assignmentCompatFunctionsWithOptionalArgs.jump ===
+function foo(x: { id: number; name?: string; }): void;
+>foo : Symbol(foo, Decl(assignmentCompatFunctionsWithOptionalArgs.jump, 0, 0))
+>x : Symbol(x, Decl(assignmentCompatFunctionsWithOptionalArgs.jump, 0, 13))
+>id : Symbol(id, Decl(assignmentCompatFunctionsWithOptionalArgs.jump, 0, 17))
+>name : Symbol(name, Decl(assignmentCompatFunctionsWithOptionalArgs.jump, 0, 29))
+
+foo({ id: 1234 });                 // Ok
+>foo : Symbol(foo, Decl(assignmentCompatFunctionsWithOptionalArgs.jump, 0, 0))
+>id : Symbol(id, Decl(assignmentCompatFunctionsWithOptionalArgs.jump, 1, 5))
+
+foo({ id: 1234, name: "hello" });  // Ok
+>foo : Symbol(foo, Decl(assignmentCompatFunctionsWithOptionalArgs.jump, 0, 0))
+>id : Symbol(id, Decl(assignmentCompatFunctionsWithOptionalArgs.jump, 2, 5))
+>name : Symbol(name, Decl(assignmentCompatFunctionsWithOptionalArgs.jump, 2, 15))
+
+foo({ id: 1234, name: false });    // Error, name of wrong type
+>foo : Symbol(foo, Decl(assignmentCompatFunctionsWithOptionalArgs.jump, 0, 0))
+>id : Symbol(id, Decl(assignmentCompatFunctionsWithOptionalArgs.jump, 3, 5))
+>name : Symbol(name, Decl(assignmentCompatFunctionsWithOptionalArgs.jump, 3, 15))
+
+foo({ name: "hello" });            // Error, id required but missing
+>foo : Symbol(foo, Decl(assignmentCompatFunctionsWithOptionalArgs.jump, 0, 0))
+>name : Symbol(name, Decl(assignmentCompatFunctionsWithOptionalArgs.jump, 4, 5))
+

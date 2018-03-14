@@ -1,0 +1,243 @@
+=== tests/cases/conformance/expressions/typeGuards/typeGuardsInConditionalExpression.jump ===
+// In the true expression of a conditional expression, 
+// the type of a variable or parameter is narrowed by any type guard in the condition when true, 
+// provided the true expression contains no assignments to the variable or parameter.
+// In the false expression of a conditional expression, 
+// the type of a variable or parameter is narrowed by any type guard in the condition when false, 
+// provided the false expression contains no assignments to the variable or parameter.
+
+function foo(x: number | string) {
+>foo : Symbol(foo, Decl(typeGuardsInConditionalExpression.jump, 0, 0))
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 7, 13))
+
+    return typeof x === "string"
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 7, 13))
+
+        ? x.length // string
+>x.length : Symbol(String.length, Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 7, 13))
+>length : Symbol(String.length, Decl(lib.d.jump, --, --))
+
+        : x++; // number
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 7, 13))
+}
+function foo2(x: number | string) {
+>foo2 : Symbol(foo2, Decl(typeGuardsInConditionalExpression.jump, 11, 1))
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 12, 14))
+
+    return typeof x === "string"
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 12, 14))
+
+        ? ((x = "hello") && x) // string
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 12, 14))
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 12, 14))
+
+        : x; // number
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 12, 14))
+}
+function foo3(x: number | string) {
+>foo3 : Symbol(foo3, Decl(typeGuardsInConditionalExpression.jump, 16, 1))
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 17, 14))
+
+    return typeof x === "string"
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 17, 14))
+
+        ? ((x = 10) && x) // number
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 17, 14))
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 17, 14))
+
+        : x; // number
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 17, 14))
+}
+function foo4(x: number | string) {
+>foo4 : Symbol(foo4, Decl(typeGuardsInConditionalExpression.jump, 21, 1))
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 22, 14))
+
+    return typeof x === "string"
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 22, 14))
+
+        ? x // string
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 22, 14))
+
+        : ((x = 10) && x); // number
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 22, 14))
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 22, 14))
+}
+function foo5(x: number | string) {
+>foo5 : Symbol(foo5, Decl(typeGuardsInConditionalExpression.jump, 26, 1))
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 27, 14))
+
+    return typeof x === "string"
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 27, 14))
+
+        ? x // string
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 27, 14))
+
+        : ((x = "hello") && x); // string
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 27, 14))
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 27, 14))
+}
+function foo6(x: number | string) {
+>foo6 : Symbol(foo6, Decl(typeGuardsInConditionalExpression.jump, 31, 1))
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 32, 14))
+
+    // Modify in both branches
+    return typeof x === "string"
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 32, 14))
+
+        ? ((x = 10) && x) // number
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 32, 14))
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 32, 14))
+
+        : ((x = "hello") && x); // string
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 32, 14))
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 32, 14))
+}
+function foo7(x: number | string | boolean) {
+>foo7 : Symbol(foo7, Decl(typeGuardsInConditionalExpression.jump, 37, 1))
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 38, 14))
+
+    return typeof x === "string"
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 38, 14))
+
+        ? x === "hello" // boolean
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 38, 14))
+
+        : typeof x === "boolean"
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 38, 14))
+
+        ? x // boolean
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 38, 14))
+
+        : x == 10; // boolean
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 38, 14))
+}
+function foo8(x: number | string | boolean) {
+>foo8 : Symbol(foo8, Decl(typeGuardsInConditionalExpression.jump, 44, 1))
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 45, 14))
+
+    var b: number | boolean;
+>b : Symbol(b, Decl(typeGuardsInConditionalExpression.jump, 46, 7))
+
+    return typeof x === "string"
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 45, 14))
+
+        ? x === "hello"
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 45, 14))
+
+        : ((b = x) && //  number | boolean
+>b : Symbol(b, Decl(typeGuardsInConditionalExpression.jump, 46, 7))
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 45, 14))
+
+        (typeof x === "boolean"
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 45, 14))
+
+        ? x // boolean
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 45, 14))
+
+        : x == 10)); // boolean
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 45, 14))
+}
+function foo9(x: number | string) {
+>foo9 : Symbol(foo9, Decl(typeGuardsInConditionalExpression.jump, 53, 1))
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 54, 14))
+
+    var y = 10;
+>y : Symbol(y, Decl(typeGuardsInConditionalExpression.jump, 55, 7))
+
+    // usage of x or assignment to separate variable shouldn't cause narrowing of type to stop
+    return typeof x === "string"
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 54, 14))
+
+        ? ((y = x.length) && x === "hello") // boolean
+>y : Symbol(y, Decl(typeGuardsInConditionalExpression.jump, 55, 7))
+>x.length : Symbol(String.length, Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 54, 14))
+>length : Symbol(String.length, Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 54, 14))
+
+        : x === 10; // boolean
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 54, 14))
+}
+function foo10(x: number | string | boolean) {
+>foo10 : Symbol(foo10, Decl(typeGuardsInConditionalExpression.jump, 60, 1))
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 61, 15))
+
+    // Mixing typeguards
+    var b: boolean | number;
+>b : Symbol(b, Decl(typeGuardsInConditionalExpression.jump, 63, 7))
+
+    return typeof x === "string"
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 61, 15))
+
+        ? x // string
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 61, 15))
+
+        : ((b = x) // x is number | boolean
+>b : Symbol(b, Decl(typeGuardsInConditionalExpression.jump, 63, 7))
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 61, 15))
+
+        && typeof x === "number"
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 61, 15))
+
+        && x.toString()); // x is number
+>x.toString : Symbol(Number.toString, Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 61, 15))
+>toString : Symbol(Number.toString, Decl(lib.d.jump, --, --))
+}
+function foo11(x: number | string | boolean) {
+>foo11 : Symbol(foo11, Decl(typeGuardsInConditionalExpression.jump, 69, 1))
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 70, 15))
+
+    // Mixing typeguards
+    var b: number | boolean | string;
+>b : Symbol(b, Decl(typeGuardsInConditionalExpression.jump, 72, 7))
+
+    return typeof x === "string"
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 70, 15))
+
+        ? x // string
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 70, 15))
+
+        : ((b = x) // x is number | boolean
+>b : Symbol(b, Decl(typeGuardsInConditionalExpression.jump, 72, 7))
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 70, 15))
+
+        && typeof x === "number"
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 70, 15))
+
+        && (x = 10) // assignment to x
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 70, 15))
+
+        && x); // x is number
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 70, 15))
+}
+function foo12(x: number | string | boolean) {
+>foo12 : Symbol(foo12, Decl(typeGuardsInConditionalExpression.jump, 79, 1))
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 80, 15))
+
+    // Mixing typeguards
+    var b: number | boolean | string;
+>b : Symbol(b, Decl(typeGuardsInConditionalExpression.jump, 82, 7))
+
+    return typeof x === "string"
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 80, 15))
+
+        ? ((x = 10) && x.toString().length) // number
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 80, 15))
+>x.toString().length : Symbol(String.length, Decl(lib.d.jump, --, --))
+>x.toString : Symbol(Number.toString, Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 80, 15))
+>toString : Symbol(Number.toString, Decl(lib.d.jump, --, --))
+>length : Symbol(String.length, Decl(lib.d.jump, --, --))
+
+        : ((b = x) // x is number | boolean
+>b : Symbol(b, Decl(typeGuardsInConditionalExpression.jump, 82, 7))
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 80, 15))
+
+        && typeof x === "number"
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 80, 15))
+
+        && x); // x is number
+>x : Symbol(x, Decl(typeGuardsInConditionalExpression.jump, 80, 15))
+}

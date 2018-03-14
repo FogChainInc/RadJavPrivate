@@ -1,0 +1,4 @@
+=== tests/cases/conformance/es6/templates/templateStringWithEmbeddedModulo.jump ===
+var x = `abc${ 1 % 1 }def`;
+>x : Symbol(x, Decl(templateStringWithEmbeddedModulo.jump, 0, 3))
+

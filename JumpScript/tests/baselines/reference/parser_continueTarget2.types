@@ -1,0 +1,10 @@
+=== tests/cases/conformance/parser/ecmascript5/Statements/ContinueStatements/parser_continueTarget2.jump ===
+target:
+>target : any
+
+while (true) {
+>true : true
+
+  continue target;
+>target : any
+}

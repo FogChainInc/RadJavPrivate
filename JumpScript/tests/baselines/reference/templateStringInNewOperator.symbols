@@ -1,0 +1,4 @@
+=== tests/cases/conformance/es6/templates/templateStringInNewOperator.jump ===
+var x = new `abc${ 1 }def`;
+>x : Symbol(x, Decl(templateStringInNewOperator.jump, 0, 3))
+

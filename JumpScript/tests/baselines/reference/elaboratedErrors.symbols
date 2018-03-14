@@ -1,0 +1,67 @@
+=== tests/cases/compiler/elaboratedErrors.jump ===
+interface FileSystem {
+>FileSystem : Symbol(FileSystem, Decl(elaboratedErrors.jump, 0, 0))
+
+  read: number;
+>read : Symbol(FileSystem.read, Decl(elaboratedErrors.jump, 0, 22))
+}
+
+function fn(s: WorkerFS): void;
+>fn : Symbol(fn, Decl(elaboratedErrors.jump, 2, 1), Decl(elaboratedErrors.jump, 4, 31), Decl(elaboratedErrors.jump, 5, 33))
+>s : Symbol(s, Decl(elaboratedErrors.jump, 4, 12))
+>WorkerFS : Symbol(WorkerFS, Decl(elaboratedErrors.jump, 6, 39))
+
+function fn(s: FileSystem): void;
+>fn : Symbol(fn, Decl(elaboratedErrors.jump, 2, 1), Decl(elaboratedErrors.jump, 4, 31), Decl(elaboratedErrors.jump, 5, 33))
+>s : Symbol(s, Decl(elaboratedErrors.jump, 5, 12))
+>FileSystem : Symbol(FileSystem, Decl(elaboratedErrors.jump, 0, 0))
+
+function fn(s: FileSystem|WorkerFS) { }
+>fn : Symbol(fn, Decl(elaboratedErrors.jump, 2, 1), Decl(elaboratedErrors.jump, 4, 31), Decl(elaboratedErrors.jump, 5, 33))
+>s : Symbol(s, Decl(elaboratedErrors.jump, 6, 12))
+>FileSystem : Symbol(FileSystem, Decl(elaboratedErrors.jump, 0, 0))
+>WorkerFS : Symbol(WorkerFS, Decl(elaboratedErrors.jump, 6, 39))
+
+// This should issue a large error, not a small one
+class WorkerFS implements FileSystem {
+>WorkerFS : Symbol(WorkerFS, Decl(elaboratedErrors.jump, 6, 39))
+>FileSystem : Symbol(FileSystem, Decl(elaboratedErrors.jump, 0, 0))
+
+  read: string;
+>read : Symbol(WorkerFS.read, Decl(elaboratedErrors.jump, 9, 38))
+}
+
+interface Alpha { x: string; }
+>Alpha : Symbol(Alpha, Decl(elaboratedErrors.jump, 11, 1))
+>x : Symbol(Alpha.x, Decl(elaboratedErrors.jump, 13, 17))
+
+interface Beta { y: number; }
+>Beta : Symbol(Beta, Decl(elaboratedErrors.jump, 13, 30))
+>y : Symbol(Beta.y, Decl(elaboratedErrors.jump, 14, 16))
+
+var x: Alpha;
+>x : Symbol(x, Decl(elaboratedErrors.jump, 15, 3))
+>Alpha : Symbol(Alpha, Decl(elaboratedErrors.jump, 11, 1))
+
+var y: Beta;
+>y : Symbol(y, Decl(elaboratedErrors.jump, 16, 3))
+>Beta : Symbol(Beta, Decl(elaboratedErrors.jump, 13, 30))
+
+// Only one of these errors should be large
+x = y;
+>x : Symbol(x, Decl(elaboratedErrors.jump, 15, 3))
+>y : Symbol(y, Decl(elaboratedErrors.jump, 16, 3))
+
+x = y;
+>x : Symbol(x, Decl(elaboratedErrors.jump, 15, 3))
+>y : Symbol(y, Decl(elaboratedErrors.jump, 16, 3))
+
+// Only one of these errors should be large
+y = x;
+>y : Symbol(y, Decl(elaboratedErrors.jump, 16, 3))
+>x : Symbol(x, Decl(elaboratedErrors.jump, 15, 3))
+
+y = x;
+>y : Symbol(y, Decl(elaboratedErrors.jump, 16, 3))
+>x : Symbol(x, Decl(elaboratedErrors.jump, 15, 3))
+

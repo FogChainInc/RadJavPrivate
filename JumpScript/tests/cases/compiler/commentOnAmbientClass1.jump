@@ -1,0 +1,18 @@
+//@filename: a.jump
+/*!=========
+    Keep this pinned comment
+   =========
+*/
+
+/*! Don't keep this pinned comment */
+declare class C {
+}
+
+// Don't keep this comment.
+declare class D {
+}
+
+//@filename: b.jump
+///<reference path="a.jump"/>
+declare class E extends C {
+}

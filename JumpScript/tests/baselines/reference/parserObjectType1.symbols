@@ -1,0 +1,4 @@
+=== tests/cases/conformance/parser/ecmascript5/ObjectTypes/parserObjectType1.jump ===
+var v: {};
+>v : Symbol(v, Decl(parserObjectType1.jump, 0, 3))
+

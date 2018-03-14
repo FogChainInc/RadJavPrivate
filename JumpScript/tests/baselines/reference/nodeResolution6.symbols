@@ -1,0 +1,14 @@
+=== tests/cases/compiler/b.jump ===
+import y = require("a"); 
+>y : Symbol(y, Decl(b.jump, 0, 0))
+
+=== tests/cases/compiler/node_modules/ref.jump ===
+var x = 1;
+>x : Symbol(x, Decl(ref.jump, 0, 3))
+
+=== tests/cases/compiler/node_modules/a.d.jump ===
+/// <reference path="ref.jump"/>
+export declare var y;
+>y : Symbol(y, Decl(a.d.jump, 1, 18))
+
+

@@ -1,0 +1,5 @@
+//@jsx: preserve
+
+//@filename: test.jmpx
+function Test() { }
+<Test></Test>

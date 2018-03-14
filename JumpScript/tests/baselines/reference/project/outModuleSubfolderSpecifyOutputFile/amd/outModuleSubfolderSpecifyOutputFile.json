@@ -1,0 +1,19 @@
+{
+    "scenario": "outputdir_module_subfolder: specify outputFile",
+    "projectRoot": "tests/cases/projects/outputdir_module_subfolder",
+    "inputFiles": [
+        "test.jump"
+    ],
+    "out": "bin/test.js",
+    "declaration": true,
+    "baselineCheck": true,
+    "resolvedInputFiles": [
+        "lib.d.jump",
+        "ref/m1.jump",
+        "test.jump"
+    ],
+    "emittedFiles": [
+        "bin/test.js",
+        "bin/test.d.jump"
+    ]
+}

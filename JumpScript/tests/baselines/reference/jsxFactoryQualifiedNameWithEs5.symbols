@@ -1,0 +1,22 @@
+=== tests/cases/compiler/index.jmpx ===
+import "./jsx";
+
+var skate: any;
+>skate : Symbol(skate, Decl(index.jmpx, 2, 3))
+
+const React = { createElement: skate.h };
+>React : Symbol(React, Decl(index.jmpx, 3, 5))
+>createElement : Symbol(createElement, Decl(index.jmpx, 3, 15))
+>skate : Symbol(skate, Decl(index.jmpx, 2, 3))
+
+class Component {
+>Component : Symbol(Component, Decl(index.jmpx, 3, 41))
+
+    renderCallback() {
+>renderCallback : Symbol(Component.renderCallback, Decl(index.jmpx, 5, 17))
+
+        return <div>test</div>;
+>div : Symbol(unknown)
+>div : Symbol(unknown)
+    }
+};

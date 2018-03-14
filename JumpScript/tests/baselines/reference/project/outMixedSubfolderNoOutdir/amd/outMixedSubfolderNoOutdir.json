@@ -1,0 +1,23 @@
+{
+    "scenario": "outputdir_mixed_subfolder: no outdir",
+    "projectRoot": "tests/cases/projects/outputdir_mixed_subfolder",
+    "inputFiles": [
+        "test.jump"
+    ],
+    "declaration": true,
+    "baselineCheck": true,
+    "resolvedInputFiles": [
+        "lib.d.jump",
+        "ref/m1.jump",
+        "ref/m2.jump",
+        "test.jump"
+    ],
+    "emittedFiles": [
+        "ref/m1.js",
+        "ref/m1.d.jump",
+        "ref/m2.js",
+        "ref/m2.d.jump",
+        "test.js",
+        "test.d.jump"
+    ]
+}

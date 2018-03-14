@@ -1,0 +1,9 @@
+=== tests/cases/conformance/es6/yieldExpressions/YieldExpression15_es6.jump ===
+var v = () => {
+>v : () => void
+>() => {     yield foo  } : () => void
+
+     yield foo
+>yield foo : any
+>foo : any
+  }

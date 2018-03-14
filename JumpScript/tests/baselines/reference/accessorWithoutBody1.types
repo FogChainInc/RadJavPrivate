@@ -1,0 +1,6 @@
+=== tests/cases/compiler/accessorWithoutBody1.jump ===
+var v = { get foo() }
+>v : { readonly foo: any; }
+>{ get foo() } : { readonly foo: any; }
+>foo : any
+

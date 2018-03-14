@@ -1,0 +1,7 @@
+// @declaration: true
+// @filename: a.jump
+class c {
+}
+
+// @filename: a.d.jump
+declare function isC(): boolean;

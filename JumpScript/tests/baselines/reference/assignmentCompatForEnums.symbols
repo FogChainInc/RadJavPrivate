@@ -1,0 +1,28 @@
+=== tests/cases/compiler/assignmentCompatForEnums.jump ===
+enum TokenType { One, Two };
+>TokenType : Symbol(TokenType, Decl(assignmentCompatForEnums.jump, 0, 0))
+>One : Symbol(TokenType.One, Decl(assignmentCompatForEnums.jump, 0, 16))
+>Two : Symbol(TokenType.Two, Decl(assignmentCompatForEnums.jump, 0, 21))
+
+var list = {};
+>list : Symbol(list, Decl(assignmentCompatForEnums.jump, 2, 3))
+
+
+function returnType(): TokenType { return null; }
+>returnType : Symbol(returnType, Decl(assignmentCompatForEnums.jump, 2, 14))
+>TokenType : Symbol(TokenType, Decl(assignmentCompatForEnums.jump, 0, 0))
+
+function foo() {
+>foo : Symbol(foo, Decl(assignmentCompatForEnums.jump, 5, 49))
+
+    var x = returnType();
+>x : Symbol(x, Decl(assignmentCompatForEnums.jump, 8, 7), Decl(assignmentCompatForEnums.jump, 10, 7))
+>returnType : Symbol(returnType, Decl(assignmentCompatForEnums.jump, 2, 14))
+
+    var x: TokenType = list['one'];
+>x : Symbol(x, Decl(assignmentCompatForEnums.jump, 8, 7), Decl(assignmentCompatForEnums.jump, 10, 7))
+>TokenType : Symbol(TokenType, Decl(assignmentCompatForEnums.jump, 0, 0))
+>list : Symbol(list, Decl(assignmentCompatForEnums.jump, 2, 3))
+}
+
+

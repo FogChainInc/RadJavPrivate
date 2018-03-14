@@ -1,0 +1,11 @@
+=== tests/cases/compiler/parsingClassRecoversWhenHittingUnexpectedSemicolon.jump ===
+class C {
+>C : Symbol(C, Decl(parsingClassRecoversWhenHittingUnexpectedSemicolon.jump, 0, 0))
+
+    public f() { };
+>f : Symbol(C.f, Decl(parsingClassRecoversWhenHittingUnexpectedSemicolon.jump, 0, 9))
+
+    private m;
+>m : Symbol(C.m, Decl(parsingClassRecoversWhenHittingUnexpectedSemicolon.jump, 1, 19))
+}
+

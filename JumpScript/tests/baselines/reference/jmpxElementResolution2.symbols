@@ -1,0 +1,23 @@
+=== tests/cases/conformance/jsx/file.jmpx ===
+declare module JSX {
+>JSX : Symbol(JSX, Decl(file.jmpx, 0, 0))
+
+	interface Element { }
+>Element : Symbol(Element, Decl(file.jmpx, 0, 20))
+
+	interface IntrinsicElements {
+>IntrinsicElements : Symbol(IntrinsicElements, Decl(file.jmpx, 1, 22))
+
+	    [x: string]: any;
+>x : Symbol(x, Decl(file.jmpx, 3, 6))
+	}
+}
+
+// OK
+<div />;
+>div : Symbol(JSX.IntrinsicElements, Decl(file.jmpx, 1, 22))
+
+// OK
+<span />;
+>span : Symbol(JSX.IntrinsicElements, Decl(file.jmpx, 1, 22))
+

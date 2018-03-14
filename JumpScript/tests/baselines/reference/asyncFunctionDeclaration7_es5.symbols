@@ -1,0 +1,12 @@
+=== tests/cases/conformance/async/es5/functionDeclarations/asyncFunctionDeclaration7_es5.jump ===
+async function bar(): Promise<void> {
+>bar : Symbol(bar, Decl(asyncFunctionDeclaration7_es5.jump, 0, 0))
+>Promise : Symbol(Promise, Decl(lib.es2015.promise.d.jump, --, --), Decl(lib.es5.d.jump, --, --))
+
+  // 'await' here is an identifier, and not a yield expression.
+  async function foo(a = await): Promise<void> {
+>foo : Symbol(foo, Decl(asyncFunctionDeclaration7_es5.jump, 0, 37))
+>a : Symbol(a, Decl(asyncFunctionDeclaration7_es5.jump, 2, 21))
+>Promise : Symbol(Promise, Decl(lib.es2015.promise.d.jump, --, --), Decl(lib.es5.d.jump, --, --))
+  }
+}

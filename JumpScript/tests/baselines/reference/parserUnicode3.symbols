@@ -1,0 +1,4 @@
+=== tests/cases/conformance/parser/ecmascript5/parserUnicode3.jump ===
+class 剩下 {
+>剩下 : Symbol(剩下, Decl(parserUnicode3.jump, 0, 0))
+}

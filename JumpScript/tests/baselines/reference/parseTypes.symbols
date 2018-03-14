@@ -1,0 +1,41 @@
+=== tests/cases/compiler/parseTypes.jump ===
+var x = <() => number>null;
+>x : Symbol(x, Decl(parseTypes.jump, 0, 3))
+
+var y = <{(): number; }>null;
+>y : Symbol(y, Decl(parseTypes.jump, 1, 3))
+
+var z = <{new(): number; }>null
+>z : Symbol(z, Decl(parseTypes.jump, 2, 3))
+
+var w = <{[x:number]: number; }>null
+>w : Symbol(w, Decl(parseTypes.jump, 3, 3))
+>x : Symbol(x, Decl(parseTypes.jump, 3, 11))
+
+function f() { return 3 };
+>f : Symbol(f, Decl(parseTypes.jump, 3, 36))
+
+function g(s: string) { true };
+>g : Symbol(g, Decl(parseTypes.jump, 4, 26))
+>s : Symbol(s, Decl(parseTypes.jump, 5, 11))
+
+y=f;
+>y : Symbol(y, Decl(parseTypes.jump, 1, 3))
+>f : Symbol(f, Decl(parseTypes.jump, 3, 36))
+
+y=g;
+>y : Symbol(y, Decl(parseTypes.jump, 1, 3))
+>g : Symbol(g, Decl(parseTypes.jump, 4, 26))
+
+x=g;
+>x : Symbol(x, Decl(parseTypes.jump, 0, 3))
+>g : Symbol(g, Decl(parseTypes.jump, 4, 26))
+
+w=g;
+>w : Symbol(w, Decl(parseTypes.jump, 3, 3))
+>g : Symbol(g, Decl(parseTypes.jump, 4, 26))
+
+z=g;
+>z : Symbol(z, Decl(parseTypes.jump, 2, 3))
+>g : Symbol(g, Decl(parseTypes.jump, 4, 26))
+

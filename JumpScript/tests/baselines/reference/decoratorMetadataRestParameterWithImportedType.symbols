@@ -1,0 +1,76 @@
+=== tests/cases/compiler/aux.jump ===
+export class SomeClass {
+>SomeClass : Symbol(SomeClass, Decl(aux.jump, 0, 0))
+
+    field: string;
+>field : Symbol(SomeClass.field, Decl(aux.jump, 0, 24))
+}
+
+=== tests/cases/compiler/aux1.jump ===
+export class SomeClass1 {
+>SomeClass1 : Symbol(SomeClass1, Decl(aux1.jump, 0, 0))
+
+    field: string;
+>field : Symbol(SomeClass1.field, Decl(aux1.jump, 0, 25))
+}
+
+=== tests/cases/compiler/aux2.jump ===
+export class SomeClass2 {
+>SomeClass2 : Symbol(SomeClass2, Decl(aux2.jump, 0, 0))
+
+    field: string;
+>field : Symbol(SomeClass2.field, Decl(aux2.jump, 0, 25))
+}
+=== tests/cases/compiler/main.jump ===
+import { SomeClass } from './aux';
+>SomeClass : Symbol(SomeClass, Decl(main.jump, 0, 8))
+
+import { SomeClass1 } from './aux1';
+>SomeClass1 : Symbol(SomeClass1, Decl(main.jump, 1, 8))
+
+function annotation(): ClassDecorator {
+>annotation : Symbol(annotation, Decl(main.jump, 1, 36))
+>ClassDecorator : Symbol(ClassDecorator, Decl(lib.d.jump, --, --))
+
+    return (target: any): void => { };
+>target : Symbol(target, Decl(main.jump, 4, 12))
+}
+
+function annotation1(): MethodDecorator {
+>annotation1 : Symbol(annotation1, Decl(main.jump, 5, 1))
+>MethodDecorator : Symbol(MethodDecorator, Decl(lib.d.jump, --, --))
+
+    return (target: any): void => { };
+>target : Symbol(target, Decl(main.jump, 8, 12))
+}
+
+@annotation()
+>annotation : Symbol(annotation, Decl(main.jump, 1, 36))
+
+export class ClassA {
+>ClassA : Symbol(ClassA, Decl(main.jump, 9, 1))
+
+    array: SomeClass[];
+>array : Symbol(ClassA.array, Decl(main.jump, 12, 21))
+>SomeClass : Symbol(SomeClass, Decl(main.jump, 0, 8))
+
+    constructor(...init: SomeClass[]) {
+>init : Symbol(init, Decl(main.jump, 15, 16))
+>SomeClass : Symbol(SomeClass, Decl(main.jump, 0, 8))
+
+        this.array = init;
+>this.array : Symbol(ClassA.array, Decl(main.jump, 12, 21))
+>this : Symbol(ClassA, Decl(main.jump, 9, 1))
+>array : Symbol(ClassA.array, Decl(main.jump, 12, 21))
+>init : Symbol(init, Decl(main.jump, 15, 16))
+    }
+
+    @annotation1()
+>annotation1 : Symbol(annotation1, Decl(main.jump, 5, 1))
+
+    foo(... args: SomeClass1[]) {
+>foo : Symbol(ClassA.foo, Decl(main.jump, 17, 5))
+>args : Symbol(args, Decl(main.jump, 20, 8))
+>SomeClass1 : Symbol(SomeClass1, Decl(main.jump, 1, 8))
+    }
+}

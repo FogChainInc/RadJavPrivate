@@ -1,0 +1,9 @@
+// @module: esnext
+// @target: esnext
+// @declaration: true
+
+// @filename: 0.jump
+export function foo() { return "foo"; }
+
+// @filename: 1.jump
+var p1 = import("./0");

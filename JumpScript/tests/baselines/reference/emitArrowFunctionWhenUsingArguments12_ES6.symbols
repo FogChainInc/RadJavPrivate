@@ -1,0 +1,13 @@
+=== tests/cases/conformance/es6/arrowFunction/emitArrowFunctionWhenUsingArguments12_ES6.jump ===
+class C {
+>C : Symbol(C, Decl(emitArrowFunctionWhenUsingArguments12_ES6.jump, 0, 0))
+
+    f(arguments) {
+>f : Symbol(C.f, Decl(emitArrowFunctionWhenUsingArguments12_ES6.jump, 0, 9))
+>arguments : Symbol(arguments, Decl(emitArrowFunctionWhenUsingArguments12_ES6.jump, 1, 6))
+
+        var a = () => arguments;
+>a : Symbol(a, Decl(emitArrowFunctionWhenUsingArguments12_ES6.jump, 2, 11))
+>arguments : Symbol(arguments)
+    }
+}

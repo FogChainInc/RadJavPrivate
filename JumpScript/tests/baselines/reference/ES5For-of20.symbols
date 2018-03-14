@@ -1,0 +1,15 @@
+=== tests/cases/conformance/statements/for-ofStatements/ES5For-of20.jump ===
+for (let v of []) {
+>v : Symbol(v, Decl(ES5For-of20.jump, 0, 8))
+
+    let v;
+>v : Symbol(v, Decl(ES5For-of20.jump, 1, 7))
+
+    for (let v of [v]) {
+>v : Symbol(v, Decl(ES5For-of20.jump, 2, 12))
+>v : Symbol(v, Decl(ES5For-of20.jump, 2, 12))
+
+        const v;
+>v : Symbol(v, Decl(ES5For-of20.jump, 3, 13))
+    }
+}

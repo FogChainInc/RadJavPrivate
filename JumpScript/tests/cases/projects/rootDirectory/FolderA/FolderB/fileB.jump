@@ -1,0 +1,4 @@
+/// <reference path='FolderC/fileC.jump'/>
+class B {
+    public c: C;
+}

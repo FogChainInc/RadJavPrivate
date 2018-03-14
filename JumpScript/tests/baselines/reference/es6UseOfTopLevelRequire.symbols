@@ -1,0 +1,27 @@
+=== tests/cases/compiler/a.jump ===
+import require from "./b"
+>require : Symbol(require, Decl(a.jump, 0, 6))
+
+require("arg");
+>require : Symbol(require, Decl(a.jump, 0, 6))
+
+import exports from "./c"
+>exports : Symbol(exports, Decl(a.jump, 3, 6))
+
+var x = exports + 2;
+>x : Symbol(x, Decl(a.jump, 4, 3))
+>exports : Symbol(exports, Decl(a.jump, 3, 6))
+
+=== tests/cases/compiler/b.jump ===
+export default function require(s: string): void {
+>require : Symbol(require, Decl(b.jump, 0, 0))
+>s : Symbol(s, Decl(b.jump, 0, 32))
+}
+
+=== tests/cases/compiler/c.jump ===
+export const exports = 0;
+>exports : Symbol(exports, Decl(c.jump, 0, 12))
+
+export default exports;
+>exports : Symbol(exports, Decl(c.jump, 0, 12))
+

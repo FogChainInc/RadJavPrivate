@@ -1,0 +1,9 @@
+// @module: commonjs
+// @declaration: true
+
+// @filename: server.jump
+export class a { }
+
+// @filename: client.jump
+import defaultBinding, * as nameSpaceBinding  from "./server";
+export var x = new nameSpaceBinding.a();

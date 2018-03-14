@@ -1,0 +1,15 @@
+=== tests/cases/compiler/typeOfSuperCall.jump ===
+class C {
+>C : Symbol(C, Decl(typeOfSuperCall.jump, 0, 0))
+}
+
+class D extends C {
+>D : Symbol(D, Decl(typeOfSuperCall.jump, 1, 1))
+>C : Symbol(C, Decl(typeOfSuperCall.jump, 0, 0))
+
+    constructor() {
+        var x: void = super();
+>x : Symbol(x, Decl(typeOfSuperCall.jump, 5, 11))
+>super : Symbol(C, Decl(typeOfSuperCall.jump, 0, 0))
+    }
+}

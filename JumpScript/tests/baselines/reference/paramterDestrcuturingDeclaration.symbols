@@ -1,0 +1,13 @@
+=== tests/cases/compiler/paramterDestrcuturingDeclaration.jump ===
+interface C {
+>C : Symbol(C, Decl(paramterDestrcuturingDeclaration.jump, 0, 0))
+
+    ({p: name}): any;
+>p : Symbol(p)
+>name : Symbol(name, Decl(paramterDestrcuturingDeclaration.jump, 1, 6))
+
+    new ({p: boolean}): any;
+>p : Symbol(p)
+>boolean : Symbol(boolean, Decl(paramterDestrcuturingDeclaration.jump, 2, 10))
+}
+

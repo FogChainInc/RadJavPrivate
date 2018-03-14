@@ -1,0 +1,7 @@
+=== tests/cases/compiler/continueTarget1.jump ===
+target:
+>target : any
+
+  continue target;
+>target : any
+

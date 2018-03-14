@@ -1,0 +1,4 @@
+=== tests/cases/compiler/classexpr.jump ===
+export default (class Foo {} as any);
+>Foo : Symbol(Foo, Decl(classexpr.jump, 0, 16))
+

@@ -1,0 +1,6 @@
+=== tests/cases/compiler/invalidReferenceSyntax1.jump ===
+/// <reference path="missingquote.jump />
+class C {
+>C : C
+
+}

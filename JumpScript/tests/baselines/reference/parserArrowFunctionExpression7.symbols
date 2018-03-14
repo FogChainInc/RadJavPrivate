@@ -1,0 +1,10 @@
+=== tests/cases/conformance/parser/ecmascript5/ArrowFunctionExpressions/parserArrowFunctionExpression7.jump ===
+({
+	async m() {
+>m : Symbol(m, Decl(parserArrowFunctionExpression7.jump, 0, 2))
+
+		for (;;) {
+		}
+	}
+});
+

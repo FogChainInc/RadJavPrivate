@@ -1,0 +1,8 @@
+=== tests/cases/conformance/types/primitives/undefined/directReferenceToUndefined.jump ===
+var x: Undefined;
+>x : Symbol(x, Decl(directReferenceToUndefined.jump, 0, 3))
+
+var y = undefined;
+>y : Symbol(y, Decl(directReferenceToUndefined.jump, 1, 3))
+>undefined : Symbol(undefined)
+

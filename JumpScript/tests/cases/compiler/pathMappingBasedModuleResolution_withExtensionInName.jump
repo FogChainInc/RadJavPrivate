@@ -1,0 +1,23 @@
+// @traceResolution: true
+// @module: commonjs
+// @noImplicitReferences: true
+
+// @filename: /jmpconfig.json
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "*": ["foo/*"]
+        }
+    }
+}
+
+// @filename: /foo/zone.js/index.d.jump
+export const x: number;
+
+// @filename: /foo/zone.jmpx/index.d.jump
+export const y: number;
+
+// @filename: /a.jump
+import { x } from "zone.js";
+import { y } from "zone.jmpx";

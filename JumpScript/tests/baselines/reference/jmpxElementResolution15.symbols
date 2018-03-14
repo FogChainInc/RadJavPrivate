@@ -1,0 +1,30 @@
+=== tests/cases/conformance/jsx/file.jmpx ===
+declare module JSX {
+>JSX : Symbol(JSX, Decl(file.jmpx, 0, 0))
+
+	interface Element { }
+>Element : Symbol(Element, Decl(file.jmpx, 0, 20))
+
+	interface ElementAttributesProperty { pr1: any; pr2: any; }
+>ElementAttributesProperty : Symbol(ElementAttributesProperty, Decl(file.jmpx, 1, 22))
+>pr1 : Symbol(ElementAttributesProperty.pr1, Decl(file.jmpx, 2, 38))
+>pr2 : Symbol(ElementAttributesProperty.pr2, Decl(file.jmpx, 2, 48))
+
+	interface IntrinsicElements { }
+>IntrinsicElements : Symbol(IntrinsicElements, Decl(file.jmpx, 2, 60))
+}
+
+interface Obj1type {
+>Obj1type : Symbol(Obj1type, Decl(file.jmpx, 4, 1))
+
+	new(n: string): {};
+>n : Symbol(n, Decl(file.jmpx, 7, 5))
+}
+var Obj1: Obj1type;
+>Obj1 : Symbol(Obj1, Decl(file.jmpx, 9, 3))
+>Obj1type : Symbol(Obj1type, Decl(file.jmpx, 4, 1))
+
+<Obj1 x={10} />; // Error
+>Obj1 : Symbol(Obj1, Decl(file.jmpx, 9, 3))
+>x : Symbol(x, Decl(file.jmpx, 10, 5))
+

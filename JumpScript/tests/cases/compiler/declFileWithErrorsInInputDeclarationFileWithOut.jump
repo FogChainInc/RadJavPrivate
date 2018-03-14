@@ -1,0 +1,16 @@
+// @declaration: true
+// @out: out.js
+
+// @Filename: declFile.d.jump
+declare module M {
+    declare var x;
+    declare function f();
+
+    declare module N { }
+
+    declare class C { }
+}
+
+// @Filename: client.jump
+///<reference path="declFile.d.jump"/>
+var x = new M.C(); // Declaration file wont get emitted because there are errors in declaration file

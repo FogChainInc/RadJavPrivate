@@ -1,0 +1,7 @@
+=== tests/cases/conformance/es6/yieldExpressions/generatorTypeCheck15.jump ===
+function* g() {
+>g : () => IterableIterator<string>
+
+    return "";
+>"" : ""
+}

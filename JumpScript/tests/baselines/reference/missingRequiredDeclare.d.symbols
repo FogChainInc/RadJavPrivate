@@ -1,0 +1,4 @@
+=== tests/cases/compiler/missingRequiredDeclare.d.jump ===
+var x = 1;
+>x : Symbol(x, Decl(missingRequiredDeclare.d.jump, 0, 3))
+

@@ -1,0 +1,76 @@
+=== tests/cases/compiler/ambiguousCallsWhereReturnTypesAgree.jump ===
+class TestClass {
+>TestClass : Symbol(TestClass, Decl(ambiguousCallsWhereReturnTypesAgree.jump, 0, 0))
+
+    public bar(x: string): void;
+>bar : Symbol(TestClass.bar, Decl(ambiguousCallsWhereReturnTypesAgree.jump, 0, 17), Decl(ambiguousCallsWhereReturnTypesAgree.jump, 1, 32), Decl(ambiguousCallsWhereReturnTypesAgree.jump, 2, 34))
+>x : Symbol(x, Decl(ambiguousCallsWhereReturnTypesAgree.jump, 1, 15))
+
+    public bar(x: string[]): void;
+>bar : Symbol(TestClass.bar, Decl(ambiguousCallsWhereReturnTypesAgree.jump, 0, 17), Decl(ambiguousCallsWhereReturnTypesAgree.jump, 1, 32), Decl(ambiguousCallsWhereReturnTypesAgree.jump, 2, 34))
+>x : Symbol(x, Decl(ambiguousCallsWhereReturnTypesAgree.jump, 2, 15))
+
+    public bar(x: any): void {
+>bar : Symbol(TestClass.bar, Decl(ambiguousCallsWhereReturnTypesAgree.jump, 0, 17), Decl(ambiguousCallsWhereReturnTypesAgree.jump, 1, 32), Decl(ambiguousCallsWhereReturnTypesAgree.jump, 2, 34))
+>x : Symbol(x, Decl(ambiguousCallsWhereReturnTypesAgree.jump, 3, 15))
+        
+    }
+ 
+    public foo(x: string): void;
+>foo : Symbol(TestClass.foo, Decl(ambiguousCallsWhereReturnTypesAgree.jump, 5, 5), Decl(ambiguousCallsWhereReturnTypesAgree.jump, 7, 32), Decl(ambiguousCallsWhereReturnTypesAgree.jump, 8, 34))
+>x : Symbol(x, Decl(ambiguousCallsWhereReturnTypesAgree.jump, 7, 15))
+
+    public foo(x: string[]): void;
+>foo : Symbol(TestClass.foo, Decl(ambiguousCallsWhereReturnTypesAgree.jump, 5, 5), Decl(ambiguousCallsWhereReturnTypesAgree.jump, 7, 32), Decl(ambiguousCallsWhereReturnTypesAgree.jump, 8, 34))
+>x : Symbol(x, Decl(ambiguousCallsWhereReturnTypesAgree.jump, 8, 15))
+
+    public foo(x: any): void {
+>foo : Symbol(TestClass.foo, Decl(ambiguousCallsWhereReturnTypesAgree.jump, 5, 5), Decl(ambiguousCallsWhereReturnTypesAgree.jump, 7, 32), Decl(ambiguousCallsWhereReturnTypesAgree.jump, 8, 34))
+>x : Symbol(x, Decl(ambiguousCallsWhereReturnTypesAgree.jump, 9, 15))
+
+        this.bar(x); // should not error
+>this.bar : Symbol(TestClass.bar, Decl(ambiguousCallsWhereReturnTypesAgree.jump, 0, 17), Decl(ambiguousCallsWhereReturnTypesAgree.jump, 1, 32), Decl(ambiguousCallsWhereReturnTypesAgree.jump, 2, 34))
+>this : Symbol(TestClass, Decl(ambiguousCallsWhereReturnTypesAgree.jump, 0, 0))
+>bar : Symbol(TestClass.bar, Decl(ambiguousCallsWhereReturnTypesAgree.jump, 0, 17), Decl(ambiguousCallsWhereReturnTypesAgree.jump, 1, 32), Decl(ambiguousCallsWhereReturnTypesAgree.jump, 2, 34))
+>x : Symbol(x, Decl(ambiguousCallsWhereReturnTypesAgree.jump, 9, 15))
+    }
+}
+
+class TestClass2 {
+>TestClass2 : Symbol(TestClass2, Decl(ambiguousCallsWhereReturnTypesAgree.jump, 12, 1))
+
+    public bar(x: string): number;
+>bar : Symbol(TestClass2.bar, Decl(ambiguousCallsWhereReturnTypesAgree.jump, 14, 18), Decl(ambiguousCallsWhereReturnTypesAgree.jump, 15, 34), Decl(ambiguousCallsWhereReturnTypesAgree.jump, 16, 36))
+>x : Symbol(x, Decl(ambiguousCallsWhereReturnTypesAgree.jump, 15, 15))
+
+    public bar(x: string[]): number;
+>bar : Symbol(TestClass2.bar, Decl(ambiguousCallsWhereReturnTypesAgree.jump, 14, 18), Decl(ambiguousCallsWhereReturnTypesAgree.jump, 15, 34), Decl(ambiguousCallsWhereReturnTypesAgree.jump, 16, 36))
+>x : Symbol(x, Decl(ambiguousCallsWhereReturnTypesAgree.jump, 16, 15))
+
+    public bar(x: any): number {
+>bar : Symbol(TestClass2.bar, Decl(ambiguousCallsWhereReturnTypesAgree.jump, 14, 18), Decl(ambiguousCallsWhereReturnTypesAgree.jump, 15, 34), Decl(ambiguousCallsWhereReturnTypesAgree.jump, 16, 36))
+>x : Symbol(x, Decl(ambiguousCallsWhereReturnTypesAgree.jump, 17, 15))
+
+        return 0;
+    }
+ 
+    public foo(x: string): number;
+>foo : Symbol(TestClass2.foo, Decl(ambiguousCallsWhereReturnTypesAgree.jump, 19, 5), Decl(ambiguousCallsWhereReturnTypesAgree.jump, 21, 34), Decl(ambiguousCallsWhereReturnTypesAgree.jump, 22, 36))
+>x : Symbol(x, Decl(ambiguousCallsWhereReturnTypesAgree.jump, 21, 15))
+
+    public foo(x: string[]): number;
+>foo : Symbol(TestClass2.foo, Decl(ambiguousCallsWhereReturnTypesAgree.jump, 19, 5), Decl(ambiguousCallsWhereReturnTypesAgree.jump, 21, 34), Decl(ambiguousCallsWhereReturnTypesAgree.jump, 22, 36))
+>x : Symbol(x, Decl(ambiguousCallsWhereReturnTypesAgree.jump, 22, 15))
+
+    public foo(x: any): number {
+>foo : Symbol(TestClass2.foo, Decl(ambiguousCallsWhereReturnTypesAgree.jump, 19, 5), Decl(ambiguousCallsWhereReturnTypesAgree.jump, 21, 34), Decl(ambiguousCallsWhereReturnTypesAgree.jump, 22, 36))
+>x : Symbol(x, Decl(ambiguousCallsWhereReturnTypesAgree.jump, 23, 15))
+
+        return this.bar(x); // should not error
+>this.bar : Symbol(TestClass2.bar, Decl(ambiguousCallsWhereReturnTypesAgree.jump, 14, 18), Decl(ambiguousCallsWhereReturnTypesAgree.jump, 15, 34), Decl(ambiguousCallsWhereReturnTypesAgree.jump, 16, 36))
+>this : Symbol(TestClass2, Decl(ambiguousCallsWhereReturnTypesAgree.jump, 12, 1))
+>bar : Symbol(TestClass2.bar, Decl(ambiguousCallsWhereReturnTypesAgree.jump, 14, 18), Decl(ambiguousCallsWhereReturnTypesAgree.jump, 15, 34), Decl(ambiguousCallsWhereReturnTypesAgree.jump, 16, 36))
+>x : Symbol(x, Decl(ambiguousCallsWhereReturnTypesAgree.jump, 23, 15))
+    }
+}
+

@@ -1,0 +1,3 @@
+=== tests/cases/conformance/es6/templates/templateStringWhitespaceEscapes1.jump ===
+`\t\n\v\f\r`;
+No type information for this code.

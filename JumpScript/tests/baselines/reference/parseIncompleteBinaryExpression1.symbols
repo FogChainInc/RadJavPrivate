@@ -1,0 +1,4 @@
+=== tests/cases/conformance/parser/ecmascript5/Expressions/parseIncompleteBinaryExpression1.jump ===
+var v = || b;
+>v : Symbol(v, Decl(parseIncompleteBinaryExpression1.jump, 0, 3))
+

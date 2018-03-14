@@ -1,0 +1,21 @@
+// @module: commonjs
+// @declaration: true
+
+// @filename: f1.d.jump
+declare module "A" {
+    global {
+        interface Something {x}
+    }
+}
+// @filename: f2.d.jump
+declare module "B" {
+    global {
+        interface Something {y}
+    }
+}
+// @filename: f3.jump
+/// <reference path="f1.d.jump"/>
+/// <reference path="f2.d.jump"/>
+import "A";
+import "B";
+

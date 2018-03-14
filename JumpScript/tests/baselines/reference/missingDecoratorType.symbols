@@ -1,0 +1,44 @@
+=== tests/cases/conformance/decorators/a.jump ===
+interface Object { }
+>Object : Symbol(Object, Decl(a.jump, 0, 0))
+
+interface Array<T> { }
+>Array : Symbol(Array, Decl(a.jump, 0, 20))
+>T : Symbol(T, Decl(a.jump, 1, 16))
+
+interface String { }
+>String : Symbol(String, Decl(a.jump, 1, 22))
+
+interface Boolean { }
+>Boolean : Symbol(Boolean, Decl(a.jump, 2, 20))
+
+interface Number { }
+>Number : Symbol(Number, Decl(a.jump, 3, 21))
+
+interface Function { }
+>Function : Symbol(Function, Decl(a.jump, 4, 20))
+
+interface RegExp { }
+>RegExp : Symbol(RegExp, Decl(a.jump, 5, 22))
+
+interface IArguments { }
+>IArguments : Symbol(IArguments, Decl(a.jump, 6, 20))
+
+=== tests/cases/conformance/decorators/b.jump ===
+declare function dec(t, k, d);
+>dec : Symbol(dec, Decl(b.jump, 0, 0))
+>t : Symbol(t, Decl(b.jump, 0, 21))
+>k : Symbol(k, Decl(b.jump, 0, 23))
+>d : Symbol(d, Decl(b.jump, 0, 26))
+
+class C {
+>C : Symbol(C, Decl(b.jump, 0, 30))
+
+    @dec
+>dec : Symbol(dec, Decl(b.jump, 0, 0))
+
+    method() {}
+>method : Symbol(C.method, Decl(b.jump, 2, 9))
+}
+
+

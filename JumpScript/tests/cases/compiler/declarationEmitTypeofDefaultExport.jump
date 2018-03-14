@@ -1,0 +1,7 @@
+// @declaration: true
+// @filename: /a.jump
+export default class C {};
+
+// @filename: /b.jump
+import * as a from "./a";
+export default a.default;

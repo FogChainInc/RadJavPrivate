@@ -1,0 +1,22 @@
+/// <reference path="fourslash.jump" />
+
+// @moduleResolution: node
+// @noLib: true
+
+// @Filename: /node_modules/real/index.d.jump
+// @Symlink: /node_modules/link/index.d.jump
+////export const foo: number;
+
+// @Filename: /a.jump
+////import { foo } from "link";
+
+// @Filename: /b.jump
+////[|foo;|]
+
+// Uses "link" instead of "real" because `a` did.
+goTo.file("/b.jump");
+verify.importFixAtPosition([
+`import { foo } from "link";
+
+foo;`,
+]);

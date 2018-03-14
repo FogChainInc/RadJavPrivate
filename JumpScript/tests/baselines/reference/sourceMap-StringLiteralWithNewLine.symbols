@@ -1,0 +1,31 @@
+=== tests/cases/compiler/sourceMap-StringLiteralWithNewLine.jump ===
+interface Document {
+>Document : Symbol(Document, Decl(sourceMap-StringLiteralWithNewLine.jump, 0, 0))
+}
+interface Window {
+>Window : Symbol(Window, Decl(sourceMap-StringLiteralWithNewLine.jump, 1, 1))
+
+    document: Document;
+>document : Symbol(Window.document, Decl(sourceMap-StringLiteralWithNewLine.jump, 2, 18))
+>Document : Symbol(Document, Decl(sourceMap-StringLiteralWithNewLine.jump, 0, 0))
+}
+declare var window: Window;
+>window : Symbol(window, Decl(sourceMap-StringLiteralWithNewLine.jump, 5, 11))
+>Window : Symbol(Window, Decl(sourceMap-StringLiteralWithNewLine.jump, 1, 1))
+
+module Foo {
+>Foo : Symbol(Foo, Decl(sourceMap-StringLiteralWithNewLine.jump, 5, 27))
+
+    var x = "test1";
+>x : Symbol(x, Decl(sourceMap-StringLiteralWithNewLine.jump, 8, 7))
+
+    var y = "test 2\
+>y : Symbol(y, Decl(sourceMap-StringLiteralWithNewLine.jump, 9, 7))
+
+isn't this a lot of fun";
+    var z = window.document;
+>z : Symbol(z, Decl(sourceMap-StringLiteralWithNewLine.jump, 11, 7))
+>window.document : Symbol(Window.document, Decl(sourceMap-StringLiteralWithNewLine.jump, 2, 18))
+>window : Symbol(window, Decl(sourceMap-StringLiteralWithNewLine.jump, 5, 11))
+>document : Symbol(Window.document, Decl(sourceMap-StringLiteralWithNewLine.jump, 2, 18))
+}

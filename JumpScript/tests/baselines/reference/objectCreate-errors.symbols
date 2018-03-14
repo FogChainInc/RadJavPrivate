@@ -1,0 +1,52 @@
+=== tests/cases/compiler/objectCreate-errors.jump ===
+var e1 = Object.create(1);               // Error
+>e1 : Symbol(e1, Decl(objectCreate-errors.jump, 0, 3))
+>Object.create : Symbol(ObjectConstructor.create, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>create : Symbol(ObjectConstructor.create, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+var e2 = Object.create("string");        // Error
+>e2 : Symbol(e2, Decl(objectCreate-errors.jump, 1, 3))
+>Object.create : Symbol(ObjectConstructor.create, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>create : Symbol(ObjectConstructor.create, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+var e3 = Object.create(false);           // Error
+>e3 : Symbol(e3, Decl(objectCreate-errors.jump, 2, 3))
+>Object.create : Symbol(ObjectConstructor.create, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>create : Symbol(ObjectConstructor.create, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+var e4 = Object.create(undefined);       // Error
+>e4 : Symbol(e4, Decl(objectCreate-errors.jump, 3, 3))
+>Object.create : Symbol(ObjectConstructor.create, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>create : Symbol(ObjectConstructor.create, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>undefined : Symbol(undefined)
+
+ 
+var e5 = Object.create(1, {});           // Error
+>e5 : Symbol(e5, Decl(objectCreate-errors.jump, 6, 3))
+>Object.create : Symbol(ObjectConstructor.create, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>create : Symbol(ObjectConstructor.create, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+var e6 = Object.create("string", {});    // Error
+>e6 : Symbol(e6, Decl(objectCreate-errors.jump, 7, 3))
+>Object.create : Symbol(ObjectConstructor.create, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>create : Symbol(ObjectConstructor.create, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+var e7 = Object.create(false, {});       // Error
+>e7 : Symbol(e7, Decl(objectCreate-errors.jump, 8, 3))
+>Object.create : Symbol(ObjectConstructor.create, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>create : Symbol(ObjectConstructor.create, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+var e8 = Object.create(undefined, {});   // Error
+>e8 : Symbol(e8, Decl(objectCreate-errors.jump, 9, 3))
+>Object.create : Symbol(ObjectConstructor.create, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>create : Symbol(ObjectConstructor.create, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>undefined : Symbol(undefined)
+

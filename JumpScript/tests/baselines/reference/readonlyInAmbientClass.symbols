@@ -1,0 +1,11 @@
+=== tests/cases/conformance/classes/constructorDeclarations/constructorParameters/readonlyInAmbientClass.jump ===
+declare class C{
+>C : Symbol(C, Decl(readonlyInAmbientClass.jump, 0, 0))
+
+	constructor(readonly x: number);
+>x : Symbol(C.x, Decl(readonlyInAmbientClass.jump, 1, 13))
+
+	method(readonly x: number);
+>method : Symbol(C.method, Decl(readonlyInAmbientClass.jump, 1, 33))
+>x : Symbol(x, Decl(readonlyInAmbientClass.jump, 2, 8))
+}

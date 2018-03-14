@@ -1,0 +1,99 @@
+=== tests/cases/compiler/inheritedConstructorWithRestParams2.jump ===
+class IBaseBase<T, U> {
+>IBaseBase : Symbol(IBaseBase, Decl(inheritedConstructorWithRestParams2.jump, 0, 0))
+>T : Symbol(T, Decl(inheritedConstructorWithRestParams2.jump, 0, 16))
+>U : Symbol(U, Decl(inheritedConstructorWithRestParams2.jump, 0, 18))
+
+    constructor(x: U) { }
+>x : Symbol(x, Decl(inheritedConstructorWithRestParams2.jump, 1, 16))
+>U : Symbol(U, Decl(inheritedConstructorWithRestParams2.jump, 0, 18))
+}
+
+interface IBase<T, U> extends IBaseBase<T, U> { }
+>IBase : Symbol(IBase, Decl(inheritedConstructorWithRestParams2.jump, 2, 1))
+>T : Symbol(T, Decl(inheritedConstructorWithRestParams2.jump, 4, 16))
+>U : Symbol(U, Decl(inheritedConstructorWithRestParams2.jump, 4, 18))
+>IBaseBase : Symbol(IBaseBase, Decl(inheritedConstructorWithRestParams2.jump, 0, 0))
+>T : Symbol(T, Decl(inheritedConstructorWithRestParams2.jump, 4, 16))
+>U : Symbol(U, Decl(inheritedConstructorWithRestParams2.jump, 4, 18))
+
+class BaseBase2 {
+>BaseBase2 : Symbol(BaseBase2, Decl(inheritedConstructorWithRestParams2.jump, 4, 49))
+
+    constructor(x: number) { }
+>x : Symbol(x, Decl(inheritedConstructorWithRestParams2.jump, 7, 16))
+}
+
+declare class BaseBase<T, U> extends BaseBase2 implements IBase<T, U> {
+>BaseBase : Symbol(BaseBase, Decl(inheritedConstructorWithRestParams2.jump, 8, 1))
+>T : Symbol(T, Decl(inheritedConstructorWithRestParams2.jump, 10, 23))
+>U : Symbol(U, Decl(inheritedConstructorWithRestParams2.jump, 10, 25))
+>BaseBase2 : Symbol(BaseBase2, Decl(inheritedConstructorWithRestParams2.jump, 4, 49))
+>IBase : Symbol(IBase, Decl(inheritedConstructorWithRestParams2.jump, 2, 1))
+>T : Symbol(T, Decl(inheritedConstructorWithRestParams2.jump, 10, 23))
+>U : Symbol(U, Decl(inheritedConstructorWithRestParams2.jump, 10, 25))
+
+    constructor(x: T, ...y: U[]);
+>x : Symbol(x, Decl(inheritedConstructorWithRestParams2.jump, 11, 16))
+>T : Symbol(T, Decl(inheritedConstructorWithRestParams2.jump, 10, 23))
+>y : Symbol(y, Decl(inheritedConstructorWithRestParams2.jump, 11, 21))
+>U : Symbol(U, Decl(inheritedConstructorWithRestParams2.jump, 10, 25))
+
+    constructor(x1: T, x2: T, ...y: U[]);
+>x1 : Symbol(x1, Decl(inheritedConstructorWithRestParams2.jump, 12, 16))
+>T : Symbol(T, Decl(inheritedConstructorWithRestParams2.jump, 10, 23))
+>x2 : Symbol(x2, Decl(inheritedConstructorWithRestParams2.jump, 12, 22))
+>T : Symbol(T, Decl(inheritedConstructorWithRestParams2.jump, 10, 23))
+>y : Symbol(y, Decl(inheritedConstructorWithRestParams2.jump, 12, 29))
+>U : Symbol(U, Decl(inheritedConstructorWithRestParams2.jump, 10, 25))
+
+    constructor(x1: T, x2: U, y: T);
+>x1 : Symbol(x1, Decl(inheritedConstructorWithRestParams2.jump, 13, 16))
+>T : Symbol(T, Decl(inheritedConstructorWithRestParams2.jump, 10, 23))
+>x2 : Symbol(x2, Decl(inheritedConstructorWithRestParams2.jump, 13, 22))
+>U : Symbol(U, Decl(inheritedConstructorWithRestParams2.jump, 10, 25))
+>y : Symbol(y, Decl(inheritedConstructorWithRestParams2.jump, 13, 29))
+>T : Symbol(T, Decl(inheritedConstructorWithRestParams2.jump, 10, 23))
+}
+
+class Base extends BaseBase<string, number> {
+>Base : Symbol(Base, Decl(inheritedConstructorWithRestParams2.jump, 14, 1))
+>BaseBase : Symbol(BaseBase, Decl(inheritedConstructorWithRestParams2.jump, 8, 1))
+}
+
+class Derived extends Base { }
+>Derived : Symbol(Derived, Decl(inheritedConstructorWithRestParams2.jump, 17, 1))
+>Base : Symbol(Base, Decl(inheritedConstructorWithRestParams2.jump, 14, 1))
+
+// Ok
+new Derived("", "");
+>Derived : Symbol(Derived, Decl(inheritedConstructorWithRestParams2.jump, 17, 1))
+
+new Derived("", 3);
+>Derived : Symbol(Derived, Decl(inheritedConstructorWithRestParams2.jump, 17, 1))
+
+new Derived("", 3, 3);
+>Derived : Symbol(Derived, Decl(inheritedConstructorWithRestParams2.jump, 17, 1))
+
+new Derived("", 3, 3, 3);
+>Derived : Symbol(Derived, Decl(inheritedConstructorWithRestParams2.jump, 17, 1))
+
+new Derived("", 3, "");
+>Derived : Symbol(Derived, Decl(inheritedConstructorWithRestParams2.jump, 17, 1))
+
+new Derived("", "", 3);
+>Derived : Symbol(Derived, Decl(inheritedConstructorWithRestParams2.jump, 17, 1))
+
+new Derived("", "", 3, 3);
+>Derived : Symbol(Derived, Decl(inheritedConstructorWithRestParams2.jump, 17, 1))
+
+// Errors
+new Derived(3);
+>Derived : Symbol(Derived, Decl(inheritedConstructorWithRestParams2.jump, 17, 1))
+
+new Derived("", 3, "", 3);
+>Derived : Symbol(Derived, Decl(inheritedConstructorWithRestParams2.jump, 17, 1))
+
+new Derived("", 3, "", "");
+>Derived : Symbol(Derived, Decl(inheritedConstructorWithRestParams2.jump, 17, 1))
+

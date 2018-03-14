@@ -1,0 +1,15 @@
+=== tests/cases/compiler/callConstructAssignment.jump ===
+var foo:{ ( ):void; }
+>foo : Symbol(foo, Decl(callConstructAssignment.jump, 0, 3))
+
+var bar:{ new ( ):any; }
+>bar : Symbol(bar, Decl(callConstructAssignment.jump, 2, 3))
+
+foo = bar; // error
+>foo : Symbol(foo, Decl(callConstructAssignment.jump, 0, 3))
+>bar : Symbol(bar, Decl(callConstructAssignment.jump, 2, 3))
+
+bar = foo; // error
+>bar : Symbol(bar, Decl(callConstructAssignment.jump, 2, 3))
+>foo : Symbol(foo, Decl(callConstructAssignment.jump, 0, 3))
+

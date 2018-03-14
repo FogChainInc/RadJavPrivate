@@ -1,0 +1,21 @@
+=== tests/cases/compiler/overloadOnConstInheritance2.jump ===
+interface Base {
+>Base : Symbol(Base, Decl(overloadOnConstInheritance2.jump, 0, 0))
+
+    addEventListener(x: string): any;
+>addEventListener : Symbol(Base.addEventListener, Decl(overloadOnConstInheritance2.jump, 0, 16), Decl(overloadOnConstInheritance2.jump, 1, 37))
+>x : Symbol(x, Decl(overloadOnConstInheritance2.jump, 1, 21))
+
+    addEventListener(x: 'foo'): string;
+>addEventListener : Symbol(Base.addEventListener, Decl(overloadOnConstInheritance2.jump, 0, 16), Decl(overloadOnConstInheritance2.jump, 1, 37))
+>x : Symbol(x, Decl(overloadOnConstInheritance2.jump, 2, 21))
+}
+interface Deriver extends Base {
+>Deriver : Symbol(Deriver, Decl(overloadOnConstInheritance2.jump, 3, 1))
+>Base : Symbol(Base, Decl(overloadOnConstInheritance2.jump, 0, 0))
+
+    addEventListener(x: 'bar'): string; // shouldn't need to redeclare the string overload
+>addEventListener : Symbol(Deriver.addEventListener, Decl(overloadOnConstInheritance2.jump, 4, 32))
+>x : Symbol(x, Decl(overloadOnConstInheritance2.jump, 5, 21))
+}
+

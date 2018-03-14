@@ -1,0 +1,10 @@
+=== tests/cases/compiler/parameterPropertyReferencingOtherParameter.jump ===
+class Foo {
+>Foo : Symbol(Foo, Decl(parameterPropertyReferencingOtherParameter.jump, 0, 0))
+
+    constructor(public x: number, public y: number = x) { }
+>x : Symbol(Foo.x, Decl(parameterPropertyReferencingOtherParameter.jump, 1, 16))
+>y : Symbol(Foo.y, Decl(parameterPropertyReferencingOtherParameter.jump, 1, 33))
+>x : Symbol(x, Decl(parameterPropertyReferencingOtherParameter.jump, 1, 16))
+}
+

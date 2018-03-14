@@ -1,0 +1,200 @@
+=== tests/cases/compiler/potentiallyUncalledDecorators.jump ===
+// Angular-style Input/Output API:
+declare function Input(bindingPropertyName?: string): any;
+>Input : Symbol(Input, Decl(potentiallyUncalledDecorators.jump, 0, 0))
+>bindingPropertyName : Symbol(bindingPropertyName, Decl(potentiallyUncalledDecorators.jump, 1, 23))
+
+class FooComponent {
+>FooComponent : Symbol(FooComponent, Decl(potentiallyUncalledDecorators.jump, 1, 58))
+
+    @Input foo: string;
+>Input : Symbol(Input, Decl(potentiallyUncalledDecorators.jump, 0, 0))
+>foo : Symbol(FooComponent.foo, Decl(potentiallyUncalledDecorators.jump, 2, 20))
+}
+
+// Glimmer-style tracked API:
+declare const tracked: PropertyDecorator & { (...watchedProperties: string[]): any; }
+>tracked : Symbol(tracked, Decl(potentiallyUncalledDecorators.jump, 7, 13))
+>PropertyDecorator : Symbol(PropertyDecorator, Decl(lib.es5.d.jump, --, --))
+>watchedProperties : Symbol(watchedProperties, Decl(potentiallyUncalledDecorators.jump, 7, 46))
+
+class Person {
+>Person : Symbol(Person, Decl(potentiallyUncalledDecorators.jump, 7, 85))
+
+    @tracked person; any;
+>tracked : Symbol(tracked, Decl(potentiallyUncalledDecorators.jump, 7, 13))
+>person : Symbol(Person.person, Decl(potentiallyUncalledDecorators.jump, 9, 14))
+>any : Symbol(Person.any, Decl(potentiallyUncalledDecorators.jump, 10, 20))
+}
+
+class MultiplyByTwo {
+>MultiplyByTwo : Symbol(MultiplyByTwo, Decl(potentiallyUncalledDecorators.jump, 11, 1))
+
+    args: any;
+>args : Symbol(MultiplyByTwo.args, Decl(potentiallyUncalledDecorators.jump, 13, 21))
+
+    @tracked('args')
+>tracked : Symbol(tracked, Decl(potentiallyUncalledDecorators.jump, 7, 13))
+
+    get multiplied() {
+>multiplied : Symbol(MultiplyByTwo.multiplied, Decl(potentiallyUncalledDecorators.jump, 14, 14))
+
+        return this.args.number * 2;
+>this.args : Symbol(MultiplyByTwo.args, Decl(potentiallyUncalledDecorators.jump, 13, 21))
+>this : Symbol(MultiplyByTwo, Decl(potentiallyUncalledDecorators.jump, 11, 1))
+>args : Symbol(MultiplyByTwo.args, Decl(potentiallyUncalledDecorators.jump, 13, 21))
+    }
+}
+
+// Other fun stuff.
+
+interface OmniDecorator extends MethodDecorator, ClassDecorator, PropertyDecorator {
+>OmniDecorator : Symbol(OmniDecorator, Decl(potentiallyUncalledDecorators.jump, 19, 1))
+>MethodDecorator : Symbol(MethodDecorator, Decl(lib.es5.d.jump, --, --))
+>ClassDecorator : Symbol(ClassDecorator, Decl(lib.es5.d.jump, --, --))
+>PropertyDecorator : Symbol(PropertyDecorator, Decl(lib.es5.d.jump, --, --))
+}
+
+declare function noArgs(): OmniDecorator;
+>noArgs : Symbol(noArgs, Decl(potentiallyUncalledDecorators.jump, 24, 1))
+>OmniDecorator : Symbol(OmniDecorator, Decl(potentiallyUncalledDecorators.jump, 19, 1))
+
+declare function allRest(...args: any[]): OmniDecorator;
+>allRest : Symbol(allRest, Decl(potentiallyUncalledDecorators.jump, 26, 41))
+>args : Symbol(args, Decl(potentiallyUncalledDecorators.jump, 27, 25))
+>OmniDecorator : Symbol(OmniDecorator, Decl(potentiallyUncalledDecorators.jump, 19, 1))
+
+declare function oneOptional(x?: any): OmniDecorator;
+>oneOptional : Symbol(oneOptional, Decl(potentiallyUncalledDecorators.jump, 27, 56))
+>x : Symbol(x, Decl(potentiallyUncalledDecorators.jump, 28, 29))
+>OmniDecorator : Symbol(OmniDecorator, Decl(potentiallyUncalledDecorators.jump, 19, 1))
+
+declare function twoOptional(x?: any, y?: any): OmniDecorator;
+>twoOptional : Symbol(twoOptional, Decl(potentiallyUncalledDecorators.jump, 28, 53))
+>x : Symbol(x, Decl(potentiallyUncalledDecorators.jump, 29, 29))
+>y : Symbol(y, Decl(potentiallyUncalledDecorators.jump, 29, 37))
+>OmniDecorator : Symbol(OmniDecorator, Decl(potentiallyUncalledDecorators.jump, 19, 1))
+
+declare function threeOptional(x?: any, y?: any, z?: any): OmniDecorator;
+>threeOptional : Symbol(threeOptional, Decl(potentiallyUncalledDecorators.jump, 29, 62))
+>x : Symbol(x, Decl(potentiallyUncalledDecorators.jump, 30, 31))
+>y : Symbol(y, Decl(potentiallyUncalledDecorators.jump, 30, 39))
+>z : Symbol(z, Decl(potentiallyUncalledDecorators.jump, 30, 48))
+>OmniDecorator : Symbol(OmniDecorator, Decl(potentiallyUncalledDecorators.jump, 19, 1))
+
+declare function oneOptionalWithRest(x?: any, ...args: any[]): OmniDecorator;
+>oneOptionalWithRest : Symbol(oneOptionalWithRest, Decl(potentiallyUncalledDecorators.jump, 30, 73))
+>x : Symbol(x, Decl(potentiallyUncalledDecorators.jump, 31, 37))
+>args : Symbol(args, Decl(potentiallyUncalledDecorators.jump, 31, 45))
+>OmniDecorator : Symbol(OmniDecorator, Decl(potentiallyUncalledDecorators.jump, 19, 1))
+
+declare const anyDec: any;
+>anyDec : Symbol(anyDec, Decl(potentiallyUncalledDecorators.jump, 32, 13))
+
+@noArgs
+>noArgs : Symbol(noArgs, Decl(potentiallyUncalledDecorators.jump, 24, 1))
+
+class A {
+>A : Symbol(A, Decl(potentiallyUncalledDecorators.jump, 32, 26))
+
+    @noArgs foo: any;
+>noArgs : Symbol(noArgs, Decl(potentiallyUncalledDecorators.jump, 24, 1))
+>foo : Symbol(A.foo, Decl(potentiallyUncalledDecorators.jump, 35, 9))
+
+    @noArgs bar() { }
+>noArgs : Symbol(noArgs, Decl(potentiallyUncalledDecorators.jump, 24, 1))
+>bar : Symbol(A.bar, Decl(potentiallyUncalledDecorators.jump, 36, 21))
+}
+
+@allRest
+>allRest : Symbol(allRest, Decl(potentiallyUncalledDecorators.jump, 26, 41))
+
+class B {
+>B : Symbol(B, Decl(potentiallyUncalledDecorators.jump, 38, 1))
+
+    @allRest foo: any;
+>allRest : Symbol(allRest, Decl(potentiallyUncalledDecorators.jump, 26, 41))
+>foo : Symbol(B.foo, Decl(potentiallyUncalledDecorators.jump, 41, 9))
+
+    @allRest bar() { }
+>allRest : Symbol(allRest, Decl(potentiallyUncalledDecorators.jump, 26, 41))
+>bar : Symbol(B.bar, Decl(potentiallyUncalledDecorators.jump, 42, 22))
+}
+
+@oneOptional
+>oneOptional : Symbol(oneOptional, Decl(potentiallyUncalledDecorators.jump, 27, 56))
+
+class C {
+>C : Symbol(C, Decl(potentiallyUncalledDecorators.jump, 44, 1))
+
+    @oneOptional foo: any;
+>oneOptional : Symbol(oneOptional, Decl(potentiallyUncalledDecorators.jump, 27, 56))
+>foo : Symbol(C.foo, Decl(potentiallyUncalledDecorators.jump, 47, 9))
+
+    @oneOptional bar() { }
+>oneOptional : Symbol(oneOptional, Decl(potentiallyUncalledDecorators.jump, 27, 56))
+>bar : Symbol(C.bar, Decl(potentiallyUncalledDecorators.jump, 48, 26))
+}
+
+@twoOptional
+>twoOptional : Symbol(twoOptional, Decl(potentiallyUncalledDecorators.jump, 28, 53))
+
+class D {
+>D : Symbol(D, Decl(potentiallyUncalledDecorators.jump, 50, 1))
+
+    @twoOptional foo: any;
+>twoOptional : Symbol(twoOptional, Decl(potentiallyUncalledDecorators.jump, 28, 53))
+>foo : Symbol(D.foo, Decl(potentiallyUncalledDecorators.jump, 53, 9))
+
+    @twoOptional bar() { }
+>twoOptional : Symbol(twoOptional, Decl(potentiallyUncalledDecorators.jump, 28, 53))
+>bar : Symbol(D.bar, Decl(potentiallyUncalledDecorators.jump, 54, 26))
+}
+
+@threeOptional
+>threeOptional : Symbol(threeOptional, Decl(potentiallyUncalledDecorators.jump, 29, 62))
+
+class E {
+>E : Symbol(E, Decl(potentiallyUncalledDecorators.jump, 56, 1))
+
+    @threeOptional foo: any;
+>threeOptional : Symbol(threeOptional, Decl(potentiallyUncalledDecorators.jump, 29, 62))
+>foo : Symbol(E.foo, Decl(potentiallyUncalledDecorators.jump, 59, 9))
+
+    @threeOptional bar() { }
+>threeOptional : Symbol(threeOptional, Decl(potentiallyUncalledDecorators.jump, 29, 62))
+>bar : Symbol(E.bar, Decl(potentiallyUncalledDecorators.jump, 60, 28))
+}
+
+@oneOptionalWithRest
+>oneOptionalWithRest : Symbol(oneOptionalWithRest, Decl(potentiallyUncalledDecorators.jump, 30, 73))
+
+class F {
+>F : Symbol(F, Decl(potentiallyUncalledDecorators.jump, 62, 1))
+
+    @oneOptionalWithRest foo: any;
+>oneOptionalWithRest : Symbol(oneOptionalWithRest, Decl(potentiallyUncalledDecorators.jump, 30, 73))
+>foo : Symbol(F.foo, Decl(potentiallyUncalledDecorators.jump, 65, 9))
+
+    @oneOptionalWithRest bar() { }
+>oneOptionalWithRest : Symbol(oneOptionalWithRest, Decl(potentiallyUncalledDecorators.jump, 30, 73))
+>bar : Symbol(F.bar, Decl(potentiallyUncalledDecorators.jump, 66, 34))
+}
+
+@anyDec
+>anyDec : Symbol(anyDec, Decl(potentiallyUncalledDecorators.jump, 32, 13))
+
+class G {
+>G : Symbol(G, Decl(potentiallyUncalledDecorators.jump, 68, 1))
+
+    @anyDec foo: any;
+>anyDec : Symbol(anyDec, Decl(potentiallyUncalledDecorators.jump, 32, 13))
+>foo : Symbol(G.foo, Decl(potentiallyUncalledDecorators.jump, 71, 9))
+
+    @anyDec bar() { }
+>anyDec : Symbol(anyDec, Decl(potentiallyUncalledDecorators.jump, 32, 13))
+>bar : Symbol(G.bar, Decl(potentiallyUncalledDecorators.jump, 72, 21))
+}
+
+export { };
+

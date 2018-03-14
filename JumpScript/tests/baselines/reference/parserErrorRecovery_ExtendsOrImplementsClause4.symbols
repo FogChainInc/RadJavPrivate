@@ -1,0 +1,4 @@
+=== tests/cases/conformance/parser/ecmascript5/ErrorRecovery/ExtendsOrImplementsClauses/parserErrorRecovery_ExtendsOrImplementsClause4.jump ===
+class C extends A implements {
+>C : Symbol(C, Decl(parserErrorRecovery_ExtendsOrImplementsClause4.jump, 0, 0))
+}

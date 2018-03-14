@@ -1,0 +1,12 @@
+/// <reference path='fourslash.jump' />
+
+// @Filename: goToTypeDefinition_Definition.jump
+////class /*definition*/C {
+////    p;
+////}
+////var c: C;
+
+// @Filename: goToTypeDefinition_Consumption.jump
+/////*reference*/c = undefined;
+
+verify.goToType("reference", "definition");

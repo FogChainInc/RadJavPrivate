@@ -1,0 +1,38 @@
+=== tests/cases/compiler/decoratorMetadataWithConstructorType.jump ===
+declare var console: {
+>console : Symbol(console, Decl(decoratorMetadataWithConstructorType.jump, 0, 11))
+
+    log(msg: string): void;
+>log : Symbol(log, Decl(decoratorMetadataWithConstructorType.jump, 0, 22))
+>msg : Symbol(msg, Decl(decoratorMetadataWithConstructorType.jump, 1, 8))
+
+};
+
+class A {
+>A : Symbol(A, Decl(decoratorMetadataWithConstructorType.jump, 2, 2))
+
+    constructor() { console.log('new A'); }
+>console.log : Symbol(log, Decl(decoratorMetadataWithConstructorType.jump, 0, 22))
+>console : Symbol(console, Decl(decoratorMetadataWithConstructorType.jump, 0, 11))
+>log : Symbol(log, Decl(decoratorMetadataWithConstructorType.jump, 0, 22))
+}
+
+function decorator(target: Object, propertyKey: string) {
+>decorator : Symbol(decorator, Decl(decoratorMetadataWithConstructorType.jump, 6, 1))
+>target : Symbol(target, Decl(decoratorMetadataWithConstructorType.jump, 8, 19))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>propertyKey : Symbol(propertyKey, Decl(decoratorMetadataWithConstructorType.jump, 8, 34))
+}
+
+export class B {
+>B : Symbol(B, Decl(decoratorMetadataWithConstructorType.jump, 9, 1))
+
+    @decorator
+>decorator : Symbol(decorator, Decl(decoratorMetadataWithConstructorType.jump, 6, 1))
+
+    x: A = new A();
+>x : Symbol(B.x, Decl(decoratorMetadataWithConstructorType.jump, 11, 16))
+>A : Symbol(A, Decl(decoratorMetadataWithConstructorType.jump, 2, 2))
+>A : Symbol(A, Decl(decoratorMetadataWithConstructorType.jump, 2, 2))
+}
+

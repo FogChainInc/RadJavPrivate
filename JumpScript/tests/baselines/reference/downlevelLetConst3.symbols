@@ -1,0 +1,4 @@
+=== tests/cases/compiler/downlevelLetConst3.jump ===
+const a = 1
+>a : Symbol(a, Decl(downlevelLetConst3.jump, 0, 5))
+

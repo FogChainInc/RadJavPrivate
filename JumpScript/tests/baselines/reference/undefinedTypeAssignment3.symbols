@@ -1,0 +1,4 @@
+=== tests/cases/compiler/undefinedTypeAssignment3.jump ===
+var undefined = null;
+>undefined : Symbol(undefined, Decl(undefinedTypeAssignment3.jump, 0, 3))
+

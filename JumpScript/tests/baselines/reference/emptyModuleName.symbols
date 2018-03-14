@@ -1,0 +1,8 @@
+=== tests/cases/compiler/emptyModuleName.jump ===
+import * as A from "";
+>A : Symbol(A, Decl(emptyModuleName.jump, 0, 6))
+
+class B extends A {
+>B : Symbol(B, Decl(emptyModuleName.jump, 0, 22))
+>A : Symbol(A, Decl(emptyModuleName.jump, 0, 6))
+}

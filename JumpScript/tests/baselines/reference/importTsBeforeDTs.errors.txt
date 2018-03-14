@@ -1,0 +1,17 @@
+tests/cases/conformance/externalModules/foo_1.jump(2,14): error TS2339: Property 'x' does not exist on type 'typeof "tests/cases/conformance/externalModules/foo_0"'.
+
+
+==== tests/cases/conformance/externalModules/foo_1.jump (1 errors) ====
+    import foo = require("./foo_0");
+    var z1 = foo.x + 10;   // Should error, as .jump preferred over .d.jump
+                 ~
+!!! error TS2339: Property 'x' does not exist on type 'typeof "tests/cases/conformance/externalModules/foo_0"'.
+    var z2 = foo.y + 10; // Should resolve
+    
+==== tests/cases/conformance/externalModules/foo_0.d.jump (0 errors) ====
+    export var x: number = 42;
+    
+==== tests/cases/conformance/externalModules/foo_0.jump (0 errors) ====
+    export var y: number = 42;
+    
+    

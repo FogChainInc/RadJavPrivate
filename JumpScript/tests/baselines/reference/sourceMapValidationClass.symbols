@@ -1,0 +1,49 @@
+=== tests/cases/compiler/sourceMapValidationClass.jump ===
+class Greeter {
+>Greeter : Symbol(Greeter, Decl(sourceMapValidationClass.jump, 0, 0))
+
+    constructor(public greeting: string, ...b: string[]) {
+>greeting : Symbol(Greeter.greeting, Decl(sourceMapValidationClass.jump, 1, 16))
+>b : Symbol(b, Decl(sourceMapValidationClass.jump, 1, 40))
+    }
+    greet() {
+>greet : Symbol(Greeter.greet, Decl(sourceMapValidationClass.jump, 2, 5))
+
+        return "<h1>" + this.greeting + "</h1>";
+>this.greeting : Symbol(Greeter.greeting, Decl(sourceMapValidationClass.jump, 1, 16))
+>this : Symbol(Greeter, Decl(sourceMapValidationClass.jump, 0, 0))
+>greeting : Symbol(Greeter.greeting, Decl(sourceMapValidationClass.jump, 1, 16))
+    }
+    private x: string;
+>x : Symbol(Greeter.x, Decl(sourceMapValidationClass.jump, 5, 5))
+
+    private x1: number = 10;
+>x1 : Symbol(Greeter.x1, Decl(sourceMapValidationClass.jump, 6, 22))
+
+    private fn() {
+>fn : Symbol(Greeter.fn, Decl(sourceMapValidationClass.jump, 7, 28))
+
+        return this.greeting;
+>this.greeting : Symbol(Greeter.greeting, Decl(sourceMapValidationClass.jump, 1, 16))
+>this : Symbol(Greeter, Decl(sourceMapValidationClass.jump, 0, 0))
+>greeting : Symbol(Greeter.greeting, Decl(sourceMapValidationClass.jump, 1, 16))
+    }
+    get greetings() {
+>greetings : Symbol(Greeter.greetings, Decl(sourceMapValidationClass.jump, 10, 5), Decl(sourceMapValidationClass.jump, 13, 5))
+
+        return this.greeting;
+>this.greeting : Symbol(Greeter.greeting, Decl(sourceMapValidationClass.jump, 1, 16))
+>this : Symbol(Greeter, Decl(sourceMapValidationClass.jump, 0, 0))
+>greeting : Symbol(Greeter.greeting, Decl(sourceMapValidationClass.jump, 1, 16))
+    }
+    set greetings(greetings: string) {
+>greetings : Symbol(Greeter.greetings, Decl(sourceMapValidationClass.jump, 10, 5), Decl(sourceMapValidationClass.jump, 13, 5))
+>greetings : Symbol(greetings, Decl(sourceMapValidationClass.jump, 14, 18))
+
+        this.greeting = greetings;
+>this.greeting : Symbol(Greeter.greeting, Decl(sourceMapValidationClass.jump, 1, 16))
+>this : Symbol(Greeter, Decl(sourceMapValidationClass.jump, 0, 0))
+>greeting : Symbol(Greeter.greeting, Decl(sourceMapValidationClass.jump, 1, 16))
+>greetings : Symbol(greetings, Decl(sourceMapValidationClass.jump, 14, 18))
+    }
+}

@@ -1,0 +1,18 @@
+=== tests/cases/conformance/async/es6/awaitClassExpression_es6.jump ===
+declare class C { }
+>C : Symbol(C, Decl(awaitClassExpression_es6.jump, 0, 0))
+
+declare var p: Promise<typeof C>;
+>p : Symbol(p, Decl(awaitClassExpression_es6.jump, 1, 11))
+>Promise : Symbol(Promise, Decl(lib.es5.d.jump, --, --), Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.iterable.d.jump, --, --), Decl(lib.es2015.promise.d.jump, --, --))
+>C : Symbol(C, Decl(awaitClassExpression_es6.jump, 0, 0))
+
+async function func(): Promise<void> {
+>func : Symbol(func, Decl(awaitClassExpression_es6.jump, 1, 33))
+>Promise : Symbol(Promise, Decl(lib.es5.d.jump, --, --), Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.iterable.d.jump, --, --), Decl(lib.es2015.promise.d.jump, --, --))
+
+    class D extends (await p) {
+>D : Symbol(D, Decl(awaitClassExpression_es6.jump, 3, 38))
+>p : Symbol(p, Decl(awaitClassExpression_es6.jump, 1, 11))
+    }
+}

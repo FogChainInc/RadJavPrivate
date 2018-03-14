@@ -1,0 +1,10 @@
+tests/cases/compiler/invalidReferenceSyntax1.jump(1,1): error TS1084: Invalid 'reference' directive syntax.
+
+
+==== tests/cases/compiler/invalidReferenceSyntax1.jump (1 errors) ====
+    /// <reference path="missingquote.jump />
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+!!! error TS1084: Invalid 'reference' directive syntax.
+    class C {
+    
+    }

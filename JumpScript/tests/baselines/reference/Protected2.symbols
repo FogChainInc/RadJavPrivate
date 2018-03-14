@@ -1,0 +1,4 @@
+=== tests/cases/conformance/parser/ecmascript5/Protected/Protected2.jump ===
+protected module M {
+>M : Symbol(M, Decl(Protected2.jump, 0, 0))
+}

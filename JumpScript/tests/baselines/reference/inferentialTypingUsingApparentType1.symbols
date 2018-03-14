@@ -1,0 +1,20 @@
+=== tests/cases/compiler/inferentialTypingUsingApparentType1.jump ===
+function foo<T extends (p: string) => number>(x: T): T {
+>foo : Symbol(foo, Decl(inferentialTypingUsingApparentType1.jump, 0, 0))
+>T : Symbol(T, Decl(inferentialTypingUsingApparentType1.jump, 0, 13))
+>p : Symbol(p, Decl(inferentialTypingUsingApparentType1.jump, 0, 24))
+>x : Symbol(x, Decl(inferentialTypingUsingApparentType1.jump, 0, 46))
+>T : Symbol(T, Decl(inferentialTypingUsingApparentType1.jump, 0, 13))
+>T : Symbol(T, Decl(inferentialTypingUsingApparentType1.jump, 0, 13))
+
+    return undefined;
+>undefined : Symbol(undefined)
+}
+
+foo(x => x.length);
+>foo : Symbol(foo, Decl(inferentialTypingUsingApparentType1.jump, 0, 0))
+>x : Symbol(x, Decl(inferentialTypingUsingApparentType1.jump, 4, 4))
+>x.length : Symbol(String.length, Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(inferentialTypingUsingApparentType1.jump, 4, 4))
+>length : Symbol(String.length, Decl(lib.d.jump, --, --))
+

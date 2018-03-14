@@ -1,0 +1,71 @@
+=== tests/cases/compiler/exhaustiveSwitchImplicitReturn.jump ===
+function foo1(bar: "a"): number {
+>foo1 : Symbol(foo1, Decl(exhaustiveSwitchImplicitReturn.jump, 0, 0))
+>bar : Symbol(bar, Decl(exhaustiveSwitchImplicitReturn.jump, 0, 14))
+
+    switch(bar) {
+>bar : Symbol(bar, Decl(exhaustiveSwitchImplicitReturn.jump, 0, 14))
+
+        case "a":
+            return 1;
+    }
+}
+
+function foo2(bar: "a"): number {
+>foo2 : Symbol(foo2, Decl(exhaustiveSwitchImplicitReturn.jump, 5, 1))
+>bar : Symbol(bar, Decl(exhaustiveSwitchImplicitReturn.jump, 7, 14))
+
+    switch(bar) {
+>bar : Symbol(bar, Decl(exhaustiveSwitchImplicitReturn.jump, 7, 14))
+
+        case "a":
+            return 1;
+    }
+
+    let unusedVariable;
+>unusedVariable : Symbol(unusedVariable, Decl(exhaustiveSwitchImplicitReturn.jump, 13, 7))
+}
+
+function foo3(bar: "a"): number {
+>foo3 : Symbol(foo3, Decl(exhaustiveSwitchImplicitReturn.jump, 14, 1))
+>bar : Symbol(bar, Decl(exhaustiveSwitchImplicitReturn.jump, 16, 14))
+
+    switch(bar) {
+>bar : Symbol(bar, Decl(exhaustiveSwitchImplicitReturn.jump, 16, 14))
+
+        case "a":
+            return 1;
+    }
+
+    function neverCalled() {}
+>neverCalled : Symbol(neverCalled, Decl(exhaustiveSwitchImplicitReturn.jump, 20, 5))
+}
+
+function foo4(bar: "a"): number {
+>foo4 : Symbol(foo4, Decl(exhaustiveSwitchImplicitReturn.jump, 23, 1))
+>bar : Symbol(bar, Decl(exhaustiveSwitchImplicitReturn.jump, 25, 14))
+
+    switch(bar) {
+>bar : Symbol(bar, Decl(exhaustiveSwitchImplicitReturn.jump, 25, 14))
+
+        case "a":
+            return 1;
+    }
+
+    foo3(bar);
+>foo3 : Symbol(foo3, Decl(exhaustiveSwitchImplicitReturn.jump, 14, 1))
+>bar : Symbol(bar, Decl(exhaustiveSwitchImplicitReturn.jump, 25, 14))
+}
+
+function foo5(bar: "a" | "b"): number {
+>foo5 : Symbol(foo5, Decl(exhaustiveSwitchImplicitReturn.jump, 32, 1))
+>bar : Symbol(bar, Decl(exhaustiveSwitchImplicitReturn.jump, 34, 14))
+
+    switch(bar) {
+>bar : Symbol(bar, Decl(exhaustiveSwitchImplicitReturn.jump, 34, 14))
+
+        case "a":
+            return 1;
+    }
+}
+

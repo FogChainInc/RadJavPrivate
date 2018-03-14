@@ -1,0 +1,4 @@
+=== tests/cases/conformance/parser/ecmascript5/parservoidInQualifiedName0.jump ===
+var v : void;
+>v : Symbol(v, Decl(parservoidInQualifiedName0.jump, 0, 3))
+

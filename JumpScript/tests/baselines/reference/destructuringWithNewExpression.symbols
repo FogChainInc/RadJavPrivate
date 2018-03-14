@@ -1,0 +1,12 @@
+=== tests/cases/compiler/destructuringWithNewExpression.jump ===
+class C {
+>C : Symbol(C, Decl(destructuringWithNewExpression.jump, 0, 0))
+
+    x = 0;
+>x : Symbol(C.x, Decl(destructuringWithNewExpression.jump, 0, 9))
+}
+
+var { x } = new C;
+>x : Symbol(x, Decl(destructuringWithNewExpression.jump, 4, 5))
+>C : Symbol(C, Decl(destructuringWithNewExpression.jump, 0, 0))
+

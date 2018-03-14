@@ -1,0 +1,63 @@
+=== tests/cases/compiler/collisionExportsRequireAndInternalModuleAlias.jump ===
+export module m {
+>m : Symbol(m, Decl(collisionExportsRequireAndInternalModuleAlias.jump, 0, 0))
+
+    export class c {
+>c : Symbol(c, Decl(collisionExportsRequireAndInternalModuleAlias.jump, 0, 17))
+    }
+}
+import exports = m.c;
+>exports : Symbol(exports, Decl(collisionExportsRequireAndInternalModuleAlias.jump, 3, 1))
+>m : Symbol(m, Decl(collisionExportsRequireAndInternalModuleAlias.jump, 0, 0))
+>c : Symbol(exports, Decl(collisionExportsRequireAndInternalModuleAlias.jump, 0, 17))
+
+import require = m.c;
+>require : Symbol(require, Decl(collisionExportsRequireAndInternalModuleAlias.jump, 4, 21))
+>m : Symbol(m, Decl(collisionExportsRequireAndInternalModuleAlias.jump, 0, 0))
+>c : Symbol(exports, Decl(collisionExportsRequireAndInternalModuleAlias.jump, 0, 17))
+
+new exports();
+>exports : Symbol(exports, Decl(collisionExportsRequireAndInternalModuleAlias.jump, 3, 1))
+
+new require();
+>require : Symbol(require, Decl(collisionExportsRequireAndInternalModuleAlias.jump, 4, 21))
+
+module m1 {
+>m1 : Symbol(m1, Decl(collisionExportsRequireAndInternalModuleAlias.jump, 7, 14))
+
+    import exports = m.c;
+>exports : Symbol(exports, Decl(collisionExportsRequireAndInternalModuleAlias.jump, 9, 11))
+>m : Symbol(m, Decl(collisionExportsRequireAndInternalModuleAlias.jump, 0, 0))
+>c : Symbol(exports, Decl(collisionExportsRequireAndInternalModuleAlias.jump, 0, 17))
+
+    import require = m.c;
+>require : Symbol(require, Decl(collisionExportsRequireAndInternalModuleAlias.jump, 10, 25))
+>m : Symbol(m, Decl(collisionExportsRequireAndInternalModuleAlias.jump, 0, 0))
+>c : Symbol(exports, Decl(collisionExportsRequireAndInternalModuleAlias.jump, 0, 17))
+
+    new exports();
+>exports : Symbol(exports, Decl(collisionExportsRequireAndInternalModuleAlias.jump, 9, 11))
+
+    new require();
+>require : Symbol(require, Decl(collisionExportsRequireAndInternalModuleAlias.jump, 10, 25))
+}
+
+module m2 {
+>m2 : Symbol(m2, Decl(collisionExportsRequireAndInternalModuleAlias.jump, 14, 1))
+
+    export import exports = m.c;
+>exports : Symbol(exports, Decl(collisionExportsRequireAndInternalModuleAlias.jump, 16, 11))
+>m : Symbol(m, Decl(collisionExportsRequireAndInternalModuleAlias.jump, 0, 0))
+>c : Symbol(exports, Decl(collisionExportsRequireAndInternalModuleAlias.jump, 0, 17))
+
+    export import require = m.c;
+>require : Symbol(require, Decl(collisionExportsRequireAndInternalModuleAlias.jump, 17, 32))
+>m : Symbol(m, Decl(collisionExportsRequireAndInternalModuleAlias.jump, 0, 0))
+>c : Symbol(exports, Decl(collisionExportsRequireAndInternalModuleAlias.jump, 0, 17))
+
+    new exports();
+>exports : Symbol(exports, Decl(collisionExportsRequireAndInternalModuleAlias.jump, 16, 11))
+
+    new require();
+>require : Symbol(require, Decl(collisionExportsRequireAndInternalModuleAlias.jump, 17, 32))
+}

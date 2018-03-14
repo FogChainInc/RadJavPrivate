@@ -1,0 +1,10 @@
+=== tests/cases/compiler/fieldAndGetterWithSameName.jump ===
+export class C {
+>C : Symbol(C, Decl(fieldAndGetterWithSameName.jump, 0, 0))
+
+    x: number;
+>x : Symbol(C.x, Decl(fieldAndGetterWithSameName.jump, 0, 16))
+
+  get x(): number { return 1; }
+>x : Symbol(C.x, Decl(fieldAndGetterWithSameName.jump, 1, 14))
+}

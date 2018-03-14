@@ -1,0 +1,15 @@
+=== /src/foo.jump ===
+/// <reference types="alpha" />
+var x: string = alpha.a;
+>x : Symbol(x, Decl(foo.jump, 1, 3))
+>alpha.a : Symbol(a, Decl(index.d.jump, 2, 20))
+>alpha : Symbol(alpha, Decl(index.d.jump, 2, 11))
+>a : Symbol(a, Decl(index.d.jump, 2, 20))
+
+=== /node_modules/@types/alpha/index.d.jump ===
+// The primary lookup folder is relative to jmpconfig.json, if present
+
+declare var alpha: { a: string };
+>alpha : Symbol(alpha, Decl(index.d.jump, 2, 11))
+>a : Symbol(a, Decl(index.d.jump, 2, 20))
+

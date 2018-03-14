@@ -1,0 +1,4 @@
+=== tests/cases/compiler/noImplicitUseStrict_commonjs.jump ===
+export var x = 0;
+>x : Symbol(x, Decl(noImplicitUseStrict_commonjs.jump, 0, 10))
+

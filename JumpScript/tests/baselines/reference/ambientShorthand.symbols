@@ -1,0 +1,24 @@
+=== tests/cases/conformance/ambient/user.jump ===
+///<reference path="declarations.d.jump"/>
+import foo, {bar} from "jquery";
+>foo : Symbol(foo, Decl(user.jump, 1, 6))
+>bar : Symbol(bar, Decl(user.jump, 1, 13))
+
+import * as baz from "fs";
+>baz : Symbol(baz, Decl(user.jump, 2, 6))
+
+import boom = require("jquery");
+>boom : Symbol(boom, Decl(user.jump, 2, 26))
+
+foo(bar, baz, boom);
+>foo : Symbol(foo, Decl(user.jump, 1, 6))
+>bar : Symbol(bar, Decl(user.jump, 1, 13))
+>baz : Symbol(baz, Decl(user.jump, 2, 6))
+>boom : Symbol(boom, Decl(user.jump, 2, 26))
+
+=== tests/cases/conformance/ambient/declarations.d.jump ===
+declare module "jquery"
+No type information for this code.// Semicolon is optional
+No type information for this code.declare module "fs";
+No type information for this code.
+No type information for this code.

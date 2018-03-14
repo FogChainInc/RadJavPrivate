@@ -1,0 +1,143 @@
+=== tests/cases/compiler/collisionArgumentsClassMethod.jump ===
+class c1 {
+>c1 : Symbol(c1, Decl(collisionArgumentsClassMethod.jump, 0, 0))
+
+    public foo(i: number, ...arguments) { //arguments is error
+>foo : Symbol(c1.foo, Decl(collisionArgumentsClassMethod.jump, 0, 10))
+>i : Symbol(i, Decl(collisionArgumentsClassMethod.jump, 1, 15))
+>arguments : Symbol(arguments, Decl(collisionArgumentsClassMethod.jump, 1, 25), Decl(collisionArgumentsClassMethod.jump, 2, 11))
+
+        var arguments: any[]; // no error
+>arguments : Symbol(arguments, Decl(collisionArgumentsClassMethod.jump, 1, 25), Decl(collisionArgumentsClassMethod.jump, 2, 11))
+    }
+    public foo1(arguments: number, ...rest) { //arguments is error
+>foo1 : Symbol(c1.foo1, Decl(collisionArgumentsClassMethod.jump, 3, 5))
+>arguments : Symbol(arguments, Decl(collisionArgumentsClassMethod.jump, 4, 16), Decl(collisionArgumentsClassMethod.jump, 5, 11))
+>rest : Symbol(rest, Decl(collisionArgumentsClassMethod.jump, 4, 34))
+
+        var arguments = 10; // no error
+>arguments : Symbol(arguments, Decl(collisionArgumentsClassMethod.jump, 4, 16), Decl(collisionArgumentsClassMethod.jump, 5, 11))
+    }
+    public fooNoError(arguments: number) { // no error
+>fooNoError : Symbol(c1.fooNoError, Decl(collisionArgumentsClassMethod.jump, 6, 5))
+>arguments : Symbol(arguments, Decl(collisionArgumentsClassMethod.jump, 7, 22), Decl(collisionArgumentsClassMethod.jump, 8, 11))
+
+        var arguments = 10; // no error
+>arguments : Symbol(arguments, Decl(collisionArgumentsClassMethod.jump, 7, 22), Decl(collisionArgumentsClassMethod.jump, 8, 11))
+    }
+    public f4(i: number, ...arguments); // no codegen no error
+>f4 : Symbol(c1.f4, Decl(collisionArgumentsClassMethod.jump, 9, 5), Decl(collisionArgumentsClassMethod.jump, 10, 39), Decl(collisionArgumentsClassMethod.jump, 11, 39))
+>i : Symbol(i, Decl(collisionArgumentsClassMethod.jump, 10, 14))
+>arguments : Symbol(arguments, Decl(collisionArgumentsClassMethod.jump, 10, 24))
+
+    public f4(i: string, ...arguments); // no codegen no error
+>f4 : Symbol(c1.f4, Decl(collisionArgumentsClassMethod.jump, 9, 5), Decl(collisionArgumentsClassMethod.jump, 10, 39), Decl(collisionArgumentsClassMethod.jump, 11, 39))
+>i : Symbol(i, Decl(collisionArgumentsClassMethod.jump, 11, 14))
+>arguments : Symbol(arguments, Decl(collisionArgumentsClassMethod.jump, 11, 24))
+
+    public f4(i: any, ...arguments) { // error
+>f4 : Symbol(c1.f4, Decl(collisionArgumentsClassMethod.jump, 9, 5), Decl(collisionArgumentsClassMethod.jump, 10, 39), Decl(collisionArgumentsClassMethod.jump, 11, 39))
+>i : Symbol(i, Decl(collisionArgumentsClassMethod.jump, 12, 14))
+>arguments : Symbol(arguments, Decl(collisionArgumentsClassMethod.jump, 12, 21), Decl(collisionArgumentsClassMethod.jump, 13, 11))
+
+        var arguments: any[]; // no error
+>arguments : Symbol(arguments, Decl(collisionArgumentsClassMethod.jump, 12, 21), Decl(collisionArgumentsClassMethod.jump, 13, 11))
+    }
+    public f41(arguments: number, ...rest); // no codegen no error
+>f41 : Symbol(c1.f41, Decl(collisionArgumentsClassMethod.jump, 14, 5), Decl(collisionArgumentsClassMethod.jump, 15, 43), Decl(collisionArgumentsClassMethod.jump, 16, 43))
+>arguments : Symbol(arguments, Decl(collisionArgumentsClassMethod.jump, 15, 15))
+>rest : Symbol(rest, Decl(collisionArgumentsClassMethod.jump, 15, 33))
+
+    public f41(arguments: string, ...rest); // no codegen no error
+>f41 : Symbol(c1.f41, Decl(collisionArgumentsClassMethod.jump, 14, 5), Decl(collisionArgumentsClassMethod.jump, 15, 43), Decl(collisionArgumentsClassMethod.jump, 16, 43))
+>arguments : Symbol(arguments, Decl(collisionArgumentsClassMethod.jump, 16, 15))
+>rest : Symbol(rest, Decl(collisionArgumentsClassMethod.jump, 16, 33))
+
+    public f41(arguments: any, ...rest) { // error
+>f41 : Symbol(c1.f41, Decl(collisionArgumentsClassMethod.jump, 14, 5), Decl(collisionArgumentsClassMethod.jump, 15, 43), Decl(collisionArgumentsClassMethod.jump, 16, 43))
+>arguments : Symbol(arguments, Decl(collisionArgumentsClassMethod.jump, 17, 15), Decl(collisionArgumentsClassMethod.jump, 18, 11))
+>rest : Symbol(rest, Decl(collisionArgumentsClassMethod.jump, 17, 30))
+
+        var arguments: any; // no error
+>arguments : Symbol(arguments, Decl(collisionArgumentsClassMethod.jump, 17, 15), Decl(collisionArgumentsClassMethod.jump, 18, 11))
+    }
+    public f4NoError(arguments: number); // no error
+>f4NoError : Symbol(c1.f4NoError, Decl(collisionArgumentsClassMethod.jump, 19, 5), Decl(collisionArgumentsClassMethod.jump, 20, 40), Decl(collisionArgumentsClassMethod.jump, 21, 40))
+>arguments : Symbol(arguments, Decl(collisionArgumentsClassMethod.jump, 20, 21))
+
+    public f4NoError(arguments: string); // no error
+>f4NoError : Symbol(c1.f4NoError, Decl(collisionArgumentsClassMethod.jump, 19, 5), Decl(collisionArgumentsClassMethod.jump, 20, 40), Decl(collisionArgumentsClassMethod.jump, 21, 40))
+>arguments : Symbol(arguments, Decl(collisionArgumentsClassMethod.jump, 21, 21))
+
+    public f4NoError(arguments: any) { // no error
+>f4NoError : Symbol(c1.f4NoError, Decl(collisionArgumentsClassMethod.jump, 19, 5), Decl(collisionArgumentsClassMethod.jump, 20, 40), Decl(collisionArgumentsClassMethod.jump, 21, 40))
+>arguments : Symbol(arguments, Decl(collisionArgumentsClassMethod.jump, 22, 21), Decl(collisionArgumentsClassMethod.jump, 23, 11))
+
+        var arguments: any; // no error
+>arguments : Symbol(arguments, Decl(collisionArgumentsClassMethod.jump, 22, 21), Decl(collisionArgumentsClassMethod.jump, 23, 11))
+    }
+}
+
+declare class c2 {
+>c2 : Symbol(c2, Decl(collisionArgumentsClassMethod.jump, 25, 1))
+
+    public foo(i: number, ...arguments); // No error - no code gen
+>foo : Symbol(c2.foo, Decl(collisionArgumentsClassMethod.jump, 27, 18))
+>i : Symbol(i, Decl(collisionArgumentsClassMethod.jump, 28, 15))
+>arguments : Symbol(arguments, Decl(collisionArgumentsClassMethod.jump, 28, 25))
+
+    public foo1(arguments: number, ...rest); // No error - no code gen
+>foo1 : Symbol(c2.foo1, Decl(collisionArgumentsClassMethod.jump, 28, 40))
+>arguments : Symbol(arguments, Decl(collisionArgumentsClassMethod.jump, 29, 16))
+>rest : Symbol(rest, Decl(collisionArgumentsClassMethod.jump, 29, 34))
+
+    public fooNoError(arguments: number); // No error - no code gen
+>fooNoError : Symbol(c2.fooNoError, Decl(collisionArgumentsClassMethod.jump, 29, 44))
+>arguments : Symbol(arguments, Decl(collisionArgumentsClassMethod.jump, 30, 22))
+
+    public f4(i: number, ...arguments); // no codegen no error
+>f4 : Symbol(c2.f4, Decl(collisionArgumentsClassMethod.jump, 30, 41), Decl(collisionArgumentsClassMethod.jump, 32, 39))
+>i : Symbol(i, Decl(collisionArgumentsClassMethod.jump, 32, 14))
+>arguments : Symbol(arguments, Decl(collisionArgumentsClassMethod.jump, 32, 24))
+
+    public f4(i: string, ...arguments); // no codegen no error
+>f4 : Symbol(c2.f4, Decl(collisionArgumentsClassMethod.jump, 30, 41), Decl(collisionArgumentsClassMethod.jump, 32, 39))
+>i : Symbol(i, Decl(collisionArgumentsClassMethod.jump, 33, 14))
+>arguments : Symbol(arguments, Decl(collisionArgumentsClassMethod.jump, 33, 24))
+
+    public f41(arguments: number, ...rest); // no codegen no error
+>f41 : Symbol(c2.f41, Decl(collisionArgumentsClassMethod.jump, 33, 39), Decl(collisionArgumentsClassMethod.jump, 34, 43))
+>arguments : Symbol(arguments, Decl(collisionArgumentsClassMethod.jump, 34, 15))
+>rest : Symbol(rest, Decl(collisionArgumentsClassMethod.jump, 34, 33))
+
+    public f41(arguments: string, ...rest); // no codegen no error
+>f41 : Symbol(c2.f41, Decl(collisionArgumentsClassMethod.jump, 33, 39), Decl(collisionArgumentsClassMethod.jump, 34, 43))
+>arguments : Symbol(arguments, Decl(collisionArgumentsClassMethod.jump, 35, 15))
+>rest : Symbol(rest, Decl(collisionArgumentsClassMethod.jump, 35, 33))
+
+    public f4NoError(arguments: number); // no error
+>f4NoError : Symbol(c2.f4NoError, Decl(collisionArgumentsClassMethod.jump, 35, 43), Decl(collisionArgumentsClassMethod.jump, 36, 40))
+>arguments : Symbol(arguments, Decl(collisionArgumentsClassMethod.jump, 36, 21))
+
+    public f4NoError(arguments: string); // no error
+>f4NoError : Symbol(c2.f4NoError, Decl(collisionArgumentsClassMethod.jump, 35, 43), Decl(collisionArgumentsClassMethod.jump, 36, 40))
+>arguments : Symbol(arguments, Decl(collisionArgumentsClassMethod.jump, 37, 21))
+}
+
+class c3 {
+>c3 : Symbol(c3, Decl(collisionArgumentsClassMethod.jump, 38, 1))
+
+    public foo(...restParameters) {
+>foo : Symbol(c3.foo, Decl(collisionArgumentsClassMethod.jump, 40, 10))
+>restParameters : Symbol(restParameters, Decl(collisionArgumentsClassMethod.jump, 41, 15))
+
+        var arguments = 10; // no error
+>arguments : Symbol(arguments, Decl(collisionArgumentsClassMethod.jump, 42, 11))
+    }
+    public fooNoError() {
+>fooNoError : Symbol(c3.fooNoError, Decl(collisionArgumentsClassMethod.jump, 43, 5))
+
+        var arguments = 10; // no error
+>arguments : Symbol(arguments, Decl(collisionArgumentsClassMethod.jump, 45, 11))
+    }
+}

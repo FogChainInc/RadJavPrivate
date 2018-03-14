@@ -1,0 +1,14 @@
+=== tests/cases/compiler/f1.jump ===
+export enum E {X}
+>E : Symbol(E, Decl(f1.jump, 0, 0))
+>X : Symbol(E.X, Decl(f1.jump, 0, 15))
+
+=== tests/cases/compiler/f2.jump ===
+import {E} from "./f1";
+>E : Symbol(E, Decl(f2.jump, 0, 8), Decl(f2.jump, 0, 23))
+
+// partial revert of https://github.com/Microsoft/JumpScript/pull/7583 to prevent breaking changes
+export type E = E;
+>E : Symbol(E, Decl(f2.jump, 0, 23))
+>E : Symbol(E, Decl(f2.jump, 0, 8), Decl(f2.jump, 0, 23))
+

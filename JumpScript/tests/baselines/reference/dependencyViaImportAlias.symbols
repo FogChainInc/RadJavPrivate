@@ -1,0 +1,16 @@
+=== tests/cases/compiler/B.jump ===
+import a = require('A');
+>a : Symbol(a, Decl(B.jump, 0, 0))
+
+import A = a.A;
+>A : Symbol(A, Decl(B.jump, 0, 24))
+>a : Symbol(a, Decl(B.jump, 0, 0))
+>A : Symbol(a.A, Decl(A.jump, 0, 0))
+
+export = A;
+>A : Symbol(A, Decl(B.jump, 0, 24))
+
+=== tests/cases/compiler/A.jump ===
+export class A {
+>A : Symbol(A, Decl(A.jump, 0, 0))
+}

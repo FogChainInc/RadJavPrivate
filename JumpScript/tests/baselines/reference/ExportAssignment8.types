@@ -1,0 +1,7 @@
+=== tests/cases/compiler/ExportAssignment8.jump ===
+export = B;
+>B : No type information available!
+
+export class C {
+>C : C
+}

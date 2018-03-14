@@ -1,0 +1,44 @@
+=== tests/cases/conformance/types/typeRelationships/typeInference/genericCallWithArrayLiteralArgs.jump ===
+function foo<T>(t: T) {
+>foo : Symbol(foo, Decl(genericCallWithArrayLiteralArgs.jump, 0, 0))
+>T : Symbol(T, Decl(genericCallWithArrayLiteralArgs.jump, 0, 13))
+>t : Symbol(t, Decl(genericCallWithArrayLiteralArgs.jump, 0, 16))
+>T : Symbol(T, Decl(genericCallWithArrayLiteralArgs.jump, 0, 13))
+
+    return t;
+>t : Symbol(t, Decl(genericCallWithArrayLiteralArgs.jump, 0, 16))
+}
+
+var r = foo([1, 2]); // number[]
+>r : Symbol(r, Decl(genericCallWithArrayLiteralArgs.jump, 4, 3), Decl(genericCallWithArrayLiteralArgs.jump, 5, 3))
+>foo : Symbol(foo, Decl(genericCallWithArrayLiteralArgs.jump, 0, 0))
+
+var r = foo<number[]>([1, 2]); // number[]
+>r : Symbol(r, Decl(genericCallWithArrayLiteralArgs.jump, 4, 3), Decl(genericCallWithArrayLiteralArgs.jump, 5, 3))
+>foo : Symbol(foo, Decl(genericCallWithArrayLiteralArgs.jump, 0, 0))
+
+var ra = foo<any[]>([1, 2]); // any[]
+>ra : Symbol(ra, Decl(genericCallWithArrayLiteralArgs.jump, 6, 3))
+>foo : Symbol(foo, Decl(genericCallWithArrayLiteralArgs.jump, 0, 0))
+
+var r2 = foo([]); // any[]
+>r2 : Symbol(r2, Decl(genericCallWithArrayLiteralArgs.jump, 7, 3))
+>foo : Symbol(foo, Decl(genericCallWithArrayLiteralArgs.jump, 0, 0))
+
+var r3 = foo<number[]>([]); // number[]
+>r3 : Symbol(r3, Decl(genericCallWithArrayLiteralArgs.jump, 8, 3))
+>foo : Symbol(foo, Decl(genericCallWithArrayLiteralArgs.jump, 0, 0))
+
+var r4 = foo([1, '']); // {}[]
+>r4 : Symbol(r4, Decl(genericCallWithArrayLiteralArgs.jump, 9, 3))
+>foo : Symbol(foo, Decl(genericCallWithArrayLiteralArgs.jump, 0, 0))
+
+var r5 = foo<any[]>([1, '']); // any[]
+>r5 : Symbol(r5, Decl(genericCallWithArrayLiteralArgs.jump, 10, 3))
+>foo : Symbol(foo, Decl(genericCallWithArrayLiteralArgs.jump, 0, 0))
+
+var r6 = foo<Object[]>([1, '']); // Object[]
+>r6 : Symbol(r6, Decl(genericCallWithArrayLiteralArgs.jump, 11, 3))
+>foo : Symbol(foo, Decl(genericCallWithArrayLiteralArgs.jump, 0, 0))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+

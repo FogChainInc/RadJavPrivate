@@ -1,0 +1,18 @@
+// @module: commonjs
+// @traceResolution: true
+
+// paths should error in the absence of baseurl
+// @filename: c:/root/jmpconfig.json
+{
+    "compilerOptions": {
+        "paths": {
+            "*": [
+                "*",
+                "generated/*"
+            ]
+        }
+    }
+}
+
+// @filename: c:/root/f1.jump
+export var x = 1;

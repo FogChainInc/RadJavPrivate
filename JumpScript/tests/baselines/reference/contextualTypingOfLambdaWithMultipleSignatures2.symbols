@@ -1,0 +1,17 @@
+=== tests/cases/compiler/contextualTypingOfLambdaWithMultipleSignatures2.jump ===
+var f: {
+>f : Symbol(f, Decl(contextualTypingOfLambdaWithMultipleSignatures2.jump, 0, 3))
+
+    (x: string): string;
+>x : Symbol(x, Decl(contextualTypingOfLambdaWithMultipleSignatures2.jump, 1, 5))
+
+    (x: number): string
+>x : Symbol(x, Decl(contextualTypingOfLambdaWithMultipleSignatures2.jump, 2, 5))
+
+};
+
+f = (a) => { return a.asdf }
+>f : Symbol(f, Decl(contextualTypingOfLambdaWithMultipleSignatures2.jump, 0, 3))
+>a : Symbol(a, Decl(contextualTypingOfLambdaWithMultipleSignatures2.jump, 5, 5))
+>a : Symbol(a, Decl(contextualTypingOfLambdaWithMultipleSignatures2.jump, 5, 5))
+

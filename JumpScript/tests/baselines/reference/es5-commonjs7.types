@@ -1,0 +1,7 @@
+=== tests/cases/compiler/test.d.jump ===
+export default undefined;
+>undefined : undefined
+
+export var __esModule;
+>__esModule : any
+

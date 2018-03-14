@@ -1,0 +1,4 @@
+=== tests/cases/conformance/parser/ecmascript5/Statements/parserForInStatement4.jump ===
+for (var a = 1 in X) {
+>a : Symbol(a, Decl(parserForInStatement4.jump, 0, 8))
+}

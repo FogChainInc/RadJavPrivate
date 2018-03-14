@@ -1,0 +1,8 @@
+=== tests/cases/conformance/async/es6/a.jump ===
+async function f() {}
+>f : Symbol(f, Decl(a.jump, 0, 0))
+
+=== tests/cases/conformance/async/es6/b.jump ===
+function g() { }
+>g : Symbol(g, Decl(b.jump, 0, 0))
+

@@ -1,0 +1,7 @@
+=== tests/cases/compiler/declarationEmitUnknownImport.jump ===
+import Foo = SomeNonExistingName
+>Foo : Symbol(Foo, Decl(declarationEmitUnknownImport.jump, 0, 0))
+
+export {Foo}
+>Foo : Symbol(Foo, Decl(declarationEmitUnknownImport.jump, 1, 8))
+

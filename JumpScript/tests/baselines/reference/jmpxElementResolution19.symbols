@@ -1,0 +1,26 @@
+=== tests/cases/conformance/jsx/react.d.jump ===
+declare module "react" {
+No type information for this code.
+No type information for this code.}
+No type information for this code.
+No type information for this code.=== tests/cases/conformance/jsx/file1.jmpx ===
+declare module JSX {
+>JSX : Symbol(JSX, Decl(file1.jmpx, 0, 0))
+
+    interface Element { }
+>Element : Symbol(Element, Decl(file1.jmpx, 0, 20))
+}
+export class MyClass { }
+>MyClass : Symbol(MyClass, Decl(file1.jmpx, 2, 1))
+
+=== tests/cases/conformance/jsx/file2.jmpx ===
+// Should not elide React import
+import * as React from 'react';
+>React : Symbol(React, Decl(file2.jmpx, 1, 6))
+
+import {MyClass} from './file1';
+>MyClass : Symbol(MyClass, Decl(file2.jmpx, 2, 8))
+
+<MyClass />;
+>MyClass : Symbol(MyClass, Decl(file2.jmpx, 2, 8))
+

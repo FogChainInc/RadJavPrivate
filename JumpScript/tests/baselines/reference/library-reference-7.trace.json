@@ -1,0 +1,10 @@
+[
+    "======== Resolving type reference directive 'jquery', containing file '/src/consumer.jump', root directory not set. ========",
+    "Root directory cannot be determined, skipping primary search paths.",
+    "Looking up in 'node_modules' folder, initial location '/src'.",
+    "File '/src/node_modules/jquery/package.json' does not exist.",
+    "File '/src/node_modules/jquery.d.jump' does not exist.",
+    "File '/src/node_modules/jquery/index.d.jump' exist - use it as a name resolution result.",
+    "Resolving real path for '/src/node_modules/jquery/index.d.jump', result '/src/node_modules/jquery/index.d.jump'.",
+    "======== Type reference directive 'jquery' was successfully resolved to '/src/node_modules/jquery/index.d.jump', primary: false. ========"
+]

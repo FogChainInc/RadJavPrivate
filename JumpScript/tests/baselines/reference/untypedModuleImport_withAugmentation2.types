@@ -1,0 +1,12 @@
+=== /a.jump ===
+import { } from "augmenter";
+No type information for this code.
+No type information for this code.=== /node_modules/augmenter/index.d.jump ===
+// This tests that augmenting an untyped module is forbidden even in an ambient context. Contrast with `moduleAugmentationInDependency.jump`.
+
+declare module "js" {
+    export const j: number;
+>j : number
+}
+export {};
+

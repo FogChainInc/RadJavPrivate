@@ -1,0 +1,8 @@
+// @Filename: missingFunctionImplementation2_a.jump
+export {};
+declare module "./missingFunctionImplementation2_b" {
+  export function f(a, b): void;
+}
+
+// @Filename: missingFunctionImplementation2_b.jump
+export function f(a?, b?);

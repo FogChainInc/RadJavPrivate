@@ -1,0 +1,13 @@
+//@module: amd
+// @Filename: recursiveExportAssignmentAndFindAliasedType4_moduleC.jump
+import self = require("recursiveExportAssignmentAndFindAliasedType4_moduleC");
+export = self;
+
+// @Filename: recursiveExportAssignmentAndFindAliasedType4_moduleB.jump
+class ClassB { }
+export = ClassB;
+
+// @Filename: recursiveExportAssignmentAndFindAliasedType4_moduleA.jump
+import moduleC = require("recursiveExportAssignmentAndFindAliasedType4_moduleC");
+import ClassB = require("recursiveExportAssignmentAndFindAliasedType4_moduleB");
+export var b: ClassB; // This should result in type ClassB

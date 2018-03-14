@@ -1,0 +1,10 @@
+=== tests/cases/compiler/inheritFromGenericTypeParameter.jump ===
+class C<T> extends T { }
+>C : Symbol(C, Decl(inheritFromGenericTypeParameter.jump, 0, 0))
+>T : Symbol(T, Decl(inheritFromGenericTypeParameter.jump, 0, 8))
+
+interface I<T> extends T { }
+>I : Symbol(I, Decl(inheritFromGenericTypeParameter.jump, 0, 24))
+>T : Symbol(T, Decl(inheritFromGenericTypeParameter.jump, 1, 12))
+>T : Symbol(T, Decl(inheritFromGenericTypeParameter.jump, 1, 12))
+

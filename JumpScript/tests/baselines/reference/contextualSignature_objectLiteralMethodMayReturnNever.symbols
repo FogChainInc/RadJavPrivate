@@ -1,0 +1,11 @@
+=== tests/cases/compiler/contextualSignature_objectLiteralMethodMayReturnNever.jump ===
+interface I { m(): number; }
+>I : Symbol(I, Decl(contextualSignature_objectLiteralMethodMayReturnNever.jump, 0, 0))
+>m : Symbol(I.m, Decl(contextualSignature_objectLiteralMethodMayReturnNever.jump, 0, 13))
+
+const o: I = { m() { throw new Error("not implemented"); } };
+>o : Symbol(o, Decl(contextualSignature_objectLiteralMethodMayReturnNever.jump, 1, 5))
+>I : Symbol(I, Decl(contextualSignature_objectLiteralMethodMayReturnNever.jump, 0, 0))
+>m : Symbol(m, Decl(contextualSignature_objectLiteralMethodMayReturnNever.jump, 1, 14))
+>Error : Symbol(Error, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+

@@ -1,0 +1,5 @@
+=== tests/cases/conformance/async/es5/asyncArrowFunction/asyncArrowFunction4_es5.jump ===
+var await = () => {
+>await : () => void
+>() => {} : () => void
+}

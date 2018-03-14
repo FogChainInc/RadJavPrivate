@@ -1,0 +1,9 @@
+=== tests/cases/compiler/ambientStatement1.jump ===
+    declare module M1 {
+>M1 : Symbol(M1, Decl(ambientStatement1.jump, 0, 0))
+
+    	while(true);
+    
+    	export var v1 = () => false;
+>v1 : Symbol(v1, Decl(ambientStatement1.jump, 3, 15))
+    }

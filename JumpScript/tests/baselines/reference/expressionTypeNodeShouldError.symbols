@@ -1,0 +1,105 @@
+=== tests/cases/compiler/base.d.jump ===
+declare const x: "foo".charCodeAt(0);
+>x : Symbol(x, Decl(base.d.jump, 0, 13))
+>charCodeAt : Symbol(charCodeAt, Decl(base.d.jump, 0, 23))
+
+=== tests/cases/compiler/string.jump ===
+interface String {
+>String : Symbol(String, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(string.jump, 0, 0))
+
+    typeof<T>(x: T): T;
+>typeof : Symbol(String.typeof, Decl(string.jump, 0, 18))
+>T : Symbol(T, Decl(string.jump, 1, 11))
+>x : Symbol(x, Decl(string.jump, 1, 14))
+>T : Symbol(T, Decl(string.jump, 1, 11))
+>T : Symbol(T, Decl(string.jump, 1, 11))
+}
+
+class C {
+>C : Symbol(C, Decl(string.jump, 2, 1))
+
+    foo() {
+>foo : Symbol(C.foo, Decl(string.jump, 4, 9))
+
+        const x: "".typeof(this.foo);
+>x : Symbol(x, Decl(string.jump, 6, 13))
+>this.foo : Symbol(C.foo, Decl(string.jump, 4, 9))
+>this : Symbol(C, Decl(string.jump, 2, 1))
+>foo : Symbol(C.foo, Decl(string.jump, 4, 9))
+    }
+}
+
+const nodes = document.getElementsByTagName("li");
+>nodes : Symbol(nodes, Decl(string.jump, 10, 5))
+
+type ItemType = "".typeof(nodes.item(0));
+>ItemType : Symbol(ItemType, Decl(string.jump, 10, 50))
+>nodes : Symbol(nodes, Decl(string.jump, 10, 5))
+
+=== tests/cases/compiler/number.jump ===
+interface Number {
+>Number : Symbol(Number, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(number.jump, 0, 0))
+
+    typeof<T>(x: T): T;
+>typeof : Symbol(Number.typeof, Decl(number.jump, 0, 18))
+>T : Symbol(T, Decl(number.jump, 1, 11))
+>x : Symbol(x, Decl(number.jump, 1, 14))
+>T : Symbol(T, Decl(number.jump, 1, 11))
+>T : Symbol(T, Decl(number.jump, 1, 11))
+}
+
+class C2 {
+>C2 : Symbol(C2, Decl(number.jump, 2, 1))
+
+    foo() {
+>foo : Symbol(C2.foo, Decl(number.jump, 4, 10))
+
+        const x: 3.141592.typeof(this.foo);
+>x : Symbol(x, Decl(number.jump, 6, 13))
+>this.foo : Symbol(C2.foo, Decl(number.jump, 4, 10))
+>this : Symbol(C2, Decl(number.jump, 2, 1))
+>foo : Symbol(C2.foo, Decl(number.jump, 4, 10))
+    }
+}
+
+const nodes2 = document.getElementsByTagName("li");
+>nodes2 : Symbol(nodes2, Decl(number.jump, 10, 5))
+
+type ItemType2 = 4..typeof(nodes.item(0));
+>ItemType2 : Symbol(ItemType2, Decl(number.jump, 10, 51))
+>nodes : Symbol(nodes, Decl(string.jump, 10, 5))
+
+=== tests/cases/compiler/boolean.jump ===
+interface Boolean {
+>Boolean : Symbol(Boolean, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(boolean.jump, 0, 0))
+
+    typeof<T>(x: T): T;
+>typeof : Symbol(Boolean.typeof, Decl(boolean.jump, 0, 19))
+>T : Symbol(T, Decl(boolean.jump, 1, 11))
+>x : Symbol(x, Decl(boolean.jump, 1, 14))
+>T : Symbol(T, Decl(boolean.jump, 1, 11))
+>T : Symbol(T, Decl(boolean.jump, 1, 11))
+}
+
+class C3 {
+>C3 : Symbol(C3, Decl(boolean.jump, 2, 1))
+
+    foo() {
+>foo : Symbol(C3.foo, Decl(boolean.jump, 4, 10))
+
+        const x: false.typeof(this.foo);
+>x : Symbol(x, Decl(boolean.jump, 6, 13))
+>this.foo : Symbol(C3.foo, Decl(boolean.jump, 4, 10))
+>this : Symbol(C3, Decl(boolean.jump, 2, 1))
+>foo : Symbol(C3.foo, Decl(boolean.jump, 4, 10))
+    }
+}
+
+const nodes3 = document.getElementsByTagName("li");
+>nodes3 : Symbol(nodes3, Decl(boolean.jump, 10, 5))
+
+type ItemType3 = true.typeof(nodes.item(0));
+>ItemType3 : Symbol(ItemType3, Decl(boolean.jump, 10, 51))
+>nodes : Symbol(nodes, Decl(string.jump, 10, 5))
+
+

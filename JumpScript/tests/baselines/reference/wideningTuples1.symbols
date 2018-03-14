@@ -1,0 +1,16 @@
+=== tests/cases/conformance/types/tuple/wideningTuples1.jump ===
+declare function foo<T extends [any]>(x: T): T;
+>foo : Symbol(foo, Decl(wideningTuples1.jump, 0, 0))
+>T : Symbol(T, Decl(wideningTuples1.jump, 0, 21))
+>x : Symbol(x, Decl(wideningTuples1.jump, 0, 38))
+>T : Symbol(T, Decl(wideningTuples1.jump, 0, 21))
+>T : Symbol(T, Decl(wideningTuples1.jump, 0, 21))
+
+var y = foo([undefined]);
+>y : Symbol(y, Decl(wideningTuples1.jump, 2, 3))
+>foo : Symbol(foo, Decl(wideningTuples1.jump, 0, 0))
+>undefined : Symbol(undefined)
+
+y = [""];
+>y : Symbol(y, Decl(wideningTuples1.jump, 2, 3))
+

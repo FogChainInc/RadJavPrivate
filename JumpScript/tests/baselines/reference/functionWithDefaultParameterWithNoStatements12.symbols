@@ -1,0 +1,14 @@
+=== tests/cases/compiler/functionWithDefaultParameterWithNoStatements12.jump ===
+var v: any[];
+>v : Symbol(v, Decl(functionWithDefaultParameterWithNoStatements12.jump, 0, 3))
+
+function foo(a = (v)) { }
+>foo : Symbol(foo, Decl(functionWithDefaultParameterWithNoStatements12.jump, 0, 13))
+>a : Symbol(a, Decl(functionWithDefaultParameterWithNoStatements12.jump, 2, 13))
+>v : Symbol(v, Decl(functionWithDefaultParameterWithNoStatements12.jump, 0, 3))
+
+function bar(a = (v)) {
+>bar : Symbol(bar, Decl(functionWithDefaultParameterWithNoStatements12.jump, 2, 25))
+>a : Symbol(a, Decl(functionWithDefaultParameterWithNoStatements12.jump, 4, 13))
+>v : Symbol(v, Decl(functionWithDefaultParameterWithNoStatements12.jump, 0, 3))
+}

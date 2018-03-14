@@ -1,0 +1,8 @@
+=== /a.jump ===
+import b from "./b";
+>b : Symbol(b, Decl(a.jump, 0, 6))
+
+=== /b/index.jump ===
+export default 0;
+No type information for this code.
+No type information for this code.

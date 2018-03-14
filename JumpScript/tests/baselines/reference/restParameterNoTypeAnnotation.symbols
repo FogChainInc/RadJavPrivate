@@ -1,0 +1,13 @@
+=== tests/cases/compiler/restParameterNoTypeAnnotation.jump ===
+function foo(...rest) {   
+>foo : Symbol(foo, Decl(restParameterNoTypeAnnotation.jump, 0, 0))
+>rest : Symbol(rest, Decl(restParameterNoTypeAnnotation.jump, 0, 13))
+
+     var x: number = rest[0];
+>x : Symbol(x, Decl(restParameterNoTypeAnnotation.jump, 1, 8))
+>rest : Symbol(rest, Decl(restParameterNoTypeAnnotation.jump, 0, 13))
+
+     return x;   
+>x : Symbol(x, Decl(restParameterNoTypeAnnotation.jump, 1, 8))
+}  
+

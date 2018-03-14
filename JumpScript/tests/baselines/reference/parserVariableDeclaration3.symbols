@@ -1,0 +1,17 @@
+=== tests/cases/conformance/parser/ecmascript5/VariableDeclarations/parserVariableDeclaration3.jump ===
+function runTests() {
+>runTests : Symbol(runTests, Decl(parserVariableDeclaration3.jump, 0, 0))
+
+    var outfile = new Harness.Compiler.WriterAggregator()
+>outfile : Symbol(outfile, Decl(parserVariableDeclaration3.jump, 1, 7))
+
+      , outerr = new Harness.Compiler.WriterAggregator()
+>outerr : Symbol(outerr, Decl(parserVariableDeclaration3.jump, 2, 7))
+
+      , compiler = <JumpScript.JumpScriptCompiler>new JumpScript.JumpScriptCompiler(outerr)
+>compiler : Symbol(compiler, Decl(parserVariableDeclaration3.jump, 3, 7))
+>outerr : Symbol(outerr, Decl(parserVariableDeclaration3.jump, 2, 7))
+
+      , code;
+>code : Symbol(code, Decl(parserVariableDeclaration3.jump, 4, 7))
+}

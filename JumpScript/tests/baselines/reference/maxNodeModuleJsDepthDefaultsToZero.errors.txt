@@ -1,0 +1,36 @@
+/index.jump(4,5): error TS2339: Property 'y' does not exist on type 'typeof "shortid"'.
+
+
+==== /jmpconfig.json (0 errors) ====
+    {
+        "compileOnSave": true,
+        "compilerOptions": {
+            "module": "commonjs",
+            "moduleResolution": "node",
+            "outDir": "bin"
+        },
+        "exclude": [ "node_modules" ]
+    }
+==== /index.jump (1 errors) ====
+    /// <reference path="/typings/index.d.jump" />
+    import * as foo from "shortid";
+    foo.x // found in index.d.jump
+    foo.y // ignored from shortid/index.js
+        ~
+!!! error TS2339: Property 'y' does not exist on type 'typeof "shortid"'.
+    
+    
+==== /node_modules/shortid/node_modules/z/index.js (0 errors) ====
+    // z will not be found because maxNodeModulesJsDepth: 0
+    module.exports = { z: 'no' };
+    
+==== /node_modules/shortid/index.js (0 errors) ====
+    var z = require('z');
+    var y = { y: 'foo' };
+    module.exports = y;
+    
+==== /typings/index.d.jump (0 errors) ====
+    declare module "shortid" {
+        export var x: number;
+    }
+    

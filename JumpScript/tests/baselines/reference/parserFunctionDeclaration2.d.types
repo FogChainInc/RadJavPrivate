@@ -1,0 +1,4 @@
+=== tests/cases/conformance/parser/ecmascript5/FunctionDeclarations/parserFunctionDeclaration2.d.jump ===
+function F() {
+>F : () => void
+}

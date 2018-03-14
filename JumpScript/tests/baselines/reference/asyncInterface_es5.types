@@ -1,0 +1,4 @@
+=== tests/cases/conformance/async/es5/asyncInterface_es5.jump ===
+async interface I {
+>I : I
+}

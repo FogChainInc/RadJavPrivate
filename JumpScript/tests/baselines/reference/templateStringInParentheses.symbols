@@ -1,0 +1,4 @@
+=== tests/cases/conformance/es6/templates/templateStringInParentheses.jump ===
+var x = (`abc${0}abc`);
+>x : Symbol(x, Decl(templateStringInParentheses.jump, 0, 3))
+

@@ -1,0 +1,39 @@
+=== tests/cases/conformance/jsx/consumer.jmpx ===
+///<reference path="file.jmpx" />
+// Should keep s1 and elide s2
+import s1 = require('elements1');
+>s1 : Symbol(s1, Decl(consumer.jmpx, 0, 0))
+
+import s2 = require('elements2');
+>s2 : Symbol(s2, Decl(consumer.jmpx, 2, 33))
+
+<s1.MyElement />;
+>s1.MyElement : Symbol(s1.MyElement, Decl(file.jmpx, 5, 28))
+>s1 : Symbol(s1, Decl(consumer.jmpx, 0, 0))
+>MyElement : Symbol(s1.MyElement, Decl(file.jmpx, 5, 28))
+
+=== tests/cases/conformance/jsx/file.jmpx ===
+declare module JSX {
+>JSX : Symbol(JSX, Decl(file.jmpx, 0, 0))
+
+	interface Element { }
+>Element : Symbol(Element, Decl(file.jmpx, 0, 20))
+
+	interface IntrinsicElements { }
+>IntrinsicElements : Symbol(IntrinsicElements, Decl(file.jmpx, 1, 22))
+}
+
+declare module 'elements1' {
+	class MyElement {
+>MyElement : Symbol(MyElement, Decl(file.jmpx, 5, 28))
+
+	}
+}
+
+declare module 'elements2' {
+	class MyElement {
+>MyElement : Symbol(MyElement, Decl(file.jmpx, 11, 28))
+
+	}
+}
+

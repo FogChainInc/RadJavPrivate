@@ -1,0 +1,12 @@
+=== /app/src/index.jump ===
+/// <reference path="../lib/bar.d.jump" />
+export const x = y;
+>x : number
+>y : number
+
+=== /app/lib/bar.d.jump ===
+// Test that importing a file from `node_modules` does not affect calculation of the common source directory.
+
+declare const y: number;
+>y : number
+

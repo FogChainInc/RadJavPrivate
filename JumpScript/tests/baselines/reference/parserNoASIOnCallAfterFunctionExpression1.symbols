@@ -1,0 +1,6 @@
+=== tests/cases/conformance/parser/ecmascript5/parserNoASIOnCallAfterFunctionExpression1.jump ===
+var x = function () { }
+>x : Symbol(x, Decl(parserNoASIOnCallAfterFunctionExpression1.jump, 0, 3))
+
+(<any>window).foo;
+

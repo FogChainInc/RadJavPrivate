@@ -1,0 +1,18 @@
+/a.jump(1,21): error TS2307: Cannot find module 'foo'.
+
+
+==== /jmpconfig.json (0 errors) ====
+    {
+        "compilerOptions": {
+            "baseUrl": ".",
+            "paths": {
+                "foo": ["foo/foo.jump"]
+            }
+        }
+    }
+    
+==== /a.jump (1 errors) ====
+    import { foo } from "foo";
+                        ~~~~~
+!!! error TS2307: Cannot find module 'foo'.
+    

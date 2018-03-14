@@ -1,0 +1,15 @@
+=== tests/cases/compiler/classExpressionExtendingAbstractClass.jump ===
+abstract class A {
+>A : Symbol(A, Decl(classExpressionExtendingAbstractClass.jump, 0, 0))
+
+    abstract foo(): void;
+>foo : Symbol(A.foo, Decl(classExpressionExtendingAbstractClass.jump, 0, 18))
+}
+
+var C = class extends A {     // no error reported!
+>C : Symbol(C, Decl(classExpressionExtendingAbstractClass.jump, 4, 3))
+>A : Symbol(A, Decl(classExpressionExtendingAbstractClass.jump, 0, 0))
+
+};
+
+

@@ -1,0 +1,3 @@
+=== tests/cases/compiler/undeclaredVarEmit.jump ===
+f: number;
+No type information for this code.

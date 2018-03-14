@@ -1,0 +1,25 @@
+=== tests/cases/conformance/es6/for-ofStatements/for-of34.jump ===
+class StringIterator {
+>StringIterator : Symbol(StringIterator, Decl(for-of34.jump, 0, 0))
+
+    next() {
+>next : Symbol(StringIterator.next, Decl(for-of34.jump, 0, 22))
+
+        return v;
+>v : Symbol(v, Decl(for-of34.jump, 10, 8))
+    }
+    
+    [Symbol.iterator]() {
+>Symbol.iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+
+        return this;
+>this : Symbol(StringIterator, Decl(for-of34.jump, 0, 0))
+    }
+}
+
+for (var v of new StringIterator) { }
+>v : Symbol(v, Decl(for-of34.jump, 10, 8))
+>StringIterator : Symbol(StringIterator, Decl(for-of34.jump, 0, 0))
+

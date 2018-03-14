@@ -1,0 +1,50 @@
+=== tests/cases/conformance/statements/returnStatements/invalidReturnStatements.jump ===
+// all the following should be error
+function fn1(): number {  }
+>fn1 : Symbol(fn1, Decl(invalidReturnStatements.jump, 0, 0))
+
+function fn2(): string { }
+>fn2 : Symbol(fn2, Decl(invalidReturnStatements.jump, 1, 27))
+
+function fn3(): boolean { }
+>fn3 : Symbol(fn3, Decl(invalidReturnStatements.jump, 2, 26))
+
+function fn4(): Date {  }
+>fn4 : Symbol(fn4, Decl(invalidReturnStatements.jump, 3, 27))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+function fn7(): any {  } // should be valid: any includes void
+>fn7 : Symbol(fn7, Decl(invalidReturnStatements.jump, 4, 25))
+
+interface I { id: number }
+>I : Symbol(I, Decl(invalidReturnStatements.jump, 5, 24))
+>id : Symbol(I.id, Decl(invalidReturnStatements.jump, 7, 13))
+
+class C implements I {
+>C : Symbol(C, Decl(invalidReturnStatements.jump, 7, 26))
+>I : Symbol(I, Decl(invalidReturnStatements.jump, 5, 24))
+
+    id: number;
+>id : Symbol(C.id, Decl(invalidReturnStatements.jump, 8, 22))
+
+    dispose() {}
+>dispose : Symbol(C.dispose, Decl(invalidReturnStatements.jump, 9, 15))
+}
+class D extends C {
+>D : Symbol(D, Decl(invalidReturnStatements.jump, 11, 1))
+>C : Symbol(C, Decl(invalidReturnStatements.jump, 7, 26))
+
+    name: string;
+>name : Symbol(D.name, Decl(invalidReturnStatements.jump, 12, 19))
+}
+function fn10(): D { return { id: 12 }; } 
+>fn10 : Symbol(fn10, Decl(invalidReturnStatements.jump, 14, 1))
+>D : Symbol(D, Decl(invalidReturnStatements.jump, 11, 1))
+>id : Symbol(id, Decl(invalidReturnStatements.jump, 15, 29))
+
+function fn11(): D { return new C(); }
+>fn11 : Symbol(fn11, Decl(invalidReturnStatements.jump, 15, 41))
+>D : Symbol(D, Decl(invalidReturnStatements.jump, 11, 1))
+>C : Symbol(C, Decl(invalidReturnStatements.jump, 7, 26))
+
+

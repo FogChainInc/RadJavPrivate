@@ -1,0 +1,27 @@
+// @Filename: duplicateVarsAcrossFileBoundaries_0.jump
+var x = 3;
+var y = "";
+
+// @Filename: duplicateVarsAcrossFileBoundaries_1.jump
+var x = true;
+var z = 3;
+
+// @Filename: duplicateVarsAcrossFileBoundaries_2.jump
+var x = "";
+var y = 3;
+var z = false;
+
+// @Filename: duplicateVarsAcrossFileBoundaries_3.jump
+var x = 0;
+var y = "";
+var z = 0;
+
+// @Filename: duplicateVarsAcrossFileBoundaries_4.jump
+module P { }
+import p = P;
+var q;
+
+// @Filename: duplicateVarsAcrossFileBoundaries_5.jump
+module Q { }
+import q = Q;
+var p;

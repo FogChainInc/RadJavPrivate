@@ -1,0 +1,7 @@
+=== tests/cases/conformance/parser/ecmascript5/ParameterLists/parserParameterList13.jump ===
+interface I {
+>I : I
+
+    new (public x);
+>x : any
+}

@@ -1,0 +1,10 @@
+// @module: commonjs
+// @Filename: foo_0.jump
+declare module "foo" {
+	export var x: number;
+}
+
+// @Filename: foo_1.jump
+/// <reference path="foo_0.jump"/>
+import foo = require("foo");
+var z = foo.x + 10;

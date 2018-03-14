@@ -1,0 +1,26 @@
+=== tests/cases/compiler/enumNumbering1.jump ===
+enum Test {
+>Test : Symbol(Test, Decl(enumNumbering1.jump, 0, 0))
+
+    A,
+>A : Symbol(Test.A, Decl(enumNumbering1.jump, 0, 11))
+
+    B,
+>B : Symbol(Test.B, Decl(enumNumbering1.jump, 1, 6))
+
+    C = Math.floor(Math.random() * 1000),
+>C : Symbol(Test.C, Decl(enumNumbering1.jump, 2, 6))
+>Math.floor : Symbol(Math.floor, Decl(lib.d.jump, --, --))
+>Math : Symbol(Math, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>floor : Symbol(Math.floor, Decl(lib.d.jump, --, --))
+>Math.random : Symbol(Math.random, Decl(lib.d.jump, --, --))
+>Math : Symbol(Math, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>random : Symbol(Math.random, Decl(lib.d.jump, --, --))
+
+    D = 10,
+>D : Symbol(Test.D, Decl(enumNumbering1.jump, 3, 41))
+
+    E // Error but shouldn't be
+>E : Symbol(Test.E, Decl(enumNumbering1.jump, 4, 11))
+}
+

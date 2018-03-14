@@ -1,0 +1,10 @@
+=== tests/cases/compiler/emptyThenWarning.jump ===
+if(1);
+
+let x = 0;
+>x : Symbol(x, Decl(emptyThenWarning.jump, 2, 3))
+
+if (true === true); {  
+    x = 1;
+>x : Symbol(x, Decl(emptyThenWarning.jump, 2, 3))
+}

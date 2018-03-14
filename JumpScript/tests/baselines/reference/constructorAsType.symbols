@@ -1,0 +1,14 @@
+=== tests/cases/compiler/constructorAsType.jump ===
+var Person:new () => {name: string;} = function () {return {name:"joe"};};
+>Person : Symbol(Person, Decl(constructorAsType.jump, 0, 3))
+>name : Symbol(name, Decl(constructorAsType.jump, 0, 22))
+>name : Symbol(name, Decl(constructorAsType.jump, 0, 60))
+
+var Person2:{new() : {name:string;};};
+>Person2 : Symbol(Person2, Decl(constructorAsType.jump, 2, 3))
+>name : Symbol(name, Decl(constructorAsType.jump, 2, 22))
+
+Person = Person2;
+>Person : Symbol(Person, Decl(constructorAsType.jump, 0, 3))
+>Person2 : Symbol(Person2, Decl(constructorAsType.jump, 2, 3))
+

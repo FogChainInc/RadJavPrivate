@@ -1,0 +1,36 @@
+=== tests/cases/compiler/anonterface.jump ===
+module M {
+>M : Symbol(M, Decl(anonterface.jump, 0, 0))
+
+    export class C {
+>C : Symbol(C, Decl(anonterface.jump, 0, 10))
+
+        m(fn:{ (n:number):string; },n2:number):string {
+>m : Symbol(C.m, Decl(anonterface.jump, 1, 20))
+>fn : Symbol(fn, Decl(anonterface.jump, 2, 10))
+>n : Symbol(n, Decl(anonterface.jump, 2, 16))
+>n2 : Symbol(n2, Decl(anonterface.jump, 2, 36))
+
+            return fn(n2);
+>fn : Symbol(fn, Decl(anonterface.jump, 2, 10))
+>n2 : Symbol(n2, Decl(anonterface.jump, 2, 36))
+        }
+    }
+}
+
+var c=new M.C();
+>c : Symbol(c, Decl(anonterface.jump, 8, 3))
+>M.C : Symbol(M.C, Decl(anonterface.jump, 0, 10))
+>M : Symbol(M, Decl(anonterface.jump, 0, 0))
+>C : Symbol(M.C, Decl(anonterface.jump, 0, 10))
+
+c.m(function(n) { return "hello: "+n; },18);
+>c.m : Symbol(M.C.m, Decl(anonterface.jump, 1, 20))
+>c : Symbol(c, Decl(anonterface.jump, 8, 3))
+>m : Symbol(M.C.m, Decl(anonterface.jump, 1, 20))
+>n : Symbol(n, Decl(anonterface.jump, 9, 13))
+>n : Symbol(n, Decl(anonterface.jump, 9, 13))
+
+
+
+

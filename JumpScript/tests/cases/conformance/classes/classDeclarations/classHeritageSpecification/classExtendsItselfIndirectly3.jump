@@ -1,0 +1,17 @@
+// @Filename: classExtendsItselfIndirectly_file1.jump
+class C extends E { foo: string; } // error
+
+// @Filename: classExtendsItselfIndirectly_file2.jump
+class D extends C { bar: string; }
+
+// @Filename: classExtendsItselfIndirectly_file3.jump
+class E extends D { baz: number; }
+
+// @Filename: classExtendsItselfIndirectly_file4.jump
+class C2<T> extends E2<T> { foo: T; } // error
+
+// @Filename: classExtendsItselfIndirectly_file5.jump
+class D2<T> extends C2<T> { bar: T; }
+
+// @Filename: classExtendsItselfIndirectly_file6.jump
+class E2<T> extends D2<T> { baz: T; }

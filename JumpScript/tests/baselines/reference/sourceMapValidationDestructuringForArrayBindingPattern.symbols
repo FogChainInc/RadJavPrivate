@@ -1,0 +1,365 @@
+=== tests/cases/compiler/sourceMapValidationDestructuringForArrayBindingPattern.jump ===
+declare var console: {
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 11))
+
+    log(msg: any): void;
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>msg : Symbol(msg, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 1, 8))
+}
+type Robot = [number, string, string];
+>Robot : Symbol(Robot, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 2, 1))
+
+type MultiSkilledRobot = [string, [string, string]];
+>MultiSkilledRobot : Symbol(MultiSkilledRobot, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 3, 38))
+
+let robotA: Robot = [1, "mower", "mowing"];
+>robotA : Symbol(robotA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 6, 3))
+>Robot : Symbol(Robot, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 2, 1))
+
+function getRobot() {
+>getRobot : Symbol(getRobot, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 6, 43))
+
+    return robotA;
+>robotA : Symbol(robotA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 6, 3))
+}
+
+let multiRobotA: MultiSkilledRobot = ["mower", ["mowing", ""]];
+>multiRobotA : Symbol(multiRobotA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 11, 3))
+>MultiSkilledRobot : Symbol(MultiSkilledRobot, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 3, 38))
+
+let multiRobotB: MultiSkilledRobot = ["trimmer", ["trimming", "edging"]];
+>multiRobotB : Symbol(multiRobotB, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 12, 3))
+>MultiSkilledRobot : Symbol(MultiSkilledRobot, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 3, 38))
+
+function getMultiRobot() {
+>getMultiRobot : Symbol(getMultiRobot, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 12, 73))
+
+    return multiRobotA;
+>multiRobotA : Symbol(multiRobotA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 11, 3))
+}
+
+for (let [, nameA] = robotA, i = 0; i < 1; i++) {
+>nameA : Symbol(nameA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 17, 11))
+>robotA : Symbol(robotA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 6, 3))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 17, 28))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 17, 28))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 17, 28))
+
+    console.log(nameA);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>nameA : Symbol(nameA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 17, 11))
+}
+for (let [, nameA] = getRobot(), i = 0; i < 1; i++) {
+>nameA : Symbol(nameA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 20, 11))
+>getRobot : Symbol(getRobot, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 6, 43))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 20, 32))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 20, 32))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 20, 32))
+
+    console.log(nameA);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>nameA : Symbol(nameA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 20, 11))
+}
+for (let [, nameA] = [2, "trimmer", "trimming"], i = 0; i < 1; i++) {
+>nameA : Symbol(nameA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 23, 11))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 23, 48))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 23, 48))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 23, 48))
+
+    console.log(nameA);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>nameA : Symbol(nameA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 23, 11))
+}
+for (let [, [primarySkillA, secondarySkillA]] = multiRobotA, i = 0; i < 1; i++) {
+>primarySkillA : Symbol(primarySkillA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 26, 13))
+>secondarySkillA : Symbol(secondarySkillA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 26, 27))
+>multiRobotA : Symbol(multiRobotA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 11, 3))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 26, 60))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 26, 60))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 26, 60))
+
+    console.log(primarySkillA);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>primarySkillA : Symbol(primarySkillA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 26, 13))
+}
+for (let [, [primarySkillA, secondarySkillA]] = getMultiRobot(), i = 0; i < 1; i++) {
+>primarySkillA : Symbol(primarySkillA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 29, 13))
+>secondarySkillA : Symbol(secondarySkillA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 29, 27))
+>getMultiRobot : Symbol(getMultiRobot, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 12, 73))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 29, 64))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 29, 64))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 29, 64))
+
+    console.log(primarySkillA);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>primarySkillA : Symbol(primarySkillA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 29, 13))
+}
+for (let [, [primarySkillA, secondarySkillA]] = ["trimmer", ["trimming", "edging"]], i = 0; i < 1; i++) {
+>primarySkillA : Symbol(primarySkillA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 32, 13))
+>secondarySkillA : Symbol(secondarySkillA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 32, 27))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 32, 84))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 32, 84))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 32, 84))
+
+    console.log(primarySkillA);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>primarySkillA : Symbol(primarySkillA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 32, 13))
+}
+
+for (let [numberB] = robotA, i = 0; i < 1; i++) {
+>numberB : Symbol(numberB, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 36, 10))
+>robotA : Symbol(robotA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 6, 3))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 36, 28))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 36, 28))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 36, 28))
+
+    console.log(numberB);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>numberB : Symbol(numberB, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 36, 10))
+}
+for (let [numberB] = getRobot(), i = 0; i < 1; i++) {
+>numberB : Symbol(numberB, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 39, 10))
+>getRobot : Symbol(getRobot, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 6, 43))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 39, 32))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 39, 32))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 39, 32))
+
+    console.log(numberB);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>numberB : Symbol(numberB, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 39, 10))
+}
+for (let [numberB] = [2, "trimmer", "trimming"], i = 0; i < 1; i++) {
+>numberB : Symbol(numberB, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 42, 10))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 42, 48))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 42, 48))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 42, 48))
+
+    console.log(numberB);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>numberB : Symbol(numberB, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 42, 10))
+}
+for (let [nameB] = multiRobotA, i = 0; i < 1; i++) {
+>nameB : Symbol(nameB, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 45, 10))
+>multiRobotA : Symbol(multiRobotA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 11, 3))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 45, 31))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 45, 31))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 45, 31))
+
+    console.log(nameB);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>nameB : Symbol(nameB, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 45, 10))
+}
+for (let [nameB] = getMultiRobot(), i = 0; i < 1; i++) {
+>nameB : Symbol(nameB, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 48, 10))
+>getMultiRobot : Symbol(getMultiRobot, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 12, 73))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 48, 35))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 48, 35))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 48, 35))
+
+    console.log(nameB);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>nameB : Symbol(nameB, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 48, 10))
+}
+for (let [nameB] = ["trimmer", ["trimming", "edging"]], i = 0; i < 1; i++) {
+>nameB : Symbol(nameB, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 51, 10))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 51, 55))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 51, 55))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 51, 55))
+
+    console.log(nameB);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>nameB : Symbol(nameB, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 51, 10))
+}
+
+for (let [numberA2, nameA2, skillA2] = robotA, i = 0; i < 1; i++) {
+>numberA2 : Symbol(numberA2, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 55, 10))
+>nameA2 : Symbol(nameA2, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 55, 19))
+>skillA2 : Symbol(skillA2, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 55, 27))
+>robotA : Symbol(robotA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 6, 3))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 55, 46))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 55, 46))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 55, 46))
+
+    console.log(nameA2);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>nameA2 : Symbol(nameA2, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 55, 19))
+}
+for (let [numberA2, nameA2, skillA2] = getRobot(), i = 0; i < 1; i++) {
+>numberA2 : Symbol(numberA2, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 58, 10))
+>nameA2 : Symbol(nameA2, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 58, 19))
+>skillA2 : Symbol(skillA2, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 58, 27))
+>getRobot : Symbol(getRobot, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 6, 43))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 58, 50))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 58, 50))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 58, 50))
+
+    console.log(nameA2);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>nameA2 : Symbol(nameA2, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 58, 19))
+}
+for (let [numberA2, nameA2, skillA2] = [2, "trimmer", "trimming"], i = 0; i < 1; i++) {
+>numberA2 : Symbol(numberA2, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 61, 10))
+>nameA2 : Symbol(nameA2, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 61, 19))
+>skillA2 : Symbol(skillA2, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 61, 27))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 61, 66))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 61, 66))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 61, 66))
+
+    console.log(nameA2);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>nameA2 : Symbol(nameA2, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 61, 19))
+}
+for (let [nameMA, [primarySkillA, secondarySkillA]] = multiRobotA, i = 0; i < 1; i++) {
+>nameMA : Symbol(nameMA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 64, 10))
+>primarySkillA : Symbol(primarySkillA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 64, 19))
+>secondarySkillA : Symbol(secondarySkillA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 64, 33))
+>multiRobotA : Symbol(multiRobotA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 11, 3))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 64, 66))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 64, 66))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 64, 66))
+
+    console.log(nameMA);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>nameMA : Symbol(nameMA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 64, 10))
+}
+for (let [nameMA, [primarySkillA, secondarySkillA]] = getMultiRobot(), i = 0; i < 1; i++) {
+>nameMA : Symbol(nameMA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 67, 10))
+>primarySkillA : Symbol(primarySkillA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 67, 19))
+>secondarySkillA : Symbol(secondarySkillA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 67, 33))
+>getMultiRobot : Symbol(getMultiRobot, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 12, 73))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 67, 70))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 67, 70))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 67, 70))
+
+    console.log(nameMA);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>nameMA : Symbol(nameMA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 67, 10))
+}
+for (let [nameMA, [primarySkillA, secondarySkillA]] = ["trimmer", ["trimming", "edging"]], i = 0; i < 1; i++) {
+>nameMA : Symbol(nameMA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 70, 10))
+>primarySkillA : Symbol(primarySkillA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 70, 19))
+>secondarySkillA : Symbol(secondarySkillA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 70, 33))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 70, 90))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 70, 90))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 70, 90))
+
+    console.log(nameMA);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>nameMA : Symbol(nameMA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 70, 10))
+}
+
+for (let [numberA3, ...robotAInfo] = robotA, i = 0; i < 1; i++) {
+>numberA3 : Symbol(numberA3, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 74, 10))
+>robotAInfo : Symbol(robotAInfo, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 74, 19))
+>robotA : Symbol(robotA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 6, 3))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 74, 44))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 74, 44))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 74, 44))
+
+    console.log(numberA3);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>numberA3 : Symbol(numberA3, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 74, 10))
+}
+for (let [numberA3, ...robotAInfo] = getRobot(), i = 0; i < 1; i++) {
+>numberA3 : Symbol(numberA3, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 77, 10))
+>robotAInfo : Symbol(robotAInfo, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 77, 19))
+>getRobot : Symbol(getRobot, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 6, 43))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 77, 48))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 77, 48))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 77, 48))
+
+    console.log(numberA3);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>numberA3 : Symbol(numberA3, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 77, 10))
+}
+for (let [numberA3, ...robotAInfo] = [2, "trimmer", "trimming"], i = 0; i < 1; i++) {
+>numberA3 : Symbol(numberA3, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 80, 10))
+>robotAInfo : Symbol(robotAInfo, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 80, 19))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 80, 64))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 80, 64))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 80, 64))
+
+    console.log(numberA3);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>numberA3 : Symbol(numberA3, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 80, 10))
+}
+for (let [...multiRobotAInfo] = multiRobotA, i = 0; i < 1; i++) {
+>multiRobotAInfo : Symbol(multiRobotAInfo, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 83, 10))
+>multiRobotA : Symbol(multiRobotA, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 11, 3))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 83, 44))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 83, 44))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 83, 44))
+
+    console.log(multiRobotAInfo);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>multiRobotAInfo : Symbol(multiRobotAInfo, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 83, 10))
+}
+for (let [...multiRobotAInfo] = getMultiRobot(), i = 0; i < 1; i++) {
+>multiRobotAInfo : Symbol(multiRobotAInfo, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 86, 10))
+>getMultiRobot : Symbol(getMultiRobot, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 12, 73))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 86, 48))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 86, 48))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 86, 48))
+
+    console.log(multiRobotAInfo);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>multiRobotAInfo : Symbol(multiRobotAInfo, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 86, 10))
+}
+for (let [...multiRobotAInfo] = ["trimmer", ["trimming", "edging"]], i = 0; i < 1; i++) {
+>multiRobotAInfo : Symbol(multiRobotAInfo, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 89, 10))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 89, 68))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 89, 68))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 89, 68))
+
+    console.log(multiRobotAInfo);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 0, 22))
+>multiRobotAInfo : Symbol(multiRobotAInfo, Decl(sourceMapValidationDestructuringForArrayBindingPattern.jump, 89, 10))
+}

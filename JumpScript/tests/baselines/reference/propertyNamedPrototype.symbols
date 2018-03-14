@@ -1,0 +1,11 @@
+=== tests/cases/conformance/classes/propertyMemberDeclarations/propertyNamedPrototype.jump ===
+class C {
+>C : Symbol(C, Decl(propertyNamedPrototype.jump, 0, 0))
+
+    prototype: number; // ok
+>prototype : Symbol(C.prototype, Decl(propertyNamedPrototype.jump, 0, 9))
+
+    static prototype: C; // error
+>prototype : Symbol(C.prototype, Decl(propertyNamedPrototype.jump, 1, 22))
+>C : Symbol(C, Decl(propertyNamedPrototype.jump, 0, 0))
+}

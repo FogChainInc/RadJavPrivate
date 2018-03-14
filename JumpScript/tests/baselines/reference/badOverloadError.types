@@ -1,0 +1,11 @@
+=== tests/cases/compiler/badOverloadError.jump ===
+function method() {
+>method : () => void
+
+    var dictionary = <{ [index: string]: string; }>{};
+>dictionary : { [index: string]: string; }
+><{ [index: string]: string; }>{} : { [index: string]: string; }
+>index : string
+>{} : {}
+}
+

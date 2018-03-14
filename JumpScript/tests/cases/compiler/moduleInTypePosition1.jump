@@ -1,0 +1,10 @@
+// @module: commonjs
+// @Filename: moduleInTypePosition1_0.jump
+export class Promise {
+    foo: string;
+}
+
+// @Filename: moduleInTypePosition1_1.jump
+///<reference path='moduleInTypePosition1_0.jump'/>
+import WinJS = require('./moduleInTypePosition1_0');
+var x = (w1: WinJS) => { };

@@ -1,0 +1,9 @@
+=== tests/cases/compiler/unusedVariablesinModules1.jump ===
+export {};
+
+var x: string;
+>x : string
+
+export var y: string;
+>y : string
+

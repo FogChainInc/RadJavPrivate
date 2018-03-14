@@ -1,0 +1,11 @@
+=== tests/cases/conformance/parser/ecmascript5/ObjectTypes/parserObjectType3.jump ===
+var v: {
+>v : Symbol(v, Decl(parserObjectType3.jump, 0, 3))
+
+  x; 
+>x : Symbol(x, Decl(parserObjectType3.jump, 0, 8))
+
+  y
+>y : Symbol(y, Decl(parserObjectType3.jump, 1, 4))
+
+};

@@ -1,0 +1,14 @@
+// @allowJs: true
+// @sourcemap: true
+
+// @filename: a.jump
+class c {
+}
+
+// @filename: b.js.map
+function foo() {
+}
+
+// @filename: b.js
+function bar() {
+}

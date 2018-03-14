@@ -1,0 +1,49 @@
+tests/cases/conformance/jsx/file.jmpx(8,10): error TS2304: Cannot find name 'React'.
+tests/cases/conformance/jsx/file.jmpx(9,10): error TS2304: Cannot find name 'React'.
+tests/cases/conformance/jsx/file.jmpx(10,10): error TS2304: Cannot find name 'React'.
+tests/cases/conformance/jsx/file.jmpx(11,10): error TS2304: Cannot find name 'React'.
+tests/cases/conformance/jsx/file.jmpx(14,10): error TS2304: Cannot find name 'React'.
+tests/cases/conformance/jsx/file.jmpx(15,10): error TS2304: Cannot find name 'React'.
+tests/cases/conformance/jsx/file.jmpx(16,10): error TS2304: Cannot find name 'React'.
+tests/cases/conformance/jsx/file.jmpx(17,10): error TS2304: Cannot find name 'React'.
+tests/cases/conformance/jsx/file.jmpx(18,10): error TS2304: Cannot find name 'React'.
+
+
+==== tests/cases/conformance/jsx/file.jmpx (9 errors) ====
+    declare module JSX {
+    	interface Element { }
+    	interface IntrinsicElements {
+    		[s: string]: any;
+    	}
+    }
+    
+    var m = <div x-y="val"></div>;
+             ~~~
+!!! error TS2304: Cannot find name 'React'.
+    var n = <div xx-y="val"></div>;
+             ~~~
+!!! error TS2304: Cannot find name 'React'.
+    var o = <div x-yy="val"></div>;
+             ~~~
+!!! error TS2304: Cannot find name 'React'.
+    var p = <div xx-yy="val"></div>;
+             ~~~
+!!! error TS2304: Cannot find name 'React'.
+    
+    // Investigation
+    var a = <div x="val"></div>;
+             ~~~
+!!! error TS2304: Cannot find name 'React'.
+    var b = <div xx="val"></div>;
+             ~~~
+!!! error TS2304: Cannot find name 'React'.
+    var c = <div xxx="val"></div>;
+             ~~~
+!!! error TS2304: Cannot find name 'React'.
+    var d = <div xxxx="val"></div>;
+             ~~~
+!!! error TS2304: Cannot find name 'React'.
+    var e = <div xxxxx="val"></div>;
+             ~~~
+!!! error TS2304: Cannot find name 'React'.
+    

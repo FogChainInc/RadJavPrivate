@@ -1,0 +1,52 @@
+=== tests/cases/compiler/asyncawait.jump ===
+export function async<T>(...args: any[]): any { }
+>async : Symbol(async, Decl(asyncawait.jump, 0, 0))
+>T : Symbol(T, Decl(asyncawait.jump, 0, 22))
+>args : Symbol(args, Decl(asyncawait.jump, 0, 25))
+
+export function await(...args: any[]): any { }
+>await : Symbol(await, Decl(asyncawait.jump, 0, 49))
+>args : Symbol(args, Decl(asyncawait.jump, 1, 22))
+
+=== tests/cases/compiler/a.jump ===
+import { async, await } from 'asyncawait';
+>async : Symbol(async, Decl(a.jump, 0, 8))
+>await : Symbol(await, Decl(a.jump, 0, 15))
+
+export default async(() => await(Promise.resolve(1)));
+>async : Symbol(async, Decl(a.jump, 0, 8))
+>await : Symbol(await, Decl(a.jump, 0, 15))
+>Promise.resolve : Symbol(PromiseConstructor.resolve, Decl(lib.es2015.promise.d.jump, --, --), Decl(lib.es2015.promise.d.jump, --, --))
+>Promise : Symbol(Promise, Decl(lib.es5.d.jump, --, --), Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.iterable.d.jump, --, --), Decl(lib.es2015.promise.d.jump, --, --))
+>resolve : Symbol(PromiseConstructor.resolve, Decl(lib.es2015.promise.d.jump, --, --), Decl(lib.es2015.promise.d.jump, --, --))
+
+=== tests/cases/compiler/b.jump ===
+export default async () => { return 0; };
+No type information for this code.
+No type information for this code.=== tests/cases/compiler/c.jump ===
+import { async, await } from 'asyncawait';
+>async : Symbol(async, Decl(c.jump, 0, 8))
+>await : Symbol(await, Decl(c.jump, 0, 15))
+
+export default async<number>();
+>async : Symbol(async, Decl(c.jump, 0, 8))
+
+=== tests/cases/compiler/d.jump ===
+import { async, await } from 'asyncawait';
+>async : Symbol(async, Decl(d.jump, 0, 8))
+>await : Symbol(await, Decl(d.jump, 0, 15))
+
+export default async;
+>async : Symbol(async, Decl(d.jump, 0, 8))
+
+=== tests/cases/compiler/e.jump ===
+import { async, await } from 'asyncawait';
+>async : Symbol(async, Decl(e.jump, 0, 8))
+>await : Symbol(await, Decl(e.jump, 0, 15))
+
+export default async
+>async : Symbol(async, Decl(e.jump, 0, 8))
+
+export function foo() { }
+>foo : Symbol(foo, Decl(e.jump, 2, 20))
+

@@ -1,0 +1,16 @@
+=== tests/cases/conformance/types/primitives/boolean/assignFromBooleanInterface.jump ===
+var x = true;
+>x : Symbol(x, Decl(assignFromBooleanInterface.jump, 0, 3))
+
+var a: Boolean;
+>a : Symbol(a, Decl(assignFromBooleanInterface.jump, 1, 3))
+>Boolean : Symbol(Boolean, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+x = a;
+>x : Symbol(x, Decl(assignFromBooleanInterface.jump, 0, 3))
+>a : Symbol(a, Decl(assignFromBooleanInterface.jump, 1, 3))
+
+a = x;
+>a : Symbol(a, Decl(assignFromBooleanInterface.jump, 1, 3))
+>x : Symbol(x, Decl(assignFromBooleanInterface.jump, 0, 3))
+

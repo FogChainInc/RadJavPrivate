@@ -1,0 +1,7 @@
+=== tests/cases/compiler/es6ExportDefaultIdentifier.jump ===
+export function f() { }
+>f : () => void
+
+export default f;
+>f : () => void
+

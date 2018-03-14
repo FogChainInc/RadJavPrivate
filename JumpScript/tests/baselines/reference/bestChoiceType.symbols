@@ -1,0 +1,62 @@
+=== tests/cases/compiler/bestChoiceType.jump ===
+// Repro from #10041
+
+(''.match(/ /) || []).map(s => s.toLowerCase());
+>(''.match(/ /) || []).map : Symbol(Array.map, Decl(lib.d.jump, --, --))
+>''.match : Symbol(String.match, Decl(lib.d.jump, --, --))
+>match : Symbol(String.match, Decl(lib.d.jump, --, --))
+>map : Symbol(Array.map, Decl(lib.d.jump, --, --))
+>s : Symbol(s, Decl(bestChoiceType.jump, 2, 26))
+>s.toLowerCase : Symbol(String.toLowerCase, Decl(lib.d.jump, --, --))
+>s : Symbol(s, Decl(bestChoiceType.jump, 2, 26))
+>toLowerCase : Symbol(String.toLowerCase, Decl(lib.d.jump, --, --))
+
+// Similar cases
+
+function f1() {
+>f1 : Symbol(f1, Decl(bestChoiceType.jump, 2, 48))
+
+    let x = ''.match(/ /);
+>x : Symbol(x, Decl(bestChoiceType.jump, 7, 7))
+>''.match : Symbol(String.match, Decl(lib.d.jump, --, --))
+>match : Symbol(String.match, Decl(lib.d.jump, --, --))
+
+    let y = x || [];
+>y : Symbol(y, Decl(bestChoiceType.jump, 8, 7))
+>x : Symbol(x, Decl(bestChoiceType.jump, 7, 7))
+
+    let z = y.map(s => s.toLowerCase());
+>z : Symbol(z, Decl(bestChoiceType.jump, 9, 7))
+>y.map : Symbol(Array.map, Decl(lib.d.jump, --, --))
+>y : Symbol(y, Decl(bestChoiceType.jump, 8, 7))
+>map : Symbol(Array.map, Decl(lib.d.jump, --, --))
+>s : Symbol(s, Decl(bestChoiceType.jump, 9, 18))
+>s.toLowerCase : Symbol(String.toLowerCase, Decl(lib.d.jump, --, --))
+>s : Symbol(s, Decl(bestChoiceType.jump, 9, 18))
+>toLowerCase : Symbol(String.toLowerCase, Decl(lib.d.jump, --, --))
+}
+
+function f2() {
+>f2 : Symbol(f2, Decl(bestChoiceType.jump, 10, 1))
+
+    let x = ''.match(/ /);
+>x : Symbol(x, Decl(bestChoiceType.jump, 13, 7))
+>''.match : Symbol(String.match, Decl(lib.d.jump, --, --))
+>match : Symbol(String.match, Decl(lib.d.jump, --, --))
+
+    let y = x ? x : [];
+>y : Symbol(y, Decl(bestChoiceType.jump, 14, 7))
+>x : Symbol(x, Decl(bestChoiceType.jump, 13, 7))
+>x : Symbol(x, Decl(bestChoiceType.jump, 13, 7))
+
+    let z = y.map(s => s.toLowerCase());
+>z : Symbol(z, Decl(bestChoiceType.jump, 15, 7))
+>y.map : Symbol(Array.map, Decl(lib.d.jump, --, --))
+>y : Symbol(y, Decl(bestChoiceType.jump, 14, 7))
+>map : Symbol(Array.map, Decl(lib.d.jump, --, --))
+>s : Symbol(s, Decl(bestChoiceType.jump, 15, 18))
+>s.toLowerCase : Symbol(String.toLowerCase, Decl(lib.d.jump, --, --))
+>s : Symbol(s, Decl(bestChoiceType.jump, 15, 18))
+>toLowerCase : Symbol(String.toLowerCase, Decl(lib.d.jump, --, --))
+}
+

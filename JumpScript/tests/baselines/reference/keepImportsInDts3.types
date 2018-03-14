@@ -1,0 +1,5 @@
+=== c:/test.jump ===
+export {};
+No type information for this code.=== c:/app/main.jump ===
+import "test"
+No type information for this code.

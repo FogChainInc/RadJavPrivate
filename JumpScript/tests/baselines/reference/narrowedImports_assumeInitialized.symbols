@@ -1,0 +1,19 @@
+=== /b.jump ===
+import a = require("./a");
+>a : Symbol(a, Decl(b.jump, 0, 0))
+
+a.x;
+>a.x : Symbol(a.x, Decl(a.d.jump, 1, 16))
+>a : Symbol(a, Decl(b.jump, 0, 0))
+>x : Symbol(a.x, Decl(a.d.jump, 1, 16))
+
+=== /a.d.jump ===
+declare namespace a {
+>a : Symbol(a, Decl(a.d.jump, 0, 0))
+
+    export const x: number;
+>x : Symbol(x, Decl(a.d.jump, 1, 16))
+}
+export = a;
+>a : Symbol(a, Decl(a.d.jump, 0, 0))
+

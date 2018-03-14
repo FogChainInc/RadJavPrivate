@@ -1,0 +1,17 @@
+{
+    "scenario": "relative - global",
+    "projectRoot": "tests/cases/projects/relative-global",
+    "inputFiles": [
+        "consume.jump"
+    ],
+    "runTest": true,
+    "resolvedInputFiles": [
+        "lib.d.jump",
+        "decl.jump",
+        "consume.jump"
+    ],
+    "emittedFiles": [
+        "decl.js",
+        "consume.js"
+    ]
+}

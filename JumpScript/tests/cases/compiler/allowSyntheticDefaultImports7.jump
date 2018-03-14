@@ -1,0 +1,10 @@
+// @module: system
+// @Filename: b.d.jump
+export function foo();
+
+export function bar();
+
+// @Filename: a.jump
+import { default as Foo } from "./b";
+Foo.bar();
+Foo.foo();

@@ -1,0 +1,10 @@
+=== tests/cases/compiler/exportAssignmentWithExports.jump ===
+export class C { }
+>C : Symbol(C, Decl(exportAssignmentWithExports.jump, 0, 0))
+
+class D { }
+>D : Symbol(D, Decl(exportAssignmentWithExports.jump, 0, 18))
+
+export = D;
+>D : Symbol(D, Decl(exportAssignmentWithExports.jump, 0, 18))
+

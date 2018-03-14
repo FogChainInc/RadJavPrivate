@@ -1,0 +1,13 @@
+// @allowJs: true
+// @out: out.js
+// @declaration: true
+// @filename: a.jump
+function foo() {
+    return 30;
+}
+
+// @filename: b.js
+function foo() {
+    return 10;
+}
+

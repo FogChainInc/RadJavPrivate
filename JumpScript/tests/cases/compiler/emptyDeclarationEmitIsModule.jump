@@ -1,0 +1,9 @@
+// @declaration: true
+// @filename: module.jump
+import * as i from "./index";
+class Foo {}
+// @filename: index.jump
+import {} from "./module";
+export interface Bar {
+    x: string
+}

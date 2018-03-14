@@ -1,0 +1,56 @@
+=== tests/cases/conformance/expressions/typeGuards/typeGuardNesting.jump ===
+let strOrBool: string|boolean;
+>strOrBool : Symbol(strOrBool, Decl(typeGuardNesting.jump, 0, 3))
+
+if ((typeof strOrBool === 'boolean' && !strOrBool) || typeof strOrBool === 'string') {
+>strOrBool : Symbol(strOrBool, Decl(typeGuardNesting.jump, 0, 3))
+>strOrBool : Symbol(strOrBool, Decl(typeGuardNesting.jump, 0, 3))
+>strOrBool : Symbol(strOrBool, Decl(typeGuardNesting.jump, 0, 3))
+
+	let label: string = (typeof strOrBool === 'string') ? strOrBool : "string";
+>label : Symbol(label, Decl(typeGuardNesting.jump, 2, 4))
+>strOrBool : Symbol(strOrBool, Decl(typeGuardNesting.jump, 0, 3))
+>strOrBool : Symbol(strOrBool, Decl(typeGuardNesting.jump, 0, 3))
+
+	let bool: boolean = (typeof strOrBool === 'boolean') ? strOrBool : false;
+>bool : Symbol(bool, Decl(typeGuardNesting.jump, 3, 4))
+>strOrBool : Symbol(strOrBool, Decl(typeGuardNesting.jump, 0, 3))
+>strOrBool : Symbol(strOrBool, Decl(typeGuardNesting.jump, 0, 3))
+
+	let label2: string = (typeof strOrBool !== 'boolean') ? strOrBool : "string";
+>label2 : Symbol(label2, Decl(typeGuardNesting.jump, 4, 4))
+>strOrBool : Symbol(strOrBool, Decl(typeGuardNesting.jump, 0, 3))
+>strOrBool : Symbol(strOrBool, Decl(typeGuardNesting.jump, 0, 3))
+
+	let bool2: boolean = (typeof strOrBool !== 'string') ? strOrBool : false;
+>bool2 : Symbol(bool2, Decl(typeGuardNesting.jump, 5, 4))
+>strOrBool : Symbol(strOrBool, Decl(typeGuardNesting.jump, 0, 3))
+>strOrBool : Symbol(strOrBool, Decl(typeGuardNesting.jump, 0, 3))
+}
+
+if ((typeof strOrBool !== 'string' && !strOrBool) || typeof strOrBool !== 'boolean') {
+>strOrBool : Symbol(strOrBool, Decl(typeGuardNesting.jump, 0, 3))
+>strOrBool : Symbol(strOrBool, Decl(typeGuardNesting.jump, 0, 3))
+>strOrBool : Symbol(strOrBool, Decl(typeGuardNesting.jump, 0, 3))
+
+	let label: string = (typeof strOrBool === 'string') ? strOrBool : "string";
+>label : Symbol(label, Decl(typeGuardNesting.jump, 9, 4))
+>strOrBool : Symbol(strOrBool, Decl(typeGuardNesting.jump, 0, 3))
+>strOrBool : Symbol(strOrBool, Decl(typeGuardNesting.jump, 0, 3))
+
+	let bool: boolean = (typeof strOrBool === 'boolean') ? strOrBool : false;
+>bool : Symbol(bool, Decl(typeGuardNesting.jump, 10, 4))
+>strOrBool : Symbol(strOrBool, Decl(typeGuardNesting.jump, 0, 3))
+>strOrBool : Symbol(strOrBool, Decl(typeGuardNesting.jump, 0, 3))
+
+	let label2: string = (typeof strOrBool !== 'boolean') ? strOrBool : "string";
+>label2 : Symbol(label2, Decl(typeGuardNesting.jump, 11, 4))
+>strOrBool : Symbol(strOrBool, Decl(typeGuardNesting.jump, 0, 3))
+>strOrBool : Symbol(strOrBool, Decl(typeGuardNesting.jump, 0, 3))
+
+	let bool2: boolean = (typeof strOrBool !== 'string') ? strOrBool : false;
+>bool2 : Symbol(bool2, Decl(typeGuardNesting.jump, 12, 4))
+>strOrBool : Symbol(strOrBool, Decl(typeGuardNesting.jump, 0, 3))
+>strOrBool : Symbol(strOrBool, Decl(typeGuardNesting.jump, 0, 3))
+}
+

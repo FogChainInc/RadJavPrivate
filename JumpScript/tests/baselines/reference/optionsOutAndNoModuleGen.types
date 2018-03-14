@@ -1,0 +1,5 @@
+=== tests/cases/compiler/optionsOutAndNoModuleGen.jump ===
+export var x = 10;
+>x : number
+>10 : 10
+

@@ -1,0 +1,107 @@
+=== tests/cases/conformance/classes/members/constructorFunctionTypes/classWithBaseClassButNoConstructor.jump ===
+class Base {
+>Base : Symbol(Base, Decl(classWithBaseClassButNoConstructor.jump, 0, 0))
+
+    constructor(x: number) { }
+>x : Symbol(x, Decl(classWithBaseClassButNoConstructor.jump, 1, 16))
+}
+
+class C extends Base {
+>C : Symbol(C, Decl(classWithBaseClassButNoConstructor.jump, 2, 1))
+>Base : Symbol(Base, Decl(classWithBaseClassButNoConstructor.jump, 0, 0))
+
+    foo: string;
+>foo : Symbol(C.foo, Decl(classWithBaseClassButNoConstructor.jump, 4, 22))
+}
+
+var r = C;
+>r : Symbol(r, Decl(classWithBaseClassButNoConstructor.jump, 8, 3))
+>C : Symbol(C, Decl(classWithBaseClassButNoConstructor.jump, 2, 1))
+
+var c = new C(); // error
+>c : Symbol(c, Decl(classWithBaseClassButNoConstructor.jump, 9, 3))
+>C : Symbol(C, Decl(classWithBaseClassButNoConstructor.jump, 2, 1))
+
+var c2 = new C(1); // ok
+>c2 : Symbol(c2, Decl(classWithBaseClassButNoConstructor.jump, 10, 3))
+>C : Symbol(C, Decl(classWithBaseClassButNoConstructor.jump, 2, 1))
+
+class Base2<T,U> {
+>Base2 : Symbol(Base2, Decl(classWithBaseClassButNoConstructor.jump, 10, 18))
+>T : Symbol(T, Decl(classWithBaseClassButNoConstructor.jump, 12, 12))
+>U : Symbol(U, Decl(classWithBaseClassButNoConstructor.jump, 12, 14))
+
+    constructor(x: T) { }
+>x : Symbol(x, Decl(classWithBaseClassButNoConstructor.jump, 13, 16))
+>T : Symbol(T, Decl(classWithBaseClassButNoConstructor.jump, 12, 12))
+}
+
+class D<T,U> extends Base2<T,U> {
+>D : Symbol(D, Decl(classWithBaseClassButNoConstructor.jump, 14, 1))
+>T : Symbol(T, Decl(classWithBaseClassButNoConstructor.jump, 16, 8))
+>U : Symbol(U, Decl(classWithBaseClassButNoConstructor.jump, 16, 10))
+>Base2 : Symbol(Base2, Decl(classWithBaseClassButNoConstructor.jump, 10, 18))
+>T : Symbol(T, Decl(classWithBaseClassButNoConstructor.jump, 16, 8))
+>U : Symbol(U, Decl(classWithBaseClassButNoConstructor.jump, 16, 10))
+
+    foo: U;
+>foo : Symbol(D.foo, Decl(classWithBaseClassButNoConstructor.jump, 16, 33))
+>U : Symbol(U, Decl(classWithBaseClassButNoConstructor.jump, 16, 10))
+}
+
+var r2 = D;
+>r2 : Symbol(r2, Decl(classWithBaseClassButNoConstructor.jump, 20, 3))
+>D : Symbol(D, Decl(classWithBaseClassButNoConstructor.jump, 14, 1))
+
+var d = new D(); // error
+>d : Symbol(d, Decl(classWithBaseClassButNoConstructor.jump, 21, 3))
+>D : Symbol(D, Decl(classWithBaseClassButNoConstructor.jump, 14, 1))
+
+var d2 = new D(1); // ok
+>d2 : Symbol(d2, Decl(classWithBaseClassButNoConstructor.jump, 22, 3))
+>D : Symbol(D, Decl(classWithBaseClassButNoConstructor.jump, 14, 1))
+
+// specialized base class
+class D2<T, U> extends Base2<string, number> {
+>D2 : Symbol(D2, Decl(classWithBaseClassButNoConstructor.jump, 22, 18))
+>T : Symbol(T, Decl(classWithBaseClassButNoConstructor.jump, 25, 9))
+>U : Symbol(U, Decl(classWithBaseClassButNoConstructor.jump, 25, 11))
+>Base2 : Symbol(Base2, Decl(classWithBaseClassButNoConstructor.jump, 10, 18))
+
+    foo: U;
+>foo : Symbol(D2.foo, Decl(classWithBaseClassButNoConstructor.jump, 25, 46))
+>U : Symbol(U, Decl(classWithBaseClassButNoConstructor.jump, 25, 11))
+}
+
+var r3 = D2;
+>r3 : Symbol(r3, Decl(classWithBaseClassButNoConstructor.jump, 29, 3))
+>D2 : Symbol(D2, Decl(classWithBaseClassButNoConstructor.jump, 22, 18))
+
+var d3 = new D(); // error
+>d3 : Symbol(d3, Decl(classWithBaseClassButNoConstructor.jump, 30, 3))
+>D : Symbol(D, Decl(classWithBaseClassButNoConstructor.jump, 14, 1))
+
+var d4 = new D(1); // ok
+>d4 : Symbol(d4, Decl(classWithBaseClassButNoConstructor.jump, 31, 3))
+>D : Symbol(D, Decl(classWithBaseClassButNoConstructor.jump, 14, 1))
+
+class D3 extends Base2<string, number> {
+>D3 : Symbol(D3, Decl(classWithBaseClassButNoConstructor.jump, 31, 18))
+>Base2 : Symbol(Base2, Decl(classWithBaseClassButNoConstructor.jump, 10, 18))
+
+    foo: string;
+>foo : Symbol(D3.foo, Decl(classWithBaseClassButNoConstructor.jump, 33, 40))
+}
+
+var r4 = D3;
+>r4 : Symbol(r4, Decl(classWithBaseClassButNoConstructor.jump, 37, 3))
+>D3 : Symbol(D3, Decl(classWithBaseClassButNoConstructor.jump, 31, 18))
+
+var d5 = new D(); // error
+>d5 : Symbol(d5, Decl(classWithBaseClassButNoConstructor.jump, 38, 3))
+>D : Symbol(D, Decl(classWithBaseClassButNoConstructor.jump, 14, 1))
+
+var d6 = new D(1); // ok
+>d6 : Symbol(d6, Decl(classWithBaseClassButNoConstructor.jump, 39, 3))
+>D : Symbol(D, Decl(classWithBaseClassButNoConstructor.jump, 14, 1))
+

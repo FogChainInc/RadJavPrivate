@@ -1,0 +1,21 @@
+=== tests/cases/compiler/b.jump ===
+///<reference path='a.jump'/>
+interface I3 {
+>I3 : Symbol(I3, Decl(b.jump, 0, 0))
+}
+=== tests/cases/compiler/a.jump ===
+/*!=================
+    Keep this pinned
+   =================
+*/
+
+/*! Don't keep this pinned comment */
+interface I {
+>I : Symbol(I, Decl(a.jump, 0, 0))
+}
+
+// Don't keep this comment.
+interface I2 {
+>I2 : Symbol(I2, Decl(a.jump, 7, 1))
+}
+

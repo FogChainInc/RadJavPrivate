@@ -1,0 +1,4 @@
+//// [ClassAndModuleThatMergeWithStringIndexerAndExportedFunctionWithTypeIncompatibleWithIndexer.jump]
+ 
+
+//// [ClassAndModuleThatMergeWithStringIndexerAndExportedFunctionWithTypeIncompatibleWithIndexer.js]

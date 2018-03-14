@@ -1,0 +1,155 @@
+=== tests/cases/compiler/funcdecl.jump ===
+function simpleFunc() {
+>simpleFunc : Symbol(simpleFunc, Decl(funcdecl.jump, 0, 0))
+
+    return "this is my simple func";
+}
+var simpleFuncVar = simpleFunc;
+>simpleFuncVar : Symbol(simpleFuncVar, Decl(funcdecl.jump, 3, 3))
+>simpleFunc : Symbol(simpleFunc, Decl(funcdecl.jump, 0, 0))
+
+function anotherFuncNoReturn() {
+>anotherFuncNoReturn : Symbol(anotherFuncNoReturn, Decl(funcdecl.jump, 3, 31))
+}
+var anotherFuncNoReturnVar = anotherFuncNoReturn;
+>anotherFuncNoReturnVar : Symbol(anotherFuncNoReturnVar, Decl(funcdecl.jump, 7, 3))
+>anotherFuncNoReturn : Symbol(anotherFuncNoReturn, Decl(funcdecl.jump, 3, 31))
+
+function withReturn() : string{
+>withReturn : Symbol(withReturn, Decl(funcdecl.jump, 7, 49))
+
+    return "Hello";
+}
+var withReturnVar = withReturn;
+>withReturnVar : Symbol(withReturnVar, Decl(funcdecl.jump, 12, 3))
+>withReturn : Symbol(withReturn, Decl(funcdecl.jump, 7, 49))
+
+function withParams(a : string) : string{
+>withParams : Symbol(withParams, Decl(funcdecl.jump, 12, 31))
+>a : Symbol(a, Decl(funcdecl.jump, 14, 20))
+
+    return a;
+>a : Symbol(a, Decl(funcdecl.jump, 14, 20))
+}
+var withparamsVar = withParams;
+>withparamsVar : Symbol(withparamsVar, Decl(funcdecl.jump, 17, 3))
+>withParams : Symbol(withParams, Decl(funcdecl.jump, 12, 31))
+
+function withMultiParams(a : number, b, c: Object) {
+>withMultiParams : Symbol(withMultiParams, Decl(funcdecl.jump, 17, 31))
+>a : Symbol(a, Decl(funcdecl.jump, 19, 25))
+>b : Symbol(b, Decl(funcdecl.jump, 19, 36))
+>c : Symbol(c, Decl(funcdecl.jump, 19, 39))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+    return a;
+>a : Symbol(a, Decl(funcdecl.jump, 19, 25))
+}
+var withMultiParamsVar = withMultiParams;
+>withMultiParamsVar : Symbol(withMultiParamsVar, Decl(funcdecl.jump, 22, 3))
+>withMultiParams : Symbol(withMultiParams, Decl(funcdecl.jump, 17, 31))
+
+function withOptionalParams(a?: string) {
+>withOptionalParams : Symbol(withOptionalParams, Decl(funcdecl.jump, 22, 41))
+>a : Symbol(a, Decl(funcdecl.jump, 24, 28))
+}
+var withOptionalParamsVar = withOptionalParams;
+>withOptionalParamsVar : Symbol(withOptionalParamsVar, Decl(funcdecl.jump, 26, 3))
+>withOptionalParams : Symbol(withOptionalParams, Decl(funcdecl.jump, 22, 41))
+
+function withInitializedParams(a: string, b0, b = 30, c = "string value") {
+>withInitializedParams : Symbol(withInitializedParams, Decl(funcdecl.jump, 26, 47))
+>a : Symbol(a, Decl(funcdecl.jump, 28, 31))
+>b0 : Symbol(b0, Decl(funcdecl.jump, 28, 41))
+>b : Symbol(b, Decl(funcdecl.jump, 28, 45))
+>c : Symbol(c, Decl(funcdecl.jump, 28, 53))
+}
+var withInitializedParamsVar = withInitializedParams;
+>withInitializedParamsVar : Symbol(withInitializedParamsVar, Decl(funcdecl.jump, 30, 3))
+>withInitializedParams : Symbol(withInitializedParams, Decl(funcdecl.jump, 26, 47))
+
+function withOptionalInitializedParams(a: string, c: string = "hello string") {
+>withOptionalInitializedParams : Symbol(withOptionalInitializedParams, Decl(funcdecl.jump, 30, 53))
+>a : Symbol(a, Decl(funcdecl.jump, 32, 39))
+>c : Symbol(c, Decl(funcdecl.jump, 32, 49))
+}
+var withOptionalInitializedParamsVar = withOptionalInitializedParams;
+>withOptionalInitializedParamsVar : Symbol(withOptionalInitializedParamsVar, Decl(funcdecl.jump, 34, 3))
+>withOptionalInitializedParams : Symbol(withOptionalInitializedParams, Decl(funcdecl.jump, 30, 53))
+
+function withRestParams(a: string, ... myRestParameter : number[]) {
+>withRestParams : Symbol(withRestParams, Decl(funcdecl.jump, 34, 69))
+>a : Symbol(a, Decl(funcdecl.jump, 36, 24))
+>myRestParameter : Symbol(myRestParameter, Decl(funcdecl.jump, 36, 34))
+
+    return myRestParameter;
+>myRestParameter : Symbol(myRestParameter, Decl(funcdecl.jump, 36, 34))
+}
+var withRestParamsVar = withRestParams;
+>withRestParamsVar : Symbol(withRestParamsVar, Decl(funcdecl.jump, 39, 3))
+>withRestParams : Symbol(withRestParams, Decl(funcdecl.jump, 34, 69))
+
+function overload1(n: number) : string;
+>overload1 : Symbol(overload1, Decl(funcdecl.jump, 39, 39), Decl(funcdecl.jump, 41, 39), Decl(funcdecl.jump, 42, 39))
+>n : Symbol(n, Decl(funcdecl.jump, 41, 19))
+
+function overload1(s: string) : string;
+>overload1 : Symbol(overload1, Decl(funcdecl.jump, 39, 39), Decl(funcdecl.jump, 41, 39), Decl(funcdecl.jump, 42, 39))
+>s : Symbol(s, Decl(funcdecl.jump, 42, 19))
+
+function overload1(ns: any) {
+>overload1 : Symbol(overload1, Decl(funcdecl.jump, 39, 39), Decl(funcdecl.jump, 41, 39), Decl(funcdecl.jump, 42, 39))
+>ns : Symbol(ns, Decl(funcdecl.jump, 43, 19))
+
+    return ns.toString();
+>ns : Symbol(ns, Decl(funcdecl.jump, 43, 19))
+}
+var withOverloadSignature = overload1;
+>withOverloadSignature : Symbol(withOverloadSignature, Decl(funcdecl.jump, 46, 3))
+>overload1 : Symbol(overload1, Decl(funcdecl.jump, 39, 39), Decl(funcdecl.jump, 41, 39), Decl(funcdecl.jump, 42, 39))
+
+function f(n: () => void) { }
+>f : Symbol(f, Decl(funcdecl.jump, 46, 38))
+>n : Symbol(n, Decl(funcdecl.jump, 48, 11))
+
+module m2 {
+>m2 : Symbol(m2, Decl(funcdecl.jump, 48, 29))
+
+    export function foo(n: () => void ) {
+>foo : Symbol(foo, Decl(funcdecl.jump, 50, 11))
+>n : Symbol(n, Decl(funcdecl.jump, 51, 24))
+    }
+
+}
+
+m2.foo(() =>  {
+>m2.foo : Symbol(m2.foo, Decl(funcdecl.jump, 50, 11))
+>m2 : Symbol(m2, Decl(funcdecl.jump, 48, 29))
+>foo : Symbol(m2.foo, Decl(funcdecl.jump, 50, 11))
+
+    var b = 30;
+>b : Symbol(b, Decl(funcdecl.jump, 58, 7))
+
+    return b;
+>b : Symbol(b, Decl(funcdecl.jump, 58, 7))
+
+});
+
+
+declare function fooAmbient(n: number): string;
+>fooAmbient : Symbol(fooAmbient, Decl(funcdecl.jump, 60, 3))
+>n : Symbol(n, Decl(funcdecl.jump, 63, 28))
+
+declare function overloadAmbient(n: number): string;
+>overloadAmbient : Symbol(overloadAmbient, Decl(funcdecl.jump, 63, 47), Decl(funcdecl.jump, 65, 52))
+>n : Symbol(n, Decl(funcdecl.jump, 65, 33))
+
+declare function overloadAmbient(s: string): string;
+>overloadAmbient : Symbol(overloadAmbient, Decl(funcdecl.jump, 63, 47), Decl(funcdecl.jump, 65, 52))
+>s : Symbol(s, Decl(funcdecl.jump, 66, 33))
+
+var f2 = () => {
+>f2 : Symbol(f2, Decl(funcdecl.jump, 68, 3))
+
+    return "string";
+}

@@ -1,0 +1,10 @@
+=== tests/cases/compiler/idInProp.jump ===
+function f() {
+>f : () => void
+
+var t: { (f: any) : any; };
+>t : (f: any) => any
+>f : any
+
+}
+

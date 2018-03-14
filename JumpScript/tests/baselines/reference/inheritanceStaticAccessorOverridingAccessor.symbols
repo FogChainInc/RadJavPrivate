@@ -1,0 +1,31 @@
+=== tests/cases/compiler/inheritanceStaticAccessorOverridingAccessor.jump ===
+class a {
+>a : Symbol(a, Decl(inheritanceStaticAccessorOverridingAccessor.jump, 0, 0))
+
+    static get x() {
+>x : Symbol(a.x, Decl(inheritanceStaticAccessorOverridingAccessor.jump, 0, 9), Decl(inheritanceStaticAccessorOverridingAccessor.jump, 3, 5))
+
+        return "20";
+    }
+    static set x(aValue: string) {
+>x : Symbol(a.x, Decl(inheritanceStaticAccessorOverridingAccessor.jump, 0, 9), Decl(inheritanceStaticAccessorOverridingAccessor.jump, 3, 5))
+>aValue : Symbol(aValue, Decl(inheritanceStaticAccessorOverridingAccessor.jump, 4, 17))
+
+    }
+}
+
+class b extends a {
+>b : Symbol(b, Decl(inheritanceStaticAccessorOverridingAccessor.jump, 7, 1))
+>a : Symbol(a, Decl(inheritanceStaticAccessorOverridingAccessor.jump, 0, 0))
+
+    static get x() {
+>x : Symbol(b.x, Decl(inheritanceStaticAccessorOverridingAccessor.jump, 9, 19), Decl(inheritanceStaticAccessorOverridingAccessor.jump, 12, 5))
+
+        return "20";
+    }
+    static set x(aValue: string) {
+>x : Symbol(b.x, Decl(inheritanceStaticAccessorOverridingAccessor.jump, 9, 19), Decl(inheritanceStaticAccessorOverridingAccessor.jump, 12, 5))
+>aValue : Symbol(aValue, Decl(inheritanceStaticAccessorOverridingAccessor.jump, 13, 17))
+
+    }
+}

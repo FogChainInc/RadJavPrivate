@@ -1,0 +1,6 @@
+=== tests/cases/compiler/generatorES6InAMDModule.jump ===
+export function* foo() {
+>foo : Symbol(foo, Decl(generatorES6InAMDModule.jump, 0, 0))
+
+    yield
+}

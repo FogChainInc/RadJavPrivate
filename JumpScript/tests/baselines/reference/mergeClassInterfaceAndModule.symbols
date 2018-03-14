@@ -1,0 +1,37 @@
+=== tests/cases/conformance/classes/classDeclarations/mergeClassInterfaceAndModule.jump ===
+interface C1 {}
+>C1 : Symbol(C1, Decl(mergeClassInterfaceAndModule.jump, 0, 0), Decl(mergeClassInterfaceAndModule.jump, 0, 15), Decl(mergeClassInterfaceAndModule.jump, 1, 19))
+
+declare class C1 {}
+>C1 : Symbol(C1, Decl(mergeClassInterfaceAndModule.jump, 0, 0), Decl(mergeClassInterfaceAndModule.jump, 0, 15), Decl(mergeClassInterfaceAndModule.jump, 1, 19))
+
+module C1 {}
+>C1 : Symbol(C1, Decl(mergeClassInterfaceAndModule.jump, 0, 0), Decl(mergeClassInterfaceAndModule.jump, 0, 15), Decl(mergeClassInterfaceAndModule.jump, 1, 19))
+
+declare class C2 {}
+>C2 : Symbol(C2, Decl(mergeClassInterfaceAndModule.jump, 2, 12), Decl(mergeClassInterfaceAndModule.jump, 4, 19), Decl(mergeClassInterfaceAndModule.jump, 5, 15))
+
+interface C2 {}
+>C2 : Symbol(C2, Decl(mergeClassInterfaceAndModule.jump, 2, 12), Decl(mergeClassInterfaceAndModule.jump, 4, 19), Decl(mergeClassInterfaceAndModule.jump, 5, 15))
+
+module C2 {}
+>C2 : Symbol(C2, Decl(mergeClassInterfaceAndModule.jump, 2, 12), Decl(mergeClassInterfaceAndModule.jump, 4, 19), Decl(mergeClassInterfaceAndModule.jump, 5, 15))
+
+declare class C3 {}
+>C3 : Symbol(C3, Decl(mergeClassInterfaceAndModule.jump, 6, 12), Decl(mergeClassInterfaceAndModule.jump, 8, 19), Decl(mergeClassInterfaceAndModule.jump, 9, 12))
+
+module C3 {}
+>C3 : Symbol(C3, Decl(mergeClassInterfaceAndModule.jump, 6, 12), Decl(mergeClassInterfaceAndModule.jump, 8, 19), Decl(mergeClassInterfaceAndModule.jump, 9, 12))
+
+interface C3 {}
+>C3 : Symbol(C3, Decl(mergeClassInterfaceAndModule.jump, 6, 12), Decl(mergeClassInterfaceAndModule.jump, 8, 19), Decl(mergeClassInterfaceAndModule.jump, 9, 12))
+
+module C4 {}
+>C4 : Symbol(C4, Decl(mergeClassInterfaceAndModule.jump, 10, 15), Decl(mergeClassInterfaceAndModule.jump, 12, 12), Decl(mergeClassInterfaceAndModule.jump, 13, 19))
+
+declare class C4 {} // error -- class declaration must preceed module declaration
+>C4 : Symbol(C4, Decl(mergeClassInterfaceAndModule.jump, 10, 15), Decl(mergeClassInterfaceAndModule.jump, 12, 12), Decl(mergeClassInterfaceAndModule.jump, 13, 19))
+
+interface C4 {}
+>C4 : Symbol(C4, Decl(mergeClassInterfaceAndModule.jump, 10, 15), Decl(mergeClassInterfaceAndModule.jump, 12, 12), Decl(mergeClassInterfaceAndModule.jump, 13, 19))
+

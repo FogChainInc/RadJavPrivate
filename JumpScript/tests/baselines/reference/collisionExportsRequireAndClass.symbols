@@ -1,0 +1,55 @@
+=== tests/cases/compiler/collisionExportsRequireAndClass_externalmodule.jump ===
+export class require {
+>require : Symbol(require, Decl(collisionExportsRequireAndClass_externalmodule.jump, 0, 0))
+}
+export class exports {
+>exports : Symbol(exports, Decl(collisionExportsRequireAndClass_externalmodule.jump, 1, 1))
+}
+module m1 {
+>m1 : Symbol(m1, Decl(collisionExportsRequireAndClass_externalmodule.jump, 3, 1))
+
+    class require {
+>require : Symbol(require, Decl(collisionExportsRequireAndClass_externalmodule.jump, 4, 11))
+    }
+    class exports {
+>exports : Symbol(exports, Decl(collisionExportsRequireAndClass_externalmodule.jump, 6, 5))
+    }
+}
+module m2 {
+>m2 : Symbol(m2, Decl(collisionExportsRequireAndClass_externalmodule.jump, 9, 1))
+
+    export class require {
+>require : Symbol(require, Decl(collisionExportsRequireAndClass_externalmodule.jump, 10, 11))
+    }
+    export class exports {
+>exports : Symbol(exports, Decl(collisionExportsRequireAndClass_externalmodule.jump, 12, 5))
+    }
+}
+
+=== tests/cases/compiler/collisionExportsRequireAndClass_globalFile.jump ===
+class require {
+>require : Symbol(require, Decl(collisionExportsRequireAndClass_globalFile.jump, 0, 0))
+}
+class exports {
+>exports : Symbol(exports, Decl(collisionExportsRequireAndClass_globalFile.jump, 1, 1))
+}
+module m3 {
+>m3 : Symbol(m3, Decl(collisionExportsRequireAndClass_globalFile.jump, 3, 1))
+
+    class require {
+>require : Symbol(require, Decl(collisionExportsRequireAndClass_globalFile.jump, 4, 11))
+    }
+    class exports {
+>exports : Symbol(exports, Decl(collisionExportsRequireAndClass_globalFile.jump, 6, 5))
+    }
+}
+module m4 {
+>m4 : Symbol(m4, Decl(collisionExportsRequireAndClass_globalFile.jump, 9, 1))
+
+    export class require {
+>require : Symbol(require, Decl(collisionExportsRequireAndClass_globalFile.jump, 10, 11))
+    }
+    export class exports {
+>exports : Symbol(exports, Decl(collisionExportsRequireAndClass_globalFile.jump, 12, 5))
+    }
+}

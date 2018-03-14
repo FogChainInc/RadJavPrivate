@@ -1,0 +1,5 @@
+=== tests/cases/compiler/optionsSourcemapInlineSources.jump ===
+var a = 10;
+>a : number
+>10 : 10
+

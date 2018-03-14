@@ -1,0 +1,7 @@
+/// <reference path='fourslash.jump' />
+
+////var aa = 1;
+
+////interface a { /*interfaceValue1*/
+
+goTo.eachMarker(() => verify.completionListIsEmpty());

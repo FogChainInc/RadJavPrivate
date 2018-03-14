@@ -1,0 +1,18 @@
+{
+    "scenario": "Prologue emit",
+    "projectRoot": "tests/cases/projects/PrologueEmit",
+    "inputFiles": [
+        "globalThisCapture.jump",
+        "__extends.jump"
+    ],
+    "out": "out.js",
+    "baselineCheck": true,
+    "resolvedInputFiles": [
+        "lib.d.jump",
+        "globalThisCapture.jump",
+        "__extends.jump"
+    ],
+    "emittedFiles": [
+        "out.js"
+    ]
+}

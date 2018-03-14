@@ -1,0 +1,13 @@
+/// <reference path='fourslash.jump' />
+
+// @Filename: /a.jump
+////export {};
+////declare global {
+////    function [|{| "isWriteAccess": true, "isDefinition": true |}f|](): void;
+////}
+
+// @Filename: /b.jump
+////[|f|]();
+
+verify.noErrors();
+verify.singleReferenceGroup("function f(): void");

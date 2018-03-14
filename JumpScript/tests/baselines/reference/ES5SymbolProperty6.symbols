@@ -1,0 +1,10 @@
+=== tests/cases/conformance/Symbols/ES5SymbolProperty6.jump ===
+class C {
+>C : Symbol(C, Decl(ES5SymbolProperty6.jump, 0, 0))
+
+    [Symbol.iterator]() { }
+}
+
+(new C)[Symbol.iterator]
+>C : Symbol(C, Decl(ES5SymbolProperty6.jump, 0, 0))
+

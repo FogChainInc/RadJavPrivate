@@ -1,0 +1,11 @@
+=== tests/cases/conformance/parser/ecmascript5/RegressionTests/parser643728.jump ===
+interface C {
+>C : Symbol(C, Decl(parser643728.jump, 0, 0))
+
+    foo;
+>foo : Symbol(C.foo, Decl(parser643728.jump, 0, 13))
+
+    new;
+>new : Symbol(C.new, Decl(parser643728.jump, 1, 8))
+}
+

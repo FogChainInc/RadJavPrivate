@@ -1,0 +1,16 @@
+=== tests/cases/compiler/importAndVariableDeclarationConflict1.jump ===
+module m {
+>m : Symbol(m, Decl(importAndVariableDeclarationConflict1.jump, 0, 0))
+
+  export var m = '';
+>m : Symbol(m, Decl(importAndVariableDeclarationConflict1.jump, 1, 12))
+}
+
+import x = m.m;
+>x : Symbol(x, Decl(importAndVariableDeclarationConflict1.jump, 2, 1), Decl(importAndVariableDeclarationConflict1.jump, 5, 3))
+>m : Symbol(m, Decl(importAndVariableDeclarationConflict1.jump, 0, 0))
+>m : Symbol(x, Decl(importAndVariableDeclarationConflict1.jump, 1, 12))
+
+var x = '';
+>x : Symbol(x, Decl(importAndVariableDeclarationConflict1.jump, 2, 1), Decl(importAndVariableDeclarationConflict1.jump, 5, 3))
+

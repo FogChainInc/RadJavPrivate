@@ -1,0 +1,10 @@
+=== tests/cases/compiler/typecheckIfCondition.jump ===
+// both uses of module should be an undefined symbol
+function myWrapper()
+>myWrapper : Symbol(myWrapper, Decl(typecheckIfCondition.jump, 0, 0))
+{
+    if (!module.exports) module.exports = "";
+    var x = null; // don't want to baseline output
+>x : Symbol(x, Decl(typecheckIfCondition.jump, 4, 7))
+}
+

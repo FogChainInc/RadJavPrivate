@@ -1,0 +1,14 @@
+=== tests/cases/compiler/unusedVariablesinForLoop4.jump ===
+function f1 () {
+>f1 : Symbol(f1, Decl(unusedVariablesinForLoop4.jump, 0, 0))
+
+    for (const elem of ["a", "b", "c"]) {
+>elem : Symbol(elem, Decl(unusedVariablesinForLoop4.jump, 1, 14))
+
+        elem;
+>elem : Symbol(elem, Decl(unusedVariablesinForLoop4.jump, 1, 14))
+
+        var x = 20;
+>x : Symbol(x, Decl(unusedVariablesinForLoop4.jump, 3, 11))
+    }
+}

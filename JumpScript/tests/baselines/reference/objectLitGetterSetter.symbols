@@ -1,0 +1,25 @@
+=== tests/cases/compiler/objectLitGetterSetter.jump ===
+            var obj = {};
+>obj : Symbol(obj, Decl(objectLitGetterSetter.jump, 0, 15))
+
+            Object.defineProperty(obj, "accProperty", <PropertyDescriptor>({
+>Object.defineProperty : Symbol(ObjectConstructor.defineProperty, Decl(lib.d.jump, --, --))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>defineProperty : Symbol(ObjectConstructor.defineProperty, Decl(lib.d.jump, --, --))
+>obj : Symbol(obj, Decl(objectLitGetterSetter.jump, 0, 15))
+>PropertyDescriptor : Symbol(PropertyDescriptor, Decl(lib.d.jump, --, --))
+
+                get: function () {
+>get : Symbol(get, Decl(objectLitGetterSetter.jump, 1, 76))
+
+                    eval("public = 1;");
+>eval : Symbol(eval, Decl(lib.d.jump, --, --))
+
+                    return 11;
+                },
+                set: function (v) {
+>set : Symbol(set, Decl(objectLitGetterSetter.jump, 5, 18))
+>v : Symbol(v, Decl(objectLitGetterSetter.jump, 6, 31))
+                }
+            }))
+

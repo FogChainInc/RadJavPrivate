@@ -1,0 +1,5 @@
+// @outFile: foo.js
+// @Filename: c.jump
+let foo: typeof C;
+// @Filename: b.jump
+class C { }

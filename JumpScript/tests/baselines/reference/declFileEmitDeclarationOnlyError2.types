@@ -1,0 +1,5 @@
+=== tests/cases/compiler/hello.jump ===
+var hello = "yo!";
+>hello : string
+>"yo!" : "yo!"
+

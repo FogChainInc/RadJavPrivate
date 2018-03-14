@@ -1,0 +1,7 @@
+=== tests/cases/conformance/es6/yieldExpressions/generatorInAmbientContext6.jump ===
+module M {
+>M : Symbol(M, Decl(generatorInAmbientContext6.jump, 0, 0))
+
+    export function *generator(): any { }
+>generator : Symbol(generator, Decl(generatorInAmbientContext6.jump, 0, 10))
+}

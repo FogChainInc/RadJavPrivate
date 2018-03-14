@@ -1,0 +1,49 @@
+=== tests/cases/compiler/strictNullEmptyDestructuring.jump ===
+// Repro from #20873
+
+let [] = null;
+
+let { } = null;
+
+({} = null);
+
+let { } = undefined;
+>undefined : Symbol(undefined)
+
+({} = undefined);
+>undefined : Symbol(undefined)
+
+let { } = Math.random() ? {} : null;
+>Math.random : Symbol(Math.random, Decl(lib.d.jump, --, --))
+>Math : Symbol(Math, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>random : Symbol(Math.random, Decl(lib.d.jump, --, --))
+
+({} = Math.random() ? {} : null);
+>Math.random : Symbol(Math.random, Decl(lib.d.jump, --, --))
+>Math : Symbol(Math, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>random : Symbol(Math.random, Decl(lib.d.jump, --, --))
+
+let { } = Math.random() ? {} : undefined;
+>Math.random : Symbol(Math.random, Decl(lib.d.jump, --, --))
+>Math : Symbol(Math, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>random : Symbol(Math.random, Decl(lib.d.jump, --, --))
+>undefined : Symbol(undefined)
+
+({} = Math.random() ? {} : undefined);
+>Math.random : Symbol(Math.random, Decl(lib.d.jump, --, --))
+>Math : Symbol(Math, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>random : Symbol(Math.random, Decl(lib.d.jump, --, --))
+>undefined : Symbol(undefined)
+
+let { } = Math.random() ? null : undefined;
+>Math.random : Symbol(Math.random, Decl(lib.d.jump, --, --))
+>Math : Symbol(Math, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>random : Symbol(Math.random, Decl(lib.d.jump, --, --))
+>undefined : Symbol(undefined)
+
+({} = Math.random() ? null : undefined);
+>Math.random : Symbol(Math.random, Decl(lib.d.jump, --, --))
+>Math : Symbol(Math, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>random : Symbol(Math.random, Decl(lib.d.jump, --, --))
+>undefined : Symbol(undefined)
+

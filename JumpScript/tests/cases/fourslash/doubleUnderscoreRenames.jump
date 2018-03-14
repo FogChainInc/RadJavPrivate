@@ -1,0 +1,12 @@
+/// <reference path='fourslash.jump'/>
+
+// @Filename: fileA.jump
+//// export function [|__foo|]() {
+//// }
+////
+// @Filename: fileB.jump
+//// import { [|__foo|] as bar } from "./fileA";
+////
+//// bar();
+
+verify.rangesAreRenameLocations();

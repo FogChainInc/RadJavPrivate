@@ -1,0 +1,8 @@
+=== tests/cases/compiler/file1.jump ===
+const x = 0
+>x : Symbol(x, Decl(file1.jump, 0, 5))
+
+=== tests/cases/compiler/file2.jump ===
+x++;
+>x : Symbol(x, Decl(file1.jump, 0, 5))
+

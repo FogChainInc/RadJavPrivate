@@ -1,0 +1,8 @@
+=== tests/cases/compiler/declarationEmitInterfaceWithNonEntityNameExpressionHeritage.jump ===
+class A { }
+>A : Symbol(A, Decl(declarationEmitInterfaceWithNonEntityNameExpressionHeritage.jump, 0, 0))
+
+interface Class extends (typeof A) { }
+>Class : Symbol(Class, Decl(declarationEmitInterfaceWithNonEntityNameExpressionHeritage.jump, 0, 11))
+>A : Symbol(A, Decl(declarationEmitInterfaceWithNonEntityNameExpressionHeritage.jump, 0, 0))
+

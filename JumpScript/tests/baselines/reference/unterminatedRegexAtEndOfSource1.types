@@ -1,0 +1,5 @@
+=== tests/cases/compiler/unterminatedRegexAtEndOfSource1.jump ===
+var a = /
+>a : RegExp
+>/ : RegExp
+

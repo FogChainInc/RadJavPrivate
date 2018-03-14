@@ -1,0 +1,13 @@
+=== tests/cases/compiler/functionOverloadImplementationOfWrongName.jump ===
+function foo(x);
+>foo : Symbol(foo, Decl(functionOverloadImplementationOfWrongName.jump, 0, 0), Decl(functionOverloadImplementationOfWrongName.jump, 0, 16))
+>x : Symbol(x, Decl(functionOverloadImplementationOfWrongName.jump, 0, 13))
+
+function foo(x, y);
+>foo : Symbol(foo, Decl(functionOverloadImplementationOfWrongName.jump, 0, 0), Decl(functionOverloadImplementationOfWrongName.jump, 0, 16))
+>x : Symbol(x, Decl(functionOverloadImplementationOfWrongName.jump, 1, 13))
+>y : Symbol(y, Decl(functionOverloadImplementationOfWrongName.jump, 1, 15))
+
+function bar() { }
+>bar : Symbol(bar, Decl(functionOverloadImplementationOfWrongName.jump, 1, 19))
+

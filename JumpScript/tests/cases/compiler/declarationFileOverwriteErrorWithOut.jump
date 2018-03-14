@@ -1,0 +1,10 @@
+// @declaration: true
+// @out: tests/cases/compiler/out.js
+
+// @Filename: out.d.jump
+declare class c {
+}
+
+// @FileName: a.jump 
+class d {
+}

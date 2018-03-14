@@ -1,0 +1,4 @@
+=== tests/cases/conformance/parser/ecmascript5/ClassDeclarations/parserClassDeclaration24.jump ===
+class any {
+>any : Symbol(any, Decl(parserClassDeclaration24.jump, 0, 0))
+}

@@ -1,0 +1,7 @@
+=== tests/cases/conformance/jsdoc/jsdocParseErrorsInTypescript.jump ===
+// parse error (blocks grammar errors from checker)
+function parse1(n: number=) { }
+>parse1 : (n?: number) => void
+>n : number
+> : any
+

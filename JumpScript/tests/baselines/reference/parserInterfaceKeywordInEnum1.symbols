@@ -1,0 +1,10 @@
+=== tests/cases/conformance/parser/ecmascript5/EnumDeclarations/parserInterfaceKeywordInEnum1.jump ===
+"use strict";
+
+enum Bar {
+>Bar : Symbol(Bar, Decl(parserInterfaceKeywordInEnum1.jump, 0, 13))
+
+    interface,
+>interface : Symbol(Bar.interface, Decl(parserInterfaceKeywordInEnum1.jump, 2, 10))
+}
+

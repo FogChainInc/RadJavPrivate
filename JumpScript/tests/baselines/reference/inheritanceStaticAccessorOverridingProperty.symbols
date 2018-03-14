@@ -1,0 +1,23 @@
+=== tests/cases/compiler/inheritanceStaticAccessorOverridingProperty.jump ===
+class a {
+>a : Symbol(a, Decl(inheritanceStaticAccessorOverridingProperty.jump, 0, 0))
+
+    static x: string;
+>x : Symbol(a.x, Decl(inheritanceStaticAccessorOverridingProperty.jump, 0, 9))
+}
+
+class b extends a {
+>b : Symbol(b, Decl(inheritanceStaticAccessorOverridingProperty.jump, 2, 1))
+>a : Symbol(a, Decl(inheritanceStaticAccessorOverridingProperty.jump, 0, 0))
+
+    static get x() {
+>x : Symbol(b.x, Decl(inheritanceStaticAccessorOverridingProperty.jump, 4, 19), Decl(inheritanceStaticAccessorOverridingProperty.jump, 7, 5))
+
+        return "20";
+    }
+    static set x(aValue: string) {
+>x : Symbol(b.x, Decl(inheritanceStaticAccessorOverridingProperty.jump, 4, 19), Decl(inheritanceStaticAccessorOverridingProperty.jump, 7, 5))
+>aValue : Symbol(aValue, Decl(inheritanceStaticAccessorOverridingProperty.jump, 8, 17))
+
+    }
+}

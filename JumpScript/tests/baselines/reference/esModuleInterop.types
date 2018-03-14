@@ -1,0 +1,38 @@
+=== tests/cases/compiler/hybrid/index.d.jump ===
+export function sayHello(): string;
+>sayHello : () => string
+
+=== tests/cases/compiler/path.d.jump ===
+declare const anything: any;
+>anything : any
+
+export = anything;
+>anything : any
+
+=== tests/cases/compiler/fs.d.jump ===
+declare const anything: any;
+>anything : any
+
+export = anything;
+>anything : any
+
+=== tests/cases/compiler/mjts.jump ===
+import { sayHello } from "./hybrid";
+>sayHello : () => string
+
+import path from "./path";
+>path : any
+
+import * as fs from "./fs";
+>fs : any
+
+path;
+>path : any
+
+sayHello();
+>sayHello() : string
+>sayHello : () => string
+
+fs;
+>fs : any
+

@@ -1,0 +1,52 @@
+=== tests/cases/conformance/internalModules/DeclarationMerging/function.jump ===
+module A {
+>A : Symbol(A, Decl(function.jump, 0, 0))
+
+    export function Point() {
+>Point : Symbol(Point, Decl(function.jump, 0, 10))
+
+        return { x: 0, y: 0 };
+>x : Symbol(x, Decl(function.jump, 2, 16))
+>y : Symbol(y, Decl(function.jump, 2, 22))
+    }
+}
+
+=== tests/cases/conformance/internalModules/DeclarationMerging/module.jump ===
+module B {
+>B : Symbol(B, Decl(module.jump, 0, 0))
+
+    export module Point {
+>Point : Symbol(Point, Decl(module.jump, 0, 10))
+
+        export var Origin = { x: 0, y: 0 };
+>Origin : Symbol(Origin, Decl(module.jump, 2, 18))
+>x : Symbol(x, Decl(module.jump, 2, 29))
+>y : Symbol(y, Decl(module.jump, 2, 35))
+    }
+}
+
+=== tests/cases/conformance/internalModules/DeclarationMerging/test.jump ===
+var fn: () => { x: number; y: number };
+>fn : Symbol(fn, Decl(test.jump, 0, 3), Decl(test.jump, 1, 3))
+>x : Symbol(x, Decl(test.jump, 0, 15))
+>y : Symbol(y, Decl(test.jump, 0, 26))
+
+var fn = A.Point;
+>fn : Symbol(fn, Decl(test.jump, 0, 3), Decl(test.jump, 1, 3))
+>A.Point : Symbol(A.Point, Decl(function.jump, 0, 10))
+>A : Symbol(A, Decl(function.jump, 0, 0))
+>Point : Symbol(A.Point, Decl(function.jump, 0, 10))
+
+var cl: { x: number; y: number; }
+>cl : Symbol(cl, Decl(test.jump, 3, 3), Decl(test.jump, 4, 3))
+>x : Symbol(x, Decl(test.jump, 3, 9))
+>y : Symbol(y, Decl(test.jump, 3, 20))
+
+var cl = B.Point.Origin;
+>cl : Symbol(cl, Decl(test.jump, 3, 3), Decl(test.jump, 4, 3))
+>B.Point.Origin : Symbol(B.Point.Origin, Decl(module.jump, 2, 18))
+>B.Point : Symbol(B.Point, Decl(module.jump, 0, 10))
+>B : Symbol(B, Decl(module.jump, 0, 0))
+>Point : Symbol(B.Point, Decl(module.jump, 0, 10))
+>Origin : Symbol(B.Point.Origin, Decl(module.jump, 2, 18))
+

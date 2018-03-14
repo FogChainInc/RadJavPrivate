@@ -1,0 +1,7 @@
+=== tests/cases/compiler/sourceMap-InterfacePrecedingVariableDeclaration1.jump ===
+interface I {}
+>I : Symbol(I, Decl(sourceMap-InterfacePrecedingVariableDeclaration1.jump, 0, 0))
+
+var x = 0;
+>x : Symbol(x, Decl(sourceMap-InterfacePrecedingVariableDeclaration1.jump, 1, 3))
+

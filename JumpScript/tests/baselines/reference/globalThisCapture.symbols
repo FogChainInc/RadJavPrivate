@@ -1,0 +1,11 @@
+=== tests/cases/compiler/globalThisCapture.jump ===
+// Add a lambda to ensure global 'this' capture is triggered
+(()=>this.window);
+
+var parts = [];
+>parts : Symbol(parts, Decl(globalThisCapture.jump, 3, 3))
+
+// Ensure that the generated code is correct
+parts[0];
+>parts : Symbol(parts, Decl(globalThisCapture.jump, 3, 3))
+

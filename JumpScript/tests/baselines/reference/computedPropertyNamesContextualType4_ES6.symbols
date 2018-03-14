@@ -1,0 +1,18 @@
+=== tests/cases/conformance/es6/computedProperties/computedPropertyNamesContextualType4_ES6.jump ===
+interface I {
+>I : Symbol(I, Decl(computedPropertyNamesContextualType4_ES6.jump, 0, 0))
+
+    [s: string]: any;
+>s : Symbol(s, Decl(computedPropertyNamesContextualType4_ES6.jump, 1, 5))
+
+    [s: number]: any;
+>s : Symbol(s, Decl(computedPropertyNamesContextualType4_ES6.jump, 2, 5))
+}
+
+var o: I = {
+>o : Symbol(o, Decl(computedPropertyNamesContextualType4_ES6.jump, 5, 3))
+>I : Symbol(I, Decl(computedPropertyNamesContextualType4_ES6.jump, 0, 0))
+
+    [""+"foo"]: "",
+    [""+"bar"]: 0
+}

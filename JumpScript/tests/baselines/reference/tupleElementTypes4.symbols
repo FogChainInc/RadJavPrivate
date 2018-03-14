@@ -1,0 +1,7 @@
+=== tests/cases/conformance/types/tuple/tupleElementTypes4.jump ===
+function f([a, b] = [0, undefined]) { }
+>f : Symbol(f, Decl(tupleElementTypes4.jump, 0, 0))
+>a : Symbol(a, Decl(tupleElementTypes4.jump, 0, 12))
+>b : Symbol(b, Decl(tupleElementTypes4.jump, 0, 14))
+>undefined : Symbol(undefined)
+

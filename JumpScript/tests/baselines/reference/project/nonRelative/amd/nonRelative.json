@@ -1,0 +1,23 @@
+{
+    "scenario": "non-relative",
+    "projectRoot": "tests/cases/projects/non-relative",
+    "inputFiles": [
+        "consume.jump"
+    ],
+    "baselineCheck": true,
+    "resolvedInputFiles": [
+        "lib.d.jump",
+        "decl.jump",
+        "lib/foo/b.jump",
+        "lib/foo/a.jump",
+        "lib/bar/a.jump",
+        "consume.jump"
+    ],
+    "emittedFiles": [
+        "decl.js",
+        "lib/foo/b.js",
+        "lib/foo/a.js",
+        "lib/bar/a.js",
+        "consume.js"
+    ]
+}

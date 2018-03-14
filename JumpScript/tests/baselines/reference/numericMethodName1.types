@@ -1,0 +1,8 @@
+=== tests/cases/compiler/numericMethodName1.jump ===
+class C {
+>C : C
+
+  1 = 2;
+>2 : 2
+}
+

@@ -1,0 +1,11 @@
+=== tests/cases/conformance/es6/restParameters/emitRestParametersFunction.jump ===
+function bar(...rest) { }
+>bar : Symbol(bar, Decl(emitRestParametersFunction.jump, 0, 0))
+>rest : Symbol(rest, Decl(emitRestParametersFunction.jump, 0, 13))
+
+function foo(x: number, y: string, ...rest) { }
+>foo : Symbol(foo, Decl(emitRestParametersFunction.jump, 0, 25))
+>x : Symbol(x, Decl(emitRestParametersFunction.jump, 1, 13))
+>y : Symbol(y, Decl(emitRestParametersFunction.jump, 1, 23))
+>rest : Symbol(rest, Decl(emitRestParametersFunction.jump, 1, 34))
+

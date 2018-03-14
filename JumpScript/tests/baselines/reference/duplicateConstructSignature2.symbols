@@ -1,0 +1,13 @@
+=== tests/cases/compiler/duplicateConstructSignature2.jump ===
+interface I<T> {
+>I : Symbol(I, Decl(duplicateConstructSignature2.jump, 0, 0))
+>T : Symbol(T, Decl(duplicateConstructSignature2.jump, 0, 12))
+
+    (x: T): number;
+>x : Symbol(x, Decl(duplicateConstructSignature2.jump, 1, 5))
+>T : Symbol(T, Decl(duplicateConstructSignature2.jump, 0, 12))
+
+    (x: T): string;
+>x : Symbol(x, Decl(duplicateConstructSignature2.jump, 2, 5))
+>T : Symbol(T, Decl(duplicateConstructSignature2.jump, 0, 12))
+}

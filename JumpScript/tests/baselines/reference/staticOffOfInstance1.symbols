@@ -1,0 +1,13 @@
+=== tests/cases/compiler/staticOffOfInstance1.jump ===
+class List {
+>List : Symbol(List, Decl(staticOffOfInstance1.jump, 0, 0))
+
+  public Blah() {
+>Blah : Symbol(List.Blah, Decl(staticOffOfInstance1.jump, 0, 12))
+
+    this.Foo();
+>this : Symbol(List, Decl(staticOffOfInstance1.jump, 0, 0))
+  }
+  public static Foo() {}
+>Foo : Symbol(List.Foo, Decl(staticOffOfInstance1.jump, 3, 3))
+}

@@ -1,0 +1,64 @@
+=== tests/cases/conformance/types/typeRelationships/bestCommonType/arrayLiteralWithMultipleBestCommonTypes.jump ===
+// when multiple best common types exist we will choose the first candidate
+
+var a: { x: number; y?: number };
+>a : Symbol(a, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 2, 3))
+>x : Symbol(x, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 2, 8))
+>y : Symbol(y, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 2, 19))
+
+var b: { x: number; z?: number };
+>b : Symbol(b, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 3, 3))
+>x : Symbol(x, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 3, 8))
+>z : Symbol(z, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 3, 19))
+
+var c: { x: number; a?: number };
+>c : Symbol(c, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 4, 3))
+>x : Symbol(x, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 4, 8))
+>a : Symbol(a, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 4, 19))
+
+var as = [a, b]; // { x: number; y?: number };[]
+>as : Symbol(as, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 6, 3))
+>a : Symbol(a, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 2, 3))
+>b : Symbol(b, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 3, 3))
+
+var bs = [b, a]; // { x: number; z?: number };[]
+>bs : Symbol(bs, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 7, 3))
+>b : Symbol(b, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 3, 3))
+>a : Symbol(a, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 2, 3))
+
+var cs = [a, b, c]; // { x: number; y?: number };[]
+>cs : Symbol(cs, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 8, 3))
+>a : Symbol(a, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 2, 3))
+>b : Symbol(b, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 3, 3))
+>c : Symbol(c, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 4, 3))
+
+var ds = [(x: Object) => 1, (x: string) => 2]; // { (x:Object) => number }[]
+>ds : Symbol(ds, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 10, 3))
+>x : Symbol(x, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 10, 11))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 10, 29))
+
+var es = [(x: string) => 2, (x: Object) => 1]; // { (x:string) => number }[]
+>es : Symbol(es, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 11, 3))
+>x : Symbol(x, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 11, 11))
+>x : Symbol(x, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 11, 29))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+var fs = [(a: { x: number; y?: number }) => 1, (b: { x: number; z?: number }) => 2]; // (a: { x: number; y?: number }) => number[]
+>fs : Symbol(fs, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 12, 3))
+>a : Symbol(a, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 12, 11))
+>x : Symbol(x, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 12, 15))
+>y : Symbol(y, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 12, 26))
+>b : Symbol(b, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 12, 48))
+>x : Symbol(x, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 12, 52))
+>z : Symbol(z, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 12, 63))
+
+var gs = [(b: { x: number; z?: number }) => 2, (a: { x: number; y?: number }) => 1]; // (b: { x: number; z?: number }) => number[]
+>gs : Symbol(gs, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 13, 3))
+>b : Symbol(b, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 13, 11))
+>x : Symbol(x, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 13, 15))
+>z : Symbol(z, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 13, 26))
+>a : Symbol(a, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 13, 48))
+>x : Symbol(x, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 13, 52))
+>y : Symbol(y, Decl(arrayLiteralWithMultipleBestCommonTypes.jump, 13, 63))
+

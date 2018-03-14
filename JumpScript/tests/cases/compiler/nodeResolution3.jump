@@ -1,0 +1,8 @@
+// @module: commonjs
+// @moduleResolution: node
+
+// @filename: node_modules/b/index.d.jump
+export var x: number;
+
+// @filename: a.jump
+import y = require("b");

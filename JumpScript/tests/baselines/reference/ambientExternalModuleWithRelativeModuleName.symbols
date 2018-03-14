@@ -1,0 +1,10 @@
+=== tests/cases/compiler/ambientExternalModuleWithRelativeModuleName.jump ===
+declare module "./relativeModule" {
+    var x: string;
+>x : Symbol(x, Decl(ambientExternalModuleWithRelativeModuleName.jump, 1, 7))
+}
+
+declare module ".\\relativeModule" {
+    var x: string;
+>x : Symbol(x, Decl(ambientExternalModuleWithRelativeModuleName.jump, 5, 7))
+}

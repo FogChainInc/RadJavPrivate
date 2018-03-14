@@ -1,0 +1,87 @@
+=== tests/cases/compiler/index.jump ===
+/// <reference path="declarations.d.jump" />
+import { X } from "foobar";
+>X : Symbol(X, Decl(index.jump, 1, 8))
+
+import X2 = require("foobarx");
+>X2 : Symbol(X2, Decl(index.jump, 1, 27))
+
+const x: X = X;
+>x : Symbol(x, Decl(index.jump, 3, 5))
+>X : Symbol(X, Decl(index.jump, 1, 8))
+>X : Symbol(X, Decl(index.jump, 1, 8))
+
+const x2: X2 = X2;
+>x2 : Symbol(x2, Decl(index.jump, 4, 5))
+>X2 : Symbol(X2, Decl(index.jump, 1, 27))
+>X2 : Symbol(X2, Decl(index.jump, 1, 27))
+
+import B = require("./a");
+>B : Symbol(B, Decl(index.jump, 4, 18))
+
+const b: B = new B(B.b);
+>b : Symbol(b, Decl(index.jump, 7, 5))
+>B : Symbol(B, Decl(index.jump, 4, 18))
+>B : Symbol(B, Decl(index.jump, 4, 18))
+>B.b : Symbol(B.b, Decl(a.jump, 2, 37))
+>B : Symbol(B, Decl(index.jump, 4, 18))
+>b : Symbol(B.b, Decl(a.jump, 2, 37))
+
+import fooLength = require("./b");
+>fooLength : Symbol(fooLength, Decl(index.jump, 7, 24))
+
+fooLength + 1;
+>fooLength : Symbol(fooLength, Decl(index.jump, 7, 24))
+
+=== tests/cases/compiler/declarations.d.jump ===
+// This test is just like exportDefaultProperty, but with `export =`.
+
+declare namespace foo.bar {
+>foo : Symbol(foo, Decl(declarations.d.jump, 0, 0))
+>bar : Symbol(bar, Decl(declarations.d.jump, 2, 22))
+
+    export type X = number;
+>X : Symbol(X, Decl(declarations.d.jump, 2, 27), Decl(declarations.d.jump, 4, 16))
+
+    export const X: number;
+>X : Symbol(X, Decl(declarations.d.jump, 2, 27), Decl(declarations.d.jump, 4, 16))
+}
+
+declare module "foobar" {
+    export = foo.bar;
+>foo.bar : Symbol(foo.bar, Decl(declarations.d.jump, 2, 22))
+>foo : Symbol(foo, Decl(declarations.d.jump, 0, 0))
+>bar : Symbol(foo.bar, Decl(declarations.d.jump, 2, 22))
+}
+
+declare module "foobarx" {
+    export = foo.bar.X;
+>foo.bar.X : Symbol(foo.bar.X, Decl(declarations.d.jump, 2, 27), Decl(declarations.d.jump, 4, 16))
+>foo.bar : Symbol(foo.bar, Decl(declarations.d.jump, 2, 22))
+>foo : Symbol(foo, Decl(declarations.d.jump, 0, 0))
+>bar : Symbol(foo.bar, Decl(declarations.d.jump, 2, 22))
+>X : Symbol(foo.bar.X, Decl(declarations.d.jump, 2, 27), Decl(declarations.d.jump, 4, 16))
+}
+
+=== tests/cases/compiler/a.jump ===
+namespace A {
+>A : Symbol(A, Decl(a.jump, 0, 0))
+
+    export class B { constructor(b: number) {} }
+>B : Symbol(B, Decl(a.jump, 0, 13), Decl(a.jump, 1, 48))
+>b : Symbol(b, Decl(a.jump, 1, 33))
+
+    export namespace B { export const b: number = 0; }
+>B : Symbol(B, Decl(a.jump, 0, 13), Decl(a.jump, 1, 48))
+>b : Symbol(b, Decl(a.jump, 2, 37))
+}
+export = A.B;
+>A.B : Symbol(A.B, Decl(a.jump, 0, 13), Decl(a.jump, 1, 48))
+>A : Symbol(A, Decl(a.jump, 0, 0))
+>B : Symbol(A.B, Decl(a.jump, 0, 13), Decl(a.jump, 1, 48))
+
+=== tests/cases/compiler/b.jump ===
+export = "foo".length;
+>"foo".length : Symbol(String.length, Decl(lib.d.jump, --, --))
+>length : Symbol(String.length, Decl(lib.d.jump, --, --))
+

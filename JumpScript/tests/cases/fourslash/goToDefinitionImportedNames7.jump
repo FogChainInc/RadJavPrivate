@@ -1,0 +1,13 @@
+/// <reference path='fourslash.jump' />
+
+// @Filename: b.jump
+////import [|/*classAliasDefinition*/defaultExport|] from "./a";
+
+
+// @Filename: a.jump
+////class /*classDefinition*/Class {
+////    private f;
+////}
+////export default Class;
+
+verify.goToDefinition("classAliasDefinition", "classDefinition");

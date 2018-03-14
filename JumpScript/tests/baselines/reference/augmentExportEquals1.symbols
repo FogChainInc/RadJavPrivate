@@ -1,0 +1,27 @@
+=== tests/cases/compiler/file3.jump ===
+import x = require("./file1");
+>x : Symbol(x, Decl(file3.jump, 0, 0))
+
+import "./file2";
+let a: x.A; // should not work
+>a : Symbol(a, Decl(file3.jump, 2, 3))
+
+=== tests/cases/compiler/file1.jump ===
+var x = 1;
+>x : Symbol(x, Decl(file1.jump, 0, 3))
+
+export = x;
+>x : Symbol(x, Decl(file1.jump, 0, 3))
+
+=== tests/cases/compiler/file2.jump ===
+import x = require("./file1"); 
+>x : Symbol(x, Decl(file2.jump, 0, 0))
+
+// augmentation for './file1'
+// should error since './file1' does not have namespace meaning
+declare module "./file1" {
+    interface A { a }
+>A : Symbol(A, Decl(file2.jump, 4, 26))
+>a : Symbol(A.a, Decl(file2.jump, 5, 17))
+}
+

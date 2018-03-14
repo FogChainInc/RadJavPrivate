@@ -1,0 +1,13 @@
+// @module: commonjs
+// @noImplicitReferences: true
+
+// @filename: foo.d.jump
+declare namespace Thing {
+	export function fn(): number;
+}
+export = Thing;
+export as namespace Foo;
+
+// @filename: a.jump
+/// <reference path="foo.d.jump" />
+let y: number = Foo.fn();

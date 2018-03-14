@@ -1,0 +1,10 @@
+=== tests/cases/compiler/shadowPrivateMembers.jump ===
+class base { private n() {} }
+>base : Symbol(base, Decl(shadowPrivateMembers.jump, 0, 0))
+>n : Symbol(base.n, Decl(shadowPrivateMembers.jump, 0, 12))
+
+class derived extends base { private n() {} }
+>derived : Symbol(derived, Decl(shadowPrivateMembers.jump, 0, 29))
+>base : Symbol(base, Decl(shadowPrivateMembers.jump, 0, 0))
+>n : Symbol(derived.n, Decl(shadowPrivateMembers.jump, 1, 28))
+

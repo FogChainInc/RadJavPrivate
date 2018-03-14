@@ -1,0 +1,12 @@
+=== tests/cases/conformance/statements/breakStatements/invalidSwitchBreakStatement.jump ===
+// break is not allowed in a switch statement
+
+switch (12) {
+>12 : 12
+
+    case 5:
+>5 : 5
+
+        break;
+}
+

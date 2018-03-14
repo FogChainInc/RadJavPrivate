@@ -1,0 +1,16 @@
+=== tests/cases/compiler/indexerAsOptional.jump ===
+interface indexSig {
+>indexSig : Symbol(indexSig, Decl(indexerAsOptional.jump, 0, 0))
+
+    //Index signatures can't be optional
+    [idx?: number]: any; //err
+>idx : Symbol(idx, Decl(indexerAsOptional.jump, 2, 5))
+}
+
+class indexSig2 {
+>indexSig2 : Symbol(indexSig2, Decl(indexerAsOptional.jump, 3, 1))
+
+    //Index signatures can't be optional
+    [idx?: number]: any //err
+>idx : Symbol(idx, Decl(indexerAsOptional.jump, 7, 5))
+}

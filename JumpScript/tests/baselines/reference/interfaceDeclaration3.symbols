@@ -1,0 +1,137 @@
+=== tests/cases/compiler/interfaceDeclaration3.jump ===
+interface I1 { item:number; }
+>I1 : Symbol(I1, Decl(interfaceDeclaration3.jump, 0, 0))
+>item : Symbol(I1.item, Decl(interfaceDeclaration3.jump, 0, 14))
+
+module M1 {
+>M1 : Symbol(M1, Decl(interfaceDeclaration3.jump, 0, 29))
+
+    interface I1 { item:string; }  
+>I1 : Symbol(I1, Decl(interfaceDeclaration3.jump, 2, 11))
+>item : Symbol(I1.item, Decl(interfaceDeclaration3.jump, 3, 18))
+
+    interface I2 { item:number; }   
+>I2 : Symbol(I2, Decl(interfaceDeclaration3.jump, 3, 33))
+>item : Symbol(I2.item, Decl(interfaceDeclaration3.jump, 4, 18))
+
+    class C1 implements I1 {
+>C1 : Symbol(C1, Decl(interfaceDeclaration3.jump, 4, 33))
+>I1 : Symbol(I1, Decl(interfaceDeclaration3.jump, 2, 11))
+
+        public item:number;
+>item : Symbol(C1.item, Decl(interfaceDeclaration3.jump, 5, 28))
+    }
+    class C2 implements I1 {
+>C2 : Symbol(C2, Decl(interfaceDeclaration3.jump, 7, 5))
+>I1 : Symbol(I1, Decl(interfaceDeclaration3.jump, 2, 11))
+
+        public item:string;
+>item : Symbol(C2.item, Decl(interfaceDeclaration3.jump, 8, 28))
+    }
+    class C3 implements I2 {
+>C3 : Symbol(C3, Decl(interfaceDeclaration3.jump, 10, 5))
+>I2 : Symbol(I2, Decl(interfaceDeclaration3.jump, 3, 33))
+
+        public item:number;
+>item : Symbol(C3.item, Decl(interfaceDeclaration3.jump, 11, 28))
+    }
+    
+    class C4 implements M2.I1 { 
+>C4 : Symbol(C4, Decl(interfaceDeclaration3.jump, 13, 5))
+>M2.I1 : Symbol(M2.I1, Decl(interfaceDeclaration3.jump, 24, 18))
+>M2 : Symbol(M2, Decl(interfaceDeclaration3.jump, 22, 1))
+>I1 : Symbol(M2.I1, Decl(interfaceDeclaration3.jump, 24, 18))
+
+        public item:string;
+>item : Symbol(C4.item, Decl(interfaceDeclaration3.jump, 15, 31))
+    }
+
+    class C5 implements M2.M3.I1 {
+>C5 : Symbol(C5, Decl(interfaceDeclaration3.jump, 17, 5))
+>M2.M3.I1 : Symbol(M2.M3.I1, Decl(interfaceDeclaration3.jump, 27, 22))
+>M2.M3 : Symbol(M2.M3, Decl(interfaceDeclaration3.jump, 26, 40))
+>M2 : Symbol(M2, Decl(interfaceDeclaration3.jump, 22, 1))
+>M3 : Symbol(M2.M3, Decl(interfaceDeclaration3.jump, 26, 40))
+>I1 : Symbol(M2.M3.I1, Decl(interfaceDeclaration3.jump, 27, 22))
+
+        public item:string;
+>item : Symbol(C5.item, Decl(interfaceDeclaration3.jump, 19, 34))
+    }
+}
+
+export module M2 {
+>M2 : Symbol(M2, Decl(interfaceDeclaration3.jump, 22, 1))
+
+    export interface I1 { item:string; }
+>I1 : Symbol(I1, Decl(interfaceDeclaration3.jump, 24, 18))
+>item : Symbol(I1.item, Decl(interfaceDeclaration3.jump, 25, 25))
+
+    export interface I2 { item:string; }
+>I2 : Symbol(I2, Decl(interfaceDeclaration3.jump, 25, 40))
+>item : Symbol(I2.item, Decl(interfaceDeclaration3.jump, 26, 25))
+
+    export module M3 {
+>M3 : Symbol(M3, Decl(interfaceDeclaration3.jump, 26, 40))
+
+        export interface I1 { item:string; }
+>I1 : Symbol(I1, Decl(interfaceDeclaration3.jump, 27, 22))
+>item : Symbol(I1.item, Decl(interfaceDeclaration3.jump, 28, 29))
+    }
+    class C1 implements I1 {
+>C1 : Symbol(C1, Decl(interfaceDeclaration3.jump, 29, 5))
+>I1 : Symbol(I1, Decl(interfaceDeclaration3.jump, 24, 18))
+
+        public item:number;    
+>item : Symbol(C1.item, Decl(interfaceDeclaration3.jump, 30, 28))
+    }
+    class C2 implements I1 {
+>C2 : Symbol(C2, Decl(interfaceDeclaration3.jump, 32, 5))
+>I1 : Symbol(I1, Decl(interfaceDeclaration3.jump, 24, 18))
+
+        public item:string;    
+>item : Symbol(C2.item, Decl(interfaceDeclaration3.jump, 33, 28))
+    }
+    class C3 implements I2 {
+>C3 : Symbol(C3, Decl(interfaceDeclaration3.jump, 35, 5))
+>I2 : Symbol(I2, Decl(interfaceDeclaration3.jump, 25, 40))
+
+        public item:string;    
+>item : Symbol(C3.item, Decl(interfaceDeclaration3.jump, 36, 28))
+    }
+}
+
+class C1 implements I1 {
+>C1 : Symbol(C1, Decl(interfaceDeclaration3.jump, 39, 1))
+>I1 : Symbol(I1, Decl(interfaceDeclaration3.jump, 0, 0))
+
+    public item:number;
+>item : Symbol(C1.item, Decl(interfaceDeclaration3.jump, 41, 24))
+}
+
+class C2 implements M2.I1 { 
+>C2 : Symbol(C2, Decl(interfaceDeclaration3.jump, 43, 1))
+>M2.I1 : Symbol(M2.I1, Decl(interfaceDeclaration3.jump, 24, 18))
+>M2 : Symbol(M2, Decl(interfaceDeclaration3.jump, 22, 1))
+>I1 : Symbol(M2.I1, Decl(interfaceDeclaration3.jump, 24, 18))
+
+    public item:string;
+>item : Symbol(C2.item, Decl(interfaceDeclaration3.jump, 45, 27))
+}
+
+class C3 implements M2.M3.I1 {
+>C3 : Symbol(C3, Decl(interfaceDeclaration3.jump, 47, 1))
+>M2.M3.I1 : Symbol(M2.M3.I1, Decl(interfaceDeclaration3.jump, 27, 22))
+>M2.M3 : Symbol(M2.M3, Decl(interfaceDeclaration3.jump, 26, 40))
+>M2 : Symbol(M2, Decl(interfaceDeclaration3.jump, 22, 1))
+>M3 : Symbol(M2.M3, Decl(interfaceDeclaration3.jump, 26, 40))
+>I1 : Symbol(M2.M3.I1, Decl(interfaceDeclaration3.jump, 27, 22))
+
+    public item:string;
+>item : Symbol(C3.item, Decl(interfaceDeclaration3.jump, 49, 30))
+}
+
+interface I2 extends I1 { item:string; }
+>I2 : Symbol(I2, Decl(interfaceDeclaration3.jump, 51, 1))
+>I1 : Symbol(I1, Decl(interfaceDeclaration3.jump, 0, 0))
+>item : Symbol(I2.item, Decl(interfaceDeclaration3.jump, 53, 25))
+

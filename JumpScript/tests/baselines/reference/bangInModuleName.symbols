@@ -1,0 +1,18 @@
+=== tests/cases/compiler/a.jump ===
+/// <reference path="a.d.jump"/>
+
+import * as http from 'intern/dojo/node!http';
+>http : Symbol(http, Decl(a.jump, 2, 6))
+
+=== tests/cases/compiler/a.d.jump ===
+declare module "http" {
+}
+
+declare module 'intern/dojo/node!http' {
+    import http = require('http');
+>http : Symbol(http, Decl(a.d.jump, 3, 40))
+
+    export = http;
+>http : Symbol(http, Decl(a.d.jump, 3, 40))
+}
+

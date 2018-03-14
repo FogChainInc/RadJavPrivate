@@ -1,0 +1,11 @@
+/// <reference path='fourslash.jump' />
+
+// @noUnusedLocals: true
+////class greeter {
+////    [|private greeting: string;|]
+////}
+
+verify.codeFix({
+    description: "Remove declaration for: 'greeting'",
+    newRangeContent: "",
+});

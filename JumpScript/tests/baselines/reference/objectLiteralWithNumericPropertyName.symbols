@@ -1,0 +1,13 @@
+=== tests/cases/compiler/objectLiteralWithNumericPropertyName.jump ===
+interface A {
+>A : Symbol(A, Decl(objectLiteralWithNumericPropertyName.jump, 0, 0))
+
+    0: string;
+}
+var x: A = {
+>x : Symbol(x, Decl(objectLiteralWithNumericPropertyName.jump, 3, 3))
+>A : Symbol(A, Decl(objectLiteralWithNumericPropertyName.jump, 0, 0))
+
+    0: 3
+};
+

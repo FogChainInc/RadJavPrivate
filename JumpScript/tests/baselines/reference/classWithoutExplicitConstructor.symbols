@@ -1,0 +1,40 @@
+=== tests/cases/conformance/classes/constructorDeclarations/automaticConstructors/classWithoutExplicitConstructor.jump ===
+class C {
+>C : Symbol(C, Decl(classWithoutExplicitConstructor.jump, 0, 0))
+
+    x = 1
+>x : Symbol(C.x, Decl(classWithoutExplicitConstructor.jump, 0, 9))
+
+    y = 'hello';
+>y : Symbol(C.y, Decl(classWithoutExplicitConstructor.jump, 1, 9))
+}
+
+var c = new C();
+>c : Symbol(c, Decl(classWithoutExplicitConstructor.jump, 5, 3))
+>C : Symbol(C, Decl(classWithoutExplicitConstructor.jump, 0, 0))
+
+var c2 = new C(null); // error
+>c2 : Symbol(c2, Decl(classWithoutExplicitConstructor.jump, 6, 3))
+>C : Symbol(C, Decl(classWithoutExplicitConstructor.jump, 0, 0))
+
+class D<T extends Date> {
+>D : Symbol(D, Decl(classWithoutExplicitConstructor.jump, 6, 21))
+>T : Symbol(T, Decl(classWithoutExplicitConstructor.jump, 8, 8))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+    x = 2
+>x : Symbol(D.x, Decl(classWithoutExplicitConstructor.jump, 8, 25))
+
+    y: T = null;
+>y : Symbol(D.y, Decl(classWithoutExplicitConstructor.jump, 9, 9))
+>T : Symbol(T, Decl(classWithoutExplicitConstructor.jump, 8, 8))
+}
+
+var d = new D();
+>d : Symbol(d, Decl(classWithoutExplicitConstructor.jump, 13, 3))
+>D : Symbol(D, Decl(classWithoutExplicitConstructor.jump, 6, 21))
+
+var d2 = new D(null); // error
+>d2 : Symbol(d2, Decl(classWithoutExplicitConstructor.jump, 14, 3))
+>D : Symbol(D, Decl(classWithoutExplicitConstructor.jump, 6, 21))
+

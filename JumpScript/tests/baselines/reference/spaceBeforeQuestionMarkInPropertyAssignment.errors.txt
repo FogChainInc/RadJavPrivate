@@ -1,0 +1,7 @@
+tests/cases/compiler/spaceBeforeQuestionMarkInPropertyAssignment.jump(1,12): error TS1162: An object member cannot be declared optional.
+
+
+==== tests/cases/compiler/spaceBeforeQuestionMarkInPropertyAssignment.jump (1 errors) ====
+    var x = {x ?: 1} // should not crash
+               ~
+!!! error TS1162: An object member cannot be declared optional.

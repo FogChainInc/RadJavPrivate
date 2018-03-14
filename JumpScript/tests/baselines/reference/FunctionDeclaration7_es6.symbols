@@ -1,0 +1,10 @@
+=== tests/cases/conformance/es6/functionDeclarations/FunctionDeclaration7_es6.jump ===
+function*bar() {
+>bar : Symbol(bar, Decl(FunctionDeclaration7_es6.jump, 0, 0))
+
+  // 'yield' here is an identifier, and not a yield expression.
+  function*foo(a = yield) {
+>foo : Symbol(foo, Decl(FunctionDeclaration7_es6.jump, 0, 16))
+>a : Symbol(a, Decl(FunctionDeclaration7_es6.jump, 2, 15))
+  }
+}

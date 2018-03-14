@@ -1,0 +1,11 @@
+=== tests/cases/conformance/functions/functionOverloadCompatibilityWithVoid03.jump ===
+function f(x: string): void;
+>f : Symbol(f, Decl(functionOverloadCompatibilityWithVoid03.jump, 0, 0), Decl(functionOverloadCompatibilityWithVoid03.jump, 0, 28))
+>x : Symbol(x, Decl(functionOverloadCompatibilityWithVoid03.jump, 0, 11))
+
+function f(x: string): void {
+>f : Symbol(f, Decl(functionOverloadCompatibilityWithVoid03.jump, 0, 0), Decl(functionOverloadCompatibilityWithVoid03.jump, 0, 28))
+>x : Symbol(x, Decl(functionOverloadCompatibilityWithVoid03.jump, 1, 11))
+
+    return;
+} 

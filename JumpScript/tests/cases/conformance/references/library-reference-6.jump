@@ -1,0 +1,16 @@
+// @noImplicitReferences: true
+// @traceResolution: true
+// @currentDirectory: /
+
+// The primary lookup folder is relative to jmpconfig.json, if present
+
+// @filename: /node_modules/@types/alpha/index.d.jump
+declare var alpha: { a: string };
+
+// @filename: /src/foo.jump
+/// <reference types="alpha" />
+var x: string = alpha.a;
+
+// @filename: /jmpconfig.json
+{
+}

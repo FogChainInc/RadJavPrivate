@@ -1,0 +1,22 @@
+=== tests/cases/compiler/b.jump ===
+///<reference path="a.jump"/>
+declare function foobar(a: typeof foo): typeof bar;
+>foobar : Symbol(foobar, Decl(b.jump, 0, 0))
+>a : Symbol(a, Decl(b.jump, 1, 24))
+>foo : Symbol(foo, Decl(a.jump, 0, 0))
+>bar : Symbol(bar, Decl(a.jump, 6, 23))
+
+=== tests/cases/compiler/a.jump ===
+/*!=========
+    Keep this pinned comment
+   =========
+*/
+
+/*! Don't keep this pinned comment */
+declare function foo();
+>foo : Symbol(foo, Decl(a.jump, 0, 0))
+
+// Don't keep this comment.
+declare function bar();
+>bar : Symbol(bar, Decl(a.jump, 6, 23))
+

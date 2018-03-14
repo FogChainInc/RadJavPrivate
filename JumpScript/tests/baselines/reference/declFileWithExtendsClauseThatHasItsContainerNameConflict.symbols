@@ -1,0 +1,37 @@
+=== tests/cases/compiler/declFileWithExtendsClauseThatHasItsContainerNameConflict.jump ===
+declare module A.B.C {
+>A : Symbol(A, Decl(declFileWithExtendsClauseThatHasItsContainerNameConflict.jump, 0, 0), Decl(declFileWithExtendsClauseThatHasItsContainerNameConflict.jump, 3, 1), Decl(declFileWithExtendsClauseThatHasItsContainerNameConflict.jump, 10, 1))
+>B : Symbol(B, Decl(declFileWithExtendsClauseThatHasItsContainerNameConflict.jump, 0, 17), Decl(declFileWithExtendsClauseThatHasItsContainerNameConflict.jump, 5, 9), Decl(declFileWithExtendsClauseThatHasItsContainerNameConflict.jump, 12, 9))
+>C : Symbol(C, Decl(declFileWithExtendsClauseThatHasItsContainerNameConflict.jump, 0, 19), Decl(declFileWithExtendsClauseThatHasItsContainerNameConflict.jump, 12, 11))
+
+    class B {
+>B : Symbol(B, Decl(declFileWithExtendsClauseThatHasItsContainerNameConflict.jump, 0, 22))
+    }
+}
+
+module A.B {
+>A : Symbol(A, Decl(declFileWithExtendsClauseThatHasItsContainerNameConflict.jump, 0, 0), Decl(declFileWithExtendsClauseThatHasItsContainerNameConflict.jump, 3, 1), Decl(declFileWithExtendsClauseThatHasItsContainerNameConflict.jump, 10, 1))
+>B : Symbol(B, Decl(declFileWithExtendsClauseThatHasItsContainerNameConflict.jump, 0, 17), Decl(declFileWithExtendsClauseThatHasItsContainerNameConflict.jump, 5, 9), Decl(declFileWithExtendsClauseThatHasItsContainerNameConflict.jump, 12, 9))
+
+    export class EventManager {
+>EventManager : Symbol(EventManager, Decl(declFileWithExtendsClauseThatHasItsContainerNameConflict.jump, 5, 12))
+
+        id: number;
+>id : Symbol(EventManager.id, Decl(declFileWithExtendsClauseThatHasItsContainerNameConflict.jump, 6, 31))
+
+    }
+}
+
+module A.B.C {
+>A : Symbol(A, Decl(declFileWithExtendsClauseThatHasItsContainerNameConflict.jump, 0, 0), Decl(declFileWithExtendsClauseThatHasItsContainerNameConflict.jump, 3, 1), Decl(declFileWithExtendsClauseThatHasItsContainerNameConflict.jump, 10, 1))
+>B : Symbol(B, Decl(declFileWithExtendsClauseThatHasItsContainerNameConflict.jump, 0, 17), Decl(declFileWithExtendsClauseThatHasItsContainerNameConflict.jump, 5, 9), Decl(declFileWithExtendsClauseThatHasItsContainerNameConflict.jump, 12, 9))
+>C : Symbol(C, Decl(declFileWithExtendsClauseThatHasItsContainerNameConflict.jump, 0, 19), Decl(declFileWithExtendsClauseThatHasItsContainerNameConflict.jump, 12, 11))
+
+    export class ContextMenu extends EventManager {
+>ContextMenu : Symbol(ContextMenu, Decl(declFileWithExtendsClauseThatHasItsContainerNameConflict.jump, 12, 14))
+>EventManager : Symbol(EventManager, Decl(declFileWithExtendsClauseThatHasItsContainerNameConflict.jump, 5, 12))
+
+        name: string;
+>name : Symbol(ContextMenu.name, Decl(declFileWithExtendsClauseThatHasItsContainerNameConflict.jump, 13, 51))
+    }
+}

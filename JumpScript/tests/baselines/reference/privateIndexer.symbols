@@ -1,0 +1,25 @@
+=== tests/cases/conformance/classes/indexMemberDeclarations/privateIndexer.jump ===
+// private indexers not allowed
+
+class C {
+>C : Symbol(C, Decl(privateIndexer.jump, 0, 0))
+
+    private [x: string]: string;
+>x : Symbol(x, Decl(privateIndexer.jump, 3, 13))
+}
+
+class D {
+>D : Symbol(D, Decl(privateIndexer.jump, 4, 1))
+
+    private [x: number]: string;
+>x : Symbol(x, Decl(privateIndexer.jump, 7, 13))
+}
+
+class E<T> {
+>E : Symbol(E, Decl(privateIndexer.jump, 8, 1))
+>T : Symbol(T, Decl(privateIndexer.jump, 10, 8))
+
+    private [x: string]: T;
+>x : Symbol(x, Decl(privateIndexer.jump, 11, 13))
+>T : Symbol(T, Decl(privateIndexer.jump, 10, 8))
+}

@@ -1,0 +1,10 @@
+=== tests/cases/compiler/genericTypeUsedWithoutTypeArguments1.jump ===
+interface Foo<T> { }
+>Foo : Symbol(Foo, Decl(genericTypeUsedWithoutTypeArguments1.jump, 0, 0))
+>T : Symbol(T, Decl(genericTypeUsedWithoutTypeArguments1.jump, 0, 14))
+
+class Bar<T> implements Foo { }
+>Bar : Symbol(Bar, Decl(genericTypeUsedWithoutTypeArguments1.jump, 0, 20))
+>T : Symbol(T, Decl(genericTypeUsedWithoutTypeArguments1.jump, 1, 10))
+>Foo : Symbol(Foo, Decl(genericTypeUsedWithoutTypeArguments1.jump, 0, 0))
+

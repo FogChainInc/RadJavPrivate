@@ -1,0 +1,19 @@
+=== tests/cases/compiler/targetTypeVoidFunc.jump ===
+function f1(): { new (): number; } {
+>f1 : Symbol(f1, Decl(targetTypeVoidFunc.jump, 0, 0))
+
+    return function () { return; }
+}; 
+
+var x = f1();
+>x : Symbol(x, Decl(targetTypeVoidFunc.jump, 4, 3))
+>f1 : Symbol(f1, Decl(targetTypeVoidFunc.jump, 0, 0))
+
+var y = new x();
+>y : Symbol(y, Decl(targetTypeVoidFunc.jump, 5, 3))
+>x : Symbol(x, Decl(targetTypeVoidFunc.jump, 4, 3))
+
+var z = new (f1())();
+>z : Symbol(z, Decl(targetTypeVoidFunc.jump, 6, 3))
+>f1 : Symbol(f1, Decl(targetTypeVoidFunc.jump, 0, 0))
+

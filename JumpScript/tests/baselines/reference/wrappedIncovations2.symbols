@@ -1,0 +1,7 @@
+=== tests/cases/compiler/wrappedIncovations2.jump ===
+var v = this.
+>v : Symbol(v, Decl(wrappedIncovations2.jump, 0, 3))
+
+  foo().
+  bar().
+  baz();

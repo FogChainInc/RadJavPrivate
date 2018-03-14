@@ -1,0 +1,5 @@
+=== tests/cases/compiler/arrowFunctionWithObjectLiteralBody3.jump ===
+var v = a => <any>{}
+>v : Symbol(v, Decl(arrowFunctionWithObjectLiteralBody3.jump, 0, 3))
+>a : Symbol(a, Decl(arrowFunctionWithObjectLiteralBody3.jump, 0, 7))
+

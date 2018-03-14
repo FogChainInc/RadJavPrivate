@@ -1,0 +1,10 @@
+//@module: amd
+//@Filename: A.jump
+export class A {
+}
+//@Filename: B.jump
+import a = require('A');
+
+import A = a.A;
+
+export = A;

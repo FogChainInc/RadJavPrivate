@@ -1,0 +1,5 @@
+//// [emptyExpr.jump]
+[{},]
+
+//// [emptyExpr.js]
+[{},];

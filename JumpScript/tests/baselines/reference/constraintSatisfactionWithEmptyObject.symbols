@@ -1,0 +1,93 @@
+=== tests/cases/conformance/types/typeParameters/typeArgumentLists/constraintSatisfactionWithEmptyObject.jump ===
+// valid uses of a basic object constraint, no errors expected
+
+// Object constraint
+function foo<T extends Object>(x: T) { }
+>foo : Symbol(foo, Decl(constraintSatisfactionWithEmptyObject.jump, 0, 0))
+>T : Symbol(T, Decl(constraintSatisfactionWithEmptyObject.jump, 3, 13))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(constraintSatisfactionWithEmptyObject.jump, 3, 31))
+>T : Symbol(T, Decl(constraintSatisfactionWithEmptyObject.jump, 3, 13))
+
+var r = foo({});
+>r : Symbol(r, Decl(constraintSatisfactionWithEmptyObject.jump, 4, 3), Decl(constraintSatisfactionWithEmptyObject.jump, 6, 3), Decl(constraintSatisfactionWithEmptyObject.jump, 21, 3), Decl(constraintSatisfactionWithEmptyObject.jump, 23, 3))
+>foo : Symbol(foo, Decl(constraintSatisfactionWithEmptyObject.jump, 0, 0))
+
+var a = {};
+>a : Symbol(a, Decl(constraintSatisfactionWithEmptyObject.jump, 5, 3), Decl(constraintSatisfactionWithEmptyObject.jump, 22, 3))
+
+var r = foo({});
+>r : Symbol(r, Decl(constraintSatisfactionWithEmptyObject.jump, 4, 3), Decl(constraintSatisfactionWithEmptyObject.jump, 6, 3), Decl(constraintSatisfactionWithEmptyObject.jump, 21, 3), Decl(constraintSatisfactionWithEmptyObject.jump, 23, 3))
+>foo : Symbol(foo, Decl(constraintSatisfactionWithEmptyObject.jump, 0, 0))
+
+class C<T extends Object> {
+>C : Symbol(C, Decl(constraintSatisfactionWithEmptyObject.jump, 6, 16))
+>T : Symbol(T, Decl(constraintSatisfactionWithEmptyObject.jump, 8, 8))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+    constructor(public x: T) { }
+>x : Symbol(C.x, Decl(constraintSatisfactionWithEmptyObject.jump, 9, 16))
+>T : Symbol(T, Decl(constraintSatisfactionWithEmptyObject.jump, 8, 8))
+}
+
+var r2 = new C({});
+>r2 : Symbol(r2, Decl(constraintSatisfactionWithEmptyObject.jump, 12, 3), Decl(constraintSatisfactionWithEmptyObject.jump, 29, 3))
+>C : Symbol(C, Decl(constraintSatisfactionWithEmptyObject.jump, 6, 16))
+
+interface I<T extends Object> {
+>I : Symbol(I, Decl(constraintSatisfactionWithEmptyObject.jump, 12, 19))
+>T : Symbol(T, Decl(constraintSatisfactionWithEmptyObject.jump, 14, 12))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+    x: T;
+>x : Symbol(I.x, Decl(constraintSatisfactionWithEmptyObject.jump, 14, 31))
+>T : Symbol(T, Decl(constraintSatisfactionWithEmptyObject.jump, 14, 12))
+}
+var i: I<{}>;
+>i : Symbol(i, Decl(constraintSatisfactionWithEmptyObject.jump, 17, 3))
+>I : Symbol(I, Decl(constraintSatisfactionWithEmptyObject.jump, 12, 19))
+
+// {} constraint
+function foo2<T extends {}>(x: T) { }
+>foo2 : Symbol(foo2, Decl(constraintSatisfactionWithEmptyObject.jump, 17, 13))
+>T : Symbol(T, Decl(constraintSatisfactionWithEmptyObject.jump, 20, 14))
+>x : Symbol(x, Decl(constraintSatisfactionWithEmptyObject.jump, 20, 28))
+>T : Symbol(T, Decl(constraintSatisfactionWithEmptyObject.jump, 20, 14))
+
+var r = foo2({});
+>r : Symbol(r, Decl(constraintSatisfactionWithEmptyObject.jump, 4, 3), Decl(constraintSatisfactionWithEmptyObject.jump, 6, 3), Decl(constraintSatisfactionWithEmptyObject.jump, 21, 3), Decl(constraintSatisfactionWithEmptyObject.jump, 23, 3))
+>foo2 : Symbol(foo2, Decl(constraintSatisfactionWithEmptyObject.jump, 17, 13))
+
+var a = {};
+>a : Symbol(a, Decl(constraintSatisfactionWithEmptyObject.jump, 5, 3), Decl(constraintSatisfactionWithEmptyObject.jump, 22, 3))
+
+var r = foo2({});
+>r : Symbol(r, Decl(constraintSatisfactionWithEmptyObject.jump, 4, 3), Decl(constraintSatisfactionWithEmptyObject.jump, 6, 3), Decl(constraintSatisfactionWithEmptyObject.jump, 21, 3), Decl(constraintSatisfactionWithEmptyObject.jump, 23, 3))
+>foo2 : Symbol(foo2, Decl(constraintSatisfactionWithEmptyObject.jump, 17, 13))
+
+class C2<T extends {}> {
+>C2 : Symbol(C2, Decl(constraintSatisfactionWithEmptyObject.jump, 23, 17))
+>T : Symbol(T, Decl(constraintSatisfactionWithEmptyObject.jump, 25, 9))
+
+    constructor(public x: T) { }
+>x : Symbol(C2.x, Decl(constraintSatisfactionWithEmptyObject.jump, 26, 16))
+>T : Symbol(T, Decl(constraintSatisfactionWithEmptyObject.jump, 25, 9))
+}
+
+var r2 = new C2({});
+>r2 : Symbol(r2, Decl(constraintSatisfactionWithEmptyObject.jump, 12, 3), Decl(constraintSatisfactionWithEmptyObject.jump, 29, 3))
+>C2 : Symbol(C2, Decl(constraintSatisfactionWithEmptyObject.jump, 23, 17))
+
+interface I2<T extends {}> {
+>I2 : Symbol(I2, Decl(constraintSatisfactionWithEmptyObject.jump, 29, 20))
+>T : Symbol(T, Decl(constraintSatisfactionWithEmptyObject.jump, 31, 13))
+
+    x: T;
+>x : Symbol(I2.x, Decl(constraintSatisfactionWithEmptyObject.jump, 31, 28))
+>T : Symbol(T, Decl(constraintSatisfactionWithEmptyObject.jump, 31, 13))
+}
+var i2: I2<{}>;
+>i2 : Symbol(i2, Decl(constraintSatisfactionWithEmptyObject.jump, 34, 3))
+>I2 : Symbol(I2, Decl(constraintSatisfactionWithEmptyObject.jump, 29, 20))
+
+

@@ -1,0 +1,7 @@
+=== tests/cases/conformance/classes/classDeclarations/classWithSemicolonClassElement2.jump ===
+class C {
+>C : C
+
+    ;
+    ;
+}

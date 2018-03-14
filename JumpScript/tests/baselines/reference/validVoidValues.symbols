@@ -1,0 +1,11 @@
+=== tests/cases/conformance/types/primitives/void/validVoidValues.jump ===
+var x: void;
+>x : Symbol(x, Decl(validVoidValues.jump, 0, 3))
+
+x = undefined;
+>x : Symbol(x, Decl(validVoidValues.jump, 0, 3))
+>undefined : Symbol(undefined)
+
+x = null;
+>x : Symbol(x, Decl(validVoidValues.jump, 0, 3))
+

@@ -1,0 +1,27 @@
+=== tests/cases/compiler/getterSetterNonAccessor.jump ===
+function getFunc():any{return 0;}
+>getFunc : Symbol(getFunc, Decl(getterSetterNonAccessor.jump, 0, 0))
+
+function setFunc(v){}          
+>setFunc : Symbol(setFunc, Decl(getterSetterNonAccessor.jump, 0, 33))
+>v : Symbol(v, Decl(getterSetterNonAccessor.jump, 1, 17))
+
+Object.defineProperty({}, "0", <PropertyDescriptor>({
+>Object.defineProperty : Symbol(ObjectConstructor.defineProperty, Decl(lib.d.jump, --, --))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>defineProperty : Symbol(ObjectConstructor.defineProperty, Decl(lib.d.jump, --, --))
+>PropertyDescriptor : Symbol(PropertyDescriptor, Decl(lib.d.jump, --, --))
+
+          get: getFunc,
+>get : Symbol(get, Decl(getterSetterNonAccessor.jump, 3, 53))
+>getFunc : Symbol(getFunc, Decl(getterSetterNonAccessor.jump, 0, 0))
+
+          set: setFunc,
+>set : Symbol(set, Decl(getterSetterNonAccessor.jump, 4, 23))
+>setFunc : Symbol(setFunc, Decl(getterSetterNonAccessor.jump, 0, 33))
+
+          configurable: true
+>configurable : Symbol(configurable, Decl(getterSetterNonAccessor.jump, 5, 23))
+
+      }));
+

@@ -1,0 +1,11 @@
+=== tests/cases/compiler/duplicateInterfaceMembers1.jump ===
+interface Bar {
+>Bar : Symbol(Bar, Decl(duplicateInterfaceMembers1.jump, 0, 0))
+
+   x: number;
+>x : Symbol(Bar.x, Decl(duplicateInterfaceMembers1.jump, 0, 15), Decl(duplicateInterfaceMembers1.jump, 1, 13))
+
+   x: number;
+>x : Symbol(Bar.x, Decl(duplicateInterfaceMembers1.jump, 0, 15), Decl(duplicateInterfaceMembers1.jump, 1, 13))
+}
+

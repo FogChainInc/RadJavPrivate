@@ -1,0 +1,7 @@
+=== tests/cases/compiler/classMethodWithKeywordName1.jump ===
+class C {
+>C : Symbol(C, Decl(classMethodWithKeywordName1.jump, 0, 0))
+
+ static try() {}
+>try : Symbol(C.try, Decl(classMethodWithKeywordName1.jump, 0, 9))
+}

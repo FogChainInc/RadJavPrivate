@@ -1,0 +1,23 @@
+{
+    "scenario": "outputdir_multifolder: no outdir",
+    "projectRoot": "tests/cases/projects/outputdir_multifolder",
+    "inputFiles": [
+        "test.jump"
+    ],
+    "declaration": true,
+    "baselineCheck": true,
+    "resolvedInputFiles": [
+        "lib.d.jump",
+        "ref/m1.jump",
+        "../outputdir_multifolder_ref/m2.jump",
+        "test.jump"
+    ],
+    "emittedFiles": [
+        "ref/m1.js",
+        "ref/m1.d.jump",
+        "../outputdir_multifolder_ref/m2.js",
+        "../outputdir_multifolder_ref/m2.d.jump",
+        "test.js",
+        "test.d.jump"
+    ]
+}

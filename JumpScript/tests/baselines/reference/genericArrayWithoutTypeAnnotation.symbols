@@ -1,0 +1,15 @@
+=== tests/cases/compiler/genericArrayWithoutTypeAnnotation.jump ===
+interface IFoo<T>{
+>IFoo : Symbol(IFoo, Decl(genericArrayWithoutTypeAnnotation.jump, 0, 0))
+>T : Symbol(T, Decl(genericArrayWithoutTypeAnnotation.jump, 0, 15))
+}
+class Bar {
+>Bar : Symbol(Bar, Decl(genericArrayWithoutTypeAnnotation.jump, 1, 1))
+
+    public getBar(foo: IFoo[]) {
+>getBar : Symbol(Bar.getBar, Decl(genericArrayWithoutTypeAnnotation.jump, 2, 11))
+>foo : Symbol(foo, Decl(genericArrayWithoutTypeAnnotation.jump, 3, 18))
+>IFoo : Symbol(IFoo, Decl(genericArrayWithoutTypeAnnotation.jump, 0, 0))
+    }
+}
+

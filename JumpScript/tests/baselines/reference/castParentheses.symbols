@@ -1,0 +1,42 @@
+=== tests/cases/compiler/castParentheses.jump ===
+class a {
+>a : Symbol(a, Decl(castParentheses.jump, 0, 0))
+
+    static b: any;
+>b : Symbol(a.b, Decl(castParentheses.jump, 0, 9))
+}
+
+var b = (<any>a);
+>b : Symbol(b, Decl(castParentheses.jump, 4, 3), Decl(castParentheses.jump, 5, 3), Decl(castParentheses.jump, 6, 3), Decl(castParentheses.jump, 7, 3), Decl(castParentheses.jump, 8, 3) ... and 2 more)
+>a : Symbol(a, Decl(castParentheses.jump, 0, 0))
+
+var b = (<any>a).b;
+>b : Symbol(b, Decl(castParentheses.jump, 4, 3), Decl(castParentheses.jump, 5, 3), Decl(castParentheses.jump, 6, 3), Decl(castParentheses.jump, 7, 3), Decl(castParentheses.jump, 8, 3) ... and 2 more)
+>a : Symbol(a, Decl(castParentheses.jump, 0, 0))
+
+var b = (<any>a.b).c;
+>b : Symbol(b, Decl(castParentheses.jump, 4, 3), Decl(castParentheses.jump, 5, 3), Decl(castParentheses.jump, 6, 3), Decl(castParentheses.jump, 7, 3), Decl(castParentheses.jump, 8, 3) ... and 2 more)
+>a.b : Symbol(a.b, Decl(castParentheses.jump, 0, 9))
+>a : Symbol(a, Decl(castParentheses.jump, 0, 0))
+>b : Symbol(a.b, Decl(castParentheses.jump, 0, 9))
+
+var b = (<any>a.b()).c;
+>b : Symbol(b, Decl(castParentheses.jump, 4, 3), Decl(castParentheses.jump, 5, 3), Decl(castParentheses.jump, 6, 3), Decl(castParentheses.jump, 7, 3), Decl(castParentheses.jump, 8, 3) ... and 2 more)
+>a.b : Symbol(a.b, Decl(castParentheses.jump, 0, 9))
+>a : Symbol(a, Decl(castParentheses.jump, 0, 0))
+>b : Symbol(a.b, Decl(castParentheses.jump, 0, 9))
+
+var b = (<any>new a);
+>b : Symbol(b, Decl(castParentheses.jump, 4, 3), Decl(castParentheses.jump, 5, 3), Decl(castParentheses.jump, 6, 3), Decl(castParentheses.jump, 7, 3), Decl(castParentheses.jump, 8, 3) ... and 2 more)
+>a : Symbol(a, Decl(castParentheses.jump, 0, 0))
+
+var b = (<any>new a.b);
+>b : Symbol(b, Decl(castParentheses.jump, 4, 3), Decl(castParentheses.jump, 5, 3), Decl(castParentheses.jump, 6, 3), Decl(castParentheses.jump, 7, 3), Decl(castParentheses.jump, 8, 3) ... and 2 more)
+>a.b : Symbol(a.b, Decl(castParentheses.jump, 0, 9))
+>a : Symbol(a, Decl(castParentheses.jump, 0, 0))
+>b : Symbol(a.b, Decl(castParentheses.jump, 0, 9))
+
+var b = (<any>new a).b 
+>b : Symbol(b, Decl(castParentheses.jump, 4, 3), Decl(castParentheses.jump, 5, 3), Decl(castParentheses.jump, 6, 3), Decl(castParentheses.jump, 7, 3), Decl(castParentheses.jump, 8, 3) ... and 2 more)
+>a : Symbol(a, Decl(castParentheses.jump, 0, 0))
+

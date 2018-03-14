@@ -1,0 +1,9 @@
+=== tests/cases/conformance/es6/destructuring/declarationInAmbientContext.jump ===
+declare var [a, b];  // Error, destructuring declaration not allowed in ambient context
+>a : Symbol(a, Decl(declarationInAmbientContext.jump, 0, 13))
+>b : Symbol(b, Decl(declarationInAmbientContext.jump, 0, 15))
+
+declare var {c, d};  // Error, destructuring declaration not allowed in ambient context
+>c : Symbol(c, Decl(declarationInAmbientContext.jump, 1, 13))
+>d : Symbol(d, Decl(declarationInAmbientContext.jump, 1, 15))
+

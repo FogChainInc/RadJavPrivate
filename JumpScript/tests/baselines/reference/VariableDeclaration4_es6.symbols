@@ -1,0 +1,4 @@
+=== tests/cases/conformance/es6/variableDeclarations/VariableDeclaration4_es6.jump ===
+const a: number
+>a : Symbol(a, Decl(VariableDeclaration4_es6.jump, 0, 5))
+

@@ -1,0 +1,211 @@
+=== tests/cases/conformance/types/typeParameters/typeParameterLists/typeParameterUsedAsConstraint.jump ===
+class C<T, U extends T> { }
+>C : Symbol(C, Decl(typeParameterUsedAsConstraint.jump, 0, 0))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 0, 8))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 0, 10))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 0, 8))
+
+class C2<T extends U, U> { }
+>C2 : Symbol(C2, Decl(typeParameterUsedAsConstraint.jump, 0, 27))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 1, 9))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 1, 21))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 1, 21))
+
+class C3<T extends Date, U extends T> { }
+>C3 : Symbol(C3, Decl(typeParameterUsedAsConstraint.jump, 1, 28))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 2, 9))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 2, 24))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 2, 9))
+
+class C4<T extends U, U extends Date> { }
+>C4 : Symbol(C4, Decl(typeParameterUsedAsConstraint.jump, 2, 41))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 3, 9))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 3, 21))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 3, 21))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+class C5<T extends U, U extends V, V> { }
+>C5 : Symbol(C5, Decl(typeParameterUsedAsConstraint.jump, 3, 41))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 4, 9))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 4, 21))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 4, 21))
+>V : Symbol(V, Decl(typeParameterUsedAsConstraint.jump, 4, 34))
+>V : Symbol(V, Decl(typeParameterUsedAsConstraint.jump, 4, 34))
+
+class C6<T, U extends T, V extends U> { }
+>C6 : Symbol(C6, Decl(typeParameterUsedAsConstraint.jump, 4, 41))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 5, 9))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 5, 11))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 5, 9))
+>V : Symbol(V, Decl(typeParameterUsedAsConstraint.jump, 5, 24))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 5, 11))
+
+interface I<T, U extends T> { }
+>I : Symbol(I, Decl(typeParameterUsedAsConstraint.jump, 5, 41))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 7, 12))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 7, 14))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 7, 12))
+
+interface I2<T extends U, U> { }
+>I2 : Symbol(I2, Decl(typeParameterUsedAsConstraint.jump, 7, 31))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 8, 13))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 8, 25))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 8, 25))
+
+interface I3<T extends Date, U extends T> { }
+>I3 : Symbol(I3, Decl(typeParameterUsedAsConstraint.jump, 8, 32))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 9, 13))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 9, 28))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 9, 13))
+
+interface I4<T extends U, U extends Date> { }
+>I4 : Symbol(I4, Decl(typeParameterUsedAsConstraint.jump, 9, 45))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 10, 13))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 10, 25))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 10, 25))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+interface I5<T extends U, U extends V, V> { }
+>I5 : Symbol(I5, Decl(typeParameterUsedAsConstraint.jump, 10, 45))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 11, 13))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 11, 25))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 11, 25))
+>V : Symbol(V, Decl(typeParameterUsedAsConstraint.jump, 11, 38))
+>V : Symbol(V, Decl(typeParameterUsedAsConstraint.jump, 11, 38))
+
+interface I6<T, U extends T, V extends U> { }
+>I6 : Symbol(I6, Decl(typeParameterUsedAsConstraint.jump, 11, 45))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 12, 13))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 12, 15))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 12, 13))
+>V : Symbol(V, Decl(typeParameterUsedAsConstraint.jump, 12, 28))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 12, 15))
+
+function f<T, U extends T>() { }
+>f : Symbol(f, Decl(typeParameterUsedAsConstraint.jump, 12, 45))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 14, 11))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 14, 13))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 14, 11))
+
+function f2<T extends U, U>() { }
+>f2 : Symbol(f2, Decl(typeParameterUsedAsConstraint.jump, 14, 32))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 15, 12))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 15, 24))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 15, 24))
+
+function f3<T extends Date, U extends T>() { }
+>f3 : Symbol(f3, Decl(typeParameterUsedAsConstraint.jump, 15, 33))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 16, 12))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 16, 27))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 16, 12))
+
+function f4<T extends U, U extends Date>() { }
+>f4 : Symbol(f4, Decl(typeParameterUsedAsConstraint.jump, 16, 46))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 17, 12))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 17, 24))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 17, 24))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+function f5<T extends U, U extends V, V>() { }
+>f5 : Symbol(f5, Decl(typeParameterUsedAsConstraint.jump, 17, 46))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 18, 12))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 18, 24))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 18, 24))
+>V : Symbol(V, Decl(typeParameterUsedAsConstraint.jump, 18, 37))
+>V : Symbol(V, Decl(typeParameterUsedAsConstraint.jump, 18, 37))
+
+function f6<T, U extends T, V extends U>() { }
+>f6 : Symbol(f6, Decl(typeParameterUsedAsConstraint.jump, 18, 46))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 19, 12))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 19, 14))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 19, 12))
+>V : Symbol(V, Decl(typeParameterUsedAsConstraint.jump, 19, 27))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 19, 14))
+
+var e = <T, U extends T>() => { }
+>e : Symbol(e, Decl(typeParameterUsedAsConstraint.jump, 21, 3))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 21, 9))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 21, 11))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 21, 9))
+
+var e2 = <T extends U, U>() => { }
+>e2 : Symbol(e2, Decl(typeParameterUsedAsConstraint.jump, 22, 3))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 22, 10))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 22, 22))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 22, 22))
+
+var e3 = <T extends Date, U extends T>() => { }
+>e3 : Symbol(e3, Decl(typeParameterUsedAsConstraint.jump, 23, 3))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 23, 10))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 23, 25))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 23, 10))
+
+var e4 = <T extends U, U extends Date>() => { }
+>e4 : Symbol(e4, Decl(typeParameterUsedAsConstraint.jump, 24, 3))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 24, 10))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 24, 22))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 24, 22))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+var e5 = <T extends U, U extends V, V>() => { }
+>e5 : Symbol(e5, Decl(typeParameterUsedAsConstraint.jump, 25, 3))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 25, 10))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 25, 22))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 25, 22))
+>V : Symbol(V, Decl(typeParameterUsedAsConstraint.jump, 25, 35))
+>V : Symbol(V, Decl(typeParameterUsedAsConstraint.jump, 25, 35))
+
+var e6 = <T, U extends T, V extends U>() => { }
+>e6 : Symbol(e6, Decl(typeParameterUsedAsConstraint.jump, 26, 3))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 26, 10))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 26, 12))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 26, 10))
+>V : Symbol(V, Decl(typeParameterUsedAsConstraint.jump, 26, 25))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 26, 12))
+
+var a: { <T, U extends T>(): void }
+>a : Symbol(a, Decl(typeParameterUsedAsConstraint.jump, 28, 3))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 28, 10))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 28, 12))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 28, 10))
+
+var a2: { <T extends U, U>(): void }
+>a2 : Symbol(a2, Decl(typeParameterUsedAsConstraint.jump, 29, 3))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 29, 11))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 29, 23))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 29, 23))
+
+var a3: { <T extends Date, U extends T>(): void }
+>a3 : Symbol(a3, Decl(typeParameterUsedAsConstraint.jump, 30, 3))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 30, 11))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 30, 26))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 30, 11))
+
+var a4: { <T extends U, U extends Date>(): void }
+>a4 : Symbol(a4, Decl(typeParameterUsedAsConstraint.jump, 31, 3))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 31, 11))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 31, 23))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 31, 23))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+var a5: { <T extends U, U extends V, V>(): void }
+>a5 : Symbol(a5, Decl(typeParameterUsedAsConstraint.jump, 32, 3))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 32, 11))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 32, 23))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 32, 23))
+>V : Symbol(V, Decl(typeParameterUsedAsConstraint.jump, 32, 36))
+>V : Symbol(V, Decl(typeParameterUsedAsConstraint.jump, 32, 36))
+
+var a6: { <T, U extends T, V extends U>(): void }
+>a6 : Symbol(a6, Decl(typeParameterUsedAsConstraint.jump, 33, 3))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 33, 11))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 33, 13))
+>T : Symbol(T, Decl(typeParameterUsedAsConstraint.jump, 33, 11))
+>V : Symbol(V, Decl(typeParameterUsedAsConstraint.jump, 33, 26))
+>U : Symbol(U, Decl(typeParameterUsedAsConstraint.jump, 33, 13))
+

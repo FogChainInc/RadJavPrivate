@@ -1,0 +1,20 @@
+=== tests/cases/compiler/doNotEmitPinnedCommentOnNotEmittedNodets.jump ===
+class C {
+>C : Symbol(C, Decl(doNotEmitPinnedCommentOnNotEmittedNodets.jump, 0, 0))
+
+    /*! remove pinned comment anywhere else */
+    public foo(x: string, y: any)
+>foo : Symbol(C.foo, Decl(doNotEmitPinnedCommentOnNotEmittedNodets.jump, 0, 9), Decl(doNotEmitPinnedCommentOnNotEmittedNodets.jump, 2, 33))
+>x : Symbol(x, Decl(doNotEmitPinnedCommentOnNotEmittedNodets.jump, 2, 15))
+>y : Symbol(y, Decl(doNotEmitPinnedCommentOnNotEmittedNodets.jump, 2, 25))
+
+    public foo(x: string, y: number) { }
+>foo : Symbol(C.foo, Decl(doNotEmitPinnedCommentOnNotEmittedNodets.jump, 0, 9), Decl(doNotEmitPinnedCommentOnNotEmittedNodets.jump, 2, 33))
+>x : Symbol(x, Decl(doNotEmitPinnedCommentOnNotEmittedNodets.jump, 3, 15))
+>y : Symbol(y, Decl(doNotEmitPinnedCommentOnNotEmittedNodets.jump, 3, 25))
+}
+
+/*! remove pinned comment anywhere else */
+declare var OData: any;
+>OData : Symbol(OData, Decl(doNotEmitPinnedCommentOnNotEmittedNodets.jump, 7, 11))
+

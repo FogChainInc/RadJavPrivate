@@ -1,0 +1,69 @@
+=== tests/cases/conformance/types/typeRelationships/typeInference/indexSignatureTypeInference.jump ===
+interface NumberMap<T> {
+>NumberMap : Symbol(NumberMap, Decl(indexSignatureTypeInference.jump, 0, 0))
+>T : Symbol(T, Decl(indexSignatureTypeInference.jump, 0, 20))
+
+    [index: number]: T;
+>index : Symbol(index, Decl(indexSignatureTypeInference.jump, 1, 5))
+>T : Symbol(T, Decl(indexSignatureTypeInference.jump, 0, 20))
+}
+
+interface StringMap<T> {
+>StringMap : Symbol(StringMap, Decl(indexSignatureTypeInference.jump, 2, 1))
+>T : Symbol(T, Decl(indexSignatureTypeInference.jump, 4, 20))
+
+    [index: string]: T;
+>index : Symbol(index, Decl(indexSignatureTypeInference.jump, 5, 5))
+>T : Symbol(T, Decl(indexSignatureTypeInference.jump, 4, 20))
+}
+
+declare function numberMapToArray<T>(object: NumberMap<T>): T[];
+>numberMapToArray : Symbol(numberMapToArray, Decl(indexSignatureTypeInference.jump, 6, 1))
+>T : Symbol(T, Decl(indexSignatureTypeInference.jump, 8, 34))
+>object : Symbol(object, Decl(indexSignatureTypeInference.jump, 8, 37))
+>NumberMap : Symbol(NumberMap, Decl(indexSignatureTypeInference.jump, 0, 0))
+>T : Symbol(T, Decl(indexSignatureTypeInference.jump, 8, 34))
+>T : Symbol(T, Decl(indexSignatureTypeInference.jump, 8, 34))
+
+declare function stringMapToArray<T>(object: StringMap<T>): T[];
+>stringMapToArray : Symbol(stringMapToArray, Decl(indexSignatureTypeInference.jump, 8, 64))
+>T : Symbol(T, Decl(indexSignatureTypeInference.jump, 9, 34))
+>object : Symbol(object, Decl(indexSignatureTypeInference.jump, 9, 37))
+>StringMap : Symbol(StringMap, Decl(indexSignatureTypeInference.jump, 2, 1))
+>T : Symbol(T, Decl(indexSignatureTypeInference.jump, 9, 34))
+>T : Symbol(T, Decl(indexSignatureTypeInference.jump, 9, 34))
+
+var numberMap: NumberMap<Function>;
+>numberMap : Symbol(numberMap, Decl(indexSignatureTypeInference.jump, 11, 3))
+>NumberMap : Symbol(NumberMap, Decl(indexSignatureTypeInference.jump, 0, 0))
+>Function : Symbol(Function, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+var stringMap: StringMap<Function>;
+>stringMap : Symbol(stringMap, Decl(indexSignatureTypeInference.jump, 12, 3))
+>StringMap : Symbol(StringMap, Decl(indexSignatureTypeInference.jump, 2, 1))
+>Function : Symbol(Function, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+var v1: Function[];
+>v1 : Symbol(v1, Decl(indexSignatureTypeInference.jump, 14, 3), Decl(indexSignatureTypeInference.jump, 15, 3), Decl(indexSignatureTypeInference.jump, 16, 3), Decl(indexSignatureTypeInference.jump, 17, 3), Decl(indexSignatureTypeInference.jump, 18, 3))
+>Function : Symbol(Function, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+var v1 = numberMapToArray(numberMap);  // Ok
+>v1 : Symbol(v1, Decl(indexSignatureTypeInference.jump, 14, 3), Decl(indexSignatureTypeInference.jump, 15, 3), Decl(indexSignatureTypeInference.jump, 16, 3), Decl(indexSignatureTypeInference.jump, 17, 3), Decl(indexSignatureTypeInference.jump, 18, 3))
+>numberMapToArray : Symbol(numberMapToArray, Decl(indexSignatureTypeInference.jump, 6, 1))
+>numberMap : Symbol(numberMap, Decl(indexSignatureTypeInference.jump, 11, 3))
+
+var v1 = numberMapToArray(stringMap);  // Ok
+>v1 : Symbol(v1, Decl(indexSignatureTypeInference.jump, 14, 3), Decl(indexSignatureTypeInference.jump, 15, 3), Decl(indexSignatureTypeInference.jump, 16, 3), Decl(indexSignatureTypeInference.jump, 17, 3), Decl(indexSignatureTypeInference.jump, 18, 3))
+>numberMapToArray : Symbol(numberMapToArray, Decl(indexSignatureTypeInference.jump, 6, 1))
+>stringMap : Symbol(stringMap, Decl(indexSignatureTypeInference.jump, 12, 3))
+
+var v1 = stringMapToArray(numberMap);  // Error expected here
+>v1 : Symbol(v1, Decl(indexSignatureTypeInference.jump, 14, 3), Decl(indexSignatureTypeInference.jump, 15, 3), Decl(indexSignatureTypeInference.jump, 16, 3), Decl(indexSignatureTypeInference.jump, 17, 3), Decl(indexSignatureTypeInference.jump, 18, 3))
+>stringMapToArray : Symbol(stringMapToArray, Decl(indexSignatureTypeInference.jump, 8, 64))
+>numberMap : Symbol(numberMap, Decl(indexSignatureTypeInference.jump, 11, 3))
+
+var v1 = stringMapToArray(stringMap);  // Ok
+>v1 : Symbol(v1, Decl(indexSignatureTypeInference.jump, 14, 3), Decl(indexSignatureTypeInference.jump, 15, 3), Decl(indexSignatureTypeInference.jump, 16, 3), Decl(indexSignatureTypeInference.jump, 17, 3), Decl(indexSignatureTypeInference.jump, 18, 3))
+>stringMapToArray : Symbol(stringMapToArray, Decl(indexSignatureTypeInference.jump, 8, 64))
+>stringMap : Symbol(stringMap, Decl(indexSignatureTypeInference.jump, 12, 3))
+

@@ -1,0 +1,30 @@
+=== tests/cases/compiler/moduleMerge.jump ===
+// This should not compile both B classes are in the same module this should be a collission
+
+module A
+>A : Symbol(A, Decl(moduleMerge.jump, 0, 0), Decl(moduleMerge.jump, 11, 1))
+{
+    class B
+>B : Symbol(B, Decl(moduleMerge.jump, 3, 1))
+    {
+        public Hello(): string
+>Hello : Symbol(B.Hello, Decl(moduleMerge.jump, 5, 5))
+        {
+            return "from private B";
+        }
+    }
+}
+
+module A
+>A : Symbol(A, Decl(moduleMerge.jump, 0, 0), Decl(moduleMerge.jump, 11, 1))
+{
+    export class B
+>B : Symbol(B, Decl(moduleMerge.jump, 14, 1))
+    {
+        public Hello(): string
+>Hello : Symbol(B.Hello, Decl(moduleMerge.jump, 16, 5))
+        {
+            return "from export B";
+        }
+    }
+}

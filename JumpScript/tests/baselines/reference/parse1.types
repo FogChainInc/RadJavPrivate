@@ -1,0 +1,14 @@
+=== tests/cases/compiler/parse1.jump ===
+var bar = 42;
+>bar : number
+>42 : 42
+
+function foo() {
+>foo : () => void
+
+ bar.
+>bar. : any
+>bar : number
+}
+> : any
+

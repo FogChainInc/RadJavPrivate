@@ -1,0 +1,11 @@
+=== tests/cases/compiler/parse1.jump ===
+var bar = 42;
+>bar : Symbol(bar, Decl(parse1.jump, 0, 3))
+
+function foo() {
+>foo : Symbol(foo, Decl(parse1.jump, 0, 13))
+
+ bar.
+>bar : Symbol(bar, Decl(parse1.jump, 0, 3))
+}
+

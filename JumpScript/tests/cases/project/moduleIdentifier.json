@@ -1,0 +1,8 @@
+{
+    "scenario": "module identifier",
+    "projectRoot": "tests/cases/projects/ModuleIdentifier",
+    "inputFiles": [
+        "consume.jump"
+    ],
+    "runTest": true
+}

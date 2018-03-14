@@ -1,0 +1,9 @@
+=== tests/cases/compiler/constructorArgsErrors3.jump ===
+class foo {
+>foo : foo
+
+    constructor (public public a: number) {
+>a : number
+    }
+}
+

@@ -1,0 +1,26 @@
+=== tests/cases/compiler/compositeGenericFunction.jump ===
+function f<T>(value: T) { return value; };
+>f : Symbol(f, Decl(compositeGenericFunction.jump, 0, 0))
+>T : Symbol(T, Decl(compositeGenericFunction.jump, 0, 11))
+>value : Symbol(value, Decl(compositeGenericFunction.jump, 0, 14))
+>T : Symbol(T, Decl(compositeGenericFunction.jump, 0, 11))
+>value : Symbol(value, Decl(compositeGenericFunction.jump, 0, 14))
+
+function h<R>(func: (x: number) => R): R { return null; }
+>h : Symbol(h, Decl(compositeGenericFunction.jump, 0, 42))
+>R : Symbol(R, Decl(compositeGenericFunction.jump, 2, 11))
+>func : Symbol(func, Decl(compositeGenericFunction.jump, 2, 14))
+>x : Symbol(x, Decl(compositeGenericFunction.jump, 2, 21))
+>R : Symbol(R, Decl(compositeGenericFunction.jump, 2, 11))
+>R : Symbol(R, Decl(compositeGenericFunction.jump, 2, 11))
+
+var z: number = h<number>(f);
+>z : Symbol(z, Decl(compositeGenericFunction.jump, 4, 3), Decl(compositeGenericFunction.jump, 5, 3))
+>h : Symbol(h, Decl(compositeGenericFunction.jump, 0, 42))
+>f : Symbol(f, Decl(compositeGenericFunction.jump, 0, 0))
+
+var z: number = h(f);
+>z : Symbol(z, Decl(compositeGenericFunction.jump, 4, 3), Decl(compositeGenericFunction.jump, 5, 3))
+>h : Symbol(h, Decl(compositeGenericFunction.jump, 0, 42))
+>f : Symbol(f, Decl(compositeGenericFunction.jump, 0, 0))
+

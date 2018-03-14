@@ -1,0 +1,151 @@
+tests/cases/compiler/letDeclarations-scopes-duplicates.jump(2,5): error TS2451: Cannot redeclare block-scoped variable 'var1'.
+tests/cases/compiler/letDeclarations-scopes-duplicates.jump(3,5): error TS2451: Cannot redeclare block-scoped variable 'var1'.
+tests/cases/compiler/letDeclarations-scopes-duplicates.jump(5,5): error TS2451: Cannot redeclare block-scoped variable 'var2'.
+tests/cases/compiler/letDeclarations-scopes-duplicates.jump(6,7): error TS2451: Cannot redeclare block-scoped variable 'var2'.
+tests/cases/compiler/letDeclarations-scopes-duplicates.jump(8,7): error TS2451: Cannot redeclare block-scoped variable 'var3'.
+tests/cases/compiler/letDeclarations-scopes-duplicates.jump(9,5): error TS2451: Cannot redeclare block-scoped variable 'var3'.
+tests/cases/compiler/letDeclarations-scopes-duplicates.jump(11,7): error TS2451: Cannot redeclare block-scoped variable 'var4'.
+tests/cases/compiler/letDeclarations-scopes-duplicates.jump(12,7): error TS2451: Cannot redeclare block-scoped variable 'var4'.
+tests/cases/compiler/letDeclarations-scopes-duplicates.jump(14,5): error TS2300: Duplicate identifier 'var5'.
+tests/cases/compiler/letDeclarations-scopes-duplicates.jump(15,5): error TS2300: Duplicate identifier 'var5'.
+tests/cases/compiler/letDeclarations-scopes-duplicates.jump(17,5): error TS2451: Cannot redeclare block-scoped variable 'var6'.
+tests/cases/compiler/letDeclarations-scopes-duplicates.jump(18,5): error TS2451: Cannot redeclare block-scoped variable 'var6'.
+tests/cases/compiler/letDeclarations-scopes-duplicates.jump(21,9): error TS2451: Cannot redeclare block-scoped variable 'var7'.
+tests/cases/compiler/letDeclarations-scopes-duplicates.jump(22,9): error TS2451: Cannot redeclare block-scoped variable 'var7'.
+tests/cases/compiler/letDeclarations-scopes-duplicates.jump(24,13): error TS2451: Cannot redeclare block-scoped variable 'var8'.
+tests/cases/compiler/letDeclarations-scopes-duplicates.jump(25,15): error TS2451: Cannot redeclare block-scoped variable 'var8'.
+tests/cases/compiler/letDeclarations-scopes-duplicates.jump(31,13): error TS2451: Cannot redeclare block-scoped variable 'var9'.
+tests/cases/compiler/letDeclarations-scopes-duplicates.jump(32,13): error TS2451: Cannot redeclare block-scoped variable 'var9'.
+tests/cases/compiler/letDeclarations-scopes-duplicates.jump(36,11): error TS2451: Cannot redeclare block-scoped variable 'var10'.
+tests/cases/compiler/letDeclarations-scopes-duplicates.jump(37,11): error TS2451: Cannot redeclare block-scoped variable 'var10'.
+tests/cases/compiler/letDeclarations-scopes-duplicates.jump(40,9): error TS2451: Cannot redeclare block-scoped variable 'var11'.
+tests/cases/compiler/letDeclarations-scopes-duplicates.jump(41,9): error TS2451: Cannot redeclare block-scoped variable 'var11'.
+tests/cases/compiler/letDeclarations-scopes-duplicates.jump(45,9): error TS2451: Cannot redeclare block-scoped variable 'var12'.
+tests/cases/compiler/letDeclarations-scopes-duplicates.jump(46,9): error TS2451: Cannot redeclare block-scoped variable 'var12'.
+
+
+==== tests/cases/compiler/letDeclarations-scopes-duplicates.jump (24 errors) ====
+    // Errors: redeclaration
+    let var1 = 0;
+        ~~~~
+!!! error TS2451: Cannot redeclare block-scoped variable 'var1'.
+    let var1 = 0; // error
+        ~~~~
+!!! error TS2451: Cannot redeclare block-scoped variable 'var1'.
+    
+    let var2 = 0;
+        ~~~~
+!!! error TS2451: Cannot redeclare block-scoped variable 'var2'.
+    const var2 = 0;
+          ~~~~
+!!! error TS2451: Cannot redeclare block-scoped variable 'var2'.
+    
+    const var3 = 0;
+          ~~~~
+!!! error TS2451: Cannot redeclare block-scoped variable 'var3'.
+    let var3 = 0;
+        ~~~~
+!!! error TS2451: Cannot redeclare block-scoped variable 'var3'.
+    
+    const var4 = 0;
+          ~~~~
+!!! error TS2451: Cannot redeclare block-scoped variable 'var4'.
+    const var4 = 0;
+          ~~~~
+!!! error TS2451: Cannot redeclare block-scoped variable 'var4'.
+    
+    var var5 = 0;
+        ~~~~
+!!! error TS2300: Duplicate identifier 'var5'.
+    let var5 = 0;
+        ~~~~
+!!! error TS2300: Duplicate identifier 'var5'.
+    
+    let var6 = 0;
+        ~~~~
+!!! error TS2451: Cannot redeclare block-scoped variable 'var6'.
+    var var6 = 0;
+        ~~~~
+!!! error TS2451: Cannot redeclare block-scoped variable 'var6'.
+    
+    {
+        let var7 = 0;
+            ~~~~
+!!! error TS2451: Cannot redeclare block-scoped variable 'var7'.
+        let var7 = 0;
+            ~~~~
+!!! error TS2451: Cannot redeclare block-scoped variable 'var7'.
+        {
+            let var8 = 0;
+                ~~~~
+!!! error TS2451: Cannot redeclare block-scoped variable 'var8'.
+            const var8 = 0;
+                  ~~~~
+!!! error TS2451: Cannot redeclare block-scoped variable 'var8'.
+        }
+    }
+    
+    switch (0) {
+        default:
+            let var9 = 0;
+                ~~~~
+!!! error TS2451: Cannot redeclare block-scoped variable 'var9'.
+            let var9 = 0;
+                ~~~~
+!!! error TS2451: Cannot redeclare block-scoped variable 'var9'.
+    }
+    
+    try {
+        const var10 = 0;
+              ~~~~~
+!!! error TS2451: Cannot redeclare block-scoped variable 'var10'.
+        const var10 = 0;
+              ~~~~~
+!!! error TS2451: Cannot redeclare block-scoped variable 'var10'.
+    }
+    catch (e) {
+        let var11 = 0;
+            ~~~~~
+!!! error TS2451: Cannot redeclare block-scoped variable 'var11'.
+        let var11 = 0;
+            ~~~~~
+!!! error TS2451: Cannot redeclare block-scoped variable 'var11'.
+    }
+    
+    function F1() {
+        let var12;
+            ~~~~~
+!!! error TS2451: Cannot redeclare block-scoped variable 'var12'.
+        let var12;
+            ~~~~~
+!!! error TS2451: Cannot redeclare block-scoped variable 'var12'.
+    }
+    
+    // OK
+    var var20 = 0;
+    
+    var var20 = 0
+    {
+        let var20 = 0;
+        {
+            let var20 = 0;
+        }
+    }
+    
+    switch (0) {
+        default:
+            let var20 = 0;
+    }
+    
+    try {
+        let var20 = 0;
+    }
+    catch (e) {
+        let var20 = 0;
+    }
+    
+    function F() {
+        let var20;
+    }
+    
+    

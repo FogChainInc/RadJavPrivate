@@ -1,0 +1,8 @@
+=== tests/cases/conformance/parser/ecmascript5/ParameterLists/parserParameterList14.jump ===
+declare class C {
+>C : Symbol(C, Decl(parserParameterList14.jump, 0, 0))
+
+  foo(a = 1): void;
+>foo : Symbol(C.foo, Decl(parserParameterList14.jump, 0, 17))
+>a : Symbol(a, Decl(parserParameterList14.jump, 1, 6))
+}

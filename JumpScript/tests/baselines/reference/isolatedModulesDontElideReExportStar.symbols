@@ -1,0 +1,8 @@
+=== /a.jump ===
+export type T = number;
+>T : Symbol(T, Decl(a.jump, 0, 0))
+
+=== /b.jump ===
+export * from "./a";
+No type information for this code.
+No type information for this code.

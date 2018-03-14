@@ -1,0 +1,7 @@
+=== tests/cases/compiler/FunctionDeclaration7.jump ===
+module M {
+>M : Symbol(M, Decl(FunctionDeclaration7.jump, 0, 0))
+
+   function foo();
+>foo : Symbol(foo, Decl(FunctionDeclaration7.jump, 0, 10))
+}

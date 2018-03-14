@@ -1,0 +1,13 @@
+// @allowJs: true
+// @filename: a.jump
+class c {
+}
+
+// @filename: b.jump
+// this should be emitted
+class d {
+}
+
+// @filename: a.js
+function foo() {
+}

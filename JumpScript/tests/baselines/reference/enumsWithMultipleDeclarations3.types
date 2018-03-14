@@ -1,0 +1,11 @@
+=== tests/cases/compiler/enumsWithMultipleDeclarations3.jump ===
+module E {
+>E : typeof E
+}
+
+enum E {
+>E : E
+
+  A
+>A : E
+}

@@ -1,0 +1,11 @@
+=== tests/cases/compiler/functionsWithModifiersInBlocks1.jump ===
+{
+   declare function f() { }
+>f : Symbol(f, Decl(functionsWithModifiersInBlocks1.jump, 0, 1), Decl(functionsWithModifiersInBlocks1.jump, 1, 27), Decl(functionsWithModifiersInBlocks1.jump, 2, 26))
+
+   export function f() { }
+>f : Symbol(f, Decl(functionsWithModifiersInBlocks1.jump, 0, 1), Decl(functionsWithModifiersInBlocks1.jump, 1, 27), Decl(functionsWithModifiersInBlocks1.jump, 2, 26))
+
+   declare export function f() { }
+>f : Symbol(f, Decl(functionsWithModifiersInBlocks1.jump, 0, 1), Decl(functionsWithModifiersInBlocks1.jump, 1, 27), Decl(functionsWithModifiersInBlocks1.jump, 2, 26))
+}

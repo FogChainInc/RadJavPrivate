@@ -1,0 +1,12 @@
+=== tests/cases/compiler/privacyCheckTypeOfFunction.jump ===
+function foo() {
+>foo : Symbol(foo, Decl(privacyCheckTypeOfFunction.jump, 0, 0))
+}
+export var x: typeof foo;
+>x : Symbol(x, Decl(privacyCheckTypeOfFunction.jump, 2, 10))
+>foo : Symbol(foo, Decl(privacyCheckTypeOfFunction.jump, 0, 0))
+
+export var b = foo;
+>b : Symbol(b, Decl(privacyCheckTypeOfFunction.jump, 3, 10))
+>foo : Symbol(foo, Decl(privacyCheckTypeOfFunction.jump, 0, 0))
+

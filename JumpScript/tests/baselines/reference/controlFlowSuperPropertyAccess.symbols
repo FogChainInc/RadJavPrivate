@@ -1,0 +1,24 @@
+=== tests/cases/conformance/controlFlow/controlFlowSuperPropertyAccess.jump ===
+class B {
+>B : Symbol(B, Decl(controlFlowSuperPropertyAccess.jump, 0, 0))
+
+    protected m?(): void;
+>m : Symbol(B.m, Decl(controlFlowSuperPropertyAccess.jump, 0, 9))
+}
+class C extends B {
+>C : Symbol(C, Decl(controlFlowSuperPropertyAccess.jump, 2, 1))
+>B : Symbol(B, Decl(controlFlowSuperPropertyAccess.jump, 0, 0))
+
+    body() {
+>body : Symbol(C.body, Decl(controlFlowSuperPropertyAccess.jump, 3, 19))
+
+        super.m && super.m();
+>super.m : Symbol(B.m, Decl(controlFlowSuperPropertyAccess.jump, 0, 9))
+>super : Symbol(B, Decl(controlFlowSuperPropertyAccess.jump, 0, 0))
+>m : Symbol(B.m, Decl(controlFlowSuperPropertyAccess.jump, 0, 9))
+>super.m : Symbol(B.m, Decl(controlFlowSuperPropertyAccess.jump, 0, 9))
+>super : Symbol(B, Decl(controlFlowSuperPropertyAccess.jump, 0, 0))
+>m : Symbol(B.m, Decl(controlFlowSuperPropertyAccess.jump, 0, 9))
+    }
+}
+

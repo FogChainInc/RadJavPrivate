@@ -1,0 +1,22 @@
+=== tests/cases/compiler/propertyWrappedInTry.jump ===
+class Foo {
+>Foo : Symbol(Foo, Decl(propertyWrappedInTry.jump, 0, 0))
+
+    try {
+
+        public bar = someInitThatMightFail();
+
+    } catch(e) {}
+>e : Symbol(e, Decl(propertyWrappedInTry.jump, 6, 12))
+
+
+
+    public baz() {
+
+        return this.bar; // doesn't get rewritten to Foo.bar.
+
+    }
+
+}
+
+

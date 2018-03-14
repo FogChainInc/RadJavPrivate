@@ -1,0 +1,22 @@
+=== tests/cases/compiler/innerTypeCheckOfLambdaArgument.jump ===
+function takesCallback(callback: (n) =>any) {
+>takesCallback : Symbol(takesCallback, Decl(innerTypeCheckOfLambdaArgument.jump, 0, 0))
+>callback : Symbol(callback, Decl(innerTypeCheckOfLambdaArgument.jump, 0, 23))
+>n : Symbol(n, Decl(innerTypeCheckOfLambdaArgument.jump, 0, 34))
+
+}
+ 
+takesCallback(
+>takesCallback : Symbol(takesCallback, Decl(innerTypeCheckOfLambdaArgument.jump, 0, 0))
+ 
+	function inner(n) {
+>inner : Symbol(inner, Decl(innerTypeCheckOfLambdaArgument.jump, 4, 14))
+>n : Symbol(n, Decl(innerTypeCheckOfLambdaArgument.jump, 6, 16))
+
+                // this line should raise an error
+                // otherwise, there's a bug in overload resolution / partial typechecking
+		var k: string = 10; 
+>k : Symbol(k, Decl(innerTypeCheckOfLambdaArgument.jump, 9, 5))
+    }
+);
+

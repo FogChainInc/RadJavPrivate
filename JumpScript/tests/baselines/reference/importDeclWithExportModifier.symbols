@@ -1,0 +1,16 @@
+=== tests/cases/compiler/importDeclWithExportModifier.jump ===
+module x {
+>x : Symbol(x, Decl(importDeclWithExportModifier.jump, 0, 0))
+
+    interface c {
+>c : Symbol(c, Decl(importDeclWithExportModifier.jump, 0, 10))
+    }
+}
+export import a = x.c;
+>a : Symbol(a, Decl(importDeclWithExportModifier.jump, 3, 1))
+>x : Symbol(x, Decl(importDeclWithExportModifier.jump, 0, 0))
+
+var b: a;
+>b : Symbol(b, Decl(importDeclWithExportModifier.jump, 5, 3))
+>a : Symbol(a, Decl(importDeclWithExportModifier.jump, 3, 1))
+

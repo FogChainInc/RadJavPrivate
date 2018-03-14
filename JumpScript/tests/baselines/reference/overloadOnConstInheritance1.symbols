@@ -1,0 +1,25 @@
+=== tests/cases/compiler/overloadOnConstInheritance1.jump ===
+interface Base {
+>Base : Symbol(Base, Decl(overloadOnConstInheritance1.jump, 0, 0))
+
+    addEventListener(x: string): any;
+>addEventListener : Symbol(Base.addEventListener, Decl(overloadOnConstInheritance1.jump, 0, 16), Decl(overloadOnConstInheritance1.jump, 1, 37))
+>x : Symbol(x, Decl(overloadOnConstInheritance1.jump, 1, 21))
+
+    addEventListener(x: 'foo'): string;
+>addEventListener : Symbol(Base.addEventListener, Decl(overloadOnConstInheritance1.jump, 0, 16), Decl(overloadOnConstInheritance1.jump, 1, 37))
+>x : Symbol(x, Decl(overloadOnConstInheritance1.jump, 2, 21))
+}
+interface Deriver extends Base {
+>Deriver : Symbol(Deriver, Decl(overloadOnConstInheritance1.jump, 3, 1))
+>Base : Symbol(Base, Decl(overloadOnConstInheritance1.jump, 0, 0))
+
+    addEventListener(x: string): any;
+>addEventListener : Symbol(Deriver.addEventListener, Decl(overloadOnConstInheritance1.jump, 4, 32), Decl(overloadOnConstInheritance1.jump, 5, 37))
+>x : Symbol(x, Decl(overloadOnConstInheritance1.jump, 5, 21))
+
+    addEventListener(x: 'bar'): string;
+>addEventListener : Symbol(Deriver.addEventListener, Decl(overloadOnConstInheritance1.jump, 4, 32), Decl(overloadOnConstInheritance1.jump, 5, 37))
+>x : Symbol(x, Decl(overloadOnConstInheritance1.jump, 6, 21))
+}
+

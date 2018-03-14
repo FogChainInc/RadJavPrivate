@@ -1,0 +1,15 @@
+=== tests/cases/compiler/namedFunctionExpressionInModule.jump ===
+module Variables{
+>Variables : Symbol(Variables, Decl(namedFunctionExpressionInModule.jump, 0, 0))
+
+    var x = function bar(a, b, c) {
+>x : Symbol(x, Decl(namedFunctionExpressionInModule.jump, 1, 7))
+>bar : Symbol(bar, Decl(namedFunctionExpressionInModule.jump, 1, 11))
+>a : Symbol(a, Decl(namedFunctionExpressionInModule.jump, 1, 25))
+>b : Symbol(b, Decl(namedFunctionExpressionInModule.jump, 1, 27))
+>c : Symbol(c, Decl(namedFunctionExpressionInModule.jump, 1, 30))
+    }
+    x(1, 2, 3);
+>x : Symbol(x, Decl(namedFunctionExpressionInModule.jump, 1, 7))
+}
+

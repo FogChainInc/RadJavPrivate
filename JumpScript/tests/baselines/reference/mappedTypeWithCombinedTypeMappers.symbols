@@ -1,0 +1,55 @@
+=== tests/cases/compiler/mappedTypeWithCombinedTypeMappers.jump ===
+// Repro from #13351
+
+type Meta<T, A> = {
+>Meta : Symbol(Meta, Decl(mappedTypeWithCombinedTypeMappers.jump, 0, 0))
+>T : Symbol(T, Decl(mappedTypeWithCombinedTypeMappers.jump, 2, 10))
+>A : Symbol(A, Decl(mappedTypeWithCombinedTypeMappers.jump, 2, 12))
+
+    readonly[P in keyof T]: {
+>P : Symbol(P, Decl(mappedTypeWithCombinedTypeMappers.jump, 3, 13))
+>T : Symbol(T, Decl(mappedTypeWithCombinedTypeMappers.jump, 2, 10))
+
+        value: T[P];
+>value : Symbol(value, Decl(mappedTypeWithCombinedTypeMappers.jump, 3, 29))
+>T : Symbol(T, Decl(mappedTypeWithCombinedTypeMappers.jump, 2, 10))
+>P : Symbol(P, Decl(mappedTypeWithCombinedTypeMappers.jump, 3, 13))
+
+        also: A;
+>also : Symbol(also, Decl(mappedTypeWithCombinedTypeMappers.jump, 4, 20))
+>A : Symbol(A, Decl(mappedTypeWithCombinedTypeMappers.jump, 2, 12))
+
+        readonly children: Meta<T[P], A>;
+>children : Symbol(children, Decl(mappedTypeWithCombinedTypeMappers.jump, 5, 16))
+>Meta : Symbol(Meta, Decl(mappedTypeWithCombinedTypeMappers.jump, 0, 0))
+>T : Symbol(T, Decl(mappedTypeWithCombinedTypeMappers.jump, 2, 10))
+>P : Symbol(P, Decl(mappedTypeWithCombinedTypeMappers.jump, 3, 13))
+>A : Symbol(A, Decl(mappedTypeWithCombinedTypeMappers.jump, 2, 12))
+
+    };
+}
+
+interface Input {
+>Input : Symbol(Input, Decl(mappedTypeWithCombinedTypeMappers.jump, 8, 1))
+
+    x: string;
+>x : Symbol(Input.x, Decl(mappedTypeWithCombinedTypeMappers.jump, 10, 17))
+
+    y: number;
+>y : Symbol(Input.y, Decl(mappedTypeWithCombinedTypeMappers.jump, 11, 14))
+}
+
+declare const output: Meta<Input, boolean>;
+>output : Symbol(output, Decl(mappedTypeWithCombinedTypeMappers.jump, 15, 13))
+>Meta : Symbol(Meta, Decl(mappedTypeWithCombinedTypeMappers.jump, 0, 0))
+>Input : Symbol(Input, Decl(mappedTypeWithCombinedTypeMappers.jump, 8, 1))
+
+const shouldFail: { important: boolean } = output.x.children;
+>shouldFail : Symbol(shouldFail, Decl(mappedTypeWithCombinedTypeMappers.jump, 17, 5))
+>important : Symbol(important, Decl(mappedTypeWithCombinedTypeMappers.jump, 17, 19))
+>output.x.children : Symbol(children, Decl(mappedTypeWithCombinedTypeMappers.jump, 5, 16))
+>output.x : Symbol(x, Decl(mappedTypeWithCombinedTypeMappers.jump, 10, 17))
+>output : Symbol(output, Decl(mappedTypeWithCombinedTypeMappers.jump, 15, 13))
+>x : Symbol(x, Decl(mappedTypeWithCombinedTypeMappers.jump, 10, 17))
+>children : Symbol(children, Decl(mappedTypeWithCombinedTypeMappers.jump, 5, 16))
+

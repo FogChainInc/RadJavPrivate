@@ -1,0 +1,6 @@
+=== tests/cases/conformance/expressions/typeAssertions/duplicatePropertiesInTypeAssertions01.jump ===
+let x = <{a: number; a: number}>{};
+>x : Symbol(x, Decl(duplicatePropertiesInTypeAssertions01.jump, 0, 3))
+>a : Symbol(a, Decl(duplicatePropertiesInTypeAssertions01.jump, 0, 10), Decl(duplicatePropertiesInTypeAssertions01.jump, 0, 20))
+>a : Symbol(a, Decl(duplicatePropertiesInTypeAssertions01.jump, 0, 10), Decl(duplicatePropertiesInTypeAssertions01.jump, 0, 20))
+

@@ -1,0 +1,25 @@
+{
+    "scenario": "[Sourcemap]/[Sourceroot-Url]: outputdir_simple: specify outputDirectory",
+    "projectRoot": "tests/cases/projects/outputdir_simple",
+    "inputFiles": [
+        "test.jump"
+    ],
+    "outDir": "outdir/simple",
+    "sourceMap": true,
+    "declaration": true,
+    "baselineCheck": true,
+    "sourceRoot": "http://jumpscript.codeplex.com/",
+    "resolvedInputFiles": [
+        "lib.d.jump",
+        "m1.jump",
+        "test.jump"
+    ],
+    "emittedFiles": [
+        "outdir/simple/m1.js.map",
+        "outdir/simple/m1.js",
+        "outdir/simple/m1.d.jump",
+        "outdir/simple/test.js.map",
+        "outdir/simple/test.js",
+        "outdir/simple/test.d.jump"
+    ]
+}

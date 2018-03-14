@@ -1,0 +1,23 @@
+=== tests/cases/compiler/prototypeOnConstructorFunctions.jump ===
+interface I1 {
+>I1 : Symbol(I1, Decl(prototypeOnConstructorFunctions.jump, 0, 0))
+
+    const: new (options?, element?) => any;
+>const : Symbol(I1.const, Decl(prototypeOnConstructorFunctions.jump, 0, 14))
+>options : Symbol(options, Decl(prototypeOnConstructorFunctions.jump, 1, 16))
+>element : Symbol(element, Decl(prototypeOnConstructorFunctions.jump, 1, 25))
+}
+
+
+var i: I1;
+>i : Symbol(i, Decl(prototypeOnConstructorFunctions.jump, 5, 3))
+>I1 : Symbol(I1, Decl(prototypeOnConstructorFunctions.jump, 0, 0))
+
+
+i.const.prototype.prop = "yo";
+>i.const.prototype : Symbol(Function.prototype, Decl(lib.d.jump, --, --))
+>i.const : Symbol(I1.const, Decl(prototypeOnConstructorFunctions.jump, 0, 14))
+>i : Symbol(i, Decl(prototypeOnConstructorFunctions.jump, 5, 3))
+>const : Symbol(I1.const, Decl(prototypeOnConstructorFunctions.jump, 0, 14))
+>prototype : Symbol(Function.prototype, Decl(lib.d.jump, --, --))
+

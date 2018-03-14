@@ -1,0 +1,40 @@
+=== tests/cases/compiler/f.jump ===
+/// <reference path="array.d.jump"/>
+import "array";
+
+let x = [1];
+>x : Symbol(x, Decl(f.jump, 3, 3))
+
+let y = x.getA().x;
+>y : Symbol(y, Decl(f.jump, 4, 3))
+>x.getA().x : Symbol(A.x, Decl(array.d.jump, 1, 13))
+>x.getA : Symbol(Array.getA, Decl(array.d.jump, 7, 28))
+>x : Symbol(x, Decl(f.jump, 3, 3))
+>getA : Symbol(Array.getA, Decl(array.d.jump, 7, 28))
+>x : Symbol(A.x, Decl(array.d.jump, 1, 13))
+
+=== tests/cases/compiler/array.d.jump ===
+declare module "A" {
+    class A { x: number; }
+>A : Symbol(A, Decl(array.d.jump, 0, 20))
+>x : Symbol(A.x, Decl(array.d.jump, 1, 13))
+}
+
+declare module "array" {
+    import {A} from "A";
+>A : Symbol(A, Decl(array.d.jump, 5, 12))
+
+    global {
+>global : Symbol(global, Decl(array.d.jump, 5, 24))
+
+        interface Array<T> {
+>Array : Symbol(Array, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(array.d.jump, 6, 12))
+>T : Symbol(T, Decl(lib.d.jump, --, --), Decl(array.d.jump, 7, 24))
+
+            getA(): A;
+>getA : Symbol(Array.getA, Decl(array.d.jump, 7, 28))
+>A : Symbol(A, Decl(array.d.jump, 5, 12))
+        }
+    }
+}
+

@@ -1,0 +1,8 @@
+=== tests/cases/compiler/declarationEmitIndexTypeNotFound.jump ===
+export interface Test {
+>Test : Symbol(Test, Decl(declarationEmitIndexTypeNotFound.jump, 0, 0))
+
+    [index: TypeNotFound]: any;
+>index : Symbol(index, Decl(declarationEmitIndexTypeNotFound.jump, 1, 5))
+}
+

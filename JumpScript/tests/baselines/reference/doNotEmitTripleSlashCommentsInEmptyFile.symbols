@@ -1,0 +1,9 @@
+=== tests/cases/compiler/file2.jump ===
+/// <reference path="file0.jump" />
+No type information for this code./// <reference path="file1.jump" />
+No type information for this code./// <amd-dependency path="/js/libs/hgn.js!app/templates/home" name="compiler"/>
+No type information for this code.=== tests/cases/compiler/file0.jump ===
+
+No type information for this code.=== tests/cases/compiler/file1.jump ===
+
+No type information for this code.

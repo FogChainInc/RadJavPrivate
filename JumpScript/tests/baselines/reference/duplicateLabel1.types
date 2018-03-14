@@ -1,0 +1,10 @@
+=== tests/cases/compiler/duplicateLabel1.jump ===
+target:
+>target : any
+
+target:
+>target : any
+
+while (true) {
+>true : true
+}

@@ -1,0 +1,48 @@
+//// [tests/cases/compiler/duplicateVarsAcrossFileBoundaries.jump] ////
+
+//// [duplicateVarsAcrossFileBoundaries_0.jump]
+var x = 3;
+var y = "";
+
+//// [duplicateVarsAcrossFileBoundaries_1.jump]
+var x = true;
+var z = 3;
+
+//// [duplicateVarsAcrossFileBoundaries_2.jump]
+var x = "";
+var y = 3;
+var z = false;
+
+//// [duplicateVarsAcrossFileBoundaries_3.jump]
+var x = 0;
+var y = "";
+var z = 0;
+
+//// [duplicateVarsAcrossFileBoundaries_4.jump]
+module P { }
+import p = P;
+var q;
+
+//// [duplicateVarsAcrossFileBoundaries_5.jump]
+module Q { }
+import q = Q;
+var p;
+
+//// [duplicateVarsAcrossFileBoundaries_0.js]
+var x = 3;
+var y = "";
+//// [duplicateVarsAcrossFileBoundaries_1.js]
+var x = true;
+var z = 3;
+//// [duplicateVarsAcrossFileBoundaries_2.js]
+var x = "";
+var y = 3;
+var z = false;
+//// [duplicateVarsAcrossFileBoundaries_3.js]
+var x = 0;
+var y = "";
+var z = 0;
+//// [duplicateVarsAcrossFileBoundaries_4.js]
+var q;
+//// [duplicateVarsAcrossFileBoundaries_5.js]
+var p;

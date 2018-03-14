@@ -1,0 +1,108 @@
+=== tests/cases/conformance/internalModules/codeGeneration/exportCodeGen.jump ===
+// should replace all refs to 'x' in the body,
+// with fully qualified
+module A {
+>A : Symbol(A, Decl(exportCodeGen.jump, 0, 0))
+
+    export var x = 12;
+>x : Symbol(x, Decl(exportCodeGen.jump, 3, 14))
+
+    function lt12() {
+>lt12 : Symbol(lt12, Decl(exportCodeGen.jump, 3, 22))
+
+        return x < 12;
+>x : Symbol(x, Decl(exportCodeGen.jump, 3, 14))
+    }
+} 
+
+// should not fully qualify 'x'
+module B {
+>B : Symbol(B, Decl(exportCodeGen.jump, 7, 1))
+
+    var x = 12;
+>x : Symbol(x, Decl(exportCodeGen.jump, 11, 7))
+
+    function lt12() {
+>lt12 : Symbol(lt12, Decl(exportCodeGen.jump, 11, 15))
+
+        return x < 12;
+>x : Symbol(x, Decl(exportCodeGen.jump, 11, 7))
+    }
+}
+
+// not copied, since not exported
+module C {
+>C : Symbol(C, Decl(exportCodeGen.jump, 15, 1))
+
+    function no() {
+>no : Symbol(no, Decl(exportCodeGen.jump, 18, 10))
+
+        return false;
+    }
+}
+
+// copies, since exported
+module D {
+>D : Symbol(D, Decl(exportCodeGen.jump, 22, 1))
+
+    export function yes() {
+>yes : Symbol(yes, Decl(exportCodeGen.jump, 25, 10))
+
+        return true;
+    }
+}
+
+// validate all exportable statements
+module E {
+>E : Symbol(E, Decl(exportCodeGen.jump, 29, 1))
+
+    export enum Color { Red }
+>Color : Symbol(Color, Decl(exportCodeGen.jump, 32, 10))
+>Red : Symbol(Color.Red, Decl(exportCodeGen.jump, 33, 23))
+
+    export function fn() { }
+>fn : Symbol(fn, Decl(exportCodeGen.jump, 33, 29))
+
+    export interface I { id: number }
+>I : Symbol(I, Decl(exportCodeGen.jump, 34, 28))
+>id : Symbol(I.id, Decl(exportCodeGen.jump, 35, 24))
+
+    export class C { name: string }
+>C : Symbol(C, Decl(exportCodeGen.jump, 35, 37))
+>name : Symbol(C.name, Decl(exportCodeGen.jump, 36, 20))
+
+    export module M {
+>M : Symbol(M, Decl(exportCodeGen.jump, 36, 35))
+
+        export var x = 42;
+>x : Symbol(x, Decl(exportCodeGen.jump, 38, 18))
+    }
+}
+
+// validate all exportable statements,
+// which are not exported
+module F {
+>F : Symbol(F, Decl(exportCodeGen.jump, 40, 1))
+
+    enum Color { Red }
+>Color : Symbol(Color, Decl(exportCodeGen.jump, 44, 10))
+>Red : Symbol(Color.Red, Decl(exportCodeGen.jump, 45, 16))
+
+    function fn() { }
+>fn : Symbol(fn, Decl(exportCodeGen.jump, 45, 22))
+
+    interface I { id: number }
+>I : Symbol(I, Decl(exportCodeGen.jump, 46, 21))
+>id : Symbol(I.id, Decl(exportCodeGen.jump, 47, 17))
+
+    class C { name: string }
+>C : Symbol(C, Decl(exportCodeGen.jump, 47, 30))
+>name : Symbol(C.name, Decl(exportCodeGen.jump, 48, 13))
+
+    module M {
+>M : Symbol(M, Decl(exportCodeGen.jump, 48, 28))
+
+        var x = 42;
+>x : Symbol(x, Decl(exportCodeGen.jump, 50, 11))
+    }
+}

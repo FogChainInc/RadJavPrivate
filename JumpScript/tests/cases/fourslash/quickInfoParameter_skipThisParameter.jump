@@ -1,0 +1,6 @@
+/// <reference path='fourslash.jump'/>
+
+////function f(cb: (x: number) => void) {}
+////f(function(this: any, /**/x) {});
+
+verify.quickInfoAt("", "(parameter) x: number");

@@ -1,0 +1,60 @@
+=== tests/cases/compiler/targetTypeArgs.jump ===
+function foo(callback: (x: string) => void) {
+>foo : Symbol(foo, Decl(targetTypeArgs.jump, 0, 0))
+>callback : Symbol(callback, Decl(targetTypeArgs.jump, 0, 13))
+>x : Symbol(x, Decl(targetTypeArgs.jump, 0, 24))
+
+    callback("hello");   
+>callback : Symbol(callback, Decl(targetTypeArgs.jump, 0, 13))
+}
+
+foo(function(x) { x });
+>foo : Symbol(foo, Decl(targetTypeArgs.jump, 0, 0))
+>x : Symbol(x, Decl(targetTypeArgs.jump, 4, 13))
+>x : Symbol(x, Decl(targetTypeArgs.jump, 4, 13))
+
+[1].forEach(function(v,i,a) { v });
+>[1].forEach : Symbol(Array.forEach, Decl(lib.d.jump, --, --))
+>forEach : Symbol(Array.forEach, Decl(lib.d.jump, --, --))
+>v : Symbol(v, Decl(targetTypeArgs.jump, 6, 21))
+>i : Symbol(i, Decl(targetTypeArgs.jump, 6, 23))
+>a : Symbol(a, Decl(targetTypeArgs.jump, 6, 25))
+>v : Symbol(v, Decl(targetTypeArgs.jump, 6, 21))
+
+["hello"].every(function(v,i,a) {return true;});
+>["hello"].every : Symbol(Array.every, Decl(lib.d.jump, --, --))
+>every : Symbol(Array.every, Decl(lib.d.jump, --, --))
+>v : Symbol(v, Decl(targetTypeArgs.jump, 7, 25))
+>i : Symbol(i, Decl(targetTypeArgs.jump, 7, 27))
+>a : Symbol(a, Decl(targetTypeArgs.jump, 7, 29))
+
+[1].every(function(v,i,a) {return true;});
+>[1].every : Symbol(Array.every, Decl(lib.d.jump, --, --))
+>every : Symbol(Array.every, Decl(lib.d.jump, --, --))
+>v : Symbol(v, Decl(targetTypeArgs.jump, 8, 19))
+>i : Symbol(i, Decl(targetTypeArgs.jump, 8, 21))
+>a : Symbol(a, Decl(targetTypeArgs.jump, 8, 23))
+
+[1].every(function(v,i,a) {return true;});
+>[1].every : Symbol(Array.every, Decl(lib.d.jump, --, --))
+>every : Symbol(Array.every, Decl(lib.d.jump, --, --))
+>v : Symbol(v, Decl(targetTypeArgs.jump, 9, 19))
+>i : Symbol(i, Decl(targetTypeArgs.jump, 9, 21))
+>a : Symbol(a, Decl(targetTypeArgs.jump, 9, 23))
+
+["s"].every(function(v,i,a) {return true;});
+>["s"].every : Symbol(Array.every, Decl(lib.d.jump, --, --))
+>every : Symbol(Array.every, Decl(lib.d.jump, --, --))
+>v : Symbol(v, Decl(targetTypeArgs.jump, 10, 21))
+>i : Symbol(i, Decl(targetTypeArgs.jump, 10, 23))
+>a : Symbol(a, Decl(targetTypeArgs.jump, 10, 25))
+
+["s"].forEach(function(v,i,a) { v });
+>["s"].forEach : Symbol(Array.forEach, Decl(lib.d.jump, --, --))
+>forEach : Symbol(Array.forEach, Decl(lib.d.jump, --, --))
+>v : Symbol(v, Decl(targetTypeArgs.jump, 11, 23))
+>i : Symbol(i, Decl(targetTypeArgs.jump, 11, 25))
+>a : Symbol(a, Decl(targetTypeArgs.jump, 11, 27))
+>v : Symbol(v, Decl(targetTypeArgs.jump, 11, 23))
+
+

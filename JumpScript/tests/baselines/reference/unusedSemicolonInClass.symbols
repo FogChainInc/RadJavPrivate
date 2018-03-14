@@ -1,0 +1,7 @@
+=== tests/cases/compiler/unusedSemicolonInClass.jump ===
+class Unused {
+>Unused : Symbol(Unused, Decl(unusedSemicolonInClass.jump, 0, 0))
+
+    ;
+}
+

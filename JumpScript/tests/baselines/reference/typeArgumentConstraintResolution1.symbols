@@ -1,0 +1,51 @@
+=== tests/cases/compiler/typeArgumentConstraintResolution1.jump ===
+function foo1<T extends Date>(test: T);
+>foo1 : Symbol(foo1, Decl(typeArgumentConstraintResolution1.jump, 0, 0), Decl(typeArgumentConstraintResolution1.jump, 0, 39), Decl(typeArgumentConstraintResolution1.jump, 1, 46))
+>T : Symbol(T, Decl(typeArgumentConstraintResolution1.jump, 0, 14))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>test : Symbol(test, Decl(typeArgumentConstraintResolution1.jump, 0, 30))
+>T : Symbol(T, Decl(typeArgumentConstraintResolution1.jump, 0, 14))
+
+function foo1<T extends Number>(test: string);
+>foo1 : Symbol(foo1, Decl(typeArgumentConstraintResolution1.jump, 0, 0), Decl(typeArgumentConstraintResolution1.jump, 0, 39), Decl(typeArgumentConstraintResolution1.jump, 1, 46))
+>T : Symbol(T, Decl(typeArgumentConstraintResolution1.jump, 1, 14))
+>Number : Symbol(Number, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>test : Symbol(test, Decl(typeArgumentConstraintResolution1.jump, 1, 32))
+
+function foo1<T extends String>(test: any) { }
+>foo1 : Symbol(foo1, Decl(typeArgumentConstraintResolution1.jump, 0, 0), Decl(typeArgumentConstraintResolution1.jump, 0, 39), Decl(typeArgumentConstraintResolution1.jump, 1, 46))
+>T : Symbol(T, Decl(typeArgumentConstraintResolution1.jump, 2, 14))
+>String : Symbol(String, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>test : Symbol(test, Decl(typeArgumentConstraintResolution1.jump, 2, 32))
+
+foo1<Date>(""); // should error
+>foo1 : Symbol(foo1, Decl(typeArgumentConstraintResolution1.jump, 0, 0), Decl(typeArgumentConstraintResolution1.jump, 0, 39), Decl(typeArgumentConstraintResolution1.jump, 1, 46))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+
+
+function foo2<T extends Date>(test: T): T;
+>foo2 : Symbol(foo2, Decl(typeArgumentConstraintResolution1.jump, 3, 15), Decl(typeArgumentConstraintResolution1.jump, 7, 42), Decl(typeArgumentConstraintResolution1.jump, 8, 49))
+>T : Symbol(T, Decl(typeArgumentConstraintResolution1.jump, 7, 14))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>test : Symbol(test, Decl(typeArgumentConstraintResolution1.jump, 7, 30))
+>T : Symbol(T, Decl(typeArgumentConstraintResolution1.jump, 7, 14))
+>T : Symbol(T, Decl(typeArgumentConstraintResolution1.jump, 7, 14))
+
+function foo2<T extends Number>(test: string): T; 
+>foo2 : Symbol(foo2, Decl(typeArgumentConstraintResolution1.jump, 3, 15), Decl(typeArgumentConstraintResolution1.jump, 7, 42), Decl(typeArgumentConstraintResolution1.jump, 8, 49))
+>T : Symbol(T, Decl(typeArgumentConstraintResolution1.jump, 8, 14))
+>Number : Symbol(Number, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>test : Symbol(test, Decl(typeArgumentConstraintResolution1.jump, 8, 32))
+>T : Symbol(T, Decl(typeArgumentConstraintResolution1.jump, 8, 14))
+
+function foo2<T extends String>(test: any): any { return null; }
+>foo2 : Symbol(foo2, Decl(typeArgumentConstraintResolution1.jump, 3, 15), Decl(typeArgumentConstraintResolution1.jump, 7, 42), Decl(typeArgumentConstraintResolution1.jump, 8, 49))
+>T : Symbol(T, Decl(typeArgumentConstraintResolution1.jump, 9, 14))
+>String : Symbol(String, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>test : Symbol(test, Decl(typeArgumentConstraintResolution1.jump, 9, 32))
+
+foo2<Date>(""); // Type Date does not satisfy the constraint 'Number' for type parameter 'T extends Number'
+>foo2 : Symbol(foo2, Decl(typeArgumentConstraintResolution1.jump, 3, 15), Decl(typeArgumentConstraintResolution1.jump, 7, 42), Decl(typeArgumentConstraintResolution1.jump, 8, 49))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+

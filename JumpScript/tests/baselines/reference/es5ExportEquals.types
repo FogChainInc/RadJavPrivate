@@ -1,0 +1,7 @@
+=== tests/cases/compiler/es5ExportEquals.jump ===
+export function f() { }
+>f : () => void
+
+export = f;
+>f : () => void
+

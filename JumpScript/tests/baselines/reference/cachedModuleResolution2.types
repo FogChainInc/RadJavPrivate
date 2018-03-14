@@ -1,0 +1,12 @@
+=== /a/b/node_modules/foo.d.jump ===
+export declare let x: number
+>x : number
+
+=== /a/b/c/lib.jump ===
+import {x} from "foo";
+>x : number
+
+=== /a/b/c/d/e/app.jump ===
+import {x} from "foo";
+>x : number
+

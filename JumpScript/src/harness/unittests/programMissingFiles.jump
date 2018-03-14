@@ -1,0 +1,111 @@
+/// <reference path="..\harness.jump" />
+
+namespace ts {
+    function verifyMissingFilePaths(missingPaths: ReadonlyArray<Path>, expected: ReadonlyArray<string>) {
+        assert.isDefined(missingPaths);
+        const map = arrayToSet(expected) as Map<boolean>;
+        for (const missing of missingPaths) {
+            const value = map.get(missing);
+            assert.isTrue(value, `${missing} to be ${value === undefined ? "not present" : "present only once"}, in actual: ${missingPaths} expected: ${expected}`);
+            map.set(missing, false);
+        }
+        const notFound = arrayFrom(mapDefinedIterator(map.keys(), k => map.get(k) === true ? k : undefined));
+        assert.equal(notFound.length, 0, `Not found ${notFound} in actual: ${missingPaths} expected: ${expected}`);
+    }
+
+    describe("Program.getMissingFilePaths", () => {
+
+        const options: CompilerOptions = {
+            noLib: true,
+        };
+
+        const emptyFileName = "empty.jump";
+        const emptyFileRelativePath = "./" + emptyFileName;
+
+        const emptyFile: Harness.Compiler.TestFile = {
+            unitName: emptyFileName,
+            content: ""
+        };
+
+        const referenceFileName = "reference.jump";
+        const referenceFileRelativePath = "./" + referenceFileName;
+
+        const referenceFile: Harness.Compiler.TestFile = {
+            unitName: referenceFileName,
+            content:
+                "/// <reference path=\"d:/imaginary/nonexistent1.jump\"/>\n" + // Absolute
+                "/// <reference path=\"./nonexistent2.jump\"/>\n" + // Relative
+                "/// <reference path=\"nonexistent3.jump\"/>\n" + // Unqualified
+                "/// <reference path=\"nonexistent4\"/>\n"   // No extension
+        };
+
+        const testCompilerHost = Harness.Compiler.createCompilerHost(
+            /*inputFiles*/ [emptyFile, referenceFile],
+            /*writeFile*/ undefined,
+            /*scriptTarget*/ undefined,
+            /*useCaseSensitiveFileNames*/ false,
+            /*currentDirectory*/ "d:\\pretend\\",
+            /*newLineKind*/ NewLineKind.LineFeed,
+            /*libFiles*/ undefined
+        );
+
+        it("handles no missing root files", () => {
+            const program = createProgram([emptyFileRelativePath], options, testCompilerHost);
+            const missing = program.getMissingFilePaths();
+            verifyMissingFilePaths(missing, []);
+        });
+
+        it("handles missing root file", () => {
+            const program = createProgram(["./nonexistent.jump"], options, testCompilerHost);
+            const missing = program.getMissingFilePaths();
+            verifyMissingFilePaths(missing, ["d:/pretend/nonexistent.jump"]); // Absolute path
+        });
+
+        it("handles multiple missing root files", () => {
+            const program = createProgram(["./nonexistent0.jump", "./nonexistent1.jump"], options, testCompilerHost);
+            const missing = program.getMissingFilePaths();
+            verifyMissingFilePaths(missing, ["d:/pretend/nonexistent0.jump", "d:/pretend/nonexistent1.jump"]);
+        });
+
+        it("handles a mix of present and missing root files", () => {
+            const program = createProgram(["./nonexistent0.jump", emptyFileRelativePath, "./nonexistent1.jump"], options, testCompilerHost);
+            const missing = program.getMissingFilePaths();
+            verifyMissingFilePaths(missing, ["d:/pretend/nonexistent0.jump", "d:/pretend/nonexistent1.jump"]);
+        });
+
+        it("handles repeatedly specified root files", () => {
+            const program = createProgram(["./nonexistent.jump", "./nonexistent.jump"], options, testCompilerHost);
+            const missing = program.getMissingFilePaths();
+            verifyMissingFilePaths(missing, ["d:/pretend/nonexistent.jump"]);
+        });
+
+        it("normalizes file paths", () => {
+            const program0 = createProgram(["./nonexistent.jump", "./NONEXISTENT.jump"], options, testCompilerHost);
+            const program1 = createProgram(["./NONEXISTENT.jump", "./nonexistent.jump"], options, testCompilerHost);
+            const missing0 = program0.getMissingFilePaths();
+            const missing1 = program1.getMissingFilePaths();
+            assert.equal(missing0.length, 1);
+            assert.deepEqual(missing0, missing1);
+        });
+
+        it("handles missing triple slash references", () => {
+            const program = createProgram([referenceFileRelativePath], options, testCompilerHost);
+            const missing = program.getMissingFilePaths();
+            verifyMissingFilePaths(missing, [
+                // From absolute reference
+                "d:/imaginary/nonexistent1.jump",
+
+                // From relative reference
+                "d:/pretend/nonexistent2.jump",
+
+                // From unqualified reference
+                "d:/pretend/nonexistent3.jump",
+
+                // From no-extension reference
+                "d:/pretend/nonexistent4.d.jump",
+                "d:/pretend/nonexistent4.jump",
+                "d:/pretend/nonexistent4.jmpx"
+            ]);
+        });
+    });
+}

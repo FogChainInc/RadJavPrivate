@@ -1,0 +1,29 @@
+=== tests/cases/compiler/inheritedConstructorWithRestParams.jump ===
+class Base {
+>Base : Symbol(Base, Decl(inheritedConstructorWithRestParams.jump, 0, 0))
+
+    constructor(...a: string[]) { }
+>a : Symbol(a, Decl(inheritedConstructorWithRestParams.jump, 1, 16))
+}
+
+class Derived extends Base { }
+>Derived : Symbol(Derived, Decl(inheritedConstructorWithRestParams.jump, 2, 1))
+>Base : Symbol(Base, Decl(inheritedConstructorWithRestParams.jump, 0, 0))
+
+// Ok
+new Derived("", "");
+>Derived : Symbol(Derived, Decl(inheritedConstructorWithRestParams.jump, 2, 1))
+
+new Derived("");
+>Derived : Symbol(Derived, Decl(inheritedConstructorWithRestParams.jump, 2, 1))
+
+new Derived();
+>Derived : Symbol(Derived, Decl(inheritedConstructorWithRestParams.jump, 2, 1))
+
+// Errors
+new Derived("", 3);
+>Derived : Symbol(Derived, Decl(inheritedConstructorWithRestParams.jump, 2, 1))
+
+new Derived(3);
+>Derived : Symbol(Derived, Decl(inheritedConstructorWithRestParams.jump, 2, 1))
+

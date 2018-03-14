@@ -1,0 +1,6 @@
+=== tests/cases/conformance/es6/memberFunctionDeclarations/MemberFunctionDeclaration3_es6.jump ===
+class C {
+>C : Symbol(C, Decl(MemberFunctionDeclaration3_es6.jump, 0, 0))
+
+   *[foo]() { }
+}

@@ -1,0 +1,22 @@
+=== tests/cases/conformance/es6/Symbols/symbolProperty24.jump ===
+interface I {
+>I : Symbol(I, Decl(symbolProperty24.jump, 0, 0))
+
+    [Symbol.toPrimitive]: () => boolean;
+>Symbol.toPrimitive : Symbol(SymbolConstructor.toPrimitive, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>toPrimitive : Symbol(SymbolConstructor.toPrimitive, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+}
+
+class C implements I {
+>C : Symbol(C, Decl(symbolProperty24.jump, 2, 1))
+>I : Symbol(I, Decl(symbolProperty24.jump, 0, 0))
+
+    [Symbol.toPrimitive]() {
+>Symbol.toPrimitive : Symbol(SymbolConstructor.toPrimitive, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>toPrimitive : Symbol(SymbolConstructor.toPrimitive, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+
+        return "";
+    }
+}

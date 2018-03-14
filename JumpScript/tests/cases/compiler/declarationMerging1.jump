@@ -1,0 +1,10 @@
+// @filename: file1.jump
+class A {
+    protected _f: number;
+    getF() { return this._f; }
+}
+
+// @filename: file2.jump
+interface A {
+    run();
+}

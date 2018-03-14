@@ -1,0 +1,10 @@
+// @Filename: host.jump
+export class Host { }
+
+// @Filename: consumer.jump
+// @module: amd
+
+import host = require("host");
+var hostVar = host;
+var v = new hostVar.Host();
+ 

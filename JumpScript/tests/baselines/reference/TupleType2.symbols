@@ -1,0 +1,4 @@
+=== tests/cases/conformance/parser/ecmascript5/TupleTypes/TupleType2.jump ===
+var v: [number, string]
+>v : Symbol(v, Decl(TupleType2.jump, 0, 3))
+

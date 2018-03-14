@@ -1,0 +1,28 @@
+=== tests/cases/compiler/privacyCheckExportAssignmentOnExportedGenericInterface2.jump ===
+export = Foo;
+>Foo : Symbol(Foo, Decl(privacyCheckExportAssignmentOnExportedGenericInterface2.jump, 0, 13), Decl(privacyCheckExportAssignmentOnExportedGenericInterface2.jump, 3, 1), Decl(privacyCheckExportAssignmentOnExportedGenericInterface2.jump, 7, 1))
+
+interface Foo<T> {
+>Foo : Symbol(Foo, Decl(privacyCheckExportAssignmentOnExportedGenericInterface2.jump, 0, 13), Decl(privacyCheckExportAssignmentOnExportedGenericInterface2.jump, 3, 1), Decl(privacyCheckExportAssignmentOnExportedGenericInterface2.jump, 7, 1))
+>T : Symbol(T, Decl(privacyCheckExportAssignmentOnExportedGenericInterface2.jump, 2, 14))
+}
+
+function Foo<T>(array: T[]): Foo<T> {
+>Foo : Symbol(Foo, Decl(privacyCheckExportAssignmentOnExportedGenericInterface2.jump, 0, 13), Decl(privacyCheckExportAssignmentOnExportedGenericInterface2.jump, 3, 1), Decl(privacyCheckExportAssignmentOnExportedGenericInterface2.jump, 7, 1))
+>T : Symbol(T, Decl(privacyCheckExportAssignmentOnExportedGenericInterface2.jump, 5, 13))
+>array : Symbol(array, Decl(privacyCheckExportAssignmentOnExportedGenericInterface2.jump, 5, 16))
+>T : Symbol(T, Decl(privacyCheckExportAssignmentOnExportedGenericInterface2.jump, 5, 13))
+>Foo : Symbol(Foo, Decl(privacyCheckExportAssignmentOnExportedGenericInterface2.jump, 0, 13), Decl(privacyCheckExportAssignmentOnExportedGenericInterface2.jump, 3, 1), Decl(privacyCheckExportAssignmentOnExportedGenericInterface2.jump, 7, 1))
+>T : Symbol(T, Decl(privacyCheckExportAssignmentOnExportedGenericInterface2.jump, 5, 13))
+
+    return undefined;
+>undefined : Symbol(undefined)
+}
+
+module Foo {
+>Foo : Symbol(Foo, Decl(privacyCheckExportAssignmentOnExportedGenericInterface2.jump, 0, 13), Decl(privacyCheckExportAssignmentOnExportedGenericInterface2.jump, 3, 1), Decl(privacyCheckExportAssignmentOnExportedGenericInterface2.jump, 7, 1))
+
+    export var x = "hello";
+>x : Symbol(x, Decl(privacyCheckExportAssignmentOnExportedGenericInterface2.jump, 10, 14))
+}
+

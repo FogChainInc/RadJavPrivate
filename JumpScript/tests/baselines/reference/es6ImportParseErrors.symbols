@@ -1,0 +1,3 @@
+=== tests/cases/compiler/es6ImportParseErrors.jump ===
+import 10;
+No type information for this code.

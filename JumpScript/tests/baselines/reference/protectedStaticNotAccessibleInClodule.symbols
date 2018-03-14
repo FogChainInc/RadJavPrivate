@@ -1,0 +1,28 @@
+=== tests/cases/conformance/classes/members/accessibility/protectedStaticNotAccessibleInClodule.jump ===
+// Any attempt to access a private property member outside the class body that contains its declaration results in a compile-time error.
+
+class C {
+>C : Symbol(C, Decl(protectedStaticNotAccessibleInClodule.jump, 0, 0), Decl(protectedStaticNotAccessibleInClodule.jump, 5, 1))
+
+    public static foo: string;
+>foo : Symbol(C.foo, Decl(protectedStaticNotAccessibleInClodule.jump, 2, 9))
+
+    protected static bar: string;
+>bar : Symbol(C.bar, Decl(protectedStaticNotAccessibleInClodule.jump, 3, 30))
+}
+
+module C {
+>C : Symbol(C, Decl(protectedStaticNotAccessibleInClodule.jump, 0, 0), Decl(protectedStaticNotAccessibleInClodule.jump, 5, 1))
+
+    export var f = C.foo; // OK
+>f : Symbol(f, Decl(protectedStaticNotAccessibleInClodule.jump, 8, 14))
+>C.foo : Symbol(C.foo, Decl(protectedStaticNotAccessibleInClodule.jump, 2, 9))
+>C : Symbol(C, Decl(protectedStaticNotAccessibleInClodule.jump, 0, 0), Decl(protectedStaticNotAccessibleInClodule.jump, 5, 1))
+>foo : Symbol(C.foo, Decl(protectedStaticNotAccessibleInClodule.jump, 2, 9))
+
+    export var b = C.bar; // error
+>b : Symbol(b, Decl(protectedStaticNotAccessibleInClodule.jump, 9, 14))
+>C.bar : Symbol(C.bar, Decl(protectedStaticNotAccessibleInClodule.jump, 3, 30))
+>C : Symbol(C, Decl(protectedStaticNotAccessibleInClodule.jump, 0, 0), Decl(protectedStaticNotAccessibleInClodule.jump, 5, 1))
+>bar : Symbol(C.bar, Decl(protectedStaticNotAccessibleInClodule.jump, 3, 30))
+}

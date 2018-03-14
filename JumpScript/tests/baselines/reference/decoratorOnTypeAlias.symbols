@@ -1,0 +1,14 @@
+=== tests/cases/conformance/decorators/invalid/decoratorOnTypeAlias.jump ===
+declare function dec<T>(target: T): T;
+>dec : Symbol(dec, Decl(decoratorOnTypeAlias.jump, 0, 0))
+>T : Symbol(T, Decl(decoratorOnTypeAlias.jump, 0, 21))
+>target : Symbol(target, Decl(decoratorOnTypeAlias.jump, 0, 24))
+>T : Symbol(T, Decl(decoratorOnTypeAlias.jump, 0, 21))
+>T : Symbol(T, Decl(decoratorOnTypeAlias.jump, 0, 21))
+
+@dec
+>dec : Symbol(dec, Decl(decoratorOnTypeAlias.jump, 0, 0))
+
+type T = number;
+>T : Symbol(T, Decl(decoratorOnTypeAlias.jump, 0, 38))
+

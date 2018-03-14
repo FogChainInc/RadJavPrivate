@@ -1,0 +1,7 @@
+=== tests/cases/conformance/parser/ecmascript5/MemberVariableDeclarations/parserMemberVariableDeclaration4.jump ===
+class C {
+>C : C
+
+  export Foo;
+>Foo : any
+}

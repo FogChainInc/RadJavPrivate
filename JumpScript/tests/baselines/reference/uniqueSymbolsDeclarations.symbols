@@ -1,0 +1,788 @@
+=== tests/cases/conformance/types/uniqueSymbol/uniqueSymbolsDeclarations.jump ===
+// declarations with call initializer
+const constCall = Symbol();
+>constCall : Symbol(constCall, Decl(uniqueSymbolsDeclarations.jump, 1, 5))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+
+let letCall = Symbol();
+>letCall : Symbol(letCall, Decl(uniqueSymbolsDeclarations.jump, 2, 3))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+
+var varCall = Symbol();
+>varCall : Symbol(varCall, Decl(uniqueSymbolsDeclarations.jump, 3, 3))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+
+// ambient declaration with type
+declare const constType: unique symbol;
+>constType : Symbol(constType, Decl(uniqueSymbolsDeclarations.jump, 6, 13))
+
+// declaration with type and call initializer
+const constTypeAndCall: unique symbol = Symbol();
+>constTypeAndCall : Symbol(constTypeAndCall, Decl(uniqueSymbolsDeclarations.jump, 9, 5))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+
+// declaration from initializer
+const constInitToConstCall = constCall;
+>constInitToConstCall : Symbol(constInitToConstCall, Decl(uniqueSymbolsDeclarations.jump, 12, 5))
+>constCall : Symbol(constCall, Decl(uniqueSymbolsDeclarations.jump, 1, 5))
+
+const constInitToLetCall = letCall;
+>constInitToLetCall : Symbol(constInitToLetCall, Decl(uniqueSymbolsDeclarations.jump, 13, 5))
+>letCall : Symbol(letCall, Decl(uniqueSymbolsDeclarations.jump, 2, 3))
+
+const constInitToVarCall = varCall;
+>constInitToVarCall : Symbol(constInitToVarCall, Decl(uniqueSymbolsDeclarations.jump, 14, 5))
+>varCall : Symbol(varCall, Decl(uniqueSymbolsDeclarations.jump, 3, 3))
+
+const constInitToConstDeclAmbient = constType;
+>constInitToConstDeclAmbient : Symbol(constInitToConstDeclAmbient, Decl(uniqueSymbolsDeclarations.jump, 15, 5))
+>constType : Symbol(constType, Decl(uniqueSymbolsDeclarations.jump, 6, 13))
+
+let letInitToConstCall = constCall;
+>letInitToConstCall : Symbol(letInitToConstCall, Decl(uniqueSymbolsDeclarations.jump, 16, 3))
+>constCall : Symbol(constCall, Decl(uniqueSymbolsDeclarations.jump, 1, 5))
+
+let letInitToLetCall = letCall;
+>letInitToLetCall : Symbol(letInitToLetCall, Decl(uniqueSymbolsDeclarations.jump, 17, 3))
+>letCall : Symbol(letCall, Decl(uniqueSymbolsDeclarations.jump, 2, 3))
+
+let letInitToVarCall = varCall;
+>letInitToVarCall : Symbol(letInitToVarCall, Decl(uniqueSymbolsDeclarations.jump, 18, 3))
+>varCall : Symbol(varCall, Decl(uniqueSymbolsDeclarations.jump, 3, 3))
+
+let letInitToConstDeclAmbient = constType;
+>letInitToConstDeclAmbient : Symbol(letInitToConstDeclAmbient, Decl(uniqueSymbolsDeclarations.jump, 19, 3))
+>constType : Symbol(constType, Decl(uniqueSymbolsDeclarations.jump, 6, 13))
+
+var varInitToConstCall = constCall;
+>varInitToConstCall : Symbol(varInitToConstCall, Decl(uniqueSymbolsDeclarations.jump, 20, 3))
+>constCall : Symbol(constCall, Decl(uniqueSymbolsDeclarations.jump, 1, 5))
+
+var varInitToLetCall = letCall;
+>varInitToLetCall : Symbol(varInitToLetCall, Decl(uniqueSymbolsDeclarations.jump, 21, 3))
+>letCall : Symbol(letCall, Decl(uniqueSymbolsDeclarations.jump, 2, 3))
+
+var varInitToVarCall = varCall;
+>varInitToVarCall : Symbol(varInitToVarCall, Decl(uniqueSymbolsDeclarations.jump, 22, 3))
+>varCall : Symbol(varCall, Decl(uniqueSymbolsDeclarations.jump, 3, 3))
+
+var varInitToConstDeclAmbient = constType;
+>varInitToConstDeclAmbient : Symbol(varInitToConstDeclAmbient, Decl(uniqueSymbolsDeclarations.jump, 23, 3))
+>constType : Symbol(constType, Decl(uniqueSymbolsDeclarations.jump, 6, 13))
+
+// declaration from initializer with type query
+const constInitToConstCallWithTypeQuery: typeof constCall = constCall;
+>constInitToConstCallWithTypeQuery : Symbol(constInitToConstCallWithTypeQuery, Decl(uniqueSymbolsDeclarations.jump, 26, 5))
+>constCall : Symbol(constCall, Decl(uniqueSymbolsDeclarations.jump, 1, 5))
+>constCall : Symbol(constCall, Decl(uniqueSymbolsDeclarations.jump, 1, 5))
+
+const constInitToConstDeclAmbientWithTypeQuery: typeof constType = constType;
+>constInitToConstDeclAmbientWithTypeQuery : Symbol(constInitToConstDeclAmbientWithTypeQuery, Decl(uniqueSymbolsDeclarations.jump, 27, 5))
+>constType : Symbol(constType, Decl(uniqueSymbolsDeclarations.jump, 6, 13))
+>constType : Symbol(constType, Decl(uniqueSymbolsDeclarations.jump, 6, 13))
+
+// function return inference
+function funcReturnConstCall() { return constCall; }
+>funcReturnConstCall : Symbol(funcReturnConstCall, Decl(uniqueSymbolsDeclarations.jump, 27, 77))
+>constCall : Symbol(constCall, Decl(uniqueSymbolsDeclarations.jump, 1, 5))
+
+function funcReturnLetCall() { return letCall; }
+>funcReturnLetCall : Symbol(funcReturnLetCall, Decl(uniqueSymbolsDeclarations.jump, 30, 52))
+>letCall : Symbol(letCall, Decl(uniqueSymbolsDeclarations.jump, 2, 3))
+
+function funcReturnVarCall() { return varCall; }
+>funcReturnVarCall : Symbol(funcReturnVarCall, Decl(uniqueSymbolsDeclarations.jump, 31, 48))
+>varCall : Symbol(varCall, Decl(uniqueSymbolsDeclarations.jump, 3, 3))
+
+// function return value with type query
+function funcReturnConstCallWithTypeQuery(): typeof constCall { return constCall; }
+>funcReturnConstCallWithTypeQuery : Symbol(funcReturnConstCallWithTypeQuery, Decl(uniqueSymbolsDeclarations.jump, 32, 48))
+>constCall : Symbol(constCall, Decl(uniqueSymbolsDeclarations.jump, 1, 5))
+>constCall : Symbol(constCall, Decl(uniqueSymbolsDeclarations.jump, 1, 5))
+
+// generator function yield inference
+function* genFuncYieldConstCall() { yield constCall; }
+>genFuncYieldConstCall : Symbol(genFuncYieldConstCall, Decl(uniqueSymbolsDeclarations.jump, 35, 83))
+>constCall : Symbol(constCall, Decl(uniqueSymbolsDeclarations.jump, 1, 5))
+
+function* genFuncYieldLetCall() { yield letCall; }
+>genFuncYieldLetCall : Symbol(genFuncYieldLetCall, Decl(uniqueSymbolsDeclarations.jump, 38, 54))
+>letCall : Symbol(letCall, Decl(uniqueSymbolsDeclarations.jump, 2, 3))
+
+function* genFuncYieldVarCall() { yield varCall; }
+>genFuncYieldVarCall : Symbol(genFuncYieldVarCall, Decl(uniqueSymbolsDeclarations.jump, 39, 50))
+>varCall : Symbol(varCall, Decl(uniqueSymbolsDeclarations.jump, 3, 3))
+
+// generator function yield with return type query
+function* genFuncYieldConstCallWithTypeQuery(): IterableIterator<typeof constCall> { yield constCall; }
+>genFuncYieldConstCallWithTypeQuery : Symbol(genFuncYieldConstCallWithTypeQuery, Decl(uniqueSymbolsDeclarations.jump, 40, 50))
+>IterableIterator : Symbol(IterableIterator, Decl(lib.es2015.iterable.d.jump, --, --))
+>constCall : Symbol(constCall, Decl(uniqueSymbolsDeclarations.jump, 1, 5))
+>constCall : Symbol(constCall, Decl(uniqueSymbolsDeclarations.jump, 1, 5))
+
+// async function return inference
+async function asyncFuncReturnConstCall() { return constCall; }
+>asyncFuncReturnConstCall : Symbol(asyncFuncReturnConstCall, Decl(uniqueSymbolsDeclarations.jump, 43, 103))
+>constCall : Symbol(constCall, Decl(uniqueSymbolsDeclarations.jump, 1, 5))
+
+async function asyncFuncReturnLetCall() { return letCall; }
+>asyncFuncReturnLetCall : Symbol(asyncFuncReturnLetCall, Decl(uniqueSymbolsDeclarations.jump, 46, 63))
+>letCall : Symbol(letCall, Decl(uniqueSymbolsDeclarations.jump, 2, 3))
+
+async function asyncFuncReturnVarCall() { return varCall; }
+>asyncFuncReturnVarCall : Symbol(asyncFuncReturnVarCall, Decl(uniqueSymbolsDeclarations.jump, 47, 59))
+>varCall : Symbol(varCall, Decl(uniqueSymbolsDeclarations.jump, 3, 3))
+
+// async generator function yield inference
+async function* asyncGenFuncYieldConstCall() { yield constCall; }
+>asyncGenFuncYieldConstCall : Symbol(asyncGenFuncYieldConstCall, Decl(uniqueSymbolsDeclarations.jump, 48, 59))
+>constCall : Symbol(constCall, Decl(uniqueSymbolsDeclarations.jump, 1, 5))
+
+async function* asyncGenFuncYieldLetCall() { yield letCall; }
+>asyncGenFuncYieldLetCall : Symbol(asyncGenFuncYieldLetCall, Decl(uniqueSymbolsDeclarations.jump, 51, 65))
+>letCall : Symbol(letCall, Decl(uniqueSymbolsDeclarations.jump, 2, 3))
+
+async function* asyncGenFuncYieldVarCall() { yield varCall; }
+>asyncGenFuncYieldVarCall : Symbol(asyncGenFuncYieldVarCall, Decl(uniqueSymbolsDeclarations.jump, 52, 61))
+>varCall : Symbol(varCall, Decl(uniqueSymbolsDeclarations.jump, 3, 3))
+
+// classes
+class C {
+>C : Symbol(C, Decl(uniqueSymbolsDeclarations.jump, 53, 61))
+
+    static readonly readonlyStaticCall = Symbol();
+>readonlyStaticCall : Symbol(C.readonlyStaticCall, Decl(uniqueSymbolsDeclarations.jump, 56, 9))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+
+    static readonly readonlyStaticType: unique symbol;
+>readonlyStaticType : Symbol(C.readonlyStaticType, Decl(uniqueSymbolsDeclarations.jump, 57, 50))
+
+    static readonly readonlyStaticTypeAndCall: unique symbol = Symbol();
+>readonlyStaticTypeAndCall : Symbol(C.readonlyStaticTypeAndCall, Decl(uniqueSymbolsDeclarations.jump, 58, 54))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+
+    static readwriteStaticCall = Symbol();
+>readwriteStaticCall : Symbol(C.readwriteStaticCall, Decl(uniqueSymbolsDeclarations.jump, 59, 72))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+
+    readonly readonlyCall = Symbol();
+>readonlyCall : Symbol(C.readonlyCall, Decl(uniqueSymbolsDeclarations.jump, 60, 42))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+
+    readwriteCall = Symbol();
+>readwriteCall : Symbol(C.readwriteCall, Decl(uniqueSymbolsDeclarations.jump, 62, 37))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+}
+declare const c: C;
+>c : Symbol(c, Decl(uniqueSymbolsDeclarations.jump, 65, 13))
+>C : Symbol(C, Decl(uniqueSymbolsDeclarations.jump, 53, 61))
+
+const constInitToCReadonlyStaticCall = C.readonlyStaticCall;
+>constInitToCReadonlyStaticCall : Symbol(constInitToCReadonlyStaticCall, Decl(uniqueSymbolsDeclarations.jump, 67, 5))
+>C.readonlyStaticCall : Symbol(C.readonlyStaticCall, Decl(uniqueSymbolsDeclarations.jump, 56, 9))
+>C : Symbol(C, Decl(uniqueSymbolsDeclarations.jump, 53, 61))
+>readonlyStaticCall : Symbol(C.readonlyStaticCall, Decl(uniqueSymbolsDeclarations.jump, 56, 9))
+
+const constInitToCReadonlyStaticType = C.readonlyStaticType;
+>constInitToCReadonlyStaticType : Symbol(constInitToCReadonlyStaticType, Decl(uniqueSymbolsDeclarations.jump, 68, 5))
+>C.readonlyStaticType : Symbol(C.readonlyStaticType, Decl(uniqueSymbolsDeclarations.jump, 57, 50))
+>C : Symbol(C, Decl(uniqueSymbolsDeclarations.jump, 53, 61))
+>readonlyStaticType : Symbol(C.readonlyStaticType, Decl(uniqueSymbolsDeclarations.jump, 57, 50))
+
+const constInitToCReadonlyStaticTypeAndCall = C.readonlyStaticTypeAndCall;
+>constInitToCReadonlyStaticTypeAndCall : Symbol(constInitToCReadonlyStaticTypeAndCall, Decl(uniqueSymbolsDeclarations.jump, 69, 5))
+>C.readonlyStaticTypeAndCall : Symbol(C.readonlyStaticTypeAndCall, Decl(uniqueSymbolsDeclarations.jump, 58, 54))
+>C : Symbol(C, Decl(uniqueSymbolsDeclarations.jump, 53, 61))
+>readonlyStaticTypeAndCall : Symbol(C.readonlyStaticTypeAndCall, Decl(uniqueSymbolsDeclarations.jump, 58, 54))
+
+const constInitToCReadwriteStaticCall = C.readwriteStaticCall;
+>constInitToCReadwriteStaticCall : Symbol(constInitToCReadwriteStaticCall, Decl(uniqueSymbolsDeclarations.jump, 70, 5))
+>C.readwriteStaticCall : Symbol(C.readwriteStaticCall, Decl(uniqueSymbolsDeclarations.jump, 59, 72))
+>C : Symbol(C, Decl(uniqueSymbolsDeclarations.jump, 53, 61))
+>readwriteStaticCall : Symbol(C.readwriteStaticCall, Decl(uniqueSymbolsDeclarations.jump, 59, 72))
+
+const constInitToCReadonlyStaticCallWithTypeQuery: typeof C.readonlyStaticCall = C.readonlyStaticCall;
+>constInitToCReadonlyStaticCallWithTypeQuery : Symbol(constInitToCReadonlyStaticCallWithTypeQuery, Decl(uniqueSymbolsDeclarations.jump, 72, 5))
+>C.readonlyStaticCall : Symbol(C.readonlyStaticCall, Decl(uniqueSymbolsDeclarations.jump, 56, 9))
+>C : Symbol(C, Decl(uniqueSymbolsDeclarations.jump, 53, 61))
+>readonlyStaticCall : Symbol(C.readonlyStaticCall, Decl(uniqueSymbolsDeclarations.jump, 56, 9))
+>C.readonlyStaticCall : Symbol(C.readonlyStaticCall, Decl(uniqueSymbolsDeclarations.jump, 56, 9))
+>C : Symbol(C, Decl(uniqueSymbolsDeclarations.jump, 53, 61))
+>readonlyStaticCall : Symbol(C.readonlyStaticCall, Decl(uniqueSymbolsDeclarations.jump, 56, 9))
+
+const constInitToCReadonlyStaticTypeWithTypeQuery: typeof C.readonlyStaticType = C.readonlyStaticType;
+>constInitToCReadonlyStaticTypeWithTypeQuery : Symbol(constInitToCReadonlyStaticTypeWithTypeQuery, Decl(uniqueSymbolsDeclarations.jump, 73, 5))
+>C.readonlyStaticType : Symbol(C.readonlyStaticType, Decl(uniqueSymbolsDeclarations.jump, 57, 50))
+>C : Symbol(C, Decl(uniqueSymbolsDeclarations.jump, 53, 61))
+>readonlyStaticType : Symbol(C.readonlyStaticType, Decl(uniqueSymbolsDeclarations.jump, 57, 50))
+>C.readonlyStaticType : Symbol(C.readonlyStaticType, Decl(uniqueSymbolsDeclarations.jump, 57, 50))
+>C : Symbol(C, Decl(uniqueSymbolsDeclarations.jump, 53, 61))
+>readonlyStaticType : Symbol(C.readonlyStaticType, Decl(uniqueSymbolsDeclarations.jump, 57, 50))
+
+const constInitToCReadonlyStaticTypeAndCallWithTypeQuery: typeof C.readonlyStaticTypeAndCall = C.readonlyStaticTypeAndCall;
+>constInitToCReadonlyStaticTypeAndCallWithTypeQuery : Symbol(constInitToCReadonlyStaticTypeAndCallWithTypeQuery, Decl(uniqueSymbolsDeclarations.jump, 74, 5))
+>C.readonlyStaticTypeAndCall : Symbol(C.readonlyStaticTypeAndCall, Decl(uniqueSymbolsDeclarations.jump, 58, 54))
+>C : Symbol(C, Decl(uniqueSymbolsDeclarations.jump, 53, 61))
+>readonlyStaticTypeAndCall : Symbol(C.readonlyStaticTypeAndCall, Decl(uniqueSymbolsDeclarations.jump, 58, 54))
+>C.readonlyStaticTypeAndCall : Symbol(C.readonlyStaticTypeAndCall, Decl(uniqueSymbolsDeclarations.jump, 58, 54))
+>C : Symbol(C, Decl(uniqueSymbolsDeclarations.jump, 53, 61))
+>readonlyStaticTypeAndCall : Symbol(C.readonlyStaticTypeAndCall, Decl(uniqueSymbolsDeclarations.jump, 58, 54))
+
+const constInitToCReadwriteStaticCallWithTypeQuery: typeof C.readwriteStaticCall = C.readwriteStaticCall;
+>constInitToCReadwriteStaticCallWithTypeQuery : Symbol(constInitToCReadwriteStaticCallWithTypeQuery, Decl(uniqueSymbolsDeclarations.jump, 75, 5))
+>C.readwriteStaticCall : Symbol(C.readwriteStaticCall, Decl(uniqueSymbolsDeclarations.jump, 59, 72))
+>C : Symbol(C, Decl(uniqueSymbolsDeclarations.jump, 53, 61))
+>readwriteStaticCall : Symbol(C.readwriteStaticCall, Decl(uniqueSymbolsDeclarations.jump, 59, 72))
+>C.readwriteStaticCall : Symbol(C.readwriteStaticCall, Decl(uniqueSymbolsDeclarations.jump, 59, 72))
+>C : Symbol(C, Decl(uniqueSymbolsDeclarations.jump, 53, 61))
+>readwriteStaticCall : Symbol(C.readwriteStaticCall, Decl(uniqueSymbolsDeclarations.jump, 59, 72))
+
+const constInitToCReadonlyCall = c.readonlyCall;
+>constInitToCReadonlyCall : Symbol(constInitToCReadonlyCall, Decl(uniqueSymbolsDeclarations.jump, 77, 5))
+>c.readonlyCall : Symbol(C.readonlyCall, Decl(uniqueSymbolsDeclarations.jump, 60, 42))
+>c : Symbol(c, Decl(uniqueSymbolsDeclarations.jump, 65, 13))
+>readonlyCall : Symbol(C.readonlyCall, Decl(uniqueSymbolsDeclarations.jump, 60, 42))
+
+const constInitToCReadwriteCall = c.readwriteCall;
+>constInitToCReadwriteCall : Symbol(constInitToCReadwriteCall, Decl(uniqueSymbolsDeclarations.jump, 78, 5))
+>c.readwriteCall : Symbol(C.readwriteCall, Decl(uniqueSymbolsDeclarations.jump, 62, 37))
+>c : Symbol(c, Decl(uniqueSymbolsDeclarations.jump, 65, 13))
+>readwriteCall : Symbol(C.readwriteCall, Decl(uniqueSymbolsDeclarations.jump, 62, 37))
+
+const constInitToCReadonlyCallWithTypeQuery: typeof c.readonlyCall = c.readonlyCall;
+>constInitToCReadonlyCallWithTypeQuery : Symbol(constInitToCReadonlyCallWithTypeQuery, Decl(uniqueSymbolsDeclarations.jump, 79, 5))
+>c.readonlyCall : Symbol(C.readonlyCall, Decl(uniqueSymbolsDeclarations.jump, 60, 42))
+>c : Symbol(c, Decl(uniqueSymbolsDeclarations.jump, 65, 13))
+>readonlyCall : Symbol(C.readonlyCall, Decl(uniqueSymbolsDeclarations.jump, 60, 42))
+>c.readonlyCall : Symbol(C.readonlyCall, Decl(uniqueSymbolsDeclarations.jump, 60, 42))
+>c : Symbol(c, Decl(uniqueSymbolsDeclarations.jump, 65, 13))
+>readonlyCall : Symbol(C.readonlyCall, Decl(uniqueSymbolsDeclarations.jump, 60, 42))
+
+const constInitToCReadwriteCallWithTypeQuery: typeof c.readwriteCall = c.readwriteCall;
+>constInitToCReadwriteCallWithTypeQuery : Symbol(constInitToCReadwriteCallWithTypeQuery, Decl(uniqueSymbolsDeclarations.jump, 80, 5))
+>c.readwriteCall : Symbol(C.readwriteCall, Decl(uniqueSymbolsDeclarations.jump, 62, 37))
+>c : Symbol(c, Decl(uniqueSymbolsDeclarations.jump, 65, 13))
+>readwriteCall : Symbol(C.readwriteCall, Decl(uniqueSymbolsDeclarations.jump, 62, 37))
+>c.readwriteCall : Symbol(C.readwriteCall, Decl(uniqueSymbolsDeclarations.jump, 62, 37))
+>c : Symbol(c, Decl(uniqueSymbolsDeclarations.jump, 65, 13))
+>readwriteCall : Symbol(C.readwriteCall, Decl(uniqueSymbolsDeclarations.jump, 62, 37))
+
+const constInitToCReadonlyCallWithIndexedAccess: C["readonlyCall"] = c.readonlyCall;
+>constInitToCReadonlyCallWithIndexedAccess : Symbol(constInitToCReadonlyCallWithIndexedAccess, Decl(uniqueSymbolsDeclarations.jump, 81, 5))
+>C : Symbol(C, Decl(uniqueSymbolsDeclarations.jump, 53, 61))
+>c.readonlyCall : Symbol(C.readonlyCall, Decl(uniqueSymbolsDeclarations.jump, 60, 42))
+>c : Symbol(c, Decl(uniqueSymbolsDeclarations.jump, 65, 13))
+>readonlyCall : Symbol(C.readonlyCall, Decl(uniqueSymbolsDeclarations.jump, 60, 42))
+
+const constInitToCReadwriteCallWithIndexedAccess: C["readwriteCall"] = c.readwriteCall;
+>constInitToCReadwriteCallWithIndexedAccess : Symbol(constInitToCReadwriteCallWithIndexedAccess, Decl(uniqueSymbolsDeclarations.jump, 82, 5))
+>C : Symbol(C, Decl(uniqueSymbolsDeclarations.jump, 53, 61))
+>c.readwriteCall : Symbol(C.readwriteCall, Decl(uniqueSymbolsDeclarations.jump, 62, 37))
+>c : Symbol(c, Decl(uniqueSymbolsDeclarations.jump, 65, 13))
+>readwriteCall : Symbol(C.readwriteCall, Decl(uniqueSymbolsDeclarations.jump, 62, 37))
+
+// interfaces
+interface I {
+>I : Symbol(I, Decl(uniqueSymbolsDeclarations.jump, 82, 87))
+
+    readonly readonlyType: unique symbol;
+>readonlyType : Symbol(I.readonlyType, Decl(uniqueSymbolsDeclarations.jump, 85, 13))
+}
+declare const i: I;
+>i : Symbol(i, Decl(uniqueSymbolsDeclarations.jump, 88, 13))
+>I : Symbol(I, Decl(uniqueSymbolsDeclarations.jump, 82, 87))
+
+const constInitToIReadonlyType = i.readonlyType;
+>constInitToIReadonlyType : Symbol(constInitToIReadonlyType, Decl(uniqueSymbolsDeclarations.jump, 90, 5))
+>i.readonlyType : Symbol(I.readonlyType, Decl(uniqueSymbolsDeclarations.jump, 85, 13))
+>i : Symbol(i, Decl(uniqueSymbolsDeclarations.jump, 88, 13))
+>readonlyType : Symbol(I.readonlyType, Decl(uniqueSymbolsDeclarations.jump, 85, 13))
+
+const constInitToIReadonlyTypeWithTypeQuery: typeof i.readonlyType = i.readonlyType;
+>constInitToIReadonlyTypeWithTypeQuery : Symbol(constInitToIReadonlyTypeWithTypeQuery, Decl(uniqueSymbolsDeclarations.jump, 91, 5))
+>i.readonlyType : Symbol(I.readonlyType, Decl(uniqueSymbolsDeclarations.jump, 85, 13))
+>i : Symbol(i, Decl(uniqueSymbolsDeclarations.jump, 88, 13))
+>readonlyType : Symbol(I.readonlyType, Decl(uniqueSymbolsDeclarations.jump, 85, 13))
+>i.readonlyType : Symbol(I.readonlyType, Decl(uniqueSymbolsDeclarations.jump, 85, 13))
+>i : Symbol(i, Decl(uniqueSymbolsDeclarations.jump, 88, 13))
+>readonlyType : Symbol(I.readonlyType, Decl(uniqueSymbolsDeclarations.jump, 85, 13))
+
+const constInitToIReadonlyTypeWithIndexedAccess: I["readonlyType"] = i.readonlyType;
+>constInitToIReadonlyTypeWithIndexedAccess : Symbol(constInitToIReadonlyTypeWithIndexedAccess, Decl(uniqueSymbolsDeclarations.jump, 92, 5))
+>I : Symbol(I, Decl(uniqueSymbolsDeclarations.jump, 82, 87))
+>i.readonlyType : Symbol(I.readonlyType, Decl(uniqueSymbolsDeclarations.jump, 85, 13))
+>i : Symbol(i, Decl(uniqueSymbolsDeclarations.jump, 88, 13))
+>readonlyType : Symbol(I.readonlyType, Decl(uniqueSymbolsDeclarations.jump, 85, 13))
+
+// type literals
+type L = {
+>L : Symbol(L, Decl(uniqueSymbolsDeclarations.jump, 92, 84))
+
+    readonly readonlyType: unique symbol;
+>readonlyType : Symbol(readonlyType, Decl(uniqueSymbolsDeclarations.jump, 95, 10))
+
+    nested: {
+>nested : Symbol(nested, Decl(uniqueSymbolsDeclarations.jump, 96, 41))
+
+        readonly readonlyNestedType: unique symbol;
+>readonlyNestedType : Symbol(readonlyNestedType, Decl(uniqueSymbolsDeclarations.jump, 97, 13))
+    }
+};
+declare const l: L;
+>l : Symbol(l, Decl(uniqueSymbolsDeclarations.jump, 101, 13))
+>L : Symbol(L, Decl(uniqueSymbolsDeclarations.jump, 92, 84))
+
+const constInitToLReadonlyType = l.readonlyType;
+>constInitToLReadonlyType : Symbol(constInitToLReadonlyType, Decl(uniqueSymbolsDeclarations.jump, 103, 5))
+>l.readonlyType : Symbol(readonlyType, Decl(uniqueSymbolsDeclarations.jump, 95, 10))
+>l : Symbol(l, Decl(uniqueSymbolsDeclarations.jump, 101, 13))
+>readonlyType : Symbol(readonlyType, Decl(uniqueSymbolsDeclarations.jump, 95, 10))
+
+const constInitToLReadonlyNestedType = l.nested.readonlyNestedType;
+>constInitToLReadonlyNestedType : Symbol(constInitToLReadonlyNestedType, Decl(uniqueSymbolsDeclarations.jump, 104, 5))
+>l.nested.readonlyNestedType : Symbol(readonlyNestedType, Decl(uniqueSymbolsDeclarations.jump, 97, 13))
+>l.nested : Symbol(nested, Decl(uniqueSymbolsDeclarations.jump, 96, 41))
+>l : Symbol(l, Decl(uniqueSymbolsDeclarations.jump, 101, 13))
+>nested : Symbol(nested, Decl(uniqueSymbolsDeclarations.jump, 96, 41))
+>readonlyNestedType : Symbol(readonlyNestedType, Decl(uniqueSymbolsDeclarations.jump, 97, 13))
+
+const constInitToLReadonlyTypeWithTypeQuery: typeof l.readonlyType = l.readonlyType;
+>constInitToLReadonlyTypeWithTypeQuery : Symbol(constInitToLReadonlyTypeWithTypeQuery, Decl(uniqueSymbolsDeclarations.jump, 105, 5))
+>l.readonlyType : Symbol(readonlyType, Decl(uniqueSymbolsDeclarations.jump, 95, 10))
+>l : Symbol(l, Decl(uniqueSymbolsDeclarations.jump, 101, 13))
+>readonlyType : Symbol(readonlyType, Decl(uniqueSymbolsDeclarations.jump, 95, 10))
+>l.readonlyType : Symbol(readonlyType, Decl(uniqueSymbolsDeclarations.jump, 95, 10))
+>l : Symbol(l, Decl(uniqueSymbolsDeclarations.jump, 101, 13))
+>readonlyType : Symbol(readonlyType, Decl(uniqueSymbolsDeclarations.jump, 95, 10))
+
+const constInitToLReadonlyNestedTypeWithTypeQuery: typeof l.nested.readonlyNestedType = l.nested.readonlyNestedType;
+>constInitToLReadonlyNestedTypeWithTypeQuery : Symbol(constInitToLReadonlyNestedTypeWithTypeQuery, Decl(uniqueSymbolsDeclarations.jump, 106, 5))
+>l.nested.readonlyNestedType : Symbol(readonlyNestedType, Decl(uniqueSymbolsDeclarations.jump, 97, 13))
+>l.nested : Symbol(nested, Decl(uniqueSymbolsDeclarations.jump, 96, 41))
+>l : Symbol(l, Decl(uniqueSymbolsDeclarations.jump, 101, 13))
+>nested : Symbol(nested, Decl(uniqueSymbolsDeclarations.jump, 96, 41))
+>readonlyNestedType : Symbol(readonlyNestedType, Decl(uniqueSymbolsDeclarations.jump, 97, 13))
+>l.nested.readonlyNestedType : Symbol(readonlyNestedType, Decl(uniqueSymbolsDeclarations.jump, 97, 13))
+>l.nested : Symbol(nested, Decl(uniqueSymbolsDeclarations.jump, 96, 41))
+>l : Symbol(l, Decl(uniqueSymbolsDeclarations.jump, 101, 13))
+>nested : Symbol(nested, Decl(uniqueSymbolsDeclarations.jump, 96, 41))
+>readonlyNestedType : Symbol(readonlyNestedType, Decl(uniqueSymbolsDeclarations.jump, 97, 13))
+
+const constInitToLReadonlyTypeWithIndexedAccess: L["readonlyType"] = l.readonlyType;
+>constInitToLReadonlyTypeWithIndexedAccess : Symbol(constInitToLReadonlyTypeWithIndexedAccess, Decl(uniqueSymbolsDeclarations.jump, 107, 5))
+>L : Symbol(L, Decl(uniqueSymbolsDeclarations.jump, 92, 84))
+>l.readonlyType : Symbol(readonlyType, Decl(uniqueSymbolsDeclarations.jump, 95, 10))
+>l : Symbol(l, Decl(uniqueSymbolsDeclarations.jump, 101, 13))
+>readonlyType : Symbol(readonlyType, Decl(uniqueSymbolsDeclarations.jump, 95, 10))
+
+const constInitToLReadonlyNestedTypeWithIndexedAccess: L["nested"]["readonlyNestedType"] = l.nested.readonlyNestedType;
+>constInitToLReadonlyNestedTypeWithIndexedAccess : Symbol(constInitToLReadonlyNestedTypeWithIndexedAccess, Decl(uniqueSymbolsDeclarations.jump, 108, 5))
+>L : Symbol(L, Decl(uniqueSymbolsDeclarations.jump, 92, 84))
+>l.nested.readonlyNestedType : Symbol(readonlyNestedType, Decl(uniqueSymbolsDeclarations.jump, 97, 13))
+>l.nested : Symbol(nested, Decl(uniqueSymbolsDeclarations.jump, 96, 41))
+>l : Symbol(l, Decl(uniqueSymbolsDeclarations.jump, 101, 13))
+>nested : Symbol(nested, Decl(uniqueSymbolsDeclarations.jump, 96, 41))
+>readonlyNestedType : Symbol(readonlyNestedType, Decl(uniqueSymbolsDeclarations.jump, 97, 13))
+
+// type argument inference
+const promiseForConstCall = Promise.resolve(constCall);
+>promiseForConstCall : Symbol(promiseForConstCall, Decl(uniqueSymbolsDeclarations.jump, 111, 5))
+>Promise.resolve : Symbol(PromiseConstructor.resolve, Decl(lib.es2015.promise.d.jump, --, --), Decl(lib.es2015.promise.d.jump, --, --))
+>Promise : Symbol(Promise, Decl(lib.esnext.promise.d.jump, --, --), Decl(lib.es5.d.jump, --, --), Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.iterable.d.jump, --, --), Decl(lib.es2015.promise.d.jump, --, --))
+>resolve : Symbol(PromiseConstructor.resolve, Decl(lib.es2015.promise.d.jump, --, --), Decl(lib.es2015.promise.d.jump, --, --))
+>constCall : Symbol(constCall, Decl(uniqueSymbolsDeclarations.jump, 1, 5))
+
+const arrayOfConstCall = [constCall];
+>arrayOfConstCall : Symbol(arrayOfConstCall, Decl(uniqueSymbolsDeclarations.jump, 112, 5))
+>constCall : Symbol(constCall, Decl(uniqueSymbolsDeclarations.jump, 1, 5))
+
+// unique symbol widening in expressions
+declare const s: unique symbol;
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+
+declare namespace N { const s: unique symbol; }
+>N : Symbol(N, Decl(uniqueSymbolsDeclarations.jump, 115, 31))
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+
+declare const o: { [s]: "a", [N.s]: "b" };
+>o : Symbol(o, Decl(uniqueSymbolsDeclarations.jump, 117, 13))
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+>N.s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+>N : Symbol(N, Decl(uniqueSymbolsDeclarations.jump, 115, 31))
+>s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+
+declare function f<T>(x: T): T;
+>f : Symbol(f, Decl(uniqueSymbolsDeclarations.jump, 117, 42))
+>T : Symbol(T, Decl(uniqueSymbolsDeclarations.jump, 118, 19))
+>x : Symbol(x, Decl(uniqueSymbolsDeclarations.jump, 118, 22))
+>T : Symbol(T, Decl(uniqueSymbolsDeclarations.jump, 118, 19))
+>T : Symbol(T, Decl(uniqueSymbolsDeclarations.jump, 118, 19))
+
+declare function g(x: typeof s): void;
+>g : Symbol(g, Decl(uniqueSymbolsDeclarations.jump, 118, 31), Decl(uniqueSymbolsDeclarations.jump, 119, 38))
+>x : Symbol(x, Decl(uniqueSymbolsDeclarations.jump, 119, 19))
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+
+declare function g(x: typeof N.s): void;
+>g : Symbol(g, Decl(uniqueSymbolsDeclarations.jump, 118, 31), Decl(uniqueSymbolsDeclarations.jump, 119, 38))
+>x : Symbol(x, Decl(uniqueSymbolsDeclarations.jump, 120, 19))
+>N.s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+>N : Symbol(N, Decl(uniqueSymbolsDeclarations.jump, 115, 31))
+>s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+
+// widening positions
+
+// argument inference
+f(s);
+>f : Symbol(f, Decl(uniqueSymbolsDeclarations.jump, 117, 42))
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+
+f(N.s);
+>f : Symbol(f, Decl(uniqueSymbolsDeclarations.jump, 117, 42))
+>N.s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+>N : Symbol(N, Decl(uniqueSymbolsDeclarations.jump, 115, 31))
+>s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+
+f(N["s"]);
+>f : Symbol(f, Decl(uniqueSymbolsDeclarations.jump, 117, 42))
+>N : Symbol(N, Decl(uniqueSymbolsDeclarations.jump, 115, 31))
+>"s" : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+
+// array literal elements
+[s];
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+
+[N.s];
+>N.s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+>N : Symbol(N, Decl(uniqueSymbolsDeclarations.jump, 115, 31))
+>s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+
+[N["s"]];
+>N : Symbol(N, Decl(uniqueSymbolsDeclarations.jump, 115, 31))
+>"s" : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+
+// property assignments/methods
+const o2 = {
+>o2 : Symbol(o2, Decl(uniqueSymbolsDeclarations.jump, 135, 5))
+
+    a: s,
+>a : Symbol(a, Decl(uniqueSymbolsDeclarations.jump, 135, 12))
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+
+    b: N.s,
+>b : Symbol(b, Decl(uniqueSymbolsDeclarations.jump, 136, 9))
+>N.s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+>N : Symbol(N, Decl(uniqueSymbolsDeclarations.jump, 115, 31))
+>s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+
+    c: N["s"],
+>c : Symbol(c, Decl(uniqueSymbolsDeclarations.jump, 137, 11))
+>N : Symbol(N, Decl(uniqueSymbolsDeclarations.jump, 115, 31))
+>"s" : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+
+    method1() { return s; },
+>method1 : Symbol(method1, Decl(uniqueSymbolsDeclarations.jump, 138, 14))
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+
+    async method2() { return s; },
+>method2 : Symbol(method2, Decl(uniqueSymbolsDeclarations.jump, 140, 28))
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+
+    async * method3() { yield s; },
+>method3 : Symbol(method3, Decl(uniqueSymbolsDeclarations.jump, 141, 34))
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+
+    * method4() { yield s; },
+>method4 : Symbol(method4, Decl(uniqueSymbolsDeclarations.jump, 142, 35))
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+
+    method5(p = s) { return p; }
+>method5 : Symbol(method5, Decl(uniqueSymbolsDeclarations.jump, 143, 29))
+>p : Symbol(p, Decl(uniqueSymbolsDeclarations.jump, 144, 12))
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+>p : Symbol(p, Decl(uniqueSymbolsDeclarations.jump, 144, 12))
+
+};
+
+// property initializers
+class C0 {
+>C0 : Symbol(C0, Decl(uniqueSymbolsDeclarations.jump, 145, 2))
+
+    static readonly a = s;
+>a : Symbol(C0.a, Decl(uniqueSymbolsDeclarations.jump, 148, 10))
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+
+    static readonly b = N.s;
+>b : Symbol(C0.b, Decl(uniqueSymbolsDeclarations.jump, 149, 26))
+>N.s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+>N : Symbol(N, Decl(uniqueSymbolsDeclarations.jump, 115, 31))
+>s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+
+    static readonly c = N["s"];
+>c : Symbol(C0.c, Decl(uniqueSymbolsDeclarations.jump, 150, 28))
+>N : Symbol(N, Decl(uniqueSymbolsDeclarations.jump, 115, 31))
+>"s" : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+
+    static d = s;
+>d : Symbol(C0.d, Decl(uniqueSymbolsDeclarations.jump, 151, 31))
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+
+    static e = N.s;
+>e : Symbol(C0.e, Decl(uniqueSymbolsDeclarations.jump, 153, 17))
+>N.s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+>N : Symbol(N, Decl(uniqueSymbolsDeclarations.jump, 115, 31))
+>s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+
+    static f = N["s"];
+>f : Symbol(C0.f, Decl(uniqueSymbolsDeclarations.jump, 154, 19))
+>N : Symbol(N, Decl(uniqueSymbolsDeclarations.jump, 115, 31))
+>"s" : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+
+    readonly a = s;
+>a : Symbol(C0.a, Decl(uniqueSymbolsDeclarations.jump, 155, 22))
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+
+    readonly b = N.s;
+>b : Symbol(C0.b, Decl(uniqueSymbolsDeclarations.jump, 157, 19))
+>N.s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+>N : Symbol(N, Decl(uniqueSymbolsDeclarations.jump, 115, 31))
+>s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+
+    readonly c = N["s"];
+>c : Symbol(C0.c, Decl(uniqueSymbolsDeclarations.jump, 158, 21))
+>N : Symbol(N, Decl(uniqueSymbolsDeclarations.jump, 115, 31))
+>"s" : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+
+    d = s;
+>d : Symbol(C0.d, Decl(uniqueSymbolsDeclarations.jump, 159, 24))
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+
+    e = N.s;
+>e : Symbol(C0.e, Decl(uniqueSymbolsDeclarations.jump, 161, 10))
+>N.s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+>N : Symbol(N, Decl(uniqueSymbolsDeclarations.jump, 115, 31))
+>s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+
+    f = N["s"];
+>f : Symbol(C0.f, Decl(uniqueSymbolsDeclarations.jump, 162, 12))
+>N : Symbol(N, Decl(uniqueSymbolsDeclarations.jump, 115, 31))
+>"s" : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+
+    method1() { return s; }
+>method1 : Symbol(C0.method1, Decl(uniqueSymbolsDeclarations.jump, 163, 15))
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+
+    async method2() { return s; }
+>method2 : Symbol(C0.method2, Decl(uniqueSymbolsDeclarations.jump, 165, 27))
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+
+    async * method3() { yield s; }
+>method3 : Symbol(C0.method3, Decl(uniqueSymbolsDeclarations.jump, 166, 33))
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+
+    * method4() { yield s; }
+>method4 : Symbol(C0.method4, Decl(uniqueSymbolsDeclarations.jump, 167, 34))
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+
+    method5(p = s) { return p; }
+>method5 : Symbol(C0.method5, Decl(uniqueSymbolsDeclarations.jump, 168, 28))
+>p : Symbol(p, Decl(uniqueSymbolsDeclarations.jump, 169, 12))
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+>p : Symbol(p, Decl(uniqueSymbolsDeclarations.jump, 169, 12))
+}
+
+// non-widening positions
+
+// element access
+o[s];
+>o : Symbol(o, Decl(uniqueSymbolsDeclarations.jump, 117, 13))
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+
+o[N.s];
+>o : Symbol(o, Decl(uniqueSymbolsDeclarations.jump, 117, 13))
+>N.s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+>N : Symbol(N, Decl(uniqueSymbolsDeclarations.jump, 115, 31))
+>s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+
+o[N["s"]];
+>o : Symbol(o, Decl(uniqueSymbolsDeclarations.jump, 117, 13))
+>N : Symbol(N, Decl(uniqueSymbolsDeclarations.jump, 115, 31))
+>"s" : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+
+// arguments (no-inference)
+f<typeof s>(s);
+>f : Symbol(f, Decl(uniqueSymbolsDeclarations.jump, 117, 42))
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+
+f<typeof N.s>(N.s);
+>f : Symbol(f, Decl(uniqueSymbolsDeclarations.jump, 117, 42))
+>N.s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+>N : Symbol(N, Decl(uniqueSymbolsDeclarations.jump, 115, 31))
+>s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+>N.s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+>N : Symbol(N, Decl(uniqueSymbolsDeclarations.jump, 115, 31))
+>s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+
+f<typeof N.s>(N["s"]);
+>f : Symbol(f, Decl(uniqueSymbolsDeclarations.jump, 117, 42))
+>N.s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+>N : Symbol(N, Decl(uniqueSymbolsDeclarations.jump, 115, 31))
+>s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+>N : Symbol(N, Decl(uniqueSymbolsDeclarations.jump, 115, 31))
+>"s" : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+
+g(s);
+>g : Symbol(g, Decl(uniqueSymbolsDeclarations.jump, 118, 31), Decl(uniqueSymbolsDeclarations.jump, 119, 38))
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+
+g(N.s);
+>g : Symbol(g, Decl(uniqueSymbolsDeclarations.jump, 118, 31), Decl(uniqueSymbolsDeclarations.jump, 119, 38))
+>N.s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+>N : Symbol(N, Decl(uniqueSymbolsDeclarations.jump, 115, 31))
+>s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+
+g(N["s"]);
+>g : Symbol(g, Decl(uniqueSymbolsDeclarations.jump, 118, 31), Decl(uniqueSymbolsDeclarations.jump, 119, 38))
+>N : Symbol(N, Decl(uniqueSymbolsDeclarations.jump, 115, 31))
+>"s" : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+
+// falsy expressions
+s || "";
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+
+N.s || "";
+>N.s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+>N : Symbol(N, Decl(uniqueSymbolsDeclarations.jump, 115, 31))
+>s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+
+N["s"] || "";
+>N : Symbol(N, Decl(uniqueSymbolsDeclarations.jump, 115, 31))
+>"s" : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+
+// conditionals
+Math.random() * 2 ? s : "a";
+>Math.random : Symbol(Math.random, Decl(lib.es5.d.jump, --, --))
+>Math : Symbol(Math, Decl(lib.es5.d.jump, --, --), Decl(lib.es5.d.jump, --, --), Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.core.d.jump, --, --))
+>random : Symbol(Math.random, Decl(lib.es5.d.jump, --, --))
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+
+Math.random() * 2 ? N.s : "a";
+>Math.random : Symbol(Math.random, Decl(lib.es5.d.jump, --, --))
+>Math : Symbol(Math, Decl(lib.es5.d.jump, --, --), Decl(lib.es5.d.jump, --, --), Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.core.d.jump, --, --))
+>random : Symbol(Math.random, Decl(lib.es5.d.jump, --, --))
+>N.s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+>N : Symbol(N, Decl(uniqueSymbolsDeclarations.jump, 115, 31))
+>s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+
+Math.random() * 2 ? N["s"] : "a";
+>Math.random : Symbol(Math.random, Decl(lib.es5.d.jump, --, --))
+>Math : Symbol(Math, Decl(lib.es5.d.jump, --, --), Decl(lib.es5.d.jump, --, --), Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.core.d.jump, --, --))
+>random : Symbol(Math.random, Decl(lib.es5.d.jump, --, --))
+>N : Symbol(N, Decl(uniqueSymbolsDeclarations.jump, 115, 31))
+>"s" : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+
+// computed property names
+({
+    [s]: "a",
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+
+    [N.s]: "b",
+>N.s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+>N : Symbol(N, Decl(uniqueSymbolsDeclarations.jump, 115, 31))
+>s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+
+});
+
+class C1 {
+>C1 : Symbol(C1, Decl(uniqueSymbolsDeclarations.jump, 201, 3))
+
+    static [s]: "a";
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+
+    static [N.s]: "b";
+>N.s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+>N : Symbol(N, Decl(uniqueSymbolsDeclarations.jump, 115, 31))
+>s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+
+    [s]: "a";
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+
+    [N.s]: "b";
+>N.s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+>N : Symbol(N, Decl(uniqueSymbolsDeclarations.jump, 115, 31))
+>s : Symbol(N.s, Decl(uniqueSymbolsDeclarations.jump, 116, 27))
+}
+
+// contextual types
+
+interface Context {
+>Context : Symbol(Context, Decl(uniqueSymbolsDeclarations.jump, 209, 1))
+
+    method1(): typeof s;
+>method1 : Symbol(Context.method1, Decl(uniqueSymbolsDeclarations.jump, 213, 19))
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+
+    method2(): Promise<typeof s>;
+>method2 : Symbol(Context.method2, Decl(uniqueSymbolsDeclarations.jump, 214, 24))
+>Promise : Symbol(Promise, Decl(lib.esnext.promise.d.jump, --, --), Decl(lib.es5.d.jump, --, --), Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.iterable.d.jump, --, --), Decl(lib.es2015.promise.d.jump, --, --))
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+
+    method3(): AsyncIterableIterator<typeof s>;
+>method3 : Symbol(Context.method3, Decl(uniqueSymbolsDeclarations.jump, 215, 33))
+>AsyncIterableIterator : Symbol(AsyncIterableIterator, Decl(lib.esnext.asynciterable.d.jump, --, --))
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+
+    method4(): IterableIterator<typeof s>;
+>method4 : Symbol(Context.method4, Decl(uniqueSymbolsDeclarations.jump, 216, 47))
+>IterableIterator : Symbol(IterableIterator, Decl(lib.es2015.iterable.d.jump, --, --))
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+
+    method5(p?: typeof s): typeof s;
+>method5 : Symbol(Context.method5, Decl(uniqueSymbolsDeclarations.jump, 217, 42))
+>p : Symbol(p, Decl(uniqueSymbolsDeclarations.jump, 218, 12))
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+}
+
+const o4: Context = {
+>o4 : Symbol(o4, Decl(uniqueSymbolsDeclarations.jump, 221, 5))
+>Context : Symbol(Context, Decl(uniqueSymbolsDeclarations.jump, 209, 1))
+
+    method1() {
+>method1 : Symbol(method1, Decl(uniqueSymbolsDeclarations.jump, 221, 21))
+
+        return s; // return type should not widen due to contextual type
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+
+    },
+    async method2() {
+>method2 : Symbol(method2, Decl(uniqueSymbolsDeclarations.jump, 224, 6))
+
+        return s; // return type should not widen due to contextual type
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+
+    },
+    async * method3() {
+>method3 : Symbol(method3, Decl(uniqueSymbolsDeclarations.jump, 227, 6))
+
+        yield s; // yield type should not widen due to contextual type
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+
+    },
+    * method4() {
+>method4 : Symbol(method4, Decl(uniqueSymbolsDeclarations.jump, 230, 6))
+
+        yield s; // yield type should not widen due to contextual type
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+
+    },
+    method5(p = s) { // parameter should not widen due to contextual type
+>method5 : Symbol(method5, Decl(uniqueSymbolsDeclarations.jump, 233, 6))
+>p : Symbol(p, Decl(uniqueSymbolsDeclarations.jump, 234, 12))
+>s : Symbol(s, Decl(uniqueSymbolsDeclarations.jump, 115, 13))
+
+        return p;
+>p : Symbol(p, Decl(uniqueSymbolsDeclarations.jump, 234, 12))
+    }
+};

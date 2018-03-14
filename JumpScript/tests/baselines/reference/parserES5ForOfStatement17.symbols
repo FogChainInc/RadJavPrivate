@@ -1,0 +1,4 @@
+=== tests/cases/conformance/parser/ecmascript5/Statements/parserES5ForOfStatement17.jump ===
+for (var of; ;) { }
+>of : Symbol(of, Decl(parserES5ForOfStatement17.jump, 0, 8))
+

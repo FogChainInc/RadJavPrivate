@@ -1,0 +1,36 @@
+=== tests/cases/compiler/externModuleClobber.jump ===
+declare module EM {
+>EM : Symbol(EM, Decl(externModuleClobber.jump, 0, 0))
+
+	export class Position { }
+>Position : Symbol(Position, Decl(externModuleClobber.jump, 0, 19))
+
+	export class EC {
+>EC : Symbol(EC, Decl(externModuleClobber.jump, 1, 26))
+
+		public getPosition() : EM.Position;
+>getPosition : Symbol(EC.getPosition, Decl(externModuleClobber.jump, 3, 18))
+>EM : Symbol(EM, Decl(externModuleClobber.jump, 0, 0))
+>Position : Symbol(Position, Decl(externModuleClobber.jump, 0, 19))
+	}
+}
+
+var x:EM.Position;
+>x : Symbol(x, Decl(externModuleClobber.jump, 8, 3))
+>EM : Symbol(EM, Decl(externModuleClobber.jump, 0, 0))
+>Position : Symbol(EM.Position, Decl(externModuleClobber.jump, 0, 19))
+
+var ec:EM.EC = new EM.EC();
+>ec : Symbol(ec, Decl(externModuleClobber.jump, 9, 3))
+>EM : Symbol(EM, Decl(externModuleClobber.jump, 0, 0))
+>EC : Symbol(EM.EC, Decl(externModuleClobber.jump, 1, 26))
+>EM.EC : Symbol(EM.EC, Decl(externModuleClobber.jump, 1, 26))
+>EM : Symbol(EM, Decl(externModuleClobber.jump, 0, 0))
+>EC : Symbol(EM.EC, Decl(externModuleClobber.jump, 1, 26))
+
+x = ec.getPosition();
+>x : Symbol(x, Decl(externModuleClobber.jump, 8, 3))
+>ec.getPosition : Symbol(EM.EC.getPosition, Decl(externModuleClobber.jump, 3, 18))
+>ec : Symbol(ec, Decl(externModuleClobber.jump, 9, 3))
+>getPosition : Symbol(EM.EC.getPosition, Decl(externModuleClobber.jump, 3, 18))
+

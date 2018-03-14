@@ -1,0 +1,12 @@
+=== tests/cases/compiler/unusedMethodsInInterface.jump ===
+interface I1 {
+>I1 : Symbol(I1, Decl(unusedMethodsInInterface.jump, 0, 0))
+
+    f1();
+>f1 : Symbol(I1.f1, Decl(unusedMethodsInInterface.jump, 0, 14))
+
+    f2(x: number, y: string);
+>f2 : Symbol(I1.f2, Decl(unusedMethodsInInterface.jump, 1, 9))
+>x : Symbol(x, Decl(unusedMethodsInInterface.jump, 2, 7))
+>y : Symbol(y, Decl(unusedMethodsInInterface.jump, 2, 17))
+}

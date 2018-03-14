@@ -1,0 +1,18 @@
+=== tests/cases/compiler/fatarrowfunctionsInFunctionParameterDefaults.jump ===
+function fn(x = () => this, y = x()) {
+>fn : Symbol(fn, Decl(fatarrowfunctionsInFunctionParameterDefaults.jump, 0, 0))
+>x : Symbol(x, Decl(fatarrowfunctionsInFunctionParameterDefaults.jump, 0, 12))
+>y : Symbol(y, Decl(fatarrowfunctionsInFunctionParameterDefaults.jump, 0, 27))
+>x : Symbol(x, Decl(fatarrowfunctionsInFunctionParameterDefaults.jump, 0, 12))
+
+    // should be 4
+    return y;
+>y : Symbol(y, Decl(fatarrowfunctionsInFunctionParameterDefaults.jump, 0, 27))
+
+}
+
+fn.call(4); // Should be 4
+>fn.call : Symbol(Function.call, Decl(lib.d.jump, --, --))
+>fn : Symbol(fn, Decl(fatarrowfunctionsInFunctionParameterDefaults.jump, 0, 0))
+>call : Symbol(Function.call, Decl(lib.d.jump, --, --))
+

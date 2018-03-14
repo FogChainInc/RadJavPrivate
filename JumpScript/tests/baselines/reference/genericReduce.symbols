@@ -1,0 +1,68 @@
+=== tests/cases/compiler/genericReduce.jump ===
+var a = ["An", "array", "of", "strings"];
+>a : Symbol(a, Decl(genericReduce.jump, 0, 3))
+
+var b = a.map(s => s.length);
+>b : Symbol(b, Decl(genericReduce.jump, 1, 3))
+>a.map : Symbol(Array.map, Decl(lib.d.jump, --, --))
+>a : Symbol(a, Decl(genericReduce.jump, 0, 3))
+>map : Symbol(Array.map, Decl(lib.d.jump, --, --))
+>s : Symbol(s, Decl(genericReduce.jump, 1, 14))
+>s.length : Symbol(String.length, Decl(lib.d.jump, --, --))
+>s : Symbol(s, Decl(genericReduce.jump, 1, 14))
+>length : Symbol(String.length, Decl(lib.d.jump, --, --))
+
+var n1 = b.reduce((x, y) => x + y);
+>n1 : Symbol(n1, Decl(genericReduce.jump, 2, 3))
+>b.reduce : Symbol(Array.reduce, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>b : Symbol(b, Decl(genericReduce.jump, 1, 3))
+>reduce : Symbol(Array.reduce, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(genericReduce.jump, 2, 19))
+>y : Symbol(y, Decl(genericReduce.jump, 2, 21))
+>x : Symbol(x, Decl(genericReduce.jump, 2, 19))
+>y : Symbol(y, Decl(genericReduce.jump, 2, 21))
+
+var n2 = b.reduceRight((x, y) => x + y);
+>n2 : Symbol(n2, Decl(genericReduce.jump, 3, 3))
+>b.reduceRight : Symbol(Array.reduceRight, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>b : Symbol(b, Decl(genericReduce.jump, 1, 3))
+>reduceRight : Symbol(Array.reduceRight, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(genericReduce.jump, 3, 24))
+>y : Symbol(y, Decl(genericReduce.jump, 3, 26))
+>x : Symbol(x, Decl(genericReduce.jump, 3, 24))
+>y : Symbol(y, Decl(genericReduce.jump, 3, 26))
+
+n1.x = "fail";       // should error, as 'n1' should be type 'number', not 'any'.
+>n1 : Symbol(n1, Decl(genericReduce.jump, 2, 3))
+
+n1.toExponential(2); // should not error if 'n1' is correctly number.
+>n1.toExponential : Symbol(Number.toExponential, Decl(lib.d.jump, --, --))
+>n1 : Symbol(n1, Decl(genericReduce.jump, 2, 3))
+>toExponential : Symbol(Number.toExponential, Decl(lib.d.jump, --, --))
+
+n2.x = "fail";       // should error, as 'n2' should be type 'number', not 'any'.
+>n2 : Symbol(n2, Decl(genericReduce.jump, 3, 3))
+
+n2.toExponential(2); // should not error if 'n2' is correctly number.
+>n2.toExponential : Symbol(Number.toExponential, Decl(lib.d.jump, --, --))
+>n2 : Symbol(n2, Decl(genericReduce.jump, 3, 3))
+>toExponential : Symbol(Number.toExponential, Decl(lib.d.jump, --, --))
+
+var n3 = b.reduce<string>( (x, y) => x + y, ""); // Initial value is of type string
+>n3 : Symbol(n3, Decl(genericReduce.jump, 10, 3))
+>b.reduce : Symbol(Array.reduce, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>b : Symbol(b, Decl(genericReduce.jump, 1, 3))
+>reduce : Symbol(Array.reduce, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(genericReduce.jump, 10, 28))
+>y : Symbol(y, Decl(genericReduce.jump, 10, 30))
+>x : Symbol(x, Decl(genericReduce.jump, 10, 28))
+>y : Symbol(y, Decl(genericReduce.jump, 10, 30))
+
+n3.toExponential(2); // should error if 'n3' is correctly type 'string'
+>n3 : Symbol(n3, Decl(genericReduce.jump, 10, 3))
+
+n3.charAt(0);        // should not error if 'n3' is correctly type 'string'
+>n3.charAt : Symbol(String.charAt, Decl(lib.d.jump, --, --))
+>n3 : Symbol(n3, Decl(genericReduce.jump, 10, 3))
+>charAt : Symbol(String.charAt, Decl(lib.d.jump, --, --))
+

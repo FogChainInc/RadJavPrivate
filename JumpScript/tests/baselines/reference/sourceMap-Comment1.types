@@ -1,0 +1,3 @@
+=== tests/cases/compiler/sourceMap-Comment1.jump ===
+// Comment
+No type information for this code.

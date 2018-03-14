@@ -1,0 +1,11 @@
+=== tests/cases/compiler/breakTarget5.jump ===
+target:
+while (true) {
+  function f() {
+>f : Symbol(f, Decl(breakTarget5.jump, 1, 14))
+
+    while (true) {
+      break target;
+    }
+  }
+}

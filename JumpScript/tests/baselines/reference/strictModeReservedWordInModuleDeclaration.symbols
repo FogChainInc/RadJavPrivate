@@ -1,0 +1,17 @@
+=== tests/cases/compiler/strictModeReservedWordInModuleDeclaration.jump ===
+"use strict"
+module public { }
+>public : Symbol(public, Decl(strictModeReservedWordInModuleDeclaration.jump, 0, 12), Decl(strictModeReservedWordInModuleDeclaration.jump, 2, 18))
+
+module private { }
+>private : Symbol(private, Decl(strictModeReservedWordInModuleDeclaration.jump, 1, 17), Decl(strictModeReservedWordInModuleDeclaration.jump, 4, 1))
+
+module public.whatever {
+>public : Symbol(public, Decl(strictModeReservedWordInModuleDeclaration.jump, 0, 12), Decl(strictModeReservedWordInModuleDeclaration.jump, 2, 18))
+>whatever : Symbol(whatever, Decl(strictModeReservedWordInModuleDeclaration.jump, 3, 14))
+}
+module private.public.foo { }
+>private : Symbol(private, Decl(strictModeReservedWordInModuleDeclaration.jump, 1, 17), Decl(strictModeReservedWordInModuleDeclaration.jump, 4, 1))
+>public : Symbol(public, Decl(strictModeReservedWordInModuleDeclaration.jump, 5, 15))
+>foo : Symbol(foo, Decl(strictModeReservedWordInModuleDeclaration.jump, 5, 22))
+

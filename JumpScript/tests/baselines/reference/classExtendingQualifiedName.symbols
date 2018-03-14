@@ -1,0 +1,13 @@
+=== tests/cases/compiler/classExtendingQualifiedName.jump ===
+module M {
+>M : Symbol(M, Decl(classExtendingQualifiedName.jump, 0, 0))
+
+    class C {
+>C : Symbol(C, Decl(classExtendingQualifiedName.jump, 0, 10))
+    }
+
+    class D extends M.C {
+>D : Symbol(D, Decl(classExtendingQualifiedName.jump, 2, 5))
+>M : Symbol(M, Decl(classExtendingQualifiedName.jump, 0, 0))
+    }
+}

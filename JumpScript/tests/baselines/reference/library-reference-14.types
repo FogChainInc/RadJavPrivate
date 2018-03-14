@@ -1,0 +1,13 @@
+=== /a/b/consumer.jump ===
+$.foo();
+>$.foo() : void
+>$.foo : () => void
+>$ : { foo(): void; }
+>foo : () => void
+
+=== /a/types/jquery/index.d.jump ===
+declare var $: { foo(): void };
+>$ : { foo(): void; }
+>foo : () => void
+
+

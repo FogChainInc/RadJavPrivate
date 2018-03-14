@@ -1,0 +1,32 @@
+=== tests/cases/compiler/exportAssignValueAndType.jump ===
+declare module http {
+>http : Symbol(http, Decl(exportAssignValueAndType.jump, 0, 0))
+
+	export interface Server { openPort: number; }
+>Server : Symbol(Server, Decl(exportAssignValueAndType.jump, 0, 21))
+>openPort : Symbol(Server.openPort, Decl(exportAssignValueAndType.jump, 1, 26))
+}
+
+interface server {
+>server : Symbol(server, Decl(exportAssignValueAndType.jump, 2, 1), Decl(exportAssignValueAndType.jump, 10, 3))
+
+    (): http.Server;
+>http : Symbol(http, Decl(exportAssignValueAndType.jump, 0, 0))
+>Server : Symbol(http.Server, Decl(exportAssignValueAndType.jump, 0, 21))
+
+    startTime: Date;
+>startTime : Symbol(server.startTime, Decl(exportAssignValueAndType.jump, 5, 20))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+}
+ 
+var x = 5;
+>x : Symbol(x, Decl(exportAssignValueAndType.jump, 9, 3))
+
+var server = new Date();
+>server : Symbol(server, Decl(exportAssignValueAndType.jump, 2, 1), Decl(exportAssignValueAndType.jump, 10, 3))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+export = server;
+>server : Symbol(server, Decl(exportAssignValueAndType.jump, 2, 1), Decl(exportAssignValueAndType.jump, 10, 3))
+ 
+

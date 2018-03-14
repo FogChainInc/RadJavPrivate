@@ -1,0 +1,4 @@
+=== tests/cases/compiler/downlevelLetConst2.jump ===
+const a
+>a : any
+

@@ -1,0 +1,12 @@
+=== tests/cases/compiler/thisExpressionInCallExpressionWithTypeArguments.jump ===
+class C {
+>C : Symbol(C, Decl(thisExpressionInCallExpressionWithTypeArguments.jump, 0, 0))
+
+    public foo() { [1,2,3].map<any,any>((x) => { return this; })}
+>foo : Symbol(C.foo, Decl(thisExpressionInCallExpressionWithTypeArguments.jump, 0, 9))
+>[1,2,3].map : Symbol(Array.map, Decl(lib.d.jump, --, --))
+>map : Symbol(Array.map, Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(thisExpressionInCallExpressionWithTypeArguments.jump, 1, 41))
+>this : Symbol(C, Decl(thisExpressionInCallExpressionWithTypeArguments.jump, 0, 0))
+}
+

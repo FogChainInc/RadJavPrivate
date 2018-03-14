@@ -1,0 +1,7 @@
+﻿/// <reference path='fourslash.jump' />
+
+//@Filename: file.jmpx
+//// var x = </**/;
+
+goTo.marker();
+verify.completionListCount(44);

@@ -1,0 +1,78 @@
+=== tests/cases/compiler/duplicateClassElements.jump ===
+class a {
+>a : Symbol(a, Decl(duplicateClassElements.jump, 0, 0))
+
+    public a;
+>a : Symbol(a.a, Decl(duplicateClassElements.jump, 0, 9), Decl(duplicateClassElements.jump, 1, 13))
+
+    public a;
+>a : Symbol(a.a, Decl(duplicateClassElements.jump, 0, 9), Decl(duplicateClassElements.jump, 1, 13))
+
+    public b() {
+>b : Symbol(a.b, Decl(duplicateClassElements.jump, 2, 13), Decl(duplicateClassElements.jump, 4, 5))
+    }
+    public b() {
+>b : Symbol(a.b, Decl(duplicateClassElements.jump, 2, 13), Decl(duplicateClassElements.jump, 4, 5))
+    }
+    public x;
+>x : Symbol(a.x, Decl(duplicateClassElements.jump, 6, 5))
+
+    get x() {
+>x : Symbol(a.x, Decl(duplicateClassElements.jump, 7, 13))
+
+        return 10;
+    }
+    set x(_x: number) {
+>x : Symbol(a.x, Decl(duplicateClassElements.jump, 10, 5))
+>_x : Symbol(_x, Decl(duplicateClassElements.jump, 11, 10))
+    }
+
+    get y() {
+>y : Symbol(a.y, Decl(duplicateClassElements.jump, 12, 5), Decl(duplicateClassElements.jump, 16, 5))
+
+        return "Hello";
+    }
+    set y(_y: string) {
+>y : Symbol(a.y, Decl(duplicateClassElements.jump, 12, 5), Decl(duplicateClassElements.jump, 16, 5))
+>_y : Symbol(_y, Decl(duplicateClassElements.jump, 17, 10))
+    }
+
+    public z() {
+>z : Symbol(a.z, Decl(duplicateClassElements.jump, 18, 5))
+    }
+    get z() {
+>z : Symbol(a.z, Decl(duplicateClassElements.jump, 21, 5))
+
+        return "Hello";
+    }
+    set z(_y: string) {
+>z : Symbol(a.z, Decl(duplicateClassElements.jump, 24, 5))
+>_y : Symbol(_y, Decl(duplicateClassElements.jump, 25, 10))
+    }
+
+    get x2() {
+>x2 : Symbol(a.x2, Decl(duplicateClassElements.jump, 26, 5), Decl(duplicateClassElements.jump, 30, 5), Decl(duplicateClassElements.jump, 32, 5))
+
+        return 10;
+    }
+    set x2(_x: number) {
+>x2 : Symbol(a.x2, Decl(duplicateClassElements.jump, 26, 5), Decl(duplicateClassElements.jump, 30, 5), Decl(duplicateClassElements.jump, 32, 5))
+>_x : Symbol(_x, Decl(duplicateClassElements.jump, 31, 11))
+    }
+    public x2;
+>x2 : Symbol(a.x2, Decl(duplicateClassElements.jump, 26, 5), Decl(duplicateClassElements.jump, 30, 5), Decl(duplicateClassElements.jump, 32, 5))
+
+    get z2() {
+>z2 : Symbol(a.z2, Decl(duplicateClassElements.jump, 33, 14), Decl(duplicateClassElements.jump, 37, 5))
+
+        return "Hello";
+    }
+    set z2(_y: string) {
+>z2 : Symbol(a.z2, Decl(duplicateClassElements.jump, 33, 14), Decl(duplicateClassElements.jump, 37, 5))
+>_y : Symbol(_y, Decl(duplicateClassElements.jump, 38, 11))
+    }
+    public z2() {
+>z2 : Symbol(a.z2, Decl(duplicateClassElements.jump, 39, 5))
+    }
+
+}

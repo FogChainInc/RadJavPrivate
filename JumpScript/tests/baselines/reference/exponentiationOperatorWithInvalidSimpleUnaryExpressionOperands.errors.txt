@@ -1,0 +1,147 @@
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(4,1): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(5,1): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(6,1): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(7,1): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(8,1): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(10,1): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(11,1): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(12,1): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(13,1): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(14,1): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(16,1): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(17,1): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(18,1): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(19,1): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(20,1): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(22,6): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(23,6): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(24,6): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(25,6): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(26,6): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(28,1): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(28,9): error TS2703: The operand of a delete operator must be a property reference.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(29,1): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(29,9): error TS2703: The operand of a delete operator must be a property reference.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(30,1): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(30,9): error TS2703: The operand of a delete operator must be a property reference.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(31,1): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(31,9): error TS2703: The operand of a delete operator must be a property reference.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(33,6): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(33,14): error TS2703: The operand of a delete operator must be a property reference.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(34,6): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(34,14): error TS2703: The operand of a delete operator must be a property reference.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(35,6): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(35,14): error TS2703: The operand of a delete operator must be a property reference.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(36,6): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump(36,14): error TS2703: The operand of a delete operator must be a property reference.
+
+
+==== tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.jump (36 errors) ====
+    var temp: any;
+    
+    // Error: incorrect type on left-hand side 
+    (! --temp) ** 3;
+    ~~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    (!temp--) ** 3;
+    ~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    (!3) ** 4;
+    ~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    (!temp++) ** 4;
+    ~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    (!temp--) ** 4;
+    ~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    
+    (! --temp) ** 3 ** 1;
+    ~~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    (!temp--) ** 3 ** 1;
+    ~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    (!3) ** 4 ** 1;
+    ~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    (!temp++) ** 4 ** 1;
+    ~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    (!temp--) ** 4 ** 1;
+    ~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    
+    (typeof --temp) ** 3;
+    ~~~~~~~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    (typeof temp--) ** 3;
+    ~~~~~~~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    (typeof 3) ** 4;
+    ~~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    (typeof temp++) ** 4;
+    ~~~~~~~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    (typeof temp--) ** 4;
+    ~~~~~~~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    
+    1 ** (typeof --temp) ** 3;
+         ~~~~~~~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    1 ** (typeof temp--) ** 3;
+         ~~~~~~~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    1 ** (typeof 3) ** 4;
+         ~~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    1 ** (typeof temp++) ** 4;
+         ~~~~~~~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    1 ** (typeof temp--) ** 4;
+         ~~~~~~~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    
+    (delete --temp) ** 3;
+    ~~~~~~~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+            ~~~~~~
+!!! error TS2703: The operand of a delete operator must be a property reference.
+    (delete ++temp) ** 3;
+    ~~~~~~~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+            ~~~~~~
+!!! error TS2703: The operand of a delete operator must be a property reference.
+    (delete temp--) ** 3;
+    ~~~~~~~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+            ~~~~~~
+!!! error TS2703: The operand of a delete operator must be a property reference.
+    (delete temp++) ** 3;
+    ~~~~~~~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+            ~~~~~~
+!!! error TS2703: The operand of a delete operator must be a property reference.
+    
+    1 ** (delete --temp) ** 3;
+         ~~~~~~~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                 ~~~~~~
+!!! error TS2703: The operand of a delete operator must be a property reference.
+    1 ** (delete ++temp) ** 3;
+         ~~~~~~~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                 ~~~~~~
+!!! error TS2703: The operand of a delete operator must be a property reference.
+    1 ** (delete temp--) ** 3;
+         ~~~~~~~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                 ~~~~~~
+!!! error TS2703: The operand of a delete operator must be a property reference.
+    1 ** (delete temp++) ** 3;
+         ~~~~~~~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+                 ~~~~~~
+!!! error TS2703: The operand of a delete operator must be a property reference.

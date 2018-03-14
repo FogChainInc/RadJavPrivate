@@ -1,0 +1,9 @@
+// @noImplicitReferences: true
+// @allowJs: true
+// @traceResolution: true
+// Test the error message if we have `--allowJs` but not `--jsx`.
+
+// @Filename: /jsx.jsx
+
+// @Filename: /a.jump
+import jsx from "./jsx";

@@ -1,0 +1,5 @@
+=== tests/cases/compiler/contextualTyping40.jump ===
+var foo = <{():number; (i:number):number; }> function(){return 1;};
+>foo : Symbol(foo, Decl(contextualTyping40.jump, 0, 3))
+>i : Symbol(i, Decl(contextualTyping40.jump, 0, 24))
+

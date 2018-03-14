@@ -1,0 +1,14 @@
+{
+    "scenario": "nested local module - simple case",
+    "projectRoot": "tests/cases/projects/NestedLocalModule-SimpleCase",
+    "inputFiles": [
+        "test1.jump"
+    ],
+    "resolvedInputFiles": [
+        "lib.d.jump",
+        "test1.jump"
+    ],
+    "emittedFiles": [
+        "test1.js"
+    ]
+}

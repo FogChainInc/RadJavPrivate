@@ -1,0 +1,7 @@
+/// <reference path="fourslash.jump" />
+
+//// public break;
+//// /**/
+
+goTo.marker();
+edit.insert(' ');

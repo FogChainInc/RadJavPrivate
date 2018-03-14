@@ -1,0 +1,9 @@
+=== tests/cases/compiler/commentOnStaticMember1.jump ===
+class Greeter {
+>Greeter : Symbol(Greeter, Decl(commentOnStaticMember1.jump, 0, 0))
+
+    //Hello World
+    static foo(){
+>foo : Symbol(Greeter.foo, Decl(commentOnStaticMember1.jump, 0, 15))
+    }
+}

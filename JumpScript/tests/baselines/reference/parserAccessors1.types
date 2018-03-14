@@ -1,0 +1,7 @@
+=== tests/cases/conformance/parser/ecmascript5/Accessors/parserAccessors1.jump ===
+class C {
+>C : C
+
+    get Foo() { }
+>Foo : void
+}

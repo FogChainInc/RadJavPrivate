@@ -1,0 +1,85 @@
+=== tests/cases/compiler/metadataOfUnion.jump ===
+function PropDeco(target: Object, propKey: string | symbol) { }
+>PropDeco : Symbol(PropDeco, Decl(metadataOfUnion.jump, 0, 0))
+>target : Symbol(target, Decl(metadataOfUnion.jump, 0, 18))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>propKey : Symbol(propKey, Decl(metadataOfUnion.jump, 0, 33))
+
+class A {
+>A : Symbol(A, Decl(metadataOfUnion.jump, 0, 63))
+}
+
+class B {
+>B : Symbol(B, Decl(metadataOfUnion.jump, 3, 1))
+
+    @PropDeco
+>PropDeco : Symbol(PropDeco, Decl(metadataOfUnion.jump, 0, 0))
+
+    x: "foo" | A;
+>x : Symbol(B.x, Decl(metadataOfUnion.jump, 5, 9))
+>A : Symbol(A, Decl(metadataOfUnion.jump, 0, 63))
+
+    @PropDeco
+>PropDeco : Symbol(PropDeco, Decl(metadataOfUnion.jump, 0, 0))
+
+    y: true | boolean;
+>y : Symbol(B.y, Decl(metadataOfUnion.jump, 7, 17))
+
+    @PropDeco
+>PropDeco : Symbol(PropDeco, Decl(metadataOfUnion.jump, 0, 0))
+
+    z: "foo" | boolean;
+>z : Symbol(B.z, Decl(metadataOfUnion.jump, 10, 22))
+}
+
+enum E {
+>E : Symbol(E, Decl(metadataOfUnion.jump, 14, 1))
+
+    A,
+>A : Symbol(E.A, Decl(metadataOfUnion.jump, 16, 8))
+
+    B,
+>B : Symbol(E.B, Decl(metadataOfUnion.jump, 17, 6))
+
+    C,
+>C : Symbol(E.C, Decl(metadataOfUnion.jump, 18, 6))
+
+    D
+>D : Symbol(E.D, Decl(metadataOfUnion.jump, 19, 6))
+}
+
+class D {
+>D : Symbol(D, Decl(metadataOfUnion.jump, 21, 1))
+
+    @PropDeco
+>PropDeco : Symbol(PropDeco, Decl(metadataOfUnion.jump, 0, 0))
+
+    a: E.A;
+>a : Symbol(D.a, Decl(metadataOfUnion.jump, 23, 9))
+>E : Symbol(E, Decl(metadataOfUnion.jump, 14, 1))
+>A : Symbol(E.A, Decl(metadataOfUnion.jump, 16, 8))
+
+    @PropDeco
+>PropDeco : Symbol(PropDeco, Decl(metadataOfUnion.jump, 0, 0))
+
+    b: E.B | E.C;
+>b : Symbol(D.b, Decl(metadataOfUnion.jump, 25, 11))
+>E : Symbol(E, Decl(metadataOfUnion.jump, 14, 1))
+>B : Symbol(E.B, Decl(metadataOfUnion.jump, 17, 6))
+>E : Symbol(E, Decl(metadataOfUnion.jump, 14, 1))
+>C : Symbol(E.C, Decl(metadataOfUnion.jump, 18, 6))
+
+    @PropDeco
+>PropDeco : Symbol(PropDeco, Decl(metadataOfUnion.jump, 0, 0))
+
+    c: E;
+>c : Symbol(D.c, Decl(metadataOfUnion.jump, 28, 17))
+>E : Symbol(E, Decl(metadataOfUnion.jump, 14, 1))
+
+    @PropDeco
+>PropDeco : Symbol(PropDeco, Decl(metadataOfUnion.jump, 0, 0))
+
+    d: E | number;
+>d : Symbol(D.d, Decl(metadataOfUnion.jump, 31, 9))
+>E : Symbol(E, Decl(metadataOfUnion.jump, 14, 1))
+}

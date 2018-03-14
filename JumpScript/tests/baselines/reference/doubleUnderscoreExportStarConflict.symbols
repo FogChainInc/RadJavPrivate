@@ -1,0 +1,12 @@
+=== tests/cases/compiler/index.jmpx ===
+export * from "./b";
+No type information for this code.export * from "./c";
+No type information for this code.
+No type information for this code.=== tests/cases/compiler/b.jump ===
+export function __foo(): number | void {}
+>__foo : Symbol(__foo, Decl(b.jump, 0, 0))
+
+=== tests/cases/compiler/c.jump ===
+export function __foo(): string | void {}
+>__foo : Symbol(__foo, Decl(c.jump, 0, 0))
+

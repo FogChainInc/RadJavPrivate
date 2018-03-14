@@ -1,0 +1,4 @@
+=== tests/cases/compiler/ClassDeclaration24.jump ===
+class any {
+>any : Symbol(any, Decl(ClassDeclaration24.jump, 0, 0))
+}

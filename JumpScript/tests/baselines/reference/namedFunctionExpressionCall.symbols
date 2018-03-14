@@ -1,0 +1,23 @@
+=== tests/cases/compiler/namedFunctionExpressionCall.jump ===
+var recurser = function foo() {
+>recurser : Symbol(recurser, Decl(namedFunctionExpressionCall.jump, 0, 3))
+>foo : Symbol(foo, Decl(namedFunctionExpressionCall.jump, 0, 14))
+
+    // using the local name
+    foo();
+>foo : Symbol(foo, Decl(namedFunctionExpressionCall.jump, 0, 14))
+
+    // using the globally visible name
+    recurser();
+>recurser : Symbol(recurser, Decl(namedFunctionExpressionCall.jump, 0, 3))
+
+};
+
+
+(function bar() {
+>bar : Symbol(bar, Decl(namedFunctionExpressionCall.jump, 9, 1))
+
+    bar();
+>bar : Symbol(bar, Decl(namedFunctionExpressionCall.jump, 9, 1))
+
+});

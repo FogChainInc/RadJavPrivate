@@ -1,0 +1,6 @@
+/// <reference path="annotateWithTypeFromJSDoc.jump" />
+/// <reference path="convertFunctionToEs6Class.jump" />
+/// <reference path="convertToEs6Module.jump" />
+/// <reference path="extractSymbol.jump" />
+/// <reference path="installTypesForPackage.jump" />
+/// <reference path="useDefaultImport.jump" />

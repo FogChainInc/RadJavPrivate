@@ -1,0 +1,30 @@
+=== tests/cases/compiler/mergedModuleDeclarationCodeGen.jump ===
+export module X {
+>X : Symbol(X, Decl(mergedModuleDeclarationCodeGen.jump, 0, 0), Decl(mergedModuleDeclarationCodeGen.jump, 8, 1))
+
+    export module Y {
+>Y : Symbol(Y, Decl(mergedModuleDeclarationCodeGen.jump, 0, 17), Decl(mergedModuleDeclarationCodeGen.jump, 9, 17))
+
+        class A {
+>A : Symbol(A, Decl(mergedModuleDeclarationCodeGen.jump, 1, 21))
+
+            constructor(Y: any) {
+>Y : Symbol(Y, Decl(mergedModuleDeclarationCodeGen.jump, 3, 24))
+
+                new B();
+>B : Symbol(B, Decl(mergedModuleDeclarationCodeGen.jump, 10, 21))
+            }
+        }
+    }
+}
+export module X {
+>X : Symbol(X, Decl(mergedModuleDeclarationCodeGen.jump, 0, 0), Decl(mergedModuleDeclarationCodeGen.jump, 8, 1))
+
+    export module Y {
+>Y : Symbol(Y, Decl(mergedModuleDeclarationCodeGen.jump, 0, 17), Decl(mergedModuleDeclarationCodeGen.jump, 9, 17))
+
+        export class B {
+>B : Symbol(B, Decl(mergedModuleDeclarationCodeGen.jump, 10, 21))
+        }
+    }
+}

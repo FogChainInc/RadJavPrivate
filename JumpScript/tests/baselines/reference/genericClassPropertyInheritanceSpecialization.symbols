@@ -1,0 +1,256 @@
+=== tests/cases/compiler/genericClassPropertyInheritanceSpecialization.jump ===
+interface KnockoutObservableBase<T> {
+>KnockoutObservableBase : Symbol(KnockoutObservableBase, Decl(genericClassPropertyInheritanceSpecialization.jump, 0, 0))
+>T : Symbol(T, Decl(genericClassPropertyInheritanceSpecialization.jump, 0, 33))
+
+    peek(): T;
+>peek : Symbol(KnockoutObservableBase.peek, Decl(genericClassPropertyInheritanceSpecialization.jump, 0, 37))
+>T : Symbol(T, Decl(genericClassPropertyInheritanceSpecialization.jump, 0, 33))
+
+    (): T;
+>T : Symbol(T, Decl(genericClassPropertyInheritanceSpecialization.jump, 0, 33))
+
+    (value: T): void;
+>value : Symbol(value, Decl(genericClassPropertyInheritanceSpecialization.jump, 3, 5))
+>T : Symbol(T, Decl(genericClassPropertyInheritanceSpecialization.jump, 0, 33))
+}
+
+interface KnockoutObservable<T> extends KnockoutObservableBase<T> {
+>KnockoutObservable : Symbol(KnockoutObservable, Decl(genericClassPropertyInheritanceSpecialization.jump, 4, 1))
+>T : Symbol(T, Decl(genericClassPropertyInheritanceSpecialization.jump, 6, 29))
+>KnockoutObservableBase : Symbol(KnockoutObservableBase, Decl(genericClassPropertyInheritanceSpecialization.jump, 0, 0))
+>T : Symbol(T, Decl(genericClassPropertyInheritanceSpecialization.jump, 6, 29))
+
+    equalityComparer(a: T, b: T): boolean;
+>equalityComparer : Symbol(KnockoutObservable.equalityComparer, Decl(genericClassPropertyInheritanceSpecialization.jump, 6, 67))
+>a : Symbol(a, Decl(genericClassPropertyInheritanceSpecialization.jump, 7, 21))
+>T : Symbol(T, Decl(genericClassPropertyInheritanceSpecialization.jump, 6, 29))
+>b : Symbol(b, Decl(genericClassPropertyInheritanceSpecialization.jump, 7, 26))
+>T : Symbol(T, Decl(genericClassPropertyInheritanceSpecialization.jump, 6, 29))
+
+    valueHasMutated(): void;
+>valueHasMutated : Symbol(KnockoutObservable.valueHasMutated, Decl(genericClassPropertyInheritanceSpecialization.jump, 7, 42))
+
+    valueWillMutate(): void;
+>valueWillMutate : Symbol(KnockoutObservable.valueWillMutate, Decl(genericClassPropertyInheritanceSpecialization.jump, 8, 28))
+}
+
+interface KnockoutObservableArray<T> extends KnockoutObservable<T[]> {
+>KnockoutObservableArray : Symbol(KnockoutObservableArray, Decl(genericClassPropertyInheritanceSpecialization.jump, 10, 1))
+>T : Symbol(T, Decl(genericClassPropertyInheritanceSpecialization.jump, 12, 34))
+>KnockoutObservable : Symbol(KnockoutObservable, Decl(genericClassPropertyInheritanceSpecialization.jump, 4, 1))
+>T : Symbol(T, Decl(genericClassPropertyInheritanceSpecialization.jump, 12, 34))
+
+    indexOf(searchElement: T, fromIndex?: number): number;
+>indexOf : Symbol(KnockoutObservableArray.indexOf, Decl(genericClassPropertyInheritanceSpecialization.jump, 12, 70))
+>searchElement : Symbol(searchElement, Decl(genericClassPropertyInheritanceSpecialization.jump, 13, 12))
+>T : Symbol(T, Decl(genericClassPropertyInheritanceSpecialization.jump, 12, 34))
+>fromIndex : Symbol(fromIndex, Decl(genericClassPropertyInheritanceSpecialization.jump, 13, 29))
+
+    slice(start: number, end?: number): T[];
+>slice : Symbol(KnockoutObservableArray.slice, Decl(genericClassPropertyInheritanceSpecialization.jump, 13, 58))
+>start : Symbol(start, Decl(genericClassPropertyInheritanceSpecialization.jump, 14, 10))
+>end : Symbol(end, Decl(genericClassPropertyInheritanceSpecialization.jump, 14, 24))
+>T : Symbol(T, Decl(genericClassPropertyInheritanceSpecialization.jump, 12, 34))
+
+    splice(start: number, deleteCount?: number, ...items: T[]): T[];
+>splice : Symbol(KnockoutObservableArray.splice, Decl(genericClassPropertyInheritanceSpecialization.jump, 14, 44))
+>start : Symbol(start, Decl(genericClassPropertyInheritanceSpecialization.jump, 15, 11))
+>deleteCount : Symbol(deleteCount, Decl(genericClassPropertyInheritanceSpecialization.jump, 15, 25))
+>items : Symbol(items, Decl(genericClassPropertyInheritanceSpecialization.jump, 15, 47))
+>T : Symbol(T, Decl(genericClassPropertyInheritanceSpecialization.jump, 12, 34))
+>T : Symbol(T, Decl(genericClassPropertyInheritanceSpecialization.jump, 12, 34))
+
+    pop(): T;
+>pop : Symbol(KnockoutObservableArray.pop, Decl(genericClassPropertyInheritanceSpecialization.jump, 15, 68))
+>T : Symbol(T, Decl(genericClassPropertyInheritanceSpecialization.jump, 12, 34))
+
+    push(...items: T[]): void;
+>push : Symbol(KnockoutObservableArray.push, Decl(genericClassPropertyInheritanceSpecialization.jump, 16, 13))
+>items : Symbol(items, Decl(genericClassPropertyInheritanceSpecialization.jump, 17, 9))
+>T : Symbol(T, Decl(genericClassPropertyInheritanceSpecialization.jump, 12, 34))
+
+    shift(): T;
+>shift : Symbol(KnockoutObservableArray.shift, Decl(genericClassPropertyInheritanceSpecialization.jump, 17, 30))
+>T : Symbol(T, Decl(genericClassPropertyInheritanceSpecialization.jump, 12, 34))
+
+    unshift(...items: T[]): number;
+>unshift : Symbol(KnockoutObservableArray.unshift, Decl(genericClassPropertyInheritanceSpecialization.jump, 18, 15))
+>items : Symbol(items, Decl(genericClassPropertyInheritanceSpecialization.jump, 19, 12))
+>T : Symbol(T, Decl(genericClassPropertyInheritanceSpecialization.jump, 12, 34))
+
+    reverse(): T[];
+>reverse : Symbol(KnockoutObservableArray.reverse, Decl(genericClassPropertyInheritanceSpecialization.jump, 19, 35))
+>T : Symbol(T, Decl(genericClassPropertyInheritanceSpecialization.jump, 12, 34))
+
+    sort(compareFunction?: (a: T, b: T) => number): void;
+>sort : Symbol(KnockoutObservableArray.sort, Decl(genericClassPropertyInheritanceSpecialization.jump, 20, 19))
+>compareFunction : Symbol(compareFunction, Decl(genericClassPropertyInheritanceSpecialization.jump, 21, 9))
+>a : Symbol(a, Decl(genericClassPropertyInheritanceSpecialization.jump, 21, 28))
+>T : Symbol(T, Decl(genericClassPropertyInheritanceSpecialization.jump, 12, 34))
+>b : Symbol(b, Decl(genericClassPropertyInheritanceSpecialization.jump, 21, 33))
+>T : Symbol(T, Decl(genericClassPropertyInheritanceSpecialization.jump, 12, 34))
+
+    replace(oldItem: T, newItem: T): void;
+>replace : Symbol(KnockoutObservableArray.replace, Decl(genericClassPropertyInheritanceSpecialization.jump, 21, 57))
+>oldItem : Symbol(oldItem, Decl(genericClassPropertyInheritanceSpecialization.jump, 22, 12))
+>T : Symbol(T, Decl(genericClassPropertyInheritanceSpecialization.jump, 12, 34))
+>newItem : Symbol(newItem, Decl(genericClassPropertyInheritanceSpecialization.jump, 22, 23))
+>T : Symbol(T, Decl(genericClassPropertyInheritanceSpecialization.jump, 12, 34))
+
+    remove(item: T): T[];
+>remove : Symbol(KnockoutObservableArray.remove, Decl(genericClassPropertyInheritanceSpecialization.jump, 22, 42))
+>item : Symbol(item, Decl(genericClassPropertyInheritanceSpecialization.jump, 23, 11))
+>T : Symbol(T, Decl(genericClassPropertyInheritanceSpecialization.jump, 12, 34))
+>T : Symbol(T, Decl(genericClassPropertyInheritanceSpecialization.jump, 12, 34))
+
+    removeAll(items?: T[]): T[];
+>removeAll : Symbol(KnockoutObservableArray.removeAll, Decl(genericClassPropertyInheritanceSpecialization.jump, 23, 25))
+>items : Symbol(items, Decl(genericClassPropertyInheritanceSpecialization.jump, 24, 14))
+>T : Symbol(T, Decl(genericClassPropertyInheritanceSpecialization.jump, 12, 34))
+>T : Symbol(T, Decl(genericClassPropertyInheritanceSpecialization.jump, 12, 34))
+
+    destroy(item: T): void;
+>destroy : Symbol(KnockoutObservableArray.destroy, Decl(genericClassPropertyInheritanceSpecialization.jump, 24, 32))
+>item : Symbol(item, Decl(genericClassPropertyInheritanceSpecialization.jump, 25, 12))
+>T : Symbol(T, Decl(genericClassPropertyInheritanceSpecialization.jump, 12, 34))
+
+    destroyAll(items?: T[]): void;
+>destroyAll : Symbol(KnockoutObservableArray.destroyAll, Decl(genericClassPropertyInheritanceSpecialization.jump, 25, 27))
+>items : Symbol(items, Decl(genericClassPropertyInheritanceSpecialization.jump, 26, 15))
+>T : Symbol(T, Decl(genericClassPropertyInheritanceSpecialization.jump, 12, 34))
+}
+
+interface KnockoutObservableArrayStatic {
+>KnockoutObservableArrayStatic : Symbol(KnockoutObservableArrayStatic, Decl(genericClassPropertyInheritanceSpecialization.jump, 27, 1))
+
+    fn: KnockoutObservableArray<any>;
+>fn : Symbol(KnockoutObservableArrayStatic.fn, Decl(genericClassPropertyInheritanceSpecialization.jump, 29, 41))
+>KnockoutObservableArray : Symbol(KnockoutObservableArray, Decl(genericClassPropertyInheritanceSpecialization.jump, 10, 1))
+
+    <T>(value?: T[]): KnockoutObservableArray<T>;
+>T : Symbol(T, Decl(genericClassPropertyInheritanceSpecialization.jump, 32, 5))
+>value : Symbol(value, Decl(genericClassPropertyInheritanceSpecialization.jump, 32, 8))
+>T : Symbol(T, Decl(genericClassPropertyInheritanceSpecialization.jump, 32, 5))
+>KnockoutObservableArray : Symbol(KnockoutObservableArray, Decl(genericClassPropertyInheritanceSpecialization.jump, 10, 1))
+>T : Symbol(T, Decl(genericClassPropertyInheritanceSpecialization.jump, 32, 5))
+}
+
+declare module ko {
+>ko : Symbol(ko, Decl(genericClassPropertyInheritanceSpecialization.jump, 33, 1))
+
+    export var observableArray: KnockoutObservableArrayStatic;
+>observableArray : Symbol(observableArray, Decl(genericClassPropertyInheritanceSpecialization.jump, 36, 14))
+>KnockoutObservableArrayStatic : Symbol(KnockoutObservableArrayStatic, Decl(genericClassPropertyInheritanceSpecialization.jump, 27, 1))
+}
+
+module Portal.Controls.Validators {
+>Portal : Symbol(Portal, Decl(genericClassPropertyInheritanceSpecialization.jump, 37, 1))
+>Controls : Symbol(Controls, Decl(genericClassPropertyInheritanceSpecialization.jump, 39, 14))
+>Validators : Symbol(Validators, Decl(genericClassPropertyInheritanceSpecialization.jump, 39, 23))
+
+    export class Validator<TValue> {
+>Validator : Symbol(Validator, Decl(genericClassPropertyInheritanceSpecialization.jump, 39, 35))
+>TValue : Symbol(TValue, Decl(genericClassPropertyInheritanceSpecialization.jump, 41, 27))
+
+        private _subscription;
+>_subscription : Symbol(Validator._subscription, Decl(genericClassPropertyInheritanceSpecialization.jump, 41, 36))
+
+        public message: KnockoutObservable<string>;
+>message : Symbol(Validator.message, Decl(genericClassPropertyInheritanceSpecialization.jump, 42, 30))
+>KnockoutObservable : Symbol(KnockoutObservable, Decl(genericClassPropertyInheritanceSpecialization.jump, 4, 1))
+
+        public validationState: KnockoutObservable<number>;
+>validationState : Symbol(Validator.validationState, Decl(genericClassPropertyInheritanceSpecialization.jump, 43, 51))
+>KnockoutObservable : Symbol(KnockoutObservable, Decl(genericClassPropertyInheritanceSpecialization.jump, 4, 1))
+
+        public validate: KnockoutObservable<TValue>;
+>validate : Symbol(Validator.validate, Decl(genericClassPropertyInheritanceSpecialization.jump, 44, 59))
+>KnockoutObservable : Symbol(KnockoutObservable, Decl(genericClassPropertyInheritanceSpecialization.jump, 4, 1))
+>TValue : Symbol(TValue, Decl(genericClassPropertyInheritanceSpecialization.jump, 41, 27))
+
+        constructor(message?: string) { }
+>message : Symbol(message, Decl(genericClassPropertyInheritanceSpecialization.jump, 46, 20))
+
+        public destroy(): void { }
+>destroy : Symbol(Validator.destroy, Decl(genericClassPropertyInheritanceSpecialization.jump, 46, 41))
+
+        public _validate(value: TValue): number {return 0 }
+>_validate : Symbol(Validator._validate, Decl(genericClassPropertyInheritanceSpecialization.jump, 47, 34))
+>value : Symbol(value, Decl(genericClassPropertyInheritanceSpecialization.jump, 48, 25))
+>TValue : Symbol(TValue, Decl(genericClassPropertyInheritanceSpecialization.jump, 41, 27))
+    }
+}
+
+module PortalFx.ViewModels.Controls.Validators {
+>PortalFx : Symbol(PortalFx, Decl(genericClassPropertyInheritanceSpecialization.jump, 50, 1))
+>ViewModels : Symbol(ViewModels, Decl(genericClassPropertyInheritanceSpecialization.jump, 52, 16))
+>Controls : Symbol(Controls, Decl(genericClassPropertyInheritanceSpecialization.jump, 52, 27))
+>Validators : Symbol(Validators, Decl(genericClassPropertyInheritanceSpecialization.jump, 52, 36))
+
+    export class Validator<TValue> extends Portal.Controls.Validators.Validator<TValue> {
+>Validator : Symbol(Validator, Decl(genericClassPropertyInheritanceSpecialization.jump, 52, 48))
+>TValue : Symbol(TValue, Decl(genericClassPropertyInheritanceSpecialization.jump, 54, 27))
+>Portal.Controls.Validators.Validator : Symbol(Portal.Controls.Validators.Validator, Decl(genericClassPropertyInheritanceSpecialization.jump, 39, 35))
+>Portal.Controls.Validators : Symbol(Portal.Controls.Validators, Decl(genericClassPropertyInheritanceSpecialization.jump, 39, 23))
+>Portal.Controls : Symbol(Portal.Controls, Decl(genericClassPropertyInheritanceSpecialization.jump, 39, 14))
+>Portal : Symbol(Portal, Decl(genericClassPropertyInheritanceSpecialization.jump, 37, 1))
+>Controls : Symbol(Portal.Controls, Decl(genericClassPropertyInheritanceSpecialization.jump, 39, 14))
+>Validators : Symbol(Portal.Controls.Validators, Decl(genericClassPropertyInheritanceSpecialization.jump, 39, 23))
+>Validator : Symbol(Portal.Controls.Validators.Validator, Decl(genericClassPropertyInheritanceSpecialization.jump, 39, 35))
+>TValue : Symbol(TValue, Decl(genericClassPropertyInheritanceSpecialization.jump, 54, 27))
+
+        constructor(message?: string) {
+>message : Symbol(message, Decl(genericClassPropertyInheritanceSpecialization.jump, 56, 20))
+
+            super(message);
+>super : Symbol(Portal.Controls.Validators.Validator, Decl(genericClassPropertyInheritanceSpecialization.jump, 39, 35))
+>message : Symbol(message, Decl(genericClassPropertyInheritanceSpecialization.jump, 56, 20))
+        }
+    }
+
+}
+
+interface Contract<TValue> {
+>Contract : Symbol(Contract, Decl(genericClassPropertyInheritanceSpecialization.jump, 61, 1))
+>TValue : Symbol(TValue, Decl(genericClassPropertyInheritanceSpecialization.jump, 63, 19))
+
+    validators: KnockoutObservableArray<PortalFx.ViewModels.Controls.Validators.Validator<TValue>>;
+>validators : Symbol(Contract.validators, Decl(genericClassPropertyInheritanceSpecialization.jump, 63, 28))
+>KnockoutObservableArray : Symbol(KnockoutObservableArray, Decl(genericClassPropertyInheritanceSpecialization.jump, 10, 1))
+>PortalFx : Symbol(PortalFx, Decl(genericClassPropertyInheritanceSpecialization.jump, 50, 1))
+>ViewModels : Symbol(PortalFx.ViewModels, Decl(genericClassPropertyInheritanceSpecialization.jump, 52, 16))
+>Controls : Symbol(PortalFx.ViewModels.Controls, Decl(genericClassPropertyInheritanceSpecialization.jump, 52, 27))
+>Validators : Symbol(PortalFx.ViewModels.Controls.Validators, Decl(genericClassPropertyInheritanceSpecialization.jump, 52, 36))
+>Validator : Symbol(PortalFx.ViewModels.Controls.Validators.Validator, Decl(genericClassPropertyInheritanceSpecialization.jump, 52, 48))
+>TValue : Symbol(TValue, Decl(genericClassPropertyInheritanceSpecialization.jump, 63, 19))
+}
+
+
+class ViewModel<TValue> implements Contract<TValue> {
+>ViewModel : Symbol(ViewModel, Decl(genericClassPropertyInheritanceSpecialization.jump, 66, 1))
+>TValue : Symbol(TValue, Decl(genericClassPropertyInheritanceSpecialization.jump, 69, 16))
+>Contract : Symbol(Contract, Decl(genericClassPropertyInheritanceSpecialization.jump, 61, 1))
+>TValue : Symbol(TValue, Decl(genericClassPropertyInheritanceSpecialization.jump, 69, 16))
+
+    public validators: KnockoutObservableArray<PortalFx.ViewModels.Controls.Validators.Validator<TValue>> = ko.observableArray<PortalFx.ViewModels.Controls.Validators.Validator<TValue>>();
+>validators : Symbol(ViewModel.validators, Decl(genericClassPropertyInheritanceSpecialization.jump, 69, 53))
+>KnockoutObservableArray : Symbol(KnockoutObservableArray, Decl(genericClassPropertyInheritanceSpecialization.jump, 10, 1))
+>PortalFx : Symbol(PortalFx, Decl(genericClassPropertyInheritanceSpecialization.jump, 50, 1))
+>ViewModels : Symbol(PortalFx.ViewModels, Decl(genericClassPropertyInheritanceSpecialization.jump, 52, 16))
+>Controls : Symbol(PortalFx.ViewModels.Controls, Decl(genericClassPropertyInheritanceSpecialization.jump, 52, 27))
+>Validators : Symbol(PortalFx.ViewModels.Controls.Validators, Decl(genericClassPropertyInheritanceSpecialization.jump, 52, 36))
+>Validator : Symbol(PortalFx.ViewModels.Controls.Validators.Validator, Decl(genericClassPropertyInheritanceSpecialization.jump, 52, 48))
+>TValue : Symbol(TValue, Decl(genericClassPropertyInheritanceSpecialization.jump, 69, 16))
+>ko.observableArray : Symbol(ko.observableArray, Decl(genericClassPropertyInheritanceSpecialization.jump, 36, 14))
+>ko : Symbol(ko, Decl(genericClassPropertyInheritanceSpecialization.jump, 33, 1))
+>observableArray : Symbol(ko.observableArray, Decl(genericClassPropertyInheritanceSpecialization.jump, 36, 14))
+>PortalFx : Symbol(PortalFx, Decl(genericClassPropertyInheritanceSpecialization.jump, 50, 1))
+>ViewModels : Symbol(PortalFx.ViewModels, Decl(genericClassPropertyInheritanceSpecialization.jump, 52, 16))
+>Controls : Symbol(PortalFx.ViewModels.Controls, Decl(genericClassPropertyInheritanceSpecialization.jump, 52, 27))
+>Validators : Symbol(PortalFx.ViewModels.Controls.Validators, Decl(genericClassPropertyInheritanceSpecialization.jump, 52, 36))
+>Validator : Symbol(PortalFx.ViewModels.Controls.Validators.Validator, Decl(genericClassPropertyInheritanceSpecialization.jump, 52, 48))
+>TValue : Symbol(TValue, Decl(genericClassPropertyInheritanceSpecialization.jump, 69, 16))
+}
+
+

@@ -1,0 +1,24 @@
+=== tests/cases/compiler/typeParameterArgumentEquivalence3.jump ===
+function foo<T,U>() {
+>foo : Symbol(foo, Decl(typeParameterArgumentEquivalence3.jump, 0, 0))
+>T : Symbol(T, Decl(typeParameterArgumentEquivalence3.jump, 0, 13))
+>U : Symbol(U, Decl(typeParameterArgumentEquivalence3.jump, 0, 15))
+
+    var x: (item) => T;
+>x : Symbol(x, Decl(typeParameterArgumentEquivalence3.jump, 1, 7))
+>item : Symbol(item, Decl(typeParameterArgumentEquivalence3.jump, 1, 12))
+>T : Symbol(T, Decl(typeParameterArgumentEquivalence3.jump, 0, 13))
+
+    var y: (item) => boolean;
+>y : Symbol(y, Decl(typeParameterArgumentEquivalence3.jump, 2, 7))
+>item : Symbol(item, Decl(typeParameterArgumentEquivalence3.jump, 2, 12))
+
+    x = y;  // Should be an error
+>x : Symbol(x, Decl(typeParameterArgumentEquivalence3.jump, 1, 7))
+>y : Symbol(y, Decl(typeParameterArgumentEquivalence3.jump, 2, 7))
+
+    y = x;  // Shound be an error
+>y : Symbol(y, Decl(typeParameterArgumentEquivalence3.jump, 2, 7))
+>x : Symbol(x, Decl(typeParameterArgumentEquivalence3.jump, 1, 7))
+}
+

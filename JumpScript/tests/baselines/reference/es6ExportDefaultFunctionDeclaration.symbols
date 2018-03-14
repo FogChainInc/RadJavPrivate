@@ -1,0 +1,4 @@
+=== tests/cases/compiler/es6ExportDefaultFunctionDeclaration.jump ===
+export default function f() { }
+>f : Symbol(f, Decl(es6ExportDefaultFunctionDeclaration.jump, 0, 0))
+

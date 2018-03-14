@@ -1,0 +1,58 @@
+=== tests/cases/conformance/internalModules/moduleDeclarations/invalidNestedModules.jump ===
+module A.B.C {
+>A : Symbol(A, Decl(invalidNestedModules.jump, 0, 0), Decl(invalidNestedModules.jump, 5, 1))
+>B : Symbol(B, Decl(invalidNestedModules.jump, 0, 9), Decl(invalidNestedModules.jump, 7, 10))
+>C : Symbol(C, Decl(invalidNestedModules.jump, 0, 11), Decl(invalidNestedModules.jump, 8, 21))
+
+    export class Point {
+>Point : Symbol(Point, Decl(invalidNestedModules.jump, 0, 14))
+
+        x: number;
+>x : Symbol(Point.x, Decl(invalidNestedModules.jump, 1, 24))
+
+        y: number;
+>y : Symbol(Point.y, Decl(invalidNestedModules.jump, 2, 18))
+    }
+}
+
+module A {
+>A : Symbol(A, Decl(invalidNestedModules.jump, 0, 0), Decl(invalidNestedModules.jump, 5, 1))
+
+    export module B {
+>B : Symbol(B, Decl(invalidNestedModules.jump, 0, 9), Decl(invalidNestedModules.jump, 7, 10))
+
+        export class C { // Error
+>C : Symbol(C, Decl(invalidNestedModules.jump, 0, 11), Decl(invalidNestedModules.jump, 8, 21))
+
+            name: string;
+>name : Symbol(C.name, Decl(invalidNestedModules.jump, 9, 24))
+        }
+    }
+}
+
+module M2.X {
+>M2 : Symbol(M2, Decl(invalidNestedModules.jump, 13, 1), Decl(invalidNestedModules.jump, 19, 1))
+>X : Symbol(X, Decl(invalidNestedModules.jump, 15, 10), Decl(invalidNestedModules.jump, 21, 11))
+
+    export class Point {
+>Point : Symbol(Point, Decl(invalidNestedModules.jump, 15, 13))
+
+        x: number; y: number;
+>x : Symbol(Point.x, Decl(invalidNestedModules.jump, 16, 24))
+>y : Symbol(Point.y, Decl(invalidNestedModules.jump, 17, 18))
+    }
+}
+
+module M2 {
+>M2 : Symbol(M2, Decl(invalidNestedModules.jump, 13, 1), Decl(invalidNestedModules.jump, 19, 1))
+
+    export module X {
+>X : Symbol(X, Decl(invalidNestedModules.jump, 15, 10), Decl(invalidNestedModules.jump, 21, 11))
+
+        export var Point: number; // Error
+>Point : Symbol(X.Point, Decl(invalidNestedModules.jump, 23, 18))
+    }
+}
+
+
+

@@ -1,0 +1,10 @@
+=== tests/cases/compiler/es3-oldStyleOctalLiteralInEnums.jump ===
+enum E {
+>E : Symbol(E, Decl(es3-oldStyleOctalLiteralInEnums.jump, 0, 0))
+
+  x = -01,
+>x : Symbol(E.x, Decl(es3-oldStyleOctalLiteralInEnums.jump, 0, 8))
+
+  y = 02,
+>y : Symbol(E.y, Decl(es3-oldStyleOctalLiteralInEnums.jump, 1, 10))
+}

@@ -1,0 +1,5 @@
+=== tests/cases/conformance/async/es6/functionDeclarations/asyncFunctionDeclaration5_es6.jump ===
+async function foo(await): Promise<void> {
+>foo : Symbol(foo, Decl(asyncFunctionDeclaration5_es6.jump, 0, 0))
+>Promise : Symbol(Promise, Decl(lib.es5.d.jump, --, --), Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.iterable.d.jump, --, --), Decl(lib.es2015.promise.d.jump, --, --))
+}

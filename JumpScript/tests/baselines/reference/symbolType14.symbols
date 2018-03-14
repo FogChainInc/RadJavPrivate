@@ -1,0 +1,4 @@
+=== tests/cases/conformance/es6/Symbols/symbolType14.jump ===
+new Symbol();
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+

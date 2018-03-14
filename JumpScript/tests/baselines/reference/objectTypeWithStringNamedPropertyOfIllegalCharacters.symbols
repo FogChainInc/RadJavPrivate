@@ -1,0 +1,124 @@
+=== tests/cases/conformance/types/members/objectTypeWithStringNamedPropertyOfIllegalCharacters.jump ===
+class C {
+>C : Symbol(C, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 0, 0))
+
+    "   ": number;
+    "a   b": string;
+    "~!@#$%^&*()_+{}|:'<>?\/.,`": number;
+    "a\a": number;
+    static "a ": number
+}
+
+var c: C;
+>c : Symbol(c, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 8, 3))
+>C : Symbol(C, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 0, 0))
+
+var r = c["   "];
+>r : Symbol(r, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 9, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 22, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 35, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 47, 3))
+>c : Symbol(c, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 8, 3))
+>"   " : Symbol(C["   "], Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 0, 9))
+
+var r2 = c["    "];
+>r2 : Symbol(r2, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 10, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 23, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 36, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 48, 3))
+>c : Symbol(c, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 8, 3))
+
+var r3 = c["a   b"];
+>r3 : Symbol(r3, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 11, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 24, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 37, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 49, 3))
+>c : Symbol(c, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 8, 3))
+>"a   b" : Symbol(C["a   b"], Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 1, 18))
+
+// BUG 817263
+var r4 = c["~!@#$%^&*()_+{}|:'<>?\/.,`"];
+>r4 : Symbol(r4, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 13, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 26, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 39, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 51, 3))
+>c : Symbol(c, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 8, 3))
+>"~!@#$%^&*()_+{}|:'<>?\/.,`" : Symbol(C["~!@#$%^&*()_+{}|:'<>?/.,`"], Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 2, 20))
+
+interface I {
+>I : Symbol(I, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 13, 41))
+
+    "   ": number;
+    "a   b": string;
+    "~!@#$%^&*()_+{}|:'<>?\/.,`": number;
+}
+
+var i: I;
+>i : Symbol(i, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 21, 3))
+>I : Symbol(I, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 13, 41))
+
+var r = i["   "];
+>r : Symbol(r, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 9, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 22, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 35, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 47, 3))
+>i : Symbol(i, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 21, 3))
+>"   " : Symbol(I["   "], Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 15, 13))
+
+var r2 = i["    "];
+>r2 : Symbol(r2, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 10, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 23, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 36, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 48, 3))
+>i : Symbol(i, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 21, 3))
+
+var r3 = i["a   b"];
+>r3 : Symbol(r3, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 11, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 24, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 37, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 49, 3))
+>i : Symbol(i, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 21, 3))
+>"a   b" : Symbol(I["a   b"], Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 16, 18))
+
+// BUG 817263
+var r4 = i["~!@#$%^&*()_+{}|:'<>?\/.,`"];
+>r4 : Symbol(r4, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 13, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 26, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 39, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 51, 3))
+>i : Symbol(i, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 21, 3))
+>"~!@#$%^&*()_+{}|:'<>?\/.,`" : Symbol(I["~!@#$%^&*()_+{}|:'<>?/.,`"], Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 17, 20))
+
+
+var a: {
+>a : Symbol(a, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 29, 3))
+
+    "   ": number;
+    "a   b": string;
+    "~!@#$%^&*()_+{}|:'<>?\/.,`": number;
+}
+
+var r = a["   "];
+>r : Symbol(r, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 9, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 22, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 35, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 47, 3))
+>a : Symbol(a, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 29, 3))
+>"   " : Symbol("   ", Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 29, 8))
+
+var r2 = a["    "];
+>r2 : Symbol(r2, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 10, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 23, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 36, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 48, 3))
+>a : Symbol(a, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 29, 3))
+
+var r3 = a["a   b"];
+>r3 : Symbol(r3, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 11, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 24, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 37, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 49, 3))
+>a : Symbol(a, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 29, 3))
+>"a   b" : Symbol("a   b", Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 30, 18))
+
+// BUG 817263
+var r4 = a["~!@#$%^&*()_+{}|:'<>?\/.,`"];
+>r4 : Symbol(r4, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 13, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 26, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 39, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 51, 3))
+>a : Symbol(a, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 29, 3))
+>"~!@#$%^&*()_+{}|:'<>?\/.,`" : Symbol("~!@#$%^&*()_+{}|:'<>?\/.,`", Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 31, 20))
+
+var b = {
+>b : Symbol(b, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 41, 3))
+
+    "   ": 1,
+    "a   b": "",
+    "~!@#$%^&*()_+{}|:'<>?\/.,`": 1,
+}
+
+var r = b["   "];
+>r : Symbol(r, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 9, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 22, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 35, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 47, 3))
+>b : Symbol(b, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 41, 3))
+>"   " : Symbol("   ", Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 41, 9))
+
+var r2 = b["    "];
+>r2 : Symbol(r2, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 10, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 23, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 36, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 48, 3))
+>b : Symbol(b, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 41, 3))
+
+var r3 = b["a   b"];
+>r3 : Symbol(r3, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 11, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 24, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 37, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 49, 3))
+>b : Symbol(b, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 41, 3))
+>"a   b" : Symbol("a   b", Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 42, 13))
+
+// BUG 817263
+var r4 = b["~!@#$%^&*()_+{}|:'<>?\/.,`"];
+>r4 : Symbol(r4, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 13, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 26, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 39, 3), Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 51, 3))
+>b : Symbol(b, Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 41, 3))
+>"~!@#$%^&*()_+{}|:'<>?\/.,`" : Symbol("~!@#$%^&*()_+{}|:'<>?\/.,`", Decl(objectTypeWithStringNamedPropertyOfIllegalCharacters.jump, 43, 16))
+

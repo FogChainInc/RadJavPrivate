@@ -1,0 +1,30 @@
+=== tests/cases/compiler/b.jump ===
+///<reference path="a.jump"/>
+declare enum E {
+>E : Symbol(E, Decl(b.jump, 0, 0))
+}
+=== tests/cases/compiler/a.jump ===
+/*!=========
+    Keep this pinned comment
+   =========
+*/
+
+/*! Don't keep this pinned comment */
+declare enum C {
+>C : Symbol(C, Decl(a.jump, 0, 0))
+
+    a,
+>a : Symbol(C.a, Decl(a.jump, 6, 16))
+
+    b,
+>b : Symbol(C.b, Decl(a.jump, 7, 6))
+
+    c
+>c : Symbol(C.c, Decl(a.jump, 8, 6))
+}
+
+// Don't keep this comment.
+declare enum D {
+>D : Symbol(D, Decl(a.jump, 10, 1))
+}
+

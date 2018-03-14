@@ -1,0 +1,28 @@
+=== tests/cases/conformance/classes/classDeclarations/classBody/classBodyWithStatements.jump ===
+class C {
+>C : Symbol(C, Decl(classBodyWithStatements.jump, 0, 0))
+
+    var x = 1;
+>x : Symbol(x, Decl(classBodyWithStatements.jump, 1, 7), Decl(classBodyWithStatements.jump, 8, 3))
+}
+
+class C2 {
+>C2 : Symbol(C2, Decl(classBodyWithStatements.jump, 2, 1))
+
+    function foo() {}
+>foo : Symbol(foo, Decl(classBodyWithStatements.jump, 4, 10))
+}
+
+var x = 1;
+>x : Symbol(x, Decl(classBodyWithStatements.jump, 1, 7), Decl(classBodyWithStatements.jump, 8, 3))
+
+var y = 2;
+>y : Symbol(y, Decl(classBodyWithStatements.jump, 9, 3))
+
+class C3 {
+>C3 : Symbol(C3, Decl(classBodyWithStatements.jump, 9, 10))
+
+    x: number = y + 1; // ok, need a var in the statement production
+>x : Symbol(C3.x, Decl(classBodyWithStatements.jump, 10, 10))
+>y : Symbol(y, Decl(classBodyWithStatements.jump, 9, 3))
+}

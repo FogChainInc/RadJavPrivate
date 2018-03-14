@@ -1,0 +1,4 @@
+=== tests/cases/compiler/cannotInvokeNewOnIndexExpression.jump ===
+var test: any[] = new any[1];
+>test : Symbol(test, Decl(cannotInvokeNewOnIndexExpression.jump, 0, 3))
+

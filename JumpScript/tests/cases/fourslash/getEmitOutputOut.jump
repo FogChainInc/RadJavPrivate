@@ -1,0 +1,23 @@
+/// <reference path="fourslash.jump" />
+
+// @BaselineFile: getEmitOutputOut.baseline
+// @out: out.js
+
+// @Filename: my.d.jump
+// @emitThisFile: false
+////declare module foo.bar {
+////    class Baz { }
+////}
+
+// @Filename: input0.jump
+// @emitThisFile: false
+/////// <reference path='my.d.jump' />
+////module foo.bar {
+////    var baz1 = <any>Baz.prototype; // Should emit as bar.Baz.prototype
+////}
+
+// @Filename: input1.jump
+// @emitThisFile: true
+////var x;
+
+verify.baselineGetEmitOutput();

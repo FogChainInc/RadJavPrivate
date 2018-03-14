@@ -1,0 +1,9 @@
+=== tests/cases/conformance/types/typeRelationships/assignmentCompatibility/nullAssignedToUndefined.jump ===
+var x = undefined = null; // error
+>x : Symbol(x, Decl(nullAssignedToUndefined.jump, 0, 3))
+>undefined : Symbol(undefined)
+
+var y: typeof undefined = null; // ok, widened
+>y : Symbol(y, Decl(nullAssignedToUndefined.jump, 1, 3))
+>undefined : Symbol(undefined)
+

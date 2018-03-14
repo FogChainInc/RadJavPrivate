@@ -1,0 +1,216 @@
+=== tests/cases/compiler/implementArrayInterface.jump ===
+declare class MyArray<T> implements Array<T> {
+>MyArray : Symbol(MyArray, Decl(implementArrayInterface.jump, 0, 0))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+>Array : Symbol(Array, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+
+    toString(): string;
+>toString : Symbol(MyArray.toString, Decl(implementArrayInterface.jump, 0, 46))
+
+    toLocaleString(): string;
+>toLocaleString : Symbol(MyArray.toLocaleString, Decl(implementArrayInterface.jump, 1, 23))
+
+    concat<U extends T[]>(...items: U[]): T[];
+>concat : Symbol(MyArray.concat, Decl(implementArrayInterface.jump, 2, 29), Decl(implementArrayInterface.jump, 3, 46))
+>U : Symbol(U, Decl(implementArrayInterface.jump, 3, 11))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+>items : Symbol(items, Decl(implementArrayInterface.jump, 3, 26))
+>U : Symbol(U, Decl(implementArrayInterface.jump, 3, 11))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+
+    concat(...items: T[]): T[];
+>concat : Symbol(MyArray.concat, Decl(implementArrayInterface.jump, 2, 29), Decl(implementArrayInterface.jump, 3, 46))
+>items : Symbol(items, Decl(implementArrayInterface.jump, 4, 11))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+
+    join(separator?: string): string;
+>join : Symbol(MyArray.join, Decl(implementArrayInterface.jump, 4, 31))
+>separator : Symbol(separator, Decl(implementArrayInterface.jump, 5, 9))
+
+    pop(): T;
+>pop : Symbol(MyArray.pop, Decl(implementArrayInterface.jump, 5, 37))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+
+    push(...items: T[]): number;
+>push : Symbol(MyArray.push, Decl(implementArrayInterface.jump, 6, 13))
+>items : Symbol(items, Decl(implementArrayInterface.jump, 7, 9))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+
+    reverse(): T[];
+>reverse : Symbol(MyArray.reverse, Decl(implementArrayInterface.jump, 7, 32))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+
+    shift(): T;
+>shift : Symbol(MyArray.shift, Decl(implementArrayInterface.jump, 8, 19))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+
+    slice(start?: number, end?: number): T[];
+>slice : Symbol(MyArray.slice, Decl(implementArrayInterface.jump, 9, 15))
+>start : Symbol(start, Decl(implementArrayInterface.jump, 10, 10))
+>end : Symbol(end, Decl(implementArrayInterface.jump, 10, 25))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+
+    sort(compareFn?: (a: T, b: T) => number): this;
+>sort : Symbol(MyArray.sort, Decl(implementArrayInterface.jump, 10, 45))
+>compareFn : Symbol(compareFn, Decl(implementArrayInterface.jump, 11, 9))
+>a : Symbol(a, Decl(implementArrayInterface.jump, 11, 22))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+>b : Symbol(b, Decl(implementArrayInterface.jump, 11, 27))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+
+    splice(start: number): T[];
+>splice : Symbol(MyArray.splice, Decl(implementArrayInterface.jump, 11, 51), Decl(implementArrayInterface.jump, 12, 31))
+>start : Symbol(start, Decl(implementArrayInterface.jump, 12, 11))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+
+    splice(start: number, deleteCount: number, ...items: T[]): T[];
+>splice : Symbol(MyArray.splice, Decl(implementArrayInterface.jump, 11, 51), Decl(implementArrayInterface.jump, 12, 31))
+>start : Symbol(start, Decl(implementArrayInterface.jump, 13, 11))
+>deleteCount : Symbol(deleteCount, Decl(implementArrayInterface.jump, 13, 25))
+>items : Symbol(items, Decl(implementArrayInterface.jump, 13, 46))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+
+    unshift(...items: T[]): number;
+>unshift : Symbol(MyArray.unshift, Decl(implementArrayInterface.jump, 13, 67))
+>items : Symbol(items, Decl(implementArrayInterface.jump, 14, 12))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+
+    indexOf(searchElement: T, fromIndex?: number): number;
+>indexOf : Symbol(MyArray.indexOf, Decl(implementArrayInterface.jump, 14, 35))
+>searchElement : Symbol(searchElement, Decl(implementArrayInterface.jump, 16, 12))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+>fromIndex : Symbol(fromIndex, Decl(implementArrayInterface.jump, 16, 29))
+
+    lastIndexOf(searchElement: T, fromIndex?: number): number;
+>lastIndexOf : Symbol(MyArray.lastIndexOf, Decl(implementArrayInterface.jump, 16, 58))
+>searchElement : Symbol(searchElement, Decl(implementArrayInterface.jump, 17, 16))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+>fromIndex : Symbol(fromIndex, Decl(implementArrayInterface.jump, 17, 33))
+
+    every(callbackfn: (value: T, index: number, array: T[]) => boolean, thisArg?: any): boolean;
+>every : Symbol(MyArray.every, Decl(implementArrayInterface.jump, 17, 62))
+>callbackfn : Symbol(callbackfn, Decl(implementArrayInterface.jump, 18, 10))
+>value : Symbol(value, Decl(implementArrayInterface.jump, 18, 23))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+>index : Symbol(index, Decl(implementArrayInterface.jump, 18, 32))
+>array : Symbol(array, Decl(implementArrayInterface.jump, 18, 47))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+>thisArg : Symbol(thisArg, Decl(implementArrayInterface.jump, 18, 71))
+
+    some(callbackfn: (value: T, index: number, array: T[]) => boolean, thisArg?: any): boolean;
+>some : Symbol(MyArray.some, Decl(implementArrayInterface.jump, 18, 96))
+>callbackfn : Symbol(callbackfn, Decl(implementArrayInterface.jump, 19, 9))
+>value : Symbol(value, Decl(implementArrayInterface.jump, 19, 22))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+>index : Symbol(index, Decl(implementArrayInterface.jump, 19, 31))
+>array : Symbol(array, Decl(implementArrayInterface.jump, 19, 46))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+>thisArg : Symbol(thisArg, Decl(implementArrayInterface.jump, 19, 70))
+
+    forEach(callbackfn: (value: T, index: number, array: T[]) => void, thisArg?: any): void;
+>forEach : Symbol(MyArray.forEach, Decl(implementArrayInterface.jump, 19, 95))
+>callbackfn : Symbol(callbackfn, Decl(implementArrayInterface.jump, 20, 12))
+>value : Symbol(value, Decl(implementArrayInterface.jump, 20, 25))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+>index : Symbol(index, Decl(implementArrayInterface.jump, 20, 34))
+>array : Symbol(array, Decl(implementArrayInterface.jump, 20, 49))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+>thisArg : Symbol(thisArg, Decl(implementArrayInterface.jump, 20, 70))
+
+    map<U>(callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: any): U[];
+>map : Symbol(MyArray.map, Decl(implementArrayInterface.jump, 20, 92))
+>U : Symbol(U, Decl(implementArrayInterface.jump, 21, 8))
+>callbackfn : Symbol(callbackfn, Decl(implementArrayInterface.jump, 21, 11))
+>value : Symbol(value, Decl(implementArrayInterface.jump, 21, 24))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+>index : Symbol(index, Decl(implementArrayInterface.jump, 21, 33))
+>array : Symbol(array, Decl(implementArrayInterface.jump, 21, 48))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+>U : Symbol(U, Decl(implementArrayInterface.jump, 21, 8))
+>thisArg : Symbol(thisArg, Decl(implementArrayInterface.jump, 21, 66))
+>U : Symbol(U, Decl(implementArrayInterface.jump, 21, 8))
+
+    filter(callbackfn: (value: T, index: number, array: T[]) => boolean, thisArg?: any): T[];
+>filter : Symbol(MyArray.filter, Decl(implementArrayInterface.jump, 21, 87))
+>callbackfn : Symbol(callbackfn, Decl(implementArrayInterface.jump, 22, 11))
+>value : Symbol(value, Decl(implementArrayInterface.jump, 22, 24))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+>index : Symbol(index, Decl(implementArrayInterface.jump, 22, 33))
+>array : Symbol(array, Decl(implementArrayInterface.jump, 22, 48))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+>thisArg : Symbol(thisArg, Decl(implementArrayInterface.jump, 22, 72))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+
+    reduce(callbackfn: (previousValue: T, currentValue: T, currentIndex: number, array: T[]) => T, initialValue?: T): T;
+>reduce : Symbol(MyArray.reduce, Decl(implementArrayInterface.jump, 22, 93), Decl(implementArrayInterface.jump, 23, 120))
+>callbackfn : Symbol(callbackfn, Decl(implementArrayInterface.jump, 23, 11))
+>previousValue : Symbol(previousValue, Decl(implementArrayInterface.jump, 23, 24))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+>currentValue : Symbol(currentValue, Decl(implementArrayInterface.jump, 23, 41))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+>currentIndex : Symbol(currentIndex, Decl(implementArrayInterface.jump, 23, 58))
+>array : Symbol(array, Decl(implementArrayInterface.jump, 23, 80))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+>initialValue : Symbol(initialValue, Decl(implementArrayInterface.jump, 23, 98))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+
+    reduce<U>(callbackfn: (previousValue: U, currentValue: T, currentIndex: number, array: T[]) => U, initialValue: U): U;
+>reduce : Symbol(MyArray.reduce, Decl(implementArrayInterface.jump, 22, 93), Decl(implementArrayInterface.jump, 23, 120))
+>U : Symbol(U, Decl(implementArrayInterface.jump, 24, 11))
+>callbackfn : Symbol(callbackfn, Decl(implementArrayInterface.jump, 24, 14))
+>previousValue : Symbol(previousValue, Decl(implementArrayInterface.jump, 24, 27))
+>U : Symbol(U, Decl(implementArrayInterface.jump, 24, 11))
+>currentValue : Symbol(currentValue, Decl(implementArrayInterface.jump, 24, 44))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+>currentIndex : Symbol(currentIndex, Decl(implementArrayInterface.jump, 24, 61))
+>array : Symbol(array, Decl(implementArrayInterface.jump, 24, 83))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+>U : Symbol(U, Decl(implementArrayInterface.jump, 24, 11))
+>initialValue : Symbol(initialValue, Decl(implementArrayInterface.jump, 24, 101))
+>U : Symbol(U, Decl(implementArrayInterface.jump, 24, 11))
+>U : Symbol(U, Decl(implementArrayInterface.jump, 24, 11))
+
+    reduceRight(callbackfn: (previousValue: T, currentValue: T, currentIndex: number, array: T[]) => T, initialValue?: T): T;
+>reduceRight : Symbol(MyArray.reduceRight, Decl(implementArrayInterface.jump, 24, 122), Decl(implementArrayInterface.jump, 25, 125))
+>callbackfn : Symbol(callbackfn, Decl(implementArrayInterface.jump, 25, 16))
+>previousValue : Symbol(previousValue, Decl(implementArrayInterface.jump, 25, 29))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+>currentValue : Symbol(currentValue, Decl(implementArrayInterface.jump, 25, 46))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+>currentIndex : Symbol(currentIndex, Decl(implementArrayInterface.jump, 25, 63))
+>array : Symbol(array, Decl(implementArrayInterface.jump, 25, 85))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+>initialValue : Symbol(initialValue, Decl(implementArrayInterface.jump, 25, 103))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+
+    reduceRight<U>(callbackfn: (previousValue: U, currentValue: T, currentIndex: number, array: T[]) => U, initialValue: U): U;
+>reduceRight : Symbol(MyArray.reduceRight, Decl(implementArrayInterface.jump, 24, 122), Decl(implementArrayInterface.jump, 25, 125))
+>U : Symbol(U, Decl(implementArrayInterface.jump, 26, 16))
+>callbackfn : Symbol(callbackfn, Decl(implementArrayInterface.jump, 26, 19))
+>previousValue : Symbol(previousValue, Decl(implementArrayInterface.jump, 26, 32))
+>U : Symbol(U, Decl(implementArrayInterface.jump, 26, 16))
+>currentValue : Symbol(currentValue, Decl(implementArrayInterface.jump, 26, 49))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+>currentIndex : Symbol(currentIndex, Decl(implementArrayInterface.jump, 26, 66))
+>array : Symbol(array, Decl(implementArrayInterface.jump, 26, 88))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+>U : Symbol(U, Decl(implementArrayInterface.jump, 26, 16))
+>initialValue : Symbol(initialValue, Decl(implementArrayInterface.jump, 26, 106))
+>U : Symbol(U, Decl(implementArrayInterface.jump, 26, 16))
+>U : Symbol(U, Decl(implementArrayInterface.jump, 26, 16))
+
+    length: number;
+>length : Symbol(MyArray.length, Decl(implementArrayInterface.jump, 26, 127))
+
+    [n: number]: T;
+>n : Symbol(n, Decl(implementArrayInterface.jump, 30, 5))
+>T : Symbol(T, Decl(implementArrayInterface.jump, 0, 22))
+}
+

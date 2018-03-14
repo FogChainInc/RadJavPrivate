@@ -1,0 +1,9 @@
+tests/cases/conformance/parser/ecmascript5/EnumDeclarations/parserEnumDeclaration3.d.jump(1,1): error TS1046: A 'declare' modifier is required for a top level declaration in a .d.jump file.
+
+
+==== tests/cases/conformance/parser/ecmascript5/EnumDeclarations/parserEnumDeclaration3.d.jump (1 errors) ====
+    enum E {
+    ~~~~
+!!! error TS1046: A 'declare' modifier is required for a top level declaration in a .d.jump file.
+       A = 1
+    }

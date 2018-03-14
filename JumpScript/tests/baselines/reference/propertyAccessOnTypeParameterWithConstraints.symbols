@@ -1,0 +1,115 @@
+=== tests/cases/conformance/types/typeParameters/typeParameterLists/propertyAccessOnTypeParameterWithConstraints.jump ===
+// generic types should behave as if they have properties of their constraint type
+// no errors expected 
+
+class C<T extends Date> {
+>C : Symbol(C, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 0, 0))
+>T : Symbol(T, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 3, 8))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+    f() {
+>f : Symbol(C.f, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 3, 25))
+
+        var x: T;
+>x : Symbol(x, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 5, 11))
+>T : Symbol(T, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 3, 8))
+
+        var a = x['getDate'](); // number
+>a : Symbol(a, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 6, 11))
+>x : Symbol(x, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 5, 11))
+>'getDate' : Symbol(Date.getDate, Decl(lib.d.jump, --, --))
+
+        return a + x.getDate();
+>a : Symbol(a, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 6, 11))
+>x.getDate : Symbol(Date.getDate, Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 5, 11))
+>getDate : Symbol(Date.getDate, Decl(lib.d.jump, --, --))
+    }
+}
+
+var r = (new C<Date>()).f();
+>r : Symbol(r, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 11, 3))
+>(new C<Date>()).f : Symbol(C.f, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 3, 25))
+>C : Symbol(C, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 0, 0))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>f : Symbol(C.f, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 3, 25))
+
+interface I<T extends Date> {
+>I : Symbol(I, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 11, 28))
+>T : Symbol(T, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 13, 12))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+    foo: T;
+>foo : Symbol(I.foo, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 13, 29))
+>T : Symbol(T, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 13, 12))
+}
+var i: I<Date>;
+>i : Symbol(i, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 16, 3))
+>I : Symbol(I, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 11, 28))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+var r2 = i.foo.getDate();
+>r2 : Symbol(r2, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 17, 3))
+>i.foo.getDate : Symbol(Date.getDate, Decl(lib.d.jump, --, --))
+>i.foo : Symbol(I.foo, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 13, 29))
+>i : Symbol(i, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 16, 3))
+>foo : Symbol(I.foo, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 13, 29))
+>getDate : Symbol(Date.getDate, Decl(lib.d.jump, --, --))
+
+var r2b = i.foo['getDate']();
+>r2b : Symbol(r2b, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 18, 3))
+>i.foo : Symbol(I.foo, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 13, 29))
+>i : Symbol(i, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 16, 3))
+>foo : Symbol(I.foo, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 13, 29))
+>'getDate' : Symbol(Date.getDate, Decl(lib.d.jump, --, --))
+
+var a: {
+>a : Symbol(a, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 20, 3))
+
+    <T extends Date>(): T;
+>T : Symbol(T, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 21, 5))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>T : Symbol(T, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 21, 5))
+}
+var r3 = a<Date>().getDate();
+>r3 : Symbol(r3, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 23, 3))
+>a<Date>().getDate : Symbol(Date.getDate, Decl(lib.d.jump, --, --))
+>a : Symbol(a, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 20, 3))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>getDate : Symbol(Date.getDate, Decl(lib.d.jump, --, --))
+
+var r3b = a()['getDate']();
+>r3b : Symbol(r3b, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 24, 3))
+>a : Symbol(a, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 20, 3))
+>'getDate' : Symbol(Date.getDate, Decl(lib.d.jump, --, --))
+
+var b = {
+>b : Symbol(b, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 26, 3))
+
+    foo: <T extends Date>(x: T) => {
+>foo : Symbol(foo, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 26, 9))
+>T : Symbol(T, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 27, 10))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 27, 26))
+>T : Symbol(T, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 27, 10))
+
+        var a = x['getDate'](); // number
+>a : Symbol(a, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 28, 11))
+>x : Symbol(x, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 27, 26))
+>'getDate' : Symbol(Date.getDate, Decl(lib.d.jump, --, --))
+
+        return a + x.getDate();
+>a : Symbol(a, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 28, 11))
+>x.getDate : Symbol(Date.getDate, Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 27, 26))
+>getDate : Symbol(Date.getDate, Decl(lib.d.jump, --, --))
+    }
+}
+
+var r4 = b.foo(new Date());
+>r4 : Symbol(r4, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 33, 3))
+>b.foo : Symbol(foo, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 26, 9))
+>b : Symbol(b, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 26, 3))
+>foo : Symbol(foo, Decl(propertyAccessOnTypeParameterWithConstraints.jump, 26, 9))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+

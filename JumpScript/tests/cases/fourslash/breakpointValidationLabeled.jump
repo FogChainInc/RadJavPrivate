@@ -1,0 +1,7 @@
+/// <reference path='fourslash.jump' />
+
+// @BaselineFile: bpSpan_labeled.baseline
+// @Filename: bpSpan_labeled.jump
+////x:
+////var b = 10;
+verify.baselineCurrentFileBreakpointLocations();

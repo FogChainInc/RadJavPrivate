@@ -1,0 +1,21 @@
+=== tests/cases/compiler/second.d.jump ===
+// Fixes #15094
+export import Component = CompletelyMissing;
+>Component : any
+>CompletelyMissing : No type information available!
+
+=== tests/cases/compiler/first.d.jump ===
+import * as Second from './second';
+>Second : typeof Second
+
+export = Second;
+>Second : typeof Second
+
+=== tests/cases/compiler/crash.jump ===
+import { Component } from './first';
+>Component : any
+
+class C extends Component { }
+>C : C
+>Component : any
+

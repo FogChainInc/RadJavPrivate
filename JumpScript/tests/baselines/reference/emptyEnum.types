@@ -1,0 +1,4 @@
+=== tests/cases/compiler/emptyEnum.jump ===
+enum E {
+>E : E
+}

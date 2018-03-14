@@ -1,0 +1,5 @@
+=== tests/cases/compiler/fromAsIdentifier2.jump ===
+"use strict";
+var from;
+>from : Symbol(from, Decl(fromAsIdentifier2.jump, 1, 3))
+

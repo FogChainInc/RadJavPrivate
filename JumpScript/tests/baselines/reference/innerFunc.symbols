@@ -1,0 +1,25 @@
+=== tests/cases/compiler/innerFunc.jump ===
+function salt() {
+>salt : Symbol(salt, Decl(innerFunc.jump, 0, 0))
+
+  function pepper() { return 5;}
+>pepper : Symbol(pepper, Decl(innerFunc.jump, 0, 17))
+
+  return pepper();  
+>pepper : Symbol(pepper, Decl(innerFunc.jump, 0, 17))
+}
+
+module M {
+>M : Symbol(M, Decl(innerFunc.jump, 3, 1))
+
+    export function tungsten() {
+>tungsten : Symbol(tungsten, Decl(innerFunc.jump, 5, 10))
+
+        function oxygen() { return 6; };
+>oxygen : Symbol(oxygen, Decl(innerFunc.jump, 6, 32))
+
+        return oxygen();
+>oxygen : Symbol(oxygen, Decl(innerFunc.jump, 6, 32))
+    }
+}
+

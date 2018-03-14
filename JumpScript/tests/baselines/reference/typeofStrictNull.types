@@ -1,0 +1,8 @@
+=== tests/cases/compiler/typeofStrictNull.jump ===
+let a: number;
+>a : number
+
+let b: typeof a;
+>b : number
+>a : number
+

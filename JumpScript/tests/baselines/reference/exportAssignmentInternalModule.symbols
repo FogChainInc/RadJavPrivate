@@ -1,0 +1,21 @@
+=== tests/cases/compiler/exportAssignmentInternalModule_B.jump ===
+import modM = require("exportAssignmentInternalModule_A");
+>modM : Symbol(modM, Decl(exportAssignmentInternalModule_B.jump, 0, 0))
+
+var n: number = modM.x;
+>n : Symbol(n, Decl(exportAssignmentInternalModule_B.jump, 2, 3))
+>modM.x : Symbol(modM.x, Decl(exportAssignmentInternalModule_A.jump, 1, 11))
+>modM : Symbol(modM, Decl(exportAssignmentInternalModule_B.jump, 0, 0))
+>x : Symbol(modM.x, Decl(exportAssignmentInternalModule_A.jump, 1, 11))
+
+=== tests/cases/compiler/exportAssignmentInternalModule_A.jump ===
+module M {
+>M : Symbol(M, Decl(exportAssignmentInternalModule_A.jump, 0, 0))
+
+	export var x;
+>x : Symbol(x, Decl(exportAssignmentInternalModule_A.jump, 1, 11))
+}
+
+export = M;
+>M : Symbol(M, Decl(exportAssignmentInternalModule_A.jump, 0, 0))
+

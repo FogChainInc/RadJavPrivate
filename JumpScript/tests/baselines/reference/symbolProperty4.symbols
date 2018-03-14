@@ -1,0 +1,16 @@
+=== tests/cases/conformance/es6/Symbols/symbolProperty4.jump ===
+var x = {
+>x : Symbol(x, Decl(symbolProperty4.jump, 0, 3))
+
+    [Symbol()]: 0,
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+
+    [Symbol()]() { },
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+
+    get [Symbol()]() {
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+
+        return 0;
+    }
+}

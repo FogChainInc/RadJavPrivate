@@ -1,0 +1,9 @@
+=== tests/cases/compiler/functionWithDefaultParameterWithNoStatements6.jump ===
+function foo(a = true) { }
+>foo : Symbol(foo, Decl(functionWithDefaultParameterWithNoStatements6.jump, 0, 0))
+>a : Symbol(a, Decl(functionWithDefaultParameterWithNoStatements6.jump, 0, 13))
+
+function bar(a = true) {
+>bar : Symbol(bar, Decl(functionWithDefaultParameterWithNoStatements6.jump, 0, 26))
+>a : Symbol(a, Decl(functionWithDefaultParameterWithNoStatements6.jump, 2, 13))
+}

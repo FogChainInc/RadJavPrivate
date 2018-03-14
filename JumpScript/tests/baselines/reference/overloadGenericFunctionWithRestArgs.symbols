@@ -1,0 +1,38 @@
+=== tests/cases/compiler/overloadGenericFunctionWithRestArgs.jump ===
+class B<V>{
+>B : Symbol(B, Decl(overloadGenericFunctionWithRestArgs.jump, 0, 0))
+>V : Symbol(V, Decl(overloadGenericFunctionWithRestArgs.jump, 0, 8))
+
+    private id: V;
+>id : Symbol(B.id, Decl(overloadGenericFunctionWithRestArgs.jump, 0, 11))
+>V : Symbol(V, Decl(overloadGenericFunctionWithRestArgs.jump, 0, 8))
+}
+class A<U>{
+>A : Symbol(A, Decl(overloadGenericFunctionWithRestArgs.jump, 2, 1))
+>U : Symbol(U, Decl(overloadGenericFunctionWithRestArgs.jump, 3, 8))
+
+    GetEnumerator: () => B<U>;
+>GetEnumerator : Symbol(A.GetEnumerator, Decl(overloadGenericFunctionWithRestArgs.jump, 3, 11))
+>B : Symbol(B, Decl(overloadGenericFunctionWithRestArgs.jump, 0, 0))
+>U : Symbol(U, Decl(overloadGenericFunctionWithRestArgs.jump, 3, 8))
+}
+function Choice<T>(...v_args: T[]): A<T>;
+>Choice : Symbol(Choice, Decl(overloadGenericFunctionWithRestArgs.jump, 5, 1), Decl(overloadGenericFunctionWithRestArgs.jump, 6, 41))
+>T : Symbol(T, Decl(overloadGenericFunctionWithRestArgs.jump, 6, 16))
+>v_args : Symbol(v_args, Decl(overloadGenericFunctionWithRestArgs.jump, 6, 19))
+>T : Symbol(T, Decl(overloadGenericFunctionWithRestArgs.jump, 6, 16))
+>A : Symbol(A, Decl(overloadGenericFunctionWithRestArgs.jump, 2, 1))
+>T : Symbol(T, Decl(overloadGenericFunctionWithRestArgs.jump, 6, 16))
+
+function Choice<T>(...v_args: T[]): A<T> {
+>Choice : Symbol(Choice, Decl(overloadGenericFunctionWithRestArgs.jump, 5, 1), Decl(overloadGenericFunctionWithRestArgs.jump, 6, 41))
+>T : Symbol(T, Decl(overloadGenericFunctionWithRestArgs.jump, 7, 16))
+>v_args : Symbol(v_args, Decl(overloadGenericFunctionWithRestArgs.jump, 7, 19))
+>T : Symbol(T, Decl(overloadGenericFunctionWithRestArgs.jump, 7, 16))
+>A : Symbol(A, Decl(overloadGenericFunctionWithRestArgs.jump, 2, 1))
+>T : Symbol(T, Decl(overloadGenericFunctionWithRestArgs.jump, 7, 16))
+
+    return new A<T>();
+>A : Symbol(A, Decl(overloadGenericFunctionWithRestArgs.jump, 2, 1))
+>T : Symbol(T, Decl(overloadGenericFunctionWithRestArgs.jump, 7, 16))
+}

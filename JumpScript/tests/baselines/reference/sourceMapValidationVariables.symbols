@@ -1,0 +1,16 @@
+=== tests/cases/compiler/sourceMapValidationVariables.jump ===
+var a = 10;
+>a : Symbol(a, Decl(sourceMapValidationVariables.jump, 0, 3))
+
+var b;
+>b : Symbol(b, Decl(sourceMapValidationVariables.jump, 1, 3))
+
+var c = 10, d, e;
+>c : Symbol(c, Decl(sourceMapValidationVariables.jump, 2, 3))
+>d : Symbol(d, Decl(sourceMapValidationVariables.jump, 2, 11))
+>e : Symbol(e, Decl(sourceMapValidationVariables.jump, 2, 14))
+
+var c2, d2 = 10;
+>c2 : Symbol(c2, Decl(sourceMapValidationVariables.jump, 3, 3))
+>d2 : Symbol(d2, Decl(sourceMapValidationVariables.jump, 3, 7))
+

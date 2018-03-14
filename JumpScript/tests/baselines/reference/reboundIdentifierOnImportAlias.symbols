@@ -1,0 +1,17 @@
+=== tests/cases/compiler/reboundIdentifierOnImportAlias.jump ===
+module Foo {
+>Foo : Symbol(Foo, Decl(reboundIdentifierOnImportAlias.jump, 0, 0))
+
+    export var x = "hello";
+>x : Symbol(x, Decl(reboundIdentifierOnImportAlias.jump, 1, 14))
+}
+module Bar {
+>Bar : Symbol(Bar, Decl(reboundIdentifierOnImportAlias.jump, 2, 1))
+
+    var Foo = 1;
+>Foo : Symbol(Foo, Decl(reboundIdentifierOnImportAlias.jump, 4, 7))
+
+    import F = Foo;
+>F : Symbol(F, Decl(reboundIdentifierOnImportAlias.jump, 4, 16))
+>Foo : Symbol(F, Decl(reboundIdentifierOnImportAlias.jump, 0, 0))
+}

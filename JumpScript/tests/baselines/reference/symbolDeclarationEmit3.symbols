@@ -1,0 +1,22 @@
+=== tests/cases/conformance/es6/Symbols/symbolDeclarationEmit3.jump ===
+class C {
+>C : Symbol(C, Decl(symbolDeclarationEmit3.jump, 0, 0))
+
+    [Symbol.toPrimitive](x: number);
+>Symbol.toPrimitive : Symbol(SymbolConstructor.toPrimitive, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>toPrimitive : Symbol(SymbolConstructor.toPrimitive, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>x : Symbol(x, Decl(symbolDeclarationEmit3.jump, 1, 25))
+
+    [Symbol.toPrimitive](x: string);
+>Symbol.toPrimitive : Symbol(SymbolConstructor.toPrimitive, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>toPrimitive : Symbol(SymbolConstructor.toPrimitive, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>x : Symbol(x, Decl(symbolDeclarationEmit3.jump, 2, 25))
+
+    [Symbol.toPrimitive](x: any) { }
+>Symbol.toPrimitive : Symbol(SymbolConstructor.toPrimitive, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>toPrimitive : Symbol(SymbolConstructor.toPrimitive, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>x : Symbol(x, Decl(symbolDeclarationEmit3.jump, 3, 25))
+}

@@ -1,0 +1,36 @@
+=== tests/cases/compiler/superCallsInConstructor.jump ===
+class C {
+>C : Symbol(C, Decl(superCallsInConstructor.jump, 0, 0))
+
+    foo() {}
+>foo : Symbol(C.foo, Decl(superCallsInConstructor.jump, 0, 9))
+
+    bar() {}
+>bar : Symbol(C.bar, Decl(superCallsInConstructor.jump, 1, 12))
+}
+
+class Base {
+>Base : Symbol(Base, Decl(superCallsInConstructor.jump, 3, 1))
+
+    x: string;
+>x : Symbol(Base.x, Decl(superCallsInConstructor.jump, 5, 12))
+}
+ 
+class Derived extends Base {
+>Derived : Symbol(Derived, Decl(superCallsInConstructor.jump, 7, 1))
+>Base : Symbol(Base, Decl(superCallsInConstructor.jump, 3, 1))
+
+    constructor() {
+        with(new C()) {
+>C : Symbol(C, Decl(superCallsInConstructor.jump, 0, 0))
+
+            foo();
+            super();
+            bar();
+        }
+
+        try {} catch(e) { super(); }
+>e : Symbol(e, Decl(superCallsInConstructor.jump, 17, 21))
+>super : Symbol(Base, Decl(superCallsInConstructor.jump, 3, 1))
+    }
+}

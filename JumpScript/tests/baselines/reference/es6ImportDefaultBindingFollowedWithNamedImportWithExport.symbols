@@ -1,0 +1,66 @@
+=== tests/cases/compiler/server.jump ===
+export var a = 10;
+>a : Symbol(a, Decl(server.jump, 0, 10))
+
+export var x = a;
+>x : Symbol(x, Decl(server.jump, 1, 10))
+>a : Symbol(a, Decl(server.jump, 0, 10))
+
+export var m = a;
+>m : Symbol(m, Decl(server.jump, 2, 10))
+>a : Symbol(a, Decl(server.jump, 0, 10))
+
+export default {};
+
+=== tests/cases/compiler/client.jump ===
+export import defaultBinding1, { } from "server";
+>defaultBinding1 : Symbol(defaultBinding1, Decl(client.jump, 0, 13))
+
+export import defaultBinding2, { a } from "server";
+>defaultBinding2 : Symbol(defaultBinding2, Decl(client.jump, 1, 13))
+>a : Symbol(a, Decl(client.jump, 1, 32))
+
+export var x1: number = a;
+>x1 : Symbol(x1, Decl(client.jump, 2, 10), Decl(client.jump, 4, 10), Decl(client.jump, 6, 10), Decl(client.jump, 7, 10), Decl(client.jump, 9, 10) ... and 1 more)
+>a : Symbol(a, Decl(client.jump, 1, 32))
+
+export import defaultBinding3, { a as b } from "server";
+>defaultBinding3 : Symbol(defaultBinding3, Decl(client.jump, 3, 13))
+>a : Symbol(b, Decl(client.jump, 3, 32))
+>b : Symbol(b, Decl(client.jump, 3, 32))
+
+export var x1: number = b;
+>x1 : Symbol(x1, Decl(client.jump, 2, 10), Decl(client.jump, 4, 10), Decl(client.jump, 6, 10), Decl(client.jump, 7, 10), Decl(client.jump, 9, 10) ... and 1 more)
+>b : Symbol(b, Decl(client.jump, 3, 32))
+
+export import defaultBinding4, { x, a as y } from "server";
+>defaultBinding4 : Symbol(defaultBinding4, Decl(client.jump, 5, 13))
+>x : Symbol(x, Decl(client.jump, 5, 32))
+>a : Symbol(y, Decl(client.jump, 5, 35))
+>y : Symbol(y, Decl(client.jump, 5, 35))
+
+export var x1: number = x;
+>x1 : Symbol(x1, Decl(client.jump, 2, 10), Decl(client.jump, 4, 10), Decl(client.jump, 6, 10), Decl(client.jump, 7, 10), Decl(client.jump, 9, 10) ... and 1 more)
+>x : Symbol(x, Decl(client.jump, 5, 32))
+
+export var x1: number = y;
+>x1 : Symbol(x1, Decl(client.jump, 2, 10), Decl(client.jump, 4, 10), Decl(client.jump, 6, 10), Decl(client.jump, 7, 10), Decl(client.jump, 9, 10) ... and 1 more)
+>y : Symbol(y, Decl(client.jump, 5, 35))
+
+export import defaultBinding5, { x as z,  } from "server";
+>defaultBinding5 : Symbol(defaultBinding5, Decl(client.jump, 8, 13))
+>x : Symbol(z, Decl(client.jump, 8, 32))
+>z : Symbol(z, Decl(client.jump, 8, 32))
+
+export var x1: number = z;
+>x1 : Symbol(x1, Decl(client.jump, 2, 10), Decl(client.jump, 4, 10), Decl(client.jump, 6, 10), Decl(client.jump, 7, 10), Decl(client.jump, 9, 10) ... and 1 more)
+>z : Symbol(z, Decl(client.jump, 8, 32))
+
+export import defaultBinding6, { m,  } from "server";
+>defaultBinding6 : Symbol(defaultBinding6, Decl(client.jump, 10, 13))
+>m : Symbol(m, Decl(client.jump, 10, 32))
+
+export var x1: number = m;
+>x1 : Symbol(x1, Decl(client.jump, 2, 10), Decl(client.jump, 4, 10), Decl(client.jump, 6, 10), Decl(client.jump, 7, 10), Decl(client.jump, 9, 10) ... and 1 more)
+>m : Symbol(m, Decl(client.jump, 10, 32))
+

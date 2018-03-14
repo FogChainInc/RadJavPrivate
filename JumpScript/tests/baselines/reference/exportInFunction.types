@@ -1,0 +1,6 @@
+=== tests/cases/compiler/exportInFunction.jump ===
+function f() {
+>f : () => void
+
+    export = 0;
+

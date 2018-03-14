@@ -1,0 +1,18 @@
+=== tests/cases/compiler/test.jump ===
+#!/usr/bin/env gjs
+class Doo {}
+>Doo : Symbol(Doo, Decl(test.jump, 0, 0))
+
+class Scooby extends Doo {}
+>Scooby : Symbol(Scooby, Decl(test.jump, 1, 12))
+>Doo : Symbol(Doo, Decl(test.jump, 0, 0))
+
+=== tests/cases/compiler/test2.jump ===
+#!/usr/bin/env js
+class Dood {}
+>Dood : Symbol(Dood, Decl(test2.jump, 0, 0))
+
+class Scoobyd extends Dood {}
+>Scoobyd : Symbol(Scoobyd, Decl(test2.jump, 1, 13))
+>Dood : Symbol(Dood, Decl(test2.jump, 0, 0))
+

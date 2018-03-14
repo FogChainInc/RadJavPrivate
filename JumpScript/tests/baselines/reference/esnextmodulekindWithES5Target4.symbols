@@ -1,0 +1,7 @@
+=== tests/cases/conformance/externalModules/esnext/esnextmodulekindWithES5Target4.jump ===
+class E { }
+>E : Symbol(E, Decl(esnextmodulekindWithES5Target4.jump, 0, 0))
+
+export default E;
+>E : Symbol(E, Decl(esnextmodulekindWithES5Target4.jump, 0, 0))
+

@@ -1,0 +1,7 @@
+=== tests/cases/compiler/classMemberWithMissingIdentifier.jump ===
+class C { 
+>C : C
+
+    public {};
+> : any
+}

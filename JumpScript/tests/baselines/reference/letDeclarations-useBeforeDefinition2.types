@@ -1,0 +1,9 @@
+=== tests/cases/compiler/file1.jump ===
+l;
+>l : 0
+
+=== tests/cases/compiler/file2.jump ===
+const l = 0;
+>l : 0
+>0 : 0
+

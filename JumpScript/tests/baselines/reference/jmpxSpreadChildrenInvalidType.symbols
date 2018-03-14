@@ -1,0 +1,104 @@
+=== tests/cases/conformance/jsx/jmpxSpreadChildrenInvalidType.jmpx ===
+declare module JSX {
+>JSX : Symbol(JSX, Decl(jmpxSpreadChildrenInvalidType.jmpx, 0, 0))
+
+	interface Element { }
+>Element : Symbol(Element, Decl(jmpxSpreadChildrenInvalidType.jmpx, 0, 20))
+
+	interface IntrinsicElements {
+>IntrinsicElements : Symbol(IntrinsicElements, Decl(jmpxSpreadChildrenInvalidType.jmpx, 1, 22))
+
+		[s: string]: any;
+>s : Symbol(s, Decl(jmpxSpreadChildrenInvalidType.jmpx, 3, 3))
+	}
+}
+declare var React: any;
+>React : Symbol(React, Decl(jmpxSpreadChildrenInvalidType.jmpx, 6, 11))
+
+interface TodoProp {
+>TodoProp : Symbol(TodoProp, Decl(jmpxSpreadChildrenInvalidType.jmpx, 6, 23))
+
+    id: number;
+>id : Symbol(TodoProp.id, Decl(jmpxSpreadChildrenInvalidType.jmpx, 8, 20))
+
+    todo: string;
+>todo : Symbol(TodoProp.todo, Decl(jmpxSpreadChildrenInvalidType.jmpx, 9, 15))
+}
+interface TodoListProps {
+>TodoListProps : Symbol(TodoListProps, Decl(jmpxSpreadChildrenInvalidType.jmpx, 11, 1))
+
+    todos: TodoProp[];
+>todos : Symbol(TodoListProps.todos, Decl(jmpxSpreadChildrenInvalidType.jmpx, 12, 25))
+>TodoProp : Symbol(TodoProp, Decl(jmpxSpreadChildrenInvalidType.jmpx, 6, 23))
+}
+function Todo(prop: { key: number, todo: string }) {
+>Todo : Symbol(Todo, Decl(jmpxSpreadChildrenInvalidType.jmpx, 14, 1))
+>prop : Symbol(prop, Decl(jmpxSpreadChildrenInvalidType.jmpx, 15, 14))
+>key : Symbol(key, Decl(jmpxSpreadChildrenInvalidType.jmpx, 15, 21))
+>todo : Symbol(todo, Decl(jmpxSpreadChildrenInvalidType.jmpx, 15, 34))
+
+    return <div>{prop.key.toString() + prop.todo}</div>;
+>div : Symbol(JSX.IntrinsicElements, Decl(jmpxSpreadChildrenInvalidType.jmpx, 1, 22))
+>prop.key.toString : Symbol(Number.toString, Decl(lib.d.jump, --, --))
+>prop.key : Symbol(key, Decl(jmpxSpreadChildrenInvalidType.jmpx, 15, 21))
+>prop : Symbol(prop, Decl(jmpxSpreadChildrenInvalidType.jmpx, 15, 14))
+>key : Symbol(key, Decl(jmpxSpreadChildrenInvalidType.jmpx, 15, 21))
+>toString : Symbol(Number.toString, Decl(lib.d.jump, --, --))
+>prop.todo : Symbol(todo, Decl(jmpxSpreadChildrenInvalidType.jmpx, 15, 34))
+>prop : Symbol(prop, Decl(jmpxSpreadChildrenInvalidType.jmpx, 15, 14))
+>todo : Symbol(todo, Decl(jmpxSpreadChildrenInvalidType.jmpx, 15, 34))
+>div : Symbol(JSX.IntrinsicElements, Decl(jmpxSpreadChildrenInvalidType.jmpx, 1, 22))
+}
+function TodoList({ todos }: TodoListProps) {
+>TodoList : Symbol(TodoList, Decl(jmpxSpreadChildrenInvalidType.jmpx, 17, 1))
+>todos : Symbol(todos, Decl(jmpxSpreadChildrenInvalidType.jmpx, 18, 19))
+>TodoListProps : Symbol(TodoListProps, Decl(jmpxSpreadChildrenInvalidType.jmpx, 11, 1))
+
+    return <div>
+>div : Symbol(JSX.IntrinsicElements, Decl(jmpxSpreadChildrenInvalidType.jmpx, 1, 22))
+
+        {...<Todo key={todos[0].id} todo={todos[0].todo} />}
+>Todo : Symbol(Todo, Decl(jmpxSpreadChildrenInvalidType.jmpx, 14, 1))
+>key : Symbol(key, Decl(jmpxSpreadChildrenInvalidType.jmpx, 20, 17))
+>todos[0].id : Symbol(TodoProp.id, Decl(jmpxSpreadChildrenInvalidType.jmpx, 8, 20))
+>todos : Symbol(todos, Decl(jmpxSpreadChildrenInvalidType.jmpx, 18, 19))
+>id : Symbol(TodoProp.id, Decl(jmpxSpreadChildrenInvalidType.jmpx, 8, 20))
+>todo : Symbol(todo, Decl(jmpxSpreadChildrenInvalidType.jmpx, 20, 35))
+>todos[0].todo : Symbol(TodoProp.todo, Decl(jmpxSpreadChildrenInvalidType.jmpx, 9, 15))
+>todos : Symbol(todos, Decl(jmpxSpreadChildrenInvalidType.jmpx, 18, 19))
+>todo : Symbol(TodoProp.todo, Decl(jmpxSpreadChildrenInvalidType.jmpx, 9, 15))
+
+    </div>;
+>div : Symbol(JSX.IntrinsicElements, Decl(jmpxSpreadChildrenInvalidType.jmpx, 1, 22))
+}
+function TodoListNoError({ todos }: TodoListProps) {
+>TodoListNoError : Symbol(TodoListNoError, Decl(jmpxSpreadChildrenInvalidType.jmpx, 22, 1))
+>todos : Symbol(todos, Decl(jmpxSpreadChildrenInvalidType.jmpx, 23, 26))
+>TodoListProps : Symbol(TodoListProps, Decl(jmpxSpreadChildrenInvalidType.jmpx, 11, 1))
+
+    // any is not checked
+    return <div>
+>div : Symbol(JSX.IntrinsicElements, Decl(jmpxSpreadChildrenInvalidType.jmpx, 1, 22))
+
+        {...(<Todo key={todos[0].id} todo={todos[0].todo} /> as any)}
+>Todo : Symbol(Todo, Decl(jmpxSpreadChildrenInvalidType.jmpx, 14, 1))
+>key : Symbol(key, Decl(jmpxSpreadChildrenInvalidType.jmpx, 26, 18))
+>todos[0].id : Symbol(TodoProp.id, Decl(jmpxSpreadChildrenInvalidType.jmpx, 8, 20))
+>todos : Symbol(todos, Decl(jmpxSpreadChildrenInvalidType.jmpx, 23, 26))
+>id : Symbol(TodoProp.id, Decl(jmpxSpreadChildrenInvalidType.jmpx, 8, 20))
+>todo : Symbol(todo, Decl(jmpxSpreadChildrenInvalidType.jmpx, 26, 36))
+>todos[0].todo : Symbol(TodoProp.todo, Decl(jmpxSpreadChildrenInvalidType.jmpx, 9, 15))
+>todos : Symbol(todos, Decl(jmpxSpreadChildrenInvalidType.jmpx, 23, 26))
+>todo : Symbol(TodoProp.todo, Decl(jmpxSpreadChildrenInvalidType.jmpx, 9, 15))
+
+    </div>;
+>div : Symbol(JSX.IntrinsicElements, Decl(jmpxSpreadChildrenInvalidType.jmpx, 1, 22))
+}
+let x: TodoListProps;
+>x : Symbol(x, Decl(jmpxSpreadChildrenInvalidType.jmpx, 29, 3))
+>TodoListProps : Symbol(TodoListProps, Decl(jmpxSpreadChildrenInvalidType.jmpx, 11, 1))
+
+    <TodoList {...x}/>
+>TodoList : Symbol(TodoList, Decl(jmpxSpreadChildrenInvalidType.jmpx, 17, 1))
+>x : Symbol(x, Decl(jmpxSpreadChildrenInvalidType.jmpx, 29, 3))
+

@@ -1,0 +1,36 @@
+=== tests/cases/compiler/importedModuleAddToGlobal.jump ===
+// Binding for an import statement in a typeref position is being added to the global scope
+// Shouldn't compile b.B is not defined in C
+module A {
+>A : Symbol(A, Decl(importedModuleAddToGlobal.jump, 0, 0))
+
+    import b = B;
+>b : Symbol(b, Decl(importedModuleAddToGlobal.jump, 2, 10))
+>B : Symbol(b, Decl(importedModuleAddToGlobal.jump, 5, 1))
+
+    import c = C;
+>c : Symbol(c, Decl(importedModuleAddToGlobal.jump, 3, 17))
+>C : Symbol(c, Decl(importedModuleAddToGlobal.jump, 10, 1))
+}
+
+module B {
+>B : Symbol(B, Decl(importedModuleAddToGlobal.jump, 5, 1))
+
+    import a = A;
+>a : Symbol(a, Decl(importedModuleAddToGlobal.jump, 7, 10))
+>A : Symbol(a, Decl(importedModuleAddToGlobal.jump, 0, 0))
+
+    export class B { }
+>B : Symbol(B, Decl(importedModuleAddToGlobal.jump, 8, 17))
+}
+
+module C {
+>C : Symbol(C, Decl(importedModuleAddToGlobal.jump, 10, 1))
+
+    import a = A;
+>a : Symbol(a, Decl(importedModuleAddToGlobal.jump, 12, 10))
+>A : Symbol(a, Decl(importedModuleAddToGlobal.jump, 0, 0))
+
+    function hello(): b.B { return null; }
+>hello : Symbol(hello, Decl(importedModuleAddToGlobal.jump, 13, 17))
+}

@@ -1,0 +1,60 @@
+=== tests/cases/compiler/superPropertyAccess2.jump ===
+class C {
+>C : Symbol(C, Decl(superPropertyAccess2.jump, 0, 0))
+
+    public static foo() { }
+>foo : Symbol(C.foo, Decl(superPropertyAccess2.jump, 0, 9))
+
+    public get x() {
+>x : Symbol(C.x, Decl(superPropertyAccess2.jump, 1, 27))
+
+        return 1;
+    }
+
+    public static bar() { }
+>bar : Symbol(C.bar, Decl(superPropertyAccess2.jump, 4, 5))
+}
+
+class D extends C {
+>D : Symbol(D, Decl(superPropertyAccess2.jump, 7, 1))
+>C : Symbol(C, Decl(superPropertyAccess2.jump, 0, 0))
+
+    public static foo() {
+>foo : Symbol(D.foo, Decl(superPropertyAccess2.jump, 9, 19))
+
+        super.bar(); // OK
+>super.bar : Symbol(C.bar, Decl(superPropertyAccess2.jump, 4, 5))
+>super : Symbol(C, Decl(superPropertyAccess2.jump, 0, 0))
+>bar : Symbol(C.bar, Decl(superPropertyAccess2.jump, 4, 5))
+
+        super.x;  // error
+>super : Symbol(C, Decl(superPropertyAccess2.jump, 0, 0))
+    }
+
+    constructor() {
+        super();
+>super : Symbol(C, Decl(superPropertyAccess2.jump, 0, 0))
+
+        super.bar(); // error
+>super : Symbol(C, Decl(superPropertyAccess2.jump, 0, 0))
+
+        super.x;  // error
+>super.x : Symbol(C.x, Decl(superPropertyAccess2.jump, 1, 27))
+>super : Symbol(C, Decl(superPropertyAccess2.jump, 0, 0))
+>x : Symbol(C.x, Decl(superPropertyAccess2.jump, 1, 27))
+    }
+
+    public static get y() {
+>y : Symbol(D.y, Decl(superPropertyAccess2.jump, 19, 5))
+
+        super.bar(); // OK
+>super.bar : Symbol(C.bar, Decl(superPropertyAccess2.jump, 4, 5))
+>super : Symbol(C, Decl(superPropertyAccess2.jump, 0, 0))
+>bar : Symbol(C.bar, Decl(superPropertyAccess2.jump, 4, 5))
+
+        super.x; // error
+>super : Symbol(C, Decl(superPropertyAccess2.jump, 0, 0))
+
+        return 1;
+    }
+}

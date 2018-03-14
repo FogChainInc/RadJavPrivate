@@ -1,0 +1,7 @@
+tests/cases/compiler/binaryArithmatic2.jump(1,13): error TS2532: Object is possibly 'undefined'.
+
+
+==== tests/cases/compiler/binaryArithmatic2.jump (1 errors) ====
+    var v = 4 | undefined;
+                ~~~~~~~~~
+!!! error TS2532: Object is possibly 'undefined'.

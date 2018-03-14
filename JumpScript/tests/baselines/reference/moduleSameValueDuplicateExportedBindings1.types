@@ -1,0 +1,12 @@
+=== tests/cases/compiler/a.jump ===
+export * from "./b";
+No type information for this code.export * from "./c";
+No type information for this code.
+No type information for this code.=== tests/cases/compiler/b.jump ===
+export * from "./c";
+No type information for this code.
+No type information for this code.=== tests/cases/compiler/c.jump ===
+export var foo = 42;
+>foo : number
+>42 : 42
+

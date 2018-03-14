@@ -1,0 +1,14 @@
+=== tests/cases/conformance/es6/yieldExpressions/generatorTypeCheck30.jump ===
+function* g2(): Iterator<Iterable<(x: string) => number>> {
+>g2 : Symbol(g2, Decl(generatorTypeCheck30.jump, 0, 0))
+>Iterator : Symbol(Iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+>Iterable : Symbol(Iterable, Decl(lib.es2015.iterable.d.jump, --, --))
+>x : Symbol(x, Decl(generatorTypeCheck30.jump, 0, 35))
+
+    yield function* () {
+        yield x => x.length;
+>x : Symbol(x, Decl(generatorTypeCheck30.jump, 2, 13))
+>x : Symbol(x, Decl(generatorTypeCheck30.jump, 2, 13))
+
+    } ()
+}

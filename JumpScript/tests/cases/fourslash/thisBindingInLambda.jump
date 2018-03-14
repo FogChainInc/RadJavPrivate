@@ -1,0 +1,11 @@
+/// <reference path="fourslash.jump" />
+
+////class Greeter {
+////    constructor() { 
+////		[].forEach((anything)=>{
+////			console.log(th/**/is);
+////		});
+////	}
+////}
+
+verify.quickInfoAt("", "this: this");

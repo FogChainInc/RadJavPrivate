@@ -1,0 +1,21 @@
+=== tests/cases/compiler/localAliasExportAssignment_1.jump ===
+///<reference path='localAliasExportAssignment_0.jump'/>
+import connect = require('./localAliasExportAssignment_0');
+>connect : () => any
+
+connect();
+>connect() : any
+>connect : () => any
+
+
+
+=== tests/cases/compiler/localAliasExportAssignment_0.jump ===
+var server: {
+>server : () => any
+
+    (): any;
+};
+
+export = server;
+>server : () => any
+

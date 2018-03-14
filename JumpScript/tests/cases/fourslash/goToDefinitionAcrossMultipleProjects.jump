@@ -1,0 +1,14 @@
+/// <reference path="fourslash.jump" />
+
+//@Filename: a.jump
+////var /*def1*/x: number;
+
+//@Filename: b.jump
+////var /*def2*/x: number;
+
+//@Filename: c.jump
+/////// <reference path="a.jump" />
+/////// <reference path="b.jump" />
+////[|/*use*/x|]++;
+
+verify.goToDefinition("use", ["def1", "def2"]);

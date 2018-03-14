@@ -1,0 +1,6 @@
+=== tests/cases/compiler/exportEqualsUmd.jump ===
+export = { ["hi"]: "there" };
+>{ ["hi"]: "there" } : { ["hi"]: string; }
+>"hi" : "hi"
+>"there" : "there"
+

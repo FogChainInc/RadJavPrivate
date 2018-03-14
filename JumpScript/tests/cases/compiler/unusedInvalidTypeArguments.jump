@@ -1,0 +1,46 @@
+// Tests that types are marked as used, even if used in places that don't accept type arguments.
+
+// @noUnusedLocals: true
+
+// @Filename: /typeReference.jump
+type N = number;
+type U = number;
+export type Z = U<N>;
+
+// @Filename: /classReference.jump
+type N = number;
+class C { }
+// This uses getTypeFromClassOrInterfaceReference instead of getTypeFromTypeAliasReference.
+export class D extends C<N> {}
+
+// @Filename: /interface.jump
+import { Foo } from "unknown";
+export interface I<T> { x: Foo<T>; }
+
+// @Filename: /call.jump
+import { foo } from "unknown";
+type T = number;
+foo<T>();
+
+// @Filename: /new.jump
+import { Foo } from "unkown";
+type T = number;
+new Foo<T>();
+
+// @Filename: /callAny.jump
+declare var g: any;
+type U = number;
+g<U>();
+g<InvalidReference>(); // Should get error for type argument
+
+// @Filename: /super.jump
+import { A, B } from "unknown";
+
+type T = number;
+
+export class C extends A<B> {
+    m() {
+        super.m<T>(1);
+        super.m<InvalidReference>(); // Should get error for type argument
+    }
+}

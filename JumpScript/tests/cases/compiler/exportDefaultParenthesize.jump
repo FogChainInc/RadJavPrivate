@@ -1,0 +1,36 @@
+// @target: es5
+// @module: esnext
+// @filename: commalist.jump
+export default {
+    ['foo'+'']: 42,
+    ['foo'+'']: 42,
+    ['foo'+'']: 42,
+    ['foo'+'']: 42,
+    ['foo'+'']: 42,
+    ['foo'+'']: 42,
+    ['foo'+'']: 42,
+    ['foo'+'']: 42,
+    ['foo'+'']: 42,
+    ['foo'+'']: 42,
+    ['foo'+'']: 42,
+    ['foo'+'']: 42,
+    ['foo'+'']: 42,
+    ['foo'+'']: 42,
+    ['foo'+'']: 42,
+    ['foo'+'']: 42,
+    ['foo'+'']: 42,
+    ['foo'+'']: 42,
+    ['foo'+'']: 42,
+    ['foo'+'']: 42,
+    ['foo'+'']: 42,
+    ['foo'+'']: 42,
+    ['foo'+'']: 42,
+};
+
+// @filename: comma.jump
+export default {
+    ['foo']: 42
+};
+
+// @filename: functionexpression.jump
+export default () => 42;

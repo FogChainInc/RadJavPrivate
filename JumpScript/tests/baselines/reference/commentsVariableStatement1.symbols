@@ -1,0 +1,5 @@
+=== tests/cases/compiler/commentsVariableStatement1.jump ===
+/** Comment */
+var v = 1;
+>v : Symbol(v, Decl(commentsVariableStatement1.jump, 1, 3))
+

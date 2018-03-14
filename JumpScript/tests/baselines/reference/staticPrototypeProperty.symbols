@@ -1,0 +1,14 @@
+=== tests/cases/compiler/staticPrototypeProperty.jump ===
+class C {
+>C : Symbol(C, Decl(staticPrototypeProperty.jump, 0, 0))
+
+   static prototype() { }
+>prototype : Symbol(C.prototype, Decl(staticPrototypeProperty.jump, 0, 9))
+}
+ 
+class C2 {
+>C2 : Symbol(C2, Decl(staticPrototypeProperty.jump, 2, 1))
+
+   static prototype;
+>prototype : Symbol(C2.prototype, Decl(staticPrototypeProperty.jump, 4, 10))
+}

@@ -1,0 +1,10 @@
+=== tests/cases/compiler/b.jump ===
+import y = require("a"); 
+>y : Symbol(y, Decl(b.jump, 0, 0))
+
+=== tests/cases/compiler/node_modules/a/index.d.jump ===
+declare module "a" {
+    var x: number;
+>x : Symbol(x, Decl(index.d.jump, 1, 7))
+}
+

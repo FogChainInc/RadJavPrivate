@@ -1,0 +1,26 @@
+=== tests/cases/compiler/classExpressionWithStaticPropertiesES62.jump ===
+var v = class C {
+>v : Symbol(v, Decl(classExpressionWithStaticPropertiesES62.jump, 0, 3))
+>C : Symbol(C, Decl(classExpressionWithStaticPropertiesES62.jump, 0, 7))
+
+    static a = 1;
+>a : Symbol(C.a, Decl(classExpressionWithStaticPropertiesES62.jump, 0, 17))
+
+    static b
+>b : Symbol(C.b, Decl(classExpressionWithStaticPropertiesES62.jump, 1, 17))
+
+    static c = {
+>c : Symbol(C.c, Decl(classExpressionWithStaticPropertiesES62.jump, 2, 12))
+
+        x: "hi"
+>x : Symbol(x, Decl(classExpressionWithStaticPropertiesES62.jump, 3, 16))
+    }
+    static d = C.c.x + " world";
+>d : Symbol(C.d, Decl(classExpressionWithStaticPropertiesES62.jump, 5, 5))
+>C.c.x : Symbol(x, Decl(classExpressionWithStaticPropertiesES62.jump, 3, 16))
+>C.c : Symbol(C.c, Decl(classExpressionWithStaticPropertiesES62.jump, 2, 12))
+>C : Symbol(C, Decl(classExpressionWithStaticPropertiesES62.jump, 0, 7))
+>c : Symbol(C.c, Decl(classExpressionWithStaticPropertiesES62.jump, 2, 12))
+>x : Symbol(x, Decl(classExpressionWithStaticPropertiesES62.jump, 3, 16))
+
+ };

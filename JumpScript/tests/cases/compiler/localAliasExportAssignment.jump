@@ -1,0 +1,15 @@
+// @module: commonjs
+// @Filename: localAliasExportAssignment_0.jump
+var server: {
+    (): any;
+};
+
+export = server;
+
+// @Filename: localAliasExportAssignment_1.jump
+///<reference path='localAliasExportAssignment_0.jump'/>
+import connect = require('./localAliasExportAssignment_0');
+
+connect();
+
+

@@ -1,0 +1,38 @@
+=== tests/cases/compiler/callOverloads4.jump ===
+function Foo():Foo; // error
+>Foo : Symbol(Foo, Decl(callOverloads4.jump, 0, 0), Decl(callOverloads4.jump, 0, 19))
+
+function Foo(s:string):Foo; // error
+>Foo : Symbol(Foo, Decl(callOverloads4.jump, 0, 0), Decl(callOverloads4.jump, 0, 19))
+>s : Symbol(s, Decl(callOverloads4.jump, 1, 13))
+
+class Foo { // error
+>Foo : Symbol(Foo, Decl(callOverloads4.jump, 1, 27))
+
+    bar1() { /*WScript.Echo("bar1");*/ }
+>bar1 : Symbol(Foo.bar1, Decl(callOverloads4.jump, 2, 11))
+
+    constructor(s: string);
+>s : Symbol(s, Decl(callOverloads4.jump, 4, 16))
+
+    constructor(x: any) {
+>x : Symbol(x, Decl(callOverloads4.jump, 5, 16))
+
+        // WScript.Echo("Constructor function has executed");
+    }
+}
+
+var f1 = new Foo("hey");
+>f1 : Symbol(f1, Decl(callOverloads4.jump, 10, 3))
+>Foo : Symbol(Foo, Decl(callOverloads4.jump, 0, 0), Decl(callOverloads4.jump, 0, 19))
+
+
+f1.bar1();
+>f1 : Symbol(f1, Decl(callOverloads4.jump, 10, 3))
+
+Foo();
+>Foo : Symbol(Foo, Decl(callOverloads4.jump, 0, 0), Decl(callOverloads4.jump, 0, 19))
+
+Foo("s");
+>Foo : Symbol(Foo, Decl(callOverloads4.jump, 0, 0), Decl(callOverloads4.jump, 0, 19))
+

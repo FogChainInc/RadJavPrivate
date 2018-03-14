@@ -1,0 +1,4 @@
+=== tests/cases/compiler/es5ExportDefaultFunctionDeclaration.jump ===
+export default function f() { }
+>f : () => void
+

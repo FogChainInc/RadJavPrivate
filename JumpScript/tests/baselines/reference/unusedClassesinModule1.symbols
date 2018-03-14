@@ -1,0 +1,12 @@
+=== tests/cases/compiler/unusedClassesinModule1.jump ===
+module A {
+>A : Symbol(A, Decl(unusedClassesinModule1.jump, 0, 0))
+
+    class Calculator {
+>Calculator : Symbol(Calculator, Decl(unusedClassesinModule1.jump, 0, 10))
+
+        public handelChar() {
+>handelChar : Symbol(Calculator.handelChar, Decl(unusedClassesinModule1.jump, 1, 22))
+        }
+    }
+}

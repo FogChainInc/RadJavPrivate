@@ -1,0 +1,9 @@
+=== tests/cases/conformance/statements/for-inStatements/for-inStatementsDestructuring3.jump ===
+var a, b;
+>a : Symbol(a, Decl(for-inStatementsDestructuring3.jump, 0, 3))
+>b : Symbol(b, Decl(for-inStatementsDestructuring3.jump, 0, 6))
+
+for ([a, b] in []) { }
+>a : Symbol(a, Decl(for-inStatementsDestructuring3.jump, 0, 3))
+>b : Symbol(b, Decl(for-inStatementsDestructuring3.jump, 0, 6))
+

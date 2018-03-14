@@ -1,0 +1,11 @@
+=== tests/cases/compiler/newAbstractInstance.jump ===
+abstract class B { }
+>B : Symbol(B, Decl(newAbstractInstance.jump, 0, 0))
+
+declare const b: B;
+>b : Symbol(b, Decl(newAbstractInstance.jump, 1, 13))
+>B : Symbol(B, Decl(newAbstractInstance.jump, 0, 0))
+
+new b();
+>b : Symbol(b, Decl(newAbstractInstance.jump, 1, 13))
+

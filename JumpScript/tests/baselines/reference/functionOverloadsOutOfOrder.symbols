@@ -1,0 +1,38 @@
+=== tests/cases/compiler/functionOverloadsOutOfOrder.jump ===
+class d {
+>d : Symbol(d, Decl(functionOverloadsOutOfOrder.jump, 0, 0))
+
+    private foo(n: number): string;
+>foo : Symbol(d.foo, Decl(functionOverloadsOutOfOrder.jump, 0, 9), Decl(functionOverloadsOutOfOrder.jump, 1, 35), Decl(functionOverloadsOutOfOrder.jump, 4, 5))
+>n : Symbol(n, Decl(functionOverloadsOutOfOrder.jump, 1, 16))
+
+    private foo(ns: any) {
+>foo : Symbol(d.foo, Decl(functionOverloadsOutOfOrder.jump, 0, 9), Decl(functionOverloadsOutOfOrder.jump, 1, 35), Decl(functionOverloadsOutOfOrder.jump, 4, 5))
+>ns : Symbol(ns, Decl(functionOverloadsOutOfOrder.jump, 2, 16))
+
+        return ns.toString();
+>ns : Symbol(ns, Decl(functionOverloadsOutOfOrder.jump, 2, 16))
+    }
+    private foo(s: string): string;
+>foo : Symbol(d.foo, Decl(functionOverloadsOutOfOrder.jump, 0, 9), Decl(functionOverloadsOutOfOrder.jump, 1, 35), Decl(functionOverloadsOutOfOrder.jump, 4, 5))
+>s : Symbol(s, Decl(functionOverloadsOutOfOrder.jump, 5, 16))
+}
+
+class e {
+>e : Symbol(e, Decl(functionOverloadsOutOfOrder.jump, 6, 1))
+
+    private foo(ns: any) {
+>foo : Symbol(e.foo, Decl(functionOverloadsOutOfOrder.jump, 8, 9), Decl(functionOverloadsOutOfOrder.jump, 11, 5), Decl(functionOverloadsOutOfOrder.jump, 12, 35))
+>ns : Symbol(ns, Decl(functionOverloadsOutOfOrder.jump, 9, 16))
+
+        return ns.toString();
+>ns : Symbol(ns, Decl(functionOverloadsOutOfOrder.jump, 9, 16))
+    }
+    private foo(s: string): string;
+>foo : Symbol(e.foo, Decl(functionOverloadsOutOfOrder.jump, 8, 9), Decl(functionOverloadsOutOfOrder.jump, 11, 5), Decl(functionOverloadsOutOfOrder.jump, 12, 35))
+>s : Symbol(s, Decl(functionOverloadsOutOfOrder.jump, 12, 16))
+
+    private foo(n: number): string;
+>foo : Symbol(e.foo, Decl(functionOverloadsOutOfOrder.jump, 8, 9), Decl(functionOverloadsOutOfOrder.jump, 11, 5), Decl(functionOverloadsOutOfOrder.jump, 12, 35))
+>n : Symbol(n, Decl(functionOverloadsOutOfOrder.jump, 13, 16))
+}

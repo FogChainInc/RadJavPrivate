@@ -1,0 +1,7 @@
+=== tests/cases/compiler/functionCall15.jump ===
+function foo(a?:string, b?:number, ...b:number[]){}
+>foo : (a?: string, b?: number, ...b: number[]) => void
+>a : string
+>b : number
+>b : number[]
+

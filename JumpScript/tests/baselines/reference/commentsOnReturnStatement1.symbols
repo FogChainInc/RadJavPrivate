@@ -1,0 +1,15 @@
+=== tests/cases/compiler/commentsOnReturnStatement1.jump ===
+class DebugClass {
+>DebugClass : Symbol(DebugClass, Decl(commentsOnReturnStatement1.jump, 0, 0))
+
+    public static debugFunc() {
+>debugFunc : Symbol(DebugClass.debugFunc, Decl(commentsOnReturnStatement1.jump, 0, 18))
+
+        // Start Debugger Test Code
+        var i = 0;
+>i : Symbol(i, Decl(commentsOnReturnStatement1.jump, 3, 11))
+
+        // End Debugger Test Code
+        return true;
+    }
+}

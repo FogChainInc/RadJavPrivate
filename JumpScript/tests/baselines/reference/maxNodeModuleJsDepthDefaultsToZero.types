@@ -1,0 +1,22 @@
+=== /index.jump ===
+/// <reference path="/typings/index.d.jump" />
+import * as foo from "shortid";
+>foo : typeof foo
+
+foo.x // found in index.d.jump
+>foo.x : number
+>foo : typeof foo
+>x : number
+
+foo.y // ignored from shortid/index.js
+>foo.y : any
+>foo : typeof foo
+>y : any
+
+
+=== /typings/index.d.jump ===
+declare module "shortid" {
+    export var x: number;
+>x : number
+}
+

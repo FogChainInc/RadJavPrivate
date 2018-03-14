@@ -1,0 +1,92 @@
+=== tests/cases/conformance/jsx/file.jmpx ===
+import React = require('react');
+>React : Symbol(React, Decl(file.jmpx, 0, 0))
+
+interface PoisonedProp {
+>PoisonedProp : Symbol(PoisonedProp, Decl(file.jmpx, 0, 32))
+
+    x: string;
+>x : Symbol(PoisonedProp.x, Decl(file.jmpx, 2, 24))
+
+    y: 2;
+>y : Symbol(PoisonedProp.y, Decl(file.jmpx, 3, 14))
+}
+
+class Poisoned extends React.Component<PoisonedProp, {}> {
+>Poisoned : Symbol(Poisoned, Decl(file.jmpx, 5, 1))
+>React.Component : Symbol(React.Component, Decl(react.d.jump, 158, 55), Decl(react.d.jump, 161, 66))
+>React : Symbol(React, Decl(file.jmpx, 0, 0))
+>Component : Symbol(React.Component, Decl(react.d.jump, 158, 55), Decl(react.d.jump, 161, 66))
+>PoisonedProp : Symbol(PoisonedProp, Decl(file.jmpx, 0, 32))
+
+    render() {
+>render : Symbol(Poisoned.render, Decl(file.jmpx, 7, 58))
+
+        return <div>Hello</div>;
+>div : Symbol(JSX.IntrinsicElements.div, Decl(react.d.jump, 2400, 45))
+>div : Symbol(JSX.IntrinsicElements.div, Decl(react.d.jump, 2400, 45))
+    }
+}
+
+const obj: PoisonedProp = {
+>obj : Symbol(obj, Decl(file.jmpx, 13, 5))
+>PoisonedProp : Symbol(PoisonedProp, Decl(file.jmpx, 0, 32))
+
+    x: "hello world",
+>x : Symbol(x, Decl(file.jmpx, 13, 27))
+
+    y: 2
+>y : Symbol(y, Decl(file.jmpx, 14, 21))
+
+};
+
+// OK
+let p = <Poisoned {...obj} />;
+>p : Symbol(p, Decl(file.jmpx, 19, 3))
+>Poisoned : Symbol(Poisoned, Decl(file.jmpx, 5, 1))
+>obj : Symbol(obj, Decl(file.jmpx, 13, 5))
+
+class EmptyProp extends React.Component<{}, {}> {
+>EmptyProp : Symbol(EmptyProp, Decl(file.jmpx, 19, 30))
+>React.Component : Symbol(React.Component, Decl(react.d.jump, 158, 55), Decl(react.d.jump, 161, 66))
+>React : Symbol(React, Decl(file.jmpx, 0, 0))
+>Component : Symbol(React.Component, Decl(react.d.jump, 158, 55), Decl(react.d.jump, 161, 66))
+
+    render() {
+>render : Symbol(EmptyProp.render, Decl(file.jmpx, 21, 49))
+
+        return <div>Default hi</div>;
+>div : Symbol(JSX.IntrinsicElements.div, Decl(react.d.jump, 2400, 45))
+>div : Symbol(JSX.IntrinsicElements.div, Decl(react.d.jump, 2400, 45))
+    }
+}
+
+// OK
+let j: any;
+>j : Symbol(j, Decl(file.jmpx, 28, 3))
+
+let e1 = <EmptyProp {...{}} />;
+>e1 : Symbol(e1, Decl(file.jmpx, 29, 3))
+>EmptyProp : Symbol(EmptyProp, Decl(file.jmpx, 19, 30))
+
+let e2 = <EmptyProp {...j} />
+>e2 : Symbol(e2, Decl(file.jmpx, 30, 3))
+>EmptyProp : Symbol(EmptyProp, Decl(file.jmpx, 19, 30))
+>j : Symbol(j, Decl(file.jmpx, 28, 3))
+
+let e3 = <EmptyProp {...{ ref: (input) => { this.textInput = input; } }} />
+>e3 : Symbol(e3, Decl(file.jmpx, 31, 3))
+>EmptyProp : Symbol(EmptyProp, Decl(file.jmpx, 19, 30))
+>ref : Symbol(ref, Decl(file.jmpx, 31, 25))
+>input : Symbol(input, Decl(file.jmpx, 31, 32))
+>input : Symbol(input, Decl(file.jmpx, 31, 32))
+
+let e4 = <EmptyProp data-prop />
+>e4 : Symbol(e4, Decl(file.jmpx, 32, 3))
+>EmptyProp : Symbol(EmptyProp, Decl(file.jmpx, 19, 30))
+>data-prop : Symbol(data-prop, Decl(file.jmpx, 32, 19))
+
+let e5 = <EmptyProp {...{ "data-prop": true}} />
+>e5 : Symbol(e5, Decl(file.jmpx, 33, 3))
+>EmptyProp : Symbol(EmptyProp, Decl(file.jmpx, 19, 30))
+

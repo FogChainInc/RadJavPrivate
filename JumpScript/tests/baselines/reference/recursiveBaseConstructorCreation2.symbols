@@ -1,0 +1,24 @@
+=== tests/cases/compiler/recursiveBaseConstructorCreation2.jump ===
+declare class base
+>base : Symbol(base, Decl(recursiveBaseConstructorCreation2.jump, 0, 0))
+{
+}
+declare class abc extends base
+>abc : Symbol(abc, Decl(recursiveBaseConstructorCreation2.jump, 2, 1))
+>base : Symbol(base, Decl(recursiveBaseConstructorCreation2.jump, 0, 0))
+{
+   foo: xyz;
+>foo : Symbol(abc.foo, Decl(recursiveBaseConstructorCreation2.jump, 4, 1))
+>xyz : Symbol(xyz, Decl(recursiveBaseConstructorCreation2.jump, 6, 1))
+}
+declare class xyz extends abc
+>xyz : Symbol(xyz, Decl(recursiveBaseConstructorCreation2.jump, 6, 1))
+>abc : Symbol(abc, Decl(recursiveBaseConstructorCreation2.jump, 2, 1))
+{
+}
+ 
+var bar = new xyz(); // Error: Invalid 'new' expression.
+>bar : Symbol(bar, Decl(recursiveBaseConstructorCreation2.jump, 11, 3))
+>xyz : Symbol(xyz, Decl(recursiveBaseConstructorCreation2.jump, 6, 1))
+ 
+

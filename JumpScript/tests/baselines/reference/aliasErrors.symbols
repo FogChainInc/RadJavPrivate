@@ -1,0 +1,85 @@
+=== tests/cases/compiler/aliasErrors.jump ===
+module foo {    
+>foo : Symbol(foo, Decl(aliasErrors.jump, 0, 0))
+
+    export class Provide {
+>Provide : Symbol(Provide, Decl(aliasErrors.jump, 0, 12))
+    }
+    export module bar { export module baz {export class boo {}}}
+>bar : Symbol(bar, Decl(aliasErrors.jump, 2, 5))
+>baz : Symbol(baz, Decl(aliasErrors.jump, 3, 23))
+>boo : Symbol(boo, Decl(aliasErrors.jump, 3, 43))
+}
+
+import provide = foo;
+>provide : Symbol(provide, Decl(aliasErrors.jump, 4, 1))
+>foo : Symbol(foo, Decl(aliasErrors.jump, 0, 0))
+
+import booz = foo.bar.baz;
+>booz : Symbol(booz, Decl(aliasErrors.jump, 6, 21))
+>foo : Symbol(foo, Decl(aliasErrors.jump, 0, 0))
+>bar : Symbol(provide.bar, Decl(aliasErrors.jump, 2, 5))
+>baz : Symbol(booz, Decl(aliasErrors.jump, 3, 23))
+
+import beez = foo.bar;
+>beez : Symbol(beez, Decl(aliasErrors.jump, 7, 26))
+>foo : Symbol(foo, Decl(aliasErrors.jump, 0, 0))
+>bar : Symbol(provide.bar, Decl(aliasErrors.jump, 2, 5))
+
+import m = no;
+>m : Symbol(m, Decl(aliasErrors.jump, 8, 22))
+
+import m2 = no.mod;
+>m2 : Symbol(m2, Decl(aliasErrors.jump, 10, 14))
+
+import n = 5;
+>n : Symbol(n, Decl(aliasErrors.jump, 11, 19))
+
+import o = "s";
+>o : Symbol(o, Decl(aliasErrors.jump, 12, 13))
+
+import q = null;
+>q : Symbol(q, Decl(aliasErrors.jump, 13, 15))
+
+import r = undefined;
+>r : Symbol(r, Decl(aliasErrors.jump, 14, 16))
+
+
+var p = new provide.Provide();
+>p : Symbol(p, Decl(aliasErrors.jump, 18, 3))
+>provide.Provide : Symbol(provide.Provide, Decl(aliasErrors.jump, 0, 12))
+>provide : Symbol(provide, Decl(aliasErrors.jump, 4, 1))
+>Provide : Symbol(provide.Provide, Decl(aliasErrors.jump, 0, 12))
+
+function use() {
+>use : Symbol(use, Decl(aliasErrors.jump, 18, 30))
+    
+  beez.baz.boo;
+>beez.baz.boo : Symbol(booz.boo, Decl(aliasErrors.jump, 3, 43))
+>beez.baz : Symbol(booz, Decl(aliasErrors.jump, 3, 23))
+>beez : Symbol(beez, Decl(aliasErrors.jump, 7, 26))
+>baz : Symbol(booz, Decl(aliasErrors.jump, 3, 23))
+>boo : Symbol(booz.boo, Decl(aliasErrors.jump, 3, 43))
+
+  var p1: provide.Provide; 
+>p1 : Symbol(p1, Decl(aliasErrors.jump, 23, 5))
+>provide : Symbol(provide, Decl(aliasErrors.jump, 4, 1))
+>Provide : Symbol(provide.Provide, Decl(aliasErrors.jump, 0, 12))
+
+  var p2: foo.Provide;
+>p2 : Symbol(p2, Decl(aliasErrors.jump, 24, 5))
+>foo : Symbol(foo, Decl(aliasErrors.jump, 0, 0))
+>Provide : Symbol(provide.Provide, Decl(aliasErrors.jump, 0, 12))
+
+  var p3:booz.bar;
+>p3 : Symbol(p3, Decl(aliasErrors.jump, 25, 5))
+>booz : Symbol(booz, Decl(aliasErrors.jump, 6, 21))
+
+  var p22 = new provide.Provide();
+>p22 : Symbol(p22, Decl(aliasErrors.jump, 26, 5))
+>provide.Provide : Symbol(provide.Provide, Decl(aliasErrors.jump, 0, 12))
+>provide : Symbol(provide, Decl(aliasErrors.jump, 4, 1))
+>Provide : Symbol(provide.Provide, Decl(aliasErrors.jump, 0, 12))
+}
+
+

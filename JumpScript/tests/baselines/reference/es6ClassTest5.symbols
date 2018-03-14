@@ -1,0 +1,26 @@
+=== tests/cases/compiler/es6ClassTest5.jump ===
+class C1T5 {
+>C1T5 : Symbol(C1T5, Decl(es6ClassTest5.jump, 0, 0))
+
+    foo: (i: number, s: string) => number = 
+>foo : Symbol(C1T5.foo, Decl(es6ClassTest5.jump, 0, 12))
+>i : Symbol(i, Decl(es6ClassTest5.jump, 1, 10))
+>s : Symbol(s, Decl(es6ClassTest5.jump, 1, 20))
+
+	   	(i) => {
+>i : Symbol(i, Decl(es6ClassTest5.jump, 2, 6))
+
+	        return i;
+>i : Symbol(i, Decl(es6ClassTest5.jump, 2, 6))
+	    }
+}
+module C2T5 {}
+>C2T5 : Symbol(C2T5, Decl(es6ClassTest5.jump, 5, 1))
+
+class  bigClass {
+>bigClass : Symbol(bigClass, Decl(es6ClassTest5.jump, 6, 14))
+
+     public break = 1;
+>break : Symbol(bigClass.break, Decl(es6ClassTest5.jump, 8, 17))
+}
+

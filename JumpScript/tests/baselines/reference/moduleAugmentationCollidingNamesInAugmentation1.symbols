@@ -1,0 +1,56 @@
+=== tests/cases/compiler/map1.jump ===
+import { Observable } from "./observable"
+>Observable : Symbol(Observable, Decl(map1.jump, 0, 8))
+
+(<any>Observable.prototype).map = function() { }
+>Observable.prototype : Symbol(Observable.prototype)
+>Observable : Symbol(Observable, Decl(map1.jump, 0, 8))
+>prototype : Symbol(Observable.prototype)
+
+declare module "./observable" {
+    interface I {x0}
+>I : Symbol(I, Decl(map1.jump, 4, 31), Decl(map2.jump, 4, 31))
+>x0 : Symbol(I.x0, Decl(map1.jump, 5, 17))
+}
+
+=== tests/cases/compiler/map2.jump ===
+import { Observable } from "./observable"
+>Observable : Symbol(Observable, Decl(map2.jump, 0, 8))
+
+(<any>Observable.prototype).map = function() { }
+>Observable.prototype : Symbol(Observable.prototype)
+>Observable : Symbol(Observable, Decl(map2.jump, 0, 8))
+>prototype : Symbol(Observable.prototype)
+
+declare module "./observable" {
+    interface I {x1}
+>I : Symbol(I, Decl(map1.jump, 4, 31), Decl(map2.jump, 4, 31))
+>x1 : Symbol(I.x1, Decl(map2.jump, 5, 17))
+}
+
+
+=== tests/cases/compiler/observable.jump ===
+export declare class Observable<T> {
+>Observable : Symbol(Observable, Decl(observable.jump, 0, 0))
+>T : Symbol(T, Decl(observable.jump, 0, 32))
+
+    filter(pred: (e:T) => boolean): Observable<T>;
+>filter : Symbol(Observable.filter, Decl(observable.jump, 0, 36))
+>pred : Symbol(pred, Decl(observable.jump, 1, 11))
+>e : Symbol(e, Decl(observable.jump, 1, 18))
+>T : Symbol(T, Decl(observable.jump, 0, 32))
+>Observable : Symbol(Observable, Decl(observable.jump, 0, 0))
+>T : Symbol(T, Decl(observable.jump, 0, 32))
+}
+
+=== tests/cases/compiler/main.jump ===
+import { Observable } from "./observable"
+>Observable : Symbol(Observable, Decl(main.jump, 0, 8))
+
+import "./map1";
+import "./map2";
+
+let x: Observable<number>;
+>x : Symbol(x, Decl(main.jump, 4, 3))
+>Observable : Symbol(Observable, Decl(main.jump, 0, 8))
+

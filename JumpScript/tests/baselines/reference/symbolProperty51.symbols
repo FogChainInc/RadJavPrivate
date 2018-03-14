@@ -1,0 +1,16 @@
+=== tests/cases/conformance/es6/Symbols/symbolProperty51.jump ===
+module M {
+>M : Symbol(M, Decl(symbolProperty51.jump, 0, 0))
+
+    module Symbol { }
+>Symbol : Symbol(Symbol, Decl(symbolProperty51.jump, 0, 10))
+
+    class C {
+>C : Symbol(C, Decl(symbolProperty51.jump, 1, 21))
+
+        [Symbol.iterator]() { }
+>Symbol.iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+    }
+}

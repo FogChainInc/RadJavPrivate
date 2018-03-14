@@ -1,0 +1,11 @@
+=== tests/cases/compiler/1.jump ===
+export var j = "hello"; // error
+>j : Symbol(j, Decl(1.jump, 0, 10))
+
+=== tests/cases/compiler/0.d.jump ===
+export = a;
+>a : Symbol(a, Decl(0.d.jump, 1, 11))
+
+declare var a: number;
+>a : Symbol(a, Decl(0.d.jump, 1, 11))
+

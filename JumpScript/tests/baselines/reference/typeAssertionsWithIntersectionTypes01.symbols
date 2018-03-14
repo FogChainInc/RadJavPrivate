@@ -1,0 +1,61 @@
+=== tests/cases/conformance/types/typeRelationships/comparable/typeAssertionsWithIntersectionTypes01.jump ===
+interface I1 {
+>I1 : Symbol(I1, Decl(typeAssertionsWithIntersectionTypes01.jump, 0, 0))
+
+    p1: number
+>p1 : Symbol(I1.p1, Decl(typeAssertionsWithIntersectionTypes01.jump, 0, 14))
+}
+
+interface I2 extends I1 {
+>I2 : Symbol(I2, Decl(typeAssertionsWithIntersectionTypes01.jump, 2, 1))
+>I1 : Symbol(I1, Decl(typeAssertionsWithIntersectionTypes01.jump, 0, 0))
+
+    p2: number;
+>p2 : Symbol(I2.p2, Decl(typeAssertionsWithIntersectionTypes01.jump, 4, 25))
+}
+
+interface I3 {
+>I3 : Symbol(I3, Decl(typeAssertionsWithIntersectionTypes01.jump, 6, 1))
+
+    p3: number;
+>p3 : Symbol(I3.p3, Decl(typeAssertionsWithIntersectionTypes01.jump, 8, 14))
+}
+
+var x = { p1: 10, p2: 20, p3: 30 };
+>x : Symbol(x, Decl(typeAssertionsWithIntersectionTypes01.jump, 12, 3))
+>p1 : Symbol(p1, Decl(typeAssertionsWithIntersectionTypes01.jump, 12, 9))
+>p2 : Symbol(p2, Decl(typeAssertionsWithIntersectionTypes01.jump, 12, 17))
+>p3 : Symbol(p3, Decl(typeAssertionsWithIntersectionTypes01.jump, 12, 25))
+
+var y: I1 & I3 = x;
+>y : Symbol(y, Decl(typeAssertionsWithIntersectionTypes01.jump, 13, 3))
+>I1 : Symbol(I1, Decl(typeAssertionsWithIntersectionTypes01.jump, 0, 0))
+>I3 : Symbol(I3, Decl(typeAssertionsWithIntersectionTypes01.jump, 6, 1))
+>x : Symbol(x, Decl(typeAssertionsWithIntersectionTypes01.jump, 12, 3))
+
+var z: I2 = x;
+>z : Symbol(z, Decl(typeAssertionsWithIntersectionTypes01.jump, 14, 3))
+>I2 : Symbol(I2, Decl(typeAssertionsWithIntersectionTypes01.jump, 2, 1))
+>x : Symbol(x, Decl(typeAssertionsWithIntersectionTypes01.jump, 12, 3))
+
+var a = <I1 & I3>z;
+>a : Symbol(a, Decl(typeAssertionsWithIntersectionTypes01.jump, 16, 3))
+>I1 : Symbol(I1, Decl(typeAssertionsWithIntersectionTypes01.jump, 0, 0))
+>I3 : Symbol(I3, Decl(typeAssertionsWithIntersectionTypes01.jump, 6, 1))
+>z : Symbol(z, Decl(typeAssertionsWithIntersectionTypes01.jump, 14, 3))
+
+var b = <I3>z;
+>b : Symbol(b, Decl(typeAssertionsWithIntersectionTypes01.jump, 17, 3))
+>I3 : Symbol(I3, Decl(typeAssertionsWithIntersectionTypes01.jump, 6, 1))
+>z : Symbol(z, Decl(typeAssertionsWithIntersectionTypes01.jump, 14, 3))
+
+var c = <I2>z;
+>c : Symbol(c, Decl(typeAssertionsWithIntersectionTypes01.jump, 18, 3))
+>I2 : Symbol(I2, Decl(typeAssertionsWithIntersectionTypes01.jump, 2, 1))
+>z : Symbol(z, Decl(typeAssertionsWithIntersectionTypes01.jump, 14, 3))
+
+var d = <I1>y;
+>d : Symbol(d, Decl(typeAssertionsWithIntersectionTypes01.jump, 19, 3))
+>I1 : Symbol(I1, Decl(typeAssertionsWithIntersectionTypes01.jump, 0, 0))
+>y : Symbol(y, Decl(typeAssertionsWithIntersectionTypes01.jump, 13, 3))
+

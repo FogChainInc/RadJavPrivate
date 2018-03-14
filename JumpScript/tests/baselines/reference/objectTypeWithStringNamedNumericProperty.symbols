@@ -1,0 +1,420 @@
+=== tests/cases/conformance/types/members/objectTypeWithStringNamedNumericProperty.jump ===
+// string named numeric properties are legal and distinct when indexed by string values
+// indexed numerically the value is converted to a number
+// no errors expected below
+
+class C {
+>C : Symbol(C, Decl(objectTypeWithStringNamedNumericProperty.jump, 0, 0))
+
+    "0.1": void;
+    ".1": Object;
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+    "1": number;
+    "1.": string;
+    "1..": boolean;
+    "1.0": Date;
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+    "-1.0": RegExp;
+>RegExp : Symbol(RegExp, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+    "-1": Date;
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+}
+
+var c: C;
+>c : Symbol(c, Decl(objectTypeWithStringNamedNumericProperty.jump, 15, 3))
+>C : Symbol(C, Decl(objectTypeWithStringNamedNumericProperty.jump, 0, 0))
+
+var r1 = c['0.1'];
+>r1 : Symbol(r1, Decl(objectTypeWithStringNamedNumericProperty.jump, 16, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 47, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 77, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 107, 3))
+>c : Symbol(c, Decl(objectTypeWithStringNamedNumericProperty.jump, 15, 3))
+>'0.1' : Symbol(C["0.1"], Decl(objectTypeWithStringNamedNumericProperty.jump, 4, 9))
+
+var r2 = c['.1'];
+>r2 : Symbol(r2, Decl(objectTypeWithStringNamedNumericProperty.jump, 17, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 48, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 78, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 108, 3))
+>c : Symbol(c, Decl(objectTypeWithStringNamedNumericProperty.jump, 15, 3))
+>'.1' : Symbol(C[".1"], Decl(objectTypeWithStringNamedNumericProperty.jump, 5, 16))
+
+var r3 = c['1'];
+>r3 : Symbol(r3, Decl(objectTypeWithStringNamedNumericProperty.jump, 18, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 19, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 21, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 24, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 49, 3) ... and 11 more)
+>c : Symbol(c, Decl(objectTypeWithStringNamedNumericProperty.jump, 15, 3))
+>'1' : Symbol(C["1"], Decl(objectTypeWithStringNamedNumericProperty.jump, 6, 17))
+
+var r3 = c[1];
+>r3 : Symbol(r3, Decl(objectTypeWithStringNamedNumericProperty.jump, 18, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 19, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 21, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 24, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 49, 3) ... and 11 more)
+>c : Symbol(c, Decl(objectTypeWithStringNamedNumericProperty.jump, 15, 3))
+>1 : Symbol(C["1"], Decl(objectTypeWithStringNamedNumericProperty.jump, 6, 17))
+
+var r4 = c['1.'];
+>r4 : Symbol(r4, Decl(objectTypeWithStringNamedNumericProperty.jump, 20, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 51, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 81, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 111, 3))
+>c : Symbol(c, Decl(objectTypeWithStringNamedNumericProperty.jump, 15, 3))
+>'1.' : Symbol(C["1."], Decl(objectTypeWithStringNamedNumericProperty.jump, 7, 16))
+
+var r3 = c[1.]; // same as indexing by 1 when done numerically
+>r3 : Symbol(r3, Decl(objectTypeWithStringNamedNumericProperty.jump, 18, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 19, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 21, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 24, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 49, 3) ... and 11 more)
+>c : Symbol(c, Decl(objectTypeWithStringNamedNumericProperty.jump, 15, 3))
+>1. : Symbol(C["1"], Decl(objectTypeWithStringNamedNumericProperty.jump, 6, 17))
+
+var r5 = c['1..'];
+>r5 : Symbol(r5, Decl(objectTypeWithStringNamedNumericProperty.jump, 22, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 53, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 83, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 113, 3))
+>c : Symbol(c, Decl(objectTypeWithStringNamedNumericProperty.jump, 15, 3))
+>'1..' : Symbol(C["1.."], Decl(objectTypeWithStringNamedNumericProperty.jump, 8, 17))
+
+var r6 = c['1.0'];
+>r6 : Symbol(r6, Decl(objectTypeWithStringNamedNumericProperty.jump, 23, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 54, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 84, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 114, 3))
+>c : Symbol(c, Decl(objectTypeWithStringNamedNumericProperty.jump, 15, 3))
+>'1.0' : Symbol(C["1.0"], Decl(objectTypeWithStringNamedNumericProperty.jump, 9, 19))
+
+var r3 = c[1.0]; // same as indexing by 1 when done numerically
+>r3 : Symbol(r3, Decl(objectTypeWithStringNamedNumericProperty.jump, 18, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 19, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 21, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 24, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 49, 3) ... and 11 more)
+>c : Symbol(c, Decl(objectTypeWithStringNamedNumericProperty.jump, 15, 3))
+>1.0 : Symbol(C["1"], Decl(objectTypeWithStringNamedNumericProperty.jump, 6, 17))
+
+// BUG 823822
+var r7 = i[-1];
+>r7 : Symbol(r7, Decl(objectTypeWithStringNamedNumericProperty.jump, 26, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 27, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 57, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 58, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 87, 3) ... and 3 more)
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+
+var r7 = i[-1.0];
+>r7 : Symbol(r7, Decl(objectTypeWithStringNamedNumericProperty.jump, 26, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 27, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 57, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 58, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 87, 3) ... and 3 more)
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+
+var r8 = i["-1.0"];
+>r8 : Symbol(r8, Decl(objectTypeWithStringNamedNumericProperty.jump, 28, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 59, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 89, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 119, 3))
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+>"-1.0" : Symbol(I["-1.0"], Decl(objectTypeWithStringNamedNumericProperty.jump, 41, 16))
+
+var r9 = i["-1"];
+>r9 : Symbol(r9, Decl(objectTypeWithStringNamedNumericProperty.jump, 29, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 60, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 90, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 120, 3))
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+>"-1" : Symbol(I["-1"], Decl(objectTypeWithStringNamedNumericProperty.jump, 42, 19))
+
+var r10 = i[0x1]
+>r10 : Symbol(r10, Decl(objectTypeWithStringNamedNumericProperty.jump, 30, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 61, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 91, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 121, 3))
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+>0x1 : Symbol(I["1"], Decl(objectTypeWithStringNamedNumericProperty.jump, 37, 17))
+
+var r11 = i[-0x1]
+>r11 : Symbol(r11, Decl(objectTypeWithStringNamedNumericProperty.jump, 31, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 62, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 92, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 122, 3))
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+
+var r12 = i[01]
+>r12 : Symbol(r12, Decl(objectTypeWithStringNamedNumericProperty.jump, 32, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 63, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 93, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 123, 3))
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+>01 : Symbol(I["1"], Decl(objectTypeWithStringNamedNumericProperty.jump, 37, 17))
+
+var r13 = i[-01]
+>r13 : Symbol(r13, Decl(objectTypeWithStringNamedNumericProperty.jump, 33, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 64, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 94, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 124, 3))
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+
+interface I {
+>I : Symbol(I, Decl(objectTypeWithStringNamedNumericProperty.jump, 33, 16))
+
+    "0.1": void;
+    ".1": Object;
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+    "1": number;
+    "1.": string;
+    "1..": boolean;
+    "1.0": Date;
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+    "-1.0": RegExp;
+>RegExp : Symbol(RegExp, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+    "-1": Date;
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+}
+
+var i: I;
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+>I : Symbol(I, Decl(objectTypeWithStringNamedNumericProperty.jump, 33, 16))
+
+var r1 = i['0.1'];
+>r1 : Symbol(r1, Decl(objectTypeWithStringNamedNumericProperty.jump, 16, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 47, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 77, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 107, 3))
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+>'0.1' : Symbol(I["0.1"], Decl(objectTypeWithStringNamedNumericProperty.jump, 35, 13))
+
+var r2 = i['.1'];
+>r2 : Symbol(r2, Decl(objectTypeWithStringNamedNumericProperty.jump, 17, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 48, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 78, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 108, 3))
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+>'.1' : Symbol(I[".1"], Decl(objectTypeWithStringNamedNumericProperty.jump, 36, 16))
+
+var r3 = i['1'];
+>r3 : Symbol(r3, Decl(objectTypeWithStringNamedNumericProperty.jump, 18, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 19, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 21, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 24, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 49, 3) ... and 11 more)
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+>'1' : Symbol(I["1"], Decl(objectTypeWithStringNamedNumericProperty.jump, 37, 17))
+
+var r3 = c[1];
+>r3 : Symbol(r3, Decl(objectTypeWithStringNamedNumericProperty.jump, 18, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 19, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 21, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 24, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 49, 3) ... and 11 more)
+>c : Symbol(c, Decl(objectTypeWithStringNamedNumericProperty.jump, 15, 3))
+>1 : Symbol(C["1"], Decl(objectTypeWithStringNamedNumericProperty.jump, 6, 17))
+
+var r4 = i['1.'];
+>r4 : Symbol(r4, Decl(objectTypeWithStringNamedNumericProperty.jump, 20, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 51, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 81, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 111, 3))
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+>'1.' : Symbol(I["1."], Decl(objectTypeWithStringNamedNumericProperty.jump, 38, 16))
+
+var r3 = c[1.]; // same as indexing by 1 when done numerically
+>r3 : Symbol(r3, Decl(objectTypeWithStringNamedNumericProperty.jump, 18, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 19, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 21, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 24, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 49, 3) ... and 11 more)
+>c : Symbol(c, Decl(objectTypeWithStringNamedNumericProperty.jump, 15, 3))
+>1. : Symbol(C["1"], Decl(objectTypeWithStringNamedNumericProperty.jump, 6, 17))
+
+var r5 = i['1..'];
+>r5 : Symbol(r5, Decl(objectTypeWithStringNamedNumericProperty.jump, 22, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 53, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 83, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 113, 3))
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+>'1..' : Symbol(I["1.."], Decl(objectTypeWithStringNamedNumericProperty.jump, 39, 17))
+
+var r6 = i['1.0'];
+>r6 : Symbol(r6, Decl(objectTypeWithStringNamedNumericProperty.jump, 23, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 54, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 84, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 114, 3))
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+>'1.0' : Symbol(I["1.0"], Decl(objectTypeWithStringNamedNumericProperty.jump, 40, 19))
+
+var r3 = c[1.0]; // same as indexing by 1 when done numerically
+>r3 : Symbol(r3, Decl(objectTypeWithStringNamedNumericProperty.jump, 18, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 19, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 21, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 24, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 49, 3) ... and 11 more)
+>c : Symbol(c, Decl(objectTypeWithStringNamedNumericProperty.jump, 15, 3))
+>1.0 : Symbol(C["1"], Decl(objectTypeWithStringNamedNumericProperty.jump, 6, 17))
+
+// BUG 823822
+var r7 = i[-1]; 
+>r7 : Symbol(r7, Decl(objectTypeWithStringNamedNumericProperty.jump, 26, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 27, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 57, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 58, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 87, 3) ... and 3 more)
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+
+var r7 = i[-1.0]; 
+>r7 : Symbol(r7, Decl(objectTypeWithStringNamedNumericProperty.jump, 26, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 27, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 57, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 58, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 87, 3) ... and 3 more)
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+
+var r8 = i["-1.0"];
+>r8 : Symbol(r8, Decl(objectTypeWithStringNamedNumericProperty.jump, 28, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 59, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 89, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 119, 3))
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+>"-1.0" : Symbol(I["-1.0"], Decl(objectTypeWithStringNamedNumericProperty.jump, 41, 16))
+
+var r9 = i["-1"];
+>r9 : Symbol(r9, Decl(objectTypeWithStringNamedNumericProperty.jump, 29, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 60, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 90, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 120, 3))
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+>"-1" : Symbol(I["-1"], Decl(objectTypeWithStringNamedNumericProperty.jump, 42, 19))
+
+var r10 = i[0x1]
+>r10 : Symbol(r10, Decl(objectTypeWithStringNamedNumericProperty.jump, 30, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 61, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 91, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 121, 3))
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+>0x1 : Symbol(I["1"], Decl(objectTypeWithStringNamedNumericProperty.jump, 37, 17))
+
+var r11 = i[-0x1]
+>r11 : Symbol(r11, Decl(objectTypeWithStringNamedNumericProperty.jump, 31, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 62, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 92, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 122, 3))
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+
+var r12 = i[01]
+>r12 : Symbol(r12, Decl(objectTypeWithStringNamedNumericProperty.jump, 32, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 63, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 93, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 123, 3))
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+>01 : Symbol(I["1"], Decl(objectTypeWithStringNamedNumericProperty.jump, 37, 17))
+
+var r13 = i[-01]
+>r13 : Symbol(r13, Decl(objectTypeWithStringNamedNumericProperty.jump, 33, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 64, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 94, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 124, 3))
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+
+var a: {
+>a : Symbol(a, Decl(objectTypeWithStringNamedNumericProperty.jump, 66, 3))
+
+    "0.1": void;
+    ".1": Object;
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+    "1": number;
+    "1.": string;
+    "1..": boolean;
+    "1.0": Date;
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+    "-1.0": RegExp;
+>RegExp : Symbol(RegExp, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+    "-1": Date;
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+}
+
+var r1 = a['0.1'];
+>r1 : Symbol(r1, Decl(objectTypeWithStringNamedNumericProperty.jump, 16, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 47, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 77, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 107, 3))
+>a : Symbol(a, Decl(objectTypeWithStringNamedNumericProperty.jump, 66, 3))
+>'0.1' : Symbol("0.1", Decl(objectTypeWithStringNamedNumericProperty.jump, 66, 8))
+
+var r2 = a['.1'];
+>r2 : Symbol(r2, Decl(objectTypeWithStringNamedNumericProperty.jump, 17, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 48, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 78, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 108, 3))
+>a : Symbol(a, Decl(objectTypeWithStringNamedNumericProperty.jump, 66, 3))
+>'.1' : Symbol(".1", Decl(objectTypeWithStringNamedNumericProperty.jump, 67, 16))
+
+var r3 = a['1'];
+>r3 : Symbol(r3, Decl(objectTypeWithStringNamedNumericProperty.jump, 18, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 19, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 21, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 24, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 49, 3) ... and 11 more)
+>a : Symbol(a, Decl(objectTypeWithStringNamedNumericProperty.jump, 66, 3))
+>'1' : Symbol("1", Decl(objectTypeWithStringNamedNumericProperty.jump, 68, 17))
+
+var r3 = c[1];
+>r3 : Symbol(r3, Decl(objectTypeWithStringNamedNumericProperty.jump, 18, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 19, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 21, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 24, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 49, 3) ... and 11 more)
+>c : Symbol(c, Decl(objectTypeWithStringNamedNumericProperty.jump, 15, 3))
+>1 : Symbol(C["1"], Decl(objectTypeWithStringNamedNumericProperty.jump, 6, 17))
+
+var r4 = a['1.'];
+>r4 : Symbol(r4, Decl(objectTypeWithStringNamedNumericProperty.jump, 20, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 51, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 81, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 111, 3))
+>a : Symbol(a, Decl(objectTypeWithStringNamedNumericProperty.jump, 66, 3))
+>'1.' : Symbol("1.", Decl(objectTypeWithStringNamedNumericProperty.jump, 69, 16))
+
+var r3 = c[1.]; // same as indexing by 1 when done numerically
+>r3 : Symbol(r3, Decl(objectTypeWithStringNamedNumericProperty.jump, 18, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 19, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 21, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 24, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 49, 3) ... and 11 more)
+>c : Symbol(c, Decl(objectTypeWithStringNamedNumericProperty.jump, 15, 3))
+>1. : Symbol(C["1"], Decl(objectTypeWithStringNamedNumericProperty.jump, 6, 17))
+
+var r5 = a['1..'];
+>r5 : Symbol(r5, Decl(objectTypeWithStringNamedNumericProperty.jump, 22, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 53, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 83, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 113, 3))
+>a : Symbol(a, Decl(objectTypeWithStringNamedNumericProperty.jump, 66, 3))
+>'1..' : Symbol("1..", Decl(objectTypeWithStringNamedNumericProperty.jump, 70, 17))
+
+var r6 = a['1.0'];
+>r6 : Symbol(r6, Decl(objectTypeWithStringNamedNumericProperty.jump, 23, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 54, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 84, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 114, 3))
+>a : Symbol(a, Decl(objectTypeWithStringNamedNumericProperty.jump, 66, 3))
+>'1.0' : Symbol("1.0", Decl(objectTypeWithStringNamedNumericProperty.jump, 71, 19))
+
+var r3 = c[1.0]; // same as indexing by 1 when done numerically
+>r3 : Symbol(r3, Decl(objectTypeWithStringNamedNumericProperty.jump, 18, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 19, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 21, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 24, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 49, 3) ... and 11 more)
+>c : Symbol(c, Decl(objectTypeWithStringNamedNumericProperty.jump, 15, 3))
+>1.0 : Symbol(C["1"], Decl(objectTypeWithStringNamedNumericProperty.jump, 6, 17))
+
+// BUG 823822
+var r7 = i[-1];
+>r7 : Symbol(r7, Decl(objectTypeWithStringNamedNumericProperty.jump, 26, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 27, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 57, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 58, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 87, 3) ... and 3 more)
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+
+var r7 = i[-1.0];
+>r7 : Symbol(r7, Decl(objectTypeWithStringNamedNumericProperty.jump, 26, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 27, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 57, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 58, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 87, 3) ... and 3 more)
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+
+var r8 = i["-1.0"];
+>r8 : Symbol(r8, Decl(objectTypeWithStringNamedNumericProperty.jump, 28, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 59, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 89, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 119, 3))
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+>"-1.0" : Symbol(I["-1.0"], Decl(objectTypeWithStringNamedNumericProperty.jump, 41, 16))
+
+var r9 = i["-1"];
+>r9 : Symbol(r9, Decl(objectTypeWithStringNamedNumericProperty.jump, 29, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 60, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 90, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 120, 3))
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+>"-1" : Symbol(I["-1"], Decl(objectTypeWithStringNamedNumericProperty.jump, 42, 19))
+
+var r10 = i[0x1]
+>r10 : Symbol(r10, Decl(objectTypeWithStringNamedNumericProperty.jump, 30, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 61, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 91, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 121, 3))
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+>0x1 : Symbol(I["1"], Decl(objectTypeWithStringNamedNumericProperty.jump, 37, 17))
+
+var r11 = i[-0x1]
+>r11 : Symbol(r11, Decl(objectTypeWithStringNamedNumericProperty.jump, 31, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 62, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 92, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 122, 3))
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+
+var r12 = i[01]
+>r12 : Symbol(r12, Decl(objectTypeWithStringNamedNumericProperty.jump, 32, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 63, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 93, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 123, 3))
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+>01 : Symbol(I["1"], Decl(objectTypeWithStringNamedNumericProperty.jump, 37, 17))
+
+var r13 = i[-01]
+>r13 : Symbol(r13, Decl(objectTypeWithStringNamedNumericProperty.jump, 33, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 64, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 94, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 124, 3))
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+
+var b = {
+>b : Symbol(b, Decl(objectTypeWithStringNamedNumericProperty.jump, 96, 3))
+
+    "0.1": <void>null,
+    ".1": new Object(),
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+    "1": 1,
+    "1.": "",
+    "1..": true,
+    "1.0": new Date(),
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+    "-1.0": /123/,
+    "-1": Date
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+};
+
+var r1 = b['0.1'];
+>r1 : Symbol(r1, Decl(objectTypeWithStringNamedNumericProperty.jump, 16, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 47, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 77, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 107, 3))
+>b : Symbol(b, Decl(objectTypeWithStringNamedNumericProperty.jump, 96, 3))
+>'0.1' : Symbol("0.1", Decl(objectTypeWithStringNamedNumericProperty.jump, 96, 9))
+
+var r2 = b['.1'];
+>r2 : Symbol(r2, Decl(objectTypeWithStringNamedNumericProperty.jump, 17, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 48, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 78, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 108, 3))
+>b : Symbol(b, Decl(objectTypeWithStringNamedNumericProperty.jump, 96, 3))
+>'.1' : Symbol(".1", Decl(objectTypeWithStringNamedNumericProperty.jump, 97, 22))
+
+var r3 = b['1'];
+>r3 : Symbol(r3, Decl(objectTypeWithStringNamedNumericProperty.jump, 18, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 19, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 21, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 24, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 49, 3) ... and 11 more)
+>b : Symbol(b, Decl(objectTypeWithStringNamedNumericProperty.jump, 96, 3))
+>'1' : Symbol("1", Decl(objectTypeWithStringNamedNumericProperty.jump, 98, 23))
+
+var r3 = c[1];
+>r3 : Symbol(r3, Decl(objectTypeWithStringNamedNumericProperty.jump, 18, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 19, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 21, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 24, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 49, 3) ... and 11 more)
+>c : Symbol(c, Decl(objectTypeWithStringNamedNumericProperty.jump, 15, 3))
+>1 : Symbol(C["1"], Decl(objectTypeWithStringNamedNumericProperty.jump, 6, 17))
+
+var r4 = b['1.'];
+>r4 : Symbol(r4, Decl(objectTypeWithStringNamedNumericProperty.jump, 20, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 51, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 81, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 111, 3))
+>b : Symbol(b, Decl(objectTypeWithStringNamedNumericProperty.jump, 96, 3))
+>'1.' : Symbol("1.", Decl(objectTypeWithStringNamedNumericProperty.jump, 99, 11))
+
+var r3 = c[1.]; // same as indexing by 1 when done numerically
+>r3 : Symbol(r3, Decl(objectTypeWithStringNamedNumericProperty.jump, 18, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 19, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 21, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 24, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 49, 3) ... and 11 more)
+>c : Symbol(c, Decl(objectTypeWithStringNamedNumericProperty.jump, 15, 3))
+>1. : Symbol(C["1"], Decl(objectTypeWithStringNamedNumericProperty.jump, 6, 17))
+
+var r5 = b['1..'];
+>r5 : Symbol(r5, Decl(objectTypeWithStringNamedNumericProperty.jump, 22, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 53, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 83, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 113, 3))
+>b : Symbol(b, Decl(objectTypeWithStringNamedNumericProperty.jump, 96, 3))
+>'1..' : Symbol("1..", Decl(objectTypeWithStringNamedNumericProperty.jump, 100, 13))
+
+var r6 = b['1.0'];
+>r6 : Symbol(r6, Decl(objectTypeWithStringNamedNumericProperty.jump, 23, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 54, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 84, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 114, 3))
+>b : Symbol(b, Decl(objectTypeWithStringNamedNumericProperty.jump, 96, 3))
+>'1.0' : Symbol("1.0", Decl(objectTypeWithStringNamedNumericProperty.jump, 101, 16))
+
+var r3 = c[1.0]; // same as indexing by 1 when done numerically
+>r3 : Symbol(r3, Decl(objectTypeWithStringNamedNumericProperty.jump, 18, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 19, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 21, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 24, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 49, 3) ... and 11 more)
+>c : Symbol(c, Decl(objectTypeWithStringNamedNumericProperty.jump, 15, 3))
+>1.0 : Symbol(C["1"], Decl(objectTypeWithStringNamedNumericProperty.jump, 6, 17))
+
+// BUG 823822
+var r7 = i[-1];
+>r7 : Symbol(r7, Decl(objectTypeWithStringNamedNumericProperty.jump, 26, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 27, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 57, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 58, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 87, 3) ... and 3 more)
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+
+var r7 = i[-1.0];
+>r7 : Symbol(r7, Decl(objectTypeWithStringNamedNumericProperty.jump, 26, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 27, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 57, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 58, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 87, 3) ... and 3 more)
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+
+var r8 = i["-1.0"];
+>r8 : Symbol(r8, Decl(objectTypeWithStringNamedNumericProperty.jump, 28, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 59, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 89, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 119, 3))
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+>"-1.0" : Symbol(I["-1.0"], Decl(objectTypeWithStringNamedNumericProperty.jump, 41, 16))
+
+var r9 = i["-1"];
+>r9 : Symbol(r9, Decl(objectTypeWithStringNamedNumericProperty.jump, 29, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 60, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 90, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 120, 3))
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+>"-1" : Symbol(I["-1"], Decl(objectTypeWithStringNamedNumericProperty.jump, 42, 19))
+
+var r10 = i[0x1]
+>r10 : Symbol(r10, Decl(objectTypeWithStringNamedNumericProperty.jump, 30, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 61, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 91, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 121, 3))
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+>0x1 : Symbol(I["1"], Decl(objectTypeWithStringNamedNumericProperty.jump, 37, 17))
+
+var r11 = i[-0x1]
+>r11 : Symbol(r11, Decl(objectTypeWithStringNamedNumericProperty.jump, 31, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 62, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 92, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 122, 3))
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+
+var r12 = i[01]
+>r12 : Symbol(r12, Decl(objectTypeWithStringNamedNumericProperty.jump, 32, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 63, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 93, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 123, 3))
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+>01 : Symbol(I["1"], Decl(objectTypeWithStringNamedNumericProperty.jump, 37, 17))
+
+var r13 = i[-01]
+>r13 : Symbol(r13, Decl(objectTypeWithStringNamedNumericProperty.jump, 33, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 64, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 94, 3), Decl(objectTypeWithStringNamedNumericProperty.jump, 124, 3))
+>i : Symbol(i, Decl(objectTypeWithStringNamedNumericProperty.jump, 46, 3))
+

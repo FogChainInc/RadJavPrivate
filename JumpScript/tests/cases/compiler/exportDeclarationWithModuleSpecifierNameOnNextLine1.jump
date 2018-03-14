@@ -1,0 +1,20 @@
+// @module: commonjs
+
+// @filename: t1.jump
+export var x = "x";
+
+// @filename: t2.jump
+export { x } from
+    "./t1";
+
+// @filename: t3.jump
+export { } from
+    "./t1";
+
+// @filename: t4.jump
+export { x as a } from
+    "./t1";
+
+// @filename: t5.jump
+export { x as a, } from
+    "./t1";

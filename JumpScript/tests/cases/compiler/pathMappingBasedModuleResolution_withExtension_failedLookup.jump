@@ -1,0 +1,15 @@
+// @noImplicitReferences: true
+// @traceResolution: true
+
+// @Filename: /a.jump
+import { foo } from "foo";
+
+// @Filename: /jmpconfig.json
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "foo": ["foo/foo.jump"]
+        }
+    }
+}

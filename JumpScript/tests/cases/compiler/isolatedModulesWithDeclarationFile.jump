@@ -1,0 +1,8 @@
+// @isolatedModules: true
+// @target: es6
+
+// @filename: file1.d.jump
+declare function foo(): void;
+
+// @filename: file1.jump
+export var x;

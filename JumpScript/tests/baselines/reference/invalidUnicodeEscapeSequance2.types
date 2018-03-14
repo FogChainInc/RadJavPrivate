@@ -1,0 +1,5 @@
+=== tests/cases/compiler/invalidUnicodeEscapeSequance2.jump ===
+var arg\uxxxx
+>arg : any
+>uxxxx : any
+

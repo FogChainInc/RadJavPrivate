@@ -1,0 +1,29 @@
+tests/cases/conformance/types/typeParameters/typeParameterLists/typesWithDuplicateTypeParameters.jump(1,12): error TS2300: Duplicate identifier 'T'.
+tests/cases/conformance/types/typeParameters/typeParameterLists/typesWithDuplicateTypeParameters.jump(2,16): error TS2300: Duplicate identifier 'T'.
+tests/cases/conformance/types/typeParameters/typeParameterLists/typesWithDuplicateTypeParameters.jump(4,16): error TS2300: Duplicate identifier 'T'.
+tests/cases/conformance/types/typeParameters/typeParameterLists/typesWithDuplicateTypeParameters.jump(5,20): error TS2300: Duplicate identifier 'T'.
+tests/cases/conformance/types/typeParameters/typeParameterLists/typesWithDuplicateTypeParameters.jump(7,15): error TS2300: Duplicate identifier 'T'.
+tests/cases/conformance/types/typeParameters/typeParameterLists/typesWithDuplicateTypeParameters.jump(8,19): error TS2300: Duplicate identifier 'T'.
+
+
+==== tests/cases/conformance/types/typeParameters/typeParameterLists/typesWithDuplicateTypeParameters.jump (6 errors) ====
+    class C<T, T> { }
+               ~
+!!! error TS2300: Duplicate identifier 'T'.
+    class C2<T, U, T> { }
+                   ~
+!!! error TS2300: Duplicate identifier 'T'.
+    
+    interface I<T, T> { }
+                   ~
+!!! error TS2300: Duplicate identifier 'T'.
+    interface I2<T, U, T> { }
+                       ~
+!!! error TS2300: Duplicate identifier 'T'.
+    
+    function f<T, T>() { }
+                  ~
+!!! error TS2300: Duplicate identifier 'T'.
+    function f2<T, U, T>() { }
+                      ~
+!!! error TS2300: Duplicate identifier 'T'.

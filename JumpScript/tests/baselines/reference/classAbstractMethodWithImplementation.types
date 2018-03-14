@@ -1,0 +1,7 @@
+=== tests/cases/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractMethodWithImplementation.jump ===
+abstract class A {
+>A : A
+
+    abstract foo() {}
+>foo : () => void
+}

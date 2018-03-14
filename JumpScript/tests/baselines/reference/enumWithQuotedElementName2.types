@@ -1,0 +1,6 @@
+=== tests/cases/compiler/enumWithQuotedElementName2.jump ===
+enum E {
+>E : E
+
+   "fo'o",
+}

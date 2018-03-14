@@ -1,0 +1,11 @@
+// @module: system
+
+// filename: instantiatedModule.jump
+export module M {
+    var x = 1;
+}
+
+// filename: nonInstantiatedModule.jump
+export module M {
+    interface I {}
+}

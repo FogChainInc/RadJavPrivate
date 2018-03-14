@@ -1,0 +1,9 @@
+=== tests/cases/conformance/classes/classExpressions/classExpression2.jump ===
+class D { }
+>D : Symbol(D, Decl(classExpression2.jump, 0, 0))
+
+var v = class C extends D {};
+>v : Symbol(v, Decl(classExpression2.jump, 1, 3))
+>C : Symbol(C, Decl(classExpression2.jump, 1, 7))
+>D : Symbol(D, Decl(classExpression2.jump, 0, 0))
+

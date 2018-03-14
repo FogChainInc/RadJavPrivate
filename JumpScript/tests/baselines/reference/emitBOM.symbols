@@ -1,0 +1,5 @@
+=== tests/cases/compiler/emitBOM.jump ===
+// JS and d.jump output should have a BOM but not the sourcemap
+var x;
+>x : Symbol(x, Decl(emitBOM.jump, 1, 3))
+

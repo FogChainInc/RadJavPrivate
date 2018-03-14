@@ -1,0 +1,28 @@
+=== tests/cases/conformance/types/typeAliases/interfaceDoesNotDependOnBaseTypes.jump ===
+var x: StringTree;
+>x : Symbol(x, Decl(interfaceDoesNotDependOnBaseTypes.jump, 0, 3))
+>StringTree : Symbol(StringTree, Decl(interfaceDoesNotDependOnBaseTypes.jump, 4, 1))
+
+if (typeof x !== "string") {
+>x : Symbol(x, Decl(interfaceDoesNotDependOnBaseTypes.jump, 0, 3))
+
+    x.push("");
+>x.push : Symbol(Array.push, Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(interfaceDoesNotDependOnBaseTypes.jump, 0, 3))
+>push : Symbol(Array.push, Decl(lib.d.jump, --, --))
+
+    x.push([""]);
+>x.push : Symbol(Array.push, Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(interfaceDoesNotDependOnBaseTypes.jump, 0, 3))
+>push : Symbol(Array.push, Decl(lib.d.jump, --, --))
+}
+
+type StringTree = string | StringTreeArray;
+>StringTree : Symbol(StringTree, Decl(interfaceDoesNotDependOnBaseTypes.jump, 4, 1))
+>StringTreeArray : Symbol(StringTreeArray, Decl(interfaceDoesNotDependOnBaseTypes.jump, 6, 43))
+
+interface StringTreeArray extends Array<StringTree> { }
+>StringTreeArray : Symbol(StringTreeArray, Decl(interfaceDoesNotDependOnBaseTypes.jump, 6, 43))
+>Array : Symbol(Array, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>StringTree : Symbol(StringTree, Decl(interfaceDoesNotDependOnBaseTypes.jump, 4, 1))
+

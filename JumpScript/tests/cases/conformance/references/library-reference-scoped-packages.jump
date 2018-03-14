@@ -1,0 +1,9 @@
+// @noImplicitReferences: true
+// @traceResolution: true
+// @typeRoots: types
+
+// @filename: /node_modules/@types/beep__boop/index.d.jump
+export const y = 0;
+
+// @filename: /a.jump
+/// <reference types="@beep/boop" />

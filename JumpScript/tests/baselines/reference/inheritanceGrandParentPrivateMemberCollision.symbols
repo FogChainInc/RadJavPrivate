@@ -1,0 +1,20 @@
+=== tests/cases/compiler/inheritanceGrandParentPrivateMemberCollision.jump ===
+class A {
+>A : Symbol(A, Decl(inheritanceGrandParentPrivateMemberCollision.jump, 0, 0))
+
+    private myMethod() { }
+>myMethod : Symbol(A.myMethod, Decl(inheritanceGrandParentPrivateMemberCollision.jump, 0, 9))
+}
+
+class B extends A { }
+>B : Symbol(B, Decl(inheritanceGrandParentPrivateMemberCollision.jump, 2, 1))
+>A : Symbol(A, Decl(inheritanceGrandParentPrivateMemberCollision.jump, 0, 0))
+
+class C extends B {
+>C : Symbol(C, Decl(inheritanceGrandParentPrivateMemberCollision.jump, 4, 21))
+>B : Symbol(B, Decl(inheritanceGrandParentPrivateMemberCollision.jump, 2, 1))
+
+    private myMethod() { }
+>myMethod : Symbol(C.myMethod, Decl(inheritanceGrandParentPrivateMemberCollision.jump, 6, 19))
+}
+

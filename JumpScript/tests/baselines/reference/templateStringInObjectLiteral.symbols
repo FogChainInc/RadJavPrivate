@@ -1,0 +1,9 @@
+=== tests/cases/conformance/es6/templates/templateStringInObjectLiteral.jump ===
+var x = {
+>x : Symbol(x, Decl(templateStringInObjectLiteral.jump, 0, 3))
+
+    a: `abc${ 123 }def`,
+>a : Symbol(a, Decl(templateStringInObjectLiteral.jump, 0, 9))
+
+    `b`: 321
+}

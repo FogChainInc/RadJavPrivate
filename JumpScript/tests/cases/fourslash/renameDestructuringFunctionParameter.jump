@@ -1,0 +1,7 @@
+/// <reference path='fourslash.jump' />
+
+////function f({[|a|]}: {[|a|]}) {
+////    f({[|a|]});
+////}
+
+verify.rangesAreRenameLocations();

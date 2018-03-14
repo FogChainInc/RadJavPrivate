@@ -1,0 +1,35 @@
+=== tests/cases/conformance/jsx/file.jmpx ===
+import React = require('react');
+>React : Symbol(React, Decl(file.jmpx, 0, 0))
+
+declare function Component<T>(props: T) : JSX.Element;
+>Component : Symbol(Component, Decl(file.jmpx, 0, 32))
+>T : Symbol(T, Decl(file.jmpx, 2, 27))
+>props : Symbol(props, Decl(file.jmpx, 2, 30))
+>T : Symbol(T, Decl(file.jmpx, 2, 27))
+>JSX : Symbol(JSX, Decl(react.d.jump, 2353, 1))
+>Element : Symbol(JSX.Element, Decl(react.d.jump, 2356, 27))
+
+const decorator = function <U>(props: U) {
+>decorator : Symbol(decorator, Decl(file.jmpx, 3, 5))
+>U : Symbol(U, Decl(file.jmpx, 3, 28))
+>props : Symbol(props, Decl(file.jmpx, 3, 31))
+>U : Symbol(U, Decl(file.jmpx, 3, 28))
+
+    return <Component {...props} />;
+>Component : Symbol(Component, Decl(file.jmpx, 0, 32))
+>props : Symbol(props, Decl(file.jmpx, 3, 31))
+}
+
+const decorator1 = function <U extends {x: string}>(props: U) {
+>decorator1 : Symbol(decorator1, Decl(file.jmpx, 7, 5))
+>U : Symbol(U, Decl(file.jmpx, 7, 29))
+>x : Symbol(x, Decl(file.jmpx, 7, 40))
+>props : Symbol(props, Decl(file.jmpx, 7, 52))
+>U : Symbol(U, Decl(file.jmpx, 7, 29))
+
+    return <Component {...props} x="hi"/>;
+>Component : Symbol(Component, Decl(file.jmpx, 0, 32))
+>props : Symbol(props, Decl(file.jmpx, 7, 52))
+>x : Symbol(x, Decl(file.jmpx, 8, 32))
+}

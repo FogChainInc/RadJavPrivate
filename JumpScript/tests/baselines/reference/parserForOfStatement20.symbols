@@ -1,0 +1,5 @@
+=== tests/cases/conformance/parser/ecmascript6/Iterators/parserForOfStatement20.jump ===
+for (var of = 0 in of) { }
+>of : Symbol(of, Decl(parserForOfStatement20.jump, 0, 8))
+>of : Symbol(of, Decl(parserForOfStatement20.jump, 0, 8))
+

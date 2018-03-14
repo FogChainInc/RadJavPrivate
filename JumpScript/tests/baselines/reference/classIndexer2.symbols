@@ -1,0 +1,16 @@
+=== tests/cases/compiler/classIndexer2.jump ===
+class C123 {
+>C123 : Symbol(C123, Decl(classIndexer2.jump, 0, 0))
+
+    [s: string]: number;
+>s : Symbol(s, Decl(classIndexer2.jump, 1, 5))
+
+    x: number;
+>x : Symbol(C123.x, Decl(classIndexer2.jump, 1, 24))
+
+    y: string;
+>y : Symbol(C123.y, Decl(classIndexer2.jump, 2, 14))
+
+    constructor() {
+    }
+}

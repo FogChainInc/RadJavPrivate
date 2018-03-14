@@ -1,0 +1,17 @@
+{
+    "scenario": "module identifier",
+    "projectRoot": "tests/cases/projects/ModuleIdentifier",
+    "inputFiles": [
+        "consume.jump"
+    ],
+    "runTest": true,
+    "resolvedInputFiles": [
+        "lib.d.jump",
+        "decl.jump",
+        "consume.jump"
+    ],
+    "emittedFiles": [
+        "decl.js",
+        "consume.js"
+    ]
+}

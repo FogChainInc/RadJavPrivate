@@ -1,0 +1,20 @@
+tests/cases/compiler/file2.jump(2,9): error TS6133: 'test' is declared but its value is never read.
+
+
+==== tests/cases/compiler/file1.jump (0 errors) ====
+    export class Calculator {
+        handleChar() {}
+    }
+    
+    export function test() {
+    
+    }
+    
+==== tests/cases/compiler/file2.jump (1 errors) ====
+    import {Calculator} from "./file1"
+    import {test} from "./file1"
+            ~~~~
+!!! error TS6133: 'test' is declared but its value is never read.
+    
+    var x = new Calculator();
+    x.handleChar();

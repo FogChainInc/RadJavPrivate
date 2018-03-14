@@ -1,0 +1,29 @@
+=== tests/cases/compiler/checkSwitchStatementIfCaseTypeIsString.jump ===
+declare function use(a: any): void;
+>use : Symbol(use, Decl(checkSwitchStatementIfCaseTypeIsString.jump, 0, 0))
+>a : Symbol(a, Decl(checkSwitchStatementIfCaseTypeIsString.jump, 0, 21))
+
+class A {
+>A : Symbol(A, Decl(checkSwitchStatementIfCaseTypeIsString.jump, 0, 35))
+
+    doIt(x: Array<string>): void {
+>doIt : Symbol(A.doIt, Decl(checkSwitchStatementIfCaseTypeIsString.jump, 2, 9))
+>x : Symbol(x, Decl(checkSwitchStatementIfCaseTypeIsString.jump, 3, 9))
+>Array : Symbol(Array, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+        x.forEach((v) => {
+>x.forEach : Symbol(Array.forEach, Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(checkSwitchStatementIfCaseTypeIsString.jump, 3, 9))
+>forEach : Symbol(Array.forEach, Decl(lib.d.jump, --, --))
+>v : Symbol(v, Decl(checkSwitchStatementIfCaseTypeIsString.jump, 4, 19))
+
+            switch(v) {
+>v : Symbol(v, Decl(checkSwitchStatementIfCaseTypeIsString.jump, 4, 19))
+
+                case "test": use(this);
+>use : Symbol(use, Decl(checkSwitchStatementIfCaseTypeIsString.jump, 0, 0))
+>this : Symbol(A, Decl(checkSwitchStatementIfCaseTypeIsString.jump, 0, 35))
+            }
+        });
+    }
+}

@@ -1,0 +1,6 @@
+=== tests/cases/compiler/modulePrologueAMD.jump ===
+"use strict";
+
+export class Foo {}
+>Foo : Symbol(Foo, Decl(modulePrologueAMD.jump, 0, 13))
+

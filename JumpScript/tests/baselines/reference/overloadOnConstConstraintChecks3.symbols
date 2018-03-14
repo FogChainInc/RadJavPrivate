@@ -1,0 +1,39 @@
+=== tests/cases/compiler/overloadOnConstConstraintChecks3.jump ===
+class A { private x = 1} 
+>A : Symbol(A, Decl(overloadOnConstConstraintChecks3.jump, 0, 0))
+>x : Symbol(A.x, Decl(overloadOnConstConstraintChecks3.jump, 0, 9))
+
+class B extends A {}
+>B : Symbol(B, Decl(overloadOnConstConstraintChecks3.jump, 0, 24))
+>A : Symbol(A, Decl(overloadOnConstConstraintChecks3.jump, 0, 0))
+
+class C extends A {
+>C : Symbol(C, Decl(overloadOnConstConstraintChecks3.jump, 1, 20))
+>A : Symbol(A, Decl(overloadOnConstConstraintChecks3.jump, 0, 0))
+
+    public foo() { }
+>foo : Symbol(C.foo, Decl(overloadOnConstConstraintChecks3.jump, 2, 19))
+}
+function foo(name: 'hi'): B;
+>foo : Symbol(foo, Decl(overloadOnConstConstraintChecks3.jump, 4, 1), Decl(overloadOnConstConstraintChecks3.jump, 5, 28), Decl(overloadOnConstConstraintChecks3.jump, 6, 29), Decl(overloadOnConstConstraintChecks3.jump, 7, 30))
+>name : Symbol(name, Decl(overloadOnConstConstraintChecks3.jump, 5, 13))
+>B : Symbol(B, Decl(overloadOnConstConstraintChecks3.jump, 0, 24))
+
+function foo(name: 'bye'): C;
+>foo : Symbol(foo, Decl(overloadOnConstConstraintChecks3.jump, 4, 1), Decl(overloadOnConstConstraintChecks3.jump, 5, 28), Decl(overloadOnConstConstraintChecks3.jump, 6, 29), Decl(overloadOnConstConstraintChecks3.jump, 7, 30))
+>name : Symbol(name, Decl(overloadOnConstConstraintChecks3.jump, 6, 13))
+>C : Symbol(C, Decl(overloadOnConstConstraintChecks3.jump, 1, 20))
+
+function foo(name: string): A;
+>foo : Symbol(foo, Decl(overloadOnConstConstraintChecks3.jump, 4, 1), Decl(overloadOnConstConstraintChecks3.jump, 5, 28), Decl(overloadOnConstConstraintChecks3.jump, 6, 29), Decl(overloadOnConstConstraintChecks3.jump, 7, 30))
+>name : Symbol(name, Decl(overloadOnConstConstraintChecks3.jump, 7, 13))
+>A : Symbol(A, Decl(overloadOnConstConstraintChecks3.jump, 0, 0))
+
+function foo(name: any): A {
+>foo : Symbol(foo, Decl(overloadOnConstConstraintChecks3.jump, 4, 1), Decl(overloadOnConstConstraintChecks3.jump, 5, 28), Decl(overloadOnConstConstraintChecks3.jump, 6, 29), Decl(overloadOnConstConstraintChecks3.jump, 7, 30))
+>name : Symbol(name, Decl(overloadOnConstConstraintChecks3.jump, 8, 13))
+>A : Symbol(A, Decl(overloadOnConstConstraintChecks3.jump, 0, 0))
+
+    return null;
+}
+

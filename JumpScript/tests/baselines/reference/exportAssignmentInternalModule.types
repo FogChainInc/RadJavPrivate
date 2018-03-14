@@ -1,0 +1,21 @@
+=== tests/cases/compiler/exportAssignmentInternalModule_B.jump ===
+import modM = require("exportAssignmentInternalModule_A");
+>modM : typeof modM
+
+var n: number = modM.x;
+>n : number
+>modM.x : any
+>modM : typeof modM
+>x : any
+
+=== tests/cases/compiler/exportAssignmentInternalModule_A.jump ===
+module M {
+>M : typeof M
+
+	export var x;
+>x : any
+}
+
+export = M;
+>M : typeof M
+

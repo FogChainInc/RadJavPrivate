@@ -1,0 +1,9 @@
+// @declaration: true
+
+// @Filename: a.d.jump
+declare class c {
+}
+
+// @FileName: a.jump 
+class d {
+}

@@ -1,0 +1,21 @@
+=== tests/cases/compiler/systemModule14.jump ===
+function foo() {
+>foo : Symbol(foo, Decl(systemModule14.jump, 0, 0))
+
+    return a;
+>a : Symbol(a, Decl(systemModule14.jump, 4, 8))
+}
+
+import {a} from "foo";
+>a : Symbol(a, Decl(systemModule14.jump, 4, 8))
+
+export {foo}
+>foo : Symbol(foo, Decl(systemModule14.jump, 5, 8))
+
+var x = 1;
+>x : Symbol(x, Decl(systemModule14.jump, 7, 3))
+
+export {foo as b}
+>foo : Symbol(b, Decl(systemModule14.jump, 8, 8))
+>b : Symbol(b, Decl(systemModule14.jump, 8, 8))
+

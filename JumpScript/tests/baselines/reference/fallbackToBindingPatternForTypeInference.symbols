@@ -1,0 +1,34 @@
+=== tests/cases/compiler/fallbackToBindingPatternForTypeInference.jump ===
+declare function trans<T>(f: (x: T) => string): number;
+>trans : Symbol(trans, Decl(fallbackToBindingPatternForTypeInference.jump, 0, 0))
+>T : Symbol(T, Decl(fallbackToBindingPatternForTypeInference.jump, 0, 23))
+>f : Symbol(f, Decl(fallbackToBindingPatternForTypeInference.jump, 0, 26))
+>x : Symbol(x, Decl(fallbackToBindingPatternForTypeInference.jump, 0, 30))
+>T : Symbol(T, Decl(fallbackToBindingPatternForTypeInference.jump, 0, 23))
+
+trans(({a}) => a);
+>trans : Symbol(trans, Decl(fallbackToBindingPatternForTypeInference.jump, 0, 0))
+>a : Symbol(a, Decl(fallbackToBindingPatternForTypeInference.jump, 1, 8))
+>a : Symbol(a, Decl(fallbackToBindingPatternForTypeInference.jump, 1, 8))
+
+trans(([b,c]) => 'foo');
+>trans : Symbol(trans, Decl(fallbackToBindingPatternForTypeInference.jump, 0, 0))
+>b : Symbol(b, Decl(fallbackToBindingPatternForTypeInference.jump, 2, 8))
+>c : Symbol(c, Decl(fallbackToBindingPatternForTypeInference.jump, 2, 10))
+
+trans(({d: [e,f]}) => 'foo');
+>trans : Symbol(trans, Decl(fallbackToBindingPatternForTypeInference.jump, 0, 0))
+>e : Symbol(e, Decl(fallbackToBindingPatternForTypeInference.jump, 3, 12))
+>f : Symbol(f, Decl(fallbackToBindingPatternForTypeInference.jump, 3, 14))
+
+trans(([{g},{h}]) => 'foo');
+>trans : Symbol(trans, Decl(fallbackToBindingPatternForTypeInference.jump, 0, 0))
+>g : Symbol(g, Decl(fallbackToBindingPatternForTypeInference.jump, 4, 9))
+>h : Symbol(h, Decl(fallbackToBindingPatternForTypeInference.jump, 4, 13))
+
+trans(({a, b = 10}) => a);
+>trans : Symbol(trans, Decl(fallbackToBindingPatternForTypeInference.jump, 0, 0))
+>a : Symbol(a, Decl(fallbackToBindingPatternForTypeInference.jump, 5, 8))
+>b : Symbol(b, Decl(fallbackToBindingPatternForTypeInference.jump, 5, 10))
+>a : Symbol(a, Decl(fallbackToBindingPatternForTypeInference.jump, 5, 8))
+

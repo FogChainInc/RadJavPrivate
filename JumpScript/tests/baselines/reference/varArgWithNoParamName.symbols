@@ -1,0 +1,5 @@
+=== tests/cases/compiler/varArgWithNoParamName.jump ===
+function t1(...) {}
+>t1 : Symbol(t1, Decl(varArgWithNoParamName.jump, 0, 0))
+> : Symbol((Missing), Decl(varArgWithNoParamName.jump, 0, 12))
+

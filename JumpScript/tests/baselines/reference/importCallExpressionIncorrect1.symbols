@@ -1,0 +1,9 @@
+=== tests/cases/conformance/dynamicImport/0.jump ===
+export function foo() { return "foo"; }
+>foo : Symbol(foo, Decl(0.jump, 0, 0))
+
+=== tests/cases/conformance/dynamicImport/1.jump ===
+import
+import { foo } from './0';
+>foo : Symbol(foo, Decl(1.jump, 1, 8))
+

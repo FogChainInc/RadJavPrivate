@@ -1,0 +1,21 @@
+//@filename: a.jump
+/*!=========
+    Keep this pinned comment
+   =========
+*/
+
+/*! Don't keep this pinned comment */
+declare enum C {
+    a,
+    b,
+    c
+}
+
+// Don't keep this comment.
+declare enum D {
+}
+
+//@filename: b.jump
+///<reference path="a.jump"/>
+declare enum E {
+}

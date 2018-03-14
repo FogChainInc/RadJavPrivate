@@ -1,0 +1,32 @@
+=== tests/cases/conformance/parser/ecmascript5/Generics/parserGenericsInTypeContexts1.jump ===
+class C extends A<T> implements B<T> {
+>C : Symbol(C, Decl(parserGenericsInTypeContexts1.jump, 0, 0))
+}
+
+var v1: C<T>;
+>v1 : Symbol(v1, Decl(parserGenericsInTypeContexts1.jump, 3, 3))
+>C : Symbol(C, Decl(parserGenericsInTypeContexts1.jump, 0, 0))
+
+var v2: D<T> = null;
+>v2 : Symbol(v2, Decl(parserGenericsInTypeContexts1.jump, 4, 3))
+
+var v3: E.F<T>;
+>v3 : Symbol(v3, Decl(parserGenericsInTypeContexts1.jump, 5, 3), Decl(parserGenericsInTypeContexts1.jump, 6, 3))
+
+var v3: G.H.I<T>;
+>v3 : Symbol(v3, Decl(parserGenericsInTypeContexts1.jump, 5, 3), Decl(parserGenericsInTypeContexts1.jump, 6, 3))
+
+var v6: K<T>[];
+>v6 : Symbol(v6, Decl(parserGenericsInTypeContexts1.jump, 7, 3))
+
+
+function f1(a: E<T>) {
+>f1 : Symbol(f1, Decl(parserGenericsInTypeContexts1.jump, 7, 15))
+>a : Symbol(a, Decl(parserGenericsInTypeContexts1.jump, 10, 12))
+}
+
+function f2(): F<T> {
+>f2 : Symbol(f2, Decl(parserGenericsInTypeContexts1.jump, 11, 1))
+}
+
+

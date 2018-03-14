@@ -1,0 +1,25 @@
+=== tests/cases/conformance/interfaces/interfaceDeclarations/interfaceWithConstructSignaturesThatHidesBaseSignature.jump ===
+interface Foo {
+>Foo : Symbol(Foo, Decl(interfaceWithConstructSignaturesThatHidesBaseSignature.jump, 0, 0))
+
+    new (): { a: number };
+>a : Symbol(a, Decl(interfaceWithConstructSignaturesThatHidesBaseSignature.jump, 1, 13))
+}
+
+interface Derived extends Foo {
+>Derived : Symbol(Derived, Decl(interfaceWithConstructSignaturesThatHidesBaseSignature.jump, 2, 1))
+>Foo : Symbol(Foo, Decl(interfaceWithConstructSignaturesThatHidesBaseSignature.jump, 0, 0))
+
+    new (): { a: number; b: number };
+>a : Symbol(a, Decl(interfaceWithConstructSignaturesThatHidesBaseSignature.jump, 5, 13))
+>b : Symbol(b, Decl(interfaceWithConstructSignaturesThatHidesBaseSignature.jump, 5, 24))
+}
+
+var d: Derived;
+>d : Symbol(d, Decl(interfaceWithConstructSignaturesThatHidesBaseSignature.jump, 8, 3))
+>Derived : Symbol(Derived, Decl(interfaceWithConstructSignaturesThatHidesBaseSignature.jump, 2, 1))
+
+var r = new d();
+>r : Symbol(r, Decl(interfaceWithConstructSignaturesThatHidesBaseSignature.jump, 9, 3))
+>d : Symbol(d, Decl(interfaceWithConstructSignaturesThatHidesBaseSignature.jump, 8, 3))
+

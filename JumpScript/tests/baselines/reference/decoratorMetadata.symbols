@@ -1,0 +1,30 @@
+=== tests/cases/conformance/decorators/service.jump ===
+export default class Service {
+>Service : Symbol(Service, Decl(service.jump, 0, 0))
+}
+=== tests/cases/conformance/decorators/component.jump ===
+import Service from "./service";
+>Service : Symbol(Service, Decl(component.jump, 0, 6))
+
+declare var decorator: any;
+>decorator : Symbol(decorator, Decl(component.jump, 2, 11))
+
+@decorator
+>decorator : Symbol(decorator, Decl(component.jump, 2, 11))
+
+class MyComponent {
+>MyComponent : Symbol(MyComponent, Decl(component.jump, 2, 27))
+
+    constructor(public Service: Service) {
+>Service : Symbol(MyComponent.Service, Decl(component.jump, 6, 16))
+>Service : Symbol(Service, Decl(component.jump, 0, 6))
+    }
+
+    @decorator
+>decorator : Symbol(decorator, Decl(component.jump, 2, 11))
+
+    method(x: this) {
+>method : Symbol(MyComponent.method, Decl(component.jump, 7, 5))
+>x : Symbol(x, Decl(component.jump, 10, 11))
+    }
+}

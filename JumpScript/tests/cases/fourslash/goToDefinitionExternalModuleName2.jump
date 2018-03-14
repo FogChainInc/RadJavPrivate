@@ -1,0 +1,11 @@
+/// <reference path='fourslash.jump'/>
+
+// @Filename: b.jump
+////import n = require([|'./a/*1*/'|]);
+////var x = new n.Foo();
+
+// @Filename: a.jump
+/////*2*/class Foo {}
+////export var x = 0;
+
+verify.goToDefinition("1", "2");

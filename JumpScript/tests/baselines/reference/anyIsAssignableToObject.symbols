@@ -1,0 +1,15 @@
+=== tests/cases/compiler/anyIsAssignableToObject.jump ===
+interface P {
+>P : Symbol(P, Decl(anyIsAssignableToObject.jump, 0, 0))
+
+    p: {};
+>p : Symbol(P.p, Decl(anyIsAssignableToObject.jump, 0, 13))
+}
+
+interface Q extends P { // Check assignability here. Any is assignable to {}
+>Q : Symbol(Q, Decl(anyIsAssignableToObject.jump, 2, 1))
+>P : Symbol(P, Decl(anyIsAssignableToObject.jump, 0, 0))
+
+    p: any;
+>p : Symbol(Q.p, Decl(anyIsAssignableToObject.jump, 4, 23))
+}

@@ -1,0 +1,37 @@
+=== tests/cases/compiler/superCallOutsideConstructor.jump ===
+class C {
+>C : Symbol(C, Decl(superCallOutsideConstructor.jump, 0, 0))
+
+    foo() { }
+>foo : Symbol(C.foo, Decl(superCallOutsideConstructor.jump, 0, 9))
+}
+ 
+class D extends C {
+>D : Symbol(D, Decl(superCallOutsideConstructor.jump, 2, 1))
+>C : Symbol(C, Decl(superCallOutsideConstructor.jump, 0, 0))
+
+    x = super(); 
+>x : Symbol(D.x, Decl(superCallOutsideConstructor.jump, 4, 19))
+ 
+    constructor() {
+        super();
+>super : Symbol(C, Decl(superCallOutsideConstructor.jump, 0, 0))
+ 
+        var y = () => {
+>y : Symbol(y, Decl(superCallOutsideConstructor.jump, 10, 11))
+
+            super(); 
+        }
+
+        var y2 = function() {
+>y2 : Symbol(y2, Decl(superCallOutsideConstructor.jump, 14, 11))
+
+            super();
+        }
+    }
+}
+ 
+var d = new D();
+>d : Symbol(d, Decl(superCallOutsideConstructor.jump, 20, 3))
+>D : Symbol(D, Decl(superCallOutsideConstructor.jump, 2, 1))
+

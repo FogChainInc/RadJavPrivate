@@ -1,0 +1,9 @@
+=== tests/cases/compiler/destructuringInVariableDeclarations6.jump ===
+let { toString } = 1;
+>toString : Symbol(toString, Decl(destructuringInVariableDeclarations6.jump, 0, 5))
+{
+    let { toFixed } = 1;
+>toFixed : Symbol(toFixed, Decl(destructuringInVariableDeclarations6.jump, 2, 9))
+}
+export {};
+

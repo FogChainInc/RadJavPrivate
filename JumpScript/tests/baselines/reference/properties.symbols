@@ -1,0 +1,17 @@
+=== tests/cases/compiler/properties.jump ===
+class MyClass
+>MyClass : Symbol(MyClass, Decl(properties.jump, 0, 0))
+{
+    public get Count(): number
+>Count : Symbol(MyClass.Count, Decl(properties.jump, 1, 1), Decl(properties.jump, 5, 5))
+    {
+        return 42;
+    }
+
+    public set Count(value: number)
+>Count : Symbol(MyClass.Count, Decl(properties.jump, 1, 1), Decl(properties.jump, 5, 5))
+>value : Symbol(value, Decl(properties.jump, 7, 21))
+    {
+        //
+    }
+}

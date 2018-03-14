@@ -1,0 +1,10 @@
+=== tests/cases/compiler/functionExpressionInWithBlock.jump ===
+function x() {
+>x : Symbol(x, Decl(functionExpressionInWithBlock.jump, 0, 0))
+
+ with({}) {
+  function f() {
+   () => this;
+  }
+ }
+}

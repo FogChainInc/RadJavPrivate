@@ -1,0 +1,43 @@
+=== tests/cases/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractInheritance.jump ===
+abstract class A {}
+>A : Symbol(A, Decl(classAbstractInheritance.jump, 0, 0))
+
+abstract class B extends A {}
+>B : Symbol(B, Decl(classAbstractInheritance.jump, 0, 19))
+>A : Symbol(A, Decl(classAbstractInheritance.jump, 0, 0))
+
+class C extends A {}
+>C : Symbol(C, Decl(classAbstractInheritance.jump, 2, 29))
+>A : Symbol(A, Decl(classAbstractInheritance.jump, 0, 0))
+
+abstract class AA {
+>AA : Symbol(AA, Decl(classAbstractInheritance.jump, 4, 20))
+
+    abstract foo();
+>foo : Symbol(AA.foo, Decl(classAbstractInheritance.jump, 6, 19))
+}
+
+abstract class BB extends AA {}
+>BB : Symbol(BB, Decl(classAbstractInheritance.jump, 8, 1))
+>AA : Symbol(AA, Decl(classAbstractInheritance.jump, 4, 20))
+
+class CC extends AA {}
+>CC : Symbol(CC, Decl(classAbstractInheritance.jump, 10, 31))
+>AA : Symbol(AA, Decl(classAbstractInheritance.jump, 4, 20))
+
+class DD extends BB {}
+>DD : Symbol(DD, Decl(classAbstractInheritance.jump, 12, 22))
+>BB : Symbol(BB, Decl(classAbstractInheritance.jump, 8, 1))
+
+abstract class EE extends BB {}
+>EE : Symbol(EE, Decl(classAbstractInheritance.jump, 14, 22))
+>BB : Symbol(BB, Decl(classAbstractInheritance.jump, 8, 1))
+
+class FF extends CC {}
+>FF : Symbol(FF, Decl(classAbstractInheritance.jump, 16, 31))
+>CC : Symbol(CC, Decl(classAbstractInheritance.jump, 10, 31))
+
+abstract class GG extends CC {}
+>GG : Symbol(GG, Decl(classAbstractInheritance.jump, 18, 22))
+>CC : Symbol(CC, Decl(classAbstractInheritance.jump, 10, 31))
+

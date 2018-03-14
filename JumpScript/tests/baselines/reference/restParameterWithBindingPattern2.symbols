@@ -1,0 +1,6 @@
+=== tests/cases/compiler/restParameterWithBindingPattern2.jump ===
+function a(...[a, b]) { }
+>a : Symbol(a, Decl(restParameterWithBindingPattern2.jump, 0, 0))
+>a : Symbol(a, Decl(restParameterWithBindingPattern2.jump, 0, 15))
+>b : Symbol(b, Decl(restParameterWithBindingPattern2.jump, 0, 17))
+

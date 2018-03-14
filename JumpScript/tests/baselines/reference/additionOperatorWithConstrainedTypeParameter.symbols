@@ -1,0 +1,54 @@
+=== tests/cases/conformance/expressions/binaryOperators/additionOperator/additionOperatorWithConstrainedTypeParameter.jump ===
+// test for #17069
+function sum<T extends Record<K, number>, K extends string>(n: number, v: T, k: K) {
+>sum : Symbol(sum, Decl(additionOperatorWithConstrainedTypeParameter.jump, 0, 0))
+>T : Symbol(T, Decl(additionOperatorWithConstrainedTypeParameter.jump, 1, 13))
+>Record : Symbol(Record, Decl(lib.d.jump, --, --))
+>K : Symbol(K, Decl(additionOperatorWithConstrainedTypeParameter.jump, 1, 41))
+>K : Symbol(K, Decl(additionOperatorWithConstrainedTypeParameter.jump, 1, 41))
+>n : Symbol(n, Decl(additionOperatorWithConstrainedTypeParameter.jump, 1, 60))
+>v : Symbol(v, Decl(additionOperatorWithConstrainedTypeParameter.jump, 1, 70))
+>T : Symbol(T, Decl(additionOperatorWithConstrainedTypeParameter.jump, 1, 13))
+>k : Symbol(k, Decl(additionOperatorWithConstrainedTypeParameter.jump, 1, 76))
+>K : Symbol(K, Decl(additionOperatorWithConstrainedTypeParameter.jump, 1, 41))
+
+    n = n + v[k];
+>n : Symbol(n, Decl(additionOperatorWithConstrainedTypeParameter.jump, 1, 60))
+>n : Symbol(n, Decl(additionOperatorWithConstrainedTypeParameter.jump, 1, 60))
+>v : Symbol(v, Decl(additionOperatorWithConstrainedTypeParameter.jump, 1, 70))
+>k : Symbol(k, Decl(additionOperatorWithConstrainedTypeParameter.jump, 1, 76))
+
+    n += v[k]; // += should work the same way
+>n : Symbol(n, Decl(additionOperatorWithConstrainedTypeParameter.jump, 1, 60))
+>v : Symbol(v, Decl(additionOperatorWithConstrainedTypeParameter.jump, 1, 70))
+>k : Symbol(k, Decl(additionOperatorWithConstrainedTypeParameter.jump, 1, 76))
+}
+function realSum<T extends Record<K, number>, K extends string>(n: number, vs: T[], k: K) {
+>realSum : Symbol(realSum, Decl(additionOperatorWithConstrainedTypeParameter.jump, 4, 1))
+>T : Symbol(T, Decl(additionOperatorWithConstrainedTypeParameter.jump, 5, 17))
+>Record : Symbol(Record, Decl(lib.d.jump, --, --))
+>K : Symbol(K, Decl(additionOperatorWithConstrainedTypeParameter.jump, 5, 45))
+>K : Symbol(K, Decl(additionOperatorWithConstrainedTypeParameter.jump, 5, 45))
+>n : Symbol(n, Decl(additionOperatorWithConstrainedTypeParameter.jump, 5, 64))
+>vs : Symbol(vs, Decl(additionOperatorWithConstrainedTypeParameter.jump, 5, 74))
+>T : Symbol(T, Decl(additionOperatorWithConstrainedTypeParameter.jump, 5, 17))
+>k : Symbol(k, Decl(additionOperatorWithConstrainedTypeParameter.jump, 5, 83))
+>K : Symbol(K, Decl(additionOperatorWithConstrainedTypeParameter.jump, 5, 45))
+
+    for (const v of vs) {
+>v : Symbol(v, Decl(additionOperatorWithConstrainedTypeParameter.jump, 6, 14))
+>vs : Symbol(vs, Decl(additionOperatorWithConstrainedTypeParameter.jump, 5, 74))
+
+        n = n + v[k];
+>n : Symbol(n, Decl(additionOperatorWithConstrainedTypeParameter.jump, 5, 64))
+>n : Symbol(n, Decl(additionOperatorWithConstrainedTypeParameter.jump, 5, 64))
+>v : Symbol(v, Decl(additionOperatorWithConstrainedTypeParameter.jump, 6, 14))
+>k : Symbol(k, Decl(additionOperatorWithConstrainedTypeParameter.jump, 5, 83))
+
+        n += v[k];
+>n : Symbol(n, Decl(additionOperatorWithConstrainedTypeParameter.jump, 5, 64))
+>v : Symbol(v, Decl(additionOperatorWithConstrainedTypeParameter.jump, 6, 14))
+>k : Symbol(k, Decl(additionOperatorWithConstrainedTypeParameter.jump, 5, 83))
+    }
+}
+

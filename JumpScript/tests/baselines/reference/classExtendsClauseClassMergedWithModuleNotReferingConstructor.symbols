@@ -1,0 +1,28 @@
+=== tests/cases/compiler/classExtendsClauseClassMergedWithModuleNotReferingConstructor.jump ===
+class A {
+>A : Symbol(A, Decl(classExtendsClauseClassMergedWithModuleNotReferingConstructor.jump, 0, 0), Decl(classExtendsClauseClassMergedWithModuleNotReferingConstructor.jump, 2, 1))
+
+    a: number;
+>a : Symbol(A.a, Decl(classExtendsClauseClassMergedWithModuleNotReferingConstructor.jump, 0, 9))
+}
+module A {
+>A : Symbol(A, Decl(classExtendsClauseClassMergedWithModuleNotReferingConstructor.jump, 0, 0), Decl(classExtendsClauseClassMergedWithModuleNotReferingConstructor.jump, 2, 1))
+
+    export var v: string;
+>v : Symbol(v, Decl(classExtendsClauseClassMergedWithModuleNotReferingConstructor.jump, 4, 14))
+}
+
+module Foo {
+>Foo : Symbol(Foo, Decl(classExtendsClauseClassMergedWithModuleNotReferingConstructor.jump, 5, 1))
+
+    var A = 1;
+>A : Symbol(A, Decl(classExtendsClauseClassMergedWithModuleNotReferingConstructor.jump, 8, 7))
+
+    class B extends A {
+>B : Symbol(B, Decl(classExtendsClauseClassMergedWithModuleNotReferingConstructor.jump, 8, 14))
+>A : Symbol(A, Decl(classExtendsClauseClassMergedWithModuleNotReferingConstructor.jump, 8, 7))
+
+        b: string;
+>b : Symbol(B.b, Decl(classExtendsClauseClassMergedWithModuleNotReferingConstructor.jump, 9, 23))
+    }
+}

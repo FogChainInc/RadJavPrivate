@@ -1,0 +1,48 @@
+=== tests/cases/compiler/collisionCodeGenModuleWithConstructorChildren.jump ===
+module M {
+>M : Symbol(M, Decl(collisionCodeGenModuleWithConstructorChildren.jump, 0, 0), Decl(collisionCodeGenModuleWithConstructorChildren.jump, 6, 1), Decl(collisionCodeGenModuleWithConstructorChildren.jump, 13, 1))
+
+    export var x = 3;
+>x : Symbol(x, Decl(collisionCodeGenModuleWithConstructorChildren.jump, 1, 14))
+
+    class c {
+>c : Symbol(c, Decl(collisionCodeGenModuleWithConstructorChildren.jump, 1, 21))
+
+        constructor(M, p = x) {
+>M : Symbol(M, Decl(collisionCodeGenModuleWithConstructorChildren.jump, 3, 20))
+>p : Symbol(p, Decl(collisionCodeGenModuleWithConstructorChildren.jump, 3, 22))
+>x : Symbol(x, Decl(collisionCodeGenModuleWithConstructorChildren.jump, 1, 14))
+        }
+    }
+}
+
+module M {
+>M : Symbol(M, Decl(collisionCodeGenModuleWithConstructorChildren.jump, 0, 0), Decl(collisionCodeGenModuleWithConstructorChildren.jump, 6, 1), Decl(collisionCodeGenModuleWithConstructorChildren.jump, 13, 1))
+
+    class d {
+>d : Symbol(d, Decl(collisionCodeGenModuleWithConstructorChildren.jump, 8, 10))
+
+        constructor(private M, p = x) {
+>M : Symbol(d.M, Decl(collisionCodeGenModuleWithConstructorChildren.jump, 10, 20))
+>p : Symbol(p, Decl(collisionCodeGenModuleWithConstructorChildren.jump, 10, 30))
+>x : Symbol(x, Decl(collisionCodeGenModuleWithConstructorChildren.jump, 1, 14))
+        }
+    }
+}
+
+module M {
+>M : Symbol(M, Decl(collisionCodeGenModuleWithConstructorChildren.jump, 0, 0), Decl(collisionCodeGenModuleWithConstructorChildren.jump, 6, 1), Decl(collisionCodeGenModuleWithConstructorChildren.jump, 13, 1))
+
+    class d2 {
+>d2 : Symbol(d2, Decl(collisionCodeGenModuleWithConstructorChildren.jump, 15, 10))
+
+        constructor() {
+            var M = 10;
+>M : Symbol(M, Decl(collisionCodeGenModuleWithConstructorChildren.jump, 18, 15))
+
+            var p = x;
+>p : Symbol(p, Decl(collisionCodeGenModuleWithConstructorChildren.jump, 19, 15))
+>x : Symbol(x, Decl(collisionCodeGenModuleWithConstructorChildren.jump, 1, 14))
+        }
+    }
+}

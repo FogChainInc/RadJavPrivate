@@ -1,0 +1,7 @@
+=== tests/cases/compiler/functionReturningItself.jump ===
+function somefn() {
+>somefn : Symbol(somefn, Decl(functionReturningItself.jump, 0, 0))
+
+    return somefn;
+>somefn : Symbol(somefn, Decl(functionReturningItself.jump, 0, 0))
+}

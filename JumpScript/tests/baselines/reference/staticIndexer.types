@@ -1,0 +1,7 @@
+=== tests/cases/compiler/staticIndexer.jump ===
+class C {
+>C : C
+
+    static [s: string]: number;
+>s : string
+}

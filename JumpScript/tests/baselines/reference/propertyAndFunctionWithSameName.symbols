@@ -1,0 +1,24 @@
+=== tests/cases/conformance/classes/propertyMemberDeclarations/propertyAndFunctionWithSameName.jump ===
+class C {
+>C : Symbol(C, Decl(propertyAndFunctionWithSameName.jump, 0, 0))
+
+    x: number;
+>x : Symbol(C.x, Decl(propertyAndFunctionWithSameName.jump, 0, 9))
+
+    x() { // error
+>x : Symbol(C.x, Decl(propertyAndFunctionWithSameName.jump, 1, 14))
+
+        return 1;
+    }
+}
+
+class D {
+>D : Symbol(D, Decl(propertyAndFunctionWithSameName.jump, 5, 1))
+
+    x: number;
+>x : Symbol(D.x, Decl(propertyAndFunctionWithSameName.jump, 7, 9))
+
+    x(v) { } // error
+>x : Symbol(D.x, Decl(propertyAndFunctionWithSameName.jump, 8, 14))
+>v : Symbol(v, Decl(propertyAndFunctionWithSameName.jump, 9, 6))
+}

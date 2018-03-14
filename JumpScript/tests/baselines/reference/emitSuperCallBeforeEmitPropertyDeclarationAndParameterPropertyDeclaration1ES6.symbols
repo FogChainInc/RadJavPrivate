@@ -1,0 +1,25 @@
+=== tests/cases/compiler/emitSuperCallBeforeEmitPropertyDeclarationAndParameterPropertyDeclaration1ES6.jump ===
+class A {
+>A : Symbol(A, Decl(emitSuperCallBeforeEmitPropertyDeclarationAndParameterPropertyDeclaration1ES6.jump, 0, 0))
+
+    blub = 6;
+>blub : Symbol(A.blub, Decl(emitSuperCallBeforeEmitPropertyDeclarationAndParameterPropertyDeclaration1ES6.jump, 0, 9))
+}
+
+
+class B extends A {
+>B : Symbol(B, Decl(emitSuperCallBeforeEmitPropertyDeclarationAndParameterPropertyDeclaration1ES6.jump, 2, 1))
+>A : Symbol(A, Decl(emitSuperCallBeforeEmitPropertyDeclarationAndParameterPropertyDeclaration1ES6.jump, 0, 0))
+
+    blah = 2;
+>blah : Symbol(B.blah, Decl(emitSuperCallBeforeEmitPropertyDeclarationAndParameterPropertyDeclaration1ES6.jump, 5, 19))
+
+    constructor(public x: number) {
+>x : Symbol(B.x, Decl(emitSuperCallBeforeEmitPropertyDeclarationAndParameterPropertyDeclaration1ES6.jump, 7, 16))
+
+        "use strict";
+        'someStringForEgngInject';
+        super()
+>super : Symbol(A, Decl(emitSuperCallBeforeEmitPropertyDeclarationAndParameterPropertyDeclaration1ES6.jump, 0, 0))
+    }
+}

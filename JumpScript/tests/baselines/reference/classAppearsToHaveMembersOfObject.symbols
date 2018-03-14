@@ -1,0 +1,30 @@
+=== tests/cases/conformance/classes/classDeclarations/classHeritageSpecification/classAppearsToHaveMembersOfObject.jump ===
+class C { foo: string; }
+>C : Symbol(C, Decl(classAppearsToHaveMembersOfObject.jump, 0, 0))
+>foo : Symbol(C.foo, Decl(classAppearsToHaveMembersOfObject.jump, 0, 9))
+
+var c: C;
+>c : Symbol(c, Decl(classAppearsToHaveMembersOfObject.jump, 2, 3))
+>C : Symbol(C, Decl(classAppearsToHaveMembersOfObject.jump, 0, 0))
+
+var r = c.toString();
+>r : Symbol(r, Decl(classAppearsToHaveMembersOfObject.jump, 3, 3))
+>c.toString : Symbol(Object.toString, Decl(lib.d.jump, --, --))
+>c : Symbol(c, Decl(classAppearsToHaveMembersOfObject.jump, 2, 3))
+>toString : Symbol(Object.toString, Decl(lib.d.jump, --, --))
+
+var r2 = c.hasOwnProperty('');
+>r2 : Symbol(r2, Decl(classAppearsToHaveMembersOfObject.jump, 4, 3))
+>c.hasOwnProperty : Symbol(Object.hasOwnProperty, Decl(lib.d.jump, --, --))
+>c : Symbol(c, Decl(classAppearsToHaveMembersOfObject.jump, 2, 3))
+>hasOwnProperty : Symbol(Object.hasOwnProperty, Decl(lib.d.jump, --, --))
+
+var o: Object = c;
+>o : Symbol(o, Decl(classAppearsToHaveMembersOfObject.jump, 5, 3))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>c : Symbol(c, Decl(classAppearsToHaveMembersOfObject.jump, 2, 3))
+
+var o2: {} = c;
+>o2 : Symbol(o2, Decl(classAppearsToHaveMembersOfObject.jump, 6, 3))
+>c : Symbol(c, Decl(classAppearsToHaveMembersOfObject.jump, 2, 3))
+

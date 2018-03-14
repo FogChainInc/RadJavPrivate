@@ -1,0 +1,24 @@
+=== tests/cases/conformance/statements/tryStatements/invalidTryStatements.jump ===
+function fn() {
+>fn : Symbol(fn, Decl(invalidTryStatements.jump, 0, 0))
+
+    try {
+    } catch (x) {
+>x : Symbol(x, Decl(invalidTryStatements.jump, 2, 13))
+
+        var x: string; // ensure x is 'Any'
+>x : Symbol(x, Decl(invalidTryStatements.jump, 3, 11))
+    }
+
+    // no type annotation allowed
+    try { } catch (z: any) { }
+>z : Symbol(z, Decl(invalidTryStatements.jump, 7, 19))
+
+    try { } catch (a: number) { }
+>a : Symbol(a, Decl(invalidTryStatements.jump, 8, 19))
+
+    try { } catch (y: string) { }
+>y : Symbol(y, Decl(invalidTryStatements.jump, 9, 19))
+}
+
+

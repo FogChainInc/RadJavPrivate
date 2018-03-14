@@ -1,0 +1,4 @@
+=== tests/cases/compiler/systemModule1.jump ===
+export var x = 1;
+>x : Symbol(x, Decl(systemModule1.jump, 0, 10))
+

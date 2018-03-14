@@ -1,0 +1,7 @@
+=== tests/cases/compiler/FunctionDeclaration7.jump ===
+module M {
+>M : typeof M
+
+   function foo();
+>foo : () => any
+}

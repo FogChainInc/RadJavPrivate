@@ -1,0 +1,161 @@
+tests/cases/conformance/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2.jump(7,14): error TS2370: A rest parameter must be of an array type.
+tests/cases/conformance/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2.jump(8,22): error TS2370: A rest parameter must be of an array type.
+tests/cases/conformance/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2.jump(9,11): error TS1014: A rest parameter must be last in a parameter list.
+tests/cases/conformance/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2.jump(9,11): error TS2370: A rest parameter must be of an array type.
+tests/cases/conformance/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2.jump(9,26): error TS2370: A rest parameter must be of an array type.
+tests/cases/conformance/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2.jump(12,9): error TS2370: A rest parameter must be of an array type.
+tests/cases/conformance/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2.jump(16,6): error TS2370: A rest parameter must be of an array type.
+tests/cases/conformance/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2.jump(17,9): error TS1014: A rest parameter must be last in a parameter list.
+tests/cases/conformance/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2.jump(17,9): error TS2370: A rest parameter must be of an array type.
+tests/cases/conformance/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2.jump(17,24): error TS2370: A rest parameter must be of an array type.
+tests/cases/conformance/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2.jump(21,6): error TS2370: A rest parameter must be of an array type.
+tests/cases/conformance/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2.jump(22,9): error TS2370: A rest parameter must be of an array type.
+tests/cases/conformance/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2.jump(26,9): error TS2370: A rest parameter must be of an array type.
+tests/cases/conformance/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2.jump(27,21): error TS1014: A rest parameter must be last in a parameter list.
+tests/cases/conformance/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2.jump(27,21): error TS2370: A rest parameter must be of an array type.
+tests/cases/conformance/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2.jump(27,36): error TS2370: A rest parameter must be of an array type.
+tests/cases/conformance/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2.jump(28,9): error TS2370: A rest parameter must be of an array type.
+tests/cases/conformance/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2.jump(34,15): error TS2370: A rest parameter must be of an array type.
+tests/cases/conformance/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2.jump(35,23): error TS2370: A rest parameter must be of an array type.
+tests/cases/conformance/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2.jump(36,11): error TS1014: A rest parameter must be last in a parameter list.
+tests/cases/conformance/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2.jump(36,11): error TS2370: A rest parameter must be of an array type.
+tests/cases/conformance/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2.jump(36,35): error TS2370: A rest parameter must be of an array type.
+tests/cases/conformance/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2.jump(39,9): error TS2370: A rest parameter must be of an array type.
+tests/cases/conformance/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2.jump(43,6): error TS2370: A rest parameter must be of an array type.
+tests/cases/conformance/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2.jump(44,9): error TS1014: A rest parameter must be last in a parameter list.
+tests/cases/conformance/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2.jump(44,9): error TS2370: A rest parameter must be of an array type.
+tests/cases/conformance/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2.jump(44,33): error TS2370: A rest parameter must be of an array type.
+tests/cases/conformance/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2.jump(48,6): error TS2370: A rest parameter must be of an array type.
+tests/cases/conformance/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2.jump(49,9): error TS2370: A rest parameter must be of an array type.
+tests/cases/conformance/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2.jump(53,9): error TS2370: A rest parameter must be of an array type.
+tests/cases/conformance/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2.jump(54,21): error TS1014: A rest parameter must be last in a parameter list.
+tests/cases/conformance/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2.jump(54,21): error TS2370: A rest parameter must be of an array type.
+tests/cases/conformance/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2.jump(54,45): error TS2370: A rest parameter must be of an array type.
+tests/cases/conformance/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2.jump(55,9): error TS2370: A rest parameter must be of an array type.
+
+
+==== tests/cases/conformance/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2.jump (34 errors) ====
+    // Rest parameters must be an array type if they have a type annotation, 
+    // user defined subtypes of array do not count, all of these are errors
+    
+    interface MyThing extends Array<any> { }
+    interface MyThing2<T> extends Array<T> { }
+    
+    function foo(...x: MyThing) { }
+                 ~~~~~~~~~~~~~
+!!! error TS2370: A rest parameter must be of an array type.
+    var f = function foo(...x: MyThing) { }
+                         ~~~~~~~~~~~~~
+!!! error TS2370: A rest parameter must be of an array type.
+    var f2 = (...x: MyThing, ...y: MyThing) => { }
+              ~~~
+!!! error TS1014: A rest parameter must be last in a parameter list.
+              ~~~~~~~~~~~~~
+!!! error TS2370: A rest parameter must be of an array type.
+                             ~~~~~~~~~~~~~
+!!! error TS2370: A rest parameter must be of an array type.
+    
+    class C {
+        foo(...x: MyThing) { }
+            ~~~~~~~~~~~~~
+!!! error TS2370: A rest parameter must be of an array type.
+    }
+    
+    interface I {
+        (...x: MyThing);
+         ~~~~~~~~~~~~~
+!!! error TS2370: A rest parameter must be of an array type.
+        foo(...x: MyThing, ...y: MyThing);
+            ~~~
+!!! error TS1014: A rest parameter must be last in a parameter list.
+            ~~~~~~~~~~~~~
+!!! error TS2370: A rest parameter must be of an array type.
+                           ~~~~~~~~~~~~~
+!!! error TS2370: A rest parameter must be of an array type.
+    }
+    
+    var a: {
+        (...x: MyThing);
+         ~~~~~~~~~~~~~
+!!! error TS2370: A rest parameter must be of an array type.
+        foo(...x: MyThing);
+            ~~~~~~~~~~~~~
+!!! error TS2370: A rest parameter must be of an array type.
+    }
+    
+    var b = {
+        foo(...x: MyThing) { },
+            ~~~~~~~~~~~~~
+!!! error TS2370: A rest parameter must be of an array type.
+        a: function foo(...x: MyThing, ...y: MyThing) { },
+                        ~~~
+!!! error TS1014: A rest parameter must be last in a parameter list.
+                        ~~~~~~~~~~~~~
+!!! error TS2370: A rest parameter must be of an array type.
+                                       ~~~~~~~~~~~~~
+!!! error TS2370: A rest parameter must be of an array type.
+        b: (...x: MyThing) => { }
+            ~~~~~~~~~~~~~
+!!! error TS2370: A rest parameter must be of an array type.
+    }
+    
+    
+    
+    
+    function foo2(...x: MyThing2<string>) { }
+                  ~~~~~~~~~~~~~~~~~~~~~~
+!!! error TS2370: A rest parameter must be of an array type.
+    var f3 = function foo(...x: MyThing2<string>) { }
+                          ~~~~~~~~~~~~~~~~~~~~~~
+!!! error TS2370: A rest parameter must be of an array type.
+    var f4 = (...x: MyThing2<string>, ...y: MyThing2<string>) => { }
+              ~~~
+!!! error TS1014: A rest parameter must be last in a parameter list.
+              ~~~~~~~~~~~~~~~~~~~~~~
+!!! error TS2370: A rest parameter must be of an array type.
+                                      ~~~~~~~~~~~~~~~~~~~~~~
+!!! error TS2370: A rest parameter must be of an array type.
+    
+    class C2 {
+        foo(...x: MyThing2<string>) { }
+            ~~~~~~~~~~~~~~~~~~~~~~
+!!! error TS2370: A rest parameter must be of an array type.
+    }
+    
+    interface I2 {
+        (...x: MyThing2<string>);
+         ~~~~~~~~~~~~~~~~~~~~~~
+!!! error TS2370: A rest parameter must be of an array type.
+        foo(...x: MyThing2<string>, ...y: MyThing2<string>);
+            ~~~
+!!! error TS1014: A rest parameter must be last in a parameter list.
+            ~~~~~~~~~~~~~~~~~~~~~~
+!!! error TS2370: A rest parameter must be of an array type.
+                                    ~~~~~~~~~~~~~~~~~~~~~~
+!!! error TS2370: A rest parameter must be of an array type.
+    }
+    
+    var a2: {
+        (...x: MyThing2<string>);
+         ~~~~~~~~~~~~~~~~~~~~~~
+!!! error TS2370: A rest parameter must be of an array type.
+        foo(...x: MyThing2<string>);
+            ~~~~~~~~~~~~~~~~~~~~~~
+!!! error TS2370: A rest parameter must be of an array type.
+    }
+    
+    var b2 = {
+        foo(...x: MyThing2<string>) { },
+            ~~~~~~~~~~~~~~~~~~~~~~
+!!! error TS2370: A rest parameter must be of an array type.
+        a: function foo(...x: MyThing2<string>, ...y: MyThing2<string>) { },
+                        ~~~
+!!! error TS1014: A rest parameter must be last in a parameter list.
+                        ~~~~~~~~~~~~~~~~~~~~~~
+!!! error TS2370: A rest parameter must be of an array type.
+                                                ~~~~~~~~~~~~~~~~~~~~~~
+!!! error TS2370: A rest parameter must be of an array type.
+        b: (...x: MyThing2<string>) => { }
+            ~~~~~~~~~~~~~~~~~~~~~~
+!!! error TS2370: A rest parameter must be of an array type.
+    }

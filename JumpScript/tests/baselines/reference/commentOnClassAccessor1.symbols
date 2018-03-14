@@ -1,0 +1,10 @@
+=== tests/cases/compiler/commentOnClassAccessor1.jump ===
+class C {
+>C : Symbol(C, Decl(commentOnClassAccessor1.jump, 0, 0))
+
+  /**
+   * @type {number}
+   */
+  get bar(): number { return 1;}
+>bar : Symbol(C.bar, Decl(commentOnClassAccessor1.jump, 0, 9))
+}

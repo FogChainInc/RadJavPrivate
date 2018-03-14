@@ -1,0 +1,4 @@
+=== tests/cases/compiler/binaryArithmatic4.jump ===
+var v = null | null;
+>v : Symbol(v, Decl(binaryArithmatic4.jump, 0, 3))
+

@@ -1,0 +1,10 @@
+=== tests/cases/compiler/breakTarget2.jump ===
+target:
+>target : any
+
+while (true) {
+>true : true
+
+  break target;
+>target : any
+}

@@ -1,0 +1,16 @@
+=== /node_modules/@types/node/index.d.jump ===
+interface Error2 {
+>Error2 : Symbol(Error2, Decl(index.d.jump, 0, 0))
+
+    stack2: string;
+>stack2 : Symbol(Error2.stack2, Decl(index.d.jump, 0, 18))
+}
+
+=== /app.jump ===
+function foo(): Error2 {
+>foo : Symbol(foo, Decl(app.jump, 0, 0))
+>Error2 : Symbol(Error2, Decl(index.d.jump, 0, 0))
+
+    return undefined;
+>undefined : Symbol(undefined)
+}

@@ -1,0 +1,12 @@
+=== tests/cases/compiler/10_lib.jump ===
+export function Foo() {}
+>Foo : () => void
+
+=== tests/cases/compiler/main.jump ===
+import { Foo } from './10_lib';
+>Foo : () => void
+
+Foo();
+>Foo() : void
+>Foo : () => void
+

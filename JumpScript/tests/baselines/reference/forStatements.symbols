@@ -1,0 +1,145 @@
+=== tests/cases/conformance/statements/forStatements/forStatements.jump ===
+interface I {
+>I : Symbol(I, Decl(forStatements.jump, 0, 0))
+
+    id: number;
+>id : Symbol(I.id, Decl(forStatements.jump, 0, 13))
+}
+
+class C implements I {
+>C : Symbol(C, Decl(forStatements.jump, 2, 1))
+>I : Symbol(I, Decl(forStatements.jump, 0, 0))
+
+    id: number;
+>id : Symbol(C.id, Decl(forStatements.jump, 4, 22))
+}
+
+class D<T>{
+>D : Symbol(D, Decl(forStatements.jump, 6, 1))
+>T : Symbol(T, Decl(forStatements.jump, 8, 8))
+
+    source: T;
+>source : Symbol(D.source, Decl(forStatements.jump, 8, 11))
+>T : Symbol(T, Decl(forStatements.jump, 8, 8))
+
+    recurse: D<T>;
+>recurse : Symbol(D.recurse, Decl(forStatements.jump, 9, 14))
+>D : Symbol(D, Decl(forStatements.jump, 6, 1))
+>T : Symbol(T, Decl(forStatements.jump, 8, 8))
+
+    wrapped: D<D<T>>
+>wrapped : Symbol(D.wrapped, Decl(forStatements.jump, 10, 18))
+>D : Symbol(D, Decl(forStatements.jump, 6, 1))
+>D : Symbol(D, Decl(forStatements.jump, 6, 1))
+>T : Symbol(T, Decl(forStatements.jump, 8, 8))
+}
+
+function F(x: string): number { return 42; }
+>F : Symbol(F, Decl(forStatements.jump, 12, 1))
+>x : Symbol(x, Decl(forStatements.jump, 14, 11))
+
+module M {
+>M : Symbol(M, Decl(forStatements.jump, 14, 44))
+
+    export class A {
+>A : Symbol(A, Decl(forStatements.jump, 16, 10))
+
+        name: string;
+>name : Symbol(A.name, Decl(forStatements.jump, 17, 20))
+    }
+
+    export function F2(x: number): string { return x.toString(); }
+>F2 : Symbol(F2, Decl(forStatements.jump, 19, 5))
+>x : Symbol(x, Decl(forStatements.jump, 21, 23))
+>x.toString : Symbol(Number.toString, Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(forStatements.jump, 21, 23))
+>toString : Symbol(Number.toString, Decl(lib.d.jump, --, --))
+}
+
+for(var aNumber: number = 9.9;;){} 
+>aNumber : Symbol(aNumber, Decl(forStatements.jump, 24, 7))
+
+for(var aString: string = 'this is a string';;){}
+>aString : Symbol(aString, Decl(forStatements.jump, 25, 7))
+
+for(var aDate: Date = new Date(12);;){}
+>aDate : Symbol(aDate, Decl(forStatements.jump, 26, 7))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+for(var anObject: Object = new Object();;){}
+>anObject : Symbol(anObject, Decl(forStatements.jump, 27, 7))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+for(var anAny: any = null;;){}
+>anAny : Symbol(anAny, Decl(forStatements.jump, 29, 7))
+
+for(var aSecondAny: any = undefined;;){}
+>aSecondAny : Symbol(aSecondAny, Decl(forStatements.jump, 30, 7))
+>undefined : Symbol(undefined)
+
+for(var aVoid: void = undefined;;){}
+>aVoid : Symbol(aVoid, Decl(forStatements.jump, 31, 7))
+>undefined : Symbol(undefined)
+
+for(var anInterface: I = new C();;){}
+>anInterface : Symbol(anInterface, Decl(forStatements.jump, 33, 7))
+>I : Symbol(I, Decl(forStatements.jump, 0, 0))
+>C : Symbol(C, Decl(forStatements.jump, 2, 1))
+
+for(var aClass: C = new C();;){}
+>aClass : Symbol(aClass, Decl(forStatements.jump, 34, 7))
+>C : Symbol(C, Decl(forStatements.jump, 2, 1))
+>C : Symbol(C, Decl(forStatements.jump, 2, 1))
+
+for(var aGenericClass: D<string> = new D<string>();;){}
+>aGenericClass : Symbol(aGenericClass, Decl(forStatements.jump, 35, 7))
+>D : Symbol(D, Decl(forStatements.jump, 6, 1))
+>D : Symbol(D, Decl(forStatements.jump, 6, 1))
+
+for(var anObjectLiteral: I = { id: 12 };;){}
+>anObjectLiteral : Symbol(anObjectLiteral, Decl(forStatements.jump, 36, 7))
+>I : Symbol(I, Decl(forStatements.jump, 0, 0))
+>id : Symbol(id, Decl(forStatements.jump, 36, 30))
+
+for(var anOtherObjectLiteral: { id: number } = new C();;){}
+>anOtherObjectLiteral : Symbol(anOtherObjectLiteral, Decl(forStatements.jump, 37, 7))
+>id : Symbol(id, Decl(forStatements.jump, 37, 31))
+>C : Symbol(C, Decl(forStatements.jump, 2, 1))
+
+for(var aFunction: typeof F = F;;){}
+>aFunction : Symbol(aFunction, Decl(forStatements.jump, 39, 7))
+>F : Symbol(F, Decl(forStatements.jump, 12, 1))
+>F : Symbol(F, Decl(forStatements.jump, 12, 1))
+
+for(var anOtherFunction: (x: string) => number = F;;){}
+>anOtherFunction : Symbol(anOtherFunction, Decl(forStatements.jump, 40, 7))
+>x : Symbol(x, Decl(forStatements.jump, 40, 26))
+>F : Symbol(F, Decl(forStatements.jump, 12, 1))
+
+for(var aLambda: typeof F = (x) => 2;;){}
+>aLambda : Symbol(aLambda, Decl(forStatements.jump, 41, 7))
+>F : Symbol(F, Decl(forStatements.jump, 12, 1))
+>x : Symbol(x, Decl(forStatements.jump, 41, 29))
+
+for(var aModule: typeof M = M;;){}
+>aModule : Symbol(aModule, Decl(forStatements.jump, 43, 7))
+>M : Symbol(M, Decl(forStatements.jump, 14, 44))
+>M : Symbol(M, Decl(forStatements.jump, 14, 44))
+
+for(var aClassInModule: M.A = new M.A();;){}
+>aClassInModule : Symbol(aClassInModule, Decl(forStatements.jump, 44, 7))
+>M : Symbol(M, Decl(forStatements.jump, 14, 44))
+>A : Symbol(M.A, Decl(forStatements.jump, 16, 10))
+>M.A : Symbol(M.A, Decl(forStatements.jump, 16, 10))
+>M : Symbol(M, Decl(forStatements.jump, 14, 44))
+>A : Symbol(M.A, Decl(forStatements.jump, 16, 10))
+
+for(var aFunctionInModule: typeof M.F2 = (x) => 'this is a string';;){}
+>aFunctionInModule : Symbol(aFunctionInModule, Decl(forStatements.jump, 45, 7))
+>M.F2 : Symbol(M.F2, Decl(forStatements.jump, 19, 5))
+>M : Symbol(M, Decl(forStatements.jump, 14, 44))
+>F2 : Symbol(M.F2, Decl(forStatements.jump, 19, 5))
+>x : Symbol(x, Decl(forStatements.jump, 45, 42))
+

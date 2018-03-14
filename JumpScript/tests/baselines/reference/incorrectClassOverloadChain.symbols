@@ -1,0 +1,14 @@
+=== tests/cases/compiler/incorrectClassOverloadChain.jump ===
+class C {
+>C : Symbol(C, Decl(incorrectClassOverloadChain.jump, 0, 0))
+
+    foo(): string;
+>foo : Symbol(C.foo, Decl(incorrectClassOverloadChain.jump, 0, 9), Decl(incorrectClassOverloadChain.jump, 1, 18))
+
+    foo(x): number;
+>foo : Symbol(C.foo, Decl(incorrectClassOverloadChain.jump, 0, 9), Decl(incorrectClassOverloadChain.jump, 1, 18))
+>x : Symbol(x, Decl(incorrectClassOverloadChain.jump, 2, 8))
+
+    x = 1;
+>x : Symbol(C.x, Decl(incorrectClassOverloadChain.jump, 2, 19))
+}

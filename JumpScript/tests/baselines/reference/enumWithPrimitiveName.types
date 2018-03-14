@@ -1,0 +1,10 @@
+=== tests/cases/compiler/enumWithPrimitiveName.jump ===
+enum string { }
+>string : string
+
+enum number { }
+>number : number
+
+enum any { }
+>any : any
+

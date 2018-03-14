@@ -1,0 +1,26 @@
+=== tests/cases/compiler/doubleUnderscoreLabels.jump ===
+function doThing() {
+>doThing : Symbol(doThing, Decl(doubleUnderscoreLabels.jump, 0, 0))
+
+    __call: while (true) {
+        aLabel: for (let i = 0; i < 10; i++) {
+>i : Symbol(i, Decl(doubleUnderscoreLabels.jump, 2, 24))
+>i : Symbol(i, Decl(doubleUnderscoreLabels.jump, 2, 24))
+>i : Symbol(i, Decl(doubleUnderscoreLabels.jump, 2, 24))
+
+            if (i === 3) {
+>i : Symbol(i, Decl(doubleUnderscoreLabels.jump, 2, 24))
+
+                break __call;
+            }
+            if (i === 5) {
+>i : Symbol(i, Decl(doubleUnderscoreLabels.jump, 2, 24))
+
+                break aLabel;
+            }
+        }
+    }
+}
+doThing();
+>doThing : Symbol(doThing, Decl(doubleUnderscoreLabels.jump, 0, 0))
+

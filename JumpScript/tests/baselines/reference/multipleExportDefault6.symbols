@@ -1,0 +1,10 @@
+=== tests/cases/conformance/externalModules/multipleExportDefault6.jump ===
+export default {
+    lol: 1
+>lol : Symbol(lol, Decl(multipleExportDefault6.jump, 0, 16))
+}
+
+export default {
+    lol: 2
+>lol : Symbol(lol, Decl(multipleExportDefault6.jump, 4, 16))
+}

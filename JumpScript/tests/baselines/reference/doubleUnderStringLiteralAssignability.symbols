@@ -1,0 +1,13 @@
+=== tests/cases/compiler/doubleUnderStringLiteralAssignability.jump ===
+var shouldBeOk: '__dunder' = '__dunder';
+>shouldBeOk : Symbol(shouldBeOk, Decl(doubleUnderStringLiteralAssignability.jump, 0, 3))
+
+var bad: '__dunder' = 'no_dunder';
+>bad : Symbol(bad, Decl(doubleUnderStringLiteralAssignability.jump, 1, 3))
+
+var okok: '___thunder' = '___thunder';
+>okok : Symbol(okok, Decl(doubleUnderStringLiteralAssignability.jump, 2, 3))
+
+var alsoOk: '_sunder' = '_sunder';
+>alsoOk : Symbol(alsoOk, Decl(doubleUnderStringLiteralAssignability.jump, 3, 3))
+

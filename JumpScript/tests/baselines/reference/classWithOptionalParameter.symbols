@@ -1,0 +1,26 @@
+=== tests/cases/conformance/types/namedTypes/classWithOptionalParameter.jump ===
+// classes do not permit optional parameters, these are errors
+
+class C {
+>C : Symbol(C, Decl(classWithOptionalParameter.jump, 0, 0))
+
+    x?: string;
+>x : Symbol(C.x, Decl(classWithOptionalParameter.jump, 2, 9))
+
+    f?() {}
+>f : Symbol(C.f, Decl(classWithOptionalParameter.jump, 3, 15))
+}
+
+class C2<T> {
+>C2 : Symbol(C2, Decl(classWithOptionalParameter.jump, 5, 1))
+>T : Symbol(T, Decl(classWithOptionalParameter.jump, 7, 9))
+
+    x?: T;
+>x : Symbol(C2.x, Decl(classWithOptionalParameter.jump, 7, 13))
+>T : Symbol(T, Decl(classWithOptionalParameter.jump, 7, 9))
+
+    f?(x: T) {}
+>f : Symbol(C2.f, Decl(classWithOptionalParameter.jump, 8, 10))
+>x : Symbol(x, Decl(classWithOptionalParameter.jump, 9, 7))
+>T : Symbol(T, Decl(classWithOptionalParameter.jump, 7, 9))
+}

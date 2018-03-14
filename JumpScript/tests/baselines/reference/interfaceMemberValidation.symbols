@@ -1,0 +1,28 @@
+=== tests/cases/compiler/interfaceMemberValidation.jump ===
+interface i1 { name: string; }
+>i1 : Symbol(i1, Decl(interfaceMemberValidation.jump, 0, 0))
+>name : Symbol(i1.name, Decl(interfaceMemberValidation.jump, 0, 14))
+
+interface i2 extends i1 { name: number; yo: string; }
+>i2 : Symbol(i2, Decl(interfaceMemberValidation.jump, 0, 30))
+>i1 : Symbol(i1, Decl(interfaceMemberValidation.jump, 0, 0))
+>name : Symbol(i2.name, Decl(interfaceMemberValidation.jump, 1, 25))
+>yo : Symbol(i2.yo, Decl(interfaceMemberValidation.jump, 1, 39))
+
+interface foo {
+>foo : Symbol(foo, Decl(interfaceMemberValidation.jump, 1, 53))
+
+ bar():any;
+>bar : Symbol(foo.bar, Decl(interfaceMemberValidation.jump, 3, 15), Decl(interfaceMemberValidation.jump, 4, 11))
+
+ bar():any;
+>bar : Symbol(foo.bar, Decl(interfaceMemberValidation.jump, 3, 15), Decl(interfaceMemberValidation.jump, 4, 11))
+
+ new():void;
+ new():void;
+ [s:string]:number;
+>s : Symbol(s, Decl(interfaceMemberValidation.jump, 8, 2))
+
+ [s:string]:number;
+>s : Symbol(s, Decl(interfaceMemberValidation.jump, 9, 2))
+}

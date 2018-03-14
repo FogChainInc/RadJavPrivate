@@ -1,0 +1,29 @@
+=== tests/cases/compiler/undeclaredMethod.jump ===
+module M {
+>M : Symbol(M, Decl(undeclaredMethod.jump, 0, 0))
+
+    export class C {
+>C : Symbol(C, Decl(undeclaredMethod.jump, 0, 10))
+
+        public salt() {}
+>salt : Symbol(C.salt, Decl(undeclaredMethod.jump, 1, 20))
+    }
+}
+
+var c:M.C = new M.C();
+>c : Symbol(c, Decl(undeclaredMethod.jump, 6, 3))
+>M : Symbol(M, Decl(undeclaredMethod.jump, 0, 0))
+>C : Symbol(M.C, Decl(undeclaredMethod.jump, 0, 10))
+>M.C : Symbol(M.C, Decl(undeclaredMethod.jump, 0, 10))
+>M : Symbol(M, Decl(undeclaredMethod.jump, 0, 0))
+>C : Symbol(M.C, Decl(undeclaredMethod.jump, 0, 10))
+
+c.salt();	// cool
+>c.salt : Symbol(M.C.salt, Decl(undeclaredMethod.jump, 1, 20))
+>c : Symbol(c, Decl(undeclaredMethod.jump, 6, 3))
+>salt : Symbol(M.C.salt, Decl(undeclaredMethod.jump, 1, 20))
+
+c.saltbar();	// crash
+>c : Symbol(c, Decl(undeclaredMethod.jump, 6, 3))
+
+

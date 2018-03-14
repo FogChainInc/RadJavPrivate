@@ -1,0 +1,8 @@
+=== tests/cases/compiler/es5ExportDefaultClassDeclaration.jump ===
+export default class C {
+>C : Symbol(C, Decl(es5ExportDefaultClassDeclaration.jump, 0, 0))
+
+    method() { }
+>method : Symbol(C.method, Decl(es5ExportDefaultClassDeclaration.jump, 0, 24))
+}
+

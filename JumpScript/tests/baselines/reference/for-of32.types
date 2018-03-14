@@ -1,0 +1,5 @@
+=== tests/cases/conformance/es6/for-ofStatements/for-of32.jump ===
+for (var v of v) { }
+>v : any
+>v : any
+

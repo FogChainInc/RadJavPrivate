@@ -1,0 +1,24 @@
+=== tests/cases/compiler/assignLambdaToNominalSubtypeOfFunction.jump ===
+interface IResultCallback extends Function {
+>IResultCallback : Symbol(IResultCallback, Decl(assignLambdaToNominalSubtypeOfFunction.jump, 0, 0))
+>Function : Symbol(Function, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+    x: number;
+>x : Symbol(IResultCallback.x, Decl(assignLambdaToNominalSubtypeOfFunction.jump, 0, 44))
+}
+
+function fn(cb: IResultCallback) { }
+>fn : Symbol(fn, Decl(assignLambdaToNominalSubtypeOfFunction.jump, 2, 1))
+>cb : Symbol(cb, Decl(assignLambdaToNominalSubtypeOfFunction.jump, 4, 12))
+>IResultCallback : Symbol(IResultCallback, Decl(assignLambdaToNominalSubtypeOfFunction.jump, 0, 0))
+
+fn((a, b) => true);
+>fn : Symbol(fn, Decl(assignLambdaToNominalSubtypeOfFunction.jump, 2, 1))
+>a : Symbol(a, Decl(assignLambdaToNominalSubtypeOfFunction.jump, 6, 4))
+>b : Symbol(b, Decl(assignLambdaToNominalSubtypeOfFunction.jump, 6, 6))
+
+fn(function (a, b) { return true; })
+>fn : Symbol(fn, Decl(assignLambdaToNominalSubtypeOfFunction.jump, 2, 1))
+>a : Symbol(a, Decl(assignLambdaToNominalSubtypeOfFunction.jump, 7, 13))
+>b : Symbol(b, Decl(assignLambdaToNominalSubtypeOfFunction.jump, 7, 15))
+

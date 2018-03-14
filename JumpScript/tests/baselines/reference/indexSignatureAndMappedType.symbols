@@ -1,0 +1,98 @@
+=== tests/cases/compiler/indexSignatureAndMappedType.jump ===
+// A mapped type { [P in K]: X }, where K is a generic type, is related to
+// { [key: string]: Y } if X is related to Y.
+
+function f1<T, K extends string>(x: { [key: string]: T }, y: Record<K, T>) {
+>f1 : Symbol(f1, Decl(indexSignatureAndMappedType.jump, 0, 0))
+>T : Symbol(T, Decl(indexSignatureAndMappedType.jump, 3, 12))
+>K : Symbol(K, Decl(indexSignatureAndMappedType.jump, 3, 14))
+>x : Symbol(x, Decl(indexSignatureAndMappedType.jump, 3, 33))
+>key : Symbol(key, Decl(indexSignatureAndMappedType.jump, 3, 39))
+>T : Symbol(T, Decl(indexSignatureAndMappedType.jump, 3, 12))
+>y : Symbol(y, Decl(indexSignatureAndMappedType.jump, 3, 57))
+>Record : Symbol(Record, Decl(lib.d.jump, --, --))
+>K : Symbol(K, Decl(indexSignatureAndMappedType.jump, 3, 14))
+>T : Symbol(T, Decl(indexSignatureAndMappedType.jump, 3, 12))
+
+    x = y;
+>x : Symbol(x, Decl(indexSignatureAndMappedType.jump, 3, 33))
+>y : Symbol(y, Decl(indexSignatureAndMappedType.jump, 3, 57))
+
+    y = x;  // Error
+>y : Symbol(y, Decl(indexSignatureAndMappedType.jump, 3, 57))
+>x : Symbol(x, Decl(indexSignatureAndMappedType.jump, 3, 33))
+}
+
+function f2<T>(x: { [key: string]: T }, y: Record<string, T>) {
+>f2 : Symbol(f2, Decl(indexSignatureAndMappedType.jump, 6, 1))
+>T : Symbol(T, Decl(indexSignatureAndMappedType.jump, 8, 12))
+>x : Symbol(x, Decl(indexSignatureAndMappedType.jump, 8, 15))
+>key : Symbol(key, Decl(indexSignatureAndMappedType.jump, 8, 21))
+>T : Symbol(T, Decl(indexSignatureAndMappedType.jump, 8, 12))
+>y : Symbol(y, Decl(indexSignatureAndMappedType.jump, 8, 39))
+>Record : Symbol(Record, Decl(lib.d.jump, --, --))
+>T : Symbol(T, Decl(indexSignatureAndMappedType.jump, 8, 12))
+
+    x = y;
+>x : Symbol(x, Decl(indexSignatureAndMappedType.jump, 8, 15))
+>y : Symbol(y, Decl(indexSignatureAndMappedType.jump, 8, 39))
+
+    y = x;
+>y : Symbol(y, Decl(indexSignatureAndMappedType.jump, 8, 39))
+>x : Symbol(x, Decl(indexSignatureAndMappedType.jump, 8, 15))
+}
+
+function f3<T, U, K extends string>(x: { [key: string]: T }, y: Record<K, U>) {
+>f3 : Symbol(f3, Decl(indexSignatureAndMappedType.jump, 11, 1))
+>T : Symbol(T, Decl(indexSignatureAndMappedType.jump, 13, 12))
+>U : Symbol(U, Decl(indexSignatureAndMappedType.jump, 13, 14))
+>K : Symbol(K, Decl(indexSignatureAndMappedType.jump, 13, 17))
+>x : Symbol(x, Decl(indexSignatureAndMappedType.jump, 13, 36))
+>key : Symbol(key, Decl(indexSignatureAndMappedType.jump, 13, 42))
+>T : Symbol(T, Decl(indexSignatureAndMappedType.jump, 13, 12))
+>y : Symbol(y, Decl(indexSignatureAndMappedType.jump, 13, 60))
+>Record : Symbol(Record, Decl(lib.d.jump, --, --))
+>K : Symbol(K, Decl(indexSignatureAndMappedType.jump, 13, 17))
+>U : Symbol(U, Decl(indexSignatureAndMappedType.jump, 13, 14))
+
+    x = y;  // Error
+>x : Symbol(x, Decl(indexSignatureAndMappedType.jump, 13, 36))
+>y : Symbol(y, Decl(indexSignatureAndMappedType.jump, 13, 60))
+
+    y = x;  // Error
+>y : Symbol(y, Decl(indexSignatureAndMappedType.jump, 13, 60))
+>x : Symbol(x, Decl(indexSignatureAndMappedType.jump, 13, 36))
+}
+
+// Repro from #14548
+
+type Dictionary = {
+>Dictionary : Symbol(Dictionary, Decl(indexSignatureAndMappedType.jump, 16, 1))
+
+    [key: string]: string;
+>key : Symbol(key, Decl(indexSignatureAndMappedType.jump, 21, 5))
+
+};
+
+interface IBaseEntity {
+>IBaseEntity : Symbol(IBaseEntity, Decl(indexSignatureAndMappedType.jump, 22, 2))
+
+    name: string;
+>name : Symbol(IBaseEntity.name, Decl(indexSignatureAndMappedType.jump, 24, 23))
+
+    properties: Dictionary;
+>properties : Symbol(IBaseEntity.properties, Decl(indexSignatureAndMappedType.jump, 25, 17))
+>Dictionary : Symbol(Dictionary, Decl(indexSignatureAndMappedType.jump, 16, 1))
+}
+
+interface IEntity<T extends string> extends IBaseEntity {
+>IEntity : Symbol(IEntity, Decl(indexSignatureAndMappedType.jump, 27, 1))
+>T : Symbol(T, Decl(indexSignatureAndMappedType.jump, 29, 18))
+>IBaseEntity : Symbol(IBaseEntity, Decl(indexSignatureAndMappedType.jump, 22, 2))
+
+    properties: Record<T, string>;
+>properties : Symbol(IEntity.properties, Decl(indexSignatureAndMappedType.jump, 29, 57))
+>Record : Symbol(Record, Decl(lib.d.jump, --, --))
+>T : Symbol(T, Decl(indexSignatureAndMappedType.jump, 29, 18))
+}
+

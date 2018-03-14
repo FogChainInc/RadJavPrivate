@@ -1,0 +1,10 @@
+// @module: commonjs
+// @moduleResolution: node
+
+// @filename: node_modules/a/index.d.jump
+declare module "a" {
+    var x: number;
+}
+
+// @filename: b.jump
+import y = require("a"); 

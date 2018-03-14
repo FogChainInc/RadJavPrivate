@@ -1,0 +1,14 @@
+=== tests/cases/conformance/decorators/class/method/decoratorOnClassMethod10.jump ===
+declare function dec(target: Function, paramIndex: number): void;
+>dec : Symbol(dec, Decl(decoratorOnClassMethod10.jump, 0, 0))
+>target : Symbol(target, Decl(decoratorOnClassMethod10.jump, 0, 21))
+>Function : Symbol(Function, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>paramIndex : Symbol(paramIndex, Decl(decoratorOnClassMethod10.jump, 0, 38))
+
+class C {
+>C : Symbol(C, Decl(decoratorOnClassMethod10.jump, 0, 65))
+
+    @dec method() {}
+>dec : Symbol(dec, Decl(decoratorOnClassMethod10.jump, 0, 0))
+>method : Symbol(C.method, Decl(decoratorOnClassMethod10.jump, 2, 9))
+}

@@ -1,0 +1,6 @@
+=== tests/cases/compiler/objectLiteralMemberWithoutBlock1.jump ===
+var v = { foo(); }
+>v : { foo(): any; }
+>{ foo(); } : { foo(): any; }
+>foo : () => any
+

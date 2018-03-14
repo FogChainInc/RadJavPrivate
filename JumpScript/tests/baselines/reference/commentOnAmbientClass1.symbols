@@ -1,0 +1,22 @@
+=== tests/cases/compiler/b.jump ===
+///<reference path="a.jump"/>
+declare class E extends C {
+>E : Symbol(E, Decl(b.jump, 0, 0))
+>C : Symbol(C, Decl(a.jump, 0, 0))
+}
+=== tests/cases/compiler/a.jump ===
+/*!=========
+    Keep this pinned comment
+   =========
+*/
+
+/*! Don't keep this pinned comment */
+declare class C {
+>C : Symbol(C, Decl(a.jump, 0, 0))
+}
+
+// Don't keep this comment.
+declare class D {
+>D : Symbol(D, Decl(a.jump, 7, 1))
+}
+

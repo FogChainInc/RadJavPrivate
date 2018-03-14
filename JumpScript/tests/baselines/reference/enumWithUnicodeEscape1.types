@@ -1,0 +1,7 @@
+=== tests/cases/compiler/enumWithUnicodeEscape1.jump ===
+enum E {
+>E : E
+
+  'gold \u2730'
+}
+

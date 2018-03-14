@@ -1,0 +1,8 @@
+=== tests/cases/compiler/noImplicitReturnInConstructors.jump ===
+class C {
+>C : Symbol(C, Decl(noImplicitReturnInConstructors.jump, 0, 0))
+
+  constructor() {
+    return;
+  }
+}

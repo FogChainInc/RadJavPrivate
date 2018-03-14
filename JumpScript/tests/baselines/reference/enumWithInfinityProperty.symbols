@@ -1,0 +1,8 @@
+=== tests/cases/compiler/enumWithInfinityProperty.jump ===
+enum A {
+>A : Symbol(A, Decl(enumWithInfinityProperty.jump, 0, 0))
+
+    Infinity = 1
+>Infinity : Symbol(A.Infinity, Decl(enumWithInfinityProperty.jump, 0, 8))
+}
+

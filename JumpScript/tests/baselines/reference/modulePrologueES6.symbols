@@ -1,0 +1,6 @@
+=== tests/cases/compiler/modulePrologueES6.jump ===
+"use strict";
+
+export class Foo {}
+>Foo : Symbol(Foo, Decl(modulePrologueES6.jump, 0, 13))
+

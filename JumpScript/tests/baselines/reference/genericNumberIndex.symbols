@@ -1,0 +1,6 @@
+=== tests/cases/compiler/genericNumberIndex.jump ===
+type X<I extends number> = ['a'][I];
+>X : Symbol(X, Decl(genericNumberIndex.jump, 0, 0))
+>I : Symbol(I, Decl(genericNumberIndex.jump, 0, 7))
+>I : Symbol(I, Decl(genericNumberIndex.jump, 0, 7))
+

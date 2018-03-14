@@ -1,0 +1,12 @@
+=== tests/cases/compiler/staticGetterAndSetter.jump ===
+class Foo {
+>Foo : Symbol(Foo, Decl(staticGetterAndSetter.jump, 0, 0))
+
+    static get Foo():number { return 0; }
+>Foo : Symbol(Foo.Foo, Decl(staticGetterAndSetter.jump, 0, 11), Decl(staticGetterAndSetter.jump, 1, 41))
+
+    static set Foo(n: number) {}
+>Foo : Symbol(Foo.Foo, Decl(staticGetterAndSetter.jump, 0, 11), Decl(staticGetterAndSetter.jump, 1, 41))
+>n : Symbol(n, Decl(staticGetterAndSetter.jump, 2, 19))
+}
+

@@ -1,0 +1,15 @@
+=== tests/cases/compiler/b.jump ===
+import y = require("a");
+>y : typeof y
+
+=== tests/cases/compiler/node_modules/a/ref.jump ===
+var x = 1;
+>x : number
+>1 : 1
+
+=== tests/cases/compiler/node_modules/a/index.d.jump ===
+/// <reference path="ref.jump"/>
+export declare var y;
+>y : any
+
+

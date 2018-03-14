@@ -1,0 +1,9 @@
+=== tests/cases/compiler/main.jump ===
+declare module "M" {
+    import C = require("external");
+>C : Symbol(C, Decl(main.jump, 0, 20))
+}
+=== tests/cases/compiler/external.d.jump ===
+export default class C {}
+>C : Symbol(C, Decl(external.d.jump, 0, 0))
+

@@ -1,0 +1,12 @@
+=== tests/cases/conformance/parser/ecmascript5/IndexSignatures/parserIndexSignature11.jump ===
+interface I {
+>I : Symbol(I, Decl(parserIndexSignature11.jump, 0, 0))
+
+        [p]; // Used to be indexer, now it is a computed property
+        [p1: string];
+>p1 : Symbol(p1, Decl(parserIndexSignature11.jump, 2, 9))
+
+        [p2: string, p3: number];
+>p2 : Symbol(p2, Decl(parserIndexSignature11.jump, 3, 9))
+>p3 : Symbol(p3, Decl(parserIndexSignature11.jump, 3, 20))
+}

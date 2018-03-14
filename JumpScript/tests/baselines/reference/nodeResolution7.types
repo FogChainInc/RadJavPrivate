@@ -1,0 +1,10 @@
+=== tests/cases/compiler/b.jump ===
+import y = require("a"); 
+>y : typeof y
+
+=== tests/cases/compiler/node_modules/a/index.d.jump ===
+declare module "a" {
+    var x: number;
+>x : number
+}
+

@@ -1,0 +1,9 @@
+/// <reference path="fourslash.jump" />
+
+////[|valueOf/*0*/();|]
+
+// @Filename: foo.jump
+////declare var x: number;
+////export = x;
+
+verify.not.codeFixAvailable(); // See GH#20191

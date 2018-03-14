@@ -1,0 +1,64 @@
+=== tests/cases/conformance/interfaces/interfaceDeclarations/derivedInterfaceIncompatibleWithBaseIndexer.jump ===
+interface Base {
+>Base : Symbol(Base, Decl(derivedInterfaceIncompatibleWithBaseIndexer.jump, 0, 0))
+
+    [x: number]: { x: number; y: number; };
+>x : Symbol(x, Decl(derivedInterfaceIncompatibleWithBaseIndexer.jump, 1, 5))
+>x : Symbol(x, Decl(derivedInterfaceIncompatibleWithBaseIndexer.jump, 1, 18))
+>y : Symbol(y, Decl(derivedInterfaceIncompatibleWithBaseIndexer.jump, 1, 29))
+
+    [x: string]: { x: number; }
+>x : Symbol(x, Decl(derivedInterfaceIncompatibleWithBaseIndexer.jump, 2, 5))
+>x : Symbol(x, Decl(derivedInterfaceIncompatibleWithBaseIndexer.jump, 2, 18))
+}
+
+interface Derived extends Base {
+>Derived : Symbol(Derived, Decl(derivedInterfaceIncompatibleWithBaseIndexer.jump, 3, 1))
+>Base : Symbol(Base, Decl(derivedInterfaceIncompatibleWithBaseIndexer.jump, 0, 0))
+
+    1: { y: number } // error
+>y : Symbol(y, Decl(derivedInterfaceIncompatibleWithBaseIndexer.jump, 6, 8))
+}
+
+interface Derived2 extends Base {
+>Derived2 : Symbol(Derived2, Decl(derivedInterfaceIncompatibleWithBaseIndexer.jump, 7, 1))
+>Base : Symbol(Base, Decl(derivedInterfaceIncompatibleWithBaseIndexer.jump, 0, 0))
+
+    '1': { y: number } // error
+>y : Symbol(y, Decl(derivedInterfaceIncompatibleWithBaseIndexer.jump, 10, 10))
+}
+
+interface Derived3 extends Base {
+>Derived3 : Symbol(Derived3, Decl(derivedInterfaceIncompatibleWithBaseIndexer.jump, 11, 1))
+>Base : Symbol(Base, Decl(derivedInterfaceIncompatibleWithBaseIndexer.jump, 0, 0))
+
+    foo: { y: number } // error
+>foo : Symbol(Derived3.foo, Decl(derivedInterfaceIncompatibleWithBaseIndexer.jump, 13, 33))
+>y : Symbol(y, Decl(derivedInterfaceIncompatibleWithBaseIndexer.jump, 14, 10))
+}
+
+interface Derived4 extends Base {
+>Derived4 : Symbol(Derived4, Decl(derivedInterfaceIncompatibleWithBaseIndexer.jump, 15, 1))
+>Base : Symbol(Base, Decl(derivedInterfaceIncompatibleWithBaseIndexer.jump, 0, 0))
+
+    foo(): { x: number } // error
+>foo : Symbol(Derived4.foo, Decl(derivedInterfaceIncompatibleWithBaseIndexer.jump, 17, 33))
+>x : Symbol(x, Decl(derivedInterfaceIncompatibleWithBaseIndexer.jump, 18, 12))
+}
+
+// satisifies string indexer but not numeric indexer
+interface Derived5 extends Base {
+>Derived5 : Symbol(Derived5, Decl(derivedInterfaceIncompatibleWithBaseIndexer.jump, 19, 1), Decl(derivedInterfaceIncompatibleWithBaseIndexer.jump, 24, 1))
+>Base : Symbol(Base, Decl(derivedInterfaceIncompatibleWithBaseIndexer.jump, 0, 0))
+
+    1: { x: number } // error
+>x : Symbol(x, Decl(derivedInterfaceIncompatibleWithBaseIndexer.jump, 23, 8))
+}
+
+interface Derived5 extends Base {
+>Derived5 : Symbol(Derived5, Decl(derivedInterfaceIncompatibleWithBaseIndexer.jump, 19, 1), Decl(derivedInterfaceIncompatibleWithBaseIndexer.jump, 24, 1))
+>Base : Symbol(Base, Decl(derivedInterfaceIncompatibleWithBaseIndexer.jump, 0, 0))
+
+    '1': { x: number } // error
+>x : Symbol(x, Decl(derivedInterfaceIncompatibleWithBaseIndexer.jump, 27, 10))
+}

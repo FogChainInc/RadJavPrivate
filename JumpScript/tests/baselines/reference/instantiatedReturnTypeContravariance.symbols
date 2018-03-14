@@ -1,0 +1,43 @@
+=== tests/cases/compiler/instantiatedReturnTypeContravariance.jump ===
+interface B<T> {
+>B : Symbol(B, Decl(instantiatedReturnTypeContravariance.jump, 0, 0))
+>T : Symbol(T, Decl(instantiatedReturnTypeContravariance.jump, 0, 12))
+
+name: string;
+>name : Symbol(B.name, Decl(instantiatedReturnTypeContravariance.jump, 0, 16))
+
+x(): T;
+>x : Symbol(B.x, Decl(instantiatedReturnTypeContravariance.jump, 2, 13))
+>T : Symbol(T, Decl(instantiatedReturnTypeContravariance.jump, 0, 12))
+
+}
+ 
+class c {
+>c : Symbol(c, Decl(instantiatedReturnTypeContravariance.jump, 6, 1))
+
+foo(): B<void> {
+>foo : Symbol(c.foo, Decl(instantiatedReturnTypeContravariance.jump, 8, 9))
+>B : Symbol(B, Decl(instantiatedReturnTypeContravariance.jump, 0, 0))
+
+return null;
+
+}
+
+}
+ 
+class d extends c {
+>d : Symbol(d, Decl(instantiatedReturnTypeContravariance.jump, 16, 1))
+>c : Symbol(c, Decl(instantiatedReturnTypeContravariance.jump, 6, 1))
+
+foo(): B<number> {
+>foo : Symbol(d.foo, Decl(instantiatedReturnTypeContravariance.jump, 18, 19))
+>B : Symbol(B, Decl(instantiatedReturnTypeContravariance.jump, 0, 0))
+
+return null;
+
+}
+
+}
+
+ 
+

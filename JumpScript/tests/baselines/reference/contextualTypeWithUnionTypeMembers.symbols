@@ -1,0 +1,394 @@
+=== tests/cases/conformance/types/union/contextualTypeWithUnionTypeMembers.jump ===
+//When used as a contextual type, a union type U has those members that are present in any of 
+// its constituent types, with types that are unions of the respective members in the constituent types. 
+interface I1<T> {
+>I1 : Symbol(I1, Decl(contextualTypeWithUnionTypeMembers.jump, 0, 0))
+>T : Symbol(T, Decl(contextualTypeWithUnionTypeMembers.jump, 2, 13))
+
+    commonMethodType(a: string): string;
+>commonMethodType : Symbol(I1.commonMethodType, Decl(contextualTypeWithUnionTypeMembers.jump, 2, 17))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 3, 21))
+
+    commonPropertyType: string;
+>commonPropertyType : Symbol(I1.commonPropertyType, Decl(contextualTypeWithUnionTypeMembers.jump, 3, 40))
+
+    commonMethodWithTypeParameter(a: T): T;
+>commonMethodWithTypeParameter : Symbol(I1.commonMethodWithTypeParameter, Decl(contextualTypeWithUnionTypeMembers.jump, 4, 31))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 5, 34))
+>T : Symbol(T, Decl(contextualTypeWithUnionTypeMembers.jump, 2, 13))
+>T : Symbol(T, Decl(contextualTypeWithUnionTypeMembers.jump, 2, 13))
+
+    methodOnlyInI1(a: string): string;
+>methodOnlyInI1 : Symbol(I1.methodOnlyInI1, Decl(contextualTypeWithUnionTypeMembers.jump, 5, 43))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 7, 19))
+
+    propertyOnlyInI1: string;
+>propertyOnlyInI1 : Symbol(I1.propertyOnlyInI1, Decl(contextualTypeWithUnionTypeMembers.jump, 7, 38))
+}
+interface I2<T> {
+>I2 : Symbol(I2, Decl(contextualTypeWithUnionTypeMembers.jump, 9, 1))
+>T : Symbol(T, Decl(contextualTypeWithUnionTypeMembers.jump, 10, 13))
+
+    commonMethodType(a: string): string;
+>commonMethodType : Symbol(I2.commonMethodType, Decl(contextualTypeWithUnionTypeMembers.jump, 10, 17))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 11, 21))
+
+    commonPropertyType: string;
+>commonPropertyType : Symbol(I2.commonPropertyType, Decl(contextualTypeWithUnionTypeMembers.jump, 11, 40))
+
+    commonMethodWithTypeParameter(a: T): T;
+>commonMethodWithTypeParameter : Symbol(I2.commonMethodWithTypeParameter, Decl(contextualTypeWithUnionTypeMembers.jump, 12, 31))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 13, 34))
+>T : Symbol(T, Decl(contextualTypeWithUnionTypeMembers.jump, 10, 13))
+>T : Symbol(T, Decl(contextualTypeWithUnionTypeMembers.jump, 10, 13))
+
+    methodOnlyInI2(a: string): string;
+>methodOnlyInI2 : Symbol(I2.methodOnlyInI2, Decl(contextualTypeWithUnionTypeMembers.jump, 13, 43))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 15, 19))
+
+    propertyOnlyInI2: string;
+>propertyOnlyInI2 : Symbol(I2.propertyOnlyInI2, Decl(contextualTypeWithUnionTypeMembers.jump, 15, 38))
+}
+
+// Let S be the set of types in U that has a property P.
+// If S is not empty, U has a property P of a union type of the types of P from each type in S.
+var i1: I1<number>;
+>i1 : Symbol(i1, Decl(contextualTypeWithUnionTypeMembers.jump, 21, 3))
+>I1 : Symbol(I1, Decl(contextualTypeWithUnionTypeMembers.jump, 0, 0))
+
+var i2: I2<number>;
+>i2 : Symbol(i2, Decl(contextualTypeWithUnionTypeMembers.jump, 22, 3))
+>I2 : Symbol(I2, Decl(contextualTypeWithUnionTypeMembers.jump, 9, 1))
+
+var i1Ori2: I1<number> | I2<number> = i1;
+>i1Ori2 : Symbol(i1Ori2, Decl(contextualTypeWithUnionTypeMembers.jump, 23, 3), Decl(contextualTypeWithUnionTypeMembers.jump, 24, 3), Decl(contextualTypeWithUnionTypeMembers.jump, 25, 3), Decl(contextualTypeWithUnionTypeMembers.jump, 33, 3), Decl(contextualTypeWithUnionTypeMembers.jump, 41, 3))
+>I1 : Symbol(I1, Decl(contextualTypeWithUnionTypeMembers.jump, 0, 0))
+>I2 : Symbol(I2, Decl(contextualTypeWithUnionTypeMembers.jump, 9, 1))
+>i1 : Symbol(i1, Decl(contextualTypeWithUnionTypeMembers.jump, 21, 3))
+
+var i1Ori2: I1<number> | I2<number> = i2;
+>i1Ori2 : Symbol(i1Ori2, Decl(contextualTypeWithUnionTypeMembers.jump, 23, 3), Decl(contextualTypeWithUnionTypeMembers.jump, 24, 3), Decl(contextualTypeWithUnionTypeMembers.jump, 25, 3), Decl(contextualTypeWithUnionTypeMembers.jump, 33, 3), Decl(contextualTypeWithUnionTypeMembers.jump, 41, 3))
+>I1 : Symbol(I1, Decl(contextualTypeWithUnionTypeMembers.jump, 0, 0))
+>I2 : Symbol(I2, Decl(contextualTypeWithUnionTypeMembers.jump, 9, 1))
+>i2 : Symbol(i2, Decl(contextualTypeWithUnionTypeMembers.jump, 22, 3))
+
+var i1Ori2: I1<number> | I2<number> = { // Like i1
+>i1Ori2 : Symbol(i1Ori2, Decl(contextualTypeWithUnionTypeMembers.jump, 23, 3), Decl(contextualTypeWithUnionTypeMembers.jump, 24, 3), Decl(contextualTypeWithUnionTypeMembers.jump, 25, 3), Decl(contextualTypeWithUnionTypeMembers.jump, 33, 3), Decl(contextualTypeWithUnionTypeMembers.jump, 41, 3))
+>I1 : Symbol(I1, Decl(contextualTypeWithUnionTypeMembers.jump, 0, 0))
+>I2 : Symbol(I2, Decl(contextualTypeWithUnionTypeMembers.jump, 9, 1))
+
+    commonPropertyType: "hello",
+>commonPropertyType : Symbol(commonPropertyType, Decl(contextualTypeWithUnionTypeMembers.jump, 25, 39))
+
+    commonMethodType: a=> a,
+>commonMethodType : Symbol(commonMethodType, Decl(contextualTypeWithUnionTypeMembers.jump, 26, 32))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 27, 21))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 27, 21))
+
+    commonMethodWithTypeParameter: a => a,
+>commonMethodWithTypeParameter : Symbol(commonMethodWithTypeParameter, Decl(contextualTypeWithUnionTypeMembers.jump, 27, 28))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 28, 34))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 28, 34))
+
+    methodOnlyInI1: a => a,
+>methodOnlyInI1 : Symbol(methodOnlyInI1, Decl(contextualTypeWithUnionTypeMembers.jump, 28, 42))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 30, 19))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 30, 19))
+
+    propertyOnlyInI1: "Hello",
+>propertyOnlyInI1 : Symbol(propertyOnlyInI1, Decl(contextualTypeWithUnionTypeMembers.jump, 30, 27))
+
+};
+var i1Ori2: I1<number> | I2<number> = { // Like i2
+>i1Ori2 : Symbol(i1Ori2, Decl(contextualTypeWithUnionTypeMembers.jump, 23, 3), Decl(contextualTypeWithUnionTypeMembers.jump, 24, 3), Decl(contextualTypeWithUnionTypeMembers.jump, 25, 3), Decl(contextualTypeWithUnionTypeMembers.jump, 33, 3), Decl(contextualTypeWithUnionTypeMembers.jump, 41, 3))
+>I1 : Symbol(I1, Decl(contextualTypeWithUnionTypeMembers.jump, 0, 0))
+>I2 : Symbol(I2, Decl(contextualTypeWithUnionTypeMembers.jump, 9, 1))
+
+    commonPropertyType: "hello",
+>commonPropertyType : Symbol(commonPropertyType, Decl(contextualTypeWithUnionTypeMembers.jump, 33, 39))
+
+    commonMethodType: a=> a,
+>commonMethodType : Symbol(commonMethodType, Decl(contextualTypeWithUnionTypeMembers.jump, 34, 32))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 35, 21))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 35, 21))
+
+    commonMethodWithTypeParameter: a => a,
+>commonMethodWithTypeParameter : Symbol(commonMethodWithTypeParameter, Decl(contextualTypeWithUnionTypeMembers.jump, 35, 28))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 36, 34))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 36, 34))
+
+    methodOnlyInI2: a => a,
+>methodOnlyInI2 : Symbol(methodOnlyInI2, Decl(contextualTypeWithUnionTypeMembers.jump, 36, 42))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 38, 19))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 38, 19))
+
+    propertyOnlyInI2: "Hello",
+>propertyOnlyInI2 : Symbol(propertyOnlyInI2, Decl(contextualTypeWithUnionTypeMembers.jump, 38, 27))
+
+};
+var i1Ori2: I1<number> | I2<number> = { // Like i1 and i2 both
+>i1Ori2 : Symbol(i1Ori2, Decl(contextualTypeWithUnionTypeMembers.jump, 23, 3), Decl(contextualTypeWithUnionTypeMembers.jump, 24, 3), Decl(contextualTypeWithUnionTypeMembers.jump, 25, 3), Decl(contextualTypeWithUnionTypeMembers.jump, 33, 3), Decl(contextualTypeWithUnionTypeMembers.jump, 41, 3))
+>I1 : Symbol(I1, Decl(contextualTypeWithUnionTypeMembers.jump, 0, 0))
+>I2 : Symbol(I2, Decl(contextualTypeWithUnionTypeMembers.jump, 9, 1))
+
+    commonPropertyType: "hello",
+>commonPropertyType : Symbol(commonPropertyType, Decl(contextualTypeWithUnionTypeMembers.jump, 41, 39))
+
+    commonMethodType: a=> a,
+>commonMethodType : Symbol(commonMethodType, Decl(contextualTypeWithUnionTypeMembers.jump, 42, 32))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 43, 21))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 43, 21))
+
+    commonMethodWithTypeParameter: a => a,
+>commonMethodWithTypeParameter : Symbol(commonMethodWithTypeParameter, Decl(contextualTypeWithUnionTypeMembers.jump, 43, 28))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 44, 34))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 44, 34))
+
+    methodOnlyInI1: a => a,
+>methodOnlyInI1 : Symbol(methodOnlyInI1, Decl(contextualTypeWithUnionTypeMembers.jump, 44, 42))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 45, 19))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 45, 19))
+
+    propertyOnlyInI1: "Hello",
+>propertyOnlyInI1 : Symbol(propertyOnlyInI1, Decl(contextualTypeWithUnionTypeMembers.jump, 45, 27))
+
+    methodOnlyInI2: a => a,
+>methodOnlyInI2 : Symbol(methodOnlyInI2, Decl(contextualTypeWithUnionTypeMembers.jump, 46, 30))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 47, 19))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 47, 19))
+
+    propertyOnlyInI2: "Hello",
+>propertyOnlyInI2 : Symbol(propertyOnlyInI2, Decl(contextualTypeWithUnionTypeMembers.jump, 47, 27))
+
+};
+
+var arrayI1OrI2: Array<I1<number> | I2<number>> = [i1, i2, { // Like i1
+>arrayI1OrI2 : Symbol(arrayI1OrI2, Decl(contextualTypeWithUnionTypeMembers.jump, 51, 3))
+>Array : Symbol(Array, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>I1 : Symbol(I1, Decl(contextualTypeWithUnionTypeMembers.jump, 0, 0))
+>I2 : Symbol(I2, Decl(contextualTypeWithUnionTypeMembers.jump, 9, 1))
+>i1 : Symbol(i1, Decl(contextualTypeWithUnionTypeMembers.jump, 21, 3))
+>i2 : Symbol(i2, Decl(contextualTypeWithUnionTypeMembers.jump, 22, 3))
+
+        commonPropertyType: "hello",
+>commonPropertyType : Symbol(commonPropertyType, Decl(contextualTypeWithUnionTypeMembers.jump, 51, 60))
+
+        commonMethodType: a=> a,
+>commonMethodType : Symbol(commonMethodType, Decl(contextualTypeWithUnionTypeMembers.jump, 52, 36))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 53, 25))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 53, 25))
+
+        commonMethodWithTypeParameter: a => a,
+>commonMethodWithTypeParameter : Symbol(commonMethodWithTypeParameter, Decl(contextualTypeWithUnionTypeMembers.jump, 53, 32))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 54, 38))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 54, 38))
+
+        methodOnlyInI1: a => a,
+>methodOnlyInI1 : Symbol(methodOnlyInI1, Decl(contextualTypeWithUnionTypeMembers.jump, 54, 46))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 56, 23))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 56, 23))
+
+        propertyOnlyInI1: "Hello",
+>propertyOnlyInI1 : Symbol(propertyOnlyInI1, Decl(contextualTypeWithUnionTypeMembers.jump, 56, 31))
+
+    },
+    { // Like i2
+        commonPropertyType: "hello",
+>commonPropertyType : Symbol(commonPropertyType, Decl(contextualTypeWithUnionTypeMembers.jump, 59, 5))
+
+        commonMethodType: a=> a,
+>commonMethodType : Symbol(commonMethodType, Decl(contextualTypeWithUnionTypeMembers.jump, 60, 36))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 61, 25))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 61, 25))
+
+        commonMethodWithTypeParameter: a => a,
+>commonMethodWithTypeParameter : Symbol(commonMethodWithTypeParameter, Decl(contextualTypeWithUnionTypeMembers.jump, 61, 32))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 62, 38))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 62, 38))
+
+        methodOnlyInI2: a => a,
+>methodOnlyInI2 : Symbol(methodOnlyInI2, Decl(contextualTypeWithUnionTypeMembers.jump, 62, 46))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 64, 23))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 64, 23))
+
+        propertyOnlyInI2: "Hello",
+>propertyOnlyInI2 : Symbol(propertyOnlyInI2, Decl(contextualTypeWithUnionTypeMembers.jump, 64, 31))
+
+    }, { // Like i1 and i2 both
+        commonPropertyType: "hello",
+>commonPropertyType : Symbol(commonPropertyType, Decl(contextualTypeWithUnionTypeMembers.jump, 66, 8))
+
+        commonMethodType: a=> a,
+>commonMethodType : Symbol(commonMethodType, Decl(contextualTypeWithUnionTypeMembers.jump, 67, 36))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 68, 25))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 68, 25))
+
+        commonMethodWithTypeParameter: a => a,
+>commonMethodWithTypeParameter : Symbol(commonMethodWithTypeParameter, Decl(contextualTypeWithUnionTypeMembers.jump, 68, 32))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 69, 38))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 69, 38))
+
+        methodOnlyInI1: a => a,
+>methodOnlyInI1 : Symbol(methodOnlyInI1, Decl(contextualTypeWithUnionTypeMembers.jump, 69, 46))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 70, 23))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 70, 23))
+
+        propertyOnlyInI1: "Hello",
+>propertyOnlyInI1 : Symbol(propertyOnlyInI1, Decl(contextualTypeWithUnionTypeMembers.jump, 70, 31))
+
+        methodOnlyInI2: a => a,
+>methodOnlyInI2 : Symbol(methodOnlyInI2, Decl(contextualTypeWithUnionTypeMembers.jump, 71, 34))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 72, 23))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 72, 23))
+
+        propertyOnlyInI2: "Hello",
+>propertyOnlyInI2 : Symbol(propertyOnlyInI2, Decl(contextualTypeWithUnionTypeMembers.jump, 72, 31))
+
+    }];
+
+interface I11 {
+>I11 : Symbol(I11, Decl(contextualTypeWithUnionTypeMembers.jump, 74, 7))
+
+    commonMethodDifferentReturnType(a: string, b: number): string;
+>commonMethodDifferentReturnType : Symbol(I11.commonMethodDifferentReturnType, Decl(contextualTypeWithUnionTypeMembers.jump, 76, 15))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 77, 36))
+>b : Symbol(b, Decl(contextualTypeWithUnionTypeMembers.jump, 77, 46))
+
+    commonPropertyDifferentType: string;
+>commonPropertyDifferentType : Symbol(I11.commonPropertyDifferentType, Decl(contextualTypeWithUnionTypeMembers.jump, 77, 66))
+}
+interface I21 {
+>I21 : Symbol(I21, Decl(contextualTypeWithUnionTypeMembers.jump, 79, 1))
+
+    commonMethodDifferentReturnType(a: string, b: number): number;
+>commonMethodDifferentReturnType : Symbol(I21.commonMethodDifferentReturnType, Decl(contextualTypeWithUnionTypeMembers.jump, 80, 15))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 81, 36))
+>b : Symbol(b, Decl(contextualTypeWithUnionTypeMembers.jump, 81, 46))
+
+    commonPropertyDifferentType: number;
+>commonPropertyDifferentType : Symbol(I21.commonPropertyDifferentType, Decl(contextualTypeWithUnionTypeMembers.jump, 81, 66))
+}
+var i11: I11;
+>i11 : Symbol(i11, Decl(contextualTypeWithUnionTypeMembers.jump, 84, 3))
+>I11 : Symbol(I11, Decl(contextualTypeWithUnionTypeMembers.jump, 74, 7))
+
+var i21: I21;
+>i21 : Symbol(i21, Decl(contextualTypeWithUnionTypeMembers.jump, 85, 3))
+>I21 : Symbol(I21, Decl(contextualTypeWithUnionTypeMembers.jump, 79, 1))
+
+var i11Ori21: I11 | I21 = i11;
+>i11Ori21 : Symbol(i11Ori21, Decl(contextualTypeWithUnionTypeMembers.jump, 86, 3), Decl(contextualTypeWithUnionTypeMembers.jump, 87, 3), Decl(contextualTypeWithUnionTypeMembers.jump, 88, 3), Decl(contextualTypeWithUnionTypeMembers.jump, 96, 3))
+>I11 : Symbol(I11, Decl(contextualTypeWithUnionTypeMembers.jump, 74, 7))
+>I21 : Symbol(I21, Decl(contextualTypeWithUnionTypeMembers.jump, 79, 1))
+>i11 : Symbol(i11, Decl(contextualTypeWithUnionTypeMembers.jump, 84, 3))
+
+var i11Ori21: I11 | I21 = i21;
+>i11Ori21 : Symbol(i11Ori21, Decl(contextualTypeWithUnionTypeMembers.jump, 86, 3), Decl(contextualTypeWithUnionTypeMembers.jump, 87, 3), Decl(contextualTypeWithUnionTypeMembers.jump, 88, 3), Decl(contextualTypeWithUnionTypeMembers.jump, 96, 3))
+>I11 : Symbol(I11, Decl(contextualTypeWithUnionTypeMembers.jump, 74, 7))
+>I21 : Symbol(I21, Decl(contextualTypeWithUnionTypeMembers.jump, 79, 1))
+>i21 : Symbol(i21, Decl(contextualTypeWithUnionTypeMembers.jump, 85, 3))
+
+var i11Ori21: I11 | I21 = { 
+>i11Ori21 : Symbol(i11Ori21, Decl(contextualTypeWithUnionTypeMembers.jump, 86, 3), Decl(contextualTypeWithUnionTypeMembers.jump, 87, 3), Decl(contextualTypeWithUnionTypeMembers.jump, 88, 3), Decl(contextualTypeWithUnionTypeMembers.jump, 96, 3))
+>I11 : Symbol(I11, Decl(contextualTypeWithUnionTypeMembers.jump, 74, 7))
+>I21 : Symbol(I21, Decl(contextualTypeWithUnionTypeMembers.jump, 79, 1))
+
+    // Like i1
+    commonMethodDifferentReturnType: (a, b) => {
+>commonMethodDifferentReturnType : Symbol(commonMethodDifferentReturnType, Decl(contextualTypeWithUnionTypeMembers.jump, 88, 27))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 90, 38))
+>b : Symbol(b, Decl(contextualTypeWithUnionTypeMembers.jump, 90, 40))
+
+        var z = a.charAt(b);
+>z : Symbol(z, Decl(contextualTypeWithUnionTypeMembers.jump, 91, 11))
+>a.charAt : Symbol(String.charAt, Decl(lib.d.jump, --, --))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 90, 38))
+>charAt : Symbol(String.charAt, Decl(lib.d.jump, --, --))
+>b : Symbol(b, Decl(contextualTypeWithUnionTypeMembers.jump, 90, 40))
+
+        return z;  
+>z : Symbol(z, Decl(contextualTypeWithUnionTypeMembers.jump, 91, 11))
+
+    },
+    commonPropertyDifferentType: "hello",  
+>commonPropertyDifferentType : Symbol(commonPropertyDifferentType, Decl(contextualTypeWithUnionTypeMembers.jump, 93, 6))
+
+};
+var i11Ori21: I11 | I21 = { 
+>i11Ori21 : Symbol(i11Ori21, Decl(contextualTypeWithUnionTypeMembers.jump, 86, 3), Decl(contextualTypeWithUnionTypeMembers.jump, 87, 3), Decl(contextualTypeWithUnionTypeMembers.jump, 88, 3), Decl(contextualTypeWithUnionTypeMembers.jump, 96, 3))
+>I11 : Symbol(I11, Decl(contextualTypeWithUnionTypeMembers.jump, 74, 7))
+>I21 : Symbol(I21, Decl(contextualTypeWithUnionTypeMembers.jump, 79, 1))
+
+    // Like i2
+    commonMethodDifferentReturnType: (a, b) => {
+>commonMethodDifferentReturnType : Symbol(commonMethodDifferentReturnType, Decl(contextualTypeWithUnionTypeMembers.jump, 96, 27))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 98, 38))
+>b : Symbol(b, Decl(contextualTypeWithUnionTypeMembers.jump, 98, 40))
+
+        var z = a.charCodeAt(b);
+>z : Symbol(z, Decl(contextualTypeWithUnionTypeMembers.jump, 99, 11))
+>a.charCodeAt : Symbol(String.charCodeAt, Decl(lib.d.jump, --, --))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 98, 38))
+>charCodeAt : Symbol(String.charCodeAt, Decl(lib.d.jump, --, --))
+>b : Symbol(b, Decl(contextualTypeWithUnionTypeMembers.jump, 98, 40))
+
+        return z;
+>z : Symbol(z, Decl(contextualTypeWithUnionTypeMembers.jump, 99, 11))
+
+    },
+    commonPropertyDifferentType: 10,
+>commonPropertyDifferentType : Symbol(commonPropertyDifferentType, Decl(contextualTypeWithUnionTypeMembers.jump, 101, 6))
+
+};
+var arrayOrI11OrI21: Array<I11 | I21> = [i11, i21, i11 || i21, { 
+>arrayOrI11OrI21 : Symbol(arrayOrI11OrI21, Decl(contextualTypeWithUnionTypeMembers.jump, 104, 3))
+>Array : Symbol(Array, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>I11 : Symbol(I11, Decl(contextualTypeWithUnionTypeMembers.jump, 74, 7))
+>I21 : Symbol(I21, Decl(contextualTypeWithUnionTypeMembers.jump, 79, 1))
+>i11 : Symbol(i11, Decl(contextualTypeWithUnionTypeMembers.jump, 84, 3))
+>i21 : Symbol(i21, Decl(contextualTypeWithUnionTypeMembers.jump, 85, 3))
+>i11 : Symbol(i11, Decl(contextualTypeWithUnionTypeMembers.jump, 84, 3))
+>i21 : Symbol(i21, Decl(contextualTypeWithUnionTypeMembers.jump, 85, 3))
+
+        // Like i1
+        commonMethodDifferentReturnType: (a, b) => {
+>commonMethodDifferentReturnType : Symbol(commonMethodDifferentReturnType, Decl(contextualTypeWithUnionTypeMembers.jump, 104, 64))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 106, 42))
+>b : Symbol(b, Decl(contextualTypeWithUnionTypeMembers.jump, 106, 44))
+
+            var z = a.charAt(b);
+>z : Symbol(z, Decl(contextualTypeWithUnionTypeMembers.jump, 107, 15))
+>a.charAt : Symbol(String.charAt, Decl(lib.d.jump, --, --))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 106, 42))
+>charAt : Symbol(String.charAt, Decl(lib.d.jump, --, --))
+>b : Symbol(b, Decl(contextualTypeWithUnionTypeMembers.jump, 106, 44))
+
+            return z;
+>z : Symbol(z, Decl(contextualTypeWithUnionTypeMembers.jump, 107, 15))
+
+        },
+        commonPropertyDifferentType: "hello",
+>commonPropertyDifferentType : Symbol(commonPropertyDifferentType, Decl(contextualTypeWithUnionTypeMembers.jump, 109, 10))
+
+    }, { 
+        // Like i2
+        commonMethodDifferentReturnType: (a, b) => {
+>commonMethodDifferentReturnType : Symbol(commonMethodDifferentReturnType, Decl(contextualTypeWithUnionTypeMembers.jump, 111, 8))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 113, 42))
+>b : Symbol(b, Decl(contextualTypeWithUnionTypeMembers.jump, 113, 44))
+
+            var z = a.charCodeAt(b);
+>z : Symbol(z, Decl(contextualTypeWithUnionTypeMembers.jump, 114, 15))
+>a.charCodeAt : Symbol(String.charCodeAt, Decl(lib.d.jump, --, --))
+>a : Symbol(a, Decl(contextualTypeWithUnionTypeMembers.jump, 113, 42))
+>charCodeAt : Symbol(String.charCodeAt, Decl(lib.d.jump, --, --))
+>b : Symbol(b, Decl(contextualTypeWithUnionTypeMembers.jump, 113, 44))
+
+            return z;
+>z : Symbol(z, Decl(contextualTypeWithUnionTypeMembers.jump, 114, 15))
+
+        },
+        commonPropertyDifferentType: 10,
+>commonPropertyDifferentType : Symbol(commonPropertyDifferentType, Decl(contextualTypeWithUnionTypeMembers.jump, 116, 10))
+
+    }];

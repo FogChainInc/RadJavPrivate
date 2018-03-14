@@ -1,0 +1,14 @@
+{
+    "scenario": "can't find the module",
+    "projectRoot": "tests/cases/projects/NoModule",
+    "inputFiles": [
+        "decl.jump"
+    ],
+    "resolvedInputFiles": [
+        "lib.d.jump",
+        "decl.jump"
+    ],
+    "emittedFiles": [
+        "decl.js"
+    ]
+}

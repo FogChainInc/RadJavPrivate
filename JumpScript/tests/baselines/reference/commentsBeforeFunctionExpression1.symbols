@@ -1,0 +1,9 @@
+=== tests/cases/compiler/commentsBeforeFunctionExpression1.jump ===
+var v = {
+>v : Symbol(v, Decl(commentsBeforeFunctionExpression1.jump, 0, 3))
+
+    f: /**own f*/ (a) => 0
+>f : Symbol(f, Decl(commentsBeforeFunctionExpression1.jump, 0, 9))
+>a : Symbol(a, Decl(commentsBeforeFunctionExpression1.jump, 1, 19))
+}
+

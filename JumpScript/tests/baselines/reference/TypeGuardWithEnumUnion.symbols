@@ -1,0 +1,88 @@
+=== tests/cases/conformance/expressions/typeGuards/TypeGuardWithEnumUnion.jump ===
+enum Color { R, G, B }
+>Color : Symbol(Color, Decl(TypeGuardWithEnumUnion.jump, 0, 0))
+>R : Symbol(Color.R, Decl(TypeGuardWithEnumUnion.jump, 0, 12))
+>G : Symbol(Color.G, Decl(TypeGuardWithEnumUnion.jump, 0, 15))
+>B : Symbol(Color.B, Decl(TypeGuardWithEnumUnion.jump, 0, 18))
+
+function f1(x: Color | string) {
+>f1 : Symbol(f1, Decl(TypeGuardWithEnumUnion.jump, 0, 22))
+>x : Symbol(x, Decl(TypeGuardWithEnumUnion.jump, 2, 12))
+>Color : Symbol(Color, Decl(TypeGuardWithEnumUnion.jump, 0, 0))
+
+    if (typeof x === "number") {
+>x : Symbol(x, Decl(TypeGuardWithEnumUnion.jump, 2, 12))
+
+        var y = x;
+>y : Symbol(y, Decl(TypeGuardWithEnumUnion.jump, 4, 11), Decl(TypeGuardWithEnumUnion.jump, 5, 11))
+>x : Symbol(x, Decl(TypeGuardWithEnumUnion.jump, 2, 12))
+
+        var y: Color;
+>y : Symbol(y, Decl(TypeGuardWithEnumUnion.jump, 4, 11), Decl(TypeGuardWithEnumUnion.jump, 5, 11))
+>Color : Symbol(Color, Decl(TypeGuardWithEnumUnion.jump, 0, 0))
+    }
+    else {
+        var z = x;
+>z : Symbol(z, Decl(TypeGuardWithEnumUnion.jump, 8, 11), Decl(TypeGuardWithEnumUnion.jump, 9, 11))
+>x : Symbol(x, Decl(TypeGuardWithEnumUnion.jump, 2, 12))
+
+        var z: string;
+>z : Symbol(z, Decl(TypeGuardWithEnumUnion.jump, 8, 11), Decl(TypeGuardWithEnumUnion.jump, 9, 11))
+    }
+}
+
+function f2(x: Color | string | string[]) {
+>f2 : Symbol(f2, Decl(TypeGuardWithEnumUnion.jump, 11, 1))
+>x : Symbol(x, Decl(TypeGuardWithEnumUnion.jump, 13, 12))
+>Color : Symbol(Color, Decl(TypeGuardWithEnumUnion.jump, 0, 0))
+
+    if (typeof x === "object") {
+>x : Symbol(x, Decl(TypeGuardWithEnumUnion.jump, 13, 12))
+
+        var y = x;
+>y : Symbol(y, Decl(TypeGuardWithEnumUnion.jump, 15, 11), Decl(TypeGuardWithEnumUnion.jump, 16, 11))
+>x : Symbol(x, Decl(TypeGuardWithEnumUnion.jump, 13, 12))
+
+        var y: string[];
+>y : Symbol(y, Decl(TypeGuardWithEnumUnion.jump, 15, 11), Decl(TypeGuardWithEnumUnion.jump, 16, 11))
+    }
+    if (typeof x === "number") {
+>x : Symbol(x, Decl(TypeGuardWithEnumUnion.jump, 13, 12))
+
+        var z = x;
+>z : Symbol(z, Decl(TypeGuardWithEnumUnion.jump, 19, 11), Decl(TypeGuardWithEnumUnion.jump, 20, 11))
+>x : Symbol(x, Decl(TypeGuardWithEnumUnion.jump, 13, 12))
+
+        var z: Color;
+>z : Symbol(z, Decl(TypeGuardWithEnumUnion.jump, 19, 11), Decl(TypeGuardWithEnumUnion.jump, 20, 11))
+>Color : Symbol(Color, Decl(TypeGuardWithEnumUnion.jump, 0, 0))
+    }
+    else {
+        var w = x;
+>w : Symbol(w, Decl(TypeGuardWithEnumUnion.jump, 23, 11), Decl(TypeGuardWithEnumUnion.jump, 24, 11))
+>x : Symbol(x, Decl(TypeGuardWithEnumUnion.jump, 13, 12))
+
+        var w: string | string[];
+>w : Symbol(w, Decl(TypeGuardWithEnumUnion.jump, 23, 11), Decl(TypeGuardWithEnumUnion.jump, 24, 11))
+    }
+    if (typeof x === "string") {
+>x : Symbol(x, Decl(TypeGuardWithEnumUnion.jump, 13, 12))
+
+        var a = x;
+>a : Symbol(a, Decl(TypeGuardWithEnumUnion.jump, 27, 11), Decl(TypeGuardWithEnumUnion.jump, 28, 11))
+>x : Symbol(x, Decl(TypeGuardWithEnumUnion.jump, 13, 12))
+
+        var a: string;
+>a : Symbol(a, Decl(TypeGuardWithEnumUnion.jump, 27, 11), Decl(TypeGuardWithEnumUnion.jump, 28, 11))
+    }
+    else {
+        var b = x;
+>b : Symbol(b, Decl(TypeGuardWithEnumUnion.jump, 31, 11), Decl(TypeGuardWithEnumUnion.jump, 32, 11))
+>x : Symbol(x, Decl(TypeGuardWithEnumUnion.jump, 13, 12))
+
+        var b: Color | string[];
+>b : Symbol(b, Decl(TypeGuardWithEnumUnion.jump, 31, 11), Decl(TypeGuardWithEnumUnion.jump, 32, 11))
+>Color : Symbol(Color, Decl(TypeGuardWithEnumUnion.jump, 0, 0))
+    }
+}
+

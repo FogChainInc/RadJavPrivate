@@ -1,0 +1,142 @@
+=== tests/cases/conformance/classes/propertyMemberDeclarations/memberFunctionDeclarations/memberFunctionsWithPublicOverloads.jump ===
+class C {
+>C : Symbol(C, Decl(memberFunctionsWithPublicOverloads.jump, 0, 0))
+
+    public foo(x: number);
+>foo : Symbol(C.foo, Decl(memberFunctionsWithPublicOverloads.jump, 0, 9), Decl(memberFunctionsWithPublicOverloads.jump, 1, 26), Decl(memberFunctionsWithPublicOverloads.jump, 2, 37))
+>x : Symbol(x, Decl(memberFunctionsWithPublicOverloads.jump, 1, 15))
+
+    public foo(x: number, y: string);
+>foo : Symbol(C.foo, Decl(memberFunctionsWithPublicOverloads.jump, 0, 9), Decl(memberFunctionsWithPublicOverloads.jump, 1, 26), Decl(memberFunctionsWithPublicOverloads.jump, 2, 37))
+>x : Symbol(x, Decl(memberFunctionsWithPublicOverloads.jump, 2, 15))
+>y : Symbol(y, Decl(memberFunctionsWithPublicOverloads.jump, 2, 25))
+
+    public foo(x: any, y?: any) { }
+>foo : Symbol(C.foo, Decl(memberFunctionsWithPublicOverloads.jump, 0, 9), Decl(memberFunctionsWithPublicOverloads.jump, 1, 26), Decl(memberFunctionsWithPublicOverloads.jump, 2, 37))
+>x : Symbol(x, Decl(memberFunctionsWithPublicOverloads.jump, 3, 15))
+>y : Symbol(y, Decl(memberFunctionsWithPublicOverloads.jump, 3, 22))
+
+    public bar(x: 'hi');
+>bar : Symbol(C.bar, Decl(memberFunctionsWithPublicOverloads.jump, 3, 35), Decl(memberFunctionsWithPublicOverloads.jump, 5, 24), Decl(memberFunctionsWithPublicOverloads.jump, 6, 26), Decl(memberFunctionsWithPublicOverloads.jump, 7, 37))
+>x : Symbol(x, Decl(memberFunctionsWithPublicOverloads.jump, 5, 15))
+
+    public bar(x: string);
+>bar : Symbol(C.bar, Decl(memberFunctionsWithPublicOverloads.jump, 3, 35), Decl(memberFunctionsWithPublicOverloads.jump, 5, 24), Decl(memberFunctionsWithPublicOverloads.jump, 6, 26), Decl(memberFunctionsWithPublicOverloads.jump, 7, 37))
+>x : Symbol(x, Decl(memberFunctionsWithPublicOverloads.jump, 6, 15))
+
+    public bar(x: number, y: string);
+>bar : Symbol(C.bar, Decl(memberFunctionsWithPublicOverloads.jump, 3, 35), Decl(memberFunctionsWithPublicOverloads.jump, 5, 24), Decl(memberFunctionsWithPublicOverloads.jump, 6, 26), Decl(memberFunctionsWithPublicOverloads.jump, 7, 37))
+>x : Symbol(x, Decl(memberFunctionsWithPublicOverloads.jump, 7, 15))
+>y : Symbol(y, Decl(memberFunctionsWithPublicOverloads.jump, 7, 25))
+
+    public bar(x: any, y?: any) { }
+>bar : Symbol(C.bar, Decl(memberFunctionsWithPublicOverloads.jump, 3, 35), Decl(memberFunctionsWithPublicOverloads.jump, 5, 24), Decl(memberFunctionsWithPublicOverloads.jump, 6, 26), Decl(memberFunctionsWithPublicOverloads.jump, 7, 37))
+>x : Symbol(x, Decl(memberFunctionsWithPublicOverloads.jump, 8, 15))
+>y : Symbol(y, Decl(memberFunctionsWithPublicOverloads.jump, 8, 22))
+
+    public static foo(x: number);
+>foo : Symbol(C.foo, Decl(memberFunctionsWithPublicOverloads.jump, 8, 35), Decl(memberFunctionsWithPublicOverloads.jump, 10, 33), Decl(memberFunctionsWithPublicOverloads.jump, 11, 44))
+>x : Symbol(x, Decl(memberFunctionsWithPublicOverloads.jump, 10, 22))
+
+    public static foo(x: number, y: string);
+>foo : Symbol(C.foo, Decl(memberFunctionsWithPublicOverloads.jump, 8, 35), Decl(memberFunctionsWithPublicOverloads.jump, 10, 33), Decl(memberFunctionsWithPublicOverloads.jump, 11, 44))
+>x : Symbol(x, Decl(memberFunctionsWithPublicOverloads.jump, 11, 22))
+>y : Symbol(y, Decl(memberFunctionsWithPublicOverloads.jump, 11, 32))
+
+    public static foo(x: any, y?: any) { }
+>foo : Symbol(C.foo, Decl(memberFunctionsWithPublicOverloads.jump, 8, 35), Decl(memberFunctionsWithPublicOverloads.jump, 10, 33), Decl(memberFunctionsWithPublicOverloads.jump, 11, 44))
+>x : Symbol(x, Decl(memberFunctionsWithPublicOverloads.jump, 12, 22))
+>y : Symbol(y, Decl(memberFunctionsWithPublicOverloads.jump, 12, 29))
+
+    public static bar(x: 'hi');
+>bar : Symbol(C.bar, Decl(memberFunctionsWithPublicOverloads.jump, 12, 42), Decl(memberFunctionsWithPublicOverloads.jump, 14, 31), Decl(memberFunctionsWithPublicOverloads.jump, 15, 33), Decl(memberFunctionsWithPublicOverloads.jump, 16, 44))
+>x : Symbol(x, Decl(memberFunctionsWithPublicOverloads.jump, 14, 22))
+
+    public static bar(x: string);
+>bar : Symbol(C.bar, Decl(memberFunctionsWithPublicOverloads.jump, 12, 42), Decl(memberFunctionsWithPublicOverloads.jump, 14, 31), Decl(memberFunctionsWithPublicOverloads.jump, 15, 33), Decl(memberFunctionsWithPublicOverloads.jump, 16, 44))
+>x : Symbol(x, Decl(memberFunctionsWithPublicOverloads.jump, 15, 22))
+
+    public static bar(x: number, y: string);
+>bar : Symbol(C.bar, Decl(memberFunctionsWithPublicOverloads.jump, 12, 42), Decl(memberFunctionsWithPublicOverloads.jump, 14, 31), Decl(memberFunctionsWithPublicOverloads.jump, 15, 33), Decl(memberFunctionsWithPublicOverloads.jump, 16, 44))
+>x : Symbol(x, Decl(memberFunctionsWithPublicOverloads.jump, 16, 22))
+>y : Symbol(y, Decl(memberFunctionsWithPublicOverloads.jump, 16, 32))
+
+    public static bar(x: any, y?: any) { }
+>bar : Symbol(C.bar, Decl(memberFunctionsWithPublicOverloads.jump, 12, 42), Decl(memberFunctionsWithPublicOverloads.jump, 14, 31), Decl(memberFunctionsWithPublicOverloads.jump, 15, 33), Decl(memberFunctionsWithPublicOverloads.jump, 16, 44))
+>x : Symbol(x, Decl(memberFunctionsWithPublicOverloads.jump, 17, 22))
+>y : Symbol(y, Decl(memberFunctionsWithPublicOverloads.jump, 17, 29))
+}
+
+class D<T> {
+>D : Symbol(D, Decl(memberFunctionsWithPublicOverloads.jump, 18, 1))
+>T : Symbol(T, Decl(memberFunctionsWithPublicOverloads.jump, 20, 8))
+
+    public foo(x: number);
+>foo : Symbol(D.foo, Decl(memberFunctionsWithPublicOverloads.jump, 20, 12), Decl(memberFunctionsWithPublicOverloads.jump, 21, 26), Decl(memberFunctionsWithPublicOverloads.jump, 22, 27))
+>x : Symbol(x, Decl(memberFunctionsWithPublicOverloads.jump, 21, 15))
+
+    public foo(x: T, y: T);
+>foo : Symbol(D.foo, Decl(memberFunctionsWithPublicOverloads.jump, 20, 12), Decl(memberFunctionsWithPublicOverloads.jump, 21, 26), Decl(memberFunctionsWithPublicOverloads.jump, 22, 27))
+>x : Symbol(x, Decl(memberFunctionsWithPublicOverloads.jump, 22, 15))
+>T : Symbol(T, Decl(memberFunctionsWithPublicOverloads.jump, 20, 8))
+>y : Symbol(y, Decl(memberFunctionsWithPublicOverloads.jump, 22, 20))
+>T : Symbol(T, Decl(memberFunctionsWithPublicOverloads.jump, 20, 8))
+
+    public foo(x: any, y?: any) { }
+>foo : Symbol(D.foo, Decl(memberFunctionsWithPublicOverloads.jump, 20, 12), Decl(memberFunctionsWithPublicOverloads.jump, 21, 26), Decl(memberFunctionsWithPublicOverloads.jump, 22, 27))
+>x : Symbol(x, Decl(memberFunctionsWithPublicOverloads.jump, 23, 15))
+>y : Symbol(y, Decl(memberFunctionsWithPublicOverloads.jump, 23, 22))
+
+    public bar(x: 'hi');
+>bar : Symbol(D.bar, Decl(memberFunctionsWithPublicOverloads.jump, 23, 35), Decl(memberFunctionsWithPublicOverloads.jump, 25, 24), Decl(memberFunctionsWithPublicOverloads.jump, 26, 26), Decl(memberFunctionsWithPublicOverloads.jump, 27, 27))
+>x : Symbol(x, Decl(memberFunctionsWithPublicOverloads.jump, 25, 15))
+
+    public bar(x: string);
+>bar : Symbol(D.bar, Decl(memberFunctionsWithPublicOverloads.jump, 23, 35), Decl(memberFunctionsWithPublicOverloads.jump, 25, 24), Decl(memberFunctionsWithPublicOverloads.jump, 26, 26), Decl(memberFunctionsWithPublicOverloads.jump, 27, 27))
+>x : Symbol(x, Decl(memberFunctionsWithPublicOverloads.jump, 26, 15))
+
+    public bar(x: T, y: T);
+>bar : Symbol(D.bar, Decl(memberFunctionsWithPublicOverloads.jump, 23, 35), Decl(memberFunctionsWithPublicOverloads.jump, 25, 24), Decl(memberFunctionsWithPublicOverloads.jump, 26, 26), Decl(memberFunctionsWithPublicOverloads.jump, 27, 27))
+>x : Symbol(x, Decl(memberFunctionsWithPublicOverloads.jump, 27, 15))
+>T : Symbol(T, Decl(memberFunctionsWithPublicOverloads.jump, 20, 8))
+>y : Symbol(y, Decl(memberFunctionsWithPublicOverloads.jump, 27, 20))
+>T : Symbol(T, Decl(memberFunctionsWithPublicOverloads.jump, 20, 8))
+
+    public bar(x: any, y?: any) { }
+>bar : Symbol(D.bar, Decl(memberFunctionsWithPublicOverloads.jump, 23, 35), Decl(memberFunctionsWithPublicOverloads.jump, 25, 24), Decl(memberFunctionsWithPublicOverloads.jump, 26, 26), Decl(memberFunctionsWithPublicOverloads.jump, 27, 27))
+>x : Symbol(x, Decl(memberFunctionsWithPublicOverloads.jump, 28, 15))
+>y : Symbol(y, Decl(memberFunctionsWithPublicOverloads.jump, 28, 22))
+
+    public static foo(x: number);
+>foo : Symbol(D.foo, Decl(memberFunctionsWithPublicOverloads.jump, 28, 35), Decl(memberFunctionsWithPublicOverloads.jump, 30, 33), Decl(memberFunctionsWithPublicOverloads.jump, 31, 44))
+>x : Symbol(x, Decl(memberFunctionsWithPublicOverloads.jump, 30, 22))
+
+    public static foo(x: number, y: string);
+>foo : Symbol(D.foo, Decl(memberFunctionsWithPublicOverloads.jump, 28, 35), Decl(memberFunctionsWithPublicOverloads.jump, 30, 33), Decl(memberFunctionsWithPublicOverloads.jump, 31, 44))
+>x : Symbol(x, Decl(memberFunctionsWithPublicOverloads.jump, 31, 22))
+>y : Symbol(y, Decl(memberFunctionsWithPublicOverloads.jump, 31, 32))
+
+    public static foo(x: any, y?: any) { }
+>foo : Symbol(D.foo, Decl(memberFunctionsWithPublicOverloads.jump, 28, 35), Decl(memberFunctionsWithPublicOverloads.jump, 30, 33), Decl(memberFunctionsWithPublicOverloads.jump, 31, 44))
+>x : Symbol(x, Decl(memberFunctionsWithPublicOverloads.jump, 32, 22))
+>y : Symbol(y, Decl(memberFunctionsWithPublicOverloads.jump, 32, 29))
+
+    public static bar(x: 'hi');
+>bar : Symbol(D.bar, Decl(memberFunctionsWithPublicOverloads.jump, 32, 42), Decl(memberFunctionsWithPublicOverloads.jump, 34, 31), Decl(memberFunctionsWithPublicOverloads.jump, 35, 33), Decl(memberFunctionsWithPublicOverloads.jump, 36, 44))
+>x : Symbol(x, Decl(memberFunctionsWithPublicOverloads.jump, 34, 22))
+
+    public static bar(x: string);
+>bar : Symbol(D.bar, Decl(memberFunctionsWithPublicOverloads.jump, 32, 42), Decl(memberFunctionsWithPublicOverloads.jump, 34, 31), Decl(memberFunctionsWithPublicOverloads.jump, 35, 33), Decl(memberFunctionsWithPublicOverloads.jump, 36, 44))
+>x : Symbol(x, Decl(memberFunctionsWithPublicOverloads.jump, 35, 22))
+
+    public static bar(x: number, y: string);
+>bar : Symbol(D.bar, Decl(memberFunctionsWithPublicOverloads.jump, 32, 42), Decl(memberFunctionsWithPublicOverloads.jump, 34, 31), Decl(memberFunctionsWithPublicOverloads.jump, 35, 33), Decl(memberFunctionsWithPublicOverloads.jump, 36, 44))
+>x : Symbol(x, Decl(memberFunctionsWithPublicOverloads.jump, 36, 22))
+>y : Symbol(y, Decl(memberFunctionsWithPublicOverloads.jump, 36, 32))
+
+    public static bar(x: any, y?: any) { }
+>bar : Symbol(D.bar, Decl(memberFunctionsWithPublicOverloads.jump, 32, 42), Decl(memberFunctionsWithPublicOverloads.jump, 34, 31), Decl(memberFunctionsWithPublicOverloads.jump, 35, 33), Decl(memberFunctionsWithPublicOverloads.jump, 36, 44))
+>x : Symbol(x, Decl(memberFunctionsWithPublicOverloads.jump, 37, 22))
+>y : Symbol(y, Decl(memberFunctionsWithPublicOverloads.jump, 37, 29))
+
+}

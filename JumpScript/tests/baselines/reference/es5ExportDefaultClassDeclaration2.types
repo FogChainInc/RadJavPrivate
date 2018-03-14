@@ -1,0 +1,6 @@
+=== tests/cases/compiler/es5ExportDefaultClassDeclaration2.jump ===
+export default class {
+    method() { }
+>method : () => void
+}
+

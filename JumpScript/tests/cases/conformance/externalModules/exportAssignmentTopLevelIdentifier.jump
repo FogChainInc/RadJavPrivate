@@ -1,0 +1,12 @@
+// @module: amd
+// @Filename: foo_0.jump
+module Foo {
+	export var answer = 42;
+}
+export = Foo;
+
+// @Filename: foo_1.jump
+import foo = require("./foo_0");
+if(foo.answer === 42){
+
+}

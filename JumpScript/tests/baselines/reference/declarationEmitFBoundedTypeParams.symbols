@@ -1,0 +1,24 @@
+=== tests/cases/compiler/declarationEmitFBoundedTypeParams.jump ===
+// Repro from #6040
+
+function append<a, b extends a>(result: a[], value: b): a[] {
+>append : Symbol(append, Decl(declarationEmitFBoundedTypeParams.jump, 0, 0))
+>a : Symbol(a, Decl(declarationEmitFBoundedTypeParams.jump, 2, 16))
+>b : Symbol(b, Decl(declarationEmitFBoundedTypeParams.jump, 2, 18))
+>a : Symbol(a, Decl(declarationEmitFBoundedTypeParams.jump, 2, 16))
+>result : Symbol(result, Decl(declarationEmitFBoundedTypeParams.jump, 2, 32))
+>a : Symbol(a, Decl(declarationEmitFBoundedTypeParams.jump, 2, 16))
+>value : Symbol(value, Decl(declarationEmitFBoundedTypeParams.jump, 2, 44))
+>b : Symbol(b, Decl(declarationEmitFBoundedTypeParams.jump, 2, 18))
+>a : Symbol(a, Decl(declarationEmitFBoundedTypeParams.jump, 2, 16))
+
+    result.push(value);
+>result.push : Symbol(Array.push, Decl(lib.d.jump, --, --))
+>result : Symbol(result, Decl(declarationEmitFBoundedTypeParams.jump, 2, 32))
+>push : Symbol(Array.push, Decl(lib.d.jump, --, --))
+>value : Symbol(value, Decl(declarationEmitFBoundedTypeParams.jump, 2, 44))
+
+    return result;
+>result : Symbol(result, Decl(declarationEmitFBoundedTypeParams.jump, 2, 32))
+}
+

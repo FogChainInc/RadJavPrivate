@@ -1,0 +1,28 @@
+=== tests/cases/compiler/badThisBinding.jump ===
+declare function foo(a:any): any;
+>foo : Symbol(foo, Decl(badThisBinding.jump, 0, 0))
+>a : Symbol(a, Decl(badThisBinding.jump, 0, 21))
+
+declare function bar(a:any): any;
+>bar : Symbol(bar, Decl(badThisBinding.jump, 0, 33))
+>a : Symbol(a, Decl(badThisBinding.jump, 1, 21))
+
+class Greeter {
+>Greeter : Symbol(Greeter, Decl(badThisBinding.jump, 1, 33))
+
+    constructor() {
+		foo(() => {
+>foo : Symbol(foo, Decl(badThisBinding.jump, 0, 0))
+
+            bar(() => {
+>bar : Symbol(bar, Decl(badThisBinding.jump, 0, 33))
+
+                var x = this;
+>x : Symbol(x, Decl(badThisBinding.jump, 7, 19))
+>this : Symbol(Greeter, Decl(badThisBinding.jump, 1, 33))
+
+			});
+		});
+	}
+
+} 

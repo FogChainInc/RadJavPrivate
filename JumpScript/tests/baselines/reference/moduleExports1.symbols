@@ -1,0 +1,32 @@
+=== tests/cases/compiler/moduleExports1.jump ===
+export module JumpScript.Strasse.Street {
+>JumpScript : Symbol(JumpScript, Decl(moduleExports1.jump, 0, 0))
+>Strasse : Symbol(Strasse, Decl(moduleExports1.jump, 0, 25))
+>Street : Symbol(Street, Decl(moduleExports1.jump, 0, 33))
+
+	export class Rue {
+>Rue : Symbol(Rue, Decl(moduleExports1.jump, 0, 41))
+
+		public address:string;
+>address : Symbol(Rue.address, Decl(moduleExports1.jump, 1, 19))
+	}	
+}
+
+var rue = new JumpScript.Strasse.Street.Rue();
+>rue : Symbol(rue, Decl(moduleExports1.jump, 6, 3))
+>JumpScript.Strasse.Street.Rue : Symbol(JumpScript.Strasse.Street.Rue, Decl(moduleExports1.jump, 0, 41))
+>JumpScript.Strasse.Street : Symbol(JumpScript.Strasse.Street, Decl(moduleExports1.jump, 0, 33))
+>JumpScript.Strasse : Symbol(JumpScript.Strasse, Decl(moduleExports1.jump, 0, 25))
+>JumpScript : Symbol(JumpScript, Decl(moduleExports1.jump, 0, 0))
+>Strasse : Symbol(JumpScript.Strasse, Decl(moduleExports1.jump, 0, 25))
+>Street : Symbol(JumpScript.Strasse.Street, Decl(moduleExports1.jump, 0, 33))
+>Rue : Symbol(JumpScript.Strasse.Street.Rue, Decl(moduleExports1.jump, 0, 41))
+
+rue.address = "1 Main Street";
+>rue.address : Symbol(JumpScript.Strasse.Street.Rue.address, Decl(moduleExports1.jump, 1, 19))
+>rue : Symbol(rue, Decl(moduleExports1.jump, 6, 3))
+>address : Symbol(JumpScript.Strasse.Street.Rue.address, Decl(moduleExports1.jump, 1, 19))
+
+void 0;
+
+if (!module.exports) module.exports = "";

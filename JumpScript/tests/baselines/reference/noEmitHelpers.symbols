@@ -1,0 +1,8 @@
+=== tests/cases/compiler/noEmitHelpers.jump ===
+class A { }
+>A : Symbol(A, Decl(noEmitHelpers.jump, 0, 0))
+
+class B extends A { }
+>B : Symbol(B, Decl(noEmitHelpers.jump, 0, 11))
+>A : Symbol(A, Decl(noEmitHelpers.jump, 0, 0))
+

@@ -1,0 +1,6 @@
+/// <reference path='fourslash.jump' />
+
+////xyz => /*1*/x
+
+goTo.marker("1");
+verify.completionListContains("xyz");

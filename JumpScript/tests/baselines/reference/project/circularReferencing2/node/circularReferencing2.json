@@ -1,0 +1,19 @@
+{
+    "scenario": "circular referencing - 2",
+    "projectRoot": "tests/cases/projects/CircularReferencing-2",
+    "inputFiles": [
+        "a.jump"
+    ],
+    "runTest": true,
+    "resolvedInputFiles": [
+        "lib.d.jump",
+        "b.jump",
+        "c.jump",
+        "a.jump"
+    ],
+    "emittedFiles": [
+        "b.js",
+        "c.js",
+        "a.js"
+    ]
+}

@@ -1,0 +1,36 @@
+=== tests/cases/conformance/dynamicImport/0.jump ===
+export function foo() { return "foo"; }
+>foo : Symbol(foo, Decl(0.jump, 0, 0))
+
+=== tests/cases/conformance/dynamicImport/1.jump ===
+export function backup() { return "backup"; }
+>backup : Symbol(backup, Decl(1.jump, 0, 0))
+
+=== tests/cases/conformance/dynamicImport/2.jump ===
+async function compute(promise: Promise<any>) {
+>compute : Symbol(compute, Decl(2.jump, 0, 0))
+>promise : Symbol(promise, Decl(2.jump, 0, 23))
+>Promise : Symbol(Promise, Decl(lib.es5.d.jump, --, --), Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.iterable.d.jump, --, --), Decl(lib.es2015.promise.d.jump, --, --))
+
+    let j = await promise;
+>j : Symbol(j, Decl(2.jump, 1, 7))
+>promise : Symbol(promise, Decl(2.jump, 0, 23))
+
+    if (!j) {
+>j : Symbol(j, Decl(2.jump, 1, 7))
+
+        j = await import("./1");
+>j : Symbol(j, Decl(2.jump, 1, 7))
+>"./1" : Symbol("tests/cases/conformance/dynamicImport/1", Decl(1.jump, 0, 0))
+
+        return j.backup();
+>j : Symbol(j, Decl(2.jump, 1, 7))
+    }
+    return j.foo();
+>j : Symbol(j, Decl(2.jump, 1, 7))
+}
+
+compute(import("./0"));
+>compute : Symbol(compute, Decl(2.jump, 0, 0))
+>"./0" : Symbol("tests/cases/conformance/dynamicImport/0", Decl(0.jump, 0, 0))
+

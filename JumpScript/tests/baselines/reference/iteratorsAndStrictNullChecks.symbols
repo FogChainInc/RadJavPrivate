@@ -1,0 +1,24 @@
+=== tests/cases/compiler/iteratorsAndStrictNullChecks.jump ===
+// for..of
+for (const x of ["a", "b"]) {
+>x : Symbol(x, Decl(iteratorsAndStrictNullChecks.jump, 1, 10))
+
+    x.substring;
+>x.substring : Symbol(String.substring, Decl(lib.es5.d.jump, --, --))
+>x : Symbol(x, Decl(iteratorsAndStrictNullChecks.jump, 1, 10))
+>substring : Symbol(String.substring, Decl(lib.es5.d.jump, --, --))
+}
+
+// Spread
+const xs = [1, 2, 3];
+>xs : Symbol(xs, Decl(iteratorsAndStrictNullChecks.jump, 6, 5))
+
+const ys = [4, 5];
+>ys : Symbol(ys, Decl(iteratorsAndStrictNullChecks.jump, 7, 5))
+
+xs.push(...ys);
+>xs.push : Symbol(Array.push, Decl(lib.es5.d.jump, --, --))
+>xs : Symbol(xs, Decl(iteratorsAndStrictNullChecks.jump, 6, 5))
+>push : Symbol(Array.push, Decl(lib.es5.d.jump, --, --))
+>ys : Symbol(ys, Decl(iteratorsAndStrictNullChecks.jump, 7, 5))
+

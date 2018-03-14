@@ -1,0 +1,12 @@
+{
+    "scenario": "Verify when same named .d.jump and .js file exists in the folder but .d.jump file is specified in jmpconfig.json",
+    "projectRoot": "tests/cases/projects/jsFileCompilation",
+    "baselineCheck": true,
+    "declaration": true,
+    "project": "SameNameDTsSpecified",
+    "resolvedInputFiles": [
+        "lib.d.jump",
+        "SameNameDTsSpecified/a.d.jump"
+    ],
+    "emittedFiles": []
+}

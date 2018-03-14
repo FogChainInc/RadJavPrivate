@@ -1,0 +1,24 @@
+=== tests/cases/compiler/multipleExports.jump ===
+export module M {
+>M : Symbol(M, Decl(multipleExports.jump, 0, 0), Decl(multipleExports.jump, 5, 12))
+
+    export var v = 0;
+>v : Symbol(v, Decl(multipleExports.jump, 1, 14))
+
+    export let x;
+>x : Symbol(x, Decl(multipleExports.jump, 2, 14), Decl(multipleExports.jump, 8, 12))
+}
+
+const x = 0;
+>x : Symbol(x, Decl(multipleExports.jump, 5, 5))
+
+export module M {
+>M : Symbol(M, Decl(multipleExports.jump, 0, 0), Decl(multipleExports.jump, 5, 12))
+
+    v;
+>v : Symbol(v, Decl(multipleExports.jump, 1, 14))
+
+    export {x};
+>x : Symbol(x, Decl(multipleExports.jump, 2, 14), Decl(multipleExports.jump, 8, 12))
+}
+

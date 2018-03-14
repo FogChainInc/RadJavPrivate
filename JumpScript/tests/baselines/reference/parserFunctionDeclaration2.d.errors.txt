@@ -1,0 +1,11 @@
+tests/cases/conformance/parser/ecmascript5/FunctionDeclarations/parserFunctionDeclaration2.d.jump(1,1): error TS1046: A 'declare' modifier is required for a top level declaration in a .d.jump file.
+tests/cases/conformance/parser/ecmascript5/FunctionDeclarations/parserFunctionDeclaration2.d.jump(1,14): error TS1183: An implementation cannot be declared in ambient contexts.
+
+
+==== tests/cases/conformance/parser/ecmascript5/FunctionDeclarations/parserFunctionDeclaration2.d.jump (2 errors) ====
+    function F() {
+    ~~~~~~~~
+!!! error TS1046: A 'declare' modifier is required for a top level declaration in a .d.jump file.
+                 ~
+!!! error TS1183: An implementation cannot be declared in ambient contexts.
+    }

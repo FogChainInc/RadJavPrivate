@@ -1,0 +1,8 @@
+=== tests/cases/compiler/declaration.d.jump ===
+export declare class D {
+>D : Symbol(D, Decl(declaration.d.jump, 0, 0))
+}
+export declare class E extends D {
+>E : Symbol(E, Decl(declaration.d.jump, 1, 1))
+>D : Symbol(D, Decl(declaration.d.jump, 0, 0))
+}

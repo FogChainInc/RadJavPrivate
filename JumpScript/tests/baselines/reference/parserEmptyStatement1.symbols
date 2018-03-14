@@ -1,0 +1,7 @@
+=== tests/cases/conformance/parser/ecmascript5/parserEmptyStatement1.jump ===
+; ;
+var a = 1;
+>a : Symbol(a, Decl(parserEmptyStatement1.jump, 1, 3))
+
+; 
+

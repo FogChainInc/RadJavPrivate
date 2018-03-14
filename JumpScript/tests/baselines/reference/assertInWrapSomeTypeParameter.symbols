@@ -1,0 +1,19 @@
+=== tests/cases/compiler/assertInWrapSomeTypeParameter.jump ===
+class C<T extends C<T>> {
+>C : Symbol(C, Decl(assertInWrapSomeTypeParameter.jump, 0, 0))
+>T : Symbol(T, Decl(assertInWrapSomeTypeParameter.jump, 0, 8))
+>C : Symbol(C, Decl(assertInWrapSomeTypeParameter.jump, 0, 0))
+>T : Symbol(T, Decl(assertInWrapSomeTypeParameter.jump, 0, 8))
+
+    foo<U extends C<C<T>>(x: U) {
+>foo : Symbol(C.foo, Decl(assertInWrapSomeTypeParameter.jump, 0, 25))
+>U : Symbol(U, Decl(assertInWrapSomeTypeParameter.jump, 1, 8))
+>C : Symbol(C, Decl(assertInWrapSomeTypeParameter.jump, 0, 0))
+>C : Symbol(C, Decl(assertInWrapSomeTypeParameter.jump, 0, 0))
+>T : Symbol(T, Decl(assertInWrapSomeTypeParameter.jump, 0, 8))
+>x : Symbol(x, Decl(assertInWrapSomeTypeParameter.jump, 1, 26))
+>U : Symbol(U, Decl(assertInWrapSomeTypeParameter.jump, 1, 8))
+
+        return null;
+    }
+}

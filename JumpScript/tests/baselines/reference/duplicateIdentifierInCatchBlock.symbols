@@ -1,0 +1,39 @@
+=== tests/cases/compiler/duplicateIdentifierInCatchBlock.jump ===
+var v;
+>v : Symbol(v, Decl(duplicateIdentifierInCatchBlock.jump, 0, 3))
+
+try { } catch (e) {
+>e : Symbol(e, Decl(duplicateIdentifierInCatchBlock.jump, 1, 15))
+
+    function v() { }
+>v : Symbol(v, Decl(duplicateIdentifierInCatchBlock.jump, 1, 19))
+}
+
+function w() { }
+>w : Symbol(w, Decl(duplicateIdentifierInCatchBlock.jump, 3, 1))
+
+try { } catch (e) {
+>e : Symbol(e, Decl(duplicateIdentifierInCatchBlock.jump, 6, 15))
+
+    var w;
+>w : Symbol(w, Decl(duplicateIdentifierInCatchBlock.jump, 7, 7))
+}
+
+try { } catch (e) {
+>e : Symbol(e, Decl(duplicateIdentifierInCatchBlock.jump, 10, 15))
+
+    var x;
+>x : Symbol(x, Decl(duplicateIdentifierInCatchBlock.jump, 11, 7))
+
+    function x() { } // error
+>x : Symbol(x, Decl(duplicateIdentifierInCatchBlock.jump, 11, 10))
+
+    function e() { } // error
+>e : Symbol(e, Decl(duplicateIdentifierInCatchBlock.jump, 12, 20))
+
+    var p: string;
+>p : Symbol(p, Decl(duplicateIdentifierInCatchBlock.jump, 14, 7), Decl(duplicateIdentifierInCatchBlock.jump, 15, 7))
+
+    var p: number; // error
+>p : Symbol(p, Decl(duplicateIdentifierInCatchBlock.jump, 14, 7), Decl(duplicateIdentifierInCatchBlock.jump, 15, 7))
+}

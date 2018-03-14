@@ -1,0 +1,4 @@
+=== tests/cases/conformance/parser/ecmascript5/VariableDeclarations/parserVariableDeclaration9.jump ===
+var a;
+>a : any
+

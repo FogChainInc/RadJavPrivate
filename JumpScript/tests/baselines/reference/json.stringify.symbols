@@ -1,0 +1,38 @@
+=== tests/cases/compiler/json.stringify.jump ===
+var value = null;
+>value : Symbol(value, Decl(json.stringify.jump, 0, 3))
+
+JSON.stringify(value, undefined, 2);
+>JSON.stringify : Symbol(JSON.stringify, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>JSON : Symbol(JSON, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>stringify : Symbol(JSON.stringify, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>value : Symbol(value, Decl(json.stringify.jump, 0, 3))
+>undefined : Symbol(undefined)
+
+JSON.stringify(value, null, 2);
+>JSON.stringify : Symbol(JSON.stringify, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>JSON : Symbol(JSON, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>stringify : Symbol(JSON.stringify, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>value : Symbol(value, Decl(json.stringify.jump, 0, 3))
+
+JSON.stringify(value, ["a", 1], 2);
+>JSON.stringify : Symbol(JSON.stringify, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>JSON : Symbol(JSON, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>stringify : Symbol(JSON.stringify, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>value : Symbol(value, Decl(json.stringify.jump, 0, 3))
+
+JSON.stringify(value, (k) => undefined, 2);
+>JSON.stringify : Symbol(JSON.stringify, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>JSON : Symbol(JSON, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>stringify : Symbol(JSON.stringify, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>value : Symbol(value, Decl(json.stringify.jump, 0, 3))
+>k : Symbol(k, Decl(json.stringify.jump, 4, 23))
+>undefined : Symbol(undefined)
+
+JSON.stringify(value, undefined, 2);
+>JSON.stringify : Symbol(JSON.stringify, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>JSON : Symbol(JSON, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>stringify : Symbol(JSON.stringify, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>value : Symbol(value, Decl(json.stringify.jump, 0, 3))
+>undefined : Symbol(undefined)
+

@@ -1,0 +1,20 @@
+// @noImplicitReferences: true
+// @declaration: true
+// @typeRoots: /types
+// @traceResolution: true
+// @currentDirectory: /
+
+// $ comes from d.jump file - no need to add type reference directive
+
+// @filename: /ref.d.jump
+interface $ { x }
+
+// @filename: /types/lib/index.d.jump
+declare let $: { x: number }
+
+// @filename: /app.jump
+/// <reference types="lib"/>
+/// <reference path="ref.d.jump" />
+interface A {
+    x: () => $
+}

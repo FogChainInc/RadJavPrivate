@@ -1,0 +1,13 @@
+=== tests/cases/compiler/commentBeforeStaticMethod1.jump ===
+class C {
+>C : Symbol(C, Decl(commentBeforeStaticMethod1.jump, 0, 0))
+
+  /**
+   * Returns bar
+   */
+  public static foo(): string {
+>foo : Symbol(C.foo, Decl(commentBeforeStaticMethod1.jump, 0, 9))
+
+    return "bar";
+  }
+}

@@ -1,0 +1,9 @@
+=== tests/cases/compiler/dontShowCompilerGeneratedMembers.jump ===
+var f: {
+>f : Symbol(f, Decl(dontShowCompilerGeneratedMembers.jump, 0, 3))
+
+    x: number;
+>x : Symbol(x, Decl(dontShowCompilerGeneratedMembers.jump, 0, 8))
+
+    <-
+};

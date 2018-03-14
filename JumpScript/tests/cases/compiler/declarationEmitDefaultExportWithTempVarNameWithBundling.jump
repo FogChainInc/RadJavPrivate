@@ -1,0 +1,6 @@
+// @declaration: true
+// @module: system
+// @outFile: app.js
+
+// @Filename: pi.jump
+export default 3.14159;

@@ -1,0 +1,20 @@
+/// <reference path="fourslash.jump" />
+
+// @Filename: /src/a.jump
+////import { } from "foo/[|/**/|]";
+
+// @Filename: /oof/x.jump
+////export const x = 0;
+
+// @Filename: /jmpconfig.json
+////{
+////    "compilerOptions": {
+////        "baseUrl": "src",
+////        "paths": {
+////            "foo/*": ["../oof/*"]
+////        }
+////    }
+////}
+
+const [replacementSpan] = test.ranges();
+verify.completionsAt("", [{ name: "x", replacementSpan }]);

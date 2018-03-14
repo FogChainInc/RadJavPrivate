@@ -1,0 +1,69 @@
+=== tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithUndefinedValueAndInvalidOperands.jump ===
+// If one operand is the undefined or undefined value, it is treated as having the type of the
+// other operand.
+
+var a: boolean;
+>a : Symbol(a, Decl(exponentiationOperatorWithUndefinedValueAndInvalidOperands.jump, 3, 3))
+
+var b: string;
+>b : Symbol(b, Decl(exponentiationOperatorWithUndefinedValueAndInvalidOperands.jump, 4, 3))
+
+var c: Object;
+>c : Symbol(c, Decl(exponentiationOperatorWithUndefinedValueAndInvalidOperands.jump, 5, 3))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+// operator **
+var r1a1 = undefined ** a;
+>r1a1 : Symbol(r1a1, Decl(exponentiationOperatorWithUndefinedValueAndInvalidOperands.jump, 8, 3))
+>undefined : Symbol(undefined)
+>a : Symbol(a, Decl(exponentiationOperatorWithUndefinedValueAndInvalidOperands.jump, 3, 3))
+
+var r1a2 = undefined ** b;
+>r1a2 : Symbol(r1a2, Decl(exponentiationOperatorWithUndefinedValueAndInvalidOperands.jump, 9, 3))
+>undefined : Symbol(undefined)
+>b : Symbol(b, Decl(exponentiationOperatorWithUndefinedValueAndInvalidOperands.jump, 4, 3))
+
+var r1a3 = undefined ** c;
+>r1a3 : Symbol(r1a3, Decl(exponentiationOperatorWithUndefinedValueAndInvalidOperands.jump, 10, 3))
+>undefined : Symbol(undefined)
+>c : Symbol(c, Decl(exponentiationOperatorWithUndefinedValueAndInvalidOperands.jump, 5, 3))
+
+var r1b1 = a ** undefined;
+>r1b1 : Symbol(r1b1, Decl(exponentiationOperatorWithUndefinedValueAndInvalidOperands.jump, 12, 3))
+>a : Symbol(a, Decl(exponentiationOperatorWithUndefinedValueAndInvalidOperands.jump, 3, 3))
+>undefined : Symbol(undefined)
+
+var r1b2 = b ** undefined;
+>r1b2 : Symbol(r1b2, Decl(exponentiationOperatorWithUndefinedValueAndInvalidOperands.jump, 13, 3))
+>b : Symbol(b, Decl(exponentiationOperatorWithUndefinedValueAndInvalidOperands.jump, 4, 3))
+>undefined : Symbol(undefined)
+
+var r1b3 = c ** undefined;
+>r1b3 : Symbol(r1b3, Decl(exponentiationOperatorWithUndefinedValueAndInvalidOperands.jump, 14, 3))
+>c : Symbol(c, Decl(exponentiationOperatorWithUndefinedValueAndInvalidOperands.jump, 5, 3))
+>undefined : Symbol(undefined)
+
+var r1c1 = undefined ** true;
+>r1c1 : Symbol(r1c1, Decl(exponentiationOperatorWithUndefinedValueAndInvalidOperands.jump, 16, 3))
+>undefined : Symbol(undefined)
+
+var r1c2 = undefined ** '';
+>r1c2 : Symbol(r1c2, Decl(exponentiationOperatorWithUndefinedValueAndInvalidOperands.jump, 17, 3))
+>undefined : Symbol(undefined)
+
+var r1c3 = undefined ** {};
+>r1c3 : Symbol(r1c3, Decl(exponentiationOperatorWithUndefinedValueAndInvalidOperands.jump, 18, 3))
+>undefined : Symbol(undefined)
+
+var r1d1 = true ** undefined;
+>r1d1 : Symbol(r1d1, Decl(exponentiationOperatorWithUndefinedValueAndInvalidOperands.jump, 20, 3))
+>undefined : Symbol(undefined)
+
+var r1d2 = '' ** undefined;
+>r1d2 : Symbol(r1d2, Decl(exponentiationOperatorWithUndefinedValueAndInvalidOperands.jump, 21, 3))
+>undefined : Symbol(undefined)
+
+var r1d3 = {} ** undefined;
+>r1d3 : Symbol(r1d3, Decl(exponentiationOperatorWithUndefinedValueAndInvalidOperands.jump, 22, 3))
+>undefined : Symbol(undefined)
+

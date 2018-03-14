@@ -1,0 +1,26 @@
+=== tests/cases/conformance/classes/classDeclarations/classAndInterfaceWithSameName.jump ===
+class C { foo: string; }
+>C : Symbol(C, Decl(classAndInterfaceWithSameName.jump, 0, 0), Decl(classAndInterfaceWithSameName.jump, 0, 24))
+>foo : Symbol(C.foo, Decl(classAndInterfaceWithSameName.jump, 0, 9), Decl(classAndInterfaceWithSameName.jump, 1, 13))
+
+interface C { foo: string; }
+>C : Symbol(C, Decl(classAndInterfaceWithSameName.jump, 0, 0), Decl(classAndInterfaceWithSameName.jump, 0, 24))
+>foo : Symbol(C.foo, Decl(classAndInterfaceWithSameName.jump, 0, 9), Decl(classAndInterfaceWithSameName.jump, 1, 13))
+
+module M {
+>M : Symbol(M, Decl(classAndInterfaceWithSameName.jump, 1, 28))
+
+    class D {
+>D : Symbol(D, Decl(classAndInterfaceWithSameName.jump, 3, 10), Decl(classAndInterfaceWithSameName.jump, 6, 5))
+
+        bar: string;
+>bar : Symbol(D.bar, Decl(classAndInterfaceWithSameName.jump, 4, 13), Decl(classAndInterfaceWithSameName.jump, 8, 17))
+    }
+
+    interface D {
+>D : Symbol(D, Decl(classAndInterfaceWithSameName.jump, 3, 10), Decl(classAndInterfaceWithSameName.jump, 6, 5))
+
+        bar: string;
+>bar : Symbol(D.bar, Decl(classAndInterfaceWithSameName.jump, 4, 13), Decl(classAndInterfaceWithSameName.jump, 8, 17))
+    }
+}

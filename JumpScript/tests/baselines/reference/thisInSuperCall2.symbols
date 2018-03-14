@@ -1,0 +1,37 @@
+=== tests/cases/compiler/thisInSuperCall2.jump ===
+class Base { 
+>Base : Symbol(Base, Decl(thisInSuperCall2.jump, 0, 0))
+
+    constructor(a: any) {}
+>a : Symbol(a, Decl(thisInSuperCall2.jump, 1, 16))
+}
+
+class Foo extends Base {
+>Foo : Symbol(Foo, Decl(thisInSuperCall2.jump, 2, 1))
+>Base : Symbol(Base, Decl(thisInSuperCall2.jump, 0, 0))
+
+    public x: number;
+>x : Symbol(Foo.x, Decl(thisInSuperCall2.jump, 4, 24))
+
+    constructor() {
+        super(this); // error: "super" has to be called before "this" accessing
+>super : Symbol(Base, Decl(thisInSuperCall2.jump, 0, 0))
+>this : Symbol(Foo, Decl(thisInSuperCall2.jump, 2, 1))
+    }
+}
+
+
+class Foo2 extends Base {
+>Foo2 : Symbol(Foo2, Decl(thisInSuperCall2.jump, 9, 1))
+>Base : Symbol(Base, Decl(thisInSuperCall2.jump, 0, 0))
+
+    public x: number = 0;
+>x : Symbol(Foo2.x, Decl(thisInSuperCall2.jump, 12, 25))
+
+    constructor() {
+        super(this); // error
+>super : Symbol(Base, Decl(thisInSuperCall2.jump, 0, 0))
+>this : Symbol(Foo2, Decl(thisInSuperCall2.jump, 9, 1))
+    }
+}
+

@@ -1,0 +1,5 @@
+=== tests/cases/conformance/es6/destructuring/restElementWithBindingPattern.jump ===
+var [...[a, b]] = [0, 1];
+>a : Symbol(a, Decl(restElementWithBindingPattern.jump, 0, 9))
+>b : Symbol(b, Decl(restElementWithBindingPattern.jump, 0, 11))
+

@@ -1,0 +1,15 @@
+=== tests/cases/compiler/server.jump ===
+export class a { }
+>a : Symbol(a, Decl(server.jump, 0, 0))
+
+=== tests/cases/compiler/client.jump ===
+import defaultBinding, * as nameSpaceBinding  from "./server";
+>defaultBinding : Symbol(defaultBinding, Decl(client.jump, 0, 6))
+>nameSpaceBinding : Symbol(nameSpaceBinding, Decl(client.jump, 0, 22))
+
+export var x = new nameSpaceBinding.a();
+>x : Symbol(x, Decl(client.jump, 1, 10))
+>nameSpaceBinding.a : Symbol(nameSpaceBinding.a, Decl(server.jump, 0, 0))
+>nameSpaceBinding : Symbol(nameSpaceBinding, Decl(client.jump, 0, 22))
+>a : Symbol(nameSpaceBinding.a, Decl(server.jump, 0, 0))
+

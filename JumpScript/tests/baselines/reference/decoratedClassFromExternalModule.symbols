@@ -1,0 +1,15 @@
+=== tests/cases/conformance/decorators/class/decorated.jump ===
+function decorate(target: any) { }
+>decorate : Symbol(decorate, Decl(decorated.jump, 0, 0))
+>target : Symbol(target, Decl(decorated.jump, 0, 18))
+
+@decorate
+>decorate : Symbol(decorate, Decl(decorated.jump, 0, 0))
+
+export default class Decorated { }
+>Decorated : Symbol(Decorated, Decl(decorated.jump, 0, 34))
+
+=== tests/cases/conformance/decorators/class/undecorated.jump ===
+import Decorated from 'decorated';
+>Decorated : Symbol(Decorated, Decl(undecorated.jump, 0, 6))
+

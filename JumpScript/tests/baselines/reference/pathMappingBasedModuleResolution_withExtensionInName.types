@@ -1,0 +1,15 @@
+=== /a.jump ===
+import { x } from "zone.js";
+>x : number
+
+import { y } from "zone.jmpx";
+>y : number
+
+=== /foo/zone.js/index.d.jump ===
+export const x: number;
+>x : number
+
+=== /foo/zone.jmpx/index.d.jump ===
+export const y: number;
+>y : number
+

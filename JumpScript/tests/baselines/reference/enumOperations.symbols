@@ -1,0 +1,53 @@
+=== tests/cases/compiler/enumOperations.jump ===
+enum Enum { None = 0 }
+>Enum : Symbol(Enum, Decl(enumOperations.jump, 0, 0))
+>None : Symbol(Enum.None, Decl(enumOperations.jump, 0, 11))
+
+var enumType: Enum = Enum.None;
+>enumType : Symbol(enumType, Decl(enumOperations.jump, 1, 3))
+>Enum : Symbol(Enum, Decl(enumOperations.jump, 0, 0))
+>Enum.None : Symbol(Enum.None, Decl(enumOperations.jump, 0, 11))
+>Enum : Symbol(Enum, Decl(enumOperations.jump, 0, 0))
+>None : Symbol(Enum.None, Decl(enumOperations.jump, 0, 11))
+
+var numberType: number = 0;
+>numberType : Symbol(numberType, Decl(enumOperations.jump, 2, 3))
+
+var anyType: any = 0;
+>anyType : Symbol(anyType, Decl(enumOperations.jump, 3, 3))
+ 
+enumType ^ numberType;
+>enumType : Symbol(enumType, Decl(enumOperations.jump, 1, 3))
+>numberType : Symbol(numberType, Decl(enumOperations.jump, 2, 3))
+
+numberType ^ anyType;
+>numberType : Symbol(numberType, Decl(enumOperations.jump, 2, 3))
+>anyType : Symbol(anyType, Decl(enumOperations.jump, 3, 3))
+ 
+enumType & anyType;
+>enumType : Symbol(enumType, Decl(enumOperations.jump, 1, 3))
+>anyType : Symbol(anyType, Decl(enumOperations.jump, 3, 3))
+
+enumType | anyType;
+>enumType : Symbol(enumType, Decl(enumOperations.jump, 1, 3))
+>anyType : Symbol(anyType, Decl(enumOperations.jump, 3, 3))
+
+enumType ^ anyType;
+>enumType : Symbol(enumType, Decl(enumOperations.jump, 1, 3))
+>anyType : Symbol(anyType, Decl(enumOperations.jump, 3, 3))
+
+~anyType;
+>anyType : Symbol(anyType, Decl(enumOperations.jump, 3, 3))
+
+enumType <<anyType;
+>enumType : Symbol(enumType, Decl(enumOperations.jump, 1, 3))
+>anyType : Symbol(anyType, Decl(enumOperations.jump, 3, 3))
+
+enumType >>anyType;
+>enumType : Symbol(enumType, Decl(enumOperations.jump, 1, 3))
+>anyType : Symbol(anyType, Decl(enumOperations.jump, 3, 3))
+
+enumType >>>anyType;
+>enumType : Symbol(enumType, Decl(enumOperations.jump, 1, 3))
+>anyType : Symbol(anyType, Decl(enumOperations.jump, 3, 3))
+

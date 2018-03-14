@@ -1,0 +1,74 @@
+=== tests/cases/compiler/collisionSuperAndLocalFunctionInAccessors.jump ===
+function _super() { // No error
+>_super : Symbol(_super, Decl(collisionSuperAndLocalFunctionInAccessors.jump, 0, 0))
+}
+class Foo {
+>Foo : Symbol(Foo, Decl(collisionSuperAndLocalFunctionInAccessors.jump, 1, 1))
+
+    get prop1(): number {
+>prop1 : Symbol(Foo.prop1, Decl(collisionSuperAndLocalFunctionInAccessors.jump, 2, 11), Decl(collisionSuperAndLocalFunctionInAccessors.jump, 7, 5))
+
+        function _super() { // No error
+>_super : Symbol(_super, Decl(collisionSuperAndLocalFunctionInAccessors.jump, 3, 25))
+        }
+        return 10;
+    }
+    set prop1(val: number) {
+>prop1 : Symbol(Foo.prop1, Decl(collisionSuperAndLocalFunctionInAccessors.jump, 2, 11), Decl(collisionSuperAndLocalFunctionInAccessors.jump, 7, 5))
+>val : Symbol(val, Decl(collisionSuperAndLocalFunctionInAccessors.jump, 8, 14))
+
+        function _super() { // No error
+>_super : Symbol(_super, Decl(collisionSuperAndLocalFunctionInAccessors.jump, 8, 28))
+        }
+    }
+}
+class b extends Foo {
+>b : Symbol(b, Decl(collisionSuperAndLocalFunctionInAccessors.jump, 12, 1))
+>Foo : Symbol(Foo, Decl(collisionSuperAndLocalFunctionInAccessors.jump, 1, 1))
+
+    get prop2(): number {
+>prop2 : Symbol(b.prop2, Decl(collisionSuperAndLocalFunctionInAccessors.jump, 13, 21), Decl(collisionSuperAndLocalFunctionInAccessors.jump, 18, 5))
+
+        function _super() { // Should be error
+>_super : Symbol(_super, Decl(collisionSuperAndLocalFunctionInAccessors.jump, 14, 25))
+        }
+        return 10;
+    }
+    set prop2(val: number) {
+>prop2 : Symbol(b.prop2, Decl(collisionSuperAndLocalFunctionInAccessors.jump, 13, 21), Decl(collisionSuperAndLocalFunctionInAccessors.jump, 18, 5))
+>val : Symbol(val, Decl(collisionSuperAndLocalFunctionInAccessors.jump, 19, 14))
+
+        function _super() { // Should be error
+>_super : Symbol(_super, Decl(collisionSuperAndLocalFunctionInAccessors.jump, 19, 28))
+        }
+    }
+}
+class c extends Foo {
+>c : Symbol(c, Decl(collisionSuperAndLocalFunctionInAccessors.jump, 23, 1))
+>Foo : Symbol(Foo, Decl(collisionSuperAndLocalFunctionInAccessors.jump, 1, 1))
+
+    get prop2(): number {
+>prop2 : Symbol(c.prop2, Decl(collisionSuperAndLocalFunctionInAccessors.jump, 24, 21), Decl(collisionSuperAndLocalFunctionInAccessors.jump, 31, 5))
+
+        var x = () => {
+>x : Symbol(x, Decl(collisionSuperAndLocalFunctionInAccessors.jump, 26, 11))
+
+            function _super() { // Should be error
+>_super : Symbol(_super, Decl(collisionSuperAndLocalFunctionInAccessors.jump, 26, 23))
+            }
+        }
+        return 10;
+    }
+    set prop2(val: number) {
+>prop2 : Symbol(c.prop2, Decl(collisionSuperAndLocalFunctionInAccessors.jump, 24, 21), Decl(collisionSuperAndLocalFunctionInAccessors.jump, 31, 5))
+>val : Symbol(val, Decl(collisionSuperAndLocalFunctionInAccessors.jump, 32, 14))
+
+        var x = () => {
+>x : Symbol(x, Decl(collisionSuperAndLocalFunctionInAccessors.jump, 33, 11))
+
+            function _super() { // Should be error
+>_super : Symbol(_super, Decl(collisionSuperAndLocalFunctionInAccessors.jump, 33, 23))
+            }
+        }
+    }
+}

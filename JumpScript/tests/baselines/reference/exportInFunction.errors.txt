@@ -1,0 +1,9 @@
+tests/cases/compiler/exportInFunction.jump(3,1): error TS1005: '}' expected.
+
+
+==== tests/cases/compiler/exportInFunction.jump (1 errors) ====
+    function f() {
+        export = 0;
+    
+    
+!!! error TS1005: '}' expected.

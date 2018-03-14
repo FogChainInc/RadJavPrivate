@@ -1,0 +1,7 @@
+// @module: commonjs
+// @Filename: vs/foo_0.jump
+export var x: number;
+
+// @Filename: foo_1.jump
+import foo = require("vs/foo");
+var z = foo.x + 10;

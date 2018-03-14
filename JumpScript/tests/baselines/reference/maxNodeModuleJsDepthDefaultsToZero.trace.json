@@ -1,0 +1,20 @@
+[
+    "======== Resolving module 'shortid' from '/index.jump'. ========",
+    "Explicitly specified module resolution kind: 'NodeJs'.",
+    "Loading module 'shortid' from 'node_modules' folder, target file type 'JumpScript'.",
+    "File '/node_modules/shortid/package.json' does not exist.",
+    "File '/node_modules/shortid.jump' does not exist.",
+    "File '/node_modules/shortid.jmpx' does not exist.",
+    "File '/node_modules/shortid.d.jump' does not exist.",
+    "File '/node_modules/shortid/index.jump' does not exist.",
+    "File '/node_modules/shortid/index.jmpx' does not exist.",
+    "File '/node_modules/shortid/index.d.jump' does not exist.",
+    "Directory '/node_modules/@types' does not exist, skipping all lookups in it.",
+    "Loading module 'shortid' from 'node_modules' folder, target file type 'JavaScript'.",
+    "File '/node_modules/shortid/package.json' does not exist.",
+    "File '/node_modules/shortid.js' does not exist.",
+    "File '/node_modules/shortid.jsx' does not exist.",
+    "File '/node_modules/shortid/index.js' exist - use it as a name resolution result.",
+    "Resolving real path for '/node_modules/shortid/index.js', result '/node_modules/shortid/index.js'.",
+    "======== Module name 'shortid' was successfully resolved to '/node_modules/shortid/index.js'. ========"
+]

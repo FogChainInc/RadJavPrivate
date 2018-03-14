@@ -1,0 +1,8 @@
+=== tests/cases/compiler/declarationEmitDestructuringArrayPattern3.jump ===
+module M {
+>M : Symbol(M, Decl(declarationEmitDestructuringArrayPattern3.jump, 0, 0))
+
+    export var [a, b] = [1, 2];
+>a : Symbol(a, Decl(declarationEmitDestructuringArrayPattern3.jump, 1, 16))
+>b : Symbol(b, Decl(declarationEmitDestructuringArrayPattern3.jump, 1, 18))
+}

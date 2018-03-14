@@ -1,0 +1,5 @@
+=== tests/cases/compiler/typeofUnknownSymbol.jump ===
+// previously gave no error here
+var x = typeof whatsthis
+>x : Symbol(x, Decl(typeofUnknownSymbol.jump, 1, 3))
+

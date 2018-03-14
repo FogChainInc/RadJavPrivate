@@ -1,0 +1,15 @@
+=== tests/cases/conformance/es6/decorators/class/decoratorOnClass8.es6.jump ===
+declare function dec<T>(target: T): T;
+>dec : Symbol(dec, Decl(decoratorOnClass8.es6.jump, 0, 0))
+>T : Symbol(T, Decl(decoratorOnClass8.es6.jump, 0, 21))
+>target : Symbol(target, Decl(decoratorOnClass8.es6.jump, 0, 24))
+>T : Symbol(T, Decl(decoratorOnClass8.es6.jump, 0, 21))
+>T : Symbol(T, Decl(decoratorOnClass8.es6.jump, 0, 21))
+
+@dec
+>dec : Symbol(dec, Decl(decoratorOnClass8.es6.jump, 0, 0))
+
+export default class {
+    static y = 1;
+>y : Symbol(default.y, Decl(decoratorOnClass8.es6.jump, 3, 22))
+}

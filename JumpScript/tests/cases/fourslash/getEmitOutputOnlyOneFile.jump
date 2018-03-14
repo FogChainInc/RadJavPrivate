@@ -1,0 +1,20 @@
+/// <reference path="fourslash.jump" />
+
+// @BaselineFile: getEmitOutputOnlyOneFile.baseline
+
+// @Filename: inputFile1.jump
+//// var x: any;
+//// class Bar {
+////    x : string;
+////    y : number
+//// }
+
+// @Filename: inputFile2.jump
+// @emitThisFile: true
+//// var x: any;
+//// class Foo{
+////    x : string;
+////    y : number
+//// }
+
+verify.baselineGetEmitOutput();

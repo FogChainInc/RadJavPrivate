@@ -1,0 +1,11 @@
+=== tests/cases/compiler/a.jump ===
+var a = 10;
+>a : Symbol(a, Decl(a.jump, 0, 3))
+
+export = a;  // Error: export = not allowed in ES6
+>a : Symbol(a, Decl(a.jump, 0, 3))
+
+=== tests/cases/compiler/b.jump ===
+import * as a from "a";
+>a : Symbol(a, Decl(b.jump, 0, 6))
+

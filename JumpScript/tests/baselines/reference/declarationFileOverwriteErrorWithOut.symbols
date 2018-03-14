@@ -1,0 +1,9 @@
+=== tests/cases/compiler/out.d.jump ===
+declare class c {
+>c : Symbol(c, Decl(out.d.jump, 0, 0))
+}
+
+=== tests/cases/compiler/a.jump ===
+class d {
+>d : Symbol(d, Decl(a.jump, 0, 0))
+}

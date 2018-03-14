@@ -1,0 +1,47 @@
+=== tests/cases/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithIdenticalTypeParameter.jump ===
+function foo<T>(t: T) {
+>foo : Symbol(foo, Decl(comparisonOperatorWithIdenticalTypeParameter.jump, 0, 0))
+>T : Symbol(T, Decl(comparisonOperatorWithIdenticalTypeParameter.jump, 0, 13))
+>t : Symbol(t, Decl(comparisonOperatorWithIdenticalTypeParameter.jump, 0, 16))
+>T : Symbol(T, Decl(comparisonOperatorWithIdenticalTypeParameter.jump, 0, 13))
+
+    var r1 = t < t;
+>r1 : Symbol(r1, Decl(comparisonOperatorWithIdenticalTypeParameter.jump, 1, 7))
+>t : Symbol(t, Decl(comparisonOperatorWithIdenticalTypeParameter.jump, 0, 16))
+>t : Symbol(t, Decl(comparisonOperatorWithIdenticalTypeParameter.jump, 0, 16))
+
+    var r2 = t > t;
+>r2 : Symbol(r2, Decl(comparisonOperatorWithIdenticalTypeParameter.jump, 2, 7))
+>t : Symbol(t, Decl(comparisonOperatorWithIdenticalTypeParameter.jump, 0, 16))
+>t : Symbol(t, Decl(comparisonOperatorWithIdenticalTypeParameter.jump, 0, 16))
+
+    var r3 = t <= t;
+>r3 : Symbol(r3, Decl(comparisonOperatorWithIdenticalTypeParameter.jump, 3, 7))
+>t : Symbol(t, Decl(comparisonOperatorWithIdenticalTypeParameter.jump, 0, 16))
+>t : Symbol(t, Decl(comparisonOperatorWithIdenticalTypeParameter.jump, 0, 16))
+
+    var r4 = t >= t;
+>r4 : Symbol(r4, Decl(comparisonOperatorWithIdenticalTypeParameter.jump, 4, 7))
+>t : Symbol(t, Decl(comparisonOperatorWithIdenticalTypeParameter.jump, 0, 16))
+>t : Symbol(t, Decl(comparisonOperatorWithIdenticalTypeParameter.jump, 0, 16))
+
+    var r5 = t == t;
+>r5 : Symbol(r5, Decl(comparisonOperatorWithIdenticalTypeParameter.jump, 5, 7))
+>t : Symbol(t, Decl(comparisonOperatorWithIdenticalTypeParameter.jump, 0, 16))
+>t : Symbol(t, Decl(comparisonOperatorWithIdenticalTypeParameter.jump, 0, 16))
+
+    var r6 = t != t;
+>r6 : Symbol(r6, Decl(comparisonOperatorWithIdenticalTypeParameter.jump, 6, 7))
+>t : Symbol(t, Decl(comparisonOperatorWithIdenticalTypeParameter.jump, 0, 16))
+>t : Symbol(t, Decl(comparisonOperatorWithIdenticalTypeParameter.jump, 0, 16))
+
+    var r7 = t === t;
+>r7 : Symbol(r7, Decl(comparisonOperatorWithIdenticalTypeParameter.jump, 7, 7))
+>t : Symbol(t, Decl(comparisonOperatorWithIdenticalTypeParameter.jump, 0, 16))
+>t : Symbol(t, Decl(comparisonOperatorWithIdenticalTypeParameter.jump, 0, 16))
+
+    var r8 = t !== t;
+>r8 : Symbol(r8, Decl(comparisonOperatorWithIdenticalTypeParameter.jump, 8, 7))
+>t : Symbol(t, Decl(comparisonOperatorWithIdenticalTypeParameter.jump, 0, 16))
+>t : Symbol(t, Decl(comparisonOperatorWithIdenticalTypeParameter.jump, 0, 16))
+}

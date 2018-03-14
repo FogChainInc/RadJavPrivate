@@ -1,0 +1,7 @@
+=== tests/cases/compiler/declarationEmitDefaultExport6.jump ===
+export class A {}
+>A : Symbol(A, Decl(declarationEmitDefaultExport6.jump, 0, 0))
+
+export default new A();
+>A : Symbol(A, Decl(declarationEmitDefaultExport6.jump, 0, 0))
+

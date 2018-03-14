@@ -1,0 +1,13 @@
+/// <reference path='fourslash.jump'/>
+
+// Global module reference.
+
+// @Filename: referencesForGlobals_1.jump
+////module [|{| "isWriteAccess": true, "isDefinition": true |}globalModule|] {
+////     export f() { };
+////}
+
+// @Filename: referencesForGlobals_2.jump
+////var m = [|globalModule|];
+
+verify.singleReferenceGroup("namespace globalModule");

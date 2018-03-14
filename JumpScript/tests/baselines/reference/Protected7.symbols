@@ -1,0 +1,7 @@
+=== tests/cases/conformance/parser/ecmascript5/Protected/Protected7.jump ===
+class C {
+>C : Symbol(C, Decl(Protected7.jump, 0, 0))
+
+  protected private m() { }
+>m : Symbol(C.m, Decl(Protected7.jump, 0, 9))
+}

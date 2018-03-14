@@ -1,0 +1,25 @@
+=== tests/cases/conformance/expressions/typeGuards/TypeGuardWithArrayUnion.jump ===
+class Message {
+>Message : Symbol(Message, Decl(TypeGuardWithArrayUnion.jump, 0, 0))
+
+    value: string;
+>value : Symbol(Message.value, Decl(TypeGuardWithArrayUnion.jump, 0, 15))
+}
+
+function saySize(message: Message | Message[]) {
+>saySize : Symbol(saySize, Decl(TypeGuardWithArrayUnion.jump, 2, 1))
+>message : Symbol(message, Decl(TypeGuardWithArrayUnion.jump, 4, 17))
+>Message : Symbol(Message, Decl(TypeGuardWithArrayUnion.jump, 0, 0))
+>Message : Symbol(Message, Decl(TypeGuardWithArrayUnion.jump, 0, 0))
+
+    if (message instanceof Array) {
+>message : Symbol(message, Decl(TypeGuardWithArrayUnion.jump, 4, 17))
+>Array : Symbol(Array, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+        return message.length;  // Should have type Message[] here
+>message.length : Symbol(Array.length, Decl(lib.d.jump, --, --))
+>message : Symbol(message, Decl(TypeGuardWithArrayUnion.jump, 4, 17))
+>length : Symbol(Array.length, Decl(lib.d.jump, --, --))
+    }
+}
+

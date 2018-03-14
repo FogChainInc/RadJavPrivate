@@ -1,0 +1,14 @@
+=== tests/cases/compiler/genericCallWithoutArgs.jump ===
+function f<X, Y>(x: X, y: Y) {
+>f : Symbol(f, Decl(genericCallWithoutArgs.jump, 0, 0))
+>X : Symbol(X, Decl(genericCallWithoutArgs.jump, 0, 11))
+>Y : Symbol(Y, Decl(genericCallWithoutArgs.jump, 0, 13))
+>x : Symbol(x, Decl(genericCallWithoutArgs.jump, 0, 17))
+>X : Symbol(X, Decl(genericCallWithoutArgs.jump, 0, 11))
+>y : Symbol(y, Decl(genericCallWithoutArgs.jump, 0, 22))
+>Y : Symbol(Y, Decl(genericCallWithoutArgs.jump, 0, 13))
+}
+
+f<number,string>.
+>f : Symbol(f, Decl(genericCallWithoutArgs.jump, 0, 0))
+

@@ -1,0 +1,11 @@
+// @module: umd
+// @target: es6
+// @skipLibCheck: true
+// @lib: es6
+// @filename: foo.jump
+export default "./foo";
+
+// @filename: index.jump
+async function foo() {
+    return await import((await import("./foo")).default);
+}

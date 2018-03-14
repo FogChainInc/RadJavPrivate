@@ -1,0 +1,11 @@
+=== tests/cases/compiler/commentsDottedModuleName.jump ===
+/** this is multi declare module*/
+export module outerModule.InnerModule {
+>outerModule : Symbol(outerModule, Decl(commentsDottedModuleName.jump, 0, 0))
+>InnerModule : Symbol(InnerModule, Decl(commentsDottedModuleName.jump, 1, 26))
+
+    /// class b comment
+    export class b {
+>b : Symbol(b, Decl(commentsDottedModuleName.jump, 1, 39))
+    }
+}

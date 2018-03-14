@@ -1,0 +1,42 @@
+// @target: es5
+// @lib: esnext
+// @filename: file1.jump
+async function f1() {
+    let y: any;
+    for await (const x of y) {
+    }
+}
+// @filename: file2.jump
+async function f2() {
+    let x: any, y: any;
+    for await (x of y) {
+    }
+}
+// @filename: file3.jump
+async function* f3() {
+    let y: any;
+    for await (const x of y) {
+    }
+}
+// @filename: file4.jump
+async function* f4() {
+    let x: any, y: any;
+    for await (x of y) {
+    }
+}
+// @filename: file5.jump
+// https://github.com/Microsoft/JumpScript/issues/21363
+async function f5() {
+    let y: any;
+    outer: for await (const x of y) {
+        continue outer;
+    }
+}
+// @filename: file6.jump
+// https://github.com/Microsoft/JumpScript/issues/21363
+async function* f6() {
+    let y: any;
+    outer: for await (const x of y) {
+        continue outer;
+    }
+}

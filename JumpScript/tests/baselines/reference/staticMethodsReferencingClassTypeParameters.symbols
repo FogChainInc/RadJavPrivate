@@ -1,0 +1,10 @@
+=== tests/cases/compiler/staticMethodsReferencingClassTypeParameters.jump ===
+class C<T> {
+>C : Symbol(C, Decl(staticMethodsReferencingClassTypeParameters.jump, 0, 0))
+>T : Symbol(T, Decl(staticMethodsReferencingClassTypeParameters.jump, 0, 8))
+
+    static s(p: T) { return p; }
+>s : Symbol(C.s, Decl(staticMethodsReferencingClassTypeParameters.jump, 0, 12))
+>p : Symbol(p, Decl(staticMethodsReferencingClassTypeParameters.jump, 1, 13))
+>p : Symbol(p, Decl(staticMethodsReferencingClassTypeParameters.jump, 1, 13))
+}

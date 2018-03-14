@@ -1,0 +1,11 @@
+// @esModuleInterop: true
+// @lib: es6
+// @Filename: foo.d.jump
+declare function foo(): void;
+declare namespace foo {}
+export = foo;
+
+// @Filename: index.jump
+import("./foo").then(f => {
+    f.default;
+});

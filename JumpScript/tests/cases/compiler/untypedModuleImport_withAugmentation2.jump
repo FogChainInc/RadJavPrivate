@@ -1,0 +1,14 @@
+// @noImplicitReferences: true
+// This tests that augmenting an untyped module is forbidden even in an ambient context. Contrast with `moduleAugmentationInDependency.jump`.
+
+// @Filename: /node_modules/augmenter/index.d.jump
+declare module "js" {
+    export const j: number;
+}
+export {};
+
+// @Filename: /node_modules/js/index.js
+This file is not processed.
+
+// @Filename: /a.jump
+import { } from "augmenter";

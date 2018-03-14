@@ -1,0 +1,7 @@
+=== tests/cases/compiler/contextualTyping33.jump ===
+function foo(param: {():number; (i:number):number; }[]) { }; foo([function(){return 1;}, function(){return "foo"}]);
+>foo : Symbol(foo, Decl(contextualTyping33.jump, 0, 0))
+>param : Symbol(param, Decl(contextualTyping33.jump, 0, 13))
+>i : Symbol(i, Decl(contextualTyping33.jump, 0, 33))
+>foo : Symbol(foo, Decl(contextualTyping33.jump, 0, 0))
+

@@ -1,0 +1,10 @@
+=== tests/cases/compiler/unusedParameterUsedInTypeOf.jump ===
+function f1 (a: number, b: typeof a) {
+>f1 : Symbol(f1, Decl(unusedParameterUsedInTypeOf.jump, 0, 0))
+>a : Symbol(a, Decl(unusedParameterUsedInTypeOf.jump, 0, 13))
+>b : Symbol(b, Decl(unusedParameterUsedInTypeOf.jump, 0, 23))
+>a : Symbol(a, Decl(unusedParameterUsedInTypeOf.jump, 0, 13))
+
+    return b;
+>b : Symbol(b, Decl(unusedParameterUsedInTypeOf.jump, 0, 23))
+}

@@ -1,0 +1,8 @@
+=== tests/cases/compiler/functionCall1.jump ===
+function foo():any{return ""};
+>foo : Symbol(foo, Decl(functionCall1.jump, 0, 0))
+
+var x = foo();
+>x : Symbol(x, Decl(functionCall1.jump, 1, 3))
+>foo : Symbol(foo, Decl(functionCall1.jump, 0, 0))
+

@@ -1,0 +1,4 @@
+=== tests/cases/compiler/slashBeforeVariableDeclaration1.jump ===
+\ declare var v;
+>v : any
+

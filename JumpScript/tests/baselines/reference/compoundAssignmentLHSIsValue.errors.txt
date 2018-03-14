@@ -1,0 +1,353 @@
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(7,9): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(8,9): error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(11,9): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(12,9): error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(15,9): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(16,9): error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(21,5): error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(22,5): error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(25,1): error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(26,1): error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(30,1): error TS2539: Cannot assign to 'M' because it is not a variable.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(31,1): error TS2539: Cannot assign to 'M' because it is not a variable.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(33,1): error TS2539: Cannot assign to 'C' because it is not a variable.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(34,1): error TS2539: Cannot assign to 'C' because it is not a variable.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(37,1): error TS2539: Cannot assign to 'E' because it is not a variable.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(38,1): error TS2539: Cannot assign to 'E' because it is not a variable.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(40,1): error TS2539: Cannot assign to 'foo' because it is not a variable.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(41,1): error TS2539: Cannot assign to 'foo' because it is not a variable.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(44,1): error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(44,1): error TS2531: Object is possibly 'null'.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(45,1): error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(46,1): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(47,1): error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(48,1): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(49,1): error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(50,1): error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(51,1): error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(52,1): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(53,1): error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(54,1): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(55,1): error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(58,9): error TS1128: Declaration or statement expected.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(59,9): error TS1128: Declaration or statement expected.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(62,1): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(63,1): error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(69,15): error TS1034: 'super' must be followed by an argument list or member access.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(70,15): error TS1034: 'super' must be followed by an argument list or member access.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(74,15): error TS1034: 'super' must be followed by an argument list or member access.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(75,15): error TS1034: 'super' must be followed by an argument list or member access.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(79,15): error TS1034: 'super' must be followed by an argument list or member access.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(80,15): error TS1034: 'super' must be followed by an argument list or member access.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(85,21): error TS1128: Declaration or statement expected.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(86,21): error TS1128: Declaration or statement expected.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(87,11): error TS1005: ';' expected.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(88,11): error TS1005: ';' expected.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(91,1): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(92,1): error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(95,1): error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(96,1): error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(97,2): error TS2539: Cannot assign to 'M' because it is not a variable.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(98,2): error TS2539: Cannot assign to 'M' because it is not a variable.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(99,2): error TS2539: Cannot assign to 'C' because it is not a variable.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(100,2): error TS2539: Cannot assign to 'C' because it is not a variable.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(101,2): error TS2539: Cannot assign to 'E' because it is not a variable.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(102,2): error TS2539: Cannot assign to 'E' because it is not a variable.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(103,2): error TS2539: Cannot assign to 'foo' because it is not a variable.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(104,2): error TS2539: Cannot assign to 'foo' because it is not a variable.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(105,1): error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(105,1): error TS2531: Object is possibly 'null'.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(106,1): error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(107,1): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(108,1): error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(109,1): error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(110,1): error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(111,1): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(112,1): error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(113,1): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(114,1): error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(115,1): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(116,1): error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(117,1): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(118,1): error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(119,1): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(120,1): error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(121,1): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump(122,1): error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+
+
+==== tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsValue.jump (76 errors) ====
+    // expected error for all the LHS of compound assignments (arithmetic and addition)
+    var value: any;
+    
+    // this
+    class C {
+        constructor() {
+            this *= value;
+            ~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+            this += value;
+            ~~~~
+!!! error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+        }
+        foo() {
+            this *= value;
+            ~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+            this += value;
+            ~~~~
+!!! error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+        }
+        static sfoo() {
+            this *= value;
+            ~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+            this += value;
+            ~~~~
+!!! error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+        }
+    }
+    
+    function foo() {
+        this *= value;
+        ~~~~
+!!! error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+        this += value;
+        ~~~~
+!!! error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+    }
+    
+    this *= value;
+    ~~~~
+!!! error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+    this += value;
+    ~~~~
+!!! error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+    
+    // identifiers: module, class, enum, function
+    module M { export var a; }
+    M *= value;
+    ~
+!!! error TS2539: Cannot assign to 'M' because it is not a variable.
+    M += value;
+    ~
+!!! error TS2539: Cannot assign to 'M' because it is not a variable.
+    
+    C *= value;
+    ~
+!!! error TS2539: Cannot assign to 'C' because it is not a variable.
+    C += value;
+    ~
+!!! error TS2539: Cannot assign to 'C' because it is not a variable.
+    
+    enum E { }
+    E *= value;
+    ~
+!!! error TS2539: Cannot assign to 'E' because it is not a variable.
+    E += value;
+    ~
+!!! error TS2539: Cannot assign to 'E' because it is not a variable.
+    
+    foo *= value;
+    ~~~
+!!! error TS2539: Cannot assign to 'foo' because it is not a variable.
+    foo += value;
+    ~~~
+!!! error TS2539: Cannot assign to 'foo' because it is not a variable.
+    
+    // literals
+    null *= value;
+    ~~~~
+!!! error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+    ~~~~
+!!! error TS2531: Object is possibly 'null'.
+    null += value;
+    ~~~~
+!!! error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+    true *= value;
+    ~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    true += value;
+    ~~~~
+!!! error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+    false *= value;
+    ~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    false += value;
+    ~~~~~
+!!! error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+    0 *= value;
+    ~
+!!! error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+    0 += value;
+    ~
+!!! error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+    '' *= value;
+    ~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    '' += value;
+    ~~
+!!! error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+    /d+/ *= value;
+    ~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    /d+/ += value;
+    ~~~~
+!!! error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+    
+    // object literals
+    { a: 0} *= value;
+            ~~
+!!! error TS1128: Declaration or statement expected.
+    { a: 0} += value;
+            ~~
+!!! error TS1128: Declaration or statement expected.
+    
+    // array literals
+    ['', ''] *= value;
+    ~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    ['', ''] += value;
+    ~~~~~~~~
+!!! error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+    
+    // super
+    class Derived extends C {
+        constructor() {
+            super();
+            super *= value;
+                  ~~
+!!! error TS1034: 'super' must be followed by an argument list or member access.
+            super += value;
+                  ~~
+!!! error TS1034: 'super' must be followed by an argument list or member access.
+        }
+    
+        foo() {
+            super *= value;
+                  ~~
+!!! error TS1034: 'super' must be followed by an argument list or member access.
+            super += value;
+                  ~~
+!!! error TS1034: 'super' must be followed by an argument list or member access.
+        }
+    
+        static sfoo() {
+            super *= value;
+                  ~~
+!!! error TS1034: 'super' must be followed by an argument list or member access.
+            super += value;
+                  ~~
+!!! error TS1034: 'super' must be followed by an argument list or member access.
+        }
+    }
+    
+    // function expression
+    function bar1() { } *= value;
+                        ~~
+!!! error TS1128: Declaration or statement expected.
+    function bar2() { } += value;
+                        ~~
+!!! error TS1128: Declaration or statement expected.
+    () => { } *= value;
+              ~~
+!!! error TS1005: ';' expected.
+    () => { } += value;
+              ~~
+!!! error TS1005: ';' expected.
+    
+    // function calls
+    foo() *= value;
+    ~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    foo() += value;
+    ~~~~~
+!!! error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+    
+    // parentheses, the containted expression is value
+    (this) *= value;
+    ~~~~~~
+!!! error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+    (this) += value;
+    ~~~~~~
+!!! error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+    (M) *= value;
+     ~
+!!! error TS2539: Cannot assign to 'M' because it is not a variable.
+    (M) += value;
+     ~
+!!! error TS2539: Cannot assign to 'M' because it is not a variable.
+    (C) *= value;
+     ~
+!!! error TS2539: Cannot assign to 'C' because it is not a variable.
+    (C) += value;
+     ~
+!!! error TS2539: Cannot assign to 'C' because it is not a variable.
+    (E) *= value;
+     ~
+!!! error TS2539: Cannot assign to 'E' because it is not a variable.
+    (E) += value;
+     ~
+!!! error TS2539: Cannot assign to 'E' because it is not a variable.
+    (foo) *= value;
+     ~~~
+!!! error TS2539: Cannot assign to 'foo' because it is not a variable.
+    (foo) += value;
+     ~~~
+!!! error TS2539: Cannot assign to 'foo' because it is not a variable.
+    (null) *= value;
+    ~~~~~~
+!!! error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+    ~~~~~~
+!!! error TS2531: Object is possibly 'null'.
+    (null) += value;
+    ~~~~~~
+!!! error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+    (true) *= value;
+    ~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    (true) += value;
+    ~~~~~~
+!!! error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+    (0) *= value;
+    ~~~
+!!! error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+    (0) += value;
+    ~~~
+!!! error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+    ('') *= value;
+    ~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    ('') += value;
+    ~~~~
+!!! error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+    (/d+/) *= value;
+    ~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    (/d+/) += value;
+    ~~~~~~
+!!! error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+    ({}) *= value;
+    ~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    ({}) += value;
+    ~~~~
+!!! error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+    ([]) *= value;
+    ~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    ([]) += value;
+    ~~~~
+!!! error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+    (function baz1() { }) *= value;
+    ~~~~~~~~~~~~~~~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    (function baz2() { }) += value;
+    ~~~~~~~~~~~~~~~~~~~~~
+!!! error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+    (foo()) *= value;
+    ~~~~~~~
+!!! error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+    (foo()) += value;
+    ~~~~~~~
+!!! error TS2364: The left-hand side of an assignment expression must be a variable or a property access.

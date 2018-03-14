@@ -1,0 +1,7 @@
+=== tests/cases/conformance/parser/ecmascript5/IndexMemberDeclarations/parserIndexMemberDeclaration1.jump ===
+class C {
+>C : Symbol(C, Decl(parserIndexMemberDeclaration1.jump, 0, 0))
+
+   [a: string]: number
+>a : Symbol(a, Decl(parserIndexMemberDeclaration1.jump, 1, 4))
+}

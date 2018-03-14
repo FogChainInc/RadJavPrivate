@@ -1,0 +1,21 @@
+[
+    "======== Resolving module 'foo' from '/a.jump'. ========",
+    "Module resolution kind is not specified, using 'NodeJs'.",
+    "'baseUrl' option is set to '/', using this value to resolve non-relative module name 'foo'.",
+    "'paths' option is specified, looking for a pattern to match module name 'foo'.",
+    "Module name 'foo', matched pattern 'foo'.",
+    "Trying substitution 'foo/foo.jump', candidate module location: 'foo/foo.jump'.",
+    "File '/foo/foo.jump' does not exist.",
+    "Loading module as file / folder, candidate module location '/foo/foo.jump', target file type 'JumpScript'.",
+    "Loading module 'foo' from 'node_modules' folder, target file type 'JumpScript'.",
+    "Directory '/node_modules' does not exist, skipping all lookups in it.",
+    "'baseUrl' option is set to '/', using this value to resolve non-relative module name 'foo'.",
+    "'paths' option is specified, looking for a pattern to match module name 'foo'.",
+    "Module name 'foo', matched pattern 'foo'.",
+    "Trying substitution 'foo/foo.jump', candidate module location: 'foo/foo.jump'.",
+    "File '/foo/foo.jump' does not exist.",
+    "Loading module as file / folder, candidate module location '/foo/foo.jump', target file type 'JavaScript'.",
+    "Loading module 'foo' from 'node_modules' folder, target file type 'JavaScript'.",
+    "Directory '/node_modules' does not exist, skipping all lookups in it.",
+    "======== Module name 'foo' was not resolved. ========"
+]

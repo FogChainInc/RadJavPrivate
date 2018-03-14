@@ -1,0 +1,7 @@
+=== tests/cases/compiler/indexSignatureWithoutTypeAnnotation1.jump ===
+class C {
+>C : C
+
+  [a: number];
+>a : number
+}

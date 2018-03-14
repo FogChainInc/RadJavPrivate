@@ -1,0 +1,14 @@
+=== tests/cases/compiler/a.jump ===
+var a = 0;
+>a : Symbol(a, Decl(a.jump, 0, 3))
+
+console.log(a);
+>a : Symbol(a, Decl(a.jump, 0, 3))
+
+=== tests/cases/compiler/b.jump ===
+var b = 0;
+>b : Symbol(b, Decl(b.jump, 0, 3))
+
+console.log(b);
+>b : Symbol(b, Decl(b.jump, 0, 3))
+

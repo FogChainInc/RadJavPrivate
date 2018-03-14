@@ -1,0 +1,4 @@
+=== tests/cases/compiler/propertyAccess5.jump ===
+undefined.toBAZ();
+>undefined : Symbol(undefined)
+

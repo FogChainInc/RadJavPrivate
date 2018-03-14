@@ -1,0 +1,9 @@
+=== tests/cases/compiler/external.d.jump ===
+export var x: number
+>x : Symbol(x, Decl(external.d.jump, 0, 10))
+
+=== tests/cases/compiler/main.jump ===
+declare module "M" {
+    export {x} from "external"
+>x : Symbol(x, Decl(main.jump, 1, 12))
+}

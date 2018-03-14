@@ -1,0 +1,8 @@
+=== tests/cases/compiler/contextualTyping9.jump ===
+var foo:{id:number;}[] = [{id:1}, {id:2, name:"foo"}];
+>foo : Symbol(foo, Decl(contextualTyping9.jump, 0, 3))
+>id : Symbol(id, Decl(contextualTyping9.jump, 0, 9))
+>id : Symbol(id, Decl(contextualTyping9.jump, 0, 27))
+>id : Symbol(id, Decl(contextualTyping9.jump, 0, 35))
+>name : Symbol(name, Decl(contextualTyping9.jump, 0, 40))
+

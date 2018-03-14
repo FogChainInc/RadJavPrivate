@@ -1,0 +1,39 @@
+=== tests/cases/conformance/types/typeParameters/typeParameterLists/staticMembersUsingClassTypeParameter.jump ===
+// BUG 745747
+class C<T> {
+>C : Symbol(C, Decl(staticMembersUsingClassTypeParameter.jump, 0, 0))
+>T : Symbol(T, Decl(staticMembersUsingClassTypeParameter.jump, 1, 8))
+
+    static x: T;
+>x : Symbol(C.x, Decl(staticMembersUsingClassTypeParameter.jump, 1, 12))
+
+    static f(x: T) {}
+>f : Symbol(C.f, Decl(staticMembersUsingClassTypeParameter.jump, 2, 16))
+>x : Symbol(x, Decl(staticMembersUsingClassTypeParameter.jump, 3, 13))
+}
+
+class C2<T, U> {
+>C2 : Symbol(C2, Decl(staticMembersUsingClassTypeParameter.jump, 4, 1))
+>T : Symbol(T, Decl(staticMembersUsingClassTypeParameter.jump, 6, 9))
+>U : Symbol(U, Decl(staticMembersUsingClassTypeParameter.jump, 6, 11))
+
+    static x: U;
+>x : Symbol(C2.x, Decl(staticMembersUsingClassTypeParameter.jump, 6, 16))
+
+    static f(x: U) { }
+>f : Symbol(C2.f, Decl(staticMembersUsingClassTypeParameter.jump, 7, 16))
+>x : Symbol(x, Decl(staticMembersUsingClassTypeParameter.jump, 8, 13))
+}
+
+class C3<T extends Date> {
+>C3 : Symbol(C3, Decl(staticMembersUsingClassTypeParameter.jump, 9, 1))
+>T : Symbol(T, Decl(staticMembersUsingClassTypeParameter.jump, 11, 9))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+    static x: T;
+>x : Symbol(C3.x, Decl(staticMembersUsingClassTypeParameter.jump, 11, 26))
+
+    static f(x: T) { }
+>f : Symbol(C3.f, Decl(staticMembersUsingClassTypeParameter.jump, 12, 16))
+>x : Symbol(x, Decl(staticMembersUsingClassTypeParameter.jump, 13, 13))
+}

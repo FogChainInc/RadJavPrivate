@@ -1,0 +1,7 @@
+=== tests/cases/compiler/unusedModuleInModule.jump ===
+module A {
+>A : Symbol(A, Decl(unusedModuleInModule.jump, 0, 0))
+
+    module B {}
+>B : Symbol(B, Decl(unusedModuleInModule.jump, 0, 10))
+}

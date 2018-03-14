@@ -1,0 +1,53 @@
+=== tests/cases/compiler/propertyNamesWithStringLiteral.jump ===
+class _Color {
+>_Color : Symbol(_Color, Decl(propertyNamesWithStringLiteral.jump, 0, 0))
+
+    a: number; r: number; g: number; b: number;
+>a : Symbol(_Color.a, Decl(propertyNamesWithStringLiteral.jump, 0, 14))
+>r : Symbol(_Color.r, Decl(propertyNamesWithStringLiteral.jump, 1, 14))
+>g : Symbol(_Color.g, Decl(propertyNamesWithStringLiteral.jump, 1, 25))
+>b : Symbol(_Color.b, Decl(propertyNamesWithStringLiteral.jump, 1, 36))
+}
+
+interface NamedColors {
+>NamedColors : Symbol(NamedColors, Decl(propertyNamesWithStringLiteral.jump, 2, 1))
+
+    azure: _Color;
+>azure : Symbol(NamedColors.azure, Decl(propertyNamesWithStringLiteral.jump, 4, 23))
+>_Color : Symbol(_Color, Decl(propertyNamesWithStringLiteral.jump, 0, 0))
+
+    "blue": _Color;
+>_Color : Symbol(_Color, Decl(propertyNamesWithStringLiteral.jump, 0, 0))
+
+    "pale blue": _Color;
+>_Color : Symbol(_Color, Decl(propertyNamesWithStringLiteral.jump, 0, 0))
+}
+module Color {
+>Color : Symbol(Color, Decl(propertyNamesWithStringLiteral.jump, 8, 1))
+
+    export var namedColors: NamedColors;
+>namedColors : Symbol(namedColors, Decl(propertyNamesWithStringLiteral.jump, 10, 14))
+>NamedColors : Symbol(NamedColors, Decl(propertyNamesWithStringLiteral.jump, 2, 1))
+}
+var a = Color.namedColors["azure"];
+>a : Symbol(a, Decl(propertyNamesWithStringLiteral.jump, 12, 3), Decl(propertyNamesWithStringLiteral.jump, 13, 3), Decl(propertyNamesWithStringLiteral.jump, 14, 3))
+>Color.namedColors : Symbol(Color.namedColors, Decl(propertyNamesWithStringLiteral.jump, 10, 14))
+>Color : Symbol(Color, Decl(propertyNamesWithStringLiteral.jump, 8, 1))
+>namedColors : Symbol(Color.namedColors, Decl(propertyNamesWithStringLiteral.jump, 10, 14))
+>"azure" : Symbol(NamedColors.azure, Decl(propertyNamesWithStringLiteral.jump, 4, 23))
+
+var a = Color.namedColors.blue; // Should not error
+>a : Symbol(a, Decl(propertyNamesWithStringLiteral.jump, 12, 3), Decl(propertyNamesWithStringLiteral.jump, 13, 3), Decl(propertyNamesWithStringLiteral.jump, 14, 3))
+>Color.namedColors.blue : Symbol(NamedColors["blue"], Decl(propertyNamesWithStringLiteral.jump, 5, 18))
+>Color.namedColors : Symbol(Color.namedColors, Decl(propertyNamesWithStringLiteral.jump, 10, 14))
+>Color : Symbol(Color, Decl(propertyNamesWithStringLiteral.jump, 8, 1))
+>namedColors : Symbol(Color.namedColors, Decl(propertyNamesWithStringLiteral.jump, 10, 14))
+>blue : Symbol(NamedColors["blue"], Decl(propertyNamesWithStringLiteral.jump, 5, 18))
+
+var a = Color.namedColors["pale blue"]; // should not error
+>a : Symbol(a, Decl(propertyNamesWithStringLiteral.jump, 12, 3), Decl(propertyNamesWithStringLiteral.jump, 13, 3), Decl(propertyNamesWithStringLiteral.jump, 14, 3))
+>Color.namedColors : Symbol(Color.namedColors, Decl(propertyNamesWithStringLiteral.jump, 10, 14))
+>Color : Symbol(Color, Decl(propertyNamesWithStringLiteral.jump, 8, 1))
+>namedColors : Symbol(Color.namedColors, Decl(propertyNamesWithStringLiteral.jump, 10, 14))
+>"pale blue" : Symbol(NamedColors["pale blue"], Decl(propertyNamesWithStringLiteral.jump, 6, 19))
+

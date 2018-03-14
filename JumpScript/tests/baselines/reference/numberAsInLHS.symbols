@@ -1,0 +1,3 @@
+=== tests/cases/compiler/numberAsInLHS.jump ===
+3 in [0, 1]
+No type information for this code.

@@ -1,0 +1,35 @@
+=== tests/cases/compiler/extendFromAny.jump ===
+declare var Base: any;
+>Base : Symbol(Base, Decl(extendFromAny.jump, 0, 11))
+
+class C extends Base {
+>C : Symbol(C, Decl(extendFromAny.jump, 0, 22))
+>Base : Symbol(Base, Decl(extendFromAny.jump, 0, 11))
+
+    known = 1;
+>known : Symbol(C.known, Decl(extendFromAny.jump, 1, 22))
+
+    static sknown = 2;
+>sknown : Symbol(C.sknown, Decl(extendFromAny.jump, 2, 14))
+}
+
+let c = new C();
+>c : Symbol(c, Decl(extendFromAny.jump, 6, 3))
+>C : Symbol(C, Decl(extendFromAny.jump, 0, 22))
+
+c.known.length; // error, 'known' has no 'length' property
+>c.known : Symbol(C.known, Decl(extendFromAny.jump, 1, 22))
+>c : Symbol(c, Decl(extendFromAny.jump, 6, 3))
+>known : Symbol(C.known, Decl(extendFromAny.jump, 1, 22))
+
+C.sknown.length; // error, 'sknown' has no 'length' property
+>C.sknown : Symbol(C.sknown, Decl(extendFromAny.jump, 2, 14))
+>C : Symbol(C, Decl(extendFromAny.jump, 0, 22))
+>sknown : Symbol(C.sknown, Decl(extendFromAny.jump, 2, 14))
+
+c.unknown.length; // ok, unknown: any
+>c : Symbol(c, Decl(extendFromAny.jump, 6, 3))
+
+C.sunknown.length; // ok: sunknown: any
+>C : Symbol(C, Decl(extendFromAny.jump, 0, 22))
+

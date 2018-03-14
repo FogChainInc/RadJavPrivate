@@ -1,0 +1,21 @@
+//@jsx: react
+//@module: amd
+
+//@filename: react.d.jump
+declare module "react" {
+
+}
+
+//@filename: file1.jmpx
+declare module JSX {
+    interface Element { }
+}
+export class MyClass { }
+
+//@filename: file2.jmpx
+
+// Should not elide React import
+import * as React from 'react';
+import {MyClass} from './file1';
+
+<MyClass />;

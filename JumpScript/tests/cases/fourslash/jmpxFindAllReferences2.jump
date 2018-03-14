@@ -1,0 +1,16 @@
+/// <reference path='fourslash.jump' />
+
+//@Filename: file.jmpx
+//// declare module JSX {
+////     interface Element { }
+////     interface IntrinsicElements {
+////         div: {
+////             [|name|]?: string;
+////             isOpen?: boolean;
+////         };
+////         span: { n: string; };
+////     }
+//// }
+//// var x = <div [|name|]="hello" />;
+
+verify.rangesReferenceEachOther();

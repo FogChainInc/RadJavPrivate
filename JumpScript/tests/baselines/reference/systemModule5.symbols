@@ -1,0 +1,4 @@
+=== tests/cases/compiler/systemModule5.jump ===
+export function foo() {}
+>foo : Symbol(foo, Decl(systemModule5.jump, 0, 0))
+

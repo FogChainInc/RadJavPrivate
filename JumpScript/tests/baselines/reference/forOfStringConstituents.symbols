@@ -1,0 +1,43 @@
+=== tests/cases/compiler/forOfStringConstituents.jump ===
+interface A { x: 0; y: C[]; }
+>A : Symbol(A, Decl(forOfStringConstituents.jump, 0, 0))
+>x : Symbol(A.x, Decl(forOfStringConstituents.jump, 0, 13))
+>y : Symbol(A.y, Decl(forOfStringConstituents.jump, 0, 19))
+>C : Symbol(C, Decl(forOfStringConstituents.jump, 1, 30))
+
+interface B { x: 1; y: CD[]; }
+>B : Symbol(B, Decl(forOfStringConstituents.jump, 0, 29))
+>x : Symbol(B.x, Decl(forOfStringConstituents.jump, 1, 13))
+>y : Symbol(B.y, Decl(forOfStringConstituents.jump, 1, 19))
+>CD : Symbol(CD, Decl(forOfStringConstituents.jump, 4, 16))
+
+interface C { x: 2; }
+>C : Symbol(C, Decl(forOfStringConstituents.jump, 1, 30))
+>x : Symbol(C.x, Decl(forOfStringConstituents.jump, 2, 13))
+
+interface D { x: 3; }
+>D : Symbol(D, Decl(forOfStringConstituents.jump, 2, 21))
+>x : Symbol(D.x, Decl(forOfStringConstituents.jump, 3, 13))
+
+type AB = A | B;
+>AB : Symbol(AB, Decl(forOfStringConstituents.jump, 3, 21))
+>A : Symbol(A, Decl(forOfStringConstituents.jump, 0, 0))
+>B : Symbol(B, Decl(forOfStringConstituents.jump, 0, 29))
+
+type CD = C | D;
+>CD : Symbol(CD, Decl(forOfStringConstituents.jump, 4, 16))
+>C : Symbol(C, Decl(forOfStringConstituents.jump, 1, 30))
+>D : Symbol(D, Decl(forOfStringConstituents.jump, 2, 21))
+
+declare let x: AB, y: CD;
+>x : Symbol(x, Decl(forOfStringConstituents.jump, 6, 11))
+>AB : Symbol(AB, Decl(forOfStringConstituents.jump, 3, 21))
+>y : Symbol(y, Decl(forOfStringConstituents.jump, 6, 18))
+>CD : Symbol(CD, Decl(forOfStringConstituents.jump, 4, 16))
+
+for (y of x.y);
+>y : Symbol(y, Decl(forOfStringConstituents.jump, 6, 18))
+>x.y : Symbol(y, Decl(forOfStringConstituents.jump, 0, 19), Decl(forOfStringConstituents.jump, 1, 19))
+>x : Symbol(x, Decl(forOfStringConstituents.jump, 6, 11))
+>y : Symbol(y, Decl(forOfStringConstituents.jump, 0, 19), Decl(forOfStringConstituents.jump, 1, 19))
+

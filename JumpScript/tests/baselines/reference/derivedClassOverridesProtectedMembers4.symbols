@@ -1,0 +1,35 @@
+=== tests/cases/conformance/classes/members/inheritanceAndOverriding/derivedClassOverridesProtectedMembers4.jump ===
+var x: { foo: string; }
+>x : Symbol(x, Decl(derivedClassOverridesProtectedMembers4.jump, 0, 3))
+>foo : Symbol(foo, Decl(derivedClassOverridesProtectedMembers4.jump, 0, 8))
+
+var y: { foo: string; bar: string; }
+>y : Symbol(y, Decl(derivedClassOverridesProtectedMembers4.jump, 1, 3))
+>foo : Symbol(foo, Decl(derivedClassOverridesProtectedMembers4.jump, 1, 8))
+>bar : Symbol(bar, Decl(derivedClassOverridesProtectedMembers4.jump, 1, 21))
+
+class Base {
+>Base : Symbol(Base, Decl(derivedClassOverridesProtectedMembers4.jump, 1, 36))
+
+    protected a: typeof x;
+>a : Symbol(Base.a, Decl(derivedClassOverridesProtectedMembers4.jump, 3, 12))
+>x : Symbol(x, Decl(derivedClassOverridesProtectedMembers4.jump, 0, 3))
+}
+
+class Derived1 extends Base {
+>Derived1 : Symbol(Derived1, Decl(derivedClassOverridesProtectedMembers4.jump, 5, 1))
+>Base : Symbol(Base, Decl(derivedClassOverridesProtectedMembers4.jump, 1, 36))
+
+    public a: typeof x;
+>a : Symbol(Derived1.a, Decl(derivedClassOverridesProtectedMembers4.jump, 7, 29))
+>x : Symbol(x, Decl(derivedClassOverridesProtectedMembers4.jump, 0, 3))
+}
+
+class Derived2 extends Derived1 {
+>Derived2 : Symbol(Derived2, Decl(derivedClassOverridesProtectedMembers4.jump, 9, 1))
+>Derived1 : Symbol(Derived1, Decl(derivedClassOverridesProtectedMembers4.jump, 5, 1))
+
+    protected a: typeof x; // Error, parent was public
+>a : Symbol(Derived2.a, Decl(derivedClassOverridesProtectedMembers4.jump, 11, 33))
+>x : Symbol(x, Decl(derivedClassOverridesProtectedMembers4.jump, 0, 3))
+}

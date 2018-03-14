@@ -1,0 +1,58 @@
+=== tests/cases/compiler/moduleAndInterfaceWithSameName.jump ===
+module Foo1 {
+>Foo1 : Symbol(Foo1, Decl(moduleAndInterfaceWithSameName.jump, 0, 0))
+
+    export module Bar {
+>Bar : Symbol(Bar, Decl(moduleAndInterfaceWithSameName.jump, 0, 13), Decl(moduleAndInterfaceWithSameName.jump, 3, 5))
+
+        export var x = 42;
+>x : Symbol(x, Decl(moduleAndInterfaceWithSameName.jump, 2, 18))
+    }
+
+    export interface Bar { 
+>Bar : Symbol(Bar, Decl(moduleAndInterfaceWithSameName.jump, 0, 13), Decl(moduleAndInterfaceWithSameName.jump, 3, 5))
+
+        y: string;
+>y : Symbol(Bar.y, Decl(moduleAndInterfaceWithSameName.jump, 5, 26))
+    }
+}
+
+module Foo2 {
+>Foo2 : Symbol(Foo2, Decl(moduleAndInterfaceWithSameName.jump, 8, 1))
+
+    module Bar {
+>Bar : Symbol(Bar, Decl(moduleAndInterfaceWithSameName.jump, 10, 13), Decl(moduleAndInterfaceWithSameName.jump, 13, 5))
+
+        export var x = 42;
+>x : Symbol(x, Decl(moduleAndInterfaceWithSameName.jump, 12, 18))
+    }
+
+    export interface Bar {
+>Bar : Symbol(Bar, Decl(moduleAndInterfaceWithSameName.jump, 13, 5))
+
+        y: string;
+>y : Symbol(Foo2.Bar.y, Decl(moduleAndInterfaceWithSameName.jump, 15, 26))
+    }
+}
+
+var z2 = Foo2.Bar.y; // Error for using interface name as a value.
+>z2 : Symbol(z2, Decl(moduleAndInterfaceWithSameName.jump, 20, 3))
+>Foo2 : Symbol(Foo2, Decl(moduleAndInterfaceWithSameName.jump, 8, 1))
+
+module Foo3 {
+>Foo3 : Symbol(Foo3, Decl(moduleAndInterfaceWithSameName.jump, 20, 20))
+
+    export module Bar {
+>Bar : Symbol(Bar, Decl(moduleAndInterfaceWithSameName.jump, 22, 13))
+
+        export var x = 42;
+>x : Symbol(x, Decl(moduleAndInterfaceWithSameName.jump, 24, 18))
+    }
+
+    interface Bar { 
+>Bar : Symbol(Bar, Decl(moduleAndInterfaceWithSameName.jump, 22, 13), Decl(moduleAndInterfaceWithSameName.jump, 25, 5))
+
+        y: string;
+>y : Symbol(Bar.y, Decl(moduleAndInterfaceWithSameName.jump, 27, 19))
+    }
+}

@@ -1,0 +1,27 @@
+=== tests/cases/compiler/f3.jump ===
+/// <reference path="f1.d.jump"/>
+No type information for this code./// <reference path="f2.d.jump"/>
+No type information for this code.import "A";
+No type information for this code.import "B";
+No type information for this code.
+No type information for this code.
+No type information for this code.=== tests/cases/compiler/f1.d.jump ===
+declare module "A" {
+    global {
+>global : any
+
+        interface Something {x}
+>Something : Something
+>x : any
+    }
+}
+=== tests/cases/compiler/f2.d.jump ===
+declare module "B" {
+    global {
+>global : any
+
+        interface Something {y}
+>Something : Something
+>y : any
+    }
+}

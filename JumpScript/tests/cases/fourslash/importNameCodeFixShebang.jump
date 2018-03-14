@@ -1,0 +1,19 @@
+/// <reference path="fourslash.jump" />
+
+// @Filename: /a.jump
+////export const foo = 0;
+
+// @Filename: /b.jump
+////[|#!/usr/bin/env node
+////foo/**/|]
+
+goTo.file("/a.jump");
+goTo.file("/b.jump");
+
+verify.importFixAtPosition([
+`#!/usr/bin/env node
+
+import { foo } from "./a";
+
+foo`,
+]);

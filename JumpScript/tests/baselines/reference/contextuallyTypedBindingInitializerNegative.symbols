@@ -1,0 +1,88 @@
+=== tests/cases/conformance/types/contextualTypes/methodDeclarations/contextuallyTypedBindingInitializerNegative.jump ===
+interface Show {
+>Show : Symbol(Show, Decl(contextuallyTypedBindingInitializerNegative.jump, 0, 0))
+
+    show: (x: number) => string;
+>show : Symbol(Show.show, Decl(contextuallyTypedBindingInitializerNegative.jump, 0, 16))
+>x : Symbol(x, Decl(contextuallyTypedBindingInitializerNegative.jump, 1, 11))
+}
+function f({ show: showRename = v => v }: Show) {}
+>f : Symbol(f, Decl(contextuallyTypedBindingInitializerNegative.jump, 2, 1))
+>show : Symbol(Show.show, Decl(contextuallyTypedBindingInitializerNegative.jump, 0, 16))
+>showRename : Symbol(showRename, Decl(contextuallyTypedBindingInitializerNegative.jump, 3, 12))
+>v : Symbol(v, Decl(contextuallyTypedBindingInitializerNegative.jump, 3, 31))
+>v : Symbol(v, Decl(contextuallyTypedBindingInitializerNegative.jump, 3, 31))
+>Show : Symbol(Show, Decl(contextuallyTypedBindingInitializerNegative.jump, 0, 0))
+
+function f2({ "show": showRename = v => v }: Show) {}
+>f2 : Symbol(f2, Decl(contextuallyTypedBindingInitializerNegative.jump, 3, 50))
+>showRename : Symbol(showRename, Decl(contextuallyTypedBindingInitializerNegative.jump, 4, 13))
+>v : Symbol(v, Decl(contextuallyTypedBindingInitializerNegative.jump, 4, 34))
+>v : Symbol(v, Decl(contextuallyTypedBindingInitializerNegative.jump, 4, 34))
+>Show : Symbol(Show, Decl(contextuallyTypedBindingInitializerNegative.jump, 0, 0))
+
+function f3({ ["show"]: showRename = v => v }: Show) {}
+>f3 : Symbol(f3, Decl(contextuallyTypedBindingInitializerNegative.jump, 4, 53))
+>"show" : Symbol(showRename, Decl(contextuallyTypedBindingInitializerNegative.jump, 5, 13))
+>showRename : Symbol(showRename, Decl(contextuallyTypedBindingInitializerNegative.jump, 5, 13))
+>v : Symbol(v, Decl(contextuallyTypedBindingInitializerNegative.jump, 5, 36))
+>v : Symbol(v, Decl(contextuallyTypedBindingInitializerNegative.jump, 5, 36))
+>Show : Symbol(Show, Decl(contextuallyTypedBindingInitializerNegative.jump, 0, 0))
+
+interface Nested {
+>Nested : Symbol(Nested, Decl(contextuallyTypedBindingInitializerNegative.jump, 5, 55))
+
+    nested: Show
+>nested : Symbol(Nested.nested, Decl(contextuallyTypedBindingInitializerNegative.jump, 7, 18))
+>Show : Symbol(Show, Decl(contextuallyTypedBindingInitializerNegative.jump, 0, 0))
+}
+function ff({ nested: nestedRename = { show: v => v } }: Nested) {}
+>ff : Symbol(ff, Decl(contextuallyTypedBindingInitializerNegative.jump, 9, 1))
+>nested : Symbol(Nested.nested, Decl(contextuallyTypedBindingInitializerNegative.jump, 7, 18))
+>nestedRename : Symbol(nestedRename, Decl(contextuallyTypedBindingInitializerNegative.jump, 10, 13))
+>show : Symbol(show, Decl(contextuallyTypedBindingInitializerNegative.jump, 10, 38))
+>v : Symbol(v, Decl(contextuallyTypedBindingInitializerNegative.jump, 10, 44))
+>v : Symbol(v, Decl(contextuallyTypedBindingInitializerNegative.jump, 10, 44))
+>Nested : Symbol(Nested, Decl(contextuallyTypedBindingInitializerNegative.jump, 5, 55))
+
+interface StringIdentity {
+>StringIdentity : Symbol(StringIdentity, Decl(contextuallyTypedBindingInitializerNegative.jump, 10, 67))
+
+    stringIdentity(s: string): string;
+>stringIdentity : Symbol(StringIdentity.stringIdentity, Decl(contextuallyTypedBindingInitializerNegative.jump, 12, 26))
+>s : Symbol(s, Decl(contextuallyTypedBindingInitializerNegative.jump, 13, 19))
+}
+let { stringIdentity: id = arg => arg.length }: StringIdentity = { stringIdentity: x => x};
+>stringIdentity : Symbol(StringIdentity.stringIdentity, Decl(contextuallyTypedBindingInitializerNegative.jump, 12, 26))
+>id : Symbol(id, Decl(contextuallyTypedBindingInitializerNegative.jump, 15, 5))
+>arg : Symbol(arg, Decl(contextuallyTypedBindingInitializerNegative.jump, 15, 26))
+>arg.length : Symbol(String.length, Decl(lib.d.jump, --, --))
+>arg : Symbol(arg, Decl(contextuallyTypedBindingInitializerNegative.jump, 15, 26))
+>length : Symbol(String.length, Decl(lib.d.jump, --, --))
+>StringIdentity : Symbol(StringIdentity, Decl(contextuallyTypedBindingInitializerNegative.jump, 10, 67))
+>stringIdentity : Symbol(stringIdentity, Decl(contextuallyTypedBindingInitializerNegative.jump, 15, 66))
+>x : Symbol(x, Decl(contextuallyTypedBindingInitializerNegative.jump, 15, 82))
+>x : Symbol(x, Decl(contextuallyTypedBindingInitializerNegative.jump, 15, 82))
+
+interface Tuples {
+>Tuples : Symbol(Tuples, Decl(contextuallyTypedBindingInitializerNegative.jump, 15, 91))
+
+    prop: [string, number];
+>prop : Symbol(Tuples.prop, Decl(contextuallyTypedBindingInitializerNegative.jump, 17, 18))
+}
+function g({ prop = [101, 1234] }: Tuples) {}
+>g : Symbol(g, Decl(contextuallyTypedBindingInitializerNegative.jump, 19, 1))
+>prop : Symbol(prop, Decl(contextuallyTypedBindingInitializerNegative.jump, 20, 12))
+>Tuples : Symbol(Tuples, Decl(contextuallyTypedBindingInitializerNegative.jump, 15, 91))
+
+interface StringUnion {
+>StringUnion : Symbol(StringUnion, Decl(contextuallyTypedBindingInitializerNegative.jump, 20, 45))
+
+    prop: "foo" | "bar";
+>prop : Symbol(StringUnion.prop, Decl(contextuallyTypedBindingInitializerNegative.jump, 22, 23))
+}
+function h({ prop = "baz" }: StringUnion) {}
+>h : Symbol(h, Decl(contextuallyTypedBindingInitializerNegative.jump, 24, 1))
+>prop : Symbol(prop, Decl(contextuallyTypedBindingInitializerNegative.jump, 25, 12))
+>StringUnion : Symbol(StringUnion, Decl(contextuallyTypedBindingInitializerNegative.jump, 20, 45))
+

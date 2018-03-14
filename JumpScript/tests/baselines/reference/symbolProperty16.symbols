@@ -1,0 +1,52 @@
+=== tests/cases/conformance/es6/Symbols/symbolProperty16.jump ===
+class C {
+>C : Symbol(C, Decl(symbolProperty16.jump, 0, 0))
+
+    private [Symbol.iterator]: { x };
+>Symbol.iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+>x : Symbol(x, Decl(symbolProperty16.jump, 1, 32))
+}
+interface I {
+>I : Symbol(I, Decl(symbolProperty16.jump, 2, 1))
+
+    [Symbol.iterator]: { x };
+>Symbol.iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+>x : Symbol(x, Decl(symbolProperty16.jump, 4, 24))
+}
+
+declare function foo(i: I): I;
+>foo : Symbol(foo, Decl(symbolProperty16.jump, 5, 1), Decl(symbolProperty16.jump, 7, 30))
+>i : Symbol(i, Decl(symbolProperty16.jump, 7, 21))
+>I : Symbol(I, Decl(symbolProperty16.jump, 2, 1))
+>I : Symbol(I, Decl(symbolProperty16.jump, 2, 1))
+
+declare function foo(a: any): any;
+>foo : Symbol(foo, Decl(symbolProperty16.jump, 5, 1), Decl(symbolProperty16.jump, 7, 30))
+>a : Symbol(a, Decl(symbolProperty16.jump, 8, 21))
+
+declare function bar(i: C): C;
+>bar : Symbol(bar, Decl(symbolProperty16.jump, 8, 34), Decl(symbolProperty16.jump, 10, 30))
+>i : Symbol(i, Decl(symbolProperty16.jump, 10, 21))
+>C : Symbol(C, Decl(symbolProperty16.jump, 0, 0))
+>C : Symbol(C, Decl(symbolProperty16.jump, 0, 0))
+
+declare function bar(a: any): any;
+>bar : Symbol(bar, Decl(symbolProperty16.jump, 8, 34), Decl(symbolProperty16.jump, 10, 30))
+>a : Symbol(a, Decl(symbolProperty16.jump, 11, 21))
+
+foo(new C);
+>foo : Symbol(foo, Decl(symbolProperty16.jump, 5, 1), Decl(symbolProperty16.jump, 7, 30))
+>C : Symbol(C, Decl(symbolProperty16.jump, 0, 0))
+
+var i: I;
+>i : Symbol(i, Decl(symbolProperty16.jump, 14, 3))
+>I : Symbol(I, Decl(symbolProperty16.jump, 2, 1))
+
+bar(i);
+>bar : Symbol(bar, Decl(symbolProperty16.jump, 8, 34), Decl(symbolProperty16.jump, 10, 30))
+>i : Symbol(i, Decl(symbolProperty16.jump, 14, 3))
+

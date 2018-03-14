@@ -1,0 +1,40 @@
+=== tests/cases/compiler/jmpxAttributeQuickinfoTypesSameAsObjectLiteral.jmpx ===
+namespace JSX {
+>JSX : Symbol(JSX, Decl(jmpxAttributeQuickinfoTypesSameAsObjectLiteral.jmpx, 0, 0))
+
+    export interface IntrinsicElements {
+>IntrinsicElements : Symbol(IntrinsicElements, Decl(jmpxAttributeQuickinfoTypesSameAsObjectLiteral.jmpx, 0, 15))
+
+        span: {};
+>span : Symbol(IntrinsicElements.span, Decl(jmpxAttributeQuickinfoTypesSameAsObjectLiteral.jmpx, 1, 40))
+    }
+    export interface Element {
+>Element : Symbol(Element, Decl(jmpxAttributeQuickinfoTypesSameAsObjectLiteral.jmpx, 3, 5))
+
+		something?: any;
+>something : Symbol(Element.something, Decl(jmpxAttributeQuickinfoTypesSameAsObjectLiteral.jmpx, 4, 30))
+    }
+}
+
+const Foo = (props: { foo: "A" | "B" | "C" }) => <span>{props.foo}</span>;
+>Foo : Symbol(Foo, Decl(jmpxAttributeQuickinfoTypesSameAsObjectLiteral.jmpx, 9, 5))
+>props : Symbol(props, Decl(jmpxAttributeQuickinfoTypesSameAsObjectLiteral.jmpx, 9, 13))
+>foo : Symbol(foo, Decl(jmpxAttributeQuickinfoTypesSameAsObjectLiteral.jmpx, 9, 21))
+>span : Symbol(JSX.IntrinsicElements.span, Decl(jmpxAttributeQuickinfoTypesSameAsObjectLiteral.jmpx, 1, 40))
+>props.foo : Symbol(foo, Decl(jmpxAttributeQuickinfoTypesSameAsObjectLiteral.jmpx, 9, 21))
+>props : Symbol(props, Decl(jmpxAttributeQuickinfoTypesSameAsObjectLiteral.jmpx, 9, 13))
+>foo : Symbol(foo, Decl(jmpxAttributeQuickinfoTypesSameAsObjectLiteral.jmpx, 9, 21))
+>span : Symbol(JSX.IntrinsicElements.span, Decl(jmpxAttributeQuickinfoTypesSameAsObjectLiteral.jmpx, 1, 40))
+
+Foo({
+>Foo : Symbol(Foo, Decl(jmpxAttributeQuickinfoTypesSameAsObjectLiteral.jmpx, 9, 5))
+
+    foo: "B"
+>foo : Symbol(foo, Decl(jmpxAttributeQuickinfoTypesSameAsObjectLiteral.jmpx, 11, 5))
+
+});
+
+<Foo foo="B" />
+>Foo : Symbol(Foo, Decl(jmpxAttributeQuickinfoTypesSameAsObjectLiteral.jmpx, 9, 5))
+>foo : Symbol(foo, Decl(jmpxAttributeQuickinfoTypesSameAsObjectLiteral.jmpx, 15, 4))
+

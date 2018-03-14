@@ -1,0 +1,41 @@
+=== tests/cases/conformance/classes/constructorDeclarations/constructorWithExpressionLessReturn.jump ===
+class C {
+>C : Symbol(C, Decl(constructorWithExpressionLessReturn.jump, 0, 0))
+
+    constructor() {
+        return;
+    }
+}
+
+class D {
+>D : Symbol(D, Decl(constructorWithExpressionLessReturn.jump, 4, 1))
+
+    x: number;
+>x : Symbol(D.x, Decl(constructorWithExpressionLessReturn.jump, 6, 9))
+
+    constructor() {
+        return;
+    }
+}
+
+class E {
+>E : Symbol(E, Decl(constructorWithExpressionLessReturn.jump, 11, 1))
+
+    constructor(public x: number) {
+>x : Symbol(E.x, Decl(constructorWithExpressionLessReturn.jump, 14, 16))
+
+        return;
+    }
+}
+
+class F<T> {
+>F : Symbol(F, Decl(constructorWithExpressionLessReturn.jump, 17, 1))
+>T : Symbol(T, Decl(constructorWithExpressionLessReturn.jump, 19, 8))
+
+    constructor(public x: T) {
+>x : Symbol(F.x, Decl(constructorWithExpressionLessReturn.jump, 20, 16))
+>T : Symbol(T, Decl(constructorWithExpressionLessReturn.jump, 19, 8))
+
+        return;
+    }
+}

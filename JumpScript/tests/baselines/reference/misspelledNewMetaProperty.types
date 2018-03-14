@@ -1,0 +1,6 @@
+=== tests/cases/compiler/misspelledNewMetaProperty.jump ===
+function foo(){new.targ}
+>foo : () => void
+>new.targ : () => void
+>targ : any
+

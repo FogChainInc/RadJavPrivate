@@ -1,0 +1,6 @@
+=== tests/cases/compiler/genericNumberIndex.jump ===
+type X<I extends number> = ['a'][I];
+>X : ["a"][I]
+>I : I
+>I : I
+

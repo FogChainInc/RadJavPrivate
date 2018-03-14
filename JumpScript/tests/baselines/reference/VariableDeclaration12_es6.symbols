@@ -1,0 +1,5 @@
+=== tests/cases/conformance/es6/variableDeclarations/VariableDeclaration12_es6.jump ===
+let
+x
+>x : Symbol(x, Decl(VariableDeclaration12_es6.jump, 0, 3))
+

@@ -1,0 +1,10 @@
+=== tests/cases/compiler/ClassDeclaration13.jump ===
+class C {
+>C : C
+
+   foo();
+>foo : () => any
+
+   bar() { }
+>bar : () => void
+}

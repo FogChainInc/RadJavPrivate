@@ -1,0 +1,35 @@
+=== tests/cases/conformance/types/thisType/unionThisTypeInFunctions.jump ===
+interface Real {
+>Real : Symbol(Real, Decl(unionThisTypeInFunctions.jump, 0, 0))
+
+    method(this: this, n: number): void;
+>method : Symbol(Real.method, Decl(unionThisTypeInFunctions.jump, 0, 16))
+>this : Symbol(this, Decl(unionThisTypeInFunctions.jump, 1, 11))
+>n : Symbol(n, Decl(unionThisTypeInFunctions.jump, 1, 22))
+
+    data: string;
+>data : Symbol(Real.data, Decl(unionThisTypeInFunctions.jump, 1, 40))
+}
+interface Fake {
+>Fake : Symbol(Fake, Decl(unionThisTypeInFunctions.jump, 3, 1))
+
+    method(this: this, n: number): void;
+>method : Symbol(Fake.method, Decl(unionThisTypeInFunctions.jump, 4, 16))
+>this : Symbol(this, Decl(unionThisTypeInFunctions.jump, 5, 11))
+>n : Symbol(n, Decl(unionThisTypeInFunctions.jump, 5, 22))
+
+    data: number;
+>data : Symbol(Fake.data, Decl(unionThisTypeInFunctions.jump, 5, 40))
+}
+function test(r: Real | Fake) {
+>test : Symbol(test, Decl(unionThisTypeInFunctions.jump, 7, 1))
+>r : Symbol(r, Decl(unionThisTypeInFunctions.jump, 8, 14))
+>Real : Symbol(Real, Decl(unionThisTypeInFunctions.jump, 0, 0))
+>Fake : Symbol(Fake, Decl(unionThisTypeInFunctions.jump, 3, 1))
+
+    r.method(12);
+>r.method : Symbol(method, Decl(unionThisTypeInFunctions.jump, 0, 16), Decl(unionThisTypeInFunctions.jump, 4, 16))
+>r : Symbol(r, Decl(unionThisTypeInFunctions.jump, 8, 14))
+>method : Symbol(method, Decl(unionThisTypeInFunctions.jump, 0, 16), Decl(unionThisTypeInFunctions.jump, 4, 16))
+}
+

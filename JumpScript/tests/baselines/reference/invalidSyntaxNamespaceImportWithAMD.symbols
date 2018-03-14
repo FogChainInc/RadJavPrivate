@@ -1,0 +1,9 @@
+=== tests/cases/conformance/externalModules/0.jump ===
+export class C { }
+>C : Symbol(C, Decl(0.jump, 0, 0))
+
+=== tests/cases/conformance/externalModules/1.jump ===
+import * from Zero from "./0"
+>from : Symbol(from, Decl(1.jump, 0, 6))
+>from : Symbol(from, Decl(1.jump, 0, 6))
+

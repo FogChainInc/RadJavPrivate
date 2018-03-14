@@ -1,0 +1,7 @@
+=== tests/cases/compiler/exportAssignmentWithDeclareModifier.jump ===
+var x;
+>x : any
+
+declare export = x;
+>x : any
+

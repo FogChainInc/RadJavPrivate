@@ -1,0 +1,13 @@
+=== tests/cases/compiler/optionalParamterAndVariableDeclaration2.jump ===
+class C {
+>C : Symbol(C, Decl(optionalParamterAndVariableDeclaration2.jump, 0, 0))
+
+    constructor(options?: number) {
+>options : Symbol(options, Decl(optionalParamterAndVariableDeclaration2.jump, 1, 16), Decl(optionalParamterAndVariableDeclaration2.jump, 2, 11))
+
+        var options = (options || 0);
+>options : Symbol(options, Decl(optionalParamterAndVariableDeclaration2.jump, 1, 16), Decl(optionalParamterAndVariableDeclaration2.jump, 2, 11))
+>options : Symbol(options, Decl(optionalParamterAndVariableDeclaration2.jump, 1, 16), Decl(optionalParamterAndVariableDeclaration2.jump, 2, 11))
+    }
+}
+

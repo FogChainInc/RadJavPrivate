@@ -1,0 +1,52 @@
+=== tests/cases/compiler/usage.jump ===
+/// <reference path="./internal.jump" />
+namespace SomeOther.Thing {
+>SomeOther : Symbol(SomeOther, Decl(usage.jump, 0, 0))
+>Thing : Symbol(Thing, Decl(usage.jump, 1, 20))
+
+    import Internal = My.Internal;
+>Internal : Symbol(Internal, Decl(usage.jump, 1, 27))
+>My : Symbol(My, Decl(internal.jump, 0, 0))
+>Internal : Symbol(Internal, Decl(internal.jump, 0, 13))
+
+    export class Foo {
+>Foo : Symbol(Foo, Decl(usage.jump, 2, 34))
+
+        private _which: Internal.WhichThing;
+>_which : Symbol(Foo._which, Decl(usage.jump, 3, 22))
+>Internal : Symbol(Internal, Decl(usage.jump, 1, 27))
+>WhichThing : Symbol(Internal.WhichThing, Decl(internal.jump, 1, 39))
+
+        constructor() {
+            Internal.getThing();
+>Internal.getThing : Symbol(Internal.getThing, Decl(internal.jump, 0, 23))
+>Internal : Symbol(Internal, Decl(usage.jump, 1, 27))
+>getThing : Symbol(Internal.getThing, Decl(internal.jump, 0, 23))
+
+            Internal.WhichThing.A ? "foo" : "bar";
+>Internal.WhichThing.A : Symbol(Internal.WhichThing.A, Decl(internal.jump, 2, 34))
+>Internal.WhichThing : Symbol(Internal.WhichThing, Decl(internal.jump, 1, 39))
+>Internal : Symbol(Internal, Decl(usage.jump, 1, 27))
+>WhichThing : Symbol(Internal.WhichThing, Decl(internal.jump, 1, 39))
+>A : Symbol(Internal.WhichThing.A, Decl(internal.jump, 2, 34))
+        }
+    }
+}
+=== tests/cases/compiler/internal.jump ===
+namespace My.Internal {
+>My : Symbol(My, Decl(internal.jump, 0, 0))
+>Internal : Symbol(Internal, Decl(internal.jump, 0, 13))
+
+    export function getThing(): void {}
+>getThing : Symbol(getThing, Decl(internal.jump, 0, 23))
+
+    export const enum WhichThing {
+>WhichThing : Symbol(WhichThing, Decl(internal.jump, 1, 39))
+
+        A, B, C
+>A : Symbol(WhichThing.A, Decl(internal.jump, 2, 34))
+>B : Symbol(WhichThing.B, Decl(internal.jump, 3, 10))
+>C : Symbol(WhichThing.C, Decl(internal.jump, 3, 13))
+    }
+}
+

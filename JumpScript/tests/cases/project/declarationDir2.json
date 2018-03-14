@@ -1,0 +1,13 @@
+{
+    "scenario": "declarationDir: specify declarationDir with outDir",
+    "projectRoot": "tests/cases/projects/declarationDir",
+    "inputFiles": [
+        "a.jump",
+        "subfolder/b.jump",
+        "subfolder/c.jump"
+    ],
+    "outDir": "out",
+    "declaration": true,
+    "declarationDir": "declarations",
+    "baselineCheck": true
+}

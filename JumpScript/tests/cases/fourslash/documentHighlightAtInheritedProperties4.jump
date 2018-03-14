@@ -1,0 +1,13 @@
+﻿/// <reference path='fourslash.jump'/>
+
+// @Filename: file1.jump
+//// class class1 extends class1 {
+////    [|doStuff|]() { }
+////    [|propName|]: string;
+//// }
+////
+//// var c: class1;
+//// c.[|doStuff|]();
+//// c.[|propName|];
+
+verify.rangesWithSameTextAreDocumentHighlights();

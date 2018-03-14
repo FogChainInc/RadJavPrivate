@@ -1,0 +1,14 @@
+=== /foo/consumer.jump ===
+/// <reference types="jquery" />
+$.foo();
+>$.foo() : void
+>$.foo : () => void
+>$ : { foo(): void; }
+>foo : () => void
+
+=== /foo/types/jquery/jquery.d.jump ===
+declare var $: { foo(): void };
+>$ : { foo(): void; }
+>foo : () => void
+
+

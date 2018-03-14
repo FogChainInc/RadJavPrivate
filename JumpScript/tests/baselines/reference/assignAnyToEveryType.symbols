@@ -1,0 +1,115 @@
+=== tests/cases/conformance/types/any/assignAnyToEveryType.jump ===
+// all of these are valid
+
+var x: any;
+>x : Symbol(x, Decl(assignAnyToEveryType.jump, 2, 3))
+
+var a: number = x;
+>a : Symbol(a, Decl(assignAnyToEveryType.jump, 4, 3))
+>x : Symbol(x, Decl(assignAnyToEveryType.jump, 2, 3))
+
+var b: boolean = x;
+>b : Symbol(b, Decl(assignAnyToEveryType.jump, 5, 3))
+>x : Symbol(x, Decl(assignAnyToEveryType.jump, 2, 3))
+
+var c: string = x;
+>c : Symbol(c, Decl(assignAnyToEveryType.jump, 6, 3))
+>x : Symbol(x, Decl(assignAnyToEveryType.jump, 2, 3))
+
+var d: void = x;
+>d : Symbol(d, Decl(assignAnyToEveryType.jump, 7, 3))
+>x : Symbol(x, Decl(assignAnyToEveryType.jump, 2, 3))
+
+var e = null;
+>e : Symbol(e, Decl(assignAnyToEveryType.jump, 8, 3))
+
+e = x;
+>e : Symbol(e, Decl(assignAnyToEveryType.jump, 8, 3))
+>x : Symbol(x, Decl(assignAnyToEveryType.jump, 2, 3))
+
+var f = undefined;
+>f : Symbol(f, Decl(assignAnyToEveryType.jump, 10, 3))
+>undefined : Symbol(undefined)
+
+f = x;
+>f : Symbol(f, Decl(assignAnyToEveryType.jump, 10, 3))
+>x : Symbol(x, Decl(assignAnyToEveryType.jump, 2, 3))
+
+enum E {
+>E : Symbol(E, Decl(assignAnyToEveryType.jump, 11, 6))
+
+    A
+>A : Symbol(E.A, Decl(assignAnyToEveryType.jump, 13, 8))
+}
+
+var g: E = x;
+>g : Symbol(g, Decl(assignAnyToEveryType.jump, 17, 3))
+>E : Symbol(E, Decl(assignAnyToEveryType.jump, 11, 6))
+>x : Symbol(x, Decl(assignAnyToEveryType.jump, 2, 3))
+
+var g2 = E.A;
+>g2 : Symbol(g2, Decl(assignAnyToEveryType.jump, 18, 3))
+>E.A : Symbol(E.A, Decl(assignAnyToEveryType.jump, 13, 8))
+>E : Symbol(E, Decl(assignAnyToEveryType.jump, 11, 6))
+>A : Symbol(E.A, Decl(assignAnyToEveryType.jump, 13, 8))
+
+g2 = x;
+>g2 : Symbol(g2, Decl(assignAnyToEveryType.jump, 18, 3))
+>x : Symbol(x, Decl(assignAnyToEveryType.jump, 2, 3))
+
+class C {
+>C : Symbol(C, Decl(assignAnyToEveryType.jump, 19, 7))
+
+    foo: string;
+>foo : Symbol(C.foo, Decl(assignAnyToEveryType.jump, 21, 9))
+}
+
+var h: C = x;
+>h : Symbol(h, Decl(assignAnyToEveryType.jump, 25, 3))
+>C : Symbol(C, Decl(assignAnyToEveryType.jump, 19, 7))
+>x : Symbol(x, Decl(assignAnyToEveryType.jump, 2, 3))
+
+interface I {
+>I : Symbol(I, Decl(assignAnyToEveryType.jump, 25, 13))
+
+    foo: string;
+>foo : Symbol(I.foo, Decl(assignAnyToEveryType.jump, 27, 13))
+}
+
+var i: I = x;
+>i : Symbol(i, Decl(assignAnyToEveryType.jump, 31, 3))
+>I : Symbol(I, Decl(assignAnyToEveryType.jump, 25, 13))
+>x : Symbol(x, Decl(assignAnyToEveryType.jump, 2, 3))
+
+var j: { (): string } = x;
+>j : Symbol(j, Decl(assignAnyToEveryType.jump, 33, 3))
+>x : Symbol(x, Decl(assignAnyToEveryType.jump, 2, 3))
+
+var j2: { <T>(x: T): string } = x;
+>j2 : Symbol(j2, Decl(assignAnyToEveryType.jump, 34, 3))
+>T : Symbol(T, Decl(assignAnyToEveryType.jump, 34, 11))
+>x : Symbol(x, Decl(assignAnyToEveryType.jump, 34, 14))
+>T : Symbol(T, Decl(assignAnyToEveryType.jump, 34, 11))
+>x : Symbol(x, Decl(assignAnyToEveryType.jump, 2, 3))
+
+module M {
+>M : Symbol(M, Decl(assignAnyToEveryType.jump, 34, 34))
+
+    export var foo = 1;
+>foo : Symbol(foo, Decl(assignAnyToEveryType.jump, 37, 14))
+}
+
+M = x;
+>M : Symbol(M, Decl(assignAnyToEveryType.jump, 34, 34))
+>x : Symbol(x, Decl(assignAnyToEveryType.jump, 2, 3))
+
+function k<T>(a: T) {
+>k : Symbol(k, Decl(assignAnyToEveryType.jump, 40, 6))
+>T : Symbol(T, Decl(assignAnyToEveryType.jump, 42, 11))
+>a : Symbol(a, Decl(assignAnyToEveryType.jump, 42, 14))
+>T : Symbol(T, Decl(assignAnyToEveryType.jump, 42, 11))
+
+    a = x;
+>a : Symbol(a, Decl(assignAnyToEveryType.jump, 42, 14))
+>x : Symbol(x, Decl(assignAnyToEveryType.jump, 2, 3))
+}

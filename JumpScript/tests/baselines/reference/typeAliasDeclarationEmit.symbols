@@ -1,0 +1,12 @@
+=== tests/cases/compiler/typeAliasDeclarationEmit.jump ===
+export type callback<T> = () => T;
+>callback : Symbol(callback, Decl(typeAliasDeclarationEmit.jump, 0, 0))
+>T : Symbol(T, Decl(typeAliasDeclarationEmit.jump, 0, 21))
+>T : Symbol(T, Decl(typeAliasDeclarationEmit.jump, 0, 21))
+
+export type CallbackArray<T extends callback> = () => T;
+>CallbackArray : Symbol(CallbackArray, Decl(typeAliasDeclarationEmit.jump, 0, 34))
+>T : Symbol(T, Decl(typeAliasDeclarationEmit.jump, 2, 26))
+>callback : Symbol(callback, Decl(typeAliasDeclarationEmit.jump, 0, 0))
+>T : Symbol(T, Decl(typeAliasDeclarationEmit.jump, 2, 26))
+

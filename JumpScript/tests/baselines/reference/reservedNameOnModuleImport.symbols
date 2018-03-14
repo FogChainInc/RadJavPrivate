@@ -1,0 +1,13 @@
+=== tests/cases/compiler/reservedNameOnModuleImport.jump ===
+declare module test {
+>test : Symbol(test, Decl(reservedNameOnModuleImport.jump, 0, 0))
+
+    module mstring { }
+>mstring : Symbol(mstring, Decl(reservedNameOnModuleImport.jump, 0, 21))
+
+    // Should be fine; this does not clobber any declared values.
+    export import string = mstring;
+>string : Symbol(string, Decl(reservedNameOnModuleImport.jump, 1, 22))
+>mstring : Symbol(mstring, Decl(reservedNameOnModuleImport.jump, 0, 21))
+}
+

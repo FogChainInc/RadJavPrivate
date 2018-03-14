@@ -1,0 +1,10 @@
+=== tests/cases/compiler/classDeclarationBlockScoping1.jump ===
+class C {
+>C : Symbol(C, Decl(classDeclarationBlockScoping1.jump, 0, 0))
+}
+
+{
+    class C {
+>C : Symbol(C, Decl(classDeclarationBlockScoping1.jump, 3, 1))
+    }
+}

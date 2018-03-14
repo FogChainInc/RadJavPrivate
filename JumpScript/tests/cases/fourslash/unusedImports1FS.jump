@@ -1,0 +1,12 @@
+/// <reference path='fourslash.jump' />
+
+// @noUnusedLocals: true
+// @Filename: file2.jump
+////   [|import { Calculator } from "./file1" |]
+
+// @Filename: file1.jump
+////    export class Calculator {
+////
+////    }
+
+verify.rangeAfterCodeFix('');

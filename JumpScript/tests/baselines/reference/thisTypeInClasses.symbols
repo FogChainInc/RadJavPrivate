@@ -1,0 +1,136 @@
+=== tests/cases/conformance/types/thisType/thisTypeInClasses.jump ===
+class C1 {
+>C1 : Symbol(C1, Decl(thisTypeInClasses.jump, 0, 0))
+
+    x: this;
+>x : Symbol(C1.x, Decl(thisTypeInClasses.jump, 0, 10))
+
+    f(x: this): this { return undefined; }
+>f : Symbol(C1.f, Decl(thisTypeInClasses.jump, 1, 12))
+>x : Symbol(x, Decl(thisTypeInClasses.jump, 2, 6))
+>undefined : Symbol(undefined)
+}
+
+class C2 {
+>C2 : Symbol(C2, Decl(thisTypeInClasses.jump, 3, 1))
+
+    [x: string]: this;
+>x : Symbol(x, Decl(thisTypeInClasses.jump, 6, 5))
+}
+
+interface Foo<T> {
+>Foo : Symbol(Foo, Decl(thisTypeInClasses.jump, 7, 1))
+>T : Symbol(T, Decl(thisTypeInClasses.jump, 9, 14))
+
+    x: T;
+>x : Symbol(Foo.x, Decl(thisTypeInClasses.jump, 9, 18))
+>T : Symbol(T, Decl(thisTypeInClasses.jump, 9, 14))
+
+    y: this;
+>y : Symbol(Foo.y, Decl(thisTypeInClasses.jump, 10, 9))
+}
+
+class C3 {
+>C3 : Symbol(C3, Decl(thisTypeInClasses.jump, 12, 1))
+
+    a: this[];
+>a : Symbol(C3.a, Decl(thisTypeInClasses.jump, 14, 10))
+
+    b: [this, this];
+>b : Symbol(C3.b, Decl(thisTypeInClasses.jump, 15, 14))
+
+    c: this | Date;
+>c : Symbol(C3.c, Decl(thisTypeInClasses.jump, 16, 20))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+    d: this & Date;
+>d : Symbol(C3.d, Decl(thisTypeInClasses.jump, 17, 19))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+    e: (((this)));
+>e : Symbol(C3.e, Decl(thisTypeInClasses.jump, 18, 19))
+
+    f: (x: this) => this;
+>f : Symbol(C3.f, Decl(thisTypeInClasses.jump, 19, 18))
+>x : Symbol(x, Decl(thisTypeInClasses.jump, 20, 8))
+
+    g: new (x: this) => this;
+>g : Symbol(C3.g, Decl(thisTypeInClasses.jump, 20, 25))
+>x : Symbol(x, Decl(thisTypeInClasses.jump, 21, 12))
+
+    h: Foo<this>;
+>h : Symbol(C3.h, Decl(thisTypeInClasses.jump, 21, 29))
+>Foo : Symbol(Foo, Decl(thisTypeInClasses.jump, 7, 1))
+
+    i: Foo<this | (() => this)>;
+>i : Symbol(C3.i, Decl(thisTypeInClasses.jump, 22, 17))
+>Foo : Symbol(Foo, Decl(thisTypeInClasses.jump, 7, 1))
+
+    j: (x: any) => x is this;
+>j : Symbol(C3.j, Decl(thisTypeInClasses.jump, 23, 32))
+>x : Symbol(x, Decl(thisTypeInClasses.jump, 24, 8))
+>x : Symbol(x, Decl(thisTypeInClasses.jump, 24, 8))
+}
+
+declare class C4 {
+>C4 : Symbol(C4, Decl(thisTypeInClasses.jump, 25, 1))
+
+    x: this;
+>x : Symbol(C4.x, Decl(thisTypeInClasses.jump, 27, 18))
+
+    f(x: this): this;
+>f : Symbol(C4.f, Decl(thisTypeInClasses.jump, 28, 12))
+>x : Symbol(x, Decl(thisTypeInClasses.jump, 29, 6))
+}
+
+class C5 {
+>C5 : Symbol(C5, Decl(thisTypeInClasses.jump, 30, 1))
+
+    foo() {
+>foo : Symbol(C5.foo, Decl(thisTypeInClasses.jump, 32, 10))
+
+        let f1 = (x: this): this => this;
+>f1 : Symbol(f1, Decl(thisTypeInClasses.jump, 34, 11))
+>x : Symbol(x, Decl(thisTypeInClasses.jump, 34, 18))
+>this : Symbol(C5, Decl(thisTypeInClasses.jump, 30, 1))
+
+        let f2 = (x: this) => this;
+>f2 : Symbol(f2, Decl(thisTypeInClasses.jump, 35, 11))
+>x : Symbol(x, Decl(thisTypeInClasses.jump, 35, 18))
+>this : Symbol(C5, Decl(thisTypeInClasses.jump, 30, 1))
+
+        let f3 = (x: this) => (y: this) => this;
+>f3 : Symbol(f3, Decl(thisTypeInClasses.jump, 36, 11))
+>x : Symbol(x, Decl(thisTypeInClasses.jump, 36, 18))
+>y : Symbol(y, Decl(thisTypeInClasses.jump, 36, 31))
+>this : Symbol(C5, Decl(thisTypeInClasses.jump, 30, 1))
+
+        let f4 = (x: this) => {
+>f4 : Symbol(f4, Decl(thisTypeInClasses.jump, 37, 11))
+>x : Symbol(x, Decl(thisTypeInClasses.jump, 37, 18))
+
+            let g = (y: this) => {
+>g : Symbol(g, Decl(thisTypeInClasses.jump, 38, 15))
+>y : Symbol(y, Decl(thisTypeInClasses.jump, 38, 21))
+
+                return () => this;
+>this : Symbol(C5, Decl(thisTypeInClasses.jump, 30, 1))
+            }
+            return g(this);
+>g : Symbol(g, Decl(thisTypeInClasses.jump, 38, 15))
+>this : Symbol(C5, Decl(thisTypeInClasses.jump, 30, 1))
+        }
+    }
+    bar() {
+>bar : Symbol(C5.bar, Decl(thisTypeInClasses.jump, 43, 5))
+
+        let x1 = <this>undefined;
+>x1 : Symbol(x1, Decl(thisTypeInClasses.jump, 45, 11))
+>undefined : Symbol(undefined)
+
+        let x2 = undefined as this;
+>x2 : Symbol(x2, Decl(thisTypeInClasses.jump, 46, 11))
+>undefined : Symbol(undefined)
+    }
+}
+

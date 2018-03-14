@@ -1,0 +1,29 @@
+=== tests/cases/conformance/classes/constructorDeclarations/constructorParameters/constructorOverloadsWithOptionalParameters.jump ===
+class C {
+>C : Symbol(C, Decl(constructorOverloadsWithOptionalParameters.jump, 0, 0))
+
+    foo: string;
+>foo : Symbol(C.foo, Decl(constructorOverloadsWithOptionalParameters.jump, 0, 9))
+
+    constructor(x?, y?: any[]); 
+>x : Symbol(x, Decl(constructorOverloadsWithOptionalParameters.jump, 2, 16))
+>y : Symbol(y, Decl(constructorOverloadsWithOptionalParameters.jump, 2, 19))
+
+    constructor() {
+    }
+}
+
+class D<T> {
+>D : Symbol(D, Decl(constructorOverloadsWithOptionalParameters.jump, 5, 1))
+>T : Symbol(T, Decl(constructorOverloadsWithOptionalParameters.jump, 7, 8))
+
+    foo: string;
+>foo : Symbol(D.foo, Decl(constructorOverloadsWithOptionalParameters.jump, 7, 12))
+
+    constructor(x?, y?: any[]); 
+>x : Symbol(x, Decl(constructorOverloadsWithOptionalParameters.jump, 9, 16))
+>y : Symbol(y, Decl(constructorOverloadsWithOptionalParameters.jump, 9, 19))
+
+    constructor() {
+    }
+}

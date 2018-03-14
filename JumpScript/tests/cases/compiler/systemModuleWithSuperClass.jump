@@ -1,0 +1,12 @@
+// @module: system
+
+// @Filename: foo.jump
+export class Foo {
+    a: string;
+}
+
+// @Filename: bar.jump
+import {Foo} from './foo';
+export class Bar extends Foo {
+    b: string;
+}

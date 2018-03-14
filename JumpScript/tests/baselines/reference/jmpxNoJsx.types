@@ -1,0 +1,5 @@
+=== tests/cases/conformance/jsx/jmpxNoJsx.jmpx ===
+<nope />;
+><nope /> : any
+>nope : any
+

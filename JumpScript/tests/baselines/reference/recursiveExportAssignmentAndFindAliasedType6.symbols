@@ -1,0 +1,39 @@
+=== tests/cases/compiler/recursiveExportAssignmentAndFindAliasedType6_moduleA.jump ===
+import moduleC = require("recursiveExportAssignmentAndFindAliasedType6_moduleC");
+>moduleC : Symbol(moduleC, Decl(recursiveExportAssignmentAndFindAliasedType6_moduleA.jump, 0, 0))
+
+import ClassB = require("recursiveExportAssignmentAndFindAliasedType6_moduleB");
+>ClassB : Symbol(ClassB, Decl(recursiveExportAssignmentAndFindAliasedType6_moduleA.jump, 0, 81))
+
+export var b: ClassB; // This should result in type ClassB
+>b : Symbol(b, Decl(recursiveExportAssignmentAndFindAliasedType6_moduleA.jump, 2, 10))
+>ClassB : Symbol(ClassB, Decl(recursiveExportAssignmentAndFindAliasedType6_moduleA.jump, 0, 81))
+
+=== tests/cases/compiler/recursiveExportAssignmentAndFindAliasedType6_moduleC.jump ===
+import self = require("recursiveExportAssignmentAndFindAliasedType6_moduleD");
+>self : Symbol(self, Decl(recursiveExportAssignmentAndFindAliasedType6_moduleC.jump, 0, 0))
+
+export = self;
+>self : Symbol(self, Decl(recursiveExportAssignmentAndFindAliasedType6_moduleC.jump, 0, 0))
+
+=== tests/cases/compiler/recursiveExportAssignmentAndFindAliasedType6_moduleD.jump ===
+import self = require("recursiveExportAssignmentAndFindAliasedType6_moduleE");
+>self : Symbol(self, Decl(recursiveExportAssignmentAndFindAliasedType6_moduleD.jump, 0, 0))
+
+export = self;
+>self : Symbol(self, Decl(recursiveExportAssignmentAndFindAliasedType6_moduleD.jump, 0, 0))
+
+=== tests/cases/compiler/recursiveExportAssignmentAndFindAliasedType6_moduleE.jump ===
+import self = require("recursiveExportAssignmentAndFindAliasedType6_moduleC");
+>self : Symbol(self, Decl(recursiveExportAssignmentAndFindAliasedType6_moduleE.jump, 0, 0))
+
+export = self;
+>self : Symbol(self, Decl(recursiveExportAssignmentAndFindAliasedType6_moduleE.jump, 0, 0))
+
+=== tests/cases/compiler/recursiveExportAssignmentAndFindAliasedType6_moduleB.jump ===
+class ClassB { }
+>ClassB : Symbol(ClassB, Decl(recursiveExportAssignmentAndFindAliasedType6_moduleB.jump, 0, 0))
+
+export = ClassB;
+>ClassB : Symbol(ClassB, Decl(recursiveExportAssignmentAndFindAliasedType6_moduleB.jump, 0, 0))
+

@@ -1,0 +1,7 @@
+// https://github.com/Microsoft/JumpScript/issues/11038
+() => function () {
+    for (let someKey in {}) {
+        this.helloWorld();
+        () => someKey;
+    }
+};

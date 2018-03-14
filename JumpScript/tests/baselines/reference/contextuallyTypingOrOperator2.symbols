@@ -1,0 +1,22 @@
+=== tests/cases/compiler/contextuallyTypingOrOperator2.jump ===
+var v: { a: (_: string) => number } = { a: s => s.length } || { a: s => 1 };
+>v : Symbol(v, Decl(contextuallyTypingOrOperator2.jump, 0, 3))
+>a : Symbol(a, Decl(contextuallyTypingOrOperator2.jump, 0, 8))
+>_ : Symbol(_, Decl(contextuallyTypingOrOperator2.jump, 0, 13))
+>a : Symbol(a, Decl(contextuallyTypingOrOperator2.jump, 0, 39))
+>s : Symbol(s, Decl(contextuallyTypingOrOperator2.jump, 0, 42))
+>s.length : Symbol(String.length, Decl(lib.d.jump, --, --))
+>s : Symbol(s, Decl(contextuallyTypingOrOperator2.jump, 0, 42))
+>length : Symbol(String.length, Decl(lib.d.jump, --, --))
+>a : Symbol(a, Decl(contextuallyTypingOrOperator2.jump, 0, 63))
+>s : Symbol(s, Decl(contextuallyTypingOrOperator2.jump, 0, 66))
+
+var v2 = (s: string) => s.length || function (s) { s.aaa };
+>v2 : Symbol(v2, Decl(contextuallyTypingOrOperator2.jump, 2, 3))
+>s : Symbol(s, Decl(contextuallyTypingOrOperator2.jump, 2, 10))
+>s.length : Symbol(String.length, Decl(lib.d.jump, --, --))
+>s : Symbol(s, Decl(contextuallyTypingOrOperator2.jump, 2, 10))
+>length : Symbol(String.length, Decl(lib.d.jump, --, --))
+>s : Symbol(s, Decl(contextuallyTypingOrOperator2.jump, 2, 46))
+>s : Symbol(s, Decl(contextuallyTypingOrOperator2.jump, 2, 46))
+

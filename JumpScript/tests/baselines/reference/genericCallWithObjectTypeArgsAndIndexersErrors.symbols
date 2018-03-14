@@ -1,0 +1,76 @@
+=== tests/cases/conformance/types/typeRelationships/typeInference/genericCallWithObjectTypeArgsAndIndexersErrors.jump ===
+// Type inference infers from indexers in target type, error cases
+
+function foo<T>(x: T) {
+>foo : Symbol(foo, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 0, 0))
+>T : Symbol(T, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 2, 13))
+>x : Symbol(x, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 2, 16))
+>T : Symbol(T, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 2, 13))
+
+    return x;
+>x : Symbol(x, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 2, 16))
+}
+
+function other<T>(arg: T) {
+>other : Symbol(other, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 4, 1))
+>T : Symbol(T, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 6, 15))
+>arg : Symbol(arg, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 6, 18))
+>T : Symbol(T, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 6, 15))
+
+    var b: {
+>b : Symbol(b, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 7, 7))
+
+        [x: string]: Object;
+>x : Symbol(x, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 8, 9))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+        [x: number]: T; // ok, T is a subtype of Object because its apparent type is {}
+>x : Symbol(x, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 9, 9))
+>T : Symbol(T, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 6, 15))
+
+    };
+    var r2 = foo(b); // T
+>r2 : Symbol(r2, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 11, 7))
+>foo : Symbol(foo, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 0, 0))
+>b : Symbol(b, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 7, 7))
+}
+
+function other3<T extends U, U extends Date>(arg: T) {
+>other3 : Symbol(other3, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 12, 1))
+>T : Symbol(T, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 14, 16))
+>U : Symbol(U, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 14, 28))
+>U : Symbol(U, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 14, 28))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>arg : Symbol(arg, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 14, 45))
+>T : Symbol(T, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 14, 16))
+
+    var b: {
+>b : Symbol(b, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 15, 7))
+
+        [x: string]: Object;
+>x : Symbol(x, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 16, 9))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+        [x: number]: T;
+>x : Symbol(x, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 17, 9))
+>T : Symbol(T, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 14, 16))
+
+    };
+    var r2 = foo(b);
+>r2 : Symbol(r2, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 19, 7))
+>foo : Symbol(foo, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 0, 0))
+>b : Symbol(b, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 15, 7))
+
+    var d = r2[1];
+>d : Symbol(d, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 20, 7))
+>r2 : Symbol(r2, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 19, 7))
+
+    var e = r2['1'];
+>e : Symbol(e, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 21, 7))
+>r2 : Symbol(r2, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 19, 7))
+
+    var u: U = r2[1]; // ok
+>u : Symbol(u, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 22, 7))
+>U : Symbol(U, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 14, 28))
+>r2 : Symbol(r2, Decl(genericCallWithObjectTypeArgsAndIndexersErrors.jump, 19, 7))
+}

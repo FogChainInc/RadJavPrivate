@@ -1,0 +1,10 @@
+=== tests/cases/compiler/unusedNamespaceInModule.jump ===
+module A {
+>A : Symbol(A, Decl(unusedNamespaceInModule.jump, 0, 0))
+
+    namespace B { }
+>B : Symbol(B, Decl(unusedNamespaceInModule.jump, 0, 10))
+
+    export namespace C {}
+>C : Symbol(C, Decl(unusedNamespaceInModule.jump, 1, 19))
+}

@@ -1,0 +1,30 @@
+=== tests/cases/conformance/jsx/file.jmpx ===
+import React = require('react')
+>React : Symbol(React, Decl(file.jmpx, 0, 0))
+
+interface MyComponentProp {
+>MyComponentProp : Symbol(MyComponentProp, Decl(file.jmpx, 0, 31))
+
+    values: string;
+>values : Symbol(MyComponentProp.values, Decl(file.jmpx, 2, 27))
+}
+
+function MyComponent1<T extends MyComponentProp>(attr: T) {
+>MyComponent1 : Symbol(MyComponent1, Decl(file.jmpx, 4, 1))
+>T : Symbol(T, Decl(file.jmpx, 6, 22))
+>MyComponentProp : Symbol(MyComponentProp, Decl(file.jmpx, 0, 31))
+>attr : Symbol(attr, Decl(file.jmpx, 6, 49))
+>T : Symbol(T, Decl(file.jmpx, 6, 22))
+
+    return <div>attr.values</div>
+>div : Symbol(JSX.IntrinsicElements.div, Decl(react.d.jump, 2400, 45))
+>div : Symbol(JSX.IntrinsicElements.div, Decl(react.d.jump, 2400, 45))
+}
+
+
+// Error
+let i1 = <MyComponent1 values={5}/>;
+>i1 : Symbol(i1, Decl(file.jmpx, 12, 3))
+>MyComponent1 : Symbol(MyComponent1, Decl(file.jmpx, 4, 1))
+>values : Symbol(values, Decl(file.jmpx, 12, 22))
+

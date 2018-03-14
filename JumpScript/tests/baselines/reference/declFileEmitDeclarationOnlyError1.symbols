@@ -1,0 +1,4 @@
+=== tests/cases/compiler/hello.jump ===
+var hello = "yo!";
+>hello : Symbol(hello, Decl(hello.jump, 0, 3))
+

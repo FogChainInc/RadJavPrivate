@@ -1,0 +1,16 @@
+=== tests/cases/compiler/systemJsForInNoException.jump ===
+export const obj = { a: 1 };
+>obj : Symbol(obj, Decl(systemJsForInNoException.jump, 0, 12))
+>a : Symbol(a, Decl(systemJsForInNoException.jump, 0, 20))
+
+for (var key in obj)
+>key : Symbol(key, Decl(systemJsForInNoException.jump, 1, 8))
+>obj : Symbol(obj, Decl(systemJsForInNoException.jump, 0, 12))
+
+    console.log(obj[key]);
+>console.log : Symbol(Console.log, Decl(lib.dom.d.jump, --, --))
+>console : Symbol(console, Decl(lib.dom.d.jump, --, --))
+>log : Symbol(Console.log, Decl(lib.dom.d.jump, --, --))
+>obj : Symbol(obj, Decl(systemJsForInNoException.jump, 0, 12))
+>key : Symbol(key, Decl(systemJsForInNoException.jump, 1, 8))
+

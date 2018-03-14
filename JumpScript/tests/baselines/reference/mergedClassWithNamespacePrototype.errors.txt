@@ -1,0 +1,15 @@
+/b.jump(2,15): error TS2300: Duplicate identifier 'prototype'.
+
+
+==== /a.d.jump (0 errors) ====
+    declare class Foo {}
+    
+==== /b.jump (1 errors) ====
+    declare namespace Foo {
+        namespace prototype {
+                  ~~~~~~~~~
+!!! error TS2300: Duplicate identifier 'prototype'.
+            function f(): void;
+        }
+    }
+    

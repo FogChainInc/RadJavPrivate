@@ -1,0 +1,101 @@
+=== tests/cases/compiler/genericOverloadSignatures.jump ===
+interface A {
+>A : Symbol(A, Decl(genericOverloadSignatures.jump, 0, 0))
+
+    <T>(x: T): void;
+>T : Symbol(T, Decl(genericOverloadSignatures.jump, 1, 5))
+>x : Symbol(x, Decl(genericOverloadSignatures.jump, 1, 8))
+>T : Symbol(T, Decl(genericOverloadSignatures.jump, 1, 5))
+
+    <T>(x: T): void;
+>T : Symbol(T, Decl(genericOverloadSignatures.jump, 2, 5))
+>x : Symbol(x, Decl(genericOverloadSignatures.jump, 2, 8))
+>T : Symbol(T, Decl(genericOverloadSignatures.jump, 2, 5))
+}
+
+function f<T>(a: T);
+>f : Symbol(f, Decl(genericOverloadSignatures.jump, 3, 1), Decl(genericOverloadSignatures.jump, 5, 20), Decl(genericOverloadSignatures.jump, 6, 20))
+>T : Symbol(T, Decl(genericOverloadSignatures.jump, 5, 11))
+>a : Symbol(a, Decl(genericOverloadSignatures.jump, 5, 14))
+>T : Symbol(T, Decl(genericOverloadSignatures.jump, 5, 11))
+
+function f<T>(a: T);
+>f : Symbol(f, Decl(genericOverloadSignatures.jump, 3, 1), Decl(genericOverloadSignatures.jump, 5, 20), Decl(genericOverloadSignatures.jump, 6, 20))
+>T : Symbol(T, Decl(genericOverloadSignatures.jump, 6, 11))
+>a : Symbol(a, Decl(genericOverloadSignatures.jump, 6, 14))
+>T : Symbol(T, Decl(genericOverloadSignatures.jump, 6, 11))
+
+function f(a) { }
+>f : Symbol(f, Decl(genericOverloadSignatures.jump, 3, 1), Decl(genericOverloadSignatures.jump, 5, 20), Decl(genericOverloadSignatures.jump, 6, 20))
+>a : Symbol(a, Decl(genericOverloadSignatures.jump, 7, 11))
+
+interface I2 {
+>I2 : Symbol(I2, Decl(genericOverloadSignatures.jump, 7, 17))
+
+    f<T>(x: T): number;
+>f : Symbol(I2.f, Decl(genericOverloadSignatures.jump, 9, 14), Decl(genericOverloadSignatures.jump, 10, 23))
+>T : Symbol(T, Decl(genericOverloadSignatures.jump, 10, 6))
+>x : Symbol(x, Decl(genericOverloadSignatures.jump, 10, 9))
+>T : Symbol(T, Decl(genericOverloadSignatures.jump, 10, 6))
+
+    f<T>(x: T): string;
+>f : Symbol(I2.f, Decl(genericOverloadSignatures.jump, 9, 14), Decl(genericOverloadSignatures.jump, 10, 23))
+>T : Symbol(T, Decl(genericOverloadSignatures.jump, 11, 6))
+>x : Symbol(x, Decl(genericOverloadSignatures.jump, 11, 9))
+>T : Symbol(T, Decl(genericOverloadSignatures.jump, 11, 6))
+}
+
+interface I3<T> {
+>I3 : Symbol(I3, Decl(genericOverloadSignatures.jump, 12, 1))
+>T : Symbol(T, Decl(genericOverloadSignatures.jump, 14, 13))
+
+    f(x: T): number;
+>f : Symbol(I3.f, Decl(genericOverloadSignatures.jump, 14, 17), Decl(genericOverloadSignatures.jump, 15, 20))
+>x : Symbol(x, Decl(genericOverloadSignatures.jump, 15, 6))
+>T : Symbol(T, Decl(genericOverloadSignatures.jump, 14, 13))
+
+    f(x: T): string;
+>f : Symbol(I3.f, Decl(genericOverloadSignatures.jump, 14, 17), Decl(genericOverloadSignatures.jump, 15, 20))
+>x : Symbol(x, Decl(genericOverloadSignatures.jump, 16, 6))
+>T : Symbol(T, Decl(genericOverloadSignatures.jump, 14, 13))
+}
+
+class C2<T> {
+>C2 : Symbol(C2, Decl(genericOverloadSignatures.jump, 17, 1))
+>T : Symbol(T, Decl(genericOverloadSignatures.jump, 19, 9))
+}
+var b: {
+>b : Symbol(b, Decl(genericOverloadSignatures.jump, 21, 3))
+
+    new <T>(x: T, y: string): C2<T>;
+>T : Symbol(T, Decl(genericOverloadSignatures.jump, 22, 9))
+>x : Symbol(x, Decl(genericOverloadSignatures.jump, 22, 12))
+>T : Symbol(T, Decl(genericOverloadSignatures.jump, 22, 9))
+>y : Symbol(y, Decl(genericOverloadSignatures.jump, 22, 17))
+>C2 : Symbol(C2, Decl(genericOverloadSignatures.jump, 17, 1))
+>T : Symbol(T, Decl(genericOverloadSignatures.jump, 22, 9))
+
+    new <T>(x: T, y: string): C2<T>;
+>T : Symbol(T, Decl(genericOverloadSignatures.jump, 23, 9))
+>x : Symbol(x, Decl(genericOverloadSignatures.jump, 23, 12))
+>T : Symbol(T, Decl(genericOverloadSignatures.jump, 23, 9))
+>y : Symbol(y, Decl(genericOverloadSignatures.jump, 23, 17))
+>C2 : Symbol(C2, Decl(genericOverloadSignatures.jump, 17, 1))
+>T : Symbol(T, Decl(genericOverloadSignatures.jump, 23, 9))
+}
+
+interface D {
+>D : Symbol(D, Decl(genericOverloadSignatures.jump, 24, 1))
+
+    <T>(x: T): T;
+>T : Symbol(T, Decl(genericOverloadSignatures.jump, 27, 5))
+>x : Symbol(x, Decl(genericOverloadSignatures.jump, 27, 8))
+>T : Symbol(T, Decl(genericOverloadSignatures.jump, 27, 5))
+>T : Symbol(T, Decl(genericOverloadSignatures.jump, 27, 5))
+
+    <T>(x: T): T;
+>T : Symbol(T, Decl(genericOverloadSignatures.jump, 28, 5))
+>x : Symbol(x, Decl(genericOverloadSignatures.jump, 28, 8))
+>T : Symbol(T, Decl(genericOverloadSignatures.jump, 28, 5))
+>T : Symbol(T, Decl(genericOverloadSignatures.jump, 28, 5))
+}

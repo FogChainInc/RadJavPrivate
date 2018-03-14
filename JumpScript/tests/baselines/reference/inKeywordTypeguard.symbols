@@ -1,0 +1,241 @@
+=== tests/cases/compiler/inKeywordTypeguard.jump ===
+class A { a: string; }
+>A : Symbol(A, Decl(inKeywordTypeguard.jump, 0, 0))
+>a : Symbol(A.a, Decl(inKeywordTypeguard.jump, 0, 9))
+
+class B { b: string; }
+>B : Symbol(B, Decl(inKeywordTypeguard.jump, 0, 22))
+>b : Symbol(B.b, Decl(inKeywordTypeguard.jump, 1, 9))
+
+function negativeClassesTest(x: A | B) {
+>negativeClassesTest : Symbol(negativeClassesTest, Decl(inKeywordTypeguard.jump, 1, 22))
+>x : Symbol(x, Decl(inKeywordTypeguard.jump, 3, 29))
+>A : Symbol(A, Decl(inKeywordTypeguard.jump, 0, 0))
+>B : Symbol(B, Decl(inKeywordTypeguard.jump, 0, 22))
+
+    if ("a" in x) {
+>x : Symbol(x, Decl(inKeywordTypeguard.jump, 3, 29))
+
+        x.b = "1";
+>x : Symbol(x, Decl(inKeywordTypeguard.jump, 3, 29))
+
+    } else {
+        x.a = "1";
+>x : Symbol(x, Decl(inKeywordTypeguard.jump, 3, 29))
+    }
+}
+
+function positiveClassesTest(x: A | B) {
+>positiveClassesTest : Symbol(positiveClassesTest, Decl(inKeywordTypeguard.jump, 9, 1))
+>x : Symbol(x, Decl(inKeywordTypeguard.jump, 11, 29))
+>A : Symbol(A, Decl(inKeywordTypeguard.jump, 0, 0))
+>B : Symbol(B, Decl(inKeywordTypeguard.jump, 0, 22))
+
+    if ("a" in x) {
+>x : Symbol(x, Decl(inKeywordTypeguard.jump, 11, 29))
+
+        x.b = "1";
+>x : Symbol(x, Decl(inKeywordTypeguard.jump, 11, 29))
+
+    } else {
+        x.a = "1";
+>x : Symbol(x, Decl(inKeywordTypeguard.jump, 11, 29))
+    }
+}
+
+class AWithOptionalProp { a?: string; }
+>AWithOptionalProp : Symbol(AWithOptionalProp, Decl(inKeywordTypeguard.jump, 17, 1))
+>a : Symbol(AWithOptionalProp.a, Decl(inKeywordTypeguard.jump, 19, 25))
+
+class BWithOptionalProp { b?: string; }
+>BWithOptionalProp : Symbol(BWithOptionalProp, Decl(inKeywordTypeguard.jump, 19, 39))
+>b : Symbol(BWithOptionalProp.b, Decl(inKeywordTypeguard.jump, 20, 25))
+
+function positiveTestClassesWithOptionalProperties(x: AWithOptionalProp | BWithOptionalProp) {
+>positiveTestClassesWithOptionalProperties : Symbol(positiveTestClassesWithOptionalProperties, Decl(inKeywordTypeguard.jump, 20, 39))
+>x : Symbol(x, Decl(inKeywordTypeguard.jump, 22, 51))
+>AWithOptionalProp : Symbol(AWithOptionalProp, Decl(inKeywordTypeguard.jump, 17, 1))
+>BWithOptionalProp : Symbol(BWithOptionalProp, Decl(inKeywordTypeguard.jump, 19, 39))
+
+    if ("a" in x) {
+>x : Symbol(x, Decl(inKeywordTypeguard.jump, 22, 51))
+
+        x.a = "1";
+>x.a : Symbol(AWithOptionalProp.a, Decl(inKeywordTypeguard.jump, 19, 25))
+>x : Symbol(x, Decl(inKeywordTypeguard.jump, 22, 51))
+>a : Symbol(AWithOptionalProp.a, Decl(inKeywordTypeguard.jump, 19, 25))
+
+    } else {
+        x.b = "1";
+>x : Symbol(x, Decl(inKeywordTypeguard.jump, 22, 51))
+    }
+}
+
+class AWithMethod {
+>AWithMethod : Symbol(AWithMethod, Decl(inKeywordTypeguard.jump, 28, 1))
+
+    a(): string { return ""; }
+>a : Symbol(AWithMethod.a, Decl(inKeywordTypeguard.jump, 30, 19))
+}
+
+class BWithMethod {
+>BWithMethod : Symbol(BWithMethod, Decl(inKeywordTypeguard.jump, 32, 1))
+
+    b(): string { return ""; }
+>b : Symbol(BWithMethod.b, Decl(inKeywordTypeguard.jump, 34, 19))
+}
+
+function negativeTestClassesWithMembers(x: AWithMethod | BWithMethod) {
+>negativeTestClassesWithMembers : Symbol(negativeTestClassesWithMembers, Decl(inKeywordTypeguard.jump, 36, 1))
+>x : Symbol(x, Decl(inKeywordTypeguard.jump, 38, 40))
+>AWithMethod : Symbol(AWithMethod, Decl(inKeywordTypeguard.jump, 28, 1))
+>BWithMethod : Symbol(BWithMethod, Decl(inKeywordTypeguard.jump, 32, 1))
+
+    if ("a" in x) {
+>x : Symbol(x, Decl(inKeywordTypeguard.jump, 38, 40))
+
+        x.a();
+>x.a : Symbol(AWithMethod.a, Decl(inKeywordTypeguard.jump, 30, 19))
+>x : Symbol(x, Decl(inKeywordTypeguard.jump, 38, 40))
+>a : Symbol(AWithMethod.a, Decl(inKeywordTypeguard.jump, 30, 19))
+
+        x.b();
+>x : Symbol(x, Decl(inKeywordTypeguard.jump, 38, 40))
+
+    } else {
+    }
+}
+
+function negativeTestClassesWithMemberMissingInBothClasses(x: AWithMethod | BWithMethod) {
+>negativeTestClassesWithMemberMissingInBothClasses : Symbol(negativeTestClassesWithMemberMissingInBothClasses, Decl(inKeywordTypeguard.jump, 44, 1))
+>x : Symbol(x, Decl(inKeywordTypeguard.jump, 46, 59))
+>AWithMethod : Symbol(AWithMethod, Decl(inKeywordTypeguard.jump, 28, 1))
+>BWithMethod : Symbol(BWithMethod, Decl(inKeywordTypeguard.jump, 32, 1))
+
+    if ("c" in x) {
+>x : Symbol(x, Decl(inKeywordTypeguard.jump, 46, 59))
+
+        x.a();
+>x : Symbol(x, Decl(inKeywordTypeguard.jump, 46, 59))
+
+        x.b();
+>x : Symbol(x, Decl(inKeywordTypeguard.jump, 46, 59))
+
+    } else {
+        x.a();
+>x : Symbol(x, Decl(inKeywordTypeguard.jump, 46, 59))
+
+        x.b();
+>x : Symbol(x, Decl(inKeywordTypeguard.jump, 46, 59))
+    }
+}
+
+class C { a: string; }
+>C : Symbol(C, Decl(inKeywordTypeguard.jump, 54, 1))
+>a : Symbol(C.a, Decl(inKeywordTypeguard.jump, 56, 9))
+
+class D { a: string; }
+>D : Symbol(D, Decl(inKeywordTypeguard.jump, 56, 22))
+>a : Symbol(D.a, Decl(inKeywordTypeguard.jump, 57, 9))
+
+function negativeMultipleClassesTest(x: A | B | C | D) {
+>negativeMultipleClassesTest : Symbol(negativeMultipleClassesTest, Decl(inKeywordTypeguard.jump, 57, 22))
+>x : Symbol(x, Decl(inKeywordTypeguard.jump, 59, 37))
+>A : Symbol(A, Decl(inKeywordTypeguard.jump, 0, 0))
+>B : Symbol(B, Decl(inKeywordTypeguard.jump, 0, 22))
+>C : Symbol(C, Decl(inKeywordTypeguard.jump, 54, 1))
+>D : Symbol(D, Decl(inKeywordTypeguard.jump, 56, 22))
+
+    if ("a" in x) {
+>x : Symbol(x, Decl(inKeywordTypeguard.jump, 59, 37))
+
+        x.b = "1";
+>x : Symbol(x, Decl(inKeywordTypeguard.jump, 59, 37))
+
+    } else {
+        x.a = "1";
+>x : Symbol(x, Decl(inKeywordTypeguard.jump, 59, 37))
+    }
+}
+
+class ClassWithUnionProp { prop: A | B }
+>ClassWithUnionProp : Symbol(ClassWithUnionProp, Decl(inKeywordTypeguard.jump, 65, 1))
+>prop : Symbol(ClassWithUnionProp.prop, Decl(inKeywordTypeguard.jump, 67, 26))
+>A : Symbol(A, Decl(inKeywordTypeguard.jump, 0, 0))
+>B : Symbol(B, Decl(inKeywordTypeguard.jump, 0, 22))
+
+function negativePropTest(x: ClassWithUnionProp) {
+>negativePropTest : Symbol(negativePropTest, Decl(inKeywordTypeguard.jump, 67, 40))
+>x : Symbol(x, Decl(inKeywordTypeguard.jump, 69, 26))
+>ClassWithUnionProp : Symbol(ClassWithUnionProp, Decl(inKeywordTypeguard.jump, 65, 1))
+
+    if ("a" in x.prop) {
+>x.prop : Symbol(ClassWithUnionProp.prop, Decl(inKeywordTypeguard.jump, 67, 26))
+>x : Symbol(x, Decl(inKeywordTypeguard.jump, 69, 26))
+>prop : Symbol(ClassWithUnionProp.prop, Decl(inKeywordTypeguard.jump, 67, 26))
+
+        let y: string = x.prop.b;
+>y : Symbol(y, Decl(inKeywordTypeguard.jump, 71, 11))
+>x.prop : Symbol(ClassWithUnionProp.prop, Decl(inKeywordTypeguard.jump, 67, 26))
+>x : Symbol(x, Decl(inKeywordTypeguard.jump, 69, 26))
+>prop : Symbol(ClassWithUnionProp.prop, Decl(inKeywordTypeguard.jump, 67, 26))
+
+    } else {
+        let z: string = x.prop.a;
+>z : Symbol(z, Decl(inKeywordTypeguard.jump, 73, 11))
+>x.prop : Symbol(ClassWithUnionProp.prop, Decl(inKeywordTypeguard.jump, 67, 26))
+>x : Symbol(x, Decl(inKeywordTypeguard.jump, 69, 26))
+>prop : Symbol(ClassWithUnionProp.prop, Decl(inKeywordTypeguard.jump, 67, 26))
+    }
+}
+
+class NegativeClassTest {
+>NegativeClassTest : Symbol(NegativeClassTest, Decl(inKeywordTypeguard.jump, 75, 1))
+
+    protected prop: A | B;
+>prop : Symbol(NegativeClassTest.prop, Decl(inKeywordTypeguard.jump, 77, 25))
+>A : Symbol(A, Decl(inKeywordTypeguard.jump, 0, 0))
+>B : Symbol(B, Decl(inKeywordTypeguard.jump, 0, 22))
+
+    inThis() {
+>inThis : Symbol(NegativeClassTest.inThis, Decl(inKeywordTypeguard.jump, 78, 26))
+
+        if ("a" in this.prop) {
+>this.prop : Symbol(NegativeClassTest.prop, Decl(inKeywordTypeguard.jump, 77, 25))
+>this : Symbol(NegativeClassTest, Decl(inKeywordTypeguard.jump, 75, 1))
+>prop : Symbol(NegativeClassTest.prop, Decl(inKeywordTypeguard.jump, 77, 25))
+
+            let z: number = this.prop.b;
+>z : Symbol(z, Decl(inKeywordTypeguard.jump, 81, 15))
+>this.prop : Symbol(NegativeClassTest.prop, Decl(inKeywordTypeguard.jump, 77, 25))
+>this : Symbol(NegativeClassTest, Decl(inKeywordTypeguard.jump, 75, 1))
+>prop : Symbol(NegativeClassTest.prop, Decl(inKeywordTypeguard.jump, 77, 25))
+
+        } else {
+            let y: string = this.prop.a;
+>y : Symbol(y, Decl(inKeywordTypeguard.jump, 83, 15))
+>this.prop : Symbol(NegativeClassTest.prop, Decl(inKeywordTypeguard.jump, 77, 25))
+>this : Symbol(NegativeClassTest, Decl(inKeywordTypeguard.jump, 75, 1))
+>prop : Symbol(NegativeClassTest.prop, Decl(inKeywordTypeguard.jump, 77, 25))
+        }
+    }
+}
+
+class UnreachableCodeDetection {
+>UnreachableCodeDetection : Symbol(UnreachableCodeDetection, Decl(inKeywordTypeguard.jump, 86, 1))
+
+    a: string;
+>a : Symbol(UnreachableCodeDetection.a, Decl(inKeywordTypeguard.jump, 88, 32))
+
+    inThis() {
+>inThis : Symbol(UnreachableCodeDetection.inThis, Decl(inKeywordTypeguard.jump, 89, 14))
+
+        if ("a" in this) {
+>this : Symbol(UnreachableCodeDetection, Decl(inKeywordTypeguard.jump, 86, 1))
+
+        } else {
+            let y = this.a;
+>y : Symbol(y, Decl(inKeywordTypeguard.jump, 93, 15))
+        }
+    }
+}

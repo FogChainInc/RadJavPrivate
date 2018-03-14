@@ -1,0 +1,8 @@
+// @Filename: cloduleSplitAcrossFiles_class.jump
+class D { }
+
+// @Filename: cloduleSplitAcrossFiles_module.jump
+module D {
+    export var y = "hi";
+}
+D.y;

@@ -1,0 +1,175 @@
+=== tests/cases/conformance/es6/arrowFunction/disallowLineTerminatorBeforeArrow.jump ===
+var f1 = ()
+>f1 : Symbol(f1, Decl(disallowLineTerminatorBeforeArrow.jump, 0, 3))
+
+    => { }
+var f2 = (x: string, y: string) /*
+>f2 : Symbol(f2, Decl(disallowLineTerminatorBeforeArrow.jump, 2, 3))
+>x : Symbol(x, Decl(disallowLineTerminatorBeforeArrow.jump, 2, 10))
+>y : Symbol(y, Decl(disallowLineTerminatorBeforeArrow.jump, 2, 20))
+
+  */  => { }
+var f3 = (x: string, y: number, ...rest)
+>f3 : Symbol(f3, Decl(disallowLineTerminatorBeforeArrow.jump, 4, 3))
+>x : Symbol(x, Decl(disallowLineTerminatorBeforeArrow.jump, 4, 10))
+>y : Symbol(y, Decl(disallowLineTerminatorBeforeArrow.jump, 4, 20))
+>rest : Symbol(rest, Decl(disallowLineTerminatorBeforeArrow.jump, 4, 31))
+
+    => { }
+var f4 = (x: string, y: number, ...rest) /*
+>f4 : Symbol(f4, Decl(disallowLineTerminatorBeforeArrow.jump, 6, 3))
+>x : Symbol(x, Decl(disallowLineTerminatorBeforeArrow.jump, 6, 10))
+>y : Symbol(y, Decl(disallowLineTerminatorBeforeArrow.jump, 6, 20))
+>rest : Symbol(rest, Decl(disallowLineTerminatorBeforeArrow.jump, 6, 31))
+
+  */  => { }
+var f5 = (...rest)
+>f5 : Symbol(f5, Decl(disallowLineTerminatorBeforeArrow.jump, 8, 3))
+>rest : Symbol(rest, Decl(disallowLineTerminatorBeforeArrow.jump, 8, 10))
+
+    => { }
+var f6 = (...rest) /*
+>f6 : Symbol(f6, Decl(disallowLineTerminatorBeforeArrow.jump, 10, 3))
+>rest : Symbol(rest, Decl(disallowLineTerminatorBeforeArrow.jump, 10, 10))
+
+  */  => { }
+var f7 = (x: string, y: number, z = 10)
+>f7 : Symbol(f7, Decl(disallowLineTerminatorBeforeArrow.jump, 12, 3))
+>x : Symbol(x, Decl(disallowLineTerminatorBeforeArrow.jump, 12, 10))
+>y : Symbol(y, Decl(disallowLineTerminatorBeforeArrow.jump, 12, 20))
+>z : Symbol(z, Decl(disallowLineTerminatorBeforeArrow.jump, 12, 31))
+
+    => { }
+var f8 = (x: string, y: number, z = 10) /*
+>f8 : Symbol(f8, Decl(disallowLineTerminatorBeforeArrow.jump, 14, 3))
+>x : Symbol(x, Decl(disallowLineTerminatorBeforeArrow.jump, 14, 10))
+>y : Symbol(y, Decl(disallowLineTerminatorBeforeArrow.jump, 14, 20))
+>z : Symbol(z, Decl(disallowLineTerminatorBeforeArrow.jump, 14, 31))
+
+  */  => { }
+var f9 = (a: number): number
+>f9 : Symbol(f9, Decl(disallowLineTerminatorBeforeArrow.jump, 16, 3))
+>a : Symbol(a, Decl(disallowLineTerminatorBeforeArrow.jump, 16, 10))
+
+    => a;
+>a : Symbol(a, Decl(disallowLineTerminatorBeforeArrow.jump, 16, 10))
+
+var f10 = (a: number) :
+>f10 : Symbol(f10, Decl(disallowLineTerminatorBeforeArrow.jump, 18, 3))
+>a : Symbol(a, Decl(disallowLineTerminatorBeforeArrow.jump, 18, 11))
+
+  number
+    => a
+>a : Symbol(a, Decl(disallowLineTerminatorBeforeArrow.jump, 18, 11))
+
+var f11 = (a: number): number /*
+>f11 : Symbol(f11, Decl(disallowLineTerminatorBeforeArrow.jump, 21, 3), Decl(disallowLineTerminatorBeforeArrow.jump, 28, 3))
+>a : Symbol(a, Decl(disallowLineTerminatorBeforeArrow.jump, 21, 11))
+
+    */ => a;
+>a : Symbol(a, Decl(disallowLineTerminatorBeforeArrow.jump, 21, 11))
+
+var f12 = (a: number) :
+>f12 : Symbol(f12, Decl(disallowLineTerminatorBeforeArrow.jump, 23, 3), Decl(disallowLineTerminatorBeforeArrow.jump, 32, 3))
+>a : Symbol(a, Decl(disallowLineTerminatorBeforeArrow.jump, 23, 11))
+
+  number /*
+    */ => a
+>a : Symbol(a, Decl(disallowLineTerminatorBeforeArrow.jump, 23, 11))
+
+// Should be valid.
+var f11 = (a: number
+>f11 : Symbol(f11, Decl(disallowLineTerminatorBeforeArrow.jump, 21, 3), Decl(disallowLineTerminatorBeforeArrow.jump, 28, 3))
+>a : Symbol(a, Decl(disallowLineTerminatorBeforeArrow.jump, 28, 11))
+
+    ) => a;
+>a : Symbol(a, Decl(disallowLineTerminatorBeforeArrow.jump, 28, 11))
+
+// Should be valid.
+var f12 = (a: number)
+>f12 : Symbol(f12, Decl(disallowLineTerminatorBeforeArrow.jump, 23, 3), Decl(disallowLineTerminatorBeforeArrow.jump, 32, 3))
+>a : Symbol(a, Decl(disallowLineTerminatorBeforeArrow.jump, 32, 11))
+
+    : number => a;
+>a : Symbol(a, Decl(disallowLineTerminatorBeforeArrow.jump, 32, 11))
+
+// Should be valid.
+var f13 = (a: number):
+>f13 : Symbol(f13, Decl(disallowLineTerminatorBeforeArrow.jump, 36, 3))
+>a : Symbol(a, Decl(disallowLineTerminatorBeforeArrow.jump, 36, 11))
+
+    number => a;
+>a : Symbol(a, Decl(disallowLineTerminatorBeforeArrow.jump, 36, 11))
+
+// Should be valid.
+var f14 = () /* */ => {}
+>f14 : Symbol(f14, Decl(disallowLineTerminatorBeforeArrow.jump, 40, 3))
+
+// Should be valid.
+var f15 = (a: number): number /* */ => a
+>f15 : Symbol(f15, Decl(disallowLineTerminatorBeforeArrow.jump, 43, 3))
+>a : Symbol(a, Decl(disallowLineTerminatorBeforeArrow.jump, 43, 11))
+>a : Symbol(a, Decl(disallowLineTerminatorBeforeArrow.jump, 43, 11))
+
+// Should be valid.
+var f16 = (a: number, b = 10):
+>f16 : Symbol(f16, Decl(disallowLineTerminatorBeforeArrow.jump, 46, 3))
+>a : Symbol(a, Decl(disallowLineTerminatorBeforeArrow.jump, 46, 11))
+>b : Symbol(b, Decl(disallowLineTerminatorBeforeArrow.jump, 46, 21))
+
+  number /* */ => a + b;
+>a : Symbol(a, Decl(disallowLineTerminatorBeforeArrow.jump, 46, 11))
+>b : Symbol(b, Decl(disallowLineTerminatorBeforeArrow.jump, 46, 21))
+
+function foo(func: () => boolean) { }
+>foo : Symbol(foo, Decl(disallowLineTerminatorBeforeArrow.jump, 47, 24))
+>func : Symbol(func, Decl(disallowLineTerminatorBeforeArrow.jump, 49, 13))
+
+foo(()
+>foo : Symbol(foo, Decl(disallowLineTerminatorBeforeArrow.jump, 47, 24))
+
+    => true);
+foo(()
+>foo : Symbol(foo, Decl(disallowLineTerminatorBeforeArrow.jump, 47, 24))
+
+    => { return false; });
+
+module m {
+>m : Symbol(m, Decl(disallowLineTerminatorBeforeArrow.jump, 53, 26))
+
+    class City {
+>City : Symbol(City, Decl(disallowLineTerminatorBeforeArrow.jump, 55, 10))
+
+        constructor(x: number, thing = ()
+>x : Symbol(x, Decl(disallowLineTerminatorBeforeArrow.jump, 57, 20))
+>thing : Symbol(thing, Decl(disallowLineTerminatorBeforeArrow.jump, 57, 30))
+
+            => 100) {
+        }
+
+        public m = ()
+>m : Symbol(City.m, Decl(disallowLineTerminatorBeforeArrow.jump, 59, 9))
+
+            => 2 * 2 * 2
+    }
+
+    export enum Enum {
+>Enum : Symbol(Enum, Decl(disallowLineTerminatorBeforeArrow.jump, 63, 5))
+
+        claw = (()
+>claw : Symbol(Enum.claw, Decl(disallowLineTerminatorBeforeArrow.jump, 65, 22))
+
+            => 10)()
+    }
+
+    export var v = x
+>v : Symbol(v, Decl(disallowLineTerminatorBeforeArrow.jump, 70, 14))
+>x : Symbol(x, Decl(disallowLineTerminatorBeforeArrow.jump, 70, 18))
+
+        => new City(Enum.claw);
+>City : Symbol(City, Decl(disallowLineTerminatorBeforeArrow.jump, 55, 10))
+>Enum.claw : Symbol(Enum.claw, Decl(disallowLineTerminatorBeforeArrow.jump, 65, 22))
+>Enum : Symbol(Enum, Decl(disallowLineTerminatorBeforeArrow.jump, 63, 5))
+>claw : Symbol(Enum.claw, Decl(disallowLineTerminatorBeforeArrow.jump, 65, 22))
+}
+

@@ -1,0 +1,5 @@
+=== tests/cases/conformance/async/es6/functionDeclarations/asyncFunctionDeclaration11_es6.jump ===
+async function await(): Promise<void> {
+>await : () => Promise<void>
+>Promise : Promise<T>
+}

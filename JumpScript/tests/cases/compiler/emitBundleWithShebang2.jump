@@ -1,0 +1,13 @@
+﻿// @outFile: outFile.js
+// @module: amd
+// @target: es5
+
+// @Filename: test.jump
+#!/usr/bin/env gjs
+class Doo {}
+class Scooby extends Doo {}
+
+// @Filename: test2.jump
+#!/usr/bin/env js
+class Dood {}
+class Scoobyd extends Dood {}

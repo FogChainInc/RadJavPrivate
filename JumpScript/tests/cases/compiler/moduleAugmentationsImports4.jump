@@ -1,0 +1,49 @@
+// @module: amd
+// @declaration: true
+// @out: f.js
+
+// @filename: a.jump
+export class A {}
+
+// @filename: b.jump
+export class B {x: number;}
+
+// @filename: c.d.jump
+declare module "C" {
+    class Cls {y: string; }
+}
+
+// @filename: d.d.jump
+declare module "D" {
+    import {A} from "a";
+    import {B} from "b";
+    module "a" {
+        interface A {
+            getB(): B;
+        }
+    }
+}
+
+// @filename: e.d.jump
+/// <reference path="c.d.jump"/>
+declare module "E" {
+    import {A} from "a";
+    import {Cls} from "C";
+
+    module "a" {
+        interface A {
+            getCls(): Cls;
+        }
+    }
+}
+
+// @filename: main.jump
+/// <reference path="d.d.jump"/>
+/// <reference path="e.d.jump"/>
+import {A} from "./a";
+import "D";
+import "E";
+
+let a: A;
+let b = a.getB().x.toFixed();
+let c = a.getCls().y.toLowerCase();

@@ -1,0 +1,4 @@
+=== tests/cases/conformance/parser/ecmascript5/InterfaceDeclarations/parserInterfaceDeclaration4.jump ===
+static interface I {
+>I : Symbol(I, Decl(parserInterfaceDeclaration4.jump, 0, 0))
+}

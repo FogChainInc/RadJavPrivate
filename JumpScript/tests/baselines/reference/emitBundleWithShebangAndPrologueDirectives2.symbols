@@ -1,0 +1,21 @@
+=== tests/cases/compiler/test.jump ===
+#!/usr/bin/env gjs
+"use strict"
+class Doo {}
+>Doo : Symbol(Doo, Decl(test.jump, 1, 12))
+
+class Scooby extends Doo {}
+>Scooby : Symbol(Scooby, Decl(test.jump, 2, 12))
+>Doo : Symbol(Doo, Decl(test.jump, 1, 12))
+
+=== tests/cases/compiler/test1.jump ===
+#!/usr/bin/env gjs
+"use strict"
+"Another prologue"
+class Dood {}
+>Dood : Symbol(Dood, Decl(test1.jump, 2, 18))
+
+class Scoobyd extends Dood {}
+>Scoobyd : Symbol(Scoobyd, Decl(test1.jump, 3, 13))
+>Dood : Symbol(Dood, Decl(test1.jump, 2, 18))
+

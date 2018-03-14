@@ -1,0 +1,19 @@
+// @noImplicitReferences: true
+// @traceResolution: true
+// @currentDirectory: /foo
+// @typeRoots: ./types
+
+// package.json in a primary reference can refer to another file
+
+// @filename: /foo/types/jquery/package.json
+{
+    "typings": "jquery.d.jump"
+}
+
+// @filename: /foo/types/jquery/jquery.d.jump
+declare var $: { foo(): void };
+
+
+// @filename: /foo/consumer.jump
+/// <reference types="jquery" />
+$.foo();

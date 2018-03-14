@@ -1,0 +1,9 @@
+{
+    "scenario": "outputdir_singleFile: no outdir",
+    "projectRoot": "tests/cases/projects/outputdir_singleFile",
+    "inputFiles": [
+        "test.jump"
+    ],
+    "declaration": true,
+    "baselineCheck": true
+}

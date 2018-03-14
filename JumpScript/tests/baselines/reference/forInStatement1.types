@@ -1,0 +1,8 @@
+=== tests/cases/compiler/forInStatement1.jump ===
+var expr: any;
+>expr : any
+
+for (var a in expr) {
+>a : string
+>expr : any
+}

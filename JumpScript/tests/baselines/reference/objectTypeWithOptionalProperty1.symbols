@@ -1,0 +1,7 @@
+=== tests/cases/compiler/objectTypeWithOptionalProperty1.jump ===
+    var b = {
+>b : Symbol(b, Decl(objectTypeWithOptionalProperty1.jump, 0, 7))
+
+        x?: 1 // error
+>x : Symbol(x, Decl(objectTypeWithOptionalProperty1.jump, 0, 13))
+    }

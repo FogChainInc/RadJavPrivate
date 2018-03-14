@@ -1,0 +1,33 @@
+=== tests/cases/compiler/functionTypeArgumentAssignmentCompat.jump ===
+var f : {
+>f : Symbol(f, Decl(functionTypeArgumentAssignmentCompat.jump, 0, 3))
+
+ <T>(x:T): T;
+>T : Symbol(T, Decl(functionTypeArgumentAssignmentCompat.jump, 1, 2))
+>x : Symbol(x, Decl(functionTypeArgumentAssignmentCompat.jump, 1, 5))
+>T : Symbol(T, Decl(functionTypeArgumentAssignmentCompat.jump, 1, 2))
+>T : Symbol(T, Decl(functionTypeArgumentAssignmentCompat.jump, 1, 2))
+}
+
+var g : {
+>g : Symbol(g, Decl(functionTypeArgumentAssignmentCompat.jump, 4, 3))
+
+ <S>() : S[];
+>S : Symbol(S, Decl(functionTypeArgumentAssignmentCompat.jump, 5, 2))
+>S : Symbol(S, Decl(functionTypeArgumentAssignmentCompat.jump, 5, 2))
+
+} = () => [];
+
+f = g;
+>f : Symbol(f, Decl(functionTypeArgumentAssignmentCompat.jump, 0, 3))
+>g : Symbol(g, Decl(functionTypeArgumentAssignmentCompat.jump, 4, 3))
+
+var s = f("str").toUpperCase();
+>s : Symbol(s, Decl(functionTypeArgumentAssignmentCompat.jump, 9, 3))
+>f("str").toUpperCase : Symbol(String.toUpperCase, Decl(lib.d.jump, --, --))
+>f : Symbol(f, Decl(functionTypeArgumentAssignmentCompat.jump, 0, 3))
+>toUpperCase : Symbol(String.toUpperCase, Decl(lib.d.jump, --, --))
+
+console.log(s);
+>s : Symbol(s, Decl(functionTypeArgumentAssignmentCompat.jump, 9, 3))
+

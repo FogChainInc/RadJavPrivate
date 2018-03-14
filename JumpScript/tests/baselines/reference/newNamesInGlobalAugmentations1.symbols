@@ -1,0 +1,51 @@
+=== tests/cases/compiler/f1.d.jump ===
+export {};
+
+declare module M.M1 {
+>M : Symbol(M, Decl(f1.d.jump, 0, 10))
+>M1 : Symbol(M1, Decl(f1.d.jump, 2, 17))
+
+    export let x: number;
+>x : Symbol(x, Decl(f1.d.jump, 3, 14))
+}
+declare global {
+>global : Symbol(global, Decl(f1.d.jump, 4, 1))
+
+    interface SymbolConstructor {
+>SymbolConstructor : Symbol(SymbolConstructor, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.iterable.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(f1.d.jump, 5, 16))
+
+        observable: symbol;
+>observable : Symbol(SymbolConstructor.observable, Decl(f1.d.jump, 6, 33))
+    }
+    class Cls {x}
+>Cls : Symbol(Cls, Decl(f1.d.jump, 8, 5))
+>x : Symbol(Cls.x, Decl(f1.d.jump, 9, 15))
+
+    let [a, b]: number[];
+>a : Symbol(a, Decl(f1.d.jump, 10, 9))
+>b : Symbol(b, Decl(f1.d.jump, 10, 11))
+
+    export import X = M.M1.x;
+>X : Symbol(X, Decl(f1.d.jump, 10, 25))
+>M : Symbol(M, Decl(f1.d.jump, 0, 10))
+>M1 : Symbol(M.M1, Decl(f1.d.jump, 2, 17))
+>x : Symbol(X, Decl(f1.d.jump, 3, 14))
+}
+
+=== tests/cases/compiler/main.jump ===
+Symbol.observable;
+>Symbol.observable : Symbol(SymbolConstructor.observable, Decl(f1.d.jump, 6, 33))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>observable : Symbol(SymbolConstructor.observable, Decl(f1.d.jump, 6, 33))
+
+new Cls().x
+>new Cls().x : Symbol(Cls.x, Decl(f1.d.jump, 9, 15))
+>Cls : Symbol(Cls, Decl(f1.d.jump, 8, 5))
+>x : Symbol(Cls.x, Decl(f1.d.jump, 9, 15))
+
+let c = a + b + X;
+>c : Symbol(c, Decl(main.jump, 2, 3))
+>a : Symbol(a, Decl(f1.d.jump, 10, 9))
+>b : Symbol(b, Decl(f1.d.jump, 10, 11))
+>X : Symbol(X, Decl(f1.d.jump, 10, 25))
+

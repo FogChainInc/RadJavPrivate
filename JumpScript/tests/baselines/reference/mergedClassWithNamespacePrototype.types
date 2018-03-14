@@ -1,0 +1,16 @@
+=== /a.d.jump ===
+declare class Foo {}
+>Foo : Foo
+
+=== /b.jump ===
+declare namespace Foo {
+>Foo : typeof Foo
+
+    namespace prototype {
+>prototype : typeof Foo.prototype
+
+        function f(): void;
+>f : () => void
+    }
+}
+

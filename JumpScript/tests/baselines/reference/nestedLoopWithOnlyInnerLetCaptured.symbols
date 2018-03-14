@@ -1,0 +1,15 @@
+=== tests/cases/compiler/nestedLoopWithOnlyInnerLetCaptured.jump ===
+declare let doSomething;
+>doSomething : Symbol(doSomething, Decl(nestedLoopWithOnlyInnerLetCaptured.jump, 0, 11))
+
+for (let a1 of [])
+>a1 : Symbol(a1, Decl(nestedLoopWithOnlyInnerLetCaptured.jump, 2, 8))
+
+    for (let a2 of a1.someArray)
+>a2 : Symbol(a2, Decl(nestedLoopWithOnlyInnerLetCaptured.jump, 3, 12))
+>a1 : Symbol(a1, Decl(nestedLoopWithOnlyInnerLetCaptured.jump, 2, 8))
+
+        doSomething(() => a2);
+>doSomething : Symbol(doSomething, Decl(nestedLoopWithOnlyInnerLetCaptured.jump, 0, 11))
+>a2 : Symbol(a2, Decl(nestedLoopWithOnlyInnerLetCaptured.jump, 3, 12))
+

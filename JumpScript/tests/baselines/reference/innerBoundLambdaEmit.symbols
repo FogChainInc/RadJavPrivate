@@ -1,0 +1,20 @@
+=== tests/cases/compiler/innerBoundLambdaEmit.jump ===
+module M {
+>M : Symbol(M, Decl(innerBoundLambdaEmit.jump, 0, 0))
+
+    export class Foo {
+>Foo : Symbol(Foo, Decl(innerBoundLambdaEmit.jump, 0, 10))
+    }
+    var bar = () => { };
+>bar : Symbol(bar, Decl(innerBoundLambdaEmit.jump, 3, 7))
+}
+interface Array<T> {
+>Array : Symbol(Array, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(innerBoundLambdaEmit.jump, 4, 1))
+>T : Symbol(T, Decl(lib.d.jump, --, --), Decl(innerBoundLambdaEmit.jump, 5, 16))
+
+    toFoo(): M.Foo
+>toFoo : Symbol(Array.toFoo, Decl(innerBoundLambdaEmit.jump, 5, 20))
+>M : Symbol(M, Decl(innerBoundLambdaEmit.jump, 0, 0))
+>Foo : Symbol(M.Foo, Decl(innerBoundLambdaEmit.jump, 0, 10))
+}
+

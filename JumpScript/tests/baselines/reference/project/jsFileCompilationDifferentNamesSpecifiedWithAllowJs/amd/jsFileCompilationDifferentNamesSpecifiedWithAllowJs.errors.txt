@@ -1,0 +1,17 @@
+DifferentNamesSpecifiedWithAllowJs/jmpconfig.json(4,5): error TS5053: Option 'allowJs' cannot be specified with option 'declaration'.
+
+
+==== DifferentNamesSpecifiedWithAllowJs/jmpconfig.json (1 errors) ====
+    {
+      "compilerOptions": {
+        "out": "test.js",
+        "allowJs": true
+        ~~~~~~~~~
+!!! error TS5053: Option 'allowJs' cannot be specified with option 'declaration'.
+      },
+      "files": [ "a.jump", "b.js" ]
+    }
+==== DifferentNamesSpecifiedWithAllowJs/a.jump (0 errors) ====
+    var test = 10;
+==== DifferentNamesSpecifiedWithAllowJs/b.js (0 errors) ====
+    var test2 = 10; // Should get compiled

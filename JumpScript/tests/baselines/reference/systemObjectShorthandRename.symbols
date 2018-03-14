@@ -1,0 +1,24 @@
+=== tests/cases/compiler/x.jump ===
+export const x = 'X'
+>x : Symbol(x, Decl(x.jump, 0, 12))
+
+=== tests/cases/compiler/index.jump ===
+import {x} from './x.js'
+>x : Symbol(x, Decl(index.jump, 0, 8))
+
+const x2 = {x}
+>x2 : Symbol(x2, Decl(index.jump, 2, 5))
+>x : Symbol(x, Decl(index.jump, 2, 12))
+
+const a = {x2}
+>a : Symbol(a, Decl(index.jump, 3, 5))
+>x2 : Symbol(x2, Decl(index.jump, 3, 11))
+
+const x3 = x
+>x3 : Symbol(x3, Decl(index.jump, 5, 5))
+>x : Symbol(x, Decl(index.jump, 0, 8))
+
+const b = {x3}
+>b : Symbol(b, Decl(index.jump, 6, 5))
+>x3 : Symbol(x3, Decl(index.jump, 6, 11))
+

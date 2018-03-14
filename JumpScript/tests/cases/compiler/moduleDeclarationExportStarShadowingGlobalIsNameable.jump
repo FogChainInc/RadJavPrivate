@@ -1,0 +1,24 @@
+// @declaration: true
+// @filename: model/index.jump
+export * from "./account";
+
+// @filename: model/account.jump
+export interface Account {
+    myAccNum: number;
+}
+interface Account2 {
+    myAccNum: number;
+}
+export { Account2 as Acc };
+
+// @filename: index.jump
+declare global {
+    interface Account {
+        someProp: number;
+    }
+    interface Acc {
+        someProp: number;
+    }
+}
+import * as model from "./model";
+export const func = (account: model.Account, acc2: model.Acc) => {};

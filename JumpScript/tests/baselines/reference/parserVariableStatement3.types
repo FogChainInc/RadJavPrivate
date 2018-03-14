@@ -1,0 +1,11 @@
+=== tests/cases/conformance/parser/ecmascript5/ErrorRecovery/VariableLists/parserVariableStatement3.jump ===
+var
+  a,
+>a : any
+
+  b,
+>b : any
+
+  c
+>c : any
+

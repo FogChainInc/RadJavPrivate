@@ -1,0 +1,47 @@
+=== tests/cases/conformance/internalModules/importDeclarations/circularImportAlias.jump ===
+// expected no error
+
+module B {
+>B : Symbol(a.b, Decl(circularImportAlias.jump, 0, 0))
+
+    export import a = A;
+>a : Symbol(a, Decl(circularImportAlias.jump, 2, 10))
+>A : Symbol(a, Decl(circularImportAlias.jump, 7, 1))
+
+    export class D extends a.C {
+>D : Symbol(D, Decl(circularImportAlias.jump, 3, 24))
+>a.C : Symbol(a.C, Decl(circularImportAlias.jump, 9, 10))
+>a : Symbol(a, Decl(circularImportAlias.jump, 2, 10))
+>C : Symbol(a.C, Decl(circularImportAlias.jump, 9, 10))
+
+        id: number;
+>id : Symbol(D.id, Decl(circularImportAlias.jump, 4, 32))
+    }
+}
+
+module A {
+>A : Symbol(b.a, Decl(circularImportAlias.jump, 7, 1))
+
+    export class C { name: string }
+>C : Symbol(C, Decl(circularImportAlias.jump, 9, 10))
+>name : Symbol(C.name, Decl(circularImportAlias.jump, 10, 20))
+
+    export import b = B;
+>b : Symbol(b, Decl(circularImportAlias.jump, 10, 35))
+>B : Symbol(b, Decl(circularImportAlias.jump, 0, 0))
+}
+
+var c: { name: string };
+>c : Symbol(c, Decl(circularImportAlias.jump, 14, 3), Decl(circularImportAlias.jump, 15, 3))
+>name : Symbol(name, Decl(circularImportAlias.jump, 14, 8))
+
+var c = new B.a.C();
+>c : Symbol(c, Decl(circularImportAlias.jump, 14, 3), Decl(circularImportAlias.jump, 15, 3))
+>B.a.C : Symbol(A.C, Decl(circularImportAlias.jump, 9, 10))
+>B.a : Symbol(B.a, Decl(circularImportAlias.jump, 2, 10))
+>B : Symbol(B, Decl(circularImportAlias.jump, 0, 0))
+>a : Symbol(B.a, Decl(circularImportAlias.jump, 2, 10))
+>C : Symbol(A.C, Decl(circularImportAlias.jump, 9, 10))
+
+
+

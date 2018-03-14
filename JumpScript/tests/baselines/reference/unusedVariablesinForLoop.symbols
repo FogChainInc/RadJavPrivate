@@ -1,0 +1,9 @@
+=== tests/cases/compiler/unusedVariablesinForLoop.jump ===
+function f1 () {
+>f1 : Symbol(f1, Decl(unusedVariablesinForLoop.jump, 0, 0))
+
+    for(var i = 0; ;) {
+>i : Symbol(i, Decl(unusedVariablesinForLoop.jump, 1, 11))
+
+    }
+}

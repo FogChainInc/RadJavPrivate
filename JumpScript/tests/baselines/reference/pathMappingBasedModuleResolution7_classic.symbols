@@ -1,0 +1,57 @@
+=== c:/root/src/file1.jump ===
+import {x} from "./project/file2";
+>x : Symbol(x, Decl(file1.jump, 0, 8))
+
+import {y} from "module3";
+>y : Symbol(y, Decl(file1.jump, 1, 8))
+
+declare function use(x: string);
+>use : Symbol(use, Decl(file1.jump, 1, 26))
+>x : Symbol(x, Decl(file1.jump, 3, 21))
+
+use(x.toFixed());
+>use : Symbol(use, Decl(file1.jump, 1, 26))
+>x.toFixed : Symbol(Number.toFixed, Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(file1.jump, 0, 8))
+>toFixed : Symbol(Number.toFixed, Decl(lib.d.jump, --, --))
+
+use(y.toFixed());
+>use : Symbol(use, Decl(file1.jump, 1, 26))
+>y.toFixed : Symbol(Number.toFixed, Decl(lib.d.jump, --, --))
+>y : Symbol(y, Decl(file1.jump, 1, 8))
+>toFixed : Symbol(Number.toFixed, Decl(lib.d.jump, --, --))
+
+=== c:/root/generated/src/project/file2.jump ===
+import {a} from "module1";
+>a : Symbol(a, Decl(file2.jump, 0, 8))
+
+import {b} from "templates/module2";
+>b : Symbol(b, Decl(file2.jump, 1, 8))
+
+import {x as c} from "../file3";
+>x : Symbol(c, Decl(file2.jump, 2, 8))
+>c : Symbol(c, Decl(file2.jump, 2, 8))
+
+export let x = a + b + c;
+>x : Symbol(x, Decl(file2.jump, 3, 10))
+>a : Symbol(a, Decl(file2.jump, 0, 8))
+>b : Symbol(b, Decl(file2.jump, 1, 8))
+>c : Symbol(c, Decl(file2.jump, 2, 8))
+
+=== c:/shared/module1.d.jump ===
+export let a: number
+>a : Symbol(a, Decl(module1.d.jump, 0, 10))
+
+=== c:/root/generated/src/templates/module2.jump ===
+export let b: number;
+>b : Symbol(b, Decl(module2.jump, 0, 10))
+
+=== c:/root/src/file3.d.jump ===
+export let x: number;
+>x : Symbol(x, Decl(file3.d.jump, 0, 10))
+
+=== c:/module3.d.jump ===
+export let y: number;
+>y : Symbol(y, Decl(module3.d.jump, 0, 10))
+
+

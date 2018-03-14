@@ -1,0 +1,5 @@
+=== tests/cases/compiler/binaryArithmatic2.jump ===
+var v = 4 | undefined;
+>v : Symbol(v, Decl(binaryArithmatic2.jump, 0, 3))
+>undefined : Symbol(undefined)
+

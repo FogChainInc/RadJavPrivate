@@ -1,0 +1,8 @@
+=== tests/cases/compiler/ClassDeclaration10.jump ===
+class C {
+>C : Symbol(C, Decl(ClassDeclaration10.jump, 0, 0))
+
+   constructor();
+   foo();
+>foo : Symbol(C.foo, Decl(ClassDeclaration10.jump, 1, 17))
+}

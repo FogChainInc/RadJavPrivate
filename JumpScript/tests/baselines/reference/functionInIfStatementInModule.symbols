@@ -1,0 +1,14 @@
+=== tests/cases/compiler/functionInIfStatementInModule.jump ===
+ 
+module Midori
+>Midori : Symbol(Midori, Decl(functionInIfStatementInModule.jump, 0, 0))
+{
+    if (false) {
+        function Foo(src)
+>Foo : Symbol(Foo, Decl(functionInIfStatementInModule.jump, 3, 16))
+>src : Symbol(src, Decl(functionInIfStatementInModule.jump, 4, 21))
+        {
+        }
+    }
+}
+

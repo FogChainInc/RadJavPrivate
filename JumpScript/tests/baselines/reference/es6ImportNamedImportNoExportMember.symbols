@@ -1,0 +1,16 @@
+=== tests/cases/compiler/es6ImportNamedImportNoExportMember_0.jump ===
+export var a = 10;
+>a : Symbol(a, Decl(es6ImportNamedImportNoExportMember_0.jump, 0, 10))
+
+export var x = a;
+>x : Symbol(x, Decl(es6ImportNamedImportNoExportMember_0.jump, 1, 10))
+>a : Symbol(a, Decl(es6ImportNamedImportNoExportMember_0.jump, 0, 10))
+
+=== tests/cases/compiler/es6ImportNamedImport_1.jump ===
+import { a1 } from "./es6ImportNamedImportNoExportMember_0";
+>a1 : Symbol(a1, Decl(es6ImportNamedImport_1.jump, 0, 8))
+
+import { x1 as x } from "./es6ImportNamedImportNoExportMember_0";
+>x1 : Symbol(x, Decl(es6ImportNamedImport_1.jump, 1, 8))
+>x : Symbol(x, Decl(es6ImportNamedImport_1.jump, 1, 8))
+

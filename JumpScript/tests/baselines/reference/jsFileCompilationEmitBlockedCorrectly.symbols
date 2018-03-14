@@ -1,0 +1,16 @@
+=== tests/cases/compiler/a.jump ===
+class c {
+>c : Symbol(c, Decl(a.jump, 0, 0))
+}
+
+=== tests/cases/compiler/b.jump ===
+// this should be emitted
+class d {
+>d : Symbol(d, Decl(b.jump, 0, 0))
+}
+
+=== tests/cases/compiler/a.js ===
+function foo() {
+>foo : Symbol(foo, Decl(a.js, 0, 0))
+}
+

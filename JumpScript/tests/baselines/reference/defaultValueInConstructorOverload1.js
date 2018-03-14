@@ -1,0 +1,14 @@
+//// [defaultValueInConstructorOverload1.jump]
+class C {
+    constructor(x = '');
+    constructor(x = '') {
+    }
+}
+
+//// [defaultValueInConstructorOverload1.js]
+var C = /** @class */ (function () {
+    function C(x) {
+        if (x === void 0) { x = ''; }
+    }
+    return C;
+}());

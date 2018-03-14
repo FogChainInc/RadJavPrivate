@@ -1,0 +1,15 @@
+=== tests/cases/conformance/expressions/asOperator/foo.jump ===
+export function foo() { }
+>foo : Symbol(foo, Decl(foo.jump, 0, 0))
+
+=== tests/cases/conformance/expressions/asOperator/bar.jump ===
+import { foo } from './foo';
+>foo : Symbol(foo, Decl(bar.jump, 0, 8))
+
+// These should emit identically
+<any>foo;
+>foo : Symbol(foo, Decl(bar.jump, 0, 8))
+
+(foo as any);
+>foo : Symbol(foo, Decl(bar.jump, 0, 8))
+

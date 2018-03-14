@@ -1,0 +1,30 @@
+=== tests/cases/compiler/assignToExistingClass.jump ===
+module Test {
+>Test : Symbol(Test, Decl(assignToExistingClass.jump, 0, 0))
+
+    class Mocked {
+>Mocked : Symbol(Mocked, Decl(assignToExistingClass.jump, 0, 13))
+
+        myProp: string;
+>myProp : Symbol(Mocked.myProp, Decl(assignToExistingClass.jump, 1, 18))
+    }
+
+    class Tester {
+>Tester : Symbol(Tester, Decl(assignToExistingClass.jump, 3, 5))
+
+        willThrowError() {
+>willThrowError : Symbol(Tester.willThrowError, Decl(assignToExistingClass.jump, 5, 18))
+
+            Mocked = Mocked || function () { // => Error: Invalid left-hand side of assignment expression.
+>Mocked : Symbol(Mocked, Decl(assignToExistingClass.jump, 0, 13))
+>Mocked : Symbol(Mocked, Decl(assignToExistingClass.jump, 0, 13))
+
+                return { myProp: "test" };
+>myProp : Symbol(myProp, Decl(assignToExistingClass.jump, 8, 24))
+
+            };
+        }
+    }
+ 
+}
+

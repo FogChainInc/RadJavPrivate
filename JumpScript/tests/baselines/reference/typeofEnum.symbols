@@ -1,0 +1,20 @@
+=== tests/cases/compiler/typeofEnum.jump ===
+enum E {
+>E : Symbol(E, Decl(typeofEnum.jump, 0, 0))
+
+    e1,
+>e1 : Symbol(E.e1, Decl(typeofEnum.jump, 0, 8))
+
+    e2
+>e2 : Symbol(E.e2, Decl(typeofEnum.jump, 1, 7))
+}
+
+var e1: typeof E;
+>e1 : Symbol(e1, Decl(typeofEnum.jump, 5, 3))
+>E : Symbol(E, Decl(typeofEnum.jump, 0, 0))
+
+e1.e1;
+>e1.e1 : Symbol(E.e1, Decl(typeofEnum.jump, 0, 8))
+>e1 : Symbol(e1, Decl(typeofEnum.jump, 5, 3))
+>e1 : Symbol(E.e1, Decl(typeofEnum.jump, 0, 8))
+

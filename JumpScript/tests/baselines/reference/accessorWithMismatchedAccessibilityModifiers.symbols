@@ -1,0 +1,56 @@
+=== tests/cases/conformance/classes/propertyMemberDeclarations/memberAccessorDeclarations/accessorWithMismatchedAccessibilityModifiers.jump ===
+class C {
+>C : Symbol(C, Decl(accessorWithMismatchedAccessibilityModifiers.jump, 0, 0))
+
+    get x() {
+>x : Symbol(C.x, Decl(accessorWithMismatchedAccessibilityModifiers.jump, 0, 9), Decl(accessorWithMismatchedAccessibilityModifiers.jump, 3, 5))
+
+        return 1;
+    }
+    private set x(v) {
+>x : Symbol(C.x, Decl(accessorWithMismatchedAccessibilityModifiers.jump, 0, 9), Decl(accessorWithMismatchedAccessibilityModifiers.jump, 3, 5))
+>v : Symbol(v, Decl(accessorWithMismatchedAccessibilityModifiers.jump, 4, 18))
+    }
+}
+
+class D {
+>D : Symbol(D, Decl(accessorWithMismatchedAccessibilityModifiers.jump, 6, 1))
+
+    protected get x() {
+>x : Symbol(D.x, Decl(accessorWithMismatchedAccessibilityModifiers.jump, 8, 9), Decl(accessorWithMismatchedAccessibilityModifiers.jump, 11, 5))
+
+        return 1;
+    }
+    private set x(v) {
+>x : Symbol(D.x, Decl(accessorWithMismatchedAccessibilityModifiers.jump, 8, 9), Decl(accessorWithMismatchedAccessibilityModifiers.jump, 11, 5))
+>v : Symbol(v, Decl(accessorWithMismatchedAccessibilityModifiers.jump, 12, 18))
+    }
+}
+
+class E {
+>E : Symbol(E, Decl(accessorWithMismatchedAccessibilityModifiers.jump, 14, 1))
+
+    protected set x(v) {
+>x : Symbol(E.x, Decl(accessorWithMismatchedAccessibilityModifiers.jump, 16, 9), Decl(accessorWithMismatchedAccessibilityModifiers.jump, 18, 5))
+>v : Symbol(v, Decl(accessorWithMismatchedAccessibilityModifiers.jump, 17, 20))
+    }
+    get x() {
+>x : Symbol(E.x, Decl(accessorWithMismatchedAccessibilityModifiers.jump, 16, 9), Decl(accessorWithMismatchedAccessibilityModifiers.jump, 18, 5))
+
+        return 1;
+    }
+}
+
+class F {
+>F : Symbol(F, Decl(accessorWithMismatchedAccessibilityModifiers.jump, 22, 1))
+
+    protected static set x(v) {
+>x : Symbol(F.x, Decl(accessorWithMismatchedAccessibilityModifiers.jump, 24, 9), Decl(accessorWithMismatchedAccessibilityModifiers.jump, 26, 5))
+>v : Symbol(v, Decl(accessorWithMismatchedAccessibilityModifiers.jump, 25, 27))
+    }
+    static get x() {
+>x : Symbol(F.x, Decl(accessorWithMismatchedAccessibilityModifiers.jump, 24, 9), Decl(accessorWithMismatchedAccessibilityModifiers.jump, 26, 5))
+
+        return 1;
+    }
+}

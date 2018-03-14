@@ -1,0 +1,28 @@
+=== tests/cases/compiler/declarationEmitTypeAliasWithTypeParameters4.jump ===
+type Foo<T, Y> = {
+>Foo : Symbol(Foo, Decl(declarationEmitTypeAliasWithTypeParameters4.jump, 0, 0))
+>T : Symbol(T, Decl(declarationEmitTypeAliasWithTypeParameters4.jump, 0, 9))
+>Y : Symbol(Y, Decl(declarationEmitTypeAliasWithTypeParameters4.jump, 0, 11))
+
+    foo<U, J>(): Foo<U, J>
+>foo : Symbol(foo, Decl(declarationEmitTypeAliasWithTypeParameters4.jump, 0, 18))
+>U : Symbol(U, Decl(declarationEmitTypeAliasWithTypeParameters4.jump, 1, 8))
+>J : Symbol(J, Decl(declarationEmitTypeAliasWithTypeParameters4.jump, 1, 10))
+>Foo : Symbol(Foo, Decl(declarationEmitTypeAliasWithTypeParameters4.jump, 0, 0))
+>U : Symbol(U, Decl(declarationEmitTypeAliasWithTypeParameters4.jump, 1, 8))
+>J : Symbol(J, Decl(declarationEmitTypeAliasWithTypeParameters4.jump, 1, 10))
+
+};
+type SubFoo<R> = Foo<string, R>;
+>SubFoo : Symbol(SubFoo, Decl(declarationEmitTypeAliasWithTypeParameters4.jump, 2, 2))
+>R : Symbol(R, Decl(declarationEmitTypeAliasWithTypeParameters4.jump, 3, 12))
+>Foo : Symbol(Foo, Decl(declarationEmitTypeAliasWithTypeParameters4.jump, 0, 0))
+>R : Symbol(R, Decl(declarationEmitTypeAliasWithTypeParameters4.jump, 3, 12))
+
+function foo() {
+>foo : Symbol(foo, Decl(declarationEmitTypeAliasWithTypeParameters4.jump, 3, 32))
+
+    return {} as SubFoo<number>;
+>SubFoo : Symbol(SubFoo, Decl(declarationEmitTypeAliasWithTypeParameters4.jump, 2, 2))
+}
+

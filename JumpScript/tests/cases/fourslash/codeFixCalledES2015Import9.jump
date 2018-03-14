@@ -1,0 +1,18 @@
+/// <reference path='fourslash.jump' />
+// @esModuleInterop: true
+// @module: amd
+// @Filename: foo.d.jump
+////declare class foo(): void;
+////declare namespace foo {}
+////export = foo;
+
+// @Filename: index.jump
+////[|import * as foo from "./foo";|]
+////new foo();
+
+goTo.file(1);
+verify.codeFix({
+    description: `Replace import with 'import foo from "./foo";'.`,
+    newRangeContent: `import foo from "./foo";`,
+    index: 0,
+});

@@ -1,0 +1,8 @@
+=== tests/cases/compiler/errorOnInitializerInInterfaceProperty.jump ===
+interface Foo {
+>Foo : Symbol(Foo, Decl(errorOnInitializerInInterfaceProperty.jump, 0, 0))
+
+    bar: number = 5;
+>bar : Symbol(Foo.bar, Decl(errorOnInitializerInInterfaceProperty.jump, 0, 15))
+}
+

@@ -1,0 +1,163 @@
+=== tests/cases/conformance/types/typeRelationships/typeInference/genericCallWithOverloadedConstructorTypedArguments.jump ===
+// Function typed arguments with multiple signatures must be passed an implementation that matches all of them
+// Inferences are made quadratic-pairwise to and from these overload sets
+
+module NonGenericParameter {
+>NonGenericParameter : Symbol(NonGenericParameter, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 0, 0))
+
+    var a: {
+>a : Symbol(a, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 4, 7))
+
+        new(x: boolean): boolean;
+>x : Symbol(x, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 5, 12))
+
+        new(x: string): string;
+>x : Symbol(x, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 6, 12))
+    }
+
+    function foo4(cb: typeof a) {
+>foo4 : Symbol(foo4, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 7, 5))
+>cb : Symbol(cb, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 9, 18))
+>a : Symbol(a, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 4, 7))
+
+        return new cb(null);
+>cb : Symbol(cb, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 9, 18))
+    }
+
+    var r = foo4(a);
+>r : Symbol(r, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 13, 7))
+>foo4 : Symbol(foo4, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 7, 5))
+>a : Symbol(a, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 4, 7))
+
+    var b: { new <T>(x: T): T };
+>b : Symbol(b, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 14, 7))
+>T : Symbol(T, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 14, 18))
+>x : Symbol(x, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 14, 21))
+>T : Symbol(T, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 14, 18))
+>T : Symbol(T, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 14, 18))
+
+    var r2 = foo4(b);
+>r2 : Symbol(r2, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 15, 7))
+>foo4 : Symbol(foo4, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 7, 5))
+>b : Symbol(b, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 14, 7))
+}
+
+module GenericParameter {
+>GenericParameter : Symbol(GenericParameter, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 16, 1))
+
+    function foo5<T>(cb: { new(x: T): string; new(x: number): T }) {
+>foo5 : Symbol(foo5, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 18, 25))
+>T : Symbol(T, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 19, 18))
+>cb : Symbol(cb, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 19, 21))
+>x : Symbol(x, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 19, 31))
+>T : Symbol(T, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 19, 18))
+>x : Symbol(x, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 19, 50))
+>T : Symbol(T, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 19, 18))
+
+        return cb;
+>cb : Symbol(cb, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 19, 21))
+    }
+
+    var a: {
+>a : Symbol(a, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 23, 7))
+
+        new (x: boolean): string;
+>x : Symbol(x, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 24, 13))
+
+        new (x: number): boolean;
+>x : Symbol(x, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 25, 13))
+    }
+    var r5 = foo5(a); // new{} => string; new(x:number) => {}
+>r5 : Symbol(r5, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 27, 7))
+>foo5 : Symbol(foo5, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 18, 25))
+>a : Symbol(a, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 23, 7))
+
+    var b: { new<T>(x: T): string; new<T>(x: number): T; }
+>b : Symbol(b, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 28, 7))
+>T : Symbol(T, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 28, 17))
+>x : Symbol(x, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 28, 20))
+>T : Symbol(T, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 28, 17))
+>T : Symbol(T, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 28, 39))
+>x : Symbol(x, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 28, 42))
+>T : Symbol(T, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 28, 39))
+
+    var r7 = foo5(b); // new any => string; new(x:number) => any
+>r7 : Symbol(r7, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 29, 7))
+>foo5 : Symbol(foo5, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 18, 25))
+>b : Symbol(b, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 28, 7))
+
+    function foo6<T>(cb: { new(x: T): string; new(x: T, y?: T): string }) {
+>foo6 : Symbol(foo6, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 29, 21))
+>T : Symbol(T, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 31, 18))
+>cb : Symbol(cb, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 31, 21))
+>x : Symbol(x, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 31, 31))
+>T : Symbol(T, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 31, 18))
+>x : Symbol(x, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 31, 50))
+>T : Symbol(T, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 31, 18))
+>y : Symbol(y, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 31, 55))
+>T : Symbol(T, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 31, 18))
+
+        return cb;
+>cb : Symbol(cb, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 31, 21))
+    }
+
+    var r8 = foo6(a); // error
+>r8 : Symbol(r8, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 35, 7))
+>foo6 : Symbol(foo6, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 29, 21))
+>a : Symbol(a, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 23, 7))
+
+    var r9 = foo6(b); // new any => string; new(x:any, y?:any) => string
+>r9 : Symbol(r9, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 36, 7))
+>foo6 : Symbol(foo6, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 29, 21))
+>b : Symbol(b, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 28, 7))
+
+    function foo7<T>(x:T, cb: { new(x: T): string; new(x: T, y?: T): string }) {
+>foo7 : Symbol(foo7, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 36, 21))
+>T : Symbol(T, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 38, 18))
+>x : Symbol(x, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 38, 21))
+>T : Symbol(T, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 38, 18))
+>cb : Symbol(cb, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 38, 25))
+>x : Symbol(x, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 38, 36))
+>T : Symbol(T, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 38, 18))
+>x : Symbol(x, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 38, 55))
+>T : Symbol(T, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 38, 18))
+>y : Symbol(y, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 38, 60))
+>T : Symbol(T, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 38, 18))
+
+        return cb;
+>cb : Symbol(cb, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 38, 25))
+    }
+
+    var r13 = foo7(1, b); // new any => string; new(x:any, y?:any) => string
+>r13 : Symbol(r13, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 42, 7))
+>foo7 : Symbol(foo7, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 36, 21))
+>b : Symbol(b, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 28, 7))
+
+    var c: { new <T>(x: T): string; <T>(x: number): T; }
+>c : Symbol(c, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 43, 7))
+>T : Symbol(T, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 43, 18))
+>x : Symbol(x, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 43, 21))
+>T : Symbol(T, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 43, 18))
+>T : Symbol(T, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 43, 37))
+>x : Symbol(x, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 43, 40))
+>T : Symbol(T, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 43, 37))
+
+    var c2: { new <T>(x: T): string; new<T>(x: number): T; }
+>c2 : Symbol(c2, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 44, 7))
+>T : Symbol(T, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 44, 19))
+>x : Symbol(x, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 44, 22))
+>T : Symbol(T, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 44, 19))
+>T : Symbol(T, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 44, 41))
+>x : Symbol(x, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 44, 44))
+>T : Symbol(T, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 44, 41))
+
+    var r14 = foo7(1, c); // new any => string; new(x:any, y?:any) => string
+>r14 : Symbol(r14, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 45, 7))
+>foo7 : Symbol(foo7, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 36, 21))
+>c : Symbol(c, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 43, 7))
+
+    var r15 = foo7(1, c2); // new any => string; new(x:any, y?:any) => string
+>r15 : Symbol(r15, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 46, 7))
+>foo7 : Symbol(foo7, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 36, 21))
+>c2 : Symbol(c2, Decl(genericCallWithOverloadedConstructorTypedArguments.jump, 44, 7))
+}

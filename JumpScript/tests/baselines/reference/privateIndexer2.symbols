@@ -1,0 +1,17 @@
+=== tests/cases/conformance/classes/indexMemberDeclarations/privateIndexer2.jump ===
+// private indexers not allowed
+
+var x = {
+>x : Symbol(x, Decl(privateIndexer2.jump, 2, 3))
+
+    private [x: string]: string;
+>x : Symbol(x, Decl(privateIndexer2.jump, 2, 3))
+>string : Symbol(string, Decl(privateIndexer2.jump, 3, 24))
+}
+
+var y: {
+>y : Symbol(y, Decl(privateIndexer2.jump, 6, 3))
+
+    private[x: string]: string;
+>x : Symbol(x, Decl(privateIndexer2.jump, 7, 12))
+}

@@ -1,0 +1,11 @@
+=== tests/cases/compiler/declFileRegressionTests.jump ===
+// 'null' not converted to 'any' in d.jump
+// function types not piped through correctly
+var n = { w: null, x: '', y: () => { }, z: 32 };
+>n : Symbol(n, Decl(declFileRegressionTests.jump, 2, 3))
+>w : Symbol(w, Decl(declFileRegressionTests.jump, 2, 9))
+>x : Symbol(x, Decl(declFileRegressionTests.jump, 2, 18))
+>y : Symbol(y, Decl(declFileRegressionTests.jump, 2, 25))
+>z : Symbol(z, Decl(declFileRegressionTests.jump, 2, 39))
+
+

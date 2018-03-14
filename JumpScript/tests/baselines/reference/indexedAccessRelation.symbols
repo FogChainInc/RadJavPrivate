@@ -1,0 +1,53 @@
+=== tests/cases/compiler/indexedAccessRelation.jump ===
+// Repro from #14723
+
+class Component<S> {
+>Component : Symbol(Component, Decl(indexedAccessRelation.jump, 0, 0))
+>S : Symbol(S, Decl(indexedAccessRelation.jump, 2, 16))
+
+    setState<K extends keyof S>(state: Pick<S, K>) {}
+>setState : Symbol(Component.setState, Decl(indexedAccessRelation.jump, 2, 20))
+>K : Symbol(K, Decl(indexedAccessRelation.jump, 3, 13))
+>S : Symbol(S, Decl(indexedAccessRelation.jump, 2, 16))
+>state : Symbol(state, Decl(indexedAccessRelation.jump, 3, 32))
+>Pick : Symbol(Pick, Decl(lib.d.jump, --, --))
+>S : Symbol(S, Decl(indexedAccessRelation.jump, 2, 16))
+>K : Symbol(K, Decl(indexedAccessRelation.jump, 3, 13))
+}
+
+export interface State<T> {
+>State : Symbol(State, Decl(indexedAccessRelation.jump, 4, 1))
+>T : Symbol(T, Decl(indexedAccessRelation.jump, 6, 23))
+
+    a?: T;
+>a : Symbol(State.a, Decl(indexedAccessRelation.jump, 6, 27))
+>T : Symbol(T, Decl(indexedAccessRelation.jump, 6, 23))
+}
+
+class Foo {}
+>Foo : Symbol(Foo, Decl(indexedAccessRelation.jump, 8, 1))
+
+class Comp<T extends Foo, S> extends Component<S & State<T>>
+>Comp : Symbol(Comp, Decl(indexedAccessRelation.jump, 10, 12))
+>T : Symbol(T, Decl(indexedAccessRelation.jump, 12, 11))
+>Foo : Symbol(Foo, Decl(indexedAccessRelation.jump, 8, 1))
+>S : Symbol(S, Decl(indexedAccessRelation.jump, 12, 25))
+>Component : Symbol(Component, Decl(indexedAccessRelation.jump, 0, 0))
+>S : Symbol(S, Decl(indexedAccessRelation.jump, 12, 25))
+>State : Symbol(State, Decl(indexedAccessRelation.jump, 4, 1))
+>T : Symbol(T, Decl(indexedAccessRelation.jump, 12, 11))
+{
+    foo(a: T) {
+>foo : Symbol(Comp.foo, Decl(indexedAccessRelation.jump, 13, 1))
+>a : Symbol(a, Decl(indexedAccessRelation.jump, 14, 8))
+>T : Symbol(T, Decl(indexedAccessRelation.jump, 12, 11))
+
+        this.setState({ a: a });
+>this.setState : Symbol(Component.setState, Decl(indexedAccessRelation.jump, 2, 20))
+>this : Symbol(Comp, Decl(indexedAccessRelation.jump, 10, 12))
+>setState : Symbol(Component.setState, Decl(indexedAccessRelation.jump, 2, 20))
+>a : Symbol(a, Decl(indexedAccessRelation.jump, 15, 23))
+>a : Symbol(a, Decl(indexedAccessRelation.jump, 14, 8))
+    }
+}
+

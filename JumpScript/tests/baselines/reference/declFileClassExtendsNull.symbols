@@ -1,0 +1,4 @@
+=== tests/cases/compiler/declFileClassExtendsNull.jump ===
+class ExtendsNull extends null {
+>ExtendsNull : Symbol(ExtendsNull, Decl(declFileClassExtendsNull.jump, 0, 0))
+}

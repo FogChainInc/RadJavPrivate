@@ -1,0 +1,13 @@
+// @traceResolution: true
+// @noImplicitReferences: true
+// @currentDirectory: /
+
+// @filename: /jmpconfig.json
+{ "files": "a.jump" }
+
+// @filename: /node_modules/@types/jquery/index.d.jump
+declare var $: { x: any };
+
+// @filename: /a.jump
+/// <reference types="jquery" />
+$.x;

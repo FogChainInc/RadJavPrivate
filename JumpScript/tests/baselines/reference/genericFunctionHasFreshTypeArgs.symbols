@@ -1,0 +1,16 @@
+=== tests/cases/compiler/genericFunctionHasFreshTypeArgs.jump ===
+function f(p: <T>(x: T) => void) { };
+>f : Symbol(f, Decl(genericFunctionHasFreshTypeArgs.jump, 0, 0))
+>p : Symbol(p, Decl(genericFunctionHasFreshTypeArgs.jump, 0, 11))
+>T : Symbol(T, Decl(genericFunctionHasFreshTypeArgs.jump, 0, 15))
+>x : Symbol(x, Decl(genericFunctionHasFreshTypeArgs.jump, 0, 18))
+>T : Symbol(T, Decl(genericFunctionHasFreshTypeArgs.jump, 0, 15))
+
+f(x => f(y => x = y));
+>f : Symbol(f, Decl(genericFunctionHasFreshTypeArgs.jump, 0, 0))
+>x : Symbol(x, Decl(genericFunctionHasFreshTypeArgs.jump, 1, 2))
+>f : Symbol(f, Decl(genericFunctionHasFreshTypeArgs.jump, 0, 0))
+>y : Symbol(y, Decl(genericFunctionHasFreshTypeArgs.jump, 1, 9))
+>x : Symbol(x, Decl(genericFunctionHasFreshTypeArgs.jump, 1, 2))
+>y : Symbol(y, Decl(genericFunctionHasFreshTypeArgs.jump, 1, 9))
+

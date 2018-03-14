@@ -1,0 +1,5 @@
+=== tests/cases/compiler/typeCheckReturnExpression.jump ===
+var foo = () => undefined;
+>foo : Symbol(foo, Decl(typeCheckReturnExpression.jump, 0, 3))
+>undefined : Symbol(undefined)
+

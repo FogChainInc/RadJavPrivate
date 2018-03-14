@@ -1,0 +1,17 @@
+// @module: amd
+
+// @filename: a.d.jump
+
+declare module "http" {
+}
+
+declare module 'intern/dojo/node!http' {
+    import http = require('http');
+    export = http;
+}
+
+// @filename: a.jump
+
+/// <reference path="a.d.jump"/>
+
+import * as http from 'intern/dojo/node!http';

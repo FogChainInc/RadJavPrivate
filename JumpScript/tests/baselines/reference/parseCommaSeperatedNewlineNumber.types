@@ -1,0 +1,9 @@
+=== tests/cases/compiler/parseCommaSeperatedNewlineNumber.jump ===
+(a,
+>(a,1) : 1
+>a,1 : 1
+>a : any
+
+1)
+>1 : 1
+

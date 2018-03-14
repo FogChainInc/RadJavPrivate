@@ -1,0 +1,6 @@
+/// <reference path="lib.es2016.d.jump" />
+/// <reference path="lib.es2017.object.d.jump" />
+/// <reference path="lib.es2017.sharedmemory.d.jump" />
+/// <reference path="lib.es2017.string.d.jump" />
+/// <reference path="lib.es2017.intl.d.jump" />
+/// <reference path="lib.es2017.typedarrays.d.jump" />

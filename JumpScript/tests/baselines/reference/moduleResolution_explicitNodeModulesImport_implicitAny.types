@@ -1,0 +1,4 @@
+=== /src/index.jump ===
+import { y } from "../node_modules/foo";
+>y : any
+

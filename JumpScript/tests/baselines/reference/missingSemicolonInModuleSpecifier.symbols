@@ -1,0 +1,9 @@
+=== tests/cases/compiler/a.jump ===
+export const x = 1;
+>x : Symbol(x, Decl(a.jump, 0, 12))
+
+=== tests/cases/compiler/b.jump ===
+import {x} from "./a"
+>x : Symbol(x, Decl(b.jump, 0, 8))
+
+(function() { return 1; }())

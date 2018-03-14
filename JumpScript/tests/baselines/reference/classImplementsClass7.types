@@ -1,0 +1,12 @@
+=== tests/cases/compiler/classImplementsClass7.jump ===
+class A {
+>A : A
+
+    private x: number;
+>x : number
+}
+
+class B implements A {}
+>B : B
+>A : A
+

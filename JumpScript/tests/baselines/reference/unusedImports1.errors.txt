@@ -1,0 +1,12 @@
+tests/cases/compiler/file2.jump(1,9): error TS6133: 'Calculator' is declared but its value is never read.
+
+
+==== tests/cases/compiler/file1.jump (0 errors) ====
+    export class Calculator {
+    
+    }
+    
+==== tests/cases/compiler/file2.jump (1 errors) ====
+    import {Calculator} from "./file1"
+            ~~~~~~~~~~
+!!! error TS6133: 'Calculator' is declared but its value is never read.

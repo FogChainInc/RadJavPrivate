@@ -1,0 +1,65 @@
+=== tests/cases/compiler/moduleElementsInWrongContext.jump ===
+{
+    module M { }
+>M : Symbol(M, Decl(moduleElementsInWrongContext.jump, 0, 1))
+
+    export namespace N {
+>N : Symbol(N, Decl(moduleElementsInWrongContext.jump, 1, 16))
+
+        export interface I { }
+>I : Symbol(I, Decl(moduleElementsInWrongContext.jump, 2, 24))
+    }
+
+    namespace Q.K { }
+>Q : Symbol(Q, Decl(moduleElementsInWrongContext.jump, 4, 5))
+>K : Symbol(K, Decl(moduleElementsInWrongContext.jump, 6, 16))
+
+    declare module "ambient" {
+
+    }
+
+    export = M;
+>M : Symbol(M, Decl(moduleElementsInWrongContext.jump, 0, 1))
+
+    var v;
+>v : Symbol(v, Decl(moduleElementsInWrongContext.jump, 14, 7))
+
+    function foo() { }
+>foo : Symbol(foo, Decl(moduleElementsInWrongContext.jump, 14, 10), Decl(moduleElementsInWrongContext.jump, 17, 12))
+
+    export * from "ambient";
+    export { foo };
+>foo : Symbol(foo, Decl(moduleElementsInWrongContext.jump, 14, 10), Decl(moduleElementsInWrongContext.jump, 17, 12))
+
+    export { baz as b } from "ambient";
+>baz : Symbol(b, Decl(moduleElementsInWrongContext.jump, 18, 12))
+>b : Symbol(b, Decl(moduleElementsInWrongContext.jump, 18, 12))
+
+    export default v;
+>v : Symbol(v, Decl(moduleElementsInWrongContext.jump, 14, 7))
+
+    export default class C { }
+>C : Symbol(C, Decl(moduleElementsInWrongContext.jump, 19, 21))
+
+    export function bee() { }
+>bee : Symbol(bee, Decl(moduleElementsInWrongContext.jump, 20, 30))
+
+    import I = M;
+>I : Symbol(I, Decl(moduleElementsInWrongContext.jump, 21, 29))
+>M : Symbol(M, Decl(moduleElementsInWrongContext.jump, 0, 1))
+
+    import I2 = require("foo");
+>I2 : Symbol(I2, Decl(moduleElementsInWrongContext.jump, 22, 17))
+
+    import * as Foo from "ambient";
+>Foo : Symbol(Foo, Decl(moduleElementsInWrongContext.jump, 24, 10))
+
+    import bar from "ambient";
+>bar : Symbol(bar, Decl(moduleElementsInWrongContext.jump, 25, 10))
+
+    import { baz } from "ambient";
+>baz : Symbol(baz, Decl(moduleElementsInWrongContext.jump, 26, 12))
+
+    import "ambient";
+}
+

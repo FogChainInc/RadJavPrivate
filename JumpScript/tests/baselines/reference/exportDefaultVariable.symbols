@@ -1,0 +1,11 @@
+=== tests/cases/compiler/exportDefaultVariable.jump ===
+// Regression test for #3018
+
+declare var io: any;
+>io : Symbol(io, Decl(exportDefaultVariable.jump, 2, 11))
+
+declare module 'module' {
+    export default io;
+>io : Symbol(io, Decl(exportDefaultVariable.jump, 2, 11))
+}
+

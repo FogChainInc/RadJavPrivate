@@ -1,0 +1,30 @@
+=== tests/cases/conformance/decorators/class/decoratorChecksFunctionBodies.jump ===
+// from #2971
+function func(s: string): void {
+>func : Symbol(func, Decl(decoratorChecksFunctionBodies.jump, 0, 0))
+>s : Symbol(s, Decl(decoratorChecksFunctionBodies.jump, 1, 14))
+}
+
+class A {
+>A : Symbol(A, Decl(decoratorChecksFunctionBodies.jump, 2, 1))
+
+    @((x, p) => {
+>x : Symbol(x, Decl(decoratorChecksFunctionBodies.jump, 5, 7))
+>p : Symbol(p, Decl(decoratorChecksFunctionBodies.jump, 5, 9))
+
+        var a = 3;
+>a : Symbol(a, Decl(decoratorChecksFunctionBodies.jump, 6, 11))
+
+        func(a);
+>func : Symbol(func, Decl(decoratorChecksFunctionBodies.jump, 0, 0))
+>a : Symbol(a, Decl(decoratorChecksFunctionBodies.jump, 6, 11))
+
+        return x; 
+>x : Symbol(x, Decl(decoratorChecksFunctionBodies.jump, 5, 7))
+
+    })
+    m() {
+>m : Symbol(A.m, Decl(decoratorChecksFunctionBodies.jump, 4, 9))
+
+    }
+}

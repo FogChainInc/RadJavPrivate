@@ -1,0 +1,10 @@
+=== tests/cases/compiler/simpleArrowFunctionParameterReferencedInObjectLiteral1.jump ===
+[].map(() => [].map(p => ({ X: p })));
+>[].map : Symbol(Array.map, Decl(lib.d.jump, --, --))
+>map : Symbol(Array.map, Decl(lib.d.jump, --, --))
+>[].map : Symbol(Array.map, Decl(lib.d.jump, --, --))
+>map : Symbol(Array.map, Decl(lib.d.jump, --, --))
+>p : Symbol(p, Decl(simpleArrowFunctionParameterReferencedInObjectLiteral1.jump, 0, 20))
+>X : Symbol(X, Decl(simpleArrowFunctionParameterReferencedInObjectLiteral1.jump, 0, 27))
+>p : Symbol(p, Decl(simpleArrowFunctionParameterReferencedInObjectLiteral1.jump, 0, 20))
+

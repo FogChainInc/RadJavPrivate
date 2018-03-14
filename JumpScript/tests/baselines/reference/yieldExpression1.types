@@ -1,0 +1,7 @@
+=== tests/cases/compiler/yieldExpression1.jump ===
+function* foo() {
+>foo : () => IterableIterator<any>
+
+    yield
+>yield : any
+}

@@ -1,0 +1,8 @@
+=== tests/cases/conformance/es6/for-ofStatements/for-of53.jump ===
+for (let v of []) {
+>v : any
+>[] : undefined[]
+
+    var v;
+>v : any
+}

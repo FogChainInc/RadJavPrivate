@@ -1,0 +1,26 @@
+=== tests/cases/compiler/moduleNewExportBug.jump ===
+module mod1 {
+>mod1 : Symbol(mod1, Decl(moduleNewExportBug.jump, 0, 0))
+
+	interface mInt {
+>mInt : Symbol(mInt, Decl(moduleNewExportBug.jump, 0, 13))
+
+		new (bar:any):any;
+>bar : Symbol(bar, Decl(moduleNewExportBug.jump, 2, 7))
+
+        foo (bar:any):any;
+>foo : Symbol(mInt.foo, Decl(moduleNewExportBug.jump, 2, 20))
+>bar : Symbol(bar, Decl(moduleNewExportBug.jump, 3, 13))
+	}
+ 
+    class C { public moo() {}}
+>C : Symbol(C, Decl(moduleNewExportBug.jump, 4, 2))
+>moo : Symbol(C.moo, Decl(moduleNewExportBug.jump, 6, 13))
+}
+
+var c : mod1.C; // ERROR: C should not be visible
+>c : Symbol(c, Decl(moduleNewExportBug.jump, 9, 3))
+>mod1 : Symbol(mod1, Decl(moduleNewExportBug.jump, 0, 0))
+
+
+

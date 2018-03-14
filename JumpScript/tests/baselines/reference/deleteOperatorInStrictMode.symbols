@@ -1,0 +1,8 @@
+=== tests/cases/compiler/deleteOperatorInStrictMode.jump ===
+"use strict"
+var a;
+>a : Symbol(a, Decl(deleteOperatorInStrictMode.jump, 1, 3))
+
+delete a;
+>a : Symbol(a, Decl(deleteOperatorInStrictMode.jump, 1, 3))
+

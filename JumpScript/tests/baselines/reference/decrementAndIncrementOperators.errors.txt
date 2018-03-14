@@ -1,0 +1,80 @@
+tests/cases/compiler/decrementAndIncrementOperators.jump(4,1): error TS2357: The operand of an increment or decrement operator must be a variable or a property access.
+tests/cases/compiler/decrementAndIncrementOperators.jump(6,1): error TS2357: The operand of an increment or decrement operator must be a variable or a property access.
+tests/cases/compiler/decrementAndIncrementOperators.jump(7,1): error TS2357: The operand of an increment or decrement operator must be a variable or a property access.
+tests/cases/compiler/decrementAndIncrementOperators.jump(9,3): error TS2357: The operand of an increment or decrement operator must be a variable or a property access.
+tests/cases/compiler/decrementAndIncrementOperators.jump(10,3): error TS2357: The operand of an increment or decrement operator must be a variable or a property access.
+tests/cases/compiler/decrementAndIncrementOperators.jump(12,1): error TS2357: The operand of an increment or decrement operator must be a variable or a property access.
+tests/cases/compiler/decrementAndIncrementOperators.jump(13,1): error TS2357: The operand of an increment or decrement operator must be a variable or a property access.
+tests/cases/compiler/decrementAndIncrementOperators.jump(15,3): error TS2357: The operand of an increment or decrement operator must be a variable or a property access.
+tests/cases/compiler/decrementAndIncrementOperators.jump(16,3): error TS2357: The operand of an increment or decrement operator must be a variable or a property access.
+tests/cases/compiler/decrementAndIncrementOperators.jump(18,1): error TS2357: The operand of an increment or decrement operator must be a variable or a property access.
+tests/cases/compiler/decrementAndIncrementOperators.jump(19,1): error TS2357: The operand of an increment or decrement operator must be a variable or a property access.
+tests/cases/compiler/decrementAndIncrementOperators.jump(21,3): error TS2357: The operand of an increment or decrement operator must be a variable or a property access.
+tests/cases/compiler/decrementAndIncrementOperators.jump(22,3): error TS2357: The operand of an increment or decrement operator must be a variable or a property access.
+
+
+==== tests/cases/compiler/decrementAndIncrementOperators.jump (13 errors) ====
+    var x = 0;
+    
+    // errors
+    1 ++;
+    ~
+!!! error TS2357: The operand of an increment or decrement operator must be a variable or a property access.
+    
+    (1)++;
+    ~~~
+!!! error TS2357: The operand of an increment or decrement operator must be a variable or a property access.
+    (1)--;
+    ~~~
+!!! error TS2357: The operand of an increment or decrement operator must be a variable or a property access.
+    
+    ++(1);
+      ~~~
+!!! error TS2357: The operand of an increment or decrement operator must be a variable or a property access.
+    --(1);
+      ~~~
+!!! error TS2357: The operand of an increment or decrement operator must be a variable or a property access.
+    
+    (1 + 2)++;
+    ~~~~~~~
+!!! error TS2357: The operand of an increment or decrement operator must be a variable or a property access.
+    (1 + 2)--;
+    ~~~~~~~
+!!! error TS2357: The operand of an increment or decrement operator must be a variable or a property access.
+    
+    ++(1 + 2);
+      ~~~~~~~
+!!! error TS2357: The operand of an increment or decrement operator must be a variable or a property access.
+    --(1 + 2);
+      ~~~~~~~
+!!! error TS2357: The operand of an increment or decrement operator must be a variable or a property access.
+    
+    (x + x)++;
+    ~~~~~~~
+!!! error TS2357: The operand of an increment or decrement operator must be a variable or a property access.
+    (x + x)--;
+    ~~~~~~~
+!!! error TS2357: The operand of an increment or decrement operator must be a variable or a property access.
+    
+    ++(x + x);
+      ~~~~~~~
+!!! error TS2357: The operand of an increment or decrement operator must be a variable or a property access.
+    --(x + x);
+      ~~~~~~~
+!!! error TS2357: The operand of an increment or decrement operator must be a variable or a property access.
+    
+    //OK
+    x++;
+    x--;
+    
+    ++x;
+    --x;
+    
+    (x)++;
+    --(x);
+    
+    ((x))++;
+    ((x))--;
+    
+    x[x++]++;
+    

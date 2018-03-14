@@ -1,0 +1,10 @@
+=== tests/cases/conformance/classes/constructorDeclarations/constructorParameters/readonlyReadonly.jump ===
+class C {
+>C : Symbol(C, Decl(readonlyReadonly.jump, 0, 0))
+
+    readonly readonly x: number;
+>x : Symbol(C.x, Decl(readonlyReadonly.jump, 0, 9))
+
+    constructor(readonly readonly y: number) {}
+>y : Symbol(C.y, Decl(readonlyReadonly.jump, 2, 16))
+}

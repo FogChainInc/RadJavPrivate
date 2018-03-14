@@ -1,0 +1,4 @@
+=== /a.jump ===
+import jsx from "./jsx";
+>jsx : any
+

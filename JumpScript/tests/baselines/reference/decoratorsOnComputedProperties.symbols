@@ -1,0 +1,664 @@
+=== tests/cases/compiler/decoratorsOnComputedProperties.jump ===
+function x(o: object, k: PropertyKey) { }
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>o : Symbol(o, Decl(decoratorsOnComputedProperties.jump, 0, 11))
+>k : Symbol(k, Decl(decoratorsOnComputedProperties.jump, 0, 21))
+>PropertyKey : Symbol(PropertyKey, Decl(lib.es2015.core.d.jump, --, --))
+
+let i = 0;
+>i : Symbol(i, Decl(decoratorsOnComputedProperties.jump, 1, 3))
+
+function foo(): string { return ++i + ""; }
+>foo : Symbol(foo, Decl(decoratorsOnComputedProperties.jump, 1, 10))
+>i : Symbol(i, Decl(decoratorsOnComputedProperties.jump, 1, 3))
+
+const fieldNameA: string = "fieldName1";
+>fieldNameA : Symbol(fieldNameA, Decl(decoratorsOnComputedProperties.jump, 4, 5))
+
+const fieldNameB: string = "fieldName2";
+>fieldNameB : Symbol(fieldNameB, Decl(decoratorsOnComputedProperties.jump, 5, 5))
+
+const fieldNameC: string = "fieldName3";
+>fieldNameC : Symbol(fieldNameC, Decl(decoratorsOnComputedProperties.jump, 6, 5))
+
+class A {
+>A : Symbol(A, Decl(decoratorsOnComputedProperties.jump, 6, 40))
+
+    @x ["property"]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>"property" : Symbol(A["property"], Decl(decoratorsOnComputedProperties.jump, 8, 9))
+
+    @x [Symbol.toStringTag]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>Symbol.toStringTag : Symbol(SymbolConstructor.toStringTag, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>toStringTag : Symbol(SymbolConstructor.toStringTag, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+
+    @x ["property2"]: any = 2;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>"property2" : Symbol(A["property2"], Decl(decoratorsOnComputedProperties.jump, 10, 33))
+
+    @x [Symbol.iterator]: any = null;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>Symbol.iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+
+    ["property3"]: any;
+>"property3" : Symbol(A["property3"], Decl(decoratorsOnComputedProperties.jump, 12, 37))
+
+    [Symbol.isConcatSpreadable]: any;
+>Symbol.isConcatSpreadable : Symbol(SymbolConstructor.isConcatSpreadable, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>isConcatSpreadable : Symbol(SymbolConstructor.isConcatSpreadable, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+
+    ["property4"]: any = 2;
+>"property4" : Symbol(A["property4"], Decl(decoratorsOnComputedProperties.jump, 14, 37))
+
+    [Symbol.match]: any = null;
+>Symbol.match : Symbol(SymbolConstructor.match, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>match : Symbol(SymbolConstructor.match, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+
+    [foo()]: any;
+>foo : Symbol(foo, Decl(decoratorsOnComputedProperties.jump, 1, 10))
+
+    @x [foo()]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>foo : Symbol(foo, Decl(decoratorsOnComputedProperties.jump, 1, 10))
+
+    @x [foo()]: any = null;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>foo : Symbol(foo, Decl(decoratorsOnComputedProperties.jump, 1, 10))
+
+    [fieldNameA]: any;
+>fieldNameA : Symbol(fieldNameA, Decl(decoratorsOnComputedProperties.jump, 4, 5))
+
+    @x [fieldNameB]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>fieldNameB : Symbol(fieldNameB, Decl(decoratorsOnComputedProperties.jump, 5, 5))
+
+    @x [fieldNameC]: any = null;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>fieldNameC : Symbol(fieldNameC, Decl(decoratorsOnComputedProperties.jump, 6, 5))
+}
+
+void class B {
+>B : Symbol(B, Decl(decoratorsOnComputedProperties.jump, 25, 4))
+
+    @x ["property"]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>"property" : Symbol(B["property"], Decl(decoratorsOnComputedProperties.jump, 25, 14))
+
+    @x [Symbol.toStringTag]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>Symbol.toStringTag : Symbol(SymbolConstructor.toStringTag, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>toStringTag : Symbol(SymbolConstructor.toStringTag, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+
+    @x ["property2"]: any = 2;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>"property2" : Symbol(B["property2"], Decl(decoratorsOnComputedProperties.jump, 27, 33))
+
+    @x [Symbol.iterator]: any = null;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>Symbol.iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+
+    ["property3"]: any;
+>"property3" : Symbol(B["property3"], Decl(decoratorsOnComputedProperties.jump, 29, 37))
+
+    [Symbol.isConcatSpreadable]: any;
+>Symbol.isConcatSpreadable : Symbol(SymbolConstructor.isConcatSpreadable, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>isConcatSpreadable : Symbol(SymbolConstructor.isConcatSpreadable, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+
+    ["property4"]: any = 2;
+>"property4" : Symbol(B["property4"], Decl(decoratorsOnComputedProperties.jump, 31, 37))
+
+    [Symbol.match]: any = null;
+>Symbol.match : Symbol(SymbolConstructor.match, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>match : Symbol(SymbolConstructor.match, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+
+    [foo()]: any;
+>foo : Symbol(foo, Decl(decoratorsOnComputedProperties.jump, 1, 10))
+
+    @x [foo()]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>foo : Symbol(foo, Decl(decoratorsOnComputedProperties.jump, 1, 10))
+
+    @x [foo()]: any = null;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>foo : Symbol(foo, Decl(decoratorsOnComputedProperties.jump, 1, 10))
+
+    [fieldNameA]: any;
+>fieldNameA : Symbol(fieldNameA, Decl(decoratorsOnComputedProperties.jump, 4, 5))
+
+    @x [fieldNameB]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>fieldNameB : Symbol(fieldNameB, Decl(decoratorsOnComputedProperties.jump, 5, 5))
+
+    @x [fieldNameC]: any = null;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>fieldNameC : Symbol(fieldNameC, Decl(decoratorsOnComputedProperties.jump, 6, 5))
+
+};
+
+class C {
+>C : Symbol(C, Decl(decoratorsOnComputedProperties.jump, 40, 2))
+
+    @x ["property"]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>"property" : Symbol(C["property"], Decl(decoratorsOnComputedProperties.jump, 42, 9))
+
+    @x [Symbol.toStringTag]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>Symbol.toStringTag : Symbol(SymbolConstructor.toStringTag, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>toStringTag : Symbol(SymbolConstructor.toStringTag, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+
+    @x ["property2"]: any = 2;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>"property2" : Symbol(C["property2"], Decl(decoratorsOnComputedProperties.jump, 44, 33))
+
+    @x [Symbol.iterator]: any = null;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>Symbol.iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+
+    ["property3"]: any;
+>"property3" : Symbol(C["property3"], Decl(decoratorsOnComputedProperties.jump, 46, 37))
+
+    [Symbol.isConcatSpreadable]: any;
+>Symbol.isConcatSpreadable : Symbol(SymbolConstructor.isConcatSpreadable, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>isConcatSpreadable : Symbol(SymbolConstructor.isConcatSpreadable, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+
+    ["property4"]: any = 2;
+>"property4" : Symbol(C["property4"], Decl(decoratorsOnComputedProperties.jump, 48, 37))
+
+    [Symbol.match]: any = null;
+>Symbol.match : Symbol(SymbolConstructor.match, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>match : Symbol(SymbolConstructor.match, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+
+    [foo()]: any;
+>foo : Symbol(foo, Decl(decoratorsOnComputedProperties.jump, 1, 10))
+
+    @x [foo()]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>foo : Symbol(foo, Decl(decoratorsOnComputedProperties.jump, 1, 10))
+
+    @x [foo()]: any = null;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>foo : Symbol(foo, Decl(decoratorsOnComputedProperties.jump, 1, 10))
+
+    [fieldNameA]: any;
+>fieldNameA : Symbol(fieldNameA, Decl(decoratorsOnComputedProperties.jump, 4, 5))
+
+    @x [fieldNameB]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>fieldNameB : Symbol(fieldNameB, Decl(decoratorsOnComputedProperties.jump, 5, 5))
+
+    @x [fieldNameC]: any = null;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>fieldNameC : Symbol(fieldNameC, Decl(decoratorsOnComputedProperties.jump, 6, 5))
+
+    ["some" + "method"]() {}
+}
+
+void class D {
+>D : Symbol(D, Decl(decoratorsOnComputedProperties.jump, 60, 4))
+
+    @x ["property"]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>"property" : Symbol(D["property"], Decl(decoratorsOnComputedProperties.jump, 60, 14))
+
+    @x [Symbol.toStringTag]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>Symbol.toStringTag : Symbol(SymbolConstructor.toStringTag, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>toStringTag : Symbol(SymbolConstructor.toStringTag, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+
+    @x ["property2"]: any = 2;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>"property2" : Symbol(D["property2"], Decl(decoratorsOnComputedProperties.jump, 62, 33))
+
+    @x [Symbol.iterator]: any = null;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>Symbol.iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+
+    ["property3"]: any;
+>"property3" : Symbol(D["property3"], Decl(decoratorsOnComputedProperties.jump, 64, 37))
+
+    [Symbol.isConcatSpreadable]: any;
+>Symbol.isConcatSpreadable : Symbol(SymbolConstructor.isConcatSpreadable, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>isConcatSpreadable : Symbol(SymbolConstructor.isConcatSpreadable, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+
+    ["property4"]: any = 2;
+>"property4" : Symbol(D["property4"], Decl(decoratorsOnComputedProperties.jump, 66, 37))
+
+    [Symbol.match]: any = null;
+>Symbol.match : Symbol(SymbolConstructor.match, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>match : Symbol(SymbolConstructor.match, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+
+    [foo()]: any;
+>foo : Symbol(foo, Decl(decoratorsOnComputedProperties.jump, 1, 10))
+
+    @x [foo()]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>foo : Symbol(foo, Decl(decoratorsOnComputedProperties.jump, 1, 10))
+
+    @x [foo()]: any = null;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>foo : Symbol(foo, Decl(decoratorsOnComputedProperties.jump, 1, 10))
+
+    [fieldNameA]: any;
+>fieldNameA : Symbol(fieldNameA, Decl(decoratorsOnComputedProperties.jump, 4, 5))
+
+    @x [fieldNameB]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>fieldNameB : Symbol(fieldNameB, Decl(decoratorsOnComputedProperties.jump, 5, 5))
+
+    @x [fieldNameC]: any = null;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>fieldNameC : Symbol(fieldNameC, Decl(decoratorsOnComputedProperties.jump, 6, 5))
+
+    ["some" + "method"]() {}
+};
+
+class E {
+>E : Symbol(E, Decl(decoratorsOnComputedProperties.jump, 76, 2))
+
+    @x ["property"]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>"property" : Symbol(E["property"], Decl(decoratorsOnComputedProperties.jump, 78, 9))
+
+    @x [Symbol.toStringTag]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>Symbol.toStringTag : Symbol(SymbolConstructor.toStringTag, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>toStringTag : Symbol(SymbolConstructor.toStringTag, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+
+    @x ["property2"]: any = 2;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>"property2" : Symbol(E["property2"], Decl(decoratorsOnComputedProperties.jump, 80, 33))
+
+    @x [Symbol.iterator]: any = null;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>Symbol.iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+
+    ["property3"]: any;
+>"property3" : Symbol(E["property3"], Decl(decoratorsOnComputedProperties.jump, 82, 37))
+
+    [Symbol.isConcatSpreadable]: any;
+>Symbol.isConcatSpreadable : Symbol(SymbolConstructor.isConcatSpreadable, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>isConcatSpreadable : Symbol(SymbolConstructor.isConcatSpreadable, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+
+    ["property4"]: any = 2;
+>"property4" : Symbol(E["property4"], Decl(decoratorsOnComputedProperties.jump, 84, 37))
+
+    [Symbol.match]: any = null;
+>Symbol.match : Symbol(SymbolConstructor.match, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>match : Symbol(SymbolConstructor.match, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+
+    [foo()]: any;
+>foo : Symbol(foo, Decl(decoratorsOnComputedProperties.jump, 1, 10))
+
+    @x [foo()]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>foo : Symbol(foo, Decl(decoratorsOnComputedProperties.jump, 1, 10))
+
+    @x [foo()]: any = null;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>foo : Symbol(foo, Decl(decoratorsOnComputedProperties.jump, 1, 10))
+
+    ["some" + "method"]() {}
+    [fieldNameA]: any;
+>fieldNameA : Symbol(fieldNameA, Decl(decoratorsOnComputedProperties.jump, 4, 5))
+
+    @x [fieldNameB]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>fieldNameB : Symbol(fieldNameB, Decl(decoratorsOnComputedProperties.jump, 5, 5))
+
+    @x [fieldNameC]: any = null;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>fieldNameC : Symbol(fieldNameC, Decl(decoratorsOnComputedProperties.jump, 6, 5))
+}
+
+void class F {
+>F : Symbol(F, Decl(decoratorsOnComputedProperties.jump, 96, 4))
+
+    @x ["property"]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>"property" : Symbol(F["property"], Decl(decoratorsOnComputedProperties.jump, 96, 14))
+
+    @x [Symbol.toStringTag]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>Symbol.toStringTag : Symbol(SymbolConstructor.toStringTag, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>toStringTag : Symbol(SymbolConstructor.toStringTag, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+
+    @x ["property2"]: any = 2;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>"property2" : Symbol(F["property2"], Decl(decoratorsOnComputedProperties.jump, 98, 33))
+
+    @x [Symbol.iterator]: any = null;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>Symbol.iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+
+    ["property3"]: any;
+>"property3" : Symbol(F["property3"], Decl(decoratorsOnComputedProperties.jump, 100, 37))
+
+    [Symbol.isConcatSpreadable]: any;
+>Symbol.isConcatSpreadable : Symbol(SymbolConstructor.isConcatSpreadable, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>isConcatSpreadable : Symbol(SymbolConstructor.isConcatSpreadable, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+
+    ["property4"]: any = 2;
+>"property4" : Symbol(F["property4"], Decl(decoratorsOnComputedProperties.jump, 102, 37))
+
+    [Symbol.match]: any = null;
+>Symbol.match : Symbol(SymbolConstructor.match, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>match : Symbol(SymbolConstructor.match, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+
+    [foo()]: any;
+>foo : Symbol(foo, Decl(decoratorsOnComputedProperties.jump, 1, 10))
+
+    @x [foo()]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>foo : Symbol(foo, Decl(decoratorsOnComputedProperties.jump, 1, 10))
+
+    @x [foo()]: any = null;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>foo : Symbol(foo, Decl(decoratorsOnComputedProperties.jump, 1, 10))
+
+    ["some" + "method"]() {}
+    [fieldNameA]: any;
+>fieldNameA : Symbol(fieldNameA, Decl(decoratorsOnComputedProperties.jump, 4, 5))
+
+    @x [fieldNameB]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>fieldNameB : Symbol(fieldNameB, Decl(decoratorsOnComputedProperties.jump, 5, 5))
+
+    @x [fieldNameC]: any = null;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>fieldNameC : Symbol(fieldNameC, Decl(decoratorsOnComputedProperties.jump, 6, 5))
+
+};
+
+class G {
+>G : Symbol(G, Decl(decoratorsOnComputedProperties.jump, 112, 2))
+
+    @x ["property"]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>"property" : Symbol(G["property"], Decl(decoratorsOnComputedProperties.jump, 114, 9))
+
+    @x [Symbol.toStringTag]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>Symbol.toStringTag : Symbol(SymbolConstructor.toStringTag, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>toStringTag : Symbol(SymbolConstructor.toStringTag, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+
+    @x ["property2"]: any = 2;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>"property2" : Symbol(G["property2"], Decl(decoratorsOnComputedProperties.jump, 116, 33))
+
+    @x [Symbol.iterator]: any = null;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>Symbol.iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+
+    ["property3"]: any;
+>"property3" : Symbol(G["property3"], Decl(decoratorsOnComputedProperties.jump, 118, 37))
+
+    [Symbol.isConcatSpreadable]: any;
+>Symbol.isConcatSpreadable : Symbol(SymbolConstructor.isConcatSpreadable, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>isConcatSpreadable : Symbol(SymbolConstructor.isConcatSpreadable, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+
+    ["property4"]: any = 2;
+>"property4" : Symbol(G["property4"], Decl(decoratorsOnComputedProperties.jump, 120, 37))
+
+    [Symbol.match]: any = null;
+>Symbol.match : Symbol(SymbolConstructor.match, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>match : Symbol(SymbolConstructor.match, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+
+    [foo()]: any;
+>foo : Symbol(foo, Decl(decoratorsOnComputedProperties.jump, 1, 10))
+
+    @x [foo()]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>foo : Symbol(foo, Decl(decoratorsOnComputedProperties.jump, 1, 10))
+
+    @x [foo()]: any = null;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>foo : Symbol(foo, Decl(decoratorsOnComputedProperties.jump, 1, 10))
+
+    ["some" + "method"]() {}
+    [fieldNameA]: any;
+>fieldNameA : Symbol(fieldNameA, Decl(decoratorsOnComputedProperties.jump, 4, 5))
+
+    @x [fieldNameB]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>fieldNameB : Symbol(fieldNameB, Decl(decoratorsOnComputedProperties.jump, 5, 5))
+
+    ["some" + "method2"]() {}
+    @x [fieldNameC]: any = null;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>fieldNameC : Symbol(fieldNameC, Decl(decoratorsOnComputedProperties.jump, 6, 5))
+}
+
+void class H {
+>H : Symbol(H, Decl(decoratorsOnComputedProperties.jump, 133, 4))
+
+    @x ["property"]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>"property" : Symbol(H["property"], Decl(decoratorsOnComputedProperties.jump, 133, 14))
+
+    @x [Symbol.toStringTag]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>Symbol.toStringTag : Symbol(SymbolConstructor.toStringTag, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>toStringTag : Symbol(SymbolConstructor.toStringTag, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+
+    @x ["property2"]: any = 2;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>"property2" : Symbol(H["property2"], Decl(decoratorsOnComputedProperties.jump, 135, 33))
+
+    @x [Symbol.iterator]: any = null;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>Symbol.iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+
+    ["property3"]: any;
+>"property3" : Symbol(H["property3"], Decl(decoratorsOnComputedProperties.jump, 137, 37))
+
+    [Symbol.isConcatSpreadable]: any;
+>Symbol.isConcatSpreadable : Symbol(SymbolConstructor.isConcatSpreadable, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>isConcatSpreadable : Symbol(SymbolConstructor.isConcatSpreadable, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+
+    ["property4"]: any = 2;
+>"property4" : Symbol(H["property4"], Decl(decoratorsOnComputedProperties.jump, 139, 37))
+
+    [Symbol.match]: any = null;
+>Symbol.match : Symbol(SymbolConstructor.match, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>match : Symbol(SymbolConstructor.match, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+
+    [foo()]: any;
+>foo : Symbol(foo, Decl(decoratorsOnComputedProperties.jump, 1, 10))
+
+    @x [foo()]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>foo : Symbol(foo, Decl(decoratorsOnComputedProperties.jump, 1, 10))
+
+    @x [foo()]: any = null;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>foo : Symbol(foo, Decl(decoratorsOnComputedProperties.jump, 1, 10))
+
+    ["some" + "method"]() {}
+    [fieldNameA]: any;
+>fieldNameA : Symbol(fieldNameA, Decl(decoratorsOnComputedProperties.jump, 4, 5))
+
+    @x [fieldNameB]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>fieldNameB : Symbol(fieldNameB, Decl(decoratorsOnComputedProperties.jump, 5, 5))
+
+    ["some" + "method2"]() {}
+    @x [fieldNameC]: any = null;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>fieldNameC : Symbol(fieldNameC, Decl(decoratorsOnComputedProperties.jump, 6, 5))
+
+};
+
+class I {
+>I : Symbol(I, Decl(decoratorsOnComputedProperties.jump, 150, 2))
+
+    @x ["property"]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>"property" : Symbol(I["property"], Decl(decoratorsOnComputedProperties.jump, 152, 9))
+
+    @x [Symbol.toStringTag]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>Symbol.toStringTag : Symbol(SymbolConstructor.toStringTag, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>toStringTag : Symbol(SymbolConstructor.toStringTag, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+
+    @x ["property2"]: any = 2;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>"property2" : Symbol(I["property2"], Decl(decoratorsOnComputedProperties.jump, 154, 33))
+
+    @x [Symbol.iterator]: any = null;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>Symbol.iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+
+    ["property3"]: any;
+>"property3" : Symbol(I["property3"], Decl(decoratorsOnComputedProperties.jump, 156, 37))
+
+    [Symbol.isConcatSpreadable]: any;
+>Symbol.isConcatSpreadable : Symbol(SymbolConstructor.isConcatSpreadable, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>isConcatSpreadable : Symbol(SymbolConstructor.isConcatSpreadable, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+
+    ["property4"]: any = 2;
+>"property4" : Symbol(I["property4"], Decl(decoratorsOnComputedProperties.jump, 158, 37))
+
+    [Symbol.match]: any = null;
+>Symbol.match : Symbol(SymbolConstructor.match, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>match : Symbol(SymbolConstructor.match, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+
+    [foo()]: any;
+>foo : Symbol(foo, Decl(decoratorsOnComputedProperties.jump, 1, 10))
+
+    @x [foo()]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>foo : Symbol(foo, Decl(decoratorsOnComputedProperties.jump, 1, 10))
+
+    @x [foo()]: any = null;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>foo : Symbol(foo, Decl(decoratorsOnComputedProperties.jump, 1, 10))
+
+    @x ["some" + "method"]() {}
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+
+    [fieldNameA]: any;
+>fieldNameA : Symbol(fieldNameA, Decl(decoratorsOnComputedProperties.jump, 4, 5))
+
+    @x [fieldNameB]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>fieldNameB : Symbol(fieldNameB, Decl(decoratorsOnComputedProperties.jump, 5, 5))
+
+    ["some" + "method2"]() {}
+    @x [fieldNameC]: any = null;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>fieldNameC : Symbol(fieldNameC, Decl(decoratorsOnComputedProperties.jump, 6, 5))
+}
+
+void class J {
+>J : Symbol(J, Decl(decoratorsOnComputedProperties.jump, 171, 4))
+
+    @x ["property"]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>"property" : Symbol(J["property"], Decl(decoratorsOnComputedProperties.jump, 171, 14))
+
+    @x [Symbol.toStringTag]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>Symbol.toStringTag : Symbol(SymbolConstructor.toStringTag, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>toStringTag : Symbol(SymbolConstructor.toStringTag, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+
+    @x ["property2"]: any = 2;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>"property2" : Symbol(J["property2"], Decl(decoratorsOnComputedProperties.jump, 173, 33))
+
+    @x [Symbol.iterator]: any = null;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>Symbol.iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>iterator : Symbol(SymbolConstructor.iterator, Decl(lib.es2015.iterable.d.jump, --, --))
+
+    ["property3"]: any;
+>"property3" : Symbol(J["property3"], Decl(decoratorsOnComputedProperties.jump, 175, 37))
+
+    [Symbol.isConcatSpreadable]: any;
+>Symbol.isConcatSpreadable : Symbol(SymbolConstructor.isConcatSpreadable, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>isConcatSpreadable : Symbol(SymbolConstructor.isConcatSpreadable, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+
+    ["property4"]: any = 2;
+>"property4" : Symbol(J["property4"], Decl(decoratorsOnComputedProperties.jump, 177, 37))
+
+    [Symbol.match]: any = null;
+>Symbol.match : Symbol(SymbolConstructor.match, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>match : Symbol(SymbolConstructor.match, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+
+    [foo()]: any;
+>foo : Symbol(foo, Decl(decoratorsOnComputedProperties.jump, 1, 10))
+
+    @x [foo()]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>foo : Symbol(foo, Decl(decoratorsOnComputedProperties.jump, 1, 10))
+
+    @x [foo()]: any = null;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>foo : Symbol(foo, Decl(decoratorsOnComputedProperties.jump, 1, 10))
+
+    @x ["some" + "method"]() {}
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+
+    [fieldNameA]: any;
+>fieldNameA : Symbol(fieldNameA, Decl(decoratorsOnComputedProperties.jump, 4, 5))
+
+    @x [fieldNameB]: any;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>fieldNameB : Symbol(fieldNameB, Decl(decoratorsOnComputedProperties.jump, 5, 5))
+
+    ["some" + "method2"]() {}
+    @x [fieldNameC]: any = null;
+>x : Symbol(x, Decl(decoratorsOnComputedProperties.jump, 0, 0))
+>fieldNameC : Symbol(fieldNameC, Decl(decoratorsOnComputedProperties.jump, 6, 5))
+
+};

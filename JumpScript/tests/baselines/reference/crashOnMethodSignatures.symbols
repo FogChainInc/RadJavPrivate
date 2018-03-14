@@ -1,0 +1,9 @@
+=== tests/cases/compiler/crashOnMethodSignatures.jump ===
+class A {
+>A : Symbol(A, Decl(crashOnMethodSignatures.jump, 0, 0))
+
+    a(completed: () => any): void;
+>a : Symbol(A.a, Decl(crashOnMethodSignatures.jump, 0, 9))
+>completed : Symbol(completed, Decl(crashOnMethodSignatures.jump, 1, 6))
+}
+

@@ -1,0 +1,17 @@
+=== tests/cases/compiler/acceptableAlias1.jump ===
+module M {
+>M : Symbol(M, Decl(acceptableAlias1.jump, 0, 0))
+
+    export module N {
+>N : Symbol(N, Decl(acceptableAlias1.jump, 0, 10))
+    }
+    export import X = N;
+>X : Symbol(X, Decl(acceptableAlias1.jump, 2, 5))
+>N : Symbol(N, Decl(acceptableAlias1.jump, 0, 10))
+}
+
+import r = M.X;
+>r : Symbol(r, Decl(acceptableAlias1.jump, 4, 1))
+>M : Symbol(M, Decl(acceptableAlias1.jump, 0, 0))
+>X : Symbol(M.X, Decl(acceptableAlias1.jump, 2, 5))
+

@@ -1,0 +1,9 @@
+=== tests/cases/compiler/constructorArgsErrors5.jump ===
+class foo {
+>foo : Symbol(foo, Decl(constructorArgsErrors5.jump, 0, 0))
+
+    constructor (export a: number) {
+>a : Symbol(a, Decl(constructorArgsErrors5.jump, 1, 17))
+    }
+}
+

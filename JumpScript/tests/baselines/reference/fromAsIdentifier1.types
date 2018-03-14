@@ -1,0 +1,4 @@
+=== tests/cases/compiler/fromAsIdentifier1.jump ===
+var from;
+>from : any
+

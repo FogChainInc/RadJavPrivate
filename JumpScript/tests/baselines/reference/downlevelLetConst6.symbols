@@ -1,0 +1,3 @@
+=== tests/cases/compiler/downlevelLetConst6.jump ===
+let
+No type information for this code.

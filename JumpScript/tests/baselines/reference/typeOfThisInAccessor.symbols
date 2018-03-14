@@ -1,0 +1,66 @@
+=== tests/cases/conformance/classes/propertyMemberDeclarations/memberAccessorDeclarations/typeOfThisInAccessor.jump ===
+class C {
+>C : Symbol(C, Decl(typeOfThisInAccessor.jump, 0, 0))
+
+    get x() {
+>x : Symbol(C.x, Decl(typeOfThisInAccessor.jump, 0, 9))
+
+        var r = this; // C
+>r : Symbol(r, Decl(typeOfThisInAccessor.jump, 2, 11))
+>this : Symbol(C, Decl(typeOfThisInAccessor.jump, 0, 0))
+
+        return 1;
+    }
+
+    static get y() {
+>y : Symbol(C.y, Decl(typeOfThisInAccessor.jump, 4, 5))
+
+        var r2 = this; // typeof C
+>r2 : Symbol(r2, Decl(typeOfThisInAccessor.jump, 7, 11))
+>this : Symbol(C, Decl(typeOfThisInAccessor.jump, 0, 0))
+
+        return 1;
+    }
+}
+
+class D<T> {
+>D : Symbol(D, Decl(typeOfThisInAccessor.jump, 10, 1))
+>T : Symbol(T, Decl(typeOfThisInAccessor.jump, 12, 8))
+
+    a: T;
+>a : Symbol(D.a, Decl(typeOfThisInAccessor.jump, 12, 12))
+>T : Symbol(T, Decl(typeOfThisInAccessor.jump, 12, 8))
+
+    get x() {
+>x : Symbol(D.x, Decl(typeOfThisInAccessor.jump, 13, 9))
+
+        var r = this; // D<T>
+>r : Symbol(r, Decl(typeOfThisInAccessor.jump, 15, 11))
+>this : Symbol(D, Decl(typeOfThisInAccessor.jump, 10, 1))
+
+        return 1;
+    }
+
+    static get y() {
+>y : Symbol(D.y, Decl(typeOfThisInAccessor.jump, 17, 5))
+
+        var r2 = this; // typeof D
+>r2 : Symbol(r2, Decl(typeOfThisInAccessor.jump, 20, 11))
+>this : Symbol(D, Decl(typeOfThisInAccessor.jump, 10, 1))
+
+        return 1;
+    }
+}
+
+var x = {
+>x : Symbol(x, Decl(typeOfThisInAccessor.jump, 25, 3))
+
+    get a() {
+>a : Symbol(a, Decl(typeOfThisInAccessor.jump, 25, 9))
+
+        var r3 = this; // any
+>r3 : Symbol(r3, Decl(typeOfThisInAccessor.jump, 27, 11))
+
+        return 1;
+    }
+}

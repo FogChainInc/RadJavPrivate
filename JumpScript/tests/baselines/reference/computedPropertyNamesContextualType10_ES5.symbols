@@ -1,0 +1,15 @@
+=== tests/cases/conformance/es6/computedProperties/computedPropertyNamesContextualType10_ES5.jump ===
+interface I {
+>I : Symbol(I, Decl(computedPropertyNamesContextualType10_ES5.jump, 0, 0))
+
+    [s: number]: boolean;
+>s : Symbol(s, Decl(computedPropertyNamesContextualType10_ES5.jump, 1, 5))
+}
+
+var o: I = {
+>o : Symbol(o, Decl(computedPropertyNamesContextualType10_ES5.jump, 4, 3))
+>I : Symbol(I, Decl(computedPropertyNamesContextualType10_ES5.jump, 0, 0))
+
+    [+"foo"]: "",
+    [+"bar"]: 0
+}

@@ -1,0 +1,25 @@
+=== tests/cases/compiler/a.jump ===
+module M {
+>M : typeof M
+
+    export function f() {
+>f : () => void
+
+        var arguments = [];
+>arguments : any[]
+>[] : undefined[]
+    }
+}
+
+=== tests/cases/compiler/b.jump ===
+module M {
+>M : typeof M
+
+    export function f2() {
+>f2 : () => void
+
+        var arguments = [];
+>arguments : any[]
+>[] : undefined[]
+    }
+}

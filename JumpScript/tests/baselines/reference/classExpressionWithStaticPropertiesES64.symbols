@@ -1,0 +1,4 @@
+=== tests/cases/compiler/classExpressionWithStaticPropertiesES64.jump ===
+(class { static x = 0; });
+>x : Symbol((Anonymous class).x, Decl(classExpressionWithStaticPropertiesES64.jump, 0, 8))
+

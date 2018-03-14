@@ -1,0 +1,6 @@
+=== tests/cases/compiler/modulePrologueUmd.jump ===
+"use strict";
+
+export class Foo {}
+>Foo : Symbol(Foo, Decl(modulePrologueUmd.jump, 0, 13))
+

@@ -1,0 +1,28 @@
+=== tests/cases/compiler/genericFunduleInModule.jump ===
+module A {
+>A : Symbol(A, Decl(genericFunduleInModule.jump, 0, 0))
+
+    export function B<T>(x: T) { return x; }
+>B : Symbol(B, Decl(genericFunduleInModule.jump, 0, 10), Decl(genericFunduleInModule.jump, 1, 44))
+>T : Symbol(T, Decl(genericFunduleInModule.jump, 1, 22))
+>x : Symbol(x, Decl(genericFunduleInModule.jump, 1, 25))
+>T : Symbol(T, Decl(genericFunduleInModule.jump, 1, 22))
+>x : Symbol(x, Decl(genericFunduleInModule.jump, 1, 25))
+
+    export module B {
+>B : Symbol(B, Decl(genericFunduleInModule.jump, 0, 10), Decl(genericFunduleInModule.jump, 1, 44))
+
+        export var x = 1;
+>x : Symbol(x, Decl(genericFunduleInModule.jump, 3, 18))
+    }
+}
+
+var b: A.B;
+>b : Symbol(b, Decl(genericFunduleInModule.jump, 7, 3))
+>A : Symbol(A, Decl(genericFunduleInModule.jump, 0, 0))
+
+A.B(1);
+>A.B : Symbol(A.B, Decl(genericFunduleInModule.jump, 0, 10), Decl(genericFunduleInModule.jump, 1, 44))
+>A : Symbol(A, Decl(genericFunduleInModule.jump, 0, 0))
+>B : Symbol(A.B, Decl(genericFunduleInModule.jump, 0, 10), Decl(genericFunduleInModule.jump, 1, 44))
+

@@ -1,0 +1,24 @@
+=== tests/cases/compiler/genericFunctionSpecializations1.jump ===
+function foo3<T>(test: string); // error
+>foo3 : Symbol(foo3, Decl(genericFunctionSpecializations1.jump, 0, 0), Decl(genericFunctionSpecializations1.jump, 0, 31))
+>T : Symbol(T, Decl(genericFunctionSpecializations1.jump, 0, 14))
+>test : Symbol(test, Decl(genericFunctionSpecializations1.jump, 0, 17))
+
+function foo3<T>(test: T) { }
+>foo3 : Symbol(foo3, Decl(genericFunctionSpecializations1.jump, 0, 0), Decl(genericFunctionSpecializations1.jump, 0, 31))
+>T : Symbol(T, Decl(genericFunctionSpecializations1.jump, 1, 14))
+>test : Symbol(test, Decl(genericFunctionSpecializations1.jump, 1, 17))
+>T : Symbol(T, Decl(genericFunctionSpecializations1.jump, 1, 14))
+
+function foo4<T>(test: string); // valid
+>foo4 : Symbol(foo4, Decl(genericFunctionSpecializations1.jump, 1, 29), Decl(genericFunctionSpecializations1.jump, 3, 31))
+>T : Symbol(T, Decl(genericFunctionSpecializations1.jump, 3, 14))
+>test : Symbol(test, Decl(genericFunctionSpecializations1.jump, 3, 17))
+
+function foo4<T extends String>(test: T) { }
+>foo4 : Symbol(foo4, Decl(genericFunctionSpecializations1.jump, 1, 29), Decl(genericFunctionSpecializations1.jump, 3, 31))
+>T : Symbol(T, Decl(genericFunctionSpecializations1.jump, 4, 14))
+>String : Symbol(String, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>test : Symbol(test, Decl(genericFunctionSpecializations1.jump, 4, 32))
+>T : Symbol(T, Decl(genericFunctionSpecializations1.jump, 4, 14))
+

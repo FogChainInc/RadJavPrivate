@@ -1,0 +1,25 @@
+=== tests/cases/conformance/jsx/jmpxDynamicTagName4.jmpx ===
+declare module JSX {
+>JSX : Symbol(JSX, Decl(jmpxDynamicTagName4.jmpx, 0, 0))
+
+	interface Element { }
+>Element : Symbol(Element, Decl(jmpxDynamicTagName4.jmpx, 0, 20))
+
+	interface IntrinsicElements {
+>IntrinsicElements : Symbol(IntrinsicElements, Decl(jmpxDynamicTagName4.jmpx, 1, 22))
+
+		div: any
+>div : Symbol(IntrinsicElements.div, Decl(jmpxDynamicTagName4.jmpx, 2, 30))
+
+		h1: any
+>h1 : Symbol(IntrinsicElements.h1, Decl(jmpxDynamicTagName4.jmpx, 3, 10))
+	}
+}
+
+var CustomTag: "h1" = "h1";
+>CustomTag : Symbol(CustomTag, Decl(jmpxDynamicTagName4.jmpx, 8, 3))
+
+<CustomTag> Hello World </CustomTag>
+>CustomTag : Symbol(CustomTag, Decl(jmpxDynamicTagName4.jmpx, 8, 3))
+>CustomTag : Symbol(CustomTag, Decl(jmpxDynamicTagName4.jmpx, 8, 3))
+

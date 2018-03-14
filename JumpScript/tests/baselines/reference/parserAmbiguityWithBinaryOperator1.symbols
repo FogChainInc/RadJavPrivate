@@ -1,0 +1,15 @@
+=== tests/cases/conformance/parser/ecmascript5/Generics/parserAmbiguityWithBinaryOperator1.jump ===
+function f1() {
+>f1 : Symbol(f1, Decl(parserAmbiguityWithBinaryOperator1.jump, 0, 0))
+
+    var a, b, c;
+>a : Symbol(a, Decl(parserAmbiguityWithBinaryOperator1.jump, 1, 7))
+>b : Symbol(b, Decl(parserAmbiguityWithBinaryOperator1.jump, 1, 10))
+>c : Symbol(c, Decl(parserAmbiguityWithBinaryOperator1.jump, 1, 13))
+
+    if (a < b || b > (c + 1)) { }
+>a : Symbol(a, Decl(parserAmbiguityWithBinaryOperator1.jump, 1, 7))
+>b : Symbol(b, Decl(parserAmbiguityWithBinaryOperator1.jump, 1, 10))
+>b : Symbol(b, Decl(parserAmbiguityWithBinaryOperator1.jump, 1, 10))
+>c : Symbol(c, Decl(parserAmbiguityWithBinaryOperator1.jump, 1, 13))
+}

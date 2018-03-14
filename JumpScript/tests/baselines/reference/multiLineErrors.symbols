@@ -1,0 +1,48 @@
+=== tests/cases/compiler/multiLineErrors.jump ===
+var t = 32;
+>t : Symbol(t, Decl(multiLineErrors.jump, 0, 3))
+
+function noReturn(): {
+>noReturn : Symbol(noReturn, Decl(multiLineErrors.jump, 0, 11))
+
+    n: string;
+>n : Symbol(n, Decl(multiLineErrors.jump, 2, 22))
+
+    y: number;
+>y : Symbol(y, Decl(multiLineErrors.jump, 3, 14))
+}
+{
+    var x = 4;
+>x : Symbol(x, Decl(multiLineErrors.jump, 7, 7))
+
+    var y = 10;
+>y : Symbol(y, Decl(multiLineErrors.jump, 8, 7))
+}
+
+interface A1 {
+>A1 : Symbol(A1, Decl(multiLineErrors.jump, 9, 1))
+
+    x: { y: number; };
+>x : Symbol(A1.x, Decl(multiLineErrors.jump, 11, 14))
+>y : Symbol(y, Decl(multiLineErrors.jump, 12, 8))
+}
+interface A2 {
+>A2 : Symbol(A2, Decl(multiLineErrors.jump, 13, 1))
+
+    x: { y: string; };
+>x : Symbol(A2.x, Decl(multiLineErrors.jump, 14, 14))
+>y : Symbol(y, Decl(multiLineErrors.jump, 15, 8))
+}
+
+var t1: A1;
+>t1 : Symbol(t1, Decl(multiLineErrors.jump, 18, 3))
+>A1 : Symbol(A1, Decl(multiLineErrors.jump, 9, 1))
+
+var t2: A2;
+>t2 : Symbol(t2, Decl(multiLineErrors.jump, 19, 3))
+>A2 : Symbol(A2, Decl(multiLineErrors.jump, 13, 1))
+
+t1 = t2;
+>t1 : Symbol(t1, Decl(multiLineErrors.jump, 18, 3))
+>t2 : Symbol(t2, Decl(multiLineErrors.jump, 19, 3))
+

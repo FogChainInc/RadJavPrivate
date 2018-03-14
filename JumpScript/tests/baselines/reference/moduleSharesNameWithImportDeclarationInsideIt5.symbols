@@ -1,0 +1,38 @@
+=== tests/cases/compiler/moduleSharesNameWithImportDeclarationInsideIt5.jump ===
+module Z {
+>Z : Symbol(Z, Decl(moduleSharesNameWithImportDeclarationInsideIt5.jump, 0, 0))
+
+    export module M {
+>M : Symbol(M, Decl(moduleSharesNameWithImportDeclarationInsideIt5.jump, 0, 10))
+
+        export function bar() {
+>bar : Symbol(bar, Decl(moduleSharesNameWithImportDeclarationInsideIt5.jump, 1, 21))
+
+            return "";
+        }
+    }
+    export interface I { }
+>I : Symbol(I, Decl(moduleSharesNameWithImportDeclarationInsideIt5.jump, 5, 5))
+}
+module A.M {
+>A : Symbol(A, Decl(moduleSharesNameWithImportDeclarationInsideIt5.jump, 7, 1))
+>M : Symbol(M, Decl(moduleSharesNameWithImportDeclarationInsideIt5.jump, 8, 9))
+
+    import M = Z.I;
+>M : Symbol(M, Decl(moduleSharesNameWithImportDeclarationInsideIt5.jump, 8, 12))
+>Z : Symbol(Z, Decl(moduleSharesNameWithImportDeclarationInsideIt5.jump, 0, 0))
+>I : Symbol(M, Decl(moduleSharesNameWithImportDeclarationInsideIt5.jump, 5, 5))
+
+    import M = Z.M;
+>M : Symbol(M, Decl(moduleSharesNameWithImportDeclarationInsideIt5.jump, 9, 19))
+>Z : Symbol(Z, Decl(moduleSharesNameWithImportDeclarationInsideIt5.jump, 0, 0))
+>M : Symbol(Z.M, Decl(moduleSharesNameWithImportDeclarationInsideIt5.jump, 0, 10))
+
+    export function bar() {
+>bar : Symbol(bar, Decl(moduleSharesNameWithImportDeclarationInsideIt5.jump, 10, 19))
+    }
+    M.bar(); // Should call Z.M.bar
+>M.bar : Symbol(bar, Decl(moduleSharesNameWithImportDeclarationInsideIt5.jump, 10, 19))
+>M : Symbol(M, Decl(moduleSharesNameWithImportDeclarationInsideIt5.jump, 8, 9))
+>bar : Symbol(bar, Decl(moduleSharesNameWithImportDeclarationInsideIt5.jump, 10, 19))
+}

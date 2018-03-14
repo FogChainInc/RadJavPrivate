@@ -1,0 +1,36 @@
+=== c:/root/folder1/file1.jump ===
+import {x} from "folder2/file2"
+>x : Symbol(x, Decl(file1.jump, 0, 8))
+
+declare function use(a: any): void;
+>use : Symbol(use, Decl(file1.jump, 0, 31))
+>a : Symbol(a, Decl(file1.jump, 1, 21))
+
+use(x.toExponential());
+>use : Symbol(use, Decl(file1.jump, 0, 31))
+>x.toExponential : Symbol(Number.toExponential, Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(file1.jump, 0, 8))
+>toExponential : Symbol(Number.toExponential, Decl(lib.d.jump, --, --))
+
+=== c:/root/folder2/file2.jump ===
+import {x as a} from "./file3"  // found with baseurl
+>x : Symbol(a, Decl(file2.jump, 0, 8))
+>a : Symbol(a, Decl(file2.jump, 0, 8))
+
+import {y as b} from "file4"    // found with fallback
+>y : Symbol(b, Decl(file2.jump, 1, 8))
+>b : Symbol(b, Decl(file2.jump, 1, 8))
+
+export var x = a + b;
+>x : Symbol(x, Decl(file2.jump, 2, 10))
+>a : Symbol(a, Decl(file2.jump, 0, 8))
+>b : Symbol(b, Decl(file2.jump, 1, 8))
+
+=== c:/root/folder2/file3.jump ===
+export var x = 1;
+>x : Symbol(x, Decl(file3.jump, 0, 10))
+
+=== c:/file4.jump ===
+export var y = 100;
+>y : Symbol(y, Decl(file4.jump, 0, 10))
+

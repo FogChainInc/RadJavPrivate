@@ -1,0 +1,15 @@
+tests/cases/conformance/dynamicImport/index.jump(2,18): error TS1323: Dynamic import cannot be used when targeting ECMAScript 2015 modules.
+tests/cases/conformance/dynamicImport/index.jump(2,32): error TS1323: Dynamic import cannot be used when targeting ECMAScript 2015 modules.
+
+
+==== tests/cases/conformance/dynamicImport/foo.jump (0 errors) ====
+    export default "./foo";
+    
+==== tests/cases/conformance/dynamicImport/index.jump (2 errors) ====
+    async function foo() {
+        return await import((await import("./foo")).default);
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+!!! error TS1323: Dynamic import cannot be used when targeting ECMAScript 2015 modules.
+                                   ~~~~~~~~~~~~~~~
+!!! error TS1323: Dynamic import cannot be used when targeting ECMAScript 2015 modules.
+    }

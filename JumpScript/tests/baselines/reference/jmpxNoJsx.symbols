@@ -1,0 +1,4 @@
+=== tests/cases/conformance/jsx/jmpxNoJsx.jmpx ===
+<nope />;
+>nope : Symbol(unknown)
+

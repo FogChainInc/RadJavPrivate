@@ -1,0 +1,23 @@
+=== tests/cases/compiler/classExtendsNull.jump ===
+class C extends null {
+>C : Symbol(C, Decl(classExtendsNull.jump, 0, 0))
+
+    constructor() {
+        super();
+        return Object.create(null);
+>Object.create : Symbol(ObjectConstructor.create, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>create : Symbol(ObjectConstructor.create, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+    }
+}
+
+class D extends null {
+>D : Symbol(D, Decl(classExtendsNull.jump, 5, 1))
+
+    constructor() {
+        return Object.create(null);
+>Object.create : Symbol(ObjectConstructor.create, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+>create : Symbol(ObjectConstructor.create, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+    }
+}

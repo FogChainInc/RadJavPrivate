@@ -1,0 +1,18 @@
+=== tests/cases/compiler/index.jmpx ===
+declare global {
+>global : Symbol(global, Decl(index.jmpx, 0, 0))
+
+    function __make (params: object): any;
+>__make : Symbol(__make, Decl(index.jmpx, 0, 16))
+>params : Symbol(params, Decl(index.jmpx, 1, 21))
+}
+
+declare var __foot: any;
+>__foot : Symbol(__foot, Decl(index.jmpx, 4, 11))
+
+const thing = <__foot />;
+>thing : Symbol(thing, Decl(index.jmpx, 6, 5))
+>__foot : Symbol(__foot, Decl(index.jmpx, 4, 11))
+
+export {}
+

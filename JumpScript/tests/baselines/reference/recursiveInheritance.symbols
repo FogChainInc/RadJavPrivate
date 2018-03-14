@@ -1,0 +1,17 @@
+=== tests/cases/compiler/recursiveInheritance.jump ===
+interface I5 extends I5 { // error
+>I5 : Symbol(I5, Decl(recursiveInheritance.jump, 0, 0))
+>I5 : Symbol(I5, Decl(recursiveInheritance.jump, 0, 0))
+
+    foo():void;
+>foo : Symbol(I5.foo, Decl(recursiveInheritance.jump, 0, 25))
+} 
+
+interface i8 extends i9 { } // error
+>i8 : Symbol(i8, Decl(recursiveInheritance.jump, 2, 1))
+>i9 : Symbol(i9, Decl(recursiveInheritance.jump, 4, 27))
+
+interface i9 extends i8 { } // error
+>i9 : Symbol(i9, Decl(recursiveInheritance.jump, 4, 27))
+>i8 : Symbol(i8, Decl(recursiveInheritance.jump, 2, 1))
+

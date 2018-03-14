@@ -1,0 +1,5 @@
+=== tests/cases/compiler/anyMappedTypesError.jump ===
+type Foo = {[P in "bar"]};
+>Foo : Foo
+>P : P
+

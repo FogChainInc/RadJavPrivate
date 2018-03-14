@@ -1,0 +1,91 @@
+=== tests/cases/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractMergedDeclaration.jump ===
+abstract class CM {}
+>CM : Symbol(CM, Decl(classAbstractMergedDeclaration.jump, 0, 0), Decl(classAbstractMergedDeclaration.jump, 0, 20))
+
+module CM {}
+>CM : Symbol(CM, Decl(classAbstractMergedDeclaration.jump, 0, 0), Decl(classAbstractMergedDeclaration.jump, 0, 20))
+
+module MC {}
+>MC : Symbol(MC, Decl(classAbstractMergedDeclaration.jump, 1, 12), Decl(classAbstractMergedDeclaration.jump, 3, 12))
+
+abstract class MC {}
+>MC : Symbol(MC, Decl(classAbstractMergedDeclaration.jump, 1, 12), Decl(classAbstractMergedDeclaration.jump, 3, 12))
+
+abstract class CI {}
+>CI : Symbol(CI, Decl(classAbstractMergedDeclaration.jump, 4, 20), Decl(classAbstractMergedDeclaration.jump, 6, 20))
+
+interface CI {}
+>CI : Symbol(CI, Decl(classAbstractMergedDeclaration.jump, 4, 20), Decl(classAbstractMergedDeclaration.jump, 6, 20))
+
+interface IC {}
+>IC : Symbol(IC, Decl(classAbstractMergedDeclaration.jump, 7, 15), Decl(classAbstractMergedDeclaration.jump, 9, 15))
+
+abstract class IC {}
+>IC : Symbol(IC, Decl(classAbstractMergedDeclaration.jump, 7, 15), Decl(classAbstractMergedDeclaration.jump, 9, 15))
+
+abstract class CC1 {}
+>CC1 : Symbol(CC1, Decl(classAbstractMergedDeclaration.jump, 10, 20))
+
+class CC1 {}
+>CC1 : Symbol(CC1, Decl(classAbstractMergedDeclaration.jump, 12, 21))
+
+class CC2 {}
+>CC2 : Symbol(CC2, Decl(classAbstractMergedDeclaration.jump, 13, 12))
+
+abstract class CC2 {}
+>CC2 : Symbol(CC2, Decl(classAbstractMergedDeclaration.jump, 15, 12))
+
+declare abstract class DCI {}
+>DCI : Symbol(DCI, Decl(classAbstractMergedDeclaration.jump, 16, 21), Decl(classAbstractMergedDeclaration.jump, 18, 29))
+
+interface DCI {}
+>DCI : Symbol(DCI, Decl(classAbstractMergedDeclaration.jump, 16, 21), Decl(classAbstractMergedDeclaration.jump, 18, 29))
+
+interface DIC {}
+>DIC : Symbol(DIC, Decl(classAbstractMergedDeclaration.jump, 19, 16), Decl(classAbstractMergedDeclaration.jump, 21, 16))
+
+declare abstract class DIC {}
+>DIC : Symbol(DIC, Decl(classAbstractMergedDeclaration.jump, 19, 16), Decl(classAbstractMergedDeclaration.jump, 21, 16))
+
+declare abstract class DCC1 {}
+>DCC1 : Symbol(DCC1, Decl(classAbstractMergedDeclaration.jump, 22, 29))
+
+declare class DCC1 {}
+>DCC1 : Symbol(DCC1, Decl(classAbstractMergedDeclaration.jump, 24, 30))
+
+declare class DCC2 {}
+>DCC2 : Symbol(DCC2, Decl(classAbstractMergedDeclaration.jump, 25, 21))
+
+declare abstract class DCC2 {}
+>DCC2 : Symbol(DCC2, Decl(classAbstractMergedDeclaration.jump, 27, 21))
+
+new CM;
+>CM : Symbol(CM, Decl(classAbstractMergedDeclaration.jump, 0, 0), Decl(classAbstractMergedDeclaration.jump, 0, 20))
+
+new MC;
+>MC : Symbol(MC, Decl(classAbstractMergedDeclaration.jump, 1, 12), Decl(classAbstractMergedDeclaration.jump, 3, 12))
+
+new CI;
+>CI : Symbol(CI, Decl(classAbstractMergedDeclaration.jump, 4, 20), Decl(classAbstractMergedDeclaration.jump, 6, 20))
+
+new IC;
+>IC : Symbol(IC, Decl(classAbstractMergedDeclaration.jump, 7, 15), Decl(classAbstractMergedDeclaration.jump, 9, 15))
+
+new CC1;
+>CC1 : Symbol(CC1, Decl(classAbstractMergedDeclaration.jump, 10, 20))
+
+new CC2;
+>CC2 : Symbol(CC2, Decl(classAbstractMergedDeclaration.jump, 13, 12))
+
+new DCI;
+>DCI : Symbol(DCI, Decl(classAbstractMergedDeclaration.jump, 16, 21), Decl(classAbstractMergedDeclaration.jump, 18, 29))
+
+new DIC;
+>DIC : Symbol(DIC, Decl(classAbstractMergedDeclaration.jump, 19, 16), Decl(classAbstractMergedDeclaration.jump, 21, 16))
+
+new DCC1;
+>DCC1 : Symbol(DCC1, Decl(classAbstractMergedDeclaration.jump, 22, 29))
+
+new DCC2;
+>DCC2 : Symbol(DCC2, Decl(classAbstractMergedDeclaration.jump, 25, 21))
+

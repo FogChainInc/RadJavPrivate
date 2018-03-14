@@ -1,0 +1,31 @@
+=== tests/cases/compiler/objectIndexer.jump ===
+export interface Callback {
+>Callback : Symbol(Callback, Decl(objectIndexer.jump, 0, 0))
+
+    (value: any): void;
+>value : Symbol(value, Decl(objectIndexer.jump, 1, 5))
+}
+
+interface IMap {
+>IMap : Symbol(IMap, Decl(objectIndexer.jump, 2, 1))
+
+    [s: string]: Callback;
+>s : Symbol(s, Decl(objectIndexer.jump, 5, 5))
+>Callback : Symbol(Callback, Decl(objectIndexer.jump, 0, 0))
+}
+
+class Emitter {
+>Emitter : Symbol(Emitter, Decl(objectIndexer.jump, 6, 1))
+
+    private listeners: IMap;
+>listeners : Symbol(Emitter.listeners, Decl(objectIndexer.jump, 8, 15))
+>IMap : Symbol(IMap, Decl(objectIndexer.jump, 2, 1))
+
+    constructor () {
+        this.listeners = {};
+>this.listeners : Symbol(Emitter.listeners, Decl(objectIndexer.jump, 8, 15))
+>this : Symbol(Emitter, Decl(objectIndexer.jump, 6, 1))
+>listeners : Symbol(Emitter.listeners, Decl(objectIndexer.jump, 8, 15))
+    }
+}
+

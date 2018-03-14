@@ -1,0 +1,4 @@
+=== tests/cases/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractWithInterface.jump ===
+abstract interface I {}
+>I : I
+

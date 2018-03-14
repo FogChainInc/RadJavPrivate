@@ -1,0 +1,7 @@
+=== tests/cases/compiler/catchClauseWithInitializer1.jump ===
+try {
+}
+catch (e = 1) {
+>e : any
+>1 : 1
+}

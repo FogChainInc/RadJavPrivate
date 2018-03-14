@@ -1,0 +1,15 @@
+=== /src/consumer.jump ===
+/// <reference types="jquery" />
+$.foo();
+>$.foo() : void
+>$.foo : () => void
+>$ : { foo(): void; }
+>foo : () => void
+
+=== /src/node_modules/jquery/index.d.jump ===
+// Secondary references are possible
+
+declare var $: { foo(): void };
+>$ : { foo(): void; }
+>foo : () => void
+

@@ -1,0 +1,7 @@
+=== tests/cases/compiler/commentsAtEndOfFile1.jump ===
+Input:
+>Input : any
+
+;
+//Testing two
+

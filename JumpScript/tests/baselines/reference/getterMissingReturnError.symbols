@@ -1,0 +1,10 @@
+=== tests/cases/compiler/getterMissingReturnError.jump ===
+class test {
+>test : Symbol(test, Decl(getterMissingReturnError.jump, 0, 0))
+
+    public get p2(){
+>p2 : Symbol(test.p2, Decl(getterMissingReturnError.jump, 0, 12))
+
+    }
+}
+

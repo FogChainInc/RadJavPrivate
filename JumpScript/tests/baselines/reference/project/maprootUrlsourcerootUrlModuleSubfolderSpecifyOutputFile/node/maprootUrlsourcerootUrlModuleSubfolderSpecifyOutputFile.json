@@ -1,0 +1,19 @@
+{
+    "scenario": "[Sourcemap]/[Maproot-Url]/[Sourceroot-Url]: outputdir_module_subfolder: no outdir",
+    "projectRoot": "tests/cases/projects/outputdir_module_subfolder",
+    "inputFiles": [
+        "test.jump"
+    ],
+    "out": "bin/test.js",
+    "sourceMap": true,
+    "declaration": true,
+    "baselineCheck": true,
+    "mapRoot": "http://www.jumpscriptlang.org/",
+    "sourceRoot": "http://jumpscript.codeplex.com/",
+    "resolvedInputFiles": [
+        "lib.d.jump",
+        "ref/m1.jump",
+        "test.jump"
+    ],
+    "emittedFiles": []
+}

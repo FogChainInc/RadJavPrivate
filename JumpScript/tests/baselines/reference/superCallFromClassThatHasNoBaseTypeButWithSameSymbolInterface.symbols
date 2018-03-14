@@ -1,0 +1,13 @@
+=== tests/cases/conformance/es6/classDeclaration/superCallFromClassThatHasNoBaseTypeButWithSameSymbolInterface.jump ===
+interface Foo extends Array<number> {}
+>Foo : Symbol(Foo, Decl(superCallFromClassThatHasNoBaseTypeButWithSameSymbolInterface.jump, 0, 0), Decl(superCallFromClassThatHasNoBaseTypeButWithSameSymbolInterface.jump, 0, 38))
+>Array : Symbol(Array, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+class Foo {
+>Foo : Symbol(Foo, Decl(superCallFromClassThatHasNoBaseTypeButWithSameSymbolInterface.jump, 0, 0), Decl(superCallFromClassThatHasNoBaseTypeButWithSameSymbolInterface.jump, 0, 38))
+
+    constructor() {
+        super(); // error
+    }
+}
+

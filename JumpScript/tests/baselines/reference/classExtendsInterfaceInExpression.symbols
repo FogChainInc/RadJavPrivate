@@ -1,0 +1,16 @@
+=== tests/cases/compiler/classExtendsInterfaceInExpression.jump ===
+interface A {}
+>A : Symbol(A, Decl(classExtendsInterfaceInExpression.jump, 0, 0))
+
+function factory(a: any): {new(): Object} {
+>factory : Symbol(factory, Decl(classExtendsInterfaceInExpression.jump, 0, 14))
+>a : Symbol(a, Decl(classExtendsInterfaceInExpression.jump, 2, 17))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+
+  return null;
+}
+
+class C extends factory(A) {}
+>C : Symbol(C, Decl(classExtendsInterfaceInExpression.jump, 4, 1))
+>factory : Symbol(factory, Decl(classExtendsInterfaceInExpression.jump, 0, 14))
+

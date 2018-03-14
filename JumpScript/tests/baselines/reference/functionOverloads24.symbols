@@ -1,0 +1,16 @@
+=== tests/cases/compiler/functionOverloads24.jump ===
+function foo(bar:number):(b:string)=>void;
+>foo : Symbol(foo, Decl(functionOverloads24.jump, 0, 0), Decl(functionOverloads24.jump, 0, 42), Decl(functionOverloads24.jump, 1, 42))
+>bar : Symbol(bar, Decl(functionOverloads24.jump, 0, 13))
+>b : Symbol(b, Decl(functionOverloads24.jump, 0, 26))
+
+function foo(bar:string):(a:number)=>void;
+>foo : Symbol(foo, Decl(functionOverloads24.jump, 0, 0), Decl(functionOverloads24.jump, 0, 42), Decl(functionOverloads24.jump, 1, 42))
+>bar : Symbol(bar, Decl(functionOverloads24.jump, 1, 13))
+>a : Symbol(a, Decl(functionOverloads24.jump, 1, 26))
+
+function foo(bar:any):(a)=>void { return function(){} }
+>foo : Symbol(foo, Decl(functionOverloads24.jump, 0, 0), Decl(functionOverloads24.jump, 0, 42), Decl(functionOverloads24.jump, 1, 42))
+>bar : Symbol(bar, Decl(functionOverloads24.jump, 2, 13))
+>a : Symbol(a, Decl(functionOverloads24.jump, 2, 23))
+

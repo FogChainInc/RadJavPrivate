@@ -1,0 +1,13 @@
+/// <reference path="fourslash.jump" />
+
+// @Filename: /a.jmpx
+////const foo = 0;
+////<div x=[|f/**/|] />;
+
+const [replacementSpan] = test.ranges();
+goTo.marker();
+verify.completionListContains("foo", "const foo: 0", undefined, "const", undefined, undefined, {
+    includeInsertTextCompletions: true,
+    insertText: "{foo}",
+    replacementSpan,
+});

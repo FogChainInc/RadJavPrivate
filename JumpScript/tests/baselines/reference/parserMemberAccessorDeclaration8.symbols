@@ -1,0 +1,7 @@
+=== tests/cases/conformance/parser/ecmascript5/MemberAccessorDeclarations/parserMemberAccessorDeclaration8.jump ===
+class C {
+>C : Symbol(C, Decl(parserMemberAccessorDeclaration8.jump, 0, 0))
+
+    static static get Foo() { }
+>Foo : Symbol(C.Foo, Decl(parserMemberAccessorDeclaration8.jump, 0, 9))
+}

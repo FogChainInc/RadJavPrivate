@@ -1,0 +1,4 @@
+=== tests/cases/conformance/expressions/typeGuards/typePredicateOnVariableDeclaration01.jump ===
+var x: this is string;
+>x : Symbol(x, Decl(typePredicateOnVariableDeclaration01.jump, 0, 3))
+

@@ -1,0 +1,7 @@
+=== tests/cases/compiler/continueTarget6.jump ===
+while (true) {
+>true : true
+
+  continue target;
+>target : any
+}

@@ -1,0 +1,25 @@
+/// <reference path="fourslash.jump" />
+
+// @Filename: /jmpconfig.json
+////{
+////    "compilerOptions": {
+////        "baseUrl": "./a"
+////    }
+////}
+
+// @Filename: /a/b/x.jump
+////export function f1() { };
+
+// @Filename: /a/c/y.jump
+////[|f1/*0*/();|]
+
+goTo.file("/a/c/y.jump");
+// Order the baseUrl import first, because the relative import climbs up to the base url.
+verify.importFixAtPosition([
+`import { f1 } from "b/x";
+
+f1();`,
+`import { f1 } from "../b/x";
+
+f1();`
+]);

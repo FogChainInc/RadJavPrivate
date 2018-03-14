@@ -1,0 +1,28 @@
+=== tests/cases/compiler/enumMapBackIntoItself.jump ===
+enum TShirtSize {
+>TShirtSize : Symbol(TShirtSize, Decl(enumMapBackIntoItself.jump, 0, 0))
+
+   Small,
+>Small : Symbol(TShirtSize.Small, Decl(enumMapBackIntoItself.jump, 0, 17))
+
+   Medium,
+>Medium : Symbol(TShirtSize.Medium, Decl(enumMapBackIntoItself.jump, 1, 9))
+
+   Large
+>Large : Symbol(TShirtSize.Large, Decl(enumMapBackIntoItself.jump, 2, 10))
+}
+var mySize = TShirtSize.Large;
+>mySize : Symbol(mySize, Decl(enumMapBackIntoItself.jump, 5, 3))
+>TShirtSize.Large : Symbol(TShirtSize.Large, Decl(enumMapBackIntoItself.jump, 2, 10))
+>TShirtSize : Symbol(TShirtSize, Decl(enumMapBackIntoItself.jump, 0, 0))
+>Large : Symbol(TShirtSize.Large, Decl(enumMapBackIntoItself.jump, 2, 10))
+
+var test = TShirtSize[mySize];
+>test : Symbol(test, Decl(enumMapBackIntoItself.jump, 6, 3))
+>TShirtSize : Symbol(TShirtSize, Decl(enumMapBackIntoItself.jump, 0, 0))
+>mySize : Symbol(mySize, Decl(enumMapBackIntoItself.jump, 5, 3))
+
+// specifically checking output here, bug was that test used to be undefined at runtime
+test + ''
+>test : Symbol(test, Decl(enumMapBackIntoItself.jump, 6, 3))
+

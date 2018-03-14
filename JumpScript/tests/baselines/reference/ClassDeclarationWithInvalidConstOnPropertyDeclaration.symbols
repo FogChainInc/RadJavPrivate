@@ -1,0 +1,7 @@
+=== tests/cases/compiler/ClassDeclarationWithInvalidConstOnPropertyDeclaration.jump ===
+class AtomicNumbers {
+>AtomicNumbers : Symbol(AtomicNumbers, Decl(ClassDeclarationWithInvalidConstOnPropertyDeclaration.jump, 0, 0))
+
+  static const H = 1;
+>H : Symbol(AtomicNumbers.H, Decl(ClassDeclarationWithInvalidConstOnPropertyDeclaration.jump, 0, 21))
+}

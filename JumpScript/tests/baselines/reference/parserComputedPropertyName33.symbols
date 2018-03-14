@@ -1,0 +1,8 @@
+=== tests/cases/conformance/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName33.jump ===
+class C {
+>C : Symbol(C, Decl(parserComputedPropertyName33.jump, 0, 0))
+
+    // No ASI
+    [e] = 0
+    [e2]() { }
+}

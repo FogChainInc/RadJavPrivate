@@ -1,0 +1,4 @@
+=== tests/cases/compiler/InterfaceDeclaration8.jump ===
+interface string {
+>string : string
+}

@@ -1,0 +1,8 @@
+// @filename: first.jump
+declare class P<R> {
+    constructor(callback: (resolve: (value: R) => void) => void);
+}
+
+// @filename: second.jump
+interface P<R> { }
+new P<string>(r => { r('foo') });

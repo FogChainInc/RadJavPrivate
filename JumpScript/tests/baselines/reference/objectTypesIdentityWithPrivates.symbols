@@ -1,0 +1,374 @@
+=== tests/cases/conformance/types/typeRelationships/typeAndMemberIdentity/objectTypesIdentityWithPrivates.jump ===
+// object types are identical structurally
+
+class A {
+>A : Symbol(A, Decl(objectTypesIdentityWithPrivates.jump, 0, 0))
+
+    private foo: string;
+>foo : Symbol(A.foo, Decl(objectTypesIdentityWithPrivates.jump, 2, 9))
+}
+
+class B {
+>B : Symbol(B, Decl(objectTypesIdentityWithPrivates.jump, 4, 1))
+
+    private foo: string;
+>foo : Symbol(B.foo, Decl(objectTypesIdentityWithPrivates.jump, 6, 9))
+}
+
+class C<T> {
+>C : Symbol(C, Decl(objectTypesIdentityWithPrivates.jump, 8, 1))
+>T : Symbol(T, Decl(objectTypesIdentityWithPrivates.jump, 10, 8))
+
+    private foo: T;
+>foo : Symbol(C.foo, Decl(objectTypesIdentityWithPrivates.jump, 10, 12))
+>T : Symbol(T, Decl(objectTypesIdentityWithPrivates.jump, 10, 8))
+}
+
+interface I {
+>I : Symbol(I, Decl(objectTypesIdentityWithPrivates.jump, 12, 1))
+
+    foo: string;
+>foo : Symbol(I.foo, Decl(objectTypesIdentityWithPrivates.jump, 14, 13))
+}
+
+class PA extends A {
+>PA : Symbol(PA, Decl(objectTypesIdentityWithPrivates.jump, 16, 1))
+>A : Symbol(A, Decl(objectTypesIdentityWithPrivates.jump, 0, 0))
+}
+
+class PB extends B {
+>PB : Symbol(PB, Decl(objectTypesIdentityWithPrivates.jump, 19, 1))
+>B : Symbol(B, Decl(objectTypesIdentityWithPrivates.jump, 4, 1))
+}
+
+var a: { foo: string; }
+>a : Symbol(a, Decl(objectTypesIdentityWithPrivates.jump, 24, 3))
+>foo : Symbol(foo, Decl(objectTypesIdentityWithPrivates.jump, 24, 8))
+
+var b = { foo: '' };
+>b : Symbol(b, Decl(objectTypesIdentityWithPrivates.jump, 25, 3))
+>foo : Symbol(foo, Decl(objectTypesIdentityWithPrivates.jump, 25, 9))
+
+function foo1(x: A);
+>foo1 : Symbol(foo1, Decl(objectTypesIdentityWithPrivates.jump, 25, 20), Decl(objectTypesIdentityWithPrivates.jump, 27, 20), Decl(objectTypesIdentityWithPrivates.jump, 28, 20))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 27, 14))
+>A : Symbol(A, Decl(objectTypesIdentityWithPrivates.jump, 0, 0))
+
+function foo1(x: A); // error
+>foo1 : Symbol(foo1, Decl(objectTypesIdentityWithPrivates.jump, 25, 20), Decl(objectTypesIdentityWithPrivates.jump, 27, 20), Decl(objectTypesIdentityWithPrivates.jump, 28, 20))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 28, 14))
+>A : Symbol(A, Decl(objectTypesIdentityWithPrivates.jump, 0, 0))
+
+function foo1(x: any) { }
+>foo1 : Symbol(foo1, Decl(objectTypesIdentityWithPrivates.jump, 25, 20), Decl(objectTypesIdentityWithPrivates.jump, 27, 20), Decl(objectTypesIdentityWithPrivates.jump, 28, 20))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 29, 14))
+
+function foo1b(x: B);
+>foo1b : Symbol(foo1b, Decl(objectTypesIdentityWithPrivates.jump, 29, 25), Decl(objectTypesIdentityWithPrivates.jump, 31, 21), Decl(objectTypesIdentityWithPrivates.jump, 32, 21))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 31, 15))
+>B : Symbol(B, Decl(objectTypesIdentityWithPrivates.jump, 4, 1))
+
+function foo1b(x: B); // error
+>foo1b : Symbol(foo1b, Decl(objectTypesIdentityWithPrivates.jump, 29, 25), Decl(objectTypesIdentityWithPrivates.jump, 31, 21), Decl(objectTypesIdentityWithPrivates.jump, 32, 21))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 32, 15))
+>B : Symbol(B, Decl(objectTypesIdentityWithPrivates.jump, 4, 1))
+
+function foo1b(x: any) { }
+>foo1b : Symbol(foo1b, Decl(objectTypesIdentityWithPrivates.jump, 29, 25), Decl(objectTypesIdentityWithPrivates.jump, 31, 21), Decl(objectTypesIdentityWithPrivates.jump, 32, 21))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 33, 15))
+
+function foo1c(x: C<string>);
+>foo1c : Symbol(foo1c, Decl(objectTypesIdentityWithPrivates.jump, 33, 26), Decl(objectTypesIdentityWithPrivates.jump, 35, 29), Decl(objectTypesIdentityWithPrivates.jump, 36, 29))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 35, 15))
+>C : Symbol(C, Decl(objectTypesIdentityWithPrivates.jump, 8, 1))
+
+function foo1c(x: C<string>); // error
+>foo1c : Symbol(foo1c, Decl(objectTypesIdentityWithPrivates.jump, 33, 26), Decl(objectTypesIdentityWithPrivates.jump, 35, 29), Decl(objectTypesIdentityWithPrivates.jump, 36, 29))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 36, 15))
+>C : Symbol(C, Decl(objectTypesIdentityWithPrivates.jump, 8, 1))
+
+function foo1c(x: any) { }
+>foo1c : Symbol(foo1c, Decl(objectTypesIdentityWithPrivates.jump, 33, 26), Decl(objectTypesIdentityWithPrivates.jump, 35, 29), Decl(objectTypesIdentityWithPrivates.jump, 36, 29))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 37, 15))
+
+function foo2(x: I);
+>foo2 : Symbol(foo2, Decl(objectTypesIdentityWithPrivates.jump, 37, 26), Decl(objectTypesIdentityWithPrivates.jump, 39, 20), Decl(objectTypesIdentityWithPrivates.jump, 40, 20))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 39, 14))
+>I : Symbol(I, Decl(objectTypesIdentityWithPrivates.jump, 12, 1))
+
+function foo2(x: I); // error
+>foo2 : Symbol(foo2, Decl(objectTypesIdentityWithPrivates.jump, 37, 26), Decl(objectTypesIdentityWithPrivates.jump, 39, 20), Decl(objectTypesIdentityWithPrivates.jump, 40, 20))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 40, 14))
+>I : Symbol(I, Decl(objectTypesIdentityWithPrivates.jump, 12, 1))
+
+function foo2(x: any) { }
+>foo2 : Symbol(foo2, Decl(objectTypesIdentityWithPrivates.jump, 37, 26), Decl(objectTypesIdentityWithPrivates.jump, 39, 20), Decl(objectTypesIdentityWithPrivates.jump, 40, 20))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 41, 14))
+
+function foo3(x: typeof a);
+>foo3 : Symbol(foo3, Decl(objectTypesIdentityWithPrivates.jump, 41, 25), Decl(objectTypesIdentityWithPrivates.jump, 43, 27), Decl(objectTypesIdentityWithPrivates.jump, 44, 27))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 43, 14))
+>a : Symbol(a, Decl(objectTypesIdentityWithPrivates.jump, 24, 3))
+
+function foo3(x: typeof a); // error
+>foo3 : Symbol(foo3, Decl(objectTypesIdentityWithPrivates.jump, 41, 25), Decl(objectTypesIdentityWithPrivates.jump, 43, 27), Decl(objectTypesIdentityWithPrivates.jump, 44, 27))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 44, 14))
+>a : Symbol(a, Decl(objectTypesIdentityWithPrivates.jump, 24, 3))
+
+function foo3(x: any) { }
+>foo3 : Symbol(foo3, Decl(objectTypesIdentityWithPrivates.jump, 41, 25), Decl(objectTypesIdentityWithPrivates.jump, 43, 27), Decl(objectTypesIdentityWithPrivates.jump, 44, 27))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 45, 14))
+
+function foo4(x: typeof b);
+>foo4 : Symbol(foo4, Decl(objectTypesIdentityWithPrivates.jump, 45, 25), Decl(objectTypesIdentityWithPrivates.jump, 47, 27), Decl(objectTypesIdentityWithPrivates.jump, 48, 27))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 47, 14))
+>b : Symbol(b, Decl(objectTypesIdentityWithPrivates.jump, 25, 3))
+
+function foo4(x: typeof b); // error
+>foo4 : Symbol(foo4, Decl(objectTypesIdentityWithPrivates.jump, 45, 25), Decl(objectTypesIdentityWithPrivates.jump, 47, 27), Decl(objectTypesIdentityWithPrivates.jump, 48, 27))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 48, 14))
+>b : Symbol(b, Decl(objectTypesIdentityWithPrivates.jump, 25, 3))
+
+function foo4(x: any) { }
+>foo4 : Symbol(foo4, Decl(objectTypesIdentityWithPrivates.jump, 45, 25), Decl(objectTypesIdentityWithPrivates.jump, 47, 27), Decl(objectTypesIdentityWithPrivates.jump, 48, 27))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 49, 14))
+
+function foo5(x: A);
+>foo5 : Symbol(foo5, Decl(objectTypesIdentityWithPrivates.jump, 49, 25), Decl(objectTypesIdentityWithPrivates.jump, 51, 20), Decl(objectTypesIdentityWithPrivates.jump, 52, 20))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 51, 14))
+>A : Symbol(A, Decl(objectTypesIdentityWithPrivates.jump, 0, 0))
+
+function foo5(x: B); // no error
+>foo5 : Symbol(foo5, Decl(objectTypesIdentityWithPrivates.jump, 49, 25), Decl(objectTypesIdentityWithPrivates.jump, 51, 20), Decl(objectTypesIdentityWithPrivates.jump, 52, 20))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 52, 14))
+>B : Symbol(B, Decl(objectTypesIdentityWithPrivates.jump, 4, 1))
+
+function foo5(x: any) { }
+>foo5 : Symbol(foo5, Decl(objectTypesIdentityWithPrivates.jump, 49, 25), Decl(objectTypesIdentityWithPrivates.jump, 51, 20), Decl(objectTypesIdentityWithPrivates.jump, 52, 20))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 53, 14))
+
+function foo5b(x: A);
+>foo5b : Symbol(foo5b, Decl(objectTypesIdentityWithPrivates.jump, 53, 25), Decl(objectTypesIdentityWithPrivates.jump, 55, 21), Decl(objectTypesIdentityWithPrivates.jump, 56, 29))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 55, 15))
+>A : Symbol(A, Decl(objectTypesIdentityWithPrivates.jump, 0, 0))
+
+function foo5b(x: C<string>); // no error
+>foo5b : Symbol(foo5b, Decl(objectTypesIdentityWithPrivates.jump, 53, 25), Decl(objectTypesIdentityWithPrivates.jump, 55, 21), Decl(objectTypesIdentityWithPrivates.jump, 56, 29))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 56, 15))
+>C : Symbol(C, Decl(objectTypesIdentityWithPrivates.jump, 8, 1))
+
+function foo5b(x: any) { }
+>foo5b : Symbol(foo5b, Decl(objectTypesIdentityWithPrivates.jump, 53, 25), Decl(objectTypesIdentityWithPrivates.jump, 55, 21), Decl(objectTypesIdentityWithPrivates.jump, 56, 29))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 57, 15))
+
+function foo5c(x: A);
+>foo5c : Symbol(foo5c, Decl(objectTypesIdentityWithPrivates.jump, 57, 26), Decl(objectTypesIdentityWithPrivates.jump, 59, 21), Decl(objectTypesIdentityWithPrivates.jump, 60, 22))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 59, 15))
+>A : Symbol(A, Decl(objectTypesIdentityWithPrivates.jump, 0, 0))
+
+function foo5c(x: PA); // error
+>foo5c : Symbol(foo5c, Decl(objectTypesIdentityWithPrivates.jump, 57, 26), Decl(objectTypesIdentityWithPrivates.jump, 59, 21), Decl(objectTypesIdentityWithPrivates.jump, 60, 22))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 60, 15))
+>PA : Symbol(PA, Decl(objectTypesIdentityWithPrivates.jump, 16, 1))
+
+function foo5c(x: any) { }
+>foo5c : Symbol(foo5c, Decl(objectTypesIdentityWithPrivates.jump, 57, 26), Decl(objectTypesIdentityWithPrivates.jump, 59, 21), Decl(objectTypesIdentityWithPrivates.jump, 60, 22))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 61, 15))
+
+function foo5d(x: A);
+>foo5d : Symbol(foo5d, Decl(objectTypesIdentityWithPrivates.jump, 61, 26), Decl(objectTypesIdentityWithPrivates.jump, 63, 21), Decl(objectTypesIdentityWithPrivates.jump, 64, 22))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 63, 15))
+>A : Symbol(A, Decl(objectTypesIdentityWithPrivates.jump, 0, 0))
+
+function foo5d(x: PB); // no error
+>foo5d : Symbol(foo5d, Decl(objectTypesIdentityWithPrivates.jump, 61, 26), Decl(objectTypesIdentityWithPrivates.jump, 63, 21), Decl(objectTypesIdentityWithPrivates.jump, 64, 22))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 64, 15))
+>PB : Symbol(PB, Decl(objectTypesIdentityWithPrivates.jump, 19, 1))
+
+function foo5d(x: any) { }
+>foo5d : Symbol(foo5d, Decl(objectTypesIdentityWithPrivates.jump, 61, 26), Decl(objectTypesIdentityWithPrivates.jump, 63, 21), Decl(objectTypesIdentityWithPrivates.jump, 64, 22))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 65, 15))
+
+function foo6(x: A);
+>foo6 : Symbol(foo6, Decl(objectTypesIdentityWithPrivates.jump, 65, 26), Decl(objectTypesIdentityWithPrivates.jump, 67, 20), Decl(objectTypesIdentityWithPrivates.jump, 68, 20))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 67, 14))
+>A : Symbol(A, Decl(objectTypesIdentityWithPrivates.jump, 0, 0))
+
+function foo6(x: I); // no error
+>foo6 : Symbol(foo6, Decl(objectTypesIdentityWithPrivates.jump, 65, 26), Decl(objectTypesIdentityWithPrivates.jump, 67, 20), Decl(objectTypesIdentityWithPrivates.jump, 68, 20))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 68, 14))
+>I : Symbol(I, Decl(objectTypesIdentityWithPrivates.jump, 12, 1))
+
+function foo6(x: any) { }
+>foo6 : Symbol(foo6, Decl(objectTypesIdentityWithPrivates.jump, 65, 26), Decl(objectTypesIdentityWithPrivates.jump, 67, 20), Decl(objectTypesIdentityWithPrivates.jump, 68, 20))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 69, 14))
+
+function foo7(x: A);
+>foo7 : Symbol(foo7, Decl(objectTypesIdentityWithPrivates.jump, 69, 25), Decl(objectTypesIdentityWithPrivates.jump, 71, 20), Decl(objectTypesIdentityWithPrivates.jump, 72, 27))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 71, 14))
+>A : Symbol(A, Decl(objectTypesIdentityWithPrivates.jump, 0, 0))
+
+function foo7(x: typeof a); // no error
+>foo7 : Symbol(foo7, Decl(objectTypesIdentityWithPrivates.jump, 69, 25), Decl(objectTypesIdentityWithPrivates.jump, 71, 20), Decl(objectTypesIdentityWithPrivates.jump, 72, 27))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 72, 14))
+>a : Symbol(a, Decl(objectTypesIdentityWithPrivates.jump, 24, 3))
+
+function foo7(x: any) { }
+>foo7 : Symbol(foo7, Decl(objectTypesIdentityWithPrivates.jump, 69, 25), Decl(objectTypesIdentityWithPrivates.jump, 71, 20), Decl(objectTypesIdentityWithPrivates.jump, 72, 27))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 73, 14))
+
+function foo8(x: B);
+>foo8 : Symbol(foo8, Decl(objectTypesIdentityWithPrivates.jump, 73, 25), Decl(objectTypesIdentityWithPrivates.jump, 75, 20), Decl(objectTypesIdentityWithPrivates.jump, 76, 20))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 75, 14))
+>B : Symbol(B, Decl(objectTypesIdentityWithPrivates.jump, 4, 1))
+
+function foo8(x: I); // no error
+>foo8 : Symbol(foo8, Decl(objectTypesIdentityWithPrivates.jump, 73, 25), Decl(objectTypesIdentityWithPrivates.jump, 75, 20), Decl(objectTypesIdentityWithPrivates.jump, 76, 20))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 76, 14))
+>I : Symbol(I, Decl(objectTypesIdentityWithPrivates.jump, 12, 1))
+
+function foo8(x: any) { }
+>foo8 : Symbol(foo8, Decl(objectTypesIdentityWithPrivates.jump, 73, 25), Decl(objectTypesIdentityWithPrivates.jump, 75, 20), Decl(objectTypesIdentityWithPrivates.jump, 76, 20))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 77, 14))
+
+function foo9(x: B);
+>foo9 : Symbol(foo9, Decl(objectTypesIdentityWithPrivates.jump, 77, 25), Decl(objectTypesIdentityWithPrivates.jump, 79, 20), Decl(objectTypesIdentityWithPrivates.jump, 80, 28))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 79, 14))
+>B : Symbol(B, Decl(objectTypesIdentityWithPrivates.jump, 4, 1))
+
+function foo9(x: C<string>); // no error
+>foo9 : Symbol(foo9, Decl(objectTypesIdentityWithPrivates.jump, 77, 25), Decl(objectTypesIdentityWithPrivates.jump, 79, 20), Decl(objectTypesIdentityWithPrivates.jump, 80, 28))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 80, 14))
+>C : Symbol(C, Decl(objectTypesIdentityWithPrivates.jump, 8, 1))
+
+function foo9(x: any) { }
+>foo9 : Symbol(foo9, Decl(objectTypesIdentityWithPrivates.jump, 77, 25), Decl(objectTypesIdentityWithPrivates.jump, 79, 20), Decl(objectTypesIdentityWithPrivates.jump, 80, 28))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 81, 14))
+
+function foo10(x: B);
+>foo10 : Symbol(foo10, Decl(objectTypesIdentityWithPrivates.jump, 81, 25), Decl(objectTypesIdentityWithPrivates.jump, 83, 21), Decl(objectTypesIdentityWithPrivates.jump, 84, 28))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 83, 15))
+>B : Symbol(B, Decl(objectTypesIdentityWithPrivates.jump, 4, 1))
+
+function foo10(x: typeof a); // no error
+>foo10 : Symbol(foo10, Decl(objectTypesIdentityWithPrivates.jump, 81, 25), Decl(objectTypesIdentityWithPrivates.jump, 83, 21), Decl(objectTypesIdentityWithPrivates.jump, 84, 28))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 84, 15))
+>a : Symbol(a, Decl(objectTypesIdentityWithPrivates.jump, 24, 3))
+
+function foo10(x: any) { }
+>foo10 : Symbol(foo10, Decl(objectTypesIdentityWithPrivates.jump, 81, 25), Decl(objectTypesIdentityWithPrivates.jump, 83, 21), Decl(objectTypesIdentityWithPrivates.jump, 84, 28))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 85, 15))
+
+function foo11(x: B);
+>foo11 : Symbol(foo11, Decl(objectTypesIdentityWithPrivates.jump, 85, 26), Decl(objectTypesIdentityWithPrivates.jump, 87, 21), Decl(objectTypesIdentityWithPrivates.jump, 88, 28))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 87, 15))
+>B : Symbol(B, Decl(objectTypesIdentityWithPrivates.jump, 4, 1))
+
+function foo11(x: typeof b); // no error
+>foo11 : Symbol(foo11, Decl(objectTypesIdentityWithPrivates.jump, 85, 26), Decl(objectTypesIdentityWithPrivates.jump, 87, 21), Decl(objectTypesIdentityWithPrivates.jump, 88, 28))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 88, 15))
+>b : Symbol(b, Decl(objectTypesIdentityWithPrivates.jump, 25, 3))
+
+function foo11(x: any) { }
+>foo11 : Symbol(foo11, Decl(objectTypesIdentityWithPrivates.jump, 85, 26), Decl(objectTypesIdentityWithPrivates.jump, 87, 21), Decl(objectTypesIdentityWithPrivates.jump, 88, 28))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 89, 15))
+
+function foo11b(x: B);
+>foo11b : Symbol(foo11b, Decl(objectTypesIdentityWithPrivates.jump, 89, 26), Decl(objectTypesIdentityWithPrivates.jump, 91, 22), Decl(objectTypesIdentityWithPrivates.jump, 92, 23))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 91, 16))
+>B : Symbol(B, Decl(objectTypesIdentityWithPrivates.jump, 4, 1))
+
+function foo11b(x: PA); // no error
+>foo11b : Symbol(foo11b, Decl(objectTypesIdentityWithPrivates.jump, 89, 26), Decl(objectTypesIdentityWithPrivates.jump, 91, 22), Decl(objectTypesIdentityWithPrivates.jump, 92, 23))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 92, 16))
+>PA : Symbol(PA, Decl(objectTypesIdentityWithPrivates.jump, 16, 1))
+
+function foo11b(x: any) { }
+>foo11b : Symbol(foo11b, Decl(objectTypesIdentityWithPrivates.jump, 89, 26), Decl(objectTypesIdentityWithPrivates.jump, 91, 22), Decl(objectTypesIdentityWithPrivates.jump, 92, 23))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 93, 16))
+
+function foo11c(x: B);
+>foo11c : Symbol(foo11c, Decl(objectTypesIdentityWithPrivates.jump, 93, 27), Decl(objectTypesIdentityWithPrivates.jump, 95, 22), Decl(objectTypesIdentityWithPrivates.jump, 96, 23))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 95, 16))
+>B : Symbol(B, Decl(objectTypesIdentityWithPrivates.jump, 4, 1))
+
+function foo11c(x: PB); // error
+>foo11c : Symbol(foo11c, Decl(objectTypesIdentityWithPrivates.jump, 93, 27), Decl(objectTypesIdentityWithPrivates.jump, 95, 22), Decl(objectTypesIdentityWithPrivates.jump, 96, 23))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 96, 16))
+>PB : Symbol(PB, Decl(objectTypesIdentityWithPrivates.jump, 19, 1))
+
+function foo11c(x: any) { }
+>foo11c : Symbol(foo11c, Decl(objectTypesIdentityWithPrivates.jump, 93, 27), Decl(objectTypesIdentityWithPrivates.jump, 95, 22), Decl(objectTypesIdentityWithPrivates.jump, 96, 23))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 97, 16))
+
+function foo12(x: I);
+>foo12 : Symbol(foo12, Decl(objectTypesIdentityWithPrivates.jump, 97, 27), Decl(objectTypesIdentityWithPrivates.jump, 99, 21), Decl(objectTypesIdentityWithPrivates.jump, 100, 29))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 99, 15))
+>I : Symbol(I, Decl(objectTypesIdentityWithPrivates.jump, 12, 1))
+
+function foo12(x: C<string>); // no error
+>foo12 : Symbol(foo12, Decl(objectTypesIdentityWithPrivates.jump, 97, 27), Decl(objectTypesIdentityWithPrivates.jump, 99, 21), Decl(objectTypesIdentityWithPrivates.jump, 100, 29))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 100, 15))
+>C : Symbol(C, Decl(objectTypesIdentityWithPrivates.jump, 8, 1))
+
+function foo12(x: any) { }
+>foo12 : Symbol(foo12, Decl(objectTypesIdentityWithPrivates.jump, 97, 27), Decl(objectTypesIdentityWithPrivates.jump, 99, 21), Decl(objectTypesIdentityWithPrivates.jump, 100, 29))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 101, 15))
+
+function foo13(x: I);
+>foo13 : Symbol(foo13, Decl(objectTypesIdentityWithPrivates.jump, 101, 26), Decl(objectTypesIdentityWithPrivates.jump, 103, 21), Decl(objectTypesIdentityWithPrivates.jump, 104, 28))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 103, 15))
+>I : Symbol(I, Decl(objectTypesIdentityWithPrivates.jump, 12, 1))
+
+function foo13(x: typeof a); // error
+>foo13 : Symbol(foo13, Decl(objectTypesIdentityWithPrivates.jump, 101, 26), Decl(objectTypesIdentityWithPrivates.jump, 103, 21), Decl(objectTypesIdentityWithPrivates.jump, 104, 28))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 104, 15))
+>a : Symbol(a, Decl(objectTypesIdentityWithPrivates.jump, 24, 3))
+
+function foo13(x: any) { }
+>foo13 : Symbol(foo13, Decl(objectTypesIdentityWithPrivates.jump, 101, 26), Decl(objectTypesIdentityWithPrivates.jump, 103, 21), Decl(objectTypesIdentityWithPrivates.jump, 104, 28))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 105, 15))
+
+function foo14(x: I);
+>foo14 : Symbol(foo14, Decl(objectTypesIdentityWithPrivates.jump, 105, 26), Decl(objectTypesIdentityWithPrivates.jump, 107, 21), Decl(objectTypesIdentityWithPrivates.jump, 108, 28))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 107, 15))
+>I : Symbol(I, Decl(objectTypesIdentityWithPrivates.jump, 12, 1))
+
+function foo14(x: typeof b); // error
+>foo14 : Symbol(foo14, Decl(objectTypesIdentityWithPrivates.jump, 105, 26), Decl(objectTypesIdentityWithPrivates.jump, 107, 21), Decl(objectTypesIdentityWithPrivates.jump, 108, 28))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 108, 15))
+>b : Symbol(b, Decl(objectTypesIdentityWithPrivates.jump, 25, 3))
+
+function foo14(x: any) { }
+>foo14 : Symbol(foo14, Decl(objectTypesIdentityWithPrivates.jump, 105, 26), Decl(objectTypesIdentityWithPrivates.jump, 107, 21), Decl(objectTypesIdentityWithPrivates.jump, 108, 28))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 109, 15))
+
+function foo15(x: I);
+>foo15 : Symbol(foo15, Decl(objectTypesIdentityWithPrivates.jump, 109, 26), Decl(objectTypesIdentityWithPrivates.jump, 111, 21), Decl(objectTypesIdentityWithPrivates.jump, 112, 22))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 111, 15))
+>I : Symbol(I, Decl(objectTypesIdentityWithPrivates.jump, 12, 1))
+
+function foo15(x: PA); // no error
+>foo15 : Symbol(foo15, Decl(objectTypesIdentityWithPrivates.jump, 109, 26), Decl(objectTypesIdentityWithPrivates.jump, 111, 21), Decl(objectTypesIdentityWithPrivates.jump, 112, 22))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 112, 15))
+>PA : Symbol(PA, Decl(objectTypesIdentityWithPrivates.jump, 16, 1))
+
+function foo15(x: any) { }
+>foo15 : Symbol(foo15, Decl(objectTypesIdentityWithPrivates.jump, 109, 26), Decl(objectTypesIdentityWithPrivates.jump, 111, 21), Decl(objectTypesIdentityWithPrivates.jump, 112, 22))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 113, 15))
+
+function foo16(x: I);
+>foo16 : Symbol(foo16, Decl(objectTypesIdentityWithPrivates.jump, 113, 26), Decl(objectTypesIdentityWithPrivates.jump, 115, 21), Decl(objectTypesIdentityWithPrivates.jump, 116, 22))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 115, 15))
+>I : Symbol(I, Decl(objectTypesIdentityWithPrivates.jump, 12, 1))
+
+function foo16(x: PB); // no error
+>foo16 : Symbol(foo16, Decl(objectTypesIdentityWithPrivates.jump, 113, 26), Decl(objectTypesIdentityWithPrivates.jump, 115, 21), Decl(objectTypesIdentityWithPrivates.jump, 116, 22))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 116, 15))
+>PB : Symbol(PB, Decl(objectTypesIdentityWithPrivates.jump, 19, 1))
+
+function foo16(x: any) { }
+>foo16 : Symbol(foo16, Decl(objectTypesIdentityWithPrivates.jump, 113, 26), Decl(objectTypesIdentityWithPrivates.jump, 115, 21), Decl(objectTypesIdentityWithPrivates.jump, 116, 22))
+>x : Symbol(x, Decl(objectTypesIdentityWithPrivates.jump, 117, 15))
+
+

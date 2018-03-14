@@ -1,0 +1,44 @@
+=== tests/cases/compiler/dottedModuleName.jump ===
+module M {
+>M : Symbol(M, Decl(dottedModuleName.jump, 0, 0), Decl(dottedModuleName.jump, 7, 1))
+
+    export module N {
+>N : Symbol(N, Decl(dottedModuleName.jump, 0, 10), Decl(dottedModuleName.jump, 11, 9))
+
+	export function f(x:number)=>2*x;
+>f : Symbol(f, Decl(dottedModuleName.jump, 1, 21))
+>x : Symbol(x, Decl(dottedModuleName.jump, 2, 19))
+
+	export module X.Y.Z {
+>X : Symbol(X, Decl(dottedModuleName.jump, 2, 34), Decl(dottedModuleName.jump, 11, 12))
+>Y : Symbol(Y, Decl(dottedModuleName.jump, 3, 17), Decl(dottedModuleName.jump, 12, 21))
+>Z : Symbol(Z, Decl(dottedModuleName.jump, 3, 19), Decl(dottedModuleName.jump, 13, 17))
+
+	    export var v2=f(v);
+>v2 : Symbol(v2, Decl(dottedModuleName.jump, 4, 15))
+>f : Symbol(f, Decl(dottedModuleName.jump, 1, 21))
+>v : Symbol(v, Decl(dottedModuleName.jump, 14, 15))
+	}
+    }
+}
+
+
+
+module M.N {
+>M : Symbol(M, Decl(dottedModuleName.jump, 0, 0), Decl(dottedModuleName.jump, 7, 1))
+>N : Symbol(N, Decl(dottedModuleName.jump, 0, 10), Decl(dottedModuleName.jump, 11, 9))
+
+    export module X {
+>X : Symbol(X, Decl(dottedModuleName.jump, 2, 34), Decl(dottedModuleName.jump, 11, 12))
+
+	export module Y.Z {
+>Y : Symbol(Y, Decl(dottedModuleName.jump, 3, 17), Decl(dottedModuleName.jump, 12, 21))
+>Z : Symbol(Z, Decl(dottedModuleName.jump, 3, 19), Decl(dottedModuleName.jump, 13, 17))
+
+	    export var v=f(10);
+>v : Symbol(v, Decl(dottedModuleName.jump, 14, 15))
+>f : Symbol(f, Decl(dottedModuleName.jump, 1, 21))
+	}
+    }
+}
+

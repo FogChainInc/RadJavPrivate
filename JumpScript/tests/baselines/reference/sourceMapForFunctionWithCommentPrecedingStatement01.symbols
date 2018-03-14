@@ -1,0 +1,8 @@
+=== tests/cases/compiler/sourceMapForFunctionWithCommentPrecedingStatement01.jump ===
+function P() {
+>P : Symbol(P, Decl(sourceMapForFunctionWithCommentPrecedingStatement01.jump, 0, 0))
+
+    // Test this
+    var a = 1;
+>a : Symbol(a, Decl(sourceMapForFunctionWithCommentPrecedingStatement01.jump, 2, 7))
+}

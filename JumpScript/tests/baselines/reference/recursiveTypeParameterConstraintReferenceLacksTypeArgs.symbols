@@ -1,0 +1,6 @@
+=== tests/cases/compiler/recursiveTypeParameterConstraintReferenceLacksTypeArgs.jump ===
+class A<T extends A> { }
+>A : Symbol(A, Decl(recursiveTypeParameterConstraintReferenceLacksTypeArgs.jump, 0, 0))
+>T : Symbol(T, Decl(recursiveTypeParameterConstraintReferenceLacksTypeArgs.jump, 0, 8))
+>A : Symbol(A, Decl(recursiveTypeParameterConstraintReferenceLacksTypeArgs.jump, 0, 0))
+

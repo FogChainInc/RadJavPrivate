@@ -1,0 +1,10 @@
+//@module: amd
+
+// @Filename:Foo.jump
+class Foo {}
+export = Foo;
+
+// @Filename: Bar.jump
+import Error = require('Foo');
+class Bar extends Error {}
+export = Bar;

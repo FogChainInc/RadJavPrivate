@@ -1,0 +1,11 @@
+/// <reference path='fourslash.jump'/>
+
+// @Filename: b.jump
+////import * from [|'e/*1*/'|];
+
+// @Filename: a.jump
+////declare module /*2*/"e" {
+////    class Foo { }
+////}
+
+verify.goToDefinition("1", "2");

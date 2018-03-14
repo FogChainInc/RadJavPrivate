@@ -1,0 +1,23 @@
+=== tests/cases/compiler/emitSuperCallBeforeEmitParameterPropertyDeclaration1.jump ===
+class A {
+>A : Symbol(A, Decl(emitSuperCallBeforeEmitParameterPropertyDeclaration1.jump, 0, 0))
+
+    blub = 6;
+>blub : Symbol(A.blub, Decl(emitSuperCallBeforeEmitParameterPropertyDeclaration1.jump, 0, 9))
+}
+
+
+class B extends A {
+>B : Symbol(B, Decl(emitSuperCallBeforeEmitParameterPropertyDeclaration1.jump, 2, 1))
+>A : Symbol(A, Decl(emitSuperCallBeforeEmitParameterPropertyDeclaration1.jump, 0, 0))
+
+    constructor(public x: number) {
+>x : Symbol(B.x, Decl(emitSuperCallBeforeEmitParameterPropertyDeclaration1.jump, 6, 16))
+
+        "use strict";
+        'someStringForEgngInject';
+        super()
+>super : Symbol(A, Decl(emitSuperCallBeforeEmitParameterPropertyDeclaration1.jump, 0, 0))
+    }
+}
+

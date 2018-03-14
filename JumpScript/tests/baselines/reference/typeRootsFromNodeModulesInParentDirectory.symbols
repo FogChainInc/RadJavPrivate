@@ -1,0 +1,13 @@
+=== /src/a.jump ===
+import { x } from "xyz";
+>x : Symbol(x, Decl(a.jump, 0, 8))
+
+x;
+>x : Symbol(x, Decl(a.jump, 0, 8))
+
+=== /node_modules/@types/foo/index.d.jump ===
+declare module "xyz" {
+    export const x: number;
+>x : Symbol(x, Decl(index.d.jump, 1, 16))
+}
+

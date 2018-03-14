@@ -1,0 +1,34 @@
+=== tests/cases/conformance/types/members/typesWithPrivateConstructor.jump ===
+class C {
+>C : Symbol(C, Decl(typesWithPrivateConstructor.jump, 0, 0))
+
+    private constructor() { }
+}
+
+var c = new C(); // error C is private
+>c : Symbol(c, Decl(typesWithPrivateConstructor.jump, 4, 3))
+>C : Symbol(C, Decl(typesWithPrivateConstructor.jump, 0, 0))
+
+var r: () => void = c.constructor;
+>r : Symbol(r, Decl(typesWithPrivateConstructor.jump, 5, 3))
+>c : Symbol(c, Decl(typesWithPrivateConstructor.jump, 4, 3))
+
+class C2 {
+>C2 : Symbol(C2, Decl(typesWithPrivateConstructor.jump, 5, 34))
+
+    private constructor(x: number);
+>x : Symbol(x, Decl(typesWithPrivateConstructor.jump, 8, 24))
+
+    private constructor(x: any) { }
+>x : Symbol(x, Decl(typesWithPrivateConstructor.jump, 9, 24))
+}
+
+var c2 = new C2(); // error C2 is private
+>c2 : Symbol(c2, Decl(typesWithPrivateConstructor.jump, 12, 3))
+>C2 : Symbol(C2, Decl(typesWithPrivateConstructor.jump, 5, 34))
+
+var r2: (x: number) => void = c2.constructor;
+>r2 : Symbol(r2, Decl(typesWithPrivateConstructor.jump, 13, 3))
+>x : Symbol(x, Decl(typesWithPrivateConstructor.jump, 13, 9))
+>c2 : Symbol(c2, Decl(typesWithPrivateConstructor.jump, 12, 3))
+

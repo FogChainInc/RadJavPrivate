@@ -1,0 +1,56 @@
+=== tests/cases/conformance/expressions/superCalls/superCalls.jump ===
+class Base {
+>Base : Symbol(Base, Decl(superCalls.jump, 0, 0))
+
+    x = 43;
+>x : Symbol(Base.x, Decl(superCalls.jump, 0, 12))
+
+    constructor(n: string) {
+>n : Symbol(n, Decl(superCalls.jump, 2, 16))
+
+    }
+}
+
+function v(): void { }
+>v : Symbol(v, Decl(superCalls.jump, 5, 1))
+
+class Derived extends Base {
+>Derived : Symbol(Derived, Decl(superCalls.jump, 7, 22))
+>Base : Symbol(Base, Decl(superCalls.jump, 0, 0))
+
+    //super call in class constructor of derived type
+    constructor(public q: number) {
+>q : Symbol(Derived.q, Decl(superCalls.jump, 11, 16))
+
+        super('');
+>super : Symbol(Base, Decl(superCalls.jump, 0, 0))
+
+        //type of super call expression is void
+        var p = super('');
+>p : Symbol(p, Decl(superCalls.jump, 14, 11), Decl(superCalls.jump, 15, 11))
+>super : Symbol(Base, Decl(superCalls.jump, 0, 0))
+
+        var p = v();
+>p : Symbol(p, Decl(superCalls.jump, 14, 11), Decl(superCalls.jump, 15, 11))
+>v : Symbol(v, Decl(superCalls.jump, 5, 1))
+    }
+}
+
+class OtherBase {
+>OtherBase : Symbol(OtherBase, Decl(superCalls.jump, 17, 1))
+
+}
+
+class OtherDerived extends OtherBase {
+>OtherDerived : Symbol(OtherDerived, Decl(superCalls.jump, 21, 1))
+>OtherBase : Symbol(OtherBase, Decl(superCalls.jump, 17, 1))
+
+    constructor() {
+        var p = '';
+>p : Symbol(p, Decl(superCalls.jump, 25, 11))
+
+        super();
+>super : Symbol(OtherBase, Decl(superCalls.jump, 17, 1))
+    }
+}
+

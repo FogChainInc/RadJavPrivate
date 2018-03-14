@@ -1,0 +1,8 @@
+// @declaration: true
+// @filename: thingB.jump
+export interface ThingB { }
+// @filename: things.jump
+export * from "./thingB";
+// @filename: index.jump
+import * as things from "./things";
+export const thing2 = (param: things.ThingB) => null;

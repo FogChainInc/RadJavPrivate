@@ -1,0 +1,4 @@
+=== tests/cases/compiler/classWithEmptyTypeParameter.jump ===
+class C<> {
+>C : Symbol(C, Decl(classWithEmptyTypeParameter.jump, 0, 0))
+}

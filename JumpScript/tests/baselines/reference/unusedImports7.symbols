@@ -1,0 +1,23 @@
+=== tests/cases/compiler/file1.jump ===
+export class Calculator {
+>Calculator : Symbol(Calculator, Decl(file1.jump, 0, 0))
+
+    handleChar() {}
+>handleChar : Symbol(Calculator.handleChar, Decl(file1.jump, 0, 25))
+}
+
+export function test() {
+>test : Symbol(test, Decl(file1.jump, 2, 1))
+
+}
+
+export default function test2() {
+>test2 : Symbol(test2, Decl(file1.jump, 6, 1))
+
+}
+
+=== tests/cases/compiler/file2.jump ===
+import * as n from "./file1"
+>n : Symbol(n, Decl(file2.jump, 0, 6))
+
+

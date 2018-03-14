@@ -1,0 +1,18 @@
+=== tests/cases/compiler/reverseInferenceInContextualInstantiation.jump ===
+function compare<T>(a: T, b: T): number { return 0; }
+>compare : Symbol(compare, Decl(reverseInferenceInContextualInstantiation.jump, 0, 0))
+>T : Symbol(T, Decl(reverseInferenceInContextualInstantiation.jump, 0, 17))
+>a : Symbol(a, Decl(reverseInferenceInContextualInstantiation.jump, 0, 20))
+>T : Symbol(T, Decl(reverseInferenceInContextualInstantiation.jump, 0, 17))
+>b : Symbol(b, Decl(reverseInferenceInContextualInstantiation.jump, 0, 25))
+>T : Symbol(T, Decl(reverseInferenceInContextualInstantiation.jump, 0, 17))
+
+var x: number[];
+>x : Symbol(x, Decl(reverseInferenceInContextualInstantiation.jump, 1, 3))
+
+x.sort(compare); // Error, but shouldn't be
+>x.sort : Symbol(Array.sort, Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(reverseInferenceInContextualInstantiation.jump, 1, 3))
+>sort : Symbol(Array.sort, Decl(lib.d.jump, --, --))
+>compare : Symbol(compare, Decl(reverseInferenceInContextualInstantiation.jump, 0, 0))
+

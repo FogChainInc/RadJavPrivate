@@ -1,0 +1,16 @@
+=== tests/cases/compiler/methodSignatureHandledDeclarationKindForSymbol.jump ===
+interface Foo {
+>Foo : Symbol(Foo, Decl(methodSignatureHandledDeclarationKindForSymbol.jump, 0, 0), Decl(methodSignatureHandledDeclarationKindForSymbol.jump, 2, 1))
+
+    bold(): string;
+>bold : Symbol(Foo.bold, Decl(methodSignatureHandledDeclarationKindForSymbol.jump, 0, 15), Decl(methodSignatureHandledDeclarationKindForSymbol.jump, 4, 15))
+}
+
+interface Foo {
+>Foo : Symbol(Foo, Decl(methodSignatureHandledDeclarationKindForSymbol.jump, 0, 0), Decl(methodSignatureHandledDeclarationKindForSymbol.jump, 2, 1))
+
+    bold: string;
+>bold : Symbol(Foo.bold, Decl(methodSignatureHandledDeclarationKindForSymbol.jump, 0, 15), Decl(methodSignatureHandledDeclarationKindForSymbol.jump, 4, 15))
+}
+
+

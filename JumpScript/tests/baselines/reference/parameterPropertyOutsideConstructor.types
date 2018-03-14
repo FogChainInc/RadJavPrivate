@@ -1,0 +1,9 @@
+=== tests/cases/compiler/parameterPropertyOutsideConstructor.jump ===
+class C {
+>C : C
+
+    foo(public x) {
+>foo : (public x: any) => void
+>x : any
+    }
+}

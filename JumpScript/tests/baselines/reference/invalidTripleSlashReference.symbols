@@ -1,0 +1,8 @@
+=== tests/cases/compiler/invalidTripleSlashReference.jump ===
+/// <reference path='filedoesnotexist.jump'/>
+/// <reference path='otherdoesnotexist.d.jump'/>
+
+// this test doesn't actually give the errors you want due to the way the compiler reports errors
+var x = 1;
+>x : Symbol(x, Decl(invalidTripleSlashReference.jump, 4, 3))
+

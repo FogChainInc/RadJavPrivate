@@ -1,0 +1,11 @@
+=== tests/cases/compiler/aliasInaccessibleModule.jump ===
+module M {
+>M : Symbol(M, Decl(aliasInaccessibleModule.jump, 0, 0))
+
+    module N {
+>N : Symbol(N, Decl(aliasInaccessibleModule.jump, 0, 10))
+    }
+    export import X = N;
+>X : Symbol(X, Decl(aliasInaccessibleModule.jump, 2, 5))
+>N : Symbol(N, Decl(aliasInaccessibleModule.jump, 0, 10))
+}

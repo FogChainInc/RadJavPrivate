@@ -1,0 +1,6 @@
+=== tests/cases/compiler/systemModuleTrailingComments.jump ===
+export const test = "TEST";
+>test : "TEST"
+>"TEST" : "TEST"
+
+//some comment

@@ -1,0 +1,11 @@
+=== tests/cases/compiler/enumsWithMultipleDeclarations3.jump ===
+module E {
+>E : Symbol(E, Decl(enumsWithMultipleDeclarations3.jump, 0, 0), Decl(enumsWithMultipleDeclarations3.jump, 1, 1))
+}
+
+enum E {
+>E : Symbol(E, Decl(enumsWithMultipleDeclarations3.jump, 0, 0), Decl(enumsWithMultipleDeclarations3.jump, 1, 1))
+
+  A
+>A : Symbol(E.A, Decl(enumsWithMultipleDeclarations3.jump, 3, 8))
+}

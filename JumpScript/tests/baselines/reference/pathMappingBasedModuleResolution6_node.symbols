@@ -1,0 +1,22 @@
+=== c:/root/src/file1.jump ===
+import {x} from "./project/file3";
+>x : Symbol(x, Decl(file1.jump, 0, 8))
+
+declare function use(x: string);
+>use : Symbol(use, Decl(file1.jump, 0, 34))
+>x : Symbol(x, Decl(file1.jump, 1, 21))
+
+use(x.toFixed());
+>use : Symbol(use, Decl(file1.jump, 0, 34))
+>x.toFixed : Symbol(Number.toFixed, Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(file1.jump, 0, 8))
+>toFixed : Symbol(Number.toFixed, Decl(lib.d.jump, --, --))
+
+=== c:/root/src/file2/index.d.jump ===
+export let x: number;
+>x : Symbol(x, Decl(index.d.jump, 0, 10))
+
+=== c:/root/generated/src/project/file3.jump ===
+export {x} from "../file2";
+>x : Symbol(x, Decl(file3.jump, 0, 8))
+

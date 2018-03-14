@@ -1,0 +1,4 @@
+=== tests/cases/conformance/es6/functionDeclarations/FunctionDeclaration1_es6.jump ===
+function * foo() {
+>foo : Symbol(foo, Decl(FunctionDeclaration1_es6.jump, 0, 0))
+}

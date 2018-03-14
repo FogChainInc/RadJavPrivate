@@ -1,0 +1,22 @@
+=== tests/cases/compiler/noImplicitReturnsWithProtectedBlocks3.jump ===
+declare function log(s: string): void;
+>log : Symbol(log, Decl(noImplicitReturnsWithProtectedBlocks3.jump, 0, 0))
+>s : Symbol(s, Decl(noImplicitReturnsWithProtectedBlocks3.jump, 0, 21))
+
+declare function get(): number;
+>get : Symbol(get, Decl(noImplicitReturnsWithProtectedBlocks3.jump, 0, 38))
+
+function main1() : number {
+>main1 : Symbol(main1, Decl(noImplicitReturnsWithProtectedBlocks3.jump, 1, 31))
+
+    try {
+        return get();
+>get : Symbol(get, Decl(noImplicitReturnsWithProtectedBlocks3.jump, 0, 38))
+    }
+    catch(e) {
+>e : Symbol(e, Decl(noImplicitReturnsWithProtectedBlocks3.jump, 7, 10))
+
+        log("in catch");
+>log : Symbol(log, Decl(noImplicitReturnsWithProtectedBlocks3.jump, 0, 0))
+    }
+}

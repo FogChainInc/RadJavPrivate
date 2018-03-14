@@ -1,0 +1,67 @@
+=== tests/cases/conformance/types/members/objectTypeWithStringIndexerHidingObjectIndexer.jump ===
+// object types can define string indexers that are more specific than the default 'any' that would be returned
+// no errors expected below 
+
+interface Object {
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(objectTypeWithStringIndexerHidingObjectIndexer.jump, 0, 0))
+
+    [x: string]: Object;
+>x : Symbol(x, Decl(objectTypeWithStringIndexerHidingObjectIndexer.jump, 4, 5))
+>Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(objectTypeWithStringIndexerHidingObjectIndexer.jump, 0, 0))
+}
+var o = {};
+>o : Symbol(o, Decl(objectTypeWithStringIndexerHidingObjectIndexer.jump, 6, 3))
+
+var r = o['']; // should be Object
+>r : Symbol(r, Decl(objectTypeWithStringIndexerHidingObjectIndexer.jump, 7, 3))
+>o : Symbol(o, Decl(objectTypeWithStringIndexerHidingObjectIndexer.jump, 6, 3))
+
+class C {
+>C : Symbol(C, Decl(objectTypeWithStringIndexerHidingObjectIndexer.jump, 7, 14))
+
+    foo: string;
+>foo : Symbol(C.foo, Decl(objectTypeWithStringIndexerHidingObjectIndexer.jump, 9, 9))
+
+    [x: string]: string;
+>x : Symbol(x, Decl(objectTypeWithStringIndexerHidingObjectIndexer.jump, 11, 5))
+}
+var c: C;
+>c : Symbol(c, Decl(objectTypeWithStringIndexerHidingObjectIndexer.jump, 13, 3))
+>C : Symbol(C, Decl(objectTypeWithStringIndexerHidingObjectIndexer.jump, 7, 14))
+
+var r2: string = c[''];
+>r2 : Symbol(r2, Decl(objectTypeWithStringIndexerHidingObjectIndexer.jump, 14, 3))
+>c : Symbol(c, Decl(objectTypeWithStringIndexerHidingObjectIndexer.jump, 13, 3))
+
+interface I {
+>I : Symbol(I, Decl(objectTypeWithStringIndexerHidingObjectIndexer.jump, 14, 23))
+
+    bar: string;
+>bar : Symbol(I.bar, Decl(objectTypeWithStringIndexerHidingObjectIndexer.jump, 16, 13))
+
+    [x: string]: string;
+>x : Symbol(x, Decl(objectTypeWithStringIndexerHidingObjectIndexer.jump, 18, 5))
+}
+var i: I;
+>i : Symbol(i, Decl(objectTypeWithStringIndexerHidingObjectIndexer.jump, 20, 3))
+>I : Symbol(I, Decl(objectTypeWithStringIndexerHidingObjectIndexer.jump, 14, 23))
+
+var r3: string = i[''];
+>r3 : Symbol(r3, Decl(objectTypeWithStringIndexerHidingObjectIndexer.jump, 21, 3))
+>i : Symbol(i, Decl(objectTypeWithStringIndexerHidingObjectIndexer.jump, 20, 3))
+
+var o2: {
+>o2 : Symbol(o2, Decl(objectTypeWithStringIndexerHidingObjectIndexer.jump, 23, 3))
+
+    baz: string;
+>baz : Symbol(baz, Decl(objectTypeWithStringIndexerHidingObjectIndexer.jump, 23, 9))
+
+    [x: string]: string;
+>x : Symbol(x, Decl(objectTypeWithStringIndexerHidingObjectIndexer.jump, 25, 5))
+}
+var r4: string = o2[''];
+>r4 : Symbol(r4, Decl(objectTypeWithStringIndexerHidingObjectIndexer.jump, 27, 3))
+>o2 : Symbol(o2, Decl(objectTypeWithStringIndexerHidingObjectIndexer.jump, 23, 3))
+
+
+

@@ -1,0 +1,43 @@
+=== tests/cases/conformance/statements/breakStatements/invalidForBreakStatements.jump ===
+// All errors
+
+// naked break not allowed
+break;
+
+// non-existent label
+ONE:
+for(;;) break TWO;
+
+// break from inside function
+TWO:
+for(;;) {
+    var x = () => {
+>x : Symbol(x, Decl(invalidForBreakStatements.jump, 12, 7))
+
+        break TWO;
+    }
+}
+
+THREE:
+for(;;) {
+    var fn = function () {
+>fn : Symbol(fn, Decl(invalidForBreakStatements.jump, 19, 7))
+
+        break THREE;
+    }
+}
+
+// break forward
+for(;;) {
+    break FIVE;
+    FIVE:
+    for (; ;) { }
+}
+// label on non-loop statement
+NINE:
+var y = 12;
+>y : Symbol(y, Decl(invalidForBreakStatements.jump, 32, 3))
+
+for(;;) {
+    break NINE;
+}

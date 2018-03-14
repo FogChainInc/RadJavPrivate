@@ -1,0 +1,77 @@
+=== tests/cases/compiler/es6ModuleInternalImport.jump ===
+export module m {
+>m : Symbol(m, Decl(es6ModuleInternalImport.jump, 0, 0))
+
+    export var a = 10;
+>a : Symbol(a, Decl(es6ModuleInternalImport.jump, 1, 14))
+}
+export import a1 = m.a;
+>a1 : Symbol(a1, Decl(es6ModuleInternalImport.jump, 2, 1))
+>m : Symbol(m, Decl(es6ModuleInternalImport.jump, 0, 0))
+>a : Symbol(a2, Decl(es6ModuleInternalImport.jump, 1, 14))
+
+import a2 = m.a;
+>a2 : Symbol(a2, Decl(es6ModuleInternalImport.jump, 3, 23))
+>m : Symbol(m, Decl(es6ModuleInternalImport.jump, 0, 0))
+>a : Symbol(a2, Decl(es6ModuleInternalImport.jump, 1, 14))
+
+var x = a1 + a2;
+>x : Symbol(x, Decl(es6ModuleInternalImport.jump, 5, 3))
+>a1 : Symbol(a1, Decl(es6ModuleInternalImport.jump, 2, 1))
+>a2 : Symbol(a2, Decl(es6ModuleInternalImport.jump, 3, 23))
+
+export module m1 {
+>m1 : Symbol(m1, Decl(es6ModuleInternalImport.jump, 5, 16))
+
+    export import a3 = m.a;
+>a3 : Symbol(a3, Decl(es6ModuleInternalImport.jump, 6, 18))
+>m : Symbol(m, Decl(es6ModuleInternalImport.jump, 0, 0))
+>a : Symbol(a4, Decl(es6ModuleInternalImport.jump, 1, 14))
+
+    import a4 = m.a;
+>a4 : Symbol(a4, Decl(es6ModuleInternalImport.jump, 7, 27))
+>m : Symbol(m, Decl(es6ModuleInternalImport.jump, 0, 0))
+>a : Symbol(a4, Decl(es6ModuleInternalImport.jump, 1, 14))
+
+    var x = a1 + a2;
+>x : Symbol(x, Decl(es6ModuleInternalImport.jump, 9, 7))
+>a1 : Symbol(a1, Decl(es6ModuleInternalImport.jump, 2, 1))
+>a2 : Symbol(a2, Decl(es6ModuleInternalImport.jump, 3, 23))
+
+    var x2 = a3 + a4;
+>x2 : Symbol(x2, Decl(es6ModuleInternalImport.jump, 10, 7))
+>a3 : Symbol(a3, Decl(es6ModuleInternalImport.jump, 6, 18))
+>a4 : Symbol(a4, Decl(es6ModuleInternalImport.jump, 7, 27))
+}
+module m2 {
+>m2 : Symbol(m2, Decl(es6ModuleInternalImport.jump, 11, 1))
+
+    export import a3 = m.a;
+>a3 : Symbol(a3, Decl(es6ModuleInternalImport.jump, 12, 11))
+>m : Symbol(m, Decl(es6ModuleInternalImport.jump, 0, 0))
+>a : Symbol(a4, Decl(es6ModuleInternalImport.jump, 1, 14))
+
+    import a4 = m.a;
+>a4 : Symbol(a4, Decl(es6ModuleInternalImport.jump, 13, 27))
+>m : Symbol(m, Decl(es6ModuleInternalImport.jump, 0, 0))
+>a : Symbol(a4, Decl(es6ModuleInternalImport.jump, 1, 14))
+
+    var x = a1 + a2;
+>x : Symbol(x, Decl(es6ModuleInternalImport.jump, 15, 7))
+>a1 : Symbol(a1, Decl(es6ModuleInternalImport.jump, 2, 1))
+>a2 : Symbol(a2, Decl(es6ModuleInternalImport.jump, 3, 23))
+
+    var x2 = a3 + a4;
+>x2 : Symbol(x2, Decl(es6ModuleInternalImport.jump, 16, 7))
+>a3 : Symbol(a3, Decl(es6ModuleInternalImport.jump, 12, 11))
+>a4 : Symbol(a4, Decl(es6ModuleInternalImport.jump, 13, 27))
+
+    var x4 = m1.a3 + m2.a3;
+>x4 : Symbol(x4, Decl(es6ModuleInternalImport.jump, 17, 7))
+>m1.a3 : Symbol(m1.a3, Decl(es6ModuleInternalImport.jump, 6, 18))
+>m1 : Symbol(m1, Decl(es6ModuleInternalImport.jump, 5, 16))
+>a3 : Symbol(m1.a3, Decl(es6ModuleInternalImport.jump, 6, 18))
+>m2.a3 : Symbol(a3, Decl(es6ModuleInternalImport.jump, 12, 11))
+>m2 : Symbol(m2, Decl(es6ModuleInternalImport.jump, 11, 1))
+>a3 : Symbol(a3, Decl(es6ModuleInternalImport.jump, 12, 11))
+}

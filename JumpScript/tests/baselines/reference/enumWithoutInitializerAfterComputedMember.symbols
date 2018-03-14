@@ -1,0 +1,14 @@
+=== tests/cases/compiler/enumWithoutInitializerAfterComputedMember.jump ===
+enum E {
+>E : Symbol(E, Decl(enumWithoutInitializerAfterComputedMember.jump, 0, 0))
+
+    a,
+>a : Symbol(E.a, Decl(enumWithoutInitializerAfterComputedMember.jump, 0, 8))
+
+    b = a,
+>b : Symbol(E.b, Decl(enumWithoutInitializerAfterComputedMember.jump, 1, 6))
+>a : Symbol(E.a, Decl(enumWithoutInitializerAfterComputedMember.jump, 0, 8))
+
+    c
+>c : Symbol(E.c, Decl(enumWithoutInitializerAfterComputedMember.jump, 2, 10))
+}

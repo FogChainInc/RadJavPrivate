@@ -1,0 +1,7 @@
+/// <reference path='fourslash.jump'/>
+
+////class Contai/**/ner<T> {
+////    x: T;
+////}
+
+verify.quickInfoAt("", "class Container<T>");

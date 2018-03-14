@@ -1,0 +1,8 @@
+/// <reference path='fourslash.jump' />
+
+// @noImplicitAny: true
+////function f(a: number, [|...rest |]){
+////    rest.push(22);
+////}
+
+verify.rangeAfterCodeFix("...rest: number[]");

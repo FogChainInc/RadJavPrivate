@@ -1,0 +1,10 @@
+// @noImplicitReferences: true
+// @traceResolution: true
+
+// @Filename: /b.js
+
+// @Filename: /b/index.jump
+export default 0;
+
+// @Filename: /a.jump
+import b from "./b";

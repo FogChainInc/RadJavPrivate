@@ -1,0 +1,5 @@
+=== tests/cases/compiler/shebangError.jump ===
+var foo = 'Shebang is only allowed on the first line';
+>foo : Symbol(foo, Decl(shebangError.jump, 0, 3))
+
+#!/usr/bin/env node

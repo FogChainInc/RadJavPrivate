@@ -1,0 +1,628 @@
+=== tests/cases/compiler/sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump ===
+declare var console: {
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 11))
+
+    log(msg: any): void;
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>msg : Symbol(msg, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 1, 8))
+}
+interface Robot {
+>Robot : Symbol(Robot, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 2, 1))
+
+    name: string;
+>name : Symbol(Robot.name, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 3, 17))
+
+    skill: string;
+>skill : Symbol(Robot.skill, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 4, 17))
+}
+
+interface MultiRobot {
+>MultiRobot : Symbol(MultiRobot, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 6, 1))
+
+    name: string;
+>name : Symbol(MultiRobot.name, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 8, 22))
+
+    skills: {
+>skills : Symbol(MultiRobot.skills, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 9, 17))
+
+        primary?: string;
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 10, 13))
+
+        secondary?: string;
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 11, 25))
+
+    };
+}
+
+let robot: Robot = { name: "mower", skill: "mowing" };
+>robot : Symbol(robot, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 16, 3))
+>Robot : Symbol(Robot, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 2, 1))
+>name : Symbol(name, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 16, 20))
+>skill : Symbol(skill, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 16, 35))
+
+let multiRobot: MultiRobot = { name: "mower", skills: { primary: "mowing", secondary: "none" } };
+>multiRobot : Symbol(multiRobot, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 17, 3))
+>MultiRobot : Symbol(MultiRobot, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 6, 1))
+>name : Symbol(name, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 17, 30))
+>skills : Symbol(skills, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 17, 45))
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 17, 55))
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 17, 74))
+
+function getRobot() {
+>getRobot : Symbol(getRobot, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 17, 97))
+
+    return robot;
+>robot : Symbol(robot, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 16, 3))
+}
+function getMultiRobot() {
+>getMultiRobot : Symbol(getMultiRobot, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 20, 1))
+
+    return multiRobot;
+>multiRobot : Symbol(multiRobot, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 17, 3))
+}
+
+let nameA: string, primaryA: string, secondaryA: string, i: number, skillA: string;
+>nameA : Symbol(nameA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 3))
+>primaryA : Symbol(primaryA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 18))
+>secondaryA : Symbol(secondaryA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 36))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>skillA : Symbol(skillA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 67))
+
+let name: string, primary: string, secondary: string, skill: string;
+>name : Symbol(name, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 26, 3))
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 26, 17))
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 26, 34))
+>skill : Symbol(skill, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 26, 53))
+
+for ({name: nameA = "noName" } = robot, i = 0; i < 1; i++) {
+>name : Symbol(name, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 28, 6))
+>nameA : Symbol(nameA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 3))
+>robot : Symbol(robot, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 16, 3))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+
+    console.log(nameA);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>nameA : Symbol(nameA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 3))
+}
+for ({name: nameA = "noName" } = getRobot(), i = 0; i < 1; i++) {
+>name : Symbol(name, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 31, 6))
+>nameA : Symbol(nameA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 3))
+>getRobot : Symbol(getRobot, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 17, 97))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+
+    console.log(nameA);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>nameA : Symbol(nameA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 3))
+}
+for ({name: nameA = "noName" } = <Robot>{ name: "trimmer", skill: "trimming" }, i = 0; i < 1; i++) {
+>name : Symbol(name, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 34, 6))
+>nameA : Symbol(nameA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 3))
+>Robot : Symbol(Robot, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 2, 1))
+>name : Symbol(name, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 34, 41))
+>skill : Symbol(skill, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 34, 58))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+
+    console.log(nameA);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>nameA : Symbol(nameA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 3))
+}
+for ({
+    skills: {
+>skills : Symbol(skills, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 37, 6))
+
+        primary: primaryA = "primary",
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 38, 13))
+>primaryA : Symbol(primaryA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 18))
+
+        secondary: secondaryA = "secondary"
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 39, 38))
+>secondaryA : Symbol(secondaryA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 36))
+
+    } = { primary: "none", secondary: "none" }
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 41, 9))
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 41, 26))
+
+} = multiRobot, i = 0; i < 1; i++) {
+>multiRobot : Symbol(multiRobot, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 17, 3))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+
+    console.log(primaryA);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>primaryA : Symbol(primaryA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 18))
+}
+for ({
+    skills: {
+>skills : Symbol(skills, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 45, 6))
+
+        primary: primaryA = "primary",
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 46, 13))
+>primaryA : Symbol(primaryA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 18))
+
+        secondary: secondaryA = "secondary"
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 47, 38))
+>secondaryA : Symbol(secondaryA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 36))
+
+    } = { primary: "none", secondary: "none" }
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 49, 9))
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 49, 26))
+
+} = getMultiRobot(), i = 0; i < 1; i++) {
+>getMultiRobot : Symbol(getMultiRobot, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 20, 1))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+
+    console.log(primaryA);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>primaryA : Symbol(primaryA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 18))
+}
+for ({
+    skills: {
+>skills : Symbol(skills, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 53, 6))
+
+        primary: primaryA = "primary",
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 54, 13))
+>primaryA : Symbol(primaryA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 18))
+
+        secondary: secondaryA = "secondary"
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 55, 38))
+>secondaryA : Symbol(secondaryA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 36))
+
+    } = { primary: "none", secondary: "none" }
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 57, 9))
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 57, 26))
+
+} = <MultiRobot>{ name: "trimmer", skills: { primary: "trimming", secondary: "edging" } },
+>MultiRobot : Symbol(MultiRobot, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 6, 1))
+>name : Symbol(name, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 58, 17))
+>skills : Symbol(skills, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 58, 34))
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 58, 44))
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 58, 65))
+
+    i = 0; i < 1; i++) {
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+
+    console.log(primaryA);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>primaryA : Symbol(primaryA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 18))
+}
+
+for ({ name = "noName" } = robot, i = 0; i < 1; i++) {
+>name : Symbol(name, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 63, 6))
+>robot : Symbol(robot, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 16, 3))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+
+    console.log(nameA);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>nameA : Symbol(nameA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 3))
+}
+for ({ name = "noName" } = getRobot(), i = 0; i < 1; i++) {
+>name : Symbol(name, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 66, 6))
+>getRobot : Symbol(getRobot, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 17, 97))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+
+    console.log(nameA);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>nameA : Symbol(nameA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 3))
+}
+for ({ name = "noName" } = <Robot>{ name: "trimmer", skill: "trimming" }, i = 0; i < 1; i++) {
+>name : Symbol(name, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 69, 6))
+>Robot : Symbol(Robot, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 2, 1))
+>name : Symbol(name, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 69, 35))
+>skill : Symbol(skill, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 69, 52))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+
+    console.log(nameA);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>nameA : Symbol(nameA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 3))
+}
+for ({
+    skills: {
+>skills : Symbol(skills, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 72, 6))
+
+        primary = "primary",
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 73, 13))
+
+        secondary = "secondary"
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 74, 28))
+
+    } = { primary: "none", secondary: "none" }
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 76, 9))
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 76, 26))
+
+} = multiRobot, i = 0; i < 1; i++) {
+>multiRobot : Symbol(multiRobot, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 17, 3))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+
+    console.log(primaryA);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>primaryA : Symbol(primaryA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 18))
+}
+for ({
+    skills: {
+>skills : Symbol(skills, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 80, 6))
+
+        primary = "primary",
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 81, 13))
+
+        secondary = "secondary"
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 82, 28))
+
+    } = { primary: "none", secondary: "none" }
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 84, 9))
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 84, 26))
+
+} = getMultiRobot(), i = 0; i < 1; i++) {
+>getMultiRobot : Symbol(getMultiRobot, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 20, 1))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+
+    console.log(primaryA);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>primaryA : Symbol(primaryA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 18))
+}
+for ({
+    skills: {
+>skills : Symbol(skills, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 88, 6))
+
+        primary = "primary",
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 89, 13))
+
+        secondary = "secondary"
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 90, 28))
+
+    } = { primary: "none", secondary: "none" }
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 92, 9))
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 92, 26))
+
+} = <MultiRobot>{ name: "trimmer", skills: { primary: "trimming", secondary: "edging" } },
+>MultiRobot : Symbol(MultiRobot, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 6, 1))
+>name : Symbol(name, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 93, 17))
+>skills : Symbol(skills, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 93, 34))
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 93, 44))
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 93, 65))
+
+    i = 0; i < 1; i++) {
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+
+    console.log(primaryA);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>primaryA : Symbol(primaryA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 18))
+}
+
+
+for ({name: nameA = "noName", skill: skillA = "skill" } = robot, i = 0; i < 1; i++) {
+>name : Symbol(name, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 99, 6))
+>nameA : Symbol(nameA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 3))
+>skill : Symbol(skill, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 99, 29))
+>skillA : Symbol(skillA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 67))
+>robot : Symbol(robot, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 16, 3))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+
+    console.log(nameA);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>nameA : Symbol(nameA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 3))
+}
+for ({name: nameA = "noName", skill: skillA = "skill" } = getRobot(), i = 0; i < 1; i++) {
+>name : Symbol(name, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 102, 6))
+>nameA : Symbol(nameA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 3))
+>skill : Symbol(skill, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 102, 29))
+>skillA : Symbol(skillA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 67))
+>getRobot : Symbol(getRobot, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 17, 97))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+
+    console.log(nameA);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>nameA : Symbol(nameA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 3))
+}
+for ({name: nameA = "noName", skill: skillA = "skill" } = <Robot>{ name: "trimmer", skill: "trimming" }, i = 0; i < 1; i++) {
+>name : Symbol(name, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 105, 6))
+>nameA : Symbol(nameA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 3))
+>skill : Symbol(skill, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 105, 29))
+>skillA : Symbol(skillA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 67))
+>Robot : Symbol(Robot, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 2, 1))
+>name : Symbol(name, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 105, 66))
+>skill : Symbol(skill, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 105, 83))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+
+    console.log(nameA);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>nameA : Symbol(nameA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 3))
+}
+for ({
+    name: nameA = "noName",
+>name : Symbol(name, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 108, 6))
+>nameA : Symbol(nameA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 3))
+
+    skills: {
+>skills : Symbol(skills, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 109, 27))
+
+        primary: primaryA = "primary",
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 110, 13))
+>primaryA : Symbol(primaryA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 18))
+
+        secondary: secondaryA = "secondary"
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 111, 38))
+>secondaryA : Symbol(secondaryA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 36))
+
+    } = { primary: "none", secondary: "none" }
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 113, 9))
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 113, 26))
+
+} = multiRobot, i = 0; i < 1; i++) {
+>multiRobot : Symbol(multiRobot, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 17, 3))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+
+    console.log(primaryA);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>primaryA : Symbol(primaryA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 18))
+}
+for ({
+    name: nameA = "noName",
+>name : Symbol(name, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 117, 6))
+>nameA : Symbol(nameA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 3))
+
+    skills: {
+>skills : Symbol(skills, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 118, 27))
+
+        primary: primaryA = "primary",
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 119, 13))
+>primaryA : Symbol(primaryA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 18))
+
+        secondary: secondaryA = "secondary"
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 120, 38))
+>secondaryA : Symbol(secondaryA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 36))
+
+    } = { primary: "none", secondary: "none" }
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 122, 9))
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 122, 26))
+
+} = getMultiRobot(), i = 0; i < 1; i++) {
+>getMultiRobot : Symbol(getMultiRobot, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 20, 1))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+
+    console.log(primaryA);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>primaryA : Symbol(primaryA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 18))
+}
+for ({
+    name: nameA = "noName",
+>name : Symbol(name, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 126, 6))
+>nameA : Symbol(nameA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 3))
+
+    skills: {
+>skills : Symbol(skills, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 127, 27))
+
+        primary: primaryA = "primary",
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 128, 13))
+>primaryA : Symbol(primaryA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 18))
+
+        secondary: secondaryA = "secondary"
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 129, 38))
+>secondaryA : Symbol(secondaryA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 36))
+
+    } = { primary: "none", secondary: "none" }
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 131, 9))
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 131, 26))
+
+} = <MultiRobot>{ name: "trimmer", skills: { primary: "trimming", secondary: "edging" } },
+>MultiRobot : Symbol(MultiRobot, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 6, 1))
+>name : Symbol(name, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 132, 17))
+>skills : Symbol(skills, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 132, 34))
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 132, 44))
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 132, 65))
+
+    i = 0; i < 1; i++) {
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+
+    console.log(primaryA);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>primaryA : Symbol(primaryA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 18))
+}
+
+for ({ name = "noName", skill = "skill" } = robot, i = 0; i < 1; i++) {
+>name : Symbol(name, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 137, 6))
+>skill : Symbol(skill, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 137, 23))
+>robot : Symbol(robot, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 16, 3))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+
+    console.log(nameA);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>nameA : Symbol(nameA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 3))
+}
+for ({ name = "noName", skill = "skill" } = getRobot(), i = 0; i < 1; i++) {
+>name : Symbol(name, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 140, 6))
+>skill : Symbol(skill, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 140, 23))
+>getRobot : Symbol(getRobot, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 17, 97))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+
+    console.log(nameA);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>nameA : Symbol(nameA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 3))
+}
+for ({ name = "noName", skill = "skill" } = <Robot>{ name: "trimmer", skill: "trimming" }, i = 0; i < 1; i++) {
+>name : Symbol(name, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 143, 6))
+>skill : Symbol(skill, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 143, 23))
+>Robot : Symbol(Robot, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 2, 1))
+>name : Symbol(name, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 143, 52))
+>skill : Symbol(skill, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 143, 69))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+
+    console.log(nameA);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>nameA : Symbol(nameA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 3))
+}
+for ({
+    name = "noName",
+>name : Symbol(name, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 146, 6))
+
+    skills: {
+>skills : Symbol(skills, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 147, 20))
+
+        primary = "primary",
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 148, 13))
+
+        secondary = "secondary"
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 149, 28))
+
+    } = { primary: "none", secondary: "none" }
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 151, 9))
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 151, 26))
+
+} = multiRobot, i = 0; i < 1; i++) {
+>multiRobot : Symbol(multiRobot, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 17, 3))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+
+    console.log(primaryA);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>primaryA : Symbol(primaryA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 18))
+}
+for ({
+    name = "noName",
+>name : Symbol(name, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 155, 6))
+
+    skills: {
+>skills : Symbol(skills, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 156, 20))
+
+        primary = "primary",
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 157, 13))
+
+        secondary = "secondary"
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 158, 28))
+
+    } = { primary: "none", secondary: "none" }
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 160, 9))
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 160, 26))
+
+} = getMultiRobot(), i = 0; i < 1; i++) {
+>getMultiRobot : Symbol(getMultiRobot, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 20, 1))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+
+    console.log(primaryA);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>primaryA : Symbol(primaryA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 18))
+}
+for ({
+    name = "noName",
+>name : Symbol(name, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 164, 6))
+
+    skills: {
+>skills : Symbol(skills, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 165, 20))
+
+        primary = "primary",
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 166, 13))
+
+        secondary = "secondary"
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 167, 28))
+
+    } = { primary: "none", secondary: "none" }
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 169, 9))
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 169, 26))
+
+} = <MultiRobot>{ name: "trimmer", skills: { primary: "trimming", secondary: "edging" } },
+>MultiRobot : Symbol(MultiRobot, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 6, 1))
+>name : Symbol(name, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 170, 17))
+>skills : Symbol(skills, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 170, 34))
+>primary : Symbol(primary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 170, 44))
+>secondary : Symbol(secondary, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 170, 65))
+
+    i = 0; i < 1; i++) {
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+>i : Symbol(i, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 56))
+
+    console.log(primaryA);
+>console.log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>console : Symbol(console, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 11))
+>log : Symbol(log, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 0, 22))
+>primaryA : Symbol(primaryA, Decl(sourceMapValidationDestructuringForObjectBindingPatternDefaultValues2.jump, 25, 18))
+}

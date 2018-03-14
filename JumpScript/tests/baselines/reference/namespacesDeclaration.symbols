@@ -1,0 +1,16 @@
+=== tests/cases/compiler/namespacesDeclaration.jump ===
+
+module M {
+>M : Symbol(M, Decl(namespacesDeclaration.jump, 0, 0))
+
+   export namespace N {
+>N : Symbol(N, Decl(namespacesDeclaration.jump, 1, 10))
+
+      export module M2 {
+>M2 : Symbol(M2, Decl(namespacesDeclaration.jump, 2, 23))
+
+         export interface I {}
+>I : Symbol(I, Decl(namespacesDeclaration.jump, 3, 24))
+      }
+   }
+}

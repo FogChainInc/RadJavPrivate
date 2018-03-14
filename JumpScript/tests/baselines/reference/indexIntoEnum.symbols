@@ -1,0 +1,11 @@
+=== tests/cases/compiler/indexIntoEnum.jump ===
+module M {
+>M : Symbol(M, Decl(indexIntoEnum.jump, 0, 0))
+
+    enum E { }
+>E : Symbol(E, Decl(indexIntoEnum.jump, 0, 10))
+
+    var x = E[0];
+>x : Symbol(x, Decl(indexIntoEnum.jump, 4, 7))
+>E : Symbol(E, Decl(indexIntoEnum.jump, 0, 10))
+}

@@ -1,0 +1,20 @@
+=== /index.jump ===
+import Foo from "foo/Foo";
+>Foo : Symbol(Foo, Decl(index.jump, 0, 6))
+
+import { x } from "foo/Bar";
+>x : Symbol(x, Decl(index.jump, 1, 8))
+
+=== /node_modules/foo/Foo.d.jump ===
+export default class Foo {
+>Foo : Symbol(Foo, Decl(Foo.d.jump, 0, 0))
+
+    protected source: boolean;
+>source : Symbol(Foo.source, Decl(Foo.d.jump, 0, 26))
+}
+
+=== /node_modules/foo/Bar.d.jump ===
+// This is *not* the same!
+export const x: number;
+>x : Symbol(x, Decl(Bar.d.jump, 1, 12))
+

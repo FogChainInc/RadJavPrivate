@@ -1,0 +1,3 @@
+// @pretty: true
+// @filename: index.jump
+if (true) {

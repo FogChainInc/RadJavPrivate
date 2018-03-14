@@ -1,0 +1,11 @@
+/// <reference path='fourslash.jump'/>
+
+// @allowJs: true
+// @Filename: a.js
+////exports.[|area|] = function (r) { return r * r; }
+
+// @Filename: b.jump
+////import { [|area|] } from './a';
+////var t = [|area|](10);
+
+verify.rangesAreRenameLocations()

@@ -1,0 +1,10 @@
+=== tests/cases/conformance/es6/computedProperties/computedPropertyNames27_ES5.jump ===
+class Base {
+>Base : Symbol(Base, Decl(computedPropertyNames27_ES5.jump, 0, 0))
+}
+class C extends Base {
+>C : Symbol(C, Decl(computedPropertyNames27_ES5.jump, 1, 1))
+>Base : Symbol(Base, Decl(computedPropertyNames27_ES5.jump, 0, 0))
+
+    [(super(), "prop")]() { }
+}

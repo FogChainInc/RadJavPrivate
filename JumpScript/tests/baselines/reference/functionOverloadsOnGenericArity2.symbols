@@ -1,0 +1,20 @@
+=== tests/cases/compiler/functionOverloadsOnGenericArity2.jump ===
+interface I {
+>I : Symbol(I, Decl(functionOverloadsOnGenericArity2.jump, 0, 0))
+
+    then(p: string): string;
+>then : Symbol(I.then, Decl(functionOverloadsOnGenericArity2.jump, 0, 13), Decl(functionOverloadsOnGenericArity2.jump, 1, 28), Decl(functionOverloadsOnGenericArity2.jump, 2, 31))
+>p : Symbol(p, Decl(functionOverloadsOnGenericArity2.jump, 1, 9))
+
+    then<U>(p: string): string;
+>then : Symbol(I.then, Decl(functionOverloadsOnGenericArity2.jump, 0, 13), Decl(functionOverloadsOnGenericArity2.jump, 1, 28), Decl(functionOverloadsOnGenericArity2.jump, 2, 31))
+>U : Symbol(U, Decl(functionOverloadsOnGenericArity2.jump, 2, 9))
+>p : Symbol(p, Decl(functionOverloadsOnGenericArity2.jump, 2, 12))
+
+    then<U, T>(p: string): Date;
+>then : Symbol(I.then, Decl(functionOverloadsOnGenericArity2.jump, 0, 13), Decl(functionOverloadsOnGenericArity2.jump, 1, 28), Decl(functionOverloadsOnGenericArity2.jump, 2, 31))
+>U : Symbol(U, Decl(functionOverloadsOnGenericArity2.jump, 3, 9))
+>T : Symbol(T, Decl(functionOverloadsOnGenericArity2.jump, 3, 11))
+>p : Symbol(p, Decl(functionOverloadsOnGenericArity2.jump, 3, 15))
+>Date : Symbol(Date, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+}

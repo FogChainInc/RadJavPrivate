@@ -1,0 +1,26 @@
+=== tests/cases/conformance/classes/constructorDeclarations/constructorParameters/constructorDefaultValuesReferencingThis.jump ===
+class C {
+>C : Symbol(C, Decl(constructorDefaultValuesReferencingThis.jump, 0, 0))
+
+    constructor(x = this) { }
+>x : Symbol(x, Decl(constructorDefaultValuesReferencingThis.jump, 1, 16))
+>this : Symbol(C, Decl(constructorDefaultValuesReferencingThis.jump, 0, 0))
+}
+
+class D<T> {
+>D : Symbol(D, Decl(constructorDefaultValuesReferencingThis.jump, 2, 1))
+>T : Symbol(T, Decl(constructorDefaultValuesReferencingThis.jump, 4, 8))
+
+    constructor(x = this) { }
+>x : Symbol(x, Decl(constructorDefaultValuesReferencingThis.jump, 5, 16))
+>this : Symbol(D, Decl(constructorDefaultValuesReferencingThis.jump, 2, 1))
+}
+
+class E<T> {
+>E : Symbol(E, Decl(constructorDefaultValuesReferencingThis.jump, 6, 1))
+>T : Symbol(T, Decl(constructorDefaultValuesReferencingThis.jump, 8, 8))
+
+    constructor(public x = this) { }
+>x : Symbol(E.x, Decl(constructorDefaultValuesReferencingThis.jump, 9, 16))
+>this : Symbol(E, Decl(constructorDefaultValuesReferencingThis.jump, 6, 1))
+}

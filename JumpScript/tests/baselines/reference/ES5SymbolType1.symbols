@@ -1,0 +1,9 @@
+=== tests/cases/conformance/Symbols/ES5SymbolType1.jump ===
+var s: symbol;
+>s : Symbol(s, Decl(ES5SymbolType1.jump, 0, 3))
+
+s.toString();
+>s.toString : Symbol(Object.toString, Decl(lib.d.jump, --, --))
+>s : Symbol(s, Decl(ES5SymbolType1.jump, 0, 3))
+>toString : Symbol(Object.toString, Decl(lib.d.jump, --, --))
+

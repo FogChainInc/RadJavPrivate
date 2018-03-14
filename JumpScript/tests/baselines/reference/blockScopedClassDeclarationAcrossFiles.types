@@ -1,0 +1,9 @@
+=== tests/cases/compiler/c.jump ===
+let foo: typeof C;
+>foo : typeof C
+>C : typeof C
+
+=== tests/cases/compiler/b.jump ===
+class C { }
+>C : C
+

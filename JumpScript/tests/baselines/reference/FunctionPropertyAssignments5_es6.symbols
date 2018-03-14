@@ -1,0 +1,4 @@
+=== tests/cases/conformance/es6/functionPropertyAssignments/FunctionPropertyAssignments5_es6.jump ===
+var v = { *[foo()]() { } }
+>v : Symbol(v, Decl(FunctionPropertyAssignments5_es6.jump, 0, 3))
+

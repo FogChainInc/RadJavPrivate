@@ -1,0 +1,15 @@
+=== /a/b/c/app.jump ===
+export let x = 1;
+>x : number
+>1 : 1
+
+=== /a/b/c/lib1.jump ===
+export let x = 1;
+>x : number
+>1 : 1
+
+=== /a/b/c/lib2.jump ===
+export let x = 1;
+>x : number
+>1 : 1
+

@@ -1,0 +1,47 @@
+=== tests/cases/compiler/classWithMultipleBaseClasses.jump ===
+class A {
+>A : Symbol(A, Decl(classWithMultipleBaseClasses.jump, 0, 0))
+
+    foo() { }
+>foo : Symbol(A.foo, Decl(classWithMultipleBaseClasses.jump, 0, 9))
+}
+
+class B {
+>B : Symbol(B, Decl(classWithMultipleBaseClasses.jump, 2, 1))
+
+    bar() { }
+>bar : Symbol(B.bar, Decl(classWithMultipleBaseClasses.jump, 4, 9))
+}
+
+interface I {
+>I : Symbol(I, Decl(classWithMultipleBaseClasses.jump, 6, 1), Decl(classWithMultipleBaseClasses.jump, 20, 1))
+
+    baz();
+>baz : Symbol(I.baz, Decl(classWithMultipleBaseClasses.jump, 8, 13))
+}
+
+interface J {
+>J : Symbol(J, Decl(classWithMultipleBaseClasses.jump, 10, 1))
+
+    bat();
+>bat : Symbol(J.bat, Decl(classWithMultipleBaseClasses.jump, 12, 13))
+}
+
+
+class D implements I, J {
+>D : Symbol(D, Decl(classWithMultipleBaseClasses.jump, 14, 1))
+>I : Symbol(I, Decl(classWithMultipleBaseClasses.jump, 6, 1), Decl(classWithMultipleBaseClasses.jump, 20, 1))
+>J : Symbol(J, Decl(classWithMultipleBaseClasses.jump, 10, 1))
+
+    baz() { }
+>baz : Symbol(D.baz, Decl(classWithMultipleBaseClasses.jump, 17, 25))
+
+    bat() { }
+>bat : Symbol(D.bat, Decl(classWithMultipleBaseClasses.jump, 18, 13))
+}
+
+interface I extends A, B {
+>I : Symbol(I, Decl(classWithMultipleBaseClasses.jump, 6, 1), Decl(classWithMultipleBaseClasses.jump, 20, 1))
+>A : Symbol(A, Decl(classWithMultipleBaseClasses.jump, 0, 0))
+>B : Symbol(B, Decl(classWithMultipleBaseClasses.jump, 2, 1))
+}

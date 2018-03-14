@@ -1,0 +1,71 @@
+=== tests/cases/compiler/correctOrderOfPromiseMethod.jump ===
+interface A {
+>A : Symbol(A, Decl(correctOrderOfPromiseMethod.jump, 0, 0))
+
+    id: string
+>id : Symbol(A.id, Decl(correctOrderOfPromiseMethod.jump, 0, 13))
+}
+
+interface B {
+>B : Symbol(B, Decl(correctOrderOfPromiseMethod.jump, 2, 1))
+
+    id: string
+>id : Symbol(B.id, Decl(correctOrderOfPromiseMethod.jump, 4, 13))
+
+    fieldB: string
+>fieldB : Symbol(B.fieldB, Decl(correctOrderOfPromiseMethod.jump, 5, 14))
+}
+
+async function countEverything(): Promise<number> {
+>countEverything : Symbol(countEverything, Decl(correctOrderOfPromiseMethod.jump, 7, 1))
+>Promise : Symbol(Promise, Decl(lib.es5.d.jump, --, --), Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.iterable.d.jump, --, --), Decl(lib.es2015.promise.d.jump, --, --))
+
+    const providerA = async (): Promise<A[]> => { return [] }
+>providerA : Symbol(providerA, Decl(correctOrderOfPromiseMethod.jump, 10, 9))
+>Promise : Symbol(Promise, Decl(lib.es5.d.jump, --, --), Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.iterable.d.jump, --, --), Decl(lib.es2015.promise.d.jump, --, --))
+>A : Symbol(A, Decl(correctOrderOfPromiseMethod.jump, 0, 0))
+
+    const providerB = async (): Promise<B[]> => { return [] }
+>providerB : Symbol(providerB, Decl(correctOrderOfPromiseMethod.jump, 11, 9))
+>Promise : Symbol(Promise, Decl(lib.es5.d.jump, --, --), Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.iterable.d.jump, --, --), Decl(lib.es2015.promise.d.jump, --, --))
+>B : Symbol(B, Decl(correctOrderOfPromiseMethod.jump, 2, 1))
+
+    const [resultA, resultB] = await Promise.all([
+>resultA : Symbol(resultA, Decl(correctOrderOfPromiseMethod.jump, 13, 11))
+>resultB : Symbol(resultB, Decl(correctOrderOfPromiseMethod.jump, 13, 19))
+>Promise.all : Symbol(PromiseConstructor.all, Decl(lib.es2015.iterable.d.jump, --, --), Decl(lib.es2015.promise.d.jump, --, --), Decl(lib.es2015.promise.d.jump, --, --), Decl(lib.es2015.promise.d.jump, --, --), Decl(lib.es2015.promise.d.jump, --, --) ... and 6 more)
+>Promise : Symbol(Promise, Decl(lib.es5.d.jump, --, --), Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.iterable.d.jump, --, --), Decl(lib.es2015.promise.d.jump, --, --))
+>all : Symbol(PromiseConstructor.all, Decl(lib.es2015.iterable.d.jump, --, --), Decl(lib.es2015.promise.d.jump, --, --), Decl(lib.es2015.promise.d.jump, --, --), Decl(lib.es2015.promise.d.jump, --, --), Decl(lib.es2015.promise.d.jump, --, --) ... and 6 more)
+
+        providerA(),
+>providerA : Symbol(providerA, Decl(correctOrderOfPromiseMethod.jump, 10, 9))
+
+        providerB(),
+>providerB : Symbol(providerB, Decl(correctOrderOfPromiseMethod.jump, 11, 9))
+
+    ]);
+
+    const dataA: A[] = resultA;
+>dataA : Symbol(dataA, Decl(correctOrderOfPromiseMethod.jump, 18, 9))
+>A : Symbol(A, Decl(correctOrderOfPromiseMethod.jump, 0, 0))
+>resultA : Symbol(resultA, Decl(correctOrderOfPromiseMethod.jump, 13, 11))
+
+    const dataB: B[] = resultB;
+>dataB : Symbol(dataB, Decl(correctOrderOfPromiseMethod.jump, 19, 9))
+>B : Symbol(B, Decl(correctOrderOfPromiseMethod.jump, 2, 1))
+>resultB : Symbol(resultB, Decl(correctOrderOfPromiseMethod.jump, 13, 19))
+
+    if (dataA && dataB) {
+>dataA : Symbol(dataA, Decl(correctOrderOfPromiseMethod.jump, 18, 9))
+>dataB : Symbol(dataB, Decl(correctOrderOfPromiseMethod.jump, 19, 9))
+
+        return dataA.length + dataB.length;
+>dataA.length : Symbol(Array.length, Decl(lib.es5.d.jump, --, --))
+>dataA : Symbol(dataA, Decl(correctOrderOfPromiseMethod.jump, 18, 9))
+>length : Symbol(Array.length, Decl(lib.es5.d.jump, --, --))
+>dataB.length : Symbol(Array.length, Decl(lib.es5.d.jump, --, --))
+>dataB : Symbol(dataB, Decl(correctOrderOfPromiseMethod.jump, 19, 9))
+>length : Symbol(Array.length, Decl(lib.es5.d.jump, --, --))
+    }
+    return 0;
+}

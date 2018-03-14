@@ -1,0 +1,24 @@
+=== tests/cases/conformance/classes/indexMemberDeclarations/staticIndexers.jump ===
+// static indexers not allowed
+
+class C {
+>C : Symbol(C, Decl(staticIndexers.jump, 0, 0))
+
+    static [x: string]: string;
+>x : Symbol(x, Decl(staticIndexers.jump, 3, 12))
+}
+
+class D {
+>D : Symbol(D, Decl(staticIndexers.jump, 4, 1))
+
+    static [x: number]: string;
+>x : Symbol(x, Decl(staticIndexers.jump, 7, 12))
+}
+
+class E<T> {
+>E : Symbol(E, Decl(staticIndexers.jump, 8, 1))
+>T : Symbol(T, Decl(staticIndexers.jump, 10, 8))
+
+    static [x: string]: T;
+>x : Symbol(x, Decl(staticIndexers.jump, 11, 12))
+}

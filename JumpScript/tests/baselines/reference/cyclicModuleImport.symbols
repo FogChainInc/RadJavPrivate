@@ -1,0 +1,40 @@
+=== tests/cases/compiler/cyclicModuleImport.jump ===
+declare module "SubModule" {
+    import MainModule = require('MainModule');
+>MainModule : Symbol(MainModule, Decl(cyclicModuleImport.jump, 0, 28))
+
+    class SubModule {
+>SubModule : Symbol(SubModule, Decl(cyclicModuleImport.jump, 1, 46))
+
+        public static StaticVar: number;
+>StaticVar : Symbol(SubModule.StaticVar, Decl(cyclicModuleImport.jump, 2, 21))
+
+        public InstanceVar: number;
+>InstanceVar : Symbol(SubModule.InstanceVar, Decl(cyclicModuleImport.jump, 3, 40))
+
+        public main: MainModule;
+>main : Symbol(SubModule.main, Decl(cyclicModuleImport.jump, 4, 35))
+>MainModule : Symbol(MainModule, Decl(cyclicModuleImport.jump, 0, 28))
+
+        constructor();
+    }
+    export = SubModule;
+>SubModule : Symbol(SubModule, Decl(cyclicModuleImport.jump, 1, 46))
+}
+declare module "MainModule" {
+    import SubModule = require('SubModule');
+>SubModule : Symbol(SubModule, Decl(cyclicModuleImport.jump, 10, 29))
+
+    class MainModule {
+>MainModule : Symbol(MainModule, Decl(cyclicModuleImport.jump, 11, 44))
+
+        public SubModule: SubModule;
+>SubModule : Symbol(MainModule.SubModule, Decl(cyclicModuleImport.jump, 12, 22))
+>SubModule : Symbol(SubModule, Decl(cyclicModuleImport.jump, 10, 29))
+
+        constructor();
+    }
+    export = MainModule;
+>MainModule : Symbol(MainModule, Decl(cyclicModuleImport.jump, 11, 44))
+}
+

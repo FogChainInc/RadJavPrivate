@@ -1,0 +1,33 @@
+=== tests/cases/conformance/classes/members/accessibility/privateInstanceMemberAccessibility.jump ===
+class Base {
+>Base : Symbol(Base, Decl(privateInstanceMemberAccessibility.jump, 0, 0))
+
+    private foo: string;
+>foo : Symbol(Base.foo, Decl(privateInstanceMemberAccessibility.jump, 0, 12))
+}
+
+class Derived extends Base {
+>Derived : Symbol(Derived, Decl(privateInstanceMemberAccessibility.jump, 2, 1))
+>Base : Symbol(Base, Decl(privateInstanceMemberAccessibility.jump, 0, 0))
+
+    x = super.foo; // error
+>x : Symbol(Derived.x, Decl(privateInstanceMemberAccessibility.jump, 4, 28))
+>super.foo : Symbol(Base.foo, Decl(privateInstanceMemberAccessibility.jump, 0, 12))
+>super : Symbol(Base, Decl(privateInstanceMemberAccessibility.jump, 0, 0))
+>foo : Symbol(Base.foo, Decl(privateInstanceMemberAccessibility.jump, 0, 12))
+
+    y() {
+>y : Symbol(Derived.y, Decl(privateInstanceMemberAccessibility.jump, 5, 18))
+
+        return super.foo; // error
+>super.foo : Symbol(Base.foo, Decl(privateInstanceMemberAccessibility.jump, 0, 12))
+>super : Symbol(Base, Decl(privateInstanceMemberAccessibility.jump, 0, 0))
+>foo : Symbol(Base.foo, Decl(privateInstanceMemberAccessibility.jump, 0, 12))
+    }
+    z: typeof super.foo; // error
+>z : Symbol(Derived.z, Decl(privateInstanceMemberAccessibility.jump, 8, 5))
+
+    a: this.foo; // error
+>a : Symbol(Derived.a, Decl(privateInstanceMemberAccessibility.jump, 9, 24))
+>foo : Symbol(Derived.foo, Decl(privateInstanceMemberAccessibility.jump, 11, 12))
+}

@@ -1,0 +1,17 @@
+=== tests/cases/conformance/es6/decorators/class/accessor/decoratorOnClassAccessor1.es6.jump ===
+declare function dec<T>(target: any, propertyKey: string, descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T>;
+>dec : Symbol(dec, Decl(decoratorOnClassAccessor1.es6.jump, 0, 0))
+>T : Symbol(T, Decl(decoratorOnClassAccessor1.es6.jump, 0, 21))
+>target : Symbol(target, Decl(decoratorOnClassAccessor1.es6.jump, 0, 24))
+>propertyKey : Symbol(propertyKey, Decl(decoratorOnClassAccessor1.es6.jump, 0, 36))
+>descriptor : Symbol(descriptor, Decl(decoratorOnClassAccessor1.es6.jump, 0, 57))
+>TypedPropertyDescriptor : Symbol(TypedPropertyDescriptor, Decl(lib.es5.d.jump, --, --))
+>T : Symbol(T, Decl(decoratorOnClassAccessor1.es6.jump, 0, 21))
+>TypedPropertyDescriptor : Symbol(TypedPropertyDescriptor, Decl(lib.es5.d.jump, --, --))
+>T : Symbol(T, Decl(decoratorOnClassAccessor1.es6.jump, 0, 21))
+
+export default class {
+    @dec get accessor() { return 1; }
+>dec : Symbol(dec, Decl(decoratorOnClassAccessor1.es6.jump, 0, 0))
+>accessor : Symbol(default.accessor, Decl(decoratorOnClassAccessor1.es6.jump, 2, 22))
+}

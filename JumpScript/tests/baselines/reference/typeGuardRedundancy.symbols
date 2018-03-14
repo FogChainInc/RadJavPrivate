@@ -1,0 +1,48 @@
+=== tests/cases/conformance/expressions/typeGuards/typeGuardRedundancy.jump ===
+var x: string|number;
+>x : Symbol(x, Decl(typeGuardRedundancy.jump, 0, 3))
+
+var r1 = typeof x === "string" && typeof x === "string" ? x.substr : x.toFixed;
+>r1 : Symbol(r1, Decl(typeGuardRedundancy.jump, 2, 3))
+>x : Symbol(x, Decl(typeGuardRedundancy.jump, 0, 3))
+>x : Symbol(x, Decl(typeGuardRedundancy.jump, 0, 3))
+>x.substr : Symbol(String.substr, Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(typeGuardRedundancy.jump, 0, 3))
+>substr : Symbol(String.substr, Decl(lib.d.jump, --, --))
+>x.toFixed : Symbol(Number.toFixed, Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(typeGuardRedundancy.jump, 0, 3))
+>toFixed : Symbol(Number.toFixed, Decl(lib.d.jump, --, --))
+
+var r2 = !(typeof x === "string" && typeof x === "string") ? x.toFixed : x.substr;
+>r2 : Symbol(r2, Decl(typeGuardRedundancy.jump, 4, 3))
+>x : Symbol(x, Decl(typeGuardRedundancy.jump, 0, 3))
+>x : Symbol(x, Decl(typeGuardRedundancy.jump, 0, 3))
+>x.toFixed : Symbol(Number.toFixed, Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(typeGuardRedundancy.jump, 0, 3))
+>toFixed : Symbol(Number.toFixed, Decl(lib.d.jump, --, --))
+>x.substr : Symbol(String.substr, Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(typeGuardRedundancy.jump, 0, 3))
+>substr : Symbol(String.substr, Decl(lib.d.jump, --, --))
+
+var r3 = typeof x === "string" || typeof x === "string" ? x.substr : x.toFixed;
+>r3 : Symbol(r3, Decl(typeGuardRedundancy.jump, 6, 3))
+>x : Symbol(x, Decl(typeGuardRedundancy.jump, 0, 3))
+>x : Symbol(x, Decl(typeGuardRedundancy.jump, 0, 3))
+>x.substr : Symbol(String.substr, Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(typeGuardRedundancy.jump, 0, 3))
+>substr : Symbol(String.substr, Decl(lib.d.jump, --, --))
+>x.toFixed : Symbol(Number.toFixed, Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(typeGuardRedundancy.jump, 0, 3))
+>toFixed : Symbol(Number.toFixed, Decl(lib.d.jump, --, --))
+
+var r4 = !(typeof x === "string" || typeof x === "string") ? x.toFixed : x.substr;
+>r4 : Symbol(r4, Decl(typeGuardRedundancy.jump, 8, 3))
+>x : Symbol(x, Decl(typeGuardRedundancy.jump, 0, 3))
+>x : Symbol(x, Decl(typeGuardRedundancy.jump, 0, 3))
+>x.toFixed : Symbol(Number.toFixed, Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(typeGuardRedundancy.jump, 0, 3))
+>toFixed : Symbol(Number.toFixed, Decl(lib.d.jump, --, --))
+>x.substr : Symbol(String.substr, Decl(lib.d.jump, --, --))
+>x : Symbol(x, Decl(typeGuardRedundancy.jump, 0, 3))
+>substr : Symbol(String.substr, Decl(lib.d.jump, --, --))
+

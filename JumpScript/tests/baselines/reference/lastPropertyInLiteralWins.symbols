@@ -1,0 +1,44 @@
+=== tests/cases/compiler/lastPropertyInLiteralWins.jump ===
+interface Thing {
+>Thing : Symbol(Thing, Decl(lastPropertyInLiteralWins.jump, 0, 0))
+
+    thunk: (str: string) => void;
+>thunk : Symbol(Thing.thunk, Decl(lastPropertyInLiteralWins.jump, 0, 17))
+>str : Symbol(str, Decl(lastPropertyInLiteralWins.jump, 1, 12))
+}
+function test(thing: Thing) {
+>test : Symbol(test, Decl(lastPropertyInLiteralWins.jump, 2, 1))
+>thing : Symbol(thing, Decl(lastPropertyInLiteralWins.jump, 3, 14))
+>Thing : Symbol(Thing, Decl(lastPropertyInLiteralWins.jump, 0, 0))
+
+    thing.thunk("str");
+>thing.thunk : Symbol(Thing.thunk, Decl(lastPropertyInLiteralWins.jump, 0, 17))
+>thing : Symbol(thing, Decl(lastPropertyInLiteralWins.jump, 3, 14))
+>thunk : Symbol(Thing.thunk, Decl(lastPropertyInLiteralWins.jump, 0, 17))
+}
+test({ // Should error, as last one wins, and is wrong type
+>test : Symbol(test, Decl(lastPropertyInLiteralWins.jump, 2, 1))
+
+    thunk: (str: string) => {},
+>thunk : Symbol(thunk, Decl(lastPropertyInLiteralWins.jump, 6, 6), Decl(lastPropertyInLiteralWins.jump, 7, 31))
+>str : Symbol(str, Decl(lastPropertyInLiteralWins.jump, 7, 12))
+
+    thunk: (num: number) => {}
+>thunk : Symbol(thunk, Decl(lastPropertyInLiteralWins.jump, 6, 6), Decl(lastPropertyInLiteralWins.jump, 7, 31))
+>num : Symbol(num, Decl(lastPropertyInLiteralWins.jump, 8, 12))
+
+});
+
+test({ // Should be OK.  Last 'thunk' is of correct type
+>test : Symbol(test, Decl(lastPropertyInLiteralWins.jump, 2, 1))
+
+    thunk: (num: number) => {},
+>thunk : Symbol(thunk, Decl(lastPropertyInLiteralWins.jump, 11, 6), Decl(lastPropertyInLiteralWins.jump, 12, 31))
+>num : Symbol(num, Decl(lastPropertyInLiteralWins.jump, 12, 12))
+
+    thunk: (str: string) => {}
+>thunk : Symbol(thunk, Decl(lastPropertyInLiteralWins.jump, 11, 6), Decl(lastPropertyInLiteralWins.jump, 12, 31))
+>str : Symbol(str, Decl(lastPropertyInLiteralWins.jump, 13, 12))
+
+});
+

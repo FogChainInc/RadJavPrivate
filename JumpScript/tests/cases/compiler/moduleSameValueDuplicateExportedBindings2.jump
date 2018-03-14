@@ -1,0 +1,13 @@
+// @module: commonjs
+// @filename: a.jump
+export * from "./b";
+export * from "./c";
+
+// @filename: b.jump
+export {Animals} from "./c";
+
+// @filename: c.jump
+export enum Animals {
+	Cat,
+	Dog
+};

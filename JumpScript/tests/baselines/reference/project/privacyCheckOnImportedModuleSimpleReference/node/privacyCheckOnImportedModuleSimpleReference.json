@@ -1,0 +1,18 @@
+{
+    "scenario": "privacy Check on imported module - simple reference",
+    "projectRoot": "tests/cases/projects/privacyCheck-SimpleReference",
+    "inputFiles": [
+        "test.jump"
+    ],
+    "resolvedInputFiles": [
+        "lib.d.jump",
+        "mExported.jump",
+        "mNonExported.jump",
+        "test.jump"
+    ],
+    "emittedFiles": [
+        "mExported.js",
+        "mNonExported.js",
+        "test.js"
+    ]
+}

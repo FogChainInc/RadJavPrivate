@@ -1,0 +1,11 @@
+// @noImplicitReferences: true
+// @traceResolution: true
+
+// @Filename: /node_modules/@foo/bar/package.json
+{ "types": "types.d.jump" }
+
+// @Filename: /node_modules/@foo/bar/types.d.jump
+export const x: number;
+
+// @Filename: /a.jump
+import { x } from "@foo/bar";

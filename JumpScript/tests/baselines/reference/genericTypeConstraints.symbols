@@ -1,0 +1,26 @@
+=== tests/cases/compiler/genericTypeConstraints.jump ===
+class Foo {
+>Foo : Symbol(Foo, Decl(genericTypeConstraints.jump, 0, 0))
+
+    fooMethod() {}
+>fooMethod : Symbol(Foo.fooMethod, Decl(genericTypeConstraints.jump, 0, 11))
+}
+
+class FooExtended { }
+>FooExtended : Symbol(FooExtended, Decl(genericTypeConstraints.jump, 2, 1))
+
+class Bar<T extends Foo> { }
+>Bar : Symbol(Bar, Decl(genericTypeConstraints.jump, 4, 21))
+>T : Symbol(T, Decl(genericTypeConstraints.jump, 6, 10))
+>Foo : Symbol(Foo, Decl(genericTypeConstraints.jump, 0, 0))
+
+class BarExtended extends Bar<FooExtended> {
+>BarExtended : Symbol(BarExtended, Decl(genericTypeConstraints.jump, 6, 28))
+>Bar : Symbol(Bar, Decl(genericTypeConstraints.jump, 4, 21))
+>FooExtended : Symbol(FooExtended, Decl(genericTypeConstraints.jump, 2, 1))
+
+    constructor() {
+        super();
+>super : Symbol(Bar, Decl(genericTypeConstraints.jump, 4, 21))
+    }
+}

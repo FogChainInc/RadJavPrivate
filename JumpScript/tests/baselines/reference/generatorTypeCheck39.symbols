@@ -1,0 +1,21 @@
+=== tests/cases/conformance/es6/yieldExpressions/generatorTypeCheck39.jump ===
+function decorator(x: any) {
+>decorator : Symbol(decorator, Decl(generatorTypeCheck39.jump, 0, 0))
+>x : Symbol(x, Decl(generatorTypeCheck39.jump, 0, 19))
+
+    return y => { };
+>y : Symbol(y, Decl(generatorTypeCheck39.jump, 1, 10))
+}
+function* g() {
+>g : Symbol(g, Decl(generatorTypeCheck39.jump, 2, 1))
+
+    @decorator(yield 0)
+>decorator : Symbol(decorator, Decl(generatorTypeCheck39.jump, 0, 0))
+
+    class C {
+>C : Symbol(C, Decl(generatorTypeCheck39.jump, 3, 15))
+
+        x = yield 0;
+>x : Symbol(C.x, Decl(generatorTypeCheck39.jump, 5, 13))
+    }
+}

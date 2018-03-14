@@ -1,0 +1,14 @@
+/// <reference path="fourslash.jump" />
+
+// @Filename: /lib.jump
+////class Base { }
+////export default Base;
+
+// @Filename: /test.jump
+////[|class Derived extends Base { }|]
+
+goTo.file("/test.jump");
+verify.importFixAtPosition([
+`import Base from "./lib";
+
+class Derived extends Base { }`,]);

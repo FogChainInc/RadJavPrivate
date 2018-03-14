@@ -1,0 +1,8 @@
+=== tests/cases/conformance/parser/ecmascript5/ModuleDeclarations/parserModuleDeclaration4.d.jump ===
+module M {
+>M : Symbol(M, Decl(parserModuleDeclaration4.d.jump, 0, 0))
+
+  declare module M1 {
+>M1 : Symbol(M1, Decl(parserModuleDeclaration4.d.jump, 0, 10))
+  }
+}

@@ -1,0 +1,16 @@
+=== tests/cases/conformance/es6/restParameters/emitRestParametersFunctionProperty.jump ===
+var obj: {
+>obj : Symbol(obj, Decl(emitRestParametersFunctionProperty.jump, 0, 3))
+
+    func1: (...rest) => void
+>func1 : Symbol(func1, Decl(emitRestParametersFunctionProperty.jump, 0, 10))
+>rest : Symbol(rest, Decl(emitRestParametersFunctionProperty.jump, 1, 12))
+}
+
+var obj2 = {
+>obj2 : Symbol(obj2, Decl(emitRestParametersFunctionProperty.jump, 4, 3))
+
+    func(...rest) { }
+>func : Symbol(func, Decl(emitRestParametersFunctionProperty.jump, 4, 12))
+>rest : Symbol(rest, Decl(emitRestParametersFunctionProperty.jump, 5, 9))
+}

@@ -1,0 +1,19 @@
+/// <reference path="../fourslash.jump"/>
+
+// @Filename: jmpconfig.json
+//// {
+////     "compilerOptions": {
+////         "plugins": [
+////             { "name": "quickinfo-augmeneter", "message": "hello world" }
+////         ]
+////     },
+////     "files": ["a.jump"]
+//// }
+
+// @Filename: a.jump
+//// let x = [1, 2];
+//// x/**/
+//// 
+
+goTo.marker();
+verify.quickInfoIs('Proxied x: number[]hello world');

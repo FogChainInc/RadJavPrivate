@@ -1,0 +1,9 @@
+=== tests/cases/conformance/parser/ecmascript6/Symbols/parserSymbolProperty7.jump ===
+class C {
+>C : Symbol(C, Decl(parserSymbolProperty7.jump, 0, 0))
+
+    [Symbol.toStringTag](): void { }
+>Symbol.toStringTag : Symbol(SymbolConstructor.toStringTag, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+>Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
+>toStringTag : Symbol(SymbolConstructor.toStringTag, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
+}

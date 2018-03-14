@@ -1,0 +1,24 @@
+//// [internalAliasInterfaceInsideTopLevelModuleWithoutExport.jump]
+export module a {
+    export interface I {
+    }
+}
+
+import b = a.I;
+export var x: b;
+
+
+//// [internalAliasInterfaceInsideTopLevelModuleWithoutExport.js]
+define(["require", "exports"], function (require, exports) {
+    "use strict";
+    exports.__esModule = true;
+});
+
+
+//// [internalAliasInterfaceInsideTopLevelModuleWithoutExport.d.jump]
+export declare module a {
+    interface I {
+    }
+}
+import b = a.I;
+export declare var x: b;

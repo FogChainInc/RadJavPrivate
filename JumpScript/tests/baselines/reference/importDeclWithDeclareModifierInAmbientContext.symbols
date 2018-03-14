@@ -1,0 +1,19 @@
+=== tests/cases/compiler/importDeclWithDeclareModifierInAmbientContext.jump ===
+declare module "m" {
+    module x {
+>x : Symbol(x, Decl(importDeclWithDeclareModifierInAmbientContext.jump, 0, 20))
+
+        interface c {
+>c : Symbol(c, Decl(importDeclWithDeclareModifierInAmbientContext.jump, 1, 14))
+        }
+    }
+    declare export import a = x.c;
+>a : Symbol(a, Decl(importDeclWithDeclareModifierInAmbientContext.jump, 4, 5))
+>x : Symbol(x, Decl(importDeclWithDeclareModifierInAmbientContext.jump, 0, 20))
+>c : Symbol(a, Decl(importDeclWithDeclareModifierInAmbientContext.jump, 1, 14))
+
+    var b: a;
+>b : Symbol(b, Decl(importDeclWithDeclareModifierInAmbientContext.jump, 6, 7))
+>a : Symbol(a, Decl(importDeclWithDeclareModifierInAmbientContext.jump, 4, 5))
+}
+

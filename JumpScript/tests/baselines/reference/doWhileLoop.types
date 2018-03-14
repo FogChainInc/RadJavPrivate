@@ -1,0 +1,7 @@
+=== tests/cases/compiler/doWhileLoop.jump ===
+do { } while (false);
+>false : false
+
+var n;
+>n : any
+

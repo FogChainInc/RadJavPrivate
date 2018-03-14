@@ -1,0 +1,13 @@
+//@module: commonjs
+//@target: ES3
+
+// @filename: m1.jump
+var R: any
+export default R = {
+    "__esmodule": true,
+    "__proto__": {}
+}
+
+// @filename: m2.jump
+import R from "./m1";
+const { __esmodule, __proto__ } = R;

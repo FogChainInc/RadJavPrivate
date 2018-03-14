@@ -1,0 +1,11 @@
+=== tests/cases/compiler/importedModuleClassNameClash.jump ===
+import foo = m1;
+>foo : typeof foo
+>m1 : any
+ 
+export module m1 { }
+>m1 : any
+ 
+class foo { }
+>foo : foo
+

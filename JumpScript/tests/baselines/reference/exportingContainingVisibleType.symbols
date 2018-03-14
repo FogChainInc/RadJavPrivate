@@ -1,0 +1,20 @@
+=== tests/cases/compiler/exportingContainingVisibleType.jump ===
+class Foo {
+>Foo : Symbol(Foo, Decl(exportingContainingVisibleType.jump, 0, 0))
+
+    public get foo() {
+>foo : Symbol(Foo.foo, Decl(exportingContainingVisibleType.jump, 0, 11))
+
+        var i: Foo;
+>i : Symbol(i, Decl(exportingContainingVisibleType.jump, 2, 11))
+>Foo : Symbol(Foo, Decl(exportingContainingVisibleType.jump, 0, 0))
+
+        return i; // Should be fine (previous bug report visibility error).
+>i : Symbol(i, Decl(exportingContainingVisibleType.jump, 2, 11))
+ 
+    }
+}
+ 
+export var x = 5;
+>x : Symbol(x, Decl(exportingContainingVisibleType.jump, 8, 10))
+

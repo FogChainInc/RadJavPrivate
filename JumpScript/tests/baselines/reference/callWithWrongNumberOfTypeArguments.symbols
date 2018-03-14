@@ -1,0 +1,15 @@
+=== tests/cases/compiler/callWithWrongNumberOfTypeArguments.jump ===
+function f<T, U>() { }
+>f : Symbol(f, Decl(callWithWrongNumberOfTypeArguments.jump, 0, 0))
+>T : Symbol(T, Decl(callWithWrongNumberOfTypeArguments.jump, 0, 11))
+>U : Symbol(U, Decl(callWithWrongNumberOfTypeArguments.jump, 0, 13))
+
+f<number>();
+>f : Symbol(f, Decl(callWithWrongNumberOfTypeArguments.jump, 0, 0))
+
+f<number, string>();
+>f : Symbol(f, Decl(callWithWrongNumberOfTypeArguments.jump, 0, 0))
+
+f<number, string, number>();
+>f : Symbol(f, Decl(callWithWrongNumberOfTypeArguments.jump, 0, 0))
+

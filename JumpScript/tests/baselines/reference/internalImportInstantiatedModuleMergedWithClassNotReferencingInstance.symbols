@@ -1,0 +1,29 @@
+=== tests/cases/compiler/internalImportInstantiatedModuleMergedWithClassNotReferencingInstance.jump ===
+class A {
+>A : Symbol(A, Decl(internalImportInstantiatedModuleMergedWithClassNotReferencingInstance.jump, 0, 0), Decl(internalImportInstantiatedModuleMergedWithClassNotReferencingInstance.jump, 2, 1))
+
+    aProp: string;
+>aProp : Symbol(A.aProp, Decl(internalImportInstantiatedModuleMergedWithClassNotReferencingInstance.jump, 0, 9))
+}
+module A {
+>A : Symbol(A, Decl(internalImportInstantiatedModuleMergedWithClassNotReferencingInstance.jump, 0, 0), Decl(internalImportInstantiatedModuleMergedWithClassNotReferencingInstance.jump, 2, 1))
+
+    export interface X { s: string }
+>X : Symbol(X, Decl(internalImportInstantiatedModuleMergedWithClassNotReferencingInstance.jump, 3, 10))
+>s : Symbol(X.s, Decl(internalImportInstantiatedModuleMergedWithClassNotReferencingInstance.jump, 4, 24))
+
+    export var a = 10;
+>a : Symbol(a, Decl(internalImportInstantiatedModuleMergedWithClassNotReferencingInstance.jump, 5, 14))
+}
+
+module B {
+>B : Symbol(B, Decl(internalImportInstantiatedModuleMergedWithClassNotReferencingInstance.jump, 6, 1))
+
+    var A = 1;
+>A : Symbol(A, Decl(internalImportInstantiatedModuleMergedWithClassNotReferencingInstance.jump, 9, 7))
+
+    import Y = A;
+>Y : Symbol(Y, Decl(internalImportInstantiatedModuleMergedWithClassNotReferencingInstance.jump, 9, 14))
+>A : Symbol(Y, Decl(internalImportInstantiatedModuleMergedWithClassNotReferencingInstance.jump, 0, 0), Decl(internalImportInstantiatedModuleMergedWithClassNotReferencingInstance.jump, 2, 1))
+}
+

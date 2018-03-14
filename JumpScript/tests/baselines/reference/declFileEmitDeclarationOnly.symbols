@@ -1,0 +1,29 @@
+=== tests/cases/compiler/helloworld.jump ===
+const Log = {
+>Log : Symbol(Log, Decl(helloworld.jump, 0, 5))
+
+  info(msg: string) {}
+>info : Symbol(info, Decl(helloworld.jump, 0, 13))
+>msg : Symbol(msg, Decl(helloworld.jump, 1, 7))
+}
+
+class HelloWorld {
+>HelloWorld : Symbol(HelloWorld, Decl(helloworld.jump, 2, 1))
+
+  constructor(private name: string) {
+>name : Symbol(HelloWorld.name, Decl(helloworld.jump, 5, 14))
+  }
+
+  public hello() {
+>hello : Symbol(HelloWorld.hello, Decl(helloworld.jump, 6, 3))
+
+    Log.info(`Hello ${this.name}`);
+>Log.info : Symbol(info, Decl(helloworld.jump, 0, 13))
+>Log : Symbol(Log, Decl(helloworld.jump, 0, 5))
+>info : Symbol(info, Decl(helloworld.jump, 0, 13))
+>this.name : Symbol(HelloWorld.name, Decl(helloworld.jump, 5, 14))
+>this : Symbol(HelloWorld, Decl(helloworld.jump, 2, 1))
+>name : Symbol(HelloWorld.name, Decl(helloworld.jump, 5, 14))
+  }
+}
+

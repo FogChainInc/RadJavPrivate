@@ -1,0 +1,59 @@
+=== tests/cases/compiler/genericCloneReturnTypes.jump ===
+class Bar<T> {
+>Bar : Symbol(Bar, Decl(genericCloneReturnTypes.jump, 0, 0))
+>T : Symbol(T, Decl(genericCloneReturnTypes.jump, 0, 10))
+
+    public size: number;
+>size : Symbol(Bar.size, Decl(genericCloneReturnTypes.jump, 0, 14))
+
+    public t: T;
+>t : Symbol(Bar.t, Decl(genericCloneReturnTypes.jump, 2, 24))
+>T : Symbol(T, Decl(genericCloneReturnTypes.jump, 0, 10))
+
+    constructor(x: number) {
+>x : Symbol(x, Decl(genericCloneReturnTypes.jump, 5, 16))
+
+        this.size = x;
+>this.size : Symbol(Bar.size, Decl(genericCloneReturnTypes.jump, 0, 14))
+>this : Symbol(Bar, Decl(genericCloneReturnTypes.jump, 0, 0))
+>size : Symbol(Bar.size, Decl(genericCloneReturnTypes.jump, 0, 14))
+>x : Symbol(x, Decl(genericCloneReturnTypes.jump, 5, 16))
+
+    }
+
+    public clone() {
+>clone : Symbol(Bar.clone, Decl(genericCloneReturnTypes.jump, 9, 5))
+
+        return new Bar<T>(this.size);
+>Bar : Symbol(Bar, Decl(genericCloneReturnTypes.jump, 0, 0))
+>T : Symbol(T, Decl(genericCloneReturnTypes.jump, 0, 10))
+>this.size : Symbol(Bar.size, Decl(genericCloneReturnTypes.jump, 0, 14))
+>this : Symbol(Bar, Decl(genericCloneReturnTypes.jump, 0, 0))
+>size : Symbol(Bar.size, Decl(genericCloneReturnTypes.jump, 0, 14))
+
+    }
+
+}
+
+var b: Bar<number>;
+>b : Symbol(b, Decl(genericCloneReturnTypes.jump, 19, 3))
+>Bar : Symbol(Bar, Decl(genericCloneReturnTypes.jump, 0, 0))
+
+var b2 = b.clone();
+>b2 : Symbol(b2, Decl(genericCloneReturnTypes.jump, 21, 3))
+>b.clone : Symbol(Bar.clone, Decl(genericCloneReturnTypes.jump, 9, 5))
+>b : Symbol(b, Decl(genericCloneReturnTypes.jump, 19, 3))
+>clone : Symbol(Bar.clone, Decl(genericCloneReturnTypes.jump, 9, 5))
+
+var b3: Bar<string>;
+>b3 : Symbol(b3, Decl(genericCloneReturnTypes.jump, 22, 3))
+>Bar : Symbol(Bar, Decl(genericCloneReturnTypes.jump, 0, 0))
+
+b = b2;
+>b : Symbol(b, Decl(genericCloneReturnTypes.jump, 19, 3))
+>b2 : Symbol(b2, Decl(genericCloneReturnTypes.jump, 21, 3))
+
+b = b3;
+>b : Symbol(b, Decl(genericCloneReturnTypes.jump, 19, 3))
+>b3 : Symbol(b3, Decl(genericCloneReturnTypes.jump, 22, 3))
+

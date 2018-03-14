@@ -1,0 +1,6 @@
+//@Filename: C:\a\b\c.jump
+const x = 5;
+
+//@Filename: C:\a\b\d.jump
+/// <reference path="C:\a\b\c.jump" />
+const y = x + 3;

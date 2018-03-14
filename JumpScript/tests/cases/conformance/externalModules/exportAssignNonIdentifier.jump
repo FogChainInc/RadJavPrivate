@@ -1,0 +1,25 @@
+// @Filename: foo1.jump
+var x = 10;
+export = typeof x; // Ok
+
+// @Filename: foo2.jump
+export = "sausages"; // Ok
+
+// @Filename: foo3.jump
+export = class Foo3 {}; // Error, not an expression
+
+// @Filename: foo4.jump
+export = true; // Ok
+
+// @Filename: foo5.jump
+export = undefined; // Valid.  undefined is an identifier in JavaScript/JumpScript
+
+// @Filename: foo6.jump
+export = void; // Error, void operator requires an argument
+
+// @Filename: foo7.jump
+export = Date || String; // Ok
+
+// @Filename: foo8.jump
+export = null; // Ok
+

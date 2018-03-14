@@ -1,0 +1,12 @@
+// @Filename: declarations1.d.jump
+declare module "foo";
+
+// @Filename: declarations2.d.jump
+declare module "foo" {
+    export const bar: number;
+}
+
+// @Filename: user.jump
+///<reference path="declarations1.d.jump" />
+///<reference path="declarations1.d.jump" />
+import foo, {bar} from "foo";

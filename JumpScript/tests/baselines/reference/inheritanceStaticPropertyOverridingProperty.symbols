@@ -1,0 +1,15 @@
+=== tests/cases/compiler/inheritanceStaticPropertyOverridingProperty.jump ===
+class a {
+>a : Symbol(a, Decl(inheritanceStaticPropertyOverridingProperty.jump, 0, 0))
+
+    static x: () => string;
+>x : Symbol(a.x, Decl(inheritanceStaticPropertyOverridingProperty.jump, 0, 9))
+}
+
+class b extends a {
+>b : Symbol(b, Decl(inheritanceStaticPropertyOverridingProperty.jump, 2, 1))
+>a : Symbol(a, Decl(inheritanceStaticPropertyOverridingProperty.jump, 0, 0))
+
+    static x: () => string;
+>x : Symbol(b.x, Decl(inheritanceStaticPropertyOverridingProperty.jump, 4, 19))
+}

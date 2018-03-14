@@ -1,0 +1,5 @@
+=== tests/cases/compiler/conditionalExpressionNewLine5.jump ===
+var v = a ? b 
+>v : Symbol(v, Decl(conditionalExpressionNewLine5.jump, 0, 3))
+
+  : c;

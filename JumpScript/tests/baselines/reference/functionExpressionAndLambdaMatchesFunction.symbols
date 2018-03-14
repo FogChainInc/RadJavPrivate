@@ -1,0 +1,19 @@
+=== tests/cases/compiler/functionExpressionAndLambdaMatchesFunction.jump ===
+class CDoc {
+>CDoc : Symbol(CDoc, Decl(functionExpressionAndLambdaMatchesFunction.jump, 0, 0))
+
+        constructor() {
+        function doSomething(a: Function) {
+>doSomething : Symbol(doSomething, Decl(functionExpressionAndLambdaMatchesFunction.jump, 1, 23))
+>a : Symbol(a, Decl(functionExpressionAndLambdaMatchesFunction.jump, 2, 29))
+>Function : Symbol(Function, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+        }
+        doSomething(() => undefined);
+>doSomething : Symbol(doSomething, Decl(functionExpressionAndLambdaMatchesFunction.jump, 1, 23))
+>undefined : Symbol(undefined)
+
+        doSomething(function () { });
+>doSomething : Symbol(doSomething, Decl(functionExpressionAndLambdaMatchesFunction.jump, 1, 23))
+    }
+}
+

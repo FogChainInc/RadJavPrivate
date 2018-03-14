@@ -1,0 +1,6 @@
+// @outDir: A:/
+// @Filename: A:/foo/bar.jump
+var x: number;
+
+// @Filename: A:/foo/baz.jump
+var y: number;

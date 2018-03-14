@@ -1,0 +1,11 @@
+=== tests/cases/compiler/errorHandlingInInstanceOf.jump ===
+if (x instanceof String) {
+>String : Symbol(String, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
+}
+
+var y: any;
+>y : Symbol(y, Decl(errorHandlingInInstanceOf.jump, 3, 3))
+
+if (y instanceof UnknownType) {
+>y : Symbol(y, Decl(errorHandlingInInstanceOf.jump, 3, 3))
+}

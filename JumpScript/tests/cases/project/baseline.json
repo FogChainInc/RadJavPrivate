@@ -1,0 +1,9 @@
+{
+    "scenario": "baseline",
+    "projectRoot": "tests/cases/projects/baseline",
+    "inputFiles": [
+        "emit.jump"
+    ],
+    "baselineCheck": true,
+    "runTest": true
+}

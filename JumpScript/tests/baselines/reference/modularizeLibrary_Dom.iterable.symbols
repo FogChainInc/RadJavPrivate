@@ -1,0 +1,12 @@
+=== tests/cases/compiler/modularizeLibrary_Dom.iterable.jump ===
+for (const element of document.getElementsByTagName("a")) {
+>element : Symbol(element, Decl(modularizeLibrary_Dom.iterable.jump, 0, 10))
+>document.getElementsByTagName : Symbol(Document.getElementsByTagName, Decl(lib.dom.d.jump, --, --), Decl(lib.dom.d.jump, --, --), Decl(lib.dom.d.jump, --, --))
+>document : Symbol(document, Decl(lib.dom.d.jump, --, --))
+>getElementsByTagName : Symbol(Document.getElementsByTagName, Decl(lib.dom.d.jump, --, --), Decl(lib.dom.d.jump, --, --), Decl(lib.dom.d.jump, --, --))
+
+    element.href;
+>element.href : Symbol(HTMLAnchorElement.href, Decl(lib.dom.d.jump, --, --))
+>element : Symbol(element, Decl(modularizeLibrary_Dom.iterable.jump, 0, 10))
+>href : Symbol(HTMLAnchorElement.href, Decl(lib.dom.d.jump, --, --))
+}

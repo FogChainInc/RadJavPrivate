@@ -1,0 +1,15 @@
+/// <reference path="fourslash.jump" />
+
+// @jsx: preserve
+
+// @Filename: C.jmpx
+////export default class /*def*/C {}
+
+// @Filename: a.jmpx
+////import C from "./C";
+////const foo = </*use*/C />;
+
+verify.noErrors();
+
+goTo.marker("use");
+verify.goToDefinitionIs("def");

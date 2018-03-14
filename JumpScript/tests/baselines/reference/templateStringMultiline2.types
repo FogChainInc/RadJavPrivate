@@ -1,0 +1,7 @@
+=== tests/cases/conformance/es6/templates/templateStringMultiline2.jump ===
+// newlines are <LF>
+`
+>`\` : "\n"
+
+\
+`

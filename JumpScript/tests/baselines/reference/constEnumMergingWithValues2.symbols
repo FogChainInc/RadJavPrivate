@@ -1,0 +1,15 @@
+=== tests/cases/compiler/m1.jump ===
+class foo {}
+>foo : Symbol(foo, Decl(m1.jump, 0, 0), Decl(m1.jump, 0, 12))
+
+module foo {
+>foo : Symbol(foo, Decl(m1.jump, 0, 0), Decl(m1.jump, 0, 12))
+
+    const enum E { X }
+>E : Symbol(E, Decl(m1.jump, 1, 12))
+>X : Symbol(E.X, Decl(m1.jump, 2, 18))
+}
+
+export = foo
+>foo : Symbol(foo, Decl(m1.jump, 0, 0), Decl(m1.jump, 0, 12))
+

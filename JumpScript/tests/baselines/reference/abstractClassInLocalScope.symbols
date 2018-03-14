@@ -1,0 +1,17 @@
+=== tests/cases/compiler/abstractClassInLocalScope.jump ===
+(() => {
+    abstract class A {}
+>A : Symbol(A, Decl(abstractClassInLocalScope.jump, 0, 8))
+
+    class B extends A {}
+>B : Symbol(B, Decl(abstractClassInLocalScope.jump, 1, 23))
+>A : Symbol(A, Decl(abstractClassInLocalScope.jump, 0, 8))
+
+    new B();
+>B : Symbol(B, Decl(abstractClassInLocalScope.jump, 1, 23))
+
+    return A;
+>A : Symbol(A, Decl(abstractClassInLocalScope.jump, 0, 8))
+
+})();
+

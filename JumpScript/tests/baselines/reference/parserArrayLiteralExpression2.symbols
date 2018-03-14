@@ -1,0 +1,4 @@
+=== tests/cases/conformance/parser/ecmascript5/ArrayLiteralExpressions/parserArrayLiteralExpression2.jump ===
+var v = [,];
+>v : Symbol(v, Decl(parserArrayLiteralExpression2.jump, 0, 3))
+

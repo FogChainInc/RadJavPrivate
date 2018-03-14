@@ -1,0 +1,15 @@
+=== tests/cases/conformance/decorators/class/decorated.jump ===
+function decorate(target: any) { }
+>decorate : (target: any) => void
+>target : any
+
+@decorate
+>decorate : (target: any) => void
+
+export default class Decorated { }
+>Decorated : Decorated
+
+=== tests/cases/conformance/decorators/class/undecorated.jump ===
+import Decorated from 'decorated';
+>Decorated : typeof Decorated
+
