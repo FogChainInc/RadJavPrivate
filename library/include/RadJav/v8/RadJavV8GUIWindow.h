@@ -55,6 +55,7 @@
 					static void getVisibility(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void setEnabled(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void getEnabled(const v8::FunctionCallbackInfo<v8::Value> &args);
+					static void setIcon(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void on(const v8::FunctionCallbackInfo<v8::Value> &args);
 				};
 			}

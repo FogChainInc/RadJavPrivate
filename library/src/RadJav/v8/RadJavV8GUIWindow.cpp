@@ -55,6 +55,7 @@ namespace RadJAV
 				V8_CALLBACK(object, "getVisibility", Window::getVisibility);
 				V8_CALLBACK(object, "setEnabled", Window::setEnabled);
 				V8_CALLBACK(object, "getEnabled", Window::getEnabled);
+				V8_CALLBACK(object, "setIcon", Window::setIcon);
 				V8_CALLBACK(object, "on", Window::on);
 			}
 
@@ -320,6 +321,24 @@ namespace RadJAV
 					value = appObject->getEnabled();
 
 				args.GetReturnValue().Set(v8::Boolean::New(args.GetIsolate(), value));
+			}
+
+			void Window::setIcon(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				String value = parseV8Value(args[0]);
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+
+				if (appObject != NULL)
+				{
+					try
+					{
+						appObject->setIcon(value);
+					}
+					catch (Exception ex)
+					{
+						V8_JAVASCRIPT_ENGINE->throwException(ex.getMessage ());
+					}
+				}
 			}
 
 			void Window::on(const v8::FunctionCallbackInfo<v8::Value> &args)

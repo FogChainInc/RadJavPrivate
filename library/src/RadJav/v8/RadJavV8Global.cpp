@@ -26,6 +26,8 @@
 	#include "v8/RadJavV8JavascriptEngine.h"
 	#include "v8/RadJavV8IO.h"
 
+	#include "cpp/RadJavCPPIO.h"
+
 	#ifdef GUI_USE_WXWIDGETS
 		#include <wx/wx.h>
 	#endif
@@ -155,7 +157,7 @@ namespace RadJAV
 			}
 
 			String path = parseV8Value(file);
-			String contents = IO::TextFile::getFileContents(path);
+			String contents = CPP::IO::TextFile::getFileContents(path);
 
 			V8_JAVASCRIPT_ENGINE->executeScript(contents, path);
 

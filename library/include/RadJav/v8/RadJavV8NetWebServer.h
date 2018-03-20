@@ -17,53 +17,31 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#ifndef _RADJAV_V8_NET_H_
-	#define _RADJAV_V8_NET_H_
+#ifndef _RADJAV_GUI_V8_NET_WEBSERVER_H_
+	#define _RADJAV_GUI_V8_NET_WEBSERVER_H_
 
 	#include "RadJavPreprocessor.h"
 	#include "RadJavString.h"
-	#include "RadJavThread.h"
 
-	#ifdef GUI_USE_WXWIDGETS
-		#include <wx/wx.h>
-	#endif
-
-	#ifdef USE_V8
-		#include <v8.h>
-
-		namespace RadJAV
+	namespace RadJAV
+	{
+		namespace V8B
 		{
-			namespace V8B
+			namespace Net
 			{
-				namespace Net
+				class RADJAV_EXPORT WebServer
 				{
-					class RADJAV_EXPORT NetCallbacks
-					{
-						public:
-							static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
+					public:
+						static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
-							static void httpRequest(const v8::FunctionCallbackInfo<v8::Value> &args);
-							static void completeHttpRequest(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void listen(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void serve(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void stop(const v8::FunctionCallbackInfo<v8::Value> &args);
 
-							static RJINT curlWrite(RJCHAR *data, RJUINT size, RJUINT nmemb, String *output);
-					};
-
-					#ifdef GUI_USE_WXWIDGETS
-						class RADJAV_EXPORT HttpThread : public Thread
-						{
-							public:
-								HttpThread(String uri, RJLONG timeout, v8::Persistent<v8::Function> *resolvep);
-
-								wxThread::ExitCode Entry();
-
-								RJLONG timeout;
-								String uri;
-								v8::Persistent<v8::Function> *resolvep;
-						};
-					#endif
-				}
+						static void on(const v8::FunctionCallbackInfo<v8::Value> &args);
+				};
 			}
 		}
-	#endif
+	}
 #endif
 

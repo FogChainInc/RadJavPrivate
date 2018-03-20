@@ -25,24 +25,12 @@
 #ifdef USE_V8
 	#include "v8/RadJavV8JavascriptEngine.h"
 
+	#include "cpp/RadJavCPPIO.h"
+
 namespace RadJAV
 {
 	namespace V8B
 	{
-		const int IO::SerialComm::oneStopBit = 0;
-		const int IO::SerialComm::one5StopBits = 1;
-		const int IO::SerialComm::twoStopBits = 2;
-
-		const int IO::SerialComm::noParity = 0;
-		const int IO::SerialComm::oddParity = 1;
-		const int IO::SerialComm::evenParity = 2;
-		const int IO::SerialComm::markParity = 3;
-		const int IO::SerialComm::spaceParity = 4;
-
-		const RJINT IO::TextFile::read = 1;
-		const RJINT IO::TextFile::write = 2;
-		const RJINT IO::TextFile::append = 3;
-
 		void IO::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 		{
 			V8_CALLBACK(object, "isDir", IO::isDir);
@@ -260,7 +248,7 @@ namespace RadJAV
 			result = WriteFile(hSerialIO, (void *)cBuffer, bufferSize, &bytesSent, 0);
 #endif
 
-			args.GetReturnValue().Set(v8::Boolean::New(args.GetIsolate(), bytesSent));
+			args.GetReturnValue().Set(v8::Number::New(args.GetIsolate(), bytesSent));
 		}
 
 		void IO::SerialComm::close(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -285,7 +273,7 @@ namespace RadJAV
 			}
 
 			v8::Local<v8::String> text = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
-			RJINT fileType = IO::TextFile::write;
+			RJINT fileType = CPP::IO::TextFile::write;
 
 			if (args.Length() > 2)
 			{
@@ -298,7 +286,7 @@ namespace RadJAV
 
 			try
 			{
-				writeToTextFile(path, contents, fileType);
+				CPP::IO::TextFile::writeToTextFile(path, contents, fileType);
 			}
 			catch (Exception ex)
 			{
@@ -324,7 +312,7 @@ namespace RadJAV
 
 			try
 			{
-				contents = getFileContents(path);
+				contents = CPP::IO::TextFile::getFileContents(path);
 			}
 			catch (Exception ex)
 			{
@@ -420,41 +408,6 @@ namespace RadJAV
 			//if (wxRemoveFile(path.towxString()) == false)
 				//V8_JAVASCRIPT_ENGINE->throwException("Unable to delete file.");
 #endif
-		}
-
-		void IO::TextFile::writeToTextFile(String path, String contents, RJINT outputType)
-		{
-			RJINT type = std::ios_base::out;
-
-			if (outputType == IO::TextFile::append)
-				type = std::ios_base::app;
-
-			std::fstream file(path, type);
-			file.write(contents.c_str(), contents.size());
-			file.close();
-		}
-
-		String IO::TextFile::getFileContents(String path)
-		{
-			std::fstream file(path, std::ios_base::in);
-			String contents = "";
-
-			if (file.is_open() == false)
-				throw Exception("Unable to open file: " + path);
-
-			while (file.good() == true)
-			{
-				char cChar = file.get();
-
-				if (file.good() == false)
-					break;
-
-				contents += cChar;
-			}
-
-			file.close();
-
-			return (contents);
 		}
 	}
 }

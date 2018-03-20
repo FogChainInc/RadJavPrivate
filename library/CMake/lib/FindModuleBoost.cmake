@@ -2,7 +2,7 @@ message (STATUS "Searching for Boost...")
 
 set (BOOSTROOT $ENV{BOOSTROOT} CACHE PATH "Boost path")
 fixPath (BOOSTROOT)
-set (Boost_USE_STATIC_LIBS TRUE)
+#set (Boost_USE_STATIC_LIBS TRUE)
 #set (Boost_USE_STATIC_RUNTIME TRUE)
 set (Boost_USE_MULTITHREADED TRUE)
 

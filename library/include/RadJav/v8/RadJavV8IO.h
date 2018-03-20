@@ -24,67 +24,50 @@
 	#include "RadJavString.h"
 
 	#ifdef USE_V8
-	#include <v8.h>
+		#include <v8.h>
 
-	namespace RadJAV
-	{
-		namespace V8B
+		namespace RadJAV
 		{
-			class RADJAV_EXPORT IO
+			namespace V8B
 			{
-			public:
-				static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
-
-				static void isDir(const v8::FunctionCallbackInfo<v8::Value> &args);
-				static void isFile(const v8::FunctionCallbackInfo<v8::Value> &args);
-				static void createDir(const v8::FunctionCallbackInfo<v8::Value> &args);
-				static void deleteFile(const v8::FunctionCallbackInfo<v8::Value> &args);
-
-				class RADJAV_EXPORT SerialComm
+				class RADJAV_EXPORT IO
 				{
-				public:
-					static const int oneStopBit;
-					static const int one5StopBits;
-					static const int twoStopBits;
+					public:
+						static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
-					static const int noParity;
-					static const int oddParity;
-					static const int evenParity;
-					static const int markParity;
-					static const int spaceParity;
+						static void isDir(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void isFile(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void createDir(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void deleteFile(const v8::FunctionCallbackInfo<v8::Value> &args);
 
-					static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
+						class RADJAV_EXPORT SerialComm
+						{
+							public:
+								static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
-					static void getPort(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void getBaud(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void getByteSize(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void getStopBits(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void getParity(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void open(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void isOpen(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void read(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void write(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void close(const v8::FunctionCallbackInfo<v8::Value> &args);
+								static void getPort(const v8::FunctionCallbackInfo<v8::Value> &args);
+								static void getBaud(const v8::FunctionCallbackInfo<v8::Value> &args);
+								static void getByteSize(const v8::FunctionCallbackInfo<v8::Value> &args);
+								static void getStopBits(const v8::FunctionCallbackInfo<v8::Value> &args);
+								static void getParity(const v8::FunctionCallbackInfo<v8::Value> &args);
+								static void open(const v8::FunctionCallbackInfo<v8::Value> &args);
+								static void isOpen(const v8::FunctionCallbackInfo<v8::Value> &args);
+								static void read(const v8::FunctionCallbackInfo<v8::Value> &args);
+								static void write(const v8::FunctionCallbackInfo<v8::Value> &args);
+								static void close(const v8::FunctionCallbackInfo<v8::Value> &args);
+						};
+
+						class RADJAV_EXPORT TextFile
+						{
+							public:
+								static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
+
+								static void writeTextToFile(const v8::FunctionCallbackInfo<v8::Value> &args);
+								static void readEntireFile(const v8::FunctionCallbackInfo<v8::Value> &args);
+						};
 				};
-
-				class RADJAV_EXPORT TextFile
-				{
-				public:
-					static const RJINT read;
-					static const RJINT write;
-					static const RJINT append;
-
-					static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
-
-					static void writeTextToFile(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void readEntireFile(const v8::FunctionCallbackInfo<v8::Value> &args);
-
-					static void writeToTextFile(String path, String contents, RJINT outputType = IO::TextFile::write);
-					static String getFileContents(String path);
-				};
-			};
+			}
 		}
-	}
 	#endif
 #endif
 

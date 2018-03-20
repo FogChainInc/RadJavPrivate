@@ -80,6 +80,7 @@ namespace RadJAV
 			Window::Window(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
 				: GObject (jsEngine, args)
 			{
+				icon = jsEngine->v8GetString(args.This(), "_icon");
 			}
 			#endif
 
@@ -102,6 +103,9 @@ namespace RadJAV
 					RadJav::app->SetActive(_visible, object);
 
 					_appObj = panel;
+
+					if (icon != "")
+						setIcon(icon);
 
 					setup();
 				#endif
@@ -235,6 +239,20 @@ namespace RadJAV
 				#endif
 
 				return (enabled);
+			}
+
+			void Window::setIcon(String newIcon)
+			{
+				icon = newIcon;
+
+				#ifdef GUI_USE_WXWIDGETS
+					wxIcon wxicon = wxICON(newIcon.c_str ());
+
+					if (wxicon.IsOk() == false)
+						throw RadJAV::Exception("Invalid icon");
+
+					((WindowFrame *)_appObj->GetParent())->SetIcon(wxicon);
+				#endif
 			}
 
 			#ifdef USE_V8

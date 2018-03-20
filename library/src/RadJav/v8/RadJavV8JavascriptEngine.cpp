@@ -39,6 +39,10 @@
 
 	#include "v8/RadJavV8BlockchainV1.h"
 
+	// Net
+	#include "v8/RadJavV8NetWebSocket.h"
+	#include "v8/RadJavV8NetWebServer.h"
+
 	// GUI
 	#include "v8/RadJavV8GUIGObject.h"
 	#include "v8/RadJavV8GUIWindow.h"
@@ -62,6 +66,8 @@
 	#include "v8/RadJavV8C3DEntity.h"
 	#include "v8/RadJavV8C3DWorld.h"
 #endif
+
+#include "cpp/RadJavCPPIO.h"
 
 #include <cstring>
 
@@ -197,7 +203,7 @@ namespace RadJAV
 			loadJavascriptLibrary();
 
 			// Insert the javascript libraries to be used.
-			for (RJUINT iIdx = 0; iIdx < javascriptFiles.size (); iIdx++)
+			for (RJUINT iIdx = 0; iIdx < javascriptFiles.size(); iIdx++)
 			{
 				JSFile jsfile = javascriptFiles.at(iIdx);
 				executeScript(jsfile.content, jsfile.filename);
@@ -208,8 +214,73 @@ namespace RadJAV
 			radJav = RJNEW v8::Persistent<v8::Object>();
 			radJav->Reset(isolate, obj);
 
-			// Execute the application's javascript.
-			executeScript(applicationSource, fileName);
+			// Check the application source to see if its an XRJ file.
+			if (applicationSource != "")
+			{
+				RJBOOL executeContent = true;
+
+				if (fileName.find(".xrj") != String::npos)
+				{
+					Array<String> filesToExecute;
+
+					// If the file begins with a {, assume its JSON and parse it.
+					if (applicationSource.at(0) == '{')
+					{
+						executeContent = false;
+						v8::MaybeLocal<v8::Value> parsedObj;
+
+						try
+						{
+							parsedObj = v8::JSON::Parse(isolate, applicationSource.toV8String(isolate));
+						}
+						catch (Exception ex)
+						{
+							RadJav::showError(ex.getMessage(), true);
+						}
+
+						v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(parsedObj.ToLocalChecked());
+
+						String name = parseV8Value(obj->Get(String("name").toV8String(isolate)));
+						String developer = parseV8Value(obj->Get(String("developer").toV8String(isolate)));
+						String license = parseV8Value(obj->Get(String("license").toV8String(isolate)));
+						v8::Local<v8::Array> executeFiles = v8::Local<v8::Array>::Cast(obj->Get(String("execute_files").toV8String(isolate)));
+						v8::Local<v8::Array> dependencies = v8::Local<v8::Array>::Cast(obj->Get(String("dependencies").toV8String(isolate)));
+						RJUINT length = executeFiles->Length();
+
+						// Get the list of JavaScript files to execute.
+						for (RJUINT iIdx = 0; iIdx < length; iIdx++)
+						{
+							v8::Local<v8::Value> v8file = v8::Local<v8::Value>::Cast(executeFiles->Get(iIdx));
+
+							if (v8file->IsString() == true)
+							{
+								String filePath = parseV8Value(v8::Local<v8::String>::Cast(v8file));
+								filesToExecute.push_back(filePath);
+							}
+
+							if (v8file->IsObject() == true)
+							{
+								v8::Local<v8::Object> fileObj = v8::Local<v8::Object>::Cast(v8file);
+								String javascriptFilePath = parseV8Value(fileObj->Get(String("javascript").toV8String(isolate)));
+								filesToExecute.push_back(javascriptFilePath);
+							}
+						}
+
+						// Once the list has been collected, execute each file.
+						for (RJUINT iIdx = 0; iIdx < filesToExecute.size(); iIdx++)
+						{
+							String executeFile = filesToExecute.at(iIdx);
+							String fileContents = CPP::IO::TextFile::getFileContents(executeFile);
+
+							executeScript(fileContents, executeFile);
+						}
+					}
+				}
+
+				if (executeContent == true)
+					executeScript(applicationSource, fileName);
+			}
+
 			RJBOOL firstRun = true;
 			RJBOOL startedBlockchainV1 = false;
 
@@ -918,7 +989,31 @@ namespace RadJAV
 				{
 					v8::Handle<v8::Function> netFunc = v8GetFunction(radJavFunc, "Net");
 
-					V8B::Net::createV8Callbacks(isolate, netFunc);
+					V8B::Net::NetCallbacks::createV8Callbacks(isolate, netFunc);
+
+					// WebServer
+					{
+						v8::Handle<v8::Function> netFuncFunc = v8GetFunction(netFunc, "WebServer");
+						v8::Handle<v8::Object> netPrototype = v8GetObject(netFuncFunc, "prototype");
+
+						V8B::Net::WebServer::createV8Callbacks(isolate, netFunc);
+					}
+
+					// WebSocketServer
+					{
+						v8::Handle<v8::Function> netFuncFunc = v8GetFunction(netFunc, "WebSocketServer");
+						v8::Handle<v8::Object> netPrototype = v8GetObject(netFuncFunc, "prototype");
+
+						V8B::Net::WebSocketServer::createV8Callbacks(isolate, netFunc);
+					}
+
+					// WebSocketClient
+					{
+						v8::Handle<v8::Function> netFuncFunc = v8GetFunction(netFunc, "WebSocketClient");
+						v8::Handle<v8::Object> netPrototype = v8GetObject(netFuncFunc, "prototype");
+
+						V8B::Net::WebSocketClient::createV8Callbacks(isolate, netFunc);
+					}
 				}
 
 				#ifdef USE_BLOCKCHAIN_V1

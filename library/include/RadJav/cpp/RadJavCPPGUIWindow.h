@@ -71,11 +71,14 @@
 						RJBOOL getVisibility();
 						void setEnabled(RJBOOL enabled);
 						RJBOOL getEnabled();
+						void setIcon(String newIcon);
 
 						#ifdef USE_V8
 							/// Execute when an event is triggered.
 							void on(String event, v8::Local<v8::Function> func);
 						#endif
+
+						String icon;
 				};
 			}
 		}

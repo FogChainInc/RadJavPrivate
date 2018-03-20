@@ -145,6 +145,9 @@ int main (int iArgs, char **cArgs)
 	ary.push_back ("RadJav.GUI.Window.js");
 	ary.push_back ("RadJav.GUI.MenuBar.js");
 	ary.push_back ("RadJav.GUI.MenuItem.js");
+	ary.push_back ("RadJav.Net.WebSocketServer.js");
+	ary.push_back ("RadJav.Net.WebSocketClient.js");
+	ary.push_back ("RadJav.Net.WebServer.js");
 	#ifdef C3D_USE_OGRE
 	ary.push_back("RadJav.GUI.Canvas3D.js");
 	ary.push_back("RadJav.C3D.Object3D.js"); // This must be compiled before any other C3D object.

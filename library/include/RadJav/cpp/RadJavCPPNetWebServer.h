@@ -1,6 +1,6 @@
 /*
 	MIT-LICENSE
-	Copyright (c) 2017 Higher Edge Software, LLC
+	Copyright (c) 2017-2018 Higher Edge Software, LLC
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 	and associated documentation files (the "Software"), to deal in the Software without restriction, 
@@ -17,53 +17,48 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#ifndef _RADJAV_V8_NET_H_
-	#define _RADJAV_V8_NET_H_
+#ifndef _RADJAV_CPP_NET_WEBSERVER_H_
+	#define _RADJAV_CPP_NET_WEBSERVER_H_
 
 	#include "RadJavPreprocessor.h"
+
 	#include "RadJavString.h"
-	#include "RadJavThread.h"
+	#include "RadJavHashMap.h"
 
-	#ifdef GUI_USE_WXWIDGETS
-		#include <wx/wx.h>
-	#endif
-
-	#ifdef USE_V8
-		#include <v8.h>
-
-		namespace RadJAV
+	namespace RadJAV
+	{
+		namespace CPP
 		{
-			namespace V8B
+			namespace Net
 			{
-				namespace Net
+				class RADJAV_EXPORT WebServer
 				{
-					class RADJAV_EXPORT NetCallbacks
-					{
-						public:
-							static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
+					public:
+						WebServer();
 
-							static void httpRequest(const v8::FunctionCallbackInfo<v8::Value> &args);
-							static void completeHttpRequest(const v8::FunctionCallbackInfo<v8::Value> &args);
+						/// Listen for any incoming connections.
+						void listen();
 
-							static RJINT curlWrite(RJCHAR *data, RJUINT size, RJUINT nmemb, String *output);
-					};
+						/// Serve any GET or POST requests.
+						void serve();
 
-					#ifdef GUI_USE_WXWIDGETS
-						class RADJAV_EXPORT HttpThread : public Thread
-						{
-							public:
-								HttpThread(String uri, RJLONG timeout, v8::Persistent<v8::Function> *resolvep);
+						/// Stop the web server.
+						void stop();
 
-								wxThread::ExitCode Entry();
+						/// The port.
+						RJINT port;
+						/// The server type.
+						RJINT _serverType;
+				};
 
-								RJLONG timeout;
-								String uri;
-								v8::Persistent<v8::Function> *resolvep;
-						};
-					#endif
-				}
+				/// Web server types.
+				enum RADJAV_EXPORT WebServerTypes
+				{
+					HTTP = 1, 
+					HTTPS = 2
+				};
 			}
 		}
-	#endif
+	}
 #endif
 

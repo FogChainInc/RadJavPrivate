@@ -69,7 +69,9 @@ source_group ("RadJav\\V8\\IO" FILES ${SOURCES_files_RadJav__v8__IO__Sources})
 set (SOURCES ${SOURCES_files_RadJav__v8__IO__Sources} ${SOURCES})
 
 set (SOURCES_files_RadJav__v8__Net__Sources 
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8Net.cpp")
+	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8Net.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8NetWebSocket.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8NetWebServer.cpp")
 source_group ("RadJav\\V8\\Net" FILES ${SOURCES_files_RadJav__v8__Net__Sources})
 
 set (SOURCES ${SOURCES_files_RadJav__v8__Net__Sources} ${SOURCES})
@@ -103,6 +105,20 @@ set (SOURCES_files_RadJav__cpp__Global__Sources
 source_group ("RadJav\\CPP\\Global" FILES ${SOURCES_files_RadJav__cpp__Global__Sources})
 
 set (SOURCES ${SOURCES_files_RadJav__cpp__Global__Sources} ${SOURCES})
+
+set (SOURCES_files_RadJav__cpp__IO__Sources 
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPIO.cpp")
+source_group ("RadJav\\CPP\\IO" FILES ${SOURCES_files_RadJav__cpp__IO__Sources})
+
+set (SOURCES ${SOURCES_files_RadJav__cpp__IO__Sources} ${SOURCES})
+
+set (SOURCES_files_RadJav__cpp__Net__Sources 
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebSocketServer.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebSocketClient.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebServer.cpp")
+source_group ("RadJav\\CPP\\Net" FILES ${SOURCES_files_RadJav__cpp__Net__Sources})
+
+set (SOURCES ${SOURCES_files_RadJav__cpp__Net__Sources} ${SOURCES})
 
 set (SOURCES_files_RadJav__cpp__GUI__Sources 
 	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUIGObject.cpp"
