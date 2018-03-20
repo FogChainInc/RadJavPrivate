@@ -35,6 +35,7 @@
 				{
 					public:
 						WebServer();
+						~WebServer();
 
 						/// Listen for any incoming connections.
 						void listen();
@@ -49,6 +50,8 @@
 						RJINT port;
 						/// The server type.
 						RJINT _serverType;
+				private:
+					void* ptr;
 				};
 
 				/// Web server types.
