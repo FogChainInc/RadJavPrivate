@@ -66,7 +66,6 @@
 
 				private:
 					boost::asio::ip::address address_;
-					int port_;
 					int threads_;
 					std::string doc_root_;
 				};

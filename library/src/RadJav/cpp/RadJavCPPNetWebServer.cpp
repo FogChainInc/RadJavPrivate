@@ -40,15 +40,14 @@ namespace http = boost::beast::http;
 namespace {
 
 	// Report a failure
-	void
-		fail(boost::system::error_code ec, char const* what)
+	void fail(boost::system::error_code ec, char const* what) 
 	{
-		std::cerr << what << ": " << ec.message() << "\n";
+		RadJAV::RadJav::throwJSException(ec.message());
+		//std::cerr << what << ": " << ec.message() << "\n";
 	}
 
 	// Return a reasonable mime type based on the extension of a file.
-	boost::beast::string_view
-		mime_type(boost::beast::string_view path)
+	boost::beast::string_view mime_type(boost::beast::string_view path) 
 	{
 		using boost::beast::iequals;
 		auto const ext = [&path]
@@ -84,10 +83,7 @@ namespace {
 
 	// Append an HTTP rel-path to a local filesystem path.
 	// The returned path is normalized for the platform.
-	std::string
-		path_cat(
-			boost::beast::string_view base,
-			boost::beast::string_view path)
+	std::string path_cat( boost::beast::string_view base, boost::beast::string_view path)
 	{
 		if (base.empty())
 			return path.to_string();
@@ -113,11 +109,8 @@ namespace {
 	// request. The type of the response object depends on the
 	// contents of the request, so the interface requires the
 	// caller to pass a generic lambda for receiving the response.
-	template<
-		class Body, class Allocator,
-		class Send>
-		void
-		handle_request(
+	template< class Body, class Allocator, class Send>
+		void handle_request(
 			boost::beast::string_view doc_root,
 			http::request<Body, http::basic_fields<Allocator>>&& req,
 			Send&& send)
@@ -261,8 +254,7 @@ namespace {
 			};
 
 			tcp::socket socket_;
-			boost::asio::strand<
-				boost::asio::io_context::executor_type> strand_;
+			boost::asio::strand<boost::asio::io_context::executor_type> strand_;
 			boost::beast::flat_buffer buffer_;
 			std::string const& doc_root_;
 			http::request<http::string_body> req_;
@@ -271,10 +263,7 @@ namespace {
 
 		public:
 			// Take ownership of the socket
-			explicit
-				session(
-					tcp::socket socket,
-					std::string const& doc_root)
+			explicit session(tcp::socket socket, std::string const& doc_root)
 				: socket_(std::move(socket))
 				, strand_(socket_.get_executor())
 				, doc_root_(doc_root)
@@ -283,14 +272,12 @@ namespace {
 			}
 
 			// Start the asynchronous operation
-			void
-				run()
+			void run()
 			{
 				do_read();
 			}
 
-			void
-				do_read()
+			void do_read()
 			{
 				// Make the request empty before reading,
 				// otherwise the operation behavior is undefined.
@@ -325,11 +312,7 @@ namespace {
 				handle_request(doc_root_, std::move(req_), lambda_);
 			}
 
-			void
-				on_write(
-					boost::system::error_code ec,
-					std::size_t bytes_transferred,
-					bool close)
+			void on_write(boost::system::error_code ec, std::size_t bytes_transferred, bool close)
 			{
 				boost::ignore_unused(bytes_transferred);
 
@@ -350,8 +333,7 @@ namespace {
 				do_read();
 			}
 
-			void
-				do_close()
+			void do_close()
 			{
 				// Send a TCP shutdown
 				boost::system::error_code ec;
@@ -371,10 +353,7 @@ namespace {
 			std::string const& doc_root_;
 
 		public:
-			listener(
-				boost::asio::io_context& ioc,
-				tcp::endpoint endpoint,
-				std::string const& doc_root)
+			listener(boost::asio::io_context& ioc, tcp::endpoint endpoint, std::string const& doc_root)
 				: acceptor_(ioc)
 				, socket_(ioc)
 				, doc_root_(doc_root)
@@ -416,16 +395,14 @@ namespace {
 			}
 
 			// Start accepting incoming connections
-			void
-				run()
+			void run()
 			{
 				if (!acceptor_.is_open())
 					return;
 				do_accept();
 			}
 
-			void
-				do_accept()
+			void do_accept()
 			{
 				acceptor_.async_accept(
 					socket_,
@@ -435,8 +412,7 @@ namespace {
 						std::placeholders::_1));
 			}
 
-			void
-				on_accept(boost::system::error_code ec)
+			void on_accept(boost::system::error_code ec)
 			{
 				if (ec)
 				{
@@ -445,9 +421,7 @@ namespace {
 				else
 				{
 					// Create the session and run it
-					std::make_shared<session>(
-						std::move(socket_),
-						doc_root_)->run();
+					std::make_shared<session>(std::move(socket_), doc_root_)->run();
 				}
 
 				// Accept another connection
@@ -468,9 +442,9 @@ namespace RadJAV
 				_serverType = WebServerTypes::HTTP;
 
 				address_ = boost::asio::ip::make_address("127.0.0.1");
-				port_ = static_cast<unsigned short>(std::atoi("80"));
-				//doc_root_ = std::string("/");
-				//threads_ = std::max<int>(1, std::atoi("1"));
+				threads_ = 5;
+				doc_root_ = std::string("d:\\Radjav\\RadJavPrivate\\vm\\build\\Debug\\");
+				
 			}
 
 			WebServer::~WebServer()
@@ -480,19 +454,15 @@ namespace RadJAV
 			void WebServer::listen()
 			{
 				// The io_context is required for all I/O
-				auto const threads = std::max<int>(1, std::atoi("1"));
-				boost::asio::io_context ioc{ threads };
+				boost::asio::io_context ioc{ threads_ };
 
 				// Create and launch a listening port
-				std::make_shared<listener>(
-					ioc,
-					tcp::endpoint{ address_, static_cast<unsigned short>(port_) },
-					doc_root_)->run();
+				std::make_shared<listener>(ioc, tcp::endpoint{ address_, static_cast<unsigned short>(port) }, doc_root_)->run();
 
 				// Run the I/O service on the requested number of threads
 				std::vector<std::thread> v;
-				v.reserve(threads - 1);
-				for (auto i = threads - 1; i > 0; --i)
+				v.reserve(threads_ - 1);
+				for (auto i = threads_ - 1; i > 0; --i)
 					v.emplace_back(
 						[&ioc]
 				{
@@ -503,12 +473,12 @@ namespace RadJAV
 
 			void WebServer::serve()
 			{
-				std::string const doc_root = "";
+				
 			}
 
 			void WebServer::stop()
 			{
-				std::string const doc_root = "";
+				
 			}
 
 
