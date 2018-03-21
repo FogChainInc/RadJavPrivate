@@ -169,7 +169,7 @@ if (WIN32)
 	set (libRadJav_CPP_DEFS WIN32_LEAN_AND_MEAN ${libRadJav_CPP_DEFS})
 endif ()
 
-link_directories (${Boost_LIBRARIES})
+link_directories (${Boost_LIBRARY_DIR_DEBUG} ${Boost_LIBRARY_DIR_RELEASE})
 
 if (OGRE_FOUND)
 	message (STATUS "Ogre 3D Found...")

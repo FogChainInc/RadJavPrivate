@@ -140,6 +140,22 @@ if (USE_CIVETWEB)
 	include (FindModuleCivetWeb)
 endif ()
 
+# Boost
+include (FindModuleBoost)
+
+include_directories (${Boost_INCLUDE})
+set (RadJavVM_LINK_LIBRARIES ${Boost_LIBRARIES} ${RadJavVM_LINK_LIBRARIES})
+
+set (RadJavVM_CPP_DEFS BOOST_SYSTEM_NO_DEPRECATED ${RadJavVM_CPP_DEFS})
+set (RadJavVM_CPP_DEFS HAVE_WORKING_BOOST_SLEEP_FOR ${RadJavVM_CPP_DEFS})
+set (RadJavVM_CPP_DEFS BOOST_SPIRIT_THREADSAFE ${RadJavVM_CPP_DEFS})
+
+if (WIN32)
+	set (RadJavVM_CPP_DEFS WIN32_LEAN_AND_MEAN ${RadJavVM_CPP_DEFS})
+endif ()
+
+link_directories (${Boost_LIBRARY_DIR_DEBUG} ${Boost_LIBRARY_DIR_RELEASE})
+
 if (OGRE_FOUND)
 	message (STATUS "Ogre 3D Found...")
 	include_directories (${OGRE_INCLUDE})
