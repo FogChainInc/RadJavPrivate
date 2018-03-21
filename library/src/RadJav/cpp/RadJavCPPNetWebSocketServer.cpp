@@ -41,7 +41,7 @@ namespace RadJAV
 			void WebSocketServer::listen()
 			{
 				auto const address = boost::asio::ip::make_address("127.0.0.1");
-				auto const port = static_cast<unsigned short>(std::atoi("80")); //9229
+				auto const port = static_cast<unsigned short>(std::atoi("9229")); //9229
 																				// The io_context is required for all I/O
 				auto const threads = std::max<int>(1, std::atoi("1"));
 				io_context_ = new boost::asio::io_context{ threads };
