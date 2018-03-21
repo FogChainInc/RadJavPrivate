@@ -165,6 +165,12 @@ set (libRadJav_CPP_DEFS BOOST_SYSTEM_NO_DEPRECATED ${libRadJav_CPP_DEFS})
 set (libRadJav_CPP_DEFS HAVE_WORKING_BOOST_SLEEP_FOR ${libRadJav_CPP_DEFS})
 set (libRadJav_CPP_DEFS BOOST_SPIRIT_THREADSAFE ${libRadJav_CPP_DEFS})
 
+if (WIN32)
+	set (libRadJav_CPP_DEFS WIN32_LEAN_AND_MEAN ${libRadJav_CPP_DEFS})
+endif ()
+
+link_directories (${Boost_LIBRARIES})
+
 if (OGRE_FOUND)
 	message (STATUS "Ogre 3D Found...")
 	include_directories (${OGRE_INCLUDE})
