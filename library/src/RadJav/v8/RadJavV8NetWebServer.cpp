@@ -36,10 +36,6 @@ namespace RadJAV
 		{
 			void WebServer::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 			{
-				NETTYPE *webServer = RJNEW NETTYPE();
-
-				V8_JAVASCRIPT_ENGINE->v8SetExternal(object, "_webServer", webServer);
-
 				V8_CALLBACK(object, "listen", WebServer::listen);
 				V8_CALLBACK(object, "serve", WebServer::serve);
 				V8_CALLBACK(object, "stop", WebServer::stop);
@@ -47,12 +43,13 @@ namespace RadJAV
 
 			void WebServer::listen(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				NETTYPE *webServer = (NETTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_webServer");
 				v8::Local<v8::Number> val = v8::Local<v8::Number>::Cast(args[0]);
 				RJINT port = val->IntegerValue();
 
+				NETTYPE *webServer = RJNEW NETTYPE();
 				webServer->port = port;
 				webServer->listen();
+				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_webServer", webServer);
 			}
 
 			void WebServer::serve(const v8::FunctionCallbackInfo<v8::Value> &args)

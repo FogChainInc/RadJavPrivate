@@ -993,26 +993,26 @@ namespace RadJAV
 
 					// WebServer
 					{
-						v8::Handle<v8::Function> netFuncFunc = v8GetFunction(netFunc, "WebServer");
-						v8::Handle<v8::Object> netPrototype = v8GetObject(netFuncFunc, "prototype");
+						v8::Handle<v8::Function> webServerFunc = v8GetFunction(netFunc, "WebServer");
+						v8::Handle<v8::Object> webServerPrototype = v8GetObject(webServerFunc, "prototype");
 
-						V8B::Net::WebServer::createV8Callbacks(isolate, netFunc);
+						V8B::Net::WebServer::createV8Callbacks(isolate, webServerPrototype);
 					}
 
 					// WebSocketServer
 					{
-						v8::Handle<v8::Function> netFuncFunc = v8GetFunction(netFunc, "WebSocketServer");
-						v8::Handle<v8::Object> netPrototype = v8GetObject(netFuncFunc, "prototype");
+						v8::Handle<v8::Function> webSocketServerFunc = v8GetFunction(netFunc, "WebSocketServer");
+						v8::Handle<v8::Object> webSocketServerPrototype = v8GetObject(webSocketServerFunc, "prototype");
 
-						V8B::Net::WebSocketServer::createV8Callbacks(isolate, netFunc);
+						V8B::Net::WebSocketServer::createV8Callbacks(isolate, webSocketServerPrototype);
 					}
 
 					// WebSocketClient
 					{
-						v8::Handle<v8::Function> netFuncFunc = v8GetFunction(netFunc, "WebSocketClient");
-						v8::Handle<v8::Object> netPrototype = v8GetObject(netFuncFunc, "prototype");
+						v8::Handle<v8::Function> webSocketClientFunc = v8GetFunction(netFunc, "WebSocketClient");
+						v8::Handle<v8::Object> webSocketClientPrototype = v8GetObject(webSocketClientFunc, "prototype");
 
-						V8B::Net::WebSocketClient::createV8Callbacks(isolate, netFunc);
+						V8B::Net::WebSocketClient::createV8Callbacks(isolate, webSocketClientPrototype);
 					}
 				}
 

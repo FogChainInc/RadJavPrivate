@@ -50,8 +50,6 @@
 						RJINT port;
 						/// The server type.
 						RJINT _serverType;
-				private:
-					void* ptr;
 				};
 
 				/// Web server types.
