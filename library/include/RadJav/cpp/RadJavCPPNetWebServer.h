@@ -22,8 +22,21 @@
 
 	#include "RadJavPreprocessor.h"
 
+	#include <boost/beast/core.hpp>
+	#include <boost/beast/http.hpp>
+	#include <boost/beast/version.hpp>
+	#include <boost/asio.hpp>
+	#include <boost/asio/bind_executor.hpp>
+	#include <boost/asio/ip/tcp.hpp>
+	#include <boost/asio/strand.hpp>
+	#include <boost/config.hpp>
+	//#include <boost/filesystem.hpp>
+
+	#include <string>
+
 	#include "RadJavString.h"
 	#include "RadJavHashMap.h"
+
 
 	namespace RadJAV
 	{
@@ -50,6 +63,12 @@
 						RJINT port;
 						/// The server type.
 						RJINT _serverType;
+
+				private:
+					boost::asio::ip::address address_;
+					int port_;
+					int threads_;
+					std::string doc_root_;
 				};
 
 				/// Web server types.
