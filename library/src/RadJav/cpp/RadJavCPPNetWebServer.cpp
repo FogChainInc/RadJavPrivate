@@ -427,6 +427,12 @@ namespace {
 				// Accept another connection
 				do_accept();
 			}
+
+			void close()
+			{
+				//TODO: implement
+				acceptor_.close();
+			}
 		};
 }
 
@@ -436,13 +442,17 @@ namespace RadJAV
 	{
 		namespace Net
 		{
+			//TODO: move this to property
+			std::shared_ptr<listener> listener_;
+
 			WebServer::WebServer()
+				: threads_(1),
+				ioc(threads_)
 			{
 				port = 80;
 				_serverType = WebServerTypes::HTTP;
 
 				address_ = boost::asio::ip::make_address("127.0.0.1");
-				threads_ = 5;
 				doc_root_ = std::string("d:\\Radjav\\RadJavPrivate\\vm\\build\\Debug\\");
 				
 			}
@@ -453,22 +463,20 @@ namespace RadJAV
 
 			void WebServer::listen()
 			{
-				// The io_context is required for all I/O
-				boost::asio::io_context ioc{ threads_ };
-
+				
 				// Create and launch a listening port
-				std::make_shared<listener>(ioc, tcp::endpoint{ address_, static_cast<unsigned short>(port) }, doc_root_)->run();
-
+				listener_.reset(new listener(ioc, tcp::endpoint{ address_, static_cast<unsigned short>(port) }, doc_root_));
+				listener_->run();
+				boost::asio::io_context& ioc_ = ioc;
 				// Run the I/O service on the requested number of threads
-				std::vector<std::thread> v;
-				v.reserve(threads_ - 1);
-				for (auto i = threads_ - 1; i > 0; --i)
+				v.reserve(threads_);
+				for (auto i = threads_; i > 0; --i)
 					v.emplace_back(
-						[&ioc]
+						[&ioc_]
 				{
-					ioc.run();
+					ioc_.run();
 				});
-				ioc.run();
+				//ioc.run();
 			}
 
 			void WebServer::serve()
@@ -478,7 +486,13 @@ namespace RadJAV
 
 			void WebServer::stop()
 			{
-				
+				Sleep(15 * 1000);
+				ioc.stop();
+				while (false == ioc.stopped()) {
+					Sleep(1 * 1000);
+				}
+				listener_->close();
+				listener_.reset();
 			}
 
 

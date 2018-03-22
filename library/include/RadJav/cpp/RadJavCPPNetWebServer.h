@@ -67,6 +67,8 @@
 				private:
 					boost::asio::ip::address address_;
 					int threads_;
+					std::vector<std::thread> v;
+					boost::asio::io_context ioc;
 					std::string doc_root_;
 				};
 

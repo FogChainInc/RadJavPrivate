@@ -62,8 +62,7 @@
 						class WebSocketServerSession : public std::enable_shared_from_this<WebSocketServerSession>
 						{
 							boost::beast::websocket::stream<boost::asio::ip::tcp::socket> ws_;
-							boost::asio::strand<
-								boost::asio::io_context::executor_type> strand_;
+							boost::asio::strand<boost::asio::io_context::executor_type> strand_;
 							boost::beast::multi_buffer buffer_;
 
 							public:
