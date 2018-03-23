@@ -53,8 +53,10 @@
 						/// Listen for any incoming connections.
 						void listen();
 
-						/// Serve any GET or POST requests.
-						void serve();
+						#ifdef USE_V8
+							/// Serve any GET or POST requests.
+							void serve(v8::Local<v8::Function> function);
+						#endif
 
 						/// Stop the web server.
 						void stop();
@@ -63,6 +65,11 @@
 						RJINT port;
 						/// The server type.
 						RJINT _serverType;
+
+						#ifdef USE_V8
+							/// The V8 serve function.
+							v8::Persistent<v8::Function> *servePersistent;
+						#endif
 
 				private:
 					boost::asio::ip::address address_;

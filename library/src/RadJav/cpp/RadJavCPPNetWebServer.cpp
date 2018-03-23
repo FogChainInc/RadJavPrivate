@@ -198,6 +198,17 @@ namespace {
 		}
 
 		// Respond to GET request
+		
+		v8::Local<v8::Function> func = v8::Local<v8::Function>::Cast(servePersistent->Get(V8_JAVASCRIPT_ENGINE->isolate));
+		v8::Local<v8::String> result;
+		String sendToClient = "";
+
+		if (V8_JAVASCRIPT_ENGINE->v8IsNull(func) == false)
+		{
+			result = func->Call(V8_JAVASCRIPT_ENGINE->globalContext->Global(), numArgs, args);
+			sendToDummy = parseV8Value (result);
+		}
+
 		http::response<http::file_body> res{
 			std::piecewise_construct,
 			std::make_tuple(std::move(body)),
@@ -206,6 +217,7 @@ namespace {
 		res.set(http::field::content_type, mime_type(path));
 		res.content_length(size);
 		res.keep_alive(req.keep_alive());
+
 		return send(std::move(res));
 	}
 
@@ -479,10 +491,13 @@ namespace RadJAV
 				//ioc.run();
 			}
 
-			void WebServer::serve()
+#ifdef USE_V8
+			void WebServer::serve(v8::Local<v8::Function> function)
 			{
-				
+					servePersistent = RJNEW v8::Persistent<v8::Function>();
+					servePersistent->Reset(V8_JAVASCRIPT_ENGINE->isolate, function);
 			}
+#endif
 
 			void WebServer::stop()
 			{

@@ -59,7 +59,7 @@
 
 						boost::asio::io_context *io_context_;
 
-						class WebSocketServerSession : public std::enable_shared_from_this<WebSocketServerSession>
+						class RADJAV_EXPORT WebSocketServerSession : public std::enable_shared_from_this<WebSocketServerSession>
 						{
 							boost::beast::websocket::stream<boost::asio::ip::tcp::socket> ws_;
 							boost::asio::strand<boost::asio::io_context::executor_type> strand_;
@@ -85,7 +85,7 @@
 									std::size_t bytes_transferred);
 						};
 
-						class WebSocketServerListener : public std::enable_shared_from_this<WebSocketServerListener>
+						class RADJAV_EXPORT WebSocketServerListener : public std::enable_shared_from_this<WebSocketServerListener>
 						{
 							boost::asio::ip::tcp::acceptor acceptor_;
 							boost::asio::ip::tcp::socket socket_;

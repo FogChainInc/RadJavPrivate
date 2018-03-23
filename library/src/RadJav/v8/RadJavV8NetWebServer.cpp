@@ -55,8 +55,9 @@ namespace RadJAV
 			void WebServer::serve(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				NETTYPE *webServer = (NETTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_webServer");
+				v8::Local<v8::Function> val = v8::Local<v8::Function>::Cast(args[0]);
 
-				webServer->serve();
+				webServer->serve(val);
 			}
 
 			void WebServer::stop(const v8::FunctionCallbackInfo<v8::Value> &args)
