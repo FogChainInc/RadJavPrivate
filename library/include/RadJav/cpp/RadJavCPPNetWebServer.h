@@ -34,9 +34,14 @@
 
 	#include <string>
 
+	#include "RadJav.h"
 	#include "RadJavString.h"
 	#include "RadJavHashMap.h"
 
+
+	namespace ip = boost::asio::ip;
+	using tcp = boost::asio::ip::tcp;
+	namespace http = boost::beast::http;
 
 	namespace RadJAV
 	{
@@ -44,10 +49,11 @@
 		{
 			namespace Net
 			{
-				class RADJAV_EXPORT WebServer
+				// Accepts incoming connections and launches the sessions
+				class RADJAV_EXPORT WebServer : public std::enable_shared_from_this<WebServer>
 				{
 					public:
-						WebServer();
+						WebServer(RJINT port);
 						~WebServer();
 
 						/// Listen for any incoming connections.
@@ -56,6 +62,8 @@
 						#ifdef USE_V8
 							/// Serve any GET or POST requests.
 							void serve(v8::Local<v8::Function> function);
+							/// The V8 serve function.
+							v8::Persistent<v8::Function> *servePersistent;
 						#endif
 
 						/// Stop the web server.
@@ -66,17 +74,20 @@
 						/// The server type.
 						RJINT _serverType;
 
-						#ifdef USE_V8
-							/// The V8 serve function.
-							v8::Persistent<v8::Function> *servePersistent;
-						#endif
-
 				private:
 					boost::asio::ip::address address_;
 					int threads_;
 					std::vector<std::thread> v;
 					boost::asio::io_context ioc;
+					tcp::acceptor acceptor_;
+					tcp::socket socket_;
 					std::string doc_root_;
+					//std::string const& doc_root_;
+
+					void run();
+					void do_accept();
+					void on_accept(boost::system::error_code ec);
+					void close();
 				};
 
 				/// Web server types.

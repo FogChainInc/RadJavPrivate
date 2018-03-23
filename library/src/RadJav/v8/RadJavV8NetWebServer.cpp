@@ -46,8 +46,7 @@ namespace RadJAV
 				v8::Local<v8::Number> val = v8::Local<v8::Number>::Cast(args[0]);
 				RJINT port = val->IntegerValue();
 
-				NETTYPE *webServer = RJNEW NETTYPE();
-				webServer->port = port;
+				NETTYPE *webServer = RJNEW NETTYPE(port);
 				webServer->listen();
 				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_webServer", webServer);
 			}
