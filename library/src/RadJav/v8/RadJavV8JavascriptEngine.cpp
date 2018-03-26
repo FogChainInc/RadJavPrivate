@@ -1162,7 +1162,7 @@ namespace RadJAV
 
 				#ifdef C3D_USE_OGRE
 				// RadJav.C3D
-				{
+				/*{
 					v8::Handle<v8::Function> c3dFunc = v8GetFunction(radJavFunc, "C3D");
 
 					// RadJav.C3D.Object3D
@@ -1187,7 +1187,7 @@ namespace RadJAV
 						v8::Handle<v8::Object> entityPrototype = v8GetObject(entityFunc, "prototype");
 
 						V8B::C3D::Entity::createV8Callbacks(isolate, entityPrototype);
-					}
+					}*/
 
 					// RadJav.C3D.Camera
 					/*{
@@ -1196,7 +1196,7 @@ namespace RadJAV
 
 						V8B::C3D::Camera::createV8Callbacks(isolate, cameraPrototype);
 					}*/
-				}
+				//}
 				#endif
 			}
 		}
