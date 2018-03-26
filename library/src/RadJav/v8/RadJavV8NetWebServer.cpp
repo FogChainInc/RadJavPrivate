@@ -44,7 +44,7 @@ namespace RadJAV
 
 			void WebServer::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				NETTYPE *webServer = RJNEW NETTYPE(80);
+				NETTYPE *webServer = RJNEW NETTYPE();
 				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_webServer", webServer);
 			}
 

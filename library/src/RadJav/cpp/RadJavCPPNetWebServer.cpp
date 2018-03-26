@@ -222,17 +222,25 @@ namespace RadJAV
 			};
 
 			// Accepts incoming connections and launches the sessions
-			WebServer::WebServer(RJINT port)
+			WebServer::WebServer()
 				: threads_(1),
 				ioc(threads_),
 				acceptor_(ioc),
-				socket_(ioc),
-				port(port)
+				socket_(ioc)
 			{
 				_serverType = WebServerTypes::HTTP;
 
 				address_ = boost::asio::ip::make_address("127.0.0.1");
 				doc_root_ = std::string("d:\\Radjav\\RadJavPrivate\\vm\\build\\Debug\\");
+				port = 0;
+			}
+
+			WebServer::~WebServer()
+			{
+			}
+
+			void WebServer::listen()
+			{
 				tcp::endpoint endpoint{ address_, static_cast<unsigned short>(port) };
 				boost::system::error_code ec;
 				// Open the acceptor
@@ -258,16 +266,7 @@ namespace RadJAV
 					fail(ec, "bind");
 					return;
 				}
-			}
 
-			WebServer::~WebServer()
-			{
-			}
-
-			void WebServer::listen()
-			{
-
-				boost::system::error_code ec;
 				// Start listening for connections
 				acceptor_.listen(
 					boost::asio::socket_base::max_listen_connections, ec);

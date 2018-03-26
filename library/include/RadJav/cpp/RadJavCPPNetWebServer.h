@@ -53,7 +53,7 @@
 				class RADJAV_EXPORT WebServer : public std::enable_shared_from_this<WebServer>
 				{
 					public:
-						WebServer(RJINT port);
+						WebServer();
 						~WebServer();
 
 						/// Listen for any incoming connections.
