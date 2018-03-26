@@ -70,10 +70,10 @@ namespace RadJAV
 
 				if (V8_JAVASCRIPT_ENGINE->v8IsNull(func) == false)
 				{
-					RJINT numArgs = 1;
-					//v8::Local<v8::Value> *args = ? ;
+					RJINT numArgs = 0;
+					v8::Local<v8::Value> *args = NULL;
  
-					//result = func->Call(V8_JAVASCRIPT_ENGINE->globalContext->Global(), numArgs, );
+					result = v8::Local<v8::String>::Cast (func->Call(V8_JAVASCRIPT_ENGINE->globalContext->Global(), numArgs, args));
 					sendToClient = parseV8Value(result);
 				}
 

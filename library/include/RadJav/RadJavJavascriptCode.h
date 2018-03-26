@@ -3069,6 +3069,8 @@ RadJav.Net.WebServer = function ()\n\
 	this.port = 80;\n\
 	this._serverType = 1;\n\
 	this._webServer = null;\n\
+\n\
+	this._init ();\n\
 }\n\
 \n\
 RadJav.Net.WebServerTypes = function ()\n\
