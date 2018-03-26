@@ -56,8 +56,8 @@
 						WebServer();
 						~WebServer();
 
-						/// Listen for any incoming connections.
-						void listen();
+						/// Listen for any incoming connections. Default 0 port will use port member value instead of wildcard
+						void listen(RJINT port = 0);
 
 						#ifdef USE_V8
 							/// Serve any GET or POST requests.
@@ -75,13 +75,13 @@
 						RJINT _serverType;
 
 				private:
-					boost::asio::ip::address address_;
-					int threads_;
+					boost::asio::ip::address address;
+					int threads;
 					std::vector<std::thread> v;
 					boost::asio::io_context ioc;
-					tcp::acceptor acceptor_;
-					tcp::socket socket_;
-					std::string doc_root_;
+					tcp::acceptor acceptor;
+					tcp::socket socket;
+					std::string doc_root;
 					void run();
 					void do_accept();
 					void on_accept(boost::system::error_code ec);

@@ -223,28 +223,36 @@ namespace RadJAV
 
 			// Accepts incoming connections and launches the sessions
 			WebServer::WebServer()
-				: threads_(1),
-				ioc(threads_),
-				acceptor_(ioc),
-				socket_(ioc)
+				: threads(1),
+				ioc(threads),
+				acceptor(ioc),
+				socket(ioc)
 			{
 				_serverType = WebServerTypes::HTTP;
 
-				address_ = boost::asio::ip::make_address("127.0.0.1");
-				doc_root_ = std::string("d:\\Radjav\\RadJavPrivate\\vm\\build\\Debug\\");
-				port = 0;
+				address = boost::asio::ip::make_address("127.0.0.1");
+				doc_root = std::string("d:\\Radjav\\RadJavPrivate\\vm\\build\\Debug\\");
+				port = 80;
 			}
 
 			WebServer::~WebServer()
 			{
 			}
 
-			void WebServer::listen()
+			void WebServer::listen(RJINT portNumber)
 			{
-				tcp::endpoint endpoint{ address_, static_cast<unsigned short>(port) };
+				//override "any port" behavior for 0 value; default http server port number is set to 80
+				//listen() call without parameters must be preceded with WebServer->port(<value>) call
+				if (portNumber != 0) {
+					port = portNumber;
+				}
+
 				boost::system::error_code ec;
+
+				tcp::endpoint endpoint{ address, static_cast<unsigned short>(port) };
+
 				// Open the acceptor
-				acceptor_.open(endpoint.protocol(), ec);
+				acceptor.open(endpoint.protocol(), ec);
 				if (ec)
 				{
 					fail(ec, "open");
@@ -252,7 +260,7 @@ namespace RadJAV
 				}
 
 				// Allow address reuse
-				acceptor_.set_option(boost::asio::socket_base::reuse_address(true));
+				acceptor.set_option(boost::asio::socket_base::reuse_address(true));
 				if (ec)
 				{
 					fail(ec, "set_option");
@@ -260,7 +268,7 @@ namespace RadJAV
 				}
 
 				// Bind to the server address
-				acceptor_.bind(endpoint, ec);
+				acceptor.bind(endpoint, ec);
 				if (ec)
 				{
 					fail(ec, "bind");
@@ -268,7 +276,7 @@ namespace RadJAV
 				}
 
 				// Start listening for connections
-				acceptor_.listen(
+				acceptor.listen(
 					boost::asio::socket_base::max_listen_connections, ec);
 				if (ec)
 				{
@@ -279,8 +287,8 @@ namespace RadJAV
 				this->run();
 				boost::asio::io_context& ioc_ = ioc;
 				// Run the I/O service on the requested number of threads
-				v.reserve(threads_);
-				for (auto i = threads_; i > 0; --i)
+				v.reserve(threads);
+				for (auto i = threads; i > 0; --i)
 					v.emplace_back(
 						[&ioc_]
 				{
@@ -313,15 +321,15 @@ namespace RadJAV
 			// Start accepting incoming connections
 			void WebServer::run()
 			{
-				if (!acceptor_.is_open())
+				if (!acceptor.is_open())
 					return;
 				do_accept();
 			}
 
 			void WebServer::do_accept()
 			{
-				acceptor_.async_accept(
-					socket_,
+				acceptor.async_accept(
+					socket,
 					std::bind(
 						&WebServer::on_accept,
 						this,
@@ -337,7 +345,7 @@ namespace RadJAV
 				else
 				{
 					// Create the session and run it
-					std::make_shared<session>(std::move(socket_), doc_root_, servePersistent)->run();
+					std::make_shared<session>(std::move(socket), doc_root, servePersistent)->run();
 				}
 
 				// Accept another connection
@@ -347,7 +355,7 @@ namespace RadJAV
 			void WebServer::close()
 			{
 				//TODO: implement
-				acceptor_.close();
+				acceptor.close();
 			}
 		}
 	}
