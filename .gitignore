@@ -1,2 +1,3 @@
 library/build
 vm/build
+library/include/RadJav/RadJavJavascriptCode.h
