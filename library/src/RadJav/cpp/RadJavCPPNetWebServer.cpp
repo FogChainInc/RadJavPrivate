@@ -66,7 +66,7 @@ namespace RadJAV
 			{
 				v8::Local<v8::Function> func = v8::Local<v8::Function>::Cast(servePersistent->Get(V8_JAVASCRIPT_ENGINE->isolate));
 				v8::Local<v8::String> result;
-				String sendToClient = "";
+				String sendToClient = "test output from handle_request";
 
 				if (V8_JAVASCRIPT_ENGINE->v8IsNull(func) == false)
 				{
@@ -78,7 +78,7 @@ namespace RadJAV
 				}
 
 				http::response<http::string_body> res{ http::status::ok, req.version() };
-				res.set(http::field::content_type, "application/text");
+				res.set(http::field::content_type, "text/html");
 				res.body() = sendToClient;
 				res.content_length(sendToClient.length());
 				res.keep_alive(req.keep_alive());
@@ -302,7 +302,7 @@ namespace RadJAV
 
 			void WebServer::stop()
 			{
-				Sleep(15 * 1000);
+				Sleep(3 * 1000);
 				ioc.stop();
 				while (false == ioc.stopped()) {
 					Sleep(1 * 1000);
