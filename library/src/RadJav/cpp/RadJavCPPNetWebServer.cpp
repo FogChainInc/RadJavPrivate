@@ -64,17 +64,16 @@ namespace RadJAV
 				v8::Persistent<v8::Function> * servePersistent
 			)
 			{
-				v8::Local<v8::Function> func = v8::Local<v8::Function>::Cast(servePersistent->Get(V8_JAVASCRIPT_ENGINE->isolate));
-				v8::Local<v8::String> result;
-				String sendToClient = "test output from handle_request";
+				auto func = v8::Local<v8::Function>::Cast(servePersistent->Get(V8_JAVASCRIPT_ENGINE->isolate));
+				String sendToClient = "default";
 
 				if (V8_JAVASCRIPT_ENGINE->v8IsNull(func) == false)
 				{
 					RJINT numArgs = 0;
 					v8::Local<v8::Value> *args = NULL;
  
-					//result = v8::Local<v8::String>::Cast (func->Call(V8_JAVASCRIPT_ENGINE->globalContext->Global(), numArgs, args));
-					//sendToClient = parseV8Value(result);
+					auto result = v8::Local<v8::String>::Cast(func->Call(V8_JAVASCRIPT_ENGINE->globalContext->Global(), numArgs, NULL));
+					sendToClient = parseV8Value(result);
 				}
 
 				http::response<http::string_body> res{ http::status::ok, req.version() };
