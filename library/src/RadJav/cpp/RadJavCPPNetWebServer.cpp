@@ -73,8 +73,8 @@ namespace RadJAV
 					RJINT numArgs = 0;
 					v8::Local<v8::Value> *args = NULL;
  
-					result = v8::Local<v8::String>::Cast (func->Call(V8_JAVASCRIPT_ENGINE->globalContext->Global(), numArgs, args));
-					sendToClient = parseV8Value(result);
+					//result = v8::Local<v8::String>::Cast (func->Call(V8_JAVASCRIPT_ENGINE->globalContext->Global(), numArgs, args));
+					//sendToClient = parseV8Value(result);
 				}
 
 				http::response<http::string_body> res{ http::status::ok, req.version() };
@@ -325,7 +325,7 @@ namespace RadJAV
 					socket_,
 					std::bind(
 						&WebServer::on_accept,
-						shared_from_this(),
+						this,
 						std::placeholders::_1));
 			}
 

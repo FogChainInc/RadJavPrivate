@@ -82,8 +82,6 @@
 					tcp::acceptor acceptor_;
 					tcp::socket socket_;
 					std::string doc_root_;
-					//std::string const& doc_root_;
-
 					void run();
 					void do_accept();
 					void on_accept(boost::system::error_code ec);
