@@ -28,7 +28,7 @@
 #include <memory>
 #include <thread>
 #include <vector>
-
+#include <boost/asio/spawn.hpp>
 
 #include "RadJavString.h"
 #include "RadJav\v8\RadJavV8JavascriptEngine.h"
@@ -74,6 +74,7 @@ namespace RadJAV
  
 					auto result = v8::Local<v8::String>::Cast(func->Call(V8_JAVASCRIPT_ENGINE->globalContext->Global(), numArgs, NULL));
 					sendToClient = parseV8Value(result);
+
 				}
 
 				http::response<http::string_body> res{ http::status::ok, req.version() };
@@ -284,14 +285,30 @@ namespace RadJAV
 				}
 				
 				this->run();
-				boost::asio::io_context& ioc_ = ioc;
+				//boost::asio::io_context& ioc_ = ioc;
 				// Run the I/O service on the requested number of threads
-				v.reserve(threads);
-				for (auto i = threads; i > 0; --i)
-					v.emplace_back(
-						[&ioc_]
-				{
-					ioc_.run();
+				//v.reserve(threads);
+				//for (auto i = threads; i > 0; --i)
+				//	v.emplace_back(
+				//		[&]
+				//{
+				//	ioc.run();
+				//});
+
+				//option #2
+				//boost::asio::executor_work_guard<boost::asio::io_context::executor_type>
+				//	guardian = boost::asio::make_work_guard(ioc);
+				//std::thread run_thread([&] { ioc.run(); });
+
+				//option #3 that supposed to be equal to #2
+				//std::thread run_thread(
+				//	std::bind(static_cast<size_t(boost::asio::io_context::*)()>(
+				//		&boost::asio::io_context::run), std::ref(ioc)));
+
+				//option #4 use coroutines for the sake of getting same thread Id and async behavior
+				boost::asio::spawn(ioc, [&](boost::asio::yield_context yield) {
+					const auto work = boost::asio::make_work_guard(ioc);
+					ioc.run();
 				});
 				//ioc.run();
 			}
