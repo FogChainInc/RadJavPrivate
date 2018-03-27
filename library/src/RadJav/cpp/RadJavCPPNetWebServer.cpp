@@ -41,6 +41,26 @@ namespace RadJAV
 	{
 		namespace Net
 		{
+
+#ifdef GUI_USE_WXWIDGETS
+
+			WebServerThread::WebServerThread(v8::Persistent<v8::Function>* resolvep, boost::asio::io_context* ioc)
+			:ioc(ioc),
+			resolvep(resolvep)
+			{
+			}
+
+			WebServerThread::ExitCode WebServerThread::Entry() {
+				
+				ioc->run();
+
+				V8_JAVASCRIPT_ENGINE->removeThread(this);
+
+				return (0);
+			};
+
+#endif
+
 			// Report a failure
 			void fail(boost::system::error_code ec, char const* what)
 			{
@@ -286,14 +306,16 @@ namespace RadJAV
 				this->run();
 				boost::asio::io_context& ioc_ = ioc;
 				// Run the I/O service on the requested number of threads
-				v.reserve(threads);
-				for (auto i = threads; i > 0; --i)
-					v.emplace_back(
-						[&ioc_]
-				{
-					ioc_.run();
-				});
-				//ioc.run();
+				//v.reserve(threads);
+				//for (auto i = threads; i > 0; --i)
+				//	v.emplace_back(
+				//		[&ioc_]
+				//{
+				//	ioc_.run();
+				//});
+				///*ioc.run()*/;
+				WebServerThread* thread = new WebServerThread(this->servePersistent, &ioc);
+				thread->Run();
 			}
 
 #ifdef USE_V8
@@ -309,7 +331,7 @@ namespace RadJAV
 
 			void WebServer::stop()
 			{
-				Sleep(3 * 1000);
+				//Sleep(3 * 1000);
 				ioc.stop();
 				while (false == ioc.stopped()) {
 					Sleep(1 * 1000);
