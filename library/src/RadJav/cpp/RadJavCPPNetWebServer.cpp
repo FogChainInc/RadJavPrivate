@@ -89,10 +89,21 @@ namespace RadJAV
 
 				if (V8_JAVASCRIPT_ENGINE->v8IsNull(func) == false)
 				{
-					RJINT numArgs = 0;
+					/*RJINT numArgs = 0;
 					v8::Local<v8::Value> *args = NULL;
 
-					v8::Local<v8::Value> result = func->Call(V8_JAVASCRIPT_ENGINE->globalContext->Global(), numArgs, NULL);
+					v8::Local<v8::Value> result = func->Call(V8_JAVASCRIPT_ENGINE->globalContext->Global(), numArgs, NULL);*/
+
+					AsyncFunctionCall *call = RJNEW AsyncFunctionCall(servePersistent);
+					call->deleteOnComplete = false;
+					V8_JAVASCRIPT_ENGINE->callFunctionOnNextTick(call);
+
+					while (call->checkForResult() == false)
+					{
+					}
+
+					v8::Local<v8::Value> result = call->getResult(V8_JAVASCRIPT_ENGINE);
+
 					sendToClient = parseV8ValueIsolate(V8_JAVASCRIPT_ENGINE->isolate, result);
 				}
 
