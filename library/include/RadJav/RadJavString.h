@@ -204,6 +204,7 @@
 
 		#ifdef USE_V8
 			String parseV8Value(v8::Local<v8::Value> str);
+			String parseV8ValueIsolate(v8::Isolate *isolate, v8::Local<v8::Value> str);
 		#endif
 
 		/// Convert a hex string into an integer.

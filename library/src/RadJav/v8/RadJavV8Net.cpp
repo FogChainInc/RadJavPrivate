@@ -138,7 +138,7 @@ namespace RadJAV
 					results->Reset(V8_JAVASCRIPT_ENGINE->isolate, ary);
 				}
 
-				V8_JAVASCRIPT_ENGINE->callFunctionOnNextTick(resolvep, results);
+				V8_JAVASCRIPT_ENGINE->callFunctionOnNextTick(RJNEW AsyncFunctionCall (resolvep, results));
 
 				DELETEOBJ(str);
 				V8_JAVASCRIPT_ENGINE->removeThread(this);

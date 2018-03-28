@@ -74,6 +74,29 @@
 namespace RadJAV
 {
 	#ifdef USE_V8
+		AsyncFunctionCall::AsyncFunctionCall (v8::Persistent<v8::Function> *newfunc, 
+			v8::Persistent<v8::Array> *newargs, RJBOOL newDeleteOnComplete)
+		{
+			func = newfunc;
+			args = newargs;
+			deleteOnComplete = newDeleteOnComplete;
+			result = NULL;
+		}
+
+		AsyncFunctionCall::~AsyncFunctionCall()
+		{
+			DELETEOBJ(func);
+			DELETEOBJ(args);
+			DELETEOBJ(result);
+		}
+
+		v8::Local<v8::Value> AsyncFunctionCall::getResult(V8JavascriptEngine *engine)
+		{
+			v8::Local<v8::Value> asyncResult = result->Get(engine->isolate);
+
+			return (asyncResult);
+		}
+
 		/*void *V8ArrayBufferAllocator::Allocate(size_t length)
 		{
 			void *data = AllocateUninitialized(length);
@@ -435,18 +458,17 @@ namespace RadJAV
 					#endif
 
 					// Handle any functions that need to be executed from a thread.
-					auto funcBegin = funcNext.begin();
-					auto funcArgsBegin = funcNextArgs.begin();
-					auto funcDeleteBegin = funcDelete.begin();
-					auto funcEnd = funcNext.end();
+					auto funcBegin = funcs.begin();
+					auto funcEnd = funcs.end();
 
 					// Handle any functions that need to be executed.
 					//if (funcBegin != funcEnd)
 					while (funcBegin != funcEnd)
 					{
-						v8::Persistent<v8::Function> *funcp = *funcBegin;
-						v8::Persistent<v8::Array> *args = *funcArgsBegin;
-						RJBOOL deleteOnComplete = *funcDeleteBegin;
+						AsyncFunctionCall *asyncCall = *funcBegin;
+						v8::Persistent<v8::Function> *funcp = asyncCall->func;
+						v8::Persistent<v8::Array> *args = asyncCall->args;
+						RJBOOL deleteOnComplete = asyncCall->deleteOnComplete;
 						v8::Local<v8::Array> args2;
 						RJINT numArgs = 0;
 
@@ -467,29 +489,28 @@ namespace RadJAV
 						v8::Local<v8::Function> func = funcp->Get(isolate);
 
 						if (func->IsNullOrUndefined() == false)
-							func->Call(globalContext->Global(), numArgs, args3);
+						{
+							v8::Local<v8::Value> result = func->Call(globalContext->Global(), numArgs, args3);
+							v8::Persistent<v8::Value> *presult = RJNEW v8::Persistent<v8::Value>();
+
+							presult->Reset(isolate, result);
+
+							asyncCall->result = presult;
+						}
 
 						if (numArgs > 0)
 							DELETEARRAY(args3);
 
 						if (deleteOnComplete == true)
-						{
-							//DELETEOBJ(funcp);
-							args->Empty();
-							DELETEOBJ(args);
-						}
+							DELETEOBJ(asyncCall);
 
 						//funcNext.erase(funcBegin);
 						//funcNextArgs.erase (funcArgsBegin);
 						//funcDelete.erase(funcDeleteBegin);
 						funcBegin++;
-						funcArgsBegin++;
-						funcDeleteBegin++;
 					}
 
-					funcNext.clear();
-					funcNextArgs.clear();
-					funcDelete.clear();
+					funcs.clear();
 
 					#ifdef GUI_USE_WXWIDGETS
 						criticalSection->Leave();
@@ -677,11 +698,9 @@ namespace RadJAV
 			jsToExecuteNextContext.push_back(context);
 		}
 
-		void V8JavascriptEngine::callFunctionOnNextTick(v8::Persistent<v8::Function> *func, v8::Persistent<v8::Array> *args, RJBOOL deleteOnComplete)
+		void V8JavascriptEngine::callFunctionOnNextTick(AsyncFunctionCall *call)
 		{
-			funcNext.push_back(func);
-			funcNextArgs.push_back(args);
-			funcDelete.push_back(deleteOnComplete);
+			funcs.push_back(call);
 		}
 
 		void V8JavascriptEngine::collectGarbage()
