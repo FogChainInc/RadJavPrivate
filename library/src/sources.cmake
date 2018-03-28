@@ -1,3 +1,4 @@
+# Main RadJav
 set (SOURCES_files_RADJAV__Main__Sources
 	"${libRadJav_SOURCE_DIR}/src/RadJav/RadJav.cpp"
 	"${libRadJav_SOURCE_DIR}/src/RadJav/RadJavHashMap.cpp"
@@ -11,6 +12,7 @@ source_group ("RadJav\\Main" FILES ${SOURCES_files_RADJAV__Main__Sources})
 
 set (SOURCES ${SOURCES_files_RADJAV__Main__Sources} ${SOURCES})
 
+# wxWidgets
 set (SOURCES_files_wxWidgets__Main__Sources 
 	"${libRadJav_SOURCE_DIR}/src/RadJav/RadJavWxWidgets.cpp"
 	"${libRadJav_SOURCE_DIR}/src/RadJav/RadJavWxWidgetsNetworking.cpp")
@@ -18,12 +20,14 @@ source_group ("RadJav\\wxWidgets" FILES ${SOURCES_files_wxWidgets__Main__Sources
 
 set (SOURCES ${SOURCES_files_wxWidgets__Main__Sources} ${SOURCES})
 
+# V8 JavaScript Engine
 set (SOURCES_files_RadJav__v8__Sources 
 	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8JavascriptEngine.cpp")
 source_group ("RadJav\\V8" FILES ${SOURCES_files_RadJav__v8__Sources})
 
 set (SOURCES ${SOURCES_files_RadJav__v8__Sources} ${SOURCES})
 
+# V8 GUI
 set (SOURCES_files_RadJav__v8__GUI__Sources 
 	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIGObject.cpp"
 	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIWindow.cpp"
@@ -44,30 +48,35 @@ source_group ("RadJav\\V8\\GUI" FILES ${SOURCES_files_RadJav__v8__GUI__Sources})
 
 set (SOURCES ${SOURCES_files_RadJav__v8__GUI__Sources} ${SOURCES})
 
+# V8 Global
 set (SOURCES_files_RadJav__v8__Global__Sources 
 	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8Global.cpp")
 source_group ("RadJav\\V8\\Global" FILES ${SOURCES_files_RadJav__v8__Global__Sources})
 
 set (SOURCES ${SOURCES_files_RadJav__v8__Global__Sources} ${SOURCES})
 
+# V8 OS
 set (SOURCES_files_RadJav__v8__OS__Sources 
 	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8OS.cpp")
 source_group ("RadJav\\V8\\OS" FILES ${SOURCES_files_RadJav__v8__OS__Sources})
 
 set (SOURCES ${SOURCES_files_RadJav__v8__OS__Sources} ${SOURCES})
 
+# V8 Console
 set (SOURCES_files_RadJav__v8__Console__Sources 
 	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8Console.cpp")
 source_group ("RadJav\\V8\\Console" FILES ${SOURCES_files_RadJav__v8__Console__Sources})
 
 set (SOURCES ${SOURCES_files_RadJav__v8__Console__Sources} ${SOURCES})
 
+# V8 IO
 set (SOURCES_files_RadJav__v8__IO__Sources 
 	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8IO.cpp")
 source_group ("RadJav\\V8\\IO" FILES ${SOURCES_files_RadJav__v8__IO__Sources})
 
 set (SOURCES ${SOURCES_files_RadJav__v8__IO__Sources} ${SOURCES})
 
+# V8 Networking
 set (SOURCES_files_RadJav__v8__Net__Sources 
 	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8Net.cpp"
 	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8NetWebSocket.cpp"
@@ -76,24 +85,28 @@ source_group ("RadJav\\V8\\Net" FILES ${SOURCES_files_RadJav__v8__Net__Sources})
 
 set (SOURCES ${SOURCES_files_RadJav__v8__Net__Sources} ${SOURCES})
 
+# V8 Blockchain
 set (SOURCES_files_RadJav__v8__Blockchain__Sources 
 	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8BlockchainV1.cpp")
 source_group ("RadJav\\V8\\Blockchain" FILES ${SOURCES_files_RadJav__v8__Blockchain__Sources})
 
 set (SOURCES ${SOURCES_files_RadJav__v8__Blockchain__Sources} ${SOURCES})
 
+# V8
 set (SOURCES_files_Javascript__Main__Sources 
 	"${libRadJav_SOURCE_DIR}/src/RadJav/RadJavJavascriptEngine.cpp")
 source_group ("RadJav\\Javascript" FILES ${SOURCES_files_Javascript__Main__Sources})
 
 set (SOURCES ${SOURCES_files_Javascript__Main__Sources} ${SOURCES})
 
+# Networking
 set (SOURCES_files_Networking__Main__Sources 
 	"${libRadJav_SOURCE_DIR}/src/RadJav/RadJavNetworking.cpp")
 source_group ("RadJav\\Networking" FILES ${SOURCES_files_Networking__Main__Sources})
 
 set (SOURCES ${SOURCES_files_Networking__Main__Sources} ${SOURCES})
 
+# C++ Global
 set (SOURCES_files_RadJav__cpp__Global__Sources 
 	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPColor.cpp"
 	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPFont.cpp"
@@ -106,12 +119,14 @@ source_group ("RadJav\\CPP\\Global" FILES ${SOURCES_files_RadJav__cpp__Global__S
 
 set (SOURCES ${SOURCES_files_RadJav__cpp__Global__Sources} ${SOURCES})
 
+# C++ IO
 set (SOURCES_files_RadJav__cpp__IO__Sources 
 	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPIO.cpp")
 source_group ("RadJav\\CPP\\IO" FILES ${SOURCES_files_RadJav__cpp__IO__Sources})
 
 set (SOURCES ${SOURCES_files_RadJav__cpp__IO__Sources} ${SOURCES})
 
+# C++ Networking
 set (SOURCES_files_RadJav__cpp__Net__Sources 
 	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebSocketServer.cpp"
 	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebSocketClient.cpp"
@@ -120,6 +135,7 @@ source_group ("RadJav\\CPP\\Net" FILES ${SOURCES_files_RadJav__cpp__Net__Sources
 
 set (SOURCES ${SOURCES_files_RadJav__cpp__Net__Sources} ${SOURCES})
 
+# C++ GUI
 set (SOURCES_files_RadJav__cpp__GUI__Sources 
 	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUIGObject.cpp"
 	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUIWindow.cpp"
@@ -141,6 +157,7 @@ source_group ("RadJav\\CPP\\GUI" FILES ${SOURCES_files_RadJav__cpp__GUI__Sources
 set (SOURCES ${SOURCES_files_RadJav__cpp__GUI__Sources} ${SOURCES})
 
 if (USE_OGRE)
+	# V8 C3D
 	set (SOURCES_files_RadJav__v8__C3D__Sources 
 		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8C3DObject3D.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8C3DEntity.cpp"
@@ -149,12 +166,14 @@ if (USE_OGRE)
 
 	set (SOURCES ${SOURCES_files_RadJav__v8__C3D__Sources} ${SOURCES})
 
+	# V8 GUI Canvas3D
 	set (SOURCES_files_RadJav__v8__GUI__Sources 
 		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUICanvas3D.cpp")
 	source_group ("RadJav\\V8\\GUI" FILES ${SOURCES_files_RadJav__v8__GUI__Sources})
 
 	set (SOURCES ${SOURCES_files_RadJav__v8__GUI__Sources} ${SOURCES})
 
+	# C++ GUI Canvas3D
 	set (SOURCES_files_RadJav__cpp__GUI__Sources 
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUICanvas3D.cpp")
 	source_group ("RadJav\\CPP\\GUI" FILES ${SOURCES_files_RadJav__cpp__GUI__Sources})
@@ -163,6 +182,7 @@ if (USE_OGRE)
 endif ()
 
 if (libRadJav_INCLUDE_BLOCKCHAIN_V1)
+	# BlockchainV1
 	set (SOURCES_files_BlockchainV1__Main__Sources 
 		"${libRadJav_SOURCE_DIR}/blockchainV1/src/arith_uint256.cpp"
 		"${libRadJav_SOURCE_DIR}/blockchainV1/src/amount.cpp"
