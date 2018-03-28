@@ -26,9 +26,6 @@
 #include <functional>
 #include <iostream>
 #include <memory>
-#include <thread>
-#include <vector>
-
 
 #include "RadJavString.h"
 #include "RadJav\v8\RadJavV8JavascriptEngine.h"
@@ -44,18 +41,15 @@ namespace RadJAV
 
 #ifdef GUI_USE_WXWIDGETS
 
-			WebServerThread::WebServerThread(v8::Persistent<v8::Function>* resolvep, boost::asio::io_context* ioc)
-			:ioc(ioc),
-			resolvep(resolvep)
+			WebServerThread::WebServerThread(boost::asio::io_context* ioc)
+			: ioc(ioc)
 			{
 			}
 
 			WebServerThread::ExitCode WebServerThread::Entry() {
-				
 				ioc->run();
 
 				V8_JAVASCRIPT_ENGINE->removeThread(this);
-
 				return (0);
 			};
 
@@ -64,7 +58,7 @@ namespace RadJAV
 			// Report a failure
 			void fail(boost::system::error_code ec, char const* what)
 			{
-				std::string tmp("error [");
+				String tmp("error [");
 				tmp.append(what);
 				tmp.append("]:\n");
 				RadJAV::RadJav::throwJSException(tmp.append(ec.message()));
@@ -78,7 +72,6 @@ namespace RadJAV
 			// caller to pass a generic lambda for receiving the response.
 			template< class Body, class Allocator, class Send>
 			void handle_request(
-				boost::beast::string_view doc_root,
 				http::request<Body, http::basic_fields<Allocator>>&& req,
 				Send&& send,
 				v8::Persistent<v8::Function> * servePersistent
@@ -89,11 +82,6 @@ namespace RadJAV
 
 				if (V8_JAVASCRIPT_ENGINE->v8IsNull(func) == false)
 				{
-					/*RJINT numArgs = 0;
-					v8::Local<v8::Value> *args = NULL;
-
-					v8::Local<v8::Value> result = func->Call(V8_JAVASCRIPT_ENGINE->globalContext->Global(), numArgs, NULL);*/
-
 					AsyncFunctionCall *call = RJNEW AsyncFunctionCall(servePersistent);
 					call->deleteOnComplete = false;
 					V8_JAVASCRIPT_ENGINE->callFunctionOnNextTick(call);
@@ -162,7 +150,6 @@ namespace RadJAV
 				tcp::socket socket_;
 				boost::asio::strand<boost::asio::io_context::executor_type> strand_;
 				boost::beast::flat_buffer buffer_;
-				std::string const& doc_root_;
 				http::request<http::string_body> req_;
 				std::shared_ptr<void> res_;
 				send_lambda lambda_;
@@ -170,10 +157,9 @@ namespace RadJAV
 
 			public:
 				// Take ownership of the socket
-				explicit session(tcp::socket socket, std::string const& doc_root, v8::Persistent<v8::Function> * servePersistent)
+				explicit session(tcp::socket socket, v8::Persistent<v8::Function> * servePersistent)
 					: socket_(std::move(socket))
 					, strand_(socket_.get_executor())
-					, doc_root_(doc_root)
 					, lambda_(*this)
 					, servePersistent(servePersistent)
 				{
@@ -217,7 +203,7 @@ namespace RadJAV
 						return fail(ec, "read");
 
 					// Send the response
-					handle_request(doc_root_, std::move(req_), lambda_, servePersistent);
+					handle_request(std::move(req_), lambda_, servePersistent);
 				}
 
 				void on_write(boost::system::error_code ec, std::size_t bytes_transferred, bool close)
@@ -253,16 +239,13 @@ namespace RadJAV
 
 			// Accepts incoming connections and launches the sessions
 			WebServer::WebServer()
-				: threads(1),
-				ioc(threads),
+				:ioc(1), //single child thread
 				acceptor(ioc),
 				socket(ioc),
 				isAlive(false)
 			{
-				_serverType = WebServerTypes::HTTP;
-
+				serverType = WebServerTypes::HTTP;
 				address = boost::asio::ip::make_address("127.0.0.1");
-				doc_root = std::string("d:\\Radjav\\RadJavPrivate\\vm\\build\\Debug\\");
 				port = 80;
 			}
 
@@ -316,21 +299,16 @@ namespace RadJAV
 				}
 				
 				this->run();
-				boost::asio::io_context& ioc_ = ioc;
-				// Run the I/O service on the requested number of threads
-				//v.reserve(threads);
-				//for (auto i = threads; i > 0; --i)
-				//	v.emplace_back(
-				//		[&ioc_]
-				//{
-				//	ioc_.run();
-				//});
-				///*ioc.run()*/;
-				WebServerThread* thread = new WebServerThread(this->servePersistent, &ioc);
-				thread->Run();
 
-				//TODO: move to actual run
+#ifdef GUI_USE_WXWIDGETS	
+				WebServerThread* thread = new WebServerThread(&ioc);
+				thread->Run();
+				isAlive = thread->IsAlive();
+#else
+				//blocking execution
 				isAlive = true;
+				ioc.run();
+#endif
 			}
 
 #ifdef USE_V8
@@ -346,10 +324,9 @@ namespace RadJAV
 
 			void WebServer::stop()
 			{
-				Sleep(5 * 1000);
 				ioc.stop();
 				while (false == ioc.stopped()) {
-					Sleep(1 * 1000);
+					Sleep(1 * 50); //50 ms
 				}
 				this->close();
 			}
@@ -381,7 +358,7 @@ namespace RadJAV
 				else
 				{
 					// Create the session and run it
-					std::make_shared<session>(std::move(socket), doc_root, servePersistent)->run();
+					std::make_shared<session>(std::move(socket), servePersistent)->run();
 				}
 
 				// Accept another connection
@@ -390,7 +367,7 @@ namespace RadJAV
 
 			void WebServer::close()
 			{
-				//TODO: implement
+				//TODO: check graceful exit behavior on ioc.stop()
 				acceptor.close();
 				isAlive = false;
 			}

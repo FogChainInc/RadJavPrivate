@@ -54,11 +54,10 @@
 				class RADJAV_EXPORT WebServerThread : public Thread
 				{
 				public:
-					WebServerThread(v8::Persistent<v8::Function> *resolvep, boost::asio::io_context* ioc);
-
+					WebServerThread(boost::asio::io_context* ioc);
 					wxThread::ExitCode Entry();
+				private:
 					boost::asio::io_context* ioc;
-					v8::Persistent<v8::Function> *resolvep;
 				};
 #endif
 
@@ -85,16 +84,14 @@
 						/// The port.
 						RJINT port;
 						/// The server type.
-						RJINT _serverType;
+						RJINT serverType;
+						/// Flag that indicates if listening context available 
 						RJBOOL isAlive;
 				private:
 					boost::asio::ip::address address;
-					int threads;
-					std::vector<Thread> v;
 					boost::asio::io_context ioc;
 					tcp::acceptor acceptor;
 					tcp::socket socket;
-					std::string doc_root;
 					void run();
 					void do_accept();
 					void on_accept(boost::system::error_code ec);

@@ -62,7 +62,7 @@ namespace RadJAV
 			{
 				NETTYPE *webServer = (NETTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_webServer");
 
-				if ((webServer == NULL) || (webServer->isAlive == false))
+				if (webServer == NULL)
 				{
 					V8_JAVASCRIPT_ENGINE->throwException(" web server not listening");
 					return;
@@ -76,6 +76,12 @@ namespace RadJAV
 			void WebServer::stop(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				NETTYPE *webServer = (NETTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_webServer");
+
+				if ((webServer == NULL) || (webServer->isAlive == false))
+				{
+					V8_JAVASCRIPT_ENGINE->throwException(" web server not listening");
+					return;
+				}
 
 				webServer->stop();
 			}
