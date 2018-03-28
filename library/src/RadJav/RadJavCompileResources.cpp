@@ -145,6 +145,8 @@ int main (int iArgs, char **cArgs)
 	ary.push_back ("RadJav.GUI.Window.js");
 	ary.push_back ("RadJav.GUI.MenuBar.js");
 	ary.push_back ("RadJav.GUI.MenuItem.js");
+	ary.push_back ("RadJav.GUI.KeyEvent.js");
+	ary.push_back ("RadJav.GUI.MouseEvent.js");
 	ary.push_back ("RadJav.Net.WebSocketServer.js");
 	ary.push_back ("RadJav.Net.WebSocketClient.js");
 	ary.push_back ("RadJav.Net.WebServer.js");
