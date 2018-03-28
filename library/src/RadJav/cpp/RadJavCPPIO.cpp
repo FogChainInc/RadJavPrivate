@@ -22,6 +22,8 @@
 #include "RadJav.h"
 #include "RadJavString.h"
 
+#include <fstream>
+
 namespace RadJAV
 {
 	namespace CPP
