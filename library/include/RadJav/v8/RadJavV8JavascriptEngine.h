@@ -40,6 +40,35 @@
 
 	namespace RadJAV
 	{
+		class V8JavascriptEngine;
+
+		/// Create an asynchronous function call.
+		class RADJAV_EXPORT AsyncFunctionCall
+		{
+			public:
+				AsyncFunctionCall(v8::Persistent<v8::Function> *newfunc, 
+					v8::Persistent<v8::Array> *newargs = NULL, RJBOOL newDeleteOnComplete = true);
+				~AsyncFunctionCall();
+
+				/// Check to see if an asynchronous function call has a result. Be sure to set deleteOnComplete = true;
+				inline RJBOOL checkForResult()
+				{
+					if (result != NULL)
+						return (true);
+
+					return (false);
+				}
+
+				/// Get the result from the async function call. Be sure to set deleteOnComplete = true;
+				v8::Local<v8::Value> getResult(V8JavascriptEngine *engine);
+
+				v8::Persistent<v8::Function> *func;
+				v8::Persistent<v8::Array> *args;
+				RJBOOL deleteOnComplete;
+
+				v8::Persistent<v8::Value> *result;
+		};
+
 		/// The array buffer allocator used for V8.
 		/*class RADJAV_EXPORT V8ArrayBufferAllocator: public v8::ArrayBuffer::Allocator
 		{
@@ -82,8 +111,7 @@
 				/// Execute javascript on the next tick.
 				void executeScriptNextTick(String code, String fileName, v8::Local<v8::Object> context = v8::Local<v8::Object>());
 				/// Call a function on the next tick. Any args passed MUST be an array.
-				void callFunctionOnNextTick(v8::Persistent<v8::Function> *func,
-						v8::Persistent<v8::Array> *args = NULL, RJBOOL deleteOnComplete  = true);
+				void callFunctionOnNextTick(AsyncFunctionCall *call);
 				/// Connect the native library to the Javascript library.
 				void loadNativeCode();
 
@@ -193,9 +221,7 @@
 				Array<String> jsToExecuteNextFilename;
 				Array< v8::Local<v8::Object> > jsToExecuteNextContext;
 
-				Array<v8::Persistent<v8::Function> *> funcNext;
-				Array<v8::Persistent<v8::Array> *> funcNextArgs;
-				Array<RJBOOL> funcDelete;
+				Array<AsyncFunctionCall *> funcs;
 
 				Array<v8::Persistent<v8::Function> *> timeoutFuncs;
 				Array<RJINT> timeouts;

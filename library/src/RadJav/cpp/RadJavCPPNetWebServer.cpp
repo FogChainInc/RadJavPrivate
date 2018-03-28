@@ -41,6 +41,26 @@ namespace RadJAV
 	{
 		namespace Net
 		{
+
+#ifdef GUI_USE_WXWIDGETS
+
+			WebServerThread::WebServerThread(v8::Persistent<v8::Function>* resolvep, boost::asio::io_context* ioc)
+			:ioc(ioc),
+			resolvep(resolvep)
+			{
+			}
+
+			WebServerThread::ExitCode WebServerThread::Entry() {
+				
+				ioc->run();
+
+				V8_JAVASCRIPT_ENGINE->removeThread(this);
+
+				return (0);
+			};
+
+#endif
+
 			// Report a failure
 			void fail(boost::system::error_code ec, char const* what)
 			{
@@ -64,16 +84,27 @@ namespace RadJAV
 				v8::Persistent<v8::Function> * servePersistent
 			)
 			{
-				auto func = v8::Local<v8::Function>::Cast(servePersistent->Get(V8_JAVASCRIPT_ENGINE->isolate));
-				String sendToClient = "default";
+				v8::Local<v8::Function> func = v8::Local<v8::Function>::Cast(servePersistent->Get(V8_JAVASCRIPT_ENGINE->isolate));
+				String sendToClient = "";
 
 				if (V8_JAVASCRIPT_ENGINE->v8IsNull(func) == false)
 				{
-					RJINT numArgs = 0;
+					/*RJINT numArgs = 0;
 					v8::Local<v8::Value> *args = NULL;
- 
-					auto result = v8::Local<v8::String>::Cast(func->Call(V8_JAVASCRIPT_ENGINE->globalContext->Global(), numArgs, NULL));
-					sendToClient = parseV8Value(result);
+
+					v8::Local<v8::Value> result = func->Call(V8_JAVASCRIPT_ENGINE->globalContext->Global(), numArgs, NULL);*/
+
+					AsyncFunctionCall *call = RJNEW AsyncFunctionCall(servePersistent);
+					call->deleteOnComplete = false;
+					V8_JAVASCRIPT_ENGINE->callFunctionOnNextTick(call);
+
+					while (call->checkForResult() == false)
+					{
+					}
+
+					v8::Local<v8::Value> result = call->getResult(V8_JAVASCRIPT_ENGINE);
+
+					sendToClient = parseV8ValueIsolate(V8_JAVASCRIPT_ENGINE->isolate, result);
 				}
 
 				http::response<http::string_body> res{ http::status::ok, req.version() };
@@ -225,7 +256,8 @@ namespace RadJAV
 				: threads(1),
 				ioc(threads),
 				acceptor(ioc),
-				socket(ioc)
+				socket(ioc),
+				isAlive(false)
 			{
 				_serverType = WebServerTypes::HTTP;
 
@@ -286,14 +318,19 @@ namespace RadJAV
 				this->run();
 				boost::asio::io_context& ioc_ = ioc;
 				// Run the I/O service on the requested number of threads
-				v.reserve(threads);
-				for (auto i = threads; i > 0; --i)
-					v.emplace_back(
-						[&ioc_]
-				{
-					ioc_.run();
-				});
-				//ioc.run();
+				//v.reserve(threads);
+				//for (auto i = threads; i > 0; --i)
+				//	v.emplace_back(
+				//		[&ioc_]
+				//{
+				//	ioc_.run();
+				//});
+				///*ioc.run()*/;
+				WebServerThread* thread = new WebServerThread(this->servePersistent, &ioc);
+				thread->Run();
+
+				//TODO: move to actual run
+				isAlive = true;
 			}
 
 #ifdef USE_V8
@@ -309,7 +346,7 @@ namespace RadJAV
 
 			void WebServer::stop()
 			{
-				Sleep(3 * 1000);
+				Sleep(5 * 1000);
 				ioc.stop();
 				while (false == ioc.stopped()) {
 					Sleep(1 * 1000);
@@ -355,6 +392,7 @@ namespace RadJAV
 			{
 				//TODO: implement
 				acceptor.close();
+				isAlive = false;
 			}
 		}
 	}

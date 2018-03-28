@@ -37,6 +37,7 @@
 	#include "RadJav.h"
 	#include "RadJavString.h"
 	#include "RadJavHashMap.h"
+	#include "RadJavThread.h"
 
 
 	namespace ip = boost::asio::ip;
@@ -49,6 +50,18 @@
 		{
 			namespace Net
 			{
+#ifdef GUI_USE_WXWIDGETS
+				class RADJAV_EXPORT WebServerThread : public Thread
+				{
+				public:
+					WebServerThread(v8::Persistent<v8::Function> *resolvep, boost::asio::io_context* ioc);
+
+					wxThread::ExitCode Entry();
+					boost::asio::io_context* ioc;
+					v8::Persistent<v8::Function> *resolvep;
+				};
+#endif
+
 				// Accepts incoming connections and launches the sessions
 				class RADJAV_EXPORT WebServer : public std::enable_shared_from_this<WebServer>
 				{
@@ -73,11 +86,11 @@
 						RJINT port;
 						/// The server type.
 						RJINT _serverType;
-
+						RJBOOL isAlive;
 				private:
 					boost::asio::ip::address address;
 					int threads;
-					std::vector<std::thread> v;
+					std::vector<Thread> v;
 					boost::asio::io_context ioc;
 					tcp::acceptor acceptor;
 					tcp::socket socket;

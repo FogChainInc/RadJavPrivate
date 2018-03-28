@@ -4,35 +4,18 @@ webServer.serve (function (request)
 	{
 		var response = "";
 
-		if (request.type == RadJav.Net.WebServerRequestType.GET)
+//		if (request.type == RadJav.Net.WebServerRequestType.GET)
 		{
-			if (request.page == "/")
+//			if (request.page == "/")
 				response = "Hello world!";
 		}
 
 		return (response);
 	});
-
+	
+//setTimeout(function()
+//	{
+//		webServer.stop();
+//	}, 5000);
+	
 webServer.listen (80);
-
-webServer.stop();
-
-var webServer2 = new RadJav.Net.WebServer ();
-
-webServer2.serve (function (request)
-	{
-		var response = "";
-
-		if (request.type == RadJav.Net.WebServerRequestType.GET)
-		{
-			if (request.page == "/")
-				response = "Hello world!";
-		}
-
-		return (response);
-	});
-
-webServer2.listen (82);
-
-
-webServer2.stop();
