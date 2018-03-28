@@ -86,7 +86,7 @@
 						RJINT port;
 						/// The server type.
 						RJINT _serverType;
-
+						RJBOOL isAlive;
 				private:
 					boost::asio::ip::address address;
 					int threads;

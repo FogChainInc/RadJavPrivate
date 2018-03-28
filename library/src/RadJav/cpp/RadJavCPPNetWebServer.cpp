@@ -256,7 +256,8 @@ namespace RadJAV
 				: threads(1),
 				ioc(threads),
 				acceptor(ioc),
-				socket(ioc)
+				socket(ioc),
+				isAlive(false)
 			{
 				_serverType = WebServerTypes::HTTP;
 
@@ -327,6 +328,9 @@ namespace RadJAV
 				///*ioc.run()*/;
 				WebServerThread* thread = new WebServerThread(this->servePersistent, &ioc);
 				thread->Run();
+
+				//TODO: move to actual run
+				isAlive = true;
 			}
 
 #ifdef USE_V8
@@ -342,7 +346,7 @@ namespace RadJAV
 
 			void WebServer::stop()
 			{
-				//Sleep(3 * 1000);
+				Sleep(5 * 1000);
 				ioc.stop();
 				while (false == ioc.stopped()) {
 					Sleep(1 * 1000);
@@ -388,6 +392,7 @@ namespace RadJAV
 			{
 				//TODO: implement
 				acceptor.close();
+				isAlive = false;
 			}
 		}
 	}

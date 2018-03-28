@@ -61,6 +61,13 @@ namespace RadJAV
 			void WebServer::serve(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				NETTYPE *webServer = (NETTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_webServer");
+
+				if ((webServer == NULL) || (webServer->isAlive == false))
+				{
+					V8_JAVASCRIPT_ENGINE->throwException(" web server not listening");
+					return;
+				}
+
 				v8::Local<v8::Function> val = v8::Local<v8::Function>::Cast(args[0]);
 
 				webServer->serve(val);
