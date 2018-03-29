@@ -21,6 +21,7 @@
 
 #include "RadJav.h"
 #include "RadJavString.h"
+#include "cpp/RadJavCPPNetWebServer.h"
 
 namespace RadJAV
 {
@@ -31,6 +32,7 @@ namespace RadJAV
 			WebSocketServer::WebSocketServer()
 			{
 				port = 0;
+				isAlive = false;
 			}
 
 			WebSocketServer::~WebSocketServer()
@@ -46,6 +48,15 @@ namespace RadJAV
 				auto const threads = std::max<int>(1, std::atoi("1"));
 				io_context_ = new boost::asio::io_context{ threads };
 				std::make_shared<WebSocketServerListener>(*io_context_, boost::asio::ip::tcp::endpoint{ address, port })->run();
+#ifdef GUI_USE_WXWIDGETS	
+				WebServerThread* thread = new WebServerThread(io_context_);
+				thread->Run();
+				isAlive = thread->IsAlive();
+#else
+				//blocking execution
+				isAlive = true;
+				ioc.run();
+#endif
 			}
 
 			void WebSocketServer::send(String message)

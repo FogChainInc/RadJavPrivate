@@ -59,6 +59,9 @@
 
 						boost::asio::io_context *io_context_;
 
+						/// Flag that indicates if listening context available 
+						RJBOOL isAlive;
+
 						class RADJAV_EXPORT WebSocketServerSession : public std::enable_shared_from_this<WebSocketServerSession>
 						{
 							boost::beast::websocket::stream<boost::asio::ip::tcp::socket> ws_;
