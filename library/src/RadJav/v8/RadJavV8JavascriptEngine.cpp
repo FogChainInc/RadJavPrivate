@@ -153,8 +153,13 @@ namespace RadJAV
 						exposeGC = true;
 
 					if (arg == "--inspect")
+					{
 						useInspector = true;
 
+						//consume non-v8 flag
+						continue;
+					}
+						
 					flags += arg + endSpace;
 				}
 			}
