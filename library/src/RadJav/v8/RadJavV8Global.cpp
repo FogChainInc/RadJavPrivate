@@ -157,7 +157,18 @@ namespace RadJAV
 			}
 
 			String path = parseV8Value(file);
-			String contents = CPP::IO::TextFile::getFileContents(path);
+			String contents = "";
+
+			try
+			{
+				contents = CPP::IO::TextFile::getFileContents(path);
+			}
+			catch (Exception ex)
+			{
+				V8_JAVASCRIPT_ENGINE->throwException(ex.getMessage ());
+
+				return;
+			}
 
 			V8_JAVASCRIPT_ENGINE->executeScript(contents, path);
 

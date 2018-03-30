@@ -36,21 +36,24 @@ namespace RadJAV
 		{
 			void WebServer::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 			{
-				NETTYPE *webServer = RJNEW NETTYPE();
-
-				V8_JAVASCRIPT_ENGINE->v8SetExternal(object, "_webServer", webServer);
-
+				V8_CALLBACK(object, "_init", WebServer::_init);
 				V8_CALLBACK(object, "listen", WebServer::listen);
 				V8_CALLBACK(object, "serve", WebServer::serve);
 				V8_CALLBACK(object, "stop", WebServer::stop);
 			}
 
+			void WebServer::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				NETTYPE *webServer = RJNEW NETTYPE();
+				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_webServer", webServer);
+			}
+
 			void WebServer::listen(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				NETTYPE *webServer = (NETTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_webServer");
 				v8::Local<v8::Number> val = v8::Local<v8::Number>::Cast(args[0]);
 				RJINT port = val->IntegerValue();
 
+				NETTYPE *webServer = (NETTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_webServer");
 				webServer->port = port;
 				webServer->listen();
 			}
@@ -59,12 +62,26 @@ namespace RadJAV
 			{
 				NETTYPE *webServer = (NETTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_webServer");
 
-				webServer->serve();
+				if (webServer == NULL)
+				{
+					V8_JAVASCRIPT_ENGINE->throwException(" web server not listening");
+					return;
+				}
+
+				v8::Local<v8::Function> val = v8::Local<v8::Function>::Cast(args[0]);
+
+				webServer->serve(val);
 			}
 
 			void WebServer::stop(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				NETTYPE *webServer = (NETTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_webServer");
+
+				if ((webServer == NULL) || (webServer->isAlive == false))
+				{
+					V8_JAVASCRIPT_ENGINE->throwException(" web server not listening");
+					return;
+				}
 
 				webServer->stop();
 			}

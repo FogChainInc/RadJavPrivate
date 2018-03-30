@@ -190,7 +190,8 @@ int main (int iArgs, char **cArgs)
 			return (1);
 		}
 
-		text = text.substr(1110);
+		int pos = text.find("*/");
+		text = text.substr(pos + 2);
 
 		int countNewLines = 0;
 

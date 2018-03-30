@@ -12,7 +12,8 @@ message (STATUS "Version 0.1")
 set (CMAKE_MODULE_PATH "${RadJavVM_SOURCE_DIR}/CMake"
 			"${RadJavVM_SOURCE_DIR}/CMake/lib"
 			"${RadJavVM_SOURCE_DIR}/include"
-			"${RadJavVM_SOURCE_DIR}/src")
+			"${RadJavVM_SOURCE_DIR}/src"
+			"${RadJavVM_SOURCE_DIR}/res")
 
 include (Utils)
 
@@ -85,6 +86,7 @@ set (RadJavVM_SOURCES "${RadJavVM_SOURCE_DIR}/src/RadJavVM" ${RadJavVM_SOURCES})
 
 include (includes)
 include (sources)
+include (res)
 
 include (FindModuleCurl)
 include (FindRadJav)
@@ -139,6 +141,22 @@ endif ()
 if (USE_CIVETWEB)
 	include (FindModuleCivetWeb)
 endif ()
+
+# Boost
+include (FindModuleBoost)
+
+include_directories (${Boost_INCLUDE})
+set (RadJavVM_LINK_LIBRARIES ${Boost_LIBRARIES} ${RadJavVM_LINK_LIBRARIES})
+
+set (RadJavVM_CPP_DEFS BOOST_SYSTEM_NO_DEPRECATED ${RadJavVM_CPP_DEFS})
+set (RadJavVM_CPP_DEFS HAVE_WORKING_BOOST_SLEEP_FOR ${RadJavVM_CPP_DEFS})
+set (RadJavVM_CPP_DEFS BOOST_SPIRIT_THREADSAFE ${RadJavVM_CPP_DEFS})
+
+#if (WIN32)
+#	set (RadJavVM_CPP_DEFS WIN32_LEAN_AND_MEAN ${RadJavVM_CPP_DEFS})
+#endif ()
+
+link_directories (${Boost_LIBRARY_DIR_DEBUG} ${Boost_LIBRARY_DIR_RELEASE})
 
 if (OGRE_FOUND)
 	message (STATUS "Ogre 3D Found...")

@@ -74,6 +74,29 @@
 namespace RadJAV
 {
 	#ifdef USE_V8
+		AsyncFunctionCall::AsyncFunctionCall (v8::Persistent<v8::Function> *newfunc, 
+			v8::Persistent<v8::Array> *newargs, RJBOOL newDeleteOnComplete)
+		{
+			func = newfunc;
+			args = newargs;
+			deleteOnComplete = newDeleteOnComplete;
+			result = NULL;
+		}
+
+		AsyncFunctionCall::~AsyncFunctionCall()
+		{
+			DELETEOBJ(func);
+			DELETEOBJ(args);
+			DELETEOBJ(result);
+		}
+
+		v8::Local<v8::Value> AsyncFunctionCall::getResult(V8JavascriptEngine *engine)
+		{
+			v8::Local<v8::Value> asyncResult = result->Get(engine->isolate);
+
+			return (asyncResult);
+		}
+
 		/*void *V8ArrayBufferAllocator::Allocate(size_t length)
 		{
 			void *data = AllocateUninitialized(length);
@@ -130,8 +153,13 @@ namespace RadJAV
 						exposeGC = true;
 
 					if (arg == "--inspect")
+					{
 						useInspector = true;
 
+						//consume non-v8 flag
+						continue;
+					}
+						
 					flags += arg + endSpace;
 				}
 			}
@@ -214,71 +242,81 @@ namespace RadJAV
 			radJav = RJNEW v8::Persistent<v8::Object>();
 			radJav->Reset(isolate, obj);
 
-			// Check the application source to see if its an XRJ file.
-			if (applicationSource != "")
+			try
 			{
-				RJBOOL executeContent = true;
-
-				if (fileName.find(".xrj") != String::npos)
+				// Check the application source to see if its an XRJ file.
+				if (applicationSource != "")
 				{
-					Array<String> filesToExecute;
+					RJBOOL executeContent = true;
 
-					// If the file begins with a {, assume its JSON and parse it.
-					if (applicationSource.at(0) == '{')
+					if (fileName.find(".xrj") != String::npos)
 					{
-						executeContent = false;
-						v8::MaybeLocal<v8::Value> parsedObj;
+						Array<String> filesToExecute;
 
-						try
+						// If the file begins with a {, assume its JSON and parse it.
+						if (applicationSource.at(0) == '{')
 						{
-							parsedObj = v8::JSON::Parse(isolate, applicationSource.toV8String(isolate));
-						}
-						catch (Exception ex)
-						{
-							RadJav::showError(ex.getMessage(), true);
-						}
+							executeContent = false;
+							v8::MaybeLocal<v8::Value> parsedObj;
 
-						v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(parsedObj.ToLocalChecked());
-
-						String name = parseV8Value(obj->Get(String("name").toV8String(isolate)));
-						String developer = parseV8Value(obj->Get(String("developer").toV8String(isolate)));
-						String license = parseV8Value(obj->Get(String("license").toV8String(isolate)));
-						v8::Local<v8::Array> executeFiles = v8::Local<v8::Array>::Cast(obj->Get(String("execute_files").toV8String(isolate)));
-						v8::Local<v8::Array> dependencies = v8::Local<v8::Array>::Cast(obj->Get(String("dependencies").toV8String(isolate)));
-						RJUINT length = executeFiles->Length();
-
-						// Get the list of JavaScript files to execute.
-						for (RJUINT iIdx = 0; iIdx < length; iIdx++)
-						{
-							v8::Local<v8::Value> v8file = v8::Local<v8::Value>::Cast(executeFiles->Get(iIdx));
-
-							if (v8file->IsString() == true)
+							try
 							{
-								String filePath = parseV8Value(v8::Local<v8::String>::Cast(v8file));
-								filesToExecute.push_back(filePath);
+								parsedObj = v8::JSON::Parse(isolate, applicationSource.toV8String(isolate));
+							}
+							catch (Exception ex)
+							{
+								RadJav::showError(ex.getMessage(), true);
 							}
 
-							if (v8file->IsObject() == true)
+							v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(parsedObj.ToLocalChecked());
+
+							String name = parseV8Value(obj->Get(String("name").toV8String(isolate)));
+							String developer = parseV8Value(obj->Get(String("developer").toV8String(isolate)));
+							String license = parseV8Value(obj->Get(String("license").toV8String(isolate)));
+							v8::Local<v8::Array> executeFiles = v8::Local<v8::Array>::Cast(obj->Get(String("execute_files").toV8String(isolate)));
+							v8::Local<v8::Array> dependencies = v8::Local<v8::Array>::Cast(obj->Get(String("dependencies").toV8String(isolate)));
+							RJUINT length = executeFiles->Length();
+
+							// Get the list of JavaScript files to execute.
+							for (RJUINT iIdx = 0; iIdx < length; iIdx++)
 							{
-								v8::Local<v8::Object> fileObj = v8::Local<v8::Object>::Cast(v8file);
-								String javascriptFilePath = parseV8Value(fileObj->Get(String("javascript").toV8String(isolate)));
-								filesToExecute.push_back(javascriptFilePath);
+								v8::Local<v8::Value> v8file = v8::Local<v8::Value>::Cast(executeFiles->Get(iIdx));
+
+								if (v8file->IsString() == true)
+								{
+									String filePath = parseV8Value(v8::Local<v8::String>::Cast(v8file));
+									filesToExecute.push_back(filePath);
+								}
+
+								if (v8file->IsObject() == true)
+								{
+									v8::Local<v8::Object> fileObj = v8::Local<v8::Object>::Cast(v8file);
+									String javascriptFilePath = parseV8Value(fileObj->Get(String("javascript").toV8String(isolate)));
+									filesToExecute.push_back(javascriptFilePath);
+								}
 							}
-						}
 
-						// Once the list has been collected, execute each file.
-						for (RJUINT iIdx = 0; iIdx < filesToExecute.size(); iIdx++)
-						{
-							String executeFile = filesToExecute.at(iIdx);
-							String fileContents = CPP::IO::TextFile::getFileContents(executeFile);
+							// Once the list has been collected, execute each file.
+							for (RJUINT iIdx = 0; iIdx < filesToExecute.size(); iIdx++)
+							{
+								String executeFile = filesToExecute.at(iIdx);
+								String fileContents = CPP::IO::TextFile::getFileContents(executeFile);
 
-							executeScript(fileContents, executeFile);
+								executeScript(fileContents, executeFile);
+							}
 						}
 					}
-				}
 
-				if (executeContent == true)
-					executeScript(applicationSource, fileName);
+					if (executeContent == true)
+						executeScript(applicationSource, fileName);
+				}
+			}
+			catch (Exception ex)
+			{
+				if (exceptionsDisplayMessageBox == true)
+					RadJav::showMessageBox(ex.getMessage(), "Error");
+
+				return;
 			}
 
 			RJBOOL firstRun = true;
@@ -292,23 +330,6 @@ namespace RadJAV
 
 			while (true)
 			{
-				#ifdef GUI_USE_WXWIDGETS
-					currentTime = wxGetLocalTimeMillis();
-					diffTime = (currentTime - prevTime).GetValue ();
-					prevTime = currentTime;
-				#endif
-
-				v8::platform::PumpMessageLoop(platform, isolate);
-				RadJav::runEventLoopSingleStep();
-
-				#ifdef C3D_USE_OGRE
-					if (mRoot != NULL)
-					{
-						if (mRoot->isInitialised () == true)
-							mRoot->renderOneFrame();
-					}
-				#endif
-
 				auto execCodeBegin = jsToExecuteNextCode.begin();
 				auto execFilenameBegin = jsToExecuteNextFilename.begin();
 				auto execContextBegin = jsToExecuteNextContext.begin();
@@ -316,6 +337,23 @@ namespace RadJAV
 
 				try
 				{
+					#ifdef GUI_USE_WXWIDGETS
+						currentTime = wxGetLocalTimeMillis();
+						diffTime = (currentTime - prevTime).GetValue();
+						prevTime = currentTime;
+					#endif
+
+					v8::platform::PumpMessageLoop(platform, isolate);
+					RadJav::runEventLoopSingleStep();
+
+					#ifdef C3D_USE_OGRE
+						if (mRoot != NULL)
+						{
+							if (mRoot->isInitialised() == true)
+								mRoot->renderOneFrame();
+						}
+					#endif
+
 					// Handle the on ready function.
 					if (firstRun == true)
 					{
@@ -435,18 +473,17 @@ namespace RadJAV
 					#endif
 
 					// Handle any functions that need to be executed from a thread.
-					auto funcBegin = funcNext.begin();
-					auto funcArgsBegin = funcNextArgs.begin();
-					auto funcDeleteBegin = funcDelete.begin();
-					auto funcEnd = funcNext.end();
+					auto funcBegin = funcs.begin();
+					auto funcEnd = funcs.end();
 
 					// Handle any functions that need to be executed.
 					//if (funcBegin != funcEnd)
 					while (funcBegin != funcEnd)
 					{
-						v8::Persistent<v8::Function> *funcp = *funcBegin;
-						v8::Persistent<v8::Array> *args = *funcArgsBegin;
-						RJBOOL deleteOnComplete = *funcDeleteBegin;
+						AsyncFunctionCall *asyncCall = *funcBegin;
+						v8::Persistent<v8::Function> *funcp = asyncCall->func;
+						v8::Persistent<v8::Array> *args = asyncCall->args;
+						RJBOOL deleteOnComplete = asyncCall->deleteOnComplete;
 						v8::Local<v8::Array> args2;
 						RJINT numArgs = 0;
 
@@ -467,29 +504,28 @@ namespace RadJAV
 						v8::Local<v8::Function> func = funcp->Get(isolate);
 
 						if (func->IsNullOrUndefined() == false)
-							func->Call(globalContext->Global(), numArgs, args3);
+						{
+							v8::Local<v8::Value> result = func->Call(globalContext->Global(), numArgs, args3);
+							v8::Persistent<v8::Value> *presult = RJNEW v8::Persistent<v8::Value>();
+
+							presult->Reset(isolate, result);
+
+							asyncCall->result = presult;
+						}
 
 						if (numArgs > 0)
 							DELETEARRAY(args3);
 
 						if (deleteOnComplete == true)
-						{
-							//DELETEOBJ(funcp);
-							args->Empty();
-							DELETEOBJ(args);
-						}
+							DELETEOBJ(asyncCall);
 
 						//funcNext.erase(funcBegin);
 						//funcNextArgs.erase (funcArgsBegin);
 						//funcDelete.erase(funcDeleteBegin);
 						funcBegin++;
-						funcArgsBegin++;
-						funcDeleteBegin++;
 					}
 
-					funcNext.clear();
-					funcNextArgs.clear();
-					funcDelete.clear();
+					funcs.clear();
 
 					#ifdef GUI_USE_WXWIDGETS
 						criticalSection->Leave();
@@ -502,14 +538,14 @@ namespace RadJAV
 				catch (Exception ex)
 				{
 					if (exceptionsDisplayMessageBox == true)
-						RadJav::showMessageBox(ex.getMessage (), "Error");
-
-					if (shutdownOnException == true)
-						break;
+						RadJav::showMessageBox(ex.getMessage(), "Error");
 
 					jsToExecuteNextCode.erase(execCodeBegin);
 					jsToExecuteNextFilename.erase(execFilenameBegin);
 					jsToExecuteNextContext.erase(execContextBegin);
+
+					if (shutdownOnException == true)
+						break;
 				}
 			}
 		}
@@ -677,11 +713,9 @@ namespace RadJAV
 			jsToExecuteNextContext.push_back(context);
 		}
 
-		void V8JavascriptEngine::callFunctionOnNextTick(v8::Persistent<v8::Function> *func, v8::Persistent<v8::Array> *args, RJBOOL deleteOnComplete)
+		void V8JavascriptEngine::callFunctionOnNextTick(AsyncFunctionCall *call)
 		{
-			funcNext.push_back(func);
-			funcNextArgs.push_back(args);
-			funcDelete.push_back(deleteOnComplete);
+			funcs.push_back(call);
 		}
 
 		void V8JavascriptEngine::collectGarbage()
@@ -993,26 +1027,26 @@ namespace RadJAV
 
 					// WebServer
 					{
-						v8::Handle<v8::Function> netFuncFunc = v8GetFunction(netFunc, "WebServer");
-						v8::Handle<v8::Object> netPrototype = v8GetObject(netFuncFunc, "prototype");
+						v8::Handle<v8::Function> webServerFunc = v8GetFunction(netFunc, "WebServer");
+						v8::Handle<v8::Object> webServerPrototype = v8GetObject(webServerFunc, "prototype");
 
-						V8B::Net::WebServer::createV8Callbacks(isolate, netFunc);
+						V8B::Net::WebServer::createV8Callbacks(isolate, webServerPrototype);
 					}
 
 					// WebSocketServer
 					{
-						v8::Handle<v8::Function> netFuncFunc = v8GetFunction(netFunc, "WebSocketServer");
-						v8::Handle<v8::Object> netPrototype = v8GetObject(netFuncFunc, "prototype");
+						v8::Handle<v8::Function> webSocketServerFunc = v8GetFunction(netFunc, "WebSocketServer");
+						v8::Handle<v8::Object> webSocketServerPrototype = v8GetObject(webSocketServerFunc, "prototype");
 
-						V8B::Net::WebSocketServer::createV8Callbacks(isolate, netFunc);
+						V8B::Net::WebSocketServer::createV8Callbacks(isolate, webSocketServerPrototype);
 					}
 
 					// WebSocketClient
 					{
-						v8::Handle<v8::Function> netFuncFunc = v8GetFunction(netFunc, "WebSocketClient");
-						v8::Handle<v8::Object> netPrototype = v8GetObject(netFuncFunc, "prototype");
+						v8::Handle<v8::Function> webSocketClientFunc = v8GetFunction(netFunc, "WebSocketClient");
+						v8::Handle<v8::Object> webSocketClientPrototype = v8GetObject(webSocketClientFunc, "prototype");
 
-						V8B::Net::WebSocketClient::createV8Callbacks(isolate, netFunc);
+						V8B::Net::WebSocketClient::createV8Callbacks(isolate, webSocketClientPrototype);
 					}
 				}
 
@@ -1162,7 +1196,7 @@ namespace RadJAV
 
 				#ifdef C3D_USE_OGRE
 				// RadJav.C3D
-				{
+				/*{
 					v8::Handle<v8::Function> c3dFunc = v8GetFunction(radJavFunc, "C3D");
 
 					// RadJav.C3D.Object3D
@@ -1187,7 +1221,7 @@ namespace RadJAV
 						v8::Handle<v8::Object> entityPrototype = v8GetObject(entityFunc, "prototype");
 
 						V8B::C3D::Entity::createV8Callbacks(isolate, entityPrototype);
-					}
+					}*/
 
 					// RadJav.C3D.Camera
 					/*{
@@ -1196,7 +1230,7 @@ namespace RadJAV
 
 						V8B::C3D::Camera::createV8Callbacks(isolate, cameraPrototype);
 					}*/
-				}
+				//}
 				#endif
 			}
 		}

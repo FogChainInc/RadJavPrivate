@@ -326,6 +326,7 @@ namespace RadJAV
 
 			v8::Persistent<v8::Value> *GObjectBase::createEvent(String event, v8::Local<v8::Function> function)
 			{
+				// Create a persistent function to execute asych later.
 				v8::Persistent<v8::Value> *persistent = RJNEW v8::Persistent<v8::Value>();
 				persistent->Reset(V8_JAVASCRIPT_ENGINE->isolate, function);
 
@@ -577,6 +578,7 @@ namespace RadJAV
 
 			v8::Local<v8::Value> GObjectBase::executeEvent(v8::Persistent<v8::Value> *pevent, RJINT numArgs, v8::Local<v8::Value> *args)
 			{
+				// Execute a persistent function.
 				v8::Local<v8::Function> func = v8::Local<v8::Function>::Cast(pevent->Get(V8_JAVASCRIPT_ENGINE->isolate));
 				v8::Local<v8::Value> result;
 

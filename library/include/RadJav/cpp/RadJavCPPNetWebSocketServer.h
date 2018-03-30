@@ -18,38 +18,96 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 #ifndef _RADJAV_CPP_NET_WEBSOCKETSERVER_H_
-#define _RADJAV_CPP_NET_WEBSOCKETSERVER_H_
+	#define _RADJAV_CPP_NET_WEBSOCKETSERVER_H_
 
-#include "RadJavPreprocessor.h"
+	#include "RadJavPreprocessor.h"
 
-#include "RadJavString.h"
-#include "RadJavHashMap.h"
+	#include <boost/asio.hpp>
+	#include <boost/beast/core.hpp>
+	#include <boost/beast/websocket.hpp>
+	#include <boost/asio/bind_executor.hpp>
+	#include <boost/asio/strand.hpp>
+	#include <boost/asio/ip/tcp.hpp>
+	#include <boost/asio/io_service.hpp>
 
-namespace RadJAV
-{
-	namespace CPP
+	#include "RadJavString.h"
+	#include "RadJavHashMap.h"
+
+	namespace RadJAV
 	{
-		namespace Net
+		namespace CPP
 		{
-			class RADJAV_EXPORT WebSocketServer
+			namespace Net
 			{
-				public:
-					WebSocketServer();
+				class RADJAV_EXPORT WebSocketServer
+				{
+					public:
+						WebSocketServer();
+						~WebSocketServer();
 
-					void listen();
+						void listen();
 
-					void send(String message);
-					void sendToAll(String message);
+						void send(String message);
+						void sendToAll(String message);
 
-					String receivedData();
+						String receivedData();
 
-					void close();
+						void close();
 
-					RJINT port;
-					// Put connected clients here.
-			};
+						RJINT port;
+						// Put connected clients here.
+
+						boost::asio::io_context *io_context_;
+
+						/// Flag that indicates if listening context available 
+						RJBOOL isAlive;
+
+						class RADJAV_EXPORT WebSocketServerSession : public std::enable_shared_from_this<WebSocketServerSession>
+						{
+							boost::beast::websocket::stream<boost::asio::ip::tcp::socket> ws_;
+							boost::asio::strand<boost::asio::io_context::executor_type> strand_;
+							boost::beast::multi_buffer buffer_;
+
+							public:
+								// Take ownership of the socket
+								explicit WebSocketServerSession(boost::asio::ip::tcp::socket socket);
+
+								// Start the asynchronous operation
+								void run();
+
+								void on_accept(boost::system::error_code ec);
+
+								void do_read();
+
+								void on_read(
+									boost::system::error_code ec,
+									std::size_t bytes_transferred);
+
+								void on_write(
+									boost::system::error_code ec,
+									std::size_t bytes_transferred);
+						};
+
+						class RADJAV_EXPORT WebSocketServerListener : public std::enable_shared_from_this<WebSocketServerListener>
+						{
+							boost::asio::ip::tcp::acceptor acceptor_;
+							boost::asio::ip::tcp::socket socket_;
+
+							public:
+								WebSocketServerListener(
+									boost::asio::io_context& ioc,
+									boost::asio::ip::tcp::endpoint endpoint);
+
+								// Start accepting incoming connections
+								void run();
+
+								void do_accept();
+
+								void on_accept(boost::system::error_code ec);
+						};
+				};
+			}
 		}
 	}
-}
 #endif
 

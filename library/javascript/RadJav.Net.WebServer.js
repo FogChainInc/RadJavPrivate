@@ -23,6 +23,8 @@ RadJav.Net.WebServer = function ()
 	this.port = 80;
 	this._serverType = 1;
 	this._webServer = null;
+
+	this._init ();
 }
 
 RadJav.Net.WebServerTypes = function ()

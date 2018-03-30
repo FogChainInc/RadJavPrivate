@@ -17,8 +17,8 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#ifndef _RADJAV_GUI_V8_NET_WEBSERVER_H_
-	#define _RADJAV_GUI_V8_NET_WEBSERVER_H_
+#ifndef _RADJAV_GUI_V8_NET_WEBSOCKET_H_
+	#define _RADJAV_GUI_V8_NET_WEBSOCKET_H_
 
 	#include "RadJavPreprocessor.h"
 	#include "RadJavString.h"
@@ -29,15 +29,27 @@
 		{
 			namespace Net
 			{
-				class RADJAV_EXPORT WebServer
+				class RADJAV_EXPORT WebSocketServer
 				{
 					public:
 						static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
-						static void _init(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void sendToAll(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void send(const v8::FunctionCallbackInfo<v8::Value> &args);
 						static void listen(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void serve(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void stop(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void close(const v8::FunctionCallbackInfo<v8::Value> &args);
+
+						static void on(const v8::FunctionCallbackInfo<v8::Value> &args);
+				};
+
+				class RADJAV_EXPORT WebSocketClient
+				{
+					public:
+						static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
+
+						static void connect(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void send(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void close(const v8::FunctionCallbackInfo<v8::Value> &args);
 
 						static void on(const v8::FunctionCallbackInfo<v8::Value> &args);
 				};
