@@ -248,7 +248,27 @@ namespace RadJAV
 
 						static void onClick(wxCommandEvent &event);
 						static void onMouseEvent(wxMouseEvent &event);
+						static void onDoubleClick(wxMouseEvent &event);
+						static void onRightClick(wxMouseEvent &event);
+						static void onRightDoubleClick(wxMouseEvent &event);
+						static void onRightDown(wxMouseEvent &event);
+						static void onMiddleClick(wxMouseEvent &event);
+						static void onMiddleDoubleClick(wxMouseEvent &event);
+						static void onMiddleDown(wxMouseEvent &event);
+
+						static void onMouseAux1Down(wxMouseEvent &event);
+						static void onMouseAux1Up(wxMouseEvent &event);
+						static void onMouseEnterWindow(wxMouseEvent &event);
+						static void onMouseLeaveWindow(wxMouseEvent &event);
+						static void onMouseMotion(wxMouseEvent &event);
+						static void onMouseWheel(wxMouseEvent &event);
+						
 						static void onKeyUp(wxKeyEvent &event);
+						static void onKeyDown(wxKeyEvent &event);
+
+						static void onFocusSet(wxFocusEvent &event);
+						static void onFocusOut(wxFocusEvent &event);
+
 					#endif
 
 					static v8::Local<v8::Value> executeEvent(

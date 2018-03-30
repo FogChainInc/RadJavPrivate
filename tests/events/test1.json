@@ -1,0 +1,104 @@
+[
+	{
+		"type": "RadJav.GUI.MenuBar", 
+		"name": "menubar", 
+		"visibility": true, 
+		"children": [
+				{
+					"type": "RadJav.GUI.MenuItem", 
+					"name": "ProgramToolStripMenuItem", 
+					"text": "Program", 
+					"children": [
+							{
+								"type": "RadJav.GUI.MenuItem", 
+								"name": "LoginToolStripMenuItem", 
+								"text": "Connect to Server...", 
+								"click": "connectToServer();"
+							}, 
+							{
+								"type": "RadJav.GUI.MenuItem", 
+								"name": "ToolStripMenuItem2", 
+								"text": "-", 
+								"createOnPlatforms": {
+										"HTML5": false
+									}
+							}, 
+							{
+								"type": "RadJav.GUI.MenuItem", 
+								"name": "ExitToolStripMenuItem", 
+								"text": "Exit", 
+								"createOnPlatforms": {
+										"HTML5": false
+									}, 
+								"click": "RadJav.exit();"
+							}
+						]
+				}
+			]
+	}, 
+	{
+		"type": "RadJav.GUI.Label", 
+		"name": "t1label", 
+		"visibility": true, 
+		"position": "12, 4", 
+		"size": "305, 13", 
+		"text": "Test1: mouseenter, mouseleave, keyup, keydown,"
+	}, 
+	{
+		"type": "RadJav.GUI.Label", 
+		"name": "t1label2", 
+		"visibility": true, 
+		"position": "12, 20", 
+		"size": "305, 13", 
+		"text": "focus, focusout"
+	}, 
+	{
+		"type": "RadJav.GUI.Textarea", 
+		"name": "chatarea", 
+		"visibility": true, 
+		"position": "20, 40", 
+		"size": "200, 150"
+	}, 
+	{
+		"type": "RadJav.GUI.Button", 
+		"name": "clicktest1", 
+		"visibility": true, 
+		"position": "20, 200", 
+		"size": "100, 23", 
+		"text": "B1: click,dblclick"
+	}, 
+	{
+		"type": "RadJav.GUI.Button", 
+		"name": "clicktest2", 
+		"visibility": true, 
+		"position": "125, 200", 
+		"size": "100, 23", 
+		"text": "B2: all click"
+	}, 
+	{
+		"type": "RadJav.GUI.Button", 
+		"name": "clicktest3", 
+		"visibility": true, 
+		"position": "230, 200", 
+		"size": "100, 23", 
+		"text": "B3: all dblclick"
+	}, 
+	{
+		"type": "RadJav.GUI.Label", 
+		"name": "label3", 
+		"visibility": true, 
+		"position": "334, 4", 
+		"size": "130, 13", 
+		"text": "Events:"
+	}, 
+	{
+		"type": "RadJav.GUI.List", 
+		"name": "online", 
+		"visibility": true, 
+		"position": "334, 20", 
+		"size": "138, 264", 
+		"columns": [
+				{ "text": "Events:" }
+			]
+	}
+]

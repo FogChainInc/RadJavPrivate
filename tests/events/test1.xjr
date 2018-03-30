@@ -1,0 +1,134 @@
+RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary ()).then (function ()
+	{
+		RadJav.runApplication (function ()
+			{
+				var win = new RadJav.GUI.Window ("win", "Chat");
+				win.create ().then (function (win2)
+					{
+						var gotData = function (data)
+							{
+								var json = JSON.parse (data);
+								RadJav.GUI.createObjects (json, win2).then (function (objs)
+									{
+										for (var iIdx = 0; iIdx < objs.length; iIdx++)
+										{
+										    var obj = objs[iIdx];
+
+										    var list;
+										    var textarea;
+
+										    if (obj.name == "online")
+										    { list = obj; }
+										    if (obj.name == "chatarea")
+										    { 
+											textarea = obj; 
+											textarea.on("mouseenter", function ()
+												    {
+													var row = new RadJav.GUI.List.Row ();
+													row.addItem ("textarea:mouseenter");
+													list.addRow (row);
+												    });
+											textarea.on("mouseleave", function ()
+												    {
+													var row = new RadJav.GUI.List.Row ();
+													row.addItem ("textarea:mouseleave");
+													list.addRow (row);
+												    });
+											textarea.on("keydown", function ()
+												    {
+													var row = new RadJav.GUI.List.Row ();
+													row.addItem ("textarea:keydown");
+													list.addRow (row);
+												    });
+											textarea.on("keyup", function ()
+												    {
+													var row = new RadJav.GUI.List.Row ();
+													row.addItem ("textarea:keyup");
+													list.addRow (row);
+												    });
+											textarea.on("focus", function ()
+												    {
+													var row = new RadJav.GUI.List.Row ();
+													row.addItem ("textarea:focus");
+													list.addRow (row);
+												    });
+											textarea.on("focusout", function ()
+												    {
+													var row = new RadJav.GUI.List.Row ();
+													row.addItem ("textarea:focusout");
+													list.addRow (row);
+												    });
+										    }
+										    
+										    if (obj.name == "clicktest1") {
+											obj.on ("click", function ()
+												{
+												    var row = new RadJav.GUI.List.Row ();
+												    row.addItem ("B1: leftlick");
+												    list.addRow (row);
+												});
+											obj.on ("dblclick", function ()
+												{
+												    var row = new RadJav.GUI.List.Row ();
+												    row.addItem ("B1: dblclick");
+												    list.addRow (row);
+												});
+										    }	
+
+										    if (obj.name == "clicktest2") {
+											obj.on ("click", function ()
+												{
+												    var row = new RadJav.GUI.List.Row ();
+												    row.addItem ("B2:leftlick");
+												    list.addRow (row);
+												});
+											obj.on ("middleclick", function ()
+												{
+												    var row = new RadJav.GUI.List.Row ();
+												    row.addItem ("B2:middleclick");
+												    list.addRow (row);
+												});
+											obj.on ("rightclick", function ()
+												{
+												    var row = new RadJav.GUI.List.Row ();
+												    row.addItem ("B2:rightclick");
+												    list.addRow (row);
+												});
+										    }	
+
+										    if (obj.name == "clicktest3") {
+											obj.on ("dblclick", function ()
+												{
+												    var row = new RadJav.GUI.List.Row ();
+												    row.addItem ("B3:leftdbllick");
+												    list.addRow (row);
+												});
+											obj.on ("middledblclick", function ()
+												{
+												    var row = new RadJav.GUI.List.Row ();
+												    row.addItem ("B3:middledblclick");
+												    list.addRow (row);
+												});
+											obj.on ("rightdblclick", function ()
+												{
+												    var row = new RadJav.GUI.List.Row ();
+												    row.addItem ("B3:rightdblclick");
+												    list.addRow (row);
+												});
+										    }	
+
+
+										}
+									});
+							};
+
+						if (RadJav.OS.HTML5 != null)
+							RadJav.Net.httpRequest ("./test1.json").then (gotData);
+						else
+						{
+							var data = RadJav.IO.TextFile.readEntireFile ("./test1.json");
+							gotData (data);
+						}
+					});
+			});
+	});
