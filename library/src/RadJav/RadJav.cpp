@@ -179,6 +179,13 @@ namespace RadJAV
 
 				for (RJUINT iIdx = 0; iIdx < newArgs.size(); iIdx++)
 				{
+					if (newArgs.at(iIdx) == "terminal")
+					{
+						#ifdef WIN32
+							setupConsoleOutput();
+						#endif
+					}
+
 					if (newArgs.at(iIdx) == "xrjv1")
 					{
 						#ifdef WIN32

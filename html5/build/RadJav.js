@@ -695,6 +695,26 @@ var RadJav;
         return obj1;
     }
     RadJav.copyProperties = copyProperties;
+    /** @method setDefaultValue
+    * @static
+    * Set a default value to a parameter should it the parameter be set to
+    * undefined.
+    * Available on platforms: Windows,Linux,OSX,HTML5
+    * @param {Mixed} param The parameter value to check.
+    * @param {Mixed} defaultValue The default value to set should param be set to undefined.
+    * @param {Function} [onValue=null] This function is called when a value can be retrieved from the
+    * param parameter.
+    * @return {Mixed} Will return the value of param should it not be set to undefined. If param
+    * is set to undefined, defaultValue will be returned instead.
+    */
+    function setDefaultValue(param, defaultValue, onValue) {
+        if (param == undefined)
+            return (defaultValue);
+        if (onValue != null)
+            return (onValue(param));
+        return (param);
+    }
+    RadJav.setDefaultValue = setDefaultValue;
     /** @method keepContext
      * @static
      * Keep the context the object is currently in.
@@ -1066,9 +1086,8 @@ var RadJav;
         return Theme;
     }());
     RadJav.Theme = Theme;
-    var GUI = /** @class */ (function () {
-        function GUI() {
-        }
+    var GUI;
+    (function (GUI) {
         /** @method initObj
          * @static
          * Initialize a GUI object.
@@ -1078,7 +1097,9 @@ var RadJav;
          * @param {RadJav.GUI.GObject} parent The parent of this object.
          * @param {Promise} The promise to execute when this object has finished being created.
          */
-        GUI.prototype.initObj = function (type, name, text, parent) {
+        initObj(type, string | object, name, any, text, string, parent, object);
+        object;
+        {
             var tempType = type;
             if (typeof type == "object") {
                 tempType = type.type;
@@ -1108,7 +1129,7 @@ var RadJav;
             }
             var obj = new RadJav.GUI[tempType](properties);
             return obj;
-        };
+        }
         /** @method create
          * @static
          * Create a GUI object.
@@ -1118,10 +1139,12 @@ var RadJav;
          * @param {RadJav.GUI.GObject} parent The parent of this object.
          * @param {Promise} The promise to execute when this object has finished being created.
          */
-        GUI.prototype.create = function (type, name, text, parent) {
+        create(type, string, name, string, text, string, parent, object);
+        any;
+        {
             var obj = this.initObj(type, name, text, parent);
             return obj.create();
-        };
+        }
         /** @method createObjects
          * @static
          * Create GUI objects.
@@ -1131,535 +1154,533 @@ var RadJav;
          * If this function returns false, the object will not be created.
          * @return {Promise} The promise to execute when the objects have finished being created.
          */
-        GUI.prototype.createObjects = function (objects, parent, beforeCreated) {
-            if (beforeCreated === void 0) { beforeCreated = null; }
-            var promises = [];
-            if (beforeCreated == undefined) {
-                beforeCreated = null;
-            }
-            for (var iIdx = 0; iIdx < objects.length; iIdx++) {
-                var obj = objects[iIdx];
-                var createObject = true;
-                if (beforeCreated != null) {
-                    obj.onBeforeChildCreated = beforeCreated;
-                    var result = beforeCreated(obj, parent);
-                    if (result != null) {
-                        createObject = result;
-                    }
-                }
-                if (createObject == true) {
-                    promises.push(this.create(obj, "", "", parent));
+        createObjects(objects, any, parent, object, beforeCreated, Function = null);
+        Promise < any > {
+            "var": promises = [],
+            "if": function (beforeCreated) { }
+        } == undefined;
+        {
+            beforeCreated = null;
+        }
+        for (var iIdx = 0; iIdx < objects.length; iIdx++) {
+            var obj = objects[iIdx];
+            var createObject = true;
+            if (beforeCreated != null) {
+                obj.onBeforeChildCreated = beforeCreated;
+                var result = beforeCreated(obj, parent);
+                if (result != null) {
+                    createObject = result;
                 }
             }
-            return Promise.all(promises);
-        };
-        return GUI;
-    }());
-    RadJav.GUI = GUI;
-    /** @class C3D
-     * @static
-     * Contains classes for 3d operations in a RadJav.GUI.Canvas3D object.
-     */
-    var C3D = /** @class */ (function () {
-        function C3D() {
-        }
-        /** @method create
-         * @static
-         * Create a 3D object.
-         * @param {String} type The object type to create.
-         * @param {String|Mixed} name The name of the object.
-         * @param {RadJav.C3D.Object3D} parent The parent of this object.
-         * @param {Promise} The promise to execute when this object has finished being created.
-         */
-        C3D.prototype.create = function (type, name, parent) {
-            if (type.indexOf("RadJav.C3D") > -1) {
-                type = type.substr(10);
+            if (createObject == true) {
+                promises.push(this.create(obj, "", "", parent));
             }
-            if (RadJav.C3D[type] == null) {
-                throw RadJav.getLangString("unableToFindClass", type);
-            }
-            var obj = new RadJav.C3D[type](name, parent);
-            return obj.create();
-        };
-        return C3D;
-    }());
-    RadJav.C3D = C3D;
-    /** @class Net
+        }
+        return Promise.all(promises);
+    })(GUI || (GUI = {}));
+})(RadJav || (RadJav = {}));
+/** @class C3D
+ * @static
+ * Contains classes for 3d operations in a RadJav.GUI.Canvas3D object.
+ */
+var C3D;
+(function (C3D) {
+    /** @method create
      * @static
-     * Contains classes for network operations.
+     * Create a 3D object.
+     * @param {String} type The object type to create.
+     * @param {String|Mixed} name The name of the object.
+     * @param {RadJav.C3D.Object3D} parent The parent of this object.
+     * @param {Promise} The promise to execute when this object has finished being created.
      */
-    var Net = /** @class */ (function () {
-        function Net() {
+    create(type, string, name, any, parent, any);
+    any;
+    {
+        if (type.indexOf("RadJav.C3D") > -1) {
+            type = type.substr(10);
         }
-        /** @method httpRequest
-         * @static
-         * Make an ajax request to a HTTP server.
-         * Available on platforms: Windows,Linux,OSX,HTML5
-         * @param {String/Object} req The URL or request object to send to the server.
-         * @return {Promise} The promise to execute when the request has completed.
-         */
-        Net.prototype.httpRequest = function (req) {
-            var promise = new Promise(RadJav.keepContext(function (resolve, reject) {
-                var addr = req;
-                var request = null;
-                var response = null;
-                try {
-                    if (XMLHttpRequest != null) {
-                        request = new XMLHttpRequest();
-                    }
-                    else {
-                        request = new ActiveXObject("Microsoft.XMLHTTP");
-                    }
-                    request.onreadystatechange = RadJav.keepContext(function (evt, request2) {
-                        var req2 = request2[0];
-                        try {
-                            if (req2.readyState == 4 && req2.status == 200) {
-                                resolve(req2.responseText);
-                            }
-                        }
-                        catch (ex) {
-                            reject(ex);
-                        }
-                    }, this, [request]);
-                    request.open("GET", addr);
-                    request.send();
-                }
-                catch (ex) {
-                    reject(ex);
-                }
-            }, this));
-            return promise;
-        };
-        return Net;
-    }());
-    RadJav.Net = Net;
-    /** @class Console
+        if (RadJav.C3D[type] == null) {
+            throw RadJav.getLangString("unableToFindClass", type);
+        }
+        var obj = new RadJav.C3D[type](name, parent);
+        return obj.create();
+    }
+})(C3D = exports.C3D || (exports.C3D = {}));
+/** @class Net
+ * @static
+ * Contains classes for network operations.
+ */
+var Net = /** @class */ (function () {
+    function Net() {
+    }
+    /** @method httpRequest
      * @static
-     * Contains classes handling console operations.
+     * Make an ajax request to a HTTP server.
+     * Available on platforms: Windows,Linux,OSX,HTML5
+     * @param {String/Object} req The URL or request object to send to the server.
+     * @return {Promise} The promise to execute when the request has completed.
      */
-    var Console = /** @class */ (function () {
-        function Console() {
-        }
-        /** @method print
-         * @static
-         * Print a message to the console.
-         * @param {String} message The message to output.
-         */
-        Console.prototype.print = function (message) {
-            console.log(message);
-        };
-        /** @method println
-         * @static
-         * Print a message to the console with a new line at the end.
-         * @param {String} message The message to output.
-         */
-        Console.prototype.println = function (message) {
-            this.print(message + "\n");
-        };
-        return Console;
-    }());
-    RadJav.Console = Console;
-    /** @class RadJav.OS
-     * @static
-     * Contains Operating System specific functions.
-     */
-    var OS;
-    (function (OS) {
-        /** @property {String} [type="html5"]
-         * @static
-         * Represents the current type of operating system.
-         * Can be:
-         * * windows
-         * * linux
-         * * macosx
-         * * html5
-         */
-        OS.type = "html5";
-        /** @property {Number} [numBits=32]
-         * @static
-         * The number of bits this operating system is.
-         */
-        OS.numBits = 32;
-        /** @method onReady
-         * Execute code when RadJav has finished loading.
-         * Available on platforms: Windows,Linux,OSX,HTML5
-         * @param {Function} func The function to execute.
-         * @return {Promise} The promise to execute.
-         */
-        function onReady(func) {
-            RadJav.OS.HTML5.ready(window).then(func);
-        }
-        OS.onReady = onReady;
-        /** @method getDocumentsPath
-         * @static
-         * Get the path to the user's documents folder.
-         * Available on platforms: Windows,Linux,OSX
-         * @return {String} The current user's documents folder path.
-         */
-        /*export function getDocumentsPath() {
-            }*/
-        /** @method getTempPath
-         * @static
-         * Get the path to the user's temporary files folder.
-         * Available on platforms: Windows,Linux,OSX
-         * @return {String} The current user's temporary files path.
-         */
-        /*export functiongetTempPath() {
-            }*/
-        /** @method getUserDataPath
-         * @static
-         * Get the path to the user's data files folder.
-         * Available on platforms: Windows,Linux,OSX
-         * @return {String} The current user's data files path.
-         */
-        /*export function getUserDataPath() {
-            }*/
-        /** @method getApplicationPath
-         * @static
-         * Get the path to the application.
-         * Available on platforms: Windows,Linux,OSX
-         * @return {String} The path to the application.
-         */
-        /*export function getApplicationPath(){
-            }*/
-        /** @method getCurrentWorkingPath
-         * @static
-         * Get the current working path.
-         * Available on platforms: Windows,Linux,OSX
-         * @return {String} The current working path.
-         */
-        /*export function getCurrentWorkingPath(){
-            }*/
-        /** @method openWebBrowserURL
-         * @static
-         * Open a URL in the default web browser.
-         * Available on platforms: Windows,Linux,OSX,HTML5
-         * @param {String} url The url to open.
-         */
-        function openWebBrowserURL(url) {
-            window.open(url, "_blank");
-        }
-        OS.openWebBrowserURL = openWebBrowserURL;
-        /** Contains HTML5 specific functions.
-         * Available on platforms: HTML5
-         */
-        var HTML5;
-        (function (HTML5) {
-            /** If set to true, all objects will be positioned using absolute positioning.
-             * @default true
-             */
-            HTML5.absolutePositioning = true;
-            /** @method showElement
-             * @static
-             * Show a HTML element.
-             * @param {String/HTMLElement} elm The element to show or hide.
-             * @param {Boolean} [show=true] If set to true the element will be shown.
-             */
-            function showElement(elm, show) {
-                if (typeof elm == "string") {
-                    elm = RadJav.OS.HTML5.selectDOM(elm);
-                }
-                if (show == true) {
-                    elm.style.visibility = "visible";
+    Net.prototype.httpRequest = function (req) {
+        var promise = new Promise(RadJav.keepContext(function (resolve, reject) {
+            var addr = req;
+            var request = null;
+            var response = null;
+            try {
+                if (XMLHttpRequest != null) {
+                    request = new XMLHttpRequest();
                 }
                 else {
-                    elm.style.visibility = "hidden";
+                    request = new ActiveXObject("Microsoft.XMLHTTP");
                 }
-            }
-            HTML5.showElement = showElement;
-            /** @static
-             * Get the operating system from the browser's user agent.
-             * @return {String} The operating system.
-             */
-            function getOS() {
-                var userAgent = navigator.userAgent.toLowerCase();
-                if (userAgent.indexOf("win32") > -1) {
-                    return "windows";
-                }
-                if (userAgent.indexOf("win64") > -1) {
-                    return "windows";
-                }
-                if (userAgent.indexOf("windows") > -1) {
-                    return "windows";
-                }
-                if (userAgent.indexOf("android") > -1) {
-                    return "android";
-                }
-                if (userAgent.indexOf("iphone") > -1) {
-                    return "iphone";
-                }
-                if (userAgent.indexOf("ipad") > -1) {
-                    return "ipad";
-                }
-                if (userAgent.indexOf("ipod") > -1) {
-                    return "ipod";
-                }
-                if (userAgent.indexOf("mac os x") > -1) {
-                    return "macosx";
-                }
-                if (userAgent.indexOf("linux") > -1) {
-                    return "linux";
-                }
-                return "";
-            }
-            HTML5.getOS = getOS;
-            /** @static
-             * Get the URL parameters as an object.
-             * @return {Object} The url parameters.
-             */
-            function getUrlParamObj() {
-                var params = window.location.search;
-                var paramsObj = {};
-                if (params == "") {
-                    return paramsObj;
-                }
-                var nextStart = "?";
-                var prevPos = -1;
-                var pos = -1;
-                while (true) {
-                    prevPos = params.indexOf(nextStart, pos);
-                    pos = params.indexOf("=", prevPos);
-                    if (prevPos > -1 && pos > -1) {
-                        nextStart = "&";
-                        var key = params.substring(prevPos + 1, pos);
-                        prevPos = params.indexOf(nextStart, pos);
-                        if (prevPos < 0) {
-                            prevPos = undefined;
+                request.onreadystatechange = RadJav.keepContext(function (evt, request2) {
+                    var req2 = request2[0];
+                    try {
+                        if (req2.readyState == 4 && req2.status == 200) {
+                            resolve(req2.responseText);
                         }
-                        var value = params.substring(pos + 1, prevPos);
-                        if (isNaN(value) == false) {
-                            value = parseFloat(value);
-                        }
-                        paramsObj[key] = value;
                     }
-                    else {
-                        break;
+                    catch (ex) {
+                        reject(ex);
                     }
-                }
+                }, this, [request]);
+                request.open("GET", addr);
+                request.send();
+            }
+            catch (ex) {
+                reject(ex);
+            }
+        }, this));
+        return promise;
+    };
+    return Net;
+}());
+exports.Net = Net;
+/** @class Console
+ * @static
+ * Contains classes handling console operations.
+ */
+var Console = /** @class */ (function () {
+    function Console() {
+    }
+    /** @method print
+     * @static
+     * Print a message to the console.
+     * @param {String} message The message to output.
+     */
+    Console.prototype.print = function (message) {
+        console.log(message);
+    };
+    /** @method println
+     * @static
+     * Print a message to the console with a new line at the end.
+     * @param {String} message The message to output.
+     */
+    Console.prototype.println = function (message) {
+        this.print(message + "\n");
+    };
+    return Console;
+}());
+exports.Console = Console;
+/** @class RadJav.OS
+ * @static
+ * Contains Operating System specific functions.
+ */
+var OS;
+(function (OS) {
+    /** @property {String} [type="html5"]
+     * @static
+     * Represents the current type of operating system.
+     * Can be:
+     * * windows
+     * * linux
+     * * macosx
+     * * html5
+     */
+    OS.type = "html5";
+    /** @property {Number} [numBits=32]
+     * @static
+     * The number of bits this operating system is.
+     */
+    OS.numBits = 32;
+    /** @method onReady
+     * Execute code when RadJav has finished loading.
+     * Available on platforms: Windows,Linux,OSX,HTML5
+     * @param {Function} func The function to execute.
+     * @return {Promise} The promise to execute.
+     */
+    function onReady(func) {
+        RadJav.OS.HTML5.ready(window).then(func);
+    }
+    OS.onReady = onReady;
+    /** @method getDocumentsPath
+     * @static
+     * Get the path to the user's documents folder.
+     * Available on platforms: Windows,Linux,OSX
+     * @return {String} The current user's documents folder path.
+     */
+    /*export function getDocumentsPath() {
+        }*/
+    /** @method getTempPath
+     * @static
+     * Get the path to the user's temporary files folder.
+     * Available on platforms: Windows,Linux,OSX
+     * @return {String} The current user's temporary files path.
+     */
+    /*export functiongetTempPath() {
+        }*/
+    /** @method getUserDataPath
+     * @static
+     * Get the path to the user's data files folder.
+     * Available on platforms: Windows,Linux,OSX
+     * @return {String} The current user's data files path.
+     */
+    /*export function getUserDataPath() {
+        }*/
+    /** @method getApplicationPath
+     * @static
+     * Get the path to the application.
+     * Available on platforms: Windows,Linux,OSX
+     * @return {String} The path to the application.
+     */
+    /*export function getApplicationPath(){
+        }*/
+    /** @method getCurrentWorkingPath
+     * @static
+     * Get the current working path.
+     * Available on platforms: Windows,Linux,OSX
+     * @return {String} The current working path.
+     */
+    /*export function getCurrentWorkingPath(){
+        }*/
+    /** @method openWebBrowserURL
+     * @static
+     * Open a URL in the default web browser.
+     * Available on platforms: Windows,Linux,OSX,HTML5
+     * @param {String} url The url to open.
+     */
+    function openWebBrowserURL(url) {
+        window.open(url, "_blank");
+    }
+    OS.openWebBrowserURL = openWebBrowserURL;
+    /** Contains HTML5 specific functions.
+     * Available on platforms: HTML5
+     */
+    var HTML5;
+    (function (HTML5) {
+        /** If set to true, all objects will be positioned using absolute positioning.
+         * @default true
+         */
+        HTML5.absolutePositioning = true;
+        /** @method showElement
+         * @static
+         * Show a HTML element.
+         * @param {String/HTMLElement} elm The element to show or hide.
+         * @param {Boolean} [show=true] If set to true the element will be shown.
+         */
+        function showElement(elm, show) {
+            if (typeof elm == "string") {
+                elm = RadJav.OS.HTML5.selectDOM(elm);
+            }
+            if (show == true) {
+                elm.style.visibility = "visible";
+            }
+            else {
+                elm.style.visibility = "hidden";
+            }
+        }
+        HTML5.showElement = showElement;
+        /** @static
+         * Get the operating system from the browser's user agent.
+         * @return {String} The operating system.
+         */
+        function getOS() {
+            var userAgent = navigator.userAgent.toLowerCase();
+            if (userAgent.indexOf("win32") > -1) {
+                return "windows";
+            }
+            if (userAgent.indexOf("win64") > -1) {
+                return "windows";
+            }
+            if (userAgent.indexOf("windows") > -1) {
+                return "windows";
+            }
+            if (userAgent.indexOf("android") > -1) {
+                return "android";
+            }
+            if (userAgent.indexOf("iphone") > -1) {
+                return "iphone";
+            }
+            if (userAgent.indexOf("ipad") > -1) {
+                return "ipad";
+            }
+            if (userAgent.indexOf("ipod") > -1) {
+                return "ipod";
+            }
+            if (userAgent.indexOf("mac os x") > -1) {
+                return "macosx";
+            }
+            if (userAgent.indexOf("linux") > -1) {
+                return "linux";
+            }
+            return "";
+        }
+        HTML5.getOS = getOS;
+        /** @static
+         * Get the URL parameters as an object.
+         * @return {Object} The url parameters.
+         */
+        function getUrlParamObj() {
+            var params = window.location.search;
+            var paramsObj = {};
+            if (params == "") {
                 return paramsObj;
             }
-            HTML5.getUrlParamObj = getUrlParamObj;
-            /** @static
-             * Get a URL parameters value.
-             * @param {String} name The url parameters name.
-             * @return {Mixed} The url parameters value. Returns undefined if the parameter was
-             * not able to be found.
-             */
-            function getUrlParam(name) {
-                var params = RadJav.OS.HTML5.getUrlParamObj();
-                return params[name];
-            }
-            HTML5.getUrlParam = getUrlParam;
-            /** @static
-             * Set whether or not each gui object placed is placed using absolute positioning.
-             * @param {Boolean} absolutePositioning If set to true, all objects will be
-             * positioned using absolute positioning.
-             */
-            function useAbsolutePositioning(absolutePositioning) {
-                RadJav.OS.HTML5.absolutePositioning = absolutePositioning;
-            }
-            HTML5.useAbsolutePositioning = useAbsolutePositioning;
-            /** @static
-             * Start downloading a text file.
-             * @param {String} text The text to download.
-             * @param {String} fileName The filename.
-             * @param {String} [mimeType="text/plain"] The mime type.
-             */
-            function downloadTextAsFile(text, fileName, mimeType) {
-                if (mimeType == null) {
-                    mimeType = "text/plain";
-                }
-                var elm = document.createElement("a");
-                elm.setAttribute("href", "data:" + mimeType + "," + text);
-                elm.setAttribute("download", fileName);
-                if (document.createEvent != null) {
-                    var evt = document.createEvent("MouseEvents");
-                    evt.initEvent("click", true, true);
-                    elm.dispatchEvent(evt);
+            var nextStart = "?";
+            var prevPos = -1;
+            var pos = -1;
+            while (true) {
+                prevPos = params.indexOf(nextStart, pos);
+                pos = params.indexOf("=", prevPos);
+                if (prevPos > -1 && pos > -1) {
+                    nextStart = "&";
+                    var key = params.substring(prevPos + 1, pos);
+                    prevPos = params.indexOf(nextStart, pos);
+                    if (prevPos < 0) {
+                        prevPos = undefined;
+                    }
+                    var value = params.substring(pos + 1, prevPos);
+                    if (isNaN(value) == false) {
+                        value = parseFloat(value);
+                    }
+                    paramsObj[key] = value;
                 }
                 else {
-                    elm.click();
+                    break;
                 }
             }
-            HTML5.downloadTextAsFile = downloadTextAsFile;
-            /** @static
-             * Reloads the current page.
-             * @param {Boolean} [forceNewPage=false] If set to true, this will force the browser
-             * to get a new page from the server.
-             */
-            function reloadPage(forceNewPage) {
-                if (forceNewPage == null) {
-                    forceNewPage = false;
-                }
-                location.reload(forceNewPage);
+            return paramsObj;
+        }
+        HTML5.getUrlParamObj = getUrlParamObj;
+        /** @static
+         * Get a URL parameters value.
+         * @param {String} name The url parameters name.
+         * @return {Mixed} The url parameters value. Returns undefined if the parameter was
+         * not able to be found.
+         */
+        function getUrlParam(name) {
+            var params = RadJav.OS.HTML5.getUrlParamObj();
+            return params[name];
+        }
+        HTML5.getUrlParam = getUrlParam;
+        /** @static
+         * Set whether or not each gui object placed is placed using absolute positioning.
+         * @param {Boolean} absolutePositioning If set to true, all objects will be
+         * positioned using absolute positioning.
+         */
+        function useAbsolutePositioning(absolutePositioning) {
+            RadJav.OS.HTML5.absolutePositioning = absolutePositioning;
+        }
+        HTML5.useAbsolutePositioning = useAbsolutePositioning;
+        /** @static
+         * Start downloading a text file.
+         * @param {String} text The text to download.
+         * @param {String} fileName The filename.
+         * @param {String} [mimeType="text/plain"] The mime type.
+         */
+        function downloadTextAsFile(text, fileName, mimeType) {
+            if (mimeType == null) {
+                mimeType = "text/plain";
             }
-            HTML5.reloadPage = reloadPage;
-            /** Get the parent HTML from an object.
-             * @param {RadJav.GUI.GObject} obj The parent object to get the HTML from.
-             * @return {Mixed} The parent HTML object.
-             */
-            function getParentHTML(obj) {
-                var parent = obj.getParent();
-                var parentHTML = null;
-                if (parent == null) {
-                    parentHTML = document.body;
-                }
-                else {
-                    parentHTML = parent.getHTML();
-                }
-                return parentHTML;
+            var elm = document.createElement("a");
+            elm.setAttribute("href", "data:" + mimeType + "," + text);
+            elm.setAttribute("download", fileName);
+            if (document.createEvent != null) {
+                var evt = document.createEvent("MouseEvents");
+                evt.initEvent("click", true, true);
+                elm.dispatchEvent(evt);
             }
-            HTML5.getParentHTML = getParentHTML;
-            /** Get the HTML DOM object from some HTML string.
-             * @param {String} str The string to convert into an HTML DOM.
-             * @return {Mixed} The HTML DOM object.
-             */
-            function getHTMLDOM(str) {
-                var div = document.createElement("div");
-                div.innerHTML = str;
-                return div.firstChild;
+            else {
+                elm.click();
             }
-            HTML5.getHTMLDOM = getHTMLDOM;
-            /** Append HTML to an existing HTML DOM object.
-             * @param {Mixed} obj The HTML DOM object to append this HTML to.
-             * @param {String/Mixed} html The HTML to append.
-             */
-            function appendHTML(obj, html) {
-                if (typeof obj == "string") {
-                    var tempObj = document.querySelector(obj);
-                    if (tempObj == null) {
-                        throw RadJav.getLangString("unableToFindSelector", obj);
-                    }
-                }
-                if (typeof html == "string") {
-                    html = RadJav.OS.HTML5.getHTMLDOM(html);
-                }
-                return obj.appendChild(html);
+        }
+        HTML5.downloadTextAsFile = downloadTextAsFile;
+        /** @static
+         * Reloads the current page.
+         * @param {Boolean} [forceNewPage=false] If set to true, this will force the browser
+         * to get a new page from the server.
+         */
+        function reloadPage(forceNewPage) {
+            if (forceNewPage == null) {
+                forceNewPage = false;
             }
-            HTML5.appendHTML = appendHTML;
-            /** Use a selector to get a DOM object.
-             * @param {Mixed/String} obj The HTML DOM object to get the selection from. If
-             * this is a string, it will be treated as the selector.
-             * @param {String} selector The selector to use to get the DOM object.
-             * @return {Mixed} The selected DOM object.
-             */
-            function selectDOM(obj, selector) {
-                if (typeof obj == "string") {
-                    selector = obj;
-                    obj = null;
-                }
-                if (obj == null)
-                    obj = document.body;
-                var dom = obj.querySelector(selector);
-                return dom;
+            location.reload(forceNewPage);
+        }
+        HTML5.reloadPage = reloadPage;
+        /** Get the parent HTML from an object.
+         * @param {RadJav.GUI.GObject} obj The parent object to get the HTML from.
+         * @return {Mixed} The parent HTML object.
+         */
+        function getParentHTML(obj) {
+            var parent = obj.getParent();
+            var parentHTML = null;
+            if (parent == null) {
+                parentHTML = document.body;
             }
-            HTML5.selectDOM = selectDOM;
-            /** When a dom object has finished loading, execute a promise.
-             * @param {Object} obj The object to check.
-             * @return {Promise} The promise to execute.
-             */
-            function ready(obj) {
-                var promise = new Promise(function (resolve, reject) {
-                    if (obj.readyState != null) {
-                        if (obj.readyState == "complete") {
-                            resolve();
-                            return;
-                        }
-                    }
-                    obj.addEventListener("load", function () {
+            else {
+                parentHTML = parent.getHTML();
+            }
+            return parentHTML;
+        }
+        HTML5.getParentHTML = getParentHTML;
+        /** Get the HTML DOM object from some HTML string.
+         * @param {String} str The string to convert into an HTML DOM.
+         * @return {Mixed} The HTML DOM object.
+         */
+        function getHTMLDOM(str) {
+            var div = document.createElement("div");
+            div.innerHTML = str;
+            return div.firstChild;
+        }
+        HTML5.getHTMLDOM = getHTMLDOM;
+        /** Append HTML to an existing HTML DOM object.
+         * @param {Mixed} obj The HTML DOM object to append this HTML to.
+         * @param {String/Mixed} html The HTML to append.
+         */
+        function appendHTML(obj, html) {
+            if (typeof obj == "string") {
+                var tempObj = document.querySelector(obj);
+                if (tempObj == null) {
+                    throw RadJav.getLangString("unableToFindSelector", obj);
+                }
+            }
+            if (typeof html == "string") {
+                html = RadJav.OS.HTML5.getHTMLDOM(html);
+            }
+            return obj.appendChild(html);
+        }
+        HTML5.appendHTML = appendHTML;
+        /** Use a selector to get a DOM object.
+         * @param {Mixed/String} obj The HTML DOM object to get the selection from. If
+         * this is a string, it will be treated as the selector.
+         * @param {String} selector The selector to use to get the DOM object.
+         * @return {Mixed} The selected DOM object.
+         */
+        function selectDOM(obj, selector) {
+            if (typeof obj == "string") {
+                selector = obj;
+                obj = null;
+            }
+            if (obj == null)
+                obj = document.body;
+            var dom = obj.querySelector(selector);
+            return dom;
+        }
+        HTML5.selectDOM = selectDOM;
+        /** When a dom object has finished loading, execute a promise.
+         * @param {Object} obj The object to check.
+         * @return {Promise} The promise to execute.
+         */
+        function ready(obj) {
+            var promise = new Promise(function (resolve, reject) {
+                if (obj.readyState != null) {
+                    if (obj.readyState == "complete") {
                         resolve();
-                    });
+                        return;
+                    }
+                }
+                obj.addEventListener("load", function () {
+                    resolve();
                 });
-                return promise;
+            });
+            return promise;
+        }
+        HTML5.ready = ready;
+        /** @method interfaceConnector
+         * For use when using a javascript interface to a webview callback. It will attempt
+         * to call the native javascript interface using the connectorName.
+         * @param {String/Object} connectorName On Android, this would be the name of the
+         * Javascript interface that is connected to the webview. On iOS this would be
+         * the name of the message handler for WKWebView. If you are using WebView on iOS
+         * you must set webViewType to iOSWebView in order to be captured, since a reload on
+         * the page is necessary. iOSWebView will not return any result, and when reloading
+         * the page, the next url will be in the format:
+         * connectorName://methodName/arguments in json string
+         *
+         * If this is an object, this is the JSON Schema:
+         * {
+         *	"title": "Interface Connector JSON Schema",
+         *	"type": "object",
+         *	"properties": {
+         *			"name": {
+         *					"description": "The name of the javascript interface.",
+         *					"type": "string"
+         *				},
+         *			"webViewType": {
+         *					"description": "The type of webview that's being used by the application. This can be: AndroidWebView,iOSWKWebView,iOSWebView",
+         *					"type": "string"
+         *				}
+         *		},
+         *	"required": ["name"]
+         * }
+         * @param {String} methodName The name of the method to call. On iOS, this will be passed
+         * as an additional argument.
+         * @return {Mixed} The returned result from the interface.
+         */
+        function interfaceConnector(connectorName, methodName) {
+            var result = null;
+            var args = Array.prototype.slice.call(arguments);
+            args.splice(0, 2);
+            var name = "";
+            var webViewType = "";
+            if (typeof connectorName == "string") {
+                name = connectorName;
             }
-            HTML5.ready = ready;
-            /** @method interfaceConnector
-             * For use when using a javascript interface to a webview callback. It will attempt
-             * to call the native javascript interface using the connectorName.
-             * @param {String/Object} connectorName On Android, this would be the name of the
-             * Javascript interface that is connected to the webview. On iOS this would be
-             * the name of the message handler for WKWebView. If you are using WebView on iOS
-             * you must set webViewType to iOSWebView in order to be captured, since a reload on
-             * the page is necessary. iOSWebView will not return any result, and when reloading
-             * the page, the next url will be in the format:
-             * connectorName://methodName/arguments in json string
-             *
-             * If this is an object, this is the JSON Schema:
-             * {
-             *	"title": "Interface Connector JSON Schema",
-             *	"type": "object",
-             *	"properties": {
-             *			"name": {
-             *					"description": "The name of the javascript interface.",
-             *					"type": "string"
-             *				},
-             *			"webViewType": {
-             *					"description": "The type of webview that's being used by the application. This can be: AndroidWebView,iOSWKWebView,iOSWebView",
-             *					"type": "string"
-             *				}
-             *		},
-             *	"required": ["name"]
-             * }
-             * @param {String} methodName The name of the method to call. On iOS, this will be passed
-             * as an additional argument.
-             * @return {Mixed} The returned result from the interface.
-             */
-            function interfaceConnector(connectorName, methodName) {
-                var result = null;
-                var args = Array.prototype.slice.call(arguments);
-                args.splice(0, 2);
-                var name = "";
-                var webViewType = "";
-                if (typeof connectorName == "string") {
-                    name = connectorName;
+            else {
+                name = connectorName.name;
+                if (connectorName.webViewType != null) {
+                    webViewType = connectorName.webViewType;
                 }
-                else {
-                    name = connectorName.name;
-                    if (connectorName.webViewType != null) {
-                        webViewType = connectorName.webViewType;
+            }
+            if (name == null || name == "") {
+                throw RadJav.getLangString("connectorNameCannotBeEmptyForInterfaceConnector");
+            }
+            var found = false;
+            if (window[name] != null) {
+                // Android
+                result = window[name][methodName].apply(window, args);
+                found = true;
+            }
+            if (window["webkit"] != null) {
+                // iOS WKWebView
+                if (window["webkit"].messageHandlers != null) {
+                    if (window["webkit"].messageHandlers[name] != null) {
+                        args = Array.prototype.slice.call(arguments);
+                        args.splice(0, 1);
+                        window["webkit"].messageHandlers[name].postMessage(args);
+                        found = true;
                     }
                 }
-                if (name == null || name == "") {
-                    throw RadJav.getLangString("connectorNameCannotBeEmptyForInterfaceConnector");
-                }
-                var found = false;
-                if (window[name] != null) {
-                    // Android
-                    result = window[name][methodName].apply(window, args);
-                    found = true;
-                }
-                if (window["webkit"] != null) {
-                    // iOS WKWebView
-                    if (window["webkit"].messageHandlers != null) {
-                        if (window["webkit"].messageHandlers[name] != null) {
-                            args = Array.prototype.slice.call(arguments);
-                            args.splice(0, 1);
-                            window["webkit"].messageHandlers[name].postMessage(args);
-                            found = true;
+            }
+            if (found == false) {
+                if (webViewType == "iOSWebView") {
+                    var userAgent = window.navigator.userAgent.toLowerCase();
+                    if (userAgent.match(/iphone/i) ||
+                        userAgent.match(/ipad/i) ||
+                        userAgent.match(/ipod/i)) {
+                        var standalone = window.navigator.standalone;
+                        var isSafari = userAgent.match(/safari/i);
+                        if (standalone == false && isSafari == null) {
+                            document.location.href =
+                                name + "://" + methodName + "/" + JSON.stringify(args);
                         }
                     }
                 }
-                if (found == false) {
-                    if (webViewType == "iOSWebView") {
-                        var userAgent = window.navigator.userAgent.toLowerCase();
-                        if (userAgent.match(/iphone/i) ||
-                            userAgent.match(/ipad/i) ||
-                            userAgent.match(/ipod/i)) {
-                            var standalone = window.navigator.standalone;
-                            var isSafari = userAgent.match(/safari/i);
-                            if (standalone == false && isSafari == null) {
-                                document.location.href =
-                                    name + "://" + methodName + "/" + JSON.stringify(args);
-                            }
-                        }
-                    }
-                }
-                return result;
             }
-            HTML5.interfaceConnector = interfaceConnector;
-        })(HTML5 = OS.HTML5 || (OS.HTML5 = {}));
-    })(OS = RadJav.OS || (RadJav.OS = {}));
-})(RadJav = exports.RadJav || (exports.RadJav = {}));
+            return result;
+        }
+        HTML5.interfaceConnector = interfaceConnector;
+    })(HTML5 = OS.HTML5 || (OS.HTML5 = {}));
+})(OS = exports.OS || (exports.OS = {}));
 var _eval = eval;
 var _Function = Function;
 RadJav["default"] = RadJav;

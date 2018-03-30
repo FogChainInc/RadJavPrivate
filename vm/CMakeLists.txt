@@ -12,7 +12,8 @@ message (STATUS "Version 0.1")
 set (CMAKE_MODULE_PATH "${RadJavVM_SOURCE_DIR}/CMake"
 			"${RadJavVM_SOURCE_DIR}/CMake/lib"
 			"${RadJavVM_SOURCE_DIR}/include"
-			"${RadJavVM_SOURCE_DIR}/src")
+			"${RadJavVM_SOURCE_DIR}/src"
+			"${RadJavVM_SOURCE_DIR}/res")
 
 include (Utils)
 
@@ -85,6 +86,7 @@ set (RadJavVM_SOURCES "${RadJavVM_SOURCE_DIR}/src/RadJavVM" ${RadJavVM_SOURCES})
 
 include (includes)
 include (sources)
+include (res)
 
 include (FindModuleCurl)
 include (FindRadJav)

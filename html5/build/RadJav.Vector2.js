@@ -26,43 +26,39 @@ var RadJav;
      */
     var Vector2 = /** @class */ (function () {
         function Vector2(x, y) {
-            if (typeof x == "object") {
-                var temp = x;
-                x = temp.x;
-                y = temp.y;
-            }
-            if (x == null)
-                x = 0;
-            if (y == null)
-                y = 0;
-            this.x = x;
+            if (x === void 0) { x = 0; }
+            if (y === void 0) { y = 0; }
+            if (typeof x == "object")
+                this.x = x.x;
+            else
+                this.x = x;
             this.y = y;
         }
-        /** @method toString
+        /** @method tostring
          * Convert this object to a string.
-         * @return {String} The string representing this object.
+         * @return {string} The string representing this object.
          */
-        Vector2.prototype.toString = function () {
+        Vector2.prototype.tostring = function () {
             return this.x + "," + this.y;
         };
         /** @method setX
          * Set the X component of this object.
-         * @param {Number} n The new X component of this object.
+         * @param {number} n The new X component of this object.
          */
         Vector2.prototype.setX = function (n) {
             this.x = n;
         };
         /** @method setY
          * Set the X component of this object.
-         * @param {Number} n The new X component of this object.
+         * @param {number} n The new X component of this object.
          */
         Vector2.prototype.setY = function (n) {
             this.y = n;
         };
         /** @method set
          * Set the X,Y component of this object.
-         * @param {Number} x The new X component of this object.
-         * @param {Number} y The new Y component of this object.
+         * @param {number} x The new X component of this object.
+         * @param {number} y The new Y component of this object.
          */
         Vector2.prototype.set = function (x, y) {
             this.x = x;
@@ -70,8 +66,8 @@ var RadJav;
         };
         /** @method add
          * Add X and Y values to the X and Y components of this object.
-         * @param {Number} x The X component to add.
-         * @param {Number} y The Y component to add.
+         * @param {number} x The X component to add.
+         * @param {number} y The Y component to add.
          */
         Vector2.prototype.add = function (x, y) {
             this.x += x;
@@ -79,8 +75,8 @@ var RadJav;
         };
         /** @method sub
          * Subtract X and Y values from the X and Y components of this object.
-         * @param {Number} x The X component to subtract.
-         * @param {Number} y The Y component to subtract.
+         * @param {number} x The X component to subtract.
+         * @param {number} y The Y component to subtract.
          */
         Vector2.prototype.sub = function (subVector2) {
             this.x -= subVector2.x;
@@ -88,8 +84,8 @@ var RadJav;
         };
         /** @method mult
          * Multiply X and Y values to the X and Y components of this object.
-         * @param {Number} x The X component to subtract.
-         * @param {Number} y The Y component to subtract.
+         * @param {number} x The X component to subtract.
+         * @param {number} y The Y component to subtract.
          */
         Vector2.prototype.mult = function (n) {
             this.x *= n;
@@ -97,10 +93,10 @@ var RadJav;
         };
         /** @method divide
          * Divide this object by another Vector2 object or number.
-         * @param {RadJav.Vector2|Number} vector2 The Vector2 or Number to divide by.
+         * @param {RadJav.Vector2|number} vector2 The Vector2 or number to divide by.
          */
         Vector2.prototype.divide = function (vector2) {
-            var result = new RadJav.Vector2();
+            var result = new Vector2();
             if (typeof vector2 == "object") {
                 result.x = this.x / vector2.x;
                 result.y = this.y / vector2.y;
@@ -114,21 +110,21 @@ var RadJav;
         /** @method dot
          * Perform a dot product on this object.
          * @param {RadJav.Vector2} dotVector2 The Vector2 to perform the dot product.
-         * @return {Number} The result of the dot product.
+         * @return {number} The result of the dot product.
          */
         Vector2.prototype.dot = function (dotVector2) {
             return this.x * dotVector2.x + this.y * dotVector2.y;
         };
         /** @method length
          * Get the length of this object using a square root. This will use Math.sqrt.
-         * @return {Number} The length of this object.
+         * @return {number} The length of this object.
          */
         Vector2.prototype.length = function () {
             return Math.sqrt(this.x * this.x + this.y * this.y);
         };
         /** @method normalize
          * Normalize this object, this will use this object's length method.
-         * @return {Number} The normalized length of this object.
+         * @return {number} The normalized length of this object.
          */
         Vector2.prototype.normalize = function () {
             return this.divide(this.length());
@@ -136,11 +132,11 @@ var RadJav;
         /** @method parseVector2
          * @static
          * Parse a Vector2 string and create a Vector2 object from it.
-         * @param {String} str The string to parse.
+         * @param {string} str The string to parse.
          * @return {RadJav.Vector2} The new Vector2 created from this string.
          */
         Vector2.prototype.parseVector2 = function (str) {
-            var obj = new RadJav.Vector2();
+            var obj = new Vector2();
             if (str == "")
                 return obj;
             str = str.toLowerCase();

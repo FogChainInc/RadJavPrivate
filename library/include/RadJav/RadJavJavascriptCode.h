@@ -12,6 +12,7 @@
 		inline void loadJavascriptLibrary ()
 		{
 			javascriptFiles.push_back (JSFile ("Math.js", "\n\
+\n\
 /** @class Math\n\
 * The math class.\n\
 */\n\
@@ -129,6 +130,7 @@ Math.randomRange = function (min, max)\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("String.js", "\n\
+\n\
 /** @class String\n\
 * The string class.\n\
 */\n\
@@ -182,6 +184,7 @@ String.prototype.replaceAll = function (str, replacement)\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.js", "\n\
+\n\
 var RadJav = {};\n\
 RadJav.useEval = true;\n\
 RadJav._isInitialized = false;\n\
@@ -821,6 +824,7 @@ RadJav.OS.Windows = function()\n\
 }\n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.Color.js", "\n\
+\n\
 /** @class RadJav.Color\n\
 * Represents a color.\n\
 * Available on platforms: Windows,Linux,OSX,HTML5\n\
@@ -976,6 +980,7 @@ function parseColor (str)\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.Quaternion.js", "\n\
+\n\
 /** @class RadJav.Quaternion\n\
 * A Quaternion class.\n\
 * Available on platforms: Windows,Linux,OSX,HTML5\n\
@@ -1032,6 +1037,7 @@ RadJav.Quaternion = function (w, x, y, z)\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.Vector2.js", "\n\
+\n\
 /** @class RadJav.Vector2\n\
 * A Vector2 class.\n\
 * Available on platforms: Windows,Linux,OSX,HTML5\n\
@@ -1210,6 +1216,7 @@ RadJav.Vector2.parseVector2 = function (str)\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.Vector3.js", "\n\
+\n\
 /** @class RadJav.Vector3\n\
 * A Vector3 class.\n\
 * Available on platforms: Windows,Linux,OSX,HTML5\n\
@@ -1498,6 +1505,7 @@ RadJav.Vector3 = function (x, y, z)\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.Vector4.js", "\n\
+\n\
 /** @class RadJav.Vector4\n\
 * A Vector4 class.\n\
 * Available on platforms: Windows,Linux,OSX,HTML5\n\
@@ -1588,6 +1596,7 @@ function parseVector4 (string)\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.Circle.js", "\n\
+\n\
 /** @class RadJav.Circle\n\
 * A basic circle.\n\
 * @author Jason Ryan\n\
@@ -1655,6 +1664,7 @@ RadJav.Circle = function (x, y, r)\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.Rectangle.js", "\n\
+\n\
 /** @class RadJav.Rectangle\n\
 * A basic rectangle.\n\
 * @param {Number|RadJav.Vector2|RadJav.Vector4} [x=0] The x coordinate of the rectangle. Can also be a Vector2 \n\
@@ -1849,6 +1859,7 @@ RadJav.Rectangle = function (x, y, w, h)\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.Font.js", "\n\
+\n\
 /** @class RadJav.Font\n\
 * The font class.\n\
 * Available on platforms: Windows,Linux,OSX,HTML5\n\
@@ -1889,6 +1900,7 @@ RadJav.Font = function (obj)\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.IO.js", "\n\
+\n\
 /** @class RadJav.IO.TextFile\n\
 * Handles text files.\n\
 * Available on platforms: Windows,Linux,OSX\n\
@@ -1915,6 +1927,7 @@ RadJav.IO.TextFile.append = 3;\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.IO.SerialComm.js", "\n\
+\n\
 /** @class RadJav.IO.SerialComm\n\
 * The serial communications class.\n\
 * Available on platforms: Windows,Linux,OSX\n\
@@ -2000,7 +2013,8 @@ RadJav.IO.SerialComm.markParity = 3;\n\
 RadJav.IO.SerialComm.spaceParity = 4;\n\
 \n\
 "));
-			javascriptFiles.push_back (JSFile ("RadJav.GUI.GObject.js", "RadJav.GUI.GObject = (function ()\n\
+			javascriptFiles.push_back (JSFile ("RadJav.GUI.GObject.js", "\n\
+RadJav.GUI.GObject = (function ()\n\
 {\n\
 	function GObject (obj, text, parent, beforeCreatedChild)\n\
 	{\n\
@@ -2202,6 +2216,7 @@ RadJav.IO.SerialComm.spaceParity = 4;\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.GUI.Button.js", "\n\
+\n\
 /** @class RadJav.GUI.Button\n\
 * @extends RadJav.GUI.GObject\n\
 * A button.\n\
@@ -2241,6 +2256,7 @@ RadJav.GUI.Button = (function (_super)\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.GUI.Canvas3D.js", "\n\
+\n\
 /** @class RadJav.GUI.Canvas3D\n\
 * @extends RadJav.GUI.GObject\n\
 * A 3d canvas.\n\
@@ -2318,6 +2334,7 @@ RadJav.GUI.Canvas3D.RendererTypes.Context2D = 3;\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.GUI.Checkbox.js", "\n\
+\n\
 /** @class RadJav.GUI.Checkbox\n\
 * @extends RadJav.GUI.GObject\n\
 * A checkbox.\n\
@@ -2365,6 +2382,7 @@ RadJav.GUI.Checkbox = (function (_super)\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.GUI.Combobox.js", "\n\
+\n\
 /** @class RadJav.GUI.Combobox\n\
 * @extends RadJav.GUI.GObject\n\
 * A Textbox.\n\
@@ -2444,6 +2462,7 @@ RadJav.GUI.Combobox.Item = (function ()\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.GUI.Container.js", "\n\
+\n\
 /** @class RadJav.GUI.Container\n\
 * @extends RadJav.GUI.GObject\n\
 * A container.\n\
@@ -2483,6 +2502,7 @@ RadJav.GUI.Container = (function (_super)\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.GUI.Image.js", "\n\
+\n\
 /** @class RadJav.GUI.Image\n\
 * @extends RadJav.GUI.GObject\n\
 * An image.\n\
@@ -2537,6 +2557,7 @@ RadJav.GUI.Image = (function (_super)\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.GUI.Label.js", "\n\
+\n\
 /** @class RadJav.GUI.Label\n\
 * @extends RadJav.GUI.GObject\n\
 * A label.\n\
@@ -2576,6 +2597,7 @@ RadJav.GUI.Label = (function (_super)\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.GUI.List.js", "\n\
+\n\
 /** @class RadJav.GUI.List\n\
 * @extends RadJav.GUI.GObject\n\
 * A List.\n\
@@ -2747,6 +2769,7 @@ RadJav.GUI.List.Selection = (function ()\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.GUI.Radio.js", "\n\
+\n\
 /** @class RadJav.GUI.Radio\n\
 * @extends RadJav.GUI.GObject\n\
 * A Radio button.\n\
@@ -2803,6 +2826,7 @@ RadJav.GUI.Radio = (function (_super)\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.GUI.Textarea.js", "\n\
+\n\
 /** @class RadJav.GUI.Textarea\n\
 * @extends RadJav.GUI.GObject\n\
 * A Textarea.\n\
@@ -2842,6 +2866,7 @@ RadJav.GUI.Textarea = (function (_super)\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.GUI.Textbox.js", "\n\
+\n\
 /** @class RadJav.GUI.Textbox\n\
 * @extends RadJav.GUI.GObject\n\
 * A Textbox.\n\
@@ -2881,6 +2906,7 @@ RadJav.GUI.Textbox = (function (_super)\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.GUI.WebView.js", "\n\
+\n\
 /** @class RadJav.GUI.WebView\n\
 * @extends RadJav.GUI.GObject\n\
 * A button.\n\
@@ -2920,6 +2946,7 @@ RadJav.GUI.WebView = (function (_super)\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.GUI.Window.js", "\n\
+\n\
 /** @class RadJav.GUI.Window\n\
 * @extends RadJav.GUI.GObject\n\
 * A window.\n\
@@ -2959,6 +2986,7 @@ RadJav.GUI.Window = (function (_super)\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.GUI.MenuBar.js", "\n\
+\n\
 /** @class RadJav.GUI.MenuBar\n\
 * @extends RadJav.GUI.GObject\n\
 * A menu Bar.\n\
@@ -3009,6 +3037,7 @@ RadJav.GUI.MenuBar = (function (_super)\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.GUI.MenuItem.js", "\n\
+\n\
 /** @class RadJav.GUI.MenuItem\n\
 * @extends RadJav.GUI.GObject\n\
 * A menu item.\n\
@@ -3047,7 +3076,39 @@ RadJav.GUI.MenuItem = (function (_super)\n\
 }(RadJav.GUI.GObject));\n\
 \n\
 "));
+			javascriptFiles.push_back (JSFile ("RadJav.GUI.KeyEvent.js", "\n\
+\n\
+(function (RadJav) {\n\
+    (function (GUI) {\n\
+        var KeyEvent = (function () {\n\
+            function KeyEvent(key) {\n\
+                this.key = key;\n\
+            }\n\
+            return KeyEvent;\n\
+        }());\n\
+        GUI.KeyEvent = KeyEvent;\n\
+    })(GUI = RadJav.GUI || (RadJav.GUI = {}));\n\
+})(RadJav || (RadJav = {}));\n\
+"));
+			javascriptFiles.push_back (JSFile ("RadJav.GUI.MouseEvent.js", "\n\
+\n\
+(function (RadJav) {\n\
+    (function (GUI) {\n\
+        var MouseEvent = (function () {\n\
+            function MouseEvent(x, y) {\n\
+                if (x === void 0) { x = 0; }\n\
+                if (y === void 0) { y = 0; }\n\
+                this.x = x;\n\
+                this.y = y;\n\
+            }\n\
+            return MouseEvent;\n\
+        }());\n\
+        GUI.MouseEvent = MouseEvent;\n\
+    })(GUI = RadJav.GUI || (RadJav.GUI = {}));\n\
+})(RadJav || (RadJav = {}));\n\
+"));
 			javascriptFiles.push_back (JSFile ("RadJav.Net.WebSocketServer.js", "\n\
+\n\
 RadJav.Net.WebSocketServer = function ()\n\
 {\n\
 	this.port = 0;\n\
@@ -3056,6 +3117,7 @@ RadJav.Net.WebSocketServer = function ()\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.Net.WebSocketClient.js", "\n\
+\n\
 RadJav.Net.WebSocketClient = function ()\n\
 {\n\
 	this.port = 0;\n\
@@ -3064,6 +3126,7 @@ RadJav.Net.WebSocketClient = function ()\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.Net.WebServer.js", "\n\
+\n\
 RadJav.Net.WebServer = function ()\n\
 {\n\
 	this.port = 80;\n\
@@ -3080,6 +3143,7 @@ RadJav.Net.WebServerTypes.HTTPS = 2;\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.GUI.Canvas3D.js", "\n\
+\n\
 /** @class RadJav.GUI.Canvas3D\n\
 * @extends RadJav.GUI.GObject\n\
 * A 3d canvas.\n\
@@ -3157,6 +3221,7 @@ RadJav.GUI.Canvas3D.RendererTypes.Context2D = 3;\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.C3D.Object3D.js", "\n\
+\n\
 /** @class RadJav.C3D.Object3D\n\
 * The base 3D object.\n\
 * Available on platforms: Windows,Linux,OSX,HTML5\n\
@@ -3234,6 +3299,7 @@ RadJav.C3D.Object3D = (function ()\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.C3D.Entity.js", "\n\
+\n\
 /** @class RadJav.C3D.Entity\n\
 * @extends RadJav.C3D.Object3D\n\
 * An entity.\n\
@@ -3302,6 +3368,7 @@ RadJav.C3D.Entity.Types.Light = 5;\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.C3D.Camera.js", "\n\
+\n\
 /** @class RadJav.C3D.Camera\n\
 * @extends RadJav.C3D.Object3D\n\
 * A camera.\n\
@@ -3357,6 +3424,7 @@ RadJav.C3D.Camera = (function (_super)\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.C3D.Material.js", "\n\
+\n\
 /** @class RadJav.C3D.Material\n\
 * @extends RadJav.C3D.Object3D\n\
 * A material.\n\
@@ -3393,6 +3461,7 @@ RadJav.C3D.Material = (function ()\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.C3D.Model.js", "\n\
+\n\
 /** @class RadJav.C3D.Model\n\
 * A 3d Model.\n\
 * Available on platforms: Windows,Linux,OSX,HTML5\n\
@@ -3571,6 +3640,7 @@ RadJav.C3D.Model.Sphere = (function (_super)\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.C3D.Transform.js", "\n\
+\n\
 /** @class RadJav.C3D.Transform\n\
 * A C3D transform.\n\
 * Available on platforms: Windows,Linux,OSX,HTML5\n\
@@ -3681,6 +3751,7 @@ RadJav.C3D.Transform = (function ()\n\
 \n\
 "));
 			javascriptFiles.push_back (JSFile ("RadJav.C3D.World.js", "\n\
+\n\
 /** @class RadJav.C3D.World\n\
 * @extends RadJav.C3D.Object3D\n\
 * A C3D World.\n\

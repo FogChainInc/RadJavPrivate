@@ -182,103 +182,113 @@ namespace RadJAV
 
 		void V8JavascriptEngine::runApplication(String applicationSource, String fileName)
 		{
-			String parentDir = fileName;
-
-			#ifdef GUI_USE_WXWIDGETS
-				wxFileName file(parentDir.towxString());
-				file.MakeAbsolute();
-				wxString tempStr = file.GetPath();
-				parentDir = parsewxString(tempStr);
-				wxSetWorkingDirectory(parentDir);
-			#endif
-
-			//v8::Locker locker(isolate);
-			v8::Isolate::Scope scope(isolate);
-			v8::HandleScope handleScope(isolate);
-
-			v8::Local<v8::ObjectTemplate> global = v8::ObjectTemplate::New(isolate);
-			globalContext = v8::Context::New(isolate, NULL, global);
-			v8::Context::Scope contextScope(globalContext);
-
-			loadJavascriptLibrary();
-
-			// Insert the javascript libraries to be used.
-			for (RJUINT iIdx = 0; iIdx < javascriptFiles.size(); iIdx++)
+			try
 			{
-				JSFile jsfile = javascriptFiles.at(iIdx);
-				executeScript(jsfile.content, jsfile.filename);
-			}
+				String parentDir = fileName;
 
-			loadNativeCode();
-			v8::Local<v8::Object> obj = v8GetObject(globalContext->Global(), "RadJav");
-			radJav = RJNEW v8::Persistent<v8::Object>();
-			radJav->Reset(isolate, obj);
+				#ifdef GUI_USE_WXWIDGETS
+					wxFileName file(parentDir.towxString());
+					file.MakeAbsolute();
+					wxString tempStr = file.GetPath();
+					parentDir = parsewxString(tempStr);
+					wxSetWorkingDirectory(parentDir);
+				#endif
 
-			// Check the application source to see if its an XRJ file.
-			if (applicationSource != "")
-			{
-				RJBOOL executeContent = true;
+				//v8::Locker locker(isolate);
+				v8::Isolate::Scope scope(isolate);
+				v8::HandleScope handleScope(isolate);
 
-				if (fileName.find(".xrj") != String::npos)
+				v8::Local<v8::ObjectTemplate> global = v8::ObjectTemplate::New(isolate);
+				globalContext = v8::Context::New(isolate, NULL, global);
+				v8::Context::Scope contextScope(globalContext);
+
+				loadJavascriptLibrary();
+
+				// Insert the javascript libraries to be used.
+				for (RJUINT iIdx = 0; iIdx < javascriptFiles.size(); iIdx++)
 				{
-					Array<String> filesToExecute;
-
-					// If the file begins with a {, assume its JSON and parse it.
-					if (applicationSource.at(0) == '{')
-					{
-						executeContent = false;
-						v8::MaybeLocal<v8::Value> parsedObj;
-
-						try
-						{
-							parsedObj = v8::JSON::Parse(isolate, applicationSource.toV8String(isolate));
-						}
-						catch (Exception ex)
-						{
-							RadJav::showError(ex.getMessage(), true);
-						}
-
-						v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(parsedObj.ToLocalChecked());
-
-						String name = parseV8Value(obj->Get(String("name").toV8String(isolate)));
-						String developer = parseV8Value(obj->Get(String("developer").toV8String(isolate)));
-						String license = parseV8Value(obj->Get(String("license").toV8String(isolate)));
-						v8::Local<v8::Array> executeFiles = v8::Local<v8::Array>::Cast(obj->Get(String("execute_files").toV8String(isolate)));
-						v8::Local<v8::Array> dependencies = v8::Local<v8::Array>::Cast(obj->Get(String("dependencies").toV8String(isolate)));
-						RJUINT length = executeFiles->Length();
-
-						// Get the list of JavaScript files to execute.
-						for (RJUINT iIdx = 0; iIdx < length; iIdx++)
-						{
-							v8::Local<v8::Value> v8file = v8::Local<v8::Value>::Cast(executeFiles->Get(iIdx));
-
-							if (v8file->IsString() == true)
-							{
-								String filePath = parseV8Value(v8::Local<v8::String>::Cast(v8file));
-								filesToExecute.push_back(filePath);
-							}
-
-							if (v8file->IsObject() == true)
-							{
-								v8::Local<v8::Object> fileObj = v8::Local<v8::Object>::Cast(v8file);
-								String javascriptFilePath = parseV8Value(fileObj->Get(String("javascript").toV8String(isolate)));
-								filesToExecute.push_back(javascriptFilePath);
-							}
-						}
-
-						// Once the list has been collected, execute each file.
-						for (RJUINT iIdx = 0; iIdx < filesToExecute.size(); iIdx++)
-						{
-							String executeFile = filesToExecute.at(iIdx);
-							String fileContents = CPP::IO::TextFile::getFileContents(executeFile);
-
-							executeScript(fileContents, executeFile);
-						}
-					}
+					JSFile jsfile = javascriptFiles.at(iIdx);
+					executeScript(jsfile.content, jsfile.filename);
 				}
 
-				if (executeContent == true)
-					executeScript(applicationSource, fileName);
+				loadNativeCode();
+				v8::Local<v8::Object> obj = v8GetObject(globalContext->Global(), "RadJav");
+				radJav = RJNEW v8::Persistent<v8::Object>();
+				radJav->Reset(isolate, obj);
+
+				// Check the application source to see if its an XRJ file.
+				if (applicationSource != "")
+				{
+					RJBOOL executeContent = true;
+
+					if (fileName.find(".xrj") != String::npos)
+					{
+						Array<String> filesToExecute;
+
+						// If the file begins with a {, assume its JSON and parse it.
+						if (applicationSource.at(0) == '{')
+						{
+							executeContent = false;
+							v8::MaybeLocal<v8::Value> parsedObj;
+
+							try
+							{
+								parsedObj = v8::JSON::Parse(isolate, applicationSource.toV8String(isolate));
+							}
+							catch (Exception ex)
+							{
+								RadJav::showError(ex.getMessage(), true);
+							}
+
+							v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(parsedObj.ToLocalChecked());
+
+							String name = parseV8Value(obj->Get(String("name").toV8String(isolate)));
+							String developer = parseV8Value(obj->Get(String("developer").toV8String(isolate)));
+							String license = parseV8Value(obj->Get(String("license").toV8String(isolate)));
+							v8::Local<v8::Array> executeFiles = v8::Local<v8::Array>::Cast(obj->Get(String("execute_files").toV8String(isolate)));
+							v8::Local<v8::Array> dependencies = v8::Local<v8::Array>::Cast(obj->Get(String("dependencies").toV8String(isolate)));
+							RJUINT length = executeFiles->Length();
+
+							// Get the list of JavaScript files to execute.
+							for (RJUINT iIdx = 0; iIdx < length; iIdx++)
+							{
+								v8::Local<v8::Value> v8file = v8::Local<v8::Value>::Cast(executeFiles->Get(iIdx));
+
+								if (v8file->IsString() == true)
+								{
+									String filePath = parseV8Value(v8::Local<v8::String>::Cast(v8file));
+									filesToExecute.push_back(filePath);
+								}
+
+								if (v8file->IsObject() == true)
+								{
+									v8::Local<v8::Object> fileObj = v8::Local<v8::Object>::Cast(v8file);
+									String javascriptFilePath = parseV8Value(fileObj->Get(String("javascript").toV8String(isolate)));
+									filesToExecute.push_back(javascriptFilePath);
+								}
+							}
+
+							// Once the list has been collected, execute each file.
+							for (RJUINT iIdx = 0; iIdx < filesToExecute.size(); iIdx++)
+							{
+								String executeFile = filesToExecute.at(iIdx);
+								String fileContents = CPP::IO::TextFile::getFileContents(executeFile);
+
+								executeScript(fileContents, executeFile);
+							}
+						}
+					}
+
+					if (executeContent == true)
+						executeScript(applicationSource, fileName);
+				}
+			}
+			catch (Exception ex)
+			{
+				if (exceptionsDisplayMessageBox == true)
+					RadJav::showMessageBox(ex.getMessage(), "Error");
+
+				return;
 			}
 
 			RJBOOL firstRun = true;
@@ -292,23 +302,6 @@ namespace RadJAV
 
 			while (true)
 			{
-				#ifdef GUI_USE_WXWIDGETS
-					currentTime = wxGetLocalTimeMillis();
-					diffTime = (currentTime - prevTime).GetValue ();
-					prevTime = currentTime;
-				#endif
-
-				v8::platform::PumpMessageLoop(platform, isolate);
-				RadJav::runEventLoopSingleStep();
-
-				#ifdef C3D_USE_OGRE
-					if (mRoot != NULL)
-					{
-						if (mRoot->isInitialised () == true)
-							mRoot->renderOneFrame();
-					}
-				#endif
-
 				auto execCodeBegin = jsToExecuteNextCode.begin();
 				auto execFilenameBegin = jsToExecuteNextFilename.begin();
 				auto execContextBegin = jsToExecuteNextContext.begin();
@@ -316,6 +309,23 @@ namespace RadJAV
 
 				try
 				{
+					#ifdef GUI_USE_WXWIDGETS
+						currentTime = wxGetLocalTimeMillis();
+						diffTime = (currentTime - prevTime).GetValue();
+						prevTime = currentTime;
+					#endif
+
+					v8::platform::PumpMessageLoop(platform, isolate);
+					RadJav::runEventLoopSingleStep();
+
+					#ifdef C3D_USE_OGRE
+						if (mRoot != NULL)
+						{
+							if (mRoot->isInitialised() == true)
+								mRoot->renderOneFrame();
+						}
+					#endif
+
 					// Handle the on ready function.
 					if (firstRun == true)
 					{
@@ -502,14 +512,14 @@ namespace RadJAV
 				catch (Exception ex)
 				{
 					if (exceptionsDisplayMessageBox == true)
-						RadJav::showMessageBox(ex.getMessage (), "Error");
-
-					if (shutdownOnException == true)
-						break;
+						RadJav::showMessageBox(ex.getMessage(), "Error");
 
 					jsToExecuteNextCode.erase(execCodeBegin);
 					jsToExecuteNextFilename.erase(execFilenameBegin);
 					jsToExecuteNextContext.erase(execContextBegin);
+
+					if (shutdownOnException == true)
+						break;
 				}
 			}
 		}
