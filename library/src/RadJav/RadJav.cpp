@@ -399,6 +399,11 @@ namespace RadJAV
 			RadJav::showMessageBox(message, "Error");
 	}
 
+	void RadJav::throwJSException(String message)
+	{
+		javascriptEngine->throwException(message);
+	}
+
 	void RadJav::printToOutputWindow(String message)
 	{
 		#ifdef WIN32

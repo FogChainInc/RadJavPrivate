@@ -477,6 +477,16 @@ namespace RadJAV
 
 		return (*newStr);
 	}
+
+	String parseV8ValueIsolate(v8::Isolate *isolate, v8::Local<v8::Value> str)
+	{
+		if (str.IsEmpty() == true)
+			return ("");
+
+		v8::String::Utf8Value newStr(isolate, str);
+
+		return (*newStr);
+	}
 #endif
 
 	int hexStringToInt(String hexString)

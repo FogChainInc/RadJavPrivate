@@ -94,6 +94,9 @@
 				/// Show an error message.
 				static void showError (String message, RJBOOL showMessageBox = false);
 
+				/// Show an error message.
+				static void throwJSException(String message);
+
 				/// Primarily for Visual Studio debugging. This will print to the output window, or 
 				/// to the console if on another platform.
 				static void printToOutputWindow (String message);

@@ -22,8 +22,27 @@
 
 	#include "RadJavPreprocessor.h"
 
+	#include <boost/beast/core.hpp>
+	#include <boost/beast/http.hpp>
+	#include <boost/beast/version.hpp>
+	#include <boost/asio.hpp>
+	#include <boost/asio/bind_executor.hpp>
+	#include <boost/asio/ip/tcp.hpp>
+	#include <boost/asio/strand.hpp>
+	#include <boost/config.hpp>
+	//#include <boost/filesystem.hpp>
+
+	#include <string>
+
+	#include "RadJav.h"
 	#include "RadJavString.h"
 	#include "RadJavHashMap.h"
+	#include "RadJavThread.h"
+
+
+	namespace ip = boost::asio::ip;
+	using tcp = boost::asio::ip::tcp;
+	namespace http = boost::beast::http;
 
 	namespace RadJAV
 	{
@@ -31,16 +50,33 @@
 		{
 			namespace Net
 			{
-				class RADJAV_EXPORT WebServer
+#ifdef GUI_USE_WXWIDGETS
+				class RADJAV_EXPORT WebServerThread : public Thread
+				{
+				public:
+					WebServerThread(boost::asio::io_context* ioc);
+					wxThread::ExitCode Entry();
+				private:
+					boost::asio::io_context* ioc;
+				};
+#endif
+
+				// Accepts incoming connections and launches the sessions
+				class RADJAV_EXPORT WebServer : public std::enable_shared_from_this<WebServer>
 				{
 					public:
 						WebServer();
+						~WebServer();
 
-						/// Listen for any incoming connections.
-						void listen();
+						/// Listen for any incoming connections. Default 0 port will use port member value instead of wildcard
+						void listen(RJINT port = 0);
 
-						/// Serve any GET or POST requests.
-						void serve();
+						#ifdef USE_V8
+							/// Serve any GET or POST requests.
+							void serve(v8::Local<v8::Function> function);
+							/// The V8 serve function.
+							v8::Persistent<v8::Function> *servePersistent;
+						#endif
 
 						/// Stop the web server.
 						void stop();
@@ -48,7 +84,18 @@
 						/// The port.
 						RJINT port;
 						/// The server type.
-						RJINT _serverType;
+						RJINT serverType;
+						/// Flag that indicates if listening context available 
+						RJBOOL isAlive;
+				private:
+					boost::asio::ip::address address;
+					boost::asio::io_context ioc;
+					tcp::acceptor acceptor;
+					tcp::socket socket;
+					void run();
+					void do_accept();
+					void on_accept(boost::system::error_code ec);
+					void close();
 				};
 
 				/// Web server types.
