@@ -26,7 +26,7 @@
  * @static
  * The main object that starts RadJav.
  */
-export namespace RadJav {
+namespace RadJav {
   /** @property {Boolean} [useEval=false]
    * Allow the use of eval.
    */
@@ -123,7 +123,7 @@ export namespace RadJav {
    * @return {Promise} The promise containing the loaded module.
    */
   export function include(path: string): Promise<void> {
-    var promise = null;
+    var promise: Promise<void> = null;
 
     if (RadJav.useAjax == true) {
       promise = RadJav._getResponse(path).then(
@@ -137,7 +137,7 @@ export namespace RadJav {
         }, this)
       );
     } else {
-      promise = new Promise(
+      promise = new Promise<void>(
         RadJav.keepContext(function(resolve, reject) {
           var script = document.createElement("script");
           script.type = "text/javascript";
@@ -851,6 +851,29 @@ export namespace RadJav {
 
     return obj1;
   }
+  
+	/** @method setDefaultValue
+	* @static
+	* Set a default value to a parameter should it the parameter be set to 
+	* undefined.
+	* Available on platforms: Windows,Linux,OSX,HTML5
+	* @param {Mixed} param The parameter value to check.
+	* @param {Mixed} defaultValue The default value to set should param be set to undefined.
+	* @param {Function} [onValue=null] This function is called when a value can be retrieved from the 
+	* param parameter.
+	* @return {Mixed} Will return the value of param should it not be set to undefined. If param 
+	* is set to undefined, defaultValue will be returned instead.
+	*/
+	 export function setDefaultValue (param: any, defaultValue: any, onValue?: Function): any
+	{
+		if (param == undefined)
+			return (defaultValue);
+
+		if (onValue != null)
+			return (onValue (param));
+
+		return (param);
+	}
 
   /** @method keepContext
    * @static
@@ -861,7 +884,7 @@ export namespace RadJav {
    * @param {Mixed} [val=undefined] An additional value to pass to the context.
    * @return {Mixed} The returned result from the function func.
    */
-  export function keepContext(func: Function, context: object, val: any): any {
+  export function keepContext(func: Function, context: object, val?: any): any {
     var objReturn = function() {
       var aryArgs = Array.prototype.slice.call(arguments);
 
@@ -1294,7 +1317,8 @@ export namespace RadJav {
     }
   }
 
-  export class GUI {
+  namespace GUI
+  {
     /** @method initObj
      * @static
      * Initialize a GUI object.
@@ -1412,7 +1436,8 @@ export namespace RadJav {
    * @static
    * Contains classes for 3d operations in a RadJav.GUI.Canvas3D object.
    */
-  export class C3D {
+  export namespace C3D
+  {
     /** @method create
      * @static
      * Create a 3D object.

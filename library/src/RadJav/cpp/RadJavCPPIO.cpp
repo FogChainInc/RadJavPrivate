@@ -197,7 +197,11 @@ namespace RadJAV
 			String contents = "";
 
 			if (file.is_open() == false)
+			{
 				throw Exception("Unable to open file: " + path);
+
+				return ("");
+			}
 
 			while (file.good() == true)
 			{

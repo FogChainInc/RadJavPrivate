@@ -28,6 +28,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 /// <reference path="RadJav.ts" />
+/// <reference path="RadJav.C3D.Object3D.ts" />
 var RadJav;
 (function (RadJav) {
     var C3D;
@@ -73,7 +74,7 @@ var RadJav;
                 return promise;
             };
             return Camera;
-        }(Object3D));
+        }(RadJav.C3D.Object3D));
         C3D.Camera = Camera;
-    })(C3D || (C3D = {}));
+    })(C3D = RadJav.C3D || (RadJav.C3D = {}));
 })(RadJav || (RadJav = {}));

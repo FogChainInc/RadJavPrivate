@@ -156,5 +156,5 @@ var RadJav;
             return Object3D;
         }());
         C3D.Object3D = Object3D;
-    })(C3D || (C3D = {}));
+    })(C3D = RadJav.C3D || (RadJav.C3D = {}));
 })(RadJav || (RadJav = {}));
