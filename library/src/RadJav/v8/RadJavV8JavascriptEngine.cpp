@@ -210,40 +210,40 @@ namespace RadJAV
 
 		void V8JavascriptEngine::runApplication(String applicationSource, String fileName)
 		{
+			String parentDir = fileName;
+
+			#ifdef GUI_USE_WXWIDGETS
+				wxFileName file(parentDir.towxString());
+				file.MakeAbsolute();
+				wxString tempStr = file.GetPath();
+				parentDir = parsewxString(tempStr);
+				wxSetWorkingDirectory(parentDir);
+			#endif
+
+			//v8::Locker locker(isolate);
+			v8::Isolate::Scope scope(isolate);
+			v8::HandleScope handleScope(isolate);
+
+			v8::Local<v8::ObjectTemplate> global = v8::ObjectTemplate::New(isolate);
+			globalContext = v8::Context::New(isolate, NULL, global);
+			v8::Context::Scope contextScope(globalContext);
+
+			loadJavascriptLibrary();
+
+			// Insert the javascript libraries to be used.
+			for (RJUINT iIdx = 0; iIdx < javascriptFiles.size(); iIdx++)
+			{
+				JSFile jsfile = javascriptFiles.at(iIdx);
+				executeScript(jsfile.content, jsfile.filename);
+			}
+
+			loadNativeCode();
+			v8::Local<v8::Object> obj = v8GetObject(globalContext->Global(), "RadJav");
+			radJav = RJNEW v8::Persistent<v8::Object>();
+			radJav->Reset(isolate, obj);
+
 			try
 			{
-				String parentDir = fileName;
-
-				#ifdef GUI_USE_WXWIDGETS
-					wxFileName file(parentDir.towxString());
-					file.MakeAbsolute();
-					wxString tempStr = file.GetPath();
-					parentDir = parsewxString(tempStr);
-					wxSetWorkingDirectory(parentDir);
-				#endif
-
-				//v8::Locker locker(isolate);
-				v8::Isolate::Scope scope(isolate);
-				v8::HandleScope handleScope(isolate);
-
-				v8::Local<v8::ObjectTemplate> global = v8::ObjectTemplate::New(isolate);
-				globalContext = v8::Context::New(isolate, NULL, global);
-				v8::Context::Scope contextScope(globalContext);
-
-				loadJavascriptLibrary();
-
-				// Insert the javascript libraries to be used.
-				for (RJUINT iIdx = 0; iIdx < javascriptFiles.size(); iIdx++)
-				{
-					JSFile jsfile = javascriptFiles.at(iIdx);
-					executeScript(jsfile.content, jsfile.filename);
-				}
-
-				loadNativeCode();
-				v8::Local<v8::Object> obj = v8GetObject(globalContext->Global(), "RadJav");
-				radJav = RJNEW v8::Persistent<v8::Object>();
-				radJav->Reset(isolate, obj);
-
 				// Check the application source to see if its an XRJ file.
 				if (applicationSource != "")
 				{
