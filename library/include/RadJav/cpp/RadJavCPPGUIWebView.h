@@ -45,6 +45,11 @@
 
 							static void onPageLoaded(wxWebViewEvent &event);
 							static void onPageChange(wxWebViewEvent &event);
+							static void onPageNavigated(wxWebViewEvent &event);
+							static void onPageNavigationError(wxWebViewEvent &event);
+							static void onNewWindow(wxWebViewEvent &event);
+							static void onTitleChanged(wxWebViewEvent &event);
+
 
 							wxWebView *webView;
 					};
