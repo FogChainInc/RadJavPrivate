@@ -120,9 +120,37 @@ namespace RadJAV
 			free(data);
 		}*/
 
-		V8JSInspector::V8JSInspector(v8::Isolate *isolate)
+		V8JSInspector::V8JSInspector(v8::Local<v8::Context> context, bool connect)
 		{
-			client = v8_inspector::V8Inspector::create(isolate, this);
+			if (!connect) return;
+
+			//server_ = new RadJAV::CPP::Net::WebSocketServer();
+			//server_->listen();
+
+			isolate_ = context->GetIsolate();
+			channel_.reset(new V8JSChannel(context));
+			inspector_ = v8_inspector::V8Inspector::create(isolate_, this);
+			session_ =
+				inspector_->connect(1, channel_.get(), v8_inspector::StringView());
+			context->SetAlignedPointerInEmbedderData(kInspectorClientIndex, this);
+			inspector_->contextCreated(v8_inspector::V8ContextInfo(
+				context, kContextGroupId, v8_inspector::StringView()));
+
+			v8::Local<v8::Value> function =
+				v8::FunctionTemplate::New(isolate_, SendInspectorMessage)
+				->GetFunction(context)
+				.ToLocalChecked();
+			v8::Local<v8::String> function_name =
+				v8::String::NewFromUtf8(isolate_, "send", v8::NewStringType::kNormal)
+				.ToLocalChecked();
+			//CHECK(
+			context->Global()->Set(context, function_name, function).FromJust();
+			//);
+
+			//enabled by default, not exported to v8 lib
+			//v8::debug::SetLiveEditEnabled(isolate_, true);
+
+			context_.Reset(isolate_, context);
 		}
 
 		V8JavascriptEngine::V8JavascriptEngine()
@@ -206,8 +234,12 @@ namespace RadJAV
 			DELETEOBJ(platform);
 		}
 
-		void V8JavascriptEngine::startInspector()
+		void V8JavascriptEngine::startInspector(v8::Local<v8::Context> context)
 		{
+			// create a v8 inspector client
+			v8::Context::Scope cscope(context);
+			//inspector.reset(new V8JSInspector(context, true));
+			V8JSInspector inspector_client(context, true);
 
 		}
 
@@ -244,6 +276,10 @@ namespace RadJAV
 			v8::Local<v8::Object> obj = v8GetObject(globalContext->Global(), "RadJav");
 			radJav = RJNEW v8::Persistent<v8::Object>();
 			radJav->Reset(isolate, obj);
+
+			if (useInspector) {
+				startInspector(globalContext);
+			}
 
 			try
 			{
@@ -1483,6 +1519,11 @@ namespace RadJAV
 			DELETE_ARRAY(args3);
 
 			return (promiseObject);
+		}
+
+		V8JSChannel::V8JSChannel(v8::Local<v8::Context> context) {
+			isolate_ = context->GetIsolate();
+			context_.Reset(isolate_, context);
 		}
 	#endif
 }

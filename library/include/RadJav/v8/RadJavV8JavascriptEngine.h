@@ -32,11 +32,30 @@
 	#include <mutex>
 
 	#include "RadJavJavascriptEngine.h"
+	//#include "cpp\RadJavCPPNetWebSocketServer.h"
+
+	// The USE(x, ...) template is used to silence C++ compiler warnings
+	// issued for (yet) unused variables (typically parameters).
+	// The arguments are guaranteed to be evaluated from left to right.
+	struct Use {
+		template <typename T>
+		Use(T&&) {}  // NOLINT(runtime/explicit)
+	};
+	#define USE(...)                                         \
+	  do {                                                   \
+		::Use unused_tmp_array_for_use_macro[]{__VA_ARGS__}; \
+		(void)unused_tmp_array_for_use_macro;                \
+	  } while (false)
 
 	#define V8_CALLBACK(context, functionName, function) context->Set(String(functionName).toV8String(isolate), \
 												v8::Function::New(isolate, function, String(functionName).toV8String(isolate)));
 	#define V8_JAVASCRIPT_ENGINE static_cast <V8JavascriptEngine *> (RadJav::javascriptEngine)
 	#define V8_RADJAV V8_JAVASCRIPT_ENGINE->radJav->Get (V8_JAVASCRIPT_ENGINE->isolate)
+
+	enum {
+		kModuleEmbedderDataIndex,
+		kInspectorClientIndex
+	};
 
 	namespace RadJAV
 	{
@@ -78,14 +97,101 @@
 				void Free(void *data, size_t length);
 		};*/
 
+		/// V8 Channel for use in V8 Inspector.
+		class RADJAV_EXPORT V8JSChannel final : public v8_inspector::V8Inspector::Channel {
+		public:
+			explicit V8JSChannel(v8::Local<v8::Context> context);
+			virtual ~V8JSChannel() = default;
+
+		private:
+			void sendResponse(
+				int callId,
+				std::unique_ptr<v8_inspector::StringBuffer> message) override {
+				Send(message->string());
+			}
+			void sendNotification(
+				std::unique_ptr<v8_inspector::StringBuffer> message) override {
+				Send(message->string());
+			}
+			void flushProtocolNotifications() override {}
+
+			void Send(const v8_inspector::StringView& string) {
+				v8::Isolate::AllowJavascriptExecutionScope allow_script(isolate_);
+				int length = static_cast<int>(string.length());
+				//DCHECK(length < v8::String::kMaxLength);
+				v8::Local<v8::String> message =
+					(string.is8Bit()
+						? v8::String::NewFromOneByte(
+							isolate_,
+							reinterpret_cast<const uint8_t*>(string.characters8()),
+							v8::NewStringType::kNormal, length)
+						: v8::String::NewFromTwoByte(
+							isolate_,
+							reinterpret_cast<const uint16_t*>(string.characters16()),
+							v8::NewStringType::kNormal, length))
+					.ToLocalChecked();
+				v8::Local<v8::String> callback_name =
+					v8::String::NewFromUtf8(isolate_, "receive", v8::NewStringType::kNormal)
+					.ToLocalChecked();
+				v8::Local<v8::Context> context = context_.Get(isolate_);
+				v8::Local<v8::Value> callback =
+					context->Global()->Get(context, callback_name).ToLocalChecked();
+				if (callback->IsFunction()) {
+					v8::TryCatch try_catch(isolate_);
+					v8::Local<v8::Value> args[] = { message };
+					USE(v8::Local<v8::Function>::Cast(callback)->Call(context, Undefined(isolate_), 1,
+						args));
+				}
+			}
+
+			v8::Isolate* isolate_;
+			v8::Global<v8::Context> context_;
+		};
+
 		/// V8 Inspector for debugging javascript applications.
 		class RADJAV_EXPORT V8JSInspector: public v8_inspector::V8InspectorClient
 		{
 			public:
-				V8JSInspector(v8::Isolate *isolate);
+				V8JSInspector(v8::Local<v8::Context> context, bool connect);
 
-			protected:
-				std::unique_ptr<v8_inspector::V8Inspector> client;
+		private:
+			static v8_inspector::V8InspectorSession* GetSession(v8::Local<v8::Context> context) {
+				V8JSInspector* inspector_client = static_cast<V8JSInspector*>(
+					context->GetAlignedPointerFromEmbedderData(kInspectorClientIndex));
+				return inspector_client->session_.get();
+			}
+
+			v8::Local<v8::Context> ensureDefaultContextInGroup(int group_id) override {
+				//DCHECK(isolate_);
+				//DCHECK_EQ(kContextGroupId, group_id);
+				return context_.Get(isolate_);
+			}
+
+			static void SendInspectorMessage(
+				const v8::FunctionCallbackInfo<v8::Value>& args) {
+				v8::Isolate* isolate = args.GetIsolate();
+				v8::HandleScope handle_scope(isolate);
+				v8::Local<v8::Context> context = isolate->GetCurrentContext();
+				args.GetReturnValue().Set(Undefined(isolate));
+				v8::Local<v8::String> message = args[0]->ToString(context).ToLocalChecked();
+				v8_inspector::V8InspectorSession* session =
+					V8JSInspector::GetSession(context);
+				int length = message->Length();
+				std::unique_ptr<uint16_t[]> buffer(new uint16_t[length]);
+				message->Write(buffer.get(), 0, length);
+				v8_inspector::StringView message_view(buffer.get(), length);
+				session->dispatchProtocolMessage(message_view);
+				args.GetReturnValue().Set(True(isolate));
+			}
+
+			static const int kContextGroupId = 1;
+
+			std::unique_ptr<v8_inspector::V8Inspector> inspector_;
+			std::unique_ptr<v8_inspector::V8InspectorSession> session_;
+			std::unique_ptr<v8_inspector::V8Inspector::Channel> channel_;
+			//RadJAV::CPP::Net::WebSocketServer* server_;
+			v8::Global<v8::Context> context_;
+			v8::Isolate* isolate_;
 		};
 
 		/// The V8 javascript engine.
@@ -96,7 +202,7 @@
 				~V8JavascriptEngine();
 
 				/// Start the inspector.
-				void startInspector();
+				void startInspector(v8::Local<v8::Context> context);
 
 				/// Run an application.
 				void runApplication(String applicationSource, String fileName);
@@ -227,6 +333,8 @@
 				Array<RJINT> timeouts;
 
 				RJBOOL useInspector;
+				//not used
+				std::unique_ptr<V8JSInspector> inspector;
 		};
 	}
 #endif
