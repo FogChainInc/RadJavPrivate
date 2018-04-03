@@ -98,7 +98,7 @@ namespace RadJAV
 			{
 				if (ec)
 				{
-					RadJav::throwJSException("on_accept error");
+					RadJav::throwException("on_accept error");
 
 					return;
 				}
@@ -133,7 +133,7 @@ namespace RadJAV
 
 				if (ec)
 				{
-					RadJav::throwJSException("Read error");
+					RadJav::throwException("Read error");
 
 					return;
 				}
@@ -159,7 +159,7 @@ namespace RadJAV
 
 				if (ec)
 				{
-					RadJav::throwJSException("Write error");
+					RadJav::throwException("Write error");
 
 					return;
 				}
@@ -182,7 +182,7 @@ namespace RadJAV
 				acceptor_.open(endpoint.protocol(), ec);
 				if (ec)
 				{
-					RadJav::throwJSException("Open error");
+					RadJav::throwException("Open error");
 
 					return;
 				}
@@ -191,7 +191,7 @@ namespace RadJAV
 				acceptor_.set_option(boost::asio::socket_base::reuse_address(true));
 				if (ec)
 				{
-					RadJav::throwJSException("set_option error");
+					RadJav::throwException("set_option error");
 
 					return;
 				}
@@ -200,7 +200,7 @@ namespace RadJAV
 				acceptor_.bind(endpoint, ec);
 				if (ec)
 				{
-					RadJav::throwJSException("Bind error");
+					RadJav::throwException("Bind error");
 
 					return;
 				}
@@ -210,7 +210,7 @@ namespace RadJAV
 					boost::asio::socket_base::max_listen_connections, ec);
 				if (ec)
 				{
-					RadJav::throwJSException("Listen error");
+					RadJav::throwException("Listen error");
 
 					return;
 				}
@@ -239,7 +239,7 @@ namespace RadJAV
 			{
 				if (ec)
 				{
-					RadJav::throwJSException("Accept error");
+					RadJav::throwException("Accept error");
 				}
 				else
 				{

@@ -39,6 +39,9 @@
 
 	#include "v8/RadJavV8BlockchainV1.h"
 
+	// Database
+	#include "v8/RadJavV8DBKeyValueStorage.h"
+
 	// Net
 	#include "v8/RadJavV8NetWebSocket.h"
 	#include "v8/RadJavV8NetWebServer.h"
@@ -995,6 +998,19 @@ namespace RadJAV
 					v8::Handle<v8::Function> consoleFunc = v8GetFunction(radJavFunc, "Console");
 
 					V8B::Console::createV8Callbacks(isolate, consoleFunc);
+				}
+
+				// RadJav.DB
+				{
+					v8::Handle<v8::Function> dbFunc = v8GetFunction(radJavFunc, "DB");
+
+					// RadJav.DB.KeyValueStorage
+					{
+						v8::Handle<v8::Function> keyValueStorageFunc = v8GetFunction(dbFunc, "KeyValueStorage");
+						v8::Handle<v8::Object> keyValueStoragePrototype = v8GetObject(keyValueStorageFunc, "prototype");
+
+						V8B::Database::KeyValueStorage::createV8Callbacks(isolate, keyValueStoragePrototype);
+					}
 				}
 
 				// RadJav.IO

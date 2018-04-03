@@ -26,6 +26,9 @@ var RadJav;
             function WebServer() {
                 this.port = 80;
                 this._serverType = RadJav.Net.WebServerTypes.HTTP;
+                this._webServer = null;
+                if (this._init != null)
+                    this._init();
             }
             return WebServer;
         }());

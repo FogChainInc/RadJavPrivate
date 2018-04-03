@@ -17,8 +17,8 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#ifndef _RADJAV_GUI_V8_NET_WEBSOCKET_H_
-	#define _RADJAV_GUI_V8_NET_WEBSOCKET_H_
+#ifndef _RADJAV_GUI_V8_DB_KEYVALUESTORAGE_H_
+	#define _RADJAV_GUI_V8_DB_KEYVALUESTORAGE_H_
 
 	#include "RadJavPreprocessor.h"
 	#include "RadJavString.h"
@@ -27,31 +27,20 @@
 	{
 		namespace V8B
 		{
-			namespace Net
+			/// RadJav Databases.
+			namespace Database
 			{
-				class RADJAV_EXPORT WebSocketServer
+				/// A Key/Value Database, uses LevelDB.
+				class RADJAV_EXPORT KeyValueStorage
 				{
 					public:
 						static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
-						static void sendToAll(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void send(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void listen(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void _init(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void open(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void write(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void read(const v8::FunctionCallbackInfo<v8::Value> &args);
 						static void close(const v8::FunctionCallbackInfo<v8::Value> &args);
-
-						static void on(const v8::FunctionCallbackInfo<v8::Value> &args);
-				};
-
-				class RADJAV_EXPORT WebSocketClient
-				{
-					public:
-						static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
-
-						static void connect(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void send(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void close(const v8::FunctionCallbackInfo<v8::Value> &args);
-
-						static void on(const v8::FunctionCallbackInfo<v8::Value> &args);
 				};
 			}
 		}

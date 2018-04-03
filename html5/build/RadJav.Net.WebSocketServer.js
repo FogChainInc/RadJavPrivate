@@ -27,6 +27,8 @@ var RadJav;
                 this.port = 0;
                 this.clients = [];
                 this._webSocket = null;
+                if (this._init != null)
+                    this._init();
             }
             return WebSocketServer;
         }());

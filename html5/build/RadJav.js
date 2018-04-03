@@ -1089,14 +1089,14 @@ var RadJav;
     var GUI;
     (function (GUI) {
         /** @method initObj
-         * @static
-         * Initialize a GUI object.
-         * @param {String} type The object type to create.
-         * @param {String/Mixed} name The name of the object.
-         * @param {String} text The text associated with the object.
-         * @param {RadJav.GUI.GObject} parent The parent of this object.
-         * @param {Promise} The promise to execute when this object has finished being created.
-         */
+        * @static
+        * Initialize a GUI object.
+        * @param {String} type The object type to create.
+        * @param {String/Mixed} name The name of the object.
+        * @param {String} text The text associated with the object.
+        * @param {RadJav.GUI.GObject} parent The parent of this object.
+        * @param {Promise} The promise to execute when this object has finished being created.
+        */
         initObj(type, string | object, name, any, text, string, parent, object);
         object;
         {
@@ -1131,14 +1131,14 @@ var RadJav;
             return obj;
         }
         /** @method create
-         * @static
-         * Create a GUI object.
-         * @param {String} type The object type to create.
-         * @param {String/Mixed} name The name of the object.
-         * @param {String} text The text associated with the object.
-         * @param {RadJav.GUI.GObject} parent The parent of this object.
-         * @param {Promise} The promise to execute when this object has finished being created.
-         */
+        * @static
+        * Create a GUI object.
+        * @param {String} type The object type to create.
+        * @param {String/Mixed} name The name of the object.
+        * @param {String} text The text associated with the object.
+        * @param {RadJav.GUI.GObject} parent The parent of this object.
+        * @param {Promise} The promise to execute when this object has finished being created.
+        */
         create(type, string, name, string, text, string, parent, object);
         any;
         {
@@ -1146,19 +1146,20 @@ var RadJav;
             return obj.create();
         }
         /** @method createObjects
-         * @static
-         * Create GUI objects.
-         * @param {String/RadJav.GUI.GObject[]} objects The objects to create.
-         * @param {RadJav.GUI.GObject} parent The parent of this object.
-         * @param {Function} [beforeCreated=null] The function to execute before the object is created.
-         * If this function returns false, the object will not be created.
-         * @return {Promise} The promise to execute when the objects have finished being created.
-         */
+        * @static
+        * Create GUI objects.
+        * @param {String/RadJav.GUI.GObject[]} objects The objects to create.
+        * @param {RadJav.GUI.GObject} parent The parent of this object.
+        * @param {Function} [beforeCreated=null] The function to execute before the object is created.
+        * If this function returns false, the object will not be created.
+        * @return {Promise} The promise to execute when the objects have finished being created.
+        */
         createObjects(objects, any, parent, object, beforeCreated, Function = null);
-        Promise < any > {
-            "var": promises = [],
-            "if": function (beforeCreated) { }
-        } == undefined;
+        Promise < any >
+            {
+                "var": promises = [],
+                "if": function (beforeCreated) { }
+            } == undefined;
         {
             beforeCreated = null;
         }
@@ -1177,22 +1178,22 @@ var RadJav;
             }
         }
         return Promise.all(promises);
-    })(GUI || (GUI = {}));
+    })(GUI = RadJav.GUI || (RadJav.GUI = {}));
 })(RadJav || (RadJav = {}));
 /** @class C3D
- * @static
- * Contains classes for 3d operations in a RadJav.GUI.Canvas3D object.
- */
+* @static
+* Contains classes for 3d operations in a RadJav.GUI.Canvas3D object.
+*/
 var C3D;
 (function (C3D) {
     /** @method create
-     * @static
-     * Create a 3D object.
-     * @param {String} type The object type to create.
-     * @param {String|Mixed} name The name of the object.
-     * @param {RadJav.C3D.Object3D} parent The parent of this object.
-     * @param {Promise} The promise to execute when this object has finished being created.
-     */
+    * @static
+    * Create a 3D object.
+    * @param {String} type The object type to create.
+    * @param {String|Mixed} name The name of the object.
+    * @param {RadJav.C3D.Object3D} parent The parent of this object.
+    * @param {Promise} The promise to execute when this object has finished being created.
+    */
     create(type, string, name, any, parent, any);
     any;
     {

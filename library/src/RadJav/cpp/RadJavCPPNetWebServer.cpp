@@ -61,7 +61,7 @@ namespace RadJAV
 				String tmp("error [");
 				tmp.append(what);
 				tmp.append("]:\n");
-				RadJAV::RadJav::throwJSException(tmp.append(ec.message()));
+				RadJAV::RadJav::throwException(tmp.append(ec.message()));
 			}
 
 			//String(*persistentCallback)(void* persistentArgs);

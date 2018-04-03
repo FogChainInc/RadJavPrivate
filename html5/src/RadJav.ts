@@ -1317,149 +1317,144 @@ namespace RadJav {
     }
   }
 
-  namespace GUI
-  {
-    /** @method initObj
-     * @static
-     * Initialize a GUI object.
-     * @param {String} type The object type to create.
-     * @param {String/Mixed} name The name of the object.
-     * @param {String} text The text associated with the object.
-     * @param {RadJav.GUI.GObject} parent The parent of this object.
-     * @param {Promise} The promise to execute when this object has finished being created.
-     */
-    initObj(
-      type: string | object,
-      name: any,
-      text: string,
-      parent: object
-    ): object {
-      let tempType = type;
+	export namespace GUI
+	{
+		/** @method initObj
+		* @static
+		* Initialize a GUI object.
+		* @param {String} type The object type to create.
+		* @param {String/Mixed} name The name of the object.
+		* @param {String} text The text associated with the object.
+		* @param {RadJav.GUI.GObject} parent The parent of this object.
+		* @param {Promise} The promise to execute when this object has finished being created.
+		*/
+		initObj(type: string | object, name: any, text: string, parent: object): object
+		{
+			let tempType = type;
 
-      if (typeof type == "object") {
-        tempType = type.type;
+			if (typeof type == "object") {
+					tempType = type.type;
 
-        if (type.name != null) {
-          name = type.name;
-        }
+					if (type.name != null) {
+					name = type.name;
+				}
 
-        if (type.text != null) {
-          text = type.text;
-        }
+				if (type.text != null) {
+					text = type.text;
+				}
 
-        if (type._text != null) {
-          text = type._text;
-        }
-      }
+				if (type._text != null) {
+					text = type._text;
+				}
+			}
 
-      if (tempType.indexOf("RadJav.GUI") > -1) {
-        tempType = tempType.substr(11);
-      }
+			if (tempType.indexOf("RadJav.GUI") > -1) {
+				tempType = tempType.substr(11);
+			}
 
-      if (RadJav.GUI[tempType] == null) {
-        throw RadJav.getLangString("unableToFindClass", tempType);
-      }
+			if (RadJav.GUI[tempType] == null) {
+				throw RadJav.getLangString("unableToFindClass", tempType);
+			}
 
-      var properties = {
-        name: name,
-        text: text,
-        parent: parent
-      };
+			var properties = {
+					name: name,
+					text: text,
+					parent: parent
+				};
 
-      if (typeof type == "object") {
-        RadJav.copyProperties(properties, type, false);
-      }
+			if (typeof type == "object") {
+				RadJav.copyProperties(properties, type, false);
+			}
 
-      var obj = new RadJav.GUI[tempType](properties);
+			var obj = new RadJav.GUI[tempType](properties);
 
-      return obj;
-    }
+			return obj;
+		}
 
-    /** @method create
-     * @static
-     * Create a GUI object.
-     * @param {String} type The object type to create.
-     * @param {String/Mixed} name The name of the object.
-     * @param {String} text The text associated with the object.
-     * @param {RadJav.GUI.GObject} parent The parent of this object.
-     * @param {Promise} The promise to execute when this object has finished being created.
-     */
-    create(type: string, name: string, text: string, parent: object): any {
-      var obj = this.initObj(type, name, text, parent);
+		/** @method create
+		* @static
+		* Create a GUI object.
+		* @param {String} type The object type to create.
+		* @param {String/Mixed} name The name of the object.
+		* @param {String} text The text associated with the object.
+		* @param {RadJav.GUI.GObject} parent The parent of this object.
+		* @param {Promise} The promise to execute when this object has finished being created.
+		*/
+		create(type: string, name: string, text: string, parent: object): any
+		{
+			var obj = this.initObj(type, name, text, parent);
 
-      return obj.create();
-    }
+			return obj.create();
+		}
 
-    /** @method createObjects
-     * @static
-     * Create GUI objects.
-     * @param {String/RadJav.GUI.GObject[]} objects The objects to create.
-     * @param {RadJav.GUI.GObject} parent The parent of this object.
-     * @param {Function} [beforeCreated=null] The function to execute before the object is created.
-     * If this function returns false, the object will not be created.
-     * @return {Promise} The promise to execute when the objects have finished being created.
-     */
-    createObjects(
-      objects: any,
-      parent: object,
-      beforeCreated: Function = null
-    ): Promise<any> {
-      var promises = [];
+		/** @method createObjects
+		* @static
+		* Create GUI objects.
+		* @param {String/RadJav.GUI.GObject[]} objects The objects to create.
+		* @param {RadJav.GUI.GObject} parent The parent of this object.
+		* @param {Function} [beforeCreated=null] The function to execute before the object is created.
+		* If this function returns false, the object will not be created.
+		* @return {Promise} The promise to execute when the objects have finished being created.
+		*/
+		createObjects(objects: any, parent: object, beforeCreated: Function = null): Promise<any>
+		{
+			var promises = [];
 
-      if (beforeCreated == undefined) {
-        beforeCreated = null;
-      }
+			if (beforeCreated == undefined) {
+				beforeCreated = null;
+			}
 
-      for (var iIdx = 0; iIdx < objects.length; iIdx++) {
-        var obj = objects[iIdx];
-        var createObject = true;
+			for (var iIdx = 0; iIdx < objects.length; iIdx++) {
+				var obj = objects[iIdx];
+				var createObject = true;
 
-        if (beforeCreated != null) {
-          obj.onBeforeChildCreated = beforeCreated;
-          var result = beforeCreated(obj, parent);
+				if (beforeCreated != null) {
+					obj.onBeforeChildCreated = beforeCreated;
+					var result = beforeCreated(obj, parent);
 
-          if (result != null) {
-            createObject = result;
-          }
-        }
+					if (result != null) {
+						createObject = result;
+					}
+				}
 
-        if (createObject == true) {
-          promises.push(this.create(obj, "", "", parent));
-        }
-      }
+				if (createObject == true) {
+					promises.push(this.create(obj, "", "", parent));
+				}
+			}
 
-      return Promise.all(promises);
-    }
-  }
+			return Promise.all(promises);
+		}
+	}
 
-  /** @class C3D
-   * @static
-   * Contains classes for 3d operations in a RadJav.GUI.Canvas3D object.
-   */
-  export namespace C3D
-  {
-    /** @method create
-     * @static
-     * Create a 3D object.
-     * @param {String} type The object type to create.
-     * @param {String|Mixed} name The name of the object.
-     * @param {RadJav.C3D.Object3D} parent The parent of this object.
-     * @param {Promise} The promise to execute when this object has finished being created.
-     */
-    create(type: string, name: any, parent: any): any {
-      if (type.indexOf("RadJav.C3D") > -1) {
-        type = type.substr(10);
-      }
+	/** @class C3D
+	* @static
+	* Contains classes for 3d operations in a RadJav.GUI.Canvas3D object.
+	*/
+	export namespace C3D
+	{
+		/** @method create
+		* @static
+		* Create a 3D object.
+		* @param {String} type The object type to create.
+		* @param {String|Mixed} name The name of the object.
+		* @param {RadJav.C3D.Object3D} parent The parent of this object.
+		* @param {Promise} The promise to execute when this object has finished being created.
+		*/
+		create(type: string, name: any, parent: any): any
+		{
+			if (type.indexOf("RadJav.C3D") > -1) {
+				type = type.substr(10);
+			}
 
-      if (RadJav.C3D[type] == null) {
-        throw RadJav.getLangString("unableToFindClass", type);
-      }
+			if (RadJav.C3D[type] == null) {
+				throw RadJav.getLangString("unableToFindClass", type);
+			}
 
-      var obj = new RadJav.C3D[type](name, parent);
+			var obj = new RadJav.C3D[type](name, parent);
 
-      return obj.create();
-    }
-  }
+			return obj.create();
+		}
+	}
 
   /** @class Net
    * @static

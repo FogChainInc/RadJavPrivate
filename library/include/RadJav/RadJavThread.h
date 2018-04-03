@@ -26,31 +26,95 @@
 		#include <wx/wx.h>
 	#endif
 
+	#ifdef USE_V8
+		#include <v8.h>
+	#endif
+
+	#include <functional>
+
 	namespace RadJAV
 	{
+		#ifdef USE_V8
+			class V8JavascriptEngine;
+		#endif
+
 		/// The thread class.
 		#ifdef GUI_USE_WXWIDGETS
-		class RADJAV_EXPORT Thread: public wxThread
-		{
-			public:
-				Thread();
+			/// Basic threading class.
+			class RADJAV_EXPORT Thread: public wxThread
+			{
+				public:
+					Thread();
 
-				inline void setAsStarted(RJBOOL started)
-				{
-					hasStarted = started;
-				}
+					/// Set whether or not this thread has started executing.
+					/// This is mostly for use in the main app loop.
+					inline void setAsStarted(RJBOOL started)
+					{
+						hasStarted = started;
+					}
 
-				inline RJBOOL hasThreadStarted()
-				{
-					return (hasStarted);
-				}
+					/// Check whether or not this thread has started executing.
+					inline RJBOOL hasThreadStarted()
+					{
+						return (hasStarted);
+					}
 
-			protected:
-				RJBOOL hasStarted;
-		};
+				protected:
+					RJBOOL hasStarted;
+			};
 		#else
 			class Thread;
 		#endif
+
+		/// Create a thread that is also a promise.
+		class RADJAV_EXPORT PromiseThread : public Thread
+		{
+			public:
+				PromiseThread();
+				wxThread::ExitCode Entry();
+
+				#ifdef USE_V8
+					/// Create a V8 promise.
+					v8::Local<v8::Object> createV8Promise(V8JavascriptEngine *engine, v8::Local<v8::Object> context);
+
+					/// Set arguments for when a resolve occurs.
+					void setResolveArgs(v8::Isolate *isolate, v8::Local<v8::Array> args);
+					/// Set arguments for when a resolve occurs. The persistent will be deleted when the resolve is called.
+					inline void setResolveArgs(v8::Persistent<v8::Array> *args)
+					{
+						resolveArgs = args;
+					}
+
+					/// Set arguments for when a resolve occurs.
+					void setRejectArgs(v8::Isolate *isolate, v8::Local<v8::Array> args);
+					/// Set arguments for when a resolve occurs. The persistent will be deleted when the resolve is called.
+					inline void setRejectArgs(v8::Persistent<v8::Array> *args)
+					{
+						rejectArgs = args;
+					}
+				#endif
+
+				/// Resolve the promise when necessary.
+				void resolvePromise();
+				/// Reject the promise when the code in the thread has failed.
+				void rejectPromise();
+
+				std::function<void()> onStart;
+				std::function<void()> onComplete;
+
+			protected:
+				#ifdef USE_V8
+					/// Run the promise function and save the resolve and reject funtions.
+					static void runPromise(const v8::FunctionCallbackInfo<v8::Value> &args);
+
+					V8JavascriptEngine *engine;
+					v8::Persistent<v8::Function> *resolvep;
+					v8::Persistent<v8::Function> *rejectp;
+
+					v8::Persistent<v8::Array> *resolveArgs;
+					v8::Persistent<v8::Array> *rejectArgs;
+				#endif
+		};
 	}
 #endif
 

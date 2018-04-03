@@ -17,43 +17,47 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
+#ifndef _RADJAV_CPP_DATABASE_KEYVALUESTORAGE_H_
+	#define _RADJAV_CPP_DATABASE_KEYVALUESTORAGE_H_
 
-namespace RadJav
-{
-	export namespace Net
+	#include "RadJavPreprocessor.h"
+
+	#include <string>
+
+	#include "RadJav.h"
+	#include "RadJavString.h"
+	#include "RadJavHashMap.h"
+	#include "RadJavThread.h"
+
+	namespace RadJAV
 	{
-		/// Web server
-		export class WebServer
+		namespace CPP
 		{
-			/** @property {Number} [port=80]
-			* The port.
-			*/
-			port: Number;
-			/** @property {Number} [_serverType=RadJav.Net.WebServerTypes.HTTP]
-			* The server type.
-			*/
-			_serverType: RadJav.Net.WebServerTypes;
-			/** @property {Mixed} [_webServer=null]
-			* The native web server.
-			*/
-			_webServer: any;
-
-			constructor ()
+			namespace Database
 			{
-				this.port = 80;
-				this._serverType = RadJav.Net.WebServerTypes.HTTP;
-				this._webServer = null;
+				// Accepts incoming connections and launches the sessions
+				class RADJAV_EXPORT KeyValueStorage
+				{
+					public:
+						KeyValueStorage();
+						~KeyValueStorage();
 
-				if (this._init != null)
-					this._init ();
+						/// The path to the database to open.
+						RJBOOL open(String path = "");
+
+						/// Write to a key in the database.
+						void write(String key, String value);
+
+						/// Read from a key in the database.
+						String read(String key);
+
+						/// Close the database.
+						void close();
+
+						String filePath;
+				};
 			}
 		}
-
-		export enum WebServerTypes
-		{
-			HTTP = 1, 
-			HTTPS = 2
-		}
 	}
-}
+#endif
 

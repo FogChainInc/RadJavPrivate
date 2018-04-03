@@ -383,18 +383,23 @@ namespace RadJAV
 
 	void RadJav::runApplication (String application, String fileName)
 	{
-		javascriptEngine->runApplication (application, fileName);
+		if (javascriptEngine != NULL)
+			javascriptEngine->runApplication (application, fileName);
 	}
 
 	void RadJav::runApplicationFromFile (String file)
 	{
-		javascriptEngine->runApplicationFromFile (file);
+		if (javascriptEngine != NULL)
+			javascriptEngine->runApplicationFromFile (file);
 	}
 
 	void RadJav::showMessageBox(String message, String title)
 	{
 		#ifdef GUI_USE_WXWIDGETS
-			wxMessageBox(message.towxString(), title.towxString(), wxOK);
+			//app->CallAfter([&message, &title]()
+			//{
+				wxMessageBox(message.towxString(), title.towxString(), wxOK);
+			//});
 		#endif
 	}
 
@@ -406,9 +411,10 @@ namespace RadJAV
 			RadJav::showMessageBox(message, "Error");
 	}
 
-	void RadJav::throwJSException(String message)
+	void RadJav::throwException(String message)
 	{
-		javascriptEngine->throwException(message);
+		if (javascriptEngine != NULL)
+			javascriptEngine->throwException(message);
 	}
 
 	void RadJav::printToOutputWindow(String message)

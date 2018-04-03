@@ -18,41 +18,66 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-namespace RadJav
+#include "cpp/RadJavCPPDBKeyValueStorage.h"
+
+
+#include <algorithm>
+#include <cstdlib>
+#include <functional>
+#include <iostream>
+#include <memory>
+
+#include "RadJavString.h"
+#include "RadJav\v8\RadJavV8JavascriptEngine.h"
+
+namespace RadJAV
 {
-	export namespace Net
+	namespace CPP
 	{
-		/// Web server
-		export class WebServer
+		namespace Database
 		{
-			/** @property {Number} [port=80]
-			* The port.
-			*/
-			port: Number;
-			/** @property {Number} [_serverType=RadJav.Net.WebServerTypes.HTTP]
-			* The server type.
-			*/
-			_serverType: RadJav.Net.WebServerTypes;
-			/** @property {Mixed} [_webServer=null]
-			* The native web server.
-			*/
-			_webServer: any;
-
-			constructor ()
+			KeyValueStorage::KeyValueStorage()
 			{
-				this.port = 80;
-				this._serverType = RadJav.Net.WebServerTypes.HTTP;
-				this._webServer = null;
-
-				if (this._init != null)
-					this._init ();
+				filePath = "";
 			}
-		}
 
-		export enum WebServerTypes
-		{
-			HTTP = 1, 
-			HTTPS = 2
+			KeyValueStorage::~KeyValueStorage()
+			{
+			}
+
+			/// The path to the database to open.
+			RJBOOL KeyValueStorage::open(String path)
+			{
+				if (path == "")
+					path = filePath;
+
+				if (path == "")
+				{
+					RadJav::throwException("Can't open database! File path is empty.");
+
+					return (false);
+				}
+
+				// Open the database here.
+
+				return (true);
+			}
+
+			/// Write to a key in the database.
+			void KeyValueStorage::write(String key, String value)
+			{
+			}
+
+			/// Read from a key in the database.
+			String KeyValueStorage::read(String key)
+			{
+				return ("data");
+			}
+
+			/// Close the database.
+			void KeyValueStorage::close()
+			{
+			}
 		}
 	}
 }

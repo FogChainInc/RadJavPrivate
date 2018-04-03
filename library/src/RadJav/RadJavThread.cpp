@@ -21,6 +21,9 @@
 
 #include "RadJavException.h"
 
+#include "RadJav.h"
+#include "v8/RadJavV8JavascriptEngine.h"
+
 namespace RadJAV
 {
 #ifdef GUI_USE_WXWIDGETS
@@ -30,5 +33,79 @@ namespace RadJAV
 		hasStarted = false;
 	}
 #endif
+
+PromiseThread::PromiseThread()
+	: Thread ()
+{
+	resolveArgs = NULL;
+	rejectArgs = NULL;
+}
+
+wxThread::ExitCode PromiseThread::Entry()
+{
+	onStart();
+
+	return (0);
+}
+
+#ifdef USE_V8
+	void PromiseThread::runPromise(const v8::FunctionCallbackInfo<v8::Value> &args)
+	{
+		v8::Local<v8::Function> resolve = v8::Local<v8::Function>::Cast (args[0]);
+		v8::Local<v8::Function> reject = v8::Local<v8::Function>::Cast (args[1]);
+		v8::Local<v8::Array> args2 = v8::Local<v8::Array>::Cast (args[2]);
+		v8::Local<v8::External> passThrough = v8::Local<v8::External>::Cast (args2->Get (0));
+		PromiseThread *thread = (PromiseThread *)passThrough->Value();
+
+		thread->resolvep = RJNEW v8::Persistent<v8::Function>();
+		thread->rejectp = RJNEW v8::Persistent<v8::Function>();
+
+		thread->resolvep->Reset(args.GetIsolate(), resolve);
+		thread->rejectp->Reset(args.GetIsolate(), reject);
+	}
+
+	v8::Local<v8::Object> PromiseThread::createV8Promise(V8JavascriptEngine *engine, v8::Local<v8::Object> context)
+	{
+		this->engine = engine;
+		v8::Local<v8::External> passThrough = v8::External::New(engine->isolate, this);
+		v8::MaybeLocal<v8::Function> func = v8::Function::New(context->CreationContext(), PromiseThread::runPromise);
+		v8::Local<v8::Function> func2 = func.ToLocalChecked();
+		v8::Local<v8::Array> args = v8::Array::New(engine->isolate);
+		args->Set (0, passThrough);
+		v8::Local<v8::Object> promise = engine->createPromise(context, func2, args);
+
+		return (promise);
+	}
+
+	void PromiseThread::setResolveArgs(v8::Isolate *isolate, v8::Local<v8::Array> args)
+	{
+		resolveArgs = RJNEW v8::Persistent<v8::Array>();
+		resolveArgs->Reset(isolate, args);
+	}
+
+	void PromiseThread::setRejectArgs(v8::Isolate *isolate, v8::Local<v8::Array> args)
+	{
+		rejectArgs = RJNEW v8::Persistent<v8::Array>();
+		rejectArgs->Reset(isolate, args);
+	}
+#endif
+
+	void PromiseThread::resolvePromise()
+	{
+		#ifdef USE_V8
+			V8_JAVASCRIPT_ENGINE->callFunctionOnNextTick(RJNEW AsyncFunctionCall(resolvep, resolveArgs));
+		#endif
+
+		onComplete();
+	}
+
+	void PromiseThread::rejectPromise()
+	{
+		#ifdef USE_V8
+			V8_JAVASCRIPT_ENGINE->callFunctionOnNextTick(RJNEW AsyncFunctionCall(rejectp, rejectArgs));
+		#endif
+
+		onComplete();
+	}
 }
 

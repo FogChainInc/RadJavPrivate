@@ -89,6 +89,13 @@ source_group ("RadJav\\V8\\Net" FILES ${SOURCES_files_RadJav__v8__Net__Headers})
 
 set (SOURCES ${SOURCES_files_RadJav__v8__Net__Headers} ${SOURCES})
 
+# V8 Database
+set (SOURCES_files_RadJav__v8__DB__Headers 
+	"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8DBKeyValueStorage.h")
+source_group ("RadJav\\V8\\Database" FILES ${SOURCES_files_RadJav__v8__DB__Headers})
+
+set (SOURCES ${SOURCES_files_RadJav__v8__DB__Headers} ${SOURCES})
+
 # V8 Blockchain
 set (SOURCES_files_RadJav__v8__Blockchain__Headers 
 	"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8BlockchainV1.h")
@@ -138,6 +145,13 @@ set (SOURCES_files_RadJav__cpp__Net__Headers
 source_group ("RadJav\\CPP\\Net" FILES ${SOURCES_files_RadJav__cpp__Net__Headers})
 
 set (SOURCES ${SOURCES_files_RadJav__cpp__Net__Headers} ${SOURCES})
+
+# C++ Database
+set (SOURCES_files_RadJav__cpp__Database__Headers 
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPDBKeyValueStorage.h")
+source_group ("RadJav\\CPP\\Database" FILES ${SOURCES_files_RadJav__cpp__Database__Headers})
+
+set (SOURCES ${SOURCES_files_RadJav__cpp__Database__Headers} ${SOURCES})
 
 # C++ GUI
 set (SOURCES_files_RadJav__cpp__GUI__Headers 
