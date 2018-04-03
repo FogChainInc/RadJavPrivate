@@ -37,7 +37,7 @@
 					this->func = "";
 				}
 
-				inline MemoryAllocLog (void *alloc, RJSTR file, int line, RJSTR func)
+				inline MemoryAllocLog (void *alloc, const RJSTR file, int line, const RJSTR func)
 				{
 					this->alloc = alloc;
 					this->file = file;
@@ -46,9 +46,9 @@
 				}
 
 				void *alloc;
-				RJSTR file;
+				const RJSTR file;
 				int line;
-				RJSTR func;
+				const RJSTR func;
 		};
 	}
 #endif

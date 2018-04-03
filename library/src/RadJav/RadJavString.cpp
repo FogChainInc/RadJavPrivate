@@ -184,8 +184,22 @@ namespace RadJAV
 	String String::fromInt(RJINT iInteger, RJINT radix)
 	{
 		char *str = RJNEW char[65];
-		itoa(iInteger, str, radix);
-
+        
+        switch(radix)
+        {
+            case 16:
+                sprintf(str, "%x", iInteger);
+                break;
+            case 10:
+                sprintf(str, "%d", iInteger);
+                break;
+            case 8:
+                sprintf(str, "%o", iInteger);
+                break;
+            default:
+                return String();
+        }
+        
 		String strReturn = str;
 
 		RJDELETEARRAY(str);

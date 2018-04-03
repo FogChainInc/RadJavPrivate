@@ -92,7 +92,7 @@
 		class RADJAV_EXPORT RadJavAlloc
 		{
 			public:
-				inline RadJavAlloc(RJSTR newFile, RJINT newLine, RJSTR newFunc)
+				inline RadJavAlloc(const RJSTR newFile, RJINT newLine, const RJSTR newFunc)
 				{
 					file = newFile;
 					line = newLine;
@@ -111,9 +111,9 @@
 				}
 
 			protected:
-				RJSTR file;
+				const RJSTR file;
 				RJINT line;
-				RJSTR func;
+				const RJSTR func;
 		};
 
 		void *operator new (size_t size, const char *file, int line, const char *func);
