@@ -43,6 +43,7 @@
 #include <stdlib.h>
 
 #ifdef RADJAV_DEBUG
+#ifdef LOG_MEMORY_LEAKS
 void RadJavAlloc::logAlloc(void *alloc)
 {
 	if (alloc == NULL)
@@ -148,6 +149,7 @@ void operator delete [](void *alloc, const char *file, int line, const char *fun
 
 	operator delete [](alloc);
 }
+#endif
 #endif
 
 namespace RadJAV
