@@ -62,6 +62,26 @@ namespace RadJAV
 						}
 					}
 				}
+				void WebViewFrame::onPageNavigated(wxWebViewEvent &event)
+				{
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
+					executeEvent(pevent);
+				}
+				void WebViewFrame::onPageNavigationError(wxWebViewEvent &event)
+				{
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
+					executeEvent(pevent);
+				}
+				void WebViewFrame::onNewWindow(wxWebViewEvent &event)
+				{
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
+					executeEvent(pevent);
+				}
+				void WebViewFrame::onTitleChanged(wxWebViewEvent &event)
+				{
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
+					executeEvent(pevent);
+				}
 			#endif
 
 			#ifdef USE_V8
@@ -238,6 +258,30 @@ namespace RadJAV
 					{
 						v8::Persistent<v8::Value> *pevent = object->createEvent(event, func);
 						object->webView->Bind(wxEVT_WEBVIEW_NAVIGATING, WebViewFrame::onPageChange, -1, -1, (wxObject *)pevent);
+					}
+
+					if (event == "pageNavigated")
+					{
+						v8::Persistent<v8::Value> *pevent = object->createEvent(event, func);
+						object->webView->Bind(wxEVT_WEBVIEW_NAVIGATED, WebViewFrame::onPageChange, -1, -1, (wxObject *)pevent);
+					}
+
+					if (event == "pageNavigationError")
+					{
+						v8::Persistent<v8::Value> *pevent = object->createEvent(event, func);
+						object->webView->Bind(wxEVT_WEBVIEW_ERROR, WebViewFrame::onPageChange, -1, -1, (wxObject *)pevent);
+					}
+
+					if (event == "webViewNewWindow")
+					{
+						v8::Persistent<v8::Value> *pevent = object->createEvent(event, func);
+						object->webView->Bind(wxEVT_WEBVIEW_NAVIGATING, WebViewFrame::onNewWindow, -1, -1, (wxObject *)pevent);
+					}
+
+					if (event == "webViewTitleChanged")
+					{
+						v8::Persistent<v8::Value> *pevent = object->createEvent(event, func);
+						object->webView->Bind(wxEVT_WEBVIEW_NAVIGATING, WebViewFrame::onTitleChanged, -1, -1, (wxObject *)pevent);
 					}
 				}
 			#endif

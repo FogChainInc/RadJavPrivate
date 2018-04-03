@@ -1,0 +1,92 @@
+RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary ()).then (function ()
+	{
+		RadJav.runApplication (function ()
+			{
+				var win = new RadJav.GUI.Window ({
+						name: "win", 
+						text: "WebView Example", 
+						size: "1224, 768"
+					});
+				win.create ().then (function (win2)
+					{
+					    var list;
+					    RadJav.GUI.create ({
+						type: "List", 
+						name: "list", 
+						position: "1024, 0",
+						size: "200, 768", 
+						columns: [ { "text": "Events" } ],
+						parent: win2
+					    }).then ( function (_list) 
+						      {
+							  list = _list;
+							  var row = new RadJav.GUI.List.Row ();
+							  row.addItem ("List created");
+							  list.addRow (row);
+
+							  
+						      });
+
+					    var webWiew;
+					    RadJav.GUI.create ({
+						type: "WebView", 
+						name: "view", 
+//						text: "http://www.google.com/", 
+						text: "http://www.google.comm/", 
+						size: "1024, 768", 
+						parent: win2
+					    }).then ( function (_webView)
+						      {
+							  webView = _webView;
+							  var row = new RadJav.GUI.List.Row ();
+							  row.addItem ("WebView created");
+							  list.addRow (row);
+
+
+							  webView.on("pageLoad", function ()
+								     {
+									 var row = new RadJav.GUI.List.Row ();
+									 row.addItem ("pageLoad");
+									 list.addRow (row);
+								     });
+
+							  webView.on("pageChange", function ()
+								     {
+									 var row = new RadJav.GUI.List.Row ();
+									 row.addItem ("pageChange");
+									 list.addRow (row);
+								     });
+
+							  webView.on("pageNavigated", function ()
+								     {
+									 var row = new RadJav.GUI.List.Row ();
+									 row.addItem ("pageNavigated");
+									 list.addRow (row);
+								     });
+
+							  webView.on("pageNavigationError", function ()
+								     {
+									 var row = new RadJav.GUI.List.Row ();
+									 row.addItem ("pageNavigationError");
+									 list.addRow (row);
+								     });
+							  webView.on("webViewNewWindow", function ()
+								     {
+									 var row = new RadJav.GUI.List.Row ();
+									 row.addItem ("webViewNewWindow");
+									 list.addRow (row);
+								     });
+							  webView.on("webViewTitleChanged", function ()
+								     {
+									 var row = new RadJav.GUI.List.Row ();
+									 row.addItem ("webViewTitleChanged");
+									 list.addRow (row);
+								     });
+
+						      });
+
+
+
+					});
+			});
+	});
