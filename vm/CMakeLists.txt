@@ -34,6 +34,7 @@ set (RadJavVM_LANGUAGE "en_us" CACHE STRING "Select language to compile with")
 set (libRadJav_STATIC false CACHE BOOL "Static build of RadJav")
 set (libRadJav_EMBEDFILE true CACHE BOOL "Embed Javascript into RadJav?")
 set (RadJavVM_INCLUDE_BLOCKCHAIN_V1 true CACHE BOOL "Include Blockchain V1?")
+set (FIND_MEMORY_LEAKS true CACHE BOOL "Find memory leaks?")
 
 message (STATUS "Building for processor type: ${CMAKE_SYSTEM_PROCESSOR}")
 
@@ -93,6 +94,9 @@ include (FindRadJav)
 
 set (RadJavVM_CPP_DEFS)
 set (RadJavVM_CPP_DEFS "LANG_${RadJavVM_LANGUAGE_UPPER}" ${RadJavVM_CPP_DEFS})
+
+set (RadJavVM_CPP_DEFS_DEBUG)
+set (RadJavVM_CPP_DEFS_DEBUG RADJAV_DEBUG ${RadJavVM_CPP_DEFS_DEBUG})
 
 if (WIN32)
 	set (RadJavVM_CPP_DEFS WIN32 ${RadJavVM_CPP_DEFS})
@@ -278,8 +282,9 @@ if (civetweb_FOUND)
 	set (RadJavVM_CPP_DEFS HTTP_USE_CIVETWEB ${RadJavVM_CPP_DEFS})
 endif ()
 
-set (RadJavVM_CPP_DEFS_DEBUG)
-set (RadJavVM_CPP_DEFS_DEBUG RADJAV_DEBUG ${RadJavVM_CPP_DEFS_DEBUG})
+if (FIND_MEMORY_LEAKS)
+	set (RadJavVM_CPP_DEFS_DEBUG LOG_MEMORY_LEAKS ${RadJavVM_CPP_DEFS_DEBUG})
+endif ()
 
 if (wxWidgets_FOUND)
 	set (RadJavVM_CPP_DEFS_DEBUG WXDEBUG=1 ${RadJavVM_CPP_DEFS_DEBUG})

@@ -25,6 +25,7 @@ set (libRadJav_LANGUAGE "en_us" CACHE STRING "Select language to compile with")
 set (libRadJav_STATIC false CACHE BOOL "Static build of RadJav")
 set (libRadJav_EMBEDFILE true CACHE BOOL "Embed Javascript into RadJav?")
 set (libRadJav_INCLUDE_BLOCKCHAIN_V1 true CACHE BOOL "Include Blockchain V1?")
+set (FIND_MEMORY_LEAKS true CACHE BOOL "Find memory leaks?")
 set (BOOST_ROOT "" CACHE PATH "BOOST_ROOT")
 
 set (CMAKE_BUILD_TYPE CACHE STRING "Debug")
@@ -277,6 +278,10 @@ if (libRadJav_INCLUDE_BLOCKCHAIN_V1)
 	if (WIN32)
 		set(libRadJav_LINK_LIBRARIES debug Iphlpapi.lib optimized Iphlpapi.lib ${libRadJav_LINK_LIBRARIES})
 	endif ()
+endif ()
+
+if (FIND_MEMORY_LEAKS)
+	set (libRadJav_CPP_DEFS_DEBUG LOG_MEMORY_LEAKS ${libRadJav_CPP_DEFS_DEBUG})
 endif ()
 
 if (libRadJav_ALLOW_NETWORKING)

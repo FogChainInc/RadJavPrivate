@@ -70,6 +70,7 @@
 	#define RJULONG unsigned long
 	#define RJCHAR char
 	#define RJSTR RJCHAR *
+	#define RJCSTR const RJCHAR *
 	#define RJNUMBER RDECIMAL
 
 	#define PACKAGE_NAME "RadJav"
@@ -88,47 +89,53 @@
 			#include <cstddef>
 		#endif
 
-		/// Memory allocator and logger.
-		class RADJAV_EXPORT RadJavAlloc
-		{
-			public:
-				inline RadJavAlloc(const RJSTR newFile, RJINT newLine, const RJSTR newFunc)
-				{
-					file = newFile;
-					line = newLine;
-					func = newFunc;
-				}
+		#ifdef LOG_MEMORY_LEAKS
+			/// Memory allocator and logger.
+			class RADJAV_EXPORT RadJavAlloc
+			{
+				public:
+					inline RadJavAlloc(RJCSTR newFile, RJINT newLine, RJCSTR newFunc)
+					{
+						file = newFile;
+						line = newLine;
+						func = newFunc;
+					}
 
-				void logAlloc(void *alloc);
-				static void logFree(void *alloc);
+					void logAlloc(void *alloc);
+					static void logFree(void *alloc);
 
-				template <class CAlloc>
-				CAlloc *operator->*(CAlloc *alloc)
-				{
-					logAlloc(alloc);
+					template <class CAlloc>
+					CAlloc *operator->*(CAlloc *alloc)
+					{
+						logAlloc(alloc);
 
-					return (alloc);
-				}
+						return (alloc);
+					}
 
-			protected:
-				const RJSTR file;
-				RJINT line;
-				const RJSTR func;
-		};
+				protected:
+					RJCSTR file;
+					RJINT line;
+					RJCSTR func;
+			};
 
-		void *operator new (size_t size, const char *file, int line, const char *func);
-		void *operator new[](size_t size, const char *file, int line, const char *func);
-		void operator delete (void *ptr, const char *file, int line, const char *func);
-		void operator delete[](void *ptr, const char *file, int line, const char *func);
+			void *operator new (size_t size, const char *file, int line, const char *func);
+			void *operator new[](size_t size, const char *file, int line, const char *func);
+			void operator delete (void *ptr, const char *file, int line, const char *func);
+			void operator delete[](void *ptr, const char *file, int line, const char *func);
 
-		/*#define RJNEW new (__FILE__, __LINE__, __func__)
-		#define RJDELETE delete
-		#define RJDELETEARRAY delete []*/
+			/*#define RJNEW new (__FILE__, __LINE__, __func__)
+			#define RJDELETE delete
+			#define RJDELETEARRAY delete []*/
 
-		#define RJNEW RadJavAlloc (__FILE__, __LINE__, __func__) ->* new
-		//#define RJNEW new
-		#define RJDELETE delete
-		#define RJDELETEARRAY delete []
+			#define RJNEW RadJavAlloc (__FILE__, __LINE__, __func__) ->* new
+			//#define RJNEW new
+			#define RJDELETE delete
+			#define RJDELETEARRAY delete []
+		#else
+			#define RJNEW new
+			#define RJDELETE delete
+			#define RJDELETEARRAY delete []
+		#endif
 	#else
 		#define RJNEW new
 		#define RJDELETE delete
