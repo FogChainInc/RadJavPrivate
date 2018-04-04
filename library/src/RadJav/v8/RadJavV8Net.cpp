@@ -118,7 +118,7 @@ namespace RadJAV
 					curl_easy_setopt(curl, CURLOPT_URL, uri.c_str());
 					curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, true);
 					curl_easy_setopt(curl, CURLOPT_WRITEDATA, str);
-					curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, Net::curlWrite);
+					curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, NetCallbacks::curlWrite);
 					curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, timeout);
 					CURLcode result = curl_easy_perform(curl);
 				}
