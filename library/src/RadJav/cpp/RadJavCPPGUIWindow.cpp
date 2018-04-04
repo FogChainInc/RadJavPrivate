@@ -246,12 +246,16 @@ namespace RadJAV
 				icon = newIcon;
 
 				#ifdef GUI_USE_WXWIDGETS
-					wxIcon wxicon = wxICON(newIcon.c_str ());
-
-					if (wxicon.IsOk() == false)
-						throw RadJAV::Exception("Invalid icon");
-
-					((WindowFrame *)_appObj->GetParent())->SetIcon(wxicon);
+                    #ifdef __WINDOWS__
+                        wxIcon wxicon = wxICON(newIcon.c_str ());
+                
+                        if (wxicon.IsOk() == false)
+                            throw RadJAV::Exception("Invalid icon");
+                
+                        ((WindowFrame *)_appObj->GetParent())->SetIcon(wxicon);
+                    #else
+                        #warning "TODO: Add Window Icon support for non Windows platforms"
+                    #endif
 				#endif
 			}
 
