@@ -101,7 +101,7 @@ int main (int iArgs, char **cArgs)
         findNewLine = "\n";
         newLine = "\n";
     #else
-		findNewLine = "\r\n";
+		findNewLine = "\n";
 		newLine = "\n";
 	#endif
 
