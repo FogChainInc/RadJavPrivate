@@ -95,9 +95,12 @@ int main (int iArgs, char **cArgs)
 	bool pureJavascriptOnly = false;
 
 	#if defined (WIN32)
-	findNewLine = "\n";
+        findNewLine = "\n";
 		newLine = "\n";
-	#else
+	#elif defined (__APPLE__)
+        findNewLine = "\n";
+        newLine = "\n";
+    #else
 		findNewLine = "\r\n";
 		newLine = "\n";
 	#endif
