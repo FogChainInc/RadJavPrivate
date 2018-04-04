@@ -355,7 +355,7 @@ namespace RadJAV
 					if (event == "click")
 					{
 						v8::Persistent<v8::Value> *pevent = createEvent(event, func);
-						object->Bind(wxEVT_LEFT_UP, GObjectBase::onMouseEvent, -1, -1, (wxObject *)pevent);
+						object->Bind(wxEVT_LEFT_UP, GObjectBase::onClick, -1, -1, (wxObject *)pevent);
 					}
 
 					if (event == "keyup")
@@ -461,13 +461,7 @@ namespace RadJAV
 					}
 				}
 
-				void GObjectBase::onClick(wxCommandEvent &event)
-				{
-					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
-					executeEvent(pevent);
-				}
-
-				void GObjectBase::onMouseEvent(wxMouseEvent &event)
+				void GObjectBase::onClick(wxMouseEvent &event)
 				{
 					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
 					executeEvent(pevent);

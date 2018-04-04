@@ -246,8 +246,7 @@ namespace RadJAV
 					#ifdef GUI_USE_WXWIDGETS
 						void addNewEvent(String event, wxWindow *object, v8::Local<v8::Function> func);
 
-						static void onClick(wxCommandEvent &event);
-						static void onMouseEvent(wxMouseEvent &event);
+						static void onClick(wxMouseEvent &event);
 						static void onDoubleClick(wxMouseEvent &event);
 						static void onRightClick(wxMouseEvent &event);
 						static void onRightDoubleClick(wxMouseEvent &event);
