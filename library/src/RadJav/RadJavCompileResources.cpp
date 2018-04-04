@@ -214,14 +214,14 @@ int main (int iArgs, char **cArgs)
 RadJav.OS.Windows = function()" + newLine + "\
 {" + newLine + "\
 }" + newLine;
+            #elif defined (__APPLE__)
+            tempText += "RadJav.OS.type = \"mac\";\\" + newLine + "\
+RadJav.OS.Mac = function()\\" + newLine + "\
+{\\" + newLine + "\
+}\\" + newLine;
 			#elif defined (LINUX)
 				tempText += "RadJav.OS.type = \"linux\";\\" + newLine + "\
 RadJav.OS.Linux = function()\\" + newLine + "\
-{\\" + newLine + "\
-}\\" + newLine;
-			#elif defined (MACINTOSH)
-				tempText += "RadJav.OS.type = \"mac\";\\" + newLine + "\
-RadJav.OS.Mac = function()\\" + newLine + "\
 {\\" + newLine + "\
 }\\" + newLine;
 			#else
