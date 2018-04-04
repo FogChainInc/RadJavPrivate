@@ -35,6 +35,10 @@ RadJav.Net = function ()
 {
 }
 
+RadJav.DB = function ()
+{
+}
+
 RadJav.BlockchainV1 = function ()
 {
 }
