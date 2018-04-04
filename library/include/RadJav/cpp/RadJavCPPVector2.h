@@ -70,8 +70,8 @@ namespace RadJAV
 				*/
 				inline void set (RJNUMBER x = 0, RJNUMBER y = 0)
 				{
-					x = x;
-					y = y;
+					this->x = x;
+					this->y = y;
 				}
 
 				/** Add X and Y values to the X and Y components of this object.
@@ -80,8 +80,8 @@ namespace RadJAV
 				*/
 				inline void add (RJNUMBER x, RJNUMBER y)
 				{
-					x += x;
-					y += y;
+					this->x += x;
+					this->y += y;
 				}
 
 				/** Subtract X and Y values from the X and Y components of this object.
