@@ -42,7 +42,7 @@ namespace RadJAV
 				#ifdef USE_V8
 					Rectangle(V8JavascriptEngine *jsEngine, v8::Local<v8::Object> obj);
 
-					static v8::Local<v8::Object> Rectangle::toV8Object(V8JavascriptEngine *jsEngine, Rectangle *obj);
+					static v8::Local<v8::Object> toV8Object(V8JavascriptEngine *jsEngine, Rectangle *obj);
 				#endif
 
 				RJNUMBER x;

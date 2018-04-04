@@ -57,7 +57,7 @@
 
 						void create();
 						void setText(String text);
-						String Button::getText();
+						String getText();
 
 						#ifdef USE_V8
 							void on(String event, v8::Local<v8::Function> func);
