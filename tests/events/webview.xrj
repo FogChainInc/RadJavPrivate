@@ -32,7 +32,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary ()).then (
 						type: "WebView", 
 						name: "view", 
 //						text: "http://www.google.com/", 
-						text: "http://www.google.comm/", 
+						text: "http://www.google.com/", 
 						size: "1024, 768", 
 						parent: win2
 					    }).then ( function (_webView)
