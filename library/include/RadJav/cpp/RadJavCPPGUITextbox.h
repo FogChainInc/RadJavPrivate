@@ -42,6 +42,9 @@
 						public:
 							TextboxFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size);
 
+							void onText(wxCommandEvent &evt);
+							void onTextEnter(wxCommandEvent &evt);
+							
 						protected:
 							wxDECLARE_EVENT_TABLE();
 					};
@@ -58,6 +61,7 @@
 						void create();
 						void setText(String text);
 						String getText();
+
 
 						#ifdef USE_V8
 							void on(String event, v8::Local<v8::Function> func);
