@@ -35,6 +35,7 @@ set (libRadJav_STATIC false CACHE BOOL "Static build of RadJav")
 set (libRadJav_EMBEDFILE true CACHE BOOL "Embed Javascript into RadJav?")
 set (RadJavVM_INCLUDE_BLOCKCHAIN_V1 true CACHE BOOL "Include Blockchain V1?")
 set (FIND_MEMORY_LEAKS true CACHE BOOL "Find memory leaks?")
+set (INCLUDE_DATABASES true CACHE BOOL "Includes databases")
 
 message (STATUS "Building for processor type: ${CMAKE_SYSTEM_PROCESSOR}")
 
@@ -284,6 +285,27 @@ endif ()
 
 if (FIND_MEMORY_LEAKS)
 	set (RadJavVM_CPP_DEFS_DEBUG LOG_MEMORY_LEAKS ${RadJavVM_CPP_DEFS_DEBUG})
+endif ()
+
+if (INCLUDE_DATABASES)
+	set (RadJavVM_CPP_DEFS USE_DATABASE ${RadJavVM_CPP_DEFS})
+	set (RadJavVM_CPP_DEFS_DEBUG USE_DATABASE ${RadJavVM_CPP_DEFS_DEBUG})
+
+	set (RadJavVM_CPP_DEFS USE_LEVELDB ${RadJavVM_CPP_DEFS})
+	set (RadJavVM_CPP_DEFS_DEBUG USE_LEVELDB ${RadJavVM_CPP_DEFS_DEBUG})
+
+	if (WIN32)
+		set (RadJavVM_CPP_DEFS LEVELDB_PLATFORM_WINDOWS ${RadJavVM_CPP_DEFS})
+		set (RadJavVM_CPP_DEFS_DEBUG LEVELDB_PLATFORM_WINDOWS ${RadJavVM_CPP_DEFS_DEBUG})
+	else ()
+		set (RadJavVM_CPP_DEFS LEVELDB_PLATFORM_POSIX ${RadJavVM_CPP_DEFS})
+		set (RadJavVM_CPP_DEFS_DEBUG LEVELDB_PLATFORM_POSIX ${RadJavVM_CPP_DEFS_DEBUG})
+	endif ()
+
+	include (Findleveldb)
+
+	include_directories (${leveldb_INCLUDE})
+	set (RadJavVM_LINK_LIBRARIES ${leveldb_LIBRARIES} ${RadJavVM_LINK_LIBRARIES})
 endif ()
 
 if (wxWidgets_FOUND)
