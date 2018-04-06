@@ -30,7 +30,7 @@ namespace RadJAV
 		{
 			#ifdef GUI_USE_WXWIDGETS
 				TextareaFrame::TextareaFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size)
-					: wxTextCtrl(parent, wxID_ANY, text, pos, size, wxTE_MULTILINE|wxTE_PROCESS_ENTER), GObjectBase()
+					: wxTextCtrl(parent, wxID_ANY, text, pos, size, wxTE_MULTILINE), GObjectBase()
 				{
 				}
 		  

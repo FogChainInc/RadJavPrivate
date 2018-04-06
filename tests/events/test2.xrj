@@ -1,98 +1,252 @@
-RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary ()).then (function ()
-	{
-		RadJav.runApplication (function ()
-			{
-				var win = new RadJav.GUI.Window ("win", "Chat");
+RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary ()).then
+(function ()
+ {
+     RadJav.runApplication (function ()
+			    {
+				var win = new RadJav.GUI.Window ({
+				    name: "win",
+				    text: "test2",
+				    size: "1200, 1000"
+				});
 				win.create ().then (function (win2)
-					{
-						var gotData = function (data)
+						    {
+							var gotData = function (data)
 							{
-								var json = JSON.parse (data);
-								RadJav.GUI.createObjects (json, win2).then (
-									function (objs)
+							    var json = JSON.parse (data);
+							    RadJav.GUI.createObjects (json, win2).then (
+								function (objs)
+								{
+								    for (var iIdx = 0; iIdx < objs.length; iIdx++)
+								    {
+									var obj = objs[iIdx];
+
+									var list;
+									var textarea;
+									var textbox;
+
+									var radio1;
+									var radio2;
+									var radio3;
+									var checkbox;
+
+									var logText = "";
+									var log;
+
+									if (obj.name == "online")
+									{ list = obj; }
+									if (obj.name == "log")
 									{
-										for (var iIdx = 0; iIdx < objs.length; iIdx++)
-										{
-											var obj = objs[iIdx];
+									    log = obj;
+									    log.setEnabled(false);
+									}
+									
+									if (obj.name == "chatarea")
+									{
+									    /*
+									      let members = [];
+									      for (let m in obj) {
+									      members.push(m);
+									      }
+									      alert("txtarea: " + members.join(","));
+									    */
+									    
+									    textarea = obj;
 
-											var list;
-											var textarea;
+									    obj.on("onText", function()
+										   {
+										       var row = new RadJav.GUI.List.Row ();
+										       row.addItem ("T1: onText");
+										       list.addRow (row);
+										       
+										       logText += "T1: onText\n";
+										       log.setText(logText);
+										       
+										   });
 
-											if (obj.name == "online")
-											{ list = obj; }
-											
-											if (obj.name == "chatarea")
-											{ 
-												textarea = obj;
+/*									    
+									    obj.on("onTextEnter", function()
+										  {
+										      var row = new RadJav.GUI.List.Row ();
+										      row.addItem ("T1: onTextEnter");
+										      list.addRow (row);
+										      
+										      logText += "T1: onTextEnter\n";
+										      log.setText(logText);
+										  });
+*/
 
-												textarea.on("onText", function()
-															{
-																var row = new RadJav.GUI.List.Row ();
-																row.addItem ("T1: onText");
-																list.addRow (row);
-															});
+									    
+									}
+									
 
-												textarea.on("onTextEnter", function()
-															{
-																var row = new RadJav.GUI.List.Row ();
-																row.addItem ("T1: onTextEnter");
-																list.addRow (row);
-															});
-												
-											}
-											
+									if (obj.name == "textbox1")
+									{
+									    textbox = obj;
+									    
+									    obj.on("onText", function()
+										   {
+										       var row = new RadJav.GUI.List.Row ();
+										       row.addItem ("T2: onText");
+										       list.addRow (row);
 
-											if (obj.name == "textbox1")
-											{
-												obj.on("onText", function()
-													   {
-														   var row = new RadJav.GUI.List.Row ();
-														   row.addItem ("T2: onText");
-														   list.addRow (row);
-													   });
+										       logText += "T2: onText: " + textbox.getText() + "\n";
+										       log.setText(logText);
+										   });
 
-												obj.on("onTextEnter", function()
-													   {
-														   var row = new RadJav.GUI.List.Row ();
-														   row.addItem ("T2: onTextEnter");
-														   list.addRow (row);
-													   });
-												
-											}
+									    obj.on("onTextEnter", function()
+										   {
+										       var row = new RadJav.GUI.List.Row ();
+										       row.addItem ("T2: onTextEnter");
+										       list.addRow (row);
 
-											if (obj.name == "radio1")
-											{
-												obj.on("change", function()
-													   {
-														   var row = new RadJav.GUI.List.Row ();
-														   row.addItem ("R1: change");
-														   list.addRow (row);
-													   });
-											}
+										       logText += "T2: ENTERED: " + textbox.getText() + "\n";
+										       log.setText(logText);
+										   });
+									    
+									}
 
-											if (obj.name == "t1label")
-											{
-												obj.on("click", function()
-													   {
-														   var row = new RadJav.GUI.List.Row ();
-														   row.addItem ("T1L: click");
-														   list.addRow (row);
-													   });
-											}
-											
-											
-										}
-									});
+									if (obj.name == "clicktest1")
+									{
+									    obj.on ("click", function ()
+										    {
+											var row = new RadJav.GUI.List.Row ();
+											row.addItem ("B1:click");
+											list.addRow (row);
+
+											logText += "B1: click\n";
+											log.setText(logText);
+										    });
+									    obj.on ("middleclick", function ()
+										    {
+											var row = new RadJav.GUI.List.Row ();
+											row.addItem ("B1:middleclick");
+											list.addRow (row);
+
+											logText += "B1: middleclick\n";
+											log.setText(logText);
+										    });
+									}
+
+									if (obj.name == "radio1")
+									{
+									    radio1 = obj;
+
+									    /*
+									      let methods = [];
+									      for (let m in obj) {
+									      methods.push(m);
+									      }
+									      alert("radio: " + methods.join(","));
+									    */
+
+									    
+									    obj.on("change", function()
+										   {
+										       var row = new RadJav.GUI.List.Row ();
+										       row.addItem ("R1: change:" + obj.checked);
+										       list.addRow (row);
+										       
+										       logText += "R1: change\n";
+										       log.setText(logText);
+										   });
+									}
+
+									if (obj.name == "radio2")
+									{
+									    radio2 = obj;
+									}
+									if (obj.name == "radio3")
+									{
+									    radio3 = obj;
+									}
+									
+									if (obj.name == "container1")
+									{
+									    /*
+									    obj.on("click", function()
+										   {
+										       var row = new RadJav.GUI.List.Row ();
+										       row.addItem ("Cont1: click");
+										       list.addRow (row);
+
+										       logText += "Container1: click\n";
+										       log.setText(logText);
+										   });
+									    */
+
+									    obj.on("clickk", function()
+										   {
+										       var row = new RadJav.GUI.List.Row ();
+										       row.addItem ("Cont1: clickk");
+										       list.addRow (row);
+
+										       logText += "Container1: clickk\n";
+										       log.setText(logText);
+										   });
+
+									    obj.on ("middleclick", function ()
+										    {
+											var row = new RadJav.GUI.List.Row ();
+											row.addItem ("Cont1:middleclick");
+											list.addRow (row);
+
+											logText += "Container1: middleclick\n";
+											log.setText(logText);
+										    });
+
+									}
+									
+									if (obj.name == "checkbox1")
+									{
+									    checkbox = obj;
+									    obj.on("change", function()
+										   {
+										       var row = new RadJav.GUI.List.Row ();
+										       row.addItem ("Chk1: change: " + checkbox.isChecked());
+										       list.addRow (row);
+
+										       logText += "Checkbox1: change: " + checkbox.isChecked() + "\n";
+										       log.setText(logText);
+										       
+										       radio1.setEnabled(checkbox.isChecked());
+										       radio2.setEnabled(checkbox.isChecked());
+										       radio3.setEnabled(checkbox.isChecked());
+										       
+										   });
+									}
+									if (obj.name == "combobox1")
+									{
+									    obj.on("change", function()
+										   {
+										       var row = new RadJav.GUI.List.Row ();
+										       row.addItem ("Cmb1: change");
+										       list.addRow (row);
+										   });
+									}
+
+									if (obj.name == "t1label")
+									{
+									    obj.on("click", function()
+										   {
+										       var row = new RadJav.GUI.List.Row ();
+										       row.addItem ("T1L: click");
+										       list.addRow (row);
+										   });
+									}
+									
+									
+								    }
+								});
 							};
 
-						if (RadJav.OS.HTML5 != null)
-							RadJav.Net.httpRequest ("./test2.json").then (gotData);
+							if (RadJav.OS.HTML5 != null)
+							    RadJav.Net.httpRequest ("./test2.json").then (gotData);
 
-						else
-						{
-							var data = RadJav.IO.TextFile.readEntireFile ("./test2.json");
-							gotData (data);
-						}
-					});
-			});
-	});
+							else
+							{
+							    var data = RadJav.IO.TextFile.readEntireFile ("./test2.json");
+							    gotData (data);
+							}
+						    });
+			    });
+ });

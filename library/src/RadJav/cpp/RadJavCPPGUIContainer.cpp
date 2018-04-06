@@ -33,6 +33,13 @@ namespace RadJAV
 					: wxStaticBox(parent, wxID_ANY, text, pos, size), GObjectBase()
 				{
 				}
+
+				void ContainerFrame::onClick(wxMouseEvent &event)
+				{
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
+					executeEvent(pevent);
+				}
+		  
 			#endif
 
 			#ifdef USE_V8
@@ -96,6 +103,14 @@ namespace RadJAV
 					CPP::GUI::ContainerFrame *object = (CPP::GUI::ContainerFrame *)_appObj;
 
 					object->addNewEvent(event, object, func);
+
+					
+					if (event == "clickk")
+					{
+						v8::Persistent<v8::Value> *pevent = object->createEvent(event, func);
+						object->Connect(wxEVT_LEFT_UP, wxMouseEventHandler(ContainerFrame::onClick), (wxObject *)pevent);
+					}
+					
 				}
 			#endif
 		}
