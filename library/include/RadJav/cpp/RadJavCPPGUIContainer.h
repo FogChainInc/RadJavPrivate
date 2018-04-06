@@ -41,6 +41,8 @@
 					{
 						public:
 							ContainerFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size);
+							
+							void onClick(wxMouseEvent &event);
 
 						protected:
 							wxDECLARE_EVENT_TABLE();

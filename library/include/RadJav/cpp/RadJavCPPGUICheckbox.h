@@ -42,6 +42,8 @@
 						public:
 							CheckboxFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size);
 
+							void onChanged(wxCommandEvent &event);
+							
 						protected:
 							wxDECLARE_EVENT_TABLE();
 					};
