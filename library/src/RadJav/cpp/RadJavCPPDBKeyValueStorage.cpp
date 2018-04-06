@@ -40,8 +40,9 @@ namespace RadJAV
 	{
 		namespace Database
 		{
+			#ifdef USE_DATABASE
 			KeyValueStorage::KeyValueStorage()
-            : db(NULL)
+				: db(NULL)
 			{
                 //TODO: Need to add helper class to handle paths in portable way
                 //F.e. which can prepend path before file name
@@ -85,19 +86,20 @@ namespace RadJAV
                         return false;
                     }
                 #endif
+
 				return true;
 			}
 
 			/// Write to a key in the database.
 			void KeyValueStorage::write(String key, String value)
 			{
-                if(!db)
-                {
-                    RadJav::throwException("Database have not been opened.");
-                    return;
-                }
+				#ifdef USE_LEVELDB
+					if(!db)
+					{
+						RadJav::throwException("Database have not been opened.");
+						return;
+					}
                 
-                #ifdef USE_LEVELDB
                     leveldb::Status status = db->Put(leveldb::WriteOptions(), key, value);
                 
                     if (!status.ok())
@@ -111,15 +113,15 @@ namespace RadJAV
 			/// Read from a key in the database.
 			String KeyValueStorage::read(String key)
 			{
-                std::string value;
-                
+                String value = "";
+
+				#ifdef USE_LEVELDB
                 if(!db)
                 {
                     RadJav::throwException("Database have not been opened.");
                     return value;
                 }
                 
-                #ifdef USE_LEVELDB
                     leveldb::Status status = db->Get( leveldb::ReadOptions(), key, &value);
                 
                     if (!status.ok())
@@ -140,6 +142,7 @@ namespace RadJAV
                     db = NULL;
                 #endif
 			}
+			#endif
 		}
 	}
 }

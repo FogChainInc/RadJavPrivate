@@ -29,12 +29,14 @@
 	#include "RadJavHashMap.h"
 	#include "RadJavThread.h"
 
-    #ifdef USE_LEVELDB
-        namespace leveldb
-        {
-            class DB;
-        };
-    #endif
+	#ifdef USE_DATABASE
+		#ifdef USE_LEVELDB
+			namespace leveldb
+			{
+				class DB;
+			};
+		#endif
+	#endif
 
 	namespace RadJAV
 	{
@@ -42,6 +44,7 @@
 		{
 			namespace Database
 			{
+				#ifdef USE_DATABASE
 				// Accepts incoming connections and launches the sessions
 				class RADJAV_EXPORT KeyValueStorage
 				{
@@ -65,11 +68,11 @@
                     public:
                         String filePath;
                     
-                    private:
                         #ifdef USE_LEVELDB
                             leveldb::DB* db;
                         #endif
 				};
+				#endif
 			}
 		}
 	}

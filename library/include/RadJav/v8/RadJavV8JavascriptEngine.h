@@ -143,6 +143,9 @@
 				/// Shutdown the application entirely.
 				void exit(RJINT exitCode);
 
+				template<typename P>
+				static void weakCallback(const v8::WeakCallbackInfo<P> &data);
+
 				/// Get a V8 function.
 				v8::Handle<v8::Function> v8GetFunction(v8::Local<v8::Object> context, String functionName);
 				/// Get a V8 value.
@@ -175,7 +178,19 @@
 				/// Set a V8 native object.
 				void v8SetExternal(v8::Local<v8::Object> context, String functionName, void *obj);
 				/// Set internal field.
-				void v8SetInternalField(v8::Local<v8::Object> context, String functionName, void *obj);
+				template<typename P>
+				void v8SetInternalField(v8::Local<v8::Object> context, String functionName, P *obj)
+				{
+					/*v8::Local<v8::Object> objInst = internalObjectTemplate->NewInstance(context->CreationContext()).ToLocalChecked();
+
+					v8::Local<v8::External> val = v8::External::New(isolate, obj);
+					objInst->SetInternalField(0, val);
+					context->Set(functionName.toV8String(isolate), objInst);
+					v8::Persistent<v8::Object> *pval = RJNEW v8::Persistent<v8::Object>();
+					pval->Reset(context->GetIsolate(), objInst);
+					pval->SetWeak<P>(obj, V8JavascriptEngine::weakCallback<P>, v8::WeakCallbackType::kParameter);
+					pval->MarkIndependent();*/
+				}
 				/// Get an internal field.
 				void *v8GetInternalField(v8::Local<v8::Object> context, String functionName);
 				/// Get a V8 argument.
