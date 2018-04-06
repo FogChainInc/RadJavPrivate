@@ -241,6 +241,10 @@ namespace RadJAV
 			}
 
 			loadNativeCode();
+
+			internalObjectTemplate = v8::ObjectTemplate::New(isolate);
+			internalObjectTemplate->SetInternalFieldCount(1);
+
 			v8::Local<v8::Object> obj = v8GetObject(globalContext->Global(), "RadJav");
 			radJav = RJNEW v8::Persistent<v8::Object>();
 			radJav->Reset(isolate, obj);
@@ -1406,6 +1410,42 @@ namespace RadJAV
 		{
 			v8::Local<v8::External> val = v8::External::New(isolate, obj);
 			context->Set(functionName.toV8String(isolate), val);
+		}
+
+		void WeakCallback(const v8::WeakCallbackInfo<V8JavascriptEngine> &data)
+		{
+			int i = 0;
+		}
+
+		void V8JavascriptEngine::v8SetInternalField(v8::Local<v8::Object> context, String functionName, void *obj)
+		{
+			v8::Local<v8::Object> objInst = internalObjectTemplate->NewInstance();
+
+			v8::Local<v8::External> val = v8::External::New(isolate, obj);
+			objInst->SetInternalField(0, val);
+			context->Set(functionName.toV8String(isolate), objInst);
+			v8::Persistent<v8::Object> *pval = RJNEW v8::Persistent<v8::Object>();
+			pval->Reset(context->GetIsolate(), objInst);
+			pval->SetWeak(this, WeakCallback, v8::WeakCallbackType::kParameter);
+			pval->MarkIndependent();
+
+			pval->ClearWeak();
+			pval->Reset();
+
+			DELETEOBJ(pval);
+		}
+
+		void *V8JavascriptEngine::v8GetInternalField(v8::Local<v8::Object> context, String functionName)
+		{
+			v8::Local<v8::Value> value = context->Get(functionName.toV8String(isolate));
+
+			if (v8IsNull(value) == true)
+				return (NULL);
+
+			v8::Local<v8::Object> val = v8::Local<v8::Object>::Cast (value);
+			v8::Local<v8::External> ext = v8::Local<v8::External>::Cast (val->GetInternalField(0));
+
+			return (ext->Value ());
 		}
 
 		v8::Handle<v8::Value> V8JavascriptEngine::v8GetArgument(const v8::FunctionCallbackInfo<v8::Value> &args, RJUINT index)

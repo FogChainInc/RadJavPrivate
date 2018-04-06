@@ -174,6 +174,10 @@
 				void *v8GetExternal(v8::Local<v8::Object> context, String functionName);
 				/// Set a V8 native object.
 				void v8SetExternal(v8::Local<v8::Object> context, String functionName, void *obj);
+				/// Set internal field.
+				void v8SetInternalField(v8::Local<v8::Object> context, String functionName, void *obj);
+				/// Get an internal field.
+				void *v8GetInternalField(v8::Local<v8::Object> context, String functionName);
 				/// Get a V8 argument.
 				v8::Handle<v8::Value> v8GetArgument(const v8::FunctionCallbackInfo<v8::Value> &args, RJUINT index);
 				/// Set a V8 Value.
@@ -210,6 +214,7 @@
 
 				v8::Platform *platform;
 				v8::Local<v8::Context> globalContext;
+				v8::Local<v8::ObjectTemplate> internalObjectTemplate;
 				v8::Persistent<v8::Object> *radJav;
 
 				#ifdef GUI_USE_WXWIDGETS
