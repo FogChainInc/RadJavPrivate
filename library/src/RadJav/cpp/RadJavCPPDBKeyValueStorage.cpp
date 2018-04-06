@@ -30,6 +30,10 @@
 #include "RadJavString.h"
 #include "RadJav/v8/RadJavV8JavascriptEngine.h"
 
+#ifdef USE_LEVELDB
+    #include <leveldb/db.h>
+#endif
+
 namespace RadJAV
 {
 	namespace CPP
@@ -37,46 +41,104 @@ namespace RadJAV
 		namespace Database
 		{
 			KeyValueStorage::KeyValueStorage()
+            : db(NULL)
 			{
-				filePath = "";
+                //TODO: Need to add helper class to handle paths in portable way
+                //F.e. which can prepend path before file name
+                #ifdef WIN32
+                    filePath = ".\leveldb.dat";
+                #else
+                    filePath = "./leveldb.dat";
+                #endif
 			}
 
 			KeyValueStorage::~KeyValueStorage()
 			{
+                close();
 			}
 
 			/// The path to the database to open.
 			RJBOOL KeyValueStorage::open(String path)
 			{
-				if (path == "")
+                close();
+
+                if (path == "")
 					path = filePath;
 
 				if (path == "")
 				{
 					RadJav::throwException("Can't open database! File path is empty.");
 
-					return (false);
+					return false;
 				}
 
 				// Open the database here.
-
-				return (true);
+                #ifdef USE_LEVELDB
+                    leveldb::Options options;
+                    options.create_if_missing = true;
+                
+                    leveldb::Status status = leveldb::DB::Open( options, path, &db);
+                
+                    if(!status.ok())
+                    {
+                        RadJav::throwException("Can't open database.");
+                        return false;
+                    }
+                #endif
+				return true;
 			}
 
 			/// Write to a key in the database.
 			void KeyValueStorage::write(String key, String value)
 			{
+                if(!db)
+                {
+                    RadJav::throwException("Database have not been opened.");
+                    return;
+                }
+                
+                #ifdef USE_LEVELDB
+                    leveldb::Status status = db->Put(leveldb::WriteOptions(), key, value);
+                
+                    if (!status.ok())
+                    {
+                        RadJav::throwException("Unable to write data into database.");
+                        return;
+                    }
+                #endif
 			}
 
 			/// Read from a key in the database.
 			String KeyValueStorage::read(String key)
 			{
-				return ("data");
+                std::string value;
+                
+                if(!db)
+                {
+                    RadJav::throwException("Database have not been opened.");
+                    return value;
+                }
+                
+                #ifdef USE_LEVELDB
+                    leveldb::Status status = db->Get( leveldb::ReadOptions(), key, &value);
+                
+                    if (!status.ok())
+                    {
+                        RadJav::throwException("Unable to read data from database.");
+                        return value;
+                    }
+                #endif
+                
+                return value;
 			}
 
 			/// Close the database.
 			void KeyValueStorage::close()
 			{
+                #ifdef USE_LEVELDB
+                    delete db;
+                    db = NULL;
+                #endif
 			}
 		}
 	}
