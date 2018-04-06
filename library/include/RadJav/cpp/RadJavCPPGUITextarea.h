@@ -42,6 +42,9 @@
 					public:
 						TextareaFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size);
 
+						void onText(wxCommandEvent &evt);
+						void onTextEnter(wxCommandEvent &evt);
+
 					protected:
 						wxDECLARE_EVENT_TABLE();
 					};

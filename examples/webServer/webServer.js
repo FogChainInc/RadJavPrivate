@@ -1,6 +1,6 @@
 var webServer = new RadJav.Net.WebServer ();
 
-webServer.serve (function (request)
+/*webServer.serve (function (request)
 	{
 		var response = "";
 
@@ -13,4 +13,9 @@ webServer.serve (function (request)
 		return (response);
 	});
 
-webServer.listen (80);
+webServer.listen (80);*/
+
+webServer = null;
+
+collectGarbage ();
+RadJav.exit ();

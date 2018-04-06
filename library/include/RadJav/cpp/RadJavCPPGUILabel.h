@@ -42,6 +42,19 @@
 						public:
 							LabelFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size);
 
+
+							void onClick(wxMouseEvent &event);
+							/*
+							   void onDoubleClick(wxMouseEvent &event);
+							   void onRightClick(wxMouseEvent &event);
+							   void onRightDoubleClick(wxMouseEvent &event);
+							   void onRightDown(wxMouseEvent &event);
+							   void onMiddleClick(wxMouseEvent &event);
+							   void onMiddleDoubleClick(wxMouseEvent &event);
+							   void onMiddleDown(wxMouseEvent &event);
+							*/
+							
+
 						protected:
 							wxDECLARE_EVENT_TABLE();
 					};

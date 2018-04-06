@@ -1,0 +1,198 @@
+[
+	{
+		"type": "RadJav.GUI.MenuBar", 
+		"name": "menubar", 
+		"visibility": true, 
+		"children": [
+				{
+					"type": "RadJav.GUI.MenuItem", 
+					"name": "ProgramToolStripMenuItem", 
+					"text": "Program", 
+					"children": [
+							{
+								"type": "RadJav.GUI.MenuItem", 
+								"name": "LoginToolStripMenuItem", 
+								"text": "Connect to Server...", 
+								"click": "connectToServer();"
+							}, 
+							{
+								"type": "RadJav.GUI.MenuItem", 
+								"name": "ToolStripMenuItem2", 
+								"text": "-", 
+								"createOnPlatforms": {
+										"HTML5": false
+									}
+							}, 
+							{
+								"type": "RadJav.GUI.MenuItem", 
+								"name": "ExitToolStripMenuItem", 
+								"text": "Exit", 
+								"createOnPlatforms": {
+										"HTML5": false
+									}, 
+								"click": "RadJav.exit();"
+							}
+						]
+				}
+			]
+	}, 
+	{
+		"type": "RadJav.GUI.Label", 
+		"name": "t1label", 
+		"visibility": true, 
+		"position": "12, 4", 
+		"size": "305, 13", 
+		"text": "Test text event"
+	}, 
+	{
+		"type": "RadJav.GUI.Textarea", 
+		"name": "chatarea", 
+		"visibility": true, 
+		"position": "20, 20", 
+		"size": "200, 150"
+	}, 
+	{
+		"type": "RadJav.GUI.Button", 
+		"name": "clicktest1", 
+		"visibility": true, 
+		"position": "20, 180", 
+		"size": "100, 23", 
+		"text": "B1: click,mdlclick"
+	}, 
+	{
+		"type": "RadJav.GUI.Button", 
+		"name": "clicktest2", 
+		"visibility": true, 
+		"position": "125, 180", 
+		"size": "100, 23", 
+		"text": "B2: all click"
+	}, 
+	{
+		"type": "RadJav.GUI.Button", 
+		"name": "clicktest3", 
+		"visibility": true, 
+		"position": "230, 180", 
+		"size": "100, 23", 
+		"text": "B3: all dblclick"
+	}, 
+	{
+		"type": "RadJav.GUI.Label", 
+		"name": "label3", 
+		"visibility": true, 
+		"position": "334, 4", 
+		"size": "130, 13", 
+		"text": "Events:"
+	},
+	{
+		"type": "RadJav.GUI.Label", 
+		"name": "t1label2", 
+		"visibility": true, 
+		"position": "12, 218", 
+		"size": "305, 13", 
+		"text": "Test text events"
+	}, 
+    	{
+		"type": "RadJav.GUI.Textbox", 
+		"name": "textbox1", 
+		"visibility": true, 
+		"position": "10, 230", 
+		"size": "180, 20"
+	},
+    	{
+		"type": "RadJav.GUI.Checkbox", 
+		"name": "checkbox1", 
+		"visibility": true, 
+		"checked": true, 
+		"position": "10, 250", 
+	        "size": "150, 30",
+		"text": "Enable/Disable Radios"
+	}, 
+    	{
+		"type": "RadJav.GUI.Radio", 
+		"name": "radio1", 
+		"text": "radio1", 
+		"visibility": true, 
+		"checked": false, 
+		"enabled": false, 
+		"position": "10, 280", 
+		"size": "20, 20"
+	}, 
+    	{
+		"type": "RadJav.GUI.Radio", 
+		"name": "radio2", 
+		"visibility": true, 
+		"checked": true, 
+		"position": "10, 300", 
+		"size": "20, 20"
+	}, 
+    	{
+		"type": "RadJav.GUI.Radio", 
+		"name": "radio3", 
+		"radioGroup": "radioGrp2", 
+		"visibility": true, 
+		"checked": false, 
+		"position": "10, 320", 
+		"size": "20, 20"
+	}, 
+    	{
+	    "type": "RadJav.GUI.Container", 
+	    "name": "container1", 
+	    "text": "container1", 
+	    "visibility": true, 
+	    "position": "180, 260", 
+	    "size": "100, 100",
+	    "children": [
+    		{
+		    "type": "RadJav.GUI.Radio", 
+		    "name": "radioA1", 
+		    "visibility": true, 
+		    "position": "10, 10", 
+		    "size": "20, 20"
+		}, 
+    		{
+		    "type": "RadJav.GUI.Radio", 
+		    "name": "radioA2", 
+		    "visibility": true, 
+		    "position": "10, 30", 
+		    "size": "20, 20"
+		}
+	    ]
+	    
+	}, 
+    	{
+		"type": "RadJav.GUI.Combobox", 
+		"name": "combobox1", 
+		"text": "combobox1", 
+		"visibility": true, 
+		"position": "10, 350", 
+   	        "size": "30, 30"
+	}, 
+    
+    
+	{
+		"type": "RadJav.GUI.List", 
+		"name": "online", 
+		"visibility": true, 
+		"position": "334, 20", 
+		"size": "138, 264", 
+		"columns": [
+				{ "text": "Events:" }
+			]
+	},
+	{
+		"type": "RadJav.GUI.Label", 
+		"name": "loglabel", 
+		"visibility": true, 
+		"position": "554, 4", 
+		"size": "100, 13", 
+		"text": "Log:"
+	}, 
+	{
+		"type": "RadJav.GUI.Textarea", 
+		"name": "log", 
+		"visibility": true, 
+		"position": "550, 20", 
+		"size": "200, 500"
+	}
+    
+]

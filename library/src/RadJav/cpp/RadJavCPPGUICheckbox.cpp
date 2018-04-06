@@ -33,6 +33,13 @@ namespace RadJAV
 					: wxCheckBox(parent, wxID_ANY, text, pos, size), GObjectBase()
 				{
 				}
+		  
+				void CheckboxFrame::onChanged(wxCommandEvent &event)
+				{
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
+					executeEvent(pevent);
+				}
+		  
 			#endif
 
 			#ifdef USE_V8
@@ -99,6 +106,16 @@ namespace RadJAV
 					CPP::GUI::CheckboxFrame *object = (CPP::GUI::CheckboxFrame *)_appObj;
 
 					object->addNewEvent(event, object, func);
+
+					if (event == "change")
+					{
+						v8::Persistent<v8::Value> *pevent = object->createEvent(event, func);
+
+						#ifdef GUI_USE_WXWIDGETS
+						object->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(CheckboxFrame::onChanged), (wxObject *)pevent);
+						#endif
+					}
+					
 				}
 			#endif
 

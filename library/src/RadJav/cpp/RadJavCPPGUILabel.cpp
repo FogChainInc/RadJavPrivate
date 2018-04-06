@@ -22,6 +22,8 @@
 #include "RadJav.h"
 #include "RadJavString.h"
 
+#include <iostream>
+
 namespace RadJAV
 {
 	namespace CPP
@@ -32,6 +34,13 @@ namespace RadJAV
 				LabelFrame::LabelFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size)
 					: wxStaticText(parent, wxID_ANY, text, pos, size), GObjectBase()
 				{
+				}
+		  
+				void LabelFrame::onClick(wxMouseEvent &event)
+				{
+				  std::cout << "Label clicked" << std::endl;
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
+					executeEvent(pevent);
 				}
 			#endif
 
@@ -71,6 +80,16 @@ namespace RadJAV
 					CPP::GUI::LabelFrame *object = (CPP::GUI::LabelFrame *)_appObj;
 
 					object->addNewEvent(event, object, func);
+
+					  std::cout << "Entering Label::on" << std::endl;
+					if (event == "click")
+					{
+					  std::cout << "Connecting Label click event" << std::endl;
+						v8::Persistent<v8::Value> *pevent = object->createEvent(event, func);
+						object->Connect(wxEVT_LEFT_UP, wxMouseEventHandler(LabelFrame::onClick), (wxObject *)pevent);
+					}
+
+					
 				}
 			#endif
 		}

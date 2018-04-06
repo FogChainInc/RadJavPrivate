@@ -447,7 +447,7 @@ namespace RadJAV
 			curl_global_cleanup ();
 		#endif
 
-		#if defined (RADJAV_DEBUG) && defined (RADJAV_REPORT_LEAKS)
+		#if defined (RADJAV_DEBUG) && defined (LOG_MEMORY_LEAKS)
 			RadJav::writeMemoryLeaksToFile("./leaks.csv");
 		#endif
 	}

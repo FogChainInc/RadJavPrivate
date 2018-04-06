@@ -30,9 +30,23 @@ namespace RadJAV
 		{
 			#ifdef GUI_USE_WXWIDGETS
 				TextboxFrame::TextboxFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size)
-					: wxTextCtrl(parent, wxID_ANY, text, pos, size), GObjectBase()
+					: wxTextCtrl(parent, wxID_ANY, text, pos, size, wxTE_PROCESS_ENTER), GObjectBase()
 				{
 				}
+
+				void TextboxFrame::onText(wxCommandEvent &evt)
+				{
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)evt.GetEventUserData();
+					executeEvent(pevent);
+				}
+		  
+				void TextboxFrame::onTextEnter(wxCommandEvent &evt)
+				{
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)evt.GetEventUserData();
+					executeEvent(pevent);
+				}
+
+		  
 			#endif
 
 			#ifdef USE_V8
@@ -93,9 +107,21 @@ namespace RadJAV
 			#ifdef USE_V8
 				void Textbox::on(String event, v8::Local<v8::Function> func)
 				{
-					CPP::GUI::TextboxFrame *object = (CPP::GUI::TextboxFrame *)_appObj;
+					CPP::GUI::TextboxFrame *obj = (CPP::GUI::TextboxFrame *)_appObj;
 
-					object->addNewEvent(event, object, func);
+					obj->addNewEvent(event, obj, func);
+					
+					if (event == "onText")
+					{
+					        v8::Persistent<v8::Value> *pevent = obj->createEvent(event, func);
+						obj->Connect(wxEVT_TEXT, wxCommandEventHandler(TextboxFrame::onText), (wxObject *)pevent);
+					}
+
+					if (event == "onTextEnter")
+					{
+					        v8::Persistent<v8::Value> *pevent = obj->createEvent(event, func);
+						obj->Connect(wxEVT_TEXT_ENTER, wxCommandEventHandler(TextboxFrame::onTextEnter), (wxObject *)pevent);
+					}
 				}
 			#endif
 		}

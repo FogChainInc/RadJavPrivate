@@ -39,6 +39,7 @@ namespace RadJAV
 					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
+
 			#endif
 
 			#ifdef USE_V8
@@ -86,9 +87,11 @@ namespace RadJAV
 						v8::Persistent<v8::Value> *pevent = object->createEvent(event, func);
 
 						#ifdef GUI_USE_WXWIDGETS
-							object->Connect(wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(RadioFrame::onChanged), (wxObject *)pevent);
+						object->Connect(wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(RadioFrame::onChanged), (wxObject *)pevent);
 						#endif
 					}
+
+
 				}
 			#endif
 
@@ -103,6 +106,7 @@ namespace RadJAV
 
 			RJBOOL Radio::isChecked()
 			{
+			  
 				RJBOOL value = false;
 
 				#ifdef GUI_USE_WXWIDGETS
