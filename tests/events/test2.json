@@ -42,7 +42,7 @@
 		"visibility": true, 
 		"position": "12, 4", 
 		"size": "305, 13", 
-		"text": "Test text event"
+		"text": "Type text"
 	}, 
 	{
 		"type": "RadJav.GUI.Textarea", 
@@ -89,7 +89,7 @@
 		"visibility": true, 
 		"position": "12, 218", 
 		"size": "305, 13", 
-		"text": "Test text events"
+		"text": "Type text+Enter"
 	}, 
     	{
 		"type": "RadJav.GUI.Textbox", 
@@ -174,9 +174,10 @@
 		"name": "online", 
 		"visibility": true, 
 		"position": "334, 20", 
-		"size": "138, 264", 
+		"size": "200, 500", 
 		"columns": [
-				{ "text": "Events:" }
+		    { "text": "Source", "width": 100 },
+		    { "text": "Events", "width": 100 }
 			]
 	},
 	{

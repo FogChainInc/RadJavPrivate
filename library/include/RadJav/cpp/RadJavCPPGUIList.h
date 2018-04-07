@@ -44,6 +44,9 @@
 							ListFrame(wxWindow *parent, const wxPoint &pos, const wxSize &size);
 
 							void onRowClick(wxListEvent &event);
+							void onRowRightClick(wxListEvent &event);
+							void onRowMiddleClick(wxListEvent &event);
+							void onRowFocused(wxListEvent &event);
 
 						protected:
 							wxDECLARE_EVENT_TABLE();
