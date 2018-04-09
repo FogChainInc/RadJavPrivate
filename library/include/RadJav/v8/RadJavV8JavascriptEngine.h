@@ -32,7 +32,7 @@
 	#include <mutex>
 
 	#include "RadJavJavascriptEngine.h"
-	#include "cpp\RadJavCPPNetWebSocketServer.h"
+	#include "cpp/RadJavCPPNetWebSocketServer.h"
 
 	// The USE(x, ...) template is used to silence C++ compiler warnings
 	// issued for (yet) unused variables (typically parameters).
