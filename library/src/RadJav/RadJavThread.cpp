@@ -34,18 +34,25 @@ namespace RadJAV
 	}
 #endif
 
-PromiseThread::PromiseThread()
+SimpleThread::SimpleThread()
 	: Thread ()
 {
-	resolveArgs = NULL;
-	rejectArgs = NULL;
 }
 
-wxThread::ExitCode PromiseThread::Entry()
+#ifdef GUI_USE_WXWIDGETS
+wxThread::ExitCode SimpleThread::Entry()
 {
 	onStart();
 
 	return (0);
+}
+#endif
+
+PromiseThread::PromiseThread()
+	: SimpleThread ()
+{
+	resolveArgs = NULL;
+	rejectArgs = NULL;
 }
 
 #ifdef USE_V8

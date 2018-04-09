@@ -66,12 +66,25 @@
 			class Thread;
 		#endif
 
+		/// Create a thread.
+		class RADJAV_EXPORT SimpleThread : public Thread
+		{
+			public:
+				SimpleThread();
+
+				#ifdef GUI_USE_WXWIDGETS
+					wxThread::ExitCode Entry();
+				#endif
+
+				std::function<void()> onStart;
+				std::function<void()> onComplete;
+		};
+
 		/// Create a thread that is also a promise.
-		class RADJAV_EXPORT PromiseThread : public Thread
+		class RADJAV_EXPORT PromiseThread : public SimpleThread
 		{
 			public:
 				PromiseThread();
-				wxThread::ExitCode Entry();
 
 				#ifdef USE_V8
 					/// Create a V8 promise.
@@ -98,9 +111,6 @@
 				void resolvePromise();
 				/// Reject the promise when the code in the thread has failed.
 				void rejectPromise();
-
-				std::function<void()> onStart;
-				std::function<void()> onComplete;
 
 			protected:
 				#ifdef USE_V8

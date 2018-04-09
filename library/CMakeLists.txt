@@ -310,6 +310,12 @@ endif ()
 if (INCLUDE_CRYPTOGRAPHY)
 	set (OPENSSL_ROOT_DIR "" CACHE PATH "OPENSSL_ROOT_DIR")
 
+	set (libRadJav_CPP_DEFS USE_CRYPTOGRAPHY ${libRadJav_CPP_DEFS})
+	set (libRadJav_CPP_DEFS_DEBUG USE_CRYPTOGRAPHY ${libRadJav_CPP_DEFS_DEBUG})
+
+	set (libRadJav_CPP_DEFS USE_OPENSSL ${libRadJav_CPP_DEFS})
+	set (libRadJav_CPP_DEFS_DEBUG USE_OPENSSL ${libRadJav_CPP_DEFS_DEBUG})
+
 	include (FindModuleOpenSSL)
 
 	include_directories (${OPENSSL_INCLUDE})
