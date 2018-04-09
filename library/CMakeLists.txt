@@ -27,6 +27,7 @@ set (libRadJav_EMBEDFILE true CACHE BOOL "Embed Javascript into RadJav?")
 set (libRadJav_INCLUDE_BLOCKCHAIN_V1 true CACHE BOOL "Include Blockchain V1?")
 set (FIND_MEMORY_LEAKS true CACHE BOOL "Find memory leaks?")
 set (INCLUDE_DATABASES true CACHE BOOL "Includes databases")
+set (INCLUDE_CRYPTOGRAPHY true CACHE BOOL "Includes cryptography")
 set (BOOST_ROOT "" CACHE PATH "BOOST_ROOT")
 
 set (CMAKE_BUILD_TYPE CACHE STRING "Debug")
@@ -304,6 +305,15 @@ if (INCLUDE_DATABASES)
 
 	include_directories (${leveldb_INCLUDE})
 	set (libRadJav_LINK_LIBRARIES ${leveldb_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
+endif ()
+
+if (INCLUDE_CRYPTOGRAPHY)
+	set (OPENSSL_ROOT_DIR "" CACHE PATH "OPENSSL_ROOT_DIR")
+
+	include (FindModuleOpenSSL)
+
+	include_directories (${OPENSSL_INCLUDE})
+	set (libRadJav_LINK_LIBRARIES ${OPENSSL_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
 endif ()
 
 if (libRadJav_ALLOW_NETWORKING)

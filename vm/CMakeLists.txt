@@ -36,6 +36,7 @@ set (libRadJav_EMBEDFILE true CACHE BOOL "Embed Javascript into RadJav?")
 set (RadJavVM_INCLUDE_BLOCKCHAIN_V1 true CACHE BOOL "Include Blockchain V1?")
 set (FIND_MEMORY_LEAKS true CACHE BOOL "Find memory leaks?")
 set (INCLUDE_DATABASES true CACHE BOOL "Includes databases")
+set (INCLUDE_CRYPTOGRAPHY true CACHE BOOL "Includes cryptography")
 
 message (STATUS "Building for processor type: ${CMAKE_SYSTEM_PROCESSOR}")
 
@@ -306,6 +307,15 @@ if (INCLUDE_DATABASES)
 
 	include_directories (${leveldb_INCLUDE})
 	set (RadJavVM_LINK_LIBRARIES ${leveldb_LIBRARIES} ${RadJavVM_LINK_LIBRARIES})
+endif ()
+
+if (INCLUDE_CRYPTOGRAPHY)
+	set (OPENSSL_ROOT_DIR "" CACHE PATH "OPENSSL_ROOT_DIR")
+
+	include (FindModuleOpenSSL)
+
+	include_directories (${OPENSSL_INCLUDE})
+	set (RadJavVM_LINK_LIBRARIES ${OPENSSL_LIBRARIES} ${RadJavVM_LINK_LIBRARIES})
 endif ()
 
 if (wxWidgets_FOUND)
