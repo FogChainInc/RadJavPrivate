@@ -11,4 +11,6 @@ vm/build-osx
 vm/build-mac
 library/include/RadJav/RadJavJavascriptCode.h
 html5/closure*.jar
-examples/webServer/leaks.csv
+html5/node_modules
+html5/package-lock.json
+leaks.csv
