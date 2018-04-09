@@ -124,8 +124,8 @@ namespace RadJAV
 		{
 			if (!connect) return;
 
-			//server_ = new RadJAV::CPP::Net::WebSocketServer();
-			//server_->listen();
+			server_ = new RadJAV::CPP::Net::WebSocketServer();
+			server_->listen();
 
 			isolate_ = context->GetIsolate();
 			channel_.reset(new V8JSChannel(context));
@@ -238,8 +238,9 @@ namespace RadJAV
 		{
 			// create a v8 inspector client
 			v8::Context::Scope cscope(context);
-			//inspector.reset(new V8JSInspector(context, true));
-			V8JSInspector inspector_client(context, true);
+			inspector.reset(new V8JSInspector(context, true));
+			//inspector.
+			//V8JSInspector inspector_client(context, true);
 
 		}
 
@@ -591,6 +592,9 @@ namespace RadJAV
 						break;
 				}
 			}
+
+			isolate->ContextDisposedNotification();
+			isolate->LowMemoryNotification();
 		}
 
 		void V8JavascriptEngine::runApplicationFromFile(String file)
@@ -1041,17 +1045,19 @@ namespace RadJAV
 				}
 
 				// RadJav.DB
-				{
-					v8::Handle<v8::Function> dbFunc = v8GetFunction(radJavFunc, "DB");
-
-					// RadJav.DB.KeyValueStorage
+				#ifdef USE_DATABASE
 					{
-						v8::Handle<v8::Function> keyValueStorageFunc = v8GetFunction(dbFunc, "KeyValueStorage");
-						v8::Handle<v8::Object> keyValueStoragePrototype = v8GetObject(keyValueStorageFunc, "prototype");
+						v8::Handle<v8::Function> dbFunc = v8GetFunction(radJavFunc, "DB");
 
-						V8B::Database::KeyValueStorage::createV8Callbacks(isolate, keyValueStoragePrototype);
+						// RadJav.DB.KeyValueStorage
+						{
+							v8::Handle<v8::Function> keyValueStorageFunc = v8GetFunction(dbFunc, "KeyValueStorage");
+							v8::Handle<v8::Object> keyValueStoragePrototype = v8GetObject(keyValueStorageFunc, "prototype");
+
+							V8B::Database::KeyValueStorage::createV8Callbacks(isolate, keyValueStoragePrototype);
+						}
 					}
-				}
+				#endif
 
 				// RadJav.IO
 				{
@@ -1448,27 +1454,10 @@ namespace RadJAV
 			context->Set(functionName.toV8String(isolate), val);
 		}
 
-		void WeakCallback(const v8::WeakCallbackInfo<V8JavascriptEngine> &data)
+		template<typename P>
+		void V8JavascriptEngine::weakCallback(const v8::WeakCallbackInfo<P> &data)
 		{
-			int i = 0;
-		}
-
-		void V8JavascriptEngine::v8SetInternalField(v8::Local<v8::Object> context, String functionName, void *obj)
-		{
-			v8::Local<v8::Object> objInst = internalObjectTemplate->NewInstance();
-
-			v8::Local<v8::External> val = v8::External::New(isolate, obj);
-			objInst->SetInternalField(0, val);
-			context->Set(functionName.toV8String(isolate), objInst);
-			v8::Persistent<v8::Object> *pval = RJNEW v8::Persistent<v8::Object>();
-			pval->Reset(context->GetIsolate(), objInst);
-			pval->SetWeak(this, WeakCallback, v8::WeakCallbackType::kParameter);
-			pval->MarkIndependent();
-
-			pval->ClearWeak();
-			pval->Reset();
-
-			DELETEOBJ(pval);
+			//DELETEOBJ((P *)data.GetInternalField(0));
 		}
 
 		void *V8JavascriptEngine::v8GetInternalField(v8::Local<v8::Object> context, String functionName)

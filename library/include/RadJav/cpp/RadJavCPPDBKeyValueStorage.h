@@ -29,12 +29,22 @@
 	#include "RadJavHashMap.h"
 	#include "RadJavThread.h"
 
+	#ifdef USE_DATABASE
+		#ifdef USE_LEVELDB
+			namespace leveldb
+			{
+				class DB;
+			};
+		#endif
+	#endif
+
 	namespace RadJAV
 	{
 		namespace CPP
 		{
 			namespace Database
 			{
+				#ifdef USE_DATABASE
 				// Accepts incoming connections and launches the sessions
 				class RADJAV_EXPORT KeyValueStorage
 				{
@@ -42,6 +52,7 @@
 						KeyValueStorage();
 						~KeyValueStorage();
 
+                    public:
 						/// The path to the database to open.
 						RJBOOL open(String path = "");
 
@@ -54,8 +65,14 @@
 						/// Close the database.
 						void close();
 
-						String filePath;
+                    public:
+                        String filePath;
+                    
+                        #ifdef USE_LEVELDB
+                            leveldb::DB* db;
+                        #endif
 				};
+				#endif
 			}
 		}
 	}

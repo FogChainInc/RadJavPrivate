@@ -26,7 +26,9 @@
 
 #include "cpp/RadJavCPPDBKeyValueStorage.h"
 
-#define DBTYPE CPP::Database::KeyValueStorage
+#ifdef USE_DATABASE
+	#define DBTYPE CPP::Database::KeyValueStorage
+#endif
 
 namespace RadJAV
 {
@@ -34,91 +36,93 @@ namespace RadJAV
 	{
 		namespace Database
 		{
-			void KeyValueStorage::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
-			{
-				V8_CALLBACK(object, "_init", KeyValueStorage::_init);
-				V8_CALLBACK(object, "open", KeyValueStorage::open);
-				V8_CALLBACK(object, "write", KeyValueStorage::write);
-				V8_CALLBACK(object, "read", KeyValueStorage::read);
-				V8_CALLBACK(object, "close", KeyValueStorage::close);
-			}
+			#ifdef USE_DATABASE
+				void KeyValueStorage::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
+				{
+					V8_CALLBACK(object, "_init", KeyValueStorage::_init);
+					V8_CALLBACK(object, "open", KeyValueStorage::open);
+					V8_CALLBACK(object, "write", KeyValueStorage::write);
+					V8_CALLBACK(object, "read", KeyValueStorage::read);
+					V8_CALLBACK(object, "close", KeyValueStorage::close);
+				}
 
-			void KeyValueStorage::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
-			{
-				DBTYPE *storage = RJNEW DBTYPE();
-				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_storage", storage);
-			}
+				void KeyValueStorage::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
+				{
+					DBTYPE *storage = RJNEW DBTYPE();
+					V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_storage", storage);
+				}
 
-			void KeyValueStorage::open(const v8::FunctionCallbackInfo<v8::Value> &args)
-			{
-				DBTYPE *storage = (DBTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_storage");
-				v8::Local<v8::String> val = v8::Local<v8::String>::Cast(args[0]);
-				String path = parseV8Value (val);
-				storage->filePath = path;
+				void KeyValueStorage::open(const v8::FunctionCallbackInfo<v8::Value> &args)
+				{
+					DBTYPE *storage = (DBTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_storage");
+					v8::Local<v8::String> val = v8::Local<v8::String>::Cast(args[0]);
+					String path = parseV8Value (val);
+					storage->filePath = path;
 
-				PromiseThread *thread = RJNEW PromiseThread();
-				v8::Local<v8::Object> promise = thread->createV8Promise(V8_JAVASCRIPT_ENGINE, args.This());
-				thread->onStart = [thread, storage]()
+					PromiseThread *thread = RJNEW PromiseThread();
+					v8::Local<v8::Object> promise = thread->createV8Promise(V8_JAVASCRIPT_ENGINE, args.This());
+					thread->onStart = [thread, storage]()
+						{
+							storage->open();
+							thread->resolvePromise();
+						};
+					V8_JAVASCRIPT_ENGINE->addThread(thread);
+
+					args.GetReturnValue().Set(promise);
+				}
+
+				void KeyValueStorage::write(const v8::FunctionCallbackInfo<v8::Value> &args)
+				{
+					DBTYPE *storage = (DBTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_storage");
+					v8::Local<v8::String> key = v8::Local<v8::String>::Cast(args[0]);
+					String keyStr = parseV8Value (key);
+					v8::Local<v8::String> value = v8::Local<v8::String>::Cast(args[0]);
+					String valueStr = parseV8Value (value);
+
+					PromiseThread *thread = RJNEW PromiseThread();
+					v8::Local<v8::Object> promise = thread->createV8Promise(V8_JAVASCRIPT_ENGINE, args.This());
+					thread->onStart = [thread, storage, keyStr, valueStr]()
 					{
-						storage->open();
+						storage->write(keyStr, valueStr);
 						thread->resolvePromise();
 					};
-				V8_JAVASCRIPT_ENGINE->addThread(thread);
+					V8_JAVASCRIPT_ENGINE->addThread(thread);
 
-				args.GetReturnValue().Set(promise);
-			}
+					args.GetReturnValue().Set(promise);
+				}
 
-			void KeyValueStorage::write(const v8::FunctionCallbackInfo<v8::Value> &args)
-			{
-				DBTYPE *storage = (DBTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_storage");
-				v8::Local<v8::String> key = v8::Local<v8::String>::Cast(args[0]);
-				String keyStr = parseV8Value (key);
-				v8::Local<v8::String> value = v8::Local<v8::String>::Cast(args[0]);
-				String valueStr = parseV8Value (value);
-
-				PromiseThread *thread = RJNEW PromiseThread();
-				v8::Local<v8::Object> promise = thread->createV8Promise(V8_JAVASCRIPT_ENGINE, args.This());
-				thread->onStart = [thread, storage, keyStr, valueStr]()
+				void KeyValueStorage::read(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
-					storage->write(keyStr, valueStr);
-					thread->resolvePromise();
-				};
-				V8_JAVASCRIPT_ENGINE->addThread(thread);
+					DBTYPE *storage = (DBTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_storage");
+					v8::Local<v8::String> key = v8::Local<v8::String>::Cast(args[0]);
+					String keyStr = parseV8Value (key);
+					v8::Isolate *isolate = args.GetIsolate();
 
-				args.GetReturnValue().Set(promise);
-			}
+					PromiseThread *thread = RJNEW PromiseThread();
+					v8::Local<v8::Object> promise = thread->createV8Promise(V8_JAVASCRIPT_ENGINE, args.This());
+					thread->onStart = [thread, storage, keyStr, isolate]()
+					{
+						String value = storage->read(keyStr);
 
-			void KeyValueStorage::read(const v8::FunctionCallbackInfo<v8::Value> &args)
-			{
-				DBTYPE *storage = (DBTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_storage");
-				v8::Local<v8::String> key = v8::Local<v8::String>::Cast(args[0]);
-				String keyStr = parseV8Value (key);
-				v8::Isolate *isolate = args.GetIsolate();
+						v8::Local<v8::String> valueStr = value.toV8String(isolate);
+						v8::Local<v8::Array> args2 = v8::Array::New (isolate, 1);
+						args2->Set(0, valueStr);
+						thread->setResolveArgs(isolate, args2);
 
-				PromiseThread *thread = RJNEW PromiseThread();
-				v8::Local<v8::Object> promise = thread->createV8Promise(V8_JAVASCRIPT_ENGINE, args.This());
-				thread->onStart = [thread, storage, keyStr, isolate]()
+						thread->resolvePromise();
+					};
+					V8_JAVASCRIPT_ENGINE->addThread(thread);
+
+					args.GetReturnValue().Set(promise);
+				}
+
+				void KeyValueStorage::close(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
-					String value = storage->read(keyStr);
+					DBTYPE *storage = (DBTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_storage");
 
-					v8::Local<v8::String> valueStr = value.toV8String(isolate);
-					v8::Local<v8::Array> args2 = v8::Array::New (isolate, 1);
-					args2->Set(0, valueStr);
-					thread->setResolveArgs(isolate, args2);
-
-					thread->resolvePromise();
-				};
-				V8_JAVASCRIPT_ENGINE->addThread(thread);
-
-				args.GetReturnValue().Set(promise);
-			}
-
-			void KeyValueStorage::close(const v8::FunctionCallbackInfo<v8::Value> &args)
-			{
-				DBTYPE *storage = (DBTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_storage");
-
-				storage->close();
-			}
+					storage->close();
+				}
+			#endif
 		}
 	}
 }

@@ -45,7 +45,7 @@ namespace RadJAV
 			void WebServer::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				NETTYPE *webServer = RJNEW NETTYPE();
-				V8_JAVASCRIPT_ENGINE->v8SetInternalField(args.This(), "_webServer", webServer);
+				V8_JAVASCRIPT_ENGINE->v8SetInternalField<NETTYPE>(args.This(), "_webServer", webServer);
 			}
 
 			void WebServer::listen(const v8::FunctionCallbackInfo<v8::Value> &args)

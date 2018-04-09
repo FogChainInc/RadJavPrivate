@@ -17,5 +17,5 @@ webServer.listen (80);*/
 
 webServer = null;
 
-collectGarbage ();
+//collectGarbage ();
 RadJav.exit ();
