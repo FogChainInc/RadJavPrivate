@@ -141,6 +141,23 @@
 					v8::Local<v8::Value> args[] = { message };
 					USE(v8::Local<v8::Function>::Cast(callback)->Call(context, Undefined(isolate_), 1,
 						args));
+
+#ifdef DEBUG
+					if (try_catch.HasCaught()) {
+						v8::Local<v8::Object> exception = v8::Local<v8::Object>::Cast(try_catch.Exception());
+						v8::Local<String> key = v8::String::NewFromUtf8(isolate_, "message",
+							v8::NewStringType::kNormal)
+							.ToLocalChecked();
+						v8::Local<String> expected =
+							v8::String::NewFromUtf8(isolate_,
+								"Maximum call stack size exceeded",
+								v8::NewStringType::kNormal)
+							.ToLocalChecked();
+						v8::Local<Value> value = exception->Get(context, key).ToLocalChecked();
+						//DCHECK(value->StrictEquals(expected));
+					}
+#endif
+
 				}
 			}
 
@@ -149,14 +166,23 @@
 		};
 
 		/// V8 Inspector for debugging javascript applications.
-		class RADJAV_EXPORT V8JSInspector: public v8_inspector::V8InspectorClient
+		class RADJAV_EXPORT V8JSInspectorClient: public v8_inspector::V8InspectorClient
 		{
 			public:
-				V8JSInspector(v8::Local<v8::Context> context, bool connect);
+				V8JSInspectorClient(v8::Local<v8::Context> context, bool connect);
+				~V8JSInspectorClient()
+				{
+					//if ( (null != server_) && (server_->isAlive) )
+					//{
+					//	server_->close();
+					//}
+
+					//DELETEOBJ(server_);
+				};
 
 		private:
 			static v8_inspector::V8InspectorSession* GetSession(v8::Local<v8::Context> context) {
-				V8JSInspector* inspector_client = static_cast<V8JSInspector*>(
+				V8JSInspectorClient* inspector_client = static_cast<V8JSInspectorClient*>(
 					context->GetAlignedPointerFromEmbedderData(kInspectorClientIndex));
 				return inspector_client->session_.get();
 			}
@@ -175,7 +201,7 @@
 				args.GetReturnValue().Set(Undefined(isolate));
 				v8::Local<v8::String> message = args[0]->ToString(context).ToLocalChecked();
 				v8_inspector::V8InspectorSession* session =
-					V8JSInspector::GetSession(context);
+					V8JSInspectorClient::GetSession(context);
 				int length = message->Length();
 				std::unique_ptr<uint16_t[]> buffer(new uint16_t[length]);
 				message->Write(buffer.get(), 0, length);
@@ -354,7 +380,7 @@
 
 				RJBOOL useInspector;
 				//not used
-				std::unique_ptr<V8JSInspector> inspector;
+				std::unique_ptr<V8JSInspectorClient> inspector;
 		};
 	}
 #endif

@@ -46,10 +46,10 @@ namespace RadJAV
 				auto const port = static_cast<unsigned short>(std::atoi("9229")); //9229
 																				// The io_context is required for all I/O
 				auto const threads = std::max<int>(1, std::atoi("1"));
-				io_context_ = new boost::asio::io_context{ threads };
+				io_context_ = RJNEW boost::asio::io_context{ threads };
 				std::make_shared<WebSocketServerListener>(*io_context_, boost::asio::ip::tcp::endpoint{ address, port })->run();
 #ifdef GUI_USE_WXWIDGETS	
-				WebServerThread* thread = new WebServerThread(io_context_);
+				WebServerThread* thread = RJNEW WebServerThread(io_context_);
 				thread->Run();
 				isAlive = thread->IsAlive();
 #else

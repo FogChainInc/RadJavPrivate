@@ -120,12 +120,12 @@ namespace RadJAV
 			free(data);
 		}*/
 
-		V8JSInspector::V8JSInspector(v8::Local<v8::Context> context, bool connect)
+		V8JSInspectorClient::V8JSInspectorClient(v8::Local<v8::Context> context, bool connect)
 		{
 			if (!connect) return;
 
-			server_ = new RadJAV::CPP::Net::WebSocketServer();
-			server_->listen();
+			//server_ = RJNEW RadJAV::CPP::Net::WebSocketServer();
+			//server_->listen();
 
 			isolate_ = context->GetIsolate();
 			channel_.reset(new V8JSChannel(context));
@@ -238,7 +238,7 @@ namespace RadJAV
 		{
 			// create a v8 inspector client
 			v8::Context::Scope cscope(context);
-			inspector.reset(new V8JSInspector(context, true));
+			inspector.reset(new V8JSInspectorClient(context, true));
 			//inspector.
 			//V8JSInspector inspector_client(context, true);
 
@@ -282,9 +282,10 @@ namespace RadJAV
 			radJav = RJNEW v8::Persistent<v8::Object>();
 			radJav->Reset(isolate, obj);
 
-			if (useInspector) {
-				startInspector(globalContext);
-			}
+			//if (useInspector) {
+			//	startInspector(globalContext);
+			//}
+			V8JSInspectorClient* client = RJNEW V8JSInspectorClient(globalContext, useInspector);
 
 			try
 			{
@@ -592,7 +593,7 @@ namespace RadJAV
 						break;
 				}
 			}
-
+			DELETEOBJ( client );
 			isolate->ContextDisposedNotification();
 			isolate->LowMemoryNotification();
 		}
