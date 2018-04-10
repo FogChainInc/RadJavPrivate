@@ -50,7 +50,8 @@ set (SOURCES ${SOURCES_files_RadJav__v8__GUI__Sources} ${SOURCES})
 
 # V8 Global
 set (SOURCES_files_RadJav__v8__Global__Sources 
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8Global.cpp")
+	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8Global.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8Thread.cpp")
 source_group ("RadJav\\V8\\Global" FILES ${SOURCES_files_RadJav__v8__Global__Sources})
 
 set (SOURCES ${SOURCES_files_RadJav__v8__Global__Sources} ${SOURCES})
@@ -121,7 +122,8 @@ set (SOURCES_files_RadJav__cpp__Global__Sources
 	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPRectangle.cpp"
 	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPVector2.cpp"
 	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPVector3.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPVector4.cpp")
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPVector4.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPThread.cpp")
 source_group ("RadJav\\CPP\\Global" FILES ${SOURCES_files_RadJav__cpp__Global__Sources})
 
 set (SOURCES ${SOURCES_files_RadJav__cpp__Global__Sources} ${SOURCES})

@@ -328,7 +328,7 @@ namespace RadJAV
 			{
 				// Create a persistent function to execute asych later.
 				v8::Persistent<v8::Value> *persistent = RJNEW v8::Persistent<v8::Value>();
-				persistent->Reset(V8_JAVASCRIPT_ENGINE->isolate, function);
+				persistent->Reset(function->GetIsolate(), function);
 
 				if (events->size() > 0)
 				{

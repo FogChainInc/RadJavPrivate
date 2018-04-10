@@ -36,6 +36,7 @@
 	#include "v8/RadJavV8Console.h"
 	#include "v8/RadJavV8IO.h"
 	#include "v8/RadJavV8Net.h"
+	#include "v8/RadJavV8Thread.h"
 
 	#include "v8/RadJavV8BlockchainV1.h"
 
@@ -1028,8 +1029,11 @@ namespace RadJAV
 				v8::Handle<v8::Function> radJavFunc = v8GetFunction(globalContext->Global(), "RadJav");
 
 				V8B::Console::createV8Callbacks(isolate, radJavFunc);
+				V8B::Thread::createV8Callbacks(isolate, radJavFunc);
 
 				V8_CALLBACK(radJavFunc, "exit", V8B::Global::exit);
+				V8_CALLBACK(radJavFunc, "quit", V8B::Global::exit);
+
 				V8_CALLBACK(radJavFunc, "quit", V8B::Global::exit);
 
 				// RadJav.OS

@@ -1,0 +1,74 @@
+/*
+	MIT-LICENSE
+	Copyright (c) 2017 Higher Edge Software, LLC
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
+	and associated documentation files (the "Software"), to deal in the Software without restriction, 
+	including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+	and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+	subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all copies or substantial 
+	portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
+	LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+	IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
+	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+#include "v8/RadJavV8Thread.h"
+
+#include "RadJav.h"
+
+#ifdef USE_V8
+#include "v8/RadJavV8JavascriptEngine.h"
+
+#include "cpp/RadJavCPPThread.h"
+
+#define TTYPE CPP::Thread
+
+namespace RadJAV
+{
+	namespace V8B
+	{
+		void Thread::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
+		{
+			V8_CALLBACK(object, "_init", Thread::_init);
+			V8_CALLBACK(object, "start", Thread::start);
+			V8_CALLBACK(object, "close", Thread::close);
+			V8_CALLBACK(object, "on", Thread::on);
+		}
+
+		void Thread::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+			TTYPE *appObject = RJNEW TTYPE();
+			V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_appObj", appObject);
+		}
+
+		void Thread::start(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+			TTYPE *appObject = (TTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+			appObject->start();
+		}
+
+		void Thread::close(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+			TTYPE *appObject = (TTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+
+			appObject->close();
+		}
+
+		void Thread::on(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+			String event = parseV8Value(args[0]);
+			v8::Local<v8::Function> func = v8::Local<v8::Function>::Cast(args[1]);
+			TTYPE *appObject = (TTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+
+			if (appObject != NULL)
+				appObject->on(event, func);
+		}
+	}
+}
+#endif
+
