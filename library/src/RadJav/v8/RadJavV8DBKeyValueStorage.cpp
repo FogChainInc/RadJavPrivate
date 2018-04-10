@@ -66,6 +66,10 @@ namespace RadJAV
 							storage->open();
 							thread->resolvePromise();
 						};
+                    thread->onComplete = [thread]()
+                        {
+                            V8_JAVASCRIPT_ENGINE->removeThread(thread);
+                        };
 					V8_JAVASCRIPT_ENGINE->addThread(thread);
 
 					args.GetReturnValue().Set(promise);
@@ -86,6 +90,10 @@ namespace RadJAV
 						storage->write(keyStr, valueStr);
 						thread->resolvePromise();
 					};
+                    thread->onComplete = [thread]()
+                    {
+                        V8_JAVASCRIPT_ENGINE->removeThread(thread);
+                    };
 					V8_JAVASCRIPT_ENGINE->addThread(thread);
 
 					args.GetReturnValue().Set(promise);
@@ -111,6 +119,11 @@ namespace RadJAV
 
 						thread->resolvePromise();
 					};
+                    thread->onComplete = [thread]()
+                    {
+                        V8_JAVASCRIPT_ENGINE->removeThread(thread);
+                    };
+
 					V8_JAVASCRIPT_ENGINE->addThread(thread);
 
 					args.GetReturnValue().Set(promise);

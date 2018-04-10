@@ -469,6 +469,7 @@ namespace RadJAV
 							return;
 
 						/// @bug tbegin->second should be deleted, or does wxWidgets delete it automatically?
+                        /// @note wxWidgets delete wxThread automatically, we need to update removeThreads only
 						//DELETEOBJ (tbegin->second);
 						threads.erase(tbegin);
 					}
