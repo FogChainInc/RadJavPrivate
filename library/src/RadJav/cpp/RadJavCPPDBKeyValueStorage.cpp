@@ -28,7 +28,7 @@
 #include <memory>
 
 #include "RadJavString.h"
-#include "RadJav/v8/RadJavV8JavascriptEngine.h"
+#include "v8/RadJavV8JavascriptEngine.h"
 
 #ifdef USE_LEVELDB
     #include <leveldb/db.h>
