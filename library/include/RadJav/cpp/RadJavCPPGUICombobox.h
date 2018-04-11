@@ -43,6 +43,9 @@
 						ComboboxFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size);
 
 						void onChanged(wxCommandEvent &event);
+						void onDropdown(wxCommandEvent &event);
+						void onCloseup(wxCommandEvent &event);
+						void onText(wxCommandEvent &event);
 
 					protected:
 						wxDECLARE_EVENT_TABLE();
