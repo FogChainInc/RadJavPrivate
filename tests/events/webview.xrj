@@ -14,8 +14,11 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary ()).then (
 						type: "List", 
 						name: "list", 
 						position: "1024, 0",
-						size: "200, 768", 
-						columns: [ { "text": "Events" } ],
+						size: "200, 500", 
+						columns: [
+						    { text: "Events", width: 150 },
+						    { text: "", width: 500 }
+						],
 						parent: win2
 					    }).then ( function (_list) 
 						      {
