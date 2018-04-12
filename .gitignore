@@ -9,8 +9,11 @@ vm/build-linux
 vm/build-windows
 vm/build-osx
 vm/build-mac
+vm/installers/windows/RadJavVM/Debug
+vm/installers/windows/RadJavVM/Release
 library/include/RadJav/RadJavJavascriptCode.h
 html5/closure*.jar
 html5/node_modules
 html5/package-lock.json
 leaks.csv
+.vs
