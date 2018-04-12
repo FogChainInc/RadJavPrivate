@@ -130,6 +130,7 @@ int main (int iArgs, char **cArgs)
 	ary.push_back ("RadJav.Circle.js");
 	ary.push_back ("RadJav.Rectangle.js");
 	ary.push_back ("RadJav.Font.js");
+	ary.push_back ("RadJav.Thread.js");
 	ary.push_back ("RadJav.IO.js");
 	ary.push_back ("RadJav.IO.SerialComm.js");
 	ary.push_back ("RadJav.DB.KeyValueStorage.js");

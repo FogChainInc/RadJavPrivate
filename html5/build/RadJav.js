@@ -29,87 +29,87 @@ exports.__esModule = true;
 var RadJav;
 (function (RadJav) {
     /** @property {Boolean} [useEval=false]
-     * Allow the use of eval.
-     */
+    * Allow the use of eval.
+    */
     RadJav.useEval = true;
     /** @property {Number} [MIN_VERSION=0.05]
-     * The minimum version of code that can be ran.
-     */
+    * The minimum version of code that can be ran.
+    */
     RadJav.MIN_VERSION = 0.05;
     /** @property {Number} [VERSION=0.05]
-     * The current version.
-     */
+    * The current version.
+    */
     RadJav.VERSION = 0.05;
     /** @property {String} [baseUrl="./RadJav"]
-     * The url to the directory where RadJav is located.
-     */
+    * The url to the directory where RadJav is located.
+    */
     RadJav.baseUrl = "./RadJav/";
     /** @property {String} [themeUrl="./RadJav/themes/default"]
-     * The url to the directory where the theme will be loaded.
-     */
+    * The url to the directory where the theme will be loaded.
+    */
     RadJav.themeUrl = "./RadJav/themes/default";
     /** @property {String} [selectedLanguage="en_us"]
-     * The selected language.
-     */
+    * The selected language.
+    */
     RadJav.selectedLanguage = "en_us";
     /** @property {RadJav.Theme} [themes=null]
-     * The current theme that has been loaded.
-     */
+    * The current theme that has been loaded.
+    */
     RadJav.themes = null;
     /** @property {Boolean} [_isInitialized=false]
-     * If set to true, RadJav has been initialized.
-     */
+    * If set to true, RadJav has been initialized.
+    */
     RadJav._isInitialized = false;
     /** @property {String[]} [_included=[]]
-     * If set to true, RadJav has been initialized.
-     */
+    * If set to true, RadJav has been initialized.
+    */
     RadJav._included = [];
     /** @property {String[]} [_lang=[]]
-     * If set to true, RadJav has been initialized.
-     */
+    * If set to true, RadJav has been initialized.
+    */
     RadJav._lang = {};
     /** @property {Number} [_screenWidth=window.innerWidth]
-     * The width of the window's screen.
-     */
+    * The width of the window's screen.
+    */
     RadJav._screenWidth = window.innerWidth;
     /** @property {Number} [_screenHeight=window.innerHeight]
-     * The height of the window's screen.
-     */
+    * The height of the window's screen.
+    */
     RadJav._screenHeight = window.innerHeight;
     /** @property {Object} [themeUtils={}]
-     * Miscellaneous theme utilities to use.
-     */
+    * Miscellaneous theme utilities to use.
+    */
     RadJav.themeUtils = {};
     /** @property {Boolean} [useAjax=true]
-     * If set to true, each file loaded by RadJav will use ajax.
-     */
+    * If set to true, each file loaded by RadJav will use ajax.
+    */
     RadJav.useAjax = true;
     /** @property {Boolean} [isMinified=false]
-     * Is set to true if RadJav has been minified.
-     */
+    * Is set to true if RadJav has been minified.
+    */
     RadJav.isMinified = false;
     /** @method quit
-     * Exit the application.
-     * Available on platforms: Windows,Linux,OSX
-     * @param {Number} [exitCode=0] The exit code to end the application with.
-     */
+    * Exit the application.
+    * Available on platforms: Windows,Linux,OSX
+    * @param {Number} [exitCode=0] The exit code to end the application with.
+    */
     function quit(exitCode) {
         if (exitCode === void 0) { exitCode = 0; }
     }
     RadJav.quit = quit;
     /** @method exit
-     * Exit the application.
-     * Available on platforms: Windows,Linux,OSX
-     * @param {Number} [exitCode=0] The exit code to end the application with.
-     */
+    * Exit the application.
+    * Available on platforms: Windows,Linux,OSX
+    * @param {Number} [exitCode=0] The exit code to end the application with.
+    */
     function exit(exitCode) { }
     RadJav.exit = exit;
     /** @method include
-     * Load and return a module. If the module has not already been loaded, this will create
-     * an asynchronous connection to the server and include whatever javascript files it needs.
-     * @param {String} path The path to the module to load.
-     * @return {Promise} The promise containing the loaded module.
-     */
+    * Load and return a module. If the module has not already been loaded, this will create
+    * an asynchronous connection to the server and include whatever javascript files it needs.
+    * @param {String} path The path to the module to load.
+    * @return {Promise} The promise containing the loaded module.
+    */
     function include(path) {
         var promise = null;
         if (RadJav.useAjax == true) {
@@ -129,21 +129,18 @@ var RadJav;
                 //script.async = false;
                 //script.defer = false;
                 var str = "";
-                if (RadJav._isUsingInternetExplorerTheWorstWebBrowserEver() == true) {
+                if (RadJav._isUsingInternetExplorerTheWorstWebBrowserEver() == true)
                     script.text = str;
-                }
                 else {
                     var textNode = document.createTextNode(str);
                     script.appendChild(textNode);
                 }
                 script.onreadystatechange = RadJav.keepContext(function (evt, script2) {
                     var s = script2[0];
-                    if (s.readyState == null) {
+                    if (s.readyState == null)
                         s.readyState = "complete";
-                    }
-                    if (s.readyState == "complete") {
+                    if (s.readyState == "complete")
                         resolve();
-                    }
                 }, this, [script]);
                 script.onload = script.onreadystatechange;
                 script.onerror = RadJav.keepContext(function (err) {
@@ -157,10 +154,10 @@ var RadJav;
     }
     RadJav.include = include;
     /** @method initialize
-     * Initialize RadJav.
-     * @param {Object[]} [libraries=null] The libraries to include.
-     * @return {Promise} The promise to execute.
-     */
+    * Initialize RadJav.
+    * @param {Object[]} [libraries=null] The libraries to include.
+    * @return {Promise} The promise to execute.
+    */
     function initialize(libraries) {
         var promise = new Promise(RadJav.keepContext(function (resolve, reject, args) {
             if (RadJav._isInitialized == true) {
@@ -201,9 +198,9 @@ var RadJav;
     }
     RadJav.initialize = initialize;
     /** @method getStandardLibrary
-     * Get the paths to the standard library.
-     * @return {Object[]} The standard library.
-     */
+    * Get the paths to the standard library.
+    * @return {Object[]} The standard library.
+    */
     function getStandardLibrary() {
         var includes = [
             { file: "RadJav.Circle", themeFile: false },
@@ -217,9 +214,9 @@ var RadJav;
     }
     RadJav.getStandardLibrary = getStandardLibrary;
     /** @method getGUILibrary
-     * Get the paths to the gui library.
-     * @return {Object[]} The gui library.
-     */
+    * Get the paths to the gui library.
+    * @return {Object[]} The gui library.
+    */
     function getGUILibrary() {
         var includes = [
             { file: "RadJav.GUI.GObject", themeFile: true, loadFirst: true },
@@ -243,9 +240,9 @@ var RadJav;
     }
     RadJav.getGUILibrary = getGUILibrary;
     /** @method getC3DLibrary
-     * Get the paths to the C3D library.
-     * @return {Object[]} The C3D library.
-     */
+    * Get the paths to the C3D library.
+    * @return {Object[]} The C3D library.
+    */
     function getC3DLibrary() {
         var includes = [
             { file: "RadJav.GUI.Window", themeFile: true },
@@ -266,9 +263,9 @@ var RadJav;
     }
     RadJav.getC3DLibrary = getC3DLibrary;
     /** @method getNetLibrary
-     * Get the paths to the Net library.
-     * @return {Object[]} The Net library.
-     */
+    * Get the paths to the Net library.
+    * @return {Object[]} The Net library.
+    */
     function getNetLibrary() {
         var includes = [{ file: "RadJav.Net.WebSocketClient", themeFile: false }];
         return includes;
