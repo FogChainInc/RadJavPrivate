@@ -121,7 +121,15 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary ()).then
 									    log.__addLine("Adding handler for " + src);
 
 									    {
-										let ename = "on";
+										let ename = "menuopen";
+										obj.on(ename, function()
+										       {
+											   list.__addRow(src + ":", ename);
+											   log.__addLine(src + ": " + ename);
+										       });
+									    }
+									    {
+										let ename = "menuclose";
 										obj.on(ename, function()
 										       {
 											   list.__addRow(src + ":", ename);

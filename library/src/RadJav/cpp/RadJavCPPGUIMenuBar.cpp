@@ -30,6 +30,35 @@ namespace RadJAV
 	{
 		namespace GUI
 		{
+  			#ifdef GUI_USE_WXWIDGETS
+				MenuBarFrame::MenuBarFrame(const wxString &text, const wxPoint &pos, const wxSize &size)
+				  : wxFrame(NULL, wxID_ANY, text, pos, size), GObjectBase ()
+				{
+				}
+
+				void MenuBarFrame::onMenuOpen(wxMenuEvent &event)
+				{
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
+					executeEvent(pevent);
+				}
+				void MenuBarFrame::onMenuClose(wxMenuEvent &event)
+				{
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
+					executeEvent(pevent);
+				}
+				void MenuBarFrame::onMenuHighLight(wxMenuEvent &event)
+				{
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
+					executeEvent(pevent);
+				}
+				void MenuBarFrame::onMenuSelected(wxCommandEvent &event)
+				{
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
+					executeEvent(pevent);
+				}
+
+			#endif
+
 			#ifdef USE_V8
 				MenuBar::MenuBar(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
 					: GObject (jsEngine, args)
@@ -51,7 +80,7 @@ namespace RadJAV
 						parentWin = (wxWindow *)_parent->_appObj;
 
 					wxMenuBar *menuBar = RJNEW wxMenuBar();
-					CPP::GUI::WindowFrame *window = (CPP::GUI::WindowFrame *)parentWin->GetParent();
+					CPP::GUI::MenuBarFrame *window = (CPP::GUI::MenuBarFrame *)parentWin->GetParent();
 
 					window->SetMenuBar(menuBar);
 
@@ -64,9 +93,54 @@ namespace RadJAV
 			#ifdef USE_V8
 				void MenuBar::on(String event, v8::Local<v8::Function> func)
 				{
+					CPP::GUI::MenuBarFrame *object = (CPP::GUI::MenuBarFrame *)_appObj;
+					CPP::GUI::MenuBarFrame *obj = (CPP::GUI::MenuBarFrame *)object->GetParent();
+					
+					obj->addNewEvent(event, object, func);
+
+					if (event == "menuopen")
+					{
+						v8::Persistent<v8::Value> *pevent = obj->createEvent(event, func);
+
+						#ifdef GUI_USE_WXWIDGETS
+						obj->Connect(wxEVT_MENU_OPEN, wxMenuEventHandler(MenuBarFrame::onMenuOpen), (wxObject *)pevent);
+						#endif
+						
+					}
+					if (event == "menuclose")
+					{
+						v8::Persistent<v8::Value> *pevent = obj->createEvent(event, func);
+
+						#ifdef GUI_USE_WXWIDGETS
+						obj->Connect(wxEVT_MENU_CLOSE, wxMenuEventHandler(MenuBarFrame::onMenuClose), (wxObject *)pevent);
+						#endif
+					}
+					if (event == "menuhighlight")
+					{
+						v8::Persistent<v8::Value> *pevent = obj->createEvent(event, func);
+
+						#ifdef GUI_USE_WXWIDGETS
+						obj->Connect(wxEVT_MENU_HIGHLIGHT, wxMenuEventHandler(MenuBarFrame::onMenuHighLight), (wxObject *)pevent);
+						#endif
+					}
+					if (event == "menuselected")
+					{
+						v8::Persistent<v8::Value> *pevent = obj->createEvent(event, func);
+
+						#ifdef GUI_USE_WXWIDGETS
+						obj->Connect(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MenuBarFrame::onMenuSelected), (wxObject *)pevent);
+						#endif
+					}
+
+
+				  
 				}
 			#endif
 		}
 	}
 }
 
+#ifdef GUI_USE_WXWIDGETS
+	wxBEGIN_EVENT_TABLE(RadJAV::CPP::GUI::MenuBarFrame, wxFrame)
+	wxEND_EVENT_TABLE()
+#endif

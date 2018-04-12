@@ -35,6 +35,22 @@
 		{
 			namespace GUI
 			{
+				#ifdef GUI_USE_WXWIDGETS
+					/// The wxWidgets window to use.
+					class RADJAV_EXPORT MenuBarFrame : public wxFrame, public GObjectBase
+					{
+						public:
+							MenuBarFrame(const wxString &text, const wxPoint &pos, const wxSize &size);
+							void onMenuOpen(wxMenuEvent &evt);
+							void onMenuClose(wxMenuEvent &evt);
+							void onMenuHighLight(wxMenuEvent &evt);
+							void onMenuSelected(wxCommandEvent &evt);
+
+						protected:
+							wxDECLARE_EVENT_TABLE();
+					};
+				#endif
+			  
 				class RADJAV_EXPORT MenuBar : public CPP::GUI::GObject
 				{
 					public:
