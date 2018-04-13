@@ -45,7 +45,9 @@
 							void onClose(wxCloseEvent &evt);
 							void onJSClose(wxCloseEvent &evt);
 							void onJSMinimized(wxIconizeEvent &evt);
+							void onJSMaximized(wxMaximizeEvent &evt);
 							void onClick(wxMouseEvent &evt);
+							void onMenuSelected(wxCommandEvent &evt);
 
 						protected:
 							wxDECLARE_EVENT_TABLE();

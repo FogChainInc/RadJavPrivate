@@ -30,11 +30,26 @@ namespace RadJAV
 		{
 			#ifdef GUI_USE_WXWIDGETS
 				ComboboxFrame::ComboboxFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size)
-					: wxComboBox(parent, wxID_ANY, text, pos, size), GObjectBase()
+				        : wxComboBox(parent, wxID_ANY, text, pos, size), GObjectBase()
 				{
 				}
 
 				void ComboboxFrame::onChanged(wxCommandEvent &event)
+				{
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
+					executeEvent(pevent);
+				}
+				void ComboboxFrame::onDropdown(wxCommandEvent &event)
+				{
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
+					executeEvent(pevent);
+				}
+				void ComboboxFrame::onCloseup(wxCommandEvent &event)
+				{
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
+					executeEvent(pevent);
+				}
+				void ComboboxFrame::onText(wxCommandEvent &event)
 				{
 					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
 					executeEvent(pevent);
@@ -120,6 +135,33 @@ namespace RadJAV
 							object->Connect(wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(ComboboxFrame::onChanged), (wxObject *)pevent);
 						#endif
 					}
+
+					if (event == "dropdown")
+					{
+						v8::Persistent<v8::Value> *pevent = object->createEvent(event, func);
+
+						#ifdef GUI_USE_WXWIDGETS
+							object->Connect(wxEVT_COMMAND_COMBOBOX_DROPDOWN, wxCommandEventHandler(ComboboxFrame::onDropdown), (wxObject *)pevent);
+						#endif
+					}
+					
+					if (event == "closeup")
+					{
+						v8::Persistent<v8::Value> *pevent = object->createEvent(event, func);
+
+						#ifdef GUI_USE_WXWIDGETS
+							object->Connect(wxEVT_COMMAND_COMBOBOX_CLOSEUP, wxCommandEventHandler(ComboboxFrame::onCloseup), (wxObject *)pevent);
+						#endif
+					}
+					if (event == "text")
+					{
+						v8::Persistent<v8::Value> *pevent = object->createEvent(event, func);
+
+						#ifdef GUI_USE_WXWIDGETS
+							object->Connect(wxEVT_COMMAND_COMBOBOX_CLOSEUP, wxCommandEventHandler(ComboboxFrame::onText), (wxObject *)pevent);
+						#endif
+					}
+					
 				}
 			#endif
 

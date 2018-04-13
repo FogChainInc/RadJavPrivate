@@ -325,6 +325,12 @@ namespace RadJAV
 
 			void MenuBar::on(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
+				String event = parseV8Value(args[0]);
+				v8::Local<v8::Function> func = v8::Local<v8::Function>::Cast(args[1]);
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+
+				if (appObject != NULL)
+					appObject->on(event, func);
 			}
 		}
 	}

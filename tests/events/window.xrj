@@ -1,0 +1,182 @@
+function displayMembers(obj, label) {
+    
+    let members = [];
+    for (let m in obj) {
+	members.push(m);
+    }
+    alert(label + ": " + members.join(","));
+}
+
+function logSomething() {
+    alert("something");
+}
+
+// Initialize RadJav and load all necessary libraries.
+RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary ()).then (
+    function ()
+    {
+	// Execute the application, in this case, a simple function. Can also be a file.
+	RadJav.runApplication (function ()
+			       {
+				   // Create the window gui object.
+				   var win = new RadJav.GUI.Window ({
+				       name: "win", 
+				       text: "WebView Example", 
+				       size: "1024, 768"
+				   });
+
+				   // Now you must actually create and display the gui object.
+				   // The promise returns with the created gui object.
+				   win.create ().then (
+				       function (win2)
+				       {
+
+					   RadJav.GUI.create ({
+					       type: "RadJav.GUI.Label",
+					       name: "loglabel",
+					       visibility: true,
+					       position: "564, 4",
+					       size: "100, 13",
+					       text: "Log:",
+					       parent: win2
+					   }).then ( function (obj) {
+					       list.__addRow (obj.type, "Object " + obj.name + " created ");
+					   });
+
+					   
+					   var log;
+					   RadJav.GUI.create ({
+					       type: "RadJav.GUI.Textarea", 
+					       name: "log", 
+					       visibility: true, 
+					       position: "560, 20", 
+					       size: "400, 500",
+					       parent: win2
+					   }).then ( function (obj) {
+					       log = obj;
+
+					       
+					       obj.setEnabled(false);
+					       obj.__text = "";
+					       obj.__addLine = function(text) {
+						   this.__text += text + "\n";
+						   this.setText (this.__text);
+					       }
+					       
+					       log.__addLine(obj.type + ":\tObject " + obj.name + " created ");
+					   });
+					   
+					   var list;
+					   RadJav.GUI.create ({
+					       type: "List", 
+					       name: "list", 
+					       position: "200, 0",
+					       size: "350, 500", 
+					       columns: [
+						   { text: "Id", "width": 50 },
+						   { text: "Source", "width": 150 },
+						   { text: "Events", "width": 150 }
+					       ],
+					       parent: win2
+					   }).then ( function (obj) 
+						     {
+							 list = obj;
+							 list.__id = 1;
+							 
+							 list.__addRow = function(src, event) {
+							     var row = new RadJav.GUI.List.Row ();
+							     row.addItem (this.__id);
+							     row.addItem (src);
+							     row.addItem (event);
+							     this.addRow (row);
+
+							     this.__id++;
+							 }
+							 log.__addLine(obj.type + ":\t\tObject " + obj.name + " created ");
+						     });
+
+					   var menubar;
+					   RadJav.GUI.create ({
+					       type: "RadJav.GUI.MenuBar", 
+					       name: "menubar", 
+					       visibility: true, 
+					       children: [
+						   {
+						       type: "RadJav.GUI.MenuItem", 
+						       name: "ProgramToolStripMenuItem", 
+						       text: "Program", 
+						       children: [
+							   {
+							       type: "RadJav.GUI.MenuItem", 
+							       name: "LoginToolStripMenuItem", 
+							       text: "Item1", 
+							       click: "logSomething();"
+							   }, 
+							   {
+							       type: "RadJav.GUI.MenuItem", 
+							       name: "LoginToolStripMenuItem", 
+							       text: "Item2", 
+							       click: "logSomething();"
+							   }, 
+							   {
+							       type: "RadJav.GUI.MenuItem", 
+							       name: "ToolStripMenuItem2", 
+							       text: "-", 
+							       createOnPlatforms: {
+								   HTML5: false
+							       }
+							   }, 
+							   {
+							       type: "RadJav.GUI.MenuItem", 
+							       name: "ExitToolStripMenuItem", 
+							       text: "Exit", 
+							       createOnPlatforms: {
+								   HTML5: false
+							       }, 
+							       click: "RadJav.exit();"
+							   }
+						       ]
+						   }
+					       ],
+					       parent: win2
+					   }).then ( function (obj) {
+					       log.__addLine(obj.type + ":\tObject " + obj.name + " created ");
+
+					       menubar = obj;
+
+
+					       menubar.on("menuopen",
+							  function() { list.__addRow(obj.type, obj.name + ": menuopen"); });
+					       menubar.on("menuclose",
+							  function() { list.__addRow(obj.type, obj.name + ": menuclose"); });
+					       menubar.on("menuhighlight",
+							  function() { list.__addRow(obj.type, obj.name + ": menuhighlight"); });
+					       menubar.on("menuselected",
+							  function() { list.__addRow(obj.type, obj.name + ": menuselected"); });
+					   });
+
+
+					       
+					   
+					   win2.on("minimize", function() { list.__addRow("Frame", "Minimize"); });
+					   win2.on("maximize", function() { list.__addRow("Frame", "Maximize"); });
+					   win2.on("menuselected", function() { list.__addRow("Frame", "Maximize"); });
+					   
+					   // RadJav.GUI.create is short hand for creating a gui object, this 
+					   // is the preferred way to create objects.
+					   RadJav.GUI.create ("Button", "button", "Say Hello", win2).then (
+
+					       function (button)
+					       {
+						   // Add an event named "click", so when the 
+						   // button is clicked, a message box will 
+						   // appear saying, "Hello World!"
+						   button.on ("click", function (ee)
+							      {
+								  list.__addRow("Button", "click");
+								  displayMembers(ee, "Evt");
+							      });
+					       });
+				       });
+			       });
+    });

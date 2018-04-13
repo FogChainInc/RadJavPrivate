@@ -114,6 +114,30 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary ()).then
 
 									}
 
+									// -------------------------------------------------------------------------------
+									if (obj.name == "menubar")
+									{
+									    let src = "Menu";
+									    log.__addLine("Adding handler for " + src);
+
+									    {
+										let ename = "menuopen";
+										obj.on(ename, function()
+										       {
+											   list.__addRow(src + ":", ename);
+											   log.__addLine(src + ": " + ename);
+										       });
+									    }
+									    {
+										let ename = "menuclose";
+										obj.on(ename, function()
+										       {
+											   list.__addRow(src + ":", ename);
+											   log.__addLine(src + ": " + ename);
+										       });
+									    }
+
+									}
 
 									// -------------------------------------------------------------------------------
 									if (obj.name == "chatarea")
@@ -139,23 +163,37 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary ()).then
 									{
 									    let src = "textbox1";
 									    log.__addLine("Adding handler for " + src);
-									    
-									    textbox = obj;
+
+
 									    {
 										let ename = "onText";
-										obj.on(ename, function()
-										       {
-											   list.__addRow(src + ":", ename);
-											   log.__addLine(src + ": " + ename + ": " + textbox.getText());
-										       });
+										obj.on(ename, (function(obj__)
+											       {
+												   var handler = function()
+												   {
+												       this.__target = obj__;
+												       
+												       list.__addRow(src + ":", ename);
+												       log.__addLine(src + ": " + ename + ": " + this.__target.getText());
+												   }
+												   return handler;
+											       })(obj));
 									    }
+
+									    
 									    {
 										let ename = "onTextEnter";
-										obj.on(ename, function()
-										       {
-											   list.__addRow(src + ":", ename);
-											   log.__addLine(src + ": ENTERED:" + textbox.getText());
-										       });
+										obj.on(ename, (function(obj__)
+											       {
+												   var handler = function()
+												   {
+												       this.__target = obj__;
+												       
+												       list.__addRow(src + ":", ename);
+												       log.__addLine(src + ": ENTERED: q" + this.__target.getText());
+												   }
+												   return handler;
+											       })(obj));
 									    }
 									}
 									
@@ -329,18 +367,17 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary ()).then
 									    checkbox = obj;
 									    let src = "checkbox1";
 									    log.__addLine("Adding handler for " + src);
-									    
+
 									    {
 										let ename = "change";
 										obj.on(ename, function()
 										       {
 											   list.__addRow(src + ":", ename);
 											   log.__addLine(src + ": " + ename);
-											   
+
 											   radio1.setEnabled(checkbox.isChecked());
 											   radio2.setEnabled(checkbox.isChecked());
 											   radio3.setEnabled(checkbox.isChecked());
-											   
 										       });
 									    }
 									}
@@ -351,14 +388,77 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary ()).then
 									    let src = "combobox1";
 									    log.__addLine("Adding handler for " + src);
 
+									    obj.addItem("Add item to bottom");
+									    obj.addItem("Remove from top");
+									    
 									    {
 										let ename = "change";
-										obj.on(ename, function()
-										       {
-											   list.__addRow(src + ":", ename);
-											   log.__addLine(src + ": " + ename);
-										       });
+										obj.on(ename, (function(obj__)
+											       {
+												   var handler = function() {
+												       this.__target = obj__;
+												       let idx = this.__target.getSelectedItemIndex();
+
+												       list.__addRow(src + ":", ename);
+												       log.__addLine(src + ": " + ename + ": " + this.__target.name +
+														     " idx: " + idx);
+												   }
+												   return handler;
+											       })(obj));
+										    
 									    }
+
+									    {
+										let ename = "dropdown";
+										obj.on(ename, (function(obj__)
+											       {
+												   var handler = function() {
+												       this.__target = obj__;
+												       let idx = this.__target.getSelectedItemIndex();
+
+												       list.__addRow(src + ":", ename);
+												       log.__addLine(src + ": " + ename + ": " + this.__target.name +
+														     " idx: " + idx);
+												   }
+												   return handler;
+											       })(obj));
+										    
+									    }
+									    {
+										let ename = "closeup";
+										obj.on(ename, (function(obj__)
+											       {
+												   var handler = function() {
+												       this.__target = obj__;
+												       let idx = this.__target.getSelectedItemIndex();
+
+												       list.__addRow(src + ":", ename);
+												       log.__addLine(src + ": " + ename + ": " + this.__target.name +
+														     " idx: " + idx);
+												   }
+												   return handler;
+											       })(obj));
+										    
+									    }
+									    {
+										let ename = "text";
+										obj.on(ename, (function(obj__)
+											       {
+												   var handler = function() {
+												       this.__target = obj__;
+												       let idx = this.__target.getSelectedItemIndex();
+
+												       list.__addRow(src + ":", ename);
+												       log.__addLine(src + ": " + ename + ": " + this.__target.name +
+														     " idx: " + idx);
+												   }
+												   return handler;
+											       })(obj));
+										    
+									    }
+
+									    
+									    
 									}
 
 									// -------------------------------------------------------------------------------
