@@ -79,7 +79,8 @@ macro (searchForLibrary lib debugLibraries releaseLibraries searchPath)
 		${searchPath}/build/src/Debug 
 		${searchPath}/msvc/Release 
 		${searchPath}/vcbuild/src/Debug 
-		${searchPath}/bin)
+		${searchPath}/bin 
+		${searchPath}/Debug)
 
 	unset (${lib}_LIBRARY_DEBUG CACHE)
 	find_library (${lib}_LIBRARY_DEBUG NAMES ${debugLibraries} HINTS 
@@ -109,7 +110,8 @@ macro (searchForLibrary lib debugLibraries releaseLibraries searchPath)
 		${searchPath}/build/src/Release 
 		${searchPath}/msvc/Release 
 		${searchPath}/vcbuild/src/Release 
-		${searchPath}/bin)
+		${searchPath}/bin 
+		${searchPath}/Release)
 
 	unset (${lib}_LIBRARY_RELEASE CACHE)
 	find_library (${lib}_LIBRARY_RELEASE NAMES ${releaseLibraries} HINTS 

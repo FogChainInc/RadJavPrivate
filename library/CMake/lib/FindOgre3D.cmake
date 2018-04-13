@@ -4,9 +4,18 @@ set (OGRE_SOURCE $ENV{OGRE_HOME} CACHE PATH "Ogre3D path")
 fixPath (OGRE_SOURCE)
 set (OGRE_SEARCH_PATHS "${OGRE_SOURCE}" ${RADJAV_DEPENDENCIES})
 
+if (APPLE)
+	set (OGRE_SEARCH_PATHS "${OGRE_SOURCE}/lib/macosx" "${OGRE_SOURCE}/lib/debug" ${OGRE_SEARCH_PATHS})
+endif ()
+
 searchForHeader (OGRE Ogre.h "${OGRE_SEARCH_PATHS}" FALSE)
 searchForHeader2 (OGRE OgreBuildSettings.h "${OGRE_SEARCH_PATHS}" FALSE)
-searchForLibrary (OGRE OgreMain_d OgreMain ${OGRE_SEARCH_PATHS})
+
+if (APPLE)
+	searchForLibrary (OGRE Ogre Ogre "${OGRE_SEARCH_PATHS}")
+else ()
+	searchForLibrary (OGRE OgreMain_d OgreMain ${OGRE_SEARCH_PATHS})
+endif ()
 
 hasLibBeenFound (OGRE)
 
