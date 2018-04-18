@@ -23,7 +23,13 @@
 #include "RadJavString.h"
 
 #ifdef HTTP_USE_CURL
-	#include <curl/curl.h>
+#include <curl/curl.h>
+#endif
+
+#define USE_NET_BEAST 2
+
+#ifdef USE_NET_BEAST
+#include "cpp/RadJavCPPNet.h"
 #endif
 
 #ifdef USE_V8
@@ -40,12 +46,22 @@ namespace RadJAV
 			void NetCallbacks::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 			{
 				V8_CALLBACK(object, "httpRequest", NetCallbacks::httpRequest);
+				V8_CALLBACK(object, "httpPost", NetCallbacks::httpPost);
+			}
+
+			void NetCallbacks::httpPost(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				//TO DO: Add post=true to the arguments (is this even possible here?)
+
+				//call the regulart httpRequest method to handle the POST
+				NetCallbacks::httpRequest(args);
 			}
 
 			void NetCallbacks::httpRequest(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				v8::Local<v8::Value> uri = V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0);
 				v8::Local<v8::Value> timeout = V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1);
+				v8::Local<v8::Value> post = V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 2);
 
 				v8::MaybeLocal<v8::Function> func = v8::Function::New(args.This()->CreationContext(), NetCallbacks::completeHttpRequest);
 				v8::Local<v8::Function> func2 = func.ToLocalChecked();
@@ -53,10 +69,14 @@ namespace RadJAV
 				v8::Local<v8::Array> ary = v8::Array::New(args.GetIsolate());
 				ary->Set(0, uri);
 
+				if (post.IsEmpty() == true)
+					post = v8::False(args.GetIsolate());
+				ary->Set(1, post);
+
 				if (timeout.IsEmpty() == false)
 				{
 					if ((timeout->IsNull() == false) && (timeout->IsUndefined() == false))
-						ary->Set(1, timeout);
+						ary->Set(2, timeout);
 				}
 
 				v8::Local<v8::Object> promise = V8_JAVASCRIPT_ENGINE->createPromise(args.This(), func2, ary);
@@ -70,19 +90,21 @@ namespace RadJAV
 				v8::Local<v8::Function> reject = v8::Local<v8::Function>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
 				v8::Local<v8::Array> ary = v8::Local<v8::Array>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 2));
 				String uri = parseV8Value(ary->Get(0));
+				RJBOOL post = v8::Local<v8::Boolean>::Cast(ary->Get(1))->BooleanValue();
+
 				v8::Local<v8::Integer> timeout;
 				RJLONG timeoutValue = 10;
 				v8::Persistent<v8::Function> *resolvep = RJNEW v8::Persistent<v8::Function>();
 
 				resolvep->Reset(args.GetIsolate(), resolve);
 
-				if (ary->Length() > 1)
+				if (ary->Length() > 2)
 				{
-					timeout = v8::Local<v8::Integer>::Cast(ary->Get(1));
+					timeout = v8::Local<v8::Integer>::Cast(ary->Get(2));
 					timeoutValue = timeout->Value();
 				}
 
-				HttpThread *thread = RJNEW HttpThread(uri, timeoutValue, resolvep);
+				HttpThread *thread = RJNEW HttpThread(uri, post, timeoutValue, resolvep);
 				V8_JAVASCRIPT_ENGINE->addThread(thread);
 			}
 
@@ -97,10 +119,11 @@ namespace RadJAV
 			}
 
 #ifdef GUI_USE_WXWIDGETS
-			HttpThread::HttpThread(String uri, RJLONG timeout, v8::Persistent<v8::Function> *resolvep)
+			HttpThread::HttpThread(String uri, RJBOOL post, RJLONG timeout, v8::Persistent<v8::Function> *resolvep)
 				: Thread()
 			{
 				this->uri = uri;
+				this->post = post;
 				this->timeout = timeout;
 				this->resolvep = resolvep;
 			}
@@ -124,6 +147,21 @@ namespace RadJAV
 				}
 
 				curl_easy_cleanup(curl);
+#endif
+#ifdef USE_NET_BEAST
+				//call the http request using Beast
+				try
+				{
+					RadJAV::CPP::Net::HttpRequest req(uri.c_str());
+					req.connect();
+					req.send(post);
+					*str = req.receivedData();
+					req.close();
+				}
+				catch (std::exception const& e)
+				{
+					RadJav::throwException("HttpRequest failed");
+				}
 #endif
 
 				RJINT numArgs = 0;

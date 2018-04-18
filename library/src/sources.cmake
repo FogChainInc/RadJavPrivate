@@ -137,6 +137,7 @@ set (SOURCES ${SOURCES_files_RadJav__cpp__IO__Sources} ${SOURCES})
 
 # C++ Networking
 set (SOURCES_files_RadJav__cpp__Net__Sources 
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNet.cpp"
 	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebSocketServer.cpp"
 	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebSocketClient.cpp"
 	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebServer.cpp")

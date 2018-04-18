@@ -43,6 +43,7 @@
 							static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
 							static void httpRequest(const v8::FunctionCallbackInfo<v8::Value> &args);
+							static void httpPost(const v8::FunctionCallbackInfo<v8::Value> &args);
 							static void completeHttpRequest(const v8::FunctionCallbackInfo<v8::Value> &args);
 
 							static RJINT curlWrite(RJCHAR *data, RJUINT size, RJUINT nmemb, String *output);
@@ -52,13 +53,14 @@
 						class RADJAV_EXPORT HttpThread : public Thread
 						{
 							public:
-								HttpThread(String uri, RJLONG timeout, v8::Persistent<v8::Function> *resolvep);
+								HttpThread(String uri, RJBOOL post, RJLONG timeout, v8::Persistent<v8::Function> *resolvep);
 
 								wxThread::ExitCode Entry();
 
 								RJLONG timeout;
 								String uri;
 								v8::Persistent<v8::Function> *resolvep;
+								RJBOOL post;
 						};
 					#endif
 				}
