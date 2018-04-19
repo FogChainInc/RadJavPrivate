@@ -1,14 +1,6 @@
 html5/node_modules
-library/build
-library/build-linux
-library/build-windows
-library/build-osx
-library/build-mac
-vm/build
-vm/build-linux
-vm/build-windows
-vm/build-osx
-vm/build-mac
+library/build*
+vm/build*
 vm/installers/windows/RadJavVM/Debug
 vm/installers/windows/RadJavVM/Release
 library/include/RadJav/RadJavJavascriptCode.h
