@@ -122,14 +122,20 @@ namespace RadJAV
 			void Canvas3D::create()
 			{
 				#ifdef GUI_USE_WXWIDGETS
-					V8_JAVASCRIPT_ENGINE->start3DEngine();
-					Ogre::RenderWindow *rwindow = V8_JAVASCRIPT_ENGINE->mRoot->initialise(true, _text);
+					try {
+						V8_JAVASCRIPT_ENGINE->start3DEngine();
+						Ogre::RenderWindow *rwindow = V8_JAVASCRIPT_ENGINE->mRoot->initialise(true, _text);
 
-					TempCanvasObj *object = RJNEW TempCanvasObj();
-					object->mRoot = V8_JAVASCRIPT_ENGINE->mRoot;
-					object->renderWindow = rwindow;
+						TempCanvasObj *object = RJNEW TempCanvasObj();
+						object->mRoot = V8_JAVASCRIPT_ENGINE->mRoot;
+						object->renderWindow = rwindow;
 
-					_appObj = (wxWindow *)object;
+						_appObj = (wxWindow *)object;
+					}
+					catch(Ogre::Exception e)
+					{
+						std::cerr << e.what();
+					}
 
 					setup();
 				#endif
