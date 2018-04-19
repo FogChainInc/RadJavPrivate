@@ -107,9 +107,12 @@ namespace RadJAV
 					if (font->italic == true)
 						wxfont.MakeItalic();
 
-					_appObj->SetFont(wxfont);
-					_appObj->SetForegroundColour(wxColor(font->color.r * 255, 
+					if ( _appObj != NULL)
+					{
+						_appObj->SetFont(wxfont);
+						_appObj->SetForegroundColour(wxColor(font->color.r * 255,
 						font->color.g * 255, font->color.b * 255, font->color.a * 255));
+					}
 				#endif
 			}
 
@@ -299,7 +302,7 @@ namespace RadJAV
 
 			void GObject::setupCursor()
 			{
-				if (_cursor == "hand")
+				if (_cursor == "hand" && _appObj != NULL)
 					_appObj->SetCursor(wxCursor(wxCURSOR_HAND));
 			}
 
