@@ -53,7 +53,7 @@ namespace RadJAV
 						GObject(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
 					#endif
 					GObject(String name, String text = "", GObject *parent = NULL);
-					~GObject();
+					virtual ~GObject();
 
 					inline void show ()
 					{
