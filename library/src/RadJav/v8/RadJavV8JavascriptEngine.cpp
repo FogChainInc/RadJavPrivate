@@ -168,7 +168,8 @@ namespace RadJAV
 			exposeGC = false;
 			useInspector = false;
 			radJav = NULL;
-			exceptionsDisplayMessageBox = true;
+			exceptionsDisplayMessageBox = false;
+			shutdownOnException = false;
 
 			if (RadJav::arguments.size() > 0)
 			{
@@ -359,6 +360,8 @@ namespace RadJAV
 			}
 			catch (Exception ex)
 			{
+				RadJav::printToOutputWindow(ex.getMessage ());
+
 				if (exceptionsDisplayMessageBox == true)
 					RadJav::showMessageBox(ex.getMessage(), "Error");
 
@@ -584,6 +587,8 @@ namespace RadJAV
 				}
 				catch (Exception ex)
 				{
+					RadJav::printToOutputWindow(ex.getMessage ());
+
 					if (exceptionsDisplayMessageBox == true)
 						RadJav::showMessageBox(ex.getMessage(), "Error");
 
@@ -816,7 +821,7 @@ namespace RadJAV
 			if (mRoot == NULL)
 				mRoot = RJNEW Ogre::Root(mPluginCfg, mConfig, mLog);
 
-			Ogre::RenderSystemList list = mRoot->getAvailableRenderers();
+			/*Ogre::RenderSystemList list = mRoot->getAvailableRenderers();
 
 			#ifdef WIN32
 				mRoot->setRenderSystem(list.at (1));
@@ -825,9 +830,9 @@ namespace RadJAV
 			#endif
 
 			/// @bug Let the developer choose if they want to use the default render system, or a different.
-			mRoot->saveConfig();
-			//mRoot->showConfigDialog();
-			mRoot->restoreConfig ();
+			mRoot->saveConfig();*/
+			mRoot->showConfigDialog();
+			//mRoot->restoreConfig ();
 
 			/*Ogre::ConfigFile configFile;
 			configFile.load(userConfigDir + "/resources.cfg");
@@ -991,6 +996,8 @@ namespace RadJAV
 			err->Set(String ("message").toV8String (isolate), message.toV8String(isolate));
 
 			isolate->ThrowException (err);
+
+			RadJav::printToOutputWindow(message);
 
 			if (exceptionsDisplayMessageBox == true)
 				RadJav::showMessageBox(message, "Error");

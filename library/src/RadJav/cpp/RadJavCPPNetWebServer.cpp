@@ -63,6 +63,69 @@ namespace RadJAV
 				RadJAV::RadJav::throwException(tmp.append(ec.message()));
 			}
 
+			// Append an HTTP rel-path to a local filesystem path.
+			// The returned path is normalized for the platform.
+			std::string
+				path_cat(
+					boost::beast::string_view base,
+					boost::beast::string_view path)
+			{
+				if (base.empty())
+					return path.to_string();
+				std::string result = base.to_string();
+#if BOOST_MSVC
+				char constexpr path_separator = '\\';
+				if (result.back() == path_separator)
+					result.resize(result.size() - 1);
+				result.append(path.data(), path.size());
+				for (auto& c : result)
+					if (c == '/')
+						c = path_separator;
+#else
+				char constexpr path_separator = '/';
+				if (result.back() == path_separator)
+					result.resize(result.size() - 1);
+				result.append(path.data(), path.size());
+#endif
+				return result;
+			}
+
+			// Return a reasonable mime type based on the extension of a file.
+			boost::beast::string_view
+				mime_type(boost::beast::string_view path)
+			{
+				using boost::beast::iequals;
+				auto const ext = [&path]
+				{
+					auto const pos = path.rfind(".");
+					if (pos == boost::beast::string_view::npos)
+						return boost::beast::string_view{};
+					return path.substr(pos);
+				}();
+				if (iequals(ext, ".htm"))  return "text/html";
+				if (iequals(ext, ".html")) return "text/html";
+				if (iequals(ext, ".php"))  return "text/html";
+				if (iequals(ext, ".css"))  return "text/css";
+				if (iequals(ext, ".txt"))  return "text/plain";
+				if (iequals(ext, ".js"))   return "application/javascript";
+				if (iequals(ext, ".json")) return "application/json";
+				if (iequals(ext, ".xml"))  return "application/xml";
+				if (iequals(ext, ".swf"))  return "application/x-shockwave-flash";
+				if (iequals(ext, ".flv"))  return "video/x-flv";
+				if (iequals(ext, ".png"))  return "image/png";
+				if (iequals(ext, ".jpe"))  return "image/jpeg";
+				if (iequals(ext, ".jpeg")) return "image/jpeg";
+				if (iequals(ext, ".jpg"))  return "image/jpeg";
+				if (iequals(ext, ".gif"))  return "image/gif";
+				if (iequals(ext, ".bmp"))  return "image/bmp";
+				if (iequals(ext, ".ico"))  return "image/vnd.microsoft.icon";
+				if (iequals(ext, ".tiff")) return "image/tiff";
+				if (iequals(ext, ".tif"))  return "image/tiff";
+				if (iequals(ext, ".svg"))  return "image/svg+xml";
+				if (iequals(ext, ".svgz")) return "image/svg+xml";
+				return "application/text";
+			}
+
 			//String(*persistentCallback)(void* persistentArgs);
 
 			// This function produces an HTTP response for the given
@@ -76,8 +139,58 @@ namespace RadJAV
 				v8::Persistent<v8::Function> * servePersistent
 			)
 			{
+				// Returns a bad request response
+				auto const bad_request =
+					[&req](boost::beast::string_view why)
+				{
+					http::response<http::string_body> res{ http::status::bad_request, req.version() };
+					res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+					res.set(http::field::content_type, "text/html");
+					res.keep_alive(req.keep_alive());
+					res.body() = why.to_string();
+					res.prepare_payload();
+					return res;
+				};
+
+				// Returns a not found response
+				auto const not_found =
+					[&req](boost::beast::string_view target)
+				{
+					http::response<http::string_body> res{ http::status::not_found, req.version() };
+					res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+					res.set(http::field::content_type, "text/html");
+					res.keep_alive(req.keep_alive());
+					res.body() = "The resource '" + target.to_string() + "' was not found.";
+					res.prepare_payload();
+					return res;
+				};
+
+				// Returns a server error response
+				auto const server_error =
+					[&req](boost::beast::string_view what)
+				{
+					http::response<http::string_body> res{ http::status::internal_server_error, req.version() };
+					res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+					res.set(http::field::content_type, "text/html");
+					res.keep_alive(req.keep_alive());
+					res.body() = "An error occurred: '" + what.to_string() + "'";
+					res.prepare_payload();
+					return res;
+				};
+
+				// Make sure we can handle the method
+				if (req.method() != http::verb::get &&
+					req.method() != http::verb::head)
+					return send(bad_request("Unknown HTTP-method"));
+
+				// Request path must be absolute and not contain "..".
+				if (req.target().empty() ||
+					req.target()[0] != '/' ||
+					req.target().find("..") != boost::beast::string_view::npos)
+					return send(bad_request("Illegal request-target"));
+
 				v8::Local<v8::Function> func = v8::Local<v8::Function>::Cast(servePersistent->Get(V8_JAVASCRIPT_ENGINE->isolate));
-				String sendToClient = "";
+				http::response<http::string_body> res{ http::status::ok, req.version() };
 
 				if (V8_JAVASCRIPT_ENGINE->v8IsNull(func) == false)
 				{
@@ -91,14 +204,69 @@ namespace RadJAV
 
 					v8::Local<v8::Value> result = call->getResult(V8_JAVASCRIPT_ENGINE);
 
-					sendToClient = parseV8ValueIsolate(V8_JAVASCRIPT_ENGINE->isolate, result);
-				}
+					if (result->IsString() == true)
+					{
+						String sendToClient = parseV8ValueIsolate(V8_JAVASCRIPT_ENGINE->isolate, result);
 
-				http::response<http::string_body> res{ http::status::ok, req.version() };
-				res.set(http::field::content_type, "text/html");
-				res.body() = sendToClient;
-				res.content_length(sendToClient.length());
-				res.keep_alive(req.keep_alive());
+						res.set(http::field::content_type, "text/html");
+						res.body() = sendToClient;
+						res.content_length(sendToClient.length());
+						res.keep_alive(req.keep_alive());
+					}
+					
+					if (result->IsObject() == true)
+					{
+						v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast (result);
+
+						v8::Local<v8::String> result = v8::Local<v8::String>::Cast (obj->Get(
+								String ("serveDir").toV8String (V8_JAVASCRIPT_ENGINE->isolate)));
+
+						String serveDir = parseV8ValueIsolate(V8_JAVASCRIPT_ENGINE->isolate, result);
+
+						// Build the path to the requested file
+						std::string path = path_cat(serveDir, req.target());
+
+						if (req.target().back() == '/')
+							path.append("index.html");
+
+						// Attempt to open the file
+						boost::beast::error_code ec;
+						http::file_body::value_type body;
+						body.open(path.c_str(), boost::beast::file_mode::scan, ec);
+
+						// Handle the case where the file doesn't exist
+						if (ec == boost::system::errc::no_such_file_or_directory)
+							return send(not_found(req.target()));
+
+						// Handle an unknown error
+						if (ec)
+							return send(server_error(ec.message()));
+
+						// Cache the size since we need it after the move
+						auto const size = body.size();
+
+						// Respond to HEAD request
+						if (req.method() == http::verb::head)
+						{
+							http::response<http::empty_body> res{ http::status::ok, req.version() };
+							res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+							res.set(http::field::content_type, mime_type(path));
+							res.content_length(size);
+							res.keep_alive(req.keep_alive());
+							return send(std::move(res));
+						}
+
+						// Respond to GET request
+						http::response<http::file_body> res{
+							std::piecewise_construct,
+							std::make_tuple(std::move(body)),
+							std::make_tuple(http::status::ok, req.version()) };
+						res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+						res.set(http::field::content_type, mime_type(path));
+						res.content_length(size);
+						res.keep_alive(req.keep_alive());
+					}
+				}
 
 				return send(std::move(res));
 			}
@@ -244,7 +412,7 @@ namespace RadJAV
 				isAlive(false)
 			{
 				serverType = WebServerTypes::HTTP;
-				address = boost::asio::ip::make_address("127.0.0.1");
+				address = boost::asio::ip::make_address("0.0.0.0");
 				port = 80;
 			}
 

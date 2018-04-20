@@ -266,8 +266,12 @@ if (libRadJav_INCLUDE_BLOCKCHAIN_V1)
 	set (libRadJav_LINK_LIBRARIES ${event2_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
 	include_directories (${miniupnpc_INCLUDE})
 	set (libRadJav_LINK_LIBRARIES ${miniupnpc_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
-	include_directories (${leveldb_INCLUDE})
-	set (libRadJav_LINK_LIBRARIES ${leveldb_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
+
+	if (NOT WIN32)
+		include_directories (${leveldb_INCLUDE})
+		set (libRadJav_LINK_LIBRARIES ${leveldb_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
+	endif ()
+
 	include_directories (${secp256k1_INCLUDE})
 	set (libRadJav_LINK_LIBRARIES ${secp256k1_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
 	include_directories (${libzmq_INCLUDE})
@@ -303,8 +307,10 @@ if (INCLUDE_DATABASES)
 
 	include (Findleveldb)
 
-	include_directories (${leveldb_INCLUDE})
-	set (libRadJav_LINK_LIBRARIES ${leveldb_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
+	if (NOT WIN32)
+		include_directories (${leveldb_INCLUDE})
+		set (libRadJav_LINK_LIBRARIES ${leveldb_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
+	endif ()
 endif ()
 
 if (INCLUDE_CRYPTOGRAPHY)

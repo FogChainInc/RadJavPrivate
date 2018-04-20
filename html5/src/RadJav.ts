@@ -1311,20 +1311,24 @@ namespace RadJav
      * @param {String} url The URL to this theme.
      * @param {String} data The JSON to parse and get the data from.
      */
-    loadTheme(url: string, data: string): any {
-      var theme = null;
+    loadTheme(url: string, data: string): any
+	{
+		var theme = null;
 
-      try {
-        var obj = _eval(data);
-        theme = new RadJav.Theme(obj);
-        theme.url = url;
-      } catch (ex) {
-        console.error(ex.message);
-      }
+		try
+		{
+			var obj = _eval(data);
+			theme = new RadJav.Theme(obj);
+			theme.url = url;
+		}
+		catch (ex)
+		{
+			console.error(ex.message);
+		}
 
-      return theme;
-    }
-  }
+		return theme;
+	}
+}
 
 	export namespace GUI
 	{
@@ -1465,59 +1469,61 @@ namespace RadJav
 		}
 	}
 
-  /** @class Net
-   * @static
-   * Contains classes for network operations.
-   */
-  export class Net {
-    /** @method httpRequest
-     * @static
-     * Make an ajax request to a HTTP server.
-     * Available on platforms: Windows,Linux,OSX,HTML5
-     * @param {String/Object} req The URL or request object to send to the server.
-     * @return {Promise} The promise to execute when the request has completed.
-     */
-    httpRequest(req: string | object): Promise<any> {
-      var promise = new Promise(
-        RadJav.keepContext(function(resolve, reject) {
-          var addr = req;
-          var request = null;
-          var response = null;
+	/** @class Net
+	* @static
+	* Contains classes for network operations.
+	*/
+	export class Net
+	{
+		/** @method httpRequest
+		* @static
+		* Make an ajax request to a HTTP server.
+		* Available on platforms: Windows,Linux,OSX,HTML5
+		* @param {String/Object} req The URL or request object to send to the server.
+		* @return {Promise} The promise to execute when the request has completed.
+		*/
+		httpRequest(req: string | object): Promise<any>
+		{
+			var promise = new Promise(RadJav.keepContext(function(resolve, reject)
+				{
+					var addr = req;
+					var request = null;
+					var response = null;
 
-          try {
-            if (XMLHttpRequest != null) {
-              request = new XMLHttpRequest();
-            } else {
-              request = new ActiveXObject("Microsoft.XMLHTTP");
-            }
+					try
+					{
+						if (XMLHttpRequest != null)
+							request = new XMLHttpRequest();
+						else
+							request = new ActiveXObject("Microsoft.XMLHTTP");
 
-            request.onreadystatechange = RadJav.keepContext(
-              function(evt, request2) {
-                var req2 = request2[0];
+						request.onreadystatechange = RadJav.keepContext(function(evt, request2)
+							{
+								var req2 = request2[0];
 
-                try {
-                  if (req2.readyState == 4 && req2.status == 200) {
-                    resolve(req2.responseText);
-                  }
-                } catch (ex) {
-                  reject(ex);
-                }
-              },
-              this,
-              [request]
-            );
+								try
+								{
+									if (req2.readyState == 4 && req2.status == 200)
+										resolve(req2.responseText);
+								}
+								catch (ex)
+								{
+									reject(ex);
+								}
+							}, this, [request]);
 
-            request.open("GET", addr);
-            request.send();
-          } catch (ex) {
-            reject(ex);
-          }
-        }, this)
-      );
+						request.open("GET", addr);
+						request.send();
+					}
+					catch (ex)
+					{
+						reject(ex);
+					}
+				}, this));
 
-      return promise;
-    }
-  }
+			return promise;
+		}
+	}
 
   /** @class Console
    * @static

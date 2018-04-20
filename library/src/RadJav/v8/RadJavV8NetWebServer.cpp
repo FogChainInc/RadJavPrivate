@@ -45,7 +45,7 @@ namespace RadJAV
 			void WebServer::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				NETTYPE *webServer = RJNEW NETTYPE();
-				V8_JAVASCRIPT_ENGINE->v8SetInternalField<NETTYPE>(args.This(), "_webServer", webServer);
+				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_webServer", webServer);
 			}
 
 			void WebServer::listen(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -53,14 +53,14 @@ namespace RadJAV
 				v8::Local<v8::Number> val = v8::Local<v8::Number>::Cast(args[0]);
 				RJINT port = val->IntegerValue();
 
-				NETTYPE *webServer = (NETTYPE *)V8_JAVASCRIPT_ENGINE->v8GetInternalField(args.This(), "_webServer");
+				NETTYPE *webServer = (NETTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_webServer");
 				webServer->port = port;
 				webServer->listen();
 			}
 
 			void WebServer::serve(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				NETTYPE *webServer = (NETTYPE *)V8_JAVASCRIPT_ENGINE->v8GetInternalField(args.This(), "_webServer");
+				NETTYPE *webServer = (NETTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_webServer");
 
 				if (webServer == NULL)
 				{
@@ -75,7 +75,7 @@ namespace RadJAV
 
 			void WebServer::stop(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				NETTYPE *webServer = (NETTYPE *)V8_JAVASCRIPT_ENGINE->v8GetInternalField(args.This(), "_webServer");
+				NETTYPE *webServer = (NETTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_webServer");
 
 				if ((webServer == NULL) || (webServer->isAlive == false))
 				{
