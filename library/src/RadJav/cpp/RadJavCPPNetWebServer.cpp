@@ -265,6 +265,7 @@ namespace RadJAV
 						res.set(http::field::content_type, mime_type(path));
 						res.content_length(size);
 						res.keep_alive(req.keep_alive());
+						return send(std::move(res));
 					}
 				}
 
