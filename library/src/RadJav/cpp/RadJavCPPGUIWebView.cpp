@@ -28,6 +28,7 @@ namespace RadJAV
 	{
 		namespace GUI
 		{
+			#ifdef WXWIDGETS_HAS_WEBVIEW
 			#ifdef GUI_USE_WXWIDGETS
 				WebViewFrame::WebViewFrame(wxWebView *webView)
 					: GObjectBase()
@@ -284,6 +285,7 @@ namespace RadJAV
 						object->webView->Bind(wxEVT_WEBVIEW_NAVIGATING, WebViewFrame::onTitleChanged, -1, -1, (wxObject *)pevent);
 					}
 				}
+			#endif
 			#endif
 		}
 	}

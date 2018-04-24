@@ -36,49 +36,51 @@
 		{
 			namespace GUI
 			{
-				#ifdef GUI_USE_WXWIDGETS
-					/// The wxWidgets button to use.
-					class RADJAV_EXPORT WebViewFrame : public wxWindow, public GObjectBase
+				#ifdef WXWIDGETS_HAS_WEBVIEW
+					#ifdef GUI_USE_WXWIDGETS
+						/// The wxWidgets button to use.
+						class RADJAV_EXPORT WebViewFrame : public wxWindow, public GObjectBase
+						{
+							public:
+								WebViewFrame(wxWebView *webView);
+
+								static void onPageLoaded(wxWebViewEvent &event);
+								static void onPageChange(wxWebViewEvent &event);
+								static void onPageNavigated(wxWebViewEvent &event);
+								static void onPageNavigationError(wxWebViewEvent &event);
+								static void onNewWindow(wxWebViewEvent &event);
+								static void onTitleChanged(wxWebViewEvent &event);
+
+
+								wxWebView *webView;
+						};
+					#endif
+
+					class RADJAV_EXPORT WebView : public CPP::GUI::GObject
 					{
 						public:
-							WebViewFrame(wxWebView *webView);
+							#ifdef USE_V8
+								WebView(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
+							#endif
+							WebView(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 
-							static void onPageLoaded(wxWebViewEvent &event);
-							static void onPageChange(wxWebViewEvent &event);
-							static void onPageNavigated(wxWebViewEvent &event);
-							static void onPageNavigationError(wxWebViewEvent &event);
-							static void onNewWindow(wxWebViewEvent &event);
-							static void onTitleChanged(wxWebViewEvent &event);
+							void create();
+							void setPosition(RJINT x, RJINT y);
+							CPP::Vector2 getPosition();
+							void setSize(RJINT x, RJINT y);
+							CPP::Vector2 getSize();
+							void setText(String text);
+							String getText();
+							void setVisibility(RJBOOL visible);
+							RJBOOL getVisibility();
+							void setEnabled(RJBOOL enabled);
+							RJBOOL getEnabled();
 
-
-							wxWebView *webView;
+							#ifdef USE_V8
+								void on(String event, v8::Local<v8::Function> func);
+							#endif
 					};
 				#endif
-
-				class RADJAV_EXPORT WebView : public CPP::GUI::GObject
-				{
-					public:
-						#ifdef USE_V8
-							WebView(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
-						#endif
-						WebView(String name, String text = "", CPP::GUI::GObject *parent = NULL);
-
-						void create();
-						void setPosition(RJINT x, RJINT y);
-						CPP::Vector2 getPosition();
-						void setSize(RJINT x, RJINT y);
-						CPP::Vector2 getSize();
-						void setText(String text);
-						String getText();
-						void setVisibility(RJBOOL visible);
-						RJBOOL getVisibility();
-						void setEnabled(RJBOOL enabled);
-						RJBOOL getEnabled();
-
-						#ifdef USE_V8
-							void on(String event, v8::Local<v8::Function> func);
-						#endif
-				};
 			}
 		}
 	}

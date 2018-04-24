@@ -37,6 +37,7 @@ set (RadJavVM_INCLUDE_BLOCKCHAIN_V1 true CACHE BOOL "Include Blockchain V1?")
 set (FIND_MEMORY_LEAKS true CACHE BOOL "Find memory leaks?")
 set (INCLUDE_DATABASES true CACHE BOOL "Includes databases")
 set (INCLUDE_CRYPTOGRAPHY true CACHE BOOL "Includes cryptography")
+set (WEBVIEW_TYPE "wxWidgetsDefault" CACHE STRING "Type of webview to use")
 
 message (STATUS "Building for processor type: ${CMAKE_SYSTEM_PROCESSOR}")
 
@@ -261,6 +262,11 @@ if (wxWidgets_FOUND)
 	#set (RadJavVM_CPP_DEFS WXUSINGDLL ${RadJavVM_CPP_DEFS})
 
 	set (RadJavVM_CPP_DEFS wxUSE_GUI=1 ${RadJavVM_CPP_DEFS})
+
+	if (WEBVIEW_TYPE STREQUAL "wxWidgetsDefault")
+		set (RadJavVM_CPP_DEFS_DEBUG WXWIDGETS_HAS_WEBVIEW ${libRadJav_CPP_DEFS_DEBUG})
+		set (RadJavVM_CPP_DEFS WXWIDGETS_HAS_WEBVIEW ${libRadJav_CPP_DEFS})
+	endif ()
 
 	if (WIN32)
 		set (RadJavVM_CPP_DEFS WINVER=0x0400 ${RadJavVM_CPP_DEFS})

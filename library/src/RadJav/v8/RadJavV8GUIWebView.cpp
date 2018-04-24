@@ -34,6 +34,7 @@ namespace RadJAV
 	{
 		namespace GUI
 		{
+			#ifdef WXWIDGETS_HAS_WEBVIEW
 			void WebView::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 			{
 				V8_CALLBACK(object, "create", WebView::create);
@@ -331,6 +332,7 @@ namespace RadJAV
 				if (appObject != NULL)
 					appObject->on(event, func);
 			}
+			#endif
 		}
 	}
 }
