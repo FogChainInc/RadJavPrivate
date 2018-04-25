@@ -11,7 +11,7 @@
  
 const wxWindowID ID_RENDERTIMER = wxNewId ();
  
-IMPLEMENT_CLASS (wxOgreRenderWindow, wxControl)
+wxIMPLEMENT_CLASS (wxOgreRenderWindow, wxControl);
  
 BEGIN_EVENT_TABLE (wxOgreRenderWindow, wxControl)
 #ifndef __WXMSW__
@@ -23,19 +23,23 @@ BEGIN_EVENT_TABLE (wxOgreRenderWindow, wxControl)
 END_EVENT_TABLE ()
  
 Ogre::Root *wxOgreRenderWindow::msOgreRoot = 0;
+
 //------------------------------------------------------------------------------
 unsigned int wxOgreRenderWindow::msNextRenderWindowId = 1;
 //------------------------------------------------------------------------------
+
 wxOgreRenderWindow::wxOgreRenderWindow (Ogre::Root *root, wxWindow *parent, wxWindowID id,
                 const wxPoint &pos, const wxSize &size, long style, const wxValidator &validator) {
 	msOgreRoot = root;
     Init ();
     Create (parent, id, pos, size, style, validator);
 }
+
 //------------------------------------------------------------------------------
 wxOgreRenderWindow::wxOgreRenderWindow () {
     Init ();
 }
+
 //------------------------------------------------------------------------------
 bool wxOgreRenderWindow::Create (wxWindow *parent, wxWindowID id,
                 const wxPoint &pos, const wxSize &size, long style, const wxValidator &validator) {
@@ -46,7 +50,7 @@ bool wxOgreRenderWindow::Create (wxWindow *parent, wxWindowID id,
     // Use the told size or let the sizers pick one.
     SetInitialSize (size);
  
-  SetBackgroundStyle(wxBG_STYLE_CUSTOM);
+    SetBackgroundStyle(wxBG_STYLE_CUSTOM);
  
     if (msOgreRoot)
         CreateRenderWindow ();
@@ -117,8 +121,10 @@ void wxOgreRenderWindow::OnRenderTimer (wxTimerEvent &evt) {
     Update ();
 }
 //------------------------------------------------------------------------------
-void wxOgreRenderWindow::OnSize (wxSizeEvent &evt) {
-    if (mRenderWindow) {
+void wxOgreRenderWindow::OnSize (wxSizeEvent &evt)
+{
+    if (mRenderWindow)
+    {
         // Setting new size;
         int width;
         int height;
@@ -131,9 +137,9 @@ void wxOgreRenderWindow::OnSize (wxSizeEvent &evt) {
         // wxWidgets handles the width and height of the window anyway
         // and Ogre recognises that in windowMovedOrResized().
         // I am not sure if windows requires this, but it works fine with it.
-#if defined(__WXGTK__) || defined(__WXMSW__)
+//#if defined(__WXGTK__) || defined(__WXMSW__)
         mRenderWindow->resize (width, height);
-#endif
+//#endif
  
         // Letting Ogre know the window has been resized;
         mRenderWindow->windowMovedOrResized ();
@@ -142,19 +148,21 @@ void wxOgreRenderWindow::OnSize (wxSizeEvent &evt) {
     Update ();
 }
 //------------------------------------------------------------------------------
-void wxOgreRenderWindow::OnMouseEvents (wxMouseEvent &evt) {
+void wxOgreRenderWindow::OnMouseEvents (wxMouseEvent &evt)
+{
     if (mMouseEventsCallback)
         (*mMouseEventsCallback)(evt);
 }
 //------------------------------------------------------------------------------
-void wxOgreRenderWindow::CreateRenderWindow () {
+void wxOgreRenderWindow::CreateRenderWindow ()
+{
     Ogre::NameValuePairList params;
     params["externalWindowHandle"] = GetOgreHandle ();
  
 // Need to tell Ogre3D that we are using a cocoa window
 // if wx is using it.
 // and that wxWidgets uses an NSView* as the handle
-#ifdef __WXCOCOA__
+#ifdef __WXOSX_COCOA__
 	params["macAPI"] = "cocoa";
 	params["macAPICocoaUseNSView"] = "true";
 #endif
@@ -171,47 +179,48 @@ void wxOgreRenderWindow::CreateRenderWindow () {
     mRenderWindow->setActive (true);
 }
 //------------------------------------------------------------------------------
-Ogre::String wxOgreRenderWindow::GetOgreHandle () const {
+Ogre::String wxOgreRenderWindow::GetOgreHandle () const
+{
     Ogre::String handle;
  
 #ifdef __WXMSW__
     // Handle for Windows systems
 	HWND hwnd = (HWND)GetHandle();
     handle = Ogre::StringConverter::toString((size_t)hwnd);
-#elif defined(__WXCOCOA__)
-    handle = Ogre::StringConverter::toString((size_t)((NSView*)(GetHandle()));
+#elif defined(__WXOSX_COCOA__)
+    handle = Ogre::StringConverter::toString((size_t)((NSView*)(GetHandle())));
 #elif defined(__WXGTK__)
     // Handle for GTK-based systems
  
     GtkWidget *widget = m_wxwindow;
     gtk_widget_set_double_buffered (widget, FALSE);
-  gtk_widget_realize( widget );
+    gtk_widget_realize( widget );
  
-  // Grab the window object
-  GdkWindow *gdkWin = GTK_PIZZA (widget)->bin_window;
-  Display* display = GDK_WINDOW_XDISPLAY(gdkWin);
-  Window wid = GDK_WINDOW_XWINDOW(gdkWin);
- 
-  std::stringstream str;
- 
-  // Display
-  str << (unsigned long)display << ':';
- 
-  // Screen (returns "display.screen")
-  std::string screenStr = DisplayString(display);
-  std::string::size_type dotPos = screenStr.find(".");
-  screenStr = screenStr.substr(dotPos+1, screenStr.size());
-  str << screenStr << ':';
- 
-  // XID
-  str << wid << ':';
- 
-  // Retrieve XVisualInfo
-  int attrlist[] = { GLX_RGBA, GLX_DOUBLEBUFFER, GLX_DEPTH_SIZE, 16, GLX_STENCIL_SIZE, 8, None };
-  XVisualInfo* vi = glXChooseVisual(display, DefaultScreen(display), attrlist);
-  str << (unsigned long)vi;
- 
-  handle = str.str();
+    // Grab the window object
+    GdkWindow *gdkWin = GTK_PIZZA (widget)->bin_window;
+    Display* display = GDK_WINDOW_XDISPLAY(gdkWin);
+    Window wid = GDK_WINDOW_XWINDOW(gdkWin);
+    
+    std::stringstream str;
+    
+    // Display
+    str << (unsigned long)display << ':';
+    
+    // Screen (returns "display.screen")
+    std::string screenStr = DisplayString(display);
+    std::string::size_type dotPos = screenStr.find(".");
+    screenStr = screenStr.substr(dotPos+1, screenStr.size());
+    str << screenStr << ':';
+    
+    // XID
+    str << wid << ':';
+    
+    // Retrieve XVisualInfo
+    int attrlist[] = { GLX_RGBA, GLX_DOUBLEBUFFER, GLX_DEPTH_SIZE, 16, GLX_STENCIL_SIZE, 8, None };
+    XVisualInfo* vi = glXChooseVisual(display, DefaultScreen(display), attrlist);
+    str << (unsigned long)vi;
+    
+    handle = str.str();
 #else
     // Any other unsupported system
     #error Not supported on this platform.
@@ -219,4 +228,5 @@ Ogre::String wxOgreRenderWindow::GetOgreHandle () const {
  
     return handle;
 }
-#endif
+
+#endif //C3D_USE_OGRE
