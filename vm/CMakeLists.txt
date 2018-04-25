@@ -4,6 +4,11 @@ if (WIN32)
 	set (CMAKE_USE_RELATIVE_PATHS TRUE)
 endif ()
 
+#Set CMAKE_MACOSX_BUNDLE to YES if we plan to make RadJavVM as a BUNDLE for Apple
+if (APPLE)
+	set (CMAKE_MACOSX_BUNDLE NO)
+endif ()
+
 project (RadJavVM)
 
 message (STATUS "Configuring RadJav VM...")
