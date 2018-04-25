@@ -33,6 +33,9 @@
 		#include <wx/wx.h>
 		#include "wxOgreRenderWindow.h"
 	#endif
+    #ifdef C3D_USE_OGRE
+        #include <Ogre/Ogre.h>
+    #endif
 
 	namespace RadJAV
 	{
@@ -81,21 +84,6 @@
 					};
 				#endif
 
-				class RADJAV_EXPORT TempCanvasObj
-				{
-					public:
-						inline TempCanvasObj()
-						{
-							mSceneMgr = NULL;
-							mRoot = NULL;
-							renderWindow = NULL;
-						}
-
-						Ogre::SceneManager *mSceneMgr;
-						Ogre::Root *mRoot;
-						Ogre::RenderWindow *renderWindow;
-				};
-
 				class RADJAV_EXPORT Canvas3D : public CPP::GUI::GObject
 				{
 					public:
@@ -105,6 +93,8 @@
 						Canvas3D(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 
 						void create();
+                        Ogre::SceneManager *createSceneManager(const Ogre::String& type, const Ogre::String& instanceName = Ogre::BLANKSTRING);
+                        Ogre::RenderWindow *getRenderWindow();
 						void setPosition(RJINT x, RJINT y);
 						CPP::Vector2 getPosition();
 						void setSize(RJINT x, RJINT y);

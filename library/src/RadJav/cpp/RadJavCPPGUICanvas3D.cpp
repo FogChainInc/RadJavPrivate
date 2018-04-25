@@ -36,8 +36,13 @@ namespace RadJAV
 					mSceneMgr = NULL;
 					mRoot = NULL;
 
-					V8_JAVASCRIPT_ENGINE->start3DEngine();
 					mRoot = V8_JAVASCRIPT_ENGINE->mRoot;
+
+                    //Create RenderWindow
+                    mRenderWindow = RJNEW wxOgreRenderWindow(mRoot, this, -1, wxPoint(0, 0), size);
+                    
+                    // Creation of first window will have created rendering context
+                    Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
 					for (RJUINT iIdx = 0; iIdx < resources.size(); iIdx++)
 					{
@@ -122,32 +127,53 @@ namespace RadJAV
 			void Canvas3D::create()
 			{
 				#ifdef GUI_USE_WXWIDGETS
-					try {
-						V8_JAVASCRIPT_ENGINE->start3DEngine();
-						Ogre::RenderWindow *rwindow = V8_JAVASCRIPT_ENGINE->mRoot->initialise(true, _text);
+                    //Initializing 3D Engine, if not already(handled inside)
+                    V8_JAVASCRIPT_ENGINE->start3DEngine();
 
-						TempCanvasObj *object = RJNEW TempCanvasObj();
-						object->mRoot = V8_JAVASCRIPT_ENGINE->mRoot;
-						object->renderWindow = rwindow;
-
-						_appObj = (wxWindow *)object;
-					}
-					catch(Ogre::Exception e)
-					{
-						std::cerr << e.what();
-					}
-
-					setup();
+                    Canvas3DFrame *object = RJNEW Canvas3DFrame( _text,
+                                                                wxPoint(_transform->x, _transform->y),
+                                                                wxSize(_transform->width, _transform->height),
+                                                                Array<CanvasResource*>());
+                
+                    RadJav::app->SetTopWindow(object);
+                    object->Show(_visible);
+                    RadJav::app->SetActive(_visible, object);
+                
+                    _appObj = object;
+                
+                    //if (icon != "")
+                    //    setIcon(icon);
+                
+                    setup();
 				#endif
 			}
+
+            Ogre::SceneManager *Canvas3D::createSceneManager(const Ogre::String& type, const Ogre::String& instanceName)
+            {
+                if(V8_JAVASCRIPT_ENGINE->mRoot->isInitialised())
+                    return V8_JAVASCRIPT_ENGINE->mRoot->createSceneManager(type, instanceName);
+                
+                return NULL;
+            }
+            
+            Ogre::RenderWindow *Canvas3D::getRenderWindow()
+            {
+                if (_appObj == NULL)
+                    return NULL;
+                
+                Canvas3DFrame* win = dynamic_cast<Canvas3DFrame*>(_appObj);
+                if(win)
+                    return win->mRenderWindow->GetRenderWindow();
+                
+                return NULL;
+            }
 
 			void Canvas3D::setPosition(RJINT x, RJINT y)
 			{
 				#ifdef GUI_USE_WXWIDGETS
 					if (_appObj != NULL)
 					{
-						CPP::GUI::Canvas3DFrame *obj = (CPP::GUI::Canvas3DFrame *)_appObj->GetParent();
-						obj->SetPosition(wxPoint(x, y));
+						_appObj->SetPosition( wxPoint(x, y));
 					}
 				#endif
 			}
@@ -159,7 +185,7 @@ namespace RadJAV
 				#ifdef GUI_USE_WXWIDGETS
 					if (_appObj != NULL)
 					{
-						wxPoint pos = _appObj->GetParent ()->GetPosition();
+						wxPoint pos = _appObj->GetPosition();
 						newpos.x = pos.x;
 						newpos.y = pos.y;
 					}
@@ -174,7 +200,7 @@ namespace RadJAV
 
 				#ifdef GUI_USE_WXWIDGETS
 					if (_appObj != NULL)
-						_appObj->GetParent ()->SetSize(width, height);
+						_appObj->SetSize(width, height);
 				#endif
 			}
 
@@ -185,7 +211,7 @@ namespace RadJAV
 				#ifdef GUI_USE_WXWIDGETS
 					if (_appObj != NULL)
 					{
-						wxSize wxsize = _appObj->GetParent ()->GetSize();
+						wxSize wxsize = _appObj->GetSize();
 						size.x = wxsize.GetWidth();
 						size.y = wxsize.GetHeight();
 					}
@@ -200,7 +226,11 @@ namespace RadJAV
 
 				#ifdef GUI_USE_WXWIDGETS
 					if (_appObj != NULL)
-						((Canvas3DFrame *)_appObj->GetParent())->SetTitle(text.towxString());
+                    {
+                        wxFrame* win = dynamic_cast<wxFrame*>(_appObj);
+                        if (win)
+                            win->SetTitle(text.towxString());
+                    }
 				#endif
 			}
 
@@ -211,8 +241,12 @@ namespace RadJAV
 				#ifdef GUI_USE_WXWIDGETS
 					if (_appObj != NULL)
 					{
-						wxString wxtext = ((Canvas3DFrame *)_appObj->GetParent ())->GetTitle ();
-						text = parsewxString(wxtext);
+                        wxFrame* win = dynamic_cast<wxFrame*>(_appObj);
+                        if (win)
+                        {
+                            wxString wxtext = win->GetTitle ();
+                            text = parsewxString(wxtext);
+                        }
 					}
 				#endif
 
@@ -227,9 +261,9 @@ namespace RadJAV
 					if (_appObj != NULL)
 					{
 						if (visible == true)
-							_appObj->GetParent()->Show();
+							_appObj->Show();
 						else
-							_appObj->GetParent()->Hide();
+							_appObj->Hide();
 					}
 				#endif
 			}
@@ -240,7 +274,7 @@ namespace RadJAV
 
 				#ifdef GUI_USE_WXWIDGETS
 					if (_appObj != NULL)
-						visible = _appObj->GetParent ()->IsShown();
+						visible = _appObj->IsShown();
 				#endif
 
 				return (visible);
@@ -252,9 +286,9 @@ namespace RadJAV
 					if (_appObj != NULL)
 					{
 						if (enabled == true)
-							((Canvas3DFrame *)_appObj->GetParent())->Enable();
+							_appObj->Enable();
 						else
-							((Canvas3DFrame *)_appObj->GetParent())->Disable();
+							_appObj->Disable();
 					}
 				#endif
 			}
@@ -265,7 +299,7 @@ namespace RadJAV
 
 				#ifdef GUI_USE_WXWIDGETS
 					if (_appObj != NULL)
-						enabled = ((Canvas3DFrame *)_appObj->GetParent())->IsEnabled();
+						enabled = _appObj->IsEnabled();
 				#endif
 
 				return (enabled);

@@ -788,7 +788,11 @@ namespace RadJAV
 		#ifdef C3D_USE_OGRE
 		void V8JavascriptEngine::start3DEngine()
 		{
-			mRoot = Ogre::Root::getSingletonPtr();
+            mRoot = Ogre::Root::getSingletonPtr();
+            
+            //If we have Root then we assume that we already has been initialized
+            if (mRoot != NULL)
+                return;
 
 			#ifdef GUI_USE_WXWIDGETS
 				String userConfigDir = parsewxString(wxStandardPaths::Get().GetUserConfigDir());
@@ -818,21 +822,49 @@ namespace RadJAV
 				mLog = userConfigDir + "/ogre_log.cfg";
 			#endif
 
-			if (mRoot == NULL)
-				mRoot = RJNEW Ogre::Root(mPluginCfg, mConfig, mLog);
+            mRoot = RJNEW Ogre::Root(mPluginCfg, mConfig, mLog);
 
-			/*Ogre::RenderSystemList list = mRoot->getAvailableRenderers();
-
-			#ifdef WIN32
-				mRoot->setRenderSystem(list.at (1));
-			#else
-				mRoot->setRenderSystem(list.at(0));
-			#endif
-
-			/// @bug Let the developer choose if they want to use the default render system, or a different.
-			mRoot->saveConfig();*/
-			mRoot->showConfigDialog();
-			//mRoot->restoreConfig ();
+            //Check if we have successfull runs before
+            if(!mRoot->restoreConfig())
+            {
+                //Get available renderers loaded from plugins.cfg file
+                Ogre::RenderSystemList renderers = mRoot->getAvailableRenderers();
+                
+                //Set default settings for available renderers
+                for(Ogre::RenderSystemList::const_iterator it = renderers.begin(); it != renderers.end(); it++)
+                {
+                    Ogre::RenderSystem* rs = *it;
+                    
+                    rs->setConfigOption("Video Mode", "1024 x 768");
+                    rs->setConfigOption("Colour Depth", "32");
+                    rs->setConfigOption("FSAA", "0");
+                    rs->setConfigOption("Full Screen", "No");
+                    rs->setConfigOption("RTT Preferred Mode", "FBO");
+                    rs->setConfigOption("sRGB Gamma Conversion", "No");
+                    rs->setConfigOption("Content Scaling Factor", "1.0");
+                    #ifdef __APPLE__
+                        #ifdef __LP64__
+                            rs->setConfigOption("macAPI", "cocoa");
+                        #else
+                            rs->setConfigOption("macAPI", "carbon");
+                        #endif
+                    #endif
+                }
+                
+                //Set default render system
+                #ifdef WIN32
+                    Ogre::RenderSystem* rs3D11 = mRoot->getRenderSystemByName("Direct3D11 Rendering Subsystem");
+                    Ogre::RenderSystem* rs3D9 = mRoot->getRenderSystemByName("Direct3D9 Rendering Subsystem");
+                
+                    mRoot->setRenderSystem( rs3D11 ? rs3D11 : rs3D9);
+                #else
+                    Ogre::RenderSystem* rsGL = mRoot->getRenderSystemByName("OpenGL Rendering Subsystem");
+                    mRoot->setRenderSystem(rsGL);
+                #endif
+                
+                //Saving config file with selected render system and parameters for it
+                mRoot->saveConfig();
+            }
 
 			/*Ogre::ConfigFile configFile;
 			configFile.load(userConfigDir + "/resources.cfg");
@@ -858,7 +890,12 @@ namespace RadJAV
 				}
 			}*/
 
-			Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+			//Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+            
+            //Engine initialization
+            //Here we specify that we don't need window from Ogre3D Engine
+            //We will supply it from other GUI library
+            mRoot->initialise(false);
 		}
 		#endif
 
@@ -1271,7 +1308,7 @@ namespace RadJAV
 
 				#ifdef C3D_USE_OGRE
 				// RadJav.C3D
-				/*{
+				{
 					v8::Handle<v8::Function> c3dFunc = v8GetFunction(radJavFunc, "C3D");
 
 					// RadJav.C3D.Object3D
@@ -1296,16 +1333,18 @@ namespace RadJAV
 						v8::Handle<v8::Object> entityPrototype = v8GetObject(entityFunc, "prototype");
 
 						V8B::C3D::Entity::createV8Callbacks(isolate, entityPrototype);
-					}*/
+					}
 
 					// RadJav.C3D.Camera
-					/*{
+					{
+                        /*
 						v8::Handle<v8::Function> cameraFunc = v8GetFunction(c3dFunc, "Camera");
 						v8::Handle<v8::Object> cameraPrototype = v8GetObject(cameraFunc, "prototype");
 
 						V8B::C3D::Camera::createV8Callbacks(isolate, cameraPrototype);
-					}*/
-				//}
+                        */
+					}
+				}
 				#endif
 			}
 		}

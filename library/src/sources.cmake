@@ -192,7 +192,8 @@ if (USE_OGRE)
 
 	# C++ GUI Canvas3D
 	set (SOURCES_files_RadJav__cpp__GUI__Sources 
-		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUICanvas3D.cpp")
+		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUICanvas3D.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/wxOgreRenderWindow.cpp")
 	source_group ("RadJav\\CPP\\GUI" FILES ${SOURCES_files_RadJav__cpp__GUI__Sources})
 
 	set (SOURCES ${SOURCES_files_RadJav__cpp__GUI__Sources} ${SOURCES})

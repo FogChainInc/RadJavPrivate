@@ -345,37 +345,35 @@ namespace RadJAV
 
 			void Canvas3D::createWorld(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				/*String name = "";
+				String name = "";
 
 				if (args.Length() > 0)
 					name = parseV8Value(args[0]);
 
-				//Canvas3DFrame *object = (Canvas3DFrame *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-				TempCanvasObj *object = (TempCanvasObj *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-				Ogre::SceneManager *sceneMgr = NULL;
-
-				if (name == "")
-					sceneMgr = object->mRoot->createSceneManager(Ogre::ST_GENERIC);
-				else
-					sceneMgr = object->mRoot->createSceneManager(name);
+				UITYPE *object = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				
+                Ogre::SceneManager *sceneManager;
+                if (name == "")
+                    sceneManager = object->createSceneManager(Ogre::String("OctreeSceneManager"));
+                else
+                    sceneManager = object->createSceneManager(name);
 
 				v8::Local<v8::Object> C3D = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_RADJAV, "C3D");
 				v8::Local<v8::Object> world = V8_JAVASCRIPT_ENGINE->v8GetObject(C3D, "World");
 				v8::Local<v8::Object> newWorld = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(world, 0, NULL);
-				V8_JAVASCRIPT_ENGINE->v8SetExternal(newWorld, "_sceneManager", sceneMgr);
-				V8_JAVASCRIPT_ENGINE->v8SetExternal(newWorld, "_renderWindow", object->renderWindow);
+				V8_JAVASCRIPT_ENGINE->v8SetExternal(newWorld, "_sceneManager", sceneManager);
+				V8_JAVASCRIPT_ENGINE->v8SetExternal(newWorld, "_renderWindow", object->getRenderWindow());
 
-				args.GetReturnValue().Set(newWorld);*/
+				args.GetReturnValue().Set(newWorld);
 			}
 
 			void Canvas3D::setWorld(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				/*v8::Local<v8::Object> world = v8::Local<v8::Object>::Cast(args[0]);
+				v8::Local<v8::Object> world = v8::Local<v8::Object>::Cast(args[0]);
 
-				//Canvas3DFrame *object = (Canvas3DFrame *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-				TempCanvasObj *object = (TempCanvasObj *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				UITYPE *object = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
 				Ogre::SceneManager *sceneMgr = (Ogre::SceneManager *)V8_JAVASCRIPT_ENGINE->v8GetExternal(world, "_sceneManager");
-				object->mSceneMgr = sceneMgr;*/
+				//object->mSceneMgr = sceneMgr;*/
 			}
 #endif
 		}
