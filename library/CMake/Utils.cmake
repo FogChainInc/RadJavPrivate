@@ -82,6 +82,8 @@ macro (searchForLibrary lib debugLibraries releaseLibraries searchPath)
 			${searchPath}/out.gn/ia32.release/obj/third_party/icu 
 			${searchPath}/buildx86 ${searchPath}/buildx86/Debug/lib ${searchPath}/buildx86/Debug 
 			${searchPath}/buildx86/debug ${searchPath}/buildx86/lib/Debug ${searchPath}/buildx86/src/Debug 
+			${searchPath}/build-x86 ${searchPath}/build-x86/Debug/lib ${searchPath}/build-x86/Debug 
+			${searchPath}/build-x86/debug ${searchPath}/build-x86/lib/Debug ${searchPath}/build-x86/src/Debug 
 			${searchPath}/build-32bit ${searchPath}/build-32bit/Debug/lib ${searchPath}/build-32bit/Debug 
 			${searchPath}/build-32bit/debug ${searchPath}/build-32bit/lib/Debug ${searchPath}/build-32bit/src/Debug 
 			${searchPath}/build32bit ${searchPath}/build32bit/Debug/lib ${searchPath}/build32bit/Debug 
@@ -100,6 +102,8 @@ macro (searchForLibrary lib debugLibraries releaseLibraries searchPath)
 			${searchPath}/out.gn/x64.release/obj/third_party/icu 
 			${searchPath}/buildx64 ${searchPath}/buildx64/Debug/lib ${searchPath}/buildx64/Debug 
 			${searchPath}/buildx64/debug ${searchPath}/buildx64/lib/Debug ${searchPath}/buildx64/src/Debug 
+			${searchPath}/build-x64 ${searchPath}/build-x64/Debug/lib ${searchPath}/build-x64/Debug 
+			${searchPath}/build-x64/debug ${searchPath}/build-x64/lib/Debug ${searchPath}/build-x64/src/Debug 
 			${searchPath}/build-64bit ${searchPath}/build-64bit/Debug/lib ${searchPath}/build-64bit/Debug 
 			${searchPath}/build-64bit/debug ${searchPath}/build-64bit/lib/Debug ${searchPath}/build-64bit/src/Debug 
 			${searchPath}/build64bit ${searchPath}/build64bit/Debug/lib ${searchPath}/build64bit/Debug 
@@ -140,6 +144,8 @@ macro (searchForLibrary lib debugLibraries releaseLibraries searchPath)
 			${searchPath}/out.gn/ia32.release/obj/third_party/icu
 			${searchPath}/buildx86 ${searchPath}/buildx86/Release/lib ${searchPath}/buildx86/Release 
 			${searchPath}/buildx86/release ${searchPath}/buildx86/lib/Release ${searchPath}/buildx86/src/Release 
+			${searchPath}/build-x86 ${searchPath}/build-x86/Release/lib ${searchPath}/build-x86/Release 
+			${searchPath}/build-x86/release ${searchPath}/build-x86/lib/Release ${searchPath}/build-x86/src/Release 
 			${searchPath}/build-32bit ${searchPath}/build-32bit/Release/lib ${searchPath}/build-32bit/Release 
 			${searchPath}/build-32bit/release ${searchPath}/build-32bit/lib/Release ${searchPath}/build-32bit/src/Release 
 			${searchPath}/build32bit ${searchPath}/build32bit/Release/lib ${searchPath}/build32bit/Release 
@@ -155,6 +161,8 @@ macro (searchForLibrary lib debugLibraries releaseLibraries searchPath)
 			${searchPath}/out.gn/x64.release/obj/third_party/icu 
 			${searchPath}/buildx64 ${searchPath}/buildx64/Release/lib ${searchPath}/buildx64/Release 
 			${searchPath}/buildx64/release ${searchPath}/buildx64/lib/Release ${searchPath}/buildx64/src/Release 
+			${searchPath}/build-x64 ${searchPath}/build-x64/Release/lib ${searchPath}/build-x64/Release 
+			${searchPath}/build-x64/release ${searchPath}/build-x64/lib/Release ${searchPath}/build-x64/src/Release 
 			${searchPath}/build-64bit ${searchPath}/build-64bit/Release/lib ${searchPath}/build-64bit/Release 
 			${searchPath}/build-64bit/release ${searchPath}/build-64bit/lib/Release ${searchPath}/build-64bit/src/Release 
 			${searchPath}/build64bit ${searchPath}/build64bit/Release/lib ${searchPath}/build64bit/Release 
