@@ -14,8 +14,8 @@ project (RadJavVM)
 message (STATUS "Configuring RadJav VM...")
 message (STATUS "Version 0.1")
 
-set (CMAKE_MODULE_PATH "${RadJavVM_SOURCE_DIR}/CMake"
-			"${RadJavVM_SOURCE_DIR}/CMake/lib"
+set (CMAKE_MODULE_PATH "${RadJavVM_SOURCE_DIR}/../library/CMake"
+			"${RadJavVM_SOURCE_DIR}/../library/CMake/lib"
 			"${RadJavVM_SOURCE_DIR}/include"
 			"${RadJavVM_SOURCE_DIR}/src"
 			"${RadJavVM_SOURCE_DIR}/res")
@@ -34,6 +34,7 @@ set (RadJavVM_GUI_LIBRARY "wxWidgets" CACHE STRING "GUI library to use")
 set (RadJavVM_HTTP_LIBRARY "curl" CACHE STRING "HTTP library to use")
 set (RadJavVM_INCLUDE_C3D_API TRUE CACHE BOOL "Include the C3D API?")
 set (libRadJav_PATH $ENV{RADJAV_PATH} CACHE PATH "RadJav path")
+set (libRadJav_CMAKE_BUILD_PATH "" CACHE PATH "libRadJav CMake Build Path")
 set (libRadJav_DEPENDENCIES $ENV{RADJAV_DEPENDENCIES} CACHE PATH "RadJav Dependencies path")
 set (RadJavVM_LANGUAGE "en_us" CACHE STRING "Select language to compile with")
 set (libRadJav_STATIC false CACHE BOOL "Static build of RadJav")
@@ -42,6 +43,7 @@ set (RadJavVM_INCLUDE_BLOCKCHAIN_V1 true CACHE BOOL "Include Blockchain V1?")
 set (FIND_MEMORY_LEAKS true CACHE BOOL "Find memory leaks?")
 set (INCLUDE_DATABASES true CACHE BOOL "Includes databases")
 set (INCLUDE_CRYPTOGRAPHY true CACHE BOOL "Includes cryptography")
+set (USE_BITS "" CACHE STRING "Build using number of bits")
 set (WEBVIEW_TYPE "wxWidgetsDefault" CACHE STRING "Type of webview to use")
 
 message (STATUS "Building for processor type: ${CMAKE_SYSTEM_PROCESSOR}")
@@ -382,7 +384,11 @@ if (WIN32)
 	set (RadJavVM_LINK_LIBRARIES ws2_32 wldap32 ${RadJavVM_LINK_LIBRARIES})
 endif ()
 
-add_subdirectory (${libRadJav_PATH} ${libRadJav_PATH}/build)
+if (libRadJav_CMAKE_BUILD_PATH)
+	add_subdirectory (${libRadJav_PATH} ${libRadJav_CMAKE_BUILD_PATH})
+else ()
+	add_subdirectory (${libRadJav_PATH} ${libRadJav_PATH}/build)
+endif ()
 
 add_executable (RadJavVM ${ISWIN32} ${ISOSX} ${RadJavVM_SOURCES})
 

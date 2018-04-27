@@ -33,8 +33,9 @@
 		#include <wx/wx.h>
 		#include "wxOgreRenderWindow.h"
 	#endif
+
     #ifdef C3D_USE_OGRE
-        #include <Ogre/Ogre.h>
+        #include <Ogre.h>
     #endif
 
 	namespace RadJAV
