@@ -80,7 +80,7 @@ namespace RadJAV
 					DBTYPE *storage = (DBTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_storage");
 					v8::Local<v8::String> key = v8::Local<v8::String>::Cast(args[0]);
 					String keyStr = parseV8Value (key);
-					v8::Local<v8::String> value = v8::Local<v8::String>::Cast(args[0]);
+					v8::Local<v8::String> value = v8::Local<v8::String>::Cast(args[1]);
 					String valueStr = parseV8Value (value);
 
 					PromiseThread *thread = RJNEW PromiseThread();
