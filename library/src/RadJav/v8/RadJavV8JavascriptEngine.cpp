@@ -272,7 +272,9 @@ namespace RadJAV
 			for (RJUINT iIdx = 0; iIdx < javascriptFiles.size(); iIdx++)
 			{
 				JSFile jsfile = javascriptFiles.at(iIdx);
-				executeScript(jsfile.content, jsfile.filename);
+				String contentStr = jsfile.getContent();
+
+				executeScript(contentStr, jsfile.filename);
 			}
 
 			loadNativeCode();
@@ -633,12 +635,27 @@ namespace RadJAV
 				runApplication(content, file);
 		}
 
+		void V8JavascriptEngine::executeScript(Array<String> code, String fileName)
+		{
+			v8::Local<v8::String> script = v8::String::NewFromUtf8 (isolate, "");
+
+			for (RJINT iIdx = 0; iIdx < code.size(); iIdx++)
+				script = v8::String::Concat (script, code.at (iIdx).toV8String (isolate));
+
+			executeScript(script, fileName.toV8String (isolate), globalContext->Global());
+		}
+
 		void V8JavascriptEngine::executeScript(String code, String fileName)
 		{
-			executeScript(code, fileName, v8::Local<v8::Object>());
+			executeScript(code, fileName, globalContext->Global ());
 		}
 
 		void V8JavascriptEngine::executeScript(String code, String fileName, v8::Local<v8::Object> context)
+		{
+			executeScript(code.toV8String (isolate), fileName.toV8String(isolate), context);
+		}
+
+		void V8JavascriptEngine::executeScript(v8::Local<v8::String> code, v8::Local<v8::String> fileName, v8::Local<v8::Object> context)
 		{
 			v8::Local<v8::Context> scriptContext;
 			v8::EscapableHandleScope scope(isolate);
@@ -649,8 +666,8 @@ namespace RadJAV
 				scriptContext = context->CreationContext ();
 
 			v8::TryCatch tryCatch(isolate);
-			v8::ScriptOrigin origin(fileName.toV8String(isolate));
-			v8::MaybeLocal<v8::Script> scriptTemp = v8::Script::Compile(scriptContext, code.toV8String(isolate), &origin);
+			v8::ScriptOrigin origin(fileName);
+			v8::MaybeLocal<v8::Script> scriptTemp = v8::Script::Compile(scriptContext, code, &origin);
 
 			if (scriptTemp.IsEmpty() == true)
 			{

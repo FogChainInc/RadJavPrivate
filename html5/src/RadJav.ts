@@ -18,6 +18,11 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+if (exports == null)
+{
+	exports = {};
+}
+
 /** @class Promise
  * An object that executes when a process has completed.
  */
@@ -2019,33 +2024,12 @@ var _eval = eval;
 var _Function = Function;
 RadJav.default = RadJav;
 
-// This is taken from generated TypeScript code. Thanks Microsoft!
-var __extends =
-  (this && this.__extends) ||
-  (function() {
-    var extendStatics =
-      Object.setPrototypeOf ||
-      ({ __proto__: [] } instanceof Array &&
-        function(d, b) {
-          d.__proto__ = b;
-        }) ||
-      function(d, b) {
-        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-      };
-    return function(d, b) {
-      extendStatics(d, b);
-      function __() {
-        this.constructor = d;
-      }
-      d.prototype =
-        b === null
-          ? Object.create(b)
-          : ((__.prototype = b.prototype), new __());
-    };
-  })();
+export default RadJav;
 
-if (define != null) {
-  define(function() {
-    return RadJav;
-  });
+if (define != null)
+{
+	define(function()
+		{
+			return RadJav;
+		});
 }
