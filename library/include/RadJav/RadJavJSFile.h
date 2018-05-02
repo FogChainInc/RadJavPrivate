@@ -20,7 +20,6 @@
 #ifndef _RADJAV_JSFILE_H_
 	#define _RADJAV_JSFILE_H_
 
-	#include "RadJavArray.h"
 	#include "RadJavString.h"
 
 	namespace RadJAV
@@ -31,27 +30,11 @@
 				inline JSFile (String newFilename, String newContent)
 				{
 					filename = newFilename;
-					content.push_back (newContent);
-				}
-
-				inline JSFile(String newFilename, Array<String> newContent)
-				{
-					filename = newFilename;
 					content = newContent;
 				}
 
-				inline String getContent()
-				{
-					String contentStr = "";
-
-					for (unsigned int iIdx = 0; iIdx < content.size(); iIdx++)
-						contentStr += content.at (iIdx);
-
-					return (contentStr);
-				}
-
 				String filename;
-				Array<String> content;
+				String content;
 		};
 	}
 #endif

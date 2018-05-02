@@ -25,19 +25,16 @@
 std::string findNewLine = "";
 std::string newLine = "";
 
-std::vector<std::string> getTextFromFile (std::string path)
+std::string getTextFromFile (std::string path)
 {
-	std::vector<std::string> texts;
-
 	std::ifstream file;
 	file.open(path.c_str (), std::ios_base::in);
 
 	if (file.is_open() == false)
-		return (texts);
+		return ("");
 
 	std::cout << "Embedding file: " << path << "\n";
 	std::string text = "";
-	unsigned long counter = 0;
 
 	while (file.good() == true)
 	{
@@ -46,20 +43,10 @@ std::vector<std::string> getTextFromFile (std::string path)
 		if (file.good() == false)
 			break;
 
-		if (counter >= 9000)
-		{
-			texts.push_back(text);
-			counter = 0;
-			text = "";
-		}
-
 		text += cChar;
-		counter++;
 	}
 
-	texts.push_back (text);
-
-	return (texts);
+	return (text);
 }
 
 bool writeToFile (std::string path, std::string text)
@@ -94,7 +81,6 @@ std::string replaceText (std::string text, std::string find, std::string replace
 
 std::string fixText (std::string text, int *countNewLines)
 {
-	text = replaceText(text, "\\n", "\\\\n");
 	// Replace all new lines in the javascript files with the appropriate \\n\\ to be
 	// used in a large string for the header file.
 	text = replaceText (text, findNewLine, "\\n\\" + newLine, countNewLines);
@@ -146,7 +132,7 @@ int main (int iArgs, char **cArgs)
 	ary.push_back ("RadJav.Font.js");
 	ary.push_back ("RadJav.Thread.js");
 	ary.push_back ("RadJav.IO.js");
-	//ary.push_back ("RadJav.IO.SerialComm.js");
+	ary.push_back ("RadJav.IO.SerialComm.js");
 	ary.push_back ("RadJav.DB.KeyValueStorage.js");
 	ary.push_back ("RadJav.GUI.GObject.js"); // This must be compiled before any other GUI object.
 	ary.push_back ("RadJav.GUI.Button.js");
@@ -200,94 +186,63 @@ int main (int iArgs, char **cArgs)
 	for (unsigned int iIdx = 0; iIdx < ary.size (); iIdx++)
 	{
 		std::string fileName = ary.at (iIdx);
-		std::vector<std::string> texts = getTextFromFile (jsdir + fileName);
-		std::string textOutput = "";
+		std::string text = getTextFromFile (jsdir + fileName);
 
-		if (texts.size() > 1)
-			textOutput = "Array<String>({";
-
-		for (unsigned int iJdx = 0; iJdx < texts.size(); iJdx++)
+		if (text == "")
 		{
-			std::string text = texts.at (iJdx);
+			std::cout << "Unable to open file" << jsdir << fileName << "\n";
 
-			if (text == "")
-			{
-				std::cout << "Unable to open file" << jsdir << fileName << "\n";
+			return (1);
+		}
 
-				return (1);
-			}
+		int pos = text.find("*/");
+		text = text.substr(pos + 2);
 
-			int pos = text.find("*/");
+		int countNewLines = 0;
 
-			if (pos != std::string::npos)
-				text = text.substr(pos + 2);
+		if (pureJavascriptOnly == false)
+		{
+			text = fixText (text, &countNewLines);
+			lineCounter += countNewLines;
+		}
 
-			int countNewLines = 0;
+		if (fileName == "RadJav.js")
+		{
+			std::string tempText = "";
 
-			if (pureJavascriptOnly == false)
-			{
-				text = fixText(text, &countNewLines);
-				lineCounter += countNewLines;
-			}
-
-			if (texts.size() > 1)
-			{
-				if (iJdx == (texts.size() - 1))
-				{
-					if (fileName == "RadJav.js")
-					{
-						std::string tempText = "";
-
-#if defined (WIN32)
-tempText += "RadJav.OS.type = \"windows\";" + newLine + "\
+			#if defined (WIN32)
+				tempText += "RadJav.OS.type = \"windows\";" + newLine + "\
 RadJav.OS.Windows = function()" + newLine + "\
 {" + newLine + "\
 }" + newLine;
-#elif defined (__APPLE__)
-tempText += "RadJav.OS.type = \"mac\";" + newLine + "\
+            #elif defined (__APPLE__)
+            tempText += "RadJav.OS.type = \"mac\";" + newLine + "\
 RadJav.OS.Mac = function()" + newLine + "\
 {" + newLine + "\
 }" + newLine;
-#elif defined (LINUX)
-tempText += "RadJav.OS.type = \"linux\";" + newLine + "\
+			#elif defined (LINUX)
+				tempText += "RadJav.OS.type = \"linux\";" + newLine + "\
 RadJav.OS.Linux = function()" + newLine + "\
 {" + newLine + "\
 }" + newLine;
-#else
-tempText += "RadJav.OS.type = \"unknown\";" + newLine;
-#endif
+			#else
+				tempText += "RadJav.OS.type = \"unknown\";" + newLine;
+			#endif
 
-						if (pureJavascriptOnly == false)
-						{
-							text += fixText(tempText, &countNewLines);
-							lineCounter += countNewLines;
-						}
-					}
-				}
-			}
-
-			if (pureJavascriptOnly == true)
-				textOutput += text;
-			else
-				textOutput += "\"" + text + "\"";
-
-			if (texts.size() > 1)
+			if (pureJavascriptOnly == false)
 			{
-				if (iJdx < (texts.size() - 1))
-					textOutput += ", ";
+				text += fixText (tempText, &countNewLines);
+				lineCounter += countNewLines;
 			}
 		}
-
-		if (texts.size() > 1)
-			textOutput += "})";
 
 		if (pureJavascriptOnly == false)
 		{
 			code += "\
-			javascriptFiles.push_back (JSFile (\"" + fileName + "\", " + textOutput + "));" + newLine;
+			javascriptFiles.push_back (JSFile (\"" + fileName + "\", \"" + text + "\"));" + newLine;
 		}
 		else
-			code += textOutput;
+			code += text;
 	}
 
 	output += code;

@@ -20,37 +20,31 @@
 
 /// <reference path="RadJav.ts" />
 
-namespace RadJav
-{
-	namespace GUI
-	{
-		/** @class RadJav.GUI.Button
-		* @extends RadJav.GUI.GObject
-		* A button.
-		* Available on platforms: Windows,Linux,OSX,HTML5
-		*/
-		class Button extends GObject
-		{
-			constructor(obj?: Object, text?: String, parent?: GObject)
-			{
-				super(obj, text, parent);
+namespace RadJav {
+  namespace GUI {
+    /** @class RadJav.GUI.Button
+     * @extends RadJav.GUI.GObject
+     * A button.
+     * Available on platforms: Windows,Linux,OSX,HTML5
+     */
+    class Button extends GObject {
+      constructor(obj?: Object, text?: String, parent?: GObject) {
+        super(obj, text, parent);
+        if (obj == null) {
+          obj = {};
+        }
 
-				if (obj == null)
-					obj = {};
+        if (typeof obj == "string") {
+          var name = obj;
+          obj = { name: name };
+        }
 
-				if (typeof obj == "string")
-				{
-					var name = obj;
-					obj = { name: name };
-				}
-
-				if (obj.size == null)
-				{
-					obj.size = new RadJav.Vector2();
-					obj.size.x = 80;
-					obj.size.y = 40;
-				}
-			}
-		}
-	}
+        if (obj.size == null) {
+          obj.size = new RadJav.Vector2();
+          obj.size.x = 80;
+          obj.size.y = 40;
+        }
+      }
+    }
+  }
 }

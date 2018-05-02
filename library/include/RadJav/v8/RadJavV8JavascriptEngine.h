@@ -235,13 +235,9 @@
 				/// Run an application from a javascript file.
 				void runApplicationFromFile(String file);
 				/// Execute Javascript code.
-				void executeScript(Array<String> code, String fileName);
-				/// Execute Javascript code.
 				void executeScript(String code, String fileName);
 				/// Execute Javascript code.
 				void executeScript(String code, String fileName, v8::Local<v8::Object> context);
-				/// Execute Javascript code.
-				void executeScript(v8::Local<v8::String> code, v8::Local<v8::String> fileName, v8::Local<v8::Object> context);
 				/// Execute unbounded Javascript code.
 				void unboundedExecuteScript(String code, String fileName, v8::Local<v8::Object> context = v8::Local<v8::Object>());
 				/// Execute javascript on the next tick.

@@ -1,6 +1,6 @@
 /*
     MIT-LICENSE
-    Copyright (c) 2018 Higher Edge Software, LLC
+    Copyright (c) 2017-2018 Higher Edge Software, LLC
 
     Permission is hereby granted, free of charge, to any person obtaining a copy of this software
     and associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -19,13 +19,32 @@
 */
 var RadJav;
 (function (RadJav) {
-    var BlockchainV2;
-    (function (BlockchainV2) {
-        function connect() {
-            var promise = new Promise(function (resolve, reject) {
-            });
-            return (promise);
-        }
-        BlockchainV2.connect = connect;
-    })(BlockchainV2 = RadJav.BlockchainV2 || (RadJav.BlockchainV2 = {}));
+    var DB;
+    (function (DB) {
+        /// Web server
+        var KeyValueStorage = /** @class */ (function () {
+            function KeyValueStorage() {
+                this._storage = null;
+                if (this._init != null)
+                    this._init();
+            }
+            /** The database to open.
+            * @return Returns true if the database was able to be opened.
+            * Also returns true if the database was newly created.
+            */
+            KeyValueStorage.prototype.open = function (path) {
+            };
+            /// Write a value to a key.
+            KeyValueStorage.prototype.write = function (key, value) {
+            };
+            /// The key to read.
+            KeyValueStorage.prototype.read = function (key) {
+            };
+            /// The database to open.
+            KeyValueStorage.prototype.close = function () {
+            };
+            return KeyValueStorage;
+        }());
+        DB.KeyValueStorage = KeyValueStorage;
+    })(DB = RadJav.DB || (RadJav.DB = {}));
 })(RadJav || (RadJav = {}));
