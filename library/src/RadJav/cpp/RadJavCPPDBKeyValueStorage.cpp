@@ -42,7 +42,9 @@ namespace RadJAV
 		{
 			#ifdef USE_DATABASE
 			KeyValueStorage::KeyValueStorage()
-				: db(NULL)
+				#ifdef USE_LEVELDB
+					: db(NULL)
+				#endif
 			{
                 //TODO: Need to add helper class to handle paths in portable way
                 //F.e. which can prepend path before file name
