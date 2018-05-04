@@ -75,10 +75,13 @@ namespace RadJAV
 			void WebSocketServer::send(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				CPP::Net::WebSocketServer *webSocket = (CPP::Net::WebSocketServer *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_webSocket");
-				v8::Local<v8::String> val = v8::Local<v8::String>::Cast(args[0]);
-				String message = parseV8Value(val);
+				v8::Local<v8::String> val_id = v8::Local<v8::String>::Cast(args[0]);
+				String id = parseV8Value(val_id);
 
-				webSocket->send(message);
+				v8::Local<v8::String> val_msg = v8::Local<v8::String>::Cast(args[1]);
+				String message = parseV8Value(val_msg);
+
+				webSocket->send(id, message);
 			}
 
 			void WebSocketServer::close(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -101,6 +104,7 @@ namespace RadJAV
 			{
 				V8_CALLBACK(object, "connect", WebSocketClient::connect);
 				V8_CALLBACK(object, "send", WebSocketClient::send);
+				V8_CALLBACK(object, "receive", WebSocketClient::receive);
 				V8_CALLBACK(object, "close", WebSocketClient::close);
 
 				V8_CALLBACK(object, "on", WebSocketServer::on);
@@ -109,11 +113,13 @@ namespace RadJAV
 			void WebSocketClient::connect(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				v8::Local<v8::String> val = v8::Local<v8::String>::Cast(args[0]);
-				String url = parseV8Value(val);
+				String host = parseV8Value(val);
+				val = v8::Local<v8::String>::Cast(args[1]);
+				String port = parseV8Value(val);
 
-				CPP::Net::WebSocketClient *webSocket = RJNEW CPP::Net::WebSocketClient();
+				CPP::Net::WebSocketClient *webSocket = RJNEW CPP::Net::WebSocketClient(host, port);
 
-				webSocket->connect(url);
+				webSocket->connect();
 				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This (), "_webSocket", webSocket);
 			}
 
@@ -124,6 +130,15 @@ namespace RadJAV
 				String message = parseV8Value(val);
 
 				webSocket->send(message);
+			}
+
+			void WebSocketClient::receive(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				CPP::Net::WebSocketClient *webSocket = (CPP::Net::WebSocketClient *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_webSocket");
+
+				auto resp = webSocket->receive();
+
+				//TO DO: Need to return this back to the javascipt side
 			}
 
 			void WebSocketClient::close(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -139,7 +154,8 @@ namespace RadJAV
 				v8::Local<v8::Function> func = v8::Local<v8::Function>::Cast(args[1]);
 				CPP::Net::WebSocketClient *webSocket = (CPP::Net::WebSocketClient *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_webSocket");
 
-				//webSocket->on(event, func);
+				//TO DO: implement the callback for receiving messages
+				//webSocket->on("receive", WebSocketClient::receive);
 			}
 		}
 	}

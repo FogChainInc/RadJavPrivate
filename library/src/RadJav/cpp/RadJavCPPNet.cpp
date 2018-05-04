@@ -18,6 +18,7 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 #include "cpp/RadJavCPPNet.h"
+#include "cpp/RadJavCPPNetUriParser.h"
 
 #include "RadJav.h"
 #include "RadJavString.h"
@@ -33,20 +34,20 @@ namespace RadJAV
 		{
 			HttpRequest::HttpRequest(String url)
 			{
-				//TO DO: Need a URI parser here to get:
-				//	host
-				//	port
-				//	target
-				//	version
+				auto const results = parse_uri(url);
+
+				host_ = results.host;
+				port_ = results.port;
+				target_ = results.query + (results.resource.size() > 0, std::string("?") + results.resource, "");
 			}
 
 			void HttpRequest::connect()
 			{
 				//look up the domain name
-				auto const results = resolver.resolve(host, port);
+				auto const results = resolver_.resolve(host_, port_);
 
 				//make the connection on the IP address we get from a lookup
-				boost::asio::connect(socket, results.begin(), results.end());
+				boost::asio::connect(socket_, results.begin(), results.end());
 			}
 
 			void HttpRequest::send(bool post)
@@ -56,12 +57,12 @@ namespace RadJAV
 				if (post) action = http::verb::post;
 
 				//set up an HTTP GET/POST request message
-				http::request<http::string_body> req{ action, target, version };
-				req.set(http::field::host, host);
+				http::request<http::string_body> req{ action, target_, version_ };
+				req.set(http::field::host, host_);
 				req.set(http::field::user_agent, BOOST_BEAST_VERSION_STRING);
 
 				//send the HTTP request to the remote host
-				http::write(socket, req);
+				http::write(socket_, req);
 			}
 
 			String HttpRequest::receivedData()
@@ -73,7 +74,7 @@ namespace RadJAV
 				http::response<http::dynamic_body> res;
 
 				//receive the HTTP response
-				http::read(socket, buffer, res);
+				http::read(socket_, buffer, res);
 
 				//return the response
 				return boost::beast::buffers_to_string(res.body().data());
@@ -83,7 +84,7 @@ namespace RadJAV
 			{
 				//gracefully close the socket
 				boost::system::error_code ec;
-				socket.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ec);
+				socket_.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ec);
 			}
 		}
 	}

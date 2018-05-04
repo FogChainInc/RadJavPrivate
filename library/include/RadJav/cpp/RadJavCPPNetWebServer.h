@@ -87,15 +87,17 @@
 						RJINT serverType;
 						/// Flag that indicates if listening context available 
 						RJBOOL isAlive;
-				private:
-					boost::asio::ip::address address;
-					boost::asio::io_context ioc;
-					tcp::acceptor acceptor;
-					tcp::socket socket;
-					void run();
-					void do_accept();
-					void on_accept(boost::system::error_code ec);
-					void close();
+
+					private:
+						void run();
+						void do_accept();
+						void on_accept(boost::system::error_code ec);
+						void close();
+
+						boost::asio::ip::address address;
+						boost::asio::io_context ioc;
+						tcp::acceptor acceptor;
+						tcp::socket socket;
 				};
 
 				/// Web server types.

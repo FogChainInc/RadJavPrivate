@@ -54,17 +54,17 @@ namespace RadJAV
 
 				private:
 					//the io_context is required for all I/O
-					boost::asio::io_context ioc;
+					boost::asio::io_context ioc_;
 
 					//these objects perform the I/O
-					boost::asio::ip::tcp::resolver resolver{ ioc };
-					boost::asio::ip::tcp::socket socket{ ioc };
+					boost::asio::ip::tcp::resolver resolver_{ ioc_ };
+					boost::asio::ip::tcp::socket socket_{ ioc_ };
 
 					//target information
-					String host;
-					String port = "80";
-					String target;
-					int version;
+					String host_;
+					String port_ = "80";
+					String target_;
+					int version_ = 1;
 			};
 		}
 	}

@@ -47,10 +47,9 @@
 
 						void listen();
 
-						void send(String message);
-						void sendToAll(String message);
+						void send(String id, String message);
 
-						String receivedData();
+						void sendToAll(String message);
 
 						void close();
 
@@ -62,6 +61,7 @@
 						/// Flag that indicates if listening context available 
 						RJBOOL isAlive;
 
+
 						class RADJAV_EXPORT WebSocketServerSession : public std::enable_shared_from_this<WebSocketServerSession>
 						{
 							boost::beast::websocket::stream<boost::asio::ip::tcp::socket> ws_;
@@ -70,7 +70,7 @@
 
 							public:
 								// Take ownership of the socket
-								explicit WebSocketServerSession(boost::asio::ip::tcp::socket socket);
+								WebSocketServerSession(boost::asio::ip::tcp::socket socket, std::string sessionID);
 
 								// Start the asynchronous operation
 								void run();
@@ -79,6 +79,8 @@
 
 								void do_read();
 
+								void do_write(String message);
+
 								void on_read(
 									boost::system::error_code ec,
 									std::size_t bytes_transferred);
@@ -86,6 +88,9 @@
 								void on_write(
 									boost::system::error_code ec,
 									std::size_t bytes_transferred);
+
+							private:
+								std::string sessionID_;
 						};
 
 						class RADJAV_EXPORT WebSocketServerListener : public std::enable_shared_from_this<WebSocketServerListener>
@@ -105,6 +110,9 @@
 
 								void on_accept(boost::system::error_code ec);
 						};
+
+						//maintains the list of sessions
+						static std::vector<std::pair<std::string, std::shared_ptr<WebSocketServerSession>>> sessions_;
 				};
 			}
 		}

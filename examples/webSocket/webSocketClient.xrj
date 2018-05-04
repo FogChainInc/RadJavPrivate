@@ -1,0 +1,11 @@
+var webSocketClient = new RadJav.Net.WebSocketClient();
+
+webSocketClient.on ("receive", function (socket)
+{
+	
+});
+
+webSocketClient.connect("127.0.0.1", "9229");
+webSocketClient.send("Client Message");
+webSocketClient.receive();
+webSocketClient.close();

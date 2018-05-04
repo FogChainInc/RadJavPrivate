@@ -22,6 +22,11 @@
 #include "RadJav.h"
 #include "RadJavString.h"
 #include "cpp/RadJavCPPNetWebServer.h"
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
+#include <boost/uuid/uuid_io.hpp>
+
+std::vector<std::pair<std::string, std::shared_ptr<RadJAV::CPP::Net::WebSocketServer::WebSocketServerSession>>> RadJAV::CPP::Net::WebSocketServer::sessions_;
 
 namespace RadJAV
 {
@@ -59,17 +64,20 @@ namespace RadJAV
 #endif
 			}
 
-			void WebSocketServer::send(String message)
+			void WebSocketServer::send(String id, String message)
 			{
+				for (const auto& s : sessions_)
+					if (s.first == id)
+					{
+						s.second->do_write(message);
+						break;
+					}
 			}
 
 			void WebSocketServer::sendToAll(String message)
 			{
-			}
-
-			String WebSocketServer::receivedData()
-			{
-				return ("");
+				for(const auto& s: sessions_)
+					s.second->do_write(message);
 			}
 
 			void WebSocketServer::close()
@@ -77,8 +85,8 @@ namespace RadJAV
 				io_context_->stop();
 			}
 
-			WebSocketServer::WebSocketServerSession::WebSocketServerSession(boost::asio::ip::tcp::socket socket)
-				: ws_(std::move(socket)), strand_(ws_.get_executor())
+			WebSocketServer::WebSocketServerSession::WebSocketServerSession(boost::asio::ip::tcp::socket socket, std::string sessionID)
+				: ws_(std::move(socket)), strand_(ws_.get_executor()), sessionID_(sessionID)
 			{
 			}
 
@@ -121,6 +129,20 @@ namespace RadJAV
 							std::placeholders::_2)));
 			}
 
+			void WebSocketServer::WebSocketServerSession::do_write(String message)
+			{
+				ws_.text(message.c_str());
+				ws_.async_write(
+					buffer_.data(),
+					boost::asio::bind_executor(
+						strand_,
+						std::bind(
+							&WebSocketServerSession::on_write,
+							shared_from_this(),
+							std::placeholders::_1,
+							std::placeholders::_2)));
+			}
+
 			void WebSocketServer::WebSocketServerSession::on_read(
 				boost::system::error_code ec,
 				std::size_t bytes_transferred)
@@ -129,7 +151,17 @@ namespace RadJAV
 
 				// This indicates that the session was closed
 				if (ec == boost::beast::websocket::error::closed)
+				{
+					//Remove the session from the list
+					for (auto it = sessions_.begin(); it != sessions_.end(); ++it)
+						if (it->first == sessionID_)
+						{
+							sessions_.erase(it);
+							break;
+						}
+
 					return;
+				}
 
 				if (ec)
 				{
@@ -137,6 +169,9 @@ namespace RadJAV
 
 					return;
 				}
+
+				//TO DO: need a callback for this
+
 
 				// Echo the message
 				ws_.text(ws_.got_text());
@@ -244,7 +279,10 @@ namespace RadJAV
 				else
 				{
 					// Create the session and run it
-					std::make_shared<WebSocketServerSession>(std::move(socket_))->run();
+					std::string sessionId = boost::uuids::to_string(boost::uuids::random_generator()());
+					auto session = std::make_shared<WebSocketServerSession>(std::move(socket_), sessionId);
+					sessions_.push_back(std::make_pair(sessionId, session));
+					session->run();
 				}
 
 				// Accept another connection

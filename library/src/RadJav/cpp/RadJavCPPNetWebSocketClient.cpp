@@ -28,25 +28,45 @@ namespace RadJAV
 	{
 		namespace Net
 		{
-			WebSocketClient::WebSocketClient()
+			WebSocketClient::WebSocketClient(String host, String port)
 			{
+				host_ = host;
+				port_ = port;
 			}
 
-			void WebSocketClient::connect(String url)
+			void WebSocketClient::connect()
 			{
+				//look up the domain name
+				auto const results = resolver.resolve(host_, port_);
+
+				//make the connection on the IP address we get from a lookup
+				boost::asio::connect(ws_.next_layer(), results.begin(), results.end());
+
+				//perform the websocket handshake
+				ws_.handshake(host_, "/");
 			}
 
 			void WebSocketClient::send(String message)
 			{
+				//send the message
+				ws_.write(boost::asio::buffer(std::string(message)));
 			}
 
-			String WebSocketClient::receivedData()
+			String WebSocketClient::receive()
 			{
-				return ("");
+				//this buffer will hold the incoming message
+				boost::beast::multi_buffer buffer;
+
+				//read a message into our buffer
+				ws_.read(buffer);
+
+				return boost::beast::buffers_to_string(buffer.data());
 			}
 
 			void WebSocketClient::close()
 			{
+				//close the WebSocket connection
+				ws_.close(boost::beast::websocket::close_code::normal);
 			}
 		}
 	}
