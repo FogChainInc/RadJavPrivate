@@ -354,7 +354,7 @@ namespace RadJAV
 				
                 Ogre::SceneManager *sceneManager;
                 if (name == "")
-                    sceneManager = object->createSceneManager(Ogre::String("OctreeSceneManager"));
+                    sceneManager = object->createSceneManager(Ogre::String("defaultWorld"));
                 else
                     sceneManager = object->createSceneManager(name);
 
