@@ -55,6 +55,10 @@ RadJav.OS = function ()
 {
 }
 
+RadJav.Crypto = function ()
+{
+}
+
 RadJav.OS.type = "";
 RadJav.OS.numBits = 32;
 

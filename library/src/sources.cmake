@@ -93,6 +93,14 @@ source_group ("RadJav\\V8\\Database" FILES ${SOURCES_files_RadJav__v8__DB__Sourc
 
 set (SOURCES ${SOURCES_files_RadJav__v8__DB__Sources} ${SOURCES})
 
+# V8 Crypto
+set (SOURCES_files_RadJav__v8__Crypto__Sources 
+	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8CryptoHash.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8CryptoHashMultipart.cpp")
+source_group ("RadJav\\V8\\Database" FILES ${SOURCES_files_RadJav__v8__Crypto__Sources})
+
+set (SOURCES ${SOURCES_files_RadJav__v8__Crypto__Sources} ${SOURCES})
+
 # V8 Blockchain
 set (SOURCES_files_RadJav__v8__Blockchain__Sources 
 	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8BlockchainV1.cpp")
@@ -151,6 +159,14 @@ set (SOURCES_files_RadJav__cpp__Database__Sources
 source_group ("RadJav\\CPP\\Database" FILES ${SOURCES_files_RadJav__cpp__Database__Sources})
 
 set (SOURCES ${SOURCES_files_RadJav__cpp__Database__Sources} ${SOURCES})
+
+# C++ Crypto
+set (SOURCES_files_RadJav__cpp__Crypto__Sources 
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPCryptoHash.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPCryptoHashMultipart.cpp")
+source_group ("RadJav\\CPP\\Database" FILES ${SOURCES_files_RadJav__cpp__Crypto__Sources})
+
+set (SOURCES ${SOURCES_files_RadJav__cpp__Crypto__Sources} ${SOURCES})
 
 # C++ GUI
 set (SOURCES_files_RadJav__cpp__GUI__Sources 

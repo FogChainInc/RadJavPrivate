@@ -5,7 +5,9 @@
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkx.h>
+#ifdef WIN32
 #include <wx/gtk/win_gtk.h>
+#endif
 #include <GL/glx.h>
 #endif
  

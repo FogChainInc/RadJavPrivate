@@ -159,6 +159,7 @@ set (libRadJav_LINK_LIBRARIES)
 
 include_directories (${libRadJav_SOURCE_DIR}/include/RadJav)
 
+
 # Boost
 include (FindModuleBoost)
 
@@ -325,7 +326,7 @@ if (INCLUDE_CRYPTOGRAPHY)
 
 	include (FindModuleOpenSSL)
 
-	include_directories (${OPENSSL_INCLUDE})
+	include_directories (${OPENSSL_INCLUDE_DIR})
 	set (libRadJav_LINK_LIBRARIES ${OPENSSL_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
 endif ()
 
@@ -406,3 +407,13 @@ if (libRadJav_EMBEDFILE)
 
 	add_dependencies (libRadJav RadJavCompileResources)
 endif ()
+
+
+if (INCLUDE_CRYPTOGRAPHY)
+set (libCrypto_PATH "${libRadJav_PATH}/Engine/Crypto" CACHE PATH "Crypto path")
+add_subdirectory (${libCrypto_PATH} ${libCrypto_PATH}/build)
+include_directories (${libCrypto_INTERFACE_DIR})
+
+message("libCrypto_INTERFACE_DIR: ${libCrypto_INTERFACE_DIR}")
+message("libCrypto_LIBRARIES: ${libCrypto_LIBRARIES}")
+endif()
