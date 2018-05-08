@@ -27,7 +27,7 @@
 	{
 		namespace V8B
 		{
-			/// RadJav Databases.
+			/// RadJav Cryptography
 			namespace Crypto
 			{
 				/// A Key/Value Database, uses LevelDB.

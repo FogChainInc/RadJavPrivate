@@ -27,7 +27,7 @@
 	{
 		namespace V8B
 		{
-			/// RadJav Databases.
+			/// RadJav Cryptography
 			namespace Crypto
 			{
 				/// A Key/Value Database, uses LevelDB.
@@ -39,10 +39,8 @@
 						static void _init(const v8::FunctionCallbackInfo<v8::Value> &args);
 						static void digest(const v8::FunctionCallbackInfo<v8::Value> &args);
 						static void digestP(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void read(const v8::FunctionCallbackInfo<v8::Value> &args);
-						
-						static void getCapabilities(const v8::FunctionCallbackInfo<v8::Value> &args);
 
+						static void getCapabilities(const v8::FunctionCallbackInfo<v8::Value> &args);
 				};
 			}
 		}
