@@ -178,7 +178,9 @@ if (USE_OGRE)
 	set (SOURCES_files_RadJav__v8__C3D__Sources 
 		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8C3DObject3D.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8C3DEntity.cpp"
-		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8C3DWorld.cpp")
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8C3DWorld.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8C3DCamera.cpp"
+		)
 	source_group ("RadJav\\V8\\C3D" FILES ${SOURCES_files_RadJav__v8__C3D__Sources})
 
 	set (SOURCES ${SOURCES_files_RadJav__v8__C3D__Sources} ${SOURCES})

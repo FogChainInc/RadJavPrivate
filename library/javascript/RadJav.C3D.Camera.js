@@ -31,8 +31,19 @@ RadJav.C3D.Camera = (function (_super)
 	{
 		var _this = _super.call(this, canvas3d, obj, parent) || this;
 
-		_this.type = "RadJav.C3D.Camera";
+		if (obj == null)
+			obj = {};
 
+		if (typeof (obj) == "string")
+		{
+			var tempObj = obj;
+			obj = {};
+			obj._name = tempObj;
+		}
+
+		_this.type = "RadJav.C3D.Camera";
+		
+		RadJav.console
 		/** @property {Boolean} [_perspective=true]
 		* @protected
 		* If this is set to true, the perspective view will be used.
@@ -42,8 +53,7 @@ RadJav.C3D.Camera = (function (_super)
 		* @protected
 		* The camera's aspect ratio.
 		*/
-		_this._aspectRatio = RadJav.setDefaultValue (obj._aspectRatio, parseFloat (canvas3d.getWidth ()) / 
-							parseFloat (canvas3d.getHeight ()));
+		_this._aspectRatio = RadJav.setDefaultValue (obj._aspectRatio, 1.0);
 		/** @property {Number} [_fov=(90 / _this._aspectRatio)]
 		* @protected
 		* The camera's fov.

@@ -19,7 +19,6 @@
 */
 
 /** @class RadJav.C3D.World
-* @extends RadJav.C3D.Object3D
 * A C3D World.
 * Available on platforms: Windows,Linux,OSX,HTML5
 */
@@ -35,15 +34,5 @@ RadJav.C3D.World = function (obj)
 	* The native os render window currently being used.
 	*/
 	this._renderWindow = null;
-
-	/** @method createEntity
-	* Create an entity in this world.
-	* @param {String} name The name of the entity.
-	* @param {Number} [type=1] The type of entity to create.
-	* @return {RadJav.C3D.Entity} The created entity.
-	*/
-	/*this.createEntity = function (name, type)
-	{
-	}*/
 }
 

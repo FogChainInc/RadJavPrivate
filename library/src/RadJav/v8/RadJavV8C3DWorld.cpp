@@ -23,6 +23,7 @@
 
 #ifdef USE_V8
 #include "v8/RadJavV8JavascriptEngine.h"
+#include "v8/RadJavV8C3DObject3D.h"
 
 namespace RadJAV
 {
@@ -33,10 +34,43 @@ namespace RadJAV
 			#ifdef C3D_USE_OGRE
 			void World::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 			{
-				V8_CALLBACK(object, "createEntity", World::createEntity);
+				//V8_CALLBACK(object, "createEntity", World::createEntity);
+				V8_CALLBACK(object, "createCamera", World::createCamera);
+				V8_CALLBACK(object, "createLight", World::createLight);
+				V8_CALLBACK(object, "createPrimitive", World::createPrimitive);
 				V8_CALLBACK(object, "setAmbientLight", World::setAmbientLight);
 			}
 
+			void World::createCamera(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				String name = parseV8Value(args[0]);
+
+				Object3D* obj3D = NULL;
+				
+				if (args.Length() > 1)
+				{
+					v8::Local<v8::Object> object3D = v8::Local<v8::Object>::Cast(args[1]);
+					obj3D = (Object3D *)V8_JAVASCRIPT_ENGINE->v8GetExternal(object3D, "_c3dObj");
+				}
+				
+				v8::Local<v8::Object> C3D = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_RADJAV, "C3D");
+				v8::Local<v8::Object> camera = V8_JAVASCRIPT_ENGINE->v8GetObject(C3D, "Camera");
+				v8::Local<v8::Object> newCamera = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(camera, 0, NULL);
+				
+				args.GetReturnValue().Set(newCamera);
+			}
+			
+			void World::createLight(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				
+			}
+			
+			void World::createPrimitive(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				
+			}
+
+			/*
 			void World::createEntity(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				String name = parseV8Value(args[0]);
@@ -97,7 +131,8 @@ namespace RadJAV
 
 				args.GetReturnValue().Set(newEntity);
 			}
-
+			 */
+			
 			void World::setAmbientLight(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				Ogre::SceneManager *sceneMgr = (Ogre::SceneManager *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_sceneManager");

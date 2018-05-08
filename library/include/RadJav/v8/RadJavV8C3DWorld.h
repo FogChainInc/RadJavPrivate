@@ -35,8 +35,12 @@
 				public:
 					static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
-					static void createEntity(const v8::FunctionCallbackInfo<v8::Value> &args);
+					static void createCamera(const v8::FunctionCallbackInfo<v8::Value> &args);
+					static void createLight(const v8::FunctionCallbackInfo<v8::Value> &args);
+					static void createPrimitive(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void setAmbientLight(const v8::FunctionCallbackInfo<v8::Value> &args);
+
+					//static void createEntity(const v8::FunctionCallbackInfo<v8::Value> &args);
 				};
 #endif
 			}

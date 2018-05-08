@@ -70,6 +70,7 @@
 	#include "v8/RadJavV8C3DObject3D.h"
 	#include "v8/RadJavV8C3DEntity.h"
 	#include "v8/RadJavV8C3DWorld.h"
+	#include "v8/RadJavV8C3DCamera.h"
 #endif
 
 #include "cpp/RadJavCPPIO.h"
@@ -1353,14 +1354,12 @@ namespace RadJAV
 						V8B::C3D::Entity::createV8Callbacks(isolate, entityPrototype);
 					}
 
-					// RadJav.C3D.Camera
+					//RadJav.C3D.Camera
 					{
-                        /*
 						v8::Handle<v8::Function> cameraFunc = v8GetFunction(c3dFunc, "Camera");
 						v8::Handle<v8::Object> cameraPrototype = v8GetObject(cameraFunc, "prototype");
 
 						V8B::C3D::Camera::createV8Callbacks(isolate, cameraPrototype);
-                        */
 					}
 				}
 				#endif
