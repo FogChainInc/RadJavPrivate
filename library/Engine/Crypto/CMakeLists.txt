@@ -20,7 +20,13 @@ set (SOURCES
   ${OpenSSLSources}
   )
 
-add_library(${PROJECT_NAME} SHARED ${SOURCES})
+if (WIN32)
+  add_library(${PROJECT_NAME} STATIC ${SOURCES})
+else ()
+  add_library(${PROJECT_NAME} SHARED ${SOURCES})
+endif ()
+
+
 
 set (OPENSSL_ROOT_DIR "" CACHE PATH "OPENSSL_ROOT_DIR")
 include (FindOpenSSL)
@@ -44,6 +50,11 @@ set (libCrypto_INTERFACE_DIR "${PROJECT_SOURCE_DIR}/Interface" CACHE PATH "Crypt
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 set (libCrypto_LIBRARIES "${PROJECT_SOURCE_DIR}/build/lib${PROJECT_NAME}_d.so" CACHE STRING "Crypto libraries" FORCE)
 set (libCrypto_NAME "lib${PROJECT_NAME}_d.so" CACHE STRING "Crypto library" FORCE)
+endif()
+
+if (WIN32) 
+set (libCrypto_LIBRARIES "${PROJECT_SOURCE_DIR}/build/Debug/${PROJECT_NAME}_d.lib" CACHE STRING "Crypto libraries" FORCE)
+set (libCrypto_NAME "${PROJECT_NAME}_d.lib" CACHE STRING "Crypto library" FORCE)
 endif()
 
 target_include_directories(${PROJECT_NAME}

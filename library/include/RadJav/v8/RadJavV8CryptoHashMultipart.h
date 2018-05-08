@@ -30,7 +30,7 @@
 			/// RadJav Cryptography
 			namespace Crypto
 			{
-				/// A Key/Value Database, uses LevelDB.
+				/// 
 				class RADJAV_EXPORT HashMultipart
 				{
 					public:

@@ -24,7 +24,7 @@
 
 using namespace std;
 
-main()
+int main()
 {
 
   string text = "Beer is good";
@@ -43,4 +43,5 @@ main()
 
   cout << "Text decoded:\t" << resultStr << endl;
   
+  return 0;
 }

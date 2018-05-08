@@ -30,7 +30,7 @@ using namespace std;
 
 string getHex(shared_ptr<void> digestResult, unsigned int digestLengh);
 
-main()
+int main()
 {
   #ifdef USE_OPENSSL
   
@@ -58,7 +58,7 @@ main()
       cout << "No such digest: " << digest.first << endl;
     }
       
-    
+	return 0;
   }
 
   #endif 

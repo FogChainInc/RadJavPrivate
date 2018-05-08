@@ -67,7 +67,7 @@ namespace Engine
 
       void Digest::update(const std::string& str)
       {
-	std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
+	//std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
 	update(str.c_str(), str.length());
       }
 
@@ -78,7 +78,7 @@ namespace Engine
 
       std::tuple<std::shared_ptr<void>, unsigned int> Digest::finalize()
       {
-	std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
+	//std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
 	unsigned int digestLen;
 
 	digestLen = EVP_MD_size(myDigest);
@@ -94,7 +94,7 @@ namespace Engine
       std::tuple<std::shared_ptr<void>, unsigned int>
       Digest::digest(const void* data, int dataLen)
       {
-	std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
+	//std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
 	update(data, dataLen);
 	auto ret = finalize();
 	reset();
@@ -106,7 +106,7 @@ namespace Engine
       std::tuple<std::shared_ptr<void>, unsigned int>
       Digest::digest(const std::string& str)
       {
-	std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
+	//std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
 	update(str);
 	auto ret = finalize();
 	reset();

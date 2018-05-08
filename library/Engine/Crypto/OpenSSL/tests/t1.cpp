@@ -26,7 +26,7 @@
 
 using namespace std;
 
-main() {
+int main() {
   #ifdef USE_OPENSSL
 
   Engine::Crypto::OpenSSL::Digest d("sha256");
