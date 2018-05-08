@@ -168,8 +168,14 @@ namespace RadJAV
 			  if (myOutputEncoding == "base64")
 			    {
 			      std::cout << "Digest string encoded as base64 " << std::endl;
-			      return String(ORB::Engine::Crypto::encodeBase64(std::get<0>(digestResult).get(),
-									      std::get<1>(digestResult)));
+				  // TODO: look at this. Dunno why returning constructed string hangs sometimes.
+			      //return String(ORB::Engine::Crypto::encodeBase64(std::get<0>(digestResult).get(),
+					//				      std::get<1>(digestResult)));
+
+				  String str(ORB::Engine::Crypto::encodeBase64(std::get<0>(digestResult).get(),
+															std::get<1>(digestResult)));	
+				  std::cout << "Got the string: " << str << std::endl;
+				  return str;
 			      //args.GetReturnValue().Set(out.toV8String(isolate));
 			    }
 			  else if (myOutputEncoding == "binary")

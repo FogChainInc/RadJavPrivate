@@ -60,7 +60,21 @@ int main() {
     cout << out.str() << endl;
   }
 
+  {
+	  Engine::Crypto::OpenSSL::Digest d("sha256");
+	  d.update("Ala ma ");
+	  d.update("kotaa");
 
+	  auto result = d.finalize();
+	  shared_ptr<void> digestResult = std::get<0>(result);
+	  unsigned int digestLength = std::get<1>(result);
+
+	  stringstream out;
+	  for (int i = 0; i<digestLength; i++)
+		  out << hex << setw(2) << setfill('0') << (int)(static_cast<unsigned char*>(digestResult.get()))[i];
+
+	  cout << out.str() << endl;
+  }
 	 
   #endif
   return 0;
