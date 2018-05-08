@@ -55,10 +55,6 @@
 				  
 				  /// Read from a key in the database.
 				  String digestString(const String &str);
-				  String read(String key);
-				  
-				  String getCapabilities();
-				  v8::Local<v8::Object> getCapabilities2();
 
 				public:
 				  std::shared_ptr<Engine::Crypto::IDigest> myDigest;

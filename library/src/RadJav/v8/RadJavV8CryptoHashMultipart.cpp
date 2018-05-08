@@ -46,19 +46,19 @@ namespace RadJAV
 			#ifdef USE_CRYPTOGRAPHY
 				void HashMultipart::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 				{
-				  std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
+				  //std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
 
 					V8_CALLBACK(object, "_init", HashMultipart::_init);
 					V8_CALLBACK(object, "update", HashMultipart::update);
 					V8_CALLBACK(object, "updateP", HashMultipart::updateP);
 					V8_CALLBACK(object, "finalize", HashMultipart::finalize);
 
-				  std::cout << __PRETTY_FUNCTION__ << ": end" << std::endl << std::flush;
+					//std::cout << __PRETTY_FUNCTION__ << ": end" << std::endl << std::flush;
 				}
 
 				void HashMultipart::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
-				  std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
+				  //std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
 				        ENGINE *engine = RJNEW ENGINE(V8_JAVASCRIPT_ENGINE, args);
 					V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_engine", engine);
 
@@ -73,7 +73,7 @@ namespace RadJAV
 					V8_JAVASCRIPT_ENGINE->v8SetString(args.This(), "outputEncoding",
 									  engine -> myOutputEncoding);
 					
-					std::cout << __PRETTY_FUNCTION__ << std::endl;
+					//std::cout << __PRETTY_FUNCTION__ << std::endl;
 				}
 
 
@@ -100,7 +100,7 @@ namespace RadJAV
 					  }
 					else if (args[0] -> IsArray())
 					  {
-					    std::cout << __PRETTY_FUNCTION__ << ": BUFFER" << std::endl << std::flush;
+					    //std::cout << __PRETTY_FUNCTION__ << ": BUFFER" << std::endl << std::flush;
 
 					  }
 
@@ -121,7 +121,7 @@ namespace RadJAV
 					  }
 					else if (args[0] -> IsArray())
 					  {
-					    std::cout << __PRETTY_FUNCTION__ << ": BUFFER" << std::endl << std::flush;
+					    //std::cout << __PRETTY_FUNCTION__ << ": BUFFER" << std::endl << std::flush;
 
 					  }
 
@@ -171,7 +171,7 @@ namespace RadJAV
 		  
 		                void HashMultipart::getCapabilities(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
-				  std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl;
+				  //std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl;
 					ENGINE *engine = (ENGINE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_engine");
 
 					auto isolate = args.GetIsolate();

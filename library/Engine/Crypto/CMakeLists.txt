@@ -17,7 +17,6 @@ file (GLOB OpenSSLSources
 file (GLOB OpenSSLTests OpenSSL/tests/*.cpp)
 
 set (SOURCES
-  #  OpenSSL/src/Digest.cpp
   ${OpenSSLSources}
   )
 
@@ -41,8 +40,11 @@ else()
 endif()
 
 set (libCrypto_INTERFACE_DIR "${PROJECT_SOURCE_DIR}/Interface" CACHE PATH "Crypto Interface")
+
+if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 set (libCrypto_LIBRARIES "${PROJECT_SOURCE_DIR}/build/lib${PROJECT_NAME}_d.so" CACHE STRING "Crypto libraries" FORCE)
 set (libCrypto_NAME "lib${PROJECT_NAME}_d.so" CACHE STRING "Crypto library" FORCE)
+endif()
 
 target_include_directories(${PROJECT_NAME}
   PRIVATE

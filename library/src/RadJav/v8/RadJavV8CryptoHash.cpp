@@ -45,19 +45,18 @@ namespace RadJAV
 			#ifdef USE_CRYPTOGRAPHY
 				void Hash::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 				{
-				  std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
+				  //std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
 
 					V8_CALLBACK(object, "_init", Hash::_init);
 					V8_CALLBACK(object, "digest", Hash::digest);
 					V8_CALLBACK(object, "digestP", Hash::digestP);
-					V8_CALLBACK(object, "read", Hash::read);
 
-				  std::cout << __PRETTY_FUNCTION__ << ": end" << std::endl << std::flush;
+					//std::cout << __PRETTY_FUNCTION__ << ": end" << std::endl << std::flush;
 				}
 
 				void Hash::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
-				  std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
+				  //std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
 				        ENGINE *engine = RJNEW ENGINE(V8_JAVASCRIPT_ENGINE, args);
 					V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_engine", engine);
 
@@ -72,7 +71,7 @@ namespace RadJAV
 					V8_JAVASCRIPT_ENGINE->v8SetString(args.This(), "outputEncoding",
 									  engine -> myOutputEncoding);
 					
-					std::cout << __PRETTY_FUNCTION__ << std::endl;
+					//std::cout << __PRETTY_FUNCTION__ << std::endl;
 				}
 
 
@@ -100,7 +99,7 @@ namespace RadJAV
 					  }
 					else if (args[0] -> IsArray())
 					  {
-					    std::cout << __PRETTY_FUNCTION__ << ": BUFFER" << std::endl << std::flush;
+					    //std::cout << __PRETTY_FUNCTION__ << ": BUFFER" << std::endl << std::flush;
 
 					  }
 
@@ -123,7 +122,7 @@ namespace RadJAV
 					  }
 					else if (args[0] -> IsArray())
 					  {
-					    std::cout << __PRETTY_FUNCTION__ << ": BUFFER" << std::endl << std::flush;
+					    //std::cout << __PRETTY_FUNCTION__ << ": BUFFER" << std::endl << std::flush;
 
 					  }
 
@@ -149,42 +148,9 @@ namespace RadJAV
 					args.GetReturnValue().Set(promise);
 				}
 				  
-	
-				void Hash::read(const v8::FunctionCallbackInfo<v8::Value> &args)
-				{
-					ENGINE *engine = (ENGINE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_engine");
-
-					v8::Local<v8::String> key = v8::Local<v8::String>::Cast(args[0]);
-					String keyStr = parseV8Value (key);
-					v8::Isolate *isolate = args.GetIsolate();
-
-
-					PromiseThread *thread = RJNEW PromiseThread();
-					v8::Local<v8::Object> promise = thread->createV8Promise(V8_JAVASCRIPT_ENGINE, args.This());
-					thread->onStart = [thread, engine, keyStr, isolate]()
-					{
-					  String value = keyStr + "-woohoo";
-
-						v8::Local<v8::String> valueStr = value.toV8String(isolate);
-						v8::Local<v8::Array> args2 = v8::Array::New (isolate, 1);
-						args2->Set(0, valueStr);
-						thread->setResolveArgs(isolate, args2);
-
-						thread->resolvePromise();
-					};
-                    thread->onComplete = [thread]()
-                    {
-                        V8_JAVASCRIPT_ENGINE->removeThread(thread);
-                    };
-
-					V8_JAVASCRIPT_ENGINE->addThread(thread);
-
-					args.GetReturnValue().Set(promise);
-				}
-		  
 		                void Hash::getCapabilities(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
-				  std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl;
+				  //std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl;
 					ENGINE *engine = (ENGINE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_engine");
 
 					auto isolate = args.GetIsolate();
@@ -235,35 +201,9 @@ namespace RadJAV
 							     );
 					  }
 					
-					//v8::Local<v8::Object> ret = v8::Local<v8::Object>::New(args.GetIsolate(), obj)
 					args.GetReturnValue().Set(ret);
 				}
 
-		                void Hash::getCapabilities2(const v8::FunctionCallbackInfo<v8::Value> &args)
-				{
-				  std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl;
-					ENGINE *engine = (ENGINE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_engine");
-
-					String str = engine->getCapabilities();
-					auto isolate = args.GetIsolate();
-					
-
-					//v8::Local<v8::String> ret = str.toV8String(args.GetIsolate());
-
-					v8::Local<v8::Object> ret = v8::Object::New(args.GetIsolate());
-
-					ret -> Set(
-						v8::String::NewFromUtf8(isolate, "cap1"),
-						str.toV8String(isolate)
-						);
-					
-					//v8::Local<v8::Object> ret = v8::Local<v8::Object>::New(args.GetIsolate(), obj)
-					args.GetReturnValue().Set(ret);
-				}
-		  
-
-		    
-		  
 			#endif
 		}
 	}

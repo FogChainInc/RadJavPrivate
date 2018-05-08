@@ -42,7 +42,6 @@
 						static void read(const v8::FunctionCallbackInfo<v8::Value> &args);
 						
 						static void getCapabilities(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void getCapabilities2(const v8::FunctionCallbackInfo<v8::Value> &args);
 
 				};
 			}

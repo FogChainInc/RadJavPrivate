@@ -45,7 +45,7 @@ namespace RadJAV
 			#ifdef USE_CRYPTOGRAPHY
 			Hash::Hash(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-			  std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl;
+			  //			  std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl;
 			  std::cout << "Args len: " << args.Length() << std::endl;
 
 			  this -> jsEngine = jsEngine;
@@ -117,7 +117,7 @@ namespace RadJAV
 
 			  
 
-			  std::cout << __PRETTY_FUNCTION__ << ": end" << std::endl;
+			  //std::cout << __PRETTY_FUNCTION__ << ": end" << std::endl;
 
 			}
 
@@ -129,7 +129,7 @@ namespace RadJAV
 	                String Hash::digestString(const String &text)
 			{
 			  //std::tuple<std::shared_ptr<void>, unsigned int> digestResult;
-			  std::cout << __PRETTY_FUNCTION__ << ": String" << std::endl << std::flush;
+			  //std::cout << __PRETTY_FUNCTION__ << ": String" << std::endl << std::flush;
 					    
 			  std::cout << "Digest string: " << text << std::endl;
 					  
@@ -162,28 +162,6 @@ namespace RadJAV
 
 			}
 
-			/// Read from a key in the database.
-			String Hash::read(String key)
-			{
-			  std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl;
-			  String value = "Blah";
-
-			  return value;
-			}
-		  
-
-		  String Hash::getCapabilities() {
-		    std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl;
-
-		    return "sha256";
-
-		  }
-
-		  v8::Local<v8::Object> getCapabilities2() {
-
-		    
-
-		  }
                   #endif
 		  
 		}

@@ -66,10 +66,3 @@ digest2.digestP('asdfadfadsf').then (function (data)
 				     });
 
 
-digest2.read ("siema1").then (function (data)
-			      {
-				  alert ("Complete! The following value was stored: " + data);
-				  digest.close ();
-			      });
-
-
