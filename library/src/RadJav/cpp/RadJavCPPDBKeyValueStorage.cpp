@@ -34,6 +34,10 @@
     #include <leveldb/db.h>
 #endif
 
+#ifdef USE_ROCKSDB
+	#include <rocksdb/db.h>
+#endif
+
 namespace RadJAV
 {
 	namespace CPP
@@ -42,16 +46,16 @@ namespace RadJAV
 		{
 			#ifdef USE_DATABASE
 			KeyValueStorage::KeyValueStorage()
-				#ifdef USE_LEVELDB
+				#if defined USE_LEVELDB || defined USE_ROCKSDB
 					: db(NULL)
 				#endif
 			{
                 //TODO: Need to add helper class to handle paths in portable way
                 //F.e. which can prepend path before file name
                 #ifdef WIN32
-                    filePath = ".\leveldb.dat";
+                    filePath = ".\db.dat";
                 #else
-                    filePath = "./leveldb.dat";
+                    filePath = "./db.dat";
                 #endif
 			}
 
@@ -88,6 +92,25 @@ namespace RadJAV
                         return false;
                     }
                 #endif
+				
+				#ifdef USE_ROCKSDB
+					rocksdb::Options options;
+				
+					// Optimize RocksDB. This is the easiest way to get RocksDB to perform well
+					options.IncreaseParallelism();
+					options.OptimizeLevelStyleCompaction();
+				
+					// create the DB if it's not already present
+					options.create_if_missing = true;
+				
+					rocksdb::Status status = rocksdb::DB::Open(options, path, &db);
+				
+					if(!status.ok())
+					{
+						RadJav::throwException("Can't open database");
+						return false;
+					}
+				#endif
 
 				return true;
 			}
@@ -110,6 +133,22 @@ namespace RadJAV
                         return;
                     }
                 #endif
+				
+				#ifdef USE_ROCKSDB
+					if(!db)
+					{
+						RadJav::throwException("Database have not been opened.");
+						return;
+					}
+				
+					rocksdb::Status status = db->Put(rocksdb::WriteOptions(), key, value);
+				
+					if (!status.ok())
+					{
+						RadJav::throwException("Unable to write data into database.");
+						return;
+					}
+				#endif
 			}
 
 			/// Read from a key in the database.
@@ -118,11 +157,11 @@ namespace RadJAV
                 String value = "";
 
 				#ifdef USE_LEVELDB
-                if(!db)
-                {
-                    RadJav::throwException("Database have not been opened.");
-                    return value;
-                }
+                	if(!db)
+                	{
+                    	RadJav::throwException("Database have not been opened.");
+                    	return value;
+                	}
                 
                     leveldb::Status status = db->Get( leveldb::ReadOptions(), key, &value);
                 
@@ -132,6 +171,22 @@ namespace RadJAV
                         return value;
                     }
                 #endif
+				
+				#ifdef USE_ROCKSDB
+					if(!db)
+					{
+						RadJav::throwException("Database have not been opened.");
+						return value;
+					}
+				
+					rocksdb::Status status = db->Get( rocksdb::ReadOptions(), key, &value);
+				
+					if (!status.ok())
+					{
+						RadJav::throwException("Unable to read data from database.");
+						return value;
+					}
+				#endif
                 
                 return value;
 			}
@@ -143,6 +198,11 @@ namespace RadJAV
                     delete db;
                     db = NULL;
                 #endif
+				
+				#ifdef USE_ROCKSDB
+					delete db;
+					db = NULL;
+				#endif
 			}
 			#endif
 		}
