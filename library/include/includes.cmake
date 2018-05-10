@@ -101,7 +101,7 @@ set (SOURCES ${SOURCES_files_RadJav__v8__DB__Headers} ${SOURCES})
 set (SOURCES_files_RadJav__v8__Crypto__Headers 
 	"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8CryptoHash.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8CryptoHashMultipart.h")
-source_group ("RadJav\\V8\\Database" FILES ${SOURCES_files_RadJav__v8__Crypto__Headers})
+source_group ("RadJav\\V8\\Crypto" FILES ${SOURCES_files_RadJav__v8__Crypto__Headers})
 
 set (SOURCES ${SOURCES_files_RadJav__v8__Crypto__Headers} ${SOURCES})
 
@@ -168,7 +168,7 @@ set (SOURCES ${SOURCES_files_RadJav__cpp__Database__Headers} ${SOURCES})
 set (SOURCES_files_RadJav__cpp__Crypto__Headers 
 	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPCryptoHash.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPCryptoHashMultipart.h")
-source_group ("RadJav\\CPP\\Database" FILES ${SOURCES_files_RadJav__cpp__Crypto__Headers})
+source_group ("RadJav\\CPP\\Crypto" FILES ${SOURCES_files_RadJav__cpp__Crypto__Headers})
 
 set (SOURCES ${SOURCES_files_RadJav__cpp__Crypto__Headers} ${SOURCES})
 
