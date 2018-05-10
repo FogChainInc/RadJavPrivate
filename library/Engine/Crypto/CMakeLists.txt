@@ -1,6 +1,9 @@
 
 
 cmake_minimum_required(VERSION 3.11)
+
+set_property (GLOBAL PROPERTY USE_FOLDERS ON)
+
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 project (RadJav_Crypto)
@@ -25,6 +28,7 @@ if (WIN32)
 else ()
   add_library(${PROJECT_NAME} SHARED ${SOURCES})
 endif ()
+set_property (TARGET ${PROJECT_NAME} PROPERTY FOLDER "RadJav_Crypto")
 
 
 
@@ -69,9 +73,12 @@ target_link_libraries(${PROJECT_NAME}
   ${OPENSSL_SSL_LIBRARY}
 )
 
+
+
 # -------------------------
 add_executable(t1 OpenSSL/tests/t1.cpp)
 set_property (TARGET t1 APPEND PROPERTY COMPILE_DEFINITIONS ${${PROJECT_NAME}_CPP_DEFS})
+set_property (TARGET t1 PROPERTY FOLDER "RadJav_Crypto/Tests")
 
 target_include_directories(t1
   PRIVATE
@@ -88,6 +95,7 @@ target_link_libraries(t1
 # -------------------------
 add_executable(t2 OpenSSL/tests/t2.cpp)
 set_property (TARGET t2 APPEND PROPERTY COMPILE_DEFINITIONS ${${PROJECT_NAME}_CPP_DEFS})
+set_property (TARGET t2 PROPERTY FOLDER "RadJav_Crypto/Tests")
 
 target_include_directories(t2
   PRIVATE
@@ -105,6 +113,7 @@ target_link_libraries(t2
 # -------------------------
 add_executable(encodeHex tests/encodeHex.cpp)
 set_property (TARGET encodeHex APPEND PROPERTY COMPILE_DEFINITIONS ${${PROJECT_NAME}_CPP_DEFS})
+set_property (TARGET encodeHex PROPERTY FOLDER "RadJav_Crypto/Tests")
 
 target_include_directories(encodeHex
   PRIVATE
@@ -122,6 +131,8 @@ target_link_libraries(encodeHex
 # -------------------------
 add_executable(encodeBase64 tests/encodeBase64.cpp)
 set_property (TARGET encodeBase64 APPEND PROPERTY COMPILE_DEFINITIONS ${${PROJECT_NAME}_CPP_DEFS})
+set_property (TARGET encodeBase64 PROPERTY FOLDER "RadJav_Crypto/Tests")
+
 
 target_include_directories(encodeBase64
   PRIVATE
