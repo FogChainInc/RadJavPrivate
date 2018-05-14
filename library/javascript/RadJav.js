@@ -140,7 +140,8 @@ RadJav.getC3DLibrary = function ()
 {
 	var includes = [{ file: "RadJav.GUI.Canvas3D", themeFile: true }, 
 			{ file: "RadJav.C3D.Object3D", themeFile: false, loadFirst: true }, 
-			{ file: "RadJav.C3D.Camera", themeFile: false }, { file: "RadJav.C3D.Entity", themeFile: false }, 
+			{ file: "RadJav.C3D.Camera", themeFile: false }, { file: "RadJav.C3D.Entity", themeFile: false },
+			{ file: "RadJav.C3D.Light", themeFile: false }, 
 			{ file: "RadJav.C3D.Transform", themeFile: true }, { file: "RadJav.Vector3", themeFile: false, loadFirst: true }, 
 			{ file: "RadJav.Vector4", themeFile: false, loadFirst: true }, { file: "RadJav.Quaternion", themeFile: false }, 
 			{ file: "RadJav.C3D.Model", themeFile: false, loadFirst: false }, 
@@ -160,7 +161,8 @@ RadJav.getGameLibrary = function ()
 {
 	var includes = [{ file: "RadJav.GUI.Canvas3D", themeFile: true }, 
 			{ file: "RadJav.C3D.Object3D", themeFile: false, loadFirst: true }, 
-			{ file: "RadJav.C3D.Camera", themeFile: false }, { file: "RadJav.C3D.Entity", themeFile: false }, 
+			{ file: "RadJav.C3D.Camera", themeFile: false }, { file: "RadJav.C3D.Entity", themeFile: false },
+			{ file: "RadJav.C3D.Light", themeFile: false }, 
 			{ file: "RadJav.C3D.Transform", themeFile: false }, { file: "RadJav.Vector3", themeFile: false }, 
 			{ file: "RadJav.Vector4", themeFile: false }, { file: "RadJav.Quaternion", themeFile: false }, 
 			{ file: "RadJav.C3D.Model", themeFile: false, loadFirst: false }, 

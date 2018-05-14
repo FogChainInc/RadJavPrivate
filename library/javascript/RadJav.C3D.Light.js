@@ -1,6 +1,6 @@
 /*
 	MIT-LICENSE
-	Copyright (c) 2017 Higher Edge Software, LLC
+	Copyright (c) 2017-2018 Higher Edge Software, LLC
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 	and associated documentation files (the "Software"), to deal in the Software without restriction, 
@@ -17,35 +17,35 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#ifndef _RADJAV_V8_C3D_WORLD_H_
-	#define _RADJAV_V8_C3D_WORLD_H_
 
-	#include "RadJavPreprocessor.h"
-	#include "RadJavString.h"
+/** @class RadJav.C3D.Light
+* @extends RadJav.C3D.Object3D
+* A camera.
+* Available on platforms: Windows,Linux,OSX,HTML5
+*/
+RadJav.C3D.Light = (function (_super)
+{
+	__extends(Light, _super);
 
-	namespace RadJAV
+	function Light (canvas3d, obj, parent)
 	{
-		namespace V8B
+		var _this = _super.call(this, canvas3d, obj, parent) || this;
+
+		if (obj == null)
+			obj = {};
+
+		if (typeof (obj) == "string")
 		{
-			namespace C3D
-			{
-#ifdef C3D_USE_OGRE
-				class RADJAV_EXPORT World
-				{
-				public:
-					static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
-
-					static void createCamera(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void createLight(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void createPrimitive(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void createEmpty(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void setAmbientLight(const v8::FunctionCallbackInfo<v8::Value> &args);
-
-					//static void createEntity(const v8::FunctionCallbackInfo<v8::Value> &args);
-				};
-#endif
-			}
+			var tempObj = obj;
+			obj = {};
+			obj._name = tempObj;
 		}
+
+		_this.type = "RadJav.C3D.Light";
+
+		return (_this);
 	}
-#endif
+
+	return (Light);
+}(RadJav.C3D.Object3D));
 

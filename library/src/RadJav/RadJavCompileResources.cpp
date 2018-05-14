@@ -178,6 +178,7 @@ int main(int iArgs, char **cArgs)
 	ary.push_back("RadJav.C3D.Model.js");
 	ary.push_back("RadJav.C3D.Transform.js");
 	ary.push_back("RadJav.C3D.World.js");
+	ary.push_back("RadJav.C3D.Light.js");
 #endif
 
 	std::string output = "\

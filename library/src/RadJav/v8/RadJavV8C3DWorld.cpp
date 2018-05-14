@@ -24,6 +24,11 @@
 #ifdef USE_V8
 #include "v8/RadJavV8JavascriptEngine.h"
 #include "v8/RadJavV8C3DObject3D.h"
+#include "cpp/RadJavCPPC3DCamera.h"
+#include "cpp/RadJavCPPC3DLight.h"
+#include "cpp/RadJavCPPC3DPlane.h"
+#include "cpp/RadJavCPPC3DCube.h"
+#include "cpp/RadJavCPPC3DSphere.h"
 
 namespace RadJAV
 {
@@ -32,12 +37,33 @@ namespace RadJAV
 		namespace C3D
 		{
 			#ifdef C3D_USE_OGRE
+			
+			Ogre::SceneManager::PrefabType jsPrimitiveTypeToNative(RJINT primitiveType)
+			{
+				switch(primitiveType)
+				{
+					case 1:
+						return Ogre::SceneManager::PT_PLANE;
+					break;
+					case 2:
+						return Ogre::SceneManager::PT_CUBE;
+					break;
+					case 3:
+						return Ogre::SceneManager::PT_SPHERE;
+					break;
+						
+					default:
+						return Ogre::SceneManager::PT_PLANE;
+				}
+			}
+			
 			void World::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 			{
 				//V8_CALLBACK(object, "createEntity", World::createEntity);
 				V8_CALLBACK(object, "createCamera", World::createCamera);
 				V8_CALLBACK(object, "createLight", World::createLight);
 				V8_CALLBACK(object, "createPrimitive", World::createPrimitive);
+				V8_CALLBACK(object, "createEmpty", World::createEmpty);
 				V8_CALLBACK(object, "setAmbientLight", World::setAmbientLight);
 			}
 
@@ -45,29 +71,93 @@ namespace RadJAV
 			{
 				String name = parseV8Value(args[0]);
 
-				Object3D* obj3D = NULL;
+				//Object3D* obj3D = NULL;
 				
-				if (args.Length() > 1)
+				/*if (args.Length() > 1)
 				{
 					v8::Local<v8::Object> object3D = v8::Local<v8::Object>::Cast(args[1]);
 					obj3D = (Object3D *)V8_JAVASCRIPT_ENGINE->v8GetExternal(object3D, "_c3dObj");
-				}
+				}*/
 				
 				v8::Local<v8::Object> C3D = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_RADJAV, "C3D");
-				v8::Local<v8::Object> camera = V8_JAVASCRIPT_ENGINE->v8GetObject(C3D, "Camera");
-				v8::Local<v8::Object> newCamera = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(camera, 0, NULL);
+				v8::Local<v8::Object> object = V8_JAVASCRIPT_ENGINE->v8GetObject(C3D, "Camera");
+				v8::Local<v8::Object> newObject = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(object, 0, NULL);
 				
-				args.GetReturnValue().Set(newCamera);
+				Ogre::SceneManager *sceneMgr = (Ogre::SceneManager *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_sceneManager");
+				Ogre::RenderWindow *renderWin = (Ogre::RenderWindow *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_renderWindow");
+
+				CPP::C3D::Camera* nativeObject = RJNEW CPP::C3D::Camera(*sceneMgr, *renderWin, name);
+				V8_JAVASCRIPT_ENGINE->v8SetExternal(newObject, "_c3dObj", nativeObject);
+
+				args.GetReturnValue().Set(newObject);
 			}
 			
 			void World::createLight(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
+				String name = parseV8Value(args[0]);
 				
+				v8::Local<v8::Object> C3D = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_RADJAV, "C3D");
+				v8::Local<v8::Object> object = V8_JAVASCRIPT_ENGINE->v8GetObject(C3D, "Light");
+				v8::Local<v8::Object> newObject = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(object, 0, NULL);
+				
+				Ogre::SceneManager *sceneMgr = (Ogre::SceneManager *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_sceneManager");
+				
+				CPP::C3D::Light* nativeObject = RJNEW CPP::C3D::Light(*sceneMgr, Ogre::Light::LT_DIRECTIONAL, name);
+				V8_JAVASCRIPT_ENGINE->v8SetExternal(newObject, "_c3dObj", nativeObject);
+				
+				args.GetReturnValue().Set(newObject);
 			}
 			
 			void World::createPrimitive(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
+				String name = parseV8Value(args[0]);
 				
+				RJINT type = 1;
+				if (args.Length() > 1)
+					type = v8::Local<v8::Integer>::Cast(args[1])->IntegerValue();
+				
+				Ogre::SceneManager::PrefabType prefabType = jsPrimitiveTypeToNative(type);
+				
+				Ogre::SceneManager *sceneMgr = (Ogre::SceneManager *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_sceneManager");
+				CPP::C3D::Object3D* nativeObject = NULL;
+				
+				switch(prefabType)
+				{
+					case Ogre::SceneManager::PT_PLANE:
+						nativeObject = RJNEW CPP::C3D::Plane(*sceneMgr, name);
+					break;
+					case Ogre::SceneManager::PT_CUBE:
+						nativeObject = RJNEW CPP::C3D::Cube(*sceneMgr, name);
+					break;
+					case Ogre::SceneManager::PT_SPHERE:
+						nativeObject = RJNEW CPP::C3D::Sphere(*sceneMgr, name);
+					break;
+					default:;
+				}
+
+				v8::Local<v8::Object> C3D = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_RADJAV, "C3D");
+				v8::Local<v8::Object> object = V8_JAVASCRIPT_ENGINE->v8GetObject(C3D, "Object3D");
+				v8::Local<v8::Object> newObject = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(object, 0, NULL);
+
+				V8_JAVASCRIPT_ENGINE->v8SetExternal(newObject, "_c3dObj", nativeObject);
+				
+				args.GetReturnValue().Set(newObject);
+			}
+
+			void World::createEmpty(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				String name = parseV8Value(args[0]);
+				
+				v8::Local<v8::Object> C3D = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_RADJAV, "C3D");
+				v8::Local<v8::Object> object = V8_JAVASCRIPT_ENGINE->v8GetObject(C3D, "Object3D");
+				v8::Local<v8::Object> newObject = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(object, 0, NULL);
+				
+				Ogre::SceneManager *sceneMgr = (Ogre::SceneManager *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_sceneManager");
+
+				CPP::C3D::Object3D* nativeObject = RJNEW CPP::C3D::Object3D(*sceneMgr, name);
+				V8_JAVASCRIPT_ENGINE->v8SetExternal(newObject, "_c3dObj", nativeObject);
+				
+				args.GetReturnValue().Set(newObject);
 			}
 
 			/*
@@ -135,8 +225,21 @@ namespace RadJAV
 			
 			void World::setAmbientLight(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
+				Ogre::ColourValue nativeColor;
+				
+				if(args.Length() > 0)
+				{
+					v8::Isolate* isolate = args.GetIsolate();
+					v8::Handle<v8::Object> color = v8::Handle<v8::Object>::Cast(args[0]);
+					
+					nativeColor.r = color->Get( String("r").toV8String(isolate))->NumberValue();
+					nativeColor.g = color->Get( String("g").toV8String(isolate))->NumberValue();
+					nativeColor.b = color->Get( String("b").toV8String(isolate))->NumberValue();
+					nativeColor.a = color->Get( String("a").toV8String(isolate))->NumberValue();
+				}
+				
 				Ogre::SceneManager *sceneMgr = (Ogre::SceneManager *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_sceneManager");
-				sceneMgr->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
+				sceneMgr->setAmbientLight(nativeColor);
 			}
 			#endif
 		}

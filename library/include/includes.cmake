@@ -183,7 +183,8 @@ if (USE_OGRE)
 		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8C3DObject3D.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8C3DEntity.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8C3DWorld.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8C3DCamera.h")
+		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8C3DCamera.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8C3DLight.h")
 	source_group ("RadJav\\V8\\C3D" FILES ${SOURCES_files_RadJav__v8__C3D__Headers})
 
 	set (SOURCES ${SOURCES_files_RadJav__v8__C3D__Headers} ${SOURCES})
@@ -194,6 +195,19 @@ if (USE_OGRE)
 	source_group ("RadJav\\V8\\GUI" FILES ${SOURCES_files_RadJav__v8__GUI__Headers})
 
 	set (SOURCES ${SOURCES_files_RadJav__v8__GUI__Headers} ${SOURCES})
+
+	# C++ C3D
+	set (SOURCES_files_RadJav__cpp__C3D__Headers 
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPC3DTransform.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPC3DCamera.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPC3DObject3D.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPC3DLight.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPC3DPlane.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPC3DCube.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPC3DSphere.h")
+	source_group ("RadJav\\CPP\\C3D" FILES ${SOURCES_files_RadJav__cpp__C3D__Headers})
+	
+	set (SOURCES ${SOURCES_files_RadJav__cpp__C3D__Headers} ${SOURCES})
 
 	# C++ GUI Canvas3D
 	set (SOURCES_files_RadJav__cpp__GUI__Headers 

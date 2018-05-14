@@ -37,27 +37,24 @@
 				public:
 					static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
-					static void setPosition(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void getPosition(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void getX(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void getY(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void getZ(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void getParent(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void getAppObj(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void setVisibility(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void getVisibility(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void on(const v8::FunctionCallbackInfo<v8::Value> &args);
+					/*
+					static void _init(const v8::FunctionCallbackInfo<v8::Value> &args);
+					 */
 
 					static void setMode(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void getMode(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void setAspectRatio(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void getAspectRatio(const v8::FunctionCallbackInfo<v8::Value> &args);
+					static void setAutoAspectRatio(const v8::FunctionCallbackInfo<v8::Value> &args);
+					static void getAutoAspectRatio(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void setFOV(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void getFOV(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void setNearClipPlane(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void getNearClipPlane(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void setFarClipPlane(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void getFarClipPlane(const v8::FunctionCallbackInfo<v8::Value> &args);
+					static void setBackgroundColor(const v8::FunctionCallbackInfo<v8::Value> &args);
+					static void getBackgroundColor(const v8::FunctionCallbackInfo<v8::Value> &args);
 				};
 #endif
 			}

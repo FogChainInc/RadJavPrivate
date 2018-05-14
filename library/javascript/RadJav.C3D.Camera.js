@@ -31,6 +31,16 @@ RadJav.C3D.Camera = (function (_super)
 	{
 		var _this = _super.call(this, canvas3d, obj, parent) || this;
 
+		if (obj == null)
+			obj = {};
+
+		if (typeof (obj) == "string")
+		{
+			var tempObj = obj;
+			obj = {};
+			obj._name = tempObj;
+		}
+
 		_this.type = "RadJav.C3D.Camera";
 
 		/** @property {Boolean} [_perspective=true]
