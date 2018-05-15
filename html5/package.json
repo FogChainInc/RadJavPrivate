@@ -6,15 +6,16 @@
   "dependencies": {
     "express": "^4.16.3",
     "recursive-copy": "^2.0.9",
-    "typescript": "^2.8.3"
+    "typescript": "^2.8.3",
+    "ws": "^5.1.1"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node index.js --build",
     "build-only": "node index.js --build doNotCopyHTML5Files doNotCopyFilesToLibrary doNotMinify",
-    "http": "node index.js --http", 
-    "build-defs": "node index.js --defs", 
+    "http": "node index.js --http",
+    "build-defs": "node index.js --defs",
     "defs": "node index.js --defs"
   },
   "repository": {

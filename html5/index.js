@@ -4,6 +4,7 @@ var typescript = require ("typescript");
 var fs = require ("fs");
 var rcopy = require ("recursive-copy");
 var execSync = require ("child_process").execSync;
+var ws = require ("ws");
 var app = express ();
 
 var tsLibs = ["lib.es5.d.ts", "lib.es2015.promise.d.ts","lib.dom.d.ts","lib.scripthost.d.ts"];
@@ -12,9 +13,13 @@ var tsTypes = [];
 var httpOptions = {
 		location: path.normalize (path.dirname(__filename) + "/../"), 
 		index: "index.htm", 
-		port: 8585, 
+		port: 80, 
+		wsPort: 8585, 
+		wsServer: null, 
 		listeningAddr: "127.0.0.1", 
-		locationChanged: false
+		locationChanged: false, 
+		watchFilesAtLocations: [], 
+		url: ""
 	};
 var helpHeader = "RadJav JavaScript Builder\n";
 helpHeader += "Copyright(c) 2018, Higher Edge Software, LLC\n";
@@ -49,7 +54,25 @@ function getTypeScriptFiles ()
 	return (tsfiles);
 }
 
-// Taken from https://github.com/Microsoft/TypeScript/wiki/Using-the-Compiler-API
+function keepContext (func, context, val)
+{
+	var objReturn = function ()
+		{
+			var aryArgs = Array.prototype.slice.call (arguments);
+
+			if (val != undefined)
+				aryArgs.push (val);
+
+			if (context == null)
+				return (func.apply (this, aryArgs));
+			else
+				return (func.apply (context, aryArgs));
+		};
+
+	return (objReturn);
+}
+
+// Compile function taken from https://github.com/Microsoft/TypeScript/wiki/Using-the-Compiler-API
 function compile (fileNames, options)
 {
     let program = typescript.createProgram(fileNames, options);
@@ -72,13 +95,22 @@ function compile (fileNames, options)
 
 function startHTTP ()
 {
+	if (httpOptions.watchFilesAtLocations == "")
+	{
+		httpOptions.watchFilesAtLocations = [
+					path.normalize (httpOptions.location + "/examples"), 
+					path.normalize (httpOptions.location + "/html5/build")
+				];
+	}
+
 	app.use (express.static (httpOptions.location));
 	app.get ("/", function (req, res)
 		{
-			if (httpOptions.locationChanged == false)
-				res.redirect ("/examples");
-			else
-				res.sendFile (httpOptions.index);
+			res.redirect ("/builder?url=" + encodeURIComponent (httpOptions.url + "examples") + "&ws=" + encodeURIComponent ("ws://" + httpOptions.listeningAddr + ":" + httpOptions.wsPort));
+		});
+	app.get ("/builder", function (req, res)
+		{
+			res.sendFile (path.normalize (httpOptions.location + "/html5/RadJavBuilder/RadJavBuilder.htm"));
 		});
 
 	if (httpOptions.locationChanged == false)
@@ -89,11 +121,68 @@ function startHTTP ()
 			});
 	}
 
+	httpOptions.wsServer = new ws.Server ({
+			port: httpOptions.wsPort
+		});
+	httpOptions.wsServer.on ("connection", function (connection)
+		{
+			connection.on ("message", function (message)
+				{
+					
+				});
+		});
+	httpOptions.wsServer.broadcast = function (data)
+		{
+			httpOptions.wsServer.clients.forEach (function (client)
+				{
+					if (client.readyState == ws.OPEN)
+						client.send (data);
+				});
+		};
+
 	app.listen (httpOptions.port, httpOptions.listeningAddr, null, function ()
 		{
-			console.log ("Listening on port " + httpOptions.port);
-			console.log ("Serving files located at: " + httpOptions.location);
-			console.log ("URL: http://" + httpOptions.listeningAddr + ":" + httpOptions.port + "/");
+			httpOptions.url = "http://" + httpOptions.listeningAddr + ":" + httpOptions.port + "/";
+
+			console.log ("HTTP server listening on port " + httpOptions.port);
+			console.log ("WebSocket server listening on port " + httpOptions.wsPort);
+			console.log ("URL: " + httpOptions.url);
+			console.log ("HTTP server serving files located at: " + httpOptions.location);
+
+			let canWatch = false;
+
+			if (process.platform == "darwin")
+				canWatch = true;
+
+			if (process.platform == "win32")
+				canWatch = true;
+
+			if (canWatch == true)
+			{
+				let locations = "";
+
+				for (let iIdx = 0; iIdx < httpOptions.watchFilesAtLocations.length; iIdx++)
+					locations += "\t" + httpOptions.watchFilesAtLocations[iIdx] + "\n";
+
+				console.log ("\nWatching files located at: \n" + locations);
+
+				// Watching files recursively in NodeJS is only available on Windows and Mac.
+				for (let iIdx = 0; iIdx < httpOptions.watchFilesAtLocations.length; iIdx++)
+				{
+					let loc = httpOptions.watchFilesAtLocations[iIdx];
+
+					fs.watch (loc, {
+								persistent: true, 
+								recursive: true
+							}, keepContext (function (eventType, filename, loc2)
+								{
+									let loc3 = loc2[0];
+									let changedFilePath = path.normalize (loc3 + "/" + filename);
+
+									httpOptions.wsServer.broadcast ("refresh");
+								}, this, [loc]));
+				}
+			}
 		});
 }
 

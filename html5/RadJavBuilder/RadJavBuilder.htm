@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>RadJav Builder</title>
+
+	<script type = "text/javascript">
+		var page = null;
+
+		function displayMessage (msg, visibility)
+		{
+			var visible = "visible";
+
+			if (visibility == false)
+				visible = "hidden";
+
+			var dialog = document.getElementById ("dialog");
+			dialog.style.visibility = visible;
+
+			var message = document.getElementById ("message");
+			message.innerHTML = msg;
+		}
+
+		function setup ()
+		{
+			var url = new URL (location.href);
+			var urlStr = url.searchParams.get ("url");
+			var ws = url.searchParams.get ("ws");
+			var offsetX = 5;
+			var offsetY = 9;
+
+			var msg = "Connecting to web socket server at: " + ws + "<br />\n";
+			msg += "Connecting to HTML5 url: " + urlStr;
+			displayMessage (msg);
+
+			page = document.getElementById ("page");
+			page.style.width = (window.innerWidth - offsetX) + "px";
+			page.style.height = (window.innerHeight - offsetY) + "px";
+			page.src = urlStr;
+
+			var webSocket = new WebSocket (ws);
+			webSocket.onopen = function ()
+				{
+					displayMessage ("", false);
+				};
+			webSocket.onerror = function (error)
+				{
+					displayMessage ("Unable to connect to web socket server.");
+				};
+			webSocket.onmessage = function (message)
+				{
+					if (message.data == "refresh")
+						page.contentWindow.location.reload ();
+				};
+			webSocket.onclose = function ()
+				{
+					displayMessage ("Disconnected from WebSocket server. Please refresh the page to reconnect.");
+				};
+		}
+	</script>
+
+	<style type = "text/css">
+		body
+		{
+			padding: 0;
+			margin: 0;
+		}
+
+		.dialog
+		{
+			position: absolute;
+			background-color: #000000;
+			color: #FFFFFF;
+			width: 100%;
+			height: 100%;
+			visibility: visible;
+		}
+
+		#message
+		{
+			padding: 20px;
+		}
+	</style>
+</head>
+
+<body onload = "setup ();">
+	<div id = "dialog" class = "dialog">
+		<div id = "message">
+			Connecting to server...
+		</div>
+	</div>
+
+	<iframe id = "page">
+	</iframe>
+</body>
+
+</html>
