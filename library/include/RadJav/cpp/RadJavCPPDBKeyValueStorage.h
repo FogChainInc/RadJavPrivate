@@ -36,6 +36,13 @@
 				class DB;
 			};
 		#endif
+
+		#ifdef USE_ROCKSDB
+			namespace rocksdb
+			{
+				class DB;
+			}
+		#endif
 	#endif
 
 	namespace RadJAV
@@ -71,6 +78,10 @@
                         #ifdef USE_LEVELDB
                             leveldb::DB* db;
                         #endif
+					
+						#ifdef USE_ROCKSDB
+							rocksdb::DB* db;
+						#endif
 				};
 				#endif
 			}
