@@ -135,7 +135,7 @@ namespace Engine
       std::tuple<std::shared_ptr<void>, unsigned int>
       Cipher::cipher(const void* data, int dataLen)
       {
-	std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
+	//std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
 	auto cipherResult = update(data, dataLen);
 	std::shared_ptr<void> cipherText = std::get<0>(cipherResult);
 	unsigned int cipherLength = std::get<1>(cipherResult);
@@ -152,7 +152,7 @@ namespace Engine
 	std::memcpy(fullCipherText.get(), cipherText.get(), cipherLength);
 	std::memcpy(&fullCipherText.get()[cipherLength], paddingText.get(), paddingLength);
 
-	std::cout << "Full cipherText length: " << fullCipherLength << ", now hex of ciphertext:" << std::endl;
+	std::cout << "Full cipherText length: " << fullCipherLength << ", now he//x of ciphertext:" << std::endl;
 	std::stringstream out;
 	for (int i=0; i<fullCipherLength; i++)
 	  out << std::hex << std::setw(2) << std::setfill('0') << (int)(fullCipherText.get())[i];

@@ -44,7 +44,7 @@ namespace RadJAV
 			#ifdef USE_CRYPTOGRAPHY
 			Decipher::Decipher(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-			  std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl;
+			  //std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl;
 			  std::cout << "Args len: " << args.Length() << std::endl;
 
 			  this -> jsEngine = jsEngine;
@@ -124,7 +124,7 @@ namespace RadJAV
 										 msg.c_str())));
 			    }
 
-			  std::cout << __PRETTY_FUNCTION__ << ": end" << std::endl << std::flush;
+			  //std::cout << __PRETTY_FUNCTION__ << ": end" << std::endl << std::flush;
 
 			}
 

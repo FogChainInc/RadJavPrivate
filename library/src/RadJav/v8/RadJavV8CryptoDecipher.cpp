@@ -47,18 +47,18 @@ namespace RadJAV
 			#ifdef USE_CRYPTOGRAPHY
 				void Decipher::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 				{
-				  std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
+				  //std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
 
 					V8_CALLBACK(object, "_init", Decipher::_init);
 					V8_CALLBACK(object, "decipher", Decipher::decipher);
 					V8_CALLBACK(object, "decipherP", Decipher::decipherP);
 
-					std::cout << __PRETTY_FUNCTION__ << ": end" << std::endl << std::flush;
+					//std::cout << __PRETTY_FUNCTION__ << ": end" << std::endl << std::flush;
 				}
 
 				void Decipher::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
-				  std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
+				  //std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
 				        ENGINE *engine = RJNEW ENGINE(V8_JAVASCRIPT_ENGINE, args);
 					V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_engine", engine);
 
@@ -82,7 +82,7 @@ namespace RadJAV
 		    
 		                void Decipher::decipher(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
-				  std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl;
+				  //std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl;
 
 					ENGINE *engine = (ENGINE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_engine");
 					v8::Isolate *isolate = args.GetIsolate();

@@ -18,6 +18,7 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 #ifndef _RADJAV_STRING_H_
+
 	#define _RADJAV_STRING_H_
 
 	#include "RadJavPreprocessor.h"
