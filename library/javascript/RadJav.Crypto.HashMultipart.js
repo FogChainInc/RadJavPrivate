@@ -21,7 +21,7 @@ var RadJav;
 (function (RadJav) {
     var Crypto;
     (function (Crypto) {
-        /// Web server
+        /// HashMultipart
         var HashMultipart = /** @class */ (function () {
             function HashMultipart() {
                 this._storage = null;

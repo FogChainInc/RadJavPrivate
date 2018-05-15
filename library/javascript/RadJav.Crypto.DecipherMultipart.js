@@ -21,29 +21,35 @@ var RadJav;
 (function (RadJav) {
     var Crypto;
     (function (Crypto) {
-        /// Hash
-        var Hash = /** @class */ (function () {
-            function Hash() {
+        /// DecipherMultipart
+        var DecipherMultipart = /** @class */ (function () {
+            function DecipherMultipart() {
                 this._storage = null;
                 if (this._init != null)
 		    this._init.apply(this, arguments);
             }
-	    Hash.getCapabilities = function() {}
+	    DecipherMultipart.getCapabilities = function() {}
 	    
-            /** The database to open.
-            * @return Returns true if the database was able to be opened.
-            * Also returns true if the database was newly created.
-            */
-
-            /// Digest a buffer or a string.
-            Hash.prototype.digest = function (somethingToDigest) {
+            /// Decipher a buffer or a string.
+            DecipherMultipart.prototype.update = function (somethingToDigest, inputEncoding) {
             };
-            /// Digest a buffer or a string, return a Promise.
-            Hash.prototype.digestP = function (somethingToDigest) {
+	    
+            /// Decipher a buffer or a string, return a Promise.
+            DecipherMultipart.prototype.updateP = function (somethingToDigest, inputEncoding) {
             };
 
-            return Hash;
+	    /// Finalize decipher
+            DecipherMultipart.prototype.finalize = function () {
+	    };
+
+	    /// Reset the decipher object for reuse (note: reset() allows for processing a different
+	    /// block of data with the same object, the parameters specified in the constructor
+	    /// are not being reset).
+            DecipherMultipart.prototype.reset = function () {
+            };
+
+            return DecipherMultipart;
         }());
-        Crypto.Hash = Hash;
+        Crypto.DecipherMultipart = DecipherMultipart;
     })(Crypto = RadJav.Crypto || (RadJav.Crypto = {}));
 })(RadJav || (RadJav = {}));

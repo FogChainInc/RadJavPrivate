@@ -63,8 +63,8 @@ namespace ORB
 
 	int dataLen = hexString.length()/2;
 	
-	std::shared_ptr<unsigned char> data = std::shared_ptr<unsigned char>(new unsigned char[dataLen],
-								    std::default_delete<unsigned char[]>());
+	std::shared_ptr<unsigned char> dataHex = std::shared_ptr<unsigned char>(new unsigned char[dataLen],
+										std::default_delete<unsigned char[]>());
 
 	for (int i=0; i<dataLen; i++)
 	  {
@@ -72,11 +72,34 @@ namespace ORB
 	    unsigned char byte0 = hex2bin(hexString[i*2]);
 	    unsigned char byte1 = hex2bin(hexString[i*2+1]);
 
-	    data.get()[i] = (byte0 << 4) | byte1;
+	    dataHex.get()[i] = (byte0 << 4) | byte1;
 	  }
 	
-	return std::make_tuple(data, dataLen);
+	return std::make_tuple(dataHex, dataLen);
       }
+
+      std::tuple<std::shared_ptr<void>, unsigned int> decodeHex(const void *data, int dataLength)
+      {
+
+	int dataLen = dataLength/2;
+	
+	std::shared_ptr<unsigned char> dataHex = std::shared_ptr<unsigned char>(new unsigned char[dataLen],
+										std::default_delete<unsigned char[]>());
+
+	auto hexString = static_cast<const char*>(data);
+	
+	for (int i=0; i<dataLen; i++)
+	  {
+	    // TODO - may want to catch exception here and rethrow with more info.
+	    unsigned char byte0 = hex2bin(hexString[i*2]);
+	    unsigned char byte1 = hex2bin(hexString[i*2+1]);
+
+	    dataHex.get()[i] = (byte0 << 4) | byte1;
+	  }
+	
+	return std::make_tuple(dataHex, dataLen);
+      }
+      
 
     } // End of Crypto
   } // End of Engine

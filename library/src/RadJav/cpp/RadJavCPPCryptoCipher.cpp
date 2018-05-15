@@ -18,8 +18,10 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#include "cpp/RadJavCPPCryptoHashMultipart.h"
+#include "cpp/RadJavCPPCryptoCipher.h"
 
+#include "RadJavString.h"
+#include "v8/RadJavV8JavascriptEngine.h"
 
 #include <algorithm>
 #include <cstdlib>
@@ -27,10 +29,9 @@
 #include <iostream>
 #include <memory>
 
-#include "RadJavString.h"
-#include "v8/RadJavV8JavascriptEngine.h"
-
 #include <iostream>
+#include <sstream>
+#include <iomanip>
 
 #ifdef USE_CRYPTOGRAPHY
 #include <orb/ORB_EngineCrypto.h>
@@ -43,9 +44,9 @@ namespace RadJAV
 		namespace Crypto
 		{
 			#ifdef USE_CRYPTOGRAPHY
-			HashMultipart::HashMultipart(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
+			Cipher::Cipher(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-			  //std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl;
+			  //			  std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl;
 			  std::cout << "Args len: " << args.Length() << std::endl;
 
 			  this -> jsEngine = jsEngine;
@@ -54,28 +55,37 @@ namespace RadJAV
 			  v8::Local<v8::Value> firstArg = args[0];
 
 
-			  // Get constructor parms for HashMultipart(hashAlgorithm, cryptoLibrary)
+			  // Get constructor parms for Cipher(cipherAlgorithm, cryptoLibrary)
 			  if (args[0] -> IsString())
 			    {
-			      myHashAlgorithm = parseV8Value(args[0]);
+			      myCipherAlgorithm = parseV8Value(args[0]);
 			      myCryptoLibrary = parseV8Value(args[1]);
 			    }
 
-			  // Get constructor parms HashMultipart({hashAlgorithm: ..., cryptoLibrary: ..., ...})
+			  // Get constructor parms Cipher({cipherAlgorithm: ..., cryptoLibrary: ..., ...})
 			  else if (args[0] -> IsObject())
 			    {
 
 			      v8::Local<v8::Object> parms = v8::Local<v8::Object>::Cast(args[0]);
 
-			      myHashAlgorithm = jsEngine->v8GetString(parms, "hashAlgorithm");
-			      if (myHashAlgorithm == "")
+			      myCryptoLibrary = jsEngine -> v8GetString(parms, "cryptoLibrary");
+
+			      myCipherAlgorithm = jsEngine -> v8GetString(parms, "cipherAlgorithm");
+			      if (myCipherAlgorithm == "")
 				args.GetIsolate() -> ThrowException(v8::Exception::TypeError
 								    (v8::String::NewFromUtf8(isolate,
-											     "'hashAlgorithm' must be defined")));
-			      myCryptoLibrary = jsEngine->v8GetString(parms, "cryptoLibrary");
+											     "'cipherAlgorithm' must be defined")));
+
+			      mySecret = jsEngine -> v8GetString(parms, "secret");
+			      if (mySecret == "")
+				args.GetIsolate() -> ThrowException(v8::Exception::TypeError
+								    (v8::String::NewFromUtf8(isolate,
+											     "'secret' must be defined")));
+
+			      myIv = jsEngine->v8GetString(parms, "iv");
 			      
-			      myInputEncoding = jsEngine->v8GetString(parms, "inputEncoding");
-			      myOutputEncoding = jsEngine->v8GetString(parms, "outputEncoding");
+			      myInputEncoding = jsEngine -> v8GetString(parms, "inputEncoding");
+			      myOutputEncoding = jsEngine -> v8GetString(parms, "outputEncoding");
 			    }
 			  
 
@@ -105,93 +115,91 @@ namespace RadJAV
 			  // Create the digest engine
 			  try
 			    {
-			      myDigest = ORB::Engine::Crypto::createDigestMultipart(myHashAlgorithm, myCryptoLibrary);
+			      myCipher = ORB::Engine::Crypto::createCipher(myCipherAlgorithm, myCryptoLibrary, mySecret, myIv);
 			    }
 			  catch (std::invalid_argument& e)
 			    {
-			      String msg = myCryptoLibrary + " doesn't support the hashAlgorithm: '" + myHashAlgorithm + "'";
+			      String msg = myCryptoLibrary + " doesn't support the cipherAlgorithm: '" + myCipherAlgorithm + "'";
 			      isolate -> ThrowException(v8::Exception::TypeError
 							(v8::String::NewFromUtf8(args.GetIsolate(),
 										 msg.c_str())));
 			    }
 
-			  
-
 			  //std::cout << __PRETTY_FUNCTION__ << ": end" << std::endl;
 
 			}
 
-			HashMultipart::~HashMultipart()
+			Cipher::~Cipher()
 			{
 
 			}
 
-		        void HashMultipart::updateString(const String &text, const String &inputEncoding)
+		        void Cipher::cipher(const void* plainText, int textLength,
+					    std::function <void (const std::string& str)> stringSetter,
+					    std::function <void (void* buf, int bufLen)> binSetter)
 			{
-			  //std::tuple<std::shared_ptr<void>, unsigned int> digestResult;
+			  //std::tuple<std::shared_ptr<void>, unsigned int> cipherResult;
 			  //std::cout << __PRETTY_FUNCTION__ << ": String" << std::endl << std::flush;
 					    
-			  std::cout << "Digest string: " << text << std::endl;
-
-			  std::string _inputEncoding = inputEncoding;
-			  if (_inputEncoding == "")
-			    _inputEncoding = myInputEncoding;
+			  
+			  String _inputEncoding = myInputEncoding;
+			  
+			  const void *binPlainText;
+			  int binPlainTextLength;
+			  std::string decodedText;
 
 			  if (_inputEncoding == "binary")
-			    myDigest -> update(text);
-			  else if (_inputEncoding == "hex")
 			    {
-			      auto binData = ORB::Engine::Crypto::decodeHex(text);
-			      String binText(static_cast<const char*>(std::get<0>(binData).get()), std::get<1>(binData));
-			      myDigest -> update(binText);
+			      binPlainText = plainText;
+			      binPlainTextLength =  textLength;
+			    }
+			  else if (_inputEncoding == "hex")
+ 			    {
+			      auto binData = ORB::Engine::Crypto::decodeHex(plainText, textLength);
+			      decodedText.assign(static_cast<const char*>(std::get<0>(binData).get()), std::get<1>(binData));
+			      binPlainText = decodedText.c_str();
+			      binPlainTextLength = decodedText.length();
 			    }
 			  else if (_inputEncoding == "base64")
 			    {
-			      auto binData = ORB::Engine::Crypto::decodeBase64(text);
-			      String binText(static_cast<const  char*>(std::get<0>(binData).get()), std::get<1>(binData));
-			      myDigest -> update(binText);
+			      auto binData = ORB::Engine::Crypto::decodeBase64(plainText, textLength);
+			      decodedText.assign(static_cast<const char*>(std::get<0>(binData).get()), std::get<1>(binData));
+			      binPlainText = decodedText.c_str();
+			      binPlainTextLength = decodedText.length();
 			    }
-
-			}
-
-		  String HashMultipart::finalize()
-			{
-			  auto digestResult = myDigest -> finalize();
+			  else
+			    {
+			      String msg = "Unsupported input encoding: " + _inputEncoding;
+			      throw std::invalid_argument(msg);
+			    }
 			  
+			  auto cipherResult = myCipher -> cipher(binPlainText, binPlainTextLength);
+
 			  if (myOutputEncoding == "hex")
 			    {
-			      std::cout << "Digest string encoded as hex " << std::endl;
-			      return String(ORB::Engine::Crypto::encodeHex(std::get<0>(digestResult).get(),
-									   std::get<1>(digestResult)));
-			      //args.GetReturnValue().Set(out.toV8String(isolate));
+			      std::cout << "Decipher string encoded as hex " << std::endl;
+			      stringSetter(ORB::Engine::Crypto::encodeHex(std::get<0>(cipherResult).get(),
+									  std::get<1>(cipherResult)));
+			      return;
 			    }
-			  if (myOutputEncoding == "base64")
+			  else if (myOutputEncoding == "base64")
 			    {
-			      std::cout << "Digest string encoded as base64 " << std::endl;
-				  // TODO: look at this. Dunno why returning constructed string hangs sometimes.
-			      //return String(ORB::Engine::Crypto::encodeBase64(std::get<0>(digestResult).get(),
-					//				      std::get<1>(digestResult)));
-
-				  String str(ORB::Engine::Crypto::encodeBase64(std::get<0>(digestResult).get(),
-															std::get<1>(digestResult)));	
-				  std::cout << "Got the string: " << str << std::endl;
-				  return str;
-			      //args.GetReturnValue().Set(out.toV8String(isolate));
+			      std::cout << "Decipher string encoded as basee64 " << std::endl;
+			      stringSetter(ORB::Engine::Crypto::encodeBase64(std::get<0>(cipherResult).get(),
+									     std::get<1>(cipherResult)));
+			      return;
 			    }
 			  else if (myOutputEncoding == "binary")
 			    {
-			      std::cout << "Digest string as binary " << std::endl;
-			      return String(static_cast<const char*>(std::get<0>(digestResult).get()),
-					    std::get<1>(digestResult));
-			      //args.GetReturnValue().Set(out.toV8String(isolate));
+			      binSetter(std::get<0>(cipherResult).get(),
+					std::get<1>(cipherResult));
+			      return;
 			    }
 
 			  String msg = "Unsupported output encoding: " + myOutputEncoding;
 			  throw std::invalid_argument(msg);
 
 			}
-
-		  
 
                   #endif
 		  

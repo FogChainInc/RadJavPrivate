@@ -48,12 +48,26 @@ namespace ORB
 					  hexString.length(),
 					  &outputLength);
 	
-	std::shared_ptr<unsigned char> data = std::shared_ptr<unsigned char>(decodedData,
+	std::shared_ptr<unsigned char> dataBase64 = std::shared_ptr<unsigned char>(decodedData,
 									     free);
 
-	return std::make_tuple(data, outputLength);
+	return std::make_tuple(dataBase64, outputLength);
       }
 
+      std::tuple<std::shared_ptr<void>, unsigned int> decodeBase64(const void* data, int dataLength)
+      {
+
+	size_t outputLength;
+	unsigned char *decodedData = base64_decode(static_cast<const char*>(data),
+					  dataLength,
+					  &outputLength);
+	
+	std::shared_ptr<unsigned char> dataBase64 = std::shared_ptr<unsigned char>(decodedData,
+									     free);
+
+	return std::make_tuple(dataBase64, outputLength);
+      }
+      
     } // End of Crypto
   } // End of Engine
 } // End of ORB

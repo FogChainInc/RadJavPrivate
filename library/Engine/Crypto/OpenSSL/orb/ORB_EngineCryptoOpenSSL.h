@@ -25,6 +25,8 @@
 #include <string>
 #include <map>
 #include <i/Engine/Crypto/IDigest.h>
+#include <i/Engine/Crypto/ICipher.h>
+#include <i/Engine/Crypto/IDecipher.h>
 
 namespace ORB
 {
@@ -37,9 +39,30 @@ namespace ORB
 
       namespace OpenSSL
       {
-	std::shared_ptr<::Engine::Crypto::IDigest> createDigest(const std::string& digestType);
-	std::shared_ptr<::Engine::Crypto::IDigestMultipart> createDigestMultipart(const std::string& digestType);
+	std::shared_ptr<::Engine::Crypto::IDigest> createDigest(const std::string &digestType);
+	std::shared_ptr<::Engine::Crypto::IDigestMultipart> createDigestMultipart(const std::string &digestType);
 	std::map<std::string, std::string> getListOfDigests();
+
+	std::shared_ptr<::Engine::Crypto::ICipher> createCipher(const std::string &cipherType,
+								const std::string &secret,
+								const std::string &iv="");
+	
+	std::shared_ptr<::Engine::Crypto::ICipherMultipart> createCipherMultipart(const std::string& cipherType,
+										  const std::string &secret,
+										  const std::string &iv="");
+	
+	std::shared_ptr<::Engine::Crypto::IDecipher> createDecipher(const std::string& cipherType,
+								    const std::string &secret,
+								    const std::string &iv="");
+	
+	std::shared_ptr<::Engine::Crypto::IDecipherMultipart> createDecipherMultipart(const std::string& cipherType,
+										      const std::string &secret,
+										      const std::string &iv="");
+
+
+
+	std::map<std::string, std::string> getListOfCiphers();
+
       } // End of OpenSSL
       
       #endif

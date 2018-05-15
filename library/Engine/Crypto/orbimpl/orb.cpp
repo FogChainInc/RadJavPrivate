@@ -30,9 +30,10 @@ namespace ORB
     {
 
       std::shared_ptr<::Engine::Crypto::IDigest> createDigest(const std::string& digestType,
-							      const std::string& cryptoImplementation) {
+							      const std::string& cryptoImplementation)
+      {
 
-	#ifdef USE_OPENSSL
+        #ifdef USE_OPENSSL
 	return OpenSSL::createDigest(digestType);
 	#else
 	return nullptr;
@@ -41,7 +42,8 @@ namespace ORB
       }
 
       std::shared_ptr<::Engine::Crypto::IDigestMultipart> createDigestMultipart(const std::string& digestType,
-										const std::string& cryptoImplementation) {
+										const std::string& cryptoImplementation)
+      {
 
 	#ifdef USE_OPENSSL
 	return OpenSSL::createDigestMultipart(digestType);
@@ -51,7 +53,8 @@ namespace ORB
 
       }
 
-      std::map<std::string, std::string> getListOfDigests(const std::string& cryptoImplementation) {
+      std::map<std::string, std::string> getListOfDigests(const std::string& cryptoImplementation)
+      {
 
 	#ifdef USE_OPENSSL
 	return OpenSSL::getListOfDigests();
@@ -61,6 +64,74 @@ namespace ORB
 	
       }
 
+      std::shared_ptr<::Engine::Crypto::ICipher> createCipher(const std::string &cipherType,
+							      const std::string &secret,
+							      const std::string &iv,
+							      const std::string &cryptoLibrary)
+      {
+
+	#ifdef USE_OPENSSL
+	return OpenSSL::createCipher(cipherType, secret, iv);
+	#else
+	return nullptr;
+        #endif
+
+      }
+
+      std::shared_ptr<::Engine::Crypto::ICipherMultipart> createCipherMultipart(const std::string &cipherType,
+										const std::string &secret,
+										const std::string &iv,
+										const std::string &cryptoLibrary)
+      {
+
+	#ifdef USE_OPENSSL
+	return OpenSSL::createCipherMultipart(cipherType, secret, iv);
+	#else
+	return nullptr;
+        #endif
+
+      }
+      
+      std::shared_ptr<::Engine::Crypto::IDecipher> createDecipher(const std::string &cipherType,
+								  const std::string &secret,
+								  const std::string &iv,
+								  const std::string &cryptoLibrary)
+      {
+
+	#ifdef USE_OPENSSL
+	return OpenSSL::createDecipher(cipherType, secret, iv);
+	#else
+	return nullptr;
+        #endif
+
+      }
+
+      std::shared_ptr<::Engine::Crypto::IDecipherMultipart> createDecipherMultipart(const std::string &cipherType,
+										    const std::string &secret,
+										    const std::string &iv,
+										    const std::string &cryptoLibrary)
+      {
+
+	#ifdef USE_OPENSSL
+	return OpenSSL::createDecipherMultipart(cipherType, secret, iv);
+	#else
+	return nullptr;
+        #endif
+
+      }
+      
+
+      std::map<std::string, std::string> getListOfCiphers(const std::string& cryptoImplementation)
+      {
+
+	#ifdef USE_OPENSSL
+	return OpenSSL::getListOfCiphers();
+	#else
+	return std::map<std::string, std::string>();
+	#endif
+	
+      }
+      
     } // End of Crypto
   } // End of Engine
 } // End of ORB

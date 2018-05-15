@@ -26,6 +26,8 @@
 #include <map>
 #include <tuple>
 #include <i/Engine/Crypto/IDigest.h>
+#include <i/Engine/Crypto/ICipher.h>
+#include <i/Engine/Crypto/IDecipher.h>
 
 namespace ORB
 {
@@ -34,20 +36,46 @@ namespace ORB
     namespace Crypto
     {
       std::shared_ptr<::Engine::Crypto::IDigest>
-	createDigest(const std::string& digestType,
-		     const std::string& cryptoLibrary = "OpenSSL");
+	createDigest(const std::string &digestType,
+		     const std::string &cryptoLibrary = "OpenSSL");
 
       std::shared_ptr<::Engine::Crypto::IDigestMultipart>
-	createDigestMultipart(const std::string& digestType,
-			      const std::string& cryptoLibrary = "OpenSSL");
+	createDigestMultipart(const std::string &digestType,
+			      const std::string &cryptoLibrary = "OpenSSL");
       
-      std::map<std::string, std::string> getListOfDigests(const std::string& cryptoLibrary = "OpenSSL");
+      std::map<std::string, std::string> getListOfDigests(const std::string &cryptoLibrary = "OpenSSL");
+
+
+	std::shared_ptr<::Engine::Crypto::ICipher> createCipher(const std::string &cipherType,
+								const std::string &secret,
+								const std::string &iv="",
+								const std::string &cryptoLibrary = "OpenSSL");
+	
+	std::shared_ptr<::Engine::Crypto::ICipherMultipart> createCipherMultipart(const std::string& cipherType,
+										  const std::string &secret,
+										  const std::string &iv="",
+										  const std::string &cryptoLibrary = "OpenSSL");
+	
+	std::shared_ptr<::Engine::Crypto::IDecipher> createDecipher(const std::string& cipherType,
+								    const std::string &secret,
+								    const std::string &iv="",
+								    const std::string &cryptoLibrary = "OpenSSL");
+	
+	std::shared_ptr<::Engine::Crypto::IDecipherMultipart> createDecipherMultipart(const std::string& cipherType,
+										      const std::string &secret,
+										      const std::string &iv="",
+										      const std::string &cryptoLibrary = "OpenSSL");
+
+	std::map<std::string, std::string> getListOfCiphers(const std::string &cryptoLibrary = "OpenSSL");
+      
 
       std::string encodeHex(const void* data, int dataLen);
-      std::tuple<std::shared_ptr<void>, unsigned int> decodeHex(const std::string& hexString);
+      std::tuple<std::shared_ptr<void>, unsigned int> decodeHex(const std::string &hexString);
+      std::tuple<std::shared_ptr<void>, unsigned int> decodeHex(const void *data, int dataLength);
 
       std::string encodeBase64(const void* data, int dataLen);
-      std::tuple<std::shared_ptr<void>, unsigned int> decodeBase64(const std::string& base64String);
+      std::tuple<std::shared_ptr<void>, unsigned int> decodeBase64(const std::string &base64String);
+      std::tuple<std::shared_ptr<void>, unsigned int> decodeBase64(const void *data, int dataLength);
 
     } // End of Crypto
   } // End of Engine

@@ -21,29 +21,29 @@ var RadJav;
 (function (RadJav) {
     var Crypto;
     (function (Crypto) {
-        /// Hash
-        var Hash = /** @class */ (function () {
-            function Hash() {
+        /// Cipher
+        var Cipher = /** @class */ (function () {
+            function Cipher() {
                 this._storage = null;
                 if (this._init != null)
 		    this._init.apply(this, arguments);
             }
-	    Hash.getCapabilities = function() {}
+	    Cipher.getCapabilities = function() {}
 	    
             /** The database to open.
             * @return Returns true if the database was able to be opened.
             * Also returns true if the database was newly created.
             */
 
-            /// Digest a buffer or a string.
-            Hash.prototype.digest = function (somethingToDigest) {
+            /// Cipher a buffer or a string.
+            Cipher.prototype.cipher = function (plainText) {
             };
-            /// Digest a buffer or a string, return a Promise.
-            Hash.prototype.digestP = function (somethingToDigest) {
+            /// Cipher a buffer or a string, return a Promise.
+            Cipher.prototype.cipherP = function (plainText) {
             };
 
-            return Hash;
+            return Cipher;
         }());
-        Crypto.Hash = Hash;
+        Crypto.Cipher = Cipher;
     })(Crypto = RadJav.Crypto || (RadJav.Crypto = {}));
 })(RadJav || (RadJav = {}));
