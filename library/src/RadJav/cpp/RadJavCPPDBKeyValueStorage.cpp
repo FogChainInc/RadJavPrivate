@@ -30,12 +30,18 @@
 #include "RadJavString.h"
 #include "v8/RadJavV8JavascriptEngine.h"
 
+#ifdef USE_DATABASE
+
 #ifdef USE_LEVELDB
     #include <leveldb/db.h>
+	using namespace leveldb;
 #endif
 
 #ifdef USE_ROCKSDB
 	#include <rocksdb/db.h>
+	using namespace rocksdb;
+#endif
+
 #endif
 
 namespace RadJAV
@@ -78,36 +84,26 @@ namespace RadJAV
 
 					return false;
 				}
-
-				// Open the database here.
-                #ifdef USE_LEVELDB
-                    leveldb::Options options;
-                    options.create_if_missing = true;
-                
-                    leveldb::Status status = leveldb::DB::Open( options, path, &db);
-                
-                    if(!status.ok())
-                    {
-                        RadJav::throwException("Can't open database.");
-                        return false;
-                    }
-                #endif
 				
-				#ifdef USE_ROCKSDB
-					rocksdb::Options options;
-				
-					// Optimize RocksDB. This is the easiest way to get RocksDB to perform well
-					options.IncreaseParallelism();
-					options.OptimizeLevelStyleCompaction();
+				#if defined USE_LEVELDB || defined USE_ROCKSDB
+					Options options;
 				
 					// create the DB if it's not already present
 					options.create_if_missing = true;
+				#endif
 				
-					rocksdb::Status status = rocksdb::DB::Open(options, path, &db);
+				#ifdef USE_ROCKSDB
+					// Optimize RocksDB. This is the easiest way to get RocksDB to perform well
+					options.IncreaseParallelism();
+					options.OptimizeLevelStyleCompaction();
+				#endif
+
+				#if defined USE_LEVELDB || defined USE_ROCKSDB
+					Status status = DB::Open( options, path, &db);
 				
 					if(!status.ok())
 					{
-						RadJav::throwException("Can't open database");
+						RadJav::throwException("Can't open database.");
 						return false;
 					}
 				#endif
@@ -118,30 +114,14 @@ namespace RadJAV
 			/// Write to a key in the database.
 			void KeyValueStorage::write(String key, String value)
 			{
-				#ifdef USE_LEVELDB
-					if(!db)
-					{
-						RadJav::throwException("Database have not been opened.");
-						return;
-					}
-                
-                    leveldb::Status status = db->Put(leveldb::WriteOptions(), key, value);
-                
-                    if (!status.ok())
-                    {
-                        RadJav::throwException("Unable to write data into database.");
-                        return;
-                    }
-                #endif
-				
-				#ifdef USE_ROCKSDB
+				#if defined USE_LEVELDB || defined USE_ROCKSDB
 					if(!db)
 					{
 						RadJav::throwException("Database have not been opened.");
 						return;
 					}
 				
-					rocksdb::Status status = db->Put(rocksdb::WriteOptions(), key, value);
+					Status status = db->Put(WriteOptions(), key, value);
 				
 					if (!status.ok())
 					{
@@ -156,14 +136,14 @@ namespace RadJAV
 			{
                 String value = "";
 
-				#ifdef USE_LEVELDB
+				#if defined USE_LEVELDB || defined USE_ROCKSDB
                 	if(!db)
                 	{
                     	RadJav::throwException("Database have not been opened.");
                     	return value;
                 	}
                 
-                    leveldb::Status status = db->Get( leveldb::ReadOptions(), key, &value);
+                    Status status = db->Get( ReadOptions(), key, &value);
                 
                     if (!status.ok())
                     {
@@ -171,38 +151,17 @@ namespace RadJAV
                         return value;
                     }
                 #endif
-				
-				#ifdef USE_ROCKSDB
-					if(!db)
-					{
-						RadJav::throwException("Database have not been opened.");
-						return value;
-					}
-				
-					rocksdb::Status status = db->Get( rocksdb::ReadOptions(), key, &value);
-				
-					if (!status.ok())
-					{
-						RadJav::throwException("Unable to read data from database.");
-						return value;
-					}
-				#endif
-                
-                return value;
+
+				return value;
 			}
 
 			/// Close the database.
 			void KeyValueStorage::close()
 			{
-                #ifdef USE_LEVELDB
+                #if defined USE_LEVELDB || defined USE_ROCKSDB
                     delete db;
                     db = NULL;
                 #endif
-				
-				#ifdef USE_ROCKSDB
-					delete db;
-					db = NULL;
-				#endif
 			}
 			#endif
 		}
