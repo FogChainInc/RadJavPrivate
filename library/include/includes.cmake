@@ -151,7 +151,8 @@ set (SOURCES ${SOURCES_files_RadJav__cpp__Net__Headers} ${SOURCES})
 
 # C++ Database
 set (SOURCES_files_RadJav__cpp__Database__Headers 
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPDBKeyValueStorage.h")
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPDBKeyValueStorage.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPDBNuDB.h")
 source_group ("RadJav\\CPP\\Database" FILES ${SOURCES_files_RadJav__cpp__Database__Headers})
 
 set (SOURCES ${SOURCES_files_RadJav__cpp__Database__Headers} ${SOURCES})

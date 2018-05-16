@@ -297,13 +297,13 @@ if (INCLUDE_DATABASES)
 	list(FIND databases ${libRadJav_DATABASE} index)
 	if (index EQUAL -1)
 		message (FATAL_ERROR "libRadJav_DATABASE must be selected and must be one of ${databases}")
-    	endif()
+	endif()
 
-    	message (STATUS "${libRadJav_DATABASE} selected as primary database to link with")
+	message (STATUS "${libRadJav_DATABASE} selected as primary database to link with")
     	
-    	if (libRadJav_DATABASE STREQUAL "LevelDB")
+	if (libRadJav_DATABASE STREQUAL "LevelDB")
 		include (Findleveldb)
-		
+
 		set (libRadJav_CPP_DEFS USE_LEVELDB ${libRadJav_CPP_DEFS})
 		set (libRadJav_CPP_DEFS_DEBUG USE_LEVELDB ${libRadJav_CPP_DEFS_DEBUG})
 
@@ -315,14 +315,13 @@ if (INCLUDE_DATABASES)
 			set (libRadJav_CPP_DEFS_DEBUG LEVELDB_PLATFORM_POSIX ${libRadJav_CPP_DEFS_DEBUG})
 		endif ()
 
-
 		if (NOT WIN32)
 			include_directories (${leveldb_INCLUDE})
 			set (libRadJav_LINK_LIBRARIES ${leveldb_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
 		endif ()
-    	elseif (libRadJav_DATABASE STREQUAL "RocksDB")
+	elseif (libRadJav_DATABASE STREQUAL "RocksDB")
 		include (Findrocksdb)
-		
+
 		set (libRadJav_CPP_DEFS USE_ROCKSDB ${libRadJav_CPP_DEFS})
 		set (libRadJav_CPP_DEFS_DEBUG USE_ROCKSDB ${libRadJav_CPP_DEFS_DEBUG})
 
@@ -330,11 +329,16 @@ if (INCLUDE_DATABASES)
 			include_directories (${rocksdb_INCLUDE})
 			set (libRadJav_LINK_LIBRARIES ${rocksdb_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
 		endif ()
-    	elseif (libRadJav_DATABASE STREQUAL "NuDB")
-    		message (FATAL_ERROR "NuDB support not implemented")
-    	else ()
-    		message (FATAL_ERROR "Unknown libRadJav_DATABASE \"${libRadJav_DATABASE}\" specified")
-    	endif()
+	elseif (libRadJav_DATABASE STREQUAL "NuDB")
+		include (Findnudb)
+
+		set (libRadJav_CPP_DEFS USE_NUDB ${libRadJav_CPP_DEFS})
+		set (libRadJav_CPP_DEFS_DEBUG USE_NUDB ${libRadJav_CPP_DEFS_DEBUG})
+
+		include_directories (${nudb_INCLUDE})
+	else ()
+		message (FATAL_ERROR "Unknown libRadJav_DATABASE \"${libRadJav_DATABASE}\" specified")
+	endif()
 endif ()
 
 if (INCLUDE_CRYPTOGRAPHY)
