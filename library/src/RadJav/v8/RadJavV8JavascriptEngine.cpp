@@ -401,11 +401,11 @@ namespace RadJAV
 					RadJav::runEventLoopSingleStep();
 
 					#ifdef C3D_USE_OGRE
-						if (mRoot != NULL)
+					/*	if (mRoot != NULL)
 						{
 							if (mRoot->isInitialised() == true)
 								mRoot->renderOneFrame();
-						}
+						}*/
 					#endif
 
 					// Handle the on ready function.
