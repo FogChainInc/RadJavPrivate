@@ -36,10 +36,10 @@ var RadJav;
             */
 
             /// Decipher a buffer or a string.
-            Decipher.prototype.decipher = function (cipherText) {
+            Decipher.prototype.decipherSync = function (cipherText) {
             };
             /// Decipher a buffer or a string, return a Promise.
-            Decipher.prototype.decipherP = function (cipherText) {
+            Decipher.prototype.decipher = function (cipherText) {
             };
 
             return Decipher;

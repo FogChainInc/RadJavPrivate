@@ -31,11 +31,11 @@ var RadJav;
 	    DecipherMultipart.getCapabilities = function() {}
 	    
             /// Decipher a buffer or a string.
-            DecipherMultipart.prototype.update = function (somethingToDigest, inputEncoding) {
+            DecipherMultipart.prototype.updateSync = function (somethingToDigest, inputEncoding) {
             };
 	    
             /// Decipher a buffer or a string, return a Promise.
-            DecipherMultipart.prototype.updateP = function (somethingToDigest, inputEncoding) {
+            DecipherMultipart.prototype.update = function (somethingToDigest, inputEncoding) {
             };
 
 	    /// Finalize decipher

@@ -36,11 +36,11 @@ var RadJav;
             */
 
             /// Digest a buffer or a string.
-            HashMultipart.prototype.update = function (somethingToDigest, inputEncoding) {
+            HashMultipart.prototype.updateSync = function (somethingToDigest, inputEncoding) {
             };
 	    
             /// Digest a buffer or a string, return a Promise.
-            HashMultipart.prototype.updateP = function (somethingToDigest, inputEncoding) {
+            HashMultipart.prototype.update = function (somethingToDigest, inputEncoding) {
             };
 
 	    /// Finalize digest

@@ -36,10 +36,10 @@ var RadJav;
             */
 
             /// Cipher a buffer or a string.
-            Cipher.prototype.cipher = function (plainText) {
+            Cipher.prototype.cipherSync = function (plainText) {
             };
             /// Cipher a buffer or a string, return a Promise.
-            Cipher.prototype.cipherP = function (plainText) {
+            Cipher.prototype.cipher = function (plainText) {
             };
 
             return Cipher;

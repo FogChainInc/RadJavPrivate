@@ -36,10 +36,10 @@ var RadJav;
             */
 
             /// Digest a buffer or a string.
-            Hash.prototype.digest = function (somethingToDigest) {
+            Hash.prototype.digestSync = function (somethingToDigest) {
             };
             /// Digest a buffer or a string, return a Promise.
-            Hash.prototype.digestP = function (somethingToDigest) {
+            Hash.prototype.digest = function (somethingToDigest) {
             };
 
             return Hash;

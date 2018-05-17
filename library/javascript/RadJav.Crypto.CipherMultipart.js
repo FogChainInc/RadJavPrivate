@@ -31,11 +31,11 @@ var RadJav;
 	    CipherMultipart.getCapabilities = function() {}
 	    
             /// Cipher a buffer or a string.
-            CipherMultipart.prototype.update = function (somethingToDigest, inputEncoding) {
+            CipherMultipart.prototype.updateSync = function (somethingToDigest, inputEncoding) {
             };
 	    
             /// Cipher a buffer or a string, return a Promise.
-            CipherMultipart.prototype.updateP = function (somethingToDigest, inputEncoding) {
+            CipherMultipart.prototype.update = function (somethingToDigest, inputEncoding) {
             };
 
 	    /// Finalize cipher
