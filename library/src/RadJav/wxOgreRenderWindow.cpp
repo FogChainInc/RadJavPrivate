@@ -32,6 +32,9 @@ wxOgreRenderWindow::wxOgreRenderWindow (Ogre::Root *root, wxWindow *parent, wxWi
                 const wxPoint &pos, const wxSize &size, long style, const wxValidator &validator) {
 	msOgreRoot = root;
     Init ();
+
+	SetBackgroundStyle(wxBG_STYLE_PAINT);
+	
     Create (parent, id, pos, size, style, validator);
 }
 
@@ -49,8 +52,6 @@ bool wxOgreRenderWindow::Create (wxWindow *parent, wxWindowID id,
  
     // Use the told size or let the sizers pick one.
     SetInitialSize (size);
- 
-    SetBackgroundStyle(wxBG_STYLE_CUSTOM);
  
     if (msOgreRoot)
         CreateRenderWindow ();
@@ -118,7 +119,7 @@ void wxOgreRenderWindow::OnPaint (wxPaintEvent &evt) {
 }
 //------------------------------------------------------------------------------
 void wxOgreRenderWindow::OnRenderTimer (wxTimerEvent &evt) {
-    Update ();
+	Refresh();
 }
 //------------------------------------------------------------------------------
 void wxOgreRenderWindow::OnSize (wxSizeEvent &evt)
