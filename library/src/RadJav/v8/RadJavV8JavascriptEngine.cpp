@@ -1420,7 +1420,6 @@ namespace RadJAV
 				// RadJav.Crypto.Cipher
 				{
 				  v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
-				    std::cout << "WHATTA Cipher" << std::endl;
 
 				  {
 				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "Cipher");
@@ -1433,7 +1432,6 @@ namespace RadJAV
 				// RadJav.Crypto.Decipher
 				{
 				  v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
-				    std::cout << "WHATTA Decipher" << std::endl;
 
 				  {
 				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "Decipher");
@@ -1447,7 +1445,6 @@ namespace RadJAV
 				// RadJav.Crypto.CipherMultipart
 				{
 				  v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
-				    std::cout << "WHATTA CipherMultipart" << std::endl;
 
 				  {
 				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "CipherMultipart");
@@ -1462,7 +1459,6 @@ namespace RadJAV
 				// RadJav.Crypto.DecipherMultipart
 				{
 				  v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
-				    std::cout << "WHATTA DecipherMultipart" << std::endl;
 
 				  {
 				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "DecipherMultipart");

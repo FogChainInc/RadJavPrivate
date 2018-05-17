@@ -54,7 +54,10 @@
 				public:
 				  
 				  /// Read from a key in the database.
-				  String digestString(const String &str);
+				  void digest(const void* text, int textLength,
+					      std::function <void (const std::string& str)> stringSetter,
+					      std::function <void (void* buf, int bufLen)> binSetter);
+
 
 				public:
 				  std::shared_ptr<Engine::Crypto::IDigest> myDigest;

@@ -54,8 +54,11 @@
 				public:
 				  
 				  /// Read from a key in the database.
-				  void updateString(const String &str, const String &inputEncoding="");
-				  String finalize();
+                                  void update(const void *text, int textLength, const std::string& inputEncoding,
+						std::function <void (const std::string& str)> stringSetter,
+						std::function <void (void* buf, int bufLen)> binSetter);
+                                  void finalize(std::function <void (const std::string& str)> stringSetter,
+						std::function <void (void* buf, int bufLen)> binSetter);
 				  void reset();
 
 

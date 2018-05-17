@@ -36,6 +36,7 @@
 #include <sstream>
 #include <iomanip>
 
+void printHex(const std::string& prefix, const void *data, int dataLength);
 
 namespace RadJAV
 {
@@ -49,8 +50,8 @@ namespace RadJAV
 				  //std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
 
 					V8_CALLBACK(object, "_init", HashMultipart::_init);
+					V8_CALLBACK(object, "updateSync", HashMultipart::updateSync);
 					V8_CALLBACK(object, "update", HashMultipart::update);
-					V8_CALLBACK(object, "updateP", HashMultipart::updateP);
 					V8_CALLBACK(object, "finalize", HashMultipart::finalize);
 
 					//std::cout << __PRETTY_FUNCTION__ << ": end" << std::endl << std::flush;
@@ -76,20 +77,127 @@ namespace RadJAV
 					//std::cout << __PRETTY_FUNCTION__ << std::endl;
 				}
 
-
-		    
-		                void HashMultipart::update(const v8::FunctionCallbackInfo<v8::Value> &args)
+		                void HashMultipart::updateSync(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
 					ENGINE *engine = (ENGINE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_engine");
 					v8::Isolate *isolate = args.GetIsolate();
 					v8::Local<v8::Value> ret;
 
+
+					String strArgHolder; // If a string is passed, it will be parsed and held here.
+					String inputEncoding; // TODO - need to capture inputEncoding.
+					const void* text;
+					int textLength;
 					if (args[0] -> IsString())
 					  {
-					    String text = parseV8Value(args[0]);
+					    strArgHolder = parseV8Value(args[0]);
+					    text = strArgHolder.c_str();
+					    textLength = strArgHolder.length();
+					  }
+					else if (args[0] -> IsArray())
+					  {
+					    // TODO
+					  }
+					else if (args[0] -> IsObject())
+					  {
+					    String constructor = parseV8Value(v8::Local<v8::Object>::Cast(args[0]) -> GetConstructorName());
+					    if (constructor == "ArrayBuffer")
+					      {
+						auto ab = v8::Local<v8::ArrayBuffer>::Cast(args[0]);
+						text = ab -> GetContents().Data();
+						textLength = ab -> ByteLength();
+					      }
+					  }
+
+					try
+					  {
+					    engine -> update(text, textLength, "",
+							     [&ret, isolate](const std::string &str)
+							     {
+							       ret = v8::String::NewFromUtf8(isolate,
+											     str.c_str());
+							     },
+							     [&ret, isolate](void* bufPtr, int bufLen)
+							     {
+							       auto ab = v8::ArrayBuffer::New(isolate, bufLen);
+							       std::memcpy(ab -> GetContents().Data(), bufPtr, bufLen);
+							       ret = ab;
+							     }
+							     );
+					  }
+					catch (std::invalid_argument &e)
+					  {
+					    isolate -> ThrowException(v8::Exception::TypeError
+								      (v8::String::NewFromUtf8(isolate,
+											       e.what())));
+					  }
+
+					args.GetReturnValue().Set(ret);
+				} // End of updateSync()
+		  
+		                void HashMultipart::update(const v8::FunctionCallbackInfo<v8::Value> &args)
+				{
+				        ENGINE *engine = (ENGINE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_engine");
+					v8::Isolate *isolate = args.GetIsolate();
+					
+					std::shared_ptr<String> strArgHolder; // If a string is passed, it will be parsed and held here.
+					std::shared_ptr<unsigned char> arrBufArgHolder; // If ArryayBuffer is passed, it's data will be held here
+					
+					const void* text;
+					int textLength;
+
+					if (args[0] -> IsString())
+					  {
+					    strArgHolder = std::make_shared<String>(parseV8Value(args[0]));
+					    text = strArgHolder -> c_str();
+					    textLength = strArgHolder -> length();
+					    printHex("*** StrBefore: ", text, textLength);
+					  }
+					else if (args[0] -> IsArray())
+					  {
+					    // TODO
+					  }
+					else if (args[0] -> IsObject())
+					  {
+					    String constructor = parseV8Value(v8::Local<v8::Object>::Cast(args[0]) -> GetConstructorName());
+					    if (constructor == "ArrayBuffer")
+					      {
+						auto ab = v8::Local<v8::ArrayBuffer>::Cast(args[0]);
+						textLength = ab -> ByteLength();
+						
+						arrBufArgHolder = std::shared_ptr<unsigned char>(new unsigned char[textLength],
+												 std::default_delete<unsigned char[]>());
+						std::memcpy(arrBufArgHolder.get(), ab -> GetContents().Data(), textLength);
+					      }
+					  }
+
+					PromiseThread *thread = RJNEW PromiseThread();
+
+					v8::Local<v8::Object> promise = thread->createV8Promise(V8_JAVASCRIPT_ENGINE, args.This());
+					thread->onStart = [thread, text, textLength, strArgHolder, arrBufArgHolder, engine, isolate]()
+					  {
+					    v8::Local<v8::Array> args2 = v8::Array::New (isolate, 1);
+
 					    try
 					      {
-						engine -> updateString(text);
+						printHex("*** DataInThread: ", text, textLength);
+						
+						engine -> update(text, textLength, "",
+								 [&args2, isolate](const std::string &str)
+								 {
+								   args2 -> Set(0, v8::String::NewFromUtf8(isolate,
+													   str.c_str()));
+								   std::cout << "\t**Setting str: " << str << std::endl;
+								 },
+								 [&args2, isolate](void* bufPtr, int bufLen)
+								 {
+								   auto jsData = v8::ArrayBuffer::New(isolate, bufLen);
+								   std::memcpy(jsData -> GetContents().Data(), bufPtr, bufLen);
+								   args2 -> Set(0, jsData);
+								   std::cout << "\t**Setting bin" << std::endl;
+								   
+								 }
+								 );
 					      }
 					    catch (std::invalid_argument &e)
 					      {
@@ -97,42 +205,7 @@ namespace RadJAV
 									  (v8::String::NewFromUtf8(isolate,
 												   e.what())));
 					      }
-					  }
-					else if (args[0] -> IsArray())
-					  {
-					    //std::cout << __PRETTY_FUNCTION__ << ": BUFFER" << std::endl << std::flush;
-
-					  }
-
-				}
-		  
-		  
-
-		                void HashMultipart::updateP(const v8::FunctionCallbackInfo<v8::Value> &args)
-				{
-				        ENGINE *engine = (ENGINE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_engine");
-					v8::Isolate *isolate = args.GetIsolate();
-
-
-					String text;
-					if (args[0] -> IsString())
-					  {
-					    text = parseV8Value(args[0]);
-					  }
-					else if (args[0] -> IsArray())
-					  {
-					    //std::cout << __PRETTY_FUNCTION__ << ": BUFFER" << std::endl << std::flush;
-
-					  }
-
-
-					PromiseThread *thread = RJNEW PromiseThread();
-
-					v8::Local<v8::Object> promise = thread->createV8Promise(V8_JAVASCRIPT_ENGINE, args.This());
-					thread->onStart = [thread, text, engine, isolate]()
-					  {
-					    v8::Local<v8::Array> args2 = v8::Array::New (isolate, 1);
-					    engine -> updateString(text);
+					    
 					    thread->setResolveArgs(isolate, args2);
 
 					    thread->resolvePromise();
@@ -144,19 +217,31 @@ namespace RadJAV
 
 					V8_JAVASCRIPT_ENGINE->addThread(thread);
 					args.GetReturnValue().Set(promise);
-				}
-				  
+				} // End of update()
 
+		    
+				  
 		                void HashMultipart::finalize(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
 					ENGINE *engine = (ENGINE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_engine");
 					v8::Isolate *isolate = args.GetIsolate();
 					v8::Local<v8::Value> ret;
-					
+
 					try
 					  {
-					    ret = v8::String::NewFromUtf8(isolate,
-									  engine -> finalize().c_str());
+					    engine -> finalize(
+							       [&ret, isolate](const std::string &str)
+							       {
+								 ret = v8::String::NewFromUtf8(isolate,
+											       str.c_str());
+							       },
+							       [&ret, isolate](void* bufPtr, int bufLen)
+							       {
+								 auto ab = v8::ArrayBuffer::New(isolate, bufLen);
+								 std::memcpy(ab -> GetContents().Data(), bufPtr, bufLen);
+								 ret = ab;
+							       }
+							       );
 					  }
 					catch (std::invalid_argument &e)
 					  {
@@ -164,9 +249,9 @@ namespace RadJAV
 								      (v8::String::NewFromUtf8(isolate,
 											       e.what())));
 					  }
-					
+
 					args.GetReturnValue().Set(ret);
-				}
+				} // End of finalize()
 
 		  
 		                void HashMultipart::getCapabilities(const v8::FunctionCallbackInfo<v8::Value> &args)

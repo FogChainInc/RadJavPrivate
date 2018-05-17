@@ -57,8 +57,8 @@ namespace RadJAV
 				  //std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
 
 					V8_CALLBACK(object, "_init", Cipher::_init);
+					V8_CALLBACK(object, "cipherSync", Cipher::cipherSync);
 					V8_CALLBACK(object, "cipher", Cipher::cipher);
-					V8_CALLBACK(object, "cipherP", Cipher::cipherP);
 
 					//std::cout << __PRETTY_FUNCTION__ << ": end" << std::endl << std::flush;
 				}
@@ -87,7 +87,7 @@ namespace RadJAV
 
 
 		    
-		                void Cipher::cipher(const v8::FunctionCallbackInfo<v8::Value> &args)
+		                void Cipher::cipherSync(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
 					ENGINE *engine = (ENGINE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_engine");
 					v8::Isolate *isolate = args.GetIsolate();
@@ -143,9 +143,9 @@ namespace RadJAV
 					
 
 					args.GetReturnValue().Set(ret);
-				}
+				} // End of cipherSync()
 		  
-		                void Cipher::cipherP(const v8::FunctionCallbackInfo<v8::Value> &args)
+		                void Cipher::cipher(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
 				        ENGINE *engine = (ENGINE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_engine");
 					v8::Isolate *isolate = args.GetIsolate();
@@ -227,7 +227,7 @@ namespace RadJAV
 
 					V8_JAVASCRIPT_ENGINE->addThread(thread);
 					args.GetReturnValue().Set(promise);
-				}
+				} // End of cipher()
 				  
 		                void Cipher::getCapabilities(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{

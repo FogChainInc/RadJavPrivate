@@ -35,7 +35,7 @@ try
 						    cipherAlgorithm: "blah",
 						    outputEncoding: "hex"});
 
-    var cipherResult = cipher.cipher('asdfadfadsf');
+    var cipherResult = cipher.cipherSync('asdfadfadsf');
     RadJav.Console.println("Cipher Algorithm: " + cipher.cipherAlgorithm);
     RadJav.Console.println("Cipher Result: " + cipherResult);
 }
@@ -50,7 +50,7 @@ try {
 					   cipherAlgorithm: "aes-128-cbc",
 					   outputEncoding: "base64"});
 
-    var cipherResult = cipher.cipher('asdfadfadsf');
+    var cipherResult = cipher.cipherSync('asdfadfadsf');
     RadJav.Console.println("Cipher Algorithm: " + cipher.cipherAlgorithm);
     RadJav.Console.println("Cipher Result: " + cipherResult + ", len: " );
 }
@@ -67,8 +67,8 @@ try {
 						    secret: "Beer",
 						    outputEncoding: "base64"});
 
-    var cipherResult = cipher.update('asd');
-    cipherResult += cipher.update('fadfadsf');
+    var cipherResult = cipher.updateSync('asd');
+    cipherResult += cipher.updateSync('fadfadsf');
     cipherResult += cipher.finalize()
     RadJav.Console.println("Cipher Algorithm: " + cipher.cipherAlgorithm);
     RadJav.Console.println("Cipher Result: " + cipherResult);
@@ -80,7 +80,7 @@ try {
 					       inputEncoding: "base64"
 					      });
 
-    var decipherResult = decipher.decipher(cipherResult);
+    var decipherResult = decipher.decipherSync(cipherResult);
     RadJav.Console.println("Decipher Result: " + decipherResult);
 }
 catch (error)
@@ -115,24 +115,24 @@ try {
 					       inputEncoding: "base64"
 					      });
 
-    var decipherResult1 = decipher1.decipher("aFNMBaeFwCv0e26fypV2WQ==");
+    var decipherResult1 = decipher1.decipherSync("aFNMBaeFwCv0e26fypV2WQ==");
     RadJav.Console.println("Decipher1 Result: " + decipherResult1);
 
     
-    var decipherResult = decipher.update("aFNMBaeF");
-    decipherResult += decipher.update("wCv0e26fypV2WQ==");
+    var decipherResult = decipher.updateSync("aFNMBaeF");
+    decipherResult += decipher.updateSync("wCv0e26fypV2WQ==");
     decipherResult += decipher.finalize();
     RadJav.Console.println("Decipher Result: " + decipherResult);
     
     decipher.reset();
-    decipherResult = decipher.update("aFNMBaeF");
-    decipherResult += decipher.update("wCv0e26fypV2WQ==");
+    decipherResult = decipher.updateSync("aFNMBaeF");
+    decipherResult += decipher.updateSync("wCv0e26fypV2WQ==");
     decipherResult += decipher.finalize();
     RadJav.Console.println("Decipher Result (2): " + decipherResult);
     
     decipher.reset();
-    decipherResult = decipher.update(getPart());
-    decipherResult = decipher.update(getPart2());
+    decipherResult = decipher.updateSync(getPart());
+    decipherResult = decipher.updateSync(getPart2());
     decipherResult += decipher.finalize();
     RadJav.Console.println("Decipher Result (3): " + decipherResult);
     

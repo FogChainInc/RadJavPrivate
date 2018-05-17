@@ -126,72 +126,88 @@ namespace RadJAV
 
 			}
 
-		        void HashMultipart::updateString(const String &text, const String &inputEncoding)
+
+
+		        void HashMultipart::update(const void *text, int textLength, const std::string &inputEncoding,
+						   std::function <void (const std::string &str)> stringSetter,
+						   std::function <void (void* buf, int bufLen)> binSetter)
 			{
 			  //std::tuple<std::shared_ptr<void>, unsigned int> digestResult;
 			  //std::cout << __PRETTY_FUNCTION__ << ": String" << std::endl << std::flush;
 					    
-			  std::cout << "Digest string: " << text << std::endl;
-
-			  std::string _inputEncoding = inputEncoding;
+			  
+			  String _inputEncoding = inputEncoding;
 			  if (_inputEncoding == "")
 			    _inputEncoding = myInputEncoding;
+			  
+			  const void *binText;
+			  int binTextLength;
+			  std::string decodedText;
 
 			  if (_inputEncoding == "binary")
-			    myDigest -> update(text);
-			  else if (_inputEncoding == "hex")
 			    {
-			      auto binData = ORB::Engine::Crypto::decodeHex(text);
-			      String binText(static_cast<const char*>(std::get<0>(binData).get()), std::get<1>(binData));
-			      myDigest -> update(binText);
+			      binText = text;
+			      binTextLength =  textLength;
+			    }
+			  else if (_inputEncoding == "hex")
+ 			    {
+			      auto binData = ORB::Engine::Crypto::decodeHex(text, textLength);
+			      decodedText.assign(static_cast<const char*>(std::get<0>(binData).get()), std::get<1>(binData));
+			      binText = decodedText.c_str();
+			      binTextLength = decodedText.length();
 			    }
 			  else if (_inputEncoding == "base64")
 			    {
-			      auto binData = ORB::Engine::Crypto::decodeBase64(text);
-			      String binText(static_cast<const  char*>(std::get<0>(binData).get()), std::get<1>(binData));
-			      myDigest -> update(binText);
+			      auto binData = ORB::Engine::Crypto::decodeBase64(text, textLength);
+			      decodedText.assign(static_cast<const char*>(std::get<0>(binData).get()), std::get<1>(binData));
+			      binText = decodedText.c_str();
+			      binTextLength = decodedText.length();
 			    }
-
-			}
-
-		  String HashMultipart::finalize()
-			{
-			  auto digestResult = myDigest -> finalize();
+			  else
+			    {
+			      String msg = "Unsupported input encoding: " + _inputEncoding;
+			      throw std::invalid_argument(msg);
+			    }
 			  
+			  myDigest -> update(binText, binTextLength);
+
+			} // End of update()
+
+
+		        void HashMultipart::finalize(std::function <void (const std::string& str)> stringSetter,
+						     std::function <void (void* buf, int bufLen)> binSetter)
+			{
+			  //std::tuple<std::shared_ptr<void>, unsigned int> digestResult;
+			  //std::cout << __PRETTY_FUNCTION__ << ": String" << std::endl << std::flush;
+					    
+			  auto digestResult = myDigest -> finalize();
+
 			  if (myOutputEncoding == "hex")
 			    {
-			      std::cout << "Digest string encoded as hex " << std::endl;
-			      return String(ORB::Engine::Crypto::encodeHex(std::get<0>(digestResult).get(),
-									   std::get<1>(digestResult)));
-			      //args.GetReturnValue().Set(out.toV8String(isolate));
+			      std::cout << "Cipher string encoded as hex " << std::endl;
+			      stringSetter(ORB::Engine::Crypto::encodeHex(std::get<0>(digestResult).get(),
+									  std::get<1>(digestResult)));
+			      return;
 			    }
-			  if (myOutputEncoding == "base64")
+			  else if (myOutputEncoding == "base64")
 			    {
-			      std::cout << "Digest string encoded as base64 " << std::endl;
-				  // TODO: look at this. Dunno why returning constructed string hangs sometimes.
-			      //return String(ORB::Engine::Crypto::encodeBase64(std::get<0>(digestResult).get(),
-					//				      std::get<1>(digestResult)));
-
-				  String str(ORB::Engine::Crypto::encodeBase64(std::get<0>(digestResult).get(),
-															std::get<1>(digestResult)));	
-				  std::cout << "Got the string: " << str << std::endl;
-				  return str;
-			      //args.GetReturnValue().Set(out.toV8String(isolate));
+			      std::cout << "Cipher string encoded as basee64 " << std::endl;
+			      stringSetter(ORB::Engine::Crypto::encodeBase64(std::get<0>(digestResult).get(),
+									     std::get<1>(digestResult)));
+			      return;
 			    }
 			  else if (myOutputEncoding == "binary")
 			    {
-			      std::cout << "Digest string as binary " << std::endl;
-			      return String(static_cast<const char*>(std::get<0>(digestResult).get()),
-					    std::get<1>(digestResult));
-			      //args.GetReturnValue().Set(out.toV8String(isolate));
+			      binSetter(std::get<0>(digestResult).get(),
+					std::get<1>(digestResult));
+			      return;
 			    }
 
 			  String msg = "Unsupported output encoding: " + myOutputEncoding;
 			  throw std::invalid_argument(msg);
 
-			}
+			} // End of finalize()
 
-		  
 
                   #endif
 		  

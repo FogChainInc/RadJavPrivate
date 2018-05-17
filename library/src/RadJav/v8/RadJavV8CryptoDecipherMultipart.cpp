@@ -51,8 +51,8 @@ namespace RadJAV
 				  //std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
 
 					V8_CALLBACK(object, "_init", DecipherMultipart::_init);
+					V8_CALLBACK(object, "updateSync", DecipherMultipart::updateSync);
 					V8_CALLBACK(object, "update", DecipherMultipart::update);
-					V8_CALLBACK(object, "updateP", DecipherMultipart::updateP);
 					V8_CALLBACK(object, "finalize", DecipherMultipart::finalize);
 					V8_CALLBACK(object, "reset", DecipherMultipart::reset);
 
@@ -83,7 +83,7 @@ namespace RadJAV
 
 
 		    
-		                void DecipherMultipart::update(const v8::FunctionCallbackInfo<v8::Value> &args)
+		                void DecipherMultipart::updateSync(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
 					ENGINE *engine = (ENGINE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_engine");
 					v8::Isolate *isolate = args.GetIsolate();
@@ -139,9 +139,9 @@ namespace RadJAV
 					  }
 
 					args.GetReturnValue().Set(ret);
-				} // End of update()
+				} // End of updateSync()
 		  
-		                void DecipherMultipart::updateP(const v8::FunctionCallbackInfo<v8::Value> &args)
+		                void DecipherMultipart::update(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
 				        ENGINE *engine = (ENGINE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_engine");
 					v8::Isolate *isolate = args.GetIsolate();
@@ -223,7 +223,7 @@ namespace RadJAV
 
 					V8_JAVASCRIPT_ENGINE->addThread(thread);
 					args.GetReturnValue().Set(promise);
-				} // End of updateP()
+				} // End of update()
 
 		                void DecipherMultipart::finalize(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{

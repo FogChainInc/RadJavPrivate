@@ -126,41 +126,73 @@ namespace RadJAV
 
 			}
 
-	                String Hash::digestString(const String &text)
+		        void Hash::digest(const void* plainText, int textLength,
+					  std::function <void (const std::string& str)> stringSetter,
+					  std::function <void (void* buf, int bufLen)> binSetter)
 			{
-			  //std::tuple<std::shared_ptr<void>, unsigned int> digestResult;
+			  //std::tuple<std::shared_ptr<void>, unsigned int> cipherResult;
 			  //std::cout << __PRETTY_FUNCTION__ << ": String" << std::endl << std::flush;
 					    
-			  std::cout << "Digest string: " << text << std::endl;
-					  
-			  auto digestResult = myDigest -> digest(text);
+			  
+			  String _inputEncoding = myInputEncoding;
+			  
+			  const void *binPlainText;
+			  int binPlainTextLength;
+			  std::string decodedText;
+
+			  if (_inputEncoding == "binary")
+			    {
+			      binPlainText = plainText;
+			      binPlainTextLength =  textLength;
+			    }
+			  else if (_inputEncoding == "hex")
+ 			    {
+			      auto binData = ORB::Engine::Crypto::decodeHex(plainText, textLength);
+			      decodedText.assign(static_cast<const char*>(std::get<0>(binData).get()), std::get<1>(binData));
+			      binPlainText = decodedText.c_str();
+			      binPlainTextLength = decodedText.length();
+			    }
+			  else if (_inputEncoding == "base64")
+			    {
+			      auto binData = ORB::Engine::Crypto::decodeBase64(plainText, textLength);
+			      decodedText.assign(static_cast<const char*>(std::get<0>(binData).get()), std::get<1>(binData));
+			      binPlainText = decodedText.c_str();
+			      binPlainTextLength = decodedText.length();
+			    }
+			  else
+			    {
+			      String msg = "Unsupported input encoding: " + _inputEncoding;
+			      throw std::invalid_argument(msg);
+			    }
+			  
+			  auto digestResult = myDigest -> digest(binPlainText, binPlainTextLength);
 
 			  if (myOutputEncoding == "hex")
 			    {
-			      std::cout << "Digest string encoded as hex " << std::endl;
-			      return String(ORB::Engine::Crypto::encodeHex(std::get<0>(digestResult).get(),
-									   std::get<1>(digestResult)));
-			      //args.GetReturnValue().Set(out.toV8String(isolate));
+			      std::cout << "Decipher string encoded as hex " << std::endl;
+			      stringSetter(ORB::Engine::Crypto::encodeHex(std::get<0>(digestResult).get(),
+									  std::get<1>(digestResult)));
+			      return;
 			    }
-			  if (myOutputEncoding == "base64")
+			  else if (myOutputEncoding == "base64")
 			    {
-			      std::cout << "Digest string encoded as base64 " << std::endl;
-			      return String(ORB::Engine::Crypto::encodeBase64(std::get<0>(digestResult).get(),
-									      std::get<1>(digestResult)));
-			      //args.GetReturnValue().Set(out.toV8String(isolate));
+			      std::cout << "Decipher string encoded as basee64 " << std::endl;
+			      stringSetter(ORB::Engine::Crypto::encodeBase64(std::get<0>(digestResult).get(),
+									     std::get<1>(digestResult)));
+			      return;
 			    }
 			  else if (myOutputEncoding == "binary")
 			    {
-			      std::cout << "Digest string as binary " << std::endl;
-			      return String(static_cast<const char*>(std::get<0>(digestResult).get()),
-					    std::get<1>(digestResult));
-			      //args.GetReturnValue().Set(out.toV8String(isolate));
+			      binSetter(std::get<0>(digestResult).get(),
+					std::get<1>(digestResult));
+			      return;
 			    }
 
 			  String msg = "Unsupported output encoding: " + myOutputEncoding;
 			  throw std::invalid_argument(msg);
 
 			}
+
 
                   #endif
 		  

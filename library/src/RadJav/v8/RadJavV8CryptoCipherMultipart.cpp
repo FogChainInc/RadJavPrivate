@@ -51,8 +51,8 @@ namespace RadJAV
 				  //std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
 
 					V8_CALLBACK(object, "_init", CipherMultipart::_init);
+					V8_CALLBACK(object, "updateSync", CipherMultipart::updateSync);
 					V8_CALLBACK(object, "update", CipherMultipart::update);
-					V8_CALLBACK(object, "updateP", CipherMultipart::updateP);
 					V8_CALLBACK(object, "finalize", CipherMultipart::finalize);
 					V8_CALLBACK(object, "reset", CipherMultipart::reset);
 
@@ -83,7 +83,7 @@ namespace RadJAV
 
 
 		    
-		                void CipherMultipart::update(const v8::FunctionCallbackInfo<v8::Value> &args)
+		                void CipherMultipart::updateSync(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
 					ENGINE *engine = (ENGINE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_engine");
 					v8::Isolate *isolate = args.GetIsolate();
@@ -139,9 +139,9 @@ namespace RadJAV
 					  }
 
 					args.GetReturnValue().Set(ret);
-				} // End of update()
+				} // End of updateSync()
 		  
-		                void CipherMultipart::updateP(const v8::FunctionCallbackInfo<v8::Value> &args)
+		                void CipherMultipart::update(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
 				        ENGINE *engine = (ENGINE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_engine");
 					v8::Isolate *isolate = args.GetIsolate();
@@ -223,7 +223,7 @@ namespace RadJAV
 
 					V8_JAVASCRIPT_ENGINE->addThread(thread);
 					args.GetReturnValue().Set(promise);
-				} // End of updateP()
+				} // End of update()
 
 		                void CipherMultipart::finalize(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{

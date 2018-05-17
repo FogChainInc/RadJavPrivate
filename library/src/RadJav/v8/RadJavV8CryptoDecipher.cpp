@@ -50,8 +50,8 @@ namespace RadJAV
 				  //std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
 
 					V8_CALLBACK(object, "_init", Decipher::_init);
+					V8_CALLBACK(object, "decipherSync", Decipher::decipherSync);
 					V8_CALLBACK(object, "decipher", Decipher::decipher);
-					V8_CALLBACK(object, "decipherP", Decipher::decipherP);
 
 					//std::cout << __PRETTY_FUNCTION__ << ": end" << std::endl << std::flush;
 				}
@@ -80,7 +80,7 @@ namespace RadJAV
 
 
 		    
-		                void Decipher::decipher(const v8::FunctionCallbackInfo<v8::Value> &args)
+		                void Decipher::decipherSync(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
 				  //std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl;
 
@@ -138,9 +138,9 @@ namespace RadJAV
 
 					args.GetReturnValue().Set(ret);
 
-				}
+				} // End of decipherSync()
 		  
-		                void Decipher::decipherP(const v8::FunctionCallbackInfo<v8::Value> &args)
+		                void Decipher::decipher(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
 				        ENGINE *engine = (ENGINE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_engine");
 					v8::Isolate *isolate = args.GetIsolate();
@@ -223,7 +223,7 @@ namespace RadJAV
 					V8_JAVASCRIPT_ENGINE->addThread(thread);
 					args.GetReturnValue().Set(promise);
 
-				}
+				}  // End of decipher()
 				  
 		                void Decipher::getCapabilities(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{

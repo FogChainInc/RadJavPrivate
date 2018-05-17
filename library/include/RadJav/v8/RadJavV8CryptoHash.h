@@ -37,8 +37,8 @@
 						static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
 						static void _init(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void digestSync(const v8::FunctionCallbackInfo<v8::Value> &args);
 						static void digest(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void digestP(const v8::FunctionCallbackInfo<v8::Value> &args);
 
 						static void getCapabilities(const v8::FunctionCallbackInfo<v8::Value> &args);
 				};
