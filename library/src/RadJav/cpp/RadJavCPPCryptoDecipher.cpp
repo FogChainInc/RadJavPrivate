@@ -175,21 +175,18 @@ namespace RadJAV
 
 			  if (myOutputEncoding == "hex")
 			    {
-			      std::cout << "Decipher string encoded as hex " << std::endl;
 			      stringSetter(ORB::Engine::Crypto::encodeHex(std::get<0>(decipherResult).get(),
 									  std::get<1>(decipherResult)));
 			      return;
 			    }
 			  else if (myOutputEncoding == "base64")
 			    {
-			      std::cout << "Decipher string encoded as basee64 " << std::endl;
 			      stringSetter(ORB::Engine::Crypto::encodeBase64(std::get<0>(decipherResult).get(),
 									     std::get<1>(decipherResult)));
 			      return;
 			    }
 			  else if (myOutputEncoding == "utf8")
 			    {
-			      std::cout << "Decipher string encoded as utf8 " << std::endl;
 			      stringSetter(std::string(static_cast<const char*>(std::get<0>(decipherResult).get()),
 									     std::get<1>(decipherResult)));
 			      return;

@@ -1382,17 +1382,12 @@ namespace RadJAV
 
 				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "Hash");
 				    V8_CALLBACK(func, "getCapabilities", V8B::Crypto::Hash::getCapabilities);
-				    
-				    std::cout << "Obj FieldCount: " << func -> InternalFieldCount() << std::endl << std::flush;
+				    //std::cout << "Obj FieldCount: " << func -> InternalFieldCount() << std::endl << std::flush;
 				    //std::cout << "Obj ExtFieldCount: " << func -> GetIndexedPropertiesExternalArrayDataLength() << std::endl << std::flush;
-				    
 				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
-
-
 				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    std::cout <<  "Len: " << str -> Length() << std::endl << std::flush;
-
-				    std::cout << "Obj FieldCount: " << prototype -> InternalFieldCount() << std::endl << std::flush;
+				    //std::cout <<  "Len: " << str -> Length() << std::endl << std::flush;
+				    //std::cout << "Obj FieldCount: " << prototype -> InternalFieldCount() << std::endl << std::flush;
 				    
 
 				    V8B::Crypto::Hash::createV8Callbacks(isolate, prototype);
@@ -1406,12 +1401,9 @@ namespace RadJAV
 				  v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
 
 				  {
-
 				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "HashMultipart");
 				    V8_CALLBACK(func, "getCapabilities", V8B::Crypto::HashMultipart::getCapabilities);
-				    
 				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
-
 				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
 				    V8B::Crypto::HashMultipart::createV8Callbacks(isolate, prototype);
 				  }
@@ -1438,7 +1430,6 @@ namespace RadJAV
 				    V8_CALLBACK(func, "getCapabilities", V8B::Crypto::Decipher::getCapabilities);
 				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
 				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    std::cout << "Call to create Decipher callbacks" << std::endl;
 				    V8B::Crypto::Decipher::createV8Callbacks(isolate, prototype);
 				  }
 				}
@@ -1465,7 +1456,6 @@ namespace RadJAV
 				    V8_CALLBACK(func, "getCapabilities", V8B::Crypto::DecipherMultipart::getCapabilities);
 				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
 				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    std::cout << "Call to create Decipher callbacks" << std::endl;
 				    V8B::Crypto::DecipherMultipart::createV8Callbacks(isolate, prototype);
 				  }
 				}

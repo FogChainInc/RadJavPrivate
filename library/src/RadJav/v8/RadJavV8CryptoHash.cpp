@@ -154,7 +154,6 @@ namespace RadJAV
 					    strArgHolder = std::make_shared<String>(parseV8Value(args[0]));
 					    text = strArgHolder -> c_str();
 					    textLength = strArgHolder -> length();
-					    printHex("*** StrBefore: ", text, textLength);
 					  }
 					else if (args[0] -> IsArray())
 					  {
@@ -183,21 +182,18 @@ namespace RadJAV
 
 					    try
 					      {
-						printHex("*** DataInThread: ", text, textLength);
 						
 						engine -> digest(text, textLength,
 								 [&args2, isolate](const std::string &str)
 								 {
 								   args2 -> Set(0, v8::String::NewFromUtf8(isolate,
 													   str.c_str()));
-								   std::cout << "\t**Setting str: " << str << std::endl;
 								 },
 								 [&args2, isolate](void* bufPtr, int bufLen)
 								 {
 								   auto jsData = v8::ArrayBuffer::New(isolate, bufLen);
 								   std::memcpy(jsData -> GetContents().Data(), bufPtr, bufLen);
 								   args2 -> Set(0, jsData);
-								   std::cout << "\t**Setting bin" << std::endl;
 								   
 								 }
 								 );
@@ -262,7 +258,6 @@ namespace RadJAV
 					int i=0;
 					for (const auto& digest : hashAlgorithmList)
 					  {
-					    std::cout << digest.first << ":\t" << digest.second << std::endl;
 					    v8::Local<v8::Object> digestObj = v8::Object::New(isolate);
 
 					    hashAlgorithms -> Set(i++, digestObj);

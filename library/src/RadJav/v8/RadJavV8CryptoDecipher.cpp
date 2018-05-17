@@ -156,7 +156,6 @@ namespace RadJAV
 					    strArgHolder = std::make_shared<String>(parseV8Value(args[0]));
 					    cipherText = strArgHolder -> c_str();
 					    cipherTextLength = strArgHolder -> length();
-					    printHex("*** StrBefore: ", cipherText, cipherTextLength);
 					  }
 					else if (args[0] -> IsArray())
 					  {
@@ -185,21 +184,17 @@ namespace RadJAV
 
 					    try
 					      {
-						printHex("*** DataInThread: ", cipherText, cipherTextLength);
-						
 						engine -> decipher(cipherText, cipherTextLength,
 								   [&args2, isolate](const std::string &str)
 								   {
 								     args2 -> Set(0, v8::String::NewFromUtf8(isolate,
 													     str.c_str()));
-								     std::cout << "\t**Setting str: " << str << std::endl;
 								   },
 								   [&args2, isolate](void* bufPtr, int bufLen)
 								   {
 								     auto jsData = v8::ArrayBuffer::New(isolate, bufLen);
 								     std::memcpy(jsData -> GetContents().Data(), bufPtr, bufLen);
 								     args2 -> Set(0, jsData);
-								     std::cout << "\t**Setting bin" << std::endl;
 								   
 								   }
 								   );
@@ -260,7 +255,6 @@ namespace RadJAV
 					int i=0;
 					for (const auto& alg : cipherAlgorithmList)
 					  {
-					    std::cout << alg.first << ":\t" << alg.second << std::endl;
 					    v8::Local<v8::Object> algObj = v8::Object::New(isolate);
 
 					    cipherAlgorithms -> Set(i++, algObj);

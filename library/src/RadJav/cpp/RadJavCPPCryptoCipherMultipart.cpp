@@ -185,7 +185,6 @@ namespace RadJAV
 			    }
 			  else if (myOutputEncoding == "base64")
 			    {
-			      std::cout << "Cipher string encoded as basee64 " << std::endl;
 			      stringSetter(ORB::Engine::Crypto::encodeBase64(std::get<0>(cipherResult).get(),
 									     std::get<1>(cipherResult)));
 			      return;
@@ -213,14 +212,12 @@ namespace RadJAV
 
 			  if (myOutputEncoding == "hex")
 			    {
-			      std::cout << "Cipher string encoded as hex " << std::endl;
 			      stringSetter(ORB::Engine::Crypto::encodeHex(std::get<0>(cipherResult).get(),
 									  std::get<1>(cipherResult)));
 			      return;
 			    }
 			  else if (myOutputEncoding == "base64")
 			    {
-			      std::cout << "Cipher string encoded as basee64 " << std::endl;
 			      stringSetter(ORB::Engine::Crypto::encodeBase64(std::get<0>(cipherResult).get(),
 									     std::get<1>(cipherResult)));
 			      return;
