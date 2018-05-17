@@ -54,7 +54,7 @@ class wxOgreRenderWindow : public wxControl {
          */
         wxOgreRenderWindow (Ogre::Root *root, wxWindow *parent, wxWindowID id,
                 const wxPoint &pos = wxDefaultPosition, const wxSize &size = wxDefaultSize,
-                long style = wxSUNKEN_BORDER, const wxValidator &validator = wxDefaultValidator);
+                long style = wxBORDER_DEFAULT, const wxValidator &validator = wxDefaultValidator);
  
         /** Default constructor.
             Allows the "standard" wxWidgets' two-step construction.
@@ -71,7 +71,7 @@ class wxOgreRenderWindow : public wxControl {
          */
         bool Create (wxWindow *parent, wxWindowID id,
                 const wxPoint &pos = wxDefaultPosition, const wxSize &size = wxDefaultSize,
-                long style = wxSUNKEN_BORDER, const wxValidator &validator = wxDefaultValidator);
+                long style = wxBORDER_DEFAULT, const wxValidator &validator = wxDefaultValidator);
  
         /** Virtual destructor.
          */
