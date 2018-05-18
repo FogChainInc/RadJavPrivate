@@ -73,6 +73,12 @@ namespace RadJAV
 				#ifdef __WXOSX_COCOA__
 					params["macAPI"] = "cocoa";
 					params["macAPICocoaUseNSView"] = "true";
+				
+					//Determine scaling of the window (retina support)
+					Ogre::StringStream scaleFactor;
+					scaleFactor << Ogre::Math::Clamp( window->GetContentScaleFactor(), 1.0, 2.0);
+				
+					params["contentScalingFactor"] = scaleFactor.str();
 				#endif
 				
 				Ogre::StringStream str;
