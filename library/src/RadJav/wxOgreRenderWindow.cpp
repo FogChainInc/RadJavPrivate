@@ -1,14 +1,7 @@
 #include "wxOgreRenderWindow.h"
 
-#ifdef C3D_USE_OGRE
-#ifdef __WXGTK__
-#include <gdk/gdk.h>
-#include <gtk/gtk.h>
-#include <gdk/gdkx.h>
-#include <wx/gtk/win_gtk.h>
-#include <GL/glx.h>
-#endif
- 
+#if defined C3D_USE_OGRE && defined GUI_USE_WXWIDGETS
+
 const wxWindowID ID_RENDERTIMER = wxNewId ();
  
 wxIMPLEMENT_CLASS (wxOgreRenderWindow, wxControl);
@@ -23,10 +16,6 @@ BEGIN_EVENT_TABLE (wxOgreRenderWindow, wxControl)
 END_EVENT_TABLE ()
  
 Ogre::Root *wxOgreRenderWindow::msOgreRoot = 0;
-
-//------------------------------------------------------------------------------
-unsigned int wxOgreRenderWindow::msNextRenderWindowId = 1;
-//------------------------------------------------------------------------------
 
 wxOgreRenderWindow::wxOgreRenderWindow (Ogre::Root *root, wxWindow *parent, wxWindowID id,
                 const wxPoint &pos, const wxSize &size, long style, const wxValidator &validator) {
@@ -54,24 +43,22 @@ bool wxOgreRenderWindow::Create (wxWindow *parent, wxWindowID id,
     SetInitialSize (size);
  
     if (msOgreRoot)
-        CreateRenderWindow ();
+	{
+        if(!createRenderWindow( this, size, false))
+			return false;
+		
+		renderWindow->setActive(true);
+	}
  
     return true;
 }
 //------------------------------------------------------------------------------
 wxOgreRenderWindow::~wxOgreRenderWindow () {
-    if (mRenderWindow && msOgreRoot)
-        msOgreRoot->detachRenderTarget (mRenderWindow);
- 
-    mRenderWindow = 0;
- 
     if (mRenderTimer)
         delete mRenderTimer;
 }
 //------------------------------------------------------------------------------
 void wxOgreRenderWindow::Init () {
-    mRenderWindow = 0;
- 
     // Callbacks
     mMouseEventsCallback = 0;
  
@@ -89,10 +76,6 @@ Ogre::Root *wxOgreRenderWindow::GetOgreRoot () {
 //------------------------------------------------------------------------------
 void wxOgreRenderWindow::SetOgreRoot (Ogre::Root *root) {
     msOgreRoot = root;
-}
-//------------------------------------------------------------------------------
-Ogre::RenderWindow *wxOgreRenderWindow::GetRenderWindow () const {
-    return mRenderWindow;
 }
 //------------------------------------------------------------------------------
 void wxOgreRenderWindow::SetRenderTimerPeriod (int period) {
@@ -124,7 +107,7 @@ void wxOgreRenderWindow::OnRenderTimer (wxTimerEvent &evt) {
 //------------------------------------------------------------------------------
 void wxOgreRenderWindow::OnSize (wxSizeEvent &evt)
 {
-    if (mRenderWindow)
+    if (renderWindow)
     {
         // Setting new size;
         int width;
@@ -139,11 +122,11 @@ void wxOgreRenderWindow::OnSize (wxSizeEvent &evt)
         // and Ogre recognises that in windowMovedOrResized().
         // I am not sure if windows requires this, but it works fine with it.
 //#if defined(__WXGTK__) || defined(__WXMSW__)
-        mRenderWindow->resize (width, height);
+        renderWindow->resize (width, height);
 //#endif
  
         // Letting Ogre know the window has been resized;
-        mRenderWindow->windowMovedOrResized ();
+        renderWindow->windowMovedOrResized ();
     }
  
     Update ();
@@ -154,80 +137,5 @@ void wxOgreRenderWindow::OnMouseEvents (wxMouseEvent &evt)
     if (mMouseEventsCallback)
         (*mMouseEventsCallback)(evt);
 }
-//------------------------------------------------------------------------------
-void wxOgreRenderWindow::CreateRenderWindow ()
-{
-    Ogre::NameValuePairList params;
-    params["externalWindowHandle"] = GetOgreHandle ();
- 
-// Need to tell Ogre3D that we are using a cocoa window
-// if wx is using it.
-// and that wxWidgets uses an NSView* as the handle
-#ifdef __WXOSX_COCOA__
-	params["macAPI"] = "cocoa";
-	params["macAPICocoaUseNSView"] = "true";
-#endif
- 
-    // Get wx control window size
-    int width;
-    int height;
-    GetSize (&width, &height);
-    // Create the render window
-    mRenderWindow = Ogre::Root::getSingleton ().createRenderWindow (
-                    Ogre::String ("OgreRenderWindow") + Ogre::StringConverter::toString (msNextRenderWindowId++),
-                    width, height, false, &params);
- 
-    mRenderWindow->setActive (true);
-}
-//------------------------------------------------------------------------------
-Ogre::String wxOgreRenderWindow::GetOgreHandle () const
-{
-    Ogre::String handle;
- 
-#ifdef __WXMSW__
-    // Handle for Windows systems
-	HWND hwnd = (HWND)GetHandle();
-    handle = Ogre::StringConverter::toString((size_t)hwnd);
-#elif defined(__WXOSX_COCOA__)
-    handle = Ogre::StringConverter::toString((size_t)((NSView*)(GetHandle())));
-#elif defined(__WXGTK__)
-    // Handle for GTK-based systems
- 
-    GtkWidget *widget = m_wxwindow;
-    gtk_widget_set_double_buffered (widget, FALSE);
-    gtk_widget_realize( widget );
- 
-    // Grab the window object
-    GdkWindow *gdkWin = GTK_PIZZA (widget)->bin_window;
-    Display* display = GDK_WINDOW_XDISPLAY(gdkWin);
-    Window wid = GDK_WINDOW_XWINDOW(gdkWin);
-    
-    std::stringstream str;
-    
-    // Display
-    str << (unsigned long)display << ':';
-    
-    // Screen (returns "display.screen")
-    std::string screenStr = DisplayString(display);
-    std::string::size_type dotPos = screenStr.find(".");
-    screenStr = screenStr.substr(dotPos+1, screenStr.size());
-    str << screenStr << ':';
-    
-    // XID
-    str << wid << ':';
-    
-    // Retrieve XVisualInfo
-    int attrlist[] = { GLX_RGBA, GLX_DOUBLEBUFFER, GLX_DEPTH_SIZE, 16, GLX_STENCIL_SIZE, 8, None };
-    XVisualInfo* vi = glXChooseVisual(display, DefaultScreen(display), attrlist);
-    str << (unsigned long)vi;
-    
-    handle = str.str();
-#else
-    // Any other unsupported system
-    #error Not supported on this platform.
-#endif
- 
-    return handle;
-}
 
-#endif //C3D_USE_OGRE
+#endif //C3D_USE_OGRE && GUI_USE_WXWIDGETS

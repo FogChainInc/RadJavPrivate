@@ -29,58 +29,8 @@ namespace RadJAV
 		namespace GUI
 		{
 			#ifdef GUI_USE_WXWIDGETS
-			Ogre::RenderWindow* createOgreWindow(wxWindow* win, const wxSize& sz)
-			{
-				// Confirm Ogre::Root created
-				Ogre::Root* proot = Ogre::Root::getSingletonPtr();
-				if (!proot)
-				{
-					return NULL;
-				}
-				
-				if (!proot->isInitialised())
-				{
-					return NULL;
-				}
-				
-				// Create a new parameters list according to compiled OS
-				Ogre::NameValuePairList params;
-				Ogre::String handle;
-				
-#ifdef __WXMSW__
-				handle = Ogre::StringConverter::toString((size_t)((HWND)(win->GetHandle())));
-				
-#elif defined(__WXGTK__)
-				
-				// TODO: Someone test this. you might to use "parentWindowHandle" if this
-				// does not work.  Ogre 1.2 + Linux + GLX platform wants a string of the
-				// format display:screen:window, which has variable types ulong:uint:ulong.
-				GtkWidget* widget = win->GetHandle();
-				gtk_widget_realize( widget );    // Mandatory. Otherwise, a segfault happens.
-				Ogre::StringUtil::StrStreamType handleStream;
-				Display* display = GDK_WINDOW_XDISPLAY( widget->window );
-				Window wid = GDK_WINDOW_XWINDOW( widget->window );    // Window is a typedef for XID, which is a typedef for unsigned int
-				/* Get the right display (DisplayString() returns ":display.screen") */
-				Ogre::String displayStr = DisplayString( display );
-				displayStr = displayStr.substr( 1, ( displayStr.find( ".", 0 ) - 1 ) );
-				/* Put all together */
-				handleStream << displayStr << ':' << DefaultScreen( display ) << ':' << wid;
-				handle = handleStream.str();
-#elif defined(__APPLE__)
-				handle = Ogre::StringConverter::toString((size_t)((NSView*)(win->GetHandle())));
-#else
-				#error "Render window for this platform was not implemented"
-#endif
-				params["externalWindowHandle"] = handle;
-				
-				// Create the render window
-				Ogre::StringStream str;
-				str << "wxWindow" << win->GetId();
-				return proot->createRenderWindow( str.str(), sz.x, sz.y, false, &params);
-			}
-
 				Canvas3DFrame::Canvas3DFrame(const wxString &text, const wxPoint &pos, const wxSize &size, Array<CanvasResource *> resources)
-					: wxFrame(NULL, wxID_ANY, text, pos, size), GObjectBase()
+					: wxFrame(NULL, wxID_ANY, text, pos, size), GObjectBase(), RenderWindow()
 				{
 					mRenderWindow = NULL;
 					mSceneMgr = NULL;
@@ -88,7 +38,11 @@ namespace RadJAV
 
 					mRoot = V8_JAVASCRIPT_ENGINE->mRoot;
 					
-					createOgreWindow(this, wxSize(1, 1));
+					// Create dummy window just to hold device, prevents constant lost devices
+					// when resizing the 'real' viewable windows
+					// We'll never render to this window or give it a viewport or camera, it's
+					// only there to hold the rendering device
+					createRenderWindow(this, wxSize(1, 1), false);
 					
                     // Creation of first window will have created rendering context
                     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
@@ -215,7 +169,7 @@ namespace RadJAV
                 
                 Canvas3DFrame* win = dynamic_cast<Canvas3DFrame*>(_appObj);
                 if(win)
-                    return win->mRenderWindow->GetRenderWindow();
+                    return win->mRenderWindow->getRenderWindow();
                 
                 return NULL;
             }

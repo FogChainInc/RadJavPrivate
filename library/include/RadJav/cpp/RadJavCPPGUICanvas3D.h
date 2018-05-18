@@ -24,6 +24,7 @@
 	#include "RadJavString.h"
 
 	#include "cpp/RadJavCPPGUIGObject.h"
+	#include "cpp/RadJavCPPGUIRenderWindow.h"
 
 	#ifdef USE_V8
 		#include "v8/RadJavV8JavascriptEngine.h"
@@ -66,7 +67,7 @@
 
 				#ifdef GUI_USE_WXWIDGETS
 					/// The wxWidgets frame to use.
-					class RADJAV_EXPORT Canvas3DFrame : public wxFrame, public GObjectBase
+					class RADJAV_EXPORT Canvas3DFrame : public wxFrame, public GObjectBase, public RenderWindow
 					{
 						public:
 							Canvas3DFrame(const wxString &text, const wxPoint &pos, const wxSize &size, Array<CanvasResource *> resources);
