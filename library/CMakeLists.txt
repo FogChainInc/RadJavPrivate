@@ -29,6 +29,7 @@ set (FIND_MEMORY_LEAKS true CACHE BOOL "Find memory leaks?")
 set (INCLUDE_DATABASES true CACHE BOOL "Includes databases")
 set (INCLUDE_CRYPTOGRAPHY true CACHE BOOL "Includes cryptography")
 set (WEBVIEW_TYPE "wxWidgetsDefault" CACHE STRING "Type of webview to use")
+set (USE_BITS "" CACHE STRING "Build using number of bits")
 set (BOOST_ROOT "" CACHE PATH "BOOST_ROOT")
 
 set (CMAKE_BUILD_TYPE CACHE STRING "Debug")
@@ -82,8 +83,8 @@ if (libRadJav_HTTP_LIBRARY STREQUAL "nghttp2")
 endif ()
 
 if (INCLUDE_DATABASES)
-	set (databases LevelDB RocksDB NuDB)
-	set (libRadJav_DATABASE LevelDB CACHE STRING "Database to link with")
+	set (databases LevelDB RocksDB NuDB "RocksDB and NuDB")
+	set (libRadJav_DATABASE "RocksDB and NuDB" CACHE STRING "Database to link with")
 	set_property (CACHE libRadJav_DATABASE PROPERTY STRINGS ${databases})
 endif ()
 
@@ -97,9 +98,7 @@ set (SOURCES "${libRadJav_SOURCE_DIR}/src/RadJav" ${SOURCES})
 
 #set (SOURCES ${SRC} ${SOURCES})
 
-set (libRadJav_CPP_DEFS)
 set (libRadJav_CPP_DEFS "LANG_${libRadJav_LANGUAGE_UPPER}" ${libRadJav_CPP_DEFS})
-set (libRadJav_CPP_DEFS_DEBUG "")
 set (libRadJav_CPP_DEFS_DEBUG RADJAV_DEBUG ${libRadJav_CPP_DEFS_DEBUG})
 
 include (includes)
@@ -161,14 +160,15 @@ if (UNIX)
 	set (libRadJav_CPP_DEFS LINUX ${libRadJav_CPP_DEFS})
 endif ()
 
+set (libRadJav_INCLUDE_DIRS)
 set (libRadJav_LINK_LIBRARIES)
 
-include_directories (${libRadJav_SOURCE_DIR}/include/RadJav)
+set (libRadJav_INCLUDE_DIRS ${libRadJav_SOURCE_DIR}/include/RadJav ${libRadJav_INCLUDE_DIRS})
 
 # Boost
 include (FindModuleBoost)
 
-include_directories (${Boost_INCLUDE})
+set (libRadJav_INCLUDE_DIRS ${Boost_INCLUDE} ${libRadJav_INCLUDE_DIRS})
 set (libRadJav_LINK_LIBRARIES ${Boost_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
 
 set (libRadJav_CPP_DEFS BOOST_SYSTEM_NO_DEPRECATED ${libRadJav_CPP_DEFS})
@@ -181,15 +181,17 @@ endif ()
 
 link_directories (${Boost_LIBRARY_DIR_DEBUG} ${Boost_LIBRARY_DIR_RELEASE})
 
+set (libRadJav_LINK_LIBRARY_DIRS ${Boost_LIBRARY_DIRS} ${libRadJav_LINK_LIBRARY_DIRS})
+
 if (OGRE_FOUND)
 	message (STATUS "Ogre 3D Found...")
-	include_directories (${OGRE_INCLUDE})
+	set (libRadJav_INCLUDE_DIRS ${OGRE_INCLUDE} ${libRadJav_INCLUDE_DIRS})
 	set (libRadJav_LINK_LIBRARIES ${OGRE_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
 	set (libRadJav_CPP_DEFS C3D_USE_OGRE ${libRadJav_CPP_DEFS})
 endif ()
 
 if (V8_FOUND)
-	include_directories (${V8_INCLUDE})
+	set (libRadJav_INCLUDE_DIRS ${V8_INCLUDE} ${libRadJav_INCLUDE_DIRS})
 	set (libRadJav_LINK_LIBRARIES ${V8_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
 	set (libRadJav_CPP_DEFS USE_V8 ${libRadJav_CPP_DEFS})
 endif ()
@@ -199,20 +201,20 @@ endif ()
 #endif ()
 
 if (CURL_FOUND)
-	include_directories (${CURL_INCLUDE})
+	set (libRadJav_INCLUDE_DIRS ${CURL_INCLUDE} ${libRadJav_INCLUDE_DIRS})
 	set (libRadJav_LINK_LIBRARIES ${CURL_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
 	set (libRadJav_CPP_DEFS HTTP_USE_CURL ${libRadJav_CPP_DEFS})
 	set (libRadJav_CPP_DEFS CURL_STATICLIB ${libRadJav_CPP_DEFS})
 endif ()
 
 if (nghttp2_FOUND)
-	include_directories (${nghttp2_INCLUDE})
+	set (libRadJav_INCLUDE_DIRS ${nghttp2_INCLUDE} ${libRadJav_INCLUDE_DIRS})
 	set (libRadJav_LINK_LIBRARIES ${nghttp2_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
 	set (libRadJav_CPP_DEFS HTTP_USE_NGHTTP2 ${libRadJav_CPP_DEFS})
 endif ()
 
 if (civetweb_FOUND)
-	include_directories (${civetweb_INCLUDE})
+	set (libRadJav_INCLUDE_DIRS ${civetweb_INCLUDE} ${libRadJav_INCLUDE_DIRS})
 	set (libRadJav_LINK_LIBRARIES ${civetweb_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
 	set (libRadJav_CPP_DEFS HTTP_USE_CIVETWEB ${libRadJav_CPP_DEFS})
 endif ()
@@ -255,26 +257,26 @@ if (libRadJav_INCLUDE_BLOCKCHAIN_V1)
 	include (Findsecp256k1)
 	include (Findlibzmq)
 
-	include_directories ("${libRadJav_SOURCE_DIR}/blockchainV1")
-	include_directories ("${libRadJav_SOURCE_DIR}/blockchainV1/src")
-	include_directories ("${libRadJav_SOURCE_DIR}/blockchainV1/src/config")
-	include_directories ("${libRadJav_SOURCE_DIR}/blockchainV1/src/univalue/include")
-	include_directories ("${libRadJav_SOURCE_DIR}/blockchainV1/src/secp256k1/include")
+	set (libRadJav_INCLUDE_DIRS "${libRadJav_SOURCE_DIR}/blockchainV1" ${libRadJav_INCLUDE_DIRS})
+	set (libRadJav_INCLUDE_DIRS "${libRadJav_SOURCE_DIR}/blockchainV1/src" ${libRadJav_INCLUDE_DIRS})
+	set (libRadJav_INCLUDE_DIRS "${libRadJav_SOURCE_DIR}/blockchainV1/src/config" ${libRadJav_INCLUDE_DIRS})
+	set (libRadJav_INCLUDE_DIRS "${libRadJav_SOURCE_DIR}/blockchainV1/src/univalue/include" ${libRadJav_INCLUDE_DIRS})
+	set (libRadJav_INCLUDE_DIRS "${libRadJav_SOURCE_DIR}/blockchainV1/src/secp256k1/include" ${libRadJav_INCLUDE_DIRS})
 
-	include_directories (${ZLIB_INCLUDE})
+	set (libRadJav_INCLUDE_DIRS ${ZLIB_INCLUDE} ${libRadJav_INCLUDE_DIRS})
 	#set (libRadJav_LINK_LIBRARIES ${ZLIB_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
-	include_directories (${BerkleyDB_INCLUDE})
+	set (libRadJav_INCLUDE_DIRS ${BerkleyDB_INCLUDE} ${libRadJav_INCLUDE_DIRS})
 	set (libRadJav_LINK_LIBRARIES ${BerkleyDB_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
-	include_directories (${OPENSSL_INCLUDE})
+	set (libRadJav_INCLUDE_DIRS ${OPENSSL_INCLUDE} ${libRadJav_INCLUDE_DIRS})
 	set (libRadJav_LINK_LIBRARIES ${OPENSSL_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
-	include_directories (${event2_INCLUDE})
+	set (libRadJav_INCLUDE_DIRS ${event2_INCLUDE} ${libRadJav_INCLUDE_DIRS})
 	set (libRadJav_LINK_LIBRARIES ${event2_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
-	include_directories (${miniupnpc_INCLUDE})
+	set (libRadJav_INCLUDE_DIRS ${miniupnpc_INCLUDE} ${libRadJav_INCLUDE_DIRS})
 	set (libRadJav_LINK_LIBRARIES ${miniupnpc_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
 
-	include_directories (${secp256k1_INCLUDE})
+	set (libRadJav_INCLUDE_DIRS ${secp256k1_INCLUDE} ${libRadJav_INCLUDE_DIRS})
 	set (libRadJav_LINK_LIBRARIES ${secp256k1_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
-	include_directories (${libzmq_INCLUDE})
+	set (libRadJav_INCLUDE_DIRS ${libzmq_INCLUDE} ${libRadJav_INCLUDE_DIRS})
 	set (libRadJav_LINK_LIBRARIES ${libzmq_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
 
 	#if (MSVC)
@@ -302,6 +304,8 @@ if (INCLUDE_DATABASES)
 	message (STATUS "${libRadJav_DATABASE} selected as primary database to link with")
     	
 	if (libRadJav_DATABASE STREQUAL "LevelDB")
+		set (USE_SNAPPY true CACHE BOOL "Library links using Snappy?")
+
 		include (Findleveldb)
 
 		set (libRadJav_CPP_DEFS USE_LEVELDB ${libRadJav_CPP_DEFS})
@@ -316,29 +320,34 @@ if (INCLUDE_DATABASES)
 		endif ()
 
 		if (NOT WIN32)
-			include_directories (${leveldb_INCLUDE})
+			set (libRadJav_INCLUDE_DIRS ${leveldb_INCLUDE} ${libRadJav_INCLUDE_DIRS})
 			set (libRadJav_LINK_LIBRARIES ${leveldb_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
 		endif ()
-	elseif (libRadJav_DATABASE STREQUAL "RocksDB")
+	elseif (libRadJav_DATABASE STREQUAL "RocksDB" OR libRadJav_DATABASE STREQUAL "RocksDB and NuDB")
+		set (USE_SNAPPY true CACHE BOOL "Library links using Snappy?")
+
 		include (Findrocksdb)
 
 		set (libRadJav_CPP_DEFS USE_ROCKSDB ${libRadJav_CPP_DEFS})
 		set (libRadJav_CPP_DEFS_DEBUG USE_ROCKSDB ${libRadJav_CPP_DEFS_DEBUG})
 
-		if (NOT WIN32)
-			include_directories (${rocksdb_INCLUDE})
-			set (libRadJav_LINK_LIBRARIES ${rocksdb_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
-		endif ()
-	elseif (libRadJav_DATABASE STREQUAL "NuDB")
+		set (libRadJav_INCLUDE_DIRS ${rocksdb_INCLUDE} ${libRadJav_INCLUDE_DIRS})
+		set (libRadJav_LINK_LIBRARIES ${rocksdb_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
+	elseif (libRadJav_DATABASE STREQUAL "NuDB" OR libRadJav_DATABASE STREQUAL "RocksDB and NuDB")
 		include (Findnudb)
 
 		set (libRadJav_CPP_DEFS USE_NUDB ${libRadJav_CPP_DEFS})
 		set (libRadJav_CPP_DEFS_DEBUG USE_NUDB ${libRadJav_CPP_DEFS_DEBUG})
 
-		include_directories (${nudb_INCLUDE})
+		set (libRadJav_INCLUDE_DIRS ${nudb_INCLUDE} ${libRadJav_INCLUDE_DIRS})
 	else ()
 		message (FATAL_ERROR "Unknown libRadJav_DATABASE \"${libRadJav_DATABASE}\" specified")
 	endif()
+
+	if (USE_SNAPPY)
+		set (libRadJav_CPP_DEFS USE_SNAPPY ${libRadJav_CPP_DEFS})
+		set (libRadJav_CPP_DEFS_DEBUG USE_SNAPPY ${libRadJav_CPP_DEFS_DEBUG})
+	endif ()
 endif ()
 
 if (INCLUDE_CRYPTOGRAPHY)
@@ -352,7 +361,7 @@ if (INCLUDE_CRYPTOGRAPHY)
 
 	include (FindModuleOpenSSL)
 
-	include_directories (${OPENSSL_INCLUDE})
+	set (libRadJav_INCLUDE_DIRS ${OPENSSL_INCLUDE} ${libRadJav_INCLUDE_DIRS})
 	set (libRadJav_LINK_LIBRARIES ${OPENSSL_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
 endif ()
 
@@ -374,6 +383,8 @@ if (wxWidgets_FOUND)
 	endif ()
 
 	set (libRadJav_CPP_DEFS GUI_USE_WXWIDGETS ${libRadJav_CPP_DEFS})
+	set (libRadJav_INCLUDE_DIRS ${wxWidgets_INCLUDE_DIRS} ${libRadJav_INCLUDE_DIRS})
+	set (libRadJav_LINK_LIBRARIES ${wxWidgets_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
 endif ()
 
 if (CMAKE_BUILD_TYPE MATCHES "Debug")
@@ -407,6 +418,7 @@ else ()
 	add_library (libRadJav SHARED ${SOURCES})
 endif ()
 
+include_directories (${libRadJav_INCLUDE_DIRS})
 target_link_libraries (libRadJav ${libRadJav_LINK_LIBRARIES})
 
 set_target_properties (libRadJav PROPERTIES LINKER_LANGUAGE CXX)
@@ -433,3 +445,9 @@ if (libRadJav_EMBEDFILE)
 
 	add_dependencies (libRadJav RadJavCompileResources)
 endif ()
+
+set (libRadJav_CPP_DEFS2 ${libRadJav_CPP_DEFS} PARENT_SCOPE)
+set (libRadJav_CPP_DEFS_DEBUG2 ${libRadJav_CPP_DEFS_DEBUG} PARENT_SCOPE)
+set (libRadJav_INCLUDE_DIRS2 ${libRadJav_INCLUDE_DIRS} PARENT_SCOPE)
+set (libRadJav_LINK_LIBRARIES2 ${libRadJav_LINK_LIBRARIES} PARENT_SCOPE)
+set (libRadJav_LINK_LIBRARY_DIRS2 ${libRadJav_LINK_LIBRARY_DIRS} PARENT_SCOPE)

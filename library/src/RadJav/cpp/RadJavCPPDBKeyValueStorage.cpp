@@ -55,7 +55,7 @@ namespace RadJAV
                 //TODO: Need to add helper class to handle paths in portable way
                 //F.e. which can prepend path before file name
                 #ifdef WIN32
-                    filePath = ".\db.dat";
+                    filePath = ".\\db.dat";
                 #else
                     filePath = "./db.dat";
                 #endif
@@ -91,7 +91,10 @@ namespace RadJAV
 				#ifdef USE_ROCKSDB
 					// Optimize RocksDB. This is the easiest way to get RocksDB to perform well
 					options.IncreaseParallelism();
-					options.OptimizeLevelStyleCompaction();
+
+					#ifdef USE_SNAPPY
+						options.OptimizeLevelStyleCompaction();
+					#endif
 				#endif
 
 				#if defined USE_LEVELDB || defined USE_ROCKSDB
