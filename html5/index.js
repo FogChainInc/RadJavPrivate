@@ -40,15 +40,18 @@ function getCommand (cmdList, cmdName)
 	return (foundCmd);
 }
 
-function getTypeScriptFiles ()
+function getTypeScriptFiles (dirPath)
 {
 	let tsfiles = [];
 
-	let files = fs.readdirSync ("./src/");
+	if (dirPath == null)
+		dirPath = path.normalize ("./src/");
+
+	let files = fs.readdirSync (dirPath);
 	files.forEach (function (file)
 		{
 			if (file.indexOf (".ts") > -1)
-				tsfiles.push ("./src/" + file);
+				tsfiles.push (path.normalize (dirPath + "/" + file));
 		});
 
 	return (tsfiles);
@@ -214,7 +217,37 @@ var commands = [
 		}, 
 		{
 			cmd: ["build", "b"], 
-			desc: "Build JavaScript", 
+			desc: "Build Javascript from TypeScript files.", 
+			help: "", 
+			evt: function (args)
+				{
+					let buildPath = path.normalize (args[0]);
+					let tsfiles = getTypeScriptFiles (buildPath);
+					let outputPath = path.normalize (args[1]);
+					let tempTsLibs = tsLibs;
+					let tsDecFiles = getTypeScriptFiles (path.normalize (__dirname + "/d.ts/"));
+
+					for (let iIdx = 0; iIdx < tsDecFiles.length; iIdx++)
+					{
+						let decFile = tsDecFiles[iIdx];
+
+						tempTsLibs.push (decFile);
+					}
+
+					console.log ("Building JavaScript from TypeScript...");
+
+					compile (tsfiles, {
+							noImplicitUseStrict: true, removeComments: true, importHelpers: true, 
+							target: typescript.ScriptTarget.ES3, module: typescript.ModuleKind.None, 
+							lib: tempTsLibs, outDir: outputPath
+						});
+
+					console.log ("Done.");
+				}
+		}, 
+		{
+			cmd: ["build-radjav", "r"], 
+			desc: "Build RadJav's JavaScript", 
 			help: [
 				{
 					cmd: ["doNotCopyHTML5Files"],
