@@ -64,7 +64,7 @@ set (RadJavVM_LINK_LIBRARY_DIRS)
 set (RadJavVM_INCLUDE_DIRS "${RadJavVM_SOURCE_DIR}/include/RadJavVM" ${RadJavVM_INCLUDE_DIRS})
 
 if (libRadJav_FOUND)
-	message (STATUS "RadJav Library Found...")
+	message (STATUS "libRadJav Library Found...")
 	set (RadJavVM_INCLUDE_DIRS ${libRadJav_INCLUDE} ${RadJavVM_INCLUDE_DIRS})
 	set (RadJavVM_LINK_LIBRARIES ${libRadJav_LIBRARIES} ${RadJavVM_LINK_LIBRARIES})
 
@@ -80,8 +80,10 @@ if (libRadJav_FOUND)
 	set (RadJavVM_LINK_LIBRARIES ${libRadJav_LINK_LIBRARIES2} ${RadJavVM_LINK_LIBRARIES})
 	set (RadJavVM_LINK_LIBRARY_DIRS ${libRadJav_LINK_LIBRARY_DIRS2} ${RadJavVM_LINK_LIBRARY_DIRS})
 
-	list (REMOVE_ITEM RadJavVM_CPP_DEFS WIN32_LEAN_AND_MEAN)
-	list (REMOVE_ITEM RadJavVM_CPP_DEFS_DEBUG WIN32_LEAN_AND_MEAN)
+	if (WIN32)
+		list (REMOVE_ITEM RadJavVM_CPP_DEFS WIN32_LEAN_AND_MEAN)
+		list (REMOVE_ITEM RadJavVM_CPP_DEFS_DEBUG WIN32_LEAN_AND_MEAN)
+	endif ()
 endif ()
 
 if (MSVC)
