@@ -389,6 +389,7 @@ if (wxWidgets_FOUND)
 	set (libRadJav_CXX_FLAGS ${wxWidgets_CXX_FLAGS} ${libRadJav_CXX_FLAGS})
 	set (libRadJav_INCLUDE_DIRS ${wxWidgets_INCLUDE_DIRS} ${libRadJav_INCLUDE_DIRS})
 	set (libRadJav_LINK_LIBRARIES ${wxWidgets_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
+	set (libRadJav_LINK_LIBRARY_DIRS ${wxWidgets_LIBRARY_DIRS} ${libRadJav_LINK_LIBRARY_DIRS})
 endif ()
 
 if (CMAKE_BUILD_TYPE MATCHES "Debug")
