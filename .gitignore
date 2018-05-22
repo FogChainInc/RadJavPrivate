@@ -15,3 +15,14 @@ vm/installers/windows/x64/RadJavVM/Release
 html5/closure*.jar
 html5/node_modules
 html5/package-lock.json
+
+# Emacs backup files
+*~
+\#*\#
+.\#*
+
+# KeyValueStorage database
+*.db
+
+# Crypto engine build
+library/engines/KrispyCrypto/build*
