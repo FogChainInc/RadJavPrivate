@@ -135,7 +135,7 @@ set (CMAKE_C_FLAGS ${RadJavVM_CXX_FLAGS} ${CMAKE_C_FLAGS})
 include_directories (${RadJavVM_INCLUDE_DIRS})
 link_directories (${RadJavVM_LINK_LIBRARY_DIRS})
 
-set (RadJavVM_LINK_LIBRARIES ${libCrypto_LIBRARIES} ${RadJavVM_LINK_LIBRARIES})
+set (RadJavVM_LINK_LIBRARIES ${libKrispyCrypto_LIBRARIES} ${RadJavVM_LINK_LIBRARIES})
 
 add_executable (RadJavVM ${ISWIN32} ${ISOSX} ${RadJavVM_SOURCES})
 
@@ -143,7 +143,7 @@ target_link_libraries (RadJavVM libRadJav)
 target_link_libraries (RadJavVM ${RadJavVM_LINK_LIBRARIES})
 
 
-#target_link_libraries (RadJavVM ${libCrypto_NAME})
+#target_link_libraries (RadJavVM ${libKrispyCrypto_NAME})
 set_target_properties (RadJavVM PROPERTIES COMMAND_ARGUMENTS "${libRadJav_PATH}/../examples/window/window.js")
 
 set_target_properties (RadJavVM PROPERTIES LINKER_LANGUAGE CXX)

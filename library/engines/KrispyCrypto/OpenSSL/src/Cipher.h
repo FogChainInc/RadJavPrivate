@@ -18,10 +18,10 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#ifndef _ENGINE_CRYPTO_OPENSSL_DECIPHER_h_
-#define _ENGINE_CRYPTO_OPENSSL_DECIPHER_h_
+#ifndef _ENGINE_CRYPTO_OPENSSL_CIPHER_h_
+#define _ENGINE_CRYPTO_OPENSSL_CIPHER_h_
 
-#include <i/Engine/Crypto/IDecipher.h>
+#include <i/engines/KrispyCrypto/ICipher.h>
 #include <openssl/evp.h>
 
 #include <string>
@@ -33,18 +33,17 @@ namespace Engine
     #ifdef USE_OPENSSL
     namespace OpenSSL
     {
-      class Decipher : virtual public IDecipher,
-	virtual public IDecipherMultipart
+      class Cipher : virtual public ICipher,
+	virtual public ICipherMultipart
 	{
 	public:
 	  static const int s_bufSize = 1600;
 	  
-	  Decipher(const std::string& decipherType, const std::string &key, const std::string &iv="");
+	  Cipher(const std::string& cipherType, const std::string &key, const std::string &iv="");
 
-	  virtual ~Decipher();
+	  virtual ~Cipher();
       
 	  virtual void reset();
-	  
 	  virtual std::tuple<std::shared_ptr<void>, unsigned int>
 	    update(const void* data, int dataLen);
 	  virtual std::tuple<std::shared_ptr<void>, unsigned int>
@@ -53,9 +52,9 @@ namespace Engine
 	  virtual std::tuple<std::shared_ptr<void>, unsigned int> finalize();
 	
 	  virtual std::tuple<std::shared_ptr<void>, unsigned int>
-	    decipher(const void* data, int dataLen);
+	    cipher(const void* data, int dataLen);
 	  virtual std::tuple<std::shared_ptr<void>, unsigned int>
-	    decipher(const std::string& str);
+	    cipher(const std::string& str);
 
 	private:
 	  std::string myCipherType;
@@ -69,7 +68,7 @@ namespace Engine
 	  unsigned char* myIvData;
 
 	  int myBlockSize;
-	  unsigned char myPlainText[s_bufSize];
+	  unsigned char myCipherText[s_bufSize];
 	  unsigned char myPos;
 		
       };
@@ -80,4 +79,4 @@ namespace Engine
 
 
 
-#endif // _ENGINE_CRYPTO_OPENSSL_DECIPHER_h_
+#endif // _ENGINE_CRYPTO_OPENSSL_CIPHER_h_

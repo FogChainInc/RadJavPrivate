@@ -18,7 +18,7 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#include <i/Engine/Crypto/IDigest.h>
+#include <i/engines/KrispyCrypto/IDigest.h>
 #include "../orb/ORB_EngineCryptoOpenSSL.h"
 
 

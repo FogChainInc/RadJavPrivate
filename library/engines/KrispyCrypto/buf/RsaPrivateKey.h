@@ -18,11 +18,11 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#ifndef _ENGINE_CRYPTO_OPENSSL_CIPHER_h_
-#define _ENGINE_CRYPTO_OPENSSL_CIPHER_h_
+#ifndef _ENGINE_CRYPTO_OPENSSL_RSAPRIVATEKEY_h_
+#define _ENGINE_CRYPTO_OPENSSL_RSAPRIVATEKEY_h_
 
-#include <i/Engine/Crypto/ICipher.h>
-#include <openssl/evp.h>
+#include <i/Engine/Crypto/IPrivateKey.h>
+#include <openssl/rsa.h>
 
 #include <string>
 
@@ -33,44 +33,26 @@ namespace Engine
     #ifdef USE_OPENSSL
     namespace OpenSSL
     {
-      class Cipher : virtual public ICipher,
-	virtual public ICipherMultipart
-	{
-	public:
-	  static const int s_bufSize = 1600;
-	  
-	  Cipher(const std::string& cipherType, const std::string &key, const std::string &iv="");
+      class RsaKeyGenerator : virtual public IPrivateKey
+      {
 
-	  virtual ~Cipher();
+      public:
+	RsaPrivateKey(std::unique_ptr<RSA>rsa, int bits);
+	virtual ~RsaKeyGenerator();
       
-	  virtual void reset();
-	  virtual std::tuple<std::shared_ptr<void>, unsigned int>
-	    update(const void* data, int dataLen);
-	  virtual std::tuple<std::shared_ptr<void>, unsigned int>
-	    update(const std::string& str);
+	virtual std::tuple<std::shared_ptr<void>, unsigned int>
+	  encrypt(const unsigned char* data, unsigned int dataLength, int padding=0);
+	virtual std::tuple<std::shared_ptr<void>, unsigned int>
+	  decrypt(const unsigned char* data, unsigned int dataLength, int padding=0);
+
       
-	  virtual std::tuple<std::shared_ptr<void>, unsigned int> finalize();
+      private:
+	std::unique_ptr<RSA> myRsa;
+	unsigned long myExponent;
+
+	std::unique_ptr<BIO> myPublicKey;
+	std::unique_ptr<BIO> myPrivateKey;
 	
-	  virtual std::tuple<std::shared_ptr<void>, unsigned int>
-	    cipher(const void* data, int dataLen);
-	  virtual std::tuple<std::shared_ptr<void>, unsigned int>
-	    cipher(const std::string& str);
-
-	private:
-	  std::string myCipherType;
-
-	  const EVP_CIPHER *myCipher;
-	  EVP_CIPHER_CTX *myCipherCtx; // cipher context
-
-	  std::tuple<std::shared_ptr<void>, unsigned int> myKeyDigest;
-	  std::tuple<std::shared_ptr<void>, unsigned int> myIvDigest;
-	  unsigned char* myKeyData;
-	  unsigned char* myIvData;
-
-	  int myBlockSize;
-	  unsigned char myCipherText[s_bufSize];
-	  unsigned char myPos;
-		
       };
     } // End of OpenSSL
     #endif 
@@ -79,4 +61,4 @@ namespace Engine
 
 
 
-#endif // _ENGINE_CRYPTO_OPENSSL_CIPHER_h_
+#endif // _ENGINE_CRYPTO_OPENSSL_RSAPRIVATEKEY_h_

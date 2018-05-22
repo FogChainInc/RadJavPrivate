@@ -6,7 +6,7 @@ endif ()
 
 set_property (GLOBAL PROPERTY USE_FOLDERS ON)
 
-project (RadJav_Crypto)
+project (KrispyCrypto)
 
 if (UNIX)
 	set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
@@ -37,16 +37,23 @@ else ()
   add_library(${PROJECT_NAME} SHARED ${SOURCES})
 endif ()
 
-set_property (TARGET ${PROJECT_NAME} PROPERTY FOLDER "RadJav_Crypto")
+set_property (TARGET ${PROJECT_NAME} PROPERTY FOLDER "KrispyCrypto")
 
-set (OPENSSL_ROOT_DIR "" CACHE PATH "OPENSSL_ROOT_DIR")
+set (OPENSSL_ROOT_DIR "${KrispyCrypto}_SOURCE_DIR/../../../../sdk/openssl/build/install" CACHE PATH "OPENSSL_ROOT_DIR" FORCE)
+if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+set(OPENSSL_CRYPTO_LIBRARY "${KrispyCrypto_SOURCE_DIR}/../../../../sdk/openssl/build/install/lib/libcrypto.so" CACHE FILEPATH "libcrypto" FORCE) 
+set(OPENSSL_SSL_LIBRARY "${KrispyCrypto_SOURCE_DIR}/../../../../sdk/openssl/build/install/lib/libssl.so" CACHE FILEPATH "libssl" FORCE) 
+set(OPENSSL_INCLUDE_DIR "${KrispyCrypto_SOURCE_DIR}/../../../../sdk/openssl/build/install/include" CACHE PATH "OpenSSL include" FORCE)
+endif()
+
+
 
 include (FindOpenSSL)
 
 if (OPENSSL_FOUND)
   message("OpenSSL found")
   message("Include: ${OPENSSL_INCLUDE_DIR}")
-  message("Crypto lib: ${OPENSSL_CRYPTO_LIBRARY}")
+  message("KrispyCrypto lib: ${OPENSSL_CRYPTO_LIBRARY}")
 
   target_include_directories(${PROJECT_NAME}
     PRIVATE
@@ -57,16 +64,16 @@ else()
   message (FATAL_ERROR "Cannot find OpenSSL")
 endif()
 
-set (libCrypto_INTERFACE_DIR "${PROJECT_SOURCE_DIR}/Interface" CACHE PATH "Crypto Interface")
+set (libKrispyCrypto_INTERFACE_DIR "${PROJECT_SOURCE_DIR}/Interface" CACHE PATH "KrispyCrypto Interface")
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-	set (libCrypto_LIBRARIES "${PROJECT_SOURCE_DIR}/build/lib${PROJECT_NAME}_d.so" CACHE STRING "Crypto libraries" FORCE)
-	set (libCrypto_NAME "lib${PROJECT_NAME}_d.so" CACHE STRING "Crypto library" FORCE)
+	set (libKrispyCrypto_LIBRARIES "${PROJECT_SOURCE_DIR}/build/lib${PROJECT_NAME}_d.so" CACHE STRING "KrispyCrypto libraries" FORCE)
+	set (libKrispyCrypto_NAME "lib${PROJECT_NAME}_d.so" CACHE STRING "KrispyCrypto library" FORCE)
 endif()
 
 if (WIN32) 
-	set (libCrypto_LIBRARIES "${PROJECT_SOURCE_DIR}/build/Debug/${PROJECT_NAME}_d.lib" CACHE STRING "Crypto libraries" FORCE)
-	set (libCrypto_NAME "${PROJECT_NAME}_d.lib" CACHE STRING "Crypto library" FORCE)
+	set (libKrispyCrypto_LIBRARIES "${PROJECT_SOURCE_DIR}/build/Debug/${PROJECT_NAME}_d.lib" CACHE STRING "KrispyCrypto libraries" FORCE)
+	set (libKrispyCrypto_NAME "${PROJECT_NAME}_d.lib" CACHE STRING "KrispyCrypto library" FORCE)
 endif()
 
 target_include_directories(${PROJECT_NAME}
@@ -87,7 +94,7 @@ if (${PROJECT_NAME}_BUILD_TESTS)
 	# -------------------------
 	add_executable(t1 OpenSSL/tests/t1.cpp)
 	set_property (TARGET t1 APPEND PROPERTY COMPILE_DEFINITIONS ${${PROJECT_NAME}_CPP_DEFS})
-	set_property (TARGET t1 PROPERTY FOLDER "RadJav_Crypto/Tests")
+	set_property (TARGET t1 PROPERTY FOLDER "KrispyCrypto/Tests")
 
 	target_include_directories(t1
 	  PRIVATE
@@ -104,7 +111,7 @@ if (${PROJECT_NAME}_BUILD_TESTS)
 	# -------------------------
 	add_executable(t2 OpenSSL/tests/t2.cpp)
 	set_property (TARGET t2 APPEND PROPERTY COMPILE_DEFINITIONS ${${PROJECT_NAME}_CPP_DEFS})
-	set_property (TARGET t2 PROPERTY FOLDER "RadJav_Crypto/Tests")
+	set_property (TARGET t2 PROPERTY FOLDER "KrispyCrypto/Tests")
 
 	target_include_directories(t2
 	  PRIVATE
@@ -122,7 +129,7 @@ if (${PROJECT_NAME}_BUILD_TESTS)
 	# -------------------------
 	add_executable(encodeHex tests/encodeHex.cpp)
 	set_property (TARGET encodeHex APPEND PROPERTY COMPILE_DEFINITIONS ${${PROJECT_NAME}_CPP_DEFS})
-	set_property (TARGET encodeHex PROPERTY FOLDER "RadJav_Crypto/Tests")
+	set_property (TARGET encodeHex PROPERTY FOLDER "KrispyCrypto/Tests")
 
 	target_include_directories(encodeHex
 	  PRIVATE
@@ -140,7 +147,7 @@ if (${PROJECT_NAME}_BUILD_TESTS)
 	# -------------------------
 	add_executable(encodeBase64 tests/encodeBase64.cpp)
 	set_property (TARGET encodeBase64 APPEND PROPERTY COMPILE_DEFINITIONS ${${PROJECT_NAME}_CPP_DEFS})
-	set_property (TARGET encodeBase64 PROPERTY FOLDER "RadJav_Crypto/Tests")
+	set_property (TARGET encodeBase64 PROPERTY FOLDER "KrispyCrypto/Tests")
 
 
 	target_include_directories(encodeBase64
@@ -159,7 +166,7 @@ if (${PROJECT_NAME}_BUILD_TESTS)
 	# -------------------------
 	add_executable(cipher1 OpenSSL/tests/cipher1.cpp)
 	set_property (TARGET cipher1 APPEND PROPERTY COMPILE_DEFINITIONS ${${PROJECT_NAME}_CPP_DEFS})
-	set_property (TARGET cipher1 PROPERTY FOLDER "RadJav_Crypto/Tests")
+	set_property (TARGET cipher1 PROPERTY FOLDER "KrispyCrypto/Tests")
 
 	target_include_directories(cipher1
 	  PRIVATE
@@ -177,7 +184,7 @@ if (${PROJECT_NAME}_BUILD_TESTS)
 	# -------------------------
 	add_executable(cipher2 OpenSSL/tests/cipher2.cpp)
 	set_property (TARGET cipher2 APPEND PROPERTY COMPILE_DEFINITIONS ${${PROJECT_NAME}_CPP_DEFS})
-	set_property (TARGET cipher2 PROPERTY FOLDER "RadJav_Crypto/Tests")
+	set_property (TARGET cipher2 PROPERTY FOLDER "KrispyCrypto/Tests")
 
 	target_include_directories(cipher2
 	  PRIVATE
@@ -197,7 +204,7 @@ endif ()
 set_property (TARGET ${PROJECT_NAME} APPEND PROPERTY COMPILE_DEFINITIONS ${${PROJECT_NAME}_CPP_DEFS})
 
 if (CMAKE_BUILD_TYPE MATCHES "Debug")
-	set (${PROJECT_NAME}_CPP_DEFS_DEBUG _DEBUG ${$PROJECT_NAME}_CPP_DEFS_DEBUG})
+	set (${PROJECT_NAME}_CPP_DEFS_DEBUG _DEBUG ${${PROJECT_NAME}_CPP_DEFS_DEBUG})
 	set (${PROJECT_NAME}_CPP_DEFS_DEBUG ${${PROJECT_NAME}_CPP_DEFS} ${${PROJECT_NAME}_CPP_DEFS_DEBUG})
 endif ()
 

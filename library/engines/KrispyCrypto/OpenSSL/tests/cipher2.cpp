@@ -18,8 +18,8 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#include <i/Engine/Crypto/ICipher.h>
-#include <i/Engine/Crypto/IDecipher.h>
+#include <i/engines/KrispyCrypto/ICipher.h>
+#include <i/engines/KrispyCrypto/IDecipher.h>
 #include "../orb/ORB_EngineCryptoOpenSSL.h"
 
 #include <iostream>

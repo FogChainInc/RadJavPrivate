@@ -328,7 +328,7 @@ if (INCLUDE_DATABASES)
 	elseif (libRadJav_DATABASE STREQUAL "RocksDB" OR libRadJav_DATABASE STREQUAL "RocksDB and NuDB")
 		set (USE_SNAPPY true CACHE BOOL "Library links using Snappy?")
 
-		include (Findrocksdb)
+#		include (Findrocksdb)
 
 		set (libRadJav_CPP_DEFS USE_ROCKSDB ${libRadJav_CPP_DEFS})
 		set (libRadJav_CPP_DEFS_DEBUG USE_ROCKSDB ${libRadJav_CPP_DEFS_DEBUG})
@@ -366,9 +366,9 @@ if (INCLUDE_CRYPTOGRAPHY)
 	set (libRadJav_INCLUDE_DIRS ${OPENSSL_INCLUDE_DIR} ${libRadJav_INCLUDE_DIRS})
 	set (libRadJav_LINK_LIBRARIES ${OPENSSL_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
 
-	set (libCrypto_PATH "${libRadJav_PATH}/Engine/Crypto" CACHE PATH "Crypto path")
-	add_subdirectory (${libCrypto_PATH} ${libCrypto_PATH}/build)
-	set (libRadJav_INCLUDE_DIRS ${libCrypto_INTERFACE_DIR} ${libRadJav_INCLUDE_DIRS})
+	set (libKrispyCrypto_PATH "${libRadJav_PATH}/engines/KrispyCrypto" CACHE PATH "Crypto path")
+	add_subdirectory (${libKrispyCrypto_PATH} ${libKrispyCrypto_PATH}/build)
+	set (libRadJav_INCLUDE_DIRS ${libKrispyCrypto_INTERFACE_DIR} ${libRadJav_INCLUDE_DIRS})
 endif ()
 
 if (libRadJav_ALLOW_NETWORKING)

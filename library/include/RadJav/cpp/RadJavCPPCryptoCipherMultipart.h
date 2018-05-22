@@ -35,7 +35,7 @@
 
 #ifdef USE_CRYPTOGRAPHY
 
-#include <i/Engine/Crypto/ICipher.h>
+#include <i/engines/KrispyCrypto/ICipher.h>
 
 #endif 
 

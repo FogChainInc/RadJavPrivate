@@ -33,7 +33,7 @@
 
 #ifdef USE_CRYPTOGRAPHY
 
-#include <i/Engine/Crypto/IDigest.h>
+#include <i/engines/KrispyCrypto/IDigest.h>
 
 #endif 
 

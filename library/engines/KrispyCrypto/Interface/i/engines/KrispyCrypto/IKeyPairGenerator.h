@@ -18,54 +18,26 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#ifndef _ENGINE_CRYPTO_OPENSSL_DIGEST_h_
-#define _ENGINE_CRYPTO_OPENSSL_DIGEST_h_
+#ifndef _ENGINE_CRYPTO_IKEYPAIRGENERATOR_h_
+#define _ENGINE_CRYPTO_IKEYPAIRGENERATOR_h_
 
-#include <i/Engine/Crypto/IDigest.h>
-#include <openssl/evp.h>
-
-#include <string>
+#include <memory>
 
 namespace Engine
 {
   namespace Crypto
   {
-    #ifdef USE_OPENSSL
-    namespace OpenSSL
+    class IPrivateKey;
+    
+    class IKeyPairGenerator
     {
-      class Digest : virtual public IDigest,
-	virtual public IDigestMultipart {
-      public:
-	Digest(const std::string& hashType);
+    public:
+      virtual ~IKeyPairGenerator() = default;
 
-	virtual ~Digest();
+      virtual std::shared_ptr<IPrivateKey> generate(unsigned int bits) = 0;
       
-	virtual void reset();
-	virtual void update(const void* data, int dataLen);
-	virtual void update(const std::string& str);
-	virtual void update(std::shared_ptr<IKey>);
-      
-	virtual std::tuple<std::shared_ptr<void>, unsigned int> finalize();
-	
-	virtual std::tuple<std::shared_ptr<void>, unsigned int>
-	  digest(const void* data, int dataLen);
-	virtual std::tuple<std::shared_ptr<void>, unsigned int>
-	  digest(const std::string& str);
-	virtual std::tuple<std::shared_ptr<void>, unsigned int>
-	  digest(std::shared_ptr<IKey> key);
+    };
+  }
+}
 
-      private:
-	std::string myHashType;
-
-	const EVP_MD *myDigest;
-	EVP_MD_CTX *myDigestCtx; // digest context
-	
-      };
-    } // End of OpenSSL
-    #endif 
-  } // End of Crypto
-} // End of Engine
-
-
-
-#endif // _ENGINE_CRYPTO_OPENSSL_DIGEST_h_
+#endif // _ENGINE_CRYPTO_IKEYPAIRGENERATOR_h_

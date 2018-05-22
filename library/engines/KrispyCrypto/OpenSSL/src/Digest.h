@@ -18,23 +18,54 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#ifndef _ENGINE_CRYPTO_IKEY_h_
-#define _ENGINE_CRYPTO_IKEY_h_
+#ifndef _ENGINE_CRYPTO_OPENSSL_DIGEST_h_
+#define _ENGINE_CRYPTO_OPENSSL_DIGEST_h_
 
-#include <memory>
-#include <tuple>
+#include <i/engines/KrispyCrypto/IDigest.h>
+#include <openssl/evp.h>
+
+#include <string>
 
 namespace Engine
 {
   namespace Crypto
   {
-    class IKey  {
+    #ifdef USE_OPENSSL
+    namespace OpenSSL
+    {
+      class Digest : virtual public IDigest,
+	virtual public IDigestMultipart {
+      public:
+	Digest(const std::string& hashType);
 
-    class IKey {
-      virtual ~IKey() = default;
-    };
+	virtual ~Digest();
+      
+	virtual void reset();
+	virtual void update(const void* data, int dataLen);
+	virtual void update(const std::string& str);
+	virtual void update(std::shared_ptr<IKey>);
+      
+	virtual std::tuple<std::shared_ptr<void>, unsigned int> finalize();
+	
+	virtual std::tuple<std::shared_ptr<void>, unsigned int>
+	  digest(const void* data, int dataLen);
+	virtual std::tuple<std::shared_ptr<void>, unsigned int>
+	  digest(const std::string& str);
+	virtual std::tuple<std::shared_ptr<void>, unsigned int>
+	  digest(std::shared_ptr<IKey> key);
 
-  }
-}
+      private:
+	std::string myHashType;
 
-#endif // _ENGINE_CRYPTO_KEY_h_
+	const EVP_MD *myDigest;
+	EVP_MD_CTX *myDigestCtx; // digest context
+	
+      };
+    } // End of OpenSSL
+    #endif 
+  } // End of Crypto
+} // End of Engine
+
+
+
+#endif // _ENGINE_CRYPTO_OPENSSL_DIGEST_h_
