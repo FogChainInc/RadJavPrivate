@@ -362,8 +362,12 @@ if (INCLUDE_CRYPTOGRAPHY)
 
 	include (FindModuleOpenSSL)
 
-	set (libRadJav_INCLUDE_DIRS ${OPENSSL_INCLUDE} ${libRadJav_INCLUDE_DIRS})
+	set (libRadJav_INCLUDE_DIRS ${OPENSSL_INCLUDE_DIR} ${libRadJav_INCLUDE_DIRS})
 	set (libRadJav_LINK_LIBRARIES ${OPENSSL_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
+
+	set (libKrispyCrypto_PATH "${libRadJav_PATH}/engines/KrispyCrypto" CACHE PATH "Crypto path")
+	add_subdirectory (${libKrispyCrypto_PATH} ${libKrispyCrypto_PATH}/build)
+	set (libRadJav_INCLUDE_DIRS ${libKrispyCrypto_INTERFACE_DIR} ${libRadJav_INCLUDE_DIRS})
 endif ()
 
 if (libRadJav_ALLOW_NETWORKING)

@@ -1,0 +1,267 @@
+/*
+	MIT-LICENSE
+	Copyright (c) 2017-2018 Higher Edge Software, LLC
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
+	and associated documentation files (the "Software"), to deal in the Software without restriction, 
+	including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+	and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+	subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all copies or substantial 
+	portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
+	LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+	IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
+	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+#include "cpp/RadJavCPPCryptoDecipherMultipart.h"
+
+#include "RadJavString.h"
+#include "v8/RadJavV8JavascriptEngine.h"
+
+#include <algorithm>
+#include <cstdlib>
+#include <functional>
+#include <iostream>
+#include <memory>
+
+#include <iostream>
+#include <sstream>
+#include <iomanip>
+
+#ifdef USE_CRYPTOGRAPHY
+#include <orb/ORB_EngineCrypto.h>
+#endif
+
+namespace RadJAV
+{
+	namespace CPP
+	{
+		namespace Crypto
+		{
+			#ifdef USE_CRYPTOGRAPHY
+			DecipherMultipart::DecipherMultipart(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+			  //			  std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl;
+			  std::cout << "Args len: " << args.Length() << std::endl;
+
+			  this -> jsEngine = jsEngine;
+			  v8::Isolate *isolate = args.GetIsolate();
+			  
+			  v8::Local<v8::Value> firstArg = args[0];
+
+
+			  // Get constructor parms for Cipher(cipherAlgorithm, cryptoLibrary)
+			  if (args[0] -> IsString())
+			    {
+			      myCipherAlgorithm = parseV8Value(args[0]);
+			      myCryptoLibrary = parseV8Value(args[1]);
+			    }
+
+			  // Get constructor parms Cipher({cipherAlgorithm: ..., cryptoLibrary: ..., ...})
+			  else if (args[0] -> IsObject())
+			    {
+
+			      v8::Local<v8::Object> parms = v8::Local<v8::Object>::Cast(args[0]);
+
+			      myCryptoLibrary = jsEngine -> v8GetString(parms, "cryptoLibrary");
+
+			      myCipherAlgorithm = jsEngine -> v8GetString(parms, "cipherAlgorithm");
+			      if (myCipherAlgorithm == "")
+				args.GetIsolate() -> ThrowException(v8::Exception::TypeError
+								    (v8::String::NewFromUtf8(isolate,
+											     "'cipherAlgorithm' must be defined")));
+
+			      mySecret = jsEngine -> v8GetString(parms, "secret");
+			      if (mySecret == "")
+				args.GetIsolate() -> ThrowException(v8::Exception::TypeError
+								    (v8::String::NewFromUtf8(isolate,
+											     "'secret' must be defined")));
+
+			      myIv = jsEngine->v8GetString(parms, "iv");
+			      
+			      myInputEncoding = jsEngine -> v8GetString(parms, "inputEncoding");
+			      myOutputEncoding = jsEngine -> v8GetString(parms, "outputEncoding");
+			    }
+			  
+
+			  // Defaults and error checking
+			  if (myCryptoLibrary == "") myCryptoLibrary = "OpenSSL"; // TODO - crude way of providing a default
+			  if (myInputEncoding == "") myInputEncoding = "binary";
+			  if (myOutputEncoding == "") myOutputEncoding = "utf8";
+
+			  if (myInputEncoding != "binary" && myInputEncoding != "hex" &&
+			      myInputEncoding != "base64")
+			    {
+			      String msg = "Unsupported input encoding: " + myInputEncoding;
+			      isolate -> ThrowException(v8::Exception::TypeError
+							(v8::String::NewFromUtf8(isolate,
+										 msg.c_str())));
+			      
+			    }
+
+			  if (myOutputEncoding != "binary" && myOutputEncoding != "hex" &&
+			      myOutputEncoding != "base64" && myOutputEncoding != "utf8")
+			    {
+			      String msg = "Unsupported output encoding: " + myOutputEncoding;
+			      isolate -> ThrowException(v8::Exception::TypeError
+							(v8::String::NewFromUtf8(isolate,
+										 msg.c_str())));
+			      
+			    }
+
+			  // Create the digest engine
+			  try
+			    {
+			      myDecipher = ORB::Engine::Crypto::createDecipherMultipart(myCipherAlgorithm, myCryptoLibrary, mySecret, myIv);
+			    }
+			  catch (std::invalid_argument& e)
+			    {
+			      String msg = myCryptoLibrary + " doesn't support the cipherAlgorithm: '" + myCipherAlgorithm + "'";
+			      isolate -> ThrowException(v8::Exception::TypeError
+							(v8::String::NewFromUtf8(args.GetIsolate(),
+										 msg.c_str())));
+			    }
+
+			  //std::cout << __PRETTY_FUNCTION__ << ": end" << std::endl;
+
+			}
+
+			DecipherMultipart::~DecipherMultipart()
+			{
+
+			}
+
+		        void DecipherMultipart::update(const void *cipherText, int textLength, 
+					    std::function <void (const std::string &str)> stringSetter,
+					    std::function <void (void *buf, int bufLen)> binSetter)
+			{
+			  //std::tuple<std::shared_ptr<void>, unsigned int> cipherResult;
+			  //std::cout << __PRETTY_FUNCTION__ << ": String" << std::endl << std::flush;
+					    
+			  
+			  std::string _inputEncoding = myInputEncoding;
+			  
+			  const void *binPlainText;
+			  int binPlainTextLength;
+			  std::string decodedText;
+
+			  if (_inputEncoding == "binary")
+			    {
+			      binPlainText = cipherText;
+			      binPlainTextLength =  textLength;
+			    }
+			  else if (_inputEncoding == "hex")
+ 			    {
+			      auto binData = ORB::Engine::Crypto::decodeHex(cipherText, textLength);
+			      decodedText.assign(static_cast<const char*>(std::get<0>(binData).get()), std::get<1>(binData));
+			      binPlainText = decodedText.c_str();
+			      binPlainTextLength = decodedText.length();
+			    }
+			  else if (_inputEncoding == "base64")
+			    {
+			      auto binData = ORB::Engine::Crypto::decodeBase64(cipherText, textLength);
+			      decodedText.assign(static_cast<const char*>(std::get<0>(binData).get()), std::get<1>(binData));
+			      binPlainText = decodedText.c_str();
+			      binPlainTextLength = decodedText.length();
+			    }
+			  else
+			    {
+			      String msg = "Unsupported input encoding: " + _inputEncoding;
+			      throw std::invalid_argument(msg);
+			    }
+			  
+			  auto decipherResult = myDecipher -> update(binPlainText, binPlainTextLength);
+
+			  if (myOutputEncoding == "hex")
+			    {
+			      std::cout << "Decipher string encoded as hex " << std::endl;
+			      stringSetter(ORB::Engine::Crypto::encodeHex(std::get<0>(decipherResult).get(),
+									  std::get<1>(decipherResult)));
+			      return;
+			    }
+			  else if (myOutputEncoding == "base64")
+			    {
+			      std::cout << "Decipher string encoded as basee64 " << std::endl;
+			      stringSetter(ORB::Engine::Crypto::encodeBase64(std::get<0>(decipherResult).get(),
+									     std::get<1>(decipherResult)));
+			      return;
+			    }
+			  else if (myOutputEncoding == "utf8")
+			    {
+			      std::cout << "Decipher string encoded as utf8 " << std::endl;
+			      stringSetter(std::string(static_cast<const char*>(std::get<0>(decipherResult).get()),
+									     std::get<1>(decipherResult)));
+			      return;
+			    }
+			  else if (myOutputEncoding == "binary")
+			    {
+			      binSetter(std::get<0>(decipherResult).get(),
+					std::get<1>(decipherResult));
+			      return;
+			    }
+
+			  String msg = "SuperBUMMER in DecodeMultipart::update(), should never get here.";
+			  throw std::invalid_argument(msg);
+
+			}
+
+		        void DecipherMultipart::finalize(std::function <void (const std::string &str)> stringSetter,
+							 std::function <void (void *buf, int bufLen)> binSetter)
+			{
+			  //std::tuple<std::shared_ptr<void>, unsigned int> decipherResult;
+			  //std::cout << __PRETTY_FUNCTION__ << ": String" << std::endl << std::flush;
+					    
+			  auto decipherResult = myDecipher -> finalize();
+
+			  if (myOutputEncoding == "hex")
+			    {
+			      std::cout << "Decipher string encoded as hex " << std::endl;
+			      stringSetter(ORB::Engine::Crypto::encodeHex(std::get<0>(decipherResult).get(),
+									  std::get<1>(decipherResult)));
+			      return;
+			    }
+			  else if (myOutputEncoding == "base64")
+			    {
+			      std::cout << "Decipher string encoded as basee64 " << std::endl;
+			      stringSetter(ORB::Engine::Crypto::encodeBase64(std::get<0>(decipherResult).get(),
+									     std::get<1>(decipherResult)));
+			      return;
+			    }
+			  else if (myOutputEncoding == "utf8")
+			    {
+			      std::cout << "Decipher string encoded as utf8 " << std::endl;
+			      stringSetter(std::string(static_cast<const char*>(std::get<0>(decipherResult).get()),
+									     std::get<1>(decipherResult)));
+			      return;
+			    }
+			  else if (myOutputEncoding == "binary")
+			    {
+			      binSetter(std::get<0>(decipherResult).get(),
+					std::get<1>(decipherResult));
+			      return;
+			    }
+
+			  String msg = "SuperBUMMER in DecodeMultipart::finalize(), should never get here.";
+			  throw std::invalid_argument(msg);
+
+			}
+
+		        void DecipherMultipart::reset()
+			{
+
+			  myDecipher -> reset();
+
+			}
+		  
+		  
+                  #endif
+		  
+		}
+	}
+}
+

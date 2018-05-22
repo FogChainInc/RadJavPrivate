@@ -148,6 +148,12 @@ int main(int iArgs, char **cArgs)
 	ary.push_back("RadJav.IO.js");
 	//ary.push_back ("RadJav.IO.SerialComm.js");
 	ary.push_back("RadJav.DB.KeyValueStorage.js");
+	ary.push_back ("RadJav.Crypto.Cipher.js");
+	ary.push_back ("RadJav.Crypto.Decipher.js");
+	ary.push_back ("RadJav.Crypto.CipherMultipart.js");
+	ary.push_back ("RadJav.Crypto.DecipherMultipart.js");
+	ary.push_back ("RadJav.Crypto.Hash.js");
+	ary.push_back ("RadJav.Crypto.HashMultipart.js");
 	ary.push_back("RadJav.GUI.GObject.js"); // This must be compiled before any other GUI object.
 	ary.push_back("RadJav.GUI.Button.js");
 	ary.push_back("RadJav.GUI.Canvas3D.js");
