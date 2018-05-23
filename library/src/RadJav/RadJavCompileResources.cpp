@@ -112,11 +112,11 @@ int main(int iArgs, char **cArgs)
 	findNewLine = "\n";
 	newLine = "\n";
 #elif defined (__APPLE__)
-	findNewLine = "\n";
-	newLine = "\n";
+	findNewLine = "\r";
+	newLine = "\r";
 #else
-	findNewLine = "\n";
-	newLine = "\n";
+	findNewLine = "\r";
+	newLine = "\r";
 #endif
 
 	for (int iIdx = 1; iIdx < iArgs; iIdx++)
