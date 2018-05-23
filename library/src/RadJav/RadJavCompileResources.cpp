@@ -115,8 +115,8 @@ int main(int iArgs, char **cArgs)
 	findNewLine = "\r";
 	newLine = "\r";
 #else
-	findNewLine = "\r";
-	newLine = "\r";
+	findNewLine = "\n";
+	newLine = "\n";
 #endif
 
 	for (int iIdx = 1; iIdx < iArgs; iIdx++)
