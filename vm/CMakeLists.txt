@@ -4,18 +4,23 @@ if (WIN32)
 	set (CMAKE_USE_RELATIVE_PATHS TRUE)
 endif ()
 
-#Set CMAKE_MACOSX_BUNDLE to YES if we plan to make RadJavVM as a BUNDLE for Apple
-if (APPLE)
-	set (CMAKE_MACOSX_BUNDLE NO)
-endif ()
-
 project (RadJavVM)
 
 message (STATUS "Configuring RadJav VM...")
 message (STATUS "Version 0.1")
 
+set (PROJECT_VERSION_MAJOR "0")
+set (PROJECT_VERSION_MINOR "1")
+set (PROJECT_VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR})
+
+#Set CMAKE_MACOSX_BUNDLE to YES if we plan to make RadJavVM as a BUNDLE for Apple
+if (APPLE)
+	set (CMAKE_MACOSX_BUNDLE YES)
+endif ()
+
 set (CMAKE_MODULE_PATH "${RadJavVM_SOURCE_DIR}/../library/CMake"
 			"${RadJavVM_SOURCE_DIR}/../library/CMake/lib"
+			"${RadJavVM_SOURCE_DIR}/CMake"
 			"${RadJavVM_SOURCE_DIR}/include"
 			"${RadJavVM_SOURCE_DIR}/src"
 			"${RadJavVM_SOURCE_DIR}/res")
@@ -135,33 +140,33 @@ link_directories (${RadJavVM_LINK_LIBRARY_DIRS})
 
 if (INCLUDE_CRYPTOGRAPHY)
 	set (RadJavVM_LINK_LIBRARIES ${libKrispyCrypto_LIBRARIES} ${RadJavVM_LINK_LIBRARIES})
-	#target_link_libraries (RadJavVM ${libKrispyCrypto_NAME})
+	#target_link_libraries ( ${CMAKE_PROJECT_NAME} ${libKrispyCrypto_NAME})
 endif ()
 
-add_executable (RadJavVM ${ISWIN32} ${ISOSX} ${RadJavVM_SOURCES})
+add_executable (${CMAKE_PROJECT_NAME} ${ISWIN32} ${ISOSX} ${RadJavVM_SOURCES})
 
-target_link_libraries (RadJavVM libRadJav)
-target_link_libraries (RadJavVM ${RadJavVM_LINK_LIBRARIES})
+target_link_libraries (${CMAKE_PROJECT_NAME} libRadJav)
+target_link_libraries (${CMAKE_PROJECT_NAME} ${RadJavVM_LINK_LIBRARIES})
 
-set_target_properties (RadJavVM PROPERTIES COMMAND_ARGUMENTS "${libRadJav_PATH}/../examples/window/window.js")
+set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES COMMAND_ARGUMENTS "${libRadJav_PATH}/../examples/window/window.js")
 
-set_target_properties (RadJavVM PROPERTIES LINKER_LANGUAGE CXX)
-set_property (TARGET RadJavVM APPEND PROPERTY COMPILE_DEFINITIONS ${RadJavVM_CPP_DEFS})
-set_property (TARGET RadJavVM APPEND PROPERTY COMPILE_DEFINITIONS $<$<CONFIG:Debug>:${RadJavVM_CPP_DEFS} ${RadJavVM_CPP_DEFS_DEBUG}>)
+set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
+set_property (TARGET ${CMAKE_PROJECT_NAME} APPEND PROPERTY COMPILE_DEFINITIONS ${RadJavVM_CPP_DEFS})
+set_property (TARGET ${CMAKE_PROJECT_NAME} APPEND PROPERTY COMPILE_DEFINITIONS $<$<CONFIG:Debug>:${RadJavVM_CPP_DEFS} ${RadJavVM_CPP_DEFS_DEBUG}>)
 
 if (WIN32)
-	set_target_properties (RadJavVM PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:WINDOWS")
-	set_target_properties (RadJavVM PROPERTIES LINK_FLAGS_RELWITHDEBINFO "/SUBSYSTEM:WINDOWS")
-	set_target_properties (RadJavVM PROPERTIES LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS")
-	set_target_properties (RadJavVM PROPERTIES LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:WINDOWS")
+	set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:WINDOWS")
+	set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES LINK_FLAGS_RELWITHDEBINFO "/SUBSYSTEM:WINDOWS")
+	set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS")
+	set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:WINDOWS")
 endif ()
 
-set_property (TARGET RadJavVM PROPERTY PROJECT_LABEL "RadJavVM")
-add_dependencies (RadJavVM libRadJav)
+set_property (TARGET ${CMAKE_PROJECT_NAME} PROPERTY PROJECT_LABEL ${CMAKE_PROJECT_NAME})
+add_dependencies (${CMAKE_PROJECT_NAME} libRadJav)
 
 if (${CMAKE_VERSION} VERSION_GREATER "3.6.0")
 	if (MSVC)
-		set_property (DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT RadJavVM)
+		set_property (DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${CMAKE_PROJECT_NAME})
 	endif ()
 endif ()
 
@@ -174,3 +179,9 @@ endif ()
 #	set_property (TARGET RadJavCompileResources APPEND PROPERTY COMPILE_DEFINITIONS ${RadJavVM_CPP_DEFS})
 #	set_property (TARGET RadJavCompileResources APPEND PROPERTY COMPILE_DEFINITIONS $<$<CONFIG:Debug>:${RadJavVM_CPP_DEFS} ${RadJavVM_CPP_DEFS_DEBUG}>)
 #endif ()
+
+#Install
+include (Installing)
+
+#Packaging
+include (Packaging)
