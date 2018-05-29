@@ -181,7 +181,7 @@ endif ()
 #endif ()
 
 #Install
-include (Installing)
+include (InstallRadJavVM)
 
 #Packaging
-include (Packaging)
+include (PackageRadJavVM)
