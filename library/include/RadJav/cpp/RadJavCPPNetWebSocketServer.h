@@ -45,74 +45,90 @@
 						WebSocketServer();
 						~WebSocketServer();
 
-						void listen();
+						static void on(String event_, v8::Local<v8::Function> func_);
+
+						void listen(unsigned short port_ = 9229);
 
 						void send(String id, String message);
 
 						void sendToAll(String message);
 
+						String receive();
+
 						void close();
-
-						RJINT port;
-						// Put connected clients here.
-
-						boost::asio::io_context *io_context_;
-
-						/// Flag that indicates if listening context available 
-						RJBOOL isAlive;
-
 
 						class RADJAV_EXPORT WebSocketServerSession : public std::enable_shared_from_this<WebSocketServerSession>
 						{
-							boost::beast::websocket::stream<boost::asio::ip::tcp::socket> ws_;
-							boost::asio::strand<boost::asio::io_context::executor_type> strand_;
-							boost::beast::multi_buffer buffer_;
+							boost::beast::websocket::stream<boost::asio::ip::tcp::socket> m_ws;
+							boost::asio::strand<boost::asio::io_context::executor_type> m_strand;
+							boost::beast::multi_buffer m_readBuffer;
 
 							public:
 								// Take ownership of the socket
-								WebSocketServerSession(boost::asio::ip::tcp::socket socket, std::string sessionID);
+								WebSocketServerSession(boost::asio::ip::tcp::socket socket_, std::string sessionID_);
 
 								// Start the asynchronous operation
 								void run();
 
-								void on_accept(boost::system::error_code ec);
+								void on_accept(boost::system::error_code ec_);
 
 								void do_read();
 
-								void do_write(String message);
+								void do_write(String message_);
 
 								void on_read(
-									boost::system::error_code ec,
-									std::size_t bytes_transferred);
+									boost::system::error_code ec_,
+									std::size_t bytes_transferred_);
 
 								void on_write(
-									boost::system::error_code ec,
-									std::size_t bytes_transferred);
+									boost::system::error_code ec_,
+									std::size_t bytes_transferred_);
 
 							private:
-								std::string sessionID_;
+								std::string m_sessionID;
+								std::shared_ptr<std::string> m_activeMessage = nullptr;
 						};
 
 						class RADJAV_EXPORT WebSocketServerListener : public std::enable_shared_from_this<WebSocketServerListener>
 						{
-							boost::asio::ip::tcp::acceptor acceptor_;
-							boost::asio::ip::tcp::socket socket_;
+							boost::asio::ip::tcp::acceptor m_acceptor;
+							boost::asio::ip::tcp::socket m_socket;
 
 							public:
 								WebSocketServerListener(
-									boost::asio::io_context& ioc,
-									boost::asio::ip::tcp::endpoint endpoint);
+									boost::asio::io_context& ioc_,
+									boost::asio::ip::tcp::endpoint endpoint_);
 
 								// Start accepting incoming connections
 								void run();
 
 								void do_accept();
 
-								void on_accept(boost::system::error_code ec);
+								void on_accept(boost::system::error_code ec_);
+						};				
+
+						#ifdef USE_V8
+						static v8::Persistent<v8::Function> *m_serverAcceptEvent;
+						static v8::Persistent<v8::Function> *m_serverReceiveEvent;
+						#endif
+				
+					private:
+						unsigned short m_port;
+
+						boost::asio::io_context *m_io_context;
+
+						// Flag that indicates if listening context available 
+						RJBOOL m_isAlive;
+
+						struct session_data
+						{
+							std::string m_session_id;
+							std::shared_ptr <WebSocketServerSession> m_session;
+							std::string m_last_message;
 						};
 
 						//maintains the list of sessions
-						static std::vector<std::pair<std::string, std::shared_ptr<WebSocketServerSession>>> sessions_;
+						static std::vector <session_data> m_sessions;
 				};
 			}
 		}

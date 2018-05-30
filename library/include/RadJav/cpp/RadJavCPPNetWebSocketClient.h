@@ -42,11 +42,13 @@ namespace RadJAV
 			class RADJAV_EXPORT WebSocketClient
 			{
 				public:
-					WebSocketClient(String host, String port);
+					WebSocketClient();
 
-					void connect();
+					static void on(String event_, v8::Local<v8::Function> func_);
 
-					void send(String message);
+					void connect(String host_, String port_);
+
+					void send(String message_);
 
 					String receive();
 
@@ -54,14 +56,13 @@ namespace RadJAV
 
 				private:
 					//the io_context is required for all I/O
-					boost::asio::io_context ioc_;
+					boost::asio::io_context m_ioc;
 
 					//these objects perform our I/O
-					boost::asio::ip::tcp::resolver resolver{ ioc_ };
-					boost::beast::websocket::stream<boost::asio::ip::tcp::socket> ws_{ ioc_ };
+					boost::asio::ip::tcp::resolver resolver{ m_ioc };
+					boost::beast::websocket::stream<boost::asio::ip::tcp::socket> m_ws{ m_ioc };
 
-					String host_;
-					String port_ = "80";
+					String m_received_message;
 			};
 		}
 	}
