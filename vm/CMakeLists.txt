@@ -39,6 +39,7 @@ set (libRadJav_CMAKE_BUILD_PATH "" CACHE PATH "libRadJav CMake Build Path")
 set (libRadJav_DEPENDENCIES $ENV{RADJAV_DEPENDENCIES} CACHE PATH "RadJav Dependencies path")
 set (RadJavVM_LANGUAGE "en_us" CACHE STRING "Select language to compile with")
 set (libRadJav_STATIC false CACHE BOOL "Use static build of libRadJav")
+set (RadJavVM_CREATE_INSTALL_PACKAGES false CACHE BOOL "Create install packages")
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 set(OPENSSL_CRYPTO_LIBRARY "${RadJavVM_SOURCE_DIR}/../../sdk/openssl/build/install/lib/libcrypto.so" CACHE FILEPATH "libcrypto" FORCE) 
@@ -180,8 +181,10 @@ endif ()
 #	set_property (TARGET RadJavCompileResources APPEND PROPERTY COMPILE_DEFINITIONS $<$<CONFIG:Debug>:${RadJavVM_CPP_DEFS} ${RadJavVM_CPP_DEFS_DEBUG}>)
 #endif ()
 
-#Install
-include (InstallRadJavVM)
+if (RadJavVM_CREATE_INSTALL_PACKAGES)
+	#Install
+	include (InstallRadJavVM)
 
-#Packaging
-include (PackageRadJavVM)
+	#Packaging
+	include (PackageRadJavVM)
+endif ()
