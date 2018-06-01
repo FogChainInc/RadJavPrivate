@@ -13,11 +13,6 @@ set (PROJECT_VERSION_MAJOR "0")
 set (PROJECT_VERSION_MINOR "1")
 set (PROJECT_VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR})
 
-#Set CMAKE_MACOSX_BUNDLE to YES if we plan to make RadJavVM as a BUNDLE for Apple
-if (APPLE)
-	set (CMAKE_MACOSX_BUNDLE YES)
-endif ()
-
 set (CMAKE_MODULE_PATH "${RadJavVM_SOURCE_DIR}/../library/CMake"
 			"${RadJavVM_SOURCE_DIR}/../library/CMake/lib"
 			"${RadJavVM_SOURCE_DIR}/CMake"
@@ -39,7 +34,16 @@ set (libRadJav_CMAKE_BUILD_PATH "" CACHE PATH "libRadJav CMake Build Path")
 set (libRadJav_DEPENDENCIES $ENV{RADJAV_DEPENDENCIES} CACHE PATH "RadJav Dependencies path")
 set (RadJavVM_LANGUAGE "en_us" CACHE STRING "Select language to compile with")
 set (libRadJav_STATIC false CACHE BOOL "Use static build of libRadJav")
+set (RadJavVM_DEPENDENCY_OBJECTS_LIST "./natives_blob.bin;./snapshot_blob.bin" CACHE STRING "Semicolon separated list of paths to dependencies \
+												which are indirectly will be used by application, i.e. loading \
+												during runtime")
+if (APPLE)
+	set (MAC_CODESIGN_IDENTITY CACHE STRING "Sign identity which can be determined by issuing command:\
+							security find-identity -v -p codesigning\
+							Example: Mac Developer")
+endif ()
 
+												
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 set(OPENSSL_CRYPTO_LIBRARY "${RadJavVM_SOURCE_DIR}/../../sdk/openssl/build/install/lib/libcrypto.so" CACHE FILEPATH "libcrypto" FORCE) 
 set(OPENSSL_SSL_LIBRARY "${RadJavVM_SOURCE_DIR}/../../sdk/openssl/build/install/lib/libssl.so" CACHE FILEPATH "libssl" FORCE) 
@@ -111,11 +115,6 @@ if (MSVC)
 	set (CMAKE_CXX_FLAGS_RELWITHDEBINFO "/MD /MP")
 endif ()
 
-if (UNIX)
-	add_compile_options (-std=c++11)
-	add_compile_options (-fpermissive)
-endif ()
-
 if (libRadJav_STATIC)
 	set (RadJavVM_CPP_DEFS_DEBUG RADJAV_LIB_STATIC ${RadJavVM_CPP_DEFS_DEBUG})
 	set (RadJavVM_CPP_DEFS RADJAV_LIB_STATIC ${RadJavVM_CPP_DEFS})
@@ -135,15 +134,23 @@ endif ()
 
 set (CMAKE_C_FLAGS ${RadJavVM_CXX_FLAGS} ${CMAKE_C_FLAGS})
 
-include_directories (${RadJavVM_INCLUDE_DIRS})
-link_directories (${RadJavVM_LINK_LIBRARY_DIRS})
 
 if (INCLUDE_CRYPTOGRAPHY)
 	set (RadJavVM_LINK_LIBRARIES ${libKrispyCrypto_LIBRARIES} ${RadJavVM_LINK_LIBRARIES})
 	#target_link_libraries ( ${CMAKE_PROJECT_NAME} ${libKrispyCrypto_NAME})
 endif ()
 
+
+link_directories (${RadJavVM_LINK_LIBRARY_DIRS})
+
 add_executable (${CMAKE_PROJECT_NAME} ${ISWIN32} ${ISOSX} ${RadJavVM_SOURCES})
+
+if (UNIX)
+	target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -std=c++11)
+	target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -fpermissive)
+endif ()
+
+target_include_directories (${CMAKE_PROJECT_NAME} PUBLIC ${RadJavVM_INCLUDE_DIRS})
 
 target_link_libraries (${CMAKE_PROJECT_NAME} libRadJav)
 target_link_libraries (${CMAKE_PROJECT_NAME} ${RadJavVM_LINK_LIBRARIES})
@@ -159,6 +166,54 @@ if (WIN32)
 	set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES LINK_FLAGS_RELWITHDEBINFO "/SUBSYSTEM:WINDOWS")
 	set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS")
 	set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:WINDOWS")
+elseif (APPLE)
+	#Set destinations of a bundle
+	set (CMAKE_PROJECT_NAME_LAUNCHER ${CMAKE_PROJECT_NAME}Launcher)
+	
+	set (APP_BUNDLE_LOCATION "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE}/${CMAKE_PROJECT_NAME_LAUNCHER}.app")
+	set (APP_CONTENTS_DIR "${APP_BUNDLE_LOCATION}/Contents")
+	set (APP_EXECUTABLE_DIR "${APP_CONTENTS_DIR}/MacOS")
+	set (APP_RESOURCES_DIR "${APP_CONTENTS_DIR}/Resources")
+	set (APP_BUNDLE_ICON_FILE "RadJav.icns")
+
+	#Creating Launcher
+	add_executable (${CMAKE_PROJECT_NAME_LAUNCHER} ${RadJavVMLauncher_SOURCES})
+	target_link_libraries (${CMAKE_PROJECT_NAME_LAUNCHER} "-framework Cocoa")
+	add_dependencies (${CMAKE_PROJECT_NAME} ${CMAKE_PROJECT_NAME_LAUNCHER})
+
+	#These needs to be defined outside of set_target_properties otherwise they will not be included
+	set (MACOSX_BUNDLE_DISPLAY_NAME ${CMAKE_PROJECT_NAME_LAUNCHER})
+	set (MACOSX_BUNDLE_SIGNATURE "rjvm")
+	set (MACOSX_BUNDLE_MIN_SYSTEM_VERSION "10.13")
+	
+	#Configuring Info.plist for Mac Bundle
+	set_target_properties (${CMAKE_PROJECT_NAME_LAUNCHER} PROPERTIES MACOSX_BUNDLE TRUE
+									MACOSX_BUNDLE_BUNDLE_NAME ${CMAKE_PROJECT_NAME_LAUNCHER}
+									MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
+									MACOSX_BUNDLE_LONG_VERSION_STRING ${PROJECT_VERSION}
+									MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION}
+									MACOSX_BUNDLE_ICON_FILE ${APP_BUNDLE_ICON_FILE}
+									MACOSX_BUNDLE_COPYRIGHT "© 2018, Higher Edge Software"
+									MACOSX_BUNDLE_GUI_IDENTIFIER "com.highersoftware.${CMAKE_PROJECT_NAME}"
+									MACOSX_BUNDLE_INFO_PLIST "${CMAKE_SOURCE_DIR}/CMake/Info.plist.in")
+	
+	#Copying icons
+	add_custom_command (TARGET ${CMAKE_PROJECT_NAME_LAUNCHER} POST_BUILD
+				COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/installers/mac/${APP_BUNDLE_ICON_FILE} ${APP_RESOURCES_DIR}/${APP_BUNDLE_ICON_FILE})
+	
+	#Place VM into correct bundle folder
+	set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG ${APP_EXECUTABLE_DIR}
+								RUNTIME_OUTPUT_DIRECTORY_RELEASE ${APP_EXECUTABLE_DIR}
+								RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL ${APP_EXECUTABLE_DIR}
+								RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO ${APP_EXECUTABLE_DIR})
+	
+	#Copying dependencies
+	foreach (dependency ${RadJavVM_DEPENDENCY_OBJECTS_LIST})
+		add_custom_command (TARGET ${CMAKE_PROJECT_NAME} POST_BUILD 
+					COMMAND ${CMAKE_COMMAND} -E copy ${dependency} ${APP_EXECUTABLE_DIR}
+					COMMENT "Adding extra dependency into application bundle: ${dependency}"
+					VERBATIM )
+	endforeach (dependency)
 endif ()
 
 set_property (TARGET ${CMAKE_PROJECT_NAME} PROPERTY PROJECT_LABEL ${CMAKE_PROJECT_NAME})
