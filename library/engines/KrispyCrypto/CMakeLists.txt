@@ -39,8 +39,8 @@ endif ()
 
 set_property (TARGET ${PROJECT_NAME} PROPERTY FOLDER "KrispyCrypto")
 
-set (OPENSSL_ROOT_DIR "${KrispyCrypto}_SOURCE_DIR/../../../../sdk/openssl/build/install" CACHE PATH "OPENSSL_ROOT_DIR" FORCE)
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+set (OPENSSL_ROOT_DIR "${KrispyCrypto}_SOURCE_DIR/../../../../sdk/openssl/build/install" CACHE PATH "OPENSSL_ROOT_DIR" FORCE)
 set(OPENSSL_CRYPTO_LIBRARY "${KrispyCrypto_SOURCE_DIR}/../../../../sdk/openssl/build/install/lib/libcrypto.so" CACHE FILEPATH "libcrypto" FORCE) 
 set(OPENSSL_SSL_LIBRARY "${KrispyCrypto_SOURCE_DIR}/../../../../sdk/openssl/build/install/lib/libssl.so" CACHE FILEPATH "libssl" FORCE) 
 set(OPENSSL_INCLUDE_DIR "${KrispyCrypto_SOURCE_DIR}/../../../../sdk/openssl/build/install/include" CACHE PATH "OpenSSL include" FORCE)

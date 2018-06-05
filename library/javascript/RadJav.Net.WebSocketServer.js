@@ -1,26 +1,55 @@
 /*
-	MIT-LICENSE
-	Copyright (c) 2017 Higher Edge Software, LLC
+    MIT-LICENSE
+    Copyright (c) 2017-2018 Higher Edge Software, LLC
 
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
-	and associated documentation files (the "Software"), to deal in the Software without restriction, 
-	including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
-	and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
-	subject to the following conditions:
+    Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+    and associated documentation files (the "Software"), to deal in the Software without restriction,
+    including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+    and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
+    subject to the following conditions:
 
-	The above copyright notice and this permission notice shall be included in all copies or substantial 
-	portions of the Software.
+    The above copyright notice and this permission notice shall be included in all copies or substantial
+    portions of the Software.
 
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
-	LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-	IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
-	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+    LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+    WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
-RadJav.Net.WebSocketServer = function ()
-{
-	this.port = 0;
-	this.clients = [];
-}
-
+var RadJav;
+(function (RadJav) {
+    var Net;
+    (function (Net) {
+        var WebSocketServer = /** @class */ (function () {
+            function WebSocketServer() {
+				this.port = 9229;
+				this.serverAcceptEvent = null;
+				this.serverReceiveEvent = null;
+                this._webSocket = null;
+				
+                if (typeof this["_init"] == "function")
+                    this["_init"]();
+            }
+            WebSocketServer.prototype.listen = function (port) {
+                this.port = port;
+            };
+            WebSocketServer.prototype.sendToAll = function (message) {
+           };
+            WebSocketServer.prototype.send = function (id, str) {
+            };
+            WebSocketServer.prototype.receive = function (id, str) {
+            };
+            WebSocketServer.prototype.close = function () {
+            };
+            WebSocketServer.prototype.onAccept = function (evt) {
+				this.serverAcceptEvent = evt;
+            };
+            WebSocketServer.prototype.onReceive = function (evt) {
+                this.serverReceiveEvent = evt;
+            };
+            return WebSocketServer;
+        }());
+        Net.WebSocketServer = WebSocketServer;
+    })(Net = RadJav.Net || (RadJav.Net = {}));
+})(RadJav || (RadJav = {}));

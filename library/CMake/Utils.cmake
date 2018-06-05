@@ -93,6 +93,8 @@ macro (searchForLibrary lib debugLibraries releaseLibraries searchPath)
 			${searchPath}/build32bit/debug ${searchPath}/build32bit/lib/Debug ${searchPath}/build32bit/src/Debug 
 			${searchPath}/build32bit/lib 
 			"${searchPath}/build_windows/Win32/Static Debug" 
+			${searchPath}/x86 
+			${searchPath}/stage/x86/lib 
 			${${lib}_LIBRARY_DEBUG_PATHS})
 	endif ()
 
@@ -117,6 +119,8 @@ macro (searchForLibrary lib debugLibraries releaseLibraries searchPath)
 			${searchPath}/build64bit/debug ${searchPath}/build64bit/lib/Debug ${searchPath}/build64bit/src/Debug 
 			${searchPath}/build64bit/lib 
 			"${searchPath}/build_windows/Win64/Static Debug" 
+			${searchPath}/x64 
+			${searchPath}/stage/x64/lib 
 			${${lib}_LIBRARY_DEBUG_PATHS})
 	endif ()
 
