@@ -25,12 +25,14 @@ namespace Engine
 {
   namespace Crypto
   {
+    class IPrivateKey;
+
     class IKeyGenerator
     {
     public:
       virtual ~IKeyGenerator() = default;
 
-      virtual std::shared_ptr<IPrivateKey> generate(int bits) = 0;
+      virtual std::shared_ptr<IPrivateKey> generate() = 0;
       
     };
   }

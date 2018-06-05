@@ -18,28 +18,30 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#ifndef _ENGINE_CRYPTO_IPRIVATEKEY_h_
-#define _ENGINE_CRYPTO_IPRIVATEKEY_h_
+#ifndef _ENGINE_CRYPTO_OPENSSL_COMMONTYPES_h_
+#define _ENGINE_CRYPTO_OPENSSL_COMMONTYPES_h_
 
-#include "IKey.h"
+#include <openssl/rsa.h>
+#include <openssl/ec.h>
+
+#include <memory>
+#include <string>
 
 namespace Engine
 {
   namespace Crypto
   {
-    class IPublicKey;
-    
-    class IPrivateKey : virtual public IKey
+    #ifdef USE_OPENSSL
+    namespace OpenSSL
     {
-    public:
-      virtual ~IPrivateKey() = default;
-      virtual std::shared_ptr<const IPublicKey> getPublicKey() = 0;
+      using RsaStructUniquePtr = std::unique_ptr<RSA, decltype(&::RSA_free)>;
+      using EcStructUniquePtr = std::unique_ptr<EC_KEY, decltype(&::EC_KEY_free)>;
 
-      virtual std::tuple<std::shared_ptr<void>, unsigned int> sign(const unsigned char* data,
-								   unsigned int dataLength) = 0;
+    } // End of OpenSSL
+    #endif 
+  } // End of Crypto
+} // End of Engine
 
-    };
-  }
-}
 
-#endif // _ENGINE_CRYPTO_PRIVATEKEY_h_
+
+#endif // _ENGINE_CRYPTO_OPENSSL_COMMONTYPES_h_

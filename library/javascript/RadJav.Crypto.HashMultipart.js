@@ -30,11 +30,6 @@ var RadJav;
             }
 	    HashMultipart.getCapabilities = function() {}
 	    
-            /** The database to open.
-            * @return Returns true if the database was able to be opened.
-            * Also returns true if the database was newly created.
-            */
-
             /// Digest a buffer or a string.
             HashMultipart.prototype.updateSync = function (somethingToDigest, inputEncoding) {
             };

@@ -21,24 +21,20 @@ var RadJav;
 (function (RadJav) {
     var Crypto;
     (function (Crypto) {
-        /// Decipher
-        var Decipher = /** @class */ (function () {
-            function Decipher() {
+        /// KeyGenerator
+        var KeyGenerator = /** @class */ (function () {
+            function KeyGenerator() {
                 this._storage = null;
                 if (this._init != null)
 		    this._init.apply(this, arguments);
             }
-	    Decipher.getCapabilities = function() {}
-	    
-            /// Decipher a buffer or a string.
-            Decipher.prototype.decipherSync = function (cipherText) {
-            };
-            /// Decipher a buffer or a string, return a Promise.
-            Decipher.prototype.decipher = function (cipherText) {
+
+            /// Generate new key (private and public)
+            KeyGenerator.prototype.generate = function () {
             };
 
-            return Decipher;
+            return KeyGenerator;
         }());
-        Crypto.Decipher = Decipher;
+        Crypto.KeyGenerator = KeyGenerator;
     })(Crypto = RadJav.Crypto || (RadJav.Crypto = {}));
 })(RadJav || (RadJav = {}));

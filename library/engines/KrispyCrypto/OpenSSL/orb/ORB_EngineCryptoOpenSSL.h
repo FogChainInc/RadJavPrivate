@@ -30,6 +30,27 @@
 
 #include <i/engines/KrispyCrypto/IKeyPairGenerator.h>
 
+//
+// Note, this file pulls some OpenSSL include files. It defines unique pointers with custom deleters. Architecture would
+// be simpler if we used shared_ptr, but we should use unique_ptr for handling private key information to ensure that
+// it is not splattered all over the place.
+//
+#include "../src/OpenSSLCommonTypes.h"
+#include <openssl/obj_mac.h>
+
+namespace Engine
+{
+  namespace Crypto
+  {
+    namespace OpenSSL
+    {
+      class RsaKeyGenerator;
+      class RsaPrivateKey;
+      class RsaPublicKey;
+    }
+  }
+}
+
 namespace ORB
 {
   namespace Engine
@@ -62,12 +83,27 @@ namespace ORB
 										      const std::string &iv="");
 	std::map<std::string, std::string> getListOfCiphers();
 
-	//	std::shared_ptr<::Engine::Crypto::IKeyGenerator> createRsaKeyGenerator(const std::string &pubExponent);
-
-
 	//rsa-f4, rsa-3
-	//	std::shared_ptr<::Engine::Crypto::IKeyPairGenerator> createRsaKeyPairGenerator(const std::string &pubExponent);
+	std::shared_ptr<::Engine::Crypto::OpenSSL::RsaKeyGenerator> createRsaKeyGenerator(int bits,
+											  unsigned long pubExponent=RSA_F4,
+											  int encryptPadding=RSA_PKCS1_PADDING,
+											  int signatureType=NID_sha256);
 
+	std::unique_ptr<::Engine::Crypto::OpenSSL::RsaPrivateKey> createRsaPrivateKey(::Engine::Crypto::OpenSSL::RsaStructUniquePtr rsa,
+										      int bits,
+										      const std::string &encryptPadding,
+										      const std::string &signatureType);
+
+	std::unique_ptr<::Engine::Crypto::OpenSSL::RsaPrivateKey> createRsaPrivateKey(::Engine::Crypto::OpenSSL::RsaStructUniquePtr rsa,
+										      int bits,
+										      int encryptPadding,
+										      int signatureType);
+
+	std::shared_ptr<::Engine::Crypto::OpenSSL::RsaPublicKey> createRsaPublicKey(::Engine::Crypto::OpenSSL::RsaStructUniquePtr rsa,
+										    int bits,
+										    int encryptPadding,
+										    int signatureType);
+	
 
       } // End of OpenSSL
       

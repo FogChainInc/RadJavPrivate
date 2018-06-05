@@ -28,6 +28,7 @@
 #include <i/engines/KrispyCrypto/IDigest.h>
 #include <i/engines/KrispyCrypto/ICipher.h>
 #include <i/engines/KrispyCrypto/IDecipher.h>
+#include <i/engines/KrispyCrypto/IKeyGenerator.h>
 
 namespace ORB
 {
@@ -67,7 +68,16 @@ namespace ORB
 										      const std::string &cryptoLibrary = "OpenSSL");
 
 	std::map<std::string, std::string> getListOfCiphers(const std::string &cryptoLibrary = "OpenSSL");
-      
+
+	//rsa-f4, rsa-3
+	std::shared_ptr<::Engine::Crypto::IKeyGenerator> createRsaKeyGenerator(int bits=2048,
+									       std::string pubExponent="RSA_F4",
+									       std::string encryptPadding="RSA_PKCS1_PADDING",
+									       std::string signatureType="OPENSSL_DEFAULT");
+
+	std::shared_ptr<::Engine::Crypto::IKeyGenerator> createKeyGenerator(std::map<std::string, std::string> parms,
+									    std::string cryptoLibrary="OpenSSL");
+	
 
       std::string encodeHex(const void* data, int dataLen);
       std::tuple<std::shared_ptr<void>, unsigned int> decodeHex(const std::string &hexString);

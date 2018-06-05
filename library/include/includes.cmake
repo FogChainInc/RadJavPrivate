@@ -103,6 +103,9 @@ set (SOURCES_files_RadJav__v8__Crypto__Headers
 	"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8CryptoDecipher.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8CryptoCipherMultipart.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8CryptoDecipherMultipart.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8CryptoKeyGenerator.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8CryptoPrivateKey.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8CryptoPublicKey.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8CryptoHash.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8CryptoHashMultipart.h")
 source_group ("RadJav\\V8\\Crypto" FILES ${SOURCES_files_RadJav__v8__Crypto__Headers})
@@ -171,10 +174,14 @@ set (SOURCES ${SOURCES_files_RadJav__cpp__Database__Headers} ${SOURCES})
 
 # C++ Crypto
 set (SOURCES_files_RadJav__cpp__Crypto__Headers 
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPCryptoBase.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPCryptoCipher.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPCryptoDecipher.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPCryptoCipherMultipart.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPCryptoDecipherMultipart.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPCryptoKeyGenerator.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPCryptoPrivateKey.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPCryptoPublicKey.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPCryptoHash.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPCryptoHashMultipart.h")
 source_group ("RadJav\\CPP\\Crypto" FILES ${SOURCES_files_RadJav__cpp__Crypto__Headers})

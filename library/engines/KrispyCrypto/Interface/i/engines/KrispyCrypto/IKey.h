@@ -21,6 +21,9 @@
 #ifndef _ENGINE_CRYPTO_IKEY_h_
 #define _ENGINE_CRYPTO_IKEY_h_
 
+#include <memory>
+#include <tuple>
+
 namespace Engine
 {
   namespace Crypto
@@ -31,10 +34,10 @@ namespace Engine
       virtual ~IKey() = default;
 
       virtual std::tuple<std::shared_ptr<void>, unsigned int>
-	encrypt(const unsigned char* data, unsigned int dataLength, int padding=0) = 0;
+	encrypt(const unsigned char* data, unsigned int dataLength) const = 0;
       
       virtual std::tuple<std::shared_ptr<void>, unsigned int>
-	decrypt(const unsigned char* data, unsigned int dataLength, int padding=0) = 0;
+	decrypt(const unsigned char* data, unsigned int dataLength) const = 0;
     };
   }
 }

@@ -34,7 +34,7 @@ namespace Engine
     public:
       virtual ~IKeyPairGenerator() = default;
 
-      virtual std::shared_ptr<IPrivateKey> generate(unsigned int bits) = 0;
+      virtual std::shared_ptr<IPrivateKey> generate(int bits) = 0;
       
     };
   }

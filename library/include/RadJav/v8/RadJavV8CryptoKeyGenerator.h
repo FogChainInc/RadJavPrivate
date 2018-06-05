@@ -17,29 +17,31 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
+#ifndef _RADJAV_GUI_V8_CRYPTO_KEYGENERATOR_H_
+	#define _RADJAV_GUI_V8_CRYPTO_KEYGENERATOR_H_
 
-#ifndef _ENGINE_CRYPTO_IPRIVATEKEY_h_
-#define _ENGINE_CRYPTO_IPRIVATEKEY_h_
+	#include "RadJavPreprocessor.h"
+	#include "RadJavString.h"
 
-#include "IKey.h"
+	namespace RadJAV
+	{
+		namespace V8B
+		{
+			/// RadJav Cryptography
+			namespace Crypto
+			{
+				/// 
+				class RADJAV_EXPORT KeyGenerator
+				{
+					public:
+						static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
-namespace Engine
-{
-  namespace Crypto
-  {
-    class IPublicKey;
-    
-    class IPrivateKey : virtual public IKey
-    {
-    public:
-      virtual ~IPrivateKey() = default;
-      virtual std::shared_ptr<const IPublicKey> getPublicKey() = 0;
+						static void _init(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void generate(const v8::FunctionCallbackInfo<v8::Value> &args);
 
-      virtual std::tuple<std::shared_ptr<void>, unsigned int> sign(const unsigned char* data,
-								   unsigned int dataLength) = 0;
+				};
+			}
+		}
+	}
+#endif
 
-    };
-  }
-}
-
-#endif // _ENGINE_CRYPTO_PRIVATEKEY_h_

@@ -18,28 +18,48 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#ifndef _ENGINE_CRYPTO_IPRIVATEKEY_h_
-#define _ENGINE_CRYPTO_IPRIVATEKEY_h_
+#ifndef _ENGINE_CRYPTO_OPENSSL_RSAKEY_h_
+#define _ENGINE_CRYPTO_OPENSSL_RSAKEY_h_
 
-#include "IKey.h"
+#include <i/engines/KrispyCrypto/IPrivateKey.h>
+
+#include "OpenSSLCommonTypes.h"
+
+#include <openssl/rsa.h>
+#include <openssl/bio.h>
+
+#include <string>
 
 namespace Engine
 {
   namespace Crypto
   {
-    class IPublicKey;
-    
-    class IPrivateKey : virtual public IKey
+    #ifdef USE_OPENSSL
+    namespace OpenSSL
     {
-    public:
-      virtual ~IPrivateKey() = default;
-      virtual std::shared_ptr<const IPublicKey> getPublicKey() = 0;
+      class RsaKey : virtual public IKey
+      {
 
-      virtual std::tuple<std::shared_ptr<void>, unsigned int> sign(const unsigned char* data,
-								   unsigned int dataLength) = 0;
+      public:
+	RsaKey(RsaStructUniquePtr rsa, int bits, int encryptPadding, int signatureType);
+	RsaKey(RsaStructUniquePtr rsa, int bits);	
+	//	RsaKey();
+	virtual ~RsaKey();
+      
 
-    };
-  }
-}
+	//void setBits(int bits);
+      protected:
+	RsaStructUniquePtr myRsa;
+	int myBits;
 
-#endif // _ENGINE_CRYPTO_PRIVATEKEY_h_
+	int myEncryptPadding;
+	int mySignatureType;
+      };
+    } // End of OpenSSL
+    #endif 
+  } // End of Crypto
+} // End of Engine
+
+
+
+#endif // _ENGINE_CRYPTO_OPENSSL_RSAKEY_h_

@@ -18,28 +18,46 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#ifndef _ENGINE_CRYPTO_IPRIVATEKEY_h_
-#define _ENGINE_CRYPTO_IPRIVATEKEY_h_
+#ifndef _ENGINE_CRYPTO_OPENSSL_RSAKEYGENERATOR_h_
+#define _ENGINE_CRYPTO_OPENSSL_RSAKEYGENERATOR_h_
 
-#include "IKey.h"
+#include <i/engines/KrispyCrypto/IKeyGenerator.h>
+#include <openssl/rsa.h>
+
+#include <string>
 
 namespace Engine
 {
   namespace Crypto
   {
-    class IPublicKey;
-    
-    class IPrivateKey : virtual public IKey
+    #ifdef USE_OPENSSL
+    namespace OpenSSL
     {
-    public:
-      virtual ~IPrivateKey() = default;
-      virtual std::shared_ptr<const IPublicKey> getPublicKey() = 0;
+      class RsaKeyGenerator : virtual public IKeyGenerator
+      {
+	using BigNumUniquePtr = std::unique_ptr<BIGNUM, decltype(&::BN_free)>;
+	
+      public:
+	RsaKeyGenerator(int bits, unsigned long pubExponent, int encryptPadding, int signatureType);
+	virtual ~RsaKeyGenerator();
+      
+	virtual std::shared_ptr<IPrivateKey> generate();
+      
+      private:
+	int myBits;
+	  
+	BigNumUniquePtr myBigNumExponent;
+	unsigned long myPubExponent;
 
-      virtual std::tuple<std::shared_ptr<void>, unsigned int> sign(const unsigned char* data,
-								   unsigned int dataLength) = 0;
+	int myEncryptPadding;
+	int mySignatureType;
+	  
+      };
+    } // End of OpenSSL
+    #endif 
+  } // End of Crypto
+} // End of Engine
 
-    };
-  }
-}
 
-#endif // _ENGINE_CRYPTO_PRIVATEKEY_h_
+
+#endif // _ENGINE_CRYPTO_OPENSSL_RSAKEYGENERATOR_h_

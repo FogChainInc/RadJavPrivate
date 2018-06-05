@@ -21,19 +21,25 @@
 #ifndef _ENGINE_CRYPTO_IPUBLICKEY_h_
 #define _ENGINE_CRYPTO_IPUBLICKEY_h_
 
+#include "IKey.h"
+
 namespace Engine
 {
   namespace Crypto
   {
-    class IPublicKey
+    class IPublicKey : virtual public IKey
     {
     public:
       virtual ~IPublicKey() = default;
 
-      virtual std::tuple<const void *keyData, unsigned int keyLength> getDer() = 0;
-      virtual const char getPem() = 0;
+      //virtual std::tuple<std::shared_ptr<const void *> keyData, unsigned int keyLength> getDer() = 0;
+      //virtual std::shared_ptr<const char> getPem() = 0;
 
-      virtual void verify(const unsigned char* data, unsigned int dataLength, int padding=0);
+      // Returns true if verification 
+      virtual bool verify(const unsigned char* data,
+			  unsigned int dataLength,
+			  const unsigned char* signature,
+			  unsigned int signatureLength) const = 0;
       
     };
   }

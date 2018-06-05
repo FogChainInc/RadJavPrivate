@@ -76,6 +76,9 @@
 	#include "v8/RadJavV8CryptoDecipher.h"
 	#include "v8/RadJavV8CryptoCipherMultipart.h"
 	#include "v8/RadJavV8CryptoDecipherMultipart.h"
+	#include "v8/RadJavV8CryptoKeyGenerator.h"
+	#include "v8/RadJavV8CryptoPrivateKey.h"
+	#include "v8/RadJavV8CryptoPublicKey.h"
 	#include "v8/RadJavV8CryptoHash.h"
 	#include "v8/RadJavV8CryptoHashMultipart.h"
 
@@ -1457,6 +1460,50 @@ namespace RadJAV
 				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
 				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
 				    V8B::Crypto::DecipherMultipart::createV8Callbacks(isolate, prototype);
+
+				  }
+				}
+
+				// RadJav.Crypto.KeyGenerator
+				{
+				  v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
+
+				  {
+				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "KeyGenerator");
+				    //				    V8_CALLBACK(func, "getCapabilities", V8B::Crypto::DecipherMultipart::getCapabilities);
+				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
+				    //				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
+				    V8B::Crypto::KeyGenerator::createV8Callbacks(isolate, prototype);
+				  }
+				}
+
+				// RadJav.Crypto.PrivateKey
+				{
+				  v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
+
+				  {
+				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "PrivateKey");
+				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
+
+				    V8B::Crypto::PrivateKey::createV8Callbacks(isolate, prototype);
+				    V8B::Crypto::PrivateKey::setConstructor(isolate, func);
+
+				    v8::Handle<v8::Object> init = v8GetObject(prototype, "_init");
+				    
+				  }
+				}
+
+				// RadJav.Crypto.PublicKey
+				{
+				  v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
+
+				  {
+				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "PublicKey");
+				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
+
+				    V8B::Crypto::PublicKey::createV8Callbacks(isolate, prototype);
+				    V8B::Crypto::PublicKey::setConstructor(isolate, func);
+
 				  }
 				}
 

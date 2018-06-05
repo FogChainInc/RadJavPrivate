@@ -197,7 +197,44 @@ if (${PROJECT_NAME}_BUILD_TESTS)
 	  ${OPENSSL_CRYPTO_LIBRARY}
 	  ${OPENSSL_SSL_LIBRARY}
 	  ${PROJECT_NAME}
+	  )
+
+	# -------------------------
+	add_executable(rsa1 OpenSSL/tests/rsa1.cpp)
+	set_property (TARGET rsa1 APPEND PROPERTY COMPILE_DEFINITIONS ${${PROJECT_NAME}_CPP_DEFS})
+	set_property (TARGET rsa1 PROPERTY FOLDER "KrispyCrypto/Tests")
+
+	target_include_directories(rsa1
+	  PRIVATE
+	  ${PROJECT_SOURCE_DIR}/Interface
+	  ${PROJECT_SOURCE_DIR}/orb
+	  )
+
+	target_link_libraries(rsa1
+	  PRIVATE
+	  ${OPENSSL_CRYPTO_LIBRARY}
+	  ${OPENSSL_SSL_LIBRARY}
+	  ${PROJECT_NAME}
 	)
+
+	# -------------------------
+	add_executable(OpenSSL_rsa1 tests/OpenSSL-rsa1.cpp)
+	set_property (TARGET OpenSSL_rsa1 APPEND PROPERTY COMPILE_DEFINITIONS ${${PROJECT_NAME}_CPP_DEFS})
+	set_property (TARGET OpenSSL_rsa1 PROPERTY FOLDER "KrispyCrypto/Tests")
+
+	target_include_directories(OpenSSL_rsa1
+	  PRIVATE
+	  ${PROJECT_SOURCE_DIR}/Interface
+	  ${PROJECT_SOURCE_DIR}/orb
+	  )
+
+	target_link_libraries(OpenSSL_rsa1
+	  PRIVATE
+	  ${OPENSSL_CRYPTO_LIBRARY}
+	  ${OPENSSL_SSL_LIBRARY}
+	  ${PROJECT_NAME}
+	)
+      
 endif ()
 
 
