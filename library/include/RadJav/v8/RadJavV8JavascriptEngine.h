@@ -313,6 +313,42 @@
 				void *v8GetExternal(v8::Local<v8::Object> context, String functionName);
 				/// Set a V8 native object.
 				void v8SetExternal(v8::Local<v8::Object> context, String functionName, void *obj);
+
+				/// Associate an object with an internal field in a V8 object.
+				template<typename P>
+				void v8SetInternalFieldObject(v8::Local<v8::Object> context, String functionName, P *obj)
+				{
+					/*v8::Local<v8::ObjectTemplate> objTemplate = v8::ObjectTemplate::New(isolate);
+					objTemplate->SetInternalFieldCount(1);
+					v8::Local<v8::Object> inst = objTemplate->NewInstance();
+					inst->SetAlignedPointerInInternalField(0, obj);
+
+					v8::Persistent<v8::Object> persistent;
+					persistent.Reset(isolate, inst);
+					persistent.SetWeak<P>(obj, V8JavascriptEngine::weakCallbackObject<P>, v8::WeakCallbackType::kParameter);
+					persistent.MarkIndependent();
+
+					context->Set(functionName.toV8String(isolate), v8::Local<v8::Object>::New(isolate, persistent));*/
+
+					v8::Local<v8::Object> objInst = internalObjectTemplate->NewInstance(context->CreationContext()).ToLocalChecked();
+
+					v8::Local<v8::External> val = v8::External::New(isolate, obj);
+					objInst->SetInternalField(0, val);
+					context->Set(functionName.toV8String(isolate), objInst);
+					v8::Persistent<v8::Object> *pval = RJNEW v8::Persistent<v8::Object>();
+					pval->Reset(context->GetIsolate(), objInst);
+					pval->SetWeak<P>(obj, V8JavascriptEngine::weakCallbackObject<P>, v8::WeakCallbackType::kParameter);
+					pval->MarkIndependent();
+				}
+
+				template<typename P>
+				static void weakCallbackObject(const v8::WeakCallbackInfo<P> &data)
+				{
+					P *obj = static_cast<P *> (data.GetInternalField(0));
+
+					DELETEOBJ(obj);
+				}
+
 				/// Set internal field.
 				template<typename P>
 				void v8SetInternalField(v8::Local<v8::Object> context, String functionName, P *obj)

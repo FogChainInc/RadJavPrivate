@@ -21,7 +21,6 @@
 /// <reference path="RadJav.ts" />
 
 namespace RadJav {
-  namespace GUI {
     /** @class RadJav.IO
      * The IO class.
      * Available on platforms: Windows,Linux,OSX
@@ -143,7 +142,7 @@ namespace RadJav {
        * Handles text files.
        * Available on platforms: Windows,Linux,OSX
        */
-      class TextFile {
+      export class TextFile {
         /** @method writeTextToFile
          * Write to a text file.
          * Available on platforms: Windows,Linux,OSX
@@ -177,5 +176,4 @@ namespace RadJav {
         static append: Number;
       }
     }
-  }
 }

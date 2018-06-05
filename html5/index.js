@@ -24,6 +24,7 @@ var httpOptions = {
 var helpHeader = "RadJav JavaScript Builder\n";
 helpHeader += "Copyright(c) 2018, Higher Edge Software, LLC\n";
 helpHeader += "Under the MIT License\n\n";
+var canRebuild = true;
 
 function getCommand (cmdList, cmdName)
 {
@@ -98,18 +99,19 @@ function compile (fileNames, options)
 
 function startHTTP ()
 {
-	if (httpOptions.watchFilesAtLocations == "")
-	{
-		httpOptions.watchFilesAtLocations = [
-					path.normalize (httpOptions.location + "/examples"), 
-					path.normalize (httpOptions.location + "/html5/build")
-				];
-	}
+	httpOptions.watchFilesAtLocations.push (path.normalize (__dirname + "/../examples"));
+	httpOptions.watchFilesAtLocations.push (path.normalize (__dirname + "/build"));
+	httpOptions.watchFilesAtLocations.push ({ path: path.normalize (__dirname + "/src"), rebuild: true });
 
 	app.use (express.static (httpOptions.location));
 	app.get ("/", function (req, res)
 		{
-			res.redirect ("/builder?url=" + encodeURIComponent (httpOptions.url + "examples") + "&ws=" + encodeURIComponent ("ws://" + httpOptions.listeningAddr + ":" + httpOptions.wsPort));
+			if (httpOptions.locationChanged == false)
+			{
+				res.redirect ("/builder?url=" + encodeURIComponent (httpOptions.url + "examples") + "&ws=" + encodeURIComponent ("ws://" + httpOptions.listeningAddr + ":" + httpOptions.wsPort));
+			}
+			else
+				res.sendFile (path.normalize (httpOptions.location + "/" + httpOptions.index));
 		});
 	app.get ("/builder", function (req, res)
 		{
@@ -165,25 +167,64 @@ function startHTTP ()
 				let locations = "";
 
 				for (let iIdx = 0; iIdx < httpOptions.watchFilesAtLocations.length; iIdx++)
-					locations += "\t" + httpOptions.watchFilesAtLocations[iIdx] + "\n";
+				{
+					let wl = httpOptions.watchFilesAtLocations[iIdx];
+
+					if (typeof wl == "string")
+						locations += "\t" + wl + "\n";
+
+					if (typeof wl == "object")
+						locations += "\t" + wl.path + " -- Rebuild JS when file changes: " + wl.rebuild.toString () + "\n";
+				}
 
 				console.log ("\nWatching files located at: \n" + locations);
 
 				// Watching files recursively in NodeJS is only available on Windows and Mac.
 				for (let iIdx = 0; iIdx < httpOptions.watchFilesAtLocations.length; iIdx++)
 				{
-					let loc = httpOptions.watchFilesAtLocations[iIdx];
+					let wl = httpOptions.watchFilesAtLocations[iIdx];
+					let loc = wl;
+
+					if (typeof wl == "object")
+						loc = wl.path;
 
 					fs.watch (loc, {
 								persistent: true, 
 								recursive: true
-							}, keepContext (function (eventType, filename, loc2)
+							}, keepContext (function (eventType, filename, wl2)
 								{
-									let loc3 = loc2[0];
-									let changedFilePath = path.normalize (loc3 + "/" + filename);
+									let wl3 = wl2[0];
+									let loc2 = wl3;
+									let rebuild = false;
+
+									if (typeof wl3 == "object")
+									{
+										loc2 = wl3.path;
+										rebuild = wl3.rebuild;
+									}
+
+									let changedFilePath = path.normalize (loc2 + "/" + filename);
+
+									if ((rebuild == true) && (canRebuild == true))
+									{
+										let tsfiles = getTypeScriptFiles ();
+
+										console.log ("Rebuilding...");
+										compile (tsfiles, {
+												noImplicitUseStrict: true, removeComments: true, importHelpers: true, 
+												target: typescript.ScriptTarget.ES3, module: typescript.ModuleKind.None, 
+												lib: tsLibs, outDir: "./build"
+											});
+										console.log ("Finishing rebuilding.");
+										canRebuild = false;
+										setTimeout (function ()
+												{
+													canRebuild = true;
+												}, 200);
+									}
 
 									httpOptions.wsServer.broadcast ("refresh");
-								}, this, [loc]));
+								}, this, [wl]));
 				}
 			}
 		});
@@ -200,6 +241,7 @@ var commands = [
 					{
 						httpOptions.location = args[0];
 						httpOptions.location = path.normalize (httpOptions.location);
+						httpOptions.watchFilesAtLocations.push (httpOptions.location);
 						httpOptions.locationChanged = true;
 					}
 
