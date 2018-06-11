@@ -220,6 +220,76 @@
 			v8::Isolate* isolate_;
 		};
 
+		template <typename P>
+		class InternalFieldWrapper
+		{
+		public:
+			InternalFieldWrapper (const v8::Local<v8::Object> &handle, P *data)
+			: object(nullptr)
+			{
+				object = data;
+				
+				wrap(handle);
+			}
+			
+			virtual ~InternalFieldWrapper ()
+			{
+				if (persistent.IsEmpty())
+				{
+					DELETEOBJ(object);
+					object = nullptr;
+					return;
+				}
+				
+				if (persistent.IsNearDeath())
+				{
+					persistent.ClearWeak();
+					persistent.Reset();
+					DELETEOBJ(object);
+					object = nullptr;
+				}
+			}
+			
+			v8::Local<v8::Object> objectTemplateInstance () const
+			{
+				return objectInstance;
+			}
+			
+			InternalFieldWrapper () = delete;
+			InternalFieldWrapper (const InternalFieldWrapper& other) = delete;
+			
+		protected:
+			virtual void wrap (const v8::Local<v8::Object> &handle)
+			{
+				objectTemplate = v8::ObjectTemplate::New(handle->GetIsolate());
+				objectTemplate->SetInternalFieldCount(1);
+				
+				objectInstance = objectTemplate->NewInstance (handle->CreationContext()).ToLocalChecked();
+				
+				v8::Local<v8::External> val = v8::External::New (handle->GetIsolate(), object);
+				objectInstance->SetInternalField(0, val);
+				
+				persistent.Reset(handle->GetIsolate(), objectInstance);
+				persistent.SetWeak(this, callback, v8::WeakCallbackType::kParameter);
+				persistent.MarkIndependent();
+			}
+			
+		protected:
+			static void callback (const v8::WeakCallbackInfo<InternalFieldWrapper<P>> &data)
+			{
+				InternalFieldWrapper *parameter = data.GetParameter();
+				parameter->persistent.Reset();
+				DELETEOBJ(parameter);
+			}
+		
+		protected:
+			v8::Persistent<v8::Object> persistent;
+			v8::Local<v8::ObjectTemplate> objectTemplate;
+			
+			P *object;
+			v8::Local<v8::Object> objectInstance;
+		};
+		
 		/// The V8 javascript engine.
 		class RADJAV_EXPORT V8JavascriptEngine: public JavascriptEngine
 		{
@@ -279,9 +349,6 @@
 				/// Shutdown the application entirely.
 				void exit(RJINT exitCode);
 
-				template<typename P>
-				static void weakCallback(const v8::WeakCallbackInfo<P> &data);
-
 				/// Get a V8 function.
 				v8::Handle<v8::Function> v8GetFunction(v8::Local<v8::Object> context, String functionName);
 				/// Get a V8 value.
@@ -318,35 +385,8 @@
 				template<typename P>
 				void v8SetInternalFieldObject(v8::Local<v8::Object> context, String functionName, P *obj)
 				{
-					/*v8::Local<v8::ObjectTemplate> objTemplate = v8::ObjectTemplate::New(isolate);
-					objTemplate->SetInternalFieldCount(1);
-					v8::Local<v8::Object> inst = objTemplate->NewInstance();
-					inst->SetAlignedPointerInInternalField(0, obj);
-
-					v8::Persistent<v8::Object> persistent;
-					persistent.Reset(isolate, inst);
-					persistent.SetWeak<P>(obj, V8JavascriptEngine::weakCallbackObject<P>, v8::WeakCallbackType::kParameter);
-					persistent.MarkIndependent();
-
-					context->Set(functionName.toV8String(isolate), v8::Local<v8::Object>::New(isolate, persistent));*/
-
-					v8::Local<v8::Object> objInst = internalObjectTemplate->NewInstance(context->CreationContext()).ToLocalChecked();
-
-					v8::Local<v8::External> val = v8::External::New(isolate, obj);
-					objInst->SetInternalField(0, val);
-					context->Set(functionName.toV8String(isolate), objInst);
-					v8::Persistent<v8::Object> *pval = RJNEW v8::Persistent<v8::Object>();
-					pval->Reset(context->GetIsolate(), objInst);
-					pval->SetWeak<P>(obj, V8JavascriptEngine::weakCallbackObject<P>, v8::WeakCallbackType::kParameter);
-					pval->MarkIndependent();
-				}
-
-				template<typename P>
-				static void weakCallbackObject(const v8::WeakCallbackInfo<P> &data)
-				{
-					P *obj = static_cast<P *> (data.GetInternalField(0));
-
-					DELETEOBJ(obj);
+					InternalFieldWrapper<P> *wrapper = RJNEW InternalFieldWrapper<P>( context, obj);
+					context->Set(functionName.toV8String(isolate), wrapper->objectTemplateInstance());
 				}
 
 				/// Set internal field.
@@ -401,7 +441,6 @@
 
 				v8::Platform *platform;
 				v8::Local<v8::Context> globalContext;
-				v8::Local<v8::ObjectTemplate> internalObjectTemplate;
 				v8::Persistent<v8::Object> *radJav;
 
 				#ifdef GUI_USE_WXWIDGETS

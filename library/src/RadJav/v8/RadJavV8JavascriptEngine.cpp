@@ -292,9 +292,6 @@ namespace RadJAV
 
 			loadNativeCode();
 
-			internalObjectTemplate = v8::ObjectTemplate::New(isolate);
-			internalObjectTemplate->SetInternalFieldCount(1);
-
 			v8::Local<v8::Object> obj = v8GetObject(globalContext->Global(), "RadJav");
 			radJav = RJNEW v8::Persistent<v8::Object>();
 			radJav->Reset(isolate, obj);
@@ -1667,12 +1664,6 @@ namespace RadJAV
 		{
 			v8::Local<v8::External> val = v8::External::New(isolate, obj);
 			context->Set(functionName.toV8String(isolate), val);
-		}
-
-		template<typename P>
-		void V8JavascriptEngine::weakCallback(const v8::WeakCallbackInfo<P> &data)
-		{
-			//DELETEOBJ((P *)data.GetInternalField(0));
 		}
 
 		void *V8JavascriptEngine::v8GetInternalField(v8::Local<v8::Object> context, String functionName)

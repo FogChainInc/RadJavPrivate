@@ -76,7 +76,6 @@ namespace RadJAV
 				DELETEOBJ(_font);
 				DELETEOBJ(_transform);
 
-				DELETEOBJ(_parent);
 				DELETEOBJ(_appObj);
 			}
 
