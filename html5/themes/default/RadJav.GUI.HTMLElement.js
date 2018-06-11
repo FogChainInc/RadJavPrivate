@@ -7,6 +7,7 @@ RadJav.Theme.themeObjects["RadJav.GUI.HTMLElement"] =
 				var dom = RadJav.OS.HTML5.selectDOM ("#" + obj.name);
 				dom.domNode = dom;
 
+				obj._html = dom;
 				resolve (dom);
 			});
 
@@ -25,7 +26,7 @@ RadJav.Theme.themeObjects["RadJav.GUI.HTMLElement"] =
 
 	on: function (obj, eventName, func)
 	{
-		//obj._html.on (eventName, func);
+		obj._html.addEventListener (eventName, func);
 	}, 
 
 	getHTMLDOM: function (obj)

@@ -14,8 +14,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node index.js --build",
     "build-only": "node index.js --build doNotCopyHTML5Files doNotCopyFilesToLibrary doNotMinify",
-    "http": "node index.js --http",
     "build-defs": "node index.js --defs",
+    "build-radjav": "node index.js --build-radjav",
+    "build-radjav-only": "node index.js --build-radjav doNotCopyHTML5Files doNotCopyFilesToLibrary doNotMinify",
+    "http": "node index.js --http",
     "defs": "node index.js --defs"
   },
   "repository": {

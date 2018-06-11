@@ -24,6 +24,10 @@
 
 #include <fstream>
 
+#ifdef USE_BOOST
+	#include <boost/filesystem.hpp>
+#endif
+
 namespace RadJAV
 {
 	namespace CPP
@@ -216,6 +220,107 @@ namespace RadJAV
 			file.close();
 
 			return (contents);
+		}
+
+		void IO::copyFile(String src, String dest, RJBOOL overwriteIfExists)
+		{
+			try
+			{
+				boost::filesystem::path srcPath(src.c_str());
+				boost::filesystem::path destPath(dest.c_str());
+
+				boost::filesystem::copy_option option = boost::filesystem::copy_option::overwrite_if_exists;
+
+				if (overwriteIfExists == false)
+					option = boost::filesystem::copy_option::fail_if_exists;
+
+				boost::filesystem::copy_file(srcPath, destPath / srcPath.filename(), option);
+			}
+			catch (boost::filesystem::filesystem_error ex)
+			{
+			}
+		}
+
+		void IO::copyDir(String src, String dest, RJBOOL recursive)
+		{
+			/// @todo We want to add a JavaScript function that will allow the developer to see 
+			/// the file or folder that's being copied over and be able to prevent it from being 
+			/// copied if necessary. So we would need to use listFiles and go through each file/folder 
+			/// and report it back to the JavaScript function and wait for a boolean response that 
+			/// would determine if the file/folder gets copied.
+
+			#ifdef USE_BOOST
+				try
+				{
+					boost::filesystem::path destPath(dest.c_str());
+
+					if (boost::filesystem::exists(destPath) == false)
+						boost::filesystem::create_directory(destPath);
+
+					boost::filesystem::recursive_directory_iterator it(src.c_str());
+					boost::filesystem::recursive_directory_iterator end;
+
+					while (it != end)
+					{
+						boost::filesystem::path file = it->path();
+
+						if (boost::filesystem::is_directory(file) == true)
+						{
+							if (recursive == true)
+							{
+								boost::filesystem::path nextFile = destPath / file.filename();
+
+								copyDir(file.string(), nextFile.string());
+							}
+						}
+						else
+							boost::filesystem::copy_file(file, destPath / file.filename());
+
+						it++;
+					}
+				}
+				catch (boost::filesystem::filesystem_error ex)
+				{
+				}
+			#endif
+		}
+
+		Array<String> IO::listFiles(String path, RJBOOL recursive)
+		{
+			Array<String> files;
+
+			#ifdef USE_BOOST
+				boost::filesystem::path dirPath(path.c_str());
+
+				if (recursive == true)
+				{
+					boost::filesystem::recursive_directory_iterator it(dirPath);
+					boost::filesystem::recursive_directory_iterator end;
+
+					while (it != end)
+					{
+						boost::filesystem::path file = it->path();
+						files.push_back(file.string());
+
+						it++;
+					}
+				}
+				else
+				{
+					boost::filesystem::directory_iterator it(dirPath);
+					boost::filesystem::directory_iterator end;
+
+					while (it != end)
+					{
+						boost::filesystem::path file = it->path();
+						files.push_back(file.string());
+
+						it++;
+					}
+				}
+			#endif
+
+			return (files);
 		}
 	}
 }

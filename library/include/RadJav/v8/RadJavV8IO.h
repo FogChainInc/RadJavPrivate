@@ -39,6 +39,9 @@
 						static void isFile(const v8::FunctionCallbackInfo<v8::Value> &args);
 						static void createDir(const v8::FunctionCallbackInfo<v8::Value> &args);
 						static void deleteFile(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void copyFile(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void copyDir(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void listFiles(const v8::FunctionCallbackInfo<v8::Value> &args);
 
 						class RADJAV_EXPORT SerialComm
 						{

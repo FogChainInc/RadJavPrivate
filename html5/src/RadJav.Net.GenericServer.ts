@@ -1,6 +1,6 @@
 /*
 	MIT-LICENSE
-	Copyright (c) 2017 Higher Edge Software, LLC
+	Copyright (c) 2017-2018 Higher Edge Software, LLC
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 	and associated documentation files (the "Software"), to deal in the Software without restriction, 
@@ -17,22 +17,21 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#include "RadJavArray.h"
 
-#include "RadJavString.h"
+/// <reference path="RadJav.ts" />
 
-namespace RadJAV
+namespace RadJav
 {
-	#ifdef USE_V8
-		v8::Local<v8::Array> convertArrayToV8Array(Array<String> arrayToConvert, v8::Isolate *isolate)
+	export namespace Net
+	{
+		export class GenericServer
 		{
-			v8::Local<v8::Array> newArray = v8::Array::New(isolate, arrayToConvert.size());
+			protected _db: { [name: string]: RadJav.DB.KeyValueStorage };
 
-			for (RJINT iIdx = 0; iIdx < arrayToConvert.size(); iIdx++)
-				newArray->Set (iIdx, arrayToConvert.at(iIdx).toV8String (isolate));
-
-			return (newArray);
+			constructor ()
+			{
+				db = null;
+			}
 		}
-	#endif
+	}
 }
-
