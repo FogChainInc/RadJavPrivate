@@ -43,6 +43,7 @@ namespace RadJAV
 				static void copyFile(String src, String dest, RJBOOL overwriteIfExists = true);
 				static void copyDir(String src, String dest, RJBOOL recursive = true);
 				static Array<String> listFiles(String path, RJBOOL recursive = true);
+				static String normalizePath(String path, String basePath = "");
 
 				class RADJAV_EXPORT SerialComm
 				{

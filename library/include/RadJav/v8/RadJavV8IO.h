@@ -42,6 +42,7 @@
 						static void copyFile(const v8::FunctionCallbackInfo<v8::Value> &args);
 						static void copyDir(const v8::FunctionCallbackInfo<v8::Value> &args);
 						static void listFiles(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void normalizePath(const v8::FunctionCallbackInfo<v8::Value> &args);
 
 						class RADJAV_EXPORT SerialComm
 						{

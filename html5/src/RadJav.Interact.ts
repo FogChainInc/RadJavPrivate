@@ -328,16 +328,20 @@ namespace RadJav
 
 			writeFiles (path: string): void
 			{
-				/// @todo Do tree shaking here, only copy over the files that are needed.
+				/// @todo Do tree shaking here, only copy over the files and directories that are needed.
 				let files = RadJav.IO.listFiles (this._assetsPath);
 
 				for (let iIdx = 0; iIdx < files.length; iIdx++)
 				{
 					let file = files[iIdx];
-					let oldPath = this._assetsPath + "/" + file;
-					let newPath = path + "/" + file;
+					let oldPath = RadJav.IO.normalizePath (this._assetsPath + "/" + file);
+					let newPath = RadJav.IO.normalizePath (path + "/" + file);
+					let result = this._fileCopyFunc (oldPath, newPath);
 
-					if (this._fileCopyFunc (oldPath, newPath) == true)
+					if (result == null)
+						result = true;
+
+					if (result == true)
 					{
 						if (RadJav.IO.isDir (newPath) == true)
 							RadJav.IO.copyDir (oldPath, newPath);

@@ -322,6 +322,21 @@ namespace RadJAV
 
 			return (files);
 		}
+
+		String IO::normalizePath(String path, String basePath)
+		{
+			String normalizedPath = path;
+
+			#ifdef USE_BOOST
+				path = basePath + boost::filesystem::path::preferred_separator + path;
+				boost::filesystem::path newPath(path.c_str());
+
+				newPath = newPath.lexically_normal();
+				normalizedPath = newPath.string ();
+			#endif
+
+			return (normalizedPath);
+		}
 	}
 }
 
