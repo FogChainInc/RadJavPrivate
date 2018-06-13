@@ -47,6 +47,10 @@ var RadJav;
             PrivateKey.prototype.getPublicKey = function () {
             };
 	    
+	    /// 
+            PrivateKey.prototype.savePemSync = function (path, password) {
+            };
+	    
             return PrivateKey;
         }());
         Crypto.PrivateKey = PrivateKey;

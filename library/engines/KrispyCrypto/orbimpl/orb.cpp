@@ -20,9 +20,18 @@
 
 #include <orb/ORB_EngineCrypto.h>
 
+#include <i/engines/KrispyCrypto/IDigest.h>
+#include <i/engines/KrispyCrypto/ICipher.h>
+#include <i/engines/KrispyCrypto/IDecipher.h>
+#include <i/engines/KrispyCrypto/IKeyGenerator.h>
+#include <i/engines/KrispyCrypto/IPrivateKey.h>
+#include <i/engines/KrispyCrypto/IPublicKey.h>
+
 #include "../OpenSSL/orb/ORB_EngineCryptoOpenSSL.h"
 
 #include "../OpenSSL/src/RsaKeyGenerator.h"
+#include "../OpenSSL/src/RsaPrivateKey.h"
+#include "../OpenSSL/src/RsaPublicKey.h"
 
 namespace ORB
 {
@@ -157,14 +166,19 @@ namespace ORB
 	  encryptPadding = RSA_PKCS1_PADDING;
 	else if (encryptPaddingStr == "RSA_NO_PADDING")
 	  encryptPadding = RSA_NO_PADDING;
+	else 
+	  throw std::invalid_argument(std::string("Invalid encrypt padding: ") + encryptPaddingStr);
 
 	int signatureType;
 
 	if (signatureTypeStr == "") signatureTypeStr = "OPENSSL_DEFAULT";
 	if (signatureTypeStr == "OPENSSL_DEFAULT")
 	  signatureType = NID_sha256; // Just any valid value different from SSL signature
-	if (signatureTypeStr == "NID_md5_sha1")
+	else if (signatureTypeStr == "NID_md5_sha1")
 	  signatureType = NID_md5_sha1;
+	else
+	  throw std::invalid_argument(std::string("Invalid signature type: ") + signatureTypeStr);
+	    
 	return OpenSSL::createRsaKeyGenerator(bits, pubExponent, encryptPadding, signatureType);
 	
 	#else
@@ -219,13 +233,153 @@ namespace ORB
 	    if ((i =  parms.find("signatureType")) != parms.end())
 	      signatureType = i -> second;
 
-	    
 
 	    return createRsaKeyGenerator(bits, pubExponent, encryptPadding, signatureType);
 
 	  }
+	
+	#else
+	return nullptr;
+	#endif
+	
+      }
 
-      
+      std::shared_ptr<::Engine::Crypto::IPrivateKey> createPrivateKey(std::map<std::string, std::string> parms,
+								      std::string cryptoLibrary)
+      {
+	#ifdef USE_OPENSSL
+
+	std::string algorithm;
+	std::string path;
+	std::string format;
+	
+	std::map<std::string, std::string>::iterator i;
+	
+	i =  parms.find("path");
+	if (i == parms.end())
+	  throw std::invalid_argument(std::string("The parameter 'path' must be defined"));
+	path = i -> second;
+
+	i =  parms.find("format");
+	if (i == parms.end())
+	  throw std::invalid_argument(std::string("The parameter 'format' must be defined"));
+	format = i -> second;
+	
+	i =  parms.find("algorithm");
+	if (i == parms.end())
+	  throw std::invalid_argument(std::string("The parameter 'algorithm' must be defined"));
+	algorithm = i -> second;
+	
+	if (algorithm != "RSA" && algorithm != "ECC")
+	  throw std::invalid_argument(std::string("Invalid algorithm: ") + algorithm +
+				      std::string(". Supported values: RSA, ECC"));
+
+	const char *pwd = NULL;
+
+	if ((i =  parms.find("password")) != parms.end())
+	  pwd = i -> second.c_str();
+
+	if (algorithm == "RSA")
+	  {
+	
+	    std::string encryptPaddingStr = OPENSSL_DEFAULT_ENCRYPT_PADDING;
+	    std::string signatureTypeStr = OPENSSL_DEFAULT_SIGNATURE_TYPE;
+
+	    if ((i =  parms.find("encryptPadding")) != parms.end())
+	      encryptPaddingStr = i -> second;
+	    if ((i =  parms.find("signatureType")) != parms.end())
+	      signatureTypeStr = i -> second;
+
+	    int signatureType;
+
+	    if (signatureTypeStr == "OPENSSL_DEFAULT")
+	      signatureType = NID_sha256; // Just any valid value different from SSL signature
+	    else if (signatureTypeStr == "NID_md5_sha1")
+	      signatureType = NID_md5_sha1;
+	    else
+	      throw std::invalid_argument(std::string("Invalid signature type: ") + signatureTypeStr);
+	    
+	    int encryptPadding;
+	    if (encryptPaddingStr == "RSA_PKCS1_PADDING")
+	      encryptPadding = RSA_PKCS1_PADDING;
+	    else if (encryptPaddingStr == "RSA_NO_PADDING")
+	      encryptPadding = RSA_NO_PADDING;
+	    else 
+	      throw std::invalid_argument(std::string("Invalid encrypt padding: ") + encryptPaddingStr);
+	    
+	    return OpenSSL::createRsaPrivateKey(path.c_str(), format.c_str(), pwd, 
+						encryptPadding, signatureType);
+	  }
+
+	#else
+	return nullptr;
+	#endif
+	
+      }
+
+      std::shared_ptr<::Engine::Crypto::IPublicKey> createPublicKey(std::map<std::string, std::string> parms,
+								    std::string cryptoLibrary)
+      {
+	#ifdef USE_OPENSSL
+
+	std::string algorithm;
+	std::string path;
+	std::string format;
+	
+	std::map<std::string, std::string>::iterator i;
+	
+	i =  parms.find("path");
+	if (i == parms.end())
+	  throw std::invalid_argument(std::string("The parameter 'path' must be defined"));
+	path = i -> second;
+
+	i =  parms.find("format");
+	if (i == parms.end())
+	  throw std::invalid_argument(std::string("The parameter 'format' must be defined"));
+	format = i -> second;
+	
+	i =  parms.find("algorithm");
+	if (i == parms.end())
+	  throw std::invalid_argument(std::string("The parameter 'algorithm' must be defined"));
+	algorithm = i -> second;
+	
+	if (algorithm != "RSA" && algorithm != "ECC")
+	  throw std::invalid_argument(std::string("Invalid algorithm: ") + algorithm +
+				      std::string(". Supported values: RSA, ECC"));
+
+
+	if (algorithm == "RSA")
+	  {
+	
+	    std::string encryptPaddingStr = OPENSSL_DEFAULT_ENCRYPT_PADDING;
+	    std::string signatureTypeStr = OPENSSL_DEFAULT_SIGNATURE_TYPE;
+
+	    if ((i =  parms.find("encryptPadding")) != parms.end())
+	      encryptPaddingStr = i -> second;
+	    if ((i =  parms.find("signatureType")) != parms.end())
+	      signatureTypeStr = i -> second;
+
+	    int signatureType;
+
+	    if (signatureTypeStr == "OPENSSL_DEFAULT")
+	      signatureType = NID_sha256; // Just any valid value different from SSL signature
+	    else if (signatureTypeStr == "NID_md5_sha1")
+	      signatureType = NID_md5_sha1;
+	    else
+	      throw std::invalid_argument(std::string("Invalid signature type: ") + signatureTypeStr);
+	    
+	    int encryptPadding;
+	    if (encryptPaddingStr == "RSA_PKCS1_PADDING")
+	      encryptPadding = RSA_PKCS1_PADDING;
+	    else if (encryptPaddingStr == "RSA_NO_PADDING")
+	      encryptPadding = RSA_NO_PADDING;
+	    else 
+	      throw std::invalid_argument(std::string("Invalid encrypt padding: ") + encryptPaddingStr);
+	    
+	    return OpenSSL::createRsaPublicKey(path.c_str(), format.c_str(),
+					       encryptPadding, signatureType);
+	  }
+
 	#else
 	return nullptr;
 	#endif

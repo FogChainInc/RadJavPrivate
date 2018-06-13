@@ -65,6 +65,8 @@
 					    std::function <void (void* buf, int bufLen)> binSetter);
 
 				  std::shared_ptr<const Engine::Crypto::IPublicKey> getPublicKey();
+
+				  void savePem(const char *path, const char *cipherType, const char *pwd);
 				  
 				public:
 				  std::shared_ptr<Engine::Crypto::IPrivateKey> myPrivateKey;

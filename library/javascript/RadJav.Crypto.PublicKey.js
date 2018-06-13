@@ -42,6 +42,10 @@ var RadJav;
 
             PublicKey.prototype.decryptSync = function (data) {
             };
+
+	    /// 
+            PublicKey.prototype.savePemSync = function (path) {
+            };
 	    
             return PublicKey;
         }());

@@ -30,6 +30,7 @@
 #include <openssl/bio.h>
 
 #include <string>
+#include <cstring>
 
 namespace Engine
 {
@@ -44,7 +45,7 @@ namespace Engine
 
       public:
 	RsaPublicKey(RsaStructUniquePtr rsa, int bits, int encryptPadding, int signatureType);
-	//RsaPublicKey(RsaStructUniquePtr rsa, int bits);
+	RsaPublicKey(const char *path, const char *format, int encryptPadding, int signatureType);
 	virtual ~RsaPublicKey();
 
 	virtual std::tuple<std::shared_ptr<void>, unsigned int>
@@ -56,6 +57,10 @@ namespace Engine
 			    unsigned int dataLength,
 			    const unsigned char* signature,
 			    unsigned int signatureLength) const;
+
+	virtual void savePem(const char* path) const;
+	void loadPem(const char* path);
+
       private:
 
       };

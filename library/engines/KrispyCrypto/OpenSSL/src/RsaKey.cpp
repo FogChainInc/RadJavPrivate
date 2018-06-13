@@ -30,21 +30,34 @@ namespace Engine
 
       RsaKey::RsaKey(RsaStructUniquePtr rsa, int bits, int encryptPadding, int signatureType) :
 	myRsa(std::move(rsa)),
+	myEvpPkey(EVP_PKEY_new(), EVP_PKEY_free),
 	myBits(bits),
+	myEncryptPadding(encryptPadding),
+	mySignatureType(signatureType)
+      {
+	EVP_PKEY_set1_RSA(myEvpPkey.get(), myRsa.get());
+      }
+
+      RsaKey::RsaKey(RsaStructUniquePtr rsa, int bits) :
+	myRsa(std::move(rsa)),
+	myEvpPkey(EVP_PKEY_new(), EVP_PKEY_free),
+	myBits(bits),
+	myEncryptPadding(0),
+	mySignatureType(0)
+      {
+	EVP_PKEY_set1_RSA(myEvpPkey.get(), myRsa.get());
+      }
+
+      RsaKey::RsaKey(int encryptPadding, int signatureType) :
+	myRsa(RSA_new(), RSA_free),
+	myEvpPkey(EVP_PKEY_new(), EVP_PKEY_free),
+	myBits(0),
 	myEncryptPadding(encryptPadding),
 	mySignatureType(signatureType)
       {
 
       }
-
-      RsaKey::RsaKey(RsaStructUniquePtr rsa, int bits) :
-	myRsa(std::move(rsa)),
-	myBits(bits),
-	myEncryptPadding(0),
-	mySignatureType(0)
-      {
-
-      }
+      
       
       RsaKey::~RsaKey()
       {

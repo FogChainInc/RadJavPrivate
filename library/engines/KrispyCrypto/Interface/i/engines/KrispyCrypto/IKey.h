@@ -38,6 +38,7 @@ namespace Engine
       
       virtual std::tuple<std::shared_ptr<void>, unsigned int>
 	decrypt(const unsigned char* data, unsigned int dataLength) const = 0;
+
     };
   }
 }

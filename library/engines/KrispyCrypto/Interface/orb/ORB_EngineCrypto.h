@@ -25,10 +25,22 @@
 #include <string>
 #include <map>
 #include <tuple>
-#include <i/engines/KrispyCrypto/IDigest.h>
-#include <i/engines/KrispyCrypto/ICipher.h>
-#include <i/engines/KrispyCrypto/IDecipher.h>
-#include <i/engines/KrispyCrypto/IKeyGenerator.h>
+
+namespace Engine
+{
+  namespace Crypto
+  {
+    class IDigest;
+    class IDigestMultipart;
+    class ICipher;
+    class ICipherMultipart;
+    class IDecipher;
+    class IDecipherMultipart;
+    class IKeyGenerator;
+    class IPrivateKey;
+    class IPublicKey;
+  }
+}
 
 namespace ORB
 {
@@ -36,6 +48,7 @@ namespace ORB
   {
     namespace Crypto
     {
+
       std::shared_ptr<::Engine::Crypto::IDigest>
 	createDigest(const std::string &digestType,
 		     const std::string &cryptoLibrary = "OpenSSL");
@@ -47,37 +60,49 @@ namespace ORB
       std::map<std::string, std::string> getListOfDigests(const std::string &cryptoLibrary = "OpenSSL");
 
 
-	std::shared_ptr<::Engine::Crypto::ICipher> createCipher(const std::string &cipherType,
-								const std::string &secret,
-								const std::string &iv="",
-								const std::string &cryptoLibrary = "OpenSSL");
+      std::shared_ptr<::Engine::Crypto::ICipher> createCipher(const std::string &cipherType,
+							      const std::string &secret,
+							      const std::string &iv="",
+							      const std::string &cryptoLibrary = "OpenSSL");
 	
-	std::shared_ptr<::Engine::Crypto::ICipherMultipart> createCipherMultipart(const std::string& cipherType,
-										  const std::string &secret,
-										  const std::string &iv="",
-										  const std::string &cryptoLibrary = "OpenSSL");
+      std::shared_ptr<::Engine::Crypto::ICipherMultipart> createCipherMultipart(const std::string& cipherType,
+										const std::string &secret,
+										const std::string &iv="",
+										const std::string &cryptoLibrary = "OpenSSL");
 	
-	std::shared_ptr<::Engine::Crypto::IDecipher> createDecipher(const std::string& cipherType,
-								    const std::string &secret,
-								    const std::string &iv="",
-								    const std::string &cryptoLibrary = "OpenSSL");
+      std::shared_ptr<::Engine::Crypto::IDecipher> createDecipher(const std::string& cipherType,
+								  const std::string &secret,
+								  const std::string &iv="",
+								  const std::string &cryptoLibrary = "OpenSSL");
 	
-	std::shared_ptr<::Engine::Crypto::IDecipherMultipart> createDecipherMultipart(const std::string& cipherType,
-										      const std::string &secret,
-										      const std::string &iv="",
-										      const std::string &cryptoLibrary = "OpenSSL");
+      std::shared_ptr<::Engine::Crypto::IDecipherMultipart> createDecipherMultipart(const std::string& cipherType,
+										    const std::string &secret,
+										    const std::string &iv="",
+										    const std::string &cryptoLibrary = "OpenSSL");
 
-	std::map<std::string, std::string> getListOfCiphers(const std::string &cryptoLibrary = "OpenSSL");
+      std::map<std::string, std::string> getListOfCiphers(const std::string &cryptoLibrary = "OpenSSL");
 
-	//rsa-f4, rsa-3
-	std::shared_ptr<::Engine::Crypto::IKeyGenerator> createRsaKeyGenerator(int bits=2048,
-									       std::string pubExponent="RSA_F4",
-									       std::string encryptPadding="RSA_PKCS1_PADDING",
-									       std::string signatureType="OPENSSL_DEFAULT");
+      #define OPENSSL_DEFAULT_BITS "2048"
+      #define OPENSSL_DEFAULT_PUB_EXPONENT "RSA_F4"
+      #define OPENSSL_DEFAULT_ENCRYPT_PADDING "RSA_PKCS11_PADDING"
+      #define OPENSSL_DEFAULT_SIGNATURE_TYPE "OPENSSL_DEFAULT"
 
-	std::shared_ptr<::Engine::Crypto::IKeyGenerator> createKeyGenerator(std::map<std::string, std::string> parms,
-									    std::string cryptoLibrary="OpenSSL");
-	
+      //rsa-f4, rsa-3
+      std::shared_ptr<::Engine::Crypto::IKeyGenerator> createRsaKeyGenerator(int bits=2048,
+									     std::string pubExponent="RSA_F4",
+									     std::string encryptPadding="RSA_PKCS1_PADDING",
+									     std::string signatureType="OPENSSL_DEFAULT");
+
+      std::shared_ptr<::Engine::Crypto::IKeyGenerator> createKeyGenerator(std::map<std::string, std::string> parms,
+									  std::string cryptoLibrary="OpenSSL");
+
+
+      std::shared_ptr<::Engine::Crypto::IPrivateKey> createPrivateKey(std::map<std::string, std::string> parms,
+								      std::string cryptoLibrary="OpenSSL");
+
+      std::shared_ptr<::Engine::Crypto::IPublicKey> createPublicKey(std::map<std::string, std::string> parms,
+								    std::string cryptoLibrary="OpenSSL");
+      
 
       std::string encodeHex(const void* data, int dataLen);
       std::tuple<std::shared_ptr<void>, unsigned int> decodeHex(const std::string &hexString);
