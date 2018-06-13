@@ -37,6 +37,10 @@ namespace RadJAV
 			V8_CALLBACK(object, "isFile", IO::isFile);
 			V8_CALLBACK(object, "mkdir", IO::createDir);
 			V8_CALLBACK(object, "deleteFile", IO::deleteFile);
+			V8_CALLBACK(object, "copyFile", IO::copyFile);
+			V8_CALLBACK(object, "copyDir", IO::copyDir);
+			V8_CALLBACK(object, "listFiles", IO::listFiles);
+			V8_CALLBACK(object, "normalizePath", IO::normalizePath);
 		}
 
 		void IO::SerialComm::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
@@ -408,6 +412,69 @@ namespace RadJAV
 			//if (wxRemoveFile(path.towxString()) == false)
 				//V8_JAVASCRIPT_ENGINE->throwException("Unable to delete file.");
 #endif
+		}
+
+		void IO::copyFile(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+			v8::Local<v8::String> src = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+			v8::Local<v8::String> dest = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
+			RJBOOL overwriteIfExists = true;
+			
+			if (args.Length () > 2)
+			{
+				v8::Local<v8::Boolean> overwriteIfExistsV8 = v8::Local<v8::Boolean>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 2));
+				overwriteIfExists = overwriteIfExistsV8->Value();
+			}
+
+			CPP::IO::copyFile(parseV8Value(src), parseV8Value(dest), overwriteIfExists);
+		}
+
+		void IO::copyDir(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+			v8::Local<v8::String> src = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+			v8::Local<v8::String> dest = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
+			RJBOOL isRecursive = true;
+			
+			if (args.Length () > 2)
+			{
+				v8::Local<v8::Boolean> recursive = v8::Local<v8::Boolean>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 2));
+				isRecursive = recursive->Value();
+			}
+
+			CPP::IO::copyDir(parseV8Value(src), parseV8Value(dest), isRecursive);
+		}
+
+		void IO::listFiles(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+			RJBOOL isRecursive = true;
+
+			if (args.Length () > 1)
+			{
+				v8::Local<v8::Boolean> recursive = v8::Local<v8::Boolean>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
+				isRecursive = recursive->Value();
+			}
+
+			Array<String> files = CPP::IO::listFiles(parseV8Value(path), isRecursive);
+			v8::Local<v8::Array> newFiles = convertArrayToV8Array(files, args.GetIsolate ());
+
+			args.GetReturnValue().Set(newFiles);
+		}
+
+		void IO::normalizePath(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+			String basePath = "";
+
+			if (args.Length() > 1)
+			{
+				v8::Local<v8::String> basePathV8 = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
+				basePath = parseV8Value(basePathV8);
+			}
+
+			path = CPP::IO::normalizePath(parseV8Value(path), basePath).toV8String (args.GetIsolate ());
+
+			args.GetReturnValue().Set(path);
 		}
 	}
 }

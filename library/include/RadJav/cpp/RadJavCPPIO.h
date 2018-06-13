@@ -40,6 +40,10 @@ namespace RadJAV
 				static void isFile(const v8::FunctionCallbackInfo<v8::Value> &args);
 				static void createDir(const v8::FunctionCallbackInfo<v8::Value> &args);
 				static void deleteFile(const v8::FunctionCallbackInfo<v8::Value> &args);
+				static void copyFile(String src, String dest, RJBOOL overwriteIfExists = true);
+				static void copyDir(String src, String dest, RJBOOL recursive = true);
+				static Array<String> listFiles(String path, RJBOOL recursive = true);
+				static String normalizePath(String path, String basePath = "");
 
 				class RADJAV_EXPORT SerialComm
 				{
