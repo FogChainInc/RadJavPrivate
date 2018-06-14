@@ -25,7 +25,7 @@ namespace RadJav
 	/// The RadJav Interact namespace. RadJav Interact requires ES5.
 	export namespace Interact
 	{
-		export function setView (root: HTMLElement | RadJav.GUI.GObject, view: RadJav.Interact.View): void
+		export function setView (root: string | HTMLElement | RadJav.GUI.GObject, view: RadJav.Interact.View): void
 		{
 			if (root.constructor["name"] == "GObject")
 			{
@@ -42,6 +42,9 @@ namespace RadJav
 
 				return;
 			}
+
+			if (typeof (root) == "string")
+				root = document.querySelector ((<string>root));
 
 			for (let comp in view._components)
 				(<HTMLElement>root).appendChild ((<RadJav.GUI.HTMLElement>view._components[comp].display)._html);
@@ -329,6 +332,8 @@ namespace RadJav
 			writeFiles (path: string): void
 			{
 				/// @todo Do tree shaking here, only copy over the files and directories that are needed.
+				/// Also, if the files already exist in that directory, only copy over files that have been 
+				/// changed.
 				let files = RadJav.IO.listFiles (this._assetsPath);
 
 				for (let iIdx = 0; iIdx < files.length; iIdx++)
@@ -336,14 +341,19 @@ namespace RadJav
 					let file = files[iIdx];
 					let oldPath = RadJav.IO.normalizePath (this._assetsPath + "/" + file);
 					let newPath = RadJav.IO.normalizePath (path + "/" + file);
-					let result = this._fileCopyFunc (oldPath, newPath);
+					let result = true;
 
-					if (result == null)
-						result = true;
+					if (this._fileCopyFunc != null)
+					{
+						result = this._fileCopyFunc (oldPath, newPath);
+
+						if (result == null)
+							result = true;
+					}
 
 					if (result == true)
 					{
-						if (RadJav.IO.isDir (newPath) == true)
+						if (RadJav.IO.isDir (oldPath) == true)
 							RadJav.IO.copyDir (oldPath, newPath);
 						else
 							RadJav.IO.copyFile (oldPath, newPath);

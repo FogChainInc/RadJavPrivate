@@ -200,10 +200,16 @@ var RadJav;
                 var files = RadJav.IO.listFiles(this._assetsPath);
                 for (var iIdx = 0; iIdx < files.length; iIdx++) {
                     var file = files[iIdx];
-                    var oldPath = this._assetsPath + "/" + file;
+                    var oldPath = RadJav.IO.normalizePath(this._assetsPath + "/" + file);
                     var newPath = path + "/" + file;
-                    if (this._fileCopyFunc(oldPath, newPath) == true) {
-                        if (RadJav.IO.isDir(newPath) == true)
+                    var result = true;
+                    if (this._fileCopyFunc != null) {
+                        result = this._fileCopyFunc(oldPath, newPath);
+                        if (result == null)
+                            result = true;
+                    }
+                    if (result == true) {
+                        if (RadJav.IO.isDir(oldPath) == true)
                             RadJav.IO.copyDir(oldPath, newPath);
                         else
                             RadJav.IO.copyFile(oldPath, newPath);

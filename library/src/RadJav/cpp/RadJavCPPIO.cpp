@@ -313,7 +313,7 @@ namespace RadJAV
 					while (it != end)
 					{
 						boost::filesystem::path file = it->path();
-						files.push_back(file.string());
+						files.push_back(file.filename ().string());
 
 						it++;
 					}
@@ -328,7 +328,10 @@ namespace RadJAV
 			String normalizedPath = path;
 
 			#ifdef USE_BOOST
-				path = basePath + boost::filesystem::path::preferred_separator + path;
+				if (basePath != "")
+					basePath = basePath + boost::filesystem::path::preferred_separator;
+
+				path = basePath + path;
 				boost::filesystem::path newPath(path.c_str());
 
 				newPath = newPath.lexically_normal();

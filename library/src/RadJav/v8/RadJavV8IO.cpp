@@ -447,7 +447,7 @@ namespace RadJAV
 		void IO::listFiles(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
 			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-			RJBOOL isRecursive = true;
+			RJBOOL isRecursive = false;
 
 			if (args.Length () > 1)
 			{
