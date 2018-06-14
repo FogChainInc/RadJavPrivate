@@ -40,9 +40,6 @@
 				public:
 					static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
-					template<typename Type>
-					static void objectDestructor(const v8::WeakCallbackInfo<Type> &data);
-
 					static void create(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void setFont(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void getFont(const v8::FunctionCallbackInfo<v8::Value> &args);

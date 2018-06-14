@@ -58,20 +58,11 @@ namespace RadJAV
 				V8_CALLBACK(object, "on", Label::on);
 			}
 
-			template<typename Type>
-			void Label::objectDestructor(const v8::WeakCallbackInfo<Type> &data)
-			{
-				Type *obj = data.GetParameter();
-
-				DELETEOBJ(obj);
-			}
-
 			void Label::create(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				UITYPE *appObject = RJNEW UITYPE(V8_JAVASCRIPT_ENGINE, args);
 				appObject->create();
 
-				//V8_JAVASCRIPT_ENGINE->v8SetInternalFieldObject(args.This(), "_appObj", appObject);
 				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_appObj", appObject);
 				v8::Local<v8::Function> _guiFinishedCreatingGObject = V8_JAVASCRIPT_ENGINE->v8GetFunction(V8_RADJAV, "_guiFinishedCreatingGObject");
 				v8::Local<v8::Object> promise = V8_JAVASCRIPT_ENGINE->createPromise(args.This(), _guiFinishedCreatingGObject);
