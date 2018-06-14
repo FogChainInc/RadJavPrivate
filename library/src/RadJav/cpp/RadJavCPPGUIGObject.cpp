@@ -76,7 +76,9 @@ namespace RadJAV
 				DELETEOBJ(_font);
 				DELETEOBJ(_transform);
 
-				DELETEOBJ(_appObj);
+				// _appObj is set as wrapped External on JavaScript side
+				// and will be destroyed by garbage collector or by JavascriptEngine
+				//DELETEOBJ(_appObj);
 			}
 
 			void GObject::create()

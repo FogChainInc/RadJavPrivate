@@ -615,6 +615,9 @@ namespace RadJAV
 			DELETEOBJ( client );
 			isolate->ContextDisposedNotification();
 			isolate->LowMemoryNotification();
+
+			//Remove not freed external data
+			deleteExternals();
 		}
 
 		void V8JavascriptEngine::runApplicationFromFile(String file)
@@ -1650,6 +1653,9 @@ namespace RadJAV
 
 		void *V8JavascriptEngine::v8GetExternal(v8::Local<v8::Object> context, String functionName)
 		{
+			// Variant 1
+			// Old deprecated implementation
+			/*
 			v8::Handle<v8::Value> value = context->Get(functionName.toV8String(isolate));
 
 			if (v8IsNull(value) == true)
@@ -1658,13 +1664,30 @@ namespace RadJAV
 			v8::Handle<v8::External> ext = v8::Handle<v8::External>::Cast(value);
 
 			return (ext->Value());
+			 */
+
+			//Variant 2 which utilize Wrapper
+			v8::Handle<v8::Value> value = context->Get(functionName.toV8String(isolate));
+			
+			if (v8IsNull(value) == true)
+				return nullptr;
+			
+			v8::Handle<v8::Object> object = value->ToObject(context->GetIsolate());
+			
+			v8::Local<v8::Value> externalValue = object->GetInternalField(0);
+			
+			v8::Handle<v8::External> external = v8::Handle<v8::External>::Cast(externalValue);
+			
+			return (external->Value());
 		}
 
+		/* Replaced with Template method and wrapper
 		void V8JavascriptEngine::v8SetExternal(v8::Local<v8::Object> context, String functionName, void *obj)
 		{
 			v8::Local<v8::External> val = v8::External::New(isolate, obj);
 			context->Set(functionName.toV8String(isolate), val);
 		}
+		*/
 
 		void *V8JavascriptEngine::v8GetInternalField(v8::Local<v8::Object> context, String functionName)
 		{
@@ -1760,5 +1783,17 @@ namespace RadJAV
 			isolate_ = context->GetIsolate();
 			context_.Reset(isolate_, context);
 		}
+	
+		void V8JavascriptEngine::deleteExternals()
+		{
+			while (!externalObjects.empty())
+			{
+				// Remove objects which were not cleared by V8 garbage collector
+				auto wrapper = externalObjects.begin();
+				DELETEOBJ(*wrapper);
+				externalObjects.erase(wrapper);
+			}
+		}
+
 	#endif
 }
