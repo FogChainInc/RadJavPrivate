@@ -389,7 +389,7 @@ if (wxWidgets_FOUND)
 
 	set (libRadJav_CPP_DEFS GUI_USE_WXWIDGETS ${libRadJav_CPP_DEFS})
 	set (libRadJav_CPP_DEFS ${wxWidgets_DEFINITIONS} ${libRadJav_CPP_DEFS})
-	set (libRadJav_CPP_DEFS_DEBUG ${wxWidgets_DEFINITIONS_DEBUG} ${libRadJav_CPP_DEFS})
+	set (libRadJav_CPP_DEFS_DEBUG ${wxWidgets_DEFINITIONS_DEBUG} ${libRadJav_CPP_DEFS_DEBUG})
 	set (libRadJav_CXX_FLAGS ${wxWidgets_CXX_FLAGS} ${libRadJav_CXX_FLAGS})
 	set (libRadJav_INCLUDE_DIRS ${wxWidgets_INCLUDE_DIRS} ${libRadJav_INCLUDE_DIRS})
 	set (libRadJav_LINK_LIBRARIES ${wxWidgets_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
