@@ -2,10 +2,14 @@ message (STATUS "Searching for V8...")
 
 set (V8_SOURCE $ENV{V8_SOURCE} CACHE PATH "V8 path")
 fixPath (V8_SOURCE)
+
+string(CONCAT icu_path ${V8_SOURCE} "/../third_party/icu/source/common/")
+
 set (V8_SEARCH_PATHS ${V8_SOURCE} ${RADJAV_DEPENDENCIES})
 
 if (V8_SEARCH_PATHS)
 	searchForHeader (V8 v8.h ${V8_SEARCH_PATHS} FALSE)
+	searchForHeader (ICU util.h ${icu_path} FALSE)
 	#searchForLibrary (V8 v8_libbase v8_libbase ${V8_SEARCH_PATHS})
 
 	#if (WIN32)

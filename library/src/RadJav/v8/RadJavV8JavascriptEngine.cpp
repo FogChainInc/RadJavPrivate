@@ -87,6 +87,7 @@
 #include "cpp/RadJavCPPIO.h"
 
 #include <cstring>
+#include "cpp/RadJavCPPAgent.h"
 
 namespace RadJAV
 {
@@ -133,39 +134,6 @@ namespace RadJAV
 		{
 			free(data);
 		}*/
-
-		V8JSInspectorClient::V8JSInspectorClient(v8::Local<v8::Context> context, bool connect)
-		{
-			if (!connect) return;
-
-			//server_ = RJNEW RadJAV::CPP::Net::WebSocketServer();
-			//server_->listen();
-
-			isolate_ = context->GetIsolate();
-			channel_.reset(new V8JSChannel(context));
-			inspector_ = v8_inspector::V8Inspector::create(isolate_, this);
-			session_ =
-				inspector_->connect(1, channel_.get(), v8_inspector::StringView());
-			context->SetAlignedPointerInEmbedderData(kInspectorClientIndex, this);
-			inspector_->contextCreated(v8_inspector::V8ContextInfo(
-				context, kContextGroupId, v8_inspector::StringView()));
-
-			v8::Local<v8::Value> function =
-				v8::FunctionTemplate::New(isolate_, SendInspectorMessage)
-				->GetFunction(context)
-				.ToLocalChecked();
-			v8::Local<v8::String> function_name =
-				v8::String::NewFromUtf8(isolate_, "send", v8::NewStringType::kNormal)
-				.ToLocalChecked();
-			//CHECK(
-			context->Global()->Set(context, function_name, function).FromJust();
-			//);
-
-			//enabled by default, not exported to v8 lib
-			//v8::debug::SetLiveEditEnabled(isolate_, true);
-
-			context_.Reset(isolate_, context);
-		}
 
 		V8JavascriptEngine::V8JavascriptEngine()
 			: JavascriptEngine()
@@ -251,18 +219,17 @@ namespace RadJAV
 
 		void V8JavascriptEngine::startInspector(v8::Local<v8::Context> context)
 		{
-			// create a v8 inspector client
-			v8::Context::Scope cscope(context);
-			inspector.reset(new V8JSInspectorClient(context, true));
-			//inspector.
-			//V8JSInspector inspector_client(context, true);
-
+			//TODO: move inspector init code here
 		}
 
 		void V8JavascriptEngine::runApplication(String applicationSource, String fileName)
 		{
 			String parentDir = fileName;
-
+			
+			#ifdef USE_INSPECTOR
+				inspector::Agent* agent_ = nullptr;
+			#endif
+			
 			#ifdef GUI_USE_WXWIDGETS
 				wxFileName file(parentDir.towxString());
 				file.MakeAbsolute();
@@ -298,12 +265,16 @@ namespace RadJAV
 			v8::Local<v8::Object> obj = v8GetObject(globalContext->Global(), "RadJav");
 			radJav = RJNEW v8::Persistent<v8::Object>();
 			radJav->Reset(isolate, obj);
-
-			//if (useInspector) {
-			//	startInspector(globalContext);
-			//}
-			V8JSInspectorClient* client = RJNEW V8JSInspectorClient(globalContext, useInspector);
-
+			
+			#ifdef USE_INSPECTOR
+				if (useInspector) {
+					//TODO: move to startInspector
+					agent_ = RJNEW inspector::Agent("0.0.0.0", "inspector.log");
+					agent_->Start(isolate, platform, fileName);
+					agent_->PauseOnNextJavascriptStatement("Break on start");
+				}
+			#endif
+			
 			try
 			{
 				// Check the application source to see if its an XRJ file.
@@ -615,7 +586,11 @@ namespace RadJAV
 						break;
 				}
 			}
-			DELETEOBJ( client );
+
+			#ifdef USE_INSPECTOR
+				DELETEOBJ(agent_);
+			#endif
+			
 			isolate->ContextDisposedNotification();
 			isolate->LowMemoryNotification();
 		}
@@ -1106,8 +1081,6 @@ namespace RadJAV
 				V8B::Thread::createV8Callbacks(isolate, radJavFunc);
 
 				V8_CALLBACK(radJavFunc, "exit", V8B::Global::exit);
-				V8_CALLBACK(radJavFunc, "quit", V8B::Global::exit);
-
 				V8_CALLBACK(radJavFunc, "quit", V8B::Global::exit);
 
 				// RadJav.OS
@@ -1765,9 +1738,5 @@ namespace RadJAV
 			return (promiseObject);
 		}
 
-		V8JSChannel::V8JSChannel(v8::Local<v8::Context> context) {
-			isolate_ = context->GetIsolate();
-			context_.Reset(isolate_, context);
-		}
 	#endif
 }
