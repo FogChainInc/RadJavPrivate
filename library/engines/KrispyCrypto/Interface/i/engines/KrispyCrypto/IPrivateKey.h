@@ -38,7 +38,9 @@ namespace Engine
       virtual std::tuple<std::shared_ptr<void>, unsigned int> sign(const unsigned char* data,
 								   unsigned int dataLength) = 0;
 
-    };
+       virtual void savePem(const char* path, const char* cipher, const char* pwd) const = 0;
+      
+   };
   }
 }
 

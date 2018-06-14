@@ -56,6 +56,7 @@ namespace RadJAV
 					V8_CALLBACK(object, "verifySync", PublicKey::verifySync);
 					V8_CALLBACK(object, "decrypt", PublicKey::decrypt);
 					V8_CALLBACK(object, "decryptSync", PublicKey::decryptSync);
+					V8_CALLBACK(object, "savePemSync", PublicKey::savePemSync);
 					//std::cout << __PRETTY_FUNCTION__ << ": end" << std::endl << std::flush;
 				}
 		  
@@ -471,6 +472,23 @@ namespace RadJAV
 					args.GetReturnValue().Set(promise);
 				} // End of decrypt()
 		  
+		                void PublicKey::savePemSync(const v8::FunctionCallbackInfo<v8::Value> &args)
+				{
+					ENGINE *engine = (ENGINE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_engine");
+					v8::Isolate *isolate = args.GetIsolate();
+					v8::Local<v8::Value> ret;
+
+					String path; // If a string is passed, it will be parsed and held here.
+					if (args[0] -> IsString())
+					  {
+					    path = parseV8Value(args[0]);
+					    engine -> savePem(path.c_str());
+					  }
+					else 
+					  {
+					    // TODO, error 
+					  }
+				} // End of savePemSync
 		  
 				  
 

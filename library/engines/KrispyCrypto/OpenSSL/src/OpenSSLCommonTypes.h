@@ -22,7 +22,9 @@
 #define _ENGINE_CRYPTO_OPENSSL_COMMONTYPES_h_
 
 #include <openssl/rsa.h>
+#include <openssl/evp.h>
 #include <openssl/ec.h>
+#include <openssl/bio.h>
 
 #include <memory>
 #include <string>
@@ -36,6 +38,8 @@ namespace Engine
     {
       using RsaStructUniquePtr = std::unique_ptr<RSA, decltype(&::RSA_free)>;
       using EcStructUniquePtr = std::unique_ptr<EC_KEY, decltype(&::EC_KEY_free)>;
+      using BioFileUniquePtr = std::unique_ptr<BIO, decltype(&::BIO_free)>;
+      using EvpPkeyUniquePtr = std::unique_ptr<EVP_PKEY, decltype(&::EVP_PKEY_free)>;
 
     } // End of OpenSSL
     #endif 

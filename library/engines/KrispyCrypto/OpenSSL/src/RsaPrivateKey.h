@@ -47,7 +47,7 @@ namespace Engine
 
       public:
 	RsaPrivateKey(RsaStructUniquePtr rsa, int bits, int encryptPadding, int signatureType);
-	//RsaPrivateKey(RsaStructUniquePtr rsa, int bits);
+	RsaPrivateKey(const char *path, const char *format, const char *pwd, int encryptPadding, int signatureType);
 	virtual ~RsaPrivateKey();
       
 	virtual std::shared_ptr<const IPublicKey> getPublicKey();
@@ -59,8 +59,12 @@ namespace Engine
 	virtual std::tuple<std::shared_ptr<void>, unsigned int>
 	  decrypt(const unsigned char* message, unsigned int messageLength) const;
 
+	virtual void savePem(const char* path, const char* cipher, const char* pwd) const;
+	void loadPem(const char* path, const char* pwd);
+
 	void init(RsaStructUniquePtr &&rsa, int bits);
       private:
+	void initPublicKey();
 	
 	std::shared_ptr<RsaPublicKey> myPublicKey;
 

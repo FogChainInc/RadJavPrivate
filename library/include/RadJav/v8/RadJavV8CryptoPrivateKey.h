@@ -46,6 +46,8 @@
 
 						static void getPublicKey(const v8::FunctionCallbackInfo<v8::Value> &args);
 
+						static void savePemSync(const v8::FunctionCallbackInfo<v8::Value> &args);
+						
 						static v8::Local<v8::Object>
 						  newInstance(v8::Isolate* isolate, 
 							      v8::Local<v8::Object> privateKeyParms);

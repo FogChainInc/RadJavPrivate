@@ -52,7 +52,7 @@ namespace RadJAV
 		  
 				void PrivateKey::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 				{
-				  //std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
+				  std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
 
 					V8_CALLBACK(object, "_init", PrivateKey::_init);
 					V8_CALLBACK(object, "sign", PrivateKey::sign);
@@ -60,6 +60,7 @@ namespace RadJAV
 					V8_CALLBACK(object, "encrypt", PrivateKey::encrypt);
 					V8_CALLBACK(object, "encryptSync", PrivateKey::encryptSync);
 					V8_CALLBACK(object, "getPublicKey", PrivateKey::getPublicKey);
+					V8_CALLBACK(object, "savePemSync", PrivateKey::savePemSync);
 					//std::cout << __PRETTY_FUNCTION__ << ": end" << std::endl << std::flush;
 				}
 		  
@@ -70,7 +71,7 @@ namespace RadJAV
 		  
 				void PrivateKey::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
-				  //std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
+				  std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
 				        ENGINE *engine = RJNEW ENGINE(V8_JAVASCRIPT_ENGINE, args);
 					V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_engine", engine);
 
@@ -139,7 +140,7 @@ namespace RadJAV
 									      v8::Local<v8::Object> privateKeyParms)
 				{
 
-				  //std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
+				  std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
 				  //std::cout << "Args length: " << args.Length() << std::endl;
 				  //auto isolate = args.GetIsolate();
 				  const unsigned argc = 1;
@@ -476,7 +477,50 @@ namespace RadJAV
 					auto publicKey = engine -> getPublicKey();
 					publicKeyWrap -> setEngine(publicKey);
 					args.GetReturnValue().Set(publicKeyJs);
-				}
+				} // End of getPublicKey()
+
+		                void PrivateKey::savePemSync(const v8::FunctionCallbackInfo<v8::Value> &args)
+				{
+					ENGINE *engine = (ENGINE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_engine");
+					v8::Isolate *isolate = args.GetIsolate();
+					v8::Local<v8::Value> ret;
+
+					String path; // If a string is passed, it will be parsed and held here.
+					if (args[0] -> IsString())
+					    path = parseV8Value(args[0]);
+					else
+					    isolate ->
+					      ThrowException(v8::Exception::TypeError
+							     (v8::String::NewFromUtf8(isolate,
+										      "savePemSync() requires path given as a string")));
+					String cipherType;
+					const char *cipherTypePtr = nullptr;
+					if (args[1] -> IsString())
+					  {
+					    cipherType = parseV8Value(args[1]);
+					    cipherTypePtr = cipherType.c_str();
+					  }
+					String pwd;
+					const char *pwdPtr = nullptr;
+					if (args[2] -> IsString())
+					  {
+					    pwd = parseV8Value(args[1]);
+					    pwdPtr = pwd.c_str();
+					  }
+
+					try
+					  {
+					    engine -> savePem(path.c_str(), cipherTypePtr, pwdPtr);
+					  }
+					catch (std::invalid_argument e)
+					  {
+					    isolate -> ThrowException(v8::Exception::TypeError
+								      (v8::String::NewFromUtf8(isolate,
+											       e.what())));
+					  }
+					
+				} // End of savePemSync
+		  
 
 			#endif
 		}
