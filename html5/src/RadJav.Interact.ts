@@ -25,40 +25,127 @@ namespace RadJav
 	/// The RadJav Interact namespace. RadJav Interact requires ES5.
 	export namespace Interact
 	{
-		export function setView (root: string | HTMLElement | RadJav.GUI.GObject, view: RadJav.Interact.View): void
+		/// The app to run.
+		export class App
 		{
-			if (root.constructor["name"] == "GObject")
-			{
-				//for (let comp in view._components)
-					//(<RadJav.GUI.GObject>root).addChild (view._components[comp].display);
+			public name: string;
+			public _views: { [name: string]: View };
 
-				return;
+			public static defaultHeader: string;
+			public static defaultFooter: string;
+
+			constructor (name: string)
+			{
+				this.name = name;
+				this._views = {};
+
+				RadJav.Interact.App.defaultHeader = "<!DOCTYPE html>\n";
+				RadJav.Interact.App.defaultHeader += "<html>\n";
+				RadJav.Interact.App.defaultHeader += "<head>\n";
+				RadJav.Interact.App.defaultHeader += "\t<title>{{title}}</title>\n";
+				RadJav.Interact.App.defaultHeader += "\t<link href = \"./RadJav/themes/default/dojo/themes/claro/claro.css\" rel = \"stylesheet\" type = \"text/css\" />\n";
+				RadJav.Interact.App.defaultHeader += "\t<link href = \"./RadJav/themes/default/dojox/grid/resources/Grid.css\" rel = \"stylesheet\" type = \"text/css\" />\n";
+				RadJav.Interact.App.defaultHeader += "\t<link href = \"./RadJav/themes/default/dojox/grid/resources/claroGrid.css\" rel = \"stylesheet\" type = \"text/css\" />\n";
+				RadJav.Interact.App.defaultHeader += "\t<link href = \"./RadJav/themes/default/dojox/calendar/themes/claro/Calendar.css\" rel = \"stylesheet\" type = \"text/css\" />\n";
+				RadJav.Interact.App.defaultHeader += "\t<link href = \"./RadJav/themes/default/dojox/calendar/themes/claro/MonthColumnView.css\" rel = \"stylesheet\" type = \"text/css\" />\n";
+				RadJav.Interact.App.defaultHeader += "\t<link href = \"./RadJav/themes/default/dojo/resources/FloatingPane.css\" rel = \"stylesheet\" type = \"text/css\" />\n";
+				RadJav.Interact.App.defaultHeader += "\t<link href = \"./RadJav/themes/default/dojo/resources/ResizeHandle.css\" rel = \"stylesheet\" type = \"text/css\" />\n";
+				RadJav.Interact.App.defaultHeader += "{{cssFiles}}";
+				RadJav.Interact.App.defaultHeader += "\t<script type = \"text/javascript\" src = \"./dependencies/three.js/three.min.js\"></script>\n";
+				RadJav.Interact.App.defaultHeader += "\t<script type = \"text/javascript\" src = \"./dependencies/dojo/dojo/dojo.js\"></script>\n";
+				RadJav.Interact.App.defaultHeader += "\t<script type = \"text/javascript\" src = \"./RadJav/RadJav.js\"></script>\n";
+				RadJav.Interact.App.defaultHeader += "\n";
+				RadJav.Interact.App.defaultHeader += "\t<script type = \"text/javascript\">\n";
+				RadJav.Interact.App.defaultHeader += "\t\tRadJav.baseUrl = \"./RadJav\";\n";
+				RadJav.Interact.App.defaultHeader += "\t\tRadJav.themeUrl = \"./RadJav/themes/default\";\n";
+				RadJav.Interact.App.defaultHeader += "\t\tRadJav.useAjax = true;\n";
+				RadJav.Interact.App.defaultHeader += "\n";
+				RadJav.Interact.App.defaultHeader += "\t\tfunction setup ()\n";
+				RadJav.Interact.App.defaultHeader += "\t\t{\n";
+				RadJav.Interact.App.defaultHeader += "{{events}}";
+				RadJav.Interact.App.defaultHeader += "\t\t}\n";
+				RadJav.Interact.App.defaultHeader += "\t</script>\n";
+				RadJav.Interact.App.defaultHeader += "\n";
+				RadJav.Interact.App.defaultHeader += "\t<script type = \"text/javascript\" src = \"./RadJav/RadJav.Interact.js\"></script>\n";
+				RadJav.Interact.App.defaultHeader += "{{jsFiles}}";
+				RadJav.Interact.App.defaultHeader += "</head>\n";
+				RadJav.Interact.App.defaultHeader += "\n";
+				RadJav.Interact.App.defaultHeader += "<body onload = \"setup ();\">\n";
+
+				RadJav.Interact.App.defaultFooter = "</body>\n";
+				RadJav.Interact.App.defaultFooter += "</html>\n\n";
 			}
 
-			if (root.constructor["name"] == "Object3D")
+			addView (view: View): void
 			{
-				//for (let comp in view._components)
-					//(<RadJav.GUI.Object3D>root).addChild (view._components[comp].display);
+				if (view.name == "")
+					throw new Error ("View must have a name!");
 
-				return;
+				if (view.name == null)
+					throw new Error ("View must have a name!");
+
+				this._views[view.name] = view;
 			}
 
-			if (typeof (root) == "string")
-				root = document.querySelector ((<string>root));
-
-			for (let comp in view._components)
-				(<HTMLElement>root).appendChild ((<RadJav.GUI.HTMLElement>view._components[comp].display)._html);
-		}
-
-		export function setComponentEvent (name: string, eventName: string, eventFunction: Function | EventListener): void
-		{
-			let elm = document.getElementById (name);
-
-			for (let iIdx = 0; iIdx < elm.childNodes.length; iIdx++)
+			setView (root: string | HTMLElement | RadJav.GUI.GObject, view: RadJav.Interact.View): void
 			{
-				let child = elm.childNodes[iIdx];
+				this.addView (view);
 
-				child.addEventListener (eventName, (<EventListener>eventFunction));
+				if (root.constructor["name"] == "GObject")
+				{
+					//for (let comp in view._components)
+						//(<RadJav.GUI.GObject>root).addChild (view._components[comp].display);
+
+					return;
+				}
+
+				if (root.constructor["name"] == "Object3D")
+				{
+					//for (let comp in view._components)
+						//(<RadJav.GUI.Object3D>root).addChild (view._components[comp].display);
+
+					return;
+				}
+
+				if (typeof (root) == "string")
+					root = document.querySelector ((<string>root));
+
+				for (let comp in view._components)
+					(<HTMLElement>root).appendChild ((<RadJav.GUI.HTMLElement>view._components[comp].display)._html);
+			}
+
+			setComponentEvent (name: string, eventName: string, eventFunction: Function | EventListener): void
+			{
+				let elm = document.getElementById (name);
+
+				for (let iIdx = 0; iIdx < elm.childNodes.length; iIdx++)
+				{
+					let child = elm.childNodes[iIdx];
+
+					child.addEventListener (eventName, (<EventListener>eventFunction));
+				}
+			}
+
+			buildHTMLApp (): HTMLApp
+			{
+				let app = new HTMLApp ();
+
+				for (let view in this._views)
+				{
+					let html = this._views[view].buildHTML ();
+
+					html.header = app.header;
+					html.footer = app.footer;
+					html.displays = app.displays;
+					html.events = app.events;
+					html.cssFiles = app.cssFiles;
+					html.jsFiles = app.jsFiles;
+					html._fileCopyFunc = app._fileCopyFunc;
+
+					app._outputs.push (html);
+				}
+
+				return (app);
 			}
 		}
 
@@ -73,6 +160,8 @@ namespace RadJav
 			public _refCount: number;
 			/// Events to execute for this view.
 			public _events: { [eventName: string]: Function };
+			/// The main component to show.
+			public _mainComponent: Component;
 
 			constructor (name: string)
 			{
@@ -114,6 +203,24 @@ namespace RadJav
 				this._components[obj.name] = obj;
 
 				return (obj);
+			}
+
+			setMainComponent (component: string | Component): void
+			{
+				if (typeof component == "string")
+				{
+					component = this._components[component];
+
+					if (component == null)
+						throw new Error ("Component could not be found!");
+				}
+
+				this._mainComponent = component;
+			}
+
+			getMainComponent (): Component
+			{
+				return (this._mainComponent);
 			}
 
 			on (eventName: string, eventFunction: Function): any
@@ -261,8 +368,8 @@ namespace RadJav
 			}
 		}
 
-		/// A view that contains all the components.
-		export class HTMLOutput
+		/// The compiled HTML app.
+		export class HTMLApp
 		{
 			public name: string;
 			public title: string;
@@ -275,6 +382,8 @@ namespace RadJav
 			public _assetsPath: string;
 			public _fileCopyFunc: (src: string, dest: string) => boolean;
 
+			public _outputs: HTMLOutput[];
+
 			constructor ()
 			{
 				this.name = "";
@@ -285,42 +394,7 @@ namespace RadJav
 				this.jsFiles = [];
 				this._assetsPath = "";
 				this._fileCopyFunc = null;
-
-				this.header = "<!DOCTYPE html>\n";
-				this.header += "<html>\n";
-				this.header += "<head>\n";
-				this.header += "\t<title>" + this.title + "</title>\n";
-				this.header += "\t<link href = \"./RadJav/themes/default/dojo/themes/claro/claro.css\" rel = \"stylesheet\" type = \"text/css\" />\n";
-				this.header += "\t<link href = \"./RadJav/themes/default/dojox/grid/resources/Grid.css\" rel = \"stylesheet\" type = \"text/css\" />\n";
-				this.header += "\t<link href = \"./RadJav/themes/default/dojox/grid/resources/claroGrid.css\" rel = \"stylesheet\" type = \"text/css\" />\n";
-				this.header += "\t<link href = \"./RadJav/themes/default/dojox/calendar/themes/claro/Calendar.css\" rel = \"stylesheet\" type = \"text/css\" />\n";
-				this.header += "\t<link href = \"./RadJav/themes/default/dojox/calendar/themes/claro/MonthColumnView.css\" rel = \"stylesheet\" type = \"text/css\" />\n";
-				this.header += "\t<link href = \"./RadJav/themes/default/dojo/resources/FloatingPane.css\" rel = \"stylesheet\" type = \"text/css\" />\n";
-				this.header += "\t<link href = \"./RadJav/themes/default/dojo/resources/ResizeHandle.css\" rel = \"stylesheet\" type = \"text/css\" />\n";
-				this.header += "{{cssFiles}}";
-				this.header += "\t<script type = \"text/javascript\" src = \"./dependencies/three.js/three.min.js\"></script>\n";
-				this.header += "\t<script type = \"text/javascript\" src = \"./dependencies/dojo/dojo/dojo.js\"></script>\n";
-				this.header += "\t<script type = \"text/javascript\" src = \"./RadJav/RadJav.js\"></script>\n";
-				this.header += "\n";
-				this.header += "\t<script type = \"text/javascript\">\n";
-				this.header += "\t\tRadJav.baseUrl = \"./RadJav\";\n";
-				this.header += "\t\tRadJav.themeUrl = \"./RadJav/themes/default\";\n";
-				this.header += "\t\tRadJav.useAjax = true;\n";
-				this.header += "\n";
-				this.header += "\t\tfunction setup ()\n";
-				this.header += "\t\t{\n";
-				this.header += "{{events}}";
-				this.header += "\t\t}\n";
-				this.header += "\t</script>\n";
-				this.header += "\n";
-				this.header += "\t<script type = \"text/javascript\" src = \"./RadJav/RadJav.Interact.js\"></script>\n";
-				this.header += "{{jsFiles}}";
-				this.header += "</head>\n";
-				this.header += "\n";
-				this.header += "<body onload = \"setup ();\">\n";
-
-				this.footer = "</body>\n";
-				this.footer += "</html>\n\n";
+				this._outputs = [];
 			}
 
 			assetsDir (path: string, fileCopyFunc: (src: string, dest: string) => boolean): void
@@ -360,7 +434,47 @@ namespace RadJav
 					}
 				}
 
-				this.writeToFile (path + "/" + this.name + ".htm");
+				for (let iIdx = 0; iIdx < this._outputs.length; iIdx++)
+				{
+					let output = this._outputs[iIdx];
+					output.writeToFile (path + "/" + output.name + ".htm");
+				}
+			}
+		}
+
+		/// A view that contains all the components.
+		export class HTMLOutput
+		{
+			public name: string;
+			public title: string;
+			public header: string;
+			public displays: string[];
+			public events: string[];
+			public cssFiles: string[];
+			public jsFiles: string[];
+			public footer: string;
+			public _assetsPath: string;
+			public _fileCopyFunc: (src: string, dest: string) => boolean;
+
+			constructor ()
+			{
+				this.name = "";
+				this.title = "";
+				this.displays = [];
+				this.events = [];
+				this.cssFiles = [];
+				this.jsFiles = [];
+				this._assetsPath = "";
+				this._fileCopyFunc = null;
+
+				this.header = RadJav.Interact.App.defaultHeader;
+				this.footer = RadJav.Interact.App.defaultFooter;
+			}
+
+			assetsDir (path: string, fileCopyFunc: (src: string, dest: string) => boolean): void
+			{
+				this._assetsPath = path;
+				this._fileCopyFunc = fileCopyFunc;
 			}
 
 			writeToFile (path: string, includeDependencies: boolean = true): void
@@ -370,7 +484,7 @@ namespace RadJav
 
 				output += this.header;
 
-				for (let iIdx = 0; iIdx < this.displays.length; iIdx++)
+				/*for (let iIdx = 0; iIdx < this.displays.length; iIdx++)
 					html += "\t" + this.displays[iIdx] + "\n";
 
 				let additions = ["events", "cssFiles", "jsFiles"];
@@ -396,7 +510,7 @@ namespace RadJav
 				}
 
 				output += html;
-				output += this.footer;
+				output += this.footer;*/
 
 				RadJav.IO.TextFile.writeTextToFile (path, output);
 			}
