@@ -160,7 +160,7 @@ namespace inspector {
 		}
 
 		void connectFrontend(InspectorSessionDelegate* delegate) {
-			channel_ = std::make_unique<ChannelImpl>(client_.get(), delegate);
+			channel_.reset(RJNEW ChannelImpl(client_.get(), delegate));
 		}
 
 		void disconnectFrontend() {

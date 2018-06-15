@@ -357,7 +357,12 @@ namespace RadJAV
 				boost::beast::multi_buffer b;
 				boost::beast::ostream(b) << message;
 				boost::beast::error_code ec;
+				ws_.auto_fragment(false);
 				ws_.write(b.data(), ec);
+				if (ec)
+				{
+					printf("\n << ws_.write(b.data(), ec); error: \n %s \n", ec.message().c_str());
+				}
 				//ws_.async_write(
 				//	//b.data(),
 				//	b,

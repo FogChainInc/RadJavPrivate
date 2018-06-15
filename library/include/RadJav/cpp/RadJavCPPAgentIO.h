@@ -264,8 +264,8 @@ namespace inspector
 
 		MessageQueue<InspectorAction> incoming_message_queue_;
 		MessageQueue<InspectorAction> dispatching_message_queue_;
-		//TODO: check async send usage
-		//MessageQueue<TransportAction> outgoing_message_queue_;
+		//TODO: check async send usage, outgoing_message_queue_ not used and returned for strict compilation
+		MessageQueue<TransportAction> outgoing_message_queue_;
 
 		bool dispatching_messages_;
 		int session_id_;

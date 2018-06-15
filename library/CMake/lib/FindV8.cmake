@@ -3,7 +3,7 @@ message (STATUS "Searching for V8...")
 set (V8_SOURCE $ENV{V8_SOURCE} CACHE PATH "V8 path")
 fixPath (V8_SOURCE)
 
-string(CONCAT icu_path ${V8_SOURCE} "/../third_party/icu/source/common/")
+string(CONCAT icu_path ${V8_SOURCE} "/third_party/icu/source/common")
 
 set (V8_SEARCH_PATHS ${V8_SOURCE} ${RADJAV_DEPENDENCIES})
 
