@@ -204,7 +204,8 @@ set (SOURCES_files_RadJav__cpp__GUI__Headers
 	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIRadio.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIList.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIMenuBar.h"
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIMenuItem.h")
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIMenuItem.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIEvent.h")
 source_group ("RadJav\\CPP\\GUI" FILES ${SOURCES_files_RadJav__cpp__GUI__Headers})
 
 set (SOURCES ${SOURCES_files_RadJav__cpp__GUI__Headers} ${SOURCES})

@@ -36,16 +36,15 @@ namespace RadJAV
 
 				void TextboxFrame::onText(wxCommandEvent &evt)
 				{
-					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)evt.GetEventUserData();
+					Event *pevent = (Event *)evt.GetEventUserData();
 					executeEvent(pevent);
 				}
 		  
 				void TextboxFrame::onTextEnter(wxCommandEvent &evt)
 				{
-					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)evt.GetEventUserData();
+					Event *pevent = (Event *)evt.GetEventUserData();
 					executeEvent(pevent);
 				}
-
 		  
 			#endif
 
@@ -113,14 +112,12 @@ namespace RadJAV
 					
 					if (event == "onText")
 					{
-					        v8::Persistent<v8::Value> *pevent = obj->createEvent(event, func);
-						obj->Connect(wxEVT_TEXT, wxCommandEventHandler(TextboxFrame::onText), (wxObject *)pevent);
+						obj->Connect(wxEVT_TEXT, wxCommandEventHandler(TextboxFrame::onText), obj->createEvent(event, func));
 					}
 
 					if (event == "onTextEnter")
 					{
-					        v8::Persistent<v8::Value> *pevent = obj->createEvent(event, func);
-						obj->Connect(wxEVT_TEXT_ENTER, wxCommandEventHandler(TextboxFrame::onTextEnter), (wxObject *)pevent);
+						obj->Connect(wxEVT_TEXT_ENTER, wxCommandEventHandler(TextboxFrame::onTextEnter), obj->createEvent(event, func));
 					}
 				}
 			#endif

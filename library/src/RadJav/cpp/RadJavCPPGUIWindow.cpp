@@ -48,7 +48,7 @@ namespace RadJAV
 
 				void WindowFrame::onJSClose(wxCloseEvent &evt)
 				{
-					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)evt.GetEventUserData();
+					Event *pevent = (Event *)evt.GetEventUserData();
 					v8::Local<v8::Value> result = executeEvent(pevent);
 
 					if (result.IsEmpty() == false)
@@ -65,25 +65,25 @@ namespace RadJAV
 
 				void WindowFrame::onJSMinimized(wxIconizeEvent &evt)
 				{
-					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)evt.GetEventUserData();
+					Event *pevent = (Event *)evt.GetEventUserData();
 					executeEvent(pevent);
 				}
 
 				void WindowFrame::onJSMaximized(wxMaximizeEvent &evt)
 				{
-					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)evt.GetEventUserData();
+					Event *pevent = (Event *)evt.GetEventUserData();
 					executeEvent(pevent);
 				}
 
 				void WindowFrame::onClick(wxMouseEvent &evt)
 				{
-					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)evt.GetEventUserData();
+					Event *pevent = (Event *)evt.GetEventUserData();
 					executeEvent(pevent);
 				}
 
 				void WindowFrame::onMenuSelected(wxCommandEvent &evt)
 				{
-					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)evt.GetEventUserData();
+					Event *pevent = (Event *)evt.GetEventUserData();
 					executeEvent(pevent);
 				}
 		  
@@ -282,25 +282,21 @@ namespace RadJAV
 
 				if (event == "close")
 				{
-					v8::Persistent<v8::Value> *pevent = obj->createEvent(event, func);
-					obj->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(WindowFrame::onJSClose), (wxObject *)pevent);
+					obj->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(WindowFrame::onJSClose), obj->createEvent(event, func));
 				}
 
 				if (event == "minimize")
 				{
-					v8::Persistent<v8::Value> *pevent = obj->createEvent(event, func);
-					obj->Connect(wxEVT_ICONIZE, wxIconizeEventHandler(WindowFrame::onJSMinimized), (wxObject *)pevent);
+					obj->Connect(wxEVT_ICONIZE, wxIconizeEventHandler(WindowFrame::onJSMinimized), obj->createEvent(event, func));
 				}
 				if (event == "maximize")
 				{
-					v8::Persistent<v8::Value> *pevent = obj->createEvent(event, func);
-					obj->Connect(wxEVT_MAXIMIZE, wxMaximizeEventHandler(WindowFrame::onJSMaximized), (wxObject *)pevent);
+					obj->Connect(wxEVT_MAXIMIZE, wxMaximizeEventHandler(WindowFrame::onJSMaximized), obj->createEvent(event, func));
 				}
 				
 				if (event == "menuselected")
 				{
-					v8::Persistent<v8::Value> *pevent = obj->createEvent(event, func);
-					obj->Connect(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(WindowFrame::onMenuSelected), (wxObject *)pevent);
+					obj->Connect(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(WindowFrame::onMenuSelected), obj->createEvent(event, func));
 				}
 				
 			}

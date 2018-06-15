@@ -28,6 +28,7 @@
 #include "cpp/RadJavCPPRectangle.h"
 #include "cpp/RadJavCPPFont.h"
 #include "cpp/RadJavCPPVector2.h"
+#include "cpp/RadJavCPPGUIEvent.h"
 
 #include "RadJavXML.h"
 
@@ -239,9 +240,9 @@ namespace RadJAV
 			{
 				public:
 					GObjectBase();
-					~GObjectBase();
+					virtual ~GObjectBase();
 
-					v8::Persistent<v8::Value> *createEvent(String event, v8::Local<v8::Function> function);
+					Event* createEvent(String event, v8::Local<v8::Function> function);
 
 					#ifdef GUI_USE_WXWIDGETS
 						void addNewEvent(String event, wxWindow *object, v8::Local<v8::Function> func);
@@ -271,9 +272,9 @@ namespace RadJAV
 					#endif
 
 					static v8::Local<v8::Value> executeEvent(
-						v8::Persistent<v8::Value> *pevent, RJINT numArgs = 0, v8::Local<v8::Value> *args = NULL);
+						Event *pevent, RJINT numArgs = 0, v8::Local<v8::Value> *args = NULL);
 
-					HashMap<std::string, v8::Persistent<v8::Value> *> *events;
+					HashMap<std::string, Event* > *events;
 			};
 		}
 	}

@@ -36,7 +36,7 @@ namespace RadJAV
 		  
 				void CheckboxFrame::onChanged(wxCommandEvent &event)
 				{
-					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
+					Event *pevent = (Event *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 		  
@@ -109,10 +109,8 @@ namespace RadJAV
 
 					if (event == "change")
 					{
-						v8::Persistent<v8::Value> *pevent = object->createEvent(event, func);
-
 						#ifdef GUI_USE_WXWIDGETS
-						object->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(CheckboxFrame::onChanged), (wxObject *)pevent);
+						object->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(CheckboxFrame::onChanged), object->createEvent(event, func));
 						#endif
 					}
 					

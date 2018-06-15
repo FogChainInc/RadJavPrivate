@@ -41,6 +41,7 @@ namespace RadJAV
 		/// Contains classes for the 3D Engine.
 		namespace C3D
 		{
+#ifdef C3D_USE_OGRE
 			class RADJAV_EXPORT Object3D
 			{
 			public:
@@ -65,16 +66,15 @@ namespace RadJAV
 			public:
 				v8::Persistent<v8::Value> *createEvent(String event, v8::Local<v8::Function> function);
 
-#ifdef C3D_USE_OGRE
 				void addNewEvent(String event, Ogre::MovableObject *object, v8::Local<v8::Function> func);
-#endif
 
 				static v8::Local<v8::Value> executeEvent(
-					v8::Persistent<v8::Value> *pevent, RJINT numArgs = 0, v8::Local<v8::Value> *args = NULL);
+					Event *pevent, RJINT numArgs = 0, v8::Local<v8::Value> *args = NULL);
 
 			protected:
-				HashMap<std::string, v8::Persistent<v8::Value> *> events;
+				HashMap<std::string, Event* > events;
 			};
+#endif
 		}
 	}
 }

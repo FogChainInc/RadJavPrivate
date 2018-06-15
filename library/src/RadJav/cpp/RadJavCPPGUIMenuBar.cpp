@@ -38,22 +38,22 @@ namespace RadJAV
 
 				void MenuBarFrame::onMenuOpen(wxMenuEvent &event)
 				{
-					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
+					Event *pevent = (Event *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 				void MenuBarFrame::onMenuClose(wxMenuEvent &event)
 				{
-					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
+					Event *pevent = (Event *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 				void MenuBarFrame::onMenuHighLight(wxMenuEvent &event)
 				{
-					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
+					Event *pevent = (Event *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 				void MenuBarFrame::onMenuSelected(wxCommandEvent &event)
 				{
-					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
+					Event *pevent = (Event *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 
@@ -100,35 +100,27 @@ namespace RadJAV
 
 					if (event == "menuopen")
 					{
-						v8::Persistent<v8::Value> *pevent = obj->createEvent(event, func);
-
 						#ifdef GUI_USE_WXWIDGETS
-						obj->Connect(wxEVT_MENU_OPEN, wxMenuEventHandler(MenuBarFrame::onMenuOpen), (wxObject *)pevent);
+						obj->Connect(wxEVT_MENU_OPEN, wxMenuEventHandler(MenuBarFrame::onMenuOpen), obj->createEvent(event, func));
 						#endif
 						
 					}
 					if (event == "menuclose")
 					{
-						v8::Persistent<v8::Value> *pevent = obj->createEvent(event, func);
-
 						#ifdef GUI_USE_WXWIDGETS
-						obj->Connect(wxEVT_MENU_CLOSE, wxMenuEventHandler(MenuBarFrame::onMenuClose), (wxObject *)pevent);
+						obj->Connect(wxEVT_MENU_CLOSE, wxMenuEventHandler(MenuBarFrame::onMenuClose), obj->createEvent(event, func));
 						#endif
 					}
 					if (event == "menuhighlight")
 					{
-						v8::Persistent<v8::Value> *pevent = obj->createEvent(event, func);
-
 						#ifdef GUI_USE_WXWIDGETS
-						obj->Connect(wxEVT_MENU_HIGHLIGHT, wxMenuEventHandler(MenuBarFrame::onMenuHighLight), (wxObject *)pevent);
+						obj->Connect(wxEVT_MENU_HIGHLIGHT, wxMenuEventHandler(MenuBarFrame::onMenuHighLight), obj->createEvent(event, func));
 						#endif
 					}
 					if (event == "menuselected")
 					{
-						v8::Persistent<v8::Value> *pevent = obj->createEvent(event, func);
-
 						#ifdef GUI_USE_WXWIDGETS
-						obj->Connect(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MenuBarFrame::onMenuSelected), (wxObject *)pevent);
+						obj->Connect(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MenuBarFrame::onMenuSelected), obj->createEvent(event, func));
 						#endif
 					}
 
