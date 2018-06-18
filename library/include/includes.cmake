@@ -159,10 +159,21 @@ set (SOURCES_files_RadJav__cpp__Net__Headers
 	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNet.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebSocketServer.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebSocketClient.h"
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebServer.h")
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebServer.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebServerUpgradable.h")
 source_group ("RadJav\\CPP\\Net" FILES ${SOURCES_files_RadJav__cpp__Net__Headers})
 
 set (SOURCES ${SOURCES_files_RadJav__cpp__Net__Headers} ${SOURCES})
+
+if (libRadJav_DEBUG_INSPECTOR)
+# C++ Inspector Agent
+	set (SOURCES_files_RadJav__cpp__Agent__Headers 
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPAgent.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPAgentIO.h")
+	source_group ("RadJav\\CPP\\Agent" FILES ${SOURCES_files_RadJav__cpp__Agent__Headers})
+
+	set (SOURCES ${SOURCES_files_RadJav__cpp__Agent__Headers} ${SOURCES})
+endif()
 
 # C++ Database
 set (SOURCES_files_RadJav__cpp__Database__Headers 
