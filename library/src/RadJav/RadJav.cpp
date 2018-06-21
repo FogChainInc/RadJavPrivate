@@ -447,7 +447,9 @@ namespace RadJAV
 		DELETEOBJ(theme);
 
 		#ifdef GUI_USE_WXWIDGETS
+			app->CleanUp();
 			DELETEOBJ(app);
+			wxEntryCleanup();
 		#endif
 
 		DELETEOBJ(javascriptEngine);

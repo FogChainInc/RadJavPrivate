@@ -320,7 +320,8 @@ namespace RadJAV
 		};
 
 		V8JavascriptEngine::V8JavascriptEngine()
-			: JavascriptEngine()
+			: JavascriptEngine(),
+			  arrayBufferAllocator(nullptr)
 		{
 			String execPath = "";
 
@@ -375,7 +376,10 @@ namespace RadJAV
 			v8::Isolate::CreateParams createParams;
 			//V8ArrayBufferAllocator allocator;
 			//createParams.array_buffer_allocator = &allocator;
-			createParams.array_buffer_allocator = v8::ArrayBuffer::Allocator::NewDefaultAllocator ();
+			
+			// ArrayBuffer allocator needs to be freed by us
+			arrayBufferAllocator = v8::ArrayBuffer::Allocator::NewDefaultAllocator ();
+			createParams.array_buffer_allocator = arrayBufferAllocator;
 
 			isolate = v8::Isolate::New(createParams);
 
@@ -399,6 +403,9 @@ namespace RadJAV
 			#endif
 
 			DELETEOBJ(platform);
+
+			delete arrayBufferAllocator;
+			arrayBufferAllocator = nullptr;
 		}
 
 		void V8JavascriptEngine::startInspector(v8::Local<v8::Context> context)
