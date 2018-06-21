@@ -47,7 +47,7 @@ namespace RadJAV
 		/// Contains classes for the OS GUI.
 		namespace GUI
 		{
-			class RADJAV_EXPORT GObject
+			class RADJAV_EXPORT GObject : public ChainedPtr
 			{
 				public:
 					#ifdef USE_V8

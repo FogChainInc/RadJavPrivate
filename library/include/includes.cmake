@@ -142,7 +142,8 @@ set (SOURCES_files_RadJav__cpp__Global__Headers
 	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPVector2.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPVector3.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPVector4.h"
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPThread.h")
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPThread.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPChainedPtr.h")
 source_group ("RadJav\\CPP\\Global" FILES ${SOURCES_files_RadJav__cpp__Global__Headers})
 
 set (SOURCES ${SOURCES_files_RadJav__cpp__Global__Headers} ${SOURCES})

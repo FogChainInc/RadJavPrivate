@@ -32,6 +32,7 @@
 
 #include "RadJavString.h"
 #include "RadJavHashMap.h"
+#include "cpp/RadJavCPPChainedPtr.h"
 
 namespace RadJAV
 {
@@ -39,7 +40,7 @@ namespace RadJAV
 	{
 		namespace Net
 		{
-			class RADJAV_EXPORT WebSocketClient
+			class RADJAV_EXPORT WebSocketClient : public ChainedPtr
 			{
 				public:
 					WebSocketClient();

@@ -76,7 +76,7 @@ namespace RadJAV
 				DELETEOBJ(_font);
 				DELETEOBJ(_transform);
 
-				DELETEOBJ(_appObj);
+				//DELETEOBJ(_appObj);
 			}
 
 			void GObject::create()

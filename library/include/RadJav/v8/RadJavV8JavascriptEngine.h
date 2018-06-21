@@ -219,125 +219,8 @@
 			v8::Global<v8::Context> context_;
 			v8::Isolate* isolate_;
 		};
-
-		/// Base class for wrapped External objects
-		class Wrapper
-		{
-		public:
-			Wrapper() {}
-			virtual ~Wrapper() {}
-			
-		protected:
-			virtual void wrap(const v8::Local<v8::Object> &handle) = 0;
-		};
 		
-		/// Template class to wrap External objects
-		template <typename P>
-		class InternalFieldWrapper : public Wrapper
-		{
-		public:
-			InternalFieldWrapper (const v8::Local<v8::Object> &handle, P *data)
-			: object(nullptr)
-			{
-				object = data;
-				
-				wrap(handle);
-			}
-			
-			virtual ~InternalFieldWrapper ()
-			{
-				DELETEOBJ(object);
-				object = nullptr;
-				
-				if (!persistent.IsEmpty())
-				{
-					persistent.ClearWeak();
-					persistent.Reset();
-				}
-				
-				/*
-				if (persistent.IsNearDeath())
-				{
-					persistent.ClearWeak();
-					persistent.Reset();
-				}
-				*/
-			}
-			
-			/// Wrapped External object for embedding in JavaScript
-			v8::Local<v8::Object> objectTemplateInstance () const
-			{
-				return objectInstance;
-			}
-
-			/// Action to execute when wrapped External is going out of scope
-			void onDelete(std::function<void (Wrapper*)> aboutToDelete)
-			{
-				aboutDelete = aboutToDelete;
-			}
-			
-			InternalFieldWrapper () = delete;
-			InternalFieldWrapper (const InternalFieldWrapper& other) = delete;
-			
-		protected:
-			virtual void wrap (const v8::Local<v8::Object> &handle)
-			{
-				//Variant 1 using External
-				objectTemplate = v8::ObjectTemplate::New(handle->GetIsolate());
-				objectTemplate->SetInternalFieldCount(1);
-				
-				objectInstance = objectTemplate->NewInstance (handle->CreationContext()).ToLocalChecked();
-				
-				v8::Local<v8::External> val = v8::External::New (handle->GetIsolate(), object);
-				objectInstance->SetInternalField(0, val);
-				
-				// Assitiate Persistent with object
-				persistent.Reset(handle->GetIsolate(), objectInstance);
-				
-				// Mark Persistent as weak to receive callback from garbage collector
-				persistent.SetWeak(this, callback, v8::WeakCallbackType::kParameter);
-				persistent.MarkIndependent();
-
-				//Variant 2 using Internal
-				/*
-				v8::Isolate* isolate = handle->GetIsolate();
-				v8::Local<v8::ObjectTemplate> objTemplate = v8::ObjectTemplate::New(isolate);
-				objTemplate->SetInternalFieldCount(1);
-				
-				v8::Local<v8::Object> inst = objTemplate->NewInstance();
-				
-				inst->SetAlignedPointerInInternalField(0, object);
-				
-				persistent.Reset(isolate, inst);
-				persistent.SetWeak(this, callback, v8::WeakCallbackType::kParameter);
-				persistent.MarkIndependent();
-				objectInstance = v8::Local<v8::Object>::New(isolate, persistent);
-				 */
-			}
-			
-		protected:
-			/// Callback called by garbage collector to free memory and reset Persistent
-			static void callback (const v8::WeakCallbackInfo<InternalFieldWrapper<P>> &data)
-			{
-				InternalFieldWrapper *parameter = data.GetParameter();
-				
-				// Call user code before object will go out of scope
-				if(parameter->aboutDelete)
-					parameter->aboutDelete(parameter);
-				
-				parameter->persistent.ClearWeak();
-				parameter->persistent.Reset();
-				DELETEOBJ(parameter);
-			}
-		
-		protected:
-			v8::Persistent<v8::Object> persistent;
-			v8::Local<v8::ObjectTemplate> objectTemplate;
-			
-			P *object;
-			v8::Local<v8::Object> objectInstance;
-			std::function<void (Wrapper*)> aboutDelete;
-		};
+		class ExternalFieldWrapper;
 		
 		/// The V8 javascript engine.
 		class RADJAV_EXPORT V8JavascriptEngine: public JavascriptEngine
@@ -425,36 +308,13 @@
 					v8::Local<v8::Object> context, String functionName, RJINT numArgs, v8::Local<v8::Value> *args);
 				/// Call a V8 function as a constructor.
 				v8::Local<v8::Object> v8CallAsConstructor(v8::Local<v8::Object> function, RJINT numArgs, v8::Local<v8::Value> *args);
+
 				/// Get a V8 native object.
 				void *v8GetExternal(v8::Local<v8::Object> context, String functionName);
-			
 				/// Set a V8 native object.
 				//void v8SetExternal(v8::Local<v8::Object> context, String functionName, void *obj);
-
 				/// Set and wrap external object
-				template<typename P>
-				void v8SetExternal(v8::Local<v8::Object> context, String functionName, P *obj)
-				{
-					// Wrap object
-					InternalFieldWrapper<P> *wrapper = RJNEW InternalFieldWrapper<P>( context, obj);
-					
-					// Provide action to perform before object will go out of scope
-					wrapper->onDelete([&](Wrapper* wrapper)
-					{
-						auto pos = std::find(externalObjects.begin(), externalObjects.end(), wrapper);
-						if(pos != externalObjects.end())
-						{
-							// Remove wrapped object from the list of external objects
-							externalObjects.erase(pos);
-						}
-					});
-			
-					// Put wrapped object into the list of external objects
-					externalObjects.push_back(wrapper);
-
-					// Assotiate JavaScript variable with wrapped external object
-					context->Set(functionName.toV8String(isolate), wrapper->objectTemplateInstance());
-				}
+				void v8SetExternal(v8::Local<v8::Object> context, String functionName, CPP::ChainedPtr *obj);
 			
 				/// Get an internal field.
 				void *v8GetInternalField(v8::Local<v8::Object> context, String functionName);
@@ -502,13 +362,14 @@
 
 			protected:
 				/// Type name for the list of external wrapped objects
-				typedef std::vector<Wrapper*> ExternalObjectsList;
+				typedef std::vector<ExternalFieldWrapper*> ExternalObjectsList;
 
 			protected:
 				/// Delete all outstanding wrapped external data
 				void deleteExternals();
 
 			protected:
+				v8::ArrayBuffer::Allocator* arrayBufferAllocator;
 				Array<String> jsToExecuteNextCode;
 				Array<String> jsToExecuteNextFilename;
 				Array< v8::Local<v8::Object> > jsToExecuteNextContext;

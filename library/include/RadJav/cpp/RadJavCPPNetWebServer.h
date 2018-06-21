@@ -38,6 +38,7 @@
 	#include "RadJavString.h"
 	#include "RadJavHashMap.h"
 	#include "RadJavThread.h"
+	#include "cpp/RadJavCPPChainedPtr.h"
 
 
 	namespace ip = boost::asio::ip;
@@ -62,7 +63,7 @@
 #endif
 
 				// Accepts incoming connections and launches the sessions
-				class RADJAV_EXPORT WebServer : public std::enable_shared_from_this<WebServer>
+				class RADJAV_EXPORT WebServer : public std::enable_shared_from_this<WebServer>, public ChainedPtr
 				{
 					public:
 						WebServer();

@@ -29,7 +29,7 @@
 	{
 		namespace CPP
 		{
-			class RADJAV_EXPORT Thread
+			class RADJAV_EXPORT Thread : public ChainedPtr
 			{
 				public:
 					#ifdef USE_V8

@@ -70,6 +70,8 @@ namespace RadJAV
 
 					_appObj = object;
 
+					linkWith(object);
+				
 					setup();
 				#endif
 			}

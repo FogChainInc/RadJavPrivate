@@ -85,6 +85,7 @@
 #endif
 
 #include "cpp/RadJavCPPIO.h"
+#include "cpp/RadJavCPPChainedPtr.h"
 
 #include <cstring>
 
@@ -166,6 +167,157 @@ namespace RadJAV
 
 			context_.Reset(isolate_, context);
 		}
+
+		/**
+		 * Class to wrap native C++ objects with V8 one.
+		 */
+		class ExternalFieldWrapper
+		{
+		public:
+			/**
+			 * A constructor.
+			 * @param handle is a context to which we will add new V8 object.
+			 * @param data a pointer to ChainedPtr derived class which will be
+			 *  exposed to V8
+			 */
+			ExternalFieldWrapper (const v8::Local<v8::Object> &handle, CPP::ChainedPtr *data)
+			{
+				// Hook on raw pointer to be notified when it is destroyed
+				objectHook = RJNEW CPP::ChainedPtrHook(data, [&]
+				{
+					objectDestroyed();
+				});
+				
+				// Create V8 objects to wrap raw pointer
+				wrap(handle);
+			}
+			
+			/**
+			 * A destructor.
+			 */
+			virtual ~ExternalFieldWrapper ()
+			{
+				// Notify user when wrapper goes out of scope
+				if(aboutDelete)
+					aboutDelete(this);
+
+				// Remove hooked raw pointer if not removed
+				// by GC callback or CPP side
+				delete objectHook;
+				
+				if (!persistent.IsEmpty())
+				{
+					// Clear GC callback
+					persistent.ClearWeak();
+
+					// Clear V8 Persistent object
+					persistent.Reset();
+				}
+			}
+			
+			/**
+			 * Get newly created V8 object for embedding into JavaScript.
+			 * @return v8::Local<v8::Object> newly created V8 object.
+			 */
+			v8::Local<v8::Object> objectTemplateInstance () const
+			{
+				return objectInstance;
+			}
+			
+			/**
+			 * Action to execute when wrapper is going out of scope.
+			 * Can be used to remove wrapper from global list of
+			 * wrapped objects.
+			 * @param aboutToDelete a pointer to callback function.
+			 * @return void.
+			 */
+			void onDelete(std::function<void (ExternalFieldWrapper*)> aboutToDelete)
+			{
+				aboutDelete = aboutToDelete;
+			}
+			
+			ExternalFieldWrapper () = delete;
+			ExternalFieldWrapper (const ExternalFieldWrapper& other) = delete;
+			
+		protected:
+			/**
+			 * Create V8 object to be exposed to JavaScript.
+			 * @param handle is a context to which we will add new V8 object.
+			 * @return void.
+			 */
+			virtual void wrap (const v8::Local<v8::Object> &handle)
+			{
+				//Variant 1 using External
+				objectTemplate = v8::ObjectTemplate::New(handle->GetIsolate());
+				objectTemplate->SetInternalFieldCount(1);
+				
+				objectInstance = objectTemplate->NewInstance (handle->CreationContext()).ToLocalChecked();
+				
+				v8::Local<v8::External> val = v8::External::New (handle->GetIsolate(), objectHook->object());
+				objectInstance->SetInternalField(0, val);
+				
+				// Assitiate Persistent with object
+				persistent.Reset(handle->GetIsolate(), objectInstance);
+				
+				// Mark Persistent as weak to receive callback from garbage collector
+				persistent.SetWeak(this, callback, v8::WeakCallbackType::kParameter);
+				persistent.MarkIndependent();
+				
+				//Variant 2 using Internal
+				/*
+				 v8::Isolate* isolate = handle->GetIsolate();
+				 v8::Local<v8::ObjectTemplate> objTemplate = v8::ObjectTemplate::New(isolate);
+				 objTemplate->SetInternalFieldCount(1);
+				 
+				 v8::Local<v8::Object> inst = objTemplate->NewInstance();
+				 
+				 inst->SetAlignedPointerInInternalField(0, objectHook->object());
+				 
+				 persistent.Reset(isolate, inst);
+				 persistent.SetWeak(this, callback, v8::WeakCallbackType::kParameter);
+				 persistent.MarkIndependent();
+				 objectInstance = v8::Local<v8::Object>::New(isolate, persistent);
+				 */
+			}
+			
+			/**
+			 * Notification on raw pointer destruction.
+			 * @return void.
+			 */
+			void objectDestroyed()
+			{
+				objectHook = nullptr;
+				
+				if (!persistent.IsEmpty())
+				{
+					persistent.ClearWeak();
+					persistent.Reset();
+				}
+			}
+			
+		protected:
+			/**
+			 * A static weak callback function which will be called by V8 garbage collector.
+			 * @param data reference to ExternalFieldWrapper class which hold the
+			 *  native raw pointer.
+			 * @return void.
+			 */
+			/// Callback called by garbage collector to free memory and reset Persistent
+			static void callback (const v8::WeakCallbackInfo<ExternalFieldWrapper> &data)
+			{
+				ExternalFieldWrapper *wrapper = data.GetParameter();
+				DELETEOBJ(wrapper);
+			}
+			
+		protected:
+			v8::Persistent<v8::Object> persistent;
+			v8::Local<v8::ObjectTemplate> objectTemplate;
+			
+			CPP::ChainedPtrHook* objectHook;
+			
+			v8::Local<v8::Object> objectInstance;
+			std::function<void (ExternalFieldWrapper*)> aboutDelete;
+		};
 
 		V8JavascriptEngine::V8JavascriptEngine()
 			: JavascriptEngine()
@@ -1681,13 +1833,36 @@ namespace RadJAV
 			return (external->Value());
 		}
 
-		/* Replaced with Template method and wrapper
+		/* Replaced with method which utilize wrapper
 		void V8JavascriptEngine::v8SetExternal(v8::Local<v8::Object> context, String functionName, void *obj)
 		{
 			v8::Local<v8::External> val = v8::External::New(isolate, obj);
 			context->Set(functionName.toV8String(isolate), val);
 		}
 		*/
+
+		void V8JavascriptEngine::v8SetExternal(v8::Local<v8::Object> context, String functionName, CPP::ChainedPtr *obj)
+		{
+			// Wrap object
+			ExternalFieldWrapper *wrapper = RJNEW ExternalFieldWrapper( context, obj);
+		
+			// Provide action to perform before object will go out of scope
+			wrapper->onDelete( [&](ExternalFieldWrapper* wrapper)
+			{
+				auto pos = std::find(externalObjects.begin(), externalObjects.end(), wrapper);
+				if(pos != externalObjects.end())
+				{
+					// Remove wrapped object from the list of external objects
+					externalObjects.erase(pos);
+				}
+			});
+
+			// Put wrapped object into the list of external objects
+			externalObjects.push_back(wrapper);
+		
+			// Assotiate JavaScript variable with wrapped external object
+			context->Set(functionName.toV8String(isolate), wrapper->objectTemplateInstance());
+		}
 
 		void *V8JavascriptEngine::v8GetInternalField(v8::Local<v8::Object> context, String functionName)
 		{
@@ -1789,9 +1964,9 @@ namespace RadJAV
 			while (!externalObjects.empty())
 			{
 				// Remove objects which were not cleared by V8 garbage collector
-				auto wrapper = externalObjects.begin();
-				DELETEOBJ(*wrapper);
-				externalObjects.erase(wrapper);
+				auto item = externalObjects.back();
+				externalObjects.pop_back();
+				DELETEOBJ(item);
 			}
 		}
 
