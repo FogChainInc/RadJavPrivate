@@ -24,6 +24,8 @@
 #include "RadJav.h"
 #include "RadJavString.h"
 
+#include <iostream>
+
 namespace RadJAV
 {
 	namespace CPP
@@ -73,9 +75,20 @@ namespace RadJAV
 
 			GObject::~GObject()
 			{
-				DELETEOBJ(_font);
+			  std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
+			  
+			        DELETEOBJ(_font);
 				DELETEOBJ(_transform);
 
+				///
+				/// The problem part: attempting to delete via wxWidget pointer causes crash
+				std::cout << __PRETTY_FUNCTION__ << ": remove child" << std::endl << std::flush;
+				_parent -> _appObj -> RemoveChild(_appObj);
+				std::cout << __PRETTY_FUNCTION__ << ": Close widget" << std::endl << std::flush;
+				_appObj -> Close(true);
+				std::cout << __PRETTY_FUNCTION__ << ": Destroy widget" << std::endl << std::flush;
+				//_appObj -> Destroy();
+				std::cout << __PRETTY_FUNCTION__ << ": delete frame" << std::endl << std::flush;
 				DELETEOBJ(_appObj);
 			}
 
@@ -312,18 +325,24 @@ namespace RadJAV
 
 			GObjectBase::~GObjectBase()
 			{
+			  std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
+			  
 				HashMap<std::string, v8::Persistent<v8::Value> *>::iterator found = events->begin ();
 				HashMap<std::string, v8::Persistent<v8::Value> *>::iterator end = events->end();
 
 				while (found != end)
 				{
 					v8::Persistent<v8::Value> *evt = found->second;
+					std::cout << __PRETTY_FUNCTION__ << "Deleting event" << std::endl << std::flush;
+					
 					DELETE_OBJ(evt);
 
 					found++;
 				}
-
+				
+				std::cout << __PRETTY_FUNCTION__ << "Deleting events array" << std::endl << std::flush;
 				DELETEOBJ(events);
+				std::cout << __PRETTY_FUNCTION__ << "End" << std::endl << std::flush;
 			}
 
 			v8::Persistent<v8::Value> *GObjectBase::createEvent(String event, v8::Local<v8::Function> function)

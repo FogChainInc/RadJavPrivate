@@ -1,6 +1,7 @@
 # Main RadJav
 set (SOURCES_files_RADJAV__Main__Headers
 	"${libRadJav_SOURCE_DIR}/include/RadJav/RadJav.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/RadJav.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/RadJavunistd.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/RadJavPreprocessor.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/RadJavLang.h"
@@ -135,6 +136,7 @@ set (SOURCES ${SOURCES_files_Networking__Main__Headers} ${SOURCES})
 
 # C++ Global
 set (SOURCES_files_RadJav__cpp__Global__Headers 
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPObjWrap.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPColor.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPFont.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMath.h"

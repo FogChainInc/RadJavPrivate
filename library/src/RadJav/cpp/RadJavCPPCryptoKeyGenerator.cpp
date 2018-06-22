@@ -104,6 +104,7 @@ namespace RadJAV
 
 			KeyGenerator::~KeyGenerator()
 			{
+			  std::cout << __PRETTY_FUNCTION__ << "" << std::endl;
 
 			}
 

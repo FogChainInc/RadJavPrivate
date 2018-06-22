@@ -70,7 +70,7 @@ namespace RadJAV
 			{
 				UITYPE *appObject = RJNEW UITYPE(V8_JAVASCRIPT_ENGINE, args);
 				appObject->create();
-
+				appObject->wrap(args.This());
 				//V8_JAVASCRIPT_ENGINE->v8SetInternalFieldObject(args.This(), "_appObj", appObject);
 				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_appObj", appObject);
 				v8::Local<v8::Function> _guiFinishedCreatingGObject = V8_JAVASCRIPT_ENGINE->v8GetFunction(V8_RADJAV, "_guiFinishedCreatingGObject");

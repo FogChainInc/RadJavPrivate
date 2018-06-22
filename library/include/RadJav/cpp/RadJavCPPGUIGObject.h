@@ -239,7 +239,7 @@ namespace RadJAV
 			{
 				public:
 					GObjectBase();
-					~GObjectBase();
+					virtual ~GObjectBase();
 
 					v8::Persistent<v8::Value> *createEvent(String event, v8::Local<v8::Function> function);
 

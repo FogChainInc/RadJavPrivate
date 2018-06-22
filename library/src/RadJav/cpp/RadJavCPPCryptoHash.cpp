@@ -43,12 +43,13 @@ namespace RadJAV
 		namespace Crypto
 		{
 			#ifdef USE_CRYPTOGRAPHY
-			Hash::Hash(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
+		        Hash::Hash(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args) :
+			  ObjWrap(jsEngine, args)
 			{
 			  //			  std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl;
 			  std::cout << "Args len: " << args.Length() << std::endl;
 
-			  this -> jsEngine = jsEngine;
+			  //this -> jsEngine = jsEngine;
 			  v8::Isolate *isolate = args.GetIsolate();
 			  
 			  v8::Local<v8::Value> firstArg = args[0];
@@ -123,6 +124,7 @@ namespace RadJAV
 
 			Hash::~Hash()
 			{
+			  std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
 
 			}
 

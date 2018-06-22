@@ -20,6 +20,8 @@
 #ifndef _RADJAV_CPP_CRYPTO_HASH_H_
 	#define _RADJAV_CPP_CRYPTO_HASH_H_
 
+	#include "RadJavCPPObjWrap.h"
+
 	#include "RadJavPreprocessor.h"
 
 	#include <string>
@@ -45,7 +47,7 @@
 			{
 				#ifdef USE_CRYPTOGRAPHY
 				// Accepts incoming connections and launches the sessions
-				class RADJAV_EXPORT Hash
+			  class RADJAV_EXPORT Hash : public virtual RadJAV::CPP::ObjWrap
 				{
 				public:
 				  Hash(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
@@ -68,7 +70,7 @@
 				  String myOutputEncoding;
 
 				protected:
-				  V8JavascriptEngine *jsEngine;
+				  //V8JavascriptEngine *jsEngine;
 
 				  
 				};

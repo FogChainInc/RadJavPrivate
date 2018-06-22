@@ -17,59 +17,43 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#ifndef _RADJAV_GUI_CPP_BUTTON_H_
-	#define _RADJAV_GUI_CPP_BUTTON_H_
-
- 
-	#include "RadJavCPPObjWrap.h"
+#ifndef _RADJAV_CPP_OBJ_WRAP_H_
+	#define _RADJAV_CPP_OBJ_WRAP_H_
 
 	#include "RadJavPreprocessor.h"
+
+	#include <string>
+	#include <memory>
+	#include <functional>
+
+
+
+	#include "RadJav.h"
 	#include "RadJavString.h"
-
-	#include "cpp/RadJavCPPGUIGObject.h"
-
-	#ifdef GUI_USE_WXWIDGETS
-		#include <wx/wx.h>
-	#endif
+	#include "RadJavHashMap.h"
+	#include "RadJavThread.h"
 
 	namespace RadJAV
 	{
 		namespace CPP
 		{
-			namespace GUI
+			class RADJAV_EXPORT ObjWrap
 			{
-				#ifdef GUI_USE_WXWIDGETS
-					/// The wxWidgets button to use.
-			        class RADJAV_EXPORT ButtonFrame : virtual public wxButton, virtual public GObjectBase
-					{
-					public:
-						ButtonFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size);
-						virtual ~ButtonFrame();
-					protected:
-						wxDECLARE_EVENT_TABLE();
-					};
-				#endif
+			public:
+			  ObjWrap();
+			  ObjWrap(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
+			  virtual ~ObjWrap();
 
+			  void wrap(v8::Local<v8::Object> handle);
+				  
+			private:
+			  static void weakCallback(const v8::WeakCallbackInfo<ObjWrap>& data);
 
-				class RADJAV_EXPORT Button : public virtual CPP::GUI::GObject,
-				  public virtual RadJAV::CPP::ObjWrap
-				{
-					public:
-						#ifdef USE_V8
-							Button(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
-						#endif
-						Button(String name, String text = "", CPP::GUI::GObject *parent = NULL);
-						virtual ~Button();
+			protected:
+			  V8JavascriptEngine *jsEngine;
+			  v8::Persistent<v8::Object> myPersistent;
+			};
 
-						void create();
-						void setText(String text);
-						String getText();
-
-						#ifdef USE_V8
-							void on(String event, v8::Local<v8::Function> func);
-						#endif
-				};
-			}
 		}
 	}
 #endif

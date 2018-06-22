@@ -103,6 +103,7 @@ namespace RadJAV
 
 			PublicKey::~PublicKey()
 			{
+			  std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
 
 			}
 

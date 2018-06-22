@@ -41,15 +41,13 @@
 	{
 		namespace CPP
 		{
-			namespace Crypto
+		        namespace Crypto
 			{
-				#ifdef USE_CRYPTOGRAPHY
-				// Accepts incoming connections and launches the sessions
-				class RADJAV_EXPORT Base
+			        class RADJAV_EXPORT Base
 				{
 				public:
 				  Base(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
-				  ~Base();
+				  virtual ~Base();
 
 				  void processInput(const void *plainText, int textLength,
 						    std::string &decodedText,
@@ -57,6 +55,8 @@
 				  void processOutput(std::tuple<std::shared_ptr<void>, unsigned int> result,
 						     std::function <void (const std::string& str)> stringSetter,
 						     std::function <void (void* buf, int bufLen)> binSetter);
+
+				  void wrap(v8::Local<v8::Object> handle);
 				  
 				public:
 				  String myCryptoLibrary;
@@ -64,12 +64,15 @@
 				  String myInputEncoding;
 				  String myOutputEncoding;
 
+				private:
+				  static void weakCallback(const v8::WeakCallbackInfo<Base>& data);
+
 				protected:
 				  V8JavascriptEngine *jsEngine;
+				  v8::Persistent<v8::Object> myPersistent;
 
 				  
 				};
-				#endif
 			}
 		}
 	}

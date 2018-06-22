@@ -22,6 +22,7 @@
 #include "RadJav.h"
 #include "RadJavString.h"
 
+#include <iostream>
 namespace RadJAV
 {
 	namespace CPP
@@ -33,18 +34,53 @@ namespace RadJAV
 					: wxButton(parent, wxID_ANY, text, pos, size), GObjectBase()
 				{
 				}
+		                ButtonFrame::~ButtonFrame()
+				{
+				  std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
+
+				}
 			#endif
 
 			#ifdef USE_V8
 				Button::Button(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
-					: GObject (jsEngine, args)
+				        : GObject (jsEngine, args), ObjWrap(jsEngine, args)
 				{
 				}
 			#endif
 
 			Button::Button(String name, String text, CPP::GUI::GObject *parent)
-				: GObject(name, text, parent)
+   			        : GObject(name, text, parent)
 			{
+			}
+
+		        Button::~Button()
+			{
+
+			  std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
+			  std::cout << "Button text: " << std::flush;
+			  std::cout << getText() << std::endl << std::flush;
+
+			  if (_appObj)
+			    {
+			      std::cout << "_appObj: " << std::hex << (void*) _appObj << std::dec << std::endl << std::flush;
+			      CPP::GUI::ButtonFrame *object = dynamic_cast<CPP::GUI::ButtonFrame *>(_appObj);
+			      std::cout << "object: " << std::hex << (void*)object << std::dec << std::endl << std::flush;
+			      //DELETEOBJ(_appObj);
+			    }
+			  //if (_appObj)
+			  //DELETEOBJ(_appObj);
+			  std::cout << "Frame deleted" << std::endl << std::flush;
+								
+			    
+	    if (myPersistent.IsEmpty())
+	      {
+		std::cout << "Persistent isEmpty" << std::endl << std::flush;
+		return;
+	      }
+	    if (myPersistent.IsNearDeath())
+	      std::cout << "Persistent isNearDeath" << std::endl << std::flush;
+			  
+
 			}
 
 			void Button::create()
@@ -71,7 +107,7 @@ namespace RadJAV
 
 				#ifdef GUI_USE_WXWIDGETS
 					if (_appObj != NULL)
-						((ButtonFrame *)_appObj)->SetLabelText(_text.towxString());
+					       dynamic_cast<ButtonFrame *>(_appObj)->SetLabelText(_text.towxString());
 				#endif
 			}
 
@@ -82,7 +118,7 @@ namespace RadJAV
 				#ifdef GUI_USE_WXWIDGETS
 					if (_appObj != NULL)
 					{
-						wxString wxtext = ((ButtonFrame *)_appObj)->GetLabelText();
+					        wxString wxtext = (dynamic_cast<ButtonFrame *>(_appObj))->GetLabelText();
 						text = parsewxString(wxtext);
 					}
 				#endif
@@ -93,7 +129,7 @@ namespace RadJAV
 			#ifdef USE_V8
 				void Button::on(String event, v8::Local<v8::Function> func)
 				{
-					CPP::GUI::ButtonFrame *object = (CPP::GUI::ButtonFrame *)_appObj;
+				        CPP::GUI::ButtonFrame *object = dynamic_cast<CPP::GUI::ButtonFrame *>(_appObj);
 
 					object->addNewEvent(event, object, func);
 				}

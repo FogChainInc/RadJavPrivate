@@ -28,6 +28,8 @@
 
 #define UITYPE CPP::GUI::Button
 
+#include <iostream>
+
 namespace RadJAV
 {
 	namespace V8B
@@ -60,8 +62,12 @@ namespace RadJAV
 
 			void Button::create(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
+				std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
 				UITYPE *appObject = RJNEW UITYPE(V8_JAVASCRIPT_ENGINE, args);
+
 				appObject->create();
+
+				appObject -> wrap(args.This());				
 
 				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_appObj", appObject);
 				v8::Local<v8::Function> _guiFinishedCreatingGObject = V8_JAVASCRIPT_ENGINE->v8GetFunction(V8_RADJAV, "_guiFinishedCreatingGObject");

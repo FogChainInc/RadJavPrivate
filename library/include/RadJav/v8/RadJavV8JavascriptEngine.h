@@ -30,6 +30,8 @@
 
 	#include <atomic>
 	#include <mutex>
+	#include <iostream>
+
 
 	#include "RadJavJavascriptEngine.h"
 	#include "cpp/RadJavCPPNetWebSocketServer.h"
@@ -227,6 +229,7 @@
 			InternalFieldWrapper (const v8::Local<v8::Object> &handle, P *data)
 			: object(nullptr)
 			{
+			  std::cout << __PRETTY_FUNCTION__ << ": begin " << std::hex << (void*)data << std::dec << std::endl;
 				object = data;
 				
 				wrap(handle);
@@ -234,8 +237,10 @@
 			
 			virtual ~InternalFieldWrapper ()
 			{
+			  std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl;
 				if (persistent.IsEmpty())
 				{
+			  std::cout << __PRETTY_FUNCTION__ << ": persistent empty" << std::endl;
 					DELETEOBJ(object);
 					object = nullptr;
 					return;
@@ -243,6 +248,7 @@
 				
 				if (persistent.IsNearDeath())
 				{
+			  std::cout << __PRETTY_FUNCTION__ << ": persistent near death" << std::endl;
 					persistent.ClearWeak();
 					persistent.Reset();
 					DELETEOBJ(object);
@@ -261,22 +267,25 @@
 		protected:
 			virtual void wrap (const v8::Local<v8::Object> &handle)
 			{
-				objectTemplate = v8::ObjectTemplate::New(handle->GetIsolate());
-				objectTemplate->SetInternalFieldCount(1);
+			  std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl;
+			  //objectTemplate = v8::ObjectTemplate::New(handle->GetIsolate());
+				//objectTemplate->SetInternalFieldCount(1);
 				
-				objectInstance = objectTemplate->NewInstance (handle->CreationContext()).ToLocalChecked();
+				//objectInstance = objectTemplate->NewInstance (handle->CreationContext()).ToLocalChecked();
 				
-				v8::Local<v8::External> val = v8::External::New (handle->GetIsolate(), object);
-				objectInstance->SetInternalField(0, val);
+				//v8::Local<v8::External> val = v8::External::New (handle->GetIsolate(), object);
+				//objectInstance->SetInternalField(0, val);
 				
-				persistent.Reset(handle->GetIsolate(), objectInstance);
+				//persistent.Reset(handle->GetIsolate(), objectInstance);
+				persistent.Reset(handle->GetIsolate(), handle);				
 				persistent.SetWeak(this, callback, v8::WeakCallbackType::kParameter);
-				persistent.MarkIndependent();
+				//persistent.MarkIndependent();
 			}
 			
 		protected:
 			static void callback (const v8::WeakCallbackInfo<InternalFieldWrapper<P>> &data)
 			{
+			  std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl;
 				InternalFieldWrapper *parameter = data.GetParameter();
 				parameter->persistent.Reset();
 				DELETEOBJ(parameter);
@@ -386,7 +395,7 @@
 				void v8SetInternalFieldObject(v8::Local<v8::Object> context, String functionName, P *obj)
 				{
 					InternalFieldWrapper<P> *wrapper = RJNEW InternalFieldWrapper<P>( context, obj);
-					context->Set(functionName.toV8String(isolate), wrapper->objectTemplateInstance());
+					//context->Set(functionName.toV8String(isolate), wrapper->objectTemplateInstance());
 				}
 
 				/// Set internal field.

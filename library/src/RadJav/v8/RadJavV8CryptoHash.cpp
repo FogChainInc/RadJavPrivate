@@ -61,6 +61,7 @@ namespace RadJAV
 				  //std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
 				        ENGINE *engine = RJNEW ENGINE(V8_JAVASCRIPT_ENGINE, args);
 					V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_engine", engine);
+					engine -> wrap(args.This());
 
 					v8::Isolate *isolate = args.GetIsolate();
 
@@ -272,7 +273,7 @@ namespace RadJAV
 							     v8::String::NewFromUtf8(isolate, digest.second.c_str())
 							     );
 					  }
-					
+					isolate->RequestGarbageCollectionForTesting(v8::Isolate::kFullGarbageCollection);
 					args.GetReturnValue().Set(ret);
 				} // End of getCapabilities()
 

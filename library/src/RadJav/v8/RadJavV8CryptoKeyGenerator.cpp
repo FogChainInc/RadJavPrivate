@@ -62,6 +62,7 @@ namespace RadJAV
 				  //std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
 				        ENGINE *engine = RJNEW ENGINE(V8_JAVASCRIPT_ENGINE, args);
 					V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_engine", engine);
+					engine -> wrap(args.This());
 
 					v8::Isolate *isolate = args.GetIsolate();
 
@@ -120,6 +121,8 @@ namespace RadJAV
 				        PRIV_KEY *privateKeyWrap = (PRIV_KEY *)V8_JAVASCRIPT_ENGINE->v8GetExternal(privateKeyJs, "_engine");
 					auto privateKey = engine -> generate();
 					privateKeyWrap -> setEngine(privateKey);
+					privateKeyWrap -> wrap(privateKeyJs);
+
 					args.GetReturnValue().Set(privateKeyJs);
 
 				} // End of generate()

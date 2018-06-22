@@ -1,0 +1,106 @@
+var label = null;
+var digest = null;
+var kg = null;
+var pk1 = null;
+var pubk = null;
+
+var digest = null;
+
+var butt = null;
+var buttHello = null;
+var buttClean = null;
+
+// Initialize RadJav and load all necessary libraries.
+RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary ()).then (function ()
+	{
+		// Execute the application, in this case, a simple function. Can also be a file.
+		RadJav.runApplication (function ()
+			{
+				// Create the window gui object.
+				var win = new RadJav.GUI.Window ("win", "Window Example");
+				// Now you must actually create and display the gui object.
+				// The promise returns with the created gui object.
+				win.create ().then (function (win2)
+					{
+						RadJav.GUI.create ("Label", "label", "Label thing", win2).then (function (label2)
+							{
+								label = label2;
+							});
+
+					    RadJav.GUI.create ("Button", "whasup", "whasup", win2).then (function (butt2)
+							{
+							    butt = butt2;
+							    butt.setPosition (0, 50);
+
+							    butt2.on ("click", function()
+								       {
+									   label = null;
+								       }
+								      );
+
+
+							});
+
+    digest = new RadJav.Crypto.Hash({cryptoLibrary: "OpenSSL", hashAlgorithm: "sha256", outputEncoding: "hex"});
+
+    kg = new RadJav.Crypto.KeyGenerator({cryptoLibrary: "OpenSSL",
+					     algorithm: "RSA",
+					     bits: "2048",
+					     encryptPadding: "RSA_PKCS1_PADDING",
+					     signatureType: "OPENSSL_DEFAULT",
+					     inputEncoding: "binary",
+					     outputEncoding: "base64"
+					    });
+					    pk1 = kg.generate();
+					    pubK1 = pk1.getPublicKey();
+					    
+
+						// RadJav.GUI.create is short hand for creating a gui object, this 
+						// is the preferred way to create objects.
+						RadJav.GUI.create ("Button", "button", "Say Hello", win2).then (
+											function (button)
+						    {
+							buttHello = button;
+							button.setPosition (100, 100);
+							
+												button.on ("click", function ()
+													   {
+
+													    label = null;
+													    pubK1 = null;
+													    pk1 = null;
+													    kg = null;
+													    digest = null;
+
+													       butt = null;
+													     //buttHello = null;
+													       //RadJav.Crypto.Hash.getCapabilities();
+
+													   });
+						    });
+
+						// RadJav.GUI.create is short hand for creating a gui object, this 
+						// is the preferred way to create objects.
+						RadJav.GUI.create ("Button", "garbage", "Clean garbage", win2).then (
+											function (button)
+						    {
+							buttClean = button;
+							button.setPosition (100, 200);
+							
+												button.on ("click", function ()
+													   {
+
+													       RadJav.Crypto.Hash.getCapabilities();
+
+													});
+							
+						    });
+					});
+			    
+			});
+	});
+
+
+
+
+

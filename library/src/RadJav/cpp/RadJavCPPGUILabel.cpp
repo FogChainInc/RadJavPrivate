@@ -47,6 +47,7 @@ namespace RadJAV
 			#ifdef USE_V8
 				Label::Label(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
 					: GObject (jsEngine, args)
+					, ObjWrap(jsEngine, args)
 				{
 				}
 			#endif

@@ -103,6 +103,7 @@ namespace RadJAV
 
 			PrivateKey::~PrivateKey()
 			{
+			  std::cout << __PRETTY_FUNCTION__ << ": end" << std::endl;
 
 			}
 

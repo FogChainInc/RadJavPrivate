@@ -22,6 +22,8 @@
 
 #include "../orb/ORB_EngineCryptoOpenSSL.h"
 
+#include <iostream>
+
 namespace Engine
 {
   namespace Crypto
@@ -44,7 +46,7 @@ namespace Engine
 
       RsaPublicKey::~RsaPublicKey()
       {
-
+	std::cout << __PRETTY_FUNCTION__ << std::endl;
       }
 
       bool RsaPublicKey::verify(const unsigned char* message,

@@ -50,7 +50,7 @@
 				{
 				public:
 				  PrivateKey(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
-				  ~PrivateKey();
+				  virtual ~PrivateKey();
 				  void setEngine(std::shared_ptr<Engine::Crypto::IPrivateKey> privateKey);
 
 				public:

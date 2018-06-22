@@ -19,6 +19,7 @@
 */
 
 #include "cpp/RadJavCPPCryptoBase.h"
+#include "cpp/RadJavCPPCryptoPublicKey.h"
 
 #include "RadJavString.h"
 #include "v8/RadJavV8JavascriptEngine.h"
@@ -76,6 +77,7 @@ namespace RadJAV
 
 			Base::~Base()
 			{
+			  std::cout << __PRETTY_FUNCTION__ << ": begin " << std::hex << (void*)this << std::dec << std::endl;
 
 			}
 
@@ -144,6 +146,36 @@ namespace RadJAV
 			  throw std::invalid_argument(msg);
 
 			}
+
+		        void Base::wrap(v8::Local<v8::Object> handle)
+			{
+			  std::cout << __PRETTY_FUNCTION__ << ": begin " << std::hex << (void*)this << std::dec << std::endl;
+			  //V8_JAVASCRIPT_ENGINE -> v8SetExternal(handle, "__ptr", this);
+			  myPersistent.Reset(handle -> GetIsolate(), handle);
+			  myPersistent.SetWeak(this, weakCallback, v8::WeakCallbackType::kParameter);
+			  
+			}
+		  
+			void Base::weakCallback(const v8::WeakCallbackInfo<Base>& data)
+			{
+			  std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl;
+			  Base *wrap = data.GetParameter();
+			  std::cout << "AA" << std::endl << std::flush;
+			  if (wrap -> myPersistent.IsEmpty())
+			      std::cout << "AA isEmpty" << std::endl << std::flush;
+			  if (wrap -> myPersistent.IsNearDeath())
+			      std::cout << "AA isNearDeath" << std::endl << std::flush;
+
+			  wrap -> myPersistent.ClearWeak();
+			  wrap -> myPersistent.Reset();
+
+			  auto ptr = dynamic_cast<PublicKey*>(wrap);
+			  std::cout << "ptr: " << std::hex << (void*)ptr << std::dec <<std::endl << std::flush;
+			  std::cout << "BB" << std::endl << std::flush;
+			  DELETEOBJ(wrap);
+			  std::cout << "CC" << std::endl << std::flush;
+			}
+
 
 		  #endif
 		  

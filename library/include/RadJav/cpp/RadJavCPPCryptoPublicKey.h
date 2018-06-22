@@ -52,7 +52,7 @@
 				{
 				public:
 				  PublicKey(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
-				  ~PublicKey();
+				  virtual ~PublicKey();
 				  void setEngine(std::shared_ptr<const Engine::Crypto::IPublicKey> publicKey);
 
 				public:

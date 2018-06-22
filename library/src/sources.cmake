@@ -131,6 +131,7 @@ set (SOURCES ${SOURCES_files_Networking__Main__Sources} ${SOURCES})
 
 # C++ Global
 set (SOURCES_files_RadJav__cpp__Global__Sources 
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPObjWrap.cpp"
 	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPColor.cpp"
 	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPFont.cpp"
 	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMath.cpp"

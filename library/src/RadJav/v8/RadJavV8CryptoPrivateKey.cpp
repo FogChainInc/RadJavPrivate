@@ -475,6 +475,8 @@ namespace RadJAV
 				        PUB_KEY *publicKeyWrap = (PUB_KEY *)V8_JAVASCRIPT_ENGINE->v8GetExternal(publicKeyJs, "_engine");
 					auto publicKey = engine -> getPublicKey();
 					publicKeyWrap -> setEngine(publicKey);
+					publicKeyWrap -> wrap(publicKeyJs);
+					//V8_JAVASCRIPT_ENGINE->v8SetInternalFieldObject(publicKeyJs, "_ptr", publicKeyWrap);
 					args.GetReturnValue().Set(publicKeyJs);
 				}
 

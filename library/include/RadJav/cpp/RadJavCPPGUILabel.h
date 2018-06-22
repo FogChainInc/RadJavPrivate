@@ -20,6 +20,8 @@
 #ifndef _RADJAV_GUI_CPP_LABEL_H_
 	#define _RADJAV_GUI_CPP_LABEL_H_
 
+	#include "RadJavCPPObjWrap.h"
+
 	#include "RadJavPreprocessor.h"
 	#include "RadJavString.h"
 
@@ -61,6 +63,7 @@
 				#endif
 
 				class RADJAV_EXPORT Label : public CPP::GUI::GObject
+				  , public virtual RadJAV::CPP::ObjWrap
 				{
 					public:
 						#ifdef USE_V8
