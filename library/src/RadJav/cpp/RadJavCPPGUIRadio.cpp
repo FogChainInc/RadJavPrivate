@@ -70,6 +70,8 @@ namespace RadJAV
 					object->SetValue(_checked);
 
 					_appObj = object;
+				
+					linkWith(object);
 
 					setup();
 				#endif

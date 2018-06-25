@@ -39,7 +39,7 @@
 				#ifdef WXWIDGETS_HAS_WEBVIEW
 					#ifdef GUI_USE_WXWIDGETS
 						/// The wxWidgets button to use.
-						class RADJAV_EXPORT WebViewFrame : public wxWindow, public GObjectBase
+						class RADJAV_EXPORT WebViewFrame : public wxWindow, public GObjectBase, public ChainedPtr
 						{
 							public:
 								WebViewFrame(wxWebView *webView);

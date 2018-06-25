@@ -56,6 +56,7 @@ namespace RadJAV
 				V8_CALLBACK(object, "setEnabled", Image::setEnabled);
 				V8_CALLBACK(object, "getEnabled", Image::getEnabled);
 				V8_CALLBACK(object, "on", Image::on);
+				V8_CALLBACK(object, "destroy", Image::destroy);
 
 				V8_CALLBACK(object, "setImage", Image::setImage);
 			}
@@ -357,6 +358,15 @@ namespace RadJAV
 
 				if (appObject != NULL)
 					appObject->setImage(src);
+			}
+
+			void Image::destroy(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				if (appObject != NULL)
+					delete appObject;
+				
+				V8_JAVASCRIPT_ENGINE->v8ClearExternal(args.This(), "_appObj");
 			}
 		}
 	}

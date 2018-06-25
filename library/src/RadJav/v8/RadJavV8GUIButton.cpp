@@ -56,6 +56,7 @@ namespace RadJAV
 				V8_CALLBACK(object, "setEnabled", Button::setEnabled);
 				V8_CALLBACK(object, "getEnabled", Button::getEnabled);
 				V8_CALLBACK(object, "on", Button::on);
+				V8_CALLBACK(object, "destroy", Button::destroy);
 			}
 
 			void Button::create(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -330,6 +331,15 @@ namespace RadJAV
 
 				if (appObject != NULL)
 					appObject->on(event, func);
+			}
+
+			void Button::destroy(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				if (appObject != NULL)
+					delete appObject;
+				
+				V8_JAVASCRIPT_ENGINE->v8ClearExternal(args.This(), "_appObj");
 			}
 		}
 	}

@@ -150,6 +150,8 @@ namespace RadJAV
 					object->Show(_visible);
 
 					_appObj = object;
+				
+					linkWith(object);
 
 					setColumns(_columns);
 					setup();

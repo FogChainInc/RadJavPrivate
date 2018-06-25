@@ -31,8 +31,8 @@ namespace RadJAV
 		namespace GUI
 		{
   			#ifdef GUI_USE_WXWIDGETS
-				MenuBarFrame::MenuBarFrame(const wxString &text, const wxPoint &pos, const wxSize &size)
-				  : wxFrame(NULL, wxID_ANY, text, pos, size), GObjectBase ()
+				MenuBarFrame::MenuBarFrame(const wxString &text)
+				  : wxMenuBar(), GObjectBase ()
 				{
 				}
 
@@ -74,18 +74,18 @@ namespace RadJAV
 			void MenuBar::create()
 			{
 				#ifdef GUI_USE_WXWIDGETS
-					wxWindow *parentWin = NULL;
+					wxFrame *parentWin = NULL;
 
 					if (_parent != NULL)
-						parentWin = (wxWindow *)_parent->_appObj;
+						parentWin = (wxFrame *)_parent->_appObj;
 
-					wxMenuBar *menuBar = RJNEW wxMenuBar();
-					CPP::GUI::MenuBarFrame *window = (CPP::GUI::MenuBarFrame *)parentWin->GetParent();
+					MenuBarFrame *object = RJNEW MenuBarFrame("");
+					object->Attach(parentWin);
 
-					window->SetMenuBar(menuBar);
-
-					_appObj = menuBar;
-
+					_appObj = object;
+				
+					linkWith(object);
+				
 					setup();
 				#endif
 			}
@@ -133,6 +133,6 @@ namespace RadJAV
 }
 
 #ifdef GUI_USE_WXWIDGETS
-	wxBEGIN_EVENT_TABLE(RadJAV::CPP::GUI::MenuBarFrame, wxFrame)
+	wxBEGIN_EVENT_TABLE(RadJAV::CPP::GUI::MenuBarFrame, wxMenuBar)
 	wxEND_EVENT_TABLE()
 #endif

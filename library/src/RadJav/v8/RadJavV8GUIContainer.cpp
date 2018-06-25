@@ -56,6 +56,7 @@ namespace RadJAV
 				V8_CALLBACK(object, "setEnabled", Container::setEnabled);
 				V8_CALLBACK(object, "getEnabled", Container::getEnabled);
 				V8_CALLBACK(object, "on", Container::on);
+				V8_CALLBACK(object, "destroy", Container::destroy);
 			}
 
 			void Container::create(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -330,6 +331,15 @@ namespace RadJAV
 
 				if (appObject != NULL)
 					appObject->on(event, func);
+			}
+
+			void Container::destroy(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				if (appObject != NULL)
+					delete appObject;
+				
+				V8_JAVASCRIPT_ENGINE->v8ClearExternal(args.This(), "_appObj");
 			}
 		}
 	}

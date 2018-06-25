@@ -57,6 +57,7 @@ namespace RadJAV
 				V8_CALLBACK(object, "setEnabled", WebView::setEnabled);
 				V8_CALLBACK(object, "getEnabled", WebView::getEnabled);
 				V8_CALLBACK(object, "on", WebView::on);
+				V8_CALLBACK(object, "destroy", WebView::destroy);
 			}
 
 			void WebView::create(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -331,6 +332,15 @@ namespace RadJAV
 
 				if (appObject != NULL)
 					appObject->on(event, func);
+			}
+
+			void WebView::destroy(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				if (appObject != NULL)
+					delete appObject;
+				
+				V8_JAVASCRIPT_ENGINE->v8ClearExternal(args.This(), "_appObj");
 			}
 			#endif
 		}

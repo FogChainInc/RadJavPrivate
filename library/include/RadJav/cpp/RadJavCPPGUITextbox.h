@@ -37,7 +37,7 @@
 			{
 				#ifdef GUI_USE_WXWIDGETS
 					/// The wxWidgets button to use.
-					class RADJAV_EXPORT TextboxFrame : public wxTextCtrl, public GObjectBase
+					class RADJAV_EXPORT TextboxFrame : public wxTextCtrl, public GObjectBase, public ChainedPtr
 					{
 						public:
 							TextboxFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size);

@@ -315,7 +315,9 @@
 				//void v8SetExternal(v8::Local<v8::Object> context, String functionName, void *obj);
 				/// Set and wrap external object
 				void v8SetExternal(v8::Local<v8::Object> context, String functionName, CPP::ChainedPtr *obj);
-			
+				/// Clear external field
+				void v8ClearExternal(v8::Local<v8::Object> context, String functionName);
+
 				/// Get an internal field.
 				void *v8GetInternalField(v8::Local<v8::Object> context, String functionName);
 				/// Get a V8 argument.

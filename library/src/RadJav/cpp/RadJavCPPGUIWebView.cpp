@@ -110,6 +110,8 @@ namespace RadJAV
 					object->webView->Show(_visible);
 
 					_appObj = object;
+				
+					linkWith(object);
 
 					setup();
 				#endif

@@ -56,6 +56,7 @@ namespace RadJAV
 				V8_CALLBACK(object, "setEnabled", Label::setEnabled);
 				V8_CALLBACK(object, "getEnabled", Label::getEnabled);
 				V8_CALLBACK(object, "on", Label::on);
+				V8_CALLBACK(object, "destroy", Label::destroy);
 			}
 
 			void Label::create(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -250,10 +251,10 @@ namespace RadJAV
 				String str = parseV8Value(val);
 				V8_JAVASCRIPT_ENGINE->v8SetString(args.This(), "_text", str);
 
-				/*UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
 
 				if (appObject != NULL)
-					appObject->setText(str);*/
+					appObject->setText(str);
 			}
 
 			void Label::getText(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -330,6 +331,15 @@ namespace RadJAV
 
 				if (appObject != NULL)
 					appObject->on(event, func);*/
+			}
+
+			void Label::destroy(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				if (appObject != NULL)
+					delete appObject;
+				
+				V8_JAVASCRIPT_ENGINE->v8ClearExternal(args.This(), "_appObj");
 			}
 		}
 	}

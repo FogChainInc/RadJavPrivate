@@ -107,6 +107,7 @@ namespace RadJAV
 				#ifdef GUI_USE_WXWIDGETS
 					WindowFrame *object = RJNEW WindowFrame(_text, 
 						wxPoint(_transform->x, _transform->y), wxSize(_transform->width, _transform->height));
+				
 					linkWith(object);
 				
 					wxPanel *panel = RJNEW wxPanel(object, wxID_ANY);

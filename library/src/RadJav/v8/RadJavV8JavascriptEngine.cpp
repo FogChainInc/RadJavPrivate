@@ -1871,6 +1871,19 @@ namespace RadJAV
 			context->Set(functionName.toV8String(isolate), wrapper->objectTemplateInstance());
 		}
 
+		void V8JavascriptEngine::v8ClearExternal(v8::Local<v8::Object> context, String functionName)
+		{
+			v8::Handle<v8::Value> value = context->Get(functionName.toV8String(isolate));
+			
+			if (v8IsNull(value) == true)
+				return;
+			
+			v8::Handle<v8::Object> object = value->ToObject(context->GetIsolate());
+			
+			v8::Local<v8::External> val = v8::External::New (context->GetIsolate(), nullptr);
+			object->SetInternalField(0, val);
+		}
+
 		void *V8JavascriptEngine::v8GetInternalField(v8::Local<v8::Object> context, String functionName)
 		{
 			v8::Local<v8::Value> value = context->Get(functionName.toV8String(isolate));

@@ -56,6 +56,7 @@ namespace RadJAV
 				V8_CALLBACK(object, "setEnabled", Checkbox::setEnabled);
 				V8_CALLBACK(object, "getEnabled", Checkbox::getEnabled);
 				V8_CALLBACK(object, "on", Checkbox::on);
+				V8_CALLBACK(object, "destroy", Checkbox::destroy);
 
 				V8_CALLBACK(object, "setChecked", Checkbox::setChecked);
 				V8_CALLBACK(object, "isChecked", Checkbox::isChecked);
@@ -354,6 +355,15 @@ namespace RadJAV
 					value = appObject->isChecked();
 
 				args.GetReturnValue().Set(v8::Boolean::New(V8_JAVASCRIPT_ENGINE->isolate, value));
+			}
+
+			void Checkbox::destroy(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				if (appObject != NULL)
+					delete appObject;
+				
+				V8_JAVASCRIPT_ENGINE->v8ClearExternal(args.This(), "_appObj");
 			}
 		}
 	}
