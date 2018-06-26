@@ -220,7 +220,7 @@
 			v8::Isolate* isolate_;
 		};
 		
-		class ExternalFieldWrapper;
+		class ExternalsManager;
 		
 		/// The V8 javascript engine.
 		class RADJAV_EXPORT V8JavascriptEngine: public JavascriptEngine
@@ -310,7 +310,7 @@
 				v8::Local<v8::Object> v8CallAsConstructor(v8::Local<v8::Object> function, RJINT numArgs, v8::Local<v8::Value> *args);
 
 				/// Get a V8 native object.
-				void *v8GetExternal(v8::Local<v8::Object> context, String functionName);
+				CPP::ChainedPtr* v8GetExternal(v8::Local<v8::Object> context, String functionName);
 				/// Set a V8 native object.
 				//void v8SetExternal(v8::Local<v8::Object> context, String functionName, void *obj);
 				/// Set and wrap external object
@@ -363,14 +363,6 @@
 				#endif
 
 			protected:
-				/// Type name for the list of external wrapped objects
-				typedef std::vector<ExternalFieldWrapper*> ExternalObjectsList;
-
-			protected:
-				/// Delete all outstanding wrapped external data
-				void deleteExternals();
-
-			protected:
 				v8::ArrayBuffer::Allocator* arrayBufferAllocator;
 				Array<String> jsToExecuteNextCode;
 				Array<String> jsToExecuteNextFilename;
@@ -383,7 +375,7 @@
 
 				RJBOOL useInspector;
 			
-				ExternalObjectsList externalObjects;
+				ExternalsManager* externalsManager;
 			
 				//not used
 				std::unique_ptr<V8JSInspectorClient> inspector;

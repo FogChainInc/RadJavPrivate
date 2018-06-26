@@ -371,7 +371,7 @@ namespace RadJAV
 #endif
 
 #ifdef USE_V8
-	v8::Local<v8::String> String::toV8String(v8::Isolate *isolate)
+	v8::Local<v8::String> String::toV8String(v8::Isolate *isolate) const
 	{
 		return (v8::String::NewFromUtf8(isolate, this->c_str()));
 	}

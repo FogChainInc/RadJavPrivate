@@ -443,6 +443,8 @@ namespace RadJAV
 
 	void RadJav::shutdown()
 	{
+		DELETEOBJ(javascriptEngine);
+
 		DELETEOBJ (lang);
 		DELETEOBJ(theme);
 
@@ -451,9 +453,7 @@ namespace RadJAV
 			DELETEOBJ(app);
 			wxEntryCleanup();
 		#endif
-
-		DELETEOBJ(javascriptEngine);
-
+		
 		#ifdef HTTP_USE_CURL
 			curl_global_cleanup ();
 		#endif

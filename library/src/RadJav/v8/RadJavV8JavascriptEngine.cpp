@@ -177,11 +177,14 @@ namespace RadJAV
 			/**
 			 * A constructor.
 			 * @param handle is a context to which we will add new V8 object.
+			 * @param objectId is a unique ID of external object.
 			 * @param data a pointer to ChainedPtr derived class which will be
 			 *  exposed to V8
 			 */
-			ExternalFieldWrapper (const v8::Local<v8::Object> &handle, CPP::ChainedPtr *data)
+			ExternalFieldWrapper (const v8::Local<v8::Object> &handle, uint32_t objectId, CPP::ChainedPtr *data)
 			{
+				objectUniqueId = objectId;
+				
 				// Hook on raw pointer to be notified when it is destroyed
 				objectHook = RJNEW CPP::ChainedPtrHook(data, [&]
 				{
@@ -225,6 +228,28 @@ namespace RadJAV
 			}
 			
 			/**
+			 * Get unique Id of external object.
+			 * @return uint64_t external object ID.
+			 */
+			uint64_t objectId() const
+			{
+				return objectUniqueId;
+			}
+			
+			/**
+			 * Get underlying external object.
+			 * @return CPP::ChainedPtr a pointer to external object.
+			 */
+			CPP::ChainedPtr* objectPtr()
+			{
+				if(objectHook)
+				{
+					return objectHook->object();
+				}
+				
+				return nullptr;
+			}
+			/**
 			 * Action to execute when wrapper is going out of scope.
 			 * Can be used to remove wrapper from global list of
 			 * wrapped objects.
@@ -253,31 +278,15 @@ namespace RadJAV
 				
 				objectInstance = objectTemplate->NewInstance (handle->CreationContext()).ToLocalChecked();
 				
-				v8::Local<v8::External> val = v8::External::New (handle->GetIsolate(), objectHook->object());
+				v8::Local<v8::Integer> val = v8::Uint32::NewFromUnsigned(handle->GetIsolate(), objectUniqueId);
 				objectInstance->SetInternalField(0, val);
 				
-				// Assitiate Persistent with object
+				// Associate Persistent with object
 				persistent.Reset(handle->GetIsolate(), objectInstance);
 				
 				// Mark Persistent as weak to receive callback from garbage collector
 				persistent.SetWeak(this, callback, v8::WeakCallbackType::kParameter);
 				persistent.MarkIndependent();
-				
-				//Variant 2 using Internal
-				/*
-				 v8::Isolate* isolate = handle->GetIsolate();
-				 v8::Local<v8::ObjectTemplate> objTemplate = v8::ObjectTemplate::New(isolate);
-				 objTemplate->SetInternalFieldCount(1);
-				 
-				 v8::Local<v8::Object> inst = objTemplate->NewInstance();
-				 
-				 inst->SetAlignedPointerInInternalField(0, objectHook->object());
-				 
-				 persistent.Reset(isolate, inst);
-				 persistent.SetWeak(this, callback, v8::WeakCallbackType::kParameter);
-				 persistent.MarkIndependent();
-				 objectInstance = v8::Local<v8::Object>::New(isolate, persistent);
-				 */
 			}
 			
 			/**
@@ -314,15 +323,107 @@ namespace RadJAV
 			v8::Local<v8::ObjectTemplate> objectTemplate;
 			
 			CPP::ChainedPtrHook* objectHook;
-			
+			uint32_t objectUniqueId;
 			v8::Local<v8::Object> objectInstance;
 			std::function<void (ExternalFieldWrapper*)> aboutDelete;
 		};
 
+		class ExternalsManager
+		{
+		public:
+			ExternalsManager() {}
+			~ExternalsManager()
+			{
+				while (!externals.empty())
+				{
+					// Remove objects which were not cleared by V8 garbage collector
+					auto item = --externals.end();
+					ExternalFieldWrapper* wrapper = item->second;
+					externals.erase(item);
+					DELETEOBJ(wrapper);
+				}
+			}
+			
+			ExternalsManager(const ExternalsManager& ) = delete;
+			ExternalsManager& operator = (const ExternalsManager&) = delete;
+			
+			void set(const v8::Local<v8::Object>& handle, const String& functionName, CPP::ChainedPtr* object)
+			{
+				uint32_t objectId = nextId();
+				ExternalFieldWrapper* wrapper = RJNEW ExternalFieldWrapper(handle, objectId, object);
+				wrapper->onDelete( [&](ExternalFieldWrapper* wrapper)
+								  {
+									  auto pos = externals.find( wrapper->objectId());
+									  if(pos != externals.end())
+									  {
+										  // Remove wrapped object from the list of external objects
+										  externals.erase(pos);
+									  }
+								  });
+
+				// Put wrapped object into the list of external objects
+				externals[objectId] = wrapper;
+				
+				// Assotiate JavaScript variable with wrapped external object
+				handle->Set( functionName.toV8String( handle->GetIsolate()), wrapper->objectTemplateInstance());
+			}
+			
+			CPP::ChainedPtr* get(const v8::Local<v8::Object>& handle, const String& functionName)
+			{
+				v8::Isolate* isolate = handle->GetIsolate();
+				v8::Handle<v8::Value> value = handle->Get(functionName.toV8String(isolate));
+				
+				if (V8_JAVASCRIPT_ENGINE->v8IsNull(value) == true)
+					return nullptr;
+				
+				v8::Handle<v8::Object> object = value->ToObject(isolate);
+				
+				v8::Local<v8::Value> objectIdValue = object->GetInternalField(0);
+				
+				v8::Handle<v8::Uint32> external = v8::Handle<v8::Uint32>::Cast(objectIdValue);
+				
+				uint32_t objectId = external->Value();
+				
+				auto pos = externals.find( objectId);
+				
+				if(pos == externals.end())
+					return nullptr;
+				
+				return pos->second->objectPtr();
+			}
+			
+			void clear(const v8::Local<v8::Object>& handle, const String& functionName)
+			{
+				v8::Isolate* isolate = handle->GetIsolate();
+				v8::Handle<v8::Value> value = handle->Get(functionName.toV8String(isolate));
+				
+				if (V8_JAVASCRIPT_ENGINE->v8IsNull(value) == true)
+					return;
+				
+				v8::Handle<v8::Object> object = value->ToObject(isolate);
+				
+				v8::Local<v8::Integer> val = v8::Uint32::New (isolate, 0);
+				object->SetInternalField(0, val);
+			}
+			
+		private:
+			uint32_t nextId()
+			{
+				static uint32_t objectId = 0;
+				
+				return ++objectId;
+			}
+			
+		private:
+			std::map<uint32_t, ExternalFieldWrapper*> externals;
+		};
+	
 		V8JavascriptEngine::V8JavascriptEngine()
 			: JavascriptEngine(),
 			  arrayBufferAllocator(nullptr)
 		{
+			externalsManager = RJNEW ExternalsManager();
+			
 			String execPath = "";
 
 			#ifdef GUI_USE_WXWIDGETS
@@ -390,6 +491,8 @@ namespace RadJAV
 
 		V8JavascriptEngine::~V8JavascriptEngine()
 		{
+			DELETEOBJ(externalsManager);
+
 			DELETEOBJ(radJav);
 			destroyJSObjects();
 
@@ -774,9 +877,6 @@ namespace RadJAV
 			DELETEOBJ( client );
 			isolate->ContextDisposedNotification();
 			isolate->LowMemoryNotification();
-
-			//Remove not freed external data
-			deleteExternals();
 		}
 
 		void V8JavascriptEngine::runApplicationFromFile(String file)
@@ -1810,34 +1910,9 @@ namespace RadJAV
 			return (obj);
 		}
 
-		void *V8JavascriptEngine::v8GetExternal(v8::Local<v8::Object> context, String functionName)
+		CPP::ChainedPtr* V8JavascriptEngine::v8GetExternal(v8::Local<v8::Object> context, String functionName)
 		{
-			// Variant 1
-			// Old deprecated implementation
-			/*
-			v8::Handle<v8::Value> value = context->Get(functionName.toV8String(isolate));
-
-			if (v8IsNull(value) == true)
-				return (NULL);
-
-			v8::Handle<v8::External> ext = v8::Handle<v8::External>::Cast(value);
-
-			return (ext->Value());
-			 */
-
-			//Variant 2 which utilize Wrapper
-			v8::Handle<v8::Value> value = context->Get(functionName.toV8String(isolate));
-			
-			if (v8IsNull(value) == true)
-				return nullptr;
-			
-			v8::Handle<v8::Object> object = value->ToObject(context->GetIsolate());
-			
-			v8::Local<v8::Value> externalValue = object->GetInternalField(0);
-			
-			v8::Handle<v8::External> external = v8::Handle<v8::External>::Cast(externalValue);
-			
-			return (external->Value());
+			return externalsManager->get(context, functionName);
 		}
 
 		/* Replaced with method which utilize wrapper
@@ -1850,38 +1925,12 @@ namespace RadJAV
 
 		void V8JavascriptEngine::v8SetExternal(v8::Local<v8::Object> context, String functionName, CPP::ChainedPtr *obj)
 		{
-			// Wrap object
-			ExternalFieldWrapper *wrapper = RJNEW ExternalFieldWrapper( context, obj);
-		
-			// Provide action to perform before object will go out of scope
-			wrapper->onDelete( [&](ExternalFieldWrapper* wrapper)
-			{
-				auto pos = std::find(externalObjects.begin(), externalObjects.end(), wrapper);
-				if(pos != externalObjects.end())
-				{
-					// Remove wrapped object from the list of external objects
-					externalObjects.erase(pos);
-				}
-			});
-
-			// Put wrapped object into the list of external objects
-			externalObjects.push_back(wrapper);
-		
-			// Assotiate JavaScript variable with wrapped external object
-			context->Set(functionName.toV8String(isolate), wrapper->objectTemplateInstance());
+			externalsManager->set(context, functionName, obj);
 		}
 
 		void V8JavascriptEngine::v8ClearExternal(v8::Local<v8::Object> context, String functionName)
 		{
-			v8::Handle<v8::Value> value = context->Get(functionName.toV8String(isolate));
-			
-			if (v8IsNull(value) == true)
-				return;
-			
-			v8::Handle<v8::Object> object = value->ToObject(context->GetIsolate());
-			
-			v8::Local<v8::External> val = v8::External::New (context->GetIsolate(), nullptr);
-			object->SetInternalField(0, val);
+			externalsManager->clear(context, functionName);
 		}
 
 		void *V8JavascriptEngine::v8GetInternalField(v8::Local<v8::Object> context, String functionName)
@@ -1979,16 +2028,5 @@ namespace RadJAV
 			context_.Reset(isolate_, context);
 		}
 	
-		void V8JavascriptEngine::deleteExternals()
-		{
-			while (!externalObjects.empty())
-			{
-				// Remove objects which were not cleared by V8 garbage collector
-				auto item = externalObjects.back();
-				externalObjects.pop_back();
-				DELETEOBJ(item);
-			}
-		}
-
 	#endif
 }

@@ -175,7 +175,7 @@
 
 			#ifdef USE_V8
 				/// Convert a string into a V8 string.
-				v8::Local<v8::String> toV8String(v8::Isolate *isolate);
+				v8::Local<v8::String> toV8String(v8::Isolate *isolate) const;
 			#endif
 		};
 
