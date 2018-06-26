@@ -21,6 +21,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #ifndef _RADJAV_CPP_AGENT_IO_H_
 #define _RADJAV_CPP_AGENT_IO_H_
 
+#ifdef USE_INSPECTOR
 #include <string>
 #include "v8-inspector.h"
 
@@ -284,4 +285,5 @@ namespace inspector
 	};
 } // namespace inspector
 
+#endif
 #endif  // _RADJAV_CPP_AGENT_IO_H_

@@ -234,7 +234,7 @@ namespace RadJAV
 				if (overwriteIfExists == false)
 					option = boost::filesystem::copy_option::fail_if_exists;
 
-				boost::filesystem::copy_file(srcPath, destPath / srcPath.filename(), option);
+				boost::filesystem::copy_file(srcPath, destPath, option);
 			}
 			catch (boost::filesystem::filesystem_error ex)
 			{

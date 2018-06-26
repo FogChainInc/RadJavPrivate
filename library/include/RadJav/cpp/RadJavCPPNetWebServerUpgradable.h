@@ -22,6 +22,7 @@
 
 	#include "RadJavPreprocessor.h"
 
+#ifdef USE_INSPECTOR
 	#include <boost/beast/core.hpp>
 	#include <boost/beast/http.hpp>
 	#include <boost/beast/websocket.hpp>
@@ -34,7 +35,6 @@
 	#include <memory>
 	#include <string>
 	#include <vector>
-
 
 namespace inspector {
 	class Semaphore;
@@ -224,5 +224,6 @@ namespace inspector {
 			}
 		}
 	}
+#endif
 #endif // _RADJAV_CPP_NET_WEBSERVERUPGRADABLE_H_
 

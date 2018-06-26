@@ -21,6 +21,7 @@
 #include "cpp/RadJavCPPAgent.h"
 #include "cpp/RadJavCPPAgentIo.h"
 
+#ifdef USE_INSPECTOR
 #include "v8-inspector.h"
 #include "v8-platform.h"
 
@@ -314,4 +315,5 @@ namespace inspector {
 	}
 
 } // namespace inspector
+#endif
 

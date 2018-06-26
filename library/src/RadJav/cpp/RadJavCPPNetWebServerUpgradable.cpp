@@ -19,6 +19,7 @@
 */
 #include "cpp/RadJavCPPNetWebServerUpgradable.h"
 
+#ifdef USE_INSPECTOR
 #include "RadJav.h"
 #include "RadJavString.h"
 #include "cpp/RadJavCPPNetWebServer.h"
@@ -516,4 +517,5 @@ namespace RadJAV
 		}
 	}
 }
+#endif
 
