@@ -19,6 +19,8 @@
  */
 #include "cpp/RadJavCPPChainedPtr.h"
 
+#include <algorithm>
+
 namespace RadJAV
 {
 	namespace CPP
