@@ -206,7 +206,12 @@ namespace RadJAV
 
 				// Remove hooked raw pointer if not removed
 				// by GC callback or CPP side
-				delete objectHook;
+				if(objectHook)
+				{
+					// We know that this is ugly but we didn't have a better way for now
+					V8_JAVASCRIPT_ENGINE->isolate->AdjustAmountOfExternalAllocatedMemory( -sizeof(objectHook));
+					DELETEOBJ(objectHook);
+				}
 				
 				if (!persistent.IsEmpty())
 				{
@@ -287,6 +292,9 @@ namespace RadJAV
 				// Mark Persistent as weak to receive callback from garbage collector
 				persistent.SetWeak(this, callback, v8::WeakCallbackType::kParameter);
 				persistent.MarkIndependent();
+				
+				// We know that this is ugly but we didn't have a better way for now
+				V8_JAVASCRIPT_ENGINE->isolate->AdjustAmountOfExternalAllocatedMemory( sizeof(objectHook));
 			}
 			
 			/**
@@ -295,6 +303,9 @@ namespace RadJAV
 			 */
 			void objectDestroyed()
 			{
+				// We know that this is ugly but we didn't have a better way for now
+				V8_JAVASCRIPT_ENGINE->isolate->AdjustAmountOfExternalAllocatedMemory( -sizeof(objectHook));
+
 				objectHook = nullptr;
 				
 				if (!persistent.IsEmpty())
@@ -420,7 +431,8 @@ namespace RadJAV
 	
 		V8JavascriptEngine::V8JavascriptEngine()
 			: JavascriptEngine(),
-			  arrayBufferAllocator(nullptr)
+			  arrayBufferAllocator(nullptr),
+			  externalsManager(nullptr)
 		{
 			externalsManager = RJNEW ExternalsManager();
 			
