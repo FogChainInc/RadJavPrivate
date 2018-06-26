@@ -33,23 +33,25 @@ namespace RadJAV
 			while(toDelete.size())
 			{
 				auto item = toDelete.begin();
+				ChainedPtr* object = (*item);
 				toDelete.erase(item);
 				
-				(*item)->unlink(this);
-				delete (*item);
+				object->unlink(this);
+				delete object;
 			}
 			
-			// If during destruction we still have object
+			// If during destruction we still have objects
 			// which linked with us need to destroy them
 			while(linkedWith.size())
 			{
 				auto linked = linkedWith.begin();
+				ChainedPtr* object = (*linked);
 				linkedWith.erase(linked);
 				
 				// Exclude us from parent so it will not destroy
 				// us again in it's destructor
-				(*linked)->exclude(this);
-				delete (*linked);
+				object->exclude(this);
+				delete object;
 			}
 		}
 		

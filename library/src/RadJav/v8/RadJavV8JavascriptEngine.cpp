@@ -213,7 +213,8 @@ namespace RadJAV
 					DELETEOBJ(objectHook);
 				}
 				
-				if (!persistent.IsEmpty())
+				if (!persistent.IsEmpty() &&
+					persistent.IsNearDeath())
 				{
 					// Clear GC callback
 					persistent.ClearWeak();
@@ -306,13 +307,13 @@ namespace RadJAV
 				// We know that this is ugly but we didn't have a better way for now
 				V8_JAVASCRIPT_ENGINE->isolate->AdjustAmountOfExternalAllocatedMemory( -sizeof(objectHook));
 
+				// Object to which we subscribed going out of scope
 				objectHook = nullptr;
 				
-				if (!persistent.IsEmpty())
-				{
-					persistent.ClearWeak();
-					persistent.Reset();
-				}
+				// We did not clear persistent in that case, assume that
+				// we still be able to receive garbage collector weak callbacks
+				// for that object. Persistent in that case will be cleared in
+				// our destructor.
 			}
 			
 		protected:
