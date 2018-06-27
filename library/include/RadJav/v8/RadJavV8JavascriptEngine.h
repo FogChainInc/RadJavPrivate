@@ -23,6 +23,8 @@
 	#include "RadJavPreprocessor.h"
 
 #ifdef USE_V8
+	#include "RadJavV8Externals.h"
+
 	#include <v8.h>
 	#include <v8-inspector.h>
 
@@ -220,8 +222,6 @@
 			v8::Isolate* isolate_;
 		};
 		
-		class ExternalsManager;
-		
 		/// The V8 javascript engine.
 		class RADJAV_EXPORT V8JavascriptEngine: public JavascriptEngine
 		{
@@ -311,10 +311,20 @@
 
 				/// Get a V8 native object.
 				CPP::ChainedPtr* v8GetExternal(v8::Local<v8::Object> context, String functionName);
-				/// Set a V8 native object.
-				//void v8SetExternal(v8::Local<v8::Object> context, String functionName, void *obj);
+				/// Get a V8 native object.
+				template<class T>
+				T* v8GetRawExternal(v8::Local<v8::Object> context, String functionName)
+				{
+					return externalsManager->get<T>(context, functionName);
+				}
 				/// Set and wrap external object
 				void v8SetExternal(v8::Local<v8::Object> context, String functionName, CPP::ChainedPtr *obj);
+				/// Set and wrap external object
+				template<class T>
+				void v8SetRawExternal(v8::Local<v8::Object> context, String functionName, T *obj)
+				{
+					externalsManager->set<T>(context, functionName, obj);
+				}
 				/// Clear external field
 				void v8ClearExternal(v8::Local<v8::Object> context, String functionName);
 
