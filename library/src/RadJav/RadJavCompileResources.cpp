@@ -229,10 +229,15 @@ int main(int iArgs, char **cArgs)
 				return (1);
 			}
 
-			int pos = text.find("*/");
+			int pos = text.find("MIT-LICENSE");
 
 			if (pos != std::string::npos)
-				text = text.substr(pos + 2);
+			{
+				pos = text.find("*/");
+
+				if (pos != std::string::npos)
+					text = text.substr(pos + 2);
+			}
 
 			int countNewLines = 0;
 

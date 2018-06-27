@@ -69,14 +69,35 @@ namespace RadJav
 				this.options = {};
 			}
 
+			createView (name: string, root: string | HTMLElement | RadJav.GUI.GObject | RadJav.Interact.View = null): View
+			{
+				let view = new RadJav.Interact.View (this, name);
+
+				if (root != null)
+				{
+					let counter = 0;
+
+					// This is essentially the ES3 version of Object.keys(this._views).length
+					for (let key in this._views)
+					{
+						counter++;
+
+						break;
+					}
+
+					if (counter == 0)
+						this.setView (root, view);
+					else
+						this.root = (<string | HTMLElement | RadJav.GUI.GObject>root);
+				}
+				else
+					this.addView (view);
+
+				return (view);
+			}
+
 			addView (view: View): void
 			{
-				if (view.name == "")
-					throw new Error ("View must have a name!");
-
-				if (view.name == null)
-					throw new Error ("View must have a name!");
-
 				view._app = this;
 				this._views[view.name] = view;
 			}
@@ -113,6 +134,15 @@ namespace RadJav
 
 				if (RadJav.OS.HTML5 != null)
 				{
+					if (this.options.useJQuery == null)
+						this.options.useJQuery = false;
+
+					if (this.options.bootstrap4 != null)
+					{
+						if (this.options.bootstrap4 == true)
+							this.options.useJQuery = true;
+					}
+
 					if (typeof (root) == "string")
 						root = (<HTMLElement>document.querySelector ((<string>root)));
 
@@ -121,10 +151,7 @@ namespace RadJav
 					{
 						let htmlElm = (<RadJav.GUI.GObject>this.currentView._mainComponent.display)._html;
 
-						if (this.options.bootstrap4 == true)
-							$(root).append ($(htmlElm));
-						else
-							(<HTMLElement>root).appendChild (htmlElm);
+						(<HTMLElement>root).appendChild (htmlElm);
 					}
 
 					/// Go through each component and create the tag.
@@ -148,6 +175,9 @@ namespace RadJav
 
 			build (newApp: CompiledApp = null): CompiledApp
 			{
+				if (this.currentView == null)
+					throw new Error ("A current view has not been set!");
+
 				let app: CompiledApp = newApp;
 
 				if (app == null)
@@ -172,7 +202,10 @@ namespace RadJav
 			static loadApp (file: string | Function): void
 			{
 				if (typeof (file) == "string")
+				{
+					
 					include ((<string>file));
+				}
 				else
 					(<Function>file)();
 			}
@@ -194,8 +227,11 @@ namespace RadJav
 			/// The app that contains this view.
 			public _app: App;
 
-			constructor (name: string)
+			constructor (app: App, name: string)
 			{
+				if (app == null)
+					throw new Error ("View must an app!");
+
 				if (name == null)
 					throw new Error ("View must have a name!");
 
@@ -207,7 +243,7 @@ namespace RadJav
 				this._refCount = 0;
 				this._events = {};
 				this._mainComponent = null;
-				this._app = null;
+				this._app = app;
 			}
 
 			/** @method createComponent
@@ -267,7 +303,7 @@ namespace RadJav
 
 			build (newApp: CompiledApp): CompiledView
 			{
-				let view: CompiledView = new CompiledView (this.name);
+				let view: CompiledView = new CompiledView (this.name, this._app.root.toString ());
 
 				/// @todo Do component tree-shaking here? At minimum, give the compiler an option to do so.
 				for (let compName in this._components)
@@ -338,12 +374,20 @@ namespace RadJav
 				if (obj.name == "")
 					throw new Error ("Component must have a name!");
 
+				if (parentView == null)
+					throw new Error ("Component must have a parent view!");
+
 				if (obj["display"] != null)
 				{
 					if (typeof obj.display == "string")
 					{
 						if (RadJav.OS.HTML5 != null)
+						{
+							if (parentView._app.options.useJQuery == true)
+								obj.display = $(obj.display);
+
 							obj.display = new RadJav.GUI.HTMLElement (obj.name, obj.display);
+						}
 
 						parentView._refCount++;
 					}
@@ -669,7 +713,7 @@ namespace RadJav
 				this.html = new CompiledHTML (name);
 				this.xrjApp = new CompiledXRJApp (name);
 				this.views = [];
-				this.compiledStr = "var app = new RadJav.Interact.App (\"" + this.name + "\");";
+				this.compiledStr = "var app = new RadJav.Interact.App (\"" + this.name + "\");\n";
 				this.mainView = "";
 				this.root = "";
 
@@ -746,13 +790,13 @@ namespace RadJav
 
 			public compiledStr: string;
 
-			constructor (name: string)
+			constructor (name: string, root: string)
 			{
 				this.name = name;
 				this.compiledHTMLCSS = "";
 				this.components = {};
 				this.mainComponentName = "";
-				this.compiledStr = "var " + this.name + " = new RadJav.Interact.View (\"" + this.name + "\");\n";
+				this.compiledStr = "var " + this.name + " = app.createView (\"" + this.name + "\", \"" + root + "\");\n";
 			}
 
 			build (): string

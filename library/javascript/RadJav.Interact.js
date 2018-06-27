@@ -24,6 +24,7 @@ var RadJav;
                 this.html = null;
                 this.xrjApp = null;
                 this.root = null;
+                this.options = {};
             }
             App.prototype.addView = function (view) {
                 if (view.name == "")
@@ -48,12 +49,26 @@ var RadJav;
                 }
                 if (root.constructor["name"] != "View")
                     this.root = root;
-                debugger;
                 if (RadJav.OS.HTML5 != null) {
+                    var useJQuery = false;
+                    if (this.options.useJQuery != null) {
+                        if (this.options.useJQuery == true)
+                            useJQuery = true;
+                    }
+                    if (this.options.bootstrap4 != null) {
+                        if (this.options.bootstrap4 == true)
+                            useJQuery = true;
+                    }
                     if (typeof (root) == "string")
                         root = document.querySelector(root);
+                    if (RadJav.OS.HTML5 != null) {
+                        var htmlElm = this.currentView._mainComponent.display._html;
+                        if (useJQuery == true)
+                            $(root).append($(htmlElm));
+                        else
+                            root.appendChild(htmlElm);
+                    }
                     for (var comp in view._components) {
-                        view._components[comp].display.create();
                     }
                 }
             };
@@ -70,6 +85,7 @@ var RadJav;
                 if (app == null)
                     app = new CompiledApp(this.name);
                 app.mainView = this.currentView.name;
+                app.compiledStr += "app.options = " + JSON.stringify(this.options) + "\n";
                 if (this.root != null)
                     app.root = this.root.toString();
                 for (var key in this._views) {
