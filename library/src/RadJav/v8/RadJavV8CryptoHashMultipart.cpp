@@ -60,7 +60,7 @@ namespace RadJAV
 				void HashMultipart::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
 				  //std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
-				        ENGINE *engine = RJNEW ENGINE(V8_JAVASCRIPT_ENGINE, args);
+					std::shared_ptr<ENGINE> engine(RJNEW ENGINE(V8_JAVASCRIPT_ENGINE, args), [](ENGINE* p){DELETEOBJ(p)});
 					V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_engine", engine);
 
 					v8::Isolate *isolate = args.GetIsolate();
@@ -77,9 +77,9 @@ namespace RadJAV
 					//std::cout << __PRETTY_FUNCTION__ << std::endl;
 				}
 
-		                void HashMultipart::updateSync(const v8::FunctionCallbackInfo<v8::Value> &args)
+				void HashMultipart::updateSync(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
-					ENGINE *engine = (ENGINE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_engine");
+					std::shared_ptr<ENGINE> engine = V8_JAVASCRIPT_ENGINE->v8GetExternal<ENGINE>(args.This(), "_engine");
 					v8::Isolate *isolate = args.GetIsolate();
 					v8::Local<v8::Value> ret;
 
@@ -135,9 +135,9 @@ namespace RadJAV
 					args.GetReturnValue().Set(ret);
 				} // End of updateSync()
 		  
-		                void HashMultipart::update(const v8::FunctionCallbackInfo<v8::Value> &args)
+				void HashMultipart::update(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
-				        ENGINE *engine = (ENGINE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_engine");
+					std::shared_ptr<ENGINE> engine = V8_JAVASCRIPT_ENGINE->v8GetExternal<ENGINE>(args.This(), "_engine");
 					v8::Isolate *isolate = args.GetIsolate();
 					
 					std::shared_ptr<String> strArgHolder; // If a string is passed, it will be parsed and held here.
@@ -216,9 +216,9 @@ namespace RadJAV
 
 		    
 				  
-		                void HashMultipart::finalize(const v8::FunctionCallbackInfo<v8::Value> &args)
+				void HashMultipart::finalize(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
-					ENGINE *engine = (ENGINE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_engine");
+					std::shared_ptr<ENGINE> engine = V8_JAVASCRIPT_ENGINE->v8GetExternal<ENGINE>(args.This(), "_engine");
 					v8::Isolate *isolate = args.GetIsolate();
 					v8::Local<v8::Value> ret;
 
@@ -249,10 +249,10 @@ namespace RadJAV
 				} // End of finalize()
 
 		  
-		                void HashMultipart::getCapabilities(const v8::FunctionCallbackInfo<v8::Value> &args)
+				void HashMultipart::getCapabilities(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
 				  //std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl;
-					ENGINE *engine = (ENGINE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_engine");
+					std::shared_ptr<ENGINE> engine = V8_JAVASCRIPT_ENGINE->v8GetExternal<ENGINE>(args.This(), "_engine");
 
 					auto isolate = args.GetIsolate();
 					

@@ -59,7 +59,7 @@ namespace RadJAV
 				void Decipher::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
 				  //std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
-				        ENGINE *engine = RJNEW ENGINE(V8_JAVASCRIPT_ENGINE, args);
+					std::shared_ptr<ENGINE> engine(RJNEW ENGINE(V8_JAVASCRIPT_ENGINE, args), [](ENGINE* p){DELETEOBJ(p)});
 					V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_engine", engine);
 
 					v8::Isolate *isolate = args.GetIsolate();
@@ -80,11 +80,11 @@ namespace RadJAV
 
 
 		    
-		                void Decipher::decipherSync(const v8::FunctionCallbackInfo<v8::Value> &args)
+				void Decipher::decipherSync(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
 				  //std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl;
 
-					ENGINE *engine = (ENGINE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_engine");
+					std::shared_ptr<ENGINE> engine = V8_JAVASCRIPT_ENGINE->v8GetExternal<ENGINE>(args.This(), "_engine");
 					v8::Isolate *isolate = args.GetIsolate();
 					v8::Local<v8::Value> ret;
 
@@ -140,9 +140,9 @@ namespace RadJAV
 
 				} // End of decipherSync()
 		  
-		                void Decipher::decipher(const v8::FunctionCallbackInfo<v8::Value> &args)
+				void Decipher::decipher(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
-				        ENGINE *engine = (ENGINE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_engine");
+					std::shared_ptr<ENGINE> engine = V8_JAVASCRIPT_ENGINE->v8GetExternal<ENGINE>(args.This(), "_engine");
 					v8::Isolate *isolate = args.GetIsolate();
 
 					std::shared_ptr<String> strArgHolder; // If a string is passed, it will be parsed and held here.
@@ -220,10 +220,10 @@ namespace RadJAV
 
 				}  // End of decipher()
 				  
-		                void Decipher::getCapabilities(const v8::FunctionCallbackInfo<v8::Value> &args)
+				void Decipher::getCapabilities(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
 				  //std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl;
-					ENGINE *engine = (ENGINE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_engine");
+					std::shared_ptr<ENGINE> engine = V8_JAVASCRIPT_ENGINE->v8GetExternal<ENGINE>(args.This(), "_engine");
 
 					auto isolate = args.GetIsolate();
 					

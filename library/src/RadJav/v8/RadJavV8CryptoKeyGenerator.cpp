@@ -60,7 +60,7 @@ namespace RadJAV
 				void KeyGenerator::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
 				  //std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
-				        ENGINE *engine = RJNEW ENGINE(V8_JAVASCRIPT_ENGINE, args);
+					std::shared_ptr<ENGINE> engine(RJNEW ENGINE(V8_JAVASCRIPT_ENGINE, args), [](ENGINE* p){DELETEOBJ(p)});
 					V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_engine", engine);
 
 					v8::Isolate *isolate = args.GetIsolate();
@@ -78,9 +78,9 @@ namespace RadJAV
 				}
 
 
-		                void KeyGenerator::generate(const v8::FunctionCallbackInfo<v8::Value> &args)
+				void KeyGenerator::generate(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
-				        ENGINE *engine = (ENGINE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_engine");
+					std::shared_ptr<ENGINE> engine = V8_JAVASCRIPT_ENGINE->v8GetExternal<ENGINE>(args.This(), "_engine");
 					v8::Isolate *isolate = args.GetIsolate();
 
 					v8::Local<v8::Object> privateKeyParms = v8::Object::New(isolate);
@@ -117,7 +117,7 @@ namespace RadJAV
 					v8::Local<v8::Object> privateKeyJs = PrivateKey::newInstance(isolate, privateKeyParms);
 					
 					// Extract C++ wrapper object from Js object, generate key and embed it in the C++ wrapper.
-				        PRIV_KEY *privateKeyWrap = (PRIV_KEY *)V8_JAVASCRIPT_ENGINE->v8GetExternal(privateKeyJs, "_engine");
+					std::shared_ptr<PRIV_KEY> privateKeyWrap = V8_JAVASCRIPT_ENGINE->v8GetExternal<PRIV_KEY>(privateKeyJs, "_engine");
 					auto privateKey = engine -> generate();
 					privateKeyWrap -> setEngine(privateKey);
 					args.GetReturnValue().Set(privateKeyJs);

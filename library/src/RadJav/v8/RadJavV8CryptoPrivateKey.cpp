@@ -63,7 +63,7 @@ namespace RadJAV
 					//std::cout << __PRETTY_FUNCTION__ << ": end" << std::endl << std::flush;
 				}
 		  
-		                void PrivateKey::setConstructor(v8::Isolate* isolate, v8::Handle<v8::Function> constr)
+				void PrivateKey::setConstructor(v8::Isolate* isolate, v8::Handle<v8::Function> constr)
 				{
 				  constructor.Reset(isolate, constr);
 				}
@@ -71,7 +71,7 @@ namespace RadJAV
 				void PrivateKey::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
 				  //std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
-				        ENGINE *engine = RJNEW ENGINE(V8_JAVASCRIPT_ENGINE, args);
+					std::shared_ptr<ENGINE> engine(RJNEW ENGINE(V8_JAVASCRIPT_ENGINE, args), [](ENGINE* p){DELETEOBJ(p)});
 					V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_engine", engine);
 
 					v8::Isolate *isolate = args.GetIsolate();
@@ -111,8 +111,8 @@ namespace RadJAV
 				{
 				  std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
 				  v8::Isolate* isolate = args.GetIsolate();
-
-				  ENGINE *engine = RJNEW ENGINE(V8_JAVASCRIPT_ENGINE, args);
+		   
+		   		  std::shared_ptr<ENGINE> engine(RJNEW ENGINE(V8_JAVASCRIPT_ENGINE, args), [](ENGINE* p){DELETEOBJ(p)});
 				  V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_engine", engine);
 
 				  if (args.IsConstructCall()) {
@@ -135,8 +135,8 @@ namespace RadJAV
 				}
 		  */		    
 				    
-		                v8::Local<v8::Object> PrivateKey::newInstance(v8::Isolate *isolate, 
-									      v8::Local<v8::Object> privateKeyParms)
+				v8::Local<v8::Object> PrivateKey::newInstance(v8::Isolate *isolate,
+															  v8::Local<v8::Object> privateKeyParms)
 				{
 
 				  //std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
@@ -155,9 +155,9 @@ namespace RadJAV
 				  return instance;
 				}
 
-		                void PrivateKey::signSync(const v8::FunctionCallbackInfo<v8::Value> &args)
+				void PrivateKey::signSync(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
-					ENGINE *engine = (ENGINE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_engine");
+					std::shared_ptr<ENGINE> engine = V8_JAVASCRIPT_ENGINE->v8GetExternal<ENGINE>(args.This(), "_engine");
 					v8::Isolate *isolate = args.GetIsolate();
 					v8::Local<v8::Value> ret;
 
@@ -214,9 +214,9 @@ namespace RadJAV
 					
 				} // End of signSync()
 		  
-		                void PrivateKey::sign(const v8::FunctionCallbackInfo<v8::Value> &args)
+				void PrivateKey::sign(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
-				        ENGINE *engine = (ENGINE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_engine");
+					std::shared_ptr<ENGINE> engine = V8_JAVASCRIPT_ENGINE->v8GetExternal<ENGINE>(args.This(), "_engine");
 					v8::Isolate *isolate = args.GetIsolate();
 					
 					std::shared_ptr<String> strArgHolder; // If a string is passed, it will be parsed and held here.
@@ -294,9 +294,9 @@ namespace RadJAV
 				} // End of sign()
 		  
 		  
-		                void PrivateKey::encryptSync(const v8::FunctionCallbackInfo<v8::Value> &args)
+				void PrivateKey::encryptSync(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
-					ENGINE *engine = (ENGINE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_engine");
+					std::shared_ptr<ENGINE> engine = V8_JAVASCRIPT_ENGINE->v8GetExternal<ENGINE>(args.This(), "_engine");
 					v8::Isolate *isolate = args.GetIsolate();
 					v8::Local<v8::Value> ret;
 
@@ -353,9 +353,9 @@ namespace RadJAV
 					
 				} // End of encryptSync()
 		  
-		                void PrivateKey::encrypt(const v8::FunctionCallbackInfo<v8::Value> &args)
+				void PrivateKey::encrypt(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
-				        ENGINE *engine = (ENGINE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_engine");
+					std::shared_ptr<ENGINE> engine = V8_JAVASCRIPT_ENGINE->v8GetExternal<ENGINE>(args.This(), "_engine");
 					v8::Isolate *isolate = args.GetIsolate();
 					
 					std::shared_ptr<String> strArgHolder; // If a string is passed, it will be parsed and held here.
@@ -433,9 +433,9 @@ namespace RadJAV
 				} // End of encrypt()
 		  
 		  
-		                void PrivateKey::getPublicKey(const v8::FunctionCallbackInfo<v8::Value> &args)
+				void PrivateKey::getPublicKey(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
-				        ENGINE *engine = (ENGINE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_engine");
+					std::shared_ptr<ENGINE> engine = V8_JAVASCRIPT_ENGINE->v8GetExternal<ENGINE>(args.This(), "_engine");
 					v8::Isolate *isolate = args.GetIsolate();
 
 					v8::Local<v8::Object> publicKeyParms = v8::Object::New(isolate);
@@ -472,7 +472,7 @@ namespace RadJAV
 					v8::Local<v8::Object> publicKeyJs = PublicKey::newInstance(isolate, publicKeyParms);
 					
 					// Extract C++ wrapper object from Js object, generate key and embed it in the C++ wrapper.
-				        PUB_KEY *publicKeyWrap = (PUB_KEY *)V8_JAVASCRIPT_ENGINE->v8GetExternal(publicKeyJs, "_engine");
+				    std::shared_ptr<PUB_KEY> publicKeyWrap = V8_JAVASCRIPT_ENGINE->v8GetExternal<PUB_KEY>(publicKeyJs, "_engine");
 					auto publicKey = engine -> getPublicKey();
 					publicKeyWrap -> setEngine(publicKey);
 					args.GetReturnValue().Set(publicKeyJs);
