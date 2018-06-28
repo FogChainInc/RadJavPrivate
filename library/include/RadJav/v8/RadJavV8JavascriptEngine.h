@@ -313,7 +313,7 @@
 				CPP::ChainedPtr* v8GetExternal(v8::Local<v8::Object> context, String functionName);
 				/// Get a V8 native object.
 				template<class T>
-				T* v8GetRawExternal(v8::Local<v8::Object> context, String functionName)
+				std::shared_ptr<T> v8GetExternal(v8::Local<v8::Object> context, String functionName)
 				{
 					return externalsManager->get<T>(context, functionName);
 				}
@@ -321,7 +321,7 @@
 				void v8SetExternal(v8::Local<v8::Object> context, String functionName, CPP::ChainedPtr *obj);
 				/// Set and wrap external object
 				template<class T>
-				void v8SetRawExternal(v8::Local<v8::Object> context, String functionName, T *obj)
+				void v8SetExternal(v8::Local<v8::Object> context, String functionName, std::shared_ptr<T> obj)
 				{
 					externalsManager->set<T>(context, functionName, obj);
 				}

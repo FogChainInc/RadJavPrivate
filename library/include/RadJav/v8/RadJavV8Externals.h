@@ -46,7 +46,7 @@ namespace RadJAV
 		 */
 		enum class WrapperType
 		{
-			RawPtr,
+			SharedPtr,
 			ChainedPtr
 		};
 		
@@ -100,6 +100,7 @@ namespace RadJAV
 		uint32_t objectUniqueId;
 		std::function<void (FieldWrapper*)> aboutDelete;
 		WrapperType type;
+		v8::Isolate* isolate;
 	};
 	
 	/**
@@ -159,7 +160,7 @@ namespace RadJAV
 	 * Template class to wrap arbitrary C++ objects within V8.
 	 */
 	template<class T>
-	class RawPtrWrapper : public FieldWrapper
+	class SharedPtrWrapper : public FieldWrapper
 	{
 	public:
 		/**
@@ -167,15 +168,15 @@ namespace RadJAV
 		 * @param handle is a context to which we will add new V8 object.
 		 * @param objectInstance a newly created ObjectTemplate instance for external object.
 		 * @param objectId is a unique ID of external object.
-		 * @param data a pointer to an object which will be
-		 *  exposed to V8, ownership transferred to wrapper
+		 * @param data a shared pointer to an object which will be
+		 *  exposed to V8, wrapper will reset it during V8 garbage collector weak callback
 		 */
-		RawPtrWrapper (const v8::Local<v8::Object> &handle,
-					   const v8::Local<v8::Object>& objectInstance,
-					   uint32_t objectId,
-					   T *data)
-		: FieldWrapper(objectId, FieldWrapper::WrapperType::RawPtr),
-		object(data)
+		SharedPtrWrapper (const v8::Local<v8::Object> &handle,
+						  const v8::Local<v8::Object>& objectInstance,
+						  uint32_t objectId,
+						  std::shared_ptr<T> data)
+		: FieldWrapper(objectId, FieldWrapper::WrapperType::SharedPtr),
+		  object(data)
 		{
 			wrap(handle, objectInstance);
 		}
@@ -183,18 +184,20 @@ namespace RadJAV
 		/**
 		 * A destructor.
 		 */
-		virtual ~RawPtrWrapper ()
+		virtual ~SharedPtrWrapper ()
 		{
-			// Remove underlying object
-			DELETEOBJ(object);
-			//V8_JAVASCRIPT_ENGINE->isolate->AdjustAmountOfExternalAllocatedMemory( -sizeof(object));
+			// We know that this is ugly but we didn't have a better way for now
+			isolate->AdjustAmountOfExternalAllocatedMemory( -(int64_t)sizeof(object.get()));
+
+			// Reset underlying object
+			object.reset();
 		}
 		
 		/**
 		 * Get underlying external object.
 		 * @return T* a pointer to external object.
 		 */
-		T* objectPtr()
+		std::shared_ptr<T> objectPtr()
 		{
 			return object;
 		}
@@ -213,11 +216,11 @@ namespace RadJAV
 			FieldWrapper::wrap(handle, objectInstance);
 			
 			// We know that this is ugly but we didn't have a better way for now
-			//V8_JAVASCRIPT_ENGINE->isolate->AdjustAmountOfExternalAllocatedMemory( sizeof(object));
+			isolate->AdjustAmountOfExternalAllocatedMemory( sizeof(object.get()));
 		}
 		
 	protected:
-		T* object;
+		std::shared_ptr<T> object;
 	};
 	
 	/**
@@ -249,15 +252,15 @@ namespace RadJAV
 		void set(const v8::Local<v8::Object>& handle, const String& functionName, CPP::ChainedPtr* object);
 		
 		/**
-		 * Add relation between C++ object and corresponding V8 field.
-		 * Object will be destroyed during V8 garbage collector.
+		 * Template function to add a relation between C++ object and corresponding V8 field.
+		 * Object will be reset during V8 garbage collector weak callback or
+		 *  when ExternalsManager will go out of scope.
 		 * @param handle is a context to which we plan to add new V8 object.
 		 * @param functionName a name of the property of V8 object to bind external object with.
-		 * @param object a pointer to external object.
-		 *  Ownership is transferred to ExternalsManager.
+		 * @param object a shared pointer to external object.
 		 */
 		template<class T>
-		void set(const v8::Local<v8::Object>& handle, const String& functionName, T* object)
+		void set(const v8::Local<v8::Object>& handle, const String& functionName, std::shared_ptr<T> object)
 		{
 			uint32_t objectId = nextId();
 			v8::Local<v8::Object> objectInstance = newObjectInstance(handle);
@@ -265,7 +268,7 @@ namespace RadJAV
 			v8::Local<v8::Integer> val = v8::Uint32::NewFromUnsigned(handle->GetIsolate(), objectId);
 			objectInstance->SetInternalField(0, val);
 			
-			RawPtrWrapper<T>* wrapper = RJNEW RawPtrWrapper<T>(handle, objectInstance, objectId, object);
+			SharedPtrWrapper<T>* wrapper = RJNEW SharedPtrWrapper<T>(handle, objectInstance, objectId, object);
 			wrapper->onDelete( [&](FieldWrapper* wrapper)
 							  {
 								  auto pos = externals.find( wrapper->objectId());
@@ -285,7 +288,6 @@ namespace RadJAV
 		
 		/**
 		 * Get external object from V8 object's field.
-		 * Underlying C++ object will not be freed during that call.
 		 * If C++ external object is out of scope function will return nullptr.
 		 * @param handle is a context(V8 object) for which we query.
 		 * @param functionName a name of the property of V8 object from which to retrieve
@@ -296,40 +298,41 @@ namespace RadJAV
 		
 		/**
 		 * Template function to get external object from V8 object's field.
-		 * Underlying C++ object will not be freed during that call.
-		 * If C++ external object where freed by garbage collector notification then
-		 * function will return nullptr.
+		 * If C++ external object where freed by garbage collector weak callback then
+		 * function will return empty shared pointer.
 		 * @param handle is a context(V8 object) for which we query.
 		 * @param functionName a name of the property of V8 object from which to retrieve
 		 *  external object.
-		 * @return T* a pointer to arbitrary C++ object previously stored by set().
+		 * @return shared_ptr<T> a shared pointer to arbitrary C++ object previously stored by set().
 		 */
 		template<class T>
-		T* get(const v8::Local<v8::Object>& handle, const String& functionName)
+		std::shared_ptr<T> get(const v8::Local<v8::Object>& handle, const String& functionName)
 		{
 			uint32_t objectId = getObjectId( handle, functionName);
 			
 			auto pos = externals.find( objectId);
 			
 			if(pos == externals.end())
-				return nullptr;
+				return std::shared_ptr<T>();
 			
-			if(pos->second->getType() == FieldWrapper::WrapperType::RawPtr)
+			if(pos->second->getType() == FieldWrapper::WrapperType::SharedPtr)
 			{
-				RawPtrWrapper<T>* wrapper = dynamic_cast<RawPtrWrapper<T>*>(pos->second);
+				SharedPtrWrapper<T>* wrapper = dynamic_cast<SharedPtrWrapper<T>*>(pos->second);
 				return wrapper->objectPtr();
 			}
 			
-			return nullptr;
+			return std::shared_ptr<T>();
 		}
 		
 		/**
 		 * Clear V8 object's field which hold external object ID.
-		 * Underlying C++ object will not be freed during that call.
-		 * Subsequent calls to get() for this functionName will return nullptr.
+		 * Underlying C++ object will not be freed/reset during that call.
+		 *  Subsequent calls to get() for this functionName will return nullptr.
 		 * @param handle is a context(V8 object) for which we clear external object ID.
 		 * @param functionName a name of the property of V8 object from which to retrieve
 		 *  external object.
+		 * @note function is usefull in cases where we trying to delete wrapped C++ object from
+		 *  C++ side, lets say by destroy() function which were called from V8 side.
 		 */
 		void clear(const v8::Local<v8::Object>& handle, const String& functionName);
 		

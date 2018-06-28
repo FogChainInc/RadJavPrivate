@@ -19,6 +19,8 @@
  */
 #include "v8/RadJavV8Externals.h"
 #include "cpp/RadJavCPPChainedPtr.h"
+#include "RadJav.h"
+#include "v8/RadJavV8JavascriptEngine.h"
 
 #ifdef USE_V8
 
@@ -26,7 +28,8 @@ namespace RadJAV
 {
 	FieldWrapper::FieldWrapper(uint32_t objectId, WrapperType wrapperType)
 	: objectUniqueId(objectId),
-	type(wrapperType)
+	  type(wrapperType),
+	  isolate(nullptr)
 	{}
 	
 	FieldWrapper::~FieldWrapper()
@@ -45,6 +48,8 @@ namespace RadJAV
 			// Clear V8 Persistent object
 			persistent.Reset();
 		}
+		
+		isolate = nullptr;
 	}
 	
 	uint32_t FieldWrapper::objectId() const
@@ -65,8 +70,12 @@ namespace RadJAV
 	void FieldWrapper::wrap(const v8::Local<v8::Object> &handle,
 							const v8::Local<v8::Object>& objectInstance)
 	{
+		// Grab isolate pointer
+		// We sure that it will be destroyed after this wrapper
+		isolate = handle->GetIsolate();
+		
 		// Associate Persistent with object
-		persistent.Reset(handle->GetIsolate(), objectInstance);
+		persistent.Reset(isolate, objectInstance);
 		
 		// Mark Persistent as weak to receive callback from garbage collector
 		persistent.SetWeak(this, weakCallback, v8::WeakCallbackType::kParameter);
@@ -84,7 +93,7 @@ namespace RadJAV
 										  uint32_t objectId,
 										  CPP::ChainedPtr *data)
 	: FieldWrapper(objectId, FieldWrapper::WrapperType::ChainedPtr),
-	object(data)
+	  object(data)
 	{
 		wrap(handle, objectInstance);
 	}
@@ -95,8 +104,6 @@ namespace RadJAV
 		// by GC callback or CPP side
 		if (objectHook)
 		{
-			// We know that this is ugly but we didn't have a better way for now
-			//V8_JAVASCRIPT_ENGINE->isolate->AdjustAmountOfExternalAllocatedMemory( -sizeof(objectHook));
 			DELETEOBJ(objectHook);
 		}
 	}
@@ -119,14 +126,14 @@ namespace RadJAV
 											   });
 		
 		// We know that this is ugly but we didn't have a better way for now
-		//V8_JAVASCRIPT_ENGINE->isolate->AdjustAmountOfExternalAllocatedMemory( sizeof(objectHook));
+		isolate->AdjustAmountOfExternalAllocatedMemory( sizeof(object));
 	}
 	
 	void ChainedPtrWrapper::objectDestroyed()
 	{
 		// We know that this is ugly but we didn't have a better way for now
-		//V8_JAVASCRIPT_ENGINE->isolate->AdjustAmountOfExternalAllocatedMemory( -sizeof(objectHook));
-		
+		isolate->AdjustAmountOfExternalAllocatedMemory( -(int64_t)sizeof(object));
+
 		// Object to which we subscribed going out of scope
 		objectHook = nullptr;
 		object = nullptr;
@@ -201,8 +208,8 @@ namespace RadJAV
 		v8::Isolate* isolate = handle->GetIsolate();
 		v8::Handle<v8::Value> value = handle->Get(functionName.toV8String(isolate));
 		
-		//if (V8_JAVASCRIPT_ENGINE->v8IsNull(value) == true)
-		//	return;
+		if (V8_JAVASCRIPT_ENGINE->v8IsNull(value) == true)
+			return;
 		
 		v8::Handle<v8::Object> object = value->ToObject(isolate);
 		
@@ -215,8 +222,8 @@ namespace RadJAV
 		v8::Isolate* isolate = handle->GetIsolate();
 		v8::Handle<v8::Value> value = handle->Get(functionName.toV8String(isolate));
 		
-		//if (V8_JAVASCRIPT_ENGINE->v8IsNull(value) == true)
-		//	return 0;
+		if (V8_JAVASCRIPT_ENGINE->v8IsNull(value) == true)
+			return 0;
 		
 		v8::Handle<v8::Object> object = value->ToObject(isolate);
 		
