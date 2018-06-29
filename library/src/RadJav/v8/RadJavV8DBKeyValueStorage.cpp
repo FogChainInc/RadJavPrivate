@@ -48,13 +48,13 @@ namespace RadJAV
 
 				void KeyValueStorage::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
-					DBTYPE *storage = RJNEW DBTYPE();
+					std::shared_ptr<DBTYPE> storage(RJNEW DBTYPE(), [](DBTYPE* p){DELETEOBJ(p)});
 					V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_storage", storage);
 				}
 
 				void KeyValueStorage::open(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
-					DBTYPE *storage = (DBTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_storage");
+					std::shared_ptr<DBTYPE> storage = V8_JAVASCRIPT_ENGINE->v8GetExternal<DBTYPE>(args.This(), "_storage");
 					v8::Local<v8::String> val = v8::Local<v8::String>::Cast(args[0]);
 					String path = parseV8Value (val);
 					storage->filePath = path;
@@ -77,7 +77,7 @@ namespace RadJAV
 
 				void KeyValueStorage::write(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
-					DBTYPE *storage = (DBTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_storage");
+					std::shared_ptr<DBTYPE> storage = V8_JAVASCRIPT_ENGINE->v8GetExternal<DBTYPE>(args.This(), "_storage");
 					v8::Local<v8::String> key = v8::Local<v8::String>::Cast(args[0]);
 					String keyStr = parseV8Value (key);
 					v8::Local<v8::String> value = v8::Local<v8::String>::Cast(args[1]);
@@ -101,7 +101,7 @@ namespace RadJAV
 
 				void KeyValueStorage::read(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
-					DBTYPE *storage = (DBTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_storage");
+					std::shared_ptr<DBTYPE> storage = V8_JAVASCRIPT_ENGINE->v8GetExternal<DBTYPE>(args.This(), "_storage");
 					v8::Local<v8::String> key = v8::Local<v8::String>::Cast(args[0]);
 					String keyStr = parseV8Value (key);
 					v8::Isolate *isolate = args.GetIsolate();
@@ -131,7 +131,7 @@ namespace RadJAV
 
 				void KeyValueStorage::close(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
-					DBTYPE *storage = (DBTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_storage");
+					std::shared_ptr<DBTYPE> storage = V8_JAVASCRIPT_ENGINE->v8GetExternal<DBTYPE>(args.This(), "_storage");
 
 					storage->close();
 				}
