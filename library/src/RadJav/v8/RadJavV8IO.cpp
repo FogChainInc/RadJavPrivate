@@ -66,7 +66,7 @@ namespace RadJAV
 
 		void IO::FileIO::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
-			CPP::IO::FileIO *io = RJNEW CPP::IO::FileIO();
+			std::shared_ptr<CPP::IO::FileIO> io(RJNEW CPP::IO::FileIO(), [](CPP::IO::FileIO* p) {DELETEOBJ(p)});
 			V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_fileio", io);
 		}
 
@@ -81,7 +81,7 @@ namespace RadJAV
 
 		void IO::SerialComm::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
-			CPP::IO::SerialComm *SerialComm = RJNEW CPP::IO::SerialComm();
+			std::shared_ptr<CPP::IO::SerialComm> SerialComm(RJNEW CPP::IO::SerialComm(), [](CPP::IO::SerialComm* p) {DELETEOBJ(p)});
 			V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_SerialComm", SerialComm);
 		}
 
@@ -96,7 +96,7 @@ namespace RadJAV
 
 		void IO::TextFile::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
-			CPP::IO::TextFile *TextFile = RJNEW CPP::IO::TextFile();
+			std::shared_ptr<CPP::IO::TextFile> TextFile(RJNEW CPP::IO::TextFile(), [](CPP::IO::TextFile* p) {DELETEOBJ(p)});
 			V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_TextFile", TextFile);
 		}
 

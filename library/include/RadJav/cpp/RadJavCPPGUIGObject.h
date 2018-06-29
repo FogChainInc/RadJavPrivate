@@ -29,6 +29,7 @@
 #include "cpp/RadJavCPPFont.h"
 #include "cpp/RadJavCPPVector2.h"
 #include "cpp/RadJavCPPGUIEvent.h"
+#include "cpp/RadJavCPPChainedPtr.h"
 
 #include "RadJavXML.h"
 

@@ -24,6 +24,7 @@
 	#include "RadJavString.h"
 
 	#include "v8/RadJavV8JavascriptEngine.h"
+	#include "cpp/RadJavCPPChainedPtr.h"
 
 	namespace RadJAV
 	{
