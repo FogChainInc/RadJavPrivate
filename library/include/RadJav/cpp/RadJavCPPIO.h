@@ -21,6 +21,9 @@
 #define _RADJAV_CPP_IO_H_
 
 #include "RadJavPreprocessor.h"
+#ifdef USE_BOOST
+	#include <boost/asio.hpp>
+#endif
 
 #include "RadJavString.h"
 #include "RadJavHashMap.h"
@@ -33,93 +36,91 @@ namespace RadJAV
 {
 	namespace CPP
 	{
-		class RADJAV_EXPORT IO
+		namespace IO
 		{
-			public:
-				static void isDir(const v8::FunctionCallbackInfo<v8::Value> &args);
-				static void isFile(const v8::FunctionCallbackInfo<v8::Value> &args);
-				static void createDir(const v8::FunctionCallbackInfo<v8::Value> &args);
-				static void deleteFile(const v8::FunctionCallbackInfo<v8::Value> &args);
-				static void copyFile(String src, String dest, RJBOOL overwriteIfExists = true);
-				static void copyDir(String src, String dest, RJBOOL recursive = true);
-				static Array<String> listFiles(String path, RJBOOL recursive = true);
-				static String normalizePath(String path, String basePath = "");
+			#ifdef USE_BOOST
+				static boost::asio::thread_pool m_ioQueue(4);
+			#endif
 
-				class RADJAV_EXPORT SerialComm
-				{
-					public:
-						SerialComm();
+			class RADJAV_EXPORT FileIO
+			{
+				public:
+					static RJBOOL isDir(String path_);
+					static RJBOOL isFile(String path_);
+					static RJBOOL isSymLink(String path_);
 
-						inline String getPort()
-						{
-							return (portName);
-						}
+					static String currentPath();
+					static void changePath(String path_);
+					static RJBOOL exists(String patch_);
 
-						inline RJINT getBaud(const v8::FunctionCallbackInfo<v8::Value> &args)
-						{
-							return (baud);
-						}
+					static void createDir(String path_);
+					static void copyDir(String src_, String dest_, RJBOOL recursive_ = true);
+					static void renameDir(String src_, String dest_);
+					static void deleteDir(String path_);
+					static RJBOOL isEmpty(String path_);
 
-						inline RJINT getByteSize(const v8::FunctionCallbackInfo<v8::Value> &args)
-						{
-							return (byteSize);
-						}
+					static void createSymLink(String path_, String link_);
+					static void copySymLink(String src_, String dest_);
+					static void renameSymLink(String src_, String dest_);
+					static void deleteSymLink(String path_);
 
-						inline RJINT getStopBits(const v8::FunctionCallbackInfo<v8::Value> &args)
-						{
-							return (stopBits);
-						}
+					static void copyFile(String src_, String dest_, RJBOOL overwriteIfExists_ = true);
+					static void renameFile(String src_, String dest_);
+					static void deleteFile(String path_);
 
-						inline RJINT getParity(const v8::FunctionCallbackInfo<v8::Value> &args)
-						{
-							return (parity);
-						}
+					static Array<String> listFiles(String path_, RJBOOL recursive_ = true);
+					static void listFilesAsync(String path_, RJBOOL recursive_ = true);
 
-						RJBOOL open();
+					static String normalizePath(String path_, String basePath_ = "");
 
-						inline RJBOOL isOpen()
-						{
-							return (isConnected);
-						}
+					#ifdef USE_V8
+						static v8::Persistent<v8::Function> *m_fileListEvent;
+					#endif
+			};
 
-						String read(RJINT bufferSize);
-						RJULONG write(String buffer, RJINT bufferSize = -1);
-						void close();
+			class RADJAV_EXPORT SerialComm
+			{
+				public:
+					static RJBOOL open(String port_, RJINT baud_rate_ = 115200);
 
-						String portName;
-						RJINT baud;
-						RJINT byteSize;
-						RJINT stopBits;
-						RJINT parity;
-						RJBOOL isConnected;
+					static inline RJBOOL isOpen()
+					{
+						return  m_serial.is_open();
+					}
 
-						#ifdef WIN32
-							HANDLE hSerialIO;
-						#endif
+					static void close();
 
-						static const int oneStopBit;
-						static const int one5StopBits;
-						static const int twoStopBits;
+					static String read();
+					static RJULONG write(String buffer_, RJINT bufferSize_ = -1);
 
-						static const int noParity;
-						static const int oddParity;
-						static const int evenParity;
-						static const int markParity;
-						static const int spaceParity;
+				private:
+					#ifdef USE_BOOST
+						static boost::asio::io_service m_io;
+						static boost::asio::serial_port m_serial;
+					#endif
+
+					static std::vector<int> m_baudRates;
 				};
 
 				class RADJAV_EXPORT TextFile
 				{
 					public:
-						static const RJINT read;
-						static const RJINT write;
-						static const RJINT append;
+						enum class operation : int
+						{
+							read = 0,
+							write,
+							append
+						};
 
-						static void writeTextToFile(String path, String contents, RJINT outputType = IO::TextFile::write);
-						static String readEntireFile(String path);
+						static void writeFile(String path_, String contents_, RJINT outputType_ = static_cast<int>(IO::TextFile::operation::write));
+						static void writeFileAsync(String path_, String contents_, RJINT outputType_ = static_cast<int>(IO::TextFile::operation::write));
 
-						static void writeToTextFile(String path, String contents, RJINT outputType = IO::TextFile::write);
-						static String getFileContents(String path);
+						static String readFile(String path_);
+						static void readFileAsync(String path_);
+						
+						#ifdef USE_V8
+							static v8::Persistent<v8::Function> *m_textfileReadEvent;
+						#endif
 				};
 		};
 	}

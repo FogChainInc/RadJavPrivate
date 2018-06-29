@@ -333,7 +333,7 @@ namespace RadJAV
 							for (RJUINT iIdx = 0; iIdx < filesToExecute.size(); iIdx++)
 							{
 								String executeFile = filesToExecute.at(iIdx);
-								String fileContents = CPP::IO::TextFile::getFileContents(executeFile);
+								String fileContents = CPP::IO::TextFile::readFile(executeFile);
 
 								executeScript(fileContents, executeFile);
 							}
@@ -1116,7 +1116,13 @@ namespace RadJAV
 				{
 					v8::Handle<v8::Function> ioFunc = v8GetFunction(radJavFunc, "IO");
 
-					V8B::IO::createV8Callbacks(isolate, ioFunc);
+					// RadJav.IO.FileIO
+					{
+						v8::Handle<v8::Function> filemFunc = v8GetFunction(ioFunc, "FileIO");
+						v8::Handle<v8::Object> filePrototype = v8GetObject(filemFunc, "prototype");
+
+						V8B::IO::FileIO::createV8Callbacks(isolate, filePrototype);
+					}
 
 					// RadJav.IO.SerialComm
 					{
@@ -1129,8 +1135,9 @@ namespace RadJAV
 					// RadJav.IO.TextFile
 					{
 						v8::Handle<v8::Function> textFileFunc = v8GetFunction(ioFunc, "TextFile");
+						v8::Handle<v8::Object> textPrototype = v8GetObject(textFileFunc, "prototype");
 
-						V8B::IO::TextFile::createV8Callbacks(isolate, textFileFunc);
+						V8B::IO::TextFile::createV8Callbacks(isolate, textPrototype);
 					}
 				}
 

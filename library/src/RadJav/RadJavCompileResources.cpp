@@ -148,7 +148,6 @@ int main(int iArgs, char **cArgs)
 	ary.push_back("RadJav.Thread.js");
 	ary.push_back("RadJav.IO.js");
 	ary.push_back("RadJav.Interact.js");
-	//ary.push_back ("RadJav.IO.SerialComm.js");
 	ary.push_back("RadJav.DB.KeyValueStorage.js");
 	ary.push_back("RadJav.Crypto.Cipher.js");
 	ary.push_back("RadJav.Crypto.Decipher.js");

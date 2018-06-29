@@ -35,7 +35,7 @@ var RadJav;
                 this.port = port;
             };
             WebSocketServer.prototype.sendToAll = function (message) {
-           };
+            };
             WebSocketServer.prototype.send = function (id, str) {
             };
             WebSocketServer.prototype.receive = function (id, str) {
@@ -48,6 +48,7 @@ var RadJav;
             WebSocketServer.prototype.onReceive = function (evt) {
                 this.serverReceiveEvent = evt;
             };
+            
             return WebSocketServer;
         }());
         Net.WebSocketServer = WebSocketServer;
