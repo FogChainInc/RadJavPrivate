@@ -51,11 +51,20 @@ namespace RadJAV
 			  v8::Isolate *isolate = args.GetIsolate();
 			  
 
-			  // Get constructor parms for PublicKey(keyAlgorithm, cryptoLibrary)
+			  // Get constructor parms for PublicKey(path, format)
+			  String path;
+			  String format;
+
+			  v8::Local<v8::Value> pathObj; // 
+			  
+			  // Get constructor parms for PublicKey(path, format)
 			  if (args[0] -> IsString())
 			    {
-			      myAlgorithm = parseV8Value(args[0]);
-			      myCryptoLibrary = parseV8Value(args[1]);
+			      pathObj = args[0];
+			      
+			      path = parseV8Value(args[0]);
+			      format = parseV8Value(args[1]);
+			      myCryptoLibrary = parseV8Value(args[2]);
 			    }
 
 			  // Get constructor parms Cipher({cipherAlgorithm: ..., cryptoLibrary: ..., ...})
@@ -63,42 +72,57 @@ namespace RadJAV
 			    {
 			      v8::Local<v8::Object> parms = v8::Local<v8::Object>::Cast(args[0]);
 
-			      myBits = jsEngine -> v8GetString(parms, "bits");
+			      
+			      myAlgorithm = jsEngine -> v8GetString(parms, "algorithm");
 			      myEncryptPadding = jsEngine -> v8GetString(parms, "encryptPadding");
 			      mySignatureType = jsEngine -> v8GetString(parms, "signatureType");
+
+			      pathObj = parms -> Get(v8::String::NewFromUtf8(isolate, "path"));
+			      if (pathObj -> IsUndefined())
+				{
+				  myBits = jsEngine -> v8GetString(parms, "bits");
+				}
+			      else
+				{
+				  path = jsEngine -> v8GetString(parms, "path");
+				  format = jsEngine -> v8GetString(parms, "format");
+				  
+				}
+
 			    }
 			  
 
-			  // Defaults and error checking
-
-			  // Create the engine
-			  try
+			  if (!pathObj -> IsUndefined())
 			    {
-			      std::map<std::string, std::string> parms;
-			      parms["algorithm"] = myAlgorithm;
-			      parms["bits"] = myBits;
-			      parms["encryptPadding"] = myEncryptPadding;
-			      parms["signatureType"] = mySignatureType;
+			      // Defaults and error checking
 
-			      //myPublicKey = ORB::Engine::Crypto::createPublicKey(parms, myCryptoLibrary);
+			      // Create the engine
+			      try
+				{
+				  std::map<std::string, std::string> parms;
+				  parms["algorithm"] = myAlgorithm;
+				  parms["bits"] = myBits;
+				  parms["encryptPadding"] = myEncryptPadding;
+				  parms["signatureType"] = mySignatureType;
 
-			      //std::cout << __PRETTY_FUNCTION__ << ": "
-			      //<< "cryptoLibrary: " << myCryptoLibrary
-			      //<< ", ";
-			      for (auto element : parms)
-				  std::cout << element.first << ": " << element.second << ", ";
-			      std::cout << std::endl;
+				  myPublicKey = ORB::Engine::Crypto::createPublicKey(parms, myCryptoLibrary);
+
+				  //std::cout << __PRETTY_FUNCTION__ << ": "
+				  //<< "cryptoLibrary: " << myCryptoLibrary
+				  //<< ", ";
+				  for (auto element : parms)
+				    std::cout << element.first << ": " << element.second << ", ";
+				  std::cout << std::endl;
 			      
+				}
+			      catch (std::exception& e)
+				{
+				  isolate -> ThrowException(v8::Exception::TypeError
+							    (v8::String::NewFromUtf8(args.GetIsolate(),
+										     e.what())));
+				}
 			    }
-			  catch (std::exception& e)
-			    {
-			      isolate -> ThrowException(v8::Exception::TypeError
-							(v8::String::NewFromUtf8(args.GetIsolate(),
-										 e.what())));
-			    }
-
 			  //std::cout << __PRETTY_FUNCTION__ << ": end" << std::endl;
-
 			}
 
 			PublicKey::~PublicKey()
@@ -168,7 +192,10 @@ namespace RadJAV
 			  myPublicKey = publicKey;
 			}
 		  
-		    
+  		        void PublicKey::savePem(const char *path)
+			{
+			  myPublicKey -> savePem(path);
+			}
 		  
 		  #endif
 		  

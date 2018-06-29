@@ -22,6 +22,11 @@
 
 #include "../orb/ORB_EngineCryptoOpenSSL.h"
 
+#include <openssl/pem.h>
+
+#include <cstring>
+#include <iostream>
+
 namespace Engine
 {
   namespace Crypto
@@ -32,13 +37,43 @@ namespace Engine
 
       RsaPrivateKey::RsaPrivateKey(RsaStructUniquePtr rsa, int bits, int encryptPadding, int signatureType) :
       	RsaKey(std::move(rsa), bits, encryptPadding, signatureType)
-      //RsaPrivateKey::RsaPrivateKey(RsaStructUniquePtr rsa, int bits) :
-	//RsaKey(std::move(rsa), bits),
-	//myRsaPublic(RSA_new(), RSA_free)
-	//	myPublicKey(NULL, NULL),
-	//	myPrivateKey(NULL, NULL)
+      {
+	initPublicKey();
+
+	std::cout << "RSA SIZE: " << myBits << std::endl;	
+      }
+      
+      RsaPrivateKey::RsaPrivateKey(const char *path, const char *format, const char *pwd, int encryptPadding, int signatureType) :
+      	RsaKey(encryptPadding, signatureType) 
+      {
+	if (path == nullptr)
+	  throw(std::invalid_argument(std::string("NULL path pointer passed to RsaPrivateKey(path...)")));
+	if (path == "")
+	  throw(std::invalid_argument(std::string("Empty path string passed to RsaPrivateKey(path...)")));
+
+	if (format == nullptr)
+	  throw(std::invalid_argument(std::string("NULL format pointer passed to RsaPrivateKey(path...)")));
+	if (format == "")
+	  throw(std::invalid_argument(std::string("Empty format string passed to RsaPrivateKey(path...)")));
+	
+	if (std::string(format) == "pem")
+	  {
+	    loadPem(path, pwd);
+	  }
+	
+	initPublicKey();
+	myBits = RSA_size(myRsa.get()) * sizeof(char);
+
+	std::cout << "RSA SIZE: " << myBits << std::endl;	
+      }
+
+      RsaPrivateKey::~RsaPrivateKey()
       {
 
+      }
+
+      void RsaPrivateKey::initPublicKey()
+      {
 	const BIGNUM *nFromPriv, *eFromPriv, *dFromPriv;
 
 	RSA_get0_key(myRsa.get(), &nFromPriv, &eFromPriv, &dFromPriv);
@@ -71,13 +106,8 @@ namespace Engine
 	    throw(std::invalid_argument(std::string("Can't set RSA public key: ")));
 	}
 
-	myPublicKey = ORB::Engine::Crypto::OpenSSL::createRsaPublicKey(std::move(rsaPublic), bits,
-								       encryptPadding, signatureType);
-      }
-      
-
-      RsaPrivateKey::~RsaPrivateKey()
-      {
+	myPublicKey = ORB::Engine::Crypto::OpenSSL::createRsaPublicKey(std::move(rsaPublic), myBits,
+								       myEncryptPadding, mySignatureType);
 
       }
 
@@ -144,6 +174,87 @@ namespace Engine
 	return std::make_tuple(plainText, plainTextLength);
       }
 
+
+      void RsaPrivateKey::savePem(const char* path, const char* cipherType, const char* pwd) const 
+      {
+
+	const EVP_CIPHER *cipher = NULL;
+
+	std::unique_ptr<char, decltype(std::default_delete<char[]>())> localPwd = nullptr;
+	int localPwdLength = 0;
+	if (cipherType)
+	  {
+	    EVP_get_cipherbyname(cipherType);
+
+	    if (!cipher)
+	      throw std::invalid_argument(std::string("RsaPrivateKey::savePem(): No such cipher: ") + cipherType);
+
+	    if (!pwd)
+	      throw std::invalid_argument(std::string("RsaPrivateKey::savePem(): Password must be provided for the cipeher: ") + cipherType);
+
+	    localPwd = std::move(std::unique_ptr<char, decltype(std::default_delete<char[]>())>(new char[std::strlen(pwd) + 1],
+						       std::default_delete<char[]>()));
+	    localPwdLength = std::strlen(localPwd.get());
+	    
+	  }
+	
+	if (path == nullptr)
+	  throw(std::invalid_argument(std::string("NULL pointer passed to RsaPrivateKey::savePem()")));
+	if (path == "")
+	  throw(std::invalid_argument(std::string("Empty string passed to RsaPrivateKey::savePem()")));
+
+	BioFileUniquePtr pem(BIO_new_file(path, "w+"), ::BIO_free);
+	if (pem == nullptr)
+	  throw(std::invalid_argument(std::string("Error while trying to write private key to") +
+				      path));
+
+	int ret = PEM_write_bio_PKCS8PrivateKey(pem.get(), myEvpPkey.get(), cipher,
+						localPwd.get(), localPwdLength,
+						NULL, NULL);
+
+	if (ret != 1) 
+	  throw std::invalid_argument(std::string("RsaPrivateKey::savePem(): PEM write failed."));
+
+      }
+	
+      void RsaPrivateKey::loadPem(const char *path, const char *pwd)
+      {
+
+	if (path == nullptr)
+	  throw(std::invalid_argument(std::string("NULL pointer passed to RsaPrivateKey::loadPem()")));
+	if (path == "")
+	  throw(std::invalid_argument(std::string("Empty string passed to RsaPrivateKey::loadPem()")));
+
+	std::unique_ptr<char, decltype(std::default_delete<char[]>())> localPwd = nullptr;
+	int localPwdLength = 0;
+
+	if (pwd)
+	  {
+	    localPwdLength = std::strlen(pwd);
+
+	    // Ignore if password is an empty string.
+	    if (localPwdLength > 0)
+	      localPwd =
+		std::move(std::unique_ptr<char, decltype(std::default_delete<char[]>())>(new char[localPwdLength + 1],
+											 std::default_delete<char[]>()));
+	  }
+
+	std::cout << "PRIVATEEEEEEEEEEE KEEEEY PWD: " << std::hex << (void*)localPwd.get() << std::dec << std::endl;
+	
+	BioFileUniquePtr pem(BIO_new_file(path, "r"), ::BIO_free);
+
+	if (pem == nullptr)
+	  throw(std::invalid_argument(std::string("Error while preparing to write private key to") +
+				      path));
+
+	myRsa = std::move(RsaStructUniquePtr(PEM_read_bio_RSAPrivateKey(pem.get(), NULL, NULL, localPwd.get()), RSA_free));
+
+	if (myRsa == nullptr) 
+	  throw std::invalid_argument(std::string("Error while trying to read private key from: ") + path);
+
+	EVP_PKEY_set1_RSA(myEvpPkey.get(), myRsa.get());
+
+      }
 
     } // End of OpenSSL
     #endif 

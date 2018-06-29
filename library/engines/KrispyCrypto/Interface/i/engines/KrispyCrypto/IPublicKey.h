@@ -40,6 +40,8 @@ namespace Engine
 			  unsigned int dataLength,
 			  const unsigned char* signature,
 			  unsigned int signatureLength) const = 0;
+
+      virtual void savePem(const char* path) const = 0;
       
     };
   }

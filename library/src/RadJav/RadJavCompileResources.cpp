@@ -98,6 +98,7 @@ std::string fixText(std::string text, int *countNewLines)
 	// Replace all new lines in the javascript files with the appropriate \\n\\ to be
 	// used in a large string for the header file.
 	text = replaceText(text, findNewLine, "\\n\\" + newLine, countNewLines);
+	text = replaceText(text, "\\\"", "\\\\\"");
 	text = replaceText(text, "\"", "\\\"");
 
 	return (text);
@@ -146,7 +147,7 @@ int main(int iArgs, char **cArgs)
 	ary.push_back("RadJav.Font.js");
 	ary.push_back("RadJav.Thread.js");
 	ary.push_back("RadJav.IO.js");
-	//ary.push_back ("RadJav.IO.SerialComm.js");
+	ary.push_back("RadJav.Interact.js");
 	ary.push_back("RadJav.DB.KeyValueStorage.js");
 	ary.push_back("RadJav.Crypto.Cipher.js");
 	ary.push_back("RadJav.Crypto.Decipher.js");
@@ -227,10 +228,15 @@ int main(int iArgs, char **cArgs)
 				return (1);
 			}
 
-			int pos = text.find("*/");
+			int pos = text.find("MIT-LICENSE");
 
 			if (pos != std::string::npos)
-				text = text.substr(pos + 2);
+			{
+				pos = text.find("*/");
+
+				if (pos != std::string::npos)
+					text = text.substr(pos + 2);
+			}
 
 			int countNewLines = 0;
 

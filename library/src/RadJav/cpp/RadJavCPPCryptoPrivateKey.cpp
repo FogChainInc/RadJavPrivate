@@ -51,11 +51,22 @@ namespace RadJAV
 			  v8::Isolate *isolate = args.GetIsolate();
 			  
 
-			  // Get constructor parms for PrivateKey(keyAlgorithm, cryptoLibrary)
+			  // Get constructor parms for PrivateKey(path, format, pwd)
+			  String path;
+			  String format;
+			  String pwd;
+
+			  v8::Local<v8::Value> pathObj; // 
+			  
+			  // Get constructor parms for PrivateKey(path, format, pwd, cryptoLibrary)
 			  if (args[0] -> IsString())
 			    {
-			      myAlgorithm = parseV8Value(args[0]);
-			      myCryptoLibrary = parseV8Value(args[1]);
+			      pathObj = args[0];
+			      
+			      path = parseV8Value(args[0]);
+			      format = parseV8Value(args[1]);
+			      pwd = parseV8Value(args[2]);
+			      myCryptoLibrary = parseV8Value(args[3]);
 			    }
 
 			  // Get constructor parms Cipher({cipherAlgorithm: ..., cryptoLibrary: ..., ...})
@@ -63,40 +74,60 @@ namespace RadJAV
 			    {
 			      v8::Local<v8::Object> parms = v8::Local<v8::Object>::Cast(args[0]);
 
-			      myBits = jsEngine -> v8GetString(parms, "bits");
+			      myAlgorithm = jsEngine -> v8GetString(parms, "algorithm");
 			      myEncryptPadding = jsEngine -> v8GetString(parms, "encryptPadding");
 			      mySignatureType = jsEngine -> v8GetString(parms, "signatureType");
+
+			      pathObj = parms -> Get(v8::String::NewFromUtf8(isolate, "path"));
+			      if (pathObj -> IsUndefined())
+				{
+				  myBits = jsEngine -> v8GetString(parms, "bits");
+				}
+			      else
+				{
+				  path = jsEngine -> v8GetString(parms, "path");
+				  format = jsEngine -> v8GetString(parms, "format");
+				  pwd = jsEngine -> v8GetString(parms, "password");
+				  
+				}
+
 			    }
 			  
 
-			  // Defaults and error checking
-
-			  // Create the engine
-			  try
+			  if (!(pathObj -> IsUndefined()))
 			    {
-			      std::map<std::string, std::string> parms;
-			      parms["algorithm"] = myAlgorithm;
-			      parms["bits"] = myBits;
-			      parms["encryptPadding"] = myEncryptPadding;
-			      parms["signatureType"] = mySignatureType;
+			      // Defaults and error checking
 
-			      //myPrivateKey = ORB::Engine::Crypto::createPrivateKey(parms, myCryptoLibrary);
+			      // Create the engine
+			      try
+				{
+				  std::map<std::string, std::string> parms;
+				  parms["algorithm"] = myAlgorithm;
+				  parms["bits"] = myBits;
+				  parms["encryptPadding"] = myEncryptPadding;
+				  parms["signatureType"] = mySignatureType;
+				  parms["path"] = path;
+				  parms["format"] = format;
+				  parms["password"] = pwd;
 
-			      //std::cout << __PRETTY_FUNCTION__ << ": "
-			      //<< "cryptoLibrary: " << myCryptoLibrary
-			      //<< ", ";
-			      for (auto element : parms)
-				  std::cout << element.first << ": " << element.second << ", ";
-			      std::cout << std::endl;
+				  myPrivateKey = ORB::Engine::Crypto::createPrivateKey(parms, myCryptoLibrary);
+
+				  //std::cout << __PRETTY_FUNCTION__ << ": "
+				  //<< "cryptoLibrary: " << myCryptoLibrary
+				  //<< ", ";
+				  for (auto element : parms)
+				    std::cout << element.first << ": " << element.second << ", ";
+				  std::cout << std::endl;
 			      
+				}
+			      catch (std::exception& e)
+				{
+				  isolate -> ThrowException(v8::Exception::TypeError
+							    (v8::String::NewFromUtf8(args.GetIsolate(),
+										     e.what())));
+				}
 			    }
-			  catch (std::exception& e)
-			    {
-			      isolate -> ThrowException(v8::Exception::TypeError
-							(v8::String::NewFromUtf8(args.GetIsolate(),
-										 e.what())));
-			    }
-
+			    
 			  //std::cout << __PRETTY_FUNCTION__ << ": end" << std::endl;
 
 			}
@@ -163,6 +194,11 @@ namespace RadJAV
 
 			  return myPrivateKey -> getPublicKey();
 			  
+			}
+		  
+		        void PrivateKey::savePem(const char *path, const char *cipherType, const char *pwd)
+			{
+			  myPrivateKey -> savePem(path, cipherType, pwd);
 			}
 		    
 		  

@@ -161,7 +161,7 @@ namespace RadJAV
 
 			try
 			{
-				contents = CPP::IO::TextFile::getFileContents(path);
+				contents = CPP::IO::TextFile::readFile(path);
 			}
 			catch (Exception ex)
 			{

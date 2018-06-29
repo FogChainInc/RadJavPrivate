@@ -64,6 +64,17 @@ namespace ORB
 	  return std::unique_ptr<::Engine::Crypto::OpenSSL::RsaPrivateKey>
 	    (new ::Engine::Crypto::OpenSSL::RsaPrivateKey(std::move(rsa), bits, encryptPadding, signatureType));
 	}
+
+
+	std::unique_ptr<::Engine::Crypto::OpenSSL::RsaPrivateKey> createRsaPrivateKey(const char *path, const char *format, const char *pwd,
+										      int encryptPadding,
+										      int signatureType
+										      )
+	{
+
+	  return std::unique_ptr<::Engine::Crypto::OpenSSL::RsaPrivateKey>
+	    (new ::Engine::Crypto::OpenSSL::RsaPrivateKey(path, format, pwd, encryptPadding, signatureType));
+	}
 	
 	std::shared_ptr<::Engine::Crypto::OpenSSL::RsaPublicKey> createRsaPublicKey(::Engine::Crypto::OpenSSL::RsaStructUniquePtr rsa,
 										      int bits,
@@ -73,6 +84,16 @@ namespace ORB
 	{
 
 	  return std::make_shared<::Engine::Crypto::OpenSSL::RsaPublicKey>(std::move(rsa), bits, encryptPadding, signatureType);
+	}
+
+	std::unique_ptr<::Engine::Crypto::OpenSSL::RsaPublicKey> createRsaPublicKey(const char *path, const char *format,
+										    int encryptPadding,
+										    int signatureType
+										    )
+	{
+
+	  return std::unique_ptr<::Engine::Crypto::OpenSSL::RsaPublicKey>
+	    (new ::Engine::Crypto::OpenSSL::RsaPublicKey(path, format, encryptPadding, signatureType));
 	}
 	
 

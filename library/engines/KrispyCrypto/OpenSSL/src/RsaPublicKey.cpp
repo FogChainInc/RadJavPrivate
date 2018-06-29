@@ -22,6 +22,8 @@
 
 #include "../orb/ORB_EngineCryptoOpenSSL.h"
 
+#include <openssl/pem.h>
+
 namespace Engine
 {
   namespace Crypto
@@ -32,15 +34,18 @@ namespace Engine
 
       RsaPublicKey::RsaPublicKey(RsaStructUniquePtr rsa, int bits, int encryptPadding, int signatureType) :
       	RsaKey(std::move(rsa), bits, encryptPadding, signatureType)
-      //RsaPublicKey::RsaPublicKey(RsaStructUniquePtr rsa, int bits) :
-	//RsaKey(std::move(rsa), bits),
-	//myRsaPublic(RSA_new(), RSA_free)
-	//	myPublicKey(NULL, NULL),
-	//	myPublicKey(NULL, NULL)
       {
 
       }
-      
+
+      RsaPublicKey::RsaPublicKey(const char *path, const char *format, int encryptPadding, int signatureType) :
+      	RsaKey(encryptPadding, signatureType)
+      {
+	if (std::string(format) == "pem")
+	  {
+	    loadPem(path);
+	  }
+      }
 
       RsaPublicKey::~RsaPublicKey()
       {
@@ -92,7 +97,48 @@ namespace Engine
 	return std::make_tuple(plainText, plainTextLength);
       }
 
-      
+      void RsaPublicKey::savePem(const char* path) const 
+      {
+
+	if (path == nullptr)
+	  throw(std::invalid_argument(std::string("NULL pointer passed to RsaPublicKey::savePem()")));
+	if (path == "")
+	  throw(std::invalid_argument(std::string("Empty string passed to RsaPublicKey::savePem()")));
+
+	BioFileUniquePtr pem(BIO_new_file(path, "w+"), ::BIO_free);
+
+	if (pem == nullptr)
+	  throw(std::invalid_argument(std::string("Error while trying to write private key to") +
+				      path));
+
+
+	int ret = PEM_write_bio_RSAPublicKey(pem.get(), myRsa.get());
+	if (ret != 1) 
+	  throw std::invalid_argument(std::string("RsaPublicKey::savePem(): PEM write failed."));
+
+      }
+	
+      void RsaPublicKey::loadPem(const char* path)
+      {
+	if (path == nullptr)
+	  throw(std::invalid_argument(std::string("NULL pointer passed to RsaPublicKey::loadPem()")));
+	if (path == "")
+	  throw(std::invalid_argument(std::string("Empty string passed to RsaPublicKey::loadPem()")));
+
+	BioFileUniquePtr pem(BIO_new_file(path, "r"), ::BIO_free);
+	
+	if (pem == nullptr)
+	  throw(std::invalid_argument(std::string("Error while preparing to read public key from: ") +
+				      path));
+
+	myRsa = std::move(RsaStructUniquePtr(PEM_read_bio_RSAPublicKey(pem.get(), NULL, NULL, NULL), RSA_free));
+	
+	if (myRsa == nullptr)
+	  throw(std::invalid_argument(std::string("Error while trying to read public key from: ") +
+				      path));
+
+	EVP_PKEY_set1_RSA(myEvpPkey.get(), myRsa.get());
+      }
 
     } // End of OpenSSL
     #endif 

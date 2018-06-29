@@ -42,6 +42,8 @@ int main() {
   {
     auto privateKey = keyGenerator -> generate();
 
+    privateKey -> savePem("PrivateKey.pem", nullptr, nullptr);
+
     unsigned char msg[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
 
     auto encrypted = privateKey -> encrypt(msg, 10);
@@ -54,6 +56,8 @@ int main() {
 
     auto publicKey = privateKey -> getPublicKey();
     auto decrypted = publicKey -> decrypt(encryptedMsg, encryptedMsgLength);
+
+    publicKey -> savePem("PublicKey.pem");
 							     
     const unsigned char *ptr = static_cast<const unsigned char*>(std::get<0>(decrypted).get());
 
@@ -86,6 +90,42 @@ int main() {
 	  cout << "Signature verified" << endl;
 	else
 	  cout << "Signature verification failure" << endl;
+      }
+    catch (std::exception& e)
+      {
+	cout << "Exception: " << e.what() << endl;
+      }
+
+    try
+      {
+	auto privateKey = ORB::Engine::Crypto::OpenSSL::createRsaPrivateKey("PrivateKey.pem", "pem", nullptr);
+
+	privateKey -> savePem("PrivateKey2.pem", nullptr, nullptr);
+
+	auto publicKey = ORB::Engine::Crypto::OpenSSL::createRsaPublicKey("PublicKey.pem", "pem");
+
+
+	Engine::Crypto::OpenSSL::Digest d("md5");
+	auto result = d.digest(msg, 10);
+
+	unsigned char *digestResult = static_cast<unsigned char*>(std::get<0>(result).get());
+	unsigned int digestLength = std::get<1>(result);
+	cout << "Digest length: " << digestLength << endl;
+
+	auto signature = privateKey -> sign(digestResult, digestLength);
+	cout << "Signature length: " << std::get<1>(signature) << endl;
+    
+	const unsigned char *signatureData = static_cast<const unsigned char*>(std::get<0>(signature).get());
+				   
+	unsigned int signatureLength = std::get<1>(signature);
+
+	if (publicKey -> verify(digestResult, digestLength, signatureData, signatureLength))
+	  cout << "Signature verified" << endl;
+	else
+	  cout << "Signature verification failure" << endl;
+	
+	
+
       }
     catch (std::exception& e)
       {

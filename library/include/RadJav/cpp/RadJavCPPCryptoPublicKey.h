@@ -58,12 +58,14 @@
 				public:
 				  
 				  /// PublicKey data
-				  void decrypt(const void* text, int textLength,
-					       std::function <void (const std::string& str)> stringSetter,
+				  void decrypt(const void *text, int textLength,
+					       std::function <void (const std::string &str)> stringSetter,
 					       std::function <void (void* buf, int bufLen)> binSetter);
 
-				  bool verify(const void* text, int textLength,
-					      const void* signature, int signatureLength);
+				  bool verify(const void *text, int textLength,
+					      const void *signature, int signatureLength);
+
+				  void savePem(const char *path);
 				  
 				public:
 				  std::shared_ptr<const Engine::Crypto::IPublicKey> myPublicKey;

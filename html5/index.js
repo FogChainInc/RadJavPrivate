@@ -97,6 +97,73 @@ function compile (fileNames, options)
 		});
 }
 
+function watchFiles (watchLocations, broadCastMessage)
+{
+	let locations = "";
+
+	for (let iIdx = 0; iIdx < watchLocations.length; iIdx++)
+	{
+		let wl = watchLocations[iIdx];
+
+		if (typeof wl == "string")
+			locations += "\t" + wl + "\n";
+
+		if (typeof wl == "object")
+			locations += "\t" + wl.path + " -- Rebuild JS when file changes: " + wl.rebuild.toString () + "\n";
+	}
+
+	console.log ("\nWatching files located at: \n" + locations);
+
+	// Watching files recursively in NodeJS is only available on Windows and Mac.
+	for (let iIdx = 0; iIdx < watchLocations.length; iIdx++)
+	{
+		let wl = watchLocations[iIdx];
+		let loc = wl;
+
+		if (typeof wl == "object")
+			loc = wl.path;
+
+		fs.watch (loc, {
+					persistent: true, 
+					recursive: true
+				}, keepContext (function (eventType, filename, wl2)
+					{
+						let wl3 = wl2[0];
+						let loc2 = wl3;
+						let rebuild = false;
+
+						if (typeof wl3 == "object")
+						{
+							loc2 = wl3.path;
+							rebuild = wl3.rebuild;
+						}
+
+						let changedFilePath = path.normalize (loc2 + "/" + filename);
+
+						if ((rebuild == true) && (canRebuild == true))
+						{
+							let tsfiles = getTypeScriptFiles ();
+
+							console.log ("Rebuilding...");
+							compile (tsfiles, {
+									noImplicitUseStrict: true, removeComments: true, importHelpers: true, 
+									target: typescript.ScriptTarget.ES3, module: typescript.ModuleKind.None, 
+									lib: tsLibs, outDir: "./build"
+								});
+							console.log ("Finishing rebuilding.");
+							canRebuild = false;
+							setTimeout (function ()
+									{
+										canRebuild = true;
+									}, 200);
+						}
+
+						if (broadCastMessage == true)
+							httpOptions.wsServer.broadcast ("refresh");
+					}, this, [wl]));
+	}
+}
+
 function startHTTP ()
 {
 	httpOptions.watchFilesAtLocations.push (path.normalize (__dirname + "/../examples"));
@@ -163,70 +230,7 @@ function startHTTP ()
 				canWatch = true;
 
 			if (canWatch == true)
-			{
-				let locations = "";
-
-				for (let iIdx = 0; iIdx < httpOptions.watchFilesAtLocations.length; iIdx++)
-				{
-					let wl = httpOptions.watchFilesAtLocations[iIdx];
-
-					if (typeof wl == "string")
-						locations += "\t" + wl + "\n";
-
-					if (typeof wl == "object")
-						locations += "\t" + wl.path + " -- Rebuild JS when file changes: " + wl.rebuild.toString () + "\n";
-				}
-
-				console.log ("\nWatching files located at: \n" + locations);
-
-				// Watching files recursively in NodeJS is only available on Windows and Mac.
-				for (let iIdx = 0; iIdx < httpOptions.watchFilesAtLocations.length; iIdx++)
-				{
-					let wl = httpOptions.watchFilesAtLocations[iIdx];
-					let loc = wl;
-
-					if (typeof wl == "object")
-						loc = wl.path;
-
-					fs.watch (loc, {
-								persistent: true, 
-								recursive: true
-							}, keepContext (function (eventType, filename, wl2)
-								{
-									let wl3 = wl2[0];
-									let loc2 = wl3;
-									let rebuild = false;
-
-									if (typeof wl3 == "object")
-									{
-										loc2 = wl3.path;
-										rebuild = wl3.rebuild;
-									}
-
-									let changedFilePath = path.normalize (loc2 + "/" + filename);
-
-									if ((rebuild == true) && (canRebuild == true))
-									{
-										let tsfiles = getTypeScriptFiles ();
-
-										console.log ("Rebuilding...");
-										compile (tsfiles, {
-												noImplicitUseStrict: true, removeComments: true, importHelpers: true, 
-												target: typescript.ScriptTarget.ES3, module: typescript.ModuleKind.None, 
-												lib: tsLibs, outDir: "./build"
-											});
-										console.log ("Finishing rebuilding.");
-										canRebuild = false;
-										setTimeout (function ()
-												{
-													canRebuild = true;
-												}, 200);
-									}
-
-									httpOptions.wsServer.broadcast ("refresh");
-								}, this, [wl]));
-				}
-			}
+				watchFiles (httpOptions.watchFilesAtLocations, true);
 		});
 }
 
@@ -302,12 +306,17 @@ var commands = [
 				{
 					cmd: ["doNotMinify"],
 					desc: "Do not minify the generated JS."
+				}, 
+				{
+					cmd: ["watch"],
+					desc: "Watch locations and rebuild when files are updated."
 				}], 
 			evt: function (args)
 				{
 					let copyHTML5Files = true;
 					let copyFilesToLibrary = true;
 					let minify = true;
+					let watch = false;
 					let tsfiles = getTypeScriptFiles ();
 
 					for (let iIdx = 0; iIdx < args.length; iIdx++)
@@ -320,6 +329,9 @@ var commands = [
 
 						if (args[iIdx] == "doNotMinify")
 							minify = false;
+
+						if (args[iIdx] == "watch")
+							watch = true;
 
 						if (args[iIdx] == "help")
 						{
@@ -451,6 +463,9 @@ var commands = [
 
 						console.log ("Done.");
 					}
+
+					if (watch == true)
+						watchFiles ([{ path: "./src/", rebuild: true } ], false);
 				}
 		}, 
 		{

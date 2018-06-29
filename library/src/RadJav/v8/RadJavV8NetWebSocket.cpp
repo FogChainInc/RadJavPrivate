@@ -205,7 +205,7 @@ namespace RadJAV
 
 				webSocket->close();
 			}
-\
+
 			void WebSocketClient::on(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				CPP::Net::WebSocketClient *webSocket = (CPP::Net::WebSocketClient *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_webSocket");

@@ -96,14 +96,21 @@ namespace ORB
 
 	std::unique_ptr<::Engine::Crypto::OpenSSL::RsaPrivateKey> createRsaPrivateKey(::Engine::Crypto::OpenSSL::RsaStructUniquePtr rsa,
 										      int bits,
-										      int encryptPadding,
-										      int signatureType);
+										      int encryptPadding = RSA_PKCS1_PADDING,
+										      int signatureType = NID_sha256);
 
+	std::unique_ptr<::Engine::Crypto::OpenSSL::RsaPrivateKey> createRsaPrivateKey(const char *path, const char *format, const char *pwd,
+										      int encryptPadding = RSA_PKCS1_PADDING,
+										      int signatureType = NID_sha256);
+	
 	std::shared_ptr<::Engine::Crypto::OpenSSL::RsaPublicKey> createRsaPublicKey(::Engine::Crypto::OpenSSL::RsaStructUniquePtr rsa,
 										    int bits,
-										    int encryptPadding,
-										    int signatureType);
+										    int encryptPadding = RSA_PKCS1_PADDING,
+										    int signatureType = NID_sha256);
 	
+	std::unique_ptr<::Engine::Crypto::OpenSSL::RsaPublicKey> createRsaPublicKey(const char *path, const char *format,
+										    int encryptPadding = RSA_PKCS1_PADDING,
+										    int signatureType = NID_sha256);
 
       } // End of OpenSSL
       

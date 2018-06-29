@@ -820,17 +820,16 @@ namespace RadJav
     return target;
   }
 
-  /** @method cloneObject
-   * Perform a deep copy of an object.
-   * Available on platforms: Windows,Linux,OSX,HTML5
-   * @param {Object} obj The object to clone.
-   * @return {Object} The cloned object.
-   */
-  export function cloneObject(obj: {
-    [key: string]: any;
-  }): { [key: string]: any } {
-    return RadJav.clone({}, obj);
-  }
+	/** @method cloneObject
+	* Perform a deep copy of an object.
+	* Available on platforms: Windows,Linux,OSX,HTML5
+	* @param {Object} obj The object to clone.
+	* @return {Object} The cloned object.
+	*/
+	export function cloneObject(obj: any): any
+	{
+		return RadJav.clone({}, obj);
+	}
 
   /** @method cloneArray
    * Perform a deep copy of an array.

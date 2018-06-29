@@ -26,11 +26,11 @@
  namespace RadJav {
   export namespace GUI {
    export class GObject {
-      /** @property {String} [name=""]
+      /** @property {string} [name=""]
        * The name of this object.
        */
-      name: String;
-      /** @property {String} [type=""]
+      name: string;
+      /** @property {string} [type=""]
        * The type of object.
        */
       type: string;
@@ -44,27 +44,27 @@
        * The visibility of the object.
        */
       _visible: boolean;
-      /** @property {Number} [_zIndex=0]
+      /** @property {number} [_zIndex=0]
        * @protected
        * The initial z-index of this object. The higher the value the more "on top" the
        * object will be compared to other objects.
        */
-      _zIndex: Number;
-      /** @property {String} [_text=""]
+      _zIndex: number;
+      /** @property {string} [_text=""]
        * @protected
        * The text associated with this object.
        */
-      _text: String;
+      _text: string;
       /** @property {RadJav.Font} [_font=new RadJav.Font ()]
        * @protected
        * The font associated with this object.
        */
       _font: Font;
-      /** @property {String} [_cursor="default"]
+      /** @property {string} [_cursor="default"]
        * @protected
        * The cursor to use.
        */
-      _cursor: String;
+      _cursor: string;
       /** @property {Mixed} [_parent=null]
        * @protected
        * The parent of this object.
@@ -117,7 +117,7 @@
 
       constructor(
         obj?: any,
-        text?: String,
+        text?: string,
         parent?: GObject,
         beforeCreatedChild?: boolean
       ) {
@@ -338,10 +338,10 @@
        * Set the position of this object.
        * Theme Event: None
        * Is Theme Event Asynchronous: No
-       * @param {Number/RadJav.Vector2} x The new position, or the new x coordinate of the new position.
-       * @param {Number} [y=null] The new y coordinate.
+       * @param {number/RadJav.Vector2} x The new position, or the new x coordinate of the new position.
+       * @param {number} [y=null] The new y coordinate.
        */
-      setPosition(x: Number, y: number): void {
+      setPosition(x: number, y: number): void {
         this._transform.setPosition(x, y);
       }
 
@@ -361,7 +361,7 @@
        * Is Theme Event Asynchronous: No
        * @return {RadJav.Vector2} The position of this object.
        */
-      getX(): Number {
+      getX(): number {
         return this._transform.x;
       }
 
@@ -371,7 +371,7 @@
        * Is Theme Event Asynchronous: No
        * @return {RadJav.Vector2} The position of this object.
        */
-      getY(): Number {
+      getY(): number {
         return this._transform.y;
       }
 
@@ -379,10 +379,10 @@
        * Set the size of this object.
        * Theme Event: None
        * Is Theme Event Asynchronous: No
-       * @param {Number/RadJav.Vector2} width The object's new size, or new width.
-       * @param {Number} [height=null] The object's new height.
+       * @param {number/RadJav.Vector2} width The object's new size, or new width.
+       * @param {number} [height=null] The object's new height.
        */
-      setSize(width: Number, height: number): void {
+      setSize(width: number, height: number): void {
         this._transform.setSize(width, height);
       }
 
@@ -400,9 +400,9 @@
        * Get the width of this object.
        * Theme Event: None
        * Is Theme Event Asynchronous: No
-       * @return {Number} The width of this object.
+       * @return {number} The width of this object.
        */
-      getWidth(): Number {
+      getWidth(): number {
         return this._transform.width;
       }
 
@@ -410,9 +410,9 @@
        * Get the height of this object.
        * Theme Event: None
        * Is Theme Event Asynchronous: No
-       * @return {Number} The height of this object.
+       * @return {number} The height of this object.
        */
-      getHeight(): Number {
+      getHeight(): number {
         return this._transform.height;
       }
 
@@ -420,10 +420,10 @@
        * Set the object's text.
        * Theme Event: setText
        * Is Theme Event Asynchronous: Yes
-       * @param {String} text The text to set.
-       * @return {String} The text associated with this object.
+       * @param {string} text The text to set.
+       * @return {string} The text associated with this object.
        */
-      setText(text: String): void {
+      setText(text: string): void {
         RadJav.Theme.event(this.type, "setText", this, text);
       }
 
@@ -431,9 +431,9 @@
        * Get the object's text.
        * Theme Event: getText
        * Is Theme Event Asynchronous: No
-       * @return {String} The text associated with this object.
+       * @return {string} The text associated with this object.
        */
-      getText(): String {
+      getText(): string {
         return RadJav.Theme.eventSync(this.type, "getText", this);
       }
 
@@ -524,12 +524,12 @@
        * Calls a function when an event is triggered.
        * Theme Event: on
        * Is Theme Event Asynchronous: No
-       * Parameters Passed to Theme Event: RadJav.GUI.GObject, String, Function
-       * @param {String} eventName The name of the event to trigger.
+       * Parameters Passed to Theme Event: RadJav.GUI.GObject, string, Function
+       * @param {string} eventName The name of the event to trigger.
        * @param {Function} func The function to execute.
        * @return {Mixed} The result.
        */
-      on(eventName: String, func: ((...args: any[]) => any)): any {
+      on(eventName: string, func: Function): any {
         return RadJav.Theme.event(this.type, "on", this, eventName, func);
       }
 

@@ -26,6 +26,7 @@
 #include "OpenSSLCommonTypes.h"
 
 #include <openssl/rsa.h>
+#include <openssl/evp.h>
 #include <openssl/bio.h>
 
 #include <string>
@@ -42,7 +43,8 @@ namespace Engine
 
       public:
 	RsaKey(RsaStructUniquePtr rsa, int bits, int encryptPadding, int signatureType);
-	RsaKey(RsaStructUniquePtr rsa, int bits);	
+	RsaKey(RsaStructUniquePtr rsa, int bits);
+	RsaKey(int encryptPadding, int signatureType);
 	//	RsaKey();
 	virtual ~RsaKey();
       
@@ -50,6 +52,7 @@ namespace Engine
 	//void setBits(int bits);
       protected:
 	RsaStructUniquePtr myRsa;
+	EvpPkeyUniquePtr myEvpPkey;
 	int myBits;
 
 	int myEncryptPadding;

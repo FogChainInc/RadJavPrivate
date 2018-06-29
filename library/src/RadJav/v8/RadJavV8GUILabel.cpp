@@ -251,10 +251,10 @@ namespace RadJAV
 				String str = parseV8Value(val);
 				V8_JAVASCRIPT_ENGINE->v8SetString(args.This(), "_text", str);
 
-				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				/*UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
 
 				if (appObject != NULL)
-					appObject->setText(str);
+					appObject->setText(str);*/
 			}
 
 			void Label::getText(const v8::FunctionCallbackInfo<v8::Value> &args)

@@ -49,6 +49,12 @@ RadJav.GUI.HTMLElement = (function (_super)
 
 		_this.type = "RadJav.GUI.HTMLElement";
 
+		if (_this._text != "") {
+			var parser = new DOMParser();
+			var parsedStr = parser.parseFromString(_this._text, "text/xml");
+			_this._html = parsedStr.firstChild;
+		}
+
 		return (_this);
 	}
 

@@ -19,9 +19,10 @@
 */
 
 /// <reference path="RadJav.ts" />
+
 namespace RadJav
 {
-export namespace Net
+	export namespace Net
 	{
 		/// Web server
 		export class WebServer
