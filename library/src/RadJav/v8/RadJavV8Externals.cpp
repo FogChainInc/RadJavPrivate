@@ -161,6 +161,8 @@ namespace RadJAV
 	
 	void ExternalsManager::set(const v8::Local<v8::Object>& handle, const String& functionName, CPP::ChainedPtr* object)
 	{
+		LOCK_GUARD(s_mutexExternalsAccess);
+		
 		uint32_t objectId = nextId();
 		v8::Local<v8::Object> objectInstance = newObjectInstance(handle);
 		
@@ -170,6 +172,8 @@ namespace RadJAV
 		ChainedPtrWrapper* wrapper = RJNEW ChainedPtrWrapper(handle, objectInstance, objectId, object);
 		wrapper->onDelete( [&](FieldWrapper* wrapper)
 						  {
+							  LOCK_GUARD(s_mutexExternalsAccess);
+							  
 							  auto pos = externals.find( wrapper->objectId());
 							  if(pos != externals.end())
 							  {
@@ -187,6 +191,8 @@ namespace RadJAV
 	
 	CPP::ChainedPtr* ExternalsManager::get(const v8::Local<v8::Object>& handle, const String& functionName)
 	{
+		LOCK_GUARD(s_mutexExternalsAccess);
+		
 		uint32_t objectId = getObjectId( handle, functionName);
 		
 		auto pos = externals.find( objectId);
@@ -205,6 +211,8 @@ namespace RadJAV
 	
 	void ExternalsManager::clear(const v8::Local<v8::Object>& handle, const String& functionName)
 	{
+		LOCK_GUARD(s_mutexExternalsAccess);
+
 		v8::Isolate* isolate = handle->GetIsolate();
 		v8::Handle<v8::Value> value = handle->Get(functionName.toV8String(isolate));
 		

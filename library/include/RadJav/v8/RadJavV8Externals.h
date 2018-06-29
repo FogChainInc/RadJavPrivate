@@ -23,6 +23,7 @@
 #ifdef USE_V8
 #include "RadJavPreprocessor.h"
 #include "RadJavString.h"
+#include "RadJavThread.h"
 
 #include <map>
 #include <v8.h>
@@ -262,6 +263,8 @@ namespace RadJAV
 		template<class T>
 		void set(const v8::Local<v8::Object>& handle, const String& functionName, std::shared_ptr<T> object)
 		{
+			LOCK_GUARD(s_mutexExternalsAccess);
+
 			uint32_t objectId = nextId();
 			v8::Local<v8::Object> objectInstance = newObjectInstance(handle);
 			
@@ -308,6 +311,8 @@ namespace RadJAV
 		template<class T>
 		std::shared_ptr<T> get(const v8::Local<v8::Object>& handle, const String& functionName)
 		{
+			LOCK_GUARD(s_mutexExternalsAccess);
+			
 			uint32_t objectId = getObjectId( handle, functionName);
 			
 			auto pos = externals.find( objectId);
@@ -346,6 +351,11 @@ namespace RadJAV
 		
 	private:
 		std::map<uint32_t, FieldWrapper*> externals;
+		#ifdef GUI_USE_WXWIDGETS
+			wxMutex s_mutexExternalsAccess;
+		#else
+			std::mutex s_mutexExternalsAccess;
+		#endif
 	};
 }
 
