@@ -45,24 +45,36 @@ namespace RadJAV
 				if (args.Length() > 1)
 					type = v8::Local<v8::Integer>::Cast(args[1])->IntegerValue();
 
-				Ogre::SceneManager *sceneMgr = (Ogre::SceneManager *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_sceneManager");
+				std::shared_ptr<Ogre::SceneManager> sceneMgr = V8_JAVASCRIPT_ENGINE->v8GetExternal<Ogre::SceneManager>(args.This(), "_sceneManager");
 
 				v8::Local<v8::Object> C3D = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_RADJAV, "C3D");
 				v8::Local<v8::Object> entity = V8_JAVASCRIPT_ENGINE->v8GetObject(C3D, "Entity");
 				v8::Local<v8::Object> newEntity = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(entity, 0, NULL);
-				Ogre::MovableObject *object = NULL;
-				Ogre::SceneNode *node = sceneMgr->getRootSceneNode()->createChildSceneNode();
+				
+				std::shared_ptr<Ogre::MovableObject> object;
+				std::shared_ptr<Ogre::SceneNode> node( sceneMgr->getRootSceneNode()->createChildSceneNode(), [](Ogre::SceneNode* p){
+					Ogre::SceneManager* sceneManager = Ogre::Root::getSingleton()._getCurrentSceneManager();
+					if(sceneManager)
+						sceneManager->destroySceneNode(p);
+				});
 
+				auto movableObjectDestroyer = [](Ogre::MovableObject* p)
+				{
+					Ogre::SceneManager* sceneManager = Ogre::Root::getSingleton()._getCurrentSceneManager();
+					if(sceneManager)
+						sceneManager->destroyMovableObject(p);
+				};
+				
 				switch (type)
 				{
 					case 1:		// Cube
-						object = sceneMgr->createEntity(name, Ogre::SceneManager::PrefabType::PT_CUBE);
+						object.reset( sceneMgr->createEntity(name, Ogre::SceneManager::PrefabType::PT_CUBE), movableObjectDestroyer);
 						break;
 					case 2:		// Sphere
-						object = sceneMgr->createEntity(name, Ogre::SceneManager::PrefabType::PT_SPHERE);
+						object.reset( sceneMgr->createEntity(name, Ogre::SceneManager::PrefabType::PT_SPHERE), movableObjectDestroyer);
 						break;
 					case 3:		// Plane
-						object = sceneMgr->createEntity(name, Ogre::SceneManager::PrefabType::PT_PLANE);
+						object.reset( sceneMgr->createEntity(name, Ogre::SceneManager::PrefabType::PT_PLANE), movableObjectDestroyer);
 						break;
 					case 4:		// Camera
 						{
@@ -71,27 +83,34 @@ namespace RadJAV
 							camera->setAutoAspectRatio(true);
 							camera->setFarClipDistance(5000);
 
-							Ogre::RenderWindow *rwin = (Ogre::RenderWindow *)
-								V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_renderWindow");
-							Ogre::Viewport *viewport = rwin->addViewport(camera);
-
-							Ogre::Real rAspectRatio = static_cast <Ogre::Real> (viewport->getActualWidth()) /
+							std::shared_ptr<Ogre::RenderWindow> rwin = V8_JAVASCRIPT_ENGINE->v8GetExternal<Ogre::RenderWindow>(args.This(), "_renderWindow");
+							if(rwin)
+							{
+								Ogre::Viewport *viewport = rwin->addViewport(camera);
+								
+								Ogre::Real rAspectRatio = static_cast <Ogre::Real> (viewport->getActualWidth()) /
 								static_cast <Ogre::Real> (viewport->getActualHeight());
-							camera->setAspectRatio(rAspectRatio);
-							camera->setFOVy(Ogre::Degree(90) / rAspectRatio);
+								camera->setAspectRatio(rAspectRatio);
+								camera->setFOVy(Ogre::Degree(90) / rAspectRatio);
+							}
+							else
+							{
+								camera->setAspectRatio(1.0);
+								camera->setFOVy(Ogre::Degree(90));
+							}
 
-							object = camera;
+							object.reset(camera, movableObjectDestroyer);
 						}
 						break;
 					case 5:		// Light
 						{
-							Ogre::Light *light = sceneMgr->createLight(name);
-							object = light;
+							object.reset(sceneMgr->createLight(name), movableObjectDestroyer);
 						}
 						break;
 				}
 
-				node->attachObject(object);
+				node->attachObject(object.get());
+				
 				V8_JAVASCRIPT_ENGINE->v8SetExternal(newEntity, "_c3dObj", node);
 				V8_JAVASCRIPT_ENGINE->v8SetExternal(newEntity, "_c3dEntity", object);
 
@@ -100,8 +119,9 @@ namespace RadJAV
 
 			void World::setAmbientLight(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				Ogre::SceneManager *sceneMgr = (Ogre::SceneManager *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_sceneManager");
-				sceneMgr->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
+				std::shared_ptr<Ogre::SceneManager> sceneMgr = V8_JAVASCRIPT_ENGINE->v8GetExternal<Ogre::SceneManager>(args.This(), "_sceneManager");
+				if(sceneMgr)
+					sceneMgr->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
 			}
 			#endif
 		}

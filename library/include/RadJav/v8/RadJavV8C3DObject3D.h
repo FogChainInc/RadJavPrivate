@@ -24,6 +24,7 @@
 
 #include "RadJavString.h"
 #include "RadJavHashMap.h"
+#include "cpp/RadJavCPPGUIEvent.h"
 
 #ifdef GUI_USE_WXWIDGETS
 	#include <wx/wx.h>
@@ -64,15 +65,14 @@ namespace RadJAV
 			class RADJAV_EXPORT Object3DBase
 			{
 			public:
-				v8::Persistent<v8::Value> *createEvent(String event, v8::Local<v8::Function> function);
+				CPP::GUI::Event *createEvent(String event, v8::Local<v8::Function> function);
 
 				void addNewEvent(String event, Ogre::MovableObject *object, v8::Local<v8::Function> func);
 
-				static v8::Local<v8::Value> executeEvent(
-					Event *pevent, RJINT numArgs = 0, v8::Local<v8::Value> *args = NULL);
+				static v8::Local<v8::Value> executeEvent(CPP::GUI::Event *pevent, RJINT numArgs = 0, v8::Local<v8::Value> *args = NULL);
 
 			protected:
-				HashMap<std::string, Event* > events;
+				HashMap<std::string, CPP::GUI::Event* > events;
 			};
 #endif
 		}

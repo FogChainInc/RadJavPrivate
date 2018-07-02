@@ -140,6 +140,7 @@ namespace RadJAV
                     RadJav::app->SetActive(_visible, object);
                 
                     _appObj = object;
+					linkWith(object);
                 
                     //if (icon != "")
                     //    setIcon(icon);
