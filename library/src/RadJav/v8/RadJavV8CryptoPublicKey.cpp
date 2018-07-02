@@ -472,9 +472,9 @@ namespace RadJAV
 					args.GetReturnValue().Set(promise);
 				} // End of decrypt()
 		  
-		                void PublicKey::savePemSync(const v8::FunctionCallbackInfo<v8::Value> &args)
+				void PublicKey::savePemSync(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
-					ENGINE *engine = (ENGINE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_engine");
+					std::shared_ptr<ENGINE> engine = V8_JAVASCRIPT_ENGINE->v8GetExternal<ENGINE>(args.This(), "_engine");
 					v8::Isolate *isolate = args.GetIsolate();
 					v8::Local<v8::Value> ret;
 
