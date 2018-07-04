@@ -19,7 +19,7 @@
 */
 
 #include "cpp/RadJavCPPAgent.h"
-#include "cpp/RadJavCPPAgentIo.h"
+#include "cpp/RadJavCPPAgentIO.h"
 
 #ifdef USE_INSPECTOR
 #include "v8-inspector.h"
