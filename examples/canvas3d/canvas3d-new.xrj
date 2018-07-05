@@ -1,6 +1,7 @@
 var cube = null;
 var timing = 16;
 var light = null;
+var model = null;
 
 function moveCube ()
 {
@@ -8,6 +9,13 @@ function moveCube ()
 	cube.pitch (1);
 
 	setTimeout (moveCube, timing);
+}
+
+function moveModel ()
+{
+	model.yaw (1);
+
+	setTimeout (moveModel, timing);
 }
 
 RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getC3DLibrary ()).then (function ()
@@ -22,9 +30,9 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getC3DLibrary ()).then (
 						
 						var objects = world.createEmpty("objects");
 						
-						cube = world.createPrimitive ("cube", 2);
-						cube.setPosition (0, 0, -250);
-						objects.addChild(cube);
+						//cube = world.createPrimitive ("cube", 2);
+						//cube.setPosition (0, 0, -250);
+						//objects.addChild(cube);
 						
 						var camera = world.createCamera ("mainCamera");
 						camera.setBackgroundColor(new RadJav.Color (1, 1, 1, 1));
@@ -33,14 +41,21 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getC3DLibrary ()).then (
 						camera.setAspectRatio(aspectRatio);
 						camera.setFOV(90/aspectRatio);
 						camera.setAutoAspectRatio();
-						camera.setPosition (0, 0, 0);
-						camera.lookAt(0,0,-1);
+						camera.setPosition (0, 2, 0);
+						camera.lookAt(0,2,-10);
+						camera.setNearClipPlane(1);
+						camera.setFarClipPlane(50);
 						
 						light = world.createLight ("mainLight");
 						light.setPosition (5, 5, -5);
-						light.setColor(new RadJav.Color(0,1,0,1));
+						light.setColor(new RadJav.Color(1,1,1,1));
 
-						setTimeout (moveCube, timing);
+						model = world.loadModel("rabbit", "/Users/mikalaiturankou/Documents/Work/Exadel/RadJav/Compilation/RadJavPrivate/vm/build-xcode/Debug/rabbit.dae");
+						model.setPosition(0,0,-10);
+						model.setScale(2, 2, 2);
+						objects.addChild(model);
+						
+						setTimeout (moveModel, timing);
 					});
 			});
 	});
