@@ -41,6 +41,8 @@ namespace RadJAV
 						   const String& name,
 						   Transform *parent = NULL);
 				
+				virtual ~Transform();
+				
 				String getName() const;
 				
 				const Ogre::Vector3& getPosition() const;
@@ -63,6 +65,7 @@ namespace RadJAV
 				void lookAt(const Ogre::Vector3& point, Ogre::Node::TransformSpace relativeTo = Ogre::Node::TS_PARENT);
 
 				Ogre::SceneNode* node;
+				Ogre::SceneManager& sceneMgr;
 			};
 #endif
 		}

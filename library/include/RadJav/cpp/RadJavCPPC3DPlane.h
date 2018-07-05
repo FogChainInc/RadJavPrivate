@@ -42,7 +42,6 @@ namespace RadJAV
 				Plane( Ogre::SceneManager& sceneManager,
 					   const String& name,
 					   Object3D *parent = NULL);
-				~Plane();
 				
 				Ogre::Entity* plane;
 			};

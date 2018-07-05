@@ -40,11 +40,6 @@ namespace RadJAV
 				node->attachObject(camera);
 			}
 
-			Camera::~Camera()
-			{
-				node->detachObject(camera);
-			}
-			
 			void Camera::setMode(Ogre::ProjectionType mode)
 			{
 				camera->setProjectionType(mode);

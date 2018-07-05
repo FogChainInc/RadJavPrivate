@@ -36,11 +36,6 @@ namespace RadJAV
 				sphere = sceneManager.createEntity(name,Ogre::SceneManager::PT_SPHERE);
 				node->attachObject(sphere);
 			}
-			
-			Sphere::~Sphere()
-			{
-				node->detachObject(sphere);
-			}
 #endif
 		}
 	}

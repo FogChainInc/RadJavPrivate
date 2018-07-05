@@ -42,7 +42,6 @@ namespace RadJAV
 				Sphere( Ogre::SceneManager& sceneManager,
 					    const String& name,
 					    Object3D *parent = NULL);
-				~Sphere();
 				
 				Ogre::Entity* sphere;
 			};

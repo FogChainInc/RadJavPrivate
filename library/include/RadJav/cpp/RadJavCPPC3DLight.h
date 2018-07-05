@@ -43,7 +43,6 @@ namespace RadJAV
 					   Ogre::Light::LightTypes type,
 					   const String& name,
 					   Object3D *parent = NULL);
-				~Light();
 				
 				void setType(Ogre::Light::LightTypes type);
 				Ogre::Light::LightTypes getType() const;

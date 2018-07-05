@@ -36,11 +36,6 @@ namespace RadJAV
 				plane = sceneManager.createEntity(name, Ogre::SceneManager::PT_PLANE);
 				node->attachObject(plane);
 			}
-			
-			Plane::~Plane()
-			{
-				node->detachObject(plane);
-			}
 #endif
 		}
 	}

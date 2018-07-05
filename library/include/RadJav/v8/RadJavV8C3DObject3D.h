@@ -50,6 +50,8 @@ namespace RadJAV
 				static void getX(const v8::FunctionCallbackInfo<v8::Value> &args);
 				static void getY(const v8::FunctionCallbackInfo<v8::Value> &args);
 				static void getZ(const v8::FunctionCallbackInfo<v8::Value> &args);
+				static void setScale(const v8::FunctionCallbackInfo<v8::Value> &args);
+				static void getScale(const v8::FunctionCallbackInfo<v8::Value> &args);
 				static void getParent(const v8::FunctionCallbackInfo<v8::Value> &args);
 				static void setVisibility(const v8::FunctionCallbackInfo<v8::Value> &args);
 				static void getVisibility(const v8::FunctionCallbackInfo<v8::Value> &args);

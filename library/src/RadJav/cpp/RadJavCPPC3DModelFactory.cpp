@@ -17,9 +17,11 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#include "cpp/RadJavCPPC3DCube.h"
+#include "cpp/RadJavCPPC3DModelFactory.h"
 
 #include "RadJav.h"
+#include <OgreColladaLoader.h>
+#include <boost/filesystem.hpp>
 
 namespace RadJAV
 {
@@ -28,13 +30,43 @@ namespace RadJAV
 		namespace C3D
 		{
 #ifdef C3D_USE_OGRE
-			Cube::Cube( Ogre::SceneManager& sceneManager,
-				 const String& name,
-				 Object3D *parent)
-			: Object3D(sceneManager, name, parent)
+			ModelFactory::ModelFactory()
 			{
-				cube = sceneManager.createEntity(name,Ogre::SceneManager::PT_CUBE);
-				node->attachObject(cube);
+			}
+			
+			ModelFactory::~ModelFactory()
+			{
+			}
+			
+			Model* ModelFactory::load (Ogre::SceneManager* sceneManager,
+									   const String& name,
+									   const String& filePath,
+									   Object3D *parent)
+			{
+				boost::filesystem::path resourcesPath(filePath);
+				if(resourcesPath.empty())
+					return nullptr;
+				
+				resourcesPath.remove_filename();
+
+				Model* model = RJNEW Model( *sceneManager,
+										    name,
+										    filePath,
+										    parent);
+				
+				
+				
+				try
+				{
+					Ogre::ColladaLoader::load (filePath, sceneManager, model->node, resourcesPath.string());
+				}
+				catch(...)
+				{
+					DELETEOBJ(model);
+					model = nullptr;
+				}
+				
+				return model;
 			}
 #endif
 		}

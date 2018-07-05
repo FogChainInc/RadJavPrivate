@@ -42,11 +42,6 @@ namespace RadJAV
 				node->attachObject(light);
 			}
 			
-			Light::~Light()
-			{
-				node->detachObject(light);
-			}
-			
 			void Light::setType(Ogre::Light::LightTypes type)
 			{
 				light->setType(type);

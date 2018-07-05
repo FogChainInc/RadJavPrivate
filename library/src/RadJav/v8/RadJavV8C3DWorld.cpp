@@ -29,6 +29,8 @@
 #include "cpp/RadJavCPPC3DPlane.h"
 #include "cpp/RadJavCPPC3DCube.h"
 #include "cpp/RadJavCPPC3DSphere.h"
+#include "cpp/RadJavCPPC3DModel.h"
+#include "cpp/RadJavCPPC3DModelFactory.h"
 
 namespace RadJAV
 {
@@ -64,6 +66,7 @@ namespace RadJAV
 				V8_CALLBACK(object, "createLight", World::createLight);
 				V8_CALLBACK(object, "createPrimitive", World::createPrimitive);
 				V8_CALLBACK(object, "createEmpty", World::createEmpty);
+				V8_CALLBACK(object, "loadModel", World::loadModel);
 				V8_CALLBACK(object, "setAmbientLight", World::setAmbientLight);
 			}
 
@@ -156,6 +159,25 @@ namespace RadJAV
 
 				CPP::C3D::Object3D* nativeObject = RJNEW CPP::C3D::Object3D(*sceneMgr, name);
 				V8_JAVASCRIPT_ENGINE->v8SetExternal(newObject, "_c3dObj", nativeObject);
+				
+				args.GetReturnValue().Set(newObject);
+			}
+
+			void World::loadModel(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				String name = parseV8Value(args[0]);
+				String path;
+				if (args.Length() > 1)
+					path = parseV8Value(args[1]);
+
+				v8::Local<v8::Object> C3D = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_RADJAV, "C3D");
+				v8::Local<v8::Object> object = V8_JAVASCRIPT_ENGINE->v8GetObject(C3D, "Object3D");
+				v8::Local<v8::Object> newObject = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(object, 0, NULL);
+				
+				Ogre::SceneManager *sceneMgr = (Ogre::SceneManager *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_sceneManager");
+				
+				CPP::C3D::Model* model = CPP::C3D::ModelFactory::load( sceneMgr, name, path, nullptr);
+				V8_JAVASCRIPT_ENGINE->v8SetExternal(newObject, "_c3dObj", model);
 				
 				args.GetReturnValue().Set(newObject);
 			}

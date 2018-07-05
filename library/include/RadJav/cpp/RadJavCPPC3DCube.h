@@ -42,7 +42,6 @@ namespace RadJAV
 				Cube( Ogre::SceneManager& sceneManager,
 					  const String& name,
 					  Object3D *parent = NULL);
-				~Cube();
 				
 				Ogre::Entity* cube;
 			};

@@ -39,6 +39,7 @@
 					static void createLight(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void createPrimitive(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void createEmpty(const v8::FunctionCallbackInfo<v8::Value> &args);
+					static void loadModel(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void setAmbientLight(const v8::FunctionCallbackInfo<v8::Value> &args);
 
 					//static void createEntity(const v8::FunctionCallbackInfo<v8::Value> &args);

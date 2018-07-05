@@ -29,6 +29,7 @@ namespace RadJAV
 		#ifdef C3D_USE_OGRE
 
 			Transform::Transform( Ogre::SceneManager& sceneManager, const String& name, Transform *parent)
+			: sceneMgr(sceneManager)
 			{
 				node = sceneManager.createSceneNode();
 				
@@ -40,6 +41,12 @@ namespace RadJAV
 				{
 					parent->node->addChild(node);
 				}
+			}
+			
+			Transform::~Transform()
+			{
+				node->removeAndDestroyAllChildren();
+				sceneMgr.destroySceneNode(node);
 			}
 			
 			String Transform::getName() const
@@ -59,6 +66,9 @@ namespace RadJAV
 			
 			void Transform::addChild(Transform* child)
 			{
+				if(!child)
+					return;
+				
 				Ogre::SceneNode* parent = child->node->getParentSceneNode();
 				if(parent)
 				{
@@ -70,6 +80,9 @@ namespace RadJAV
 			
 			Transform* Transform::removeChild(Transform* child)
 			{
+				if(!child)
+					return child;
+				
 				node->removeChild(child->node);
 				
 				return child;
@@ -77,6 +90,9 @@ namespace RadJAV
 			
 			void Transform::removeAndDestroyChild(Transform* child)
 			{
+				if(!child)
+					return;
+				
 				removeChild(child);
 				delete child;
 			}

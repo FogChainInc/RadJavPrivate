@@ -200,7 +200,9 @@ if (USE_OGRE)
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPC3DLight.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPC3DPlane.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPC3DCube.cpp"
-		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPC3DSphere.cpp")
+		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPC3DSphere.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPC3DModel.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPC3DModelFactory.cpp")
 	source_group ("RadJav\\CPP\\C3D" FILES ${SOURCES_files_RadJav__cpp__C3D__Sources})
 
 	set (SOURCES ${SOURCES_files_RadJav__cpp__C3D__Sources} ${SOURCES})

@@ -43,7 +43,6 @@ namespace RadJAV
 					    Ogre::RenderWindow& renderWindow,
 					    const String& name,
 					    Object3D *parent = NULL);
-				~Camera();
 				
 				void setMode(Ogre::ProjectionType mode);
 				Ogre::ProjectionType getMode() const;

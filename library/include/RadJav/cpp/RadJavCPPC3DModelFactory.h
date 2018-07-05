@@ -17,9 +17,17 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#include "cpp/RadJavCPPC3DCube.h"
+#ifndef _RADJAV_GUI_CPP_MODELFACTORY_H_
+#define _RADJAV_GUI_CPP_MODELFACTORY_H_
 
-#include "RadJav.h"
+#include "RadJavPreprocessor.h"
+#include "RadJavString.h"
+
+#include "cpp/RadJavCPPC3DModel.h"
+
+#ifdef C3D_USE_OGRE
+#include <Ogre.h>
+#endif
 
 namespace RadJAV
 {
@@ -28,15 +36,22 @@ namespace RadJAV
 		namespace C3D
 		{
 #ifdef C3D_USE_OGRE
-			Cube::Cube( Ogre::SceneManager& sceneManager,
-				 const String& name,
-				 Object3D *parent)
-			: Object3D(sceneManager, name, parent)
+			class RADJAV_EXPORT ModelFactory
 			{
-				cube = sceneManager.createEntity(name,Ogre::SceneManager::PT_CUBE);
-				node->attachObject(cube);
-			}
+			public:
+				ModelFactory();
+				~ModelFactory();
+				
+				static Model* load (Ogre::SceneManager* sceneManager,
+									const String& name,
+									const String& filePath,
+									Object3D *parent);
+			};
 #endif
 		}
 	}
 }
+#endif
+
+
+
