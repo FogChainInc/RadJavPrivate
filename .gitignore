@@ -1,5 +1,6 @@
 html5/node_modules
 library/build*
+library/engines/OgreCollada/build*
 vm/build*
 vm/installers/windows/x86/build
 vm/installers/windows/x86/RadJavVM/Debug
