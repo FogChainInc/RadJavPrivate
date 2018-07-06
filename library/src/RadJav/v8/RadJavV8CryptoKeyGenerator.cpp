@@ -36,6 +36,7 @@
 
 #include <iostream>
 #include <tuple>
+#include <cstring>
 #include <sstream>
 #include <iomanip>
 

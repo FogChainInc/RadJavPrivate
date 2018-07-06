@@ -107,13 +107,21 @@ namespace RadJAV
 					else if (args[0] -> IsObject())
 					  {
 					    String constructor = parseV8Value(v8::Local<v8::Object>::Cast(args[0]) -> GetConstructorName());
-					    if (constructor == "ArrayBuffer")
+					    if (constructor.find("Array") != std::string::npos)
 					      {
 						auto ab = v8::Local<v8::ArrayBuffer>::Cast(args[0]);
 						plainText = ab -> GetContents().Data();
 						plainTextLength = ab -> ByteLength();
 					      }
+					    else
+					      isolate -> ThrowException(v8::Exception::TypeError
+									(v8::String::NewFromUtf8(isolate, "Only ArrayBuffers are supported")));
+					    
 					  }
+					else
+					  isolate -> ThrowException(v8::Exception::TypeError
+								    (v8::String::NewFromUtf8(isolate, "Unsupported argument")));
+					
 
 					try
 					  {
@@ -165,7 +173,7 @@ namespace RadJAV
 					else if (args[0] -> IsObject())
 					  {
 					    String constructor = parseV8Value(v8::Local<v8::Object>::Cast(args[0]) -> GetConstructorName());
-					    if (constructor == "ArrayBuffer")
+					    if (constructor.find("Array") != std::string::npos)
 					      {
 						auto ab = v8::Local<v8::ArrayBuffer>::Cast(args[0]);
 						plainTextLength = ab -> ByteLength();
@@ -174,7 +182,15 @@ namespace RadJAV
 												 std::default_delete<unsigned char[]>());
 						std::memcpy(arrBufArgHolder.get(), ab -> GetContents().Data(), plainTextLength);
 					      }
+					    else
+					      isolate -> ThrowException(v8::Exception::TypeError
+									(v8::String::NewFromUtf8(isolate, "Only ArrayBuffers are supported")));
+					    
 					  }
+					else
+					  isolate -> ThrowException(v8::Exception::TypeError
+								    (v8::String::NewFromUtf8(isolate, "Unsupported argument")));
+					
 
 					PromiseThread *thread = RJNEW PromiseThread();
 
