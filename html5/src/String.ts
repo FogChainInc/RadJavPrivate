@@ -39,7 +39,7 @@ String.prototype.insertAt = function (startPos: number, str: string): string {
 
 	finalStr += this.substr(0, startPos);
 	finalStr += str;
-	finalStr += this.substr(startPos + 1);
+	finalStr += this.substr(startPos);
 
 	return finalStr;
 }

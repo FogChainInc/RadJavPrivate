@@ -85,6 +85,11 @@
        * The native os gui object associated with this object.
        */
       _appObj: any;
+      /** @property {Account} [access=null]
+       * @protected
+       * How this object is handled with an account.
+       */
+      access: Account;
       /** @property {Object} [createOnPlatforms=null]
        * @protected
        * Create this object only on certain platforms. All platforms will be enabled

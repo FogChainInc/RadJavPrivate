@@ -20,6 +20,10 @@
 
 /// <reference path="RadJav.ts" />
 
+interface DOMElement extends HTMLElement
+{
+}
+
 namespace RadJav {
     /** @class RadJav.IO
      * The IO class.
@@ -208,4 +212,241 @@ namespace RadJav {
         static append: Number;
       }
     }
+
+	/// Handles XML.
+	export namespace XML
+	{
+		/** @class RadJav.IO.XML.XMLFile
+		* Opens XML files.
+		*/
+		export class XMLFile
+		{
+			/// The XML parser.
+			public parser: DOMParser;
+			/// The root node.
+			public root: XMLTag;
+
+			/// The XML file that has been loaded.
+			protected xmlFile: XMLDocument;
+
+			/// Load a XML file.
+			loadXMLFile (filePath: string): Promise<string>
+			{
+				let promise: Promise<string> = new Promise<string> (RadJav.keepContext (function (resolve, reject, file)
+					{
+						let path: string = file[0];
+
+						if (RadJav.OS.HTML5 != null)
+						{
+							return (RadJav.Net.httpRequest (path).then (function (data)
+								{
+									this.loadXML (data);
+									resolve (data);
+								}));
+						}
+						else
+						{
+							let data = RadJav.IO.TextFile.readEntireFile (path);
+							this.loadXML (data);
+
+							resolve (data);
+						}
+					}, this, [filePath]));
+
+				return (promise);
+			}
+
+			/// Load XML from a string.
+			loadXML (xmlString: string): void
+			{
+				if (RadJav.OS.HTML5 != null)
+				{
+					this.parser = new DOMParser ();
+					this.xmlFile = this.parser.parseFromString (xmlString, "text/xml");
+					this.root = new XMLTag ((<DOMElement>this.xmlFile.firstChild));
+				}
+			}
+		}
+
+		/// XML tag.
+		export class XMLTag
+		{
+			/// The tag name.
+			public tag: string;
+			/// The attributes associated with this tag.
+			public attributes: { [name: string]: XMLAttribute };
+			/// The value in this tag.
+			public value: string;
+			/// This tag's children.
+			public children: XMLTag[];
+
+			constructor (tag: string | DOMElement)
+			{
+				if (typeof (tag) == "string")
+				{
+					this.tag = (<string>tag);
+					this.attributes = {};
+					this.value = "";
+					this.children = [];
+				}
+				else
+				{
+					let domTag: DOMElement = (<DOMElement>tag);
+					this.tag = domTag.tagName;
+					this.attributes = {};
+
+					for (let iIdx = 0; iIdx < domTag.attributes.length; iIdx++)
+					{
+						let attribute = domTag.attributes[iIdx];
+						let attr: XMLAttribute = new XMLAttribute (attribute.name, attribute.value);
+						this.attributes[attribute.name] = attr;
+					}
+
+					this.value = domTag.textContent;
+					this.children = [];
+
+					for (let iIdx = 0; iIdx < domTag.childNodes.length; iIdx++)
+					{
+						let domChild: DOMElement = (<DOMElement>domTag.childNodes[iIdx]);
+						let child: XMLTag = new XMLTag (domChild);
+
+						this.children.push (child);
+					}
+				}
+			}
+
+			/// Get the tags in this tag.
+			getTags (tag: string): XMLTag[]
+			{
+				let tags: XMLTag[] = [];
+
+				for (let iIdx = 0; iIdx < this.children.length; iIdx++)
+				{
+					let child: XMLTag = this.children[iIdx];
+					tags.push (child);
+				}
+
+				return (tags);
+			}
+
+			/// Set an attribute for this tag.
+			setAttribute (attribute: string, value: string): void
+			{
+				if (this.attributes[attribute] == undefined)
+					this.attributes[attribute] = new XMLAttribute (attribute, value);
+				else
+					this.attributes[attribute].value = value;
+			}
+
+			/// Get an attribute from this tag.
+			getAttribute (attribute: string): XMLAttribute
+			{
+				if (this.attributes[attribute] == undefined)
+					throw new Error ("Attribute does not exist!");
+
+				return (this.attributes[attribute]);
+			}
+
+			/// Get an attribute from this tag.
+			getAttributeString (attribute: string): string
+			{
+				return (this.getAttribute (attribute).getValue ());
+			}
+
+			/// Get an attribute integer value from this tag.
+			getAttributeInt (attribute: string): number
+			{
+				return (this.getAttribute (attribute).toInt ());
+			}
+
+			/// Get an attribute float value from this tag.
+			getAttributeFloat (attribute: string): number
+			{
+				return (this.getAttribute (attribute).toFloat ());
+			}
+
+			/// Get a boolean result from an attribute.
+			getAttributeBoolean (attribute: string): boolean
+			{
+				return (this.getAttribute (attribute).toBoolean ());
+			}
+
+			/// Convert this tag to a string.
+			toString (): string
+			{
+				let result: string = "<" + this.tag + " ";
+
+				for (let attr in this.attributes)
+				{
+					let attribute: XMLAttribute = this.attributes[attr];
+					result += attribute.toString () + " ";
+				}
+
+				if ((this.value != "") || (this.children.length > 0))
+				{
+					result += ">" + this.value;
+
+					if (this.value != "")
+						result += " ";
+
+					for (let iIdx = 0; iIdx < this.children.length; iIdx++)
+					{
+						let child: XMLTag = this.children[iIdx];
+						result += this.value.toString () + " ";
+					}
+
+					result += "</" + this.tag + ">";
+				}
+				else
+					result += "/>";
+
+				return (result);
+			}
+		}
+
+		/// XML attribute.
+		export class XMLAttribute
+		{
+			/// The attribute's name.
+			public name: string;
+			/// The value of the attribute.
+			public value: string;
+
+			constructor (name: string, value: string)
+			{
+				this.name = name;
+				this.value = value;
+			}
+
+			/// Get the value of the attribute.
+			getValue (): string
+			{
+				return (this.value);
+			}
+
+			/// Get the integer value of the attribute.
+			toInt (): number
+			{
+				return (parseInt (this.value));
+			}
+
+			/// Get the float value of the attribute.
+			toFloat (): number
+			{
+				return (parseFloat (this.value));
+			}
+
+			/// Get the boolean value of the attribute.
+			toBoolean (): boolean
+			{
+				return (parseBoolean (this.value));
+			}
+
+			/// Convert attribute to a string.
+			toString (): string
+			{
+				return (this.name + " = \"" + this.value + "\"");
+			}
+		}
+	}
 }

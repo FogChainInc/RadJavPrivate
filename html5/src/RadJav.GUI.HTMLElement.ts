@@ -31,7 +31,7 @@ namespace RadJav
 		*/
 		export class HTMLElement extends RadJav.GUI.GObject
 		{
-			constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject)
+			constructor(obj?: any, text?: string | HTMLElement, parent?: RadJav.GUI.GObject)
 			{
 				if (obj == null)
 					obj = {};
@@ -53,13 +53,19 @@ namespace RadJav
 
 				this.type = "RadJav.GUI.HTMLElement";
 
-				if (this._text != "")
+				if (typeof (this._text) == "string")
 				{
-					let parser = new DOMParser ();
-					let parsedStr = parser.parseFromString (this._text, "text/xml");
+					if (this._text != "")
+					{
+						let parser = new DOMParser ();
+						let parsedStr = parser.parseFromString (this._text, "text/xml");
 
-					this._html = parsedStr.firstChild;
+						this._html = parsedStr.firstChild;
+					}
 				}
+
+				if (typeof (this._text) == "object")
+					this._html = this._text;
 			}
 		}
 	}

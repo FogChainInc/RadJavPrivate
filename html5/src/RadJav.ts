@@ -160,9 +160,7 @@ namespace RadJav
 					script.type = "text/javascript";
 					//script.async = false;
 					//script.defer = false;
-          var str = "";
-          
-          var event = document.createEvent('')
+					var str = "";
 
 					if (RadJav._isUsingInternetExplorerTheWorstWebBrowserEver() == true)
 						script.text = str;
@@ -2027,6 +2025,29 @@ namespace RadJav
       }
     }
   }
+}
+
+function parseBoolean (str: string): boolean
+{
+	str = str.toLowerCase ();
+
+	if (str == "yes")
+		return (true);
+	else if (str == "no")
+		return (false);
+	else if (str == "true")
+		return (true);
+	else if (str == "false")
+		return (false);
+	else
+	{
+		var iValue = parseInt (str);
+
+		if (iValue != 0)
+			return (true);
+	}
+
+	return (false);
 }
 
 var _eval = eval;
