@@ -46,6 +46,8 @@ namespace RadJAV
 	// wxWidgetsRadJav
 	bool wxWidgetsRadJav::OnInit ()
 	{
+		wxApp::OnInit();
+		
 		#ifdef NET_ON
 			wxSocketBase::Initialize();
 		#endif
@@ -75,20 +77,6 @@ namespace RadJAV
 	int wxWidgetsRadJav::OnExit ()
 	{
 		return (0);
-	}
-
-	void wxWidgetsRadJav::runSystem ()
-	{
-		wxEventLoop *evtLoop = RJNEW wxEventLoop();
-		wxEventLoop *evtOldLoop = (wxEventLoop *)wxEventLoop::GetActive ();
-		wxEventLoop::SetActive (evtLoop);
-
-		if (Pending () == true)
-			Dispatch ();
-
-		wxEventLoop::SetActive (evtOldLoop);
-
-		DELETEOBJ (evtLoop);
 	}
 
 	#ifdef NET_ON

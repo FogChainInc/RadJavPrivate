@@ -234,7 +234,7 @@ namespace RadJAV
 			//TODO: move inspector init code here
 		}
 
-		void V8JavascriptEngine::runApplication(String applicationSource, String fileName)
+		int V8JavascriptEngine::runApplication(String applicationSource, String fileName)
 		{
 			String parentDir = fileName;
 			
@@ -360,59 +360,97 @@ namespace RadJAV
 				if (exceptionsDisplayMessageBox == true)
 					RadJav::showMessageBox(ex.getMessage(), "Error");
 
-				return;
+				return EXIT_FAILURE;
 			}
 
-			RJBOOL firstRun = true;
-			RJBOOL startedBlockchainV1 = false;
+			int exitCode = EXIT_SUCCESS;
+			#ifdef GUI_USE_WXWIDGETS
+				// Here we enter main loop of wxApp and set our IdleEvent handler
+				if(wxTheApp)
+				{
+					wxTheApp->Bind( wxEVT_IDLE,
+								   &V8JavascriptEngine::runApplicationInIdleEvent,
+								   this,
+								   wxID_ANY,
+								   wxID_ANY);
+				
+					// Enter the main loop of app
+					exitCode = wxTheApp->OnRun();
+				}
+			#else
+				while (runApplicationSingleStep()) {}
+			#endif
 
+			#ifdef USE_INSPECTOR
+				DELETEOBJ(agent_);
+			#endif
+
+			isolate->ContextDisposedNotification();
+			isolate->LowMemoryNotification();
+
+			return exitCode;
+		}
+
+#ifdef GUI_USE_WXWIDGETS
+		void V8JavascriptEngine::runApplicationInIdleEvent(wxIdleEvent& event)
+		{
+			if(!runApplicationSingleStep())
+				return;
+			
+			event.RequestMore();
+			wxMilliSleep(1);
+		}
+#endif
+
+		bool V8JavascriptEngine::runApplicationSingleStep()
+		{
+			static RJBOOL firstRun = true;
+			static RJBOOL startedBlockchainV1 = false;
+			
 			#ifdef GUI_USE_WXWIDGETS
 				wxLongLong currentTime = 0;
 				wxLongLong prevTime = 0;
 				RJLONG diffTime = 0;
 			#endif
-
-			while (true)
+			
+			auto execCodeBegin = jsToExecuteNextCode.begin();
+			auto execFilenameBegin = jsToExecuteNextFilename.begin();
+			auto execContextBegin = jsToExecuteNextContext.begin();
+			auto execCodeEnd = jsToExecuteNextCode.end();
+			
+			try
 			{
-				auto execCodeBegin = jsToExecuteNextCode.begin();
-				auto execFilenameBegin = jsToExecuteNextFilename.begin();
-				auto execContextBegin = jsToExecuteNextContext.begin();
-				auto execCodeEnd = jsToExecuteNextCode.end();
-
-				try
-				{
-					#ifdef GUI_USE_WXWIDGETS
-						currentTime = wxGetLocalTimeMillis();
-						diffTime = (currentTime - prevTime).GetValue();
-						prevTime = currentTime;
-					#endif
-
-					v8::platform::PumpMessageLoop(platform, isolate);
-					RadJav::runEventLoopSingleStep();
-
-					#ifdef C3D_USE_OGRE
-						if (mRoot != NULL)
-						{
-							if (mRoot->isInitialised() == true)
-								mRoot->renderOneFrame();
-						}
-					#endif
-
-					// Handle the on ready function.
-					if (firstRun == true)
+				#ifdef GUI_USE_WXWIDGETS
+					currentTime = wxGetLocalTimeMillis();
+					diffTime = (currentTime - prevTime).GetValue();
+					prevTime = currentTime;
+				#endif
+				
+				v8::platform::PumpMessageLoop(platform, isolate);
+				
+				#ifdef C3D_USE_OGRE
+					if (mRoot != NULL)
 					{
-						if (V8B::OS::onReadyFunction != NULL)
-						{
-							v8::Local<v8::Function> val = v8::Local<v8::Function>::Cast(V8B::OS::onReadyFunction->Get(isolate));
-
-							if (v8IsNull(val) == false)
-								val->Call(globalContext->Global(), 0, NULL);
-						}
-
-						firstRun = false;
+						if (mRoot->isInitialised() == true)
+							mRoot->renderOneFrame();
 					}
-
-					#ifdef USE_BLOCKCHAIN_V1
+				#endif
+				
+				// Handle the on ready function.
+				if (firstRun == true)
+				{
+					if (V8B::OS::onReadyFunction != NULL)
+					{
+						v8::Local<v8::Function> val = v8::Local<v8::Function>::Cast(V8B::OS::onReadyFunction->Get(isolate));
+						
+						if (v8IsNull(val) == false)
+							val->Call(globalContext->Global(), 0, NULL);
+					}
+					
+					firstRun = false;
+				}
+				
+				#ifdef USE_BLOCKCHAIN_V1
 					if (V8B::BlockchainV1::hasBlockchainStarted == true)
 					{
 						if (startedBlockchainV1 == false)
@@ -421,106 +459,106 @@ namespace RadJAV
 							startedBlockchainV1 = true;
 						}
 					}
-					#endif
-
-					auto timeoutBegin = timeoutFuncs.begin();
-					auto timeoutsBegin = timeouts.begin();
-					auto timeoutEnd = timeoutFuncs.end();
-
-					while (timeoutBegin != timeoutEnd)
+				#endif
+				
+				auto timeoutBegin = timeoutFuncs.begin();
+				auto timeoutsBegin = timeouts.begin();
+				auto timeoutEnd = timeoutFuncs.end();
+				
+				while (timeoutBegin != timeoutEnd)
+				{
+					v8::Persistent<v8::Function> *funcp = *timeoutBegin;
+					RJINT time = *timeoutsBegin;
+					
+					if (time <= 0)
 					{
-						v8::Persistent<v8::Function> *funcp = *timeoutBegin;
-						RJINT time = *timeoutsBegin;
-
-						if (time <= 0)
-						{
-							timeoutFuncs.erase(timeoutBegin);
-							timeouts.erase(timeoutsBegin);
-
-							v8::Local<v8::Function> func = funcp->Get(isolate);
-
-							if (func->IsNullOrUndefined() == false)
-								func->Call(globalContext->Global(), 0, NULL);
-
-							DELETEOBJ(funcp);
-
-							timeoutBegin = timeoutFuncs.begin();
-							timeoutsBegin = timeouts.begin();
-							timeoutEnd = timeoutFuncs.end();
-
-							continue;
-						}
-
-						#ifdef GUI_USE_WXWIDGETS
-							(*timeoutsBegin) = time - (RJINT)diffTime;
-						#endif
-
-						timeoutBegin++;
-						timeoutsBegin++;
+						timeoutFuncs.erase(timeoutBegin);
+						timeouts.erase(timeoutsBegin);
+						
+						v8::Local<v8::Function> func = funcp->Get(isolate);
+						
+						if (func->IsNullOrUndefined() == false)
+							func->Call(globalContext->Global(), 0, NULL);
+						
+						DELETEOBJ(funcp);
+						
+						timeoutBegin = timeoutFuncs.begin();
+						timeoutsBegin = timeouts.begin();
+						timeoutEnd = timeoutFuncs.end();
+						
+						continue;
 					}
-
-					for (RJUINT iIdx = 0; iIdx < removeThreads.size(); iIdx++)
-					{
-						auto tbegin = threads.find (removeThreads.at (iIdx));
-						auto tend = threads.end();
-
-						if (tbegin == tend)
-							return;
-
-						/// @bug tbegin->second should be deleted, or does wxWidgets delete it automatically?
-                        /// @note wxWidgets delete wxThread automatically, we need to update removeThreads only
-						//DELETEOBJ (tbegin->second);
-						threads.erase(tbegin);
-					}
-
-					removeThreads.clear();
-
-					// Handle any threads.
-					auto tbegin = threads.begin ();
-					auto tend = threads.end ();
-
-					while (tbegin != tend)
-					{
-						Thread *thread = tbegin->second;
-
-						#ifdef GUI_USE_WXWIDGETS
-							wxThread *wthread = (wxThread *)thread;
-
-							if (thread->hasThreadStarted () == false)
-							{
-								wthread->Create();
-								wthread->Run();
-								thread->setAsStarted(true);
-							}
-						#endif
-
-						tbegin++;
-					}
-
-					// Handle any scripts that need to be executed.
-					while (execCodeBegin != execCodeEnd)
-					{
-						String code = *execCodeBegin;
-						executeScript(code, *execFilenameBegin, *execContextBegin);
-
-						execCodeBegin++;
-						execFilenameBegin++;
-						execContextBegin++;
-					}
-
-					jsToExecuteNextCode.clear();
-					jsToExecuteNextFilename.clear();
-					jsToExecuteNextContext.clear();
-
+					
 					#ifdef GUI_USE_WXWIDGETS
-					if (criticalSection->TryEnter() == true)
-					{
+						(*timeoutsBegin) = time - (RJINT)diffTime;
 					#endif
-
+					
+					timeoutBegin++;
+					timeoutsBegin++;
+				}
+				
+				for (RJUINT iIdx = 0; iIdx < removeThreads.size(); iIdx++)
+				{
+					auto tbegin = threads.find (removeThreads.at (iIdx));
+					auto tend = threads.end();
+					
+					if (tbegin == tend)
+						return false;
+					
+					/// @bug tbegin->second should be deleted, or does wxWidgets delete it automatically?
+					/// @note wxWidgets delete wxThread automatically, we need to update removeThreads only
+					//DELETEOBJ (tbegin->second);
+					threads.erase(tbegin);
+				}
+				
+				removeThreads.clear();
+				
+				// Handle any threads.
+				auto tbegin = threads.begin ();
+				auto tend = threads.end ();
+				
+				while (tbegin != tend)
+				{
+					Thread *thread = tbegin->second;
+					
+					#ifdef GUI_USE_WXWIDGETS
+						wxThread *wthread = (wxThread *)thread;
+					
+						if (thread->hasThreadStarted () == false)
+						{
+							wthread->Create();
+							wthread->Run();
+							thread->setAsStarted(true);
+						}
+					#endif
+					
+					tbegin++;
+				}
+				
+				// Handle any scripts that need to be executed.
+				while (execCodeBegin != execCodeEnd)
+				{
+					String code = *execCodeBegin;
+					executeScript(code, *execFilenameBegin, *execContextBegin);
+					
+					execCodeBegin++;
+					execFilenameBegin++;
+					execContextBegin++;
+				}
+				
+				jsToExecuteNextCode.clear();
+				jsToExecuteNextFilename.clear();
+				jsToExecuteNextContext.clear();
+				
+				#ifdef GUI_USE_WXWIDGETS
+				if (criticalSection->TryEnter() == true)
+				{
+				#endif
+					
 					// Handle any functions that need to be executed from a thread.
 					auto funcBegin = funcs.begin();
 					auto funcEnd = funcs.end();
-
+					
 					// Handle any functions that need to be executed.
 					//if (funcBegin != funcEnd)
 					while (funcBegin != funcEnd)
@@ -531,80 +569,74 @@ namespace RadJAV
 						RJBOOL deleteOnComplete = asyncCall->deleteOnComplete;
 						v8::Local<v8::Array> args2;
 						RJINT numArgs = 0;
-
+						
 						if (args != NULL)
 						{
 							args2 = args->Get(isolate);
 							numArgs = args2->Length();
 						}
-
+						
 						v8::Local<v8::Value> *args3 = NULL;
-
+						
 						if (numArgs > 0)
 							args3 = RJNEW v8::Local<v8::Value>[numArgs];
-
+						
 						for (RJINT iIdx = 0; iIdx < numArgs; iIdx++)
 							args3[iIdx] = args2->Get(iIdx);
-
+						
 						v8::Local<v8::Function> func = funcp->Get(isolate);
-
+						
 						if (func->IsNullOrUndefined() == false)
 						{
 							v8::Local<v8::Value> result = func->Call(globalContext->Global(), numArgs, args3);
 							v8::Persistent<v8::Value> *presult = RJNEW v8::Persistent<v8::Value>();
-
+							
 							presult->Reset(isolate, result);
-
+							
 							asyncCall->result = presult;
 						}
-
+						
 						if (numArgs > 0)
 							DELETEARRAY(args3);
-
+						
 						if (deleteOnComplete == true)
 							DELETEOBJ(asyncCall);
-
+						
 						//funcNext.erase(funcBegin);
 						//funcNextArgs.erase (funcArgsBegin);
 						//funcDelete.erase(funcDeleteBegin);
 						funcBegin++;
 					}
-
+					
 					funcs.clear();
-
-					#ifdef GUI_USE_WXWIDGETS
-						criticalSection->Leave();
-						}
-					#endif
-
-					if (shutdown == true)
-						break;
+					
+				#ifdef GUI_USE_WXWIDGETS
+					criticalSection->Leave();
 				}
-				catch (Exception ex)
-				{
-					RadJav::printToOutputWindow(ex.getMessage ());
-
-					if (exceptionsDisplayMessageBox == true)
-						RadJav::showMessageBox(ex.getMessage(), "Error");
-
-					jsToExecuteNextCode.erase(execCodeBegin);
-					jsToExecuteNextFilename.erase(execFilenameBegin);
-					jsToExecuteNextContext.erase(execContextBegin);
-
-					if (shutdownOnException == true)
-						break;
-				}
+				#endif
+				
+				if (shutdown == true)
+					return false;
 			}
-
-			#ifdef USE_INSPECTOR
-				DELETEOBJ(agent_);
-			#endif
+			catch (Exception ex)
+			{
+				RadJav::printToOutputWindow(ex.getMessage ());
+				
+				if (exceptionsDisplayMessageBox == true)
+					RadJav::showMessageBox(ex.getMessage(), "Error");
+				
+				jsToExecuteNextCode.erase(execCodeBegin);
+				jsToExecuteNextFilename.erase(execFilenameBegin);
+				jsToExecuteNextContext.erase(execContextBegin);
+				
+				if (shutdownOnException == true)
+					return false;
+			}
 			
-			isolate->ContextDisposedNotification();
-			isolate->LowMemoryNotification();
+			return true;
 		}
-
-		void V8JavascriptEngine::runApplicationFromFile(String file)
+	
+		int V8JavascriptEngine::runApplicationFromFile(String file)
 		{
 			std::fstream appFile;
 
@@ -629,7 +661,9 @@ namespace RadJAV
 			}
 
 			if (content != "")
-				runApplication(content, file);
+				return runApplication(content, file);
+			
+			return EXIT_FAILURE;
 		}
 
 		void V8JavascriptEngine::executeScript(Array<String> code, String fileName)
@@ -1513,7 +1547,6 @@ namespace RadJAV
 			while (true)
 			{
 				v8::platform::PumpMessageLoop(jsEngine->platform, jsEngine->isolate);
-				RadJav::runEventLoopSingleStep();
 			}
 		}
 

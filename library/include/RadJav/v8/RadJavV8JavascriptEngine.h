@@ -34,6 +34,10 @@
 
 	#include "RadJavJavascriptEngine.h"
 
+	#ifdef GUI_USE_WXWIDGETS
+		#include <wx/event.h>
+	#endif
+
 	// The USE(x, ...) template is used to silence C++ compiler warnings
 	// issued for (yet) unused variables (typically parameters).
 	// The arguments are guaranteed to be evaluated from left to right.
@@ -108,9 +112,17 @@
 				void startInspector(v8::Local<v8::Context> context);
 
 				/// Run an application.
-				void runApplication(String applicationSource, String fileName);
+				int runApplication(String applicationSource, String fileName);
+
+				/// Execute single step of application
+				bool runApplicationSingleStep();
+			
+				#ifdef GUI_USE_WXWIDGETS
+					void runApplicationInIdleEvent(wxIdleEvent& event);
+				#endif
+			
 				/// Run an application from a javascript file.
-				void runApplicationFromFile(String file);
+				int runApplicationFromFile(String file);
 				/// Execute Javascript code.
 				void executeScript(Array<String> code, String fileName);
 				/// Execute Javascript code.

@@ -21,6 +21,7 @@
 
 #include <iostream>
 #include <codecvt>
+#include <stdlib.h>
 
 #ifdef WIN32
 	#include <windows.h>
@@ -61,7 +62,7 @@
 			LocalFree(strArgs);
 		}
 
-		RadJavVM::initialize (args);
+		iReturn = RadJavVM::initialize (args);
 		RadJavVM::shutdown();
 
 		return (iReturn);
@@ -84,17 +85,17 @@
 		if (args.size() < 1)
 			args.push_back("");
 
-		RadJavVM::initialize(args);
+		int exitCode = RadJavVM::initialize(args);
 		RadJavVM::shutdown();
 
-		return (0);
+		return exitCode;
 	}
 #endif
 
-void RadJavVM::initialize (RadJAV::Array<RadJAV::String> args)
+int RadJavVM::initialize (RadJAV::Array<RadJAV::String> args)
 {
 	if (RadJAV::RadJav::initialize(args) == RadJAV::RadJavType::XRJ_NODE)
-		return;
+		return EXIT_SUCCESS;
 
 	try
 	{
@@ -102,14 +103,15 @@ void RadJavVM::initialize (RadJAV::Array<RadJAV::String> args)
 		{
 			showError("No files to execute or arguments specified!");
 
-			return;
+			return EXIT_FAILURE;
 		}
 
-		RadJAV::RadJav::runApplicationFromFile (args.at (1));
+		return RadJAV::RadJav::runApplicationFromFile (args.at (1));
 	}
 	catch (RadJAV::Exception ex)
 	{
 		showError (ex.getMessage());
+		return EXIT_FAILURE;
 	}
 }
 

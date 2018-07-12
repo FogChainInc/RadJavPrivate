@@ -57,36 +57,28 @@
 		{
 			public:
 				#ifdef GUI_USE_WXWIDGETS
-					/// Start RadJav.
-					static RadJavType initialize (Array<String> newArgs, wxWidgetsRadJav *newApp = NULL,
-							bool initializeWxWidgets = true);
-
 					/// Get the wxWidgets system.
 					inline static wxWidgetsRadJav *getwxWidgetsApp()
 					{
 						return (RadJav::app);
 					}
-				#else
-					/// Start RadJav.
-					static RadJavType initialize(Array<String> newArgs);
 				#endif
+
+				/// Start RadJav.
+				static RadJavType initialize(Array<String> newArgs);
 
 				#ifdef WIN32
 					/// Setup console output.
 					static void setupConsoleOutput();
 				#endif
-				/// Run the event loop indefinitely.
-				static void runEventLoop();
-				/// Run a single step in the event loop.
-				static void runEventLoopSingleStep();
 
 				/// Shut down and stop all applications.
 				static void shutdown();
 
 				/// Run an application.
-				static void runApplication (String application, String fileName);
+				static int runApplication (String application, String fileName);
 				/// Run an application from a javascript file.
-				static void runApplicationFromFile (String file);
+				static int runApplicationFromFile (String file);
 
 				/// Show a message box.
 				static void showMessageBox(String message, String title);
