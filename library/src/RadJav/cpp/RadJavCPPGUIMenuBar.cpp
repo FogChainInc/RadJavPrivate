@@ -77,14 +77,12 @@ namespace RadJAV
 					wxFrame *parentWin = NULL;
 
 					if (_parent != NULL)
-						parentWin = (wxFrame *)_parent->_appObj;
+						parentWin = dynamic_cast<wxFrame*>(_parent->_appObj->GetParent());
 
 					MenuBarFrame *object = RJNEW MenuBarFrame("");
-					object->Attach(parentWin);
+					parentWin->SetMenuBar(object);
 
 					_appObj = object;
-				
-					linkWith(object);
 				
 					setup();
 				#endif
@@ -101,26 +99,26 @@ namespace RadJAV
 					if (event == "menuopen")
 					{
 						#ifdef GUI_USE_WXWIDGETS
-						obj->Connect(wxEVT_MENU_OPEN, wxMenuEventHandler(MenuBarFrame::onMenuOpen), obj->createEvent(event, func));
+						obj->Connect(wxEVT_MENU_OPEN, wxMenuEventHandler(MenuBarFrame::onMenuOpen), object->createEvent(event, func));
 						#endif
 						
 					}
 					if (event == "menuclose")
 					{
 						#ifdef GUI_USE_WXWIDGETS
-						obj->Connect(wxEVT_MENU_CLOSE, wxMenuEventHandler(MenuBarFrame::onMenuClose), obj->createEvent(event, func));
+						obj->Connect(wxEVT_MENU_CLOSE, wxMenuEventHandler(MenuBarFrame::onMenuClose), object->createEvent(event, func));
 						#endif
 					}
 					if (event == "menuhighlight")
 					{
 						#ifdef GUI_USE_WXWIDGETS
-						obj->Connect(wxEVT_MENU_HIGHLIGHT, wxMenuEventHandler(MenuBarFrame::onMenuHighLight), obj->createEvent(event, func));
+						obj->Connect(wxEVT_MENU_HIGHLIGHT, wxMenuEventHandler(MenuBarFrame::onMenuHighLight), object->createEvent(event, func));
 						#endif
 					}
 					if (event == "menuselected")
 					{
 						#ifdef GUI_USE_WXWIDGETS
-						obj->Connect(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MenuBarFrame::onMenuSelected), obj->createEvent(event, func));
+						obj->Connect(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MenuBarFrame::onMenuSelected), object->createEvent(event, func));
 						#endif
 					}
 

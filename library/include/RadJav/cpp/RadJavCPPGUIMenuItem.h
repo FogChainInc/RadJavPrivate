@@ -61,8 +61,8 @@
 
 							inline ~MenuItemGUI()
 							{
-								DELETE_OBJ(menu);
-								DELETE_OBJ(menuItem);
+								//DELETE_OBJ(menu);
+								//DELETE_OBJ(menuItem);
 
 								auto begin = data.begin();
 								auto end = data.end();
