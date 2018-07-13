@@ -315,7 +315,7 @@ namespace RadJav {
 				}
 			}
 
-			/// Get the tags in this tag.
+			/// Get the child tags in this tag.
 			getTags (tag: string): XMLTag[]
 			{
 				let tags: XMLTag[] = [];
@@ -323,7 +323,9 @@ namespace RadJav {
 				for (let iIdx = 0; iIdx < this.children.length; iIdx++)
 				{
 					let child: XMLTag = this.children[iIdx];
-					tags.push (child);
+
+					if (child.tag == tag)
+						tags.push (child);
 				}
 
 				return (tags);
@@ -392,7 +394,7 @@ namespace RadJav {
 					for (let iIdx = 0; iIdx < this.children.length; iIdx++)
 					{
 						let child: XMLTag = this.children[iIdx];
-						result += this.value.toString () + " ";
+						result += this.child.toString () + " ";
 					}
 
 					result += "</" + this.tag + ">";

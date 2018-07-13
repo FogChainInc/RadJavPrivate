@@ -28,8 +28,8 @@
 #include "RadJavString.h"
 #include "RadJavHashMap.h"
 
-#ifdef WIN32
-	#include <windows.h>
+#ifdef USE_TINYXML2
+	#include <tinyxml2.h>
 #endif
 
 namespace RadJAV
@@ -122,6 +122,116 @@ namespace RadJAV
 							static v8::Persistent<v8::Function> *m_textfileReadEvent;
 						#endif
 				};
+
+				#ifdef HAS_XML_SUPPORT
+					namespace XML
+					{
+						class XMLTag;
+						class XMLAttribute;
+
+						class RADJAV_EXPORT XMLFile
+						{
+							public:
+								XMLFile();
+								~XMLFile();
+
+								/// Open a XML and load it.
+								void loadXMLFile(String filePath);
+								/// Load XML from a string.
+								void loadXML(String xmlString);
+
+								#ifdef USE_TINYXML2
+									tinyxml2::XMLDocument *parser;
+								#endif
+
+								XMLTag *root;
+						};
+
+						class RADJAV_EXPORT XMLTag
+						{
+							public:
+								XMLTag(String tag);
+								#ifdef USE_TINYXML2
+									XMLTag(tinyxml2::XMLElement *tag);
+								#endif
+
+								~XMLTag();
+
+								Array<XMLTag *> getTags(String tag);
+
+								/// Set an attribute for this tag.
+								void setAttribute(String attribute, String value);
+
+								/// Get an attribute from this tag.
+								XMLAttribute *getAttribute(String attribute);
+
+								/// Get an attribute from this tag.
+								String getAttributeString(String attribute);
+
+								/// Get an attribute integer value from this tag.
+								RJNUMBER getAttributeInt(String attribute);
+
+								/// Get an attribute float value from this tag.
+								RJNUMBER getAttributeFloat(String attribute);
+
+								/// Get a boolean result from an attribute.
+								RJBOOL getAttributeBoolean(String attribute);
+
+									/// Convert this tag to a string.
+								String toString();
+
+								String tag;
+								HashMap<RJCSTR, XMLAttribute *> attributes;
+								String value;
+								Array<XMLTag *> children;
+						};
+
+						class RADJAV_EXPORT XMLAttribute
+						{
+							public:
+								/// The attribute's name.
+								String name;
+								/// The value of the attribute.
+								String value;
+
+								XMLAttribute (String name, String value)
+								{
+									this->name = name;
+									this->value = value;
+								}
+
+								/// Get the value of the attribute.
+								String getValue()
+								{
+									return (value);
+								}
+
+									/// Get the integer value of the attribute.
+								RJNUMBER toInt()
+								{
+									return (parseInt(value));
+								}
+
+								/// Get the float value of the attribute.
+								RJNUMBER toFloat()
+								{
+									return (parseFloat(value));
+								}
+
+								/// Get the boolean value of the attribute.
+								RJBOOL toBoolean()
+								{
+									return (parseBoolean(value));
+								}
+
+								/// Convert attribute to a string.
+								String toString()
+								{
+									return (name + " = \"" + value + "\"");
+								}
+						};
+					}
+				#endif
 		};
 	}
 }
