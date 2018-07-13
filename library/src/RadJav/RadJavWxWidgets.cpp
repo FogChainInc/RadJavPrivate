@@ -39,8 +39,6 @@ BEGIN_EVENT_TABLE(RadJAV::wxWidgetsRadJav, wxApp)
 	#endif
 END_EVENT_TABLE()
 
-IMPLEMENT_APP_NO_MAIN(RadJAV::wxWidgetsRadJav)
-
 namespace RadJAV
 {
 	// wxWidgetsRadJav

@@ -26,6 +26,10 @@
 
 #include "RadJav.h"
 
+#ifdef GUI_USE_WXWIDGETS
+	IMPLEMENT_APP_NO_MAIN(RadJAV::wxWidgetsRadJav)
+#endif
+
 #ifdef USE_V8
 	#include "v8/RadJavV8JavascriptEngine.h"
 #endif
