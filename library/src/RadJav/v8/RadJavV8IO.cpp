@@ -31,43 +31,37 @@ namespace RadJAV
 {
 	namespace V8B
 	{
-		void IO::FileIO::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
+		void IO::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 		{
-			V8_CALLBACK(object, "isDir", IO::FileIO::isDir);
-			V8_CALLBACK(object, "isFile", IO::FileIO::isFile);
-			V8_CALLBACK(object, "isSymLink", IO::FileIO::isSymLink);
+			V8_CALLBACK(object, "isDir", IO::isDir);
+			V8_CALLBACK(object, "isFile", IO::isFile);
+			V8_CALLBACK(object, "isSymLink", IO::isSymLink);
 
-			V8_CALLBACK(object, "currentPath", IO::FileIO::currentPath);
-			V8_CALLBACK(object, "changePath", IO::FileIO::changePath);
-			V8_CALLBACK(object, "exists", IO::FileIO::exists);
+			V8_CALLBACK(object, "currentPath", IO::currentPath);
+			V8_CALLBACK(object, "changePath", IO::changePath);
+			V8_CALLBACK(object, "exists", IO::exists);
 
-			V8_CALLBACK(object, "mkdir", IO::FileIO::createDir);
-			V8_CALLBACK(object, "copyDir", IO::FileIO::copyDir);
-			V8_CALLBACK(object, "renameDir", IO::FileIO::renameDir);
-			V8_CALLBACK(object, "deleteDir", IO::FileIO::deleteDir);
-			V8_CALLBACK(object, "isEmpty", IO::FileIO::isEmpty);
+			V8_CALLBACK(object, "mkdir", IO::createDir);
+			V8_CALLBACK(object, "copyDir", IO::copyDir);
+			V8_CALLBACK(object, "renameDir", IO::renameDir);
+			V8_CALLBACK(object, "deleteDir", IO::deleteDir);
+			V8_CALLBACK(object, "isEmpty", IO::isEmpty);
 
-			V8_CALLBACK(object, "createSymLink", IO::FileIO::createSymLink);
-			V8_CALLBACK(object, "copySymLink", IO::FileIO::copySymLink);
-			V8_CALLBACK(object, "renameSymLink", IO::FileIO::renameSymLink);
-			V8_CALLBACK(object, "deleteSymLink", IO::FileIO::deleteSymLink);
+			V8_CALLBACK(object, "createSymLink", IO::createSymLink);
+			V8_CALLBACK(object, "copySymLink", IO::copySymLink);
+			V8_CALLBACK(object, "renameSymLink", IO::renameSymLink);
+			V8_CALLBACK(object, "deleteSymLink", IO::deleteSymLink);
 
-			V8_CALLBACK(object, "copyFile", IO::FileIO::copyFile);
-			V8_CALLBACK(object, "renameFile", IO::FileIO::renameFile);
-			V8_CALLBACK(object, "deleteFile", IO::FileIO::deleteFile);
+			V8_CALLBACK(object, "copyFile", IO::copyFile);
+			V8_CALLBACK(object, "renameFile", IO::renameFile);
+			V8_CALLBACK(object, "deleteFile", IO::deleteFile);
 
-			V8_CALLBACK(object, "listFiles", IO::FileIO::listFiles);
-			V8_CALLBACK(object, "listFilesAsync", IO::FileIO::listFilesAsync);
+			V8_CALLBACK(object, "listFiles", IO::listFiles);
+			V8_CALLBACK(object, "listFilesAsync", IO::listFilesAsync);
 
-			V8_CALLBACK(object, "normalizePath", IO::FileIO::normalizePath);
+			V8_CALLBACK(object, "normalizePath", IO::normalizePath);
 			
-			V8_CALLBACK(object, "onFileList", IO::FileIO::onFileList);
-		}
-
-		void IO::FileIO::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			std::shared_ptr<CPP::IO::FileIO> io(RJNEW CPP::IO::FileIO(), [](CPP::IO::FileIO* p) {DELETEOBJ(p)});
-			V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_fileio", io);
+			V8_CALLBACK(object, "onFileList", IO::onFileList);
 		}
 
 		void IO::SerialComm::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
@@ -79,12 +73,6 @@ namespace RadJAV
 			V8_CALLBACK(object, "close", IO::SerialComm::close);
 		}
 
-		void IO::SerialComm::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			std::shared_ptr<CPP::IO::SerialComm> SerialComm(RJNEW CPP::IO::SerialComm(), [](CPP::IO::SerialComm* p) {DELETEOBJ(p)});
-			V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_SerialComm", SerialComm);
-		}
-
 		void IO::TextFile::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 		{
 			V8_CALLBACK(object, "writeFile", IO::TextFile::writeFile);
@@ -94,17 +82,10 @@ namespace RadJAV
 			V8_CALLBACK(object, "readFileAsync", IO::TextFile::readFileAsync);
 		}
 
-		void IO::TextFile::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			std::shared_ptr<CPP::IO::TextFile> TextFile(RJNEW CPP::IO::TextFile(), [](CPP::IO::TextFile* p) {DELETEOBJ(p)});
-			V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_TextFile", TextFile);
-		}
-
-
 		// ###################################################################
 
 
-		void IO::FileIO::isFile(const v8::FunctionCallbackInfo<v8::Value> &args)
+		void IO::isFile(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
 			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 
@@ -114,14 +95,14 @@ namespace RadJAV
 				return;
 			}
 
-			RJBOOL exists = CPP::IO::FileIO::isFile(parseV8Value(path));
+			RJBOOL exists = CPP::IO::isFile(parseV8Value(path));
 
 			v8::Local<v8::Boolean> result = v8::Boolean::New(args.GetIsolate(), exists);
 
 			args.GetReturnValue().Set(result);
 		}
 
-		void IO::FileIO::isDir(const v8::FunctionCallbackInfo<v8::Value> &args)
+		void IO::isDir(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
 			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 
@@ -131,14 +112,14 @@ namespace RadJAV
 				return;
 			}
 
-			RJBOOL exists = CPP::IO::FileIO::isDir(parseV8Value(path));
+			RJBOOL exists = CPP::IO::isDir(parseV8Value(path));
 
 			v8::Local<v8::Boolean> result = v8::Boolean::New(args.GetIsolate(), exists);
 
 			args.GetReturnValue().Set(result);
 		}
 
-		void IO::FileIO::isSymLink(const v8::FunctionCallbackInfo<v8::Value> &args)
+		void IO::isSymLink(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
 			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 
@@ -148,21 +129,21 @@ namespace RadJAV
 				return;
 			}
 
-			RJBOOL exists = CPP::IO::FileIO::isSymLink(parseV8Value(path));
+			RJBOOL exists = CPP::IO::isSymLink(parseV8Value(path));
 
 			v8::Local<v8::Boolean> result = v8::Boolean::New(args.GetIsolate(), exists);
 
 			args.GetReturnValue().Set(result);
 		}
 
-		void IO::FileIO::currentPath(const v8::FunctionCallbackInfo<v8::Value> &args)
+		void IO::currentPath(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
-			v8::Local<v8::String> path = CPP::IO::FileIO::currentPath().toV8String(args.GetIsolate());
+			v8::Local<v8::String> path = CPP::IO::currentPath().toV8String(args.GetIsolate());
 
 			args.GetReturnValue().Set(path);
 		}
 
-		void IO::FileIO::changePath(const v8::FunctionCallbackInfo<v8::Value> &args)
+		void IO::changePath(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
 			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 
@@ -172,10 +153,10 @@ namespace RadJAV
 				return;
 			}
 
-			CPP::IO::FileIO::changePath(parseV8Value(path));
+			CPP::IO::changePath(parseV8Value(path));
 		}
 
-		void IO::FileIO::exists(const v8::FunctionCallbackInfo<v8::Value> &args)
+		void IO::exists(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
 			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 
@@ -185,12 +166,12 @@ namespace RadJAV
 				return;
 			}
 
-			RJBOOL exists = CPP::IO::FileIO::exists(parseV8Value(path));
+			RJBOOL exists = CPP::IO::exists(parseV8Value(path));
 
 			v8::Local<v8::Boolean> result = v8::Boolean::New(args.GetIsolate(), exists);
 		}
 
-		void IO::FileIO::createDir(const v8::FunctionCallbackInfo<v8::Value> &args)
+		void IO::createDir(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
 			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 
@@ -200,10 +181,10 @@ namespace RadJAV
 				return;
 			}
 
-			CPP::IO::FileIO::createDir(parseV8Value(path));
+			CPP::IO::createDir(parseV8Value(path));
 		}
 
-		void IO::FileIO::copyDir(const v8::FunctionCallbackInfo<v8::Value> &args)
+		void IO::copyDir(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
 			v8::Local<v8::String> src = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 			v8::Local<v8::String> dest = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
@@ -221,10 +202,10 @@ namespace RadJAV
 				isRecursive = recursive->Value();
 			}
 
-			CPP::IO::FileIO::copyDir(parseV8Value(src), parseV8Value(dest), isRecursive);
+			CPP::IO::copyDir(parseV8Value(src), parseV8Value(dest), isRecursive);
 		}
 
-		void IO::FileIO::renameDir(const v8::FunctionCallbackInfo<v8::Value> &args)
+		void IO::renameDir(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
 			v8::Local<v8::String> src = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 			v8::Local<v8::String> dest = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
@@ -236,10 +217,10 @@ namespace RadJAV
 				isRecursive = recursive->Value();
 			}
 
-			CPP::IO::FileIO::copyDir(parseV8Value(src), parseV8Value(dest), isRecursive);
+			CPP::IO::copyDir(parseV8Value(src), parseV8Value(dest), isRecursive);
 		}
 
-		void IO::FileIO::deleteDir(const v8::FunctionCallbackInfo<v8::Value> &args)
+		void IO::deleteDir(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
 			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 
@@ -249,11 +230,11 @@ namespace RadJAV
 				return;
 			}
 
-			CPP::IO::FileIO::deleteDir(parseV8Value(path));
+			CPP::IO::deleteDir(parseV8Value(path));
 
 		}
 
-		void IO::FileIO::isEmpty(const v8::FunctionCallbackInfo<v8::Value> &args)
+		void IO::isEmpty(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
 			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 
@@ -263,12 +244,12 @@ namespace RadJAV
 				return;
 			}
 
-			RJBOOL empty = CPP::IO::FileIO::isEmpty(parseV8Value(path));
+			RJBOOL empty = CPP::IO::isEmpty(parseV8Value(path));
 
 			v8::Local<v8::Boolean> result = v8::Boolean::New(args.GetIsolate(), empty);
 		}
 
-		void IO::FileIO::createSymLink(const v8::FunctionCallbackInfo<v8::Value> &args)
+		void IO::createSymLink(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
 			v8::Local<v8::String> src = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 			v8::Local<v8::String> dest = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
@@ -279,10 +260,10 @@ namespace RadJAV
 				return;
 			}
 
-			CPP::IO::FileIO::createSymLink(parseV8Value(src), parseV8Value(dest));
+			CPP::IO::createSymLink(parseV8Value(src), parseV8Value(dest));
 		}
 
-		void IO::FileIO::copySymLink(const v8::FunctionCallbackInfo<v8::Value> &args)
+		void IO::copySymLink(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
 			v8::Local<v8::String> src = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 			v8::Local<v8::String> dest = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
@@ -293,10 +274,10 @@ namespace RadJAV
 				return;
 			}
 
-			CPP::IO::FileIO::copySymLink(parseV8Value(src), parseV8Value(dest));
+			CPP::IO::copySymLink(parseV8Value(src), parseV8Value(dest));
 		}
 
-		void IO::FileIO::renameSymLink(const v8::FunctionCallbackInfo<v8::Value> &args)
+		void IO::renameSymLink(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
 			v8::Local<v8::String> src = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 			v8::Local<v8::String> dest = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
@@ -307,10 +288,10 @@ namespace RadJAV
 				return;
 			}
 
-			CPP::IO::FileIO::renameSymLink(parseV8Value(src), parseV8Value(dest));
+			CPP::IO::renameSymLink(parseV8Value(src), parseV8Value(dest));
 		}
 
-		void IO::FileIO::deleteSymLink(const v8::FunctionCallbackInfo<v8::Value> &args)
+		void IO::deleteSymLink(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
 			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 
@@ -320,10 +301,10 @@ namespace RadJAV
 				return;
 			}
 
-			CPP::IO::FileIO::deleteSymLink(parseV8Value(path));
+			CPP::IO::deleteSymLink(parseV8Value(path));
 		}
 
-		void IO::FileIO::copyFile(const v8::FunctionCallbackInfo<v8::Value> &args)
+		void IO::copyFile(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
 			v8::Local<v8::String> src = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 			v8::Local<v8::String> dest = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
@@ -341,10 +322,10 @@ namespace RadJAV
 				overwriteIfExists = overwriteIfExistsV8->Value();
 			}
 
-			CPP::IO::FileIO::copyFile(parseV8Value(src), parseV8Value(dest), overwriteIfExists);
+			CPP::IO::copyFile(parseV8Value(src), parseV8Value(dest), overwriteIfExists);
 		}
 
-		void IO::FileIO::renameFile(const v8::FunctionCallbackInfo<v8::Value> &args)
+		void IO::renameFile(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
 			v8::Local<v8::String> src = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 			v8::Local<v8::String> dest = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
@@ -355,10 +336,10 @@ namespace RadJAV
 				return;
 			}
 
-			CPP::IO::FileIO::renameFile(parseV8Value(src), parseV8Value(dest));
+			CPP::IO::renameFile(parseV8Value(src), parseV8Value(dest));
 		}
 
-		void IO::FileIO::deleteFile(const v8::FunctionCallbackInfo<v8::Value> &args)
+		void IO::deleteFile(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
 			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 
@@ -368,10 +349,10 @@ namespace RadJAV
 				return;
 			}
 
-			CPP::IO::FileIO::deleteFile(parseV8Value(path));
+			CPP::IO::deleteFile(parseV8Value(path));
 		}
 
-		void IO::FileIO::listFiles(const v8::FunctionCallbackInfo<v8::Value> &args)
+		void IO::listFiles(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
 			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 
@@ -382,13 +363,13 @@ namespace RadJAV
 				isRecursive = recursive->Value();
 			}
 
-			Array<String> files = CPP::IO::FileIO::listFiles(parseV8Value(path), isRecursive);
+			Array<String> files = CPP::IO::listFiles(parseV8Value(path), isRecursive);
 			v8::Local<v8::Array> newFiles = convertArrayToV8Array(files, args.GetIsolate());
 
 			args.GetReturnValue().Set(newFiles);
 		}
 
-		void IO::FileIO::listFilesAsync(const v8::FunctionCallbackInfo<v8::Value> &args)
+		void IO::listFilesAsync(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
 			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 
@@ -399,10 +380,10 @@ namespace RadJAV
 				isRecursive = recursive->Value();
 			}
 
-			CPP::IO::FileIO::listFilesAsync(parseV8Value(path), isRecursive);
+			CPP::IO::listFilesAsync(parseV8Value(path), isRecursive);
 		}
 
-		void IO::FileIO::normalizePath(const v8::FunctionCallbackInfo<v8::Value> &args)
+		void IO::normalizePath(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
 			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 			String basePath = "";
@@ -413,19 +394,19 @@ namespace RadJAV
 				basePath = parseV8Value(basePathV8);
 			}
 
-			path = CPP::IO::FileIO::normalizePath(parseV8Value(path), basePath).toV8String (args.GetIsolate ());
+			path = CPP::IO::normalizePath(parseV8Value(path), basePath).toV8String (args.GetIsolate ());
 
 			args.GetReturnValue().Set(path);
 		}
 
-		void IO::FileIO::onFileList(const v8::FunctionCallbackInfo<v8::Value> &args)
+		void IO::onFileList(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
 			v8::Persistent<v8::Function> *func = RJNEW v8::Persistent<v8::Function>();
 			v8::Local<v8::Function> newEvt = v8::Local<v8::Function>::Cast(args[0]);
 
 			func->Reset(V8_JAVASCRIPT_ENGINE->isolate, newEvt);
 
-			RadJAV::CPP::IO::FileIO::m_fileListEvent = func;
+			//RadJAV::CPP::IO::m_fileListEvent = func;
 		}
 
 

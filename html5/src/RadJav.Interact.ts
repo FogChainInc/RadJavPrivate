@@ -377,7 +377,7 @@ namespace RadJav
 							let compCSS = component.css[iIdx];
 
 							if (typeof (compCSS) == "string")
-								css += RadJav.IO.TextFile.readEntireFile (compCSS) + "\n";
+								css += RadJav.IO.TextFile.readFile (compCSS) + "\n";
 
 							if (typeof (compCSS) == "object")
 								css += compCSS.css + "\n";
@@ -760,13 +760,13 @@ namespace RadJav
 
 			build (): string
 			{
-				let output = this.html;
-				let additions = ["title", "body", "interactAppPath", "htmlEvents", "cssFiles", "jsFiles"];
+				let output: string = this.html;
+				let additions: string[] = ["title", "body", "interactAppPath", "htmlEvents", "cssFiles", "jsFiles"];
 
 				for (let iIdx = 0; iIdx < additions.length; iIdx++)
 				{
-					let additionType = additions[iIdx];
-					let additionOutput = "";
+					let additionType: string = additions[iIdx];
+					let additionOutput: string = "";
 
 					if (typeof (this[additionType]) != "string")
 					{
@@ -793,8 +793,8 @@ namespace RadJav
 
 			writeToFile (path: string): void
 			{
-				let output = this.build ();
-				RadJav.IO.TextFile.writeTextToFile (path, output);
+				let output: string = this.build ();
+				RadJav.IO.TextFile.writeFile (path, output);
 			}
 		}
 
@@ -872,7 +872,7 @@ namespace RadJav
 			writeToFile (path: string): void
 			{
 				let output = this.build ();
-				RadJav.IO.TextFile.writeTextToFile (path, output);
+				RadJav.IO.TextFile.writeFile (path, output);
 			}
 		}
 
@@ -954,7 +954,7 @@ namespace RadJav
 
 				output += "app.setView (\"" + this.root + "\", " + this.mainView + ");\n";
 
-				RadJav.IO.TextFile.writeTextToFile (path + "/" + this.name + ".js", output);
+				RadJav.IO.TextFile.writeFile (path + "/" + this.name + ".js", output);
 
 				if (this.html != null)
 					this.html.writeToFile (path + "/" + this.html.filename);
@@ -1005,13 +1005,13 @@ namespace RadJav
 			writeHTMLCSSToFile (path: string): void
 			{
 				if (this.compiledHTMLCSS != "")
-					RadJav.IO.TextFile.writeTextToFile (path, this.compiledHTMLCSS);
+					RadJav.IO.TextFile.writeFile (path, this.compiledHTMLCSS);
 			}
 
 			writeToFile (path: string): void
 			{
 				let output: string = this.build ();
-				RadJav.IO.TextFile.writeTextToFile (path, output);
+				RadJav.IO.TextFile.writeFile (path, output);
 			}
 		}
 	}

@@ -22,7 +22,7 @@
 
 namespace RadJav
 {
-	 namespace Net
+	export namespace Net
 	{
 		export class WebSocketServer
 		{

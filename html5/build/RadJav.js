@@ -27,7 +27,7 @@ var RadJav;
             promise = RadJav._getResponse(path).then(RadJav.keepContext(function (response) {
                 if (response != null) {
                     if (response != "") {
-                        var func = new Function(response);
+                        var func = new _Function(response);
                         func.apply(window, []);
                     }
                 }
@@ -38,7 +38,6 @@ var RadJav;
                 var script = document.createElement("script");
                 script.type = "text/javascript";
                 var str = "";
-                var event = document.createEvent('');
                 if (RadJav._isUsingInternetExplorerTheWorstWebBrowserEver() == true)
                     script.text = str;
                 else {
@@ -858,10 +857,10 @@ var RadJav;
     var Console = (function () {
         function Console() {
         }
-        Console.prototype.print = function (message) {
+        Console.print = function (message) {
             console.log(message);
         };
-        Console.prototype.println = function (message) {
+        Console.println = function (message) {
             this.print(message + "\n");
         };
         return Console;
@@ -1071,12 +1070,12 @@ var RadJav;
                     result = window[name][methodName].apply(window, args);
                     found = true;
                 }
-                if (window["webkit"] != null) {
-                    if (window["webkit"].messageHandlers != null) {
-                        if (window["webkit"].messageHandlers[name] != null) {
+                if (window.webkit != null) {
+                    if (window.webkit.messageHandlers != null) {
+                        if (window.webkit.messageHandlers[name] != null) {
                             args = Array.prototype.slice.call(arguments);
                             args.splice(0, 1);
-                            window["webkit"].messageHandlers[name].postMessage(args);
+                            window.webkit.messageHandlers[name].postMessage(args);
                             found = true;
                         }
                     }
@@ -1102,6 +1101,23 @@ var RadJav;
         })(HTML5 = OS.HTML5 || (OS.HTML5 = {}));
     })(OS = RadJav.OS || (RadJav.OS = {}));
 })(RadJav || (RadJav = {}));
+function parseBoolean(str) {
+    str = str.toLowerCase();
+    if (str == "yes")
+        return (true);
+    else if (str == "no")
+        return (false);
+    else if (str == "true")
+        return (true);
+    else if (str == "false")
+        return (false);
+    else {
+        var iValue = parseInt(str);
+        if (iValue != 0)
+            return (true);
+    }
+    return (false);
+}
 var _eval = eval;
 var _Function = Function;
 RadJav.defaults = RadJav;

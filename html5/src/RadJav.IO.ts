@@ -24,194 +24,297 @@ interface DOMElement extends HTMLElement
 {
 }
 
-namespace RadJav {
-    /** @class RadJav.IO
-     * The IO class.
-     * Available on platforms: Windows,Linux,OSX
-     */
-    export class IO {
-      /** @method isDir
-       * Check to see if a directory exists.
-       * Available on platforms: Windows,Linux,OSX
-       * @param {string} path The path to check.
-       * @return {Boolean} Returns true if the directory exists.
-       */
-      static isDir(path: string): boolean { return; }
+namespace RadJav
+{
+	/** @class RadJav.IO
+	* The IO class.
+	* Available on platforms: Windows,Linux,OSX
+	*/
+	export class IO
+	{
+		/** @method isDir
+		* Check to see if a directory exists.
+		* Available on platforms: Windows,Linux,OSX
+		* @param {string} path The path to check.
+		* @return {Boolean} Returns true if the directory exists.
+		*/
+		static isDir(path: string): boolean { return; }
 
-      /** @method isFile
-       * Check to see if a file exists.
-       * Available on platforms: Windows,Linux,OSX
-       * @param {string} path The path to check.
-       * @return {Boolean} Returns true if the file exists.
-       */
-      static isFile(path: string): boolean { return; }
+		/** @method isFile
+		* Check to see if a file exists.
+		* Available on platforms: Windows,Linux,OSX
+		* @param {string} path The path to check.
+		* @return {Boolean} Returns true if the file exists.
+		*/
+		static isFile(path: string): boolean { return; }
 
-      /** @method mkdir
-       * Make a directory.
-       * Available on platforms: Windows,Linux,OSX
-       * @param {string} path The path to the directory to create.
-       */
-      static mkdir(path: string): void {}
+		/** @method isSymLink
+		* Check to see if the file/directory is a symbolic link.
+		* Available on platforms: Windows,Linux,OSX
+		* @param {string} path The path to check.
+		* @return {Boolean} Returns true if its a symbolic link.
+		*/
+		static isSymLink(path: string): boolean { return; }
 
-      /** @method deleteFile
-       * Delete a file.
-       * Available on platforms: Windows,Linux,OSX
-       * @param {string} path The path to the file to delete.
-       */
-      static deleteFile(path: string): void {}
+		/** @method currentPath
+		* Get the current directory path.
+		* Available on platforms: Windows,Linux,OSX
+		* @return {string} The current directory path.
+		*/
+		static currentPath(): string { return; }
 
-      /** @method listFiles
-       * List files in a directory.
-       * Available on platforms: Windows,Linux,OSX
-       * @param {string} path The path to list files.
-	   * @return {string[]} The files and directories within that path.
-       */
-      static listFiles(path: string): string[] { return; }
+		/** @method changePath
+		* Change the current directory path.
+		* Available on platforms: Windows,Linux,OSX
+		* @param {string} path Change the current directory path.
+		*/
+		static changePath(path: string): void { return; }
 
-      /** @method normalizePath
-       * Normalize a file/directory path.
-       * Available on platforms: Windows,Linux,OSX
-       * @param {string} path The path to normalize.
-	   * @return {string} The normalized path.
-       */
-      static normalizePath(path: string): string { return; }
+		/** @method exists
+		* Checks if the file/directory exists.
+		* Available on platforms: Windows,Linux,OSX
+		* @param {string} path Change the current directory path.
+		* @return {boolean} Returns true if its the file/directory exists.
+		*/
+		static exists(path: string): boolean { return; }
 
-      /** @method copyDir
-       * Copy a directory.
-       * Available on platforms: Windows,Linux,OSX
-       * @param {string} src The directory to copy.
-       * @param {string} dest The destination to copy the directory to.
-       */
-      static copyDir(src: string, dest: string): void {}
+		/** @method createDir
+		* Create a directory.
+		* Available on platforms: Windows,Linux,OSX
+		* @param {string} path The path to the directory to create.
+		*/
+		static createDir(path: string): void {}
 
-      /** @method copyFile
-       * Copy a file.
-       * Available on platforms: Windows,Linux,OSX
-       * @param {string} src The directory to copy.
-       * @param {string} dest The destination to copy the directory to.
-       */
-      static copyFile(src: string, dest: string): void {}
-    }
+		/** @method copyDir
+		* Copy a directory.
+		* Available on platforms: Windows,Linux,OSX
+		* @param {string} src The source directory to copy.
+		* @param {string} dest The destination to copy the directory to.
+		* @param {boolean} [recursive=true] Recursively copy if set to true.
+		*/
+		static copyDir(src: string, dest: string, recursive: boolean): void {}
 
-    export namespace IO {
-      /** @class RadJav.IO.SerialComm
-       * Handles serial communications.
-       * Available on platforms: Windows,Linux,OSX
-       */
-      export class SerialComm {
-        /** @method getPort
-         * Get the serial port.
-         * Available on platforms: Windows,Linux,OSX
-         * @return {string} The port being used.
-         */
-        getPort(): string {
-          return;
-        }
+		/** @method renameDir
+		* Rename a directory.
+		* Available on platforms: Windows,Linux,OSX
+		* @param {string} src The directory to rename.
+		* @param {string} dest The new name of the directory.
+		*/
+		static renameDir(src: string, dest: string): void {}
 
-        /** @method getBaud
-         * Get the baud.
-         * Available on platforms: Windows,Linux,OSX
-         * @return {string} The baud being used.
-         */
-        getBaud(): Number { return; }
+		/** @method deleteDir
+		* Delete a directory.
+		* Available on platforms: Windows,Linux,OSX
+		* @param {string} path The path to the directory to delete.
+		*/
+		static deleteDir(path: string): void {}
 
-        /** @method getByteSize
-         * Get the byte size being used.
-         * Available on platforms: Windows,Linux,OSX
-         * @return {string} The byte size being used.
-         */
-        getByteSize(): Number {return;}
+		/** @method isEmpty
+		* Check if a directory is empty.
+		* Available on platforms: Windows,Linux,OSX
+		* @param {string} path The path to the directory to check.
+		*/
+		static isEmpty(path: string): boolean {}
 
-        /** @method getStopBits
-         * Get the stop bits being used.
-         * Available on platforms: Windows,Linux,OSX
-         * @return {string} The stop bits being used.
-         */
-        getStopBits(): Number { return; }
+		/** @method createSymLink
+		* Create a symbolic link.
+		* Available on platforms: Windows,Linux,OSX
+		* @param {string} src The path to create a symbolic link to.
+		* @param {string} link The path to where the symbolic link can be found.
+		*/
+		static createSymLink(path: string, link: string): void {}
 
-        /** @method getParity
-         * Get the parity being used.
-         * Available on platforms: Windows,Linux,OSX
-         * @return {string} The parity being used.
-         */
-        getParity(): Number { return; }
+		/** @method copySymLink
+		* Copy a symbolic link.
+		* Available on platforms: Windows,Linux,OSX
+		* @param {string} src The path to copy.
+		* @param {string} dest The destination to copy to.
+		*/
+		static copySymLink(src: string, dest: string): void {}
 
-        /** @method open
-         * Open the serial communications.
-         * Available on platforms: Windows,Linux,OSX
-         * @return {Boolean} Whether or not communications were able to be established.
-         */
-        open(): boolean { return; }
+		/** @method renameSymLink
+		* Rename a symbolic link.
+		* Available on platforms: Windows,Linux,OSX
+		* @param {string} src The path to rename.
+		* @param {string} dest The new name.
+		*/
+		static renameSymLink(src: string, dest: string): void {}
 
-        /** @method isOpen
-         * Check if serial communications were opened.
-         * Available on platforms: Windows,Linux,OSX
-         * @return {Boolean} Whether or not communications were able to be established.
-         */
-        isOpen(): boolean { return; }
+		/** @method deleteSymLink
+		* Delete a symbolic link.
+		* Available on platforms: Windows,Linux,OSX
+		* @param {string} path The path to the symbolic link to delete.
+		*/
+		static deleteSymLink(path: string): void {}
 
-        /** @method read
-         * Read from the opened port.
-         * Available on platforms: Windows,Linux,OSX
-         * @param {Number} bufferSize The size of the buffer to read in bytes.
-         * @return {string} The string buffer from the opened port.
-         */
-        read(bufferSize: Number): string { return; }
+		/** @method copyFile
+		* Copy a file.
+		* Available on platforms: Windows,Linux,OSX
+		* @param {string} src The directory to copy.
+		* @param {string} dest The destination to copy the directory to.
+		*/
+		static copyFile(src: string, dest: string): void {}
 
-        /** @method write
-         * Write to the opened port.
-         * Available on platforms: Windows,Linux,OSX
-         * @param {Number} buffer The string buffer to write.
-         * @param {Number} [bufferSize=buffer.length] The number of bytes to write from the buffer.
-         * @return {Number} The number of bytes written.
-         */
-        write(buffer: Number, bufferSize?: Number): Number { return; }
+		/** @method renameFile
+		* Rename a file.
+		* Available on platforms: Windows,Linux,OSX
+		* @param {string} src The file to rename.
+		* @param {string} dest The new name of the file.
+		*/
+		static renameFile(src: string, dest: string): void {}
 
-        /** @method close
-         * Close the opened port.
-         * Available on platforms: Windows,Linux,OSX
-         */
-        close(): void {}
-      }
+		/** @method deleteFile
+		* Delete a file.
+		* Available on platforms: Windows,Linux,OSX
+		* @param {string} path The path to the file to delete.
+		*/
+		static deleteFile(path: string): void {}
 
-      /** @class RadJav.IO.TextFile
-       * Handles text files.
-       * Available on platforms: Windows,Linux,OSX
-       */
-      export class TextFile {
-        /** @method writeTextToFile
-         * Write to a text file.
-         * Available on platforms: Windows,Linux,OSX
-         * @param {string} path The path to the file to write to.
-         * @param {string} content The content to write.
-         */
-        static writeTextToFile(path: string, content: string): void {}
+		/** @method listFiles
+		* List files in a directory.
+		* Available on platforms: Windows,Linux,OSX
+		* @param {string} path The path to list files.
+		* @return {string[]} The files and directories within that path.
+		*/
+		static listFiles(path: string): string[] { return; }
 
-        /** @method readEntireFile
-         * Read from a text file.
-         * Available on platforms: Windows,Linux,OSX
-         * @param {string} path The path to the file to read from.
-         * @return {string} The content read from the text file.
-         */
-        static readEntireFile(path: string): string { return; }
+		/** @method listFilesAsync
+		* Asynchronously list files in a directory.
+		* Available on platforms: Windows,Linux,OSX
+		* @param {string} path The path to list files.
+		* @return {string[]} The files and directories within that path.
+		*/
+		static listFilesAsync(path: string): string[] { return; }
 
-        /** @property {Number} [read=1]
-         * @static
-         * Read from a file.
-         */
-        static read: Number;
-        /** @property {Number} [write=2]
-         * @static
-         * Write to a file.
-         */
-        static write: Number;
-        /** @property {Number} [append=3]
-         * @static
-         * Append to a file.
-         */
-        static append: Number;
-      }
-    }
+		/** @method normalizePath
+		* Normalize a file/directory path.
+		* Available on platforms: Windows,Linux,OSX
+		* @param {string} path The path to normalize.
+		* @return {string} The normalized path.
+		*/
+		static normalizePath(path: string): string { return; }
+	}
+
+	export namespace IO
+	{
+		/** @class RadJav.IO.SerialComm
+		* Handles serial communications.
+		* Available on platforms: Windows,Linux,OSX
+		*/
+		export class SerialComm
+		{
+			/** @method getPort
+			* Get the serial port.
+			* Available on platforms: Windows,Linux,OSX
+			* @return {string} The port being used.
+			*/
+			getPort(): string { return; }
+
+			/** @method getBaud
+			* Get the baud.
+			* Available on platforms: Windows,Linux,OSX
+			* @return {string} The baud being used.
+			*/
+			getBaud(): Number { return; }
+
+			/** @method getByteSize
+			* Get the byte size being used.
+			* Available on platforms: Windows,Linux,OSX
+			* @return {string} The byte size being used.
+			*/
+			getByteSize(): Number {return;}
+
+			/** @method getStopBits
+			* Get the stop bits being used.
+			* Available on platforms: Windows,Linux,OSX
+			* @return {string} The stop bits being used.
+			*/
+			getStopBits(): Number { return; }
+
+			/** @method getParity
+			* Get the parity being used.
+			* Available on platforms: Windows,Linux,OSX
+			* @return {string} The parity being used.
+			*/
+			getParity(): Number { return; }
+
+			/** @method open
+			* Open the serial communications.
+			* Available on platforms: Windows,Linux,OSX
+			* @return {Boolean} Whether or not communications were able to be established.
+			*/
+			open(): boolean { return; }
+
+			/** @method isOpen
+			* Check if serial communications were opened.
+			* Available on platforms: Windows,Linux,OSX
+			* @return {Boolean} Whether or not communications were able to be established.
+			*/
+			isOpen(): boolean { return; }
+
+			/** @method read
+			* Read from the opened port.
+			* Available on platforms: Windows,Linux,OSX
+			* @param {Number} bufferSize The size of the buffer to read in bytes.
+			* @return {string} The string buffer from the opened port.
+			*/
+			read(bufferSize: Number): string { return; }
+
+			/** @method write
+			* Write to the opened port.
+			* Available on platforms: Windows,Linux,OSX
+			* @param {Number} buffer The string buffer to write.
+			* @param {Number} [bufferSize=buffer.length] The number of bytes to write from the buffer.
+			* @return {Number} The number of bytes written.
+			*/
+			write(buffer: Number, bufferSize?: Number): Number { return; }
+
+			/** @method close
+			* Close the opened port.
+			* Available on platforms: Windows,Linux,OSX
+			*/
+			close(): void {}
+		}
+
+		/** @class RadJav.IO.TextFile
+		* Handles text files.
+		* Available on platforms: Windows,Linux,OSX
+		*/
+		export class TextFile
+		{
+			/** @method writeTextToFile
+			* Write to a text file.
+			* Available on platforms: Windows,Linux,OSX
+			* @param {string} path The path to the file to write to.
+			* @param {string} content The content to write.
+			*/
+			static writeTextToFile(path: string, content: string): void {}
+
+			/** @method readEntireFile
+			* Read from a text file.
+			* Available on platforms: Windows,Linux,OSX
+			* @param {string} path The path to the file to read from.
+			* @return {string} The content read from the text file.
+			*/
+			static readEntireFile(path: string): string { return; }
+
+			/** @property {Number} [read=1]
+			* @static
+			* Read from a file.
+			*/
+			static read: Number;
+			/** @property {Number} [write=2]
+			* @static
+			* Write to a file.
+			*/
+			static write: Number;
+			/** @property {Number} [append=3]
+			* @static
+			* Append to a file.
+			*/
+			static append: Number;
+		}
+	}
 
 	/// Handles XML.
 	export namespace XML
@@ -228,6 +331,16 @@ namespace RadJav {
 
 			/// The XML file that has been loaded.
 			protected xmlFile: XMLDocument;
+
+			constructor ()
+			{
+				this.parser = null;
+				this.root = null;
+				this.xmlFile = null;
+
+				if (this._init != null)
+					this._init ();
+			}
 
 			/// Load a XML file.
 			loadXMLFile (filePath: string): Promise<string>
@@ -282,37 +395,42 @@ namespace RadJav {
 
 			constructor (tag: string | DOMElement)
 			{
-				if (typeof (tag) == "string")
+				if (RadJav.OS.HTML5 != null)
 				{
-					this.tag = (<string>tag);
-					this.attributes = {};
-					this.value = "";
-					this.children = [];
+					if (typeof (tag) == "string")
+					{
+						this.tag = (<string>tag);
+						this.attributes = {};
+						this.value = "";
+						this.children = [];
+					}
+					else
+					{
+						let domTag: DOMElement = (<DOMElement>tag);
+						this.tag = domTag.tagName;
+						this.attributes = {};
+
+						for (let iIdx = 0; iIdx < domTag.attributes.length; iIdx++)
+						{
+							let attribute = domTag.attributes[iIdx];
+							let attr: XMLAttribute = new XMLAttribute (attribute.name, attribute.value);
+							this.attributes[attribute.name] = attr;
+						}
+
+						this.value = domTag.textContent;
+						this.children = [];
+
+						for (let iIdx = 0; iIdx < domTag.childNodes.length; iIdx++)
+						{
+							let domChild: DOMElement = (<DOMElement>domTag.childNodes[iIdx]);
+							let child: XMLTag = new XMLTag (domChild);
+
+							this.children.push (child);
+						}
+					}
 				}
 				else
-				{
-					let domTag: DOMElement = (<DOMElement>tag);
-					this.tag = domTag.tagName;
-					this.attributes = {};
-
-					for (let iIdx = 0; iIdx < domTag.attributes.length; iIdx++)
-					{
-						let attribute = domTag.attributes[iIdx];
-						let attr: XMLAttribute = new XMLAttribute (attribute.name, attribute.value);
-						this.attributes[attribute.name] = attr;
-					}
-
-					this.value = domTag.textContent;
-					this.children = [];
-
-					for (let iIdx = 0; iIdx < domTag.childNodes.length; iIdx++)
-					{
-						let domChild: DOMElement = (<DOMElement>domTag.childNodes[iIdx]);
-						let child: XMLTag = new XMLTag (domChild);
-
-						this.children.push (child);
-					}
-				}
+					this._init (tag);
 			}
 
 			/// Get the child tags in this tag.

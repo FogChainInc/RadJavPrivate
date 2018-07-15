@@ -30,6 +30,7 @@ namespace RadJav {
     export class Camera extends RadJav.C3D.Object3D {
       constructor(canvas3d?, obj?, parent?) {
         super(canvas3d, obj, parent);
+        this.type = "RadJav.C3D.Camera";
         this._perspective = RadJav.setDefaultValue(obj._perspective, true);
         this._aspectRatio = RadJav.setDefaultValue(
           obj._aspectRatio,
@@ -79,7 +80,7 @@ namespace RadJav {
        * Using the existing parameters in this object, create it.
        * @return {Promise} The promise to execute when the creation is completed.
        */
-      create(): Promise<Camera> {
+      public create(): Promise<Camera> {
         var promise = new Promise<Camera>(
           RadJav.keepContext(function(resolve, reject) {
             if (this._perspective == true) {

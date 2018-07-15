@@ -16,9 +16,8 @@ var RadJav;
             __extends(HTMLElement, _super);
             function HTMLElement(obj, text, parent) {
                 var _this = this;
-                if (obj == null) {
+                if (obj == null)
                     obj = {};
-                }
                 if (typeof obj == "string") {
                     var name = obj;
                     obj = { name: name };
@@ -30,6 +29,15 @@ var RadJav;
                 }
                 (_this = _super.call(this, obj, text, parent) || this) || _this;
                 _this.type = "RadJav.GUI.HTMLElement";
+                if (typeof (_this._text) == "string") {
+                    if (_this._text != "") {
+                        var parser = new DOMParser();
+                        var parsedStr = parser.parseFromString(_this._text, "text/xml");
+                        _this._html = parsedStr.firstChild;
+                    }
+                }
+                if (typeof (_this._text) == "object")
+                    _this._html = _this._text;
                 return _this;
             }
             return HTMLElement;

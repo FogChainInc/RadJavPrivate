@@ -4,12 +4,17 @@ var RadJav;
     (function (Net) {
         var WebSocketServer = (function () {
             function WebSocketServer() {
-                this.port = 0;
-                this.clients = [];
+                this.port = "9229";
                 this._webSocket = null;
-                if (this._init != null)
-                    this._init();
+                if (typeof this["_init"] == "function")
+                    this["_init"]();
             }
+            WebSocketServer.prototype.onAccept = function (id) {
+                alert(this.id);
+            };
+            WebSocketServer.prototype.onReceive = function (id, msg) {
+                alert(this.msg);
+            };
             return WebSocketServer;
         }());
         Net.WebSocketServer = WebSocketServer;
@@ -22,5 +27,5 @@ var RadJav;
             return WebSocketClient;
         }());
         Net.WebSocketClient = WebSocketClient;
-    })(Net || (Net = {}));
+    })(Net = RadJav.Net || (RadJav.Net = {}));
 })(RadJav || (RadJav = {}));
