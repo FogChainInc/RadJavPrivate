@@ -1,128 +1,202 @@
-/*
-	MIT-LICENSE
-	Copyright (c) 2017 Higher Edge Software, LLC
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
-	and associated documentation files (the "Software"), to deal in the Software without restriction, 
-	including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
-	and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
-	subject to the following conditions:
-
-	The above copyright notice and this permission notice shall be included in all copies or substantial 
-	portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
-	LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-	IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
-	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
-
-/** @class RadJav.IO.TextFile
-* Handles text files.
-* Available on platforms: Windows,Linux,OSX
-*/
-RadJav.IO.TextFile = function ()
-{
-}
-
-/** @property {Number} [read=1]
-* @static
-* Read from a file.
-*/
-RadJav.IO.TextFile.read = 1;
-/** @property {Number} [write=2]
-* @static
-* Write to a file.
-*/
-RadJav.IO.TextFile.write = 2;
-/** @property {Number} [append=3]
-* @static
-* Append to a file.
-*/
-RadJav.IO.TextFile.append = 3;
-
-/** @class RadJav.IO.SerialComm
-* The serial communications class.
-* Available on platforms: Windows,Linux,OSX
-*/
-RadJav.IO.SerialComm = function ()
-{
-	/** @property {String} [_port=0]
-	* @protected
-	* The port to connect to.
-	*/
-	this._port = RadJav.setDefaultValue(obj._port, "");
-	/** @property {Number} [_baud=9600]
-	* @protected
-	* The baud to use.
-	*/
-	this._baud = RadJav.setDefaultValue(obj._baud, 9600);
-	/** @property {Number} [_byteSize=8]
-	* @protected
-	* The byte size to use.
-	*/
-	this._byteSize = RadJav.setDefaultValue(obj._byteSize, 8);
-	/** @property {Number} [_stopBits=RadJav.IO.SerialComm.oneStopBit]
-	* @protected
-	* The stop bits to use.
-	*/
-	this._stopBits = RadJav.setDefaultValue(obj._stopBits, RadJav.IO.SerialComm.oneStopBit);
-	/** @property {Number} [_parity=RadJav.IO.SerialComm.noParity]
-	* @protected
-	* The parity to use.
-	*/
-	this._parity = RadJav.setDefaultValue(obj._parity, RadJav.IO.SerialComm.noParity);
-	/** @property {Boolean} [_isOpen=false]
-	* @protected
-	* Whether or not this connection is open.
-	*/
-	this._isOpen = RadJav.setDefaultValue(obj._isOpen, false);
-	/** @property {Number} [_appObj=null]
-	* @protected
-	* The app object associated with this object.
-	*/
-	this._appObj = RadJav.setDefaultValue(obj._appObj, null);
-}
-
-/** @property {Number} [oneStopBit=0]
-* @static
-* One stop bit
-*/
-RadJav.IO.SerialComm.oneStopBit = 0;
-/** @property {Number} [one5StopBits=1]
-* @static
-* One 5 stop bits.
-*/
-RadJav.IO.SerialComm.one5StopBits = 1;
-/** @property {Number} [twoStopBits=2]
-* @static
-* Two stop bits.
-*/
-RadJav.IO.SerialComm.twoStopBits = 1;
-/** @property {Number} [noParity=0]
-* @static
-* No parity.
-*/
-RadJav.IO.SerialComm.noParity = 0;
-/** @property {Number} [oddParity=1]
-* @static
-* Odd parity.
-*/
-RadJav.IO.SerialComm.oddParity = 1;
-/** @property {Number} [evenParity=2]
-* @static
-* Even parity.
-*/
-RadJav.IO.SerialComm.evenParity = 2;
-/** @property {Number} [markParity=3]
-* @static
-* Mark parity.
-*/
-RadJav.IO.SerialComm.markParity = 3;
-/** @property {Number} [spaceParity=4]
-* @static
-* Space parity.
-*/
-RadJav.IO.SerialComm.spaceParity = 4;
-
+var RadJav;
+(function (RadJav) {
+    var IO = (function () {
+        function IO() {
+        }
+        IO.isDir = function (path) { return; };
+        IO.isFile = function (path) { return; };
+        IO.isSymLink = function (path) { return; };
+        IO.currentPath = function () { return; };
+        IO.changePath = function (path) { return; };
+        IO.exists = function (path) { return; };
+        IO.createDir = function (path) { };
+        IO.copyDir = function (src, dest, recursive) { };
+        IO.renameDir = function (src, dest) { };
+        IO.deleteDir = function (path) { };
+        IO.isEmpty = function (path) { };
+        IO.createSymLink = function (path, link) { };
+        IO.copySymLink = function (src, dest) { };
+        IO.renameSymLink = function (src, dest) { };
+        IO.deleteSymLink = function (path) { };
+        IO.copyFile = function (src, dest) { };
+        IO.renameFile = function (src, dest) { };
+        IO.deleteFile = function (path) { };
+        IO.listFiles = function (path) { return; };
+        IO.listFilesAsync = function (path) { return; };
+        IO.normalizePath = function (path) { return; };
+        return IO;
+    }());
+    RadJav.IO = IO;
+    (function (IO) {
+        var SerialComm = (function () {
+            function SerialComm() {
+            }
+            SerialComm.prototype.getPort = function () { return; };
+            SerialComm.prototype.getBaud = function () { return; };
+            SerialComm.prototype.getByteSize = function () { return; };
+            SerialComm.prototype.getStopBits = function () { return; };
+            SerialComm.prototype.getParity = function () { return; };
+            SerialComm.prototype.open = function () { return; };
+            SerialComm.prototype.isOpen = function () { return; };
+            SerialComm.prototype.read = function (bufferSize) { return; };
+            SerialComm.prototype.write = function (buffer, bufferSize) { return; };
+            SerialComm.prototype.close = function () { };
+            return SerialComm;
+        }());
+        IO.SerialComm = SerialComm;
+        var TextFile = (function () {
+            function TextFile() {
+            }
+            TextFile.writeTextToFile = function (path, content) { };
+            TextFile.readEntireFile = function (path) { return; };
+            return TextFile;
+        }());
+        IO.TextFile = TextFile;
+    })(IO = RadJav.IO || (RadJav.IO = {}));
+    var XML;
+    (function (XML) {
+        var XMLFile = (function () {
+            function XMLFile() {
+                this.parser = null;
+                this.root = null;
+                this.xmlFile = null;
+                if (this._init != null)
+                    this._init();
+            }
+            XMLFile.prototype.loadXMLFile = function (filePath) {
+                var promise = new Promise(RadJav.keepContext(function (resolve, reject, file) {
+                    var path = file[0];
+                    if (RadJav.OS.HTML5 != null) {
+                        return (RadJav.Net.httpRequest(path).then(function (data) {
+                            this.loadXML(data);
+                            resolve(data);
+                        }));
+                    }
+                    else {
+                        var data = RadJav.IO.TextFile.readEntireFile(path);
+                        this.loadXML(data);
+                        resolve(data);
+                    }
+                }, this, [filePath]));
+                return (promise);
+            };
+            XMLFile.prototype.loadXML = function (xmlString) {
+                if (RadJav.OS.HTML5 != null) {
+                    this.parser = new DOMParser();
+                    this.xmlFile = this.parser.parseFromString(xmlString, "text/xml");
+                    this.root = new XMLTag(this.xmlFile.firstChild);
+                }
+            };
+            return XMLFile;
+        }());
+        XML.XMLFile = XMLFile;
+        var XMLTag = (function () {
+            function XMLTag(tag) {
+                if (RadJav.OS.HTML5 != null) {
+                    if (typeof (tag) == "string") {
+                        this.tag = tag;
+                        this.attributes = {};
+                        this.value = "";
+                        this.children = [];
+                    }
+                    else {
+                        var domTag = tag;
+                        this.tag = domTag.tagName;
+                        this.attributes = {};
+                        for (var iIdx = 0; iIdx < domTag.attributes.length; iIdx++) {
+                            var attribute = domTag.attributes[iIdx];
+                            var attr = new XMLAttribute(attribute.name, attribute.value);
+                            this.attributes[attribute.name] = attr;
+                        }
+                        this.value = domTag.textContent;
+                        this.children = [];
+                        for (var iIdx = 0; iIdx < domTag.childNodes.length; iIdx++) {
+                            var domChild = domTag.childNodes[iIdx];
+                            var child = new XMLTag(domChild);
+                            this.children.push(child);
+                        }
+                    }
+                }
+                else
+                    this._init(tag);
+            }
+            XMLTag.prototype.getTags = function (tag) {
+                var tags = [];
+                for (var iIdx = 0; iIdx < this.children.length; iIdx++) {
+                    var child = this.children[iIdx];
+                    if (child.tag == tag)
+                        tags.push(child);
+                }
+                return (tags);
+            };
+            XMLTag.prototype.setAttribute = function (attribute, value) {
+                if (this.attributes[attribute] == undefined)
+                    this.attributes[attribute] = new XMLAttribute(attribute, value);
+                else
+                    this.attributes[attribute].value = value;
+            };
+            XMLTag.prototype.getAttribute = function (attribute) {
+                if (this.attributes[attribute] == undefined)
+                    throw new Error("Attribute does not exist!");
+                return (this.attributes[attribute]);
+            };
+            XMLTag.prototype.getAttributeString = function (attribute) {
+                return (this.getAttribute(attribute).getValue());
+            };
+            XMLTag.prototype.getAttributeInt = function (attribute) {
+                return (this.getAttribute(attribute).toInt());
+            };
+            XMLTag.prototype.getAttributeFloat = function (attribute) {
+                return (this.getAttribute(attribute).toFloat());
+            };
+            XMLTag.prototype.getAttributeBoolean = function (attribute) {
+                return (this.getAttribute(attribute).toBoolean());
+            };
+            XMLTag.prototype.toString = function () {
+                var result = "<" + this.tag + " ";
+                for (var attr in this.attributes) {
+                    var attribute = this.attributes[attr];
+                    result += attribute.toString() + " ";
+                }
+                if ((this.value != "") || (this.children.length > 0)) {
+                    result += ">" + this.value;
+                    if (this.value != "")
+                        result += " ";
+                    for (var iIdx = 0; iIdx < this.children.length; iIdx++) {
+                        var child = this.children[iIdx];
+                        result += this.child.toString() + " ";
+                    }
+                    result += "</" + this.tag + ">";
+                }
+                else
+                    result += "/>";
+                return (result);
+            };
+            return XMLTag;
+        }());
+        XML.XMLTag = XMLTag;
+        var XMLAttribute = (function () {
+            function XMLAttribute(name, value) {
+                this.name = name;
+                this.value = value;
+            }
+            XMLAttribute.prototype.getValue = function () {
+                return (this.value);
+            };
+            XMLAttribute.prototype.toInt = function () {
+                return (parseInt(this.value));
+            };
+            XMLAttribute.prototype.toFloat = function () {
+                return (parseFloat(this.value));
+            };
+            XMLAttribute.prototype.toBoolean = function () {
+                return (parseBoolean(this.value));
+            };
+            XMLAttribute.prototype.toString = function () {
+                return (this.name + " = \"" + this.value + "\"");
+            };
+            return XMLAttribute;
+        }());
+        XML.XMLAttribute = XMLAttribute;
+    })(XML = RadJav.XML || (RadJav.XML = {}));
+})(RadJav || (RadJav = {}));

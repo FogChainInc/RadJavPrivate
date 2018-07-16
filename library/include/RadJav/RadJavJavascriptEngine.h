@@ -39,9 +39,9 @@
 				virtual ~JavascriptEngine();
 
 				/// Run an application.
-				virtual void runApplication (String applicationSource, String fileName) = 0;
+				virtual int runApplication (String applicationSource, String fileName) = 0;
 				/// Run an application from a javascript file.
-				virtual void runApplicationFromFile (String file) = 0;
+				virtual int runApplicationFromFile (String file) = 0;
 				/// Execute Javascript code.
 				virtual void executeScript(String code, String fileName) = 0;
 				/// Connect the native library to the Javascript library.

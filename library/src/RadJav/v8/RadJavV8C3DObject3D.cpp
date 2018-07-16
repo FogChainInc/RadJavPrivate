@@ -322,40 +322,40 @@ namespace RadJAV
 			{
 			}
 
-			v8::Persistent<v8::Value> *Object3DBase::createEvent(String event, v8::Local<v8::Function> function)
+			CPP::GUI::Event *Object3DBase::createEvent(String event, v8::Local<v8::Function> function)
 			{
+				// Create a persistent function to execute asych later.
 				v8::Persistent<v8::Value> *persistent = RJNEW v8::Persistent<v8::Value>();
-				persistent->Reset(V8_JAVASCRIPT_ENGINE->isolate, function);
-
-				auto found = events.find(event);
-				auto end = events.end();
-
-				if (found != end)
+				persistent->Reset(function->GetIsolate(), function);
+				
+				CPP::GUI::Event* evt = RJNEW CPP::GUI::Event(persistent);
+				
+				if (events.size() > 0)
 				{
-					v8::Persistent<v8::Value> *evt = events.at(event);
-					DELETE_OBJ(evt);
-
-					events.erase(event);
+					auto found = events.find(event);
+					auto end = events.end();
+					
+					if (found != end)
+					{
+						CPP::GUI::Event *evtToRemove = events.at(event);
+						DELETEOBJ(evtToRemove);
+						
+						events.erase(event);
+					}
 				}
-
-				events.insert(HashMapPair<String, v8::Persistent<v8::Value> *>(event, persistent));
-
-				return (persistent);
+				
+				events.insert(HashMapPair<std::string, CPP::GUI::Event *>(event, evt));
+				
+				return evt;
 			}
 
 			void Object3DBase::addNewEvent(String event, Ogre::MovableObject *object, v8::Local<v8::Function> func)
 			{
 			}
 
-			v8::Local<v8::Value> Object3DBase::executeEvent(v8::Persistent<v8::Value> *pevent, RJINT numArgs, v8::Local<v8::Value> *args)
+			v8::Local<v8::Value> Object3DBase::executeEvent(CPP::GUI::Event *pevent, RJINT numArgs, v8::Local<v8::Value> *args)
 			{
-				v8::Local<v8::Function> func = v8::Local<v8::Function>::Cast(pevent->Get(V8_JAVASCRIPT_ENGINE->isolate));
-				v8::Local<v8::Value> result;
-
-				if (V8_JAVASCRIPT_ENGINE->v8IsNull(func) == false)
-					result = func->Call(V8_JAVASCRIPT_ENGINE->globalContext->Global(), numArgs, args);
-
-				return (result);
+				return (*pevent)(numArgs, args);
 			}
 #endif
 		}

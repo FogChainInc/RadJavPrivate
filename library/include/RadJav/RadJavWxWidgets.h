@@ -60,8 +60,6 @@
 						void SocketEvent (wxSocketEvent &evtEvent);
 					#endif
 
-					void runSystem ();
-
 					Array<wxThread *> aryThreads;
 					wxCriticalSection wcsCritical;
 

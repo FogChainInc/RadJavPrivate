@@ -21,14 +21,14 @@
 /// <reference path="RadJav.ts" />
 
 namespace RadJav {
-  namespace GUI {
+  export namespace GUI {
     /** @class RadJav.GUI.Label
      * @extends RadJav.GUI.GObject
      * A label.
      * Available on platforms: Windows,Linux,OSX,HTML5
      */
-    class Label extends GObject {
-      constructor(obj?: Object, text?: String, parent?: GObject) {
+    export class List extends RadJav.GUI.GObject {
+      constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject) {
         if (obj == null) {
           obj = {};
         }
@@ -59,6 +59,10 @@ namespace RadJav {
         this._hasCheckBoxes = RadJav.setDefaultValue(obj._hasCheckBoxes, false);
         this._columns = RadJav.setDefaultValue(obj._columns, []);
       }
+
+      protected _canSort: any;
+      protected _hasCheckBoxes: any;
+      protected _columns: any;;
 
       /** @method addColumn
        * Add a column to this list.
@@ -149,13 +153,15 @@ namespace RadJav {
       deleteRows(selection) {
         return RadJav.theme.eventSync(this.type, "deleteRows", this, selection);
       }
+
+
     }
 
     /** @class RadJav.GUI.List.Row
      * A List row.
      * Available on platforms: Windows,Linux,OSX,HTML5
      */
-    class Row {
+    export class Row {
       constructor(obj) {
         if (obj == null) {
           obj = {};
@@ -171,7 +177,7 @@ namespace RadJav {
        * Add an item to this row.
        * @param {RadJav.GUI.List.Item} item The item to add.
        */
-      addItem(item) {
+      public addItem(item) {
         if (typeof item != "object") {
           item = new RadJav.GUI.List.Item({ text: item });
         }
@@ -180,79 +186,82 @@ namespace RadJav {
       }
     }
 
-    /** @class RadJav.GUI.List.Item
-     * A List item.
-     * Available on platforms: Windows,Linux,OSX,HTML5
-     */
-    class Item {
-      constructor(obj) {
-        if (obj == null) {
-          obj = {};
+    export namespace List {
+
+      /** @class RadJav.GUI.List.Item
+       * A List item.
+       * Available on platforms: Windows,Linux,OSX,HTML5
+       */
+      export class Item {
+        constructor(obj) {
+          if (obj == null) {
+            obj = {};
+          }
+          this.name = RadJav.setDefaultValue(obj.name, "");
+          this.text = RadJav.setDefaultValue(obj.text, "");
         }
-        this.name = RadJav.setDefaultValue(obj.name, "");
-        this.text = RadJav.setDefaultValue(obj.text, "");
+
+        /** @property {String} [name=""]
+         * The name to display.
+         */
+        name: String;
+        /** @property {String} [text=""]
+         * The text to display.
+         */
+        text: string;
       }
 
-      /** @property {String} [name=""]
-       * The name to display.
+      /** @class RadJav.GUI.List.Column
+       * A List column.
+       * Available on platforms: Windows,Linux,OSX,HTML5
        */
-      name: String;
-      /** @property {String} [text=""]
-       * The text to display.
-       */
-      text: string;
-    }
-
-    /** @class RadJav.GUI.List.Column
-     * A List column.
-     * Available on platforms: Windows,Linux,OSX,HTML5
-     */
-    class Column {
-      constructor(obj) {
-        if (obj == null) {
-          obj = {};
+      export class Column {
+        constructor(obj) {
+          if (obj == null) {
+            obj = {};
+          }
+          this.text = RadJav.setDefaultValue(obj.text, "");
+          this.width = RadJav.setDefaultValue(obj.width, 0);
+          this.key = RadJav.setDefaultValue(obj.key, null);
         }
-        this.text = RadJav.setDefaultValue(obj.text, "");
-        this.width = RadJav.setDefaultValue(obj.width, 0);
-        this.key = RadJav.setDefaultValue(obj.key, null);
-      }
-      /** @property {String} [text=""]
-       * The text to display.
-       */
-      text: String;
-      /** @property {Number} [width=0]
-       * The column width. If set to 0, the width will be automatic.
-       */
-      width: number;
-      /** @property {Object} [key=null]
-       * The key associated with this column.
-       */
-      key: object;
-    }
-
-    /** @class RadJav.GUI.List.Selection
-     * A List selection.
-     * Available on platforms: Windows,Linux,OSX,HTML5
-     */
-    class Selection {
-      constructor(obj) {
-        if (obj == null) {
-          obj = {};
-        }
-        this._html = RadJav.setDefaultValue(obj._html, null);
-        this._appObj = RadJav.setDefaultValue(obj._appObj, null);
+        /** @property {String} [text=""]
+         * The text to display.
+         */
+        text: String;
+        /** @property {Number} [width=0]
+         * The column width. If set to 0, the width will be automatic.
+         */
+        width: number;
+        /** @property {Object} [key=null]
+         * The key associated with this column.
+         */
+        key: object;
       }
 
-      /** @property {Mixed} [_html=null]
-       * @protected
-       * The HTML object associated with this selection.
+      /** @class RadJav.GUI.List.Selection
+       * A List selection.
+       * Available on platforms: Windows,Linux,OSX,HTML5
        */
-      _html;
-      /** @property {Mixed} [_appObj=null]
-       * @protected
-       * The os object associated with this selection.
-       */
-      _appObj;
+      export class Selection {
+        constructor(obj) {
+          if (obj == null) {
+            obj = {};
+          }
+          this._html = RadJav.setDefaultValue(obj._html, null);
+          this._appObj = RadJav.setDefaultValue(obj._appObj, null);
+        }
+
+        /** @property {Mixed} [_html=null]
+         * @protected
+         * The HTML object associated with this selection.
+         */
+        protected _html;
+        /** @property {Mixed} [_appObj=null]
+         * @protected
+         * The os object associated with this selection.
+         */
+       protected _appObj;
+      }
     }
   }
 }

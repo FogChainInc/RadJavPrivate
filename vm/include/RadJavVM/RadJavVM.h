@@ -27,7 +27,7 @@
 	{
 		public:
 			/// Initialize the VM.
-			static void initialize (RadJAV::Array<RadJAV::String> args);
+			static int initialize (RadJAV::Array<RadJAV::String> args);
 			/// Shut down the VM.
 			static void shutdown();
 

@@ -21,14 +21,15 @@
 /// <reference path="RadJav.ts" />
 
 namespace RadJav {
-  namespace GUI {
+  export  namespace GUI {
     /** @class RadJav.GUI.Combobox
      * @extends RadJav.GUI.GObject
      * A combobox.
      * Available on platforms: Windows,Linux,OSX,HTML5
      */
-    class Combobox extends GObject {
-      constructor(obj?: Object, text?: String, parent?: GObject) {
+    export class Combobox extends RadJav.GUI.GObject{
+
+      constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject) {
         if (obj == null) {
           obj = {};
         }
@@ -51,12 +52,18 @@ namespace RadJav {
         super(obj, text, parent);
 
         this.type = "RadJav.GUI.Combobox";
+
+
+    		/** @property {String} [_items=[]]
+    		* The items associated with this object.
+    		*/
+    		this._items = RadJav.setDefaultValue (obj._items, []);
       }
 
-      /** @property {String} [_items=[]]
+        /** @property {String} [_items=[]]
        * The items associated with this object.
        */
-      _items: String[];
+      _items: Combobox.Item[];
       onCreated(): void {
         for (var iIdx = 0; iIdx < this._items.length; iIdx++) {
           var item = this._items[iIdx];
@@ -71,7 +78,7 @@ namespace RadJav {
        * Parameters Passed to Theme Event: RadJav.GUI.GObject, RadJav.GUI.Combobox.Item
        * @param {RadJav.GUI.Combobox.Item/String} item The item to add.
        */
-      addItem(item: Combobox.Item): void {
+      addItem(item: any): void {
         if (typeof item == "string") {
           item = { text: item };
         }

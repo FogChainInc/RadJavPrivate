@@ -17,6 +17,8 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
+declare let define: any;
+
 
 /** @class Promise
  * An object that executes when a process has completed.
@@ -28,6 +30,13 @@
  */
 namespace RadJav
 {
+
+  /** @property 
+	* Allow the use of eval.
+	*/
+  export let defaults: any;
+  
+
 	/** @property {Boolean} [useEval=false]
 	* Allow the use of eval.
 	*/
@@ -71,12 +80,12 @@ namespace RadJav
 	/** @property {String[]} [_included=[]]
 	* If set to true, RadJav has been initialized.
 	*/
-	export let _included: string[] = [];
+	export let _included: any[] = [];
 
 	/** @property {String[]} [_lang=[]]
 	* If set to true, RadJav has been initialized.
 	*/
-	export let _lang: { [key: string]: string[] } = {};
+	export let _lang: { [key: string]: any } = {};
 
 	/** @property {Number} [_screenWidth=window.innerWidth]
 	* The width of the window's screen.
@@ -123,9 +132,9 @@ namespace RadJav
 	* @param {String} path The path to the module to load.
 	* @return {Promise} The promise containing the loaded module.
 	*/
-	export function include(path: string): Promise<void>
+	export function include(path: string): Promise<any>
 	{
-		var promise: Promise<void> = null;
+		var promise: Promise<string> = null;
 
 		if (RadJav.useAjax == true)
 		{
@@ -136,7 +145,7 @@ namespace RadJav
 						{
 							if (response != "")
 							{
-								var func = new Function(response);
+								var func = new _Function(response);
 								func.apply(window, []);
 							}
 						}
@@ -144,10 +153,10 @@ namespace RadJav
 		}
 		else
 		{
-			promise = new Promise<void>(
+			promise = new Promise<string>(
 				RadJav.keepContext(function(resolve, reject)
 				{
-					var script = document.createElement("script");
+					var script:any = document.createElement("script");
 					script.type = "text/javascript";
 					//script.async = false;
 					//script.defer = false;
@@ -197,7 +206,7 @@ namespace RadJav
 	*/
 	export function initialize(libraries: { [key: string]: any }[]): Promise<void>
 	{
-		var promise = new Promise(
+		var promise = new Promise<void>(
 			RadJav.keepContext(function(resolve, reject, args)
 			{
 				if (RadJav._isInitialized == true)
@@ -242,7 +251,7 @@ namespace RadJav
 
 						if (RadJav.useEval == false)
 						{
-							var eval = function()
+							var evalu = function()
 							{
 								var msg = "RadJav disables eval by default. Set RadJav.useEval = true; to enable it.";
 								alert(msg);
@@ -363,7 +372,7 @@ namespace RadJav
       RadJav._included.push(libraries[iIdx]);
     }
 
-    var promise = new Promise(
+    var promise = new Promise<void>(
       RadJav.keepContext(function(resolve, reject) {
         var promises = [];
 
@@ -449,7 +458,7 @@ namespace RadJav
             });
           }, RadJav)
         );
-      })
+      },null,null)
     );
     return promise;
   }
@@ -490,23 +499,23 @@ namespace RadJav
       if (RadJav.useAjax == true) {
         RadJav._getResponse(url + "/theme.js").then(function(data) {
           var theme = RadJav.Theme.loadTheme(url, data);
-          RadJav.theme = theme;
+          RadJav.Theme = theme;
           var promises2 = [];
 
-          promises2.push(RadJav.theme.loadInitializationFile());
-          promises2.push(RadJav.theme.loadJavascriptFiles());
+          promises2.push(RadJav.Theme.loadInitializationFile());
+          promises2.push(RadJav.Theme.loadJavascriptFiles());
 
           Promise.all(promises2).then(function() {
             resolve();
           });
         });
       } else {
-        var theme = RadJav.Theme.loadTheme(url, RadJav.theme);
-        RadJav.theme = theme;
+        var theme = RadJav.Theme.loadTheme(url, RadJav.Theme);
+        RadJav.Theme = theme;
         var promises2 = [];
 
-        promises2.push(RadJav.theme.loadInitializationFile());
-        promises2.push(RadJav.theme.loadJavascriptFiles());
+        promises2.push(RadJav.Theme.loadInitializationFile());
+        promises2.push(RadJav.Theme.loadJavascriptFiles());
 
         Promise.all(promises2).then(function() {
           resolve();
@@ -516,6 +525,7 @@ namespace RadJav
     return promise;
   }
 
+  
   /** @method runApplication
    * Run an application from a file or a function.
    * Available on platforms: Windows,Linux,OSX,HTML5
@@ -637,7 +647,7 @@ namespace RadJav
       throw RadJav.getLangString("cannotGetAjaxResponse");
     }
 
-    if (window.XMLHttpRequest) {
+    if ((<any>window).XMLHttpRequest) {
       request = new XMLHttpRequest();
     } else {
       request = new ActiveXObject("Microsoft.XMLHTTP");
@@ -668,7 +678,7 @@ namespace RadJav
    * @param {String} addr The address to connect to.
    * @return {String} The response from the HTTP server.
    */
-  export function _getResponse(addr: String): Promise<String> {
+  export function _getResponse(addr: string): Promise<string> {
     var promise = null;
 
     if (RadJav.useAjax == true) {
@@ -707,7 +717,7 @@ namespace RadJav
    * @param {Object} obj The object to clone.
    * @return {Object} The cloned object.
    */
-  export function clone(obj: { [key: string]: any }): { [key: string]: any } {
+  export function clone(...obj:any[]): any[] {
     var options,
       name,
       src,
@@ -808,17 +818,16 @@ namespace RadJav
     return target;
   }
 
-  /** @method cloneObject
-   * Perform a deep copy of an object.
-   * Available on platforms: Windows,Linux,OSX,HTML5
-   * @param {Object} obj The object to clone.
-   * @return {Object} The cloned object.
-   */
-  export function cloneObject(obj: {
-    [key: string]: any;
-  }): { [key: string]: any } {
-    return RadJav.clone({}, obj);
-  }
+	/** @method cloneObject
+	* Perform a deep copy of an object.
+	* Available on platforms: Windows,Linux,OSX,HTML5
+	* @param {Object} obj The object to clone.
+	* @return {Object} The cloned object.
+	*/
+	export function cloneObject(obj: any): any
+	{
+		return RadJav.clone({}, obj);
+	}
 
   /** @method cloneArray
    * Perform a deep copy of an array.
@@ -918,7 +927,7 @@ namespace RadJav
    * @param {String} keyword The keyword to use when getting the language string.
    * @return {String} The string associated with the keyword.
    */
-  export function getLangString(keyword: string): string {
+  export function getLangString(keyword,...other): string {
     var args = Array.prototype.slice.call(arguments);
     args.splice(0, 1);
     args.splice(0, 0, RadJav._lang[keyword]);
@@ -1005,6 +1014,8 @@ namespace RadJav
      */
     fonts: object[] = [];
 
+   
+
     constructor(obj?: {}) {
       this.obj = obj;
       this.name = RadJav.setDefaultValue(this.obj.name, "");
@@ -1022,7 +1033,7 @@ namespace RadJav
      * Load the initialization file and execute it.
      * @return {Promise} Executes when the loading has completed.
      */
-    loadInitializationFile(): Promise<any> {
+    static loadInitializationFile(): Promise<any> {
       var promise = new Promise(
         RadJav.keepContext(function(resolve, reject) {
           var func = RadJav.keepContext(function(data) {
@@ -1031,8 +1042,8 @@ namespace RadJav
                 RadJav.Theme.exports = _eval(data);
               }
 
-              if (RadJav.Theme.exports.init != null) {
-                RadJav.Theme.exports.init();
+              if (RadJav.Theme.exports().init != null) {
+                RadJav.Theme.exports().init();
               }
 
               var fontCSS = "";
@@ -1099,7 +1110,7 @@ namespace RadJav
      * Load the javascript files for this theme.
      * @return {Promise} Executes when the loading has completed.
      */
-    loadJavascriptFiles(): Promise<any> {
+    static loadJavascriptFiles(): Promise<any> {
       var promise = new Promise(
         RadJav.keepContext(function(resolve, reject) {
           var files = [];
@@ -1181,7 +1192,7 @@ namespace RadJav
      * @param {String} event The name of the event to trigger.
      * @return {Promise} The promise to execute when this event is completed.
      */
-    event(file: string, event: string): Promise<any> {
+     static event(file: string, event: string,...other): Promise<any> {
       var args = new Array();
 
       for (var iIdx = 2; iIdx < arguments.length; iIdx++) {
@@ -1239,7 +1250,7 @@ namespace RadJav
      * @param {String} event The name of the event to trigger.
      * @return {Mixed} The data returned from the event.
      */
-    eventSync(file: string, event: string): any {
+    static eventSync(file: string, event: string, ...other): any {
       var args = new Array();
       var result = null;
 
@@ -1297,13 +1308,14 @@ namespace RadJav
      * @static
      * The functions and properties associated with this theme.
      */
-    exports(): any {}
+    public static exports(): any {};
 
     /** @property themeObjects
      * @static
      * The theme objects associated with this theme.
      */
-    themeObjects(): any {}
+    public static themeObjects(): any {};
+
 
     /** @method loadTheme
      * @static
@@ -1311,7 +1323,7 @@ namespace RadJav
      * @param {String} url The URL to this theme.
      * @param {String} data The JSON to parse and get the data from.
      */
-    loadTheme(url: string, data: string): any
+    public static loadTheme(url: string, data: any): any
 	{
 		var theme = null;
 
@@ -1341,7 +1353,7 @@ namespace RadJav
 		* @param {RadJav.GUI.GObject} parent The parent of this object.
 		* @param {Promise} The promise to execute when this object has finished being created.
 		*/
-		initObj(type: string | object, name: any, text: string, parent: object): object
+		export function initObj(type: string | object | any, name: any, text: string, parent: object): object
 		{
 			let tempType = type;
 
@@ -1393,7 +1405,7 @@ namespace RadJav
 		* @param {RadJav.GUI.GObject} parent The parent of this object.
 		* @param {Promise} The promise to execute when this object has finished being created.
 		*/
-		create(type: string, name: string, text: string, parent: object): any
+		export function create(type: string, name: string, text: string, parent: object): any
 		{
 			var obj = this.initObj(type, name, text, parent);
 
@@ -1409,7 +1421,7 @@ namespace RadJav
 		* If this function returns false, the object will not be created.
 		* @return {Promise} The promise to execute when the objects have finished being created.
 		*/
-		createObjects(objects: any, parent: object, beforeCreated: Function = null): Promise<any>
+		export function createObjects(objects: any, parent: object, beforeCreated: Function = null): Promise<any>
 		{
 			var promises = [];
 
@@ -1453,7 +1465,7 @@ namespace RadJav
 		* @param {RadJav.C3D.Object3D} parent The parent of this object.
 		* @param {Promise} The promise to execute when this object has finished being created.
 		*/
-		create(type: string, name: any, parent: any): any
+		function create(type: string, name: any, parent: any): any
 		{
 			if (type.indexOf("RadJav.C3D") > -1) {
 				type = type.substr(10);
@@ -1473,7 +1485,7 @@ namespace RadJav
 	* @static
 	* Contains classes for network operations.
 	*/
-	export class Net
+	export namespace Net
 	{
 		/** @method httpRequest
 		* @static
@@ -1482,7 +1494,7 @@ namespace RadJav
 		* @param {String/Object} req The URL or request object to send to the server.
 		* @return {Promise} The promise to execute when the request has completed.
 		*/
-		httpRequest(req: string | object): Promise<any>
+		export function httpRequest(req: string | object): Promise<any>
 		{
 			var promise = new Promise(RadJav.keepContext(function(resolve, reject)
 				{
@@ -1535,7 +1547,7 @@ namespace RadJav
      * Print a message to the console.
      * @param {String} message The message to output.
      */
-    print(message: string): void {
+    public static print(message: string): void {
       console.log(message);
     }
 
@@ -1544,7 +1556,7 @@ namespace RadJav
      * Print a message to the console with a new line at the end.
      * @param {String} message The message to output.
      */
-    println(message: string): void {
+    public static println(message: string): void {
       this.print(message + "\n");
     }
   }
@@ -1577,8 +1589,8 @@ namespace RadJav
      * @param {Function} func The function to execute.
      * @return {Promise} The promise to execute.
      */
-    export function onReady(func: Function): Promise<any> {
-      RadJav.OS.HTML5.ready(window).then(func);
+    export function onReady(func: any): Promise<any> {
+      return RadJav.OS.HTML5.ready(window).then(func);
     }
 
     /** @method getDocumentsPath
@@ -1651,9 +1663,9 @@ namespace RadJav
        * @param {String/HTMLElement} elm The element to show or hide.
        * @param {Boolean} [show=true] If set to true the element will be shown.
        */
-      export function showElement(elm: String | Object, show: boolean): void {
+      export function showElement(elm: any, show: boolean): void {
         if (typeof elm == "string") {
-          elm = RadJav.OS.HTML5.selectDOM(elm);
+          elm = RadJav.OS.HTML5.selectDOM(null,elm);
         }
 
         if (show == true) {
@@ -1713,7 +1725,7 @@ namespace RadJav
        * Get the URL parameters as an object.
        * @return {Object} The url parameters.
        */
-      export function getUrlParamObj(): Object {
+      export function getUrlParamObj(): any {
         var params = window.location.search;
         var paramsObj = {};
 
@@ -1738,7 +1750,7 @@ namespace RadJav
               prevPos = undefined;
             }
 
-            var value = params.substring(pos + 1, prevPos);
+            var value: any = params.substring(pos + 1, prevPos);
 
             if (isNaN(value) == false) {
               value = parseFloat(value);
@@ -1821,7 +1833,7 @@ namespace RadJav
        * @param {RadJav.GUI.GObject} obj The parent object to get the HTML from.
        * @return {Mixed} The parent HTML object.
        */
-      export function getParentHTML(obj: object): any {
+      export function getParentHTML(obj: any): any {
         var parent = obj.getParent();
         var parentHTML = null;
 
@@ -1850,9 +1862,9 @@ namespace RadJav
        * @param {String/Mixed} html The HTML to append.
        */
       export function appendHTML(
-        obj: String | Object,
-        html: String | Object
-      ): Object {
+        obj: HTMLElement,
+        html: any
+      ): any {
         if (typeof obj == "string") {
           var tempObj = document.querySelector(obj);
 
@@ -1875,9 +1887,9 @@ namespace RadJav
        * @return {Mixed} The selected DOM object.
        */
       export function selectDOM(
-        obj: String | Object,
-        selector: String
-      ): Object {
+        obj: HTMLElement,
+        selector: any
+      ): any {
         if (typeof obj == "string") {
           selector = obj;
           obj = null;
@@ -1894,8 +1906,8 @@ namespace RadJav
        * @param {Object} obj The object to check.
        * @return {Promise} The promise to execute.
        */
-      export function ready(obj: Object): Promise<void> {
-        var promise = new Promise(function(resolve, reject) {
+      export function ready(obj: any): Promise<void> {
+        var promise = new Promise<void>(function(resolve, reject) {
           if (obj.readyState != null) {
             if (obj.readyState == "complete") {
               resolve();
@@ -1944,9 +1956,9 @@ namespace RadJav
        * @return {Mixed} The returned result from the interface.
        */
       export function interfaceConnector(
-        connectorName: String | Object,
-        methodName: String
-      ): Object {
+        connectorName: string | object | any,
+        methodName: string
+      ): any {
         var result = null;
         var args = Array.prototype.slice.call(arguments);
         args.splice(0, 2);
@@ -1977,13 +1989,13 @@ namespace RadJav
           found = true;
         }
 
-        if (window["webkit"] != null) {
+        if ((<any>window).webkit != null) {
           // iOS WKWebView
-          if (window["webkit"].messageHandlers != null) {
-            if (window["webkit"].messageHandlers[name] != null) {
+          if ((<any>window).webkit.messageHandlers != null) {
+            if ((<any>window).webkit.messageHandlers[name] != null) {
               args = Array.prototype.slice.call(arguments);
               args.splice(0, 1);
-              window["webkit"].messageHandlers[name].postMessage(args);
+                (<any>window).webkit.messageHandlers[name].postMessage(args);
               found = true;
             }
           }
@@ -1998,7 +2010,7 @@ namespace RadJav
               userAgent.match(/ipad/i) ||
               userAgent.match(/ipod/i)
             ) {
-              var standalone = window.navigator.standalone;
+              var standalone = (<any>window.navigator).standalone;
               var isSafari = userAgent.match(/safari/i);
 
               if (standalone == false && isSafari == null) {
@@ -2015,16 +2027,39 @@ namespace RadJav
   }
 }
 
+function parseBoolean (str: string): boolean
+{
+	str = str.toLowerCase ();
+
+	if (str == "yes")
+		return (true);
+	else if (str == "no")
+		return (false);
+	else if (str == "true")
+		return (true);
+	else if (str == "false")
+		return (false);
+	else
+	{
+		var iValue = parseInt (str);
+
+		if (iValue != 0)
+			return (true);
+	}
+
+	return (false);
+}
+
 var _eval = eval;
 var _Function = Function;
-RadJav.default = RadJav;
+RadJav.defaults = RadJav;
 
 // This is taken from generated TypeScript code. Thanks Microsoft!
 var __extends =
   (this && this.__extends) ||
   (function() {
     var extendStatics =
-      Object.setPrototypeOf ||
+    (<any>Object).setPrototypeOf ||
       ({ __proto__: [] } instanceof Array &&
         function(d, b) {
           d.__proto__ = b;

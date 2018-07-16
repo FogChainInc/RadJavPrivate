@@ -56,6 +56,7 @@ namespace RadJAV
 				V8_CALLBACK(object, "setEnabled", Textarea::setEnabled);
 				V8_CALLBACK(object, "getEnabled", Textarea::getEnabled);
 				V8_CALLBACK(object, "on", Textarea::on);
+				V8_CALLBACK(object, "destroy", Textarea::destroy);
 			}
 
 			void Textarea::create(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -330,6 +331,15 @@ namespace RadJAV
 
 				if (appObject != NULL)
 					appObject->on(event, func);
+			}
+
+			void Textarea::destroy(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				if (appObject != NULL)
+					delete appObject;
+				
+				V8_JAVASCRIPT_ENGINE->v8ClearExternal(args.This(), "_appObj");
 			}
 		}
 	}

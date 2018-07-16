@@ -58,7 +58,6 @@ namespace RadJAV
 				V8_CALLBACK(object, "setText", Canvas3D::setText);
 				V8_CALLBACK(object, "getText", Canvas3D::getText);
 				V8_CALLBACK(object, "getParent", Canvas3D::getParent);
-				V8_CALLBACK(object, "getAppObj", Canvas3D::getAppObj);
 				V8_CALLBACK(object, "setVisibility", Canvas3D::setVisibility);
 				V8_CALLBACK(object, "getVisibility", Canvas3D::getVisibility);
 				V8_CALLBACK(object, "setEnabled", Canvas3D::setEnabled);
@@ -284,13 +283,6 @@ namespace RadJAV
 				args.GetReturnValue().Set(obj);
 			}
 
-			void Canvas3D::getAppObj(const v8::FunctionCallbackInfo<v8::Value> &args)
-			{
-				v8::Handle<v8::External> ext = v8::Handle<v8::External>::Cast(
-					args.This()->Get(String("_appObj").toV8String(args.GetIsolate())));
-				args.GetReturnValue().Set(ext);
-			}
-
 			void Canvas3D::setVisibility(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				RJBOOL value = V8_JAVASCRIPT_ENGINE->v8ParseBool(args[0]);
@@ -352,27 +344,45 @@ namespace RadJAV
 
 				UITYPE *object = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
 				
-                Ogre::SceneManager *sceneManager;
-                if (name == "")
-                    sceneManager = object->createSceneManager(Ogre::String("OctreeSceneManager"));
-                else
-                    sceneManager = object->createSceneManager(name);
+				std::shared_ptr<Ogre::SceneManager> sceneManager;
+				if(object)
+				{
+					if (name == "")
+					{
+						sceneManager.reset( object->createSceneManager(Ogre::String("OctreeSceneManager")), [&](Ogre::SceneManager* p){
+							Ogre::Root::getSingleton().destroySceneManager(p);
+						});
+					}
+					else
+					{
+						sceneManager.reset( object->createSceneManager(name), [&](Ogre::SceneManager* p){
+							Ogre::Root::getSingleton().destroySceneManager(p);
+						});
+					}
+				}
 
 				v8::Local<v8::Object> C3D = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_RADJAV, "C3D");
 				v8::Local<v8::Object> world = V8_JAVASCRIPT_ENGINE->v8GetObject(C3D, "World");
 				v8::Local<v8::Object> newWorld = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(world, 0, NULL);
-				V8_JAVASCRIPT_ENGINE->v8SetExternal(newWorld, "_sceneManager", sceneManager);
-				V8_JAVASCRIPT_ENGINE->v8SetExternal(newWorld, "_renderWindow", object->getRenderWindow());
+				
+				if(sceneManager)
+				{
+					V8_JAVASCRIPT_ENGINE->v8SetExternal(newWorld, "_sceneManager", sceneManager);
+					std::shared_ptr<Ogre::RenderWindow> renderWindow( object->getRenderWindow(), [](Ogre::RenderWindow* p){
+						Ogre::Root::getSingleton().destroyRenderTarget(p);
+					});
+					V8_JAVASCRIPT_ENGINE->v8SetExternal(newWorld, "_renderWindow", renderWindow);
+				}
 
 				args.GetReturnValue().Set(newWorld);
 			}
 
 			void Canvas3D::setWorld(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				v8::Local<v8::Object> world = v8::Local<v8::Object>::Cast(args[0]);
+				//v8::Local<v8::Object> world = v8::Local<v8::Object>::Cast(args[0]);
 
-				UITYPE *object = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-				Ogre::SceneManager *sceneMgr = (Ogre::SceneManager *)V8_JAVASCRIPT_ENGINE->v8GetExternal(world, "_sceneManager");
+				//UITYPE *object = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				//Ogre::SceneManager *sceneMgr = (Ogre::SceneManager *)V8_JAVASCRIPT_ENGINE->v8GetExternal(world, "_sceneManager");
 				//object->mSceneMgr = sceneMgr;*/
 			}
 #endif

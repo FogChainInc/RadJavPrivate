@@ -24,12 +24,13 @@
 	#include "RadJavString.h"
 
 	#include "v8/RadJavV8JavascriptEngine.h"
+	#include "cpp/RadJavCPPChainedPtr.h"
 
 	namespace RadJAV
 	{
 		namespace CPP
 		{
-			class RADJAV_EXPORT Thread
+			class RADJAV_EXPORT Thread : public ChainedPtr
 			{
 				public:
 					#ifdef USE_V8

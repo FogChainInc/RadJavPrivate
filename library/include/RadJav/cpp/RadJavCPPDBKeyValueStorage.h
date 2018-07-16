@@ -21,20 +21,31 @@
 	#define _RADJAV_CPP_DATABASE_KEYVALUESTORAGE_H_
 
 	#include "RadJavPreprocessor.h"
-
-	#include <string>
-
-	#include "RadJav.h"
 	#include "RadJavString.h"
-	#include "RadJavHashMap.h"
-	#include "RadJavThread.h"
 
 	#ifdef USE_DATABASE
 		#ifdef USE_LEVELDB
 			namespace leveldb
+		#elif defined USE_ROCKSDB
+			namespace rocksdb
+		#endif
+		#if defined USE_LEVELDB || defined USE_ROCKSDB
 			{
 				class DB;
 			};
+		#endif
+
+		#ifdef USE_NUDB
+			namespace RadJAV
+			{
+				namespace CPP
+				{
+					namespace Database
+					{
+						class NuDB;
+					}
+				}
+			}
 		#endif
 	#endif
 
@@ -69,8 +80,13 @@
                         String filePath;
                     
                         #ifdef USE_LEVELDB
-                            leveldb::DB* db;
-                        #endif
+                            leveldb::DB
+                        #elif defined USE_ROCKSDB
+							rocksdb::DB
+						#elif defined USE_NUDB
+							NuDB
+						#endif
+							*db;
 				};
 				#endif
 			}

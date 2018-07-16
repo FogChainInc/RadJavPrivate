@@ -27,9 +27,7 @@ namespace RadJav {
    */
   export class Color {
     constructor(
-      r:
-        | number
-        | { r: number = 0; g: number = 0; b: number = 0; a: number = 1 } = 0,
+      r: number | { r: 0; g: 0; b: 0; a: 1 } = 0,
       g: number = 0,
       b: number = 0,
       a: number = 1
@@ -51,28 +49,28 @@ namespace RadJav {
     /** @property {Number} [r=0]
      * Red, between 0 and 1.
      */
-    r: Number;
+    r: number;
     /** @property {Number} [g=0]
      * Green, between 0 and 1.
      */
-    g: Number;
+    g: number;
     /** @property {Number} [b=0]
      * Blue, between 0 and 1.
      */
-    b: Number;
+    b: number;
     /** @property {Number} [a=0]
      * Alpha, between 0 and 1.
      */
-    a: Number;
+    a: number;
 
     /** @method toHex
      * Return this color as a hex string.
      * @return {String} The hex string representing the color.
      */
-    toHex(): String {
-      var red = this.r;
-      var green = this.g;
-      var blue = this.b;
+    toHex(): string {
+      var red:any = this.r;
+      var green:any = this.g;
+      var blue:any = this.b;
 
       red *= 255;
       green *= 255;
@@ -135,7 +133,7 @@ RadJav.Color.Blue = new RadJav.Color(0, 0, 1, 1);
  * @param {String} str The color string to parse.
  * @return {RadJav.Color} The color.
  */
-declare function parseColor(str: String): RadJav.Color {
+ function parseColor(str: string): RadJav.Color {
   var color = new RadJav.Color(0, 0, 0, 1);
 
   if (str == "") {

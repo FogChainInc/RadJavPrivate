@@ -20,18 +20,24 @@
 
 #include "cpp/RadJavCPPDBKeyValueStorage.h"
 
+#include "RadJav.h"
 
-#include <algorithm>
-#include <cstdlib>
-#include <functional>
-#include <iostream>
-#include <memory>
+#ifdef USE_DATABASE
+	#ifdef USE_LEVELDB
+    	#include <leveldb/db.h>
+		using namespace leveldb;
+	#endif
 
-#include "RadJavString.h"
-#include "v8/RadJavV8JavascriptEngine.h"
+	#ifdef USE_ROCKSDB
+		#include <rocksdb/db.h>
+		using namespace rocksdb;
+	#endif
 
-#ifdef USE_LEVELDB
-    #include <leveldb/db.h>
+	#ifdef USE_NUDB
+		#include "cpp/RadJavCPPDBNuDB.h"
+		const std::uint64_t KAppID = 1;
+		const std::size_t KKeySize = 128;
+	#endif
 #endif
 
 namespace RadJAV
@@ -42,14 +48,16 @@ namespace RadJAV
 		{
 			#ifdef USE_DATABASE
 			KeyValueStorage::KeyValueStorage()
-				: db(NULL)
+				#if defined USE_LEVELDB || defined USE_ROCKSDB || defined USE_NUDB
+					: db(nullptr)
+				#endif
 			{
                 //TODO: Need to add helper class to handle paths in portable way
                 //F.e. which can prepend path before file name
                 #ifdef WIN32
-                    filePath = ".\leveldb.dat";
+                    filePath = ".\\db.dat";
                 #else
-                    filePath = "./leveldb.dat";
+                    filePath = "./db.dat";
                 #endif
 			}
 
@@ -72,20 +80,48 @@ namespace RadJAV
 
 					return false;
 				}
+				
+				#if defined USE_LEVELDB || defined USE_ROCKSDB
+					Options options;
+				
+					// create the DB if it's not already present
+					options.create_if_missing = true;
+				#endif
+				
+				#ifdef USE_ROCKSDB
+					// Optimize RocksDB. This is the easiest way to get RocksDB to perform well
+					options.IncreaseParallelism();
 
-				// Open the database here.
-                #ifdef USE_LEVELDB
-                    leveldb::Options options;
-                    options.create_if_missing = true;
-                
-                    leveldb::Status status = leveldb::DB::Open( options, path, &db);
-                
-                    if(!status.ok())
-                    {
-                        RadJav::throwException("Can't open database.");
-                        return false;
-                    }
-                #endif
+					#ifdef USE_SNAPPY
+						options.OptimizeLevelStyleCompaction();
+					#endif
+				#endif
+
+				#if defined USE_LEVELDB || defined USE_ROCKSDB
+					Status status = DB::Open( options, path, &db);
+				
+					if(!status.ok())
+					{
+						RadJav::throwException("Can't open database.");
+						return false;
+					}
+				#endif
+				
+				#ifdef USE_NUDB
+					db = RJNEW NuDB();
+					boost::system::error_code ec;
+					db->open( path, KAppID, KKeySize, ec);
+
+					if(ec)
+					{
+						RadJav::throwException("Can't create(open) database.");
+						
+						RJDELETE db;
+						db = nullptr;
+						
+						return false;
+					}
+				#endif
 
 				return true;
 			}
@@ -93,36 +129,51 @@ namespace RadJAV
 			/// Write to a key in the database.
 			void KeyValueStorage::write(String key, String value)
 			{
-				#ifdef USE_LEVELDB
+				#if defined USE_LEVELDB || defined USE_ROCKSDB || defined USE_NUDB
 					if(!db)
 					{
 						RadJav::throwException("Database have not been opened.");
 						return;
 					}
-                
-                    leveldb::Status status = db->Put(leveldb::WriteOptions(), key, value);
-                
-                    if (!status.ok())
-                    {
-                        RadJav::throwException("Unable to write data into database.");
-                        return;
-                    }
-                #endif
+				#endif
+				
+				#if defined USE_LEVELDB || defined USE_ROCKSDB
+					Status status = db->Put(WriteOptions(), key, value);
+				
+					if (!status.ok())
+					{
+						RadJav::throwException("Unable to write data into database.");
+						return;
+					}
+				#endif
+				
+				#ifdef USE_NUDB
+					boost::system::error_code ec;
+				
+					db->insert( key, value, ec);
+					if(ec)
+					{
+						RadJav::throwException("Unable to write data into database.");
+						return;
+					}
+				#endif
 			}
 
 			/// Read from a key in the database.
 			String KeyValueStorage::read(String key)
 			{
-                String value = "";
+				String value = "";
+				
+				#if defined USE_LEVELDB || defined USE_ROCKSDB || defined USE_NUDB
+					if(!db)
+					{
+						RadJav::throwException("Database have not been opened.");
+						return value;
+					}
+				#endif
 
-				#ifdef USE_LEVELDB
-                if(!db)
-                {
-                    RadJav::throwException("Database have not been opened.");
-                    return value;
-                }
-                
-                    leveldb::Status status = db->Get( leveldb::ReadOptions(), key, &value);
+				#if defined USE_LEVELDB || defined USE_ROCKSDB
+                    Status status = db->Get( ReadOptions(), key, &value);
                 
                     if (!status.ok())
                     {
@@ -130,17 +181,37 @@ namespace RadJAV
                         return value;
                     }
                 #endif
-                
-                return value;
+				
+				#ifdef USE_NUDB
+					boost::system::error_code ec;
+					value = db->read( key, ec);
+				
+					if(ec)
+					{
+						RadJav::throwException("Unable to read data from database.");
+						return value;
+					}
+				#endif
+
+				return value;
 			}
 
 			/// Close the database.
 			void KeyValueStorage::close()
 			{
-                #ifdef USE_LEVELDB
+                #if defined USE_LEVELDB || defined USE_ROCKSDB
                     delete db;
-                    db = NULL;
+                    db = nullptr;
                 #endif
+				
+				#ifdef USE_NUDB
+					boost::system::error_code ec;
+					if(db)
+						db->close(ec);
+				
+					RJDELETE db;
+					db = nullptr;
+				#endif
 			}
 			#endif
 		}

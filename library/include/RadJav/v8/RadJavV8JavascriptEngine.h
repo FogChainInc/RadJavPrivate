@@ -23,16 +23,20 @@
 	#include "RadJavPreprocessor.h"
 
 #ifdef USE_V8
+	#include "RadJavV8Externals.h"
+
 	#include <v8.h>
 	#include <v8-inspector.h>
 
 	#include <libplatform/libplatform.h>
 
 	#include <atomic>
-	#include <mutex>
 
 	#include "RadJavJavascriptEngine.h"
-	#include "cpp/RadJavCPPNetWebSocketServer.h"
+
+	#ifdef GUI_USE_WXWIDGETS
+		#include <wx/event.h>
+	#endif
 
 	// The USE(x, ...) template is used to silence C++ compiler warnings
 	// issued for (yet) unused variables (typically parameters).
@@ -97,129 +101,6 @@
 				void Free(void *data, size_t length);
 		};*/
 
-		/// V8 Channel for use in V8 Inspector.
-		class RADJAV_EXPORT V8JSChannel final : public v8_inspector::V8Inspector::Channel {
-		public:
-			explicit V8JSChannel(v8::Local<v8::Context> context);
-			virtual ~V8JSChannel() = default;
-
-		private:
-			void sendResponse(
-				int callId,
-				std::unique_ptr<v8_inspector::StringBuffer> message) override {
-				Send(message->string());
-			}
-			void sendNotification(
-				std::unique_ptr<v8_inspector::StringBuffer> message) override {
-				Send(message->string());
-			}
-			void flushProtocolNotifications() override {}
-
-			void Send(const v8_inspector::StringView& string) {
-				v8::Isolate::AllowJavascriptExecutionScope allow_script(isolate_);
-				int length = static_cast<int>(string.length());
-				//DCHECK(length < v8::String::kMaxLength);
-				v8::Local<v8::String> message =
-					(string.is8Bit()
-						? v8::String::NewFromOneByte(
-							isolate_,
-							reinterpret_cast<const uint8_t*>(string.characters8()),
-							v8::NewStringType::kNormal, length)
-						: v8::String::NewFromTwoByte(
-							isolate_,
-							reinterpret_cast<const uint16_t*>(string.characters16()),
-							v8::NewStringType::kNormal, length))
-					.ToLocalChecked();
-				v8::Local<v8::String> callback_name =
-					v8::String::NewFromUtf8(isolate_, "receive", v8::NewStringType::kNormal)
-					.ToLocalChecked();
-				v8::Local<v8::Context> context = context_.Get(isolate_);
-				v8::Local<v8::Value> callback =
-					context->Global()->Get(context, callback_name).ToLocalChecked();
-				if (callback->IsFunction()) {
-					v8::TryCatch try_catch(isolate_);
-					v8::Local<v8::Value> args[] = { message };
-					USE(v8::Local<v8::Function>::Cast(callback)->Call(context, Undefined(isolate_), 1,
-						args));
-
-#ifdef DEBUG
-					if (try_catch.HasCaught()) {
-						v8::Local<v8::Object> exception = v8::Local<v8::Object>::Cast(try_catch.Exception());
-						v8::Local<String> key = v8::String::NewFromUtf8(isolate_, "message",
-							v8::NewStringType::kNormal)
-							.ToLocalChecked();
-						v8::Local<String> expected =
-							v8::String::NewFromUtf8(isolate_,
-								"Maximum call stack size exceeded",
-								v8::NewStringType::kNormal)
-							.ToLocalChecked();
-						v8::Local<Value> value = exception->Get(context, key).ToLocalChecked();
-						//DCHECK(value->StrictEquals(expected));
-					}
-#endif
-
-				}
-			}
-
-			v8::Isolate* isolate_;
-			v8::Global<v8::Context> context_;
-		};
-
-		/// V8 Inspector for debugging javascript applications.
-		class RADJAV_EXPORT V8JSInspectorClient: public v8_inspector::V8InspectorClient
-		{
-			public:
-				V8JSInspectorClient(v8::Local<v8::Context> context, bool connect);
-				~V8JSInspectorClient()
-				{
-					//if ( (null != server_) && (server_->isAlive) )
-					//{
-					//	server_->close();
-					//}
-
-					//DELETEOBJ(server_);
-				};
-
-		private:
-			static v8_inspector::V8InspectorSession* GetSession(v8::Local<v8::Context> context) {
-				V8JSInspectorClient* inspector_client = static_cast<V8JSInspectorClient*>(
-					context->GetAlignedPointerFromEmbedderData(kInspectorClientIndex));
-				return inspector_client->session_.get();
-			}
-
-			v8::Local<v8::Context> ensureDefaultContextInGroup(int group_id) override {
-				//DCHECK(isolate_);
-				//DCHECK_EQ(kContextGroupId, group_id);
-				return context_.Get(isolate_);
-			}
-
-			static void SendInspectorMessage(
-				const v8::FunctionCallbackInfo<v8::Value>& args) {
-				v8::Isolate* isolate = args.GetIsolate();
-				v8::HandleScope handle_scope(isolate);
-				v8::Local<v8::Context> context = isolate->GetCurrentContext();
-				args.GetReturnValue().Set(Undefined(isolate));
-				v8::Local<v8::String> message = args[0]->ToString(context).ToLocalChecked();
-				v8_inspector::V8InspectorSession* session =
-					V8JSInspectorClient::GetSession(context);
-				int length = message->Length();
-				std::unique_ptr<uint16_t[]> buffer(new uint16_t[length]);
-				message->Write(buffer.get(), 0, length);
-				v8_inspector::StringView message_view(buffer.get(), length);
-				session->dispatchProtocolMessage(message_view);
-				args.GetReturnValue().Set(True(isolate));
-			}
-
-			static const int kContextGroupId = 1;
-
-			std::unique_ptr<v8_inspector::V8Inspector> inspector_;
-			std::unique_ptr<v8_inspector::V8InspectorSession> session_;
-			std::unique_ptr<v8_inspector::V8Inspector::Channel> channel_;
-			RadJAV::CPP::Net::WebSocketServer* server_;
-			v8::Global<v8::Context> context_;
-			v8::Isolate* isolate_;
-		};
-
 		/// The V8 javascript engine.
 		class RADJAV_EXPORT V8JavascriptEngine: public JavascriptEngine
 		{
@@ -231,9 +112,17 @@
 				void startInspector(v8::Local<v8::Context> context);
 
 				/// Run an application.
-				void runApplication(String applicationSource, String fileName);
+				int runApplication(String applicationSource, String fileName);
+
+				/// Execute single step of application
+				bool runApplicationSingleStep();
+			
+				#ifdef GUI_USE_WXWIDGETS
+					void runApplicationInIdleEvent(wxIdleEvent& event);
+				#endif
+			
 				/// Run an application from a javascript file.
-				void runApplicationFromFile(String file);
+				int runApplicationFromFile(String file);
 				/// Execute Javascript code.
 				void executeScript(Array<String> code, String fileName);
 				/// Execute Javascript code.
@@ -279,9 +168,6 @@
 				/// Shutdown the application entirely.
 				void exit(RJINT exitCode);
 
-				template<typename P>
-				static void weakCallback(const v8::WeakCallbackInfo<P> &data);
-
 				/// Get a V8 function.
 				v8::Handle<v8::Function> v8GetFunction(v8::Local<v8::Object> context, String functionName);
 				/// Get a V8 value.
@@ -309,24 +195,26 @@
 					v8::Local<v8::Object> context, String functionName, RJINT numArgs, v8::Local<v8::Value> *args);
 				/// Call a V8 function as a constructor.
 				v8::Local<v8::Object> v8CallAsConstructor(v8::Local<v8::Object> function, RJINT numArgs, v8::Local<v8::Value> *args);
-				/// Get a V8 native object.
-				void *v8GetExternal(v8::Local<v8::Object> context, String functionName);
-				/// Set a V8 native object.
-				void v8SetExternal(v8::Local<v8::Object> context, String functionName, void *obj);
-				/// Set internal field.
-				template<typename P>
-				void v8SetInternalField(v8::Local<v8::Object> context, String functionName, P *obj)
-				{
-					/*v8::Local<v8::Object> objInst = internalObjectTemplate->NewInstance(context->CreationContext()).ToLocalChecked();
 
-					v8::Local<v8::External> val = v8::External::New(isolate, obj);
-					objInst->SetInternalField(0, val);
-					context->Set(functionName.toV8String(isolate), objInst);
-					v8::Persistent<v8::Object> *pval = RJNEW v8::Persistent<v8::Object>();
-					pval->Reset(context->GetIsolate(), objInst);
-					pval->SetWeak<P>(obj, V8JavascriptEngine::weakCallback<P>, v8::WeakCallbackType::kParameter);
-					pval->MarkIndependent();*/
+				/// Get a V8 native object.
+				CPP::ChainedPtr* v8GetExternal(v8::Local<v8::Object> context, String functionName);
+				/// Get a V8 native object.
+				template<class T>
+				std::shared_ptr<T> v8GetExternal(v8::Local<v8::Object> context, String functionName)
+				{
+					return externalsManager->get<T>(context, functionName);
 				}
+				/// Set and wrap external object
+				void v8SetExternal(v8::Local<v8::Object> context, String functionName, CPP::ChainedPtr *obj);
+				/// Set and wrap external object
+				template<class T>
+				void v8SetExternal(v8::Local<v8::Object> context, String functionName, std::shared_ptr<T> obj)
+				{
+					externalsManager->set<T>(context, functionName, obj);
+				}
+				/// Clear external field
+				void v8ClearExternal(v8::Local<v8::Object> context, String functionName);
+
 				/// Get an internal field.
 				void *v8GetInternalField(v8::Local<v8::Object> context, String functionName);
 				/// Get a V8 argument.
@@ -365,7 +253,6 @@
 
 				v8::Platform *platform;
 				v8::Local<v8::Context> globalContext;
-				v8::Local<v8::ObjectTemplate> internalObjectTemplate;
 				v8::Persistent<v8::Object> *radJav;
 
 				#ifdef GUI_USE_WXWIDGETS
@@ -373,6 +260,7 @@
 				#endif
 
 			protected:
+				v8::ArrayBuffer::Allocator* arrayBufferAllocator;
 				Array<String> jsToExecuteNextCode;
 				Array<String> jsToExecuteNextFilename;
 				Array< v8::Local<v8::Object> > jsToExecuteNextContext;
@@ -383,8 +271,8 @@
 				Array<RJINT> timeouts;
 
 				RJBOOL useInspector;
-				//not used
-				std::unique_ptr<V8JSInspectorClient> inspector;
+			
+				ExternalsManager* externalsManager;
 		};
 	}
 #endif

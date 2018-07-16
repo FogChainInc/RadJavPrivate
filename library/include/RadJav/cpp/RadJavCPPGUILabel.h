@@ -37,7 +37,7 @@
 			{
 				#ifdef GUI_USE_WXWIDGETS
 					/// The wxWidgets label to use.
-					class RADJAV_EXPORT LabelFrame : public wxStaticText, public GObjectBase
+					class RADJAV_EXPORT LabelFrame : public wxStaticText, public GObjectBase, public ChainedPtr
 					{
 						public:
 							LabelFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size);

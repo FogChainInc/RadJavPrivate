@@ -5,7 +5,7 @@ macro (fixPath path)
 endmacro (fixPath)
 
 macro (searchForHeader lib mainHeader searchPath useOnlyParentDir)
-	set (${lib}_HEADER_PATHS ${searchPath}/include 
+	set (${lib}_HEADER_PATHS ${searchPath} ${searchPath}/include 
 		${searchPath}/Include ${searchPath}/include/${lib} ${searchPath}/Headers
 		/usr/local/include /usr/include /opt/local/include /opt/include
 		/usr/local/include/${lib} /usr/include/${lib} /opt/local/include/${lib} /opt/include/${lib}
@@ -27,7 +27,7 @@ macro (searchForHeader lib mainHeader searchPath useOnlyParentDir)
 endmacro (searchForHeader)
 
 macro (searchForHeader2 lib mainHeader searchPath useOnlyParentDir)
-	set (${lib}_HEADER_PATHS ${searchPath}/include 
+	set (${lib}_HEADER_PATHS ${searchPath} ${searchPath}/include 
 		${searchPath}/Include ${searchPath}/include/${lib} ${searchPath}/Headers
 		/usr/local/include /usr/include /opt/local/include /opt/include
 		/usr/local/include/${lib} /usr/include/${lib} /opt/local/include/${lib} /opt/include/${lib}
@@ -46,6 +46,18 @@ macro (searchForHeader2 lib mainHeader searchPath useOnlyParentDir)
 
 	set (${lib}_INCLUDE ${${lib}_INCLUDE_DIR2} ${${lib}_INCLUDE})
 endmacro (searchForHeader2)
+
+macro (searchForLibraryOnlyInPath lib debugLibraries releaseLibraries searchPath debugPaths releasePaths)
+	find_library (${lib}_LIBRARY_DEBUG NAMES ${debugLibraries} HINTS 
+		${searchPath} ${debugPaths} PATH_SUFFIXES "" 
+		debug)
+
+	find_library (${lib}_LIBRARY_RELEASE NAMES ${releaseLibraries} HINTS 
+		${searchPath} ${releasePaths} PATH_SUFFIXES "" 
+		release relwithdebinfo minsizerel)
+
+	set(${lib}_LIBRARIES debug ${${lib}_LIBRARY_DEBUG} optimized ${${lib}_LIBRARY_RELEASE} ${${lib}_LIBRARIES})
+endmacro (searchForLibraryOnlyInPath)
 
 macro (searchForLibrary lib debugLibraries releaseLibraries searchPath)
 	set (${lib}_LIBRARY_DEBUG_PATHS ${searchPath}/lib 
@@ -70,7 +82,7 @@ macro (searchForLibrary lib debugLibraries releaseLibraries searchPath)
 		${searchPath}/msvc/Release 
 		${searchPath}/vcbuild/src/Debug 
 		${searchPath}/bin 
-		${searchPath}/Debug)
+		${searchPath}/Debug ${searchPath})
 
 	if ((USE_BITS STREQUAL "32") OR (USE_BITS STREQUAL ""))
 		set (${lib}_LIBRARY_DEBUG_PATHS 
@@ -82,13 +94,19 @@ macro (searchForLibrary lib debugLibraries releaseLibraries searchPath)
 			${searchPath}/out.gn/ia32.release/obj/third_party/icu 
 			${searchPath}/buildx86 ${searchPath}/buildx86/Debug/lib ${searchPath}/buildx86/Debug 
 			${searchPath}/buildx86/debug ${searchPath}/buildx86/lib/Debug ${searchPath}/buildx86/src/Debug 
+			${searchPath}/buildx86/lib 
 			${searchPath}/build-x86 ${searchPath}/build-x86/Debug/lib ${searchPath}/build-x86/Debug 
 			${searchPath}/build-x86/debug ${searchPath}/build-x86/lib/Debug ${searchPath}/build-x86/src/Debug 
+			${searchPath}/build-x86/lib 
 			${searchPath}/build-32bit ${searchPath}/build-32bit/Debug/lib ${searchPath}/build-32bit/Debug 
 			${searchPath}/build-32bit/debug ${searchPath}/build-32bit/lib/Debug ${searchPath}/build-32bit/src/Debug 
+			${searchPath}/build-32bit/lib 
 			${searchPath}/build32bit ${searchPath}/build32bit/Debug/lib ${searchPath}/build32bit/Debug 
 			${searchPath}/build32bit/debug ${searchPath}/build32bit/lib/Debug ${searchPath}/build32bit/src/Debug 
+			${searchPath}/build32bit/lib 
 			"${searchPath}/build_windows/Win32/Static Debug" 
+			${searchPath}/x86 
+			${searchPath}/stage/x86/lib 
 			${${lib}_LIBRARY_DEBUG_PATHS})
 	endif ()
 
@@ -102,13 +120,19 @@ macro (searchForLibrary lib debugLibraries releaseLibraries searchPath)
 			${searchPath}/out.gn/x64.release/obj/third_party/icu 
 			${searchPath}/buildx64 ${searchPath}/buildx64/Debug/lib ${searchPath}/buildx64/Debug 
 			${searchPath}/buildx64/debug ${searchPath}/buildx64/lib/Debug ${searchPath}/buildx64/src/Debug 
+			${searchPath}/buildx64/lib 
 			${searchPath}/build-x64 ${searchPath}/build-x64/Debug/lib ${searchPath}/build-x64/Debug 
 			${searchPath}/build-x64/debug ${searchPath}/build-x64/lib/Debug ${searchPath}/build-x64/src/Debug 
+			${searchPath}/build-x64/lib 
 			${searchPath}/build-64bit ${searchPath}/build-64bit/Debug/lib ${searchPath}/build-64bit/Debug 
 			${searchPath}/build-64bit/debug ${searchPath}/build-64bit/lib/Debug ${searchPath}/build-64bit/src/Debug 
+			${searchPath}/build-64bit/lib 
 			${searchPath}/build64bit ${searchPath}/build64bit/Debug/lib ${searchPath}/build64bit/Debug 
 			${searchPath}/build64bit/debug ${searchPath}/build64bit/lib/Debug ${searchPath}/build64bit/src/Debug 
+			${searchPath}/build64bit/lib 
 			"${searchPath}/build_windows/Win64/Static Debug" 
+			${searchPath}/x64 
+			${searchPath}/stage/x64/lib 
 			${${lib}_LIBRARY_DEBUG_PATHS})
 	endif ()
 
@@ -135,7 +159,8 @@ macro (searchForLibrary lib debugLibraries releaseLibraries searchPath)
 		${searchPath}/msvc/Release 
 		${searchPath}/vcbuild/src/Release 
 		${searchPath}/bin 
-		${searchPath}/Release)
+		${searchPath}/Release
+		${searchPath})
 
 	if ((USE_BITS STREQUAL "32") OR (USE_BITS STREQUAL ""))
 		set (${lib}_LIBRARY_RELEASE_PATHS 

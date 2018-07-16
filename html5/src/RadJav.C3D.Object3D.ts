@@ -21,202 +21,185 @@
 /// <reference path="RadJav.ts" />
 /// <reference path="RadJav.C3D.Transform.ts" />
 
-namespace RadJav
-{
-	export namespace C3D
-	{
-		/** @class RadJav.C3D.Object3D
-		* The base 3D object.
-		* Available on platforms: Windows,Linux,OSX,HTML5
-		*/
-		export class Object3D
-		{
-			/** The name of this object.
-			* @default ""
-			*/
-			name: String = "";
+namespace RadJav {
+  export namespace C3D {
+    /** @class RadJav.C3D.Object3D
+     * The base 3D object.
+     * Available on platforms: Windows,Linux,OSX,HTML5
+     */
+    export class Object3D {
+      /** The name of this object.
+       * @default ""
+       */
+      name: String = "";
 
-			/** The type of object.
-			* @default ""
-			*/
-			type: string = "";
+      /** The type of object.
+       * @default ""
+       */
+      type: string = "";
 
-			/** The visibility of the object.
-			* @default true
-			* @protected
-			*/
-			protected _visible: boolean;
+      /** The visibility of the object.
+       * @default true
+       * @protected
+       */
+      protected _visible: boolean = true;
 
-			/** The parent of this object.
-			* @protected
-			* @default null
-			*/
-			protected _parent: Object3D;
+      /** The parent of this object.
+       * @protected
+       * @default null
+       */
+      protected _parent: Object3D = null;
 
-			/** The canvas 3d object used to display this object.
-			* @protected
-			* @default canvas3d
-			*/
-			protected _canvas3D: GUI.Canvas3D;
+      /** The canvas 3d object used to display this object.
+       * @protected
+       * @default canvas3d
+       */
+      protected _canvas3D: GUI.Canvas3D;
 
-			/** The 3d object associated with this object.
-			* @protected
-			* @default null
-			*/
-			protected _obj3d: any;
+      /** The 3d object associated with this object.
+       * @protected
+       * @default null
+       */
+      protected _obj3d: any = null;
 
 
-			protected _c3dObj: any;
-			/** This object's transform.
-			* @default new RadJav.C3D.Transform (this)
-			* @protected
-			*/
-			protected _transform: C3D.Transform;
+      protected _c3dObj: any;
+      /** This object's transform.
+       * @default new RadJav.C3D.Transform (this)
+       * @protected
+       */
+      protected _transform: C3D.Transform;
 
-			constructor(canvas3d, obj, parent)
-			{
-				if (obj == null)
-					obj = new Object();
+      constructor(canvas3d, obj, parent) {
+        if (obj == null) {
+          obj = new Object();
+        }
 
-				if (typeof obj == "string")
-				{
-					let tempObj = obj;
-					obj = {};
-					obj.name = tempObj;
-				}
+        if (typeof obj == "string") {
+          var tempObj = obj;
+          obj = {};
+          obj.name = tempObj;
+        }
 
-				if (parent != null)
-					obj._parent = parent;
+        if (parent != null) {
+          obj._parent = parent;
+        }
 
-				if (obj.visible != null)
-					obj._visible = obj.visible;
+        if (obj.visible != null) {
+          obj._visible = obj.visible;
+        }
 
-				if (obj.parent != null)
-					obj._parent = obj.parent;
+        if (obj.parent != null) {
+          obj._parent = obj.parent;
+        }
 
-				this.name = RadJav.setDefaultValue(obj.name, "");
-				this.type = RadJav.setDefaultValue(obj.type, "");
-				this._visible = RadJav.setDefaultValue(obj._visible, true);
-				this._parent = RadJav.setDefaultValue(obj._parent, null);
-				this._canvas3D = canvas3d;
-				this._c3dObj = RadJav.setDefaultValue(obj._c3dObj, null);
-				this._transform = RadJav.setDefaultValue(
-						obj._transform,
-						new RadJav.C3D.Transform(this)
-					);
-				this._obj3d = RadJav.setDefaultValue(obj._obj3d, null);
-				}
+        this.name = RadJav.setDefaultValue(obj.name, "");
+        this.type = RadJav.setDefaultValue(obj.type, "");
+        this._visible = RadJav.setDefaultValue(obj._visible, true);
+        this._parent = RadJav.setDefaultValue(obj._parent, null);
+        this._canvas3D = canvas3d;
+        this._c3dObj = RadJav.setDefaultValue(obj._c3dObj, null);
+        this._transform = RadJav.setDefaultValue(
+          obj._transform,
+          new RadJav.C3D.Transform(this)
+        );
+      }
 
-			getCanvas3D():GUI.Canvas3D
-			{
-				return this._canvas3D;
-			}
+      getCanvas3D():GUI.Canvas3D {
+          return this._canvas3D;
+      }
 
 
-			getObj3D():any
-			{
-				return this._obj3d;
-			}
-			
-			/** Using the existing parameters in this object, create it.
-			* @return {Object3D} The created 3D object.
-			*/
-			create(): Object3D
-			{
-				return null;
-			}
+      getObj3D():any {
+        return this._obj3d;
+      }
+      /** Using the existing parameters in this object, create it.
+       * @return {Promise} The promise to execute when the creation is completed.
+       */
+      create(): Promise<Object3D> {
+        return null;
+      }
 
-			/** Destroy this object.
-			*/
-			destroy(): void
-			{}
+      /** Destroy this object.
+       */
+      destroy(): void {}
 
-			/** Get the parent.
-			* @return {RadJav.C3D.Object3D} The parent of this object.
-			*/
-			getParent(): Object3D
-			{
-				return this._parent;
-			}
+      /** Get the parent.
+       * @return {RadJav.C3D.Object3D} The parent of this object.
+       */
+      getParent(): Object3D {
+        return this._parent;
+      }
 
-			/** Get the transform.
-			* @return {RadJav.C3D.Transform} The transform.
-			*/
-			getTransform(): C3D.Transform
-			{
-				return this._transform;
-			}
+      /** Get the transform.
+       * @return {RadJav.C3D.Transform} The transform.
+       */
+      getTransform(): C3D.Transform {
+        return this._transform;
+      }
 
-			/** Set the position of this object.
-			* @param {Number/RadJav.Vector3} x The x position or full vector3 position.
-			* @param {Number} y The y position.
-			* @param {Number} z The z position.
-			*/
-			setPosition(x: Number, y: number, z: number): void
-			{
-				return this._transform.setPosition(x, y, z);
-			}
+      /** Set the position of this object.
+       * @param {Number/RadJav.Vector3} x The x position or full vector3 position.
+       * @param {Number} y The y position.
+       * @param {Number} z The z position.
+       */
+      setPosition(x: Number, y: number, z: number): void {
+        return this._transform.setPosition(x, y, z);
+      }
 
-			/** Get the position of this object.
-			* @return {RadJav.Vector3} The position.
-			*/
-			getPosition(): Vector3
-			{
-				return this._transform.getPosition();
-			}
+      /** Get the position of this object.
+       * @return {RadJav.Vector3} The position.
+       */
+      getPosition(): Vector3 {
+        return this._transform.getPosition();
+      }
 
-			/** Set the visibility of this object.
-			* Theme Event: setVisibility
-			* Is Theme Event Asynchronous: Yes
-			* Parameters Passed to Theme Event: RadJav.GUI.GObject, Boolean
-			* @param {Boolean} visible The visibility of the object
-			*/
-			setVisibility(visible: boolean): void
-			{
-				/// @todo make visible/invisible
-			}
+      /** Set the visibility of this object.
+       * Theme Event: setVisibility
+       * Is Theme Event Asynchronous: Yes
+       * Parameters Passed to Theme Event: RadJav.GUI.GObject, Boolean
+       * @param {Boolean} visible The visibility of the object
+       */
+      setVisibility(visible: boolean): void {
+        RadJav.theme.event(this.type, "setVisibility", this, visible);
+      }
 
-			/** Get the visibility of this object.
-			* Theme Event: setVisibility
-			* Is Theme Event Asynchronous: No
-			* Parameters Passed to Theme Event: RadJav.GUI.GObject
-			* @return {Boolean} The visibility of this object
-			*/
-			getVisibility(): boolean
-			{
-				/// @todo Get visibility.
-				return (true);
-			}
+      /** Get the visibility of this object.
+       * Theme Event: setVisibility
+       * Is Theme Event Asynchronous: No
+       * Parameters Passed to Theme Event: RadJav.GUI.GObject
+       * @return {Boolean} The visibility of this object
+       */
+      getVisibility(): boolean {
+        return RadJav.theme.eventSync(this.type, "getVisibility");
+      }
 
-			/** Show this object.
-			* Theme Event: setVisibility
-			* Is Theme Event Asynchronous: Yes
-			* Parameters Passed to Theme Event: RadJav.GUI.GObject, Boolean
-			*/
-			show(): void
-			{
-				this.setVisibility(true);
-			}
+      /** Show this object.
+       * Theme Event: setVisibility
+       * Is Theme Event Asynchronous: Yes
+       * Parameters Passed to Theme Event: RadJav.GUI.GObject, Boolean
+       */
+      show(): void {
+        this.setVisibility(true);
+      }
 
-			/** Show this object.
-			* Theme Event: setVisibility
-			* Is Theme Event Asynchronous: Yes
-			* Parameters Passed to Theme Event: RadJav.GUI.GObject, Boolean
-			*/
-			hide(): void
-			{
-				this.setVisibility(false);
-			}
+      /** Show this object.
+       * Theme Event: setVisibility
+       * Is Theme Event Asynchronous: Yes
+       * Parameters Passed to Theme Event: RadJav.GUI.GObject, Boolean
+       */
+      hide(): void {
+        this.setVisibility(false);
+      }
 
-			/** Calls a function when an event is triggered.
-			* Theme Event: on
-			* Is Theme Event Asynchronous: Yes
-			* Parameters Passed to Theme Event: RadJav.GUI.GObject, String, Function
-			* @param {String} eventName The name of the event to trigger.
-			* @param {Function} func The function to execute.
-			*/
-			on(eventName: String, func: Function): void
-			{}
-		}
-	}
+      /** Calls a function when an event is triggered.
+       * Theme Event: on
+       * Is Theme Event Asynchronous: Yes
+       * Parameters Passed to Theme Event: RadJav.GUI.GObject, String, Function
+       * @param {String} eventName The name of the event to trigger.
+       * @param {Function} func The function to execute.
+       */
+      on(eventName: string, func: Function): void {}
+    }
+  }
 }

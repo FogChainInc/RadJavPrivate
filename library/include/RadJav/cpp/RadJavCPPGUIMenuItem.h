@@ -48,7 +48,7 @@
 						MENU = 2
 					};
 
-					class RADJAV_EXPORT MenuItemGUI: public wxWindow
+					class RADJAV_EXPORT MenuItemGUI: public wxWindow, public ChainedPtr
 					{
 						public:
 							inline MenuItemGUI()
@@ -61,8 +61,8 @@
 
 							inline ~MenuItemGUI()
 							{
-								DELETE_OBJ(menu);
-								DELETE_OBJ(menuItem);
+								//DELETE_OBJ(menu);
+								//DELETE_OBJ(menuItem);
 
 								auto begin = data.begin();
 								auto end = data.end();

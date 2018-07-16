@@ -22,6 +22,7 @@
 
 	#include "RadJavPreprocessor.h"
 	#include "RadJavString.h"
+	#include "cpp/RadJavCPPChainedPtr.h"
 
 	namespace RadJAV
 	{
@@ -29,15 +30,20 @@
 		{
 			namespace Net
 			{
-				class RADJAV_EXPORT WebSocketServer
+				class RADJAV_EXPORT WebSocketServer : public CPP::ChainedPtr
 				{
 					public:
 						static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
+						static void _init(const v8::FunctionCallbackInfo<v8::Value> &args);
 						static void sendToAll(const v8::FunctionCallbackInfo<v8::Value> &args);
 						static void send(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void receive(const v8::FunctionCallbackInfo<v8::Value> &args);
 						static void listen(const v8::FunctionCallbackInfo<v8::Value> &args);
 						static void close(const v8::FunctionCallbackInfo<v8::Value> &args);
+
+						static void onAccept(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void onReceive(const v8::FunctionCallbackInfo<v8::Value> &args);
 
 						static void on(const v8::FunctionCallbackInfo<v8::Value> &args);
 				};
@@ -47,8 +53,10 @@
 					public:
 						static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
+						static void _init(const v8::FunctionCallbackInfo<v8::Value> &args);
 						static void connect(const v8::FunctionCallbackInfo<v8::Value> &args);
 						static void send(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void receive(const v8::FunctionCallbackInfo<v8::Value> &args);
 						static void close(const v8::FunctionCallbackInfo<v8::Value> &args);
 
 						static void on(const v8::FunctionCallbackInfo<v8::Value> &args);

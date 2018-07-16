@@ -26,6 +26,10 @@
 
 #include "RadJav.h"
 
+#ifdef GUI_USE_WXWIDGETS
+	IMPLEMENT_APP_NO_MAIN(RadJAV::wxWidgetsRadJav)
+#endif
+
 #ifdef USE_V8
 	#include "v8/RadJavV8JavascriptEngine.h"
 #endif
@@ -97,12 +101,21 @@ void *operator new (size_t size, const std::nothrow_t &) _NOEXCEPT
 	return (alloc);
 }
 
+#if __APPLE__
+void *operator new [](size_t size, const std::nothrow_t &)  _NOEXCEPT
+{
+	void *alloc = malloc(size);
+	
+	return (alloc);
+}
+#else
 void *operator new [](size_t size, const std::nothrow_t &) throw (std::bad_alloc)
 {
 	void *alloc = malloc(size);
 
 	return (alloc);
 }
+#endif
 
 void operator delete (void *alloc) _NOEXCEPT
 {
@@ -166,9 +179,10 @@ namespace RadJAV
 		HashMap<size_t, MemoryAllocLog> *RadJav::memoryAllocs;
 	#endif
 
-	#ifdef GUI_USE_WXWIDGETS
-		RadJavType RadJav::initialize(Array<String> newArgs, wxWidgetsRadJav *newApp, bool initializeWxWidgets)
+		RadJavType RadJav::initialize(Array<String> newArgs)
 		{
+			#ifdef GUI_USE_WXWIDGETS
+			
 			arguments = newArgs;
 
 			#ifdef RADJAV_DEBUG
@@ -287,22 +301,17 @@ namespace RadJAV
 					system("PAUSE");
 			}
 
-			if (newApp == NULL)
-				newApp = RJNEW wxWidgetsRadJav();
-
-			RadJav::app = newApp;
-
-			if (initializeWxWidgets == true)
+			// Initializing wxWidgets app and lib
+			// TODO: not sure what to do if it fails
+			int argc = 1;
+			char* argv[] = { const_cast<char*>(newArgs[0].c_str())};
+			if (wxInitialize(argc, argv))
 			{
-				int iArgs = 0;
-				wxChar **cArgs = 0;
-
-				wxApp::SetInstance((wxAppConsole *)RadJav::app);
-				wxEntryStart(iArgs, cArgs);
 				wxInitAllImageHandlers ();
-				((wxApp *)RadJav::app)->OnInit();
+				app = dynamic_cast<wxWidgetsRadJav*>(wxTheApp);
+				app->OnInit();
 			}
-
+			
 			#ifdef HTTP_USE_CIVETWEB
 				mg_init_library(8 | 16);
 			#endif
@@ -318,21 +327,19 @@ namespace RadJAV
 			#endif
 
 			return (RadJavType::VM);
-		}
-	#else
-		RadJavType RadJav::initialize(Array<String> newArgs)
-		{
-			arguments = newArgs;
-
-			theme = RJNEW Theme();
-
-			#ifdef USE_V8
-				javascriptEngine = RJNEW V8JavascriptEngine();
+			
+			#else // !GUI_USE_WXWIDGETS
+				arguments = newArgs;
+			
+				theme = RJNEW Theme();
+			
+				#ifdef USE_V8
+					javascriptEngine = RJNEW V8JavascriptEngine();
+				#endif
+			
+				return (RadJavType::VM);
 			#endif
-
-			return (RadJavType::VM);
 		}
-	#endif
 
 	#ifdef WIN32
 	void RadJav::setupConsoleOutput()
@@ -368,31 +375,20 @@ namespace RadJAV
 	}
 	#endif
 
-	void RadJav::runEventLoop()
-	{
-		while (true)
-			runEventLoopSingleStep();
-	}
-
-	void RadJav::runEventLoopSingleStep()
-	{
-		#ifdef GUI_USE_WXWIDGETS
-			RadJav::app->runSystem();
-
-			wxMilliSleep(1);
-		#endif
-	}
-
-	void RadJav::runApplication (String application, String fileName)
+	int RadJav::runApplication (String application, String fileName)
 	{
 		if (javascriptEngine != NULL)
-			javascriptEngine->runApplication (application, fileName);
+			return javascriptEngine->runApplication (application, fileName);
+		
+		return EXIT_FAILURE;
 	}
 
-	void RadJav::runApplicationFromFile (String file)
+	int RadJav::runApplicationFromFile (String file)
 	{
 		if (javascriptEngine != NULL)
-			javascriptEngine->runApplicationFromFile (file);
+			return javascriptEngine->runApplicationFromFile (file);
+
+		return EXIT_FAILURE;
 	}
 
 	void RadJav::showMessageBox(String message, String title)
@@ -434,15 +430,15 @@ namespace RadJAV
 
 	void RadJav::shutdown()
 	{
+		DELETEOBJ(javascriptEngine);
+
 		DELETEOBJ (lang);
 		DELETEOBJ(theme);
 
 		#ifdef GUI_USE_WXWIDGETS
-			DELETEOBJ(app);
+			wxUninitialize();
 		#endif
-
-		DELETEOBJ(javascriptEngine);
-
+		
 		#ifdef HTTP_USE_CURL
 			curl_global_cleanup ();
 		#endif

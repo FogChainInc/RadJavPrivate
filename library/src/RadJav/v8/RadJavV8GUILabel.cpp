@@ -56,14 +56,7 @@ namespace RadJAV
 				V8_CALLBACK(object, "setEnabled", Label::setEnabled);
 				V8_CALLBACK(object, "getEnabled", Label::getEnabled);
 				V8_CALLBACK(object, "on", Label::on);
-			}
-
-			template<typename Type>
-			void Label::objectDestructor(const v8::WeakCallbackInfo<Type> &data)
-			{
-				Type *obj = data.GetParameter();
-
-				DELETEOBJ(obj);
+				V8_CALLBACK(object, "destroy", Label::destroy);
 			}
 
 			void Label::create(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -71,19 +64,7 @@ namespace RadJAV
 				UITYPE *appObject = RJNEW UITYPE(V8_JAVASCRIPT_ENGINE, args);
 				appObject->create();
 
-				v8::Local<v8::ObjectTemplate> objTemplate = v8::ObjectTemplate::New(args.GetIsolate ());
-				objTemplate->SetInternalFieldCount(1);
-				v8::Local<v8::Object> obj = objTemplate->NewInstance();
-				obj->SetAlignedPointerInInternalField(0, appObject);
-
-				v8::Persistent<v8::Object> persistent;
-				persistent.Reset(args.GetIsolate (), obj);
-				persistent.SetWeak<UITYPE>(appObject, &V8B::GUI::Label::objectDestructor<UITYPE>, v8::WeakCallbackType::kParameter);
-				persistent.MarkIndependent();
-
-				args.This()->Set(String ("_appObj").toV8String (args.GetIsolate ()), v8::Local<v8::Object>::New (args.GetIsolate (), persistent));
-
-				//V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_appObj", appObject);
+				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_appObj", appObject);
 				v8::Local<v8::Function> _guiFinishedCreatingGObject = V8_JAVASCRIPT_ENGINE->v8GetFunction(V8_RADJAV, "_guiFinishedCreatingGObject");
 				v8::Local<v8::Object> promise = V8_JAVASCRIPT_ENGINE->createPromise(args.This(), _guiFinishedCreatingGObject);
 
@@ -350,6 +331,15 @@ namespace RadJAV
 
 				if (appObject != NULL)
 					appObject->on(event, func);*/
+			}
+
+			void Label::destroy(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				if (appObject != NULL)
+					delete appObject;
+				
+				V8_JAVASCRIPT_ENGINE->v8ClearExternal(args.This(), "_appObj");
 			}
 		}
 	}
