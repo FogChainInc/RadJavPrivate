@@ -76,7 +76,8 @@ namespace RadJAV
 				DELETEOBJ(_font);
 				DELETEOBJ(_transform);
 
-				//DELETEOBJ(_appObj);
+				DELETEOBJ(_parent);
+				DELETEOBJ(_appObj);
 			}
 
 			void GObject::create()
@@ -307,21 +308,30 @@ namespace RadJAV
 
 			GObjectBase::GObjectBase()
 			{
-				events = RJNEW HashMap<std::string, Event* >();
+				events = RJNEW HashMap<std::string, v8::Persistent<v8::Value> *>();
 			}
 
 			GObjectBase::~GObjectBase()
 			{
+				HashMap<std::string, v8::Persistent<v8::Value> *>::iterator found = events->begin ();
+				HashMap<std::string, v8::Persistent<v8::Value> *>::iterator end = events->end();
+
+				while (found != end)
+				{
+					v8::Persistent<v8::Value> *evt = found->second;
+					DELETE_OBJ(evt);
+
+					found++;
+				}
+
 				DELETEOBJ(events);
 			}
 
-			Event* GObjectBase::createEvent(String event, v8::Local<v8::Function> function)
+			v8::Persistent<v8::Value> *GObjectBase::createEvent(String event, v8::Local<v8::Function> function)
 			{
 				// Create a persistent function to execute asych later.
 				v8::Persistent<v8::Value> *persistent = RJNEW v8::Persistent<v8::Value>();
 				persistent->Reset(function->GetIsolate(), function);
-
-				Event* evt = RJNEW Event(persistent);
 
 				if (events->size() > 0)
 				{
@@ -330,16 +340,16 @@ namespace RadJAV
 
 					if (found != end)
 					{
-						Event *evtToRemove = events->at(event);
-						DELETEOBJ(evtToRemove);
+						v8::Persistent<v8::Value> *evt = events->at(event);
+						DELETE_OBJ(evt);
 
 						events->erase(event);
 					}
 				}
 
-				events->insert(HashMapPair<std::string, Event *>(event, evt));
+				events->insert(HashMapPair<std::string, v8::Persistent<v8::Value> *>(event, persistent));
 
-				return evt;
+				return (persistent);
 			}
 
 			#ifdef GUI_USE_WXWIDGETS
@@ -347,207 +357,232 @@ namespace RadJAV
 				{
 					if (event == "click")
 					{
-						object->Bind(wxEVT_LEFT_UP, GObjectBase::onClick, -1, -1, createEvent(event, func));
+						v8::Persistent<v8::Value> *pevent = createEvent(event, func);
+						object->Bind(wxEVT_LEFT_UP, GObjectBase::onClick, -1, -1, (wxObject *)pevent);
 					}
 
 					if (event == "keyup")
 					{
-						object->Bind(wxEVT_KEY_UP, GObjectBase::onKeyUp, -1, -1, createEvent(event, func));
+						v8::Persistent<v8::Value> *pevent = createEvent(event, func);
+						object->Bind(wxEVT_KEY_UP, GObjectBase::onKeyUp, -1, -1, (wxObject *)pevent);
 					}
 					
 					if (event == "keydown")
 					{
-						object->Bind(wxEVT_KEY_DOWN, GObjectBase::onKeyDown, -1, -1, createEvent(event, func));
+						v8::Persistent<v8::Value> *pevent = createEvent(event, func);
+						object->Bind(wxEVT_KEY_DOWN, GObjectBase::onKeyDown, -1, -1, (wxObject *)pevent);
 					}
 
 					if (event == "dblclick" || event == "doubleclick" )
 					{
-						object->Bind(wxEVT_LEFT_DCLICK, GObjectBase::onDoubleClick, -1, -1, createEvent(event, func));
+						v8::Persistent<v8::Value> *pevent = createEvent(event, func);
+						object->Bind(wxEVT_LEFT_DCLICK, GObjectBase::onDoubleClick, -1, -1, (wxObject *)pevent);
 					}
 
 					if (event == "rightclick" || event == "contextmenu")
 					{
-						object->Bind(wxEVT_RIGHT_UP, GObjectBase::onRightClick, -1, -1, createEvent(event, func));
+						v8::Persistent<v8::Value> *pevent = createEvent(event, func);
+						object->Bind(wxEVT_RIGHT_UP, GObjectBase::onRightClick, -1, -1, (wxObject *)pevent);
 					}
 					
 					if (event == "mousedown")
 					{
-						object->Bind(wxEVT_AUX1_DOWN, GObjectBase::onMouseAux1Down, -1, -1, createEvent(event, func));
+						v8::Persistent<v8::Value> *pevent = createEvent(event, func);
+						object->Bind(wxEVT_AUX1_DOWN, GObjectBase::onMouseAux1Down, -1, -1, (wxObject *)pevent);
 					}
 
 					if (event == "mouseup")
 					{
-						object->Bind(wxEVT_AUX1_UP, GObjectBase::onMouseAux1Up, -1, -1, createEvent(event, func));
+						v8::Persistent<v8::Value> *pevent = createEvent(event, func);
+						object->Bind(wxEVT_AUX1_UP, GObjectBase::onMouseAux1Up, -1, -1, (wxObject *)pevent);
 					}
 
 					if (event == "mouseenter")
 					{
-						object->Bind(wxEVT_ENTER_WINDOW, GObjectBase::onMouseEnterWindow, -1, -1, createEvent(event, func));
+						v8::Persistent<v8::Value> *pevent = createEvent(event, func);
+						object->Bind(wxEVT_ENTER_WINDOW, GObjectBase::onMouseEnterWindow, -1, -1, (wxObject *)pevent);
 					}
 
 					if (event == "mouseleave")
 					{
-						object->Bind(wxEVT_LEAVE_WINDOW, GObjectBase::onMouseLeaveWindow, -1, -1, createEvent(event, func));
+						v8::Persistent<v8::Value> *pevent = createEvent(event, func);
+						object->Bind(wxEVT_LEAVE_WINDOW, GObjectBase::onMouseLeaveWindow, -1, -1, (wxObject *)pevent);
 					}
 
 					if (event == "mousemove")
 					{
-						object->Bind(wxEVT_MOTION, GObjectBase::onMouseMotion, -1, -1, createEvent(event, func));
+						v8::Persistent<v8::Value> *pevent = createEvent(event, func);
+						object->Bind(wxEVT_MOTION, GObjectBase::onMouseMotion, -1, -1, (wxObject *)pevent);
 					}
 
 					if (event == "mousewheel")
 					{
-						object->Bind(wxEVT_MOUSEWHEEL, GObjectBase::onMouseWheel, -1, -1, createEvent(event, func));
+						v8::Persistent<v8::Value> *pevent = createEvent(event, func);
+						object->Bind(wxEVT_MOUSEWHEEL, GObjectBase::onMouseWheel, -1, -1, (wxObject *)pevent);
 					}
 
 					if (event == "rightdblclick" || event == "rightdoubleclick")
 					{
-						object->Bind(wxEVT_RIGHT_DCLICK, GObjectBase::onRightDoubleClick, -1, -1, createEvent(event, func));
+						v8::Persistent<v8::Value> *pevent = createEvent(event, func);
+						object->Bind(wxEVT_RIGHT_DCLICK, GObjectBase::onRightDoubleClick, -1, -1, (wxObject *)pevent);
 					}
 
 					if (event == "rightdown")
 					{
-						object->Bind(wxEVT_RIGHT_DOWN, GObjectBase::onRightDown, -1, -1, createEvent(event, func));
+						v8::Persistent<v8::Value> *pevent = createEvent(event, func);
+						object->Bind(wxEVT_RIGHT_DOWN, GObjectBase::onRightDown, -1, -1, (wxObject *)pevent);
 					}
 
 					if (event == "middleclick")
 					{
-						object->Bind(wxEVT_MIDDLE_UP, GObjectBase::onMiddleClick, -1, -1, createEvent(event, func));
+						v8::Persistent<v8::Value> *pevent = createEvent(event, func);
+						object->Bind(wxEVT_MIDDLE_UP, GObjectBase::onMiddleClick, -1, -1, (wxObject *)pevent);
 					}
 
 					if (event == "middledblclick" || event == "middledoubleclick")
 					{
-						object->Bind(wxEVT_MIDDLE_UP, GObjectBase::onMiddleDoubleClick, -1, -1, createEvent(event, func));
+						v8::Persistent<v8::Value> *pevent = createEvent(event, func);
+						object->Bind(wxEVT_MIDDLE_UP, GObjectBase::onMiddleDoubleClick, -1, -1, (wxObject *)pevent);
 					}
 
 					if (event == "middledown")
 					{
-						object->Bind(wxEVT_MIDDLE_DOWN, GObjectBase::onMiddleDown, -1, -1, createEvent(event, func));
+						v8::Persistent<v8::Value> *pevent = createEvent(event, func);
+						object->Bind(wxEVT_MIDDLE_DOWN, GObjectBase::onMiddleDown, -1, -1, (wxObject *)pevent);
 					}
 
 					if (event == "focus")
 					{
-						object->Bind(wxEVT_SET_FOCUS, GObjectBase::onFocusSet, -1, -1, createEvent(event, func));
+						v8::Persistent<v8::Value> *pevent = createEvent(event, func);
+						object->Bind(wxEVT_SET_FOCUS, GObjectBase::onFocusSet, -1, -1, (wxObject *)pevent);
 					}
 
 					if (event == "focusout")
 					{
-						object->Bind(wxEVT_KILL_FOCUS, GObjectBase::onFocusOut, -1, -1, createEvent(event, func));
+						v8::Persistent<v8::Value> *pevent = createEvent(event, func);
+						object->Bind(wxEVT_KILL_FOCUS, GObjectBase::onFocusOut, -1, -1, (wxObject *)pevent);
 					}
 				}
 
 				void GObjectBase::onClick(wxMouseEvent &event)
 				{
-					Event *pevent = (Event *)event.GetEventUserData();
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 
 				void GObjectBase::onKeyUp(wxKeyEvent &event)
 				{
-					Event *pevent = (Event *)event.GetEventUserData();
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 				
 				void GObjectBase::onKeyDown(wxKeyEvent &event)
 				{
-					Event *pevent = (Event *)event.GetEventUserData();
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 
 				void GObjectBase::onDoubleClick(wxMouseEvent &event)
 				{
-					Event *pevent = (Event *)event.GetEventUserData();
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 
 				void GObjectBase::onRightClick(wxMouseEvent &event)
 				{
-					Event *pevent = (Event *)event.GetEventUserData();
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 
 				void GObjectBase::onMouseAux1Down(wxMouseEvent &event)
 				{
-					Event *pevent = (Event *)event.GetEventUserData();
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 
 				void GObjectBase::onMouseAux1Up(wxMouseEvent &event)
 				{
-					Event *pevent = (Event *)event.GetEventUserData();
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 
 				void GObjectBase::onMouseEnterWindow(wxMouseEvent &event)
 				{
-					Event *pevent = (Event *)event.GetEventUserData();
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 
 				void GObjectBase::onMouseLeaveWindow(wxMouseEvent &event)
 				{
-					Event *pevent = (Event *)event.GetEventUserData();
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 
 				void GObjectBase::onMouseMotion(wxMouseEvent &event)
 				{
-					Event *pevent = (Event *)event.GetEventUserData();
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 
 				void GObjectBase::onMouseWheel(wxMouseEvent &event)
 				{
-					Event *pevent = (Event *)event.GetEventUserData();
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 
 				void GObjectBase::onRightDoubleClick(wxMouseEvent &event)
 				{
-					Event *pevent = (Event *)event.GetEventUserData();
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 
 				void GObjectBase::onRightDown(wxMouseEvent &event)
 				{
-					Event *pevent = (Event *)event.GetEventUserData();
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 
 				void GObjectBase::onMiddleClick(wxMouseEvent &event)
 				{
-					Event *pevent = (Event *)event.GetEventUserData();
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 
 				void GObjectBase::onMiddleDoubleClick(wxMouseEvent &event)
 				{
-					Event *pevent = (Event *)event.GetEventUserData();
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 				
 				void GObjectBase::onMiddleDown(wxMouseEvent &event)
 				{
-					Event *pevent = (Event *)event.GetEventUserData();
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 
 				void GObjectBase::onFocusSet(wxFocusEvent &event)
 				{
-					Event *pevent = (Event *)event.GetEventUserData();
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 
 				void GObjectBase::onFocusOut(wxFocusEvent &event)
 				{
-					Event *pevent = (Event *)event.GetEventUserData();
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 			#endif
 
-			v8::Local<v8::Value> GObjectBase::executeEvent(Event *pevent, RJINT numArgs, v8::Local<v8::Value> *args)
+			v8::Local<v8::Value> GObjectBase::executeEvent(v8::Persistent<v8::Value> *pevent, RJINT numArgs, v8::Local<v8::Value> *args)
 			{
-				return (*pevent)(numArgs, args);
+				// Execute a persistent function.
+				v8::Local<v8::Function> func = v8::Local<v8::Function>::Cast(pevent->Get(V8_JAVASCRIPT_ENGINE->isolate));
+				v8::Local<v8::Value> result;
+
+				if (V8_JAVASCRIPT_ENGINE->v8IsNull(func) == false)
+					result = func->Call(V8_JAVASCRIPT_ENGINE->globalContext->Global(), numArgs, args);
+
+				return (result);
 			}
 		}
 	}

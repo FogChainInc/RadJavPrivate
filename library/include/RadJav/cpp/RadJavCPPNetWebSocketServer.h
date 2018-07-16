@@ -32,7 +32,6 @@
 
 	#include "RadJavString.h"
 	#include "RadJavHashMap.h"
-	#include "cpp/RadJavCPPChainedPtr.h"
 
 	namespace RadJAV
 	{
@@ -40,96 +39,72 @@
 		{
 			namespace Net
 			{
-				class RADJAV_EXPORT WebSocketServer : public ChainedPtr
+				class RADJAV_EXPORT WebSocketServer
 				{
 					public:
 						WebSocketServer();
 						~WebSocketServer();
 
-						static void on(String event_, v8::Local<v8::Function> func_);
+						void listen();
 
-						void listen(unsigned short port_ = 9229);
-
-						void send(String id, String message);
-
+						void send(String message);
 						void sendToAll(String message);
 
-						String receive();
+						String receivedData();
 
 						void close();
 
+						RJINT port;
+						// Put connected clients here.
+
+						boost::asio::io_context *io_context_;
+
+						/// Flag that indicates if listening context available 
+						RJBOOL isAlive;
+
 						class RADJAV_EXPORT WebSocketServerSession : public std::enable_shared_from_this<WebSocketServerSession>
 						{
-							boost::beast::websocket::stream<boost::asio::ip::tcp::socket> m_ws;
-							boost::asio::strand<boost::asio::io_context::executor_type> m_strand;
-							boost::beast::multi_buffer m_readBuffer;
+							boost::beast::websocket::stream<boost::asio::ip::tcp::socket> ws_;
+							boost::asio::strand<boost::asio::io_context::executor_type> strand_;
+							boost::beast::multi_buffer buffer_;
 
 							public:
 								// Take ownership of the socket
-								WebSocketServerSession(boost::asio::ip::tcp::socket socket_, std::string sessionID_);
+								explicit WebSocketServerSession(boost::asio::ip::tcp::socket socket);
 
 								// Start the asynchronous operation
 								void run();
 
-								void on_accept(boost::system::error_code ec_);
+								void on_accept(boost::system::error_code ec);
 
 								void do_read();
 
-								void do_write(String message_);
-
 								void on_read(
-									boost::system::error_code ec_,
-									std::size_t bytes_transferred_);
+									boost::system::error_code ec,
+									std::size_t bytes_transferred);
 
 								void on_write(
-									boost::system::error_code ec_,
-									std::size_t bytes_transferred_);
-
-							private:
-								std::string m_sessionID;
-								std::shared_ptr<std::string> m_activeMessage = nullptr;
+									boost::system::error_code ec,
+									std::size_t bytes_transferred);
 						};
 
 						class RADJAV_EXPORT WebSocketServerListener : public std::enable_shared_from_this<WebSocketServerListener>
 						{
-							boost::asio::ip::tcp::acceptor m_acceptor;
-							boost::asio::ip::tcp::socket m_socket;
+							boost::asio::ip::tcp::acceptor acceptor_;
+							boost::asio::ip::tcp::socket socket_;
 
 							public:
 								WebSocketServerListener(
-									boost::asio::io_context& ioc_,
-									boost::asio::ip::tcp::endpoint endpoint_);
+									boost::asio::io_context& ioc,
+									boost::asio::ip::tcp::endpoint endpoint);
 
 								// Start accepting incoming connections
 								void run();
 
 								void do_accept();
 
-								void on_accept(boost::system::error_code ec_);
-						};				
-
-						#ifdef USE_V8
-						static v8::Persistent<v8::Function> *m_serverAcceptEvent;
-						static v8::Persistent<v8::Function> *m_serverReceiveEvent;
-						#endif
-				
-					private:
-						unsigned short m_port;
-
-						boost::asio::io_context *m_io_context;
-
-						// Flag that indicates if listening context available 
-						RJBOOL m_isAlive;
-
-						struct session_data
-						{
-							std::string m_session_id;
-							std::shared_ptr <WebSocketServerSession> m_session;
-							std::string m_last_message;
+								void on_accept(boost::system::error_code ec);
 						};
-
-						//maintains the list of sessions
-						static std::vector <session_data> m_sessions;
 				};
 			}
 		}

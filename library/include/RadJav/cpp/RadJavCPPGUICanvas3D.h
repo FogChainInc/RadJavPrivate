@@ -67,7 +67,7 @@
 
 				#ifdef GUI_USE_WXWIDGETS
 					/// The wxWidgets frame to use.
-					class RADJAV_EXPORT Canvas3DFrame : public wxFrame, public GObjectBase, public RenderWindow, public ChainedPtr
+					class RADJAV_EXPORT Canvas3DFrame : public wxFrame, public GObjectBase, public RenderWindow
 					{
 						public:
 							Canvas3DFrame(const wxString &text, const wxPoint &pos, const wxSize &size, Array<CanvasResource *> resources);

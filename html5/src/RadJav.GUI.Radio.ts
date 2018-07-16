@@ -27,8 +27,8 @@ namespace RadJav {
      * A Radio button.
      * Available on platforms: Windows,Linux,OSX,HTML5
      */
-    export class Radio extends RadJav.GUI.GObject {
-      constructor(obj?: any, text?: String, parent?: RadJav.GUI.GObject) {
+    class Radio extends GObject {
+      constructor(obj?: Object, text?: String, parent?: GObject) {
         if (obj == null) {
           obj = {};
         }
@@ -60,7 +60,6 @@ namespace RadJav {
         this._checked = RadJav.setDefaultValue(obj._checked, false);
       }
 
-    
       /** @property {String} [_radioGroup=""]
        * @protected
        * The group this box is associated grouped with.
@@ -80,7 +79,7 @@ namespace RadJav {
        * @param {Boolean} checked Set to true if this item is checked.
        */
       setChecked(checked: boolean): void {
-        RadJav.Theme.eventSync(this.type, "setChecked", this, checked);
+        RadJav.theme.eventSync(this.type, "setChecked", this, checked);
       }
 
       /** @method isChecked
@@ -92,7 +91,7 @@ namespace RadJav {
        * @return {Boolean} If set to true, this item is checked.
        */
       isChecked(): boolean {
-        return RadJav.Theme.eventSync(this.type, "isChecked", this);
+        return RadJav.theme.eventSync(this.type, "isChecked", this);
       }
     }
   }

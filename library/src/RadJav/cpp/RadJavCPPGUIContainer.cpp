@@ -36,7 +36,7 @@ namespace RadJAV
 
 				void ContainerFrame::onClick(wxMouseEvent &event)
 				{
-					Event *pevent = (Event *)event.GetEventUserData();
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 		  
@@ -67,8 +67,6 @@ namespace RadJAV
 					object->Show(_visible);
 
 					_appObj = object;
-				
-					linkWith(object);
 
 					setup();
 				#endif
@@ -105,10 +103,12 @@ namespace RadJAV
 					CPP::GUI::ContainerFrame *object = (CPP::GUI::ContainerFrame *)_appObj;
 
 					object->addNewEvent(event, object, func);
+
 					
-					if (event == "click")
+					if (event == "clickk")
 					{
-						object->Connect(wxEVT_LEFT_UP, wxMouseEventHandler(ContainerFrame::onClick), object->createEvent(event, func));
+						v8::Persistent<v8::Value> *pevent = object->createEvent(event, func);
+						object->Connect(wxEVT_LEFT_UP, wxMouseEventHandler(ContainerFrame::onClick), (wxObject *)pevent);
 					}
 					
 				}

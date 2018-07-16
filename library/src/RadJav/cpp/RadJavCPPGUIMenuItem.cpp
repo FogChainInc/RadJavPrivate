@@ -127,9 +127,6 @@ namespace RadJAV
 					MenuItemGUI::nextId++;
 
 					_appObj = menuItem;
-
-					linkWith(menuItem);
-
 				#endif
 
 				setup();

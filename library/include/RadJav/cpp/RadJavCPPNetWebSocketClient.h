@@ -22,17 +22,8 @@
 
 #include "RadJavPreprocessor.h"
 
-#include <boost/asio.hpp>
-#include <boost/beast/core.hpp>
-#include <boost/beast/websocket.hpp>
-#include <boost/asio/bind_executor.hpp>
-#include <boost/asio/strand.hpp>
-#include <boost/asio/ip/tcp.hpp>
-#include <boost/asio/io_service.hpp>
-
 #include "RadJavString.h"
 #include "RadJavHashMap.h"
-#include "cpp/RadJavCPPChainedPtr.h"
 
 namespace RadJAV
 {
@@ -40,30 +31,18 @@ namespace RadJAV
 	{
 		namespace Net
 		{
-			class RADJAV_EXPORT WebSocketClient : public ChainedPtr
+			class RADJAV_EXPORT WebSocketClient
 			{
 				public:
 					WebSocketClient();
 
-					static void on(String event_, v8::Local<v8::Function> func_);
+					void connect(String url);
 
-					void connect(String host_, String port_);
+					void send(String message);
 
-					void send(String message_);
-
-					String receive();
+					String receivedData();
 
 					void close();
-
-				private:
-					//the io_context is required for all I/O
-					boost::asio::io_context m_ioc;
-
-					//these objects perform our I/O
-					boost::asio::ip::tcp::resolver resolver{ m_ioc };
-					boost::beast::websocket::stream<boost::asio::ip::tcp::socket> m_ws{ m_ioc };
-
-					String m_received_message;
 			};
 		}
 	}

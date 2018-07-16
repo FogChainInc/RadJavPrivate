@@ -26,6 +26,8 @@
 #include <curl/curl.h>
 #endif
 
+#define USE_NET_BEAST 2
+
 #ifdef USE_NET_BEAST
 #include "cpp/RadJavCPPNet.h"
 #endif
@@ -49,6 +51,14 @@ namespace RadJAV
 
 			void NetCallbacks::httpPost(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
+				//TO DO: Add post=true to the arguments (is this even possible here?)
+
+				//call the regulart httpRequest method to handle the POST
+				NetCallbacks::httpRequest(args);
+			}
+
+			void NetCallbacks::httpRequest(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
 				v8::Local<v8::Value> uri = V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0);
 				v8::Local<v8::Value> timeout = V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1);
 				v8::Local<v8::Value> post = V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 2);
@@ -58,30 +68,10 @@ namespace RadJAV
 
 				v8::Local<v8::Array> ary = v8::Array::New(args.GetIsolate());
 				ary->Set(0, uri);
-				ary->Set(1, v8::True(args.GetIsolate()));
 
-				if (timeout.IsEmpty() == false)
-				{
-					if ((timeout->IsNull() == false) && (timeout->IsUndefined() == false))
-						ary->Set(2, timeout);
-				}
-
-				v8::Local<v8::Object> promise = V8_JAVASCRIPT_ENGINE->createPromise(args.This(), func2, ary);
-
-				args.GetReturnValue().Set(promise);
-			}
-
-			void NetCallbacks::httpRequest(const v8::FunctionCallbackInfo<v8::Value> &args)
-			{
-				v8::Local<v8::Value> uri = V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0);
-				v8::Local<v8::Value> timeout = V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1);
-
-				v8::MaybeLocal<v8::Function> func = v8::Function::New(args.This()->CreationContext(), NetCallbacks::completeHttpRequest);
-				v8::Local<v8::Function> func2 = func.ToLocalChecked();
-
-				v8::Local<v8::Array> ary = v8::Array::New(args.GetIsolate());
-				ary->Set(0, uri);
-				ary->Set(1, v8::False(args.GetIsolate()));
+				if (post.IsEmpty() == true)
+					post = v8::False(args.GetIsolate());
+				ary->Set(1, post);
 
 				if (timeout.IsEmpty() == false)
 				{

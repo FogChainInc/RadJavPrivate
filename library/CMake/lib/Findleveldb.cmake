@@ -5,7 +5,7 @@ if (NOT WIN32)
 	fixPath (leveldb_SOURCE)
 	set (leveldb_SEARCH_PATHS ${leveldb_SOURCE} ${RADJAV_DEPENDENCIES})
 
-	searchForHeader (leveldb leveldb/db.h "${leveldb_SEARCH_PATHS}" FALSE)
+	searchForHeader (leveldb db.h "${leveldb_SEARCH_PATHS}" FALSE)
 	searchForLibrary (leveldb leveldb leveldb "${leveldb_SEARCH_PATHS}")
 
 	set (leveldb_INCLUDE ${leveldb_INCLUDE} "${leveldb_INCLUDE}/leveldb/helpers")

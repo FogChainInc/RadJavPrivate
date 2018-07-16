@@ -48,7 +48,7 @@
 						MENU = 2
 					};
 
-					class RADJAV_EXPORT MenuItemGUI: public wxWindow, public ChainedPtr
+					class RADJAV_EXPORT MenuItemGUI: public wxWindow
 					{
 						public:
 							inline MenuItemGUI()

@@ -18,7 +18,6 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 #ifndef _RADJAV_STRING_H_
-
 	#define _RADJAV_STRING_H_
 
 	#include "RadJavPreprocessor.h"
@@ -175,7 +174,7 @@
 
 			#ifdef USE_V8
 				/// Convert a string into a V8 string.
-				v8::Local<v8::String> toV8String(v8::Isolate *isolate) const;
+				v8::Local<v8::String> toV8String(v8::Isolate *isolate);
 			#endif
 		};
 

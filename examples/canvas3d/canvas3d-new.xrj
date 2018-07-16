@@ -50,7 +50,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getC3DLibrary ()).then (
 						light.setPosition (5, 5, -5);
 						light.setColor(new RadJav.Color(1,1,1,1));
 
-						model = world.loadModel("rabbit", "/Users/mikalaiturankou/Documents/Work/Exadel/RadJav/Compilation/RadJavPrivate/vm/build-xcode/rabbit.dae");
+						model = world.loadModel("rabbit", "/Users/mikalaiturankou/Documents/Work/Exadel/RadJav/Compilation/RadJavPrivate/vm/build-xcode/Debug/rabbit.dae");
 						model.setPosition(0,0,-10);
 						model.setScale(2, 2, 2);
 						objects.addChild(model);

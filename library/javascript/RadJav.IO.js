@@ -1,140 +1,128 @@
 /*
-    MIT-LICENSE
-    Copyright (c) 2017-2018 Higher Edge Software, LLC
+	MIT-LICENSE
+	Copyright (c) 2017 Higher Edge Software, LLC
 
-    Permission is hereby granted, free of charge, to any person obtaining a copy of this software
-    and associated documentation files (the "Software"), to deal in the Software without restriction,
-    including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
-    and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
-    subject to the following conditions:
+	Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
+	and associated documentation files (the "Software"), to deal in the Software without restriction, 
+	including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+	and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+	subject to the following conditions:
 
-    The above copyright notice and this permission notice shall be included in all copies or substantial
-    portions of the Software.
+	The above copyright notice and this permission notice shall be included in all copies or substantial 
+	portions of the Software.
 
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
-    LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-    WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
+	LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+	IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
+	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-var RadJav;
-(function (RadJav) {
-    var IO;
-    (function (IO) {
-        var FileIO = /** @class */ (function () {
-            function FileIO() {
-				this.fileListEvent = null;
-                this._fileio = null;
-				
-                if (typeof this["_init"] == "function")
-                    this["_init"]();
-			}
-            FileIO.prototype.isDir = function (path) {
-			};
-            FileIO.prototype.isFile = function (path) {
-			};
-            FileIO.prototype.isSymLink = function (path) {
-			};
-            FileIO.prototype.currentPath = function () {
-			};
-			FileIO.prototype.changePath = function (path) {
-            };
-            FileIO.prototype.exists = function (path) {
-            };
-            FileIO.prototype.createDir = function (path) {
-            };
-            FileIO.prototype.copyDir = function (src, dest, recursive) {
-            };
-            FileIO.prototype.renameDir = function (src, dest) {
-            };
-            FileIO.prototype.deleteDir = function (path) {
-            };
-            FileIO.prototype.isEmpty = function (path) {
-            };
-            FileIO.prototype.createSymLink = function (path, link) {
-            };
-            FileIO.prototype.copySymLink = function (src, dest) {
-            };
-            FileIO.prototype.renameSymLink = function (src, dest) {
-            };
-            FileIO.prototype.deleteSymLink = function (path) {
-            };
-            FileIO.prototype.copyFile = function (src, dest, overwrite) {
-            };
-            FileIO.prototype.renameFile = function (src, dest) {
-            };
-            FileIO.prototype.deleteFile = function (path) {
-            };
-			FileIO.prototype.listFiles = function (path, recursive) {
-			};
-			FileIO.prototype.listFilesAsync = function (path, recursive) {
-			};
-			FileIO.prototype.onFileList = function (evt) {
-				this.fileListEvent = evt;
-			};
-            FileIO.prototype.normalizePath = function (path, basePath) {
-			};
 
-            return FileIO;
-        }());
-        IO.FileIO = FileIO;
-    })(IO = RadJav.IO || (RadJav.IO = {}));
-})(RadJav || (RadJav = {}));
+/** @class RadJav.IO.TextFile
+* Handles text files.
+* Available on platforms: Windows,Linux,OSX
+*/
+RadJav.IO.TextFile = function ()
+{
+}
 
-var RadJav;
-(function (RadJav) {
-    var IO;
-    (function (SerialComm) {
-        var SerialComm = /** @class */ (function () {
-            function SerialComm() {
-               this._serialcomm = null;
-				
-                if (typeof this["_init"] == "function")
-                    this["_init"]();
-			}
-            SerialComm.prototype.open = function (port, baud) {
-            };
-            SerialComm.prototype.isOpen = function () {
-            };
-            SerialComm.prototype.close = function () {
-            };
-            SerialComm.prototype.read = function () {
-            };
-            SerialComm.prototype.write = function (buffer, size) {
-            };
-        
-            return SerialComm;
-        }());
-        IO.SerialComm = SerialComm;
-    })(IO = RadJav.IO || (RadJav.IO = {}));
-})(RadJav || (RadJav = {}));
+/** @property {Number} [read=1]
+* @static
+* Read from a file.
+*/
+RadJav.IO.TextFile.read = 1;
+/** @property {Number} [write=2]
+* @static
+* Write to a file.
+*/
+RadJav.IO.TextFile.write = 2;
+/** @property {Number} [append=3]
+* @static
+* Append to a file.
+*/
+RadJav.IO.TextFile.append = 3;
 
-var RadJav;
-(function (RadJav) {
-    var IO;
-    (function (TextFile) {
-        var TextFile = /** @class */ (function () {
-            function TextFile() {
-                this._testfile = null;
-                    
-                if (typeof this["_init"] == "function")
-                    this["_init"]();
-            }
-            TextFile.prototype.writeFile = function (path, contents, type) {
-            };
-            TextFile.prototype.writeFileAsync = function (path, contents, type) {
-            };
-            TextFile.prototype.readFile = function (path) {
-            };
-            TextFile.prototype.readFileAsync = function (path) {
-            };
+/** @class RadJav.IO.SerialComm
+* The serial communications class.
+* Available on platforms: Windows,Linux,OSX
+*/
+RadJav.IO.SerialComm = function ()
+{
+	/** @property {String} [_port=0]
+	* @protected
+	* The port to connect to.
+	*/
+	this._port = RadJav.setDefaultValue(obj._port, "");
+	/** @property {Number} [_baud=9600]
+	* @protected
+	* The baud to use.
+	*/
+	this._baud = RadJav.setDefaultValue(obj._baud, 9600);
+	/** @property {Number} [_byteSize=8]
+	* @protected
+	* The byte size to use.
+	*/
+	this._byteSize = RadJav.setDefaultValue(obj._byteSize, 8);
+	/** @property {Number} [_stopBits=RadJav.IO.SerialComm.oneStopBit]
+	* @protected
+	* The stop bits to use.
+	*/
+	this._stopBits = RadJav.setDefaultValue(obj._stopBits, RadJav.IO.SerialComm.oneStopBit);
+	/** @property {Number} [_parity=RadJav.IO.SerialComm.noParity]
+	* @protected
+	* The parity to use.
+	*/
+	this._parity = RadJav.setDefaultValue(obj._parity, RadJav.IO.SerialComm.noParity);
+	/** @property {Boolean} [_isOpen=false]
+	* @protected
+	* Whether or not this connection is open.
+	*/
+	this._isOpen = RadJav.setDefaultValue(obj._isOpen, false);
+	/** @property {Number} [_appObj=null]
+	* @protected
+	* The app object associated with this object.
+	*/
+	this._appObj = RadJav.setDefaultValue(obj._appObj, null);
+}
 
-            return TextFile;
-        }());
-        IO.TextFile = TextFile;
-    })(IO = RadJav.IO || (RadJav.IO = {}));
-})(RadJav || (RadJav = {}));
+/** @property {Number} [oneStopBit=0]
+* @static
+* One stop bit
+*/
+RadJav.IO.SerialComm.oneStopBit = 0;
+/** @property {Number} [one5StopBits=1]
+* @static
+* One 5 stop bits.
+*/
+RadJav.IO.SerialComm.one5StopBits = 1;
+/** @property {Number} [twoStopBits=2]
+* @static
+* Two stop bits.
+*/
+RadJav.IO.SerialComm.twoStopBits = 1;
+/** @property {Number} [noParity=0]
+* @static
+* No parity.
+*/
+RadJav.IO.SerialComm.noParity = 0;
+/** @property {Number} [oddParity=1]
+* @static
+* Odd parity.
+*/
+RadJav.IO.SerialComm.oddParity = 1;
+/** @property {Number} [evenParity=2]
+* @static
+* Even parity.
+*/
+RadJav.IO.SerialComm.evenParity = 2;
+/** @property {Number} [markParity=3]
+* @static
+* Mark parity.
+*/
+RadJav.IO.SerialComm.markParity = 3;
+/** @property {Number} [spaceParity=4]
+* @static
+* Space parity.
+*/
+RadJav.IO.SerialComm.spaceParity = 4;
 
-RadJav.IO.TextFile.read = 0;
-RadJav.IO.TextFile.write = 1;
-RadJav.IO.TextFile.append = 2;

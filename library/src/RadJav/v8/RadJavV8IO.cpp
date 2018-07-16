@@ -31,47 +31,21 @@ namespace RadJAV
 {
 	namespace V8B
 	{
-		void IO::FileIO::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
+		void IO::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 		{
-			V8_CALLBACK(object, "isDir", IO::FileIO::isDir);
-			V8_CALLBACK(object, "isFile", IO::FileIO::isFile);
-			V8_CALLBACK(object, "isSymLink", IO::FileIO::isSymLink);
-
-			V8_CALLBACK(object, "currentPath", IO::FileIO::currentPath);
-			V8_CALLBACK(object, "changePath", IO::FileIO::changePath);
-			V8_CALLBACK(object, "exists", IO::FileIO::exists);
-
-			V8_CALLBACK(object, "mkdir", IO::FileIO::createDir);
-			V8_CALLBACK(object, "copyDir", IO::FileIO::copyDir);
-			V8_CALLBACK(object, "renameDir", IO::FileIO::renameDir);
-			V8_CALLBACK(object, "deleteDir", IO::FileIO::deleteDir);
-			V8_CALLBACK(object, "isEmpty", IO::FileIO::isEmpty);
-
-			V8_CALLBACK(object, "createSymLink", IO::FileIO::createSymLink);
-			V8_CALLBACK(object, "copySymLink", IO::FileIO::copySymLink);
-			V8_CALLBACK(object, "renameSymLink", IO::FileIO::renameSymLink);
-			V8_CALLBACK(object, "deleteSymLink", IO::FileIO::deleteSymLink);
-
-			V8_CALLBACK(object, "copyFile", IO::FileIO::copyFile);
-			V8_CALLBACK(object, "renameFile", IO::FileIO::renameFile);
-			V8_CALLBACK(object, "deleteFile", IO::FileIO::deleteFile);
-
-			V8_CALLBACK(object, "listFiles", IO::FileIO::listFiles);
-			V8_CALLBACK(object, "listFilesAsync", IO::FileIO::listFilesAsync);
-
-			V8_CALLBACK(object, "normalizePath", IO::FileIO::normalizePath);
-			
-			V8_CALLBACK(object, "onFileList", IO::FileIO::onFileList);
-		}
-
-		void IO::FileIO::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			std::shared_ptr<CPP::IO::FileIO> io(RJNEW CPP::IO::FileIO(), [](CPP::IO::FileIO* p) {DELETEOBJ(p)});
-			V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_fileio", io);
+			V8_CALLBACK(object, "isDir", IO::isDir);
+			V8_CALLBACK(object, "isFile", IO::isFile);
+			V8_CALLBACK(object, "mkdir", IO::createDir);
+			V8_CALLBACK(object, "deleteFile", IO::deleteFile);
 		}
 
 		void IO::SerialComm::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 		{
+			V8_CALLBACK(object, "getPort", IO::SerialComm::getPort);
+			V8_CALLBACK(object, "getBaud", IO::SerialComm::getBaud);
+			V8_CALLBACK(object, "getByteSize", IO::SerialComm::getByteSize);
+			V8_CALLBACK(object, "getStopBits", IO::SerialComm::getStopBits);
+			V8_CALLBACK(object, "getParity", IO::SerialComm::getParity);
 			V8_CALLBACK(object, "open", IO::SerialComm::open);
 			V8_CALLBACK(object, "isOpen", IO::SerialComm::isOpen);
 			V8_CALLBACK(object, "read", IO::SerialComm::read);
@@ -79,378 +53,109 @@ namespace RadJAV
 			V8_CALLBACK(object, "close", IO::SerialComm::close);
 		}
 
-		void IO::SerialComm::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			std::shared_ptr<CPP::IO::SerialComm> SerialComm(RJNEW CPP::IO::SerialComm(), [](CPP::IO::SerialComm* p) {DELETEOBJ(p)});
-			V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_SerialComm", SerialComm);
-		}
-
 		void IO::TextFile::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 		{
-			V8_CALLBACK(object, "writeFile", IO::TextFile::writeFile);
-			V8_CALLBACK(object, "writeFileAsync", IO::TextFile::writeFileAsync);
-
-			V8_CALLBACK(object, "readFile", IO::TextFile::readFile);
-			V8_CALLBACK(object, "readFileAsync", IO::TextFile::readFileAsync);
+			V8_CALLBACK(object, "writeTextToFile", IO::TextFile::writeTextToFile);
+			V8_CALLBACK(object, "readEntireFile", IO::TextFile::readEntireFile);
 		}
 
-		void IO::TextFile::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
+		void IO::SerialComm::getPort(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
-			std::shared_ptr<CPP::IO::TextFile> TextFile(RJNEW CPP::IO::TextFile(), [](CPP::IO::TextFile* p) {DELETEOBJ(p)});
-			V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_TextFile", TextFile);
+			args.GetReturnValue().Set(args.This()->Get(String("_port").toV8String(args.GetIsolate())));
 		}
 
-
-		// ###################################################################
-
-
-		void IO::FileIO::isFile(const v8::FunctionCallbackInfo<v8::Value> &args)
+		void IO::SerialComm::getBaud(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
-			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-
-			if (V8_JAVASCRIPT_ENGINE->v8IsNull(path) == true)
-			{
-				V8_JAVASCRIPT_ENGINE->throwException("Path cannot be null!");
-				return;
-			}
-
-			RJBOOL exists = CPP::IO::FileIO::isFile(parseV8Value(path));
-
-			v8::Local<v8::Boolean> result = v8::Boolean::New(args.GetIsolate(), exists);
-
-			args.GetReturnValue().Set(result);
+			args.GetReturnValue().Set(args.This()->Get(String("_baud").toV8String(args.GetIsolate())));
 		}
 
-		void IO::FileIO::isDir(const v8::FunctionCallbackInfo<v8::Value> &args)
+		void IO::SerialComm::getByteSize(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
-			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-
-			if (V8_JAVASCRIPT_ENGINE->v8IsNull(path) == true)
-			{
-				V8_JAVASCRIPT_ENGINE->throwException("Path cannot be null!");
-				return;
-			}
-
-			RJBOOL exists = CPP::IO::FileIO::isDir(parseV8Value(path));
-
-			v8::Local<v8::Boolean> result = v8::Boolean::New(args.GetIsolate(), exists);
-
-			args.GetReturnValue().Set(result);
+			args.GetReturnValue().Set(args.This()->Get(String("_byteSize").toV8String(args.GetIsolate())));
 		}
 
-		void IO::FileIO::isSymLink(const v8::FunctionCallbackInfo<v8::Value> &args)
+		void IO::SerialComm::getStopBits(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
-			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-
-			if (V8_JAVASCRIPT_ENGINE->v8IsNull(path) == true)
-			{
-				V8_JAVASCRIPT_ENGINE->throwException("Path cannot be null!");
-				return;
-			}
-
-			RJBOOL exists = CPP::IO::FileIO::isSymLink(parseV8Value(path));
-
-			v8::Local<v8::Boolean> result = v8::Boolean::New(args.GetIsolate(), exists);
-
-			args.GetReturnValue().Set(result);
+			args.GetReturnValue().Set(args.This()->Get(String("_stopBits").toV8String(args.GetIsolate())));
 		}
 
-		void IO::FileIO::currentPath(const v8::FunctionCallbackInfo<v8::Value> &args)
+		void IO::SerialComm::getParity(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
-			v8::Local<v8::String> path = CPP::IO::FileIO::currentPath().toV8String(args.GetIsolate());
-
-			args.GetReturnValue().Set(path);
+			args.GetReturnValue().Set(args.This()->Get(String("_parity").toV8String(args.GetIsolate())));
 		}
-
-		void IO::FileIO::changePath(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-
-			if (V8_JAVASCRIPT_ENGINE->v8IsNull(path) == true)
-			{
-				V8_JAVASCRIPT_ENGINE->throwException("Path cannot be null!");
-				return;
-			}
-
-			CPP::IO::FileIO::changePath(parseV8Value(path));
-		}
-
-		void IO::FileIO::exists(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-
-			if (V8_JAVASCRIPT_ENGINE->v8IsNull(path) == true)
-			{
-				V8_JAVASCRIPT_ENGINE->throwException("Path cannot be null!");
-				return;
-			}
-
-			RJBOOL exists = CPP::IO::FileIO::exists(parseV8Value(path));
-
-			v8::Local<v8::Boolean> result = v8::Boolean::New(args.GetIsolate(), exists);
-		}
-
-		void IO::FileIO::createDir(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-
-			if (V8_JAVASCRIPT_ENGINE->v8IsNull(path) == true)
-			{
-				V8_JAVASCRIPT_ENGINE->throwException("Path cannot be null!");
-				return;
-			}
-
-			CPP::IO::FileIO::createDir(parseV8Value(path));
-		}
-
-		void IO::FileIO::copyDir(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			v8::Local<v8::String> src = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-			v8::Local<v8::String> dest = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
-
-			if (V8_JAVASCRIPT_ENGINE->v8IsNull(src) == true || V8_JAVASCRIPT_ENGINE->v8IsNull(dest) == true)
-			{
-				V8_JAVASCRIPT_ENGINE->throwException("Source and Destination paths cannot be null!");
-				return;
-			}
-
-			RJBOOL isRecursive = true;
-			if (args.Length() > 2)
-			{
-				v8::Local<v8::Boolean> recursive = v8::Local<v8::Boolean>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 2));
-				isRecursive = recursive->Value();
-			}
-
-			CPP::IO::FileIO::copyDir(parseV8Value(src), parseV8Value(dest), isRecursive);
-		}
-
-		void IO::FileIO::renameDir(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			v8::Local<v8::String> src = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-			v8::Local<v8::String> dest = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
-			
-			RJBOOL isRecursive = true;
-			if (args.Length() > 2)
-			{
-				v8::Local<v8::Boolean> recursive = v8::Local<v8::Boolean>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 2));
-				isRecursive = recursive->Value();
-			}
-
-			CPP::IO::FileIO::copyDir(parseV8Value(src), parseV8Value(dest), isRecursive);
-		}
-
-		void IO::FileIO::deleteDir(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-
-			if (V8_JAVASCRIPT_ENGINE->v8IsNull(path) == true)
-			{
-				V8_JAVASCRIPT_ENGINE->throwException("Path cannot be null!");
-				return;
-			}
-
-			CPP::IO::FileIO::deleteDir(parseV8Value(path));
-
-		}
-
-		void IO::FileIO::isEmpty(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-
-			if (V8_JAVASCRIPT_ENGINE->v8IsNull(path) == true)
-			{
-				V8_JAVASCRIPT_ENGINE->throwException("Path cannot be null!");
-				return;
-			}
-
-			RJBOOL empty = CPP::IO::FileIO::isEmpty(parseV8Value(path));
-
-			v8::Local<v8::Boolean> result = v8::Boolean::New(args.GetIsolate(), empty);
-		}
-
-		void IO::FileIO::createSymLink(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			v8::Local<v8::String> src = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-			v8::Local<v8::String> dest = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
-
-			if (V8_JAVASCRIPT_ENGINE->v8IsNull(src) == true || V8_JAVASCRIPT_ENGINE->v8IsNull(dest) == true)
-			{
-				V8_JAVASCRIPT_ENGINE->throwException("Source and Destination paths cannot be null!");
-				return;
-			}
-
-			CPP::IO::FileIO::createSymLink(parseV8Value(src), parseV8Value(dest));
-		}
-
-		void IO::FileIO::copySymLink(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			v8::Local<v8::String> src = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-			v8::Local<v8::String> dest = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
-
-			if (V8_JAVASCRIPT_ENGINE->v8IsNull(src) == true || V8_JAVASCRIPT_ENGINE->v8IsNull(dest) == true)
-			{
-				V8_JAVASCRIPT_ENGINE->throwException("Source and Destination paths cannot be null!");
-				return;
-			}
-
-			CPP::IO::FileIO::copySymLink(parseV8Value(src), parseV8Value(dest));
-		}
-
-		void IO::FileIO::renameSymLink(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			v8::Local<v8::String> src = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-			v8::Local<v8::String> dest = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
-
-			if (V8_JAVASCRIPT_ENGINE->v8IsNull(src) == true || V8_JAVASCRIPT_ENGINE->v8IsNull(dest) == true)
-			{
-				V8_JAVASCRIPT_ENGINE->throwException("Source and Destination paths cannot be null!");
-				return;
-			}
-
-			CPP::IO::FileIO::renameSymLink(parseV8Value(src), parseV8Value(dest));
-		}
-
-		void IO::FileIO::deleteSymLink(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-
-			if (V8_JAVASCRIPT_ENGINE->v8IsNull(path) == true)
-			{
-				V8_JAVASCRIPT_ENGINE->throwException("Path cannot be null!");
-				return;
-			}
-
-			CPP::IO::FileIO::deleteSymLink(parseV8Value(path));
-		}
-
-		void IO::FileIO::copyFile(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			v8::Local<v8::String> src = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-			v8::Local<v8::String> dest = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
-
-			if (V8_JAVASCRIPT_ENGINE->v8IsNull(src) == true || V8_JAVASCRIPT_ENGINE->v8IsNull(dest) == true)
-			{
-				V8_JAVASCRIPT_ENGINE->throwException("Source and Destination paths cannot be null!");
-				return;
-			}
-
-			RJBOOL overwriteIfExists = true;
-			if (args.Length() > 2)
-			{
-				v8::Local<v8::Boolean> overwriteIfExistsV8 = v8::Local<v8::Boolean>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 2));
-				overwriteIfExists = overwriteIfExistsV8->Value();
-			}
-
-			CPP::IO::FileIO::copyFile(parseV8Value(src), parseV8Value(dest), overwriteIfExists);
-		}
-
-		void IO::FileIO::renameFile(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			v8::Local<v8::String> src = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-			v8::Local<v8::String> dest = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
-
-			if (V8_JAVASCRIPT_ENGINE->v8IsNull(src) == true || V8_JAVASCRIPT_ENGINE->v8IsNull(dest) == true)
-			{
-				V8_JAVASCRIPT_ENGINE->throwException("Source and Destination paths cannot be null!");
-				return;
-			}
-
-			CPP::IO::FileIO::renameFile(parseV8Value(src), parseV8Value(dest));
-		}
-
-		void IO::FileIO::deleteFile(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-
-			if (V8_JAVASCRIPT_ENGINE->v8IsNull(path) == true)
-			{
-				V8_JAVASCRIPT_ENGINE->throwException("Filename cannot be null!");
-				return;
-			}
-
-			CPP::IO::FileIO::deleteFile(parseV8Value(path));
-		}
-
-		void IO::FileIO::listFiles(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-
-			RJBOOL isRecursive = true;
-			if (args.Length() > 1)
-			{
-				v8::Local<v8::Boolean> recursive = v8::Local<v8::Boolean>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
-				isRecursive = recursive->Value();
-			}
-
-			Array<String> files = CPP::IO::FileIO::listFiles(parseV8Value(path), isRecursive);
-			v8::Local<v8::Array> newFiles = convertArrayToV8Array(files, args.GetIsolate());
-
-			args.GetReturnValue().Set(newFiles);
-		}
-
-		void IO::FileIO::listFilesAsync(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-
-			RJBOOL isRecursive = true;
-			if (args.Length() > 1)
-			{
-				v8::Local<v8::Boolean> recursive = v8::Local<v8::Boolean>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
-				isRecursive = recursive->Value();
-			}
-
-			CPP::IO::FileIO::listFilesAsync(parseV8Value(path), isRecursive);
-		}
-
-		void IO::FileIO::normalizePath(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-			String basePath = "";
-
-			if (args.Length() > 1)
-			{
-				v8::Local<v8::String> basePathV8 = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
-				basePath = parseV8Value(basePathV8);
-			}
-
-			path = CPP::IO::FileIO::normalizePath(parseV8Value(path), basePath).toV8String (args.GetIsolate ());
-
-			args.GetReturnValue().Set(path);
-		}
-
-		void IO::FileIO::onFileList(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			v8::Persistent<v8::Function> *func = RJNEW v8::Persistent<v8::Function>();
-			v8::Local<v8::Function> newEvt = v8::Local<v8::Function>::Cast(args[0]);
-
-			func->Reset(V8_JAVASCRIPT_ENGINE->isolate, newEvt);
-
-			RadJAV::CPP::IO::FileIO::m_fileListEvent = func;
-		}
-
-
-		// ###################################################################
-
 
 		void IO::SerialComm::open(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
 			v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(args.This());
-			v8::Local<v8::String> port_str = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-			v8::Local<v8::Integer> baud_val = v8::Local<v8::Integer>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
+			v8::Local<v8::String> port = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+			v8::Local<v8::Integer> baud = v8::Local<v8::Integer>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
+			v8::Local<v8::Integer> byteSize = v8::Local<v8::Integer>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 2));
+			v8::Local<v8::Integer> stopBits = v8::Local<v8::Integer>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 3));
+			v8::Local<v8::Integer> parity = v8::Local<v8::Integer>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 4));
 
-			if (V8_JAVASCRIPT_ENGINE->v8IsNull(port_str) == true)
+			if (baud.IsEmpty() == true)
+				baud = v8::Local<v8::Integer>::Cast(obj->Get(String("_baud").toV8String(args.GetIsolate())));
+
+			if (byteSize.IsEmpty() == true)
+				byteSize = v8::Local<v8::Integer>::Cast(obj->Get(String("_byteSize").toV8String(args.GetIsolate())));
+
+			if (stopBits.IsEmpty() == true)
+				stopBits = v8::Local<v8::Integer>::Cast(obj->Get(String("_stopBits").toV8String(args.GetIsolate())));
+
+			if (parity.IsEmpty() == true)
+				parity = v8::Local<v8::Integer>::Cast(obj->Get(String("_parity").toV8String(args.GetIsolate())));
+
+			obj->Set(String("_port").toV8String(args.GetIsolate()), port);
+			obj->Set(String("_baud").toV8String(args.GetIsolate()), baud);
+			obj->Set(String("_byteSize").toV8String(args.GetIsolate()), byteSize);
+			obj->Set(String("_stopBits").toV8String(args.GetIsolate()), stopBits);
+			obj->Set(String("_parity").toV8String(args.GetIsolate()), parity);
+
+			RJBOOL isConnected = false;
+
+#ifdef WIN32
+			String portName = parseV8Value(port);
+			RJINT baudI = baud->IntegerValue();
+			RJINT byteSizeI = byteSize->IntegerValue();
+			RJINT stopBitsI = stopBits->IntegerValue();
+			RJINT parityI = parity->IntegerValue();
+
+			HANDLE hSerialIO = CreateFileA(portName.c_str(), (GENERIC_READ | GENERIC_WRITE), 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+
+			if (hSerialIO == INVALID_HANDLE_VALUE)
 			{
-				V8_JAVASCRIPT_ENGINE->throwException("Port cannot be null!");
+				CloseHandle(hSerialIO);
+				args.GetReturnValue().Set(v8::Boolean::New(args.GetIsolate(), false));
+
 				return;
 			}
 
-			String port = parseV8ValueIsolate(V8_JAVASCRIPT_ENGINE->isolate, port_str);
+			DCB dcbSerialParams;
 
-			RJBOOL isConnected;
-			if (baud_val.IsEmpty() == true)
-				isConnected = RadJAV::CPP::IO::SerialComm::open(port);
-			else
-				isConnected = RadJAV::CPP::IO::SerialComm::open(port, baud_val->IntegerValue());
+			if (GetCommState(hSerialIO, &dcbSerialParams) == false)
+			{
+				CloseHandle(hSerialIO);
+				args.GetReturnValue().Set(v8::Boolean::New(args.GetIsolate(), false));
+
+				return;
+			}
+
+			dcbSerialParams.BaudRate = baudI;
+			dcbSerialParams.ByteSize = byteSizeI;
+			dcbSerialParams.StopBits = stopBitsI;
+			dcbSerialParams.Parity = parityI;
+
+			if (SetCommState(hSerialIO, &dcbSerialParams) == false)
+			{
+				CloseHandle(hSerialIO);
+				args.GetReturnValue().Set(v8::Boolean::New(args.GetIsolate(), false));
+
+				return;
+			}
+
+			isConnected = true;
+			V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_appObj", hSerialIO);
+#endif
 
 			args.GetReturnValue().Set(v8::Boolean::New(args.GetIsolate(), isConnected));
 		}
@@ -459,8 +164,7 @@ namespace RadJAV
 		{
 			v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(args.This());
 
-			RJBOOL isOpen = RadJAV::CPP::IO::SerialComm::isOpen();
-			args.GetReturnValue().Set(v8::Boolean::New(args.GetIsolate(), isOpen));
+			args.GetReturnValue().Set(obj->Get(String("_isOpen").toV8String(args.GetIsolate())));
 		}
 
 		void IO::SerialComm::read(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -468,10 +172,54 @@ namespace RadJAV
 			v8::Local<v8::Integer> bufferSizeV8 = v8::Local<v8::Integer>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 
 			v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(args.This());
-			String returnValue;
+			String returnValue = "";
 			RJUINT bufferSize = bufferSizeV8->IntegerValue();
 
-			returnValue = RadJAV::CPP::IO::SerialComm::read();
+#ifdef WIN32
+			HANDLE hSerialIO = (HANDLE)V8_JAVASCRIPT_ENGINE->v8GetExternal(obj, "_appObj");
+			DWORD dErrors = 0;
+			DWORD dNumBytesRead = 0;
+			COMSTAT cStatus;
+
+			ClearCommError(hSerialIO, &dErrors, &cStatus);
+
+			if (cStatus.cbInQue > 0)
+			{
+				unsigned int iSize = 0;
+
+				if (cStatus.cbInQue > bufferSize)
+					iSize = bufferSize;
+				else
+					iSize = cStatus.cbInQue;
+
+				char *cBuffer = new char[iSize + 1];
+				if (ReadFile(hSerialIO, cBuffer, iSize, &dNumBytesRead, 0) == false)
+				{
+					delete[]cBuffer;
+					cBuffer = 0;
+
+					args.GetReturnValue().Set(String("").toV8String(args.GetIsolate()));
+
+					return;
+				}
+
+				if (dNumBytesRead == 0)
+				{
+					delete[]cBuffer;
+					cBuffer = 0;
+
+					args.GetReturnValue().Set(String("").toV8String(args.GetIsolate()));
+
+					return;
+				}
+
+				cBuffer[iSize] = '\0';
+				returnValue = cBuffer;
+
+				delete[]cBuffer;
+				cBuffer = 0;
+			}
+#endif
 
 			args.GetReturnValue().Set(returnValue.toV8String(args.GetIsolate()));
 		}
@@ -480,9 +228,25 @@ namespace RadJAV
 		{
 			v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(args.This());
 			v8::Local<v8::String> bufferV8 = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-			String buffer = parseV8ValueIsolate(V8_JAVASCRIPT_ENGINE->isolate, bufferV8);
+			RJBOOL result = false;
+			RJUINT bufferSize = 0;
+			RJULONG bytesSent = 0;
 
-			RJULONG bytesSent = RadJAV::CPP::IO::SerialComm::write(buffer, buffer.size());
+#ifdef WIN32
+			HANDLE hSerialIO = (HANDLE)V8_JAVASCRIPT_ENGINE->v8GetExternal(obj, "_appObj");
+			String buffer = parseV8Value(bufferV8);
+			char *cBuffer = const_cast<char *> (buffer.c_str());
+
+			if (args.Length() > 1)
+			{
+				v8::Local<v8::Integer> bufSize = v8::Local<v8::Integer>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
+				bufferSize = bufSize->IntegerValue();
+			}
+			else
+				bufferSize = buffer.length();
+
+			result = WriteFile(hSerialIO, (void *)cBuffer, bufferSize, &bytesSent, 0);
+#endif
 
 			args.GetReturnValue().Set(v8::Number::New(args.GetIsolate(), bytesSent));
 		}
@@ -491,18 +255,17 @@ namespace RadJAV
 		{
 			v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(args.This());
 
-			RadJAV::CPP::IO::SerialComm::close();
+#ifdef WIN32
+			HANDLE hSerialIO = (HANDLE)V8_JAVASCRIPT_ENGINE->v8GetExternal(obj, "_appObj");
+			CloseHandle(hSerialIO);
+#endif
 		}
 
-
-		// ###################################################################
-
-
-		void IO::TextFile::writeFile(const v8::FunctionCallbackInfo<v8::Value> &args)
+		void IO::TextFile::writeTextToFile(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
-			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+			v8::Local<v8::String> str = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 
-			if (V8_JAVASCRIPT_ENGINE->v8IsNull(path) == true)
+			if (V8_JAVASCRIPT_ENGINE->v8IsNull(str) == true)
 			{
 				V8_JAVASCRIPT_ENGINE->throwException("Filename cannot be null!");
 
@@ -510,7 +273,7 @@ namespace RadJAV
 			}
 
 			v8::Local<v8::String> text = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
-			RJINT fileType = static_cast<int>(CPP::IO::TextFile::operation::write);
+			RJINT fileType = CPP::IO::TextFile::write;
 
 			if (args.Length() > 2)
 			{
@@ -518,101 +281,133 @@ namespace RadJAV
 				fileType = type->Value();
 			}
 
+			String path = parseV8Value(str);
+			String contents = parseV8Value(text);
+
 			try
 			{
-				CPP::IO::TextFile::writeFile(parseV8Value(path), parseV8Value(text), fileType);
+				CPP::IO::TextFile::writeToTextFile(path, contents, fileType);
 			}
 			catch (Exception ex)
 			{
 				V8_JAVASCRIPT_ENGINE->throwException(ex.getMessage());
+
 				return;
 			}
 		}
 
-		void IO::TextFile::writeFileAsync(const v8::FunctionCallbackInfo<v8::Value> &args)
+		void IO::TextFile::readEntireFile(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
-			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+			v8::Local<v8::String> str = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 
-			if (V8_JAVASCRIPT_ENGINE->v8IsNull(path) == true)
+			if (V8_JAVASCRIPT_ENGINE->v8IsNull(str) == true)
 			{
 				V8_JAVASCRIPT_ENGINE->throwException("Filename cannot be null!");
 
 				return;
 			}
 
-			v8::Local<v8::String> text = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
-			RJINT fileType = static_cast<int>(CPP::IO::TextFile::operation::write);
-
-			if (args.Length() > 2)
-			{
-				v8::Local<v8::Integer> type = v8::Local<v8::Integer>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 2));
-				fileType = type->Value();
-			}
+			String path = parseV8Value(str);
+			String contents = "";
 
 			try
 			{
-				CPP::IO::TextFile::writeFileAsync(parseV8Value(path), parseV8Value(text), fileType);
+				contents = CPP::IO::TextFile::getFileContents(path);
 			}
 			catch (Exception ex)
 			{
 				V8_JAVASCRIPT_ENGINE->throwException(ex.getMessage());
-				return;
-			}
-		}
 
-		void IO::TextFile::readFile(const v8::FunctionCallbackInfo<v8::Value> &args)
-		{
-			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-
-			if (V8_JAVASCRIPT_ENGINE->v8IsNull(path) == true)
-			{
-				V8_JAVASCRIPT_ENGINE->throwException("Filename cannot be null!");
-				return;
-			}
-
-			String contents;
-			try
-			{
-				contents = CPP::IO::TextFile::readFile(parseV8Value(path));
-			}
-			catch (Exception ex)
-			{
-				V8_JAVASCRIPT_ENGINE->throwException(ex.getMessage());
 				return;
 			}
 
 			args.GetReturnValue().Set(contents.toV8String(V8_JAVASCRIPT_ENGINE->isolate));
 		}
 
-		void IO::TextFile::readFileAsync(const v8::FunctionCallbackInfo<v8::Value> &args)
+		void IO::isDir(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
-			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+			v8::Local<v8::String> str = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 
-			if (V8_JAVASCRIPT_ENGINE->v8IsNull(path) == true)
+			if (V8_JAVASCRIPT_ENGINE->v8IsNull(str) == true)
 			{
-				V8_JAVASCRIPT_ENGINE->throwException("Filename cannot be null!");
+				V8_JAVASCRIPT_ENGINE->throwException("Path cannot be null!");
+
 				return;
 			}
 
-			try
-			{
-				CPP::IO::TextFile::readFileAsync(parseV8Value(path));
-			}
-			catch (Exception ex)
-			{
-				V8_JAVASCRIPT_ENGINE->throwException(ex.getMessage());
-				return;
-			}
+			String path = parseV8Value(str);
+			RJBOOL exists = false;
+
+#ifdef GUI_USE_WXWIDGETS
+			exists = wxDirExists(path.towxString());
+#endif
+
+			v8::Local<v8::Boolean> result = v8::Boolean::New(args.GetIsolate(), exists);
+
+			args.GetReturnValue().Set(result);
 		}
 
-		void IO::TextFile::onFileRead(const v8::FunctionCallbackInfo<v8::Value> &args)
+		void IO::isFile(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
-			v8::Persistent<v8::Function> *func = RJNEW v8::Persistent<v8::Function>();
-			v8::Local<v8::Function> newEvt = v8::Local<v8::Function>::Cast(args[0]);
+			v8::Local<v8::String> str = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 
-			func->Reset(V8_JAVASCRIPT_ENGINE->isolate, newEvt);
+			if (V8_JAVASCRIPT_ENGINE->v8IsNull(str) == true)
+			{
+				V8_JAVASCRIPT_ENGINE->throwException("Path cannot be null!");
 
-			RadJAV::CPP::IO::TextFile::m_textfileReadEvent = func;
+				return;
+			}
+
+			String path = parseV8Value(str);
+			RJBOOL exists = false;
+
+#ifdef GUI_USE_WXWIDGETS
+			exists = wxFileExists(path.towxString());
+#endif
+
+			v8::Local<v8::Boolean> result = v8::Boolean::New(args.GetIsolate(), exists);
+
+			args.GetReturnValue().Set(result);
+		}
+
+		void IO::createDir(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+			v8::Local<v8::String> str = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+
+			if (V8_JAVASCRIPT_ENGINE->v8IsNull(str) == true)
+			{
+				V8_JAVASCRIPT_ENGINE->throwException("Path cannot be null!");
+
+				return;
+			}
+
+			String path = parseV8Value(str);
+
+#ifdef GUI_USE_WXWIDGETS
+			wxMkDir(path.towxString(), wxS_DIR_DEFAULT);
+			//if (wxMkDir(path.towxString ()) == false)
+				//V8_JAVASCRIPT_ENGINE->throwException("Unable to create directory.");
+#endif
+		}
+
+		void IO::deleteFile(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+			v8::Local<v8::String> str = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+
+			if (V8_JAVASCRIPT_ENGINE->v8IsNull(str) == true)
+			{
+				V8_JAVASCRIPT_ENGINE->throwException("Filename cannot be null!");
+
+				return;
+			}
+
+			String path = parseV8Value(str);
+
+#ifdef GUI_USE_WXWIDGETS
+			wxRemoveFile(path.towxString());
+			//if (wxRemoveFile(path.towxString()) == false)
+				//V8_JAVASCRIPT_ENGINE->throwException("Unable to delete file.");
+#endif
 		}
 	}
 }

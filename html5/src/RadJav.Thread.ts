@@ -34,8 +34,8 @@ namespace RadJav
 			this._htmlObj = null;
 			this._threadFunc = null;
 
-			if ((<any>this)._init != null)
-				(<any>this)._init ();
+			if (this._init != null)
+				this._init ();
 		}
 
 		/** @property {Any} [_appObj=null]
@@ -56,7 +56,7 @@ namespace RadJav
 		*/
 		start ()
 		{
-			let script = document.createElement("script");
+			let script: HTMLElement = document.createElement("script");
 			script.type = "javascript/worker";
 			let str: string = "(" + this._threadFunc.toString () + ")()";
 
@@ -73,7 +73,7 @@ namespace RadJav
 			var blob = new Blob ([ script.textContent ], { type: script.type });
 			var url = window.URL.createObjectURL (blob);
 
-			this._htmlObj = new Worker (url);
+			this._htmlObj = new SharedWorker (url);
 			this._htmlObj.postMessage ();
 		}
 

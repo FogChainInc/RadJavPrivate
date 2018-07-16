@@ -21,54 +21,32 @@
 
 #include "RadJav.h"
 #include "RadJavString.h"
-\
+
 namespace RadJAV
 {
 	namespace CPP
 	{
 		namespace Net
 		{
-			WebSocketClient::WebSocketClient() {}
-
-			#ifdef USE_V8
-			void WebSocketClient::on(String event_, v8::Local<v8::Function> func_)
+			WebSocketClient::WebSocketClient()
 			{
 			}
-			#endif
 
-			void WebSocketClient::connect(String host_, String port_)
+			void WebSocketClient::connect(String url)
 			{
-				//look up the domain name
-				auto const results = resolver.resolve(host_, port_);
-
-				//make the connection on the IP address we get from a lookup
-				boost::asio::connect(m_ws.next_layer(), results.begin(), results.end());
-
-				//perform the websocket handshake
-				m_ws.handshake(host_, "/");
 			}
 
-			void WebSocketClient::send(String message_)
+			void WebSocketClient::send(String message)
 			{
-				//send the message
-				m_ws.write(boost::asio::buffer(std::string(message_)));
 			}
 
-			String WebSocketClient::receive()
+			String WebSocketClient::receivedData()
 			{
-				//this buffer will hold the incoming message
-				boost::beast::multi_buffer buffer;
-
-				//read a message into our buffer
-				m_ws.read(buffer);
-
-				return boost::beast::buffers_to_string(buffer.data());
+				return ("");
 			}
 
 			void WebSocketClient::close()
 			{
-				//close the WebSocket connection
-				m_ws.close(boost::beast::websocket::close_code::normal);
 			}
 		}
 	}

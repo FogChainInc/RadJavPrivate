@@ -38,7 +38,7 @@
 			{
 				#ifdef GUI_USE_WXWIDGETS
 					/// The wxWidgets button to use.
-					class RADJAV_EXPORT ListFrame : public wxListView, public GObjectBase, public ChainedPtr
+					class RADJAV_EXPORT ListFrame : public wxListView, public GObjectBase
 					{
 						public:
 							ListFrame(wxWindow *parent, const wxPoint &pos, const wxSize &size);

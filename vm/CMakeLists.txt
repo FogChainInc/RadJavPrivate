@@ -4,18 +4,18 @@ if (WIN32)
 	set (CMAKE_USE_RELATIVE_PATHS TRUE)
 endif ()
 
+#Set CMAKE_MACOSX_BUNDLE to YES if we plan to make RadJavVM as a BUNDLE for Apple
+if (APPLE)
+	set (CMAKE_MACOSX_BUNDLE NO)
+endif ()
+
 project (RadJavVM)
 
 message (STATUS "Configuring RadJav VM...")
 message (STATUS "Version 0.1")
 
-set (PROJECT_VERSION_MAJOR "0")
-set (PROJECT_VERSION_MINOR "1")
-set (PROJECT_VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR})
-
 set (CMAKE_MODULE_PATH "${RadJavVM_SOURCE_DIR}/../library/CMake"
 			"${RadJavVM_SOURCE_DIR}/../library/CMake/lib"
-			"${RadJavVM_SOURCE_DIR}/CMake"
 			"${RadJavVM_SOURCE_DIR}/include"
 			"${RadJavVM_SOURCE_DIR}/src"
 			"${RadJavVM_SOURCE_DIR}/res")
@@ -29,33 +29,61 @@ set (CMAKE_CXX_FLAGS_MINSIZEREL "" CACHE STRING "CMAKE_CXX_FLAGS_MINSIZEREL")
 set (CMAKE_CXX_FLAGS_RELWITHDEBINFO "" CACHE STRING "CMAKE_CXX_FLAGS_RELWITHDEBINFO")
 set (RadJavVM_CPP_DEFS "" CACHE STRING "C++ Definitions")
 set (RadJavVM_CPP_DEFS_DEBUG "" CACHE STRING "C++ Debug Definitions")
+set (RadJavVM_JS_LIBRARY "V8" CACHE STRING "Javascript library to use")
+set (RadJavVM_GUI_LIBRARY "wxWidgets" CACHE STRING "GUI library to use")
+set (RadJavVM_HTTP_LIBRARY "curl" CACHE STRING "HTTP library to use")
+set (RadJavVM_INCLUDE_C3D_API TRUE CACHE BOOL "Include the C3D API?")
 set (libRadJav_PATH $ENV{RADJAV_PATH} CACHE PATH "RadJav path")
 set (libRadJav_CMAKE_BUILD_PATH "" CACHE PATH "libRadJav CMake Build Path")
 set (libRadJav_DEPENDENCIES $ENV{RADJAV_DEPENDENCIES} CACHE PATH "RadJav Dependencies path")
 set (RadJavVM_LANGUAGE "en_us" CACHE STRING "Select language to compile with")
-set (libRadJav_STATIC false CACHE BOOL "Use static build of libRadJav")
-set (RadJavVM_CREATE_INSTALL_PACKAGES false CACHE BOOL "Create install packages")
-
-set (RadJavVM_DEPENDENCY_OBJECTS_LIST "./natives_blob.bin;./snapshot_blob.bin" CACHE STRING "Semicolon separated list of paths to dependencies \
-												which are indirectly will be used by application, i.e. loading \
-												during runtime")
-if (APPLE)
-	set (MAC_CODESIGN_IDENTITY CACHE STRING "Sign identity which can be determined by issuing command:\
-							security find-identity -v -p codesigning\
-							Example: Mac Developer")
-endif ()
-
-if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-set(OPENSSL_CRYPTO_LIBRARY "${RadJavVM_SOURCE_DIR}/../../sdk/openssl/build/install/lib/libcrypto.so" CACHE FILEPATH "libcrypto" FORCE) 
-set(OPENSSL_SSL_LIBRARY "${RadJavVM_SOURCE_DIR}/../../sdk/openssl/build/install/lib/libssl.so" CACHE FILEPATH "libssl" FORCE) 
-set(OPENSSL_INCLUDE_DIR "${RadJavVM_SOURCE_DIR}/../../sdk/openssl/build/install/include" CACHE PATH "OpenSSL include" FORCE)
-endif()
+set (libRadJav_STATIC false CACHE BOOL "Static build of RadJav")
+set (libRadJav_EMBEDFILE true CACHE BOOL "Embed Javascript into RadJav?")
+set (RadJavVM_INCLUDE_BLOCKCHAIN_V1 true CACHE BOOL "Include Blockchain V1?")
+set (FIND_MEMORY_LEAKS true CACHE BOOL "Find memory leaks?")
+set (INCLUDE_DATABASES true CACHE BOOL "Includes databases")
+set (INCLUDE_CRYPTOGRAPHY true CACHE BOOL "Includes cryptography")
+set (USE_BITS "" CACHE STRING "Build using number of bits")
+set (WEBVIEW_TYPE "wxWidgetsDefault" CACHE STRING "Type of webview to use")
 
 message (STATUS "Building for processor type: ${CMAKE_SYSTEM_PROCESSOR}")
 
 set (RadJavVM_LANGUAGE_UPPER)
 string (TOUPPER ${RadJavVM_LANGUAGE} RadJavVM_LANGUAGE_UPPER)
 message (STATUS "Using language ${RadJavVM_LANGUAGE_UPPER}")
+
+if (RadJavVM_JS_LIBRARY STREQUAL "V8")
+	set (USE_V8 true)
+endif ()
+
+if (RadJavVM_GUI_LIBRARY STREQUAL "wxWidgets")
+	set (USE_WXWIDGETS true)
+endif ()
+
+if (RadJavVM_HTTP_LIBRARY STREQUAL "civetweb")
+	set (USE_CIVETWEB true)
+endif ()
+
+if (RadJavVM_HTTP_LIBRARY STREQUAL "nghttp2")
+	set (USE_NGHTTP2 true)
+endif ()
+
+if (RadJavVM_INCLUDE_C3D_API)
+	message (STATUS "C3D API is going to be included in this build.")
+	set (USE_OGRE TRUE)
+else ()
+	message (STATUS "C3D API will NOT be included in this build.")
+endif ()
+
+if (RadJavVM_INCLUDE_BLOCKCHAIN_V1)
+	message (STATUS "Blockchain V1 will be included in this build.")
+
+	set (OPENSSL_ROOT_DIR "" CACHE PATH "OPENSSL_ROOT_DIR")
+	set (ZLIB_ROOT "" CACHE PATH "ZLIB_ROOT")
+	set (BOOST_ROOT "" CACHE PATH "BOOST_ROOT")
+else ()
+	message (STATUS "Blockchain V1 will NOT be included in this build.")
+endif ()
 
 set (CMAKE_DEBUG_POSTFIX "_d")
 #set (RadJavVM_SOURCE_LANGUAGE_FILE)
@@ -71,37 +99,253 @@ include (includes)
 include (sources)
 include (res)
 
+include (FindModuleCurl)
 include (FindRadJav)
 
-set (RadJavVM_INCLUDE_DIRS)
-set (RadJavVM_LINK_LIBRARIES)
-set (RadJavVM_LINK_LIBRARY_DIRS)
-set (RadJavVM_CXX_FLAGS)
+set (RadJavVM_CPP_DEFS)
+set (RadJavVM_CPP_DEFS "LANG_${RadJavVM_LANGUAGE_UPPER}" ${RadJavVM_CPP_DEFS})
 
-set (RadJavVM_INCLUDE_DIRS "${RadJavVM_SOURCE_DIR}/include/RadJavVM" ${RadJavVM_INCLUDE_DIRS})
+set (RadJavVM_CPP_DEFS_DEBUG)
+set (RadJavVM_CPP_DEFS_DEBUG RADJAV_DEBUG ${RadJavVM_CPP_DEFS_DEBUG})
+
+if (WIN32)
+	set (RadJavVM_CPP_DEFS WIN32 ${RadJavVM_CPP_DEFS})
+	set (RadJavVM_CPP_DEFS _WINDOWS ${RadJavVM_CPP_DEFS})
+	set (RadJavVM_CPP_DEFS ARCH_X86 ${RadJavVM_CPP_DEFS})
+
+	if (MSVC_VERSION LESS 1910)
+		message (FATAL_ERROR "You must use Visual Studio 2017 or better!")
+	endif ()
+
+	if (MSVC)
+		set (RadJavVM_CPP_DEFS NOMINMAX ${RadJavVM_CPP_DEFS})
+	endif ()
+endif ()
+
+if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+	set (RadJavVM_CPP_DEFS LINUX ${RadJavVM_CPP_DEFS})
+endif ()
+
+set (RadJavVM_LINK_LIBRARIES)
+
+include_directories (${RadJavVM_SOURCE_DIR}/include/RadJavVM)
 
 if (libRadJav_FOUND)
-	message (STATUS "libRadJav Library Found...")
-	set (RadJavVM_INCLUDE_DIRS ${libRadJav_INCLUDE} ${RadJavVM_INCLUDE_DIRS})
+	message (STATUS "RadJav Library Found...")
+	include_directories (${libRadJav_INCLUDE})
 	set (RadJavVM_LINK_LIBRARIES ${libRadJav_LIBRARIES} ${RadJavVM_LINK_LIBRARIES})
+endif ()
 
-	if (libRadJav_CMAKE_BUILD_PATH)
-		add_subdirectory (${libRadJav_PATH} ${libRadJav_CMAKE_BUILD_PATH})
-	else ()
-		add_subdirectory (${libRadJav_PATH} ${libRadJav_PATH}/build)
+if (USE_V8)
+	include (FindV8)
+endif ()
+
+if (USE_OGRE)
+	include (FindOgre3D)
+endif ()
+
+if (USE_WXWIDGETS)
+	include (FindModulewxWidgets)
+endif ()
+
+if (USE_NGHTTP2)
+	include (FindModuleNGHTTP2)
+endif ()
+
+if (USE_CIVETWEB)
+	include (FindModuleCivetWeb)
+endif ()
+
+# Boost
+include (FindModuleBoost)
+
+include_directories (${Boost_INCLUDE})
+set (RadJavVM_LINK_LIBRARIES ${Boost_LIBRARIES} ${RadJavVM_LINK_LIBRARIES})
+
+set (RadJavVM_CPP_DEFS BOOST_SYSTEM_NO_DEPRECATED ${RadJavVM_CPP_DEFS})
+set (RadJavVM_CPP_DEFS HAVE_WORKING_BOOST_SLEEP_FOR ${RadJavVM_CPP_DEFS})
+set (RadJavVM_CPP_DEFS BOOST_SPIRIT_THREADSAFE ${RadJavVM_CPP_DEFS})
+
+#if (WIN32)
+#	set (RadJavVM_CPP_DEFS WIN32_LEAN_AND_MEAN ${RadJavVM_CPP_DEFS})
+#endif ()
+
+link_directories (${Boost_LIBRARY_DIR_DEBUG} ${Boost_LIBRARY_DIR_RELEASE})
+
+if (OGRE_FOUND)
+	message (STATUS "Ogre 3D Found...")
+	include_directories (${OGRE_INCLUDE})
+	set (RadJavVM_LINK_LIBRARIES ${OGRE_LIBRARIES} ${RadJavVM_LINK_LIBRARIES})
+	set (RadJavVM_CPP_DEFS C3D_USE_OGRE ${RadJavVM_CPP_DEFS})
+endif ()
+
+if (V8_FOUND)
+	include_directories (${V8_INCLUDE})
+	set (RadJavVM_LINK_LIBRARIES ${V8_LIBRARIES} ${RadJavVM_LINK_LIBRARIES})
+	set (RadJavVM_CPP_DEFS USE_V8 ${RadJavVM_CPP_DEFS})
+endif ()
+
+if (RadJavVM_INCLUDE_BLOCKCHAIN_V1)
+	set (RadJavVM_CPP_DEFS USE_BLOCKCHAIN_V1 ${RadJavVM_CPP_DEFS})
+	set (RadJavVM_CPP_DEFS HAVE_CONFIG_H ${RadJavVM_CPP_DEFS})
+
+	set (RadJavVM_CPP_DEFS MINIUPNP_STATICLIB ${RadJavVM_CPP_DEFS})
+	set (RadJavVM_CPP_DEFS STATICLIB ${RadJavVM_CPP_DEFS})
+	set (RadJavVM_CPP_DEFS USE_UPNP ${RadJavVM_CPP_DEFS})
+	set (RadJavVM_CPP_DEFS _CRT_SECURE_NO_WARNINGS ${RadJavVM_CPP_DEFS})
+	set (RadJavVM_CPP_DEFS UNICODE ${RadJavVM_CPP_DEFS})
+	set (RadJavVM_CPP_DEFS _SCL_SECURE_NO_WARNINGS ${RadJavVM_CPP_DEFS})
+	set (RadJavVM_CPP_DEFS HAVE_WORKING_BOOST_SLEEP_FOR ${RadJavVM_CPP_DEFS})
+	set (RadJavVM_CPP_DEFS NOMINMAX ${RadJavVM_CPP_DEFS})
+	set (RadJavVM_CPP_DEFS USE_LEVELDB ${RadJavVM_CPP_DEFS})
+	set (RadJavVM_CPP_DEFS USE_IPV6=1 ${RadJavVM_CPP_DEFS})
+	set (RadJavVM_CPP_DEFS BOOST_SPIRIT_THREADSAFE ${RadJavVM_CPP_DEFS})
+	set (RadJavVM_CPP_DEFS __STDC_FORMAT_MACROS ${RadJavVM_CPP_DEFS})
+	set (RadJavVM_CPP_DEFS ENABLE_WALLET=1 ${RadJavVM_CPP_DEFS})
+	set (RadJavVM_CPP_DEFS __func__=__FUNCTION__ ${RadJavVM_CPP_DEFS})
+	set (RadJavVM_CPP_DEFS USE_FIELD_10X26=1 ${RadJavVM_CPP_DEFS})
+	set (RadJavVM_CPP_DEFS USE_FIELD_INV_BUILTIN=1 ${RadJavVM_CPP_DEFS})
+	set (RadJavVM_CPP_DEFS USE_NUM_NONE=1 ${RadJavVM_CPP_DEFS})
+	set (RadJavVM_CPP_DEFS USE_SCALAR_8X32=1 ${RadJavVM_CPP_DEFS})
+	set (RadJavVM_CPP_DEFS USE_SCALAR_INV_BUILTIN=1 ${RadJavVM_CPP_DEFS})
+	set (RadJavVM_CPP_DEFS _DEBUG ${RadJavVM_CPP_DEFS})
+	set (RadJavVM_CPP_DEFS _LIB ${RadJavVM_CPP_DEFS})
+	set (RadJavVM_CPP_DEFS BOOST_SYSTEM_NO_DEPRECATED ${RadJavVM_CPP_DEFS})
+
+	include (FindModuleBoost)
+	include (FindModuleOpenSSL)
+	include (Findsecp256k1)
+	include (FindlibEvent)
+	include (Findlibzmq)
+	include (FindMiniupnpc)
+	include (Findleveldb)
+	include (FindBerkleyDB)
+	include (FindModuleZLIB)
+
+	include_directories ("${libRadJav_SOURCE_DIR}/blockchainV1")
+	include_directories ("${libRadJav_SOURCE_DIR}/blockchainV1/src")
+	include_directories ("${libRadJav_SOURCE_DIR}/blockchainV1/src/config")
+	include_directories ("${libRadJav_SOURCE_DIR}/blockchainV1/src/univalue/include")
+	include_directories ("${libRadJav_SOURCE_DIR}/blockchainV1/src/secp256k1/include")
+
+	include_directories (${ZLIB_INCLUDE})
+	#set (libRadJav_LINK_LIBRARIES ${ZLIB_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
+	include_directories (${BerkleyDB_INCLUDE})
+	set (libRadJav_LINK_LIBRARIES ${BerkleyDB_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
+	include_directories (${Boost_INCLUDE})
+	set (libRadJav_LINK_LIBRARIES ${Boost_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
+	include_directories (${OPENSSL_INCLUDE})
+	set (libRadJav_LINK_LIBRARIES ${OPENSSL_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
+	include_directories (${event2_INCLUDE})
+	set (libRadJav_LINK_LIBRARIES ${event2_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
+	include_directories (${miniupnpc_INCLUDE})
+	set (libRadJav_LINK_LIBRARIES ${miniupnpc_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
+
+	if (NOT WIN32)
+		include_directories (${leveldb_INCLUDE})
+		set (RadJavVM_LINK_LIBRARIES ${leveldb_LIBRARIES} ${RadJavVM_LINK_LIBRARIES})
 	endif ()
 
-	set (RadJavVM_CPP_DEFS_DEBUG ${libRadJav_CPP_DEFS_DEBUG2} ${RadJavVM_CPP_DEFS_DEBUG})
-	set (RadJavVM_CPP_DEFS ${libRadJav_CPP_DEFS2} ${RadJavVM_CPP_DEFS})
-	set (RadJavVM_INCLUDE_DIRS ${libRadJav_INCLUDE_DIRS2} ${RadJavVM_INCLUDE_DIRS})
-	set (RadJavVM_LINK_LIBRARIES ${libRadJav_LINK_LIBRARIES2} ${RadJavVM_LINK_LIBRARIES})
-	set (RadJavVM_LINK_LIBRARY_DIRS ${libRadJav_LINK_LIBRARY_DIRS2} ${RadJavVM_LINK_LIBRARY_DIRS})
-	set (RadJavVM_CXX_FLAGS ${libRadJav_CXX_FLAGS2} ${RadJavVM_CXX_FLAGS})
+	include_directories (${secp256k1_INCLUDE})
+	set (RadJavVM_LINK_LIBRARIES ${secp256k1_LIBRARIES} ${RadJavVM_LINK_LIBRARIES})
+	include_directories (${libzmq_INCLUDE})
+	set (RadJavVM_LINK_LIBRARIES ${libzmq_LIBRARIES} ${RadJavVM_LINK_LIBRARIES})
+
+	#if (MSVC)
+	#	add_definitions(/FI stdafx.h)
+	#endif ()
 
 	if (WIN32)
-		list (REMOVE_ITEM RadJavVM_CPP_DEFS WIN32_LEAN_AND_MEAN)
-		list (REMOVE_ITEM RadJavVM_CPP_DEFS_DEBUG WIN32_LEAN_AND_MEAN)
+		set(libRadJav_LINK_LIBRARIES debug Iphlpapi.lib optimized Iphlpapi.lib ${libRadJav_LINK_LIBRARIES})
 	endif ()
+endif ()
+
+if (wxWidgets_FOUND)
+	include_directories (${wxWidgets_INCLUDE})
+	set (RadJavVM_LINK_LIBRARIES ${wxWidgets_LIBRARIES} ${RadJavVM_LINK_LIBRARIES})
+	set (RadJavVM_CPP_DEFS GUI_USE_WXWIDGETS ${RadJavVM_CPP_DEFS})
+
+	#set (RadJavVM_CPP_DEFS wxUSE_DYNLIB_CLASS=1 ${RadJavVM_CPP_DEFS})
+	#set (RadJavVM_CPP_DEFS WXUSINGDLL ${RadJavVM_CPP_DEFS})
+
+	set (RadJavVM_CPP_DEFS wxUSE_GUI=1 ${RadJavVM_CPP_DEFS})
+
+	if (WEBVIEW_TYPE STREQUAL "wxWidgetsDefault")
+		set (RadJavVM_CPP_DEFS_DEBUG WXWIDGETS_HAS_WEBVIEW ${RadJavVM_CPP_DEFS_DEBUG})
+		set (RadJavVM_CPP_DEFS WXWIDGETS_HAS_WEBVIEW ${RadJavVM_CPP_DEFS})
+	endif ()
+
+	if (WIN32)
+		set (RadJavVM_CPP_DEFS WINVER=0x0400 ${RadJavVM_CPP_DEFS})
+		set (RadJavVM_CPP_DEFS NOPCH ${RadJavVM_CPP_DEFS})
+		set (RadJavVM_CPP_DEFS __WXMSW__ ${RadJavVM_CPP_DEFS})
+	endif ()
+endif ()
+
+if (CURL_FOUND)
+	include_directories (${CURL_INCLUDE})
+	set (RadJavVM_LINK_LIBRARIES ${CURL_LIBRARIES} ${RadJavVM_LINK_LIBRARIES})
+	set (RadJavVM_CPP_DEFS HTTP_USE_CURL ${RadJavVM_CPP_DEFS})
+	set (RadJavVM_CPP_DEFS CURL_STATICLIB ${RadJavVM_CPP_DEFS})
+endif ()
+
+if (nghttp2_FOUND)
+	include_directories (${nghttp2_INCLUDE})
+	set (RadJavVM_LINK_LIBRARIES ${nghttp2_LIBRARIES} ${RadJavVM_LINK_LIBRARIES})
+	set (RadJavVM_CPP_DEFS HTTP_USE_NGHTTP2 ${RadJavVM_CPP_DEFS})
+endif ()
+
+if (civetweb_FOUND)
+	include_directories (${civetweb_INCLUDE})
+	set (RadJavVM_LINK_LIBRARIES ${civetweb_LIBRARIES} ${RadJavVM_LINK_LIBRARIES})
+	set (RadJavVM_CPP_DEFS HTTP_USE_CIVETWEB ${RadJavVM_CPP_DEFS})
+endif ()
+
+if (FIND_MEMORY_LEAKS)
+	set (RadJavVM_CPP_DEFS_DEBUG LOG_MEMORY_LEAKS ${RadJavVM_CPP_DEFS_DEBUG})
+endif ()
+
+if (INCLUDE_DATABASES)
+	set (RadJavVM_CPP_DEFS USE_DATABASE ${RadJavVM_CPP_DEFS})
+	set (RadJavVM_CPP_DEFS_DEBUG USE_DATABASE ${RadJavVM_CPP_DEFS_DEBUG})
+
+	set (RadJavVM_CPP_DEFS USE_LEVELDB ${RadJavVM_CPP_DEFS})
+	set (RadJavVM_CPP_DEFS_DEBUG USE_LEVELDB ${RadJavVM_CPP_DEFS_DEBUG})
+
+	if (WIN32)
+		set (RadJavVM_CPP_DEFS LEVELDB_PLATFORM_WINDOWS ${RadJavVM_CPP_DEFS})
+		set (RadJavVM_CPP_DEFS_DEBUG LEVELDB_PLATFORM_WINDOWS ${RadJavVM_CPP_DEFS_DEBUG})
+	else ()
+		set (RadJavVM_CPP_DEFS LEVELDB_PLATFORM_POSIX ${RadJavVM_CPP_DEFS})
+		set (RadJavVM_CPP_DEFS_DEBUG LEVELDB_PLATFORM_POSIX ${RadJavVM_CPP_DEFS_DEBUG})
+	endif ()
+
+	include (Findleveldb)
+
+	if (NOT WIN32)
+		include_directories (${leveldb_INCLUDE})
+		set (RadJavVM_LINK_LIBRARIES ${leveldb_LIBRARIES} ${RadJavVM_LINK_LIBRARIES})
+	endif ()
+endif ()
+
+if (INCLUDE_CRYPTOGRAPHY)
+	set (OPENSSL_ROOT_DIR "" CACHE PATH "OPENSSL_ROOT_DIR")
+
+	set (RadJavVM_CPP_DEFS USE_CRYPTOGRAPHY ${RadJavVM_CPP_DEFS})
+	set (RadJavVM_CPP_DEFS_DEBUG USE_CRYPTOGRAPHY ${RadJavVM_CPP_DEFS_DEBUG})
+
+	set (RadJavVM_CPP_DEFS USE_OPENSSL ${RadJavVM_CPP_DEFS})
+	set (RadJavVM_CPP_DEFS_DEBUG USE_OPENSSL ${RadJavVM_CPP_DEFS_DEBUG})
+
+	include (FindModuleOpenSSL)
+
+	include_directories (${OPENSSL_INCLUDE})
+	set (RadJavVM_LINK_LIBRARIES ${OPENSSL_LIBRARIES} ${RadJavVM_LINK_LIBRARIES})
+endif ()
+
+if (wxWidgets_FOUND)
+	set (RadJavVM_CPP_DEFS_DEBUG WXDEBUG=1 ${RadJavVM_CPP_DEFS_DEBUG})
+	set (RadJavVM_CPP_DEFS_DEBUG __WXDEBUG__ ${RadJavVM_CPP_DEFS_DEBUG})
 endif ()
 
 if (MSVC)
@@ -116,10 +360,17 @@ if (MSVC)
 	set (CMAKE_CXX_FLAGS_RELWITHDEBINFO "/MD /MP")
 endif ()
 
+if (UNIX)
+	add_compile_options (-std=c++11)
+	add_compile_options (-fpermissive)
+endif ()
+
 if (libRadJav_STATIC)
+	set (libRadJav_CPP_DEFS RADJAV_LIB_STATIC ${libRadJav_CPP_DEFS})
 	set (RadJavVM_CPP_DEFS_DEBUG RADJAV_LIB_STATIC ${RadJavVM_CPP_DEFS_DEBUG})
 	set (RadJavVM_CPP_DEFS RADJAV_LIB_STATIC ${RadJavVM_CPP_DEFS})
 else ()
+	set (libRadJav_CPP_DEFS RADJAV_LIB_DLL ${libRadJav_CPP_DEFS})
 	set (RadJavVM_CPP_DEFS_DEBUG RADJAV_LIB_DLL ${RadJavVM_CPP_DEFS_DEBUG})
 	set (RadJavVM_CPP_DEFS RADJAV_LIB_DLL ${RadJavVM_CPP_DEFS})
 endif ()
@@ -133,96 +384,35 @@ if (WIN32)
 	set (RadJavVM_LINK_LIBRARIES ws2_32 wldap32 ${RadJavVM_LINK_LIBRARIES})
 endif ()
 
-set (CMAKE_C_FLAGS ${RadJavVM_CXX_FLAGS} ${CMAKE_C_FLAGS})
-
-
-if (INCLUDE_CRYPTOGRAPHY)
-	set (RadJavVM_LINK_LIBRARIES ${libKrispyCrypto_LIBRARIES} ${RadJavVM_LINK_LIBRARIES})
-	#target_link_libraries ( ${CMAKE_PROJECT_NAME} ${libKrispyCrypto_NAME})
+if (libRadJav_CMAKE_BUILD_PATH)
+	add_subdirectory (${libRadJav_PATH} ${libRadJav_CMAKE_BUILD_PATH})
+else ()
+	add_subdirectory (${libRadJav_PATH} ${libRadJav_PATH}/build)
 endif ()
 
+add_executable (RadJavVM ${ISWIN32} ${ISOSX} ${RadJavVM_SOURCES})
 
-link_directories (${RadJavVM_LINK_LIBRARY_DIRS})
+target_link_libraries (RadJavVM libRadJav)
+target_link_libraries (RadJavVM ${RadJavVM_LINK_LIBRARIES})
+set_target_properties (RadJavVM PROPERTIES COMMAND_ARGUMENTS "${libRadJav_PATH}/../examples/window/window.js")
 
-add_executable (${CMAKE_PROJECT_NAME} ${ISWIN32} ${ISOSX} ${RadJavVM_SOURCES})
-
-if (UNIX)
-	target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -std=c++11)
-	target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -fpermissive)
-endif ()
-
-target_include_directories (${CMAKE_PROJECT_NAME} PUBLIC ${RadJavVM_INCLUDE_DIRS})
-
-target_link_libraries (${CMAKE_PROJECT_NAME} libRadJav)
-target_link_libraries (${CMAKE_PROJECT_NAME} ${RadJavVM_LINK_LIBRARIES})
-
-set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES COMMAND_ARGUMENTS "${libRadJav_PATH}/../examples/window/window.js")
-
-set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
-set_property (TARGET ${CMAKE_PROJECT_NAME} APPEND PROPERTY COMPILE_DEFINITIONS ${RadJavVM_CPP_DEFS})
-set_property (TARGET ${CMAKE_PROJECT_NAME} APPEND PROPERTY COMPILE_DEFINITIONS $<$<CONFIG:Debug>:${RadJavVM_CPP_DEFS} ${RadJavVM_CPP_DEFS_DEBUG}>)
+set_target_properties (RadJavVM PROPERTIES LINKER_LANGUAGE CXX)
+set_property (TARGET RadJavVM APPEND PROPERTY COMPILE_DEFINITIONS ${RadJavVM_CPP_DEFS})
+set_property (TARGET RadJavVM APPEND PROPERTY COMPILE_DEFINITIONS $<$<CONFIG:Debug>:${RadJavVM_CPP_DEFS} ${RadJavVM_CPP_DEFS_DEBUG}>)
 
 if (WIN32)
-	set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:WINDOWS")
-	set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES LINK_FLAGS_RELWITHDEBINFO "/SUBSYSTEM:WINDOWS")
-	set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS")
-	set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:WINDOWS")
-elseif (APPLE)
-	#Set destinations of a bundle
-	set (CMAKE_PROJECT_NAME_LAUNCHER ${CMAKE_PROJECT_NAME}Launcher)
-	
-	set (APP_BUNDLE_LOCATION "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE}/${CMAKE_PROJECT_NAME_LAUNCHER}.app")
-	set (APP_CONTENTS_DIR "${APP_BUNDLE_LOCATION}/Contents")
-	set (APP_EXECUTABLE_DIR "${APP_CONTENTS_DIR}/MacOS")
-	set (APP_RESOURCES_DIR "${APP_CONTENTS_DIR}/Resources")
-	set (APP_BUNDLE_ICON_FILE "RadJav.icns")
-
-	#Creating Launcher
-	add_executable (${CMAKE_PROJECT_NAME_LAUNCHER} ${RadJavVMLauncher_SOURCES})
-	target_link_libraries (${CMAKE_PROJECT_NAME_LAUNCHER} "-framework Cocoa")
-	add_dependencies (${CMAKE_PROJECT_NAME} ${CMAKE_PROJECT_NAME_LAUNCHER})
-
-	#These needs to be defined outside of set_target_properties otherwise they will not be included
-	set (MACOSX_BUNDLE_DISPLAY_NAME ${CMAKE_PROJECT_NAME_LAUNCHER})
-	set (MACOSX_BUNDLE_SIGNATURE "rjvm")
-	set (MACOSX_BUNDLE_MIN_SYSTEM_VERSION "10.13")
-	
-	#Configuring Info.plist for Mac Bundle
-	set_target_properties (${CMAKE_PROJECT_NAME_LAUNCHER} PROPERTIES MACOSX_BUNDLE TRUE
-									MACOSX_BUNDLE_BUNDLE_NAME ${CMAKE_PROJECT_NAME_LAUNCHER}
-									MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
-									MACOSX_BUNDLE_LONG_VERSION_STRING ${PROJECT_VERSION}
-									MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION}
-									MACOSX_BUNDLE_ICON_FILE ${APP_BUNDLE_ICON_FILE}
-									MACOSX_BUNDLE_COPYRIGHT "© 2018, Higher Edge Software"
-									MACOSX_BUNDLE_GUI_IDENTIFIER "com.highersoftware.${CMAKE_PROJECT_NAME}"
-									MACOSX_BUNDLE_INFO_PLIST "${CMAKE_SOURCE_DIR}/CMake/Info.plist.in")
-	
-	#Copying icons
-	add_custom_command (TARGET ${CMAKE_PROJECT_NAME_LAUNCHER} POST_BUILD
-				COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/installers/mac/${APP_BUNDLE_ICON_FILE} ${APP_RESOURCES_DIR}/${APP_BUNDLE_ICON_FILE})
-	
-	#Place VM into correct bundle folder
-	set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG ${APP_EXECUTABLE_DIR}
-								RUNTIME_OUTPUT_DIRECTORY_RELEASE ${APP_EXECUTABLE_DIR}
-								RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL ${APP_EXECUTABLE_DIR}
-								RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO ${APP_EXECUTABLE_DIR})
-	
-	#Copying dependencies
-	foreach (dependency ${RadJavVM_DEPENDENCY_OBJECTS_LIST})
-		add_custom_command (TARGET ${CMAKE_PROJECT_NAME} POST_BUILD 
-					COMMAND ${CMAKE_COMMAND} -E copy ${dependency} ${APP_EXECUTABLE_DIR}
-					COMMENT "Adding extra dependency into application bundle: ${dependency}"
-					VERBATIM )
-	endforeach (dependency)
+	set_target_properties (RadJavVM PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:WINDOWS")
+	set_target_properties (RadJavVM PROPERTIES LINK_FLAGS_RELWITHDEBINFO "/SUBSYSTEM:WINDOWS")
+	set_target_properties (RadJavVM PROPERTIES LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS")
+	set_target_properties (RadJavVM PROPERTIES LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:WINDOWS")
 endif ()
 
-set_property (TARGET ${CMAKE_PROJECT_NAME} PROPERTY PROJECT_LABEL ${CMAKE_PROJECT_NAME})
-add_dependencies (${CMAKE_PROJECT_NAME} libRadJav)
+set_property (TARGET RadJavVM PROPERTY PROJECT_LABEL "RadJavVM")
+add_dependencies (RadJavVM libRadJav)
 
 if (${CMAKE_VERSION} VERSION_GREATER "3.6.0")
 	if (MSVC)
-		set_property (DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${CMAKE_PROJECT_NAME})
+		set_property (DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT RadJavVM)
 	endif ()
 endif ()
 
@@ -235,11 +425,3 @@ endif ()
 #	set_property (TARGET RadJavCompileResources APPEND PROPERTY COMPILE_DEFINITIONS ${RadJavVM_CPP_DEFS})
 #	set_property (TARGET RadJavCompileResources APPEND PROPERTY COMPILE_DEFINITIONS $<$<CONFIG:Debug>:${RadJavVM_CPP_DEFS} ${RadJavVM_CPP_DEFS_DEBUG}>)
 #endif ()
-
-if (RadJavVM_CREATE_INSTALL_PACKAGES)
-	#Install
-	include (InstallRadJavVM)
-
-	#Packaging
-	include (PackageRadJavVM)
-endif ()

@@ -27,8 +27,8 @@ namespace RadJav {
      * A Textbox.
      * Available on platforms: Windows,Linux,OSX,HTML5
      */
-   export class Textbox extends RadJav.GUI.GObject{
-      constructor(obj?: any, text?: String, parent?: RadJav.GUI.GObject) {
+    class Textbox extends GObject {
+      constructor(obj?: Object, text?: String, parent?: GObject) {
         if (obj == null) {
           obj = {};
         }

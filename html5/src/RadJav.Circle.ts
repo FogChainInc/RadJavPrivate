@@ -26,7 +26,7 @@ namespace RadJav {
    * Available on platforms: Windows,Linux,OSX,HTML5
    */
   export class Circle {
-    constructor(x: any, y: any, r: any) {
+    constructor(x: 0, y: 0, r: 0) {
       if (typeof x == "object") {
         var circle = x;
         x = circle.x;
@@ -39,18 +39,18 @@ namespace RadJav {
       this.radius_squared = r * r;
     }
 
-    x: number;
-    y: number;
-    radius_squared: number;
+    x: Number;
+    y: Number;
+    radius_squared: Number;
 
     /** Returns true if the point provided is inside the circle.
      * @param {Number/RadJav.Vector2} x The x coordinate or Vector2 position.
      * @param {Number} [y=null] The y coordinate of the position.
      * @return {Boolean} Returns true if the point is inside the circle.
      */
-    pointInside(x: number, y: number): boolean {
+    pointInside(x: Number, y: Number): boolean {
       if (typeof x == "object") {
-        var pos:any = x;
+        var pos = x;
         x = pos.x;
         y = pos.y;
       }

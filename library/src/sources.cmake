@@ -22,8 +22,7 @@ set (SOURCES ${SOURCES_files_wxWidgets__Main__Sources} ${SOURCES})
 
 # V8 JavaScript Engine
 set (SOURCES_files_RadJav__v8__Sources 
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8JavascriptEngine.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8Externals.cpp")
+	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8JavascriptEngine.cpp")
 source_group ("RadJav\\V8" FILES ${SOURCES_files_RadJav__v8__Sources})
 
 set (SOURCES ${SOURCES_files_RadJav__v8__Sources} ${SOURCES})
@@ -94,21 +93,6 @@ source_group ("RadJav\\V8\\Database" FILES ${SOURCES_files_RadJav__v8__DB__Sourc
 
 set (SOURCES ${SOURCES_files_RadJav__v8__DB__Sources} ${SOURCES})
 
-# V8 Crypto
-set (SOURCES_files_RadJav__v8__Crypto__Sources 
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8CryptoCipher.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8CryptoDecipher.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8CryptoCipherMultipart.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8CryptoDecipherMultipart.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8CryptoKeyGenerator.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8CryptoPrivateKey.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8CryptoPublicKey.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8CryptoHash.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8CryptoHashMultipart.cpp")
-source_group ("RadJav\\V8\\Crypto" FILES ${SOURCES_files_RadJav__v8__Crypto__Sources})
-
-set (SOURCES ${SOURCES_files_RadJav__v8__Crypto__Sources} ${SOURCES})
-
 # V8 Blockchain
 set (SOURCES_files_RadJav__v8__Blockchain__Sources 
 	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8BlockchainV1.cpp")
@@ -139,8 +123,7 @@ set (SOURCES_files_RadJav__cpp__Global__Sources
 	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPVector2.cpp"
 	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPVector3.cpp"
 	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPVector4.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPThread.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPChainedPtr.cpp")
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPThread.cpp")
 source_group ("RadJav\\CPP\\Global" FILES ${SOURCES_files_RadJav__cpp__Global__Sources})
 
 set (SOURCES ${SOURCES_files_RadJav__cpp__Global__Sources} ${SOURCES})
@@ -157,45 +140,17 @@ set (SOURCES_files_RadJav__cpp__Net__Sources
 	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNet.cpp"
 	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebSocketServer.cpp"
 	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebSocketClient.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebServer.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebServerUpgradable.cpp")
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebServer.cpp")
 source_group ("RadJav\\CPP\\Net" FILES ${SOURCES_files_RadJav__cpp__Net__Sources})
 
 set (SOURCES ${SOURCES_files_RadJav__cpp__Net__Sources} ${SOURCES})
 
-if (libRadJav_DEBUG_INSPECTOR)
-# C++ Inspector Agent
-	set (SOURCES_files_RadJav__cpp__Agent__Sources 
-		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPAgent.cpp"
-		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPAgentIO.cpp")
-	source_group ("RadJav\\CPP\\Agent" FILES ${SOURCES_files_RadJav__cpp__Agent__Sources})
-
-	set (SOURCES ${SOURCES_files_RadJav__cpp__Agent__Sources} ${SOURCES})
-endif()
-
 # C++ Database
 set (SOURCES_files_RadJav__cpp__Database__Sources 
-	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPDBKeyValueStorage.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPDBNuDB.cpp")
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPDBKeyValueStorage.cpp")
 source_group ("RadJav\\CPP\\Database" FILES ${SOURCES_files_RadJav__cpp__Database__Sources})
 
 set (SOURCES ${SOURCES_files_RadJav__cpp__Database__Sources} ${SOURCES})
-
-# C++ Crypto
-set (SOURCES_files_RadJav__cpp__Crypto__Sources 
-	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPCryptoBase.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPCryptoCipher.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPCryptoDecipher.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPCryptoCipherMultipart.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPCryptoDecipherMultipart.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPCryptoKeyGenerator.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPCryptoPrivateKey.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPCryptoPublicKey.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPCryptoHash.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPCryptoHashMultipart.cpp")
-source_group ("RadJav\\CPP\\Crypto" FILES ${SOURCES_files_RadJav__cpp__Crypto__Sources})
-
-set (SOURCES ${SOURCES_files_RadJav__cpp__Crypto__Sources} ${SOURCES})
 
 # C++ GUI
 set (SOURCES_files_RadJav__cpp__GUI__Sources 

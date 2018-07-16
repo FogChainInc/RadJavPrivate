@@ -21,14 +21,14 @@
 /// <reference path="RadJav.ts" />
 
 namespace RadJav {
-  export namespace GUI {
+  namespace GUI {
     /** @class RadJav.GUI.Label
      * @extends RadJav.GUI.GObject
      * A label.
      * Available on platforms: Windows,Linux,OSX,HTML5
      */
-    export class List extends RadJav.GUI.GObject {
-      constructor(obj?: any, text?: String, parent?: RadJav.GUI.GObject) {
+    class Label extends GObject {
+      constructor(obj?: Object, text?: String, parent?: GObject) {
         if (obj == null) {
           obj = {};
         }
@@ -60,10 +60,6 @@ namespace RadJav {
         this._columns = RadJav.setDefaultValue(obj._columns, []);
       }
 
-      protected _canSort: any;
-      protected _hasCheckBoxes: any;
-      protected _columns: any;;
-
       /** @method addColumn
        * Add a column to this list.
        * Theme Event: addColumn
@@ -91,7 +87,7 @@ namespace RadJav {
         }
 
         this._columns.push(tempColumn);
-        RadJav.Theme.eventSync(this.type, "addColumn", this, tempColumn);
+        RadJav.theme.eventSync(this.type, "addColumn", this, tempColumn);
       }
 
       /** @method setColumns
@@ -103,7 +99,7 @@ namespace RadJav {
        */
       setColumns(columns) {
         this._columns = columns;
-        RadJav.Theme.eventSync(this.type, "setColumns", this, columns);
+        RadJav.theme.eventSync(this.type, "setColumns", this, columns);
       }
 
       /** @method addRow
@@ -117,7 +113,7 @@ namespace RadJav {
        * parameter, and it will be deleted from the row object.
        */
       addRow(row, hiddenValue) {
-        RadJav.Theme.eventSync(this.type, "addRow", this, row, hiddenValue);
+        RadJav.theme.eventSync(this.type, "addRow", this, row, hiddenValue);
       }
 
       /** @method setRows
@@ -129,7 +125,7 @@ namespace RadJav {
        * @param {Array} [hiddenRows=null] The hidden rows of data to set.
        */
       setRows(rows, hiddenRows) {
-        RadJav.Theme.eventSync(this.type, "setRows", this, rows, hiddenRows);
+        RadJav.theme.eventSync(this.type, "setRows", this, rows, hiddenRows);
       }
 
       /** @method getSelectedRows
@@ -140,7 +136,7 @@ namespace RadJav {
        * @return {RadJav.GUI.List.Selection} The selected objects.
        */
       getSelectedRows() {
-        return RadJav.Theme.eventSync(this.type, "getSelectedRows", this);
+        return RadJav.theme.eventSync(this.type, "getSelectedRows", this);
       }
 
       /** @method deleteRows
@@ -151,17 +147,15 @@ namespace RadJav {
        * @param {RadJav.GUI.List.Selection} selection The selection to delete.
        */
       deleteRows(selection) {
-        return RadJav.Theme.eventSync(this.type, "deleteRows", this, selection);
+        return RadJav.theme.eventSync(this.type, "deleteRows", this, selection);
       }
-
-
     }
 
     /** @class RadJav.GUI.List.Row
      * A List row.
      * Available on platforms: Windows,Linux,OSX,HTML5
      */
-    export class Row {
+    class Row {
       constructor(obj) {
         if (obj == null) {
           obj = {};
@@ -186,82 +180,79 @@ namespace RadJav {
       }
     }
 
-    export namespace List {
-
-      /** @class RadJav.GUI.List.Item
-       * A List item.
-       * Available on platforms: Windows,Linux,OSX,HTML5
-       */
-      export class Item {
-        constructor(obj) {
-          if (obj == null) {
-            obj = {};
-          }
-          this.name = RadJav.setDefaultValue(obj.name, "");
-          this.text = RadJav.setDefaultValue(obj.text, "");
+    /** @class RadJav.GUI.List.Item
+     * A List item.
+     * Available on platforms: Windows,Linux,OSX,HTML5
+     */
+    class Item {
+      constructor(obj) {
+        if (obj == null) {
+          obj = {};
         }
-
-        /** @property {String} [name=""]
-         * The name to display.
-         */
-        name: String;
-        /** @property {String} [text=""]
-         * The text to display.
-         */
-        text: string;
+        this.name = RadJav.setDefaultValue(obj.name, "");
+        this.text = RadJav.setDefaultValue(obj.text, "");
       }
 
-      /** @class RadJav.GUI.List.Column
-       * A List column.
-       * Available on platforms: Windows,Linux,OSX,HTML5
+      /** @property {String} [name=""]
+       * The name to display.
        */
-      export class Column {
-        constructor(obj) {
-          if (obj == null) {
-            obj = {};
-          }
-          this.text = RadJav.setDefaultValue(obj.text, "");
-          this.width = RadJav.setDefaultValue(obj.width, 0);
-          this.key = RadJav.setDefaultValue(obj.key, null);
+      name: String;
+      /** @property {String} [text=""]
+       * The text to display.
+       */
+      text: string;
+    }
+
+    /** @class RadJav.GUI.List.Column
+     * A List column.
+     * Available on platforms: Windows,Linux,OSX,HTML5
+     */
+    class Column {
+      constructor(obj) {
+        if (obj == null) {
+          obj = {};
         }
-        /** @property {String} [text=""]
-         * The text to display.
-         */
-        text: String;
-        /** @property {Number} [width=0]
-         * The column width. If set to 0, the width will be automatic.
-         */
-        width: number;
-        /** @property {Object} [key=null]
-         * The key associated with this column.
-         */
-        key: object;
+        this.text = RadJav.setDefaultValue(obj.text, "");
+        this.width = RadJav.setDefaultValue(obj.width, 0);
+        this.key = RadJav.setDefaultValue(obj.key, null);
+      }
+      /** @property {String} [text=""]
+       * The text to display.
+       */
+      text: String;
+      /** @property {Number} [width=0]
+       * The column width. If set to 0, the width will be automatic.
+       */
+      width: number;
+      /** @property {Object} [key=null]
+       * The key associated with this column.
+       */
+      key: object;
+    }
+
+    /** @class RadJav.GUI.List.Selection
+     * A List selection.
+     * Available on platforms: Windows,Linux,OSX,HTML5
+     */
+    class Selection {
+      constructor(obj) {
+        if (obj == null) {
+          obj = {};
+        }
+        this._html = RadJav.setDefaultValue(obj._html, null);
+        this._appObj = RadJav.setDefaultValue(obj._appObj, null);
       }
 
-      /** @class RadJav.GUI.List.Selection
-       * A List selection.
-       * Available on platforms: Windows,Linux,OSX,HTML5
+      /** @property {Mixed} [_html=null]
+       * @protected
+       * The HTML object associated with this selection.
        */
-      export class Selection {
-        constructor(obj) {
-          if (obj == null) {
-            obj = {};
-          }
-          this._html = RadJav.setDefaultValue(obj._html, null);
-          this._appObj = RadJav.setDefaultValue(obj._appObj, null);
-        }
-
-        /** @property {Mixed} [_html=null]
-         * @protected
-         * The HTML object associated with this selection.
-         */
-        _html;
-        /** @property {Mixed} [_appObj=null]
-         * @protected
-         * The os object associated with this selection.
-         */
-        _appObj;
-      }
+      _html;
+      /** @property {Mixed} [_appObj=null]
+       * @protected
+       * The os object associated with this selection.
+       */
+      _appObj;
     }
   }
 }

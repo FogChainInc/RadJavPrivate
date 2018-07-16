@@ -36,7 +36,7 @@ namespace RadJAV
 
 				void RadioFrame::onChanged(wxCommandEvent &event)
 				{
-					Event *pevent = (Event *)event.GetEventUserData();
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 
@@ -70,8 +70,6 @@ namespace RadJAV
 					object->SetValue(_checked);
 
 					_appObj = object;
-				
-					linkWith(object);
 
 					setup();
 				#endif
@@ -86,8 +84,10 @@ namespace RadJAV
 
 					if (event == "change")
 					{
+						v8::Persistent<v8::Value> *pevent = object->createEvent(event, func);
+
 						#ifdef GUI_USE_WXWIDGETS
-						object->Connect(wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(RadioFrame::onChanged), object->createEvent(event, func));
+						object->Connect(wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(RadioFrame::onChanged), (wxObject *)pevent);
 						#endif
 					}
 

@@ -18,23 +18,23 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-/** @class string
+/** @class String
 * The string class.
 */
 interface String
 {
-	insertAt(startPos: number, str: string): string;
-	removeAt(startPos: number, length: number): string;
-	replaceAll(str: string, replacement: string): string;
+	insertAt(startPos: number, str: string): String;
+	removeAt(startPos: number, length: number): String;
+	replaceAll(str: string, replacement: string): String;
 }
 
 /** @method insertAt
 * Insert a string at a specific position.
 * @param {Number} startPos The starting position to insert the string.
-* @param {string} str The string to insert.
-* @return {string} The final string.
+* @param {String} str The string to insert.
+* @return {String} The final string.
 */
-String.prototype.insertAt = function (startPos: number, str: string): string {
+String.prototype.insertAt = function (startPos: number, str: string): String {
 	var finalStr = "";
 
 	finalStr += this.substr(0, startPos);
@@ -48,9 +48,9 @@ String.prototype.insertAt = function (startPos: number, str: string): string {
 * Remove string at a specific position.
 * @param {Number} startPos The starting position to insert the string.
 * @param {Number} [length=-1] The number of characters to remove.
-* @return {string} The final string.
+* @return {String} The final string.
 */
-String.prototype.removeAt = function (startPos: number, length: number): string {
+String.prototype.removeAt = function (startPos: number, length: number): String {
 	var str = this;
 
 	if (length < 0) length = str.length;
@@ -63,10 +63,10 @@ String.prototype.removeAt = function (startPos: number, length: number): string 
 
 /** @method replaceAll
 * Replace all occurances of a string with another.
-* @param {string} str The string to replace.
-* @param {string} replacement The string to replace str with.
-* @return {string} The final string.
+* @param {String} str The string to replace.
+* @param {String} replacement The string to replace str with.
+* @return {String} The final string.
 */
-String.prototype.replaceAll = function (str: string, replacement: string): string {
+String.prototype.replaceAll = function (str: string, replacement: string): String {
 	return this.replace(new RegExp(str, "g"), replacement);
 }

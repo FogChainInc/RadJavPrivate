@@ -56,7 +56,6 @@ namespace RadJAV
 				V8_CALLBACK(object, "setEnabled", MenuItem::setEnabled);
 				V8_CALLBACK(object, "getEnabled", MenuItem::getEnabled);
 				V8_CALLBACK(object, "on", MenuItem::on);
-				V8_CALLBACK(object, "destroy", MenuItem::destroy);
 			}
 
 			void MenuItem::create(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -325,15 +324,6 @@ namespace RadJAV
 
 			void MenuItem::on(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-			}
-
-			void MenuItem::destroy(const v8::FunctionCallbackInfo<v8::Value> &args)
-			{
-				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-				if (appObject != NULL)
-					delete appObject;
-				
-				V8_JAVASCRIPT_ENGINE->v8ClearExternal(args.This(), "_appObj");
 			}
 		}
 	}

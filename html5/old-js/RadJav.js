@@ -479,29 +479,24 @@ var RadJav =
 	*/
 	runApplication: function (file)
 	{
-		var promise = RadJav.initialize ().then (RadJav.keepContext (function ()
-			{
-				var promise = null;
+		var promise = null;
 
-				if (typeof (file) == "string")
+		if (typeof (file) == "string")
+		{
+			promise = RadJav.include (file).then (RadJav.keepContext (function (data)
 				{
-					promise = RadJav.include (file).then (RadJav.keepContext (function (data)
-						{
-							var func = new Function (data);
-							func ();
-						}, this));
-				}
-				else
+					var func = new _Function (data);
+					func ();
+				}, this));
+		}
+		else
+		{
+			promise = new Promise (RadJav.keepContext (function (resolve, reject, func)
 				{
-					promise = new Promise (RadJav.keepContext (function (resolve, reject, func)
-						{
-							func ();
-							resolve ();
-						}, this, file));
-				}
-
-				return (promise);
-			}, this));
+					func ();
+					resolve ();
+				}, this, file));
+		}
 
 		return (promise);
 	}, 

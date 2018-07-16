@@ -72,25 +72,11 @@
 	#include "v8/RadJavV8C3DWorld.h"
 	#include "v8/RadJavV8C3DCamera.h"
 	#include "v8/RadJavV8C3DLight.h"
-
-	// Crypto
-	#include "v8/RadJavV8CryptoCipher.h"
-	#include "v8/RadJavV8CryptoDecipher.h"
-	#include "v8/RadJavV8CryptoCipherMultipart.h"
-	#include "v8/RadJavV8CryptoDecipherMultipart.h"
-	#include "v8/RadJavV8CryptoKeyGenerator.h"
-	#include "v8/RadJavV8CryptoPrivateKey.h"
-	#include "v8/RadJavV8CryptoPublicKey.h"
-	#include "v8/RadJavV8CryptoHash.h"
-	#include "v8/RadJavV8CryptoHashMultipart.h"
-
 #endif
 
 #include "cpp/RadJavCPPIO.h"
 
 #include <cstring>
-
-#include "cpp/RadJavCPPAgent.h"
 
 namespace RadJAV
 {
@@ -138,13 +124,42 @@ namespace RadJAV
 			free(data);
 		}*/
 
-		V8JavascriptEngine::V8JavascriptEngine()
-			: JavascriptEngine(),
-			  arrayBufferAllocator(nullptr),
-			  externalsManager(nullptr)
+		V8JSInspectorClient::V8JSInspectorClient(v8::Local<v8::Context> context, bool connect)
 		{
-			externalsManager = RJNEW ExternalsManager();
-			
+			if (!connect) return;
+
+			//server_ = RJNEW RadJAV::CPP::Net::WebSocketServer();
+			//server_->listen();
+
+			isolate_ = context->GetIsolate();
+			channel_.reset(new V8JSChannel(context));
+			inspector_ = v8_inspector::V8Inspector::create(isolate_, this);
+			session_ =
+				inspector_->connect(1, channel_.get(), v8_inspector::StringView());
+			context->SetAlignedPointerInEmbedderData(kInspectorClientIndex, this);
+			inspector_->contextCreated(v8_inspector::V8ContextInfo(
+				context, kContextGroupId, v8_inspector::StringView()));
+
+			v8::Local<v8::Value> function =
+				v8::FunctionTemplate::New(isolate_, SendInspectorMessage)
+				->GetFunction(context)
+				.ToLocalChecked();
+			v8::Local<v8::String> function_name =
+				v8::String::NewFromUtf8(isolate_, "send", v8::NewStringType::kNormal)
+				.ToLocalChecked();
+			//CHECK(
+			context->Global()->Set(context, function_name, function).FromJust();
+			//);
+
+			//enabled by default, not exported to v8 lib
+			//v8::debug::SetLiveEditEnabled(isolate_, true);
+
+			context_.Reset(isolate_, context);
+		}
+
+		V8JavascriptEngine::V8JavascriptEngine()
+			: JavascriptEngine()
+		{
 			String execPath = "";
 
 			#ifdef GUI_USE_WXWIDGETS
@@ -198,10 +213,7 @@ namespace RadJAV
 			v8::Isolate::CreateParams createParams;
 			//V8ArrayBufferAllocator allocator;
 			//createParams.array_buffer_allocator = &allocator;
-			
-			// ArrayBuffer allocator needs to be freed by us
-			arrayBufferAllocator = v8::ArrayBuffer::Allocator::NewDefaultAllocator ();
-			createParams.array_buffer_allocator = arrayBufferAllocator;
+			createParams.array_buffer_allocator = v8::ArrayBuffer::Allocator::NewDefaultAllocator ();
 
 			isolate = v8::Isolate::New(createParams);
 
@@ -212,8 +224,6 @@ namespace RadJAV
 
 		V8JavascriptEngine::~V8JavascriptEngine()
 		{
-			DELETEOBJ(externalsManager);
-
 			DELETEOBJ(radJav);
 			destroyJSObjects();
 
@@ -227,24 +237,22 @@ namespace RadJAV
 			#endif
 
 			DELETEOBJ(platform);
-
-			delete arrayBufferAllocator;
-			arrayBufferAllocator = nullptr;
 		}
 
 		void V8JavascriptEngine::startInspector(v8::Local<v8::Context> context)
 		{
-			//TODO: move inspector init code here
+			// create a v8 inspector client
+			v8::Context::Scope cscope(context);
+			inspector.reset(new V8JSInspectorClient(context, true));
+			//inspector.
+			//V8JSInspector inspector_client(context, true);
+
 		}
 
 		void V8JavascriptEngine::runApplication(String applicationSource, String fileName)
 		{
 			String parentDir = fileName;
-			
-			#ifdef USE_INSPECTOR
-				inspector::Agent* agent_ = nullptr;
-			#endif
-			
+
 			#ifdef GUI_USE_WXWIDGETS
 				wxFileName file(parentDir.towxString());
 				file.MakeAbsolute();
@@ -274,19 +282,18 @@ namespace RadJAV
 
 			loadNativeCode();
 
+			internalObjectTemplate = v8::ObjectTemplate::New(isolate);
+			internalObjectTemplate->SetInternalFieldCount(1);
+
 			v8::Local<v8::Object> obj = v8GetObject(globalContext->Global(), "RadJav");
 			radJav = RJNEW v8::Persistent<v8::Object>();
 			radJav->Reset(isolate, obj);
-			
-			#ifdef USE_INSPECTOR
-				if (useInspector) {
-					//TODO: move to startInspector
-					agent_ = RJNEW inspector::Agent("0.0.0.0", "inspector.log");
-					agent_->Start(isolate, platform, fileName);
-					agent_->PauseOnNextJavascriptStatement("Break on start");
-				}
-			#endif
-			
+
+			//if (useInspector) {
+			//	startInspector(globalContext);
+			//}
+			V8JSInspectorClient* client = RJNEW V8JSInspectorClient(globalContext, useInspector);
+
 			try
 			{
 				// Check the application source to see if its an XRJ file.
@@ -345,7 +352,7 @@ namespace RadJAV
 							for (RJUINT iIdx = 0; iIdx < filesToExecute.size(); iIdx++)
 							{
 								String executeFile = filesToExecute.at(iIdx);
-								String fileContents = CPP::IO::TextFile::readFile(executeFile);
+								String fileContents = CPP::IO::TextFile::getFileContents(executeFile);
 
 								executeScript(fileContents, executeFile);
 							}
@@ -369,6 +376,12 @@ namespace RadJAV
 			RJBOOL firstRun = true;
 			RJBOOL startedBlockchainV1 = false;
 
+			#ifdef GUI_USE_WXWIDGETS
+				wxLongLong currentTime = 0;
+				wxLongLong prevTime = 0;
+				RJLONG diffTime = 0;
+			#endif
+
 			while (true)
 			{
 				auto execCodeBegin = jsToExecuteNextCode.begin();
@@ -378,6 +391,12 @@ namespace RadJAV
 
 				try
 				{
+					#ifdef GUI_USE_WXWIDGETS
+						currentTime = wxGetLocalTimeMillis();
+						diffTime = (currentTime - prevTime).GetValue();
+						prevTime = currentTime;
+					#endif
+
 					v8::platform::PumpMessageLoop(platform, isolate);
 					RadJav::runEventLoopSingleStep();
 
@@ -414,31 +433,40 @@ namespace RadJAV
 					}
 					#endif
 
-					//Handle timers (setTimeout from JS)
-					auto timer = timers.begin();
-					auto timerEnd = timers.end();
-					auto currentTime = std::chrono::steady_clock::now();
+					auto timeoutBegin = timeoutFuncs.begin();
+					auto timeoutsBegin = timeouts.begin();
+					auto timeoutEnd = timeoutFuncs.end();
 
-					while (timer != timerEnd)
+					while (timeoutBegin != timeoutEnd)
 					{
-						v8::Persistent<v8::Function> *funcp = (*timer).first;
-						std::chrono::time_point<std::chrono::steady_clock> fireTime = (*timer).second;
-						
-						if (fireTime <= currentTime)
+						v8::Persistent<v8::Function> *funcp = *timeoutBegin;
+						RJINT time = *timeoutsBegin;
+
+						if (time <= 0)
 						{
-							timer = timers.erase(timer);
-							
+							timeoutFuncs.erase(timeoutBegin);
+							timeouts.erase(timeoutsBegin);
+
 							v8::Local<v8::Function> func = funcp->Get(isolate);
-							
+
 							if (func->IsNullOrUndefined() == false)
 								func->Call(globalContext->Global(), 0, NULL);
-							
+
 							DELETEOBJ(funcp);
+
+							timeoutBegin = timeoutFuncs.begin();
+							timeoutsBegin = timeouts.begin();
+							timeoutEnd = timeoutFuncs.end();
 
 							continue;
 						}
 
-						timer++;
+						#ifdef GUI_USE_WXWIDGETS
+							(*timeoutsBegin) = time - (RJINT)diffTime;
+						#endif
+
+						timeoutBegin++;
+						timeoutsBegin++;
 					}
 
 					for (RJUINT iIdx = 0; iIdx < removeThreads.size(); iIdx++)
@@ -577,11 +605,7 @@ namespace RadJAV
 						break;
 				}
 			}
-
-			#ifdef USE_INSPECTOR
-				DELETEOBJ(agent_);
-			#endif
-			
+			DELETEOBJ( client );
 			isolate->ContextDisposedNotification();
 			isolate->LowMemoryNotification();
 		}
@@ -897,10 +921,8 @@ namespace RadJAV
 
 		void V8JavascriptEngine::addTimeout (v8::Persistent<v8::Function> *func, RJINT time)
 		{
-			auto fireTime = std::chrono::steady_clock::now();
-			fireTime += std::chrono::milliseconds(time);
-			
-			timers.push_back( std::make_pair(func, fireTime));
+			timeoutFuncs.push_back(func);
+			timeouts.push_back(time);
 		}
 
 		void V8JavascriptEngine::blockchainEvent(String event, String dataType, void *data)
@@ -1076,6 +1098,8 @@ namespace RadJAV
 				V8_CALLBACK(radJavFunc, "exit", V8B::Global::exit);
 				V8_CALLBACK(radJavFunc, "quit", V8B::Global::exit);
 
+				V8_CALLBACK(radJavFunc, "quit", V8B::Global::exit);
+
 				// RadJav.OS
 				{
 					v8::Handle<v8::Function> osFunc = v8GetFunction(radJavFunc, "OS");
@@ -1109,13 +1133,7 @@ namespace RadJAV
 				{
 					v8::Handle<v8::Function> ioFunc = v8GetFunction(radJavFunc, "IO");
 
-					// RadJav.IO.FileIO
-					{
-						v8::Handle<v8::Function> filemFunc = v8GetFunction(ioFunc, "FileIO");
-						v8::Handle<v8::Object> filePrototype = v8GetObject(filemFunc, "prototype");
-
-						V8B::IO::FileIO::createV8Callbacks(isolate, filePrototype);
-					}
+					V8B::IO::createV8Callbacks(isolate, ioFunc);
 
 					// RadJav.IO.SerialComm
 					{
@@ -1128,9 +1146,8 @@ namespace RadJAV
 					// RadJav.IO.TextFile
 					{
 						v8::Handle<v8::Function> textFileFunc = v8GetFunction(ioFunc, "TextFile");
-						v8::Handle<v8::Object> textPrototype = v8GetObject(textFileFunc, "prototype");
 
-						V8B::IO::TextFile::createV8Callbacks(isolate, textPrototype);
+						V8B::IO::TextFile::createV8Callbacks(isolate, textFileFunc);
 					}
 				}
 
@@ -1355,139 +1372,6 @@ namespace RadJAV
 					}
 				}
 				#endif
-				#ifdef USE_CRYPTOGRAPHY
-				// RadJav.Crypto.Hash
-				{
-				  v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
-
-				  {
-
-				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "Hash");
-				    V8_CALLBACK(func, "getCapabilities", V8B::Crypto::Hash::getCapabilities);
-				    //std::cout << "Obj FieldCount: " << func -> InternalFieldCount() << std::endl << std::flush;
-				    //std::cout << "Obj ExtFieldCount: " << func -> GetIndexedPropertiesExternalArrayDataLength() << std::endl << std::flush;
-				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
-				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    //std::cout <<  "Len: " << str -> Length() << std::endl << std::flush;
-				    //std::cout << "Obj FieldCount: " << prototype -> InternalFieldCount() << std::endl << std::flush;
-				    
-
-				    V8B::Crypto::Hash::createV8Callbacks(isolate, prototype);
-				  }
-
-				}
-
-
-				// RadJav.Crypto.HashMultipart
-				{
-				  v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
-
-				  {
-				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "HashMultipart");
-				    V8_CALLBACK(func, "getCapabilities", V8B::Crypto::HashMultipart::getCapabilities);
-				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
-				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    V8B::Crypto::HashMultipart::createV8Callbacks(isolate, prototype);
-				  }
-
-				}
-				// RadJav.Crypto.Cipher
-				{
-				  v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
-
-				  {
-				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "Cipher");
-				    V8_CALLBACK(func, "getCapabilities", V8B::Crypto::Cipher::getCapabilities);
-				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
-				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    V8B::Crypto::Cipher::createV8Callbacks(isolate, prototype);
-				  }
-				}
-				// RadJav.Crypto.Decipher
-				{
-				  v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
-
-				  {
-				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "Decipher");
-				    V8_CALLBACK(func, "getCapabilities", V8B::Crypto::Decipher::getCapabilities);
-				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
-				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    V8B::Crypto::Decipher::createV8Callbacks(isolate, prototype);
-				  }
-				}
-				// RadJav.Crypto.CipherMultipart
-				{
-				  v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
-
-				  {
-				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "CipherMultipart");
-				    V8_CALLBACK(func, "getCapabilities", V8B::Crypto::CipherMultipart::getCapabilities);
-				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
-				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    V8B::Crypto::CipherMultipart::createV8Callbacks(isolate, prototype);
-				  }
-				}
-
-
-				// RadJav.Crypto.DecipherMultipart
-				{
-				  v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
-
-				  {
-				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "DecipherMultipart");
-				    V8_CALLBACK(func, "getCapabilities", V8B::Crypto::DecipherMultipart::getCapabilities);
-				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
-				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    V8B::Crypto::DecipherMultipart::createV8Callbacks(isolate, prototype);
-
-				  }
-				}
-
-				// RadJav.Crypto.KeyGenerator
-				{
-				  v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
-
-				  {
-				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "KeyGenerator");
-				    //				    V8_CALLBACK(func, "getCapabilities", V8B::Crypto::DecipherMultipart::getCapabilities);
-				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
-				    //				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    V8B::Crypto::KeyGenerator::createV8Callbacks(isolate, prototype);
-				  }
-				}
-
-				// RadJav.Crypto.PrivateKey
-				{
-				  v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
-
-				  {
-				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "PrivateKey");
-				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
-
-				    V8B::Crypto::PrivateKey::createV8Callbacks(isolate, prototype);
-				    V8B::Crypto::PrivateKey::setConstructor(isolate, func);
-
-				    v8::Handle<v8::Object> init = v8GetObject(prototype, "_init");
-				    
-				  }
-				}
-
-				// RadJav.Crypto.PublicKey
-				{
-				  v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
-
-				  {
-				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "PublicKey");
-				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
-
-				    V8B::Crypto::PublicKey::createV8Callbacks(isolate, prototype);
-				    V8B::Crypto::PublicKey::setConstructor(isolate, func);
-
-				  }
-				}
-
-				#endif
-				
 			}
 		}
 
@@ -1630,19 +1514,28 @@ namespace RadJAV
 			return (obj);
 		}
 
-		CPP::ChainedPtr* V8JavascriptEngine::v8GetExternal(v8::Local<v8::Object> context, String functionName)
+		void *V8JavascriptEngine::v8GetExternal(v8::Local<v8::Object> context, String functionName)
 		{
-			return externalsManager->get(context, functionName);
+			v8::Handle<v8::Value> value = context->Get(functionName.toV8String(isolate));
+
+			if (v8IsNull(value) == true)
+				return (NULL);
+
+			v8::Handle<v8::External> ext = v8::Handle<v8::External>::Cast(value);
+
+			return (ext->Value());
 		}
 
-		void V8JavascriptEngine::v8SetExternal(v8::Local<v8::Object> context, String functionName, CPP::ChainedPtr *obj)
+		void V8JavascriptEngine::v8SetExternal(v8::Local<v8::Object> context, String functionName, void *obj)
 		{
-			externalsManager->set(context, functionName, obj);
+			v8::Local<v8::External> val = v8::External::New(isolate, obj);
+			context->Set(functionName.toV8String(isolate), val);
 		}
 
-		void V8JavascriptEngine::v8ClearExternal(v8::Local<v8::Object> context, String functionName)
+		template<typename P>
+		void V8JavascriptEngine::weakCallback(const v8::WeakCallbackInfo<P> &data)
 		{
-			externalsManager->clear(context, functionName);
+			//DELETEOBJ((P *)data.GetInternalField(0));
 		}
 
 		void *V8JavascriptEngine::v8GetInternalField(v8::Local<v8::Object> context, String functionName)
@@ -1735,5 +1628,9 @@ namespace RadJAV
 			return (promiseObject);
 		}
 
+		V8JSChannel::V8JSChannel(v8::Local<v8::Context> context) {
+			isolate_ = context->GetIsolate();
+			context_.Reset(isolate_, context);
+		}
 	#endif
 }

@@ -21,72 +21,41 @@
 /// <reference path="RadJav.ts" />
 
 namespace RadJav {
+  namespace GUI {
     /** @class RadJav.IO
      * The IO class.
      * Available on platforms: Windows,Linux,OSX
      */
-    export class IO {
+    class IO {
       /** @method isDir
        * Check to see if a directory exists.
        * Available on platforms: Windows,Linux,OSX
-       * @param {string} path The path to check.
+       * @param {String} path The path to check.
        * @return {Boolean} Returns true if the directory exists.
        */
-      static isDir(path: string): boolean { return; }
+      static isDir(path: String): boolean {}
 
       /** @method isFile
        * Check to see if a file exists.
        * Available on platforms: Windows,Linux,OSX
-       * @param {string} path The path to check.
+       * @param {String} path The path to check.
        * @return {Boolean} Returns true if the file exists.
        */
-      static isFile(path: string): boolean { return; }
+      static isFile(path: String): boolean {}
 
       /** @method mkdir
        * Make a directory.
        * Available on platforms: Windows,Linux,OSX
-       * @param {string} path The path to the directory to create.
+       * @param {String} path The path to the directory to create.
        */
-      static mkdir(path: string): void {}
+      static mkdir(path: String): void {}
 
       /** @method deleteFile
        * Delete a file.
        * Available on platforms: Windows,Linux,OSX
-       * @param {string} path The path to the file to delete.
+       * @param {String} path The path to the file to delete.
        */
-      static deleteFile(path: string): void {}
-
-      /** @method listFiles
-       * List files in a directory.
-       * Available on platforms: Windows,Linux,OSX
-       * @param {string} path The path to list files.
-	   * @return {string[]} The files and directories within that path.
-       */
-      static listFiles(path: string): string[] { return; }
-
-      /** @method normalizePath
-       * Normalize a file/directory path.
-       * Available on platforms: Windows,Linux,OSX
-       * @param {string} path The path to normalize.
-	   * @return {string} The normalized path.
-       */
-      static normalizePath(path: string): string { return; }
-
-      /** @method copyDir
-       * Copy a directory.
-       * Available on platforms: Windows,Linux,OSX
-       * @param {string} src The directory to copy.
-       * @param {string} dest The destination to copy the directory to.
-       */
-      static copyDir(src: string, dest: string): void {}
-
-      /** @method copyFile
-       * Copy a file.
-       * Available on platforms: Windows,Linux,OSX
-       * @param {string} src The directory to copy.
-       * @param {string} dest The destination to copy the directory to.
-       */
-      static copyFile(src: string, dest: string): void {}
+      static deleteFile(path: String): void {}
     }
 
     export namespace IO {
@@ -98,61 +67,59 @@ namespace RadJav {
         /** @method getPort
          * Get the serial port.
          * Available on platforms: Windows,Linux,OSX
-         * @return {string} The port being used.
+         * @return {String} The port being used.
          */
-        getPort(): string {
-          return;
-        }
+        getPort(): String {}
 
         /** @method getBaud
          * Get the baud.
          * Available on platforms: Windows,Linux,OSX
-         * @return {string} The baud being used.
+         * @return {String} The baud being used.
          */
-        getBaud(): Number { return; }
+        getBaud(): Number {}
 
         /** @method getByteSize
          * Get the byte size being used.
          * Available on platforms: Windows,Linux,OSX
-         * @return {string} The byte size being used.
+         * @return {String} The byte size being used.
          */
-        getByteSize(): Number {return;}
+        getByteSize(): Number {}
 
         /** @method getStopBits
          * Get the stop bits being used.
          * Available on platforms: Windows,Linux,OSX
-         * @return {string} The stop bits being used.
+         * @return {String} The stop bits being used.
          */
-        getStopBits(): Number { return; }
+        getStopBits(): Number {}
 
         /** @method getParity
          * Get the parity being used.
          * Available on platforms: Windows,Linux,OSX
-         * @return {string} The parity being used.
+         * @return {String} The parity being used.
          */
-        getParity(): Number { return; }
+        getParity(): Number {}
 
         /** @method open
          * Open the serial communications.
          * Available on platforms: Windows,Linux,OSX
          * @return {Boolean} Whether or not communications were able to be established.
          */
-        open(): boolean { return; }
+        open(): boolean {}
 
         /** @method isOpen
          * Check if serial communications were opened.
          * Available on platforms: Windows,Linux,OSX
          * @return {Boolean} Whether or not communications were able to be established.
          */
-        isOpen(): boolean { return; }
+        isOpen(): boolean {}
 
         /** @method read
          * Read from the opened port.
          * Available on platforms: Windows,Linux,OSX
          * @param {Number} bufferSize The size of the buffer to read in bytes.
-         * @return {string} The string buffer from the opened port.
+         * @return {String} The string buffer from the opened port.
          */
-        read(bufferSize: Number): string { return; }
+        read(bufferSize: Number): String {}
 
         /** @method write
          * Write to the opened port.
@@ -161,7 +128,7 @@ namespace RadJav {
          * @param {Number} [bufferSize=buffer.length] The number of bytes to write from the buffer.
          * @return {Number} The number of bytes written.
          */
-        write(buffer: Number, bufferSize?: Number): Number { return; }
+        write(buffer: Number, bufferSize?: Number): Number {}
 
         /** @method close
          * Close the opened port.
@@ -174,22 +141,22 @@ namespace RadJav {
        * Handles text files.
        * Available on platforms: Windows,Linux,OSX
        */
-      export class TextFile {
+      class TextFile {
         /** @method writeTextToFile
          * Write to a text file.
          * Available on platforms: Windows,Linux,OSX
-         * @param {string} path The path to the file to write to.
-         * @param {string} content The content to write.
+         * @param {String} path The path to the file to write to.
+         * @param {String} content The content to write.
          */
-        static writeTextToFile(path: string, content: string): void {}
+        static writeTextToFile(path: String, content: String): void {}
 
         /** @method readEntireFile
          * Read from a text file.
          * Available on platforms: Windows,Linux,OSX
-         * @param {string} path The path to the file to read from.
-         * @return {string} The content read from the text file.
+         * @param {String} path The path to the file to read from.
+         * @return {String} The content read from the text file.
          */
-        static readEntireFile(path: string): string { return; }
+        static readEntireFile(path: String): String {}
 
         /** @property {Number} [read=1]
          * @static
@@ -208,4 +175,5 @@ namespace RadJav {
         static append: Number;
       }
     }
+  }
 }

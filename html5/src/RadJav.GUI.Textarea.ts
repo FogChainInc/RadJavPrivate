@@ -27,8 +27,8 @@ namespace RadJav {
      * A Textarea.
      * Available on platforms: Windows,Linux,OSX,HTML5
      */
-    class Textarea extends RadJav.GUI.GObject {
-      constructor(obj?: any, text?: String, parent?: RadJav.GUI.GObject) {
+    class Textarea extends GObject {
+      constructor(obj?: Object, text?: String, parent?: GObject) {
         if (obj == null) {
           obj = {};
         }

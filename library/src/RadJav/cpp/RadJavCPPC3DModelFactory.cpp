@@ -44,7 +44,7 @@ namespace RadJAV
 									   Object3D *parent)
 			{
 				boost::filesystem::path resourcesPath(filePath);
-				if(resourcesPath.empty() || !sceneManager)
+				if(resourcesPath.empty())
 					return nullptr;
 				
 				resourcesPath.remove_filename();

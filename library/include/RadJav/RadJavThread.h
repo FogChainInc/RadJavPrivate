@@ -23,11 +23,7 @@
 	#include "RadJavPreprocessor.h"
 
 	#ifdef GUI_USE_WXWIDGETS
-		#include <wx/thread.h>
-		#define LOCK_GUARD(x) wxMutexLocker guard(x)
-	#else
-		#include <mutex>
-		#define LOCK_GUARD(x) std::lock_guard<std::mutex> guard(x)
+		#include <wx/wx.h>
 	#endif
 
 	#ifdef USE_V8

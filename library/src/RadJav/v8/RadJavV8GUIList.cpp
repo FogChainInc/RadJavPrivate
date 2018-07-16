@@ -56,7 +56,6 @@ namespace RadJAV
 				V8_CALLBACK(object, "setEnabled", List::setEnabled);
 				V8_CALLBACK(object, "getEnabled", List::getEnabled);
 				V8_CALLBACK(object, "on", List::on);
-				V8_CALLBACK(object, "destroy", List::destroy);
 
 				V8_CALLBACK(object, "addColumn", List::addColumn);
 				V8_CALLBACK(object, "setColumns", List::setColumns);
@@ -481,15 +480,6 @@ namespace RadJAV
 					CPP::GUI::List::Selection select = CPP::GUI::List::Selection::fromV8Object(V8_JAVASCRIPT_ENGINE, selection);
 					appObject->deleteRows(select);
 				}
-			}
-
-			void List::destroy(const v8::FunctionCallbackInfo<v8::Value> &args)
-			{
-				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-				if (appObject != NULL)
-					delete appObject;
-				
-				V8_JAVASCRIPT_ENGINE->v8ClearExternal(args.This(), "_appObj");
 			}
 		}
 	}

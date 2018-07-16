@@ -38,13 +38,13 @@ namespace RadJAV
 
 				void WebViewFrame::onPageLoaded(wxWebViewEvent &event)
 				{
-					Event *pevent = (Event *)event.GetEventUserData();
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 
 				void WebViewFrame::onPageChange(wxWebViewEvent &event)
 				{
-					Event *pevent = (Event *)event.GetEventUserData();
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
 					String url = parsewxString(event.GetURL());
 					v8::Local<v8::Value> *args = RJNEW v8::Local<v8::Value>[1];
 					args[0] = url.toV8String(V8_JAVASCRIPT_ENGINE->isolate);
@@ -65,22 +65,22 @@ namespace RadJAV
 				}
 				void WebViewFrame::onPageNavigated(wxWebViewEvent &event)
 				{
-					Event *pevent = (Event *)event.GetEventUserData();
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 				void WebViewFrame::onPageNavigationError(wxWebViewEvent &event)
 				{
-					Event *pevent = (Event *)event.GetEventUserData();
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 				void WebViewFrame::onNewWindow(wxWebViewEvent &event)
 				{
-					Event *pevent = (Event *)event.GetEventUserData();
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 				void WebViewFrame::onTitleChanged(wxWebViewEvent &event)
 				{
-					Event *pevent = (Event *)event.GetEventUserData();
+					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 			#endif
@@ -110,8 +110,6 @@ namespace RadJAV
 					object->webView->Show(_visible);
 
 					_appObj = object;
-				
-					linkWith(object);
 
 					setup();
 				#endif
@@ -253,32 +251,38 @@ namespace RadJAV
 
 					if (event == "pageLoad")
 					{
-						object->webView->Bind(wxEVT_WEBVIEW_LOADED, WebViewFrame::onPageLoaded, -1, -1, object->createEvent(event, func));
+						v8::Persistent<v8::Value> *pevent = object->createEvent(event, func);
+						object->webView->Bind(wxEVT_WEBVIEW_LOADED, WebViewFrame::onPageLoaded, -1, -1, (wxObject *)pevent);
 					}
 
 					if (event == "pageChange")
 					{
-						object->webView->Bind(wxEVT_WEBVIEW_NAVIGATING, WebViewFrame::onPageChange, -1, -1, object->createEvent(event, func));
+						v8::Persistent<v8::Value> *pevent = object->createEvent(event, func);
+						object->webView->Bind(wxEVT_WEBVIEW_NAVIGATING, WebViewFrame::onPageChange, -1, -1, (wxObject *)pevent);
 					}
 
 					if (event == "pageNavigated")
 					{
-						object->webView->Bind(wxEVT_WEBVIEW_NAVIGATED, WebViewFrame::onPageChange, -1, -1, object->createEvent(event, func));
+						v8::Persistent<v8::Value> *pevent = object->createEvent(event, func);
+						object->webView->Bind(wxEVT_WEBVIEW_NAVIGATED, WebViewFrame::onPageChange, -1, -1, (wxObject *)pevent);
 					}
 
 					if (event == "pageNavigationError")
 					{
-						object->webView->Bind(wxEVT_WEBVIEW_ERROR, WebViewFrame::onPageChange, -1, -1, object->createEvent(event, func));
+						v8::Persistent<v8::Value> *pevent = object->createEvent(event, func);
+						object->webView->Bind(wxEVT_WEBVIEW_ERROR, WebViewFrame::onPageChange, -1, -1, (wxObject *)pevent);
 					}
 
 					if (event == "webViewNewWindow")
 					{
-						object->webView->Bind(wxEVT_WEBVIEW_NAVIGATING, WebViewFrame::onNewWindow, -1, -1, object->createEvent(event, func));
+						v8::Persistent<v8::Value> *pevent = object->createEvent(event, func);
+						object->webView->Bind(wxEVT_WEBVIEW_NAVIGATING, WebViewFrame::onNewWindow, -1, -1, (wxObject *)pevent);
 					}
 
 					if (event == "webViewTitleChanged")
 					{
-						object->webView->Bind(wxEVT_WEBVIEW_NAVIGATING, WebViewFrame::onTitleChanged, -1, -1, object->createEvent(event, func));
+						v8::Persistent<v8::Value> *pevent = object->createEvent(event, func);
+						object->webView->Bind(wxEVT_WEBVIEW_NAVIGATING, WebViewFrame::onTitleChanged, -1, -1, (wxObject *)pevent);
 					}
 				}
 			#endif

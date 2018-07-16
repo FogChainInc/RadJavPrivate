@@ -1,8 +1,6 @@
-leaks.csv
-.vs
-
-library/include/RadJav/RadJavJavascriptCode.h
+html5/node_modules
 library/build*
+library/engines/OgreCollada/build*
 vm/build*
 vm/installers/windows/x86/build
 vm/installers/windows/x86/RadJavVM/Debug
@@ -10,22 +8,9 @@ vm/installers/windows/x86/RadJavVM/Release
 vm/installers/windows/x64/build
 vm/installers/windows/x64/RadJavVM/Debug
 vm/installers/windows/x64/RadJavVM/Release
-
-html5/build
+library/include/RadJav/RadJavJavascriptCode.h
 html5/closure*.jar
 html5/node_modules
 html5/package-lock.json
-
-# Emacs backup files
-*~
-\#*\#
-.\#*
-
-# KeyValueStorage database
-*.db
-
-# Crypto engine build
-library/engines/KrispyCrypto/build*
-
-# COLLADA loader for Ogre 3D engine
-library/engines/OgreCollada/build*
+leaks.csv
+.vs

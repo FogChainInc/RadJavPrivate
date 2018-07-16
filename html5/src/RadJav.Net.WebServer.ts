@@ -18,8 +18,6 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-/// <reference path="RadJav.ts" />
-
 namespace RadJav
 {
 	export namespace Net
@@ -45,9 +43,9 @@ namespace RadJav
 				this.port = 80;
 				this._serverType = RadJav.Net.WebServerTypes.HTTP;
 				this._webServer = null;
-				
-				if ((<any>this)._init != null)
-					(<any>this)._init ();
+
+				if (this._init != null)
+					this._init ();
 			}
 		}
 

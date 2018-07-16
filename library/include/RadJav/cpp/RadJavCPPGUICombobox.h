@@ -37,7 +37,7 @@
 			{
 				#ifdef GUI_USE_WXWIDGETS
 					/// The wxWidgets button to use.
-					class RADJAV_EXPORT ComboboxFrame : public wxComboBox, public GObjectBase, public ChainedPtr
+					class RADJAV_EXPORT ComboboxFrame : public wxComboBox, public GObjectBase
 					{
 					public:
 						ComboboxFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size);

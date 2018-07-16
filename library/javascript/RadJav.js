@@ -51,17 +51,7 @@ RadJav.Console = function ()
 {
 }
 
-console = function ()
-{
-}
-
-console.log = RadJav.Console.println;
-
 RadJav.OS = function ()
-{
-}
-
-RadJav.Crypto = function ()
 {
 }
 

@@ -22,31 +22,31 @@
 
 namespace RadJav
 {
-	 namespace Net
+	export namespace Net
 	{
 		export class WebSocketServer
 		{
-			port: string;
-			_webSocket: any;	// This will only be used on desktop machines and will be instantiated in _init().
-			
+			/** @property {Number} [port=0]
+			* The port.
+			*/
+			port: Number;
+			/** @property {Number} [port=0]
+			* The port.
+			*/
+			clients: WebSocketClient[];
+			/** @property {Mixed} [_webSocket=null]
+			* The port.
+			*/
+			_webSocket: any;
+
 			constructor ()
 			{
-				this.port = "9229";
+				this.port = 0;
+				this.clients = [];
 				this._webSocket = null;
-				
-				// Only call _init() if this is running on desktop.
-				if (typeof this["_init"] == "function")
-					this["_init"] ();
-			}
-			
-			onAccept (id: string): void
-			{
-				alert (this.id);
-			}
-			
-			onReceive (id: string, msg: string): void
-			{
-				alert (this.msg);
+
+				if (this._init != null)
+					this._init ();
 			}
 		}
 

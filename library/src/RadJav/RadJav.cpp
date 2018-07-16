@@ -97,21 +97,12 @@ void *operator new (size_t size, const std::nothrow_t &) _NOEXCEPT
 	return (alloc);
 }
 
-#if __APPLE__
-void *operator new [](size_t size, const std::nothrow_t &)  _NOEXCEPT
-{
-	void *alloc = malloc(size);
-	
-	return (alloc);
-}
-#else
 void *operator new [](size_t size, const std::nothrow_t &) throw (std::bad_alloc)
 {
 	void *alloc = malloc(size);
 
 	return (alloc);
 }
-#endif
 
 void operator delete (void *alloc) _NOEXCEPT
 {
@@ -443,17 +434,15 @@ namespace RadJAV
 
 	void RadJav::shutdown()
 	{
-		DELETEOBJ(javascriptEngine);
-
 		DELETEOBJ (lang);
 		DELETEOBJ(theme);
 
 		#ifdef GUI_USE_WXWIDGETS
-			app->CleanUp();
 			DELETEOBJ(app);
-			wxEntryCleanup();
 		#endif
-		
+
+		DELETEOBJ(javascriptEngine);
+
 		#ifdef HTTP_USE_CURL
 			curl_global_cleanup ();
 		#endif

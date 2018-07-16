@@ -160,7 +160,7 @@ namespace RadJav
      * @param {string} str The string to parse.
      * @return {RadJav.Vector2} The new Vector2 created from this string.
      */
-   static parseVector2(str: string): Vector2 {
+    parseVector2(str: string): Vector2 {
       let obj = new Vector2();
 
       if (str == "") return obj;

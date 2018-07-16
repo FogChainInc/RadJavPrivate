@@ -38,7 +38,6 @@
 	#include "RadJavString.h"
 	#include "RadJavHashMap.h"
 	#include "RadJavThread.h"
-	#include "cpp/RadJavCPPChainedPtr.h"
 
 
 	namespace ip = boost::asio::ip;
@@ -63,7 +62,7 @@
 #endif
 
 				// Accepts incoming connections and launches the sessions
-				class RADJAV_EXPORT WebServer : public std::enable_shared_from_this<WebServer>, public ChainedPtr
+				class RADJAV_EXPORT WebServer : public std::enable_shared_from_this<WebServer>
 				{
 					public:
 						WebServer();
@@ -88,17 +87,15 @@
 						RJINT serverType;
 						/// Flag that indicates if listening context available 
 						RJBOOL isAlive;
-
-					private:
-						void run();
-						void do_accept();
-						void on_accept(boost::system::error_code ec);
-						void close();
-
-						boost::asio::ip::address address;
-						boost::asio::io_context ioc;
-						tcp::acceptor acceptor;
-						tcp::socket socket;
+				private:
+					boost::asio::ip::address address;
+					boost::asio::io_context ioc;
+					tcp::acceptor acceptor;
+					tcp::socket socket;
+					void run();
+					void do_accept();
+					void on_accept(boost::system::error_code ec);
+					void close();
 				};
 
 				/// Web server types.

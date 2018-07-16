@@ -28,8 +28,6 @@
 #include "cpp/RadJavCPPRectangle.h"
 #include "cpp/RadJavCPPFont.h"
 #include "cpp/RadJavCPPVector2.h"
-#include "cpp/RadJavCPPGUIEvent.h"
-#include "cpp/RadJavCPPChainedPtr.h"
 
 #include "RadJavXML.h"
 
@@ -48,7 +46,7 @@ namespace RadJAV
 		/// Contains classes for the OS GUI.
 		namespace GUI
 		{
-			class RADJAV_EXPORT GObject : public ChainedPtr
+			class RADJAV_EXPORT GObject
 			{
 				public:
 					#ifdef USE_V8
@@ -241,9 +239,9 @@ namespace RadJAV
 			{
 				public:
 					GObjectBase();
-					virtual ~GObjectBase();
+					~GObjectBase();
 
-					Event* createEvent(String event, v8::Local<v8::Function> function);
+					v8::Persistent<v8::Value> *createEvent(String event, v8::Local<v8::Function> function);
 
 					#ifdef GUI_USE_WXWIDGETS
 						void addNewEvent(String event, wxWindow *object, v8::Local<v8::Function> func);
@@ -273,9 +271,9 @@ namespace RadJAV
 					#endif
 
 					static v8::Local<v8::Value> executeEvent(
-						Event *pevent, RJINT numArgs = 0, v8::Local<v8::Value> *args = NULL);
+						v8::Persistent<v8::Value> *pevent, RJINT numArgs = 0, v8::Local<v8::Value> *args = NULL);
 
-					HashMap<std::string, Event* > *events;
+					HashMap<std::string, v8::Persistent<v8::Value> *> *events;
 			};
 		}
 	}

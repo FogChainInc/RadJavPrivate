@@ -96,19 +96,16 @@ namespace RadJAV
 				if (args.Length() > 0)
 					type = v8::Local<v8::Integer>::Cast(args[0])->IntegerValue();
 				
-				std::shared_ptr<C3DTYPE> light = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
+				C3DTYPE *light = (C3DTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
 				
-				if (light)
-					light->setType( jsLightTypeToNative(type));
+				light->setType( jsLightTypeToNative(type));
 			}
 			
 			void Light::getType(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				std::shared_ptr<C3DTYPE> light = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
-				RJINT type = 1;
+				C3DTYPE *light = (C3DTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
 				
-				if (light)
-					type = NativeLightTypeToJs( light->getType());
+				RJINT type = NativeLightTypeToJs( light->getType());
 				
 				args.GetReturnValue().Set(type);
 			}
@@ -128,20 +125,16 @@ namespace RadJAV
 					nativeColor.a = color->Get( String("a").toV8String(isolate))->NumberValue();
 				}
 				
-				std::shared_ptr<C3DTYPE> light = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
-				
-				if (light)
-					light->setDiffuseColor(nativeColor);
+				C3DTYPE *light = (C3DTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
+				light->setDiffuseColor(nativeColor);
 			}
 			
 			void Light::getColor(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				Ogre::ColourValue nativeColor;
 				
-				std::shared_ptr<C3DTYPE> light = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
-				
-				if (light)
-					nativeColor = light->getDiffuseColor();
+				C3DTYPE *light = (C3DTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
+				nativeColor = light->getDiffuseColor();
 				
 				v8::Handle<v8::Function> func = V8_JAVASCRIPT_ENGINE->v8GetFunction(V8_RADJAV, "Color");
 				v8::Local<v8::Object> v8color = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(func, 0, NULL);

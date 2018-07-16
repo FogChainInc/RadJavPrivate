@@ -57,7 +57,6 @@ namespace RadJAV
 				V8_CALLBACK(object, "setEnabled", MenuBar::setEnabled);
 				V8_CALLBACK(object, "getEnabled", MenuBar::getEnabled);
 				V8_CALLBACK(object, "on", MenuBar::on);
-				V8_CALLBACK(object, "destroy", MenuBar::destroy);
 			}
 
 			void MenuBar::create(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -332,15 +331,6 @@ namespace RadJAV
 
 				if (appObject != NULL)
 					appObject->on(event, func);
-			}
-
-			void MenuBar::destroy(const v8::FunctionCallbackInfo<v8::Value> &args)
-			{
-				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-				if (appObject != NULL)
-					delete appObject;
-				
-				V8_JAVASCRIPT_ENGINE->v8ClearExternal(args.This(), "_appObj");
 			}
 		}
 	}

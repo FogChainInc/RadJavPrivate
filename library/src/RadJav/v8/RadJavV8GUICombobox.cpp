@@ -56,7 +56,6 @@ namespace RadJAV
 				V8_CALLBACK(object, "setEnabled", Combobox::setEnabled);
 				V8_CALLBACK(object, "getEnabled", Combobox::getEnabled);
 				V8_CALLBACK(object, "on", Combobox::on);
-				V8_CALLBACK(object, "destroy", Combobox::destroy);
 
 				V8_CALLBACK(object, "addItem", Combobox::addItem);
 				V8_CALLBACK(object, "setItems", Combobox::setItems);
@@ -470,15 +469,6 @@ namespace RadJAV
 					index = appObject->getSelectedItemIndex();
 
 				args.GetReturnValue().Set(v8::Integer::New(args.GetIsolate(), index));
-			}
-
-			void Combobox::destroy(const v8::FunctionCallbackInfo<v8::Value> &args)
-			{
-				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-				if (appObject != NULL)
-					delete appObject;
-				
-				V8_JAVASCRIPT_ENGINE->v8ClearExternal(args.This(), "_appObj");
 			}
 		}
 	}

@@ -413,7 +413,7 @@ namespace RadJAV
 				isAlive(false)
 			{
 				serverType = WebServerTypes::HTTP;
-				address = boost::asio::ip::make_address("127.0.0.1");
+				address = boost::asio::ip::make_address("0.0.0.0");
 				port = 80;
 			}
 
