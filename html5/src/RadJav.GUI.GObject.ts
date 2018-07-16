@@ -23,17 +23,17 @@
  */
 /// <reference path="RadJav.ts" />
 
-export namespace RadJav {
-  namespace GUI {
-    class GObject {
-      /** @property {String} [name=""]
+ namespace RadJav {
+  export namespace GUI {
+   export class GObject {
+      /** @property {string} [name=""]
        * The name of this object.
        */
-      name: String;
-      /** @property {String} [type=""]
+      name: string;
+      /** @property {string} [type=""]
        * The type of object.
        */
-      type: String;
+      type: string;
       /** @property {RadJav.Rectangle} [_transform=new Rectangle ()]
        * @protected
        * The transform of this object.
@@ -44,27 +44,27 @@ export namespace RadJav {
        * The visibility of the object.
        */
       _visible: boolean;
-      /** @property {Number} [_zIndex=0]
+      /** @property {number} [_zIndex=0]
        * @protected
        * The initial z-index of this object. The higher the value the more "on top" the
        * object will be compared to other objects.
        */
-      _zIndex: Number;
-      /** @property {String} [_text=""]
+      _zIndex: number;
+      /** @property {string} [_text=""]
        * @protected
        * The text associated with this object.
        */
-      _text: String;
+      _text: string;
       /** @property {RadJav.Font} [_font=new RadJav.Font ()]
        * @protected
        * The font associated with this object.
        */
       _font: Font;
-      /** @property {String} [_cursor="default"]
+      /** @property {string} [_cursor="default"]
        * @protected
        * The cursor to use.
        */
-      _cursor: String;
+      _cursor: string;
       /** @property {Mixed} [_parent=null]
        * @protected
        * The parent of this object.
@@ -103,19 +103,21 @@ export namespace RadJav {
       /** @event [onBeforeChildCreated=null]
        * The function to execute before a child is created.
        */
-      onBeforeChildCreated: ((obj: Object) => void);
+      onBeforeChildCreated(obj: Object,parent?:any):void{};
       /** @event [onCreated=null]
        * The function to execute once the object has been created.
        */
-      onCreated: ((obj: Object) => void);
+      onCreated(obj: Object):void {}
+
+
       /** @event [_events={}]
        * Events to call.
        */
       _events: ((...args: any[]) => any);
 
       constructor(
-        obj?: Object,
-        text?: String,
+        obj?: any,
+        text?: string,
         parent?: GObject,
         beforeCreatedChild?: boolean
       ) {
@@ -200,13 +202,13 @@ export namespace RadJav {
         }
 
         if (obj.click != null) {
-          this._events.click = obj.click;
+          (<any>this._events).click = obj.click;
         }
 
         if (obj.children != null) {
           for (var iIdx = 0; iIdx < obj.children.length; iIdx++) {
             var obj2 = obj.children[iIdx];
-            var createObject = true;
+            var createObject:any = true;
 
             if (this.onBeforeChildCreated != null) {
               var result = this.onBeforeChildCreated(obj2, parent);
@@ -253,7 +255,7 @@ export namespace RadJav {
        * @return {Promise} The promise to execute when the creation is completed.
        */
       create(): Promise<GObject> {
-        var promise = new Promise(
+        var promise = new Promise<GObject>(
           RadJav.keepContext(function(resolve, reject) {
             if (this.createOnPlatforms != null) {
               for (var key in this.createOnPlatforms) {
@@ -265,7 +267,7 @@ export namespace RadJav {
                 }
               }
             }
-            var promise2 = RadJav.theme.event(this.type, "create", this);
+            var promise2 = RadJav.Theme.event(this.type, "create", this);
 
             if (promise2 == null) {
               debugger;
@@ -292,7 +294,7 @@ export namespace RadJav {
                     for (var key in this._events) {
                       if (this._events[key] != null) {
                         var func = new Function(this._events[key]);
-                        RadJav.theme.event(this.type, "on", this, key, func);
+                        RadJav.Theme.event(this.type, "on", this, key, func);
                       }
                     }
 
@@ -319,7 +321,7 @@ export namespace RadJav {
        */
       setFont(font: Font): void {
         this._font = font;
-        RadJav.theme.eventSync(this.type, "setFont", this, font);
+        RadJav.Theme.eventSync(this.type, "setFont", this, font);
       }
 
       /** @method getFont
@@ -329,17 +331,17 @@ export namespace RadJav {
        * @return {RadJav.Font} The font.
        */
       getFont(): Font {
-        return RadJav.theme.eventSync(this.type, "getFont", this);
+        return RadJav.Theme.eventSync(this.type, "getFont", this);
       }
 
       /** @method setPosition
        * Set the position of this object.
        * Theme Event: None
        * Is Theme Event Asynchronous: No
-       * @param {Number/RadJav.Vector2} x The new position, or the new x coordinate of the new position.
-       * @param {Number} [y=null] The new y coordinate.
+       * @param {number/RadJav.Vector2} x The new position, or the new x coordinate of the new position.
+       * @param {number} [y=null] The new y coordinate.
        */
-      setPosition(x: Number, y: Number): void {
+      setPosition(x: number, y: number): void {
         this._transform.setPosition(x, y);
       }
 
@@ -359,7 +361,7 @@ export namespace RadJav {
        * Is Theme Event Asynchronous: No
        * @return {RadJav.Vector2} The position of this object.
        */
-      getX(): Number {
+      getX(): number {
         return this._transform.x;
       }
 
@@ -369,7 +371,7 @@ export namespace RadJav {
        * Is Theme Event Asynchronous: No
        * @return {RadJav.Vector2} The position of this object.
        */
-      getY(): Number {
+      getY(): number {
         return this._transform.y;
       }
 
@@ -377,10 +379,10 @@ export namespace RadJav {
        * Set the size of this object.
        * Theme Event: None
        * Is Theme Event Asynchronous: No
-       * @param {Number/RadJav.Vector2} width The object's new size, or new width.
-       * @param {Number} [height=null] The object's new height.
+       * @param {number/RadJav.Vector2} width The object's new size, or new width.
+       * @param {number} [height=null] The object's new height.
        */
-      setSize(width: Number, height: Number): void {
+      setSize(width: number, height: number): void {
         this._transform.setSize(width, height);
       }
 
@@ -398,9 +400,9 @@ export namespace RadJav {
        * Get the width of this object.
        * Theme Event: None
        * Is Theme Event Asynchronous: No
-       * @return {Number} The width of this object.
+       * @return {number} The width of this object.
        */
-      getWidth(): Number {
+      getWidth(): number {
         return this._transform.width;
       }
 
@@ -408,9 +410,9 @@ export namespace RadJav {
        * Get the height of this object.
        * Theme Event: None
        * Is Theme Event Asynchronous: No
-       * @return {Number} The height of this object.
+       * @return {number} The height of this object.
        */
-      getHeight(): Number {
+      getHeight(): number {
         return this._transform.height;
       }
 
@@ -418,21 +420,21 @@ export namespace RadJav {
        * Set the object's text.
        * Theme Event: setText
        * Is Theme Event Asynchronous: Yes
-       * @param {String} text The text to set.
-       * @return {String} The text associated with this object.
+       * @param {string} text The text to set.
+       * @return {string} The text associated with this object.
        */
-      setText(text: String): void {
-        RadJav.theme.event(this.type, "setText", this, text);
+      setText(text: string): void {
+        RadJav.Theme.event(this.type, "setText", this, text);
       }
 
       /** @method getText
        * Get the object's text.
        * Theme Event: getText
        * Is Theme Event Asynchronous: No
-       * @return {String} The text associated with this object.
+       * @return {string} The text associated with this object.
        */
-      getText(): String {
-        return RadJav.theme.eventSync(this.type, "getText", this);
+      getText(): string {
+        return RadJav.Theme.eventSync(this.type, "getText", this);
       }
 
       /** @method getParent
@@ -463,7 +465,7 @@ export namespace RadJav {
        * @param {Boolean} visible The visibility of the object
        */
       setVisibility(visible: boolean): void {
-        RadJav.theme.event(this.type, "setVisibility", this, visible);
+        RadJav.Theme.event(this.type, "setVisibility", this, visible);
       }
 
       /** @method getVisibility
@@ -474,7 +476,7 @@ export namespace RadJav {
        * @return {Boolean} The visibility of this object
        */
       getVisibility(): boolean {
-        return RadJav.theme.eventSync(this.type, "getVisibility", this);
+        return RadJav.Theme.eventSync(this.type, "getVisibility", this);
       }
 
       /** @method show
@@ -504,7 +506,7 @@ export namespace RadJav {
        * Parameters Passed to Theme Event: RadJav.GUI.GObject, Boolean
        */
       setEnabled(enabled: boolean): void {
-        RadJav.theme.event(this.type, "setEnabled", this, enabled);
+        RadJav.Theme.event(this.type, "setEnabled", this, enabled);
       }
 
       /** @method getEnabled
@@ -515,20 +517,20 @@ export namespace RadJav {
        * @return {Boolean} The enabled status of this object
        */
       getEnabled(): boolean {
-        return RadJav.theme.eventSync(this.type, "getEnabled", this);
+        return RadJav.Theme.eventSync(this.type, "getEnabled", this);
       }
 
       /** @method on
        * Calls a function when an event is triggered.
        * Theme Event: on
        * Is Theme Event Asynchronous: No
-       * Parameters Passed to Theme Event: RadJav.GUI.GObject, String, Function
-       * @param {String} eventName The name of the event to trigger.
+       * Parameters Passed to Theme Event: RadJav.GUI.GObject, string, Function
+       * @param {string} eventName The name of the event to trigger.
        * @param {Function} func The function to execute.
        * @return {Mixed} The result.
        */
-      on(eventName: String, func: ((...args: any[]) => any)): any {
-        return RadJav.theme.event(this.type, "on", this, eventName, func);
+      on(eventName: string, func: Function): any {
+        return RadJav.Theme.event(this.type, "on", this, eventName, func);
       }
 
       /** @method getHTMLDOM
@@ -540,7 +542,7 @@ export namespace RadJav {
        * @return {Mixed} The html dom object.
        */
       getHTMLDOM(): any {
-        return RadJav.theme.eventSync(this.type, "getHTMLDOM", this);
+        return RadJav.Theme.eventSync(this.type, "getHTMLDOM", this);
       }
     }
   }

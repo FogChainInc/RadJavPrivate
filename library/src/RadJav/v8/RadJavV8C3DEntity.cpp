@@ -43,7 +43,6 @@ namespace RadJAV
 				V8_CALLBACK(object, "getY", Entity::getY);
 				V8_CALLBACK(object, "getZ", Entity::getZ);
 				V8_CALLBACK(object, "getParent", Entity::getParent);
-				V8_CALLBACK(object, "getAppObj", Entity::getAppObj);
 				V8_CALLBACK(object, "setVisibility", Entity::setVisibility);
 				V8_CALLBACK(object, "getVisibility", Entity::getVisibility);
 				V8_CALLBACK(object, "on", Entity::on);
@@ -96,8 +95,10 @@ namespace RadJAV
 
 				DELETE_ARRAY(args2);
 
-				Ogre::SceneNode *node = (Ogre::SceneNode *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
-				node->setPosition(x, y, z);
+				std::shared_ptr<Ogre::SceneNode> node = V8_JAVASCRIPT_ENGINE->v8GetExternal<Ogre::SceneNode>(args.This(), "_c3dObj");
+				
+				if(node)
+					node->setPosition(x, y, z);
 			}
 
 			void Entity::getPosition(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -111,11 +112,14 @@ namespace RadJAV
 				y = V8_JAVASCRIPT_ENGINE->v8GetInt(transform, "y");
 				z = V8_JAVASCRIPT_ENGINE->v8GetInt(transform, "z");
 
-				Ogre::SceneNode *node = (Ogre::SceneNode *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
-				Ogre::Vector3 pos = node->getPosition();
-				x = pos.x;
-				y = pos.y;
-				z = pos.z;
+				std::shared_ptr<Ogre::SceneNode> node = V8_JAVASCRIPT_ENGINE->v8GetExternal<Ogre::SceneNode>(args.This(), "_c3dObj");
+				if(node)
+				{
+					Ogre::Vector3 pos = node->getPosition();
+					x = pos.x;
+					y = pos.y;
+					z = pos.z;
+				}
 
 				v8::Local<v8::Object> vector3 = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_RADJAV, "Vector3");
 				v8::Local<v8::Object> vector3obj = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(vector3, 0, NULL);
@@ -130,24 +134,30 @@ namespace RadJAV
 			{
 				RDECIMAL value = V8_JAVASCRIPT_ENGINE->v8ParseDecimal(args[0]);
 
-				Ogre::SceneNode *node = (Ogre::SceneNode *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
-				node->yaw(Ogre::Degree(value));
+				std::shared_ptr<Ogre::SceneNode> node = V8_JAVASCRIPT_ENGINE->v8GetExternal<Ogre::SceneNode>(args.This(), "_c3dObj");
+				
+				if(node)
+					node->yaw(Ogre::Degree(value));
 			}
 
 			void Entity::pitch(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				RDECIMAL value = V8_JAVASCRIPT_ENGINE->v8ParseDecimal(args[0]);
 
-				Ogre::SceneNode *node = (Ogre::SceneNode *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
-				node->pitch(Ogre::Degree(value));
+				std::shared_ptr<Ogre::SceneNode> node = V8_JAVASCRIPT_ENGINE->v8GetExternal<Ogre::SceneNode>(args.This(), "_c3dObj");
+				
+				if(node)
+					node->pitch(Ogre::Degree(value));
 			}
 
 			void Entity::roll(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				RDECIMAL value = V8_JAVASCRIPT_ENGINE->v8ParseDecimal(args[0]);
 
-				Ogre::SceneNode *node = (Ogre::SceneNode *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
-				node->roll(Ogre::Degree(value));
+				std::shared_ptr<Ogre::SceneNode> node = V8_JAVASCRIPT_ENGINE->v8GetExternal<Ogre::SceneNode>(args.This(), "_c3dObj");
+				
+				if(node)
+					node->roll(Ogre::Degree(value));
 			}
 
 			void Entity::getX(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -183,27 +193,15 @@ namespace RadJAV
 				args.GetReturnValue().Set(obj);
 			}
 
-			void Entity::getAppObj(const v8::FunctionCallbackInfo<v8::Value> &args)
-			{
-				v8::Handle<v8::External> ext = v8::Handle<v8::External>::Cast(
-					args.This()->Get(String("_appObj").toV8String(V8_JAVASCRIPT_ENGINE->isolate)));
-				args.GetReturnValue().Set(ext);
-			}
-
 			void Entity::setVisibility(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				RJBOOL value = V8_JAVASCRIPT_ENGINE->v8ParseBool(args[0]);
 				V8_JAVASCRIPT_ENGINE->v8SetBool(args.This(), "_visible", value);
-
-
 			}
 
 			void Entity::getVisibility(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				RJBOOL value = V8_JAVASCRIPT_ENGINE->v8GetBool(args.This(), "_visible");
-
-
-
 				args.GetReturnValue().Set(v8::Boolean::New(V8_JAVASCRIPT_ENGINE->isolate, value));
 			}
 
@@ -211,8 +209,6 @@ namespace RadJAV
 			{
 				String event = parseV8Value(args[0]);
 				v8::Local<v8::Function> func = v8::Local<v8::Function>::Cast(args[1]);
-
-
 			}
 #endif
 		}

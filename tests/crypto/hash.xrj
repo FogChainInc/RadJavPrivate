@@ -1,0 +1,73 @@
+var win = new RadJav.GUI.Window ("win", "Window Example");
+
+// Stupid hack for now. Delete in the future. Should throw errors in HTML5.
+win.create ().then (function (win2)
+	{
+	});
+
+var capabilities = RadJav.Crypto.Hash.getCapabilities();
+
+if ( (typeof capabilities.cryptoLibs === "object") && (capabilities.cryptoLibs !== null) )
+{
+    RadJav.Console.println("Has Crypto Implementation: ");
+    for (var cryptoLib in capabilities.cryptoLibs)
+    {
+	RadJav.Console.println(cryptoLib);
+    }
+}
+
+// Go for OpenSSL
+if ( (typeof capabilities.cryptoLibs.OpenSSL === "object") && (capabilities.cryptoLibs.OpenSSL !== null) )
+{
+    var cryptoLib = capabilities.cryptoLibs.OpenSSL;
+    for (var idx in cryptoLib.hashAlgorithms)
+    {
+	RadJav.Console.println(cryptoLib.hashAlgorithms[idx].name + ":\t" + cryptoLib.hashAlgorithms[idx].description);
+    }
+
+}
+
+
+try
+{
+    var digest = new RadJav.Crypto.Hash({cryptoLibrary: "OpenSSL", hashAlgorithm: "sha2563", outputEncoding: "hex"});
+
+    var digestResult = digest.digestSync('asdfadfadsf');
+    RadJav.Console.println("Digest Algorithm: " + digest.hashAlgorithm);
+    RadJav.Console.println("Digest Result: " + digestResult);
+}
+catch (error)
+{
+    RadJav.Console.println(error);
+}
+
+
+var digest2 = new RadJav.Crypto.Hash({cryptoLibrary: "OpenSSL", hashAlgorithm: "sha256", outputEncoding: "base64"});
+
+var digestResult2 = digest2.digestSync('asdfadfadsf');
+RadJav.Console.println("Digest Algorithm2: " + digest2.hashAlgorithm);
+RadJav.Console.println("Digest Result2: " + digestResult2);
+
+
+
+var digest3 = new RadJav.Crypto.Hash({cryptoLibrary: "OpenSSL", hashAlgorithm: "sha256"});
+var digestResult3 = digest3.digestSync('asdfadfadsf');
+RadJav.Console.println("Digest Algorithm3: " + digest3.hashAlgorithm);
+RadJav.Console.println("Digest Result3: " + buf2hex(digestResult3));
+
+var digestResult3 = digest3.digestSync('asdfadfadsff');
+RadJav.Console.println("Digest Algorithm3: " + digest3.hashAlgorithm);
+RadJav.Console.println("Digest Result3: " + buf2hex(digestResult3));
+
+
+digest2.digest('asdfadfadsf').then (function (data)
+				     {
+					 alert("Done!\nHash Alg: " + digest2.hashAlgorithm + "\nHash: " +
+					       data);
+				     });
+
+
+function buf2hex(buffer) { // buffer is an ArrayBuffer
+  return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
+}
+

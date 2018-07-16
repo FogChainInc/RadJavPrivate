@@ -36,22 +36,22 @@ namespace RadJAV
 
 				void ComboboxFrame::onChanged(wxCommandEvent &event)
 				{
-					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
+					Event *pevent = (Event *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 				void ComboboxFrame::onDropdown(wxCommandEvent &event)
 				{
-					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
+					Event *pevent = (Event *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 				void ComboboxFrame::onCloseup(wxCommandEvent &event)
 				{
-					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
+					Event *pevent = (Event *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 				void ComboboxFrame::onText(wxCommandEvent &event)
 				{
-					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
+					Event *pevent = (Event *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 			#endif
@@ -90,6 +90,8 @@ namespace RadJAV
 					object->Show(_visible);
 
 					_appObj = object;
+				
+					linkWith(object);
 
 					setup();
 				#endif
@@ -129,36 +131,28 @@ namespace RadJAV
 
 					if (event == "change")
 					{
-						v8::Persistent<v8::Value> *pevent = object->createEvent(event, func);
-
 						#ifdef GUI_USE_WXWIDGETS
-							object->Connect(wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(ComboboxFrame::onChanged), (wxObject *)pevent);
+							object->Connect(wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(ComboboxFrame::onChanged), object->createEvent(event, func));
 						#endif
 					}
 
 					if (event == "dropdown")
 					{
-						v8::Persistent<v8::Value> *pevent = object->createEvent(event, func);
-
 						#ifdef GUI_USE_WXWIDGETS
-							object->Connect(wxEVT_COMMAND_COMBOBOX_DROPDOWN, wxCommandEventHandler(ComboboxFrame::onDropdown), (wxObject *)pevent);
+							object->Connect(wxEVT_COMMAND_COMBOBOX_DROPDOWN, wxCommandEventHandler(ComboboxFrame::onDropdown), object->createEvent(event, func));
 						#endif
 					}
 					
 					if (event == "closeup")
 					{
-						v8::Persistent<v8::Value> *pevent = object->createEvent(event, func);
-
 						#ifdef GUI_USE_WXWIDGETS
-							object->Connect(wxEVT_COMMAND_COMBOBOX_CLOSEUP, wxCommandEventHandler(ComboboxFrame::onCloseup), (wxObject *)pevent);
+							object->Connect(wxEVT_COMMAND_COMBOBOX_CLOSEUP, wxCommandEventHandler(ComboboxFrame::onCloseup), object->createEvent(event, func));
 						#endif
 					}
 					if (event == "text")
 					{
-						v8::Persistent<v8::Value> *pevent = object->createEvent(event, func);
-
 						#ifdef GUI_USE_WXWIDGETS
-							object->Connect(wxEVT_COMMAND_COMBOBOX_CLOSEUP, wxCommandEventHandler(ComboboxFrame::onText), (wxObject *)pevent);
+							object->Connect(wxEVT_COMMAND_COMBOBOX_CLOSEUP, wxCommandEventHandler(ComboboxFrame::onText), object->createEvent(event, func));
 						#endif
 					}
 					

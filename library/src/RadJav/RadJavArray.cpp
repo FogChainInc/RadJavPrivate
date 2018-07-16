@@ -19,7 +19,20 @@
 */
 #include "RadJavArray.h"
 
+#include "RadJavString.h"
+
 namespace RadJAV
 {
+	#ifdef USE_V8
+		v8::Local<v8::Array> convertArrayToV8Array(Array<String> arrayToConvert, v8::Isolate *isolate)
+		{
+			v8::Local<v8::Array> newArray = v8::Array::New(isolate, arrayToConvert.size());
+
+			for (RJINT iIdx = 0; iIdx < arrayToConvert.size(); iIdx++)
+				newArray->Set (iIdx, arrayToConvert.at(iIdx).toV8String (isolate));
+
+			return (newArray);
+		}
+	#endif
 }
 

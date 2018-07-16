@@ -1,0 +1,73 @@
+var win = new RadJav.GUI.Window ("win", "Window Example");
+
+// Stupid hack for now. Delete in the future. Should throw errors in HTML5.
+win.create ().then (function (win2)
+	{
+	});
+
+try
+{
+
+    var kg = new RadJav.Crypto.KeyGenerator({cryptoLibrary: "OpenSSL",
+					     algorithm: "RSA",
+					     bits: "2048",
+					     encryptPadding: "RSA_PKCS1_PADDING",
+					     signatureType: "OPENSSL_DEFAULT",
+					     inputEncoding: "binary",
+					     outputEncoding: "binary"
+					    });
+
+    var kg2 = new RadJav.Crypto.KeyGenerator({cryptoLibrary: "OpenSSL",
+					     algorithm: "RSA",
+					     bits: "2048",
+					     encryptPadding: "RSA_PKCS1_PADDING",
+					     signatureType: "OPENSSL_DEFAULT",
+					     inputEncoding: "binary",
+					     outputEncoding: "binary"
+					    });
+    
+
+    var text = "1234567890";
+
+    RadJav.Console.println("------------------> generate");
+    var pk1 = kg.generate();
+    var sig = pk1.signSync(text);
+
+    var pubK1 = pk1.getPublicKey();
+    if (pubK1.verifySync(text, sig))
+    {
+	alert("YAAAAAAAAY");
+    }
+    else
+    { 
+	alert("BUMMER");
+    }	
+	
+    var pk2 = kg.generate();
+    var pubK2 = pk2.getPublicKey();
+    if (pubK2.verifySync(text, sig))
+    {
+	alert("YAAAAAAAAY");
+    }
+    else
+    { 
+	alert("BUMMER");
+    }	
+
+    var pk3 = kg2.generate();
+    var pubK3 = pk3.getPublicKey();
+    if (pubK3.verifySync(text, sig))
+    {
+	alert("YAAAAAAAAY");
+    }
+    else
+    { 
+	alert("BUMMER");
+    }	
+
+
+}
+catch (error)
+{
+    RadJav.Console.println(error);
+}

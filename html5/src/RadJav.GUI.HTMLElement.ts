@@ -20,34 +20,47 @@
 
 /// <reference path="RadJav.ts" />
 
-namespace RadJav {
-  namespace GUI {
-    /** @class RadJav.GUI.HTMLElement
-     * @extends RadJav.GUI.GObject
-     * An HTML element.
-     * Available on platforms: HTML5
-     */
-    class HTMLElement extends GObject {
-      constructor(obj?: Object, text?: String, parent?: GObject) {
-        if (obj == null) {
-          obj = {};
-        }
+namespace RadJav
+{
+	export namespace GUI
+	{
+		/** @class RadJav.GUI.HTMLElement
+		* @extends RadJav.GUI.GObject
+		* An HTML element.
+		* Available on platforms: HTML5
+		*/
+		export class HTMLElement extends RadJav.GUI.GObject
+		{
+			constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject)
+			{
+				if (obj == null)
+					obj = {};
 
-        if (typeof obj == "string") {
-          var name = obj;
-          obj = { name: name };
-        }
+				if (typeof obj == "string")
+				{
+					var name = obj;
+					obj = { name: name };
+				}
 
-        if (obj.size == null) {
-          obj.size = new RadJav.Vector2();
-          obj.size.x = 500;
-          obj.size.y = 350;
-        }
+				if (obj.size == null)
+				{
+					obj.size = new RadJav.Vector2();
+					obj.size.x = 500;
+					obj.size.y = 350;
+				}
 
-        super(obj, text, parent) || this;
+				super(obj, text, parent) || this;
 
-        this.type = "RadJav.GUI.HTMLElement";
-      }
-    }
-  }
+				this.type = "RadJav.GUI.HTMLElement";
+
+				if (this._text != "")
+				{
+					let parser = new DOMParser ();
+					let parsedStr = parser.parseFromString (this._text, "text/xml");
+
+					this._html = parsedStr.firstChild;
+				}
+			}
+		}
+	}
 }

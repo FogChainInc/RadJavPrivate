@@ -1,4 +1,8 @@
 ## Note
-This requires Microsoft Visual Studio 2017 Installer Projects in order to build. You can get the latest version from https://marketplace.visualstudio.com/items?itemName=VisualStudioProductTeam.MicrosoftVisualStudio2017InstallerProjects
+NSIS is required to build the installer. Once installed, build the RadJavVM project using CMake using the path:
 
-Once open, if the file system window does not appear, in Solution Explorer right click on the project RadJavVM, then select View -> File System.
+	vm/build-x64
+
+Build the release candidate, then in a command prompt navigate to this directory's x64 or x86 folder, then type:
+
+	build.bat

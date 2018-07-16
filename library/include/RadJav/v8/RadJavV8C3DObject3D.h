@@ -24,6 +24,7 @@
 
 #include "RadJavString.h"
 #include "RadJavHashMap.h"
+#include "cpp/RadJavCPPGUIEvent.h"
 
 #ifdef C3D_USE_OGRE
 	#include <OgreMovableObject.h>
@@ -65,15 +66,14 @@ namespace RadJAV
 			class RADJAV_EXPORT Object3DBase
 			{
 			public:
-				v8::Persistent<v8::Value> *createEvent(String event, v8::Local<v8::Function> function);
+				CPP::GUI::Event *createEvent(String event, v8::Local<v8::Function> function);
 
 				void addNewEvent(String event, Ogre::MovableObject *object, v8::Local<v8::Function> func);
 
-				static v8::Local<v8::Value> executeEvent(
-					v8::Persistent<v8::Value> *pevent, RJINT numArgs = 0, v8::Local<v8::Value> *args = NULL);
+				static v8::Local<v8::Value> executeEvent(CPP::GUI::Event *pevent, RJINT numArgs = 0, v8::Local<v8::Value> *args = NULL);
 
 			protected:
-				HashMap<std::string, v8::Persistent<v8::Value> *> events;
+				HashMap<std::string, CPP::GUI::Event* > events;
 			};
 #endif
 		}

@@ -86,10 +86,10 @@ namespace RadJAV
 				v8::Local<v8::Object> object = V8_JAVASCRIPT_ENGINE->v8GetObject(C3D, "Camera");
 				v8::Local<v8::Object> newObject = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(object, 0, NULL);
 				
-				Ogre::SceneManager *sceneMgr = (Ogre::SceneManager *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_sceneManager");
-				Ogre::RenderWindow *renderWin = (Ogre::RenderWindow *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_renderWindow");
+				std::shared_ptr<Ogre::SceneManager> sceneMgr = V8_JAVASCRIPT_ENGINE->v8GetExternal<Ogre::SceneManager>(args.This(), "_sceneManager");
+				std::shared_ptr<Ogre::RenderWindow> renderWin = V8_JAVASCRIPT_ENGINE->v8GetExternal<Ogre::RenderWindow>(args.This(), "_renderWindow");
 
-				CPP::C3D::Camera* nativeObject = RJNEW CPP::C3D::Camera(*sceneMgr, *renderWin, name);
+				std::shared_ptr<CPP::C3D::Camera> nativeObject(RJNEW CPP::C3D::Camera(*sceneMgr, *renderWin, name), [](CPP::C3D::Camera* p){});
 				V8_JAVASCRIPT_ENGINE->v8SetExternal(newObject, "_c3dObj", nativeObject);
 
 				args.GetReturnValue().Set(newObject);
@@ -103,9 +103,9 @@ namespace RadJAV
 				v8::Local<v8::Object> object = V8_JAVASCRIPT_ENGINE->v8GetObject(C3D, "Light");
 				v8::Local<v8::Object> newObject = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(object, 0, NULL);
 				
-				Ogre::SceneManager *sceneMgr = (Ogre::SceneManager *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_sceneManager");
+				std::shared_ptr<Ogre::SceneManager> sceneMgr = V8_JAVASCRIPT_ENGINE->v8GetExternal<Ogre::SceneManager>(args.This(), "_sceneManager");
 				
-				CPP::C3D::Light* nativeObject = RJNEW CPP::C3D::Light(*sceneMgr, Ogre::Light::LT_DIRECTIONAL, name);
+				std::shared_ptr<CPP::C3D::Light> nativeObject(RJNEW CPP::C3D::Light(*sceneMgr, Ogre::Light::LT_DIRECTIONAL, name), [](CPP::C3D::Light* p){});
 				V8_JAVASCRIPT_ENGINE->v8SetExternal(newObject, "_c3dObj", nativeObject);
 				
 				args.GetReturnValue().Set(newObject);
@@ -121,19 +121,19 @@ namespace RadJAV
 				
 				Ogre::SceneManager::PrefabType prefabType = jsPrimitiveTypeToNative(type);
 				
-				Ogre::SceneManager *sceneMgr = (Ogre::SceneManager *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_sceneManager");
-				CPP::C3D::Object3D* nativeObject = NULL;
+				std::shared_ptr<Ogre::SceneManager> sceneMgr = V8_JAVASCRIPT_ENGINE->v8GetExternal<Ogre::SceneManager>(args.This(), "_sceneManager");
+				std::shared_ptr<CPP::C3D::Object3D> nativeObject = NULL;
 				
 				switch(prefabType)
 				{
 					case Ogre::SceneManager::PT_PLANE:
-						nativeObject = RJNEW CPP::C3D::Plane(*sceneMgr, name);
+						nativeObject.reset(RJNEW CPP::C3D::Plane(*sceneMgr, name), [](CPP::C3D::Plane* p){});
 					break;
 					case Ogre::SceneManager::PT_CUBE:
-						nativeObject = RJNEW CPP::C3D::Cube(*sceneMgr, name);
+						nativeObject.reset(RJNEW CPP::C3D::Cube(*sceneMgr, name), [](CPP::C3D::Cube* p){});
 					break;
 					case Ogre::SceneManager::PT_SPHERE:
-						nativeObject = RJNEW CPP::C3D::Sphere(*sceneMgr, name);
+						nativeObject.reset(RJNEW CPP::C3D::Sphere(*sceneMgr, name), [](CPP::C3D::Sphere* p){});
 					break;
 					default:;
 				}
@@ -155,9 +155,9 @@ namespace RadJAV
 				v8::Local<v8::Object> object = V8_JAVASCRIPT_ENGINE->v8GetObject(C3D, "Object3D");
 				v8::Local<v8::Object> newObject = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(object, 0, NULL);
 				
-				Ogre::SceneManager *sceneMgr = (Ogre::SceneManager *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_sceneManager");
+				std::shared_ptr<Ogre::SceneManager> sceneMgr = V8_JAVASCRIPT_ENGINE->v8GetExternal<Ogre::SceneManager>(args.This(), "_sceneManager");
 
-				CPP::C3D::Object3D* nativeObject = RJNEW CPP::C3D::Object3D(*sceneMgr, name);
+				std::shared_ptr<CPP::C3D::Object3D> nativeObject(RJNEW CPP::C3D::Object3D(*sceneMgr, name), [](CPP::C3D::Object3D* p){});
 				V8_JAVASCRIPT_ENGINE->v8SetExternal(newObject, "_c3dObj", nativeObject);
 				
 				args.GetReturnValue().Set(newObject);
@@ -174,9 +174,9 @@ namespace RadJAV
 				v8::Local<v8::Object> object = V8_JAVASCRIPT_ENGINE->v8GetObject(C3D, "Object3D");
 				v8::Local<v8::Object> newObject = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(object, 0, NULL);
 				
-				Ogre::SceneManager *sceneMgr = (Ogre::SceneManager *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_sceneManager");
+				std::shared_ptr<Ogre::SceneManager> sceneMgr = V8_JAVASCRIPT_ENGINE->v8GetExternal<Ogre::SceneManager>(args.This(), "_sceneManager");
 				
-				CPP::C3D::Model* model = CPP::C3D::ModelFactory::load( sceneMgr, name, path, nullptr);
+				std::shared_ptr<CPP::C3D::Model> model(CPP::C3D::ModelFactory::load( sceneMgr.get(), name, path, nullptr), [](CPP::C3D::Model* p){});
 				V8_JAVASCRIPT_ENGINE->v8SetExternal(newObject, "_c3dObj", model);
 				
 				args.GetReturnValue().Set(newObject);
@@ -191,24 +191,36 @@ namespace RadJAV
 				if (args.Length() > 1)
 					type = v8::Local<v8::Integer>::Cast(args[1])->IntegerValue();
 
-				Ogre::SceneManager *sceneMgr = (Ogre::SceneManager *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_sceneManager");
+				std::shared_ptr<Ogre::SceneManager> sceneMgr = V8_JAVASCRIPT_ENGINE->v8GetExternal<Ogre::SceneManager>(args.This(), "_sceneManager");
 
 				v8::Local<v8::Object> C3D = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_RADJAV, "C3D");
 				v8::Local<v8::Object> entity = V8_JAVASCRIPT_ENGINE->v8GetObject(C3D, "Entity");
 				v8::Local<v8::Object> newEntity = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(entity, 0, NULL);
-				Ogre::MovableObject *object = NULL;
-				Ogre::SceneNode *node = sceneMgr->getRootSceneNode()->createChildSceneNode();
+				
+				std::shared_ptr<Ogre::MovableObject> object;
+				std::shared_ptr<Ogre::SceneNode> node( sceneMgr->getRootSceneNode()->createChildSceneNode(), [](Ogre::SceneNode* p){
+					Ogre::SceneManager* sceneManager = Ogre::Root::getSingleton()._getCurrentSceneManager();
+					if(sceneManager)
+						sceneManager->destroySceneNode(p);
+				});
 
+				auto movableObjectDestroyer = [](Ogre::MovableObject* p)
+				{
+					Ogre::SceneManager* sceneManager = Ogre::Root::getSingleton()._getCurrentSceneManager();
+					if(sceneManager)
+						sceneManager->destroyMovableObject(p);
+				};
+				
 				switch (type)
 				{
 					case 1:		// Cube
-						object = sceneMgr->createEntity(name, Ogre::SceneManager::PrefabType::PT_CUBE);
+						object.reset( sceneMgr->createEntity(name, Ogre::SceneManager::PrefabType::PT_CUBE), movableObjectDestroyer);
 						break;
 					case 2:		// Sphere
-						object = sceneMgr->createEntity(name, Ogre::SceneManager::PrefabType::PT_SPHERE);
+						object.reset( sceneMgr->createEntity(name, Ogre::SceneManager::PrefabType::PT_SPHERE), movableObjectDestroyer);
 						break;
 					case 3:		// Plane
-						object = sceneMgr->createEntity(name, Ogre::SceneManager::PrefabType::PT_PLANE);
+						object.reset( sceneMgr->createEntity(name, Ogre::SceneManager::PrefabType::PT_PLANE), movableObjectDestroyer);
 						break;
 					case 4:		// Camera
 						{
@@ -217,27 +229,34 @@ namespace RadJAV
 							camera->setAutoAspectRatio(true);
 							camera->setFarClipDistance(5000);
 
-							Ogre::RenderWindow *rwin = (Ogre::RenderWindow *)
-								V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_renderWindow");
-							Ogre::Viewport *viewport = rwin->addViewport(camera);
-
-							Ogre::Real rAspectRatio = static_cast <Ogre::Real> (viewport->getActualWidth()) /
+							std::shared_ptr<Ogre::RenderWindow> rwin = V8_JAVASCRIPT_ENGINE->v8GetExternal<Ogre::RenderWindow>(args.This(), "_renderWindow");
+							if(rwin)
+							{
+								Ogre::Viewport *viewport = rwin->addViewport(camera);
+								
+								Ogre::Real rAspectRatio = static_cast <Ogre::Real> (viewport->getActualWidth()) /
 								static_cast <Ogre::Real> (viewport->getActualHeight());
-							camera->setAspectRatio(rAspectRatio);
-							camera->setFOVy(Ogre::Degree(90) / rAspectRatio);
+								camera->setAspectRatio(rAspectRatio);
+								camera->setFOVy(Ogre::Degree(90) / rAspectRatio);
+							}
+							else
+							{
+								camera->setAspectRatio(1.0);
+								camera->setFOVy(Ogre::Degree(90));
+							}
 
-							object = camera;
+							object.reset(camera, movableObjectDestroyer);
 						}
 						break;
 					case 5:		// Light
 						{
-							Ogre::Light *light = sceneMgr->createLight(name);
-							object = light;
+							object.reset(sceneMgr->createLight(name), movableObjectDestroyer);
 						}
 						break;
 				}
 
-				node->attachObject(object);
+				node->attachObject(object.get());
+				
 				V8_JAVASCRIPT_ENGINE->v8SetExternal(newEntity, "_c3dObj", node);
 				V8_JAVASCRIPT_ENGINE->v8SetExternal(newEntity, "_c3dEntity", object);
 
@@ -260,8 +279,9 @@ namespace RadJAV
 					nativeColor.a = color->Get( String("a").toV8String(isolate))->NumberValue();
 				}
 				
-				Ogre::SceneManager *sceneMgr = (Ogre::SceneManager *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_sceneManager");
-				sceneMgr->setAmbientLight(nativeColor);
+				std::shared_ptr<Ogre::SceneManager> sceneMgr = V8_JAVASCRIPT_ENGINE->v8GetExternal<Ogre::SceneManager>(args.This(), "_sceneManager");
+				if(sceneMgr)
+					sceneMgr->setAmbientLight(nativeColor);
 			}
 			#endif
 		}

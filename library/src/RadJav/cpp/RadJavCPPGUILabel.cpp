@@ -39,7 +39,7 @@ namespace RadJAV
 				void LabelFrame::onClick(wxMouseEvent &event)
 				{
 				  std::cout << "Label clicked" << std::endl;
-					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)event.GetEventUserData();
+					Event *pevent = (Event *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 			#endif
@@ -70,6 +70,8 @@ namespace RadJAV
 
 					_appObj = object;
 
+					linkWith(object);
+				
 					setup();
 				#endif
 			}
@@ -85,8 +87,7 @@ namespace RadJAV
 					if (event == "click")
 					{
 					  std::cout << "Connecting Label click event" << std::endl;
-						v8::Persistent<v8::Value> *pevent = object->createEvent(event, func);
-						object->Connect(wxEVT_LEFT_UP, wxMouseEventHandler(LabelFrame::onClick), (wxObject *)pevent);
+						object->Connect(wxEVT_LEFT_UP, wxMouseEventHandler(LabelFrame::onClick), object->createEvent(event, func));
 					}
 
 					

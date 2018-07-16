@@ -7,8 +7,10 @@ if not exist .\build\RadJavVM mkdir .\build\RadJavVM
 if not exist .\build\RadJavVM\examples mkdir .\build\RadJavVM\examples
 if not exist .\build\RadJavVM\html5 mkdir .\build\RadJavVM\html5
 
-REM xcopy ..\..\..\build-x64\Release .\build\RadJavVM /Y /S /E
-REM xcopy ..\..\..\..\examples .\build\RadJavVM\examples /Y /S /E
-REM xcopy ..\..\..\..\html5\build .\build\RadJavVM\html5 /Y /S /E
+xcopy ..\..\..\build-x64\Release .\build\RadJavVM /Y /S /E
+xcopy ..\..\..\..\examples .\build\RadJavVM\examples /Y /S /E
+xcopy ..\..\..\..\html5\build .\build\RadJavVM\html5 /Y /S /E
+copy ..\..\..\..\LICENSE .\build\RadJavVM\LICENSE
+copy ..\..\..\..\LICENSE.rtf .\build\RadJavVM\LICENSE.rtf
 
-"%NSIS%\makensis.exe" installer.nsi
+"%NSIS%\makensis.exe" /DPRODUCT_ARCH=x64 ../installer.nsi

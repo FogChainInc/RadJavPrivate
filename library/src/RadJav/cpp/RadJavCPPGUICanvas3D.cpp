@@ -90,7 +90,7 @@ namespace RadJAV
 
 				void Canvas3DFrame::onJSClose(wxCloseEvent &evt)
 				{
-					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)evt.GetEventUserData();
+					Event *pevent = (Event *)evt.GetEventUserData();
 					v8::Local<v8::Value> result = executeEvent(pevent);
 
 					if (result.IsEmpty() == false)
@@ -107,13 +107,13 @@ namespace RadJAV
 
 				void Canvas3DFrame::onJSMinimized(wxIconizeEvent &evt)
 				{
-					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)evt.GetEventUserData();
+					Event *pevent = (Event *)evt.GetEventUserData();
 					executeEvent(pevent);
 				}
 
 				void Canvas3DFrame::onClick(wxMouseEvent &evt)
 				{
-					v8::Persistent<v8::Value> *pevent = (v8::Persistent<v8::Value> *)evt.GetEventUserData();
+					Event *pevent = (Event *)evt.GetEventUserData();
 					executeEvent(pevent);
 				}
 			#endif
@@ -146,6 +146,7 @@ namespace RadJAV
                     RadJav::app->SetActive(_visible, object);
                 
                     _appObj = object;
+					linkWith(object);
                 
                     //if (icon != "")
                     //    setIcon(icon);
@@ -321,14 +322,12 @@ namespace RadJAV
 
 				if (event == "close")
 				{
-					v8::Persistent<v8::Value> *pevent = obj->createEvent(event, func);
-					obj->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(Canvas3DFrame::onJSClose), (wxObject *)pevent);
+					obj->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(Canvas3DFrame::onJSClose), obj->createEvent(event, func));
 				}
 
 				if (event == "minimize")
 				{
-					v8::Persistent<v8::Value> *pevent = obj->createEvent(event, func);
-					obj->Connect(wxEVT_ICONIZE, wxIconizeEventHandler(Canvas3DFrame::onJSMinimized), (wxObject *)pevent);
+					obj->Connect(wxEVT_ICONIZE, wxIconizeEventHandler(Canvas3DFrame::onJSMinimized), obj->createEvent(event, func));
 				}
 			}
 			#endif

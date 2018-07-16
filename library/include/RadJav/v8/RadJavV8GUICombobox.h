@@ -56,6 +56,7 @@
 					static void setEnabled(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void getEnabled(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void on(const v8::FunctionCallbackInfo<v8::Value> &args);
+					static void destroy(const v8::FunctionCallbackInfo<v8::Value> &args);
 
 					static void addItem(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void setItems(const v8::FunctionCallbackInfo<v8::Value> &args);

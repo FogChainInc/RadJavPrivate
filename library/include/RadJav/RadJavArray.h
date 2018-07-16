@@ -25,6 +25,15 @@
 	#include <vector>
 	#include <cstddef>
 
+	#ifdef USE_V8
+		#include <v8.h>
+
+		namespace RadJAV
+		{
+			class String;
+		}
+	#endif
+
 	namespace RadJAV
 	{
 		/// The javascript engine to be used.
@@ -86,6 +95,11 @@
 					}
 				}
 		};
+
+		#ifdef USE_V8
+			/// Convert a string array to a V8 string array.
+			v8::Local<v8::Array> convertArrayToV8Array(RadJAV::Array<RadJAV::String> strArray, v8::Isolate *isolate);
+		#endif
 	}
 #endif
 

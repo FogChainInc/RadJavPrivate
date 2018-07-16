@@ -60,7 +60,9 @@ namespace RadJAV
 					object->Show(_visible);
 
 					_appObj = object;
-
+				
+					linkWith(object);
+				
 					setup();
 				#endif
 			}

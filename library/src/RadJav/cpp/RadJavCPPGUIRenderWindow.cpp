@@ -25,7 +25,10 @@
 	#include <gdk/gdk.h>
 	#include <gtk/gtk.h>
 	#include <gdk/gdkx.h>
-	#include <wx/gtk/win_gtk.h>
+	#ifdef WIN32
+		#include <wx/gtk/win_gtk.h>
+	#endif
+
 	#include <GL/glx.h>
 #endif
 
@@ -47,11 +50,7 @@ namespace RadJAV
 					Ogre::Root* root = Ogre::Root::getSingletonPtr();
 					if(root)
 					{
-						try {
-							root->detachRenderTarget(renderWindow);
-							root->destroyRenderTarget(renderWindow);
-						}
-						catch(...){}
+						root->destroyRenderTarget(renderWindow);
 					}
 				}
 			}
