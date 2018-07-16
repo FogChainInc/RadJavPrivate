@@ -72,14 +72,21 @@ namespace RadJAV
 				if (args.Length() > 0)
 					perspective = v8::Local<v8::Boolean>::Cast(args[0])->BooleanValue();
 
-				C3DTYPE *camera = (C3DTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
-				camera->setMode (perspective ? Ogre::PT_PERSPECTIVE : Ogre::PT_ORTHOGRAPHIC);
+				std::shared_ptr<C3DTYPE> camera = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
+				
+				if (camera)
+					camera->setMode (perspective ? Ogre::PT_PERSPECTIVE : Ogre::PT_ORTHOGRAPHIC);
 			}
 			
 			void Camera::getMode(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				C3DTYPE *camera = (C3DTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
-				args.GetReturnValue().Set( camera->getMode() == Ogre::PT_PERSPECTIVE);
+				std::shared_ptr<C3DTYPE> camera = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
+				
+				if (camera)
+					args.GetReturnValue().Set( camera->getMode() == Ogre::PT_PERSPECTIVE);
+				else
+					args.GetReturnValue().Set(true);
+
 			}
 			
 			void Camera::setAspectRatio(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -89,14 +96,20 @@ namespace RadJAV
 				if (args.Length() > 0)
 					aspectRatio = V8_JAVASCRIPT_ENGINE->v8ParseDecimal(args[0]);
 				
-				C3DTYPE *camera = (C3DTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
-				camera->setAspectRatio(aspectRatio);
+				std::shared_ptr<C3DTYPE> camera = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
+				
+				if (camera)
+					camera->setAspectRatio(aspectRatio);
 			}
 			
 			void Camera::getAspectRatio(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				C3DTYPE *camera = (C3DTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
-				args.GetReturnValue().Set(camera->getAspectRatio());
+				std::shared_ptr<C3DTYPE> camera = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
+				
+				if (camera)
+					args.GetReturnValue().Set(camera->getAspectRatio());
+				else
+					args.GetReturnValue().Set(1.0);
 			}
 			
 			void Camera::setAutoAspectRatio(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -106,14 +119,20 @@ namespace RadJAV
 				if (args.Length() > 0)
 					autoAspectRatio = V8_JAVASCRIPT_ENGINE->v8ParseBool(args[0]);
 				
-				C3DTYPE *camera = (C3DTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
-				camera->setAutoAspectRatio(autoAspectRatio);
+				std::shared_ptr<C3DTYPE> camera = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
+				
+				if (camera)
+					camera->setAutoAspectRatio(autoAspectRatio);
 			}
 			
 			void Camera::getAutoAspectRatio(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				C3DTYPE *camera = (C3DTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
-				args.GetReturnValue().Set(camera->getAutoAspectRatio());
+				std::shared_ptr<C3DTYPE> camera = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
+				
+				if (camera)
+					args.GetReturnValue().Set(camera->getAutoAspectRatio());
+				else
+					args.GetReturnValue().Set(false);
 			}
 
 			void Camera::setFOV(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -123,15 +142,20 @@ namespace RadJAV
 				if (args.Length() > 0)
 					degree = V8_JAVASCRIPT_ENGINE->v8ParseDecimal(args[0]);
 				
-				C3DTYPE *camera = (C3DTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
+				std::shared_ptr<C3DTYPE> camera = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
 				
-				camera->setFOV( Ogre::Degree(degree));
+				if (camera)
+					camera->setFOV( Ogre::Degree(degree));
 			}
 
 			void Camera::getFOV(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				C3DTYPE *camera = (C3DTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
-				args.GetReturnValue().Set( camera->getFOV().valueDegrees());
+				std::shared_ptr<C3DTYPE> camera = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
+				
+				if (camera)
+					args.GetReturnValue().Set( camera->getFOV().valueDegrees());
+				else
+					args.GetReturnValue().Set(60.0);
 			}
 			
 			void Camera::setNearClipPlane(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -141,15 +165,20 @@ namespace RadJAV
 				if (args.Length() > 0)
 					distance = V8_JAVASCRIPT_ENGINE->v8ParseDecimal(args[0]);
 				
-				C3DTYPE *camera = (C3DTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
+				std::shared_ptr<C3DTYPE> camera = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
 				
-				camera->setNearClipPlane(distance);
+				if (camera)
+					camera->setNearClipPlane(distance);
 			}
 			
 			void Camera::getNearClipPlane(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				C3DTYPE *camera = (C3DTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
-				args.GetReturnValue().Set( camera->getNearClipPlane());
+				std::shared_ptr<C3DTYPE> camera = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
+				
+				if (camera)
+					args.GetReturnValue().Set( camera->getNearClipPlane());
+				else
+					args.GetReturnValue().Set(1.0);
 			}
 			
 			void Camera::setFarClipPlane(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -159,15 +188,20 @@ namespace RadJAV
 				if (args.Length() > 0)
 					distance = V8_JAVASCRIPT_ENGINE->v8ParseDecimal(args[0]);
 				
-				C3DTYPE *camera = (C3DTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
+				std::shared_ptr<C3DTYPE> camera = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
 				
-				camera->setFarClipPlane(distance);
+				if (camera)
+					camera->setFarClipPlane(distance);
 			}
 			
 			void Camera::getFarClipPlane(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				C3DTYPE *camera = (C3DTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
-				args.GetReturnValue().Set( camera->getFarClipPlane());
+				std::shared_ptr<C3DTYPE> camera = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
+				
+				if (camera)
+					args.GetReturnValue().Set( camera->getFarClipPlane());
+				else
+					args.GetReturnValue().Set(100.0);
 			}
 			
 			void Camera::setBackgroundColor(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -185,16 +219,20 @@ namespace RadJAV
 					nativeColor.a = color->Get( String("a").toV8String(isolate))->NumberValue();
 				}
 
-				C3DTYPE *camera = (C3DTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
-				camera->setBackgroundColor(nativeColor);
+				std::shared_ptr<C3DTYPE> camera = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
+				
+				if (camera)
+					camera->setBackgroundColor(nativeColor);
 			}
 			
 			void Camera::getBackgroundColor(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				Ogre::ColourValue nativeColor;
 				
-				C3DTYPE *camera = (C3DTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
-				nativeColor = camera->getBackgroundColor();
+				std::shared_ptr<C3DTYPE> camera = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
+				
+				if (camera)
+					nativeColor = camera->getBackgroundColor();
 
 				v8::Handle<v8::Function> func = V8_JAVASCRIPT_ENGINE->v8GetFunction(V8_RADJAV, "Color");
 				v8::Local<v8::Object> v8color = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(func, 0, NULL);

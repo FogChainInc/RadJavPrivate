@@ -85,14 +85,13 @@ namespace RadJAV
 				
 				DELETE_ARRAY(args3);
 				
-				C3DTYPE *c3dObject = (C3DTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
-				if (c3dObject != NULL)
+				std::shared_ptr<C3DTYPE> c3dObject = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
+				if (c3dObject)
 					c3dObject->setPosition(Ogre::Vector3(x, y, z));
 			}
 
 			void Object3D::getPosition(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				C3DTYPE *c3dObject = (C3DTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
 				RDECIMAL x = 0;
 				RDECIMAL y = 0;
 				RDECIMAL z = 0;
@@ -103,8 +102,10 @@ namespace RadJAV
 				y = V8_JAVASCRIPT_ENGINE->v8GetInt(transform, "z");
 
 				Ogre::Vector3 pos;
-				if(c3dObject)
-					c3dObject->getPosition();
+				std::shared_ptr<C3DTYPE> c3dObject = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
+
+				if (c3dObject)
+					pos = c3dObject->getPosition();
 				
 				x = pos.x;
 				y = pos.y;
@@ -123,9 +124,9 @@ namespace RadJAV
 			{
 				RDECIMAL value = V8_JAVASCRIPT_ENGINE->v8ParseDecimal(args[0]);
 				
-				C3DTYPE *c3dObject = (C3DTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
+				std::shared_ptr<C3DTYPE> c3dObject = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
 				
-				if(c3dObject)
+				if (c3dObject)
 					c3dObject->pitch(Ogre::Degree(value));
 			}
 			
@@ -133,9 +134,9 @@ namespace RadJAV
 			{
 				RDECIMAL value = V8_JAVASCRIPT_ENGINE->v8ParseDecimal(args[0]);
 				
-				C3DTYPE *c3dObject = (C3DTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
+				std::shared_ptr<C3DTYPE> c3dObject = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
 				
-				if(c3dObject)
+				if (c3dObject)
 					c3dObject->roll(Ogre::Degree(value));
 			}
 
@@ -143,19 +144,19 @@ namespace RadJAV
 			{
 				RDECIMAL value = V8_JAVASCRIPT_ENGINE->v8ParseDecimal(args[0]);
 				
-				C3DTYPE *c3dObject = (C3DTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
+				std::shared_ptr<C3DTYPE> c3dObject = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
 				
-				if(c3dObject)
+				if (c3dObject)
 					c3dObject->yaw(Ogre::Degree(value));
 			}
 
 			void Object3D::getX(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				C3DTYPE *c3dObject = (C3DTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
-				
+				std::shared_ptr<C3DTYPE> c3dObject = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
+
 				Ogre::Vector3 pos;
 				
-				if(c3dObject)
+				if (c3dObject)
 					pos = c3dObject->getPosition();
 				
 				args.GetReturnValue().Set(pos.x);
@@ -163,11 +164,11 @@ namespace RadJAV
 
 			void Object3D::getY(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				C3DTYPE *c3dObject = (C3DTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
+				std::shared_ptr<C3DTYPE> c3dObject = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
 				
 				Ogre::Vector3 pos;
 				
-				if(c3dObject)
+				if (c3dObject)
 					pos = c3dObject->getPosition();
 				
 				args.GetReturnValue().Set(pos.y);
@@ -175,10 +176,10 @@ namespace RadJAV
 
 			void Object3D::getZ(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				C3DTYPE *c3dObject = (C3DTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
+				std::shared_ptr<C3DTYPE> c3dObject = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
 				Ogre::Vector3 pos;
 				
-				if(c3dObject)
+				if (c3dObject)
 					pos = c3dObject->getPosition();
 				
 				args.GetReturnValue().Set(pos.z);
@@ -206,19 +207,19 @@ namespace RadJAV
 					scale.z = V8_JAVASCRIPT_ENGINE->v8ParseDecimal(args[2]);
 				}
 
-				C3DTYPE *c3dObject = (C3DTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
+				std::shared_ptr<C3DTYPE> c3dObject = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
 				
-				if(c3dObject)
+				if (c3dObject)
 					c3dObject->setScale(scale);
 			}
 			
 			void Object3D::getScale(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				C3DTYPE *c3dObject = (C3DTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
+				std::shared_ptr<C3DTYPE> c3dObject = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
 				
 				Ogre::Vector3 scale;
 				
-				if(c3dObject)
+				if (c3dObject)
 					scale = c3dObject->getScale();
 				
 				v8::Local<v8::Object> vector3 = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_RADJAV, "Vector3");
@@ -245,17 +246,17 @@ namespace RadJAV
 				if (args.Length() > 0)
 					visible = v8::Local<v8::Boolean>::Cast(args[0])->BooleanValue();
 
-				C3DTYPE *c3dObject = (C3DTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
+				std::shared_ptr<C3DTYPE> c3dObject = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
 				
-				if(c3dObject)
+				if (c3dObject)
 					c3dObject->setVisible(visible);
 			}
 
 			void Object3D::getVisibility(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				C3DTYPE *c3dObject = (C3DTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
+				std::shared_ptr<C3DTYPE> c3dObject = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
 				
-				if(c3dObject)
+				if (c3dObject)
 					args.GetReturnValue().Set(c3dObject->getVisible());
 				else
 					args.GetReturnValue().Set(false);
@@ -263,34 +264,30 @@ namespace RadJAV
 
 			void Object3D::addChild(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				C3DTYPE *c3dChildObject = NULL;
-				
 				if(args.Length() == 0)
 					return;
 				
 				v8::Handle<v8::Object> childObject = v8::Handle<v8::Object>::Cast(args[0]);
-				c3dChildObject = (C3DTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(childObject, "_c3dObj");
+				std::shared_ptr<C3DTYPE> c3dChildObject = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(childObject, "_c3dObj");
 
-				C3DTYPE *c3dObject = (C3DTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
+				std::shared_ptr<C3DTYPE> c3dObject = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
 				
-				if(c3dObject)
-					c3dObject->addChild(c3dChildObject);
+				if (c3dObject)
+					c3dObject->addChild(c3dChildObject.get());
 			}
 			
 			void Object3D::removeChild(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				C3DTYPE *c3dChildObject = NULL;
-				
 				if(args.Length() == 0)
 					return;
 				
 				v8::Handle<v8::Object> childObject = v8::Handle<v8::Object>::Cast(args[0]);
-				c3dChildObject = (C3DTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(childObject, "_c3dObj");
+				std::shared_ptr<C3DTYPE> c3dChildObject = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(childObject, "_c3dObj");
 
-				C3DTYPE *c3dObject = (C3DTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
+				std::shared_ptr<C3DTYPE> c3dObject = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
 				
-				if(c3dObject)
-					c3dObject->removeChild(c3dChildObject);
+				if (c3dObject)
+					c3dObject->removeChild(c3dChildObject.get());
 			}
 
 			void Object3D::lookAt(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -313,7 +310,7 @@ namespace RadJAV
 					z = V8_JAVASCRIPT_ENGINE->v8GetDecimal(obj, "z");
 				}
 				
-				C3DTYPE *c3dObject = (C3DTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_c3dObj");
+				std::shared_ptr<C3DTYPE> c3dObject = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
 				if (c3dObject)
 					c3dObject->lookAt(x, y, z);
 			}
