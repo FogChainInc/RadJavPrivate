@@ -1161,10 +1161,8 @@ namespace RadJAV
 
 					// RadJav.IO.FileIO
 					{
-						v8::Handle<v8::Function> filemFunc = v8GetFunction(ioFunc, "FileIO");
-						v8::Handle<v8::Object> filePrototype = v8GetObject(filemFunc, "prototype");
-
-						V8B::IO::FileIO::createV8Callbacks(isolate, filePrototype);
+						//v8::Handle<v8::Function> filemFunc = v8GetFunction(ioFunc, "FileIO");
+						//v8::Handle<v8::Object> filePrototype = v8GetObject(filemFunc, "prototype");
 					}
 
 					// RadJav.IO.SerialComm
@@ -1182,6 +1180,17 @@ namespace RadJAV
 
 						V8B::IO::TextFile::createV8Callbacks(isolate, textPrototype);
 					}
+
+					V8B::IO::createV8Callbacks(isolate, ioFunc);
+				}
+
+				// RadJav.XML
+				{
+					v8::Handle<v8::Function> xmlFunc = v8GetFunction(radJavFunc, "XML");
+					v8::Handle<v8::Function> xmlFileFunc = v8GetFunction(xmlFunc, "XMLFile");
+					v8::Handle<v8::Object> xmlFilePrototype = v8GetObject(xmlFileFunc, "prototype");
+
+					V8B::IO::XML::XMLFile::createV8Callbacks(isolate, xmlFilePrototype);
 				}
 
 				// RadJav.Net

@@ -22,6 +22,7 @@
 
 	#include "RadJavPreprocessor.h"
 	#include "RadJavString.h"
+	#include "cpp/RadJavCPPChainedPtr.h"
 
 	#ifdef USE_V8
 		#include <v8.h>
@@ -32,42 +33,37 @@
 			{
 				namespace IO
 				{
-					class RADJAV_EXPORT FileIO
-					{
-					public:
-						static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
-						static void _init(const v8::FunctionCallbackInfo<v8::Value> &args);
+					void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
-						static void isDir(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void isFile(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void isSymLink(const v8::FunctionCallbackInfo<v8::Value> &args);
+					void isDir(const v8::FunctionCallbackInfo<v8::Value> &args);
+					void isFile(const v8::FunctionCallbackInfo<v8::Value> &args);
+					void isSymLink(const v8::FunctionCallbackInfo<v8::Value> &args);
 
-						static void currentPath(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void changePath(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void exists(const v8::FunctionCallbackInfo<v8::Value> &args);
+					void currentPath(const v8::FunctionCallbackInfo<v8::Value> &args);
+					void changePath(const v8::FunctionCallbackInfo<v8::Value> &args);
+					void exists(const v8::FunctionCallbackInfo<v8::Value> &args);
 
-						static void createDir(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void copyDir(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void renameDir(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void deleteDir(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void isEmpty(const v8::FunctionCallbackInfo<v8::Value> &args);
+					void createDir(const v8::FunctionCallbackInfo<v8::Value> &args);
+					void copyDir(const v8::FunctionCallbackInfo<v8::Value> &args);
+					void renameDir(const v8::FunctionCallbackInfo<v8::Value> &args);
+					void deleteDir(const v8::FunctionCallbackInfo<v8::Value> &args);
+					void isEmpty(const v8::FunctionCallbackInfo<v8::Value> &args);
 
-						static void createSymLink(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void copySymLink(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void renameSymLink(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void deleteSymLink(const v8::FunctionCallbackInfo<v8::Value> &args);
+					void createSymLink(const v8::FunctionCallbackInfo<v8::Value> &args);
+					void copySymLink(const v8::FunctionCallbackInfo<v8::Value> &args);
+					void renameSymLink(const v8::FunctionCallbackInfo<v8::Value> &args);
+					void deleteSymLink(const v8::FunctionCallbackInfo<v8::Value> &args);
 
-						static void copyFile(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void renameFile(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void deleteFile(const v8::FunctionCallbackInfo<v8::Value> &args);
+					void copyFile(const v8::FunctionCallbackInfo<v8::Value> &args);
+					void renameFile(const v8::FunctionCallbackInfo<v8::Value> &args);
+					void deleteFile(const v8::FunctionCallbackInfo<v8::Value> &args);
 
-						static void listFiles(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void listFilesAsync(const v8::FunctionCallbackInfo<v8::Value> &args);
+					void listFiles(const v8::FunctionCallbackInfo<v8::Value> &args);
+					void listFilesAsync(const v8::FunctionCallbackInfo<v8::Value> &args);
 
-						static void normalizePath(const v8::FunctionCallbackInfo<v8::Value> &args);
+					void normalizePath(const v8::FunctionCallbackInfo<v8::Value> &args);
 
-						static void onFileList(const v8::FunctionCallbackInfo<v8::Value> &args);
-					};
+					void onFileList(const v8::FunctionCallbackInfo<v8::Value> &args);
 
 					class RADJAV_EXPORT SerialComm
 					{
@@ -96,6 +92,19 @@
 
 							static void onFileRead(const v8::FunctionCallbackInfo<v8::Value> &args);
 					};
+
+					namespace XML
+					{
+						class RADJAV_EXPORT XMLFile
+						{
+							public:
+								static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
+
+								static void _init(const v8::FunctionCallbackInfo<v8::Value> &args);
+								static void loadXMLFile(const v8::FunctionCallbackInfo<v8::Value> &args);
+								static void loadXML(const v8::FunctionCallbackInfo<v8::Value> &args);
+						};
+					}
 				};
 			}
 		}

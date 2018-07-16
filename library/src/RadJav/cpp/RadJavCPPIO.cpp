@@ -35,21 +35,20 @@
 	boost::asio::serial_port RadJAV::CPP::IO::SerialComm::m_serial(RadJAV::CPP::IO::SerialComm::m_io);
 #endif
 
-std::vector<int> RadJAV::CPP::IO::SerialComm::m_baudRates = { 110, 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 38400, 57600, 115200, 128000, 256000 };
+RadJAV::Array<int> RadJAV::CPP::IO::SerialComm::m_baudRates = RadJAV::Array<int> ({ 110, 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 38400, 57600, 115200, 128000, 256000 });
 
 #ifdef USE_V8
 	#include "v8/RadJavV8JavascriptEngine.h"
 
 	v8::Persistent<v8::Function>* RadJAV::CPP::IO::TextFile::m_textfileReadEvent = nullptr;
-	v8::Persistent<v8::Function>* RadJAV::CPP::IO::FileIO::m_fileListEvent = nullptr;
+	//v8::Persistent<v8::Function>* RadJAV::CPP::IO::m_fileListEvent = nullptr;
 #endif
-
 
 namespace RadJAV
 {
 	namespace CPP
 	{
-		RJBOOL IO::FileIO::isDir(String path_)
+		RJBOOL IO::isDir(String path_)
 		{
 			#ifdef USE_BOOST
 				try {
@@ -62,7 +61,7 @@ namespace RadJAV
 			#endif
 		}
 
-		RJBOOL IO::FileIO::isFile(String path_)
+		RJBOOL IO::isFile(String path_)
 		{
 			#ifdef USE_BOOST
 				try {
@@ -75,7 +74,7 @@ namespace RadJAV
 			#endif
 		}
 
-		RJBOOL IO::FileIO::isSymLink(String path_)
+		RJBOOL IO::isSymLink(String path_)
 		{
 			#ifdef USE_BOOST
 				try {
@@ -88,7 +87,7 @@ namespace RadJAV
 			#endif
 		}
 
-		String IO::FileIO::currentPath()
+		String IO::currentPath()
 		{
 			#ifdef USE_BOOST
 				try {
@@ -101,7 +100,7 @@ namespace RadJAV
 			#endif
 		}
 
-		void IO::FileIO::changePath(String path_)
+		void IO::changePath(String path_)
 		{
 			#ifdef USE_BOOST
 				try {
@@ -111,7 +110,7 @@ namespace RadJAV
 			#endif
 		}
 
-		RJBOOL IO::FileIO::exists(String path_)
+		RJBOOL IO::exists(String path_)
 		{
 			#ifdef USE_BOOST
 				try {
@@ -124,7 +123,7 @@ namespace RadJAV
 			#endif
 		}
 
-		void IO::FileIO::createDir(String path_)
+		void IO::createDir(String path_)
 		{
 			if (exists(path_) == true) return;
 
@@ -136,7 +135,7 @@ namespace RadJAV
 			#endif
 		}
 
-		void IO::FileIO::copyDir(String src_, String dest_, RJBOOL recursive_)
+		void IO::copyDir(String src_, String dest_, RJBOOL recursive_)
 		{
 			/// @todo We want to add a JavaScript function that will allow the developer to see 
 			/// the file or folder that's being copied over and be able to prevent it from being 
@@ -180,7 +179,7 @@ namespace RadJAV
 			#endif
 		}
 
-		void IO::FileIO::renameDir(String src_, String dest_)
+		void IO::renameDir(String src_, String dest_)
 		{
 			// test for the source being there
 			if (exists(src_) == false)
@@ -197,7 +196,7 @@ namespace RadJAV
 			#endif
 		}
 
-		void IO::FileIO::deleteDir(String path_)
+		void IO::deleteDir(String path_)
 		{
 			// test for the source being there
 			if (exists(path_) == false)
@@ -214,7 +213,7 @@ namespace RadJAV
 			#endif
 		}
 
-		RJBOOL IO::FileIO::isEmpty(String path_)
+		RJBOOL IO::isEmpty(String path_)
 		{
 			// test for the source being there
 			if (exists(path_) == false)
@@ -234,7 +233,7 @@ namespace RadJAV
 			#endif
 		}
 
-		void IO::FileIO::createSymLink(String path_, String link_)
+		void IO::createSymLink(String path_, String link_)
 		{
 			#ifdef USE_BOOST
 				try {
@@ -244,7 +243,7 @@ namespace RadJAV
 			#endif
 		}
 
-		void IO::FileIO::copySymLink(String src_, String dest_)
+		void IO::copySymLink(String src_, String dest_)
 		{
 			// test for the source being there
 			if (exists(src_) == false)
@@ -268,7 +267,7 @@ namespace RadJAV
 			#endif
 		}
 
-		void IO::FileIO::renameSymLink(String src_, String dest_)
+		void IO::renameSymLink(String src_, String dest_)
 		{
 			// test for the source being there
 			if (exists(src_) == false)
@@ -292,7 +291,7 @@ namespace RadJAV
 			#endif
 		}
 
-		void IO::FileIO::deleteSymLink(String path_)
+		void IO::deleteSymLink(String path_)
 		{
 			// test for the source being there
 			if (exists(path_) == false)
@@ -310,7 +309,7 @@ namespace RadJAV
 		}
 
 
-		void IO::FileIO::copyFile(String src_, String dest_, RJBOOL overwriteIfExists_)
+		void IO::copyFile(String src_, String dest_, RJBOOL overwriteIfExists_)
 		{
 			// test for the source being there
 			if (exists(src_) == false)
@@ -330,7 +329,7 @@ namespace RadJAV
 			#endif
 		}
 
-		void IO::FileIO::renameFile(String src_, String dest_)
+		void IO::renameFile(String src_, String dest_)
 		{
 			// test for the source being there
 			if (exists(src_) == false)
@@ -347,7 +346,7 @@ namespace RadJAV
 			#endif
 		}
 
-		void IO::FileIO::deleteFile(String path_)
+		void IO::deleteFile(String path_)
 		{
 			#ifdef USE_BOOST
 				try {
@@ -506,7 +505,7 @@ namespace RadJAV
 			return files;
 		}
 
-		Array<String> IO::FileIO::listFiles(String path_, RJBOOL recursive_)
+		Array<String> IO::listFiles(String path_, RJBOOL recursive_)
 		{
 			Array<String> files;
 
@@ -530,16 +529,16 @@ namespace RadJAV
 			return files;
 		}
 
-		void IO::FileIO::listFilesAsync(String path_, RJBOOL recursive_)
+		void IO::listFilesAsync(String path_, RJBOOL recursive_)
 		{
 			boost::asio::post(m_ioQueue, [=]()
 			{
 				auto files = listFiles(path_, recursive_);
 
 				#ifdef USE_V8
-					if (RadJAV::CPP::IO::FileIO::m_fileListEvent != nullptr)
+					/*if (RadJAV::CPP::IO::m_fileListEvent != nullptr)
 					{
-						v8::Local<v8::Function> evt = v8::Local<v8::Function>::Cast(RadJAV::CPP::IO::FileIO::m_fileListEvent->Get(V8_JAVASCRIPT_ENGINE->isolate));
+						v8::Local<v8::Function> evt = v8::Local<v8::Function>::Cast(RadJAV::CPP::IO::m_fileListEvent->Get(V8_JAVASCRIPT_ENGINE->isolate));
 
 						v8::Local<v8::Value> *args = RJNEW v8::Local<v8::Value>[1];
 						args[0] = convertArrayToV8Array(files, V8_JAVASCRIPT_ENGINE->isolate);
@@ -547,12 +546,12 @@ namespace RadJAV
 						if (V8_JAVASCRIPT_ENGINE->v8IsNull(evt) == false)
 							evt->Call(V8_JAVASCRIPT_ENGINE->globalContext->Global(), 1, args);
 						DELETE_ARRAY(args);
-					}
+					}*/
 				#endif
 			});
 		}
 
-		String IO::FileIO::normalizePath(String path_, String basePath_)
+		String IO::normalizePath(String path_, String basePath_)
 		{
 			String normalizedPath = path_;
 

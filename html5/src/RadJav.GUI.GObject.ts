@@ -85,6 +85,11 @@
        * The native os gui object associated with this object.
        */
       _appObj: any;
+      /** @property {Account} [access=null]
+       * @protected
+       * How this object is handled with an account.
+       */
+      access: Account;
       /** @property {Object} [createOnPlatforms=null]
        * @protected
        * Create this object only on certain platforms. All platforms will be enabled
@@ -254,7 +259,7 @@
        * Is Theme Event Asynchronous: Yes
        * @return {Promise} The promise to execute when the creation is completed.
        */
-      create(): Promise<GObject> {
+      public create(): Promise<GObject> {
         var promise = new Promise<GObject>(
           RadJav.keepContext(function(resolve, reject) {
             if (this.createOnPlatforms != null) {
@@ -267,7 +272,7 @@
                 }
               }
             }
-            var promise2 = RadJav.Theme.event(this.type, "create", this);
+            var promise2 = RadJav.theme.event(this.type, "create", this);
 
             if (promise2 == null) {
               debugger;
@@ -294,7 +299,7 @@
                     for (var key in this._events) {
                       if (this._events[key] != null) {
                         var func = new Function(this._events[key]);
-                        RadJav.Theme.event(this.type, "on", this, key, func);
+                        RadJav.theme.event(this.type, "on", this, key, func);
                       }
                     }
 
@@ -321,7 +326,7 @@
        */
       setFont(font: Font): void {
         this._font = font;
-        RadJav.Theme.eventSync(this.type, "setFont", this, font);
+        RadJav.theme.eventSync(this.type, "setFont", this, font);
       }
 
       /** @method getFont
@@ -331,15 +336,15 @@
        * @return {RadJav.Font} The font.
        */
       getFont(): Font {
-        return RadJav.Theme.eventSync(this.type, "getFont", this);
+        return RadJav.theme.eventSync(this.type, "getFont", this);
       }
 
       /** @method setPosition
        * Set the position of this object.
        * Theme Event: None
        * Is Theme Event Asynchronous: No
-       * @param {number/RadJav.Vector2} x The new position, or the new x coordinate of the new position.
-       * @param {number} [y=null] The new y coordinate.
+       * @param {Number/RadJav.Vector2} x The new position, or the new x coordinate of the new position.
+       * @param {Number} [y=null] The new y coordinate.
        */
       setPosition(x: number, y: number): void {
         this._transform.setPosition(x, y);
@@ -465,7 +470,7 @@
        * @param {Boolean} visible The visibility of the object
        */
       setVisibility(visible: boolean): void {
-        RadJav.Theme.event(this.type, "setVisibility", this, visible);
+        RadJav.theme.event(this.type, "setVisibility", this, visible);
       }
 
       /** @method getVisibility
@@ -476,7 +481,7 @@
        * @return {Boolean} The visibility of this object
        */
       getVisibility(): boolean {
-        return RadJav.Theme.eventSync(this.type, "getVisibility", this);
+        return RadJav.theme.eventSync(this.type, "getVisibility", this);
       }
 
       /** @method show
@@ -506,7 +511,7 @@
        * Parameters Passed to Theme Event: RadJav.GUI.GObject, Boolean
        */
       setEnabled(enabled: boolean): void {
-        RadJav.Theme.event(this.type, "setEnabled", this, enabled);
+        RadJav.theme.event(this.type, "setEnabled", this, enabled);
       }
 
       /** @method getEnabled
@@ -517,7 +522,7 @@
        * @return {Boolean} The enabled status of this object
        */
       getEnabled(): boolean {
-        return RadJav.Theme.eventSync(this.type, "getEnabled", this);
+        return RadJav.theme.eventSync(this.type, "getEnabled", this);
       }
 
       /** @method on
@@ -542,7 +547,7 @@
        * @return {Mixed} The html dom object.
        */
       getHTMLDOM(): any {
-        return RadJav.Theme.eventSync(this.type, "getHTMLDOM", this);
+        return RadJav.theme.eventSync(this.type, "getHTMLDOM", this);
       }
     }
   }

@@ -26,10 +26,13 @@
 #endif
 
 #include "RadJavString.h"
+#include "RadJavArray.h"
 #include "RadJavHashMap.h"
 
-#ifdef WIN32
-	#include <windows.h>
+#include "cpp/RadJavCPPChainedPtr.h"
+
+#ifdef USE_TINYXML2
+	#include <tinyxml2.h>
 #endif
 
 namespace RadJAV
@@ -42,42 +45,60 @@ namespace RadJAV
 				static boost::asio::thread_pool m_ioQueue(4);
 			#endif
 
-			class RADJAV_EXPORT FileIO
-			{
-				public:
-					static RJBOOL isDir(String path_);
-					static RJBOOL isFile(String path_);
-					static RJBOOL isSymLink(String path_);
+			#ifdef USE_V8
+				//static v8::Persistent<v8::Function> *m_fileListEvent;
+			#endif
 
-					static String currentPath();
-					static void changePath(String path_);
-					static RJBOOL exists(String patch_);
+			/// Check to see if a directory exists.
+			RJBOOL isDir(String path_);
+			/// Check to see if a file exists.
+			RJBOOL isFile(String path_);
+			/// Check to see if the file/directory is a symbolic link.
+			RJBOOL isSymLink(String path_);
 
-					static void createDir(String path_);
-					static void copyDir(String src_, String dest_, RJBOOL recursive_ = true);
-					static void renameDir(String src_, String dest_);
-					static void deleteDir(String path_);
-					static RJBOOL isEmpty(String path_);
+			/// Get the current directory path.
+			String currentPath();
+			/// Change the current directory path.
+			void changePath(String path_);
+			/// Checks if the file/directory exists.
+			RJBOOL exists(String path_);
 
-					static void createSymLink(String path_, String link_);
-					static void copySymLink(String src_, String dest_);
-					static void renameSymLink(String src_, String dest_);
-					static void deleteSymLink(String path_);
+			/// Create a directory.
+			void createDir(String path_);
+			/// Copy a directory.
+			void copyDir(String src_, String dest_, RJBOOL recursive_ = true);
+			/// Rename a directory.
+			void renameDir(String src_, String dest_);
+			/// Delete a directory.
+			void deleteDir(String path_);
+			/// Check if a directory is empty.
+			RJBOOL isEmpty(String path_);
 
-					static void copyFile(String src_, String dest_, RJBOOL overwriteIfExists_ = true);
-					static void renameFile(String src_, String dest_);
-					static void deleteFile(String path_);
+			/// Create a symbolic link.
+			void createSymLink(String path_, String link_);
+			/// Copy a symbolic link.
+			void copySymLink(String src_, String dest_);
+			/// Rename a symbolic link.
+			void renameSymLink(String src_, String dest_);
+			/// Delete a symbolic link.
+			void deleteSymLink(String path_);
 
-					static Array<String> listFiles(String path_, RJBOOL recursive_ = true);
-					static void listFilesAsync(String path_, RJBOOL recursive_ = true);
+			/// Copy a file.
+			void copyFile(String src_, String dest_, RJBOOL overwriteIfExists_ = true);
+			/// Rename a file.
+			void renameFile(String src_, String dest_);
+			/// Delete a file.
+			void deleteFile(String path_);
 
-					static String normalizePath(String path_, String basePath_ = "");
+			/// List files in a directory.
+			Array<String> listFiles(String path_, RJBOOL recursive_ = true);
+			/// Asychronously list files in a directory.
+			void listFilesAsync(String path_, RJBOOL recursive_ = true);
 
-					#ifdef USE_V8
-						static v8::Persistent<v8::Function> *m_fileListEvent;
-					#endif
-			};
+			/// Normalize a file/directory path.
+			String normalizePath(String path_, String basePath_ = "");
 
+			/// Handles serial communications.
 			class RADJAV_EXPORT SerialComm
 			{
 				public:
@@ -99,7 +120,7 @@ namespace RadJAV
 						static boost::asio::serial_port m_serial;
 					#endif
 
-					static std::vector<int> m_baudRates;
+					static Array<int> m_baudRates;
 				};
 
 				class RADJAV_EXPORT TextFile
@@ -122,6 +143,116 @@ namespace RadJAV
 							static v8::Persistent<v8::Function> *m_textfileReadEvent;
 						#endif
 				};
+
+				#ifdef HAS_XML_SUPPORT
+					namespace XML
+					{
+						class XMLTag;
+						class XMLAttribute;
+
+						class RADJAV_EXPORT XMLFile: public std::enable_shared_from_this<XMLFile>, public ChainedPtr
+						{
+							public:
+								XMLFile();
+								~XMLFile();
+
+								/// Open a XML and load it.
+								void loadXMLFile(String filePath);
+								/// Load XML from a string.
+								void loadXML(String xmlString);
+
+								#ifdef USE_TINYXML2
+									tinyxml2::XMLDocument *parser;
+								#endif
+
+								XMLTag *root;
+						};
+
+						class RADJAV_EXPORT XMLTag
+						{
+							public:
+								XMLTag(String tag);
+								#ifdef USE_TINYXML2
+									XMLTag(tinyxml2::XMLElement *tag);
+								#endif
+
+								~XMLTag();
+
+								Array<XMLTag *> getTags(String tag);
+
+								/// Set an attribute for this tag.
+								void setAttribute(String attribute, String value);
+
+								/// Get an attribute from this tag.
+								XMLAttribute *getAttribute(String attribute);
+
+								/// Get an attribute from this tag.
+								String getAttributeString(String attribute);
+
+								/// Get an attribute integer value from this tag.
+								RJNUMBER getAttributeInt(String attribute);
+
+								/// Get an attribute float value from this tag.
+								RJNUMBER getAttributeFloat(String attribute);
+
+								/// Get a boolean result from an attribute.
+								RJBOOL getAttributeBoolean(String attribute);
+
+									/// Convert this tag to a string.
+								String toString();
+
+								String tag;
+								HashMap<RJCSTR, XMLAttribute *> attributes;
+								String value;
+								Array<XMLTag *> children;
+						};
+
+						class RADJAV_EXPORT XMLAttribute
+						{
+							public:
+								/// The attribute's name.
+								String name;
+								/// The value of the attribute.
+								String value;
+
+								XMLAttribute (String name, String value)
+								{
+									this->name = name;
+									this->value = value;
+								}
+
+								/// Get the value of the attribute.
+								String getValue()
+								{
+									return (value);
+								}
+
+									/// Get the integer value of the attribute.
+								RJNUMBER toInt()
+								{
+									return (parseInt(value));
+								}
+
+								/// Get the float value of the attribute.
+								RJNUMBER toFloat()
+								{
+									return (parseFloat(value));
+								}
+
+								/// Get the boolean value of the attribute.
+								RJBOOL toBoolean()
+								{
+									return (parseBoolean(value));
+								}
+
+								/// Convert attribute to a string.
+								String toString()
+								{
+									return (name + " = \"" + value + "\"");
+								}
+						};
+					}
+				#endif
 		};
 	}
 }

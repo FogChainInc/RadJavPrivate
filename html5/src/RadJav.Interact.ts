@@ -22,23 +22,44 @@
 
 namespace RadJav
 {
+	export class Interact
+	{
+		public static Apps: { [name: string]: RadJav.Interact.App } = {};
+	}
+
 	/// The RadJav Interact namespace. RadJav Interact requires ES5.
 	export namespace Interact
 	{
-		export function parseExpressions (expression: string): string[]
+		export class ParsedExpression
 		{
-			let expressions = [];
-			let expBegin = expression.indexOf ("{{");
-			let expEnd = expression.indexOf ("}}");
+			public expression: string;
+			public start: number;
+			public end: number;
+			public length: number;
+
+			constructor (expression: string, start: number, end: number)
+			{
+				this.expression = expression;
+				this.start = start;
+				this.end = end;
+				this.length = ((this.end + 2) - this.start);
+			}
+		}
+
+		export function parseExpressions (expression: string): ParsedExpression[]
+		{
+			let expressions: ParsedExpression[] = [];
+			let expBegin: number = expression.indexOf ("{{");
+			let expEnd: number = expression.indexOf ("}}");
 
 			while (expBegin > -1)
 			{
 				if (expEnd < 0)
 					throw new Error ("Expression does not end properly!");
 
-				let foundExp = expression.substr ((expBegin + 2), (expEnd - (expBegin + 2)));
+				let foundExp: string = expression.substr (expBegin, ((expEnd + 2) - expBegin));
 
-				expressions.push (foundExp);
+				expressions.push (new ParsedExpression (foundExp, expBegin, expEnd));
 
 				expBegin = expression.indexOf ("{{", expBegin + 2);
 				expEnd = expression.indexOf ("}}", expEnd + 2);
@@ -66,32 +87,20 @@ namespace RadJav
 				this.html = null;
 				this.xrjApp = null;
 				this.root = null;
-				this.options = {};
+				this.options = { useJQuery: false };
+
+				RadJav.Interact.Apps[name] = this;
 			}
 
-			createView (name: string, root: string | HTMLElement | RadJav.GUI.GObject | RadJav.Interact.View = null): View
+			createView (name: string): View
 			{
 				let view = new RadJav.Interact.View (this, name);
 
-				if (root != null)
+				if (this.options.bootstrap != null)
 				{
-					let counter = 0;
-
-					// This is essentially the ES3 version of Object.keys(this._views).length
-					for (let key in this._views)
-					{
-						counter++;
-
-						break;
-					}
-
-					if (counter == 0)
-						this.setView (root, view);
-					else
-						this.root = (<string | HTMLElement | RadJav.GUI.GObject>root);
+					if (this.options.bootstrap == true)
+						this.options.useJQuery = true;
 				}
-				else
-					this.addView (view);
 
 				return (view);
 			}
@@ -100,6 +109,14 @@ namespace RadJav
 			{
 				view._app = this;
 				this._views[view.name] = view;
+			}
+
+			/**
+			* Update the current view.
+			*/
+			updateView (): void
+			{
+				this.currentView.update ();
 			}
 
 			setView (root: string | HTMLElement | RadJav.GUI.GObject | RadJav.Interact.View, view: RadJav.Interact.View): void
@@ -134,31 +151,25 @@ namespace RadJav
 
 				if (RadJav.OS.HTML5 != null)
 				{
-					if (this.options.useJQuery == null)
-						this.options.useJQuery = false;
-
-					if (this.options.bootstrap4 != null)
-					{
-						if (this.options.bootstrap4 == true)
-							this.options.useJQuery = true;
-					}
-
 					if (typeof (root) == "string")
 						root = (<HTMLElement>document.querySelector ((<string>root)));
 
-					//(<RadJav.GUI.GObject>this.currentView._mainComponent.display).create ();
-					if (RadJav.OS.HTML5 != null)
+					if (this.currentView._mainComponent != null)
 					{
-						let htmlElm = (<RadJav.GUI.GObject>this.currentView._mainComponent.display)._html;
+						//(<RadJav.GUI.GObject>this.currentView._mainComponent.display).create ();
+						if (RadJav.OS.HTML5 != null)
+						{
+							let htmlElm = (<RadJav.GUI.GObject>this.currentView._mainComponent.display)._html;
 
-						(<HTMLElement>root).appendChild (htmlElm);
-					}
-
-					/// Go through each component and create the tag.
-					for (let comp in view._components)
-					{
+							if (this.options.useJQuery == true)
+								$((<HTMLElement>root)).append (htmlElm);
+							else
+								(<HTMLElement>root).appendChild (htmlElm);
+						}
 					}
 				}
+
+				this.updateView ();
 			}
 
 			setComponentEvent (name: string, eventName: string, eventFunction: Function | EventListener): void
@@ -202,10 +213,7 @@ namespace RadJav
 			static loadApp (file: string | Function): void
 			{
 				if (typeof (file) == "string")
-				{
-					
 					include ((<string>file));
-				}
 				else
 					(<Function>file)();
 			}
@@ -286,6 +294,12 @@ namespace RadJav
 				return (this._mainComponent);
 			}
 
+			update (): void
+			{
+				for (let compName in this._components)
+					this._components[compName].update ();
+			}
+
 			on (eventName: string, eventFunction: Function): any
 			{
 				this._events[eventName] = eventFunction;
@@ -319,8 +333,37 @@ namespace RadJav
 					componentStr += "var " + compName + " = " + view.name + ".createComponent ({\n";
 					componentStr += "\t\tname: \"" + component.name + "\", \n";
 					componentStr += "\t\ttag: \"" + component.tag + "\", \n";
-					componentStr += "\t\tdisplay: " + display + "\n";
-					componentStr += "\t});\n";
+					componentStr += "\t\tdisplay: " + display + ", \n";
+
+					for (let key in component)
+					{
+						let skip = false;
+
+						for (let iIdx = 0; iIdx < Component.ignoreKeyList.length; iIdx++)
+						{
+							if (key == Component.ignoreKeyList[iIdx])
+							{
+								skip = true;
+
+								break;
+							}
+						}
+
+						if (skip == true)
+							continue;
+
+						let value = null;
+
+						if (typeof (component[key]) == "function")
+							value = component[key].toString ();
+						else
+							value = JSON.stringify (component[key]);
+
+						componentStr += "\t\t" + key + ": " + value + ", \n";
+					}
+
+					componentStr = componentStr.substr (0, (componentStr.length - 3));
+					componentStr += "\n\t});\n";
 
 					for (let eventName in component._events)
 						componentStr += compName + ".on (\"" + eventName + "\", " + component._events[eventName].toString () + ");\n";
@@ -334,7 +377,7 @@ namespace RadJav
 							let compCSS = component.css[iIdx];
 
 							if (typeof (compCSS) == "string")
-								css += RadJav.IO.TextFile.readEntireFile (compCSS) + "\n";
+								css += RadJav.IO.TextFile.readFile (compCSS) + "\n";
 
 							if (typeof (compCSS) == "object")
 								css += compCSS.css + "\n";
@@ -361,10 +404,20 @@ namespace RadJav
 		{
 			public name: string;
 			public tag: string;
-			public display: string | RadJav.GUI.GObject | RadJav.C3D.Object3D;
+			public display: string | RadJav.GUI.GObject | RadJav.C3D.Object3D | JQuery<HTMLElement>;
+			public _children: Component[];
+			protected _originalDisplay: string;
 			public css: string[] | { css: string }[];
 			public _data: { [name: string]: ComponentData };
 			public _events: { [eventName: string]: Function | string };
+			public _view: View;
+			public _innerHTML: string;
+
+			public static ignoreKeyList: string[] = [
+					"name", "tag", "display", "css", "_data", "_events", "_view", 
+					"update", "parse", "on", "_originalDisplay", "getParentInner", 
+					"_innerHTML", "_children"
+				];
 
 			constructor (obj: Component, parentView: View)
 			{
@@ -377,6 +430,8 @@ namespace RadJav
 				if (parentView == null)
 					throw new Error ("Component must have a parent view!");
 
+				this._view = parentView;
+
 				if (obj["display"] != null)
 				{
 					if (typeof obj.display == "string")
@@ -384,9 +439,18 @@ namespace RadJav
 						if (RadJav.OS.HTML5 != null)
 						{
 							if (parentView._app.options.useJQuery == true)
-								obj.display = $(obj.display);
+								obj.display = $((<string>obj.display));
 
-							obj.display = new RadJav.GUI.HTMLElement (obj.name, obj.display);
+							obj.display = new RadJav.GUI.HTMLElement (obj.name, (<string>obj.display));
+							let tempElm: HTMLElement = null;
+
+							if (parentView._app.options.useJQuery == true)
+								tempElm = (<RadJav.GUI.GObject>obj.display)._html[0];
+							else
+								tempElm = (<RadJav.GUI.GObject>obj.display)._html;
+
+							// This should not leak memory? This needs to be tested to make sure GC is collecting it.
+							Object.defineProperty (tempElm, "interactComponent", { value: this });
 						}
 
 						parentView._refCount++;
@@ -396,29 +460,20 @@ namespace RadJav
 				this.name = obj.name;
 				this.tag = RadJav.setDefaultValue (obj.tag, "");
 				this.display = RadJav.setDefaultValue (obj.display, null);
+				this._children = RadJav.setDefaultValue (obj._children, []);
+				this._originalDisplay = RadJav.setDefaultValue (obj._originalDisplay, null);
 				this.css = RadJav.setDefaultValue (obj.css, []);
 				this._data = RadJav.setDefaultValue (obj._data, {});
 				this._events = RadJav.setDefaultValue (obj._events, {});
-
-				if (RadJav.OS.HTML5 != null)
-				{
-					if (this.tag != "")
-					{
-						var elm = document.createElement (this.tag);
-
-						elm.innerHTML = (<RadJav.GUI.GObject>this.display)._html;
-					}
-				}
-
-				let ignoreList = ["name", "tag", "display", "css"];
+				this._innerHTML = RadJav.setDefaultValue (obj._innerHTML, "");
 
 				for (let key in obj)
 				{
 					let skip = false;
 
-					for (let iIdx = 0; iIdx < ignoreList.length; iIdx++)
+					for (let iIdx = 0; iIdx < Component.ignoreKeyList.length; iIdx++)
 					{
-						if (key == ignoreList[iIdx])
+						if (key == Component.ignoreKeyList[iIdx])
 						{
 							skip = true;
 
@@ -427,24 +482,86 @@ namespace RadJav
 					}
 
 					if (skip == true)
-						break;
+						continue;
 
-					this._data[key] = Object.defineProperty (obj, key, {
-								get: function ()
+					this._data[key] = new ComponentData ();
+					this._data[key].name = parentView._app.name + "-" + parentView.name + "-" + key + "-" + parentView._refCount;
+					this._data[key].value = obj[key];
+					this[key] = obj[key];
+					Object.defineProperty (this, key, {
+								get: RadJav.keepContext (function (obj2)
 								{
-									return (this[key].value);
-								}, 
+									let obj3: Component = obj2[0];
+									let key2: string = obj2[1];
+
+									return (this._data[key2].value);
+								}, this, [obj, key]), 
 								set: RadJav.keepContext (function (value, obj2)
 								{
-									let obj3 = obj2[0];
-									let key2 = obj2[1];
-									let parentView2 = obj2[2];
+									let obj3: Component = obj2[0];
+									let key2: string = obj2[1];
+									let parentView2: View = obj2[2];
 
-									obj3[key2] = new ComponentData ();
-									obj3[key2].name = parentView2._app.name + "-" + parentView2.name + "-" + parentView2._refCount;
-									obj3[key2].value = value;
+									this._data[key2].value = value;
+									this.update ();
 								}, this, [obj, key, parentView])
 							});
+				}
+			}
+
+			getParentInner (): HTMLElement | RadJav.GUI.GObject
+			{
+				let result = null;
+
+				if (RadJav.OS.HTML5 != null)
+				{
+					if (this._innerHTML != "")
+						result = this._innerHTML;
+				}
+
+				return (result);
+			}
+
+			update (): void
+			{
+				if (RadJav.OS.HTML5 != null)
+				{
+					let tags = document.getElementsByTagName (this.tag);
+
+					for (let iIdx = 0; iIdx < tags.length; iIdx++)
+					{
+						let elm: HTMLElement = (<HTMLElement>tags[iIdx]);
+						let parentDOM: HTMLElement = (<HTMLElement>elm.parentNode);
+
+						parentDOM.removeChild (elm);
+						let newElm = null;
+						let newComp: Component = RadJav.cloneObject (this);
+
+						this._children.push (newComp);
+
+						if (this._view._app.options.useJQuery == true)
+						{
+							let attrs = $(elm).prop ("attributes");
+
+							newElm = $((<RadJav.GUI.GObject>newComp.display)._html);
+
+							$.each (attrs, function ()
+								{
+									newElm.attr (this.name, this.value);
+								});
+
+							this._innerHTML = elm.innerHTML;
+							$(parentDOM).append (newElm);
+						}
+						else
+						{
+							newElm = (<RadJav.GUI.GObject>this.display)._html;
+							newElm.attributes = elm.attributes;
+							parentDOM.appendChild (newElm);
+						}
+
+						iIdx--;
+					}
 				}
 
 				this.parse ();
@@ -455,42 +572,103 @@ namespace RadJav
 				if (this.display == null)
 					return;
 
-				let beginningBraces = "";
-				let endBraces = "";
 				let str = "";
 				let compName = "";
 
-				if (typeof this.display == "string")
+				if (this._originalDisplay == null)
 				{
-					str = (<string>this.display);
-					beginningBraces = "<div id = \"" + compName + "\">";
-					endBraces = "</div>";
+					if (typeof this.display == "string")
+						str = (<string>this.display);
+					else
+					{
+						if ((<RadJav.GUI.GObject>this.display).type == "RadJav.GUI.HTMLElement")
+						{
+							if (this._view._app.options.useJQuery == true)
+								str = $((<RadJav.GUI.GObject>this.display)._html)[0].outerHTML;
+							else
+								str = (<RadJav.GUI.GObject>this.display)._html.outerHTML;
+						}
+
+						/*if (this.display.constructor["name"] == "Object3D")
+							str = (<RadJav.C3D.Object3D>this.display).getText ();*/
+					}
 				}
 				else
+					str = this._originalDisplay;
+
+				if (str != "")
 				{
-					if (this.display.constructor["name"] == "GObject")
-						str = (<RadJav.GUI.GObject>this.display).getText ();
+					if (this._originalDisplay == null)
+						this._originalDisplay = str;
 
-					/*if (this.display.constructor["name"] == "Object3D")
-						str = (<RadJav.C3D.Object3D>this.display).getText ();*/
-				}
+					let expressions: ParsedExpression[] = RadJav.Interact.parseExpressions (str);
+					let resultHTML: string | JQuery<HTMLElement> = "";
 
-				let expressions: string[] = RadJav.Interact.parseExpressions (str);
+					for (let iIdx = 0; iIdx < expressions.length; iIdx++)
+					{
+						let parsedExpression: ParsedExpression = expressions[iIdx];
+						let fullExpression: string = parsedExpression.expression;
+						let expression: string = fullExpression.substr (2, fullExpression.length - 4);
+						let expressionFunc: Function = new Function ("var result = " + expression + "; return (result);");
+						let result = expressionFunc.call (this);
 
-				for (let iIdx = 0; iIdx < expressions.length; iIdx++)
-				{
-					
+						if (typeof (result) == "function")
+						{
+							
+						}
+
+						str = str.removeAt (parsedExpression.start, parsedExpression.length);
+						resultHTML = str.insertAt (parsedExpression.start, result);
+					}
+
+					if (expressions.length > 0)
+					{
+						if (RadJav.OS.HTML5 != null)
+						{
+							let parentElm = null;
+
+							if (this._view._app.options.useJQuery == true)
+							{
+								resultHTML = $(resultHTML);
+								parentElm = (<RadJav.GUI.GObject>this.display)._html.parent ();
+
+								if (parentElm != null)
+									(<RadJav.GUI.GObject>this.display)._html.remove ();
+							}
+
+							(<RadJav.GUI.GObject>this.display)._html = null;
+							(<RadJav.GUI.GObject>this.display)._html = resultHTML;
+
+							if (this._view._app.options.useJQuery == true)
+								$(parentElm).append ((<RadJav.GUI.GObject>this.display)._html);
+						}
+					}
 				}
 			}
 
 			on (eventName: string, eventFunction: Function): any
 			{
 				this._events[eventName] = eventFunction;
+				let result = null;
 
 				if (RadJav.OS.HTML5 != null)
-					return ((<RadJav.GUI.GObject>this.display).on (eventName, eventFunction));
+				{
+					let doOn = true;
 
-				return (null);
+					if ((<RadJav.GUI.GObject>this.display).type == "RadJav.GUI.HTMLElement")
+					{
+						if (this._view._app.options.useJQuery == true)
+						{
+							$((<HTMLElement>(<RadJav.GUI.GObject>this.display)._html)).on (eventName, eventFunction);
+							doOn = false;
+						}
+					}
+
+					if (doOn == true)
+						result = (<RadJav.GUI.GObject>this.display).on (eventName, eventFunction);
+				}
+
+				return (result);
 			}
 		}
 
@@ -499,11 +677,17 @@ namespace RadJav
 		{
 			public name: string;
 			public value: any;
+			public start: number;
+			public end: number;
+			public length: number;
 
 			constructor ()
 			{
 				this.name = "";
 				this.value = null;
+				this.start = -1;
+				this.end = -1;
+				this.length = -1;
 			}
 		}
 
@@ -576,13 +760,13 @@ namespace RadJav
 
 			build (): string
 			{
-				let output = this.html;
-				let additions = ["title", "body", "interactAppPath", "htmlEvents", "cssFiles", "jsFiles"];
+				let output: string = this.html;
+				let additions: string[] = ["title", "body", "interactAppPath", "htmlEvents", "cssFiles", "jsFiles"];
 
 				for (let iIdx = 0; iIdx < additions.length; iIdx++)
 				{
-					let additionType = additions[iIdx];
-					let additionOutput = "";
+					let additionType: string = additions[iIdx];
+					let additionOutput: string = "";
 
 					if (typeof (this[additionType]) != "string")
 					{
@@ -609,8 +793,8 @@ namespace RadJav
 
 			writeToFile (path: string): void
 			{
-				let output = this.build ();
-				RadJav.IO.TextFile.writeTextToFile (path, output);
+				let output: string = this.build ();
+				RadJav.IO.TextFile.writeFile (path, output);
 			}
 		}
 
@@ -688,7 +872,7 @@ namespace RadJav
 			writeToFile (path: string): void
 			{
 				let output = this.build ();
-				RadJav.IO.TextFile.writeTextToFile (path, output);
+				RadJav.IO.TextFile.writeFile (path, output);
 			}
 		}
 
@@ -770,7 +954,7 @@ namespace RadJav
 
 				output += "app.setView (\"" + this.root + "\", " + this.mainView + ");\n";
 
-				RadJav.IO.TextFile.writeTextToFile (path + "/" + this.name + ".js", output);
+				RadJav.IO.TextFile.writeFile (path + "/" + this.name + ".js", output);
 
 				if (this.html != null)
 					this.html.writeToFile (path + "/" + this.html.filename);
@@ -787,6 +971,7 @@ namespace RadJav
 			public compiledHTMLCSS: string;
 			public components: { [name: string]: string };
 			public mainComponentName: string;
+			public root: string;
 
 			public compiledStr: string;
 
@@ -796,7 +981,8 @@ namespace RadJav
 				this.compiledHTMLCSS = "";
 				this.components = {};
 				this.mainComponentName = "";
-				this.compiledStr = "var " + this.name + " = app.createView (\"" + this.name + "\", \"" + root + "\");\n";
+				this.compiledStr = "var " + this.name + " = app.createView (\"" + this.name + "\");\n";
+				this.root = root;
 			}
 
 			build (): string
@@ -819,13 +1005,13 @@ namespace RadJav
 			writeHTMLCSSToFile (path: string): void
 			{
 				if (this.compiledHTMLCSS != "")
-					RadJav.IO.TextFile.writeTextToFile (path, this.compiledHTMLCSS);
+					RadJav.IO.TextFile.writeFile (path, this.compiledHTMLCSS);
 			}
 
 			writeToFile (path: string): void
 			{
 				let output: string = this.build ();
-				RadJav.IO.TextFile.writeTextToFile (path, output);
+				RadJav.IO.TextFile.writeFile (path, output);
 			}
 		}
 	}

@@ -12,7 +12,7 @@ vm/installers/windows/x64/build
 vm/installers/windows/x64/RadJavVM/Debug
 vm/installers/windows/x64/RadJavVM/Release
 
-html5/build
+html5/build/*
 html5/closure*.jar
 html5/node_modules
 html5/package-lock.json

@@ -73,7 +73,8 @@ set (SOURCES ${SOURCES_files_RadJav__v8__Console__Sources} ${SOURCES})
 
 # V8 IO
 set (SOURCES_files_RadJav__v8__IO__Sources 
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8IO.cpp")
+	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8IO.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8IOXML.cpp")
 source_group ("RadJav\\V8\\IO" FILES ${SOURCES_files_RadJav__v8__IO__Sources})
 
 set (SOURCES ${SOURCES_files_RadJav__v8__IO__Sources} ${SOURCES})
@@ -147,7 +148,8 @@ set (SOURCES ${SOURCES_files_RadJav__cpp__Global__Sources} ${SOURCES})
 
 # C++ IO
 set (SOURCES_files_RadJav__cpp__IO__Sources 
-	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPIO.cpp")
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPIO.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPIOXML.cpp")
 source_group ("RadJav\\CPP\\IO" FILES ${SOURCES_files_RadJav__cpp__IO__Sources})
 
 set (SOURCES ${SOURCES_files_RadJav__cpp__IO__Sources} ${SOURCES})

@@ -22,8 +22,20 @@
 
 namespace RadJav
 {
-	/// The SignOn namespace.
-	export namespace SignOn
+	/// Handles how a UI element is treated.
+	export class Account
 	{
+		public name: string;
+		public viewable: boolean;
+		public writable: boolean;
+		public readable: boolean;
+
+		constructor ()
+		{
+			this.name = "Anyone";
+			this.viewable = true;
+			this.writable = true;
+			this.readable = true;
+		}
 	}
 }

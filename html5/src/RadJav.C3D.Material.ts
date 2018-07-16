@@ -56,7 +56,7 @@ namespace RadJav {
        * Get the name of this object.
        * @return {String} The name.
        */
-      getName(): string {
+      public getName(): string {
         return this._name;
       }
 

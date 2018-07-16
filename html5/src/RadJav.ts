@@ -145,7 +145,7 @@ namespace RadJav
 						{
 							if (response != "")
 							{
-								var func = new Function(response);
+								var func = new _Function(response);
 								func.apply(window, []);
 							}
 						}
@@ -160,9 +160,7 @@ namespace RadJav
 					script.type = "text/javascript";
 					//script.async = false;
 					//script.defer = false;
-          var str = "";
-          
-          var event = document.createEvent('')
+					var str = "";
 
 					if (RadJav._isUsingInternetExplorerTheWorstWebBrowserEver() == true)
 						script.text = str;
@@ -1325,7 +1323,7 @@ namespace RadJav
      * @param {String} url The URL to this theme.
      * @param {String} data The JSON to parse and get the data from.
      */
-    static loadTheme(url: string, data: any): any
+    public static loadTheme(url: string, data: any): any
 	{
 		var theme = null;
 
@@ -1549,7 +1547,7 @@ namespace RadJav
      * Print a message to the console.
      * @param {String} message The message to output.
      */
-    print(message: string): void {
+    public static print(message: string): void {
       console.log(message);
     }
 
@@ -1558,7 +1556,7 @@ namespace RadJav
      * Print a message to the console with a new line at the end.
      * @param {String} message The message to output.
      */
-    println(message: string): void {
+    public static println(message: string): void {
       this.print(message + "\n");
     }
   }
@@ -1727,7 +1725,7 @@ namespace RadJav
        * Get the URL parameters as an object.
        * @return {Object} The url parameters.
        */
-      export function getUrlParamObj(): Object {
+      export function getUrlParamObj(): any {
         var params = window.location.search;
         var paramsObj = {};
 
@@ -1866,7 +1864,7 @@ namespace RadJav
       export function appendHTML(
         obj: HTMLElement,
         html: any
-      ): object {
+      ): any {
         if (typeof obj == "string") {
           var tempObj = document.querySelector(obj);
 
@@ -1891,7 +1889,7 @@ namespace RadJav
       export function selectDOM(
         obj: HTMLElement,
         selector: any
-      ): Object {
+      ): any {
         if (typeof obj == "string") {
           selector = obj;
           obj = null;
@@ -1960,7 +1958,7 @@ namespace RadJav
       export function interfaceConnector(
         connectorName: string | object | any,
         methodName: string
-      ): Object {
+      ): any {
         var result = null;
         var args = Array.prototype.slice.call(arguments);
         args.splice(0, 2);
@@ -1991,13 +1989,13 @@ namespace RadJav
           found = true;
         }
 
-        if (window["webkit"] != null) {
+        if ((<any>window).webkit != null) {
           // iOS WKWebView
-          if (window["webkit"].messageHandlers != null) {
-            if (window["webkit"].messageHandlers[name] != null) {
+          if ((<any>window).webkit.messageHandlers != null) {
+            if ((<any>window).webkit.messageHandlers[name] != null) {
               args = Array.prototype.slice.call(arguments);
               args.splice(0, 1);
-              window["webkit"].messageHandlers[name].postMessage(args);
+                (<any>window).webkit.messageHandlers[name].postMessage(args);
               found = true;
             }
           }
@@ -2027,6 +2025,29 @@ namespace RadJav
       }
     }
   }
+}
+
+function parseBoolean (str: string): boolean
+{
+	str = str.toLowerCase ();
+
+	if (str == "yes")
+		return (true);
+	else if (str == "no")
+		return (false);
+	else if (str == "true")
+		return (true);
+	else if (str == "false")
+		return (false);
+	else
+	{
+		var iValue = parseInt (str);
+
+		if (iValue != 0)
+			return (true);
+	}
+
+	return (false);
 }
 
 var _eval = eval;

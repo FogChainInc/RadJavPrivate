@@ -17,6 +17,7 @@ var RadJav;
             function Camera(canvas3d, obj, parent) {
                 var _this = _super.call(this, canvas3d, obj, parent) || this;
                 _this._perspective = true;
+                _this.type = "RadJav.C3D.Camera";
                 _this._perspective = RadJav.setDefaultValue(obj._perspective, true);
                 _this._aspectRatio = RadJav.setDefaultValue(obj._aspectRatio, parseFloat(canvas3d.getWidth()) / parseFloat(canvas3d.getHeight()));
                 _this._fov = RadJav.setDefaultValue(obj._fov, 90 / _this._aspectRatio);
