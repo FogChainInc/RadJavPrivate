@@ -422,12 +422,6 @@ namespace RadJAV
 			
 			try
 			{
-				#ifdef GUI_USE_WXWIDGETS
-					currentTime = wxGetLocalTimeMillis();
-					diffTime = (currentTime - prevTime).GetValue();
-					prevTime = currentTime;
-				#endif
-				
 				v8::platform::PumpMessageLoop(platform, isolate);
 				
 				/* TODO: Think about refresh mechanism
@@ -465,19 +459,19 @@ namespace RadJAV
 					}
 				#endif
 				
-				auto timeoutBegin = timeoutFuncs.begin();
-				auto timeoutsBegin = timeouts.begin();
-				auto timeoutEnd = timeoutFuncs.end();
+				//Handle timers (setTimeout from JS)
+				auto timer = timers.begin();
+				auto timerEnd = timers.end();
+				auto currentTime = std::chrono::steady_clock::now();
 				
-				while (timeoutBegin != timeoutEnd)
+				while (timer != timerEnd)
 				{
-					v8::Persistent<v8::Function> *funcp = *timeoutBegin;
-					RJINT time = *timeoutsBegin;
+					v8::Persistent<v8::Function> *funcp = (*timer).first;
+					std::chrono::time_point<std::chrono::steady_clock> fireTime = (*timer).second;
 					
-					if (time <= 0)
+					if (fireTime <= currentTime)
 					{
-						timeoutFuncs.erase(timeoutBegin);
-						timeouts.erase(timeoutsBegin);
+						timer = timers.erase(timer);
 						
 						v8::Local<v8::Function> func = funcp->Get(isolate);
 						
@@ -486,21 +480,12 @@ namespace RadJAV
 						
 						DELETEOBJ(funcp);
 						
-						timeoutBegin = timeoutFuncs.begin();
-						timeoutsBegin = timeouts.begin();
-						timeoutEnd = timeoutFuncs.end();
-						
 						continue;
 					}
-					
-					#ifdef GUI_USE_WXWIDGETS
-						(*timeoutsBegin) = time - (RJINT)diffTime;
-					#endif
-					
-					timeoutBegin++;
-					timeoutsBegin++;
+
+					timer++;
 				}
-				
+
 				for (RJUINT iIdx = 0; iIdx < removeThreads.size(); iIdx++)
 				{
 					auto tbegin = threads.find (removeThreads.at (iIdx));
@@ -953,8 +938,10 @@ namespace RadJAV
 
 		void V8JavascriptEngine::addTimeout (v8::Persistent<v8::Function> *func, RJINT time)
 		{
-			timeoutFuncs.push_back(func);
-			timeouts.push_back(time);
+			auto fireTime = std::chrono::steady_clock::now();
+			fireTime += std::chrono::milliseconds(time);
+			
+			timers.push_back( std::make_pair(func, fireTime));
 		}
 
 		void V8JavascriptEngine::blockchainEvent(String event, String dataType, void *data)
