@@ -32,6 +32,7 @@ namespace RadJAV
 	{
 		namespace IO
 		{
+			#ifdef HAS_XML_SUPPORT
 			namespace XML
 			{
 				XMLFile::XMLFile()
@@ -226,6 +227,7 @@ namespace RadJAV
 					return (result);
 				}
 			}
+			#endif // HAS_XML_SUPPORT
 		}
 	}
 }

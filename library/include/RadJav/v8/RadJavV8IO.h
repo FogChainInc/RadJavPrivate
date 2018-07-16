@@ -93,18 +93,20 @@
 							static void onFileRead(const v8::FunctionCallbackInfo<v8::Value> &args);
 					};
 
-					namespace XML
-					{
-						class RADJAV_EXPORT XMLFile
+					#ifdef HAS_XML_SUPPORT
+						namespace XML
 						{
-							public:
-								static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
+							class RADJAV_EXPORT XMLFile
+							{
+								public:
+									static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
-								static void _init(const v8::FunctionCallbackInfo<v8::Value> &args);
-								static void loadXMLFile(const v8::FunctionCallbackInfo<v8::Value> &args);
-								static void loadXML(const v8::FunctionCallbackInfo<v8::Value> &args);
-						};
-					}
+									static void _init(const v8::FunctionCallbackInfo<v8::Value> &args);
+									static void loadXMLFile(const v8::FunctionCallbackInfo<v8::Value> &args);
+									static void loadXML(const v8::FunctionCallbackInfo<v8::Value> &args);
+							};
+						}
+					#endif
 				};
 			}
 		}

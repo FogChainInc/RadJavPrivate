@@ -1184,6 +1184,7 @@ namespace RadJAV
 					V8B::IO::createV8Callbacks(isolate, ioFunc);
 				}
 
+				#ifdef HAS_XML_SUPPORT
 				// RadJav.XML
 				{
 					v8::Handle<v8::Function> xmlFunc = v8GetFunction(radJavFunc, "XML");
@@ -1192,6 +1193,7 @@ namespace RadJAV
 
 					V8B::IO::XML::XMLFile::createV8Callbacks(isolate, xmlFilePrototype);
 				}
+				#endif
 
 				// RadJav.Net
 				{

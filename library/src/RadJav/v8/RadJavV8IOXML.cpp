@@ -27,6 +27,8 @@
 
 	#include "cpp/RadJavCPPIO.h"
 
+#ifdef HAS_XML_SUPPORT
+
 namespace RadJAV
 {
 	namespace V8B
@@ -89,5 +91,7 @@ namespace RadJAV
 		}
 	}
 }
+#endif // HAS_XML_SUPPORT
+
 #endif
 
