@@ -50,11 +50,7 @@ namespace RadJAV
 					Ogre::Root* root = Ogre::Root::getSingletonPtr();
 					if(root)
 					{
-						try {
-							root->detachRenderTarget(renderWindow);
-							root->destroyRenderTarget(renderWindow);
-						}
-						catch(...){}
+						root->destroyRenderTarget(renderWindow);
 					}
 				}
 			}
