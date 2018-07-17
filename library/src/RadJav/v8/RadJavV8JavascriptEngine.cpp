@@ -503,7 +503,7 @@ namespace RadJAV
 					auto tend = threads.end();
 					
 					if (tbegin == tend)
-						return false;
+						continue;
 					
 					/// @bug tbegin->second should be deleted, or does wxWidgets delete it automatically?
 					/// @note wxWidgets delete wxThread automatically, we need to update removeThreads only
@@ -616,7 +616,11 @@ namespace RadJAV
 				#endif
 				
 				if (shutdown == true)
+				{
+					wxExit();
+
 					return false;
+				}
 			}
 			catch (Exception ex)
 			{
@@ -630,7 +634,11 @@ namespace RadJAV
 				jsToExecuteNextContext.erase(execContextBegin);
 				
 				if (shutdownOnException == true)
+				{
+					wxExit();
+
 					return false;
+				}
 			}
 			
 			return true;

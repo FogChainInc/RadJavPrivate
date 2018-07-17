@@ -45,10 +45,6 @@ namespace RadJAV
 				static boost::asio::thread_pool m_ioQueue(4);
 			#endif
 
-			#ifdef USE_V8
-				//static v8::Persistent<v8::Function> *m_fileListEvent;
-			#endif
-
 			/// Check to see if a directory exists.
 			RJBOOL isDir(String path_);
 			/// Check to see if a file exists.
@@ -91,12 +87,14 @@ namespace RadJAV
 			void deleteFile(String path_);
 
 			/// List files in a directory.
-			Array<String> listFiles(String path_, RJBOOL recursive_ = true);
+			Array<String> listFiles(String path, RJBOOL recursive = true);
 			/// Asychronously list files in a directory.
-			void listFilesAsync(String path_, RJBOOL recursive_ = true);
+			void listFilesAsync(std::function<RJBOOL (String)> asyncCallback, String path, RJBOOL recursive = true);
 
 			/// Normalize a file/directory path.
-			String normalizePath(String path_, String basePath_ = "");
+			String normalizePath(String path, String basePath = "");
+			/// Normalize a file/directory path relative to the current directory path.
+			String normalizeCurrentPath(String path);
 
 			/// Handles serial communications.
 			class RADJAV_EXPORT SerialComm

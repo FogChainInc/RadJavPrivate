@@ -60,6 +60,7 @@ namespace RadJAV
 			V8_CALLBACK(object, "listFilesAsync", IO::listFilesAsync);
 
 			V8_CALLBACK(object, "normalizePath", IO::normalizePath);
+			V8_CALLBACK(object, "normalizeCurrentPath", IO::normalizeCurrentPath);
 			
 			V8_CALLBACK(object, "onFileList", IO::onFileList);
 		}
@@ -371,16 +372,40 @@ namespace RadJAV
 
 		void IO::listFilesAsync(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
-			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-
+			v8::Local<v8::Function> asyncCallback = v8::Local<v8::Function>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
 			RJBOOL isRecursive = true;
-			if (args.Length() > 1)
+
+			if (args.Length() > 2)
 			{
-				v8::Local<v8::Boolean> recursive = v8::Local<v8::Boolean>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
+				v8::Local<v8::Boolean> recursive = v8::Local<v8::Boolean>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 2));
 				isRecursive = recursive->Value();
 			}
 
-			CPP::IO::listFilesAsync(parseV8Value(path), isRecursive);
+			CPP::IO::listFilesAsync([asyncCallback, args](String newFileOrDir){
+							v8::Local<v8::String> fileOrDir = newFileOrDir.toV8String(args.GetIsolate ());
+							v8::Local<v8::Value> strs[1];
+							strs[0] = fileOrDir;
+
+							v8::Local<v8::Value> result = asyncCallback->Call (args.This(), 1, strs);
+							v8::Local<v8::Boolean> finalResult;
+							RJBOOL isEmpty = false;
+
+							if (result.IsEmpty() == true)
+								isEmpty = true;
+							else
+							{
+								if (result->IsNullOrUndefined() == true)
+									isEmpty = true;
+							}
+
+							if (isEmpty == true)
+								finalResult = v8::Boolean::New(args.GetIsolate(), true);
+							else
+								finalResult = v8::Local<v8::Boolean>::Cast(result);
+
+							return (finalResult->Value ());
+					}, parseV8Value(path), isRecursive);
 		}
 
 		void IO::normalizePath(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -395,6 +420,15 @@ namespace RadJAV
 			}
 
 			path = CPP::IO::normalizePath(parseV8Value(path), basePath).toV8String (args.GetIsolate ());
+
+			args.GetReturnValue().Set(path);
+		}
+
+		void IO::normalizeCurrentPath(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+
+			path = CPP::IO::normalizeCurrentPath(parseV8Value(path)).toV8String (args.GetIsolate ());
 
 			args.GetReturnValue().Set(path);
 		}

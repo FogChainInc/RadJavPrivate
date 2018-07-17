@@ -47,8 +47,10 @@ var RadJav;
         var TextFile = (function () {
             function TextFile() {
             }
-            TextFile.writeTextToFile = function (path, content) { };
-            TextFile.readEntireFile = function (path) { return; };
+            TextFile.writeFile = function (path, content) { };
+            TextFile.writeFileAsync = function (path, content) { };
+            TextFile.readFile = function (path) { return; };
+            TextFile.readFileAsync = function (path) { return; };
             return TextFile;
         }());
         IO.TextFile = TextFile;

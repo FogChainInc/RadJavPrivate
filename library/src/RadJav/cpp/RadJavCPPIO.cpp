@@ -505,14 +505,14 @@ namespace RadJAV
 			return files;
 		}
 
-		Array<String> IO::listFiles(String path_, RJBOOL recursive_)
+		Array<String> IO::listFiles(String path, RJBOOL recursive)
 		{
 			Array<String> files;
 
 			#ifdef USE_BOOST
-				fs::path dirPath(path_.c_str());
+				fs::path dirPath(path.c_str());
 
-				if (recursive_ == true)
+				if (recursive == true)
 				{
 					using iterator = fs::recursive_directory_iterator;
 					iterator end, it(dirPath);
@@ -520,7 +520,7 @@ namespace RadJAV
 				}
 				else
 				{
-					using iterator = fs::directory_iterator; 
+					using iterator = fs::directory_iterator;
 					iterator end, it(dirPath);
 					return buildFileList<iterator, iterator, Array<String>>(it, end);
 				}
@@ -529,41 +529,63 @@ namespace RadJAV
 			return files;
 		}
 
-		void IO::listFilesAsync(String path_, RJBOOL recursive_)
+		void IO::listFilesAsync(std::function<RJBOOL (String)> asyncCallback, String path, RJBOOL recursive)
 		{
-			boost::asio::post(m_ioQueue, [=]()
-			{
-				auto files = listFiles(path_, recursive_);
+			#ifdef USE_BOOST
+				boost::asio::post(m_ioQueue, [=]()
+				{
+					fs::path dirPath(path.c_str());
 
-				#ifdef USE_V8
-					/*if (RadJAV::CPP::IO::m_fileListEvent != nullptr)
+					if (recursive == true)
 					{
-						v8::Local<v8::Function> evt = v8::Local<v8::Function>::Cast(RadJAV::CPP::IO::m_fileListEvent->Get(V8_JAVASCRIPT_ENGINE->isolate));
+						using iterator = fs::recursive_directory_iterator;
+						iterator end, it(dirPath);
+						
+						while (it != end)
+						{
+							if (asyncCallback(it->path().string()) == false)
+								break;
 
-						v8::Local<v8::Value> *args = RJNEW v8::Local<v8::Value>[1];
-						args[0] = convertArrayToV8Array(files, V8_JAVASCRIPT_ENGINE->isolate);
+							it++;
+						}
+					}
+					else
+					{
+						using iterator = fs::directory_iterator;
+						iterator end, it(dirPath);
 
-						if (V8_JAVASCRIPT_ENGINE->v8IsNull(evt) == false)
-							evt->Call(V8_JAVASCRIPT_ENGINE->globalContext->Global(), 1, args);
-						DELETE_ARRAY(args);
-					}*/
-				#endif
-			});
+						while (it != end)
+						{
+							if (asyncCallback(it->path().string()) == false)
+								break;
+
+							it++;
+						}
+					}
+				});
+			#endif
 		}
 
-		String IO::normalizePath(String path_, String basePath_)
+		String IO::normalizePath(String path, String basePath)
 		{
-			String normalizedPath = path_;
+			String normalizedPath = path;
 
 			#ifdef USE_BOOST
-				path_ = basePath_ + fs::path::preferred_separator + path_;
-				fs::path newPath(path_.c_str());
+				if (basePath != "")
+					path = basePath + fs::path::preferred_separator + path;
+
+				fs::path newPath(path.c_str());
 
 				newPath = newPath.lexically_normal();
 				normalizedPath = newPath.string ();
 			#endif
 
 			return (normalizedPath);
+		}
+
+		String IO::normalizeCurrentPath(String path)
+		{
+			return (IO::normalizePath(path, IO::currentPath()));
 		}
 	}
 }

@@ -916,14 +916,15 @@ namespace RadJav
 				/// @todo Do tree shaking here, only copy over the files and directories that are needed.
 				/// Also, if the files already exist in that directory, only copy over files that have been 
 				/// changed.
-				let files = RadJav.IO.listFiles (this._assetsPath);
+				let assetsPath: string = RadJav.IO.normalizePath (this._assetsPath);
+				let files: string[] = RadJav.IO.listFiles (assetsPath);
 
 				for (let iIdx = 0; iIdx < files.length; iIdx++)
 				{
-					let file = files[iIdx];
-					let oldPath = RadJav.IO.normalizePath (this._assetsPath + "/" + file);
-					let newPath = RadJav.IO.normalizePath (path + "/" + file);
-					let result = true;
+					let file: string = files[iIdx];
+					let oldPath: string = file;
+					let newPath: string = path + RadJav.IO.normalizePath ("/" + file);
+					let result: boolean = true;
 
 					if (this._fileCopyFunc != null)
 					{

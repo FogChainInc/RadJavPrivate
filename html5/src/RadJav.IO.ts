@@ -92,7 +92,7 @@ namespace RadJav
 		* @param {string} dest The destination to copy the directory to.
 		* @param {boolean} [recursive=true] Recursively copy if set to true.
 		*/
-		static copyDir(src: string, dest: string, recursive: boolean): void {}
+		static copyDir(src: string, dest: string, recursive: boolean = true): void {}
 
 		/** @method renameDir
 		* Rename a directory.
@@ -114,7 +114,7 @@ namespace RadJav
 		* Available on platforms: Windows,Linux,OSX
 		* @param {string} path The path to the directory to check.
 		*/
-		static isEmpty(path: string): boolean {}
+		static isEmpty(path: string): boolean { return; }
 
 		/** @method createSymLink
 		* Create a symbolic link.
@@ -176,7 +176,7 @@ namespace RadJav
 		* @param {string} path The path to list files.
 		* @return {string[]} The files and directories within that path.
 		*/
-		static listFiles(path: string): string[] { return; }
+		static listFiles(path: string, recursive: boolean = true): string[] { return; }
 
 		/** @method listFilesAsync
 		* Asynchronously list files in a directory.
@@ -184,15 +184,24 @@ namespace RadJav
 		* @param {string} path The path to list files.
 		* @return {string[]} The files and directories within that path.
 		*/
-		static listFilesAsync(path: string): string[] { return; }
+		static listFilesAsync(asyncCallback: (newFileOrDir: string) => boolean, path: string, recursive: boolean = true): string[] { return; }
 
 		/** @method normalizePath
 		* Normalize a file/directory path.
 		* Available on platforms: Windows,Linux,OSX
 		* @param {string} path The path to normalize.
+		* @param {string} basePath The base path to normalize from.
 		* @return {string} The normalized path.
 		*/
-		static normalizePath(path: string): string { return; }
+		static normalizePath(path: string, basePath: string = ""): string { return; }
+
+		/** @method normalizeCurrentPath
+		* Normalize a file/directory path relative to the current directory path.
+		* Available on platforms: Windows,Linux,OSX
+		* @param {string} path The path to normalize.
+		* @return {string} The normalized path.
+		*/
+		static normalizeCurrentPath(path: string): string { return; }
 	}
 
 	export namespace IO
@@ -282,21 +291,35 @@ namespace RadJav
 		*/
 		export class TextFile
 		{
-			/** @method writeTextToFile
+			/** @method writeFile
 			* Write to a text file.
 			* Available on platforms: Windows,Linux,OSX
 			* @param {string} path The path to the file to write to.
 			* @param {string} content The content to write.
 			*/
-			static writeTextToFile(path: string, content: string): void {}
+			static writeFile(path: string, content: string): void {}
+			/** @method writeFileAsync
+			* Write to a text file asynchronously.
+			* Available on platforms: Windows,Linux,OSX
+			* @param {string} path The path to the file to write to.
+			* @param {string} content The content to write.
+			*/
+			static writeFileAsync(path: string, content: string): void {}
 
-			/** @method readEntireFile
+			/** @method readFile
 			* Read from a text file.
 			* Available on platforms: Windows,Linux,OSX
 			* @param {string} path The path to the file to read from.
 			* @return {string} The content read from the text file.
 			*/
-			static readEntireFile(path: string): string { return; }
+			static readFile(path: string): string { return; }
+			/** @method readFileAsync
+			* Read from a text file asynchronously.
+			* Available on platforms: Windows,Linux,OSX
+			* @param {string} path The path to the file to read from.
+			* @return {string} The content read from the text file.
+			*/
+			static readFileAsync(path: string): string { return; }
 
 			/** @property {Number} [read=1]
 			* @static
@@ -338,8 +361,8 @@ namespace RadJav
 				this.root = null;
 				this.xmlFile = null;
 
-				if (this._init != null)
-					this._init ();
+				if (typeof this["_init"] == "function")
+					this["_init"] ();
 			}
 
 			/// Load a XML file.
@@ -359,7 +382,7 @@ namespace RadJav
 						}
 						else
 						{
-							let data = RadJav.IO.TextFile.readEntireFile (path);
+							let data = RadJav.IO.TextFile.readFile (path);
 							this.loadXML (data);
 
 							resolve (data);
@@ -430,7 +453,10 @@ namespace RadJav
 					}
 				}
 				else
-					this._init (tag);
+				{
+					if (typeof this["_init"] == "function")
+						this["_init"] (tag);
+				}
 			}
 
 			/// Get the child tags in this tag.

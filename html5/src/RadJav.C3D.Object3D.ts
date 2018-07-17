@@ -161,7 +161,6 @@ namespace RadJav {
        * @param {Boolean} visible The visibility of the object
        */
       setVisibility(visible: boolean): void {
-        RadJav.theme.event(this.type, "setVisibility", this, visible);
       }
 
       /** Get the visibility of this object.
@@ -171,7 +170,6 @@ namespace RadJav {
        * @return {Boolean} The visibility of this object
        */
       getVisibility(): boolean {
-        return RadJav.theme.eventSync(this.type, "getVisibility");
       }
 
       /** Show this object.
