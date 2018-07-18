@@ -576,7 +576,7 @@ namespace RadJAV
 
 				fs::path newPath(path.c_str());
 
-				newPath = newPath.lexically_normal();
+				newPath = newPath.lexically_relative(fs::path (basePath.c_str ()));
 				normalizedPath = newPath.string ();
 			#endif
 

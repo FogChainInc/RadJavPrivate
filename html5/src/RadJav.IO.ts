@@ -538,7 +538,7 @@ namespace RadJav
 					for (let iIdx = 0; iIdx < this.children.length; iIdx++)
 					{
 						let child: XMLTag = this.children[iIdx];
-						result += this.child.toString () + " ";
+						result += child.toString () + " ";
 					}
 
 					result += "</" + this.tag + ">";
