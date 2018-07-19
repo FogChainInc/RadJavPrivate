@@ -252,5 +252,16 @@ namespace RadJav {
 
       return dReturn;
     }
+
+	lerp (start: Vector3, end: Vector3, time: number): Vector3
+	{
+		let result: Vector3 = new Vector3 ();
+
+		result.x = Math.lerp (start.x, end.x, time);
+		result.y = Math.lerp (start.y, end.y, time);
+		result.z = Math.lerp (start.z, end.z, time);
+
+		return (result);
+	}
   }
 }

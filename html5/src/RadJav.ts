@@ -112,6 +112,21 @@ namespace RadJav
 	*/
 	export let isMinified: boolean = false;
 
+	/** @property {RadJav.Animation[]} [_animations=[]]
+	* Any animations that are playing.
+	*/
+	export let _animations: RadJav.Animation[] = [];
+
+	/** @property {number} [animationFrameRate=16]
+	* The frame rate for how often the animation update is called.
+	*/
+	export let animationFrameRate: number = 16;
+
+	/** @property {number} [prevTime=0]
+	* The previous time since last the last update.
+	*/
+	export let prevTime: number = (Date.now () / 1000);
+
 	/** @method quit
 	* Exit the application.
 	* Available on platforms: Windows,Linux,OSX
@@ -935,38 +950,64 @@ namespace RadJav
     return RadJav.combineString.apply(RadJav, args);
   }
 
-  /** @method combineString
-   * @static
-   * Combine multiple strings together using %s in the first argument.
-   *
-   *     @example
-   *     var firstName = "John";
-   *     var lastName = "Doe";
-   *     var result = RadJav.combineString ("Hi there %s %s!", firstName, lastname);
-   *     // The result will contain:
-   *     // Hi there John Doe!
-   * @param {String} primaryString The primary string that contains %s. Each %s will be
-   * replaced with an argument specified in the order in which each argument is received.
-   * @return {String} The result of the string combining.
-   */
-  export function combineString(
-    primaryString: string,
-    ...otherStrings: string[]
-  ): string {
-    var strReturn = "";
+	/** @method combineString
+	* @static
+	* Combine multiple strings together using %s in the first argument.
+	*
+	*     @example
+	*     var firstName = "John";
+	*     var lastName = "Doe";
+	*     var result = RadJav.combineString ("Hi there %s %s!", firstName, lastname);
+	*     // The result will contain:
+	*     // Hi there John Doe!
+	* @param {String} primaryString The primary string that contains %s. Each %s will be
+	* replaced with an argument specified in the order in which each argument is received.
+	* @return {String} The result of the string combining.
+	*/
+	export function combineString(primaryString: string, ...otherStrings: string[]): string
+	{
+		let strReturn = "";
 
-    if (primaryString != null) {
-      strReturn = primaryString;
-    }
+		if (primaryString != null)
+			strReturn = primaryString;
 
-    for (var iIdx = 1; iIdx < arguments.length; iIdx++) {
-      strReturn = strReturn.replace("%s", arguments[iIdx]);
-    }
+		for (let iIdx = 1; iIdx < arguments.length; iIdx++)
+			strReturn = strReturn.replace("%s", arguments[iIdx]);
 
-    return strReturn;
-  }
+		return (strReturn);
+	}
 
-  export class Theme {
+	export function getTime (): number
+	{
+		return (Date.now () / 1000);
+	}
+
+	export function addAnimation (anim: RadJav.Animation): void
+	{
+		RadJav._animations.push (anim);
+		setTimeout (RadJav.animationUpdate, RadJav.animationFrameRate);
+	}
+
+	export function animationUpdate (): void
+	{
+		let currentTime: number = RadJav.getTime ();
+		let deltaTime: number = (currentTime - prevTime);
+
+		prevTime = currentTime;
+
+		for (let iIdx = 0; iIdx < RadJav._animations.length; iIdx++)
+		{
+			let anim: RadJav.Animation = RadJav._animations[iIdx];
+
+			if (anim.isPlaying == true)
+				anim.update (deltaTime);
+		}
+
+		setTimeout (RadJav.animationUpdate, RadJav.animationFrameRate);
+	}
+
+  export class Theme
+  {
     obj: { [key: string]: any };
 
     /** @property {String} [name=""]

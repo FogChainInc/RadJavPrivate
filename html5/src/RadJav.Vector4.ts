@@ -86,6 +86,17 @@ namespace RadJav {
     toString(): String {
       return this.x + "," + this.y + "," + this.z + "," + this.w;
     }
+
+	lerp (start: Vector4, end: Vector4, time: number): Vector4
+	{
+		let result: Vector4 = new Vector4 ();
+
+		result.x = Math.lerp (start.x, end.x, time);
+		result.y = Math.lerp (start.y, end.y, time);
+		result.z = Math.lerp (start.z, end.z, time);
+
+		return (result);
+	}
   }
 }
 

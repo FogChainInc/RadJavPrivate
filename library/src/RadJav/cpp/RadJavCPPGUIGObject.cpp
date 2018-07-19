@@ -83,6 +83,17 @@ namespace RadJAV
 			{
 			}
 
+			void GObject::addChild(GObject *child)
+			{
+				#ifdef GUI_USE_WXWIDGETS
+					if (_appObj != NULL)
+						_appObj->AddChild (child->_appObj);
+				#endif
+
+				child->_parent = this;
+				_children.push_back (child);
+			}
+
 			void GObject::setFont(CPP::Font *font)
 			{
 				_font = font;

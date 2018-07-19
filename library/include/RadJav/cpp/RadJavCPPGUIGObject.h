@@ -67,12 +67,11 @@ namespace RadJAV
 						setVisibility(false);
 					}
 
-					/** Using the existing parameters in this object, create it.
-					* Theme Event: create
-					* Is Theme Event Asynchronous: Yes
-					* @return {Promise} The promise to execute when the creation is completed.
-					*/
+					/// Using the existing parameters in this object, create it.
 					virtual void create();
+
+					/// Using the existing parameters in this object, create it.
+					virtual void addChild(GObject *child);
 
 					/** Set this object's font.
 					* Theme Event: setFont

@@ -154,6 +154,17 @@ namespace RadJav
     normalize(): Vector2 {
       return this.divide(this.length());
     }
+
+	lerp (start: Vector2, end: Vector2, time: number): Vector2
+	{
+		let result: Vector2 = new Vector2 ();
+
+		result.x = Math.lerp (start.x, end.x, time);
+		result.y = Math.lerp (start.y, end.y, time);
+
+		return (result);
+	}
+
     /** @method parseVector2
      * @static
      * Parse a Vector2 string and create a Vector2 object from it.

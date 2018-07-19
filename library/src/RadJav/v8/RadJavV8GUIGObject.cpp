@@ -45,6 +45,10 @@ namespace RadJAV
 			{
 			}
 
+			void GObject::addChild(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+			}
+
 			void GObject::setFont(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 			}

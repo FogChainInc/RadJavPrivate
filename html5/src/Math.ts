@@ -35,6 +35,7 @@ interface Math
 	degreesToRadians (degrees: number): number;
 	radiansToDegrees (radians: number): number;
 	randomRange (min: number, max: number): number;
+	lerp (start: number, end: number, time: number): number;
 }
 
 /** @property {Number} [inv180=(1 / 180)]
@@ -149,4 +150,9 @@ Math.radiansToDegrees = function (radians: number): number {
 */
 Math.randomRange = function (min: number, max: number): number {
 	return (this.floor(this.random() * ((max - min) + 1)) + min);
+}
+
+Math.lerp = function (start: number, end: number, time: number): number
+{
+	return (start * (1 - time) + end * time);
 }

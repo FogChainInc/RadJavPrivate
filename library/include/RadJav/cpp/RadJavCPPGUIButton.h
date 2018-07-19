@@ -39,11 +39,11 @@
 					/// The wxWidgets button to use.
 					class RADJAV_EXPORT ButtonFrame : public wxButton, public GObjectBase, public ChainedPtr
 					{
-					public:
-						ButtonFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size);
+						public:
+							ButtonFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size);
 
-					protected:
-						wxDECLARE_EVENT_TABLE();
+						protected:
+							wxDECLARE_EVENT_TABLE();
 					};
 				#endif
 

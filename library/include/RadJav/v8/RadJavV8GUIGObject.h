@@ -40,6 +40,7 @@ namespace RadJAV
 
 					static void _createAppObj(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void create(const v8::FunctionCallbackInfo<v8::Value> &args);
+					static void addChild(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void setFont(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void getFont(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void setPosition(const v8::FunctionCallbackInfo<v8::Value> &args);

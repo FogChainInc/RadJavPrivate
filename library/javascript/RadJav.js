@@ -22,6 +22,7 @@ var RadJav = {};
 RadJav.useEval = true;
 RadJav._isInitialized = false;
 RadJav._included = [];
+RadJav.prevTime = (Date.now() / 1000);
 
 RadJav.GUI = function ()
 {
@@ -509,6 +510,34 @@ RadJav._guiFinishedCreatingGObject = function (resolve, reject)
 			resolve (this);
 		}, this));
 }
+
+function getTime()
+{
+	return (Date.now() / 1000);
+}
+
+RadJav.getTime = getTime;
+
+function addAnimation(anim) {
+	RadJav._animations.push(anim);
+	setTimeout(RadJav.animationUpdate, RadJav.animationFrameRate);
+}
+
+RadJav.addAnimation = addAnimation;
+
+function animationUpdate() {
+	var currentTime = RadJav.getTime();
+	var deltaTime = (currentTime - RadJav.prevTime);
+	RadJav.prevTime = currentTime;
+	for (var iIdx = 0; iIdx < RadJav._animations.length; iIdx++) {
+		var anim = RadJav._animations[iIdx];
+		if (anim.isPlaying == true)
+			anim.update(deltaTime);
+	}
+	setTimeout(RadJav.animationUpdate, RadJav.animationFrameRate);
+}
+
+RadJav.animationUpdate = animationUpdate;
 
 RadJav.GUI.initObj = function (type, name, text, parent)
 {
