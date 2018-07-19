@@ -531,8 +531,7 @@ function animationUpdate() {
 	RadJav.prevTime = currentTime;
 	for (var iIdx = 0; iIdx < RadJav._animations.length; iIdx++) {
 		var anim = RadJav._animations[iIdx];
-		if (anim.isPlaying == true)
-			anim.update(deltaTime);
+		anim.update(deltaTime);
 	}
 	setTimeout(RadJav.animationUpdate, RadJav.animationFrameRate);
 }

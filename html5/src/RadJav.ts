@@ -999,8 +999,7 @@ namespace RadJav
 		{
 			let anim: RadJav.Animation = RadJav._animations[iIdx];
 
-			if (anim.isPlaying == true)
-				anim.update (deltaTime);
+			anim.update (deltaTime);
 		}
 
 		setTimeout (RadJav.animationUpdate, RadJav.animationFrameRate);
