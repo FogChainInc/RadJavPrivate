@@ -494,7 +494,7 @@ namespace RadJAV
 			{
 				ioc.stop();
 				while (false == ioc.stopped()) {
-                    #ifdef __WINDOWS__
+                    #if defined (__WINDOWS__) || defined(WIN32)
                         Sleep(1 * 50); //50 ms
                     #else
                         usleep(1 * 50 * 1000);
