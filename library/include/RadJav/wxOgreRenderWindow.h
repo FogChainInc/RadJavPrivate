@@ -92,11 +92,6 @@ class wxOgreRenderWindow : public wxControl, public RadJAV::CPP::GUI::RenderWind
          */
         static void SetOgreRoot (Ogre::Root *root);
  
-        /** Gets the associated Ogre render window.
-            @return The render window used to paint this control.
-         */
-        Ogre::RenderWindow *GetRenderWindow () const;
- 
         /** Sets the render timer period.
             @param period The number of milliseconds before the next notification.
                 A negative or zero value will stop the timer.
