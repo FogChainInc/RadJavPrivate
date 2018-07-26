@@ -48,6 +48,8 @@ RadJav.GUI.Canvas3D = (function (_super)
 		var _this = _super.call(this, obj, text, parent) || this;
 
 		_this.type = "RadJav.GUI.Canvas3D";
+		
+		_this.children = [];
 
 		/** @property {Mixed} [_renderer=null]
 		* @protected
@@ -74,6 +76,81 @@ RadJav.GUI.Canvas3D = (function (_super)
 		* The materials that have been loaded for use. Each key is a RadJav.C3D.Material.
 		*/
 		_this._materials = RadJav.setDefaultValue (obj._materials, {});
+
+        Canvas3D.prototype.setAmbientLightColor = function (color) {
+            if (this._setAmbientLightColor != null) {
+                this._setAmbientLightColor.apply(this, arguments);
+            }
+        };
+        
+        Canvas3D.prototype.getAmbientLightColor = function () {
+            if (this._getAmbientLightColor != null) {
+                return this._getAmbientLightColor();
+            }
+        };
+
+        Canvas3D.prototype.addToScene = function (child) {
+            this.children.push(child);
+            if (this._addToScene != null) {
+                this._addToScene(child);
+            }
+        };
+        
+        Canvas3D.prototype.removeFromScene = function (child) {
+            this.children.slice(this.children.indexOf(child), 1);
+            if (this._removeFromScene != null) {
+                this._removeFromScene(child);
+            }
+        };
+        
+        Canvas3D.prototype.createObject3D = function (name) {
+            if(this._createObject3D != null)
+            {
+                this._createObject3D.apply(this, arguments);
+            }
+        };
+        
+        Canvas3D.prototype.createCamera = function (name) {
+            if(this._createCamera != null)
+            {
+                this._createCamera.apply(this, arguments);
+            }
+        };
+        
+        Canvas3D.prototype.createLight = function (name) {
+            if(this._createLight != null)
+            {
+                this._createLight.apply(this, arguments);
+            }
+        };
+        
+        Canvas3D.prototype.createPlane = function (name) {
+            if(this._createPlane != null)
+            {
+                this._createPlane.apply(this, arguments);
+            }
+        };
+        
+        Canvas3D.prototype.createCube = function (name) {
+            if(this._createCube != null)
+            {
+                this._createCube.apply(this, arguments);
+            }
+        };
+        
+        Canvas3D.prototype.createSphere = function (name) {
+            if(this._createSphere != null)
+            {
+                this._createSphere.apply(this, arguments);
+            }
+        };
+        
+        Canvas3D.prototype.loadModel = function (path, name) {
+            if(this._loadModel != null)
+            {
+                return this._loadModel.apply(this, arguments);
+            }
+        };
 
 		return (_this);
 	}

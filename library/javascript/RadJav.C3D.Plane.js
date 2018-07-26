@@ -22,27 +22,17 @@ var RadJav;
 (function (RadJav) {
     var C3D;
     (function (C3D) {
-        var Object3D = /** @class */ (function (_super) {
-            __extends(Object3D, _super);
-            function Object3D(view, name) {
+        var Plane = /** @class */ (function (_super) {
+            __extends(Plane, _super);
+            function Plane(view, name) {
                 var _this = _super.call(this, view, name) || this;
                 if (_this._init != null) {
                     _this._init.apply(_this, arguments);
                 }
                 return _this;
             }
-            Object3D.prototype.setVisibility = function (visible) {
-                if (this._setVisibility != null) {
-                    this._setVisibility.apply(this, arguments);
-                }
-            };
-            Object3D.prototype.getVisibility = function () {
-                if (this._getVisibility != null) {
-                    return this._getVisibility();
-                }
-            };
-            return Object3D;
-        }(C3D.Transform));
-        C3D.Object3D = Object3D;
+            return Plane;
+        }(C3D.Object3D));
+        C3D.Plane = Plane;
     })(C3D = RadJav.C3D || (RadJav.C3D = {}));
 })(RadJav || (RadJav = {}));
