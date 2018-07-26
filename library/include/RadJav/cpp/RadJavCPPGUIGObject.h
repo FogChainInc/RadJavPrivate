@@ -242,9 +242,8 @@ namespace RadJAV
 					GObjectBase();
 					virtual ~GObjectBase();
 
-					Event* createEvent(String event, v8::Local<v8::Function> function);
-
 					#ifdef GUI_USE_WXWIDGETS
+						Event* createEvent(String event, v8::Local<v8::Function> function);
 						void addNewEvent(String event, wxWindow *object, v8::Local<v8::Function> func);
 
 						static void onClick(wxMouseEvent &event);
@@ -269,12 +268,11 @@ namespace RadJAV
 						static void onFocusSet(wxFocusEvent &event);
 						static void onFocusOut(wxFocusEvent &event);
 
+						static v8::Local<v8::Value> executeEvent(Event *pevent, RJINT numArgs = 0, v8::Local<v8::Value> *args = NULL);
+
+						HashMap<std::string, Event* > *events;
+
 					#endif
-
-					static v8::Local<v8::Value> executeEvent(
-						Event *pevent, RJINT numArgs = 0, v8::Local<v8::Value> *args = NULL);
-
-					HashMap<std::string, Event* > *events;
 			};
 		}
 	}

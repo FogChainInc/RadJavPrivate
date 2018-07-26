@@ -102,15 +102,18 @@ namespace RadJAV
 			#ifdef USE_V8
 				void Container::on(String event, v8::Local<v8::Function> func)
 				{
-					CPP::GUI::ContainerFrame *object = (CPP::GUI::ContainerFrame *)_appObj;
+					#ifdef GUI_USE_WXWIDGETS
 
-					object->addNewEvent(event, object, func);
+						CPP::GUI::ContainerFrame *object = (CPP::GUI::ContainerFrame *)_appObj;
+
+						object->addNewEvent(event, object, func);
 					
-					if (event == "click")
-					{
-						object->Connect(wxEVT_LEFT_UP, wxMouseEventHandler(ContainerFrame::onClick), object->createEvent(event, func));
-					}
-					
+						if (event == "click")
+						{
+							object->Connect(wxEVT_LEFT_UP, wxMouseEventHandler(ContainerFrame::onClick), object->createEvent(event, func));
+						}
+
+					#endif
 				}
 			#endif
 		}

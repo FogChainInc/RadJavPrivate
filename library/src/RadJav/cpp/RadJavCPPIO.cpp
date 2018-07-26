@@ -572,7 +572,7 @@ namespace RadJAV
 
 			#ifdef USE_BOOST
 				if (basePath != "")
-					path = basePath + fs::path::preferred_separator + path;
+					path = basePath + String(fs::path::preferred_separator) + path;
 
 				fs::path newPath(path.c_str());
 

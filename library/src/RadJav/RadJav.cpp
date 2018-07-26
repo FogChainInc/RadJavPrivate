@@ -32,6 +32,7 @@
 	#include <Windows.h>
 	#include <stdlib.h>
 	#include <io.h>
+	#include <fcntl.h>
 #endif
 
 #ifdef USE_V8

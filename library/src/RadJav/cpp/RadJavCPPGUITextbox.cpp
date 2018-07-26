@@ -108,19 +108,22 @@ namespace RadJAV
 			#ifdef USE_V8
 				void Textbox::on(String event, v8::Local<v8::Function> func)
 				{
-					CPP::GUI::TextboxFrame *obj = (CPP::GUI::TextboxFrame *)_appObj;
+					#ifdef GUI_USE_WXWIDGETS
 
-					obj->addNewEvent(event, obj, func);
+						CPP::GUI::TextboxFrame *obj = (CPP::GUI::TextboxFrame *)_appObj;
+
+						obj->addNewEvent(event, obj, func);
 					
-					if (event == "onText")
-					{
-						obj->Connect(wxEVT_TEXT, wxCommandEventHandler(TextboxFrame::onText), obj->createEvent(event, func));
-					}
+						if (event == "onText")
+						{
+							obj->Connect(wxEVT_TEXT, wxCommandEventHandler(TextboxFrame::onText), obj->createEvent(event, func));
+						}
 
-					if (event == "onTextEnter")
-					{
-						obj->Connect(wxEVT_TEXT_ENTER, wxCommandEventHandler(TextboxFrame::onTextEnter), obj->createEvent(event, func));
-					}
+						if (event == "onTextEnter")
+						{
+							obj->Connect(wxEVT_TEXT_ENTER, wxCommandEventHandler(TextboxFrame::onTextEnter), obj->createEvent(event, func));
+						}
+					#endif
 				}
 			#endif
 		}
