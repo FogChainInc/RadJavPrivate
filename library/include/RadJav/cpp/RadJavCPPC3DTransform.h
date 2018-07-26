@@ -25,6 +25,7 @@
 
 #ifdef C3D_USE_OGRE
 #include <Ogre.h>
+#include "cpp/RadJavCPPGUICanvas3D.h"
 #endif
 
 namespace RadJAV
@@ -37,16 +38,16 @@ namespace RadJAV
 			class RADJAV_EXPORT Transform
 			{
 			public:
-				Transform( Ogre::SceneManager& sceneManager,
-						   const String& name,
-						   Transform *parent = NULL);
-				
+				Transform(const GUI::Canvas3D& canvas,
+						  const String& name,
+						  Transform *parent = NULL);
+
 				virtual ~Transform();
 				
 				String getName() const;
 				
-				const Ogre::Vector3& getPosition() const;
-				const Ogre::Vector3& getScale() const;
+				Ogre::Vector3 getPosition() const;
+				Ogre::Vector3 getScale() const;
 				
 				void addChild(Transform* child);
 				Transform* removeChild(Transform* child);
@@ -55,6 +56,14 @@ namespace RadJAV
 				void pitch(const Ogre::Radian &angle, Ogre::Node::TransformSpace relativeTo=Ogre::Node::TS_LOCAL);
 				void roll(const Ogre::Radian &angle, Ogre::Node::TransformSpace relativeTo=Ogre::Node::TS_LOCAL);
 				void yaw(const Ogre::Radian &angle, Ogre::Node::TransformSpace relativeTo=Ogre::Node::TS_LOCAL);
+				
+				void setDirection(const Ogre::Vector3& direction,
+								  Ogre::Node::TransformSpace relativeTo = Ogre::Node::TS_LOCAL,
+								  const Ogre::Vector3& localDirectionVector = Ogre::Vector3::NEGATIVE_UNIT_Z);
+				
+				void setDirection(Ogre::Real x, Ogre::Real y, Ogre::Real z,
+								  Ogre::Node::TransformSpace relativeTo = Ogre::Node::TS_LOCAL,
+								  const Ogre::Vector3& localDirectionVector = Ogre::Vector3::NEGATIVE_UNIT_Z);
 				
 				void setOrientation(const Ogre::Quaternion& orientation);
 				void setPosition(const Ogre::Vector3& position);
@@ -65,7 +74,7 @@ namespace RadJAV
 				void lookAt(const Ogre::Vector3& point, Ogre::Node::TransformSpace relativeTo = Ogre::Node::TS_PARENT);
 
 				Ogre::SceneNode* node;
-				Ogre::SceneManager& sceneMgr;
+				Ogre::SceneManager* sceneManager;
 			};
 #endif
 		}

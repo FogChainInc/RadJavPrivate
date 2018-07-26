@@ -67,11 +67,14 @@
 	#include "v8/RadJavV8GUICanvas3D.h"
 
 	// C3D
+	#include "v8/RadJavV8C3DTransform.h"
 	#include "v8/RadJavV8C3DObject3D.h"
-	#include "v8/RadJavV8C3DEntity.h"
-	#include "v8/RadJavV8C3DWorld.h"
+	#include "v8/RadJavV8C3DPlane.h"
+	#include "v8/RadJavV8C3DCube.h"
+	#include "v8/RadJavV8C3DSphere.h"
 	#include "v8/RadJavV8C3DCamera.h"
 	#include "v8/RadJavV8C3DLight.h"
+	#include "v8/RadJavV8C3DModel.h"
 
 	// Crypto
 	#include "v8/RadJavV8CryptoCipher.h"
@@ -424,7 +427,8 @@ namespace RadJAV
 			{
 				v8::platform::PumpMessageLoop(platform, isolate);
 				
-				/* TODO: Think about refresh mechanism
+				// TODO: Think about refresh mechanism
+				/*
 				#ifdef C3D_USE_OGRE
 					if (mRoot != NULL)
 					{
@@ -432,7 +436,7 @@ namespace RadJAV
 							mRoot->renderOneFrame();
 					}
 				#endif
-				*/
+				 */
 				
 				// Handle the on ready function.
 				if (firstRun == true)
@@ -1095,6 +1099,16 @@ namespace RadJAV
 			}
 		}
 
+		template<class T>
+		void V8JavascriptEngine::initV8Callback(const v8::Handle<v8::Function>& parent, const char* nameSpace, const char* typeName)
+		{
+			v8::Handle<v8::Function> namespaceFunc = v8GetFunction(parent, nameSpace);
+			v8::Handle<v8::Function> function = v8GetFunction(namespaceFunc, typeName);
+			v8::Handle<v8::Object> prototype = v8GetObject(function, "prototype");
+		
+			T::createV8Callbacks(isolate, prototype);
+		}
+
 		void V8JavascriptEngine::loadNativeCode()
 		{
 			// Globals
@@ -1364,47 +1378,14 @@ namespace RadJAV
 				#ifdef C3D_USE_OGRE
 				// RadJav.C3D
 				{
-					v8::Handle<v8::Function> c3dFunc = v8GetFunction(radJavFunc, "C3D");
-
-					// RadJav.C3D.Object3D
-					{
-						v8::Handle<v8::Function> object3DFunc = v8GetFunction(c3dFunc, "Object3D");
-						v8::Handle<v8::Object> object3DPrototype = v8GetObject(object3DFunc, "prototype");
-
-						V8B::C3D::Object3D::createV8Callbacks(isolate, object3DPrototype);
-					}
-
-					// RadJav.C3D.World
-					{
-						v8::Handle<v8::Function> worldFunc = v8GetFunction(c3dFunc, "World");
-						v8::Handle<v8::Object> worldPrototype = v8GetObject(worldFunc, "prototype");
-
-						V8B::C3D::World::createV8Callbacks(isolate, worldPrototype);
-					}
-
-					// RadJav.C3D.Entity
-					{
-						v8::Handle<v8::Function> entityFunc = v8GetFunction(c3dFunc, "Entity");
-						v8::Handle<v8::Object> entityPrototype = v8GetObject(entityFunc, "prototype");
-
-						V8B::C3D::Entity::createV8Callbacks(isolate, entityPrototype);
-					}
-
-					//RadJav.C3D.Camera
-					{
-						v8::Handle<v8::Function> cameraFunc = v8GetFunction(c3dFunc, "Camera");
-						v8::Handle<v8::Object> cameraPrototype = v8GetObject(cameraFunc, "prototype");
-
-						V8B::C3D::Camera::createV8Callbacks(isolate, cameraPrototype);
-					}
-
-					//RadJav.C3D.Light
-					{
-						v8::Handle<v8::Function> lightFunc = v8GetFunction(c3dFunc, "Light");
-						v8::Handle<v8::Object> lightPrototype = v8GetObject(lightFunc, "prototype");
-						
-						V8B::C3D::Light::createV8Callbacks(isolate, lightPrototype);
-					}
+					initV8Callback<V8B::C3D::Transform>(radJavFunc, "C3D", "Transform");
+					initV8Callback<V8B::C3D::Object3D>(radJavFunc, "C3D", "Object3D");
+					initV8Callback<V8B::C3D::Plane>(radJavFunc, "C3D", "Plane");
+					initV8Callback<V8B::C3D::Cube>(radJavFunc, "C3D", "Cube");
+					initV8Callback<V8B::C3D::Sphere>(radJavFunc, "C3D", "Sphere");
+					initV8Callback<V8B::C3D::Camera>(radJavFunc, "C3D", "Camera");
+					initV8Callback<V8B::C3D::Light>(radJavFunc, "C3D", "Light");
+					initV8Callback<V8B::C3D::Model>(radJavFunc, "C3D", "Model");
 				}
 				#endif
 				#ifdef USE_CRYPTOGRAPHY

@@ -17,37 +17,33 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#ifndef _RADJAV_GUI_CPP_OBJECT3D_H_
-#define _RADJAV_GUI_CPP_OBJECT3D_H_
+#ifndef _RADJAV_V8_C3D_PLANE_H_
+#define _RADJAV_V8_C3D_PLANE_H_
 
 #include "RadJavPreprocessor.h"
-#include "RadJavString.h"
-#include "cpp/RadJavCPPC3DTransform.h"
 
-#ifdef C3D_USE_OGRE
-#include <Ogre.h>
-#endif
+#ifdef USE_V8
+#include <v8.h>
 
 namespace RadJAV
 {
-	namespace CPP
+	namespace V8B
 	{
 		namespace C3D
 		{
 #ifdef C3D_USE_OGRE
-			class RADJAV_EXPORT Object3D : public Transform
+			class RADJAV_EXPORT Plane
 			{
 			public:
-				Object3D(const GUI::Canvas3D& canvas,
-						 const String& name,
-						 Object3D *parent = NULL);
-
-				virtual void setVisible(bool visible);
-				virtual bool getVisible() const;
+				static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
+				
+				static void init(const v8::FunctionCallbackInfo<v8::Value> &args);
 			};
 #endif
 		}
 	}
 }
 #endif
+#endif
+
 

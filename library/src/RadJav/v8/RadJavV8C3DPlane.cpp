@@ -17,34 +17,51 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#ifndef _RADJAV_GUI_CPP_OBJECT3D_H_
-#define _RADJAV_GUI_CPP_OBJECT3D_H_
+#include "v8/RadJavV8C3DPlane.h"
 
-#include "RadJavPreprocessor.h"
-#include "RadJavString.h"
-#include "cpp/RadJavCPPC3DTransform.h"
+#include "RadJav.h"
 
-#ifdef C3D_USE_OGRE
-#include <Ogre.h>
-#endif
+#ifdef USE_V8
+#include "v8/RadJavV8JavascriptEngine.h"
+#include "cpp/RadJavCPPC3DPlane.h"
+
+#define C3DTYPE CPP::C3D::Plane
 
 namespace RadJAV
 {
-	namespace CPP
+	namespace V8B
 	{
 		namespace C3D
 		{
 #ifdef C3D_USE_OGRE
-			class RADJAV_EXPORT Object3D : public Transform
+			void Plane::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 			{
-			public:
-				Object3D(const GUI::Canvas3D& canvas,
-						 const String& name,
-						 Object3D *parent = NULL);
+				V8_CALLBACK(object, "_init", Plane::init);
+			}
+			
+			void Plane::init(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				if(args.Length() == 0 || args[0]->IsNullOrUndefined())
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("Missing Canvas3D parameter");
+					return;
+				}
 
-				virtual void setVisible(bool visible);
-				virtual bool getVisible() const;
-			};
+				//Check if we were already contructed
+				std::shared_ptr<C3DTYPE> object = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
+				if(object)
+					return;
+				
+				CPP::GUI::Canvas3D* canvas =
+					(CPP::GUI::Canvas3D*)V8_JAVASCRIPT_ENGINE->v8GetExternal(args[0]->ToObject(), "_appObj");
+				
+				if(!canvas)
+					return;
+				
+				String name = V8_JAVASCRIPT_ENGINE->v8GetString(args.This(), "name");
+				object.reset(RJNEW C3DTYPE(*canvas, name), [](C3DTYPE* p){DELETEOBJ(p)});
+				V8_JAVASCRIPT_ENGINE->v8SetExternal( args.This(), "_c3dObj", object);
+			}
 #endif
 		}
 	}

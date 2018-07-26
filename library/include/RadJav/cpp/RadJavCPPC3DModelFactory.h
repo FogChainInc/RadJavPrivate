@@ -42,7 +42,7 @@ namespace RadJAV
 				ModelFactory();
 				~ModelFactory();
 				
-				static Model* load (Ogre::SceneManager* sceneManager,
+				static Model* load (const GUI::Canvas3D& canvas,
 									const String& name,
 									const String& filePath,
 									Object3D *parent);

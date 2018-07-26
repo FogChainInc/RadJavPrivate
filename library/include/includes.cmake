@@ -226,11 +226,14 @@ set (SOURCES ${SOURCES_files_RadJav__cpp__GUI__Headers} ${SOURCES})
 if (USE_OGRE)
 	# V8 C3D
 	set (SOURCES_files_RadJav__v8__C3D__Headers 
+		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8C3DTransform.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8C3DObject3D.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8C3DEntity.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8C3DWorld.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8C3DPlane.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8C3DCube.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8C3DSphere.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8C3DCamera.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8C3DLight.h")
+		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8C3DLight.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8C3DModel.h")
 	source_group ("RadJav\\V8\\C3D" FILES ${SOURCES_files_RadJav__v8__C3D__Headers})
 
 	set (SOURCES ${SOURCES_files_RadJav__v8__C3D__Headers} ${SOURCES})

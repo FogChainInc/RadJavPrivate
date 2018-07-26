@@ -45,6 +45,8 @@ namespace RadJAV
 			
 			RenderWindow::~RenderWindow()
 			{
+				//RenderWindow destroyed by Ogre?
+				/*
 				if(renderWindow)
 				{
 					Ogre::Root* root = Ogre::Root::getSingletonPtr();
@@ -52,7 +54,7 @@ namespace RadJAV
 					{
 						root->destroyRenderTarget(renderWindow);
 					}
-				}
+				}*/
 			}
 			
 			bool RenderWindow::createRenderWindow( wxWindow* window, const wxSize& size, bool fullscreen)

@@ -22,15 +22,9 @@
 
 #include "RadJavPreprocessor.h"
 
-#include "RadJavString.h"
-#include "RadJavHashMap.h"
-#include "cpp/RadJavCPPGUIEvent.h"
-
-#ifdef C3D_USE_OGRE
-	#include <OgreMovableObject.h>
-#endif
-
 #ifdef USE_V8
+#include <v8.h>
+
 namespace RadJAV
 {
 	namespace V8B
@@ -43,37 +37,9 @@ namespace RadJAV
 			public:
 				static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
-				static void setPosition(const v8::FunctionCallbackInfo<v8::Value> &args);
-				static void getPosition(const v8::FunctionCallbackInfo<v8::Value> &args);
-				static void pitch(const v8::FunctionCallbackInfo<v8::Value> &args);
-				static void roll(const v8::FunctionCallbackInfo<v8::Value> &args);
-				static void yaw(const v8::FunctionCallbackInfo<v8::Value> &args);
-				static void getX(const v8::FunctionCallbackInfo<v8::Value> &args);
-				static void getY(const v8::FunctionCallbackInfo<v8::Value> &args);
-				static void getZ(const v8::FunctionCallbackInfo<v8::Value> &args);
-				static void setScale(const v8::FunctionCallbackInfo<v8::Value> &args);
-				static void getScale(const v8::FunctionCallbackInfo<v8::Value> &args);
-				static void getParent(const v8::FunctionCallbackInfo<v8::Value> &args);
+				static void init(const v8::FunctionCallbackInfo<v8::Value> &args);
 				static void setVisibility(const v8::FunctionCallbackInfo<v8::Value> &args);
 				static void getVisibility(const v8::FunctionCallbackInfo<v8::Value> &args);
-				static void addChild(const v8::FunctionCallbackInfo<v8::Value> &args);
-				static void removeChild(const v8::FunctionCallbackInfo<v8::Value> &args);
-				static void lookAt(const v8::FunctionCallbackInfo<v8::Value> &args);
-
-				static void on(const v8::FunctionCallbackInfo<v8::Value> &args);
-			};
-
-			class RADJAV_EXPORT Object3DBase
-			{
-			public:
-				CPP::GUI::Event *createEvent(String event, v8::Local<v8::Function> function);
-
-				void addNewEvent(String event, Ogre::MovableObject *object, v8::Local<v8::Function> func);
-
-				static v8::Local<v8::Value> executeEvent(CPP::GUI::Event *pevent, RJINT numArgs = 0, v8::Local<v8::Value> *args = NULL);
-
-			protected:
-				HashMap<std::string, CPP::GUI::Event* > events;
 			};
 #endif
 		}

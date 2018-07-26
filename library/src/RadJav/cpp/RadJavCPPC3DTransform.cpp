@@ -28,40 +28,53 @@ namespace RadJAV
 
 		#ifdef C3D_USE_OGRE
 
-			Transform::Transform( Ogre::SceneManager& sceneManager, const String& name, Transform *parent)
-			: sceneMgr(sceneManager)
+			Transform::Transform(const GUI::Canvas3D& canvas,
+								 const String& name,
+								 Transform *parent)
 			{
-				node = sceneManager.createSceneNode();
+				sceneManager = canvas.getSceneManager();
 				
-				if(parent == NULL)
+				if(!sceneManager)
+					return;
+				
+				node = sceneManager->createSceneNode();
+				
+				if(parent)
 				{
-					sceneManager.getRootSceneNode()->addChild(node);
-				}
-				else
-				{
-					parent->node->addChild(node);
+					parent->addChild(this);
 				}
 			}
 			
 			Transform::~Transform()
 			{
-				node->removeAndDestroyAllChildren();
-				sceneMgr.destroySceneNode(node);
+				//TODO: think about memory leaks
+				
+				//node->removeAndDestroyAllChildren();
+				sceneManager->destroySceneNode(node);
 			}
 			
 			String Transform::getName() const
 			{
-				return node->getName();
+				if(node)
+					return node->getName();
+				
+				return String();
 			}
 			
-			const Ogre::Vector3& Transform::getPosition() const
+			Ogre::Vector3 Transform::getPosition() const
 			{
-				return node->getPosition();
+				if(node)
+					return node->getPosition();
+				
+				return Ogre::Vector3(0.0, 0.0, 0.0);
 			}
 			
-			const Ogre::Vector3& Transform::getScale() const
+			Ogre::Vector3 Transform::getScale() const
 			{
-				return node->getScale();
+				if(node)
+					return node->getScale();
+				
+				return Ogre::Vector3(1.0, 1.0, 1.0);
 			}
 			
 			void Transform::addChild(Transform* child)
@@ -69,13 +82,16 @@ namespace RadJAV
 				if(!child)
 					return;
 				
-				Ogre::SceneNode* parent = child->node->getParentSceneNode();
-				if(parent)
+				if(node && child->node)
 				{
-					parent->removeChild(child->node);
+					Ogre::SceneNode* parent = child->node->getParentSceneNode();
+					if(parent)
+					{
+						parent->removeChild(child->node);
+					}
+					
+					node->addChild(child->node);
 				}
-				
-				node->addChild(child->node);
 			}
 			
 			Transform* Transform::removeChild(Transform* child)
@@ -83,7 +99,8 @@ namespace RadJAV
 				if(!child)
 					return child;
 				
-				node->removeChild(child->node);
+				if(node && child->node)
+					node->removeChild(child->node);
 				
 				return child;
 			}
@@ -94,57 +111,85 @@ namespace RadJAV
 					return;
 				
 				removeChild(child);
+				
+				//TODO: think about memory leaks
 				delete child;
 			}
 			
 			void Transform::pitch(const Ogre::Radian &angle, Ogre::Node::TransformSpace relativeTo)
 			{
-				node->pitch(angle, relativeTo);
+				if(node)
+					node->pitch(angle, relativeTo);
 			}
 			
 			void Transform::roll(const Ogre::Radian &angle, Ogre::Node::TransformSpace relativeTo)
 			{
-				node->roll(angle, relativeTo);
+				if(node)
+					node->roll(angle, relativeTo);
 			}
 			
 			void Transform::yaw(const Ogre::Radian &angle, Ogre::Node::TransformSpace relativeTo)
 			{
-				node->yaw(angle, relativeTo);
+				if(node)
+					node->yaw(angle, relativeTo);
+			}
+			
+			void Transform::setDirection(const Ogre::Vector3& direction,
+										 Ogre::Node::TransformSpace relativeTo,
+										 const Ogre::Vector3& localDirectionVector)
+			{
+				if(node)
+					node->setDirection(direction, relativeTo, localDirectionVector);
+			}
+
+			void Transform::setDirection(Ogre::Real x, Ogre::Real y, Ogre::Real z,
+										 Ogre::Node::TransformSpace relativeTo,
+										 const Ogre::Vector3& localDirectionVector)
+			{
+				if(node)
+					node->setDirection(x, y, z, relativeTo, localDirectionVector);
 			}
 			
 			void Transform::setOrientation(const Ogre::Quaternion& orientation)
 			{
-				node->setOrientation(orientation);
+				if(node)
+					node->setOrientation(orientation);
 			}
 			
 			void Transform::setPosition(const Ogre::Vector3& position)
 			{
-				node->setPosition(position);
+				if(node)
+					node->setPosition(position);
 			}
 			
 			void Transform::setScale(const Ogre::Vector3& scale)
 			{
-				node->setScale(scale);
+				if(node)
+					node->setScale(scale);
 			}
 			
 			void Transform::lookAt(const Ogre::Vector3& targetPoint, Ogre::Node::TransformSpace relativeTo, const Ogre::Vector3& localDirectionVector)
 			{
-				node->lookAt(targetPoint, relativeTo, localDirectionVector);
+				if(node)
+					node->lookAt(targetPoint, relativeTo, localDirectionVector);
 			}
 			
 			void Transform::translate(const Ogre::Vector3& direction, Ogre::Node::TransformSpace relativeTo)
 			{
-				node->translate(direction, relativeTo);
+				if(node)
+					node->translate(direction, relativeTo);
 			}
 			
 			void Transform::lookAt(Ogre::Real x, Ogre::Real y, Ogre::Real z, Ogre::Node::TransformSpace relativeTo)
 			{
-				node->lookAt( Ogre::Vector3(x, y, z), relativeTo);
+				if(node)
+					node->lookAt( Ogre::Vector3(x, y, z), relativeTo);
 			}
 			
 			void Transform::lookAt(const Ogre::Vector3& point, Ogre::Node::TransformSpace relativeTo)
 			{
-				node->lookAt(point, relativeTo);
+				if(node)
+					node->lookAt(point, relativeTo);
 			}
 
 			#endif

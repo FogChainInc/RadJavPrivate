@@ -28,8 +28,10 @@ namespace RadJAV
 		namespace C3D
 		{
 #ifdef C3D_USE_OGRE
-			Object3D::Object3D(Ogre::SceneManager& sceneManager, const String& name, Object3D *parent)
-			: Transform(sceneManager, name, parent)
+			Object3D::Object3D(const GUI::Canvas3D& canvas,
+							   const String& name,
+							   Object3D *parent)
+			: Transform(canvas, name, parent)
 			{
 			}
 			

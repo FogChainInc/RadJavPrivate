@@ -267,6 +267,12 @@
 				#endif
 
 			protected:
+				template<class T>
+				void initV8Callback(const v8::Handle<v8::Function>& parent,
+									const char* nameSpace,
+									const char* typeName);
+
+			protected:
 				v8::ArrayBuffer::Allocator* arrayBufferAllocator;
 				Array<String> jsToExecuteNextCode;
 				Array<String> jsToExecuteNextFilename;

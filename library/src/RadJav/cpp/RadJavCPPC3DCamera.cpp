@@ -28,86 +28,119 @@ namespace RadJAV
 		namespace C3D
 		{
 #ifdef C3D_USE_OGRE
-			Camera::Camera( Ogre::SceneManager& sceneManager,
-						   	Ogre::RenderWindow& renderWindow,
+			Camera::Camera( const GUI::Canvas3D& canvas,
 						    const String& name,
-						   Object3D* parent)
-			: Object3D(sceneManager, name, parent)
+						   	Object3D* parent)
+			: Object3D(canvas, name, parent)
 			{
-				camera = sceneManager.createCamera(name);
-				viewport = renderWindow.addViewport(camera);
-				viewport->setClearEveryFrame(true);
+				Ogre::SceneManager* sceneManager = canvas.getSceneManager();
+				Ogre::RenderWindow* renderWindow = canvas.getRenderWindow();
+
+				if(!sceneManager || !renderWindow)
+					return;
+				
+				camera = sceneManager->createCamera(name);
 				node->attachObject(camera);
+				viewport = renderWindow->addViewport(camera);
+				viewport->setClearEveryFrame(true);
 			}
 
-			void Camera::setMode(Ogre::ProjectionType mode)
+			void Camera::setPerspective(bool perspective)
 			{
-				camera->setProjectionType(mode);
+				if(camera)
+					camera->setProjectionType(perspective ? Ogre::PT_PERSPECTIVE : Ogre::PT_ORTHOGRAPHIC);
 			}
 			
-			Ogre::ProjectionType Camera::getMode() const
+			bool Camera::isPerspective() const
 			{
-				return camera->getProjectionType();
+				if(camera)
+					return camera->getProjectionType() == Ogre::PT_PERSPECTIVE;
+				
+				return true;
 			}
 			
 			void Camera::setAspectRatio(Ogre::Real aspectRatio)
 			{
-				camera->setAspectRatio(aspectRatio);
+				if(camera)
+					camera->setAspectRatio(aspectRatio);
 			}
 			
 			Ogre::Real Camera::getAspectRatio() const
 			{
-				return camera->getAspectRatio();
+				if(camera)
+					return camera->getAspectRatio();
+				
+				return 1.0;
 			}
 			
 			void Camera::setAutoAspectRatio(bool autoAspectRatio)
 			{
-				camera->setAutoAspectRatio(autoAspectRatio);
+				if(camera)
+					camera->setAutoAspectRatio(autoAspectRatio);
 			}
 			
 			bool Camera::getAutoAspectRatio() const
 			{
-				return camera->getAutoAspectRatio();
+				if(camera)
+					return camera->getAutoAspectRatio();
+				
+				return false;
 			}
 
 			void Camera::setFOV(const Ogre::Radian& fov)
 			{
-				camera->setFOVy(fov);
+				if(camera)
+					camera->setFOVy(fov);
 			}
 			
 			Ogre::Radian Camera::getFOV() const
 			{
-				return camera->getFOVy();
+				if(camera)
+					return camera->getFOVy();
+				
+				return Ogre::Degree(60.0);
 			}
 			
 			void Camera::setNearClipPlane(Ogre::Real nearDistance)
 			{
-				camera->setNearClipDistance(nearDistance);
+				if(camera)
+					camera->setNearClipDistance(nearDistance);
 			}
 			
 			Ogre::Real Camera::getNearClipPlane() const
 			{
-				return camera->getNearClipDistance();
+				if(camera)
+					return camera->getNearClipDistance();
+				
+				return 1.0;
 			}
 			
 			void Camera::setFarClipPlane(Ogre::Real farDistance)
 			{
-				camera->setFarClipDistance(farDistance);
+				if(camera)
+					camera->setFarClipDistance(farDistance);
 			}
 			
 			Ogre::Real Camera::getFarClipPlane() const
 			{
-				return camera->getFarClipDistance();
+				if(camera)
+					return camera->getFarClipDistance();
+				
+				return 100.0;
 			}
 			
 			void Camera::setBackgroundColor(const Ogre::ColourValue& colour)
 			{
-				viewport->setBackgroundColour(colour);
+				if(viewport)
+					viewport->setBackgroundColour(colour);
 			}
 			
-			const Ogre::ColourValue& Camera::getBackgroundColor() const
+			Ogre::ColourValue Camera::getBackgroundColor() const
 			{
-				return viewport->getBackgroundColour();
+				if(viewport)
+					return viewport->getBackgroundColour();
+				
+				return Ogre::ColourValue(0.0, 0.0, 0.0, 1.0);
 			}
 #endif
 		}

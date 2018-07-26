@@ -28,12 +28,16 @@ namespace RadJAV
 		namespace C3D
 		{
 #ifdef C3D_USE_OGRE
-			Sphere::Sphere( Ogre::SceneManager& sceneManager,
-							const String& name,
-					        Object3D *parent)
-			: Object3D(sceneManager, name, parent)
+			Sphere::Sphere(const GUI::Canvas3D& canvas,
+						   const String& name,
+						   Object3D *parent)
+			: Object3D(canvas, name, parent)
 			{
-				sphere = sceneManager.createEntity(name,Ogre::SceneManager::PT_SPHERE);
+				Ogre::SceneManager* sceneManager = canvas.getSceneManager();
+				if(!sceneManager)
+					return;
+				
+				sphere = sceneManager->createEntity(name, Ogre::SceneManager::PT_SPHERE);
 				node->attachObject(sphere);
 			}
 #endif

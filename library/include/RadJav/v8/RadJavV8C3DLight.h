@@ -37,10 +37,7 @@ namespace RadJAV
 			public:
 				static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 				
-				/*
-				 static void _init(const v8::FunctionCallbackInfo<v8::Value> &args);
-				 */
-				
+				static void init(const v8::FunctionCallbackInfo<v8::Value> &args);
 				static void setType(const v8::FunctionCallbackInfo<v8::Value> &args);
 				static void getType(const v8::FunctionCallbackInfo<v8::Value> &args);
 				static void setColor(const v8::FunctionCallbackInfo<v8::Value> &args);

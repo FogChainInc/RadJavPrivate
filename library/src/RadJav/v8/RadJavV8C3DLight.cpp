@@ -81,12 +81,35 @@ namespace RadJAV
 			
 			void Light::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 			{
-				//V8_CALLBACK(object, "_init", Light::_init);
+				V8_CALLBACK(object, "_init", Light::init);
+				V8_CALLBACK(object, "_setType", Light::setType);
+				V8_CALLBACK(object, "_getType", Light::getType);
+				V8_CALLBACK(object, "_setColor", Light::setColor);
+				V8_CALLBACK(object, "_getColor", Light::getColor);
+			}
+
+			void Light::init(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				if(args.Length() == 0 || args[0]->IsNullOrUndefined())
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("Missing Canvas3D parameter");
+					return;
+				}
+
+				//Check if we were already contructed
+				std::shared_ptr<C3DTYPE> object = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
+				if(object)
+					return;
 				
-				V8_CALLBACK(object, "setType", Light::setType);
-				V8_CALLBACK(object, "getType", Light::getType);
-				V8_CALLBACK(object, "setColor", Light::setColor);
-				V8_CALLBACK(object, "getColor", Light::getColor);
+				CPP::GUI::Canvas3D* canvas =
+					(CPP::GUI::Canvas3D*)V8_JAVASCRIPT_ENGINE->v8GetExternal(args[0]->ToObject(), "_appObj");
+				
+				if(!canvas)
+					return;
+				
+				String name = V8_JAVASCRIPT_ENGINE->v8GetString(args.This(), "name");
+				object.reset(RJNEW C3DTYPE(*canvas, Ogre::Light::LT_DIRECTIONAL, name), [](C3DTYPE* p){DELETEOBJ(p)});
+				V8_JAVASCRIPT_ENGINE->v8SetExternal( args.This(), "_c3dObj", object);
 			}
 
 			void Light::setType(const v8::FunctionCallbackInfo<v8::Value> &args)

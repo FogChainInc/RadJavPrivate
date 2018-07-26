@@ -39,10 +39,10 @@ namespace RadJAV
 			class RADJAV_EXPORT Plane : public Object3D
 			{
 			public:
-				Plane( Ogre::SceneManager& sceneManager,
-					   const String& name,
-					   Object3D *parent = NULL);
-				
+				Plane(const GUI::Canvas3D& canvas,
+					  const String& name,
+					  Object3D *parent = NULL);
+
 				Ogre::Entity* plane;
 			};
 #endif

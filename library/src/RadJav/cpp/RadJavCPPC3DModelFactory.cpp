@@ -38,23 +38,23 @@ namespace RadJAV
 			{
 			}
 			
-			Model* ModelFactory::load (Ogre::SceneManager* sceneManager,
+			Model* ModelFactory::load (const GUI::Canvas3D& canvas,
 									   const String& name,
 									   const String& filePath,
 									   Object3D *parent)
 			{
 				boost::filesystem::path resourcesPath(filePath);
+				Ogre::SceneManager* sceneManager = canvas.getSceneManager();
+				
 				if(resourcesPath.empty() || !sceneManager)
 					return nullptr;
 				
 				resourcesPath.remove_filename();
 
-				Model* model = RJNEW Model( *sceneManager,
+				Model* model = RJNEW Model( canvas,
 										    name,
 										    filePath,
 										    parent);
-				
-				
 				
 				try
 				{

@@ -28,14 +28,19 @@ namespace RadJAV
 		namespace C3D
 		{
 #ifdef C3D_USE_OGRE
-			Light::Light( Ogre::SceneManager& sceneManager,
-						  Ogre::Light::LightTypes type,
-						   const String& name,
-						   Object3D* parent)
-			: Object3D(sceneManager, name, parent)
+			Light::Light(const GUI::Canvas3D& canvas,
+						 Ogre::Light::LightTypes type,
+						 const String& name,
+						 Object3D* parent)
+			: Object3D(canvas, name, parent)
 			{
-				light = sceneManager.createLight(name);
+				Ogre::SceneManager* sceneManager = canvas.getSceneManager();
+				if(!sceneManager)
+					return;
 				
+				light = sceneManager->createLight(name);
+				light->setType(type);
+
 				//User will use node system to set direction of the light afterwards
 				light->setDirection(0, 0, -1);
 				
@@ -44,22 +49,30 @@ namespace RadJAV
 			
 			void Light::setType(Ogre::Light::LightTypes type)
 			{
-				light->setType(type);
+				if(light)
+					light->setType(type);
 			}
 			
 			Ogre::Light::LightTypes Light::getType() const
 			{
-				return light->getType();
+				if(light)
+					return light->getType();
+				
+				return Ogre::Light::LT_DIRECTIONAL;
 			}
 			
 			void Light::setDiffuseColor(const Ogre::ColourValue& color)
 			{
-				light->setDiffuseColour(color);
+				if(light)
+					light->setDiffuseColour(color);
 			}
 			
-			const Ogre::ColourValue& Light::getDiffuseColor(void) const
+			Ogre::ColourValue Light::getDiffuseColor(void) const
 			{
-				return light->getDiffuseColour();
+				if(light)
+					return light->getDiffuseColour();
+				
+				return Ogre::ColourValue(0.0, 0.0, 0.0, 1.0);
 			}
 #endif
 		}

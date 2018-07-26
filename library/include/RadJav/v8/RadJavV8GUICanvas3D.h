@@ -58,8 +58,17 @@
 							static void getEnabled(const v8::FunctionCallbackInfo<v8::Value> &args);
 							static void on(const v8::FunctionCallbackInfo<v8::Value> &args);
 
-							static void createWorld(const v8::FunctionCallbackInfo<v8::Value> &args);
-							static void setWorld(const v8::FunctionCallbackInfo<v8::Value> &args);
+							static void setAmbientLight(const v8::FunctionCallbackInfo<v8::Value> &args);
+							static void getAmbientLight(const v8::FunctionCallbackInfo<v8::Value> &args);
+							static void addToScene(const v8::FunctionCallbackInfo<v8::Value> &args);
+							static void removeFromScene(const v8::FunctionCallbackInfo<v8::Value> &args);
+							static void createObject3D(const v8::FunctionCallbackInfo<v8::Value> &args);
+							static void createCamera(const v8::FunctionCallbackInfo<v8::Value> &args);
+							static void createLight(const v8::FunctionCallbackInfo<v8::Value> &args);
+							static void createPlane(const v8::FunctionCallbackInfo<v8::Value> &args);
+							static void createCube(const v8::FunctionCallbackInfo<v8::Value> &args);
+							static void createSphere(const v8::FunctionCallbackInfo<v8::Value> &args);
+							static void loadModel(const v8::FunctionCallbackInfo<v8::Value> &args);
 					};
 				#endif
 			}

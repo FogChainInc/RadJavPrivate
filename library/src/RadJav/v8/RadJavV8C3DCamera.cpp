@@ -26,6 +26,7 @@
 
 #include "cpp/RadJavCPPC3DCamera.h"
 #include "cpp/RadJavCPPColor.h"
+#include "cpp/RadJavCPPGUICanvas3D.h"
 
 #define C3DTYPE CPP::C3D::Camera
 
@@ -38,34 +39,48 @@ namespace RadJAV
 			#ifdef C3D_USE_OGRE
 			void Camera::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 			{
-				//V8_CALLBACK(object, "_init", Camera::_init);
-
-				V8_CALLBACK(object, "setMode", Camera::setMode);
-				V8_CALLBACK(object, "getMode", Camera::getMode);
-				V8_CALLBACK(object, "setAspectRatio", Camera::setAspectRatio);
-				V8_CALLBACK(object, "getAspectRatio", Camera::getAspectRatio);
-				V8_CALLBACK(object, "setAutoAspectRatio", Camera::setAutoAspectRatio);
-				V8_CALLBACK(object, "getAutoAspectRatio", Camera::getAutoAspectRatio);
-				V8_CALLBACK(object, "setFOV", Camera::setFOV);
-				V8_CALLBACK(object, "getFOV", Camera::getFOV);
-				V8_CALLBACK(object, "setNearClipPlane", Camera::setNearClipPlane);
-				V8_CALLBACK(object, "getNearClipPlane", Camera::getNearClipPlane);
-				V8_CALLBACK(object, "setFarClipPlane", Camera::setFarClipPlane);
-				V8_CALLBACK(object, "getFarClipPlane", Camera::getFarClipPlane);
-				V8_CALLBACK(object, "setBackgroundColor", Camera::setBackgroundColor);
-				V8_CALLBACK(object, "getBackgroundColor", Camera::getBackgroundColor);
+				V8_CALLBACK(object, "_init", Camera::init);
+				V8_CALLBACK(object, "_setPerspective", Camera::setPerspective);
+				V8_CALLBACK(object, "_isPerspective", Camera::isPerspective);
+				V8_CALLBACK(object, "_setAspectRatio", Camera::setAspectRatio);
+				V8_CALLBACK(object, "_getAspectRatio", Camera::getAspectRatio);
+				V8_CALLBACK(object, "_setAutoAspectRatio", Camera::setAutoAspectRatio);
+				V8_CALLBACK(object, "_getAutoAspectRatio", Camera::getAutoAspectRatio);
+				V8_CALLBACK(object, "_setFOV", Camera::setFOV);
+				V8_CALLBACK(object, "_getFOV", Camera::getFOV);
+				V8_CALLBACK(object, "_setNearClipPlane", Camera::setNearClipPlane);
+				V8_CALLBACK(object, "_getNearClipPlane", Camera::getNearClipPlane);
+				V8_CALLBACK(object, "_setFarClipPlane", Camera::setFarClipPlane);
+				V8_CALLBACK(object, "_getFarClipPlane", Camera::getFarClipPlane);
+				V8_CALLBACK(object, "_setBackgroundColor", Camera::setBackgroundColor);
+				V8_CALLBACK(object, "_getBackgroundColor", Camera::getBackgroundColor);
 			}
 
-			/*
-			void Camera::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
+			void Camera::init(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
+				if(args.Length() == 0 || args[0]->IsNullOrUndefined())
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("Missing Canvas3D parameter");
+					return;
+				}
+
+				//Check if we were already contructed
+				std::shared_ptr<C3DTYPE> object = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
+				if(object)
+					return;
+				
+				CPP::GUI::Canvas3D* canvas =
+					(CPP::GUI::Canvas3D*)V8_JAVASCRIPT_ENGINE->v8GetExternal(args[0]->ToObject(), "_appObj");
+				
+				if(!canvas)
+					return;
+
 				String name = V8_JAVASCRIPT_ENGINE->v8GetString(args.This(), "name");
-				C3DTYPE* camera = RJNEW C3DTYPE(name, NULL);
-				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_c3dObj", camera);
+				object.reset(RJNEW C3DTYPE(*canvas, name), [](C3DTYPE* p){DELETEOBJ(p)});
+				V8_JAVASCRIPT_ENGINE->v8SetExternal( args.This(), "_c3dObj", object);
 			}
-			*/
 			
-			void Camera::setMode(const v8::FunctionCallbackInfo<v8::Value> &args)
+			void Camera::setPerspective(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				RJBOOL perspective = true;
 				
@@ -75,18 +90,17 @@ namespace RadJAV
 				std::shared_ptr<C3DTYPE> camera = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
 				
 				if (camera)
-					camera->setMode (perspective ? Ogre::PT_PERSPECTIVE : Ogre::PT_ORTHOGRAPHIC);
+					camera->setPerspective(perspective);
 			}
 			
-			void Camera::getMode(const v8::FunctionCallbackInfo<v8::Value> &args)
+			void Camera::isPerspective(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				std::shared_ptr<C3DTYPE> camera = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
 				
 				if (camera)
-					args.GetReturnValue().Set( camera->getMode() == Ogre::PT_PERSPECTIVE);
+					args.GetReturnValue().Set( camera->isPerspective());
 				else
 					args.GetReturnValue().Set(true);
-
 			}
 			
 			void Camera::setAspectRatio(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -211,7 +225,7 @@ namespace RadJAV
 				if(args.Length() > 0)
 				{
 					v8::Isolate* isolate = args.GetIsolate();
-					v8::Handle<v8::Object> color = v8::Handle<v8::Object>::Cast(args[0]);
+					v8::Handle<v8::Object> color = args[0]->ToObject();
 					
 					nativeColor.r = color->Get( String("r").toV8String(isolate))->NumberValue();
 					nativeColor.g = color->Get( String("g").toV8String(isolate))->NumberValue();

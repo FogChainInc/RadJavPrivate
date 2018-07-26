@@ -19,8 +19,12 @@
  */
 #include "cpp/RadJavCPPC3DModel.h"
 
+#ifdef C3D_USE_OGRE
+
 #include "RadJav.h"
 #include "cpp/RadJavCPPC3DModelFactory.h"
+#include <OgreColladaLoader.h>
+#include <boost/filesystem.hpp>
 
 namespace RadJAV
 {
@@ -28,14 +32,42 @@ namespace RadJAV
 	{
 		namespace C3D
 		{
-#ifdef C3D_USE_OGRE
-			Model::Model( Ogre::SceneManager& sceneManager,
-					      const String& name,
-						  const String& filePath,
-					      Object3D *parent)
-			: Object3D(sceneManager, name, parent)
+			Model::Model(const GUI::Canvas3D& canvas,
+						 const String& filePath,
+						 const String& name,
+						 Object3D *parent)
+			: Object3D(canvas, name, parent),
+			  loaded(false),
+			  filePath(filePath),
+			  sceneManager(canvas.getSceneManager())
 			{}
-#endif
+
+			bool Model::load()
+			{
+				if(loaded)
+					return true;
+				
+				boost::filesystem::path resourcesPath(filePath);
+				
+				if(resourcesPath.empty() || !sceneManager)
+					return false;
+				
+				resourcesPath.remove_filename();
+				
+				try
+				{
+					Ogre::ColladaLoader::load (filePath, sceneManager, node, resourcesPath.string());
+				}
+				catch(...)
+				{
+					return false;
+				}
+				
+				loaded = true;
+				
+				return true;
+			}
 		}
 	}
 }
+#endif

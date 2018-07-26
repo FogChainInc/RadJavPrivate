@@ -24,6 +24,7 @@
 #include "RadJavString.h"
 
 #include "cpp/RadJavCPPC3DObject3D.h"
+#include "cpp/RadJavCPPGUICanvas3D.h"
 
 #ifdef C3D_USE_OGRE
 #include <Ogre.h>
@@ -39,13 +40,12 @@ namespace RadJAV
 			class RADJAV_EXPORT Camera : public Object3D
 			{
 			public:
-				Camera( Ogre::SceneManager& sceneManager,
-					    Ogre::RenderWindow& renderWindow,
-					    const String& name,
-					    Object3D *parent = NULL);
-				
-				void setMode(Ogre::ProjectionType mode);
-				Ogre::ProjectionType getMode() const;
+				Camera( const GUI::Canvas3D& canvas,
+					   	const String& name,
+					   	Object3D *parent = NULL);
+
+				void setPerspective(bool perspective);
+				bool isPerspective() const;
 				
 				void setAspectRatio(Ogre::Real aspectRatio);
 				Ogre::Real getAspectRatio() const;
@@ -63,7 +63,7 @@ namespace RadJAV
 				Ogre::Real getFarClipPlane() const;
 				
 				void setBackgroundColor(const Ogre::ColourValue& colour);
-				const Ogre::ColourValue& getBackgroundColor() const;
+				Ogre::ColourValue getBackgroundColor() const;
 				
 				Ogre::Camera* camera;
 				Ogre::Viewport* viewport;

@@ -39,12 +39,16 @@ namespace RadJAV
 			class RADJAV_EXPORT Model : public Object3D
 			{
 			public:
-				Model( Ogre::SceneManager& sceneManager,
-					   const String& name,
-					   const String& filePath,
-					   Object3D *parent = NULL);
+				Model(const GUI::Canvas3D& canvas,
+					  const String& filePath,
+					  const String& name,
+					  Object3D *parent = NULL);
+
+				bool load();
 				
+				bool loaded;
 				String filePath;
+				Ogre::SceneManager* sceneManager;
 			};
 #endif
 		}

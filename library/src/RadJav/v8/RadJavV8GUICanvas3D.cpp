@@ -32,6 +32,7 @@
 #endif
 
 #include "cpp/RadJavCPPGUICanvas3D.h"
+#include "cpp/RadJavCPPC3DObject3D.h"
 
 #define UITYPE CPP::GUI::Canvas3D
 
@@ -64,8 +65,17 @@ namespace RadJAV
 				V8_CALLBACK(object, "getEnabled", Canvas3D::getEnabled);
 				V8_CALLBACK(object, "on", Canvas3D::on);
 
-				V8_CALLBACK(object, "createWorld", Canvas3D::createWorld);
-				V8_CALLBACK(object, "setWorld", Canvas3D::setWorld);
+				V8_CALLBACK(object, "_setAmbientLightColor", Canvas3D::setAmbientLight);
+				V8_CALLBACK(object, "_getAmbientLightColor", Canvas3D::getAmbientLight);
+				V8_CALLBACK(object, "_addToScene", Canvas3D::addToScene);
+				V8_CALLBACK(object, "_removeFromScene", Canvas3D::removeFromScene);
+				V8_CALLBACK(object, "_createObject3D", Canvas3D::createObject3D);
+				V8_CALLBACK(object, "_createCamera", Canvas3D::createCamera);
+				V8_CALLBACK(object, "_createLight", Canvas3D::createLight);
+				V8_CALLBACK(object, "_createPlane", Canvas3D::createPlane);
+				V8_CALLBACK(object, "_createCube", Canvas3D::createCube);
+				V8_CALLBACK(object, "_createSphere", Canvas3D::createSphere);
+				V8_CALLBACK(object, "_loadModel", Canvas3D::loadModel);
 			}
 
 			void Canvas3D::create(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -335,55 +345,237 @@ namespace RadJAV
 					appObject->on(event, func);
 			}
 
-			void Canvas3D::createWorld(const v8::FunctionCallbackInfo<v8::Value> &args)
+			void Canvas3D::setAmbientLight(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				String name = "";
-
-				if (args.Length() > 0)
-					name = parseV8Value(args[0]);
-
-				UITYPE *object = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				CPP::Color nativeColor;
 				
-				std::shared_ptr<Ogre::SceneManager> sceneManager;
-				if(object)
+				if(args.Length() > 0)
 				{
-					if (name == "")
-					{
-						sceneManager.reset( object->createSceneManager(Ogre::String("OctreeSceneManager")), [&](Ogre::SceneManager* p){
-							Ogre::Root::getSingleton().destroySceneManager(p);
-						});
-					}
-					else
-					{
-						sceneManager.reset( object->createSceneManager(name), [&](Ogre::SceneManager* p){
-							Ogre::Root::getSingleton().destroySceneManager(p);
-						});
-					}
+					v8::Isolate* isolate = args.GetIsolate();
+					v8::Handle<v8::Object> color = v8::Handle<v8::Object>::Cast(args[0]);
+					
+					nativeColor.r = color->Get( String("r").toV8String(isolate))->NumberValue();
+					nativeColor.g = color->Get( String("g").toV8String(isolate))->NumberValue();
+					nativeColor.b = color->Get( String("b").toV8String(isolate))->NumberValue();
+					nativeColor.a = color->Get( String("a").toV8String(isolate))->NumberValue();
+				}
+				
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				
+				if (appObject)
+					appObject->setAmbientLight(nativeColor);
+			}
+			
+			void Canvas3D::getAmbientLight(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				CPP::Color color;
+				
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				
+				if (appObject)
+					color = appObject->getAmbientLight();
+
+				v8::Handle<v8::Function> func = V8_JAVASCRIPT_ENGINE->v8GetFunction(V8_RADJAV, "Color");
+				v8::Local<v8::Object> v8color = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(func, 0, NULL);
+				
+				V8_JAVASCRIPT_ENGINE->v8SetNumber(v8color, "r", color.r);
+				V8_JAVASCRIPT_ENGINE->v8SetNumber(v8color, "g", color.g);
+				V8_JAVASCRIPT_ENGINE->v8SetNumber(v8color, "b", color.b);
+				V8_JAVASCRIPT_ENGINE->v8SetNumber(v8color, "a", color.a);
+				
+				args.GetReturnValue().Set(v8color);
+			}
+			
+			void Canvas3D::addToScene(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				if(args.Length() == 0 || args[0]->IsNullOrUndefined())
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("Missing child object");
+					return;
 				}
 
-				v8::Local<v8::Object> C3D = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_RADJAV, "C3D");
-				v8::Local<v8::Object> world = V8_JAVASCRIPT_ENGINE->v8GetObject(C3D, "World");
-				v8::Local<v8::Object> newWorld = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(world, 0, NULL);
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
 				
-				if(sceneManager)
+				if (!appObject || args.Length() == 0)
+					return;
+				
+				v8::Local<v8::Object> child = args[0]->ToObject();
+				
+				std::shared_ptr<CPP::C3D::Transform> childNative = V8_JAVASCRIPT_ENGINE->v8GetExternal<CPP::C3D::Transform>(child, "_c3dObj");
+
+				if(childNative)
+					appObject->addChild(*childNative);
+			}
+			
+			void Canvas3D::removeFromScene(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				if(args.Length() == 0 || args[0]->IsNullOrUndefined())
 				{
-					V8_JAVASCRIPT_ENGINE->v8SetExternal(newWorld, "_sceneManager", sceneManager);
-					std::shared_ptr<Ogre::RenderWindow> renderWindow( object->getRenderWindow(), [](Ogre::RenderWindow* p){
-						Ogre::Root::getSingleton().destroyRenderTarget(p);
-					});
-					V8_JAVASCRIPT_ENGINE->v8SetExternal(newWorld, "_renderWindow", renderWindow);
+					V8_JAVASCRIPT_ENGINE->throwException("Missing child object");
+					return;
 				}
 
-				args.GetReturnValue().Set(newWorld);
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				
+				if (!appObject || args.Length() == 0)
+					return;
+				
+				v8::Local<v8::Object> child = args[0]->ToObject();
+				
+				std::shared_ptr<CPP::C3D::Transform> childNative = V8_JAVASCRIPT_ENGINE->v8GetExternal<CPP::C3D::Transform>(child, "_c3dObj");
+
+				if(childNative)
+					appObject->removeChild(*childNative);
 			}
 
-			void Canvas3D::setWorld(const v8::FunctionCallbackInfo<v8::Value> &args)
+			void Canvas3D::createObject3D(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				//v8::Local<v8::Object> world = v8::Local<v8::Object>::Cast(args[0]);
-
-				//UITYPE *object = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-				//Ogre::SceneManager *sceneMgr = (Ogre::SceneManager *)V8_JAVASCRIPT_ENGINE->v8GetExternal(world, "_sceneManager");
-				//object->mSceneMgr = sceneMgr;*/
+				v8::Local<v8::Value> nameObj;
+				v8::Local<v8::Value> thisObj = args.This()->ToObject();
+				
+				if(args.Length())
+					nameObj = args[0];
+				else
+					nameObj = v8::String::NewFromUtf8(args.GetIsolate(), "");
+				
+				v8::Handle<v8::Value> arguments[] = { thisObj, nameObj };
+				
+				v8::Local<v8::Object> C3D = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_RADJAV, "C3D");
+				v8::Local<v8::Object> object = V8_JAVASCRIPT_ENGINE->v8GetObject(C3D, "Object3D");
+				v8::Local<v8::Object> newObject = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(object, 2, arguments);
+				
+				args.GetReturnValue().Set(newObject);
+			}
+			
+			void Canvas3D::createCamera(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				v8::Local<v8::Value> nameObj;
+				v8::Local<v8::Value> thisObj = args.This()->ToObject();
+				
+				if(args.Length())
+					nameObj = args[0];
+				else
+					nameObj = v8::String::NewFromUtf8(args.GetIsolate(), "");
+				
+				v8::Handle<v8::Value> arguments[] = { thisObj, nameObj };
+				
+				v8::Local<v8::Object> C3D = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_RADJAV, "C3D");
+				v8::Local<v8::Object> object = V8_JAVASCRIPT_ENGINE->v8GetObject(C3D, "Camera");
+				v8::Local<v8::Object> newObject = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(object, 2, arguments);
+				
+				args.GetReturnValue().Set(newObject);
+			}
+			
+			void Canvas3D::createLight(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				v8::Local<v8::Value> nameObj;
+				v8::Local<v8::Value> thisObj = args.This()->ToObject();
+				
+				if(args.Length())
+					nameObj = args[0];
+				else
+					nameObj = v8::String::NewFromUtf8(args.GetIsolate(), "");
+				
+				v8::Handle<v8::Value> arguments[] = { thisObj, nameObj };
+				
+				v8::Local<v8::Object> C3D = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_RADJAV, "C3D");
+				v8::Local<v8::Object> object = V8_JAVASCRIPT_ENGINE->v8GetObject(C3D, "Light");
+				v8::Local<v8::Object> newObject = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(object, 2, arguments);
+				
+				args.GetReturnValue().Set(newObject);
+			}
+			
+			void Canvas3D::createPlane(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				v8::Local<v8::Value> nameObj;
+				v8::Local<v8::Value> thisObj = args.This()->ToObject();
+				
+				if(args.Length())
+					nameObj = args[0];
+				else
+					nameObj = v8::String::NewFromUtf8(args.GetIsolate(), "");
+				
+				v8::Handle<v8::Value> arguments[] = { thisObj, nameObj };
+				
+				v8::Local<v8::Object> C3D = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_RADJAV, "C3D");
+				v8::Local<v8::Object> object = V8_JAVASCRIPT_ENGINE->v8GetObject(C3D, "Plane");
+				v8::Local<v8::Object> newObject = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(object, 2, arguments);
+				
+				args.GetReturnValue().Set(newObject);
+			}
+			
+			void Canvas3D::createCube(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				v8::Local<v8::Value> nameObj;
+				v8::Local<v8::Value> thisObj = args.This()->ToObject();
+				
+				if(args.Length())
+					nameObj = args[0];
+				else
+					nameObj = v8::String::NewFromUtf8(args.GetIsolate(), "");
+				
+				v8::Handle<v8::Value> arguments[] = { thisObj, nameObj };
+				
+				v8::Local<v8::Object> C3D = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_RADJAV, "C3D");
+				v8::Local<v8::Object> object = V8_JAVASCRIPT_ENGINE->v8GetObject(C3D, "Cube");
+				v8::Local<v8::Object> newObject = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(object, 2, arguments);
+				
+				args.GetReturnValue().Set(newObject);
+			}
+			
+			void Canvas3D::createSphere(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				v8::Local<v8::Value> nameObj;
+				v8::Local<v8::Value> thisObj = args.This()->ToObject();
+				
+				if(args.Length())
+					nameObj = args[0];
+				else
+					nameObj = v8::String::NewFromUtf8(args.GetIsolate(), "");
+				
+				v8::Handle<v8::Value> arguments[] = { thisObj, nameObj };
+				
+				v8::Local<v8::Object> C3D = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_RADJAV, "C3D");
+				v8::Local<v8::Object> object = V8_JAVASCRIPT_ENGINE->v8GetObject(C3D, "Sphere");
+				v8::Local<v8::Object> newObject = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(object, 2, arguments);
+				
+				args.GetReturnValue().Set(newObject);
+			}
+			
+			void Canvas3D::loadModel(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				v8::Local<v8::Value> pathObj;
+				v8::Local<v8::Value> nameObj;
+				v8::Local<v8::Value> thisObj = args.This()->ToObject();
+				
+				size_t numOfArgs = args.Length();
+				if(numOfArgs == 0)
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("No path specified");
+					return;
+				}
+				
+				pathObj = args[0];
+				
+				if(numOfArgs == 1)
+					nameObj = v8::String::NewFromUtf8(args.GetIsolate(), "");
+				else
+					nameObj = args[1];
+				
+				v8::Handle<v8::Value> arguments[] = { thisObj, pathObj, nameObj };
+				
+				v8::Local<v8::Object> C3D = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_RADJAV, "C3D");
+				v8::Local<v8::Object> object = V8_JAVASCRIPT_ENGINE->v8GetObject(C3D, "Model");
+				v8::Local<v8::Object> newObject = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(object, 3, arguments);
+				
+				v8::Local<v8::Object> loadFunc = V8_JAVASCRIPT_ENGINE->v8GetObject(newObject, "_load");
+				if(loadFunc->IsFunction())
+				{
+					//TODO: Not sure what to do if it fails, maybe we can add isLoaded method to Model itself
+					V8_JAVASCRIPT_ENGINE->v8CallFunction(newObject, "_load", 0, nullptr);
+				}
+				
+				args.GetReturnValue().Set(newObject);
 			}
 #endif
 		}

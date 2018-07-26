@@ -37,12 +37,9 @@
 				public:
 					static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
-					/*
-					static void _init(const v8::FunctionCallbackInfo<v8::Value> &args);
-					 */
-
-					static void setMode(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void getMode(const v8::FunctionCallbackInfo<v8::Value> &args);
+					static void init(const v8::FunctionCallbackInfo<v8::Value> &args);
+					static void setPerspective(const v8::FunctionCallbackInfo<v8::Value> &args);
+					static void isPerspective(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void setAspectRatio(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void getAspectRatio(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void setAutoAspectRatio(const v8::FunctionCallbackInfo<v8::Value> &args);

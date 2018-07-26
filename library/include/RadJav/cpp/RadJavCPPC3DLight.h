@@ -39,16 +39,16 @@ namespace RadJAV
 			class RADJAV_EXPORT Light : public Object3D
 			{
 			public:
-				Light( Ogre::SceneManager& sceneManager,
-					   Ogre::Light::LightTypes type,
-					   const String& name,
-					   Object3D *parent = NULL);
-				
+				Light(const GUI::Canvas3D& canvas,
+					  Ogre::Light::LightTypes type,
+					  const String& name,
+					  Object3D *parent = NULL);
+
 				void setType(Ogre::Light::LightTypes type);
 				Ogre::Light::LightTypes getType() const;
 				
 				void setDiffuseColor(const Ogre::ColourValue& color);
-				const Ogre::ColourValue& getDiffuseColor(void) const;
+				Ogre::ColourValue getDiffuseColor(void) const;
 				
 				Ogre::Light* light;
 			};
