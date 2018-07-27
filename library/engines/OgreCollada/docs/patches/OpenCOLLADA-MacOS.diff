@@ -1,0 +1,15 @@
+diff --git a/GeneratedSaxParser/src/GeneratedSaxParserUtils.cpp b/GeneratedSaxParser/src/GeneratedSaxParserUtils.cpp
+index 1f9a3eef..edc47cfd 100644
+--- a/GeneratedSaxParser/src/GeneratedSaxParserUtils.cpp
++++ b/GeneratedSaxParser/src/GeneratedSaxParserUtils.cpp
+@@ -15,6 +15,10 @@
+ #include <limits>
+ #include <algorithm>
+ 
++#ifdef __APPLE__
++#include <cmath>
++#endif
++
+ namespace GeneratedSaxParser
+ {
+ 
