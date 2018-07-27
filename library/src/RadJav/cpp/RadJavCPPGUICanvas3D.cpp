@@ -21,6 +21,12 @@
 
 #include "RadJav.h"
 #include "RadJavString.h"
+#include "cpp/RadJavCPPC3DTransform.h"
+#include "wxOgreRenderWindow.h"
+
+#ifdef C3D_USE_OGRE
+	#include <Ogre.h>
+#endif
 
 namespace RadJAV
 {
@@ -30,17 +36,16 @@ namespace RadJAV
 		{
 			#ifdef GUI_USE_WXWIDGETS
 				Canvas3DFrame::Canvas3DFrame(const wxString &text, const wxPoint &pos, const wxSize &size, Array<CanvasResource *> resources)
-					: wxFrame(NULL, wxID_ANY, text, pos, size), GObjectBase()
+					: wxFrame(NULL, wxID_ANY, text, pos, size), GObjectBase(), RenderWindow(),
+					  renderingWidget(nullptr),
+					  sceneManager(nullptr)
 				{
-					mRenderWindow = NULL;
-					mSceneMgr = NULL;
-					mRoot = NULL;
-
-					mRoot = V8_JAVASCRIPT_ENGINE->mRoot;
-
-                    //Create RenderWindow
-                    mRenderWindow = RJNEW wxOgreRenderWindow(mRoot, this, -1, wxPoint(0, 0), size);
-                    
+					// Create dummy window just to hold device, prevents constant lost devices
+					// when resizing the 'real' viewable windows
+					// We'll never render to this window or give it a viewport or camera, it's
+					// only there to hold the rendering device
+					createRenderWindow(this, wxSize(1, 1), false);
+					
                     // Creation of first window will have created rendering context
                     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
@@ -68,17 +73,54 @@ namespace RadJAV
 							}
 						}
 					}
+
+					Ogre::Root* ogreRoot = Ogre::Root::getSingletonPtr();
+					if(!ogreRoot)
+						return;
+					
+					//Create widget to render to
+					renderingWidget = RJNEW wxOgreRenderWindow( ogreRoot, this, wxID_ANY, wxPoint(0, 0), size);
+
+					//Create SceneManager if not already
+					try
+					{
+						sceneManager = ogreRoot->getSceneManager("sceneManager");
+					}
+					catch(Ogre::Exception)
+					{
+						if(!sceneManager)
+						{
+							sceneManager = ogreRoot->createSceneManager(Ogre::String("OctreeSceneManager"),
+																		Ogre::String("sceneManager"));
+							
+						}
+					}
+				}
+
+				void Canvas3DFrame::addChild(const C3D::Transform& child)
+				{
+					if(sceneManager)
+					{
+						sceneManager->getRootSceneNode()->addChild(child.node);
+					}
+				}
+
+				void Canvas3DFrame::removeChild(const C3D::Transform& child)
+				{
+					if(sceneManager)
+					{
+						sceneManager->getRootSceneNode()->removeChild(child.node);
+					}
 				}
 
 				void Canvas3DFrame::onClose(wxCloseEvent &evt)
 				{
 					if (IsTopLevel() == true)
 					{
-						V8_JAVASCRIPT_ENGINE->exit(0);
-
+						wxExit();
 						return;
 					}
-
+					
 					Destroy();
 				}
 
@@ -149,25 +191,33 @@ namespace RadJAV
 				#endif
 			}
 
-            Ogre::SceneManager *Canvas3D::createSceneManager(const Ogre::String& type, const Ogre::String& instanceName)
-            {
-                if(V8_JAVASCRIPT_ENGINE->mRoot->isInitialised())
-                    return V8_JAVASCRIPT_ENGINE->mRoot->createSceneManager(type, instanceName);
-                
-                return NULL;
-            }
-            
-            Ogre::RenderWindow *Canvas3D::getRenderWindow()
+            Ogre::RenderWindow* Canvas3D::getRenderWindow() const
             {
                 if (_appObj == NULL)
-                    return NULL;
+                    return nullptr;
                 
                 Canvas3DFrame* win = dynamic_cast<Canvas3DFrame*>(_appObj);
-                if(win)
-                    return win->mRenderWindow->GetRenderWindow();
-                
-                return NULL;
+                if(win && win->renderingWidget)
+				{
+					return win->renderingWidget->getRenderWindow();
+				}
+
+				return nullptr;
             }
+			
+			Ogre::SceneManager* Canvas3D::getSceneManager() const
+			{
+				if (_appObj == NULL)
+					return nullptr;
+				
+				Canvas3DFrame* win = dynamic_cast<Canvas3DFrame*>(_appObj);
+				if(win && win->sceneManager)
+				{
+					return win->sceneManager;
+				}
+				
+				return nullptr;
+			}
 
 			void Canvas3D::setPosition(RJINT x, RJINT y)
 			{
@@ -325,13 +375,60 @@ namespace RadJAV
 				}
 			}
 			#endif
+			
+			void Canvas3D::setAmbientLight(const Color& color)
+			{
+				Ogre::SceneManager* sceneManager = getSceneManager();
+				if(sceneManager)
+				{
+					Ogre::ColourValue ogreColor(color.r, color.g, color.b, color.a);
+					sceneManager->setAmbientLight(ogreColor);
+				}
+			}
+
+			Color Canvas3D::getAmbientLight() const
+			{
+				Color color;
+				
+				Ogre::SceneManager* sceneManager = getSceneManager();
+				if(sceneManager)
+				{
+					Ogre::ColourValue ogreColor = sceneManager->getAmbientLight();
+					color.r = ogreColor.r;
+					color.g = ogreColor.g;
+					color.b = ogreColor.b;
+					color.a = ogreColor.a;
+				}
+				
+				return color;
+			}
+
+			void Canvas3D::addChild(const C3D::Transform& child)
+			{
+				CPP::GUI::Canvas3DFrame* object = static_cast<CPP::GUI::Canvas3DFrame*>(_appObj);
+				
+				if(object)
+				{
+					object->addChild(child);
+				}
+			}
+			
+			void Canvas3D::removeChild(const C3D::Transform& child)
+			{
+				CPP::GUI::Canvas3DFrame* object = static_cast<CPP::GUI::Canvas3DFrame*>(_appObj);
+				
+				if(object)
+				{
+					object->addChild(child);
+				}
+			}
+			
+#ifdef GUI_USE_WXWIDGETS
+			wxBEGIN_EVENT_TABLE(Canvas3DFrame, wxFrame)
+			EVT_CLOSE(Canvas3DFrame::onClose)
+			wxEND_EVENT_TABLE()
+#endif
 		}
 	}
 }
-
-#ifdef GUI_USE_WXWIDGETS
-	wxBEGIN_EVENT_TABLE(RadJAV::CPP::GUI::Canvas3DFrame, wxFrame)
-		EVT_CLOSE(RadJAV::CPP::GUI::Canvas3DFrame::onClose)
-	wxEND_EVENT_TABLE()
-#endif
 

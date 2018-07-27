@@ -31,6 +31,9 @@
 	#include <libplatform/libplatform.h>
 
 	#include <atomic>
+	#include <chrono>
+	#include <utility>
+	#include <vector>
 
 	#include "RadJavJavascriptEngine.h"
 
@@ -91,6 +94,10 @@
 
 				v8::Persistent<v8::Value> *result;
 		};
+
+		typedef std::vector<
+					std::pair<v8::Persistent<v8::Function> *,
+						std::chrono::time_point<std::chrono::steady_clock> > > TimerVector;
 
 		/// The array buffer allocator used for V8.
 		/*class RADJAV_EXPORT V8ArrayBufferAllocator: public v8::ArrayBuffer::Allocator
@@ -260,6 +267,12 @@
 				#endif
 
 			protected:
+				template<class T>
+				void initV8Callback(const v8::Handle<v8::Function>& parent,
+									const char* nameSpace,
+									const char* typeName);
+
+			protected:
 				v8::ArrayBuffer::Allocator* arrayBufferAllocator;
 				Array<String> jsToExecuteNextCode;
 				Array<String> jsToExecuteNextFilename;
@@ -267,8 +280,7 @@
 
 				Array<AsyncFunctionCall *> funcs;
 
-				Array<v8::Persistent<v8::Function> *> timeoutFuncs;
-				Array<RJINT> timeouts;
+				TimerVector timers;
 
 				RJBOOL useInspector;
 			

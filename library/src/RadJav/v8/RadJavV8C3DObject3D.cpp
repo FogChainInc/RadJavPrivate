@@ -23,6 +23,9 @@
 
 #ifdef USE_V8
 #include "v8/RadJavV8JavascriptEngine.h"
+#include "cpp/RadJavCPPC3DObject3D.h"
+
+#define C3DTYPE CPP::C3D::Object3D
 
 namespace RadJAV
 {
@@ -30,96 +33,61 @@ namespace RadJAV
 	{
 		namespace C3D
 		{
+#ifdef C3D_USE_OGRE
 			void Object3D::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 			{
-				V8_CALLBACK(object, "_createC3DObj", Object3D::_createC3DObj);
+				V8_CALLBACK(object, "_init", Object3D::init);
+				V8_CALLBACK(object, "_setVisibility", Object3D::setVisibility);
+				V8_CALLBACK(object, "_getVisibility", Object3D::getVisibility);
 			}
 
-			void Object3D::_createC3DObj(const v8::FunctionCallbackInfo<v8::Value> &args)
+			void Object3D::init(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-			}
+				if(args.Length() == 0 || args[0]->IsNullOrUndefined())
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("Missing Canvas3D parameter");
+					return;
+				}
 
-			void Object3D::create(const v8::FunctionCallbackInfo<v8::Value> &args)
-			{
-			}
+				//Check if we were already contructed
+				std::shared_ptr<C3DTYPE> object = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
+				if(object)
+					return;
 
-			void Object3D::setPosition(const v8::FunctionCallbackInfo<v8::Value> &args)
-			{
-			}
+				CPP::GUI::Canvas3D* canvas =
+					(CPP::GUI::Canvas3D*)V8_JAVASCRIPT_ENGINE->v8GetExternal(args[0]->ToObject(), "_appObj");
+				
+				if(!canvas)
+					return;
 
-			void Object3D::getPosition(const v8::FunctionCallbackInfo<v8::Value> &args)
-			{
-			}
-
-			void Object3D::getX(const v8::FunctionCallbackInfo<v8::Value> &args)
-			{
-			}
-
-			void Object3D::getY(const v8::FunctionCallbackInfo<v8::Value> &args)
-			{
-			}
-
-			void Object3D::getZ(const v8::FunctionCallbackInfo<v8::Value> &args)
-			{
-			}
-
-			void Object3D::getParent(const v8::FunctionCallbackInfo<v8::Value> &args)
-			{
-			}
-
-			void Object3D::getAppObj(const v8::FunctionCallbackInfo<v8::Value> &args)
-			{
+				String name = V8_JAVASCRIPT_ENGINE->v8GetString(args.This(), "name");
+				object.reset(RJNEW C3DTYPE(*canvas, name), [](C3DTYPE* p){DELETEOBJ(p)});
+				V8_JAVASCRIPT_ENGINE->v8SetExternal( args.This(), "_c3dObj", object);
 			}
 
 			void Object3D::setVisibility(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
+				RJBOOL visible = true;
+				
+				if (args.Length() > 0)
+					visible = v8::Local<v8::Boolean>::Cast(args[0])->BooleanValue();
+
+				std::shared_ptr<C3DTYPE> c3dObject = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
+				
+				if (c3dObject)
+					c3dObject->setVisible(visible);
 			}
 
 			void Object3D::getVisibility(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-			}
-
-			void Object3D::on(const v8::FunctionCallbackInfo<v8::Value> &args)
-			{
-			}
-
-			CPP::GUI::Event *Object3DBase::createEvent(String event, v8::Local<v8::Function> function)
-			{
-				// Create a persistent function to execute asych later.
-				v8::Persistent<v8::Value> *persistent = RJNEW v8::Persistent<v8::Value>();
-				persistent->Reset(function->GetIsolate(), function);
+				std::shared_ptr<C3DTYPE> c3dObject = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
 				
-				CPP::GUI::Event* evt = RJNEW CPP::GUI::Event(persistent);
-				
-				if (events.size() > 0)
-				{
-					auto found = events.find(event);
-					auto end = events.end();
-					
-					if (found != end)
-					{
-						CPP::GUI::Event *evtToRemove = events.at(event);
-						DELETEOBJ(evtToRemove);
-						
-						events.erase(event);
-					}
-				}
-				
-				events.insert(HashMapPair<std::string, CPP::GUI::Event *>(event, evt));
-				
-				return evt;
-			}
-
-#ifdef C3D_USE_OGRE
-			void Object3DBase::addNewEvent(String event, Ogre::MovableObject *object, v8::Local<v8::Function> func)
-			{
+				if (c3dObject)
+					args.GetReturnValue().Set(c3dObject->getVisible());
+				else
+					args.GetReturnValue().Set(false);
 			}
 #endif
-
-			v8::Local<v8::Value> Object3DBase::executeEvent(CPP::GUI::Event *pevent, RJINT numArgs, v8::Local<v8::Value> *args)
-			{
-				return (*pevent)(numArgs, args);
-			}
 		}
 	}
 }

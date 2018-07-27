@@ -111,6 +111,7 @@ include (FindModuleCurl)
 
 if (USE_OGRE)
 	include (FindOgre3D)
+	include (FindColladaLoader)
 endif ()
 
 if (USE_V8)
@@ -192,10 +193,16 @@ link_directories (${Boost_LIBRARY_DIR_DEBUG} ${Boost_LIBRARY_DIR_RELEASE})
 set (libRadJav_LINK_LIBRARY_DIRS ${Boost_LIBRARY_DIRS} ${libRadJav_LINK_LIBRARY_DIRS})
 
 if (OGRE_FOUND)
-	message (STATUS "Ogre 3D Found...")
+	message (STATUS "Ogre 3D found...")
 	set (libRadJav_INCLUDE_DIRS ${OGRE_INCLUDE} ${libRadJav_INCLUDE_DIRS})
 	set (libRadJav_LINK_LIBRARIES ${OGRE_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
 	set (libRadJav_CPP_DEFS C3D_USE_OGRE ${libRadJav_CPP_DEFS})
+endif ()
+
+if (COLLADA_FOUND)
+	message (STATUS "OgreColladaLoader found...")
+	set (libRadJav_INCLUDE_DIRS ${COLLADA_INCLUDE} ${libRadJav_INCLUDE_DIRS})
+	set (libRadJav_LINK_LIBRARIES ${COLLADA_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
 endif ()
 
 if (V8_FOUND)

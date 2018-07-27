@@ -3,7 +3,6 @@ leaks.csv
 
 library/include/RadJav/RadJavJavascriptCode.h
 library/build*
-
 vm/build*
 vm/installers/windows/x86/build
 vm/installers/windows/x86/RadJavVM/Debug
@@ -27,3 +26,7 @@ html5/package-lock.json
 
 # Crypto engine build
 library/engines/KrispyCrypto/build*
+
+# COLLADA loader for Ogre 3D engine
+library/engines/OgreCollada/build*
+

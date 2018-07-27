@@ -1,11 +1,12 @@
 #ifndef WXOGRERENDERWINDOW_H
 #define WXOGRERENDERWINDOW_H
  
-#ifdef C3D_USE_OGRE
-#include "Ogre.h"
+#if defined C3D_USE_OGRE && defined GUI_USE_WXWIDGETS
+#include <Ogre.h>
 //#include "OgreNoMemoryMacros.h"
-#include "wx/wx.h"
+#include <wx/wx.h>
 //#include "OgreMemoryMacros.h"
+#include "cpp/RadJavCPPGUIRenderWindow.h"
  
 /** wxWidgets Ogre render window widget.
     Strongly based on the existing wxOgre widget implementation, this one
@@ -14,7 +15,7 @@
  
     @author Jesús Alonso Abad 'Kencho', Other contributors (original wxOgre).
  */
-class wxOgreRenderWindow : public wxControl {
+class wxOgreRenderWindow : public wxControl, public RadJAV::CPP::GUI::RenderWindow {
     DECLARE_CLASS (wxOgreRenderWindow)
     DECLARE_EVENT_TABLE ()
 // Type definitions ------------------------------------------------------------
@@ -29,14 +30,8 @@ class wxOgreRenderWindow : public wxControl {
         /// A shared reference to the Ogre root.
         static Ogre::Root *msOgreRoot;
  
-        /// This control's own render window reference.
-        Ogre::RenderWindow *mRenderWindow;
- 
         /// Timer to sync the rendering to a "constant" frame rate.
         wxTimer *mRenderTimer;
- 
-        /// The Id of the next render window
-        static unsigned int msNextRenderWindowId;
  
         // Registered callbacks
         /// Callback for mouse events.
@@ -54,7 +49,7 @@ class wxOgreRenderWindow : public wxControl {
          */
         wxOgreRenderWindow (Ogre::Root *root, wxWindow *parent, wxWindowID id,
                 const wxPoint &pos = wxDefaultPosition, const wxSize &size = wxDefaultSize,
-                long style = wxSUNKEN_BORDER, const wxValidator &validator = wxDefaultValidator);
+                long style = wxBORDER_DEFAULT, const wxValidator &validator = wxDefaultValidator);
  
         /** Default constructor.
             Allows the "standard" wxWidgets' two-step construction.
@@ -71,7 +66,7 @@ class wxOgreRenderWindow : public wxControl {
          */
         bool Create (wxWindow *parent, wxWindowID id,
                 const wxPoint &pos = wxDefaultPosition, const wxSize &size = wxDefaultSize,
-                long style = wxSUNKEN_BORDER, const wxValidator &validator = wxDefaultValidator);
+                long style = wxBORDER_DEFAULT, const wxValidator &validator = wxDefaultValidator);
  
         /** Virtual destructor.
          */
@@ -96,11 +91,6 @@ class wxOgreRenderWindow : public wxControl {
             @param root The new OgreRoot.
          */
         static void SetOgreRoot (Ogre::Root *root);
- 
-        /** Gets the associated Ogre render window.
-            @return The render window used to paint this control.
-         */
-        Ogre::RenderWindow *GetRenderWindow () const;
  
         /** Sets the render timer period.
             @param period The number of milliseconds before the next notification.
@@ -138,17 +128,7 @@ class wxOgreRenderWindow : public wxControl {
             @param evt Data regarding the mouse event.
          */
         virtual void OnMouseEvents (wxMouseEvent &evt);
- 
-    protected:
-        /** Creates an Ogre render window for this widget.
-         */
-        virtual void CreateRenderWindow ();
- 
-        /** Gets the handle for the render window.
-            @return The render window handle.
-         */
-        virtual Ogre::String GetOgreHandle () const;
- 
+
 };
 #endif
  

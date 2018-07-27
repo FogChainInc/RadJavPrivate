@@ -1,128 +1,133 @@
 /*
-	MIT-LICENSE
-	Copyright (c) 2017 Higher Edge Software, LLC
+    MIT-LICENSE
+    Copyright (c) 2017-2018 Higher Edge Software, LLC
 
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
-	and associated documentation files (the "Software"), to deal in the Software without restriction, 
-	including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
-	and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
-	subject to the following conditions:
+    Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+    and associated documentation files (the "Software"), to deal in the Software without restriction,
+    including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+    and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
+    subject to the following conditions:
 
-	The above copyright notice and this permission notice shall be included in all copies or substantial 
-	portions of the Software.
+    The above copyright notice and this permission notice shall be included in all copies or substantial
+    portions of the Software.
 
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
-	LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-	IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
-	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+    LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+    WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-/** @class RadJav.C3D.Transform
-* A C3D transform.
-* Available on platforms: Windows,Linux,OSX,HTML5
-*/
-RadJav.C3D.Transform = (function ()
-{
-	function Transform (object3d, obj, position)
-	{
-		if (object3d == null)
-			throw (Lang.object3dNotIncluded);
-
-		if (obj == null)
-			obj = {};
-
-		if (position == null)
-			position = new RadJav.Vector3 ();
-
-		if (obj.parent != null)
-		{
-			if (parent._transform != null)
-				obj._parent = obj.parent._transform;
-			else
-				obj._parent = obj.parent;
-		}
-
-		/** @property {RadJav.C3D.Object3D} [_object3d=object3d]
-		* @protected
-		* The 3d object that is associated with this transform.
-		*/
-		this._object3d = object3d;
-		/** @property {RadJav.C3D.Transform} [_parent=null]
-		* @protected
-		* This object's parent transform.
-		*/
-		this._parent = RadJav.setDefaultValue (obj._parent, null);
-		/** @property {Mixed} [_sceneNode=null]
-		* @protected
-		* This object's scene node.
-		*/
-		this._sceneNode = RadJav.setDefaultValue (obj._sceneNode, null);
-		/** @property {Mixed} [_movable=null]
-		* @protected
-		* The object that is being moved.
-		*/
-		this._movable = RadJav.setDefaultValue (obj._movable, null);
-		/** @property {RadJav.Vector3} [position=new RadJav.Vector3 ()]
-		* @protected
-		* The position of the object.
-		*/
-		this.position = position;
-
-		if (this._parent != null)
-			this._sceneNode = this._parent._sceneNode;
-		//else
-			//this._sceneNode = this._object3d._canvas3D._sceneManager;
-	}
-
-	/** @method addChild
-	* Add a child RadJav.C3D.Object3D to this transform.
-	* @param {RadJav.C3D.Object3D} child The child to add.
-	*/
-	Transform.prototype.addChild = function (child)
-	{
-		if (this._sceneNode != null)
-		{
-			this._sceneNode.add (child._obj3d);
-			this._movable = child._obj3d;
-		}
-	}
-
-	/** @method setPosition
-	* Set the position of this object.
-	* @param {Number/RadJav.Vector3} x The x position or full vector3 position.
-	* @param {Number} y The y position.
-	* @param {Number} z The z position.
-	*/
-	Transform.prototype.setPosition = function (x, y, z)
-	{
-		var obj = {};
-
-		if (x.x != null)
-		{
-			obj.x = x.x;
-			obj.y = x.y;
-			obj.z = x.z;
-		}
-		else
-		{
-			obj.x = x;
-			obj.y = y;
-			obj.z = z;
-		}
-
-		//this._movable.position.set (obj.x, obj.y, obj.z);
-	}
-
-	/** @method getPosition
-	* Get the position of this object.
-	* @return {RadJav.Vector3} The position.
-	*/
-	Transform.prototype.getPosition = function ()
-	{
-		return (this.position);
-	}
-
-	return (Transform);
-} ());
-
+var RadJav;
+(function (RadJav) {
+    var C3D;
+    (function (C3D) {
+        var Transform = /** @class */ (function () {
+            function Transform(view, name) {
+                this.parent = null;
+                this.children = [];
+                this.canvas = view;
+                if (name != null)
+                    this.name = name;
+                else
+                    this.name = "";
+                if (this._init != null) {
+                    this._init.apply(this, arguments);
+                }
+            }
+            Transform.prototype.addChild = function (child) {
+                if (child === this)
+                    return;
+                if (child.parent != null) {
+                    child.parent.removeChild(child);
+                    child.parent = this;
+                }
+                this.children.push(child);
+                if (this._addChild != null) {
+                    this._addChild(child);
+                }
+            };
+            Transform.prototype.removeChild = function (child) {
+                this.children.slice(this.children.indexOf(child), 1);
+                child.parent = null;
+                if (this._removeChild != null) {
+                    this._removeChild(child);
+                }
+            };
+            Transform.prototype.setPosition = function (x, y, z) {
+                if (this._setPosition != null)
+                    this._setPosition.apply(this, arguments);
+            };
+            Transform.prototype.getPosition = function () {
+                if (this._getPosition != null)
+                    return this._getPosition();
+                else
+                    return new RadJav.Vector3(0, 0, 0);
+            };
+            Transform.prototype.pitch = function (degree) {
+                if (this._pitch != null) {
+                    this._pitch.apply(this, arguments);
+                }
+            };
+            Transform.prototype.roll = function (degree) {
+                if (this._roll != null) {
+                    this._roll.apply(this, arguments);
+                }
+            };
+            Transform.prototype.yaw = function (degree) {
+                if (this._yaw != null) {
+                    this._yaw.apply(this, arguments);
+                }
+            };
+            Transform.prototype.getX = function () {
+                if (this._getX != null) {
+                    return this._getX();
+                }
+                else {
+                    return 0;
+                }
+            };
+            Transform.prototype.getY = function () {
+                if (this._getY != null) {
+                    return this._getY();
+                }
+                else {
+                    return 0;
+                }
+            };
+            Transform.prototype.getZ = function () {
+                if (this._getZ != null) {
+                    return this._getZ();
+                }
+                else {
+                    return 0;
+                }
+            };
+            Transform.prototype.setScale = function (x, y, z) {
+                if (this._setScale != null)
+                    this._setScale.apply(this, arguments);
+            };
+            Transform.prototype.getScale = function () {
+                if (this._getScale != null)
+                    return this._getScale();
+                else
+                    return new RadJav.Vector3(0, 0, 0);
+            };
+            Transform.prototype.getParent = function () {
+                return this.parent;
+            };
+            Transform.prototype.lookAt = function (x, y, z) {
+                if (this._lookAt != null) {
+                    this._lookAt.apply(this, arguments);
+                }
+            };
+            Transform.prototype.setDirection = function (x, y, z) {
+                if (this._setDirection != null) {
+                    this._setDirection.apply(this, arguments);
+                }
+            };
+            return Transform;
+        }());
+        C3D.Transform = Transform;
+    })(C3D = RadJav.C3D || (RadJav.C3D = {}));
+})(RadJav || (RadJav = {}));

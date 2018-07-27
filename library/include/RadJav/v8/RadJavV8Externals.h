@@ -322,7 +322,7 @@ namespace RadJAV
 			
 			if(pos->second->getType() == FieldWrapper::WrapperType::SharedPtr)
 			{
-				SharedPtrWrapper<T>* wrapper = dynamic_cast<SharedPtrWrapper<T>*>(pos->second);
+				SharedPtrWrapper<T>* wrapper = static_cast<SharedPtrWrapper<T>*>(pos->second);
 				return wrapper->objectPtr();
 			}
 			

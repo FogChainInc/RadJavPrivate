@@ -24,6 +24,8 @@
 	#include "RadJavString.h"
 
 	#include "cpp/RadJavCPPGUIGObject.h"
+	#include "cpp/RadJavCPPGUIRenderWindow.h"
+	#include "cpp/RadJavCPPColor.h"
 
 	#ifdef USE_V8
 		#include "v8/RadJavV8JavascriptEngine.h"
@@ -34,14 +36,15 @@
 		#include "wxOgreRenderWindow.h"
 	#endif
 
-    #ifdef C3D_USE_OGRE
-        #include <Ogre.h>
-    #endif
-
 	namespace RadJAV
 	{
 		namespace CPP
 		{
+			namespace C3D
+			{
+				class Transform;
+			}
+			
 			namespace GUI
 			{
 				#ifdef C3D_USE_OGRE
@@ -66,21 +69,22 @@
 
 				#ifdef GUI_USE_WXWIDGETS
 					/// The wxWidgets frame to use.
-					class RADJAV_EXPORT Canvas3DFrame : public wxFrame, public GObjectBase, public ChainedPtr
+					class RADJAV_EXPORT Canvas3DFrame : public wxFrame, public GObjectBase, public RenderWindow, public ChainedPtr
 					{
 						public:
 							Canvas3DFrame(const wxString &text, const wxPoint &pos, const wxSize &size, Array<CanvasResource *> resources);
+
+							void addChild(const C3D::Transform& child);
+							void removeChild(const C3D::Transform& child);
 
 							void onClose(wxCloseEvent &evt);
 							void onJSClose(wxCloseEvent &evt);
 							void onJSMinimized(wxIconizeEvent &evt);
 							void onClick(wxMouseEvent &evt);
 
-							wxOgreRenderWindow *mRenderWindow;
-							Ogre::SceneManager *mSceneMgr;
-							Ogre::Root *mRoot;
-
-						protected:
+						public:
+							wxOgreRenderWindow *renderingWidget;
+							Ogre::SceneManager* sceneManager;
 							wxDECLARE_EVENT_TABLE();
 					};
 				#endif
@@ -94,8 +98,16 @@
 						Canvas3D(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 
 						void create();
-                        Ogre::SceneManager *createSceneManager(const Ogre::String& type, const Ogre::String& instanceName = Ogre::BLANKSTRING);
-                        Ogre::RenderWindow *getRenderWindow();
+
+						void setAmbientLight(const Color& color);
+						Color getAmbientLight() const;
+
+						void addChild(const C3D::Transform& child);
+						void removeChild(const C3D::Transform& child);
+					
+                        Ogre::RenderWindow* getRenderWindow() const;
+						Ogre::SceneManager* getSceneManager() const;
+					
 						void setPosition(RJINT x, RJINT y);
 						CPP::Vector2 getPosition();
 						void setSize(RJINT x, RJINT y);

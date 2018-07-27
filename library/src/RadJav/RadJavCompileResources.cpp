@@ -160,7 +160,6 @@ int main(int iArgs, char **cArgs)
 	ary.push_back("RadJav.Crypto.HashMultipart.js");
 	ary.push_back("RadJav.GUI.GObject.js"); // This must be compiled before any other GUI object.
 	ary.push_back("RadJav.GUI.Button.js");
-	ary.push_back("RadJav.GUI.Canvas3D.js");
 	ary.push_back("RadJav.GUI.Checkbox.js");
 	ary.push_back("RadJav.GUI.Combobox.js");
 	ary.push_back("RadJav.GUI.Container.js");
@@ -181,13 +180,15 @@ int main(int iArgs, char **cArgs)
 	ary.push_back("RadJav.Net.WebServer.js");
 #ifdef C3D_USE_OGRE
 	ary.push_back("RadJav.GUI.Canvas3D.js");
-	ary.push_back("RadJav.C3D.Object3D.js"); // This must be compiled before any other C3D object.
-	ary.push_back("RadJav.C3D.Entity.js");
+	ary.push_back("RadJav.C3D.Transform.js"); // This must be compiled before any other C3D object.
+	ary.push_back("RadJav.C3D.Object3D.js");
+	ary.push_back("RadJav.C3D.Plane.js");
+	ary.push_back("RadJav.C3D.Cube.js");
+	ary.push_back("RadJav.C3D.Sphere.js");
 	ary.push_back("RadJav.C3D.Camera.js");
+	ary.push_back("RadJav.C3D.Light.js");
 	ary.push_back("RadJav.C3D.Material.js");
 	ary.push_back("RadJav.C3D.Model.js");
-	ary.push_back("RadJav.C3D.Transform.js");
-	ary.push_back("RadJav.C3D.World.js");
 #endif
 
 	std::string output = "\

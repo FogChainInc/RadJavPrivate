@@ -67,9 +67,14 @@
 	#include "v8/RadJavV8GUICanvas3D.h"
 
 	// C3D
+	#include "v8/RadJavV8C3DTransform.h"
 	#include "v8/RadJavV8C3DObject3D.h"
-	#include "v8/RadJavV8C3DEntity.h"
-	#include "v8/RadJavV8C3DWorld.h"
+	#include "v8/RadJavV8C3DPlane.h"
+	#include "v8/RadJavV8C3DCube.h"
+	#include "v8/RadJavV8C3DSphere.h"
+	#include "v8/RadJavV8C3DCamera.h"
+	#include "v8/RadJavV8C3DLight.h"
+	#include "v8/RadJavV8C3DModel.h"
 
 	// Crypto
 	#include "v8/RadJavV8CryptoCipher.h"
@@ -420,14 +425,10 @@ namespace RadJAV
 			
 			try
 			{
-				#ifdef GUI_USE_WXWIDGETS
-					currentTime = wxGetLocalTimeMillis();
-					diffTime = (currentTime - prevTime).GetValue();
-					prevTime = currentTime;
-				#endif
-				
 				v8::platform::PumpMessageLoop(platform, isolate);
 				
+				// TODO: Think about refresh mechanism
+				/*
 				#ifdef C3D_USE_OGRE
 					if (mRoot != NULL)
 					{
@@ -435,6 +436,7 @@ namespace RadJAV
 							mRoot->renderOneFrame();
 					}
 				#endif
+				 */
 				
 				// Handle the on ready function.
 				if (firstRun == true)
@@ -461,19 +463,19 @@ namespace RadJAV
 					}
 				#endif
 				
-				auto timeoutBegin = timeoutFuncs.begin();
-				auto timeoutsBegin = timeouts.begin();
-				auto timeoutEnd = timeoutFuncs.end();
+				//Handle timers (setTimeout from JS)
+				auto timer = timers.begin();
+				auto timerEnd = timers.end();
+				auto currentTime = std::chrono::steady_clock::now();
 				
-				while (timeoutBegin != timeoutEnd)
+				while (timer != timerEnd)
 				{
-					v8::Persistent<v8::Function> *funcp = *timeoutBegin;
-					RJINT time = *timeoutsBegin;
+					v8::Persistent<v8::Function> *funcp = (*timer).first;
+					std::chrono::time_point<std::chrono::steady_clock> fireTime = (*timer).second;
 					
-					if (time <= 0)
+					if (fireTime <= currentTime)
 					{
-						timeoutFuncs.erase(timeoutBegin);
-						timeouts.erase(timeoutsBegin);
+						timer = timers.erase(timer);
 						
 						v8::Local<v8::Function> func = funcp->Get(isolate);
 						
@@ -482,21 +484,12 @@ namespace RadJAV
 						
 						DELETEOBJ(funcp);
 						
-						timeoutBegin = timeoutFuncs.begin();
-						timeoutsBegin = timeouts.begin();
-						timeoutEnd = timeoutFuncs.end();
-						
 						continue;
 					}
-					
-					#ifdef GUI_USE_WXWIDGETS
-						(*timeoutsBegin) = time - (RJINT)diffTime;
-					#endif
-					
-					timeoutBegin++;
-					timeoutsBegin++;
+
+					timer++;
 				}
-				
+
 				for (RJUINT iIdx = 0; iIdx < removeThreads.size(); iIdx++)
 				{
 					auto tbegin = threads.find (removeThreads.at (iIdx));
@@ -957,8 +950,10 @@ namespace RadJAV
 
 		void V8JavascriptEngine::addTimeout (v8::Persistent<v8::Function> *func, RJINT time)
 		{
-			timeoutFuncs.push_back(func);
-			timeouts.push_back(time);
+			auto fireTime = std::chrono::steady_clock::now();
+			fireTime += std::chrono::milliseconds(time);
+			
+			timers.push_back( std::make_pair(func, fireTime));
 		}
 
 		void V8JavascriptEngine::blockchainEvent(String event, String dataType, void *data)
@@ -1110,6 +1105,16 @@ namespace RadJAV
 			{
 				V8B::OS::destroy();
 			}
+		}
+
+		template<class T>
+		void V8JavascriptEngine::initV8Callback(const v8::Handle<v8::Function>& parent, const char* nameSpace, const char* typeName)
+		{
+			v8::Handle<v8::Function> namespaceFunc = v8GetFunction(parent, nameSpace);
+			v8::Handle<v8::Function> function = v8GetFunction(namespaceFunc, typeName);
+			v8::Handle<v8::Object> prototype = v8GetObject(function, "prototype");
+		
+			T::createV8Callbacks(isolate, prototype);
 		}
 
 		void V8JavascriptEngine::loadNativeCode()
@@ -1381,41 +1386,14 @@ namespace RadJAV
 				#ifdef C3D_USE_OGRE
 				// RadJav.C3D
 				{
-					v8::Handle<v8::Function> c3dFunc = v8GetFunction(radJavFunc, "C3D");
-
-					// RadJav.C3D.Object3D
-					{
-						v8::Handle<v8::Function> object3DFunc = v8GetFunction(c3dFunc, "Object3D");
-						v8::Handle<v8::Object> object3DPrototype = v8GetObject(object3DFunc, "prototype");
-
-						V8B::C3D::Object3D::createV8Callbacks(isolate, object3DPrototype);
-					}
-
-					// RadJav.C3D.World
-					{
-						v8::Handle<v8::Function> worldFunc = v8GetFunction(c3dFunc, "World");
-						v8::Handle<v8::Object> worldPrototype = v8GetObject(worldFunc, "prototype");
-
-						V8B::C3D::World::createV8Callbacks(isolate, worldPrototype);
-					}
-
-					// RadJav.C3D.Entity
-					{
-						v8::Handle<v8::Function> entityFunc = v8GetFunction(c3dFunc, "Entity");
-						v8::Handle<v8::Object> entityPrototype = v8GetObject(entityFunc, "prototype");
-
-						V8B::C3D::Entity::createV8Callbacks(isolate, entityPrototype);
-					}
-
-					// RadJav.C3D.Camera
-					{
-                        /*
-						v8::Handle<v8::Function> cameraFunc = v8GetFunction(c3dFunc, "Camera");
-						v8::Handle<v8::Object> cameraPrototype = v8GetObject(cameraFunc, "prototype");
-
-						V8B::C3D::Camera::createV8Callbacks(isolate, cameraPrototype);
-                        */
-					}
+					initV8Callback<V8B::C3D::Transform>(radJavFunc, "C3D", "Transform");
+					initV8Callback<V8B::C3D::Object3D>(radJavFunc, "C3D", "Object3D");
+					initV8Callback<V8B::C3D::Plane>(radJavFunc, "C3D", "Plane");
+					initV8Callback<V8B::C3D::Cube>(radJavFunc, "C3D", "Cube");
+					initV8Callback<V8B::C3D::Sphere>(radJavFunc, "C3D", "Sphere");
+					initV8Callback<V8B::C3D::Camera>(radJavFunc, "C3D", "Camera");
+					initV8Callback<V8B::C3D::Light>(radJavFunc, "C3D", "Light");
+					initV8Callback<V8B::C3D::Model>(radJavFunc, "C3D", "Model");
 				}
 				#endif
 				#ifdef USE_CRYPTOGRAPHY
