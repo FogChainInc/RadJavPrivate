@@ -22,7 +22,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <vector>
 #include <string>
 
-std::string findNewLine = "";
 std::string newLine = "";
 
 std::vector<std::string> getTextFromFile(std::string path)
@@ -53,6 +52,10 @@ std::vector<std::string> getTextFromFile(std::string path)
 			text = "";
 		}
 
+		//No need to push carriage return
+		if(cChar == '\r')
+			continue;
+		
 		text += cChar;
 		counter++;
 	}
@@ -97,7 +100,7 @@ std::string fixText(std::string text, int *countNewLines)
 	text = replaceText(text, "\\n", "\\\\n");
 	// Replace all new lines in the javascript files with the appropriate \\n\\ to be
 	// used in a large string for the header file.
-	text = replaceText(text, findNewLine, "\\n\\" + newLine, countNewLines);
+	text = replaceText(text, "\n", "\\n\\" + newLine, countNewLines);
 	text = replaceText(text, "\\\"", "\\\\\"");
 	text = replaceText(text, "\"", "\\\"");
 
@@ -110,13 +113,10 @@ int main(int iArgs, char **cArgs)
 	bool pureJavascriptOnly = false;
 
 #if defined (WIN32)
-	findNewLine = "\n";
 	newLine = "\n";
 #elif defined (__APPLE__)
-	findNewLine = "\n";
 	newLine = "\n";
 #else
-	findNewLine = "\n";
 	newLine = "\n";
 #endif
 
