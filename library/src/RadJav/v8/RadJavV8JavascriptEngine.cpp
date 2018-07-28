@@ -161,16 +161,16 @@ namespace RadJAV
 			exceptionsDisplayMessageBox = false;
 			shutdownOnException = false;
 
-			if (RadJav::arguments.size() > 0)
+			if (RadJav::radJavArguments.size() > 0)
 			{
-				for (size_t iIdx = 0; iIdx < RadJav::arguments.size(); iIdx++)
+				for (size_t iIdx = 0; iIdx < RadJav::radJavArguments.size(); iIdx++)
 				{
 					String endSpace = " ";
 
-					if (iIdx == (RadJav::arguments.size() - 1))
+					if (iIdx == (RadJav::radJavArguments.size() - 1))
 						endSpace = "";
 
-					String arg = RadJav::arguments.at(iIdx);
+					String arg = RadJav::radJavArguments.at(iIdx);
 
 					if (arg == "--expose_gc")
 						exposeGC = true;

@@ -176,6 +176,7 @@ namespace RadJAV
 	Theme *RadJav::theme = NULL;
 	Lang *RadJav::lang = NULL;
 	Array<String> RadJav::arguments;
+	Array<String> RadJav::radJavArguments;
 
 	#ifdef RADJAV_DEBUG
 		HashMap<size_t, MemoryAllocLog> *RadJav::memoryAllocs;
@@ -184,6 +185,7 @@ namespace RadJAV
 		RadJavType RadJav::initialize(Array<String> newArgs, String &file)
 		{
 			arguments.clear();
+			radJavArguments.clear();
 
 			#ifdef RADJAV_DEBUG
 				memoryAllocs = new HashMap<size_t, MemoryAllocLog>();
@@ -205,6 +207,8 @@ namespace RadJAV
 
 						continue;
 					}
+
+					radJavArguments.push_back(arg);
 
 					if (arg == "--terminal")
 					{

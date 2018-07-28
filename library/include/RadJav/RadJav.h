@@ -106,8 +106,10 @@
 
 				/// The javascript engine used to execute applications.
 				static JavascriptEngine *javascriptEngine;
-				/// The command line arguments used to start RadJav.
+				/// The command line arguments used for the XRJ application.
 				static Array<String> arguments;
+				/// The command line arguments used for starting RadJav.
+				static Array<String> radJavArguments;
 				#ifdef RADJAV_DEBUG
 					static void logNewMemoryAlloc (MemoryAllocLog alloc);
 					static void removeMemoryAlloc (MemoryAllocLog alloc);
