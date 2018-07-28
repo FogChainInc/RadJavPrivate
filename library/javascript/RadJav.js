@@ -70,6 +70,7 @@ RadJav.Crypto = function ()
 
 RadJav.OS.type = "";
 RadJav.OS.numBits = 32;
+RadJav.OS.args = [];
 
 RadJav.initialize = function (libraries)
 {
