@@ -20,99 +20,99 @@
 
 /// <reference path="RadJav.ts" />
 
-namespace RadJav {
-  /** @class RadJav.Vector4
-   * A Vector4 class.
-   * Available on platforms: Windows,Linux,OSX,HTML5
-   */
-  export class Vector4 {
-    constructor(x?: Number, y?: Number, z?: Number, w?: Number) {
-      if (x == null) x = 0;
-
-      if (y == null) y = 0;
-
-      if (z == null) z = 0;
-
-      if (w == null) w = 0;
-
-      if (x instanceof RadJav.Vector2) {
-        var temp = x;
-        x = temp.x;
-        y = temp.y;
-      }
-
-      if (x instanceof RadJav.Vector3) {
-        let temp = x;
-        x = temp.x;
-        y = temp.y;
-        z = temp.z;
-      }
-
-      if (x instanceof RadJav.Vector4) {
-        let temp = x;
-        x = temp.x;
-        y = temp.y;
-        z = temp.z;
-        w = temp.w;
-      }
-
-      this.x = x;
-      this.y = y;
-      this.z = z;
-      this.w = w;
-    }
-
-    /** @property {Number} [x=0]
-     * The X component.
-     */
-    x: Number;
-    /** @property {Number} [y=0]
-     * The Y component.
-     */
-    y: Number;
-    /** @property {Number} [z=0]
-     * The Z component.
-     */
-    z: Number;
-    /** @property {Number} [w=0]
-     * The W component.
-     */
-    w: Number;
-
-    /** @method toString
-     * Convert this object to a string.
-     * @return {String} The string representing this object.
-     */
-    toString(): String {
-      return this.x + "," + this.y + "," + this.z + "," + this.w;
-    }
-
-	lerp (start: Vector4, end: Vector4, time: number): Vector4
+namespace RadJav
+{
+	/** @class RadJav.Vector4
+	* A Vector4 class.
+	* Available on platforms: Windows,Linux,OSX,HTML5
+	*/
+	export class Vector4
 	{
-		let result: Vector4 = new Vector4 ();
+		constructor(x: number | RadJav.Vector2 | RadJav.Vector3 | RadJav.Vector4 = 0, y: number = 0, z: number = 0, w: number = 0)
+		{
+			if (x instanceof RadJav.Vector2)
+			{
+				var temp = x;
+				x = temp.x;
+				y = temp.y;
+			}
 
-		result.x = Math.lerp (start.x, end.x, time);
-		result.y = Math.lerp (start.y, end.y, time);
-		result.z = Math.lerp (start.z, end.z, time);
+			if (x instanceof RadJav.Vector3)
+			{
+				let temp = x;
+				x = temp.x;
+				y = temp.y;
+				z = temp.z;
+			}
 
-		return (result);
+			if (x instanceof RadJav.Vector4)
+			{
+				let temp = x;
+				x = temp.x;
+				y = temp.y;
+				z = temp.z;
+				w = temp.w;
+			}
+
+			this.x = x;
+			this.y = y;
+			this.z = z;
+			this.w = w;
+		}
+
+		/** @property {number} [x=0]
+		* The X component.
+		*/
+		x: number;
+		/** @property {number} [y=0]
+		* The Y component.
+		*/
+		y: number;
+		/** @property {number} [z=0]
+		* The Z component.
+		*/
+		z: number;
+		/** @property {number} [w=0]
+		* The W component.
+		*/
+		w: number;
+
+		/** @method tostring
+		* Convert this object to a string.
+		* @return {string} The string representing this object.
+		*/
+		tostring(): string
+		{
+			return this.x + "," + this.y + "," + this.z + "," + this.w;
+		}
+
+		lerp (start: Vector4, end: Vector4, time: number): Vector4
+		{
+			let result: Vector4 = new Vector4 ();
+
+			result.x = Math.lerp (start.x, end.x, time);
+			result.y = Math.lerp (start.y, end.y, time);
+			result.z = Math.lerp (start.z, end.z, time);
+
+			return (result);
+		}
 	}
-  }
 }
 
- function parseVector4(string: string): RadJav.Vector4 {
-  var v4dReturn = new RadJav.Vector4();
+function parseVector4(string: string): RadJav.Vector4
+{
+	var v4dReturn = new RadJav.Vector4();
 
-  if (string == "") return v4dReturn;
+	if (string == "") return v4dReturn;
 
-  string = string.toLowerCase();
-  string = string.replace(/ /g, "");
-  var aryStrings = string.split(",");
+	string = string.toLowerCase();
+	string = string.replace(/ /g, "");
+	var arystrings = string.split(",");
 
-  v4dReturn.x = parseFloat(aryStrings[0]);
-  v4dReturn.y = parseFloat(aryStrings[1]);
-  v4dReturn.z = parseFloat(aryStrings[2]);
-  v4dReturn.w = parseFloat(aryStrings[3]);
+	v4dReturn.x = parseFloat(arystrings[0]);
+	v4dReturn.y = parseFloat(arystrings[1]);
+	v4dReturn.z = parseFloat(arystrings[2]);
+	v4dReturn.w = parseFloat(arystrings[3]);
 
-  return v4dReturn;
-};
+	return v4dReturn;
+}

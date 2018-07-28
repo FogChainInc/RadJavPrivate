@@ -165,26 +165,27 @@ namespace RadJav
 		return (result);
 	}
 
-    /** @method parseVector2
-     * @static
-     * Parse a Vector2 string and create a Vector2 object from it.
-     * @param {string} str The string to parse.
-     * @return {RadJav.Vector2} The new Vector2 created from this string.
-     */
-   static parseVector2(str: string): Vector2 {
-      let obj = new Vector2();
+	/** @method parseVector2
+	* @static
+	* Parse a Vector2 string and create a Vector2 object from it.
+	* @param {string} str The string to parse.
+	* @return {RadJav.Vector2} The new Vector2 created from this string.
+	*/
+	static parseVector2(str: string): Vector2
+	{
+		let obj = new Vector2();
 
-      if (str == "") return obj;
+		if (str == "") return obj;
 
-      str = str.toLowerCase();
-      str = str.replace(/ /g, "");
-      let strs = str.split(",");
+		str = str.toLowerCase();
+		str = str.replace(/ /g, "");
+		let strs = str.split(",");
 
-      if (strs.length > 0) obj.x = parseFloat(strs[0]);
+		if (strs.length > 0) obj.x = parseFloat(strs[0]);
 
-      if (strs.length > 1) obj.y = parseFloat(strs[1]);
+		if (strs.length > 1) obj.y = parseFloat(strs[1]);
 
-      return obj;
-    }
+		return obj;
+	}
   }
 }

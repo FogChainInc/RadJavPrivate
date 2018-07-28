@@ -195,6 +195,15 @@ namespace RadJav
 		*/
 		static normalizePath(path: string, basePath: string = ""): string { return; }
 
+		/** @method normalizeAndVerifyPath
+		* Normalize an verify the file/directory path.
+		* Available on platforms: Windows,Linux,OSX
+		* @param {string} path The path to normalize.
+		* @param {string} basePath The base path to normalize from.
+		* @return {string} The normalized path.
+		*/
+		static normalizeAndVerifyPath(path: string, basePath: string = ""): string { return; }
+
 		/** @method normalizeCurrentPath
 		* Normalize a file/directory path relative to the current directory path.
 		* Available on platforms: Windows,Linux,OSX

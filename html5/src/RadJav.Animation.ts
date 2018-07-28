@@ -33,9 +33,9 @@ namespace RadJav
 		/// Name of the animation.
 		public name: string;
 		public attachedObject: HTMLElement | RadJav.Interact.Component | RadJav.GUI.GObject | RadJav.C3D.Object3D;
-		public lerpAnimators: LerpAnimator[];
+		public lerpAnimators: Animation.LerpAnimator[];
 		public onUpdate: (timeDelta: number) => void;
-		public playState: PlayState;
+		public playState: Animation.PlayState;
 
 		constructor ()
 		{
@@ -43,7 +43,7 @@ namespace RadJav
 			this.attachedObject = null;
 			this.lerpAnimators = [];
 			this.onUpdate = null;
-			this.playState = PlayState.Stopped;
+			this.playState = Animation.PlayState.Stopped;
 			RadJav.addAnimation (this);
 		}
 
@@ -53,20 +53,20 @@ namespace RadJav
 		}
 
 		_getDisplayObject (obj: HTMLElement | RadJav.Interact.Component | RadJav.GUI.GObject | RadJav.C3D.Object3D)
-								: HTMLElement | RadJav.Interact.Component | RadJav.GUI.GObject | RadJav.C3D.Object3D
+								: HTMLElement | RadJav.GUI.GObject | RadJav.C3D.Object3D
 		{
-			let foundObj: HTMLElement | RadJav.Interact.Component | RadJav.GUI.GObject | RadJav.C3D.Object3D = null;
+			let foundObj: HTMLElement | RadJav.GUI.GObject | RadJav.C3D.Object3D = null;
 
 			if (this.attachedObject.constructor["name"] == "HTMLElement")
 				foundObj = (<HTMLElement>this.attachedObject);
 
 			if (this.attachedObject.constructor["name"] == "Component")
-				foundObj = this._getDisplayObject (this.attachedObject.display);
+				foundObj = this._getDisplayObject ((<RadJav.Interact.Component>this.attachedObject).display);
 
-			if (this.attachedObject.constructor["name"] == "GObject")
+			if (this.attachedObject instanceof RadJav.GUI.GObject)
 				foundObj = (<RadJav.GUI.GObject>this.attachedObject);
 
-			if (this.attachedObject.constructor["name"] == "Object3D")
+			if (this.attachedObject instanceof RadJav.C3D.Object3D)
 				foundObj = (<RadJav.C3D.Object3D>this.attachedObject);
 
 			return (foundObj);
@@ -83,12 +83,12 @@ namespace RadJav
 
 			if (foundObj.constructor["name"] == "GObject")
 			{
-				let pos: RadJav.Vector2 = (<RadJav.GUI.GObject>this.attachedObject.display).getPosition ();
+				let pos: RadJav.Vector2 = (<RadJav.GUI.GObject>this.attachedObject).getPosition ();
 				start = new RadJav.Vector3 (pos);
 			}
 
 			if (foundObj.constructor["name"] == "Object3D")
-				start = (<RadJav.C3D.Object3D>this.attachedObject.display).getPosition ();
+				start = (<RadJav.C3D.Object3D>this.attachedObject).getPosition ();
 
 			if (typeof (x) == "number")
 			{
@@ -105,17 +105,23 @@ namespace RadJav
 					end = new RadJav.Vector3 ((<RadJav.Vector3>x));
 			}
 
-			let animator = new LerpAnimator (foundObj, start, end, speed);
+			let animator = new Animation.LerpAnimator (foundObj, start, end, speed);
 			animator.startTime = RadJav.getTime ();
 			animator.onAnimate = function (animObj, newPos, timeDelta)
 				{
 					if (animObj.constructor["name"] == "HTMLElement")
 					{
-						animObj.offsetLeft = newPos.x;
-						animObj.offsetTop = newPos.y;
+						(<HTMLElement>animObj).style.left = newPos.x + "px";
+						(<HTMLElement>animObj).style.top = newPos.y + "px";
 					}
 					else
-						animObj.setPosition (newPos);
+					{
+						if (animObj instanceof RadJav.GUI.GObject)
+							(<RadJav.GUI.GObject>animObj).setPosition (newPos);
+
+						if (animObj instanceof RadJav.C3D.Object3D)
+							(<RadJav.C3D.Object3D>animObj).setPosition (newPos);
+					}
 				};
 			this.lerpAnimators.push (animator);
 		}
@@ -124,32 +130,32 @@ namespace RadJav
 		{
 			for (let iIdx = 0; iIdx < this.lerpAnimators.length; iIdx++)
 			{
-				let animation: LerpAnimator = this.lerpAnimators[iIdx];
+				let animation: Animation.LerpAnimator = this.lerpAnimators[iIdx];
 
 				animation.startTime = RadJav.getTime ();
 			}
 
-			this.playState = PlayState.Playing;
+			this.playState = Animation.PlayState.Playing;
 		}
 
 		pause (): void
 		{
 			for (let iIdx = 0; iIdx < this.lerpAnimators.length; iIdx++)
 			{
-				let animation: LerpAnimator = this.lerpAnimators[iIdx];
+				let animation: Animation.LerpAnimator = this.lerpAnimators[iIdx];
 			}
 
-			this.playState = PlayState.Paused;
+			this.playState = Animation.PlayState.Paused;
 		}
 
 		stop (): void
 		{
 			for (let iIdx = 0; iIdx < this.lerpAnimators.length; iIdx++)
 			{
-				let animation: LerpAnimator = this.lerpAnimators[iIdx];
+				let animation: Animation.LerpAnimator = this.lerpAnimators[iIdx];
 			}
 
-			this.playState = PlayState.Stopped;
+			this.playState = Animation.PlayState.Stopped;
 		}
 
 		on (event: string, func: (timeDelta: number) => void)
@@ -160,12 +166,12 @@ namespace RadJav
 
 		update (timeDelta: number): void
 		{
-			if (this.playState != PlayState.Playing)
+			if (this.playState != Animation.PlayState.Playing)
 				return;
 
 			for (let iIdx = 0; iIdx < this.lerpAnimators.length; iIdx++)
 			{
-				let animation: LerpAnimator = this.lerpAnimators[iIdx];
+				let animation: Animation.LerpAnimator = this.lerpAnimators[iIdx];
 
 				animation.update (timeDelta);
 			}
@@ -173,7 +179,10 @@ namespace RadJav
 			if (this.onUpdate != null)
 				this.onUpdate (timeDelta);
 		}
+	}
 
+	export namespace Animation
+	{
 		export class Animator
 		{
 			public attachedObject: HTMLElement | RadJav.GUI.GObject | RadJav.C3D.Object3D;
@@ -211,7 +220,7 @@ namespace RadJav
 				this.speed = speed;
 				this.startTime = 0;
 				this.currentTime = 0;
-				this.length = (end - start);
+				this.length = end.distance (start);
 			}
 
 			update (timeDelta: number): void
@@ -225,15 +234,12 @@ namespace RadJav
 				this.animate (currentPos, timeDelta);
 			}
 		}
-	}
 
-	export namespace Animation
-	{
-		export enum PlayState
+		export class PlayState
 		{
-			Stopped, 
-			Playing, 
-			Paused
+			static Stopped: number = 1;
+			static Playing: number = 2;
+			static Paused: number = 3;
 		}
 	}
 }

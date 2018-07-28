@@ -16,9 +16,8 @@ var RadJav;
             __extends(Checkbox, _super);
             function Checkbox(obj, text, parent) {
                 var _this = this;
-                if (obj == null) {
+                if (obj == null)
                     obj = {};
-                }
                 if (typeof obj == "string") {
                     var name = obj;
                     obj = { name: name };
@@ -28,9 +27,8 @@ var RadJav;
                     obj.size.x = 80;
                     obj.size.y = 40;
                 }
-                if (obj.checked != null) {
+                if (obj.checked != null)
                     obj._checked = obj.checked;
-                }
                 _this = _super.call(this, obj, text, parent) || this;
                 _this.type = "RadJav.GUI.Checkbox";
                 _this._checked = RadJav.setDefaultValue(obj._checked, false);

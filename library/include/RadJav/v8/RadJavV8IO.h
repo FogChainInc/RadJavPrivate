@@ -62,6 +62,7 @@
 					void listFilesAsync(const v8::FunctionCallbackInfo<v8::Value> &args);
 
 					void normalizePath(const v8::FunctionCallbackInfo<v8::Value> &args);
+					void normalizeAndVerifyPath(const v8::FunctionCallbackInfo<v8::Value> &args);
 					void normalizeCurrentPath(const v8::FunctionCallbackInfo<v8::Value> &args);
 
 					void onFileList(const v8::FunctionCallbackInfo<v8::Value> &args);

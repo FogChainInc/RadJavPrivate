@@ -1,5 +1,3 @@
-exports.__esModule = true;
-var tslib_1 = require("tslib");
 var RadJav;
 (function (RadJav) {
     var Animation = (function () {
@@ -99,30 +97,21 @@ var RadJav;
         return Animation;
     }());
     RadJav.Animation = Animation;
-    var Animator = (function () {
-        function Animator(attachedObject) {
+    var LerpAnimator = (function () {
+        function LerpAnimator(attachedObject, start, end, speed) {
             this.attachedObject = attachedObject;
             this.onAnimate = null;
+            this.startPos = start;
+            this.endPos = end;
+            this.speed = speed;
+            this.startTime = 0;
+            this.currentTime = 0;
+            this.length = (end - start);
         }
-        Animator.prototype.animate = function (data, timeDelta) {
+        LerpAnimator.prototype.animate = function (data, timeDelta) {
             if (this.onAnimate != null)
                 this.onAnimate(this.attachedObject, data, timeDelta);
         };
-        return Animator;
-    }());
-    RadJav.Animator = Animator;
-    var LerpAnimator = (function (_super) {
-        tslib_1.__extends(LerpAnimator, _super);
-        function LerpAnimator(attachedObject, start, end, speed) {
-            var _this = _super.call(this, attachedObject) || this;
-            _this.startPos = start;
-            _this.endPos = end;
-            _this.speed = speed;
-            _this.startTime = 0;
-            _this.currentTime = 0;
-            _this.length = (end - start);
-            return _this;
-        }
         LerpAnimator.prototype.update = function (timeDelta) {
             var currentPos = new RadJav.Vector3();
             var posMoved = ((RadJav.getTime() - this.startTime) * this.speed);
@@ -131,15 +120,15 @@ var RadJav;
             this.animate(currentPos, timeDelta);
         };
         return LerpAnimator;
-    }(Animator));
+    }());
     RadJav.LerpAnimator = LerpAnimator;
+    var PlayState = (function () {
+        function PlayState() {
+        }
+        PlayState.Stopped = 0;
+        PlayState.Playing = 1;
+        PlayState.Paused = 2;
+        return PlayState;
+    }());
+    RadJav.PlayState = PlayState;
 })(RadJav || (RadJav = {}));
-var Animation;
-(function (Animation) {
-    var PlayState;
-    (function (PlayState) {
-        PlayState[PlayState["Stopped"] = 0] = "Stopped";
-        PlayState[PlayState["Playing"] = 1] = "Playing";
-        PlayState[PlayState["Paused"] = 2] = "Paused";
-    })(PlayState = Animation.PlayState || (Animation.PlayState = {}));
-})(Animation = exports.Animation || (exports.Animation = {}));

@@ -22,6 +22,8 @@ var RadJav = {};
 RadJav.useEval = true;
 RadJav._isInitialized = false;
 RadJav._included = [];
+RadJav._animations = [];
+RadJav.animationFrameRate = 16;
 RadJav.prevTime = (Date.now() / 1000);
 
 RadJav.GUI = function ()

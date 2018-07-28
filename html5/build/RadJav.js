@@ -15,6 +15,9 @@ var RadJav;
     RadJav.themeUtils = {};
     RadJav.useAjax = true;
     RadJav.isMinified = false;
+    RadJav._animations = [];
+    RadJav.animationFrameRate = 16;
+    RadJav.prevTime = (Date.now() / 1000);
     function quit(exitCode) {
         if (exitCode === void 0) { exitCode = 0; }
     }
@@ -524,15 +527,33 @@ var RadJav;
             otherStrings[_i - 1] = arguments[_i];
         }
         var strReturn = "";
-        if (primaryString != null) {
+        if (primaryString != null)
             strReturn = primaryString;
-        }
-        for (var iIdx = 1; iIdx < arguments.length; iIdx++) {
+        for (var iIdx = 1; iIdx < arguments.length; iIdx++)
             strReturn = strReturn.replace("%s", arguments[iIdx]);
-        }
-        return strReturn;
+        return (strReturn);
     }
     RadJav.combineString = combineString;
+    function getTime() {
+        return (Date.now() / 1000);
+    }
+    RadJav.getTime = getTime;
+    function addAnimation(anim) {
+        RadJav._animations.push(anim);
+        setTimeout(RadJav.animationUpdate, RadJav.animationFrameRate);
+    }
+    RadJav.addAnimation = addAnimation;
+    function animationUpdate() {
+        var currentTime = RadJav.getTime();
+        var deltaTime = (currentTime - RadJav.prevTime);
+        RadJav.prevTime = currentTime;
+        for (var iIdx = 0; iIdx < RadJav._animations.length; iIdx++) {
+            var anim = RadJav._animations[iIdx];
+            anim.update(deltaTime);
+        }
+        setTimeout(RadJav.animationUpdate, RadJav.animationFrameRate);
+    }
+    RadJav.animationUpdate = animationUpdate;
     var Theme = (function () {
         function Theme(obj) {
             this.name = "";

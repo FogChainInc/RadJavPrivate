@@ -443,11 +443,12 @@ namespace RadJav
 
 							obj.display = new RadJav.GUI.HTMLElement (obj.name, (<string>obj.display));
 							let tempElm: HTMLElement = null;
+							let display: RadJav.GUI.GObject = (<RadJav.GUI.GObject>obj.display);
 
 							if (parentView._app.options.useJQuery == true)
-								tempElm = (<RadJav.GUI.GObject>obj.display)._html[0];
+								tempElm = display._html[0];
 							else
-								tempElm = (<RadJav.GUI.GObject>obj.display)._html;
+								tempElm = display._html;
 
 							// This should not leak memory? This needs to be tested to make sure GC is collecting it.
 							Object.defineProperty (tempElm, "interactComponent", { value: this });
@@ -560,6 +561,13 @@ namespace RadJav
 							parentDOM.appendChild (newElm);
 						}
 
+						for (let key in newComp._events)
+						{
+							let event: Function = (<Function>newComp._events[key]);
+
+							newComp.on (key, event);
+						}
+
 						iIdx--;
 					}
 				}
@@ -584,9 +592,9 @@ namespace RadJav
 						if ((<RadJav.GUI.GObject>this.display).type == "RadJav.GUI.HTMLElement")
 						{
 							if (this._view._app.options.useJQuery == true)
-								str = $((<RadJav.GUI.GObject>this.display)._html)[0].outerHTML;
+								str = $((<RadJav.GUI.GObject>this.display)._html)[0].innerHTML;
 							else
-								str = (<RadJav.GUI.GObject>this.display)._html.outerHTML;
+								str = (<RadJav.GUI.GObject>this.display)._html.innerHTML;
 						}
 
 						/*if (this.display.constructor["name"] == "Object3D")
@@ -610,7 +618,7 @@ namespace RadJav
 						let fullExpression: string = parsedExpression.expression;
 						let expression: string = fullExpression.substr (2, fullExpression.length - 4);
 						let expressionFunc: Function = new Function ("var result = " + expression + "; return (result);");
-						let result = expressionFunc.call (this);
+						let result: any = expressionFunc.call (this);
 
 						if (typeof (result) == "function")
 						{
@@ -618,29 +626,17 @@ namespace RadJav
 						}
 
 						str = str.removeAt (parsedExpression.start, parsedExpression.length);
-						resultHTML = str.insertAt (parsedExpression.start, result);
+						resultHTML = str.insertAt (parsedExpression.start, result.toString ());
 					}
 
 					if (expressions.length > 0)
 					{
 						if (RadJav.OS.HTML5 != null)
 						{
-							let parentElm = null;
-
 							if (this._view._app.options.useJQuery == true)
-							{
-								resultHTML = $(resultHTML);
-								parentElm = (<RadJav.GUI.GObject>this.display)._html.parent ();
-
-								if (parentElm != null)
-									(<RadJav.GUI.GObject>this.display)._html.remove ();
-							}
-
-							(<RadJav.GUI.GObject>this.display)._html = null;
-							(<RadJav.GUI.GObject>this.display)._html = resultHTML;
-
-							if (this._view._app.options.useJQuery == true)
-								$(parentElm).append ((<RadJav.GUI.GObject>this.display)._html);
+								$((<RadJav.GUI.GObject>this.display)._html).html (resultHTML);
+							else
+								(<RadJav.GUI.GObject>this.display)._html.innerHTML = resultHTML;
 						}
 					}
 				}
@@ -649,6 +645,7 @@ namespace RadJav
 			on (eventName: string, eventFunction: Function): any
 			{
 				this._events[eventName] = eventFunction;
+				eventFunction = RadJav.keepContext (eventFunction, this);
 				let result = null;
 
 				if (RadJav.OS.HTML5 != null)
@@ -923,9 +920,13 @@ namespace RadJav
 				{
 					let file: string = files[iIdx];
 					let oldPath: string = file;
-					let newPath: string = path + RadJav.IO.normalizePath ("/" + file);
+					let newPath: string = "";
 					let result: boolean = true;
 
+					file = file.substr (assetsPath.length);
+
+					newPath = RadJav.IO.normalizePath (path + "/" + file);
+ 
 					if (this._fileCopyFunc != null)
 					{
 						result = this._fileCopyFunc (oldPath, newPath);

@@ -7,7 +7,7 @@ var execSync = require ("child_process").execSync;
 var ws = require ("ws");
 var app = express ();
 
-var tsLibs = ["lib.es5.d.ts", "lib.es2015.promise.d.ts", "lib.d.ts", "lib.dom.d.ts", "lib.dom.iterable.d.ts", "lib.scripthost.d.ts", "node_modules/@types/jquery/index.d.ts"];
+var tsLibs = ["lib.es5.d.ts", "lib.es2015.promise.d.ts", "lib.dom.d.ts", "lib.scripthost.d.ts"];
 var tsTypes = [];
 
 var httpOptions = {

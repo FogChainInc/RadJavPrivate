@@ -51,16 +51,23 @@ var RadJav;
                 return this._transform;
             };
             Object3D.prototype.setPosition = function (x, y, z) {
+                if (y === void 0) { y = 0; }
+                if (z === void 0) { z = 0; }
+                if (x instanceof RadJav.Vector3) {
+                    var temp = x;
+                    x = temp.x;
+                    y = temp.y;
+                    z = temp.z;
+                }
                 return this._transform.setPosition(x, y, z);
             };
             Object3D.prototype.getPosition = function () {
                 return this._transform.getPosition();
             };
             Object3D.prototype.setVisibility = function (visible) {
-                RadJav.theme.event(this.type, "setVisibility", this, visible);
             };
             Object3D.prototype.getVisibility = function () {
-                return RadJav.theme.eventSync(this.type, "getVisibility");
+                return;
             };
             Object3D.prototype.show = function () {
                 this.setVisibility(true);

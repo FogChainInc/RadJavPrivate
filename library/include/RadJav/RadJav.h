@@ -65,7 +65,7 @@
 				#endif
 
 				/// Start RadJav.
-				static RadJavType initialize(Array<String> newArgs);
+				static RadJavType initialize(Array<String> newArgs, String &file);
 
 				#ifdef WIN32
 					/// Setup console output.

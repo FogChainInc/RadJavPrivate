@@ -571,13 +571,42 @@ namespace RadJAV
 			String normalizedPath = path;
 
 			#ifdef USE_BOOST
-				if (basePath != "")
-					path = basePath + fs::path::preferred_separator + path;
-
 				fs::path newPath(path.c_str());
 
-				newPath = newPath.lexically_relative(fs::path (basePath.c_str ()));
-				normalizedPath = newPath.string ();
+				if (basePath != "")
+				{
+					fs::path newBasePath(basePath.c_str());
+					newBasePath = newBasePath.lexically_normal();
+
+					newPath = newPath.lexically_relative(newBasePath);
+				}
+				else
+					newPath = newPath.lexically_normal();
+
+				normalizedPath = newPath.string();
+			#endif
+
+			return (normalizedPath);
+		}
+
+		String IO::normalizeAndVerifyPath(String path, String basePath)
+		{
+			String normalizedPath = path;
+
+			#ifdef USE_BOOST
+				fs::path newPath(path.c_str());
+
+				if (basePath != "")
+				{
+					fs::path newBasePath(basePath.c_str());
+					newBasePath = newBasePath.lexically_normal();
+
+					newPath = fs::canonical(newPath, newBasePath);
+				}
+				else
+					newPath = fs::canonical(newPath);
+
+				normalizedPath = newPath.string();
 			#endif
 
 			return (normalizedPath);

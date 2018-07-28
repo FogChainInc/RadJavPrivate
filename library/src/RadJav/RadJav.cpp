@@ -42,6 +42,8 @@
 	#include <curl/curl.h>
 #endif
 
+#include "cpp/RadJavCPPIO.h"
+
 #include <new>
 #include <iostream>
 #include <stdlib.h>
@@ -179,11 +181,9 @@ namespace RadJAV
 		HashMap<size_t, MemoryAllocLog> *RadJav::memoryAllocs;
 	#endif
 
-		RadJavType RadJav::initialize(Array<String> newArgs)
+		RadJavType RadJav::initialize(Array<String> newArgs, String &file)
 		{
-			#ifdef GUI_USE_WXWIDGETS
-			
-			arguments = newArgs;
+			arguments.clear();
 
 			#ifdef RADJAV_DEBUG
 				memoryAllocs = new HashMap<size_t, MemoryAllocLog>();
@@ -192,18 +192,33 @@ namespace RadJAV
 			if (newArgs.size() > 0)
 			{
 				RJBOOL pause = false;
+				RJBOOL foundArgs = false;
 
-				for (RJUINT iIdx = 0; iIdx < newArgs.size(); iIdx++)
+				for (RJUINT iIdx = 1; iIdx < newArgs.size(); iIdx++)
 				{
-					if (newArgs.at(iIdx) == "terminal")
+					String arg = newArgs.at(iIdx);
+					RJBOOL found = false;
+
+					if (foundArgs == true)
 					{
+						arguments.push_back(arg);
+
+						continue;
+					}
+
+					if (arg == "--terminal")
+					{
+						found = true;
+
 						#ifdef WIN32
 							setupConsoleOutput();
 						#endif
 					}
 
-					if (newArgs.at(iIdx) == "xrjv1")
+					if (arg == "--xrjv1")
 					{
+						found = true;
+
 						#ifdef WIN32
 							setupConsoleOutput();
 						#endif
@@ -240,8 +255,10 @@ namespace RadJAV
 						return (RadJavType::XRJ_NODE);
 					}
 
-					if (newArgs.at(iIdx) == "xrjv1-cli")
+					if (arg == "--xrjv1-cli")
 					{
+						found = true;
+
 						#ifdef WIN32
 							setupConsoleOutput();
 						#endif
@@ -274,8 +291,10 @@ namespace RadJAV
 						return (RadJavType::XRJ_NODE);
 					}
 
-					if (newArgs.at(iIdx) == "--version")
+					if (arg == "--version")
 					{
+						found = true;
+
 						#ifdef WIN32
 							setupConsoleOutput();
 						#endif
@@ -293,24 +312,66 @@ namespace RadJAV
 						return (RadJavType::XRJ_NODE);
 					}
 
-					if (newArgs.at(iIdx) == "--pause")
+					if (arg == "--pause")
+					{
+						found = true;
 						pause = true;
+					}
+
+					if (arg == "--help")
+					{
+						found = true;
+						RadJav::printToOutputWindow("RadJav Version " + String(RADJAV_VERSION_MAJOR) + "." + String(RADJAV_VERSION_MINOR) + "\n");
+						RadJav::printToOutputWindow("--help Help\n");
+						RadJav::printToOutputWindow("--version Version\n");
+						RadJav::printToOutputWindow("--pause Pause after execution.\n");
+						RadJav::printToOutputWindow("--terminal Output to the terminal.\n");
+						RadJav::printToOutputWindow("--xrjv1 Start a XRJV1 node.\n");
+						RadJav::printToOutputWindow("--xrjv1-cli Manage a XRJV1 node.\n");
+
+
+						return (RadJavType::XRJ_NODE);
+					}
+
+					if (found == false)
+					{
+						if (CPP::IO::isFile(arg) == true)
+						{
+							foundArgs = true;
+							file = arg;
+						}
+					}
 				}
 
 				if (pause == true)
 					system("PAUSE");
 			}
 
-			// Initializing wxWidgets app and lib
-			// TODO: not sure what to do if it fails
-			int argc = 1;
-			char* argv[] = { const_cast<char*>(newArgs[0].c_str())};
-			if (wxInitialize(argc, argv))
-			{
-				wxInitAllImageHandlers ();
-				app = dynamic_cast<wxWidgetsRadJav*>(wxTheApp);
-				app->OnInit();
-			}
+			#ifdef GUI_USE_WXWIDGETS
+				// Initializing wxWidgets app and lib
+				// TODO: not sure what to do if it fails
+				int argc = 1;
+				char* argv[] = { const_cast<char*>(newArgs.at (0).c_str()) };
+				/*int argc = newArgs.size();
+				char **argv = RJNEW char *[argc];
+
+				for (RJUINT iIdx = 0; iIdx < newArgs.size(); iIdx++)
+					argv[iIdx] = (char *)newArgs.at(iIdx).c_str();*/
+
+				try
+				{
+					if (wxInitialize(argc, argv))
+					{
+						wxInitAllImageHandlers();
+						app = dynamic_cast<wxWidgetsRadJav*>(wxTheApp);
+						app->OnInit();
+				}
+				}
+				catch (Exception ex)
+				{
+					return (RadJavType::VM);
+				}
+			#endif
 			
 			#ifdef HTTP_USE_CIVETWEB
 				mg_init_library(8 | 16);
@@ -327,18 +388,6 @@ namespace RadJAV
 			#endif
 
 			return (RadJavType::VM);
-			
-			#else // !GUI_USE_WXWIDGETS
-				arguments = newArgs;
-			
-				theme = RJNEW Theme();
-			
-				#ifdef USE_V8
-					javascriptEngine = RJNEW V8JavascriptEngine();
-				#endif
-			
-				return (RadJavType::VM);
-			#endif
 		}
 
 	#ifdef WIN32

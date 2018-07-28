@@ -19,6 +19,7 @@
 */
 declare let define: any;
 
+/// <reference path="RadJav.Animation.ts" />
 
 /** @class Promise
  * An object that executes when a process has completed.
@@ -30,12 +31,10 @@ declare let define: any;
  */
 namespace RadJav
 {
-
-  /** @property 
+	/** @property 
 	* Allow the use of eval.
 	*/
-  export let defaults: any;
-  
+	export let defaults: any;
 
 	/** @property {Boolean} [useEval=false]
 	* Allow the use of eval.
@@ -70,7 +69,7 @@ namespace RadJav
 	/** @property {RadJav.Theme} [themes=null]
 	* The current theme that has been loaded.
 	*/
-	export let themes: Theme = null;
+	export let theme: Theme = null;
 
 	/** @property {Boolean} [_isInitialized=false]
 	* If set to true, RadJav has been initialized.
@@ -1005,69 +1004,68 @@ namespace RadJav
 		setTimeout (RadJav.animationUpdate, RadJav.animationFrameRate);
 	}
 
-  export class Theme
-  {
-    obj: { [key: string]: any };
+	export class Theme
+	{
+		obj: { [key: string]: any };
 
-    /** @property {String} [name=""]
-     * The name of the theme.
-     */
-    name: string = "";
+		/** @property {String} [name=""]
+		* The name of the theme.
+		*/
+		name: string = "";
 
-    /** @property {String} [version=""]
-     * The theme's version.
-     */
-    version: string = "";
+		/** @property {String} [version=""]
+		* The theme's version.
+		*/
+		version: string = "";
 
-    /** @property {String} [author=""]
-     * The theme's author.
-     */
-    author: string = "";
+		/** @property {String} [author=""]
+		* The theme's author.
+		*/
+		author: string = "";
 
-    /** @property {Date} [lastUpdated=null]
-     * The theme's last update date.
-     */
-    lastUpdated: Date = null;
+		/** @property {Date} [lastUpdated=null]
+		* The theme's last update date.
+		*/
+		lastUpdated: Date = null;
 
-    /** @property {String} [description=""]
-     * The theme's description.
-     */
-    description: string = "";
+		/** @property {String} [description=""]
+		* The theme's description.
+		*/
+		description: string = "";
 
-    /** @property {String} [url=""]
-     * The url to this theme.
-     */
-    url: string = "";
+		/** @property {String} [url=""]
+		* The url to this theme.
+		*/
+		url: string = "";
 
-    /** @property {String} [initFile=""]
-     * The initialization file to start.
-     */
-    initFile: string = "";
+		/** @property {String} [initFile=""]
+		* The initialization file to start.
+		*/
+		initFile: string = "";
 
-    /** @property {String[]} [cssFiles=[]]
-     * CSS files to load.
-     */
-    cssFiles: string[] = [];
+		/** @property {String[]} [cssFiles=[]]
+		* CSS files to load.
+		*/
+		cssFiles: string[] = [];
 
-    /** @property {Object[]}[fonts=[]]
-     * Fonts to load.
-     */
-    fonts: object[] = [];
+		/** @property {Object[]}[fonts=[]]
+		* Fonts to load.
+		*/
+		fonts: object[] = [];
 
-   
-
-    constructor(obj?: {}) {
-      this.obj = obj;
-      this.name = RadJav.setDefaultValue(this.obj.name, "");
-      this.version = RadJav.setDefaultValue(this.obj.version, "");
-      this.author = RadJav.setDefaultValue(this.obj.author, "");
-      this.lastUpdated = RadJav.setDefaultValue(this.obj.lastUpdated, null);
-      this.description = RadJav.setDefaultValue(this.obj.description, "");
-      this.url = RadJav.setDefaultValue(this.obj.url, "");
-      this.initFile = RadJav.setDefaultValue(this.obj.initFile, "");
-      this.cssFiles = RadJav.setDefaultValue(this.obj.cssFiles, []);
-      this.fonts = RadJav.setDefaultValue(this.obj.fonts, []);
-    }
+		constructor(obj?: {})
+		{
+			this.obj = obj;
+			this.name = RadJav.setDefaultValue(this.obj.name, "");
+			this.version = RadJav.setDefaultValue(this.obj.version, "");
+			this.author = RadJav.setDefaultValue(this.obj.author, "");
+			this.lastUpdated = RadJav.setDefaultValue(this.obj.lastUpdated, null);
+			this.description = RadJav.setDefaultValue(this.obj.description, "");
+			this.url = RadJav.setDefaultValue(this.obj.url, "");
+			this.initFile = RadJav.setDefaultValue(this.obj.initFile, "");
+			this.cssFiles = RadJav.setDefaultValue(this.obj.cssFiles, []);
+			this.fonts = RadJav.setDefaultValue(this.obj.fonts, []);
+		}
 
     /** @method loadInitializationFile
      * Load the initialization file and execute it.
@@ -1232,7 +1230,7 @@ namespace RadJav
      * @param {String} event The name of the event to trigger.
      * @return {Promise} The promise to execute when this event is completed.
      */
-     static event(file: string, event: string,...other): Promise<any> {
+     event(file: string, event: string,...other): Promise<any> {
       var args = new Array();
 
       for (var iIdx = 2; iIdx < arguments.length; iIdx++) {
@@ -1290,7 +1288,7 @@ namespace RadJav
      * @param {String} event The name of the event to trigger.
      * @return {Mixed} The data returned from the event.
      */
-    static eventSync(file: string, event: string, ...other): any {
+    eventSync(file: string, event: string, ...other): any {
       var args = new Array();
       var result = null;
 
@@ -1577,61 +1575,72 @@ namespace RadJav
 		}
 	}
 
-  /** @class Console
-   * @static
-   * Contains classes handling console operations.
-   */
-  export class Console {
-    /** @method print
-     * @static
-     * Print a message to the console.
-     * @param {String} message The message to output.
-     */
-    public static print(message: string): void {
-      console.log(message);
-    }
+	/** @class Console
+	* @static
+	* Contains classes handling console operations.
+	*/
+	export class Console
+	{
+		/** @method print
+		* @static
+		* Print a message to the console.
+		* @param {String} message The message to output.
+		*/
+		public static print(message: string): void
+		{
+			console.log(message);
+		}
 
-    /** @method println
-     * @static
-     * Print a message to the console with a new line at the end.
-     * @param {String} message The message to output.
-     */
-    public static println(message: string): void {
-      this.print(message + "\n");
-    }
-  }
+		/** @method println
+		* @static
+		* Print a message to the console with a new line at the end.
+		* @param {String} message The message to output.
+		*/
+		public static println(message: string): void
+		{
+			this.print(message + "\n");
+		}
+	}
 
-  /** @class RadJav.OS
-   * @static
-   * Contains Operating System specific functions.
-   */
-  export namespace OS {
-    /** @property {String} [type="html5"]
-     * @static
-     * Represents the current type of operating system.
-     * Can be:
-     * * windows
-     * * linux
-     * * macosx
-     * * html5
-     */
-    export let type: "windows" | "linux" | "macosx" | "html5" = "html5";
+	/** @class RadJav.OS
+	* @static
+	* Contains Operating System specific functions.
+	*/
+	export namespace OS
+	{
+		/** @property {String} [type="html5"]
+		* @static
+		* Represents the current type of operating system.
+		* Can be:
+		* * windows
+		* * linux
+		* * macosx
+		* * html5
+		*/
+		export let type: string = "html5";
 
-    /** @property {Number} [numBits=32]
-     * @static
-     * The number of bits this operating system is.
-     */
-    export let numBits: number = 32;
+		/** @property {Number} [numBits=32]
+		* @static
+		* The number of bits this operating system is.
+		*/
+		export let numBits: number = 32;
 
-    /** @method onReady
-     * Execute code when RadJav has finished loading.
-     * Available on platforms: Windows,Linux,OSX,HTML5
-     * @param {Function} func The function to execute.
-     * @return {Promise} The promise to execute.
-     */
-    export function onReady(func: any): Promise<any> {
-      return RadJav.OS.HTML5.ready(window).then(func);
-    }
+		/** @property {string[]} [args=[]]
+		* @static
+		* The command line arguments.
+		*/
+		export let args: string[] = [];
+
+		/** @method onReady
+		* Execute code when RadJav has finished loading.
+		* Available on platforms: Windows,Linux,OSX,HTML5
+		* @param {Function} func The function to execute.
+		* @return {Promise} The promise to execute.
+		*/
+		export function onReady(func: any): Promise<any>
+		{
+			return RadJav.OS.HTML5.ready(window).then(func);
+		}
 
     /** @method getDocumentsPath
      * @static

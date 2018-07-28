@@ -93,6 +93,8 @@ namespace RadJAV
 
 			/// Normalize a file/directory path.
 			String normalizePath(String path, String basePath = "");
+			/// Normalize an verify the file/directory path.
+			String normalizeAndVerifyPath(String path, String basePath = "");
 			/// Normalize a file/directory path relative to the current directory path.
 			String normalizeCurrentPath(String path);
 

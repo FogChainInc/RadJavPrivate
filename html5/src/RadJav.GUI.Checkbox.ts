@@ -20,70 +20,74 @@
 
 /// <reference path="RadJav.ts" />
 
-namespace RadJav {
-  export namespace GUI {
-    /** @class RadJav.GUI.Checkbox
-     * @extends RadJav.GUI.GObject
-     * A checkbox.
-     * Available on platforms: Windows,Linux,OSX,HTML5
-     */
-    export class Checkbox extends RadJav.GUI.GObject{
+namespace RadJav
+{
+	export namespace GUI
+	{
+		/** @class RadJav.GUI.Checkbox
+		* @extends RadJav.GUI.GObject
+		* A checkbox.
+		* Available on platforms: Windows,Linux,OSX,HTML5
+		*/
+		export class Checkbox extends RadJav.GUI.GObject
+		{
+			constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject)
+			{
+				if (obj == null)
+				obj = {};
 
-      constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject) {
-        if (obj == null) {
-          obj = {};
-        }
+				if (typeof obj == "string")
+				{
+					var name = obj;
+					obj = { name: name };
+				}
 
-        if (typeof obj == "string") {
-          var name = obj;
-          obj = { name: name };
-        }
+				if (obj.size == null)
+				{
+					obj.size = new RadJav.Vector2();
+					obj.size.x = 80;
+					obj.size.y = 40;
+				}
 
-        if (obj.size == null) {
-          obj.size = new RadJav.Vector2();
-          obj.size.x = 80;
-          obj.size.y = 40;
-        }
+				if (obj.checked != null)
+					obj._checked = obj.checked;
 
-        if (obj.checked != null) {
-          obj._checked = obj.checked;
-        }
+				super(obj, text, parent);
 
-        super(obj, text, parent);
+				this.type = "RadJav.GUI.Checkbox";
 
-        this.type = "RadJav.GUI.Checkbox";
+				/** @property {Boolean} [_checked=false]
+				* If set to true, the box is checked.
+				*/
+				this._checked = RadJav.setDefaultValue(obj._checked, false);
+			}
 
-        /** @property {Boolean} [_checked=false]
-         * If set to true, the box is checked.
-         */
-        this._checked = RadJav.setDefaultValue(obj._checked, false);
-      }
+			/** @property {Boolean} [_checked=false]
+			* If set to true, the box is checked.
+			* @protected
+			*/
+			_checked: boolean;
 
-   
-      /** @property {Boolean} [_checked=false]
-       * If set to true, the box is checked.
-       * @protected
-       */
-      _checked: boolean;
+			/** Set whether or not this checkbox is checked.
+			* Theme Event: setChecked
+			* Is Theme Event Asynchronous: No
+			* @param {Boolean} checked Whether or not this is checked.
+			* @return {Promise} Executes the promise when the image has loaded.
+			*/
+			public setChecked(checked: boolean): void
+			{
+				RadJav.theme.eventSync(this.type, "setChecked", this, checked);
+			}
 
-      /** Set whether or not this checkbox is checked.
-       * Theme Event: setChecked
-       * Is Theme Event Asynchronous: No
-       * @param {Boolean} checked Whether or not this is checked.
-       * @return {Promise} Executes the promise when the image has loaded.
-       */
-      public setChecked(checked: boolean): void {
-        RadJav.theme.eventSync(this.type, "setChecked", this, checked);
-      }
-
-      /** Checks if this checkbox is checked.
-       * Theme Event: isChecked
-       * Is Theme Event Asynchronous: No
-       * @return {Boolean} Whether or not this is checked.
-       */
-      public isChecked(): boolean {
-        return RadJav.theme.eventSync(this.type, "isChecked", this);
-      }
-    }
-  }
+			/** Checks if this checkbox is checked.
+			* Theme Event: isChecked
+			* Is Theme Event Asynchronous: No
+			* @return {Boolean} Whether or not this is checked.
+			*/
+			public isChecked(): boolean
+			{
+				return RadJav.theme.eventSync(this.type, "isChecked", this);
+			}
+		}
+	}
 }

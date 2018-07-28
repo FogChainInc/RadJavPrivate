@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "@types/jquery": "^3.3.4",
+    "@types/three": "^0.92.13",
     "express": "^4.16.3",
     "recursive-copy": "^2.0.9",
     "typescript": "^2.8.3",

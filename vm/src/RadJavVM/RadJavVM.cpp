@@ -94,8 +94,10 @@
 
 int RadJavVM::initialize (RadJAV::Array<RadJAV::String> args)
 {
-	if (RadJAV::RadJav::initialize(args) == RadJAV::RadJavType::XRJ_NODE)
-		return EXIT_SUCCESS;
+	RadJAV::String file = "";
+
+	if (RadJAV::RadJav::initialize(args, file) == RadJAV::RadJavType::XRJ_NODE)
+		return (EXIT_SUCCESS);
 
 	try
 	{
@@ -103,15 +105,15 @@ int RadJavVM::initialize (RadJAV::Array<RadJAV::String> args)
 		{
 			showError("No files to execute or arguments specified!");
 
-			return EXIT_FAILURE;
+			return (EXIT_FAILURE);
 		}
 
-		return RadJAV::RadJav::runApplicationFromFile (args.at (1));
+		return (RadJAV::RadJav::runApplicationFromFile (file));
 	}
 	catch (RadJAV::Exception ex)
 	{
 		showError (ex.getMessage());
-		return EXIT_FAILURE;
+		return (EXIT_FAILURE);
 	}
 }
 

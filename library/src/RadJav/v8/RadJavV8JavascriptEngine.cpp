@@ -1144,6 +1144,18 @@ namespace RadJAV
 					v8::Handle<v8::Function> osFunc = v8GetFunction(radJavFunc, "OS");
 
 					V8B::OS::createV8Callbacks(isolate, osFunc);
+
+					// Command line arguments
+					{
+						v8::Handle<v8::Array> args = v8::Handle<v8::Array>::Cast (v8GetValue(osFunc, "args"));
+
+						for (RJINT iIdx = 0; iIdx < RadJav::arguments.size(); iIdx++)
+						{
+							String arg = RadJav::arguments.at(iIdx);
+
+							args->Set(iIdx, arg.toV8String(isolate));
+						}
+					}
 				}
 
 				// RadJav.Console

@@ -10,10 +10,12 @@ var RadJav;
         IO.changePath = function (path) { return; };
         IO.exists = function (path) { return; };
         IO.createDir = function (path) { };
-        IO.copyDir = function (src, dest, recursive) { };
+        IO.copyDir = function (src, dest, recursive) {
+            if (recursive === void 0) { recursive = true; }
+        };
         IO.renameDir = function (src, dest) { };
         IO.deleteDir = function (path) { };
-        IO.isEmpty = function (path) { };
+        IO.isEmpty = function (path) { return; };
         IO.createSymLink = function (path, link) { };
         IO.copySymLink = function (src, dest) { };
         IO.renameSymLink = function (src, dest) { };
@@ -21,9 +23,23 @@ var RadJav;
         IO.copyFile = function (src, dest) { };
         IO.renameFile = function (src, dest) { };
         IO.deleteFile = function (path) { };
-        IO.listFiles = function (path) { return; };
-        IO.listFilesAsync = function (path) { return; };
-        IO.normalizePath = function (path) { return; };
+        IO.listFiles = function (path, recursive) {
+            if (recursive === void 0) { recursive = true; }
+            return;
+        };
+        IO.listFilesAsync = function (asyncCallback, path, recursive) {
+            if (recursive === void 0) { recursive = true; }
+            return;
+        };
+        IO.normalizePath = function (path, basePath) {
+            if (basePath === void 0) { basePath = ""; }
+            return;
+        };
+        IO.normalizeAndVerifyPath = function (path, basePath) {
+            if (basePath === void 0) { basePath = ""; }
+            return;
+        };
+        IO.normalizeCurrentPath = function (path) { return; };
         return IO;
     }());
     RadJav.IO = IO;
@@ -62,8 +78,8 @@ var RadJav;
                 this.parser = null;
                 this.root = null;
                 this.xmlFile = null;
-                if (this._init != null)
-                    this._init();
+                if (typeof this["_init"] == "function")
+                    this["_init"]();
             }
             XMLFile.prototype.loadXMLFile = function (filePath) {
                 var promise = new Promise(RadJav.keepContext(function (resolve, reject, file) {
@@ -75,7 +91,7 @@ var RadJav;
                         }));
                     }
                     else {
-                        var data = RadJav.IO.TextFile.readEntireFile(path);
+                        var data = RadJav.IO.TextFile.readFile(path);
                         this.loadXML(data);
                         resolve(data);
                     }
@@ -119,8 +135,10 @@ var RadJav;
                         }
                     }
                 }
-                else
-                    this._init(tag);
+                else {
+                    if (typeof this["_init"] == "function")
+                        this["_init"](tag);
+                }
             }
             XMLTag.prototype.getTags = function (tag) {
                 var tags = [];
@@ -166,7 +184,7 @@ var RadJav;
                         result += " ";
                     for (var iIdx = 0; iIdx < this.children.length; iIdx++) {
                         var child = this.children[iIdx];
-                        result += this.child.toString() + " ";
+                        result += child.toString() + " ";
                     }
                     result += "</" + this.tag + ">";
                 }

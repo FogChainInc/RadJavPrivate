@@ -124,28 +124,39 @@ namespace RadJav {
        */
       destroy(): void {}
 
-      /** Get the parent.
-       * @return {RadJav.C3D.Object3D} The parent of this object.
-       */
-      getParent(): Object3D {
-        return this._parent;
-      }
+		/** Get the parent.
+		* @return {RadJav.C3D.Object3D} The parent of this object.
+		*/
+		getParent(): Object3D
+		{
+			return this._parent;
+		}
 
-      /** Get the transform.
-       * @return {RadJav.C3D.Transform} The transform.
-       */
-      getTransform(): C3D.Transform {
-        return this._transform;
-      }
+		/** Get the transform.
+		* @return {RadJav.C3D.Transform} The transform.
+		*/
+		getTransform(): C3D.Transform
+		{
+			return this._transform;
+		}
 
-      /** Set the position of this object.
-       * @param {Number/RadJav.Vector3} x The x position or full vector3 position.
-       * @param {Number} y The y position.
-       * @param {Number} z The z position.
-       */
-      setPosition(x: Number, y: number, z: number): void {
-        return this._transform.setPosition(x, y, z);
-      }
+		/** Set the position of this object.
+		* @param {Number/RadJav.Vector3} x The x position or full vector3 position.
+		* @param {Number} y The y position.
+		* @param {Number} z The z position.
+		*/
+		setPosition(x: number | RadJav.Vector3, y: number = 0, z: number = 0): void
+		{
+			if (x instanceof RadJav.Vector3)
+			{
+				let temp: RadJav.Vector3 = (<RadJav.Vector3>x);
+				x = temp.x;
+				y = temp.y;
+				z = temp.z;
+			}
+
+			return this._transform.setPosition(x, y, z);
+		}
 
       /** Get the position of this object.
        * @return {RadJav.Vector3} The position.
@@ -169,7 +180,9 @@ namespace RadJav {
        * Parameters Passed to Theme Event: RadJav.GUI.GObject
        * @return {Boolean} The visibility of this object
        */
-      getVisibility(): boolean {
+      getVisibility(): boolean
+	  {
+		  return;
       }
 
       /** Show this object.

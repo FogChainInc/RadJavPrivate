@@ -56,6 +56,12 @@ var RadJav;
         Vector2.prototype.normalize = function () {
             return this.divide(this.length());
         };
+        Vector2.prototype.lerp = function (start, end, time) {
+            var result = new Vector2();
+            result.x = Math.lerp(start.x, end.x, time);
+            result.y = Math.lerp(start.y, end.y, time);
+            return (result);
+        };
         Vector2.parseVector2 = function (str) {
             var obj = new Vector2();
             if (str == "")

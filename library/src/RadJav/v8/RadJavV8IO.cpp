@@ -60,6 +60,7 @@ namespace RadJAV
 			V8_CALLBACK(object, "listFilesAsync", IO::listFilesAsync);
 
 			V8_CALLBACK(object, "normalizePath", IO::normalizePath);
+			V8_CALLBACK(object, "normalizeAndVerifyPath", IO::normalizeAndVerifyPath);
 			V8_CALLBACK(object, "normalizeCurrentPath", IO::normalizeCurrentPath);
 			
 			V8_CALLBACK(object, "onFileList", IO::onFileList);
@@ -420,6 +421,22 @@ namespace RadJAV
 			}
 
 			path = CPP::IO::normalizePath(parseV8Value(path), basePath).toV8String (args.GetIsolate ());
+
+			args.GetReturnValue().Set(path);
+		}
+
+		void IO::normalizeAndVerifyPath(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+			String basePath = "";
+
+			if (args.Length() > 1)
+			{
+				v8::Local<v8::String> basePathV8 = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
+				basePath = parseV8Value(basePathV8);
+			}
+
+			path = CPP::IO::normalizeAndVerifyPath(parseV8Value(path), basePath).toV8String (args.GetIsolate ());
 
 			args.GetReturnValue().Set(path);
 		}

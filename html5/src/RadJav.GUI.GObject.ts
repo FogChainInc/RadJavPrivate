@@ -318,47 +318,58 @@
         return promise;
       }
 
-      /** @method setFont
-       * Set this object's font.
-       * Theme Event: setFont
-       * Is Theme Event Asynchronous: No
-       * @param {RadJav.Font} font The font to set.
-       */
-      setFont(font: Font): void {
-        this._font = font;
-        RadJav.theme.eventSync(this.type, "setFont", this, font);
-      }
+		/** @method setFont
+		* Set this object's font.
+		* Theme Event: setFont
+		* Is Theme Event Asynchronous: No
+		* @param {RadJav.Font} font The font to set.
+		*/
+		setFont(font: Font): void
+		{
+			this._font = font;
+			RadJav.theme.eventSync(this.type, "setFont", this, font);
+		}
 
-      /** @method getFont
-       * Get this object's font.
-       * Theme Event: getFont
-       * Is Theme Event Asynchronous: No
-       * @return {RadJav.Font} The font.
-       */
-      getFont(): Font {
-        return RadJav.theme.eventSync(this.type, "getFont", this);
-      }
+		/** @method getFont
+		* Get this object's font.
+		* Theme Event: getFont
+		* Is Theme Event Asynchronous: No
+		* @return {RadJav.Font} The font.
+		*/
+		getFont(): Font
+		{
+			return RadJav.theme.eventSync(this.type, "getFont", this);
+		}
 
-      /** @method setPosition
-       * Set the position of this object.
-       * Theme Event: None
-       * Is Theme Event Asynchronous: No
-       * @param {Number/RadJav.Vector2} x The new position, or the new x coordinate of the new position.
-       * @param {Number} [y=null] The new y coordinate.
-       */
-      setPosition(x: number, y: number): void {
-        this._transform.setPosition(x, y);
-      }
+		/** @method setPosition
+		* Set the position of this object.
+		* Theme Event: None
+		* Is Theme Event Asynchronous: No
+		* @param {Number/RadJav.Vector2} x The new position, or the new x coordinate of the new position.
+		* @param {Number} [y=null] The new y coordinate.
+		*/
+		setPosition(x: number | RadJav.Vector2, y: number = 0): void
+		{
+			if (x instanceof RadJav.Vector2)
+			{
+				let temp: RadJav.Vector2 = (<RadJav.Vector2>x);
+				x = temp.x;
+				y = temp.y;
+			}
 
-      /** @method getPosition
-       * Get the position of this object.
-       * Theme Event: None
-       * Is Theme Event Asynchronous: No
-       * @return {RadJav.Vector2} The position of this object.
-       */
-      getPosition(): Vector2 {
-        return this._transform.getPosition();
-      }
+			this._transform.setPosition(x, y);
+		}
+
+		/** @method getPosition
+		* Get the position of this object.
+		* Theme Event: None
+		* Is Theme Event Asynchronous: No
+		* @return {RadJav.Vector2} The position of this object.
+		*/
+		getPosition(): Vector2
+		{
+			return this._transform.getPosition();
+		}
 
       /** @method getX
        * Get the X position of this object.
@@ -411,36 +422,39 @@
         return this._transform.width;
       }
 
-      /** @method getHeight
-       * Get the height of this object.
-       * Theme Event: None
-       * Is Theme Event Asynchronous: No
-       * @return {number} The height of this object.
-       */
-      getHeight(): number {
-        return this._transform.height;
-      }
+		/** @method getHeight
+		* Get the height of this object.
+		* Theme Event: None
+		* Is Theme Event Asynchronous: No
+		* @return {number} The height of this object.
+		*/
+		getHeight(): number
+		{
+			return this._transform.height;
+		}
 
-      /** @method setText
-       * Set the object's text.
-       * Theme Event: setText
-       * Is Theme Event Asynchronous: Yes
-       * @param {string} text The text to set.
-       * @return {string} The text associated with this object.
-       */
-      setText(text: string): void {
-        RadJav.Theme.event(this.type, "setText", this, text);
-      }
+		/** @method setText
+		* Set the object's text.
+		* Theme Event: setText
+		* Is Theme Event Asynchronous: Yes
+		* @param {string} text The text to set.
+		* @return {string} The text associated with this object.
+		*/
+		setText(text: string): void
+		{
+			RadJav.theme.event(this.type, "setText", this, text);
+		}
 
-      /** @method getText
-       * Get the object's text.
-       * Theme Event: getText
-       * Is Theme Event Asynchronous: No
-       * @return {string} The text associated with this object.
-       */
-      getText(): string {
-        return RadJav.Theme.eventSync(this.type, "getText", this);
-      }
+		/** @method getText
+		* Get the object's text.
+		* Theme Event: getText
+		* Is Theme Event Asynchronous: No
+		* @return {string} The text associated with this object.
+		*/
+		getText(): string
+		{
+			return RadJav.theme.eventSync(this.type, "getText", this);
+		}
 
       /** @method getParent
        * Get the parent.
@@ -535,7 +549,7 @@
        * @return {Mixed} The result.
        */
       on(eventName: string, func: Function): any {
-        return RadJav.Theme.event(this.type, "on", this, eventName, func);
+        return RadJav.theme.event(this.type, "on", this, eventName, func);
       }
 
       /** @method getHTMLDOM

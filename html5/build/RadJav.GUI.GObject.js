@@ -150,6 +150,12 @@ var RadJav;
                 return RadJav.theme.eventSync(this.type, "getFont", this);
             };
             GObject.prototype.setPosition = function (x, y) {
+                if (y === void 0) { y = 0; }
+                if (x instanceof RadJav.Vector2) {
+                    var temp = x;
+                    x = temp.x;
+                    y = temp.y;
+                }
                 this._transform.setPosition(x, y);
             };
             GObject.prototype.getPosition = function () {
@@ -174,10 +180,10 @@ var RadJav;
                 return this._transform.height;
             };
             GObject.prototype.setText = function (text) {
-                RadJav.Theme.event(this.type, "setText", this, text);
+                RadJav.theme.event(this.type, "setText", this, text);
             };
             GObject.prototype.getText = function () {
-                return RadJav.Theme.eventSync(this.type, "getText", this);
+                return RadJav.theme.eventSync(this.type, "getText", this);
             };
             GObject.prototype.getParent = function () {
                 return this._parent;
@@ -204,7 +210,7 @@ var RadJav;
                 return RadJav.theme.eventSync(this.type, "getEnabled", this);
             };
             GObject.prototype.on = function (eventName, func) {
-                return RadJav.Theme.event(this.type, "on", this, eventName, func);
+                return RadJav.theme.event(this.type, "on", this, eventName, func);
             };
             GObject.prototype.getHTMLDOM = function () {
                 return RadJav.theme.eventSync(this.type, "getHTMLDOM", this);
