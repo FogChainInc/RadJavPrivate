@@ -24,6 +24,16 @@ declare let define: any;
 /** @class Promise
  * An object that executes when a process has completed.
  */
+ 
+// Hack for the desktop/mobile versions.
+if (typeof (window) == "undefined")
+{
+	namespace window
+	{
+		export let innerWidth: number = 0;
+		export let innerHeight: number = 0;
+	}
+}
 
 /** @class RadJav
  * @static
@@ -2103,33 +2113,10 @@ var _eval = eval;
 var _Function = Function;
 RadJav.defaults = RadJav;
 
-// This is taken from generated TypeScript code. Thanks Microsoft!
-var __extends =
-  (this && this.__extends) ||
-  (function() {
-    var extendStatics =
-    (<any>Object).setPrototypeOf ||
-      ({ __proto__: [] } instanceof Array &&
-        function(d, b) {
-          d.__proto__ = b;
-        }) ||
-      function(d, b) {
-        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-      };
-    return function(d, b) {
-      extendStatics(d, b);
-      function __() {
-        this.constructor = d;
-      }
-      d.prototype =
-        b === null
-          ? Object.create(b)
-          : ((__.prototype = b.prototype), new __());
-    };
-  })();
-
-if (define != null) {
-  define(function() {
-    return RadJav;
-  });
+if (typeof (define) != "undefined")
+{
+	define(function()
+		{
+			return RadJav;
+		});
 }
