@@ -51,14 +51,14 @@ namespace RadJAV
 					#endif
 				}
 
-				void XMLFile::loadXMLFile(String filePath)
+				void XMLFile::parseXMLFile(String filePath)
 				{
 					String contents = CPP::IO::TextFile::readFile(filePath);
 
-					loadXML(contents);
+					parseXML(contents);
 				}
 
-				void XMLFile::loadXML(String xmlString)
+				void XMLFile::parseXML(String xmlString)
 				{
 					#ifdef USE_TINYXML2
 						tinyxml2::XMLError err = parser->Parse(xmlString.c_str ());

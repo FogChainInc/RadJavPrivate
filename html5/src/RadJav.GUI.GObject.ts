@@ -272,7 +272,7 @@
                 }
               }
             }
-            var promise2 = RadJav.theme.event(this.type, "create", this);
+            var promise2 = RadJav.currentTheme.event(this.type, "create", this);
 
             if (promise2 == null) {
               debugger;
@@ -299,7 +299,7 @@
                     for (var key in this._events) {
                       if (this._events[key] != null) {
                         var func = new Function(this._events[key]);
-                        RadJav.theme.event(this.type, "on", this, key, func);
+                        RadJav.currentTheme.event(this.type, "on", this, key, func);
                       }
                     }
 
@@ -327,7 +327,7 @@
 		setFont(font: Font): void
 		{
 			this._font = font;
-			RadJav.theme.eventSync(this.type, "setFont", this, font);
+			RadJav.currentTheme.eventSync(this.type, "setFont", this, font);
 		}
 
 		/** @method getFont
@@ -338,7 +338,7 @@
 		*/
 		getFont(): Font
 		{
-			return RadJav.theme.eventSync(this.type, "getFont", this);
+			return RadJav.currentTheme.eventSync(this.type, "getFont", this);
 		}
 
 		/** @method setPosition
@@ -442,7 +442,7 @@
 		*/
 		setText(text: string): void
 		{
-			RadJav.theme.event(this.type, "setText", this, text);
+			RadJav.currentTheme.event(this.type, "setText", this, text);
 		}
 
 		/** @method getText
@@ -453,7 +453,7 @@
 		*/
 		getText(): string
 		{
-			return RadJav.theme.eventSync(this.type, "getText", this);
+			return RadJav.currentTheme.eventSync(this.type, "getText", this);
 		}
 
       /** @method getParent
@@ -484,7 +484,7 @@
        * @param {Boolean} visible The visibility of the object
        */
       setVisibility(visible: boolean): void {
-        RadJav.theme.event(this.type, "setVisibility", this, visible);
+        RadJav.currentTheme.event(this.type, "setVisibility", this, visible);
       }
 
       /** @method getVisibility
@@ -495,7 +495,7 @@
        * @return {Boolean} The visibility of this object
        */
       getVisibility(): boolean {
-        return RadJav.theme.eventSync(this.type, "getVisibility", this);
+        return RadJav.currentTheme.eventSync(this.type, "getVisibility", this);
       }
 
       /** @method show
@@ -525,7 +525,7 @@
        * Parameters Passed to Theme Event: RadJav.GUI.GObject, Boolean
        */
       setEnabled(enabled: boolean): void {
-        RadJav.theme.event(this.type, "setEnabled", this, enabled);
+        RadJav.currentTheme.event(this.type, "setEnabled", this, enabled);
       }
 
       /** @method getEnabled
@@ -536,7 +536,7 @@
        * @return {Boolean} The enabled status of this object
        */
       getEnabled(): boolean {
-        return RadJav.theme.eventSync(this.type, "getEnabled", this);
+        return RadJav.currentTheme.eventSync(this.type, "getEnabled", this);
       }
 
       /** @method on
@@ -549,7 +549,7 @@
        * @return {Mixed} The result.
        */
       on(eventName: string, func: Function): any {
-        return RadJav.theme.event(this.type, "on", this, eventName, func);
+        return RadJav.currentTheme.event(this.type, "on", this, eventName, func);
       }
 
       /** @method getHTMLDOM
@@ -561,7 +561,7 @@
        * @return {Mixed} The html dom object.
        */
       getHTMLDOM(): any {
-        return RadJav.theme.eventSync(this.type, "getHTMLDOM", this);
+        return RadJav.currentTheme.eventSync(this.type, "getHTMLDOM", this);
       }
     }
   }

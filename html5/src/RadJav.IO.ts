@@ -375,7 +375,7 @@ namespace RadJav
 			}
 
 			/// Load a XML file.
-			loadXMLFile (filePath: string): Promise<string>
+			parseXMLFile (filePath: string): Promise<string>
 			{
 				let promise: Promise<string> = new Promise<string> (RadJav.keepContext (function (resolve, reject, file)
 					{
@@ -402,7 +402,7 @@ namespace RadJav
 			}
 
 			/// Load XML from a string.
-			loadXML (xmlString: string): void
+			parseXML (xmlString: string): void
 			{
 				if (RadJav.OS.HTML5 != null)
 				{
@@ -410,6 +410,33 @@ namespace RadJav
 					this.xmlFile = this.parser.parseFromString (xmlString, "text/xml");
 					this.root = new XMLTag ((<DOMElement>this.xmlFile.firstChild));
 				}
+			}
+
+			/// Load a XML file.
+			static loadFile (filePath: string): Promise<XMLFile>
+			{
+				let promise: Promise<XMLFile> = new Promise<XMLFile> (RadJav.keepContext (function (resolve, reject, file)
+					{
+						let path: string = file[0];
+						let xmlFile: XMLFile = new XMLFile ();
+						let promise2: Promise<void> = xmlFile.parseXMLFile (path).then (function ()
+							{
+								resolve (this);
+							});
+
+						return (promise2);
+					}, this, [filePath]));
+
+				return (promise);
+			}
+
+			/// Load a XML file.
+			static loadString (xmlString: string): XMLFile
+			{
+				let xmlFile: XMLFile = new XMLFile ();
+				xmlFile.parseXML (xmlString);
+
+				return (xmlFile);
 			}
 		}
 

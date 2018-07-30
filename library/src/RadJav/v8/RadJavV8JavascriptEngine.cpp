@@ -458,30 +458,26 @@ namespace RadJAV
 				#endif
 				
 				//Handle timers (setTimeout from JS)
-				auto timer = timers.begin();
-				auto timerEnd = timers.end();
-				auto currentTime = std::chrono::steady_clock::now();
+				std::chrono::steady_clock::time_point currentTime = std::chrono::steady_clock::now();
 				
-				while (timer != timerEnd)
+				for (RJINT iIdx = 0; iIdx < timers.size (); iIdx++)
 				{
-					v8::Persistent<v8::Function> *funcp = (*timer).first;
-					std::chrono::time_point<std::chrono::steady_clock> fireTime = (*timer).second;
+					auto timer = timers.at(iIdx);
+					v8::Persistent<v8::Function> *funcp = timer.first;
+					std::chrono::time_point<std::chrono::steady_clock> fireTime = timer.second;
 					
 					if (fireTime <= currentTime)
 					{
-						timer = timers.erase(timer);
-						
+						TimerVector::iterator delTimer = timers.begin ();
+						timers.erase(delTimer);
+
 						v8::Local<v8::Function> func = funcp->Get(isolate);
-						
+
 						if (func->IsNullOrUndefined() == false)
 							func->Call(globalContext->Global(), 0, NULL);
 						
 						DELETEOBJ(funcp);
-						
-						continue;
 					}
-
-					timer++;
 				}
 
 				for (RJUINT iIdx = 0; iIdx < removeThreads.size(); iIdx++)

@@ -76,7 +76,7 @@ namespace RadJav
 			*/
 			public setChecked(checked: boolean): void
 			{
-				RadJav.theme.eventSync(this.type, "setChecked", this, checked);
+				RadJav.currentTheme.eventSync(this.type, "setChecked", this, checked);
 			}
 
 			/** Checks if this checkbox is checked.
@@ -86,7 +86,7 @@ namespace RadJav
 			*/
 			public isChecked(): boolean
 			{
-				return RadJav.theme.eventSync(this.type, "isChecked", this);
+				return RadJav.currentTheme.eventSync(this.type, "isChecked", this);
 			}
 		}
 	}

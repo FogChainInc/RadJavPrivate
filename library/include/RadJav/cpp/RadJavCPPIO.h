@@ -157,9 +157,9 @@ namespace RadJAV
 								~XMLFile();
 
 								/// Open a XML and load it.
-								void loadXMLFile(String filePath);
+								void parseXMLFile(String filePath);
 								/// Load XML from a string.
-								void loadXML(String xmlString);
+								void parseXML(String xmlString);
 
 								#ifdef USE_TINYXML2
 									tinyxml2::XMLDocument *parser;

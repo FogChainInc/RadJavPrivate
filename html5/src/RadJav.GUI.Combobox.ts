@@ -83,7 +83,7 @@ namespace RadJav {
           item = { text: item };
         }
 
-        RadJav.theme.eventSync(this.type, "addItem", this, item);
+        RadJav.currentTheme.eventSync(this.type, "addItem", this, item);
       }
 
       /** @method setItems
@@ -94,7 +94,7 @@ namespace RadJav {
        * @param {RadJav.GUI.Combobox.Item[]} items The items to set to this combo box.
        */
       setItems(items: Combobox.Item[]): void {
-        RadJav.theme.eventSync(this.type, "setItems", this, items);
+        RadJav.currentTheme.eventSync(this.type, "setItems", this, items);
       }
 
       /** @method deleteItem
@@ -105,7 +105,7 @@ namespace RadJav {
        * @param {Number} The item index to delete.
        */
       deleteItem(index: Number): void {
-        RadJav.theme.eventSync(this.type, "deleteItem", this, index);
+        RadJav.currentTheme.eventSync(this.type, "deleteItem", this, index);
       }
 
       /** @method getItem
@@ -116,7 +116,7 @@ namespace RadJav {
        * @return {RadJav.GUI.Combobox.Item} The item.
        */
       getItem(index: Number): Combobox.Item {
-        return RadJav.theme.eventSync(this.type, "getItem", this, index);
+        return RadJav.currentTheme.eventSync(this.type, "getItem", this, index);
       }
 
       /** @method getItems
@@ -127,7 +127,7 @@ namespace RadJav {
        * @return {RadJav.GUI.Combobox.Item[]} The items.
        */
       getItems(): Combobox.Item[] {
-        return RadJav.theme.eventSync(this.type, "getItems", this);
+        return RadJav.currentTheme.eventSync(this.type, "getItems", this);
       }
 
       /** @method getNumItems
@@ -138,7 +138,7 @@ namespace RadJav {
        * @return {Number} The number of items.
        */
       getNumItems(): Number {
-        return RadJav.theme.eventSync(this.type, "getNumItems", this);
+        return RadJav.currentTheme.eventSync(this.type, "getNumItems", this);
       }
 
       /** @method clear
@@ -148,7 +148,7 @@ namespace RadJav {
        * Parameters Passed to Theme Event: RadJav.GUI.GObject
        */
       clear(): void {
-        return RadJav.theme.eventSync(this.type, "clear", this);
+        return RadJav.currentTheme.eventSync(this.type, "clear", this);
       }
 
       /** @method setSelectedItemIndex
@@ -160,7 +160,7 @@ namespace RadJav {
        * @param {Number} index The selected item index.
        */
       setSelectedItemIndex(index: Number): void {
-        RadJav.theme.eventSync(this.type, "setSelectedItemIndex", this, index);
+        RadJav.currentTheme.eventSync(this.type, "setSelectedItemIndex", this, index);
       }
 
       /** @method getSelectedItemIndex
@@ -172,7 +172,7 @@ namespace RadJav {
        * @return {Number} The selected item index.
        */
       getSelectedItemIndex(): Number {
-        return RadJav.theme.eventSync(this.type, "getSelectedItemIndex", this);
+        return RadJav.currentTheme.eventSync(this.type, "getSelectedItemIndex", this);
       }
     }
 

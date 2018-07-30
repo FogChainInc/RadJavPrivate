@@ -76,10 +76,10 @@ namespace RadJav
 	*/
 	export let selectedLanguage: string = "en_us";
 
-	/** @property {RadJav.Theme} [themes=null]
+	/** @property {RadJav.Theme} [currentTheme=null]
 	* The current theme that has been loaded.
 	*/
-	export let theme: Theme = null;
+	export let currentTheme: Theme = null;
 
 	/** @property {Boolean} [_isInitialized=false]
 	* If set to true, RadJav has been initialized.
@@ -523,23 +523,23 @@ namespace RadJav
       if (RadJav.useAjax == true) {
         RadJav._getResponse(url + "/theme.js").then(function(data) {
           var theme = RadJav.Theme.loadTheme(url, data);
-          RadJav.Theme = theme;
+          RadJav.currentTheme = theme;
           var promises2 = [];
 
-          promises2.push(RadJav.Theme.loadInitializationFile());
-          promises2.push(RadJav.Theme.loadJavascriptFiles());
+          promises2.push(RadJav.currentTheme.loadInitializationFile());
+          promises2.push(RadJav.currentTheme.loadJavascriptFiles());
 
           Promise.all(promises2).then(function() {
             resolve();
           });
         });
       } else {
-        var theme = RadJav.Theme.loadTheme(url, RadJav.Theme);
-        RadJav.Theme = theme;
+        var theme = RadJav.Theme.loadTheme(url, RadJav.currentTheme);
+        RadJav.currentTheme = theme;
         var promises2 = [];
 
-        promises2.push(RadJav.Theme.loadInitializationFile());
-        promises2.push(RadJav.Theme.loadJavascriptFiles());
+        promises2.push(RadJav.currentTheme.loadInitializationFile());
+        promises2.push(RadJav.currentTheme.loadJavascriptFiles());
 
         Promise.all(promises2).then(function() {
           resolve();
@@ -550,113 +550,137 @@ namespace RadJav
   }
 
   
-  /** @method runApplication
-   * Run an application from a file or a function.
-   * Available on platforms: Windows,Linux,OSX,HTML5
-   * @param {String/Function} file The path to the file to execute the javascript. Or a
-   * function that will immediately be executed.
-   * @return {Promise} The promise that will be executed when this module has completed executing.
-   */
-  export function runApplication(file: string | Function): Promise<any> {
-    var promise = null;
+	/** @method runApplication
+	* Run an application from a file or a function.
+	* Available on platforms: Windows,Linux,OSX,HTML5
+	* @param {String/Function} file The path to the file to execute the javascript. Or a
+	* function that will immediately be executed.
+	* @return {Promise} The promise that will be executed when this module has completed executing.
+	*/
+	export function runApplication(file: string | Function): Promise<any>
+	{
+		let promise = null;
 
-    if (typeof file == "string") {
-      promise = RadJav.include(file).then(
-        RadJav.keepContext(function(data) {
-          var func = new _Function(data);
-          func();
-        }, this)
-      );
-    } else {
-      promise = new Promise(
-        RadJav.keepContext(
-          function(resolve, reject, func) {
-            func();
-            resolve();
-          },
-          this,
-          file
-        )
-      );
-    }
+		if (typeof file == "string")
+		{
+			promise = RadJav.include(file).then(
+				RadJav.keepContext(function(data)
+				{
+					let func = new _Function(data);
+					func();
+				}, this));
+		}
+		else
+		{
+			promise = new Promise(RadJav.keepContext(
+				function(resolve, reject, func)
+				{
+					func();
+					resolve();
+				}, this, file));
+		}
 
-    return promise;
-  }
+		return promise;
+	}
 
-  /** @method runApplicationFromFile
-   * Run an application from a file.
-   * Available on platforms: Windows,Linux,OSX,HTML5
-   * @param {String} file The path to the file to execute the javascript. Or a
-   * function that will immediately be executed.
-   * @return {Promise} The promise that will be executed when this module has completed executing.
-   */
-  export function runApplicationFromFile(file: string): Promise<void> {
-    return RadJav.runApplication(file);
-  }
+	/** @method runApplicationFromFile
+	* Run an application from a file.
+	* Available on platforms: Windows,Linux,OSX,HTML5
+	* @param {String} file The path to the file to execute the javascript. Or a
+	* function that will immediately be executed.
+	* @return {Promise} The promise that will be executed when this module has completed executing.
+	*/
+	export function runApplicationFromFile(file: string): Promise<void>
+	{
+		return RadJav.runApplication(file);
+	}
 
-  /** @method loadObjects
-   * Load RadJav objects.
-   * Available on platforms: Windows,Linux,OSX,HTML5
-   * @param {String/RadJav.GUI.GObject[]/RadJav.C3D.Object3D[]} objs The objects to load.
-   * @return {Promise} When loading has completed, all loaded objects will be passed into
-   * the "then" function as an object with key/value pairs.
-   */
-  export function loadObjects(objs: any[]): Promise<{ [key: string]: any }> {
-    var promise = new Promise(function(resolve, reject) {
-      var promises = [];
-      var createdObjs = {};
+	/** @method loadObjects
+	* Load RadJav objects.
+	* Available on platforms: Windows,Linux,OSX,HTML5
+	* @param {String/RadJav.GUI.GObject[]/RadJav.C3D.Object3D[]} objs The objects to load.
+	* @return {Promise} When loading has completed, all loaded objects will be passed into
+	* the "then" function as an object with key/value pairs.
+	*/
+	export function loadObjects(objs: any[]): Promise<{ [key: string]: any }>
+	{
+		let promise = new Promise(function(resolve, reject)
+			{
+				let promises = [];
+				let createdObjs = {};
 
-      if (typeof objs == "string") {
-        objs = JSON.parse(objs);
-      }
+				if (typeof objs == "string")
+					objs = JSON.parse(objs);
 
-      for (var iIdx = 0; iIdx < objs.length; iIdx++) {
-        var obj = objs[iIdx];
-        var type = obj.type;
-        var name = obj.name;
-        var createdObj = null;
-        var promise2 = null;
+				for (let iIdx = 0; iIdx < objs.length; iIdx++)
+				{
+					let obj = objs[iIdx];
+					let type = obj.type;
+					let name = obj.name;
+					let createdObj = null;
+					let promise2 = null;
 
-        if (type.indexOf(".GUI") > -1) {
-          createdObj = new RadJav.GUI[type](obj);
-          promise2 = createdObj.create();
-        }
+					if (type.indexOf(".GUI") > -1)
+					{
+						createdObj = new RadJav.GUI[type](obj);
+						promise2 = createdObj.create();
+					}
 
-        if (type.indexOf(".C3D") > -1) {
-          createdObj = new RadJav.C3D[type](obj);
-          promise2 = createdObj.create();
-        }
+					if (type.indexOf(".C3D") > -1)
+					{
+						createdObj = new RadJav.C3D[type](obj);
+						promise2 = createdObj.create();
+					}
 
-        if (createdObj != null) {
-          createdObjs[name] = createdObj;
-        }
+					if (createdObj != null)
+						createdObjs[name] = createdObj;
 
-        if (promise2 != null) {
-          promises.push(promise2);
-        }
-      }
+					if (promise2 != null)
+						promises.push(promise2);
+				}
 
-      Promise.all(promises).then(function() {
-        resolve(createdObjs);
-      });
-    });
+				Promise.all(promises).then(function()
+					{
+						resolve(createdObjs);
+					});
+			});
 
-    return promise;
-  }
+		return promise;
+	}
 
-  /** @method _isUsingInternetExplorerTheWorstWebBrowserEver
-   * Checks to see if the current web browser is using Internet Explorer.
-   * @return {Boolean} Returns true if the web browser is Internet Explorer.
-   */
-  export function _isUsingInternetExplorerTheWorstWebBrowserEver(): boolean {
-    if (navigator.appName) {
-      if (navigator.appName == "Microsoft Internet Explorer") {
-        return true;
-      }
-    }
+	/** @method loadXML
+	* Load RadJav objects from XML.
+	* Available on platforms: Windows,Linux,OSX,HTML5
+	* @param {String} xml The XML to load.
+	* @return {Promise} When loading has completed, all loaded objects will be passed into
+	* the "then" function as an object with key/value pairs.
+	*/
+	export function loadXML(xml: string): Promise<void>
+	{
+		let promise = new Promise<void> (function ()
+			{
+				let file: RadJav.XML.XMLFile = RadJav.XML.loadString (xml);
 
-    return false;
-  }
+				
+			});
+
+		return promise;
+	}
+
+	/** @method _isUsingInternetExplorerTheWorstWebBrowserEver
+	* Checks to see if the current web browser is using Internet Explorer.
+	* @return {Boolean} Returns true if the web browser is Internet Explorer.
+	*/
+	export function _isUsingInternetExplorerTheWorstWebBrowserEver(): boolean
+	{
+		if (navigator.appName)
+		{
+			if (navigator.appName == "Microsoft Internet Explorer")
+				return true;
+		}
+
+		return false;
+	}
 
   /** @method _getSyncResponse
    * Get a synchronous response from HTTP. This will lock whatever thread it is currently on!
@@ -1016,8 +1040,6 @@ namespace RadJav
 
 	export class Theme
 	{
-		obj: { [key: string]: any };
-
 		/** @property {String} [name=""]
 		* The name of the theme.
 		*/
@@ -1063,102 +1085,105 @@ namespace RadJav
 		*/
 		fonts: object[] = [];
 
-		constructor(obj?: {})
+		constructor(obj: Theme = null)
 		{
-			this.obj = obj;
-			this.name = RadJav.setDefaultValue(this.obj.name, "");
-			this.version = RadJav.setDefaultValue(this.obj.version, "");
-			this.author = RadJav.setDefaultValue(this.obj.author, "");
-			this.lastUpdated = RadJav.setDefaultValue(this.obj.lastUpdated, null);
-			this.description = RadJav.setDefaultValue(this.obj.description, "");
-			this.url = RadJav.setDefaultValue(this.obj.url, "");
-			this.initFile = RadJav.setDefaultValue(this.obj.initFile, "");
-			this.cssFiles = RadJav.setDefaultValue(this.obj.cssFiles, []);
-			this.fonts = RadJav.setDefaultValue(this.obj.fonts, []);
+			this.name = RadJav.setDefaultValue(obj.name, "");
+			this.version = RadJav.setDefaultValue(obj.version, "");
+			this.author = RadJav.setDefaultValue(obj.author, "");
+			this.lastUpdated = RadJav.setDefaultValue(obj.lastUpdated, null);
+			this.description = RadJav.setDefaultValue(obj.description, "");
+			this.url = RadJav.setDefaultValue(obj.url, "");
+			this.initFile = RadJav.setDefaultValue(obj.initFile, "");
+			this.cssFiles = RadJav.setDefaultValue(obj.cssFiles, []);
+			this.fonts = RadJav.setDefaultValue(obj.fonts, []);
 		}
 
-    /** @method loadInitializationFile
-     * Load the initialization file and execute it.
-     * @return {Promise} Executes when the loading has completed.
-     */
-    static loadInitializationFile(): Promise<any> {
-      var promise = new Promise(
-        RadJav.keepContext(function(resolve, reject) {
-          var func = RadJav.keepContext(function(data) {
-            try {
-              if (typeof data == "string") {
-                RadJav.Theme.exports = _eval(data);
-              }
+		/** @method loadInitializationFile
+		 * Load the initialization file and execute it.
+		 * @return {Promise} Executes when the loading has completed.
+		 */
+		loadInitializationFile(): Promise<any>
+		{
+			let promise = new Promise(
+				RadJav.keepContext(function(resolve, reject)
+				{
+					let func = RadJav.keepContext(function(data)
+					{
+						try
+						{
+							if (typeof data == "string")
+								RadJav.currentTheme.exports = _eval(data);
 
-              if (RadJav.Theme.exports().init != null) {
-                RadJav.Theme.exports().init();
-              }
+							if (typeof (RadJav.currentTheme.exports.init) != "undefined")
+								RadJav.currentTheme.exports.init();
 
-              var fontCSS = "";
+							let fontCSS = "";
 
-              for (var iIdx = 0; iIdx < this.fonts.length; iIdx++) {
-                var fontName = this.fonts[iIdx].name;
-                var fontUrl = this.url + "/" + this.fonts[iIdx].relPath;
+							for (let iIdx = 0; iIdx < this.fonts.length; iIdx++)
+							{
+								let fontName = this.fonts[iIdx].name;
+								let fontUrl = this.url + "/" + this.fonts[iIdx].relPath;
 
-                fontCSS += "@font-face\n";
-                fontCSS += "{\n";
-                fontCSS += '\tfont-family: "' + fontName + '";\n';
-                fontCSS += '\tsrc: url("' + fontUrl + '");\n';
-                fontCSS += "}\n\n";
-              }
+								fontCSS += "@font-face\n";
+								fontCSS += "{\n";
+								fontCSS += '\tfont-family: "' + fontName + '";\n';
+								fontCSS += '\tsrc: url("' + fontUrl + '");\n';
+								fontCSS += "}\n\n";
+							}
 
-              if (this.fonts.length > 0) {
-                var style = document.createElement("style");
-                style.innerHTML = fontCSS;
-                document.head.appendChild(style);
-              }
+							if (this.fonts.length > 0)
+							{
+								var style = document.createElement("style");
+								style.innerHTML = fontCSS;
+								document.head.appendChild(style);
+							}
 
-              var promises = [];
+							var promises = [];
 
-              if (RadJav.useAjax == true) {
-                for (var iIdx = 0; iIdx < this.cssFiles.length; iIdx++) {
-                  promises.push(
-                    RadJav._getResponse(
-                      this.url + "/" + this.cssFiles[iIdx]
-                    ).then(function(data) {
-                      var style = document.createElement("style");
-                      style.innerHTML = data;
-                      document.head.appendChild(style);
-                    })
-                  );
-                }
-              }
+							if (RadJav.useAjax == true)
+							{
+								for (var iIdx = 0; iIdx < this.cssFiles.length; iIdx++)
+								{
+									promises.push(
+										RadJav._getResponse(this.url + "/" + this.cssFiles[iIdx]).then(
+											function(data)
+											{
+												var style = document.createElement("style");
+												style.innerHTML = data;
+												document.head.appendChild(style);
+											}));
+								}
+							}
 
-              Promise.all(promises).then(function() {
-                resolve();
-              });
-            } catch (ex) {
-              throw RadJav.getLangString(
-                "themeThrewErrorInFile",
-                this.name,
-                this.initFile,
-                ex.message
-              );
-            }
-          }, this);
+							Promise.all(promises).then(function()
+							{
+								resolve();
+							});
+						}
+						catch (ex)
+						{
+							throw RadJav.getLangString("themeThrewErrorInFile", this.name, this.initFile, ex.message);
+						}
+					}, this);
 
-          if (RadJav.useAjax == true) {
-            RadJav._getResponse(this.url + "/" + this.initFile).then(func);
-          } else {
-            func(RadJav.Theme.exports);
-            resolve();
-          }
-        }, this)
-      );
+					if (RadJav.useAjax == true)
+						RadJav._getResponse(this.url + "/" + this.initFile).then(func);
+					else
+					{
+						func(RadJav.currentTheme.exports);
+						resolve();
+					}
+				}, this)
+			);
 
-      return promise;
-    }
+			return promise;
+		}
 
     /** @method loadJavascriptFiles
      * Load the javascript files for this theme.
      * @return {Promise} Executes when the loading has completed.
      */
-    static loadJavascriptFiles(): Promise<any> {
+    loadJavascriptFiles(): Promise<any> {
       var promise = new Promise(
         RadJav.keepContext(function(resolve, reject) {
           var files = [];
@@ -1184,8 +1209,8 @@ namespace RadJav
 
             (function(theme, url, tfile, index, numFiles) {
               try {
-                if (RadJav.Theme.themeObjects[tfile] == null) {
-                  RadJav.Theme.themeObjects[tfile] = new Object();
+                if (RadJav.currentTheme.themeObjects[tfile] == null) {
+                  RadJav.currentTheme.themeObjects[tfile] = new Object();
                 }
 
                 if (RadJav.useAjax == true) {
@@ -1193,7 +1218,7 @@ namespace RadJav
                     data
                   ) {
                     try {
-                      RadJav.Theme.themeObjects[tfile] = _eval(data);
+                      RadJav.currentTheme.themeObjects[tfile] = _eval(data);
                     } catch (ex) {
                       throw RadJav.getLangString(
                         "themeThrewErrorInFile",
@@ -1247,19 +1272,19 @@ namespace RadJav
         args.push(arguments[iIdx]);
       }
       try {
-        if (RadJav.Theme.themeObjects[file] != null) {
-          if (RadJav.Theme.themeObjects[file][event] != null) {
-            return RadJav.Theme.themeObjects[file][event].apply(
-              RadJav.Theme.themeObjects[file],
+        if (RadJav.currentTheme.themeObjects[file] != null) {
+          if (RadJav.currentTheme.themeObjects[file][event] != null) {
+            return RadJav.currentTheme.themeObjects[file][event].apply(
+              RadJav.currentTheme.themeObjects[file],
               args
             );
           } else {
             if (file.indexOf("GUI") > -1) {
               var tempfile = "RadJav.GUI.GObject";
 
-              if (RadJav.Theme.themeObjects[tempfile][event] != null) {
-                return RadJav.Theme.themeObjects[tempfile][event].apply(
-                  RadJav.Theme.themeObjects[tempfile],
+              if (RadJav.currentTheme.themeObjects[tempfile][event] != null) {
+                return RadJav.currentTheme.themeObjects[tempfile][event].apply(
+                  RadJav.currentTheme.themeObjects[tempfile],
                   args
                 );
               }
@@ -1307,19 +1332,19 @@ namespace RadJav
       }
 
       try {
-        if (RadJav.Theme.themeObjects[file] != null) {
-          if (RadJav.Theme.themeObjects[file][event] != null) {
-            result = RadJav.Theme.themeObjects[file][event].apply(
-              RadJav.Theme.themeObjects[file],
+        if (RadJav.currentTheme.themeObjects[file] != null) {
+          if (RadJav.currentTheme.themeObjects[file][event] != null) {
+            result = RadJav.currentTheme.themeObjects[file][event].apply(
+              RadJav.currentTheme.themeObjects[file],
               args
             );
           } else {
             if (file.indexOf("GUI") > -1) {
               var tempfile = "RadJav.GUI.GObject";
 
-              if (RadJav.Theme.themeObjects[tempfile][event] != null) {
-                result = RadJav.Theme.themeObjects[tempfile][event].apply(
-                  RadJav.Theme.themeObjects[tempfile],
+              if (RadJav.currentTheme.themeObjects[tempfile][event] != null) {
+                result = RadJav.currentTheme.themeObjects[tempfile][event].apply(
+                  RadJav.currentTheme.themeObjects[tempfile],
                   args
                 );
               }
@@ -1356,13 +1381,13 @@ namespace RadJav
      * @static
      * The functions and properties associated with this theme.
      */
-    public static exports(): any {};
+    public exports: any;
 
     /** @property themeObjects
      * @static
      * The theme objects associated with this theme.
      */
-    public static themeObjects(): any {};
+    public themeObjects: any[];
 
 
     /** @method loadTheme
@@ -1371,7 +1396,7 @@ namespace RadJav
      * @param {String} url The URL to this theme.
      * @param {String} data The JSON to parse and get the data from.
      */
-    public static loadTheme(url: string, data: any): any
+    public static loadTheme(url: string, data: any): Theme
 	{
 		var theme = null;
 

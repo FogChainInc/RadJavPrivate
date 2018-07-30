@@ -86,7 +86,7 @@ namespace RadJav {
       protected _sceneManager:any;
 
       public create(): Promise<RadJav.GUI.GObject> {
-        var promise = RadJav.theme.event(this.type, "create", this).then(
+        var promise = RadJav.currentTheme.event(this.type, "create", this).then(
           RadJav.keepContext(function(html) {
             this._html = html;
 

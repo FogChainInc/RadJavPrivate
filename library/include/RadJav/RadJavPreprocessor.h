@@ -61,6 +61,10 @@
 		#define NULL 0
 	#endif
 
+	#ifndef _NOEXCEPT
+		#define _NOEXCEPT noexcept
+	#endif
+
 	#define null NULL
 
 	#define RJINT int

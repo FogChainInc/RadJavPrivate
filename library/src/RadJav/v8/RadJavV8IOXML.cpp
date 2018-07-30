@@ -36,8 +36,8 @@ namespace RadJAV
 		void IO::XML::XMLFile::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 		{
 			V8_CALLBACK(object, "_init", IO::XML::XMLFile::_init);
-			V8_CALLBACK(object, "loadXMLFile", IO::XML::XMLFile::loadXMLFile);
-			V8_CALLBACK(object, "loadXML", IO::XML::XMLFile::loadXML);
+			V8_CALLBACK(object, "parseXMLFile", IO::XML::XMLFile::parseXMLFile);
+			V8_CALLBACK(object, "parseXML", IO::XML::XMLFile::parseXML);
 		}
 
 		void IO::XML::XMLFile::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -46,7 +46,7 @@ namespace RadJAV
 			V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "parser", parser);
 		}
 
-		void IO::XML::XMLFile::loadXMLFile(const v8::FunctionCallbackInfo<v8::Value> &args)
+		void IO::XML::XMLFile::parseXMLFile(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
 			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 
@@ -59,7 +59,7 @@ namespace RadJAV
 			try
 			{
 				CPP::IO::XML::XMLFile *parser = (CPP::IO::XML::XMLFile *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "parser");
-				parser->loadXMLFile(parseV8Value(path));
+				parser->parseXMLFile(parseV8Value(path));
 			}
 			catch (Exception ex)
 			{
@@ -68,7 +68,7 @@ namespace RadJAV
 			}
 		}
 
-		void IO::XML::XMLFile::loadXML(const v8::FunctionCallbackInfo<v8::Value> &args)
+		void IO::XML::XMLFile::parseXML(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
 			v8::Local<v8::String> xmlString = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 
@@ -81,7 +81,7 @@ namespace RadJAV
 			try
 			{
 				CPP::IO::XML::XMLFile *parser = (CPP::IO::XML::XMLFile *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "parser");
-				parser->loadXML(parseV8Value(xmlString));
+				parser->parseXML(parseV8Value(xmlString));
 			}
 			catch (Exception ex)
 			{

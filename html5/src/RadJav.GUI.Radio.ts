@@ -80,7 +80,7 @@ namespace RadJav {
        * @param {Boolean} checked Set to true if this item is checked.
        */
       setChecked(checked: boolean): void {
-        RadJav.theme.eventSync(this.type, "setChecked", this, checked);
+        RadJav.currentTheme.eventSync(this.type, "setChecked", this, checked);
       }
 
       /** @method isChecked
@@ -92,7 +92,7 @@ namespace RadJav {
        * @return {Boolean} If set to true, this item is checked.
        */
       isChecked(): boolean {
-        return RadJav.theme.eventSync(this.type, "isChecked", this);
+        return RadJav.currentTheme.eventSync(this.type, "isChecked", this);
       }
     }
   }
