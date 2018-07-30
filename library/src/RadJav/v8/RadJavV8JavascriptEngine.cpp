@@ -28,6 +28,13 @@
 #ifdef GUI_USE_WXWIDGETS
 	#include <wx/stdpaths.h>
 	#include <wx/filename.h>
+#else
+#ifdef _WIN32
+#include <direct.h>
+#define getcwd _getcwd // stupid MSFT "deprecation" warning
+#elif
+#include <unistd.h>
+#endif
 #endif
 
 #ifdef USE_V8
@@ -144,9 +151,12 @@ namespace RadJAV
 			
 			String execPath = "";
 
-			#ifdef GUI_USE_WXWIDGETS
-				execPath = parsewxString (wxStandardPaths::Get ().GetExecutablePath());
-			#endif
+#ifdef GUI_USE_WXWIDGETS
+				execPath = parsewxString(wxStandardPaths::Get().GetExecutablePath());
+#else 
+				execPath = getcwd(NULL, 0);
+				execPath += "\\Debug\\RadJavVM.exe";
+#endif
 
 			v8::V8::InitializeICUDefaultLocation(execPath.c_str ());
 			String flags = "";
@@ -184,6 +194,9 @@ namespace RadJAV
 
 			#ifdef GUI_USE_WXWIDGETS
 				execPath = parsewxString (wxStandardPaths::Get ().GetExecutablePath());
+			#else 
+				execPath = getcwd(NULL, 0);
+				execPath += "\\Debug\\RadJavVM.exe";
 			#endif
 
 			v8::V8::SetFlagsFromString(flags.c_str(), flags.size());
@@ -617,8 +630,9 @@ namespace RadJAV
 				
 				if (shutdown == true)
 				{
+#ifdef GUI_USE_WXWIDGETS
 					wxExit();
-
+#endif
 					return false;
 				}
 			}
@@ -635,8 +649,9 @@ namespace RadJAV
 				
 				if (shutdownOnException == true)
 				{
+#ifdef GUI_USE_WXWIDGETS
 					wxExit();
-
+#endif
 					return false;
 				}
 			}
@@ -1363,8 +1378,9 @@ namespace RadJAV
 					{
 						v8::Handle<v8::Function> webViewFunc = v8GetFunction(guiFunc, "WebView");
 						v8::Handle<v8::Object> webViewPrototype = v8GetObject(webViewFunc, "prototype");
-
+#ifdef WXWIDGETS_HAS_WEBVIEW
 						V8B::GUI::WebView::createV8Callbacks(isolate, webViewPrototype);
+#endif
 					}
 
 					#ifdef C3D_USE_OGRE

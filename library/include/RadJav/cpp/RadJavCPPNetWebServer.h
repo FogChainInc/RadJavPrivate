@@ -51,16 +51,21 @@
 		{
 			namespace Net
 			{
-#ifdef GUI_USE_WXWIDGETS
 				class RADJAV_EXPORT WebServerThread : public Thread
 				{
 				public:
 					WebServerThread(boost::asio::io_context* ioc);
+#ifdef GUI_USE_WXWIDGETS
 					wxThread::ExitCode Entry();
+#else
+					RJINT Entry();
+					void Run() {
+						ioc->run();
+					};
+#endif
 				private:
 					boost::asio::io_context* ioc;
 				};
-#endif
 
 				// Accepts incoming connections and launches the sessions
 				class RADJAV_EXPORT WebServer : public std::enable_shared_from_this<WebServer>, public ChainedPtr

@@ -100,6 +100,8 @@
 
 				#ifdef GUI_USE_WXWIDGETS
 					wxThread::ExitCode Entry();
+				#else
+					RJINT Entry();
 				#endif
 
 				std::function<void()> onStart;

@@ -32,6 +32,12 @@ namespace RadJAV
 	{
 		hasStarted = false;
 	}
+#else
+	Thread::Thread()
+		: std::thread()
+	{
+		hasStarted = false;
+	}
 #endif
 
 SimpleThread::SimpleThread()
@@ -41,6 +47,13 @@ SimpleThread::SimpleThread()
 
 #ifdef GUI_USE_WXWIDGETS
 wxThread::ExitCode SimpleThread::Entry()
+{
+	onStart();
+
+	return (0);
+}
+#else
+RJINT SimpleThread::Entry()
 {
 	onStart();
 

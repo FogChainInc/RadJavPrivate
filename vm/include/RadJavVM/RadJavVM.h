@@ -20,7 +20,7 @@
 #ifndef _RADJAVVM_H_
 	#define _RADJAVVM_H_
 
-	#include <RadJav/RadJav.h>
+	#include <RadJav.h>
 
 	/// The VM.
 	class RadJavVM
