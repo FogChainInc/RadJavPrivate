@@ -412,12 +412,6 @@ namespace RadJAV
 			static RJBOOL firstRun = true;
 			static RJBOOL startedBlockchainV1 = false;
 			
-			#ifdef GUI_USE_WXWIDGETS
-				wxLongLong currentTime = 0;
-				wxLongLong prevTime = 0;
-				RJLONG diffTime = 0;
-			#endif
-			
 			auto execCodeBegin = jsToExecuteNextCode.begin();
 			auto execFilenameBegin = jsToExecuteNextFilename.begin();
 			auto execContextBegin = jsToExecuteNextContext.begin();
