@@ -35,6 +35,7 @@ namespace RadJav
 		public attachedObject: HTMLElement | RadJav.Interact.Component | RadJav.GUI.GObject | RadJav.C3D.Object3D;
 		public lerpAnimators: Animation.LerpAnimator[];
 		public onUpdate: (timeDelta: number) => void;
+		public onCompleted: () => void;
 		public playState: Animation.PlayState;
 
 		constructor ()
@@ -43,6 +44,7 @@ namespace RadJav
 			this.attachedObject = null;
 			this.lerpAnimators = [];
 			this.onUpdate = null;
+			this.onCompleted = null;
 			this.playState = Animation.PlayState.Stopped;
 			RadJav.addAnimation (this);
 		}
@@ -57,70 +59,71 @@ namespace RadJav
 		{
 			let foundObj: HTMLElement | RadJav.GUI.GObject | RadJav.C3D.Object3D = null;
 
-			if (this.attachedObject.constructor["name"] == "HTMLElement")
-				foundObj = (<HTMLElement>this.attachedObject);
+			if (typeof (HTMLElement) != "undefined")
+			{
+				if (this.attachedObject instanceof HTMLElement)
+					foundObj = (<HTMLElement>this.attachedObject);
+			}
 
-			if (this.attachedObject.constructor["name"] == "Component")
-				foundObj = this._getDisplayObject ((<RadJav.Interact.Component>this.attachedObject).display);
+			if (typeof (RadJav.Interact) != "undefined")
+			{
+				if (this.attachedObject instanceof RadJav.Interact.Component)
+					foundObj = this._getDisplayObject ((<RadJav.Interact.Component>this.attachedObject).display);
+			}
 
-			if (this.attachedObject instanceof RadJav.GUI.GObject)
-				foundObj = (<RadJav.GUI.GObject>this.attachedObject);
+			if (typeof (RadJav.GUI) != "undefined")
+			{
+				if (this.attachedObject instanceof RadJav.GUI.GObject)
+					foundObj = (<RadJav.GUI.GObject>this.attachedObject);
+			}
 
-			if (this.attachedObject instanceof RadJav.C3D.Object3D)
-				foundObj = (<RadJav.C3D.Object3D>this.attachedObject);
+			if (typeof (RadJav.C3D) != "undefined")
+			{
+				if (typeof (RadJav.C3D.Object3D) != "undefined")
+				{
+					if (this.attachedObject instanceof RadJav.C3D.Object3D)
+						foundObj = (<RadJav.C3D.Object3D>this.attachedObject);
+				}
+			}
 
 			return (foundObj);
 		}
 
-		lerp (speed: number, x: number | RadJav.Vector2 | RadJav.Vector3, y: number = 0, z: number = 0): void
+		lerp (start: RadJav.Vector2 | RadJav.Vector3, end: RadJav.Vector2 | RadJav.Vector3, speed: number): void
 		{
-			let start: RadJav.Vector3 = null;
-			let end: RadJav.Vector3 = new RadJav.Vector3 ();
 			let foundObj: HTMLElement | RadJav.Interact.Component | RadJav.GUI.GObject | RadJav.C3D.Object3D = this._getDisplayObject (this.attachedObject);
 
-			if (foundObj.constructor["name"] == "HTMLElement")
-				start = new RadJav.Vector3 ((<HTMLElement>this.attachedObject).offsetLeft, (<HTMLElement>this.attachedObject).offsetTop, 0);
+			if (start instanceof RadJav.Vector2)
+				start = new RadJav.Vector3 (start);
 
-			if (foundObj.constructor["name"] == "GObject")
-			{
-				let pos: RadJav.Vector2 = (<RadJav.GUI.GObject>this.attachedObject).getPosition ();
-				start = new RadJav.Vector3 (pos);
-			}
+			if (end instanceof RadJav.Vector2)
+				end = new RadJav.Vector3 (end);
 
-			if (foundObj.constructor["name"] == "Object3D")
-				start = (<RadJav.C3D.Object3D>this.attachedObject).getPosition ();
-
-			if (typeof (x) == "number")
-			{
-				end.x = x;
-				end.y = y;
-				end.z = z;
-			}
-			else
-			{
-				if (x.constructor["name"] == "Vector2")
-					end = new RadJav.Vector3 ((<RadJav.Vector2>x));
-
-				if (x.constructor["name"] == "Vector3")
-					end = new RadJav.Vector3 ((<RadJav.Vector3>x));
-			}
-
-			let animator = new Animation.LerpAnimator (foundObj, start, end, speed);
-			animator.startTime = RadJav.getTime ();
+			let animator = new Animation.LerpAnimator (this, (<RadJav.Vector3>start), (<RadJav.Vector3>end), speed);
 			animator.onAnimate = function (animObj, newPos, timeDelta)
 				{
-					if (animObj.constructor["name"] == "HTMLElement")
+					let execRadJavObj: boolean = true;
+
+					if (typeof (HTMLElement) != "undefined")
 					{
-						(<HTMLElement>animObj).style.left = newPos.x + "px";
-						(<HTMLElement>animObj).style.top = newPos.y + "px";
+						if (animObj instanceof HTMLElement)
+						{
+							(<HTMLElement>animObj).style.left = newPos.x + "px";
+							(<HTMLElement>animObj).style.top = newPos.y + "px";
+							execRadJavObj = false;
+						}
 					}
-					else
+
+					if (execRadJavObj == true)
 					{
 						if (animObj instanceof RadJav.GUI.GObject)
 							(<RadJav.GUI.GObject>animObj).setPosition (newPos);
 
-						if (animObj instanceof RadJav.C3D.Object3D)
-							(<RadJav.C3D.Object3D>animObj).setPosition (newPos);
+						if (typeof (RadJav.C3D.Object3D) != "undefined")
+						{
+							if (animObj instanceof RadJav.C3D.Object3D)
+								(<RadJav.C3D.Object3D>animObj).setPosition (newPos);
+						}
 					}
 				};
 			this.lerpAnimators.push (animator);
@@ -128,11 +131,15 @@ namespace RadJav
 
 		play (): void
 		{
+			if (this.playState == Animation.PlayState.Playing)
+				return;
+
 			for (let iIdx = 0; iIdx < this.lerpAnimators.length; iIdx++)
 			{
 				let animation: Animation.LerpAnimator = this.lerpAnimators[iIdx];
 
 				animation.startTime = RadJav.getTime ();
+				animation.timeElapsed = RadJav.getTime ();
 			}
 
 			this.playState = Animation.PlayState.Playing;
@@ -140,6 +147,9 @@ namespace RadJav
 
 		pause (): void
 		{
+			if (this.playState == Animation.PlayState.Paused)
+				return;
+
 			for (let iIdx = 0; iIdx < this.lerpAnimators.length; iIdx++)
 			{
 				let animation: Animation.LerpAnimator = this.lerpAnimators[iIdx];
@@ -150,6 +160,9 @@ namespace RadJav
 
 		stop (): void
 		{
+			if (this.playState == Animation.PlayState.Stopped)
+				return;
+
 			for (let iIdx = 0; iIdx < this.lerpAnimators.length; iIdx++)
 			{
 				let animation: Animation.LerpAnimator = this.lerpAnimators[iIdx];
@@ -158,10 +171,13 @@ namespace RadJav
 			this.playState = Animation.PlayState.Stopped;
 		}
 
-		on (event: string, func: (timeDelta: number) => void)
+		on (event: string, func: (timeDelta?: number) => void)
 		{
 			if (event == "update")
 				this.onUpdate = func;
+
+			if (event == "completed")
+				this.onCompleted = func;
 		}
 
 		update (timeDelta: number): void
@@ -185,19 +201,28 @@ namespace RadJav
 	{
 		export class Animator
 		{
-			public attachedObject: HTMLElement | RadJav.GUI.GObject | RadJav.C3D.Object3D;
+			public animation: Animation;
 			public onAnimate: (attachedObject: HTMLElement | RadJav.GUI.GObject | RadJav.C3D.Object3D, data: any, timeDelta: number) => void;
+			public onComplete: (attachedObject: HTMLElement | RadJav.GUI.GObject | RadJav.C3D.Object3D) => void;
 
-			constructor (attachedObject: HTMLElement | RadJav.GUI.GObject | RadJav.C3D.Object3D)
+			constructor (animation: Animation)
 			{
-				this.attachedObject = attachedObject;
+				this.animation = animation;
 				this.onAnimate = null;
 			}
 
 			animate (data: any, timeDelta: number): void
 			{
 				if (this.onAnimate != null)
-					this.onAnimate (this.attachedObject, data, timeDelta);
+					this.onAnimate (this.animation.attachedObject, data, timeDelta);
+			}
+
+			complete ()
+			{
+				if (this.animation.onCompleted != null)
+					this.animation.onCompleted ();
+
+				this.animation.stop ();
 			}
 		}
 
@@ -206,32 +231,34 @@ namespace RadJav
 			public startPos: RadJav.Vector3;
 			public endPos: RadJav.Vector3;
 			public startTime: number;
-			public currentTime: number;
-			public length: number;
+			public timeElapsed: number;
 			public speed: number;
 
-			constructor (attachedObject: HTMLElement | RadJav.GUI.GObject | RadJav.C3D.Object3D, 
-							start: RadJav.Vector3, end: RadJav.Vector3, speed: number)
+			constructor (animation: Animation, start: RadJav.Vector3, end: RadJav.Vector3, speed: number)
 			{
-				super (attachedObject);
+				super (animation);
 
 				this.startPos = start;
 				this.endPos = end;
 				this.speed = speed;
 				this.startTime = 0;
-				this.currentTime = 0;
-				this.length = end.distance (start);
+				this.timeElapsed = 0;
 			}
 
 			update (timeDelta: number): void
 			{
-				let currentPos: RadJav.Vector3 = new RadJav.Vector3 ();
-				let posMoved: number = ((RadJav.getTime () - this.startTime) * this.speed);
-				let posDelta: number = posMoved / this.length;
+				let currentPos: RadJav.Vector3 = null;
 
-				currentPos = currentPos.lerp (this.startPos, this.endPos, posDelta);
+				this.timeElapsed += timeDelta;
+
+				let timeMoved: number = ((this.timeElapsed - this.startTime) / this.speed);
+
+				currentPos = RadJav.Vector3.lerp (this.startPos, this.endPos, Math.clamp (timeMoved, 0, 1));
 
 				this.animate (currentPos, timeDelta);
+
+				if (currentPos.distance (this.endPos) == 0)
+					this.complete ();
 			}
 		}
 

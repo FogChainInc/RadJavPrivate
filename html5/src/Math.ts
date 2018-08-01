@@ -152,7 +152,7 @@ Math.randomRange = function (min: number, max: number): number {
 	return (this.floor(this.random() * ((max - min) + 1)) + min);
 }
 
-Math.lerp = function (start: number, end: number, time: number): number
+Math.lerp = function (start: number, end: number, alpha: number): number
 {
-	return (start * (1 - time) + end * time);
+	return (start + alpha * (end - start));
 }

@@ -659,7 +659,7 @@ namespace RadJav
 	{
 		let promise = new Promise<void> (function ()
 			{
-				let file: RadJav.XML.XMLFile = RadJav.XML.loadString (xml);
+				let file: RadJav.XML.XMLFile = RadJav.XML.XMLFile.loadString (xml);
 
 				
 			});
@@ -1017,8 +1017,15 @@ namespace RadJav
 
 	export function addAnimation (anim: RadJav.Animation): void
 	{
+		let startAnimationLoop: boolean = false;
+
+		if (RadJav._animations.length < 1)
+			startAnimationLoop = true;
+
 		RadJav._animations.push (anim);
-		setTimeout (RadJav.animationUpdate, RadJav.animationFrameRate);
+
+		if (startAnimationLoop == true)
+			setTimeout (RadJav.animationUpdate, RadJav.animationFrameRate);
 	}
 
 	export function animationUpdate (): void
@@ -1035,7 +1042,8 @@ namespace RadJav
 			anim.update (deltaTime);
 		}
 
-		setTimeout (RadJav.animationUpdate, RadJav.animationFrameRate);
+		if (RadJav._animations.length > 0)
+			setTimeout (RadJav.animationUpdate, RadJav.animationFrameRate);
 	}
 
 	export class Theme

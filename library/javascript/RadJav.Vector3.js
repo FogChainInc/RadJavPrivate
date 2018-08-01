@@ -2,29 +2,26 @@ var RadJav;
 (function (RadJav) {
     var Vector3 = (function () {
         function Vector3(x, y, z) {
-            if (x == null)
-                x = 0;
-            if (y == null)
-                y = 0;
-            if (z == null)
-                z = 0;
+            if (x === void 0) { x = 0; }
+            if (y === void 0) { y = 0; }
+            if (z === void 0) { z = 0; }
             if (x instanceof RadJav.Vector2) {
                 var temp = x;
                 x = temp.x;
                 y = temp.y;
             }
             if (x instanceof RadJav.Vector3) {
-                var temp_1 = x;
-                x = temp_1.x;
-                y = temp_1.y;
-                z = temp_1.z;
+                var temp = x;
+                x = temp.x;
+                y = temp.y;
+                z = temp.z;
             }
             this.x = x;
             this.y = y;
             this.z = z;
         }
-        Vector3.prototype.toString = function () {
-            return this.x + "," + this.y + "," + this.z;
+        Vector3.prototype.tostring = function () {
+            return (this.x + "," + this.y + "," + this.z);
         };
         Vector3.prototype.add = function (vector3) {
             var result = new RadJav.Vector3();
@@ -121,11 +118,10 @@ var RadJav;
             var dReturn = Math.sqrt(dX * dX + dY * dY + dZ * dZ);
             return dReturn;
         };
-        Vector3.prototype.lerp = function (start, end, time) {
-            var result = new Vector3();
-            result.x = Math.lerp(start.x, end.x, time);
-            result.y = Math.lerp(start.y, end.y, time);
-            result.z = Math.lerp(start.z, end.z, time);
+        Vector3.lerp = function (start, end, alpha) {
+            var temp1 = end.subtract(start);
+            var temp2 = temp1.multiply(alpha);
+            var result = start.add(temp2);
             return (result);
         };
         return Vector3;

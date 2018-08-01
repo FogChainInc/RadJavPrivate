@@ -16,6 +16,7 @@ var RadJav;
             this.attachedObject = null;
             this.lerpAnimators = [];
             this.onUpdate = null;
+            this.onCompleted = null;
             this.playState = Animation.PlayState.Stopped;
             RadJav.addAnimation(this);
         }
@@ -24,71 +25,74 @@ var RadJav;
         };
         Animation.prototype._getDisplayObject = function (obj) {
             var foundObj = null;
-            if (this.attachedObject.constructor["name"] == "HTMLElement")
-                foundObj = this.attachedObject;
-            if (this.attachedObject.constructor["name"] == "Component")
-                foundObj = this._getDisplayObject(this.attachedObject.display);
-            if (this.attachedObject instanceof RadJav.GUI.GObject)
-                foundObj = this.attachedObject;
-            if (this.attachedObject instanceof RadJav.C3D.Object3D)
-                foundObj = this.attachedObject;
+            if (typeof (HTMLElement) != "undefined") {
+                if (this.attachedObject instanceof HTMLElement)
+                    foundObj = this.attachedObject;
+            }
+            if (typeof (RadJav.Interact) != "undefined") {
+                if (this.attachedObject instanceof RadJav.Interact.Component)
+                    foundObj = this._getDisplayObject(this.attachedObject.display);
+            }
+            if (typeof (RadJav.GUI) != "undefined") {
+                if (this.attachedObject instanceof RadJav.GUI.GObject)
+                    foundObj = this.attachedObject;
+            }
+            if (typeof (RadJav.C3D) != "undefined") {
+                if (typeof (RadJav.C3D.Object3D) != "undefined") {
+                    if (this.attachedObject instanceof RadJav.C3D.Object3D)
+                        foundObj = this.attachedObject;
+                }
+            }
             return (foundObj);
         };
-        Animation.prototype.lerp = function (speed, x, y, z) {
-            if (y === void 0) { y = 0; }
-            if (z === void 0) { z = 0; }
-            var start = null;
-            var end = new RadJav.Vector3();
+        Animation.prototype.lerp = function (start, end, speed) {
             var foundObj = this._getDisplayObject(this.attachedObject);
-            if (foundObj.constructor["name"] == "HTMLElement")
-                start = new RadJav.Vector3(this.attachedObject.offsetLeft, this.attachedObject.offsetTop, 0);
-            if (foundObj.constructor["name"] == "GObject") {
-                var pos = this.attachedObject.getPosition();
-                start = new RadJav.Vector3(pos);
-            }
-            if (foundObj.constructor["name"] == "Object3D")
-                start = this.attachedObject.getPosition();
-            if (typeof (x) == "number") {
-                end.x = x;
-                end.y = y;
-                end.z = z;
-            }
-            else {
-                if (x.constructor["name"] == "Vector2")
-                    end = new RadJav.Vector3(x);
-                if (x.constructor["name"] == "Vector3")
-                    end = new RadJav.Vector3(x);
-            }
-            var animator = new Animation.LerpAnimator(foundObj, start, end, speed);
-            animator.startTime = RadJav.getTime();
+            if (start instanceof RadJav.Vector2)
+                start = new RadJav.Vector3(start);
+            if (end instanceof RadJav.Vector2)
+                end = new RadJav.Vector3(end);
+            var animator = new Animation.LerpAnimator(this, start, end, speed);
             animator.onAnimate = function (animObj, newPos, timeDelta) {
-                if (animObj.constructor["name"] == "HTMLElement") {
-                    animObj.style.left = newPos.x + "px";
-                    animObj.style.top = newPos.y + "px";
+                var execRadJavObj = true;
+                if (typeof (HTMLElement) != "undefined") {
+                    if (animObj instanceof HTMLElement) {
+                        animObj.style.left = newPos.x + "px";
+                        animObj.style.top = newPos.y + "px";
+                        execRadJavObj = false;
+                    }
                 }
-                else {
+                if (execRadJavObj == true) {
                     if (animObj instanceof RadJav.GUI.GObject)
                         animObj.setPosition(newPos);
-                    if (animObj instanceof RadJav.C3D.Object3D)
-                        animObj.setPosition(newPos);
+                    if (typeof (RadJav.C3D.Object3D) != "undefined") {
+                        if (animObj instanceof RadJav.C3D.Object3D)
+                            animObj.setPosition(newPos);
+                    }
                 }
             };
             this.lerpAnimators.push(animator);
         };
         Animation.prototype.play = function () {
+            if (this.playState == Animation.PlayState.Playing)
+                return;
             for (var iIdx = 0; iIdx < this.lerpAnimators.length; iIdx++) {
                 var animation = this.lerpAnimators[iIdx];
                 animation.startTime = RadJav.getTime();
+                animation.timeElapsed = RadJav.getTime();
             }
             this.playState = Animation.PlayState.Playing;
         };
         Animation.prototype.pause = function () {
+            if (this.playState == Animation.PlayState.Paused)
+                return;
             for (var iIdx = 0; iIdx < this.lerpAnimators.length; iIdx++) {
                 var animation = this.lerpAnimators[iIdx];
             }
             this.playState = Animation.PlayState.Paused;
         };
         Animation.prototype.stop = function () {
+            if (this.playState == Animation.PlayState.Stopped)
+                return;
             for (var iIdx = 0; iIdx < this.lerpAnimators.length; iIdx++) {
                 var animation = this.lerpAnimators[iIdx];
             }
@@ -97,6 +101,8 @@ var RadJav;
         Animation.prototype.on = function (event, func) {
             if (event == "update")
                 this.onUpdate = func;
+            if (event == "completed")
+                this.onCompleted = func;
         };
         Animation.prototype.update = function (timeDelta) {
             if (this.playState != Animation.PlayState.Playing)
@@ -113,35 +119,41 @@ var RadJav;
     RadJav.Animation = Animation;
     (function (Animation) {
         var Animator = (function () {
-            function Animator(attachedObject) {
-                this.attachedObject = attachedObject;
+            function Animator(animation) {
+                this.animation = animation;
                 this.onAnimate = null;
             }
             Animator.prototype.animate = function (data, timeDelta) {
                 if (this.onAnimate != null)
-                    this.onAnimate(this.attachedObject, data, timeDelta);
+                    this.onAnimate(this.animation.attachedObject, data, timeDelta);
+            };
+            Animator.prototype.complete = function () {
+                if (this.animation.onCompleted != null)
+                    this.animation.onCompleted();
+                this.animation.stop();
             };
             return Animator;
         }());
         Animation.Animator = Animator;
         var LerpAnimator = (function (_super) {
             __extends(LerpAnimator, _super);
-            function LerpAnimator(attachedObject, start, end, speed) {
-                var _this = _super.call(this, attachedObject) || this;
+            function LerpAnimator(animation, start, end, speed) {
+                var _this = _super.call(this, animation) || this;
                 _this.startPos = start;
                 _this.endPos = end;
                 _this.speed = speed;
                 _this.startTime = 0;
-                _this.currentTime = 0;
-                _this.length = end.distance(start);
+                _this.timeElapsed = 0;
                 return _this;
             }
             LerpAnimator.prototype.update = function (timeDelta) {
-                var currentPos = new RadJav.Vector3();
-                var posMoved = ((RadJav.getTime() - this.startTime) * this.speed);
-                var posDelta = posMoved / this.length;
-                currentPos = currentPos.lerp(this.startPos, this.endPos, posDelta);
+                var currentPos = null;
+                this.timeElapsed += timeDelta;
+                var timeMoved = ((this.timeElapsed - this.startTime) / this.speed);
+                currentPos = RadJav.Vector3.lerp(this.startPos, this.endPos, Math.clamp(timeMoved, 0, 1));
                 this.animate(currentPos, timeDelta);
+                if (currentPos.distance(this.endPos) == 0)
+                    this.complete();
             };
             return LerpAnimator;
         }(Animator));

@@ -78,7 +78,7 @@ namespace RadJav
 		* @param {number} y The Y component to add.
 		* @param {number} z The Z component to add.
 		*/
-		add(vector3: Vector3): Vector3
+		add(vector3: Vector3 | number): Vector3
 		{
 			let result = new RadJav.Vector3();
 
@@ -90,9 +90,9 @@ namespace RadJav
 			}
 			else
 			{
-				result.x = this.x + vector3;
-				result.y = this.y + vector3;
-				result.z = this.z + vector3;
+				result.x = this.x + (<number>vector3);
+				result.y = this.y + (<number>vector3);
+				result.z = this.z + (<number>vector3);
 			}
 
 			return result;
@@ -104,7 +104,7 @@ namespace RadJav
 		* @param {number} y The Y component to subtract.
 		* @param {number} z The Z component to subtract.
 		*/
-		subtract(vector3: Vector3): Vector3
+		subtract(vector3: Vector3 | number): Vector3
 		{
 			let result = new RadJav.Vector3();
 
@@ -116,9 +116,9 @@ namespace RadJav
 			}
 			else
 			{
-				result.x = this.x - vector3;
-				result.y = this.y - vector3;
-				result.z = this.z - vector3;
+				result.x = this.x - (<number>vector3);
+				result.y = this.y - (<number>vector3);
+				result.z = this.z - (<number>vector3);
 			}
 
 			return result;
@@ -130,7 +130,7 @@ namespace RadJav
 		* @param {number} y The Y component to subtract.
 		* @param {number} z The Z component to subtract.
 		*/
-		multiply(vector3: Vector3): Vector3
+		multiply(vector3: Vector3 | number): Vector3
 		{
 			let result = new RadJav.Vector3();
 
@@ -142,9 +142,9 @@ namespace RadJav
 			}
 			else
 			{
-				result.x = this.x * vector3;
-				result.y = this.y * vector3;
-				result.z = this.z * vector3;
+				result.x = this.x * (<number>vector3);
+				result.y = this.y * (<number>vector3);
+				result.z = this.z * (<number>vector3);
 			}
 
 			return result;
@@ -152,9 +152,9 @@ namespace RadJav
 
 		/** @method divide
 		* Divide this object by another Vector3 object or number.
-		* @param {RadJav.Vector3|number} Vector3 The Vector3 or number to divide by.
+		* @param {RadJav.Vector3 | number} Vector3 The Vector3 or number to divide by.
 		*/
-		divide(vector3: Vector3 |number): Vector3
+		divide(vector3: Vector3 | number): Vector3
 		{
 			let result = new RadJav.Vector3();
 
@@ -166,9 +166,9 @@ namespace RadJav
 			}
 			else
 			{
-				result.x = this.x / vector3;
-				result.y = this.y / vector3;
-				result.z = this.z / vector3;
+				result.x = this.x / (<number>vector3);
+				result.y = this.y / (<number>vector3);
+				result.z = this.z / (<number>vector3);
 			}
 
 			return result;
@@ -275,13 +275,11 @@ namespace RadJav
 			return dReturn;
 		}
 
-		lerp (start: Vector3, end: Vector3, time: number): Vector3
+		static lerp (start: Vector3, end: Vector3, alpha: number): Vector3
 		{
-			let result: Vector3 = new Vector3 ();
-
-			result.x = Math.lerp (start.x, end.x, time);
-			result.y = Math.lerp (start.y, end.y, time);
-			result.z = Math.lerp (start.z, end.z, time);
+			let temp1: Vector3 = end.subtract (start);
+			let temp2: Vector3 = temp1.multiply (alpha);
+			let result: Vector3 = start.add (temp2);
 
 			return (result);
 		}

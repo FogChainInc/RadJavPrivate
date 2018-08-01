@@ -524,8 +524,12 @@ function getTime()
 RadJav.getTime = getTime;
 
 function addAnimation(anim) {
+	var startAnimationLoop = false;
+	if (RadJav._animations.length < 1)
+		startAnimationLoop = true;
 	RadJav._animations.push(anim);
-	setTimeout(RadJav.animationUpdate, RadJav.animationFrameRate);
+	if (startAnimationLoop == true)
+		setTimeout(RadJav.animationUpdate, RadJav.animationFrameRate);
 }
 
 RadJav.addAnimation = addAnimation;
@@ -538,7 +542,8 @@ function animationUpdate() {
 		var anim = RadJav._animations[iIdx];
 		anim.update(deltaTime);
 	}
-	setTimeout(RadJav.animationUpdate, RadJav.animationFrameRate);
+	if (RadJav._animations.length > 0)
+		setTimeout(RadJav.animationUpdate, RadJav.animationFrameRate);
 }
 
 RadJav.animationUpdate = animationUpdate;

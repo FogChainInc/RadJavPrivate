@@ -36,6 +36,6 @@ Math.radiansToDegrees = function (radians) {
 Math.randomRange = function (min, max) {
     return (this.floor(this.random() * ((max - min) + 1)) + min);
 };
-Math.lerp = function (start, end, time) {
-    return (start * (1 - time) + end * time);
+Math.lerp = function (start, end, alpha) {
+    return (start + alpha * (end - start));
 };
