@@ -19,6 +19,8 @@
 */
 
 /// <reference path="RadJav.ts" />
+/// <reference path="RadJav.GUI.GObject.ts" />
+/// <reference path="RadJav.C3D.Object3D.ts" />
 
 namespace RadJav
 {
@@ -830,7 +832,16 @@ namespace RadJav
 				{
 				}
 
-				this.xrjApp += "\t\t\t\t\tRadJav.Interact.App.loadApp (\"{{interactAppPath}}\");\n";
+				this.xrjApp += "\t\t\t\t\tif (typeof (RadJav.OS.HTML5) != \"undefined\")\n";
+				this.xrjApp += "\t\t\t\t\t\tRadJav.Interact.App.loadApp (\"{{interactAppPath}}\");\n";
+				this.xrjApp += "\t\t\t\t\telse\n";
+				this.xrjApp += "\t\t\t\t\t{\n";
+				this.xrjApp += "\t\t\t\t\t\tvar win = new RadJav.GUI.Window (\"win\", \"{{name}}\");\n";
+				this.xrjApp += "\t\t\t\t\t\twin.create ().then (function (win2)\n";
+				this.xrjApp += "\t\t\t\t\t\t\t{\n";
+				this.xrjApp += "\t\t\t\t\t\t\t\tRadJav.Interact.App.loadApp (\"{{interactAppPath}}\");\n";
+				this.xrjApp += "\t\t\t\t\t\t\t});\n";
+				this.xrjApp += "\t\t\t\t\t}\n";
 				this.xrjApp += "\t\t\t\t});\n";
 				this.xrjApp += "\t\t});\n";
 				this.xrjApp += "}\n";

@@ -203,7 +203,6 @@ namespace RadJav
 		{
 			public animation: Animation;
 			public onAnimate: (attachedObject: HTMLElement | RadJav.GUI.GObject | RadJav.C3D.Object3D, data: any, timeDelta: number) => void;
-			public onComplete: (attachedObject: HTMLElement | RadJav.GUI.GObject | RadJav.C3D.Object3D) => void;
 
 			constructor (animation: Animation)
 			{

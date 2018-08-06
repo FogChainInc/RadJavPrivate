@@ -167,27 +167,71 @@ namespace RadJAV
 				}
 
 				/// Get an attribute from this tag.
-				String XMLTag::getAttributeString(String attribute)
+				String XMLTag::getAttributeString(String attribute, String defaultValue)
 				{
-					return (getAttribute (attribute)->getValue ());
+					String value = defaultValue;
+
+					try
+					{
+						XMLAttribute *attrValue = getAttribute (attribute);
+						value = attrValue->getValue();
+					}
+					catch (Exception ex)
+					{
+					}
+
+					return (value);
 				}
 
 				/// Get an attribute integer value from this tag.
-				RJNUMBER XMLTag::getAttributeInt(String attribute)
+				RJNUMBER XMLTag::getAttributeInt(String attribute, RJNUMBER defaultValue)
 				{
-					return (getAttribute(attribute)->toInt());
+					RJNUMBER value = defaultValue;
+
+					try
+					{
+						XMLAttribute *attrValue = getAttribute(attribute);
+						value = attrValue->toInt();
+					}
+					catch (Exception ex)
+					{
+					}
+
+					return (value);
 				}
 
 				/// Get an attribute float value from this tag.
-				RJNUMBER XMLTag::getAttributeFloat(String attribute)
+				RJNUMBER XMLTag::getAttributeFloat(String attribute, RJNUMBER defaultValue)
 				{
-					return (getAttribute(attribute)->toFloat());
+					RJNUMBER value = defaultValue;
+
+					try
+					{
+						XMLAttribute *attrValue = getAttribute(attribute);
+						value = attrValue->toFloat();
+					}
+					catch (Exception ex)
+					{
+					}
+
+					return (value);
 				}
 
 				/// Get a boolean result from an attribute.
-				RJBOOL XMLTag::getAttributeBoolean(String attribute)
+				RJBOOL XMLTag::getAttributeBoolean(String attribute, RJBOOL defaultValue)
 				{
-					return (getAttribute(attribute)->toBoolean());
+					RJBOOL value = defaultValue;
+
+					try
+					{
+						XMLAttribute *attrValue = getAttribute(attribute);
+						value = attrValue->toBoolean();
+					}
+					catch (Exception ex)
+					{
+					}
+
+					return (value);
 				}
 
 				/// Convert this tag to a string.

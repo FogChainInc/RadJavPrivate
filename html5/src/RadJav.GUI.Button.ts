@@ -20,31 +20,37 @@
 
 /// <reference path="RadJav.ts" />
 
-namespace RadJav {
-   export namespace GUI {
-    /** @class RadJav.GUI.Button
-     * @extends RadJav.GUI.GObject
-     * A button.
-     * Available on platforms: Windows,Linux,OSX,HTML5
-     */
-    class Button extends RadJav.GUI.GObject{
-      constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject) {
-        super(obj, text, parent);
-        if (obj == null) {
-          obj = {};
-        }
+namespace RadJav
+{
+	export namespace GUI
+	 {
+		/** @class RadJav.GUI.Button
+		 * @extends RadJav.GUI.GObject
+		 * A button.
+		 * Available on platforms: Windows,Linux,OSX,HTML5
+		 */
+		class Button extends RadJav.GUI.GObject
+		{
+			constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject)
+			{
+				super(obj, text, parent);
+				if (obj == null) {
+					obj = {};
+				}
 
-        if (typeof obj == "string") {
-          var name = obj;
-          obj = { name: name };
-        }
+				if (typeof obj == "string") {
+					var name = obj;
+					obj = { name: name };
+				}
 
-        if (obj.size == null) {
-          obj.size = new RadJav.Vector2();
-          obj.size.x = 80;
-          obj.size.y = 40;
-        }
-      }
-    }
-  }
+				if (obj.size == null) {
+					obj.size = new RadJav.Vector2();
+					obj.size.x = 80;
+					obj.size.y = 40;
+				}
+			}
+
+			static xmlTag: { tag: string, type: string } = { tag: "button", type: "Button" };
+		}
+	}
 }

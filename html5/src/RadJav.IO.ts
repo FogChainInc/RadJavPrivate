@@ -530,27 +530,71 @@ namespace RadJav
 			}
 
 			/// Get an attribute from this tag.
-			getAttributeString (attribute: string): string
+			getAttributeString (attribute: string, defaultValue: string = ""): string
 			{
-				return (this.getAttribute (attribute).getValue ());
+				let value: string = defaultValue;
+
+				try
+				{
+					let attrValue: XML.XMLAttribute = this.getAttribute (attribute);
+					value = attrValue.getValue ();
+				}
+				catch (ex)
+				{
+				}
+
+				return (value);
 			}
 
 			/// Get an attribute integer value from this tag.
-			getAttributeInt (attribute: string): number
+			getAttributeInt (attribute: string, defaultValue: number = 0): number
 			{
-				return (this.getAttribute (attribute).toInt ());
+				let value: number = defaultValue;
+
+				try
+				{
+					let attrValue: XML.XMLAttribute = this.getAttribute (attribute);
+					value = attrValue.toInt ();
+				}
+				catch (ex)
+				{
+				}
+
+				return (value);
 			}
 
 			/// Get an attribute float value from this tag.
-			getAttributeFloat (attribute: string): number
+			getAttributeFloat (attribute: string, defaultValue: number = 0.0): number
 			{
-				return (this.getAttribute (attribute).toFloat ());
+				let value: number = defaultValue;
+
+				try
+				{
+					let attrValue: XML.XMLAttribute = this.getAttribute (attribute);
+					value = attrValue.toFloat ();
+				}
+				catch (ex)
+				{
+				}
+
+				return (value);
 			}
 
 			/// Get a boolean result from an attribute.
-			getAttributeBoolean (attribute: string): boolean
+			getAttributeBoolean (attribute: string, defaultValue: boolean = false): boolean
 			{
-				return (this.getAttribute (attribute).toBoolean ());
+				let value: boolean = defaultValue;
+
+				try
+				{
+					let attrValue: XML.XMLAttribute = this.getAttribute (attribute);
+					value = attrValue.toBoolean ();
+				}
+				catch (ex)
+				{
+				}
+
+				return (value);
 			}
 
 			/// Convert this tag to a string.

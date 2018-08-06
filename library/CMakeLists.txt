@@ -15,7 +15,10 @@ set (CMAKE_MODULE_PATH "${libRadJav_SOURCE_DIR}/CMake"
 
 include (Utils)
 
-set (libRadJav_JS_LIBRARY "V8" CACHE STRING "Javascript library to use")
+set (javascriptEngineLibraries V8 ChakraCore)
+set (libRadJav_JS_LIBRARY javascriptEngineLibraries CACHE STRING "Javascript library to use")
+set_property (CACHE libRadJav_JS_LIBRARY PROPERTY STRINGS ${javascriptEngineLibraries})
+
 set (libRadJav_GUI_LIBRARY "wxWidgets" CACHE STRING "GUI library to use")
 set (libRadJav_HTTP_LIBRARY "curl" CACHE STRING "HTTP library to use")
 set (libRadJav_INCLUDE_C3D_API TRUE CACHE BOOL "Include the C3D API?")

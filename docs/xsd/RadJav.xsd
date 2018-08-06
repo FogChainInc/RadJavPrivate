@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/RadJav" xmlns:tns="http://www.example.org/RadJav" elementFormDefault="qualified">
+
+
+
+
+    <complexType name="RadJavType">
+        <all>
+        	<element name="app" type="tns:RadJavAppType"></element>
+        	<element name="c3d" type="tns:RadJavC3DType"></element>
+        </all>
+        
+    </complexType>
+    
+    <element name="RadJav" type="tns:RadJavType"></element>
+
+    <complexType name="RadJavAppType">
+    	<all>
+    		<element name="button" type="tns:RadJavAppButtonType"></element>
+    		<element name="canvas3d" type="tns:RadJavAppCanvas3DType"></element>
+    		<element name="checkbox" type="tns:RadJavAppCheckboxType"></element>
+    		<element name="combobox" type="tns:RadJavAppComboBoxType"></element>
+    		<element name="container"
+    			type="tns:RadJavAppContainerType">
+    		</element>
+    		<element name="htmlelement"
+    			type="tns:RadJavAppHTMLElementType">
+    		</element>
+    		<element name="image" type="tns:RadJavAppImageType"></element>
+    		<element name="label" type="tns:RadJavAppLabelType"></element>
+    		<element name="list" type="tns:RadJavAppListType"></element>
+    		<element name="menubar" type="tns:RadJavAppMenuBarType"></element>
+    		<element name="menuitem" type="tns:RadJavAppMenuItemType"></element>
+    		<element name="radio" type="tns:RadJavAppRadioType"></element>
+    		<element name="textarea" type="tns:RadJavAppTextareaType"></element>
+    		<element name="textbox" type="tns:RadJavAppTextboxType"></element>
+    		<element name="window" type="tns:RadJavAppWindowType"></element>
+    	</all>
+
+        <attribute name="name" type="string" default="mainWindow"></attribute>
+        <attribute name="platform">
+    		<simpleType>
+    			<restriction base="string">
+    				<enumeration value="windows"></enumeration>
+    				<enumeration value="linux"></enumeration>
+    				<enumeration value="mac"></enumeration>
+    				<enumeration value="html5"></enumeration>
+    				<enumeration value="ios"></enumeration>
+    				<enumeration value="android"></enumeration>
+    			</restriction>
+    		</simpleType>
+    	</attribute>
+    	<attribute name="html5parent" type="string" default="body"></attribute>
+    	<attribute name="autoCreateWindow" type="boolean" default="true">
+    		<annotation>
+    			<documentation>Automatically create the window for the current targeted platform.</documentation>
+    		</annotation></attribute>
+    </complexType>
+
+    <complexType name="RadJavAppWindowType">
+    	<complexContent>
+    		<extension base="tns:RadJavGObjectType"></extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="RadJavC3DType">
+    	<all>
+    		<element name="camera" type="tns:RadJavC3DCameraType"></element>
+    		<element name="entity" type="tns:RadJavC3DEntityType"></element>
+    		<element name="light" type="tns:RadJavC3DLightType"></element>
+    	</all>
+    	<attribute name="name" type="string"></attribute>
+    </complexType>
+    
+    <complexType name="RadJavAppButtonType">
+    	<complexContent>
+    		<extension base="tns:RadJavGObjectType"></extension>
+    	</complexContent>
+    </complexType>
+    
+    <complexType name="RadJavC3DEntityType">
+    	<complexContent>
+    		<extension base="tns:RadJavObject3DType">
+    			<attribute name="model" type="string"></attribute>
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="RadJavAppTextboxType">
+    	<complexContent>
+    		<extension base="tns:RadJavGObjectType"></extension>
+    	</complexContent>
+    </complexType>
+    
+    <complexType name="RadJavGObjectType">
+    	<attribute name="name" type="string"></attribute>
+    	<attribute name="x" type="int"></attribute>
+        <attribute name="y" type="int"></attribute>
+        <attribute name="width" type="int"></attribute>
+    	<attribute name="height" type="int"></attribute>
+    </complexType>
+
+    <complexType name="RadJavAppCanvas3DType">
+    	<complexContent>
+    		<extension base="tns:RadJavGObjectType"></extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="RadJavAppCheckboxType">
+    	<complexContent>
+    		<extension base="tns:RadJavGObjectType"></extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="RadJavAppComboBoxType">
+    	<complexContent>
+    		<extension base="tns:RadJavGObjectType"></extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="RadJavAppContainerType">
+    	<complexContent>
+    		<extension base="tns:RadJavGObjectType"></extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="RadJavAppHTMLElementType">
+    	<complexContent>
+    		<extension base="tns:RadJavGObjectType"></extension>
+    	</complexContent>
+    </complexType>
+    
+    <complexType name="RadJavAppImageType">
+    	<complexContent>
+    		<extension base="tns:RadJavGObjectType"></extension>
+    	</complexContent>
+    </complexType>
+    
+    <complexType name="RadJavAppLabelType">
+    	<complexContent>
+    		<extension base="tns:RadJavGObjectType"></extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="RadJavAppListType">
+    	<complexContent>
+    		<extension base="tns:RadJavGObjectType"></extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="RadJavAppMenuBarType">
+    	<complexContent>
+    		<extension base="tns:RadJavGObjectType"></extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="RadJavAppMenuItemType">
+    	<complexContent>
+    		<extension base="tns:RadJavGObjectType"></extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="RadJavAppRadioType">
+    	<complexContent>
+    		<extension base="tns:RadJavGObjectType"></extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="RadJavAppTextareaType">
+    	<complexContent>
+    		<extension base="tns:RadJavGObjectType"></extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="RadJavObject3DType">
+    	<attribute name="name" type="string"></attribute>
+    	<attribute name="visible" type="boolean"></attribute>
+    	<attribute name="x" type="float"></attribute>
+    	<attribute name="y" type="float"></attribute>
+    </complexType>
+
+    <complexType name="RadJavC3DCameraType">
+    	<complexContent>
+    		<extension base="tns:RadJavObject3DType"></extension>
+    	</complexContent>
+    </complexType>
+    
+    <complexType name="RadJavC3DMaterialType"></complexType>
+
+    <complexType name="RadJavC3DLightType">
+    	<complexContent>
+    		<extension base="tns:RadJavObject3DType"></extension>
+    	</complexContent>
+    </complexType>
+</schema>

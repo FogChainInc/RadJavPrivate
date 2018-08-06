@@ -187,16 +187,16 @@ namespace RadJAV
 								XMLAttribute *getAttribute(String attribute);
 
 								/// Get an attribute from this tag.
-								String getAttributeString(String attribute);
+								String getAttributeString(String attribute, String defaultValue = "");
 
 								/// Get an attribute integer value from this tag.
-								RJNUMBER getAttributeInt(String attribute);
+								RJNUMBER getAttributeInt(String attribute, RJNUMBER defaultValue = 0);
 
 								/// Get an attribute float value from this tag.
-								RJNUMBER getAttributeFloat(String attribute);
+								RJNUMBER getAttributeFloat(String attribute, RJNUMBER defaultValue = 0.0);
 
 								/// Get a boolean result from an attribute.
-								RJBOOL getAttributeBoolean(String attribute);
+								RJBOOL getAttributeBoolean(String attribute, RJBOOL defaultValue = false);
 
 									/// Convert this tag to a string.
 								String toString();
