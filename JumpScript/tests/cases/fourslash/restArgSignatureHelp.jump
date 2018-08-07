@@ -1,7 +1,0 @@
-/// <reference path='fourslash.jump' />
-
-////function f(...x: any[]) { }
-////f(/**/);
-
-goTo.marker();
-verify.currentParameterHelpArgumentNameIs('x');

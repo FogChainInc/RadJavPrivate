@@ -1,8 +1,0 @@
-=== tests/cases/compiler/ClassDeclaration11.jump ===
-class C {
->C : C
-
-   constructor();
-   foo() { }
->foo : () => void
-}

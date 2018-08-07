@@ -1,6 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript5/Statements/ContinueStatements/parser_continueInIterationStatement4.jump ===
-for (var i in something) {
->i : Symbol(i, Decl(parser_continueInIterationStatement4.jump, 0, 8))
-
-  continue;
-}

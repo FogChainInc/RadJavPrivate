@@ -1,9 +1,0 @@
-﻿/// <reference path='fourslash.jump'/>
-
-//// class Foo {
-////     constructor(protected { [|protectedParam|] }) {
-////         let myProtectedParam = [|protectedParam|];
-////     }
-//// }
-
-verify.rangesAreRenameLocations();

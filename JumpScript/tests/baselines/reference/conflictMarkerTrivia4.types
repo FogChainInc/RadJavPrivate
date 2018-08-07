@@ -1,9 +1,0 @@
-=== tests/cases/compiler/conflictMarkerTrivia4.jump ===
-const x = <div>
->x : any
-><div> : any
->div : No type information available!
-
-<<<<<<< HEAD
-> : any
-

@@ -1,4 +1,0 @@
-=== tests/cases/compiler/letAsIdentifier2.jump ===
-function let() {}
->let : () => void
-

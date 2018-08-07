@@ -1,6 +1,0 @@
-/// <reference path='fourslash.jump'/>
-
-////Harness.newLine = ""\n/**/
-
-goTo.marker();
-verify.not.completionListIsEmpty();

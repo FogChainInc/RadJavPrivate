@@ -1,3 +1,0 @@
-/// <reference path="main.jump" />
-/// <reference path="nonExistingFile1.jump" />
-/// <reference path="nonExistingFile2.jump" />

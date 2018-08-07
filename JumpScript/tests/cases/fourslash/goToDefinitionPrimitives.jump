@@ -1,5 +1,0 @@
-/// <reference path='fourslash.jump' />
-
-////var x: st/*primitive*/ring;
-
-verify.goToDefinition("primitive", []);

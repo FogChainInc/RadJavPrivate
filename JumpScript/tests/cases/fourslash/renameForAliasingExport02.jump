@@ -1,9 +1,0 @@
-/// <reference path='fourslash.jump'/>
-
-// @Filename: foo.jump
-////let x = 1;
-////
-////export { x as /**/[|y|] };
-
-goTo.marker();
-verify.renameInfoSucceeded(/*displayName*/"y", /*fullDisplayName*/'"/tests/cases/fourslash/foo".y');

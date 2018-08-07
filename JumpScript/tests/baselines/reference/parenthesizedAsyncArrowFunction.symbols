@@ -1,8 +1,0 @@
-=== tests/cases/compiler/parenthesizedAsyncArrowFunction.jump ===
-// Repro from #20096
-
-let foo = (async bar => bar);
->foo : Symbol(foo, Decl(parenthesizedAsyncArrowFunction.jump, 2, 3))
->bar : Symbol(bar, Decl(parenthesizedAsyncArrowFunction.jump, 2, 16))
->bar : Symbol(bar, Decl(parenthesizedAsyncArrowFunction.jump, 2, 16))
-

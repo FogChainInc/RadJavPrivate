@@ -1,7 +1,0 @@
-tests/cases/conformance/parser/ecmascript5/parserImportDeclaration1.jump(1,21): error TS2503: Cannot find namespace 'JumpScriptServices'.
-
-
-==== tests/cases/conformance/parser/ecmascript5/parserImportDeclaration1.jump (1 errors) ====
-    import JumpScript = JumpScriptServices.JumpScript;
-                        ~~~~~~~~~~~~~~~~~~
-!!! error TS2503: Cannot find namespace 'JumpScriptServices'.

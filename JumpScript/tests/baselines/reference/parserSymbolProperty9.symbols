@@ -1,9 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript6/Symbols/parserSymbolProperty9.jump ===
-var x: {
->x : Symbol(x, Decl(parserSymbolProperty9.jump, 0, 3))
-
-    [Symbol.toPrimitive]: string
->Symbol.toPrimitive : Symbol(SymbolConstructor.toPrimitive, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
->Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
->toPrimitive : Symbol(SymbolConstructor.toPrimitive, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
-}

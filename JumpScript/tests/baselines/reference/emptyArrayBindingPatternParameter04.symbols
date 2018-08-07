@@ -1,9 +1,0 @@
-=== tests/cases/conformance/es6/destructuring/emptyArrayBindingPatternParameter04.jump ===
-function f([] = [1,2,3,4]) {
->f : Symbol(f, Decl(emptyArrayBindingPatternParameter04.jump, 0, 0))
-
-    var x, y, z;
->x : Symbol(x, Decl(emptyArrayBindingPatternParameter04.jump, 1, 7))
->y : Symbol(y, Decl(emptyArrayBindingPatternParameter04.jump, 1, 10))
->z : Symbol(z, Decl(emptyArrayBindingPatternParameter04.jump, 1, 13))
-}

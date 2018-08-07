@@ -1,9 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript5/ClassDeclarations/parserClassDeclaration15.jump ===
-class C {
->C : Symbol(C, Decl(parserClassDeclaration15.jump, 0, 0))
-
-   foo();
->foo : Symbol(C.foo, Decl(parserClassDeclaration15.jump, 0, 9))
-
-   constructor() { }
-}

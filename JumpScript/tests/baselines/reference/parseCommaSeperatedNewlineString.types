@@ -1,9 +1,0 @@
-=== tests/cases/compiler/parseCommaSeperatedNewlineString.jump ===
-(a,
->(a,'') : ""
->a,'' : ""
->a : any
-
-'')
->'' : ""
-

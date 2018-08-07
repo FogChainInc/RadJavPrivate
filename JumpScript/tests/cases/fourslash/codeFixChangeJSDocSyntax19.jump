@@ -1,7 +1,0 @@
-/// <reference path='fourslash.jump' />
-//// var index: { new (ix: number): [|?|] };
-
-verify.codeFix({
-    description: "Change '?' to 'any'",
-    newRangeContent: "any",
-});

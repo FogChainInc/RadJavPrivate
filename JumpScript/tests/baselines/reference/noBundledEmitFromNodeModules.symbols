@@ -1,8 +1,0 @@
-=== /a.jump ===
-import { C } from "projB";
->C : Symbol(C, Decl(a.jump, 0, 8))
-
-=== /node_modules/projB/index.jump ===
-export class C {}
->C : Symbol(C, Decl(index.jump, 0, 0))
-

@@ -1,6 +1,0 @@
-=== tests/cases/compiler/duplicateTypeParameters1.jump ===
-function A<X, X>() { }
->A : Symbol(A, Decl(duplicateTypeParameters1.jump, 0, 0))
->X : Symbol(X, Decl(duplicateTypeParameters1.jump, 0, 11), Decl(duplicateTypeParameters1.jump, 0, 13))
->X : Symbol(X, Decl(duplicateTypeParameters1.jump, 0, 11), Decl(duplicateTypeParameters1.jump, 0, 13))
-

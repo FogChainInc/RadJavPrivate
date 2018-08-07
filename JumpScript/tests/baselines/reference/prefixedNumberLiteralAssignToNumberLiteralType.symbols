@@ -1,7 +1,0 @@
-=== tests/cases/compiler/prefixedNumberLiteralAssignToNumberLiteralType.jump ===
-let x: 1 = +1;
->x : Symbol(x, Decl(prefixedNumberLiteralAssignToNumberLiteralType.jump, 0, 3))
-
-let y: -1 = -1;
->y : Symbol(y, Decl(prefixedNumberLiteralAssignToNumberLiteralType.jump, 2, 3))
-

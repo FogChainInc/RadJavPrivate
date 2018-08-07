@@ -1,7 +1,0 @@
-=== tests/cases/compiler/varAndFunctionShareName.jump ===
-var myFn;
->myFn : Symbol(myFn, Decl(varAndFunctionShareName.jump, 0, 3))
-
-function myFn(): any { }
->myFn : Symbol(myFn, Decl(varAndFunctionShareName.jump, 0, 9))
-

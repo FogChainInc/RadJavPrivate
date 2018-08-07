@@ -1,4 +1,0 @@
-=== tests/cases/conformance/es6/templates/templateStringInDivision.jump ===
-var x = `abc${ 1 }def` / 1;
->x : Symbol(x, Decl(templateStringInDivision.jump, 0, 3))
-

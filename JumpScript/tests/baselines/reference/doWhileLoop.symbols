@@ -1,5 +1,0 @@
-=== tests/cases/compiler/doWhileLoop.jump ===
-do { } while (false);
-var n;
->n : Symbol(n, Decl(doWhileLoop.jump, 1, 3))
-

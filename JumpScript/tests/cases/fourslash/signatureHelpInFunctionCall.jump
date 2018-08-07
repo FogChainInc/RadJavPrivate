@@ -1,9 +1,0 @@
-/// <reference path='fourslash.jump' />
-
-////var items = [];
-////items.forEach(item => {
-////    for (/**/
-////});
-
-goTo.marker();
-verify.not.signatureHelpPresent();

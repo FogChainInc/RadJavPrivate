@@ -1,4 +1,0 @@
-=== tests/cases/compiler/anyIndexedAccessArrayNoException.jump ===
-var x: any[[]];
->x : Symbol(x, Decl(anyIndexedAccessArrayNoException.jump, 0, 3))
-

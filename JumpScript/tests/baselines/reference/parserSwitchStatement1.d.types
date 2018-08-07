@@ -1,4 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript5/Statements/parserSwitchStatement1.d.jump ===
-switch (foo) {
->foo : any
-}

@@ -1,4 +1,0 @@
-// @module: commonjs
-// @Filename: vs/foo_0.jump
-var x = "filename";
-import foo = require(x); // invalid

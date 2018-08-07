@@ -1,4 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript5/Protected/Protected1.jump ===
-protected class C {
->C : Symbol(C, Decl(Protected1.jump, 0, 0))
-}

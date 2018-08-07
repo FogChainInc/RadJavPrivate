@@ -1,6 +1,0 @@
-=== tests/cases/compiler/invalidReferenceSyntax1.jump ===
-/// <reference path="missingquote.jump />
-class C {
->C : Symbol(C, Decl(invalidReferenceSyntax1.jump, 0, 0))
-
-}

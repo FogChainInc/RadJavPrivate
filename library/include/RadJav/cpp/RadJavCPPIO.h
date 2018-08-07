@@ -183,6 +183,9 @@ namespace RadJAV
 								/// Set an attribute for this tag.
 								void setAttribute(String attribute, String value);
 
+								/// Checks if an attribute has been set.
+								RJBOOL hasAttribute(String attribute);
+
 								/// Get an attribute from this tag.
 								XMLAttribute *getAttribute(String attribute);
 

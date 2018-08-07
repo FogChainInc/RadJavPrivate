@@ -1,7 +1,0 @@
-=== tests/cases/compiler/exportAssignmentWithExportModifier.jump ===
-var x;
->x : any
-
-export export = x;
->x : any
-

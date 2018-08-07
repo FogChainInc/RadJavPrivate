@@ -1,8 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript5/ErrorRecovery/AccessibilityAfterStatic/parserAccessibilityAfterStatic5.jump ===
-class Outer
->Outer : Symbol(Outer, Decl(parserAccessibilityAfterStatic5.jump, 0, 0))
-{
-static public
->public : Symbol(Outer.public, Decl(parserAccessibilityAfterStatic5.jump, 1, 1))
-}
-

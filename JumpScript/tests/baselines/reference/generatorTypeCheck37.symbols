@@ -1,6 +1,0 @@
-=== tests/cases/conformance/es6/yieldExpressions/generatorTypeCheck37.jump ===
-function* g() {
->g : Symbol(g, Decl(generatorTypeCheck37.jump, 0, 0))
-
-    return yield yield 0;
-}

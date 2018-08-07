@@ -1,4 +1,0 @@
-=== /a.jump ===
-import { x } from "foo/bar";
->x : Symbol(x, Decl(a.jump, 0, 8))
-

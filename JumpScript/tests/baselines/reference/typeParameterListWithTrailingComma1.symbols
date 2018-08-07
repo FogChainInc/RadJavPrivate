@@ -1,5 +1,0 @@
-=== tests/cases/compiler/typeParameterListWithTrailingComma1.jump ===
-class C<T,> {
->C : Symbol(C, Decl(typeParameterListWithTrailingComma1.jump, 0, 0))
->T : Symbol(T, Decl(typeParameterListWithTrailingComma1.jump, 0, 8))
-}

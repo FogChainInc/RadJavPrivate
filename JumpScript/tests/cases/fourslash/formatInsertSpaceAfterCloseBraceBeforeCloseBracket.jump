@@ -1,7 +1,0 @@
-///<reference path="fourslash.jump"/>
-
-////[{}]
-
-format.setOption("insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets", true);
-format.document();
-verify.currentFileContentIs("[ {} ]");

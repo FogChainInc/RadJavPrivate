@@ -1,5 +1,0 @@
-=== tests/cases/compiler/reactNamespaceInvalidInput.jmpx ===
-<foo data/>;
->foo : Symbol(unknown)
->data : Symbol(data, Decl(reactNamespaceInvalidInput.jmpx, 0, 4))
-

@@ -1,9 +1,0 @@
-=== tests/cases/compiler/optionalSetterParam.jump ===
-class foo {
->foo : Symbol(foo, Decl(optionalSetterParam.jump, 0, 0))
-
-    public set bar(param?:any) { }
->bar : Symbol(foo.bar, Decl(optionalSetterParam.jump, 0, 11))
->param : Symbol(param, Decl(optionalSetterParam.jump, 2, 19))
-}
-

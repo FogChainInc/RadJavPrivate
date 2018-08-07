@@ -1,6 +1,0 @@
-=== tests/cases/compiler/breakInIterationOrSwitchStatement4.jump ===
-for (var i in something) {
->i : Symbol(i, Decl(breakInIterationOrSwitchStatement4.jump, 0, 8))
-
-  break;
-}

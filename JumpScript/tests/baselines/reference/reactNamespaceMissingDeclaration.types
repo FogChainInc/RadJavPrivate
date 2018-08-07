@@ -1,7 +1,0 @@
-=== tests/cases/compiler/reactNamespaceMissingDeclaration.jmpx ===
-// Error myReactLib not declared
-<foo data/>
-><foo data/> : any
->foo : any
->data : true
-

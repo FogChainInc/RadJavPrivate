@@ -1,4 +1,0 @@
-=== tests/cases/compiler/indexWithoutParamType.jump ===
-var y: { []; } // Error
->y : Symbol(y, Decl(indexWithoutParamType.jump, 0, 3))
-

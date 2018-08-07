@@ -1,9 +1,0 @@
-=== tests/cases/conformance/es6/templates/templateStringWithEmbeddedYieldKeyword.jump ===
-function* gen {
->gen : Symbol(gen, Decl(templateStringWithEmbeddedYieldKeyword.jump, 0, 0))
-
-    // Once this is supported, yield *must* be parenthesized.
-    var x = `abc${ yield 10 }def`;
->x : Symbol(x, Decl(templateStringWithEmbeddedYieldKeyword.jump, 2, 7))
-}
-

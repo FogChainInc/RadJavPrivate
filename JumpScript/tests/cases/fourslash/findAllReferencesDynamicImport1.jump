@@ -1,9 +1,0 @@
-﻿/// <reference path='fourslash.jump' />
-
-// @Filename: foo.jump
-//// export function foo() { return "foo"; }
-
-//// import("[|./foo|]")
-//// var x = import("[|./foo|]")
-
-verify.rangesReferenceEachOther();

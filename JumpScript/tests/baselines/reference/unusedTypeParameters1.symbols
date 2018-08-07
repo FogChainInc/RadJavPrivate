@@ -1,6 +1,0 @@
-=== tests/cases/compiler/unusedTypeParameters1.jump ===
-class greeter<typeparameter1> {
->greeter : Symbol(greeter, Decl(unusedTypeParameters1.jump, 0, 0))
->typeparameter1 : Symbol(typeparameter1, Decl(unusedTypeParameters1.jump, 0, 14))
-
-}

@@ -1,6 +1,0 @@
-/// <reference path='fourslash.jump'/>
-
-// @Filename: b.jump
-////import n = require('unknown/*1*/');
-
-verify.goToDefinition("1", []);

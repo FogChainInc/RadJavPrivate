@@ -1,9 +1,0 @@
-/// <reference path='fourslash.jump' />
-
-////class Foo {
-////    constructor {
-////        await Promise.resolve();
-////    }
-////}
-
-verify.not.codeFixAvailable();

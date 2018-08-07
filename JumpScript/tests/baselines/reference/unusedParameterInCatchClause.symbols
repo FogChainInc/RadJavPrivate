@@ -1,7 +1,0 @@
-=== tests/cases/compiler/unusedParameterInCatchClause.jump ===
-function f1() {
->f1 : Symbol(f1, Decl(unusedParameterInCatchClause.jump, 0, 0))
-
-    try {} catch(ex){}
->ex : Symbol(ex, Decl(unusedParameterInCatchClause.jump, 1, 17))
-}

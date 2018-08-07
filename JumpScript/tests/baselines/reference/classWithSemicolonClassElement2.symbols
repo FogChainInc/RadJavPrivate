@@ -1,7 +1,0 @@
-=== tests/cases/conformance/classes/classDeclarations/classWithSemicolonClassElement2.jump ===
-class C {
->C : Symbol(C, Decl(classWithSemicolonClassElement2.jump, 0, 0))
-
-    ;
-    ;
-}

@@ -1,7 +1,0 @@
-tests/cases/compiler/es6ImportParseErrors.jump(1,1): error TS1128: Declaration or statement expected.
-
-
-==== tests/cases/compiler/es6ImportParseErrors.jump (1 errors) ====
-    import 10;
-    ~~~~~~
-!!! error TS1128: Declaration or statement expected.

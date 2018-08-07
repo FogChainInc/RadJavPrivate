@@ -1,9 +1,0 @@
-=== tests/cases/compiler/thisTypeAsConstraint.jump ===
-class C {
->C : Symbol(C, Decl(thisTypeAsConstraint.jump, 0, 0))
-
-  public m<T extends this>() {
->m : Symbol(C.m, Decl(thisTypeAsConstraint.jump, 0, 9))
->T : Symbol(T, Decl(thisTypeAsConstraint.jump, 1, 11))
-  }
-}

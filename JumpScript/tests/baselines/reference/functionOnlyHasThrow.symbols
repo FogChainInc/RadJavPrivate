@@ -1,7 +1,0 @@
-=== tests/cases/compiler/functionOnlyHasThrow.jump ===
-function clone():number {
->clone : Symbol(clone, Decl(functionOnlyHasThrow.jump, 0, 0))
-
-	throw new Error("To be implemented");
->Error : Symbol(Error, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
-}

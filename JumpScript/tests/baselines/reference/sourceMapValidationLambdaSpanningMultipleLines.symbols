@@ -1,8 +1,0 @@
-=== tests/cases/compiler/sourceMapValidationLambdaSpanningMultipleLines.jump ===
-((item: string) =>
->item : Symbol(item, Decl(sourceMapValidationLambdaSpanningMultipleLines.jump, 0, 2))
-
-    item
->item : Symbol(item, Decl(sourceMapValidationLambdaSpanningMultipleLines.jump, 0, 2))
-
-)

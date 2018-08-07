@@ -1,9 +1,0 @@
-=== tests/cases/compiler/constructorArgsErrors3.jump ===
-class foo {
->foo : Symbol(foo, Decl(constructorArgsErrors3.jump, 0, 0))
-
-    constructor (public public a: number) {
->a : Symbol(foo.a, Decl(constructorArgsErrors3.jump, 1, 17))
-    }
-}
-

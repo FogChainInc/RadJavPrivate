@@ -1,4 +1,0 @@
-=== tests/cases/compiler/noImplicitUseStrict_system.jump ===
-export var x = 0;
->x : Symbol(x, Decl(noImplicitUseStrict_system.jump, 0, 10))
-

@@ -1,6 +1,0 @@
-// @outDir: A:/
-// @Filename: A:/foo/bar.jump
-var x: number;
-
-// @Filename: B:/foo/baz.jump
-var y: number;

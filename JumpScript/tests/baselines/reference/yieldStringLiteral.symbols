@@ -1,7 +1,0 @@
-=== tests/cases/compiler/yieldStringLiteral.jump ===
-function yieldString() {
->yieldString : Symbol(yieldString, Decl(yieldStringLiteral.jump, 0, 0))
-
-    yield 'literal';
-}
-

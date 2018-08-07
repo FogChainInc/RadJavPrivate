@@ -1,8 +1,0 @@
-=== tests/cases/compiler/libdtsFix.jump ===
-interface HTMLElement {
->HTMLElement : HTMLElement
-
-    type: string;
->type : string
-}
-

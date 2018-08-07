@@ -1,9 +1,0 @@
-// @module: amd
-// @target: esnext
-// @filename: something.jump
-export = 42;
-
-// @filename: index.jump
-export = async function() {
-    const something = await import("./something");
-};

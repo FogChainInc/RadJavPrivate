@@ -1,5 +1,0 @@
-=== tests/cases/compiler/declarationEmitInvalidReference.jump ===
-/// <reference path="invalid.jump" />
-var x = 0;
->x : Symbol(x, Decl(declarationEmitInvalidReference.jump, 1, 3))
-

@@ -1,9 +1,0 @@
-/// <reference path='fourslash.jump' />
-
-/////**/
-////class Foo {
-////}
-
-////var f/*A*/ff = new Foo();
-
-verify.quickInfoAt("A", "var fff: Foo");

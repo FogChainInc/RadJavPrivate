@@ -1,9 +1,0 @@
-=== tests/cases/compiler/castNewObjectBug.jump ===
-interface Foo { }
->Foo : Symbol(Foo, Decl(castNewObjectBug.jump, 0, 0))
-
-var xx = <Foo> new Object();
->xx : Symbol(xx, Decl(castNewObjectBug.jump, 1, 3))
->Foo : Symbol(Foo, Decl(castNewObjectBug.jump, 0, 0))
->Object : Symbol(Object, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
-

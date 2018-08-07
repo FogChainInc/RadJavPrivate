@@ -1,7 +1,0 @@
-=== tests/cases/conformance/es6/classDeclaration/classWithSemicolonClassElementES62.jump ===
-class C {
->C : Symbol(C, Decl(classWithSemicolonClassElementES62.jump, 0, 0))
-
-    ;
-    ;
-}

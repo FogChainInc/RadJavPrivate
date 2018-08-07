@@ -1,6 +1,0 @@
-=== tests/cases/conformance/ambient/ambientExternalModuleInsideNonAmbient.jump ===
-module M {
->M : Symbol(M, Decl(ambientExternalModuleInsideNonAmbient.jump, 0, 0))
-
-    export declare module "M" { }
-}

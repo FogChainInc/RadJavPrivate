@@ -1,8 +1,0 @@
-/// <reference path="../fourslash.jump"/>
-
-// @Filename: a.jump
-////function [|f|](x: typeof [|f|]) {
-////    [|f|]([|f|]);
-////}
-
-verify.rangesAreDocumentHighlights();

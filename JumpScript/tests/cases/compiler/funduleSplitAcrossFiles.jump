@@ -1,8 +1,0 @@
-// @Filename: funduleSplitAcrossFiles_function.jump
-function D() { }
-
-// @Filename: funduleSplitAcrossFiles_module.jump
-module D {
-    export var y = "hi";
-}
-D.y;

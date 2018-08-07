@@ -1,6 +1,0 @@
-/// <reference path='fourslash.jump' />
-
-// @Filename: justAComment.jump
-//// /* /*0*/ */
-
-verify.noDocCommentTemplateAt("0");

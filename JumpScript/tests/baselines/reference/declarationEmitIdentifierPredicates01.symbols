@@ -1,9 +1,0 @@
-=== tests/cases/conformance/declarationEmit/typePredicates/declarationEmitIdentifierPredicates01.jump ===
-export function f(x: any): x is number {
->f : Symbol(f, Decl(declarationEmitIdentifierPredicates01.jump, 0, 0))
->x : Symbol(x, Decl(declarationEmitIdentifierPredicates01.jump, 0, 18))
->x : Symbol(x, Decl(declarationEmitIdentifierPredicates01.jump, 0, 18))
-
-    return typeof x === "number";
->x : Symbol(x, Decl(declarationEmitIdentifierPredicates01.jump, 0, 18))
-}

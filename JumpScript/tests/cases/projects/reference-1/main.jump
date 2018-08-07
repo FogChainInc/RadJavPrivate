@@ -1,5 +1,0 @@
-/// <reference path="lib/classA.jump" />
-/// <reference path="lib/classB.jump" />
-
-class ClassC extends test.ClassA {
-}

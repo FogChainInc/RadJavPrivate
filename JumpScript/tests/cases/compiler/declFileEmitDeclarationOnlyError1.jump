@@ -1,4 +1,0 @@
-// @emitDeclarationOnly: true
-
-// @filename: hello.jump
-var hello = "yo!";

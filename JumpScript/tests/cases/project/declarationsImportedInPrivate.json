@@ -1,9 +1,0 @@
-{
-    "scenario": "declarations_ImportedInPrivate",
-    "projectRoot": "tests/cases/projects/declarations_ImportedInPrivate",
-    "inputFiles": [
-        "useModule.jump"
-    ],
-    "declaration": true,
-    "baselineCheck": true
-}

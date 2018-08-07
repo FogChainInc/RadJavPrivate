@@ -1,4 +1,0 @@
-=== tests/cases/compiler/InterfaceDeclaration8.jump ===
-interface string {
->string : Symbol(string, Decl(InterfaceDeclaration8.jump, 0, 0))
-}

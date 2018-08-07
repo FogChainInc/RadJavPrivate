@@ -1,4 +1,0 @@
-=== tests/cases/compiler/primitiveTypeAsmoduleName.jump ===
-module string {}
->string : Symbol(string, Decl(primitiveTypeAsmoduleName.jump, 0, 0))
-

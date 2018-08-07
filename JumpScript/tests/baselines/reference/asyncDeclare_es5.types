@@ -1,5 +1,0 @@
-=== tests/cases/conformance/async/es5/asyncDeclare_es5.jump ===
-declare async function foo(): Promise<void>;
->foo : () => Promise<void>
->Promise : Promise<T>
-

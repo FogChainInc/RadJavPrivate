@@ -1,9 +1,0 @@
-// @module: commonjs
-// @filename: f1.jump
-export function f() {
-}
-
-// @filename: f2.jump
-import {f} from './f1';
-export function f() {
-}

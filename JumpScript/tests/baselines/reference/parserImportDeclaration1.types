@@ -1,6 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript5/parserImportDeclaration1.jump ===
-import JumpScript = JumpScriptServices.JumpScript;
->JumpScript : any
->JumpScriptServices : No type information available!
->JumpScript : No type information available!
-

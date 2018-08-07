@@ -1,6 +1,0 @@
-// @Filename: initial.jump
-interface A { }
-namespace A {}
-
-// @Filename: final.jump
-type A = {}

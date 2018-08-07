@@ -1,8 +1,0 @@
-=== tests/cases/compiler/resolveInterfaceNameWithSameLetDeclarationName1.jump ===
-interface bar { }
->bar : Symbol(bar, Decl(resolveInterfaceNameWithSameLetDeclarationName1.jump, 0, 0), Decl(resolveInterfaceNameWithSameLetDeclarationName1.jump, 1, 3))
-
-let bar: bar;
->bar : Symbol(bar, Decl(resolveInterfaceNameWithSameLetDeclarationName1.jump, 0, 0), Decl(resolveInterfaceNameWithSameLetDeclarationName1.jump, 1, 3))
->bar : Symbol(bar, Decl(resolveInterfaceNameWithSameLetDeclarationName1.jump, 0, 0), Decl(resolveInterfaceNameWithSameLetDeclarationName1.jump, 1, 3))
-

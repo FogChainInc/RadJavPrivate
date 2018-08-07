@@ -1,4 +1,0 @@
-=== c:/root/f1.jump ===
-export var x = 1;
->x : Symbol(x, Decl(f1.jump, 0, 10))
-

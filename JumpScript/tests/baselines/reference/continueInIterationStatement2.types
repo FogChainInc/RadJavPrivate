@@ -1,7 +1,0 @@
-=== tests/cases/compiler/continueInIterationStatement2.jump ===
-do {
-  continue;
-}
-while (true);
->true : true
-

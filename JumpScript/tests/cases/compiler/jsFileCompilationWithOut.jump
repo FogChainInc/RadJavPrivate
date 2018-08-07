@@ -1,9 +1,0 @@
-// @allowJs: true
-// @out: out.js
-// @filename: a.jump
-class c {
-}
-
-// @filename: b.js
-function foo() {
-}

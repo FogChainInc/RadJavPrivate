@@ -1,5 +1,0 @@
-=== tests/cases/conformance/es6/arrowFunction/emitArrowFunctionWhenUsingArguments02.jump ===
-var a = () => arguments;
->a : Symbol(a, Decl(emitArrowFunctionWhenUsingArguments02.jump, 0, 3))
->arguments : Symbol(arguments)
-

@@ -1,8 +1,0 @@
-=== tests/cases/conformance/es6/yieldExpressions/generatorTypeCheck32.jump ===
-var s: string;
->s : Symbol(s, Decl(generatorTypeCheck32.jump, 0, 3))
-
-var f: () => number = () => yield s;
->f : Symbol(f, Decl(generatorTypeCheck32.jump, 1, 3))
->s : Symbol(s, Decl(generatorTypeCheck32.jump, 0, 3))
-

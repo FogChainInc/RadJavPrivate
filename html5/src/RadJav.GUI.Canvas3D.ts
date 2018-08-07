@@ -19,18 +19,23 @@
 */
 
 /// <reference path="RadJav.ts" />
+/// <reference path="RadJav.Vector2.ts" />
 
-namespace RadJav {
-  export namespace GUI {
+namespace RadJav
+{
+  export namespace GUI
+  {
     /** @class RadJav.GUI.Combobox
      * @extends RadJav.GUI.GObject
      * A combobox.
      * Available on platforms: Windows,Linux,OSX,HTML5
      */
-    export class Canvas3D extends RadJav.GUI.GObject {
+    export class Canvas3D extends RadJav.GUI.GObject
+    {
+			static xmlTag: TagType = { tag: "canvas3d", type: "Canvas3D" };
 
-      constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject) {
-
+      constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject)
+      {
         if (obj == null) {
           obj = {};
         }
@@ -56,7 +61,6 @@ namespace RadJav {
         this._materials = RadJav.setDefaultValue(obj._materials, {});
       }
 
-       
       /** @property {Mixed} [_renderer=null]
        * @protected
        * The renderer used to render the canvas.

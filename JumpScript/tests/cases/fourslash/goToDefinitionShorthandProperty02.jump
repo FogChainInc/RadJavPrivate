@@ -1,7 +1,0 @@
-/// <reference path='fourslash.jump' />
-
-////let x = {
-////    [|f/*1*/oo|]
-////}
-
-verify.goToDefinition("1", []);

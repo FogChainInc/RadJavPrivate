@@ -701,11 +701,11 @@ namespace RadJav
 
 						if (appPromise != null)
 						{
-							appPromise.then (function ()
+							appPromise.then (function (win)
 								{
-									RadJav.loadAppXML (appPromise, app.children).then (function (data)
-									{
-									});
+									RadJav.loadAppXML (win, app.children).then (function (data)
+										{
+										});
 								});
 						}
 					}
@@ -720,16 +720,16 @@ namespace RadJav
 		return promise;
 	}
 
-	export function loadAppXML (parent: HTMLElement | RadJav.GUI.GObject, 
-								objs: RadJav.XML.XMLTag[]): Promise<RadJav.GUI.GObject[]>
+	export function loadAppXML (parent: RadJav.GUI.GObject, 
+					objs: RadJav.XML.XMLTag[]): RadJav.GUI.GObject[]
 	{
-		let tags: string[] = [];
+		let tags: TagType[] = [];
 
 		if (typeof (RadJav.GUI) != "undefined")
 		{
 			for (let key in RadJav.GUI)
 			{
-				let xmlTag: string = "";
+				let xmlTag: TagType = null;
 
 				if (typeof (RadJav.GUI[key].xmlTag) != "undefined")
 					xmlTag = RadJav.GUI[key].xmlTag;
@@ -742,14 +742,20 @@ namespace RadJav
 
 		for (let iIdx = 0; iIdx < tags.length; iIdx++)
 		{
-			let xmlTag = tags[iIdx];
+			let xmlTag: TagType = tags[iIdx];
 
 			for (let iJdx = 0; iJdx < objs.length; iJdx++)
 			{
 				let obj: RadJav.XML.XMLTag = objs[iJdx];
-				let newObjTag: RadJav.XML.XMLTag[] = obj.getTags (xmlTag.tag);
+				let foundTags: RadJav.XML.XMLTag[] = obj.getTags (xmlTag.tag);
 
-				for (let iJdx = 0; iJdx < objs.length; iJdx++)
+				for (let iKdx = 0; iKdx < foundTags.length; iKdx++)
+				{
+					let foundTag: RadJav.XML.XMLTag = foundTags[iKdx];
+					let newObj: RadJav.GUI.GObject = new RadJav.GUI[xmlTag.type] (foundTag);
+
+					newObjs.push (newObj);
+				}
 			}
 		}
 
@@ -1133,6 +1139,18 @@ namespace RadJav
 
 		if (RadJav._animations.length > 0)
 			setTimeout (RadJav.animationUpdate, RadJav.animationFrameRate);
+	}
+
+	export class TagType
+	{
+		tag: string;
+		type: string;
+
+		constructor ()
+		{
+			this.tag = "";
+			this.type = "";
+		}
 	}
 
 	export class Theme

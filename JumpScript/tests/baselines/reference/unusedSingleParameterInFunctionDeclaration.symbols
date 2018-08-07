@@ -1,8 +1,0 @@
-=== tests/cases/compiler/unusedSingleParameterInFunctionDeclaration.jump ===
-function greeter(person: string) {
->greeter : Symbol(greeter, Decl(unusedSingleParameterInFunctionDeclaration.jump, 0, 0))
->person : Symbol(person, Decl(unusedSingleParameterInFunctionDeclaration.jump, 0, 17))
-
-    var unused = 20;
->unused : Symbol(unused, Decl(unusedSingleParameterInFunctionDeclaration.jump, 1, 7))
-}

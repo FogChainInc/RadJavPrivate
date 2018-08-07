@@ -1,6 +1,0 @@
-=== tests/cases/compiler/unusedTypeParameterInInterface1.jump ===
-interface int<T> {
->int : int<T>
->T : T
-
-}

@@ -1,7 +1,0 @@
-=== tests/cases/compiler/modifiersOnInterfaceIndexSignature1.jump ===
-interface I {
->I : I
-
-  public [a: string]: number;
->a : string
-}

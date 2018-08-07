@@ -1,7 +1,0 @@
-// @target: ES6
-// @module: commonjs
-// @filename: a.jump
-export default class Foo {}
-
-// @filename: b.jump
-export default function foo() {}

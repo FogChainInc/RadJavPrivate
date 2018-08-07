@@ -1,7 +1,0 @@
-/// <reference path='fourslash.jump'/>
-
-////if (true)
-/////**/
-
-goTo.marker();
-verify.indentationIs(4);

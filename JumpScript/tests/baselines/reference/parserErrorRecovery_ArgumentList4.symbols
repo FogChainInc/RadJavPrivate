@@ -1,7 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript5/ErrorRecovery/ArgumentLists/parserErrorRecovery_ArgumentList4.jump ===
-function foo() {
->foo : Symbol(foo, Decl(parserErrorRecovery_ArgumentList4.jump, 0, 0))
-
-   bar(a,b
-   return;
-}

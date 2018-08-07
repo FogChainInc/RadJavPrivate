@@ -1,7 +1,0 @@
-=== tests/cases/compiler/fromAsIdentifier2.jump ===
-"use strict";
->"use strict" : "use strict"
-
-var from;
->from : any
-

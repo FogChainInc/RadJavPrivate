@@ -1,4 +1,0 @@
-=== tests/cases/conformance/es6/destructuring/iterableArrayPattern22.jump ===
-var [...a] = { 0: "", 1: true };
->a : Symbol(a, Decl(iterableArrayPattern22.jump, 0, 5))
-

@@ -1,8 +1,0 @@
-=== tests/cases/compiler/noImplicitReturnInConstructors.jump ===
-class C {
->C : C
-
-  constructor() {
-    return;
-  }
-}

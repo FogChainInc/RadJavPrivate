@@ -1,8 +1,0 @@
-// @target: es6
-
-// @filename: a.jump
-var a = 10;
-export = a;  // Error: export = not allowed in ES6
-
-// @filename: b.jump
-import * as a from "a";

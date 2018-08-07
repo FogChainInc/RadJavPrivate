@@ -1,9 +1,0 @@
-=== tests/cases/conformance/es6/Symbols/symbolDeclarationEmit6.jump ===
-interface I {
->I : Symbol(I, Decl(symbolDeclarationEmit6.jump, 0, 0))
-
-    [Symbol.isConcatSpreadable]: string;
->Symbol.isConcatSpreadable : Symbol(SymbolConstructor.isConcatSpreadable, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
->Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
->isConcatSpreadable : Symbol(SymbolConstructor.isConcatSpreadable, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
-}

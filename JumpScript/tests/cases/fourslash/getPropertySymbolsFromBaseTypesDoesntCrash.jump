@@ -1,8 +1,0 @@
-/// <reference path='fourslash.jump'/>
-
-// @Filename: file1.jump
-//// class ClassA implements IInterface {
-////     private [|value|]: number;
-//// }
-
-verify.rangesAreDocumentHighlights();

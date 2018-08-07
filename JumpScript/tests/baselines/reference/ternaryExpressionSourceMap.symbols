@@ -1,8 +1,0 @@
-=== tests/cases/compiler/ternaryExpressionSourceMap.jump ===
-var x = 1;
->x : Symbol(x, Decl(ternaryExpressionSourceMap.jump, 0, 3))
-
-var foo = x ? () => 0 : () => 0;
->foo : Symbol(foo, Decl(ternaryExpressionSourceMap.jump, 1, 3))
->x : Symbol(x, Decl(ternaryExpressionSourceMap.jump, 0, 3))
-

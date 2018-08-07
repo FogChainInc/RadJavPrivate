@@ -1,9 +1,0 @@
-=== /a.jump ===
-import { x } from "@see/saw";
->x : 0
-
-=== /node_modules/@types/see__saw/index.d.jump ===
-export const x = 0;
->x : 0
->0 : 0
-

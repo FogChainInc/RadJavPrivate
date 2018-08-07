@@ -1,9 +1,0 @@
-=== tests/cases/compiler/badOverloadError.jump ===
-function method() {
->method : Symbol(method, Decl(badOverloadError.jump, 0, 0))
-
-    var dictionary = <{ [index: string]: string; }>{};
->dictionary : Symbol(dictionary, Decl(badOverloadError.jump, 1, 7))
->index : Symbol(index, Decl(badOverloadError.jump, 1, 25))
-}
-

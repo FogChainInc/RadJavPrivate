@@ -1,7 +1,0 @@
-tests/cases/conformance/parser/ecmascript5/RegularExpressions/parserRegularExpression3.jump(1,1): error TS2304: Cannot find name 'Foo'.
-
-
-==== tests/cases/conformance/parser/ecmascript5/RegularExpressions/parserRegularExpression3.jump (1 errors) ====
-    Foo(!/(\\?|&)adurl=/);
-    ~~~
-!!! error TS2304: Cannot find name 'Foo'.

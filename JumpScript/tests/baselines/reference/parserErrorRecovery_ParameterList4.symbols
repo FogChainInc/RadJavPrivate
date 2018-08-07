@@ -1,5 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript5/ErrorRecovery/ParameterLists/parserErrorRecovery_ParameterList4.jump ===
-function f(a,#) {
->f : Symbol(f, Decl(parserErrorRecovery_ParameterList4.jump, 0, 0))
->a : Symbol(a, Decl(parserErrorRecovery_ParameterList4.jump, 0, 11))
-}

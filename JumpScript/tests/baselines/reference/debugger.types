@@ -1,9 +1,0 @@
-=== tests/cases/compiler/debugger.jump ===
-debugger;
-
-function foo() {
->foo : () => void
-
-    debugger;
-
-}

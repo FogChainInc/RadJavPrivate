@@ -362,7 +362,7 @@ namespace RadJav
 			public root: XMLTag;
 
 			/// The XML file that has been loaded.
-			protected xmlFile: XMLDocument;
+			public xmlFile: XMLDocument;
 
 			constructor ()
 			{
@@ -383,16 +383,16 @@ namespace RadJav
 
 						if (RadJav.OS.HTML5 != null)
 						{
-							return (RadJav.Net.httpRequest (path).then (function (data)
+							return (RadJav.Net.httpRequest (path).then (RadJav.keepContext (function (data)
 								{
-									this.loadXML (data);
+									this.parseXML (data);
 									resolve (data);
-								}));
+								}, this)));
 						}
 						else
 						{
 							let data = RadJav.IO.TextFile.readFile (path);
-							this.loadXML (data);
+							this.parseXML (data);
 
 							resolve (data);
 						}
@@ -408,7 +408,7 @@ namespace RadJav
 				{
 					this.parser = new DOMParser ();
 					this.xmlFile = this.parser.parseFromString (xmlString, "text/xml");
-					this.root = new XMLTag ((<DOMElement>this.xmlFile.firstChild));
+					this.root = new XMLTag (this);
 				}
 			}
 
@@ -452,7 +452,10 @@ namespace RadJav
 			/// This tag's children.
 			public children: XMLTag[];
 
-			constructor (tag: string | DOMElement)
+			/// The XML file that has been loaded.
+			public xmlFile: XMLDocument;
+
+			constructor (tag: string | XMLFile)
 			{
 				if (RadJav.OS.HTML5 != null)
 				{
@@ -462,10 +465,11 @@ namespace RadJav
 						this.attributes = {};
 						this.value = "";
 						this.children = [];
+						this.xmlFile = null;
 					}
 					else
 					{
-						let domTag: DOMElement = (<DOMElement>tag);
+						let domTag: DOMElement =  (<DOMElement>(<XMLFile>tag).xmlFile.firstChild);
 						this.tag = domTag.tagName;
 						this.attributes = {};
 
@@ -518,6 +522,15 @@ namespace RadJav
 					this.attributes[attribute] = new XMLAttribute (attribute, value);
 				else
 					this.attributes[attribute].value = value;
+			}
+
+			/// Checks if an attribute has been set.
+			hasAttribute (attribute: string): boolean
+			{
+				if (this.attributes[attribute] == undefined)
+					return (false);
+
+				return (true);
 			}
 
 			/// Get an attribute from this tag.

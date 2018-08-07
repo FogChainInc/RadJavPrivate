@@ -1,4 +1,0 @@
-// @module: umd
-// @filename: main.jump
-/// <amd-module name="a"/>
-export const a = 1;

@@ -1,4 +1,0 @@
-=== tests/cases/compiler/newMissingIdentifier.jump ===
-var x = new ();
->x : Symbol(x, Decl(newMissingIdentifier.jump, 0, 3))
-

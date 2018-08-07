@@ -1,9 +1,0 @@
-=== tests/cases/compiler/restParamAsOptional.jump ===
-function f(...x?) { }
->f : Symbol(f, Decl(restParamAsOptional.jump, 0, 0))
->x : Symbol(x, Decl(restParamAsOptional.jump, 0, 11))
-
-function f2(...x = []) { }
->f2 : Symbol(f2, Decl(restParamAsOptional.jump, 0, 21))
->x : Symbol(x, Decl(restParamAsOptional.jump, 1, 12))
-

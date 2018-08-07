@@ -1,9 +1,0 @@
-=== tests/cases/compiler/indirectSelfReference.jump ===
-class a extends b{ }
->a : a
->b : typeof b
-
-class b extends a{ }
->b : b
->a : typeof a
-

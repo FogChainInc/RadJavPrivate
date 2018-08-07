@@ -1,5 +1,0 @@
-/// <reference path="fourslash.jump" />
-
-////var /**/x = /aa/;
-
-verify.quickInfoAt("", "var x: RegExp");

@@ -1,6 +1,0 @@
-=== tests/cases/compiler/functionExpressionReturningItself.jump ===
-var x = function somefn() { return somefn; };
->x : Symbol(x, Decl(functionExpressionReturningItself.jump, 0, 3))
->somefn : Symbol(somefn, Decl(functionExpressionReturningItself.jump, 0, 7))
->somefn : Symbol(somefn, Decl(functionExpressionReturningItself.jump, 0, 7))
-

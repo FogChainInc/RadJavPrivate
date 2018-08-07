@@ -1,8 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript5/ParameterLists/parserParameterList10.jump ===
-class C {
->C : Symbol(C, Decl(parserParameterList10.jump, 0, 0))
-
-   foo(...bar = 0) { }
->foo : Symbol(C.foo, Decl(parserParameterList10.jump, 0, 9))
->bar : Symbol(bar, Decl(parserParameterList10.jump, 1, 7))
-}

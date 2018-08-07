@@ -1,7 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript5/CatchClauses/parserCatchClauseWithTypeAnnotation1.jump ===
-try {
-} catch (e: Error) {
->e : Symbol(e, Decl(parserCatchClauseWithTypeAnnotation1.jump, 1, 9))
->Error : Symbol(Error, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
-}
-

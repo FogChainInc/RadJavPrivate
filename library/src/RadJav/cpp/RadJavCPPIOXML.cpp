@@ -155,6 +155,17 @@ namespace RadJAV
 					}
 				}
 
+				/// Checks if an attribute has been set.
+				RJBOOL XMLTag::hasAttribute(String attribute)
+				{
+					auto attr = attributes.find(attribute.c_str());
+
+					if (attr == attributes.end())
+						return (false);
+
+					return (true);
+				}
+
 				/// Get an attribute from this tag.
 				XMLAttribute *XMLTag::getAttribute(String attribute)
 				{

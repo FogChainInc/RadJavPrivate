@@ -19,17 +19,23 @@
 */
 
 /// <reference path="RadJav.ts" />
+/// <reference path="RadJav.Vector2.ts" />
 
-namespace RadJav {
-  export  namespace GUI {
+namespace RadJav
+{
+  export  namespace GUI
+  {
     /** @class RadJav.GUI.Combobox
      * @extends RadJav.GUI.GObject
      * A combobox.
      * Available on platforms: Windows,Linux,OSX,HTML5
      */
-    export class Combobox extends RadJav.GUI.GObject{
+    export class Combobox extends RadJav.GUI.GObject
+    {
+			static xmlTag: TagType = { tag: "combobox", type: "Combobox" };
 
-      constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject) {
+      constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject)
+      {
         if (obj == null) {
           obj = {};
         }

@@ -1,8 +1,0 @@
-[
-    "======== Resolving type reference directive 'jquery', containing file '/a/__inferred type names__.jump', root directory 'types'. ========",
-    "Resolving with primary search path 'types'.",
-    "File 'types/jquery/package.json' does not exist.",
-    "File 'types/jquery/index.d.jump' exist - use it as a name resolution result.",
-    "Resolving real path for 'types/jquery/index.d.jump', result '/a/types/jquery/index.d.jump'.",
-    "======== Type reference directive 'jquery' was successfully resolved to '/a/types/jquery/index.d.jump', primary: true. ========"
-]

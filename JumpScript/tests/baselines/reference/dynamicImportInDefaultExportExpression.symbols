@@ -1,8 +1,0 @@
-=== tests/cases/compiler/dynamicImportInDefaultExportExpression.jump ===
-export default {
-    getInstance: function () {
->getInstance : Symbol(getInstance, Decl(dynamicImportInDefaultExportExpression.jump, 0, 16))
-
-        return import('./foo2');
-    }
-}

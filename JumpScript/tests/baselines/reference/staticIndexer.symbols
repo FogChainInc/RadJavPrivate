@@ -1,7 +1,0 @@
-=== tests/cases/compiler/staticIndexer.jump ===
-class C {
->C : Symbol(C, Decl(staticIndexer.jump, 0, 0))
-
-    static [s: string]: number;
->s : Symbol(s, Decl(staticIndexer.jump, 1, 12))
-}

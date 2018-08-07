@@ -1,5 +1,0 @@
-///<reference path="internal.jump" />
-import a = require("external2");
-
-outer.b = "bar";
-var c = a.square(5);

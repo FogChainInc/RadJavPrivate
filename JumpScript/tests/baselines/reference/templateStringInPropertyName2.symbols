@@ -1,6 +1,0 @@
-=== tests/cases/conformance/es6/templates/templateStringInPropertyName2.jump ===
-var x = {
->x : Symbol(x, Decl(templateStringInPropertyName2.jump, 0, 3))
-
-    `abc${ 123 }def${ 456 }ghi`: 321
-}

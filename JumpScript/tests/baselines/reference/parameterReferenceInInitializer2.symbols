@@ -1,9 +1,0 @@
-=== tests/cases/compiler/parameterReferenceInInitializer2.jump ===
-function Example(x = function(x: any) { return x; }) { // Error: parameter 'x' cannot be 
->Example : Symbol(Example, Decl(parameterReferenceInInitializer2.jump, 0, 0))
->x : Symbol(x, Decl(parameterReferenceInInitializer2.jump, 0, 17))
->x : Symbol(x, Decl(parameterReferenceInInitializer2.jump, 0, 30))
->x : Symbol(x, Decl(parameterReferenceInInitializer2.jump, 0, 30))
-
-                                                       // referenced in its initializer
-}

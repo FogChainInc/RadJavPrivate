@@ -1,4 +1,0 @@
-=== tests/cases/conformance/ambient/ambientShorthand_declarationEmit.jump ===
-declare module "foo";
-No type information for this code.
-No type information for this code.

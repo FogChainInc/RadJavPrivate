@@ -1,8 +1,0 @@
-=== tests/cases/compiler/emptyTypeArgumentList.jump ===
-function foo<T>() { }
->foo : Symbol(foo, Decl(emptyTypeArgumentList.jump, 0, 0))
->T : Symbol(T, Decl(emptyTypeArgumentList.jump, 0, 13))
-
-foo<>();
->foo : Symbol(foo, Decl(emptyTypeArgumentList.jump, 0, 0))
-

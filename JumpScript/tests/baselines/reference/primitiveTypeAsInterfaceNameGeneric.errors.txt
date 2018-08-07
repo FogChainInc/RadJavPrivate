@@ -1,7 +1,0 @@
-tests/cases/compiler/primitiveTypeAsInterfaceNameGeneric.jump(1,11): error TS2427: Interface name cannot be 'number'.
-
-
-==== tests/cases/compiler/primitiveTypeAsInterfaceNameGeneric.jump (1 errors) ====
-    interface number<T> {}
-              ~~~~~~
-!!! error TS2427: Interface name cannot be 'number'.

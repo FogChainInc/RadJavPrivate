@@ -1,8 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript5/IndexMemberDeclarations/parserIndexMemberDeclaration5.jump ===
-class C {
->C : Symbol(C, Decl(parserIndexMemberDeclaration5.jump, 0, 0))
-
-   [a: string]: number public v: number
->a : Symbol(a, Decl(parserIndexMemberDeclaration5.jump, 1, 4))
->v : Symbol(C.v, Decl(parserIndexMemberDeclaration5.jump, 1, 22))
-}

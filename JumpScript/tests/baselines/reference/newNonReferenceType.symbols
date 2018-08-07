@@ -1,7 +1,0 @@
-=== tests/cases/compiler/newNonReferenceType.jump ===
-var a = new any();
->a : Symbol(a, Decl(newNonReferenceType.jump, 0, 3))
-
-var b = new boolean(); // error
->b : Symbol(b, Decl(newNonReferenceType.jump, 1, 3))
-

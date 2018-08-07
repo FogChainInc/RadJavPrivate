@@ -1,4 +1,0 @@
-=== tests/cases/compiler/a.jump ===
-export { undefined };
->undefined : Symbol(undefined, Decl(a.jump, 0, 8))
-

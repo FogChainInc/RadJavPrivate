@@ -1,4 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript5/VariableDeclarations/parserVariableDeclaration10.jump ===
-var a,;
->a : Symbol(a, Decl(parserVariableDeclaration10.jump, 0, 3))
-

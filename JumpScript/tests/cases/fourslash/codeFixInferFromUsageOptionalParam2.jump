@@ -1,8 +1,0 @@
-/// <reference path='fourslash.jump' />
-
-// @noImplicitAny: true
-////function f([|a? |]){
-////    if (a < 9) return;
-////}
-
-verify.rangeAfterCodeFix("a?: number");

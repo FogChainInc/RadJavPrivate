@@ -1,7 +1,0 @@
-///<reference path="fourslash.jump"/>
-
-/////**/for (var i    in[]   )  {}
-
-format.document();
-goTo.marker();
-verify.currentLineContentIs("for (var i in []) { }");

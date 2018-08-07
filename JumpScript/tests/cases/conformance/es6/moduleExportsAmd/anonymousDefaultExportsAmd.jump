@@ -1,7 +1,0 @@
-// @target: ES6
-// @module: amd
-// @filename: a.jump
-export default class {}
-
-// @filename: b.jump
-export default function() {}

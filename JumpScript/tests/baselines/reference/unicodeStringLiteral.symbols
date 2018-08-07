@@ -1,4 +1,0 @@
-=== tests/cases/compiler/unicodeStringLiteral.jump ===
-var ੳ = "Ü­ਲĭ";
->ੳ : Symbol(ੳ, Decl(unicodeStringLiteral.jump, 0, 3))
-

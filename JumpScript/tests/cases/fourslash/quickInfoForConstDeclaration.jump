@@ -1,5 +1,0 @@
-/// <reference path='fourslash.jump' />
-
-////const /**/c = 0 ;
-
-verify.quickInfoAt("", "const c: 0");

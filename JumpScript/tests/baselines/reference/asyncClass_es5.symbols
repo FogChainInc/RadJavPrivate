@@ -1,4 +1,0 @@
-=== tests/cases/conformance/async/es5/asyncClass_es5.jump ===
-async class C {
->C : Symbol(C, Decl(asyncClass_es5.jump, 0, 0))
-}

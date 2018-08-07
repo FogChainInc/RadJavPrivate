@@ -19,6 +19,7 @@
 */
 
 /// <reference path="RadJav.ts" />
+/// <reference path="RadJav.Vector2.ts" />
 
 namespace RadJav
 {
@@ -50,7 +51,7 @@ namespace RadJav
 				}
 			}
 
-			static xmlTag: { tag: string, type: string } = { tag: "button", type: "Button" };
+			static xmlTag: RadJav.TagType = { tag: "button", type: "Button" };
 		}
 	}
 }

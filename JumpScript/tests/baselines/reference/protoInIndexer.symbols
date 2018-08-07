@@ -1,9 +1,0 @@
-=== tests/cases/compiler/protoInIndexer.jump ===
-class X {
->X : Symbol(X, Decl(protoInIndexer.jump, 0, 0))
-
-    constructor() {
-        this['__proto__'] = null; // used to cause ICE
->this : Symbol(X, Decl(protoInIndexer.jump, 0, 0))
-    }
-}

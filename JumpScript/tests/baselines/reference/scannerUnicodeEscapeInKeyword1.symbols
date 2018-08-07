@@ -1,4 +1,0 @@
-=== tests/cases/conformance/scanner/ecmascript5/scannerUnicodeEscapeInKeyword1.jump ===
-\u0076ar x = "hello";
->x : Symbol(x, Decl(scannerUnicodeEscapeInKeyword1.jump, 0, 8))
-

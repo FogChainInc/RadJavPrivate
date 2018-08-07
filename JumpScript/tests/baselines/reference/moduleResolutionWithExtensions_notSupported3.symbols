@@ -1,4 +1,0 @@
-=== /a.jump ===
-import jsx from "./jsx";
->jsx : Symbol(jsx, Decl(a.jump, 0, 6))
-

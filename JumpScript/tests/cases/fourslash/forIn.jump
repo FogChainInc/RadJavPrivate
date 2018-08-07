@@ -1,6 +1,0 @@
-/// <reference path='fourslash.jump' />
-
-////var obj;
-////for (var /**/p in obj) { }
-
-verify.quickInfoAt("", "var p: string");

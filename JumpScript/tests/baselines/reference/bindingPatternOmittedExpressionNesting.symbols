@@ -1,4 +1,0 @@
-=== tests/cases/compiler/bindingPatternOmittedExpressionNesting.jump ===
-export let [,,[,[],,[],]] = undefined as any;
->undefined : Symbol(undefined)
-

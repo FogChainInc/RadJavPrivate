@@ -1,7 +1,0 @@
-=== tests/cases/compiler/classMemberWithMissingIdentifier.jump ===
-class C { 
->C : Symbol(C, Decl(classMemberWithMissingIdentifier.jump, 0, 0))
-
-    public {};
-> : Symbol(C[(Missing)], Decl(classMemberWithMissingIdentifier.jump, 0, 9))
-}

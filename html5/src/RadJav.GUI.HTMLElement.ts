@@ -19,6 +19,7 @@
 */
 
 /// <reference path="RadJav.ts" />
+/// <reference path="RadJav.Vector2.ts" />
 
 namespace RadJav
 {
@@ -31,6 +32,8 @@ namespace RadJav
 		*/
 		export class HTMLElement extends RadJav.GUI.GObject
 		{
+			static xmlTag: TagType = { tag: "htmlelement", type: "HTMLElement" };
+
 			constructor(obj?: any, text?: string | HTMLElement, parent?: RadJav.GUI.GObject)
 			{
 				if (obj == null)

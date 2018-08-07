@@ -1,7 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript5/MethodSignatures/parserMethodSignature8.jump ===
-interface I {
->I : Symbol(I, Decl(parserMethodSignature8.jump, 0, 0))
-
-  "H"?<T>();
->T : Symbol(T, Decl(parserMethodSignature8.jump, 1, 7))
-}

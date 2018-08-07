@@ -1,6 +1,0 @@
-=== tests/cases/compiler/modulePrologueCommonjs.jump ===
-"use strict";
-
-export class Foo {}
->Foo : Symbol(Foo, Decl(modulePrologueCommonjs.jump, 0, 13))
-

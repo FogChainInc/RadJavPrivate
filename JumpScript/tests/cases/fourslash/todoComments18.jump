@@ -1,8 +1,0 @@
-/// <reference path='fourslash.jump' />
-
-// Tests node_modules name in file still gets todos.
-
-// @Filename: /node_modules_todoTest0.jump
-//// // [|TODO|]
-
-verify.todoCommentsInCurrentFile(["TODO"]);

@@ -1,7 +1,0 @@
-=== tests/cases/compiler/indexSignatureWithoutTypeAnnotation1.jump ===
-class C {
->C : Symbol(C, Decl(indexSignatureWithoutTypeAnnotation1.jump, 0, 0))
-
-  [a: number];
->a : Symbol(a, Decl(indexSignatureWithoutTypeAnnotation1.jump, 1, 3))
-}

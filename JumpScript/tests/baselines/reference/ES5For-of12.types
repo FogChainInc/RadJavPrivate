@@ -1,8 +1,0 @@
-=== tests/cases/conformance/statements/for-ofStatements/ES5For-of12.jump ===
-for ([""] of [[""]]) { }
->[""] : [string]
->"" : ""
->[[""]] : string[][]
->[""] : string[]
->"" : ""
-

@@ -1,7 +1,0 @@
-/// <reference path="fourslash.jump" />
-
-// @allowJs: true
-// @Filename: a.js
-//// function foo(...a) {}
-
-verify.getSemanticDiagnostics(`[]`);

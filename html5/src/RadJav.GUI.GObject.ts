@@ -22,301 +22,348 @@
  * Available on platforms: Windows,Linux,OSX,HTML5
  */
 /// <reference path="RadJav.ts" />
+/// <reference path="RadJav.Vector2.ts" />
+/// <reference path="RadJav.Rectangle.ts" />
+/// <reference path="RadJav.Font.ts" />
 
  namespace RadJav {
-  export namespace GUI {
-   export class GObject {
-      /** @property {string} [name=""]
-       * The name of this object.
-       */
-      name: string;
-      /** @property {string} [type=""]
-       * The type of object.
-       */
-      type: string;
-      /** @property {RadJav.Rectangle} [_transform=new Rectangle ()]
-       * @protected
-       * The transform of this object.
-       */
-      _transform: Rectangle;
-      /** @property {Boolean} [_visible=true]
-       * @protected
-       * The visibility of the object.
-       */
-      _visible: boolean;
-      /** @property {number} [_zIndex=0]
-       * @protected
-       * The initial z-index of this object. The higher the value the more "on top" the
-       * object will be compared to other objects.
-       */
-      _zIndex: number;
-      /** @property {string} [_text=""]
-       * @protected
-       * The text associated with this object.
-       */
-      _text: string;
-      /** @property {RadJav.Font} [_font=new RadJav.Font ()]
-       * @protected
-       * The font associated with this object.
-       */
-      _font: Font;
-      /** @property {string} [_cursor="default"]
-       * @protected
-       * The cursor to use.
-       */
-      _cursor: string;
-      /** @property {Mixed} [_parent=null]
-       * @protected
-       * The parent of this object.
-       */
-      _parent: GObject;
-      /** @property {RadJav.GUI.GObject[]} [_children=[]]
-       * @protected
-       * This object's children.
-       */
-      _children: GObject[];
-      /** @property {Mixed} [_html=null]
-       * @protected
-       * The native web object associated with this object.
-       */
-      _html: any;
-      /** @property {Mixed} [_appObj=null]
-       * @protected
-       * The native os gui object associated with this object.
-       */
-      _appObj: any;
-      /** @property {Account} [access=null]
-       * @protected
-       * How this object is handled with an account.
-       */
-      access: Account;
-      /** @property {Object} [createOnPlatforms=null]
-       * @protected
-       * Create this object only on certain platforms. All platforms will be enabled
-       * by default, only the ones listed in each key will either be created or
-       * denied by their boolean value. Ex: { "WIN32": true, "HTML5": false }.
-       * Possible keys are:
-       * WIN32
-       * WIN64
-       * LINUX32
-       * LINUX64
-       * MACOSX32
-       * MACOSX64
-       * HTML5
-       */
-      createOnPlatforms: Object;
-      /** @event [onBeforeChildCreated=null]
-       * The function to execute before a child is created.
-       */
-      onBeforeChildCreated(obj: Object,parent?:any):void{};
-      /** @event [onCreated=null]
-       * The function to execute once the object has been created.
-       */
-      onCreated(obj: Object):void {}
+	export namespace GUI {
+	 export class GObject {
+			/** @property {string} [name=""]
+			 * The name of this object.
+			 */
+			name: string;
+			/** @property {string} [type=""]
+			 * The type of object.
+			 */
+			type: string;
+			/** @property {RadJav.Rectangle} [_transform=new Rectangle ()]
+			 * @protected
+			 * The transform of this object.
+			 */
+			_transform: Rectangle;
+			/** @property {Boolean} [_visible=true]
+			 * @protected
+			 * The visibility of the object.
+			 */
+			_visible: boolean;
+			/** @property {number} [_zIndex=0]
+			 * @protected
+			 * The initial z-index of this object. The higher the value the more "on top" the
+			 * object will be compared to other objects.
+			 */
+			_zIndex: number;
+			/** @property {string} [_text=""]
+			 * @protected
+			 * The text associated with this object.
+			 */
+			_text: string;
+			/** @property {RadJav.Font} [_font=new RadJav.Font ()]
+			 * @protected
+			 * The font associated with this object.
+			 */
+			_font: Font;
+			/** @property {string} [_cursor="default"]
+			 * @protected
+			 * The cursor to use.
+			 */
+			_cursor: string;
+			/** @property {Mixed} [_parent=null]
+			 * @protected
+			 * The parent of this object.
+			 */
+			_parent: GObject;
+			/** @property {RadJav.GUI.GObject[]} [_children=[]]
+			 * @protected
+			 * This object's children.
+			 */
+			_children: GObject[];
+			/** @property {Mixed} [_html=null]
+			 * @protected
+			 * The native web object associated with this object.
+			 */
+			_html: any;
+			/** @property {Mixed} [_appObj=null]
+			 * @protected
+			 * The native os gui object associated with this object.
+			 */
+			_appObj: any;
+			/** @property {Account} [access=null]
+			 * @protected
+			 * How this object is handled with an account.
+			 */
+			access: Account;
+			/** @property {Object} [createOnPlatforms=null]
+			 * @protected
+			 * Create this object only on certain platforms. All platforms will be enabled
+			 * by default, only the ones listed in each key will either be created or
+			 * denied by their boolean value. Ex: { "WIN32": true, "HTML5": false }.
+			 * Possible keys are:
+			 * WIN32
+			 * WIN64
+			 * LINUX32
+			 * LINUX64
+			 * MACOSX32
+			 * MACOSX64
+			 * HTML5
+			 */
+			createOnPlatforms: Object;
+			/** @event [onBeforeChildCreated=null]
+			 * The function to execute before a child is created.
+			 */
+			onBeforeChildCreated(obj: Object,parent?:any):void{};
+			/** @event [onCreated=null]
+			 * The function to execute once the object has been created.
+			 */
+			onCreated(obj: Object):void {}
 
 
-      /** @event [_events={}]
-       * Events to call.
-       */
-      _events: ((...args: any[]) => any);
+			/** @event [_events={}]
+			 * Events to call.
+			 */
+			_events: ((...args: any[]) => any);
 
-      constructor(
-        obj?: any,
-        text?: string,
-        parent?: GObject,
-        beforeCreatedChild?: boolean
-      ) {
-        if (obj == null) {
-          obj = new Object();
-        }
+			constructor(
+				obj?: any,
+				text?: string,
+				parent?: GObject,
+				beforeCreatedChild?: boolean
+			) {
+				if (obj == null) {
+					obj = new Object();
+				}
 
-        if (typeof obj == "string") {
-          var tempObj = obj;
-          obj = {};
-          obj.name = tempObj;
-        }
+				if (typeof (RadJav.XML) != "undefined")
+				{
+					if (obj instanceof RadJav.XML.XMLTag)
+						obj = GObject.parseGObjectXML (obj);
+				}
 
-        if (beforeCreatedChild == undefined) {
-          beforeCreatedChild = null;
-        }
+				if (typeof obj == "string") {
+					var tempObj = obj;
+					obj = {};
+					obj.name = tempObj;
+				}
 
-        if (text != null) {
-          obj._text = text;
-        }
+				if (beforeCreatedChild == undefined) {
+					beforeCreatedChild = null;
+				}
 
-        if (parent != null) {
-          obj._parent = parent;
-        }
+				if (text != null) {
+					obj._text = text;
+				}
 
-        if (obj.text != null) {
-          obj._text = obj.text;
-        }
+				if (parent != null) {
+					obj._parent = parent;
+				}
 
-        if (obj.cursor != null) {
-          obj._cursor = obj.cursor;
-        }
+				if (obj.text != null) {
+					obj._text = obj.text;
+				}
 
-        if (obj.visible != null) {
-          obj._visible = obj.visible;
-        }
+				if (obj.cursor != null) {
+					obj._cursor = obj.cursor;
+				}
 
-        if (obj.visibility != null) {
-          obj._visible = obj.visibility;
-        }
+				if (obj.visible != null) {
+					obj._visible = obj.visible;
+				}
 
-        if (obj.zIndex != null) {
-          obj._zIndex = obj.zIndex;
-        }
+				if (obj.visibility != null) {
+					obj._visible = obj.visibility;
+				}
 
-        if (obj.font != null) {
-          obj._font = new RadJav.Font(obj.font);
-        }
+				if (obj.zIndex != null) {
+					obj._zIndex = obj.zIndex;
+				}
 
-        if (obj.parent != null) {
-          obj._parent = obj.parent;
-        }
+				if (obj.font != null) {
+					obj._font = new RadJav.Font(obj.font);
+				}
 
-        this.name = RadJav.setDefaultValue(obj.name, "");
-        this.type = RadJav.setDefaultValue(obj.type, "");
-        this._transform = RadJav.setDefaultValue(
-          obj._transform,
-          new RadJav.Rectangle()
-        );
-        this._visible = RadJav.setDefaultValue(obj._visible, true);
-        this._zIndex = RadJav.setDefaultValue(obj._zIndex, 0);
-        this._text = RadJav.setDefaultValue(obj._text, "");
-        this._font = RadJav.setDefaultValue(obj._font, new RadJav.Font());
-        this._cursor = RadJav.setDefaultValue(obj._cursor, "default");
-        this._parent = RadJav.setDefaultValue(obj._parent, null);
-        this._children = RadJav.setDefaultValue(obj._children, []);
-        this._html = RadJav.setDefaultValue(obj._html, null);
-        this._appObj = RadJav.setDefaultValue(obj._appObj, null);
-        this.createOnPlatforms = RadJav.setDefaultValue(
-          obj.createOnPlatforms,
-          null
-        );
-        this.onBeforeChildCreated = RadJav.setDefaultValue(
-          obj.onBeforeChildCreated,
-          null
-        );
-        this.onCreated = RadJav.setDefaultValue(obj.onCreated, null);
-        this._events = RadJav.setDefaultValue(obj._events, {});
+				if (obj.parent != null) {
+					obj._parent = obj.parent;
+				}
 
-        if (obj.events != null) {
-          this._events = obj.events;
-        }
+				this.name = RadJav.setDefaultValue(obj.name, "");
+				this.type = RadJav.setDefaultValue(obj.type, "");
+				this._transform = RadJav.setDefaultValue(
+					obj._transform,
+					new RadJav.Rectangle()
+				);
+				this._visible = RadJav.setDefaultValue(obj._visible, true);
+				this._zIndex = RadJav.setDefaultValue(obj._zIndex, 0);
+				this._text = RadJav.setDefaultValue(obj._text, "");
+				this._font = RadJav.setDefaultValue(obj._font, new RadJav.Font());
+				this._cursor = RadJav.setDefaultValue(obj._cursor, "default");
+				this._parent = RadJav.setDefaultValue(obj._parent, null);
+				this._children = RadJav.setDefaultValue(obj._children, []);
+				this._html = RadJav.setDefaultValue(obj._html, null);
+				this._appObj = RadJav.setDefaultValue(obj._appObj, null);
+				this.createOnPlatforms = RadJav.setDefaultValue(
+					obj.createOnPlatforms,
+					null
+				);
+				this.onBeforeChildCreated = RadJav.setDefaultValue(
+					obj.onBeforeChildCreated,
+					null
+				);
+				this.onCreated = RadJav.setDefaultValue(obj.onCreated, null);
+				this._events = RadJav.setDefaultValue(obj._events, {});
 
-        if (obj.click != null) {
-          (<any>this._events).click = obj.click;
-        }
+				if (obj.events != null) {
+					this._events = obj.events;
+				}
 
-        if (obj.children != null) {
-          for (var iIdx = 0; iIdx < obj.children.length; iIdx++) {
-            var obj2 = obj.children[iIdx];
-            var createObject:any = true;
+				if (obj.click != null) {
+					(<any>this._events).click = obj.click;
+				}
 
-            if (this.onBeforeChildCreated != null) {
-              var result = this.onBeforeChildCreated(obj2, parent);
-            }
-            if (result != null) {
-              createObject = result;
-            }
-          }
+				if (obj.children != null) {
+					for (var iIdx = 0; iIdx < obj.children.length; iIdx++) {
+						var obj2 = obj.children[iIdx];
+						var createObject:any = true;
 
-          if (createObject == true) {
-            this._children.push(obj2);
-          }
-        }
+						if (this.onBeforeChildCreated != null) {
+							var result = this.onBeforeChildCreated(obj2, parent);
+						}
+						if (result != null) {
+							createObject = result;
+						}
+					}
 
-        if (obj.position != null) {
-          var position = new RadJav.Vector2();
+					if (createObject == true) {
+						this._children.push(obj2);
+					}
+				}
 
-          if (typeof obj.position == "string") {
-            position = RadJav.Vector2.parseVector2(obj.position);
-          } else {
-            position = obj.position;
-          }
+				if (obj.position != null) {
+					var position = new RadJav.Vector2();
 
-          this._transform.setPosition(position);
-        }
+					if (typeof obj.position == "string") {
+						position = RadJav.Vector2.parseVector2(obj.position);
+					} else {
+						position = obj.position;
+					}
 
-        if (obj.size != null) {
-          var size = new RadJav.Vector2();
+					this._transform.setPosition(position);
+				}
 
-          if (typeof obj.size == "string") {
-            size = RadJav.Vector2.parseVector2(obj.size);
-          } else {
-            size = obj.size;
-          }
+				if (obj.size != null) {
+					var size = new RadJav.Vector2();
 
-          this._transform.setSize(size);
-        }
-      }
+					if (typeof obj.size == "string") {
+						size = RadJav.Vector2.parseVector2(obj.size);
+					} else {
+						size = obj.size;
+					}
 
-      /** @method create
-       * Using the existing parameters in this object, create it.
-       * Theme Event: create
-       * Is Theme Event Asynchronous: Yes
-       * @return {Promise} The promise to execute when the creation is completed.
-       */
-      public create(): Promise<GObject> {
-        var promise = new Promise<GObject>(
-          RadJav.keepContext(function(resolve, reject) {
-            if (this.createOnPlatforms != null) {
-              for (var key in this.createOnPlatforms) {
-                if (key == "HTML5") {
-                  if (this.createOnPlatforms[key] == false) {
-                    resolve(this);
-                    return;
-                  }
-                }
-              }
-            }
-            var promise2 = RadJav.currentTheme.event(this.type, "create", this);
+					this._transform.setSize(size);
+				}
+			}
 
-            if (promise2 == null) {
-              debugger;
-            }
+			/** @method create
+			 * Using the existing parameters in this object, create it.
+			 * Theme Event: create
+			 * Is Theme Event Asynchronous: Yes
+			 * @return {Promise} The promise to execute when the creation is completed.
+			 */
+			public create(): Promise<GObject> {
+				var promise = new Promise<GObject>(
+					RadJav.keepContext(function(resolve, reject) {
+						if (this.createOnPlatforms != null) {
+							for (var key in this.createOnPlatforms) {
+								if (key == "HTML5") {
+									if (this.createOnPlatforms[key] == false) {
+										resolve(this);
+										return;
+									}
+								}
+							}
+						}
+						var promise2 = RadJav.currentTheme.event(this.type, "create", this);
 
-            promise2.then(
-              RadJav.keepContext(function(htmlObj) {
-                this._html = htmlObj;
-                var promises = [];
+						if (promise2 == null) {
+							debugger;
+						}
 
-                for (var iIdx = 0; iIdx < this._children.length; iIdx++) {
-                  this._children[iIdx] = RadJav.GUI.initObj(
-                    this._children[iIdx],
-                    "",
-                    "",
-                    this
-                  );
+						promise2.then(
+							RadJav.keepContext(function(htmlObj) {
+								this._html = htmlObj;
+								var promises = [];
 
-                  promises.push(this._children[iIdx].create());
-                }
+								for (var iIdx = 0; iIdx < this._children.length; iIdx++) {
+									this._children[iIdx] = RadJav.GUI.initObj(
+										this._children[iIdx],
+										"",
+										"",
+										this
+									);
 
-                Promise.all(promises).then(
-                  RadJav.keepContext(function() {
-                    for (var key in this._events) {
-                      if (this._events[key] != null) {
-                        var func = new Function(this._events[key]);
-                        RadJav.currentTheme.event(this.type, "on", this, key, func);
-                      }
-                    }
+									promises.push(this._children[iIdx].create());
+								}
 
-                    if (this.onCreated != null) {
-                      this.onCreated();
-                    }
+								Promise.all(promises).then(
+									RadJav.keepContext(function() {
+										for (var key in this._events) {
+											if (this._events[key] != null) {
+												var func = new Function(this._events[key]);
+												RadJav.currentTheme.event(this.type, "on", this, key, func);
+											}
+										}
 
-                    resolve(this);
-                  }, this)
-                );
-              }, this)
-            );
-          }, this)
-        );
+										if (this.onCreated != null) {
+											this.onCreated();
+										}
 
-        return promise;
-      }
+										resolve(this);
+									}, this)
+								);
+							}, this)
+						);
+					}, this)
+				);
+
+				return promise;
+			}
+
+			/// Parse an XML object.
+			static parseGObjectXML (xmlTag: RadJav.XML.XMLTag): GObject
+			{
+				let obj: GObject = new GObject ();
+
+				if (xmlTag.hasAttribute ("name") == true)
+					obj.name = xmlTag.getAttributeString ("name", "");
+
+				let pos: RadJav.Vector2 = new RadJav.Vector2 ();
+				let size: RadJav.Vector2 = new RadJav.Vector2 ();
+
+				if (xmlTag.hasAttribute ("x") == true)
+				{
+					pos.x = xmlTag.getAttributeFloat ("x", 0);
+					obj._transform.setPosition (pos);
+				}
+
+				if (xmlTag.hasAttribute ("y") == true)
+				{
+					pos.y = xmlTag.getAttributeFloat ("y", 0);
+					obj._transform.setPosition (pos);
+				}
+
+				if (xmlTag.hasAttribute ("width") == true)
+				{
+					size.x = xmlTag.getAttributeFloat ("width", 0);
+					obj._transform.setSize (size);
+				}
+
+				if (xmlTag.hasAttribute ("height") == true)
+				{
+					size.y = xmlTag.getAttributeFloat ("height", 0);
+					obj._transform.setSize (size);
+				}
+
+				return (obj);
+			}
 
 		/** @method setFont
 		* Set this object's font.
@@ -371,56 +418,56 @@
 			return this._transform.getPosition();
 		}
 
-      /** @method getX
-       * Get the X position of this object.
-       * Theme Event: None
-       * Is Theme Event Asynchronous: No
-       * @return {RadJav.Vector2} The position of this object.
-       */
-      getX(): number {
-        return this._transform.x;
-      }
+			/** @method getX
+			 * Get the X position of this object.
+			 * Theme Event: None
+			 * Is Theme Event Asynchronous: No
+			 * @return {RadJav.Vector2} The position of this object.
+			 */
+			getX(): number {
+				return this._transform.x;
+			}
 
-      /** @method getY
-       * Get the Y position of this object.
-       * Theme Event: None
-       * Is Theme Event Asynchronous: No
-       * @return {RadJav.Vector2} The position of this object.
-       */
-      getY(): number {
-        return this._transform.y;
-      }
+			/** @method getY
+			 * Get the Y position of this object.
+			 * Theme Event: None
+			 * Is Theme Event Asynchronous: No
+			 * @return {RadJav.Vector2} The position of this object.
+			 */
+			getY(): number {
+				return this._transform.y;
+			}
 
-      /** @method setSize
-       * Set the size of this object.
-       * Theme Event: None
-       * Is Theme Event Asynchronous: No
-       * @param {number/RadJav.Vector2} width The object's new size, or new width.
-       * @param {number} [height=null] The object's new height.
-       */
-      setSize(width: number, height: number): void {
-        this._transform.setSize(width, height);
-      }
+			/** @method setSize
+			 * Set the size of this object.
+			 * Theme Event: None
+			 * Is Theme Event Asynchronous: No
+			 * @param {number/RadJav.Vector2} width The object's new size, or new width.
+			 * @param {number} [height=null] The object's new height.
+			 */
+			setSize(width: number, height: number): void {
+				this._transform.setSize(width, height);
+			}
 
-      /** @method getSize
-       * Get the size of this object.
-       * Theme Event: None
-       * Is Theme Event Asynchronous: No
-       * @return {RadJav.Vector2} The size of this object.
-       */
-      getSize(): Vector2 {
-        return this._transform.getSize();
-      }
+			/** @method getSize
+			 * Get the size of this object.
+			 * Theme Event: None
+			 * Is Theme Event Asynchronous: No
+			 * @return {RadJav.Vector2} The size of this object.
+			 */
+			getSize(): Vector2 {
+				return this._transform.getSize();
+			}
 
-      /** @method getWidth
-       * Get the width of this object.
-       * Theme Event: None
-       * Is Theme Event Asynchronous: No
-       * @return {number} The width of this object.
-       */
-      getWidth(): number {
-        return this._transform.width;
-      }
+			/** @method getWidth
+			 * Get the width of this object.
+			 * Theme Event: None
+			 * Is Theme Event Asynchronous: No
+			 * @return {number} The width of this object.
+			 */
+			getWidth(): number {
+				return this._transform.width;
+			}
 
 		/** @method getHeight
 		* Get the height of this object.
@@ -456,113 +503,113 @@
 			return RadJav.currentTheme.eventSync(this.type, "getText", this);
 		}
 
-      /** @method getParent
-       * Get the parent.
-       * Theme Event: None
-       * Is Theme Event Asynchronous: No
-       * @return {RadJav.GUI.GObject} The parent of this object.
-       */
-      getParent(): GObject {
-        return this._parent;
-      }
+			/** @method getParent
+			 * Get the parent.
+			 * Theme Event: None
+			 * Is Theme Event Asynchronous: No
+			 * @return {RadJav.GUI.GObject} The parent of this object.
+			 */
+			getParent(): GObject {
+				return this._parent;
+			}
 
-      /** @method getHTML
-       * Get the HTML from this object.
-       * Theme Event: None
-       * Is Theme Event Asynchronous: No
-       * @return {Mixed} The HTML object associated with this object.
-       */
-      getHTML(): any {
-        return this._html;
-      }
+			/** @method getHTML
+			 * Get the HTML from this object.
+			 * Theme Event: None
+			 * Is Theme Event Asynchronous: No
+			 * @return {Mixed} The HTML object associated with this object.
+			 */
+			getHTML(): any {
+				return this._html;
+			}
 
-      /** @method setVisibility
-       * Set the visibility of this object.
-       * Theme Event: setVisibility
-       * Is Theme Event Asynchronous: Yes
-       * Parameters Passed to Theme Event: RadJav.GUI.GObject, Boolean
-       * @param {Boolean} visible The visibility of the object
-       */
-      setVisibility(visible: boolean): void {
-        RadJav.currentTheme.event(this.type, "setVisibility", this, visible);
-      }
+			/** @method setVisibility
+			 * Set the visibility of this object.
+			 * Theme Event: setVisibility
+			 * Is Theme Event Asynchronous: Yes
+			 * Parameters Passed to Theme Event: RadJav.GUI.GObject, Boolean
+			 * @param {Boolean} visible The visibility of the object
+			 */
+			setVisibility(visible: boolean): void {
+				RadJav.currentTheme.event(this.type, "setVisibility", this, visible);
+			}
 
-      /** @method getVisibility
-       * Get the visibility of this object.
-       * Theme Event: setVisibility
-       * Is Theme Event Asynchronous: No
-       * Parameters Passed to Theme Event: RadJav.GUI.GObject
-       * @return {Boolean} The visibility of this object
-       */
-      getVisibility(): boolean {
-        return RadJav.currentTheme.eventSync(this.type, "getVisibility", this);
-      }
+			/** @method getVisibility
+			 * Get the visibility of this object.
+			 * Theme Event: setVisibility
+			 * Is Theme Event Asynchronous: No
+			 * Parameters Passed to Theme Event: RadJav.GUI.GObject
+			 * @return {Boolean} The visibility of this object
+			 */
+			getVisibility(): boolean {
+				return RadJav.currentTheme.eventSync(this.type, "getVisibility", this);
+			}
 
-      /** @method show
-       * Show this object.
-       * Theme Event: setVisibility
-       * Is Theme Event Asynchronous: Yes
-       * Parameters Passed to Theme Event: RadJav.GUI.GObject, Boolean
-       */
-      show(): void {
-        this.setVisibility(true);
-      }
+			/** @method show
+			 * Show this object.
+			 * Theme Event: setVisibility
+			 * Is Theme Event Asynchronous: Yes
+			 * Parameters Passed to Theme Event: RadJav.GUI.GObject, Boolean
+			 */
+			show(): void {
+				this.setVisibility(true);
+			}
 
-      /** @method hide
-       * Show this object.
-       * Theme Event: setVisibility
-       * Is Theme Event Asynchronous: Yes
-       * Parameters Passed to Theme Event: RadJav.GUI.GObject, Boolean
-       */
-      hide(): void {
-        this.setVisibility(false);
-      }
+			/** @method hide
+			 * Show this object.
+			 * Theme Event: setVisibility
+			 * Is Theme Event Asynchronous: Yes
+			 * Parameters Passed to Theme Event: RadJav.GUI.GObject, Boolean
+			 */
+			hide(): void {
+				this.setVisibility(false);
+			}
 
-      /** @method setEnabled
-       * Enable or disable this object.
-       * Theme Event: setEnabled
-       * Is Theme Event Asynchronous: Yes
-       * Parameters Passed to Theme Event: RadJav.GUI.GObject, Boolean
-       */
-      setEnabled(enabled: boolean): void {
-        RadJav.currentTheme.event(this.type, "setEnabled", this, enabled);
-      }
+			/** @method setEnabled
+			 * Enable or disable this object.
+			 * Theme Event: setEnabled
+			 * Is Theme Event Asynchronous: Yes
+			 * Parameters Passed to Theme Event: RadJav.GUI.GObject, Boolean
+			 */
+			setEnabled(enabled: boolean): void {
+				RadJav.currentTheme.event(this.type, "setEnabled", this, enabled);
+			}
 
-      /** @method getEnabled
-       * Get whether or not this object is enabled.
-       * Theme Event: getEnabled
-       * Is Theme Event Asynchronous: No
-       * Parameters Passed to Theme Event: RadJav.GUI.GObject
-       * @return {Boolean} The enabled status of this object
-       */
-      getEnabled(): boolean {
-        return RadJav.currentTheme.eventSync(this.type, "getEnabled", this);
-      }
+			/** @method getEnabled
+			 * Get whether or not this object is enabled.
+			 * Theme Event: getEnabled
+			 * Is Theme Event Asynchronous: No
+			 * Parameters Passed to Theme Event: RadJav.GUI.GObject
+			 * @return {Boolean} The enabled status of this object
+			 */
+			getEnabled(): boolean {
+				return RadJav.currentTheme.eventSync(this.type, "getEnabled", this);
+			}
 
-      /** @method on
-       * Calls a function when an event is triggered.
-       * Theme Event: on
-       * Is Theme Event Asynchronous: No
-       * Parameters Passed to Theme Event: RadJav.GUI.GObject, string, Function
-       * @param {string} eventName The name of the event to trigger.
-       * @param {Function} func The function to execute.
-       * @return {Mixed} The result.
-       */
-      on(eventName: string, func: Function): any {
-        return RadJav.currentTheme.event(this.type, "on", this, eventName, func);
-      }
+			/** @method on
+			 * Calls a function when an event is triggered.
+			 * Theme Event: on
+			 * Is Theme Event Asynchronous: No
+			 * Parameters Passed to Theme Event: RadJav.GUI.GObject, string, Function
+			 * @param {string} eventName The name of the event to trigger.
+			 * @param {Function} func The function to execute.
+			 * @return {Mixed} The result.
+			 */
+			on(eventName: string, func: Function): any {
+				return RadJav.currentTheme.event(this.type, "on", this, eventName, func);
+			}
 
-      /** @method getHTMLDOM
-       * Get the HTML dom object.
-       * Theme Event: getHTMLDOM
-       * Is Theme Event Asynchronous: No
-       * Parameters Passed to Theme Event: RadJav.GUI.GObject
-       * Available on platforms: HTML5
-       * @return {Mixed} The html dom object.
-       */
-      getHTMLDOM(): any {
-        return RadJav.currentTheme.eventSync(this.type, "getHTMLDOM", this);
-      }
-    }
-  }
+			/** @method getHTMLDOM
+			 * Get the HTML dom object.
+			 * Theme Event: getHTMLDOM
+			 * Is Theme Event Asynchronous: No
+			 * Parameters Passed to Theme Event: RadJav.GUI.GObject
+			 * Available on platforms: HTML5
+			 * @return {Mixed} The html dom object.
+			 */
+			getHTMLDOM(): any {
+				return RadJav.currentTheme.eventSync(this.type, "getHTMLDOM", this);
+			}
+		}
+	}
 }

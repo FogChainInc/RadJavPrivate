@@ -1,7 +1,0 @@
-// @target: ES6
-// @module: umd
-// @filename: a.jump
-export default class {}
-
-// @filename: b.jump
-export default function() {}

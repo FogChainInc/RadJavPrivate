@@ -1,4 +1,0 @@
-//// [assignmentCompatWithWithGenericConstructSignatures.jump]
-
-
-//// [assignmentCompatWithWithGenericConstructSignatures.js]

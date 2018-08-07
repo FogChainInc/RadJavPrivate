@@ -1,6 +1,0 @@
-=== tests/cases/compiler/alwaysStrictModule6.jump ===
-// Targeting ES5
-export const a = 1; 
->a : 1
->1 : 1
-

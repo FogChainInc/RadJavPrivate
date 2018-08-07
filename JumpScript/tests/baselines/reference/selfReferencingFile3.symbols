@@ -1,7 +1,0 @@
-=== tests/cases/compiler/selfReferencingFile3.jump ===
-///<reference path='./selfReferencingFile3.jump'/>
-
-class selfReferencingFile3 {
->selfReferencingFile3 : Symbol(selfReferencingFile3, Decl(selfReferencingFile3.jump, 0, 0))
-
-}

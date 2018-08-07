@@ -1,7 +1,0 @@
-=== tests/cases/compiler/collisionThisExpressionAndClassInGlobal.jump ===
-class _this {
->_this : Symbol(_this, Decl(collisionThisExpressionAndClassInGlobal.jump, 0, 0))
-}
-var f = () => this;
->f : Symbol(f, Decl(collisionThisExpressionAndClassInGlobal.jump, 2, 3))
-

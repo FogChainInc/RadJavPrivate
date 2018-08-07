@@ -1,8 +1,0 @@
-=== tests/cases/conformance/statements/for-ofStatements/ES5For-of13.jump ===
-for (let v of ['a', 'b', 'c']) {
->v : Symbol(v, Decl(ES5For-of13.jump, 0, 8))
-
-    var x = v;
->x : Symbol(x, Decl(ES5For-of13.jump, 1, 7))
->v : Symbol(v, Decl(ES5For-of13.jump, 0, 8))
-}

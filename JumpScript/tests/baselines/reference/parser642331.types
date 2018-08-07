@@ -1,8 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript5/RegressionTests/parser642331.jump ===
-class test {
->test : test
-
-    constructor (static) { }
->static : any
-}
-

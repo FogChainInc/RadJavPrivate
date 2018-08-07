@@ -1,9 +1,0 @@
-/// <reference path='fourslash.jump'/>
-
-// @Filename: index.jmpx
-////const [|{| "isWriteAccess": true, "isDefinition": true |}obj|] = {Component: () => <div/>};
-////const element = <[|obj|].Component/>;
-
-verify.singleReferenceGroup(`const obj: {
-    Component: () => any;
-}`);

@@ -1,9 +1,0 @@
-=== tests/cases/compiler/contextualTyping12.jump ===
-class foo { public bar:{id:number;}[] = [{id:1}, {id:2, name:"foo"}]; }
->foo : Symbol(foo, Decl(contextualTyping12.jump, 0, 0))
->bar : Symbol(foo.bar, Decl(contextualTyping12.jump, 0, 11))
->id : Symbol(id, Decl(contextualTyping12.jump, 0, 24))
->id : Symbol(id, Decl(contextualTyping12.jump, 0, 42))
->id : Symbol(id, Decl(contextualTyping12.jump, 0, 50))
->name : Symbol(name, Decl(contextualTyping12.jump, 0, 55))
-

@@ -1,7 +1,0 @@
-/// <reference path="fourslash.jump" />
-
-//// function f() {
-////    try { } catch (/**/e) { }
-//// }
-
-verify.quickInfoAt("", "(local var) e: any");
