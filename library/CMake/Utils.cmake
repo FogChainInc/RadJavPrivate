@@ -84,7 +84,7 @@ macro (searchForLibrary lib debugLibraries releaseLibraries searchPath)
 		${searchPath}/bin 
 		${searchPath}/Debug ${searchPath})
 
-	if ((USE_BITS STREQUAL "32") OR (USE_BITS STREQUAL ""))
+	if (USE_ARCH STREQUAL "x86")
 		set (${lib}_LIBRARY_DEBUG_PATHS 
 			${searchPath}/out.gn/ia32.debug 
 			${searchPath}/out.gn/ia32.debug/obj 
@@ -110,7 +110,7 @@ macro (searchForLibrary lib debugLibraries releaseLibraries searchPath)
 			${${lib}_LIBRARY_DEBUG_PATHS})
 	endif ()
 
-	if ((USE_BITS STREQUAL "64") OR (USE_BITS STREQUAL ""))
+	if (USE_ARCH STREQUAL "x86_64")
 		set (${lib}_LIBRARY_DEBUG_PATHS 
 			${searchPath}/out.gn/x64.debug 
 			${searchPath}/out.gn/x64.debug/obj 
@@ -133,6 +133,84 @@ macro (searchForLibrary lib debugLibraries releaseLibraries searchPath)
 			"${searchPath}/build_windows/Win64/Static Debug" 
 			${searchPath}/x64 
 			${searchPath}/stage/x64/lib 
+			${${lib}_LIBRARY_DEBUG_PATHS})
+	endif ()
+
+	if (USE_ARCH STREQUAL "armeabi")
+		set (${lib}_LIBRARY_DEBUG_PATHS 
+			${searchPath}/out.gn/armeabi.debug 
+			${searchPath}/out.gn/armeabi.debug/obj 
+			${searchPath}/out.gn/armeabi.debug/obj/third_party/icu 
+			${searchPath}/out.gn/armeabi.release 
+			${searchPath}/out.gn/armeabi.release/obj 
+			${searchPath}/out.gn/armeabi.release/obj/third_party/icu 
+			${searchPath}/buildarmeabi ${searchPath}/buildarmeabi/Debug/lib ${searchPath}/buildarmeabi/Debug 
+			${searchPath}/buildarmeabi/debug ${searchPath}/buildarmeabi/lib/Debug ${searchPath}/buildarmeabi/src/Debug 
+			${searchPath}/buildarmeabi/lib 
+			${searchPath}/build-armeabi ${searchPath}/build-armeabi/Debug/lib ${searchPath}/build-armeabi/Debug 
+			${searchPath}/build-armeabi/debug ${searchPath}/build-armeabi/lib/Debug ${searchPath}/build-armeabi/src/Debug 
+			${searchPath}/build-armeabi/lib 
+			${searchPath}/build-armeabi ${searchPath}/build-armeabi/Debug/lib ${searchPath}/build-armeabi/Debug 
+			${searchPath}/build-armeabi/debug ${searchPath}/build-armeabi/lib/Debug ${searchPath}/build-armeabi/src/Debug 
+			${searchPath}/build-armeabi/lib 
+			${searchPath}/buildarmeabi ${searchPath}/buildarmeabi/Debug/lib ${searchPath}/buildarmeabi/Debug 
+			${searchPath}/buildarmeabi/debug ${searchPath}/buildarmeabi/lib/Debug ${searchPath}/buildarmeabi/src/Debug 
+			${searchPath}/buildarmeabi/lib 
+			"${searchPath}/build_windows/armeabi/Static Debug" 
+			${searchPath}/armeabi 
+			${searchPath}/stage/armeabi/lib 
+			${${lib}_LIBRARY_DEBUG_PATHS})
+	endif ()
+
+	if (USE_ARCH STREQUAL "armeabi-v7a")
+		set (${lib}_LIBRARY_DEBUG_PATHS 
+			${searchPath}/out.gn/armeabi-v7a.debug 
+			${searchPath}/out.gn/armeabi-v7a.debug/obj 
+			${searchPath}/out.gn/armeabi-v7a.debug/obj/third_party/icu 
+			${searchPath}/out.gn/armeabi-v7a.release 
+			${searchPath}/out.gn/armeabi-v7a.release/obj 
+			${searchPath}/out.gn/armeabi-v7a.release/obj/third_party/icu 
+			${searchPath}/buildarmeabi-v7a ${searchPath}/buildarmeabi-v7a/Debug/lib ${searchPath}/buildarmeabi-v7a/Debug 
+			${searchPath}/buildarmeabi-v7a/debug ${searchPath}/buildarmeabi-v7a/lib/Debug ${searchPath}/buildarmeabi-v7a/src/Debug 
+			${searchPath}/buildarmeabi-v7a/lib 
+			${searchPath}/build-armeabi-v7a ${searchPath}/build-armeabi-v7a/Debug/lib ${searchPath}/build-armeabi-v7a/Debug 
+			${searchPath}/build-armeabi-v7a/debug ${searchPath}/build-armeabi-v7a/lib/Debug ${searchPath}/build-armeabi-v7a/src/Debug 
+			${searchPath}/build-armeabi-v7a/lib 
+			${searchPath}/build-armeabi-v7a ${searchPath}/build-armeabi-v7a/Debug/lib ${searchPath}/build-armeabi-v7a/Debug 
+			${searchPath}/build-armeabi-v7a/debug ${searchPath}/build-armeabi-v7a/lib/Debug ${searchPath}/build-armeabi-v7a/src/Debug 
+			${searchPath}/build-armeabi-v7a/lib 
+			${searchPath}/buildarmeabi-v7a ${searchPath}/buildarmeabi-v7a/Debug/lib ${searchPath}/buildarmeabi-v7a/Debug 
+			${searchPath}/buildarmeabi-v7a/debug ${searchPath}/buildarmeabi-v7a/lib/Debug ${searchPath}/buildarmeabi-v7a/src/Debug 
+			${searchPath}/buildarmeabi-v7a/lib 
+			"${searchPath}/build_windows/armeabi-v7a/Static Debug" 
+			${searchPath}/armeabi-v7a 
+			${searchPath}/stage/armeabi-v7a/lib 
+			${${lib}_LIBRARY_DEBUG_PATHS})
+	endif ()
+
+	if (USE_ARCH STREQUAL "arm64-v8a")
+		set (${lib}_LIBRARY_DEBUG_PATHS 
+			${searchPath}/out.gn/arm64-v8a.debug 
+			${searchPath}/out.gn/arm64-v8a.debug/obj 
+			${searchPath}/out.gn/arm64-v8a.debug/obj/third_party/icu 
+			${searchPath}/out.gn/arm64-v8a.release 
+			${searchPath}/out.gn/arm64-v8a.release/obj 
+			${searchPath}/out.gn/arm64-v8a.release/obj/third_party/icu 
+			${searchPath}/buildarm64-v8a ${searchPath}/buildarm64-v8a/Debug/lib ${searchPath}/buildarm64-v8a/Debug 
+			${searchPath}/buildarm64-v8a/debug ${searchPath}/buildarm64-v8a/lib/Debug ${searchPath}/buildarm64-v8a/src/Debug 
+			${searchPath}/buildarm64-v8a/lib 
+			${searchPath}/build-arm64-v8a ${searchPath}/build-arm64-v8a/Debug/lib ${searchPath}/build-arm64-v8a/Debug 
+			${searchPath}/build-arm64-v8a/debug ${searchPath}/build-arm64-v8a/lib/Debug ${searchPath}/build-arm64-v8a/src/Debug 
+			${searchPath}/build-arm64-v8a/lib 
+			${searchPath}/build-arm64-v8a ${searchPath}/build-arm64-v8a/Debug/lib ${searchPath}/build-arm64-v8a/Debug 
+			${searchPath}/build-arm64-v8a/debug ${searchPath}/build-arm64-v8a/lib/Debug ${searchPath}/build-arm64-v8a/src/Debug 
+			${searchPath}/build-arm64-v8a/lib 
+			${searchPath}/buildarm64-v8a ${searchPath}/buildarm64-v8a/Debug/lib ${searchPath}/buildarm64-v8a/Debug 
+			${searchPath}/buildarm64-v8a/debug ${searchPath}/buildarm64-v8a/lib/Debug ${searchPath}/buildarm64-v8a/src/Debug 
+			${searchPath}/buildarm64-v8a/lib 
+			"${searchPath}/build_windows/arm64-v8a/Static Debug" 
+			${searchPath}/arm64-v8a 
+			${searchPath}/stage/arm64-v8a/lib 
 			${${lib}_LIBRARY_DEBUG_PATHS})
 	endif ()
 
@@ -162,7 +240,7 @@ macro (searchForLibrary lib debugLibraries releaseLibraries searchPath)
 		${searchPath}/Release
 		${searchPath})
 
-	if ((USE_BITS STREQUAL "32") OR (USE_BITS STREQUAL ""))
+	if (USE_ARCH STREQUAL "x86")
 		set (${lib}_LIBRARY_RELEASE_PATHS 
 			${searchPath}/out.gn/ia32.release
 			${searchPath}/out.gn/ia32.release/obj
@@ -179,7 +257,7 @@ macro (searchForLibrary lib debugLibraries releaseLibraries searchPath)
 			${${lib}_LIBRARY_RELEASE_PATHS})
 	endif ()
 
-	if ((USE_BITS STREQUAL "64") OR (USE_BITS STREQUAL ""))
+	if (USE_ARCH STREQUAL "x86_64")
 		set (${lib}_LIBRARY_RELEASE_PATHS 
 			${searchPath}/out.gn/x64.release
 			${searchPath}/out.gn/x64.release/obj 
@@ -193,6 +271,57 @@ macro (searchForLibrary lib debugLibraries releaseLibraries searchPath)
 			${searchPath}/build64bit ${searchPath}/build64bit/Release/lib ${searchPath}/build64bit/Release 
 			${searchPath}/build64bit/release ${searchPath}/build64bit/lib/Release ${searchPath}/build64bit/src/Release 
 			"${searchPath}/build_windows/Win64/Static Release" 
+			${${lib}_LIBRARY_RELEASE_PATHS})
+	endif ()
+
+	if (USE_ARCH STREQUAL "armeabi")
+		set (${lib}_LIBRARY_RELEASE_PATHS 
+			${searchPath}/out.gn/armeabi.release
+			${searchPath}/out.gn/armeabi.release/obj
+			${searchPath}/out.gn/armeabi.release/obj/third_party/icu
+			${searchPath}/buildarmeabi ${searchPath}/buildarmeabi/Release/lib ${searchPath}/buildarmeabi/Release 
+			${searchPath}/buildarmeabi/release ${searchPath}/buildarmeabi/lib/Release ${searchPath}/buildarmeabi/src/Release 
+			${searchPath}/build-armeabi ${searchPath}/build-armeabi/Release/lib ${searchPath}/build-armeabi/Release 
+			${searchPath}/build-armeabi/release ${searchPath}/build-armeabi/lib/Release ${searchPath}/build-armeabi/src/Release 
+			${searchPath}/build-armeabi ${searchPath}/build-armeabi/Release/lib ${searchPath}/build-armeabi/Release 
+			${searchPath}/build-armeabi/release ${searchPath}/build-armeabi/lib/Release ${searchPath}/build-armeabi/src/Release 
+			${searchPath}/buildarmeabi ${searchPath}/buildarmeabi/Release/lib ${searchPath}/buildarmeabi/Release 
+			${searchPath}/buildarmeabi/release ${searchPath}/buildarmeabi/lib/Release ${searchPath}/buildarmeabi/src/Release 
+			"${searchPath}/build_windows/armeabi/Static Release" 
+			${${lib}_LIBRARY_RELEASE_PATHS})
+	endif ()
+
+	if (USE_ARCH STREQUAL "armeabi-v7a")
+		set (${lib}_LIBRARY_RELEASE_PATHS 
+			${searchPath}/out.gn/armeabi-v7a.release
+			${searchPath}/out.gn/armeabi-v7a.release/obj 
+			${searchPath}/out.gn/armeabi-v7a.release/obj/third_party/icu 
+			${searchPath}/buildarmeabi-v7a ${searchPath}/buildarmeabi-v7a/Release/lib ${searchPath}/buildarmeabi-v7a/Release 
+			${searchPath}/buildarmeabi-v7a/release ${searchPath}/buildarmeabi-v7a/lib/Release ${searchPath}/buildarmeabi-v7a/src/Release 
+			${searchPath}/build-armeabi-v7a ${searchPath}/build-armeabi-v7a/Release/lib ${searchPath}/build-armeabi-v7a/Release 
+			${searchPath}/build-armeabi-v7a/release ${searchPath}/build-armeabi-v7a/lib/Release ${searchPath}/build-armeabi-v7a/src/Release 
+			${searchPath}/build-armeabi-v7a ${searchPath}/build-armeabi-v7a/Release/lib ${searchPath}/build-armeabi-v7a/Release 
+			${searchPath}/build-armeabi-v7a/release ${searchPath}/build-armeabi-v7a/lib/Release ${searchPath}/build-armeabi-v7a/src/Release 
+			${searchPath}/buildarmeabi-v7a ${searchPath}/buildarmeabi-v7a/Release/lib ${searchPath}/buildarmeabi-v7a/Release 
+			${searchPath}/buildarmeabi-v7a/release ${searchPath}/buildarmeabi-v7a/lib/Release ${searchPath}/buildarmeabi-v7a/src/Release 
+			"${searchPath}/build_windows/armeabi-v7a/Static Release" 
+			${${lib}_LIBRARY_RELEASE_PATHS})
+	endif ()
+
+	if (USE_ARCH STREQUAL "arm64-v8a")
+		set (${lib}_LIBRARY_RELEASE_PATHS 
+			${searchPath}/out.gn/arm64-v8a.release
+			${searchPath}/out.gn/arm64-v8a.release/obj 
+			${searchPath}/out.gn/arm64-v8a.release/obj/third_party/icu 
+			${searchPath}/buildarm64-v8a ${searchPath}/buildarm64-v8a/Release/lib ${searchPath}/buildarm64-v8a/Release 
+			${searchPath}/buildarm64-v8a/release ${searchPath}/buildarm64-v8a/lib/Release ${searchPath}/buildarm64-v8a/src/Release 
+			${searchPath}/build-arm64-v8a ${searchPath}/build-arm64-v8a/Release/lib ${searchPath}/build-arm64-v8a/Release 
+			${searchPath}/build-arm64-v8a/release ${searchPath}/build-arm64-v8a/lib/Release ${searchPath}/build-arm64-v8a/src/Release 
+			${searchPath}/build-arm64-v8a ${searchPath}/build-arm64-v8a/Release/lib ${searchPath}/build-arm64-v8a/Release 
+			${searchPath}/build-arm64-v8a/release ${searchPath}/build-arm64-v8a/lib/Release ${searchPath}/build-arm64-v8a/src/Release 
+			${searchPath}/buildarm64-v8a ${searchPath}/buildarm64-v8a/Release/lib ${searchPath}/buildarm64-v8a/Release 
+			${searchPath}/buildarm64-v8a/release ${searchPath}/buildarm64-v8a/lib/Release ${searchPath}/buildarm64-v8a/src/Release 
+			"${searchPath}/build_windows/arm64-v8a/Static Release" 
 			${${lib}_LIBRARY_RELEASE_PATHS})
 	endif ()
 

@@ -362,13 +362,13 @@ namespace RadJav
 			public root: XMLTag;
 
 			/// The XML file that has been loaded.
-			public xmlFile: XMLDocument;
+			public loadedFile: XMLParser;
 
 			constructor ()
 			{
 				this.parser = null;
 				this.root = null;
-				this.xmlFile = null;
+				this.loadedFile = null;
 
 				if (typeof this["_init"] == "function")
 					this["_init"] ();
@@ -407,8 +407,9 @@ namespace RadJav
 				if (RadJav.OS.HTML5 != null)
 				{
 					this.parser = new DOMParser ();
-					this.xmlFile = this.parser.parseFromString (xmlString, "text/xml");
-					this.root = new XMLTag (this);
+					this.loadedFile = new XMLParser ();
+					this.loadedFile.xmlFile = this.parser.parseFromString (xmlString, "text/xml");
+					this.root = new XMLTag (this.loadedFile);
 				}
 			}
 
@@ -440,6 +441,19 @@ namespace RadJav
 			}
 		}
 
+		/// This is mostly for maintaining consistency across
+		/// HTML5, desktop, and mobile platforms.
+		export class XMLParser
+		{
+			/// The XML file that has been loaded.
+			public xmlFile: any;
+
+			constructor (xmlFile: any = null)
+			{
+				this.xmlFile = xmlFile;
+			}
+		}
+
 		/// XML tag.
 		export class XMLTag
 		{
@@ -453,9 +467,9 @@ namespace RadJav
 			public children: XMLTag[];
 
 			/// The XML file that has been loaded.
-			public xmlFile: XMLDocument;
+			public loadedFile: XMLParser;
 
-			constructor (tag: string | XMLFile)
+			constructor (tag: string | XMLParser)
 			{
 				if (RadJav.OS.HTML5 != null)
 				{
@@ -465,11 +479,12 @@ namespace RadJav
 						this.attributes = {};
 						this.value = "";
 						this.children = [];
-						this.xmlFile = null;
+						this.loadedFile = null;
 					}
 					else
 					{
-						let domTag: DOMElement =  (<DOMElement>(<XMLFile>tag).xmlFile.firstChild);
+						let domTag: DOMElement =  (<DOMElement>(<XMLParser>tag).xmlFile.firstChild);
+						this.loadedFile = (<XMLParser>tag);
 						this.tag = domTag.tagName;
 						this.attributes = {};
 
@@ -486,7 +501,7 @@ namespace RadJav
 						for (let iIdx = 0; iIdx < domTag.childNodes.length; iIdx++)
 						{
 							let domChild: DOMElement = (<DOMElement>domTag.childNodes[iIdx]);
-							let child: XMLTag = new XMLTag (domChild);
+							let child: XMLTag = new XMLTag (new XMLParser (domChild));
 
 							this.children.push (child);
 						}

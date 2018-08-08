@@ -34,8 +34,17 @@ set (INCLUDE_DATABASES true CACHE BOOL "Includes databases")
 set (XML_SUPPORT true CACHE BOOL "XML Support")
 set (INCLUDE_CRYPTOGRAPHY true CACHE BOOL "Includes cryptography")
 set (WEBVIEW_TYPE "wxWidgetsDefault" CACHE STRING "Type of webview to use")
-set (USE_BITS "" CACHE STRING "Build using number of bits")
 set (BOOST_ROOT "" CACHE PATH "BOOST_ROOT")
+
+set (TEMP_ARCH "x86")
+
+if ("${CMAKE_SIZEOF_VOID_P}" STREQUAL "4")
+	set (TEMP_ARCH "x86_64")
+endif()
+
+set (archs x86 x86_64 armeabi armeabi-v7a arm64-v8a)
+set (USE_ARCH ${TEMP_ARCH} CACHE STRING "Processor architecture")
+set_property (CACHE USE_ARCH PROPERTY STRINGS ${archs})
 
 set (CMAKE_BUILD_TYPE CACHE STRING "Debug")
 set_property (CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
