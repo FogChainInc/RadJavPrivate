@@ -64,8 +64,10 @@ RJINT SimpleThread::Entry()
 PromiseThread::PromiseThread()
 	: SimpleThread ()
 {
-	resolveArgs = NULL;
-	rejectArgs = NULL;
+	#ifdef USE_V8
+		resolveArgs = NULL;
+		rejectArgs = NULL;
+	#endif
 }
 
 #ifdef USE_V8

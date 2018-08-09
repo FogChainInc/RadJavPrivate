@@ -147,7 +147,9 @@ link_directories (${RadJavVM_LINK_LIBRARY_DIRS})
 add_executable (${CMAKE_PROJECT_NAME} ${ISWIN32} ${ISOSX} ${RadJavVM_SOURCES})
 
 if (UNIX)
-	target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -std=c++11)
+	if (NOT IOS)
+		target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -std=c++11)
+	endif ()
 	target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -fpermissive)
 endif ()
 
@@ -168,46 +170,79 @@ if (WIN32)
 	set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS")
 	set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:WINDOWS")
 elseif (APPLE)
-	#Set destinations of a bundle
-	set (CMAKE_PROJECT_NAME_LAUNCHER ${CMAKE_PROJECT_NAME}Launcher)
+	if (IOS)
+		#Set destinations of a bundle
+		message(STATUS ${CMAKE_CURRENT_BINARY_DIR})
+		message(STATUS ${CMAKE_BUILD_TYPE})
+		message(STATUS ${CMAKE_PROJECT_NAME})
+		
+		set (APP_BUNDLE_LOCATION "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE}/${CMAKE_PROJECT_NAME}.app")
+		set (APP_BUNDLE_ICON_FILE "RadJav.icns")
 	
-	set (APP_BUNDLE_LOCATION "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE}/${CMAKE_PROJECT_NAME_LAUNCHER}.app")
-	set (APP_CONTENTS_DIR "${APP_BUNDLE_LOCATION}/Contents")
-	set (APP_EXECUTABLE_DIR "${APP_CONTENTS_DIR}/MacOS")
-	set (APP_RESOURCES_DIR "${APP_CONTENTS_DIR}/Resources")
-	set (APP_BUNDLE_ICON_FILE "RadJav.icns")
-
-	#Creating Launcher
-	add_executable (${CMAKE_PROJECT_NAME_LAUNCHER} ${RadJavVMLauncher_SOURCES})
-	target_link_libraries (${CMAKE_PROJECT_NAME_LAUNCHER} "-framework Cocoa")
-	add_dependencies (${CMAKE_PROJECT_NAME} ${CMAKE_PROJECT_NAME_LAUNCHER})
-
-	#These needs to be defined outside of set_target_properties otherwise they will not be included
-	set (MACOSX_BUNDLE_DISPLAY_NAME ${CMAKE_PROJECT_NAME_LAUNCHER})
-	set (MACOSX_BUNDLE_SIGNATURE "rjvm")
-	set (MACOSX_BUNDLE_MIN_SYSTEM_VERSION "10.13")
+		#Creating Launcher
+		target_link_libraries (${CMAKE_PROJECT_NAME} "-framework UIKit")
 	
-	#Configuring Info.plist for Mac Bundle
-	set_target_properties (${CMAKE_PROJECT_NAME_LAUNCHER} PROPERTIES MACOSX_BUNDLE TRUE
-									MACOSX_BUNDLE_BUNDLE_NAME ${CMAKE_PROJECT_NAME_LAUNCHER}
+		#These needs to be defined outside of set_target_properties otherwise they will not be included
+		set (MACOSX_BUNDLE_DISPLAY_NAME ${CMAKE_PROJECT_NAME})
+		set (MACOSX_BUNDLE_SIGNATURE "rjvm")
+		
+		#Configuring Info.plist for Mac Bundle
+		set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES MACOSX_BUNDLE TRUE
+									MACOSX_BUNDLE_BUNDLE_NAME ${CMAKE_PROJECT_NAME}
 									MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
 									MACOSX_BUNDLE_LONG_VERSION_STRING ${PROJECT_VERSION}
 									MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION}
 									MACOSX_BUNDLE_ICON_FILE ${APP_BUNDLE_ICON_FILE}
-									MACOSX_BUNDLE_COPYRIGHT "© 2018, Higher Edge Software"
 									MACOSX_BUNDLE_GUI_IDENTIFIER "com.highersoftware.${CMAKE_PROJECT_NAME}"
-									MACOSX_BUNDLE_INFO_PLIST "${CMAKE_SOURCE_DIR}/CMake/Info.plist.in")
+									MACOSX_BUNDLE_INFO_PLIST "${CMAKE_SOURCE_DIR}/CMake/Info.plist.ios.in")
+		
+		#Copying icons
+		add_custom_command (TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+					COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/installers/mac/${APP_BUNDLE_ICON_FILE} $<TARGET_BUNDLE_DIR:${CMAKE_PROJECT_NAME}>/${APP_BUNDLE_ICON_FILE})
+		
+	else ()
+		#Set destinations of a bundle
+		set (CMAKE_PROJECT_NAME_LAUNCHER ${CMAKE_PROJECT_NAME}Launcher)
+		
+		set (APP_BUNDLE_LOCATION "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE}/${CMAKE_PROJECT_NAME_LAUNCHER}.app")
+		set (APP_CONTENTS_DIR "${APP_BUNDLE_LOCATION}/Contents")
+		set (APP_EXECUTABLE_DIR "${APP_CONTENTS_DIR}/MacOS")
+		set (APP_RESOURCES_DIR "${APP_CONTENTS_DIR}/Resources")
+		set (APP_BUNDLE_ICON_FILE "RadJav.icns")
 	
-	#Copying icons
-	add_custom_command (TARGET ${CMAKE_PROJECT_NAME_LAUNCHER} POST_BUILD
-				COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/installers/mac/${APP_BUNDLE_ICON_FILE} ${APP_RESOURCES_DIR}/${APP_BUNDLE_ICON_FILE})
+		#Creating Launcher
+		add_executable (${CMAKE_PROJECT_NAME_LAUNCHER} ${RadJavVMLauncher_SOURCES})
+		target_link_libraries (${CMAKE_PROJECT_NAME_LAUNCHER} "-framework Cocoa")
+		add_dependencies (${CMAKE_PROJECT_NAME} ${CMAKE_PROJECT_NAME_LAUNCHER})
 	
-	#Place VM into correct bundle folder
-	set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG ${APP_EXECUTABLE_DIR}
-								RUNTIME_OUTPUT_DIRECTORY_RELEASE ${APP_EXECUTABLE_DIR}
-								RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL ${APP_EXECUTABLE_DIR}
-								RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO ${APP_EXECUTABLE_DIR})
-	
+		#These needs to be defined outside of set_target_properties otherwise they will not be included
+		set (MACOSX_BUNDLE_DISPLAY_NAME ${CMAKE_PROJECT_NAME_LAUNCHER})
+		set (MACOSX_BUNDLE_SIGNATURE "rjvm")
+		set (MACOSX_BUNDLE_MIN_SYSTEM_VERSION "10.13")
+		
+		#Configuring Info.plist for Mac Bundle
+		set_target_properties (${CMAKE_PROJECT_NAME_LAUNCHER} PROPERTIES MACOSX_BUNDLE TRUE
+										MACOSX_BUNDLE_BUNDLE_NAME ${CMAKE_PROJECT_NAME_LAUNCHER}
+										MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
+										MACOSX_BUNDLE_LONG_VERSION_STRING ${PROJECT_VERSION}
+										MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION}
+										MACOSX_BUNDLE_ICON_FILE ${APP_BUNDLE_ICON_FILE}
+										MACOSX_BUNDLE_COPYRIGHT "© 2018, Higher Edge Software"
+										MACOSX_BUNDLE_GUI_IDENTIFIER "com.highersoftware.${CMAKE_PROJECT_NAME}"
+										MACOSX_BUNDLE_INFO_PLIST "${CMAKE_SOURCE_DIR}/CMake/Info.plist.in")
+		
+		#Copying icons
+		add_custom_command (TARGET ${CMAKE_PROJECT_NAME_LAUNCHER} POST_BUILD
+					COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/installers/mac/${APP_BUNDLE_ICON_FILE} ${APP_RESOURCES_DIR}/${APP_BUNDLE_ICON_FILE})
+		
+		#Place VM into correct bundle folder
+		set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG ${APP_EXECUTABLE_DIR}
+									RUNTIME_OUTPUT_DIRECTORY_RELEASE ${APP_EXECUTABLE_DIR}
+									RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL ${APP_EXECUTABLE_DIR}
+									RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO ${APP_EXECUTABLE_DIR})
+		
+	endif ()
+
 	#Copying dependencies
 	foreach (dependency ${RadJavVM_DEPENDENCY_OBJECTS_LIST})
 		add_custom_command (TARGET ${CMAKE_PROJECT_NAME} POST_BUILD 

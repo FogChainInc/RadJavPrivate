@@ -43,9 +43,10 @@
 
 					#ifdef USE_V8
 						void on(String event, v8::Local<v8::Function> func);
+				
+						v8::Persistent<v8::Value> *thread;
 					#endif
 
-					v8::Persistent<v8::Value> *thread;
 			};
 		}
 	}

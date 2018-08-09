@@ -20,102 +20,104 @@ source_group ("RadJav\\wxWidgets" FILES ${SOURCES_files_wxWidgets__Main__Sources
 
 set (SOURCES ${SOURCES_files_wxWidgets__Main__Sources} ${SOURCES})
 
-# V8 JavaScript Engine
-set (SOURCES_files_RadJav__v8__Sources 
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8JavascriptEngine.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8Externals.cpp")
-source_group ("RadJav\\V8" FILES ${SOURCES_files_RadJav__v8__Sources})
-
-set (SOURCES ${SOURCES_files_RadJav__v8__Sources} ${SOURCES})
-
-# V8 GUI
-set (SOURCES_files_RadJav__v8__GUI__Sources 
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIGObject.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIWindow.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIWebView.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIButton.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUILabel.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIImage.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIContainer.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUICombobox.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUITextbox.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUITextarea.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUICheckbox.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIRadio.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIList.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIMenuBar.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIMenuItem.cpp")
-source_group ("RadJav\\V8\\GUI" FILES ${SOURCES_files_RadJav__v8__GUI__Sources})
-
-set (SOURCES ${SOURCES_files_RadJav__v8__GUI__Sources} ${SOURCES})
-
-# V8 Global
-set (SOURCES_files_RadJav__v8__Global__Sources 
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8Global.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8Thread.cpp")
-source_group ("RadJav\\V8\\Global" FILES ${SOURCES_files_RadJav__v8__Global__Sources})
-
-set (SOURCES ${SOURCES_files_RadJav__v8__Global__Sources} ${SOURCES})
-
-# V8 OS
-set (SOURCES_files_RadJav__v8__OS__Sources 
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8OS.cpp")
-source_group ("RadJav\\V8\\OS" FILES ${SOURCES_files_RadJav__v8__OS__Sources})
-
-set (SOURCES ${SOURCES_files_RadJav__v8__OS__Sources} ${SOURCES})
-
-# V8 Console
-set (SOURCES_files_RadJav__v8__Console__Sources 
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8Console.cpp")
-source_group ("RadJav\\V8\\Console" FILES ${SOURCES_files_RadJav__v8__Console__Sources})
-
-set (SOURCES ${SOURCES_files_RadJav__v8__Console__Sources} ${SOURCES})
-
-# V8 IO
-set (SOURCES_files_RadJav__v8__IO__Sources 
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8IO.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8IOXML.cpp")
-source_group ("RadJav\\V8\\IO" FILES ${SOURCES_files_RadJav__v8__IO__Sources})
-
-set (SOURCES ${SOURCES_files_RadJav__v8__IO__Sources} ${SOURCES})
-
-# V8 Networking
-set (SOURCES_files_RadJav__v8__Net__Sources 
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8Net.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8NetWebSocket.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8NetWebServer.cpp")
-source_group ("RadJav\\V8\\Net" FILES ${SOURCES_files_RadJav__v8__Net__Sources})
-
-set (SOURCES ${SOURCES_files_RadJav__v8__Net__Sources} ${SOURCES})
-
-# V8 Database
-set (SOURCES_files_RadJav__v8__DB__Sources 
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8DBKeyValueStorage.cpp")
-source_group ("RadJav\\V8\\Database" FILES ${SOURCES_files_RadJav__v8__DB__Sources})
-
-set (SOURCES ${SOURCES_files_RadJav__v8__DB__Sources} ${SOURCES})
-
-# V8 Crypto
-set (SOURCES_files_RadJav__v8__Crypto__Sources 
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8CryptoCipher.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8CryptoDecipher.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8CryptoCipherMultipart.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8CryptoDecipherMultipart.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8CryptoKeyGenerator.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8CryptoPrivateKey.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8CryptoPublicKey.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8CryptoHash.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8CryptoHashMultipart.cpp")
-source_group ("RadJav\\V8\\Crypto" FILES ${SOURCES_files_RadJav__v8__Crypto__Sources})
-
-set (SOURCES ${SOURCES_files_RadJav__v8__Crypto__Sources} ${SOURCES})
-
-# V8 Blockchain
-set (SOURCES_files_RadJav__v8__Blockchain__Sources 
-	"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8BlockchainV1.cpp")
-source_group ("RadJav\\V8\\Blockchain" FILES ${SOURCES_files_RadJav__v8__Blockchain__Sources})
-
-set (SOURCES ${SOURCES_files_RadJav__v8__Blockchain__Sources} ${SOURCES})
+if (USE_V8)
+	# V8 JavaScript Engine
+	set (SOURCES_files_RadJav__v8__Sources 
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8JavascriptEngine.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8Externals.cpp")
+	source_group ("RadJav\\V8" FILES ${SOURCES_files_RadJav__v8__Sources})
+	
+	set (SOURCES ${SOURCES_files_RadJav__v8__Sources} ${SOURCES})
+	
+	# V8 GUI
+	set (SOURCES_files_RadJav__v8__GUI__Sources 
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIGObject.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIWindow.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIWebView.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIButton.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUILabel.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIImage.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIContainer.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUICombobox.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUITextbox.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUITextarea.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUICheckbox.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIRadio.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIList.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIMenuBar.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIMenuItem.cpp")
+	source_group ("RadJav\\V8\\GUI" FILES ${SOURCES_files_RadJav__v8__GUI__Sources})
+	
+	set (SOURCES ${SOURCES_files_RadJav__v8__GUI__Sources} ${SOURCES})
+	
+	# V8 Global
+	set (SOURCES_files_RadJav__v8__Global__Sources 
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8Global.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8Thread.cpp")
+	source_group ("RadJav\\V8\\Global" FILES ${SOURCES_files_RadJav__v8__Global__Sources})
+	
+	set (SOURCES ${SOURCES_files_RadJav__v8__Global__Sources} ${SOURCES})
+	
+	# V8 OS
+	set (SOURCES_files_RadJav__v8__OS__Sources 
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8OS.cpp")
+	source_group ("RadJav\\V8\\OS" FILES ${SOURCES_files_RadJav__v8__OS__Sources})
+	
+	set (SOURCES ${SOURCES_files_RadJav__v8__OS__Sources} ${SOURCES})
+	
+	# V8 Console
+	set (SOURCES_files_RadJav__v8__Console__Sources 
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8Console.cpp")
+	source_group ("RadJav\\V8\\Console" FILES ${SOURCES_files_RadJav__v8__Console__Sources})
+	
+	set (SOURCES ${SOURCES_files_RadJav__v8__Console__Sources} ${SOURCES})
+	
+	# V8 IO
+	set (SOURCES_files_RadJav__v8__IO__Sources 
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8IO.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8IOXML.cpp")
+	source_group ("RadJav\\V8\\IO" FILES ${SOURCES_files_RadJav__v8__IO__Sources})
+	
+	set (SOURCES ${SOURCES_files_RadJav__v8__IO__Sources} ${SOURCES})
+	
+	# V8 Networking
+	set (SOURCES_files_RadJav__v8__Net__Sources 
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8Net.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8NetWebSocket.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8NetWebServer.cpp")
+	source_group ("RadJav\\V8\\Net" FILES ${SOURCES_files_RadJav__v8__Net__Sources})
+	
+	set (SOURCES ${SOURCES_files_RadJav__v8__Net__Sources} ${SOURCES})
+	
+	# V8 Database
+	set (SOURCES_files_RadJav__v8__DB__Sources 
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8DBKeyValueStorage.cpp")
+	source_group ("RadJav\\V8\\Database" FILES ${SOURCES_files_RadJav__v8__DB__Sources})
+	
+	set (SOURCES ${SOURCES_files_RadJav__v8__DB__Sources} ${SOURCES})
+	
+	# V8 Crypto
+	set (SOURCES_files_RadJav__v8__Crypto__Sources 
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8CryptoCipher.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8CryptoDecipher.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8CryptoCipherMultipart.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8CryptoDecipherMultipart.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8CryptoKeyGenerator.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8CryptoPrivateKey.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8CryptoPublicKey.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8CryptoHash.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8CryptoHashMultipart.cpp")
+	source_group ("RadJav\\V8\\Crypto" FILES ${SOURCES_files_RadJav__v8__Crypto__Sources})
+	
+	set (SOURCES ${SOURCES_files_RadJav__v8__Crypto__Sources} ${SOURCES})
+	
+	# V8 Blockchain
+	set (SOURCES_files_RadJav__v8__Blockchain__Sources 
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8BlockchainV1.cpp")
+	source_group ("RadJav\\V8\\Blockchain" FILES ${SOURCES_files_RadJav__v8__Blockchain__Sources})
+	
+	set (SOURCES ${SOURCES_files_RadJav__v8__Blockchain__Sources} ${SOURCES})
+endif ()
 
 # V8
 set (SOURCES_files_Javascript__Main__Sources 
@@ -154,26 +156,28 @@ source_group ("RadJav\\CPP\\IO" FILES ${SOURCES_files_RadJav__cpp__IO__Sources})
 
 set (SOURCES ${SOURCES_files_RadJav__cpp__IO__Sources} ${SOURCES})
 
-# C++ Networking
-set (SOURCES_files_RadJav__cpp__Net__Sources 
-	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNet.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebSocketServer.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebSocketClient.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebServer.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebServerUpgradable.cpp")
-source_group ("RadJav\\CPP\\Net" FILES ${SOURCES_files_RadJav__cpp__Net__Sources})
-
-set (SOURCES ${SOURCES_files_RadJav__cpp__Net__Sources} ${SOURCES})
-
-if (libRadJav_DEBUG_INSPECTOR)
-# C++ Inspector Agent
-	set (SOURCES_files_RadJav__cpp__Agent__Sources 
-		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPAgent.cpp"
-		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPAgentIO.cpp")
-	source_group ("RadJav\\CPP\\Agent" FILES ${SOURCES_files_RadJav__cpp__Agent__Sources})
-
-	set (SOURCES ${SOURCES_files_RadJav__cpp__Agent__Sources} ${SOURCES})
-endif()
+if (USE_V8)
+	# C++ Networking
+	set (SOURCES_files_RadJav__cpp__Net__Sources 
+		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNet.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebSocketServer.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebSocketClient.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebServer.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebServerUpgradable.cpp")
+	source_group ("RadJav\\CPP\\Net" FILES ${SOURCES_files_RadJav__cpp__Net__Sources})
+	
+	set (SOURCES ${SOURCES_files_RadJav__cpp__Net__Sources} ${SOURCES})
+	
+	if (libRadJav_DEBUG_INSPECTOR)
+	# C++ Inspector Agent
+		set (SOURCES_files_RadJav__cpp__Agent__Sources 
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPAgent.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPAgentIO.cpp")
+		source_group ("RadJav\\CPP\\Agent" FILES ${SOURCES_files_RadJav__cpp__Agent__Sources})
+	
+		set (SOURCES ${SOURCES_files_RadJav__cpp__Agent__Sources} ${SOURCES})
+	endif()
+endif ()
 
 # C++ Database
 set (SOURCES_files_RadJav__cpp__Database__Sources 
@@ -221,21 +225,23 @@ source_group ("RadJav\\CPP\\GUI" FILES ${SOURCES_files_RadJav__cpp__GUI__Sources
 set (SOURCES ${SOURCES_files_RadJav__cpp__GUI__Sources} ${SOURCES})
 
 if (USE_OGRE)
-	# V8 C3D
-	set (SOURCES_files_RadJav__v8__C3D__Sources 
-		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8C3DObject3D.cpp"
-		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8C3DEntity.cpp"
-		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8C3DWorld.cpp")
-	source_group ("RadJav\\V8\\C3D" FILES ${SOURCES_files_RadJav__v8__C3D__Sources})
-
-	set (SOURCES ${SOURCES_files_RadJav__v8__C3D__Sources} ${SOURCES})
-
-	# V8 GUI Canvas3D
-	set (SOURCES_files_RadJav__v8__GUI__Sources 
-		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUICanvas3D.cpp")
-	source_group ("RadJav\\V8\\GUI" FILES ${SOURCES_files_RadJav__v8__GUI__Sources})
-
-	set (SOURCES ${SOURCES_files_RadJav__v8__GUI__Sources} ${SOURCES})
+	if (USE_V8)
+		# V8 C3D
+		set (SOURCES_files_RadJav__v8__C3D__Sources 
+			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8C3DObject3D.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8C3DEntity.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8C3DWorld.cpp")
+		source_group ("RadJav\\V8\\C3D" FILES ${SOURCES_files_RadJav__v8__C3D__Sources})
+		
+		set (SOURCES ${SOURCES_files_RadJav__v8__C3D__Sources} ${SOURCES})
+		
+		# V8 GUI Canvas3D
+		set (SOURCES_files_RadJav__v8__GUI__Sources 
+			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUICanvas3D.cpp")
+		source_group ("RadJav\\V8\\GUI" FILES ${SOURCES_files_RadJav__v8__GUI__Sources})
+		
+		set (SOURCES ${SOURCES_files_RadJav__v8__GUI__Sources} ${SOURCES})
+	endif ()
 
 	# C++ GUI Canvas3D
 	set (SOURCES_files_RadJav__cpp__GUI__Sources 
