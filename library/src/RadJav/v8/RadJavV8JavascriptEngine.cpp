@@ -1665,11 +1665,38 @@ namespace RadJAV
 
 		v8::Local<v8::Object> V8JavascriptEngine::v8CallAsConstructor(v8::Local<v8::Object> function, RJINT numArgs, v8::Local<v8::Value> *args)
 		{
-			v8::Local<v8::Value> result = function->CallAsConstructor(
-				V8_JAVASCRIPT_ENGINE->globalContext, numArgs, args).ToLocalChecked ();
+			v8::Local<v8::Value> result = function->CallAsConstructor(globalContext, numArgs, args).ToLocalChecked ();
 			v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(result);
 
 			return (obj);
+		}
+
+		v8::Local<v8::Object> V8JavascriptEngine::v8CreateNewObject(String objectName, RJINT numArgs, v8::Local<v8::Value> *args)
+		{
+			v8::Local<v8::Object> context = v8GetObjectFromJSClass (objectName);
+			v8::Local<v8::Object> newObj = context->CallAsConstructor(globalContext, numArgs, args).ToLocalChecked ();
+
+			return (newObj);
+		}
+
+		v8::Local<v8::Object> V8JavascriptEngine::v8GetObjectFromJSClass(String objectName, v8::Local<v8::Context> context)
+		{
+			Array<String> classes = objectName.split(".");
+			v8::Local<v8::Object> foundObj;
+
+			if (context.IsEmpty() == true)
+				foundObj = globalContext->Global();
+			else
+				foundObj = context->Global ();
+
+			for (RJINT iIdx = 0; iIdx < classes.size(); iIdx++)
+			{
+				String objClass = classes.at(iIdx);
+
+				foundObj = foundObj->Get(objClass.toV8String(isolate));
+			}
+
+			return (foundObj);
 		}
 
 		CPP::ChainedPtr* V8JavascriptEngine::v8GetExternal(v8::Local<v8::Object> context, String functionName)

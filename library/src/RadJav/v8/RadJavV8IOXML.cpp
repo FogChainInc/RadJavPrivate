@@ -83,6 +83,10 @@ namespace RadJAV
 			{
 				CPP::IO::XML::XMLFile *parser = (CPP::IO::XML::XMLFile *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "parser");
 				parser->parseXML(parseV8Value(xmlString));
+
+				args.This()->Set(String ("loadedFile").toV8String (args.GetIsolate ()), V8_JAVASCRIPT_ENGINE->v8CreateNewObject ("RadJav.XML.XMLParser"));
+				v8::Local<v8::Object> loadedFile = args.This()->Get(String("loadedFile").toV8String(args.GetIsolate()));
+				V8_JAVASCRIPT_ENGINE->v8SetExternal(loadedFile, "xmlFile", parser->parser);
 			}
 			catch (Exception ex)
 			{
@@ -101,11 +105,12 @@ namespace RadJAV
 			V8_CALLBACK(object, "getAttribute", IO::XML::XMLTag::getAttribute);
 		}
 
-		void IO::XML::XMLFile::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
+		void IO::XML::XMLTag::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
 			if (args[0]->IsObject() == true)
 			{
-				IO::XML::XMLFile *appObject = (IO::XML::XMLFile *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args[0], "parser");
+				tinyxml2::XMLDocument *doc = (tinyxml2::XMLDocument *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args[0], "xmlFile");
+				
 			}
 		}
 
@@ -124,12 +129,12 @@ namespace RadJAV
 			{
 				if (arg1->IsObject() == true)
 				{
-					CPP::IO::XML::XMLTag()
+					//CPP::IO::XML::XMLTag()
 				}
 
 				v8::Local<v8::String> tag = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 
-				CPP::IO::XML::XMLTag();
+				//CPP::IO::XML::XMLTag();
 			}
 			catch (Exception ex)
 			{
