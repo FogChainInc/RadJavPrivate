@@ -39,6 +39,7 @@ namespace RadJAV
 				{
 					#ifdef USE_TINYXML2
 						parser = RJNEW tinyxml2::XMLDocument();
+						loadedFile = NULL;
 					#endif
 					root = NULL;
 				}

@@ -149,6 +149,7 @@ namespace RadJAV
 					{
 						class XMLTag;
 						class XMLAttribute;
+						class XMLParser;
 
 						class RADJAV_EXPORT XMLFile: public std::enable_shared_from_this<XMLFile>, public ChainedPtr
 						{
@@ -166,6 +167,21 @@ namespace RadJAV
 								#endif
 
 								XMLTag *root;
+								XMLParser *loadedFile;
+						};
+
+						class RADJAV_EXPORT XMLParser
+						{
+							/// The XML file that has been loaded.
+							public:
+								#ifdef USE_TINYXML2
+									XMLParser(tinyxml2::XMLElement *xmlFile = null)
+									{
+										this->xmlFile = xmlFile;
+									}
+
+									tinyxml2::XMLElement *xmlFile;
+								#endif
 						};
 
 						class RADJAV_EXPORT XMLTag
@@ -208,6 +224,7 @@ namespace RadJAV
 								HashMap<RJCSTR, XMLAttribute *> attributes;
 								String value;
 								Array<XMLTag *> children;
+								XMLParser *loadedFile;
 						};
 
 						class RADJAV_EXPORT XMLAttribute

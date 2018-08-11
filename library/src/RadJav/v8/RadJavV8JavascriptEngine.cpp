@@ -1674,7 +1674,7 @@ namespace RadJAV
 		v8::Local<v8::Object> V8JavascriptEngine::v8CreateNewObject(String objectName, RJINT numArgs, v8::Local<v8::Value> *args)
 		{
 			v8::Local<v8::Object> context = v8GetObjectFromJSClass (objectName);
-			v8::Local<v8::Object> newObj = context->CallAsConstructor(globalContext, numArgs, args).ToLocalChecked ();
+			v8::Local<v8::Object> newObj = v8::Local<v8::Object>::Cast (context->CallAsConstructor(globalContext, numArgs, args).ToLocalChecked ());
 
 			return (newObj);
 		}
@@ -1693,7 +1693,7 @@ namespace RadJAV
 			{
 				String objClass = classes.at(iIdx);
 
-				foundObj = foundObj->Get(objClass.toV8String(isolate));
+				foundObj = v8::Local<v8::Object>::Cast (foundObj->Get(objClass.toV8String(isolate)));
 			}
 
 			return (foundObj);
