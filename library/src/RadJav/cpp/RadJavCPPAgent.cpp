@@ -38,8 +38,8 @@
 namespace inspector {
 
 	std::unique_ptr<v8_inspector::StringBuffer> Utf8ToStringView(const std::string& message) {
-		UnicodeString utf16 =
-			UnicodeString::fromUTF8(StringPiece(message.data(), message.length()));
+        icu::UnicodeString utf16 =
+        icu::UnicodeString::fromUTF8(icu::StringPiece(message.data(), message.length()));
 		v8_inspector::StringView view(reinterpret_cast<const uint16_t*>(utf16.getBuffer()),
 			utf16.length());
 		return v8_inspector::StringBuffer::create(view);
