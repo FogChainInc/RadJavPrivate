@@ -357,18 +357,18 @@ namespace RadJav
 		export class XMLFile
 		{
 			/// The XML parser.
-			public parser: DOMParser;
+			public _parser: DOMParser;
 			/// The root node.
-			public root: XMLTag;
+			public _root: XMLTag;
 
 			/// The XML file that has been loaded.
-			public loadedFile: XMLParser;
+			public _loadedFile: XMLParser;
 
 			constructor ()
 			{
-				this.parser = null;
-				this.root = null;
-				this.loadedFile = null;
+				this._parser = null;
+				this._root = null;
+				this._loadedFile = null;
 
 				if (typeof this["_init"] == "function")
 					this["_init"] ();
@@ -385,14 +385,14 @@ namespace RadJav
 						{
 							return (RadJav.Net.httpRequest (path).then (RadJav.keepContext (function (data)
 								{
-									this.parseXML (data);
+									this._parseXML (data);
 									resolve (data);
 								}, this)));
 						}
 						else
 						{
 							let data = RadJav.IO.TextFile.readFile (path);
-							this.parseXML (data);
+							this._parseXML (data);
 
 							resolve (data);
 						}
@@ -406,11 +406,17 @@ namespace RadJav
 			{
 				if (RadJav.OS.HTML5 != null)
 				{
-					this.parser = new DOMParser ();
-					this.loadedFile = new XMLParser ();
-					this.loadedFile.xmlFile = this.parser.parseFromString (xmlString, "text/xml");
-					this.root = new XMLTag (this.loadedFile);
+					this._parser = new DOMParser ();
+					this._loadedFile = new XMLParser ();
+					this._loadedFile.xmlFile = this._parser.parseFromString (xmlString, "text/xml");
+					this._root = new XMLTag (this._loadedFile);
 				}
+			}
+
+			/// Get the root tag.
+			getRoot (): XMLTag
+			{
+				return (this._root);
 			}
 
 			/// Load a XML file.
@@ -431,7 +437,7 @@ namespace RadJav
 				return (promise);
 			}
 
-			/// Load a XML file.
+			/// Load a XML string.
 			static loadString (xmlString: string): XMLFile
 			{
 				let xmlFile: XMLFile = new XMLFile ();
@@ -458,16 +464,16 @@ namespace RadJav
 		export class XMLTag
 		{
 			/// The tag name.
-			public tag: string;
+			public _tag: string;
 			/// The attributes associated with this tag.
-			public attributes: { [name: string]: XMLAttribute };
+			public _attributes: { [name: string]: XMLAttribute };
 			/// The value in this tag.
-			public value: string;
+			public _value: string;
 			/// This tag's children.
-			public children: XMLTag[];
+			public _children: XMLTag[];
 
 			/// The XML file that has been loaded.
-			public loadedFile: XMLParser;
+			public _loadedFile: XMLParser;
 
 			constructor (tag: string | XMLParser)
 			{
@@ -475,35 +481,35 @@ namespace RadJav
 				{
 					if (typeof (tag) == "string")
 					{
-						this.tag = (<string>tag);
-						this.attributes = {};
-						this.value = "";
-						this.children = [];
-						this.loadedFile = null;
+						this._tag = (<string>tag);
+						this._attributes = {};
+						this._value = "";
+						this._children = [];
+						this._loadedFile = null;
 					}
 					else
 					{
 						let domTag: DOMElement =  (<DOMElement>(<XMLParser>tag).xmlFile.firstChild);
-						this.loadedFile = (<XMLParser>tag);
-						this.tag = domTag.tagName;
-						this.attributes = {};
+						this._loadedFile = (<XMLParser>tag);
+						this._tag = domTag.tagName;
+						this._attributes = {};
 
 						for (let iIdx = 0; iIdx < domTag.attributes.length; iIdx++)
 						{
 							let attribute = domTag.attributes[iIdx];
 							let attr: XMLAttribute = new XMLAttribute (attribute.name, attribute.value);
-							this.attributes[attribute.name] = attr;
+							this._attributes[attribute.name] = attr;
 						}
 
-						this.value = domTag.textContent;
-						this.children = [];
+						this._value = domTag.textContent;
+						this._children = [];
 
 						for (let iIdx = 0; iIdx < domTag.childNodes.length; iIdx++)
 						{
 							let domChild: DOMElement = (<DOMElement>domTag.childNodes[iIdx]);
 							let child: XMLTag = new XMLTag (new XMLParser (domChild));
 
-							this.children.push (child);
+							this._children.push (child);
 						}
 					}
 				}
@@ -514,16 +520,52 @@ namespace RadJav
 				}
 			}
 
+			/// Get the children.
+			getChildren (): XMLTag[]
+			{
+				return (this._children);
+			}
+
+			/// Get the children.
+			getAttributes (): { [name: string]: XMLAttribute }
+			{
+				return (this._attributes);
+			}
+
+			/// Set the current tag name.
+			setTag (name: string): void
+			{
+				this._tag = name;
+			}
+
+			/// Get the current tag name.
+			getTag (): string
+			{
+				return (this._tag);
+			}
+
+			/// Get the current value.
+			setValue (value: string): void
+			{
+				this._value = value;
+			}
+
+			/// Get the current value.
+			getValue (): string
+			{
+				return (this._value);
+			}
+
 			/// Get the child tags in this tag.
 			getTags (tag: string): XMLTag[]
 			{
 				let tags: XMLTag[] = [];
 
-				for (let iIdx = 0; iIdx < this.children.length; iIdx++)
+				for (let iIdx = 0; iIdx < this._children.length; iIdx++)
 				{
-					let child: XMLTag = this.children[iIdx];
+					let child: XMLTag = this._children[iIdx];
 
-					if (child.tag == tag)
+					if (child._tag == tag)
 						tags.push (child);
 				}
 
@@ -533,16 +575,16 @@ namespace RadJav
 			/// Set an attribute for this tag.
 			setAttribute (attribute: string, value: string): void
 			{
-				if (this.attributes[attribute] == undefined)
-					this.attributes[attribute] = new XMLAttribute (attribute, value);
+				if (this._attributes[attribute] == undefined)
+					this._attributes[attribute] = new XMLAttribute (attribute, value);
 				else
-					this.attributes[attribute].value = value;
+					this._attributes[attribute].setValue (value);
 			}
 
 			/// Checks if an attribute has been set.
 			hasAttribute (attribute: string): boolean
 			{
-				if (this.attributes[attribute] == undefined)
+				if (this._attributes[attribute] == undefined)
 					return (false);
 
 				return (true);
@@ -551,10 +593,10 @@ namespace RadJav
 			/// Get an attribute from this tag.
 			getAttribute (attribute: string): XMLAttribute
 			{
-				if (this.attributes[attribute] == undefined)
+				if (this._attributes[attribute] == undefined)
 					throw new Error ("Attribute does not exist!");
 
-				return (this.attributes[attribute]);
+				return (this._attributes[attribute]);
 			}
 
 			/// Get an attribute from this tag.
@@ -628,28 +670,28 @@ namespace RadJav
 			/// Convert this tag to a string.
 			toString (): string
 			{
-				let result: string = "<" + this.tag + " ";
+				let result: string = "<" + this._tag + " ";
 
-				for (let attr in this.attributes)
+				for (let attr in this._attributes)
 				{
-					let attribute: XMLAttribute = this.attributes[attr];
+					let attribute: XMLAttribute = this._attributes[attr];
 					result += attribute.toString () + " ";
 				}
 
-				if ((this.value != "") || (this.children.length > 0))
+				if ((this._value != "") || (this._children.length > 0))
 				{
-					result += ">" + this.value;
+					result += ">" + this._value;
 
-					if (this.value != "")
+					if (this._value != "")
 						result += " ";
 
-					for (let iIdx = 0; iIdx < this.children.length; iIdx++)
+					for (let iIdx = 0; iIdx < this._children.length; iIdx++)
 					{
-						let child: XMLTag = this.children[iIdx];
+						let child: XMLTag = this._children[iIdx];
 						result += child.toString () + " ";
 					}
 
-					result += "</" + this.tag + ">";
+					result += "</" + this._tag + ">";
 				}
 				else
 					result += "/>";
@@ -662,44 +704,50 @@ namespace RadJav
 		export class XMLAttribute
 		{
 			/// The attribute's name.
-			public name: string;
+			public _name: string;
 			/// The value of the attribute.
-			public value: string;
+			public _value: string;
 
 			constructor (name: string, value: string)
 			{
-				this.name = name;
-				this.value = value;
+				this._name = name;
+				this._value = value;
+			}
+
+			/// Set the value of this attribute.
+			setValue (value: string): void
+			{
+				this._value = value;
 			}
 
 			/// Get the value of the attribute.
 			getValue (): string
 			{
-				return (this.value);
+				return (this._value);
 			}
 
 			/// Get the integer value of the attribute.
 			toInt (): number
 			{
-				return (parseInt (this.value));
+				return (parseInt (this._value));
 			}
 
 			/// Get the float value of the attribute.
 			toFloat (): number
 			{
-				return (parseFloat (this.value));
+				return (parseFloat (this._value));
 			}
 
 			/// Get the boolean value of the attribute.
 			toBoolean (): boolean
 			{
-				return (parseBoolean (this.value));
+				return (parseBoolean (this._value));
 			}
 
 			/// Convert attribute to a string.
 			toString (): string
 			{
-				return (this.name + " = \"" + this.value + "\"");
+				return (this._name + " = \"" + this._value + "\"");
 			}
 		}
 	}

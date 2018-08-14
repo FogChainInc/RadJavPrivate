@@ -106,6 +106,7 @@
 									static void _init(const v8::FunctionCallbackInfo<v8::Value> &args);
 									static void parseXMLFile(const v8::FunctionCallbackInfo<v8::Value> &args);
 									static void parseXML(const v8::FunctionCallbackInfo<v8::Value> &args);
+									static void getRoot(const v8::FunctionCallbackInfo<v8::Value> &args);
 							};
 
 							class RADJAV_EXPORT XMLTag
@@ -114,6 +115,12 @@
 									static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
 									static void _init(const v8::FunctionCallbackInfo<v8::Value> &args);
+									static void getChildren(const v8::FunctionCallbackInfo<v8::Value> &args);
+									static void getAttributes(const v8::FunctionCallbackInfo<v8::Value> &args);
+									static void setTag(const v8::FunctionCallbackInfo<v8::Value> &args);
+									static void getTag(const v8::FunctionCallbackInfo<v8::Value> &args);
+									static void setValue(const v8::FunctionCallbackInfo<v8::Value> &args);
+									static void getValue(const v8::FunctionCallbackInfo<v8::Value> &args);
 									static void getTags(const v8::FunctionCallbackInfo<v8::Value> &args);
 									static void setAttribute(const v8::FunctionCallbackInfo<v8::Value> &args);
 									static void hasAttribute(const v8::FunctionCallbackInfo<v8::Value> &args);

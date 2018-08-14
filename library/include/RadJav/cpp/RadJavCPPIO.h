@@ -220,6 +220,10 @@ namespace RadJAV
 									/// Convert this tag to a string.
 								String toString();
 
+								#ifdef USE_V8
+									v8::Local<v8::Object> toV8Object(v8::Isolate *isolate);
+								#endif
+
 								String tag;
 								HashMap<RJCSTR, XMLAttribute *> attributes;
 								String value;

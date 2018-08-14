@@ -282,6 +282,15 @@ namespace RadJAV
 
 					return (result);
 				}
+
+				#ifdef USE_V8
+					v8::Local<v8::Object> XMLTag::toV8Object(v8::Isolate *isolate)
+					{
+						v8::Local<v8::Object> result = v8::Object::New(isolate);
+
+						return (result);
+					}
+				#endif
 			}
 			#endif // HAS_XML_SUPPORT
 		}

@@ -39,6 +39,7 @@ namespace RadJAV
 			V8_CALLBACK(object, "_init", IO::XML::XMLFile::_init);
 			V8_CALLBACK(object, "parseXMLFile", IO::XML::XMLFile::parseXMLFile);
 			V8_CALLBACK(object, "parseXML", IO::XML::XMLFile::parseXML);
+			V8_CALLBACK(object, "getRoot", IO::XML::XMLFile::getRoot);
 		}
 
 		void IO::XML::XMLFile::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -95,11 +96,25 @@ namespace RadJAV
 			}
 		}
 
+		void IO::XML::XMLFile::getRoot(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+			//CPP::IO::XML::XMLFile *parser = V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "parser");
+
+			//parser->root->toV8Object();
+
+			//args.GetReturnValue().Set();
+		}
+
 		// XMLTag
 		void IO::XML::XMLTag::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 		{
 			V8_CALLBACK(object, "_init", IO::XML::XMLFile::_init);
-			V8_CALLBACK(object, "getTags", IO::XML::XMLTag::getTags);
+			V8_CALLBACK(object, "getChildren", IO::XML::XMLTag::getChildren);
+			V8_CALLBACK(object, "getAttributes", IO::XML::XMLTag::getAttributes);
+			V8_CALLBACK(object, "setTag", IO::XML::XMLTag::setTag);
+			V8_CALLBACK(object, "getTag", IO::XML::XMLTag::getTag);
+			V8_CALLBACK(object, "setValue", IO::XML::XMLTag::setValue);
+			V8_CALLBACK(object, "getValue", IO::XML::XMLTag::getValue);
 			V8_CALLBACK(object, "setAttribute", IO::XML::XMLTag::setAttribute);
 			V8_CALLBACK(object, "hasAttribute", IO::XML::XMLTag::hasAttribute);
 			V8_CALLBACK(object, "getAttribute", IO::XML::XMLTag::getAttribute);
@@ -121,7 +136,31 @@ namespace RadJAV
 
 			args.This()->Set(String("loadedFile").toV8String(args.GetIsolate()), V8_JAVASCRIPT_ENGINE->v8CreateNewObject("RadJav.XML.XMLParser"));
 			v8::Local<v8::Object> loadedFile = v8::Local<v8::Object>::Cast (args.This()->Get(String("loadedFile").toV8String(args.GetIsolate())));
-			V8_JAVASCRIPT_ENGINE->v8SetExternal(loadedFile, "xmlFile", std::make_shared<tinyxml2::XMLElement>(tag->loadedFile->xmlFile));
+			//V8_JAVASCRIPT_ENGINE->v8SetExternal(loadedFile, "xmlFile", std::make_shared<tinyxml2::XMLElement>(tag->loadedFile->xmlFile));
+		}
+
+		void IO::XML::XMLTag::getChildren(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+		}
+
+		void IO::XML::XMLTag::getAttributes(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+		}
+
+		void IO::XML::XMLTag::setTag(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+		}
+
+		void IO::XML::XMLTag::getTag(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+		}
+
+		void IO::XML::XMLTag::setValue(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+		}
+
+		void IO::XML::XMLTag::getValue(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
 		}
 
 		void IO::XML::XMLTag::getTags(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -151,6 +190,18 @@ namespace RadJAV
 				V8_JAVASCRIPT_ENGINE->throwException(ex.getMessage());
 				return;
 			}
+		}
+
+		void IO::XML::XMLTag::setAttribute(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+		}
+
+		void IO::XML::XMLTag::hasAttribute(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+		}
+
+		void IO::XML::XMLTag::getAttribute(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
 		}
 	}
 }
