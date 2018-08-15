@@ -30,8 +30,8 @@
 	#include <wx/filename.h>
 #else
 #ifdef _WIN32
-#include <direct.h>
-#define getcwd _getcwd // stupid MSFT "deprecation" warning
+//#include <direct.h>
+//#define getcwd _getcwd // stupid MSFT "deprecation" warning
 #elif
 #include <unistd.h>
 #endif
@@ -157,10 +157,9 @@ namespace RadJAV
 			String execPath = "";
 
 #ifdef GUI_USE_WXWIDGETS
-				execPath = parsewxString(wxStandardPaths::Get().GetExecutablePath());
+			execPath = parsewxString(wxStandardPaths::Get().GetExecutablePath());
 #else 
-				execPath = getcwd(NULL, 0);
-				execPath += "\\Debug\\RadJavVM.exe";
+			execPath = RadJAV::_radjav_exec_path;
 #endif
 
 			v8::V8::InitializeICUDefaultLocation(execPath.c_str ());
@@ -200,8 +199,7 @@ namespace RadJAV
 			#ifdef GUI_USE_WXWIDGETS
 				execPath = parsewxString (wxStandardPaths::Get ().GetExecutablePath());
 			#else 
-				execPath = getcwd(NULL, 0);
-				execPath += "\\Debug\\RadJavVM.exe";
+				execPath = _radjav_exec_path;
 			#endif
 
 			v8::V8::SetFlagsFromString(flags.c_str(), flags.size());

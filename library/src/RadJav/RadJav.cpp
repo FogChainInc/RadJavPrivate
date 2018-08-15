@@ -179,6 +179,8 @@ namespace RadJAV
 {
 	#ifdef GUI_USE_WXWIDGETS
 		wxWidgetsRadJav *RadJav::app = NULL;
+	#else
+		String _radjav_exec_path = "";
 	#endif
 	JavascriptEngine *RadJav::javascriptEngine = NULL;
 	Theme *RadJav::theme = NULL;
@@ -195,6 +197,10 @@ namespace RadJAV
 			arguments.clear();
 			radJavArguments.clear();
 
+			#ifndef GUI_USE_WXWIDGETS
+				_radjav_exec_path.assign(newArgs[0]);
+			#endif
+			
 			#ifdef RADJAV_DEBUG
 				memoryAllocs = new HashMap<size_t, MemoryAllocLog>();
 			#endif
