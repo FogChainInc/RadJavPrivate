@@ -92,10 +92,10 @@ namespace RadJAV
 			{
 				v8::Local<v8::Object> font = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "_font");
 				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-
+#ifdef GUI_USE_WXWIDGETS
 				if (appObject != NULL)
 					font = CPP::Font::toV8Object(V8_JAVASCRIPT_ENGINE, appObject->getFont());
-
+#endif
 				args.GetReturnValue().Set(font);
 			}
 

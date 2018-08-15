@@ -91,39 +91,40 @@ namespace RadJAV
 			#ifdef USE_V8
 				void MenuBar::on(String event, v8::Local<v8::Function> func)
 				{
-					CPP::GUI::MenuBarFrame *object = (CPP::GUI::MenuBarFrame *)_appObj;
-					CPP::GUI::MenuBarFrame *obj = (CPP::GUI::MenuBarFrame *)object->GetParent();
+					#ifdef GUI_USE_WXWIDGETS
+
+						CPP::GUI::MenuBarFrame *object = (CPP::GUI::MenuBarFrame *)_appObj;
+						CPP::GUI::MenuBarFrame *obj = (CPP::GUI::MenuBarFrame *)object->GetParent();
 					
-					obj->addNewEvent(event, object, func);
+						obj->addNewEvent(event, object, func);
 
-					if (event == "menuopen")
-					{
-						#ifdef GUI_USE_WXWIDGETS
-						obj->Connect(wxEVT_MENU_OPEN, wxMenuEventHandler(MenuBarFrame::onMenuOpen), object->createEvent(event, func));
-						#endif
+						if (event == "menuopen")
+						{
+							#ifdef GUI_USE_WXWIDGETS
+							obj->Connect(wxEVT_MENU_OPEN, wxMenuEventHandler(MenuBarFrame::onMenuOpen), object->createEvent(event, func));
+							#endif
 						
-					}
-					if (event == "menuclose")
-					{
-						#ifdef GUI_USE_WXWIDGETS
-						obj->Connect(wxEVT_MENU_CLOSE, wxMenuEventHandler(MenuBarFrame::onMenuClose), object->createEvent(event, func));
-						#endif
-					}
-					if (event == "menuhighlight")
-					{
-						#ifdef GUI_USE_WXWIDGETS
-						obj->Connect(wxEVT_MENU_HIGHLIGHT, wxMenuEventHandler(MenuBarFrame::onMenuHighLight), object->createEvent(event, func));
-						#endif
-					}
-					if (event == "menuselected")
-					{
-						#ifdef GUI_USE_WXWIDGETS
-						obj->Connect(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MenuBarFrame::onMenuSelected), object->createEvent(event, func));
-						#endif
-					}
+						}
+						if (event == "menuclose")
+						{
+							#ifdef GUI_USE_WXWIDGETS
+							obj->Connect(wxEVT_MENU_CLOSE, wxMenuEventHandler(MenuBarFrame::onMenuClose), object->createEvent(event, func));
+							#endif
+						}
+						if (event == "menuhighlight")
+						{
+							#ifdef GUI_USE_WXWIDGETS
+							obj->Connect(wxEVT_MENU_HIGHLIGHT, wxMenuEventHandler(MenuBarFrame::onMenuHighLight), object->createEvent(event, func));
+							#endif
+						}
+						if (event == "menuselected")
+						{
+							#ifdef GUI_USE_WXWIDGETS
+							obj->Connect(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MenuBarFrame::onMenuSelected), object->createEvent(event, func));
+							#endif
+						}
 
-
-				  
+					#endif
 				}
 			#endif
 		}

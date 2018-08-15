@@ -10,7 +10,7 @@ fixPath (BOOSTROOT)
 #set (Boost_USE_STATIC_RUNTIME TRUE)
 set (Boost_USE_MULTITHREADED TRUE)
 
-find_package (Boost 1.66.0 REQUIRED COMPONENTS thread system filesystem)
+find_package (Boost 1.67.0 REQUIRED COMPONENTS thread system filesystem)
 
 #include (FindBoost)
 

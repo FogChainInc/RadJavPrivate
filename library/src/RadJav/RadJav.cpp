@@ -28,6 +28,13 @@
 
 #ifdef GUI_USE_WXWIDGETS
 	IMPLEMENT_APP_NO_MAIN(RadJAV::wxWidgetsRadJav)
+#else
+	#if WIN32
+		#include <Windows.h>
+		#include <io.h>
+	#endif
+	#include <stdlib.h>
+	#include <fcntl.h>
 #endif
 
 #ifdef USE_V8
@@ -46,6 +53,7 @@
 
 #include <new>
 #include <iostream>
+#include <fstream>
 #include <stdlib.h>
 
 #ifdef RADJAV_DEBUG

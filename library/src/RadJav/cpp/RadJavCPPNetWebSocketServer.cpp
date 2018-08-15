@@ -68,15 +68,13 @@ namespace RadJAV
 				m_io_context = RJNEW boost::asio::io_context{ threads };
 				std::make_shared<WebSocketServerListener>(*m_io_context, boost::asio::ip::tcp::endpoint{ address, m_port })->run();
 
-				#ifdef GUI_USE_WXWIDGETS	
 				WebServerThread* thread = RJNEW WebServerThread(m_io_context);
 				thread->Run();
+#ifdef GUI_USE_WXWIDGETS
 				m_isAlive = thread->IsAlive();
-				#else
-				//blocking execution
-				isAlive = true;
-				ioc.run();
-				#endif
+#else
+				m_isAlive = true;
+#endif
 			}
 
 			void WebSocketServer::send(String id_, String message_)

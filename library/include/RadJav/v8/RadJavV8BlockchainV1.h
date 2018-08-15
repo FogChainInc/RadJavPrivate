@@ -33,10 +33,10 @@
 		{
 			namespace V8B
 			{
-			#ifdef USE_BLOCKCHAIN_V1
-				class RADJAV_EXPORT BlockchainV1
-				{
-					public:
+				#ifdef USE_BLOCKCHAIN_V1
+					class RADJAV_EXPORT BlockchainV1
+					{
+						public:
 						static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
 						static void connectToNetwork(const v8::FunctionCallbackInfo<v8::Value> &args);
@@ -163,19 +163,19 @@
 						static v8::Persistent<v8::Function> *proofOfWorkFoundFunction;
 						static v8::Persistent<v8::Function> *passphraseRequiredFunction;
 						static v8::Persistent<v8::Function> *onErrorFunction;
-				};
+					};
 
-				#ifdef GUI_USE_WXWIDGETS
 					class RADJAV_EXPORT BlockchainV1Thread : public Thread
 					{
 						public:
 							BlockchainV1Thread();
-
-							wxThread::ExitCode Entry();
+							#ifdef GUI_USE_WXWIDGETS
+								wxThread::ExitCode Entry();
+							#else
+								RJINT Entry();
+							#endif
 					};
 				#endif
-			#endif
-
 			}
 		}
 	#endif

@@ -161,35 +161,37 @@ namespace RadJAV
 			#ifdef USE_V8
 				void List::on(String event, v8::Local<v8::Function> func)
 				{
-					CPP::GUI::ListFrame *object = (CPP::GUI::ListFrame *)_appObj;
+					#ifdef GUI_USE_WXWIDGETS
+						CPP::GUI::ListFrame *object = (CPP::GUI::ListFrame *)_appObj;
 
-					object->addNewEvent(event, object, func);
+						object->addNewEvent(event, object, func);
 
-					if (event == "rowClick")
-					{
-						#ifdef GUI_USE_WXWIDGETS
-							object->Connect(wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler(ListFrame::onRowClick), object->createEvent(event, func));
-						#endif
-					}
+						if (event == "rowClick")
+						{
+						
+								object->Connect(wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler(ListFrame::onRowClick), object->createEvent(event, func));
+						
+						}
 					
-					if (event == "rowFocused")
-					{
-						#ifdef GUI_USE_WXWIDGETS
-							object->Connect(wxEVT_COMMAND_LIST_ITEM_FOCUSED, wxListEventHandler(ListFrame::onRowFocused), object->createEvent(event, func));
-						#endif
-					}
-					if (event == "rowRightClick")
-					{
-						#ifdef GUI_USE_WXWIDGETS
-							object->Connect(wxEVT_COMMAND_LIST_ITEM_RIGHT_CLICK, wxListEventHandler(ListFrame::onRowRightClick), object->createEvent(event, func));
-						#endif
-					}
-					if (event == "rowMiddleClick")
-					{
-						#ifdef GUI_USE_WXWIDGETS
-							object->Connect(wxEVT_COMMAND_LIST_ITEM_MIDDLE_CLICK, wxListEventHandler(ListFrame::onRowMiddleClick), object->createEvent(event, func));
-						#endif
-					}
+						if (event == "rowFocused")
+						{
+							#ifdef GUI_USE_WXWIDGETS
+								object->Connect(wxEVT_COMMAND_LIST_ITEM_FOCUSED, wxListEventHandler(ListFrame::onRowFocused), object->createEvent(event, func));
+							#endif
+						}
+						if (event == "rowRightClick")
+						{
+							#ifdef GUI_USE_WXWIDGETS
+								object->Connect(wxEVT_COMMAND_LIST_ITEM_RIGHT_CLICK, wxListEventHandler(ListFrame::onRowRightClick), object->createEvent(event, func));
+							#endif
+						}
+						if (event == "rowMiddleClick")
+						{
+							#ifdef GUI_USE_WXWIDGETS
+								object->Connect(wxEVT_COMMAND_LIST_ITEM_MIDDLE_CLICK, wxListEventHandler(ListFrame::onRowMiddleClick), object->createEvent(event, func));
+							#endif
+						}
+					#endif
 				}
 			#endif
 

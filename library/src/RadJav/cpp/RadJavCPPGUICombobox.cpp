@@ -125,37 +125,39 @@ namespace RadJAV
 			#ifdef USE_V8
 				void Combobox::on(String event, v8::Local<v8::Function> func)
 				{
-					CPP::GUI::ComboboxFrame *object = (CPP::GUI::ComboboxFrame *)_appObj;
+					#ifdef GUI_USE_WXWIDGETS
+						CPP::GUI::ComboboxFrame *object = (CPP::GUI::ComboboxFrame *)_appObj;
 
-					object->addNewEvent(event, object, func);
+						object->addNewEvent(event, object, func);
 
-					if (event == "change")
-					{
-						#ifdef GUI_USE_WXWIDGETS
-							object->Connect(wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(ComboboxFrame::onChanged), object->createEvent(event, func));
-						#endif
-					}
+						if (event == "change")
+						{
+							#ifdef GUI_USE_WXWIDGETS
+								object->Connect(wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(ComboboxFrame::onChanged), object->createEvent(event, func));
+							#endif
+						}
 
-					if (event == "dropdown")
-					{
-						#ifdef GUI_USE_WXWIDGETS
-							object->Connect(wxEVT_COMMAND_COMBOBOX_DROPDOWN, wxCommandEventHandler(ComboboxFrame::onDropdown), object->createEvent(event, func));
-						#endif
-					}
+						if (event == "dropdown")
+						{
+							#ifdef GUI_USE_WXWIDGETS
+								object->Connect(wxEVT_COMMAND_COMBOBOX_DROPDOWN, wxCommandEventHandler(ComboboxFrame::onDropdown), object->createEvent(event, func));
+							#endif
+						}
 					
-					if (event == "closeup")
-					{
-						#ifdef GUI_USE_WXWIDGETS
-							object->Connect(wxEVT_COMMAND_COMBOBOX_CLOSEUP, wxCommandEventHandler(ComboboxFrame::onCloseup), object->createEvent(event, func));
-						#endif
-					}
-					if (event == "text")
-					{
-						#ifdef GUI_USE_WXWIDGETS
-							object->Connect(wxEVT_COMMAND_COMBOBOX_CLOSEUP, wxCommandEventHandler(ComboboxFrame::onText), object->createEvent(event, func));
-						#endif
-					}
-					
+						if (event == "closeup")
+						{
+							#ifdef GUI_USE_WXWIDGETS
+								object->Connect(wxEVT_COMMAND_COMBOBOX_CLOSEUP, wxCommandEventHandler(ComboboxFrame::onCloseup), object->createEvent(event, func));
+							#endif
+						}
+						if (event == "text")
+						{
+							#ifdef GUI_USE_WXWIDGETS
+								object->Connect(wxEVT_COMMAND_COMBOBOX_CLOSEUP, wxCommandEventHandler(ComboboxFrame::onText), object->createEvent(event, func));
+							#endif
+						}
+
+					#endif
 				}
 			#endif
 

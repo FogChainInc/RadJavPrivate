@@ -186,7 +186,7 @@ namespace RadJAV
 #else
 				//blocking execution
 				isAlive = true;
-				ioc.run();
+				io_context_->run();
 #endif
 			}
 

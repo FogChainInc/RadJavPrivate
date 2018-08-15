@@ -49,20 +49,21 @@
 							static RJINT curlWrite(RJCHAR *data, RJUINT size, RJUINT nmemb, String *output);
 					};
 
-					#ifdef GUI_USE_WXWIDGETS
 						class RADJAV_EXPORT HttpThread : public Thread
 						{
 							public:
 								HttpThread(String uri, RJBOOL post, RJLONG timeout, v8::Persistent<v8::Function> *resolvep);
-
+#ifdef GUI_USE_WXWIDGETS
 								wxThread::ExitCode Entry();
+#else 
+								RJINT Entry();
+#endif
 
 								RJLONG timeout;
 								String uri;
 								v8::Persistent<v8::Function> *resolvep;
 								RJBOOL post;
 						};
-					#endif
 				}
 			}
 		}

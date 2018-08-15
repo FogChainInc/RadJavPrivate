@@ -104,9 +104,8 @@ namespace RadJAV
 				output = true;
 
 			v8::Local<v8::Boolean> result2 = v8::Boolean::New(args.GetIsolate(), output);
-#endif
-
 			args.GetReturnValue().Set(result2);
+#endif
 		}
 
 		void Global::prompt(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -140,9 +139,8 @@ namespace RadJAV
 			String result = parsewxString(wxGetTextFromUser(message.towxString(), title.towxString(), defaultArg.towxString()));
 
 			v8::Local<v8::String> result2 = result.toV8String(args.GetIsolate());
-#endif
-
 			args.GetReturnValue().Set(result2);
+#endif
 		}
 
 		void Global::include(const v8::FunctionCallbackInfo<v8::Value> &args)

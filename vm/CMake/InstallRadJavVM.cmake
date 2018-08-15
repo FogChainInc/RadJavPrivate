@@ -1,5 +1,5 @@
 
-if (APPLE)
+if (APPLE AND NOT IOS)
 	#Correct binary files to be able to execute on client side
 	install (CODE "
 			include(BundleUtilities)

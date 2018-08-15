@@ -128,7 +128,6 @@ namespace RadJAV
 				return (size * nmemb);
 			}
 
-#ifdef GUI_USE_WXWIDGETS
 			HttpThread::HttpThread(String uri, RJBOOL post, RJLONG timeout, v8::Persistent<v8::Function> *resolvep)
 				: Thread()
 			{
@@ -137,8 +136,11 @@ namespace RadJAV
 				this->timeout = timeout;
 				this->resolvep = resolvep;
 			}
-
+#ifdef GUI_USE_WXWIDGETS
 			wxThread::ExitCode HttpThread::Entry()
+#else
+			RJINT HttpThread::Entry()
+#endif
 			{
 				String *str = NULL;
 
@@ -193,7 +195,6 @@ namespace RadJAV
 
 				return (0);
 			}
-#endif
 		}
 	}
 }

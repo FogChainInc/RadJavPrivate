@@ -95,9 +95,12 @@ namespace RadJAV
 			#ifdef USE_V8
 				void Button::on(String event, v8::Local<v8::Function> func)
 				{
-					CPP::GUI::ButtonFrame *object = (CPP::GUI::ButtonFrame *)_appObj;
+					#ifdef GUI_USE_WXWIDGETS
+						
+						CPP::GUI::ButtonFrame *object = (CPP::GUI::ButtonFrame *)_appObj;
+						object->addNewEvent(event, object, func);
 
-					object->addNewEvent(event, object, func);
+					#endif
 				}
 			#endif
 		}
