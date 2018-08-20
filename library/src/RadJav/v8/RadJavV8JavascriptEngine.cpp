@@ -1186,12 +1186,9 @@ namespace RadJAV
 				// RadJav.IO
 				{
 					v8::Handle<v8::Function> ioFunc = v8GetFunction(radJavFunc, "IO");
+					v8::Handle<v8::Object> fileioPrototype = v8GetObject(ioFunc, "prototype");
 
-					// RadJav.IO.FileIO
-					{
-						//v8::Handle<v8::Function> filemFunc = v8GetFunction(ioFunc, "FileIO");
-						//v8::Handle<v8::Object> filePrototype = v8GetObject(filemFunc, "prototype");
-					}
+					V8B::IO::createV8Callbacks(isolate, fileioPrototype);
 
 					// RadJav.IO.SerialComm
 					{
@@ -1209,7 +1206,13 @@ namespace RadJAV
 						V8B::IO::TextFile::createV8Callbacks(isolate, textPrototype);
 					}
 
-					V8B::IO::createV8Callbacks(isolate, ioFunc);
+					// RadJav.IO.StreamFile
+					{
+						v8::Handle<v8::Function> streamFileFunc = v8GetFunction(ioFunc, "StreamFile");
+						v8::Handle<v8::Object> streamPrototype = v8GetObject(streamFileFunc, "prototype");
+
+						V8B::IO::StreamFile::createV8Callbacks(isolate, streamPrototype);
+					}
 				}
 
 				#ifdef HAS_XML_SUPPORT

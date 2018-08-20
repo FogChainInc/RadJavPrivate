@@ -1,0 +1,426 @@
+var win = new RadJav.GUI.Window ("win", "Window Example");
+
+// Stupid hack for now. Delete in the future. Should throw errors in HTML5.
+win.create ().then (function (win2)
+	{
+	});
+
+var io = new RadJav.IO();
+var iotext = new RadJav.IO.TextFile();
+
+var tempDir;
+var rootDir;
+var systemFile;
+var testDir;
+var testDir2;
+var insideDir;
+var undefinedDir;
+var sep;
+
+if (RadJav.OS.type == "windows") {
+    tempDir = "c:\\temp";
+    rootDir = "c:\\";
+    systemFile = "c:\\windows\\explorer.exe";
+    testDir = "test_dir";
+    testDir2 = "test_dir2";
+    insideDir = "inside_dir";
+    undefinedDir = "c:\\ljdfhlkjsdfhlkjad";
+    sep = "\\";
+} else {
+    tempDir = "/temp";
+    rootDir = "/";
+    systemFile = "/bin/touch";
+    testDir = "test_dir";
+    testDir2 = "test_dir2";
+    insideDir = "inside_dir";
+    undefinedDir = "/ljdfhlkjsdfhlkjad";
+    sep = "/";
+}
+
+
+RadJav.Console.println("PROGRAM START - FILEIO");
+    
+try
+{
+    RadJav.Console.println("##################### Test 1 ######################################");
+    var isdir = io.isDir(tempDir);
+
+    if (isDir == false)
+        RadJav.Console.println("Test #1 Failed - Failed to detect directory type");
+}
+catch (error)
+{
+    RadJav.Console.println(error);
+}
+
+try
+{
+    RadJav.Console.println("##################### Test 2 ######################################");
+    var isDir = io.isDir(systemFile);
+
+    if (isDir == true)
+        RadJav.Console.println("Test #2 Failed - Incorrectly detected directory type");
+}
+catch (error)
+{
+    RadJav.Console.println(error);
+}
+    
+try
+{
+    RadJav.Console.println("##################### Test 3 ######################################");
+    var isfile = io.isFile(systemFile);
+
+    if (isfile == false)
+        RadJav.Console.println("Test #3 Failed - Failed to detect file type");
+}
+catch (error)
+{
+    RadJav.Console.println(error);
+}
+
+try
+{
+    RadJav.Console.println("##################### Test 4 ######################################");
+    var isDir = io.isFile(tempDir);
+
+    if (isDir == true)
+        RadJav.Console.println("Test #4 Failed - Incorrectly detected file type");
+}
+catch (error)
+{
+    RadJav.Console.println(error);
+}
+
+try
+{
+    RadJav.Console.println("##################### Test 5 ######################################");
+    io.changePath(tempDir);
+    var path = io.currentPath();
+
+    if (path != tempDir)
+        RadJav.Console.println("Test #5 Failed - Incorrectly changed directories");
+}
+catch (error)
+{
+    RadJav.Console.println(error);
+}
+
+try
+{
+    RadJav.Console.println("##################### Test 6 ######################################");
+    io.changePath(tempDir);
+    io.mkdir(testDir);
+    var isDir = io.isDir(tempDir + sep + testDir);
+
+    if (isDir == false)
+        RadJav.Console.println("Test #6 Failed - Failed to create directory");
+}
+catch (error)
+{
+    RadJav.Console.println(error);
+}
+
+try
+{
+    RadJav.Console.println("##################### Test 7 ######################################");
+    //delete the folder from Test 5
+    io.changePath(tempDir);
+    io.deleteDir(testDir);
+
+    if (io.isDir(tempDir + sep + testDir) == true)
+        RadJav.Console.println("Test #7 Failed - Failed to delete directory");
+}
+catch (error)
+{
+    RadJav.Console.println(error);
+}
+
+try
+{
+    RadJav.Console.println("##################### Test 8 ######################################");
+    io.changePath(tempDir);
+    io.mkdir(testDir);
+    var exists = io.exists(tempDir + sep + testDir);
+    io.deleteDir(testDir);
+
+    if (exists == false)
+        RadJav.Console.println("Test #8 Failed - Failed to find existance of directory");
+}
+catch (error)
+{
+    RadJav.Console.println(error);
+}
+
+try
+{
+    RadJav.Console.println("##################### Test 9 ######################################");
+    io.changePath(tempDir);
+    io.mkdir(testDir);
+    io.renameDir(testDir, testDir2);
+    var exists = io.exists(tempDir + sep + testDir);
+    io.deleteDir(testDir);
+    io.deleteDir(testDir2);
+
+    if (exists == true)
+        RadJav.Console.println("Test #9 Failed - Failed to rename directory");
+}
+catch (error)
+{
+    RadJav.Console.println(error);
+}
+
+try
+{
+    RadJav.Console.println("##################### Test 10 ######################################");
+    io.changePath(tempDir);
+    io.mkdir(testDir);
+    var empty = io.isEmpty(tempDir + sep + testDir);
+    io.deleteDir(testDir);
+
+    if (empty == false)
+        RadJav.Console.println("Test #10 Failed - Failed to detect empty directory");
+}
+catch (error)
+{
+    RadJav.Console.println(error);
+}
+
+try
+{
+    RadJav.Console.println("##################### Test 11 ######################################");
+    io.changePath(tempDir);
+    io.mkdir(testDir);
+    io.changePath(tempDir + sep + testDir);
+    io.mkdir(insideDir);
+    var empty = io.isEmpty(tempDir + sep + testDir);
+    io.deleteDir(insideDir);
+    io.changePath(tempDir);
+    io.deleteDir(testDir);
+ 
+    if (empty == true)
+        RadJav.Console.println("Test #11 Failed - Failed to detect non-empty directory");
+}
+catch (error)
+{
+    RadJav.Console.println(error);
+}
+
+try
+{
+    RadJav.Console.println("##################### Test 12 ######################################");
+    io.changePath(tempDir);
+    io.mkdir(testDir);
+    io.copyDir(testDir, testDir2, true);
+    var exists = io.exists(tempDir + sep + testDir2);
+    io.deleteDir(testDir);
+    io.deleteDir(testDir2);
+ 
+    if (exists == false)
+        RadJav.Console.println("Test #12 Failed - Failed to copy empty directory recursively");
+}
+catch (error)
+{
+    RadJav.Console.println(error);
+}
+
+try
+{
+    RadJav.Console.println("##################### Test 13 ######################################");
+    io.changePath(tempDir);
+    io.mkdir(testDir);
+    io.changePath(tempDir + sep + testDir);
+    io.mkdir(insideDir);
+    io.changePath(tempDir);
+    io.copyDir(testDir, testDir2, true);
+    var exists = io.exists(testDir2 + sep + insideDir);
+    io.deleteDir(tempDir + sep + testDir);
+    io.deleteDir(tempDir + sep + testDir2);
+ 
+    if (exists == false)
+        RadJav.Console.println("Test #13 Failed - Failed to copy non-empty directory recursively");
+}
+catch (error)
+{
+    RadJav.Console.println(error);
+}
+
+try
+{
+    RadJav.Console.println("##################### Test 14 ######################################");
+    io.changePath(tempDir);
+    io.mkdir(testDir);
+    io.changePath(tempDir + sep + testDir);
+    io.mkdir(insideDir);
+    io.changePath(tempDir);
+    io.copyDir(tempDir + sep + testDir, tempDir + sep + testDir2, false);
+    var exists = io.exists(testDir2 + sep + insideDir);
+    io.deleteDir(tempDir + sep + testDir);
+    io.deleteDir(tempDir + sep + testDir2);
+ 
+    if (exists == true)
+        RadJav.Console.println("Test #14 Failed - Failed to copy non-empty directory non-recursively");
+}
+catch (error)
+{
+    RadJav.Console.println(error);
+}
+
+try
+{
+    RadJav.Console.println("##################### Test 15 ######################################");
+    var files = io.listFiles(rootDir, false);
+    
+    RadJav.Console.println(files);
+    if (files == "")
+        RadJav.Console.println("Test #15 Failed - Failed to list files from root directory non-recursively");
+}
+catch (error)
+{
+    RadJav.Console.println(error);
+}
+
+try
+{
+    RadJav.Console.println("##################### Test 16 ######################################");
+    io.changePath(tempDir);
+    io.mkdir(testDir);
+    io.changePath(testDir);
+    io.mkdir(insideDir);
+    iotext.writeFile(testDir + sep + insideDir + sep + "test_file.txt", "This is my test file.", RadJav.IO.TextFile.write);
+    var files = io.listFiles(tempDir, true);
+    io.changePath(tempDir);
+    io.deleteDir(testDir);
+ 
+    RadJav.Console.println(files);
+    if (files == "")
+        RadJav.Console.println("Test #16 Failed - Failed to list files recursively");
+}
+catch (error)
+{
+    RadJav.Console.println(error);
+}
+
+try
+{
+    RadJav.Console.println("##################### Test 17 ######################################");
+    var files = io.listFiles(undefinedDir, true);
+ 
+    RadJav.Console.println(files);
+    if (files != "")
+        RadJav.Console.println("Test #17 Failed - Failed to recognize missing directory when listing files");
+}
+catch (error)
+{
+    RadJav.Console.println(error);
+}
+
+try
+{
+    RadJav.Console.println("##################### Test 18 ######################################");
+    iotext.writeFile(tempDir + sep + "test_file.txt", "This is my test file.", RadJav.IO.TextFile.write);
+    io. deleteFile(tempDir + sep + "test_file.txt");
+    var exists = io.exists(tempDir);
+ 
+    if (exists == true)
+        RadJav.Console.println("Test #18 Failed - Failed to delete file");
+}
+catch (error)
+{
+    RadJav.Console.println(error);
+}
+
+try
+{
+    RadJav.Console.println("##################### Test 19 ######################################");
+    iotext.writeFile(tempDir + sep + "test_file.txt", "This is my test file.", RadJav.IO.TextFile.write);
+    io.renameFile(tempDir + sep + "test_file.txt", tempDir + sep + "test_file2.txt");
+    var exists = io.exists(tempDir + sep + "test_file2.txt");
+    io.deleteFile(tempDir + sep + "test_file2.txt");
+  
+    if (exists == false)
+        RadJav.Console.println("Test #19 Failed - Failed to rename file");
+}
+catch (error)
+{
+    RadJav.Console.println(error);
+}
+
+try
+{
+    RadJav.Console.println("##################### Test 20 ######################################");
+    iotext.writeFile(tempDir + sep + "test_file.txt", "This is my test file.", RadJav.IO.TextFile.write);
+    io.copyFile(tempDir + sep + "test_file.txt", tempDir + sep + "test_file2.txt", true);
+    var exists = io.exists(tempDir + sep + "test_file2.txt");
+    io.deleteFile(tempDir + sep + "test_file.txt");
+    io.deleteFile(tempDir + sep + "test_file2.txt");
+  
+    if (exists == false)
+        RadJav.Console.println("Test #20 Failed - Failed to copy file");
+}
+catch (error)
+{
+    RadJav.Console.println(error);
+}
+
+try
+{
+    RadJav.Console.println("##################### Test 21 ######################################");
+    iotext.writeFile(tempDir + sep + "test_file.txt", "This is my test file.", RadJav.IO.TextFile.write);
+    io.copyFile(tempDir + sep + "test_file.txt", tempDir + sep + "test_file2.txt", true);
+    io.copyFile(tempDir + sep + "test_file.txt", tempDir + sep + "test_file2.txt", true);
+    var exists = io.exists(tempDir + sep + "test_file2.txt");
+    io.deleteFile(tempDir + sep + "test_file.txt");
+    io.deleteFile(tempDir + sep + "test_file2.txt");
+  
+    if (exists == false)
+        RadJav.Console.println("Test #21 Failed - Failed to copy file with overwrite");
+}
+catch (error)
+{
+    RadJav.Console.println(error);
+}
+
+try
+{
+    RadJav.Console.println("##################### Test 22 ######################################");
+    var path = io.normalizePath("temp", rootDir);
+  
+    RadJav.Console.println(path);
+    if (path == "")
+        RadJav.Console.println("Test #22 Failed - Failed to normalize path");
+}
+catch (error)
+{
+    RadJav.Console.println(error);
+}
+
+try
+{
+    RadJav.Console.println("##################### Test 23 ######################################");
+    var path = io.normalizeAndVerifyPath("temp", rootDir);
+  
+    RadJav.Console.println(path);
+    if (path == "")
+        RadJav.Console.println("Test #23 Failed - Failed to normalize and verify path");
+}
+catch (error)
+{
+    RadJav.Console.println(error);
+}
+
+try
+{
+    RadJav.Console.println("##################### Test 24 ######################################");
+    var path = io.normalizeCurrentPath("temp");
+  
+    RadJav.Console.println(path);
+    if (path == "")
+        RadJav.Console.println("Test #24 Failed - Failed to normalize current path");
+}
+catch (error)
+{
+    RadJav.Console.println(error);
+}
+
+RadJav.Console.println("PROGRAM COMPLETE - FILEIO");
