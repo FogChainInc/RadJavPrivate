@@ -41,6 +41,7 @@ RadJAV::Array<int> RadJAV::CPP::IO::SerialComm::m_baudRates = RadJAV::Array<int>
 	#include "v8/RadJavV8JavascriptEngine.h"
 
 	v8::Persistent<v8::Function>* RadJAV::CPP::IO::TextFile::m_textfileReadEvent = nullptr;
+	v8::Persistent<v8::Function>* RadJAV::CPP::IO::StreamFile::m_streamfileReadEvent = nullptr;
 	//v8::Persistent<v8::Function>* RadJAV::CPP::IO::m_fileListEvent = nullptr;
 #endif
 
@@ -481,6 +482,76 @@ namespace RadJAV
 
 						v8::Local<v8::Value> *args = RJNEW v8::Local<v8::Value>[1];
 						args[0] = contents.toV8String(V8_JAVASCRIPT_ENGINE->isolate);
+
+						if (V8_JAVASCRIPT_ENGINE->v8IsNull(evt) == false)
+							evt->Call(V8_JAVASCRIPT_ENGINE->globalContext->Global(), 1, args);
+						DELETE_ARRAY(args);
+					}
+				#endif
+
+			});
+		}
+
+		void IO::StreamFile::writeStream(const String path_, const v8::Local<v8::ArrayBuffer> buffer_, const RJINT outputType_)
+		{
+			RJINT type = std::ios_base::out;
+
+			if (static_cast<IO::TextFile::operation>(outputType_) == IO::TextFile::operation::append)
+				type = std::ios_base::app;
+
+			std::fstream file(path_, std::ios::binary | type);
+			file.write(reinterpret_cast<char*>(buffer_->GetContents().Data()), buffer_->ByteLength());
+			file.close();
+		}
+
+		void IO::StreamFile::writeStreamAsync(const String path_, const v8::Local<v8::ArrayBuffer> buffer_, const RJINT outputType_)
+		{
+			boost::asio::post(m_ioQueue, [=]()
+			{
+				writeStream(path_, buffer_, outputType_);
+			});
+		}
+
+		String IO::StreamFile::readStream(const String path_)
+		{
+			std::fstream file(path_, std::ios_base::in);
+			String contents = "";
+
+			if (file.is_open() == false)
+			{
+				throw Exception("Unable to open file: " + path_);
+
+				return String();
+			}
+
+			while (file.good() == true)
+			{
+				char cChar = file.get();
+
+				if (file.good() == false)
+					break;
+
+				contents += cChar;
+			}
+
+			file.close();
+
+			return contents;
+		}
+
+		void IO::StreamFile::readStreamAsync(const String path_)
+		{
+			boost::asio::post(m_ioQueue, [=]()
+			{
+				auto contents = readStream(path_);
+
+				#ifdef USE_V8
+					if (RadJAV::CPP::IO::StreamFile::m_streamfileReadEvent != nullptr)
+					{
+						v8::Local<v8::Function> evt = v8::Local<v8::Function>::Cast(RadJAV::CPP::IO::StreamFile::m_streamfileReadEvent->Get(V8_JAVASCRIPT_ENGINE->isolate));
+
+						v8::Local<v8::Value> *args = RJNEW v8::Local<v8::Value>[1];
+						args[0] = v8::ArrayBuffer::New(V8_JAVASCRIPT_ENGINE->isolate, (void*)contents.c_str(), contents.size());
 
 						if (V8_JAVASCRIPT_ENGINE->v8IsNull(evt) == false)
 							evt->Call(V8_JAVASCRIPT_ENGINE->globalContext->Global(), 1, args);

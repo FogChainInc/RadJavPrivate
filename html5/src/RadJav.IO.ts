@@ -306,6 +306,7 @@ namespace RadJav
 			* @param {string} path The path to the file to write to.
 			* @param {string} content The content to write.
 			*/
+			
 			static writeFile(path: string, content: string): void {}
 			/** @method writeFileAsync
 			* Write to a text file asynchronously.
@@ -322,6 +323,7 @@ namespace RadJav
 			* @return {string} The content read from the text file.
 			*/
 			static readFile(path: string): string { return; }
+			
 			/** @method readFileAsync
 			* Read from a text file asynchronously.
 			* Available on platforms: Windows,Linux,OSX
@@ -329,6 +331,61 @@ namespace RadJav
 			* @return {string} The content read from the text file.
 			*/
 			static readFileAsync(path: string): string { return; }
+
+			/** @property {Number} [read=1]
+			* @static
+			* Read from a file.
+			*/
+			static read: Number;
+			/** @property {Number} [write=2]
+			* @static
+			* Write to a file.
+			*/
+			static write: Number;
+			/** @property {Number} [append=3]
+			* @static
+			* Append to a file.
+			*/
+			static append: Number;
+		}
+
+		/** @class RadJav.IO.TextFile
+		* Handles stream files.
+		* Available on platforms: Windows,Linux,OSX
+		*/
+		export class StreamFile
+		{
+			/** @method writeFile
+			* Write to a stream file.
+			* Available on platforms: Windows,Linux,OSX
+			* @param {string} path The path to the file to write to.
+			* @param {string} content The content to write.
+			*/
+			static writeStream(path: string, content: string): void {}
+			
+			/** @method writeFileAsync
+			* Write to a stream file asynchronously.
+			* Available on platforms: Windows,Linux,OSX
+			* @param {string} path The path to the file to write to.
+			* @param {string} content The content to write.
+			*/
+			static writeStreamAsync(path: string, content: string): void {}
+
+			/** @method readFile
+			* Read from a stream file.
+			* Available on platforms: Windows,Linux,OSX
+			* @param {string} path The path to the file to read from.
+			* @return {string} The content read from the text file.
+			*/
+			static readStream(path: string): string { return; }
+			
+			/** @method readFileAsync
+			* Read from a stream file asynchronously.
+			* Available on platforms: Windows,Linux,OSX
+			* @param {string} path The path to the file to read from.
+			* @return {string} The content read from the text file.
+			*/
+			static readStreamAsync(path: string): string { return; }
 
 			/** @property {Number} [read=1]
 			* @static
@@ -750,5 +807,5 @@ namespace RadJav
 				return (this._name + " = \"" + this._value + "\"");
 			}
 		}
-	}
+    }
 }

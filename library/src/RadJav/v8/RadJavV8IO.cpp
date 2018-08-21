@@ -75,6 +75,15 @@ namespace RadJAV
 			V8_CALLBACK(object, "close", IO::SerialComm::close);
 		}
 
+		void IO::StreamFile::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
+		{
+			V8_CALLBACK(object, "writeStream", IO::StreamFile::writeStream);
+			V8_CALLBACK(object, "writeStreamAsync", IO::StreamFile::writeStreamAsync);
+
+			V8_CALLBACK(object, "readStream", IO::StreamFile::readStream);
+			V8_CALLBACK(object, "readStreamAsync", IO::StreamFile::readStreamAsync);
+		}
+
 		void IO::TextFile::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 		{
 			V8_CALLBACK(object, "writeFile", IO::TextFile::writeFile);
@@ -524,6 +533,127 @@ namespace RadJAV
 			v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(args.This());
 
 			RadJAV::CPP::IO::SerialComm::close();
+		}
+
+
+		// ###################################################################
+
+
+		void IO::StreamFile::writeStream(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+
+			if (V8_JAVASCRIPT_ENGINE->v8IsNull(path) == true)
+			{
+				V8_JAVASCRIPT_ENGINE->throwException("Filename cannot be null!");
+
+				return;
+			}
+
+			auto view = v8::Local<v8::ArrayBufferView>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
+			auto data = view->Buffer();
+			RJINT fileType = static_cast<int>(CPP::IO::StreamFile::operation::write);
+
+			if (args.Length() > 2)
+			{
+				v8::Local<v8::Integer> type = v8::Local<v8::Integer>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 2));
+				fileType = type->Value();
+			}
+
+			try
+			{
+				CPP::IO::StreamFile::writeStream(parseV8Value(path), data, fileType);
+			}
+			catch (Exception ex)
+			{
+				V8_JAVASCRIPT_ENGINE->throwException(ex.getMessage());
+				return;
+			}
+		}
+
+		void IO::StreamFile::writeStreamAsync(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+
+			if (V8_JAVASCRIPT_ENGINE->v8IsNull(path) == true)
+			{
+				V8_JAVASCRIPT_ENGINE->throwException("Filename cannot be null!");
+
+				return;
+			}
+
+			auto data = v8::Local<v8::ArrayBuffer>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
+			RJINT fileType = static_cast<int>(CPP::IO::TextFile::operation::write);
+
+			if (args.Length() > 2)
+			{
+				v8::Local<v8::Integer> type = v8::Local<v8::Integer>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 2));
+				fileType = type->Value();
+			}
+
+			try
+			{
+				CPP::IO::StreamFile::writeStreamAsync(parseV8Value(path), data, fileType);
+			}
+			catch (Exception ex)
+			{
+				V8_JAVASCRIPT_ENGINE->throwException(ex.getMessage());
+				return;
+			}
+		}
+
+		void IO::StreamFile::readStream(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+
+			if (V8_JAVASCRIPT_ENGINE->v8IsNull(path) == true)
+			{
+				V8_JAVASCRIPT_ENGINE->throwException("Filename cannot be null!");
+				return;
+			}
+
+			try
+			{
+				auto contents = CPP::IO::StreamFile::readStream(parseV8Value(path));
+				auto ab = v8::ArrayBuffer::New(V8_JAVASCRIPT_ENGINE->isolate, (void*)contents.c_str(), contents.size());
+
+				args.GetReturnValue().Set(ab);
+			}
+			catch (Exception ex)
+			{
+				V8_JAVASCRIPT_ENGINE->throwException(ex.getMessage());
+			}
+		}
+
+		void IO::StreamFile::readStreamAsync(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+
+			if (V8_JAVASCRIPT_ENGINE->v8IsNull(path) == true)
+			{
+				V8_JAVASCRIPT_ENGINE->throwException("Filename cannot be null!");
+				return;
+			}
+
+			try
+			{
+				CPP::IO::StreamFile::readStreamAsync(parseV8Value(path));
+			}
+			catch (Exception ex)
+			{
+				V8_JAVASCRIPT_ENGINE->throwException(ex.getMessage());
+				return;
+			}
+		}
+
+		void IO::StreamFile::onFileRead(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+			v8::Persistent<v8::Function> *func = RJNEW v8::Persistent<v8::Function>();
+			v8::Local<v8::Function> newEvt = v8::Local<v8::Function>::Cast(args[0]);
+
+			func->Reset(V8_JAVASCRIPT_ENGINE->isolate, newEvt);
+
+			RadJAV::CPP::IO::StreamFile::m_streamfileReadEvent = func;
 		}
 
 
