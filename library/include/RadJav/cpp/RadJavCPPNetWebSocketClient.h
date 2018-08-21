@@ -50,8 +50,11 @@ namespace RadJAV
 					void connect(String host_, String port_);
 
 					void send(String message_);
+					void send(const void *message_, int msgLen);
 
-					String receive();
+					void receive(std::function <void (const std::string &str)> stringSetter,
+						     std::function <void (const void *buf, int bufLen)> binSetter);
+
 
 					void close();
 

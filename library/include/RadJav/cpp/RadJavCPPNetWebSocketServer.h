@@ -42,6 +42,18 @@
 			{
 				class RADJAV_EXPORT WebSocketServer : public ChainedPtr
 				{
+				public:
+				  class WebSocketServerSession;
+				private:
+
+						struct session_data
+						{
+							std::string m_session_id;
+							std::shared_ptr <WebSocketServerSession> m_session;
+							std::string m_last_message;
+
+						};
+				  
 					public:
 						WebSocketServer();
 						~WebSocketServer();
@@ -51,6 +63,7 @@
 						void listen(unsigned short port_ = 9229);
 
 						void send(String id, String message);
+						void send(String id, const void *message, int msg_len);
 
 						void sendToAll(String message);
 
@@ -58,15 +71,19 @@
 
 						void close();
 
+						void set_on_accept_callback(v8::Persistent<v8::Function>*);
+						void set_on_receive_callback(v8::Persistent<v8::Function>*);
+
 						class RADJAV_EXPORT WebSocketServerSession : public std::enable_shared_from_this<WebSocketServerSession>
 						{
 							boost::beast::websocket::stream<boost::asio::ip::tcp::socket> m_ws;
 							boost::asio::strand<boost::asio::io_context::executor_type> m_strand;
-							boost::beast::multi_buffer m_readBuffer;
+							boost::beast::flat_buffer m_readBuffer;
 
 							public:
 								// Take ownership of the socket
-								WebSocketServerSession(boost::asio::ip::tcp::socket socket_, std::string sessionID_);
+							WebSocketServerSession(boost::asio::ip::tcp::socket socket_, std::string sessionID_,
+									       std::vector <RadJAV::CPP::Net::WebSocketServer::session_data> *sessions_);
 
 								// Start the asynchronous operation
 								void run();
@@ -76,6 +93,7 @@
 								void do_read();
 
 								void do_write(String message_);
+								void do_write(const void *message_, int msg_len);
 
 								void on_read(
 									boost::system::error_code ec_,
@@ -85,9 +103,21 @@
 									boost::system::error_code ec_,
 									std::size_t bytes_transferred_);
 
+								void set_on_receive_callback(v8::Persistent<v8::Function>*);
+
+								
+
 							private:
+								v8::Local<v8::Function> get_on_receive_callback();
+
+						                #ifdef USE_V8
+								v8::Persistent<v8::Function> *m_serverReceiveEvent;
+						                #endif
+								
+								
 								std::string m_sessionID;
 								std::shared_ptr<std::string> m_activeMessage = nullptr;
+								std::vector <RadJAV::CPP::Net::WebSocketServer::session_data> *m_sessions;
 						};
 
 						class RADJAV_EXPORT WebSocketServerListener : public std::enable_shared_from_this<WebSocketServerListener>
@@ -95,10 +125,14 @@
 							boost::asio::ip::tcp::acceptor m_acceptor;
 							boost::asio::ip::tcp::socket m_socket;
 
+							std::vector <RadJAV::CPP::Net::WebSocketServer::session_data> *m_sessions;
+							
+
 							public:
 								WebSocketServerListener(
 									boost::asio::io_context& ioc_,
-									boost::asio::ip::tcp::endpoint endpoint_);
+									boost::asio::ip::tcp::endpoint endpoint_,
+									std::vector <RadJAV::CPP::Net::WebSocketServer::session_data> *sessions_);
 
 								// Start accepting incoming connections
 								void run();
@@ -106,14 +140,32 @@
 								void do_accept();
 
 								void on_accept(boost::system::error_code ec_);
-						};				
+
+								void set_on_accept_callback(v8::Persistent<v8::Function>*);	  
+								void set_on_receive_callback(v8::Persistent<v8::Function>*);	  
+
 
 						#ifdef USE_V8
-						static v8::Persistent<v8::Function> *m_serverAcceptEvent;
-						static v8::Persistent<v8::Function> *m_serverReceiveEvent;
+								v8::Persistent<v8::Function> *m_serverAcceptEvent;
+								v8::Persistent<v8::Function> *m_serverReceiveEvent;
 						#endif
-				
+						         private:
+								v8::Local<v8::Function> get_on_accept_callback();
+								v8::Persistent<v8::Function> *get_on_receive_persistent_evt();
+								
+
+								
+						};
+
+						#ifdef USE_V8
+						v8::Persistent<v8::Function> *m_serverAcceptEvent;
+						v8::Persistent<v8::Function> *m_serverReceiveEvent;
+						#endif
+
 					private:
+
+
+						
 						unsigned short m_port;
 
 						boost::asio::io_context *m_io_context;
@@ -121,15 +173,12 @@
 						// Flag that indicates if listening context available 
 						RJBOOL m_isAlive;
 
-						struct session_data
-						{
-							std::string m_session_id;
-							std::shared_ptr <WebSocketServerSession> m_session;
-							std::string m_last_message;
-						};
+						  std::shared_ptr<WebSocketServerListener> m_listener;
+						
 
 						//maintains the list of sessions
-						static std::vector <session_data> m_sessions;
+						  std::vector <session_data> m_sessions;
+						  
 				};
 			}
 		}

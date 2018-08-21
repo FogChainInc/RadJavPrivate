@@ -21,7 +21,7 @@
 
 #include "RadJav.h"
 #include "RadJavString.h"
-\
+
 namespace RadJAV
 {
 	namespace CPP
@@ -46,23 +46,39 @@ namespace RadJAV
 
 				//perform the websocket handshake
 				m_ws.handshake(host_, "/");
+
 			}
 
 			void WebSocketClient::send(String message_)
 			{
 				//send the message
+			        m_ws.text(true);
 				m_ws.write(boost::asio::buffer(std::string(message_)));
 			}
+		  
+  		        void WebSocketClient::send(const void *message_, int msgLen)
+			{
+				//send the message
+			        m_ws.binary(true);
+				m_ws.write(boost::asio::buffer(message_, msgLen)); 
+			}
 
-			String WebSocketClient::receive()
+			void WebSocketClient::receive(std::function <void (const std::string &str)> stringSetter,
+						      std::function <void (const void *buf, int bufLen)> binSetter)
 			{
 				//this buffer will hold the incoming message
-				boost::beast::multi_buffer buffer;
+				boost::beast::flat_buffer buffer;
 
 				//read a message into our buffer
 				m_ws.read(buffer);
-
-				return boost::beast::buffers_to_string(buffer.data());
+				if (m_ws.got_text())
+				  {
+				    stringSetter(boost::beast::buffers_to_string(buffer.data()));
+				  }
+				    
+				else
+				  binSetter(boost::beast::buffers_front(buffer.data()).data(),
+					    boost::beast::buffers_front(buffer.data()).size());
 			}
 
 			void WebSocketClient::close()
