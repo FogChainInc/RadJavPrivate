@@ -41,6 +41,10 @@
 	#include "v8/RadJavV8JavascriptEngine.h"
 #endif
 
+#ifdef USE_JAVASCRIPTCORE
+    #include "jscore/RadJavJSCJavascriptEngine.h"
+#endif
+
 #ifdef HTTP_USE_CIVETWEB
 	#include <civetweb.h>
 #endif
@@ -404,6 +408,10 @@ namespace RadJAV
 			#ifdef USE_V8
 				javascriptEngine = RJNEW V8JavascriptEngine ();
 			#endif
+
+            #ifdef USE_JAVASCRIPTCORE
+                javascriptEngine = RJNEW JSCJavascriptEngine ();
+            #endif
 
 			return (RadJavType::VM);
 		}

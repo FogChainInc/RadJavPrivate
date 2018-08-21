@@ -349,6 +349,7 @@ namespace RadJAV
 			}
 
 			#ifdef GUI_USE_WXWIDGETS
+                #ifdef USE_V8
 				Event* GObjectBase::createEvent(String event, v8::Local<v8::Function> function)
 				{
 					// Create a persistent function to execute asych later.
@@ -375,8 +376,16 @@ namespace RadJAV
 
 					return evt;
 				}
+                #endif
 			
-				void GObjectBase::addNewEvent(String event, wxWindow *object, v8::Local<v8::Function> func)
+				void GObjectBase::addNewEvent(String event, wxWindow *object,
+                                            #ifdef USE_V8
+                                              v8::Local<v8::Function> func
+                                            #endif
+                                            #ifdef USE_JAVASCRIPTCORE
+                                              JSValueRef func
+                                            #endif
+                                              )
 				{
 					if (event == "click")
 					{
@@ -577,11 +586,19 @@ namespace RadJAV
 					executeEvent(pevent);
 				}
 
-
+                #ifdef USE_V8
 				v8::Local<v8::Value> GObjectBase::executeEvent(Event *pevent, RJINT numArgs, v8::Local<v8::Value> *args)
 				{
 					return (*pevent)(numArgs, args);
 				}
+                #endif
+            
+                #ifdef USE_JAVASCRIPTCORE
+                JSValueRef GObjectBase::executeEvent(Event *pevent, RJINT numArgs, JSValueRef *args)
+                {
+                    return (*pevent)(numArgs, args);
+                }
+                #endif
 			#endif
 		}
 	}

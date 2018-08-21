@@ -1,5 +1,6 @@
 leaks.csv
 .vs
+.DS_Store
 
 library/include/RadJav/RadJavJavascriptCode.h
 library/build*

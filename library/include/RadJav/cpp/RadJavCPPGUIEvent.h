@@ -22,9 +22,17 @@
 
 #include "RadJav.h"
 
-#if defined GUI_USE_WXWIDGETS && defined USE_V8
-#include <wx/object.h>
-#include "v8/RadJavV8JavascriptEngine.h"
+#ifdef GUI_USE_WXWIDGETS
+    #include <wx/object.h>
+#endif
+
+#ifdef USE_V8
+    #include "v8/RadJavV8JavascriptEngine.h"
+#endif
+
+#ifdef USE_JAVASCRIPTCORE
+    #include "jscore/RadJavJSCJavascriptEngine.h"
+#endif
 
 namespace RadJAV
 {
@@ -32,46 +40,66 @@ namespace RadJAV
 	{
 		namespace GUI
 		{
-			template<class P>
-			class RADJAV_EXPORT VariantObject : public wxObject
-			{
-			public:
-				VariantObject(P data): object(data) {}
-				virtual ~VariantObject() {
-					if( std::is_pointer<P>::value)
-						DELETEOBJ(object);
-				}
-				
-				VariantObject(const VariantObject& other) = delete;
-				VariantObject& operator = (const VariantObject& other) = delete;
-				
-			protected:
-				P object;
-			};
-			
-			template<class UserData = v8::Persistent<v8::Value>* >
-			class RADJAV_EXPORT GuiEvent : public VariantObject<UserData>
-			{
-			public:
-				GuiEvent(UserData data): VariantObject<UserData>(data) {}
-				
-				v8::Local<v8::Value> operator ()(RJINT numArgs = 0, v8::Local<v8::Value> *args = NULL)
-				{
-					// Execute a persistent function.
-					v8::Local<v8::Function> function = v8::Local<v8::Function>::Cast( VariantObject<UserData>::object->Get(V8_JAVASCRIPT_ENGINE->isolate));
-					v8::Local<v8::Value> result;
-					
-					if (V8_JAVASCRIPT_ENGINE->v8IsNull(function) == false)
-						result = function->Call(V8_JAVASCRIPT_ENGINE->globalContext->Global(), numArgs, args);
-					
-					return (result);
-				}
-			};
-			
-			typedef GuiEvent<> Event;
+            #ifdef GUI_USE_WXWIDGETS
+                template<class P>
+                class RADJAV_EXPORT VariantObject : public wxObject
+                {
+                public:
+                    VariantObject(P data): object(data) {}
+                    virtual ~VariantObject() {
+                        if( std::is_pointer<P>::value)
+                            DELETEOBJ(object);
+                    }
+                    
+                    VariantObject(const VariantObject& other) = delete;
+                    VariantObject& operator = (const VariantObject& other) = delete;
+                    
+                protected:
+                    P object;
+                };
+
+            #ifdef USE_V8
+                template<class UserData = v8::Persistent<v8::Value>* >
+                class RADJAV_EXPORT GuiEvent : public VariantObject<UserData>
+                {
+                public:
+                    GuiEvent(UserData data): VariantObject<UserData>(data) {}
+                    
+                    v8::Local<v8::Value> operator ()(RJINT numArgs = 0, v8::Local<v8::Value> *args = NULL)
+                    {
+                        // Execute a persistent function.
+                        v8::Local<v8::Function> function = v8::Local<v8::Function>::Cast( VariantObject<UserData>::object->Get(V8_JAVASCRIPT_ENGINE->isolate));
+                        v8::Local<v8::Value> result;
+                        
+                        if (V8_JAVASCRIPT_ENGINE->v8IsNull(function) == false)
+                            result = function->Call(V8_JAVASCRIPT_ENGINE->globalContext->Global(), numArgs, args);
+                        
+                        return (result);
+                    }
+                };
+            #endif
+
+            #ifdef USE_JAVASCRIPTCORE
+                /// @todo Fix this.
+                template<class UserData = JSValueRef >
+                class RADJAV_EXPORT GuiEvent : public VariantObject<UserData>
+                {
+                public:
+                    GuiEvent(UserData data): VariantObject<UserData>(data) {}
+                    
+                    JSValueRef operator ()(RJINT numArgs = 0, JSValueRef *args = NULL)
+                    {
+                        /// @todo Execute a persistent function.
+                        
+                        return (NULL);
+                    }
+                };
+            #endif
+
+                typedef GuiEvent<> Event;
+            #endif
 		}
 	}
 }
 
-#endif
 #endif

@@ -38,7 +38,7 @@ namespace RadJAV
 				{
 					if (IsTopLevel() == true)
 					{
-						V8_JAVASCRIPT_ENGINE->exit(0);
+                        RadJav::javascriptEngine->exit(0);
 
 						return;
 					}
@@ -49,6 +49,8 @@ namespace RadJAV
 				void WindowFrame::onJSClose(wxCloseEvent &evt)
 				{
 					Event *pevent = (Event *)evt.GetEventUserData();
+                    
+#ifdef USE_V8
 					v8::Local<v8::Value> result = executeEvent(pevent);
 
 					if (result.IsEmpty() == false)
@@ -61,6 +63,11 @@ namespace RadJAV
 								evt.Veto();
 						}
 					}
+#endif
+                    
+#ifdef USE_JAVASCRIPTCORE
+                    /// @todo Fill this out.
+#endif
 				}
 
 				void WindowFrame::onJSMinimized(wxIconizeEvent &evt)

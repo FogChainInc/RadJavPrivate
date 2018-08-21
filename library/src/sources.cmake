@@ -119,6 +119,15 @@ if (USE_V8)
 	set (SOURCES ${SOURCES_files_RadJav__v8__Blockchain__Sources} ${SOURCES})
 endif ()
 
+if (USE_JAVASCRIPTCORE)
+	# JavaScriptCore JavaScript Engine
+	set (SOURCES_files_RadJav__JSC__Sources 
+		"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCJavascriptEngine.cpp")
+	source_group ("RadJav\\JavaScriptCore" FILES ${SOURCES_files_RadJav__JSC__Sources})
+	
+	set (SOURCES ${SOURCES_files_RadJav__JSC__Sources} ${SOURCES})
+endif ()
+
 # V8
 set (SOURCES_files_Javascript__Main__Sources 
 	"${libRadJav_SOURCE_DIR}/src/RadJav/RadJavJavascriptEngine.cpp")

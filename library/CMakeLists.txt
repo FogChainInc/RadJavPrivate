@@ -15,7 +15,7 @@ set (CMAKE_MODULE_PATH "${libRadJav_SOURCE_DIR}/CMake"
 
 include (Utils)
 
-set (javascriptEngineLibraries V8 ChakraCore)
+set (javascriptEngineLibraries V8 JavaScriptCore ChakraCore)
 set (libRadJav_JS_LIBRARY V8 CACHE STRING "Javascript library to use")
 set_property (CACHE libRadJav_JS_LIBRARY PROPERTY STRINGS ${javascriptEngineLibraries})
 
@@ -28,7 +28,6 @@ set (libRadJav_LANGUAGE "en_us" CACHE STRING "Select language to compile with")
 set (libRadJav_STATIC false CACHE BOOL "Static build of RadJav")
 set (libRadJav_EMBEDFILE true CACHE BOOL "Embed Javascript into RadJav?")
 set (libRadJav_INCLUDE_BLOCKCHAIN_V1 true CACHE BOOL "Include Blockchain V1?")
-set (libRadJav_DEBUG_INSPECTOR true CACHE BOOL "Include V8 js inspector?")
 set (FIND_MEMORY_LEAKS true CACHE BOOL "Find memory leaks?")
 set (INCLUDE_DATABASES true CACHE BOOL "Includes databases")
 set (XML_SUPPORT true CACHE BOOL "XML Support")
@@ -82,6 +81,11 @@ endif ()
 
 if (libRadJav_JS_LIBRARY STREQUAL "V8")
 	set (USE_V8 true)
+	set (libRadJav_DEBUG_INSPECTOR true CACHE BOOL "Include V8 js inspector?")
+endif ()
+
+if (libRadJav_JS_LIBRARY STREQUAL "JavaScriptCore")
+	set (USE_JAVASCRIPTCORE true)
 endif ()
 
 if (libRadJav_GUI_LIBRARY STREQUAL "wxWidgets")
@@ -128,6 +132,11 @@ endif ()
 
 if (USE_V8)
 	include (FindV8)
+endif ()
+
+if (USE_JAVASCRIPTCORE)
+	#include (FindJavaScriptCore)
+	set (JAVASCRIPTCORE_FOUND true)
 endif ()
 
 if (USE_WXWIDGETS)
@@ -222,6 +231,13 @@ if (V8_FOUND)
 	set (libRadJav_INCLUDE_DIRS ${ICU_INCLUDE} ${libRadJav_INCLUDE_DIRS})
 	set (libRadJav_LINK_LIBRARIES ${V8_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
 	set (libRadJav_CPP_DEFS USE_V8 ${libRadJav_CPP_DEFS})
+	message (STATUS "JavaScript engine: V8")
+endif ()
+
+if (JAVASCRIPTCORE_FOUND)
+	set (libRadJav_CPP_DEFS USE_JAVASCRIPTCORE ${libRadJav_CPP_DEFS})
+	set (libRadJav_CPP_DEFS_DEBUG USE_JAVASCRIPTCORE ${libRadJav_CPP_DEFS_DEBUG})
+	message (STATUS "JavaScript engine: JavaScriptCore")
 endif ()
 
 #if (wxWidgets_FOUND)

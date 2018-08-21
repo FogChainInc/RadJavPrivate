@@ -41,6 +41,10 @@
 	#include "v8/RadJavV8JavascriptEngine.h"
 #endif
 
+#ifdef USE_JAVASCRIPTCORE
+    #include "jscore/RadJavJSCJavascriptEngine.h"
+#endif
+
 namespace RadJAV
 {
 	namespace CPP
@@ -243,8 +247,15 @@ namespace RadJAV
 					virtual ~GObjectBase();
 
 					#ifdef GUI_USE_WXWIDGETS
-						Event* createEvent(String event, v8::Local<v8::Function> function);
-						void addNewEvent(String event, wxWindow *object, v8::Local<v8::Function> func);
+                        #ifdef USE_V8
+                            Event* createEvent(String event, v8::Local<v8::Function> function);
+                            void addNewEvent(String event, wxWindow *object, v8::Local<v8::Function> func);
+                        #endif
+
+                        #ifdef USE_JAVASCRIPTCORE
+                            Event* createEvent(String event, JSValueRef function);
+                            void addNewEvent(String event, wxWindow *object, JSValueRef func);
+                        #endif
 
 						static void onClick(wxMouseEvent &event);
 						static void onDoubleClick(wxMouseEvent &event);
@@ -268,7 +279,13 @@ namespace RadJAV
 						static void onFocusSet(wxFocusEvent &event);
 						static void onFocusOut(wxFocusEvent &event);
 
-						static v8::Local<v8::Value> executeEvent(Event *pevent, RJINT numArgs = 0, v8::Local<v8::Value> *args = NULL);
+                        #ifdef USE_V8
+                            static v8::Local<v8::Value> executeEvent(Event *pevent, RJINT numArgs = 0, v8::Local<v8::Value> *args = NULL);
+                        #endif
+                
+                        #ifdef USE_JAVASCRIPTCORE
+                            static JSValueRef executeEvent(Event *pevent, RJINT numArgs = 0, JSValueRef *args = NULL);
+                        #endif
 
 						HashMap<std::string, Event* > *events;
 

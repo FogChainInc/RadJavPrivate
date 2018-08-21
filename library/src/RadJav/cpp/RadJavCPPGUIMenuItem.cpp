@@ -153,7 +153,7 @@ namespace RadJAV
 					{
 						String *str = (String *)data->getData(menuId);
 						String code = str->c_str();
-						V8_JAVASCRIPT_ENGINE->executeScriptNextTick(code, "");
+                        RadJav::javascriptEngine->executeScript(code, "");
 					}
 				}
 			#endif

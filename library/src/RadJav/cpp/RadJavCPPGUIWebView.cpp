@@ -46,6 +46,8 @@ namespace RadJAV
 				{
 					Event *pevent = (Event *)event.GetEventUserData();
 					String url = parsewxString(event.GetURL());
+                    
+#ifdef USE_V8
 					v8::Local<v8::Value> *args = RJNEW v8::Local<v8::Value>[1];
 					args[0] = url.toV8String(V8_JAVASCRIPT_ENGINE->isolate);
 
@@ -62,6 +64,11 @@ namespace RadJAV
 								event.Veto();
 						}
 					}
+#endif
+                    
+#ifdef USE_JAVASCRIPTCORE
+    /// @todo Fix this.
+#endif
 				}
 				void WebViewFrame::onPageNavigated(wxWebViewEvent &event)
 				{
