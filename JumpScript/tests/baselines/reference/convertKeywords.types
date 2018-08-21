@@ -1,6 +1,0 @@
-=== tests/cases/compiler/convertKeywords.jump ===
-var abstract;
->abstract : any
-
-
-

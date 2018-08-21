@@ -1,8 +1,0 @@
-=== /a.jump ===
-import { C } from "projB";
->C : typeof C
-
-=== /node_modules/projB/index.jump ===
-export class C {}
->C : C
-

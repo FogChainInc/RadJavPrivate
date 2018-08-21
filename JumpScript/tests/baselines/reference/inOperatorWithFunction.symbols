@@ -1,9 +1,0 @@
-=== tests/cases/compiler/inOperatorWithFunction.jump ===
-var fn = function (val: boolean) { return val; }
->fn : Symbol(fn, Decl(inOperatorWithFunction.jump, 0, 3))
->val : Symbol(val, Decl(inOperatorWithFunction.jump, 0, 19))
->val : Symbol(val, Decl(inOperatorWithFunction.jump, 0, 19))
-
-fn("a" in { "a": true });
->fn : Symbol(fn, Decl(inOperatorWithFunction.jump, 0, 3))
-

@@ -1,7 +1,0 @@
-=== tests/cases/compiler/unusedVariablesinNamespaces1.jump ===
-namespace Validation {
->Validation : Symbol(Validation, Decl(unusedVariablesinNamespaces1.jump, 0, 0))
-
-    const lettersRegexp = /^[A-Za-z]+$/;
->lettersRegexp : Symbol(lettersRegexp, Decl(unusedVariablesinNamespaces1.jump, 1, 9))
-}

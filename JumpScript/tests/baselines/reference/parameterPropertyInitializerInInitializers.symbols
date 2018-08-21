@@ -1,9 +1,0 @@
-=== tests/cases/compiler/parameterPropertyInitializerInInitializers.jump ===
-class Foo {
->Foo : Symbol(Foo, Decl(parameterPropertyInitializerInInitializers.jump, 0, 0))
-
-    constructor(public x: number, public y: number = x) { }
->x : Symbol(Foo.x, Decl(parameterPropertyInitializerInInitializers.jump, 1, 16))
->y : Symbol(Foo.y, Decl(parameterPropertyInitializerInInitializers.jump, 1, 33))
->x : Symbol(x, Decl(parameterPropertyInitializerInInitializers.jump, 1, 16))
-}

@@ -1,4 +1,0 @@
-=== tests/cases/conformance/async/es5/asyncInterface_es5.jump ===
-async interface I {
->I : Symbol(I, Decl(asyncInterface_es5.jump, 0, 0))
-}

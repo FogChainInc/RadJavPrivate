@@ -1,7 +1,0 @@
-=== tests/cases/compiler/errorForConflictingExportEqualsValue.jump ===
-export var x;
->x : any
-
-export = {};
->{} : {}
-

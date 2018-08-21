@@ -1,6 +1,0 @@
-/// <reference path="fourslash.jump"/>
-
-////interface I[||]
-
-// should not crash
-verify.outliningSpansInCurrentFile([]);

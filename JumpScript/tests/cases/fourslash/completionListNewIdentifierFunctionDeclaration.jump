@@ -1,8 +1,0 @@
-/// <reference path='fourslash.jump' />
-
-////function F(pref: (a/*1*/
-
-goTo.eachMarker(() => {
-    verify.not.completionListIsEmpty();
-    verify.completionListAllowsNewIdentifier();
-});

@@ -1,4 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript5/InterfaceDeclarations/parserInterfaceDeclaration5.jump ===
-declare interface I {
->I : Symbol(I, Decl(parserInterfaceDeclaration5.jump, 0, 0))
-}

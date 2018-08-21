@@ -1,4 +1,0 @@
-=== tests/cases/compiler/FunctionDeclaration3.jump ===
-function foo();
->foo : () => any
-

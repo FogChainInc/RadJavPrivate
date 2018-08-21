@@ -22,6 +22,11 @@
 #include "RadJav.h"
 #include "RadJavString.h"
 
+#ifndef GUI_USE_WXWIDGETS
+	#define _USE_MATH_DEFINES
+	#include <math.h>
+#endif
+
 #include <cmath>
 
 namespace RadJAV

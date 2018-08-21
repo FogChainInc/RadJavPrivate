@@ -1,6 +1,0 @@
-/// <reference path='fourslash.jump' />
-
-////const { ...a: b } = {};
-
-format.document();
-verify.currentFileContentIs("const { ...a: b } = {};");

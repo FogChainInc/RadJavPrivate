@@ -19,16 +19,23 @@
 */
 
 /// <reference path="RadJav.ts" />
+/// <reference path="RadJav.Vector2.ts" />
 
-namespace RadJav {
-  export namespace GUI {
+namespace RadJav
+{
+  export namespace GUI
+  {
     /** @class RadJav.GUI.Textarea
      * @extends RadJav.GUI.GObject
      * A Textarea.
      * Available on platforms: Windows,Linux,OSX,HTML5
      */
-  export  class Textarea extends RadJav.GUI.GObject {
-      constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject) {
+  export  class Textarea extends RadJav.GUI.GObject
+  {
+    static xmlTag: TagType = { tag: "textarea", type: "Textarea" };
+
+      constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject)
+      {
         if (obj == null) {
           obj = {};
         }

@@ -1,6 +1,0 @@
-=== tests/cases/compiler/es6ExportDefaultClassDeclaration2.jump ===
-export default class {
-    method() { }
->method : Symbol(default.method, Decl(es6ExportDefaultClassDeclaration2.jump, 0, 22))
-}
-

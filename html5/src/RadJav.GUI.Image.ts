@@ -19,16 +19,23 @@
 */
 
 /// <reference path="RadJav.ts" />
+/// <reference path="RadJav.Vector2.ts" />
 
-namespace RadJav {
-  export namespace GUI {
+namespace RadJav
+{
+  export namespace GUI
+  {
     /** @class RadJav.GUI.Image
      * @extends RadJav.GUI.GObject
      * An image.
      * Available on platforms: Windows,Linux,OSX,HTML5
      */
-    export class Image extends RadJav.GUI.GObject {
-      constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject) {
+    export class Image extends RadJav.GUI.GObject
+    {
+      static xmlTag: TagType = { tag: "image", type: "Image" };
+
+      constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject)
+      {
         if (obj == null) {
           obj = {};
         }

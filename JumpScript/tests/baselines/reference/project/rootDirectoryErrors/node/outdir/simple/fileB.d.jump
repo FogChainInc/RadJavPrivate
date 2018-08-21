@@ -1,4 +1,0 @@
-/// <reference path="FolderC/fileC.d.jump" />
-declare class B {
-    c: C;
-}

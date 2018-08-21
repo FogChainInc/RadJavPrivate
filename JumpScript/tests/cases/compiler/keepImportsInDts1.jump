@@ -1,7 +1,0 @@
-// @module: amd
-// @declaration: true
-
-// @filename: c:/test.d.jump
-export {}; 
-// @filename: c:/app/main.jump
-import "test"

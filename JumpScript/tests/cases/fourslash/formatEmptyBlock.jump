@@ -1,8 +1,0 @@
-/// <reference path='fourslash.jump' />
-
-////{}
-
-goTo.eof();
-edit.insert("\n");
-goTo.bof();
-verify.currentLineContentIs("{ }");

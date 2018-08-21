@@ -15,7 +15,10 @@ set (CMAKE_MODULE_PATH "${libRadJav_SOURCE_DIR}/CMake"
 
 include (Utils)
 
-set (libRadJav_JS_LIBRARY "V8" CACHE STRING "Javascript library to use")
+set (javascriptEngineLibraries V8 ChakraCore)
+set (libRadJav_JS_LIBRARY V8 CACHE STRING "Javascript library to use")
+set_property (CACHE libRadJav_JS_LIBRARY PROPERTY STRINGS ${javascriptEngineLibraries})
+
 set (libRadJav_GUI_LIBRARY "wxWidgets" CACHE STRING "GUI library to use")
 set (libRadJav_HTTP_LIBRARY "curl" CACHE STRING "HTTP library to use")
 set (libRadJav_INCLUDE_C3D_API TRUE CACHE BOOL "Include the C3D API?")
@@ -31,8 +34,17 @@ set (INCLUDE_DATABASES true CACHE BOOL "Includes databases")
 set (XML_SUPPORT true CACHE BOOL "XML Support")
 set (INCLUDE_CRYPTOGRAPHY true CACHE BOOL "Includes cryptography")
 set (WEBVIEW_TYPE "wxWidgetsDefault" CACHE STRING "Type of webview to use")
-set (USE_BITS "" CACHE STRING "Build using number of bits")
 set (BOOST_ROOT "" CACHE PATH "BOOST_ROOT")
+
+set (TEMP_ARCH "x86")
+
+if ("${CMAKE_SIZEOF_VOID_P}" STREQUAL "4")
+	set (TEMP_ARCH "x86_64")
+endif()
+
+set (archs x86 x86_64 armeabi armeabi-v7a arm64-v8a)
+set (USE_ARCH ${TEMP_ARCH} CACHE STRING "Processor architecture")
+set_property (CACHE USE_ARCH PROPERTY STRINGS ${archs})
 
 set (CMAKE_BUILD_TYPE CACHE STRING "Debug")
 set_property (CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
@@ -479,6 +491,8 @@ endif ()
 set_property (TARGET libRadJav PROPERTY PROJECT_LABEL "libRadJav")
 
 if (libRadJav_EMBEDFILE)
+	
+	#<TODO: Comment these to use CMake for embedding Javascript files into RadJavJavascriptCode.h>
 	add_custom_command (OUTPUT ${libRadJav_SOURCE_DIR}/include/RadJav/RadJavJavascriptCode.h
 		COMMAND RadJavCompileResources
 		DEPENDS ${libRadJav_SOURCE_DIR}/javascript/RadJav.js)
@@ -488,6 +502,90 @@ if (libRadJav_EMBEDFILE)
 	set_property (TARGET RadJavCompileResources APPEND PROPERTY COMPILE_DEFINITIONS $<$<CONFIG:Debug>:${libRadJav_CPP_DEFS} ${libRadJav_CPP_DEFS_DEBUG}>)
 
 	add_dependencies (libRadJav RadJavCompileResources)
+	#</TODO>
+
+	set (jsFiles Math.js
+			String.js
+			RadJav.js
+			RadJav.Color.js
+			RadJav.Quaternion.js
+			RadJav.Vector2.js
+			RadJav.Vector3.js
+			RadJav.Vector4.js
+			RadJav.Circle.js
+			RadJav.Rectangle.js
+			RadJav.Font.js
+			RadJav.Thread.js
+			RadJav.Animation.js
+			RadJav.IO.js
+			RadJav.Interact.js
+			RadJav.DB.KeyValueStorage.js
+	)
+	
+	if (INCLUDE_CRYPTOGRAPHY)
+		set (jsFiles ${jsFiles}
+				RadJav.Crypto.Cipher.js
+				RadJav.Crypto.Decipher.js
+				RadJav.Crypto.CipherMultipart.js
+				RadJav.Crypto.DecipherMultipart.js
+				RadJav.Crypto.KeyGenerator.js
+				RadJav.Crypto.PrivateKey.js
+				RadJav.Crypto.PublicKey.js
+				RadJav.Crypto.Hash.js
+				RadJav.Crypto.HashMultipart.js
+		)
+	endif ()
+
+	if (USE_WXWIDGETS)
+		set (jsFiles ${jsFiles}
+			RadJav.GUI.GObject.js # This must be compiled before any other GUI object.
+			RadJav.GUI.Button.js
+			RadJav.GUI.Checkbox.js
+			RadJav.GUI.Combobox.js
+			RadJav.GUI.Container.js
+			RadJav.GUI.Image.js
+			RadJav.GUI.Label.js
+			RadJav.GUI.List.js
+			RadJav.GUI.Radio.js
+			RadJav.GUI.Textarea.js
+			RadJav.GUI.Textbox.js
+			RadJav.GUI.WebView.js
+			RadJav.GUI.Window.js
+			RadJav.GUI.MenuBar.js
+			RadJav.GUI.MenuItem.js
+			RadJav.GUI.KeyEvent.js
+			RadJav.GUI.MouseEvent.js
+		)
+	endif ()
+
+	if (libRadJav_ALLOW_NETWORKING)
+		set (jsFiles ${jsFiles}
+			RadJav.Net.WebSocketServer.js
+			RadJav.Net.WebSocketClient.js
+			RadJav.Net.WebServer.js
+		)
+	endif ()
+
+	
+	if (USE_OGRE)
+		set (jsFiles ${jsFiles}
+				RadJav.GUI.Canvas3D.js
+				RadJav.C3D.Transform.js # This must be compiled before any other C3D object.
+				RadJav.C3D.Object3D.js
+				RadJav.C3D.Plane.js
+				RadJav.C3D.Cube.js
+				RadJav.C3D.Sphere.js
+				RadJav.C3D.Camera.js
+				RadJav.C3D.Light.js
+				RadJav.C3D.Material.js
+				RadJav.C3D.Model.js
+		)
+	endif ()
+	
+	#TODO: Un-comment these to use CMake for embedding Javascript files into RadJavJavascriptCode.h
+	#include (EmbedJavascript)
+	
+	#embedJavascript( "${jsFiles}" "${CMAKE_CURRENT_SOURCE_DIR}/javascript" "RadJavJavascriptCode.h" "${CMAKE_CURRENT_SOURCE_DIR}/include/RadJav")
 endif ()
 
 set (libRadJav_CPP_DEFS2 ${libRadJav_CPP_DEFS} PARENT_SCOPE)

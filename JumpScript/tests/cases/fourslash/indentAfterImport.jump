@@ -1,6 +1,0 @@
-/// <reference path="fourslash.jump"/>
-//// import f = module('foo');/**/
-
-goTo.marker();
-edit.insert("\n");
-verify.indentationIs(0);

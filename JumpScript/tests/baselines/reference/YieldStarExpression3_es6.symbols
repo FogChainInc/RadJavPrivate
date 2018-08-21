@@ -1,6 +1,0 @@
-=== tests/cases/conformance/es6/yieldExpressions/YieldStarExpression3_es6.jump ===
-function *g() {
->g : Symbol(g, Decl(YieldStarExpression3_es6.jump, 0, 0))
-
-    yield *;
-}

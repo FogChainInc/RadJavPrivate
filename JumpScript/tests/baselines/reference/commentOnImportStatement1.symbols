@@ -1,6 +1,0 @@
-=== tests/cases/compiler/commentOnImportStatement1.jump ===
-/* Copyright */
-
-import foo = require('./foo');
->foo : Symbol(foo, Decl(commentOnImportStatement1.jump, 0, 0))
-

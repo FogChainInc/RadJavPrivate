@@ -1,4 +1,0 @@
-=== tests/cases/compiler/downlevelLetConst7.jump ===
-let a
->a : any
-

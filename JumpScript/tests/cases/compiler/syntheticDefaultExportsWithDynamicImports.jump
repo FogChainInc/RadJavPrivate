@@ -1,9 +1,0 @@
-// @module: system
-// @target: es6
-// @moduleResolution: node
-// @filename: node_modules/package/index.d.jump
-declare function packageExport(x: number): string;
-export = packageExport;
-
-// @filename: index.jump
-import("package").then(({default: foo}) => foo(42));

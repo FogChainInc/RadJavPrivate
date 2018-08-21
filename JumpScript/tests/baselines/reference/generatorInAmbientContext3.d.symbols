@@ -1,7 +1,0 @@
-=== tests/cases/conformance/es6/yieldExpressions/generatorInAmbientContext3.d.jump ===
-declare class C {
->C : Symbol(C, Decl(generatorInAmbientContext3.d.jump, 0, 0))
-
-    *generator(): any;
->generator : Symbol(C.generator, Decl(generatorInAmbientContext3.d.jump, 0, 17))
-}

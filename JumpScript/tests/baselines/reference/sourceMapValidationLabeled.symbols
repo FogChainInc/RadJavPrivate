@@ -1,5 +1,0 @@
-=== tests/cases/compiler/sourceMapValidationLabeled.jump ===
-x:
-var b = 10;
->b : Symbol(b, Decl(sourceMapValidationLabeled.jump, 1, 3))
-

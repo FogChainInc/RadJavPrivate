@@ -1,7 +1,0 @@
-=== tests/cases/conformance/statements/throwStatements/invalidThrowStatement.jump ===
-throw; 
-> : any
-
-export throw null;
->null : null
-

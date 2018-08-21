@@ -1,7 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript5/Expressions/parserPostfixPostfixExpression1.jump ===
-a++ ++;
->a++ : number
->a : any
->++ : number
-> : any
-

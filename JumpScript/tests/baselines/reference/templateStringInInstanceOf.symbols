@@ -1,5 +1,0 @@
-=== tests/cases/conformance/es6/templates/templateStringInInstanceOf.jump ===
-var x = `abc${ 0 }def` instanceof String;
->x : Symbol(x, Decl(templateStringInInstanceOf.jump, 0, 3))
->String : Symbol(String, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
-

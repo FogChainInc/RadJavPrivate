@@ -1,8 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript5/ErrorRecovery/SourceUnits/parserErrorRecovery_SourceUnit1.jump ===
-class C {
->C : Symbol(C, Decl(parserErrorRecovery_SourceUnit1.jump, 0, 0))
-}
-}
-class D {
->D : Symbol(D, Decl(parserErrorRecovery_SourceUnit1.jump, 2, 1))
-}

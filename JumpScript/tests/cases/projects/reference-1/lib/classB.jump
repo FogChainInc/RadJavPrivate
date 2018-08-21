@@ -1,7 +1,0 @@
-/// <reference path="classA.jump" />
-
-module test {
-    export class ClassB extends ClassA 
-    {
-    }
-}

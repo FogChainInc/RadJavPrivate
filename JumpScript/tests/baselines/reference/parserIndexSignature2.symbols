@@ -1,7 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript5/IndexSignatures/parserIndexSignature2.jump ===
-interface I {
->I : Symbol(I, Decl(parserIndexSignature2.jump, 0, 0))
-
-  [public a]
->a : Symbol(a, Decl(parserIndexSignature2.jump, 1, 3))
-}

@@ -1,7 +1,0 @@
-=== tests/cases/compiler/enumWithUnicodeEscape1.jump ===
-enum E {
->E : Symbol(E, Decl(enumWithUnicodeEscape1.jump, 0, 0))
-
-  'gold \u2730'
-}
-

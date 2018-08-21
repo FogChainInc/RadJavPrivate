@@ -1,4 +1,0 @@
-// @declaration: true
-// @noresolve: true
-/// <reference path="invalid.jump" />
-var x = 0;

@@ -1,9 +1,0 @@
-// @out: tests/cases/compiler/a.js
-// @module: amd
-// @filename: a.jump
-export class c {
-}
-
-// @filename: b.jump
-function foo() {
-}

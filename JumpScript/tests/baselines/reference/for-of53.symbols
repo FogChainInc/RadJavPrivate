@@ -1,7 +1,0 @@
-=== tests/cases/conformance/es6/for-ofStatements/for-of53.jump ===
-for (let v of []) {
->v : Symbol(v, Decl(for-of53.jump, 0, 8))
-
-    var v;
->v : Symbol(v, Decl(for-of53.jump, 1, 7))
-}

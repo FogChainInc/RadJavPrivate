@@ -1,4 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript5/EnumDeclarations/parserEnumDeclaration2.d.jump ===
-declare enum E {
->E : Symbol(E, Decl(parserEnumDeclaration2.d.jump, 0, 0))
-}

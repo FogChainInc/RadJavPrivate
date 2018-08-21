@@ -1,6 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript5/IndexSignatures/parserIndexSignature4.jump ===
-interface I {
->I : Symbol(I, Decl(parserIndexSignature4.jump, 0, 0))
-
-  [a = 0] // Used to be indexer, now it is a computed property
-}

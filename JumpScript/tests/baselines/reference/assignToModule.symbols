@@ -1,7 +1,0 @@
-=== tests/cases/compiler/assignToModule.jump ===
-module A {}
->A : Symbol(A, Decl(assignToModule.jump, 0, 0))
-
-A = undefined; // invalid LHS
->undefined : Symbol(undefined)
-

@@ -1,5 +1,0 @@
-=== tests/cases/compiler/conflictMarkerTrivia4.jump ===
-const x = <div>
->x : Symbol(x, Decl(conflictMarkerTrivia4.jump, 0, 5))
-
-<<<<<<< HEAD

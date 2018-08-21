@@ -1,4 +1,0 @@
-=== tests/cases/compiler/fromAsIdentifier1.jump ===
-var from;
->from : Symbol(from, Decl(fromAsIdentifier1.jump, 0, 3))
-

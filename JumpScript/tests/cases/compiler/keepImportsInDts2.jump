@@ -1,7 +1,0 @@
-// @module: amd
-// @declaration: true
-
-// @filename: folder/test.jump
-export {};
-// @filename: main.jump
-import "./folder/test"

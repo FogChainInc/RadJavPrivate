@@ -1,9 +1,0 @@
-/// <reference path="fourslash.jump" />
-
-//// /**/
-//// () =>
-////    // do something
-//// 0;
-
-goTo.marker();
-edit.insert("function Foo() { }");

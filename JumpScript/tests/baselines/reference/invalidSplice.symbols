@@ -1,6 +1,0 @@
-=== tests/cases/compiler/invalidSplice.jump ===
-var arr = [].splice(0,3,4,5);
->arr : Symbol(arr, Decl(invalidSplice.jump, 0, 3))
->[].splice : Symbol(Array.splice, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
->splice : Symbol(Array.splice, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
-

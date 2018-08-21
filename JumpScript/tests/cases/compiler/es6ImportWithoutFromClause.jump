@@ -1,9 +1,0 @@
-// @target: es6
-// @declaration: true
-// @declaration: true
-
-// @filename: es6ImportWithoutFromClause_0.jump
-export var a = 10;
-
-// @filename: es6ImportWithoutFromClause_1.jump
-import "es6ImportWithoutFromClause_0";

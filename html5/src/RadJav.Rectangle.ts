@@ -19,8 +19,11 @@
 */
 
 /// <reference path="RadJav.ts" />
+/// <reference path="RadJav.Vector2.ts" />
+/// <reference path="RadJav.Vector4.ts" />
 
-namespace RadJav {
+namespace RadJav
+{
   /** @class RadJav.Rectangle
    * A basic rectangle.
    * @param {Number|RadJav.Vector2|RadJav.Vector4} [x=0] The x coordinate of the rectangle. Can also be a Vector2

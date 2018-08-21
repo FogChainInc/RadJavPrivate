@@ -1,5 +1,0 @@
-=== tests/cases/compiler/systemModuleTrailingComments.jump ===
-export const test = "TEST";
->test : Symbol(test, Decl(systemModuleTrailingComments.jump, 0, 12))
-
-//some comment

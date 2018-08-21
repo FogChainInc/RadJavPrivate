@@ -1,7 +1,0 @@
-/// <reference path="fourslash.jump" />
-
-//// class A<B, /**/B>  { }
-
-goTo.marker();
-verify.quickInfoExists();
-

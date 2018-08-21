@@ -1,4 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript5/ModuleDeclarations/parserModuleDeclaration6.jump ===
-module number {
->number : Symbol(number, Decl(parserModuleDeclaration6.jump, 0, 0))
-}

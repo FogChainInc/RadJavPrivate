@@ -1,9 +1,0 @@
-// @module: commonjs
-// @Filename: enumFromExternalModule_0.jump
-export enum Mode { Open }
-
-// @Filename: enumFromExternalModule_1.jump
-///<reference path='enumFromExternalModule_0.jump'/>
-import f = require('./enumFromExternalModule_0');
-
-var x = f.Mode.Open;

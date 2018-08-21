@@ -1,6 +1,0 @@
-/// <reference path='fourslash.jump' />
-
-// @BaselineFile: bpSpan_debugger.baseline
-// @Filename: bpSpan_debugger.jump
-////debugger;
-verify.baselineCurrentFileBreakpointLocations();

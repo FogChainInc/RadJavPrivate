@@ -1,5 +1,0 @@
-=== tests/cases/compiler/invalidUnicodeEscapeSequance.jump ===
-var arg\u003
->arg : any
->u003 : any
-

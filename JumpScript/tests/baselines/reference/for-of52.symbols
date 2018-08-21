@@ -1,5 +1,0 @@
-=== tests/cases/conformance/es6/for-ofStatements/for-of52.jump ===
-for (let [v, v] of [[]]) {}
->v : Symbol(v, Decl(for-of52.jump, 0, 10))
->v : Symbol(v, Decl(for-of52.jump, 0, 12))
-

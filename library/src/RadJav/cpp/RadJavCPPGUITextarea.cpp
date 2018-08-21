@@ -108,20 +108,23 @@ namespace RadJAV
 			#ifdef USE_V8
 				void Textarea::on(String event, v8::Local<v8::Function> func)
 				{
-					CPP::GUI::TextareaFrame *obj = (CPP::GUI::TextareaFrame *)_appObj;
+					#ifdef GUI_USE_WXWIDGETS
 
-					obj->addNewEvent(event, obj, func);
+						CPP::GUI::TextareaFrame *obj = (CPP::GUI::TextareaFrame *)_appObj;
 
-					if (event == "onText")
-					{
-						obj->Connect(wxEVT_TEXT, wxCommandEventHandler(TextareaFrame::onText), obj->createEvent(event, func));
-					}
+						obj->addNewEvent(event, obj, func);
 
-					if (event == "onTextEnter")
-					{
-						obj->Connect(wxEVT_TEXT_ENTER, wxCommandEventHandler(TextareaFrame::onTextEnter), obj->createEvent(event, func));
-					}
-					
+						if (event == "onText")
+						{
+							obj->Connect(wxEVT_TEXT, wxCommandEventHandler(TextareaFrame::onText), obj->createEvent(event, func));
+						}
+
+						if (event == "onTextEnter")
+						{
+							obj->Connect(wxEVT_TEXT_ENTER, wxCommandEventHandler(TextareaFrame::onTextEnter), obj->createEvent(event, func));
+						}
+
+					#endif
 				}
 			#endif
 		}

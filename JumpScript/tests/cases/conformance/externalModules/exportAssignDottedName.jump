@@ -1,8 +1,0 @@
-// @Filename: foo1.jump
-export function x(){
-	return true;
-}
-
-// @Filename: foo2.jump
-import foo1 = require('./foo1');
-export = foo1.x; // Ok

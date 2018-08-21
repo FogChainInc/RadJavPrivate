@@ -1,4 +1,0 @@
-// @target: es6
-// @module: esnext
-// @filename: classexpr.jump
-export default (class Foo {} as any);

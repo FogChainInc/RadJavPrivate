@@ -1,8 +1,0 @@
-// @target: es6
-
-// @filename: a.d.jump
-declare var a: number;
-export = a;  // OK, in ambient context
-
-// @filename: b.jump
-import * as a from "a";

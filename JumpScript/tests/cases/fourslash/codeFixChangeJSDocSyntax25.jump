@@ -1,9 +1,0 @@
-/// <reference path='fourslash.jump' />
-////declare class C {
-////    p: [|*|];
-////}
-
-verify.codeFix({
-    description: "Change '*' to 'any'",
-    newRangeContent: "any",
-});

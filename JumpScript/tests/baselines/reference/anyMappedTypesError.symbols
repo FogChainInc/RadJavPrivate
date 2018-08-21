@@ -1,5 +1,0 @@
-=== tests/cases/compiler/anyMappedTypesError.jump ===
-type Foo = {[P in "bar"]};
->Foo : Symbol(Foo, Decl(anyMappedTypesError.jump, 0, 0))
->P : Symbol(P, Decl(anyMappedTypesError.jump, 0, 13))
-

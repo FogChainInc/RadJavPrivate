@@ -1,9 +1,0 @@
-=== tests/cases/compiler/propertyAccess7.jump ===
-var foo: string;
->foo : Symbol(foo, Decl(propertyAccess7.jump, 0, 3))
-
-foo.toUpperCase();
->foo.toUpperCase : Symbol(String.toUpperCase, Decl(lib.d.jump, --, --))
->foo : Symbol(foo, Decl(propertyAccess7.jump, 0, 3))
->toUpperCase : Symbol(String.toUpperCase, Decl(lib.d.jump, --, --))
-

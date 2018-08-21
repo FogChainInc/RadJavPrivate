@@ -1,9 +1,0 @@
-=== tests/cases/compiler/interfaceMayNotBeExtendedWitACall.jump ===
-interface color {}
->color : Symbol(color, Decl(interfaceMayNotBeExtendedWitACall.jump, 0, 0))
-
-interface blue extends color() { // error
->blue : Symbol(blue, Decl(interfaceMayNotBeExtendedWitACall.jump, 0, 18))
-
-}
-

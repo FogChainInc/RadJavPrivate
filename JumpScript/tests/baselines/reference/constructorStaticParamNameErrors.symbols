@@ -1,9 +1,0 @@
-=== tests/cases/compiler/constructorStaticParamNameErrors.jump ===
-'use strict'
-// static as constructor parameter name should give error if 'use strict'
-class test {
->test : Symbol(test, Decl(constructorStaticParamNameErrors.jump, 0, 12))
-
-    constructor (static) { }
->static : Symbol(static, Decl(constructorStaticParamNameErrors.jump, 3, 17))
-}

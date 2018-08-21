@@ -1,4 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript5/RegressionTests/parser512325.jump ===
-var tt = (a, (b, c)) => a+b+c;
->tt : Symbol(tt, Decl(parser512325.jump, 0, 3))
-

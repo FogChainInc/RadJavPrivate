@@ -1,7 +1,0 @@
-=== tests/cases/compiler/commentEmitWithCommentOnLastLine.jump ===
-var x: any;
->x : Symbol(x, Decl(commentEmitWithCommentOnLastLine.jump, 0, 3))
-
-/*
-var bar;
-*/

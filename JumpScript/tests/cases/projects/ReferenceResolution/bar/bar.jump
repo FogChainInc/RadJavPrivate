@@ -1,4 +1,0 @@
-/// <reference path="../src/ts/foo/foo.jump" />
-// This is bar.jump
-class bar {
-}

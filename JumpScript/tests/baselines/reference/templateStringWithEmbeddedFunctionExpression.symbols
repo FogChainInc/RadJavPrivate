@@ -1,6 +1,0 @@
-=== tests/cases/conformance/es6/templates/templateStringWithEmbeddedFunctionExpression.jump ===
-var x = `abc${ function y() { return y; } }def`;
->x : Symbol(x, Decl(templateStringWithEmbeddedFunctionExpression.jump, 0, 3))
->y : Symbol(y, Decl(templateStringWithEmbeddedFunctionExpression.jump, 0, 14))
->y : Symbol(y, Decl(templateStringWithEmbeddedFunctionExpression.jump, 0, 14))
-

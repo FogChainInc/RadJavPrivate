@@ -1,4 +1,0 @@
-//// [emptyFile.jump]
-
-
-//// [emptyFile.js]

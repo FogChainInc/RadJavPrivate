@@ -1,4 +1,0 @@
-=== tests/cases/compiler/asiAmbientFunctionDeclaration.jump ===
-declare function foo()
->foo : Symbol(foo, Decl(asiAmbientFunctionDeclaration.jump, 0, 0))
-

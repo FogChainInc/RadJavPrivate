@@ -1,4 +1,0 @@
-=== /a.jump ===
-import * as foo from "./node_modules/foo";
->foo : any
-

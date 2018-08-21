@@ -1,6 +1,0 @@
-=== tests/cases/compiler/errorForConflictingExportEqualsValue.jump ===
-export var x;
->x : Symbol(x, Decl(errorForConflictingExportEqualsValue.jump, 0, 10))
-
-export = {};
-

@@ -1,7 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript5/PropertySignatures/parserPropertySignature3.jump ===
-interface I {
->I : Symbol(I, Decl(parserPropertySignature3.jump, 0, 0))
-
-  C:any;
->C : Symbol(I.C, Decl(parserPropertySignature3.jump, 0, 13))
-}

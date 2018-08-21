@@ -1,8 +1,0 @@
-=== tests/cases/compiler/contextualTyping4.jump ===
-class foo { public bar:{id:number;} = {id:5, name:"foo"}; }
->foo : Symbol(foo, Decl(contextualTyping4.jump, 0, 0))
->bar : Symbol(foo.bar, Decl(contextualTyping4.jump, 0, 11))
->id : Symbol(id, Decl(contextualTyping4.jump, 0, 24))
->id : Symbol(id, Decl(contextualTyping4.jump, 0, 39))
->name : Symbol(name, Decl(contextualTyping4.jump, 0, 44))
-

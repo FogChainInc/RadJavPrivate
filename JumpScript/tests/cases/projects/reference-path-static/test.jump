@@ -1,3 +1,0 @@
-/// <reference path="lib.jump" static='true' />
-
-var libType: Lib.LibType;

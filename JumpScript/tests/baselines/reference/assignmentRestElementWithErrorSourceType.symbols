@@ -1,5 +1,0 @@
-=== tests/cases/compiler/assignmentRestElementWithErrorSourceType.jump ===
-var tuple: [string, number];
->tuple : Symbol(tuple, Decl(assignmentRestElementWithErrorSourceType.jump, 0, 3))
-
-[...c] = tupel; // intentionally misspelled

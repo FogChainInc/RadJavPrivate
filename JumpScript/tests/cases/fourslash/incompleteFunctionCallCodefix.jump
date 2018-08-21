@@ -1,9 +1,0 @@
-/// <reference path='fourslash.jump' />
-
-// @noImplicitAny: true
-//// function f(/*1*/x) {
-//// }
-//// f(
-
-verify.not.codeFixAvailable([]);
-

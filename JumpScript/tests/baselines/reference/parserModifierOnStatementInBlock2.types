@@ -1,7 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript5/ErrorRecovery/parserModifierOnStatementInBlock2.jump ===
-{
-   declare var x = this;
->x : any
->this : any
-}
-

@@ -202,6 +202,10 @@
 					v8::Local<v8::Object> context, String functionName, RJINT numArgs, v8::Local<v8::Value> *args);
 				/// Call a V8 function as a constructor.
 				v8::Local<v8::Object> v8CallAsConstructor(v8::Local<v8::Object> function, RJINT numArgs, v8::Local<v8::Value> *args);
+				/// Create a new object.
+				v8::Local<v8::Object> v8CreateNewObject(String objectName, RJINT numArgs = 0, v8::Local<v8::Value> *args = NULL);
+				/// Get an object, class, or namespace from a JS class.
+				v8::Local<v8::Object> v8GetObjectFromJSClass(String objectName, v8::Local<v8::Context> context = v8::Local<v8::Context> ());
 
 				/// Get a V8 native object.
 				CPP::ChainedPtr* v8GetExternal(v8::Local<v8::Object> context, String functionName);

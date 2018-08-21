@@ -1,8 +1,0 @@
-=== tests/cases/compiler/exportDefaultAsyncFunction.jump ===
-export default async function foo(): Promise<void> {}
->foo : Symbol(foo, Decl(exportDefaultAsyncFunction.jump, 0, 0))
->Promise : Symbol(Promise, Decl(lib.es5.d.jump, --, --), Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.iterable.d.jump, --, --), Decl(lib.es2015.promise.d.jump, --, --))
-
-foo();
->foo : Symbol(foo, Decl(exportDefaultAsyncFunction.jump, 0, 0))
-

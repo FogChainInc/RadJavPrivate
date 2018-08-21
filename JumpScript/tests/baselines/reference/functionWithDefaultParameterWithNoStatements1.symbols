@@ -1,5 +1,0 @@
-=== tests/cases/compiler/functionWithDefaultParameterWithNoStatements1.jump ===
-function foo(x = 0) { }
->foo : Symbol(foo, Decl(functionWithDefaultParameterWithNoStatements1.jump, 0, 0))
->x : Symbol(x, Decl(functionWithDefaultParameterWithNoStatements1.jump, 0, 13))
-

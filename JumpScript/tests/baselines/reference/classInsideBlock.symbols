@@ -1,7 +1,0 @@
-=== tests/cases/conformance/classes/classDeclarations/classInsideBlock.jump ===
-function foo() {
->foo : Symbol(foo, Decl(classInsideBlock.jump, 0, 0))
-
-    class C { }
->C : Symbol(C, Decl(classInsideBlock.jump, 0, 16))
-}

@@ -1,7 +1,0 @@
-=== tests/cases/compiler/interfaceWithOptionalProperty.jump ===
-interface I {
->I : Symbol(I, Decl(interfaceWithOptionalProperty.jump, 0, 0))
-
-    x?: number;
->x : Symbol(I.x, Decl(interfaceWithOptionalProperty.jump, 0, 13))
-}

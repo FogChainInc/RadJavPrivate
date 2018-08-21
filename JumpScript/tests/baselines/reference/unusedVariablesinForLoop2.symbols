@@ -1,9 +1,0 @@
-=== tests/cases/compiler/unusedVariablesinForLoop2.jump ===
-function f1 () {
->f1 : Symbol(f1, Decl(unusedVariablesinForLoop2.jump, 0, 0))
-
-    for (const elem in ["a", "b", "c"]) {
->elem : Symbol(elem, Decl(unusedVariablesinForLoop2.jump, 1, 14))
-
-    }
-}

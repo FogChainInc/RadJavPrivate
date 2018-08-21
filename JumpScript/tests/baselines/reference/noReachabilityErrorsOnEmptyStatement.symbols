@@ -1,6 +1,0 @@
-=== tests/cases/compiler/noReachabilityErrorsOnEmptyStatement.jump ===
-function foo() {
->foo : Symbol(foo, Decl(noReachabilityErrorsOnEmptyStatement.jump, 0, 0))
-
-    return 1;;
-}

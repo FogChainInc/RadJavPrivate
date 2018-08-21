@@ -19,18 +19,24 @@
 */
 
 /// <reference path="RadJav.ts" />
+/// <reference path="RadJav.Vector2.ts" />
 
 
-namespace RadJav {
- export namespace GUI {
+namespace RadJav
+{
+ export namespace GUI 
+ {
     /** @class RadJav.GUI.Window
      * @extends RadJav.GUI.GObject
      * A window.
      * Available on platforms: Windows,Linux,OSX,HTML5
      */
-    export class Window extends RadJav.GUI.GObject{
+    export class Window extends RadJav.GUI.GObject
+    {
+      static xmlTag: TagType = { tag: "window", type: "Window" };
 
-      constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject) {
+      constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject)
+      {
         if (obj == null) obj = {};
 
         if (typeof obj == "string") {

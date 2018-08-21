@@ -1,9 +1,0 @@
-/// <reference path='fourslash.jump'/>
-
-////export interface Album<T> {
-////   "artist": T;
-////}
-////var a: Album<number>;
-////var /**/x = a['artist']; 
-
-verify.quickInfoAt("", "var x: number");

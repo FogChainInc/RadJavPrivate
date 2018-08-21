@@ -1,4 +1,0 @@
-=== tests/cases/compiler/asiBreak.jump ===
-while (true) break
->true : true
-

@@ -19,20 +19,25 @@ if (MSVC)
 	endif ()
 endif ()
 
-if(APPLE)
-	set_property (CACHE RadJavVM_PACKAGER_TYPE PROPERTY STRINGS "DragNDrop")
-
-	if (${RadJavVM_PACKAGER_TYPE} MATCHES "DragNDrop")
-		set (CPACK_GENERATOR "DragNDrop")
-		
-		set (CPACK_PACKAGE_FILE_NAME ${CMAKE_PROJECT_NAME_LAUNCHER}-${CPACK_PACKAGE_VERSION})
-		set (CPACK_PACKAGE_ICON ${CMAKE_SOURCE_DIR}/installers/mac/RadJav.icns)
-		
-		set (CPACK_DMG_DS_STORE "${CMAKE_SOURCE_DIR}/installers/mac/DS_Store.in")
-		set (CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_SOURCE_DIR}/installers/mac/DmgBackground.png")
-		
-		set (CPACK_DMG_FORMAT "UDBZ")
-		set (CPACK_DMG_VOLUME_NAME ${CMAKE_PROJECT_NAME_LAUNCHER})
+if (APPLE)
+	if (IOS)
+		message (SEND_ERROR "Application bundle not implemented for iOS build\n"
+					"You can disable RadJavVM_CREATE_INSTALL_PACKAGES for now\n")
+	else ()
+		set_property (CACHE RadJavVM_PACKAGER_TYPE PROPERTY STRINGS "DragNDrop")
+	
+		if (${RadJavVM_PACKAGER_TYPE} MATCHES "DragNDrop")
+			set (CPACK_GENERATOR "DragNDrop")
+			
+			set (CPACK_PACKAGE_FILE_NAME ${CMAKE_PROJECT_NAME_LAUNCHER}-${CPACK_PACKAGE_VERSION})
+			set (CPACK_PACKAGE_ICON ${CMAKE_SOURCE_DIR}/installers/mac/RadJav.icns)
+			
+			set (CPACK_DMG_DS_STORE "${CMAKE_SOURCE_DIR}/installers/mac/DS_Store.in")
+			set (CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_SOURCE_DIR}/installers/mac/DmgBackground.png")
+			
+			set (CPACK_DMG_FORMAT "UDBZ")
+			set (CPACK_DMG_VOLUME_NAME ${CMAKE_PROJECT_NAME_LAUNCHER})
+		endif ()
 	endif ()
 endif ()
 

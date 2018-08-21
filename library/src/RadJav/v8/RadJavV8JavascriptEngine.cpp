@@ -28,6 +28,13 @@
 #ifdef GUI_USE_WXWIDGETS
 	#include <wx/stdpaths.h>
 	#include <wx/filename.h>
+#else
+#ifdef _WIN32
+//#include <direct.h>
+//#define getcwd _getcwd // stupid MSFT "deprecation" warning
+#else
+#include <unistd.h>
+#endif
 #endif
 
 #ifdef USE_V8
@@ -149,9 +156,11 @@ namespace RadJAV
 			
 			String execPath = "";
 
-			#ifdef GUI_USE_WXWIDGETS
-				execPath = parsewxString (wxStandardPaths::Get ().GetExecutablePath());
-			#endif
+#ifdef GUI_USE_WXWIDGETS
+			execPath = parsewxString(wxStandardPaths::Get().GetExecutablePath());
+#else 
+			execPath = RadJAV::_radjav_exec_path;
+#endif
 
 			v8::V8::InitializeICUDefaultLocation(execPath.c_str ());
 			String flags = "";
@@ -189,6 +198,8 @@ namespace RadJAV
 
 			#ifdef GUI_USE_WXWIDGETS
 				execPath = parsewxString (wxStandardPaths::Get ().GetExecutablePath());
+			#else 
+				execPath = _radjav_exec_path;
 			#endif
 
 			v8::V8::SetFlagsFromString(flags.c_str(), flags.size());
@@ -600,8 +611,9 @@ namespace RadJAV
 				
 				if (shutdown == true)
 				{
+#ifdef GUI_USE_WXWIDGETS
 					wxExit();
-
+#endif
 					return false;
 				}
 			}
@@ -618,8 +630,9 @@ namespace RadJAV
 				
 				if (shutdownOnException == true)
 				{
+#ifdef GUI_USE_WXWIDGETS
 					wxExit();
-
+#endif
 					return false;
 				}
 			}
@@ -1173,12 +1186,9 @@ namespace RadJAV
 				// RadJav.IO
 				{
 					v8::Handle<v8::Function> ioFunc = v8GetFunction(radJavFunc, "IO");
+					v8::Handle<v8::Object> fileioPrototype = v8GetObject(ioFunc, "prototype");
 
-					// RadJav.IO.FileIO
-					{
-						//v8::Handle<v8::Function> filemFunc = v8GetFunction(ioFunc, "FileIO");
-						//v8::Handle<v8::Object> filePrototype = v8GetObject(filemFunc, "prototype");
-					}
+					V8B::IO::createV8Callbacks(isolate, fileioPrototype);
 
 					// RadJav.IO.SerialComm
 					{
@@ -1196,7 +1206,13 @@ namespace RadJAV
 						V8B::IO::TextFile::createV8Callbacks(isolate, textPrototype);
 					}
 
-					V8B::IO::createV8Callbacks(isolate, ioFunc);
+					// RadJav.IO.StreamFile
+					{
+						v8::Handle<v8::Function> streamFileFunc = v8GetFunction(ioFunc, "StreamFile");
+						v8::Handle<v8::Object> streamPrototype = v8GetObject(streamFileFunc, "prototype");
+
+						V8B::IO::StreamFile::createV8Callbacks(isolate, streamPrototype);
+					}
 				}
 
 				#ifdef HAS_XML_SUPPORT
@@ -1370,8 +1386,9 @@ namespace RadJAV
 					{
 						v8::Handle<v8::Function> webViewFunc = v8GetFunction(guiFunc, "WebView");
 						v8::Handle<v8::Object> webViewPrototype = v8GetObject(webViewFunc, "prototype");
-
+#ifdef WXWIDGETS_HAS_WEBVIEW
 						V8B::GUI::WebView::createV8Callbacks(isolate, webViewPrototype);
+#endif
 					}
 
 					#ifdef C3D_USE_OGRE
@@ -1665,11 +1682,38 @@ namespace RadJAV
 
 		v8::Local<v8::Object> V8JavascriptEngine::v8CallAsConstructor(v8::Local<v8::Object> function, RJINT numArgs, v8::Local<v8::Value> *args)
 		{
-			v8::Local<v8::Value> result = function->CallAsConstructor(
-				V8_JAVASCRIPT_ENGINE->globalContext, numArgs, args).ToLocalChecked ();
+			v8::Local<v8::Value> result = function->CallAsConstructor(globalContext, numArgs, args).ToLocalChecked ();
 			v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(result);
 
 			return (obj);
+		}
+
+		v8::Local<v8::Object> V8JavascriptEngine::v8CreateNewObject(String objectName, RJINT numArgs, v8::Local<v8::Value> *args)
+		{
+			v8::Local<v8::Object> context = v8GetObjectFromJSClass (objectName);
+			v8::Local<v8::Object> newObj = v8::Local<v8::Object>::Cast (context->CallAsConstructor(globalContext, numArgs, args).ToLocalChecked ());
+
+			return (newObj);
+		}
+
+		v8::Local<v8::Object> V8JavascriptEngine::v8GetObjectFromJSClass(String objectName, v8::Local<v8::Context> context)
+		{
+			Array<String> classes = objectName.split(".");
+			v8::Local<v8::Object> foundObj;
+
+			if (context.IsEmpty() == true)
+				foundObj = globalContext->Global();
+			else
+				foundObj = context->Global ();
+
+			for (RJINT iIdx = 0; iIdx < classes.size(); iIdx++)
+			{
+				String objClass = classes.at(iIdx);
+
+				foundObj = v8::Local<v8::Object>::Cast (foundObj->Get(objClass.toV8String(isolate)));
+			}
+
+			return (foundObj);
 		}
 
 		CPP::ChainedPtr* V8JavascriptEngine::v8GetExternal(v8::Local<v8::Object> context, String functionName)

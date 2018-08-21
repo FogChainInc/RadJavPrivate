@@ -1,8 +1,0 @@
-//@jsx: preserve
-//@filename: file1.jmpx
-declare module JSX {
-	interface Element { }
-}
-
-// OK, but implicit any
-<div n='x' />;

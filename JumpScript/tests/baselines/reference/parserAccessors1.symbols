@@ -1,7 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript5/Accessors/parserAccessors1.jump ===
-class C {
->C : Symbol(C, Decl(parserAccessors1.jump, 0, 0))
-
-    get Foo() { }
->Foo : Symbol(C.Foo, Decl(parserAccessors1.jump, 0, 9))
-}

@@ -1,9 +1,0 @@
-/// <reference path="fourslash.jump" />
-
-// @BaselineFile: getEmitOutputWithSemanticErrors.baseline
-
-// @Filename: inputFile.jump
-// @emitThisFile: true
-//// var x:number = "hello world";
-
-verify.baselineGetEmitOutput();

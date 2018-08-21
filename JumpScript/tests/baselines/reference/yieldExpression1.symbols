@@ -1,6 +1,0 @@
-=== tests/cases/compiler/yieldExpression1.jump ===
-function* foo() {
->foo : Symbol(foo, Decl(yieldExpression1.jump, 0, 0))
-
-    yield
-}

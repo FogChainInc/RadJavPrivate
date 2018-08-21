@@ -1,6 +1,0 @@
-/// <reference path='fourslash.jump' />
-
-////import [|a|] from "module";
-////export { [|a|] };
-
-verify.rangesAreRenameLocations();

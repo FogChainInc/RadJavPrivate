@@ -39,6 +39,7 @@ namespace RadJAV
 				{
 					#ifdef USE_TINYXML2
 						parser = RJNEW tinyxml2::XMLDocument();
+						loadedFile = NULL;
 					#endif
 					root = NULL;
 				}
@@ -155,6 +156,17 @@ namespace RadJAV
 					}
 				}
 
+				/// Checks if an attribute has been set.
+				RJBOOL XMLTag::hasAttribute(String attribute)
+				{
+					auto attr = attributes.find(attribute.c_str());
+
+					if (attr == attributes.end())
+						return (false);
+
+					return (true);
+				}
+
 				/// Get an attribute from this tag.
 				XMLAttribute *XMLTag::getAttribute(String attribute)
 				{
@@ -167,27 +179,71 @@ namespace RadJAV
 				}
 
 				/// Get an attribute from this tag.
-				String XMLTag::getAttributeString(String attribute)
+				String XMLTag::getAttributeString(String attribute, String defaultValue)
 				{
-					return (getAttribute (attribute)->getValue ());
+					String value = defaultValue;
+
+					try
+					{
+						XMLAttribute *attrValue = getAttribute (attribute);
+						value = attrValue->getValue();
+					}
+					catch (Exception ex)
+					{
+					}
+
+					return (value);
 				}
 
 				/// Get an attribute integer value from this tag.
-				RJNUMBER XMLTag::getAttributeInt(String attribute)
+				RJNUMBER XMLTag::getAttributeInt(String attribute, RJNUMBER defaultValue)
 				{
-					return (getAttribute(attribute)->toInt());
+					RJNUMBER value = defaultValue;
+
+					try
+					{
+						XMLAttribute *attrValue = getAttribute(attribute);
+						value = attrValue->toInt();
+					}
+					catch (Exception ex)
+					{
+					}
+
+					return (value);
 				}
 
 				/// Get an attribute float value from this tag.
-				RJNUMBER XMLTag::getAttributeFloat(String attribute)
+				RJNUMBER XMLTag::getAttributeFloat(String attribute, RJNUMBER defaultValue)
 				{
-					return (getAttribute(attribute)->toFloat());
+					RJNUMBER value = defaultValue;
+
+					try
+					{
+						XMLAttribute *attrValue = getAttribute(attribute);
+						value = attrValue->toFloat();
+					}
+					catch (Exception ex)
+					{
+					}
+
+					return (value);
 				}
 
 				/// Get a boolean result from an attribute.
-				RJBOOL XMLTag::getAttributeBoolean(String attribute)
+				RJBOOL XMLTag::getAttributeBoolean(String attribute, RJBOOL defaultValue)
 				{
-					return (getAttribute(attribute)->toBoolean());
+					RJBOOL value = defaultValue;
+
+					try
+					{
+						XMLAttribute *attrValue = getAttribute(attribute);
+						value = attrValue->toBoolean();
+					}
+					catch (Exception ex)
+					{
+					}
+
+					return (value);
 				}
 
 				/// Convert this tag to a string.
@@ -226,6 +282,15 @@ namespace RadJAV
 
 					return (result);
 				}
+
+				#ifdef USE_V8
+					v8::Local<v8::Object> XMLTag::toV8Object(v8::Isolate *isolate)
+					{
+						v8::Local<v8::Object> result = v8::Object::New(isolate);
+
+						return (result);
+					}
+				#endif
 			}
 			#endif // HAS_XML_SUPPORT
 		}

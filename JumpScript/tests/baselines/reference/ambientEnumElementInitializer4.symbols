@@ -1,7 +1,0 @@
-=== tests/cases/compiler/ambientEnumElementInitializer4.jump ===
-declare enum E {
->E : Symbol(E, Decl(ambientEnumElementInitializer4.jump, 0, 0))
-
- e = 0xA
->e : Symbol(E.e, Decl(ambientEnumElementInitializer4.jump, 0, 16))
-}

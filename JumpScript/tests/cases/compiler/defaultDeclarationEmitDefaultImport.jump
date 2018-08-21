@@ -1,7 +1,0 @@
-// @declaration: true
-// @filename: root.jump
-export function getSomething(): Something { return null as any }
-export default class Something {}
-// @filename: main.jump
-import Thing, { getSomething } from "./root";
-export const instance = getSomething();

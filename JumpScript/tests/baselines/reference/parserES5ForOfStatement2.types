@@ -1,4 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript5/Statements/parserES5ForOfStatement2.jump ===
-for (var of X) {
->X : any
-}

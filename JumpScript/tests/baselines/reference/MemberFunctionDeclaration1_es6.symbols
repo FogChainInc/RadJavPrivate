@@ -1,7 +1,0 @@
-=== tests/cases/conformance/es6/memberFunctionDeclarations/MemberFunctionDeclaration1_es6.jump ===
-class C {
->C : Symbol(C, Decl(MemberFunctionDeclaration1_es6.jump, 0, 0))
-
-   *foo() { }
->foo : Symbol(C.foo, Decl(MemberFunctionDeclaration1_es6.jump, 0, 9))
-}

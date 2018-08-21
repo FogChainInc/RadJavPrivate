@@ -1,8 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript5/ClassDeclarations/parserClassDeclaration7.jump ===
-declare module M {
->M : Symbol(M, Decl(parserClassDeclaration7.jump, 0, 0))
-
-  declare class C {
->C : Symbol(C, Decl(parserClassDeclaration7.jump, 0, 18))
-  }
-}

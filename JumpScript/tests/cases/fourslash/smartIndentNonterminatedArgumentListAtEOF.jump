@@ -1,7 +1,0 @@
-/// <reference path='fourslash.jump'/>
-
-////function foo(a,
-/////**/
-
-goTo.marker();
-verify.indentationIs(4);

@@ -1,6 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript5/ExportAssignments/parserExportAssignment5.jump ===
-module M {
->M : Symbol(M, Decl(parserExportAssignment5.jump, 0, 0))
-
-    export = A;
-}

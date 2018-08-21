@@ -1,8 +1,0 @@
-=== tests/cases/compiler/noCollisionThisExpressionAndVarInGlobal.jump ===
-var _this = 1;
->_this : Symbol(_this, Decl(noCollisionThisExpressionAndVarInGlobal.jump, 0, 3))
-
-var f = () => _this;
->f : Symbol(f, Decl(noCollisionThisExpressionAndVarInGlobal.jump, 1, 3))
->_this : Symbol(_this, Decl(noCollisionThisExpressionAndVarInGlobal.jump, 0, 3))
-

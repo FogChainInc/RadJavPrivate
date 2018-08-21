@@ -1,8 +1,0 @@
-=== tests/cases/compiler/interfaceWithImplements1.jump ===
-interface IFoo { }
->IFoo : Symbol(IFoo, Decl(interfaceWithImplements1.jump, 0, 0))
-
-interface IBar implements IFoo {
->IBar : Symbol(IBar, Decl(interfaceWithImplements1.jump, 0, 18))
->IFoo : Symbol(IFoo, Decl(interfaceWithImplements1.jump, 0, 0))
-}

@@ -150,9 +150,12 @@ namespace RadJAV
 			#ifdef USE_V8
 				void Image::on(String event, v8::Local<v8::Function> func)
 				{
-					CPP::GUI::ImageFrame *object = (CPP::GUI::ImageFrame *)_appObj;
-
-					object->addNewEvent(event, object, func);
+					#ifdef GUI_USE_WXWIDGETS 
+						
+						CPP::GUI::ImageFrame *object = (CPP::GUI::ImageFrame *)_appObj;
+						object->addNewEvent(event, object, func);
+					
+					#endif
 				}
 			#endif
 
@@ -161,8 +164,9 @@ namespace RadJAV
 				#ifdef GUI_USE_WXWIDGETS
 					ImageFrame *object = (ImageFrame *)_appObj;
 
-					if (object != NULL)
+					if (object != NULL) {
 						object->loadImage(_image.towxString());
+					}
 				#endif
 			}
 		}

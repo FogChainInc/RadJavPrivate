@@ -1,8 +1,0 @@
-=== tests/cases/compiler/invalidUseOfTypeAsNamespace.jump ===
-interface OhNo {
->OhNo : Symbol(OhNo, Decl(invalidUseOfTypeAsNamespace.jump, 0, 0))
-}
-
-declare let y: OhNo.hello;
->y : Symbol(y, Decl(invalidUseOfTypeAsNamespace.jump, 3, 11))
-

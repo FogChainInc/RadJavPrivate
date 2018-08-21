@@ -1,7 +1,0 @@
-=== tests/cases/conformance/es6/destructuring/nonIterableRestElement2.jump ===
-var c = {};
->c : Symbol(c, Decl(nonIterableRestElement2.jump, 0, 3))
-
-[...c] = ["", 0];
->c : Symbol(c, Decl(nonIterableRestElement2.jump, 0, 3))
-

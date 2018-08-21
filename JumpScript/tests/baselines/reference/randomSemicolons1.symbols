@@ -1,7 +1,0 @@
-=== tests/cases/compiler/randomSemicolons1.jump ===
-; ;
-var a = 1;
->a : Symbol(a, Decl(randomSemicolons1.jump, 1, 3))
-
-; 
-

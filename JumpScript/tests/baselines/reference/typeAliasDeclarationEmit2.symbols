@@ -1,7 +1,0 @@
-=== tests/cases/compiler/typeAliasDeclarationEmit2.jump ===
-export type A<a> = { value: a };
->A : Symbol(A, Decl(typeAliasDeclarationEmit2.jump, 0, 0))
->a : Symbol(a, Decl(typeAliasDeclarationEmit2.jump, 0, 14))
->value : Symbol(value, Decl(typeAliasDeclarationEmit2.jump, 0, 20))
->a : Symbol(a, Decl(typeAliasDeclarationEmit2.jump, 0, 14))
-

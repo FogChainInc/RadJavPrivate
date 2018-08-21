@@ -1,9 +1,0 @@
-=== tests/cases/conformance/es6/Symbols/symbolProperty59.jump ===
-interface I {
->I : Symbol(I, Decl(symbolProperty59.jump, 0, 0))
-
-    [Symbol.keyFor]: string;
->Symbol.keyFor : Symbol(SymbolConstructor.keyFor, Decl(lib.es2015.symbol.d.jump, --, --))
->Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
->keyFor : Symbol(SymbolConstructor.keyFor, Decl(lib.es2015.symbol.d.jump, --, --))
-}

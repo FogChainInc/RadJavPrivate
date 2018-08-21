@@ -1,7 +1,0 @@
-=== tests/cases/compiler/deprecatedBool.jump ===
-var b4: boolean;
->b4 : Symbol(b4, Decl(deprecatedBool.jump, 0, 3))
-
-var bool: boolean;
->bool : Symbol(bool, Decl(deprecatedBool.jump, 1, 3))
-

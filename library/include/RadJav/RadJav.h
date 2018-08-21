@@ -52,6 +52,9 @@
 			XRJ_NODE = 2
 		};
 
+	#ifndef GUI_USE_WXWIDGETS
+		extern String _radjav_exec_path;
+	#endif
 		/// The main RadJav class, this class handles most if not all functionality.
 		class RADJAV_EXPORT RadJav
 		{

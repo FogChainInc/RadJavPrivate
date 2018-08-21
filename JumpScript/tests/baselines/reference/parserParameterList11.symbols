@@ -1,4 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript5/ParameterLists/parserParameterList11.jump ===
-(...arg?) => 102;
->arg : Symbol(arg, Decl(parserParameterList11.jump, 0, 1))
-

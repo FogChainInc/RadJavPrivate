@@ -1,5 +1,0 @@
-/// <reference path='fourslash.jump' />
-//// var x: () =>     string/**/
-goTo.marker();
-edit.insert(';');
-verify.currentLineContentIs("var x: () => string;");

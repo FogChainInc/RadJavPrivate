@@ -80,17 +80,16 @@ namespace RadJAV
 			#ifdef USE_V8
 				void Radio::on(String event, v8::Local<v8::Function> func)
 				{
-					CPP::GUI::RadioFrame *object = (CPP::GUI::RadioFrame *)_appObj;
+					#ifdef GUI_USE_WXWIDGETS
+						CPP::GUI::RadioFrame *object = (CPP::GUI::RadioFrame *)_appObj;
 
-					object->addNewEvent(event, object, func);
+						object->addNewEvent(event, object, func);
 
-					if (event == "change")
-					{
-						#ifdef GUI_USE_WXWIDGETS
-						object->Connect(wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(RadioFrame::onChanged), object->createEvent(event, func));
-						#endif
-					}
-
+						if (event == "change")
+						{
+							object->Connect(wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(RadioFrame::onChanged), object->createEvent(event, func));
+						}
+					#endif
 
 				}
 			#endif

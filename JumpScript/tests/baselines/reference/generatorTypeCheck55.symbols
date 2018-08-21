@@ -1,8 +1,0 @@
-=== tests/cases/conformance/es6/yieldExpressions/generatorTypeCheck55.jump ===
-function* g() {
->g : Symbol(g, Decl(generatorTypeCheck55.jump, 0, 0))
-
-    var x = class C extends (yield) {};
->x : Symbol(x, Decl(generatorTypeCheck55.jump, 1, 7))
->C : Symbol(C, Decl(generatorTypeCheck55.jump, 1, 11))
-}

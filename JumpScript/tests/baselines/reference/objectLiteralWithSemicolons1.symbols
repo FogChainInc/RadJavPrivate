@@ -1,7 +1,0 @@
-=== tests/cases/compiler/objectLiteralWithSemicolons1.jump ===
-var v = { a; b; c }
->v : Symbol(v, Decl(objectLiteralWithSemicolons1.jump, 0, 3))
->a : Symbol(a, Decl(objectLiteralWithSemicolons1.jump, 0, 9))
->b : Symbol(b, Decl(objectLiteralWithSemicolons1.jump, 0, 12))
->c : Symbol(c, Decl(objectLiteralWithSemicolons1.jump, 0, 15))
-

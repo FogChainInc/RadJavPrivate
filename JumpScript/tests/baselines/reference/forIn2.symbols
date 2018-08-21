@@ -1,4 +1,0 @@
-=== tests/cases/compiler/forIn2.jump ===
-for (var i in 1) {
->i : Symbol(i, Decl(forIn2.jump, 0, 8))
-}

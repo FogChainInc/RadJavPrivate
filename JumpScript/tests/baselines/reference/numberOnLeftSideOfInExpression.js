@@ -1,9 +1,0 @@
-//// [numberOnLeftSideOfInExpression.jump]
-var left: number;
-var right: any;
-left in right;
-
-//// [numberOnLeftSideOfInExpression.js]
-var left;
-var right;
-left in right;

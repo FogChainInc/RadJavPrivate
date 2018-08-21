@@ -1,5 +1,0 @@
-=== tests/cases/conformance/es6/templates/templateStringWithEmbeddedNewOperator.jump ===
-var x = `abc${ new String("Hi") }def`;
->x : Symbol(x, Decl(templateStringWithEmbeddedNewOperator.jump, 0, 3))
->String : Symbol(String, Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --), Decl(lib.d.jump, --, --))
-

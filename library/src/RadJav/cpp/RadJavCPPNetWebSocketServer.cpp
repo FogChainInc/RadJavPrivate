@@ -70,15 +70,13 @@ namespace RadJAV
 				
 				m_listener -> run();
 
-				#ifdef GUI_USE_WXWIDGETS
 				WebServerThread* thread = RJNEW WebServerThread(m_io_context);
 				thread->Run();
+#ifdef GUI_USE_WXWIDGETS
 				m_isAlive = thread->IsAlive();
-				#else
-				//blocking execution
-				isAlive = true;
-				ioc.run();
-				#endif
+#else
+				m_isAlive = true;
+#endif
 			}
 
 			void WebSocketServer::send(String id_, String message_)

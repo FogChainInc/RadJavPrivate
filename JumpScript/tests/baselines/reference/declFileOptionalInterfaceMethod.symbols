@@ -1,9 +1,0 @@
-=== tests/cases/compiler/declFileOptionalInterfaceMethod.jump ===
-interface X {
->X : Symbol(X, Decl(declFileOptionalInterfaceMethod.jump, 0, 0))
-
-    f? <T>();
->f : Symbol(X.f, Decl(declFileOptionalInterfaceMethod.jump, 0, 13))
->T : Symbol(T, Decl(declFileOptionalInterfaceMethod.jump, 1, 8))
-}
-

@@ -1,7 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript5/Protected/Protected4.jump ===
-class C {
->C : Symbol(C, Decl(Protected4.jump, 0, 0))
-
-  protected public m() { }
->m : Symbol(C.m, Decl(Protected4.jump, 0, 9))
-}

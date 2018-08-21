@@ -1,8 +1,0 @@
-=== /a.jump ===
-export type T = number;
->T : number
-
-=== /b.jump ===
-export * from "./a";
-No type information for this code.
-No type information for this code.

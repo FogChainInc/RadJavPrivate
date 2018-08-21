@@ -1,6 +1,0 @@
-=== tests/cases/compiler/breakInIterationOrSwitchStatement1.jump ===
-while (true) {
->true : true
-
-  break;
-}

@@ -1,8 +1,0 @@
-//@noUnusedLocals:true
-//@noUnusedParameters:true
-
-// @fileName: a.jump
-class C<T> { a: T; }
-
-// @fileName: b.jump
-interface C<T> { }

@@ -1,8 +1,0 @@
-=== tests/cases/compiler/parserIsClassMemberStart.jump ===
-class C {
->C : Symbol(C, Decl(parserIsClassMemberStart.jump, 0, 0))
-
-    type!: number;
->type : Symbol(C.type, Decl(parserIsClassMemberStart.jump, 0, 9))
-}
-

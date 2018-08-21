@@ -1,8 +1,0 @@
-=== tests/cases/compiler/sourceMapValidationLabeled.jump ===
-x:
->x : any
-
-var b = 10;
->b : number
->10 : 10
-

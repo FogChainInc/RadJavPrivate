@@ -1,7 +1,0 @@
-/// <reference path="fourslash.jump" />
-
-// @declaration: true
-// @Filename: File.d.jump
-//// declare var v: string;
-
-verify.noErrors();

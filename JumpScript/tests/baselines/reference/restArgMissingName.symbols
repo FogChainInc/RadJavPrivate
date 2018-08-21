@@ -1,5 +1,0 @@
-=== tests/cases/compiler/restArgMissingName.jump ===
-function sum (...) {} 
->sum : Symbol(sum, Decl(restArgMissingName.jump, 0, 0))
-> : Symbol((Missing), Decl(restArgMissingName.jump, 0, 14))
-

@@ -1,5 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript5/RegularExpressions/parserRegularExpression5.jump ===
-if (a) / (\\ ? | & ) rct = j / .test(c.href);
->/ (\\ ? | & ) rct = j / .test : Symbol(RegExp.test, Decl(lib.d.jump, --, --))
->test : Symbol(RegExp.test, Decl(lib.d.jump, --, --))
-

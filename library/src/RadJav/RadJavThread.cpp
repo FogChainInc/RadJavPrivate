@@ -32,6 +32,12 @@ namespace RadJAV
 	{
 		hasStarted = false;
 	}
+#else
+	Thread::Thread()
+		: std::thread()
+	{
+		hasStarted = false;
+	}
 #endif
 
 SimpleThread::SimpleThread()
@@ -46,13 +52,22 @@ wxThread::ExitCode SimpleThread::Entry()
 
 	return (0);
 }
+#else
+RJINT SimpleThread::Entry()
+{
+	onStart();
+
+	return (0);
+}
 #endif
 
 PromiseThread::PromiseThread()
 	: SimpleThread ()
 {
-	resolveArgs = NULL;
-	rejectArgs = NULL;
+	#ifdef USE_V8
+		resolveArgs = NULL;
+		rejectArgs = NULL;
+	#endif
 }
 
 #ifdef USE_V8

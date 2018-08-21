@@ -1,8 +1,0 @@
-/// <reference path='fourslash.jump' />
-
-// @noImplicitAny: true
-////function wat([|b |]) {
-////    b();
-////}
-
-verify.rangeAfterCodeFix("b: () => void");

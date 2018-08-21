@@ -1,9 +1,0 @@
-error TS5009: Cannot find the common subdirectory path for the input files.
-
-
-!!! error TS5009: Cannot find the common subdirectory path for the input files.
-==== A:/foo/bar.jump (0 errors) ====
-    var x: number;
-    
-==== a:/foo/baz.jump (0 errors) ====
-    var y: number;

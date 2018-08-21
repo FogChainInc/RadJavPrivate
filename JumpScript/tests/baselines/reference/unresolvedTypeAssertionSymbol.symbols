@@ -1,9 +1,0 @@
-=== tests/cases/compiler/unresolvedTypeAssertionSymbol.jump ===
-var x = 1;
->x : Symbol(x, Decl(unresolvedTypeAssertionSymbol.jump, 0, 3))
-
-var y = <asdf>x;
->y : Symbol(y, Decl(unresolvedTypeAssertionSymbol.jump, 1, 3))
->x : Symbol(x, Decl(unresolvedTypeAssertionSymbol.jump, 0, 3))
- 
-

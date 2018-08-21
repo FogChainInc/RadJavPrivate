@@ -1,8 +1,0 @@
-﻿/// <reference path='fourslash.jump' />
-
-//@Filename: file.jmpx
-//// var x1 = <div><//**/
-
-goTo.marker();
-verify.completionListCount(1);
-verify.completionListContains('div');

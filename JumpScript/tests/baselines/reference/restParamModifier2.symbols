@@ -1,7 +1,0 @@
-=== tests/cases/compiler/restParamModifier2.jump ===
-class C {
->C : Symbol(C, Decl(restParamModifier2.jump, 0, 0))
-
-    constructor(public ...rest: string[]) {}
->rest : Symbol(C.rest, Decl(restParamModifier2.jump, 1, 16))
-}

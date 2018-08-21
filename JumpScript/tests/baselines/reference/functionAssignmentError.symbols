@@ -1,7 +1,0 @@
-=== tests/cases/compiler/functionAssignmentError.jump ===
-var func = function (){return "ONE";};
->func : Symbol(func, Decl(functionAssignmentError.jump, 0, 3))
-
-func = function (){return "ONE";};
->func : Symbol(func, Decl(functionAssignmentError.jump, 0, 3))
-

@@ -144,11 +144,33 @@ namespace RadJAV
 						#endif
 				};
 
+				class RADJAV_EXPORT StreamFile
+				{
+					public:
+						enum class operation : int
+						{
+							read = 0,
+							write,
+							append
+						};
+
+						static void writeStream(const String path_, const v8::Local<v8::ArrayBuffer> buffer_, const RJINT outputType_ = static_cast<int>(IO::StreamFile::operation::write));
+						static void writeStreamAsync(const String path_, const v8::Local<v8::ArrayBuffer> buffer_, const RJINT outputType_ = static_cast<int>(IO::StreamFile::operation::write));
+
+						static String readStream(const String path_);
+						static void readStreamAsync(const String path_);
+
+						#ifdef USE_V8
+							static v8::Persistent<v8::Function> *m_streamfileReadEvent;
+						#endif
+				};
+
 				#ifdef HAS_XML_SUPPORT
 					namespace XML
 					{
 						class XMLTag;
 						class XMLAttribute;
+						class XMLParser;
 
 						class RADJAV_EXPORT XMLFile: public std::enable_shared_from_this<XMLFile>, public ChainedPtr
 						{
@@ -166,6 +188,21 @@ namespace RadJAV
 								#endif
 
 								XMLTag *root;
+								XMLParser *loadedFile;
+						};
+
+						class RADJAV_EXPORT XMLParser
+						{
+							/// The XML file that has been loaded.
+							public:
+								#ifdef USE_TINYXML2
+									XMLParser(tinyxml2::XMLElement *xmlFile = null)
+									{
+										this->xmlFile = xmlFile;
+									}
+
+									tinyxml2::XMLElement *xmlFile;
+								#endif
 						};
 
 						class RADJAV_EXPORT XMLTag
@@ -183,28 +220,36 @@ namespace RadJAV
 								/// Set an attribute for this tag.
 								void setAttribute(String attribute, String value);
 
+								/// Checks if an attribute has been set.
+								RJBOOL hasAttribute(String attribute);
+
 								/// Get an attribute from this tag.
 								XMLAttribute *getAttribute(String attribute);
 
 								/// Get an attribute from this tag.
-								String getAttributeString(String attribute);
+								String getAttributeString(String attribute, String defaultValue = "");
 
 								/// Get an attribute integer value from this tag.
-								RJNUMBER getAttributeInt(String attribute);
+								RJNUMBER getAttributeInt(String attribute, RJNUMBER defaultValue = 0);
 
 								/// Get an attribute float value from this tag.
-								RJNUMBER getAttributeFloat(String attribute);
+								RJNUMBER getAttributeFloat(String attribute, RJNUMBER defaultValue = 0.0);
 
 								/// Get a boolean result from an attribute.
-								RJBOOL getAttributeBoolean(String attribute);
+								RJBOOL getAttributeBoolean(String attribute, RJBOOL defaultValue = false);
 
 									/// Convert this tag to a string.
 								String toString();
+
+								#ifdef USE_V8
+									v8::Local<v8::Object> toV8Object(v8::Isolate *isolate);
+								#endif
 
 								String tag;
 								HashMap<RJCSTR, XMLAttribute *> attributes;
 								String value;
 								Array<XMLTag *> children;
+								XMLParser *loadedFile;
 						};
 
 						class RADJAV_EXPORT XMLAttribute

@@ -1,4 +1,0 @@
-=== tests/cases/compiler/asiAmbientFunctionDeclaration.jump ===
-declare function foo()
->foo : () => any
-

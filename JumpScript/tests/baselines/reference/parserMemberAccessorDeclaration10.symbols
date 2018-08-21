@@ -1,7 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript5/MemberAccessorDeclarations/parserMemberAccessorDeclaration10.jump ===
-class C {
->C : Symbol(C, Decl(parserMemberAccessorDeclaration10.jump, 0, 0))
-
-    export get Foo() { }
->Foo : Symbol(C.Foo, Decl(parserMemberAccessorDeclaration10.jump, 0, 9))
-}

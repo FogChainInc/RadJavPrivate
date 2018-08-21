@@ -1,6 +1,0 @@
-=== tests/cases/compiler/generatorES6_3.jump ===
-var v = function*() {
->v : Symbol(v, Decl(generatorES6_3.jump, 0, 3))
-
-    yield 0
-}

@@ -1,4 +1,0 @@
-=== tests/cases/conformance/scanner/ecmascript5/scannerNumericLiteral7.jump ===
-1e+0
->1e+0 : 1
-

@@ -1,9 +1,0 @@
-=== tests/cases/compiler/arrayLiteralInNonVarArgParameter.jump ===
-function panic(val: string[], ...opt: string[]) { }
->panic : Symbol(panic, Decl(arrayLiteralInNonVarArgParameter.jump, 0, 0))
->val : Symbol(val, Decl(arrayLiteralInNonVarArgParameter.jump, 0, 15))
->opt : Symbol(opt, Decl(arrayLiteralInNonVarArgParameter.jump, 0, 29))
-
-panic([], 'one', 'two');
->panic : Symbol(panic, Decl(arrayLiteralInNonVarArgParameter.jump, 0, 0))
-

@@ -1,7 +1,0 @@
-// @filename: /node_modules/A/index.d.jump
-declare module "ext" {
-}
-export {};
-
-// @filename: /src/app.jump
-import "A"

@@ -1,8 +1,0 @@
-=== tests/cases/compiler/moduleRedifinitionErrors.jump ===
-class A {
->A : Symbol(A, Decl(moduleRedifinitionErrors.jump, 0, 0), Decl(moduleRedifinitionErrors.jump, 1, 1))
-}
-module A {
->A : Symbol(A, Decl(moduleRedifinitionErrors.jump, 0, 0), Decl(moduleRedifinitionErrors.jump, 1, 1))
-}
-

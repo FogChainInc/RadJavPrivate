@@ -36,8 +36,11 @@ namespace RadJAV
 					_zIndex = 0;
 					_cursor = "default";
 					_parent = NULL;
-					_appObj = NULL;
-
+					
+					#ifdef GUI_USE_WXWIDGETS
+						_appObj = NULL;
+					#endif
+					
 					type = jsEngine->v8GetString(args.This(), "type");
 					name = jsEngine->v8GetString(args.This(), "name");
 					_text = jsEngine->v8GetString(args.This(), "_text");
@@ -68,7 +71,10 @@ namespace RadJAV
 				_font = RJNEW Font();
 				_cursor = "default";
 				_parent = parent;
-				_appObj = NULL;
+
+				#ifdef GUI_USE_WXWIDGETS
+					_appObj = NULL;
+				#endif
 			}
 
 			GObject::~GObject()
@@ -86,8 +92,9 @@ namespace RadJAV
 			void GObject::addChild(GObject *child)
 			{
 				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
-						_appObj->AddChild (child->_appObj);
+					if (_appObj != NULL) {
+						_appObj->AddChild(child->_appObj);
+					}
 				#endif
 
 				child->_parent = this;
@@ -136,8 +143,9 @@ namespace RadJAV
 				_transform->setPosition(x, y);
 
 				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
+					if (_appObj != NULL) {
 						_appObj->SetPosition(wxPoint(x, y));
+					}
 				#endif
 			}
 
@@ -181,8 +189,9 @@ namespace RadJAV
 				_transform->setSize(width, height);
 
 				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
+					if (_appObj != NULL) {
 						_appObj->SetSize(width, height);
+					}
 				#endif
 			}
 
@@ -226,8 +235,9 @@ namespace RadJAV
 				_text = text;
 
 				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
+					if (_appObj != NULL) {
 						_appObj->SetLabel(text.towxString());
+					}
 				#endif
 			}
 
@@ -258,10 +268,12 @@ namespace RadJAV
 				#ifdef GUI_USE_WXWIDGETS
 					if (_appObj != NULL)
 					{
-						if (visible == true)
+						if (visible == true) {
 							_appObj->Show();
-						else
+						}
+						else {
 							_appObj->Hide();
+						}
 					}
 				#endif
 			}
@@ -271,8 +283,9 @@ namespace RadJAV
 				RJBOOL visible = _visible;
 
 				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
+					if (_appObj != NULL) {
 						visible = _appObj->IsShown();
+					}
 				#endif
 
 				return (visible);
@@ -312,48 +325,57 @@ namespace RadJAV
 
 			void GObject::setupCursor()
 			{
-				if (_cursor == "hand" && _appObj != NULL)
-					_appObj->SetCursor(wxCursor(wxCURSOR_HAND));
+				#ifdef GUI_USE_WXWIDGETS
+				
+					if (_cursor == "hand" && _appObj != NULL) {
+						_appObj->SetCursor(wxCursor(wxCURSOR_HAND));
+					}
+
+				#endif
 			}
 
 			GObjectBase::GObjectBase()
 			{
-				events = RJNEW HashMap<std::string, Event* >();
+				#ifdef GUI_USE_WXWIDGETS
+					events = RJNEW HashMap<std::string, Event* >();
+				#endif
 			}
 
 			GObjectBase::~GObjectBase()
 			{
-				DELETEOBJ(events);
-			}
-
-			Event* GObjectBase::createEvent(String event, v8::Local<v8::Function> function)
-			{
-				// Create a persistent function to execute asych later.
-				v8::Persistent<v8::Value> *persistent = RJNEW v8::Persistent<v8::Value>();
-				persistent->Reset(function->GetIsolate(), function);
-
-				Event* evt = RJNEW Event(persistent);
-
-				if (events->size() > 0)
-				{
-					auto found = events->find(event);
-					auto end = events->end();
-
-					if (found != end)
-					{
-						Event *evtToRemove = events->at(event);
-						DELETEOBJ(evtToRemove);
-
-						events->erase(event);
-					}
-				}
-
-				events->insert(HashMapPair<std::string, Event *>(event, evt));
-
-				return evt;
+				#ifdef GUI_USE_WXWIDGETS
+					DELETEOBJ(events);
+				#endif
 			}
 
 			#ifdef GUI_USE_WXWIDGETS
+				Event* GObjectBase::createEvent(String event, v8::Local<v8::Function> function)
+				{
+					// Create a persistent function to execute asych later.
+					v8::Persistent<v8::Value> *persistent = RJNEW v8::Persistent<v8::Value>();
+					persistent->Reset(function->GetIsolate(), function);
+
+					Event* evt = RJNEW Event(persistent);
+
+					if (events->size() > 0)
+					{
+						auto found = events->find(event);
+						auto end = events->end();
+
+						if (found != end)
+						{
+							Event *evtToRemove = events->at(event);
+							DELETEOBJ(evtToRemove);
+
+							events->erase(event);
+						}
+					}
+
+					events->insert(HashMapPair<std::string, Event *>(event, evt));
+
+					return evt;
+				}
+			
 				void GObjectBase::addNewEvent(String event, wxWindow *object, v8::Local<v8::Function> func)
 				{
 					if (event == "click")
@@ -554,12 +576,13 @@ namespace RadJAV
 					Event *pevent = (Event *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
-			#endif
 
-			v8::Local<v8::Value> GObjectBase::executeEvent(Event *pevent, RJINT numArgs, v8::Local<v8::Value> *args)
-			{
-				return (*pevent)(numArgs, args);
-			}
+
+				v8::Local<v8::Value> GObjectBase::executeEvent(Event *pevent, RJINT numArgs, v8::Local<v8::Value> *args)
+				{
+					return (*pevent)(numArgs, args);
+				}
+			#endif
 		}
 	}
 }

@@ -1,7 +1,0 @@
-=== tests/cases/compiler/debuggerEmit.jump ===
-var x = function () { debugger; }
->x : Symbol(x, Decl(debuggerEmit.jump, 0, 3))
-
-x();
->x : Symbol(x, Decl(debuggerEmit.jump, 0, 3))
-

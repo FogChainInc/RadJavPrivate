@@ -1,4 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript5/parserUnicodeWhitespaceCharacter1.jump ===
-function foo(){　}
->foo : Symbol(foo, Decl(parserUnicodeWhitespaceCharacter1.jump, 0, 0))
-

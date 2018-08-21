@@ -1,5 +1,0 @@
-=== tests/cases/compiler/sourceMapValidationDestructuringVariableStatementObjectBindingPattern3.jump ===
-var {x = 500} = { x: 20 };
->x : Symbol(x, Decl(sourceMapValidationDestructuringVariableStatementObjectBindingPattern3.jump, 0, 5))
->x : Symbol(x, Decl(sourceMapValidationDestructuringVariableStatementObjectBindingPattern3.jump, 0, 17))
-

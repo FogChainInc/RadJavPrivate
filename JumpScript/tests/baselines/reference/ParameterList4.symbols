@@ -1,5 +1,0 @@
-=== tests/cases/compiler/ParameterList4.jump ===
-function F(public A) {
->F : Symbol(F, Decl(ParameterList4.jump, 0, 0))
->A : Symbol(A, Decl(ParameterList4.jump, 0, 11))
-}

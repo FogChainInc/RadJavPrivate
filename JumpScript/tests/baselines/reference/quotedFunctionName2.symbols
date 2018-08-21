@@ -1,6 +1,0 @@
-=== tests/cases/compiler/quotedFunctionName2.jump ===
-class Test1 {
->Test1 : Symbol(Test1, Decl(quotedFunctionName2.jump, 0, 0))
-
-  static "prop1"() { }
-}

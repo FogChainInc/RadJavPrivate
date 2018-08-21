@@ -1,5 +1,0 @@
-=== tests/cases/compiler/verifyDefaultLib_webworker.jump ===
-var x: Worker;
->x : Symbol(x, Decl(verifyDefaultLib_webworker.jump, 0, 3))
->Worker : Symbol(Worker, Decl(lib.webworker.d.jump, --, --), Decl(lib.webworker.d.jump, --, --))
-

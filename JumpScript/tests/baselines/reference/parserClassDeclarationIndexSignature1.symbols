@@ -1,7 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript5/ClassDeclarations/parserClassDeclarationIndexSignature1.jump ===
-class C {
->C : Symbol(C, Decl(parserClassDeclarationIndexSignature1.jump, 0, 0))
-
-    [index:number]:number
->index : Symbol(index, Decl(parserClassDeclarationIndexSignature1.jump, 1, 5))
-}

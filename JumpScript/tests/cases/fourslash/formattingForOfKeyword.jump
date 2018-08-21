@@ -1,8 +1,0 @@
-/// <reference path='fourslash.jump' />
-
-/////**/for ([]of[]) { }
-
-
-format.document();
-goTo.marker();
-verify.currentLineContentIs('for ([] of []) { }');

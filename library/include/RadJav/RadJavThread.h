@@ -28,6 +28,7 @@
 	#else
 		#include <mutex>
 		#define LOCK_GUARD(x) std::lock_guard<std::mutex> guard(x)
+		#include <thread>
 	#endif
 
 	#ifdef USE_V8
@@ -67,7 +68,28 @@
 					RJBOOL hasStarted;
 			};
 		#else
-			class Thread;
+		/// Basic threading class.
+			class RADJAV_EXPORT Thread : public std::thread
+			{
+			public:
+				Thread();
+
+				/// Set whether or not this thread has started executing.
+				/// This is mostly for use in the main app loop.
+				inline void setAsStarted(RJBOOL started)
+				{
+					hasStarted = started;
+				}
+
+				/// Check whether or not this thread has started executing.
+				inline RJBOOL hasThreadStarted()
+				{
+					return (hasStarted);
+				}
+
+			protected:
+				RJBOOL hasStarted;
+			};
 		#endif
 
 		/// Create a thread.
@@ -78,6 +100,8 @@
 
 				#ifdef GUI_USE_WXWIDGETS
 					wxThread::ExitCode Entry();
+				#else
+					RJINT Entry();
 				#endif
 
 				std::function<void()> onStart;

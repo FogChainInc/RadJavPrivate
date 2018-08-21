@@ -105,17 +105,16 @@ namespace RadJAV
 			#ifdef USE_V8
 				void Checkbox::on(String event, v8::Local<v8::Function> func)
 				{
-					CPP::GUI::CheckboxFrame *object = (CPP::GUI::CheckboxFrame *)_appObj;
+					#ifdef GUI_USE_WXWIDGETS
+						CPP::GUI::CheckboxFrame *object = (CPP::GUI::CheckboxFrame *)_appObj;
 
-					object->addNewEvent(event, object, func);
+						object->addNewEvent(event, object, func);
 
-					if (event == "change")
-					{
-						#ifdef GUI_USE_WXWIDGETS
-						object->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(CheckboxFrame::onChanged), object->createEvent(event, func));
-						#endif
-					}
-					
+						if (event == "change")
+						{
+							object->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(CheckboxFrame::onChanged), object->createEvent(event, func));
+						}
+					#endif
 				}
 			#endif
 

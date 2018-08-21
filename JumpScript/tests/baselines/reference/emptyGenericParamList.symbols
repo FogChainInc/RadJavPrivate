@@ -1,9 +1,0 @@
-=== tests/cases/compiler/emptyGenericParamList.jump ===
-class I<T> {}
->I : Symbol(I, Decl(emptyGenericParamList.jump, 0, 0))
->T : Symbol(T, Decl(emptyGenericParamList.jump, 0, 8))
-
-var x: I<>;
->x : Symbol(x, Decl(emptyGenericParamList.jump, 1, 3))
->I : Symbol(I, Decl(emptyGenericParamList.jump, 0, 0))
-

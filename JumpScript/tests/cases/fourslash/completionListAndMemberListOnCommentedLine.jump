@@ -1,7 +1,0 @@
-/// <reference path='fourslash.jump' />
-
-////// /**/
-////var
-
-goTo.marker();
-verify.completionListIsEmpty();

@@ -28,6 +28,13 @@
 
 #ifdef GUI_USE_WXWIDGETS
 	IMPLEMENT_APP_NO_MAIN(RadJAV::wxWidgetsRadJav)
+#else
+	#if WIN32
+		#include <Windows.h>
+		#include <io.h>
+	#endif
+	#include <stdlib.h>
+	#include <fcntl.h>
 #endif
 
 #ifdef USE_V8
@@ -46,6 +53,7 @@
 
 #include <new>
 #include <iostream>
+#include <fstream>
 #include <stdlib.h>
 
 #ifdef RADJAV_DEBUG
@@ -171,6 +179,8 @@ namespace RadJAV
 {
 	#ifdef GUI_USE_WXWIDGETS
 		wxWidgetsRadJav *RadJav::app = NULL;
+	#else
+		String _radjav_exec_path = "";
 	#endif
 	JavascriptEngine *RadJav::javascriptEngine = NULL;
 	Theme *RadJav::theme = NULL;
@@ -187,6 +197,10 @@ namespace RadJAV
 			arguments.clear();
 			radJavArguments.clear();
 
+			#ifndef GUI_USE_WXWIDGETS
+				_radjav_exec_path.assign(newArgs[0]);
+			#endif
+			
 			#ifdef RADJAV_DEBUG
 				memoryAllocs = new HashMap<size_t, MemoryAllocLog>();
 			#endif

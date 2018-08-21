@@ -1,8 +1,0 @@
-=== tests/cases/conformance/parser/ecmascript5/ErrorRecovery/parserUnfinishedTypeNameBeforeKeyword1.jump ===
-var x: TypeModule1.
->x : Symbol(x, Decl(parserUnfinishedTypeNameBeforeKeyword1.jump, 0, 3))
-
-module TypeModule2 {
->TypeModule2 : Symbol(TypeModule2, Decl(parserUnfinishedTypeNameBeforeKeyword1.jump, 0, 19))
-}
-

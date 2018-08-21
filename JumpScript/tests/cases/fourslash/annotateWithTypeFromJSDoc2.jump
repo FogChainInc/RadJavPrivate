@@ -1,6 +1,0 @@
-/// <reference path='fourslash.jump' />
-
-// @Filename: test123.jump
-/////** @type {number} */
-////var /*1*/x: string;
-verify.not.applicableRefactorAvailableAtMarker('1');

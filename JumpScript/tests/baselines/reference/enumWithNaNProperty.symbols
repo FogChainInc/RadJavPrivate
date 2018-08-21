@@ -1,8 +1,0 @@
-=== tests/cases/compiler/enumWithNaNProperty.jump ===
-enum A {
->A : Symbol(A, Decl(enumWithNaNProperty.jump, 0, 0))
-
-    NaN = 1
->NaN : Symbol(A.NaN, Decl(enumWithNaNProperty.jump, 0, 8))
-}
-

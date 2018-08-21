@@ -1,8 +1,0 @@
-=== tests/cases/compiler/a.jump ===
-import a = require('./b');
->a : Symbol(a, Decl(a.jump, 0, 0))
-
-=== tests/cases/compiler/b.jump ===
-export var c = '';
->c : Symbol(c, Decl(b.jump, 0, 10))
-

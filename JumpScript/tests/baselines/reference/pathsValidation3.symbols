@@ -1,4 +1,0 @@
-=== tests/cases/compiler/a.jump ===
-let x = 1;
->x : Symbol(x, Decl(a.jump, 0, 3))
-

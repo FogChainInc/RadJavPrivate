@@ -1,6 +1,0 @@
-﻿/// <reference path="fourslash.jump"/>
-
-////var Base = class { };
-////class C extends Base implements /**/Base { }
-
-verify.noReferences("");

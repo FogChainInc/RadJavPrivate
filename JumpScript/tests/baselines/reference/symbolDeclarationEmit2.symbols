@@ -1,9 +1,0 @@
-=== tests/cases/conformance/es6/Symbols/symbolDeclarationEmit2.jump ===
-class C {
->C : Symbol(C, Decl(symbolDeclarationEmit2.jump, 0, 0))
-
-    [Symbol.toPrimitive] = "";
->Symbol.toPrimitive : Symbol(SymbolConstructor.toPrimitive, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
->Symbol : Symbol(Symbol, Decl(lib.es2015.symbol.wellknown.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --), Decl(lib.es2015.symbol.d.jump, --, --))
->toPrimitive : Symbol(SymbolConstructor.toPrimitive, Decl(lib.es2015.symbol.wellknown.d.jump, --, --))
-}

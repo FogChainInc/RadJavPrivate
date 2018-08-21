@@ -1,6 +1,0 @@
-=== tests/cases/compiler/thisKeyword.jump ===
-module foo {
->foo : Symbol(foo, Decl(thisKeyword.jump, 0, 0))
-
-    this.bar = 4;
-}

@@ -1,4 +1,0 @@
-=== tests/cases/compiler/downlevelLetConst8.jump ===
-let a = 1
->a : Symbol(a, Decl(downlevelLetConst8.jump, 0, 3))
-

@@ -1,7 +1,0 @@
-=== tests/cases/compiler/classOverloadForFunction.jump ===
-class foo { };
->foo : Symbol(foo, Decl(classOverloadForFunction.jump, 0, 0))
-
-function foo() {}
->foo : Symbol(foo, Decl(classOverloadForFunction.jump, 0, 14))
-

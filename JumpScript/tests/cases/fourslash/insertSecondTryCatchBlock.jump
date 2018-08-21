@@ -1,7 +1,0 @@
-/// <reference path="fourslash.jump" />
-
-//// try {} catch(e) { }
-//// /**/
-
-goTo.marker();
-edit.insert('try {} catch(e) { }');

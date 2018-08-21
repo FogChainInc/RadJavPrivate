@@ -1,9 +1,0 @@
-=== tests/cases/compiler/thisInModule.jump ===
-module myMod {
->myMod : Symbol(myMod, Decl(thisInModule.jump, 0, 0))
-
-    var x;
->x : Symbol(x, Decl(thisInModule.jump, 1, 7))
-
-    this.x = 5;
-}

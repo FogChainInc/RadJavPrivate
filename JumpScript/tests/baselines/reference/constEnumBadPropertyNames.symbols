@@ -1,9 +1,0 @@
-=== tests/cases/compiler/constEnumBadPropertyNames.jump ===
-const enum E { A }
->E : Symbol(E, Decl(constEnumBadPropertyNames.jump, 0, 0))
->A : Symbol(E.A, Decl(constEnumBadPropertyNames.jump, 0, 14))
-
-var x = E["B"]
->x : Symbol(x, Decl(constEnumBadPropertyNames.jump, 1, 3))
->E : Symbol(E, Decl(constEnumBadPropertyNames.jump, 0, 0))
-

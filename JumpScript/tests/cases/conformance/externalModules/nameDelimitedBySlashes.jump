@@ -1,7 +1,0 @@
-// @module: commonjs
-// @Filename: test/foo_0.jump
-export var foo = 42;
-
-// @Filename: foo_1.jump
-import foo = require('./test/foo_0');
-var x = foo.foo + 42;

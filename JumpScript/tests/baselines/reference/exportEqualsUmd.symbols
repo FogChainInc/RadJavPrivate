@@ -1,4 +1,0 @@
-=== tests/cases/compiler/exportEqualsUmd.jump ===
-export = { ["hi"]: "there" };
->"hi" : Symbol(["hi"], Decl(exportEqualsUmd.jump, 0, 10))
-

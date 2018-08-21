@@ -1,4 +1,0 @@
-=== tests/cases/conformance/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInStrings01_ES6.jump ===
-var x = "\u{0}";
->x : Symbol(x, Decl(unicodeExtendedEscapesInStrings01_ES6.jump, 0, 3))
-

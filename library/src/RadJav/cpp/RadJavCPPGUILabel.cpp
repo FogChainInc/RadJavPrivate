@@ -79,18 +79,20 @@ namespace RadJAV
 			#ifdef USE_V8
 				void Label::on(String event, v8::Local<v8::Function> func)
 				{
-					CPP::GUI::LabelFrame *object = (CPP::GUI::LabelFrame *)_appObj;
+					#ifdef GUI_USE_WXWIDGETS
 
-					object->addNewEvent(event, object, func);
+						CPP::GUI::LabelFrame *object = (CPP::GUI::LabelFrame *)_appObj;
 
-					  std::cout << "Entering Label::on" << std::endl;
-					if (event == "click")
-					{
-					  std::cout << "Connecting Label click event" << std::endl;
-						object->Connect(wxEVT_LEFT_UP, wxMouseEventHandler(LabelFrame::onClick), object->createEvent(event, func));
-					}
+						object->addNewEvent(event, object, func);
 
-					
+						  std::cout << "Entering Label::on" << std::endl;
+						if (event == "click")
+						{
+						  std::cout << "Connecting Label click event" << std::endl;
+							object->Connect(wxEVT_LEFT_UP, wxMouseEventHandler(LabelFrame::onClick), object->createEvent(event, func));
+						}
+
+					#endif	
 				}
 			#endif
 		}

@@ -1,7 +1,0 @@
-=== tests/cases/conformance/classes/constructorDeclarations/constructorParameters/declarationEmitReadonly.jump ===
-class C {
->C : Symbol(C, Decl(declarationEmitReadonly.jump, 0, 0))
-
-    constructor(readonly x: number) {}
->x : Symbol(C.x, Decl(declarationEmitReadonly.jump, 1, 16))
-}

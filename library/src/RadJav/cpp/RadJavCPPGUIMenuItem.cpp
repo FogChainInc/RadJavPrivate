@@ -28,7 +28,9 @@ namespace RadJAV
 	{
 		namespace GUI
 		{
-			RJINT MenuItemGUI::nextId = 0;
+			#ifdef GUI_USE_WXWIDGETS
+				RJINT MenuItemGUI::nextId = 0;
+			#endif
 
 			#ifdef USE_V8
 				MenuItem::MenuItem(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -156,23 +158,25 @@ namespace RadJAV
 				}
 			#endif
 
-			void MenuItemGUI::addData(RJINT menuId, void *data, RJINT dataType)
-			{
-				auto found = this->data.find(menuId);
-				auto end = this->data.end();
-
-				if (found != end)
+			#ifdef GUI_USE_WXWIDGETS
+				void MenuItemGUI::addData(RJINT menuId, void *data, RJINT dataType)
 				{
-					void *temp = this->data.at(menuId);
-					DELETE_OBJ(temp);
+					auto found = this->data.find(menuId);
+					auto end = this->data.end();
 
-					this->data.erase(menuId);
-					this->dataType.erase(menuId);
+					if (found != end)
+					{
+						void *temp = this->data.at(menuId);
+						DELETE_OBJ(temp);
+
+						this->data.erase(menuId);
+						this->dataType.erase(menuId);
+					}
+
+					this->data.insert(HashMapPair<RJINT, void *>(menuId, data));
+					this->dataType.insert(HashMapPair<RJINT, RJINT>(menuId, dataType));
 				}
-
-				this->data.insert(HashMapPair<RJINT, void *>(menuId, data));
-				this->dataType.insert(HashMapPair<RJINT, RJINT>(menuId, dataType));
-			}
+			#endif
 		}
 	}
 }

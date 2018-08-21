@@ -1,9 +1,0 @@
-=== tests/cases/compiler/ParameterList6.jump ===
-class C {
->C : C
-
-  constructor(C: (public A) => any) {
->C : (public A: any) => any
->A : any
-  }
-}

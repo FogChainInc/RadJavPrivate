@@ -1,4 +1,0 @@
-=== tests/cases/compiler/contextualTyping39.jump ===
-var foo = <{ (): number; }> function() { return "err"; };
->foo : Symbol(foo, Decl(contextualTyping39.jump, 0, 3))
-

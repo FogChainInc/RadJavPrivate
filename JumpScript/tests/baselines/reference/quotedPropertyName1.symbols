@@ -1,6 +1,0 @@
-=== tests/cases/compiler/quotedPropertyName1.jump ===
-class Test1 {
->Test1 : Symbol(Test1, Decl(quotedPropertyName1.jump, 0, 0))
-
-  "prop1" = 0;
-}
