@@ -154,8 +154,10 @@ namespace RadJAV
 							append
 						};
 
-						static void writeStream(const String path_, const v8::Local<v8::ArrayBuffer> buffer_, const RJINT outputType_ = static_cast<int>(IO::StreamFile::operation::write));
-						static void writeStreamAsync(const String path_, const v8::Local<v8::ArrayBuffer> buffer_, const RJINT outputType_ = static_cast<int>(IO::StreamFile::operation::write));
+                        #ifdef USE_V8
+                            static void writeStream(const String path_, const v8::Local<v8::ArrayBuffer> buffer_, const RJINT outputType_ = static_cast<int>(IO::StreamFile::operation::write));
+                            static void writeStreamAsync(const String path_, const v8::Local<v8::ArrayBuffer> buffer_, const RJINT outputType_ = static_cast<int>(IO::StreamFile::operation::write));
+                        #endif
 
 						static String readStream(const String path_);
 						static void readStreamAsync(const String path_);

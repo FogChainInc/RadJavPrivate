@@ -492,6 +492,7 @@ namespace RadJAV
 			});
 		}
 
+#ifdef USE_V8
 		void IO::StreamFile::writeStream(const String path_, const v8::Local<v8::ArrayBuffer> buffer_, const RJINT outputType_)
 		{
 			RJINT type = std::ios_base::out;
@@ -511,6 +512,7 @@ namespace RadJAV
 				writeStream(path_, buffer_, outputType_);
 			});
 		}
+#endif
 
 		String IO::StreamFile::readStream(const String path_)
 		{

@@ -38,7 +38,8 @@
 #endif
 
 #ifdef USE_JAVASCRIPTCORE
-    // Include headers here.
+    #include "jscore/RadJavJSCGlobal.h"
+    #include "jscore/RadJavJSCConsole.h"
 #endif
 
 #include "cpp/RadJavCPPIO.h"
@@ -80,7 +81,11 @@ namespace RadJAV
 				}
 			}
 
-            globalContext = RJNEW JSContext ();
+            JSContextGroupRef jsGroupContext = JSContextGroupCreate ();
+            // Create the global context.
+            globalContext = JSGlobalContextCreateInGroup (jsGroupContext, NULL);
+            // The global "this" object used throughout JS.
+            globalObj = JSContextGetGlobalObject (globalContext);
 
 			#ifdef GUI_USE_WXWIDGETS
 				criticalSection = RJNEW wxCriticalSection ();
@@ -111,13 +116,13 @@ namespace RadJAV
 			loadJavascriptLibrary();
 
 			// Insert the javascript libraries to be used.
-			for (RJUINT iIdx = 0; iIdx < javascriptFiles.size(); iIdx++)
+			/*for (RJUINT iIdx = 0; iIdx < javascriptFiles.size(); iIdx++)
 			{
 				JSFile jsfile = javascriptFiles.at(iIdx);
 				String contentStr = jsfile.getContent();
 
 				executeScript(contentStr, jsfile.filename);
-			}
+			}*/
 
 			loadNativeCode();
 			
@@ -222,11 +227,11 @@ namespace RadJAV
 				}
 
 				#ifdef USE_BLOCKCHAIN_V1
-					if (V8B::BlockchainV1::hasBlockchainStarted == true)
+					if (JSC::BlockchainV1::hasBlockchainStarted == true)
 					{
 						if (startedBlockchainV1 == false)
 						{
-							V8B::BlockchainV1::startBlockchain();
+							JSC::BlockchainV1::startBlockchain();
 							startedBlockchainV1 = true;
 						}
 					}
@@ -369,7 +374,20 @@ namespace RadJAV
 
 		void JSCJavascriptEngine::executeScript(String code, String fileName)
 		{
-            /// @todo Complete this.
+            JSValueRef exception;
+            JSStringRef codeStr = code.toJSCString();
+            JSStringRef fileNameStr = fileName.toJSCString();
+            JSValueRef result = JSEvaluateScript (globalContext,
+                codeStr, NULL, fileNameStr, 0, &exception);
+
+            JSStringRelease(codeStr);
+            JSStringRelease (fileNameStr);
+
+            if (JSValueIsNull(globalContext, exception) == false)
+            {
+                String exStr = parseJSCValue(globalContext, exception);
+                throwException (exStr);
+            }
 		}
 
 		#ifdef C3D_USE_OGRE
@@ -519,13 +537,13 @@ namespace RadJAV
 			#ifdef USE_BLOCKCHAIN_V1
 			if (event == "ready")
 			{
-				if (V8B::BlockchainV1::onReadyFunction != NULL)
-					callFunctionOnNextTick(V8B::BlockchainV1::onReadyFunction, NULL, false);
+				if (JSC::BlockchainV1::onReadyFunction != NULL)
+					callFunctionOnNextTick(JSC::BlockchainV1::onReadyFunction, NULL, false);
 			}
 
 			if (event == "connectBlock")
 			{
-				if (V8B::BlockchainV1::connectBlockFunction != NULL)
+				if (JSC::BlockchainV1::connectBlockFunction != NULL)
 				{
 					v8::Persistent<v8::Array> *results = RJNEW v8::Persistent<v8::Array>();
 					v8::Local<v8::Array> ary = v8::Array::New(isolate);
@@ -535,25 +553,25 @@ namespace RadJAV
 
 					results->Reset(V8_JAVASCRIPT_ENGINE->isolate, ary);
 
-					callFunctionOnNextTick(V8B::BlockchainV1::connectBlockFunction, results, true);
+					callFunctionOnNextTick(JSC::BlockchainV1::connectBlockFunction, results, true);
 				}
 			}
 
 			if (event == "proofOfWorkFound")
 			{
-				if (V8B::BlockchainV1::proofOfWorkFoundFunction != NULL)
-					callFunctionOnNextTick(V8B::BlockchainV1::proofOfWorkFoundFunction, NULL, false);
+				if (JSC::BlockchainV1::proofOfWorkFoundFunction != NULL)
+					callFunctionOnNextTick(JSC::BlockchainV1::proofOfWorkFoundFunction, NULL, false);
 			}
 
 			if (event == "passphraseRequired")
 			{
-				if (V8B::BlockchainV1::passphraseRequiredFunction != NULL)
-					callFunctionOnNextTick(V8B::BlockchainV1::passphraseRequiredFunction, NULL, false);
+				if (JSC::BlockchainV1::passphraseRequiredFunction != NULL)
+					callFunctionOnNextTick(JSC::BlockchainV1::passphraseRequiredFunction, NULL, false);
 			}
 
 			if (event == "error")
 			{
-				if (V8B::BlockchainV1::onErrorFunction != NULL)
+				if (JSC::BlockchainV1::onErrorFunction != NULL)
 				{
 					v8::Persistent<v8::Array> *results = RJNEW v8::Persistent<v8::Array>();
 					v8::Local<v8::Array> ary = v8::Array::New(isolate);
@@ -563,7 +581,7 @@ namespace RadJAV
 
 					results->Reset(V8_JAVASCRIPT_ENGINE->isolate, ary);
 
-					callFunctionOnNextTick(V8B::BlockchainV1::onErrorFunction, results, true);
+					callFunctionOnNextTick(JSC::BlockchainV1::onErrorFunction, results, true);
 				}
 			}
 
@@ -615,30 +633,30 @@ namespace RadJAV
 		{
             /// @todo Convert this all to JSC.
 			// Globals
-			/*{
-				V8B::Global::createV8Callbacks(isolate, globalContext->Global());
+			{
+				JSC::Global::createJSCCallbacks(globalContext, globalObj);
 
 				if (exposeGC == true)
 				{
-					V8_CALLBACK(globalContext->Global(), "collectGarbage", V8B::Global::collectGarbage);
+					//V8_CALLBACK(globalContext->Global(), "collectGarbage", JSC::Global::collectGarbage);
 				}
 			}
 
 			// RadJav
-			{
+			/*{
 				v8::Handle<v8::Function> radJavFunc = v8GetFunction(globalContext->Global(), "RadJav");
 
-				V8B::Console::createV8Callbacks(isolate, radJavFunc);
-				V8B::Thread::createV8Callbacks(isolate, radJavFunc);
+				JSC::Console::createJSCCallbacks(isolate, radJavFunc);
+				JSC::Thread::createJSCCallbacks(isolate, radJavFunc);
 
-				V8_CALLBACK(radJavFunc, "exit", V8B::Global::exit);
-				V8_CALLBACK(radJavFunc, "quit", V8B::Global::exit);
+				V8_CALLBACK(radJavFunc, "exit", JSC::Global::exit);
+				V8_CALLBACK(radJavFunc, "quit", JSC::Global::exit);
 
 				// RadJav.OS
 				{
 					v8::Handle<v8::Function> osFunc = v8GetFunction(radJavFunc, "OS");
 
-					V8B::OS::createV8Callbacks(isolate, osFunc);
+					JSC::OS::createJSCCallbacks(isolate, osFunc);
 
 					// Command line arguments
 					{
@@ -651,17 +669,18 @@ namespace RadJAV
 							args->Set(iIdx, arg.toV8String(isolate));
 						}
 					}
-				}
+				}*/
 
 				// RadJav.Console
 				{
-					v8::Handle<v8::Function> consoleFunc = v8GetFunction(radJavFunc, "Console");
+					//v8::Handle<v8::Function> consoleFunc = v8GetFunction(radJavFunc, "Console");
 
-					V8B::Console::createV8Callbacks(isolate, consoleFunc);
+					//JSC::Console::createJSCCallbacks(isolate, consoleFunc);
+                    JSC::Console::createJSCCallbacks(globalContext, globalObj, true);
 				}
 
 				// RadJav.DB
-				#ifdef USE_DATABASE
+				/*#ifdef USE_DATABASE
 					{
 						v8::Handle<v8::Function> dbFunc = v8GetFunction(radJavFunc, "DB");
 
@@ -670,7 +689,7 @@ namespace RadJAV
 							v8::Handle<v8::Function> keyValueStorageFunc = v8GetFunction(dbFunc, "KeyValueStorage");
 							v8::Handle<v8::Object> keyValueStoragePrototype = v8GetObject(keyValueStorageFunc, "prototype");
 
-							V8B::Database::KeyValueStorage::createV8Callbacks(isolate, keyValueStoragePrototype);
+							JSC::Database::KeyValueStorage::createJSCCallbacks(isolate, keyValueStoragePrototype);
 						}
 					}
 				#endif
@@ -690,7 +709,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> serialCommFunc = v8GetFunction(ioFunc, "SerialComm");
 						v8::Handle<v8::Object> serialPrototype = v8GetObject(serialCommFunc, "prototype");
 
-						V8B::IO::SerialComm::createV8Callbacks(isolate, serialPrototype);
+						JSC::IO::SerialComm::createJSCCallbacks(isolate, serialPrototype);
 					}
 
 					// RadJav.IO.TextFile
@@ -698,10 +717,10 @@ namespace RadJAV
 						v8::Handle<v8::Function> textFileFunc = v8GetFunction(ioFunc, "TextFile");
 						v8::Handle<v8::Object> textPrototype = v8GetObject(textFileFunc, "prototype");
 
-						V8B::IO::TextFile::createV8Callbacks(isolate, textPrototype);
+						JSC::IO::TextFile::createJSCCallbacks(isolate, textPrototype);
 					}
 
-					V8B::IO::createV8Callbacks(isolate, ioFunc);
+					JSC::IO::createJSCCallbacks(isolate, ioFunc);
 				}
 
 				#ifdef HAS_XML_SUPPORT
@@ -711,7 +730,7 @@ namespace RadJAV
 					v8::Handle<v8::Function> xmlFileFunc = v8GetFunction(xmlFunc, "XMLFile");
 					v8::Handle<v8::Object> xmlFilePrototype = v8GetObject(xmlFileFunc, "prototype");
 
-					V8B::IO::XML::XMLFile::createV8Callbacks(isolate, xmlFilePrototype);
+					JSC::IO::XML::XMLFile::createJSCCallbacks(isolate, xmlFilePrototype);
 				}
 				#endif
 
@@ -719,14 +738,14 @@ namespace RadJAV
 				{
 					v8::Handle<v8::Function> netFunc = v8GetFunction(radJavFunc, "Net");
 
-					V8B::Net::NetCallbacks::createV8Callbacks(isolate, netFunc);
+					JSC::Net::NetCallbacks::createJSCCallbacks(isolate, netFunc);
 
 					// WebServer
 					{
 						v8::Handle<v8::Function> webServerFunc = v8GetFunction(netFunc, "WebServer");
 						v8::Handle<v8::Object> webServerPrototype = v8GetObject(webServerFunc, "prototype");
 
-						V8B::Net::WebServer::createV8Callbacks(isolate, webServerPrototype);
+						JSC::Net::WebServer::createJSCCallbacks(isolate, webServerPrototype);
 					}
 
 					// WebSocketServer
@@ -734,7 +753,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> webSocketServerFunc = v8GetFunction(netFunc, "WebSocketServer");
 						v8::Handle<v8::Object> webSocketServerPrototype = v8GetObject(webSocketServerFunc, "prototype");
 
-						V8B::Net::WebSocketServer::createV8Callbacks(isolate, webSocketServerPrototype);
+						JSC::Net::WebSocketServer::createJSCCallbacks(isolate, webSocketServerPrototype);
 					}
 
 					// WebSocketClient
@@ -742,7 +761,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> webSocketClientFunc = v8GetFunction(netFunc, "WebSocketClient");
 						v8::Handle<v8::Object> webSocketClientPrototype = v8GetObject(webSocketClientFunc, "prototype");
 
-						V8B::Net::WebSocketClient::createV8Callbacks(isolate, webSocketClientPrototype);
+						JSC::Net::WebSocketClient::createJSCCallbacks(isolate, webSocketClientPrototype);
 					}
 				}
 
@@ -751,7 +770,7 @@ namespace RadJAV
 				{
 					v8::Handle<v8::Function> blockchainFunc = v8GetFunction(radJavFunc, "BlockchainV1");
 
-					V8B::BlockchainV1::createV8Callbacks(isolate, blockchainFunc);
+					JSC::BlockchainV1::createJSCCallbacks(isolate, blockchainFunc);
 				}
 				#endif
 
@@ -764,7 +783,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> gobjectFunc = v8GetFunction(guiFunc, "GObject");
 						v8::Handle<v8::Object> gobjectPrototype = v8GetObject(gobjectFunc, "prototype");
 
-						V8B::GUI::GObject::createV8Callbacks(isolate, gobjectPrototype);
+						JSC::GUI::GObject::createJSCCallbacks(isolate, gobjectPrototype);
 					}
 
 					// RadJav.GUI.Window
@@ -772,7 +791,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> windowFunc = v8GetFunction(guiFunc, "Window");
 						v8::Handle<v8::Object> windowPrototype = v8GetObject(windowFunc, "prototype");
 
-						V8B::GUI::Window::createV8Callbacks(isolate, windowPrototype);
+						JSC::GUI::Window::createJSCCallbacks(isolate, windowPrototype);
 					}
 
 					// RadJav.GUI.Button
@@ -780,7 +799,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> buttonFunc = v8GetFunction(guiFunc, "Button");
 						v8::Handle<v8::Object> buttonPrototype = v8GetObject(buttonFunc, "prototype");
 
-						V8B::GUI::Button::createV8Callbacks(isolate, buttonPrototype);
+						JSC::GUI::Button::createJSCCallbacks(isolate, buttonPrototype);
 					}
 
 					// RadJav.GUI.Label
@@ -788,7 +807,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> labelFunc = v8GetFunction(guiFunc, "Label");
 						v8::Handle<v8::Object> labelPrototype = v8GetObject(labelFunc, "prototype");
 
-						V8B::GUI::Label::createV8Callbacks(isolate, labelPrototype);
+						JSC::GUI::Label::createJSCCallbacks(isolate, labelPrototype);
 					}
 
 					// RadJav.GUI.Image
@@ -796,7 +815,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> imageFunc = v8GetFunction(guiFunc, "Image");
 						v8::Handle<v8::Object> imagePrototype = v8GetObject(imageFunc, "prototype");
 
-						V8B::GUI::Image::createV8Callbacks(isolate, imagePrototype);
+						JSC::GUI::Image::createJSCCallbacks(isolate, imagePrototype);
 					}
 
 					// RadJav.GUI.Container
@@ -804,7 +823,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> containerFunc = v8GetFunction(guiFunc, "Container");
 						v8::Handle<v8::Object> containerPrototype = v8GetObject(containerFunc, "prototype");
 
-						V8B::GUI::Container::createV8Callbacks(isolate, containerPrototype);
+						JSC::GUI::Container::createJSCCallbacks(isolate, containerPrototype);
 					}
 
 					// RadJav.GUI.Combobox
@@ -812,7 +831,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> comboboxFunc = v8GetFunction(guiFunc, "Combobox");
 						v8::Handle<v8::Object> comboboxPrototype = v8GetObject(comboboxFunc, "prototype");
 
-						V8B::GUI::Combobox::createV8Callbacks(isolate, comboboxPrototype);
+						JSC::GUI::Combobox::createJSCCallbacks(isolate, comboboxPrototype);
 					}
 
 					// RadJav.GUI.Textbox
@@ -820,7 +839,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> textboxFunc = v8GetFunction(guiFunc, "Textbox");
 						v8::Handle<v8::Object> textboxPrototype = v8GetObject(textboxFunc, "prototype");
 
-						V8B::GUI::Textbox::createV8Callbacks(isolate, textboxPrototype);
+						JSC::GUI::Textbox::createJSCCallbacks(isolate, textboxPrototype);
 					}
 
 					// RadJav.GUI.Textarea
@@ -828,7 +847,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> textareaFunc = v8GetFunction(guiFunc, "Textarea");
 						v8::Handle<v8::Object> textareaPrototype = v8GetObject(textareaFunc, "prototype");
 
-						V8B::GUI::Textarea::createV8Callbacks(isolate, textareaPrototype);
+						JSC::GUI::Textarea::createJSCCallbacks(isolate, textareaPrototype);
 					}
 
 					// RadJav.GUI.Checkbox
@@ -836,7 +855,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> checkboxFunc = v8GetFunction(guiFunc, "Checkbox");
 						v8::Handle<v8::Object> checkboxPrototype = v8GetObject(checkboxFunc, "prototype");
 
-						V8B::GUI::Checkbox::createV8Callbacks(isolate, checkboxPrototype);
+						JSC::GUI::Checkbox::createJSCCallbacks(isolate, checkboxPrototype);
 					}
 
 					// RadJav.GUI.Radio
@@ -844,7 +863,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> radioFunc = v8GetFunction(guiFunc, "Radio");
 						v8::Handle<v8::Object> radioPrototype = v8GetObject(radioFunc, "prototype");
 
-						V8B::GUI::Radio::createV8Callbacks(isolate, radioPrototype);
+						JSC::GUI::Radio::createJSCCallbacks(isolate, radioPrototype);
 					}
 
 					// RadJav.GUI.List
@@ -852,7 +871,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> listFunc = v8GetFunction(guiFunc, "List");
 						v8::Handle<v8::Object> listPrototype = v8GetObject(listFunc, "prototype");
 
-						V8B::GUI::List::createV8Callbacks(isolate, listPrototype);
+						JSC::GUI::List::createJSCCallbacks(isolate, listPrototype);
 					}
 
 					// RadJav.GUI.MenuBar
@@ -860,7 +879,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> menuBarFunc = v8GetFunction(guiFunc, "MenuBar");
 						v8::Handle<v8::Object> menuBarPrototype = v8GetObject(menuBarFunc, "prototype");
 
-						V8B::GUI::MenuBar::createV8Callbacks(isolate, menuBarPrototype);
+						JSC::GUI::MenuBar::createJSCCallbacks(isolate, menuBarPrototype);
 					}
 
 					// RadJav.GUI.MenuItem
@@ -868,7 +887,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> menuItemFunc = v8GetFunction(guiFunc, "MenuItem");
 						v8::Handle<v8::Object> menuItemPrototype = v8GetObject(menuItemFunc, "prototype");
 
-						V8B::GUI::MenuItem::createV8Callbacks(isolate, menuItemPrototype);
+						JSC::GUI::MenuItem::createJSCCallbacks(isolate, menuItemPrototype);
 					}
 
 					// RadJav.GUI.WebView
@@ -876,7 +895,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> webViewFunc = v8GetFunction(guiFunc, "WebView");
 						v8::Handle<v8::Object> webViewPrototype = v8GetObject(webViewFunc, "prototype");
                         #ifdef WXWIDGETS_HAS_WEBVIEW
-                            V8B::GUI::WebView::createV8Callbacks(isolate, webViewPrototype);
+                            JSC::GUI::WebView::createJSCCallbacks(isolate, webViewPrototype);
                         #endif
 					}
 
@@ -886,7 +905,7 @@ namespace RadJAV
 							v8::Handle<v8::Function> canvas3DFunc = v8GetFunction(guiFunc, "Canvas3D");
 							v8::Handle<v8::Object> canvas3DFuncPrototype = v8GetObject(canvas3DFunc, "prototype");
 
-							V8B::GUI::Canvas3D::createV8Callbacks(isolate, canvas3DFuncPrototype);
+							JSC::GUI::Canvas3D::createJSCCallbacks(isolate, canvas3DFuncPrototype);
 						}
 					#endif
 				}
@@ -894,14 +913,14 @@ namespace RadJAV
 				#ifdef C3D_USE_OGRE
 				// RadJav.C3D
 				{
-					initV8Callback<V8B::C3D::Transform>(radJavFunc, "C3D", "Transform");
-					initV8Callback<V8B::C3D::Object3D>(radJavFunc, "C3D", "Object3D");
-					initV8Callback<V8B::C3D::Plane>(radJavFunc, "C3D", "Plane");
-					initV8Callback<V8B::C3D::Cube>(radJavFunc, "C3D", "Cube");
-					initV8Callback<V8B::C3D::Sphere>(radJavFunc, "C3D", "Sphere");
-					initV8Callback<V8B::C3D::Camera>(radJavFunc, "C3D", "Camera");
-					initV8Callback<V8B::C3D::Light>(radJavFunc, "C3D", "Light");
-					initV8Callback<V8B::C3D::Model>(radJavFunc, "C3D", "Model");
+					initV8Callback<JSC::C3D::Transform>(radJavFunc, "C3D", "Transform");
+					initV8Callback<JSC::C3D::Object3D>(radJavFunc, "C3D", "Object3D");
+					initV8Callback<JSC::C3D::Plane>(radJavFunc, "C3D", "Plane");
+					initV8Callback<JSC::C3D::Cube>(radJavFunc, "C3D", "Cube");
+					initV8Callback<JSC::C3D::Sphere>(radJavFunc, "C3D", "Sphere");
+					initV8Callback<JSC::C3D::Camera>(radJavFunc, "C3D", "Camera");
+					initV8Callback<JSC::C3D::Light>(radJavFunc, "C3D", "Light");
+					initV8Callback<JSC::C3D::Model>(radJavFunc, "C3D", "Model");
 				}
 				#endif
 				#ifdef USE_CRYPTOGRAPHY
@@ -912,7 +931,7 @@ namespace RadJAV
 				  {
 
 				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "Hash");
-				    V8_CALLBACK(func, "getCapabilities", V8B::Crypto::Hash::getCapabilities);
+				    V8_CALLBACK(func, "getCapabilities", JSC::Crypto::Hash::getCapabilities);
 				    //std::cout << "Obj FieldCount: " << func -> InternalFieldCount() << std::endl << std::flush;
 				    //std::cout << "Obj ExtFieldCount: " << func -> GetIndexedPropertiesExternalArrayDataLength() << std::endl << std::flush;
 				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
@@ -921,7 +940,7 @@ namespace RadJAV
 				    //std::cout << "Obj FieldCount: " << prototype -> InternalFieldCount() << std::endl << std::flush;
 				    
 
-				    V8B::Crypto::Hash::createV8Callbacks(isolate, prototype);
+				    JSC::Crypto::Hash::createJSCCallbacks(isolate, prototype);
 				  }
 
 				}
@@ -933,10 +952,10 @@ namespace RadJAV
 
 				  {
 				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "HashMultipart");
-				    V8_CALLBACK(func, "getCapabilities", V8B::Crypto::HashMultipart::getCapabilities);
+				    V8_CALLBACK(func, "getCapabilities", JSC::Crypto::HashMultipart::getCapabilities);
 				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
 				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    V8B::Crypto::HashMultipart::createV8Callbacks(isolate, prototype);
+				    JSC::Crypto::HashMultipart::createJSCCallbacks(isolate, prototype);
 				  }
 
 				}
@@ -946,10 +965,10 @@ namespace RadJAV
 
 				  {
 				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "Cipher");
-				    V8_CALLBACK(func, "getCapabilities", V8B::Crypto::Cipher::getCapabilities);
+				    V8_CALLBACK(func, "getCapabilities", JSC::Crypto::Cipher::getCapabilities);
 				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
 				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    V8B::Crypto::Cipher::createV8Callbacks(isolate, prototype);
+				    JSC::Crypto::Cipher::createJSCCallbacks(isolate, prototype);
 				  }
 				}
 				// RadJav.Crypto.Decipher
@@ -958,10 +977,10 @@ namespace RadJAV
 
 				  {
 				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "Decipher");
-				    V8_CALLBACK(func, "getCapabilities", V8B::Crypto::Decipher::getCapabilities);
+				    V8_CALLBACK(func, "getCapabilities", JSC::Crypto::Decipher::getCapabilities);
 				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
 				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    V8B::Crypto::Decipher::createV8Callbacks(isolate, prototype);
+				    JSC::Crypto::Decipher::createJSCCallbacks(isolate, prototype);
 				  }
 				}
 				// RadJav.Crypto.CipherMultipart
@@ -970,10 +989,10 @@ namespace RadJAV
 
 				  {
 				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "CipherMultipart");
-				    V8_CALLBACK(func, "getCapabilities", V8B::Crypto::CipherMultipart::getCapabilities);
+				    V8_CALLBACK(func, "getCapabilities", JSC::Crypto::CipherMultipart::getCapabilities);
 				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
 				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    V8B::Crypto::CipherMultipart::createV8Callbacks(isolate, prototype);
+				    JSC::Crypto::CipherMultipart::createJSCCallbacks(isolate, prototype);
 				  }
 				}
 
@@ -984,10 +1003,10 @@ namespace RadJAV
 
 				  {
 				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "DecipherMultipart");
-				    V8_CALLBACK(func, "getCapabilities", V8B::Crypto::DecipherMultipart::getCapabilities);
+				    V8_CALLBACK(func, "getCapabilities", JSC::Crypto::DecipherMultipart::getCapabilities);
 				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
 				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    V8B::Crypto::DecipherMultipart::createV8Callbacks(isolate, prototype);
+				    JSC::Crypto::DecipherMultipart::createJSCCallbacks(isolate, prototype);
 
 				  }
 				}
@@ -998,10 +1017,10 @@ namespace RadJAV
 
 				  {
 				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "KeyGenerator");
-				    //				    V8_CALLBACK(func, "getCapabilities", V8B::Crypto::DecipherMultipart::getCapabilities);
+				    //				    V8_CALLBACK(func, "getCapabilities", JSC::Crypto::DecipherMultipart::getCapabilities);
 				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
 				    //				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    V8B::Crypto::KeyGenerator::createV8Callbacks(isolate, prototype);
+				    JSC::Crypto::KeyGenerator::createJSCCallbacks(isolate, prototype);
 				  }
 				}
 
@@ -1013,8 +1032,8 @@ namespace RadJAV
 				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "PrivateKey");
 				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
 
-				    V8B::Crypto::PrivateKey::createV8Callbacks(isolate, prototype);
-				    V8B::Crypto::PrivateKey::setConstructor(isolate, func);
+				    JSC::Crypto::PrivateKey::createJSCCallbacks(isolate, prototype);
+				    JSC::Crypto::PrivateKey::setConstructor(isolate, func);
 
 				    v8::Handle<v8::Object> init = v8GetObject(prototype, "_init");
 				    
@@ -1029,8 +1048,8 @@ namespace RadJAV
 				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "PublicKey");
 				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
 
-				    V8B::Crypto::PublicKey::createV8Callbacks(isolate, prototype);
-				    V8B::Crypto::PublicKey::setConstructor(isolate, func);
+				    JSC::Crypto::PublicKey::createJSCCallbacks(isolate, prototype);
+				    JSC::Crypto::PublicKey::setConstructor(isolate, func);
 
 				  }
 				}

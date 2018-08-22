@@ -129,6 +129,20 @@ if (USE_JAVASCRIPTCORE)
 	source_group ("RadJav\\JavaScriptCore" FILES ${SOURCES_files_RadJav__JSC__Headers})
 
 	set (SOURCES ${SOURCES_files_RadJav__JSC__Headers} ${SOURCES})
+
+	# JavaScriptCore Global
+	set (SOURCES_files_RadJav__JSC__Global__Headers 
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGlobal.h")
+	source_group ("RadJav\\JavaScriptCore\\Global" FILES ${SOURCES_files_RadJav__JSC__Global__Headers})
+
+	set (SOURCES ${SOURCES_files_RadJav__JSC__Global__Headers} ${SOURCES})
+
+	# JavaScriptCore Console
+	set (SOURCES_files_RadJav__JSC__Console__Headers 
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCConsole.h")
+	source_group ("RadJav\\JavaScriptCore\\Console" FILES ${SOURCES_files_RadJav__JSC__Console__Headers})
+
+	set (SOURCES ${SOURCES_files_RadJav__JSC__Console__Headers} ${SOURCES})
 endif ()
 
 # V8

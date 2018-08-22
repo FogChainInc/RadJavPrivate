@@ -23,7 +23,8 @@
 	#include "RadJavPreprocessor.h"
 
 #ifdef USE_JAVASCRIPTCORE
-	#include <JavaScriptCore/JavaScriptCore.h>
+    #include <JavaScriptCore/JavaScriptCore.h>
+    #include <JavaScriptCore/JSObjectRef.h>
 
 	#include <atomic>
 	#include <chrono>
@@ -48,6 +49,16 @@
 		::Use unused_tmp_array_for_use_macro[]{__VA_ARGS__}; \
 		(void)unused_tmp_array_for_use_macro;                \
 	  } while (false)
+
+    #define JSC_CALLBACK(object, functionName, function) \
+            { \
+                JSStringRef functionNameStr = JSStringCreateWithUTF8CString (functionName); \
+                JSObjectRef functionObj = JSObjectMakeFunctionWithCallback (context, functionNameStr, &function); \
+                JSObjectSetProperty (context, object, functionNameStr, functionObj, kJSPropertyAttributeNone, NULL); \
+                JSStringRelease (functionNameStr); \
+            }
+    #define JSC_JAVASCRIPT_ENGINE static_cast<JSCJavascriptEngine *> (RadJav::javascriptEngine)
+    #define JSC_RADJAV /// @todo Finish this.
 
 	namespace RadJAV
 	{
@@ -116,7 +127,8 @@
 				/// Run the event loop.
 				//static void runEventLoopSingleStep(const v8::FunctionCallbackInfo<v8::Value> &args);
 
-                JSContext *globalContext;
+                JSGlobalContextRef globalContext;
+                JSObjectRef globalObj;
                 JSObjectRef radJav;
 
 				#ifdef GUI_USE_WXWIDGETS
