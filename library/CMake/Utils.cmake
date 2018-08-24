@@ -326,6 +326,17 @@ macro (searchForLibrary lib debugLibraries releaseLibraries searchPath)
 			${${lib}_LIBRARY_RELEASE_PATHS})
 	endif ()
 
+	if (${USE_ARCH} MATCHES "^arm.*")
+		set (${lib}_LIBRARY_RELEASE_PATHS 
+			${searchPath}/out.gn/arm64.debug 
+			${searchPath}/out.gn/arm64.debug/obj 
+			${searchPath}/out.gn/arm64.debug/obj/third_party/icu 
+			${searchPath}/out.gn/arm64.release 
+			${searchPath}/out.gn/arm64.release/obj 
+			${searchPath}/out.gn/arm64.release/obj/third_party/icu 
+			${${lib}_LIBRARY_DEBUG_PATHS})
+	endif ()
+
 	unset (${lib}_LIBRARY_RELEASE CACHE)
 	find_library (${lib}_LIBRARY_RELEASE NAMES ${releaseLibraries} HINTS 
 		${searchPath} ${${lib}_LIBRARY_RELEASE_PATHS} PATH_SUFFIXES "" 

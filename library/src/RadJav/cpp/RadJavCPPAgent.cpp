@@ -27,6 +27,7 @@
 
 #include "libplatform/libplatform.h"
 
+#include <unicode/platform.h>
 #include <unicode/unistr.h>
 
 #include "cpp/RadJavCPPNetWebServerUpgradable.h"

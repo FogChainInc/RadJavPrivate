@@ -45,12 +45,17 @@
 	/// The RadJAV namespace.
 	namespace RadJAV
 	{
-		/// 
-		enum RadJavType
-		{
-			VM = 1, 
-			XRJ_NODE = 2
-		};
+//#ifdef __cplusplus
+		extern "C" {
+//#endif
+			enum RadJavType
+			{
+				VM = 1,
+				XRJ_NODE = 2
+			};
+//#ifdef __cplusplus
+		}
+//#endif
 
 	#ifndef GUI_USE_WXWIDGETS
 		extern String _radjav_exec_path;
@@ -123,6 +128,44 @@
 					static HashMap<size_t, MemoryAllocLog> *memoryAllocs;
 				#endif
 		};
+//#ifdef __cplusplus
+		extern "C" {
+//#endif
+			//Static c-style interface for RadJav VM
+			namespace Static {
+				/// Start RadJav.
+				RADJAV_EXPORT RadJavType initializeVM(const char** newArgs, int argSize, char* fileBuffer, int bufferSize);
+				//RADJAV_EXPORT RadJavType initializeVM(const char** newArgs, int argSize);
+#ifdef WIN32
+				/// Setup console output.
+				RADJAV_EXPORT void setupConsoleOutput();
+#endif
+
+				/// Shut down and stop all applications.
+				RADJAV_EXPORT void shutdownVM();
+
+				/// Run an application.
+				RADJAV_EXPORT int runApplication(const char* application, const char* fileName);
+				/// Run an application from a javascript file.
+				RADJAV_EXPORT int runApplicationFromFile(const char* file);
+
+				/// Show a message box.
+				RADJAV_EXPORT void showMessageBox(const char* message, const char* title);
+
+				/// Show an error message.
+				RADJAV_EXPORT void showError(const char* message, bool showMessageBox = false);
+
+				/// Show an error message.
+				RADJAV_EXPORT void throwException(const char* message);
+
+				/// Primarily for Visual Studio debugging. This will print to the output window, or
+				/// to the console if on another platform.
+				RADJAV_EXPORT void printToOutputWindow(const char* message);
+			}
+
+//#ifdef __cplusplus
+		}
+//#endif
 	}
 #endif
 
