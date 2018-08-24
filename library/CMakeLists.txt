@@ -46,6 +46,17 @@ set (archs x86 x86_64 armeabi armeabi-v7a arm64-v8a)
 set (USE_ARCH ${TEMP_ARCH} CACHE STRING "Processor architecture")
 set_property (CACHE USE_ARCH PROPERTY STRINGS ${archs})
 
+#if ((${USE_ARCH} STREQUAL "armeabi") OR (${USE_ARCH} STREQUAL "armeabi-v7a") OR (${USE_ARCH} STREQUAL "arm64-v8a"))
+if (${USE_ARCH} MATCHES "^arm.*")
+	set (CMAKE_SYSTEM_NAME "Android" CACHE STRING "set to Android for android build")
+	set (CMAKE_SYSTEM_VERSION "21" CACHE STRING "Android API level")
+	set (CMAKE_SYSROOT "" CACHE PATH "NDK directory path")
+	set (CMAKE_ANDROID_ARCH_ABI "" CACHE STRING "android architecture, detected automatically")
+	set (CMAKE_ANDROID_NDK "" CACHE PATH "android NDK folder with <platforms> folder available")
+	set (CMAKE_ANDROID_STL_TYPE "" CACHE STRING "what stl to use, default - latest gcc toolchain")
+	set (Boost_USE_STATIC_LIBS ON CACHE BOOL "use boost static libraries")
+endif()
+
 set (CMAKE_BUILD_TYPE CACHE STRING "Debug")
 set_property (CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
 
@@ -186,6 +197,10 @@ set (libRadJav_LINK_LIBRARIES)
 set (libRadJav_INCLUDE_DIRS ${libRadJav_SOURCE_DIR}/include/RadJav ${libRadJav_INCLUDE_DIRS})
 
 # Boost
+if ((${USE_ARCH} MATCHES "armeabi") OR (${USE_ARCH} MATCHES "armeabi-v7a") OR (${USE_ARCH} MATCHES "arm64-v8a"))
+	SET(CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} "/.../boost")
+	SET(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} "/.../boost/lib")
+endif()
 include (FindModuleBoost)
 
 set (libRadJav_INCLUDE_DIRS ${Boost_INCLUDE} ${libRadJav_INCLUDE_DIRS})

@@ -135,7 +135,8 @@ macro (searchForLibrary lib debugLibraries releaseLibraries searchPath)
 			${searchPath}/stage/x64/lib 
 			${${lib}_LIBRARY_DEBUG_PATHS})
 	endif ()
-
+	#if ((USE_ARCH STREQUAL "armeabi") OR (USE_ARCH STREQUAL "armeabi-v7a") OR (USE_ARCH STREQUAL "arm64-v8a"))
+	#if (${USE_ARCH} MATCHES "^arm.*")
 	if (USE_ARCH STREQUAL "armeabi")
 		set (${lib}_LIBRARY_DEBUG_PATHS 
 			${searchPath}/out.gn/armeabi.debug 
