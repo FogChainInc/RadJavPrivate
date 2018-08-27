@@ -15,7 +15,13 @@ set (CMAKE_MODULE_PATH "${libRadJav_SOURCE_DIR}/CMake"
 
 include (Utils)
 
-set (javascriptEngineLibraries V8 JavaScriptCore ChakraCore)
+#Setting supported Javascript engines for specific platforms
+if (APPLE)
+	list (APPEND javascriptEngineLibraries JavaScriptCore ChakraCore)
+elseif (WIN32 OR UNIX)
+	list (APPEND javascriptEngineLibraries V8)
+endif ()
+
 set (libRadJav_JS_LIBRARY V8 CACHE STRING "Javascript library to use")
 set_property (CACHE libRadJav_JS_LIBRARY PROPERTY STRINGS ${javascriptEngineLibraries})
 
@@ -237,6 +243,7 @@ endif ()
 if (JAVASCRIPTCORE_FOUND)
 	set (libRadJav_CPP_DEFS USE_JAVASCRIPTCORE ${libRadJav_CPP_DEFS})
 	set (libRadJav_CPP_DEFS_DEBUG USE_JAVASCRIPTCORE ${libRadJav_CPP_DEFS_DEBUG})
+	set (libRadJav_LINK_LIBRARIES ${libRadJav_LINK_LIBRARIES} "-framework JavaScriptCore")
 	message (STATUS "JavaScript engine: JavaScriptCore")
 endif ()
 
