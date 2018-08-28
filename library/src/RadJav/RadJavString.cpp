@@ -495,20 +495,20 @@ namespace RadJAV
 #ifdef USE_V8
 	String parseV8Value(v8::Local<v8::Value> value)
 	{
-		if (str.IsEmpty() == true)
+		if (value.IsEmpty() == true)
 			return ("");
 
-		v8::String::Utf8Value newStr(str);
+		v8::String::Utf8Value newStr(value);
 
 		return (*newStr);
 	}
 
 	String parseV8ValueIsolate(v8::Isolate *isolate, v8::Local<v8::Value> value)
 	{
-		if (str.IsEmpty() == true)
+		if (value.IsEmpty() == true)
 			return ("");
 
-		v8::String::Utf8Value newStr(isolate, str);
+		v8::String::Utf8Value newStr(isolate, value);
 
 		return (*newStr);
 	}
