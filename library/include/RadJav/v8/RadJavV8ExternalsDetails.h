@@ -17,8 +17,8 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#ifndef _RADJAV_V8_EXTERNALS_H_
-#define _RADJAV_V8_EXTERNALS_H_
+#ifndef _RADJAV_V8_EXTERNALS_DETAILS_H_
+#define _RADJAV_V8_EXTERNALS_DETAILS_H_
 
 #ifdef USE_V8
 #include "RadJavPreprocessor.h"
@@ -27,6 +27,8 @@
 
 #include <map>
 #include <v8.h>
+
+typedef v8::Local<v8::Object> JSObject;
 
 namespace RadJAV
 {
@@ -227,21 +229,21 @@ namespace RadJAV
 	/**
 	 * Main class for managing external C++ objects within V8.
 	 */
-	class ExternalsManager
+	class ExternalsManagerV8Impl
 	{
 	public:
 		/**
 		 * Contructor.
 		 */
-		ExternalsManager();
+		ExternalsManagerV8Impl();
 
 		/**
 		 * Destructor.
 		 */
-		~ExternalsManager();
+		~ExternalsManagerV8Impl();
 		
-		ExternalsManager(const ExternalsManager& ) = delete;
-		ExternalsManager& operator = (const ExternalsManager&) = delete;
+		ExternalsManagerV8Impl(const ExternalsManagerV8Impl& ) = delete;
+		ExternalsManagerV8Impl& operator = (const ExternalsManagerV8Impl&) = delete;
 		
 		/**
 		 * Add relation between C++ object and corresponding V8 field.
@@ -255,7 +257,7 @@ namespace RadJAV
 		/**
 		 * Template function to add a relation between C++ object and corresponding V8 field.
 		 * Object will be reset during V8 garbage collector weak callback or
-		 *  when ExternalsManager will go out of scope.
+		 *  when ExternalsManagerV8Impl will go out of scope.
 		 * @param handle is a context to which we plan to add new V8 object.
 		 * @param functionName a name of the property of V8 object to bind external object with.
 		 * @param object a shared pointer to external object.

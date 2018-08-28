@@ -11,7 +11,8 @@ set (SOURCES_files_RADJAV__Main__Headers
 	"${libRadJav_SOURCE_DIR}/include/RadJav/RadJavString.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/RadJavDate.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/RadJavThread.h"
-	"${libRadJav_SOURCE_DIR}/include/RadJav/RadJavTheme.h")
+	"${libRadJav_SOURCE_DIR}/include/RadJav/RadJavTheme.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/RadJavJSExternals.h")
 source_group ("RadJav\\Main" FILES ${SOURCES_files_RADJAV__Main__Headers})
 
 set (SOURCES ${SOURCES_files_RADJAV__Main__Headers} ${SOURCES})
@@ -28,7 +29,7 @@ if (USE_V8)
 	# V8 JavaScript Engine
 	set (SOURCES_files_RadJav__v8__Headers 
 		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8JavascriptEngine.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8Externals.h")
+		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8ExternalsDetails.h")
 	source_group ("RadJav\\V8" FILES ${SOURCES_files_RadJav__v8__Headers})
 	
 	set (SOURCES ${SOURCES_files_RadJav__v8__Headers} ${SOURCES})
@@ -125,7 +126,8 @@ endif ()
 if (USE_JAVASCRIPTCORE)
 	# JavaScriptCore JavaScript Engine
 	set (SOURCES_files_RadJav__JSC__Headers 
-		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCJavascriptEngine.h")
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCJavascriptEngine.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCExternalsDetails.h")
 	source_group ("RadJav\\JavaScriptCore" FILES ${SOURCES_files_RadJav__JSC__Headers})
 
 	set (SOURCES ${SOURCES_files_RadJav__JSC__Headers} ${SOURCES})

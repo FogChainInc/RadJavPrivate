@@ -23,6 +23,7 @@
 	#include "RadJavPreprocessor.h"
 
 #ifdef USE_JAVASCRIPTCORE
+	#include "RadJavJSExternals.h"
     #include <JavaScriptCore/JavaScriptCore.h>
     #include <JavaScriptCore/JSObjectRef.h>
 
@@ -116,6 +117,25 @@
 				/// Shutdown the application entirely.
 				void exit(RJINT exitCode);
 
+				/// Get a native object.
+				CPP::ChainedPtr* getExternal(JSObjectRef context, String functionName);
+				/// Get a native object.
+				template<class T>
+				std::shared_ptr<T> getExternal(JSObjectRef context, String functionName)
+				{
+					return externalsManager->get<T>(context, functionName);
+				}
+				/// Set and wrap external object
+				void setExternal(JSObjectRef context, String functionName, CPP::ChainedPtr *obj);
+				/// Set and wrap external object
+				template<class T>
+				void setExternal(JSObjectRef context, String functionName, std::shared_ptr<T> obj)
+				{
+					externalsManager->set<T>(context, functionName, obj);
+				}
+				/// Clear external field
+				void clearExternal(JSObjectRef context, String functionName);
+
 				// Create a promise.
 				/*v8::Local<v8::Object> createPromise(v8::Local<v8::Function> function);
 				// Create a promise.
@@ -138,6 +158,7 @@
 			protected:
 				Array<String> jsToExecuteNextCode;
 				Array<String> jsToExecuteNextFilename;
+				ExternalsManager* externalsManager;
 		};
 	}
 #endif

@@ -23,7 +23,7 @@
 	#include "RadJavPreprocessor.h"
 
 #ifdef USE_V8
-	#include "RadJavV8Externals.h"
+	#include "RadJavJSExternals.h"
 
 	#include <v8.h>
 	#include <v8-inspector.h>

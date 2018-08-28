@@ -52,8 +52,11 @@ namespace RadJAV
 {
 	#ifdef USE_JAVASCRIPTCORE
 		JSCJavascriptEngine::JSCJavascriptEngine()
-			: JavascriptEngine()
+			: JavascriptEngine(),
+			  externalsManager(nullptr)
 		{
+			externalsManager = RJNEW ExternalsManager();
+			
 			String execPath = "";
 
             #ifdef GUI_USE_WXWIDGETS
@@ -94,6 +97,8 @@ namespace RadJAV
 
 		JSCJavascriptEngine::~JSCJavascriptEngine()
 		{
+			DELETEOBJ(externalsManager);
+			
 			destroyJSObjects();
 
 			#ifdef GUI_USE_WXWIDGETS
@@ -1073,6 +1078,22 @@ namespace RadJAV
 				/// @todo Pump the JSC event loop.
 			}
 		}*/
+
+		CPP::ChainedPtr* JSCJavascriptEngine::getExternal(JSObjectRef context, String functionName)
+		{
+			return externalsManager->get(context, functionName);
+		}
+
+		void JSCJavascriptEngine::setExternal(JSObjectRef context, String functionName, CPP::ChainedPtr *obj)
+		{
+			externalsManager->set(context, functionName, obj);
+		}
+
+		void JSCJavascriptEngine::clearExternal(JSObjectRef context, String functionName)
+		{
+			externalsManager->clear(context, functionName);
+		}
+
 
         /// @todo Create the JSC version.
 		/*v8::Local<v8::Object> JSCJavascriptEngine::createPromise(v8::Local<v8::Function> function)
