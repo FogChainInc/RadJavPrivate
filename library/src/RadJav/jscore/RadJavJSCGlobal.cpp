@@ -38,6 +38,8 @@ namespace RadJAV
 		void Global::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 		{
             JSC_CALLBACK(object, "alert", Global::alert);
+            JSC_CALLBACK(object, "exit", Global::exit);
+            JSC_CALLBACK(object, "quit", Global::exit);
 		}
 
 		JSValueRef Global::alert(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception)
@@ -54,6 +56,18 @@ namespace RadJAV
 
             return (JSValueMakeUndefined(context));
 		}
+
+        JSValueRef Global::exit(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception)
+        {
+            RJINT exitCode = 0;
+
+            if (numArgs > 0)
+                exitCode = JSC_JAVASCRIPT_ENGINE->jscValueToInt (args[0]);
+
+            RadJav::javascriptEngine->exit (exitCode);
+
+            return (JSValueMakeUndefined(context));
+        }
 	}
 }
 #endif

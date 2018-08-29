@@ -136,6 +136,54 @@
 				/// Clear external field
 				void clearExternal(JSObjectRef context, String functionName);
 
+                /// If necessary, handle an exception.
+                RJBOOL jscHandleException (JSValueRef exception);
+                /// If necessary, handle an exception.
+                RJBOOL jscHandleException (JSContextRef context, JSValueRef exception);
+
+                /// Cast a value to an object.
+                JSObjectRef jscCastValueToObject (JSValueRef value);
+            
+                /// Cast a value to a RJINT.
+                inline RJINT jscValueToInt (JSValueRef value)
+                {
+                    return (jscValueToNumber (globalContext, value));
+                }
+
+                /// Cast a value to a RJINT.
+                inline RJINT jscValueToInt (JSContextRef context, JSValueRef value)
+                {
+                    return (jscValueToNumber (context, value));
+                }
+
+                /// Cast a value to a RJNUMBER.
+                RJINT jscValueToNumber (JSValueRef value);
+                /// Cast a value to a RJNUMBER.
+                RJINT jscValueToNumber (JSContextRef context, JSValueRef value);
+
+                /// Cast a value to a RJBOOL.
+                RJBOOL jscValueToBoolean (JSValueRef value);
+                /// Cast a value to a RJBOOL.
+                RJBOOL jscValueToBoolean (JSContextRef context, JSValueRef value);
+            
+                /// Cast a value to a JSStringRef.
+                JSStringRef jscValueToJSStringRef (JSValueRef value);
+                /// Cast a value to a RJBOOL.
+                JSStringRef jscValueToJSStringRef (JSContextRef context, JSValueRef value);
+
+                /// Get a JSC function.
+                JSValueRef jscGetFunction (JSObjectRef context, String functionName);
+                /// Get a JSC value.
+                JSValueRef jscGetValue (JSObjectRef context, String functionName);
+                /// Set a string.
+                void jscSetString(JSObjectRef context, String functionName, String str);
+                /// Get a string from a V8 variable name. If the value is null or has an empty handle, an empty string will return.
+                String jscGetString(JSObjectRef context, String functionName);
+                /// Set a number.
+                void jscSetNumber(JSObjectRef context, String functionName, RDECIMAL number);
+                /// Get a JSC int. If the value is null or has an empty handle, 0 will be returned.
+                RJINT jscGetInt(JSObjectRef context, String functionName);
+
 				// Create a promise.
 				/*v8::Local<v8::Object> createPromise(v8::Local<v8::Function> function);
 				// Create a promise.

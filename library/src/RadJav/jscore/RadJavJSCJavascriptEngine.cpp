@@ -388,11 +388,7 @@ namespace RadJAV
             JSStringRelease(codeStr);
             JSStringRelease (fileNameStr);
 
-            if (JSValueIsNull(globalContext, exception) == false)
-            {
-                String exStr = parseJSCValue(globalContext, exception);
-                throwException (exStr);
-            }
+            jscHandleException (exception);
 		}
 
 		#ifdef C3D_USE_OGRE
@@ -648,17 +644,15 @@ namespace RadJAV
 			}
 
 			// RadJav
-			/*{
-				v8::Handle<v8::Function> radJavFunc = v8GetFunction(globalContext->Global(), "RadJav");
+			{
+				JSObjectRef radJavFunc = jscCastValueToObject (jscGetFunction(globalObj, "RadJav"));
 
-				JSC::Console::createJSCCallbacks(isolate, radJavFunc);
-				JSC::Thread::createJSCCallbacks(isolate, radJavFunc);
-
-				V8_CALLBACK(radJavFunc, "exit", JSC::Global::exit);
-				V8_CALLBACK(radJavFunc, "quit", JSC::Global::exit);
+				JSC::Console::createJSCCallbacks(globalContext, radJavFunc);
+				//JSC::Thread::createJSCCallbacks(globalContext, radJavFunc);
+            }
 
 				// RadJav.OS
-				{
+				/*{
 					v8::Handle<v8::Function> osFunc = v8GetFunction(radJavFunc, "OS");
 
 					JSC::OS::createJSCCallbacks(isolate, osFunc);
@@ -1078,6 +1072,143 @@ namespace RadJAV
 				/// @todo Pump the JSC event loop.
 			}
 		}*/
+    
+        RJBOOL JSCJavascriptEngine::jscHandleException (JSValueRef exception)
+        {
+            return (jscHandleException (globalContext, exception));
+        }
+    
+        /// If necessary, handle an exception.
+        RJBOOL JSCJavascriptEngine::jscHandleException (JSContextRef context, JSValueRef exception)
+        {
+            if (JSValueIsNull(context, exception) == false)
+            {
+                String exStr = parseJSCValue(context, exception);
+                throwException (exStr);
+                
+                return (true);
+            }
+            
+            return (false);
+        }
+    
+        /// Cast a value to an object.
+        JSObjectRef JSCJavascriptEngine::jscCastValueToObject (JSValueRef value)
+        {
+            JSValueRef exception;
+            JSObjectRef obj = JSValueToObject (globalContext, value, &exception);
+            
+            jscHandleException (exception);
+            
+            return (obj);
+        }
+    
+        /// Cast a value to a RJINT.
+        RJINT JSCJavascriptEngine::jscValueToNumber (JSValueRef value)
+        {
+            return (jscValueToNumber (globalContext, value));
+        }
+    
+        /// Cast a value to a RJINT.
+        RJINT JSCJavascriptEngine::jscValueToNumber (JSContextRef context, JSValueRef value)
+        {
+            JSValueRef exception;
+            RJNUMBER result = JSValueToNumber (context, value, &exception);
+            
+            jscHandleException (exception);
+            
+            return (result);
+        }
+
+        /// Cast a value to a RJBOOL.
+        RJBOOL JSCJavascriptEngine::jscValueToBoolean (JSValueRef value)
+        {
+            return (jscValueToBoolean (globalContext, value));
+        }
+
+        /// Cast a value to a RJBOOL.
+        RJBOOL JSCJavascriptEngine::jscValueToBoolean (JSContextRef context, JSValueRef value)
+        {
+            RJBOOL result = JSValueToBoolean (context, value);
+            
+            return (result);
+        }
+
+        /// Cast a value to a JSStringRef.
+        JSStringRef JSCJavascriptEngine::jscValueToJSStringRef (JSValueRef value)
+        {
+            return (jscValueToJSStringRef (value));
+        }
+
+        /// Cast a value to a RJBOOL.
+        JSStringRef JSCJavascriptEngine::jscValueToJSStringRef (JSContextRef context, JSValueRef value)
+        {
+            JSValueRef exception;
+            JSStringRef result = JSValueToStringCopy (context, value, &exception);
+            
+            jscHandleException (exception);
+            
+            return (result);
+        }
+
+        JSValueRef JSCJavascriptEngine::jscGetFunction (JSObjectRef context, String functionName)
+        {
+            return (jscGetValue (context, functionName));
+        }
+
+        JSValueRef JSCJavascriptEngine::jscGetValue (JSObjectRef context, String functionName)
+        {
+            JSValueRef exception;
+            JSStringRef funcStr = functionName.toJSCString();
+            JSValueRef result = JSObjectGetProperty (globalContext, context, funcStr, &exception);
+
+            JSStringRelease(funcStr);
+            jscHandleException(exception);
+
+            return (result);
+        }
+
+        void JSCJavascriptEngine::jscSetString(JSObjectRef context, String functionName, String str)
+        {
+            JSValueRef exception;
+            JSStringRef funcStr = functionName.toJSCString();
+            JSStringRef strStr = str.toJSCString();
+            JSValueRef value = JSValueMakeString (globalContext, strStr);
+            JSObjectSetProperty (globalContext, context, funcStr, value, kJSPropertyAttributeNone, &exception);
+
+            JSStringRelease(funcStr);
+            JSStringRelease(strStr);
+
+            jscHandleException(exception);
+        }
+
+        String JSCJavascriptEngine::jscGetString(JSObjectRef context, String functionName)
+        {
+            JSValueRef value = jscGetValue (context, functionName);
+            String result = parseJSCValue(globalContext, value);
+
+            return (result);
+        }
+
+        void JSCJavascriptEngine::jscSetNumber(JSObjectRef context, String functionName, RDECIMAL number)
+        {
+            JSValueRef exception;
+            JSStringRef funcStr = functionName.toJSCString();
+            JSValueRef value = JSValueMakeNumber(globalContext, number);
+            JSObjectSetProperty (globalContext, context, funcStr, value, kJSPropertyAttributeNone, &exception);
+
+            JSStringRelease(funcStr);
+
+            jscHandleException(exception);
+        }
+
+        RJINT JSCJavascriptEngine::jscGetInt(JSObjectRef context, String functionName)
+        {
+            JSValueRef value = jscGetValue (context, functionName);
+            RJINT result = jscValueToInt (globalContext, value);
+
+            return (result);
+        }
 
 		CPP::ChainedPtr* JSCJavascriptEngine::getExternal(JSObjectRef context, String functionName)
 		{
