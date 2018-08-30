@@ -185,7 +185,7 @@
             #ifdef USE_JAVASCRIPTCORE
                 /// Convert a string into a JavascriptCore string. Be sure to use JSStringRelease to free
                 /// JSStringRef!
-                JSStringRef toJSCString ();
+                JSStringRef toJSCString () const;
             #endif
 		};
 

@@ -26,9 +26,7 @@
 #include "RadJavThread.h"
 
 #include <map>
-
 #include <JavaScriptCore/JavaScriptCore.h>
-typedef JSObjectRef JSObject;
 
 namespace RadJAV
 {
@@ -57,10 +55,16 @@ namespace RadJAV
 		/**
 		 * A constructor.
 		 * @param objectId is a unique ID of external object.
-		 * @param functionName name of the Javascript object's field.
+		 * @param context Javascript virtual machine context.
+		 * @param handle Javascript object to which we attach C++ object.
+		 * @param functionName Javascript object's property name to which we attach C++ object.
 		 * @param wrapperType type of wrapper created by derived class
 		 */
-		FieldWrapper(uint32_t objectId, const std::string& functionName, WrapperType wrapperType);
+		FieldWrapper(uint32_t objectId,
+					 JSContextRef context,
+					 JSObjectRef handle,
+					 const String& functionName,
+					 WrapperType wrapperType);
 		
 		/**
 		 * A destructor.
@@ -73,12 +77,6 @@ namespace RadJAV
 		 */
 		uint32_t objectId() const;
 		
-		/**
-		 * Get field name of Javascript object.
-		 * @return std::string field name of Javascript object.
-		 */
-		const std::string& functionName() const;
-
 		/**
 		 * Action to execute when wrapper is going out of scope.
 		 * Can be used to remove wrapper from global list of
@@ -102,11 +100,14 @@ namespace RadJAV
 		 *  native raw pointer.
 		 * @return void.
 		 */
-		//static void weakCallback (const v8::WeakCallbackInfo<FieldWrapper> &data);
+		static void finalizeCallback (JSObjectRef jsObject);
 		
 	protected:
 		uint32_t objectUniqueId;
-		std::string fieldName;
+		JSContextRef virtualMachineContext;
+		JSObjectRef javascriptObject;
+		JSObjectRef externalJavascriptObject;
+		String propertyName;
 		WrapperType type;
 		std::function<void (FieldWrapper*)> aboutDelete;
 	};
@@ -122,15 +123,17 @@ namespace RadJAV
 	public:
 		/**
 		 * A constructor.
-		 * @param handle a context to which we will add new V8 object.
-		 * @param functionName name of the Javascript object's field.
-		 * @param objectId a unique ID of external object.
+		 * @param objectId is a unique ID of external object.
+		 * @param context Javascript virtual machine context.
+		 * @param handle Javascript object to which we attach C++ object.
+		 * @param functionName Javascript object's property name to which we attach C++ object.
 		 * @param data a pointer to ChainedPtr derived class which will be
 		 *  exposed to V8. Object can be deleted from C++ or V8 side.
 		 */
-		ChainedPtrWrapper (const JSObject &handle,
-						   const std::string &functionName,
-						   uint32_t objectId,
+		ChainedPtrWrapper (uint32_t objectId,
+						   JSContextRef context,
+						   JSObjectRef handle,
+						   const String& functionName,
 						   CPP::ChainedPtr *data);
 		
 		/**
@@ -146,9 +149,9 @@ namespace RadJAV
 		
 	protected:
 		/**
-		 * Hook on C++ object destruction.
+		 * Hook on C++ object destruction and subscribe to garbage collector event.
 		 */
-		void wrap ();
+		virtual void wrap ();
 		
 		/**
 		 * Notification on raw pointer destruction.
@@ -170,17 +173,19 @@ namespace RadJAV
 	public:
 		/**
 		 * A constructor.
-		 * @param handle is a context to which we will add new V8 object.
-		 * @param functionName name of the Javascript object's field.
 		 * @param objectId is a unique ID of external object.
+		 * @param context Javascript virtual machine context.
+		 * @param handle Javascript object to which we attach C++ object.
+		 * @param functionName Javascript object's property name to which we attach C++ object.
 		 * @param data a shared pointer to an object which will be
 		 *  exposed to V8, wrapper will reset it during V8 garbage collector weak callback
 		 */
-		SharedPtrWrapper (const JSObject &handle,
-						  const std::string &functionName,
-						  uint32_t objectId,
+		SharedPtrWrapper (uint32_t objectId,
+						  JSContextRef context,
+						  JSObjectRef handle,
+						  const String& functionName,
 						  std::shared_ptr<T> data)
-		: FieldWrapper(objectId, functionName, FieldWrapper::WrapperType::SharedPtr),
+		: FieldWrapper(objectId, context, handle, functionName, FieldWrapper::WrapperType::SharedPtr),
 		  object(data)
 		{
 			wrap();
@@ -205,8 +210,12 @@ namespace RadJAV
 		}
 		
 	protected:
-		void wrap ()
+		/**
+		 * Hook on C++ object destruction and subscribe to garbage collector event.
+		 */
+		virtual void wrap ()
 		{
+			// Init Persistent object and set weak callback
 			FieldWrapper::wrap();
 		}
 		
@@ -218,61 +227,47 @@ namespace RadJAV
 	{
 	public:
 		ExternalsManagerJscImpl();
+
 		~ExternalsManagerJscImpl();
 		
 		ExternalsManagerJscImpl(const ExternalsManagerJscImpl& ) = delete;
 		ExternalsManagerJscImpl& operator = (const ExternalsManagerJscImpl&) = delete;
 		
-		void set(const JSObject& handle, const String& functionName, CPP::ChainedPtr* object);
+		void set(JSContextRef context, JSObjectRef handle, const String& functionName, CPP::ChainedPtr* object);
 		
 		template<class T>
-		void set(const JSObject& handle, const String& functionName, std::shared_ptr<T> object)
+		void set(JSContextRef context, JSObjectRef handle, const String& functionName, std::shared_ptr<T> object)
 		{
 			LOCK_GUARD(s_mutexExternalsAccess);
 
-			uint32_t objectId = getObjectId(handle, functionName);
-			if(!objectId)
-			{
-				//We never exposed any C++ objects to this Javascript object before
-				//Lets select new ID for this Javascript object
-				objectId = nextId();
-			}
+			uint32_t objectId = nextId();
 			
-			SharedPtrWrapper<T>* wrapper = RJNEW SharedPtrWrapper<T>(handle, functionName, objectId, object);
+			SharedPtrWrapper<T>* wrapper = RJNEW SharedPtrWrapper<T>( objectId, context, handle, functionName, object);
 			wrapper->onDelete( [&](FieldWrapper* wrapper)
 							  {
-								  LOCK_GUARD(s_mutexExternalsAccess);
-
-								  auto mapPos = externals.find( wrapper->objectId());
-								  if(mapPos != externals.end())
+								  auto pos = externals.find( wrapper->objectId());
+								  if(pos != externals.end())
 								  {
 									  // Remove wrapped object from the list of external objects
-									  auto wrapperPos = (*mapPos).second.find( wrapper->functionName());
-									  if(wrapperPos != (*mapPos).second.end())
-									  {
-										  (*mapPos).second.erase(wrapperPos);
-									  }
-									  
-									  if( (*mapPos).second.empty())
-										  externals.erase(mapPos);
+									  externals.erase(pos);
 								  }
 							  });
 			
 			// Put wrapped object into the list of external objects
-			externals[objectId][functionName] = wrapper;
+			externals[objectId] = wrapper;
 		}
 		
-		CPP::ChainedPtr* get(const JSObject& handle, const String& functionName);
+		CPP::ChainedPtr* get(JSContextRef context, JSObjectRef handle, const String& functionName);
 		
 		template<class T>
-		std::shared_ptr<T> get(const JSObject& handle, const String& functionName)
+		std::shared_ptr<T> get(JSContextRef context, JSObjectRef handle, const String& functionName)
 		{
 			LOCK_GUARD(s_mutexExternalsAccess);
 
-			FieldWrapper* wrapper = getWrapper(handle, functionName);
+			FieldWrapper* wrapper = getWrapper(context, handle, functionName);
 			
-			if(wrapper &&
-			   wrapper->getType() == FieldWrapper::WrapperType::SharedPtr)
+			if (wrapper &&
+				wrapper->getType() == FieldWrapper::WrapperType::SharedPtr)
 			{
 				SharedPtrWrapper<T>* sharedPtrWrapper = static_cast<SharedPtrWrapper<T>*>(wrapper);
 				return sharedPtrWrapper->objectPtr();
@@ -281,22 +276,21 @@ namespace RadJAV
 			return std::shared_ptr<T>();
 		}
 		
-		void clear(const JSObject& handle, const String& functionName);
+		void clear(JSContextRef context, JSObjectRef handle, const String& functionName);
 		
 	private:
-		uint32_t getObjectId(const JSObject& handle, const String& functionName);
-		FieldWrapper* getWrapper(const JSObject& handle, const String& functionName);
+		FieldWrapper* getWrapper(JSContextRef context, JSObjectRef handle, const String& functionName);
 		
 	private:
 		uint32_t nextId();
 		
 	private:
-		std::map<uint32_t, std::map<std::string, FieldWrapper*> > externals;
-#ifdef GUI_USE_WXWIDGETS
-		wxMutex s_mutexExternalsAccess;
-#else
-		std::mutex s_mutexExternalsAccess;
-#endif
+		std::map<uint32_t, FieldWrapper*> externals;
+		#ifdef GUI_USE_WXWIDGETS
+			wxMutex s_mutexExternalsAccess;
+		#else
+			std::mutex s_mutexExternalsAccess;
+		#endif
 	};
 }
 

@@ -118,23 +118,23 @@
 				void exit(RJINT exitCode);
 
 				/// Get a native object.
-				CPP::ChainedPtr* getExternal(JSObjectRef context, String functionName);
+				CPP::ChainedPtr* jscGetExternal(JSContextRef context, JSObjectRef handle, String functionName);
 				/// Get a native object.
 				template<class T>
-				std::shared_ptr<T> getExternal(JSObjectRef context, String functionName)
+				std::shared_ptr<T> jscGetExternal(JSContextRef context, JSObjectRef handle, String functionName)
 				{
-					return externalsManager->get<T>(context, functionName);
+					return externalsManager->get<T>(context, handle, functionName);
 				}
 				/// Set and wrap external object
-				void setExternal(JSObjectRef context, String functionName, CPP::ChainedPtr *obj);
+				void jscSetExternal(JSContextRef context, JSObjectRef handle, String functionName, CPP::ChainedPtr *obj);
 				/// Set and wrap external object
 				template<class T>
-				void setExternal(JSObjectRef context, String functionName, std::shared_ptr<T> obj)
+				void jscSetExternal(JSContextRef context, JSObjectRef handle, String functionName, std::shared_ptr<T> obj)
 				{
-					externalsManager->set<T>(context, functionName, obj);
+					externalsManager->set<T>(context, handle, functionName, obj);
 				}
 				/// Clear external field
-				void clearExternal(JSObjectRef context, String functionName);
+				void jscClearExternal(JSContextRef context, JSObjectRef handle, String functionName);
 
                 /// If necessary, handle an exception.
                 RJBOOL jscHandleException (JSValueRef exception);

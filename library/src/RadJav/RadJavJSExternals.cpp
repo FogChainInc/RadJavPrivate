@@ -45,20 +45,37 @@ namespace RadJAV
 		RJDELETE(impl);
 	}
 	
-	void ExternalsManager::set(const JSObject& handle, const String& functionName, CPP::ChainedPtr* object)
+#ifdef USE_V8
+	void ExternalsManager::set(const v8::Local<v8::Object>& handle, const String& functionName, CPP::ChainedPtr* object)
 	{
 		impl->set(handle, functionName, object);
 	}
 	
-	CPP::ChainedPtr* ExternalsManager::get(const JSObject& handle, const String& functionName)
+	CPP::ChainedPtr* ExternalsManager::get(const v8::Local<v8::Object>& handle, const String& functionName)
 	{
 		return impl->get(handle, functionName);
 	}
 	
-	void ExternalsManager::clear(const JSObject& handle, const String& functionName)
+	void ExternalsManager::clear(const v8::Local<v8::Object>& handle, const String& functionName)
 	{
 		impl->clear(handle, functionName);
 	}
+#elif defined USE_JAVASCRIPTCORE
+	void ExternalsManager::set(JSContextRef context, JSObjectRef handle, const String& functionName, CPP::ChainedPtr* object)
+	{
+		impl->set(context, handle, functionName, object);
+	}
+	
+	CPP::ChainedPtr* ExternalsManager::get(JSContextRef context, JSObjectRef handle, const String& functionName)
+	{
+		return impl->get(context, handle, functionName);
+	}
+	
+	void ExternalsManager::clear(JSContextRef context, JSObjectRef handle, const String& functionName)
+	{
+		impl->clear(context, handle, functionName);
+	}
+#endif
 }
 
 #endif
