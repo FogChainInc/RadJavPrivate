@@ -121,13 +121,13 @@ namespace RadJAV
 			loadJavascriptLibrary();
 
 			// Insert the javascript libraries to be used.
-			/*for (RJUINT iIdx = 0; iIdx < javascriptFiles.size(); iIdx++)
+			for (RJUINT iIdx = 0; iIdx < javascriptFiles.size(); iIdx++)
 			{
 				JSFile jsfile = javascriptFiles.at(iIdx);
 				String contentStr = jsfile.getContent();
 
 				executeScript(contentStr, jsfile.filename);
-			}*/
+			}
 
 			loadNativeCode();
 			
@@ -1163,7 +1163,7 @@ namespace RadJAV
         /// Cast a value to a JSStringRef.
         JSStringRef JSCJavascriptEngine::jscValueToJSStringRef (JSValueRef value)
         {
-            return (jscValueToJSStringRef (value));
+            return (jscValueToJSStringRef (globalContext, value));
         }
 
         /// Cast a value to a RJBOOL.
@@ -1390,15 +1390,6 @@ namespace RadJAV
 		void JSCJavascriptEngine::jscClearExternal(JSContextRef context, JSObjectRef handle, String functionName)
 		{
 			externalsManager->clear(context, handle, functionName);
-		}
-
-
-        /// @todo Create the JSC version.
-		/*v8::Local<v8::Object> JSCJavascriptEngine::createPromise(v8::Local<v8::Function> function)
-		{
-			v8::Local<v8::Object> context = globalContext->Global();
-
-			return (createPromise(context, function));
 		}
 	#endif
 }
