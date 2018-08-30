@@ -492,18 +492,6 @@ set_property (TARGET libRadJav PROPERTY PROJECT_LABEL "libRadJav")
 
 if (libRadJav_EMBEDFILE)
 	
-	#<TODO: Comment these to use CMake for embedding Javascript files into RadJavJavascriptCode.h>
-	add_custom_command (OUTPUT ${libRadJav_SOURCE_DIR}/include/RadJav/RadJavJavascriptCode.h
-		COMMAND RadJavCompileResources
-		DEPENDS ${libRadJav_SOURCE_DIR}/javascript/RadJav.js)
-
-	add_executable (RadJavCompileResources ${libRadJav_SOURCE_DIR}/src/RadJav/RadJavCompileResources.cpp)
-	set_property (TARGET RadJavCompileResources APPEND PROPERTY COMPILE_DEFINITIONS ${libRadJav_CPP_DEFS})
-	set_property (TARGET RadJavCompileResources APPEND PROPERTY COMPILE_DEFINITIONS $<$<CONFIG:Debug>:${libRadJav_CPP_DEFS} ${libRadJav_CPP_DEFS_DEBUG}>)
-
-	add_dependencies (libRadJav RadJavCompileResources)
-	#</TODO>
-
 	set (jsFiles Math.js
 			String.js
 			RadJav.js
@@ -519,8 +507,13 @@ if (libRadJav_EMBEDFILE)
 			RadJav.Animation.js
 			RadJav.IO.js
 			RadJav.Interact.js
-			RadJav.DB.KeyValueStorage.js
 	)
+	
+	if (INCLUDE_DATABASES)
+		set (jsFiles ${jsFiles}
+				RadJav.DB.KeyValueStorage.js
+		)
+	endif ()
 	
 	if (INCLUDE_CRYPTOGRAPHY)
 		set (jsFiles ${jsFiles}
@@ -582,10 +575,10 @@ if (libRadJav_EMBEDFILE)
 		)
 	endif ()
 	
-	#TODO: Un-comment these to use CMake for embedding Javascript files into RadJavJavascriptCode.h
-	#include (EmbedJavascript)
+	#Embedding Javascript files into RadJavJavascriptCode.h
+	include (EmbedJavascript)
 	
-	#embedJavascript( "${jsFiles}" "${CMAKE_CURRENT_SOURCE_DIR}/javascript" "RadJavJavascriptCode.h" "${CMAKE_CURRENT_SOURCE_DIR}/include/RadJav")
+	embedJavascript( "${jsFiles}" "${CMAKE_CURRENT_SOURCE_DIR}/javascript" "RadJavJavascriptCode.h" "${CMAKE_CURRENT_SOURCE_DIR}/include/RadJav")
 endif ()
 
 set (libRadJav_CPP_DEFS2 ${libRadJav_CPP_DEFS} PARENT_SCOPE)

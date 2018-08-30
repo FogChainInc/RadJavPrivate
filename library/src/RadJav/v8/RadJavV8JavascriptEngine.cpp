@@ -1226,6 +1226,7 @@ namespace RadJAV
 				}
 				#endif
 
+				#ifdef NET_ON
 				// RadJav.Net
 				{
 					v8::Handle<v8::Function> netFunc = v8GetFunction(radJavFunc, "Net");
@@ -1256,6 +1257,7 @@ namespace RadJAV
 						V8B::Net::WebSocketClient::createV8Callbacks(isolate, webSocketClientPrototype);
 					}
 				}
+				#endif
 
 				#ifdef USE_BLOCKCHAIN_V1
 				// RadJav.BlockchainV1
@@ -1266,6 +1268,7 @@ namespace RadJAV
 				}
 				#endif
 
+				#ifdef GUI_USE_WXWIDGETS
 				// RadJav.GUI
 				{
 					v8::Handle<v8::Function> guiFunc = v8GetFunction(radJavFunc, "GUI");
@@ -1401,6 +1404,7 @@ namespace RadJAV
 						}
 					#endif
 				}
+				#endif
 
 				#ifdef C3D_USE_OGRE
 				// RadJav.C3D
