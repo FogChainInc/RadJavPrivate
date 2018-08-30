@@ -143,6 +143,8 @@
 
                 /// Cast a value to an object.
                 JSObjectRef jscCastValueToObject (JSValueRef value);
+                /// Cast a value to an object.
+                JSObjectRef jscCastValueToObject (JSContextRef context, JSValueRef value);
             
                 /// Cast a value to a RJINT.
                 inline RJINT jscValueToInt (JSValueRef value)
@@ -156,6 +158,10 @@
                     return (jscValueToNumber (context, value));
                 }
 
+                /// Create an array.
+                JSObjectRef jscCreateArray (RJINT numArgs, JSValueRef args[]);
+                /// Create an array.
+                JSObjectRef jscCreateArray (JSContextRef context, RJINT numArgs, JSValueRef args[]);
                 /// Cast a value to a RJNUMBER.
                 RJINT jscValueToNumber (JSValueRef value);
                 /// Cast a value to a RJNUMBER.
@@ -172,7 +178,7 @@
                 JSStringRef jscValueToJSStringRef (JSContextRef context, JSValueRef value);
 
                 /// Get a JSC function.
-                JSValueRef jscGetFunction (JSObjectRef context, String functionName);
+                JSObjectRef jscGetFunction (JSObjectRef context, String functionName);
                 /// Get a JSC value.
                 JSValueRef jscGetValue (JSObjectRef context, String functionName);
                 /// Set a string.
@@ -183,12 +189,30 @@
                 void jscSetNumber(JSObjectRef context, String functionName, RDECIMAL number);
                 /// Get a JSC int. If the value is null or has an empty handle, 0 will be returned.
                 RJINT jscGetInt(JSObjectRef context, String functionName);
+                /// Get a JSC decimal. If the value is null or has an empty handle, 0 will be returned.
+                RDECIMAL jscGetDecimal(JSObjectRef context, String functionName);
+                /// Set a bool from a JSC boolean value.
+                void jscSetBool(JSObjectRef context, String functionName, bool value);
+                /// Get a JSC bool. If the value is null or has an empty handle, false will be returned.
+                RJBOOL jscGetBool(JSObjectRef context, String functionName);
+                /// Set a JSC object.
+                void jscSetObject(JSObjectRef context, String functionName, JSObjectRef obj);
+                /// Get a JSC object.
+                JSObjectRef jscGetObject(JSObjectRef context, String functionName);
+                /// Call a JSC function.
+                JSValueRef jscCallFunction(JSObjectRef context, String functionName, RJINT numArgs, JSValueRef args[]);
+                /// Call a JSC function as a constructor.
+                JSObjectRef jscCallAsConstructor(JSObjectRef function, RJINT numArgs, JSValueRef args[]);
+                /// Create a new object.
+                JSObjectRef jscCreateNewObject(String objectName, RJINT numArgs = 0, JSValueRef args[] = NULL);
+                /// Get an object, class, or namespace from a JS class.
+                JSObjectRef jscGetObjectFromJSClass(String objectName, JSContextRef context = NULL);
 
 				// Create a promise.
-				/*v8::Local<v8::Object> createPromise(v8::Local<v8::Function> function);
+				JSObjectRef createPromise(JSObjectRef function);
 				// Create a promise.
-				v8::Local<v8::Object> createPromise(
-					v8::Local<v8::Object> context, v8::Local<v8::Function> function, v8::Local<v8::Array> args = v8::Local<v8::Array> ());*/
+				JSObjectRef createPromise(
+                        JSObjectRef context, JSObjectRef function, RJINT numArgs = 0, JSValueRef args[] = NULL);
 
 				/// Load the native templates into the javascript library.
 				//static void loadTemplates(const v8::FunctionCallbackInfo<v8::Value> &args);

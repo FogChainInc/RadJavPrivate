@@ -1103,6 +1103,32 @@ namespace RadJAV
             return (obj);
         }
     
+        /// Cast a value to an object.
+        JSObjectRef JSCJavascriptEngine::jscCastValueToObject (JSContextRef context, JSValueRef value)
+        {
+            JSValueRef exception;
+            JSObjectRef obj = JSValueToObject (context, value, &exception);
+            
+            jscHandleException (exception);
+            
+            return (obj);
+        }
+
+        JSObjectRef JSCJavascriptEngine::jscCreateArray (RJINT numArgs, JSValueRef args[])
+        {
+            return (jscCreateArray (globalContext, numArgs, args));
+        }
+
+        JSObjectRef JSCJavascriptEngine::jscCreateArray (JSContextRef context, RJINT numArgs, JSValueRef args[])
+        {
+            JSValueRef exception;
+            JSObjectRef ary = JSObjectMakeArray (context, numArgs, args, &exception);
+
+            jscHandleException(exception);
+
+            return (ary);
+        }
+    
         /// Cast a value to a RJINT.
         RJINT JSCJavascriptEngine::jscValueToNumber (JSValueRef value)
         {
@@ -1151,9 +1177,12 @@ namespace RadJAV
             return (result);
         }
 
-        JSValueRef JSCJavascriptEngine::jscGetFunction (JSObjectRef context, String functionName)
+        JSObjectRef JSCJavascriptEngine::jscGetFunction (JSObjectRef context, String functionName)
         {
-            return (jscGetValue (context, functionName));
+            JSValueRef val = jscGetValue (context, functionName);
+            JSObjectRef result = jscCastValueToObject(val);
+
+            return (result);
         }
 
         JSValueRef JSCJavascriptEngine::jscGetValue (JSObjectRef context, String functionName)
@@ -1209,6 +1238,144 @@ namespace RadJAV
 
             return (result);
         }
+    
+        RDECIMAL JSCJavascriptEngine::jscGetDecimal(JSObjectRef context, String functionName)
+        {
+            JSValueRef value = jscGetValue (context, functionName);
+            RDECIMAL result = jscValueToNumber (globalContext, value);
+            
+            return (result);
+        }
+    
+        void JSCJavascriptEngine::jscSetBool(JSObjectRef context, String functionName, bool value)
+        {
+            JSValueRef exception;
+            JSStringRef funcStr = functionName.toJSCString();
+            JSValueRef jsval = JSValueMakeBoolean(globalContext, value);
+            JSObjectSetProperty (globalContext, context, funcStr, jsval, kJSPropertyAttributeNone, &exception);
+
+            JSStringRelease(funcStr);
+
+            jscHandleException(exception);
+        }
+
+        RJBOOL JSCJavascriptEngine::jscGetBool(JSObjectRef context, String functionName)
+        {
+            JSValueRef value = jscGetValue (context, functionName);
+            RJBOOL result = jscValueToBoolean (globalContext, value);
+
+            return (result);
+        }
+
+        void JSCJavascriptEngine::jscSetObject(JSObjectRef context, String functionName, JSObjectRef obj)
+        {
+            JSValueRef exception;
+            JSStringRef funcStr = functionName.toJSCString();
+            JSObjectSetProperty (globalContext, context, funcStr, obj, kJSPropertyAttributeNone, &exception);
+            
+            JSStringRelease(funcStr);
+            
+            jscHandleException(exception);
+        }
+    
+        JSObjectRef JSCJavascriptEngine::jscGetObject(JSObjectRef context, String functionName)
+        {
+            JSValueRef value = jscGetValue (context, functionName);
+            JSObjectRef result = jscCastValueToObject(globalContext, value);
+            
+            return (result);
+        }
+
+        JSValueRef JSCJavascriptEngine::jscCallFunction(JSObjectRef context, String functionName, RJINT numArgs, JSValueRef args[])
+        {
+            JSValueRef exception;
+            JSValueRef value = jscGetValue (context, functionName);
+            JSObjectRef func = jscCastValueToObject(globalContext, value);
+
+            JSValueRef result = JSObjectCallAsFunction (globalContext, func, context, numArgs, args, &exception);
+
+            jscHandleException(exception);
+
+            return (result);
+        }
+    
+        JSObjectRef JSCJavascriptEngine::jscCallAsConstructor(JSObjectRef function, RJINT numArgs, JSValueRef args[])
+        {
+            JSValueRef exception;
+
+            JSObjectRef result = JSObjectCallAsConstructor (globalContext, function, numArgs, args, &exception);
+
+            jscHandleException(exception);
+
+            return (result);
+        }
+    
+        JSObjectRef JSCJavascriptEngine::jscCreateNewObject(String objectName, RJINT numArgs, JSValueRef args[])
+        {
+            JSValueRef exception;
+            JSObjectRef context = jscGetObjectFromJSClass(objectName);
+
+            JSObjectRef result = JSObjectCallAsConstructor (globalContext, context, numArgs, args, &exception);
+
+            jscHandleException(exception);
+
+            return (result);
+        }
+
+        JSObjectRef JSCJavascriptEngine::jscGetObjectFromJSClass(String objectName, JSContextRef context)
+        {
+            Array<String> classes = objectName.split(".");
+            JSObjectRef foundObj = NULL;
+
+            if (context == NULL)
+                foundObj = globalObj;
+            else
+                foundObj = JSContextGetGlobalObject (context);
+
+            for (RJINT iIdx = 0; iIdx < classes.size(); iIdx++)
+            {
+                String objClass = classes.at(iIdx);
+
+                foundObj = jscGetObject (foundObj, objClass);
+            }
+
+            return (foundObj);
+        }
+
+        JSObjectRef JSCJavascriptEngine::createPromise(JSObjectRef function)
+        {
+            return (createPromise (globalObj, function));
+        }
+
+        JSObjectRef JSCJavascriptEngine::createPromise(JSObjectRef context, JSObjectRef function, RJINT numArgs, JSValueRef args[])
+        {
+            JSObjectRef promise = jscGetObject (globalObj, "Promise");
+            JSObjectRef keepContext = jscGetFunction (radJav, "keepContext");
+            RJINT contextArgs = 2;
+
+            if (numArgs > 0)
+                contextArgs = 3;
+
+            JSValueRef *args2 = RJNEW JSValueRef[contextArgs];
+            args2[0] = function;
+            args2[1] = context;
+
+            if (contextArgs > 2)
+                args2[2] = jscCreateArray (numArgs, args);
+
+            JSValueRef exception;
+            JSValueRef newContext = JSObjectCallAsFunction(globalContext, keepContext, context, contextArgs, args2, &exception);
+
+            jscHandleException(exception);
+            DELETEARRAY(args2);
+
+            JSValueRef *args3 = RJNEW JSValueRef[1];
+            args3[0] = newContext;
+            JSValueRef result = JSObjectCallAsConstructor(globalContext, promise, 1, args3, &exception);
+            JSObjectRef promiseObject = jscCastValueToObject (result);
+
+            return (promiseObject);
+        }
 
 		CPP::ChainedPtr* JSCJavascriptEngine::getExternal(JSObjectRef context, String functionName)
 		{
@@ -1224,44 +1391,5 @@ namespace RadJAV
 		{
 			externalsManager->clear(context, functionName);
 		}
-
-
-        /// @todo Create the JSC version.
-		/*v8::Local<v8::Object> JSCJavascriptEngine::createPromise(v8::Local<v8::Function> function)
-		{
-			v8::Local<v8::Object> context = globalContext->Global();
-
-			return (createPromise(context, function));
-		}
-
-		v8::Local<v8::Object> JSCJavascriptEngine::createPromise(
-			v8::Local<v8::Object> context, v8::Local<v8::Function> function, v8::Local<v8::Array> args)
-		{
-			v8::Local<v8::Object> promise = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_JAVASCRIPT_ENGINE->globalContext->Global(), "Promise");
-			v8::Local<v8::Function> keepContext = V8_JAVASCRIPT_ENGINE->v8GetFunction(radJav->Get (isolate), "keepContext");
-			RJINT contextArgs = 2;
-
-			if (args.IsEmpty() == false)
-				contextArgs = 3;
-
-			v8::Local<v8::Value> *args2 = RJNEW v8::Local<v8::Value>[contextArgs];
-			args2[0] = function;
-			args2[1] = context;
-
-			if (contextArgs > 2)
-				args2[2] = args;
-
-			v8::Local<v8::Value> newContext = keepContext->Call(context, contextArgs, args2);
-			DELETE_ARRAY(args2);
-
-			v8::Local<v8::Value> *args3 = RJNEW v8::Local<v8::Value>[1];
-			args3[0] = newContext;
-			v8::Local<v8::Value> result = promise->CallAsConstructor(V8_JAVASCRIPT_ENGINE->globalContext, 1, args3).ToLocalChecked ();
-			v8::Local<v8::Object> promiseObject = v8::Local<v8::Object>::Cast(result);
-			DELETE_ARRAY(args3);
-
-			return (promiseObject);
-		}*/
-
 	#endif
 }
