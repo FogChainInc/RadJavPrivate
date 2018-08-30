@@ -27,6 +27,7 @@ set (libRadJav_DEPENDENCIES $ENV{RADJAV_DEPENDENCIES} CACHE PATH "RadJav Depende
 set (libRadJav_LANGUAGE "en_us" CACHE STRING "Select language to compile with")
 set (libRadJav_STATIC false CACHE BOOL "Static build of RadJav")
 set (libRadJav_EMBEDFILE true CACHE BOOL "Embed Javascript into RadJav?")
+set (libRadJav_EMBEDFILE_CMAKE ON CACHE BOOL "Embed Javascript with CMAKE?")
 set (libRadJav_INCLUDE_BLOCKCHAIN_V1 true CACHE BOOL "Include Blockchain V1?")
 set (libRadJav_DEBUG_INSPECTOR true CACHE BOOL "Include V8 js inspector?")
 set (FIND_MEMORY_LEAKS true CACHE BOOL "Find memory leaks?")
@@ -45,17 +46,6 @@ endif()
 set (archs x86 x86_64 armeabi armeabi-v7a arm64-v8a)
 set (USE_ARCH ${TEMP_ARCH} CACHE STRING "Processor architecture")
 set_property (CACHE USE_ARCH PROPERTY STRINGS ${archs})
-
-#if ((${USE_ARCH} STREQUAL "armeabi") OR (${USE_ARCH} STREQUAL "armeabi-v7a") OR (${USE_ARCH} STREQUAL "arm64-v8a"))
-if (${USE_ARCH} MATCHES "^arm.*")
-	set (CMAKE_SYSTEM_NAME "Android" CACHE STRING "set to Android for android build")
-	set (CMAKE_SYSTEM_VERSION "21" CACHE STRING "Android API level")
-	set (CMAKE_SYSROOT "" CACHE PATH "NDK directory path")
-	set (CMAKE_ANDROID_ARCH_ABI "" CACHE STRING "android architecture, detected automatically")
-	set (CMAKE_ANDROID_NDK "" CACHE PATH "android NDK folder with <platforms> folder available")
-	set (CMAKE_ANDROID_STL_TYPE "" CACHE STRING "what stl to use, default - latest gcc toolchain")
-	set (Boost_USE_STATIC_LIBS ON CACHE BOOL "use boost static libraries")
-endif()
 
 set (CMAKE_BUILD_TYPE CACHE STRING "Debug")
 set_property (CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
@@ -506,7 +496,7 @@ endif ()
 set_property (TARGET libRadJav PROPERTY PROJECT_LABEL "libRadJav")
 
 if (libRadJav_EMBEDFILE)
-	
+	if (NOT libRadJav_EMBEDFILE_CMAKE)
 	#<TODO: Comment these to use CMake for embedding Javascript files into RadJavJavascriptCode.h>
 	add_custom_command (OUTPUT ${libRadJav_SOURCE_DIR}/include/RadJav/RadJavJavascriptCode.h
 		COMMAND RadJavCompileResources
@@ -518,6 +508,7 @@ if (libRadJav_EMBEDFILE)
 
 	add_dependencies (libRadJav RadJavCompileResources)
 	#</TODO>
+	endif()
 
 	set (jsFiles Math.js
 			String.js
@@ -597,11 +588,13 @@ if (libRadJav_EMBEDFILE)
 		)
 	endif ()
 	
-	#TODO: Un-comment these to use CMake for embedding Javascript files into RadJavJavascriptCode.h
-	#include (EmbedJavascript)
+	if (libRadJav_EMBEDFILE_CMAKE)
+		#TODO: Un-comment these to use CMake for embedding Javascript files into RadJavJavascriptCode.h
+		include (EmbedJavascript)
 	
-	#embedJavascript( "${jsFiles}" "${CMAKE_CURRENT_SOURCE_DIR}/javascript" "RadJavJavascriptCode.h" "${CMAKE_CURRENT_SOURCE_DIR}/include/RadJav")
+		embedJavascript( "${jsFiles}" "${CMAKE_CURRENT_SOURCE_DIR}/javascript" "RadJavJavascriptCode.h" "${CMAKE_CURRENT_SOURCE_DIR}/include/RadJav")
 endif ()
+	endif()
 
 set (libRadJav_CPP_DEFS2 ${libRadJav_CPP_DEFS} PARENT_SCOPE)
 set (libRadJav_CPP_DEFS_DEBUG2 ${libRadJav_CPP_DEFS_DEBUG} PARENT_SCOPE)
