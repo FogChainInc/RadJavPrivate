@@ -57,7 +57,8 @@ namespace RadJAV
 		
 		ExternalsManager(const ExternalsManager& ) = delete;
 		ExternalsManager& operator = (const ExternalsManager&) = delete;
-		
+
+#ifdef USE_V8
 		/**
 		 * Add relation between C++ object and corresponding Javascript object field.
 		 * Object will be destroyed during Javascript engine garbage collector notification or directly from C++ side.
@@ -65,7 +66,7 @@ namespace RadJAV
 		 * @param functionName a name of the property of Javascript object to bind external object with.
 		 * @param object a pointer to external object derived from ChainedPtr class.
 		 */
-		void set(const JSObject& handle, const String& functionName, CPP::ChainedPtr* object);
+		void set(const v8::Local<v8::Object>& handle, const String& functionName, CPP::ChainedPtr* object);
 		
 		/**
 		 * Template function to add a relation between C++ object and corresponding Javascript object field.
@@ -76,7 +77,7 @@ namespace RadJAV
 		 * @param object a shared pointer to external object.
 		 */
 		template<class T>
-		void set(const JSObject& handle, const String& functionName, std::shared_ptr<T> object)
+		void set(const v8::Local<v8::Object>& handle, const String& functionName, std::shared_ptr<T> object)
 		{
 			impl->set(handle, functionName, object);
 		}
@@ -89,7 +90,7 @@ namespace RadJAV
 		 *  external object.
 		 * @return ChainedPtr a pointer to ChainedPtr derived class which where stored by set().
 		 */
-		CPP::ChainedPtr* get(const JSObject& handle, const String& functionName);
+		CPP::ChainedPtr* get(const v8::Local<v8::Object>& handle, const String& functionName);
 		
 		/**
 		 * Template function to get external object from Javascript object's field.
@@ -101,7 +102,7 @@ namespace RadJAV
 		 * @return shared_ptr<T> a shared pointer to arbitrary C++ object previously stored by set().
 		 */
 		template<class T>
-		std::shared_ptr<T> get(const JSObject& handle, const String& functionName)
+		std::shared_ptr<T> get(const v8::Local<v8::Object>& handle, const String& functionName)
 		{
 			return impl->get(handle, functionName);
 		}
@@ -116,8 +117,74 @@ namespace RadJAV
 		 * @note function is usefull in cases where we trying to delete wrapped C++ object from
 		 *  C++ side, lets say by destroy() function which were called from Javascript side.
 		 */
-		void clear(const JSObject& handle, const String& functionName);
+		void clear(const v8::Local<v8::Object>& handle, const String& functionName);
+
+#elif defined USE_JAVASCRIPTCORE
+		/**
+		 * Add relation between C++ object and corresponding Javascript object field.
+		 * Object will be destroyed during Javascript engine garbage collector notification or directly from C++ side.
+		 * @param context is a context of Javascript virtual machine.
+		 * @param handle is a Javascript object to which we plan to add new C++ object.
+		 * @param functionName a name of the property of Javascript object to bind external object with.
+		 * @param object a pointer to external object derived from ChainedPtr class.
+		 */
+		void set(JSContextRef context, JSObjectRef handle, const String& functionName, CPP::ChainedPtr* object);
 		
+		/**
+		 * Template function to add a relation between C++ object and corresponding Javascript object field.
+		 * Object will be reset during Javascript garbage collector callback or
+		 *  when ExternalsManager will go out of scope.
+		 * @param context is a context of Javascript virtual machine.
+		 * @param handle is a Javascript object to which we plan to add new C++ object.
+		 * @param functionName a name of the property of Javascript object to bind external object with.
+		 * @param object a shared pointer to external object.
+		 */
+		template<class T>
+		void set(JSContextRef context, JSObjectRef handle, const String& functionName, std::shared_ptr<T> object)
+		{
+			impl->set(context, handle, functionName, object);
+		}
+		
+		/**
+		 * Get external object from Javascript object's field.
+		 * If C++ external object is out of scope function will return nullptr.
+		 * @param context is a context of Javascript virtual machine.
+		 * @param handle is a Javascript object from which we get C++ object.
+		 * @param functionName a name of the property of Javascript object from which to retrieve
+		 *  external object.
+		 * @return ChainedPtr a pointer to ChainedPtr derived class which where stored by set().
+		 */
+		CPP::ChainedPtr* get(JSContextRef context, JSObjectRef handle, const String& functionName);
+		
+		/**
+		 * Template function to get external object from Javascript object's field.
+		 * If C++ external object where freed by garbage collector callback then
+		 * function will return empty shared pointer.
+		 * @param context is a context of Javascript virtual machine.
+		 * @param handle is a Javascript object from which we get C++ object.
+		 * @param functionName a name of the property of Javascript object from which to retrieve
+		 *  external object.
+		 * @return shared_ptr<T> a shared pointer to arbitrary C++ object previously stored by set().
+		 */
+		template<class T>
+		std::shared_ptr<T> get(JSContextRef context, JSObjectRef handle, const String& functionName)
+		{
+			return impl->get(context, handle, functionName);
+		}
+		
+		/**
+		 * Clear Javascript object's field which hold external object ID.
+		 * Underlying C++ object will not be freed/reset during that call.
+		 *  Subsequent calls to get() for this functionName will return nullptr.
+		 * @param context is a context of Javascript virtual machine.
+		 * @param handle is a Javascript object for which we get clear object ID related to C++ object.
+		 * @param functionName a name of the property of Javascript object from which to retrieve
+		 *  external object.
+		 * @note function is usefull in cases where we trying to delete wrapped C++ object from
+		 *  C++ side, lets say by destroy() function which were called from Javascript side.
+		 */
+		void clear(JSContextRef context, JSObjectRef handle, const String& functionName);
+#endif
 	private:
 #ifdef USE_V8
 		ExternalsManagerV8Impl* impl;

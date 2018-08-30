@@ -1377,19 +1377,28 @@ namespace RadJAV
             return (promiseObject);
         }
 
-		CPP::ChainedPtr* JSCJavascriptEngine::getExternal(JSObjectRef context, String functionName)
+		CPP::ChainedPtr* JSCJavascriptEngine::jscGetExternal(JSContextRef context, JSObjectRef handle, String functionName)
 		{
-			return externalsManager->get(context, functionName);
+			return externalsManager->get(context, handle, functionName);
 		}
 
-		void JSCJavascriptEngine::setExternal(JSObjectRef context, String functionName, CPP::ChainedPtr *obj)
+		void JSCJavascriptEngine::jscSetExternal(JSContextRef context, JSObjectRef handle, String functionName, CPP::ChainedPtr *obj)
 		{
-			externalsManager->set(context, functionName, obj);
+			externalsManager->set(context, handle, functionName, obj);
 		}
 
-		void JSCJavascriptEngine::clearExternal(JSObjectRef context, String functionName)
+		void JSCJavascriptEngine::jscClearExternal(JSContextRef context, JSObjectRef handle, String functionName)
 		{
-			externalsManager->clear(context, functionName);
+			externalsManager->clear(context, handle, functionName);
+		}
+
+
+        /// @todo Create the JSC version.
+		/*v8::Local<v8::Object> JSCJavascriptEngine::createPromise(v8::Local<v8::Function> function)
+		{
+			v8::Local<v8::Object> context = globalContext->Global();
+
+			return (createPromise(context, function));
 		}
 	#endif
 }

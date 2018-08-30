@@ -26,9 +26,15 @@
 
 namespace RadJAV
 {
-	FieldWrapper::FieldWrapper(uint32_t objectId, const std::string& functionName, WrapperType wrapperType)
+	FieldWrapper::FieldWrapper(uint32_t objectId,
+							   JSContextRef context,
+							   JSObjectRef handle,
+							   const String& functionName,
+							   WrapperType wrapperType)
 	: objectUniqueId(objectId),
-	  fieldName(functionName),
+	  virtualMachineContext(context),
+	  javascriptObject(handle),
+	  propertyName(functionName),
 	  type(wrapperType)
 	{}
 	
@@ -37,18 +43,16 @@ namespace RadJAV
 		// Notify user when wrapper goes out of scope
 		if(aboutDelete)
 			aboutDelete(this);
+
+		//Clear private data from external property
+		JSObjectSetPrivate(externalJavascriptObject, nullptr);
 	}
 	
 	uint32_t FieldWrapper::objectId() const
 	{
 		return objectUniqueId;
 	}
-
-	const std::string& FieldWrapper::functionName() const
-	{
-		return fieldName;
-	}
-
+	
 	void FieldWrapper::onDelete(std::function<void (FieldWrapper*)> aboutToDelete)
 	{
 		aboutDelete = aboutToDelete;
@@ -61,19 +65,38 @@ namespace RadJAV
 	
 	void FieldWrapper::wrap()
 	{
+		//Define External class
+		JSClassRef externalClassRef;
+		
+		JSClassDefinition externalClassDef = kJSClassDefinitionEmpty;
+		externalClassDef.className = "External";
+		externalClassDef.attributes = kJSClassAttributeNone;
+		externalClassDef.finalize = finalizeCallback;
+		
+		externalClassRef = JSClassCreate(&externalClassDef);
+
+		//Create new External object with private data pointed to this wrapper object
+		externalJavascriptObject = JSObjectMake(virtualMachineContext, externalClassRef, this);
+		JSClassRelease(externalClassRef);
+		
+		//Assign External class object to requested property
+		JSStringRef property = propertyName.toJSCString();
+		JSObjectSetProperty(virtualMachineContext, javascriptObject, property, externalJavascriptObject, kJSPropertyAttributeNone, nullptr);
+		JSStringRelease(property);
 	}
 	
-	//void FieldWrapper::weakCallback (const v8::WeakCallbackInfo<FieldWrapper> &data)
-	//{
-	//	FieldWrapper *wrapper = data.GetParameter();
-	//	DELETEOBJ(wrapper);
-	//}
+	void FieldWrapper::finalizeCallback (JSObjectRef jsObject)
+	{
+		FieldWrapper *wrapper = static_cast<FieldWrapper*>(JSObjectGetPrivate(jsObject));
+		DELETEOBJ(wrapper);
+	}
 	
-	ChainedPtrWrapper::ChainedPtrWrapper (const JSObject &handle,
-										  const std::string& functionName,
-										  uint32_t objectId,
+	ChainedPtrWrapper::ChainedPtrWrapper (uint32_t objectId,
+										  JSContextRef context,
+										  JSObjectRef handle,
+										  const String& functionName,
 										  CPP::ChainedPtr *data)
-	: FieldWrapper(objectId, functionName, FieldWrapper::WrapperType::ChainedPtr),
+	: FieldWrapper(objectId, context, handle, functionName, FieldWrapper::WrapperType::ChainedPtr),
 	  object(data)
 	{
 		wrap();
@@ -96,6 +119,7 @@ namespace RadJAV
 	
 	void ChainedPtrWrapper::wrap ()
 	{
+		// Export new external property object with finalize callback
 		FieldWrapper::wrap();
 		
 		// Hook on raw pointer to be notified when it is destroyed
@@ -111,9 +135,9 @@ namespace RadJAV
 		objectHook = nullptr;
 		object = nullptr;
 		
-		// We did not clear Javascript object in that case, assume that
-		// we still be able to receive garbage collector callbacks
-		// for that object. Other stuff will be cleared in
+		// We did not clear external property in that case, assume that
+		// we still be able to receive garbage collector finalize callback
+		// for that object. External property in that case will be cleared in
 		// our destructor.
 	}
 
@@ -124,110 +148,88 @@ namespace RadJAV
 	{
 		while (!externals.empty())
 		{
-			// Remove objects which were not cleared by Javascript garbage collector
+			// Remove objects which were not cleared by Javascript engine's garbage collector
 			auto item = --externals.end();
-			while( !(*item).second.empty())
-			{
-				auto wrapperIter = --(*item).second.end();
-				FieldWrapper* wrapper = wrapperIter->second;
-				(*item).second.erase(wrapperIter);
-				DELETEOBJ(wrapper);
-			}
+			FieldWrapper* wrapper = item->second;
 			externals.erase(item);
+			DELETEOBJ(wrapper);
 		}
 	}
 	
-	void ExternalsManagerJscImpl::set(const JSObject& handle, const String& functionName, CPP::ChainedPtr* object)
+	void ExternalsManagerJscImpl::set(JSContextRef context, JSObjectRef handle, const String& functionName, CPP::ChainedPtr* object)
 	{
 		LOCK_GUARD(s_mutexExternalsAccess);
 		
-		uint32_t objectId = getObjectId(handle, functionName);
-		if(!objectId)
-		{
-			//We never exposed any C++ objects to this Javascript object before
-			//Lets select new ID for this Javascript object
-			objectId = nextId();
-		}
+		uint32_t objectId = nextId();
 		
-		ChainedPtrWrapper* wrapper = RJNEW ChainedPtrWrapper(handle, functionName, objectId, object);
+		ChainedPtrWrapper* wrapper = RJNEW ChainedPtrWrapper(objectId, context, handle, functionName, object);
 		wrapper->onDelete( [&](FieldWrapper* wrapper)
 						  {
 							  LOCK_GUARD(s_mutexExternalsAccess);
-
-							  auto mapPos = externals.find( wrapper->objectId());
-							  if(mapPos != externals.end())
+							  
+							  auto pos = externals.find( wrapper->objectId());
+							  if(pos != externals.end())
 							  {
 								  // Remove wrapped object from the list of external objects
-								  auto wrapperPos = (*mapPos).second.find( wrapper->functionName());
-								  if(wrapperPos != (*mapPos).second.end())
-								  {
-									  (*mapPos).second.erase(wrapperPos);
-								  }
-								  
-								  if( (*mapPos).second.empty())
-									  externals.erase(mapPos);
+								  externals.erase(pos);
 							  }
 						  });
 		
 		// Put wrapped object into the list of external objects
-		externals[objectId][functionName] = wrapper;
+		externals[objectId] = wrapper;
 	}
 	
-	CPP::ChainedPtr* ExternalsManagerJscImpl::get(const JSObject& handle, const String& functionName)
+	CPP::ChainedPtr* ExternalsManagerJscImpl::get(JSContextRef context, JSObjectRef handle, const String& functionName)
 	{
 		LOCK_GUARD(s_mutexExternalsAccess);
 
-		FieldWrapper* wrapper = getWrapper(handle, functionName);
+		FieldWrapper* wrapper = getWrapper(context, handle, functionName);
 		
-		if(wrapper &&
-		   wrapper->getType() == FieldWrapper::WrapperType::ChainedPtr)
+		if (wrapper &&
+			wrapper->getType() == FieldWrapper::WrapperType::ChainedPtr)
 		{
-			ChainedPtrWrapper* chainedPtrWrapper = dynamic_cast<ChainedPtrWrapper*>(wrapper);
+			ChainedPtrWrapper* chainedPtrWrapper = static_cast<ChainedPtrWrapper*>(wrapper);
 			return chainedPtrWrapper->objectPtr();
 		}
 		
 		return nullptr;
 	}
 	
-	void ExternalsManagerJscImpl::clear(const JSObject& handle, const String& functionName)
+	void ExternalsManagerJscImpl::clear(JSContextRef context, JSObjectRef handle, const String& functionName)
 	{
 		LOCK_GUARD(s_mutexExternalsAccess);
 
-		FieldWrapper* wrapper = getWrapper(handle, functionName);
+		FieldWrapper* wrapper = getWrapper(context, handle, functionName);
 		
-		//In case of JavaScriptCore where we didn't receive callback per each exposed member variable we delete Wrapper
-		//which in turn may delete underlying C++ object if not already
-		DELETEOBJ(wrapper);
+		if (wrapper)
+		{
+			DELETEOBJ(wrapper);
+		}
 		
-		//Corresponding map entry will be cleared by Wrapper itself during destruction
+		JSObjectSetPrivate(handle, nullptr);
 	}
 	
-	uint32_t ExternalsManagerJscImpl::getObjectId(const JSObject& handle, const String& functionName)
+	FieldWrapper* ExternalsManagerJscImpl::getWrapper(JSContextRef context, JSObjectRef handle, const String& functionName)
 	{
-		uint32_t* objectId = static_cast<uint32_t*>(JSObjectGetPrivate(handle));
+		JSStringRef property = functionName.toJSCString();
+		JSValueRef propertyValue = JSObjectGetProperty(context, handle, property, nullptr);
+		JSStringRelease(property);
 		
-		return objectId ? *objectId : 0;
+		if (JSValueIsUndefined(context, propertyValue))
+			return nullptr;
+		
+		if (JSValueIsObject(context, propertyValue))
+		{
+			JSObjectRef propertyObject = JSValueToObject(context, propertyValue, nullptr);
+			if (!propertyObject)
+				return nullptr;
+			
+			return static_cast<FieldWrapper*>(JSObjectGetPrivate(propertyObject));
+		}
+		
+		return nullptr;
 	}
 	
-	FieldWrapper* ExternalsManagerJscImpl::getWrapper(const JSObject& handle, const String& functionName)
-	{
-		uint32_t objectId = getObjectId(handle, functionName);
-		
-		if(!objectId)
-			return nullptr;
-		
-		auto pos = externals.find( objectId);
-		
-		if(pos == externals.end())
-			return nullptr;
-		
-		auto wrapperPos = (*pos).second.find(functionName);
-		if(wrapperPos == (*pos).second.end())
-			return nullptr;
-
-		return wrapperPos->second;
-	}
-
 	uint32_t ExternalsManagerJscImpl::nextId()
 	{
 		static uint32_t objectId = 0;

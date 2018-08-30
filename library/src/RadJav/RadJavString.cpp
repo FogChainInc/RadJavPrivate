@@ -382,7 +382,7 @@ namespace RadJAV
 #endif
     
 #ifdef USE_JAVASCRIPTCORE
-    JSStringRef String::toJSCString ()
+    JSStringRef String::toJSCString () const
     {
         return (JSStringCreateWithUTF8CString (this->c_str ()));
     }
