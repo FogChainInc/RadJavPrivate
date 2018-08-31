@@ -379,7 +379,7 @@ namespace RadJAV
 
 		void JSCJavascriptEngine::executeScript(String code, String fileName)
 		{
-			JSValueRef exception = nullptr;
+			JSValueRef exception = jscCreateException (globalContext);
 			JSStringRef codeStr = code.toJSCString();
 			JSStringRef fileNameStr = fileName.toJSCString();
 			JSValueRef result = JSEvaluateScript (globalContext,
@@ -1073,6 +1073,18 @@ namespace RadJAV
 			}
 		}*/
     
+        JSValueRef JSCJavascriptEngine::jscCreateException ()
+        {
+            return (jscCreateException (globalContext));
+        }
+
+        JSValueRef JSCJavascriptEngine::jscCreateException (JSContextRef context)
+        {
+            JSValueRef exception = JSObjectMakeError (globalContext, 0, NULL, NULL);
+
+            return (exception);
+        }
+    
         RJBOOL JSCJavascriptEngine::jscHandleException (JSValueRef exception)
         {
             return (jscHandleException (globalContext, exception));
@@ -1095,7 +1107,7 @@ namespace RadJAV
         /// Cast a value to an object.
         JSObjectRef JSCJavascriptEngine::jscCastValueToObject (JSValueRef value)
         {
-            JSValueRef exception = nullptr;
+            JSValueRef exception = jscCreateException (globalContext);
             JSObjectRef obj = JSValueToObject (globalContext, value, &exception);
             
             jscHandleException (exception);
@@ -1106,7 +1118,7 @@ namespace RadJAV
         /// Cast a value to an object.
         JSObjectRef JSCJavascriptEngine::jscCastValueToObject (JSContextRef context, JSValueRef value)
         {
-            JSValueRef exception = nullptr;
+            JSValueRef exception = jscCreateException (globalContext);
             JSObjectRef obj = JSValueToObject (context, value, &exception);
             
             jscHandleException (exception);
@@ -1121,7 +1133,7 @@ namespace RadJAV
 
         JSObjectRef JSCJavascriptEngine::jscCreateArray (JSContextRef context, RJINT numArgs, JSValueRef args[])
         {
-            JSValueRef exception = nullptr;
+            JSValueRef exception = jscCreateException (globalContext);
             JSObjectRef ary = JSObjectMakeArray (context, numArgs, args, &exception);
 
             jscHandleException(exception);
@@ -1138,7 +1150,7 @@ namespace RadJAV
         /// Cast a value to a RJINT.
         RJINT JSCJavascriptEngine::jscValueToNumber (JSContextRef context, JSValueRef value)
         {
-            JSValueRef exception = nullptr;
+            JSValueRef exception = jscCreateException (globalContext);
             RJNUMBER result = JSValueToNumber (context, value, &exception);
             
             jscHandleException (exception);
@@ -1169,7 +1181,7 @@ namespace RadJAV
         /// Cast a value to a RJBOOL.
         JSStringRef JSCJavascriptEngine::jscValueToJSStringRef (JSContextRef context, JSValueRef value)
         {
-            JSValueRef exception = nullptr;
+            JSValueRef exception = jscCreateException (globalContext);
             JSStringRef result = JSValueToStringCopy (context, value, &exception);
             
             jscHandleException (exception);
@@ -1187,7 +1199,7 @@ namespace RadJAV
 
         JSValueRef JSCJavascriptEngine::jscGetValue (JSObjectRef context, String functionName)
         {
-            JSValueRef exception = nullptr;
+            JSValueRef exception = jscCreateException (globalContext);
             JSStringRef funcStr = functionName.toJSCString();
             JSValueRef result = JSObjectGetProperty (globalContext, context, funcStr, &exception);
 
@@ -1199,7 +1211,7 @@ namespace RadJAV
 
         void JSCJavascriptEngine::jscSetString(JSObjectRef context, String functionName, String str)
         {
-            JSValueRef exception = nullptr;
+            JSValueRef exception = jscCreateException (globalContext);
             JSStringRef funcStr = functionName.toJSCString();
             JSStringRef strStr = str.toJSCString();
             JSValueRef value = JSValueMakeString (globalContext, strStr);
@@ -1221,7 +1233,7 @@ namespace RadJAV
 
         void JSCJavascriptEngine::jscSetNumber(JSObjectRef context, String functionName, RDECIMAL number)
         {
-            JSValueRef exception = nullptr;
+            JSValueRef exception = jscCreateException (globalContext);
             JSStringRef funcStr = functionName.toJSCString();
             JSValueRef value = JSValueMakeNumber(globalContext, number);
             JSObjectSetProperty (globalContext, context, funcStr, value, kJSPropertyAttributeNone, &exception);
@@ -1249,7 +1261,7 @@ namespace RadJAV
     
         void JSCJavascriptEngine::jscSetBool(JSObjectRef context, String functionName, bool value)
         {
-            JSValueRef exception = nullptr;
+            JSValueRef exception = jscCreateException (globalContext);
             JSStringRef funcStr = functionName.toJSCString();
             JSValueRef jsval = JSValueMakeBoolean(globalContext, value);
             JSObjectSetProperty (globalContext, context, funcStr, jsval, kJSPropertyAttributeNone, &exception);
@@ -1269,7 +1281,7 @@ namespace RadJAV
 
         void JSCJavascriptEngine::jscSetObject(JSObjectRef context, String functionName, JSObjectRef obj)
         {
-            JSValueRef exception = nullptr;
+            JSValueRef exception = jscCreateException (globalContext);
             JSStringRef funcStr = functionName.toJSCString();
             JSObjectSetProperty (globalContext, context, funcStr, obj, kJSPropertyAttributeNone, &exception);
             
@@ -1288,7 +1300,7 @@ namespace RadJAV
 
         JSValueRef JSCJavascriptEngine::jscCallFunction(JSObjectRef context, String functionName, RJINT numArgs, JSValueRef args[])
         {
-            JSValueRef exception = nullptr;
+            JSValueRef exception = jscCreateException (globalContext);
             JSValueRef value = jscGetValue (context, functionName);
             JSObjectRef func = jscCastValueToObject(globalContext, value);
 
@@ -1301,7 +1313,7 @@ namespace RadJAV
     
         JSObjectRef JSCJavascriptEngine::jscCallAsConstructor(JSObjectRef function, RJINT numArgs, JSValueRef args[])
         {
-            JSValueRef exception = nullptr;
+            JSValueRef exception = jscCreateException (globalContext);
 
             JSObjectRef result = JSObjectCallAsConstructor (globalContext, function, numArgs, args, &exception);
 
@@ -1312,7 +1324,7 @@ namespace RadJAV
     
         JSObjectRef JSCJavascriptEngine::jscCreateNewObject(String objectName, RJINT numArgs, JSValueRef args[])
         {
-            JSValueRef exception = nullptr;
+            JSValueRef exception = jscCreateException (globalContext);
             JSObjectRef context = jscGetObjectFromJSClass(objectName);
 
             JSObjectRef result = JSObjectCallAsConstructor (globalContext, context, numArgs, args, &exception);
@@ -1363,7 +1375,7 @@ namespace RadJAV
             if (contextArgs > 2)
                 args2[2] = jscCreateArray (numArgs, args);
 
-            JSValueRef exception = nullptr;
+            JSValueRef exception = jscCreateException (globalContext);
             JSValueRef newContext = JSObjectCallAsFunction(globalContext, keepContext, context, contextArgs, args2, &exception);
 
             jscHandleException(exception);

@@ -136,6 +136,10 @@
 				/// Clear external field
 				void jscClearExternal(JSContextRef context, JSObjectRef handle, String functionName);
 
+                /// Create an exception.
+                JSValueRef jscCreateException ();
+                /// Create an exception.
+                JSValueRef jscCreateException (JSContextRef context);
                 /// If necessary, handle an exception.
                 RJBOOL jscHandleException (JSValueRef exception);
                 /// If necessary, handle an exception.

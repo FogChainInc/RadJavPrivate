@@ -519,7 +519,7 @@ namespace RadJAV
     {
         size_t bufferSize = 0;
         RJCHAR *buffer = NULL;
-        JSValueRef exception;
+        JSValueRef exception = JSObjectMakeError (context, 0, NULL, NULL);
 
         JSStringRef str = JSValueToStringCopy (context, value, &exception);
         /// @todo If exception returns not null from JSValueToStringCopy, throw an exception in JS.
