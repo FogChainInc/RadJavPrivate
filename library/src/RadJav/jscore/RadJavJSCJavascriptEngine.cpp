@@ -39,6 +39,8 @@
 
 #ifdef USE_JAVASCRIPTCORE
     #include "jscore/RadJavJSCGlobal.h"
+    #include "jscore/RadJavJSCOS.h"
+
     #include "jscore/RadJavJSCConsole.h"
 #endif
 
@@ -51,6 +53,25 @@
 namespace RadJAV
 {
 	#ifdef USE_JAVASCRIPTCORE
+        AsyncFunctionCall::AsyncFunctionCall (JSObjectRef newfunc,
+                RJINT numArgs, JSValueRef *newargs, RJBOOL newDeleteOnComplete)
+        {
+            func = newfunc;
+            this->numArgs = numArgs;
+            args = newargs;
+            deleteOnComplete = newDeleteOnComplete;
+            result = NULL;
+        }
+
+        AsyncFunctionCall::~AsyncFunctionCall()
+        {
+        }
+
+        JSValueRef AsyncFunctionCall::getResult(JSCJavascriptEngine *engine)
+        {
+            return (result);
+        }
+
 		JSCJavascriptEngine::JSCJavascriptEngine()
 			: JavascriptEngine(),
 			  externalsManager(nullptr)
@@ -130,7 +151,9 @@ namespace RadJAV
 			}
 
 			loadNativeCode();
-			
+
+            radJav = jscCastValueToObject (jscGetFunction(globalObj, "RadJav"));
+
 			try
 			{
 				// Check the application source to see if its an XRJ file.
@@ -146,15 +169,48 @@ namespace RadJAV
 						if (applicationSource.at(0) == '{')
 						{
 							executeContent = false;
+                            JSObjectRef parsedObj = NULL;
 
 							try
 							{
-                                // Parse JSON here.
+                                JSStringRef appSrc = applicationSource.toJSCString();
+                                JSValueRef parsedStr = JSValueMakeFromJSONString (globalContext, appSrc);
+                                parsedObj = jscCastValueToObject(globalContext, parsedStr);
+
+                                JSStringRelease(appSrc);
 							}
 							catch (Exception ex)
 							{
 								RadJav::showError(ex.getMessage(), true);
 							}
+                            
+                            String name = jscGetString(parsedObj, "name");
+                            String developer = jscGetString(parsedObj, "developer");
+                            String license = jscGetString(parsedObj, "license");
+                            JSValueRef executeFilesVal = jscGetValue(parsedObj, "execute_files");
+                            JSObjectRef execute_files = jscCastValueToObject(globalContext, executeFilesVal);
+                            JSValueRef dependenciesVal = jscGetValue(parsedObj, "dependencies");
+                            JSObjectRef dependencies = jscCastValueToObject(globalContext, dependenciesVal);
+                            RJUINT length = JSObjectGetTypedArrayLength (globalContext, parsedObj, NULL);
+
+                            // Get the list of JavaScript files to execute.
+                            for (RJUINT iIdx = 0; iIdx < length; iIdx++)
+                            {
+                                JSValueRef jscFile = JSObjectGetPropertyAtIndex (globalContext, execute_files, iIdx, NULL);
+
+                                if (JSValueIsString(globalContext, jscFile) == true)
+                                {
+                                    String filePath = parseJSCValue(globalContext, jscFile);
+                                    filesToExecute.push_back(filePath);
+                                }
+
+                                if (JSValueIsObject (globalContext, jscFile) == true)
+                                {
+                                    JSObjectRef fileObj = jscCastValueToObject(globalContext, jscFile);
+                                    String javascriptFilePath = jscGetString(fileObj, "javascript");
+                                    filesToExecute.push_back(javascriptFilePath);
+                                }
+                            }
 
 							// Once the list has been collected, execute each file.
 							for (RJUINT iIdx = 0; iIdx < filesToExecute.size(); iIdx++)
@@ -220,6 +276,7 @@ namespace RadJAV
 			
 			auto execCodeBegin = jsToExecuteNextCode.begin();
 			auto execFilenameBegin = jsToExecuteNextFilename.begin();
+            auto execContextBegin = jsToExecuteNextContext.begin();
 			auto execCodeEnd = jsToExecuteNextCode.end();
 			
 			try
@@ -227,7 +284,18 @@ namespace RadJAV
 				// Handle the on ready function.
 				if (firstRun == true)
 				{
-                    /// @todo Check if RadJav::OS has a function, if so, execute it.
+                    if (JSC::OS::onReadyFunction != NULL)
+                    {
+                        if (JSValueIsNull(globalContext, JSC::OS::onReadyFunction) == false)
+                        {
+                            JSValueRef exception = jscCreateException (globalContext);
+                            JSValueRef result = JSObjectCallAsFunction(globalContext, JSC::OS::onReadyFunction, globalObj, 0, NULL, &exception);
+
+                            if (result == NULL)
+                                jscHandleException(globalContext, exception);
+                        }
+                    }
+
 					firstRun = false;
 				}
 
@@ -245,7 +313,28 @@ namespace RadJAV
 				//Handle timers (setTimeout from JS)
 				std::chrono::steady_clock::time_point currentTime = std::chrono::steady_clock::now();
 				
-				/// @todo Handle timers.
+                for (RJINT iIdx = 0; iIdx < timers.size (); iIdx++)
+                {
+                    auto timer = timers.at(iIdx);
+                    JSObjectRef funcp = timer.first;
+                    std::chrono::time_point<std::chrono::steady_clock> fireTime = timer.second;
+                    
+                    if (fireTime <= currentTime)
+                    {
+                        TimerVector::iterator delTimer = timers.begin ();
+                        timers.erase(delTimer);
+
+                        if ((JSValueIsNull(globalContext, funcp) == false) &&
+                            (JSValueIsUndefined(globalContext, funcp) == false))
+                        {
+                            JSValueRef exception = jscCreateException (globalContext);
+                            JSValueRef result = JSObjectCallAsFunction(globalContext, funcp, globalObj, 0, NULL, &exception);
+
+                            if (result == NULL)
+                                jscHandleException(globalContext, exception);
+                        }
+                    }
+                }
 
 				for (RJUINT iIdx = 0; iIdx < removeThreads.size(); iIdx++)
 				{
@@ -290,21 +379,58 @@ namespace RadJAV
 				{
 					String code = *execCodeBegin;
 
-                    /// @todo Execute any scripts.
+                    executeScript(code, *execFilenameBegin, *execContextBegin);
 
 					execCodeBegin++;
 					execFilenameBegin++;
+                    execContextBegin++;
 				}
 				
 				jsToExecuteNextCode.clear();
 				jsToExecuteNextFilename.clear();
+                jsToExecuteNextContext.clear();
 				
 				#ifdef GUI_USE_WXWIDGETS
 				if (criticalSection->TryEnter() == true)
 				{
 				#endif
 
-					/// @todo Handle any functions that need to be executed from a thread.
+                    // Handle any functions that need to be executed from a thread.
+                    auto funcBegin = funcs.begin();
+                    auto funcEnd = funcs.end();
+                    
+                    // Handle any functions that need to be executed.
+                    //if (funcBegin != funcEnd)
+                    while (funcBegin != funcEnd)
+                    {
+                        AsyncFunctionCall *asyncCall = *funcBegin;
+                        JSObjectRef funcp = asyncCall->func;
+                        JSValueRef *args = asyncCall->args;
+                        RJINT numArgs = asyncCall->numArgs;
+                        RJBOOL deleteOnComplete = asyncCall->deleteOnComplete;
+
+                        if ((JSValueIsUndefined (globalContext, funcp) == false) &&
+                            (JSValueIsNull(globalContext, funcp) == false))
+                        {
+                            JSValueRef exception = jscCreateException (globalContext);
+                            JSValueRef result = JSObjectCallAsFunction(globalContext, funcp, globalObj, numArgs, args, &exception);
+
+                            if (result == NULL)
+                                jscHandleException(globalContext, exception);
+
+                            asyncCall->result = result;
+                        }
+                        
+                        if (deleteOnComplete == true)
+                            DELETEOBJ(asyncCall);
+                        
+                        //funcNext.erase(funcBegin);
+                        //funcNextArgs.erase (funcArgsBegin);
+                        //funcDelete.erase(funcDeleteBegin);
+                        funcBegin++;
+                    }
+                    
+                    funcs.clear();
 
 				#ifdef GUI_USE_WXWIDGETS
 					criticalSection->Leave();
@@ -329,6 +455,7 @@ namespace RadJAV
 				
 				jsToExecuteNextCode.erase(execCodeBegin);
 				jsToExecuteNextFilename.erase(execFilenameBegin);
+                jsToExecuteNextContext.erase(execContextBegin);
 				
 				if (shutdownOnException == true)
 				{
@@ -374,23 +501,44 @@ namespace RadJAV
 
 		void JSCJavascriptEngine::executeScript(Array<String> code, String fileName)
 		{
-			/// @todo Complete this.
+            String codeStr = "";
+
+            for (RJINT iIdx = 0; iIdx < code.size (); iIdx++)
+                codeStr += code.at (iIdx);
+
+            executeScript (codeStr, fileName);
 		}
+    
+        void JSCJavascriptEngine::executeScript(String code, String fileName, JSObjectRef context)
+        {
+            JSStringRef codeStr = code.toJSCString();
+            JSStringRef fileNameStr = fileName.toJSCString();
+
+            executeScript (codeStr, fileNameStr, context);
+
+            JSStringRelease (codeStr);
+            JSStringRelease (fileNameStr);
+        }
 
 		void JSCJavascriptEngine::executeScript(String code, String fileName)
 		{
-			JSValueRef exception = jscCreateException (globalContext);
 			JSStringRef codeStr = code.toJSCString();
 			JSStringRef fileNameStr = fileName.toJSCString();
-			JSValueRef result = JSEvaluateScript (globalContext,
-												  codeStr, NULL, fileNameStr, 0, &exception);
-			
+
+            executeScript (codeStr, fileNameStr);
+
 			JSStringRelease (codeStr);
 			JSStringRelease (fileNameStr);
+		}
+
+        void JSCJavascriptEngine::executeScript(JSStringRef code, JSStringRef fileName, JSObjectRef context)
+        {
+            JSValueRef exception = jscCreateException (globalContext);
+            JSValueRef result = JSEvaluateScript (globalContext, code, NULL, fileName, 0, &exception);
 
             if (result == NULL)
                 jscHandleException (exception);
-		}
+        }
 
 		#ifdef C3D_USE_OGRE
 		void JSCJavascriptEngine::start3DEngine()
@@ -627,8 +775,28 @@ namespace RadJAV
 		{
 		}
     
+        void JSCJavascriptEngine::executeScriptNextTick(String code, String fileName, JSObjectRef context)
+        {
+            jsToExecuteNextCode.push_back(code);
+            jsToExecuteNextFilename.push_back(fileName);
+            jsToExecuteNextContext.push_back(context);
+        }
+
+        void JSCJavascriptEngine::callFunctionOnNextTick(AsyncFunctionCall *call)
+        {
+            funcs.push_back(call);
+        }
+
         void JSCJavascriptEngine::collectGarbage()
         {
+            if (exposeGC == false)
+            {
+                throw RadJAV::Exception("Unable to manually collect garbage, --expose_gc command line argument not set. Its best not to manually collect garbage anyway.");
+                
+                return;
+            }
+
+            JSGarbageCollect (globalContext);
         }
 
 		void JSCJavascriptEngine::loadNativeCode()

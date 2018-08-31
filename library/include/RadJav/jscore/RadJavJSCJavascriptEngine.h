@@ -63,6 +63,40 @@
 
 	namespace RadJAV
 	{
+        class JSCJavascriptEngine;
+        
+        /// Create an asynchronous function call.
+        class RADJAV_EXPORT AsyncFunctionCall
+        {
+            public:
+                AsyncFunctionCall(JSObjectRef newfunc, RJINT numArgs = 0,
+                                  JSValueRef *newargs = NULL, RJBOOL newDeleteOnComplete = true);
+                ~AsyncFunctionCall();
+            
+                /// Check to see if an asynchronous function call has a result. Be sure to set deleteOnComplete = true;
+                inline RJBOOL checkForResult()
+                {
+                    if (result != NULL)
+                        return (true);
+                    
+                    return (false);
+                }
+            
+                /// Get the result from the async function call. Be sure to set deleteOnComplete = true;
+                JSValueRef getResult(JSCJavascriptEngine *engine);
+
+                JSObjectRef func;
+                JSValueRef *args;
+                RJINT numArgs;
+                RJBOOL deleteOnComplete;
+
+                JSValueRef result;
+        };
+        
+        typedef std::vector<
+            std::pair<JSObjectRef,
+                std::chrono::time_point<std::chrono::steady_clock> > > TimerVector;
+        
 		/// The JavaScriptCore javascript engine.
 		class RADJAV_EXPORT JSCJavascriptEngine: public JavascriptEngine
 		{
@@ -83,9 +117,17 @@
 				/// Run an application from a javascript file.
 				int runApplicationFromFile(String file);
 				/// Execute Javascript code.
-				void executeScript(Array<String> code, String fileName);
+                void executeScript(Array<String> code, String fileName);
+                /// Execute Javascript code.
+                void executeScript(String code, String fileName, JSObjectRef context);
 				/// Execute Javascript code.
-				void executeScript(String code, String fileName);
+                void executeScript(String code, String fileName);
+                /// Execute Javascript code.
+                void executeScript(JSStringRef code, JSStringRef fileName, JSObjectRef context = NULL);
+                /// Execute javascript on the next tick.
+                void executeScriptNextTick(String code, String fileName, JSObjectRef context = NULL);
+                /// Call a function on the next tick. Any args passed MUST be an array.
+                void callFunctionOnNextTick(AsyncFunctionCall *call);
 				/// Connect the native library to the Javascript library.
 				void loadNativeCode();
 
@@ -233,8 +275,14 @@
 
 			protected:
 				Array<String> jsToExecuteNextCode;
-				Array<String> jsToExecuteNextFilename;
-				ExternalsManager* externalsManager;
+                Array<String> jsToExecuteNextFilename;
+                Array<JSObjectRef> jsToExecuteNextContext;
+
+                Array<AsyncFunctionCall *> funcs;
+
+                TimerVector timers;
+
+                ExternalsManager* externalsManager;
 		};
 	}
 #endif

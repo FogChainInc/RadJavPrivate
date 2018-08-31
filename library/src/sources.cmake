@@ -136,6 +136,13 @@ if (USE_JAVASCRIPTCORE)
 
 	set (SOURCES ${SOURCES_files_RadJav__JSC__Global__Sources} ${SOURCES})
 
+	# JavaScriptCore OS
+	set (SOURCES_files_RadJav__JSC__OS__Sources 
+		"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCOS.cpp")
+	source_group ("RadJav\\JavaScriptCore\\OS" FILES ${SOURCES_files_RadJav__JSC__OS__Sources})
+
+	set (SOURCES ${SOURCES_files_RadJav__JSC__OS__Sources} ${SOURCES})
+
 	# JavaScriptCore Console
 	set (SOURCES_files_RadJav__JSC__Console__Sources 
 		"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCConsole.cpp")
