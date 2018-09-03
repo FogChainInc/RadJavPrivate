@@ -31,6 +31,11 @@ namespace RadJAV
 			{
 			}
 		#endif
+        #ifdef USE_JAVASCRIPTCORE
+            Thread::Thread(JSCJavascriptEngine *jsEngine, RJINT numArgs, JSValueRef *args)
+            {
+            }
+        #endif
 
 		Thread::Thread()
 		{
@@ -41,8 +46,11 @@ namespace RadJAV
 			// Execute the thread.
 
 			#ifdef USE_V8
-				// Call the persistent thread.
+				/// @todo Call the persistent thread.
 			#endif
+            #ifdef USE_JAVASCRIPTCORE
+                /// @todo Call the thread.
+            #endif
 		}
 
 		void Thread::close()
@@ -60,6 +68,14 @@ namespace RadJAV
 				}
 			}
 		#endif
+        
+        #ifdef USE_JAVASCRIPTCORE
+            void Thread::on(String event, JSObjectRef func)
+            {
+                if (event == "thread")
+                    thread = func;
+            }
+        #endif
 	}
 }
 

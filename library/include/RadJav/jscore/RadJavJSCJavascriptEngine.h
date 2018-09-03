@@ -58,8 +58,15 @@
                 JSObjectSetProperty (context, object, functionNameStr, functionObj, kJSPropertyAttributeNone, NULL); \
                 JSStringRelease (functionNameStr); \
             }
+    #define JSC_CCALLBACK(context, object, functionName, function) \
+            { \
+            JSStringRef functionNameStr = JSStringCreateWithUTF8CString (functionName); \
+            JSObjectRef functionObj = JSObjectMakeFunctionWithCallback (context, functionNameStr, &function); \
+            JSObjectSetProperty (context, object, functionNameStr, functionObj, kJSPropertyAttributeNone, NULL); \
+            JSStringRelease (functionNameStr); \
+            }
     #define JSC_JAVASCRIPT_ENGINE static_cast<JSCJavascriptEngine *> (RadJav::javascriptEngine)
-    #define JSC_RADJAV /// @todo Finish this.
+    #define JSC_RADJAV JSC_JAVASCRIPT_ENGINE->radJav
 
 	namespace RadJAV
 	{
@@ -143,7 +150,7 @@
 				#endif
 
 				/// Add a timeout, process it.
-				//void addTimeout(v8::Persistent<v8::Function> *func, RJINT time);
+				void addTimeout(JSObjectRef func, RJINT time);
 
 				/// A blockchain event has occurred, process it.
 				void blockchainEvent(String event, String dataType = "null", void *data = NULL);
@@ -213,6 +220,10 @@
                 /// Cast a value to a RJNUMBER.
                 RJINT jscValueToNumber (JSContextRef context, JSValueRef value);
 
+                /// Checks if a JSC value is undefined or null. Returns true if it is.
+                RJBOOL jscIsNull(JSValueRef val);
+                /// Checks if a JSC value is undefined or null. Returns true if it is.
+                RJBOOL jscIsNull(JSContextRef context, JSValueRef val);
                 /// Cast a value to a RJBOOL.
                 RJBOOL jscValueToBoolean (JSValueRef value);
                 /// Cast a value to a RJBOOL.

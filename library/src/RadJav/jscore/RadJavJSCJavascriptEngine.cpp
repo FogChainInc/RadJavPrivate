@@ -42,6 +42,7 @@
     #include "jscore/RadJavJSCOS.h"
 
     #include "jscore/RadJavJSCConsole.h"
+    #include "jscore/RadJavJSCThread.h"
 #endif
 
 #include "cpp/RadJavCPPIO.h"
@@ -191,7 +192,7 @@ namespace RadJAV
                             JSObjectRef execute_files = jscCastValueToObject(globalContext, executeFilesVal);
                             JSValueRef dependenciesVal = jscGetValue(parsedObj, "dependencies");
                             JSObjectRef dependencies = jscCastValueToObject(globalContext, dependenciesVal);
-                            RJUINT length = JSObjectGetTypedArrayLength (globalContext, parsedObj, NULL);
+                            RJUINT length = JSObjectGetTypedArrayLength (globalContext, execute_files, NULL);
 
                             // Get the list of JavaScript files to execute.
                             for (RJUINT iIdx = 0; iIdx < length; iIdx++)
@@ -654,14 +655,13 @@ namespace RadJAV
 		}
 		#endif
 
-        /// @todo Do the JavaScriptCore version of this.
-		/*void JSCJavascriptEngine::addTimeout (v8::Persistent<v8::Function> *func, RJINT time)
+		void JSCJavascriptEngine::addTimeout (JSObjectRef func, RJINT time)
 		{
 			auto fireTime = std::chrono::steady_clock::now();
 			fireTime += std::chrono::milliseconds(time);
 			
 			timers.push_back( std::make_pair(func, fireTime));
-		}*/
+		}
 
 		void JSCJavascriptEngine::blockchainEvent(String event, String dataType, void *data)
 		{
@@ -801,15 +801,14 @@ namespace RadJAV
 
 		void JSCJavascriptEngine::loadNativeCode()
 		{
-            /// @todo Convert this all to JSC.
 			// Globals
 			{
 				JSC::Global::createJSCCallbacks(globalContext, globalObj);
 
 				if (exposeGC == true)
-				{
-					//V8_CALLBACK(globalContext->Global(), "collectGarbage", JSC::Global::collectGarbage);
-				}
+                {
+					JSC_CCALLBACK(globalContext, globalObj, "collectGarbage", JSC::Global::collectGarbage);
+                }
 			}
 
 			// RadJav
@@ -817,35 +816,37 @@ namespace RadJAV
 				JSObjectRef radJavFunc = jscCastValueToObject (jscGetFunction(globalObj, "RadJav"));
 
 				JSC::Console::createJSCCallbacks(globalContext, radJavFunc);
-				//JSC::Thread::createJSCCallbacks(globalContext, radJavFunc);
-            }
+				JSC::Thread::createJSCCallbacks(globalContext, radJavFunc);
 
 				// RadJav.OS
-				/*{
-					v8::Handle<v8::Function> osFunc = v8GetFunction(radJavFunc, "OS");
+				{
+					JSObjectRef osFunc = jscGetFunction(radJavFunc, "OS");
 
-					JSC::OS::createJSCCallbacks(isolate, osFunc);
+					JSC::OS::createJSCCallbacks(globalContext, osFunc);
 
 					// Command line arguments
 					{
-						v8::Handle<v8::Array> args = v8::Handle<v8::Array>::Cast (v8GetValue(osFunc, "args"));
+						JSValueRef argsVal = jscGetValue(osFunc, "args");
+                        JSObjectRef argsObj = jscCastValueToObject(globalContext, argsVal);
 
 						for (RJINT iIdx = 0; iIdx < RadJav::arguments.size(); iIdx++)
 						{
 							String arg = RadJav::arguments.at(iIdx);
+                            JSValueRef argVal = arg.toJSCValue(globalContext);
 
-							args->Set(iIdx, arg.toV8String(isolate));
+                            JSObjectSetPropertyAtIndex (globalContext, argsObj, iIdx, argVal, NULL);
+                            
 						}
 					}
-				}*/
+				}
 
 				// RadJav.Console
 				{
-					//v8::Handle<v8::Function> consoleFunc = v8GetFunction(radJavFunc, "Console");
+					JSObjectRef consoleFunc = jscGetFunction(radJavFunc, "Console");
 
-					//JSC::Console::createJSCCallbacks(isolate, consoleFunc);
-                    JSC::Console::createJSCCallbacks(globalContext, globalObj, true);
+                    JSC::Console::createJSCCallbacks(globalContext, consoleFunc, true);
 				}
+            }
 
 				// RadJav.DB
 				/*#ifdef USE_DATABASE
@@ -1325,6 +1326,24 @@ namespace RadJAV
             jscHandleException (exception);
             
             return (result);
+        }
+    
+        RJBOOL JSCJavascriptEngine::jscIsNull(JSValueRef val)
+        {
+            return (jscIsNull (globalContext, val));
+        }
+    
+        RJBOOL JSCJavascriptEngine::jscIsNull(JSContextRef context, JSValueRef val)
+        {
+            RJBOOL isNull = false;
+
+            if (JSValueIsNull(context, val) == true)
+                isNull = true;
+
+            if (JSValueIsUndefined (context, val) == true)
+                isNull = true;
+
+            return (isNull);
         }
 
         /// Cast a value to a RJBOOL.

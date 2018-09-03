@@ -37,10 +37,24 @@ namespace RadJAV
 	{
 		void Global::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 		{
+            JSC_CALLBACK(object, "setTimeout", Global::setTimeout);
             JSC_CALLBACK(object, "alert", Global::alert);
+            JSC_CALLBACK(object, "confirm", Global::confirm);
+            JSC_CALLBACK(object, "prompt", Global::prompt);
+            JSC_CALLBACK(object, "include", Global::include);
             JSC_CALLBACK(object, "exit", Global::exit);
             JSC_CALLBACK(object, "quit", Global::exit);
 		}
+        
+        JSValueRef Global::setTimeout(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception)
+        {
+            JSObjectRef nfunc = JSC_JAVASCRIPT_ENGINE->jscCastValueToObject(args[0]);
+            JSValueRef time = args[1];
+            
+            JSC_JAVASCRIPT_ENGINE->addTimeout(nfunc, JSC_JAVASCRIPT_ENGINE->jscValueToInt(time));
+            
+            return (JSValueMakeUndefined(context));
+        }
 
 		JSValueRef Global::alert(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception)
 		{
@@ -56,6 +70,119 @@ namespace RadJAV
 
             return (JSValueMakeUndefined(context));
 		}
+        
+        JSValueRef Global::confirm(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception)
+        {
+            String message = "";
+            String title = "";
+
+            JSValueRef msg = args[0];
+            
+            if (JSC_JAVASCRIPT_ENGINE->jscIsNull(context, msg) == false)
+                message = parseJSCValue(context, msg);
+            
+            if (numArgs > 1)
+            {
+                JSValueRef title2 = args[1];
+                
+                if (JSC_JAVASCRIPT_ENGINE->jscIsNull(title2) == false)
+                    title = parseJSCValue(context, title2);
+            }
+
+            JSValueRef retVal = NULL;
+
+            #ifdef GUI_USE_WXWIDGETS
+                RJINT result = wxMessageBox(message.towxString(), title.towxString(), wxOK | wxCANCEL);
+                RJBOOL output = false;
+            
+                if (result == wxOK)
+                    output = true;
+            
+                JSValueRef result2 = JSValueMakeBoolean(context, output);
+                retVal = result2;
+            #endif
+            
+            return (retVal);
+        }
+
+        JSValueRef Global::prompt(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception)
+        {
+            String message = "";
+            String title = "";
+            String defaultArg = "";
+            
+            JSValueRef msg = args[0];
+            
+            if (JSC_JAVASCRIPT_ENGINE->jscIsNull(context, msg) == false)
+                message = parseJSCValue(context, msg);
+            
+            if (numArgs > 1)
+            {
+                JSValueRef defaultArg2 = args[1];
+                
+                if (JSC_JAVASCRIPT_ENGINE->jscIsNull(defaultArg2) == false)
+                    defaultArg = parseJSCValue(context, defaultArg2);
+            }
+            
+            if (numArgs > 2)
+            {
+                JSValueRef title2 = args[2];
+                
+                if (JSC_JAVASCRIPT_ENGINE->jscIsNull(title2) == false)
+                    title = parseJSCValue(context, title2);
+            }
+            
+            JSValueRef retVal = NULL;
+            
+            #ifdef GUI_USE_WXWIDGETS
+                String result = parsewxString(wxGetTextFromUser(message.towxString(), title.towxString(), defaultArg.towxString()));
+            
+                JSValueRef result2 = result.toJSCValue(context);
+                retVal = result2;
+            #endif
+            
+            return (retVal);
+        }
+
+        JSValueRef Global::include(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception)
+        {
+            JSValueRef file = args[0];
+
+            if (JSC_JAVASCRIPT_ENGINE->jscIsNull(file) == true)
+            {
+                JSC_JAVASCRIPT_ENGINE->throwException("First argument when calling an include function cannot be empty!");
+
+                return (JSValueMakeUndefined(context));
+            }
+            
+            String path = parseJSCValue(context, file);
+            String contents = "";
+            
+            try
+            {
+                contents = CPP::IO::TextFile::readFile(path);
+            }
+            catch (Exception ex)
+            {
+                JSC_JAVASCRIPT_ENGINE->throwException(ex.getMessage ());
+                
+                return (JSValueMakeUndefined(context));
+            }
+            
+            JSC_JAVASCRIPT_ENGINE->executeScript(contents, path);
+            
+            JSObjectRef _emptyResolve = JSC_JAVASCRIPT_ENGINE->jscGetFunction(JSC_RADJAV, "_emptyResolve");
+            JSObjectRef promise = JSC_JAVASCRIPT_ENGINE->createPromise(thisObj, _emptyResolve);
+
+            return (promise);
+        }
+
+        JSValueRef Global::collectGarbage(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception)
+        {
+            RadJav::javascriptEngine->collectGarbage();
+
+            return (JSValueMakeUndefined(context));
+        }
 
         JSValueRef Global::exit(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception)
         {

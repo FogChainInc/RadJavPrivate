@@ -131,7 +131,8 @@ if (USE_JAVASCRIPTCORE)
 
 	# JavaScriptCore Global
 	set (SOURCES_files_RadJav__JSC__Global__Sources 
-		"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGlobal.cpp")
+		"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGlobal.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCThread.cpp")
 	source_group ("RadJav\\JavaScriptCore\\Global" FILES ${SOURCES_files_RadJav__JSC__Global__Sources})
 
 	set (SOURCES ${SOURCES_files_RadJav__JSC__Global__Sources} ${SOURCES})

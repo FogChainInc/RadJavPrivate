@@ -186,6 +186,8 @@
                 /// Convert a string into a JavascriptCore string. Be sure to use JSStringRelease to free
                 /// JSStringRef!
                 JSStringRef toJSCString () const;
+                /// Convert a string into a JavascriptCore value. No need to use JSStringRelease.
+                JSValueRef toJSCValue (JSContextRef context);
             #endif
 		};
 

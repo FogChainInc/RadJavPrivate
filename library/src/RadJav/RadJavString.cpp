@@ -387,6 +387,16 @@ namespace RadJAV
     {
         return (JSStringCreateWithUTF8CString (this->c_str ()));
     }
+    
+    JSValueRef String::toJSCValue (JSContextRef context)
+    {
+        JSStringRef str = JSStringCreateWithUTF8CString (this->c_str ());
+        JSValueRef value = JSValueMakeString(context, str);
+
+        JSStringRelease(str);
+
+        return (value);
+    }
 #endif
 
 	RDECIMAL parseDecimal(String decimal)
