@@ -849,7 +849,7 @@ namespace RadJAV
             }
 
 				// RadJav.DB
-				/*#ifdef USE_DATABASE
+				#ifdef USE_DATABASE
 					{
 						v8::Handle<v8::Function> dbFunc = v8GetFunction(radJavFunc, "DB");
 
@@ -864,7 +864,7 @@ namespace RadJAV
 				#endif
 
 				// RadJav.IO
-				{
+				/*{
 					v8::Handle<v8::Function> ioFunc = v8GetFunction(radJavFunc, "IO");
 
 					// RadJav.IO.FileIO

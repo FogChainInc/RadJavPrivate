@@ -35,6 +35,10 @@
 		#include <v8.h>
 	#endif
 
+    #ifdef USE_JAVASCRIPTCORE
+        #include <JavaScriptCore/JavaScriptCore.h>
+    #endif
+
 	#include <functional>
 
 	namespace RadJAV
@@ -42,6 +46,9 @@
 		#ifdef USE_V8
 			class V8JavascriptEngine;
 		#endif
+        #ifdef USE_JAVASCRIPTCORE
+            class JSCJavascriptEngine;
+        #endif
 
 		/// The thread class.
 		#ifdef GUI_USE_WXWIDGETS
@@ -135,6 +142,25 @@
 					}
 				#endif
 
+                #ifdef USE_JAVASCRIPTCORE
+                    /// Create a V8 promise.
+                    JSObjectRef createJSCPromise(JSCJavascriptEngine *engine, JSObjectRef context);
+            
+                    /// Set arguments for when a resolve occurs. The persistent will be deleted when the resolve is called.
+                    inline void setResolveArgs(RJINT numArgs = 0, JSValueRef *args = NULL)
+                    {
+                        resolveNumArgs = numArgs;
+                        resolveArgs = args;
+                    }
+            
+                    /// Set arguments for when a resolve occurs. The persistent will be deleted when the resolve is called.
+                    inline void setRejectArgs(RJINT numArgs = 0, JSValueRef *args = NULL)
+                    {
+                        rejectNumArgs = numArgs;
+                        rejectArgs = args;
+                    }
+                #endif
+
 				/// Resolve the promise when necessary.
 				void resolvePromise();
 				/// Reject the promise when the code in the thread has failed.
@@ -152,6 +178,19 @@
 					v8::Persistent<v8::Array> *resolveArgs;
 					v8::Persistent<v8::Array> *rejectArgs;
 				#endif
+                #ifdef USE_JAVASCRIPTCORE
+                    /// Run the promise function and save the resolve and reject funtions.
+                    JSValueRef runPromise(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
+
+                    JSCJavascriptEngine *engine;
+                    JSObjectRef resolvep;
+                    JSObjectRef rejectp;
+
+                    RJINT resolveNumArgs;
+                    JSValueRef *resolveArgs;
+                    RJINT rejectNumArgs;
+                    JSValueRef *rejectArgs;
+                #endif
 		};
 	}
 #endif

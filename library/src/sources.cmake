@@ -150,6 +150,13 @@ if (USE_JAVASCRIPTCORE)
 	source_group ("RadJav\\JavaScriptCore\\Console" FILES ${SOURCES_files_RadJav__JSC__Console__Sources})
 
 	set (SOURCES ${SOURCES_files_RadJav__JSC__Console__Sources} ${SOURCES})
+	
+	# JavaScriptCore Database
+	set (SOURCES_files_RadJav__JSC__DB__Sources 
+		"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCDBKeyValueStorage.cpp")
+	source_group ("RadJav\\JavaScriptCore\\Database" FILES ${SOURCES_files_RadJav__JSC__DB__Sources})
+	
+	set (SOURCES ${SOURCES_files_RadJav__JSC__DB__Sources} ${SOURCES})
 endif ()
 
 # V8

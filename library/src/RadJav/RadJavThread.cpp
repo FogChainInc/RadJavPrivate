@@ -22,7 +22,13 @@
 #include "RadJavException.h"
 
 #include "RadJav.h"
-#include "v8/RadJavV8JavascriptEngine.h"
+
+#ifdef USE_V8
+    #include "v8/RadJavV8JavascriptEngine.h"
+#endif
+#ifdef USE_JAVASCRIPTCORE
+    #include "jscore/RadJavJSCJavascriptEngine.h"
+#endif
 
 namespace RadJAV
 {
@@ -68,6 +74,12 @@ PromiseThread::PromiseThread()
 		resolveArgs = NULL;
 		rejectArgs = NULL;
 	#endif
+    #ifdef USE_JAVASCRIPTCORE
+        resolveNumArgs = 0;
+        resolveArgs = NULL;
+        rejectNumArgs = 0;
+        rejectArgs = NULL;
+    #endif
 }
 
 #ifdef USE_V8
@@ -111,12 +123,50 @@ PromiseThread::PromiseThread()
 		rejectArgs->Reset(isolate, args);
 	}
 #endif
+#ifdef USE_JAVASCRIPTCORE
+    JSValueRef PromiseThread::runPromise(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception)
+    {
+        /*JSValueRef resolve = args[0];
+        JSValueRef reject = args[1];
+        v8::Local<v8::Array> args2 = v8::Local<v8::Array>::Cast (args[2]);
+        v8::Local<v8::External> passThrough = v8::Local<v8::External>::Cast (args2->Get (0));
+        PromiseThread *thread = (PromiseThread *)passThrough->Value();
+        
+        thread->resolvep = RJNEW v8::Persistent<v8::Function>();
+        thread->rejectp = RJNEW v8::Persistent<v8::Function>();
+        
+        thread->resolvep->Reset(args.GetIsolate(), resolve);
+        thread->rejectp->Reset(args.GetIsolate(), reject);*/
+
+        return (JSValueMakeUndefined(context));
+    }
+
+    JSObjectRef PromiseThread::createJSCPromise(JSCJavascriptEngine *engine, JSObjectRef context)
+    {
+        this->engine = engine;
+
+        
+
+        /*v8::Local<v8::External> passThrough = v8::External::New(engine->isolate, this);
+        v8::MaybeLocal<v8::Function> func = v8::Function::New(context->CreationContext(), PromiseThread::runPromise);
+        v8::Local<v8::Function> func2 = func.ToLocalChecked();
+        v8::Local<v8::Array> args = v8::Array::New(engine->isolate);
+        args->Set (0, passThrough);
+        v8::Local<v8::Object> promise = engine->createPromise(context, func2, args);*/
+        JSObjectRef obj = NULL;
+        
+        return (obj);
+    }
+#endif
 
 	void PromiseThread::resolvePromise()
 	{
 		#ifdef USE_V8
 			V8_JAVASCRIPT_ENGINE->callFunctionOnNextTick(RJNEW AsyncFunctionCall(resolvep, resolveArgs));
 		#endif
+        #ifdef USE_JAVASCRIPTCORE
+            JSC_JAVASCRIPT_ENGINE->callFunctionOnNextTick(RJNEW AsyncFunctionCall (resolvep, resolveNumArgs, resolveArgs));
+        #endif
 
 		onComplete();
 	}
@@ -126,6 +176,9 @@ PromiseThread::PromiseThread()
 		#ifdef USE_V8
 			V8_JAVASCRIPT_ENGINE->callFunctionOnNextTick(RJNEW AsyncFunctionCall(rejectp, rejectArgs));
 		#endif
+        #ifdef USE_JAVASCRIPTCORE
+            JSC_JAVASCRIPT_ENGINE->callFunctionOnNextTick(RJNEW AsyncFunctionCall (rejectp, rejectNumArgs, rejectArgs));
+        #endif
 
 		onComplete();
 	}

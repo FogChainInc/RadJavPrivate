@@ -79,16 +79,16 @@
                 AsyncFunctionCall(JSObjectRef newfunc, RJINT numArgs = 0,
                                   JSValueRef *newargs = NULL, RJBOOL newDeleteOnComplete = true);
                 ~AsyncFunctionCall();
-            
+
                 /// Check to see if an asynchronous function call has a result. Be sure to set deleteOnComplete = true;
                 inline RJBOOL checkForResult()
                 {
                     if (result != NULL)
                         return (true);
-                    
+
                     return (false);
                 }
-            
+
                 /// Get the result from the async function call. Be sure to set deleteOnComplete = true;
                 JSValueRef getResult(JSCJavascriptEngine *engine);
 
