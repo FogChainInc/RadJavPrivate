@@ -264,12 +264,12 @@ if (USE_OGRE)
 		set (SOURCES_files_RadJav__v8__C3D__Sources 
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8C3DTransform.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8C3DObject3D.cpp"
-					"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8C3DPlane.cpp"
-		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8C3DCube.cpp"
-		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8C3DSphere.cpp"
-		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8C3DCamera.cpp"
-		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8C3DLight.cpp"
-		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8C3DModel.cpp")
+			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8C3DPlane.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8C3DCube.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8C3DSphere.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8C3DCamera.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8C3DLight.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8C3DModel.cpp")
 		source_group ("RadJav\\V8\\C3D" FILES ${SOURCES_files_RadJav__v8__C3D__Sources})
 		
 		set (SOURCES ${SOURCES_files_RadJav__v8__C3D__Sources} ${SOURCES})
@@ -280,6 +280,28 @@ if (USE_OGRE)
 		source_group ("RadJav\\V8\\GUI" FILES ${SOURCES_files_RadJav__v8__GUI__Sources})
 		
 		set (SOURCES ${SOURCES_files_RadJav__v8__GUI__Sources} ${SOURCES})
+	elseif (USE_JAVASCRIPTCORE)
+		# JavaScriptCore C3D
+		set (SOURCES_files_RadJav__JSC__C3D__Sources 
+			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCC3DTransform.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCC3DObject3D.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCC3DPlane.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCC3DCube.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCC3DSphere.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCC3DCamera.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCC3DLight.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCC3DModel.cpp"
+		)
+		source_group ("RadJav\\JavaScriptCore\\C3D" FILES ${SOURCES_files_RadJav__JSC__C3D__Sources})
+		
+		set (SOURCES ${SOURCES_files_RadJav__JSC__C3D__Sources} ${SOURCES})
+		
+		# JavaScriptCore GUI Canvas3D
+		#set (SOURCES_files_RadJav__JSC__GUI__Sources 
+		#	"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUICanvas3D.cpp")
+		#source_group ("RadJav\\JavaScriptCore\\GUI" FILES ${SOURCES_files_RadJav__JSC__GUI__Sources})
+		
+		#set (SOURCES ${SOURCES_files_RadJav__JSC__GUI__Sources} ${SOURCES})
 	endif ()
 
 	# C++ C3D

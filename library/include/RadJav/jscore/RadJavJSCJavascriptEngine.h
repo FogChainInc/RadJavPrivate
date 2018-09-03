@@ -264,6 +264,10 @@
                 JSObjectRef jscCreateNewObject(String objectName, RJINT numArgs = 0, JSValueRef args[] = NULL);
                 /// Get an object, class, or namespace from a JS class.
                 JSObjectRef jscGetObjectFromJSClass(String objectName, JSContextRef context = NULL);
+				/// Get a decimal value from a JS value.
+				RDECIMAL jscParseDecimal(JSValueRef val);
+				/// Get a decimal value from a JS value.
+				RDECIMAL jscParseDecimal(JSContextRef context, JSValueRef val);
 
 				// Create a promise.
 				JSObjectRef createPromise(JSObjectRef function);

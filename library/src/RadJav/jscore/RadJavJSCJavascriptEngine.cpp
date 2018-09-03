@@ -1545,6 +1545,21 @@ namespace RadJAV
             return (foundObj);
         }
 
+		RDECIMAL JSCJavascriptEngine::jscParseDecimal(JSValueRef val)
+		{
+			return jscParseDecimal(globalContext, val);
+		}
+
+		RDECIMAL JSCJavascriptEngine::jscParseDecimal(JSContextRef context, JSValueRef val)
+		{
+			double value = JSValueToNumber(context, val, nullptr);
+			
+			if(std::isnan(value))
+				return 0.0;
+			
+			return value;
+		}
+
         JSObjectRef JSCJavascriptEngine::createPromise(JSObjectRef function)
         {
             return (createPromise (globalObj, function));

@@ -238,6 +238,9 @@ namespace RadJAV
 		template<class T>
 		void set(JSContextRef context, JSObjectRef handle, const String& functionName, std::shared_ptr<T> object)
 		{
+			if(!context || !handle || functionName.empty() || !object)
+				return;
+			
 			LOCK_GUARD(s_mutexExternalsAccess);
 
 			uint32_t objectId = nextId();
@@ -262,6 +265,9 @@ namespace RadJAV
 		template<class T>
 		std::shared_ptr<T> get(JSContextRef context, JSObjectRef handle, const String& functionName)
 		{
+			if(!context || !handle || functionName.empty())
+				return std::shared_ptr<T>();
+			
 			LOCK_GUARD(s_mutexExternalsAccess);
 
 			FieldWrapper* wrapper = getWrapper(context, handle, functionName);

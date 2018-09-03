@@ -158,6 +158,9 @@ namespace RadJAV
 	
 	void ExternalsManagerJscImpl::set(JSContextRef context, JSObjectRef handle, const String& functionName, CPP::ChainedPtr* object)
 	{
+		if(!context || !handle || functionName.empty() || !object)
+			return;
+		
 		LOCK_GUARD(s_mutexExternalsAccess);
 		
 		uint32_t objectId = nextId();
@@ -181,6 +184,9 @@ namespace RadJAV
 	
 	CPP::ChainedPtr* ExternalsManagerJscImpl::get(JSContextRef context, JSObjectRef handle, const String& functionName)
 	{
+		if(!context || !handle || functionName.empty())
+			return nullptr;
+		
 		LOCK_GUARD(s_mutexExternalsAccess);
 
 		FieldWrapper* wrapper = getWrapper(context, handle, functionName);
@@ -197,6 +203,9 @@ namespace RadJAV
 	
 	void ExternalsManagerJscImpl::clear(JSContextRef context, JSObjectRef handle, const String& functionName)
 	{
+		if(!context || !handle || functionName.empty())
+			return;
+		
 		LOCK_GUARD(s_mutexExternalsAccess);
 
 		FieldWrapper* wrapper = getWrapper(context, handle, functionName);

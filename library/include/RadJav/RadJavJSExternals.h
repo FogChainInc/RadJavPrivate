@@ -104,7 +104,7 @@ namespace RadJAV
 		template<class T>
 		std::shared_ptr<T> get(const v8::Local<v8::Object>& handle, const String& functionName)
 		{
-			return impl->get(handle, functionName);
+			return impl->get<T>(handle, functionName);
 		}
 		
 		/**
@@ -169,7 +169,7 @@ namespace RadJAV
 		template<class T>
 		std::shared_ptr<T> get(JSContextRef context, JSObjectRef handle, const String& functionName)
 		{
-			return impl->get(context, handle, functionName);
+			return impl->get<T>(context, handle, functionName);
 		}
 		
 		/**
