@@ -525,8 +525,13 @@ if (libRadJav_EMBEDFILE)
 			RadJav.Animation.js
 			RadJav.IO.js
 			RadJav.Interact.js
-			RadJav.DB.KeyValueStorage.js
 	)
+	
+	if (INCLUDE_DATABASES)
+		set (jsFiles ${jsFiles}
+				RadJav.DB.KeyValueStorage.js
+		)
+	endif ()
 	
 	if (INCLUDE_CRYPTOGRAPHY)
 		set (jsFiles ${jsFiles}
@@ -593,8 +598,8 @@ if (libRadJav_EMBEDFILE)
 		include (EmbedJavascript)
 	
 		embedJavascript( "${jsFiles}" "${CMAKE_CURRENT_SOURCE_DIR}/javascript" "RadJavJavascriptCode.h" "${CMAKE_CURRENT_SOURCE_DIR}/include/RadJav")
-endif ()
-	endif()
+	endif ()
+endif()
 
 set (libRadJav_CPP_DEFS2 ${libRadJav_CPP_DEFS} PARENT_SCOPE)
 set (libRadJav_CPP_DEFS_DEBUG2 ${libRadJav_CPP_DEFS_DEBUG} PARENT_SCOPE)

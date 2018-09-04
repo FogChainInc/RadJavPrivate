@@ -1,0 +1,65 @@
+var win = new RadJav.GUI.Window ("win", "Window Example");
+
+// Stupid hack for now. Delete in the future. Should throw errors in HTML5.
+win.create ().then (function (win2)
+	{
+	});
+
+var io = new RadJav.IO();
+var iostream = new RadJav.IO.StreamFile();
+
+var tempDir;
+var sep;
+
+if (RadJav.OS.type == "windows") {
+    tempDir = "c:\\temp";
+    sep = "\\";
+} else {
+    tempDir = "/temp";
+    sep = "/";
+}
+
+RadJav.Console.println("PROGRAM START - STREAMSIO");
+    
+try
+{
+    RadJav.Console.println("##################### Test 1 ######################################");
+    var buffer = new ArrayBuffer(16);
+    var int32View = new Int32Array(buffer);
+    for (var i = 0; i < int32View.length; i++) {
+        int32View[i] = i * 2;
+    }
+
+    iostream.writeStream(tempDir + sep + "test_file.dat", int32View, RadJav.IO.StreamFile.write);
+    var fileExists = io.isFile(tempDir + sep + "test_file.dat");
+
+    if (fileExists == false)
+        RadJav.Console.println("Test #1 Failed - Stream creation failed");
+}
+catch (error)
+{
+    RadJav.Console.println(error);
+}
+
+try
+{
+    RadJav.Console.println("##################### Test 2 ######################################");
+    var buffer = new ArrayBuffer(16);
+    var int32View = new Int32Array(buffer);
+    for (var i = 0; i < int32View.length; i++) {
+        int32View[i] = i * 2;
+    }
+
+    iostream.writeStream(tempDir + sep + "test_file.dat", int32View, RadJav.IO.StreamFile.write);
+    var data = iostream.readStream(tempDir + sep + "test_file.dat");
+
+    if (data == "")
+        RadJav.Console.println("Test #2 Failed - No data in file/file not found");
+}
+catch (error)
+{
+    RadJav.Console.println(error);
+}
+
+
+RadJav.Console.println("PROGRAM COMPLETE - STREAMSIO");

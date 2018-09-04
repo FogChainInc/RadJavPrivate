@@ -80,6 +80,20 @@
 							static void close(const v8::FunctionCallbackInfo<v8::Value> &args);
 					};
 
+					class RADJAV_EXPORT StreamFile
+					{
+						public:
+							static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
+
+							static void writeStream(const v8::FunctionCallbackInfo<v8::Value> &args);
+							static void writeStreamAsync(const v8::FunctionCallbackInfo<v8::Value> &args);
+
+							static void readStream(const v8::FunctionCallbackInfo<v8::Value> &args);
+							static void readStreamAsync(const v8::FunctionCallbackInfo<v8::Value> &args);
+
+							static void onFileRead(const v8::FunctionCallbackInfo<v8::Value> &args);
+					};
+
 					class RADJAV_EXPORT TextFile
 					{
 						public:

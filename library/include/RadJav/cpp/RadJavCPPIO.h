@@ -144,6 +144,27 @@ namespace RadJAV
 						#endif
 				};
 
+				class RADJAV_EXPORT StreamFile
+				{
+					public:
+						enum class operation : int
+						{
+							read = 0,
+							write,
+							append
+						};
+
+						static void writeStream(const String path_, const v8::Local<v8::ArrayBuffer> buffer_, const RJINT outputType_ = static_cast<int>(IO::StreamFile::operation::write));
+						static void writeStreamAsync(const String path_, const v8::Local<v8::ArrayBuffer> buffer_, const RJINT outputType_ = static_cast<int>(IO::StreamFile::operation::write));
+
+						static String readStream(const String path_);
+						static void readStreamAsync(const String path_);
+
+						#ifdef USE_V8
+							static v8::Persistent<v8::Function> *m_streamfileReadEvent;
+						#endif
+				};
+
 				#ifdef HAS_XML_SUPPORT
 					namespace XML
 					{

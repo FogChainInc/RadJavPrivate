@@ -60,6 +60,7 @@ var RadJav;
             return SerialComm;
         }());
         IO.SerialComm = SerialComm;
+        
         var TextFile = (function () {
             function TextFile() {
             }
@@ -70,6 +71,18 @@ var RadJav;
             return TextFile;
         }());
         IO.TextFile = TextFile;
+        
+        var StreamFile = (function () {
+            function StreamFile() {
+            }
+            StreamFile.writeStream = function (path, content) { };
+            StreamFile.writeStreamAsync = function (path, content) { };
+            StreamFile.readStream = function (path) { return; };
+            StreamFile.readStreamAsync = function (path) { return; };
+            return StreamFile;
+        }());
+        IO.StreamFile = StreamFile;
+    
     })(IO = RadJav.IO || (RadJav.IO = {}));
     var XML;
     (function (XML) {

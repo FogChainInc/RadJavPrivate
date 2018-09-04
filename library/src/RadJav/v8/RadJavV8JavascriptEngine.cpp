@@ -1186,12 +1186,9 @@ namespace RadJAV
 				// RadJav.IO
 				{
 					v8::Handle<v8::Function> ioFunc = v8GetFunction(radJavFunc, "IO");
+					v8::Handle<v8::Object> fileioPrototype = v8GetObject(ioFunc, "prototype");
 
-					// RadJav.IO.FileIO
-					{
-						//v8::Handle<v8::Function> filemFunc = v8GetFunction(ioFunc, "FileIO");
-						//v8::Handle<v8::Object> filePrototype = v8GetObject(filemFunc, "prototype");
-					}
+					V8B::IO::createV8Callbacks(isolate, fileioPrototype);
 
 					// RadJav.IO.SerialComm
 					{
@@ -1209,7 +1206,13 @@ namespace RadJAV
 						V8B::IO::TextFile::createV8Callbacks(isolate, textPrototype);
 					}
 
-					V8B::IO::createV8Callbacks(isolate, ioFunc);
+					// RadJav.IO.StreamFile
+					{
+						v8::Handle<v8::Function> streamFileFunc = v8GetFunction(ioFunc, "StreamFile");
+						v8::Handle<v8::Object> streamPrototype = v8GetObject(streamFileFunc, "prototype");
+
+						V8B::IO::StreamFile::createV8Callbacks(isolate, streamPrototype);
+					}
 				}
 
 				#ifdef HAS_XML_SUPPORT
@@ -1223,6 +1226,7 @@ namespace RadJAV
 				}
 				#endif
 
+				#ifdef NET_ON
 				// RadJav.Net
 				{
 					v8::Handle<v8::Function> netFunc = v8GetFunction(radJavFunc, "Net");
@@ -1253,6 +1257,7 @@ namespace RadJAV
 						V8B::Net::WebSocketClient::createV8Callbacks(isolate, webSocketClientPrototype);
 					}
 				}
+				#endif
 
 				#ifdef USE_BLOCKCHAIN_V1
 				// RadJav.BlockchainV1
@@ -1263,6 +1268,7 @@ namespace RadJAV
 				}
 				#endif
 
+				#ifdef GUI_USE_WXWIDGETS
 				// RadJav.GUI
 				{
 					v8::Handle<v8::Function> guiFunc = v8GetFunction(radJavFunc, "GUI");
@@ -1398,6 +1404,7 @@ namespace RadJAV
 						}
 					#endif
 				}
+				#endif
 
 				#ifdef C3D_USE_OGRE
 				// RadJav.C3D
