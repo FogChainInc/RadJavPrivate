@@ -27,12 +27,14 @@
 
 	#ifdef USE_V8
 		#include <v8.h>
-
-		namespace RadJAV
-		{
-			class String;
-		}
+	#elif defined USE_JAVASCRIPTCORE
+		#include <JavaScriptCore/JavaScriptCore.h>
 	#endif
+
+	namespace RadJAV
+	{
+		class String;
+	}
 
 	namespace RadJAV
 	{
@@ -99,6 +101,9 @@
 		#ifdef USE_V8
 			/// Convert a string array to a V8 string array.
 			v8::Local<v8::Array> convertArrayToV8Array(RadJAV::Array<RadJAV::String> strArray, v8::Isolate *isolate);
+		#elif defined USE_JAVASCRIPTCORE
+			/// Convert a string array to a JavaScriptCore string array.
+			JSObjectRef convertArrayToJSCArray(RadJAV::Array<RadJAV::String> strArray, JSContextRef ctx);
 		#endif
 	}
 #endif

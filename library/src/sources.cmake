@@ -150,7 +150,16 @@ if (USE_JAVASCRIPTCORE)
 	source_group ("RadJav\\JavaScriptCore\\Console" FILES ${SOURCES_files_RadJav__JSC__Console__Sources})
 
 	set (SOURCES ${SOURCES_files_RadJav__JSC__Console__Sources} ${SOURCES})
+
+	# JavaScriptCore IO
+	set (SOURCES_files_RadJav__JSC__IO__Sources 
+		"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCIO.cpp"
+		#"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCIOXML.cpp"
+		)
+	source_group ("RadJav\\JavaScriptCore\\IO" FILES ${SOURCES_files_RadJav__JSC__IO__Sources})
 	
+	set (SOURCES ${SOURCES_files_RadJav__JSC__IO__Sources} ${SOURCES})
+
 	# JavaScriptCore Database
 	set (SOURCES_files_RadJav__JSC__DB__Sources 
 		"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCDBKeyValueStorage.cpp")

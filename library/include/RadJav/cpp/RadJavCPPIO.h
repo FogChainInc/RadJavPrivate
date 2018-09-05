@@ -140,8 +140,11 @@ namespace RadJAV
 						static void readFileAsync(String path_);
 						
 						#ifdef USE_V8
-							static v8::Persistent<v8::Function> *m_textfileReadEvent;
+							static v8::Persistent<v8::Function>*;
+						#elif defined USE_JAVASCRIPTCORE
+							static JSObjectRef
 						#endif
+							m_textfileReadEvent;
 				};
 
 				class RADJAV_EXPORT StreamFile
@@ -163,8 +166,11 @@ namespace RadJAV
 						static void readStreamAsync(const String path_);
 
 						#ifdef USE_V8
-							static v8::Persistent<v8::Function> *m_streamfileReadEvent;
+							static v8::Persistent<v8::Function>*
+						#elif defined USE_JAVASCRIPTCORE
+							static JSObjectRef
 						#endif
+							m_streamfileReadEvent;
 				};
 
 				#ifdef HAS_XML_SUPPORT

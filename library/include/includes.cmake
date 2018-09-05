@@ -154,6 +154,13 @@ if (USE_JAVASCRIPTCORE)
 
 	set (SOURCES ${SOURCES_files_RadJav__JSC__Console__Headers} ${SOURCES})
 
+	# JavaScriptCore IO
+	set (SOURCES_files_RadJav__JSC__IO__Headers 
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCIO.h")
+	source_group ("RadJav\\JavaScriptCore\\IO" FILES ${SOURCES_files_RadJav__JSC__IO__Headers})
+	
+	set (SOURCES ${SOURCES_files_RadJav__JSC__IO__Headers} ${SOURCES})
+
 	# JavaScriptCore Database
 	set (SOURCES_files_RadJav__JSC__DB__Headers 
 		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCDBKeyValueStorage.h")

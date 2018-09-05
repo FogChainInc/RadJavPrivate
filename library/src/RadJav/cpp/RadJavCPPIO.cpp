@@ -43,6 +43,12 @@ RadJAV::Array<int> RadJAV::CPP::IO::SerialComm::m_baudRates = RadJAV::Array<int>
 	v8::Persistent<v8::Function>* RadJAV::CPP::IO::TextFile::m_textfileReadEvent = nullptr;
 	v8::Persistent<v8::Function>* RadJAV::CPP::IO::StreamFile::m_streamfileReadEvent = nullptr;
 	//v8::Persistent<v8::Function>* RadJAV::CPP::IO::m_fileListEvent = nullptr;
+#elif defined USE_JAVASCRIPTCORE
+	#include "jscore/RadJavJSCJavascriptEngine.h"
+
+	JSObjectRef RadJAV::CPP::IO::TextFile::m_textfileReadEvent = nullptr;
+	JSObjectRef RadJAV::CPP::IO::StreamFile::m_streamfileReadEvent = nullptr;
+	//JSObjectRef RadJAV::CPP::IO::m_fileListEvent = nullptr;
 #endif
 
 namespace RadJAV
@@ -487,8 +493,22 @@ namespace RadJAV
 							evt->Call(V8_JAVASCRIPT_ENGINE->globalContext->Global(), 1, args);
 						DELETE_ARRAY(args);
 					}
-				#endif
+				#elif defined USE_JAVASCRIPTCORE
+					JSObjectRef func = RadJAV::CPP::IO::TextFile::m_textfileReadEvent;
+					if (func != nullptr)
+					{
+						JSGlobalContextRef context = JSC_JAVASCRIPT_ENGINE->globalContext;
+						JSStringRef contentStr = contents.toJSCString();
+						JSValueRef strs[1];
+						strs[0] = JSValueMakeString(context, contentStr);
+						
+						JSStringRelease(contentStr);
 
+						JSObjectCallAsFunction(context, func, nullptr, 1, strs, nullptr);
+						
+						JSValueUnprotect(context, func);
+					}
+				#endif
 			});
 		}
 
