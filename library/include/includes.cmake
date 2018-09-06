@@ -132,6 +132,14 @@ if (USE_JAVASCRIPTCORE)
 
 	set (SOURCES ${SOURCES_files_RadJav__JSC__Headers} ${SOURCES})
 
+	# V8 GUI
+	set (SOURCES_files_RadJav__JSC__GUI__Headers 
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIGObject.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIWindow.h")
+	source_group ("RadJav\\JavaScriptCore\\GUI" FILES ${SOURCES_files_RadJav__JSC__GUI__Headers})
+
+	set (SOURCES ${SOURCES_files_RadJav__JSC__GUI__Headers} ${SOURCES})
+
 	# JavaScriptCore Global
 	set (SOURCES_files_RadJav__JSC__Global__Headers 
 		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGlobal.h"

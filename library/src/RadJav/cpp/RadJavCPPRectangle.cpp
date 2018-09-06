@@ -75,6 +75,42 @@ namespace RadJAV
 			}
 		#endif
 
+        #ifdef USE_JAVASCRIPTCORE
+            Rectangle::Rectangle(JSCJavascriptEngine *jsEngine, JSObjectRef obj)
+            {
+                RJINT x = jsEngine->jscGetInt(obj, "x");
+                RJINT y = jsEngine->jscGetInt(obj, "y");
+                RJINT width = jsEngine->jscGetInt(obj, "width");
+                RJINT height = jsEngine->jscGetInt(obj, "height");
+
+                this->x = x;
+                this->y = y;
+                this->width = width;
+                this->height = height;
+                top = this->y + this->height;
+                bottom = this->y - this->height;
+                left = this->x - this->width;
+                right = this->x + this->width;
+            }
+
+            JSObjectRef Rectangle::toJSCObject(JSCJavascriptEngine *jsEngine, Rectangle *obj)
+            {
+                JSObjectRef func = jsEngine->jscGetFunction(jsEngine->radJav, "Rectangle");
+                JSObjectRef objJSC = jsEngine->jscCallAsConstructor(func, 0, NULL);
+
+                jsEngine->jscSetNumber(objJSC, "x", obj->x);
+                jsEngine->jscSetNumber(objJSC, "y", obj->y);
+                jsEngine->jscSetNumber(objJSC, "width", obj->width);
+                jsEngine->jscSetNumber(objJSC, "height", obj->height);
+                jsEngine->jscSetNumber(objJSC, "top", obj->top);
+                jsEngine->jscSetNumber(objJSC, "bottom", obj->bottom);
+                jsEngine->jscSetNumber(objJSC, "left", obj->left);
+                jsEngine->jscSetNumber(objJSC, "right", obj->right);
+
+                return (objJSC);
+            }
+        #endif
+
 		void Rectangle::setPosition(Vector2 pos)
 		{
 			x = pos.x;

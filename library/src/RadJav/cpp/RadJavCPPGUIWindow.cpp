@@ -103,6 +103,13 @@ namespace RadJAV
 				icon = jsEngine->v8GetString(args.This(), "_icon");
 			}
 			#endif
+            #ifdef USE_JAVASCRIPTCORE
+                Window::Window(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[])
+                : GObject (jsEngine, thisObj, numArgs, args)
+                {
+                    icon = jsEngine->jscGetString(thisObj, "_icon");
+                }
+            #endif
 
 			Window::Window(String name, String text, CPP::GUI::GObject *parent)
 				: GObject(name, text, parent)

@@ -107,6 +107,77 @@ namespace RadJAV
 			}
 			#endif
 		#endif
+
+        #ifdef USE_JAVASCRIPTCORE
+            Font::Font(JSCJavascriptEngine *jsEngine, JSObjectRef obj)
+            {
+                fontFamily = "Open Sans";
+                size = 10;
+                color = Color::Black;
+                underline = false;
+                bold = false;
+                italic = false;
+
+                fontFamily = jsEngine->jscGetString(obj, "fontFamily");
+                JSObjectRef colorJSC = jsEngine->jscGetObject(obj, "color");
+                color.r = jsEngine->jscGetDecimal(colorJSC, "r");
+                color.g = jsEngine->jscGetDecimal(colorJSC, "g");
+                color.b = jsEngine->jscGetDecimal(colorJSC, "b");
+                color.a = jsEngine->jscGetDecimal(colorJSC, "a");
+                size = jsEngine->jscGetInt(obj, "size");
+                underline = jsEngine->jscGetBool(obj, "underline");
+                bold = jsEngine->jscGetBool(obj, "bold");
+                italic = jsEngine->jscGetBool(obj, "italic");
+            }
+
+            #ifdef GUI_USE_WXWIDGETS
+                JSObjectRef Font::toJSCObject(JSCJavascriptEngine *jsEngine, Font *font)
+                {
+                    JSObjectRef func = jsEngine->jscGetFunction(jsEngine->radJav, "Font");
+                    JSObjectRef objJSC = jsEngine->jscCallAsConstructor(func, 0, NULL);
+
+                    wxFont wfont;
+
+                    if (wfont.IsOk() == true)
+                    {
+                        String fontFamily = parsewxString(wfont.GetFaceName());
+                        wxColor color;
+                        RJNUMBER r = font->color.r / 255;
+                        RJNUMBER g = font->color.g / 255;
+                        RJNUMBER b = font->color.b / 255;
+                        RJNUMBER a = font->color.a / 255;
+                        RJINT size = wfont.GetPixelSize().x;
+                        RJBOOL underlined = false;
+                        RJBOOL bold = false;
+                        RJBOOL italic = false;
+                        
+                        if (wfont.GetUnderlined() == true)
+                            underlined = true;
+                        
+                        if (wfont.GetWeight() == wxFontWeight::wxFONTWEIGHT_BOLD)
+                            bold = true;
+                        
+                        if (wfont.GetStyle() == wxFontStyle::wxFONTSTYLE_ITALIC)
+                            italic = true;
+                        
+                        jsEngine->jscSetString(objJSC, "fontFamily", fontFamily);
+                        
+                        JSObjectRef ocolor = jsEngine->jscGetObject(objJSC, "color");
+                        jsEngine->jscSetNumber(ocolor, "r", r);
+                        jsEngine->jscSetNumber(ocolor, "g", g);
+                        jsEngine->jscSetNumber(ocolor, "b", b);
+                        jsEngine->jscSetNumber(ocolor, "a", a);
+                        
+                        jsEngine->jscSetNumber(objJSC, "size", size);
+                        jsEngine->jscSetBool(objJSC, "underline", underlined);
+                        jsEngine->jscSetBool(objJSC, "bold", bold);
+                        jsEngine->jscSetBool(objJSC, "italic", italic);
+                    }
+
+                    return (objJSC);
+                }
+            #endif
+        #endif
 	}
 }
 

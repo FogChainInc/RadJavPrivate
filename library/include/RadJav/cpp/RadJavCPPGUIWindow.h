@@ -60,6 +60,9 @@
 						#ifdef USE_V8
 							Window(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
 						#endif
+                        #ifdef USE_JAVASCRIPTCORE
+                            Window(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
+                        #endif
 						Window(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 
 						void create();

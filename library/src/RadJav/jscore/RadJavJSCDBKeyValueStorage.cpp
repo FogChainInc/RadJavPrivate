@@ -54,11 +54,11 @@ namespace RadJAV
 
             JSValueRef Thread::open(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception)
             {
-                std::shared_ptr<DBTYPE> storage = V8_JAVASCRIPT_ENGINE->v8GetExternal<DBTYPE>(args.This(), "_storage");
+                std::shared_ptr<DBTYPE> storage = JSC_JAVASCRIPT_ENGINE->jscGetExternal<DBTYPE>(context, thisObj, "_storage");
                 JSValueRef val = args[0];
                 String path = parseJSCValue (val);
                 storage->filePath = path;
-                
+
                 PromiseThread *thread = RJNEW PromiseThread();
                 JSObjectRef promise = thread->createJSCPromise(JSC_JAVASCRIPT_ENGINE, thisObj);
                 thread->onStart = [thread, storage]()
@@ -68,13 +68,11 @@ namespace RadJAV
                 };
                 thread->onComplete = [thread]()
                 {
-                    V8_JAVASCRIPT_ENGINE->removeThread(thread);
+                    JSC_JAVASCRIPT_ENGINE->removeThread(thread);
                 };
-                V8_JAVASCRIPT_ENGINE->addThread(thread);
-                
-                args.GetReturnValue().Set(promise);
-                
-                return (JSValueMakeUndefined(context));
+                JSC_JAVASCRIPT_ENGINE->addThread(thread);
+
+                return (promise);
             }
 
             JSValueRef Thread::write(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception)
@@ -82,7 +80,7 @@ namespace RadJAV
                 TTYPE *appObject = (TTYPE *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(context, thisObj, "_appObj");
 
                 appObject->close();
-                
+
                 return (JSValueMakeUndefined(context));
             }
 
@@ -103,10 +101,10 @@ namespace RadJAV
                 String event = parseJSCValue(context, args[0]);
                 JSObjectRef nfunc = JSC_JAVASCRIPT_ENGINE->jscCastValueToObject (args[1]);
                 TTYPE *appObject = (TTYPE *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(context, thisObj, "_appObj");
-                
+
                 if (appObject != NULL)
                     appObject->on(event, nfunc);
-                
+
                 return (JSValueMakeUndefined(context));
             }
         #endif

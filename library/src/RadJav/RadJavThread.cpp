@@ -126,17 +126,16 @@ PromiseThread::PromiseThread()
 #ifdef USE_JAVASCRIPTCORE
     JSValueRef PromiseThread::runPromise(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception)
     {
-        /*JSValueRef resolve = args[0];
+        JSValueRef resolve = args[0];
         JSValueRef reject = args[1];
-        v8::Local<v8::Array> args2 = v8::Local<v8::Array>::Cast (args[2]);
-        v8::Local<v8::External> passThrough = v8::Local<v8::External>::Cast (args2->Get (0));
-        PromiseThread *thread = (PromiseThread *)passThrough->Value();
-        
-        thread->resolvep = RJNEW v8::Persistent<v8::Function>();
-        thread->rejectp = RJNEW v8::Persistent<v8::Function>();
-        
-        thread->resolvep->Reset(args.GetIsolate(), resolve);
-        thread->rejectp->Reset(args.GetIsolate(), reject);*/
+        JSObjectRef args2 = JSC_JAVASCRIPT_ENGINE->jscCastValueToObject (context, args[2]);
+        JSValueRef passThrough = JSObjectGetPropertyAtIndex (context, args2, 0, NULL);
+        JSObjectRef passThrough2 = JSC_JAVASCRIPT_ENGINE->jscCastValueToObject (context, passThrough);
+
+        PromiseThread *thread = (PromiseThread *)JSObjectGetPrivate (passThrough2);
+
+        thread->resolvep = JSC_JAVASCRIPT_ENGINE->jscCastValueToObject (context, resolve);
+        thread->rejectp = JSC_JAVASCRIPT_ENGINE->jscCastValueToObject (context, reject);
 
         return (JSValueMakeUndefined(context));
     }
@@ -145,17 +144,23 @@ PromiseThread::PromiseThread()
     {
         this->engine = engine;
 
-        
+        JSObjectRef passThrough = engine->jscCreateExternal(this, [](JSObjectRef delObj)
+                                                            {
+                                                                PromiseThread *wrapper = static_cast<PromiseThread*>(JSObjectGetPrivate(delObj));
+                                                                DELETEOBJ(wrapper);
+                                                            });
+        JSStringRef name = String ("runPromise").toJSCString();
+        JSObjectRef func = JSObjectMakeFunctionWithCallback(engine->globalContext, name, PromiseThread::runPromise);
+        JSStringRelease(name);
 
-        /*v8::Local<v8::External> passThrough = v8::External::New(engine->isolate, this);
-        v8::MaybeLocal<v8::Function> func = v8::Function::New(context->CreationContext(), PromiseThread::runPromise);
-        v8::Local<v8::Function> func2 = func.ToLocalChecked();
-        v8::Local<v8::Array> args = v8::Array::New(engine->isolate);
-        args->Set (0, passThrough);
-        v8::Local<v8::Object> promise = engine->createPromise(context, func2, args);*/
-        JSObjectRef obj = NULL;
+        JSValueRef *args = RJNEW JSValueRef[1];
+        args[0] = passThrough;
+
+        JSObjectRef promise = engine->createPromise(context, func, 1, args);
+
+        DELETEARRAY(args);
         
-        return (obj);
+        return (promise);
     }
 #endif
 

@@ -59,6 +59,35 @@ namespace RadJAV
 					_font = RJNEW Font(jsEngine, objfont);
 				}
 			#endif
+            #ifdef USE_JAVASCRIPTCORE
+                GObject::GObject(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[])
+                {
+                    _zIndex = 0;
+                    _cursor = "default";
+                    _parent = NULL;
+
+                    #ifdef GUI_USE_WXWIDGETS
+                        _appObj = NULL;
+                    #endif
+
+                    type = jsEngine->jscGetString(thisObj, "type");
+                    name = jsEngine->jscGetString(thisObj, "name");
+                    _text = jsEngine->jscGetString(thisObj, "_text");
+                    _visible = jsEngine->jscGetBool(thisObj, "_visible");
+                    _cursor = jsEngine->jscGetString(thisObj, "_cursor");
+
+                    JSObjectRef parent = jsEngine->jscGetObject(thisObj, "_parent");
+
+                    if (jsEngine->jscIsNull(parent) == false)
+                        _parent = (GObject *)jsEngine->jscGetExternal(jsEngine->globalContext, parent, "_appObj");
+
+                    JSObjectRef transform = jsEngine->jscGetObject(thisObj, "_transform");
+                    _transform = RJNEW Rectangle(jsEngine, transform);
+
+                    JSObjectRef objfont = jsEngine->jscGetObject(thisObj, "_font");
+                    _font = RJNEW Font(jsEngine, objfont);
+                }
+            #endif
 
 			GObject::GObject(String name, String text, GObject *parent)
 			{

@@ -901,10 +901,10 @@ namespace RadJAV
 
 					JSC::IO::XML::XMLFile::createJSCCallbacks(isolate, xmlFilePrototype);
 				}
-				#endif
+				#endif*/
 
 				// RadJav.Net
-				{
+				/*{
 					v8::Handle<v8::Function> netFunc = v8GetFunction(radJavFunc, "Net");
 
 					JSC::Net::NetCallbacks::createJSCCallbacks(isolate, netFunc);
@@ -932,7 +932,7 @@ namespace RadJAV
 
 						JSC::Net::WebSocketClient::createJSCCallbacks(isolate, webSocketClientPrototype);
 					}
-				}
+				}*/
 
 				#ifdef USE_BLOCKCHAIN_V1
 				// RadJav.BlockchainV1
@@ -944,7 +944,7 @@ namespace RadJAV
 				#endif
 
 				// RadJav.GUI
-				{
+				/*{
 					v8::Handle<v8::Function> guiFunc = v8GetFunction(radJavFunc, "GUI");
 
 					// RadJav.GUI.GObject
@@ -1077,9 +1077,9 @@ namespace RadJAV
 							JSC::GUI::Canvas3D::createJSCCallbacks(isolate, canvas3DFuncPrototype);
 						}
 					#endif
-				}
+				}*/
 
-				#ifdef C3D_USE_OGRE
+				/*#ifdef C3D_USE_OGRE
 				// RadJav.C3D
 				{
 					initV8Callback<JSC::C3D::Transform>(radJavFunc, "C3D", "Transform");
@@ -1242,6 +1242,37 @@ namespace RadJAV
 				/// @todo Pump the JSC event loop.
 			}
 		}*/
+    
+        JSObjectRef JSCJavascriptEngine::jscCreateExternal (void *external, std::function<void (JSObjectRef jsObject)> onDelete)
+        {
+            return (jscCreateExternal (globalContext, external, onDelete));
+        }
+
+        JSObjectRef JSCJavascriptEngine::jscCreateExternal (JSContextRef context, void *external, std::function<void (JSObjectRef jsObject)> onDelete)
+        {
+            //Define External class
+            JSClassRef externalClassRef;
+
+            JSClassDefinition externalClassDef = kJSClassDefinitionEmpty;
+            externalClassDef.className = "External";
+            externalClassDef.attributes = kJSClassAttributeNone;
+            externalClassDef.finalize = onDelete.target<void (JSObjectRef jsObject)> ();
+            
+            externalClassRef = JSClassCreate(&externalClassDef);
+            
+            //Create new External object with private data pointed to this wrapper object
+            JSObjectRef externalJavascriptObject = JSObjectMake(context, externalClassRef, this);
+            JSClassRelease(externalClassRef);
+
+            /*JSObjectRef javascriptObject = JSObjectMake(context, NULL, NULL);
+
+            //Assign External class object to requested property
+            JSStringRef property = JSStringCreateWithUTF8CString("external");
+            JSObjectSetProperty(context, javascriptObject, property, externalJavascriptObject, kJSPropertyAttributeNone, NULL);
+            JSStringRelease(property);*/
+
+            return (externalJavascriptObject);
+        }
     
         JSValueRef JSCJavascriptEngine::jscCreateException ()
         {
@@ -1595,6 +1626,8 @@ namespace RadJAV
 
             if (result == NULL)
                 jscHandleException(exception);
+
+            DELETEARRAY(args3);
 
             JSObjectRef promiseObject = jscCastValueToObject (result);
 

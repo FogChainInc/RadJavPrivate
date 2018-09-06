@@ -186,6 +186,10 @@
 				void jscClearExternal(JSContextRef context, JSObjectRef handle, String functionName);
 
                 /// Create an exception.
+                JSObjectRef jscCreateExternal (void *external, std::function<void (JSObjectRef jsObject)> onDelete);
+                /// Create an exception.
+                JSObjectRef jscCreateExternal (JSContextRef context, void *external, std::function<void (JSObjectRef jsObject)> onDelete);
+                /// Create an exception.
                 JSValueRef jscCreateException ();
                 /// Create an exception.
                 JSValueRef jscCreateException (JSContextRef context);

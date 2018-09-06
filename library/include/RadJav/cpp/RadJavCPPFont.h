@@ -31,6 +31,10 @@
 	#include "v8/RadJavV8JavascriptEngine.h"
 #endif
 
+#ifdef USE_JAVASCRIPTCORE
+    #include "jscore/RadJavJSCJavascriptEngine.h"
+#endif
+
 namespace RadJAV
 {
 	namespace CPP
@@ -46,6 +50,13 @@ namespace RadJAV
 						static v8::Local<v8::Object> toV8Object(V8JavascriptEngine *jsEngine, Font *font);
 					#endif
 				#endif
+                #ifdef USE_JAVASCRIPTCORE
+                    Font(JSCJavascriptEngine *jsEngine, JSObjectRef obj);
+
+                    #ifdef GUI_USE_WXWIDGETS
+                        static JSObjectRef toJSCObject(JSCJavascriptEngine *jsEngine, Font *font);
+                    #endif
+                #endif
 
 				/** The font family used.
 				*/

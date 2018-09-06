@@ -58,6 +58,9 @@ namespace RadJAV
 					#ifdef USE_V8
 						GObject(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
 					#endif
+                    #ifdef USE_JAVASCRIPTCORE
+                        GObject(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
+                    #endif
 					GObject(String name, String text = "", GObject *parent = NULL);
 					virtual ~GObject();
 

@@ -54,6 +54,10 @@
 		#ifdef GUI_USE_WXWIDGETS
 			/// Basic threading class.
 			class RADJAV_EXPORT Thread: public wxThread
+        #else
+            /// Basic threading class.
+            class RADJAV_EXPORT Thread: public std::thread
+        #endif
 			{
 				public:
 					Thread();
@@ -74,30 +78,6 @@
 				protected:
 					RJBOOL hasStarted;
 			};
-		#else
-		/// Basic threading class.
-			class RADJAV_EXPORT Thread : public std::thread
-			{
-			public:
-				Thread();
-
-				/// Set whether or not this thread has started executing.
-				/// This is mostly for use in the main app loop.
-				inline void setAsStarted(RJBOOL started)
-				{
-					hasStarted = started;
-				}
-
-				/// Check whether or not this thread has started executing.
-				inline RJBOOL hasThreadStarted()
-				{
-					return (hasStarted);
-				}
-
-			protected:
-				RJBOOL hasStarted;
-			};
-		#endif
 
 		/// Create a thread.
 		class RADJAV_EXPORT SimpleThread : public Thread
@@ -115,7 +95,8 @@
 				std::function<void()> onComplete;
 		};
 
-		/// Create a thread that is also a promise.
+		/// Create a thread that is also a promise. This will be deleted by the selected
+        /// JavaScript engine only if its set to be deleted.
 		class RADJAV_EXPORT PromiseThread : public SimpleThread
 		{
 			public:
@@ -180,7 +161,7 @@
 				#endif
                 #ifdef USE_JAVASCRIPTCORE
                     /// Run the promise function and save the resolve and reject funtions.
-                    JSValueRef runPromise(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
+                    static JSValueRef runPromise(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
 
                     JSCJavascriptEngine *engine;
                     JSObjectRef resolvep;
