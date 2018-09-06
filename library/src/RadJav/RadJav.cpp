@@ -56,6 +56,21 @@
 #include <fstream>
 #include <stdlib.h>
 
+#ifdef __ANDROID__
+#include <android/log.h>
+#define  LOG_TAG    "RADJAV"
+
+#define  LOGE(...)  __android_log_print(ANDROID_LOG_ERROR,LOG_TAG,__VA_ARGS__)
+#define  LOGW(...)  __android_log_print(ANDROID_LOG_WARN,LOG_TAG,__VA_ARGS__)
+#define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
+#define  LOGI(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
+#else
+#define  LOGE()
+#define  LOGW()
+#define  LOGD()
+#define  LOGI()
+#endif
+
 #ifdef RADJAV_DEBUG
 #ifdef LOG_MEMORY_LEAKS
 void RadJavAlloc::logAlloc(void *alloc)
@@ -471,6 +486,7 @@ namespace RadJAV
 	void RadJav::showError(String message, RJBOOL showMessageBox)
 	{
 		std::cout << message.c_str () << std::endl;
+		LOGE("%s: %s", "RadJav::showError", message.c_str());
 
 		if (showMessageBox == true)
 			RadJav::showMessageBox(message, "Error");
@@ -493,6 +509,8 @@ namespace RadJAV
 		#endif
 
 		std::cout << message.c_str ();
+
+		LOGI("%s: %s", "RadJav::printToOutputWindow", message.c_str());
 	}
 
 	void RadJav::shutdown()
