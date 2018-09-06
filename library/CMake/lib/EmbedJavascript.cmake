@@ -51,16 +51,56 @@ macro (embedJavascript jsFilesList jsFilesPath headerName headerPath)
 		#Escape/Replace \r\n control characters
 		string (REGEX REPLACE "\r?\n" "\\\\n\\\\\n" jsFileContent "${jsFileContent}")
 		
-		#Adding open vector code
-		file (APPEND ${headerFilePath} "
+		#TODO: check 8000 value - here it is possible that we accidentally divide escape
+		#sequence and our code will be broken later, it is better to search end of line
+		#near the 8000 margin to split strings gracefully
+		string (LENGTH "${jsFileContent}" jsFileContentLength)
+		
+		if (jsFileContentLength GREATER 8000)
+			
+			#Adding open vector code
+			file (APPEND ${headerFilePath} "
+			javascriptFiles.push_back (JSFile (\"${_jsFile}\", Array<String>({\"")
+				
+			while(jsFileContentLength GREATER 8000)
+				#for every jsFileContentChunk
+				#do string(SUBSTRING <string> <begin> <length> <out-var>)
+				
+				#get the chunk
+				string (SUBSTRING "${jsFileContent}" 0 8000 jsFileContentChunk)
+				#replace source
+				string (SUBSTRING "${jsFileContent}" 8000 -1 jsFileContent)
+				#calculate new length
+				string (LENGTH "${jsFileContent}" jsFileContentLength)
+				
+				file (APPEND ${headerFilePath} "${jsFileContentChunk}")
+			
+				#add ", " in between
+				file (APPEND ${headerFilePath} "\", \"")
+			
+			endwhile(jsFileContentLength GREATER 8000)
+			
+			#add last chunk
+			string (SUBSTRING "${jsFileContent}" 0 8000 jsFileContentChunk)
+			file (APPEND ${headerFilePath} "${jsFileContentChunk}")
+			#and finalization
+			file (APPEND ${headerFilePath} "\"})));")
+		
+		else (jsFileContentLength GREATER 8000)
+		
+			#Adding open vector code
+			file (APPEND ${headerFilePath} "
 			javascriptFiles.push_back (JSFile (\"${_jsFile}\", \"")
 
-		#Adding content of Javascript file
-		file (APPEND ${headerFilePath} "${jsFileContent}")
+			#Adding content of Javascript file (use chunk here, not the full content
+			file (APPEND ${headerFilePath} "${jsFileContent}")
+			
+			#Adding close vector code
+			file (APPEND ${headerFilePath} "\"));")
 		
-		#Adding close vector code
-		file (APPEND ${headerFilePath} "\"));")
+		endif (jsFileContentLength GREATER 8000)
 		
+		#end for	
 	endforeach (_jsFile)
 
 	#Header end
