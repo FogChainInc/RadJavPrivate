@@ -32,6 +32,7 @@ namespace RadJAV
 				ImageFrame::ImageFrame(wxWindow *parent, const wxString &file, wxSize fileSize, const wxPoint &pos, const wxSize &size)
 					: wxPanel(parent, wxID_ANY, pos, size), GObjectBase()
 				{
+					isImageLoaded = false;
 					loadImage(file, fileSize);
 				}
 
@@ -42,7 +43,7 @@ namespace RadJAV
 					wxBitmapType type;
 
 					temp = temp.toLowerCase();
-					RJUINT posext = temp.rfind(".bmp");
+					size_t posext = temp.rfind(".bmp");
 
 					if (posext != String::npos)
 						type = wxBitmapType::wxBITMAP_TYPE_BMP;
@@ -94,7 +95,19 @@ namespace RadJAV
 				void ImageFrame::loadImage(wxString file, wxSize fileSize)
 				{
 					wxBitmapType type = getImageType(file);
-					image.LoadFile(file, type);
+					RJBOOL hasLoaded = image.LoadFile(file, type);
+
+					if (hasLoaded == false)
+					{
+						#ifdef USE_V8
+							V8_JAVASCRIPT_ENGINE->throwException("Unable to load image " + parsewxString (file));
+						#endif
+
+						return;
+					}
+
+					isImageLoaded = true;
+
 					//image = image.Scale(fileSize.GetWidth(), fileSize.GetHeight());
 					image.Rescale(fileSize.GetWidth(), fileSize.GetHeight(), wxImageResizeQuality::wxIMAGE_QUALITY_HIGH);
 					imageSize = fileSize;
@@ -102,12 +115,18 @@ namespace RadJAV
 
 				void ImageFrame::paintEvent(wxPaintEvent &evt)
 				{
+					if (isImageLoaded == false)
+						return;
+
 					wxPaintDC dc(this);
 					render(dc);
 				}
 
 				void ImageFrame::render(wxDC &dc)
 				{
+					if (isImageLoaded == false)
+						return;
+
 					image.Rescale(imageSize.GetWidth(), imageSize.GetHeight(), wxImageResizeQuality::wxIMAGE_QUALITY_HIGH);
 					dc.DrawBitmap(image, 0, 0);
 				}

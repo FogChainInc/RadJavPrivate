@@ -50,6 +50,7 @@
 						void render(wxDC &dc);
 
 					protected:
+						RJBOOL isImageLoaded;
 						wxImage image;
 						wxSize imageSize;
 
