@@ -17,7 +17,7 @@ include (Utils)
 
 #Setting supported Javascript engines for specific platforms
 if (APPLE)
-	list (APPEND javascriptEngineLibraries JavaScriptCore ChakraCore)
+	list (APPEND javascriptEngineLibraries JavaScriptCore V8)
 elseif (WIN32 OR UNIX)
 	list (APPEND javascriptEngineLibraries V8)
 endif ()

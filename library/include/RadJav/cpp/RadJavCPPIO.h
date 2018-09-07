@@ -140,7 +140,7 @@ namespace RadJAV
 						static void readFileAsync(String path_);
 						
 						#ifdef USE_V8
-							static v8::Persistent<v8::Function>*;
+							static v8::Persistent<v8::Function> *
 						#elif defined USE_JAVASCRIPTCORE
 							static JSObjectRef
 						#endif
