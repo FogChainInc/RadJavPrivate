@@ -82,6 +82,11 @@
 							void serve(v8::Local<v8::Function> function);
 							/// The V8 serve function.
 							v8::Persistent<v8::Function> *servePersistent;
+						#elif defined USE_JAVASCRIPTCORE
+							/// Serve any GET or POST requests.
+							void serve(JSObjectRef function);
+							/// The V8 serve function.
+							JSObjectRef servePersistent;
 						#endif
 
 						/// Stop the web server.

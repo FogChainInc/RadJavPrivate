@@ -165,14 +165,24 @@ if (USE_JAVASCRIPTCORE)
 		#"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCIOXML.cpp"
 		)
 	source_group ("RadJav\\JavaScriptCore\\IO" FILES ${SOURCES_files_RadJav__JSC__IO__Sources})
-	
+
 	set (SOURCES ${SOURCES_files_RadJav__JSC__IO__Sources} ${SOURCES})
 
+	# V8 Networking
+	set (SOURCES_files_RadJav__JSC__Net__Sources 
+		"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCNet.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCNetWebSocket.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCNetWebServer.cpp"
+		)
+	source_group ("RadJav\\JavaScriptCore\\Net" FILES ${SOURCES_files_RadJav__JSC__Net__Sources})
+	
+	set (SOURCES ${SOURCES_files_RadJav__JSC__Net__Sources} ${SOURCES})
+	
 	# JavaScriptCore Database
 	set (SOURCES_files_RadJav__JSC__DB__Sources 
 		"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCDBKeyValueStorage.cpp")
 	source_group ("RadJav\\JavaScriptCore\\Database" FILES ${SOURCES_files_RadJav__JSC__DB__Sources})
-	
+
 	set (SOURCES ${SOURCES_files_RadJav__JSC__DB__Sources} ${SOURCES})
 endif ()
 

@@ -46,7 +46,11 @@
 						WebSocketServer();
 						~WebSocketServer();
 
+						#ifdef USE_V8
 						static void on(String event_, v8::Local<v8::Function> func_);
+						#elif defined USE_JAVASCRIPTCORE
+						static void on(String event_, JSObjectRef func_);
+						#endif
 
 						void listen(unsigned short port_ = 9229);
 
@@ -111,6 +115,9 @@
 						#ifdef USE_V8
 						static v8::Persistent<v8::Function> *m_serverAcceptEvent;
 						static v8::Persistent<v8::Function> *m_serverReceiveEvent;
+						#elif defined USE_JAVASCRIPTCORE
+						static JSObjectRef m_serverAcceptEvent;
+						static JSObjectRef m_serverReceiveEvent;
 						#endif
 				
 					private:

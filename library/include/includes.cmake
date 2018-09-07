@@ -169,6 +169,16 @@ if (USE_JAVASCRIPTCORE)
 	
 	set (SOURCES ${SOURCES_files_RadJav__JSC__IO__Headers} ${SOURCES})
 
+	# JavaScriptCore Networking
+	set (SOURCES_files_RadJav__JSC__Net__Headers 
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCNet.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCNetWebSocket.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCNetWebServer.h"
+		)
+	source_group ("RadJav\\JavaScriptCore\\Net" FILES ${SOURCES_files_RadJav__JSC__Net__Headers})
+
+	set (SOURCES ${SOURCES_files_RadJav__JSC__Net__Headers} ${SOURCES})
+
 	# JavaScriptCore Database
 	set (SOURCES_files_RadJav__JSC__DB__Headers 
 		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCDBKeyValueStorage.h")

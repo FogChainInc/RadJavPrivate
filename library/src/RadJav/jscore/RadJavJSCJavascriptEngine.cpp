@@ -1318,11 +1318,13 @@ namespace RadJAV
         /// Cast a value to an object.
         JSObjectRef JSCJavascriptEngine::jscCastValueToObject (JSContextRef context, JSValueRef value)
         {
-            JSValueRef exception = jscCreateException(context);
+			if (!context || !value)
+				return nullptr;
+			
+            JSValueRef exception = nullptr;
             JSObjectRef obj = JSValueToObject (context, value, &exception);
 
-            if (obj == NULL)
-                jscHandleException (exception);
+			jscHandleException (exception);
 
             return (obj);
         }
@@ -1648,5 +1650,19 @@ namespace RadJAV
 		{
 			externalsManager->clear(context, handle, functionName);
 		}
+	
+		JSValueRef JSCJavascriptEngine::jscGetArgument(const JSValueRef arguments[], RJUINT argumentCount, RJUINT index)
+		{
+			if (argumentCount == 0 ||
+				index >= argumentCount)
+			{
+				return nullptr;
+			}
+			
+			JSValueRef argument = arguments[index];
+			
+			return jscIsNull(argument) ? nullptr : argument;
+		}
+
 	#endif
 }
