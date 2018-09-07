@@ -133,6 +133,8 @@ include (FindModuleCurl)
 
 if (USE_OGRE)
 	include (FindOgre3D)
+
+	set (libRadJav_USE_OGRE_COLLADA TRUE CACHE BOOL "Use Ogre Collada?")
 	include (FindColladaLoader)
 endif ()
 
@@ -226,10 +228,13 @@ if (OGRE_FOUND)
 	set (libRadJav_CPP_DEFS C3D_USE_OGRE ${libRadJav_CPP_DEFS})
 endif ()
 
-if (COLLADA_FOUND)
-	message (STATUS "OgreColladaLoader found...")
-	set (libRadJav_INCLUDE_DIRS ${COLLADA_INCLUDE} ${libRadJav_INCLUDE_DIRS})
-	set (libRadJav_LINK_LIBRARIES ${COLLADA_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
+if (libRadJav_USE_OGRE_COLLADA)
+	if (COLLADA_FOUND)
+		message (STATUS "OgreColladaLoader found...")
+		set (libRadJav_INCLUDE_DIRS ${COLLADA_INCLUDE} ${libRadJav_INCLUDE_DIRS})
+		set (libRadJav_LINK_LIBRARIES ${COLLADA_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
+		set (libRadJav_CPP_DEFS USE_OGRE_COLLADA ${libRadJav_CPP_DEFS})
+	endif ()
 endif ()
 
 if (V8_FOUND)

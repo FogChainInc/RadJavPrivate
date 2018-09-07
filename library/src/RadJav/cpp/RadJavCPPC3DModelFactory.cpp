@@ -20,7 +20,11 @@
 #include "cpp/RadJavCPPC3DModelFactory.h"
 
 #include "RadJav.h"
-#include <OgreColladaLoader.h>
+
+#ifdef USE_OGRE_COLLADA
+	#include <OgreColladaLoader.h>
+#endif
+
 #include <boost/filesystem.hpp>
 
 namespace RadJAV
@@ -43,7 +47,7 @@ namespace RadJAV
 									   const String& filePath,
 									   Object3D *parent)
 			{
-				boost::filesystem::path resourcesPath(filePath);
+				boost::filesystem::path resourcesPath(filePath.c_str ());
 				Ogre::SceneManager* sceneManager = canvas.getSceneManager();
 				
 				if(resourcesPath.empty() || !sceneManager)
@@ -58,7 +62,9 @@ namespace RadJAV
 				
 				try
 				{
-					Ogre::ColladaLoader::load (filePath, sceneManager, model->node, resourcesPath.string());
+					#ifdef USE_OGRE_COLLADA
+						Ogre::ColladaLoader::load (filePath, sceneManager, model->node, resourcesPath.string());
+					#endif
 				}
 				catch(...)
 				{

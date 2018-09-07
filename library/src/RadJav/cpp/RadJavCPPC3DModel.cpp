@@ -23,7 +23,11 @@
 
 #include "RadJav.h"
 #include "cpp/RadJavCPPC3DModelFactory.h"
-#include <OgreColladaLoader.h>
+
+#ifdef USE_OGRE_COLLADA
+	#include <OgreColladaLoader.h>
+#endif
+
 #include <boost/filesystem.hpp>
 
 namespace RadJAV
@@ -47,7 +51,7 @@ namespace RadJAV
 				if(loaded)
 					return true;
 				
-				boost::filesystem::path resourcesPath(filePath);
+				boost::filesystem::path resourcesPath(filePath.c_str ());
 				
 				if(resourcesPath.empty() || !sceneManager)
 					return false;
@@ -56,7 +60,15 @@ namespace RadJAV
 				
 				try
 				{
-					Ogre::ColladaLoader::load (filePath, sceneManager, node, resourcesPath.string());
+					#ifdef USE_OGRE_COLLADA
+						Ogre::ColladaLoader::load (filePath, sceneManager, node, resourcesPath.string());
+					#else
+						#ifdef USE_V8
+							V8_JAVASCRIPT_ENGINE->throwException("Unable to load models in this version of RadJav.");
+						#endif
+
+						return (false);
+					#endif
 				}
 				catch(...)
 				{
