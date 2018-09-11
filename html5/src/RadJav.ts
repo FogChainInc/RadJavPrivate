@@ -1807,7 +1807,7 @@ namespace RadJav
 		 * Available on platforms: Windows,Linux,OSX
 		 * @return {String} The current user's temporary files path.
 		 */
-		/*export functiongetTempPath() {
+		/*export function getTempPath() {
 		}*/
 
 		/** @method getUserDataPath

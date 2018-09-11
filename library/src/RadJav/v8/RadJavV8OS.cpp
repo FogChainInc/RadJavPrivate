@@ -22,13 +22,10 @@
 #include "RadJav.h"
 #include "RadJavString.h"
 
+#include "cpp/RadJavCPPOS.h"
+
 #ifdef USE_V8
 	#include "v8/RadJavV8JavascriptEngine.h"
-
-	#ifdef GUI_USE_WXWIDGETS
-		#include <wx/wx.h>
-		#include <wx/stdpaths.h>
-	#endif
 
 namespace RadJAV
 {
@@ -72,74 +69,48 @@ namespace RadJAV
 		{
 			String url = parseV8Value(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 
-#ifdef GUI_USE_WXWIDGETS
-			wxLaunchDefaultBrowser(url.towxString());
-#endif
+			CPP::OS::openWebBrowserURL(url);
 		}
 
 		void OS::exec(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
 			String command = parseV8Value(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-			RJINT output = 0;
-
-#ifdef GUI_USE_WXWIDGETS
-			output = wxExecute(command.towxString());
-#endif
+			RJINT output = CPP::OS::exec(command);
 
 			args.GetReturnValue().Set(v8::Integer::New(args.GetIsolate(), output));
 		}
 
 		void OS::getDocumentsPath(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
-			String str = "";
-
-#ifdef GUI_USE_WXWIDGETS
-			str = parsewxString(wxStandardPaths::Get().GetDocumentsDir());
-#endif
+			String str = CPP::OS::getDocumentsPath ();
 
 			args.GetReturnValue().Set(str.toV8String(args.GetIsolate()));
 		}
 
 		void OS::getTempPath(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
-			String str = "";
-
-#ifdef GUI_USE_WXWIDGETS
-			str = parsewxString(wxStandardPaths::Get().GetTempDir());
-#endif
+			String str = CPP::OS::getTempPath ();
 
 			args.GetReturnValue().Set(str.toV8String(args.GetIsolate()));
 		}
 
 		void OS::getUserDataPath(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
-			String str = "";
-
-#ifdef GUI_USE_WXWIDGETS
-			str = parsewxString(wxStandardPaths::Get().GetUserConfigDir());
-#endif
+			String str = CPP::OS::getUserDataPath ();
 
 			args.GetReturnValue().Set(str.toV8String(args.GetIsolate()));
 		}
 
 		void OS::getApplicationPath(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
-			String str = "";
-
-#ifdef GUI_USE_WXWIDGETS
-			str = parsewxString(wxStandardPaths::Get().GetExecutablePath());
-#endif
+			String str = CPP::OS::getApplicationPath ();
 
 			args.GetReturnValue().Set(str.toV8String(args.GetIsolate()));
 		}
 
 		void OS::getCurrentWorkingPath(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
-			String str = "";
-
-#ifdef GUI_USE_WXWIDGETS
-			str = parsewxString(wxGetCwd());
-#endif
+			String str = CPP::OS::getCurrentWorkingPath ();
 
 			args.GetReturnValue().Set(str.toV8String(args.GetIsolate()));
 		}
@@ -148,20 +119,16 @@ namespace RadJAV
 		{
 			String str = parseV8Value(args[0]);
 
-#ifdef GUI_USE_WXWIDGETS
-			wxSetWorkingDirectory(str);
-#endif
+			CPP::OS::setCurrentWorkingPath(str);
 		}
 
 		void OS::saveFileAs(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
-			String str = "";
 			String message = "";
 			String defaultDir = "";
 			String defaultFile = "";
 			String wildcard = "";
 			RJBOOL overwritePrompt = true;
-			String path = "";
 
 			if (args.Length() > 0)
 			{
@@ -180,35 +147,18 @@ namespace RadJAV
 				}
 			}
 
-#ifdef GUI_USE_WXWIDGETS
-			wxString wxmsg = wxFileSelectorPromptStr;
-
-			if (message != "")
-				wxmsg = message.towxString();
-
-			RJLONG style = wxFD_SAVE;
-
-			if (overwritePrompt == true)
-				style |= wxFD_OVERWRITE_PROMPT;
-
-			wxFileDialog fileDialog(NULL, wxmsg, defaultDir.towxString(), defaultFile.towxString(), wildcard.towxString(), style);
-
-			if (fileDialog.ShowModal() != wxID_CANCEL)
-				path = parsewxString(fileDialog.GetPath());
-#endif
+			String path = CPP::OS::saveFileAs(message, defaultDir, defaultFile, wildcard, overwritePrompt);
 
 			args.GetReturnValue().Set(path.toV8String(args.GetIsolate()));
 		}
 
 		void OS::openFileAs(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
-			String str = "";
 			String message = "";
 			String defaultDir = "";
 			String defaultFile = "";
 			String wildcard = "";
 			RJBOOL fileMustExist = true;
-			String path = "";
 
 			if (args.Length() > 0)
 			{
@@ -227,22 +177,7 @@ namespace RadJAV
 				}
 			}
 
-#ifdef GUI_USE_WXWIDGETS
-			wxString wxmsg = wxFileSelectorPromptStr;
-
-			if (message != "")
-				wxmsg = message.towxString();
-
-			RJLONG style = wxFD_OPEN;
-
-			if (fileMustExist == true)
-				style |= wxFD_FILE_MUST_EXIST;
-
-			wxFileDialog fileDialog(NULL, wxmsg, defaultDir.towxString(), defaultFile.towxString(), wildcard.towxString(), style);
-
-			if (fileDialog.ShowModal() != wxID_CANCEL)
-				path = parsewxString(fileDialog.GetPath());
-#endif
+			String path = CPP::OS::openFileAs(message, defaultDir, defaultFile, wildcard, fileMustExist);
 
 			args.GetReturnValue().Set(path.toV8String(args.GetIsolate()));
 		}
