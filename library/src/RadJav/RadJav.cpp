@@ -54,6 +54,7 @@
 #endif
 
 #include "cpp/RadJavCPPIO.h"
+#include "cpp/RadJavCPPOS.h"
 
 #include <new>
 #include <iostream>
@@ -190,7 +191,6 @@ namespace RadJAV
 	Theme *RadJav::theme = NULL;
 	Lang *RadJav::lang = NULL;
 	Array<String> RadJav::arguments;
-	Array<String> RadJav::radJavArguments;
 
 	#ifdef RADJAV_DEBUG
 		HashMap<size_t, MemoryAllocLog> *RadJav::memoryAllocs;
@@ -199,7 +199,7 @@ namespace RadJAV
 		RadJavType RadJav::initialize(Array<String> newArgs, String &file)
 		{
 			arguments.clear();
-			radJavArguments.clear();
+			CPP::OS::args.clear();
 
 			#ifndef GUI_USE_WXWIDGETS
 				_radjav_exec_path.assign(newArgs[0]);
@@ -226,7 +226,7 @@ namespace RadJAV
 						continue;
 					}
 
-					radJavArguments.push_back(arg);
+					CPP::OS::args.push_back(arg);
 
 					if (arg == "--terminal")
 					{

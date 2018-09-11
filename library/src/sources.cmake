@@ -223,6 +223,13 @@ source_group ("RadJav\\CPP\\IO" FILES ${SOURCES_files_RadJav__cpp__IO__Sources})
 
 set (SOURCES ${SOURCES_files_RadJav__cpp__IO__Sources} ${SOURCES})
 
+# C++ OS
+set (SOURCES_files_RadJav__cpp__OS__Sources 
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPOS.cpp")
+source_group ("RadJav\\CPP\\OS" FILES ${SOURCES_files_RadJav__cpp__OS__Sources})
+
+set (SOURCES ${SOURCES_files_RadJav__cpp__OS__Sources} ${SOURCES})
+
 if (USE_V8)
 	# C++ Networking
 	set (SOURCES_files_RadJav__cpp__Net__Sources 

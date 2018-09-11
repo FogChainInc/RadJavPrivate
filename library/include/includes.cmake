@@ -223,6 +223,13 @@ source_group ("RadJav\\CPP\\IO" FILES ${SOURCES_files_RadJav__cpp__IO__Headers})
 
 set (SOURCES ${SOURCES_files_RadJav__cpp__IO__Headers} ${SOURCES})
 
+# C++ OS
+set (SOURCES_files_RadJav__cpp__OS__Headers 
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPOS.h")
+source_group ("RadJav\\CPP\\OS" FILES ${SOURCES_files_RadJav__cpp__OS__Headers})
+
+set (SOURCES ${SOURCES_files_RadJav__cpp__OS__Headers} ${SOURCES})
+
 if (USE_V8)
 	# C++ Networking
 	set (SOURCES_files_RadJav__cpp__Net__Headers 
