@@ -36,9 +36,12 @@ set (RadJavVM_LANGUAGE "en_us" CACHE STRING "Select language to compile with")
 set (libRadJav_STATIC false CACHE BOOL "Use static build of libRadJav")
 set (RadJavVM_CREATE_INSTALL_PACKAGES false CACHE BOOL "Create install packages")
 
-set (RadJavVM_DEPENDENCY_OBJECTS_LIST "./natives_blob.bin;./snapshot_blob.bin" CACHE STRING "Semicolon separated list of paths to dependencies \
+if (USE_V8)
+	set (RadJavVM_DEPENDENCY_OBJECTS_LIST "./natives_blob.bin;./snapshot_blob.bin" CACHE STRING "Semicolon separated list of paths to dependencies \
 												which are indirectly will be used by application, i.e. loading \
 												during runtime")
+endif ()
+
 if (APPLE)
 	set (MAC_CODESIGN_IDENTITY CACHE STRING "Sign identity which can be determined by issuing command:\
 							security find-identity -v -p codesigning\
@@ -243,13 +246,15 @@ elseif (APPLE)
 		
 	endif ()
 
-	#Copying dependencies
-	foreach (dependency ${RadJavVM_DEPENDENCY_OBJECTS_LIST})
-		add_custom_command (TARGET ${CMAKE_PROJECT_NAME} POST_BUILD 
-					COMMAND ${CMAKE_COMMAND} -E copy ${dependency} ${APP_EXECUTABLE_DIR}
-					COMMENT "Adding extra dependency into application bundle: ${dependency}"
-					VERBATIM )
-	endforeach (dependency)
+	if (USE_V8)
+		#Copying dependencies
+		foreach (dependency ${RadJavVM_DEPENDENCY_OBJECTS_LIST})
+			add_custom_command (TARGET ${CMAKE_PROJECT_NAME} POST_BUILD 
+						COMMAND ${CMAKE_COMMAND} -E copy ${dependency} ${APP_EXECUTABLE_DIR}
+						COMMENT "Adding extra dependency into application bundle: ${dependency}"
+						VERBATIM )
+		endforeach (dependency)
+	endif()
 endif ()
 
 set_property (TARGET ${CMAKE_PROJECT_NAME} PROPERTY PROJECT_LABEL ${CMAKE_PROJECT_NAME})

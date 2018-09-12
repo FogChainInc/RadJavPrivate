@@ -22,6 +22,14 @@
 #include "RadJav.h"
 #include "RadJavString.h"
 
+#ifdef GUI_USE_WXWIDGETS
+    #ifdef __WXOSX__
+        /// @todo Fix this later. This is throwing issues on OSX.
+        //#import <AppKit/AppKit.h>
+        //#import <AppKit/NSScreen.h>
+    #endif
+#endif
+
 namespace RadJAV
 {
 	namespace CPP
@@ -119,6 +127,17 @@ namespace RadJAV
 			void Window::create()
 			{
 				#ifdef GUI_USE_WXWIDGETS
+                    #ifdef __WXOSX__
+                        if (_transform->y == 0)
+                        {
+                            /// @todo Fix this later on OSX.
+                            /*NSScreen *screen = [NSScreen mainScreen];
+                            RJINT appleMenuBarHeight = screen.frame.size.height;
+                            _transform->y = appleMenuBarHeight;*/
+                            _transform->y = 22;
+                        }
+                    #endif
+
 					WindowFrame *object = RJNEW WindowFrame(_text, 
 						wxPoint(_transform->x, _transform->y), wxSize(_transform->width, _transform->height));
 				
@@ -289,8 +308,7 @@ namespace RadJAV
 				#endif
 			}
 
-			#ifdef USE_V8
-			void Window::on(String event, v8::Local<v8::Function> func)
+            void Window::on(String event, FUNCTYPE func)
 			{
 				#ifdef GUI_USE_WXWIDGETS
 					CPP::GUI::WindowFrame *object = (CPP::GUI::WindowFrame *)_appObj;
@@ -318,7 +336,6 @@ namespace RadJAV
 					}
 				#endif
 			}
-			#endif
 		}
 	}
 }

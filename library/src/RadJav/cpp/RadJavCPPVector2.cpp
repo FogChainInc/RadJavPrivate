@@ -26,6 +26,41 @@ namespace RadJAV
 {
 	namespace CPP
 	{
+        #ifdef USE_V8
+            Vector2::Vector2(v8::Local<v8::Object> obj)
+            {
+                x = V8_JAVASCRIPT_ENGINE->v8GetDecimal (obj, "x");
+                y = V8_JAVASCRIPT_ENGINE->v8GetDecimal (obj, "y");
+            }
+
+            v8::Local<v8::Object> Vector2::toV8Object()
+            {
+                v8::Local<v8::Object> vector = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_RADJAV, "Vector2");
+                
+                V8_JAVASCRIPT_ENGINE->v8SetNumber(vector, "x", x);
+                V8_JAVASCRIPT_ENGINE->v8SetNumber(vector, "y", y);
+                
+                return (vector);
+            }
+        #endif
+        #ifdef USE_JAVASCRIPTCORE
+            Vector2::Vector2(JSObjectRef obj)
+            {
+                x = JSC_JAVASCRIPT_ENGINE->jscGetDecimal (obj, "x");
+                y = JSC_JAVASCRIPT_ENGINE->jscGetDecimal (obj, "y");
+            }
+
+            JSObjectRef Vector2::toJSCObject()
+            {
+                JSObjectRef vector = JSC_JAVASCRIPT_ENGINE->jscGetObject(JSC_RADJAV, "Vector2");
+
+                JSC_JAVASCRIPT_ENGINE->jscSetNumber(vector, "x", x);
+                JSC_JAVASCRIPT_ENGINE->jscSetNumber(vector, "y", y);
+
+                return (vector);
+            }
+        #endif
+
 		Vector2 Vector2::parseVector2(String str)
 		{
 			Vector2 obj;

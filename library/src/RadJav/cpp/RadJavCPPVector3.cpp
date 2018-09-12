@@ -26,6 +26,45 @@ namespace RadJAV
 {
 	namespace CPP
 	{
+        #ifdef USE_V8
+            Vector3::Vector3(v8::Local<v8::Object> obj)
+            {
+                x = V8_JAVASCRIPT_ENGINE->v8GetDecimal (obj, "x");
+                y = V8_JAVASCRIPT_ENGINE->v8GetDecimal (obj, "y");
+                z = V8_JAVASCRIPT_ENGINE->v8GetDecimal (obj, "z");
+            }
+        
+            v8::Local<v8::Object> Vector3::toV8Object()
+            {
+                v8::Local<v8::Object> vector = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_RADJAV, "Vector3");
+                
+                V8_JAVASCRIPT_ENGINE->v8SetNumber(vector, "x", x);
+                V8_JAVASCRIPT_ENGINE->v8SetNumber(vector, "y", y);
+                V8_JAVASCRIPT_ENGINE->v8SetNumber(vector, "z", z);
+                
+                return (vector);
+            }
+        #endif
+        #ifdef USE_JAVASCRIPTCORE
+            Vector3::Vector3(JSObjectRef obj)
+            {
+                x = JSC_JAVASCRIPT_ENGINE->jscGetDecimal (obj, "x");
+                y = JSC_JAVASCRIPT_ENGINE->jscGetDecimal (obj, "y");
+                z = JSC_JAVASCRIPT_ENGINE->jscGetDecimal (obj, "z");
+            }
+        
+            JSObjectRef Vector3::toJSCObject()
+            {
+                JSObjectRef vector = JSC_JAVASCRIPT_ENGINE->jscGetObject(JSC_RADJAV, "Vector3");
+                
+                JSC_JAVASCRIPT_ENGINE->jscSetNumber(vector, "x", x);
+                JSC_JAVASCRIPT_ENGINE->jscSetNumber(vector, "y", y);
+                JSC_JAVASCRIPT_ENGINE->jscSetNumber(vector, "z", z);
+                
+                return (vector);
+            }
+        #endif
+
 		Vector3 Vector3::add(Vector3 vector3)
 		{
 			Vector3 result;

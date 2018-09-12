@@ -26,11 +26,7 @@
 	#include "jscore/RadJavJSCJavascriptEngine.h"
 
 	#include "cpp/RadJavCPPIO.h"
-
-    #ifdef GUI_USE_WXWIDGETS
-        #include <wx/wx.h>
-        #include <wx/stdpaths.h>
-    #endif
+    #include "cpp/RadJavCPPOS.h"
 
 namespace RadJAV
 {
@@ -64,9 +60,7 @@ namespace RadJAV
         {
             String url = parseJSCValue(context, args[0]);
 
-            #ifdef GUI_USE_WXWIDGETS
-                wxLaunchDefaultBrowser(url.towxString());
-            #endif
+            CPP::OS::openWebBrowserURL(url);
 
             return (JSValueMakeUndefined(context));
         }
@@ -74,66 +68,42 @@ namespace RadJAV
         JSValueRef OS::exec(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception)
         {
             String command = parseJSCValue(context, args[0]);
-            RJINT output = 0;
-
-            #ifdef GUI_USE_WXWIDGETS
-                output = wxExecute(command.towxString());
-            #endif
+            RJINT output = CPP::OS::exec(command);
 
             return (JSValueMakeNumber(context, output));
         }
 
         JSValueRef OS::getDocumentsPath(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception)
         {
-            String str = "";
-
-            #ifdef GUI_USE_WXWIDGETS
-                str = parsewxString(wxStandardPaths::Get().GetDocumentsDir());
-            #endif
+            String str = CPP::OS::getDocumentsPath ();
 
             return (str.toJSCValue(context));
         }
         
         JSValueRef OS::getTempPath(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception)
         {
-            String str = "";
-            
-            #ifdef GUI_USE_WXWIDGETS
-                str = parsewxString(wxStandardPaths::Get().GetTempDir());
-            #endif
+            String str = CPP::OS::getTempPath ();
             
             return (str.toJSCValue(context));
         }
         
         JSValueRef OS::getUserDataPath(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception)
         {
-            String str = "";
-            
-            #ifdef GUI_USE_WXWIDGETS
-                str = parsewxString(wxStandardPaths::Get().GetUserConfigDir());
-            #endif
+            String str = CPP::OS::getUserDataPath ();
             
             return (str.toJSCValue(context));
         }
 
         JSValueRef OS::getApplicationPath(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception)
         {
-            String str = "";
-
-            #ifdef GUI_USE_WXWIDGETS
-                str = parsewxString(wxStandardPaths::Get().GetExecutablePath());
-            #endif
+            String str = CPP::OS::getApplicationPath ();
 
             return (str.toJSCValue(context));
         }
         
         JSValueRef OS::getCurrentWorkingPath(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception)
         {
-            String str = "";
-            
-            #ifdef GUI_USE_WXWIDGETS
-                str = parsewxString(wxGetCwd());
-            #endif
+            String str = CPP::OS::getCurrentWorkingPath ();
             
             return (str.toJSCValue(context));
         }
@@ -142,9 +112,7 @@ namespace RadJAV
         {
             String str = parseJSCValue(context, args[0]);
             
-            #ifdef GUI_USE_WXWIDGETS
-                wxSetWorkingDirectory(str);
-            #endif
+            CPP::OS::setCurrentWorkingPath(str);
             
             return (JSValueMakeUndefined(context));
         }
@@ -157,7 +125,6 @@ namespace RadJAV
             String defaultFile = "";
             String wildcard = "";
             RJBOOL overwritePrompt = true;
-            String path = "";
 
             if (numArgs > 0)
             {
@@ -176,22 +143,7 @@ namespace RadJAV
                 }
             }
             
-            #ifdef GUI_USE_WXWIDGETS
-                wxString wxmsg = wxFileSelectorPromptStr;
-            
-                if (message != "")
-                    wxmsg = message.towxString();
-            
-                RJLONG style = wxFD_SAVE;
-            
-                if (overwritePrompt == true)
-                    style |= wxFD_OVERWRITE_PROMPT;
-            
-                wxFileDialog fileDialog(NULL, wxmsg, defaultDir.towxString(), defaultFile.towxString(), wildcard.towxString(), style);
-            
-                if (fileDialog.ShowModal() != wxID_CANCEL)
-                    path = parsewxString(fileDialog.GetPath());
-            #endif
+            String path = CPP::OS::saveFileAs(message, defaultDir, defaultFile, wildcard, overwritePrompt);
 
             return (path.toJSCValue(context));
         }
@@ -204,7 +156,6 @@ namespace RadJAV
             String defaultFile = "";
             String wildcard = "";
             RJBOOL fileMustExist = true;
-            String path = "";
             
             if (numArgs > 0)
             {
@@ -223,22 +174,7 @@ namespace RadJAV
                 }
             }
 
-            #ifdef GUI_USE_WXWIDGETS
-                wxString wxmsg = wxFileSelectorPromptStr;
-
-                if (message != "")
-                    wxmsg = message.towxString();
-
-                RJLONG style = wxFD_OPEN;
-
-                if (fileMustExist == true)
-                    style |= wxFD_FILE_MUST_EXIST;
-
-                wxFileDialog fileDialog(NULL, wxmsg, defaultDir.towxString(), defaultFile.towxString(), wildcard.towxString(), style);
-
-                if (fileDialog.ShowModal() != wxID_CANCEL)
-                    path = parsewxString(fileDialog.GetPath());
-            #endif
+            String path = CPP::OS::openFileAs(message, defaultDir, defaultFile, wildcard, fileMustExist);
 
             return (path.toJSCValue(context));
         }

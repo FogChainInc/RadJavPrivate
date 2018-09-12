@@ -80,8 +80,7 @@ namespace RadJAV
             #endif
 
             #ifdef USE_JAVASCRIPTCORE
-                /// @todo Fix this.
-                template<class UserData = JSValueRef >
+                template<class UserData = JSObjectRef >
                 class RADJAV_EXPORT GuiEvent : public VariantObject<UserData>
                 {
                 public:
@@ -89,9 +88,16 @@ namespace RadJAV
                     
                     JSValueRef operator ()(RJINT numArgs = 0, JSValueRef *args = NULL)
                     {
-                        /// @todo Execute a persistent function.
-                        
-                        return (NULL);
+                        JSObjectRef function = VariantObject<UserData>::object;
+                        JSValueRef result = NULL;
+                        JSValueRef exception = JSC_JAVASCRIPT_ENGINE->jscCreateException (JSC_JAVASCRIPT_ENGINE->globalContext);
+
+                        if (JSC_JAVASCRIPT_ENGINE->jscIsNull (function) == false)
+                        {
+                            result = JSObjectCallAsFunction (JSC_JAVASCRIPT_ENGINE->globalContext, function, JSC_JAVASCRIPT_ENGINE->globalObj, numArgs, args, &exception);
+                        }
+
+                        return (result);
                     }
                 };
             #endif

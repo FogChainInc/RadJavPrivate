@@ -40,7 +40,7 @@ namespace RadJAV
 				RJINT OS::numBits = 32;
 			#endif
 		#endif
-		#ifdef LINUX
+		#if defined (LINUX) && !defined (__APPLE__)
 			String OS::type = "linux";
 
 			#ifdef __LP64__

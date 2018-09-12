@@ -46,6 +46,7 @@
 #endif
 
 #include "cpp/RadJavCPPIO.h"
+#include "cpp/RadJavCPPOS.h"
 
 #include <cstring>
 #include <fstream>
@@ -54,12 +55,18 @@
 namespace RadJAV
 {
 	#ifdef USE_JAVASCRIPTCORE
-        AsyncFunctionCall::AsyncFunctionCall (JSObjectRef newfunc,
-                RJINT numArgs, JSValueRef *newargs, RJBOOL newDeleteOnComplete)
+        AsyncFunctionCall::AsyncFunctionCall (JSObjectRef newfunc, JSObjectRef newargs, RJBOOL newDeleteOnComplete)
         {
             func = newfunc;
-            this->numArgs = numArgs;
             args = newargs;
+            deleteOnComplete = newDeleteOnComplete;
+            result = NULL;
+        }
+    
+        AsyncFunctionCall::AsyncFunctionCall(JSObjectRef newfunc, RJINT numArgs, JSValueRef *newargs, RJBOOL newDeleteOnComplete)
+        {
+            func = newfunc;
+            args = JSC_JAVASCRIPT_ENGINE->jscCreateArray(numArgs, newargs);
             deleteOnComplete = newDeleteOnComplete;
             result = NULL;
         }
@@ -91,16 +98,16 @@ namespace RadJAV
 			exceptionsDisplayMessageBox = false;
 			shutdownOnException = false;
 
-			if (RadJav::radJavArguments.size() > 0)
+			if (CPP::OS::args.size() > 0)
 			{
-				for (size_t iIdx = 0; iIdx < RadJav::radJavArguments.size(); iIdx++)
+				for (size_t iIdx = 0; iIdx < CPP::OS::args.size(); iIdx++)
 				{
 					String endSpace = " ";
 
-					if (iIdx == (RadJav::radJavArguments.size() - 1))
+					if (iIdx == (CPP::OS::args.size() - 1))
 						endSpace = "";
 
-					String arg = RadJav::radJavArguments.at(iIdx);
+					String arg = CPP::OS::args.at(iIdx);
 
 					flags += arg + endSpace;
 				}
@@ -406,9 +413,10 @@ namespace RadJAV
                     {
                         AsyncFunctionCall *asyncCall = *funcBegin;
                         JSObjectRef funcp = asyncCall->func;
-                        JSValueRef *args = asyncCall->args;
-                        RJINT numArgs = asyncCall->numArgs;
+                        JSObjectRef argsP = asyncCall->args;
                         RJBOOL deleteOnComplete = asyncCall->deleteOnComplete;
+                        RJINT numArgs = 0;
+                        JSValueRef *args = jscCreateArray (argsP, &numArgs);
 
                         if ((JSValueIsUndefined (globalContext, funcp) == false) &&
                             (JSValueIsNull(globalContext, funcp) == false))
@@ -421,7 +429,9 @@ namespace RadJAV
 
                             asyncCall->result = result;
                         }
-                        
+
+                        DELETEARRAY(args);
+
                         if (deleteOnComplete == true)
                             DELETEOBJ(asyncCall);
                         
@@ -829,9 +839,9 @@ namespace RadJAV
 						JSValueRef argsVal = jscGetValue(osFunc, "args");
                         JSObjectRef argsObj = jscCastValueToObject(globalContext, argsVal);
 
-						for (RJINT iIdx = 0; iIdx < RadJav::arguments.size(); iIdx++)
+                        for (RJINT iIdx = 0; iIdx < CPP::OS::args.size(); iIdx++)
 						{
-							String arg = RadJav::arguments.at(iIdx);
+							String arg = CPP::OS::args.at(iIdx);
                             JSValueRef argVal = arg.toJSCValue(globalContext);
 
                             JSObjectSetPropertyAtIndex (globalContext, argsObj, iIdx, argVal, NULL);
@@ -1343,7 +1353,26 @@ namespace RadJAV
 
             return (ary);
         }
-    
+
+        JSValueRef *JSCJavascriptEngine::jscCreateArray (JSObjectRef args, RJINT *numArgs)
+        {
+            return (jscCreateArray (globalContext, args, numArgs));
+        }
+
+        JSValueRef *JSCJavascriptEngine::jscCreateArray (JSContextRef context, JSObjectRef args, RJINT *numArgs)
+        {
+            RJINT length = jscGetInt (args, "length");
+            JSValueRef *ary = RJNEW JSValueRef[length];
+
+            for (RJINT iIdx = 0; iIdx < length; iIdx++)
+            {
+                JSValueRef elm = jscGetElement (context, args, iIdx);
+                ary[iIdx] = elm;
+            }
+
+            return (ary);
+        }
+
         /// Cast a value to a RJINT.
         RJINT JSCJavascriptEngine::jscValueToNumber (JSValueRef value)
         {
@@ -1578,6 +1607,18 @@ namespace RadJAV
             return (foundObj);
         }
 
+        RJBOOL JSCJavascriptEngine::jscParseBool(JSValueRef val)
+        {
+            return jscParseBool(globalContext, val);
+        }
+
+        RJBOOL JSCJavascriptEngine::jscParseBool(JSContextRef context, JSValueRef val)
+        {
+            RJBOOL value = JSValueToBoolean(context, val);
+
+            return value;
+        }
+
 		RDECIMAL JSCJavascriptEngine::jscParseDecimal(JSValueRef val)
 		{
 			return jscParseDecimal(globalContext, val);
@@ -1592,6 +1633,21 @@ namespace RadJAV
 			
 			return value;
 		}
+
+        RJINT JSCJavascriptEngine::jscParseInt(JSValueRef val)
+        {
+            return (jscParseInt(globalContext, val));
+        }
+
+        RJINT JSCJavascriptEngine::jscParseInt(JSContextRef context, JSValueRef val)
+        {
+            RJINT value = JSValueToNumber(context, val, nullptr);
+            
+            if(std::isnan(value))
+                return 0.0;
+            
+            return value;
+        }
 
         JSObjectRef JSCJavascriptEngine::createPromise(JSObjectRef function)
         {
@@ -1650,7 +1706,19 @@ namespace RadJAV
 		{
 			externalsManager->clear(context, handle, functionName);
 		}
-	
+    
+        JSValueRef JSCJavascriptEngine::jscGetElement(JSObjectRef array, RJUINT index)
+        {
+            return (jscGetElement (globalContext, array, index));
+        }
+
+        JSValueRef JSCJavascriptEngine::jscGetElement(JSContextRef context, JSObjectRef array, RJUINT index)
+        {
+            JSValueRef elm = JSObjectGetPropertyAtIndex (context, array, index, NULL);
+
+            return (elm);
+        }
+
 		JSValueRef JSCJavascriptEngine::jscGetArgument(const JSValueRef arguments[], RJUINT argumentCount, RJUINT index)
 		{
 			if (argumentCount == 0 ||

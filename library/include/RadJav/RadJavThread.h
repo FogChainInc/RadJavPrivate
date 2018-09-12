@@ -128,16 +128,14 @@
                     JSObjectRef createJSCPromise(JSCJavascriptEngine *engine, JSObjectRef context);
             
                     /// Set arguments for when a resolve occurs. The persistent will be deleted when the resolve is called.
-                    inline void setResolveArgs(RJINT numArgs = 0, JSValueRef *args = NULL)
+                    inline void setResolveArgs(JSObjectRef args)
                     {
-                        resolveNumArgs = numArgs;
                         resolveArgs = args;
                     }
             
                     /// Set arguments for when a resolve occurs. The persistent will be deleted when the resolve is called.
-                    inline void setRejectArgs(RJINT numArgs = 0, JSValueRef *args = NULL)
+                    inline void setRejectArgs(JSObjectRef args)
                     {
-                        rejectNumArgs = numArgs;
                         rejectArgs = args;
                     }
                 #endif
@@ -167,10 +165,8 @@
                     JSObjectRef resolvep;
                     JSObjectRef rejectp;
 
-                    RJINT resolveNumArgs;
-                    JSValueRef *resolveArgs;
-                    RJINT rejectNumArgs;
-                    JSValueRef *rejectArgs;
+                    JSObjectRef resolveArgs;
+                    JSObjectRef rejectArgs;
                 #endif
 		};
 	}

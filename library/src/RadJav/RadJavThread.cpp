@@ -75,9 +75,7 @@ PromiseThread::PromiseThread()
 		rejectArgs = NULL;
 	#endif
     #ifdef USE_JAVASCRIPTCORE
-        resolveNumArgs = 0;
         resolveArgs = NULL;
-        rejectNumArgs = 0;
         rejectArgs = NULL;
     #endif
 }
@@ -170,7 +168,7 @@ PromiseThread::PromiseThread()
 			V8_JAVASCRIPT_ENGINE->callFunctionOnNextTick(RJNEW AsyncFunctionCall(resolvep, resolveArgs));
 		#endif
         #ifdef USE_JAVASCRIPTCORE
-            JSC_JAVASCRIPT_ENGINE->callFunctionOnNextTick(RJNEW AsyncFunctionCall (resolvep, resolveNumArgs, resolveArgs));
+            JSC_JAVASCRIPT_ENGINE->callFunctionOnNextTick(RJNEW AsyncFunctionCall (resolvep, resolveArgs));
         #endif
 
 		onComplete();
@@ -182,7 +180,7 @@ PromiseThread::PromiseThread()
 			V8_JAVASCRIPT_ENGINE->callFunctionOnNextTick(RJNEW AsyncFunctionCall(rejectp, rejectArgs));
 		#endif
         #ifdef USE_JAVASCRIPTCORE
-            JSC_JAVASCRIPT_ENGINE->callFunctionOnNextTick(RJNEW AsyncFunctionCall (rejectp, rejectNumArgs, rejectArgs));
+            JSC_JAVASCRIPT_ENGINE->callFunctionOnNextTick(RJNEW AsyncFunctionCall (rejectp, rejectArgs));
         #endif
 
 		onComplete();

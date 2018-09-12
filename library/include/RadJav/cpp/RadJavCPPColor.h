@@ -25,6 +25,14 @@
 #include "RadJavString.h"
 #include "RadJavHashMap.h"
 
+#ifdef USE_V8
+    #include "v8/RadJavV8JavascriptEngine.h"
+#endif
+
+#ifdef USE_JAVASCRIPTCORE
+    #include "jscore/RadJavJSCJavascriptEngine.h"
+#endif
+
 namespace RadJAV
 {
 	namespace CPP
@@ -33,6 +41,16 @@ namespace RadJAV
 		{
 			public:
 				Color(RJNUMBER r = 0, RJNUMBER g = 0, RJNUMBER b = 0, RJNUMBER a = 1);
+                #ifdef USE_V8
+                    Color(v8::Local<v8::Object> obj);
+            
+                    v8::Local<v8::Object> toV8Object();
+                #endif
+                #ifdef USE_JAVASCRIPTCORE
+                    Color(JSObjectRef obj);
+            
+                    JSObjectRef toJSCObject();
+                #endif
 
 				RJNUMBER r;
 				RJNUMBER g;

@@ -27,6 +27,14 @@
 
 #include "cpp/RadJavCPPMath.h"
 
+#ifdef USE_V8
+    #include "v8/RadJavV8JavascriptEngine.h"
+#endif
+
+#ifdef USE_JAVASCRIPTCORE
+    #include "jscore/RadJavJSCJavascriptEngine.h"
+#endif
+
 namespace RadJAV
 {
 	namespace CPP
@@ -34,6 +42,17 @@ namespace RadJAV
 		class RADJAV_EXPORT Vector2
 		{
 			public:
+                #ifdef USE_V8
+                    Vector2(v8::Local<v8::Object> obj);
+            
+                    v8::Local<v8::Object> toV8Object();
+                #endif
+                #ifdef USE_JAVASCRIPTCORE
+                    Vector2(JSObjectRef obj);
+
+                    JSObjectRef toJSCObject();
+                #endif
+            
 				inline Vector2(RJNUMBER x = 0, RJNUMBER y = 0)
 				{
 					this->x = x;

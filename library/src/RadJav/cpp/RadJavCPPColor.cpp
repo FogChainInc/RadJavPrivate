@@ -40,6 +40,49 @@ namespace RadJAV
 			this->a = a;
 		}
 
+        #ifdef USE_V8
+            Color::Color(v8::Local<v8::Object> obj)
+            {
+                r = V8_JAVASCRIPT_ENGINE->v8GetDecimal (obj, "r");
+                g = V8_JAVASCRIPT_ENGINE->v8GetDecimal (obj, "g");
+                b = V8_JAVASCRIPT_ENGINE->v8GetDecimal (obj, "b");
+                a = V8_JAVASCRIPT_ENGINE->v8GetDecimal (obj, "a");
+            }
+        
+            v8::Local<v8::Object> Color::toV8Object()
+            {
+                v8::Local<v8::Object> vector = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_RADJAV, "Vector4");
+                
+                V8_JAVASCRIPT_ENGINE->v8SetNumber(vector, "r", r);
+                V8_JAVASCRIPT_ENGINE->v8SetNumber(vector, "g", g);
+                V8_JAVASCRIPT_ENGINE->v8SetNumber(vector, "b", b);
+                V8_JAVASCRIPT_ENGINE->v8SetNumber(vector, "a", a);
+                
+                return (vector);
+            }
+        #endif
+        #ifdef USE_JAVASCRIPTCORE
+            Color::Color(JSObjectRef obj)
+            {
+                r = JSC_JAVASCRIPT_ENGINE->jscGetDecimal (obj, "r");
+                g = JSC_JAVASCRIPT_ENGINE->jscGetDecimal (obj, "g");
+                b = JSC_JAVASCRIPT_ENGINE->jscGetDecimal (obj, "b");
+                a = JSC_JAVASCRIPT_ENGINE->jscGetDecimal (obj, "a");
+            }
+        
+            JSObjectRef Color::toJSCObject()
+            {
+                JSObjectRef vector = JSC_JAVASCRIPT_ENGINE->jscGetObject(JSC_RADJAV, "Vector4");
+                
+                JSC_JAVASCRIPT_ENGINE->jscSetNumber(vector, "r", r);
+                JSC_JAVASCRIPT_ENGINE->jscSetNumber(vector, "g", g);
+                JSC_JAVASCRIPT_ENGINE->jscSetNumber(vector, "b", b);
+                JSC_JAVASCRIPT_ENGINE->jscSetNumber(vector, "a", a);
+                
+                return (vector);
+            }
+        #endif
+
 		String Color::toHex ()
 		{
 			RJNUMBER red = r;

@@ -406,13 +406,38 @@ namespace RadJAV
 					return evt;
 				}
                 #endif
+                #ifdef USE_JAVASCRIPTCORE
+                    Event* GObjectBase::createEvent(String event, JSObjectRef function)
+                    {
+                        // Create a persistent function to execute asych later.
+                        Event* evt = RJNEW Event(function);
+                        
+                        if (events->size() > 0)
+                        {
+                            auto found = events->find(event);
+                            auto end = events->end();
+                            
+                            if (found != end)
+                            {
+                                Event *evtToRemove = events->at(event);
+                                DELETEOBJ(evtToRemove);
+                                
+                                events->erase(event);
+                            }
+                        }
+                        
+                        events->insert(HashMapPair<std::string, Event *>(event, evt));
+                        
+                        return evt;
+                    }
+                #endif
 			
 				void GObjectBase::addNewEvent(String event, wxWindow *object,
                                             #ifdef USE_V8
                                               v8::Local<v8::Function> func
                                             #endif
                                             #ifdef USE_JAVASCRIPTCORE
-                                              JSValueRef func
+                                              JSObjectRef func
                                             #endif
                                               )
 				{

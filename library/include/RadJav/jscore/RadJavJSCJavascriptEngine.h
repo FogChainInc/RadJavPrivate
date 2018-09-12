@@ -76,8 +76,8 @@
         class RADJAV_EXPORT AsyncFunctionCall
         {
             public:
-                AsyncFunctionCall(JSObjectRef newfunc, RJINT numArgs = 0,
-                                  JSValueRef *newargs = NULL, RJBOOL newDeleteOnComplete = true);
+                AsyncFunctionCall(JSObjectRef newfunc, JSObjectRef newargs = NULL, RJBOOL newDeleteOnComplete = true);
+                AsyncFunctionCall(JSObjectRef newfunc, RJINT numArgs, JSValueRef *newargs = NULL, RJBOOL newDeleteOnComplete = true);
                 ~AsyncFunctionCall();
 
                 /// Check to see if an asynchronous function call has a result. Be sure to set deleteOnComplete = true;
@@ -93,8 +93,7 @@
                 JSValueRef getResult(JSCJavascriptEngine *engine);
 
                 JSObjectRef func;
-                JSValueRef *args;
-                RJINT numArgs;
+                JSObjectRef args;
                 RJBOOL deleteOnComplete;
 
                 JSValueRef result;
@@ -219,6 +218,10 @@
                 JSObjectRef jscCreateArray (RJINT numArgs, JSValueRef args[]);
                 /// Create an array.
                 JSObjectRef jscCreateArray (JSContextRef context, RJINT numArgs, JSValueRef args[]);
+                /// Create a JSValueRef array from a JS array. Delete the JSValueRef array created with this method.
+                JSValueRef *jscCreateArray (JSObjectRef args, RJINT *numArgs);
+                /// Create a JSValueRef array from a JS array.
+                JSValueRef *jscCreateArray (JSContextRef context, JSObjectRef args, RJINT *numArgs);
                 /// Cast a value to a RJNUMBER.
                 RJINT jscValueToNumber (JSValueRef value);
                 /// Cast a value to a RJNUMBER.
@@ -268,17 +271,30 @@
                 JSObjectRef jscCreateNewObject(String objectName, RJINT numArgs = 0, JSValueRef args[] = NULL);
                 /// Get an object, class, or namespace from a JS class.
                 JSObjectRef jscGetObjectFromJSClass(String objectName, JSContextRef context = NULL);
+                /// Get a bool value from a JS value.
+                RJBOOL jscParseBool(JSValueRef val);
+                /// Get a bool value from a JS value.
+                RJBOOL jscParseBool(JSContextRef context, JSValueRef val);
 				/// Get a decimal value from a JS value.
 				RDECIMAL jscParseDecimal(JSValueRef val);
 				/// Get a decimal value from a JS value.
 				RDECIMAL jscParseDecimal(JSContextRef context, JSValueRef val);
+                /// Get a int value from a JS value.
+                RJINT jscParseInt(JSValueRef val);
+                /// Get a int value from a JS value.
+                RJINT jscParseInt(JSContextRef context, JSValueRef val);
 
 				// Create a promise.
 				JSObjectRef createPromise(JSObjectRef function);
 				// Create a promise.
 				JSObjectRef createPromise(
                         JSObjectRef context, JSObjectRef function, RJINT numArgs = 0, JSValueRef args[] = NULL);
-			
+
+                /// Get an element from an array.
+                JSValueRef jscGetElement(JSObjectRef array, RJUINT index);
+                /// Get an element from an array.
+                JSValueRef jscGetElement(JSContextRef context, JSObjectRef array, RJUINT index);
+
 				//Pick up argument from array of callback function arguments
 				JSValueRef jscGetArgument(const JSValueRef arguments[], RJUINT argumentCount, RJUINT index);
 			

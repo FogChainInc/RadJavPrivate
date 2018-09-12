@@ -212,6 +212,10 @@ namespace RadJAV
 						/// Execute when an event is triggered.
 						virtual void on(String event, v8::Local<v8::Function> func) = 0;
 					#endif
+                    #ifdef USE_JAVASCRIPTCORE
+                        /// Execute when an event is triggered.
+                        virtual void on(String event, JSObjectRef func) = 0;
+                    #endif
 
 					virtual void setup();
 					void setupCursor();
@@ -256,8 +260,8 @@ namespace RadJAV
                         #endif
 
                         #ifdef USE_JAVASCRIPTCORE
-                            Event* createEvent(String event, JSValueRef function);
-                            void addNewEvent(String event, wxWindow *object, JSValueRef func);
+                            Event* createEvent(String event, JSObjectRef function);
+                            void addNewEvent(String event, wxWindow *object, JSObjectRef func);
                         #endif
 
 						static void onClick(wxMouseEvent &event);
