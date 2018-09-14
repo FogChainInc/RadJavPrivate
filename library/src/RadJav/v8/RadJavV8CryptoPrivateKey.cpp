@@ -539,7 +539,7 @@ namespace RadJAV
 					const char *pwdPtr = nullptr;
 					if (args[2] -> IsString())
 					  {
-					    pwd = parseV8Value(args[1]);
+					    pwd = parseV8Value(args[2]);
 					    pwdPtr = pwd.c_str();
 					  }
 
