@@ -76,6 +76,11 @@ if (WIN32)
 	set (libKrispyCrypto_NAME "${PROJECT_NAME}_d.lib" CACHE STRING "KrispyCrypto library" FORCE)
 endif()
 
+if (APPLE)
+	set (libKrispyCrypto_LIBRARIES "${PROJECT_SOURCE_DIR}/build/Debug/lib${PROJECT_NAME}_d.dylib" CACHE STRING "KrispyCrypto libraries" FORCE)
+	set (libKrispyCrypto_NAME "lib${PROJECT_NAME}_d.dylib" CACHE STRING "KrispyCrypto library" FORCE)
+endif ()
+
 target_include_directories(${PROJECT_NAME}
   PRIVATE
   ${PROJECT_SOURCE_DIR}/Interface
