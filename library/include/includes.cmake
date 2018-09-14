@@ -173,8 +173,7 @@ if (USE_JAVASCRIPTCORE)
 	set (SOURCES_files_RadJav__JSC__Net__Headers 
 		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCNet.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCNetWebSocket.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCNetWebServer.h"
-		)
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCNetWebServer.h")
 	source_group ("RadJav\\JavaScriptCore\\Net" FILES ${SOURCES_files_RadJav__JSC__Net__Headers})
 
 	set (SOURCES ${SOURCES_files_RadJav__JSC__Net__Headers} ${SOURCES})
@@ -185,6 +184,21 @@ if (USE_JAVASCRIPTCORE)
 	source_group ("RadJav\\JavaScriptCore\\Database" FILES ${SOURCES_files_RadJav__JSC__DB__Headers})
 
 	set (SOURCES ${SOURCES_files_RadJav__JSC__DB__Headers} ${SOURCES})
+
+	# JavaScriptCore Crypto
+	set (SOURCES_files_RadJav__JSC__Crypto__Headers 
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCCryptoCipher.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCCryptoDecipher.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCCryptoCipherMultipart.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCCryptoDecipherMultipart.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCCryptoKeyGenerator.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCCryptoPrivateKey.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCCryptoPublicKey.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCCryptoHash.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCCryptoHashMultipart.h")
+	source_group ("RadJav\\JavaScriptCore\\Crypto" FILES ${SOURCES_files_RadJav__JSC__Crypto__Headers})
+	
+	set (SOURCES ${SOURCES_files_RadJav__JSC__Crypto__Headers} ${SOURCES})
 endif ()
 
 # V8
@@ -331,8 +345,7 @@ if (USE_OGRE)
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCC3DSphere.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCC3DCamera.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCC3DLight.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCC3DModel.h"
-		)
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCC3DModel.h")
 		source_group ("RadJav\\JavaScriptCore\\C3D" FILES ${SOURCES_files_RadJav__JSC__C3D__Headers})
 		
 		set (SOURCES ${SOURCES_files_RadJav__JSC__C3D__Headers} ${SOURCES})

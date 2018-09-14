@@ -50,34 +50,42 @@
 				class RADJAV_EXPORT DecipherMultipart
 				{
 				public:
-				  DecipherMultipart(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
-				  ~DecipherMultipart();
-
+					#ifdef USE_V8
+					DecipherMultipart(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
+					#elif defined USE_JAVASCRIPTCORE
+					DecipherMultipart(JSCJavascriptEngine *jsEngine, JSContextRef ctx, RJUINT argumentCount, const JSValueRef arguments[]);
+					#endif
+					
+					~DecipherMultipart();
+					
 				public:
-				  
-				  /// Cipher data
-                                  void update(const void *plainText, int textLength, 
-						std::function <void (const std::string &str)> stringSetter,
-						std::function <void (void *buf, int bufLen)> binSetter);
-                                  void finalize(std::function <void (const std::string &str)> stringSetter,
-						std::function <void (void *buf, int bufLen)> binSetter);
-
-                                  void reset();
-
+					
+					/// Cipher data
+					void update(const void *plainText, int textLength,
+								std::function <void (const std::string &str)> stringSetter,
+								std::function <void (void *buf, int bufLen)> binSetter);
+					void finalize(std::function <void (const std::string &str)> stringSetter,
+								  std::function <void (void *buf, int bufLen)> binSetter);
+					
+					void reset();
+					
 				public:
-				  std::shared_ptr<Engine::Crypto::IDecipherMultipart> myDecipher;
-
-				  String myCryptoLibrary;
-				  String myCipherAlgorithm;
-				  String mySecret;
-				  String myIv;
-				  String myInputEncoding;
-				  String myOutputEncoding;
-
+					std::shared_ptr<Engine::Crypto::IDecipherMultipart> myDecipher;
+					
+					String myCryptoLibrary;
+					String myCipherAlgorithm;
+					String mySecret;
+					String myIv;
+					String myInputEncoding;
+					String myOutputEncoding;
+					
 				protected:
-				  V8JavascriptEngine *jsEngine;
-
-				  
+					#ifdef USE_V8
+					V8JavascriptEngine
+					#elif defined USE_JAVASCRIPTCORE
+					JSCJavascriptEngine
+					#endif
+						*jsEngine;
 				};
 				#endif
 			}

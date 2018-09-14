@@ -28,7 +28,12 @@
 #include <memory>
 
 #include "RadJavString.h"
+
+#ifdef USE_V8
 #include "v8/RadJavV8JavascriptEngine.h"
+#elif defined USE_JAVASCRIPTCORE
+#include "jscore/RadJavJSCJavascriptEngine.h"
+#endif
 
 #include <iostream>
 
@@ -43,173 +48,232 @@ namespace RadJAV
 		namespace Crypto
 		{
 			#ifdef USE_CRYPTOGRAPHY
+			#ifdef USE_V8
 			HashMultipart::HashMultipart(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-			  //std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl;
-			  std::cout << "Args len: " << args.Length() << std::endl;
-
-			  this -> jsEngine = jsEngine;
-			  v8::Isolate *isolate = args.GetIsolate();
-			  
-			  v8::Local<v8::Value> firstArg = args[0];
-
-
-			  // Get constructor parms for HashMultipart(hashAlgorithm, cryptoLibrary)
-			  if (args[0] -> IsString())
-			    {
-			      myHashAlgorithm = parseV8Value(args[0]);
-			      myCryptoLibrary = parseV8Value(args[1]);
-			    }
-
-			  // Get constructor parms HashMultipart({hashAlgorithm: ..., cryptoLibrary: ..., ...})
-			  else if (args[0] -> IsObject())
-			    {
-
-			      v8::Local<v8::Object> parms = v8::Local<v8::Object>::Cast(args[0]);
-
-			      myHashAlgorithm = jsEngine->v8GetString(parms, "hashAlgorithm");
-			      if (myHashAlgorithm == "")
-				args.GetIsolate() -> ThrowException(v8::Exception::TypeError
-								    (v8::String::NewFromUtf8(isolate,
-											     "'hashAlgorithm' must be defined")));
-			      myCryptoLibrary = jsEngine->v8GetString(parms, "cryptoLibrary");
-			      
-			      myInputEncoding = jsEngine->v8GetString(parms, "inputEncoding");
-			      myOutputEncoding = jsEngine->v8GetString(parms, "outputEncoding");
-			    }
-			  
-
-			  // Defaults and error checking
-			  if (myCryptoLibrary == "") myCryptoLibrary = "OpenSSL"; // TODO - crude way of providing a default
-			  if (myInputEncoding == "") myInputEncoding = "binary";
-			  if (myOutputEncoding == "") myOutputEncoding = "binary";
-
-			  if (myInputEncoding != "binary" && myInputEncoding != "hex" && myInputEncoding != "base64")
-			    {
-			      String msg = "Unsupported input encoding: " + myInputEncoding;
-			      isolate -> ThrowException(v8::Exception::TypeError
-							(v8::String::NewFromUtf8(isolate,
-										 msg.c_str())));
-			      
-			    }
-
-			  if (myOutputEncoding != "binary" && myOutputEncoding != "hex" && myOutputEncoding != "base64")
-			    {
-			      String msg = "Unsupported output encoding: " + myOutputEncoding;
-			      isolate -> ThrowException(v8::Exception::TypeError
-							(v8::String::NewFromUtf8(isolate,
-										 msg.c_str())));
-			      
-			    }
-
-			  // Create the digest engine
-			  try
-			    {
-			      myDigest = ORB::Engine::Crypto::createDigestMultipart(myHashAlgorithm, myCryptoLibrary);
-			    }
-			  catch (std::invalid_argument& e)
-			    {
-			      String msg = myCryptoLibrary + " doesn't support the hashAlgorithm: '" + myHashAlgorithm + "'";
-			      isolate -> ThrowException(v8::Exception::TypeError
-							(v8::String::NewFromUtf8(args.GetIsolate(),
-										 msg.c_str())));
-			    }
-
-			  
-
-			  //std::cout << __PRETTY_FUNCTION__ << ": end" << std::endl;
-
+				//std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl;
+				std::cout << "Args len: " << args.Length() << std::endl;
+				
+				this -> jsEngine = jsEngine;
+				v8::Isolate *isolate = args.GetIsolate();
+				
+				v8::Local<v8::Value> firstArg = args[0];
+				
+				
+				// Get constructor parms for HashMultipart(hashAlgorithm, cryptoLibrary)
+				if (args[0] -> IsString())
+				{
+					myHashAlgorithm = parseV8Value(args[0]);
+					myCryptoLibrary = parseV8Value(args[1]);
+				}
+				
+				// Get constructor parms HashMultipart({hashAlgorithm: ..., cryptoLibrary: ..., ...})
+				else if (args[0] -> IsObject())
+				{
+					
+					v8::Local<v8::Object> parms = v8::Local<v8::Object>::Cast(args[0]);
+					
+					myHashAlgorithm = jsEngine->v8GetString(parms, "hashAlgorithm");
+					if (myHashAlgorithm == "")
+						args.GetIsolate() -> ThrowException(v8::Exception::TypeError
+															(v8::String::NewFromUtf8(isolate,
+																					 "'hashAlgorithm' must be defined")));
+					myCryptoLibrary = jsEngine->v8GetString(parms, "cryptoLibrary");
+					
+					myInputEncoding = jsEngine->v8GetString(parms, "inputEncoding");
+					myOutputEncoding = jsEngine->v8GetString(parms, "outputEncoding");
+				}
+				
+				
+				// Defaults and error checking
+				if (myCryptoLibrary == "") myCryptoLibrary = "OpenSSL"; // TODO - crude way of providing a default
+				if (myInputEncoding == "") myInputEncoding = "binary";
+				if (myOutputEncoding == "") myOutputEncoding = "binary";
+				
+				if (myInputEncoding != "binary" && myInputEncoding != "hex" && myInputEncoding != "base64")
+				{
+					String msg = "Unsupported input encoding: " + myInputEncoding;
+					isolate -> ThrowException(v8::Exception::TypeError
+											  (v8::String::NewFromUtf8(isolate,
+																	   msg.c_str())));
+					
+				}
+				
+				if (myOutputEncoding != "binary" && myOutputEncoding != "hex" && myOutputEncoding != "base64")
+				{
+					String msg = "Unsupported output encoding: " + myOutputEncoding;
+					isolate -> ThrowException(v8::Exception::TypeError
+											  (v8::String::NewFromUtf8(isolate,
+																	   msg.c_str())));
+					
+				}
+				
+				// Create the digest engine
+				try
+				{
+					myDigest = ORB::Engine::Crypto::createDigestMultipart(myHashAlgorithm, myCryptoLibrary);
+				}
+				catch (std::invalid_argument& e)
+				{
+					String msg = myCryptoLibrary + " doesn't support the hashAlgorithm: '" + myHashAlgorithm + "'";
+					isolate -> ThrowException(v8::Exception::TypeError
+											  (v8::String::NewFromUtf8(args.GetIsolate(),
+																	   msg.c_str())));
+				}
+				
+				
+				
+				//std::cout << __PRETTY_FUNCTION__ << ": end" << std::endl;
+				
 			}
 
+			#elif defined USE_JAVASCRIPTCORE
+			
+			HashMultipart::HashMultipart(JSCJavascriptEngine *jsEngine, JSContextRef ctx, RJUINT argumentCount, const JSValueRef arguments[])
+			{
+				this -> jsEngine = jsEngine;
+
+				// Get constructor parms for HashMultipart(hashAlgorithm, cryptoLibrary)
+				if (argumentCount > 1 &&
+					JSValueIsString(ctx, arguments[0]) &&
+					JSValueIsString(ctx, arguments[1]))
+				{
+					myHashAlgorithm = parseJSCValue(ctx, arguments[0]);
+					myCryptoLibrary = parseJSCValue(ctx, arguments[1]);
+				}
+				
+				// Get constructor parms HashMultipart({hashAlgorithm: ..., cryptoLibrary: ..., ...})
+				else if (argumentCount &&
+						 JSValueIsObject(ctx, arguments[0]))
+				{
+					
+					JSObjectRef params = jsEngine->jscCastValueToObject(ctx, arguments[0]);
+					
+					myHashAlgorithm = jsEngine->jscGetString(params, "hashAlgorithm");
+					if (myHashAlgorithm == "")
+						jsEngine->throwException("'hashAlgorithm' must be defined");
+
+					myCryptoLibrary = jsEngine->jscGetString(params, "cryptoLibrary");
+					
+					myInputEncoding = jsEngine->jscGetString(params, "inputEncoding");
+					myOutputEncoding = jsEngine->jscGetString(params, "outputEncoding");
+				}
+				
+				
+				// Defaults and error checking
+				if (myCryptoLibrary == "") myCryptoLibrary = "OpenSSL"; // TODO - crude way of providing a default
+				if (myInputEncoding == "") myInputEncoding = "binary";
+				if (myOutputEncoding == "") myOutputEncoding = "binary";
+				
+				if (myInputEncoding != "binary" && myInputEncoding != "hex" && myInputEncoding != "base64")
+				{
+					String msg = "Unsupported input encoding: " + myInputEncoding;
+					jsEngine->throwException(msg);
+				}
+				
+				if (myOutputEncoding != "binary" && myOutputEncoding != "hex" && myOutputEncoding != "base64")
+				{
+					String msg = "Unsupported output encoding: " + myOutputEncoding;
+					jsEngine->throwException(msg);
+				}
+				
+				// Create the digest engine
+				try
+				{
+					myDigest = ORB::Engine::Crypto::createDigestMultipart(myHashAlgorithm, myCryptoLibrary);
+				}
+				catch (std::invalid_argument& e)
+				{
+					String msg = myCryptoLibrary + " doesn't support the hashAlgorithm: '" + myHashAlgorithm + "'";
+					jsEngine->throwException(msg);
+				}
+			}
+			#endif
+			
 			HashMultipart::~HashMultipart()
 			{
 
 			}
 
-
-
-		        void HashMultipart::update(const void *text, int textLength, const std::string &inputEncoding,
-						   std::function <void (const std::string &str)> stringSetter,
-						   std::function <void (void* buf, int bufLen)> binSetter)
+			void HashMultipart::update(const void *text, int textLength, const std::string &inputEncoding,
+									   std::function <void (const std::string &str)> stringSetter,
+									   std::function <void (void* buf, int bufLen)> binSetter)
 			{
-			  //std::tuple<std::shared_ptr<void>, unsigned int> digestResult;
-			  //std::cout << __PRETTY_FUNCTION__ << ": String" << std::endl << std::flush;
-					    
-			  
-			  String _inputEncoding = inputEncoding;
-			  if (_inputEncoding == "")
-			    _inputEncoding = myInputEncoding;
-			  
-			  const void *binText;
-			  int binTextLength;
-			  std::string decodedText;
-
-			  if (_inputEncoding == "binary")
-			    {
-			      binText = text;
-			      binTextLength =  textLength;
-			    }
-			  else if (_inputEncoding == "hex")
- 			    {
-			      auto binData = ORB::Engine::Crypto::decodeHex(text, textLength);
-			      decodedText.assign(static_cast<const char*>(std::get<0>(binData).get()), std::get<1>(binData));
-			      binText = decodedText.c_str();
-			      binTextLength = decodedText.length();
-			    }
-			  else if (_inputEncoding == "base64")
-			    {
-			      auto binData = ORB::Engine::Crypto::decodeBase64(text, textLength);
-			      decodedText.assign(static_cast<const char*>(std::get<0>(binData).get()), std::get<1>(binData));
-			      binText = decodedText.c_str();
-			      binTextLength = decodedText.length();
-			    }
-			  else
-			    {
-			      String msg = "Unsupported input encoding: " + _inputEncoding;
-			      throw std::invalid_argument(msg);
-			    }
-			  
-			  myDigest -> update(binText, binTextLength);
-
+				//std::tuple<std::shared_ptr<void>, unsigned int> digestResult;
+				//std::cout << __PRETTY_FUNCTION__ << ": String" << std::endl << std::flush;
+				
+				
+				String _inputEncoding = inputEncoding;
+				if (_inputEncoding == "")
+					_inputEncoding = myInputEncoding;
+				
+				const void *binText;
+				int binTextLength;
+				std::string decodedText;
+				
+				if (_inputEncoding == "binary")
+				{
+					binText = text;
+					binTextLength =  textLength;
+				}
+				else if (_inputEncoding == "hex")
+				{
+					auto binData = ORB::Engine::Crypto::decodeHex(text, textLength);
+					decodedText.assign(static_cast<const char*>(std::get<0>(binData).get()), std::get<1>(binData));
+					binText = decodedText.c_str();
+					binTextLength = decodedText.length();
+				}
+				else if (_inputEncoding == "base64")
+				{
+					auto binData = ORB::Engine::Crypto::decodeBase64(text, textLength);
+					decodedText.assign(static_cast<const char*>(std::get<0>(binData).get()), std::get<1>(binData));
+					binText = decodedText.c_str();
+					binTextLength = decodedText.length();
+				}
+				else
+				{
+					String msg = "Unsupported input encoding: " + _inputEncoding;
+					throw std::invalid_argument(msg);
+				}
+				
+				myDigest -> update(binText, binTextLength);
+				
 			} // End of update()
-
-
-		        void HashMultipart::finalize(std::function <void (const std::string& str)> stringSetter,
-						     std::function <void (void* buf, int bufLen)> binSetter)
+			
+			
+			void HashMultipart::finalize(std::function <void (const std::string& str)> stringSetter,
+										 std::function <void (void* buf, int bufLen)> binSetter)
 			{
-			  //std::tuple<std::shared_ptr<void>, unsigned int> digestResult;
-			  //std::cout << __PRETTY_FUNCTION__ << ": String" << std::endl << std::flush;
-					    
-			  auto digestResult = myDigest -> finalize();
-
-			  if (myOutputEncoding == "hex")
-			    {
-			      std::cout << "Cipher string encoded as hex " << std::endl;
-			      stringSetter(ORB::Engine::Crypto::encodeHex(std::get<0>(digestResult).get(),
-									  std::get<1>(digestResult)));
-			      return;
-			    }
-			  else if (myOutputEncoding == "base64")
-			    {
-			      stringSetter(ORB::Engine::Crypto::encodeBase64(std::get<0>(digestResult).get(),
-									     std::get<1>(digestResult)));
-			      return;
-			    }
-			  else if (myOutputEncoding == "binary")
-			    {
-			      binSetter(std::get<0>(digestResult).get(),
-					std::get<1>(digestResult));
-			      return;
-			    }
-
-			  String msg = "Unsupported output encoding: " + myOutputEncoding;
-			  throw std::invalid_argument(msg);
-
+				//std::tuple<std::shared_ptr<void>, unsigned int> digestResult;
+				//std::cout << __PRETTY_FUNCTION__ << ": String" << std::endl << std::flush;
+				
+				auto digestResult = myDigest -> finalize();
+				
+				if (myOutputEncoding == "hex")
+				{
+					std::cout << "Cipher string encoded as hex " << std::endl;
+					stringSetter(ORB::Engine::Crypto::encodeHex(std::get<0>(digestResult).get(),
+																std::get<1>(digestResult)));
+					return;
+				}
+				else if (myOutputEncoding == "base64")
+				{
+					stringSetter(ORB::Engine::Crypto::encodeBase64(std::get<0>(digestResult).get(),
+																   std::get<1>(digestResult)));
+					return;
+				}
+				else if (myOutputEncoding == "binary")
+				{
+					binSetter(std::get<0>(digestResult).get(),
+							  std::get<1>(digestResult));
+					return;
+				}
+				
+				String msg = "Unsupported output encoding: " + myOutputEncoding;
+				throw std::invalid_argument(msg);
+				
 			} // End of finalize()
-
-
-                  #endif
-		  
+			#endif
 		}
 	}
 }

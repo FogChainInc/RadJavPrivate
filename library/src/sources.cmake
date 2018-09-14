@@ -184,6 +184,21 @@ if (USE_JAVASCRIPTCORE)
 	source_group ("RadJav\\JavaScriptCore\\Database" FILES ${SOURCES_files_RadJav__JSC__DB__Sources})
 
 	set (SOURCES ${SOURCES_files_RadJav__JSC__DB__Sources} ${SOURCES})
+
+	# JavaScriptCore Crypto
+	set (SOURCES_files_RadJav__JSC__Crypto__Sources 
+		"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCCryptoCipher.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCCryptoDecipher.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCCryptoCipherMultipart.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCCryptoDecipherMultipart.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCCryptoKeyGenerator.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCCryptoPrivateKey.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCCryptoPublicKey.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCCryptoHash.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCCryptoHashMultipart.cpp")
+	source_group ("RadJav\\JavaScriptCore\\Crypto" FILES ${SOURCES_files_RadJav__JSC__Crypto__Sources})
+	
+	set (SOURCES ${SOURCES_files_RadJav__JSC__Crypto__Sources} ${SOURCES})
 endif ()
 
 # V8

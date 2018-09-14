@@ -48,32 +48,40 @@
 				class RADJAV_EXPORT HashMultipart
 				{
 				public:
-				  HashMultipart(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
-				  ~HashMultipart();
-
+					#ifdef USE_V8
+					HashMultipart(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
+					#elif defined USE_JAVASCRIPTCORE
+					HashMultipart(JSCJavascriptEngine *jsEngine, JSContextRef ctx, RJUINT argumentCount, const JSValueRef arguments[]);
+					#endif
+					
+					~HashMultipart();
+					
 				public:
-				  
-				  /// Read from a key in the database.
-                                  void update(const void *text, int textLength, const std::string& inputEncoding,
-						std::function <void (const std::string& str)> stringSetter,
-						std::function <void (void* buf, int bufLen)> binSetter);
-                                  void finalize(std::function <void (const std::string& str)> stringSetter,
-						std::function <void (void* buf, int bufLen)> binSetter);
-				  void reset();
-
-
+					
+					/// Read from a key in the database.
+					void update(const void *text, int textLength, const std::string& inputEncoding,
+								std::function <void (const std::string& str)> stringSetter,
+								std::function <void (void* buf, int bufLen)> binSetter);
+					void finalize(std::function <void (const std::string& str)> stringSetter,
+								  std::function <void (void* buf, int bufLen)> binSetter);
+					void reset();
+					
+					
 				public:
-				  std::shared_ptr<Engine::Crypto::IDigestMultipart> myDigest;
-
-				  String myHashAlgorithm;
-				  String myCryptoLibrary;
-				  String myInputEncoding;
-				  String myOutputEncoding;
-
+					std::shared_ptr<Engine::Crypto::IDigestMultipart> myDigest;
+					
+					String myHashAlgorithm;
+					String myCryptoLibrary;
+					String myInputEncoding;
+					String myOutputEncoding;
+					
 				protected:
-				  V8JavascriptEngine *jsEngine;
-
-				  
+					#ifdef USE_V8
+					V8JavascriptEngine
+					#elif defined USE_JAVASCRIPTCORE
+					JSCJavascriptEngine
+					#endif
+						*jsEngine;
 				};
 				#endif
 			}

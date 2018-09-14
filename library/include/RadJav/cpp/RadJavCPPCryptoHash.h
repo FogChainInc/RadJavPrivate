@@ -48,29 +48,37 @@
 				class RADJAV_EXPORT Hash
 				{
 				public:
-				  Hash(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
-				  ~Hash();
-
+					#ifdef USE_V8
+					Hash(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
+					#elif defined USE_JAVASCRIPTCORE
+					Hash(JSCJavascriptEngine *jsEngine, JSContextRef ctx, RJUINT argumentCount, const JSValueRef arguments[]);
+					#endif
+					
+					~Hash();
+					
 				public:
-				  
-				  /// Read from a key in the database.
-				  void digest(const void* text, int textLength,
-					      std::function <void (const std::string& str)> stringSetter,
-					      std::function <void (void* buf, int bufLen)> binSetter);
-
-
+					
+					/// Read from a key in the database.
+					void digest(const void* text, int textLength,
+								std::function <void (const std::string& str)> stringSetter,
+								std::function <void (void* buf, int bufLen)> binSetter);
+					
+					
 				public:
-				  std::shared_ptr<Engine::Crypto::IDigest> myDigest;
-
-				  String myHashAlgorithm;
-				  String myCryptoLibrary;
-				  String myInputEncoding;
-				  String myOutputEncoding;
-
+					std::shared_ptr<Engine::Crypto::IDigest> myDigest;
+					
+					String myHashAlgorithm;
+					String myCryptoLibrary;
+					String myInputEncoding;
+					String myOutputEncoding;
+					
 				protected:
-				  V8JavascriptEngine *jsEngine;
-
-				  
+					#ifdef USE_V8
+					V8JavascriptEngine
+					#elif defined USE_JAVASCRIPTCORE
+					JSCJavascriptEngine
+					#endif
+						*jsEngine;
 				};
 				#endif
 			}

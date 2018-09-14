@@ -21,7 +21,12 @@
 #include "cpp/RadJavCPPCryptoKeyGenerator.h"
 
 #include "RadJavString.h"
+
+#ifdef USE_V8
 #include "v8/RadJavV8JavascriptEngine.h"
+#elif defined USE_JAVASCRIPTCORE
+#include "jscore/RadJavJSCJavascriptEngine.h"
+#endif
 
 #include <algorithm>
 #include <cstdlib>
@@ -44,78 +49,130 @@ namespace RadJAV
 		namespace Crypto
 		{
 			#ifdef USE_CRYPTOGRAPHY
-		        KeyGenerator::KeyGenerator(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args) :
-			  Base(jsEngine, args)
+			#ifdef USE_V8
+			KeyGenerator::KeyGenerator(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args) :
+			Base(jsEngine, args)
 			{
-			  v8::Isolate *isolate = args.GetIsolate();
-			  
-
-			  // Get constructor parms for KeyGenerator(algorithm, cryptoLibrary)
-			  if (args[0] -> IsString())
-			    {
-			      myAlgorithm = parseV8Value(args[0]);
-			      myCryptoLibrary = parseV8Value(args[1]);
-			    }
-
-			  // Get constructor parms Cipher({cipherAlgorithm: ..., cryptoLibrary: ..., ...})
-			  else if (args[0] -> IsObject())
-			    {
-			      v8::Local<v8::Object> parms = v8::Local<v8::Object>::Cast(args[0]);
-
-			      myBits = jsEngine -> v8GetString(parms, "bits");
-			      myEncryptPadding = jsEngine -> v8GetString(parms, "encryptPadding");
-			      mySignatureType = jsEngine -> v8GetString(parms, "signatureType");
-			    }
-			  
-
-			  // Defaults and error checking
-
-			  // Create the key generator
-			  try
-			    {
-			      std::map<std::string, std::string> parms;
-			      parms["algorithm"] = myAlgorithm;
-			      parms["bits"] = myBits;
-			      parms["encryptPadding"] = myEncryptPadding;
-			      parms["signatureType"] = mySignatureType;
-
-			      myKeyGenerator = ORB::Engine::Crypto::createKeyGenerator(parms, myCryptoLibrary);
-
-
-			      //std::cout << __PRETTY_FUNCTION__ << ": "
-			      //<< "cryptoLibrary: " << myCryptoLibrary
-			      //<< ", ";
-			      for (auto element : parms)
-				  std::cout << element.first << ": " << element.second << ", ";
-			      std::cout << std::endl;
-
-			      
-			    }
-			  catch (std::exception& e)
-			    {
-			      isolate -> ThrowException(v8::Exception::TypeError
-							(v8::String::NewFromUtf8(args.GetIsolate(),
-										 e.what())));
-			    }
-
-			  //std::cout << __PRETTY_FUNCTION__ << ": end" << std::endl;
-
+				v8::Isolate *isolate = args.GetIsolate();
+				
+				
+				// Get constructor parms for KeyGenerator(algorithm, cryptoLibrary)
+				if (args[0] -> IsString())
+				{
+					myAlgorithm = parseV8Value(args[0]);
+					myCryptoLibrary = parseV8Value(args[1]);
+				}
+				
+				// Get constructor parms Cipher({cipherAlgorithm: ..., cryptoLibrary: ..., ...})
+				else if (args[0] -> IsObject())
+				{
+					v8::Local<v8::Object> parms = v8::Local<v8::Object>::Cast(args[0]);
+					
+					myBits = jsEngine -> v8GetString(parms, "bits");
+					myEncryptPadding = jsEngine -> v8GetString(parms, "encryptPadding");
+					mySignatureType = jsEngine -> v8GetString(parms, "signatureType");
+				}
+				
+				
+				// Defaults and error checking
+				
+				// Create the key generator
+				try
+				{
+					std::map<std::string, std::string> parms;
+					parms["algorithm"] = myAlgorithm;
+					parms["bits"] = myBits;
+					parms["encryptPadding"] = myEncryptPadding;
+					parms["signatureType"] = mySignatureType;
+					
+					myKeyGenerator = ORB::Engine::Crypto::createKeyGenerator(parms, myCryptoLibrary);
+					
+					
+					//std::cout << __PRETTY_FUNCTION__ << ": "
+					//<< "cryptoLibrary: " << myCryptoLibrary
+					//<< ", ";
+					for (auto element : parms)
+						std::cout << element.first << ": " << element.second << ", ";
+					std::cout << std::endl;
+					
+					
+				}
+				catch (std::exception& e)
+				{
+					isolate -> ThrowException(v8::Exception::TypeError
+											  (v8::String::NewFromUtf8(args.GetIsolate(),
+																	   e.what())));
+				}
+				
+				//std::cout << __PRETTY_FUNCTION__ << ": end" << std::endl;
+				
 			}
+			
+			#elif defined USE_JAVASCRIPTCORE
+
+			KeyGenerator::KeyGenerator(JSCJavascriptEngine *jsEngine, JSContextRef ctx, RJUINT argumentCount, const JSValueRef arguments[])
+			: Base(jsEngine, ctx, argumentCount, arguments)
+			{
+				// Get constructor parms for KeyGenerator(algorithm, cryptoLibrary)
+				if (argumentCount > 1 &&
+					JSValueIsString(ctx, arguments[0]))
+				{
+					myAlgorithm = parseJSCValue(ctx, arguments[0]);
+					myCryptoLibrary = parseJSCValue(ctx, arguments[1]);
+				}
+				
+				// Get constructor parms Cipher({cipherAlgorithm: ..., cryptoLibrary: ..., ...})
+				else if (argumentCount &&
+						 JSValueIsObject(ctx, arguments[0]))
+				{
+					JSObjectRef params = jsEngine->jscCastValueToObject(ctx, arguments[0]);
+					
+					myBits = jsEngine->jscGetString(params, "bits");
+					myEncryptPadding = jsEngine->jscGetString(params, "encryptPadding");
+					mySignatureType = jsEngine->jscGetString(params, "signatureType");
+				}
+				
+				
+				// Defaults and error checking
+				
+				// Create the key generator
+				try
+				{
+					std::map<std::string, std::string> parms;
+					parms["algorithm"] = myAlgorithm;
+					parms["bits"] = myBits;
+					parms["encryptPadding"] = myEncryptPadding;
+					parms["signatureType"] = mySignatureType;
+					
+					myKeyGenerator = ORB::Engine::Crypto::createKeyGenerator(parms, myCryptoLibrary);
+					
+					
+					//std::cout << __PRETTY_FUNCTION__ << ": "
+					//<< "cryptoLibrary: " << myCryptoLibrary
+					//<< ", ";
+					for (auto element : parms)
+						std::cout << element.first << ": " << element.second << ", ";
+					std::cout << std::endl;
+					
+					
+				}
+				catch (std::exception& e)
+				{
+					jsEngine->throwException(e.what());
+				}
+			}
+			#endif
 
 			KeyGenerator::~KeyGenerator()
 			{
 
 			}
 
-		        std::shared_ptr<Engine::Crypto::IPrivateKey> KeyGenerator::generate()
+			std::shared_ptr<Engine::Crypto::IPrivateKey> KeyGenerator::generate()
 			{
-
-			  return myKeyGenerator -> generate();
+				return myKeyGenerator -> generate();
 			}
-		    
-		  
-		  #endif
-		  
+			#endif
 		}
 	}
 }

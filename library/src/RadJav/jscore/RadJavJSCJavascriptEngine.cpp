@@ -1731,6 +1731,39 @@ namespace RadJAV
 			
 			return jscIsNull(argument) ? nullptr : argument;
 		}
+	
+		String JSCJavascriptEngine::jscGetArgumentAsString(JSContextRef ctx, const JSValueRef arguments[], RJUINT argumentCount, RJUINT index)
+		{
+			String data;
+			
+			JSValueRef argument = jscGetArgument(arguments, argumentCount, index);
+			if (!argument)
+				return data;
+			
+			if (JSValueIsString(ctx, argument))
+			{
+				data = parseJSCValue(ctx, argument);
+			}
+			else if (JSValueIsArray(ctx, argument))
+			{
+				// TODO add support for arrays
+			}
+			else if (JSValueIsObject(ctx, argument))
+			{
+				//Convert to ArrayBuffer object
+				JSObjectRef arrayBufferObject = JSValueToObject(ctx, argument, nullptr);
+				
+				const size_t dataSize = JSObjectGetArrayBufferByteLength(ctx, arrayBufferObject, nullptr);
+				if (dataSize)
+				{
+					const char *dataPtr = static_cast<const char*>(JSObjectGetArrayBufferBytesPtr(ctx, arrayBufferObject, nullptr));
+					data = String(dataPtr, dataSize);
+				}
+			}
+			
+			return data;
+		}
+
 
 	#endif
 }

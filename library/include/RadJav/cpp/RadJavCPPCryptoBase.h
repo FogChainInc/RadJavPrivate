@@ -48,26 +48,34 @@
 				class RADJAV_EXPORT Base
 				{
 				public:
-				  Base(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
-				  ~Base();
-
-				  void processInput(const void *plainText, int textLength,
-						    std::string &decodedText,
-						    const void *&binPlainText, int &binPlainTextLength);
-				  void processOutput(std::tuple<std::shared_ptr<void>, unsigned int> result,
-						     std::function <void (const std::string& str)> stringSetter,
-						     std::function <void (void* buf, int bufLen)> binSetter);
-				  
+					#ifdef USE_V8
+					Base(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
+					#elif defined USE_JAVASCRIPTCORE
+					Base(JSCJavascriptEngine *jsEngine, JSContextRef ctx, RJUINT argumentCount, const JSValueRef arguments[]);
+					#endif
+					
+					~Base();
+					
+					void processInput(const void *plainText, int textLength,
+									  std::string &decodedText,
+									  const void *&binPlainText, int &binPlainTextLength);
+					void processOutput(std::tuple<std::shared_ptr<void>, unsigned int> result,
+									   std::function <void (const std::string& str)> stringSetter,
+									   std::function <void (void* buf, int bufLen)> binSetter);
+					
 				public:
-				  String myCryptoLibrary;
-				  String myAlgorithm;
-				  String myInputEncoding;
-				  String myOutputEncoding;
-
+					String myCryptoLibrary;
+					String myAlgorithm;
+					String myInputEncoding;
+					String myOutputEncoding;
+					
 				protected:
-				  V8JavascriptEngine *jsEngine;
-
-				  
+					#ifdef USE_V8
+					V8JavascriptEngine
+					#elif defined USE_JAVASCRIPTCORE
+					JSCJavascriptEngine
+					#endif
+						*jsEngine;
 				};
 				#endif
 			}

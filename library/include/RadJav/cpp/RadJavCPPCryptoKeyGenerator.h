@@ -50,29 +50,38 @@
 			{
 				#ifdef USE_CRYPTOGRAPHY
 				// Accepts incoming connections and launches the sessions
-			        class RADJAV_EXPORT KeyGenerator : public virtual Base
+				class RADJAV_EXPORT KeyGenerator : public virtual Base
 				{
 				public:
-				  KeyGenerator(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
-				  ~KeyGenerator();
-
+					#ifdef USE_V8
+					KeyGenerator(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
+					#elif defined USE_JAVASCRIPTCORE
+					KeyGenerator(JSCJavascriptEngine *jsEngine, JSContextRef ctx, RJUINT argumentCount, const JSValueRef arguments[]);
+					#endif
+					
+					~KeyGenerator();
+					
 				public:
-				  
-				  /// KeyGenerator data
-				  std::shared_ptr<Engine::Crypto::IPrivateKey> generate();
-
+					
+					/// KeyGenerator data
+					std::shared_ptr<Engine::Crypto::IPrivateKey> generate();
+					
 				public:
-				  std::shared_ptr<Engine::Crypto::IKeyGenerator> myKeyGenerator;
-
-				  // RSA specific 
-				  String myBits;
-				  String myEncryptPadding;
-				  String mySignatureType;
-
+					std::shared_ptr<Engine::Crypto::IKeyGenerator> myKeyGenerator;
+					
+					// RSA specific
+					String myBits;
+					String myEncryptPadding;
+					String mySignatureType;
+					
 				protected:
-				  V8JavascriptEngine *jsEngine;
+					#ifdef USE_V8
+					V8JavascriptEngine
+					#elif defined USE_JAVASCRIPTCORE
+					JSCJavascriptEngine
+					#endif
+						*jsEngine;
 
-				  
 				};
 				#endif
 			}
