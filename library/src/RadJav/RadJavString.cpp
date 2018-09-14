@@ -528,6 +528,12 @@ namespace RadJAV
 #ifdef USE_JAVASCRIPTCORE
     String parseJSCValue (JSContextRef context, JSValueRef value)
     {
+		//Instead of returning "undefined" we return empty string here
+		if (!value ||
+			JSValueIsUndefined(context, value) ||
+			JSValueIsNull(context, value))
+			return String();
+		
         size_t bufferSize = 0;
         RJCHAR *buffer = NULL;
         JSValueRef exception = JSObjectMakeError (context, 0, NULL, NULL);
