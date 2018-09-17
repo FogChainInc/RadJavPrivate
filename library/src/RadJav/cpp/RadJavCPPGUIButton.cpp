@@ -40,6 +40,11 @@ namespace RadJAV
 					: GObject (jsEngine, args)
 				{
 				}
+			#elif defined USE_JAVASCRIPTCORE
+				Button::Button(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[])
+					: GObject (jsEngine, thisObject, argumentCount, arguments)
+				{
+				}
 			#endif
 
 			Button::Button(String name, String text, CPP::GUI::GObject *parent)
@@ -100,6 +105,16 @@ namespace RadJAV
 						CPP::GUI::ButtonFrame *object = (CPP::GUI::ButtonFrame *)_appObj;
 						object->addNewEvent(event, object, func);
 
+					#endif
+				}
+			#elif defined USE_JAVASCRIPTCORE
+				void Button::on(String event, JSObjectRef func)
+				{
+					#ifdef GUI_USE_WXWIDGETS
+					
+						CPP::GUI::ButtonFrame *object = (CPP::GUI::ButtonFrame *)_appObj;
+						object->addNewEvent(event, object, func);
+					
 					#endif
 				}
 			#endif

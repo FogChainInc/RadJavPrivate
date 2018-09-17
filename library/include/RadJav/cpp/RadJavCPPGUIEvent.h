@@ -48,7 +48,14 @@ namespace RadJAV
                     VariantObject(P data): object(data) {}
                     virtual ~VariantObject() {
                         if( std::is_pointer<P>::value)
-                            DELETEOBJ(object);
+						{
+							#ifdef USE_JAVASCRIPTCORE
+								#warning Do better here to unprotect JS function object
+								JSValueUnprotect(JSC_JAVASCRIPT_ENGINE->globalContext, JSC_JAVASCRIPT_ENGINE->jscCastValueToObject(object));
+							#else
+								DELETEOBJ(object);
+							#endif
+						}
                     }
                     
                     VariantObject(const VariantObject& other) = delete;
@@ -84,13 +91,19 @@ namespace RadJAV
                 class RADJAV_EXPORT GuiEvent : public VariantObject<UserData>
                 {
                 public:
-                    GuiEvent(UserData data): VariantObject<UserData>(data) {}
+                    GuiEvent(UserData data): VariantObject<UserData>(data)
+					{
+						#ifdef USE_JAVASCRIPTCORE
+							#warning Do better here to protect JS function object
+							JSValueProtect(JSC_JAVASCRIPT_ENGINE->globalContext, JSC_JAVASCRIPT_ENGINE->jscCastValueToObject(data));
+						#endif
+					}
                     
                     JSValueRef operator ()(RJINT numArgs = 0, JSValueRef *args = NULL)
                     {
                         JSObjectRef function = VariantObject<UserData>::object;
-                        JSValueRef result = NULL;
-                        JSValueRef exception = JSC_JAVASCRIPT_ENGINE->jscCreateException (JSC_JAVASCRIPT_ENGINE->globalContext);
+                        JSValueRef result = nullptr;
+                        JSValueRef exception = nullptr;
 
                         if (JSC_JAVASCRIPT_ENGINE->jscIsNull (function) == false)
                         {

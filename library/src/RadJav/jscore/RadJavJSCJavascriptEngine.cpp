@@ -43,6 +43,12 @@
 
     #include "jscore/RadJavJSCConsole.h"
     #include "jscore/RadJavJSCThread.h"
+
+	#ifdef GUI_USE_WXWIDGETS
+		#include "jscore/RadJavJSCGUIGObject.h"
+		#include "jscore/RadJavJSCGUIWindow.h"
+		#include "jscore/RadJavJSCGUIButton.h"
+	#endif
 #endif
 
 #include "cpp/RadJavCPPIO.h"
@@ -856,238 +862,238 @@ namespace RadJAV
 
                     JSC::Console::createJSCCallbacks(globalContext, consoleFunc, true);
 				}
-            }
 
 				// RadJav.DB
 				#ifdef USE_DATABASE
 					{
-						v8::Handle<v8::Function> dbFunc = v8GetFunction(radJavFunc, "DB");
+						JSObjectRef dbFunc = jscGetFunction(radJavFunc, "DB");
 
 						// RadJav.DB.KeyValueStorage
 						{
-							v8::Handle<v8::Function> keyValueStorageFunc = v8GetFunction(dbFunc, "KeyValueStorage");
-							v8::Handle<v8::Object> keyValueStoragePrototype = v8GetObject(keyValueStorageFunc, "prototype");
+							JSObjectRef keyValueStorageFunc = jscGetFunction(dbFunc, "KeyValueStorage");
+							JSObjectRef keyValueStoragePrototype = jscGetObject(keyValueStorageFunc, "prototype");
 
-							JSC::Database::KeyValueStorage::createJSCCallbacks(isolate, keyValueStoragePrototype);
+							JSC::Database::KeyValueStorage::createJSCCallbacks(globalContext, keyValueStoragePrototype);
 						}
 					}
 				#endif
 
 				// RadJav.IO
 				/*{
-					v8::Handle<v8::Function> ioFunc = v8GetFunction(radJavFunc, "IO");
+					JSObjectRef ioFunc = jscGetFunction(radJavFunc, "IO");
 
 					// RadJav.IO.FileIO
 					{
-						//v8::Handle<v8::Function> filemFunc = v8GetFunction(ioFunc, "FileIO");
-						//v8::Handle<v8::Object> filePrototype = v8GetObject(filemFunc, "prototype");
+						//JSObjectRef filemFunc = jscGetFunction(ioFunc, "FileIO");
+						//JSObjectRef filePrototype = jscGetObject(filemFunc, "prototype");
 					}
 
 					// RadJav.IO.SerialComm
 					{
-						v8::Handle<v8::Function> serialCommFunc = v8GetFunction(ioFunc, "SerialComm");
-						v8::Handle<v8::Object> serialPrototype = v8GetObject(serialCommFunc, "prototype");
+						JSObjectRef serialCommFunc = jscGetFunction(ioFunc, "SerialComm");
+						JSObjectRef serialPrototype = jscGetObject(serialCommFunc, "prototype");
 
-						JSC::IO::SerialComm::createJSCCallbacks(isolate, serialPrototype);
+						JSC::IO::SerialComm::createJSCCallbacks(globalContext, serialPrototype);
 					}
 
 					// RadJav.IO.TextFile
 					{
-						v8::Handle<v8::Function> textFileFunc = v8GetFunction(ioFunc, "TextFile");
-						v8::Handle<v8::Object> textPrototype = v8GetObject(textFileFunc, "prototype");
+						JSObjectRef textFileFunc = jscGetFunction(ioFunc, "TextFile");
+						JSObjectRef textPrototype = jscGetObject(textFileFunc, "prototype");
 
-						JSC::IO::TextFile::createJSCCallbacks(isolate, textPrototype);
+						JSC::IO::TextFile::createJSCCallbacks(globalContext, textPrototype);
 					}
 
-					JSC::IO::createJSCCallbacks(isolate, ioFunc);
+					JSC::IO::createJSCCallbacks(globalContext, ioFunc);
 				}
 
 				#ifdef HAS_XML_SUPPORT
 				// RadJav.XML
 				{
-					v8::Handle<v8::Function> xmlFunc = v8GetFunction(radJavFunc, "XML");
-					v8::Handle<v8::Function> xmlFileFunc = v8GetFunction(xmlFunc, "XMLFile");
-					v8::Handle<v8::Object> xmlFilePrototype = v8GetObject(xmlFileFunc, "prototype");
+					JSObjectRef xmlFunc = jscGetFunction(radJavFunc, "XML");
+					JSObjectRef xmlFileFunc = jscGetFunction(xmlFunc, "XMLFile");
+					JSObjectRef xmlFilePrototype = jscGetObject(xmlFileFunc, "prototype");
 
-					JSC::IO::XML::XMLFile::createJSCCallbacks(isolate, xmlFilePrototype);
+					JSC::IO::XML::XMLFile::createJSCCallbacks(globalContext, xmlFilePrototype);
 				}
 				#endif*/
 
 				// RadJav.Net
 				/*{
-					v8::Handle<v8::Function> netFunc = v8GetFunction(radJavFunc, "Net");
+					JSObjectRef netFunc = jscGetFunction(radJavFunc, "Net");
 
-					JSC::Net::NetCallbacks::createJSCCallbacks(isolate, netFunc);
+					JSC::Net::NetCallbacks::createJSCCallbacks(globalContext, netFunc);
 
 					// WebServer
 					{
-						v8::Handle<v8::Function> webServerFunc = v8GetFunction(netFunc, "WebServer");
-						v8::Handle<v8::Object> webServerPrototype = v8GetObject(webServerFunc, "prototype");
+						JSObjectRef webServerFunc = jscGetFunction(netFunc, "WebServer");
+						JSObjectRef webServerPrototype = jscGetObject(webServerFunc, "prototype");
 
-						JSC::Net::WebServer::createJSCCallbacks(isolate, webServerPrototype);
+						JSC::Net::WebServer::createJSCCallbacks(globalContext, webServerPrototype);
 					}
 
 					// WebSocketServer
 					{
-						v8::Handle<v8::Function> webSocketServerFunc = v8GetFunction(netFunc, "WebSocketServer");
-						v8::Handle<v8::Object> webSocketServerPrototype = v8GetObject(webSocketServerFunc, "prototype");
+						JSObjectRef webSocketServerFunc = jscGetFunction(netFunc, "WebSocketServer");
+						JSObjectRef webSocketServerPrototype = jscGetObject(webSocketServerFunc, "prototype");
 
-						JSC::Net::WebSocketServer::createJSCCallbacks(isolate, webSocketServerPrototype);
+						JSC::Net::WebSocketServer::createJSCCallbacks(globalContext, webSocketServerPrototype);
 					}
 
 					// WebSocketClient
 					{
-						v8::Handle<v8::Function> webSocketClientFunc = v8GetFunction(netFunc, "WebSocketClient");
-						v8::Handle<v8::Object> webSocketClientPrototype = v8GetObject(webSocketClientFunc, "prototype");
+						JSObjectRef webSocketClientFunc = jscGetFunction(netFunc, "WebSocketClient");
+						JSObjectRef webSocketClientPrototype = jscGetObject(webSocketClientFunc, "prototype");
 
-						JSC::Net::WebSocketClient::createJSCCallbacks(isolate, webSocketClientPrototype);
+						JSC::Net::WebSocketClient::createJSCCallbacks(globalContext, webSocketClientPrototype);
 					}
 				}*/
 
 				#ifdef USE_BLOCKCHAIN_V1
 				// RadJav.BlockchainV1
 				{
-					v8::Handle<v8::Function> blockchainFunc = v8GetFunction(radJavFunc, "BlockchainV1");
+					JSObjectRef blockchainFunc = jscGetFunction(radJavFunc, "BlockchainV1");
 
-					JSC::BlockchainV1::createJSCCallbacks(isolate, blockchainFunc);
+					JSC::BlockchainV1::createJSCCallbacks(globalContext, blockchainFunc);
 				}
 				#endif
 
 				// RadJav.GUI
-				/*{
-					v8::Handle<v8::Function> guiFunc = v8GetFunction(radJavFunc, "GUI");
+				{
+					JSObjectRef guiFunc = jscGetFunction(radJavFunc, "GUI");
 
 					// RadJav.GUI.GObject
 					{
-						v8::Handle<v8::Function> gobjectFunc = v8GetFunction(guiFunc, "GObject");
-						v8::Handle<v8::Object> gobjectPrototype = v8GetObject(gobjectFunc, "prototype");
+						JSObjectRef gobjectFunc = jscGetFunction(guiFunc, "GObject");
+						JSObjectRef gobjectPrototype = jscGetObject(gobjectFunc, "prototype");
 
-						JSC::GUI::GObject::createJSCCallbacks(isolate, gobjectPrototype);
+						JSC::GUI::GObject::createJSCCallbacks(globalContext, gobjectPrototype);
 					}
 
 					// RadJav.GUI.Window
 					{
-						v8::Handle<v8::Function> windowFunc = v8GetFunction(guiFunc, "Window");
-						v8::Handle<v8::Object> windowPrototype = v8GetObject(windowFunc, "prototype");
+						JSObjectRef windowFunc = jscGetFunction(guiFunc, "Window");
+						JSObjectRef windowPrototype = jscGetObject(windowFunc, "prototype");
 
-						JSC::GUI::Window::createJSCCallbacks(isolate, windowPrototype);
+						JSC::GUI::Window::createJSCCallbacks(globalContext, windowPrototype);
 					}
 
 					// RadJav.GUI.Button
 					{
-						v8::Handle<v8::Function> buttonFunc = v8GetFunction(guiFunc, "Button");
-						v8::Handle<v8::Object> buttonPrototype = v8GetObject(buttonFunc, "prototype");
+						JSObjectRef buttonFunc = jscGetFunction(guiFunc, "Button");
+						JSObjectRef buttonPrototype = jscGetObject(buttonFunc, "prototype");
 
-						JSC::GUI::Button::createJSCCallbacks(isolate, buttonPrototype);
+						JSC::GUI::Button::createJSCCallbacks(globalContext, buttonPrototype);
 					}
-
+					/*
 					// RadJav.GUI.Label
 					{
-						v8::Handle<v8::Function> labelFunc = v8GetFunction(guiFunc, "Label");
-						v8::Handle<v8::Object> labelPrototype = v8GetObject(labelFunc, "prototype");
+						JSObjectRef labelFunc = jscGetFunction(guiFunc, "Label");
+						JSObjectRef labelPrototype = jscGetObject(labelFunc, "prototype");
 
-						JSC::GUI::Label::createJSCCallbacks(isolate, labelPrototype);
+						JSC::GUI::Label::createJSCCallbacks(globalContext, labelPrototype);
 					}
 
 					// RadJav.GUI.Image
 					{
-						v8::Handle<v8::Function> imageFunc = v8GetFunction(guiFunc, "Image");
-						v8::Handle<v8::Object> imagePrototype = v8GetObject(imageFunc, "prototype");
+						JSObjectRef imageFunc = jscGetFunction(guiFunc, "Image");
+						JSObjectRef imagePrototype = jscGetObject(imageFunc, "prototype");
 
-						JSC::GUI::Image::createJSCCallbacks(isolate, imagePrototype);
+						JSC::GUI::Image::createJSCCallbacks(globalContext, imagePrototype);
 					}
 
 					// RadJav.GUI.Container
 					{
-						v8::Handle<v8::Function> containerFunc = v8GetFunction(guiFunc, "Container");
-						v8::Handle<v8::Object> containerPrototype = v8GetObject(containerFunc, "prototype");
+						JSObjectRef containerFunc = jscGetFunction(guiFunc, "Container");
+						JSObjectRef containerPrototype = jscGetObject(containerFunc, "prototype");
 
-						JSC::GUI::Container::createJSCCallbacks(isolate, containerPrototype);
+						JSC::GUI::Container::createJSCCallbacks(globalContext, containerPrototype);
 					}
 
 					// RadJav.GUI.Combobox
 					{
-						v8::Handle<v8::Function> comboboxFunc = v8GetFunction(guiFunc, "Combobox");
-						v8::Handle<v8::Object> comboboxPrototype = v8GetObject(comboboxFunc, "prototype");
+						JSObjectRef comboboxFunc = jscGetFunction(guiFunc, "Combobox");
+						JSObjectRef comboboxPrototype = jscGetObject(comboboxFunc, "prototype");
 
-						JSC::GUI::Combobox::createJSCCallbacks(isolate, comboboxPrototype);
+						JSC::GUI::Combobox::createJSCCallbacks(globalContext, comboboxPrototype);
 					}
 
 					// RadJav.GUI.Textbox
 					{
-						v8::Handle<v8::Function> textboxFunc = v8GetFunction(guiFunc, "Textbox");
-						v8::Handle<v8::Object> textboxPrototype = v8GetObject(textboxFunc, "prototype");
+						JSObjectRef textboxFunc = jscGetFunction(guiFunc, "Textbox");
+						JSObjectRef textboxPrototype = jscGetObject(textboxFunc, "prototype");
 
-						JSC::GUI::Textbox::createJSCCallbacks(isolate, textboxPrototype);
+						JSC::GUI::Textbox::createJSCCallbacks(globalContext, textboxPrototype);
 					}
 
 					// RadJav.GUI.Textarea
 					{
-						v8::Handle<v8::Function> textareaFunc = v8GetFunction(guiFunc, "Textarea");
-						v8::Handle<v8::Object> textareaPrototype = v8GetObject(textareaFunc, "prototype");
+						JSObjectRef textareaFunc = jscGetFunction(guiFunc, "Textarea");
+						JSObjectRef textareaPrototype = jscGetObject(textareaFunc, "prototype");
 
-						JSC::GUI::Textarea::createJSCCallbacks(isolate, textareaPrototype);
+						JSC::GUI::Textarea::createJSCCallbacks(globalContext, textareaPrototype);
 					}
 
 					// RadJav.GUI.Checkbox
 					{
-						v8::Handle<v8::Function> checkboxFunc = v8GetFunction(guiFunc, "Checkbox");
-						v8::Handle<v8::Object> checkboxPrototype = v8GetObject(checkboxFunc, "prototype");
+						JSObjectRef checkboxFunc = jscGetFunction(guiFunc, "Checkbox");
+						JSObjectRef checkboxPrototype = jscGetObject(checkboxFunc, "prototype");
 
-						JSC::GUI::Checkbox::createJSCCallbacks(isolate, checkboxPrototype);
+						JSC::GUI::Checkbox::createJSCCallbacks(globalContext, checkboxPrototype);
 					}
 
 					// RadJav.GUI.Radio
 					{
-						v8::Handle<v8::Function> radioFunc = v8GetFunction(guiFunc, "Radio");
-						v8::Handle<v8::Object> radioPrototype = v8GetObject(radioFunc, "prototype");
+						JSObjectRef radioFunc = jscGetFunction(guiFunc, "Radio");
+						JSObjectRef radioPrototype = jscGetObject(radioFunc, "prototype");
 
-						JSC::GUI::Radio::createJSCCallbacks(isolate, radioPrototype);
+						JSC::GUI::Radio::createJSCCallbacks(globalContext, radioPrototype);
 					}
 
 					// RadJav.GUI.List
 					{
-						v8::Handle<v8::Function> listFunc = v8GetFunction(guiFunc, "List");
-						v8::Handle<v8::Object> listPrototype = v8GetObject(listFunc, "prototype");
+						JSObjectRef listFunc = jscGetFunction(guiFunc, "List");
+						JSObjectRef listPrototype = jscGetObject(listFunc, "prototype");
 
-						JSC::GUI::List::createJSCCallbacks(isolate, listPrototype);
+						JSC::GUI::List::createJSCCallbacks(globalContext, listPrototype);
 					}
 
 					// RadJav.GUI.MenuBar
 					{
-						v8::Handle<v8::Function> menuBarFunc = v8GetFunction(guiFunc, "MenuBar");
-						v8::Handle<v8::Object> menuBarPrototype = v8GetObject(menuBarFunc, "prototype");
+						JSObjectRef menuBarFunc = jscGetFunction(guiFunc, "MenuBar");
+						JSObjectRef menuBarPrototype = jscGetObject(menuBarFunc, "prototype");
 
-						JSC::GUI::MenuBar::createJSCCallbacks(isolate, menuBarPrototype);
+						JSC::GUI::MenuBar::createJSCCallbacks(globalContext, menuBarPrototype);
 					}
 
 					// RadJav.GUI.MenuItem
 					{
-						v8::Handle<v8::Function> menuItemFunc = v8GetFunction(guiFunc, "MenuItem");
-						v8::Handle<v8::Object> menuItemPrototype = v8GetObject(menuItemFunc, "prototype");
+						JSObjectRef menuItemFunc = jscGetFunction(guiFunc, "MenuItem");
+						JSObjectRef menuItemPrototype = jscGetObject(menuItemFunc, "prototype");
 
-						JSC::GUI::MenuItem::createJSCCallbacks(isolate, menuItemPrototype);
+						JSC::GUI::MenuItem::createJSCCallbacks(globalContext, menuItemPrototype);
 					}
 
 					// RadJav.GUI.WebView
 					{
-						v8::Handle<v8::Function> webViewFunc = v8GetFunction(guiFunc, "WebView");
-						v8::Handle<v8::Object> webViewPrototype = v8GetObject(webViewFunc, "prototype");
+						JSObjectRef webViewFunc = jscGetFunction(guiFunc, "WebView");
+						JSObjectRef webViewPrototype = jscGetObject(webViewFunc, "prototype");
                         #ifdef WXWIDGETS_HAS_WEBVIEW
-                            JSC::GUI::WebView::createJSCCallbacks(isolate, webViewPrototype);
+                            JSC::GUI::WebView::createJSCCallbacks(globalContext, webViewPrototype);
                         #endif
 					}
 
 					#ifdef C3D_USE_OGRE
 						// RadJav.GUI.Canvas3D
 						{
-							v8::Handle<v8::Function> canvas3DFunc = v8GetFunction(guiFunc, "Canvas3D");
-							v8::Handle<v8::Object> canvas3DFuncPrototype = v8GetObject(canvas3DFunc, "prototype");
+							JSObjectRef canvas3DFunc = jscGetFunction(guiFunc, "Canvas3D");
+							JSObjectRef canvas3DFuncPrototype = jscGetObject(canvas3DFunc, "prototype");
 
-							JSC::GUI::Canvas3D::createJSCCallbacks(isolate, canvas3DFuncPrototype);
+							JSC::GUI::Canvas3D::createJSCCallbacks(globalContext, canvas3DFuncPrototype);
 						}
 					#endif
-				}*/
+					 */
+				}
 
 				/*#ifdef C3D_USE_OGRE
 				// RadJav.C3D
@@ -1105,21 +1111,21 @@ namespace RadJAV
 				#ifdef USE_CRYPTOGRAPHY
 				// RadJav.Crypto.Hash
 				{
-				  v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
+				  JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
 
 				  {
 
-				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "Hash");
+				    JSObjectRef func = jscGetFunction(cryptoFunc, "Hash");
 				    V8_CALLBACK(func, "getCapabilities", JSC::Crypto::Hash::getCapabilities);
 				    //std::cout << "Obj FieldCount: " << func -> InternalFieldCount() << std::endl << std::flush;
 				    //std::cout << "Obj ExtFieldCount: " << func -> GetIndexedPropertiesExternalArrayDataLength() << std::endl << std::flush;
-				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
+				    JSObjectRef prototype = jscGetObject(func, "prototype");
 				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
 				    //std::cout <<  "Len: " << str -> Length() << std::endl << std::flush;
 				    //std::cout << "Obj FieldCount: " << prototype -> InternalFieldCount() << std::endl << std::flush;
 				    
 
-				    JSC::Crypto::Hash::createJSCCallbacks(isolate, prototype);
+				    JSC::Crypto::Hash::createJSCCallbacks(globalContext, prototype);
 				  }
 
 				}
@@ -1127,115 +1133,115 @@ namespace RadJAV
 
 				// RadJav.Crypto.HashMultipart
 				{
-				  v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
+				  JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
 
 				  {
-				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "HashMultipart");
+				    JSObjectRef func = jscGetFunction(cryptoFunc, "HashMultipart");
 				    V8_CALLBACK(func, "getCapabilities", JSC::Crypto::HashMultipart::getCapabilities);
-				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
+				    JSObjectRef prototype = jscGetObject(func, "prototype");
 				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    JSC::Crypto::HashMultipart::createJSCCallbacks(isolate, prototype);
+				    JSC::Crypto::HashMultipart::createJSCCallbacks(globalContext, prototype);
 				  }
 
 				}
 				// RadJav.Crypto.Cipher
 				{
-				  v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
+				  JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
 
 				  {
-				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "Cipher");
+				    JSObjectRef func = jscGetFunction(cryptoFunc, "Cipher");
 				    V8_CALLBACK(func, "getCapabilities", JSC::Crypto::Cipher::getCapabilities);
-				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
+				    JSObjectRef prototype = jscGetObject(func, "prototype");
 				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    JSC::Crypto::Cipher::createJSCCallbacks(isolate, prototype);
+				    JSC::Crypto::Cipher::createJSCCallbacks(globalContext, prototype);
 				  }
 				}
 				// RadJav.Crypto.Decipher
 				{
-				  v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
+				  JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
 
 				  {
-				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "Decipher");
+				    JSObjectRef func = jscGetFunction(cryptoFunc, "Decipher");
 				    V8_CALLBACK(func, "getCapabilities", JSC::Crypto::Decipher::getCapabilities);
-				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
+				    JSObjectRef prototype = jscGetObject(func, "prototype");
 				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    JSC::Crypto::Decipher::createJSCCallbacks(isolate, prototype);
+				    JSC::Crypto::Decipher::createJSCCallbacks(globalContext, prototype);
 				  }
 				}
 				// RadJav.Crypto.CipherMultipart
 				{
-				  v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
+				  JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
 
 				  {
-				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "CipherMultipart");
+				    JSObjectRef func = jscGetFunction(cryptoFunc, "CipherMultipart");
 				    V8_CALLBACK(func, "getCapabilities", JSC::Crypto::CipherMultipart::getCapabilities);
-				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
+				    JSObjectRef prototype = jscGetObject(func, "prototype");
 				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    JSC::Crypto::CipherMultipart::createJSCCallbacks(isolate, prototype);
+				    JSC::Crypto::CipherMultipart::createJSCCallbacks(globalContext, prototype);
 				  }
 				}
 
 
 				// RadJav.Crypto.DecipherMultipart
 				{
-				  v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
+				  JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
 
 				  {
-				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "DecipherMultipart");
+				    JSObjectRef func = jscGetFunction(cryptoFunc, "DecipherMultipart");
 				    V8_CALLBACK(func, "getCapabilities", JSC::Crypto::DecipherMultipart::getCapabilities);
-				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
+				    JSObjectRef prototype = jscGetObject(func, "prototype");
 				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    JSC::Crypto::DecipherMultipart::createJSCCallbacks(isolate, prototype);
+				    JSC::Crypto::DecipherMultipart::createJSCCallbacks(globalContext, prototype);
 
 				  }
 				}
 
 				// RadJav.Crypto.KeyGenerator
 				{
-				  v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
+				  JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
 
 				  {
-				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "KeyGenerator");
+				    JSObjectRef func = jscGetFunction(cryptoFunc, "KeyGenerator");
 				    //				    V8_CALLBACK(func, "getCapabilities", JSC::Crypto::DecipherMultipart::getCapabilities);
-				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
+				    JSObjectRef prototype = jscGetObject(func, "prototype");
 				    //				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    JSC::Crypto::KeyGenerator::createJSCCallbacks(isolate, prototype);
+				    JSC::Crypto::KeyGenerator::createJSCCallbacks(globalContext, prototype);
 				  }
 				}
 
 				// RadJav.Crypto.PrivateKey
 				{
-				  v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
+				  JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
 
 				  {
-				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "PrivateKey");
-				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
+				    JSObjectRef func = jscGetFunction(cryptoFunc, "PrivateKey");
+				    JSObjectRef prototype = jscGetObject(func, "prototype");
 
-				    JSC::Crypto::PrivateKey::createJSCCallbacks(isolate, prototype);
+				    JSC::Crypto::PrivateKey::createJSCCallbacks(globalContext, prototype);
 				    JSC::Crypto::PrivateKey::setConstructor(isolate, func);
 
-				    v8::Handle<v8::Object> init = v8GetObject(prototype, "_init");
+				    JSObjectRef init = jscGetObject(prototype, "_init");
 				    
 				  }
 				}
 
 				// RadJav.Crypto.PublicKey
 				{
-				  v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
+				  JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
 
 				  {
-				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "PublicKey");
-				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
+				    JSObjectRef func = jscGetFunction(cryptoFunc, "PublicKey");
+				    JSObjectRef prototype = jscGetObject(func, "prototype");
 
-				    JSC::Crypto::PublicKey::createJSCCallbacks(isolate, prototype);
+				    JSC::Crypto::PublicKey::createJSCCallbacks(globalContext, prototype);
 				    JSC::Crypto::PublicKey::setConstructor(isolate, func);
 
 				  }
 				}
 
 				#endif
-				
-			}*/
+			*/
+			}
 		}
 
 		/*void JSCJavascriptEngine::loadTemplates(const v8::FunctionCallbackInfo<v8::Value> &args)

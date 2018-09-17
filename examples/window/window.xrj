@@ -1,3 +1,6 @@
+var window;
+var button;
+
 // Initialize RadJav and load all necessary libraries.
 RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary ()).then (function ()
 	{
@@ -11,11 +14,13 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary ()).then (
 				// The promise returns with the created gui object.
 				win.create ().then (function (win2)
 					{
+						window = win2;
 						// RadJav.GUI.create is short hand for creating a gui object, this 
 						// is the preferred way to create objects.
 						RadJav.GUI.create ("Button", "button", "Say Hello", win2).then (
-											function (button)
+											function (btn)
 											{
+												button = btn;
 												// Add an event named "click", so when the 
 												// button is clicked, a message box will 
 												// appear saying, "Hello World!"
