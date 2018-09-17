@@ -97,24 +97,14 @@ namespace RadJAV
 				return (text);
 			}
 
-			#ifdef USE_V8
-				void Button::on(String event, v8::Local<v8::Function> func)
+			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+				void Button::on(String event, RJ_FUNC_TYPE func)
 				{
 					#ifdef GUI_USE_WXWIDGETS
 						
 						CPP::GUI::ButtonFrame *object = (CPP::GUI::ButtonFrame *)_appObj;
 						object->addNewEvent(event, object, func);
 
-					#endif
-				}
-			#elif defined USE_JAVASCRIPTCORE
-				void Button::on(String event, JSObjectRef func)
-				{
-					#ifdef GUI_USE_WXWIDGETS
-					
-						CPP::GUI::ButtonFrame *object = (CPP::GUI::ButtonFrame *)_appObj;
-						object->addNewEvent(event, object, func);
-					
 					#endif
 				}
 			#endif

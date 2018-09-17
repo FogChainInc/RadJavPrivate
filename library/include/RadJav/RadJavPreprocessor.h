@@ -88,6 +88,13 @@
 	#define COPYRIGHT_HOLDERS "Higher Edge Software"
 	#define COPYRIGHT_HOLDERS_SUBSTITUTION "Higher Edge Software"
 
+	#ifdef USE_V8
+		#define RJ_FUNC_TYPE v8::Local<v8::Function>
+	#endif
+	#ifdef USE_JAVASCRIPTCORE
+		#define RJ_FUNC_TYPE JSObjectRef
+	#endif
+
 	#ifdef RADJAV_DEBUG
 		#ifdef LINUX
 			#include <cstddef>

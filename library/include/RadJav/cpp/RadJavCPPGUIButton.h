@@ -61,10 +61,8 @@
 						void setText(String text);
 						String getText();
 
-						#ifdef USE_V8
-							void on(String event, v8::Local<v8::Function> func);
-						#elif defined USE_JAVASCRIPTCORE
-							void on(String event, JSObjectRef func);
+						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+							void on(String event, RJ_FUNC_TYPE func);
 						#endif
 				};
 			}

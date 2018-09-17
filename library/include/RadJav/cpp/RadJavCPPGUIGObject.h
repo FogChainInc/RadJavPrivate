@@ -208,14 +208,10 @@ namespace RadJAV
 					*/
 					virtual RJBOOL getEnabled();
 
-					#ifdef USE_V8
+					#if defined USE_V8 || defined USE_JAVASCRIPTCORE
 						/// Execute when an event is triggered.
-						virtual void on(String event, v8::Local<v8::Function> func) = 0;
+						virtual void on(String event, RJ_FUNC_TYPE func) = 0;
 					#endif
-                    #ifdef USE_JAVASCRIPTCORE
-                        /// Execute when an event is triggered.
-                        virtual void on(String event, JSObjectRef func) = 0;
-                    #endif
 
 					virtual void setup();
 					void setupCursor();

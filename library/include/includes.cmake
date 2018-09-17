@@ -136,7 +136,7 @@ if (USE_JAVASCRIPTCORE)
 	set (SOURCES_files_RadJav__JSC__GUI__Headers 
 		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIGObject.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIWindow.h"
-		#"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIWebView.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIWebView.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIButton.h"
 		#"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUILabel.h"
 		#"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIImage.h"

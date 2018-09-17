@@ -308,34 +308,36 @@ namespace RadJAV
 				#endif
 			}
 
-            void Window::on(String event, FUNCTYPE func)
-			{
-				#ifdef GUI_USE_WXWIDGETS
-					CPP::GUI::WindowFrame *object = (CPP::GUI::WindowFrame *)_appObj;
-					CPP::GUI::WindowFrame *obj = (CPP::GUI::WindowFrame *)object->GetParent();
+			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+            	void Window::on(String event, RJ_FUNC_TYPE func)
+				{
+					#ifdef GUI_USE_WXWIDGETS
+						CPP::GUI::WindowFrame *object = (CPP::GUI::WindowFrame *)_appObj;
+						CPP::GUI::WindowFrame *obj = (CPP::GUI::WindowFrame *)object->GetParent();
 
-					obj->addNewEvent(event, obj, func);
+						obj->addNewEvent(event, obj, func);
 
-					if (event == "close")
-					{
-						obj->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(WindowFrame::onJSClose), obj->createEvent(event, func));
-					}
+						if (event == "close")
+						{
+							obj->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(WindowFrame::onJSClose), obj->createEvent(event, func));
+						}
 
-					if (event == "minimize")
-					{
-						obj->Connect(wxEVT_ICONIZE, wxIconizeEventHandler(WindowFrame::onJSMinimized), obj->createEvent(event, func));
-					}
-					if (event == "maximize")
-					{
-						obj->Connect(wxEVT_MAXIMIZE, wxMaximizeEventHandler(WindowFrame::onJSMaximized), obj->createEvent(event, func));
-					}
+						if (event == "minimize")
+						{
+							obj->Connect(wxEVT_ICONIZE, wxIconizeEventHandler(WindowFrame::onJSMinimized), obj->createEvent(event, func));
+						}
+						if (event == "maximize")
+						{
+							obj->Connect(wxEVT_MAXIMIZE, wxMaximizeEventHandler(WindowFrame::onJSMaximized), obj->createEvent(event, func));
+						}
 				
-					if (event == "menuselected")
-					{
-						obj->Connect(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(WindowFrame::onMenuSelected), obj->createEvent(event, func));
-					}
-				#endif
-			}
+						if (event == "menuselected")
+						{
+							obj->Connect(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(WindowFrame::onMenuSelected), obj->createEvent(event, func));
+						}
+					#endif
+				}
+			#endif
 		}
 	}
 }

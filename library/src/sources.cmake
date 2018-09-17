@@ -133,7 +133,7 @@ if (USE_JAVASCRIPTCORE)
 	set (SOURCES_files_RadJav__JSC__GUI__Sources 
 		"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUIGObject.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUIWindow.cpp"
-		#"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUIWebView.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUIWebView.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUIButton.cpp"
 		#"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUILabel.cpp"
 		#"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUIImage.cpp"
