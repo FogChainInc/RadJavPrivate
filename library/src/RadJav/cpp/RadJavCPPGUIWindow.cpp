@@ -58,24 +58,36 @@ namespace RadJAV
 				{
 					Event *pevent = (Event *)evt.GetEventUserData();
                     
-#ifdef USE_V8
-					v8::Local<v8::Value> result = executeEvent(pevent);
+                    #ifdef USE_V8
+                        v8::Local<v8::Value> result = executeEvent(pevent);
 
-					if (result.IsEmpty() == false)
-					{
-						if ((result->IsNull() == false) && (result->IsUndefined() == false))
-						{
-							v8::Local<v8::Boolean> change = v8::Local<v8::Boolean>::Cast(result);
+                        if (result.IsEmpty() == false)
+                        {
+                            if ((result->IsNull() == false) && (result->IsUndefined() == false))
+                            {
+                                v8::Local<v8::Boolean> change = v8::Local<v8::Boolean>::Cast(result);
 
-							if (change->Value() == false)
-								evt.Veto();
-						}
-					}
-#endif
+                                if (change->Value() == false)
+                                    evt.Veto();
+                            }
+                        }
+                    #endif
                     
-#ifdef USE_JAVASCRIPTCORE
-                    /// @todo Fill this out.
-#endif
+                    #ifdef USE_JAVASCRIPTCORE
+                        JSValueRef result = executeEvent(pevent);
+                    
+                        if (result != NULL)
+                        {
+                            if ((JSValueIsNull (JSC_JAVASCRIPT_ENGINE->globalContext, result) == false) &&
+                                (JSValueIsUndefined (JSC_JAVASCRIPT_ENGINE->globalContext, result) == false))
+                            {
+                                RJBOOL change = JSC_JAVASCRIPT_ENGINE->jscParseBool (result);
+
+                                if (change == false)
+                                    evt.Veto();
+                            }
+                        }
+                    #endif
 				}
 
 				void WindowFrame::onJSMinimized(wxIconizeEvent &evt)
@@ -303,12 +315,13 @@ namespace RadJAV
                 
                         ((WindowFrame *)_appObj->GetParent())->SetIcon(wxicon);
                     #else
+                        /// @todo Add Window Icon support for non Windows platforms.
                         #warning "TODO: Add Window Icon support for non Windows platforms"
                     #endif
 				#endif
 			}
 
-            void Window::on(String event, FUNCTYPE func)
+            void Window::on(String event, RJ_FUNC_TYPE func)
 			{
 				#ifdef GUI_USE_WXWIDGETS
 					CPP::GUI::WindowFrame *object = (CPP::GUI::WindowFrame *)_appObj;

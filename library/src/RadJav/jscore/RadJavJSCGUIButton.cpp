@@ -17,16 +17,16 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#include "jscore/RadJavJSCGUIWindow.h"
+#include "jscore/RadJavJSCGUIButton.h"
 
 #include "RadJav.h"
 
 #ifdef USE_JAVASCRIPTCORE
 #include "jscore/RadJavJSCJavascriptEngine.h"
 
-#include "cpp/RadJavCPPGUIWindow.h"
+#include "cpp/RadJavCPPGUIButton.h"
 
-#define UITYPE CPP::GUI::Window
+#define UITYPE CPP::GUI::Button
 
 namespace RadJAV
 {
@@ -34,9 +34,9 @@ namespace RadJAV
 	{
 		namespace GUI
 		{
-			void Window::createJSCCallbacks(JSContextRef context, JSObjectRef object)
+			void Button::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 			{
-                JSC_CALLBACK(object, "create", Window::create);
+                JSC_CALLBACK(object, "create", Button::create);
                 JSC_CALLBACK(object, "setFont", GObject<UITYPE>::setFont);
                 JSC_CALLBACK(object, "getFont", GObject<UITYPE>::getFont);
                 JSC_CALLBACK(object, "setPosition", GObject<UITYPE>::setPosition);
@@ -55,12 +55,11 @@ namespace RadJAV
                 JSC_CALLBACK(object, "getVisibility", GObject<UITYPE>::getVisibility);
                 JSC_CALLBACK(object, "setEnabled", GObject<UITYPE>::setEnabled);
                 JSC_CALLBACK(object, "getEnabled", GObject<UITYPE>::getEnabled);
-                JSC_CALLBACK(object, "setIcon", Window::setIcon);
                 JSC_CALLBACK(object, "on", GObject<UITYPE>::on);
                 JSC_CALLBACK(object, "destroy", GObject<UITYPE>::destroy);
 			}
 
-			JSValueRef Window::create(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception)
+			JSValueRef Button::create(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception)
 			{
                 UITYPE *appObject = RJNEW UITYPE(JSC_JAVASCRIPT_ENGINE, thisObj, numArgs, args);
                 appObject->create();
@@ -71,26 +70,6 @@ namespace RadJAV
                 
                 return (promise);
 			}
-
-            JSValueRef Window::setIcon(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception)
-            {
-                String value = parseJSCValue(context, args[0]);
-                UITYPE *appObject = (UITYPE *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(context, thisObj, "_appObj");
-
-                if (appObject != NULL)
-                {
-                    try
-                    {
-                        appObject->setIcon(value);
-                    }
-                    catch (Exception ex)
-                    {
-                        JSC_JAVASCRIPT_ENGINE->throwException(ex.getMessage ());
-                    }
-                }
-
-                return (JSValueMakeUndefined(context));
-            }
 		}
 	}
 }

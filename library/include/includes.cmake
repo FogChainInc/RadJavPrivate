@@ -135,7 +135,8 @@ if (USE_JAVASCRIPTCORE)
 	# V8 GUI
 	set (SOURCES_files_RadJav__JSC__GUI__Headers 
 		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIGObject.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIWindow.h")
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIWindow.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIButton.h")
 	source_group ("RadJav\\JavaScriptCore\\GUI" FILES ${SOURCES_files_RadJav__JSC__GUI__Headers})
 
 	set (SOURCES ${SOURCES_files_RadJav__JSC__GUI__Headers} ${SOURCES})

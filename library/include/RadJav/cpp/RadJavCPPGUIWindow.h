@@ -54,13 +54,6 @@
 					};
 				#endif
 
-                #ifdef USE_V8
-                    #define FUNCTYPE v8::Local<v8::Function>
-                #endif
-                #ifdef USE_JAVASCRIPTCORE
-                    #define FUNCTYPE JSObjectRef
-                #endif
-
 				class RADJAV_EXPORT Window : public CPP::GUI::GObject
 				{
 					public:
@@ -86,7 +79,7 @@
 						void setIcon(String newIcon);
 
                         /// Execute when an event is triggered.
-                        void on(String event, FUNCTYPE func);
+                        void on(String event, RJ_FUNC_TYPE func);
 
 						String icon;
 				};

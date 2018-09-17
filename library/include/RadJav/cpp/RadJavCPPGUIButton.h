@@ -53,15 +53,16 @@
 						#ifdef USE_V8
 							Button(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
 						#endif
+                        #ifdef USE_JAVASCRIPTCORE
+                            Button(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
+                        #endif
 						Button(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 
 						void create();
 						void setText(String text);
 						String getText();
 
-						#ifdef USE_V8
-							void on(String event, v8::Local<v8::Function> func);
-						#endif
+						void on(String event, RJ_FUNC_TYPE func);
 				};
 			}
 		}

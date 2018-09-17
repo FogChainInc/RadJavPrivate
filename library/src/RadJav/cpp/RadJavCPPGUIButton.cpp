@@ -41,6 +41,12 @@ namespace RadJAV
 				{
 				}
 			#endif
+            #ifdef USE_JAVASCRIPTCORE
+                Button::Button(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[])
+                    : GObject (jsEngine, thisObj, numArgs, args)
+                {
+                }
+            #endif
 
 			Button::Button(String name, String text, CPP::GUI::GObject *parent)
 				: GObject(name, text, parent)
@@ -92,17 +98,13 @@ namespace RadJAV
 				return (text);
 			}
 
-			#ifdef USE_V8
-				void Button::on(String event, v8::Local<v8::Function> func)
-				{
-					#ifdef GUI_USE_WXWIDGETS
-						
-						CPP::GUI::ButtonFrame *object = (CPP::GUI::ButtonFrame *)_appObj;
-						object->addNewEvent(event, object, func);
-
-					#endif
-				}
-			#endif
+            void Button::on(String event, RJ_FUNC_TYPE func)
+            {
+                #ifdef GUI_USE_WXWIDGETS
+                    CPP::GUI::ButtonFrame *object = (CPP::GUI::ButtonFrame *)_appObj;
+                    object->addNewEvent(event, object, func);
+                #endif
+            }
 		}
 	}
 }

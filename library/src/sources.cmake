@@ -132,7 +132,8 @@ if (USE_JAVASCRIPTCORE)
 	# JavaScriptCore GUI
 	set (SOURCES_files_RadJav__JSC__GUI__Sources 
 		"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUIGObject.cpp"
-		"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUIWindow.cpp")
+		"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUIWindow.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUIButton.cpp")
 	source_group ("RadJav\\JavaScriptCore\\GUI" FILES ${SOURCES_files_RadJav__JSC__GUI__Sources})
 
 	set (SOURCES ${SOURCES_files_RadJav__JSC__GUI__Sources} ${SOURCES})

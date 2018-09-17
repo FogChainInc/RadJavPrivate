@@ -17,34 +17,33 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#ifndef _RADJAV_GUI_JSC_WINDOW_H_
-#define _RADJAV_GUI_JSC_WINDOW_H_
+#ifndef _RADJAV_GUI_JSC_BUTTON_H_
+    #define _RADJAV_GUI_JSC_BUTTON_H_
 
-#include "RadJavPreprocessor.h"
+    #include "RadJavPreprocessor.h"
 
-#include "RadJavString.h"
-#include "RadJavHashMap.h"
+    #include "RadJavString.h"
+    #include "RadJavHashMap.h"
 
-#include "jscore/RadJavJSCGUIGObject.h"
+    #include "jscore/RadJavJSCGUIGObject.h"
 
-#ifdef USE_JAVASCRIPTCORE
-namespace RadJAV
-{
-	namespace JSC
-	{
-		namespace GUI
-		{
-			class RADJAV_EXPORT Window : public GObject<Window>
-			{
-				public:
-                    static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
+    #ifdef USE_JAVASCRIPTCORE
+        namespace RadJAV
+        {
+            namespace JSC
+            {
+                namespace GUI
+                {
+                    class RADJAV_EXPORT Button : public GObject<Button>
+                    {
+                        public:
+                            static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
 
-					static JSValueRef create(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
-                    static JSValueRef setIcon(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
-			};
-		}
-	}
-}
-#endif
+                            static JSValueRef create(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
+                    };
+                }
+            }
+        }
+    #endif
 #endif
 

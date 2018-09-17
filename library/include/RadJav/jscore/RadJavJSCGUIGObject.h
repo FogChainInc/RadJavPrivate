@@ -33,6 +33,7 @@ namespace RadJAV
 		/// Contains classes for the OS GUI.
 		namespace GUI
 		{
+            template<class UITYPE>
 			class RADJAV_EXPORT GObject
 			{
 				public:
@@ -60,6 +61,7 @@ namespace RadJAV
 					static JSValueRef setEnabled(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
 					static JSValueRef getEnabled(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
 					static JSValueRef on(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
+                    static JSValueRef destroy(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
 			};
 		}
 	}
