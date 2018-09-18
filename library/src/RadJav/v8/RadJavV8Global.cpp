@@ -54,7 +54,7 @@ namespace RadJAV
 
 			persistent->Reset(V8_JAVASCRIPT_ENGINE->isolate, func);
 
-			V8_JAVASCRIPT_ENGINE->addTimeout(persistent, time->Int32Value());
+			V8_JAVASCRIPT_ENGINE->addTimeout(persistent, V8_JAVASCRIPT_ENGINE->v8ParseInt (time));
 		}
 
 		void Global::alert(const v8::FunctionCallbackInfo<v8::Value> &args)

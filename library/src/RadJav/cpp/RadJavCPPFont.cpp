@@ -47,16 +47,16 @@ namespace RadJAV
 				bold = false;
 				italic = false;
 
-				fontFamily = parseV8Value(obj->Get(String("fontFamily").toV8String(jsEngine->isolate)));
-				v8::Handle<v8::Object> colorv8 = v8::Handle<v8::Object>::Cast(obj->Get(String("color").toV8String(jsEngine->isolate)));
-				color.r = colorv8->Get(String("r").toV8String(jsEngine->isolate))->NumberValue();
-				color.g = colorv8->Get(String("g").toV8String(jsEngine->isolate))->NumberValue();
-				color.b = colorv8->Get(String("b").toV8String(jsEngine->isolate))->NumberValue();
-				color.a = colorv8->Get(String("a").toV8String(jsEngine->isolate))->NumberValue();
-				size = obj->Get(String("size").toV8String(jsEngine->isolate))->IntegerValue();
-				underline = obj->Get(String("underline").toV8String(jsEngine->isolate))->BooleanValue();
-				bold = obj->Get(String("bold").toV8String(jsEngine->isolate))->BooleanValue();
-				italic = obj->Get(String("italic").toV8String(jsEngine->isolate))->BooleanValue();
+				fontFamily = jsEngine->v8GetString(obj, "fontFamily");
+				v8::Handle<v8::Object> colorv8 = jsEngine->v8GetObject (obj, "color");
+				color.r = jsEngine->v8GetDecimal (colorv8, "r");
+				color.g = jsEngine->v8GetDecimal(colorv8, "g");
+				color.b = jsEngine->v8GetDecimal(colorv8, "b");
+				color.a = jsEngine->v8GetDecimal(colorv8, "a");
+				size = jsEngine->v8GetInt (obj, "size");
+				underline = jsEngine->v8GetBool(obj, "underline");
+				bold = jsEngine->v8GetBool(obj, "bold");
+				italic = jsEngine->v8GetBool(obj, "italic");
 			}
 
 			#ifdef GUI_USE_WXWIDGETS

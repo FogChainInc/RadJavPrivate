@@ -491,7 +491,7 @@ namespace RadJAV
 			if (baud_val.IsEmpty() == true)
 				isConnected = RadJAV::CPP::IO::SerialComm::open(port);
 			else
-				isConnected = RadJAV::CPP::IO::SerialComm::open(port, baud_val->IntegerValue());
+				isConnected = RadJAV::CPP::IO::SerialComm::open(port, V8_JAVASCRIPT_ENGINE->v8ParseInt (baud_val));
 
 			args.GetReturnValue().Set(v8::Boolean::New(args.GetIsolate(), isConnected));
 		}
@@ -509,8 +509,8 @@ namespace RadJAV
 			v8::Local<v8::Integer> bufferSizeV8 = v8::Local<v8::Integer>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 
 			v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(args.This());
-			String returnValue;
-			RJUINT bufferSize = bufferSizeV8->IntegerValue();
+			String returnValue = "";
+			RJUINT bufferSize = V8_JAVASCRIPT_ENGINE->v8ParseInt (bufferSizeV8);
 
 			returnValue = RadJAV::CPP::IO::SerialComm::read();
 

@@ -100,7 +100,7 @@ namespace RadJAV
 				v8::Local<v8::Function> reject = v8::Local<v8::Function>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
 				v8::Local<v8::Array> ary = v8::Local<v8::Array>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 2));
 				String uri = parseV8Value(ary->Get(0));
-				RJBOOL post = v8::Local<v8::Boolean>::Cast(ary->Get(1))->BooleanValue();
+				RJBOOL post = V8_JAVASCRIPT_ENGINE->v8ParseBool(ary->Get(1));
 
 				v8::Local<v8::Integer> timeout;
 				RJLONG timeoutValue = 10;

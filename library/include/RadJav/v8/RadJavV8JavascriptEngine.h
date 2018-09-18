@@ -35,6 +35,7 @@
 	#include <utility>
 	#include <vector>
 
+	#include "RadJav.h"
 	#include "RadJavJavascriptEngine.h"
 
 	#ifdef GUI_USE_WXWIDGETS
@@ -56,7 +57,7 @@
 
 	#define V8_CALLBACK(context, functionName, function) context->Set(String(functionName).toV8String(isolate), \
 												v8::Function::New(isolate, function, String(functionName).toV8String(isolate)));
-	#define V8_JAVASCRIPT_ENGINE static_cast <V8JavascriptEngine *> (RadJav::javascriptEngine)
+	#define V8_JAVASCRIPT_ENGINE static_cast <V8JavascriptEngine *> (RadJAV::RadJav::javascriptEngine)
 	#define V8_RADJAV V8_JAVASCRIPT_ENGINE->radJav->Get (V8_JAVASCRIPT_ENGINE->isolate)
 
 	enum {

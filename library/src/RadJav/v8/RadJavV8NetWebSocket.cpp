@@ -59,13 +59,11 @@ namespace RadJAV
 			{
 				CPP::Net::WebSocketServer * webSocket = (CPP::Net::WebSocketServer *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_webSocket");
 				
-				v8::Local<v8::Number> port;
 				RJINT portI = 0;
 
 				if (args.Length() > 0)
 				{
-					port = v8::Local<v8::Number>::Cast(args[0]);
-					portI = port->IntegerValue();
+					portI = V8_JAVASCRIPT_ENGINE->v8ParseInt (args[0]);
 					V8_JAVASCRIPT_ENGINE->v8SetNumber(args.This(), "port", portI);
 				}
 

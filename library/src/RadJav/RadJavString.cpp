@@ -24,6 +24,10 @@
 #include <sstream>
 #include <stdlib.h>
 
+#ifdef USE_V8
+	#include "v8/RadJavV8JavascriptEngine.h"
+#endif
+
 namespace RadJAV
 {
 	Array<String> String::split(String delimiter)
@@ -487,7 +491,7 @@ namespace RadJAV
 		if (str.IsEmpty() == true)
 			return ("");
 
-		v8::String::Utf8Value newStr(str);
+		v8::String::Utf8Value newStr(V8_JAVASCRIPT_ENGINE->isolate, str);
 
 		return (*newStr);
 	}
