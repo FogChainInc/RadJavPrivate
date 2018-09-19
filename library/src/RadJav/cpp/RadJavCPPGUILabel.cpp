@@ -49,6 +49,11 @@ namespace RadJAV
 					: GObject (jsEngine, args)
 				{
 				}
+			#elif defined USE_JAVASCRIPTCORE
+				Label::Label(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[])
+					: GObject (jsEngine, thisObject, argumentCount, arguments)
+				{
+				}
 			#endif
 
 			Label::Label(String name, String text, CPP::GUI::GObject *parent)
@@ -76,8 +81,8 @@ namespace RadJAV
 				#endif
 			}
 
-			#ifdef USE_V8
-				void Label::on(String event, v8::Local<v8::Function> func)
+			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+				void Label::on(String event, RJ_FUNC_TYPE func)
 				{
 					#ifdef GUI_USE_WXWIDGETS
 

@@ -34,7 +34,7 @@
 				class RADJAV_EXPORT Camera : public Object3D
 				{
 				public:
-					static void createV8Callbacks(JSContextRef context, JSObjectRef object);
+					static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
 
 					static JSValueRef init(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
 					static JSValueRef setPerspective(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);

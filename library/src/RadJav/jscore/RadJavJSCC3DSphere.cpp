@@ -34,7 +34,7 @@ namespace RadJAV
 		namespace C3D
 		{
 #ifdef C3D_USE_OGRE
-			void Sphere::createV8Callbacks(JSContextRef context, JSObjectRef object)
+			void Sphere::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 			{
 				JSC_CALLBACK(object, "_init", Sphere::init);
 			}

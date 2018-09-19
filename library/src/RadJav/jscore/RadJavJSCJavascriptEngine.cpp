@@ -41,13 +41,64 @@
     #include "jscore/RadJavJSCGlobal.h"
     #include "jscore/RadJavJSCOS.h"
 
+	#include "jscore/RadJavJSCIO.h"
     #include "jscore/RadJavJSCConsole.h"
     #include "jscore/RadJavJSCThread.h"
 
+	// GUI
 	#ifdef GUI_USE_WXWIDGETS
 		#include "jscore/RadJavJSCGUIGObject.h"
 		#include "jscore/RadJavJSCGUIWindow.h"
 		#include "jscore/RadJavJSCGUIButton.h"
+		#include "jscore/RadJavJSCGUILabel.h"
+		#include "jscore/RadJavJSCGUIImage.h"
+		#include "jscore/RadJavJSCGUIContainer.h"
+		#include "jscore/RadJavJSCGUICombobox.h"
+		#include "jscore/RadJavJSCGUITextbox.h"
+		#include "jscore/RadJavJSCGUITextarea.h"
+		#include "jscore/RadJavJSCGUICheckbox.h"
+		#include "jscore/RadJavJSCGUIRadio.h"
+		#include "jscore/RadJavJSCGUIList.h"
+		#include "jscore/RadJavJSCGUIMenuBar.h"
+		#include "jscore/RadJavJSCGUIMenuItem.h"
+		#include "jscore/RadJavJSCGUIWebView.h"
+		#include "jscore/RadJavJSCGUICanvas3D.h"
+	#endif
+
+	// Database
+	#ifdef USE_DATABASE
+		#include "jscore/RadJavJSCDBKeyValueStorage.h"
+	#endif
+
+	// Net
+	#ifdef NET_ON
+		#include "jscore/RadJavJSCNetWebSocket.h"
+		#include "jscore/RadJavJSCNetWebServer.h"
+	#endif
+
+	// C3D
+	#ifdef C3D_USE_OGRE
+		#include "jscore/RadJavJSCC3DTransform.h"
+		#include "jscore/RadJavJSCC3DObject3D.h"
+		#include "jscore/RadJavJSCC3DPlane.h"
+		#include "jscore/RadJavJSCC3DCube.h"
+		#include "jscore/RadJavJSCC3DSphere.h"
+		#include "jscore/RadJavJSCC3DCamera.h"
+		#include "jscore/RadJavJSCC3DLight.h"
+		#include "jscore/RadJavJSCC3DModel.h"
+	#endif
+
+	// Crypto
+	#ifdef USE_CRYPTOGRAPHY
+		#include "jscore/RadJavJSCCryptoCipher.h"
+		#include "jscore/RadJavJSCCryptoDecipher.h"
+		#include "jscore/RadJavJSCCryptoCipherMultipart.h"
+		#include "jscore/RadJavJSCCryptoDecipherMultipart.h"
+		#include "jscore/RadJavJSCCryptoKeyGenerator.h"
+		#include "jscore/RadJavJSCCryptoPrivateKey.h"
+		#include "jscore/RadJavJSCCryptoPublicKey.h"
+		#include "jscore/RadJavJSCCryptoHash.h"
+		#include "jscore/RadJavJSCCryptoHashMultipart.h"
 	#endif
 #endif
 
@@ -815,6 +866,16 @@ namespace RadJAV
             JSGarbageCollect (globalContext);
         }
 
+		template<class T>
+		void JSCJavascriptEngine::initJSCCallback(JSObjectRef parent, const char* nameSpace, const char* typeName)
+		{
+			JSObjectRef namespaceFunc = jscGetFunction(parent, nameSpace);
+			JSObjectRef function = jscGetFunction(namespaceFunc, typeName);
+			JSObjectRef prototype = jscGetObject(function, "prototype");
+
+			T::createJSCCallbacks(globalContext, prototype);
+		}
+	
 		void JSCJavascriptEngine::loadNativeCode()
 		{
 			// Globals
@@ -879,7 +940,7 @@ namespace RadJAV
 				#endif
 
 				// RadJav.IO
-				/*{
+				{
 					JSObjectRef ioFunc = jscGetFunction(radJavFunc, "IO");
 
 					// RadJav.IO.FileIO
@@ -907,8 +968,8 @@ namespace RadJAV
 					JSC::IO::createJSCCallbacks(globalContext, ioFunc);
 				}
 
-				#ifdef HAS_XML_SUPPORT
 				// RadJav.XML
+				#ifdef HAS_XML_SUPPORT
 				{
 					JSObjectRef xmlFunc = jscGetFunction(radJavFunc, "XML");
 					JSObjectRef xmlFileFunc = jscGetFunction(xmlFunc, "XMLFile");
@@ -916,10 +977,11 @@ namespace RadJAV
 
 					JSC::IO::XML::XMLFile::createJSCCallbacks(globalContext, xmlFilePrototype);
 				}
-				#endif*/
+				#endif
 
 				// RadJav.Net
-				/*{
+				#ifdef NET_ON
+				{
 					JSObjectRef netFunc = jscGetFunction(radJavFunc, "Net");
 
 					JSC::Net::NetCallbacks::createJSCCallbacks(globalContext, netFunc);
@@ -947,10 +1009,11 @@ namespace RadJAV
 
 						JSC::Net::WebSocketClient::createJSCCallbacks(globalContext, webSocketClientPrototype);
 					}
-				}*/
-
-				#ifdef USE_BLOCKCHAIN_V1
+				}
+				#endif
+				
 				// RadJav.BlockchainV1
+				#ifdef USE_BLOCKCHAIN_V1
 				{
 					JSObjectRef blockchainFunc = jscGetFunction(radJavFunc, "BlockchainV1");
 
@@ -959,6 +1022,7 @@ namespace RadJAV
 				#endif
 
 				// RadJav.GUI
+				#ifdef GUI_USE_WXWIDGETS
 				{
 					JSObjectRef guiFunc = jscGetFunction(radJavFunc, "GUI");
 
@@ -985,7 +1049,7 @@ namespace RadJAV
 
 						JSC::GUI::Button::createJSCCallbacks(globalContext, buttonPrototype);
 					}
-					/*
+
 					// RadJav.GUI.Label
 					{
 						JSObjectRef labelFunc = jscGetFunction(guiFunc, "Label");
@@ -1083,6 +1147,7 @@ namespace RadJAV
                         #endif
 					}
 
+					/*
 					#ifdef C3D_USE_OGRE
 						// RadJav.GUI.Canvas3D
 						{
@@ -1094,153 +1159,129 @@ namespace RadJAV
 					#endif
 					 */
 				}
+				#endif
 
-				/*#ifdef C3D_USE_OGRE
 				// RadJav.C3D
+				#ifdef C3D_USE_OGRE
 				{
-					initV8Callback<JSC::C3D::Transform>(radJavFunc, "C3D", "Transform");
-					initV8Callback<JSC::C3D::Object3D>(radJavFunc, "C3D", "Object3D");
-					initV8Callback<JSC::C3D::Plane>(radJavFunc, "C3D", "Plane");
-					initV8Callback<JSC::C3D::Cube>(radJavFunc, "C3D", "Cube");
-					initV8Callback<JSC::C3D::Sphere>(radJavFunc, "C3D", "Sphere");
-					initV8Callback<JSC::C3D::Camera>(radJavFunc, "C3D", "Camera");
-					initV8Callback<JSC::C3D::Light>(radJavFunc, "C3D", "Light");
-					initV8Callback<JSC::C3D::Model>(radJavFunc, "C3D", "Model");
+					initJSCCallback<JSC::C3D::Transform>(radJavFunc, "C3D", "Transform");
+					initJSCCallback<JSC::C3D::Object3D>(radJavFunc, "C3D", "Object3D");
+					initJSCCallback<JSC::C3D::Plane>(radJavFunc, "C3D", "Plane");
+					initJSCCallback<JSC::C3D::Cube>(radJavFunc, "C3D", "Cube");
+					initJSCCallback<JSC::C3D::Sphere>(radJavFunc, "C3D", "Sphere");
+					initJSCCallback<JSC::C3D::Camera>(radJavFunc, "C3D", "Camera");
+					initJSCCallback<JSC::C3D::Light>(radJavFunc, "C3D", "Light");
+					initJSCCallback<JSC::C3D::Model>(radJavFunc, "C3D", "Model");
 				}
 				#endif
-				#ifdef USE_CRYPTOGRAPHY
+
 				// RadJav.Crypto.Hash
+				#ifdef USE_CRYPTOGRAPHY
 				{
-				  JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
-
-				  {
-
-				    JSObjectRef func = jscGetFunction(cryptoFunc, "Hash");
-				    V8_CALLBACK(func, "getCapabilities", JSC::Crypto::Hash::getCapabilities);
-				    //std::cout << "Obj FieldCount: " << func -> InternalFieldCount() << std::endl << std::flush;
-				    //std::cout << "Obj ExtFieldCount: " << func -> GetIndexedPropertiesExternalArrayDataLength() << std::endl << std::flush;
-				    JSObjectRef prototype = jscGetObject(func, "prototype");
-				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    //std::cout <<  "Len: " << str -> Length() << std::endl << std::flush;
-				    //std::cout << "Obj FieldCount: " << prototype -> InternalFieldCount() << std::endl << std::flush;
-				    
-
-				    JSC::Crypto::Hash::createJSCCallbacks(globalContext, prototype);
-				  }
-
+					JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
+					
+					{
+						JSObjectRef func = jscGetFunction(cryptoFunc, "Hash");
+						JSC_CCALLBACK(globalContext, func, "getCapabilities", JSC::Crypto::Hash::getCapabilities);
+						JSObjectRef prototype = jscGetObject(func, "prototype");
+						JSC::Crypto::Hash::createJSCCallbacks(globalContext, prototype);
+					}
 				}
-
 
 				// RadJav.Crypto.HashMultipart
 				{
-				  JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
-
-				  {
-				    JSObjectRef func = jscGetFunction(cryptoFunc, "HashMultipart");
-				    V8_CALLBACK(func, "getCapabilities", JSC::Crypto::HashMultipart::getCapabilities);
-				    JSObjectRef prototype = jscGetObject(func, "prototype");
-				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    JSC::Crypto::HashMultipart::createJSCCallbacks(globalContext, prototype);
-				  }
-
+					JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
+					
+					{
+						JSObjectRef func = jscGetFunction(cryptoFunc, "HashMultipart");
+						JSC_CCALLBACK(globalContext, func, "getCapabilities", JSC::Crypto::HashMultipart::getCapabilities);
+						JSObjectRef prototype = jscGetObject(func, "prototype");
+						JSC::Crypto::HashMultipart::createJSCCallbacks(globalContext, prototype);
+					}
 				}
+				
 				// RadJav.Crypto.Cipher
 				{
-				  JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
-
-				  {
-				    JSObjectRef func = jscGetFunction(cryptoFunc, "Cipher");
-				    V8_CALLBACK(func, "getCapabilities", JSC::Crypto::Cipher::getCapabilities);
-				    JSObjectRef prototype = jscGetObject(func, "prototype");
-				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    JSC::Crypto::Cipher::createJSCCallbacks(globalContext, prototype);
-				  }
+					JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
+					
+					{
+						JSObjectRef func = jscGetFunction(cryptoFunc, "Cipher");
+						JSC_CCALLBACK(globalContext, func, "getCapabilities", JSC::Crypto::Cipher::getCapabilities);
+						JSObjectRef prototype = jscGetObject(func, "prototype");
+						JSC::Crypto::Cipher::createJSCCallbacks(globalContext, prototype);
+					}
 				}
+				
 				// RadJav.Crypto.Decipher
 				{
-				  JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
-
-				  {
-				    JSObjectRef func = jscGetFunction(cryptoFunc, "Decipher");
-				    V8_CALLBACK(func, "getCapabilities", JSC::Crypto::Decipher::getCapabilities);
-				    JSObjectRef prototype = jscGetObject(func, "prototype");
-				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    JSC::Crypto::Decipher::createJSCCallbacks(globalContext, prototype);
-				  }
+					JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
+					
+					{
+						JSObjectRef func = jscGetFunction(cryptoFunc, "Decipher");
+						JSC_CCALLBACK(globalContext, func, "getCapabilities", JSC::Crypto::Decipher::getCapabilities);
+						JSObjectRef prototype = jscGetObject(func, "prototype");
+						JSC::Crypto::Decipher::createJSCCallbacks(globalContext, prototype);
+					}
 				}
+				
 				// RadJav.Crypto.CipherMultipart
 				{
-				  JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
-
-				  {
-				    JSObjectRef func = jscGetFunction(cryptoFunc, "CipherMultipart");
-				    V8_CALLBACK(func, "getCapabilities", JSC::Crypto::CipherMultipart::getCapabilities);
-				    JSObjectRef prototype = jscGetObject(func, "prototype");
-				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    JSC::Crypto::CipherMultipart::createJSCCallbacks(globalContext, prototype);
-				  }
+					JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
+					
+					{
+						JSObjectRef func = jscGetFunction(cryptoFunc, "CipherMultipart");
+						JSC_CCALLBACK(globalContext, func, "getCapabilities", JSC::Crypto::CipherMultipart::getCapabilities);
+						JSObjectRef prototype = jscGetObject(func, "prototype");
+						JSC::Crypto::CipherMultipart::createJSCCallbacks(globalContext, prototype);
+					}
 				}
-
 
 				// RadJav.Crypto.DecipherMultipart
 				{
-				  JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
-
-				  {
-				    JSObjectRef func = jscGetFunction(cryptoFunc, "DecipherMultipart");
-				    V8_CALLBACK(func, "getCapabilities", JSC::Crypto::DecipherMultipart::getCapabilities);
-				    JSObjectRef prototype = jscGetObject(func, "prototype");
-				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    JSC::Crypto::DecipherMultipart::createJSCCallbacks(globalContext, prototype);
-
-				  }
+					JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
+					
+					{
+						JSObjectRef func = jscGetFunction(cryptoFunc, "DecipherMultipart");
+						JSC_CCALLBACK(globalContext, func, "getCapabilities", JSC::Crypto::DecipherMultipart::getCapabilities);
+						JSObjectRef prototype = jscGetObject(func, "prototype");
+						JSC::Crypto::DecipherMultipart::createJSCCallbacks(globalContext, prototype);
+					}
 				}
 
 				// RadJav.Crypto.KeyGenerator
 				{
-				  JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
-
-				  {
-				    JSObjectRef func = jscGetFunction(cryptoFunc, "KeyGenerator");
-				    //				    V8_CALLBACK(func, "getCapabilities", JSC::Crypto::DecipherMultipart::getCapabilities);
-				    JSObjectRef prototype = jscGetObject(func, "prototype");
-				    //				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    JSC::Crypto::KeyGenerator::createJSCCallbacks(globalContext, prototype);
-				  }
+					JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
+					
+					{
+						JSObjectRef func = jscGetFunction(cryptoFunc, "KeyGenerator");
+						//JSC_CCALLBACK(globalContext, func, "getCapabilities", JSC::Crypto::DecipherMultipart::getCapabilities);
+						JSObjectRef prototype = jscGetObject(func, "prototype");
+						JSC::Crypto::KeyGenerator::createJSCCallbacks(globalContext, prototype);
+					}
 				}
 
 				// RadJav.Crypto.PrivateKey
 				{
-				  JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
-
-				  {
-				    JSObjectRef func = jscGetFunction(cryptoFunc, "PrivateKey");
-				    JSObjectRef prototype = jscGetObject(func, "prototype");
-
-				    JSC::Crypto::PrivateKey::createJSCCallbacks(globalContext, prototype);
-				    JSC::Crypto::PrivateKey::setConstructor(isolate, func);
-
-				    JSObjectRef init = jscGetObject(prototype, "_init");
-				    
-				  }
+					JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
+					
+					{
+						JSObjectRef func = jscGetFunction(cryptoFunc, "PrivateKey");
+						JSObjectRef prototype = jscGetObject(func, "prototype");
+						JSC::Crypto::PrivateKey::createJSCCallbacks(globalContext, prototype);
+					}
 				}
 
 				// RadJav.Crypto.PublicKey
 				{
-				  JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
-
-				  {
-				    JSObjectRef func = jscGetFunction(cryptoFunc, "PublicKey");
-				    JSObjectRef prototype = jscGetObject(func, "prototype");
-
-				    JSC::Crypto::PublicKey::createJSCCallbacks(globalContext, prototype);
-				    JSC::Crypto::PublicKey::setConstructor(isolate, func);
-
-				  }
+					JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
+					
+					{
+						JSObjectRef func = jscGetFunction(cryptoFunc, "PublicKey");
+						JSObjectRef prototype = jscGetObject(func, "prototype");
+						JSC::Crypto::PublicKey::createJSCCallbacks(globalContext, prototype);
+					}
 				}
-
 				#endif
-			*/
 			}
 		}
 

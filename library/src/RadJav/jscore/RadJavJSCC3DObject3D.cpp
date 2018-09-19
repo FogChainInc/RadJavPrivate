@@ -34,14 +34,14 @@ namespace RadJAV
 		namespace C3D
 		{
 #ifdef C3D_USE_OGRE
-			void createV8Callbacks(JSContextRef context, JSObjectRef object)
+			void Object3D::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 			{
 				JSC_CALLBACK(object, "_init", Object3D::init);
 				JSC_CALLBACK(object, "_setVisibility", Object3D::setVisibility);
 				JSC_CALLBACK(object, "_getVisibility", Object3D::getVisibility);
 			}
 
-			JSValueRef init(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+			JSValueRef Object3D::init(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
 			{
 			    JSValueRef undefined = JSValueMakeUndefined(ctx);
 			    
@@ -71,7 +71,7 @@ namespace RadJAV
 				return undefined;
 			}
 
-			JSValueRef setVisibility(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+			JSValueRef Object3D::setVisibility(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
 			{
 				RJBOOL visible = true;
 				
@@ -86,7 +86,7 @@ namespace RadJAV
 				return JSValueMakeUndefined(ctx);
 			}
 
-			JSValueRef getVisibility(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+			JSValueRef Object3D::getVisibility(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
 			{
 				std::shared_ptr<C3DTYPE> c3dObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
 				

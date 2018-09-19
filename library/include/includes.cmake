@@ -138,18 +138,17 @@ if (USE_JAVASCRIPTCORE)
 		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIWindow.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIWebView.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIButton.h"
-		#"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUILabel.h"
-		#"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIImage.h"
-		#"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIContainer.h"
-		#"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUICombobox.h"
-		#"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUITextbox.h"
-		#"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUITextarea.h"
-		#"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUICheckbox.h"
-		#"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIRadio.h"
-		#"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIList.h"
-		#"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIMenuBar.h"
-		#"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIMenuItem.h"
-		)
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUILabel.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIImage.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIContainer.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUICombobox.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUITextbox.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUITextarea.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUICheckbox.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIRadio.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIList.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIMenuBar.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIMenuItem.h")
 	source_group ("RadJav\\JavaScriptCore\\GUI" FILES ${SOURCES_files_RadJav__JSC__GUI__Headers})
 
 	set (SOURCES ${SOURCES_files_RadJav__JSC__GUI__Headers} ${SOURCES})

@@ -58,13 +58,15 @@
 					public:
 						#ifdef USE_V8
 							List(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
+						#elif defined USE_JAVASCRIPTCORE
+							List(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[]);
 						#endif
 						List(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 
 						void create();
 
-						#ifdef USE_V8
-							void on(String event, v8::Local<v8::Function> func);
+						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+							void on(String event, RJ_FUNC_TYPE func);
 						#endif
 
 						class RADJAV_EXPORT Item
@@ -134,6 +136,9 @@
 								#ifdef USE_V8
 									static Selection fromV8Object(V8JavascriptEngine *jsEngine, v8::Local<v8::Object> selection);
 									static v8::Local<v8::Object> toV8Object(V8JavascriptEngine *jsEngine, List::Selection *selection);
+								#elif defined USE_JAVASCRIPTCORE
+									static Selection fromJSCObject(JSCJavascriptEngine *jsEngine, JSContextRef ctx, JSObjectRef selection);
+									static JSObjectRef toJSCObject(JSCJavascriptEngine *jsEngine, JSContextRef ctx, List::Selection *selection);
 								#endif
 
 								GObject *_appObj;

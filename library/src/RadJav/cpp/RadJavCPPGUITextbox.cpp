@@ -53,6 +53,11 @@ namespace RadJAV
 					: GObject (jsEngine, args)
 				{
 				}
+			#elif defined USE_JAVASCRIPTCORE
+				Textbox::Textbox(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[])
+					: GObject (jsEngine, thisObject, argumentCount, arguments)
+				{
+				}
 			#endif
 
 			Textbox::Textbox(String name, String text, CPP::GUI::GObject *parent)
@@ -105,8 +110,8 @@ namespace RadJAV
 				return (text);
 			}
 
-			#ifdef USE_V8
-				void Textbox::on(String event, v8::Local<v8::Function> func)
+			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+				void Textbox::on(String event, RJ_FUNC_TYPE func)
 				{
 					#ifdef GUI_USE_WXWIDGETS
 

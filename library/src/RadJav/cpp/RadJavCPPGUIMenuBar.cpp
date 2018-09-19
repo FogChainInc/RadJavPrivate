@@ -64,6 +64,11 @@ namespace RadJAV
 					: GObject (jsEngine, args)
 				{
 				}
+			#elif defined USE_JAVASCRIPTCORE
+				MenuBar::MenuBar(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[])
+					: GObject (jsEngine, thisObject, argumentCount, arguments)
+				{
+				}
 			#endif
 
 			MenuBar::MenuBar(String name, String text, CPP::GUI::GObject *parent)
@@ -88,8 +93,8 @@ namespace RadJAV
 				#endif
 			}
 
-			#ifdef USE_V8
-				void MenuBar::on(String event, v8::Local<v8::Function> func)
+			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+				void MenuBar::on(String event, RJ_FUNC_TYPE func)
 				{
 					#ifdef GUI_USE_WXWIDGETS
 

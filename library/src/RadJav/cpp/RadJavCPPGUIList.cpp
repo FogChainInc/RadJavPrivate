@@ -127,6 +127,34 @@ namespace RadJAV
 						_columns->push_back(List::Column (text, width));
 					}
 				}
+			#elif defined USE_JAVASCRIPTCORE
+				List::List(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[])
+					: GObject (jsEngine, thisObject, argumentCount, arguments)
+				{
+					_canSort = true;
+					_hasCheckBoxes = false;
+					_columns = RJNEW Array<Column>();
+					
+					JSObjectRef columns = jsEngine->jscGetObject(thisObject, "_columns");
+
+					_canSort = jsEngine->jscGetBool(thisObject, "_canSort");
+					RJUINT length = 0;
+					
+					if (jsEngine->jscIsNull(columns) == false)
+						length = jsEngine->jscGetInt(columns, "length");
+					
+					for (RJUINT iIdx = 0; iIdx < length; iIdx++)
+					{
+						JSObjectRef column = jsEngine->jscCastValueToObject( JSObjectGetPropertyAtIndex(jsEngine->globalContext, columns, iIdx, nullptr));
+						String text = jsEngine->jscGetString(column, "text");
+						RJINT width = jsEngine->jscGetInt(column, "width");
+						
+						if (width == 0)
+							width = -1;
+						
+						_columns->push_back(List::Column (text, width));
+					}
+				}
 			#endif
 
 			List::List(String name, String text, CPP::GUI::GObject *parent)
@@ -158,8 +186,8 @@ namespace RadJAV
 				#endif
 			}
 
-			#ifdef USE_V8
-				void List::on(String event, v8::Local<v8::Function> func)
+			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+				void List::on(String event, RJ_FUNC_TYPE func)
 				{
 					#ifdef GUI_USE_WXWIDGETS
 						CPP::GUI::ListFrame *object = (CPP::GUI::ListFrame *)_appObj;
@@ -356,6 +384,53 @@ namespace RadJAV
 				result->Set(String("_appObj").toV8String(jsEngine->isolate), selected);
 
 				return (result);
+			}
+			#elif defined USE_JAVASCRIPTCORE
+			List::Selection List::Selection::fromJSCObject(JSCJavascriptEngine *jsEngine, JSContextRef ctx, JSObjectRef selection)
+			{
+				JSObjectRef rows = jsEngine->jscGetObject(selection, "_appObj");
+				RJUINT length = jsEngine->jscGetInt(rows, "length");
+				List::Selection newSelection;
+				
+				for (RJUINT iIdx = 0; iIdx < length; iIdx++)
+				{
+					JSValueRef value = JSObjectGetPropertyAtIndex(ctx, rows, iIdx, nullptr);
+					RJINT index = jsEngine->jscValueToInt(value);
+					
+					newSelection.indicies.push_back(index);
+				}
+				
+				return newSelection;
+			}
+			
+			JSObjectRef List::Selection::toJSCObject(JSCJavascriptEngine *jsEngine, JSContextRef ctx, List::Selection *selection)
+			{
+				JSObjectRef gui = jsEngine->jscGetObject(JSC_RADJAV, "GUI");
+				JSObjectRef list = jsEngine->jscGetObject(gui, "List");
+				JSObjectRef selectionV8 = jsEngine->jscGetObject(list, "Selection");
+				JSObjectRef result = jsEngine->jscCallAsConstructor(selectionV8, 0, NULL);
+				
+				RJINT count = selection->indicies.size ();
+				JSValueRef values[count];
+				
+				for (RJINT iIdx = 0; iIdx < count; iIdx++)
+				{
+					RJLONG index = selection->indicies.at (iIdx);
+					
+					if (index == -1)
+					{
+						values[iIdx] = JSValueMakeUndefined(ctx);
+						break;
+					}
+					
+					values[iIdx] = JSValueMakeNumber(ctx, index);
+				}
+				
+				JSObjectRef selected = JSObjectMakeArray(ctx, count, values, nullptr);
+
+				jsEngine->jscSetObject(result, "_appObj", selected);
+				
+				return result;
 			}
 			#endif
 		}

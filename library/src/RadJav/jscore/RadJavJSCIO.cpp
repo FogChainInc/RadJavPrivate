@@ -31,7 +31,7 @@ namespace RadJAV
 {
 	namespace JSC
 	{
-		void IO::createV8Callbacks(JSContextRef context, JSObjectRef object)
+		void IO::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 		{
 			JSC_CALLBACK(object, "isDir", IO::isDir);
 			JSC_CALLBACK(object, "isFile", IO::isFile);
@@ -66,7 +66,7 @@ namespace RadJAV
 			JSC_CALLBACK(object, "onFileList", IO::onFileList);
 		}
 
-		void IO::SerialComm::createV8Callbacks(JSContextRef context, JSObjectRef object)
+		void IO::SerialComm::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 		{
 			JSC_CALLBACK(object, "open", IO::SerialComm::open);
 			JSC_CALLBACK(object, "isOpen", IO::SerialComm::isOpen);
@@ -75,7 +75,7 @@ namespace RadJAV
 			JSC_CALLBACK(object, "close", IO::SerialComm::close);
 		}
 
-		void IO::StreamFile::createV8Callbacks(JSContextRef context, JSObjectRef object)
+		void IO::StreamFile::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 		{
 			JSC_CALLBACK(object, "writeStream", IO::StreamFile::writeStream);
 			JSC_CALLBACK(object, "writeStreamAsync", IO::StreamFile::writeStreamAsync);
@@ -84,7 +84,7 @@ namespace RadJAV
 			JSC_CALLBACK(object, "readStreamAsync", IO::StreamFile::readStreamAsync);
 		}
 
-		void IO::TextFile::createV8Callbacks(JSContextRef context, JSObjectRef object)
+		void IO::TextFile::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 		{
 			JSC_CALLBACK(object, "writeFile", IO::TextFile::writeFile);
 			JSC_CALLBACK(object, "writeFileAsync", IO::TextFile::writeFileAsync);

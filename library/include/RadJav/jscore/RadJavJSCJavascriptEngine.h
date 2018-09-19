@@ -313,6 +313,11 @@
 				#ifdef GUI_USE_WXWIDGETS
 					wxCriticalSection *criticalSection;
 				#endif
+			protected:
+				template<class T>
+				void initJSCCallback(JSObjectRef parent,
+									 const char* nameSpace,
+									 const char* typeName);
 
 			protected:
 				Array<String> jsToExecuteNextCode;
