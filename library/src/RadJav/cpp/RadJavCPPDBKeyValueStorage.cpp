@@ -22,22 +22,20 @@
 
 #include "RadJav.h"
 
-#ifdef USE_DATABASE
-	#ifdef USE_LEVELDB
-    	#include <leveldb/db.h>
-		using namespace leveldb;
-	#endif
+#ifdef USE_LEVELDB
+	#include <leveldb/db.h>
+	using namespace leveldb;
+#endif
 
-	#ifdef USE_ROCKSDB
-		#include <rocksdb/db.h>
-		using namespace rocksdb;
-	#endif
+#ifdef USE_ROCKSDB
+	#include <rocksdb/db.h>
+	using namespace rocksdb;
+#endif
 
-	#ifdef USE_NUDB
-		#include "cpp/RadJavCPPDBNuDB.h"
-		const std::uint64_t KAppID = 1;
-		const std::size_t KKeySize = 128;
-	#endif
+#ifdef USE_NUDB
+	#include "cpp/RadJavCPPDBNuDB.h"
+	const std::uint64_t KAppID = 1;
+	const std::size_t KKeySize = 128;
 #endif
 
 namespace RadJAV
@@ -46,7 +44,6 @@ namespace RadJAV
 	{
 		namespace Database
 		{
-			#ifdef USE_DATABASE
 			KeyValueStorage::KeyValueStorage()
 				#if defined USE_LEVELDB || defined USE_ROCKSDB || defined USE_NUDB
 					: db(nullptr)
@@ -213,7 +210,6 @@ namespace RadJAV
 					db = nullptr;
 				#endif
 			}
-			#endif
 		}
 	}
 }

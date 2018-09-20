@@ -18,33 +18,30 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 #ifndef _RADJAV_JSC_DB_KEYVALUESTORAGE_H_
-	#define _RADJAV_JSC_DB_KEYVALUESTORAGE_H_
+#define _RADJAV_JSC_DB_KEYVALUESTORAGE_H_
 
-	#include "RadJavPreprocessor.h"
-	#include "RadJavString.h"
+#include "RadJavPreprocessor.h"
+#include <JavaScriptCore/JavaScriptCore.h>
 
-    #ifdef USE_JAVASCRIPTCORE
-        #include <JavaScriptCore/JavaScriptCore.h>
+namespace RadJAV
+{
+	namespace JSC
+	{
+		namespace Database
+		{
+			class RADJAV_EXPORT KeyValueStorage
+			{
+			public:
+				static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
+				
+				static JSValueRef _init(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception);
+				static JSValueRef open(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception);
+				static JSValueRef write(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception);
+				static JSValueRef read(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception);
+				static JSValueRef close(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception);
+			};
+		}
+	}
+}
 
-        namespace RadJAV
-        {
-            namespace JSC
-            {
-                #ifdef USE_DATABASE
-                    class RADJAV_EXPORT Database
-                    {
-                        public:
-                            static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
-
-                            static JSValueRef _init(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
-                            static JSValueRef open(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
-                            static JSValueRef write(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
-                            static JSValueRef read(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
-                            static JSValueRef close(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
-                    };
-                #endif
-            }
-        }
-    #endif
 #endif
-

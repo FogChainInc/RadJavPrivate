@@ -18,79 +18,75 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 #ifndef _RADJAV_CPP_DATABASE_KEYVALUESTORAGE_H_
-	#define _RADJAV_CPP_DATABASE_KEYVALUESTORAGE_H_
+#define _RADJAV_CPP_DATABASE_KEYVALUESTORAGE_H_
 
-	#include "RadJavPreprocessor.h"
-	#include "RadJavString.h"
+#include "RadJavPreprocessor.h"
+#include "RadJavString.h"
 
-	#ifdef USE_DATABASE
-		#ifdef USE_LEVELDB
-			namespace leveldb
-		#elif defined USE_ROCKSDB
-			namespace rocksdb
-		#endif
-		#if defined USE_LEVELDB || defined USE_ROCKSDB
-			{
-				class DB;
-			};
-		#endif
+#ifdef USE_LEVELDB
+	namespace leveldb
+#elif defined USE_ROCKSDB
+	namespace rocksdb
+#endif
+#if defined USE_LEVELDB || defined USE_ROCKSDB
+	{
+		class DB;
+	};
+#endif
 
-		#ifdef USE_NUDB
-			namespace RadJAV
-			{
-				namespace CPP
-				{
-					namespace Database
-					{
-						class NuDB;
-					}
-				}
-			}
-		#endif
-	#endif
-
+#ifdef USE_NUDB
 	namespace RadJAV
 	{
 		namespace CPP
 		{
 			namespace Database
 			{
-				#ifdef USE_DATABASE
-				// Accepts incoming connections and launches the sessions
-				class RADJAV_EXPORT KeyValueStorage
-				{
-					public:
-						KeyValueStorage();
-						~KeyValueStorage();
-
-                    public:
-						/// The path to the database to open.
-						RJBOOL open(String path = "");
-
-						/// Write to a key in the database.
-						void write(String key, String value);
-
-						/// Read from a key in the database.
-						String read(String key);
-
-						/// Close the database.
-						void close();
-
-                    public:
-                        String filePath;
-                    
-                        #ifdef USE_LEVELDB
-                            leveldb::DB
-                        #elif defined USE_ROCKSDB
-							rocksdb::DB
-						#elif defined USE_NUDB
-							NuDB
-						#endif
-							*db;
-				};
-				#endif
+				class NuDB;
 			}
 		}
 	}
 #endif
 
+namespace RadJAV
+{
+	namespace CPP
+	{
+		namespace Database
+		{
+			// Accepts incoming connections and launches the sessions
+			class RADJAV_EXPORT KeyValueStorage
+			{
+			public:
+				KeyValueStorage();
+				~KeyValueStorage();
+				
+			public:
+				/// The path to the database to open.
+				RJBOOL open(String path = "");
+				
+				/// Write to a key in the database.
+				void write(String key, String value);
+				
+				/// Read from a key in the database.
+				String read(String key);
+				
+				/// Close the database.
+				void close();
+				
+			public:
+				String filePath;
+				
+#ifdef USE_LEVELDB
+				leveldb::DB
+#elif defined USE_ROCKSDB
+				rocksdb::DB
+#elif defined USE_NUDB
+				NuDB
+#endif
+				*db;
+			};
+		}
+	}
+}
+
+#endif
