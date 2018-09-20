@@ -55,6 +55,8 @@
 					public:
 						#ifdef USE_V8
 							Textarea(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
+						#elif defined USE_JAVASCRIPTCORE
+							Textarea(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[]);
 						#endif
 						Textarea(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 
@@ -62,8 +64,8 @@
 						void setText(String text);
 						String getText();
 
-						#ifdef USE_V8
-							void on(String event, v8::Local<v8::Function> func);
+						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+							void on(String event, RJ_FUNC_TYPE func);
 						#endif
 				};
 			}

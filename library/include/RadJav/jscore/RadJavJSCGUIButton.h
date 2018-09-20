@@ -1,6 +1,6 @@
 /*
 	MIT-LICENSE
-	Copyright (c) 2017 Higher Edge Software, LLC
+	Copyright (c) 2018 Higher Edge Software, LLC
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 	and associated documentation files (the "Software"), to deal in the Software without restriction, 
@@ -18,32 +18,30 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 #ifndef _RADJAV_GUI_JSC_BUTTON_H_
-    #define _RADJAV_GUI_JSC_BUTTON_H_
+	#define _RADJAV_GUI_JSC_BUTTON_H_
 
-    #include "RadJavPreprocessor.h"
+	#include "RadJavPreprocessor.h"
 
-    #include "RadJavString.h"
-    #include "RadJavHashMap.h"
-
-    #include "jscore/RadJavJSCGUIGObject.h"
+	#include "jscore/RadJavJSCGUIGObject.h"
 
     #ifdef USE_JAVASCRIPTCORE
-        namespace RadJAV
-        {
-            namespace JSC
-            {
-                namespace GUI
-                {
-                    class RADJAV_EXPORT Button : public GObject<Button>
-                    {
-                        public:
-                            static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
 
-                            static JSValueRef create(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
-                    };
-                }
-            }
-        }
-    #endif
+	namespace RadJAV
+	{
+		namespace JSC
+		{
+			namespace GUI
+			{
+				class RADJAV_EXPORT Button : public GObject
+				{
+					public:
+						static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
+
+						static JSValueRef create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+				};
+			}
+		}
+	}
+	#endif
 #endif
 

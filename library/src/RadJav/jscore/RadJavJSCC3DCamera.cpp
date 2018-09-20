@@ -37,7 +37,7 @@ namespace RadJAV
 		namespace C3D
 		{
 			#ifdef C3D_USE_OGRE
-			void Camera::createV8Callbacks(JSContextRef context, JSObjectRef object)
+			void Camera::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 			{
 				JSC_CALLBACK(object, "_init", Camera::init);
 				JSC_CALLBACK(object, "_setPerspective", Camera::setPerspective);

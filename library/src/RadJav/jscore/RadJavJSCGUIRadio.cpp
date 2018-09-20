@@ -1,0 +1,88 @@
+/*
+	MIT-LICENSE
+	Copyright (c) 2018 Higher Edge Software, LLC
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
+	and associated documentation files (the "Software"), to deal in the Software without restriction, 
+	including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+	and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+	subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all copies or substantial 
+	portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
+	LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+	IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
+	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+#include "jscore/RadJavJSCGUIRadio.h"
+
+#include "RadJav.h"
+
+#ifdef USE_JAVASCRIPTCORE
+#include "jscore/RadJavJSCJavascriptEngine.h"
+
+#include "cpp/RadJavCPPGUIRadio.h"
+
+namespace RadJAV
+{
+	namespace JSC
+	{
+		namespace GUI
+		{
+			using CppGuiObject = CPP::GUI::Radio;
+			
+			void Radio::createJSCCallbacks(JSContextRef context, JSObjectRef object)
+			{
+				JSC_CALLBACK(object, "create", Radio::create);
+
+				JSC_CALLBACK(object, "setChecked", Radio::setChecked);
+				JSC_CALLBACK(object, "isChecked", Radio::isChecked);
+			}
+
+			JSValueRef Radio::create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+			{
+				CppGuiObject *appObject = RJNEW CppGuiObject(JSC_JAVASCRIPT_ENGINE, thisObject, argumentCount, arguments);
+				appObject->create();
+
+				JSC_JAVASCRIPT_ENGINE->jscSetExternal(ctx, thisObject, "_appObj", appObject);
+				JSObjectRef _guiFinishedCreatingGObject = JSC_JAVASCRIPT_ENGINE->jscGetFunction(JSC_RADJAV, "_guiFinishedCreatingGObject");
+				JSObjectRef promise = JSC_JAVASCRIPT_ENGINE->createPromise(thisObject, _guiFinishedCreatingGObject);
+
+				return promise;
+			}
+
+			JSValueRef Radio::setChecked(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+			{
+				JSValueRef valueJs = JSC_JAVASCRIPT_ENGINE->jscGetArgument(arguments, argumentCount, 0);
+
+				if (valueJs && JSValueIsBoolean(ctx, valueJs))
+				{
+					RJBOOL value = JSC_JAVASCRIPT_ENGINE->jscParseBool(ctx, valueJs);
+					JSC_JAVASCRIPT_ENGINE->jscSetBool(thisObject, "_checked", value);
+					CppGuiObject *appObject = (CppGuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+					
+					if (appObject != NULL)
+						appObject->setChecked(value);
+				}
+				
+				return JSValueMakeUndefined(ctx);
+			}
+
+			JSValueRef Radio::isChecked(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+			{
+				RJBOOL value = JSC_JAVASCRIPT_ENGINE->jscGetBool(thisObject, "_checked");
+				CppGuiObject *appObject = (CppGuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+
+				if (appObject != NULL)
+					value = appObject->isChecked();
+
+				return JSValueMakeBoolean(ctx, value);
+			}
+		}
+	}
+}
+#endif
+

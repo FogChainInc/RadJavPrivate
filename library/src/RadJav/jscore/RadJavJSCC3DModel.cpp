@@ -35,7 +35,7 @@ namespace RadJAV
 		namespace C3D
 		{
 #ifdef C3D_USE_OGRE
-			void Model::createV8Callbacks(JSContextRef context, JSObjectRef object)
+			void Model::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 			{
 				JSC_CALLBACK(object, "_init", Model::init);
 				JSC_CALLBACK(object, "_load", Model::load);

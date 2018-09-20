@@ -79,7 +79,7 @@ namespace RadJAV
 				}
 			}
 			
-			void Light::createV8Callbacks(JSContextRef context, JSObjectRef object)
+			void Light::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 			{
 				JSC_CALLBACK(object, "_init", Light::init);
 				JSC_CALLBACK(object, "_setType", Light::setType);

@@ -48,6 +48,12 @@ namespace RadJAV
 				{
 					_checked = V8_JAVASCRIPT_ENGINE->v8GetBool(args.This(), "_checked");
 				}
+			#elif defined USE_JAVASCRIPTCORE
+				Checkbox::Checkbox(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[])
+					: GObject (jsEngine, thisObject, argumentCount, arguments)
+				{
+					_checked = JSC_JAVASCRIPT_ENGINE->jscGetBool(thisObject, "_checked");
+				}
 			#endif
 
 			Checkbox::Checkbox(String name, String text, CPP::GUI::GObject *parent)
@@ -102,8 +108,8 @@ namespace RadJAV
 				return (text);
 			}
 
-			#ifdef USE_V8
-				void Checkbox::on(String event, v8::Local<v8::Function> func)
+			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+				void Checkbox::on(String event, RJ_FUNC_TYPE func)
 				{
 					#ifdef GUI_USE_WXWIDGETS
 						CPP::GUI::CheckboxFrame *object = (CPP::GUI::CheckboxFrame *)_appObj;

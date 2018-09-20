@@ -162,6 +162,11 @@ namespace RadJAV
 				: GObject (jsEngine, args)
 			{
 			}
+			#elif defined USE_JAVASCRIPTCORE
+			Canvas3D::Canvas3D(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[])
+				: GObject (jsEngine, thisObject, argumentCount, arguments)
+			{
+			}
 			#endif
 
 			Canvas3D::Canvas3D(String name, String text, CPP::GUI::GObject *parent)
@@ -363,8 +368,8 @@ namespace RadJAV
 				return (enabled);
 			}
 
-			#ifdef USE_V8
-			void Canvas3D::on(String event, v8::Local<v8::Function> func)
+			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+			void Canvas3D::on(String event, RJ_FUNC_TYPE func)
 			{
 				CPP::GUI::Canvas3DFrame *object = (CPP::GUI::Canvas3DFrame *)_appObj;
 				CPP::GUI::Canvas3DFrame *obj = (CPP::GUI::Canvas3DFrame *)object->GetParent();

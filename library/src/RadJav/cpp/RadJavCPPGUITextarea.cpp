@@ -53,6 +53,11 @@ namespace RadJAV
 					: GObject (jsEngine, args)
 				{
 				}
+			#elif defined USE_JAVASCRIPTCORE
+				Textarea::Textarea(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[])
+					: GObject (jsEngine, thisObject, argumentCount, arguments)
+				{
+				}
 			#endif
 
 			Textarea::Textarea(String name, String text, CPP::GUI::GObject *parent)
@@ -105,8 +110,8 @@ namespace RadJAV
 				return (text);
 			}
 
-			#ifdef USE_V8
-				void Textarea::on(String event, v8::Local<v8::Function> func)
+			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+				void Textarea::on(String event, RJ_FUNC_TYPE func)
 				{
 					#ifdef GUI_USE_WXWIDGETS
 

@@ -31,7 +31,7 @@
 			{
 				namespace IO
 				{
-					void createV8Callbacks(JSContextRef context, JSObjectRef object);
+					void createJSCCallbacks(JSContextRef context, JSObjectRef object);
 
 					JSValueRef isDir(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
 					JSValueRef isFile(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
@@ -68,7 +68,7 @@
 					class RADJAV_EXPORT SerialComm
 					{
 						public:
-							static void createV8Callbacks(JSContextRef context, JSObjectRef object);
+							static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
 							static JSValueRef _init(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
 
 							static JSValueRef open(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
@@ -81,7 +81,7 @@
 					class RADJAV_EXPORT StreamFile
 					{
 						public:
-							static void createV8Callbacks(JSContextRef context, JSObjectRef object);
+							static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
 
 							static JSValueRef writeStream(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
 							static JSValueRef writeStreamAsync(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
@@ -95,7 +95,7 @@
 					class RADJAV_EXPORT TextFile
 					{
 						public:
-							static void createV8Callbacks(JSContextRef context, JSObjectRef object);
+							static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
 							static JSValueRef _init(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
 
 							static JSValueRef writeFile(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
@@ -113,7 +113,7 @@
 							class RADJAV_EXPORT XMLFile
 							{
 								public:
-									static void createV8Callbacks(JSContextRef context, JSObjectRef object);
+									static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
 
 									static JSValueRef _init(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
 									static JSValueRef parseXMLFile(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
@@ -124,7 +124,7 @@
 							class RADJAV_EXPORT XMLTag
 							{
 								public:
-									static void createV8Callbacks(JSContextRef context, JSObjectRef object);
+									static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
 
 									static JSValueRef _init(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
 									static JSValueRef getChildren(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);

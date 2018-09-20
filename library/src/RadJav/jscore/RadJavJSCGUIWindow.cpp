@@ -26,70 +26,50 @@
 
 #include "cpp/RadJavCPPGUIWindow.h"
 
-#define UITYPE CPP::GUI::Window
-
 namespace RadJAV
 {
 	namespace JSC
 	{
 		namespace GUI
 		{
+			using CppGuiObject = CPP::GUI::Window;
+			
 			void Window::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 			{
-                JSC_CALLBACK(object, "create", Window::create);
-                JSC_CALLBACK(object, "setFont", GObject<UITYPE>::setFont);
-                JSC_CALLBACK(object, "getFont", GObject<UITYPE>::getFont);
-                JSC_CALLBACK(object, "setPosition", GObject<UITYPE>::setPosition);
-                JSC_CALLBACK(object, "getPosition", GObject<UITYPE>::getPosition);
-                JSC_CALLBACK(object, "getX", GObject<UITYPE>::getX);
-                JSC_CALLBACK(object, "getY", GObject<UITYPE>::getY);
-                JSC_CALLBACK(object, "setSize", GObject<UITYPE>::setSize);
-                JSC_CALLBACK(object, "getSize", GObject<UITYPE>::getSize);
-                JSC_CALLBACK(object, "getWidth", GObject<UITYPE>::getWidth);
-                JSC_CALLBACK(object, "getHeight", GObject<UITYPE>::getHeight);
-                JSC_CALLBACK(object, "setText", GObject<UITYPE>::setText);
-                JSC_CALLBACK(object, "getText", GObject<UITYPE>::getText);
-                JSC_CALLBACK(object, "getParent", GObject<UITYPE>::getParent);
-                JSC_CALLBACK(object, "getAppObj", GObject<UITYPE>::getAppObj);
-                JSC_CALLBACK(object, "setVisibility", GObject<UITYPE>::setVisibility);
-                JSC_CALLBACK(object, "getVisibility", GObject<UITYPE>::getVisibility);
-                JSC_CALLBACK(object, "setEnabled", GObject<UITYPE>::setEnabled);
-                JSC_CALLBACK(object, "getEnabled", GObject<UITYPE>::getEnabled);
-                JSC_CALLBACK(object, "setIcon", Window::setIcon);
-                JSC_CALLBACK(object, "on", GObject<UITYPE>::on);
-                JSC_CALLBACK(object, "destroy", GObject<UITYPE>::destroy);
+				JSC_CALLBACK(object, "create", Window::create);
+				JSC_CALLBACK(object, "setIcon", Window::setIcon);
 			}
 
-			JSValueRef Window::create(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception)
+			JSValueRef Window::create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
 			{
-                UITYPE *appObject = RJNEW UITYPE(JSC_JAVASCRIPT_ENGINE, thisObj, numArgs, args);
-                appObject->create();
-                
-                JSC_JAVASCRIPT_ENGINE->jscSetExternal(context, thisObj, "_appObj", appObject);
-                JSObjectRef _guiFinishedCreatingGObject = JSC_JAVASCRIPT_ENGINE->jscGetFunction(JSC_RADJAV, "_guiFinishedCreatingGObject");
-                JSObjectRef promise = JSC_JAVASCRIPT_ENGINE->createPromise(thisObj, _guiFinishedCreatingGObject);
-                
-                return (promise);
+				CppGuiObject *appObject = RJNEW CppGuiObject(JSC_JAVASCRIPT_ENGINE, thisObject, argumentCount, arguments);
+				appObject->create();
+				
+				JSC_JAVASCRIPT_ENGINE->jscSetExternal(ctx, thisObject, "_appObj", appObject);
+				JSObjectRef _guiFinishedCreatingGObject = JSC_JAVASCRIPT_ENGINE->jscGetFunction(JSC_RADJAV, "_guiFinishedCreatingGObject");
+				JSObjectRef promise = JSC_JAVASCRIPT_ENGINE->createPromise(thisObject, _guiFinishedCreatingGObject);
+				
+				return promise;
 			}
 
-            JSValueRef Window::setIcon(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception)
+            JSValueRef Window::setIcon(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
             {
-                String value = parseJSCValue(context, args[0]);
-                UITYPE *appObject = (UITYPE *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(context, thisObj, "_appObj");
-
-                if (appObject != NULL)
-                {
-                    try
-                    {
-                        appObject->setIcon(value);
-                    }
-                    catch (Exception ex)
-                    {
-                        JSC_JAVASCRIPT_ENGINE->throwException(ex.getMessage ());
-                    }
-                }
-
-                return (JSValueMakeUndefined(context));
+				String value = parseJSCValue(ctx, arguments[0]);
+				CppGuiObject *appObject = (CppGuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				
+				if (appObject != NULL)
+				{
+					try
+					{
+						appObject->setIcon(value);
+					}
+					catch (Exception ex)
+					{
+						JSC_JAVASCRIPT_ENGINE->throwException(ex.getMessage ());
+					}
+				}
+				
+				return JSValueMakeUndefined(ctx);
             }
 		}
 	}

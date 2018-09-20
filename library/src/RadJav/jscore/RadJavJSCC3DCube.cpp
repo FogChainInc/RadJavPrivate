@@ -34,7 +34,7 @@ namespace RadJAV
 		namespace C3D
 		{
 #ifdef C3D_USE_OGRE
-			void Cube::createV8Callbacks(JSContextRef context, JSObjectRef object)
+			void Cube::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 			{
 				JSC_CALLBACK(object, "_init", Cube::init);
 			}

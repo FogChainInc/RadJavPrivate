@@ -34,13 +34,13 @@ namespace RadJAV
 	{
 		namespace GUI
 		{
-			class RADJAV_EXPORT Window : public GObject<Window>
+			class RADJAV_EXPORT Window : public GObject
 			{
 				public:
-                    static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
+					static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
 
 					static JSValueRef create(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
-                    static JSValueRef setIcon(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
+					static JSValueRef setIcon(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
 			};
 		}
 	}

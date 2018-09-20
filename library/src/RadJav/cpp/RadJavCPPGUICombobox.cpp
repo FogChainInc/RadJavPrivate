@@ -57,13 +57,17 @@ namespace RadJAV
 			#endif
 
 			#ifdef USE_V8
-			Combobox::Combobox(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
-				: GObject (jsEngine, args)
-			{
-				_items = RJNEW Array<Item>();
-
-
-			}
+				Combobox::Combobox(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
+					: GObject (jsEngine, args)
+				{
+					_items = RJNEW Array<Item>();
+				}
+			#elif defined USE_JAVASCRIPTCORE
+				Combobox::Combobox(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[])
+					: GObject (jsEngine, thisObject, argumentCount, arguments)
+				{
+					_items = RJNEW Array<Item>();
+				}
 			#endif
 
 			Combobox::Combobox(String name, String text, CPP::GUI::GObject *parent)
@@ -122,8 +126,8 @@ namespace RadJAV
 				return (text);
 			}
 
-			#ifdef USE_V8
-				void Combobox::on(String event, v8::Local<v8::Function> func)
+			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+				void Combobox::on(String event, RJ_FUNC_TYPE func)
 				{
 					#ifdef GUI_USE_WXWIDGETS
 						CPP::GUI::ComboboxFrame *object = (CPP::GUI::ComboboxFrame *)_appObj;
@@ -306,6 +310,35 @@ namespace RadJAV
 					}
 
 					return (newary);
+				}
+			#elif defined USE_JAVASCRIPTCORE
+				JSObjectRef Combobox::Item::toJSCObject(JSCJavascriptEngine *jsEngine, JSContextRef ctx, Item obj)
+				{
+					JSObjectRef lobj = JSObjectMake(ctx, nullptr, nullptr);
+					
+					jsEngine->jscSetString(lobj, "name", obj.name);
+					jsEngine->jscSetString(lobj, "text", obj.text);
+					
+					return (lobj);
+				}
+
+				JSObjectRef Combobox::Item::toJSCArray(JSCJavascriptEngine *jsEngine, JSContextRef ctx, Array<Item> *objs)
+				{
+					const RJUINT objectsSize = objs->size();
+					JSValueRef objects[objectsSize];
+					
+					for (RJUINT iIdx = 0; iIdx < objectsSize; iIdx++)
+					{
+						Item item = objs->at(iIdx);
+						
+						JSObjectRef obj = JSObjectMake(ctx, nullptr, nullptr);
+						jsEngine->jscSetString(obj, "name", item.name);
+						jsEngine->jscSetString(obj, "text", item.text);
+						
+						objects[iIdx] = obj;
+					}
+					
+					return JSObjectMakeArray(ctx, objectsSize, objects, nullptr);
 				}
 			#endif
 		}

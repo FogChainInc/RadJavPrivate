@@ -138,6 +138,12 @@ namespace RadJAV
 				{
 					_image = V8_JAVASCRIPT_ENGINE->v8GetString(args.This(), "_image");
 				}
+			#elif defined USE_JAVASCRIPTCORE
+				Image::Image(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[])
+					: GObject (jsEngine, thisObject, argumentCount, arguments)
+				{
+					_image = JSC_JAVASCRIPT_ENGINE->jscGetString(thisObject, "_image");
+				}
 			#endif
 
 			Image::Image(String name, String text, CPP::GUI::GObject *parent)
@@ -166,8 +172,8 @@ namespace RadJAV
 				#endif
 			}
 
-			#ifdef USE_V8
-				void Image::on(String event, v8::Local<v8::Function> func)
+			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+				void Image::on(String event, RJ_FUNC_TYPE func)
 				{
 					#ifdef GUI_USE_WXWIDGETS 
 						
