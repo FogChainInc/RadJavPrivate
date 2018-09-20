@@ -366,11 +366,11 @@ if (USE_OGRE)
 		set (SOURCES ${SOURCES_files_RadJav__JSC__C3D__Sources} ${SOURCES})
 		
 		# JavaScriptCore GUI Canvas3D
-		#set (SOURCES_files_RadJav__JSC__GUI__Sources 
-		#	"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUICanvas3D.cpp")
-		#source_group ("RadJav\\JavaScriptCore\\GUI" FILES ${SOURCES_files_RadJav__JSC__GUI__Sources})
+		set (SOURCES_files_RadJav__JSC__GUI__Sources 
+			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUICanvas3D.cpp")
+		source_group ("RadJav\\JavaScriptCore\\GUI" FILES ${SOURCES_files_RadJav__JSC__GUI__Sources})
 		
-		#set (SOURCES ${SOURCES_files_RadJav__JSC__GUI__Sources} ${SOURCES})
+		set (SOURCES ${SOURCES_files_RadJav__JSC__GUI__Sources} ${SOURCES})
 	endif ()
 
 	# C++ C3D

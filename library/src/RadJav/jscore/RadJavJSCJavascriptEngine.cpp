@@ -1147,7 +1147,6 @@ namespace RadJAV
                         #endif
 					}
 
-					/*
 					#ifdef C3D_USE_OGRE
 						// RadJav.GUI.Canvas3D
 						{
@@ -1157,7 +1156,6 @@ namespace RadJAV
 							JSC::GUI::Canvas3D::createJSCCallbacks(globalContext, canvas3DFuncPrototype);
 						}
 					#endif
-					 */
 				}
 				#endif
 
