@@ -22,8 +22,7 @@
 #include "RadJav.h"
 #include "RadJavString.h"
 
-#ifdef USE_JAVASCRIPTCORE
-	#include "jscore/RadJavJSCJavascriptEngine.h"
+#include "jscore/RadJavJSCJavascriptEngine.h"
 
 namespace RadJAV
 {
@@ -61,5 +60,3 @@ namespace RadJAV
 		}
 	}
 }
-#endif
-

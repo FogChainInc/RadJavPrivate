@@ -18,35 +18,32 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 #ifndef _RADJAV_JSC_CRYPTO_HASH_H_
-	#define _RADJAV_JSC_CRYPTO_HASH_H_
+#define _RADJAV_JSC_CRYPTO_HASH_H_
 
-	#include "RadJavPreprocessor.h"
+#include "RadJavPreprocessor.h"
+#include <JavaScriptCore/JavaScriptCore.h>
 
-	#ifdef USE_JAVASCRIPTCORE
-	#include <JavaScriptCore/JavaScriptCore.h>
-
-	namespace RadJAV
+namespace RadJAV
+{
+	namespace JSC
 	{
-		namespace JSC
+		/// RadJav Cryptography
+		namespace Crypto
 		{
-			/// RadJav Cryptography
-			namespace Crypto
+			/// A Hash
+			class RADJAV_EXPORT Hash
 			{
-				/// A Hash
-				class RADJAV_EXPORT Hash
-				{
-					public:
-						static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
-
-						static JSValueRef _init(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
-						static JSValueRef digestSync(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
-						static JSValueRef digest(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
-
-						static JSValueRef getCapabilities(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
-				};
-			}
+			public:
+				static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
+				
+				static JSValueRef _init(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+				static JSValueRef digestSync(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+				static JSValueRef digest(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+				
+				static JSValueRef getCapabilities(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+			};
 		}
 	}
-#endif
-#endif
+}
 
+#endif

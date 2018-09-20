@@ -21,7 +21,6 @@
 
 #include "RadJav.h"
 
-#ifdef USE_JAVASCRIPTCORE
 #include "jscore/RadJavJSCJavascriptEngine.h"
 
 #include "cpp/RadJavCPPThread.h"
@@ -78,5 +77,3 @@ namespace RadJAV
 		}
 	}
 }
-#endif
-

@@ -18,42 +18,39 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 #ifndef _RADJAV_JSC_CRYPTO_PRIVATEKEY_H_
-	#define _RADJAV_JSC_CRYPTO_PRIVATEKEY_H_
+#define _RADJAV_JSC_CRYPTO_PRIVATEKEY_H_
 
-	#include "RadJavPreprocessor.h"
+#include "RadJavPreprocessor.h"
+#include <JavaScriptCore/JavaScriptCore.h>
 
-	#ifdef USE_JAVASCRIPTCORE
-	#include <JavaScriptCore/JavaScriptCore.h>
-
-	namespace RadJAV
+namespace RadJAV
+{
+	namespace JSC
 	{
-		namespace JSC
+		/// RadJav Cryptography
+		namespace Crypto
 		{
-			/// RadJav Cryptography
-			namespace Crypto
+			/// A PrivateKey
+			class RADJAV_EXPORT PrivateKey
 			{
-				/// A PrivateKey
-				class RADJAV_EXPORT PrivateKey
-				{
-					public:
-						static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
-
-						static JSValueRef _init(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
-					
-						static JSValueRef sign(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
-						static JSValueRef signSync(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
-						static JSValueRef encrypt(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
-						static JSValueRef encryptSync(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
-
-						static JSValueRef getPublicKey(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
-
-						static JSValueRef savePemSync(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
-						
-						static JSObjectRef newInstance(JSContextRef ctx, JSObjectRef privateKeyParms);
-				};
-			}
+			public:
+				static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
+				
+				static JSValueRef _init(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+				
+				static JSValueRef sign(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+				static JSValueRef signSync(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+				static JSValueRef encrypt(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+				static JSValueRef encryptSync(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+				
+				static JSValueRef getPublicKey(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+				
+				static JSValueRef savePemSync(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+				
+				static JSObjectRef newInstance(JSContextRef ctx, JSObjectRef privateKeyParms);
+			};
 		}
 	}
-#endif
-#endif
+}
 
+#endif

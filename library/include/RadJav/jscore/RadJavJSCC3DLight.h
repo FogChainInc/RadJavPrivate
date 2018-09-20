@@ -21,8 +21,7 @@
 #define _RADJAV_JSC_C3D_LIGHT_H_
 
 #include "RadJavPreprocessor.h"
-
-#include "jscore/RadJavJSCC3DObject3D.h"
+#include <JavaScriptCore/JavaScriptCore.h>
 
 namespace RadJAV
 {
@@ -30,8 +29,7 @@ namespace RadJAV
 	{
 		namespace C3D
 		{
-#ifdef C3D_USE_OGRE
-			class RADJAV_EXPORT Light : public Object3D
+			class RADJAV_EXPORT Light
 			{
 			public:
 				static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
@@ -42,10 +40,8 @@ namespace RadJAV
 				static JSValueRef setColor(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
 				static JSValueRef getColor(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
 			};
-#endif
 		}
 	}
 }
+
 #endif
-
-

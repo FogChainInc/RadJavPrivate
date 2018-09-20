@@ -36,7 +36,7 @@ set (RadJavVM_LANGUAGE "en_us" CACHE STRING "Select language to compile with")
 set (libRadJav_STATIC false CACHE BOOL "Use static build of libRadJav")
 set (RadJavVM_CREATE_INSTALL_PACKAGES false CACHE BOOL "Create install packages")
 
-if (USE_V8)
+if (libRadJav_USE_V8)
 	set (RadJavVM_DEPENDENCY_OBJECTS_LIST "./natives_blob.bin;./snapshot_blob.bin" CACHE STRING "Semicolon separated list of paths to dependencies \
 												which are indirectly will be used by application, i.e. loading \
 												during runtime")
@@ -144,7 +144,6 @@ if (INCLUDE_CRYPTOGRAPHY)
 	#target_link_libraries ( ${CMAKE_PROJECT_NAME} ${libKrispyCrypto_NAME})
 endif ()
 
-
 link_directories (${RadJavVM_LINK_LIBRARY_DIRS})
 
 add_executable (${CMAKE_PROJECT_NAME} ${ISWIN32} ${ISOSX} ${RadJavVM_SOURCES})
@@ -244,17 +243,16 @@ elseif (APPLE)
 									RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL ${APP_EXECUTABLE_DIR}
 									RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO ${APP_EXECUTABLE_DIR})
 		
+		if (libRadJav_USE_V8)
+			#Copying dependencies
+			foreach (dependency ${RadJavVM_DEPENDENCY_OBJECTS_LIST})
+				add_custom_command (TARGET ${CMAKE_PROJECT_NAME} POST_BUILD 
+							COMMAND ${CMAKE_COMMAND} -E copy ${dependency} ${APP_EXECUTABLE_DIR}
+							COMMENT "Adding extra dependency into application bundle: ${dependency}"
+							VERBATIM )
+			endforeach (dependency)
+		endif()
 	endif ()
-
-	if (USE_V8)
-		#Copying dependencies
-		foreach (dependency ${RadJavVM_DEPENDENCY_OBJECTS_LIST})
-			add_custom_command (TARGET ${CMAKE_PROJECT_NAME} POST_BUILD 
-						COMMAND ${CMAKE_COMMAND} -E copy ${dependency} ${APP_EXECUTABLE_DIR}
-						COMMENT "Adding extra dependency into application bundle: ${dependency}"
-						VERBATIM )
-		endforeach (dependency)
-	endif()
 endif ()
 
 set_property (TARGET ${CMAKE_PROJECT_NAME} PROPERTY PROJECT_LABEL ${CMAKE_PROJECT_NAME})

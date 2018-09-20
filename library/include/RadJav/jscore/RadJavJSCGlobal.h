@@ -18,32 +18,29 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 #ifndef _RADJAV_JSC_GLOBAL_H_
-	#define _RADJAV_JSC_GLOBAL_H_
+#define _RADJAV_JSC_GLOBAL_H_
 
-	#include "RadJavPreprocessor.h"
+#include "RadJavPreprocessor.h"
+#include <JavaScriptCore/JavaScriptCore.h>
 
-	#ifdef USE_JAVASCRIPTCORE
-        #include <JavaScriptCore/JavaScriptCore.h>
+namespace RadJAV
+{
+	namespace JSC
+	{
+		class RADJAV_EXPORT Global
+		{
+		public:
+			static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
+			
+			static JSValueRef setTimeout(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
+			static JSValueRef alert(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
+			static JSValueRef confirm(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
+			static JSValueRef prompt(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
+			static JSValueRef include(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
+			static JSValueRef collectGarbage(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
+			static JSValueRef exit(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
+		};
+	}
+}
 
-        namespace RadJAV
-        {
-            namespace JSC
-            {
-                class RADJAV_EXPORT Global
-                {
-                    public:
-                        static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
-
-                        static JSValueRef setTimeout(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
-                        static JSValueRef alert(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
-                        static JSValueRef confirm(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
-                        static JSValueRef prompt(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
-                        static JSValueRef include(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
-                        static JSValueRef collectGarbage(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
-                        static JSValueRef exit(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
-                };
-            }
-        }
-	#endif
 #endif
-

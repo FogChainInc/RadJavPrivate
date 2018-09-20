@@ -21,8 +21,6 @@
 #define _RADJAV_JSC_C3D_TRANSFORM_H_
 
 #include "RadJavPreprocessor.h"
-
-#ifdef USE_JAVASCRIPTCORE
 #include <JavaScriptCore/JavaScriptCore.h>
 
 namespace RadJAV
@@ -31,7 +29,6 @@ namespace RadJAV
 	{
 		namespace C3D
 		{
-#ifdef C3D_USE_OGRE
 			class RADJAV_EXPORT Transform
 			{
 			public:
@@ -55,11 +52,8 @@ namespace RadJAV
 				static JSValueRef lookAt(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
 				static JSValueRef setDirection(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
 			};
-#endif
 		}
 	}
 }
-#endif
-#endif
 
-
+#endif

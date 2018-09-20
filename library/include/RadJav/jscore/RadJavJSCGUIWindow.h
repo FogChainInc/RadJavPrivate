@@ -1,6 +1,6 @@
 /*
 	MIT-LICENSE
-	Copyright (c) 2017 Higher Edge Software, LLC
+	Copyright (c) 2018 Higher Edge Software, LLC
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 	and associated documentation files (the "Software"), to deal in the Software without restriction, 
@@ -21,20 +21,15 @@
 #define _RADJAV_GUI_JSC_WINDOW_H_
 
 #include "RadJavPreprocessor.h"
+#include <JavaScriptCore/JavaScriptCore.h>
 
-#include "RadJavString.h"
-#include "RadJavHashMap.h"
-
-#include "jscore/RadJavJSCGUIGObject.h"
-
-#ifdef USE_JAVASCRIPTCORE
 namespace RadJAV
 {
 	namespace JSC
 	{
 		namespace GUI
 		{
-			class RADJAV_EXPORT Window : public GObject
+			class RADJAV_EXPORT Window
 			{
 				public:
 					static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
@@ -45,6 +40,5 @@ namespace RadJAV
 		}
 	}
 }
-#endif
-#endif
 
+#endif

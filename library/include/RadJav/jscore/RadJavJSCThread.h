@@ -18,30 +18,28 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 #ifndef _RADJAV_JSC_GLOBAL_THREAD_H_
-	#define _RADJAV_JSC_GLOBAL_THREAD_H_
+#define _RADJAV_JSC_GLOBAL_THREAD_H_
 
-	#include "RadJavPreprocessor.h"
-	#include "RadJavString.h"
+#include "RadJavPreprocessor.h"
+#include "RadJavString.h"
 
-    #ifdef USE_JAVASCRIPTCORE
-        #include <JavaScriptCore/JavaScriptCore.h>
+#include <JavaScriptCore/JavaScriptCore.h>
 
-        namespace RadJAV
-        {
-            namespace JSC
-            {
-                class RADJAV_EXPORT Thread
-                {
-                    public:
-                        static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
+namespace RadJAV
+{
+	namespace JSC
+	{
+		class RADJAV_EXPORT Thread
+		{
+		public:
+			static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
+			
+			static JSValueRef _init(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
+			static JSValueRef start(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
+			static JSValueRef close(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
+			static JSValueRef on(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
+		};
+	}
+}
 
-                        static JSValueRef _init(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
-                        static JSValueRef start(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
-                        static JSValueRef close(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
-                        static JSValueRef on(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
-                };
-            }
-        }
-    #endif
 #endif
-

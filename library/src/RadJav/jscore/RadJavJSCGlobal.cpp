@@ -22,14 +22,9 @@
 #include "RadJav.h"
 #include "RadJavString.h"
 
-#ifdef USE_JAVASCRIPTCORE
-	#include "jscore/RadJavJSCJavascriptEngine.h"
+#include "jscore/RadJavJSCJavascriptEngine.h"
 
-	#include "cpp/RadJavCPPIO.h"
-
-	#ifdef GUI_USE_WXWIDGETS
-		#include <wx/wx.h>
-	#endif
+#include "cpp/RadJavCPPIO.h"
 
 namespace RadJAV
 {
@@ -197,5 +192,3 @@ namespace RadJAV
         }
 	}
 }
-#endif
-

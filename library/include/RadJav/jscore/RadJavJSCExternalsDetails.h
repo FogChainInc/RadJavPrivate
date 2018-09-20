@@ -20,7 +20,6 @@
 #ifndef _RADJAV_JSC_EXTERNALS_DETAILS_H_
 #define _RADJAV_JSC_EXTERNALS_DETAILS_H_
 
-#ifdef USE_JAVASCRIPTCORE
 #include "RadJavPreprocessor.h"
 #include "RadJavString.h"
 #include "RadJavThread.h"
@@ -301,5 +300,3 @@ namespace RadJAV
 }
 
 #endif
-#endif
-

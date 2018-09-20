@@ -18,32 +18,26 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 #ifndef _RADJAV_GUI_JSC_MENUBAR_H_
-	#define _RADJAV_GUI_JSC_MENUBAR_H_
+#define _RADJAV_GUI_JSC_MENUBAR_H_
 
-	#include "RadJavPreprocessor.h"
-	#include "RadJavString.h"
+#include "RadJavPreprocessor.h"
+#include <JavaScriptCore/JavaScriptCore.h>
 
-	#include "jscore/RadJavJSCGUIGObject.h"
-
-	#ifdef GUI_USE_WXWIDGETS
-		#include <wx/wx.h>
-	#endif
-
-	namespace RadJAV
+namespace RadJAV
+{
+	namespace JSC
 	{
-		namespace JSC
+		namespace GUI
 		{
-			namespace GUI
+			class RADJAV_EXPORT MenuBar
 			{
-				class RADJAV_EXPORT MenuBar : public GObject
-				{
-					public:
-						static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
-
-						static JSValueRef create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
-				};
-			}
+			public:
+				static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
+				
+				static JSValueRef create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+			};
 		}
 	}
-#endif
+}
 
+#endif

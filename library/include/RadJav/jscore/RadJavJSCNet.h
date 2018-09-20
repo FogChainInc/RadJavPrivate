@@ -18,57 +18,55 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 #ifndef _RADJAV_JSC_NET_H_
-	#define _RADJAV_JSC_NET_H_
+#define _RADJAV_JSC_NET_H_
 
-	#include "RadJavPreprocessor.h"
-	#include "RadJavString.h"
-	#include "RadJavThread.h"
+#include "RadJavPreprocessor.h"
+#include "RadJavString.h"
+#include "RadJavThread.h"
 
-	#ifdef GUI_USE_WXWIDGETS
-		#include <wx/wx.h>
-	#endif
+#include <JavaScriptCore/JavaScriptCore.h>
 
-	#ifdef USE_JAVASCRIPTCORE
-		#include <JavaScriptCore/JavaScriptCore.h>
-
-		namespace RadJAV
-		{
-			namespace JSC
-			{
-				namespace Net
-				{
-					class RADJAV_EXPORT NetCallbacks
-					{
-						public:
-							static void createV8Callbacks(JSContextRef context, JSObjectRef object);
-
-							static JSValueRef httpRequest(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
-							static JSValueRef httpPost(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
-							static JSValueRef completeHttpRequest(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
-
-							static RJINT curlWrite(RJCHAR *data, RJUINT size, RJUINT nmemb, String *output);
-					};
-
-						class RADJAV_EXPORT HttpThread : public Thread
-						{
-							public:
-								HttpThread(String uri, RJBOOL post, RJLONG timeout, JSContextRef ctx, JSObjectRef resolvep);
-								~HttpThread();
 #ifdef GUI_USE_WXWIDGETS
-								wxThread::ExitCode Entry();
-#else 
-								RJINT Entry();
+	#include <wx/wx.h>
 #endif
 
-								RJLONG timeout;
-								String uri;
-								JSObjectRef resolvep;
-								JSContextRef context;
-								RJBOOL post;
-						};
-				}
-			}
+namespace RadJAV
+{
+	namespace JSC
+	{
+		namespace Net
+		{
+			class RADJAV_EXPORT NetCallbacks
+			{
+			public:
+				static void createV8Callbacks(JSContextRef context, JSObjectRef object);
+				
+				static JSValueRef httpRequest(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+				static JSValueRef httpPost(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+				static JSValueRef completeHttpRequest(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+				
+				static RJINT curlWrite(RJCHAR *data, RJUINT size, RJUINT nmemb, String *output);
+			};
+			
+			class RADJAV_EXPORT HttpThread : public Thread
+			{
+			public:
+				HttpThread(String uri, RJBOOL post, RJLONG timeout, JSContextRef ctx, JSObjectRef resolvep);
+				~HttpThread();
+#ifdef GUI_USE_WXWIDGETS
+				wxThread::ExitCode Entry();
+#else
+				RJINT Entry();
+#endif
+				
+				RJLONG timeout;
+				String uri;
+				JSObjectRef resolvep;
+				JSContextRef context;
+				RJBOOL post;
+			};
 		}
-	#endif
-#endif
+	}
+}
 
+#endif

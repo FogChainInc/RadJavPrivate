@@ -21,11 +21,8 @@
 
 #include "RadJav.h"
 
-#ifdef USE_JAVASCRIPTCORE
 #include "jscore/RadJavJSCJavascriptEngine.h"
 #include "cpp/RadJavCPPC3DSphere.h"
-
-#define C3DTYPE CPP::C3D::Sphere
 
 namespace RadJAV
 {
@@ -33,7 +30,8 @@ namespace RadJAV
 	{
 		namespace C3D
 		{
-#ifdef C3D_USE_OGRE
+			using CppC3dObject = CPP::C3D::Sphere;
+			
 			void Sphere::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 			{
 				JSC_CALLBACK(object, "_init", Sphere::init);
@@ -51,7 +49,7 @@ namespace RadJAV
 				}
 				
 				//Check if we were already contructed
-				std::shared_ptr<C3DTYPE> object = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> object = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				if(object)
 					return undefined;
 				
@@ -64,13 +62,11 @@ namespace RadJAV
 					return undefined;
 				
 				String name = JSC_JAVASCRIPT_ENGINE->jscGetString(thisObject, "name");
-				object.reset(RJNEW C3DTYPE(*canvas, name), [](C3DTYPE* p){DELETEOBJ(p)});
+				object.reset(RJNEW CppC3dObject(*canvas, name), [](CppC3dObject* p){DELETEOBJ(p)});
 				JSC_JAVASCRIPT_ENGINE->jscSetExternal(ctx, thisObject, "_c3dObj", object);
 				
 				return undefined;
 			}
-#endif
 		}
 	}
 }
-#endif

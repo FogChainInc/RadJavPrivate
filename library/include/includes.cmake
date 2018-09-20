@@ -35,25 +35,49 @@ if (USE_V8)
 	set (SOURCES ${SOURCES_files_RadJav__v8__Headers} ${SOURCES})
 	
 	# V8 GUI
-	set (SOURCES_files_RadJav__v8__GUI__Headers 
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIGObject.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIWindow.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIWebView.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIButton.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUILabel.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIImage.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIContainer.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUICombobox.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUITextbox.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUITextarea.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUICheckbox.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIRadio.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIList.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIMenuBar.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIMenuItem.h")
-	source_group ("RadJav\\V8\\GUI" FILES ${SOURCES_files_RadJav__v8__GUI__Headers})
+	if (USE_WXWIDGETS)
+		set (SOURCES_files_RadJav__v8__GUI__Headers 
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIGObject.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIWindow.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIWebView.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIButton.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUILabel.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIImage.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIContainer.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUICombobox.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUITextbox.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUITextarea.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUICheckbox.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIRadio.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIList.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIMenuBar.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIMenuItem.h")
+		# V8 GUI Canvas3D
+		if (USE_OGRE)
+			set (SOURCES_files_RadJav__v8__GUI__Headers
+				"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUICanvas3D.h"
+				${SOURCES_files_RadJav__v8__GUI__Headers})
+		endif ()
+		source_group ("RadJav\\V8\\GUI" FILES ${SOURCES_files_RadJav__v8__GUI__Headers})
+		
+		set (SOURCES ${SOURCES_files_RadJav__v8__GUI__Headers} ${SOURCES})
+	endif ()
 	
-	set (SOURCES ${SOURCES_files_RadJav__v8__GUI__Headers} ${SOURCES})
+	# V8 C3D
+	if (USE_OGRE)
+		set (SOURCES_files_RadJav__v8__C3D__Headers 
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8C3DTransform.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8C3DObject3D.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8C3DPlane.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8C3DCube.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8C3DSphere.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8C3DCamera.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8C3DLight.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8C3DModel.h")
+		source_group ("RadJav\\V8\\C3D" FILES ${SOURCES_files_RadJav__v8__C3D__Headers})
+		
+		set (SOURCES ${SOURCES_files_RadJav__v8__C3D__Headers} ${SOURCES})
+	endif ()
 	
 	# V8 Global
 	set (SOURCES_files_RadJav__v8__Global__Headers 
@@ -85,42 +109,50 @@ if (USE_V8)
 	set (SOURCES ${SOURCES_files_RadJav__v8__IO__Headers} ${SOURCES})
 	
 	# V8 Networking
-	set (SOURCES_files_RadJav__v8__Net__Headers 
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8Net.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8NetWebSocket.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8NetWebServer.h")
-	source_group ("RadJav\\V8\\Net" FILES ${SOURCES_files_RadJav__v8__Net__Headers})
-	
-	set (SOURCES ${SOURCES_files_RadJav__v8__Net__Headers} ${SOURCES})
+	if (libRadJav_ALLOW_NETWORKING)
+		set (SOURCES_files_RadJav__v8__Net__Headers 
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8Net.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8NetWebSocket.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8NetWebServer.h")
+		source_group ("RadJav\\V8\\Net" FILES ${SOURCES_files_RadJav__v8__Net__Headers})
+		
+		set (SOURCES ${SOURCES_files_RadJav__v8__Net__Headers} ${SOURCES})
+	endif ()
 	
 	# V8 Database
-	set (SOURCES_files_RadJav__v8__DB__Headers 
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8DBKeyValueStorage.h")
-	source_group ("RadJav\\V8\\Database" FILES ${SOURCES_files_RadJav__v8__DB__Headers})
-	
-	set (SOURCES ${SOURCES_files_RadJav__v8__DB__Headers} ${SOURCES})
+	if (INCLUDE_DATABASES)
+		set (SOURCES_files_RadJav__v8__DB__Headers 
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8DBKeyValueStorage.h")
+		source_group ("RadJav\\V8\\Database" FILES ${SOURCES_files_RadJav__v8__DB__Headers})
+		
+		set (SOURCES ${SOURCES_files_RadJav__v8__DB__Headers} ${SOURCES})
+	endif ()
 	
 	# V8 Crypto
-	set (SOURCES_files_RadJav__v8__Crypto__Headers 
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8CryptoCipher.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8CryptoDecipher.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8CryptoCipherMultipart.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8CryptoDecipherMultipart.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8CryptoKeyGenerator.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8CryptoPrivateKey.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8CryptoPublicKey.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8CryptoHash.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8CryptoHashMultipart.h")
-	source_group ("RadJav\\V8\\Crypto" FILES ${SOURCES_files_RadJav__v8__Crypto__Headers})
-	
-	set (SOURCES ${SOURCES_files_RadJav__v8__Crypto__Headers} ${SOURCES})
+	if (INCLUDE_CRYPTOGRAPHY)
+		set (SOURCES_files_RadJav__v8__Crypto__Headers 
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8CryptoCipher.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8CryptoDecipher.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8CryptoCipherMultipart.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8CryptoDecipherMultipart.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8CryptoKeyGenerator.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8CryptoPrivateKey.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8CryptoPublicKey.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8CryptoHash.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8CryptoHashMultipart.h")
+		source_group ("RadJav\\V8\\Crypto" FILES ${SOURCES_files_RadJav__v8__Crypto__Headers})
+		
+		set (SOURCES ${SOURCES_files_RadJav__v8__Crypto__Headers} ${SOURCES})
+	endif ()
 	
 	# V8 Blockchain
-	set (SOURCES_files_RadJav__v8__Blockchain__Headers 
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8BlockchainV1.h")
-	source_group ("RadJav\\V8\\Blockchain" FILES ${SOURCES_files_RadJav__v8__Blockchain__Headers})
-	
-	set (SOURCES ${SOURCES_files_RadJav__v8__Blockchain__Headers} ${SOURCES})
+	if (libRadJav_INCLUDE_BLOCKCHAIN_V1)
+		set (SOURCES_files_RadJav__v8__Blockchain__Headers 
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8BlockchainV1.h")
+		source_group ("RadJav\\V8\\Blockchain" FILES ${SOURCES_files_RadJav__v8__Blockchain__Headers})
+		
+		set (SOURCES ${SOURCES_files_RadJav__v8__Blockchain__Headers} ${SOURCES})
+	endif ()
 endif ()
 
 if (USE_JAVASCRIPTCORE)
@@ -132,27 +164,51 @@ if (USE_JAVASCRIPTCORE)
 
 	set (SOURCES ${SOURCES_files_RadJav__JSC__Headers} ${SOURCES})
 
-	# V8 GUI
-	set (SOURCES_files_RadJav__JSC__GUI__Headers 
-		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIGObject.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIWindow.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIWebView.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIButton.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUILabel.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIImage.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIContainer.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUICombobox.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUITextbox.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUITextarea.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUICheckbox.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIRadio.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIList.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIMenuBar.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIMenuItem.h")
-	source_group ("RadJav\\JavaScriptCore\\GUI" FILES ${SOURCES_files_RadJav__JSC__GUI__Headers})
-
-	set (SOURCES ${SOURCES_files_RadJav__JSC__GUI__Headers} ${SOURCES})
-
+	# JavaScriptCore GUI
+	if (USE_WXWIDGETS)
+		set (SOURCES_files_RadJav__JSC__GUI__Headers 
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIGObject.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIWindow.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIWebView.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIButton.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUILabel.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIImage.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIContainer.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUICombobox.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUITextbox.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUITextarea.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUICheckbox.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIRadio.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIList.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIMenuBar.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIMenuItem.h")
+		# JavaScriptCore GUI Canvas3D
+		if (USE_OGRE)
+			set (SOURCES_files_RadJav__JSC__GUI__Headers
+				"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUICanvas3D.h"
+				${SOURCES_files_RadJav__JSC__GUI__Headers})
+		endif ()
+		source_group ("RadJav\\JavaScriptCore\\GUI" FILES ${SOURCES_files_RadJav__JSC__GUI__Headers})
+	
+		set (SOURCES ${SOURCES_files_RadJav__JSC__GUI__Headers} ${SOURCES})
+	endif ()
+	
+	# JavaScriptCore C3D
+	if (USE_OGRE)
+		set (SOURCES_files_RadJav__JSC__C3D__Headers 
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCC3DTransform.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCC3DObject3D.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCC3DPlane.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCC3DCube.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCC3DSphere.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCC3DCamera.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCC3DLight.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCC3DModel.h")
+		source_group ("RadJav\\JavaScriptCore\\C3D" FILES ${SOURCES_files_RadJav__JSC__C3D__Headers})
+		
+		set (SOURCES ${SOURCES_files_RadJav__JSC__C3D__Headers} ${SOURCES})
+	endif ()
+		
 	# JavaScriptCore Global
 	set (SOURCES_files_RadJav__JSC__Global__Headers 
 		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGlobal.h"
@@ -183,35 +239,50 @@ if (USE_JAVASCRIPTCORE)
 	set (SOURCES ${SOURCES_files_RadJav__JSC__IO__Headers} ${SOURCES})
 
 	# JavaScriptCore Networking
-	set (SOURCES_files_RadJav__JSC__Net__Headers 
-		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCNet.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCNetWebSocket.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCNetWebServer.h")
-	source_group ("RadJav\\JavaScriptCore\\Net" FILES ${SOURCES_files_RadJav__JSC__Net__Headers})
-
-	set (SOURCES ${SOURCES_files_RadJav__JSC__Net__Headers} ${SOURCES})
+	if (libRadJav_ALLOW_NETWORKING)
+		set (SOURCES_files_RadJav__JSC__Net__Headers 
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCNet.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCNetWebSocket.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCNetWebServer.h")
+		source_group ("RadJav\\JavaScriptCore\\Net" FILES ${SOURCES_files_RadJav__JSC__Net__Headers})
+		
+		set (SOURCES ${SOURCES_files_RadJav__JSC__Net__Headers} ${SOURCES})
+	endif ()
 
 	# JavaScriptCore Database
-	set (SOURCES_files_RadJav__JSC__DB__Headers 
-		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCDBKeyValueStorage.h")
-	source_group ("RadJav\\JavaScriptCore\\Database" FILES ${SOURCES_files_RadJav__JSC__DB__Headers})
+	if (INCLUDE_DATABASES)
+		set (SOURCES_files_RadJav__JSC__DB__Headers 
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCDBKeyValueStorage.h")
+		source_group ("RadJav\\JavaScriptCore\\Database" FILES ${SOURCES_files_RadJav__JSC__DB__Headers})
 
-	set (SOURCES ${SOURCES_files_RadJav__JSC__DB__Headers} ${SOURCES})
+		set (SOURCES ${SOURCES_files_RadJav__JSC__DB__Headers} ${SOURCES})
+	endif ()
 
 	# JavaScriptCore Crypto
-	set (SOURCES_files_RadJav__JSC__Crypto__Headers 
-		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCCryptoCipher.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCCryptoDecipher.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCCryptoCipherMultipart.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCCryptoDecipherMultipart.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCCryptoKeyGenerator.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCCryptoPrivateKey.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCCryptoPublicKey.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCCryptoHash.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCCryptoHashMultipart.h")
-	source_group ("RadJav\\JavaScriptCore\\Crypto" FILES ${SOURCES_files_RadJav__JSC__Crypto__Headers})
-	
-	set (SOURCES ${SOURCES_files_RadJav__JSC__Crypto__Headers} ${SOURCES})
+	if (INCLUDE_CRYPTOGRAPHY)
+		set (SOURCES_files_RadJav__JSC__Crypto__Headers 
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCCryptoCipher.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCCryptoDecipher.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCCryptoCipherMultipart.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCCryptoDecipherMultipart.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCCryptoKeyGenerator.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCCryptoPrivateKey.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCCryptoPublicKey.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCCryptoHash.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCCryptoHashMultipart.h")
+		source_group ("RadJav\\JavaScriptCore\\Crypto" FILES ${SOURCES_files_RadJav__JSC__Crypto__Headers})
+		
+		set (SOURCES ${SOURCES_files_RadJav__JSC__Crypto__Headers} ${SOURCES})
+	endif ()
+
+	# JavaScriptCore Blockchain
+	if (libRadJav_INCLUDE_BLOCKCHAIN_V1)
+		set (SOURCES_files_RadJav__JSC__Blockchain__Headers 
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCBlockchainV1.h")
+		source_group ("RadJav\\JavaScriptCore\\Blockchain" FILES ${SOURCES_files_RadJav__JSC__Blockchain__Headers})
+		
+		set (SOURCES ${SOURCES_files_RadJav__JSC__Blockchain__Headers} ${SOURCES})
+	endif ()
 endif ()
 
 # V8
@@ -222,11 +293,13 @@ source_group ("RadJav\\Javascript" FILES ${SOURCES_files_Javascript__Main__Heade
 set (SOURCES ${SOURCES_files_Javascript__Main__Headers} ${SOURCES})
 
 # Networking
-set (SOURCES_files_Networking__Main__Headers 
-	"${libRadJav_SOURCE_DIR}/include/RadJav/RadJavNetworking.h")
-source_group ("RadJav\\Networking" FILES ${SOURCES_files_Networking__Main__Headers})
-
-set (SOURCES ${SOURCES_files_Networking__Main__Headers} ${SOURCES})
+if (libRadJav_ALLOW_NETWORKING)
+	set (SOURCES_files_Networking__Main__Headers 
+		"${libRadJav_SOURCE_DIR}/include/RadJav/RadJavNetworking.h")
+	source_group ("RadJav\\Networking" FILES ${SOURCES_files_Networking__Main__Headers})
+	
+	set (SOURCES ${SOURCES_files_Networking__Main__Headers} ${SOURCES})
+endif ()
 
 # C++ Global
 set (SOURCES_files_RadJav__cpp__Global__Headers 
@@ -259,15 +332,17 @@ set (SOURCES ${SOURCES_files_RadJav__cpp__OS__Headers} ${SOURCES})
 
 if (USE_V8)
 	# C++ Networking
-	set (SOURCES_files_RadJav__cpp__Net__Headers 
-		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNet.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebSocketServer.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebSocketClient.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebServer.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebServerUpgradable.h")
-	source_group ("RadJav\\CPP\\Net" FILES ${SOURCES_files_RadJav__cpp__Net__Headers})
-	
-	set (SOURCES ${SOURCES_files_RadJav__cpp__Net__Headers} ${SOURCES})
+	if (libRadJav_ALLOW_NETWORKING)
+		set (SOURCES_files_RadJav__cpp__Net__Headers 
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNet.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebSocketServer.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebSocketClient.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebServer.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebServerUpgradable.h")
+		source_group ("RadJav\\CPP\\Net" FILES ${SOURCES_files_RadJav__cpp__Net__Headers})
+		
+		set (SOURCES ${SOURCES_files_RadJav__cpp__Net__Headers} ${SOURCES})
+	endif ()
 	
 	if (libRadJav_DEBUG_INSPECTOR)
 	# C++ Inspector Agent
@@ -275,103 +350,73 @@ if (USE_V8)
 			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPAgent.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPAgentIO.h")
 		source_group ("RadJav\\CPP\\Agent" FILES ${SOURCES_files_RadJav__cpp__Agent__Headers})
-	
+		
 		set (SOURCES ${SOURCES_files_RadJav__cpp__Agent__Headers} ${SOURCES})
 	endif()
 endif ()
 
 # C++ Database
-set (SOURCES_files_RadJav__cpp__Database__Headers 
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPDBKeyValueStorage.h"
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPDBNuDB.h")
-source_group ("RadJav\\CPP\\Database" FILES ${SOURCES_files_RadJav__cpp__Database__Headers})
-
-set (SOURCES ${SOURCES_files_RadJav__cpp__Database__Headers} ${SOURCES})
+if (INCLUDE_DATABASES)
+	set (SOURCES_files_RadJav__cpp__Database__Headers 
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPDBKeyValueStorage.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPDBNuDB.h")
+	source_group ("RadJav\\CPP\\Database" FILES ${SOURCES_files_RadJav__cpp__Database__Headers})
+	
+	set (SOURCES ${SOURCES_files_RadJav__cpp__Database__Headers} ${SOURCES})
+endif ()
 
 # C++ Crypto
-set (SOURCES_files_RadJav__cpp__Crypto__Headers 
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPCryptoBase.h"
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPCryptoCipher.h"
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPCryptoDecipher.h"
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPCryptoCipherMultipart.h"
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPCryptoDecipherMultipart.h"
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPCryptoKeyGenerator.h"
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPCryptoPrivateKey.h"
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPCryptoPublicKey.h"
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPCryptoHash.h"
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPCryptoHashMultipart.h")
-source_group ("RadJav\\CPP\\Crypto" FILES ${SOURCES_files_RadJav__cpp__Crypto__Headers})
-
-set (SOURCES ${SOURCES_files_RadJav__cpp__Crypto__Headers} ${SOURCES})
+if (INCLUDE_CRYPTOGRAPHY)
+	set (SOURCES_files_RadJav__cpp__Crypto__Headers 
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPCryptoBase.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPCryptoCipher.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPCryptoDecipher.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPCryptoCipherMultipart.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPCryptoDecipherMultipart.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPCryptoKeyGenerator.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPCryptoPrivateKey.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPCryptoPublicKey.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPCryptoHash.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPCryptoHashMultipart.h")
+	source_group ("RadJav\\CPP\\Crypto" FILES ${SOURCES_files_RadJav__cpp__Crypto__Headers})
+	
+	set (SOURCES ${SOURCES_files_RadJav__cpp__Crypto__Headers} ${SOURCES})
+endif ()
 
 # C++ GUI
-set (SOURCES_files_RadJav__cpp__GUI__Headers 
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIGObject.h"
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIWindow.h"
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIWebView.h"
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIButton.h"
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUILabel.h"
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIImage.h"
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIContainer.h"
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUICombobox.h"
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUITextbox.h"
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUITextarea.h"
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUICheckbox.h"
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIRadio.h"
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIList.h"
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIMenuBar.h"
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIMenuItem.h"
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIEvent.h")
-source_group ("RadJav\\CPP\\GUI" FILES ${SOURCES_files_RadJav__cpp__GUI__Headers})
-
-set (SOURCES ${SOURCES_files_RadJav__cpp__GUI__Headers} ${SOURCES})
-
-if (USE_OGRE)
-	if (USE_V8)
-		# V8 C3D
-		set (SOURCES_files_RadJav__v8__C3D__Headers 
-			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8C3DTransform.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8C3DObject3D.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8C3DPlane.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8C3DCube.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8C3DSphere.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8C3DCamera.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8C3DLight.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8C3DModel.h")
-		source_group ("RadJav\\V8\\C3D" FILES ${SOURCES_files_RadJav__v8__C3D__Headers})
-		
-		set (SOURCES ${SOURCES_files_RadJav__v8__C3D__Headers} ${SOURCES})
-		
-		# V8 GUI Canvas3D
-		set (SOURCES_files_RadJav__v8__GUI__Headers 
-			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUICanvas3D.h")
-		source_group ("RadJav\\V8\\GUI" FILES ${SOURCES_files_RadJav__v8__GUI__Headers})
-		
-		set (SOURCES ${SOURCES_files_RadJav__v8__GUI__Headers} ${SOURCES})
-	elseif (USE_JAVASCRIPTCORE)
-		# JavaScriptCore C3D
-		set (SOURCES_files_RadJav__JSC__C3D__Headers 
-			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCC3DTransform.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCC3DObject3D.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCC3DPlane.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCC3DCube.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCC3DSphere.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCC3DCamera.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCC3DLight.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCC3DModel.h")
-		source_group ("RadJav\\JavaScriptCore\\C3D" FILES ${SOURCES_files_RadJav__JSC__C3D__Headers})
-		
-		set (SOURCES ${SOURCES_files_RadJav__JSC__C3D__Headers} ${SOURCES})
-		
-		# JavaScriptCore GUI Canvas3D
-		set (SOURCES_files_RadJav__JSC__GUI__Headers 
-			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUICanvas3D.h")
-		source_group ("RadJav\\JavaScriptCore\\GUI" FILES ${SOURCES_files_RadJav__JSC__GUI__Headers})
-		
-		set (SOURCES ${SOURCES_files_RadJav__JSC__GUI__Headers} ${SOURCES})
+if (USE_WXWIDGETS)
+	set (SOURCES_files_RadJav__cpp__GUI__Headers 
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIGObject.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIWindow.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIWebView.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIButton.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUILabel.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIImage.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIContainer.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUICombobox.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUITextbox.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUITextarea.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUICheckbox.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIRadio.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIList.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIMenuBar.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIMenuItem.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIEvent.h")
+	# C++ GUI Canvas3D
+	if (USE_OGRE)
+		set (SOURCES_files_RadJav__cpp__GUI__Headers
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUICanvas3D.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIRenderWindow.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/wxOgreRenderWindow.h"
+			${SOURCES_files_RadJav__cpp__GUI__Headers})
 	endif ()
+	source_group ("RadJav\\CPP\\GUI" FILES ${SOURCES_files_RadJav__cpp__GUI__Headers})
+	
+	set (SOURCES ${SOURCES_files_RadJav__cpp__GUI__Headers} ${SOURCES})
+endif ()
 
-	# C++ C3D
+# C++ C3D
+if (USE_OGRE)
 	set (SOURCES_files_RadJav__cpp__C3D__Headers 
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPC3DTransform.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPC3DCamera.h"
@@ -385,15 +430,6 @@ if (USE_OGRE)
 	source_group ("RadJav\\CPP\\C3D" FILES ${SOURCES_files_RadJav__cpp__C3D__Headers})
 	
 	set (SOURCES ${SOURCES_files_RadJav__cpp__C3D__Headers} ${SOURCES})
-
-	# C++ GUI Canvas3D
-	set (SOURCES_files_RadJav__cpp__GUI__Headers 
-		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUICanvas3D.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIRenderWindow.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/wxOgreRenderWindow.h")
-	source_group ("RadJav\\CPP\\GUI" FILES ${SOURCES_files_RadJav__cpp__GUI__Headers})
-
-	set (SOURCES ${SOURCES_files_RadJav__cpp__GUI__Headers} ${SOURCES})
 endif ()
 
 if (libRadJav_INCLUDE_BLOCKCHAIN_V1)

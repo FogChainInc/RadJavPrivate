@@ -21,11 +21,8 @@
 
 #include "RadJav.h"
 
-#ifdef USE_JAVASCRIPTCORE
 #include "jscore/RadJavJSCJavascriptEngine.h"
 #include "cpp/RadJavCPPC3DTransform.h"
-
-#define C3DTYPE CPP::C3D::Transform
 
 namespace RadJAV
 {
@@ -33,7 +30,8 @@ namespace RadJAV
 	{
 		namespace C3D
 		{
-#ifdef C3D_USE_OGRE
+			using CppC3dObject = CPP::C3D::Transform;
+			
 			void Transform::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 			{
 				JSC_CALLBACK(object, "_init", Transform::init);
@@ -63,7 +61,7 @@ namespace RadJAV
 				}
 
 				//Check if we were already constructed
-				std::shared_ptr<C3DTYPE> object = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> object = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				if(object)
 					return undefined;
 				
@@ -75,7 +73,7 @@ namespace RadJAV
 					return undefined;
 				
 				String name = JSC_JAVASCRIPT_ENGINE->jscGetString(thisObject, "name");
-				object.reset(RJNEW C3DTYPE(*canvas, name), [](C3DTYPE* p){DELETEOBJ(p)});
+				object.reset(RJNEW CppC3dObject(*canvas, name), [](CppC3dObject* p){DELETEOBJ(p)});
 				JSC_JAVASCRIPT_ENGINE->jscSetExternal(ctx, thisObject, "_c3dObj", object);
 				
 				return undefined;
@@ -103,7 +101,7 @@ namespace RadJAV
 					z = JSC_JAVASCRIPT_ENGINE->jscGetDecimal(obj, "z");
 				}
 				
-				std::shared_ptr<C3DTYPE> c3dObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> c3dObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				if (c3dObject)
 					c3dObject->setPosition(Ogre::Vector3(x, y, z));
 				
@@ -117,7 +115,7 @@ namespace RadJAV
 				RDECIMAL z = 0;
 				
 				Ogre::Vector3 pos;
-				std::shared_ptr<C3DTYPE> c3dObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> c3dObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				
 				if (c3dObject)
 					pos = c3dObject->getPosition();
@@ -145,7 +143,7 @@ namespace RadJAV
 				
 				RDECIMAL value = JSC_JAVASCRIPT_ENGINE->jscParseDecimal(ctx, arguments[0]);
 				
-				std::shared_ptr<C3DTYPE> c3dObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> c3dObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				
 				if (c3dObject)
 					c3dObject->pitch(Ogre::Degree(value));
@@ -162,7 +160,7 @@ namespace RadJAV
 
 				RDECIMAL value = JSC_JAVASCRIPT_ENGINE->jscParseDecimal(ctx, arguments[0]);
 				
-				std::shared_ptr<C3DTYPE> c3dObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> c3dObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				
 				if (c3dObject)
 					c3dObject->roll(Ogre::Degree(value));
@@ -179,7 +177,7 @@ namespace RadJAV
 
 				RDECIMAL value = JSC_JAVASCRIPT_ENGINE->jscParseDecimal(ctx, arguments[0]);
 				
-				std::shared_ptr<C3DTYPE> c3dObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> c3dObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				
 				if (c3dObject)
 					c3dObject->yaw(Ogre::Degree(value));
@@ -189,7 +187,7 @@ namespace RadJAV
 			
 			JSValueRef Transform::getX(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
 			{
-				std::shared_ptr<C3DTYPE> c3dObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> c3dObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				
 				Ogre::Vector3 pos;
 				
@@ -201,7 +199,7 @@ namespace RadJAV
 			
 			JSValueRef Transform::getY(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
 			{
-				std::shared_ptr<C3DTYPE> c3dObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> c3dObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				
 				Ogre::Vector3 pos;
 				
@@ -213,7 +211,7 @@ namespace RadJAV
 			
 			JSValueRef Transform::getZ(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
 			{
-				std::shared_ptr<C3DTYPE> c3dObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> c3dObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				Ogre::Vector3 pos;
 				
 				if (c3dObject)
@@ -246,7 +244,7 @@ namespace RadJAV
 					scale.z = JSC_JAVASCRIPT_ENGINE->jscParseDecimal(ctx, arguments[2]);
 				}
 				
-				std::shared_ptr<C3DTYPE> c3dObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> c3dObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				
 				if (c3dObject)
 					c3dObject->setScale(scale);
@@ -256,7 +254,7 @@ namespace RadJAV
 			
 			JSValueRef Transform::getScale(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
 			{
-				std::shared_ptr<C3DTYPE> c3dObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> c3dObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				
 				Ogre::Vector3 scale;
 				
@@ -280,9 +278,9 @@ namespace RadJAV
 					return undefined;
 				
 				JSObjectRef childObject = JSC_JAVASCRIPT_ENGINE->jscCastValueToObject(ctx, arguments[0]);
-				std::shared_ptr<C3DTYPE> c3dChildObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, childObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> c3dChildObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, childObject, "_c3dObj");
 				
-				std::shared_ptr<C3DTYPE> c3dObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> c3dObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				
 				if (c3dObject)
 					c3dObject->addChild(c3dChildObject.get());
@@ -298,9 +296,9 @@ namespace RadJAV
 					return undefined;
 				
 				JSObjectRef childObject = JSC_JAVASCRIPT_ENGINE->jscCastValueToObject(ctx, arguments[0]);
-				std::shared_ptr<C3DTYPE> c3dChildObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, childObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> c3dChildObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, childObject, "_c3dObj");
 				
-				std::shared_ptr<C3DTYPE> c3dObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> c3dObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				
 				if (c3dObject)
 					c3dObject->removeChild(c3dChildObject.get());
@@ -328,7 +326,7 @@ namespace RadJAV
 					z = JSC_JAVASCRIPT_ENGINE->jscGetDecimal(obj, "z");
 				}
 				
-				std::shared_ptr<C3DTYPE> c3dObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> c3dObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				if (c3dObject)
 					c3dObject->lookAt(x, y, z);
 				
@@ -355,15 +353,12 @@ namespace RadJAV
 					z = JSC_JAVASCRIPT_ENGINE->jscGetDecimal(obj, "z");
 				}
 				
-				std::shared_ptr<C3DTYPE> c3dObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> c3dObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				if (c3dObject)
 					c3dObject->setDirection(x, y, z);
 				
 				return JSValueMakeUndefined(ctx);
 			}
-#endif
 		}
 	}
 }
-#endif
-

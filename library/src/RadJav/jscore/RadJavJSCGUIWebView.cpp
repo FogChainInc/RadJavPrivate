@@ -21,7 +21,6 @@
 
 #include "RadJav.h"
 
-#ifdef USE_JAVASCRIPTCORE
 #include "jscore/RadJavJSCJavascriptEngine.h"
 
 #include "cpp/RadJavCPPGUIWebView.h"
@@ -34,7 +33,6 @@ namespace RadJAV
 		{
 			using CppGuiObject = CPP::GUI::WebView;
 			
-			#ifdef WXWIDGETS_HAS_WEBVIEW
 			void WebView::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 			{
 				JSC_CALLBACK(object, "create", WebView::create);
@@ -51,9 +49,7 @@ namespace RadJAV
 
 				return promise;
 			}
-			#endif
 		}
 	}
 }
-#endif
 

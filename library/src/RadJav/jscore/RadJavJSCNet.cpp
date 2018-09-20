@@ -29,10 +29,9 @@
 #include "cpp/RadJavCPPNet.h"
 #endif
 
-#ifdef USE_JAVASCRIPTCORE
-	#include "jscore/RadJavJSCJavascriptEngine.h"
+#include "jscore/RadJavJSCJavascriptEngine.h"
 
-	#include "cpp/RadJavCPPNetWebServer.h"
+#include "cpp/RadJavCPPNetWebServer.h"
 
 namespace RadJAV
 {
@@ -223,5 +222,3 @@ namespace RadJAV
 		}
 	}
 }
-#endif
-

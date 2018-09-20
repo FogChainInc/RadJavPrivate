@@ -21,13 +21,10 @@
 
 #include "RadJav.h"
 
-#ifdef USE_JAVASCRIPTCORE
 #include "jscore/RadJavJSCJavascriptEngine.h"
 
 #include "cpp/RadJavCPPC3DLight.h"
 #include "cpp/RadJavCPPColor.h"
-
-#define C3DTYPE CPP::C3D::Light
 
 namespace RadJAV
 {
@@ -35,7 +32,7 @@ namespace RadJAV
 	{
 		namespace C3D
 		{
-#ifdef C3D_USE_OGRE
+			using CppC3dObject = CPP::C3D::Light;
 			
 			Ogre::Light::LightTypes jsLightTypeToNative(RJINT lightType)
 			{
@@ -100,7 +97,7 @@ namespace RadJAV
 				}
 
 				//Check if we were already contructed
-				std::shared_ptr<C3DTYPE> object = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> object = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				if(object)
 					return undefined;
 				
@@ -112,7 +109,7 @@ namespace RadJAV
 					return undefined;
 				
 				String name = JSC_JAVASCRIPT_ENGINE->jscGetString(thisObject, "name");
-				object.reset(RJNEW C3DTYPE(*canvas, Ogre::Light::LT_DIRECTIONAL, name), [](C3DTYPE* p){DELETEOBJ(p)});
+				object.reset(RJNEW CppC3dObject(*canvas, Ogre::Light::LT_DIRECTIONAL, name), [](CppC3dObject* p){DELETEOBJ(p)});
 				JSC_JAVASCRIPT_ENGINE->jscSetExternal(ctx, thisObject, "_c3dObj", object);
 				
 				return undefined;
@@ -125,7 +122,7 @@ namespace RadJAV
 				if (argumentCount > 0)
 					type = JSC_JAVASCRIPT_ENGINE->jscValueToInt(ctx, arguments[0]);
 				
-				std::shared_ptr<C3DTYPE> light = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> light = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				
 				if (light)
 					light->setType( jsLightTypeToNative(type));
@@ -135,7 +132,7 @@ namespace RadJAV
 			
 			JSValueRef Light::getType(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
 			{
-				std::shared_ptr<C3DTYPE> light = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> light = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				RJINT type = 1;
 				
 				if (light)
@@ -158,7 +155,7 @@ namespace RadJAV
 					nativeColor.a = JSC_JAVASCRIPT_ENGINE->jscGetDecimal(color, "a");
 				}
 				
-				std::shared_ptr<C3DTYPE> light = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> light = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				
 				if (light)
 					light->setDiffuseColor(nativeColor);
@@ -170,7 +167,7 @@ namespace RadJAV
 			{
 				Ogre::ColourValue nativeColor;
 				
-				std::shared_ptr<C3DTYPE> light = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> light = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				
 				if (light)
 					nativeColor = light->getDiffuseColor();
@@ -185,8 +182,6 @@ namespace RadJAV
 				
 				return colorObject;
 			}
-#endif
 		}
 	}
 }
-#endif

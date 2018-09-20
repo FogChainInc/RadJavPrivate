@@ -22,8 +22,6 @@
 #include "RadJav.h"
 #include "jscore/RadJavJSCJavascriptEngine.h"
 
-#ifdef USE_JAVASCRIPTCORE
-
 namespace RadJAV
 {
 	FieldWrapper::FieldWrapper(uint32_t objectId,
@@ -246,6 +244,3 @@ namespace RadJAV
 		return ++objectId;
 	}
 }
-
-#endif
-

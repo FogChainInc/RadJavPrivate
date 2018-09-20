@@ -21,7 +21,6 @@
 
 #include "RadJav.h"
 
-#ifdef USE_JAVASCRIPTCORE
 #include "jscore/RadJavJSCJavascriptEngine.h"
 
 #include "cpp/RadJavCPPGUIGObject.h"
@@ -102,10 +101,8 @@ namespace RadJAV
 				JSObjectRef font = JSC_JAVASCRIPT_ENGINE->jscGetObject(thisObject, "_font");
 				CppGuiObject *appObject = (CppGuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
 				
-				#ifdef GUI_USE_WXWIDGETS
-					if (appObject != NULL)
-						font = CPP::Font::toJSCObject(JSC_JAVASCRIPT_ENGINE, appObject->getFont());
-				#endif
+				if (appObject != NULL)
+					font = CPP::Font::toJSCObject(JSC_JAVASCRIPT_ENGINE, appObject->getFont());
 				
 				return font;
 			}
@@ -365,4 +362,3 @@ namespace RadJAV
 		}
 	}
 }
-#endif

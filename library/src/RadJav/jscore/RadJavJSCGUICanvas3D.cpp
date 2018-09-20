@@ -21,15 +21,12 @@
 
 #include "RadJav.h"
 
-#ifdef USE_JAVASCRIPTCORE
 #include "jscore/RadJavJSCJavascriptEngine.h"
 
-#ifdef C3D_USE_OGRE
-	#include <OgreResourceManager.h>
-	#include <OgreMaterialManager.h>
-	#include <OgreMovableObject.h>
-	#include <OgreSceneQuery.h>
-#endif
+#include <OgreResourceManager.h>
+#include <OgreMaterialManager.h>
+#include <OgreMovableObject.h>
+#include <OgreSceneQuery.h>
 
 #include "cpp/RadJavCPPGUICanvas3D.h"
 #include "cpp/RadJavCPPC3DObject3D.h"
@@ -40,7 +37,6 @@ namespace RadJAV
 	{
 		namespace GUI
 		{
-#ifdef C3D_USE_OGRE
 			using CppGuiObject = CPP::GUI::Canvas3D;
 			
 			void Canvas3D::createJSCCallbacks(JSContextRef context, JSObjectRef object)
@@ -305,9 +301,6 @@ namespace RadJAV
 				JSC_JAVASCRIPT_ENGINE->throwException("No path specified");
 				return JSValueMakeUndefined(ctx);
 			}
-#endif
 		}
 	}
 }
-#endif
-

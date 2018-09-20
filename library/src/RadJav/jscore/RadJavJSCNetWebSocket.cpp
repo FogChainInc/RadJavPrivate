@@ -21,7 +21,6 @@
 
 #include "RadJav.h"
 
-#ifdef USE_JAVASCRIPTCORE
 #include "jscore/RadJavJSCJavascriptEngine.h"
 #include "cpp/RadJavCPPNetWebSocketServer.h"
 #include "cpp/RadJavCPPNetWebSocketClient.h"
@@ -330,5 +329,3 @@ namespace RadJAV
 		}
 	}
 }
-#endif
-

@@ -21,14 +21,11 @@
 
 #include "RadJav.h"
 
-#ifdef USE_JAVASCRIPTCORE
 #include "jscore/RadJavJSCJavascriptEngine.h"
 
 #include "cpp/RadJavCPPC3DCamera.h"
 #include "cpp/RadJavCPPColor.h"
 #include "cpp/RadJavCPPGUICanvas3D.h"
-
-#define C3DTYPE CPP::C3D::Camera
 
 namespace RadJAV
 {
@@ -36,7 +33,8 @@ namespace RadJAV
 	{
 		namespace C3D
 		{
-			#ifdef C3D_USE_OGRE
+			using CppC3dObject = CPP::C3D::Camera;
+			
 			void Camera::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 			{
 				JSC_CALLBACK(object, "_init", Camera::init);
@@ -68,7 +66,7 @@ namespace RadJAV
 				}
 
 				//Check if we were already contructed
-				std::shared_ptr<C3DTYPE> object = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> object = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				if(object)
 					return undefined;
 				
@@ -80,7 +78,7 @@ namespace RadJAV
 					return undefined;
 
 				String name = JSC_JAVASCRIPT_ENGINE->jscGetString(thisObject, "name");
-				object.reset(RJNEW C3DTYPE(*canvas, name), [](C3DTYPE* p){DELETEOBJ(p)});
+				object.reset(RJNEW CppC3dObject(*canvas, name), [](CppC3dObject* p){DELETEOBJ(p)});
 				JSC_JAVASCRIPT_ENGINE->jscSetExternal(ctx, thisObject, "_c3dObj", object);
 				
 				return undefined;
@@ -93,7 +91,7 @@ namespace RadJAV
 				if (argumentCount > 0)
 					perspective = JSC_JAVASCRIPT_ENGINE->jscValueToBoolean(arguments[0]);
 
-				std::shared_ptr<C3DTYPE> camera = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> camera = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				
 				if (camera)
 					camera->setPerspective(perspective);
@@ -103,7 +101,7 @@ namespace RadJAV
 			
 			JSValueRef Camera::isPerspective(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
 			{
-				std::shared_ptr<C3DTYPE> camera = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> camera = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				
 				return JSValueMakeBoolean(ctx, camera? camera->isPerspective() : true);
 			}
@@ -115,7 +113,7 @@ namespace RadJAV
 				if (argumentCount > 0)
 					aspectRatio = JSC_JAVASCRIPT_ENGINE->jscParseDecimal(ctx, arguments[0]);
 				
-				std::shared_ptr<C3DTYPE> camera = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> camera = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				
 				if (camera)
 					camera->setAspectRatio(aspectRatio);
@@ -125,7 +123,7 @@ namespace RadJAV
 			
 			JSValueRef Camera::getAspectRatio(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
 			{
-				std::shared_ptr<C3DTYPE> camera = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> camera = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				
 				return JSValueMakeNumber(ctx, camera? camera->getAspectRatio(): 1.0);
 			}
@@ -137,7 +135,7 @@ namespace RadJAV
 				if (argumentCount > 0)
 					autoAspectRatio = JSC_JAVASCRIPT_ENGINE->jscValueToBoolean(ctx, arguments[0]);
 				
-				std::shared_ptr<C3DTYPE> camera = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> camera = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				
 				if (camera)
 					camera->setAutoAspectRatio(autoAspectRatio);
@@ -147,7 +145,7 @@ namespace RadJAV
 			
 			JSValueRef Camera::getAutoAspectRatio(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
 			{
-				std::shared_ptr<C3DTYPE> camera = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> camera = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				
 				return JSValueMakeBoolean(ctx, camera? camera->getAutoAspectRatio() : false);
 			}
@@ -159,7 +157,7 @@ namespace RadJAV
 				if (argumentCount > 0)
 					degree = JSC_JAVASCRIPT_ENGINE->jscParseDecimal(ctx, arguments[0]);
 				
-				std::shared_ptr<C3DTYPE> camera = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> camera = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				
 				if (camera)
 					camera->setFOV( Ogre::Degree(degree));
@@ -169,7 +167,7 @@ namespace RadJAV
 
 			JSValueRef Camera::getFOV(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
 			{
-				std::shared_ptr<C3DTYPE> camera = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> camera = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				
 				return JSValueMakeNumber(ctx, camera? camera->getFOV().valueDegrees() : 60.0);
 			}
@@ -181,7 +179,7 @@ namespace RadJAV
 				if (argumentCount > 0)
 					distance = JSC_JAVASCRIPT_ENGINE->jscParseDecimal(ctx, arguments[0]);
 				
-				std::shared_ptr<C3DTYPE> camera = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> camera = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				
 				if (camera)
 					camera->setNearClipPlane(distance);
@@ -191,7 +189,7 @@ namespace RadJAV
 			
 			JSValueRef Camera::getNearClipPlane(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
 			{
-				std::shared_ptr<C3DTYPE> camera = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> camera = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				
 				return JSValueMakeNumber(ctx, camera? camera->getNearClipPlane() : 1.0);
 			}
@@ -203,7 +201,7 @@ namespace RadJAV
 				if (argumentCount > 0)
 					distance = JSC_JAVASCRIPT_ENGINE->jscParseDecimal(ctx, arguments[0]);
 				
-				std::shared_ptr<C3DTYPE> camera = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> camera = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				
 				if (camera)
 					camera->setFarClipPlane(distance);
@@ -213,7 +211,7 @@ namespace RadJAV
 			
 			JSValueRef Camera::getFarClipPlane(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
 			{
-				std::shared_ptr<C3DTYPE> camera = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> camera = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				
 				return JSValueMakeNumber(ctx, camera? camera->getFarClipPlane() : 100.0);
 			}
@@ -232,7 +230,7 @@ namespace RadJAV
 					nativeColor.a = JSC_JAVASCRIPT_ENGINE->jscGetDecimal(color, "a");
 				}
 
-				std::shared_ptr<C3DTYPE> camera = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> camera = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				
 				if (camera)
 					camera->setBackgroundColor(nativeColor);
@@ -244,7 +242,7 @@ namespace RadJAV
 			{
 				Ogre::ColourValue nativeColor;
 				
-				std::shared_ptr<C3DTYPE> camera = JSC_JAVASCRIPT_ENGINE->jscGetExternal<C3DTYPE>(ctx, thisObject, "_c3dObj");
+				std::shared_ptr<CppC3dObject> camera = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppC3dObject>(ctx, thisObject, "_c3dObj");
 				
 				if (camera)
 					nativeColor = camera->getBackgroundColor();
@@ -259,9 +257,6 @@ namespace RadJAV
 				
 				return colorObject;
 			}
-			#endif
 		}
 	}
 }
-#endif
-

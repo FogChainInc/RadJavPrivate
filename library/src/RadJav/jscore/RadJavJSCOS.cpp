@@ -22,11 +22,10 @@
 #include "RadJav.h"
 #include "RadJavString.h"
 
-#ifdef USE_JAVASCRIPTCORE
-	#include "jscore/RadJavJSCJavascriptEngine.h"
+#include "jscore/RadJavJSCJavascriptEngine.h"
 
-	#include "cpp/RadJavCPPIO.h"
-    #include "cpp/RadJavCPPOS.h"
+#include "cpp/RadJavCPPIO.h"
+#include "cpp/RadJavCPPOS.h"
 
 namespace RadJAV
 {
@@ -180,5 +179,3 @@ namespace RadJAV
         }
 	}
 }
-#endif
-
