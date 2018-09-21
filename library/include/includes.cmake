@@ -39,7 +39,6 @@ if (USE_V8)
 		set (SOURCES_files_RadJav__v8__GUI__Headers 
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIGObject.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIWindow.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIWebView.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIButton.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUILabel.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIImage.h"
@@ -52,12 +51,18 @@ if (USE_V8)
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIList.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIMenuBar.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIMenuItem.h")
+		# V8 GUI WebView
+		if (USE_WXWIDGETS_WEBVIEW)
+			set (SOURCES_files_RadJav__v8__GUI__Headers
+				"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIWebView.h"
+				${SOURCES_files_RadJav__v8__GUI__Headers})
+		endif ()
 		# V8 GUI Canvas3D
 		if (USE_OGRE)
 			set (SOURCES_files_RadJav__v8__GUI__Headers
 				"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUICanvas3D.h"
 				${SOURCES_files_RadJav__v8__GUI__Headers})
-		endif ()
+		endif () 
 		source_group ("RadJav\\V8\\GUI" FILES ${SOURCES_files_RadJav__v8__GUI__Headers})
 		
 		set (SOURCES ${SOURCES_files_RadJav__v8__GUI__Headers} ${SOURCES})
@@ -169,7 +174,6 @@ if (USE_JAVASCRIPTCORE)
 		set (SOURCES_files_RadJav__JSC__GUI__Headers 
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIGObject.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIWindow.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIWebView.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIButton.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUILabel.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIImage.h"
@@ -182,6 +186,12 @@ if (USE_JAVASCRIPTCORE)
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIList.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIMenuBar.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIMenuItem.h")
+		# JavaScriptCore GUI WebView
+		if (USE_WXWIDGETS_WEBVIEW)
+			set (SOURCES_files_RadJav__JSC__GUI__Headers
+				"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIWebView.h"
+				${SOURCES_files_RadJav__JSC__GUI__Headers})
+		endif ()
 		# JavaScriptCore GUI Canvas3D
 		if (USE_OGRE)
 			set (SOURCES_files_RadJav__JSC__GUI__Headers
@@ -388,7 +398,6 @@ if (USE_WXWIDGETS)
 	set (SOURCES_files_RadJav__cpp__GUI__Headers 
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIGObject.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIWindow.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIWebView.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIButton.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUILabel.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIImage.h"
@@ -402,6 +411,12 @@ if (USE_WXWIDGETS)
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIMenuBar.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIMenuItem.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIEvent.h")
+	# C++ GUI WebView
+	if (USE_WXWIDGETS_WEBVIEW)
+		set (SOURCES_files_RadJav__cpp__GUI__Headers
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIWebView.h"
+			${SOURCES_files_RadJav__cpp__GUI__Headers})
+	endif ()
 	# C++ GUI Canvas3D
 	if (USE_OGRE)
 		set (SOURCES_files_RadJav__cpp__GUI__Headers

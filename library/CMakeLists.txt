@@ -126,9 +126,6 @@ set (libRadJav_CPP_DEFS "LANG_${libRadJav_LANGUAGE_UPPER}" ${libRadJav_CPP_DEFS}
 set (libRadJav_CPP_DEFS_DEBUG RADJAV_DEBUG ${libRadJav_CPP_DEFS_DEBUG})
 set (libRadJav_CXX_FLAGS "")
 
-include (includes)
-include (sources)
-
 include (FindModuleCurl)
 
 if (USE_OGRE)
@@ -448,6 +445,7 @@ if (wxWidgets_FOUND)
 	endif ()
 
 	if (WEBVIEW_TYPE STREQUAL "wxWidgetsDefault")
+		set (USE_WXWIDGETS_WEBVIEW true)
 		set (libRadJav_CPP_DEFS_DEBUG WXWIDGETS_HAS_WEBVIEW ${libRadJav_CPP_DEFS_DEBUG})
 		set (libRadJav_CPP_DEFS WXWIDGETS_HAS_WEBVIEW ${libRadJav_CPP_DEFS})
 	endif ()
@@ -493,6 +491,11 @@ if (UNIX)
 	add_compile_options (-fpermissive)
 endif ()
 
+# Main sources
+include (includes)
+include (sources)
+
+# Header file RadJavJavascriptCode.h will be generated using CMake, see below
 set (SOURCES ${libRadJav_SOURCE_DIR}/include/RadJav/RadJavJavascriptCode.h ${SOURCES})
 
 # Create static/shared library for RadJav
@@ -570,13 +573,18 @@ if (libRadJav_EMBEDFILE)
 			RadJav.GUI.Radio.js
 			RadJav.GUI.Textarea.js
 			RadJav.GUI.Textbox.js
-			RadJav.GUI.WebView.js
 			RadJav.GUI.Window.js
 			RadJav.GUI.MenuBar.js
 			RadJav.GUI.MenuItem.js
 			RadJav.GUI.KeyEvent.js
 			RadJav.GUI.MouseEvent.js
 		)
+		
+		if (USE_WXWIDGETS_WEBVIEW)
+			set (jsFiles ${jsFiles}
+				RadJav.GUI.WebView.js
+			)
+		endif ()
 	endif ()
 
 	if (libRadJav_ALLOW_NETWORKING)

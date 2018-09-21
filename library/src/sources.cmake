@@ -35,7 +35,6 @@ if (USE_V8)
 		set (SOURCES_files_RadJav__v8__GUI__Sources 
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIGObject.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIWindow.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIWebView.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIButton.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUILabel.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIImage.cpp"
@@ -48,6 +47,12 @@ if (USE_V8)
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIList.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIMenuBar.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIMenuItem.cpp")
+		# V8 GUI WebView
+		if (USE_WXWIDGETS_WEBVIEW)
+			set (SOURCES_files_RadJav__v8__GUI__Sources
+				"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIWebView.cpp"
+				${SOURCES_files_RadJav__v8__GUI__Sources})
+		endif ()
 		# V8 GUI Canvas3D
 		if (USE_OGRE)
 			set (SOURCES_files_RadJav__v8__GUI__Sources
@@ -166,7 +171,6 @@ if (USE_JAVASCRIPTCORE)
 		set (SOURCES_files_RadJav__JSC__GUI__Sources 
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUIGObject.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUIWindow.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUIWebView.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUIButton.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUILabel.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUIImage.cpp"
@@ -179,6 +183,12 @@ if (USE_JAVASCRIPTCORE)
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUIList.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUIMenuBar.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUIMenuItem.cpp")
+		# JavaScriptCore GUI WebView
+		if (USE_WXWIDGETS_WEBVIEW)
+			set (SOURCES_files_RadJav__JSC__GUI__Sources
+				"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUIWebView.cpp"
+				${SOURCES_files_RadJav__JSC__GUI__Sources})
+		endif ()
 		# JavaScriptCore GUI Canvas3D
 		if (USE_OGRE)
 			set (SOURCES_files_RadJav__JSC__GUI__Sources
@@ -386,7 +396,6 @@ if (USE_WXWIDGETS)
 	set (SOURCES_files_RadJav__cpp__GUI__Sources 
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUIGObject.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUIWindow.cpp"
-		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUIWebView.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUIButton.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUILabel.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUIImage.cpp"
@@ -399,6 +408,12 @@ if (USE_WXWIDGETS)
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUIList.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUIMenuBar.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUIMenuItem.cpp")
+	# C++ GUI WebView
+	if (USE_WXWIDGETS_WEBVIEW)
+		set (SOURCES_files_RadJav__cpp__GUI__Sources
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUIWebView.cpp"
+			${SOURCES_files_RadJav__cpp__GUI__Sources})
+	endif ()
 	# C++ GUI Canvas3D
 	if (USE_OGRE)
 		set (SOURCES_files_RadJav__cpp__GUI__Sources

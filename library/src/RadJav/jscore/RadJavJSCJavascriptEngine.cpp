@@ -61,8 +61,10 @@
 		#include "jscore/RadJavJSCGUIList.h"
 		#include "jscore/RadJavJSCGUIMenuBar.h"
 		#include "jscore/RadJavJSCGUIMenuItem.h"
-		#include "jscore/RadJavJSCGUIWebView.h"
 		#include "jscore/RadJavJSCGUICanvas3D.h"
+		#ifdef WXWIDGETS_HAS_WEBVIEW
+			#include "jscore/RadJavJSCGUIWebView.h"
+		#endif
 	#endif
 
 	// Database
@@ -1139,22 +1141,22 @@ namespace RadJAV
 					}
 
 					// RadJav.GUI.WebView
+					#ifdef WXWIDGETS_HAS_WEBVIEW
 					{
 						JSObjectRef webViewFunc = jscGetFunction(guiFunc, "WebView");
 						JSObjectRef webViewPrototype = jscGetObject(webViewFunc, "prototype");
-                        #ifdef WXWIDGETS_HAS_WEBVIEW
-                            JSC::GUI::WebView::createJSCCallbacks(globalContext, webViewPrototype);
-                        #endif
+						JSC::GUI::WebView::createJSCCallbacks(globalContext, webViewPrototype);
 					}
+					#endif
 
+					// RadJav.GUI.Canvas3D
 					#ifdef C3D_USE_OGRE
-						// RadJav.GUI.Canvas3D
-						{
-							JSObjectRef canvas3DFunc = jscGetFunction(guiFunc, "Canvas3D");
-							JSObjectRef canvas3DFuncPrototype = jscGetObject(canvas3DFunc, "prototype");
-
-							JSC::GUI::Canvas3D::createJSCCallbacks(globalContext, canvas3DFuncPrototype);
-						}
+					{
+						JSObjectRef canvas3DFunc = jscGetFunction(guiFunc, "Canvas3D");
+						JSObjectRef canvas3DFuncPrototype = jscGetObject(canvas3DFunc, "prototype");
+						
+						JSC::GUI::Canvas3D::createJSCCallbacks(globalContext, canvas3DFuncPrototype);
+					}
 					#endif
 				}
 				#endif
