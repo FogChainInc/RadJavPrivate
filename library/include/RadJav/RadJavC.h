@@ -17,13 +17,21 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+#ifndef _RADJAVC_H_
+#define _RADJAVC_H_
 
-#import <UIKit/UIKit.h>
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
-
-@property (strong, nonatomic) UIWindow *window;
-
-
-@end
-
+	/// Start RadJav
+	int RadJav_initialize(int argc, const char* argv[]);
+	
+	/// Shut down and stop all applications
+	void RadJav_shutdown(void);
+	
+#ifdef __cplusplus
+}
+#endif
+#endif

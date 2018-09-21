@@ -1,6 +1,7 @@
 # Main RadJav
 set (SOURCES_files_RADJAV__Main__Headers
 	"${libRadJav_SOURCE_DIR}/include/RadJav/RadJav.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/RadJavC.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/RadJavunistd.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/RadJavPreprocessor.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/RadJavLang.h"

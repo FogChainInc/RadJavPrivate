@@ -182,7 +182,8 @@ elseif (APPLE)
 		set (APP_BUNDLE_ICON_FILE "RadJav.icns")
 	
 		#Creating Launcher
-		target_link_libraries (${CMAKE_PROJECT_NAME} "-framework UIKit")
+		#TODO: add conditional for frameworks here
+		target_link_libraries (${CMAKE_PROJECT_NAME} "-framework UIKit -framework JavaScriptCore")
 	
 		#These needs to be defined outside of set_target_properties otherwise they will not be included
 		set (MACOSX_BUNDLE_DISPLAY_NAME ${CMAKE_PROJECT_NAME})

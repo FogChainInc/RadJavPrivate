@@ -29,12 +29,12 @@
 	#include <wx/stdpaths.h>
 	#include <wx/filename.h>
 #else
-#ifdef _WIN32
-//#include <direct.h>
-//#define getcwd _getcwd // stupid MSFT "deprecation" warning
-#elif
-#include <unistd.h>
-#endif
+	#ifdef _WIN32
+		//#include <direct.h>
+		//#define getcwd _getcwd // stupid MSFT "deprecation" warning
+	#else
+		#include <unistd.h>
+	#endif
 #endif
 
 #ifdef USE_JAVASCRIPTCORE

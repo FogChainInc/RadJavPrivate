@@ -196,6 +196,13 @@ namespace RadJAV
 		HashMap<size_t, MemoryAllocLog> *RadJav::memoryAllocs;
 	#endif
 
+	void Pause()
+	{
+		#ifdef WIN32
+			system("PAUSE");
+		#endif
+	}
+
 		RadJavType RadJav::initialize(Array<String> newArgs, String &file)
 		{
 			arguments.clear();
@@ -272,7 +279,7 @@ namespace RadJAV
 						#endif
 
 						if (pause == true)
-							system("PAUSE");
+							Pause();
 
 						return (RadJavType::XRJ_NODE);
 					}
@@ -308,7 +315,7 @@ namespace RadJAV
 						#endif
 
 						if (pause == true)
-							system("PAUSE");
+							Pause();
 
 						return (RadJavType::XRJ_NODE);
 					}
@@ -329,7 +336,7 @@ namespace RadJAV
 						#endif
 
 						if (pause == true)
-							system("PAUSE");
+							Pause();
 
 						return (RadJavType::XRJ_NODE);
 					}
@@ -366,7 +373,7 @@ namespace RadJAV
 				}
 
 				if (pause == true)
-					system("PAUSE");
+					Pause();
 			}
 
 			#ifdef GUI_USE_WXWIDGETS

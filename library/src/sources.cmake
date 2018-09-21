@@ -1,6 +1,7 @@
 # Main RadJav
 set (SOURCES_files_RADJAV__Main__Sources
 	"${libRadJav_SOURCE_DIR}/src/RadJav/RadJav.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/RadJavC.cpp"
 	"${libRadJav_SOURCE_DIR}/src/RadJav/RadJavHashMap.cpp"
 	"${libRadJav_SOURCE_DIR}/src/RadJav/RadJavArray.cpp"
 	"${libRadJav_SOURCE_DIR}/src/RadJav/RadJavString.cpp"

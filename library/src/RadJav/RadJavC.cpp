@@ -18,12 +18,53 @@
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import <UIKit/UIKit.h>
+#include "RadJavC.h"
+#include "RadJav.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+#include <iostream>
 
-@property (strong, nonatomic) UIWindow *window;
+static int initialize(RadJAV::Array<RadJAV::String> args);
 
+int RadJav_initialize(int argc, const char * argv[])
+{
+	RadJAV::Array<RadJAV::String> args;
+	
+	for (int i = 0; i < argc; i++)
+		args.push_back(argv[i]);
+	
+	if (args.size() < 1)
+		args.push_back("");
+	
+	return initialize(args);
+}
 
-@end
+void RadJav_shutdown(void)
+{
+	RadJAV::RadJav::shutdown();
+}
 
+int initialize(RadJAV::Array<RadJAV::String> args)
+{
+	RadJAV::String file = "";
+	
+	if (RadJAV::RadJav::initialize(args, file) == RadJAV::RadJavType::XRJ_NODE)
+		return (EXIT_SUCCESS);
+	
+	try
+	{
+		if (args.size() < 2)
+		{
+			std::cout << "No files to execute or arguments specified!\n";
+			
+			return (EXIT_FAILURE);
+		}
+		
+		return (RadJAV::RadJav::runApplicationFromFile (file));
+	}
+	catch (RadJAV::Exception ex)
+	{
+		std::cout << ex.getMessage();
+		
+		return (EXIT_FAILURE);
+	}
+}
