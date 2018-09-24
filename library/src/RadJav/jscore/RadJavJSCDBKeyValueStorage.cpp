@@ -54,7 +54,7 @@ namespace RadJAV
 				
 				if (!storage)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("KeyValueStorage not initialized");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "KeyValueStorage not initialized");
 					return JSValueMakeUndefined(ctx);
 				}
 
@@ -81,7 +81,7 @@ namespace RadJAV
 					return promise;
 				}
 				
-				JSC_JAVASCRIPT_ENGINE->throwException("Database path required");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Database path required");
 				return JSValueMakeUndefined(ctx);
 			}
 			
@@ -91,7 +91,7 @@ namespace RadJAV
 				
 				if (!storage)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("KeyValueStorage not initialized");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "KeyValueStorage not initialized");
 					return JSValueMakeUndefined(ctx);
 				}
 
@@ -120,7 +120,7 @@ namespace RadJAV
 					return promise;
 				}
 				
-				JSC_JAVASCRIPT_ENGINE->throwException("Key and Value required");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Key and Value required");
 				return JSValueMakeUndefined(ctx);
 			}
 			
@@ -130,7 +130,7 @@ namespace RadJAV
 				
 				if (!storage)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("KeyValueStorage not initialized");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "KeyValueStorage not initialized");
 					return JSValueMakeUndefined(ctx);
 				}
 
@@ -163,7 +163,7 @@ namespace RadJAV
 					return promise;
 				}
 				
-				JSC_JAVASCRIPT_ENGINE->throwException("Key required");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Key required");
 				return JSValueMakeUndefined(ctx);
 			}
 			

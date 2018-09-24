@@ -56,7 +56,7 @@ namespace RadJAV
 				JSValueRef undefined = JSValueMakeUndefined(ctx);
 				if(argumentCount == 0 || JSValueIsUndefined(ctx, arguments[0]))
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("Missing Canvas3D parameter");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Missing Canvas3D parameter");
 					return undefined;
 				}
 

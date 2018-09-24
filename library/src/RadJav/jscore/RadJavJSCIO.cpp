@@ -99,7 +99,7 @@ namespace RadJAV
 			if (argumentCount == 0 ||
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(arguments[0]) == true)
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException("Path cannot be null!");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Path cannot be null!");
 				return JSValueMakeUndefined(ctx);
 			}
 
@@ -113,7 +113,7 @@ namespace RadJAV
 			if (argumentCount == 0 ||
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(arguments[0]) == true)
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException("Path cannot be null!");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Path cannot be null!");
 				return JSValueMakeUndefined(ctx);
 			}
 
@@ -127,7 +127,7 @@ namespace RadJAV
 			if (argumentCount == 0 ||
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(arguments[0]) == true)
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException("Path cannot be null!");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Path cannot be null!");
 				return JSValueMakeUndefined(ctx);
 			}
 
@@ -153,7 +153,7 @@ namespace RadJAV
 			if (argumentCount == 0 ||
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(arguments[0]) == true)
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException("Path cannot be null!");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Path cannot be null!");
 				return undefined;
 			}
 
@@ -167,7 +167,7 @@ namespace RadJAV
 			if (argumentCount == 0 ||
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(arguments[0]) == true)
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException("Path cannot be null!");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Path cannot be null!");
 				return JSValueMakeUndefined(ctx);
 			}
 
@@ -183,7 +183,7 @@ namespace RadJAV
 			if (argumentCount == 0 ||
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(arguments[0]) == true)
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException("Path cannot be null!");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Path cannot be null!");
 				return undefined;
 			}
 
@@ -200,7 +200,7 @@ namespace RadJAV
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(arguments[0]) == true ||
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(arguments[1]) == true)
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException("Source and Destination paths cannot be null!");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Source and Destination paths cannot be null!");
 				return undefined;
 			}
 
@@ -223,7 +223,7 @@ namespace RadJAV
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(ctx, arguments[0]) ||
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(ctx, arguments[1]))
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException("Source and Destination paths cannot be null!");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Source and Destination paths cannot be null!");
 				return undefined;
 			}
 			
@@ -245,7 +245,7 @@ namespace RadJAV
 			if (argumentCount == 0 ||
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(arguments[0]) == true)
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException("Path cannot be null!");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Path cannot be null!");
 				return undefined;
 			}
 
@@ -259,7 +259,7 @@ namespace RadJAV
 			if (argumentCount == 0 ||
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(arguments[0]) == true)
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException("Path cannot be null!");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Path cannot be null!");
 				return JSValueMakeUndefined(ctx);
 			}
 
@@ -276,7 +276,7 @@ namespace RadJAV
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(arguments[0]) == true ||
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(arguments[1]) == true)
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException("Source and Destination paths cannot be null!");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Source and Destination paths cannot be null!");
 				return undefined;
 			}
 
@@ -293,7 +293,7 @@ namespace RadJAV
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(arguments[0]) == true ||
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(arguments[1]) == true)
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException("Source and Destination paths cannot be null!");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Source and Destination paths cannot be null!");
 				return undefined;
 			}
 
@@ -310,7 +310,7 @@ namespace RadJAV
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(arguments[0]) == true ||
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(arguments[1]) == true)
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException("Source and Destination paths cannot be null!");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Source and Destination paths cannot be null!");
 				return undefined;
 			}
 
@@ -326,7 +326,7 @@ namespace RadJAV
 			if (argumentCount == 0 ||
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(arguments[0]) == true)
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException("Path cannot be null!");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Path cannot be null!");
 				return undefined;
 			}
 
@@ -343,7 +343,7 @@ namespace RadJAV
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(arguments[0]) == true ||
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(arguments[1]) == true)
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException("Source and Destination paths cannot be null!");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Source and Destination paths cannot be null!");
 				return undefined;
 			}
 
@@ -366,7 +366,7 @@ namespace RadJAV
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(arguments[0]) == true ||
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(arguments[1]) == true)
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException("Source and Destination paths cannot be null!");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Source and Destination paths cannot be null!");
 				return undefined;
 			}
 
@@ -382,7 +382,7 @@ namespace RadJAV
 			if (argumentCount == 0 ||
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(arguments[0]) == true)
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException("Filename cannot be null!");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Filename cannot be null!");
 				return undefined;
 			}
 
@@ -398,7 +398,7 @@ namespace RadJAV
 			if (argumentCount == 0 ||
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(arguments[0]) == true)
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException("Path cannot be null!");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Path cannot be null!");
 				return undefined;
 			}
 
@@ -422,7 +422,7 @@ namespace RadJAV
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(ctx, arguments[0]) ||
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(ctx, arguments[2]))
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException("Callback and Path cannot be null!");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Callback and Path cannot be null!");
 				return undefined;
 			}
 			
@@ -461,7 +461,7 @@ namespace RadJAV
 			if (argumentCount == 0 ||
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(ctx, arguments[0]))
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException("Path cannot be null!");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Path cannot be null!");
 				return JSValueMakeUndefined(ctx);
 			}
 			
@@ -485,7 +485,7 @@ namespace RadJAV
 			if (argumentCount == 0 ||
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(ctx, arguments[0]))
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException("Path cannot be null!");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Path cannot be null!");
 				return JSValueMakeUndefined(ctx);
 			}
 
@@ -509,7 +509,7 @@ namespace RadJAV
 			if (argumentCount == 0 ||
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(ctx, arguments[0]))
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException("Path cannot be null!");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Path cannot be null!");
 				return JSValueMakeUndefined(ctx);
 			}
 			
@@ -537,7 +537,7 @@ namespace RadJAV
 				}
 			}
 			
-			JSC_JAVASCRIPT_ENGINE->throwException("Function parameter is required");
+			JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Function parameter is required");
 			
 			return JSValueMakeUndefined(ctx);
 		}
@@ -551,7 +551,7 @@ namespace RadJAV
 			if (argumentCount == 0 ||
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(ctx, arguments[0]))
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException("Port cannot be null!");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Port cannot be null!");
 				return JSValueMakeUndefined(ctx);
 			}
 			
@@ -628,7 +628,7 @@ namespace RadJAV
 			if (!pathValue ||
 				!JSValueIsString(ctx, pathValue))
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException("Filename cannot be null!");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Filename cannot be null!");
 				return undefined;
 			}
 
@@ -649,12 +649,12 @@ namespace RadJAV
 				}
 				catch (Exception ex)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException(ex.getMessage());
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, ex.getMessage());
 					return undefined;
 				}
 			}
 			
-			JSC_JAVASCRIPT_ENGINE->throwException("Data not supplied");
+			JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Data not supplied");
 			
 			return undefined;
 		}
@@ -668,7 +668,7 @@ namespace RadJAV
 			if (!pathValue ||
 				!JSValueIsString(ctx, pathValue))
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException("Filename cannot be null!");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Filename cannot be null!");
 				return undefined;
 			}
 			
@@ -689,12 +689,12 @@ namespace RadJAV
 				}
 				catch (Exception ex)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException(ex.getMessage());
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, ex.getMessage());
 					return undefined;
 				}
 			}
 			
-			JSC_JAVASCRIPT_ENGINE->throwException("Data not supplied");
+			JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Data not supplied");
 			
 			return undefined;
 		}
@@ -708,7 +708,7 @@ namespace RadJAV
 			if (!pathValue ||
 				!JSValueIsString(ctx, pathValue))
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException("Filename cannot be null!");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Filename cannot be null!");
 				return undefined;
 			}
 
@@ -732,7 +732,7 @@ namespace RadJAV
 			}
 			catch (Exception ex)
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException(ex.getMessage());
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, ex.getMessage());
 			}
 			
 			return undefined;
@@ -747,7 +747,7 @@ namespace RadJAV
 			if (!pathValue ||
 				!JSValueIsString(ctx, pathValue))
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException("Filename cannot be null!");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Filename cannot be null!");
 				return undefined;
 			}
 
@@ -757,7 +757,7 @@ namespace RadJAV
 			}
 			catch (Exception ex)
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException(ex.getMessage());
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, ex.getMessage());
 				return undefined;
 			}
 			
@@ -796,7 +796,7 @@ namespace RadJAV
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(ctx, arguments[0]) == true ||
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(ctx, arguments[1]) == true)
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException("Filename and text cannot be null!");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Filename and text cannot be null!");
 
 				return undefined;
 			}
@@ -814,7 +814,7 @@ namespace RadJAV
 			}
 			catch (Exception ex)
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException(ex.getMessage());
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, ex.getMessage());
 			}
 			
 			return undefined;
@@ -828,7 +828,7 @@ namespace RadJAV
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(ctx, arguments[0]) == true ||
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(ctx, arguments[1]) == true)
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException("Filename and text cannot be null!");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Filename and text cannot be null!");
 				
 				return undefined;
 			}
@@ -846,7 +846,7 @@ namespace RadJAV
 			}
 			catch (Exception ex)
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException(ex.getMessage());
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, ex.getMessage());
 			}
 
 			return undefined;
@@ -859,7 +859,7 @@ namespace RadJAV
 			if (argumentCount == 0 ||
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(ctx, arguments[0]) == true)
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException("Filename cannot be null!");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Filename cannot be null!");
 				return undefined;
 			}
 
@@ -870,7 +870,7 @@ namespace RadJAV
 			}
 			catch (Exception ex)
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException(ex.getMessage());
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, ex.getMessage());
 				return undefined;
 			}
 			
@@ -888,7 +888,7 @@ namespace RadJAV
 			if (argumentCount == 0 ||
 				JSC_JAVASCRIPT_ENGINE->jscIsNull(ctx, arguments[0]) == true)
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException("Filename cannot be null!");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Filename cannot be null!");
 				return undefined;
 			}
 
@@ -898,7 +898,7 @@ namespace RadJAV
 			}
 			catch (Exception ex)
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException(ex.getMessage());
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, ex.getMessage());
 			}
 
 			return undefined;

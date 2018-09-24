@@ -835,6 +835,25 @@ namespace RadJAV
 				shutdown = true;
 		}
 
+		void JSCJavascriptEngine::throwException(JSContextRef ctx, JSValueRef* exception, String message)
+		{
+			if (!ctx || !exception)
+				return;
+
+			size_t argsCount = 0;
+			JSValueRef messageValue = nullptr;
+			
+			if (message.size())
+			{
+				messageValue = message.toJSCValue(ctx);
+				argsCount = 1;
+			}
+			
+			*exception = JSObjectMakeError(ctx, argsCount, &messageValue, nullptr);
+			
+			throwException(message);
+		}
+	
 		void JSCJavascriptEngine::exit(RJINT exitCode)
 		{
 			shutdown = true;

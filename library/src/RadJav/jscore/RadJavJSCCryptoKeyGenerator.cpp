@@ -76,7 +76,7 @@ namespace RadJAV
 				
 				if (!engine)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("KeyGenerator not initialized");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "KeyGenerator not initialized");
 					return undefined;
 				}
 				

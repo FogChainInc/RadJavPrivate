@@ -161,6 +161,8 @@
 				void removeThread(Thread *thread);
 				/// Throw a Javascript exception.
 				void throwException(String message);
+				/// Throw a Javascript exception.
+				void throwException(JSContextRef ctx, JSValueRef* exception, String message);
 
 				/// Shutdown the application entirely.
 				void exit(RJINT exitCode);

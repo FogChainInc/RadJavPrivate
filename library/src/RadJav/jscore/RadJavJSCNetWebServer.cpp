@@ -57,7 +57,7 @@ namespace RadJAV
 				
 				if (!portArg)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("Port cannot be null!");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Port cannot be null!");
 					return undefined;
 				}
 				
@@ -80,7 +80,7 @@ namespace RadJAV
 				
 				if (!funcArg)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("Function cannot be null!");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Function cannot be null!");
 					return undefined;
 				}
 
@@ -88,7 +88,7 @@ namespace RadJAV
 
 				if (!webServer)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("Web server not listening!");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Web server not listening!");
 					return undefined;
 				}
 
@@ -107,7 +107,7 @@ namespace RadJAV
 
 				if ((webServer == NULL) || (webServer->isAlive == false))
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("Web server not listening!");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Web server not listening!");
 					return undefined;
 				}
 

@@ -82,13 +82,13 @@ namespace RadJAV
 				std::shared_ptr<ENGINE> engine = JSC_JAVASCRIPT_ENGINE->jscGetExternal<ENGINE>(ctx, thisObject, "_engine");
 				if (!engine)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("Cipher not initialized");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Cipher not initialized");
 					return undefined;
 				}
 				
 				if (!argumentCount)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("No arguments supplied!");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "No arguments supplied!");
 					return undefined;
 				}
 				
@@ -98,7 +98,7 @@ namespace RadJAV
 				
 				if (!data.size())
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("Only ArrayBuffers and Strings are supported");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Only ArrayBuffers and Strings are supported");
 					return undefined;
 				}
 				
@@ -125,7 +125,7 @@ namespace RadJAV
 				}
 				catch (std::invalid_argument &e)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException(e.what());
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, e.what());
 					return undefined;
 				}
 				
@@ -139,13 +139,13 @@ namespace RadJAV
 				std::shared_ptr<ENGINE> engine = JSC_JAVASCRIPT_ENGINE->jscGetExternal<ENGINE>(ctx, thisObject, "_engine");
 				if (!engine)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("Cipher not initialized");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Cipher not initialized");
 					return undefined;
 				}
 				
 				if (!argumentCount)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("No arguments supplied!");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "No arguments supplied!");
 					return undefined;
 				}
 				
@@ -153,7 +153,7 @@ namespace RadJAV
 				
 				if (!data.size())
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("Only ArrayBuffers and Strings are supported");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Only ArrayBuffers and Strings are supported");
 					return undefined;
 				}
 				
@@ -189,6 +189,8 @@ namespace RadJAV
 					}
 					catch (std::invalid_argument &e)
 					{
+						//TODO: Re-implement this! It will not work with JavaScriptCore
+						//JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, e.what());
 						JSC_JAVASCRIPT_ENGINE->throwException(e.what());
 					}
 					

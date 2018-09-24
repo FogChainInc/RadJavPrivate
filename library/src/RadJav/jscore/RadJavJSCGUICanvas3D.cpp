@@ -133,7 +133,7 @@ namespace RadJAV
 					}
 				}
 				
-				JSC_JAVASCRIPT_ENGINE->throwException("Child object required");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Child object required");
 				
 				return JSValueMakeUndefined(ctx);
 			}
@@ -160,7 +160,7 @@ namespace RadJAV
 					}
 				}
 
-				JSC_JAVASCRIPT_ENGINE->throwException("Missing child object");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Missing child object");
 				return JSValueMakeUndefined(ctx);
 			}
 
@@ -298,7 +298,7 @@ namespace RadJAV
 					return newObject;
 				}
 
-				JSC_JAVASCRIPT_ENGINE->throwException("No path specified");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "No path specified");
 				return JSValueMakeUndefined(ctx);
 			}
 		}

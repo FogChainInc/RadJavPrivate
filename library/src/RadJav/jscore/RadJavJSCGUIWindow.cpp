@@ -64,7 +64,7 @@ namespace RadJAV
 					}
 					catch (Exception ex)
 					{
-						JSC_JAVASCRIPT_ENGINE->throwException(ex.getMessage ());
+						JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, ex.getMessage ());
 					}
 				}
 				

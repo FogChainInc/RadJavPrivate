@@ -76,13 +76,13 @@ namespace RadJAV
 				
 				if (!engine)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("Has not initialized");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Has not initialized");
 					return undefined;
 				}
 				
 				if (!argumentCount)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("Data argument required");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Data argument required");
 					return undefined;
 				}
 				
@@ -92,7 +92,7 @@ namespace RadJAV
 				
 				if (data.empty())
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("Only ArrayBuffers and Strings are supported");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Only ArrayBuffers and Strings are supported");
 					return undefined;
 				}
 				
@@ -119,7 +119,7 @@ namespace RadJAV
 				}
 				catch (std::invalid_argument &e)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException(e.what());
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, e.what());
 				}
 				
 				return ret;
@@ -133,13 +133,13 @@ namespace RadJAV
 				
 				if (!engine)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("Has not initialized");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Has not initialized");
 					return undefined;
 				}
 				
 				if (!argumentCount)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("Data argument required");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Data argument required");
 					return undefined;
 				}
 				
@@ -147,7 +147,7 @@ namespace RadJAV
 				
 				if (data.empty())
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("Only ArrayBuffers and Strings are supported");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Only ArrayBuffers and Strings are supported");
 					return undefined;
 				}
 				
@@ -184,6 +184,8 @@ namespace RadJAV
 					}
 					catch (std::invalid_argument &e)
 					{
+						//TODO: Re-implement this! It will not work with JavaScriptCore!
+						//JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, e.what());
 						JSC_JAVASCRIPT_ENGINE->throwException(e.what());
 					}
 					

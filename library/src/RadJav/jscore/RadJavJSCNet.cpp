@@ -53,7 +53,7 @@ namespace RadJAV
 				
 				if (!uri)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("URI cannot be null!");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "URI cannot be null!");
 					return JSValueMakeUndefined(ctx);
 				}
 				

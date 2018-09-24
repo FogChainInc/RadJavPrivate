@@ -132,7 +132,7 @@ namespace RadJAV
 				
 				if (!engine)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("PublicKey not initialized");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "PublicKey not initialized");
 					return undefined;
 				}
 				
@@ -141,14 +141,14 @@ namespace RadJAV
 				
 				if (!dataJs || !signatureJs)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("Data and signature are required parameters");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Data and signature are required parameters");
 				}
 				
 				String data = JSC_JAVASCRIPT_ENGINE->jscGetArgumentAsString(ctx, arguments, argumentCount, 0);
 				
 				if (data.empty())
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("Only ArrayBuffers and Strings are supported for Data");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Only ArrayBuffers and Strings are supported for Data");
 					return undefined;
 				}
 				
@@ -156,7 +156,7 @@ namespace RadJAV
 				
 				if (signature.empty())
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("Only ArrayBuffers and Strings are supported for Signature");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Only ArrayBuffers and Strings are supported for Signature");
 					return undefined;
 				}
 				
@@ -169,7 +169,7 @@ namespace RadJAV
 				}
 				catch (std::invalid_argument &e)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException(e.what());
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, e.what());
 				}
 				
 				return JSValueMakeBoolean(ctx, result);
@@ -183,7 +183,7 @@ namespace RadJAV
 				
 				if (!engine)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("PublicKey not initialized");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "PublicKey not initialized");
 					return undefined;
 				}
 				
@@ -192,14 +192,14 @@ namespace RadJAV
 				
 				if (!dataJs || !signatureJs)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("Data and signature are required parameters");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Data and signature are required parameters");
 				}
 				
 				String data = JSC_JAVASCRIPT_ENGINE->jscGetArgumentAsString(ctx, arguments, argumentCount, 0);
 				
 				if (data.empty())
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("Only ArrayBuffers and Strings are supported for Data");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Only ArrayBuffers and Strings are supported for Data");
 					return undefined;
 				}
 				
@@ -207,7 +207,7 @@ namespace RadJAV
 				
 				if (signature.empty())
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("Only ArrayBuffers and Strings are supported for Signature");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Only ArrayBuffers and Strings are supported for Signature");
 					return undefined;
 				}
 				
@@ -227,6 +227,8 @@ namespace RadJAV
 					}
 					catch (std::invalid_argument &e)
 					{
+						//TODO: Re-implement this! It will not work with JavaScriptCore!
+						//JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, e.what());
 						JSC_JAVASCRIPT_ENGINE->throwException(e.what());
 					}
 					
@@ -255,13 +257,13 @@ namespace RadJAV
 				
 				if (!engine)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("PublicKey not initialized");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "PublicKey not initialized");
 					return undefined;
 				}
 				
 				if (!argumentCount)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("Data argument required");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Data argument required");
 					return undefined;
 				}
 				
@@ -271,7 +273,7 @@ namespace RadJAV
 				
 				if (data.empty())
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("Only ArrayBuffers and Strings are supported");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Only ArrayBuffers and Strings are supported");
 					return undefined;
 				}
 				
@@ -298,7 +300,7 @@ namespace RadJAV
 				}
 				catch (std::invalid_argument &e)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException(e.what());
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, e.what());
 				}
 				
 				return ret;
@@ -312,13 +314,13 @@ namespace RadJAV
 				
 				if (!engine)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("PublicKey not initialized");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "PublicKey not initialized");
 					return undefined;
 				}
 				
 				if (!argumentCount)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("Data argument required");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Data argument required");
 					return undefined;
 				}
 				
@@ -326,7 +328,7 @@ namespace RadJAV
 				
 				if (data.empty())
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("Only ArrayBuffers and Strings are supported");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Only ArrayBuffers and Strings are supported");
 					return undefined;
 				}
 				
@@ -362,6 +364,8 @@ namespace RadJAV
 					}
 					catch (std::invalid_argument &e)
 					{
+						//TODO: Re-implement this! It will not work with JavaScriptCore!
+						//JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, e.what());
 						JSC_JAVASCRIPT_ENGINE->throwException(e.what());
 					}
 					
@@ -387,7 +391,7 @@ namespace RadJAV
 				
 				if (!engine)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("PublicKey not initialized");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "PublicKey not initialized");
 					return undefined;
 				}
 				
@@ -395,7 +399,7 @@ namespace RadJAV
 				
 				if (!pathJs || !JSValueIsString(ctx, pathJs))
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("Path argument required");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Path argument required");
 					return undefined;
 				}
 				

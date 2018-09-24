@@ -135,13 +135,13 @@ namespace RadJAV
 				
 				if (!engine)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("PrivateKey not initialized");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "PrivateKey not initialized");
 					return undefined;
 				}
 				
 				if (!argumentCount)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("No arguments supplied!");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "No arguments supplied!");
 					return undefined;
 				}
 				
@@ -151,7 +151,7 @@ namespace RadJAV
 				
 				if (data.empty())
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("Only ArrayBuffers and Strings are supported");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Only ArrayBuffers and Strings are supported");
 					return undefined;
 				}
 				
@@ -178,7 +178,7 @@ namespace RadJAV
 				}
 				catch (std::invalid_argument &e)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException(e.what());
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, e.what());
 				}
 				
 				
@@ -193,13 +193,13 @@ namespace RadJAV
 				
 				if (!engine)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("PrivateKey not initialized");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "PrivateKey not initialized");
 					return undefined;
 				}
 				
 				if (!argumentCount)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("No arguments supplied!");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "No arguments supplied!");
 					return undefined;
 				}
 				
@@ -207,7 +207,7 @@ namespace RadJAV
 				
 				if (data.empty())
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("Only ArrayBuffers and Strings are supported");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Only ArrayBuffers and Strings are supported");
 					return undefined;
 				}
 				
@@ -243,6 +243,8 @@ namespace RadJAV
 					}
 					catch (std::invalid_argument &e)
 					{
+						//TODO: Re-implement this! It will not work with JavaScriptCore!
+						//JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, e.what());
 						JSC_JAVASCRIPT_ENGINE->throwException(e.what());
 					}
 					
@@ -269,13 +271,13 @@ namespace RadJAV
 				
 				if (!engine)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("PrivateKey not initialized");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "PrivateKey not initialized");
 					return undefined;
 				}
 				
 				if (!argumentCount)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("No arguments supplied!");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "No arguments supplied!");
 					return undefined;
 				}
 				
@@ -285,7 +287,7 @@ namespace RadJAV
 				
 				if (data.empty())
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("Only ArrayBuffers and Strings are supported");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Only ArrayBuffers and Strings are supported");
 					return undefined;
 				}
 				
@@ -312,7 +314,7 @@ namespace RadJAV
 				}
 				catch (std::invalid_argument &e)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException(e.what());
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, e.what());
 					return undefined;
 				}
 				
@@ -327,13 +329,13 @@ namespace RadJAV
 				
 				if (!engine)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("PrivateKey not initialized");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "PrivateKey not initialized");
 					return undefined;
 				}
 				
 				if (!argumentCount)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("No arguments supplied!");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "No arguments supplied!");
 					return undefined;
 				}
 				
@@ -341,7 +343,7 @@ namespace RadJAV
 				
 				if (data.empty())
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("Only ArrayBuffers and Strings are supported");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Only ArrayBuffers and Strings are supported");
 					return undefined;
 				}
 				
@@ -377,6 +379,8 @@ namespace RadJAV
 					}
 					catch (std::invalid_argument &e)
 					{
+						//TODO: Re-implement this! It will not work with JavaScriptCore!
+						//JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, e.what());
 						JSC_JAVASCRIPT_ENGINE->throwException(e.what());
 					}
 					
@@ -401,7 +405,7 @@ namespace RadJAV
 				
 				if (!engine)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("PrivateKey not initialized");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "PrivateKey not initialized");
 					return JSValueMakeUndefined(ctx);
 				}
 				
@@ -433,13 +437,13 @@ namespace RadJAV
 				
 				if (!engine)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("PrivateKey not initialized");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "PrivateKey not initialized");
 					return undefined;
 				}
 				
 				if (!argumentCount)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("Path argument required");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Path argument required");
 					return undefined;
 				}
 				
@@ -448,7 +452,7 @@ namespace RadJAV
 					path = parseJSCValue(ctx, arguments[0]);
 				else
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("savePemSync() requires path given as a string");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "savePemSync() requires path given as a string");
 					return undefined;
 				}
 				
@@ -473,7 +477,7 @@ namespace RadJAV
 				}
 				catch (std::invalid_argument e)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException(e.what());
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, e.what());
 				}
 				
 				return JSValueMakeUndefined(ctx);

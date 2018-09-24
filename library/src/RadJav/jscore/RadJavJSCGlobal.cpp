@@ -145,7 +145,7 @@ namespace RadJAV
 
             if (JSC_JAVASCRIPT_ENGINE->jscIsNull(file) == true)
             {
-                JSC_JAVASCRIPT_ENGINE->throwException("First argument when calling an include function cannot be empty!");
+                JSC_JAVASCRIPT_ENGINE->throwException(context, exception, "First argument when calling an include function cannot be empty!");
 
                 return (JSValueMakeUndefined(context));
             }
@@ -159,7 +159,7 @@ namespace RadJAV
             }
             catch (Exception ex)
             {
-                JSC_JAVASCRIPT_ENGINE->throwException(ex.getMessage ());
+                JSC_JAVASCRIPT_ENGINE->throwException(context, exception, ex.getMessage ());
                 
                 return (JSValueMakeUndefined(context));
             }

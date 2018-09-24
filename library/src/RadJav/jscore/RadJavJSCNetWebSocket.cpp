@@ -65,7 +65,7 @@ namespace RadJAV
 				
 				if (!portArg)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("Port cannot be null!");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Port cannot be null!");
 					return undefined;
 				}
 				
@@ -253,7 +253,7 @@ namespace RadJAV
 				
 				if (!hostArg || !portArg)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException("Host and port cannot be null!");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Host and port cannot be null!");
 					return undefined;
 				}
 				
