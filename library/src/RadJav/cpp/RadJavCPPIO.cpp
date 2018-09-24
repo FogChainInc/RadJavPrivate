@@ -533,6 +533,26 @@ namespace RadJAV
 			});
 		}
 #endif
+		
+		void IO::StreamFile::writeStream(const String path_, const String& buffer_, const RJINT outputType_)
+		{
+			RJINT type = std::ios_base::out;
+			
+			if (static_cast<IO::TextFile::operation>(outputType_) == IO::TextFile::operation::append)
+				type = std::ios_base::app;
+			
+			std::fstream file(path_, std::ios::binary | type);
+			file.write( buffer_.c_str(), buffer_.size());
+			file.close();
+		}
+		
+		void IO::StreamFile::writeStreamAsync(const String path_, const String& buffer_, const RJINT outputType_)
+		{
+			boost::asio::post(m_ioQueue, [=]()
+							  {
+								  writeStream(path_, buffer_, outputType_);
+							  });
+		}
 
 		String IO::StreamFile::readStream(const String path_)
 		{

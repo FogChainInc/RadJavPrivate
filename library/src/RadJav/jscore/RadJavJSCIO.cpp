@@ -522,14 +522,22 @@ namespace RadJAV
 
 		JSValueRef IO::onFileList(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
 		{
-			/* TODO: add implementation for JavaScriptCore
-			v8::Persistent<v8::Function> *func = RJNEW v8::Persistent<v8::Function>();
-			v8::Local<v8::Function> newEvt = v8::Local<v8::Function>::Cast(args[0]);
-
-			func->Reset(JSC_JAVASCRIPT_ENGINE->isolate, newEvt);
-
-			//RadJAV::CPP::IO::m_fileListEvent = func;
-			 */
+			JSValueRef funcValue = JSC_JAVASCRIPT_ENGINE->jscGetArgument(arguments, argumentCount, 0);
+			
+			if (funcValue)
+			{
+				JSObjectRef funcObj = JSC_JAVASCRIPT_ENGINE->jscCastValueToObject(funcValue);
+				
+				if (JSObjectIsFunction(ctx, funcObj))
+				{
+					JSValueProtect(ctx, funcValue);
+					
+					//TODO: No CPP side support for now
+					//RadJAV::CPP::IO::m_fileListEvent = funcObj;
+				}
+			}
+			
+			JSC_JAVASCRIPT_ENGINE->throwException("Function parameter is required");
 			
 			return JSValueMakeUndefined(ctx);
 		}
@@ -570,6 +578,7 @@ namespace RadJAV
 		JSValueRef IO::SerialComm::read(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
 		{
 			//TODO: Add usage for bufferSize
+			//Support not exist with V8 implimentation as well
 			RJUINT bufferSize = 0;
 			
 			if (argumentCount > 0)
@@ -614,33 +623,38 @@ namespace RadJAV
 		{
 			JSValueRef undefined = JSValueMakeUndefined(ctx);
 			
-			if (argumentCount == 0 ||
-				JSC_JAVASCRIPT_ENGINE->jscIsNull(arguments[0]) == true)
+			JSValueRef pathValue = JSC_JAVASCRIPT_ENGINE->jscGetArgument(arguments, argumentCount, 0);
+			
+			if (!pathValue ||
+				!JSValueIsString(ctx, pathValue))
 			{
 				JSC_JAVASCRIPT_ENGINE->throwException("Filename cannot be null!");
 				return undefined;
 			}
 
-			/* TODO: add JavaScriptCore implementation
-			auto view = v8::Local<v8::ArrayBufferView>::Cast(JSC_JAVASCRIPT_ENGINE->jscGetArgument(args, 1));
-			auto data = view->Buffer();
-			RJINT fileType = static_cast<int>(CPP::IO::StreamFile::operation::write);
-
-			if (argumentCount > 2)
+			String data = JSC_JAVASCRIPT_ENGINE->jscGetArgumentAsString(ctx, arguments, argumentCount, 1);
+			if (!data.empty())
 			{
-				v8::Local<v8::Integer> type = v8::Local<v8::Integer>::Cast(JSC_JAVASCRIPT_ENGINE->jscGetArgument(args, 2));
-				fileType = type->Value();
+				JSValueRef fileTypeValue = JSC_JAVASCRIPT_ENGINE->jscGetArgument(arguments, argumentCount, 2);
+				RJINT fileType = static_cast<int>(CPP::IO::StreamFile::operation::write);
+				
+				if (fileTypeValue && JSValueIsNumber(ctx, fileTypeValue))
+				{
+					fileType = JSC_JAVASCRIPT_ENGINE->jscValueToInt(ctx, fileTypeValue);
+				}
+				
+				try
+				{
+					CPP::IO::StreamFile::writeStream(parseJSCValue(ctx, pathValue), data, fileType);
+				}
+				catch (Exception ex)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ex.getMessage());
+					return undefined;
+				}
 			}
-
-			try
-			{
-				CPP::IO::StreamFile::writeStream(parseJSCValue(ctx, path), data, fileType);
-			}
-			catch (Exception ex)
-			{
-				JSC_JAVASCRIPT_ENGINE->throwException(ex.getMessage());
-				return undefined;
-			}*/
+			
+			JSC_JAVASCRIPT_ENGINE->throwException("Data not supplied");
 			
 			return undefined;
 		}
@@ -648,34 +662,39 @@ namespace RadJAV
 		JSValueRef IO::StreamFile::writeStreamAsync(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
 		{
 			JSValueRef undefined = JSValueMakeUndefined(ctx);
-
-			if (argumentCount == 0 ||
-				JSC_JAVASCRIPT_ENGINE->jscIsNull(arguments[0]) == true)
+			
+			JSValueRef pathValue = JSC_JAVASCRIPT_ENGINE->jscGetArgument(arguments, argumentCount, 0);
+			
+			if (!pathValue ||
+				!JSValueIsString(ctx, pathValue))
 			{
 				JSC_JAVASCRIPT_ENGINE->throwException("Filename cannot be null!");
 				return undefined;
 			}
-
-			/* TODO: add JavaScriptCore implementation
-			auto data = v8::Local<v8::ArrayBuffer>::Cast(JSC_JAVASCRIPT_ENGINE->jscGetArgument(args, 1));
-			RJINT fileType = static_cast<int>(CPP::IO::TextFile::operation::write);
-
-			if (argumentCount > 2)
+			
+			String data = JSC_JAVASCRIPT_ENGINE->jscGetArgumentAsString(ctx, arguments, argumentCount, 1);
+			if (!data.empty())
 			{
-				v8::Local<v8::Integer> type = v8::Local<v8::Integer>::Cast(JSC_JAVASCRIPT_ENGINE->jscGetArgument(args, 2));
-				fileType = type->Value();
+				JSValueRef fileTypeValue = JSC_JAVASCRIPT_ENGINE->jscGetArgument(arguments, argumentCount, 2);
+				RJINT fileType = static_cast<int>(CPP::IO::StreamFile::operation::write);
+				
+				if (fileTypeValue && JSValueIsNumber(ctx, fileTypeValue))
+				{
+					fileType = JSC_JAVASCRIPT_ENGINE->jscValueToInt(ctx, fileTypeValue);
+				}
+				
+				try
+				{
+					CPP::IO::StreamFile::writeStreamAsync(parseJSCValue(ctx, pathValue), data, fileType);
+				}
+				catch (Exception ex)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ex.getMessage());
+					return undefined;
+				}
 			}
-
-			try
-			{
-				CPP::IO::StreamFile::writeStreamAsync(parseJSCValue(ctx, path), data, fileType);
-			}
-			catch (Exception ex)
-			{
-				JSC_JAVASCRIPT_ENGINE->throwException(ex.getMessage());
-				return undefined;
-			}
-			 */
+			
+			JSC_JAVASCRIPT_ENGINE->throwException("Data not supplied");
 			
 			return undefined;
 		}
@@ -684,26 +703,37 @@ namespace RadJAV
 		{
 			JSValueRef undefined = JSValueMakeUndefined(ctx);
 
-			if (argumentCount == 0 ||
-				JSC_JAVASCRIPT_ENGINE->jscIsNull(arguments[0]) == true)
+			JSValueRef pathValue = JSC_JAVASCRIPT_ENGINE->jscGetArgument(arguments, argumentCount, 0);
+			
+			if (!pathValue ||
+				!JSValueIsString(ctx, pathValue))
 			{
 				JSC_JAVASCRIPT_ENGINE->throwException("Filename cannot be null!");
 				return undefined;
 			}
 
-			/* TODO: add JavaScriptCore implementation
 			try
 			{
-				auto contents = CPP::IO::StreamFile::readStream(parseJSCValue(ctx, arguments[0]));
-				auto ab = v8::ArrayBuffer::New(JSC_JAVASCRIPT_ENGINE->isolate, (void*)contents.c_str(), contents.size());
+				auto contents = CPP::IO::StreamFile::readStream(parseJSCValue(ctx, pathValue));
+				
+				const size_t contentSize = contents.size();
+				auto buffer = RJNEW unsigned char[contentSize];
+				memcpy(buffer, contents.c_str(), contentSize);
+				
+				auto bufferDeallocator = [](void* bytes, void* deallocatorContext)
+				{
+					auto data = static_cast<unsigned char*>(bytes);
+					if (data) DELETEARRAY(data);
+				};
+				
+				JSObjectRef ret = JSObjectMakeArrayBufferWithBytesNoCopy(ctx, buffer, contentSize, bufferDeallocator, nullptr, nullptr);
 
-				return JSValueMake(ctx, ab);
+				return ret;
 			}
 			catch (Exception ex)
 			{
 				JSC_JAVASCRIPT_ENGINE->throwException(ex.getMessage());
 			}
-			*/
 			
 			return undefined;
 		}
@@ -712,24 +742,24 @@ namespace RadJAV
 		{
 			JSValueRef undefined = JSValueMakeUndefined(ctx);
 			
-			if (argumentCount == 0 ||
-				JSC_JAVASCRIPT_ENGINE->jscIsNull(arguments[0]) == true)
+			JSValueRef pathValue = JSC_JAVASCRIPT_ENGINE->jscGetArgument(arguments, argumentCount, 0);
+			
+			if (!pathValue ||
+				!JSValueIsString(ctx, pathValue))
 			{
 				JSC_JAVASCRIPT_ENGINE->throwException("Filename cannot be null!");
 				return undefined;
 			}
 
-			/* TODO: add JavaScriptCore implementation
 			try
 			{
-				CPP::IO::StreamFile::readStreamAsync(parseJSCValue(ctx, path));
+				CPP::IO::StreamFile::readStreamAsync(parseJSCValue(ctx, pathValue));
 			}
 			catch (Exception ex)
 			{
 				JSC_JAVASCRIPT_ENGINE->throwException(ex.getMessage());
 				return undefined;
 			}
-			 */
 			
 			return undefined;
 		}
