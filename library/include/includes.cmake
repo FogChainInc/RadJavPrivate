@@ -63,12 +63,30 @@ if (USE_V8)
 			set (SOURCES_files_RadJav__v8__GUI__Headers
 				"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUICanvas3D.h"
 				${SOURCES_files_RadJav__v8__GUI__Headers})
-		endif () 
+		endif ()
 		source_group ("RadJav\\V8\\GUI" FILES ${SOURCES_files_RadJav__v8__GUI__Headers})
 		
 		set (SOURCES ${SOURCES_files_RadJav__v8__GUI__Headers} ${SOURCES})
 	endif ()
-	
+
+	# V8 MUI
+	if (IS_MOBILE)
+		set (SOURCES_files_RadJav__v8__GUI__Headers 
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIGObject.h")
+
+		source_group ("RadJav\\V8\\GUI" FILES ${SOURCES_files_RadJav__v8__GUI__Headers})
+
+		set (SOURCES ${SOURCES_files_RadJav__v8__GUI__Headers} ${SOURCES})
+
+		set (SOURCES_files_RadJav__v8__MUI__Headers 
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIView.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIButton.h")
+
+			source_group ("RadJav\\V8\\MUI" FILES ${SOURCES_files_RadJav__v8__MUI__Headers})
+
+			set (SOURCES ${SOURCES_files_RadJav__v8__MUI__Headers} ${SOURCES})
+	endif()
+
 	# V8 C3D
 	if (USE_OGRE)
 		set (SOURCES_files_RadJav__v8__C3D__Headers 
@@ -203,7 +221,23 @@ if (USE_JAVASCRIPTCORE)
 	
 		set (SOURCES ${SOURCES_files_RadJav__JSC__GUI__Headers} ${SOURCES})
 	endif ()
-	
+
+	# JavaScriptCore MUI
+	if (IS_MOBILE)
+		set (SOURCES_files_RadJav__JSC__GUI__Headers 
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIGObject.h"
+		source_group ("RadJav\\JavaScriptCore\\GUI" FILES ${SOURCES_files_RadJav__JSC__GUI__Headers})
+
+		set (SOURCES ${SOURCES_files_RadJav__JSC__GUI__Headers} ${SOURCES})
+
+		set (SOURCES_files_RadJav__JSC__MUI__Headers 
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUIView.h",
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUIButton.h"
+		source_group ("RadJav\\JavaScriptCore\\MUI" FILES ${SOURCES_files_RadJav__JSC__MUI__Headers})
+
+		set (SOURCES ${SOURCES_files_RadJav__JSC__MUI__Headers} ${SOURCES})
+	endif ()
+
 	# JavaScriptCore C3D
 	if (USE_OGRE)
 		set (SOURCES_files_RadJav__JSC__C3D__Headers 
@@ -429,6 +463,24 @@ if (USE_WXWIDGETS)
 	source_group ("RadJav\\CPP\\GUI" FILES ${SOURCES_files_RadJav__cpp__GUI__Headers})
 	
 	set (SOURCES ${SOURCES_files_RadJav__cpp__GUI__Headers} ${SOURCES})
+endif ()
+
+# C++ GUI
+if (IS_MOBILE)
+	set (SOURCES_files_RadJav__cpp__GUI__Headers 
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIGObject.h")
+
+	source_group ("RadJav\\CPP\\GUI" FILES ${SOURCES_files_RadJav__cpp__GUI__Headers})
+
+	set (SOURCES ${SOURCES_files_RadJav__cpp__GUI__Headers} ${SOURCES})
+
+	set (SOURCES_files_RadJav__cpp__MUI__Headers 
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIView.h", 
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIButton.h")
+
+	source_group ("RadJav\\CPP\\MUI" FILES ${SOURCES_files_RadJav__cpp__MUI__Headers})
+
+	set (SOURCES ${SOURCES_files_RadJav__cpp__MUI__Headers} ${SOURCES})
 endif ()
 
 # C++ C3D

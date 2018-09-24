@@ -18,14 +18,18 @@ include (Utils)
 #Setting supported Javascript engines for specific platforms
 if (APPLE)
 	list (APPEND javascriptEngineLibraries JavaScriptCore V8)
+	list (APPEND guiLibraries wxWidgets "iOS-UIKit")
 elseif (WIN32 OR UNIX)
 	list (APPEND javascriptEngineLibraries V8)
+	list (APPEND guiLibraries wxWidgets Android)
 endif ()
 
 set (libRadJav_JS_LIBRARY V8 CACHE STRING "Javascript library to use")
 set_property (CACHE libRadJav_JS_LIBRARY PROPERTY STRINGS ${javascriptEngineLibraries})
 
-set (libRadJav_GUI_LIBRARY "wxWidgets" CACHE STRING "GUI library to use")
+set (libRadJav_GUI_LIBRARY wxWidgets CACHE STRING "GUI library to use")
+set_property (CACHE libRadJav_GUI_LIBRARY PROPERTY STRINGS ${guiLibraries})
+
 set (libRadJav_HTTP_LIBRARY "curl" CACHE STRING "HTTP library to use")
 set (libRadJav_INCLUDE_C3D_API TRUE CACHE BOOL "Include the C3D API?")
 set (libRadJav_ALLOW_NETWORKING TRUE CACHE BOOL "Allow Networking?")
@@ -42,10 +46,15 @@ set (WEBVIEW_TYPE "wxWidgetsDefault" CACHE STRING "Type of webview to use")
 set (BOOST_ROOT "" CACHE PATH "BOOST_ROOT")
 
 set (TEMP_ARCH "x86")
+set (IS_MOBILE false)
 
 if ("${CMAKE_SIZEOF_VOID_P}" STREQUAL "4")
 	set (TEMP_ARCH "x86_64")
 endif()
+
+if (NOT libRadJav_GUI_LIBRARY STREQUAL "wxWidgets")
+	set (IS_MOBILE true)
+endif ()
 
 set (archs x86 x86_64 armeabi armeabi-v7a arm64-v8a)
 set (USE_ARCH ${TEMP_ARCH} CACHE STRING "Processor architecture")
@@ -164,6 +173,16 @@ if (libRadJav_STATIC)
 	set (libRadJav_CPP_DEFS RADJAV_LIB_STATIC ${libRadJav_CPP_DEFS})
 else ()
 	set (libRadJav_CPP_DEFS RADJAV_LIB_DLL ${libRadJav_CPP_DEFS})
+endif ()
+
+if (IS_MOBILE)
+	if (libRadJav_GUI_LIBRARY STREQUAL "iOS-UIKit")
+		set (libRadJav_CPP_DEFS USE_IOS ${libRadJav_CPP_DEFS})
+	endif ()
+
+	if (libRadJav_GUI_LIBRARY STREQUAL "Android")
+		set (libRadJav_CPP_DEFS USE_ANDROID ${libRadJav_CPP_DEFS})
+	endif ()
 endif ()
 
 if (WIN32)
