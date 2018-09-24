@@ -24,6 +24,7 @@
 #include "jscore/RadJavJSCJavascriptEngine.h"
 
 #include "cpp/RadJavCPPGUIGObject.h"
+#include "cpp/RadJavCPPFont.h"
 
 namespace RadJAV
 {

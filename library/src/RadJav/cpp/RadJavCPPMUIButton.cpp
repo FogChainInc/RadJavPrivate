@@ -17,7 +17,7 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#include "cpp/RadJavCPPMUIView.h"
+#include "cpp/RadJavCPPMUIButton.h"
 
 #include "RadJav.h"
 #include "RadJavString.h"
@@ -29,34 +29,34 @@ namespace RadJAV
 		namespace MUI
 		{
 			#ifdef USE_V8
-			View::View(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
+			Button::Button(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
 				: GObject (jsEngine, args)
 			{
 			}
 			#endif
             #ifdef USE_JAVASCRIPTCORE
-                View::View(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[])
-                    : GObject (jsEngine, thisObj, numArgs, args)
+                Button::Button(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[])
+                : GObject (jsEngine, thisObj, numArgs, args)
                 {
                 }
             #endif
 
-			View::View(String name, String text, CPP::GUI::GObject *parent)
+			Button::Button(String name, String text, CPP::GUI::GObject *parent)
 				: GObject(name, text, parent)
 			{
 			}
 
-			void View::create()
-			{
-				// Do stuff here? idk
-			}
-
-			void View::setPosition(RJINT x, RJINT y)
+			void Button::create()
 			{
                 /// Do stuff here.
 			}
 
-			CPP::Vector2 View::getPosition()
+			void Button::setPosition(RJINT x, RJINT y)
+			{
+                /// Do stuff here.
+			}
+
+			CPP::Vector2 Button::getPosition()
 			{
 				CPP::Vector2 newpos;
 
@@ -65,14 +65,14 @@ namespace RadJAV
 				return (newpos);
 			}
 
-			void View::setSize(RJINT width, RJINT height)
+			void Button::setSize(RJINT width, RJINT height)
 			{
 				_transform->setSize(width, height);
 
                 /// Do stuff here.
 			}
 
-			CPP::Vector2 View::getSize()
+			CPP::Vector2 Button::getSize()
 			{
 				CPP::Vector2 size = _transform->getSize();
 
@@ -81,14 +81,14 @@ namespace RadJAV
 				return (size);
 			}
 
-			void View::setText(String text)
+			void Button::setText(String text)
 			{
 				_text = text;
 
                 /// Do stuff here.
 			}
 
-			String View::getText()
+			String Button::getText()
 			{
 				String text = _text;
 
@@ -97,14 +97,14 @@ namespace RadJAV
 				return (text);
 			}
 
-			void View::setVisibility(RJBOOL visible)
+			void Button::setVisibility(RJBOOL visible)
 			{
 				_visible = visible;
 
                 /// Do stuff here.
 			}
 
-			RJBOOL View::getVisibility()
+			RJBOOL Button::getVisibility()
 			{
 				RJBOOL visible = _visible;
 
@@ -113,22 +113,22 @@ namespace RadJAV
 				return (visible);
 			}
 
-			void View::setEnabled(RJBOOL enabled)
+			void Button::setEnabled(RJBOOL enabled)
 			{
                 /// Do stuff here.
 			}
 
-			RJBOOL View::getEnabled()
+			RJBOOL Button::getEnabled()
 			{
 				RJBOOL enabled = false;
 
-				/// Do stuff here.
+                /// Do stuff here.
 
 				return (enabled);
 			}
 
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
-            	void View::on(String event, RJ_FUNC_TYPE func)
+            	void Button::on(String event, RJ_FUNC_TYPE func)
 				{
                     /// Do stuff here.
 				}

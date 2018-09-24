@@ -46,16 +46,12 @@ namespace RadJAV
 				#ifdef USE_V8
 					Font(V8JavascriptEngine *jsEngine, v8::Local<v8::Object> obj);
 
-					#ifdef GUI_USE_WXWIDGETS
-						static v8::Local<v8::Object> toV8Object(V8JavascriptEngine *jsEngine, Font *font);
-					#endif
+                    static v8::Local<v8::Object> toV8Object(V8JavascriptEngine *jsEngine, Font *font);
 				#endif
                 #ifdef USE_JAVASCRIPTCORE
                     Font(JSCJavascriptEngine *jsEngine, JSObjectRef obj);
 
-                    #ifdef GUI_USE_WXWIDGETS
-                        static JSObjectRef toJSCObject(JSCJavascriptEngine *jsEngine, Font *font);
-                    #endif
+                    static JSObjectRef toJSCObject(JSCJavascriptEngine *jsEngine, Font *font);
                 #endif
 
 				/** The font family used.

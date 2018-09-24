@@ -59,12 +59,12 @@ namespace RadJAV
 				italic = obj->Get(String("italic").toV8String(jsEngine->isolate))->BooleanValue();
 			}
 
-			#ifdef GUI_USE_WXWIDGETS
 			v8::Local<v8::Object> Font::toV8Object(V8JavascriptEngine *jsEngine, Font *font)
 			{
 				v8::Handle<v8::Function> func = jsEngine->v8GetFunction(jsEngine->radJav->Get(jsEngine->isolate), "Font");
 				v8::Local<v8::Object> objv8 = jsEngine->v8CallAsConstructor(func, 0, NULL);
 
+                #ifdef GUI_USE_WXWIDGETS
 				wxFont wfont;
 
 				if (wfont.IsOk() == true)
@@ -102,10 +102,10 @@ namespace RadJAV
 					jsEngine->v8SetBool(objv8, "bold", bold);
 					jsEngine->v8SetBool(objv8, "italic", italic);
 				}
+                #endif
 
 				return (objv8);
 			}
-			#endif
 		#endif
 
         #ifdef USE_JAVASCRIPTCORE
@@ -130,12 +130,12 @@ namespace RadJAV
                 italic = jsEngine->jscGetBool(obj, "italic");
             }
 
-            #ifdef GUI_USE_WXWIDGETS
-                JSObjectRef Font::toJSCObject(JSCJavascriptEngine *jsEngine, Font *font)
-                {
-                    JSObjectRef func = jsEngine->jscGetFunction(jsEngine->radJav, "Font");
-                    JSObjectRef objJSC = jsEngine->jscCallAsConstructor(func, 0, NULL);
+            JSObjectRef Font::toJSCObject(JSCJavascriptEngine *jsEngine, Font *font)
+            {
+                JSObjectRef func = jsEngine->jscGetFunction(jsEngine->radJav, "Font");
+                JSObjectRef objJSC = jsEngine->jscCallAsConstructor(func, 0, NULL);
 
+                #ifdef GUI_USE_WXWIDGETS
                     wxFont wfont;
 
                     if (wfont.IsOk() == true)
@@ -173,10 +173,10 @@ namespace RadJAV
                         jsEngine->jscSetBool(objJSC, "bold", bold);
                         jsEngine->jscSetBool(objJSC, "italic", italic);
                     }
+                #endif
 
-                    return (objJSC);
-                }
-            #endif
+                return (objJSC);
+            }
         #endif
 	}
 }

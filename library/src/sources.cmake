@@ -75,7 +75,7 @@ if (USE_V8)
 		set (SOURCES ${SOURCES_files_RadJav__v8__GUI__Sources} ${SOURCES})
 
 		set (SOURCES_files_RadJav__v8__MUI__Sources 
-			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUIView.cpp", 
+			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUIView.cpp" 
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUIButton.cpp")
 
 		source_group ("RadJav\\V8\\MUI" FILES ${SOURCES_files_RadJav__v8__MUI__Sources})
@@ -219,7 +219,7 @@ if (USE_JAVASCRIPTCORE)
 		set (SOURCES ${SOURCES_files_RadJav__JSC__GUI__Sources} ${SOURCES})
 	endif ()
 
-	# JavaScriptCore GUI
+	# JavaScriptCore MUI
 	if (IS_MOBILE)
 		set (SOURCES_files_RadJav__JSC__GUI__Sources 
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUIGObject.cpp")
@@ -228,7 +228,7 @@ if (USE_JAVASCRIPTCORE)
 		set (SOURCES ${SOURCES_files_RadJav__JSC__GUI__Sources} ${SOURCES})
 
 		set (SOURCES_files_RadJav__JSC__MUI__Sources 
-			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUIView.cpp", 
+			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUIView.cpp" 
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUIButton.cpp")
 		source_group ("RadJav\\JavaScriptCore\\MUI" FILES ${SOURCES_files_RadJav__JSC__MUI__Sources})
 
@@ -471,7 +471,7 @@ if (IS_MOBILE)
 	set (SOURCES ${SOURCES_files_RadJav__cpp__GUI__Sources} ${SOURCES})
 
 	set (SOURCES_files_RadJav__cpp__MUI__Sources 
-		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUIView.cpp", 
+		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUIView.cpp" 
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUIButton.cpp")
 
 	source_group ("RadJav\\CPP\\MUI" FILES ${SOURCES_files_RadJav__cpp__MUI__Sources})

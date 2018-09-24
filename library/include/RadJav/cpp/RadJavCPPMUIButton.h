@@ -17,8 +17,8 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#ifndef _RADJAV_MUI_CPP_VIEW_H_
-	#define _RADJAV_MUI_CPP_VIEW_H_
+#ifndef _RADJAV_MUI_CPP_BUTTON_H_
+	#define _RADJAV_MUI_CPP_BUTTON_H_
 
 	#include "RadJavPreprocessor.h"
 	#include "RadJavString.h"
@@ -31,16 +31,16 @@
 		{
 			namespace MUI
 			{
-				class RADJAV_EXPORT View : public CPP::GUI::GObject
+				class RADJAV_EXPORT Button : public CPP::GUI::GObject
 				{
 					public:
 						#ifdef USE_V8
-							View(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
+							Button(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
 						#endif
                         #ifdef USE_JAVASCRIPTCORE
-                            View(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
+                            Button(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
                         #endif
-						View(String name, String text = "", CPP::GUI::GObject *parent = NULL);
+						Button(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 
 						void create();
 						void setPosition(RJINT x, RJINT y);

@@ -225,14 +225,14 @@ if (USE_JAVASCRIPTCORE)
 	# JavaScriptCore MUI
 	if (IS_MOBILE)
 		set (SOURCES_files_RadJav__JSC__GUI__Headers 
-			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIGObject.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIGObject.h")
 		source_group ("RadJav\\JavaScriptCore\\GUI" FILES ${SOURCES_files_RadJav__JSC__GUI__Headers})
 
 		set (SOURCES ${SOURCES_files_RadJav__JSC__GUI__Headers} ${SOURCES})
 
 		set (SOURCES_files_RadJav__JSC__MUI__Headers 
-			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUIView.h",
-			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUIButton.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUIView.h" 
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUIButton.h")
 		source_group ("RadJav\\JavaScriptCore\\MUI" FILES ${SOURCES_files_RadJav__JSC__MUI__Headers})
 
 		set (SOURCES ${SOURCES_files_RadJav__JSC__MUI__Headers} ${SOURCES})
@@ -465,7 +465,7 @@ if (USE_WXWIDGETS)
 	set (SOURCES ${SOURCES_files_RadJav__cpp__GUI__Headers} ${SOURCES})
 endif ()
 
-# C++ GUI
+# C++ MUI
 if (IS_MOBILE)
 	set (SOURCES_files_RadJav__cpp__GUI__Headers 
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIGObject.h")
@@ -475,7 +475,7 @@ if (IS_MOBILE)
 	set (SOURCES ${SOURCES_files_RadJav__cpp__GUI__Headers} ${SOURCES})
 
 	set (SOURCES_files_RadJav__cpp__MUI__Headers 
-		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIView.h", 
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIView.h" 
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIButton.h")
 
 	source_group ("RadJav\\CPP\\MUI" FILES ${SOURCES_files_RadJav__cpp__MUI__Headers})
