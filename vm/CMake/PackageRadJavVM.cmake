@@ -21,8 +21,8 @@ endif ()
 
 if (APPLE)
 	if (IOS)
-		message (SEND_ERROR "Application bundle not implemented for iOS build\n"
-					"You can disable RadJavVM_CREATE_INSTALL_PACKAGES for now\n")
+		message (WARNING "Application bundle not implemented for iOS build\n"
+				"You can disable RadJavVM_CREATE_INSTALL_PACKAGES for now\n")
 	else ()
 		set_property (CACHE RadJavVM_PACKAGER_TYPE PROPERTY STRINGS "DragNDrop")
 	
