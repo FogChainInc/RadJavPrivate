@@ -20,7 +20,7 @@
 
 #import "AppDelegate.h"
 #import "ViewController.h"
-#include "RadJavC.h"
+#include <RadJav/RadJavC.h>
 
 @interface AppDelegate ()
 
@@ -55,9 +55,10 @@
 	const char* args[2] = {[appFullPath UTF8String], [jsAppFilePath UTF8String]};
 	
 	int retCode = RadJav_initialize(2, args);
-	//RadJav_shutdown();
 	
-	//exit(retCode);
+	RadJav_shutdown();
+	
+	exit(retCode);
 	
 	return YES;
 }
