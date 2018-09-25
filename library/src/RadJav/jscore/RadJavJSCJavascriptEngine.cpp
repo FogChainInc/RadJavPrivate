@@ -38,12 +38,19 @@
 #endif
 
 #ifdef USE_JAVASCRIPTCORE
+    #include "jscore/RadJavJSCGUIGObject.h"
     #include "jscore/RadJavJSCGlobal.h"
     #include "jscore/RadJavJSCOS.h"
 
 	#include "jscore/RadJavJSCIO.h"
     #include "jscore/RadJavJSCConsole.h"
     #include "jscore/RadJavJSCThread.h"
+
+#ifdef USE_IOS
+    #include "jscore/RadJavJSCMUIView.h"
+    #include "jscore/RadJavJSCMUIButton.h"
+#endif
+
 
 	// GUI
 	#ifdef GUI_USE_WXWIDGETS
@@ -1042,6 +1049,41 @@ namespace RadJAV
 				}
 				#endif
 
+#ifdef USE_IOS
+                
+                // RadJav.MUI
+
+                {
+                    JSObjectRef guiFunc = jscGetFunction(radJavFunc, "GUI");
+                    JSObjectRef muiFunc = jscGetFunction(radJavFunc, "MUI");
+                    // RadJav.GUI.GObject
+                    {
+                        JSObjectRef gobjectFunc = jscGetFunction(guiFunc, "GObject");
+                        JSObjectRef gobjectPrototype = jscGetObject(gobjectFunc, "prototype");
+                        
+                        JSC::GUI::GObject::createJSCCallbacks(globalContext, gobjectPrototype);
+                    }
+                    
+                    // RadJav.MUI.View
+                    {
+                        JSObjectRef viewFunc = jscGetFunction(muiFunc, "View");
+                        JSObjectRef viewPrototype = jscGetObject(viewFunc, "prototype");
+                        
+                        JSC::MUI::View::createJSCCallbacks(globalContext, viewPrototype);
+                    }
+                    
+                    // RadJav.MUI.Button
+                    {
+//                        JSObjectRef buttonFunc = jscGetFunction(guiFunc, "Button");
+//                        JSObjectRef buttonPrototype = jscGetObject(buttonFunc, "prototype");
+//                        
+//                        JSC::MUI::Button::createJSCCallbacks(globalContext, buttonPrototype);
+                    }
+                    
+                }
+
+#endif
+                
 				// RadJav.GUI
 				#ifdef GUI_USE_WXWIDGETS
 				{

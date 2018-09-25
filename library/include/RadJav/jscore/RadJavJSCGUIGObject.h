@@ -30,7 +30,7 @@ namespace RadJAV
 		/// Contains classes for the OS GUI.
 		namespace GUI
 		{
-			class RADJAV_EXPORT GObject
+			class GObject
 			{
 			public:
 				static void createJSCCallbacks(JSContextRef context, JSObjectRef object);

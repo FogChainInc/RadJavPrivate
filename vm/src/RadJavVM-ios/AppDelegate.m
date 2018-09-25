@@ -20,7 +20,7 @@
 
 #import "AppDelegate.h"
 #import "ViewController.h"
-#include <RadJav/RadJavC.h>
+#include "RadJavC.h"
 
 @interface AppDelegate ()
 
@@ -48,16 +48,16 @@
 	//Test Javascript file
 	NSString *docDirPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)objectAtIndex:0];
 	NSMutableString *jsAppFilePath = [NSMutableString stringWithString:docDirPath];
-	[jsAppFilePath appendString:@"/console.xrj"];
+	[jsAppFilePath appendString:@"/window.xrj"];
 	
 	NSLog(@"%@", jsAppFilePath);
 
 	const char* args[2] = {[appFullPath UTF8String], [jsAppFilePath UTF8String]};
 	
 	int retCode = RadJav_initialize(2, args);
-	RadJav_shutdown();
+	//RadJav_shutdown();
 	
-	exit(retCode);
+	//exit(retCode);
 	
 	return YES;
 }

@@ -578,6 +578,17 @@ if (libRadJav_EMBEDFILE)
 				RadJav.Crypto.HashMultipart.js
 		)
 	endif ()
+	
+	
+
+	if (IS_MOBILE)
+		set (jsFiles ${jsFiles}
+			RadJav.GUI.GObject.js # This must be compiled before any other GUI object.
+			RadJav.MUI.View.js
+			RadJav.MUI.Button.js
+		)
+
+	endif ()
 
 	if (USE_WXWIDGETS)
 		set (jsFiles ${jsFiles}
