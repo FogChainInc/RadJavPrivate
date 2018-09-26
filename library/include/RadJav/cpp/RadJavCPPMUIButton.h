@@ -25,12 +25,44 @@
 
 	#include "cpp/RadJavCPPGUIGObject.h"
 
+	#ifdef USE_IOS
+		#ifdef __OBJC__
+			#define OBJC_CLASS(name) @class name
+		#else
+			#define OBJC_CLASS(name) typedef struct objc_object name
+		#endif
+
+		OBJC_CLASS(UIButton);
+	#elif defined USE_ANDROID
+		#warning Add Button implementation for Android platform
+	#endif
+
 	namespace RadJAV
 	{
 		namespace CPP
 		{
 			namespace MUI
 			{
+
+				//TODO: Add some base class here with common UI controls interface
+				class RADJAV_EXPORT ButtonFrame : public ChainedPtr
+				{
+				public:
+					//TODO: Add correct parent type here, usually some base C++ container class (which still not created)
+					ButtonFrame(void *parent, const String &text, const Vector2 &pos, const Vector2 &size);
+					~ButtonFrame();
+					
+					//TODO: Add more specific methods for Button here
+					//Other common methods needs to be added to some base interface C++ class
+					
+				private:
+					#ifdef USE_IOS
+						UIButton* widget;
+					#elif defined USE_ANDROID
+						//TODO: Wrap Android specific type here
+					#endif
+				};
+				
 				class RADJAV_EXPORT Button : public CPP::GUI::GObject
 				{
 					public:

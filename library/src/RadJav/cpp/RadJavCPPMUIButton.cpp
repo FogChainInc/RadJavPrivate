@@ -48,7 +48,24 @@ namespace RadJAV
 
 			void Button::create()
 			{
-                /// Do stuff here.
+//				SomeBaseContainerType* parentWin = nullptr;
+//
+//				if (_parent != nullptr)
+//					parentWin = (SomeBaseContainerType*)_parent->_appObj;
+
+				
+				//TODO: add correct parent object
+				ButtonFrame* object = RJNEW ButtonFrame(/*parentWin*/ nullptr, _text,
+														Vector2(_transform->x, _transform->y),
+														Vector2(_transform->width, _transform->height));
+				
+//				_appObj = object;
+//
+//				linkWith(object);
+				
+				setup();
+
+//				object->Show(_visible);
 			}
 
 			void Button::setPosition(RJINT x, RJINT y)
