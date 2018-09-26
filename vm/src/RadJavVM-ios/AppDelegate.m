@@ -55,11 +55,12 @@
 	const char* args[2] = {[appFullPath UTF8String], [jsAppFilePath UTF8String]};
 	
 	int retCode = RadJav_initialize(2, args);
-	
-	RadJav_shutdown();
-	
-	exit(retCode);
-	
+    #ifndef USE_IOS
+        RadJav_shutdown();
+        exit(retCode);
+    #endif
+    
+
 	return YES;
 }
 

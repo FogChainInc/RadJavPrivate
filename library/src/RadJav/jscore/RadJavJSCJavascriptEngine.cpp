@@ -326,7 +326,14 @@ namespace RadJAV
 					exitCode = wxTheApp->OnRun();
 				}
 			#else
-				while (runApplicationSingleStep()) {}
+                #ifdef USE_IOS
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    runApplicationSingleStep();
+     
+                    });
+                #else
+                while (runApplicationSingleStep()) {}
+               #endif
 			#endif
 
 			return exitCode;
@@ -522,6 +529,14 @@ namespace RadJAV
 
 					return false;
 				}
+                else {
+                    
+                #ifdef USE_IOS
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        runApplicationSingleStep();
+                    });
+                #endif
+                }
 			}
 			catch (Exception ex)
 			{
