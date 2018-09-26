@@ -19,11 +19,20 @@
 */
 #ifndef _RADJAV_MUI_CPP_VIEW_H_
 	#define _RADJAV_MUI_CPP_VIEW_H_
-
-	#include "RadJavPreprocessor.h"
-	#include "RadJavString.h"
-
 	#include "cpp/RadJavCPPGUIGObject.h"
+
+#ifdef USE_IOS
+#ifdef __OBJC__
+#define OBJC_CLASS(name) @class name
+#else
+#define OBJC_CLASS(name) typedef struct objc_object name
+#endif
+
+OBJC_CLASS(UIView);
+#elif defined USE_ANDROID
+#warning Add Button implementation for Android platform
+#endif
+
 
 	namespace RadJAV
 	{
@@ -31,6 +40,29 @@
 		{
 			namespace MUI
 			{
+                
+                //TODO: Add some base class here with common UI controls interface
+                class RADJAV_EXPORT ViewFrame : public ChainedPtr
+                {
+                public:
+                    //TODO: Add correct parent type here, usually some base C++ container class (which still not created)
+                    ViewFrame();
+                    ViewFrame(void *parent, const String &text, const Vector2 &pos, const Vector2 &size);
+                    void setSize(RJINT x, RJINT y);
+                    ~ViewFrame();
+                    
+                    //TODO: Add more specific methods for Button here
+                    //Other common methods needs to be added to some base interface C++ class
+                    
+                private:
+#ifdef USE_IOS
+                    UIView* widget;
+#elif defined USE_ANDROID
+                    //TODO: Wrap Android specific type here
+#endif
+                };
+                
+                
 				class RADJAV_EXPORT View : public CPP::GUI::GObject
 				{
 					public:
@@ -58,7 +90,7 @@
                         	/// Execute when an event is triggered.
                         	void on(String event, RJ_FUNC_TYPE func);
 						#endif
-
+                        ViewFrame* _appObject;
 						String icon;
 				};
 			}
