@@ -65,8 +65,6 @@
 		#define _NOEXCEPT noexcept
 	#endif
 
-	#define null NULL
-
 	#define RJINT int
 	#define RJUINT unsigned int
 	#define RJBOOL bool
