@@ -48,7 +48,15 @@ namespace RadJAV
 
 			void View::create()
 			{
-				// Do stuff here? idk
+
+                //TODO: add correct parent object
+                ViewFrame* object = RJNEW ViewFrame(/*parentWin*/ nullptr, _text,
+                                                        Vector2(_transform->x, _transform->y),
+                                                        Vector2(_transform->width, _transform->height));
+                
+                _appObject = object;
+                linkWith(object);
+                setup();
 			}
 
 			void View::setPosition(RJINT x, RJINT y)
@@ -69,7 +77,7 @@ namespace RadJAV
 			{
 				_transform->setSize(width, height);
 
-                /// Do stuff here.
+                _appObject->setSize(width, height);
 			}
 
 			CPP::Vector2 View::getSize()

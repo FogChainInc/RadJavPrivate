@@ -36,6 +36,7 @@ namespace RadJAV
 			void View::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 			{
 				JSC_CALLBACK(object, "create", View::create);
+                JSC_CALLBACK(object, "setSize", View::setSize);
 			}
 
 			JSValueRef View::create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
@@ -49,6 +50,27 @@ namespace RadJAV
 				
 				return promise;
 			}
+            
+            JSValueRef View::setSize(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+            {
+                CppMuiObject *appObject = (CppMuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+                
+                int x = 0;
+                int y = 0;
+
+                
+                if (argumentCount >= 2){
+                    x =  JSValueToNumber(ctx, arguments[0], exception);
+                    y =  JSValueToNumber(ctx, arguments[1], exception);
+                }
+                
+                appObject->setSize(x, y);
+                
+                JSObjectRef _guiFinishedCreatingGObject = JSC_JAVASCRIPT_ENGINE->jscGetFunction(JSC_RADJAV, "_guiFinishedCreatingGObject");
+                JSObjectRef promise = JSC_JAVASCRIPT_ENGINE->createPromise(thisObject, _guiFinishedCreatingGObject);
+                
+                return promise;
+            }
 		}
 	}
 }
