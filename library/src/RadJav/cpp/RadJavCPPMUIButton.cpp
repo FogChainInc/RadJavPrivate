@@ -66,7 +66,7 @@ namespace RadJAV
 
 			void Button::setPosition(RJINT x, RJINT y)
 			{
-                /// Do stuff here.
+                _appObject->setPosition(x,y);
 			}
 
 			CPP::Vector2 Button::getPosition()
@@ -82,7 +82,7 @@ namespace RadJAV
 			{
 				_transform->setSize(width, height);
 
-                /// Do stuff here.
+                _appObject->setSize(width,height);
 			}
 
 			CPP::Vector2 Button::getSize()
@@ -97,7 +97,7 @@ namespace RadJAV
 			void Button::setText(String text)
 			{
 				_text = text;
-
+                _appObject->setText(text);
                 /// Do stuff here.
 			}
 
@@ -113,7 +113,7 @@ namespace RadJAV
 			void Button::setVisibility(RJBOOL visible)
 			{
 				_visible = visible;
-
+                _appObject->setVisibility(visible);
                 /// Do stuff here.
 			}
 
