@@ -37,6 +37,36 @@ namespace RadJAV
 			{
 				JSC_CALLBACK(object, "create", View::create);
                 JSC_CALLBACK(object, "setSize", View::setSize);
+                JSC_CALLBACK(object, "getSize", View::getSize);
+                JSC_CALLBACK(object, "setPosition", View::setPosition);
+                JSC_CALLBACK(object, "getPosition", View::getPosition);
+                
+                
+                //JSC_CALLBACK(object, "setParent", View::setParent);
+                //JSC_CALLBACK(object, "getParent", View::getParent);
+
+                
+//                JSC_CALLBACK(object, "getX", View::getX);
+//                JSC_CALLBACK(object, "getY", View::getY);
+//
+//                JSC_CALLBACK(object, "getWidth", View::getWidth);
+//                JSC_CALLBACK(object, "getHeight", View::getHeight);
+               
+//                JSC_CALLBACK(object, "setFont", View::setFont);
+//                JSC_CALLBACK(object, "getFont", View::getFont);
+
+//
+//                JSC_CALLBACK(object, "setText", View::setText);
+//                JSC_CALLBACK(object, "getText", View::getText);
+//                JSC_CALLBACK(object, "getParent", View::getParent);
+//                JSC_CALLBACK(object, "getAppObj", View::getAppObj);
+//                JSC_CALLBACK(object, "setVisibility", View::setVisibility);
+//                JSC_CALLBACK(object, "getVisibility", View::getVisibility);
+//                JSC_CALLBACK(object, "setEnabled", View::setEnabled);
+//                JSC_CALLBACK(object, "getEnabled", View::getEnabled);
+//                JSC_CALLBACK(object, "on", View::on);
+//                JSC_CALLBACK(object, "destroy", View::destroy);
+
 			}
 
 			JSValueRef View::create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
@@ -55,22 +85,75 @@ namespace RadJAV
             {
                 CppMuiObject *appObject = (CppMuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
                 
-                int x = 0;
-                int y = 0;
+                int width = 0;
+                int height = 0;
 
                 
                 if (argumentCount >= 2){
-                    x =  JSValueToNumber(ctx, arguments[0], exception);
-                    y =  JSValueToNumber(ctx, arguments[1], exception);
+                    width =  JSValueToNumber(ctx, arguments[0], exception);
+                    height =  JSValueToNumber(ctx, arguments[1], exception);
                 }
                 
-                appObject->setSize(x, y);
+                appObject->setSize(width, height);
                 
                 JSObjectRef _guiFinishedCreatingGObject = JSC_JAVASCRIPT_ENGINE->jscGetFunction(JSC_RADJAV, "_guiFinishedCreatingGObject");
                 JSObjectRef promise = JSC_JAVASCRIPT_ENGINE->createPromise(thisObject, _guiFinishedCreatingGObject);
                 
                 return promise;
             }
+            
+            
+            JSValueRef View::getSize(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+            {
+                 CppMuiObject *appObject = (CppMuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+            }
+            
+            JSValueRef View::setPosition(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+            {
+                CppMuiObject *appObject = (CppMuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+                
+                int x = 0;
+                int y = 0;
+                
+                
+                if (argumentCount >= 2){
+                    x =  JSValueToNumber(ctx, arguments[0], exception);
+                    y =  JSValueToNumber(ctx, arguments[1], exception);
+                }
+                
+                appObject->setPosition(x, y);
+                
+                JSObjectRef _guiFinishedCreatingGObject = JSC_JAVASCRIPT_ENGINE->jscGetFunction(JSC_RADJAV, "_guiFinishedCreatingGObject");
+                JSObjectRef promise = JSC_JAVASCRIPT_ENGINE->createPromise(thisObject, _guiFinishedCreatingGObject);
+                
+                return promise;
+            }
+            
+            
+            JSValueRef View::getPosition(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+            {
+                
+            }
+            
+            
+            
+            JSValueRef View::setParent(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+            {
+                CppMuiObject *appObject = (CppMuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+ 
+                if (argumentCount > 0){
+                   JSObjectRef argument =  JSValueToObject(ctx, arguments[0], exception);
+                  
+                }
+                //TODO: implement lookup and addSubview: according to it
+                //appObject->setParent(x, y);
+                
+                JSObjectRef _guiFinishedCreatingGObject = JSC_JAVASCRIPT_ENGINE->jscGetFunction(JSC_RADJAV, "_guiFinishedCreatingGObject");
+                JSObjectRef promise = JSC_JAVASCRIPT_ENGINE->createPromise(thisObject, _guiFinishedCreatingGObject);
+                
+                return promise;
+            }
+            
 		}
 	}
 }
