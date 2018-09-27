@@ -1225,12 +1225,12 @@ namespace RadJAV
 					}
 					
 					// RadJav.MUI.Button
-//					{
-//						JSObjectRef buttonFunc = jscGetFunction(muiFunc, "Button");
-//						JSObjectRef buttonPrototype = jscGetObject(buttonFunc, "prototype");
-//
-//						JSC::MUI::Button::createJSCCallbacks(globalContext, buttonPrototype);
-//					}
+					{
+						JSObjectRef buttonFunc = jscGetFunction(muiFunc, "Button");
+						JSObjectRef buttonPrototype = jscGetObject(buttonFunc, "prototype");
+
+						JSC::MUI::Button::createJSCCallbacks(globalContext, buttonPrototype);
+					}
 				}
 				#endif
 

@@ -27,15 +27,15 @@ namespace RadJav
 	{
 		/** @class RadJav.MUI.Button
 		 * @extends RadJav.GUI.GObject
-		 * A button.
+		 * A mobile button.
 		 * Available on platforms: iOS,Android,HTML5
 		 */
-		class Button extends RadJav.GUI.GObject
+		export class Button extends RadJav.GUI.GObject
 		{
+			static xmlTag: RadJav.TagType = { tag: "button", type: "Button" };
+
 			constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject)
 			{
-				super(obj, text, parent);
-
 				if (obj == null)
 					obj = {};
 
@@ -51,9 +51,11 @@ namespace RadJav
 					obj.size.x = 80;
 					obj.size.y = 40;
 				}
-			}
 
-			static xmlTag: RadJav.TagType = { tag: "button", type: "Button" };
+				super(obj, text, parent);
+
+				this.type = "RadJav.MUI.Button";
+			}
 		}
 	}
 }
