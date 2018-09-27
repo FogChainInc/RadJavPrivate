@@ -61,7 +61,7 @@ namespace RadJAV
 
 			void View::setPosition(RJINT x, RJINT y)
 			{
-                /// Do stuff here.
+                _appObject->setPosition(x, y);
 			}
 
 			CPP::Vector2 View::getPosition()

@@ -90,7 +90,7 @@
                         	/// Execute when an event is triggered.
                         	void on(String event, RJ_FUNC_TYPE func);
 						#endif
-
+                        ButtonFrame* _appObject;
 						String icon;
 				};
 			}

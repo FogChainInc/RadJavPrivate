@@ -44,14 +44,17 @@ namespace RadJAV
                 
                 UIView * greenView = keyWindow.rootViewController.view ;
                 [greenView  addSubview:widget];
-                widget.center = greenView.center;
+                widget.backgroundColor = [UIColor redColor];
             }
             
             void ViewFrame::setSize(RJINT width, RJINT height)
             {
                 widget.frame = CGRectMake(widget.frame.origin.x, widget.frame.origin.y, width, height);
             }
-            
+            void ViewFrame::setPosition(RJINT x, RJINT y)
+            {
+                widget.frame = CGRectMake(x, y, widget.frame.size.width, widget.frame.size.height);
+            }
             
             ViewFrame::~ViewFrame()
             {

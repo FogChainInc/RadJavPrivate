@@ -58,14 +58,10 @@ namespace RadJAV
 				ButtonFrame* object = RJNEW ButtonFrame(/*parentWin*/ nullptr, _text,
 														Vector2(_transform->x, _transform->y),
 														Vector2(_transform->width, _transform->height));
-				
-//				_appObj = object;
-//
-//				linkWith(object);
-				
-				setup();
-
-//				object->Show(_visible);
+			                
+                _appObject = object;
+                linkWith(object);
+                setup();
 			}
 
 			void Button::setPosition(RJINT x, RJINT y)

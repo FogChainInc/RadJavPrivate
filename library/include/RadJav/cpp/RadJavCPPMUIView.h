@@ -49,6 +49,7 @@ OBJC_CLASS(UIView);
                     ViewFrame();
                     ViewFrame(void *parent, const String &text, const Vector2 &pos, const Vector2 &size);
                     void setSize(RJINT x, RJINT y);
+                    void setPosition(RJINT x, RJINT y);
                     ~ViewFrame();
                     
                     //TODO: Add more specific methods for Button here

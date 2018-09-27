@@ -22,6 +22,8 @@
 
 #include "RadJavPreprocessor.h"
 #include <JavaScriptCore/JavaScriptCore.h>
+#include "jscore/RadJavJSCGUIGObject.h"
+
 
 namespace RadJAV
 {
@@ -29,13 +31,19 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
-			class RADJAV_EXPORT View
+            class RADJAV_EXPORT View:RadJAV::JSC::GUI::GObject
 			{
 				public:
 					static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
 
 					static JSValueRef create(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
                     static JSValueRef setSize(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
+                    static JSValueRef getSize(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
+                
+                    static JSValueRef setPosition(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
+                
+                    static JSValueRef getPosition(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
+                    static JSValueRef setParent(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
 			};
 		}
 	}
