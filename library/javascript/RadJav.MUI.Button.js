@@ -18,7 +18,6 @@
     WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-
 /// <reference path="RadJav.ts" />
 /// <reference path="RadJav.Vector2.ts" />
 var RadJav;
@@ -27,13 +26,13 @@ var RadJav;
     (function (MUI) {
         /** @class RadJav.MUI.Button
          * @extends RadJav.GUI.GObject
-         * A button.
+         * A mobile button.
          * Available on platforms: iOS,Android,HTML5
          */
         var Button = /** @class */ (function (_super) {
             __extends(Button, _super);
             function Button(obj, text, parent) {
-                var _this = _super.call(this, obj, text, parent) || this;
+                var _this = this;
                 if (obj == null)
                     obj = {};
                 if (typeof obj == "string") {
@@ -45,10 +44,13 @@ var RadJav;
                     obj.size.x = 80;
                     obj.size.y = 40;
                 }
+                _this = _super.call(this, obj, text, parent) || this;
+                _this.type = "RadJav.MUI.Button";
                 return _this;
             }
             Button.xmlTag = { tag: "button", type: "Button" };
             return Button;
         }(RadJav.GUI.GObject));
+        MUI.Button = Button;
     })(MUI = RadJav.MUI || (RadJav.MUI = {}));
 })(RadJav || (RadJav = {}));
