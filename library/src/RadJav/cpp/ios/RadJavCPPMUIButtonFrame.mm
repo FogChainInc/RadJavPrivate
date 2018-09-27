@@ -20,46 +20,117 @@ namespace RadJAV
 				//Release button here
 				[widget release];
 			}
+			
+//			void ButtonFrame::addChild(GObject *child)
+//			{
+//				//TODO: Add implementation
+//			}
+
+			void ButtonFrame::setFont(CPP::Font *font)
+			{
+				//TODO: Add implementation
+			}
+			
+			CPP::Font* ButtonFrame::getFont()
+			{
+				//TODO: Add implementation
+				return nullptr;
+			}
+
+			void ButtonFrame::setPosition(RJINT x, RJINT y)
+			{
+				//TODO: Add implementation
+			}
+
+			void ButtonFrame::setPosition(CPP::Vector2 pos)
+			{
+				//TODO: Add implementation
+			}
+			
+			CPP::Vector2 ButtonFrame::getPosition()
+			{
+				//TODO: Add implementation
+				return Vector2();
+			}
+			
+			RJINT ButtonFrame::getX()
+			{
+				//TODO: Add implementation
+				return 0;
+			}
+			
+			RJINT ButtonFrame::getY()
+			{
+				//TODO: Add implementation
+				return 0;
+			}
+			
+			void ButtonFrame::setSize(RJINT width, RJINT height)
+			{
+				//TODO: Add implementation
+			}
+			
+			void ButtonFrame::setSize(CPP::Vector2 size)
+			{
+				//TODO: Add implementation
+			}
+			
+			CPP::Vector2 ButtonFrame::getSize()
+			{
+				//TODO: Add implementation
+				return Vector2();
+			}
+			
+			RJINT ButtonFrame::getWidth()
+			{
+				//TODO: Add implementation
+				return 0;
+			}
+			
+			RJINT ButtonFrame::getHeight()
+			{
+				//TODO: Add implementation
+				return 0;
+			}
+			
+			void ButtonFrame::setText(String text)
+			{
+				//TODO: Add implementation
+			}
+			
+			String ButtonFrame::getText()
+			{
+				//TODO: Add implementation
+				return String();
+			}
+			
+//			GObject* ButtonFrame::getParent()
+//			{
+//				//TODO: Add implementation
+//				return nullptr;
+//			}
+			
+			void ButtonFrame::setVisibility(RJBOOL visible)
+			{
+				//TODO: Add implementation
+			}
+			
+			RJBOOL ButtonFrame::getVisibility()
+			{
+				//TODO: Add implementation
+				return false;
+			}
+			
+			void ButtonFrame::setEnabled(RJBOOL enabled)
+			{
+				//TODO: Add implementation
+			}
+			
+			RJBOOL ButtonFrame::getEnabled()
+			{
+				//TODO: Add implementation
+				return false;
+			}
 		}
 	}
 }
-
-namespace RadJAV
-{
-    namespace CPP
-    {
-        namespace MUI
-        {
-            
-            ViewFrame::ViewFrame(){
-                
-                
-            }
-            
-            ViewFrame::ViewFrame(void *parent, const String &text, const Vector2 &pos, const Vector2 &size)
-            : widget([[UIView alloc] init])
-            {
-                widget.backgroundColor = [UIColor redColor];
-                UIWindow * keyWindow = [UIApplication sharedApplication].keyWindow;
-                
-                UIView * greenView = keyWindow.rootViewController.view ;
-                [greenView  addSubview:widget];
-                widget.center = greenView.center;
-            }
-            
-            void ViewFrame::setSize(RJINT width, RJINT height)
-            {
-                widget.frame = CGRectMake(widget.frame.origin.x, widget.frame.origin.y, width, height);
-            }
-            
-            
-            ViewFrame::~ViewFrame()
-            {
-                //Release button here
-                [widget release];
-            }
-        }
-    }
-}
-
-

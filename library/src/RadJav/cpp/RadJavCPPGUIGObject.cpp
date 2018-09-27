@@ -363,6 +363,15 @@ namespace RadJAV
 				#endif
 			}
 
+		#if defined USE_IOS || defined USE_ANDROID
+			GObjectBase::GObjectBase()
+			{
+			}
+			
+			GObjectBase::~GObjectBase()
+			{
+			}
+		#else
 			GObjectBase::GObjectBase()
 			{
 				#ifdef GUI_USE_WXWIDGETS
@@ -653,8 +662,8 @@ namespace RadJAV
                     return (*pevent)(numArgs, args);
                 }
                 #endif
-			#endif
+			#endif //GUI_USE_WXWIDGETS
+		#endif //defined USE_IOS || defined USE_ANDROID
 		}
 	}
 }
-
