@@ -14,7 +14,7 @@
   !define PRODUCT_NAME "RadJavVM"
   !define PRODUCT_WEB_SITE "https://www.radjav.com/"
   !define PRODUCT_PUBLISHER "Higher Edge Software, LLC"
-  !define PRODUCT_VERSION 0.124
+  !define PRODUCT_VERSION 0.21
   !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 ;  !define PRODUCT_ARCH "x64" ; This has to always be commented out, this must be passed in from the .bat or .sh file.
 
@@ -59,7 +59,7 @@
   Caption "${PRODUCT_NAME}"
 
   ;Adds the Product Version on top of the Version Tab in the Properties of the file.
-  VIProductVersion 1.0.0.0
+  VIProductVersion 0.2.1.0
   
   ;VIAddVersionKey - Adds a field in the Version Tab of the File Properties. This can either be a field provided by the system or a user defined field.
   VIAddVersionKey ProductName "${PRODUCT_NAME} Installer"

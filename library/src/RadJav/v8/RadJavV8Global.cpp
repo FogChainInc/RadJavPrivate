@@ -184,12 +184,16 @@ namespace RadJAV
 		void Global::exit(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
 			RJINT exitCode = 0;
-			v8::Local<v8::Integer> exc = v8::Local<v8::Integer>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 
-			if (V8_JAVASCRIPT_ENGINE->v8IsNull(exc) == false)
-				exitCode = exc->Value();
+			if (args.Length() > 0)
+			{
+				v8::Local<v8::Integer> exc = v8::Local<v8::Integer>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 
-			RadJav::javascriptEngine->exit(0);
+				if (V8_JAVASCRIPT_ENGINE->v8IsNull(exc) == false)
+					exitCode = exc->Value();
+			}
+
+			RadJav::javascriptEngine->exit(exitCode);
 		}
 	}
 }

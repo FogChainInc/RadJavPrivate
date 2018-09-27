@@ -13,6 +13,8 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary ()).then (
 	{
 		RadJav.runApplication (function ()
 			{
+				// Checks to see if this is a mobile or desktop app.
+				// getApplicationPath is only available on those platforms.
 				if (RadJav.OS.getApplicationPath != null)
 				{
 					var findSlash = "/";
@@ -78,11 +80,13 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary ()).then (
 									});
 							};
 
+						// If the current OS is HTML5, load the GUI from a JSON file located on the server.
 						if (RadJav.OS.HTML5 != null)
 							RadJav.Net.httpRequest ("./exampleBrowserGUI.json").then (gotData);
 						else
 						{
-							var data = RadJav.IO.TextFile.readEntireFile ("./exampleBrowserGUI.json");
+							var file = new RadJav.IO.TextFile ();
+							var data = file.readFile ("./exampleBrowserGUI.json");
 							gotData (data);
 						}
 					});

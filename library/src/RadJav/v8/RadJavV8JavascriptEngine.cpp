@@ -97,6 +97,7 @@
 #endif
 
 #include "cpp/RadJavCPPIO.h"
+#include "cpp/RadJavCPPOS.h"
 
 #include <cstring>
 #include "cpp/RadJavCPPAgent.h"
@@ -170,16 +171,16 @@ namespace RadJAV
 			exceptionsDisplayMessageBox = false;
 			shutdownOnException = false;
 
-			if (RadJav::radJavArguments.size() > 0)
+			if (CPP::OS::args.size() > 0)
 			{
-				for (size_t iIdx = 0; iIdx < RadJav::radJavArguments.size(); iIdx++)
+				for (size_t iIdx = 0; iIdx < CPP::OS::args.size(); iIdx++)
 				{
 					String endSpace = " ";
 
-					if (iIdx == (RadJav::radJavArguments.size() - 1))
+					if (iIdx == (CPP::OS::args.size() - 1))
 						endSpace = "";
 
-					String arg = RadJav::radJavArguments.at(iIdx);
+					String arg = CPP::OS::args.at(iIdx);
 
 					if (arg == "--expose_gc")
 						exposeGC = true;
@@ -446,6 +447,9 @@ namespace RadJAV
 				// Handle the on ready function.
 				if (firstRun == true)
 				{
+					if (CPP::OS::onReadyFunction != NULL)
+						(*CPP::OS::onReadyFunction) ();
+
 					if (V8B::OS::onReadyFunction != NULL)
 					{
 						v8::Local<v8::Function> val = v8::Local<v8::Function>::Cast(V8B::OS::onReadyFunction->Get(isolate));
