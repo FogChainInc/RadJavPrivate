@@ -59,9 +59,97 @@ namespace RadJAV
 				//Release button here
 				[widget release];
 			}
+			
+//			void ButtonFrame::addChild(GObject *child)
+//			{
+//				//TODO: Add implementation
+//			}
+
+
+
+			void ButtonFrame::setFont(CPP::Font *font)
+			{
+				//TODO: Add implementation
+			}
+			
+			CPP::Font* ButtonFrame::getFont()
+			{
+				//TODO: Add implementation
+				return nullptr;
+			}
+
+
+			
+
+			void ButtonFrame::setPosition(CPP::Vector2 pos)
+			{
+				//TODO: Add implementation
+			}
+			
+			CPP::Vector2 ButtonFrame::getPosition()
+			{
+				//TODO: Add implementation
+				return Vector2();
+			}
+			
+			RJINT ButtonFrame::getX()
+			{
+				//TODO: Add implementation
+				return 0;
+			}
+			
+			RJINT ButtonFrame::getY()
+			{
+				//TODO: Add implementation
+				return 0;
+			}
+	
+			void ButtonFrame::setSize(CPP::Vector2 size)
+			{
+				//TODO: Add implementation
+			}
+			
+			CPP::Vector2 ButtonFrame::getSize()
+			{
+				//TODO: Add implementation
+				return Vector2();
+			}
+			
+			RJINT ButtonFrame::getWidth()
+			{
+				//TODO: Add implementation
+				return 0;
+			}
+			
+			RJINT ButtonFrame::getHeight()
+			{
+				//TODO: Add implementation
+				return 0;
+			}
+	
+			
+//			GObject* ButtonFrame::getParent()
+//			{
+//				//TODO: Add implementation
+//				return nullptr;
+//			}
+
+
+			
+			void ButtonFrame::setEnabled(RJBOOL enabled)
+			{
+				//TODO: Add implementation
+			}
+			
+			RJBOOL ButtonFrame::getEnabled()
+			{
+				//TODO: Add implementation
+				return false;
+			}
 		}
 	}
 }
+
 
 namespace RadJAV
 {
@@ -102,5 +190,3 @@ namespace RadJAV
         }
     }
 }
-
-

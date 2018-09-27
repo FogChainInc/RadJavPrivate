@@ -33,6 +33,11 @@
 		#include <Windows.h>
 		#include <io.h>
 	#endif
+
+	#if defined USE_IOS || defined USE_ANDROID
+		#include "cpp/RadJavCPPMUIAlert.h"
+	#endif
+
 	#include <stdlib.h>
 	#include <fcntl.h>
 #endif
@@ -480,6 +485,10 @@ namespace RadJAV
 			//{
 				wxMessageBox(message.towxString(), title.towxString(), wxOK);
 			//});
+		#elif defined USE_IOS || defined USE_ANDROID
+			CPP::MUI::AlertFrame::show(title, message);
+		#else
+			#warning Add Alert(Message Box) implementation
 		#endif
 	}
 

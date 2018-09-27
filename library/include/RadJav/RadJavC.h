@@ -31,6 +31,9 @@ extern "C"
 	/// Shut down and stop all applications
 	void RadJav_shutdown(void);
 	
+	/// Show an error message.
+	void RadJav_showError(const char* message);
+
 #ifdef __cplusplus
 }
 #endif

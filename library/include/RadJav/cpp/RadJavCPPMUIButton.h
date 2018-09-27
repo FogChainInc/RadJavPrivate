@@ -43,24 +43,42 @@
 		{
 			namespace MUI
 			{
-
-				//TODO: Add some base class here with common UI controls interface
-				class RADJAV_EXPORT ButtonFrame : public ChainedPtr
+				class RADJAV_EXPORT ButtonFrame : public GUI::GObjectBase, public ChainedPtr
 				{
 				public:
 					//TODO: Add correct parent type here, usually some base C++ container class (which still not created)
 					ButtonFrame(void *parent, const String &text, const Vector2 &pos, const Vector2 &size);
 					~ButtonFrame();
+
                     void setSize(RJINT x, RJINT y);
                     void setPosition(RJINT x, RJINT y);
                     void setText(String text);
                     String getText();
-                    setVisibility(RJBOOL visible);
+                    void setVisibility(RJBOOL visible);
                     RJBOOL getVisibility();
                     
 					//TODO: Add more specific methods for Button here
 					//Other common methods needs to be added to some base interface C++ class
 					
+
+					
+					//void addChild(GObject *child);
+					void setFont(CPP::Font *font);
+					CPP::Font *getFont();
+					void setPosition(CPP::Vector2 pos);
+					CPP::Vector2 getPosition();
+					RJINT getX();
+					RJINT getY();
+					void setSize(CPP::Vector2 size);
+					CPP::Vector2 getSize();
+					RJINT getWidth();
+					RJINT getHeight();
+
+					//GObject *getParent();
+
+					void setEnabled(RJBOOL enabled);
+					RJBOOL getEnabled();
+
 				private:
 					#ifdef USE_IOS
 						UIButton* widget;

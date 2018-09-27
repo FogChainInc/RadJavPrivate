@@ -39,9 +39,7 @@
 
 #ifdef USE_V8
 	#include "v8/RadJavV8JavascriptEngine.h"
-#endif
-
-#ifdef USE_JAVASCRIPTCORE
+#elif defined USE_JAVASCRIPTCORE
     #include "jscore/RadJavJSCJavascriptEngine.h"
 #endif
 
@@ -52,13 +50,14 @@ namespace RadJAV
 		/// Contains classes for the OS GUI.
 		namespace GUI
 		{
+			class GObjectBase;
+			
 			class RADJAV_EXPORT GObject : public ChainedPtr
 			{
 				public:
 					#ifdef USE_V8
 						GObject(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
-					#endif
-                    #ifdef USE_JAVASCRIPTCORE
+					#elif defined USE_JAVASCRIPTCORE
                         GObject(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
                     #endif
 					GObject(String name, String text = "", GObject *parent = NULL);
@@ -240,26 +239,61 @@ namespace RadJAV
 					/// The native os gui object associated with this object.
 					#ifdef GUI_USE_WXWIDGETS
 						wxWindow *_appObj;
+					#elif defined USE_IOS || defined USE_ANDROID
+						GObjectBase* _appObj;
 					#endif
 			};
 
-			class RADJAV_EXPORT GObjectBase
-			{
+			#if defined USE_IOS || defined USE_ANDROID
+				//template<class WidgetType>
+				class RADJAV_EXPORT GObjectBase
+				{
 				public:
 					GObjectBase();
 					virtual ~GObjectBase();
 
+					//virtual void addChild(GObject *child) = 0;
+					virtual void setFont(CPP::Font *font) = 0;
+					virtual CPP::Font *getFont() = 0;
+					virtual void setPosition(RJINT x, RJINT y) = 0;
+					virtual void setPosition(CPP::Vector2 pos) = 0;
+					virtual CPP::Vector2 getPosition() = 0;
+					virtual RJINT getX() = 0;
+					virtual RJINT getY() = 0;
+					virtual void setSize(RJINT width, RJINT height) = 0;
+					virtual void setSize(CPP::Vector2 size) = 0;
+					virtual CPP::Vector2 getSize() = 0;
+					virtual RJINT getWidth() = 0;
+					virtual RJINT getHeight() = 0;
+					virtual void setText(String text) = 0;
+					virtual String getText() = 0;
+					//virtual GObject *getParent() = 0;
+					virtual void setVisibility(RJBOOL visible) = 0;
+					virtual RJBOOL getVisibility() = 0;
+					virtual void setEnabled(RJBOOL enabled) = 0;
+					virtual RJBOOL getEnabled() = 0;
+
+				protected:
+					//WidgetType* widget;
+				};
+			#else
+				class RADJAV_EXPORT GObjectBase
+				{
+				public:
+					GObjectBase();
+					virtual ~GObjectBase();
+					
 					#ifdef GUI_USE_WXWIDGETS
-                        #ifdef USE_V8
-                            Event* createEvent(String event, v8::Local<v8::Function> function);
-                            void addNewEvent(String event, wxWindow *object, v8::Local<v8::Function> func);
-                        #endif
-
-                        #ifdef USE_JAVASCRIPTCORE
-                            Event* createEvent(String event, JSObjectRef function);
-                            void addNewEvent(String event, wxWindow *object, JSObjectRef func);
-                        #endif
-
+						#ifdef USE_V8
+							Event* createEvent(String event, v8::Local<v8::Function> function);
+							void addNewEvent(String event, wxWindow *object, v8::Local<v8::Function> func);
+						#endif
+					
+						#ifdef USE_JAVASCRIPTCORE
+							Event* createEvent(String event, JSObjectRef function);
+							void addNewEvent(String event, wxWindow *object, JSObjectRef func);
+						#endif
+					
 						static void onClick(wxMouseEvent &event);
 						static void onDoubleClick(wxMouseEvent &event);
 						static void onRightClick(wxMouseEvent &event);
@@ -268,34 +302,32 @@ namespace RadJAV
 						static void onMiddleClick(wxMouseEvent &event);
 						static void onMiddleDoubleClick(wxMouseEvent &event);
 						static void onMiddleDown(wxMouseEvent &event);
-
+					
 						static void onMouseAux1Down(wxMouseEvent &event);
 						static void onMouseAux1Up(wxMouseEvent &event);
 						static void onMouseEnterWindow(wxMouseEvent &event);
 						static void onMouseLeaveWindow(wxMouseEvent &event);
 						static void onMouseMotion(wxMouseEvent &event);
 						static void onMouseWheel(wxMouseEvent &event);
-						
+					
 						static void onKeyUp(wxKeyEvent &event);
 						static void onKeyDown(wxKeyEvent &event);
-
+					
 						static void onFocusSet(wxFocusEvent &event);
 						static void onFocusOut(wxFocusEvent &event);
-
-                        #ifdef USE_V8
-                            static v8::Local<v8::Value> executeEvent(Event *pevent, RJINT numArgs = 0, v8::Local<v8::Value> *args = NULL);
-                        #endif
-                
-                        #ifdef USE_JAVASCRIPTCORE
-                            static JSValueRef executeEvent(Event *pevent, RJINT numArgs = 0, JSValueRef *args = NULL);
-                        #endif
-
+					
+						#ifdef USE_V8
+							static v8::Local<v8::Value> executeEvent(Event *pevent, RJINT numArgs = 0, v8::Local<v8::Value> *args = NULL);
+						#elif defined USE_JAVASCRIPTCORE
+							static JSValueRef executeEvent(Event *pevent, RJINT numArgs = 0, JSValueRef *args = NULL);
+						#endif
+					
 						HashMap<std::string, Event* > *events;
-
-					#endif
-			};
+					
+					#endif //GUI_USE_WXWIDGETS
+				};
+			#endif //defined USE_IOS || defined USE_ANDROID
 		}
 	}
 }
 #endif
-
