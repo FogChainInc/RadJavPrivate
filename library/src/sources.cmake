@@ -480,7 +480,8 @@ if (IS_MOBILE)
 	if (IOS)
 		set (SOURCES_files_RadJav__cpp__MUI__Sources 
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUIButtonFrame.mm"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUIViewFrame.mm")
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUIViewFrame.mm"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUIAlertFrame.mm")
 
 		source_group ("RadJav\\CPP\\MUI\\iOS" FILES ${SOURCES_files_RadJav__cpp__MUI__Sources})
 		set (SOURCES ${SOURCES_files_RadJav__cpp__MUI__Sources} ${SOURCES})
