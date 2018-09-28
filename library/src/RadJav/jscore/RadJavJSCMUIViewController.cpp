@@ -17,13 +17,13 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#include "jscore/RadJavJSCMUIView.h"
+#include "jscore/RadJavJSCMUIViewController.h"
 
 #include "RadJav.h"
 
 #include "jscore/RadJavJSCJavascriptEngine.h"
 
-#include "cpp/RadJavCPPMUIView.h"
+#include "cpp/RadJavCPPMUIViewController.h"
 
 namespace RadJAV
 {
@@ -31,45 +31,45 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
-			using CppMuiObject = CPP::MUI::View;
+			using CppMuiObject = CPP::MUI::ViewController;
 			
-			void View::createJSCCallbacks(JSContextRef context, JSObjectRef object)
+			void ViewController::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 			{
-				JSC_CALLBACK(object, "create", View::create);
-                JSC_CALLBACK(object, "setSize", View::setSize);
-                JSC_CALLBACK(object, "getSize", View::getSize);
-                JSC_CALLBACK(object, "setPosition", View::setPosition);
-                JSC_CALLBACK(object, "getPosition", View::getPosition);
-                JSC_CALLBACK(object, "addChild", View::addChild);
+				JSC_CALLBACK(object, "create", ViewController::create);
+                JSC_CALLBACK(object, "setSize", ViewController::setSize);
+                JSC_CALLBACK(object, "getSize", ViewController::getSize);
+                JSC_CALLBACK(object, "setPosition", ViewController::setPosition);
+                JSC_CALLBACK(object, "getPosition", ViewController::getPosition);
+                JSC_CALLBACK(object, "addChild", ViewController::addChild);
                 
-                //JSC_CALLBACK(object, "setParent", View::setParent);
-                //JSC_CALLBACK(object, "getParent", View::getParent);
+                //JSC_CALLBACK(object, "setParent", ViewController::setParent);
+                //JSC_CALLBACK(object, "getParent", ViewController::getParent);
 
                 
-//                JSC_CALLBACK(object, "getX", View::getX);
-//                JSC_CALLBACK(object, "getY", View::getY);
+//                JSC_CALLBACK(object, "getX", ViewController::getX);
+//                JSC_CALLBACK(object, "getY", ViewController::getY);
 //
-//                JSC_CALLBACK(object, "getWidth", View::getWidth);
-//                JSC_CALLBACK(object, "getHeight", View::getHeight);
+//                JSC_CALLBACK(object, "getWidth", ViewController::getWidth);
+//                JSC_CALLBACK(object, "getHeight", ViewController::getHeight);
                
-//                JSC_CALLBACK(object, "setFont", View::setFont);
-//                JSC_CALLBACK(object, "getFont", View::getFont);
+//                JSC_CALLBACK(object, "setFont", ViewController::setFont);
+//                JSC_CALLBACK(object, "getFont", ViewController::getFont);
 
 //
-//                JSC_CALLBACK(object, "setText", View::setText);
-//                JSC_CALLBACK(object, "getText", View::getText);
-//                JSC_CALLBACK(object, "getParent", View::getParent);
-//                JSC_CALLBACK(object, "getAppObj", View::getAppObj);
-//                JSC_CALLBACK(object, "setVisibility", View::setVisibility);
-//                JSC_CALLBACK(object, "getVisibility", View::getVisibility);
-//                JSC_CALLBACK(object, "setEnabled", View::setEnabled);
-//                JSC_CALLBACK(object, "getEnabled", View::getEnabled);
-//                JSC_CALLBACK(object, "on", View::on);
-//                JSC_CALLBACK(object, "destroy", View::destroy);
+//                JSC_CALLBACK(object, "setText", ViewController::setText);
+//                JSC_CALLBACK(object, "getText", ViewController::getText);
+//                JSC_CALLBACK(object, "getParent", ViewController::getParent);
+//                JSC_CALLBACK(object, "getAppObj", ViewController::getAppObj);
+//                JSC_CALLBACK(object, "setVisibility", ViewController::setVisibility);
+//                JSC_CALLBACK(object, "getVisibility", ViewController::getVisibility);
+//                JSC_CALLBACK(object, "setEnabled", ViewController::setEnabled);
+//                JSC_CALLBACK(object, "getEnabled", ViewController::getEnabled);
+//                JSC_CALLBACK(object, "on", ViewController::on);
+//                JSC_CALLBACK(object, "destroy", ViewController::destroy);
 
 			}
 
-			JSValueRef View::create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+			JSValueRef ViewController::create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
 			{
 				CppMuiObject *appObject = RJNEW CppMuiObject(JSC_JAVASCRIPT_ENGINE, thisObject, argumentCount, arguments);
 				appObject->create();
@@ -81,7 +81,7 @@ namespace RadJAV
 				return promise;
 			}
             
-            JSValueRef View::setSize(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+            JSValueRef ViewController::setSize(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
             {
                 CppMuiObject *appObject = (CppMuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
                 
@@ -103,12 +103,12 @@ namespace RadJAV
             }
             
             
-            JSValueRef View::getSize(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+            JSValueRef ViewController::getSize(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
             {
                  CppMuiObject *appObject = (CppMuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
             }
             
-            JSValueRef View::setPosition(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+            JSValueRef ViewController::setPosition(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
             {
                 CppMuiObject *appObject = (CppMuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
                 
@@ -130,14 +130,14 @@ namespace RadJAV
             }
             
             
-            JSValueRef View::getPosition(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+            JSValueRef ViewController::getPosition(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
             {
                 
             }
             
             
             
-            JSValueRef View::addChild(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+            JSValueRef ViewController::addChild(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
             {
                 CppMuiObject *appObject = (CppMuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
  

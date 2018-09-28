@@ -71,6 +71,7 @@
 	#ifdef USE_IOS
 		#include "jscore/RadJavJSCGUIGObject.h"
 		#include "jscore/RadJavJSCMUIView.h"
+        #include "jscore/RadJavJSCMUIViewController.h"
 		#include "jscore/RadJavJSCMUIButton.h"
 	#endif
 
@@ -1223,6 +1224,13 @@ namespace RadJAV
 						
 						JSC::MUI::View::createJSCCallbacks(globalContext, viewPrototype);
 					}
+                    // RadJav.MUI.ViewController
+                    {
+                        JSObjectRef viewFunc = jscGetFunction(muiFunc, "ViewController");
+                        JSObjectRef viewPrototype = jscGetObject(viewFunc, "prototype");
+                        
+                        JSC::MUI::ViewController::createJSCCallbacks(globalContext, viewPrototype);
+                    }
 					
 					// RadJav.MUI.Button
 					{

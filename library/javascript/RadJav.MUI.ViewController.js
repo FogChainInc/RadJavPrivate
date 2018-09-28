@@ -25,12 +25,12 @@ var RadJav;
 (function (RadJav) {
     var MUI;
     (function (MUI) {
-        /** @class RadJav.MUI.View
+        /** @class RadJav.MUI.ViewController
          * @extends RadJav.GUI.GObject
          * A mobile view.
          * Available on platforms: iOS,Android,HTML5
          */
-        var View = /** @class */ (function (_super) {
+        var ViewController = /** @class */ (function (_super) {
             __extends(ViewController, _super);
             function ViewController(obj, text, parent) {
                 var _this = this;
