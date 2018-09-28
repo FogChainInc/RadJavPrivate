@@ -79,12 +79,14 @@
 					void setEnabled(RJBOOL enabled);
 					RJBOOL getEnabled();
 
+                    
+#ifdef USE_IOS
+                    UIButton* widget;
+#elif defined USE_ANDROID
+                    //TODO: Wrap Android specific type here
+#endif
+                    
 				private:
-					#ifdef USE_IOS
-						UIButton* widget;
-					#elif defined USE_ANDROID
-						//TODO: Wrap Android specific type here
-					#endif
 				};
 				
 				class RADJAV_EXPORT Button : public CPP::GUI::GObject

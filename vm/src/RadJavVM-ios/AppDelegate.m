@@ -20,7 +20,7 @@
 
 #import "AppDelegate.h"
 #import "ViewController.h"
-#include <RadJav/RadJavC.h>
+#include "RadJavC.h"
 
 @interface AppDelegate ()
 

@@ -43,6 +43,20 @@
     #include "jscore/RadJavJSCJavascriptEngine.h"
 #endif
 
+
+#ifdef USE_IOS
+#ifdef __OBJC__
+#define OBJC_CLASS(name) @class name
+#else
+#define OBJC_CLASS(name) typedef struct objc_object name
+#endif
+
+OBJC_CLASS(UIView);
+#elif defined USE_ANDROID
+#warning Add Button implementation for Android platform
+#endif
+
+
 namespace RadJAV
 {
 	namespace CPP
@@ -272,9 +286,14 @@ namespace RadJAV
 					virtual RJBOOL getVisibility() = 0;
 					virtual void setEnabled(RJBOOL enabled) = 0;
 					virtual RJBOOL getEnabled() = 0;
-
+#ifdef USE_IOS
+                    UIView* widget;
+#elif defined USE_ANDROID
+                    //TODO: Wrap Android specific type here
+#endif
 				protected:
 					//WidgetType* widget;
+
 				};
 			#else
 				class RADJAV_EXPORT GObjectBase

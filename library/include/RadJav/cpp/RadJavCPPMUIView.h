@@ -20,6 +20,7 @@
 #ifndef _RADJAV_MUI_CPP_VIEW_H_
 	#define _RADJAV_MUI_CPP_VIEW_H_
 	#include "cpp/RadJavCPPGUIGObject.h"
+    #include "jscore/RadJavJSCGUIGObject.h"
 
 #ifdef USE_IOS
 #ifdef __OBJC__
@@ -50,7 +51,7 @@ OBJC_CLASS(UIView);
                     ViewFrame(void *parent, const String &text, const Vector2 &pos, const Vector2 &size);
                     ~ViewFrame();
 					
-					//void addChild(GObject *child);
+                    void addChild(CPP::GUI::GObject *child);
 					void setFont(CPP::Font *font);
 					CPP::Font *getFont();
 					void setPosition(RJINT x, RJINT y);
@@ -92,6 +93,7 @@ OBJC_CLASS(UIView);
 						View(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 
 						void create();
+                        void addChild(CPP::GUI::GObject *child);
 						void setPosition(RJINT x, RJINT y);
 						CPP::Vector2 getPosition();
 						void setSize(RJINT x, RJINT y);

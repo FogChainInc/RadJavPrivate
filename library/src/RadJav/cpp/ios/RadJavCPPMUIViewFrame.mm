@@ -1,6 +1,9 @@
 #import "cpp/RadJavCPPMUIView.h"
 
 #import <UIKit/UIKit.h>
+#import "cpp/RadJavCPPGUIGObject.h"
+#import "cpp/RadJavCPPMUIButton.h"
+
 
 namespace RadJAV
 {
@@ -8,20 +11,27 @@ namespace RadJAV
     {
         namespace MUI
         {
-			ViewFrame::ViewFrame()
-			{
-			}
-			
-			ViewFrame::ViewFrame(void *parent, const String &text, const Vector2 &pos, const Vector2 &size)
-			: widget([[UIView alloc] init])
-			{
-				widget.backgroundColor = [UIColor redColor];
-				UIWindow * keyWindow = [UIApplication sharedApplication].keyWindow;
-				
-				UIView * greenView = keyWindow.rootViewController.view ;
-				[greenView  addSubview:widget];
-				widget.center = greenView.center;
-			}
+            
+            ViewFrame::ViewFrame(){
+                
+                
+            }
+            
+            ViewFrame::ViewFrame(void *parent, const String &text, const Vector2 &pos, const Vector2 &size)
+            : widget([[UIView alloc] init])
+            {
+                UIWindow * keyWindow = [UIApplication sharedApplication].keyWindow;
+                
+                UIView * greenView = keyWindow.rootViewController.view ;
+                [greenView  addSubview:widget];
+                widget.backgroundColor = [UIColor redColor];
+            }
+            
+            void ViewFrame::setPosition(RJINT x, RJINT y)
+            {
+                widget.frame = CGRectMake(x, y, widget.frame.size.width, widget.frame.size.height);
+            }
+        
 			
 			ViewFrame::~ViewFrame()
 			{
@@ -29,10 +39,12 @@ namespace RadJAV
 				[widget release];
 			}
 
-//			void ViewFrame::addChild(GObject *child)
-//			{
-//				//TODO: Add implementation
-//			}
+            void ViewFrame::addChild(CPP::GUI::GObject *child)
+            {
+                ButtonFrame * baseChild = ((MUI::Button*)child)->_appObject;
+                UIView * objChild = baseChild->widget;
+                [widget addSubview:objChild];
+            }
 
 			void ViewFrame::setFont(CPP::Font *font)
 			{

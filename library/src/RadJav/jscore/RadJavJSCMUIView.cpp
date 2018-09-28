@@ -40,7 +40,7 @@ namespace RadJAV
                 JSC_CALLBACK(object, "getSize", View::getSize);
                 JSC_CALLBACK(object, "setPosition", View::setPosition);
                 JSC_CALLBACK(object, "getPosition", View::getPosition);
-                
+                JSC_CALLBACK(object, "addChild", View::addChild);
                 
                 //JSC_CALLBACK(object, "setParent", View::setParent);
                 //JSC_CALLBACK(object, "getParent", View::getParent);
@@ -137,17 +137,20 @@ namespace RadJAV
             
             
             
-            JSValueRef View::setParent(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+            JSValueRef View::addChild(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
             {
                 CppMuiObject *appObject = (CppMuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
  
                 if (argumentCount > 0){
                    JSObjectRef argument =  JSValueToObject(ctx, arguments[0], exception);
-                  
+                    CppMuiObject *childAppObject = (CppMuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, argument, "_appObj");
+                    if (childAppObject != NULL){
+                        
+                        appObject->addChild(childAppObject);
+                    }
+                    
                 }
-                //TODO: implement lookup and addSubview: according to it
-                //appObject->setParent(x, y);
-                
+
                 JSObjectRef _guiFinishedCreatingGObject = JSC_JAVASCRIPT_ENGINE->jscGetFunction(JSC_RADJAV, "_guiFinishedCreatingGObject");
                 JSObjectRef promise = JSC_JAVASCRIPT_ENGINE->createPromise(thisObject, _guiFinishedCreatingGObject);
                 

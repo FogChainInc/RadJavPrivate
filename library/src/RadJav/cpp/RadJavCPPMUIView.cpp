@@ -46,6 +46,10 @@ namespace RadJAV
 			{
 			}
 
+            void View::addChild(CPP::GUI::GObject *child){
+                _appObject->addChild(child);
+            }
+            
 			void View::create()
 			{
 
