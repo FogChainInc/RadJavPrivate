@@ -2,6 +2,23 @@
 #import "cpp/RadJavCPPMUIView.h"
 #import <UIKit/UIKit.h>
 
+
+@interface ButtonDelegate : NSObject
+
+- (void)touchUp;
+@property (nonatomic, assign) RadJAV::CPP::MUI::ButtonFrame* frame;
+
+@end
+
+@implementation ButtonDelegate
+
+- (void)touchUp{
+    self.frame->callBack();
+}
+
+@end
+
+
 namespace RadJAV
 {
 	namespace CPP
@@ -12,9 +29,18 @@ namespace RadJAV
 			: widget([[UIButton alloc] init])
 			{
                 //TODO: this is temporary
+                widgetDelegate = [[ButtonDelegate alloc] init];
+                widgetDelegate.frame = this;
+                
+                
                 [widget setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+                [widget addTarget:widgetDelegate action:@selector(touchUp) forControlEvents:UIControlEventTouchUpInside];
 			}
-			
+            
+            void ButtonFrame::callBack()
+            {
+                //this works!
+            }
             
             void ButtonFrame::setSize(RJINT width, RJINT height)
             {

@@ -33,6 +33,8 @@
 		#endif
 
 		OBJC_CLASS(UIButton);
+        OBJC_CLASS(ButtonDelegate);
+
 	#elif defined USE_ANDROID
 		#warning Add Button implementation for Android platform
 	#endif
@@ -82,6 +84,8 @@
                     
 #ifdef USE_IOS
                     UIButton* widget;
+                    ButtonDelegate* widgetDelegate;
+                    void callBack();
 #elif defined USE_ANDROID
                     //TODO: Wrap Android specific type here
 #endif
