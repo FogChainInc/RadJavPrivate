@@ -26,15 +26,8 @@
 	#include "cpp/RadJavCPPGUIGObject.h"
 
 	#ifdef USE_IOS
-		#ifdef __OBJC__
-			#define OBJC_CLASS(name) @class name
-		#else
-			#define OBJC_CLASS(name) typedef struct objc_object name
-		#endif
-
 		OBJC_CLASS(UIButton);
         OBJC_CLASS(ButtonDelegate);
-
 	#elif defined USE_ANDROID
 		#warning Add Button implementation for Android platform
 	#endif
@@ -45,15 +38,19 @@
 		{
 			namespace MUI
 			{
-				class RADJAV_EXPORT ButtonFrame : public GUI::GObjectInterface
-												, public GUI::GObjectEvents
+				class RADJAV_EXPORT ButtonFrame : public GUI::GObjectWidget
 												, public ChainedPtr
 				{
 				public:
-					//TODO: Add correct parent type here, usually some base C++ container class (which still not created)
-					ButtonFrame(void *parent, const String &text, const Vector2 &pos, const Vector2 &size);
+					ButtonFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size);
 					~ButtonFrame();
 
+					#ifdef USE_IOS
+						UIView* getNativeWidget();
+					#elif defined USE_ANDROID
+						void* getNativeWidget();
+					#endif
+					
                     void setSize(RJINT x, RJINT y);
                     void setPosition(RJINT x, RJINT y);
                     void setText(String text);
@@ -62,7 +59,7 @@
                     RJBOOL getVisibility();
                     
 					//TODO: Add more specific methods for Button here
-					//Other common methods needs to be added to some base interface C++ class
+					//Other common methods needs to be added to some base interface C++ class like GObjectWidget
 					
 
 					
@@ -83,16 +80,16 @@
 					void setEnabled(RJBOOL enabled);
 					RJBOOL getEnabled();
 
-                    
-#ifdef USE_IOS
-                    UIButton* widget;
-                    ButtonDelegate* widgetDelegate;
-                    void callBack();
-#elif defined USE_ANDROID
-                    //TODO: Wrap Android specific type here
-#endif
-                    
-				private:
+					#ifdef USE_IOS
+						void callBack();
+					private:
+                    	UIButton* widget;
+                    	ButtonDelegate* widgetDelegate;
+					#elif defined USE_ANDROID
+					private:
+                    	//TODO: Wrap Android specific type here
+						void* widget;
+					#endif
 				};
 				
 				class RADJAV_EXPORT Button : public CPP::GUI::GObject
@@ -107,22 +104,13 @@
 						Button(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 
 						void create();
-						void setPosition(RJINT x, RJINT y);
-						CPP::Vector2 getPosition();
-						void setSize(RJINT x, RJINT y);
-						CPP::Vector2 getSize();
-						void setText(String text);
-						String getText();
-						void setVisibility(RJBOOL visible);
-						RJBOOL getVisibility();
-						void setEnabled(RJBOOL enabled);
-						RJBOOL getEnabled();
 
 						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
                         	/// Execute when an event is triggered.
                         	void on(String event, RJ_FUNC_TYPE func);
 						#endif
-                        ButtonFrame* _appObject;
+					
+						///???
 						String icon;
 				};
 			}

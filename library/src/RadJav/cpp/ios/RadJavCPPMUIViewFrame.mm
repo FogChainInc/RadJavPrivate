@@ -17,7 +17,7 @@ namespace RadJAV
                 
             }
             
-            ViewFrame::ViewFrame(void *parent, const String &text, const Vector2 &pos, const Vector2 &size)
+            ViewFrame::ViewFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size)
             : widget([[UIView alloc] init])
             {
                 UIWindow * keyWindow = [UIApplication sharedApplication].keyWindow;
@@ -39,11 +39,22 @@ namespace RadJAV
 				[widget release];
 			}
 
+			#ifdef USE_IOS
+				UIView* ViewFrame::getNativeWidget()
+				{
+					return widget;
+				}
+			#elif defined USE_ANDROID
+				void* ViewFrame::getNativeWidget()
+				{
+					return widget;
+				}
+			#endif
+
             void ViewFrame::addChild(GUI::GObject *child)
             {
-                ButtonFrame * baseChild = ((MUI::Button*)child)->_appObject;
-                UIView * objChild = baseChild->widget;
-                [widget addSubview:objChild];
+                UIView* childObj = child->_appObj->getNativeWidget();
+                [widget addSubview:childObj];
             }
 
 			void ViewFrame::setFont(CPP::Font *font)

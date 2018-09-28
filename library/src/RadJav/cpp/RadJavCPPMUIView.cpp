@@ -1,6 +1,6 @@
 /*
 	MIT-LICENSE
-	Copyright (c) 2017-2018 Higher Edge Software, LLC
+	Copyright (c) 2018 Higher Edge Software, LLC
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 	and associated documentation files (the "Software"), to deal in the Software without restriction, 
@@ -46,103 +46,30 @@ namespace RadJAV
 			{
 			}
 
-            void View::addChild(GUI::GObject *child){
-                _appObject->addChild(child);
-            }
-            
 			void View::create()
 			{
+				GUI::GObjectWidget* parentWin = nullptr;
+				
+				if (_parent != nullptr)
+					parentWin = _parent->_appObj;
+				
+				ViewFrame* object = RJNEW ViewFrame(_parent, _text,
+													Vector2(_transform->x, _transform->y),
+													Vector2(_transform->width, _transform->height));
 
-                //TODO: add correct parent object
-                ViewFrame* object = RJNEW ViewFrame(/*parentWin*/ nullptr, _text,
-                                                        Vector2(_transform->x, _transform->y),
-                                                        Vector2(_transform->width, _transform->height));
-                
-                _appObject = object;
-                linkWith(object);
-                setup();
-			}
-
-			void View::setPosition(RJINT x, RJINT y)
-			{
-                _appObject->setPosition(x, y);
-			}
-
-			CPP::Vector2 View::getPosition()
-			{
-				CPP::Vector2 newpos;
-
-                /// Do stuff here.
-
-				return (newpos);
-			}
-
-			void View::setSize(RJINT width, RJINT height)
-			{
-				_transform->setSize(width, height);
-
-                _appObject->setSize(width, height);
-			}
-
-			CPP::Vector2 View::getSize()
-			{
-				CPP::Vector2 size = _transform->getSize();
-
-                /// Do stuff here.
-
-				return (size);
-			}
-
-			void View::setText(String text)
-			{
-				_text = text;
-
-                /// Do stuff here.
-			}
-
-			String View::getText()
-			{
-				String text = _text;
-
-                /// Do stuff here.
-
-				return (text);
-			}
-
-			void View::setVisibility(RJBOOL visible)
-			{
-				_visible = visible;
-
-                /// Do stuff here.
-			}
-
-			RJBOOL View::getVisibility()
-			{
-				RJBOOL visible = _visible;
-
-                /// Do stuff here.
-
-				return (visible);
-			}
-
-			void View::setEnabled(RJBOOL enabled)
-			{
-                /// Do stuff here.
-			}
-
-			RJBOOL View::getEnabled()
-			{
-				RJBOOL enabled = false;
-
-				/// Do stuff here.
-
-				return (enabled);
+				object->setVisibility(_visible);
+				_appObj = object;
+				linkWith(object);
+				setup();
 			}
 
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
             	void View::on(String event, RJ_FUNC_TYPE func)
 				{
-                    /// Do stuff here.
+					if (_appObj)
+					{
+						_appObj->addNewEvent(event, func);
+					}
 				}
 			#endif
 		}

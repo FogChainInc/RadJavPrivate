@@ -1,6 +1,6 @@
 /*
 	MIT-LICENSE
-	Copyright (c) 2017-2018 Higher Edge Software, LLC
+	Copyright (c) 2018 Higher Edge Software, LLC
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 	and associated documentation files (the "Software"), to deal in the Software without restriction, 
@@ -48,102 +48,28 @@ namespace RadJAV
 
 			void Button::create()
 			{
-//				SomeBaseContainerType* parentWin = nullptr;
-//
-//				if (_parent != nullptr)
-//					parentWin = (SomeBaseContainerType*)_parent->_appObj;
+				GUI::GObjectWidget* parentWin = nullptr;
 
+				if (_parent != nullptr)
+					parentWin = _parent->_appObj;
 				
-				//TODO: add correct parent object
-				ButtonFrame* object = RJNEW ButtonFrame(/*parentWin*/ nullptr, _text,
+				ButtonFrame* object = RJNEW ButtonFrame(_parent, _text,
 														Vector2(_transform->x, _transform->y),
 														Vector2(_transform->width, _transform->height));
 			                
-                _appObject = object;
+				object->setVisibility(_visible);
+                _appObj = object;
                 linkWith(object);
                 setup();
 			}
 
-			void Button::setPosition(RJINT x, RJINT y)
-			{
-                _appObject->setPosition(x,y);
-			}
-
-			CPP::Vector2 Button::getPosition()
-			{
-				CPP::Vector2 newpos;
-
-                /// Do stuff here.
-
-				return (newpos);
-			}
-
-			void Button::setSize(RJINT width, RJINT height)
-			{
-				_transform->setSize(width, height);
-
-                _appObject->setSize(width,height);
-			}
-
-			CPP::Vector2 Button::getSize()
-			{
-				CPP::Vector2 size = _transform->getSize();
-
-                /// Do stuff here.
-
-				return (size);
-			}
-
-			void Button::setText(String text)
-			{
-				_text = text;
-                _appObject->setText(text);
-                /// Do stuff here.
-			}
-
-			String Button::getText()
-			{
-				String text = _text;
-
-                /// Do stuff here.
-
-				return (text);
-			}
-
-			void Button::setVisibility(RJBOOL visible)
-			{
-				_visible = visible;
-                _appObject->setVisibility(visible);
-                /// Do stuff here.
-			}
-
-			RJBOOL Button::getVisibility()
-			{
-				RJBOOL visible = _visible;
-
-                /// Do stuff here.
-
-				return (visible);
-			}
-
-			void Button::setEnabled(RJBOOL enabled)
-			{
-                /// Do stuff here.
-			}
-
-			RJBOOL Button::getEnabled()
-			{
-				RJBOOL enabled = false;
-
-                /// Do stuff here.
-
-				return (enabled);
-			}
-
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
-            	void Button::on(String event, RJ_FUNC_TYPE func)
+				void Button::on(String event, RJ_FUNC_TYPE func)
 				{
-                    /// Do stuff here.
+					if (_appObj)
+					{
+						_appObj->addNewEvent(event, func);
+					}
 				}
 			#endif
 		}

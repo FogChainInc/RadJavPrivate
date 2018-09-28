@@ -25,7 +25,7 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
-			ButtonFrame::ButtonFrame(void *parent, const String &text, const Vector2 &pos, const Vector2 &size)
+			ButtonFrame::ButtonFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size)
 			: widget([[UIButton alloc] init])
 			{
                 //TODO: this is temporary
@@ -36,7 +36,25 @@ namespace RadJAV
                 [widget setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
                 [widget addTarget:widgetDelegate action:@selector(touchUp) forControlEvents:UIControlEventTouchUpInside];
 			}
-            
+			
+			ButtonFrame::~ButtonFrame()
+			{
+				//Release button here
+				[widget release];
+			}
+
+			#ifdef USE_IOS
+				UIView* ButtonFrame::getNativeWidget()
+				{
+					return widget;
+				}
+			#elif defined USE_ANDROID
+				void* ButtonFrame::getNativeWidget()
+				{
+					return widget;
+				}
+			#endif
+
             void ButtonFrame::callBack()
             {
                 //this works!
@@ -73,15 +91,11 @@ namespace RadJAV
             
             
             
-			ButtonFrame::~ButtonFrame()
-			{
-				//Release button here
-				[widget release];
-			}
 			
 			void ButtonFrame::addChild(GUI::GObject *child)
 			{
-				//TODO: Add implementation
+				UIView* childObj = child->_appObj->getNativeWidget();
+				[widget addSubview:childObj];
 			}
 
 

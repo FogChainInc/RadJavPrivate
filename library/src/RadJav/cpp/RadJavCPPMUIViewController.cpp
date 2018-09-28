@@ -52,15 +52,23 @@ namespace RadJAV
             
             void ViewController::create()
             {
-                
-                //TODO: add correct parent object
-                ViewControllerFrame* object = RJNEW ViewControllerFrame(/*parentWin*/ nullptr, _text,
-                                                    Vector2(_transform->x, _transform->y),
-                                                    Vector2(_transform->width, _transform->height));
-                
-                _appObject = object;
-                linkWith(object);
-                setup();
+				GUI::GObjectWidget* parentWin = nullptr;
+				
+				if (_parent != nullptr)
+					parentWin = _parent->_appObj;
+				
+				ViewControllerFrame* object = RJNEW ViewControllerFrame(_parent, _text,
+													Vector2(_transform->x, _transform->y),
+													Vector2(_transform->width, _transform->height));
+				
+				object->setVisibility(_visible);
+				
+				//TODO: Maybe we need another Base for such type of GUI classes?
+				//TODO: Need to add implementation
+				//_appObj = object;
+				
+				linkWith(object);
+				setup();
             }
             
             void ViewController::setPosition(RJINT x, RJINT y)

@@ -22,18 +22,6 @@
 	#include "cpp/RadJavCPPGUIGObject.h"
     #include "jscore/RadJavJSCGUIGObject.h"
 
-#ifdef USE_IOS
-#ifdef __OBJC__
-#define OBJC_CLASS(name) @class name
-#else
-#define OBJC_CLASS(name) typedef struct objc_object name
-#endif
-
-OBJC_CLASS(UIView);
-#elif defined USE_ANDROID
-#warning Add Button implementation for Android platform
-#endif
-
 
 	namespace RadJAV
 	{
@@ -41,19 +29,22 @@ OBJC_CLASS(UIView);
 		{
 			namespace MUI
 			{
-                
-                //TODO: Add some base class here with common UI controls interface
-				class RADJAV_EXPORT ViewFrame : public GUI::GObjectInterface
-												, public GUI::GObjectEvents
+				class RADJAV_EXPORT ViewFrame : public GUI::GObjectWidget
 												, public ChainedPtr
                 {
                 public:
                     //TODO: Add correct parent type here, usually some base C++ container class (which still not created)
                     ViewFrame();
-                    ViewFrame(void *parent, const String &text, const Vector2 &pos, const Vector2 &size);
+                    ViewFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size);
                     ~ViewFrame();
 					
-                    void addChild(GUI::GObject *child);
+					#ifdef USE_IOS
+						UIView* getNativeWidget();
+					#elif defined USE_ANDROID
+						void* getNativeWidget();
+					#endif
+
+					void addChild(GUI::GObject *child);
 					void setFont(CPP::Font *font);
 					CPP::Font *getFont();
 					void setPosition(RJINT x, RJINT y);
@@ -95,23 +86,13 @@ OBJC_CLASS(UIView);
 						View(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 
 						void create();
-                        void addChild(CPP::GUI::GObject *child);
-						void setPosition(RJINT x, RJINT y);
-						CPP::Vector2 getPosition();
-						void setSize(RJINT x, RJINT y);
-						CPP::Vector2 getSize();
-						void setText(String text);
-						String getText();
-						void setVisibility(RJBOOL visible);
-						RJBOOL getVisibility();
-						void setEnabled(RJBOOL enabled);
-						RJBOOL getEnabled();
 
 						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
                         	/// Execute when an event is triggered.
                         	void on(String event, RJ_FUNC_TYPE func);
 						#endif
-                        ViewFrame* _appObject;
+					
+						///???
 						String icon;
 				};
 			}

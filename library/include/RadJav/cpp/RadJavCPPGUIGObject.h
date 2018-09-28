@@ -43,6 +43,19 @@
     #include "jscore/RadJavJSCJavascriptEngine.h"
 #endif
 
+#ifdef USE_IOS
+	#ifdef __OBJC__
+		#define OBJC_CLASS(name) @class name
+	#else
+		#define OBJC_CLASS(name) typedef struct objc_object name
+	#endif
+
+	OBJC_CLASS(UIView);
+#elif defined USE_ANDROID
+	#warning Add forward declaration of Android specific class/type
+#endif
+
+
 namespace RadJAV
 {
 	namespace CPP
@@ -51,7 +64,9 @@ namespace RadJAV
 		namespace GUI
 		{
 			class GObject;
+			class GObjectWidget;
 			
+			/// Base class for UI controls(common interface)
 			class RADJAV_EXPORT GObjectInterface
 			{
 			public:
@@ -189,6 +204,7 @@ namespace RadJAV
 				virtual RJBOOL getEnabled() = 0;
 			};
 			
+			/// Base class to glue JS and C++ GUI object
 			class RADJAV_EXPORT GObject : public GObjectInterface, public ChainedPtr
 			{
 				public:
@@ -269,10 +285,11 @@ namespace RadJAV
 					#ifdef GUI_USE_WXWIDGETS
 						wxWindow *_appObj;
 					#elif defined USE_IOS || defined USE_ANDROID
-						GObjectInterface* _appObj;
+						GObjectWidget* _appObj;
 					#endif
 			};
 
+			/// Base class for events utils/handling
 			class RADJAV_EXPORT GObjectEvents
 			{
 			public:
@@ -314,6 +331,13 @@ namespace RadJAV
 					static void onFocusOut(wxFocusEvent &event);
 				
 				#elif defined USE_IOS || defined USE_ANDROID
+					#ifdef USE_V8
+						Event* createEvent(String event, v8::Local<v8::Function> function);
+						void addNewEvent(String event, v8::Local<v8::Function> func);
+					#elif defined USE_JAVASCRIPTCORE
+						Event* createEvent(String event, JSObjectRef function);
+						void addNewEvent(String event, JSObjectRef func);
+					#endif
 					//Add iOS and Android specific events handling
 				#endif
 				
@@ -324,6 +348,21 @@ namespace RadJAV
 				#endif
 				
 				HashMap<std::string, Event* > *events;
+			};
+			
+			/// Base class for wrapped native controls using composition method (not used for wxWidgets based controls)
+			class RADJAV_EXPORT GObjectWidget : public GObjectInterface
+												,public GObjectEvents
+			{
+			public:
+				virtual ~GObjectWidget() {};
+				
+				#ifdef USE_IOS
+					virtual UIView* getNativeWidget() = 0;
+				#elif defined USE_ANDROID
+					//TODO: Add correct type here for Android
+					virtual void* getNativeWidget() = 0;
+				#endif
 			};
 		}
 	}

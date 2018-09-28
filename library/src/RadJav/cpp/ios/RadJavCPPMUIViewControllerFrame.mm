@@ -42,8 +42,8 @@ namespace RadJAV
 
             void ViewControllerFrame::addChild(GUI::GObject *child)
             {
-                ButtonFrame * baseChild = ((MUI::Button*)child)->_appObject;
-                //UIViewController * objChild = baseChild->widget;
+				UIView* childObj = child->_appObj->getNativeWidget();
+				//UIViewController * objChild = baseChild->widget;
                 //[widget addSubViewController:objChild];
             }
 

@@ -36,10 +36,7 @@ namespace RadJAV
 					_zIndex = 0;
 					_cursor = "default";
 					_parent = NULL;
-					
-					#ifdef GUI_USE_WXWIDGETS
-						_appObj = NULL;
-					#endif
+					_appObj = NULL;
 					
 					type = jsEngine->v8GetString(args.This(), "type");
 					name = jsEngine->v8GetString(args.This(), "name");
@@ -58,17 +55,13 @@ namespace RadJAV
 					v8::Handle<v8::Object> objfont = jsEngine->v8GetObject(args.This(), "_font");
 					_font = RJNEW Font(jsEngine, objfont);
 				}
-			#endif
-            #ifdef USE_JAVASCRIPTCORE
+			#elif defined USE_JAVASCRIPTCORE
                 GObject::GObject(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[])
                 {
                     _zIndex = 0;
                     _cursor = "default";
                     _parent = NULL;
-
-                    #ifdef GUI_USE_WXWIDGETS
-                        _appObj = NULL;
-                    #endif
+					_appObj = NULL;
 
                     type = jsEngine->jscGetString(thisObj, "type");
                     name = jsEngine->jscGetString(thisObj, "name");
@@ -100,18 +93,13 @@ namespace RadJAV
 				_font = RJNEW Font();
 				_cursor = "default";
 				_parent = parent;
-
-				#ifdef GUI_USE_WXWIDGETS
-					_appObj = NULL;
-				#endif
+				_appObj = NULL;
 			}
 
 			GObject::~GObject()
 			{
 				DELETEOBJ(_font);
 				DELETEOBJ(_transform);
-
-				//DELETEOBJ(_appObj);
 			}
 
 			void GObject::create()
@@ -120,11 +108,14 @@ namespace RadJAV
 
 			void GObject::addChild(GObject *child)
 			{
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL) {
+				if (_appObj)
+				{
+					#ifdef GUI_USE_WXWIDGETS
 						_appObj->AddChild(child->_appObj);
-					}
-				#endif
+					#elif defined USE_IOS || defined USE_ANDROID
+						_appObj->addChild(child);
+					#endif
+				}
 
 				child->_parent = this;
 				_children.push_back (child);
@@ -159,190 +150,219 @@ namespace RadJAV
 						_appObj->SetForegroundColour(wxColor(font->color.r * 255,
 						font->color.g * 255, font->color.b * 255, font->color.a * 255));
 					}
+				#elif defined USE_IOS || defined USE_ANDROID
+					if (_appObj)
+						_appObj->setFont(font);
 				#endif
 			}
 
 			CPP::Font *GObject::getFont()
 			{
-				return (_font);
+				return _font;
 			}
 
 			void GObject::setPosition(RJINT x, RJINT y)
 			{
 				_transform->setPosition(x, y);
 
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL) {
+				if (_appObj)
+				{
+					#ifdef GUI_USE_WXWIDGETS
 						_appObj->SetPosition(wxPoint(x, y));
-					}
-				#endif
+					#elif defined USE_IOS || defined USE_ANDROID
+						_appObj->setPosition(x, y);
+					#endif
+				}
 			}
 
 			void GObject::setPosition(CPP::Vector2 pos)
 			{
-				this->setPosition(pos.x, pos.y);
+				setPosition(pos.x, pos.y);
 			}
 
 			CPP::Vector2 GObject::getPosition()
 			{
 				CPP::Vector2 pos = _transform->getPosition();
 
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
-					{
+				if (_appObj)
+				{
+					#ifdef GUI_USE_WXWIDGETS
 						wxPoint wxpos = _appObj->GetPosition();
 						pos.x = wxpos.x;
 						pos.y = wxpos.y;
-					}
-				#endif
+					#elif defined USE_IOS || defined USE_ANDROID
+						pos = _appObj->getPosition();
+					#endif
+				}
 
-				return (pos);
+				return pos;
 			}
 
 			RJINT GObject::getX()
 			{
 				RJINT x = getPosition().x;
 
-				return (x);
+				return x;
 			}
 
 			RJINT GObject::getY()
 			{
 				RJINT y = getPosition().y;
 
-				return (y);
+				return y;
 			}
 
 			void GObject::setSize(RJINT width, RJINT height)
 			{
 				_transform->setSize(width, height);
 
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL) {
+				if (_appObj)
+				{
+					#ifdef GUI_USE_WXWIDGETS
 						_appObj->SetSize(width, height);
-					}
-				#endif
+					#elif defined USE_IOS || defined USE_ANDROID
+						_appObj->setSize(width, height);
+					#endif
+				}
 			}
 
 			void GObject::setSize(CPP::Vector2 size)
 			{
-				this->setSize(size.x, size.y);
+				setSize(size.x, size.y);
 			}
 
 			CPP::Vector2 GObject::getSize()
 			{
 				CPP::Vector2 size = _transform->getSize();
 
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
-					{
+				if (_appObj)
+				{
+					#ifdef GUI_USE_WXWIDGETS
 						wxSize wxsize = _appObj->GetSize();
 						size.x = wxsize.GetWidth ();
 						size.y = wxsize.GetHeight ();
-					}
-				#endif
+					#elif defined USE_IOS || defined USE_ANDROID
+						size = _appObj->getSize();
+					#endif
+				}
 
-				return (size);
+				return size;
 			}
 
 			RJINT GObject::getWidth()
 			{
 				RJINT width = getSize().x;
 
-				return (width);
+				return width;
 			}
 
 			RJINT GObject::getHeight()
 			{
 				RJINT height = getSize().y;
 
-				return (height);
+				return height;
 			}
 
 			void GObject::setText(String text)
 			{
 				_text = text;
 
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL) {
+				if (_appObj)
+				{
+					#ifdef GUI_USE_WXWIDGETS
 						_appObj->SetLabel(text.towxString());
-					}
-				#endif
+					#elif defined USE_IOS || defined USE_ANDROID
+						_appObj->setText(text);
+					#endif
+				}
 			}
 
 			String GObject::getText()
 			{
 				String text = _text;
 
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
-					{
+				if (_appObj)
+				{
+					#ifdef GUI_USE_WXWIDGETS
 						wxString wxtext = _appObj->GetLabel();
 						text = parsewxString (wxtext);
-					}
-				#endif
+					#elif defined USE_IOS || defined USE_ANDROID
+						text = _appObj->getText();
+					#endif
+				}
 
-				return (text);
+				return text;
 			}
 
 			GObject *GObject::getParent()
 			{
-				return (_parent);
+				return _parent;
 			}
 
 			void GObject::setVisibility(RJBOOL visible)
 			{
 				_visible = visible;
 
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
-					{
+				if (_appObj)
+				{
+					#ifdef GUI_USE_WXWIDGETS
 						if (visible == true) {
 							_appObj->Show();
 						}
 						else {
 							_appObj->Hide();
 						}
-					}
-				#endif
+					#elif defined USE_IOS || defined USE_ANDROID
+						_appObj->setVisibility(visible);
+					#endif
+				}
 			}
 
 			RJBOOL GObject::getVisibility()
 			{
 				RJBOOL visible = _visible;
 
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL) {
+				if (_appObj)
+				{
+					#ifdef GUI_USE_WXWIDGETS
 						visible = _appObj->IsShown();
-					}
-				#endif
+					#elif defined USE_IOS || defined USE_ANDROID
+						visible = _appObj->getVisibility();
+					#endif
+				}
 
-				return (visible);
+				return visible;
 			}
 
 			void GObject::setEnabled(RJBOOL enabled)
 			{
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
-					{
+				if (_appObj)
+				{
+					#ifdef GUI_USE_WXWIDGETS
 						if (enabled == true)
 							_appObj->Enable();
 						else
 							_appObj->Disable();
-					}
-				#endif
+					#elif defined USE_IOS || defined USE_ANDROID
+						_appObj->setEnabled(enabled);
+					#endif
+				}
 			}
 
 			RJBOOL GObject::getEnabled()
 			{
 				RJBOOL enabled = false;
 
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
+				if (_appObj)
+				{
+					#ifdef GUI_USE_WXWIDGETS
 						enabled = _appObj->IsEnabled();
-				#endif
+					#elif defined USE_IOS || defined USE_ANDROID
+						enabled = _appObj->getEnabled();
+					#endif
+				}
 
-				return (enabled);
+				return enabled;
 			}
 
 			void GObject::setup()
@@ -354,13 +374,15 @@ namespace RadJAV
 
 			void GObject::setupCursor()
 			{
-				#ifdef GUI_USE_WXWIDGETS
-				
-					if (_cursor == "hand" && _appObj != NULL) {
-						_appObj->SetCursor(wxCursor(wxCURSOR_HAND));
-					}
-
-				#endif
+				if (_appObj)
+				{
+					#ifdef GUI_USE_WXWIDGETS
+						if (_cursor == "hand")
+							_appObj->SetCursor(wxCursor(wxCURSOR_HAND));
+					#elif defined USE_IOS || defined USE_ANDROID
+						#warning No cursor support in MUI
+					#endif
+				}
 			}
 
 			GObjectEvents::GObjectEvents()
@@ -634,21 +656,170 @@ namespace RadJAV
 					Event *pevent = (Event *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
-
-                #ifdef USE_V8
-				v8::Local<v8::Value> GObjectEvents::executeEvent(Event *pevent, RJINT numArgs, v8::Local<v8::Value> *args)
+			#elif defined USE_IOS || defined USE_ANDROID
+				#ifdef USE_V8
+					Event* GObjectEvents::createEvent(String event, v8::Local<v8::Function> function)
+					{
+						// Create a persistent function to execute asych later.
+						v8::Persistent<v8::Value> *persistent = RJNEW v8::Persistent<v8::Value>();
+						persistent->Reset(function->GetIsolate(), function);
+						
+						Event* evt = RJNEW Event(persistent);
+						
+						if (events->size() > 0)
+						{
+							auto found = events->find(event);
+							auto end = events->end();
+							
+							if (found != end)
+							{
+								Event *evtToRemove = events->at(event);
+								DELETEOBJ(evtToRemove);
+								
+								events->erase(event);
+							}
+						}
+						
+						events->insert(HashMapPair<std::string, Event *>(event, evt));
+						
+						return evt;
+					}
+				#elif defined USE_JAVASCRIPTCORE
+					Event* GObjectEvents::createEvent(String event, JSObjectRef function)
+					{
+						// Create a persistent function to execute asych later.
+						Event* evt = RJNEW Event(function);
+						
+						if (events->size() > 0)
+						{
+							auto found = events->find(event);
+							auto end = events->end();
+							
+							if (found != end)
+							{
+								Event *evtToRemove = events->at(event);
+								DELETEOBJ(evtToRemove);
+								
+								events->erase(event);
+							}
+						}
+						
+						events->insert(HashMapPair<std::string, Event *>(event, evt));
+						
+						return evt;
+					}
+				#endif
+			
+				void GObjectEvents::addNewEvent(String event,
+												#ifdef USE_V8
+													v8::Local<v8::Function> func
+												#elif defined USE_JAVASCRIPTCORE
+													JSObjectRef func
+												#endif
+												)
 				{
-					return (*pevent)(numArgs, args);
+					/* TODO: Add relevant implementation
+					if (event == "click")
+					{
+						object->Bind(wxEVT_LEFT_UP, GObjectEvents::onClick, -1, -1, createEvent(event, func));
+					}
+					
+					if (event == "keyup")
+					{
+						object->Bind(wxEVT_KEY_UP, GObjectEvents::onKeyUp, -1, -1, createEvent(event, func));
+					}
+					
+					if (event == "keydown")
+					{
+						object->Bind(wxEVT_KEY_DOWN, GObjectEvents::onKeyDown, -1, -1, createEvent(event, func));
+					}
+					
+					if (event == "dblclick" || event == "doubleclick" )
+					{
+						object->Bind(wxEVT_LEFT_DCLICK, GObjectEvents::onDoubleClick, -1, -1, createEvent(event, func));
+					}
+					
+					if (event == "rightclick" || event == "contextmenu")
+					{
+						object->Bind(wxEVT_RIGHT_UP, GObjectEvents::onRightClick, -1, -1, createEvent(event, func));
+					}
+					
+					if (event == "mousedown")
+					{
+						object->Bind(wxEVT_AUX1_DOWN, GObjectEvents::onMouseAux1Down, -1, -1, createEvent(event, func));
+					}
+					
+					if (event == "mouseup")
+					{
+						object->Bind(wxEVT_AUX1_UP, GObjectEvents::onMouseAux1Up, -1, -1, createEvent(event, func));
+					}
+					
+					if (event == "mouseenter")
+					{
+						object->Bind(wxEVT_ENTER_WINDOW, GObjectEvents::onMouseEnterWindow, -1, -1, createEvent(event, func));
+					}
+					
+					if (event == "mouseleave")
+					{
+						object->Bind(wxEVT_LEAVE_WINDOW, GObjectEvents::onMouseLeaveWindow, -1, -1, createEvent(event, func));
+					}
+					
+					if (event == "mousemove")
+					{
+						object->Bind(wxEVT_MOTION, GObjectEvents::onMouseMotion, -1, -1, createEvent(event, func));
+					}
+					
+					if (event == "mousewheel")
+					{
+						object->Bind(wxEVT_MOUSEWHEEL, GObjectEvents::onMouseWheel, -1, -1, createEvent(event, func));
+					}
+					
+					if (event == "rightdblclick" || event == "rightdoubleclick")
+					{
+						object->Bind(wxEVT_RIGHT_DCLICK, GObjectEvents::onRightDoubleClick, -1, -1, createEvent(event, func));
+					}
+					
+					if (event == "rightdown")
+					{
+						object->Bind(wxEVT_RIGHT_DOWN, GObjectEvents::onRightDown, -1, -1, createEvent(event, func));
+					}
+					
+					if (event == "middleclick")
+					{
+						object->Bind(wxEVT_MIDDLE_UP, GObjectEvents::onMiddleClick, -1, -1, createEvent(event, func));
+					}
+					
+					if (event == "middledblclick" || event == "middledoubleclick")
+					{
+						object->Bind(wxEVT_MIDDLE_UP, GObjectEvents::onMiddleDoubleClick, -1, -1, createEvent(event, func));
+					}
+					
+					if (event == "middledown")
+					{
+						object->Bind(wxEVT_MIDDLE_DOWN, GObjectEvents::onMiddleDown, -1, -1, createEvent(event, func));
+					}
+					
+					if (event == "focus")
+					{
+						object->Bind(wxEVT_SET_FOCUS, GObjectEvents::onFocusSet, -1, -1, createEvent(event, func));
+					}
+					
+					if (event == "focusout")
+					{
+						object->Bind(wxEVT_KILL_FOCUS, GObjectEvents::onFocusOut, -1, -1, createEvent(event, func));
+					}
+					 */
 				}
-                #endif
-            
-                #ifdef USE_JAVASCRIPTCORE
-                JSValueRef GObjectEvents::executeEvent(Event *pevent, RJINT numArgs, JSValueRef *args)
-                {
-                    return (*pevent)(numArgs, args);
-                }
-                #endif
-			#endif //GUI_USE_WXWIDGETS
+			#endif
+			
+			#ifdef USE_V8
+				v8::Local<v8::Value> GObjectEvents::executeEvent(Event *pevent, RJINT numArgs, v8::Local<v8::Value> *args)
+			#elif defined USE_JAVASCRIPTCORE
+				JSValueRef GObjectEvents::executeEvent(Event *pevent, RJINT numArgs, JSValueRef *args)
+			#endif
+			{
+				return (*pevent)(numArgs, args);
+			}
 		}
 	}
 }
