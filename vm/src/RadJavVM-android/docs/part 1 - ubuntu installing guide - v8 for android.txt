@@ -1,0 +1,109 @@
+V8 for android builds only on unix-like systems, this guide will cover ubuntu 18.04 steps,
+build steps should be pretty much the same for Mac, but some details may differ.
+Some steps are optional, so it will be good to read all steps before starting the setup.
+Cross-compiling could be time-consuming
+
+1) installing cmake (minimum required version is 3.11 for boost 1_67)
+>>> home/$
+
+sudo apt remove cmake
+sudo wget https://cmake.org/files/v3.12/cmake-3.12.0-Linux-x86_64.sh
+sudo chmod +x cmake-3.12.0-Linux-x86_64.sh
+
+sudo mkdir /opt/cmake
+sudo cp cmake-3.12.0-Linux-x86_64.sh /opt/cmake/
+cd /opt/cmake/
+sudo ./cmake-3.12.0-Linux-x86_64.sh
+sudo ln -s /opt/cmake/cmake-3.12.0-Linux-x86_64/bin/cmake /usr/local/bin/cmake
+cmake --version
+
+now cmake should point to the 3.12.0 version
+remove install script:
+
+cd /home/
+rm cmake-3.12.0-Linux-x86_64.sh
+
+1a) good thing is to install ccmake if linux build system is console-only
+sudo apt install ccmake-curses-gui
+
+note that cmake version from ccmake installation could be lower than required for building radjav library,
+so probably it is better to start with ccmake and then go to updating cmake and its symlinks
+
+2) Building V8:
+First, make sure you can [build with GN](Building with GN).
+next steps are taken from https://github.com/v8/v8/wiki/Building-with-GN
+
+setting depot tools:
+git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
+nano ~/.bashrc
+
+add at the end of file:
+export PATH=$PATH:/path/to/depot_tools
+
+and if you don't like editing gn file with vi, also set default editor to nano:
+export EDITOR='nano'
+
+close the file, then type this: 
+exec bash
+
+ - this is to restart bash session and apply exports from bashrc file
+ 
+after that you can go for v8 build by executing the following in your terminal/shell:
+
+fetch v8
+cd v8
+gclient sync
+./build/install-build-deps.sh
+
+Generate the necessary build files by executing the following in your terminal/shell:
+
+tools/dev/v8gen.py x64.release
+
+Compile the source by executing the following in your terminal/shell:
+
+ninja -C out.gn/x64.release
+
+Run the tests by executing the following in your terminal/shell:
+
+tools/run-tests.py --gn
+
+3) Now prepare the cross-compilation tools:
+(taken from https://github.com/v8/v8/wiki/Cross-compiling-for-ARM )
+
+/home/radjav/v8$ nano ../.gclient
+add this in the end of file:
+target_os = ['android', 'unix']  # multiple target oses
+
+run gclient sync
+>> this will download a lot of third_party/android_tools dependencies
+
+Use v8gen.py to generate an arm release or debug build:
+
+tools/dev/v8gen.py arm.release
+
+Then run `gn args out.gn/arm.release' and make sure you have the following keys:
+(note that we build here library as small components, so is_component_build must be set to true)
+target_os = "android"      # These lines need to be changed manually
+target_cpu = "arm"         # as v8gen.py assumes a simulator build.
+v8_target_cpu = "arm"
+is_component_build = true
+
+Now build:
+
+ninja -C out.gn/arm.release
+
+Check that v8, v8 platform and natives blobs binaries present in output directory
+
+4) NOTE that arm.release will contain only one build configuration binaries - armeabi-v7a for arm.release flag,
+arm64-v8a for arm64.release etc. for 64-bit build you should do
+
+tools/dev/v8gen.py arm64.release
+
+Then run `gn args out.gn/arm64.release' and make sure you have the following keys:
+(note that we build here library as small components, so is_component_build must be set to true)
+target_os = "android"
+target_cpu = "arm64"
+v8_target_cpu = "arm64"
+is_component_build = true
+
+Next steps of this guide will use arm64.release configuration of v8, so you should consider building at least arm64.release at this point

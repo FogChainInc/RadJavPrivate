@@ -1,0 +1,133 @@
+After all artifacts prepared you can build android application with native glue library linked with static libRadJav.
+This can be done on any host platform, in this guide it will be windows host (Android studio Gradle project can be built even without android studio installed by invoking gradle wrapper later, but it is easier to work with android project on host with GUI).
+
+9) install and open Android Studio
+
+10) create a new android project
+
+Application Name: RadJavSimple
+Company domain: <your name>.<domain> i.e. aparkalau.fogchain.com
+Project location: <default or choose your location>
+toggle "include C++ support"
+
+Select form factors: keep default "Phone and Tablet"
+set API level to 21
+don't include Instant App support
+
+create an empty Activity
+
+press next
+
+choose C++11 as C++ standard and toggle -fexceptions support
+
+press finish
+
+11) build demo application and set up one of android emulation devices with arm64 architecture, for example Nexus 5X with API 24 and Android 7.0 on board. Run the application (you'll probably need to download some binaries and wait for a while until emulator will set up everything it needs)
+You should see a demo application with "RadJavSimple" header and "hello from C++ message" - this goes from a native cpp library that will be our glue code to map and run our libRadJav features
+
+12) adding the code:
+
+there are four main files we need to modify in our project (Project view tab in Android Studio): 
+app/java/com.fogchain.aparkalau.radjavsimple/MainActivity.java - here is the application activity logic. Our application should not generally reside in it because it is quite time and resource consuming, but it will fit for demo purposes
+app/cpp/native-lib.cpp - this is a glue library with native interface for cpp side, we'll refartor it to more specific name
+Gradle Scripts/build.gradle (Module: app) - gradle build script with our settings
+External Build Files/CMakeLists.txt
+
+right click on native-lib.cpp and do the refactor/rename it to radjav-native
+restart android studio if radjav-native.cpp file just disappears from project - it's probably a sync bug
+create a folder 'jniLibs' and 'arm64-v8a' inside it. add the following binaries from v8, boost and radJav output directories:
+
+libboost_filesystem-mt.a
+libboost_system-mt.a
+liblibRadJav_d.a
+libc++_shared.so
+libv8.cr.so
+libv8_libbase.cr.so
+libv8_libplatform.cr.so
+libicui18n.cr.so
+libicuuc.cr.so
+
+press File/New/Folder/Assets and add assets folder for the project
+put there files: 
+
+natives_blob.bin
+snapshot_blob.bin
+icudtl.dat
+probe.xrj (just create a new text file with the contents
+	RadJav.Console.println("probe");
+	RadJav.exit();
+)
+
+these are assets from v8 engine that will be copied to cache on first run and reduce app boot time
+probe.xrj is just a hard-coded test example, other .xrj files should be opened by writing android intents config, this is out of scope for now
+
+Replace contents of MainActivity.Java, CMakeLists.txt and radjav-native.cpp with files located in vm/src/RadJavVM-android/demo/
+this application will run RadJavVM, write one line of text and exit.
+
+Modify the build.gradle file with (Module:app) comment:
+
+a) add this:
+ 
+        ndk {
+            abiFilters "arm64-v8a"
+        }
+		
+after android { .. versionName "1.0"
+these abiFilters used to build specific configuration, In our case only one configuration is available, but you can add multiple options here and build for several architectures at once. Of course, in this case jniLibs folder must contain required subdirs with artifacts for each target platform
+
+b) add fexceptions flag after -std=c++11 in cppFlags:
+
+        externalNativeBuild {
+            cmake {
+                cppFlags "-std=c++11"
+            }
+        }
+
+c) add buildTypes for debug release before externalNativeBuild section:
+
+    buildTypes {
+        release {
+            debuggable true
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            ndk {
+                abiFilters "arm64-v8a"
+            }
+        }
+        debug {
+            debuggable true
+            ndk {
+                abiFilters "arm64-v8a"
+            }
+        }
+    }
+	
+build and run application
+
+13) debugging cross-compiled native code
+
+Run/Debug.../Edit Configuration options opens a dialog in Android studio, open 'Debugger' tab in it.
+Debug type must be 'auto' or 'native' to debug C++ code, you can set 'Dual' option to go through both Java and C++ files.
+
+Important thing here is that if your code was built with different machine/location/compiler, you won't be able to do 'step into' actions or set breakpoints in native code even if dependencies built with debug info. This happens because debug info built in the binaries as full paths to the sources. LLDB debugger has an option to remap these options, so in our case artifact that was built from /home/radjav/RadJavPrivate/library source should map to D:/RadJav/RadJavPrivate/library of Windows path.
+To fix that you can put a breakpoint in radjav-native.cpp, wait for debugger to hit the breakpoint, open lldb console and check what are current mappings and where to remap them (lldb console window will appear only after debug session start, in debugger tool window right after the 'Variables' tab).
+
+type there for example: 
+
+image lookup -vn runApplicationFromFile
+
+ you will see the 'LineEntry: [0x0000007839c6a838-0x0000007839c6a858): \home\radjav\RadJavPrivate\library\src\RadJav\v8\RadJavV8JavascriptEngine.cpp' in response. On Windows machine it will correspond to d:\Radjav\RadJavPrivate\library\src\RadJav\v8\RadJavV8JavascriptEngine.cpp, that means we need to match \home\radjav\RadJavPrivate\ root with d:\Radjav\RadJavPrivate\
+ 
+ you can set mapping for this by typing in lldb console:
+ 
+ settings set target.source-map \home\radjav\RadJavPrivate D:\Radjav\RadJavPrivate
+ 
+ after that you'll be able to do 'step into' and set breakpoints for native code in external library.
+ 
+ To automate this you can add this step before start of lldb: go to the Run/Debug.../Edit Configurations.../Debugger tab, open there "LLDB Startup Commands", press + and add this command to the list (using your paths taken from the lldb output and from your local path to the sources)
+ 
+ settings set target.source-map \home\radjav\RadJavPrivate D:\Radjav\RadJavPrivate
+ 
+after that LLDB will correctly define and open sources in Android Studio for debugging.
+
+Note that startup commands will be deleted if you create new project in Android Studio and run debug session for it, so it is better to keep the command somewhere if remapping sources are required for your build.

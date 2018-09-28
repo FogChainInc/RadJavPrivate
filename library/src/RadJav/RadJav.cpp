@@ -66,6 +66,21 @@
 #include <fstream>
 #include <stdlib.h>
 
+#ifdef __ANDROID__
+#include <android/log.h>
+#define  LOG_TAG    "RADJAV"
+
+#define  LOGE(...)  __android_log_print(ANDROID_LOG_ERROR,LOG_TAG,__VA_ARGS__)
+#define  LOGW(...)  __android_log_print(ANDROID_LOG_WARN,LOG_TAG,__VA_ARGS__)
+#define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
+#define  LOGI(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
+#else
+#define  LOGE(...)
+#define  LOGW(...)
+#define  LOGD(...)
+#define  LOGI(...)
+#endif
+
 #ifdef RADJAV_DEBUG
 #ifdef LOG_MEMORY_LEAKS
 void RadJavAlloc::logAlloc(void *alloc)
@@ -495,6 +510,7 @@ namespace RadJAV
 	void RadJav::showError(String message, RJBOOL showMessageBox)
 	{
 		std::cout << message.c_str () << std::endl;
+		LOGE("%s: %s", "RadJav::showError", message.c_str());
 
 		if (showMessageBox == true)
 			RadJav::showMessageBox(message, "Error");
@@ -517,6 +533,8 @@ namespace RadJAV
 		#endif
 
 		std::cout << message.c_str ();
+
+		LOGI("%s: %s", "RadJav::printToOutputWindow", message.c_str());
 	}
 
 	void RadJav::shutdown()
@@ -595,4 +613,90 @@ namespace RadJAV
 		file.close();
 	}
 	#endif
+//#ifdef __cplusplus
+	extern "C" {
+//#endif
+	//Static c-style interface for RadJav VM
+	namespace Static {
+		/// Start RadJav.
+		RadJavType initializeVM(const char** newArgs, int argSize, char* fileBuffer, int bufferSize) {
+			//TODO: add better parameter checks
+			assert(argSize >= 0);
+			assert(bufferSize >= 0);
+
+			Array<String> args;
+			for (int t = 0; t < argSize; ++t) {
+				args.push_back(String(newArgs[t]));
+			}
+
+			String file;
+			file.append(fileBuffer);
+
+			RadJavType returnValue = RadJav::initialize(args, file);
+
+			memset(fileBuffer, '\0', bufferSize);
+			strncpy(fileBuffer, file.c_str(), bufferSize);
+
+			return returnValue;
+		};
+
+//		RadJavType initializeVM(const char** newArgs, int argSize) {
+//			//TODO: add better parameter checks
+//			assert(argSize >= 0);
+//
+//			Array<String> args;
+//			for (int t = 0; t < argSize; ++t) {
+//				args.push_back(String(newArgs[t]));
+//			}
+//
+//			return RadJav::initialize(args);
+//		};
+
+#ifdef WIN32
+		/// Setup console output.
+		void setupConsoleOutput() {
+			return RadJav::setupConsoleOutput();
+		};
+#endif
+
+		/// Shut down and stop all applications.
+		void shutdownVM() {
+			return RadJav::shutdown();
+		};
+
+		/// Run an application.
+		int runApplication(const char* application, const char* fileName) {
+			return RadJav::runApplication(String(application), String(fileName));
+		};
+
+		/// Run an application from a javascript file.
+		int runApplicationFromFile(const char* file) {
+			return RadJav::runApplicationFromFile(String(file));
+		};
+
+		/// Show a message box.
+		void showMessageBox(const char* message, const char* title) {
+			return RadJav::showMessageBox(String(message), String(title));
+		};
+
+		/// Show an error message.
+		void showError(const char* message, bool showMessageBox) {
+			RJBOOL flag = (RJBOOL)showMessageBox;
+			return RadJav::showError(String(message), flag);
+		};
+
+		/// Show an error message.
+		void throwException(const char* message) {
+			return RadJav::throwException(String(message));
+		};
+
+		/// Primarily for Visual Studio debugging. This will print to the output window, or
+		/// to the console if on another platform.
+		void printToOutputWindow(const char* message) {
+			return RadJav::printToOutputWindow(String(message));
+		};
+	}
+//#ifdef __cplusplus
+	}
+//#endif
 }

@@ -1,0 +1,66 @@
+When parts 1 and 2 complete we'll have minimal dependencies to make android version of libRadJav (without wxwidgets, DBs, etc.)
+Only the 'library' part of our cmake files required, logic from 'vm' part goes to native android and/or java code.
+
+6) generate a standalone toolchain for desired build configuration (see https://developer.android.com/ndk/guides/standalone_toolchain for additional info). This can be done by built-in python script from NDK located in v8 third_party dir:
+ 
+ cd <your path>/v8/third_party/android_ndk/
+ 
+ run in console
+ 
+ build/tools/make_standalone_toolchain.py --arch arm64 --api 21 --stl=libc++ --install-dir /tmp/arm64-21stllib-android-toolchain
+ 
+ <here I'm not sure if this step is required, I'll check it later. Try without it as we provide path to ndk later
+   export PATH=$PATH:'pwd'/arm64-21stllib-android-toolchain/bin
+ >
+
+7) go to the /library/CMake/toolchain and edit android.cmake file
+
+set (CMAKE_SYSROOT "/tmp/arm64-21stllib-android-toolchain/sysroot") line should point to generated standalone toolchain
+CMAKE_ANDROID_NDK should point to your v8/third_party/android_ndk directory
+
+8) go to the /RadJavPrivate/library
+
+ mkdir build-arm64-v8a
+ cd build-arm64-v8a/
+ 
+ run in console
+ ccmake ../ -DCMAKE_TOOLCHAIN_FILE=../CMake/toolchain/android.cmake
+ 
+ (if you've installed only cmake 3.12 without updating ccmake in the system, it will probably use older version of cmake. In this case you can run ccmake directly from your cmake installation location, for example
+ /opt/cmake/cmake-3.12.0-Linux-x86_64/bin/ccmake ../ -DCMAKE_TOOLCHAIN_FILE=../CMake/toolchain/android.cmake
+
+ it will show you the empty cache prompt, wait a little bit and press [c] to configure
+
+ set BOOST_ROOT path to /home/radjav/Boost-for-Android/build/out/arm64-v8a
+ Boost_USE_STATIC_LIBS to ON
+ CMAKE_TOOLCHAIN_FILE should be taken from the android.cmake file,
+ FIND_MEMORY_LEAKS OFF
+ INCLUDE_CRYPTOGRAPHY OFF
+ INCLUDE_DATABASES OFF
+ USE_ARCH arm64-v8a
+ V8_SOURCE /home/radjav/v8/
+ XML_SUPPORT OFF
+ libRadJav_ALLOW_NETWORKING OFF
+ libRadJav_DEBUG_INSPECTOR OFF
+ libRadJav_EMBEDFILE ON
+ libRadJav_EMBEDFILE_CMAKE ON
+ libRadJav_GUI_LIBRARY <clear that field>
+ libRadJav_INCLUDE_BLOCKCHAIN OFF
+ libRadJav_INCLUDE_C3D_API OFF
+ libRadJav_STATIC ON
+ 
+ press [c] to configure
+ 
+ press [t] to toggle to advanced mode
+ 
+ USE_SNAPPY OFF
+ 
+ press [c] to configure
+ press [g] to generate and exit
+ 
+ run make
+ 
+ check binary build:
+  readelf -h liblibRadJav_d.a
+ 
+ it should give you 'Machine:  AArch64' from one of the ELF headers
