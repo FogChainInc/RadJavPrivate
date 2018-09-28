@@ -30,7 +30,7 @@ namespace RadJAV
 		{
 			#ifdef GUI_USE_WXWIDGETS
 				ImageFrame::ImageFrame(wxWindow *parent, const wxString &file, wxSize fileSize, const wxPoint &pos, const wxSize &size)
-					: wxPanel(parent, wxID_ANY, pos, size), GObjectBase()
+					: wxPanel(parent, wxID_ANY, pos, size)
 				{
 					isImageLoaded = false;
 					loadImage(file, fileSize);

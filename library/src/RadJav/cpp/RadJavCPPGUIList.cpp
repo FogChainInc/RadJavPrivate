@@ -30,7 +30,7 @@ namespace RadJAV
 		{
 			#ifdef GUI_USE_WXWIDGETS
 				ListFrame::ListFrame(wxWindow *parent, const wxPoint &pos, const wxSize &size)
-					: wxListView(parent, wxID_ANY, pos, size), GObjectBase()
+					: wxListView(parent, wxID_ANY, pos, size)
 				{
 				}
 

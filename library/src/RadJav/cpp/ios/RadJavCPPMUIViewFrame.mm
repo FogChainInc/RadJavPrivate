@@ -39,7 +39,7 @@ namespace RadJAV
 				[widget release];
 			}
 
-            void ViewFrame::addChild(CPP::GUI::GObject *child)
+            void ViewFrame::addChild(GUI::GObject *child)
             {
                 ButtonFrame * baseChild = ((MUI::Button*)child)->_appObject;
                 UIView * objChild = baseChild->widget;
@@ -119,11 +119,11 @@ namespace RadJAV
 				return String();
 			}
 			
-//			GObject* ViewFrame::getParent()
-//			{
-//				//TODO: Add implementation
-//				return nullptr;
-//			}
+			GUI::GObject* ViewFrame::getParent()
+			{
+				//TODO: Add implementation
+				return nullptr;
+			}
 
 			void ViewFrame::setVisibility(RJBOOL visible)
 			{

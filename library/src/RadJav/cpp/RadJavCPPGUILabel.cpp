@@ -32,7 +32,7 @@ namespace RadJAV
 		{
 			#ifdef GUI_USE_WXWIDGETS
 				LabelFrame::LabelFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size)
-					: wxStaticText(parent, wxID_ANY, text, pos, size), GObjectBase()
+					: wxStaticText(parent, wxID_ANY, text, pos, size)
 				{
 				}
 		  

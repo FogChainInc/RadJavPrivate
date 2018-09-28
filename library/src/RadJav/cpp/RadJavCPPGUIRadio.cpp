@@ -30,7 +30,7 @@ namespace RadJAV
 		{
 			#ifdef GUI_USE_WXWIDGETS
 				RadioFrame::RadioFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size)
-					: wxRadioButton(parent, wxID_ANY, text, pos, size), GObjectBase()
+					: wxRadioButton(parent, wxID_ANY, text, pos, size)
 				{
 				}
 

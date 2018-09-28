@@ -43,20 +43,6 @@
     #include "jscore/RadJavJSCJavascriptEngine.h"
 #endif
 
-
-#ifdef USE_IOS
-#ifdef __OBJC__
-#define OBJC_CLASS(name) @class name
-#else
-#define OBJC_CLASS(name) typedef struct objc_object name
-#endif
-
-OBJC_CLASS(UIView);
-#elif defined USE_ANDROID
-#warning Add Button implementation for Android platform
-#endif
-
-
 namespace RadJAV
 {
 	namespace CPP
@@ -64,9 +50,146 @@ namespace RadJAV
 		/// Contains classes for the OS GUI.
 		namespace GUI
 		{
-			class GObjectBase;
+			class GObject;
 			
-			class RADJAV_EXPORT GObject : public ChainedPtr
+			class RADJAV_EXPORT GObjectInterface
+			{
+			public:
+				virtual ~GObjectInterface() {};
+				
+				/// Using the existing parameters in this object, create it.
+				virtual void addChild(GObject *child) = 0;
+				
+				/** Set this object's font.
+				 * Theme Event: setFont
+				 * Is Theme Event Asynchronous: No
+				 * @param {RadJav.Font} font The font to set.
+				 */
+				virtual void setFont(CPP::Font *font) = 0;
+				
+				/** Get this object's font.
+				 * Theme Event: getFont
+				 * Is Theme Event Asynchronous: No
+				 * @return {RadJav.Font} The font.
+				 */
+				virtual CPP::Font *getFont() = 0;
+				
+				/** Set the position of this object.
+				 * Theme Event: None
+				 * Is Theme Event Asynchronous: No
+				 * @param {Number/RadJav.Vector2} x The new position, or the new x coordinate of the new position.
+				 * @param {Number} [y=null] The new y coordinate.
+				 */
+				virtual void setPosition(RJINT x, RJINT y) = 0;
+				virtual void setPosition(CPP::Vector2 pos) = 0;
+				
+				/** @method getPosition
+				 * Get the position of this object.
+				 * Theme Event: None
+				 * Is Theme Event Asynchronous: No
+				 * @return {RadJav.Vector2} The position of this object.
+				 */
+				virtual CPP::Vector2 getPosition() = 0;
+				
+				/** Get the X position of this object.
+				 * Theme Event: None
+				 * Is Theme Event Asynchronous: No
+				 * @return {RadJav.Vector2} The position of this object.
+				 */
+				virtual RJINT getX() = 0;
+				
+				/** Get the Y position of this object.
+				 * Theme Event: None
+				 * Is Theme Event Asynchronous: No
+				 * @return {RadJav.Vector2} The position of this object.
+				 */
+				virtual RJINT getY() = 0;
+				
+				/** Set the size of this object.
+				 * Theme Event: None
+				 * Is Theme Event Asynchronous: No
+				 * @param {Number/RadJav.Vector2} width The object's new size, or new width.
+				 * @param {Number} [height=null] The object's new height.
+				 */
+				virtual void setSize(RJINT width, RJINT height) = 0;
+				virtual void setSize(CPP::Vector2 size) = 0;
+				
+				/** Get the size of this object.
+				 * Theme Event: None
+				 * Is Theme Event Asynchronous: No
+				 * @return {RadJav.Vector2} The size of this object.
+				 */
+				virtual CPP::Vector2 getSize() = 0;
+				
+				/** Get the width of this object.
+				 * Theme Event: None
+				 * Is Theme Event Asynchronous: No
+				 * @return {Number} The width of this object.
+				 */
+				virtual RJINT getWidth() = 0;
+				
+				/** Get the height of this object.
+				 * Theme Event: None
+				 * Is Theme Event Asynchronous: No
+				 * @return {Number} The height of this object.
+				 */
+				virtual RJINT getHeight() = 0;
+				
+				/** Set the object's text.
+				 * Theme Event: setText
+				 * Is Theme Event Asynchronous: Yes
+				 * @param {String} text The text to set.
+				 * @return {String} The text associated with this object.
+				 */
+				virtual void setText(String text) = 0;
+				
+				/** Get the object's text.
+				 * Theme Event: getText
+				 * Is Theme Event Asynchronous: No
+				 * @return {String} The text associated with this object.
+				 */
+				virtual String getText() = 0;
+				
+				/** Get the parent.
+				 * Theme Event: None
+				 * Is Theme Event Asynchronous: No
+				 * @return {RadJav.GUI.GObject} The parent of this object.
+				 */
+				virtual GObject *getParent() = 0;
+				
+				/** Set the visibility of this object.
+				 * Theme Event: setVisibility
+				 * Is Theme Event Asynchronous: Yes
+				 * Parameters Passed to Theme Event: RadJav.GUI.GObject, Boolean
+				 * @param {Boolean} visible The visibility of the object
+				 */
+				virtual void setVisibility(RJBOOL visible) = 0;
+				
+				/** Get the visibility of this object.
+				 * Theme Event: setVisibility
+				 * Is Theme Event Asynchronous: No
+				 * Parameters Passed to Theme Event: RadJav.GUI.GObject
+				 * @return {Boolean} The visibility of this object
+				 */
+				virtual RJBOOL getVisibility() = 0;
+				
+				/** Enable or disable this object.
+				 * Theme Event: setEnabled
+				 * Is Theme Event Asynchronous: Yes
+				 * Parameters Passed to Theme Event: RadJav.GUI.GObject, Boolean
+				 */
+				virtual void setEnabled(RJBOOL enabled) = 0;
+				
+				/** Get whether or not this object is enabled.
+				 * Theme Event: getEnabled
+				 * Is Theme Event Asynchronous: No
+				 * Parameters Passed to Theme Event: RadJav.GUI.GObject
+				 * @return {Boolean} The enabled status of this object
+				 */
+				virtual RJBOOL getEnabled() = 0;
+			};
+			
+			class RADJAV_EXPORT GObject : public GObjectInterface, public ChainedPtr
 			{
 				public:
 					#ifdef USE_V8
@@ -90,145 +213,37 @@ namespace RadJAV
 					/// Using the existing parameters in this object, create it.
 					virtual void create();
 
-					/// Using the existing parameters in this object, create it.
-					virtual void addChild(GObject *child);
+					virtual void setup();
+					void setupCursor();
 
-					/** Set this object's font.
-					* Theme Event: setFont
-					* Is Theme Event Asynchronous: No
-					* @param {RadJav.Font} font The font to set.
-					*/
-					virtual void setFont(CPP::Font *font);
-
-					/** Get this object's font.
-					* Theme Event: getFont
-					* Is Theme Event Asynchronous: No
-					* @return {RadJav.Font} The font.
-					*/
-					virtual CPP::Font *getFont();
-
-					/** Set the position of this object.
-					* Theme Event: None
-					* Is Theme Event Asynchronous: No
-					* @param {Number/RadJav.Vector2} x The new position, or the new x coordinate of the new position.
-					* @param {Number} [y=null] The new y coordinate.
-					*/
-					virtual void setPosition(RJINT x, RJINT y);
-					virtual void setPosition(CPP::Vector2 pos);
-
-					/** @method getPosition
-					* Get the position of this object.
-					* Theme Event: None
-					* Is Theme Event Asynchronous: No
-					* @return {RadJav.Vector2} The position of this object.
-					*/
-					virtual CPP::Vector2 getPosition();
-
-					/** Get the X position of this object.
-					* Theme Event: None
-					* Is Theme Event Asynchronous: No
-					* @return {RadJav.Vector2} The position of this object.
-					*/
-					virtual RJINT getX();
-
-					/** Get the Y position of this object.
-					* Theme Event: None
-					* Is Theme Event Asynchronous: No
-					* @return {RadJav.Vector2} The position of this object.
-					*/
-					virtual RJINT getY();
-
-					/** Set the size of this object.
-					* Theme Event: None
-					* Is Theme Event Asynchronous: No
-					* @param {Number/RadJav.Vector2} width The object's new size, or new width.
-					* @param {Number} [height=null] The object's new height.
-					*/
-					virtual void setSize(RJINT width, RJINT height);
-					virtual void setSize(CPP::Vector2 size);
-
-					/** Get the size of this object.
-					* Theme Event: None
-					* Is Theme Event Asynchronous: No
-					* @return {RadJav.Vector2} The size of this object.
-					*/
-					virtual CPP::Vector2 getSize();
-
-					/** Get the width of this object.
-					* Theme Event: None
-					* Is Theme Event Asynchronous: No
-					* @return {Number} The width of this object.
-					*/
-					virtual RJINT getWidth();
-
-					/** Get the height of this object.
-					* Theme Event: None
-					* Is Theme Event Asynchronous: No
-					* @return {Number} The height of this object.
-					*/
-					virtual RJINT getHeight();
-
-					/** Set the object's text.
-					* Theme Event: setText
-					* Is Theme Event Asynchronous: Yes
-					* @param {String} text The text to set.
-					* @return {String} The text associated with this object.
-					*/
-					virtual void setText(String text);
-
-					/** Get the object's text.
-					* Theme Event: getText
-					* Is Theme Event Asynchronous: No
-					* @return {String} The text associated with this object.
-					*/
-					virtual String getText();
-
-					/** Get the parent.
-					* Theme Event: None
-					* Is Theme Event Asynchronous: No
-					* @return {RadJav.GUI.GObject} The parent of this object.
-					*/
-					virtual GObject *getParent();
-
-					/** Set the visibility of this object.
-					* Theme Event: setVisibility
-					* Is Theme Event Asynchronous: Yes
-					* Parameters Passed to Theme Event: RadJav.GUI.GObject, Boolean
-					* @param {Boolean} visible The visibility of the object
-					*/
-					virtual void setVisibility(RJBOOL visible);
-
-					/** Get the visibility of this object.
-					* Theme Event: setVisibility
-					* Is Theme Event Asynchronous: No
-					* Parameters Passed to Theme Event: RadJav.GUI.GObject
-					* @return {Boolean} The visibility of this object
-					*/
-					virtual RJBOOL getVisibility();
-
-					/** Enable or disable this object.
-					* Theme Event: setEnabled
-					* Is Theme Event Asynchronous: Yes
-					* Parameters Passed to Theme Event: RadJav.GUI.GObject, Boolean
-					*/
-					virtual void setEnabled(RJBOOL enabled);
-
-					/** Get whether or not this object is enabled.
-					* Theme Event: getEnabled
-					* Is Theme Event Asynchronous: No
-					* Parameters Passed to Theme Event: RadJav.GUI.GObject
-					* @return {Boolean} The enabled status of this object
-					*/
-					virtual RJBOOL getEnabled();
+					//From GObjectInterface:
+					void addChild(GObject *child);
+					void setFont(CPP::Font *font);
+					CPP::Font *getFont();
+					void setPosition(RJINT x, RJINT y);
+					void setPosition(CPP::Vector2 pos);
+					CPP::Vector2 getPosition();
+					RJINT getX();
+					RJINT getY();
+					void setSize(RJINT width, RJINT height);
+					void setSize(CPP::Vector2 size);
+					CPP::Vector2 getSize();
+					RJINT getWidth();
+					RJINT getHeight();
+					void setText(String text);
+					String getText();
+					GObject *getParent();
+					void setVisibility(RJBOOL visible);
+					RJBOOL getVisibility();
+					void setEnabled(RJBOOL enabled);
+					RJBOOL getEnabled();
 
 					#if defined USE_V8 || defined USE_JAVASCRIPTCORE
 						/// Execute when an event is triggered.
 						virtual void on(String event, RJ_FUNC_TYPE func) = 0;
 					#endif
 
-					virtual void setup();
-					void setupCursor();
-
+				public:
 					/// The name of this object.
 					String name;
 					/// The type of object.
@@ -254,98 +269,62 @@ namespace RadJAV
 					#ifdef GUI_USE_WXWIDGETS
 						wxWindow *_appObj;
 					#elif defined USE_IOS || defined USE_ANDROID
-						GObjectBase* _appObj;
+						GObjectInterface* _appObj;
 					#endif
 			};
 
-			#if defined USE_IOS || defined USE_ANDROID
-				//template<class WidgetType>
-				class RADJAV_EXPORT GObjectBase
-				{
-				public:
-					GObjectBase();
-					virtual ~GObjectBase();
-
-					//virtual void addChild(GObject *child) = 0;
-					virtual void setFont(CPP::Font *font) = 0;
-					virtual CPP::Font *getFont() = 0;
-					virtual void setPosition(RJINT x, RJINT y) = 0;
-					virtual void setPosition(CPP::Vector2 pos) = 0;
-					virtual CPP::Vector2 getPosition() = 0;
-					virtual RJINT getX() = 0;
-					virtual RJINT getY() = 0;
-					virtual void setSize(RJINT width, RJINT height) = 0;
-					virtual void setSize(CPP::Vector2 size) = 0;
-					virtual CPP::Vector2 getSize() = 0;
-					virtual RJINT getWidth() = 0;
-					virtual RJINT getHeight() = 0;
-					virtual void setText(String text) = 0;
-					virtual String getText() = 0;
-					//virtual GObject *getParent() = 0;
-					virtual void setVisibility(RJBOOL visible) = 0;
-					virtual RJBOOL getVisibility() = 0;
-					virtual void setEnabled(RJBOOL enabled) = 0;
-					virtual RJBOOL getEnabled() = 0;
-#ifdef USE_IOS
-                    UIView* widget;
-#elif defined USE_ANDROID
-                    //TODO: Wrap Android specific type here
-#endif
-				protected:
-					//WidgetType* widget;
-
-				};
-			#else
-				class RADJAV_EXPORT GObjectBase
-				{
-				public:
-					GObjectBase();
-					virtual ~GObjectBase();
-					
-					#ifdef GUI_USE_WXWIDGETS
-						#ifdef USE_V8
-							Event* createEvent(String event, v8::Local<v8::Function> function);
-							void addNewEvent(String event, wxWindow *object, v8::Local<v8::Function> func);
-						#endif
-					
-						#ifdef USE_JAVASCRIPTCORE
-							Event* createEvent(String event, JSObjectRef function);
-							void addNewEvent(String event, wxWindow *object, JSObjectRef func);
-						#endif
-					
-						static void onClick(wxMouseEvent &event);
-						static void onDoubleClick(wxMouseEvent &event);
-						static void onRightClick(wxMouseEvent &event);
-						static void onRightDoubleClick(wxMouseEvent &event);
-						static void onRightDown(wxMouseEvent &event);
-						static void onMiddleClick(wxMouseEvent &event);
-						static void onMiddleDoubleClick(wxMouseEvent &event);
-						static void onMiddleDown(wxMouseEvent &event);
-					
-						static void onMouseAux1Down(wxMouseEvent &event);
-						static void onMouseAux1Up(wxMouseEvent &event);
-						static void onMouseEnterWindow(wxMouseEvent &event);
-						static void onMouseLeaveWindow(wxMouseEvent &event);
-						static void onMouseMotion(wxMouseEvent &event);
-						static void onMouseWheel(wxMouseEvent &event);
-					
-						static void onKeyUp(wxKeyEvent &event);
-						static void onKeyDown(wxKeyEvent &event);
-					
-						static void onFocusSet(wxFocusEvent &event);
-						static void onFocusOut(wxFocusEvent &event);
-					
-						#ifdef USE_V8
-							static v8::Local<v8::Value> executeEvent(Event *pevent, RJINT numArgs = 0, v8::Local<v8::Value> *args = NULL);
-						#elif defined USE_JAVASCRIPTCORE
-							static JSValueRef executeEvent(Event *pevent, RJINT numArgs = 0, JSValueRef *args = NULL);
-						#endif
-					
-						HashMap<std::string, Event* > *events;
-					
-					#endif //GUI_USE_WXWIDGETS
-				};
-			#endif //defined USE_IOS || defined USE_ANDROID
+			class RADJAV_EXPORT GObjectEvents
+			{
+			public:
+				GObjectEvents();
+				GObjectEvents(const GObjectEvents& other) = delete;
+				GObjectEvents& operator =(const GObjectEvents& other) = delete;
+				
+				virtual ~GObjectEvents();
+				
+				#ifdef GUI_USE_WXWIDGETS
+					#ifdef USE_V8
+						Event* createEvent(String event, v8::Local<v8::Function> function);
+						void addNewEvent(String event, wxWindow *object, v8::Local<v8::Function> func);
+					#elif defined USE_JAVASCRIPTCORE
+						Event* createEvent(String event, JSObjectRef function);
+						void addNewEvent(String event, wxWindow *object, JSObjectRef func);
+					#endif
+				
+					static void onClick(wxMouseEvent &event);
+					static void onDoubleClick(wxMouseEvent &event);
+					static void onRightClick(wxMouseEvent &event);
+					static void onRightDoubleClick(wxMouseEvent &event);
+					static void onRightDown(wxMouseEvent &event);
+					static void onMiddleClick(wxMouseEvent &event);
+					static void onMiddleDoubleClick(wxMouseEvent &event);
+					static void onMiddleDown(wxMouseEvent &event);
+				
+					static void onMouseAux1Down(wxMouseEvent &event);
+					static void onMouseAux1Up(wxMouseEvent &event);
+					static void onMouseEnterWindow(wxMouseEvent &event);
+					static void onMouseLeaveWindow(wxMouseEvent &event);
+					static void onMouseMotion(wxMouseEvent &event);
+					static void onMouseWheel(wxMouseEvent &event);
+				
+					static void onKeyUp(wxKeyEvent &event);
+					static void onKeyDown(wxKeyEvent &event);
+				
+					static void onFocusSet(wxFocusEvent &event);
+					static void onFocusOut(wxFocusEvent &event);
+				
+				#elif defined USE_IOS || defined USE_ANDROID
+					//Add iOS and Android specific events handling
+				#endif
+				
+				#ifdef USE_V8
+					static v8::Local<v8::Value> executeEvent(Event *pevent, RJINT numArgs = 0, v8::Local<v8::Value> *args = NULL);
+				#elif defined USE_JAVASCRIPTCORE
+					static JSValueRef executeEvent(Event *pevent, RJINT numArgs = 0, JSValueRef *args = NULL);
+				#endif
+				
+				HashMap<std::string, Event* > *events;
+			};
 		}
 	}
 }

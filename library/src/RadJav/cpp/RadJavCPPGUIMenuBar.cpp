@@ -32,7 +32,7 @@ namespace RadJAV
 		{
   			#ifdef GUI_USE_WXWIDGETS
 				MenuBarFrame::MenuBarFrame(const wxString &text)
-				  : wxMenuBar(), GObjectBase ()
+				  : wxMenuBar()
 				{
 				}
 

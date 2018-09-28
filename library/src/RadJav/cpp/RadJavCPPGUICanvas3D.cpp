@@ -36,7 +36,7 @@ namespace RadJAV
 		{
 			#ifdef GUI_USE_WXWIDGETS
 				Canvas3DFrame::Canvas3DFrame(const wxString &text, const wxPoint &pos, const wxSize &size, Array<CanvasResource *> resources)
-					: wxFrame(NULL, wxID_ANY, text, pos, size), GObjectBase(), RenderWindow(),
+					: wxFrame(NULL, wxID_ANY, text, pos, size),
 					  renderingWidget(nullptr),
 					  sceneManager(nullptr)
 				{

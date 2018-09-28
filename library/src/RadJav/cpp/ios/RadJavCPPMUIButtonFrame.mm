@@ -79,10 +79,10 @@ namespace RadJAV
 				[widget release];
 			}
 			
-//			void ButtonFrame::addChild(GObject *child)
-//			{
-//				//TODO: Add implementation
-//			}
+			void ButtonFrame::addChild(GUI::GObject *child)
+			{
+				//TODO: Add implementation
+			}
 
 
 
@@ -147,11 +147,11 @@ namespace RadJAV
 			}
 	
 			
-//			GObject* ButtonFrame::getParent()
-//			{
-//				//TODO: Add implementation
-//				return nullptr;
-//			}
+			GUI::GObject* ButtonFrame::getParent()
+			{
+				//TODO: Add implementation
+				return nullptr;
+			}
 
 
 			

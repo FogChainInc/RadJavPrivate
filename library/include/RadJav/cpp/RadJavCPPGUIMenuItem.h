@@ -106,7 +106,7 @@
 					};
 				#endif
 
-				class RADJAV_EXPORT MenuItem : public CPP::GUI::GObject, public CPP::GUI::GObjectBase
+				class RADJAV_EXPORT MenuItem : public CPP::GUI::GObject, public CPP::GUI::GObjectEvents
 				{
 					public:
 						#ifdef USE_V8
