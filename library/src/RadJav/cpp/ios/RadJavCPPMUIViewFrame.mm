@@ -44,12 +44,7 @@ namespace RadJAV
 				//TODO: Add implementation
 				return nullptr;
 			}
-			
-			void ViewFrame::setPosition(RJINT x, RJINT y)
-			{
-				//TODO: Add implementation
-			}
-			
+						
 			void ViewFrame::setPosition(CPP::Vector2 pos)
 			{
 				//TODO: Add implementation
