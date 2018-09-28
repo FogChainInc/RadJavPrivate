@@ -17,8 +17,8 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#ifndef _RADJAV_GUI_V8_WINDOW_H_
-	#define _RADJAV_GUI_V8_WINDOW_H_
+#ifndef _RADJAV_MUI_V8_VIEW_H_
+	#define _RADJAV_MUI_V8_VIEW_H_
 
 	#include "RadJavPreprocessor.h"
 	#include "RadJavString.h"
@@ -29,35 +29,35 @@
 	{
 		namespace V8B
 		{
-			namespace GUI
+			namespace MUI
 			{
-				class RADJAV_EXPORT Window : public GObject
+				class RADJAV_EXPORT Button : public GObject
 				{
-				public:
-					static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
+					public:
+						static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
-					static void create(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void setFont(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void getFont(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void setPosition(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void getPosition(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void getX(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void getY(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void setSize(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void getSize(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void getWidth(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void getHeight(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void setText(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void getText(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void getParent(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void getAppObj(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void setVisibility(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void getVisibility(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void setEnabled(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void getEnabled(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void setIcon(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void on(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void destroy(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void create(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void setFont(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void getFont(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void setPosition(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void getPosition(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void getX(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void getY(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void setSize(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void getSize(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void getWidth(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void getHeight(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void setText(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void getText(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void getParent(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void getAppObj(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void setVisibility(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void getVisibility(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void setEnabled(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void getEnabled(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void setIcon(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void on(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void destroy(const v8::FunctionCallbackInfo<v8::Value> &args);
 				};
 			}
 		}
