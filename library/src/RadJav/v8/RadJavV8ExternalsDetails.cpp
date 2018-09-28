@@ -17,7 +17,7 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#include "v8/RadJavV8Externals.h"
+#include "v8/RadJavV8ExternalsDetails.h"
 #include "cpp/RadJavCPPChainedPtr.h"
 #include "RadJav.h"
 #include "v8/RadJavV8JavascriptEngine.h"
@@ -144,10 +144,10 @@ namespace RadJAV
 		// our destructor.
 	}
 
-	ExternalsManager::ExternalsManager()
+	ExternalsManagerV8Impl::ExternalsManagerV8Impl()
 	{}
 	
-	ExternalsManager::~ExternalsManager()
+	ExternalsManagerV8Impl::~ExternalsManagerV8Impl()
 	{
 		while (!externals.empty())
 		{
@@ -159,7 +159,7 @@ namespace RadJAV
 		}
 	}
 	
-	void ExternalsManager::set(const v8::Local<v8::Object>& handle, const String& functionName, CPP::ChainedPtr* object)
+	void ExternalsManagerV8Impl::set(const v8::Local<v8::Object>& handle, const String& functionName, CPP::ChainedPtr* object)
 	{
 		LOCK_GUARD(s_mutexExternalsAccess);
 		
@@ -189,7 +189,7 @@ namespace RadJAV
 		handle->Set( functionName.toV8String( handle->GetIsolate()), objectInstance);
 	}
 	
-	CPP::ChainedPtr* ExternalsManager::get(const v8::Local<v8::Object>& handle, const String& functionName)
+	CPP::ChainedPtr* ExternalsManagerV8Impl::get(const v8::Local<v8::Object>& handle, const String& functionName)
 	{
 		LOCK_GUARD(s_mutexExternalsAccess);
 		
@@ -209,7 +209,7 @@ namespace RadJAV
 		return nullptr;
 	}
 	
-	void ExternalsManager::clear(const v8::Local<v8::Object>& handle, const String& functionName)
+	void ExternalsManagerV8Impl::clear(const v8::Local<v8::Object>& handle, const String& functionName)
 	{
 		LOCK_GUARD(s_mutexExternalsAccess);
 
@@ -225,7 +225,7 @@ namespace RadJAV
 		object->SetInternalField(0, val);
 	}
 	
-	uint32_t ExternalsManager::getObjectId(const v8::Local<v8::Object>& handle, const String& functionName)
+	uint32_t ExternalsManagerV8Impl::getObjectId(const v8::Local<v8::Object>& handle, const String& functionName)
 	{
 		v8::Isolate* isolate = handle->GetIsolate();
 		v8::Handle<v8::Value> value = handle->Get(functionName.toV8String(isolate));
@@ -244,7 +244,7 @@ namespace RadJAV
 		return objectId;
 	}
 	
-	v8::Local<v8::Object> ExternalsManager::newObjectInstance(const v8::Local<v8::Object>& handle)
+	v8::Local<v8::Object> ExternalsManagerV8Impl::newObjectInstance(const v8::Local<v8::Object>& handle)
 	{
 		v8::Local<v8::ObjectTemplate> objectTemplate = v8::ObjectTemplate::New(handle->GetIsolate());
 		objectTemplate->SetInternalFieldCount(1);
@@ -254,7 +254,7 @@ namespace RadJAV
 		return objectInstance;
 	}
 	
-	uint32_t ExternalsManager::nextId()
+	uint32_t ExternalsManagerV8Impl::nextId()
 	{
 		static uint32_t objectId = 0;
 		

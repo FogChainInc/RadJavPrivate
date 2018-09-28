@@ -14,7 +14,9 @@
                                            styleMask: NSWindowStyleMaskTitled | NSWindowStyleMaskClosable
                                              backing: NSBackingStoreBuffered
                                                defer: NO];
-		
+
+        [window setIsVisible: NO];
+
 		[NSTimer scheduledTimerWithTimeInterval: 1.0
 										 target: self
 									   selector: @selector(timeOut:)
@@ -45,11 +47,18 @@
 	//NSLog(@"RadJavVMLauncher: Timer event");
 	//NSLog(@"RadJavVMLauncher: Timer fired no openFile message received");
 	
-	[self showAlert:@"No arguments specified. Exiting..."];
+	//[self showAlert:@"No arguments specified. Exiting..."];
 	
 	//Terminating application
 	//NSLog(@"RadJavVMLauncher: Terminating self");
-	[[NSApplication sharedApplication] terminate:nil];
+	//[[NSApplication sharedApplication] terminate:nil];
+
+    NSString *executablePath = [[[NSBundle mainBundle] executablePath] stringByDeletingLastPathComponent];
+    NSString *examplesPath = [executablePath stringByAppendingString: @"/../Resources/examples/exampleBrowser.xrj"];
+
+    //NSLog(examplesPath);
+
+    [self runApp: examplesPath];
 }
 
 - (void) showAlert:(NSString*)message {
@@ -62,13 +71,57 @@
 	[alert release];
 }
 
+- (BOOL) runApp:(NSString*)filename {
+    NSString* executablePath = [[[NSBundle mainBundle] executablePath] stringByDeletingLastPathComponent];
+    NSString* execCommand = [executablePath stringByAppendingString:@"/RadJavVM"];
+    /*execCommand = [@"file:///" stringByAppendingString: executablePath];
+    NSArray<NSString *> *args = @[filename];
+
+    NSURL *url = [[NSURL alloc] initFileURLWithPath: execCommand];
+    [NSTask launchedTaskWithExecutableURL: url arguments: args error: nil terminationHandler:nil];
+    
+    [url release];*/
+
+    const char* execCommandUtf8 = [execCommand cStringUsingEncoding:NSUTF8StringEncoding];
+    const char* parameterUtf8 = [filename cStringUsingEncoding:NSUTF8StringEncoding];
+    pid_t processID = fork();
+    
+    if(processID < 0)
+    {
+        //Unable to create a new process
+        //NSLog(@"RadJavVMLauncher: Unable to start application");
+        [self showAlert:@"Unable to start application. Exiting..."];
+        
+        //Terminating application
+        [[NSApplication sharedApplication] terminate:nil];
+        
+        return true;
+    }
+    
+    if(processID > 0)
+    {
+        //Child created successfully
+        //NSLog(@"RadJavVMLauncher: Child process created successfully");
+        
+        //Terminating application
+        [[NSApplication sharedApplication] terminate:nil];
+        
+        return true;
+    }
+    
+    if (processID == 0)
+    {
+        //We are in the child process
+        //Replacing image with actual program
+        if( execl( execCommandUtf8, execCommandUtf8, parameterUtf8, NULL) == -1)
+            _exit(EXIT_FAILURE);
+    }
+
+    return (true);
+}
+
 - (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename {
 	//NSLog(@"RadJavVMLauncher: openFile event received with argument: %@", filename);
-
-	NSString* executablePath = [[[NSBundle mainBundle] executablePath] stringByDeletingLastPathComponent];
-	NSString* execCommand = [executablePath stringByAppendingString:@"/RadJavVM"];
-	const char* execCommandUtf8 = [execCommand cStringUsingEncoding:NSUTF8StringEncoding];
-	const char* parameterUtf8 = [filename cStringUsingEncoding:NSUTF8StringEncoding];
 
 	//As an option
 	/*
@@ -79,42 +132,10 @@
 	[task launch];
 	[task release];
 	 */
-	
-	//Trying to create a new process
-	pid_t processID = fork();
-	
-	if(processID < 0)
-	{
-		//Unable to create a new process
-		//NSLog(@"RadJavVMLauncher: Unable to start application");
-		[self showAlert:@"Unable to start application. Exiting..."];
 
-		//Terminating application
-		[[NSApplication sharedApplication] terminate:nil];
-		
-		return true;
-	}
+    BOOL result = [self runApp: filename];
 
-	if(processID > 0)
-	{
-		//Child created successfully
-		//NSLog(@"RadJavVMLauncher: Child process created successfully");
-
-		//Terminating application
-		[[NSApplication sharedApplication] terminate:nil];
-		
-		return true;
-	}
-	
-	if (processID == 0)
-	{
-		//We are in the child process
-		//Replacing image with actual program
-		if( execl( execCommandUtf8, execCommandUtf8, parameterUtf8, NULL) == -1)
-			_exit(EXIT_FAILURE);
-	}
-
-	return true;
+	return result;
 }
 
 @end

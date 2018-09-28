@@ -42,6 +42,16 @@ namespace RadJAV
 					if (click != "")
 						clickEvent = click;
 				}
+			#elif defined USE_JAVASCRIPTCORE
+				MenuItem::MenuItem(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[])
+					: GObject (jsEngine, thisObject, argumentCount, arguments)
+				{
+					JSObjectRef eventsV8 = jsEngine->jscGetObject(thisObject, "_events");
+					String click = jsEngine->jscGetString(eventsV8, "click");
+					
+					if (click != "")
+						clickEvent = click;
+				}
 			#endif
 
 			MenuItem::MenuItem(String name, String text, CPP::GUI::GObject *parent)
@@ -137,8 +147,8 @@ namespace RadJAV
 				setup();
 			}
 
-			#ifdef USE_V8
-				void MenuItem::on(String event, v8::Local<v8::Function> func)
+			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+				void MenuItem::on(String event, RJ_FUNC_TYPE func)
 				{
 				}
 			#endif
@@ -153,7 +163,7 @@ namespace RadJAV
 					{
 						String *str = (String *)data->getData(menuId);
 						String code = str->c_str();
-						V8_JAVASCRIPT_ENGINE->executeScriptNextTick(code, "");
+                        RadJav::javascriptEngine->executeScript(code, "");
 					}
 				}
 			#endif

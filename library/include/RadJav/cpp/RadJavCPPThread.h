@@ -23,7 +23,13 @@
 	#include "RadJavPreprocessor.h"
 	#include "RadJavString.h"
 
-	#include "v8/RadJavV8JavascriptEngine.h"
+    #ifdef USE_V8
+        #include "v8/RadJavV8JavascriptEngine.h"
+    #endif
+    #ifdef USE_JAVASCRIPTCORE
+        #include "jscore/RadJavJSCJavascriptEngine.h"
+    #endif
+
 	#include "cpp/RadJavCPPChainedPtr.h"
 
 	namespace RadJAV
@@ -36,6 +42,9 @@
 					#ifdef USE_V8
 						Thread(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
 					#endif
+                    #ifdef USE_JAVASCRIPTCORE
+                        Thread(JSCJavascriptEngine *jsEngine, RJINT numArgs, JSValueRef *args);
+                    #endif
 					Thread();
 
 					void start();
@@ -46,7 +55,11 @@
 				
 						v8::Persistent<v8::Value> *thread;
 					#endif
-
+                    #ifdef USE_JAVASCRIPTCORE
+                        void on(String event, JSObjectRef func);
+                
+                        JSObjectRef thread;
+                    #endif
 			};
 		}
 	}

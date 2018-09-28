@@ -46,40 +46,42 @@
 			{
 				#ifdef USE_CRYPTOGRAPHY
 				// Accepts incoming connections and launches the sessions
-			        class RADJAV_EXPORT PrivateKey : public virtual Base
+				class RADJAV_EXPORT PrivateKey : public virtual Base
 				{
 				public:
-				  PrivateKey(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
-				  ~PrivateKey();
-				  void setEngine(std::shared_ptr<Engine::Crypto::IPrivateKey> privateKey);
-
+					#ifdef USE_V8
+					PrivateKey(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
+					#elif defined USE_JAVASCRIPTCORE
+					PrivateKey(JSCJavascriptEngine *jsEngine, JSContextRef ctx, RJUINT argumentCount, const JSValueRef arguments[]);
+					#endif
+					~PrivateKey();
+					void setEngine(std::shared_ptr<Engine::Crypto::IPrivateKey> privateKey);
+					
 				public:
-				  
-				  /// PrivateKey data
-				  void encrypt(const void* text, int textLength,
-					       std::function <void (const std::string& str)> stringSetter,
-					       std::function <void (void* buf, int bufLen)> binSetter);
-
-				  void sign(const void* text, int textLength,
-					    std::function <void (const std::string& str)> stringSetter,
-					    std::function <void (void* buf, int bufLen)> binSetter);
-
-				  std::shared_ptr<const Engine::Crypto::IPublicKey> getPublicKey();
-
-				  void savePem(const char *path, const char *cipherType, const char *pwd);
-				  
+					
+					/// PrivateKey data
+					void encrypt(const void* text, int textLength,
+								 std::function <void (const std::string& str)> stringSetter,
+								 std::function <void (void* buf, int bufLen)> binSetter);
+					
+					void sign(const void* text, int textLength,
+							  std::function <void (const std::string& str)> stringSetter,
+							  std::function <void (void* buf, int bufLen)> binSetter);
+					
+					std::shared_ptr<const Engine::Crypto::IPublicKey> getPublicKey();
+					
+					void savePem(const char *path, const char *cipherType, const char *pwd);
+					
 				public:
-				  std::shared_ptr<Engine::Crypto::IPrivateKey> myPrivateKey;
-
-				  // RSA specific 
-				  String myBits;
-				  String myEncryptPadding;
-				  String mySignatureType;
-
-				  //
-				  String myData;
-
-				  
+					std::shared_ptr<Engine::Crypto::IPrivateKey> myPrivateKey;
+					
+					// RSA specific
+					String myBits;
+					String myEncryptPadding;
+					String mySignatureType;
+					
+					//
+					String myData;
 				};
 				#endif
 			}

@@ -26,6 +26,49 @@ namespace RadJAV
 {
 	namespace CPP
 	{
+        #ifdef USE_V8
+            Vector4::Vector4(v8::Local<v8::Object> obj)
+            {
+                x = V8_JAVASCRIPT_ENGINE->v8GetDecimal (obj, "x");
+                y = V8_JAVASCRIPT_ENGINE->v8GetDecimal (obj, "y");
+                z = V8_JAVASCRIPT_ENGINE->v8GetDecimal (obj, "z");
+                w = V8_JAVASCRIPT_ENGINE->v8GetDecimal (obj, "w");
+            }
+        
+            v8::Local<v8::Object> Vector4::toV8Object()
+            {
+                v8::Local<v8::Object> vector = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_RADJAV, "Vector4");
+                
+                V8_JAVASCRIPT_ENGINE->v8SetNumber(vector, "x", x);
+                V8_JAVASCRIPT_ENGINE->v8SetNumber(vector, "y", y);
+                V8_JAVASCRIPT_ENGINE->v8SetNumber(vector, "z", z);
+                V8_JAVASCRIPT_ENGINE->v8SetNumber(vector, "w", w);
+                
+                return (vector);
+            }
+        #endif
+        #ifdef USE_JAVASCRIPTCORE
+            Vector4::Vector4(JSObjectRef obj)
+            {
+                x = JSC_JAVASCRIPT_ENGINE->jscGetDecimal (obj, "x");
+                y = JSC_JAVASCRIPT_ENGINE->jscGetDecimal (obj, "y");
+                z = JSC_JAVASCRIPT_ENGINE->jscGetDecimal (obj, "z");
+                w = JSC_JAVASCRIPT_ENGINE->jscGetDecimal (obj, "w");
+            }
+        
+            JSObjectRef Vector4::toJSCObject()
+            {
+                JSObjectRef vector = JSC_JAVASCRIPT_ENGINE->jscGetObject(JSC_RADJAV, "Vector4");
+                
+                JSC_JAVASCRIPT_ENGINE->jscSetNumber(vector, "x", x);
+                JSC_JAVASCRIPT_ENGINE->jscSetNumber(vector, "y", y);
+                JSC_JAVASCRIPT_ENGINE->jscSetNumber(vector, "z", z);
+                JSC_JAVASCRIPT_ENGINE->jscSetNumber(vector, "w", w);
+                
+                return (vector);
+            }
+        #endif
+
 		Vector4 Vector4::parseVector4(String str)
 		{
 			Vector4 obj;

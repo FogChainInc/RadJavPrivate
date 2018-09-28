@@ -135,7 +135,8 @@ macro (searchForLibrary lib debugLibraries releaseLibraries searchPath)
 			${searchPath}/stage/x64/lib 
 			${${lib}_LIBRARY_DEBUG_PATHS})
 	endif ()
-
+	#if ((USE_ARCH STREQUAL "armeabi") OR (USE_ARCH STREQUAL "armeabi-v7a") OR (USE_ARCH STREQUAL "arm64-v8a"))
+	#if (${USE_ARCH} MATCHES "^arm.*")
 	if (USE_ARCH STREQUAL "armeabi")
 		set (${lib}_LIBRARY_DEBUG_PATHS 
 			${searchPath}/out.gn/armeabi.debug 
@@ -323,6 +324,17 @@ macro (searchForLibrary lib debugLibraries releaseLibraries searchPath)
 			${searchPath}/buildarm64-v8a/release ${searchPath}/buildarm64-v8a/lib/Release ${searchPath}/buildarm64-v8a/src/Release 
 			"${searchPath}/build_windows/arm64-v8a/Static Release" 
 			${${lib}_LIBRARY_RELEASE_PATHS})
+	endif ()
+
+	if (${USE_ARCH} MATCHES "^arm.*")
+		set (${lib}_LIBRARY_RELEASE_PATHS 
+			${searchPath}/out.gn/arm64.debug 
+			${searchPath}/out.gn/arm64.debug/obj 
+			${searchPath}/out.gn/arm64.debug/obj/third_party/icu 
+			${searchPath}/out.gn/arm64.release 
+			${searchPath}/out.gn/arm64.release/obj 
+			${searchPath}/out.gn/arm64.release/obj/third_party/icu 
+			${${lib}_LIBRARY_DEBUG_PATHS})
 	endif ()
 
 	unset (${lib}_LIBRARY_RELEASE CACHE)

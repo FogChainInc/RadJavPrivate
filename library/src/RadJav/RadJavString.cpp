@@ -21,6 +21,10 @@
 
 #include "RadJavException.h"
 
+#ifdef USE_JAVASCRIPTCORE
+    #include <JavaScriptCore/JSStringRef.h>
+#endif
+
 #include <sstream>
 #include <stdlib.h>
 
@@ -380,6 +384,24 @@ namespace RadJAV
 		return (v8::String::NewFromUtf8(isolate, this->c_str()));
 	}
 #endif
+    
+#ifdef USE_JAVASCRIPTCORE
+    /// Be sure to use JSStringRelease to free JSStringRef!
+    JSStringRef String::toJSCString () const
+    {
+        return (JSStringCreateWithUTF8CString (this->c_str ()));
+    }
+    
+    JSValueRef String::toJSCValue (JSContextRef context)
+    {
+        JSStringRef str = JSStringCreateWithUTF8CString (this->c_str ());
+        JSValueRef value = JSValueMakeString(context, str);
+
+        JSStringRelease(str);
+
+        return (value);
+    }
+#endif
 
 	RDECIMAL parseDecimal(String decimal)
 	{
@@ -486,9 +508,9 @@ namespace RadJAV
 #endif
 
 #ifdef USE_V8
-	String parseV8Value(v8::Local<v8::Value> str)
+	String parseV8Value(v8::Local<v8::Value> value)
 	{
-		if (str.IsEmpty() == true)
+		if (value.IsEmpty() == true)
 			return ("");
 
 		v8::String::Utf8Value newStr(V8_JAVASCRIPT_ENGINE->isolate, str);
@@ -496,15 +518,42 @@ namespace RadJAV
 		return (*newStr);
 	}
 
-	String parseV8ValueIsolate(v8::Isolate *isolate, v8::Local<v8::Value> str)
+	String parseV8ValueIsolate(v8::Isolate *isolate, v8::Local<v8::Value> value)
 	{
-		if (str.IsEmpty() == true)
+		if (value.IsEmpty() == true)
 			return ("");
 
-		v8::String::Utf8Value newStr(isolate, str);
+		v8::String::Utf8Value newStr(isolate, value);
 
 		return (*newStr);
 	}
+#endif
+
+#ifdef USE_JAVASCRIPTCORE
+    String parseJSCValue (JSContextRef context, JSValueRef value)
+    {
+		//Instead of returning "undefined" we return empty string here
+		if (!value ||
+			JSValueIsUndefined(context, value) ||
+			JSValueIsNull(context, value))
+			return String();
+		
+        size_t bufferSize = 0;
+        RJCHAR *buffer = NULL;
+        JSValueRef exception = JSObjectMakeError (context, 0, NULL, NULL);
+
+        JSStringRef str = JSValueToStringCopy (context, value, &exception);
+        /// @todo If exception returns not null from JSValueToStringCopy, throw an exception in JS.
+        bufferSize = JSStringGetLength (str) + 1;
+        buffer = RJNEW RJCHAR [bufferSize + 1];
+        JSStringGetUTF8CString (str, buffer, bufferSize);
+        String newStr = buffer;
+
+        JSStringRelease (str);
+        DELETEARRAY(buffer);
+
+        return (newStr);
+    }
 #endif
 
 	int hexStringToInt(String hexString)

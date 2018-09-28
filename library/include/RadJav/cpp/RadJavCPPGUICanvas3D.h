@@ -94,6 +94,8 @@
 					public:
 						#ifdef USE_V8
 							Canvas3D(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
+						#elif defined USE_JAVASCRIPTCORE
+							Canvas3D(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[]);
 						#endif
 						Canvas3D(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 
@@ -119,9 +121,9 @@
 						void setEnabled(RJBOOL enabled);
 						RJBOOL getEnabled();
 
-						#ifdef USE_V8
+						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
 							/// Execute when an event is triggered.
-							void on(String event, v8::Local<v8::Function> func);
+							void on(String event, RJ_FUNC_TYPE func);
 						#endif
 				};
 				#endif

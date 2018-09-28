@@ -48,6 +48,12 @@ namespace RadJAV
 				{
 					_checked = V8_JAVASCRIPT_ENGINE->v8GetBool(args.This(), "_checked");
 				}
+			#elif defined USE_JAVASCRIPTCORE
+				Radio::Radio(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[])
+					: GObject (jsEngine, thisObject, argumentCount, arguments)
+				{
+					_checked = JSC_JAVASCRIPT_ENGINE->jscGetBool(thisObject, "_checked");
+				}
 			#endif
 
 			Radio::Radio(String name, String text, CPP::GUI::GObject *parent)
@@ -77,8 +83,8 @@ namespace RadJAV
 				#endif
 			}
 
-			#ifdef USE_V8
-				void Radio::on(String event, v8::Local<v8::Function> func)
+			#if defined USE_V8 || USE_JAVASCRIPTCORE
+				void Radio::on(String event, RJ_FUNC_TYPE func)
 				{
 					#ifdef GUI_USE_WXWIDGETS
 						CPP::GUI::RadioFrame *object = (CPP::GUI::RadioFrame *)_appObj;

@@ -47,6 +47,11 @@ namespace RadJAV
 					: GObject (jsEngine, args)
 				{
 				}
+			#elif defined USE_JAVASCRIPTCORE
+				Container::Container(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[])
+					: GObject (jsEngine, thisObject, argumentCount, arguments)
+				{
+				}
 			#endif
 
 			Container::Container(String name, String text, CPP::GUI::GObject *parent)
@@ -99,8 +104,8 @@ namespace RadJAV
 				return (text);
 			}
 
-			#ifdef USE_V8
-				void Container::on(String event, v8::Local<v8::Function> func)
+			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+				void Container::on(String event, RJ_FUNC_TYPE func)
 				{
 					#ifdef GUI_USE_WXWIDGETS
 

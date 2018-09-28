@@ -1,13 +1,26 @@
-//
-//  AppDelegate.m
-//  RadJavVM-ios
-//
-//  Created by Mikalai Turankou on 08/08/2018.
-//  Copyright © 2018 Mikalai Turankou. All rights reserved.
-//
+/*
+ MIT-LICENSE
+ Copyright (c) 2018 Higher Edge Software, LLC
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+ and associated documentation files (the "Software"), to deal in the Software without restriction,
+ including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
+ subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in all copies or substantial
+ portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+ LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
 
 #import "AppDelegate.h"
 #import "ViewController.h"
+#include <RadJav/RadJavC.h>
 
 @interface AppDelegate ()
 
@@ -24,7 +37,30 @@
 	self.window.backgroundColor = [UIColor whiteColor];
 	self.window.clipsToBounds = NO;
 	[self.window makeKeyAndVisible];
+
+	//TODO: This all is just a draft example of using RadJav and not the final implementation!
 	
+	//Executable path
+	NSString* appPath = [[[NSBundle mainBundle] executablePath] stringByDeletingLastPathComponent];
+	NSString* appFullPath = [appPath stringByAppendingString:@"/RadJavVM"];
+	NSLog(@"%@", appFullPath);
+
+	//Test Javascript file
+	NSString *docDirPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)objectAtIndex:0];
+	NSMutableString *jsAppFilePath = [NSMutableString stringWithString:docDirPath];
+	[jsAppFilePath appendString:@"/window.xrj"];
+	
+	NSLog(@"%@", jsAppFilePath);
+
+	const char* args[2] = {[appFullPath UTF8String], [jsAppFilePath UTF8String]};
+	
+	int retCode = RadJav_initialize(2, args);
+    #ifndef USE_IOS
+        RadJav_shutdown();
+        exit(retCode);
+    #endif
+    
+
 	return YES;
 }
 

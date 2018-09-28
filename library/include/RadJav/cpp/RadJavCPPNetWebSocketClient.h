@@ -45,7 +45,11 @@ namespace RadJAV
 				public:
 					WebSocketClient();
 
+					#ifdef USE_V8
 					static void on(String event_, v8::Local<v8::Function> func_);
+					#elif defined USE_JAVASCRIPTCORE
+					static void on(String event_, JSObjectRef func_);
+					#endif
 
 					void connect(String host_, String port_);
 

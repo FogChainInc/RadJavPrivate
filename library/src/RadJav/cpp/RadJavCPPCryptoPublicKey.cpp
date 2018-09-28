@@ -21,7 +21,12 @@
 #include "cpp/RadJavCPPCryptoPublicKey.h"
 
 #include "RadJavString.h"
+
+#ifdef USE_V8
 #include "v8/RadJavV8JavascriptEngine.h"
+#elif defined USE_JAVASCRIPTCORE
+#include "jscore/RadJavJSCJavascriptEngine.h"
+#endif
 
 #include <algorithm>
 #include <cstdlib>
@@ -44,161 +49,236 @@ namespace RadJAV
 		namespace Crypto
 		{
 			#ifdef USE_CRYPTOGRAPHY
-		        PublicKey::PublicKey(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args) :
-			  Base(jsEngine, args)
+			#ifdef USE_V8
+			PublicKey::PublicKey(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
+			:  Base(jsEngine, args)
 			{
-			  //std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl;
-			  v8::Isolate *isolate = args.GetIsolate();
-			  
-
-			  // Get constructor parms for PublicKey(path, format)
-			  String path;
-			  String format;
-
-			  v8::Local<v8::Value> pathObj; // 
-			  
-			  // Get constructor parms for PublicKey(path, format)
-			  if (args[0] -> IsString())
-			    {
-			      pathObj = args[0];
-			      
-			      path = parseV8Value(args[0]);
-			      format = parseV8Value(args[1]);
-			      myCryptoLibrary = parseV8Value(args[2]);
-			    }
-
-			  // Get constructor parms Cipher({cipherAlgorithm: ..., cryptoLibrary: ..., ...})
-			  else if (args[0] -> IsObject())
-			    {
-			      v8::Local<v8::Object> parms = v8::Local<v8::Object>::Cast(args[0]);
-
-			      
-			      myAlgorithm = jsEngine -> v8GetString(parms, "algorithm");
-			      myEncryptPadding = jsEngine -> v8GetString(parms, "encryptPadding");
-			      mySignatureType = jsEngine -> v8GetString(parms, "signatureType");
-
-			      pathObj = parms -> Get(v8::String::NewFromUtf8(isolate, "path"));
-			      if (pathObj -> IsUndefined())
+				//std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl;
+				v8::Isolate *isolate = args.GetIsolate();
+				
+				
+				// Get constructor parms for PublicKey(path, format)
+				String path;
+				String format;
+				
+				v8::Local<v8::Value> pathObj; //
+				
+				// Get constructor parms for PublicKey(path, format)
+				if (args[0] -> IsString())
 				{
-				  myBits = jsEngine -> v8GetString(parms, "bits");
+					pathObj = args[0];
+					
+					path = parseV8Value(args[0]);
+					format = parseV8Value(args[1]);
+					myCryptoLibrary = parseV8Value(args[2]);
 				}
-			      else
+				
+				// Get constructor parms Cipher({cipherAlgorithm: ..., cryptoLibrary: ..., ...})
+				else if (args[0] -> IsObject())
 				{
-				  path = jsEngine -> v8GetString(parms, "path");
-				  format = jsEngine -> v8GetString(parms, "format");
-				  
+					v8::Local<v8::Object> parms = v8::Local<v8::Object>::Cast(args[0]);
+					
+					
+					myAlgorithm = jsEngine -> v8GetString(parms, "algorithm");
+					myEncryptPadding = jsEngine -> v8GetString(parms, "encryptPadding");
+					mySignatureType = jsEngine -> v8GetString(parms, "signatureType");
+					
+					pathObj = parms -> Get(v8::String::NewFromUtf8(isolate, "path"));
+					if (pathObj -> IsUndefined())
+					{
+						myBits = jsEngine -> v8GetString(parms, "bits");
+					}
+					else
+					{
+						path = jsEngine -> v8GetString(parms, "path");
+						format = jsEngine -> v8GetString(parms, "format");
+						
+					}
+					
 				}
-
-			    }
-			  
-
-			  if (!pathObj -> IsUndefined())
-			    {
-			      // Defaults and error checking
-
-			      // Create the engine
-			      try
+				
+				
+				if (!pathObj -> IsUndefined())
 				{
-				  std::map<std::string, std::string> parms;
-				  parms["algorithm"] = myAlgorithm;
-				  parms["bits"] = myBits;
-				  parms["encryptPadding"] = myEncryptPadding;
-				  parms["signatureType"] = mySignatureType;
-
-				  myPublicKey = ORB::Engine::Crypto::createPublicKey(parms, myCryptoLibrary);
-
-				  //std::cout << __PRETTY_FUNCTION__ << ": "
-				  //<< "cryptoLibrary: " << myCryptoLibrary
-				  //<< ", ";
-				  for (auto element : parms)
-				    std::cout << element.first << ": " << element.second << ", ";
-				  std::cout << std::endl;
-			      
+					// Defaults and error checking
+					
+					// Create the engine
+					try
+					{
+						std::map<std::string, std::string> parms;
+						parms["algorithm"] = myAlgorithm;
+						parms["bits"] = myBits;
+						parms["encryptPadding"] = myEncryptPadding;
+						parms["signatureType"] = mySignatureType;
+						
+						myPublicKey = ORB::Engine::Crypto::createPublicKey(parms, myCryptoLibrary);
+						
+						//std::cout << __PRETTY_FUNCTION__ << ": "
+						//<< "cryptoLibrary: " << myCryptoLibrary
+						//<< ", ";
+						for (auto element : parms)
+							std::cout << element.first << ": " << element.second << ", ";
+						std::cout << std::endl;
+						
+					}
+					catch (std::exception& e)
+					{
+						isolate -> ThrowException(v8::Exception::TypeError
+												  (v8::String::NewFromUtf8(args.GetIsolate(),
+																		   e.what())));
+					}
 				}
-			      catch (std::exception& e)
-				{
-				  isolate -> ThrowException(v8::Exception::TypeError
-							    (v8::String::NewFromUtf8(args.GetIsolate(),
-										     e.what())));
-				}
-			    }
-			  //std::cout << __PRETTY_FUNCTION__ << ": end" << std::endl;
+				//std::cout << __PRETTY_FUNCTION__ << ": end" << std::endl;
 			}
 
+			#elif defined USE_JAVASCRIPTCORE
+			
+			PublicKey::PublicKey(JSCJavascriptEngine *jsEngine, JSContextRef ctx, RJUINT argumentCount, const JSValueRef arguments[])
+			:  Base(jsEngine, ctx, argumentCount, arguments)
+			{
+				// Get constructor params for PublicKey(path, format)
+				String path;
+				String format;
+				
+				// Get constructor parms for PublicKey(path, format)
+				if (argumentCount > 2 &&
+					JSValueIsString(ctx, arguments[0]) &&
+					JSValueIsString(ctx, arguments[1]) &&
+					JSValueIsString(ctx, arguments[2]))
+				{
+					path = parseJSCValue(ctx, arguments[0]);
+					format = parseJSCValue(ctx, arguments[1]);
+					myCryptoLibrary = parseJSCValue(ctx, arguments[2]);
+				}
+				
+				// Get constructor parms Cipher({cipherAlgorithm: ..., cryptoLibrary: ..., ...})
+				else if (argumentCount &&
+						 JSValueIsObject(ctx, arguments[0]))
+				{
+					JSObjectRef params = jsEngine->jscCastValueToObject(arguments[0]);
+					
+					myAlgorithm = jsEngine->jscGetString(params, "algorithm");
+					myEncryptPadding = jsEngine->jscGetString(params, "encryptPadding");
+					mySignatureType = jsEngine->jscGetString(params, "signatureType");
+					
+					JSStringRef pathName = String("path").toJSCString();
+					if (JSObjectHasProperty(ctx, params, pathName) &&
+						!JSValueIsUndefined(ctx, jsEngine->jscGetValue(params, "path")))
+					{
+						path = jsEngine->jscGetString(params, "path");
+						format = jsEngine->jscGetString(params, "format");
+					}
+					else
+					{
+						myBits = jsEngine->jscGetString(params, "bits");
+					}
+					
+					JSStringRelease(pathName);
+				}
+				
+				
+				if (!path.empty())
+				{
+					// Defaults and error checking
+					
+					// Create the engine
+					try
+					{
+						std::map<std::string, std::string> parms;
+						parms["algorithm"] = myAlgorithm;
+						parms["bits"] = myBits;
+						parms["encryptPadding"] = myEncryptPadding;
+						parms["signatureType"] = mySignatureType;
+						
+						myPublicKey = ORB::Engine::Crypto::createPublicKey(parms, myCryptoLibrary);
+						
+						//std::cout << __PRETTY_FUNCTION__ << ": "
+						//<< "cryptoLibrary: " << myCryptoLibrary
+						//<< ", ";
+						for (auto element : parms)
+							std::cout << element.first << ": " << element.second << ", ";
+						std::cout << std::endl;
+						
+					}
+					catch (std::exception& e)
+					{
+						jsEngine->throwException(e.what());
+					}
+				}
+			}
+			#endif
+			
 			PublicKey::~PublicKey()
 			{
 
 			}
 
-
-		        void PublicKey::decrypt(const void* plainText, int textLength,
-						std::function <void (const std::string& str)> stringSetter,
-						std::function <void (void* buf, int bufLen)> binSetter)
+			void PublicKey::decrypt(const void* plainText, int textLength,
+									std::function <void (const std::string& str)> stringSetter,
+									std::function <void (void* buf, int bufLen)> binSetter)
 			{
-
-			  String _inputEncoding = myInputEncoding;
-			  
-			  const void *binPlainText;
-			  int binPlainTextLength;
-			  std::string decodedText;
-
-			  processInput(plainText, textLength,
-				       decodedText,
-				       binPlainText, binPlainTextLength);
-
-			  auto result = myPublicKey -> decrypt(static_cast<const unsigned char*>(binPlainText), binPlainTextLength);
-			  std::cout << "Decryption Result Length: " << std::get<1>(result) << std::endl;
-
-			  processOutput(result, stringSetter, binSetter);
-
-			  
+				
+				String _inputEncoding = myInputEncoding;
+				
+				const void *binPlainText;
+				int binPlainTextLength;
+				std::string decodedText;
+				
+				processInput(plainText, textLength,
+							 decodedText,
+							 binPlainText, binPlainTextLength);
+				
+				auto result = myPublicKey -> decrypt(static_cast<const unsigned char*>(binPlainText), binPlainTextLength);
+				std::cout << "Decryption Result Length: " << std::get<1>(result) << std::endl;
+				
+				processOutput(result, stringSetter, binSetter);
+				
+				
 			}
-
-		        bool PublicKey::verify(const void* plainText, int textLength,
-					       const void* signature, int signatureLength)
-
+			
+			bool PublicKey::verify(const void* plainText, int textLength,
+								   const void* signature, int signatureLength)
+			
 			{
-
-			  String _inputEncoding = myInputEncoding;
-			  
-			  const void *binPlainText;
-			  int binPlainTextLength;
-			  std::string decodedText;
-
-			  processInput(plainText, textLength,
-				       decodedText,
-				       binPlainText, binPlainTextLength);
-
-			  const void *binSignature;
-			  int binSignatureLength;
-			  std::string decodedSignature;
-
-			  processInput(signature, signatureLength,
-				       decodedSignature,
-				       binSignature, binSignatureLength);
-			  
-			  auto result = myPublicKey -> verify(static_cast<const unsigned char*>(binPlainText), binPlainTextLength,
-							      static_cast<const unsigned char*>(binSignature), binSignatureLength);
-
-
-			  //processOutput(result, stringSetter, binSetter);
-
-			  return result;
+				
+				String _inputEncoding = myInputEncoding;
+				
+				const void *binPlainText;
+				int binPlainTextLength;
+				std::string decodedText;
+				
+				processInput(plainText, textLength,
+							 decodedText,
+							 binPlainText, binPlainTextLength);
+				
+				const void *binSignature;
+				int binSignatureLength;
+				std::string decodedSignature;
+				
+				processInput(signature, signatureLength,
+							 decodedSignature,
+							 binSignature, binSignatureLength);
+				
+				auto result = myPublicKey -> verify(static_cast<const unsigned char*>(binPlainText), binPlainTextLength,
+													static_cast<const unsigned char*>(binSignature), binSignatureLength);
+				
+				
+				//processOutput(result, stringSetter, binSetter);
+				
+				return result;
 			}
-		  
-  		        void PublicKey::setEngine(std::shared_ptr<const Engine::Crypto::IPublicKey> publicKey)
+			
+			void PublicKey::setEngine(std::shared_ptr<const Engine::Crypto::IPublicKey> publicKey)
 			{
-			  std::cout << "SET PUBLIC KEY" << std::endl;
-			  myPublicKey = publicKey;
+				std::cout << "SET PUBLIC KEY" << std::endl;
+				myPublicKey = publicKey;
 			}
-		  
-  		        void PublicKey::savePem(const char *path)
+			
+			void PublicKey::savePem(const char *path)
 			{
-			  myPublicKey -> savePem(path);
+				myPublicKey -> savePem(path);
 			}
-		  
-		  #endif
-		  
+			#endif
 		}
 	}
 }

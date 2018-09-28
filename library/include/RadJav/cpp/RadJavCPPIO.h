@@ -140,8 +140,11 @@ namespace RadJAV
 						static void readFileAsync(String path_);
 						
 						#ifdef USE_V8
-							static v8::Persistent<v8::Function> *m_textfileReadEvent;
+							static v8::Persistent<v8::Function> *
+						#elif defined USE_JAVASCRIPTCORE
+							static JSObjectRef
 						#endif
+							m_textfileReadEvent;
 				};
 
 				class RADJAV_EXPORT StreamFile
@@ -154,15 +157,23 @@ namespace RadJAV
 							append
 						};
 
-						static void writeStream(const String path_, const v8::Local<v8::ArrayBuffer> buffer_, const RJINT outputType_ = static_cast<int>(IO::StreamFile::operation::write));
-						static void writeStreamAsync(const String path_, const v8::Local<v8::ArrayBuffer> buffer_, const RJINT outputType_ = static_cast<int>(IO::StreamFile::operation::write));
+                        #ifdef USE_V8
+                            static void writeStream(const String path_, const v8::Local<v8::ArrayBuffer> buffer_, const RJINT outputType_ = static_cast<int>(IO::StreamFile::operation::write));
+                            static void writeStreamAsync(const String path_, const v8::Local<v8::ArrayBuffer> buffer_, const RJINT outputType_ = static_cast<int>(IO::StreamFile::operation::write));
+						#endif
+						
+						static void writeStream(const String path_, const String& buffer_, const RJINT outputType_ = static_cast<int>(IO::StreamFile::operation::write));
+						static void writeStreamAsync(const String path_, const String& buffer_, const RJINT outputType_ = static_cast<int>(IO::StreamFile::operation::write));
 
 						static String readStream(const String path_);
 						static void readStreamAsync(const String path_);
 
 						#ifdef USE_V8
-							static v8::Persistent<v8::Function> *m_streamfileReadEvent;
+							static v8::Persistent<v8::Function>*
+						#elif defined USE_JAVASCRIPTCORE
+							static JSObjectRef
 						#endif
+							m_streamfileReadEvent;
 				};
 
 				#ifdef HAS_XML_SUPPORT

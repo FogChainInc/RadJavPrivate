@@ -50,30 +50,38 @@
 				class RADJAV_EXPORT Cipher
 				{
 				public:
-				  Cipher(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
-				  ~Cipher();
-
+					#ifdef USE_V8
+					Cipher(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
+					#elif defined USE_JAVASCRIPTCORE
+					Cipher(JSCJavascriptEngine *jsEngine, JSContextRef ctx, RJUINT argumentCount, const JSValueRef arguments[]);
+					#endif
+					
+					~Cipher();
+					
 				public:
-				  
-				  /// Cipher data
-                                void cipher(const void *plainText, int textLength,
-					      std::function <void (const std::string &str)> stringSetter,
-				              std::function <void (void *buf, int bufLen)> binSetter);
-
+					
+					/// Cipher data
+					void cipher(const void *plainText, int textLength,
+								std::function <void (const std::string &str)> stringSetter,
+								std::function <void (void *buf, int bufLen)> binSetter);
+					
 				public:
-				  std::shared_ptr<Engine::Crypto::ICipher> myCipher;
-
-				  String myCryptoLibrary;
-				  String myCipherAlgorithm;
-				  String mySecret;
-				  String myIv;
-				  String myInputEncoding;
-				  String myOutputEncoding;
-
+					std::shared_ptr<Engine::Crypto::ICipher> myCipher;
+					
+					String myCryptoLibrary;
+					String myCipherAlgorithm;
+					String mySecret;
+					String myIv;
+					String myInputEncoding;
+					String myOutputEncoding;
+					
 				protected:
-				  V8JavascriptEngine *jsEngine;
-
-				  
+					#ifdef USE_V8
+					V8JavascriptEngine
+					#elif defined USE_JAVASCRIPTCORE
+					JSCJavascriptEngine
+					#endif
+						*jsEngine;
 				};
 				#endif
 			}

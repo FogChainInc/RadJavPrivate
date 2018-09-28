@@ -126,19 +126,22 @@ namespace RadJAV
 
 				void Canvas3DFrame::onJSClose(wxCloseEvent &evt)
 				{
-					Event *pevent = (Event *)evt.GetEventUserData();
-					v8::Local<v8::Value> result = executeEvent(pevent);
-
-					if (result.IsEmpty() == false)
-					{
-						if ((result->IsNull() == false) && (result->IsUndefined() == false))
+					//TODO: add JavaScriptCore implementation
+					#ifdef USE_V8
+						Event *pevent = (Event *)evt.GetEventUserData();
+						v8::Local<v8::Value> result = executeEvent(pevent);
+					
+						if (result.IsEmpty() == false)
 						{
-							v8::Local<v8::Boolean> change = v8::Local<v8::Boolean>::Cast(result);
-
-							if (change->Value() == false)
-								evt.Veto();
+							if ((result->IsNull() == false) && (result->IsUndefined() == false))
+							{
+								v8::Local<v8::Boolean> change = v8::Local<v8::Boolean>::Cast(result);
+								
+								if (change->Value() == false)
+									evt.Veto();
+							}
 						}
-					}
+					#endif
 				}
 
 				void Canvas3DFrame::onJSMinimized(wxIconizeEvent &evt)
@@ -159,6 +162,11 @@ namespace RadJAV
 				: GObject (jsEngine, args)
 			{
 			}
+			#elif defined USE_JAVASCRIPTCORE
+			Canvas3D::Canvas3D(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[])
+				: GObject (jsEngine, thisObject, argumentCount, arguments)
+			{
+			}
 			#endif
 
 			Canvas3D::Canvas3D(String name, String text, CPP::GUI::GObject *parent)
@@ -170,7 +178,11 @@ namespace RadJAV
 			{
 				#ifdef GUI_USE_WXWIDGETS
                     //Initializing 3D Engine, if not already(handled inside)
-                    V8_JAVASCRIPT_ENGINE->start3DEngine();
+					#ifdef USE_V8
+                    	V8_JAVASCRIPT_ENGINE->start3DEngine();
+					#elif defined USE_JAVASCRIPTCORE
+						JSC_JAVASCRIPT_ENGINE->start3DEngine();
+					#endif
 
                     Canvas3DFrame *object = RJNEW Canvas3DFrame( _text,
                                                                 wxPoint(_transform->x, _transform->y),
@@ -356,8 +368,8 @@ namespace RadJAV
 				return (enabled);
 			}
 
-			#ifdef USE_V8
-			void Canvas3D::on(String event, v8::Local<v8::Function> func)
+			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+			void Canvas3D::on(String event, RJ_FUNC_TYPE func)
 			{
 				CPP::GUI::Canvas3DFrame *object = (CPP::GUI::Canvas3DFrame *)_appObj;
 				CPP::GUI::Canvas3DFrame *obj = (CPP::GUI::Canvas3DFrame *)object->GetParent();

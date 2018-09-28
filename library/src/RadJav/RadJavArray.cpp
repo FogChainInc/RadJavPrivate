@@ -33,6 +33,23 @@ namespace RadJAV
 
 			return (newArray);
 		}
+	#elif defined USE_JAVASCRIPTCORE
+		JSObjectRef convertArrayToJSCArray(Array<String> arrayToConvert, JSContextRef ctx)
+		{
+			//TODO: handle case with empty array
+			const size_t itemsCount = arrayToConvert.size();
+			
+			JSValueRef array[itemsCount];
+
+			for (RJINT iIdx = 0; iIdx < itemsCount; iIdx++)
+			{
+				JSStringRef str = arrayToConvert[iIdx].toJSCString();
+				array[iIdx] = JSValueMakeString(ctx, str);
+				JSStringRelease(str);
+			}
+
+			return JSObjectMakeArray(ctx, itemsCount, array, nullptr);
+		}
 	#endif
 }
 

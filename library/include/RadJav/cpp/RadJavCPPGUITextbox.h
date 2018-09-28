@@ -55,6 +55,8 @@
 					public:
 						#ifdef USE_V8
 							Textbox(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
+						#elif defined USE_JAVASCRIPTCORE
+							Textbox(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[]);
 						#endif
 						Textbox(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 
@@ -63,8 +65,8 @@
 						String getText();
 
 
-						#ifdef USE_V8
-							void on(String event, v8::Local<v8::Function> func);
+						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+							void on(String event, RJ_FUNC_TYPE func);
 						#endif
 				};
 			}

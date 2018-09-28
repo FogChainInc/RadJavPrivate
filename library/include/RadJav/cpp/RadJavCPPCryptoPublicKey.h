@@ -48,33 +48,38 @@
 			{
 				#ifdef USE_CRYPTOGRAPHY
 				// Accepts incoming connections and launches the sessions
-			        class RADJAV_EXPORT PublicKey : public virtual Base
+				class RADJAV_EXPORT PublicKey : public virtual Base
 				{
 				public:
-				  PublicKey(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
-				  ~PublicKey();
-				  void setEngine(std::shared_ptr<const Engine::Crypto::IPublicKey> publicKey);
-
+					#ifdef USE_V8
+					PublicKey(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
+					#elif defined USE_JAVASCRIPTCORE
+					PublicKey(JSCJavascriptEngine *jsEngine, JSContextRef ctx, RJUINT argumentCount, const JSValueRef arguments[]);
+					#endif
+					
+					~PublicKey();
+					void setEngine(std::shared_ptr<const Engine::Crypto::IPublicKey> publicKey);
+					
 				public:
-				  
-				  /// PublicKey data
-				  void decrypt(const void *text, int textLength,
-					       std::function <void (const std::string &str)> stringSetter,
-					       std::function <void (void* buf, int bufLen)> binSetter);
-
-				  bool verify(const void *text, int textLength,
-					      const void *signature, int signatureLength);
-
-				  void savePem(const char *path);
-				  
+					
+					/// PublicKey data
+					void decrypt(const void *text, int textLength,
+								 std::function <void (const std::string &str)> stringSetter,
+								 std::function <void (void* buf, int bufLen)> binSetter);
+					
+					bool verify(const void *text, int textLength,
+								const void *signature, int signatureLength);
+					
+					void savePem(const char *path);
+					
 				public:
-				  std::shared_ptr<const Engine::Crypto::IPublicKey> myPublicKey;
-
-				  // RSA specific 
-				  String myBits;
-				  String myEncryptPadding;
-				  String mySignatureType;
-
+					std::shared_ptr<const Engine::Crypto::IPublicKey> myPublicKey;
+					
+					// RSA specific
+					String myBits;
+					String myEncryptPadding;
+					String mySignatureType;
+					
 				};
 				#endif
 			}

@@ -150,6 +150,16 @@ RadJav.getGUILibrary = function ()
 	return (includes);
 };
 
+RadJav.getMUILibrary = function ()
+{
+	var includes = [{ file: "RadJav.GUI.GObject", themeFile: false, loadFirst: true }, 
+			{ file: "RadJav.Font", themeFile: false, loadFirst: true }, 
+			{ file: "RadJav.MUI.View", themeFile: true }, 
+			{ file: "RadJav.MUI.Button", themeFile: true }];
+
+	return (includes);
+};
+
 RadJav.getC3DLibrary = function ()
 {
 	var includes = [{ file: "RadJav.GUI.Canvas3D", themeFile: true }, 
@@ -702,4 +712,3 @@ var __extends = (this && this.__extends) || (function () {
 })();
 
 var console = {};
-

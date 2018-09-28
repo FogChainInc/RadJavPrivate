@@ -17,8 +17,8 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#ifndef _RADJAV_V8_EXTERNALS_H_
-#define _RADJAV_V8_EXTERNALS_H_
+#ifndef _RADJAV_V8_EXTERNALS_DETAILS_H_
+#define _RADJAV_V8_EXTERNALS_DETAILS_H_
 
 #ifdef USE_V8
 #include "RadJavPreprocessor.h"
@@ -224,42 +224,18 @@ namespace RadJAV
 		std::shared_ptr<T> object;
 	};
 	
-	/**
-	 * Main class for managing external C++ objects within V8.
-	 */
-	class ExternalsManager
+	class ExternalsManagerV8Impl
 	{
 	public:
-		/**
-		 * Contructor.
-		 */
-		ExternalsManager();
+		ExternalsManagerV8Impl();
 
-		/**
-		 * Destructor.
-		 */
-		~ExternalsManager();
+		~ExternalsManagerV8Impl();
 		
-		ExternalsManager(const ExternalsManager& ) = delete;
-		ExternalsManager& operator = (const ExternalsManager&) = delete;
+		ExternalsManagerV8Impl(const ExternalsManagerV8Impl& ) = delete;
+		ExternalsManagerV8Impl& operator = (const ExternalsManagerV8Impl&) = delete;
 		
-		/**
-		 * Add relation between C++ object and corresponding V8 field.
-		 * Object will be destroyed during V8 garbage collector notification or directly from C++ side.
-		 * @param handle is a context to which we plan to add new V8 object.
-		 * @param functionName a name of the property of V8 object to bind external object with.
-		 * @param object a pointer to external object derived from ChainedPtr class.
-		 */
 		void set(const v8::Local<v8::Object>& handle, const String& functionName, CPP::ChainedPtr* object);
 		
-		/**
-		 * Template function to add a relation between C++ object and corresponding V8 field.
-		 * Object will be reset during V8 garbage collector weak callback or
-		 *  when ExternalsManager will go out of scope.
-		 * @param handle is a context to which we plan to add new V8 object.
-		 * @param functionName a name of the property of V8 object to bind external object with.
-		 * @param object a shared pointer to external object.
-		 */
 		template<class T>
 		void set(const v8::Local<v8::Object>& handle, const String& functionName, std::shared_ptr<T> object)
 		{
@@ -289,25 +265,8 @@ namespace RadJAV
 			handle->Set( functionName.toV8String( handle->GetIsolate()), objectInstance);
 		}
 		
-		/**
-		 * Get external object from V8 object's field.
-		 * If C++ external object is out of scope function will return nullptr.
-		 * @param handle is a context(V8 object) for which we query.
-		 * @param functionName a name of the property of V8 object from which to retrieve
-		 *  external object.
-		 * @return ChainedPtr a pointer to ChainedPtr derived class which where stored by set().
-		 */
 		CPP::ChainedPtr* get(const v8::Local<v8::Object>& handle, const String& functionName);
 		
-		/**
-		 * Template function to get external object from V8 object's field.
-		 * If C++ external object where freed by garbage collector weak callback then
-		 * function will return empty shared pointer.
-		 * @param handle is a context(V8 object) for which we query.
-		 * @param functionName a name of the property of V8 object from which to retrieve
-		 *  external object.
-		 * @return shared_ptr<T> a shared pointer to arbitrary C++ object previously stored by set().
-		 */
 		template<class T>
 		std::shared_ptr<T> get(const v8::Local<v8::Object>& handle, const String& functionName)
 		{
@@ -329,16 +288,6 @@ namespace RadJAV
 			return std::shared_ptr<T>();
 		}
 		
-		/**
-		 * Clear V8 object's field which hold external object ID.
-		 * Underlying C++ object will not be freed/reset during that call.
-		 *  Subsequent calls to get() for this functionName will return nullptr.
-		 * @param handle is a context(V8 object) for which we clear external object ID.
-		 * @param functionName a name of the property of V8 object from which to retrieve
-		 *  external object.
-		 * @note function is usefull in cases where we trying to delete wrapped C++ object from
-		 *  C++ side, lets say by destroy() function which were called from V8 side.
-		 */
 		void clear(const v8::Local<v8::Object>& handle, const String& functionName);
 		
 	private:

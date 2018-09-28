@@ -46,6 +46,8 @@ namespace RadJAV
 				{
 					Event *pevent = (Event *)event.GetEventUserData();
 					String url = parsewxString(event.GetURL());
+                    
+#ifdef USE_V8
 					v8::Local<v8::Value> *args = RJNEW v8::Local<v8::Value>[1];
 					args[0] = url.toV8String(V8_JAVASCRIPT_ENGINE->isolate);
 
@@ -62,6 +64,11 @@ namespace RadJAV
 								event.Veto();
 						}
 					}
+#endif
+                    
+#ifdef USE_JAVASCRIPTCORE
+    /// @todo Fix this.
+#endif
 				}
 				void WebViewFrame::onPageNavigated(wxWebViewEvent &event)
 				{
@@ -88,6 +95,11 @@ namespace RadJAV
 			#ifdef USE_V8
 				WebView::WebView(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
 					: GObject (jsEngine, args)
+				{
+				}
+			#elif defined USE_JAVASCRIPTCORE
+				WebView::WebView(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[])
+					: GObject (jsEngine, thisObject, argumentCount, arguments)
 				{
 				}
 			#endif
@@ -244,8 +256,8 @@ namespace RadJAV
 				return (enabled);
 			}
 
-			#ifdef USE_V8
-				void WebView::on(String event, v8::Local<v8::Function> func)
+			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+				void WebView::on(String event, RJ_FUNC_TYPE func)
 				{
 					CPP::GUI::WebViewFrame *object = (CPP::GUI::WebViewFrame *)_appObj;
 

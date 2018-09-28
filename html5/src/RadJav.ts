@@ -344,6 +344,26 @@ namespace RadJav
 		return includes;
 	}
 
+	/** @method getMUILibrary
+	* Get the paths to the MUI library.
+	* @return {Object[]} The MUI library.
+	*/
+	export function getMUILibrary(): {
+			file: string;
+			themeFile: boolean;
+			loadFirst?: boolean;
+		}[]
+	{
+		var includes = [
+				{ file: "RadJav.GUI.GObject", themeFile: true, loadFirst: true },
+				{ file: "RadJav.Font", themeFile: false, loadFirst: true },
+				{ file: "RadJav.MUI.View", themeFile: true },
+				{ file: "RadJav.GUI.Button", themeFile: true }
+			];
+
+		return includes;
+	}
+
 	/** @method getC3DLibrary
 	* Get the paths to the C3D library.
 	* @return {Object[]} The C3D library.
@@ -1603,6 +1623,116 @@ namespace RadJav
 		/** @method createObjects
 		* @static
 		* Create GUI objects.
+		* @param {String/RadJav.GUI.GObject[]} objects The objects to create.
+		* @param {RadJav.GUI.GObject} parent The parent of this object.
+		* @param {Function} [beforeCreated=null] The function to execute before the object is created.
+		* If this function returns false, the object will not be created.
+		* @return {Promise} The promise to execute when the objects have finished being created.
+		*/
+		export function createObjects(objects: any, parent: object, beforeCreated: Function = null): Promise<any>
+		{
+			var promises = [];
+
+			if (beforeCreated == undefined) {
+				beforeCreated = null;
+			}
+
+			for (var iIdx = 0; iIdx < objects.length; iIdx++) {
+				var obj = objects[iIdx];
+				var createObject = true;
+
+				if (beforeCreated != null) {
+					obj.onBeforeChildCreated = beforeCreated;
+					var result = beforeCreated(obj, parent);
+
+					if (result != null) {
+						createObject = result;
+					}
+				}
+
+				if (createObject == true) {
+					promises.push(this.create(obj, "", "", parent));
+				}
+			}
+
+			return Promise.all(promises);
+		}
+	}
+
+	/// The mobile UI API.
+	export namespace MUI
+	{
+		/** @method initObj
+		* @static
+		* Initialize a MUI object.
+		* @param {String} type The object type to create.
+		* @param {String/Mixed} name The name of the object.
+		* @param {String} text The text associated with the object.
+		* @param {RadJav.GUI.GObject} parent The parent of this object.
+		* @param {Promise} The promise to execute when this object has finished being created.
+		*/
+		export function initObj(type: string | object | any, name: any, text: string, parent: object): object
+		{
+			let tempType = type;
+
+			if (typeof type == "object") {
+					tempType = type.type;
+
+					if (type.name != null) {
+					name = type.name;
+				}
+
+				if (type.text != null) {
+					text = type.text;
+				}
+
+				if (type._text != null) {
+					text = type._text;
+				}
+			}
+
+			if (tempType.indexOf("RadJav.MUI") > -1) {
+				tempType = tempType.substr(11);
+			}
+
+			if (RadJav.MUI[tempType] == null) {
+				throw RadJav.getLangString("unableToFindClass", tempType);
+			}
+
+			var properties = {
+					name: name,
+					text: text,
+					parent: parent
+				};
+
+			if (typeof type == "object") {
+				RadJav.copyProperties(properties, type, false);
+			}
+
+			var obj = new RadJav.MUI[tempType](properties);
+
+			return obj;
+		}
+
+		/** @method create
+		* @static
+		* Create a MUI object.
+		* @param {String} type The object type to create.
+		* @param {String/Mixed} name The name of the object.
+		* @param {String} text The text associated with the object.
+		* @param {RadJav.GUI.GObject} parent The parent of this object.
+		* @param {Promise} The promise to execute when this object has finished being created.
+		*/
+		export function create(type: string, name: string, text: string, parent: object): any
+		{
+			var obj = this.initObj(type, name, text, parent);
+
+			return obj.create();
+		}
+
+		/** @method createObjects
+		* @static
+		* Create MUI objects.
 		* @param {String/RadJav.GUI.GObject[]} objects The objects to create.
 		* @param {RadJav.GUI.GObject} parent The parent of this object.
 		* @param {Function} [beforeCreated=null] The function to execute before the object is created.

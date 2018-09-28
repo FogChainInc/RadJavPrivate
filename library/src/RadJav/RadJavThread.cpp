@@ -22,7 +22,13 @@
 #include "RadJavException.h"
 
 #include "RadJav.h"
-#include "v8/RadJavV8JavascriptEngine.h"
+
+#ifdef USE_V8
+    #include "v8/RadJavV8JavascriptEngine.h"
+#endif
+#ifdef USE_JAVASCRIPTCORE
+    #include "jscore/RadJavJSCJavascriptEngine.h"
+#endif
 
 namespace RadJAV
 {
@@ -68,6 +74,10 @@ PromiseThread::PromiseThread()
 		resolveArgs = NULL;
 		rejectArgs = NULL;
 	#endif
+    #ifdef USE_JAVASCRIPTCORE
+        resolveArgs = NULL;
+        rejectArgs = NULL;
+    #endif
 }
 
 #ifdef USE_V8
@@ -111,12 +121,55 @@ PromiseThread::PromiseThread()
 		rejectArgs->Reset(isolate, args);
 	}
 #endif
+#ifdef USE_JAVASCRIPTCORE
+    JSValueRef PromiseThread::runPromise(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception)
+    {
+        JSValueRef resolve = args[0];
+        JSValueRef reject = args[1];
+        JSObjectRef args2 = JSC_JAVASCRIPT_ENGINE->jscCastValueToObject (context, args[2]);
+        JSValueRef passThrough = JSObjectGetPropertyAtIndex (context, args2, 0, NULL);
+        JSObjectRef passThrough2 = JSC_JAVASCRIPT_ENGINE->jscCastValueToObject (context, passThrough);
+
+        PromiseThread *thread = (PromiseThread *)JSObjectGetPrivate (passThrough2);
+
+        thread->resolvep = JSC_JAVASCRIPT_ENGINE->jscCastValueToObject (context, resolve);
+        thread->rejectp = JSC_JAVASCRIPT_ENGINE->jscCastValueToObject (context, reject);
+
+        return (JSValueMakeUndefined(context));
+    }
+
+    JSObjectRef PromiseThread::createJSCPromise(JSCJavascriptEngine *engine, JSObjectRef context)
+    {
+        this->engine = engine;
+
+        JSObjectRef passThrough = engine->jscCreateExternal(this, [](JSObjectRef delObj)
+                                                            {
+                                                                PromiseThread *wrapper = static_cast<PromiseThread*>(JSObjectGetPrivate(delObj));
+                                                                DELETEOBJ(wrapper);
+                                                            });
+        JSStringRef name = String ("runPromise").toJSCString();
+        JSObjectRef func = JSObjectMakeFunctionWithCallback(engine->globalContext, name, PromiseThread::runPromise);
+        JSStringRelease(name);
+
+        JSValueRef *args = RJNEW JSValueRef[1];
+        args[0] = passThrough;
+
+        JSObjectRef promise = engine->createPromise(context, func, 1, args);
+
+        DELETEARRAY(args);
+        
+        return (promise);
+    }
+#endif
 
 	void PromiseThread::resolvePromise()
 	{
 		#ifdef USE_V8
 			V8_JAVASCRIPT_ENGINE->callFunctionOnNextTick(RJNEW AsyncFunctionCall(resolvep, resolveArgs));
 		#endif
+        #ifdef USE_JAVASCRIPTCORE
+            JSC_JAVASCRIPT_ENGINE->callFunctionOnNextTick(RJNEW AsyncFunctionCall (resolvep, resolveArgs));
+        #endif
 
 		onComplete();
 	}
@@ -126,6 +179,9 @@ PromiseThread::PromiseThread()
 		#ifdef USE_V8
 			V8_JAVASCRIPT_ENGINE->callFunctionOnNextTick(RJNEW AsyncFunctionCall(rejectp, rejectArgs));
 		#endif
+        #ifdef USE_JAVASCRIPTCORE
+            JSC_JAVASCRIPT_ENGINE->callFunctionOnNextTick(RJNEW AsyncFunctionCall (rejectp, rejectArgs));
+        #endif
 
 		onComplete();
 	}

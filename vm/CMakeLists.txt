@@ -36,13 +36,18 @@ set (RadJavVM_LANGUAGE "en_us" CACHE STRING "Select language to compile with")
 set (libRadJav_STATIC false CACHE BOOL "Use static build of libRadJav")
 set (RadJavVM_CREATE_INSTALL_PACKAGES false CACHE BOOL "Create install packages")
 
-set (RadJavVM_DEPENDENCY_OBJECTS_LIST "./natives_blob.bin;./snapshot_blob.bin" CACHE STRING "Semicolon separated list of paths to dependencies \
+if (libRadJav_USE_V8)
+	set (RadJavVM_DEPENDENCY_OBJECTS_LIST "./natives_blob.bin;./snapshot_blob.bin" CACHE STRING "Semicolon separated list of paths to dependencies \
 												which are indirectly will be used by application, i.e. loading \
 												during runtime")
+endif ()
+
 if (APPLE)
 	set (MAC_CODESIGN_IDENTITY CACHE STRING "Sign identity which can be determined by issuing command:\
 							security find-identity -v -p codesigning\
 							Example: Mac Developer")
+	
+	set (RadJavVM_EMBED_EXAMPLES true CACHE BOOL "Embed examples into application bundle")
 endif ()
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
@@ -141,7 +146,6 @@ if (INCLUDE_CRYPTOGRAPHY)
 	#target_link_libraries ( ${CMAKE_PROJECT_NAME} ${libKrispyCrypto_NAME})
 endif ()
 
-
 link_directories (${RadJavVM_LINK_LIBRARY_DIRS})
 
 add_executable (${CMAKE_PROJECT_NAME} ${ISWIN32} ${ISOSX} ${RadJavVM_SOURCES})
@@ -180,7 +184,8 @@ elseif (APPLE)
 		set (APP_BUNDLE_ICON_FILE "RadJav.icns")
 	
 		#Creating Launcher
-		target_link_libraries (${CMAKE_PROJECT_NAME} "-framework UIKit")
+		#TODO: add conditional for frameworks here
+		target_link_libraries (${CMAKE_PROJECT_NAME} "-framework UIKit -framework JavaScriptCore")
 	
 		#These needs to be defined outside of set_target_properties otherwise they will not be included
 		set (MACOSX_BUNDLE_DISPLAY_NAME ${CMAKE_PROJECT_NAME})
@@ -198,7 +203,18 @@ elseif (APPLE)
 		
 		#Copying icons
 		add_custom_command (TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
-					COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/installers/mac/${APP_BUNDLE_ICON_FILE} $<TARGET_BUNDLE_DIR:${CMAKE_PROJECT_NAME}>/${APP_BUNDLE_ICON_FILE})
+					COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_SOURCE_DIR}/installers/mac/${APP_BUNDLE_ICON_FILE} $<TARGET_BUNDLE_DIR:${CMAKE_PROJECT_NAME}>/${APP_BUNDLE_ICON_FILE}
+					COMMENT "Copying icons into application bundle")
+		
+		#Embed examples
+		if (RadJavVM_EMBED_EXAMPLES)
+			message (STATUS "Examples will be embedded into application bundle")
+			
+			#Copying examples
+			add_custom_command (TARGET ${CMAKE_PROJECT_NAME} POST_BUILD 
+						COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/../examples" $<TARGET_BUNDLE_DIR:${CMAKE_PROJECT_NAME}>/examples
+						COMMENT "Copying examples into application bundle")
+		endif ()
 		
 	else ()
 		#Set destinations of a bundle
@@ -233,7 +249,8 @@ elseif (APPLE)
 		
 		#Copying icons
 		add_custom_command (TARGET ${CMAKE_PROJECT_NAME_LAUNCHER} POST_BUILD
-					COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/installers/mac/${APP_BUNDLE_ICON_FILE} ${APP_RESOURCES_DIR}/${APP_BUNDLE_ICON_FILE})
+					COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_SOURCE_DIR}/installers/mac/${APP_BUNDLE_ICON_FILE} ${APP_RESOURCES_DIR}/${APP_BUNDLE_ICON_FILE}
+					COMMENT "Copying icons into application bundle")
 		
 		#Place VM into correct bundle folder
 		set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG ${APP_EXECUTABLE_DIR}
@@ -241,15 +258,27 @@ elseif (APPLE)
 									RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL ${APP_EXECUTABLE_DIR}
 									RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO ${APP_EXECUTABLE_DIR})
 		
+		if (libRadJav_USE_V8)
+			#Copying dependencies
+			foreach (dependency ${RadJavVM_DEPENDENCY_OBJECTS_LIST})
+				add_custom_command (TARGET ${CMAKE_PROJECT_NAME} POST_BUILD 
+							COMMAND ${CMAKE_COMMAND} -E copy_if_different ${dependency} ${APP_EXECUTABLE_DIR}
+							COMMENT "Adding extra dependency into application bundle: ${dependency}"
+							VERBATIM )
+			endforeach (dependency)
+		endif()
+		
+		#Embed examples
+		if (RadJavVM_EMBED_EXAMPLES)
+			message (STATUS "Examples will be embedded into application bundle")
+			
+			#Copying examples
+			add_custom_command (TARGET ${CMAKE_PROJECT_NAME} POST_BUILD 
+						COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/../examples" "${APP_RESOURCES_DIR}/examples"
+						COMMENT "Copying examples into application bundle"
+						VERBATIM )
+		endif ()
 	endif ()
-
-	#Copying dependencies
-	foreach (dependency ${RadJavVM_DEPENDENCY_OBJECTS_LIST})
-		add_custom_command (TARGET ${CMAKE_PROJECT_NAME} POST_BUILD 
-					COMMAND ${CMAKE_COMMAND} -E copy ${dependency} ${APP_EXECUTABLE_DIR}
-					COMMENT "Adding extra dependency into application bundle: ${dependency}"
-					VERBATIM )
-	endforeach (dependency)
 endif ()
 
 set_property (TARGET ${CMAKE_PROJECT_NAME} PROPERTY PROJECT_LABEL ${CMAKE_PROJECT_NAME})
@@ -260,16 +289,6 @@ if (${CMAKE_VERSION} VERSION_GREATER "3.6.0")
 		set_property (DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${CMAKE_PROJECT_NAME})
 	endif ()
 endif ()
-
-#if (libRadJav_EMBEDFILE)
-#	add_custom_command (OUTPUT ${libRadJav_PATH}/include/RadJav/RadJavJavascriptCode.h
-#		COMMAND RadJavCompileResources
-#		DEPENDS ${libRadJav_PATH}/javascript/RadJav.js)
-
-#	add_executable (RadJavCompileResources ${libRadJav_PATH}/src/RadJav/RadJavCompileResources.cpp)
-#	set_property (TARGET RadJavCompileResources APPEND PROPERTY COMPILE_DEFINITIONS ${RadJavVM_CPP_DEFS})
-#	set_property (TARGET RadJavCompileResources APPEND PROPERTY COMPILE_DEFINITIONS $<$<CONFIG:Debug>:${RadJavVM_CPP_DEFS} ${RadJavVM_CPP_DEFS_DEBUG}>)
-#endif ()
 
 if (RadJavVM_CREATE_INSTALL_PACKAGES)
 	#Install

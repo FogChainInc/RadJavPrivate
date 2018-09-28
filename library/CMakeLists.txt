@@ -15,11 +15,21 @@ set (CMAKE_MODULE_PATH "${libRadJav_SOURCE_DIR}/CMake"
 
 include (Utils)
 
-set (javascriptEngineLibraries V8 ChakraCore)
+#Setting supported Javascript engines for specific platforms
+if (APPLE)
+	list (APPEND javascriptEngineLibraries JavaScriptCore V8)
+	list (APPEND guiLibraries wxWidgets "iOS-UIKit")
+elseif (WIN32 OR UNIX)
+	list (APPEND javascriptEngineLibraries V8)
+	list (APPEND guiLibraries wxWidgets Android)
+endif ()
+
 set (libRadJav_JS_LIBRARY V8 CACHE STRING "Javascript library to use")
 set_property (CACHE libRadJav_JS_LIBRARY PROPERTY STRINGS ${javascriptEngineLibraries})
 
-set (libRadJav_GUI_LIBRARY "wxWidgets" CACHE STRING "GUI library to use")
+set (libRadJav_GUI_LIBRARY wxWidgets CACHE STRING "GUI library to use")
+set_property (CACHE libRadJav_GUI_LIBRARY PROPERTY STRINGS ${guiLibraries})
+
 set (libRadJav_HTTP_LIBRARY "curl" CACHE STRING "HTTP library to use")
 set (libRadJav_INCLUDE_C3D_API TRUE CACHE BOOL "Include the C3D API?")
 set (libRadJav_ALLOW_NETWORKING TRUE CACHE BOOL "Allow Networking?")
@@ -27,8 +37,8 @@ set (libRadJav_DEPENDENCIES $ENV{RADJAV_DEPENDENCIES} CACHE PATH "RadJav Depende
 set (libRadJav_LANGUAGE "en_us" CACHE STRING "Select language to compile with")
 set (libRadJav_STATIC false CACHE BOOL "Static build of RadJav")
 set (libRadJav_EMBEDFILE true CACHE BOOL "Embed Javascript into RadJav?")
+set (libRadJav_EMBEDFILE_CMAKE ON CACHE BOOL "Embed Javascript with CMAKE?")
 set (libRadJav_INCLUDE_BLOCKCHAIN_V1 true CACHE BOOL "Include Blockchain V1?")
-set (libRadJav_DEBUG_INSPECTOR true CACHE BOOL "Include V8 js inspector?")
 set (FIND_MEMORY_LEAKS true CACHE BOOL "Find memory leaks?")
 set (INCLUDE_DATABASES true CACHE BOOL "Includes databases")
 set (XML_SUPPORT true CACHE BOOL "XML Support")
@@ -37,10 +47,15 @@ set (WEBVIEW_TYPE "wxWidgetsDefault" CACHE STRING "Type of webview to use")
 set (BOOST_ROOT "" CACHE PATH "BOOST_ROOT")
 
 set (TEMP_ARCH "x86")
+set (IS_MOBILE false)
 
 if ("${CMAKE_SIZEOF_VOID_P}" STREQUAL "4")
 	set (TEMP_ARCH "x86_64")
 endif()
+
+if (NOT libRadJav_GUI_LIBRARY STREQUAL "wxWidgets")
+	set (IS_MOBILE true)
+endif ()
 
 set (archs x86 x86_64 armeabi armeabi-v7a arm64-v8a)
 set (USE_ARCH ${TEMP_ARCH} CACHE STRING "Processor architecture")
@@ -82,6 +97,11 @@ endif ()
 
 if (libRadJav_JS_LIBRARY STREQUAL "V8")
 	set (USE_V8 true)
+	set (libRadJav_DEBUG_INSPECTOR true CACHE BOOL "Include V8 js inspector?")
+endif ()
+
+if (libRadJav_JS_LIBRARY STREQUAL "JavaScriptCore")
+	set (USE_JAVASCRIPTCORE true)
 endif ()
 
 if (libRadJav_GUI_LIBRARY STREQUAL "wxWidgets")
@@ -116,9 +136,6 @@ set (libRadJav_CPP_DEFS "LANG_${libRadJav_LANGUAGE_UPPER}" ${libRadJav_CPP_DEFS}
 set (libRadJav_CPP_DEFS_DEBUG RADJAV_DEBUG ${libRadJav_CPP_DEFS_DEBUG})
 set (libRadJav_CXX_FLAGS "")
 
-include (includes)
-include (sources)
-
 include (FindModuleCurl)
 
 if (USE_OGRE)
@@ -130,6 +147,11 @@ endif ()
 
 if (USE_V8)
 	include (FindV8)
+endif ()
+
+if (USE_JAVASCRIPTCORE)
+	#include (FindJavaScriptCore)
+	set (JAVASCRIPTCORE_FOUND true)
 endif ()
 
 if (USE_WXWIDGETS)
@@ -152,6 +174,16 @@ if (libRadJav_STATIC)
 	set (libRadJav_CPP_DEFS RADJAV_LIB_STATIC ${libRadJav_CPP_DEFS})
 else ()
 	set (libRadJav_CPP_DEFS RADJAV_LIB_DLL ${libRadJav_CPP_DEFS})
+endif ()
+
+if (IS_MOBILE)
+	if (libRadJav_GUI_LIBRARY STREQUAL "iOS-UIKit")
+		set (libRadJav_CPP_DEFS USE_IOS ${libRadJav_CPP_DEFS})
+	endif ()
+
+	if (libRadJav_GUI_LIBRARY STREQUAL "Android")
+		set (libRadJav_CPP_DEFS USE_ANDROID ${libRadJav_CPP_DEFS})
+	endif ()
 endif ()
 
 if (WIN32)
@@ -188,6 +220,10 @@ set (libRadJav_LINK_LIBRARIES)
 set (libRadJav_INCLUDE_DIRS ${libRadJav_SOURCE_DIR}/include/RadJav ${libRadJav_INCLUDE_DIRS})
 
 # Boost
+if ((${USE_ARCH} MATCHES "armeabi") OR (${USE_ARCH} MATCHES "armeabi-v7a") OR (${USE_ARCH} MATCHES "arm64-v8a"))
+	SET(CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} "/.../boost")
+	SET(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} "/.../boost/lib")
+endif()
 include (FindModuleBoost)
 
 set (libRadJav_INCLUDE_DIRS ${Boost_INCLUDE} ${libRadJav_INCLUDE_DIRS})
@@ -227,6 +263,14 @@ if (V8_FOUND)
 	set (libRadJav_INCLUDE_DIRS ${ICU_INCLUDE} ${libRadJav_INCLUDE_DIRS})
 	set (libRadJav_LINK_LIBRARIES ${V8_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
 	set (libRadJav_CPP_DEFS USE_V8 ${libRadJav_CPP_DEFS})
+	message (STATUS "JavaScript engine: V8")
+endif ()
+
+if (JAVASCRIPTCORE_FOUND)
+	set (libRadJav_CPP_DEFS USE_JAVASCRIPTCORE ${libRadJav_CPP_DEFS})
+	set (libRadJav_CPP_DEFS_DEBUG USE_JAVASCRIPTCORE ${libRadJav_CPP_DEFS_DEBUG})
+	set (libRadJav_LINK_LIBRARIES ${libRadJav_LINK_LIBRARIES} "-framework JavaScriptCore")
+	message (STATUS "JavaScript engine: JavaScriptCore")
 endif ()
 
 #if (wxWidgets_FOUND)
@@ -425,6 +469,7 @@ if (wxWidgets_FOUND)
 	endif ()
 
 	if (WEBVIEW_TYPE STREQUAL "wxWidgetsDefault")
+		set (USE_WXWIDGETS_WEBVIEW true)
 		set (libRadJav_CPP_DEFS_DEBUG WXWIDGETS_HAS_WEBVIEW ${libRadJav_CPP_DEFS_DEBUG})
 		set (libRadJav_CPP_DEFS WXWIDGETS_HAS_WEBVIEW ${libRadJav_CPP_DEFS})
 	endif ()
@@ -470,6 +515,11 @@ if (UNIX)
 	add_compile_options (-fpermissive)
 endif ()
 
+# Main sources
+include (includes)
+include (sources)
+
+# Header file RadJavJavascriptCode.h will be generated using CMake, see below
 set (SOURCES ${libRadJav_SOURCE_DIR}/include/RadJav/RadJavJavascriptCode.h ${SOURCES})
 
 # Create static/shared library for RadJav
@@ -496,7 +546,20 @@ endif ()
 set_property (TARGET libRadJav PROPERTY PROJECT_LABEL "libRadJav")
 
 if (libRadJav_EMBEDFILE)
-	
+	if (NOT libRadJav_EMBEDFILE_CMAKE)
+	#<TODO: Comment these to use CMake for embedding Javascript files into RadJavJavascriptCode.h>
+	add_custom_command (OUTPUT ${libRadJav_SOURCE_DIR}/include/RadJav/RadJavJavascriptCode.h
+		COMMAND RadJavCompileResources
+		DEPENDS ${libRadJav_SOURCE_DIR}/javascript/RadJav.js)
+
+	add_executable (RadJavCompileResources ${libRadJav_SOURCE_DIR}/src/RadJav/RadJavCompileResources.cpp)
+	set_property (TARGET RadJavCompileResources APPEND PROPERTY COMPILE_DEFINITIONS ${libRadJav_CPP_DEFS})
+	set_property (TARGET RadJavCompileResources APPEND PROPERTY COMPILE_DEFINITIONS $<$<CONFIG:Debug>:${libRadJav_CPP_DEFS} ${libRadJav_CPP_DEFS_DEBUG}>)
+
+	add_dependencies (libRadJav RadJavCompileResources)
+	#</TODO>
+	endif()
+
 	set (jsFiles Math.js
 			String.js
 			RadJav.js
@@ -533,6 +596,17 @@ if (libRadJav_EMBEDFILE)
 				RadJav.Crypto.HashMultipart.js
 		)
 	endif ()
+	
+	
+
+	if (IS_MOBILE)
+		set (jsFiles ${jsFiles}
+			RadJav.GUI.GObject.js # This must be compiled before any other GUI object.
+			RadJav.MUI.View.js
+			RadJav.MUI.Button.js
+		)
+
+	endif ()
 
 	if (USE_WXWIDGETS)
 		set (jsFiles ${jsFiles}
@@ -547,13 +621,18 @@ if (libRadJav_EMBEDFILE)
 			RadJav.GUI.Radio.js
 			RadJav.GUI.Textarea.js
 			RadJav.GUI.Textbox.js
-			RadJav.GUI.WebView.js
 			RadJav.GUI.Window.js
 			RadJav.GUI.MenuBar.js
 			RadJav.GUI.MenuItem.js
 			RadJav.GUI.KeyEvent.js
 			RadJav.GUI.MouseEvent.js
 		)
+		
+		if (USE_WXWIDGETS_WEBVIEW)
+			set (jsFiles ${jsFiles}
+				RadJav.GUI.WebView.js
+			)
+		endif ()
 	endif ()
 
 	if (libRadJav_ALLOW_NETWORKING)
@@ -580,11 +659,13 @@ if (libRadJav_EMBEDFILE)
 		)
 	endif ()
 	
-	#Embedding Javascript files into RadJavJavascriptCode.h
-	include (EmbedJavascript)
+	if (libRadJav_EMBEDFILE_CMAKE)
+		#TODO: Un-comment these to use CMake for embedding Javascript files into RadJavJavascriptCode.h
+		include (EmbedJavascript)
 	
-	embedJavascript( "${jsFiles}" "${CMAKE_CURRENT_SOURCE_DIR}/javascript" "RadJavJavascriptCode.h" "${CMAKE_CURRENT_SOURCE_DIR}/include/RadJav")
-endif ()
+		embedJavascript( "${jsFiles}" "${CMAKE_CURRENT_SOURCE_DIR}/javascript" "RadJavJavascriptCode.h" "${CMAKE_CURRENT_SOURCE_DIR}/include/RadJav")
+	endif ()
+endif()
 
 set (libRadJav_CPP_DEFS2 ${libRadJav_CPP_DEFS} PARENT_SCOPE)
 set (libRadJav_CPP_DEFS_DEBUG2 ${libRadJav_CPP_DEFS_DEBUG} PARENT_SCOPE)
@@ -592,3 +673,4 @@ set (libRadJav_INCLUDE_DIRS2 ${libRadJav_INCLUDE_DIRS} PARENT_SCOPE)
 set (libRadJav_LINK_LIBRARIES2 ${libRadJav_LINK_LIBRARIES} PARENT_SCOPE)
 set (libRadJav_LINK_LIBRARY_DIRS2 ${libRadJav_LINK_LIBRARY_DIRS} PARENT_SCOPE)
 set (libRadJav_CXX_FLAGS2 ${libRadJav_CXX_FLAGS} PARENT_SCOPE)
+set (libRadJav_USE_V8 ${USE_V8} PARENT_SCOPE)

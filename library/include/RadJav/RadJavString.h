@@ -36,6 +36,10 @@
 		#include <v8.h>
 	#endif
 
+    #ifdef USE_JAVASCRIPTCORE
+        #include <JavaScriptCore/JavaScriptCore.h>
+    #endif
+
 	#define USE_CHAR
 
 	namespace RadJAV
@@ -177,6 +181,14 @@
 				/// Convert a string into a V8 string.
 				v8::Local<v8::String> toV8String(v8::Isolate *isolate) const;
 			#endif
+
+            #ifdef USE_JAVASCRIPTCORE
+                /// Convert a string into a JavascriptCore string. Be sure to use JSStringRelease to free
+                /// JSStringRef!
+                JSStringRef toJSCString () const;
+                /// Convert a string into a JavascriptCore value. No need to use JSStringRelease.
+                JSValueRef toJSCValue (JSContextRef context);
+            #endif
 		};
 
 		/// Parse a decimal value.
@@ -204,9 +216,13 @@
 		#endif
 
 		#ifdef USE_V8
-			String parseV8Value(v8::Local<v8::Value> str);
-			String parseV8ValueIsolate(v8::Isolate *isolate, v8::Local<v8::Value> str);
+			String parseV8Value(v8::Local<v8::Value> value);
+			String parseV8ValueIsolate(v8::Isolate *isolate, v8::Local<v8::Value> value);
 		#endif
+
+        #ifdef USE_JAVASCRIPTCORE
+            String parseJSCValue (JSContextRef context, JSValueRef value);
+        #endif
 
 		/// Convert a hex string into an integer.
 		int hexStringToInt(String hexString);

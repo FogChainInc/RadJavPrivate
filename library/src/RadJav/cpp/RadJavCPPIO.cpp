@@ -43,6 +43,12 @@ RadJAV::Array<int> RadJAV::CPP::IO::SerialComm::m_baudRates = RadJAV::Array<int>
 	v8::Persistent<v8::Function>* RadJAV::CPP::IO::TextFile::m_textfileReadEvent = nullptr;
 	v8::Persistent<v8::Function>* RadJAV::CPP::IO::StreamFile::m_streamfileReadEvent = nullptr;
 	//v8::Persistent<v8::Function>* RadJAV::CPP::IO::m_fileListEvent = nullptr;
+#elif defined USE_JAVASCRIPTCORE
+	#include "jscore/RadJavJSCJavascriptEngine.h"
+
+	JSObjectRef RadJAV::CPP::IO::TextFile::m_textfileReadEvent = nullptr;
+	JSObjectRef RadJAV::CPP::IO::StreamFile::m_streamfileReadEvent = nullptr;
+	//JSObjectRef RadJAV::CPP::IO::m_fileListEvent = nullptr;
 #endif
 
 namespace RadJAV
@@ -487,11 +493,26 @@ namespace RadJAV
 							evt->Call(V8_JAVASCRIPT_ENGINE->globalContext->Global(), 1, args);
 						DELETE_ARRAY(args);
 					}
-				#endif
+				#elif defined USE_JAVASCRIPTCORE
+					JSObjectRef func = RadJAV::CPP::IO::TextFile::m_textfileReadEvent;
+					if (func != nullptr)
+					{
+						JSGlobalContextRef context = JSC_JAVASCRIPT_ENGINE->globalContext;
+						JSStringRef contentStr = contents.toJSCString();
+						JSValueRef strs[1];
+						strs[0] = JSValueMakeString(context, contentStr);
+						
+						JSStringRelease(contentStr);
 
+						JSObjectCallAsFunction(context, func, nullptr, 1, strs, nullptr);
+						
+						JSValueUnprotect(context, func);
+					}
+				#endif
 			});
 		}
 
+#ifdef USE_V8
 		void IO::StreamFile::writeStream(const String path_, const v8::Local<v8::ArrayBuffer> buffer_, const RJINT outputType_)
 		{
 			RJINT type = std::ios_base::out;
@@ -510,6 +531,27 @@ namespace RadJAV
 			{
 				writeStream(path_, buffer_, outputType_);
 			});
+		}
+#endif
+		
+		void IO::StreamFile::writeStream(const String path_, const String& buffer_, const RJINT outputType_)
+		{
+			RJINT type = std::ios_base::out;
+			
+			if (static_cast<IO::TextFile::operation>(outputType_) == IO::TextFile::operation::append)
+				type = std::ios_base::app;
+			
+			std::fstream file(path_, std::ios::binary | type);
+			file.write( buffer_.c_str(), buffer_.size());
+			file.close();
+		}
+		
+		void IO::StreamFile::writeStreamAsync(const String path_, const String& buffer_, const RJINT outputType_)
+		{
+			boost::asio::post(m_ioQueue, [=]()
+							  {
+								  writeStream(path_, buffer_, outputType_);
+							  });
 		}
 
 		String IO::StreamFile::readStream(const String path_)

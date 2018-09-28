@@ -59,6 +59,35 @@ namespace RadJAV
 					_font = RJNEW Font(jsEngine, objfont);
 				}
 			#endif
+            #ifdef USE_JAVASCRIPTCORE
+                GObject::GObject(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[])
+                {
+                    _zIndex = 0;
+                    _cursor = "default";
+                    _parent = NULL;
+
+                    #ifdef GUI_USE_WXWIDGETS
+                        _appObj = NULL;
+                    #endif
+
+                    type = jsEngine->jscGetString(thisObj, "type");
+                    name = jsEngine->jscGetString(thisObj, "name");
+                    _text = jsEngine->jscGetString(thisObj, "_text");
+                    _visible = jsEngine->jscGetBool(thisObj, "_visible");
+                    _cursor = jsEngine->jscGetString(thisObj, "_cursor");
+
+                    JSObjectRef parent = jsEngine->jscGetObject(thisObj, "_parent");
+
+                    if (jsEngine->jscIsNull(parent) == false)
+                        _parent = (GObject *)jsEngine->jscGetExternal(jsEngine->globalContext, parent, "_appObj");
+
+                    JSObjectRef transform = jsEngine->jscGetObject(thisObj, "_transform");
+                    _transform = RJNEW Rectangle(jsEngine, transform);
+
+                    JSObjectRef objfont = jsEngine->jscGetObject(thisObj, "_font");
+                    _font = RJNEW Font(jsEngine, objfont);
+                }
+            #endif
 
 			GObject::GObject(String name, String text, GObject *parent)
 			{
@@ -334,6 +363,15 @@ namespace RadJAV
 				#endif
 			}
 
+		#if defined USE_IOS || defined USE_ANDROID
+			GObjectBase::GObjectBase()
+			{
+			}
+			
+			GObjectBase::~GObjectBase()
+			{
+			}
+		#else
 			GObjectBase::GObjectBase()
 			{
 				#ifdef GUI_USE_WXWIDGETS
@@ -349,6 +387,7 @@ namespace RadJAV
 			}
 
 			#ifdef GUI_USE_WXWIDGETS
+                #ifdef USE_V8
 				Event* GObjectBase::createEvent(String event, v8::Local<v8::Function> function)
 				{
 					// Create a persistent function to execute asych later.
@@ -375,8 +414,41 @@ namespace RadJAV
 
 					return evt;
 				}
+                #endif
+                #ifdef USE_JAVASCRIPTCORE
+                    Event* GObjectBase::createEvent(String event, JSObjectRef function)
+                    {
+                        // Create a persistent function to execute asych later.
+                        Event* evt = RJNEW Event(function);
+                        
+                        if (events->size() > 0)
+                        {
+                            auto found = events->find(event);
+                            auto end = events->end();
+                            
+                            if (found != end)
+                            {
+                                Event *evtToRemove = events->at(event);
+                                DELETEOBJ(evtToRemove);
+                                
+                                events->erase(event);
+                            }
+                        }
+                        
+                        events->insert(HashMapPair<std::string, Event *>(event, evt));
+                        
+                        return evt;
+                    }
+                #endif
 			
-				void GObjectBase::addNewEvent(String event, wxWindow *object, v8::Local<v8::Function> func)
+				void GObjectBase::addNewEvent(String event, wxWindow *object,
+                                            #ifdef USE_V8
+                                              v8::Local<v8::Function> func
+                                            #endif
+                                            #ifdef USE_JAVASCRIPTCORE
+                                              JSObjectRef func
+                                            #endif
+                                              )
 				{
 					if (event == "click")
 					{
@@ -577,13 +649,21 @@ namespace RadJAV
 					executeEvent(pevent);
 				}
 
-
+                #ifdef USE_V8
 				v8::Local<v8::Value> GObjectBase::executeEvent(Event *pevent, RJINT numArgs, v8::Local<v8::Value> *args)
 				{
 					return (*pevent)(numArgs, args);
 				}
-			#endif
+                #endif
+            
+                #ifdef USE_JAVASCRIPTCORE
+                JSValueRef GObjectBase::executeEvent(Event *pevent, RJINT numArgs, JSValueRef *args)
+                {
+                    return (*pevent)(numArgs, args);
+                }
+                #endif
+			#endif //GUI_USE_WXWIDGETS
+		#endif //defined USE_IOS || defined USE_ANDROID
 		}
 	}
 }
-

@@ -22,6 +22,14 @@
 #include "RadJav.h"
 #include "RadJavString.h"
 
+#ifdef GUI_USE_WXWIDGETS
+    #ifdef __WXOSX__
+        /// @todo Fix this later. This is throwing issues on OSX.
+        //#import <AppKit/AppKit.h>
+        //#import <AppKit/NSScreen.h>
+    #endif
+#endif
+
 namespace RadJAV
 {
 	namespace CPP
@@ -38,7 +46,7 @@ namespace RadJAV
 				{
 					if (IsTopLevel() == true)
 					{
-						V8_JAVASCRIPT_ENGINE->exit(0);
+                        RadJav::javascriptEngine->exit(0);
 
 						return;
 					}
@@ -49,18 +57,37 @@ namespace RadJAV
 				void WindowFrame::onJSClose(wxCloseEvent &evt)
 				{
 					Event *pevent = (Event *)evt.GetEventUserData();
-					v8::Local<v8::Value> result = executeEvent(pevent);
+                    
+                    #ifdef USE_V8
+                        v8::Local<v8::Value> result = executeEvent(pevent);
 
-					if (result.IsEmpty() == false)
-					{
-						if ((result->IsNull() == false) && (result->IsUndefined() == false))
-						{
-							v8::Local<v8::Boolean> change = v8::Local<v8::Boolean>::Cast(result);
+                        if (result.IsEmpty() == false)
+                        {
+                            if ((result->IsNull() == false) && (result->IsUndefined() == false))
+                            {
+                                v8::Local<v8::Boolean> change = v8::Local<v8::Boolean>::Cast(result);
 
-							if (change->Value() == false)
-								evt.Veto();
-						}
-					}
+                                if (change->Value() == false)
+                                    evt.Veto();
+                            }
+                        }
+                    #endif
+                    
+                    #ifdef USE_JAVASCRIPTCORE
+                        JSValueRef result = executeEvent(pevent);
+                    
+                        if (result != NULL)
+                        {
+                            if ((JSValueIsNull (JSC_JAVASCRIPT_ENGINE->globalContext, result) == false) &&
+                                (JSValueIsUndefined (JSC_JAVASCRIPT_ENGINE->globalContext, result) == false))
+                            {
+                                RJBOOL change = JSC_JAVASCRIPT_ENGINE->jscParseBool (result);
+
+                                if (change == false)
+                                    evt.Veto();
+                            }
+                        }
+                    #endif
 				}
 
 				void WindowFrame::onJSMinimized(wxIconizeEvent &evt)
@@ -96,6 +123,13 @@ namespace RadJAV
 				icon = jsEngine->v8GetString(args.This(), "_icon");
 			}
 			#endif
+            #ifdef USE_JAVASCRIPTCORE
+                Window::Window(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[])
+                : GObject (jsEngine, thisObj, numArgs, args)
+                {
+                    icon = jsEngine->jscGetString(thisObj, "_icon");
+                }
+            #endif
 
 			Window::Window(String name, String text, CPP::GUI::GObject *parent)
 				: GObject(name, text, parent)
@@ -105,6 +139,17 @@ namespace RadJAV
 			void Window::create()
 			{
 				#ifdef GUI_USE_WXWIDGETS
+                    #ifdef __WXOSX__
+                        if (_transform->y == 0)
+                        {
+                            /// @todo Fix this later on OSX.
+                            /*NSScreen *screen = [NSScreen mainScreen];
+                            RJINT appleMenuBarHeight = screen.frame.size.height;
+                            _transform->y = appleMenuBarHeight;*/
+                            _transform->y = 22;
+                        }
+                    #endif
+
 					WindowFrame *object = RJNEW WindowFrame(_text, 
 						wxPoint(_transform->x, _transform->y), wxSize(_transform->width, _transform->height));
 				
@@ -270,40 +315,41 @@ namespace RadJAV
                 
                         ((WindowFrame *)_appObj->GetParent())->SetIcon(wxicon);
                     #else
+                        /// @todo Add Window Icon support for non Windows platforms.
                         #warning "TODO: Add Window Icon support for non Windows platforms"
                     #endif
 				#endif
 			}
 
-			#ifdef USE_V8
-			void Window::on(String event, v8::Local<v8::Function> func)
-			{
-				#ifdef GUI_USE_WXWIDGETS
-					CPP::GUI::WindowFrame *object = (CPP::GUI::WindowFrame *)_appObj;
-					CPP::GUI::WindowFrame *obj = (CPP::GUI::WindowFrame *)object->GetParent();
+			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+            	void Window::on(String event, RJ_FUNC_TYPE func)
+				{
+					#ifdef GUI_USE_WXWIDGETS
+						CPP::GUI::WindowFrame *object = (CPP::GUI::WindowFrame *)_appObj;
+						CPP::GUI::WindowFrame *obj = (CPP::GUI::WindowFrame *)object->GetParent();
 
-					obj->addNewEvent(event, obj, func);
+						obj->addNewEvent(event, obj, func);
 
-					if (event == "close")
-					{
-						obj->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(WindowFrame::onJSClose), obj->createEvent(event, func));
-					}
+						if (event == "close")
+						{
+							obj->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(WindowFrame::onJSClose), obj->createEvent(event, func));
+						}
 
-					if (event == "minimize")
-					{
-						obj->Connect(wxEVT_ICONIZE, wxIconizeEventHandler(WindowFrame::onJSMinimized), obj->createEvent(event, func));
-					}
-					if (event == "maximize")
-					{
-						obj->Connect(wxEVT_MAXIMIZE, wxMaximizeEventHandler(WindowFrame::onJSMaximized), obj->createEvent(event, func));
-					}
+						if (event == "minimize")
+						{
+							obj->Connect(wxEVT_ICONIZE, wxIconizeEventHandler(WindowFrame::onJSMinimized), obj->createEvent(event, func));
+						}
+						if (event == "maximize")
+						{
+							obj->Connect(wxEVT_MAXIMIZE, wxMaximizeEventHandler(WindowFrame::onJSMaximized), obj->createEvent(event, func));
+						}
 				
-					if (event == "menuselected")
-					{
-						obj->Connect(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(WindowFrame::onMenuSelected), obj->createEvent(event, func));
-					}
-				#endif
-			}
+						if (event == "menuselected")
+						{
+							obj->Connect(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(WindowFrame::onMenuSelected), obj->createEvent(event, func));
+						}
+					#endif
+				}
 			#endif
 		}
 	}

@@ -60,6 +60,9 @@
 						#ifdef USE_V8
 							Window(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
 						#endif
+                        #ifdef USE_JAVASCRIPTCORE
+                            Window(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
+                        #endif
 						Window(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 
 						void create();
@@ -75,9 +78,9 @@
 						RJBOOL getEnabled();
 						void setIcon(String newIcon);
 
-						#ifdef USE_V8
-							/// Execute when an event is triggered.
-							void on(String event, v8::Local<v8::Function> func);
+						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+                        	/// Execute when an event is triggered.
+                        	void on(String event, RJ_FUNC_TYPE func);
 						#endif
 
 						String icon;

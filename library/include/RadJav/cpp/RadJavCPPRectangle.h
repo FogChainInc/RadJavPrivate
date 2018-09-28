@@ -31,6 +31,10 @@
 	#include "v8/RadJavV8JavascriptEngine.h"
 #endif
 
+#ifdef USE_JAVASCRIPTCORE
+    #include "jscore/RadJavJSCJavascriptEngine.h"
+#endif
+
 namespace RadJAV
 {
 	namespace CPP
@@ -44,6 +48,11 @@ namespace RadJAV
 
 					static v8::Local<v8::Object> toV8Object(V8JavascriptEngine *jsEngine, Rectangle *obj);
 				#endif
+                #ifdef USE_JAVASCRIPTCORE
+                    Rectangle(JSCJavascriptEngine *jsEngine, JSObjectRef obj);
+
+                    static JSObjectRef toJSCObject(JSCJavascriptEngine *jsEngine, Rectangle *obj);
+                #endif
 
 				RJNUMBER x;
 				RJNUMBER y;

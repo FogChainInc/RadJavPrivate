@@ -1,0 +1,32 @@
+Assuming that previous step has been completed successfully, we have two main things in our system:
+- v8 build for specific target platform(s),
+- android NDK that was used to build the v8, it resides in third_party directory and can be used to build other dependencies.
+
+It is possible to use android studio and its NDK manager/NDK to build all the rest of the dependencies and android project, but it is not necessary as we already have neat NDK in the v8 distribution. Another point in building with v8 NDK is that the build system will be the same for all dependencies, but general flow is just the same.
+
+5) Build boost
+ wget https://dl.bintray.com/boostorg/release/1.67.0/source/boost_1_67_0.tar.gz
+ tar xzvf boost_1_67_0.tar.gz
+cd boost_1_67_0/
+ ./bootstrap.sh
+
+./b2 -j4 threading=multi link=shared stage --stagedir=stage/x64 cxxflags="-std=c++11" variant=debug,release --layout=tagged --prefix=./stage/install
+
+5a) this boost release fits x86_64 architecture for android devices. To make the arm releases easily you can check out the Boost-for-Android project from https://github.com/moritz-wundke/Boost-for-Android or from this fork: https://github.com/dec1/Boost-for-Android
+
+git clone https://github.com/dec1/Boost-for-Android.git
+
+give the build-android.sh the execution permission
+
+sudo chmod +x ./build-android.sh
+
+modify the script and set layout to tagged instead of versioned,
+
+nano build-android.sh
+  >> insert --layout=tagged instead of --layout-versioned in the file
+
+if NDK_ROOT is exported in the shell, run in the shell
+./build-android.sh $(NDK_ROOT)
+
+if it is not, you can set $(NDK_ROOT) to /home/<your path to v8>/v8/third_party/android_ndk folder that contains /platforms folder inside and then run the script
+It will take a while to complete and eventually you will see the build folder with /out/<architecture configurations>/lib/<binaries> files

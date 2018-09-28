@@ -57,7 +57,10 @@
 					public:
 						#ifdef USE_V8
 							Combobox(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
+						#elif defined USE_JAVASCRIPTCORE
+							Combobox(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[]);
 						#endif
+					
 						Combobox(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 						~Combobox();
 
@@ -65,8 +68,8 @@
 						void setText(String text);
 						String getText();
 
-						#ifdef USE_V8
-							void on(String event, v8::Local<v8::Function> func);
+						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+							void on(String event, RJ_FUNC_TYPE func);
 						#endif
 
 						class RADJAV_EXPORT Item
@@ -87,6 +90,9 @@
 								#ifdef USE_V8
 									static v8::Local<v8::Object> toV8Object(V8JavascriptEngine *jsEngine, Item obj);
 									static v8::Local<v8::Array> toV8Array(V8JavascriptEngine *jsEngine, Array<Item> *objs);
+								#elif defined USE_JAVASCRIPTCORE
+									static JSObjectRef toJSCObject(JSCJavascriptEngine *jsEngine, JSContextRef ctx, Item obj);
+									static JSObjectRef toJSCArray(JSCJavascriptEngine *jsEngine, JSContextRef ctx, Array<Item> *objs);
 								#endif
 
 								String name;

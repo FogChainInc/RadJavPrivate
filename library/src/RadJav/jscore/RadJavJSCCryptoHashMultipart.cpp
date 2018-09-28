@@ -1,0 +1,284 @@
+/*
+	MIT-LICENSE
+	Copyright (c) 2018 Higher Edge Software, LLC
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
+	and associated documentation files (the "Software"), to deal in the Software without restriction, 
+	including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+	and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+	subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all copies or substantial 
+	portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
+	LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+	IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
+	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+#include "jscore/RadJavJSCCryptoHashMultipart.h"
+
+#include "RadJav.h"
+
+#include "jscore/RadJavJSCJavascriptEngine.h"
+
+#include "cpp/RadJavCPPCryptoHashMultipart.h"
+
+#include <orb/ORB_EngineCrypto.h>
+#define ENGINE CPP::Crypto::HashMultipart
+
+#include <iostream>
+#include <tuple>
+#include <cstring>
+#include <sstream>
+#include <iomanip>
+
+void printHex(const std::string& prefix, const void *data, int dataLength);
+
+namespace RadJAV
+{
+	namespace JSC
+	{
+		namespace Crypto
+		{
+			void HashMultipart::createJSCCallbacks(JSContextRef context, JSObjectRef object)
+			{
+				JSC_CALLBACK(object, "_init", HashMultipart::_init);
+				JSC_CALLBACK(object, "updateSync", HashMultipart::updateSync);
+				JSC_CALLBACK(object, "update", HashMultipart::update);
+				JSC_CALLBACK(object, "finalize", HashMultipart::finalize);
+			}
+			
+			JSValueRef HashMultipart::_init(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+			{
+				std::shared_ptr<ENGINE> engine(RJNEW ENGINE(JSC_JAVASCRIPT_ENGINE, ctx, argumentCount, arguments), [](ENGINE* p){DELETEOBJ(p)});
+				JSC_JAVASCRIPT_ENGINE->jscSetExternal(ctx, thisObject, "_engine", engine);
+				
+				JSC_JAVASCRIPT_ENGINE->jscSetString(thisObject, "hashAlgorithm",
+													engine -> myHashAlgorithm);
+				JSC_JAVASCRIPT_ENGINE->jscSetString(thisObject, "cryptoLibrary",
+													engine -> myCryptoLibrary);
+				JSC_JAVASCRIPT_ENGINE->jscSetString(thisObject, "inputEncoding",
+													engine -> myInputEncoding);
+				JSC_JAVASCRIPT_ENGINE->jscSetString(thisObject, "outputEncoding",
+													engine -> myOutputEncoding);
+				
+				return JSValueMakeUndefined(ctx);
+			}
+			
+			JSValueRef HashMultipart::updateSync(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+			{
+				JSValueRef undefined = JSValueMakeUndefined(ctx);
+				
+				std::shared_ptr<ENGINE> engine = JSC_JAVASCRIPT_ENGINE->jscGetExternal<ENGINE>(ctx, thisObject, "_engine");
+				
+				if (!engine)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "HashMultipart not initialized");
+					return undefined;
+				}
+				
+				if (!argumentCount)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Data argument required");
+					return undefined;
+				}
+				
+				JSObjectRef ret;
+				
+				String data = JSC_JAVASCRIPT_ENGINE->jscGetArgumentAsString(ctx, arguments, argumentCount, 0);
+				String inputEncoding; // TODO - need to capture inputEncoding.
+				
+				if (!data.size())
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Only ArrayBuffers and Strings are supported");
+					return undefined;
+				}
+				
+				try
+				{
+					engine -> update(data.c_str(), data.size(), "",
+									 [&ret, ctx](const std::string &str)
+									 {
+										 ret = JSC_JAVASCRIPT_ENGINE->jscCastValueToObject( String(str).toJSCValue(ctx));
+									 },
+									 [&ret, ctx](void* bufPtr, int bufLen)
+									 {
+										 auto buffer = RJNEW unsigned char[bufLen];
+										 memcpy(buffer, bufPtr, bufLen);
+										 auto bufferDeallocator = [](void* bytes, void* deallocatorContext)
+										 {
+											 auto data = static_cast<unsigned char*>(bytes);
+											 if (data) DELETEARRAY(data);
+										 };
+										 
+										 ret = JSObjectMakeArrayBufferWithBytesNoCopy(ctx, buffer, bufLen, bufferDeallocator, nullptr, nullptr);
+									 }
+									 );
+				}
+				catch (std::invalid_argument &e)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, e.what());
+				}
+				
+				return ret;
+			} // End of updateSync()
+			
+			JSValueRef HashMultipart::update(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+			{
+				JSValueRef undefined = JSValueMakeUndefined(ctx);
+				
+				std::shared_ptr<ENGINE> engine = JSC_JAVASCRIPT_ENGINE->jscGetExternal<ENGINE>(ctx, thisObject, "_engine");
+				
+				if (!engine)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "HashMultipart not initialized");
+					return undefined;
+				}
+				
+				if (!argumentCount)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Data argument required");
+					return undefined;
+				}
+				
+				String data = JSC_JAVASCRIPT_ENGINE->jscGetArgumentAsString(ctx, arguments, argumentCount, 0);
+				
+				if (!data.size())
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Only ArrayBuffers and Strings are supported");
+					return undefined;
+				}
+				
+				PromiseThread *thread = RJNEW PromiseThread();
+				
+				JSObjectRef promise = thread->createJSCPromise(JSC_JAVASCRIPT_ENGINE, thisObject);
+				thread->onStart = [thread, data, engine, ctx]()
+				{
+					JSObjectRef args2 = nullptr;
+					
+					try
+					{
+						engine -> update(data.c_str(), data.size(), "",
+										 [&args2, ctx](const std::string &str)
+										 {
+											 JSValueRef strVal = String(str).toJSCValue(ctx);
+											 args2 = JSObjectMakeArray(ctx, 1, &strVal, nullptr);
+										 },
+										 [&args2, ctx](void* bufPtr, int bufLen)
+										 {
+											 auto buffer = RJNEW unsigned char[bufLen];
+											 memcpy(buffer, bufPtr, bufLen);
+											 auto bufferDeallocator = [](void* bytes, void* deallocatorContext)
+											 {
+												 auto data = static_cast<unsigned char*>(bytes);
+												 if (data) DELETEARRAY(data);
+											 };
+											 
+											 JSObjectRef arrayBufferObject = JSObjectMakeArrayBufferWithBytesNoCopy(ctx, buffer, bufLen, bufferDeallocator, nullptr, nullptr);
+											 args2 = JSObjectMakeArray(ctx, 1, &arrayBufferObject, nullptr);
+										 }
+										 );
+					}
+					catch (std::invalid_argument &e)
+					{
+						//TODO: Re-implement this! It will not work with JavaScriptCore!
+						//JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, e.what());
+						JSC_JAVASCRIPT_ENGINE->throwException(e.what());
+					}
+					
+					thread->setResolveArgs(args2);
+					
+					thread->resolvePromise();
+				};
+				thread->onComplete = [thread]()
+				{
+					JSC_JAVASCRIPT_ENGINE->removeThread(thread);
+				};
+				
+				JSC_JAVASCRIPT_ENGINE->addThread(thread);
+				
+				return promise;
+			} // End of update()
+			
+			JSValueRef HashMultipart::finalize(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+			{
+				JSValueRef undefined = JSValueMakeUndefined(ctx);
+				
+				std::shared_ptr<ENGINE> engine = JSC_JAVASCRIPT_ENGINE->jscGetExternal<ENGINE>(ctx, thisObject, "_engine");
+				
+				if (!engine)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "HashMultipart not initialized");
+					return undefined;
+				}
+				
+				JSValueRef ret;
+				
+				try
+				{
+					engine -> finalize(
+									   [&ret, ctx](const std::string &str)
+									   {
+										   ret = JSC_JAVASCRIPT_ENGINE->jscCastValueToObject( String(str).toJSCValue(ctx));
+									   },
+									   [&ret, ctx](void* bufPtr, int bufLen)
+									   {
+										   auto buffer = RJNEW unsigned char[bufLen];
+										   memcpy(buffer, bufPtr, bufLen);
+										   auto bufferDeallocator = [](void* bytes, void* deallocatorContext)
+										   {
+											   auto data = static_cast<unsigned char*>(bytes);
+											   if (data) DELETEARRAY(data);
+										   };
+										   
+										   ret = JSObjectMakeArrayBufferWithBytesNoCopy(ctx, buffer, bufLen, bufferDeallocator, nullptr, nullptr);
+									   }
+									   );
+				}
+				catch (std::invalid_argument &e)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, e.what());
+					return undefined;
+				}
+				
+				return ret;
+			} // End of finalize()
+			
+			JSValueRef HashMultipart::getCapabilities(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+			{
+				std::shared_ptr<ENGINE> engine = JSC_JAVASCRIPT_ENGINE->jscGetExternal<ENGINE>(ctx, thisObject, "_engine");
+				
+				JSObjectRef ret = JSObjectMake(ctx, nullptr, nullptr);
+				JSObjectRef cryptoLibs = JSObjectMake(ctx, nullptr, nullptr);
+				
+				JSC_JAVASCRIPT_ENGINE->jscSetObject(ret, "cryptoLibs", cryptoLibs);
+				
+				JSObjectRef openSsl = JSObjectMake(ctx, nullptr, nullptr);
+				JSC_JAVASCRIPT_ENGINE->jscSetObject(cryptoLibs, "OpenSSL", openSsl);
+				
+				std::map<std::string, std::string> hashAlgorithmsList = ORB::Engine::Crypto::getListOfDigests();
+				
+				const size_t hashAlgorithmsSize = hashAlgorithmsList.size();
+				JSValueRef hashAlgorithmsArray[hashAlgorithmsSize];
+				
+				int i = 0;
+				for (const auto& alg : hashAlgorithmsList)
+				{
+					JSObjectRef algObj = JSObjectMake(ctx, nullptr, nullptr);
+					
+					JSC_JAVASCRIPT_ENGINE->jscSetString(algObj, "name", alg.first);
+					JSC_JAVASCRIPT_ENGINE->jscSetString(algObj, "description", alg.second);
+					
+					hashAlgorithmsArray[i++] = algObj;
+				}
+				
+				JSObjectRef hashAlgorithms = JSObjectMakeArray(ctx, hashAlgorithmsSize, hashAlgorithmsArray, nullptr);
+				JSC_JAVASCRIPT_ENGINE->jscSetObject(openSsl, "hashAlgorithms", hashAlgorithms);
+				
+				return ret;
+			}
+		}
+	}
+}

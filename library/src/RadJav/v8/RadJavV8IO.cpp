@@ -180,6 +180,8 @@ namespace RadJAV
 			RJBOOL exists = CPP::IO::exists(parseV8Value(path));
 
 			v8::Local<v8::Boolean> result = v8::Boolean::New(args.GetIsolate(), exists);
+
+			args.GetReturnValue().Set(result);
 		}
 
 		void IO::createDir(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -258,6 +260,8 @@ namespace RadJAV
 			RJBOOL empty = CPP::IO::isEmpty(parseV8Value(path));
 
 			v8::Local<v8::Boolean> result = v8::Boolean::New(args.GetIsolate(), empty);
+
+			args.GetReturnValue().Set(result);
 		}
 
 		void IO::createSymLink(const v8::FunctionCallbackInfo<v8::Value> &args)
