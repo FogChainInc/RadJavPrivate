@@ -45,7 +45,9 @@
 		{
 			namespace MUI
 			{
-				class RADJAV_EXPORT ButtonFrame : public GUI::GObjectBase, public ChainedPtr
+				class RADJAV_EXPORT ButtonFrame : public GUI::GObjectInterface
+												, public GUI::GObjectEvents
+												, public ChainedPtr
 				{
 				public:
 					//TODO: Add correct parent type here, usually some base C++ container class (which still not created)
@@ -64,7 +66,7 @@
 					
 
 					
-					//void addChild(GObject *child);
+					void addChild(GUI::GObject *child);
 					void setFont(CPP::Font *font);
 					CPP::Font *getFont();
 					void setPosition(CPP::Vector2 pos);
@@ -76,7 +78,7 @@
 					RJINT getWidth();
 					RJINT getHeight();
 
-					//GObject *getParent();
+					GUI::GObject *getParent();
 
 					void setEnabled(RJBOOL enabled);
 					RJBOOL getEnabled();

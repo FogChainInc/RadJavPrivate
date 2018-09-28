@@ -30,7 +30,7 @@ namespace RadJAV
 		{
 			#ifdef GUI_USE_WXWIDGETS
 				ComboboxFrame::ComboboxFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size)
-				        : wxComboBox(parent, wxID_ANY, text, pos, size), GObjectBase()
+				        : wxComboBox(parent, wxID_ANY, text, pos, size)
 				{
 				}
 

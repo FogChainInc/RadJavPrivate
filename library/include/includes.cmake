@@ -468,7 +468,8 @@ endif ()
 # C++ MUI
 if (IS_MOBILE)
 	set (SOURCES_files_RadJav__cpp__GUI__Headers 
-		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIGObject.h")
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIGObject.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIEvent.h")
 
 	source_group ("RadJav\\CPP\\GUI" FILES ${SOURCES_files_RadJav__cpp__GUI__Headers})
 

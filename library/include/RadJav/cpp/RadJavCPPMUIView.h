@@ -43,7 +43,9 @@ OBJC_CLASS(UIView);
 			{
                 
                 //TODO: Add some base class here with common UI controls interface
-				class RADJAV_EXPORT ViewFrame : public GUI::GObjectBase, public ChainedPtr
+				class RADJAV_EXPORT ViewFrame : public GUI::GObjectInterface
+												, public GUI::GObjectEvents
+												, public ChainedPtr
                 {
                 public:
                     //TODO: Add correct parent type here, usually some base C++ container class (which still not created)
@@ -51,7 +53,7 @@ OBJC_CLASS(UIView);
                     ViewFrame(void *parent, const String &text, const Vector2 &pos, const Vector2 &size);
                     ~ViewFrame();
 					
-                    void addChild(CPP::GUI::GObject *child);
+                    void addChild(GUI::GObject *child);
 					void setFont(CPP::Font *font);
 					CPP::Font *getFont();
 					void setPosition(RJINT x, RJINT y);
@@ -66,7 +68,7 @@ OBJC_CLASS(UIView);
 					RJINT getHeight();
 					void setText(String text);
 					String getText();
-					//GObject *getParent();
+					GUI::GObject *getParent();
 					void setVisibility(RJBOOL visible);
 					RJBOOL getVisibility();
 					void setEnabled(RJBOOL enabled);

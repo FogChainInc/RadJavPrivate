@@ -30,7 +30,7 @@ namespace RadJAV
 		{
 			#ifdef GUI_USE_WXWIDGETS
 				CheckboxFrame::CheckboxFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size)
-					: wxCheckBox(parent, wxID_ANY, text, pos, size), GObjectBase()
+					: wxCheckBox(parent, wxID_ANY, text, pos, size)
 				{
 				}
 		  

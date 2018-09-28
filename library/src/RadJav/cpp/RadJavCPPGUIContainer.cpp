@@ -30,7 +30,7 @@ namespace RadJAV
 		{
 			#ifdef GUI_USE_WXWIDGETS
 				ContainerFrame::ContainerFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size)
-					: wxStaticBox(parent, wxID_ANY, text, pos, size), GObjectBase()
+					: wxStaticBox(parent, wxID_ANY, text, pos, size)
 				{
 				}
 

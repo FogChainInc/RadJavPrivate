@@ -40,9 +40,11 @@ namespace RadJAV
 	{
 		namespace GUI
 		{
-            #ifdef GUI_USE_WXWIDGETS
                 template<class P>
-                class RADJAV_EXPORT VariantObject : public wxObject
+                class RADJAV_EXPORT VariantObject
+				#ifdef GUI_USE_WXWIDGETS
+					: public wxObject
+				#endif
                 {
                 public:
                     VariantObject(P data): object(data) {}
@@ -116,7 +118,6 @@ namespace RadJAV
             #endif
 
                 typedef GuiEvent<> Event;
-            #endif
 		}
 	}
 }

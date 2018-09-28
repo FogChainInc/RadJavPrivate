@@ -30,7 +30,7 @@ namespace RadJAV
 		{
 			#ifdef GUI_USE_WXWIDGETS
 				ButtonFrame::ButtonFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size)
-					: wxButton(parent, wxID_ANY, text, pos, size), GObjectBase()
+					: wxButton(parent, wxID_ANY, text, pos, size)
 				{
 				}
 			#endif

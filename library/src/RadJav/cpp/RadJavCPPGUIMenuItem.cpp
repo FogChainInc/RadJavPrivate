@@ -34,7 +34,7 @@ namespace RadJAV
 
 			#ifdef USE_V8
 				MenuItem::MenuItem(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
-					: GObject(jsEngine, args), GObjectBase()
+					: GObject(jsEngine, args)
 				{
 					v8::Handle<v8::Object> eventsV8 = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "_events");
 					String click = V8_JAVASCRIPT_ENGINE->v8GetString(eventsV8, "click");

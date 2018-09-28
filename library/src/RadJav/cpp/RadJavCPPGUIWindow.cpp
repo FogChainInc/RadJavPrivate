@@ -38,7 +38,7 @@ namespace RadJAV
 		{
 			#ifdef GUI_USE_WXWIDGETS
 				WindowFrame::WindowFrame(const wxString &text, const wxPoint &pos, const wxSize &size)
-					: wxFrame(NULL, wxID_ANY, text, pos, size), GObjectBase ()
+					: wxFrame(NULL, wxID_ANY, text, pos, size)
 				{
 				}
 

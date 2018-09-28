@@ -31,7 +31,6 @@ namespace RadJAV
 			#ifdef WXWIDGETS_HAS_WEBVIEW
 			#ifdef GUI_USE_WXWIDGETS
 				WebViewFrame::WebViewFrame(wxWebView *webView)
-					: GObjectBase()
 				{
 					this->webView = webView;
 				}
