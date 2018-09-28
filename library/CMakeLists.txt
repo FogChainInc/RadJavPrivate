@@ -602,6 +602,7 @@ if (libRadJav_EMBEDFILE)
 	if (IS_MOBILE)
 		set (jsFiles ${jsFiles}
 			RadJav.GUI.GObject.js # This must be compiled before any other GUI object.
+			RadJav.MUI.ViewController.js
 			RadJav.MUI.View.js
 			RadJav.MUI.Button.js
 		)
