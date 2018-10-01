@@ -1,23 +1,27 @@
+/*
+ MIT-LICENSE
+ Copyright (c) 2018 Higher Edge Software, LLC
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+ and associated documentation files (the "Software"), to deal in the Software without restriction,
+ including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
+ subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in all copies or substantial
+ portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+ LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
 #include "cpp/RadJavCPPMUIButton.h"
+#import "cpp/ios/RadJavCPPMUIEventDelegates.h"
+
 #import "cpp/RadJavCPPMUIView.h"
 #import <UIKit/UIKit.h>
-
-
-@interface ButtonDelegate : NSObject
-
-- (void)touchUp;
-@property (nonatomic, assign) RadJAV::CPP::MUI::ButtonFrame* frame;
-
-@end
-
-@implementation ButtonDelegate
-
-- (void)touchUp{
-    self.frame->callBack();
-}
-
-@end
-
 
 namespace RadJAV
 {
@@ -28,13 +32,12 @@ namespace RadJAV
 			ButtonFrame::ButtonFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size)
 			: widget([[UIButton alloc] init])
 			{
-                //TODO: this is temporary
                 widgetDelegate = [[ButtonDelegate alloc] init];
-                widgetDelegate.frame = this;
-                
-                
-                [widget setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-                [widget addTarget:widgetDelegate action:@selector(touchUp) forControlEvents:UIControlEventTouchUpInside];
+                widgetDelegate.widget = this;
+				
+				[parent->_appObj->getNativeWidget() addSubview:widget];
+
+				[widget setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
 			}
 			
 			ButtonFrame::~ButtonFrame()
@@ -55,11 +58,6 @@ namespace RadJAV
 				}
 			#endif
 
-            void ButtonFrame::callBack()
-            {
-                //this works!
-            }
-            
             void ButtonFrame::setSize(RJINT width, RJINT height)
             {
                 widget.frame = CGRectMake(widget.frame.origin.x, widget.frame.origin.y, width, height);
@@ -178,6 +176,11 @@ namespace RadJAV
 			{
 				//TODO: Add implementation
 				return false;
+			}
+			
+			bool ButtonFrame::bindEvent(const String& eventName, const GUI::Event* /*event*/)
+			{
+				return [widgetDelegate bindEvent:widget eventName:eventName];
 			}
 		}
 	}

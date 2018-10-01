@@ -1,6 +1,6 @@
 /*
 	MIT-LICENSE
-	Copyright (c) 2017-2018 Higher Edge Software, LLC
+	Copyright (c) 2018 Higher Edge Software, LLC
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 	and associated documentation files (the "Software"), to deal in the Software without restriction, 
@@ -80,8 +80,9 @@
 					void setEnabled(RJBOOL enabled);
 					RJBOOL getEnabled();
 
+					bool bindEvent(const String& eventName, const GUI::Event* event);
+
 					#ifdef USE_IOS
-						void callBack();
 					private:
                     	UIButton* widget;
                     	ButtonDelegate* widgetDelegate;

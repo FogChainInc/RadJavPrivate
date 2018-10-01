@@ -718,6 +718,10 @@ namespace RadJAV
 												#endif
 												)
 				{
+					Event* evt = createEvent(event, func);
+					
+					bindEvent(event, evt);
+					
 					/* TODO: Add relevant implementation
 					if (event == "click")
 					{
@@ -814,12 +818,44 @@ namespace RadJAV
 			
 			#ifdef USE_V8
 				v8::Local<v8::Value> GObjectEvents::executeEvent(Event *pevent, RJINT numArgs, v8::Local<v8::Value> *args)
+				{
+					return (*pevent)(numArgs, args);
+				}
+
+				v8::Local<v8::Value> GObjectEvents::executeEvent(const String& event, RJINT numArgs, v8::Local<v8::Value> *args)
+				{
+					if (events)
+					{
+						auto evt = events->find(event);
+						if (evt != events->end())
+						{
+							return executeEvent(evt->second, numArgs, args);
+						}
+					}
+					
+					return v8::Local<v8::Value>();
+				}
+			
 			#elif defined USE_JAVASCRIPTCORE
 				JSValueRef GObjectEvents::executeEvent(Event *pevent, RJINT numArgs, JSValueRef *args)
+				{
+					return (*pevent)(numArgs, args);
+				}
+
+				JSValueRef GObjectEvents::executeEvent(const String& event, RJINT numArgs, JSValueRef *args)
+				{
+					if (events)
+					{
+						auto evt = events->find(event);
+						if (evt != events->end())
+						{
+							return executeEvent(evt->second, numArgs, args);
+						}
+					}
+					
+					return JSValueMakeUndefined(JSC_JAVASCRIPT_ENGINE->globalContext);
+				}
 			#endif
-			{
-				return (*pevent)(numArgs, args);
-			}
 		}
 	}
 }

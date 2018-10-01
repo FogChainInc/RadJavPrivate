@@ -338,13 +338,18 @@ namespace RadJAV
 						Event* createEvent(String event, JSObjectRef function);
 						void addNewEvent(String event, JSObjectRef func);
 					#endif
+
 					//Add iOS and Android specific events handling
+
+					virtual bool bindEvent(const String& eventName, const Event* event) = 0;
 				#endif
 				
 				#ifdef USE_V8
 					static v8::Local<v8::Value> executeEvent(Event *pevent, RJINT numArgs = 0, v8::Local<v8::Value> *args = NULL);
+					v8::Local<v8::Value> executeEvent(const String& event, RJINT numArgs = 0, v8::Local<v8::Value> *args = NULL);
 				#elif defined USE_JAVASCRIPTCORE
 					static JSValueRef executeEvent(Event *pevent, RJINT numArgs = 0, JSValueRef *args = NULL);
+					JSValueRef executeEvent(const String& event, RJINT numArgs = 0, JSValueRef *args = NULL);
 				#endif
 				
 				HashMap<std::string, Event* > *events;

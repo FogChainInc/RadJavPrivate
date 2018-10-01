@@ -485,6 +485,14 @@ if (IS_MOBILE)
 	source_group ("RadJav\\CPP\\MUI" FILES ${SOURCES_files_RadJav__cpp__MUI__Headers})
 
 	set (SOURCES ${SOURCES_files_RadJav__cpp__MUI__Headers} ${SOURCES})
+	
+	if (IOS)
+		set (SOURCES_files_RadJav__cpp__MUI__Headers 
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/ios/RadJavCPPMUIEventDelegates.h")
+			
+		source_group ("RadJav\\CPP\\MUI\\iOS" FILES ${SOURCES_files_RadJav__cpp__MUI__Headers})
+		set (SOURCES ${SOURCES_files_RadJav__cpp__MUI__Headers} ${SOURCES})
+	endif ()
 endif ()
 
 # C++ C3D

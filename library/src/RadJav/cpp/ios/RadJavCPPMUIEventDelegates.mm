@@ -17,31 +17,29 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#ifndef _RADJAV_MUI_CPP_ALERT_H_
-#define _RADJAV_MUI_CPP_ALERT_H_
-
-#include "RadJavPreprocessor.h"
-#include "RadJavString.h"
+#import "cpp/ios/RadJavCPPMUIEventDelegates.h"
+#import <UIKit/UIKit.h>
 
 #include "cpp/RadJavCPPGUIGObject.h"
 
-namespace RadJAV
+@implementation ButtonDelegate
+- (bool)bindEvent:(nullable id)nativeWidget eventName:(const std::string&)eventName
 {
-	namespace CPP
+	if (eventName == "click")
 	{
-		namespace MUI
-		{
-			class RADJAV_EXPORT AlertFrame : public ChainedPtr
-			{
-			public:
-				AlertFrame() = delete;
-				AlertFrame(const AlertFrame& other) = delete;
-				~AlertFrame();
-				
-			public:
-				static void show(const String& caption, const String& message);
-			};
-		}
+		[nativeWidget removeTarget:self action:@selector(touchUp) forControlEvents:UIControlEventTouchUpInside];
+		[nativeWidget addTarget:self action:@selector(touchUp) forControlEvents:UIControlEventTouchUpInside];
+		
+		return true;
 	}
+	
+	return false;
 }
-#endif
+
+- (void)touchUp
+{
+	self.widget->executeEvent("click");
+}
+
+@end
+

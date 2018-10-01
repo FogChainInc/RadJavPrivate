@@ -17,31 +17,26 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#ifndef _RADJAV_MUI_CPP_ALERT_H_
-#define _RADJAV_MUI_CPP_ALERT_H_
 
-#include "RadJavPreprocessor.h"
-#include "RadJavString.h"
-
-#include "cpp/RadJavCPPGUIGObject.h"
+#import <objc/NSObject.h>
+#include <string>
 
 namespace RadJAV
 {
 	namespace CPP
 	{
-		namespace MUI
+		namespace GUI
 		{
-			class RADJAV_EXPORT AlertFrame : public ChainedPtr
-			{
-			public:
-				AlertFrame() = delete;
-				AlertFrame(const AlertFrame& other) = delete;
-				~AlertFrame();
-				
-			public:
-				static void show(const String& caption, const String& message);
-			};
+			class GObjectWidget;
 		}
 	}
 }
-#endif
+
+@interface ButtonDelegate : NSObject
+
+- (bool)bindEvent:(nullable id)nativeWidget eventName:(const std::string&)eventName;
+- (void)touchUp;
+@property (nonatomic, assign) RadJAV::CPP::GUI::GObjectWidget* _Nullable widget;
+
+@end
+
