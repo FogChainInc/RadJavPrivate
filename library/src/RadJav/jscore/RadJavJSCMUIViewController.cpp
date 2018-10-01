@@ -36,36 +36,8 @@ namespace RadJAV
 			void ViewController::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 			{
 				JSC_CALLBACK(object, "create", ViewController::create);
-                JSC_CALLBACK(object, "setSize", ViewController::setSize);
-                JSC_CALLBACK(object, "getSize", ViewController::getSize);
-                JSC_CALLBACK(object, "setPosition", ViewController::setPosition);
-                JSC_CALLBACK(object, "getPosition", ViewController::getPosition);
-                JSC_CALLBACK(object, "addChild", ViewController::addChild);
-                
-                //JSC_CALLBACK(object, "setParent", ViewController::setParent);
-                //JSC_CALLBACK(object, "getParent", ViewController::getParent);
-
-                
-//                JSC_CALLBACK(object, "getX", ViewController::getX);
-//                JSC_CALLBACK(object, "getY", ViewController::getY);
-//
-//                JSC_CALLBACK(object, "getWidth", ViewController::getWidth);
-//                JSC_CALLBACK(object, "getHeight", ViewController::getHeight);
-               
-//                JSC_CALLBACK(object, "setFont", ViewController::setFont);
-//                JSC_CALLBACK(object, "getFont", ViewController::getFont);
-
-//
-//                JSC_CALLBACK(object, "setText", ViewController::setText);
-//                JSC_CALLBACK(object, "getText", ViewController::getText);
-//                JSC_CALLBACK(object, "getParent", ViewController::getParent);
-//                JSC_CALLBACK(object, "getAppObj", ViewController::getAppObj);
-//                JSC_CALLBACK(object, "setVisibility", ViewController::setVisibility);
-//                JSC_CALLBACK(object, "getVisibility", ViewController::getVisibility);
-//                JSC_CALLBACK(object, "setEnabled", ViewController::setEnabled);
-//                JSC_CALLBACK(object, "getEnabled", ViewController::getEnabled);
-//                JSC_CALLBACK(object, "on", ViewController::on);
-//                JSC_CALLBACK(object, "destroy", ViewController::destroy);
+                JSC_CALLBACK(object, "makeRootViewController", ViewController::makeRootViewController);
+                //JSC_CALLBACK(object, "presentViewControllerAnimated", ViewController::presentViewControllerAnimated);
 
 			}
 
@@ -80,6 +52,31 @@ namespace RadJAV
 				
 				return promise;
 			}
+            
+            JSValueRef ViewController::makeRootViewController(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+            {
+                CppMuiObject *appObject = (CppMuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+                
+ 
+                appObject->makeRootViewController();
+                
+                JSObjectRef _guiFinishedCreatingGObject = JSC_JAVASCRIPT_ENGINE->jscGetFunction(JSC_RADJAV, "_guiFinishedCreatingGObject");
+                JSObjectRef promise = JSC_JAVASCRIPT_ENGINE->createPromise(thisObject, _guiFinishedCreatingGObject);
+                
+                return promise;
+            }
+//            JSValueRef ViewController::presentViewControllerAnimated(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+//            {
+//                CppMuiObject *appObject = (CppMuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+//                
+//                
+//                appObject->makeRootViewController();
+//                
+//                JSObjectRef _guiFinishedCreatingGObject = JSC_JAVASCRIPT_ENGINE->jscGetFunction(JSC_RADJAV, "_guiFinishedCreatingGObject");
+//                JSObjectRef promise = JSC_JAVASCRIPT_ENGINE->createPromise(thisObject, _guiFinishedCreatingGObject);
+//                
+//                return promise;
+//            }
             
             JSValueRef ViewController::setSize(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
             {

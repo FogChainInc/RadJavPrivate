@@ -16,12 +16,14 @@ namespace RadJAV
                 
                 
             }
-            
+            UIView* ViewControllerFrame::getNativeWidget(){
+                
+                return nil;
+            }
             ViewControllerFrame::ViewControllerFrame(void *parent, const String &text, const Vector2 &pos, const Vector2 &size)
             : widget([[UIViewController alloc] init])
             {
-                UIWindow * keyWindow = [UIApplication sharedApplication].keyWindow;
-                [keyWindow setRootViewController:widget];
+               
                 widget.view.backgroundColor = [UIColor blueColor];
                 //UIViewController * rootViewController = keyWindow.rootViewController ;
                 //[greenViewController  addSubViewController:widget];
@@ -46,7 +48,13 @@ namespace RadJAV
 				//UIViewController * objChild = baseChild->widget;
                 //[widget addSubViewController:objChild];
             }
-
+            
+            void ViewControllerFrame::makeRootViewController(){
+                UIWindow * keyWindow = [UIApplication sharedApplication].keyWindow;
+                [keyWindow setRootViewController:widget];
+            }
+            
+            
 			void ViewControllerFrame::setFont(CPP::Font *font)
 			{
 				//TODO: Add implementation
