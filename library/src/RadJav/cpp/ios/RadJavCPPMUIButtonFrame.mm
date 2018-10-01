@@ -38,6 +38,9 @@ namespace RadJAV
 				[parent->_appObj->getNativeWidget() addSubview:widget];
 
 				[widget setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+				
+				setSize(size);
+				setPosition(pos);
 			}
 			
 			ButtonFrame::~ButtonFrame()
@@ -114,7 +117,7 @@ namespace RadJAV
 
 			void ButtonFrame::setPosition(CPP::Vector2 pos)
 			{
-				//TODO: Add implementation
+				setPosition(pos.x, pos.y);
 			}
 			
 			CPP::Vector2 ButtonFrame::getPosition()
@@ -137,7 +140,7 @@ namespace RadJAV
 	
 			void ButtonFrame::setSize(CPP::Vector2 size)
 			{
-				//TODO: Add implementation
+				setSize(size.x, size.y);
 			}
 			
 			CPP::Vector2 ButtonFrame::getSize()
