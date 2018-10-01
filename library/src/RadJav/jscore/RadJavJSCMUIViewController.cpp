@@ -37,8 +37,8 @@ namespace RadJAV
 			{
 				JSC_CALLBACK(object, "create", ViewController::create);
                 JSC_CALLBACK(object, "makeRootViewController", ViewController::makeRootViewController);
-                //JSC_CALLBACK(object, "presentViewControllerAnimated", ViewController::presentViewControllerAnimated);
-
+                JSC_CALLBACK(object, "presentViewControllerAnimated", ViewController::presentViewControllerAnimated);
+                JSC_CALLBACK(object, "dismissViewControllerAnimated", ViewController::dismissViewControllerAnimated);
 			}
 
 			JSValueRef ViewController::create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
@@ -65,18 +65,37 @@ namespace RadJAV
                 
                 return promise;
             }
-//            JSValueRef ViewController::presentViewControllerAnimated(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
-//            {
-//                CppMuiObject *appObject = (CppMuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
-//                
-//                
-//                appObject->makeRootViewController();
-//                
-//                JSObjectRef _guiFinishedCreatingGObject = JSC_JAVASCRIPT_ENGINE->jscGetFunction(JSC_RADJAV, "_guiFinishedCreatingGObject");
-//                JSObjectRef promise = JSC_JAVASCRIPT_ENGINE->createPromise(thisObject, _guiFinishedCreatingGObject);
-//                
-//                return promise;
-//            }
+            JSValueRef ViewController::presentViewControllerAnimated(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+            {
+                CppMuiObject *appObject = (CppMuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+                
+                if (argumentCount > 0){
+                    JSObjectRef argument =  JSValueToObject(ctx, arguments[0], exception);
+                    CppMuiObject *childAppObject = (CppMuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, argument, "_appObj");
+                    if (childAppObject != NULL){
+                        
+                        appObject->presentViewControllerAnimated(childAppObject);
+                    }
+                    
+                }
+                
+                JSObjectRef _guiFinishedCreatingGObject = JSC_JAVASCRIPT_ENGINE->jscGetFunction(JSC_RADJAV, "_guiFinishedCreatingGObject");
+                JSObjectRef promise = JSC_JAVASCRIPT_ENGINE->createPromise(thisObject, _guiFinishedCreatingGObject);
+                
+                return promise;
+            }
+            
+            JSValueRef ViewController::dismissViewControllerAnimated(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+            {
+                CppMuiObject *appObject = (CppMuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+        
+                appObject->dismissViewControllerAnimated();
+                
+                JSObjectRef _guiFinishedCreatingGObject = JSC_JAVASCRIPT_ENGINE->jscGetFunction(JSC_RADJAV, "_guiFinishedCreatingGObject");
+                JSObjectRef promise = JSC_JAVASCRIPT_ENGINE->createPromise(thisObject, _guiFinishedCreatingGObject);
+                
+                return promise;
+            }
             
             JSValueRef ViewController::setSize(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
             {

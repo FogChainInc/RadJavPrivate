@@ -64,8 +64,17 @@ namespace RadJAV
             void ViewControllerFrame::addChild(GUI::GObject *child)
             {
 				UIView* childObj = child->_appObj->getNativeWidget();
-				//UIViewController * objChild = baseChild->widget;
-                //[widget addSubViewController:objChild];
+                [widget.view addSubview:childObj];
+            }
+            
+            void ViewControllerFrame::presentViewControllerAnimated(CPP::GUI::GObject *presentedController){
+                
+                [widget presentViewController:(UIViewController*)presentedController->_appObj->getNativeWidget() animated:YES completion:^{}];
+            }
+            
+            void ViewControllerFrame::dismissViewControllerAnimated(){
+                
+                [widget dismissViewControllerAnimated:YES completion:^{}];
             }
             
             void ViewControllerFrame::makeRootViewController(){

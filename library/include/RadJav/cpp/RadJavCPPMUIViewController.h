@@ -53,6 +53,8 @@ namespace RadJAV
                 ~ViewControllerFrame();
                 void makeRootViewController();
                 void addChild(GUI::GObject *child);
+                void presentViewControllerAnimated(CPP::GUI::GObject *presentedController);
+                void dismissViewControllerAnimated();
                 void setFont(CPP::Font *font);
                 CPP::Font *getFont();
                 void setPosition(RJINT x, RJINT y);
@@ -104,6 +106,8 @@ namespace RadJAV
                 void makeRootViewController();
                 void create();
                 void addChild(CPP::GUI::GObject *child);
+                void presentViewControllerAnimated(CPP::GUI::GObject *presentedController);
+                void dismissViewControllerAnimated();
                 void setPosition(RJINT x, RJINT y);
                 CPP::Vector2 getPosition();
                 void setSize(RJINT x, RJINT y);

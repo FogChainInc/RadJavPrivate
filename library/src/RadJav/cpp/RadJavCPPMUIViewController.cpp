@@ -51,6 +51,14 @@ namespace RadJAV
                 _appObject->addChild(child);
             }
             
+            void ViewController::presentViewControllerAnimated(CPP::GUI::GObject *presentedController){
+                _appObject->presentViewControllerAnimated(presentedController);
+            }
+            
+            void ViewController::dismissViewControllerAnimated(){
+                _appObject->dismissViewControllerAnimated();
+            }
+            
             void ViewController::makeRootViewController(){
                 _appObject->makeRootViewController();
             }
