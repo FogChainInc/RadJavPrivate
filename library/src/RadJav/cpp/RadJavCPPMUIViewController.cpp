@@ -38,6 +38,7 @@ namespace RadJAV
             ViewController::ViewController(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[])
             : GObject (jsEngine, thisObj, numArgs, args)
             {
+                
             }
 #endif
             
@@ -48,6 +49,10 @@ namespace RadJAV
             
             void ViewController::addChild(GUI::GObject *child){
                 _appObject->addChild(child);
+            }
+            
+            void ViewController::makeRootViewController(){
+                _appObject->makeRootViewController();
             }
             
             void ViewController::create()
@@ -65,7 +70,7 @@ namespace RadJAV
 				
 				//TODO: Maybe we need another Base for such type of GUI classes?
 				//TODO: Need to add implementation
-				//_appObj = object;
+				_appObject = object;
 				
 				linkWith(object);
 				setup();

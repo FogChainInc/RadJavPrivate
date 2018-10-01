@@ -43,8 +43,7 @@ namespace RadJAV
         {
             
             //TODO: Add some base class here with common UI controls interface
-            class RADJAV_EXPORT ViewControllerFrame : public GUI::GObjectInterface
-            , public GUI::GObjectEvents
+            class RADJAV_EXPORT ViewControllerFrame : public GUI::GObjectWidget
             , public ChainedPtr
             {
             public:
@@ -52,7 +51,7 @@ namespace RadJAV
                 ViewControllerFrame();
                 ViewControllerFrame(void *parent, const String &text, const Vector2 &pos, const Vector2 &size);
                 ~ViewControllerFrame();
-                
+                void makeRootViewController();
                 void addChild(GUI::GObject *child);
                 void setFont(CPP::Font *font);
                 CPP::Font *getFont();
@@ -75,7 +74,14 @@ namespace RadJAV
                 RJBOOL getEnabled();
 				
 				bool bindEvent(const String& eventName, const GUI::Event* event);
-
+                
+#ifdef USE_IOS
+                UIView* getNativeWidget();
+#elif defined USE_ANDROID
+                //TODO: Add correct type here for Android
+                void* getNativeWidget();
+#endif
+                
             private:
 #ifdef USE_IOS
                 UIViewController* widget;
@@ -95,7 +101,7 @@ namespace RadJAV
                 ViewController(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
 #endif
                 ViewController(String name, String text = "", CPP::GUI::GObject *parent = NULL);
-                
+                void makeRootViewController();
                 void create();
                 void addChild(CPP::GUI::GObject *child);
                 void setPosition(RJINT x, RJINT y);
