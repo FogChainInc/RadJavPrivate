@@ -233,6 +233,7 @@ if (USE_JAVASCRIPTCORE)
 		set (SOURCES_files_RadJav__JSC__MUI__Headers 
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUIView.h" 
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUIViewController.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUINavigationViewController.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUIButton.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUIScreen.h")
 		source_group ("RadJav\\JavaScriptCore\\MUI" FILES ${SOURCES_files_RadJav__JSC__MUI__Headers})
@@ -479,7 +480,8 @@ if (IS_MOBILE)
 
 	set (SOURCES_files_RadJav__cpp__MUI__Headers 
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIView.h" 
-		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIViewController.h" 
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIViewController.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUINavigationViewController.h" 
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIButton.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIAlert.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIScreen.h")
