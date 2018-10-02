@@ -43,7 +43,6 @@ namespace RadJAV
                 
                 UIView * greenView = keyWindow.rootViewController.view ;
                 [greenView  addSubview:widget];
-                widget.backgroundColor = [UIColor redColor];
             }
             
             void ViewFrame::setPosition(RJINT x, RJINT y)
