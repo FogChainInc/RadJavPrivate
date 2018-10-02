@@ -73,6 +73,7 @@
 		#include "jscore/RadJavJSCMUIView.h"
         #include "jscore/RadJavJSCMUIViewController.h"
 		#include "jscore/RadJavJSCMUIButton.h"
+		#include "jscore/RadJavJSCMUIScreen.h"
 	#endif
 
 	// Database
@@ -1215,6 +1216,11 @@ namespace RadJAV
 						JSObjectRef gobjectPrototype = jscGetObject(gobjectFunc, "prototype");
 						
 						JSC::GUI::GObject::createJSCCallbacks(globalContext, gobjectPrototype);
+					}
+					
+					// RadJav.MUI.Screen
+					{
+						JSC::MUI::Screen::createJSCCallbacks(globalContext, muiFunc);
 					}
 					
 					// RadJav.MUI.View
