@@ -37,7 +37,7 @@ namespace RadJAV
             }
             UIView* ViewControllerFrame::getNativeWidget(){
                 
-                return nil;
+                return (UIView*)widget;
             }
             ViewControllerFrame::ViewControllerFrame(void *parent, const String &text, const Vector2 &pos, const Vector2 &size)
             : widget([[UIViewController alloc] init])

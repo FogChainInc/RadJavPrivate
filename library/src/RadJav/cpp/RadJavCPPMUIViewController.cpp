@@ -79,7 +79,7 @@ namespace RadJAV
 				//TODO: Maybe we need another Base for such type of GUI classes?
 				//TODO: Need to add implementation
 				_appObject = object;
-				
+				_appObj = object;
 				linkWith(object);
 				setup();
             }
