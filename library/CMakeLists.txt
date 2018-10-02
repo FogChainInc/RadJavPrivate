@@ -605,6 +605,7 @@ if (libRadJav_EMBEDFILE)
 			RadJav.MUI.ViewController.js
 			RadJav.MUI.View.js
 			RadJav.MUI.Button.js
+			RadJav.MUI.Label.js
 		)
 
 	endif ()
