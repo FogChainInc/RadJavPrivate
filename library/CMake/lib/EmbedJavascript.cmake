@@ -22,6 +22,9 @@ macro (embedJavascript jsFilesList jsFilesPath headerName headerPath)
 		{"
 	)
 	
+	#If .js file will be have more characters than described in value below, it will be splitted
+	set (jsFileChunkSize 8000)
+	
 	file (WRITE ${headerFilePath} ${jsFileContent})
 	
 	foreach (_jsFile ${jsFilesList})
@@ -51,25 +54,36 @@ macro (embedJavascript jsFilesList jsFilesPath headerName headerPath)
 		#Escape/Replace \r\n control characters
 		string (REGEX REPLACE "\r?\n" "\\\\n\\\\\n" jsFileContent "${jsFileContent}")
 		
-		#TODO: check 8000 value - here it is possible that we accidentally divide escape
-		#sequence and our code will be broken later, it is better to search end of line
-		#near the 8000 margin to split strings gracefully
 		string (LENGTH "${jsFileContent}" jsFileContentLength)
 		
-		if (jsFileContentLength GREATER 8000)
+		if (jsFileContentLength GREATER ${jsFileChunkSize})
 			
 			#Adding open vector code
 			file (APPEND ${headerFilePath} "
 			javascriptFiles.push_back (JSFile (\"${_jsFile}\", Array<String>({\"")
 				
-			while(jsFileContentLength GREATER 8000)
+			while(jsFileContentLength GREATER ${jsFileChunkSize})
 				#for every jsFileContentChunk
 				#do string(SUBSTRING <string> <begin> <length> <out-var>)
 				
 				#get the chunk
-				string (SUBSTRING "${jsFileContent}" 0 8000 jsFileContentChunk)
+				string (SUBSTRING "${jsFileContent}" 0 ${jsFileChunkSize} jsFileContentChunk)
+				
 				#replace source
-				string (SUBSTRING "${jsFileContent}" 8000 -1 jsFileContent)
+				string (SUBSTRING "${jsFileContent}" ${jsFileChunkSize} -1 jsFileContent)
+
+				#Get last character from splitted file content
+				math(EXPR index ${jsFileChunkSize}-1)
+				string (SUBSTRING "${jsFileContentChunk}" ${index} 1 lastCharacter)
+				
+				#Fixing escaped sequence if any
+				if (${lastCharacter} STREQUAL "\\")
+					#Move first character from rest of file content to chunk content so escape sequence will be preserved
+					string (SUBSTRING "${jsFileContent}" 0 1 firstCharacter)
+					string (CONCAT jsFileContentChunk "${jsFileContentChunk}" "${firstCharacter}")
+					string (SUBSTRING "${jsFileContent}" 1 -1 jsFileContent)
+				endif ()
+				
 				#calculate new length
 				string (LENGTH "${jsFileContent}" jsFileContentLength)
 				
@@ -78,15 +92,15 @@ macro (embedJavascript jsFilesList jsFilesPath headerName headerPath)
 				#add ", " in between
 				file (APPEND ${headerFilePath} "\", \"")
 			
-			endwhile(jsFileContentLength GREATER 8000)
+			endwhile()
 			
 			#add last chunk
-			string (SUBSTRING "${jsFileContent}" 0 8000 jsFileContentChunk)
+			string (SUBSTRING "${jsFileContent}" 0 ${jsFileChunkSize} jsFileContentChunk)
 			file (APPEND ${headerFilePath} "${jsFileContentChunk}")
 			#and finalization
 			file (APPEND ${headerFilePath} "\"})));")
 		
-		else (jsFileContentLength GREATER 8000)
+		else ()
 		
 			#Adding open vector code
 			file (APPEND ${headerFilePath} "
@@ -98,10 +112,10 @@ macro (embedJavascript jsFilesList jsFilesPath headerName headerPath)
 			#Adding close vector code
 			file (APPEND ${headerFilePath} "\"));")
 		
-		endif (jsFileContentLength GREATER 8000)
+		endif ()
 		
 		#end for	
-	endforeach (_jsFile)
+	endforeach ()
 
 	#Header end
 	set (jsFileContent
