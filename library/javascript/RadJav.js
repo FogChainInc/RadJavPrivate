@@ -156,7 +156,8 @@ RadJav.getMUILibrary = function ()
 			{ file: "RadJav.Font", themeFile: false, loadFirst: true }, 
 			{ file: "RadJav.MUI.View", themeFile: true }, 
 			{ file: "RadJav.MUI.Button", themeFile: true },
-			{ file: "RadJav.MUI.Label", themeFile: true }];
+			{ file: "RadJav.MUI.Label", themeFile: true },
+			{ file: "RadJav.MUI.Image", themeFile: true }];
 
 	return (includes);
 };

@@ -76,6 +76,7 @@
 		#include "jscore/RadJavJSCMUIButton.h"
 		#include "jscore/RadJavJSCMUIScreen.h"
 		#include "jscore/RadJavJSCMUILabel.h"
+		#include "jscore/RadJavJSCMUIImage.h"
 	#endif
 
 	// Database
@@ -1261,6 +1262,14 @@ namespace RadJAV
 						JSObjectRef labelPrototype = jscGetObject(labelFunc, "prototype");
 						
 						JSC::MUI::Label::createJSCCallbacks(globalContext, labelPrototype);
+					}
+
+					// RadJav.MUI.Image
+					{
+						JSObjectRef imageFunc = jscGetFunction(muiFunc, "Image");
+						JSObjectRef imagePrototype = jscGetObject(imageFunc, "prototype");
+						
+						JSC::MUI::Image::createJSCCallbacks(globalContext, imagePrototype);
 					}
 				}
 				#endif
