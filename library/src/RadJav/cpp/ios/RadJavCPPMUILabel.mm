@@ -164,6 +164,7 @@ namespace RadJAV
 			{
 				//TODO: do we need to handle UILabel events?
 				//return [widgetDelegate bindEvent:widget eventName:eventName];
+				return false;
 			}
 		}
 	}
