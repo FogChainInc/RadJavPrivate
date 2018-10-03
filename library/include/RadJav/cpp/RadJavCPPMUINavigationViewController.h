@@ -29,7 +29,7 @@
 #define OBJC_CLASS(name) typedef struct objc_object name
 #endif
 
-OBJC_CLASS(UINavigationViewController);
+OBJC_CLASS(UINavigationController);
 #elif defined USE_ANDROID
 #warning Add Button implementation for Android platform
 #endif
@@ -60,7 +60,7 @@ namespace RadJAV
                 
             private:
 #ifdef USE_IOS
-                UINavigationViewController* widget;
+                UINavigationController* widget;
 #elif defined USE_ANDROID
                 //TODO: Wrap Android specific type here
 #endif

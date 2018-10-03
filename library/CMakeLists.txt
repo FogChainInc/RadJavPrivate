@@ -603,6 +603,7 @@ if (libRadJav_EMBEDFILE)
 		set (jsFiles ${jsFiles}
 			RadJav.GUI.GObject.js # This must be compiled before any other GUI object.
 			RadJav.MUI.ViewController.js
+			RadJav.MUI.NavigationViewController.js
 			RadJav.MUI.View.js
 			RadJav.MUI.Button.js
 			RadJav.MUI.Label.js
