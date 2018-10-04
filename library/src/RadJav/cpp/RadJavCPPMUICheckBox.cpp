@@ -52,7 +52,7 @@ namespace RadJAV
 				if (_parent != nullptr)
 					parentWin = _parent->_appObj;
 				
-				CheckBoxFrame* object = RJNEW CheckBoxFrame(_parent, _text,
+				CheckBoxFrame* object = RJNEW CheckBoxFrame(_parent, false,
 													  Vector2(_transform->x, _transform->y),
 													  Vector2(_transform->width, _transform->height));
 				

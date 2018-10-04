@@ -76,50 +76,25 @@ namespace RadJAV
 				ImageFrame(GUI::GObject *parent, const Vector2 &pos, const Vector2 &size);
 				~ImageFrame();
 				
-				//TODO: Add more specific methods for Image here
-				//Other common methods needs to be added to some base interface C++ class like GObjectWidget
-				
 				RJBOOL loadImage(const String& imageFile);
 				void setScaleMode(Image::ScaleMode mode);
 				Image::ScaleMode getScaleMode() const;
-
+				
+				bool bindEvent(const String& eventName, const GUI::Event* event);
+				
 				#ifdef USE_IOS
 					UIView* getNativeWidget();
 				#elif defined USE_ANDROID
 					void* getNativeWidget();
 				#endif
 				
-				void setSize(RJINT x, RJINT y);
-				void setPosition(RJINT x, RJINT y);
-				void setText(String text);
-				String getText();
-				void setVisibility(RJBOOL visible);
-				RJBOOL getVisibility();
-				void addChild(GUI::GObject *child);
-				void setFont(CPP::Font *font);
-				CPP::Font *getFont();
-				void setPosition(CPP::Vector2 pos);
-				CPP::Vector2 getPosition();
-				RJINT getX();
-				RJINT getY();
-				void setSize(CPP::Vector2 size);
-				CPP::Vector2 getSize();
-				RJINT getWidth();
-				RJINT getHeight();
-				GUI::GObject *getParent();
-				void setEnabled(RJBOOL enabled);
-				RJBOOL getEnabled();
-				
-				bool bindEvent(const String& eventName, const GUI::Event* event);
-				
+			private:
 				#ifdef USE_IOS
-				private:
 					UIImageView* widget;
 					UIImage* image;
 					//TODO: do we need to handle events of the UIImage?
 					//ImageDelegate* widgetDelegate;
 				#elif defined USE_ANDROID
-				private:
 					//TODO: Wrap Android specific type here
 					void* widget;
 				#endif

@@ -112,7 +112,14 @@ namespace RadJAV
 						return Image::ScaleMode::AspectFit;
 				}
 			}
-
+			
+			bool ImageFrame::bindEvent(const String& eventName, const GUI::Event* /*event*/)
+			{
+				//TODO: do we need to handle UIImageView events?
+				//return [widgetDelegate bindEvent:widget eventName:eventName];
+				return false;
+			}
+			
 			#ifdef USE_IOS
 				UIView* ImageFrame::getNativeWidget()
 				{
@@ -124,119 +131,6 @@ namespace RadJAV
 					return widget;
 				}
 			#endif
-			
-			void ImageFrame::setSize(RJINT width, RJINT height)
-			{
-				widget.frame = CGRectMake(widget.frame.origin.x, widget.frame.origin.y, width, height);
-				[widget setNeedsDisplay];
-			}
-			void ImageFrame::setPosition(RJINT x, RJINT y)
-			{
-				widget.frame = CGRectMake(x, y, widget.frame.size.width, widget.frame.size.height);
-				[widget setNeedsDisplay];
-			}
-			
-			void ImageFrame::setText(String text)
-			{
-				//No need
-			}
-			
-			String ImageFrame::getText()
-			{
-				return String();
-			}
-			
-			void ImageFrame::setVisibility(RJBOOL visible)
-			{
-				[widget setHidden:!visible];
-			}
-			
-			RJBOOL ImageFrame::getVisibility()
-			{
-				return !widget.isHidden;
-			}
-			
-			void ImageFrame::addChild(GUI::GObject *child)
-			{
-				UIView* childObj = child->_appObj->getNativeWidget();
-				[widget addSubview:childObj];
-			}
-			
-			void ImageFrame::setFont(CPP::Font *font)
-			{
-				//TODO: Add implementation
-				//[widget setFont:(UIFont * _Nullable)];
-			}
-			
-			CPP::Font* ImageFrame::getFont()
-			{
-				//TODO: Add implementation
-				return nullptr;
-			}
-			
-			void ImageFrame::setPosition(CPP::Vector2 pos)
-			{
-				setPosition(pos.x, pos.y);
-			}
-			
-			CPP::Vector2 ImageFrame::getPosition()
-			{
-				return Vector2(getX(), getY());
-			}
-			
-			RJINT ImageFrame::getX()
-			{
-				return widget.frame.origin.x;
-			}
-			
-			RJINT ImageFrame::getY()
-			{
-				return widget.frame.origin.y;
-			}
-			
-			void ImageFrame::setSize(CPP::Vector2 size)
-			{
-				setSize(size.x, size.y);
-			}
-			
-			CPP::Vector2 ImageFrame::getSize()
-			{
-				return Vector2(getWidth(), getHeight());
-			}
-			
-			RJINT ImageFrame::getWidth()
-			{
-				return widget.frame.size.width;
-			}
-			
-			RJINT ImageFrame::getHeight()
-			{
-				return widget.frame.size.height;
-			}
-			
-			GUI::GObject* ImageFrame::getParent()
-			{
-				//TODO: Add implementation
-				return nullptr;
-			}
-			
-			void ImageFrame::setEnabled(RJBOOL enabled)
-			{
-				//UIImageView seems does not have such functionality
-			}
-			
-			RJBOOL ImageFrame::getEnabled()
-			{
-				//UIImageView seems does not have such functionality
-				return true;
-			}
-			
-			bool ImageFrame::bindEvent(const String& eventName, const GUI::Event* /*event*/)
-			{
-				//TODO: do we need to handle UIImageView events?
-				//return [widgetDelegate bindEvent:widget eventName:eventName];
-				return false;
-			}
 		}
 	}
 }

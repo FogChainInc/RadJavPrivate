@@ -39,37 +39,17 @@ namespace RadJAV
 
 				[widget setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
 				
+				setText(text);
 				setSize(size);
 				setPosition(pos);
 			}
 			
 			ButtonFrame::~ButtonFrame()
 			{
-				//Release button here
 				[widget release];
+				[widgetDelegate release];
 			}
 
-			#ifdef USE_IOS
-				UIView* ButtonFrame::getNativeWidget()
-				{
-					return widget;
-				}
-			#elif defined USE_ANDROID
-				void* ButtonFrame::getNativeWidget()
-				{
-					return widget;
-				}
-			#endif
-
-            void ButtonFrame::setSize(RJINT width, RJINT height)
-            {
-                widget.frame = CGRectMake(widget.frame.origin.x, widget.frame.origin.y, width, height);
-            }
-            void ButtonFrame::setPosition(RJINT x, RJINT y)
-            {
-                widget.frame = CGRectMake(x, y, widget.frame.size.width, widget.frame.size.height);
-            }
-            
             void ButtonFrame::setText(String text)
             {
                 const char * cString = text.c_str();
@@ -77,30 +57,12 @@ namespace RadJAV
                 [widget setTitle:objcString forState:UIControlStateNormal];
             }
             
-            String ButtonFrame::getText(){
-                
-                
-            }
-            
-            void ButtonFrame::setVisibility(RJBOOL visible){
-                
-                
-            }
-            RJBOOL ButtonFrame::getVisibility(){
-                
-            }
-            
-            
-            
-			
-			void ButtonFrame::addChild(GUI::GObject *child)
+            String ButtonFrame::getText()
 			{
-				UIView* childObj = child->_appObj->getNativeWidget();
-				[widget addSubview:childObj];
-			}
-
-
-
+				NSString* title = [widget currentTitle];
+				return String([title UTF8String]);
+            }
+            
 			void ButtonFrame::setFont(CPP::Font *font)
 			{
 				//TODO: Add implementation
@@ -112,79 +74,32 @@ namespace RadJAV
 				return nullptr;
 			}
 
-
-			
-
-			void ButtonFrame::setPosition(CPP::Vector2 pos)
-			{
-				setPosition(pos.x, pos.y);
-			}
-			
-			CPP::Vector2 ButtonFrame::getPosition()
-			{
-				//TODO: Add implementation
-				return Vector2();
-			}
-			
-			RJINT ButtonFrame::getX()
-			{
-				//TODO: Add implementation
-				return 0;
-			}
-			
-			RJINT ButtonFrame::getY()
-			{
-				//TODO: Add implementation
-				return 0;
-			}
-	
-			void ButtonFrame::setSize(CPP::Vector2 size)
-			{
-				setSize(size.x, size.y);
-			}
-			
-			CPP::Vector2 ButtonFrame::getSize()
-			{
-				//TODO: Add implementation
-				return Vector2();
-			}
-			
-			RJINT ButtonFrame::getWidth()
-			{
-				//TODO: Add implementation
-				return 0;
-			}
-			
-			RJINT ButtonFrame::getHeight()
-			{
-				//TODO: Add implementation
-				return 0;
-			}
-	
-			
-			GUI::GObject* ButtonFrame::getParent()
-			{
-				//TODO: Add implementation
-				return nullptr;
-			}
-
-
-			
 			void ButtonFrame::setEnabled(RJBOOL enabled)
 			{
-				//TODO: Add implementation
+				[widget setEnabled:enabled];
 			}
 			
 			RJBOOL ButtonFrame::getEnabled()
 			{
-				//TODO: Add implementation
-				return false;
+				return widget.isEnabled;
 			}
 			
 			bool ButtonFrame::bindEvent(const String& eventName, const GUI::Event* /*event*/)
 			{
 				return [widgetDelegate bindEvent:widget eventName:eventName];
 			}
+			
+			#ifdef USE_IOS
+				UIView* ButtonFrame::getNativeWidget()
+				{
+					return widget;
+				}
+			#elif defined USE_ANDROID
+				void* ButtonFrame::getNativeWidget()
+				{
+					return widget;
+				}
+			#endif
 		}
 	}
 }

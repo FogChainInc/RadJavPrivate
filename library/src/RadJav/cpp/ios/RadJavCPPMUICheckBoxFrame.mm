@@ -29,7 +29,7 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
-			CheckBoxFrame::CheckBoxFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size)
+			CheckBoxFrame::CheckBoxFrame(GUI::GObject *parent, RJBOOL checked, const Vector2 &pos, const Vector2 &size)
 			: widget([[UISwitch alloc] init])
 			{
 				widgetDelegate = [[SwitchDelegate alloc] init];
@@ -37,7 +37,7 @@ namespace RadJAV
 
 				[parent->_appObj->getNativeWidget() addSubview:widget];
 				
-				setText(text);
+				setChecked(checked);
 				setSize(size);
 				setPosition(pos);
 			}
@@ -45,19 +45,8 @@ namespace RadJAV
 			CheckBoxFrame::~CheckBoxFrame()
 			{
 				[widget release];
+				[widgetDelegate release];
 			}
-			
-			#ifdef USE_IOS
-				UIView* CheckBoxFrame::getNativeWidget()
-				{
-					return widget;
-				}
-			#elif defined USE_ANDROID
-				void* CheckBoxFrame::getNativeWidget()
-				{
-					return widget;
-				}
-			#endif
 			
 			void CheckBoxFrame::setChecked(RJBOOL checked)
 			{
@@ -69,99 +58,6 @@ namespace RadJAV
 				return widget.on;
 			}
 
-			void CheckBoxFrame::setSize(RJINT width, RJINT height)
-			{
-				widget.frame = CGRectMake(widget.frame.origin.x, widget.frame.origin.y, width, height);
-			}
-			void CheckBoxFrame::setPosition(RJINT x, RJINT y)
-			{
-				widget.frame = CGRectMake(x, y, widget.frame.size.width, widget.frame.size.height);
-			}
-			
-			void CheckBoxFrame::setText(String text)
-			{
-				//No need
-			}
-			
-			String CheckBoxFrame::getText()
-			{
-				return String();
-			}
-			
-			void CheckBoxFrame::setVisibility(RJBOOL visible)
-			{
-				[widget setHidden:!visible];
-			}
-			
-			RJBOOL CheckBoxFrame::getVisibility()
-			{
-				return !widget.isHidden;
-			}
-			
-			void CheckBoxFrame::addChild(GUI::GObject *child)
-			{
-				UIView* childObj = child->_appObj->getNativeWidget();
-				[widget addSubview:childObj];
-			}
-			
-			void CheckBoxFrame::setFont(CPP::Font *font)
-			{
-				//TODO: Add implementation
-				//[widget setFont:(UIFont * _Nullable)];
-			}
-			
-			CPP::Font* CheckBoxFrame::getFont()
-			{
-				//TODO: Add implementation
-				return nullptr;
-			}
-			
-			void CheckBoxFrame::setPosition(CPP::Vector2 pos)
-			{
-				setPosition(pos.x, pos.y);
-			}
-			
-			CPP::Vector2 CheckBoxFrame::getPosition()
-			{
-				return Vector2(getX(), getY());
-			}
-			
-			RJINT CheckBoxFrame::getX()
-			{
-				return widget.frame.origin.x;
-			}
-			
-			RJINT CheckBoxFrame::getY()
-			{
-				return widget.frame.origin.y;
-			}
-			
-			void CheckBoxFrame::setSize(CPP::Vector2 size)
-			{
-				setSize(size.x, size.y);
-			}
-			
-			CPP::Vector2 CheckBoxFrame::getSize()
-			{
-				return Vector2(getWidth(), getHeight());
-			}
-			
-			RJINT CheckBoxFrame::getWidth()
-			{
-				return widget.frame.size.width;
-			}
-			
-			RJINT CheckBoxFrame::getHeight()
-			{
-				return widget.frame.size.height;
-			}
-			
-			GUI::GObject* CheckBoxFrame::getParent()
-			{
-				//TODO: Add implementation
-				return nullptr;
-			}
-			
 			void CheckBoxFrame::setEnabled(RJBOOL enabled)
 			{
 				[widget setEnabled:enabled];
@@ -176,6 +72,18 @@ namespace RadJAV
 			{
 				return [widgetDelegate bindEvent:widget eventName:eventName];
 			}
+			
+			#ifdef USE_IOS
+				UIView* CheckBoxFrame::getNativeWidget()
+				{
+					return widget;
+				}
+			#elif defined USE_ANDROID
+				void* CheckBoxFrame::getNativeWidget()
+				{
+					return widget;
+				}
+			#endif
 		}
 	}
 }

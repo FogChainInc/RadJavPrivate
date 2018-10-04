@@ -44,27 +44,6 @@ namespace RadJAV
 				[widget release];
 			}
 			
-			#ifdef USE_IOS
-				UIView* LabelFrame::getNativeWidget()
-				{
-					return widget;
-				}
-			#elif defined USE_ANDROID
-				void* LabelFrame::getNativeWidget()
-				{
-					return widget;
-				}
-			#endif
-			
-			void LabelFrame::setSize(RJINT width, RJINT height)
-			{
-				widget.frame = CGRectMake(widget.frame.origin.x, widget.frame.origin.y, width, height);
-			}
-			void LabelFrame::setPosition(RJINT x, RJINT y)
-			{
-				widget.frame = CGRectMake(x, y, widget.frame.size.width, widget.frame.size.height);
-			}
-			
 			void LabelFrame::setText(String text)
 			{
 				NSString *objcString = [NSString stringWithUTF8String:text.c_str()];
@@ -76,22 +55,6 @@ namespace RadJAV
 				return [widget.text UTF8String];
 			}
 			
-			void LabelFrame::setVisibility(RJBOOL visible)
-			{
-				[widget setHidden:!visible];
-			}
-
-			RJBOOL LabelFrame::getVisibility()
-			{
-				return !widget.isHidden;
-			}
-
-			void LabelFrame::addChild(GUI::GObject *child)
-			{
-				UIView* childObj = child->_appObj->getNativeWidget();
-				[widget addSubview:childObj];
-			}
-
 			void LabelFrame::setFont(CPP::Font *font)
 			{
 				//TODO: Add implementation
@@ -99,52 +62,6 @@ namespace RadJAV
 			}
 			
 			CPP::Font* LabelFrame::getFont()
-			{
-				//TODO: Add implementation
-				return nullptr;
-			}
-			
-			void LabelFrame::setPosition(CPP::Vector2 pos)
-			{
-				setPosition(pos.x, pos.y);
-			}
-			
-			CPP::Vector2 LabelFrame::getPosition()
-			{
-				return Vector2(getX(), getY());
-			}
-			
-			RJINT LabelFrame::getX()
-			{
-				return widget.frame.origin.x;
-			}
-			
-			RJINT LabelFrame::getY()
-			{
-				return widget.frame.origin.y;
-			}
-			
-			void LabelFrame::setSize(CPP::Vector2 size)
-			{
-				setSize(size.x, size.y);
-			}
-			
-			CPP::Vector2 LabelFrame::getSize()
-			{
-				return Vector2(getWidth(), getHeight());
-			}
-			
-			RJINT LabelFrame::getWidth()
-			{
-				return widget.frame.size.width;
-			}
-			
-			RJINT LabelFrame::getHeight()
-			{
-				return widget.frame.size.height;
-			}
-			
-			GUI::GObject* LabelFrame::getParent()
 			{
 				//TODO: Add implementation
 				return nullptr;
@@ -166,6 +83,18 @@ namespace RadJAV
 				//return [widgetDelegate bindEvent:widget eventName:eventName];
 				return false;
 			}
+			
+			#ifdef USE_IOS
+				UIView* LabelFrame::getNativeWidget()
+				{
+					return widget;
+				}
+			#elif defined USE_ANDROID
+				void* LabelFrame::getNativeWidget()
+				{
+					return widget;
+				}
+			#endif
 		}
 	}
 }
