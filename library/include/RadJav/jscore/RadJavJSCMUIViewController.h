@@ -31,7 +31,7 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
-            class RADJAV_EXPORT ViewController:RadJAV::JSC::GUI::GObject
+            class RADJAV_EXPORT ViewController
 			{
 				public:
 					static void createJSCCallbacks(JSContextRef context, JSObjectRef object);

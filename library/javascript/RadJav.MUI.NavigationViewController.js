@@ -51,7 +51,7 @@ var RadJav;
             }
             NavigationViewController.xmlTag = { tag: "navigationviewcontroller", type: "NavigationViewController" };
             return NavigationViewController;
-        }(RadJav.GUI.GObject));
+        }(RadJav.MUI.ViewController));
         MUI.NavigationViewController = NavigationViewController;
     })(MUI = RadJav.MUI || (RadJav.MUI = {}));
 })(RadJav || (RadJav = {}));

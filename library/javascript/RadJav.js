@@ -158,7 +158,9 @@ RadJav.getMUILibrary = function ()
 			{ file: "RadJav.MUI.Button", themeFile: true },
 			{ file: "RadJav.MUI.Label", themeFile: true },
 			{ file: "RadJav.MUI.Image", themeFile: true },
-			{ file: "RadJav.MUI.CheckBox", themeFile: true }];
+			{ file: "RadJav.MUI.CheckBox", themeFile: true },
+			{ file: "RadJav.MUI.ViewController", themeFile: true },
+			{ file: "RadJav.MUI.NavigationViewController", themeFile: true }];
 
 	return (includes);
 };

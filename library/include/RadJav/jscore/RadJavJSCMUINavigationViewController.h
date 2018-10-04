@@ -31,7 +31,7 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
-            class RADJAV_EXPORT NavigationViewController:RadJAV::JSC::MUI::ViewController
+            class RADJAV_EXPORT NavigationViewController
 			{
 				public:
 					static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
