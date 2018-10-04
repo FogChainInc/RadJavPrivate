@@ -50,9 +50,14 @@ namespace RadJAV
                 NavigationViewControllerFrame();
                 NavigationViewControllerFrame(void *parent, const String &text, const Vector2 &pos, const Vector2 &size);
                 ~NavigationViewControllerFrame();
+                void create();
+                void setRootViewController(CPP::GUI::GObject *presentedController);
+                void pushViewController(CPP::GUI::GObject *presentedController);
+                void popViewController();
                 
 #ifdef USE_IOS
                 UIView* getNativeWidget();
+                
 #elif defined USE_ANDROID
                 //TODO: Add correct type here for Android
                 void* getNativeWidget();
@@ -83,6 +88,10 @@ namespace RadJAV
                 void on(String event, RJ_FUNC_TYPE func);
 #endif
                 void create();
+                void setRootViewController(CPP::GUI::GObject *presentedController);
+                void pushViewController(CPP::GUI::GObject *presentedController);
+                void popViewController();                
+                
                 NavigationViewControllerFrame* _appObject;
                 String icon;
             };

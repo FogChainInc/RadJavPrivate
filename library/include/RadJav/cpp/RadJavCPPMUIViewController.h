@@ -84,7 +84,7 @@ namespace RadJAV
                 void* getNativeWidget();
 #endif
                 
-            private:
+            
 #ifdef USE_IOS
                 UIViewController* widget;
 #elif defined USE_ANDROID

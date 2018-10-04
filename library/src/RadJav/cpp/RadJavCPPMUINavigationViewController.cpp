@@ -68,7 +68,15 @@ namespace RadJAV
 				linkWith(object);
 				setup();
             }
-            
+            void NavigationViewController::setRootViewController(CPP::GUI::GObject *presentedController){
+                _appObject->setRootViewController(presentedController);
+            }
+            void NavigationViewController::pushViewController(CPP::GUI::GObject *presentedController){
+                _appObject->pushViewController(presentedController);
+            }
+            void NavigationViewController::popViewController(){
+                _appObject->popViewController();
+            }
          
             
 #if defined USE_V8 || defined USE_JAVASCRIPTCORE

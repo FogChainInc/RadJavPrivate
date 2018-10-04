@@ -36,7 +36,9 @@ namespace RadJAV
 			void NavigationViewController::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 			{
 				JSC_CALLBACK(object, "create", NavigationViewController::create);
-
+                JSC_CALLBACK(object, "setRootViewController", NavigationViewController::setRootViewController);
+                JSC_CALLBACK(object, "pushViewController", NavigationViewController::pushViewController);
+                JSC_CALLBACK(object, "popViewController", NavigationViewController::popViewController);
 			}
 
 			JSValueRef NavigationViewController::create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
@@ -50,6 +52,61 @@ namespace RadJAV
 				
 				return promise;
 			}
+            
+            JSValueRef NavigationViewController::setRootViewController(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+            {
+                CppMuiObject *appObject = (CppMuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+                
+                if (argumentCount > 0){
+                    JSObjectRef argument =  JSValueToObject(ctx, arguments[0], exception);
+                    CppMuiObject *childAppObject = (CppMuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, argument, "_appObj");
+                    if (childAppObject != NULL){
+                        
+                        appObject->setRootViewController(childAppObject);
+                    }
+                    
+                }
+                
+                JSObjectRef _guiFinishedCreatingGObject = JSC_JAVASCRIPT_ENGINE->jscGetFunction(JSC_RADJAV, "_guiFinishedCreatingGObject");
+                JSObjectRef promise = JSC_JAVASCRIPT_ENGINE->createPromise(thisObject, _guiFinishedCreatingGObject);
+                
+                return promise;
+            }
+            
+            JSValueRef NavigationViewController::pushViewController(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+            {
+                CppMuiObject *appObject = (CppMuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+                
+                if (argumentCount > 0){
+                    JSObjectRef argument =  JSValueToObject(ctx, arguments[0], exception);
+                    CppMuiObject *childAppObject = (CppMuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, argument, "_appObj");
+                    if (childAppObject != NULL){
+                        
+                        appObject->pushViewController(childAppObject);
+                    }
+                    
+                }
+                
+                JSObjectRef _guiFinishedCreatingGObject = JSC_JAVASCRIPT_ENGINE->jscGetFunction(JSC_RADJAV, "_guiFinishedCreatingGObject");
+                JSObjectRef promise = JSC_JAVASCRIPT_ENGINE->createPromise(thisObject, _guiFinishedCreatingGObject);
+                
+                return promise;
+            }
+            
+            
+            JSValueRef NavigationViewController::popViewController(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+            {
+                CppMuiObject *appObject = (CppMuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+ 
+                appObject->popViewController();
+                
+                
+                JSObjectRef _guiFinishedCreatingGObject = JSC_JAVASCRIPT_ENGINE->jscGetFunction(JSC_RADJAV, "_guiFinishedCreatingGObject");
+                JSObjectRef promise = JSC_JAVASCRIPT_ENGINE->createPromise(thisObject, _guiFinishedCreatingGObject);
+                
+                return promise;
+            }
+            
             
 		}
 	}

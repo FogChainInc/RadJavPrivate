@@ -50,6 +50,19 @@ namespace RadJAV
                 [widget release];
             }
             
+            void NavigationViewControllerFrame::setRootViewController(CPP::GUI::GObject *presentedController)
+            {
+                [widget setViewControllers:@[(UIViewController*)presentedController->_appObj->getNativeWidget()]];
+            }
+            void NavigationViewControllerFrame::pushViewController(CPP::GUI::GObject *presentedController)
+            {
+                [widget pushViewController:(UIViewController*)presentedController->_appObj->getNativeWidget() animated:YES];
+            }
+            void NavigationViewControllerFrame::popViewController()
+            {
+                [widget popViewControllerAnimated:YES];
+            }
+            
         }
     }
 }
