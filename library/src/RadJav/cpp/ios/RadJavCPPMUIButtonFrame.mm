@@ -35,7 +35,15 @@ namespace RadJAV
                 widgetDelegate = [[ButtonDelegate alloc] init];
                 widgetDelegate.widget = this;
 				
-				[parent->_appObj->getNativeWidget() addSubview:widget];
+                id parentWidget = parent->_appObj->getNativeWidget();
+                
+                if ([parentWidget isKindOfClass:[UIView class]]){
+                    [parentWidget addSubview:widget];
+                }
+                else {
+                    [[parentWidget view] addSubview:widget];
+                }
+				
 
 				[widget setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
 				
