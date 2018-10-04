@@ -42,11 +42,7 @@ namespace RadJAV
             ViewControllerFrame::ViewControllerFrame(void *parent, const String &text, const Vector2 &pos, const Vector2 &size)
             : widget([[UIViewController alloc] init])
             {
-               
-                widget.view.backgroundColor = [UIColor blueColor];
-                //UIViewController * rootViewController = keyWindow.rootViewController ;
-                //[greenViewController  addSubViewController:widget];
-                //widget.backgroundColor = [UIColor redColor];
+     
             }
             
             void ViewControllerFrame::setPosition(RJINT x, RJINT y)

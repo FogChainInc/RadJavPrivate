@@ -40,9 +40,13 @@ namespace RadJAV
                 return (UIView*)widget;
             }
             NavigationViewControllerFrame::NavigationViewControllerFrame(void *parent, const String &text, const Vector2 &pos, const Vector2 &size)
-            : widget([[UINavigationController alloc] init])
+            : widget([[UINavigationController alloc] initWithRootViewController:[[UIViewController alloc] init]])
             {
-            
+                if (parent == nullptr){
+                    UIWindow * keyWindow = [UIApplication sharedApplication].keyWindow;
+                    
+                    [keyWindow setRootViewController:widget];
+                }
             }
             NavigationViewControllerFrame::~NavigationViewControllerFrame()
             {
