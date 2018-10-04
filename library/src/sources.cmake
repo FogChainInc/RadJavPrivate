@@ -234,7 +234,8 @@ if (USE_JAVASCRIPTCORE)
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUIButton.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUIScreen.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUILabel.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUIImage.cpp")
+			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUIImage.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUICheckBox.cpp")
 		source_group ("RadJav\\JavaScriptCore\\MUI" FILES ${SOURCES_files_RadJav__JSC__MUI__Sources})
 
 		set (SOURCES ${SOURCES_files_RadJav__JSC__MUI__Sources} ${SOURCES})
@@ -481,7 +482,8 @@ if (IS_MOBILE)
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUINavigationViewController.cpp" 
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUIButton.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUILabel.cpp"
-		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUIImage.cpp")
+		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUIImage.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUICheckBox.cpp")
 
 
 	source_group ("RadJav\\CPP\\MUI" FILES ${SOURCES_files_RadJav__cpp__MUI__Sources})
@@ -496,8 +498,9 @@ if (IS_MOBILE)
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUIAlertFrame.mm"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUIEventDelegates.mm"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUIScreen.mm"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUILabel.mm"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUIImage.mm")
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUILabelFrame.mm"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUIImageFrame.mm"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUICheckBoxFrame.mm")
 
 		source_group ("RadJav\\CPP\\MUI\\iOS" FILES ${SOURCES_files_RadJav__cpp__MUI__Sources})
 		set (SOURCES ${SOURCES_files_RadJav__cpp__MUI__Sources} ${SOURCES})

@@ -77,6 +77,7 @@
 		#include "jscore/RadJavJSCMUIScreen.h"
 		#include "jscore/RadJavJSCMUILabel.h"
 		#include "jscore/RadJavJSCMUIImage.h"
+		#include "jscore/RadJavJSCMUICheckBox.h"
 	#endif
 
 	// Database
@@ -1270,6 +1271,14 @@ namespace RadJAV
 						JSObjectRef imagePrototype = jscGetObject(imageFunc, "prototype");
 						
 						JSC::MUI::Image::createJSCCallbacks(globalContext, imagePrototype);
+					}
+
+					// RadJav.MUI.CheckBox
+					{
+						JSObjectRef checkboxFunc = jscGetFunction(muiFunc, "CheckBox");
+						JSObjectRef checkboxPrototype = jscGetObject(checkboxFunc, "prototype");
+						
+						JSC::MUI::CheckBox::createJSCCallbacks(globalContext, checkboxPrototype);
 					}
 				}
 				#endif

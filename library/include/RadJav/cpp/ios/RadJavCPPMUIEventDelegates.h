@@ -40,3 +40,11 @@ namespace RadJAV
 
 @end
 
+@interface SwitchDelegate : NSObject
+
+- (bool)bindEvent:(nullable id)nativeWidget eventName:(const std::string&)eventName;
+- (void)valueChanged;
+@property (nonatomic, assign) RadJAV::CPP::GUI::GObjectWidget* _Nullable widget;
+
+@end
+
