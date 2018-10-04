@@ -17,8 +17,8 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#ifndef _RADJAV_MUI_CPP_LABEL_H_
-#define _RADJAV_MUI_CPP_LABEL_H_
+#ifndef _RADJAV_MUI_CPP_CHECKBOX_H_
+#define _RADJAV_MUI_CPP_CHECKBOX_H_
 
 #include "RadJavPreprocessor.h"
 #include "RadJavString.h"
@@ -26,10 +26,10 @@
 #include "cpp/RadJavCPPGUIGObject.h"
 
 #ifdef USE_IOS
-	OBJC_CLASS(UILabel);
-	OBJC_CLASS(LabelDelegate);
+	OBJC_CLASS(UISwitch);
+	OBJC_CLASS(SwitchDelegate);
 #elif defined USE_ANDROID
-	#warning Add Label implementation for Android platform
+	#warning Add CheckBox implementation for Android platform
 #endif
 
 namespace RadJAV
@@ -38,51 +38,51 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
-			class RADJAV_EXPORT LabelFrame : public GUI::GObjectWidget
-											,public ChainedPtr
+			class RADJAV_EXPORT CheckBoxFrame : public GUI::GObjectWidget
+												,public ChainedPtr
 			{
 			public:
-				LabelFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size);
-				~LabelFrame();
+				CheckBoxFrame(GUI::GObject *parent, RJBOOL checked, const Vector2 &pos, const Vector2 &size);
+				~CheckBoxFrame();
+				
+				void setChecked(RJBOOL checked);
+				RJBOOL getChecked() const;
 
-				void setText(String text);
-				String getText();
-				void setFont(CPP::Font *font);
-				CPP::Font *getFont();
 				void setEnabled(RJBOOL enabled);
 				RJBOOL getEnabled();
-
+				
 				bool bindEvent(const String& eventName, const GUI::Event* event);
-
+				
 				#ifdef USE_IOS
 					UIView* getNativeWidget();
 				#elif defined USE_ANDROID
 					void* getNativeWidget();
 				#endif
-
+				
 			private:
 				#ifdef USE_IOS
-					UILabel* widget;
-					//TODO: do we need to handle events of the UILabel?
-					//LabelDelegate* widgetDelegate;
+					UISwitch* widget;
+					SwitchDelegate* widgetDelegate;
 				#elif defined USE_ANDROID
 					//TODO: Wrap Android specific type here
 					void* widget;
 				#endif
 			};
 			
-			class RADJAV_EXPORT Label : public CPP::GUI::GObject
+			class RADJAV_EXPORT CheckBox : public CPP::GUI::GObject
 			{
 			public:
 				#ifdef USE_V8
-					Label(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
+					CheckBox(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
 				#elif defined USE_JAVASCRIPTCORE
-					Label(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
+					CheckBox(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
 				#endif
 				
-				Label(String name, String text = "", CPP::GUI::GObject *parent = NULL);
+				CheckBox(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 				
 				void create();
+				void setChecked(RJBOOL checked);
+				RJBOOL getChecked() const;
 				
 				#if defined USE_V8 || defined USE_JAVASCRIPTCORE
 					/// Execute when an event is triggered.

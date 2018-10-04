@@ -76,6 +76,8 @@
 		#include "jscore/RadJavJSCMUIButton.h"
 		#include "jscore/RadJavJSCMUIScreen.h"
 		#include "jscore/RadJavJSCMUILabel.h"
+		#include "jscore/RadJavJSCMUIImage.h"
+		#include "jscore/RadJavJSCMUICheckBox.h"
 	#endif
 
 	// Database
@@ -1262,6 +1264,22 @@ namespace RadJAV
 						
 						JSC::MUI::Label::createJSCCallbacks(globalContext, labelPrototype);
 					}
+
+					// RadJav.MUI.Image
+					{
+						JSObjectRef imageFunc = jscGetFunction(muiFunc, "Image");
+						JSObjectRef imagePrototype = jscGetObject(imageFunc, "prototype");
+						
+						JSC::MUI::Image::createJSCCallbacks(globalContext, imagePrototype);
+					}
+
+					// RadJav.MUI.CheckBox
+					{
+						JSObjectRef checkboxFunc = jscGetFunction(muiFunc, "CheckBox");
+						JSObjectRef checkboxPrototype = jscGetObject(checkboxFunc, "prototype");
+						
+						JSC::MUI::CheckBox::createJSCCallbacks(globalContext, checkboxPrototype);
+					}
 				}
 				#endif
 
@@ -1870,7 +1888,7 @@ namespace RadJAV
             return (elm);
         }
 
-		JSValueRef JSCJavascriptEngine::jscGetArgument(const JSValueRef arguments[], RJUINT argumentCount, RJUINT index)
+		JSValueRef JSCJavascriptEngine::jscGetArgument(const JSValueRef arguments[], RJULONG argumentCount, RJULONG index)
 		{
 			if (argumentCount == 0 ||
 				index >= argumentCount)
@@ -1883,7 +1901,7 @@ namespace RadJAV
 			return jscIsNull(argument) ? nullptr : argument;
 		}
 	
-		String JSCJavascriptEngine::jscGetArgumentAsString(JSContextRef ctx, const JSValueRef arguments[], RJUINT argumentCount, RJUINT index)
+		String JSCJavascriptEngine::jscGetArgumentAsString(JSContextRef ctx, const JSValueRef arguments[], RJULONG argumentCount, RJULONG index)
 		{
 			String data;
 			

@@ -52,7 +52,7 @@ namespace RadJAV
                         if( std::is_pointer<P>::value)
 						{
 							#ifdef USE_JAVASCRIPTCORE
-								#warning Do better here to unprotect JS function object
+								//TODO: Do better here to unprotect JS function object
 								JSValueUnprotect(JSC_JAVASCRIPT_ENGINE->globalContext, JSC_JAVASCRIPT_ENGINE->jscCastValueToObject(object));
 							#else
 								DELETEOBJ(object);
@@ -96,7 +96,7 @@ namespace RadJAV
                     GuiEvent(UserData data): VariantObject<UserData>(data)
 					{
 						#ifdef USE_JAVASCRIPTCORE
-							#warning Do better here to protect JS function object
+							//TODO: Do better here to protect JS function object
 							JSValueProtect(JSC_JAVASCRIPT_ENGINE->globalContext, JSC_JAVASCRIPT_ENGINE->jscCastValueToObject(data));
 						#endif
 					}

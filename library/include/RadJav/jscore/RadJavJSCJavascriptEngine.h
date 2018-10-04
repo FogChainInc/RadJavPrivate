@@ -298,10 +298,10 @@
                 JSValueRef jscGetElement(JSContextRef context, JSObjectRef array, RJUINT index);
 
 				//Pick up argument from array of callback function arguments
-				JSValueRef jscGetArgument(const JSValueRef arguments[], RJUINT argumentCount, RJUINT index);
+				JSValueRef jscGetArgument(const JSValueRef arguments[], RJULONG argumentCount, RJULONG index);
 			
 				//Pick up and treat argument as string from JS String, Array or ArrayBuffer in callback function
-				String jscGetArgumentAsString(JSContextRef ctx, const JSValueRef arguments[], RJUINT argumentCount, RJUINT index);
+				String jscGetArgumentAsString(JSContextRef ctx, const JSValueRef arguments[], RJULONG argumentCount, RJULONG index);
 			
 				/// Load the native templates into the javascript library.
 				//static void loadTemplates(const v8::FunctionCallbackInfo<v8::Value> &args);

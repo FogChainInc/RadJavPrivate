@@ -607,6 +607,8 @@ if (libRadJav_EMBEDFILE)
 			RadJav.MUI.View.js
 			RadJav.MUI.Button.js
 			RadJav.MUI.Label.js
+			RadJav.MUI.Image.js
+			RadJav.MUI.CheckBox.js
 		)
 
 	endif ()

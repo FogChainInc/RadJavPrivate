@@ -17,49 +17,29 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#import "cpp/ios/RadJavCPPMUIEventDelegates.h"
-#import <UIKit/UIKit.h>
+#ifndef _RADJAV_MUI_JSC_CHECKBOX_H_
+#define _RADJAV_MUI_JSC_CHECKBOX_H_
 
-#include "cpp/RadJavCPPGUIGObject.h"
+#include "RadJavPreprocessor.h"
+#include <JavaScriptCore/JavaScriptCore.h>
 
-@implementation ButtonDelegate
-- (bool)bindEvent:(nullable id)nativeWidget eventName:(const std::string&)eventName
+namespace RadJAV
 {
-	if (eventName == "click")
+	namespace JSC
 	{
-		[nativeWidget removeTarget:self action:@selector(touchUp) forControlEvents:UIControlEventTouchUpInside];
-		[nativeWidget addTarget:self action:@selector(touchUp) forControlEvents:UIControlEventTouchUpInside];
-		
-		return true;
+		namespace MUI
+		{
+			class RADJAV_EXPORT CheckBox
+			{
+			public:
+				static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
+				
+				static JSValueRef create(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
+				static JSValueRef setChecked(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
+				static JSValueRef isChecked(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
+			};
+		}
 	}
-	
-	return false;
 }
 
-- (void)touchUp
-{
-	self.widget->executeEvent("click");
-}
-
-@end
-
-@implementation SwitchDelegate
-- (bool)bindEvent:(nullable id)nativeWidget eventName:(const std::string&)eventName
-{
-	if (eventName == "changed")
-	{
-		[nativeWidget removeTarget:self action:@selector(valueChanged) forControlEvents:UIControlEventValueChanged];
-		[nativeWidget addTarget:self action:@selector(valueChanged) forControlEvents:UIControlEventValueChanged];
-		
-		return true;
-	}
-	
-	return false;
-}
-
-- (void)valueChanged
-{
-	self.widget->executeEvent("changed");
-}
-
-@end
+#endif

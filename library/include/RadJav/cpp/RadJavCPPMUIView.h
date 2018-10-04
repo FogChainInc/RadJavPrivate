@@ -33,46 +33,28 @@
 												, public ChainedPtr
                 {
                 public:
-                    //TODO: Add correct parent type here, usually some base C++ container class (which still not created)
-                    ViewFrame();
                     ViewFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size);
                     ~ViewFrame();
-					
+
+					void setText(String text);
+					String getText();
+
+					bool bindEvent(const String& eventName, const GUI::Event* event);
+
 					#ifdef USE_IOS
 						UIView* getNativeWidget();
 					#elif defined USE_ANDROID
 						void* getNativeWidget();
 					#endif
 
-					void addChild(GUI::GObject *child);
-					void setFont(CPP::Font *font);
-					CPP::Font *getFont();
-					void setPosition(RJINT x, RJINT y);
-					void setPosition(CPP::Vector2 pos);
-					CPP::Vector2 getPosition();
-					RJINT getX();
-					RJINT getY();
-					void setSize(RJINT width, RJINT height);
-					void setSize(CPP::Vector2 size);
-					CPP::Vector2 getSize();
-					RJINT getWidth();
-					RJINT getHeight();
-					void setText(String text);
-					String getText();
-					GUI::GObject *getParent();
-					void setVisibility(RJBOOL visible);
-					RJBOOL getVisibility();
-					void setEnabled(RJBOOL enabled);
-					RJBOOL getEnabled();
-
-					bool bindEvent(const String& eventName, const GUI::Event* event);
-
 				private:
-#ifdef USE_IOS
-                    UIView* widget;
-#elif defined USE_ANDROID
-                    //TODO: Wrap Android specific type here
-#endif
+					#ifdef USE_IOS
+						UIView* widget;
+						//TODO: do we need to handle events of the UIView?
+						//ViewDelegate* widgetDelegate;
+					#elif defined USE_ANDROID
+                    	//TODO: Wrap Android specific type here
+					#endif
                 };
                 
                 

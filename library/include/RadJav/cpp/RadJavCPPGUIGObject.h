@@ -362,6 +362,27 @@ namespace RadJAV
 			public:
 				virtual ~GObjectWidget() {};
 				
+				void addChild(GObject *child);
+				void setFont(CPP::Font *font);
+				CPP::Font *getFont();
+				void setPosition(RJINT x, RJINT y);
+				void setPosition(CPP::Vector2 pos);
+				CPP::Vector2 getPosition();
+				RJINT getX();
+				RJINT getY();
+				void setSize(RJINT width, RJINT height);
+				void setSize(CPP::Vector2 size);
+				CPP::Vector2 getSize();
+				RJINT getWidth();
+				RJINT getHeight();
+				void setText(String text);
+				String getText();
+				GObject *getParent();
+				void setVisibility(RJBOOL visible);
+				RJBOOL getVisibility();
+				void setEnabled(RJBOOL enabled);
+				RJBOOL getEnabled();
+
 				#ifdef USE_IOS
 					virtual UIView* getNativeWidget() = 0;
 				#elif defined USE_ANDROID

@@ -17,7 +17,7 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#include "cpp/RadJavCPPMUIButton.h"
+#include "cpp/RadJavCPPMUICheckBox.h"
 #import "cpp/ios/RadJavCPPMUIEventDelegates.h"
 
 #import "cpp/RadJavCPPMUIView.h"
@@ -29,73 +29,57 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
-			ButtonFrame::ButtonFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size)
-			: widget([[UIButton alloc] init])
+			CheckBoxFrame::CheckBoxFrame(GUI::GObject *parent, RJBOOL checked, const Vector2 &pos, const Vector2 &size)
+			: widget([[UISwitch alloc] init])
 			{
-                widgetDelegate = [[ButtonDelegate alloc] init];
-                widgetDelegate.widget = this;
-				
-				[parent->_appObj->getNativeWidget() addSubview:widget];
+				widgetDelegate = [[SwitchDelegate alloc] init];
+				widgetDelegate.widget = this;
 
-				[widget setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+				[parent->_appObj->getNativeWidget() addSubview:widget];
 				
-				setText(text);
+				setChecked(checked);
 				setSize(size);
 				setPosition(pos);
 			}
 			
-			ButtonFrame::~ButtonFrame()
+			CheckBoxFrame::~CheckBoxFrame()
 			{
 				[widget release];
 				[widgetDelegate release];
 			}
-
-            void ButtonFrame::setText(String text)
-            {
-                const char * cString = text.c_str();
-                NSString *objcString = [NSString stringWithUTF8String:cString];
-                [widget setTitle:objcString forState:UIControlStateNormal];
-            }
-            
-            String ButtonFrame::getText()
+			
+			void CheckBoxFrame::setChecked(RJBOOL checked)
 			{
-				NSString* title = [widget currentTitle];
-				return String([title UTF8String]);
-            }
-            
-			void ButtonFrame::setFont(CPP::Font *font)
-			{
-				//TODO: Add implementation
+				[widget setOn:checked];
 			}
 			
-			CPP::Font* ButtonFrame::getFont()
+			RJBOOL CheckBoxFrame::getChecked() const
 			{
-				//TODO: Add implementation
-				return nullptr;
+				return widget.on;
 			}
 
-			void ButtonFrame::setEnabled(RJBOOL enabled)
+			void CheckBoxFrame::setEnabled(RJBOOL enabled)
 			{
 				[widget setEnabled:enabled];
 			}
 			
-			RJBOOL ButtonFrame::getEnabled()
+			RJBOOL CheckBoxFrame::getEnabled()
 			{
 				return widget.isEnabled;
 			}
 			
-			bool ButtonFrame::bindEvent(const String& eventName, const GUI::Event* /*event*/)
+			bool CheckBoxFrame::bindEvent(const String& eventName, const GUI::Event* /*event*/)
 			{
 				return [widgetDelegate bindEvent:widget eventName:eventName];
 			}
 			
 			#ifdef USE_IOS
-				UIView* ButtonFrame::getNativeWidget()
+				UIView* CheckBoxFrame::getNativeWidget()
 				{
 					return widget;
 				}
 			#elif defined USE_ANDROID
-				void* ButtonFrame::getNativeWidget()
+				void* CheckBoxFrame::getNativeWidget()
 				{
 					return widget;
 				}
