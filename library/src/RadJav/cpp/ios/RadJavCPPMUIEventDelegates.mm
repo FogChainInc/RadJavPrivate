@@ -18,7 +18,6 @@
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 #import "cpp/ios/RadJavCPPMUIEventDelegates.h"
-#import <UIKit/UIKit.h>
 
 #include "cpp/RadJavCPPGUIGObject.h"
 
@@ -55,6 +54,65 @@
 	}
 	
 	return false;
+}
+
+- (void)valueChanged
+{
+	self.widget->executeEvent("changed");
+}
+
+@end
+
+@implementation TextFieldDelegate
+- (bool)bindEvent:(nullable id)nativeWidget eventName:(const std::string&)eventName
+{
+	//We already subscribed to UITextView events here by this delegate
+	//So we need only execute events to which we were subscribed (events subscription added in GObjectEvents class)
+	if (eventName == "changed")
+		return true;
+	
+	return false;
+}
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+	//NSLog(@"textFieldShouldBeginEditing");
+	return true;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+	//NSLog(@"textFieldDidBeginEditing");
+}
+
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
+{
+	//NSLog(@"textFieldShouldEndEditing");
+	return true;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField reason:(UITextFieldDidEndEditingReason)reason
+{
+	//NSLog(@"textFieldDidEndEditing:reason");
+	[self valueChanged];
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+	//NSLog(@"textField");
+	return true;
+}
+
+- (BOOL)textFieldShouldClear:(UITextField *)textField
+{
+	//NSLog(@"textFieldShouldClear");
+	return true;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+	//NSLog(@"textFieldShouldReturn");
+	return [textField resignFirstResponder];
 }
 
 - (void)valueChanged

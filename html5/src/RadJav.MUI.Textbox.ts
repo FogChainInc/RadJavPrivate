@@ -25,14 +25,21 @@ namespace RadJav
 {
 	export namespace MUI
 	{
-		/** @class RadJav.MUI.CheckBox
+		/** @class RadJav.MUI.Textbox
 		 * @extends RadJav.GUI.GObject
-		 * A mobile checkbox.
+		 * A mobile textbox.
 		 * Available on platforms: iOS,Android,HTML5
 		 */
-		export class CheckBox extends RadJav.GUI.GObject
+		export class Textbox extends RadJav.GUI.GObject
 		{
-			static xmlTag: RadJav.TagType = { tag: "checkbox", type: "Checkbox" };
+			static xmlTag: RadJav.TagType = { tag: "textbox", type: "Textbox" };
+
+			static InputModeText: number = 1;
+            static InputModeNumber: number = 2;
+            static InputModeDecimal: number = 3;
+            static InputModePhone: number = 4;
+            static InputModeEmail: number = 5;
+            static InputModePassword: number = 6;
 
 			constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject)
 			{
@@ -54,7 +61,7 @@ namespace RadJav
 
 				super(obj, text, parent);
 
-				this.type = "RadJav.MUI.CheckBox";
+				this.type = "RadJav.MUI.Textbox";
 			}
 		}
 	}
