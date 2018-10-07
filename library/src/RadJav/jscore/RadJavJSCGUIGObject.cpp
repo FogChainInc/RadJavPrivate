@@ -103,7 +103,7 @@ namespace RadJAV
 				CppGuiObject *appObject = (CppGuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
 				
 				if (appObject != NULL)
-					font = CPP::Font::toJSCObject(JSC_JAVASCRIPT_ENGINE, appObject->getFont());
+					font = appObject->getFont ()->toJSCObject ();
 				
 				return font;
 			}

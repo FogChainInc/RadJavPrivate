@@ -179,6 +179,7 @@ endif ()
 if (IS_MOBILE)
 	if (libRadJav_GUI_LIBRARY STREQUAL "iOS-UIKit")
 		set (libRadJav_CPP_DEFS USE_IOS ${libRadJav_CPP_DEFS})
+		set (CMAKE_CXX_FLAGS "-x objective-c++" ${CMAKE_CXX_FLAGS})
 	endif ()
 
 	if (libRadJav_GUI_LIBRARY STREQUAL "Android")
@@ -679,3 +680,5 @@ set (libRadJav_LINK_LIBRARIES2 ${libRadJav_LINK_LIBRARIES} PARENT_SCOPE)
 set (libRadJav_LINK_LIBRARY_DIRS2 ${libRadJav_LINK_LIBRARY_DIRS} PARENT_SCOPE)
 set (libRadJav_CXX_FLAGS2 ${libRadJav_CXX_FLAGS} PARENT_SCOPE)
 set (libRadJav_USE_V8 ${USE_V8} PARENT_SCOPE)
+set (CMAKE_CXX_FLAGS2 ${CMAKE_CXX_FLAGS} PARENT_SCOPE)
+

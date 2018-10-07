@@ -40,6 +40,7 @@
 #ifdef USE_JAVASCRIPTCORE
     #include "jscore/RadJavJSCGlobal.h"
     #include "jscore/RadJavJSCOS.h"
+    #include "jscore/RadJavJSCOSScreenInfo.h"
 
 	#include "jscore/RadJavJSCIO.h"
     #include "jscore/RadJavJSCConsole.h"
@@ -74,7 +75,6 @@
         #include "jscore/RadJavJSCMUIViewController.h"
         #include "jscore/RadJavJSCMUINavigationViewController.h"
 		#include "jscore/RadJavJSCMUIButton.h"
-		#include "jscore/RadJavJSCMUIScreen.h"
 		#include "jscore/RadJavJSCMUILabel.h"
 		#include "jscore/RadJavJSCMUIImage.h"
 		#include "jscore/RadJavJSCMUICheckBox.h"
@@ -230,9 +230,9 @@ namespace RadJAV
 				executeScript(contentStr, jsfile.filename);
 			}
 
-			loadNativeCode();
-
             radJav = jscCastValueToObject (jscGetFunction(globalObj, "RadJav"));
+
+			loadNativeCode();
 
 			try
 			{
@@ -949,6 +949,25 @@ namespace RadJAV
 					JSObjectRef osFunc = jscGetFunction(radJavFunc, "OS");
 
 					JSC::OS::createJSCCallbacks(globalContext, osFunc);
+                    
+                    // RadJav.OS.ScreenInfo
+                    {
+                        JSObjectRef screenInfoFunc = jscGetFunction(osFunc, "ScreenInfo");
+
+                        for (RJINT iIdx = 0; iIdx < RadJav::screens.size (); iIdx++)
+                        {
+                            RadJAV::CPP::OS::ScreenInfo screen = RadJav::screens.at (iIdx);
+                            JSObjectRef jsScreen = screen.toJSCObject();
+                            JSValueRef args[1];
+
+                            args[0] = jsScreen;
+
+                            jscCallFunction(radJav, "addScreen", 1, args);
+                        }
+
+                        // This loads only the static functions.
+                        JSC::OS::ScreenInfo::createJSCCallbacks(globalContext, screenInfoFunc);
+                    }
 
 					// Command line arguments
 					{
@@ -1220,11 +1239,6 @@ namespace RadJAV
 						JSObjectRef gobjectPrototype = jscGetObject(gobjectFunc, "prototype");
 						
 						JSC::GUI::GObject::createJSCCallbacks(globalContext, gobjectPrototype);
-					}
-					
-					// RadJav.MUI.Screen
-					{
-						JSC::MUI::Screen::createJSCCallbacks(globalContext, muiFunc);
 					}
 					
 					// RadJav.MUI.View

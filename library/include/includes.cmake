@@ -113,7 +113,8 @@ if (USE_V8)
 	
 	# V8 OS
 	set (SOURCES_files_RadJav__v8__OS__Headers 
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8OS.h")
+		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8OS.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8OSScreenInfo.h")
 	source_group ("RadJav\\V8\\OS" FILES ${SOURCES_files_RadJav__v8__OS__Headers})
 	
 	set (SOURCES ${SOURCES_files_RadJav__v8__OS__Headers} ${SOURCES})
@@ -235,7 +236,6 @@ if (USE_JAVASCRIPTCORE)
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUIViewController.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUINavigationViewController.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUIButton.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUIScreen.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUILabel.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUIImage.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUICheckBox.h")
@@ -270,7 +270,8 @@ if (USE_JAVASCRIPTCORE)
 
 	# JavaScriptCore OS
 	set (SOURCES_files_RadJav__JSC__OS__Headers 
-		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCOS.h")
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCOS.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCOSScreenInfo.h")
 	source_group ("RadJav\\JavaScriptCore\\OS" FILES ${SOURCES_files_RadJav__JSC__OS__Headers})
 
 	set (SOURCES ${SOURCES_files_RadJav__JSC__OS__Headers} ${SOURCES})
@@ -376,7 +377,8 @@ set (SOURCES ${SOURCES_files_RadJav__cpp__IO__Headers} ${SOURCES})
 
 # C++ OS
 set (SOURCES_files_RadJav__cpp__OS__Headers 
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPOS.h")
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPOS.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPOSScreenInfo.h")
 source_group ("RadJav\\CPP\\OS" FILES ${SOURCES_files_RadJav__cpp__OS__Headers})
 
 set (SOURCES ${SOURCES_files_RadJav__cpp__OS__Headers} ${SOURCES})
@@ -487,7 +489,6 @@ if (IS_MOBILE)
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUINavigationViewController.h" 
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIButton.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIAlert.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIScreen.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUILabel.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIImage.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUICheckBox.h")

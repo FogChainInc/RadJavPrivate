@@ -59,8 +59,9 @@ namespace RadJAV
 				italic = obj->Get(String("italic").toV8String(jsEngine->isolate))->BooleanValue();
 			}
 
-			v8::Local<v8::Object> Font::toV8Object(V8JavascriptEngine *jsEngine, Font *font)
+			v8::Local<v8::Object> Font::toV8Object()
 			{
+                V8JavascriptEngine *jsEngine = V8_JAVASCRIPT_ENGINE;
 				v8::Handle<v8::Function> func = jsEngine->v8GetFunction(jsEngine->radJav->Get(jsEngine->isolate), "Font");
 				v8::Local<v8::Object> objv8 = jsEngine->v8CallAsConstructor(func, 0, NULL);
 
@@ -69,38 +70,37 @@ namespace RadJAV
 
 				if (wfont.IsOk() == true)
 				{
-					String fontFamily = parsewxString(wfont.GetFaceName());
-					wxColor color;
-					RJNUMBER r = font->color.r / 255;
-					RJNUMBER g = font->color.g / 255;
-					RJNUMBER b = font->color.b / 255;
-					RJNUMBER a = font->color.a / 255;
-					RJINT size = wfont.GetPixelSize().x;
-					RJBOOL underlined = false;
-					RJBOOL bold = false;
-					RJBOOL italic = false;
+					String nfontFamily = parsewxString(wfont.GetFaceName());
+					RJNUMBER nr = color.r / 255;
+					RJNUMBER ng = color.g / 255;
+					RJNUMBER nb = color.b / 255;
+					RJNUMBER na = color.a / 255;
+					RJINT nsize = wfont.GetPixelSize().x;
+					RJBOOL nunderlined = false;
+					RJBOOL nbold = false;
+					RJBOOL nitalic = false;
 
 					if (wfont.GetUnderlined() == true)
-						underlined = true;
+						nunderlined = true;
 
 					if (wfont.GetWeight() == wxFontWeight::wxFONTWEIGHT_BOLD)
-						bold = true;
+						nbold = true;
 
 					if (wfont.GetStyle() == wxFontStyle::wxFONTSTYLE_ITALIC)
-						italic = true;
+						nitalic = true;
 
-					jsEngine->v8SetString(objv8, "fontFamily", fontFamily);
+					jsEngine->v8SetString(objv8, "fontFamily", nfontFamily);
 
 					v8::Local<v8::Object> ocolor = jsEngine->v8GetObject(objv8, "color");
-					jsEngine->v8SetNumber(ocolor, "r", r);
-					jsEngine->v8SetNumber(ocolor, "g", g);
-					jsEngine->v8SetNumber(ocolor, "b", b);
-					jsEngine->v8SetNumber(ocolor, "a", a);
+					jsEngine->v8SetNumber(ocolor, "r", nr);
+					jsEngine->v8SetNumber(ocolor, "g", ng);
+					jsEngine->v8SetNumber(ocolor, "b", nb);
+					jsEngine->v8SetNumber(ocolor, "a", na);
 
-					jsEngine->v8SetNumber(objv8, "size", size);
-					jsEngine->v8SetBool(objv8, "underline", underlined);
-					jsEngine->v8SetBool(objv8, "bold", bold);
-					jsEngine->v8SetBool(objv8, "italic", italic);
+					jsEngine->v8SetNumber(objv8, "size", nsize);
+					jsEngine->v8SetBool(objv8, "underline", nunderlined);
+					jsEngine->v8SetBool(objv8, "bold", nbold);
+					jsEngine->v8SetBool(objv8, "italic", nitalic);
 				}
                 #endif
 
@@ -130,8 +130,9 @@ namespace RadJAV
                 italic = jsEngine->jscGetBool(obj, "italic");
             }
 
-            JSObjectRef Font::toJSCObject(JSCJavascriptEngine *jsEngine, Font *font)
+            JSObjectRef Font::toJSCObject()
             {
+                JSCJavascriptEngine *jsEngine = JSC_JAVASCRIPT_ENGINE;
                 JSObjectRef func = jsEngine->jscGetFunction(jsEngine->radJav, "Font");
                 JSObjectRef objJSC = jsEngine->jscCallAsConstructor(func, 0, NULL);
 
@@ -140,38 +141,37 @@ namespace RadJAV
 
                     if (wfont.IsOk() == true)
                     {
-                        String fontFamily = parsewxString(wfont.GetFaceName());
-                        wxColor color;
-                        RJNUMBER r = font->color.r / 255;
-                        RJNUMBER g = font->color.g / 255;
-                        RJNUMBER b = font->color.b / 255;
-                        RJNUMBER a = font->color.a / 255;
-                        RJINT size = wfont.GetPixelSize().x;
-                        RJBOOL underlined = false;
-                        RJBOOL bold = false;
-                        RJBOOL italic = false;
-                        
+                        String nfontFamily = parsewxString(wfont.GetFaceName());
+                        RJNUMBER nr = font->color.r / 255;
+                        RJNUMBER ng = font->color.g / 255;
+                        RJNUMBER nb = font->color.b / 255;
+                        RJNUMBER na = font->color.a / 255;
+                        RJINT nsize = wfont.GetPixelSize().x;
+                        RJBOOL nunderlined = false;
+                        RJBOOL nbold = false;
+                        RJBOOL nitalic = false;
+
                         if (wfont.GetUnderlined() == true)
-                            underlined = true;
-                        
+                            nunderlined = true;
+
                         if (wfont.GetWeight() == wxFontWeight::wxFONTWEIGHT_BOLD)
-                            bold = true;
-                        
+                            nbold = true;
+
                         if (wfont.GetStyle() == wxFontStyle::wxFONTSTYLE_ITALIC)
-                            italic = true;
-                        
-                        jsEngine->jscSetString(objJSC, "fontFamily", fontFamily);
-                        
+                            nitalic = true;
+
+                        jsEngine->jscSetString(objJSC, "fontFamily", nfontFamily);
+
                         JSObjectRef ocolor = jsEngine->jscGetObject(objJSC, "color");
-                        jsEngine->jscSetNumber(ocolor, "r", r);
-                        jsEngine->jscSetNumber(ocolor, "g", g);
-                        jsEngine->jscSetNumber(ocolor, "b", b);
-                        jsEngine->jscSetNumber(ocolor, "a", a);
-                        
-                        jsEngine->jscSetNumber(objJSC, "size", size);
-                        jsEngine->jscSetBool(objJSC, "underline", underlined);
-                        jsEngine->jscSetBool(objJSC, "bold", bold);
-                        jsEngine->jscSetBool(objJSC, "italic", italic);
+                        jsEngine->jscSetNumber(ocolor, "r", nr);
+                        jsEngine->jscSetNumber(ocolor, "g", ng);
+                        jsEngine->jscSetNumber(ocolor, "b", nb);
+                        jsEngine->jscSetNumber(ocolor, "a", na);
+
+                        jsEngine->jscSetNumber(objJSC, "size", nsize);
+                        jsEngine->jscSetBool(objJSC, "underline", nunderlined);
+                        jsEngine->jscSetBool(objJSC, "bold", nbold);
+                        jsEngine->jscSetBool(objJSC, "italic", nitalic);
                     }
                 #endif
 

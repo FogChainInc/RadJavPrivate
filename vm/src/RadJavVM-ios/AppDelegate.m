@@ -47,8 +47,8 @@
 
 	//Test Javascript file
 	NSString *docDirPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)objectAtIndex:0];
-	NSMutableString *jsAppFilePath = [NSMutableString stringWithString:docDirPath];
-	[jsAppFilePath appendString:@"/window.xrj"];
+	NSMutableString *jsAppFilePath = [NSMutableString stringWithString:appPath];
+	[jsAppFilePath appendString:@"/examples/window/window.xrj"];
 	
 	NSLog(@"%@", jsAppFilePath);
 

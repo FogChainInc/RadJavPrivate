@@ -46,12 +46,12 @@ namespace RadJAV
 				#ifdef USE_V8
 					Font(V8JavascriptEngine *jsEngine, v8::Local<v8::Object> obj);
 
-                    static v8::Local<v8::Object> toV8Object(V8JavascriptEngine *jsEngine, Font *font);
+                    v8::Local<v8::Object> toV8Object();
 				#endif
                 #ifdef USE_JAVASCRIPTCORE
                     Font(JSCJavascriptEngine *jsEngine, JSObjectRef obj);
 
-                    static JSObjectRef toJSCObject(JSCJavascriptEngine *jsEngine, Font *font);
+                    JSObjectRef toJSCObject();
                 #endif
 
 				/** The font family used.

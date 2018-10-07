@@ -29,51 +29,50 @@
 	{
 		namespace CPP
 		{
-			class RADJAV_EXPORT OS
+			namespace OS
 			{
-				public:
-					/** Represents the current type of operating system.
-					* Can be:
-					* * windows
-					* * linux
-					* * macosx
-					* * html5
-					*/
-					static String type;
-					/** The number of bits this operating system is.
-					*/
-					static RJINT numBits;
-					/** The command line arguments.
-					*/
-					static Array<String> args;
-					/// The onReady callback to be fired.
-					static std::function<void()> *onReadyFunction;
+                /** Represents the current type of operating system.
+                * Can be:
+                * * windows
+                * * linux
+                * * macosx
+                * * html5
+                */
+                extern String type;
+                /** The number of bits this operating system is.
+                */
+                extern RJINT numBits;
+                /** The command line arguments.
+                */
+                extern Array<String> args;
+                /// The onReady callback to be fired.
+                extern std::function<void()> *onReadyFunction;
 
-					/// Destroy any OS objects.
-					static void destroy();
+                /// Destroy any OS objects.
+                void destroy();
 
-					/// Get the path to the user's documents folder.
-					static void onReady(std::function<void()> asyncCallback);
-					/// Get the path to the user's documents folder.
-					static RJINT exec(String command);
-					/// Get the path to the user's documents folder.
-					static String getDocumentsPath();
-					/// Get the path to the user's temporary files folder.
-					static String getTempPath();
-					/// Get the path to the user's data files folder.
-					static String getUserDataPath();
-					/// Get the path to the application.
-					static String getApplicationPath();
-					/// Get the current working path.
-					static String getCurrentWorkingPath();
-					/// Set the current working path.
-					static void setCurrentWorkingPath(String path);
-					/// Open a URL in the default web browser.
-					static void openWebBrowserURL(String url);
-					/// Display a save file as dialog.
-					static String saveFileAs(String message = "", String defaultDir = "", String defaultFile = "", String wildcard = "", RJBOOL overwritePrompt = true);
-					/// Display a open file as dialog.
-					static String openFileAs(String message = "", String defaultDir = "", String defaultFile = "", String wildcard = "", RJBOOL fileMustExist = true);
+                /// Get the path to the user's documents folder.
+                void onReady(std::function<void()> asyncCallback);
+                /// Get the path to the user's documents folder.
+                RJINT exec(String command);
+                /// Get the path to the user's documents folder.
+                String getDocumentsPath();
+                /// Get the path to the user's temporary files folder.
+                String getTempPath();
+                /// Get the path to the user's data files folder.
+                String getUserDataPath();
+                /// Get the path to the application.
+                String getApplicationPath();
+                /// Get the current working path.
+                String getCurrentWorkingPath();
+                /// Set the current working path.
+                void setCurrentWorkingPath(String path);
+                /// Open a URL in the default web browser.
+                void openWebBrowserURL(String url);
+                /// Display a save file as dialog.
+                String saveFileAs(String message = "", String defaultDir = "", String defaultFile = "", String wildcard = "", RJBOOL overwritePrompt = true);
+                /// Display a open file as dialog.
+                String openFileAs(String message = "", String defaultDir = "", String defaultFile = "", String wildcard = "", RJBOOL fileMustExist = true);
 			};
 		}
 	}
