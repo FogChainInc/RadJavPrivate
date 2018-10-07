@@ -17,43 +17,30 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+#ifndef _RADJAV_MUI_JSC_TEXTBOX_H_
+#define _RADJAV_MUI_JSC_TEXTBOX_H_
 
-#import <objc/NSObject.h>
-#import <UIKit/UIKit.h>
-#include <string>
+#include "RadJavPreprocessor.h"
+#include <JavaScriptCore/JavaScriptCore.h>
 
 namespace RadJAV
 {
-	namespace CPP
+	namespace JSC
 	{
-		namespace GUI
+		namespace MUI
 		{
-			class GObjectWidget;
+			class RADJAV_EXPORT Textbox
+			{
+			public:
+				static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
+				
+				static JSValueRef create(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
+
+				static JSValueRef setInputMode(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
+				static JSValueRef getInputMode(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
+			};
 		}
 	}
 }
 
-@interface ButtonDelegate : NSObject
-
-- (bool)bindEvent:(nullable id)nativeWidget eventName:(const std::string&)eventName;
-- (void)touchUp;
-@property (nonatomic, assign) RadJAV::CPP::GUI::GObjectWidget* _Nullable widget;
-
-@end
-
-@interface SwitchDelegate : NSObject
-
-- (bool)bindEvent:(nullable id)nativeWidget eventName:(const std::string&)eventName;
-- (void)valueChanged;
-@property (nonatomic, assign) RadJAV::CPP::GUI::GObjectWidget* _Nullable widget;
-
-@end
-
-@interface TextFieldDelegate : NSObject <UITextFieldDelegate>
-
-- (bool)bindEvent:(nullable id)nativeWidget eventName:(const std::string&)eventName;
-- (void)valueChanged;
-@property (nonatomic, assign) RadJAV::CPP::GUI::GObjectWidget* _Nullable widget;
-
-@end
-
+#endif

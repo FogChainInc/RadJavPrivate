@@ -609,7 +609,8 @@ if (libRadJav_EMBEDFILE)
 			RadJav.MUI.Button.js
 			RadJav.MUI.Label.js
 			RadJav.MUI.Image.js
-			RadJav.MUI.CheckBox.js
+			RadJav.MUI.Checkbox.js
+			RadJav.MUI.Textbox.js
 		)
 
 	endif ()

@@ -17,8 +17,8 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#ifndef _RADJAV_MUI_CPP_CHECKBOX_H_
-#define _RADJAV_MUI_CPP_CHECKBOX_H_
+#ifndef _RADJAV_MUI_CPP_TEXTBOX_H_
+#define _RADJAV_MUI_CPP_TEXTBOX_H_
 
 #include "RadJavPreprocessor.h"
 #include "RadJavString.h"
@@ -26,10 +26,10 @@
 #include "cpp/RadJavCPPGUIGObject.h"
 
 #ifdef USE_IOS
-	OBJC_CLASS(UISwitch);
-	OBJC_CLASS(SwitchDelegate);
+	OBJC_CLASS(UITextField);
+	OBJC_CLASS(TextFieldDelegate);
 #elif defined USE_ANDROID
-	#warning Add CheckBox implementation for Android platform
+	#warning Add Textbox implementation for Android platform
 #endif
 
 namespace RadJAV
@@ -38,19 +38,56 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
-			class RADJAV_EXPORT CheckBoxFrame : public GUI::GObjectWidget
+			class RADJAV_EXPORT Textbox : public CPP::GUI::GObject
+			{
+			public:
+				enum class InputMode
+				{
+					Text,
+					Number,
+					Decimal,
+					Phone,
+					Email,
+					Password
+				};
+				
+			public:
+				#ifdef USE_V8
+					Textbox(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
+				#elif defined USE_JAVASCRIPTCORE
+					Textbox(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
+				#endif
+				
+				Textbox(String name, String text = "", CPP::GUI::GObject *parent = NULL);
+				
+				void create();
+				
+				void setInputMode(InputMode mode);
+				InputMode getInputMode() const;
+				
+				#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+					/// Execute when an event is triggered.
+					void on(String event, RJ_FUNC_TYPE func);
+				#endif
+			};
+
+			class RADJAV_EXPORT TextboxFrame : public GUI::GObjectWidget
 												,public ChainedPtr
 			{
 			public:
-				CheckBoxFrame(GUI::GObject *parent, RJBOOL checked, const Vector2 &pos, const Vector2 &size);
-				~CheckBoxFrame();
+				TextboxFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size);
+				~TextboxFrame();
 				
-				void setChecked(RJBOOL checked);
-				RJBOOL getChecked() const;
-
+				void setText(String text);
+				String getText();
+				void setFont(CPP::Font *font);
+				CPP::Font *getFont();
 				void setEnabled(RJBOOL enabled);
 				RJBOOL getEnabled();
 				
+				void setInputMode(Textbox::InputMode mode);
+				Textbox::InputMode getInputMode() const;
+
 				bool bindEvent(const String& eventName, const GUI::Event* event);
 				
 				#ifdef USE_IOS
@@ -61,34 +98,14 @@ namespace RadJAV
 				
 			private:
 				#ifdef USE_IOS
-					UISwitch* widget;
-					SwitchDelegate* widgetDelegate;
+					UITextField* widget;
+					TextFieldDelegate* widgetDelegate;
 				#elif defined USE_ANDROID
 					//TODO: Wrap Android specific type here
 					void* widget;
 				#endif
 			};
 			
-			class RADJAV_EXPORT CheckBox : public CPP::GUI::GObject
-			{
-			public:
-				#ifdef USE_V8
-					CheckBox(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
-				#elif defined USE_JAVASCRIPTCORE
-					CheckBox(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
-				#endif
-				
-				CheckBox(String name, String text = "", CPP::GUI::GObject *parent = NULL);
-				
-				void create();
-				void setChecked(RJBOOL checked);
-				RJBOOL getChecked() const;
-				
-				#if defined USE_V8 || defined USE_JAVASCRIPTCORE
-					/// Execute when an event is triggered.
-					void on(String event, RJ_FUNC_TYPE func);
-				#endif
-			};
 		}
 	}
 }

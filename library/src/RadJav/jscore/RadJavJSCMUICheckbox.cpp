@@ -17,13 +17,13 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#include "jscore/RadJavJSCMUICheckBox.h"
+#include "jscore/RadJavJSCMUICheckbox.h"
 
 #include "RadJav.h"
 
 #include "jscore/RadJavJSCJavascriptEngine.h"
 
-#include "cpp/RadJavCPPMUICheckBox.h"
+#include "cpp/RadJavCPPMUICheckbox.h"
 
 namespace RadJAV
 {
@@ -31,17 +31,17 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
-			using CppMuiObject = CPP::MUI::CheckBox;
+			using CppMuiObject = CPP::MUI::Checkbox;
 			
-			void CheckBox::createJSCCallbacks(JSContextRef context, JSObjectRef object)
+			void Checkbox::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 			{
-				JSC_CALLBACK(object, "create", CheckBox::create);
+				JSC_CALLBACK(object, "create", Checkbox::create);
 
-				JSC_CALLBACK(object, "setChecked", CheckBox::setChecked);
-				JSC_CALLBACK(object, "isChecked", CheckBox::isChecked);
+				JSC_CALLBACK(object, "setChecked", Checkbox::setChecked);
+				JSC_CALLBACK(object, "isChecked", Checkbox::isChecked);
 			}
 			
-			JSValueRef CheckBox::create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+			JSValueRef Checkbox::create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
 			{
 				CppMuiObject *appObject = RJNEW CppMuiObject(JSC_JAVASCRIPT_ENGINE, thisObject, argumentCount, arguments);
 				appObject->create();
@@ -53,14 +53,14 @@ namespace RadJAV
 				return promise;
 			}
 
-			JSValueRef CheckBox::setChecked(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+			JSValueRef Checkbox::setChecked(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
 			{
 				JSValueRef undefined = JSValueMakeUndefined(ctx);
 				
 				CppMuiObject *appObject = (CppMuiObject*)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
 				if (!appObject)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "CheckBox not initialized");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Checkbox not initialized");
 					return undefined;
 				}
 
@@ -81,13 +81,13 @@ namespace RadJAV
 				return undefined;
 			}
 
-			JSValueRef CheckBox::isChecked(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+			JSValueRef Checkbox::isChecked(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
 			{
 				CppMuiObject *appObject = (CppMuiObject*)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
 
 				if (!appObject)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "CheckBox not initialized");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Checkbox not initialized");
 					return JSValueMakeUndefined(ctx);
 				}
 				

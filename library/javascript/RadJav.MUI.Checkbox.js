@@ -24,14 +24,14 @@ var RadJav;
 (function (RadJav) {
     var MUI;
     (function (MUI) {
-        /** @class RadJav.MUI.CheckBox
+        /** @class RadJav.MUI.Checkbox
          * @extends RadJav.GUI.GObject
          * A mobile checkbox.
          * Available on platforms: iOS,Android,HTML5
          */
-        var CheckBox = /** @class */ (function (_super) {
-            __extends(CheckBox, _super);
-            function CheckBox(obj, text, parent) {
+        var Checkbox = /** @class */ (function (_super) {
+            __extends(Checkbox, _super);
+            function Checkbox(obj, text, parent) {
                 var _this = this;
                 if (obj == null)
                     obj = {};
@@ -45,12 +45,12 @@ var RadJav;
                     obj.size.y = 40;
                 }
                 _this = _super.call(this, obj, text, parent) || this;
-                _this.type = "RadJav.MUI.CheckBox";
+                _this.type = "RadJav.MUI.Checkbox";
                 return _this;
             }
-            CheckBox.xmlTag = { tag: "checkbox", type: "Checkbox" };
-            return CheckBox;
+            Checkbox.xmlTag = { tag: "checkbox", type: "Checkbox" };
+            return Checkbox;
         }(RadJav.GUI.GObject));
-        MUI.CheckBox = CheckBox;
+        MUI.Checkbox = Checkbox;
     })(MUI = RadJav.MUI || (RadJav.MUI = {}));
 })(RadJav || (RadJav = {}));
