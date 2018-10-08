@@ -73,6 +73,8 @@
 		#include "jscore/RadJavJSCMUIView.h"
         #include "jscore/RadJavJSCMUIViewController.h"
         #include "jscore/RadJavJSCMUINavigationViewController.h"
+        #include "jscore/RadJavJSCMUITableViewController.h"
+        #include "jscore/RadJavJSCMUITableView.h"
 		#include "jscore/RadJavJSCMUIButton.h"
 		#include "jscore/RadJavJSCMUIScreen.h"
 		#include "jscore/RadJavJSCMUILabel.h"
@@ -1247,6 +1249,21 @@ namespace RadJAV
                         JSObjectRef viewPrototype = jscGetObject(viewFunc, "prototype");
                         
                         JSC::MUI::NavigationViewController::createJSCCallbacks(globalContext, viewPrototype);
+                    }
+                    // RadJav.MUI.TableViewController
+                    {
+                        JSObjectRef viewFunc = jscGetFunction(muiFunc, "TableViewController");
+                        JSObjectRef viewPrototype = jscGetObject(viewFunc, "prototype");
+                        
+                        JSC::MUI::TableViewController::createJSCCallbacks(globalContext, viewPrototype);
+                    }
+                    
+                    // RadJav.MUI.TableView
+                    {
+                        JSObjectRef viewFunc = jscGetFunction(muiFunc, "TableView");
+                        JSObjectRef viewPrototype = jscGetObject(viewFunc, "prototype");
+                        
+                        JSC::MUI::TableView::createJSCCallbacks(globalContext, viewPrototype);
                     }
 					
 					// RadJav.MUI.Button
