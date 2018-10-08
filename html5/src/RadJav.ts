@@ -96,16 +96,6 @@ namespace RadJav
 	*/
 	export let _lang: { [key: string]: any } = {};
 
-	/** @property {Number} [_screenWidth=window.innerWidth]
-	* The width of the window's screen.
-	*/
-	export let _screenWidth: number = window.innerWidth;
-
-	/** @property {Number} [_screenHeight=window.innerHeight]
-	* The height of the window's screen.
-	*/
-	export let _screenHeight: number = window.innerHeight;
-
 	/** @property {Object} [themeUtils={}]
 	* Miscellaneous theme utilities to use.
 	*/
@@ -135,6 +125,11 @@ namespace RadJav
 	* The previous time since last the last update.
 	*/
 	export let prevTime: number = (Date.now () / 1000);
+
+	/** @property {RadJav.OS.ScreenInfo[]} [screens=[]]
+	* The screens attached to this device.
+	*/
+	export let screens: RadJav.OS.ScreenInfo[] = [];
 
 	/** @method quit
 	* Exit the application.
@@ -397,13 +392,38 @@ namespace RadJav
 	* Get the paths to the Net library.
 	* @return {Object[]} The Net library.
 	*/
-	export function getNetLibrary(): {
-			file: string; themeFile: boolean
-		}[]
+	export function getNetLibrary():
+		{ file: string; themeFile: boolean }[]
 	{
 		var includes = [{ file: "RadJav.Net.WebSocketClient", themeFile: false }];
 
 		return includes;
+	}
+
+	/** @method getPrimaryScreen
+	* Get the primary screen being used.
+	* @return {RadJav.OS.ScreenInfo} The screen being used.
+	*/
+	export function getPrimaryScreen(): RadJav.OS.ScreenInfo
+	{
+		return (this.screens[0]);
+	}
+
+	/** @method addScreen
+	* Add a screen.
+	* @param {RadJav.OS.ScreenInfo} The screen to add.
+	*/
+	export function addScreen(screen: RadJav.OS.ScreenInfo): void
+	{
+		this.screens.push (screen);
+	}
+
+	/** @method setupScreens
+	* Setup the screens used on this device.
+	*/
+	export function setupScreens(): void
+	{
+		RadJav.screens.push (RadJav.OS.ScreenInfo.getScreenInfo (0));
 	}
 
 	/** @method includeLibraries
@@ -853,24 +873,6 @@ namespace RadJav
 		}
 
 		return promise;
-	}
-
-	/** @method getWidth
-	 * Get the width of the current screen.
-	 * @return {Number} The width of the current screen.
-	 */
-	export function getWidth(): number {
-		/// @note THE - 16 IS A TEMPORARY HACK TO MATCH THE DESKTOP VERSION OF RADJAV
-		return RadJav._screenWidth - 16;
-	}
-
-	/** @method getHeight
-	 * Get the height of the current screen.
-	 * @return {Number} The height of the current screen.
-	 */
-	export function getHeight(): number {
-		/// @note THE - 38 IS A TEMPORARY HACK TO MATCH THE DESKTOP VERSION OF RADJAV
-		return RadJav._screenHeight - 38;
 	}
 
 	/** @method clone
@@ -1911,6 +1913,83 @@ namespace RadJav
 		*/
 		export let args: string[] = [];
 
+		/**
+		 * @class ScreenInfo
+		 * Describes the screen used by the user.
+		 * Available on platforms: Windows,Linux,OSX,iOS,Android,HTML5
+		 */
+		export class ScreenInfo
+		{
+			/** @property {Number} [_width=window.innerWidth]
+			* The width of the device's screen.
+			*/
+			public width: number;
+
+			/** @property {Number} [_height=window.innerHeight]
+			* The height of the device's screen.
+			*/
+			public height: number;
+
+			/** @property {Number} [_scale=1]
+			* The scale of points to pixels on the user's screen.
+			*/
+			public scale: number;
+
+			constructor (width: number = 0, height: number = 0, scale: number = 1)
+			{
+				this.width = width;
+				this.height = height;
+				this.scale = scale;
+			}
+
+			/** @method getWidth
+			 * Get the width of the current screen.
+			 * @return {Number} The width of the current screen.
+			 */
+			public getWidth (): number
+			{
+				/// @note THE - 16 IS A TEMPORARY HACK TO MATCH THE DESKTOP VERSION OF RADJAV
+				return (this.width - 16);
+			}
+
+			/** @method getHeight
+			 * Get the height of the current screen.
+			 * @return {Number} The height of the current screen.
+			 */
+			public getHeight (): number
+			{
+				/// @note THE - 38 IS A TEMPORARY HACK TO MATCH THE DESKTOP VERSION OF RADJAV
+				return (this.height - 38);
+			}
+
+			/** @method getScale
+			 * Get the scale of point to pixel.
+			 * @return {Number} The point to pixel scale.
+			 */
+			public getScale (): number
+			{
+				return (this.scale);
+			}
+
+			/** @method getNumberOfScreens
+			 * Get the number of screens on the device.
+			 * @return {Number} The height of the current screen.
+			 */
+			static getNumberOfScreens (): number
+			{
+				return (1);
+			}
+
+			/** @method getScreenInfo
+			 * Get the screen info for the selected screen.
+			 * @return {Number} The height of the current screen.
+			 */
+			static getScreenInfo (screenIndex: number): ScreenInfo
+			{
+				return (new ScreenInfo (window.innerWidth, window.innerHeight, 1));
+			}
+		}
+
 		/** @method onReady
 		* Execute code when RadJav has finished loading.
 		* Available on platforms: Windows,Linux,OSX,HTML5
@@ -2378,6 +2457,8 @@ function parseBoolean (str: string): boolean
 
 	return (false);
 }
+
+RadJav.setupScreens ();
 
 var _eval = eval;
 var _Function = Function;

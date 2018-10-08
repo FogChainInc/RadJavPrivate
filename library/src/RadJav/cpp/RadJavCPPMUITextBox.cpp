@@ -17,7 +17,7 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#include "cpp/RadJavCPPMUIImage.h"
+#include "cpp/RadJavCPPMUITextbox.h"
 
 #include "RadJav.h"
 #include "RadJavString.h"
@@ -29,30 +29,30 @@ namespace RadJAV
 		namespace MUI
 		{
 			#ifdef USE_V8
-				Image::Image(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
+				Textbox::Textbox(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
 				: GObject (jsEngine, args)
 				{
 				}
 			#elif USE_JAVASCRIPTCORE
-				Image::Image(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[])
+				Textbox::Textbox(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[])
 				: GObject (jsEngine, thisObj, numArgs, args)
 				{
 				}
 			#endif
 			
-			Image::Image(String name, String text, CPP::GUI::GObject *parent)
+			Textbox::Textbox(String name, String text, CPP::GUI::GObject *parent)
 			: GObject(name, text, parent)
 			{
 			}
 			
-			void Image::create()
+			void Textbox::create()
 			{
 				GUI::GObjectWidget* parentWin = nullptr;
 				
 				if (_parent != nullptr)
 					parentWin = _parent->_appObj;
 				
-				ImageFrame* object = RJNEW ImageFrame(_parent,
+				TextboxFrame* object = RJNEW TextboxFrame(_parent, _text,
 													  Vector2(_transform->x, _transform->y),
 													  Vector2(_transform->width, _transform->height));
 				
@@ -62,39 +62,28 @@ namespace RadJAV
 				setup();
 			}
 			
-			RJBOOL Image::setImage(const String& imageFile)
+			void Textbox::setInputMode(Textbox::InputMode mode)
 			{
 				if (_appObj)
 				{
-					ImageFrame* image = static_cast<ImageFrame*>(_appObj);
-					return image->loadImage(imageFile);
+					TextboxFrame* textbox = static_cast<TextboxFrame*>(_appObj);
+					return textbox->setInputMode(mode);
 				}
-				
-				return false;
 			}
 			
-			void Image::setScaleMode(Image::ScaleMode mode)
+			Textbox::InputMode Textbox::getInputMode() const
 			{
 				if (_appObj)
 				{
-					ImageFrame* image = static_cast<ImageFrame*>(_appObj);
-					return image->setScaleMode(mode);
-				}
-			}
-
-			Image::ScaleMode Image::getScaleMode() const
-			{
-				if (_appObj)
-				{
-					ImageFrame* image = static_cast<ImageFrame*>(_appObj);
-					return image->getScaleMode();
+					TextboxFrame* textbox = static_cast<TextboxFrame*>(_appObj);
+					return textbox->getInputMode();
 				}
 				
-				return ScaleMode::AspectFit;
+				return InputMode::Text;
 			}
 
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
-				void Image::on(String event, RJ_FUNC_TYPE func)
+				void Textbox::on(String event, RJ_FUNC_TYPE func)
 				{
 					if (_appObj)
 					{

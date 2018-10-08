@@ -17,7 +17,7 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#include "cpp/RadJavCPPMUICheckBox.h"
+#include "cpp/RadJavCPPMUICheckbox.h"
 
 #include "RadJav.h"
 #include "RadJavString.h"
@@ -29,30 +29,30 @@ namespace RadJAV
 		namespace MUI
 		{
 			#ifdef USE_V8
-				CheckBox::CheckBox(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
+				Checkbox::Checkbox(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
 				: GObject (jsEngine, args)
 				{
 				}
 			#elif USE_JAVASCRIPTCORE
-				CheckBox::CheckBox(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[])
+				Checkbox::Checkbox(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[])
 				: GObject (jsEngine, thisObj, numArgs, args)
 				{
 				}
 			#endif
 			
-			CheckBox::CheckBox(String name, String text, CPP::GUI::GObject *parent)
+			Checkbox::Checkbox(String name, String text, CPP::GUI::GObject *parent)
 			: GObject(name, text, parent)
 			{
 			}
 			
-			void CheckBox::create()
+			void Checkbox::create()
 			{
 				GUI::GObjectWidget* parentWin = nullptr;
 				
 				if (_parent != nullptr)
 					parentWin = _parent->_appObj;
 				
-				CheckBoxFrame* object = RJNEW CheckBoxFrame(_parent, false,
+				CheckboxFrame* object = RJNEW CheckboxFrame(_parent, false,
 													  Vector2(_transform->x, _transform->y),
 													  Vector2(_transform->width, _transform->height));
 				
@@ -62,20 +62,20 @@ namespace RadJAV
 				setup();
 			}
 			
-			void CheckBox::setChecked(RJBOOL checked)
+			void Checkbox::setChecked(RJBOOL checked)
 			{
 				if (_appObj)
 				{
-					CheckBoxFrame* box = static_cast<CheckBoxFrame*>(_appObj);
+					CheckboxFrame* box = static_cast<CheckboxFrame*>(_appObj);
 					box->setChecked(checked);
 				}
 			}
 			
-			RJBOOL CheckBox::getChecked() const
+			RJBOOL Checkbox::getChecked() const
 			{
 				if (_appObj)
 				{
-					CheckBoxFrame* box = static_cast<CheckBoxFrame*>(_appObj);
+					CheckboxFrame* box = static_cast<CheckboxFrame*>(_appObj);
 					return box->getChecked();
 				}
 				
@@ -83,7 +83,7 @@ namespace RadJAV
 			}
 
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
-				void CheckBox::on(String event, RJ_FUNC_TYPE func)
+				void Checkbox::on(String event, RJ_FUNC_TYPE func)
 				{
 					if (_appObj)
 					{

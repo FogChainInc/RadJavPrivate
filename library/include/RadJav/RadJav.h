@@ -42,6 +42,10 @@
 	#include "RadJavJavascriptEngine.h"
 	#include "RadJavLang.h"
 
+    #define TEMP_HEADER_INCLUDE
+    #include "cpp/RadJavCPPOSScreenInfo.h"
+    #undef TEMP_HEADER_INCLUDE
+
 	/// The RadJAV namespace.
 	namespace RadJAV
 	{
@@ -83,6 +87,9 @@
 				/// Shut down and stop all applications.
 				static void shutdown();
 
+                /// Setup the screen info.
+                static void setupScreens ();
+
 				/// Run an application.
 				static int runApplication (String application, String fileName);
 				/// Run an application from a javascript file.
@@ -100,6 +107,9 @@
 				/// Primarily for Visual Studio debugging. This will print to the output window, or 
 				/// to the console if on another platform.
 				static void printToOutputWindow (String message);
+
+                /// Screen info attached to this device.
+                static Array<RadJAV::CPP::OS::ScreenInfo> screens;
 
 				/// Handles strings from languages.
 				static Lang *lang;
@@ -141,6 +151,9 @@
 
 				/// Shut down and stop all applications.
 				RADJAV_EXPORT void shutdownVM();
+
+                /// Setup the screen info.
+                RADJAV_EXPORT void setupScreens ();
 
 				/// Run an application.
 				RADJAV_EXPORT int runApplication(const char* application, const char* fileName);

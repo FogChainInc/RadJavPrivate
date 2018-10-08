@@ -211,6 +211,7 @@ namespace RadJAV
 	Theme *RadJav::theme = NULL;
 	Lang *RadJav::lang = NULL;
 	Array<String> RadJav::arguments;
+    Array<RadJAV::CPP::OS::ScreenInfo> RadJav::screens;
 
 	#ifdef RADJAV_DEBUG
 		HashMap<size_t, MemoryAllocLog> *RadJav::memoryAllocs;
@@ -430,6 +431,7 @@ namespace RadJAV
 				curl_global_init (CURL_GLOBAL_DEFAULT);
 			#endif
 
+            setupScreens ();
 			theme = RJNEW Theme ();
 
 			#ifdef USE_V8
@@ -492,6 +494,14 @@ namespace RadJAV
 
 		return EXIT_FAILURE;
 	}
+
+    void RadJav::setupScreens ()
+    {
+        RJINT numScreens = RadJAV::CPP::OS::ScreenInfo::getNumberOfScreens ();
+
+        for (RJINT iIdx = 0; iIdx < numScreens; iIdx++)
+            RadJav::screens.push_back (RadJAV::CPP::OS::ScreenInfo::getScreenInfo (iIdx));
+    }
 
 	void RadJav::showMessageBox(String message, String title)
 	{
@@ -663,6 +673,11 @@ namespace RadJAV
 		void shutdownVM() {
 			return RadJav::shutdown();
 		};
+        
+        /// Setup the screen info.
+        void setupScreens() {
+            return RadJav::setupScreens();
+        };
 
 		/// Run an application.
 		int runApplication(const char* application, const char* fileName) {

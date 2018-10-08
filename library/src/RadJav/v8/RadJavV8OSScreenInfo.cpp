@@ -17,29 +17,43 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#ifndef _RADJAV_MUI_JSC_SCREEN_H_
-#define _RADJAV_MUI_JSC_SCREEN_H_
+#include "v8/RadJavV8OSScreenInfo.h"
 
-#include "RadJavPreprocessor.h"
-#include <JavaScriptCore/JavaScriptCore.h>
+#include "RadJav.h"
+
+#include "v8/RadJavV8JavascriptEngine.h"
+
+#include "cpp/RadJavCPPOSScreenInfo.h"
 
 namespace RadJAV
 {
-	namespace JSC
+	namespace V8B
 	{
-		namespace MUI
+		namespace OS
 		{
-			class RADJAV_EXPORT Screen
+			using CppMuiObject = CPP::OS::ScreenInfo;
+			
+			void ScreenInfo::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 			{
-			public:
-				static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
-				
-				static JSValueRef getWidth(JSContextRef ctx, JSObjectRef object, JSStringRef propertyName, JSValueRef* exception);
-				static JSValueRef getHeight(JSContextRef ctx, JSObjectRef object, JSStringRef propertyName, JSValueRef* exception);
-				static JSValueRef getScale(JSContextRef ctx, JSObjectRef object, JSStringRef propertyName, JSValueRef* exception);
-			};
+                V8_CALLBACK(object, "getWidth", ScreenInfo::getWidth);
+                V8_CALLBACK(object, "getHeight", ScreenInfo::getHeight);
+                V8_CALLBACK(object, "getScale", ScreenInfo::getScale);
+			}
+
+			void ScreenInfo::getWidth(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				args.GetReturnValue().Set(v8::Integer::New(args.GetIsolate(), CppMuiObject::getWidth()));
+			}
+
+			void ScreenInfo::getHeight(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				args.GetReturnValue().Set(v8::Integer::New(args.GetIsolate(), CppMuiObject::getHeight()));
+			}
+
+			void ScreenInfo::getScale(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				args.GetReturnValue().Set(v8::Integer::New(args.GetIsolate(), CppMuiObject::getScale()));
+			}
 		}
 	}
 }
-
-#endif

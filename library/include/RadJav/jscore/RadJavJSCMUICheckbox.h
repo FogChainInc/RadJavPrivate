@@ -29,7 +29,7 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
-			class RADJAV_EXPORT CheckBox
+			class RADJAV_EXPORT Checkbox
 			{
 			public:
 				static void createJSCCallbacks(JSContextRef context, JSObjectRef object);

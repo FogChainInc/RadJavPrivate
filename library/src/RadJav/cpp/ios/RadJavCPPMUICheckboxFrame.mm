@@ -17,7 +17,7 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#include "cpp/RadJavCPPMUICheckBox.h"
+#include "cpp/RadJavCPPMUICheckbox.h"
 #import "cpp/ios/RadJavCPPMUIEventDelegates.h"
 
 #import "cpp/RadJavCPPMUIView.h"
@@ -29,7 +29,7 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
-			CheckBoxFrame::CheckBoxFrame(GUI::GObject *parent, RJBOOL checked, const Vector2 &pos, const Vector2 &size)
+			CheckboxFrame::CheckboxFrame(GUI::GObject *parent, RJBOOL checked, const Vector2 &pos, const Vector2 &size)
 			: widget([[UISwitch alloc] init])
 			{
 				widgetDelegate = [[SwitchDelegate alloc] init];
@@ -42,44 +42,44 @@ namespace RadJAV
 				setPosition(pos);
 			}
 			
-			CheckBoxFrame::~CheckBoxFrame()
+			CheckboxFrame::~CheckboxFrame()
 			{
 				[widget release];
 				[widgetDelegate release];
 			}
 			
-			void CheckBoxFrame::setChecked(RJBOOL checked)
+			void CheckboxFrame::setChecked(RJBOOL checked)
 			{
 				[widget setOn:checked];
 			}
 			
-			RJBOOL CheckBoxFrame::getChecked() const
+			RJBOOL CheckboxFrame::getChecked() const
 			{
 				return widget.on;
 			}
 
-			void CheckBoxFrame::setEnabled(RJBOOL enabled)
+			void CheckboxFrame::setEnabled(RJBOOL enabled)
 			{
 				[widget setEnabled:enabled];
 			}
 			
-			RJBOOL CheckBoxFrame::getEnabled()
+			RJBOOL CheckboxFrame::getEnabled()
 			{
 				return widget.isEnabled;
 			}
 			
-			bool CheckBoxFrame::bindEvent(const String& eventName, const GUI::Event* /*event*/)
+			bool CheckboxFrame::bindEvent(const String& eventName, const GUI::Event* /*event*/)
 			{
 				return [widgetDelegate bindEvent:widget eventName:eventName];
 			}
 			
 			#ifdef USE_IOS
-				UIView* CheckBoxFrame::getNativeWidget()
+				UIView* CheckboxFrame::getNativeWidget()
 				{
 					return widget;
 				}
 			#elif defined USE_ANDROID
-				void* CheckBoxFrame::getNativeWidget()
+				void* CheckboxFrame::getNativeWidget()
 				{
 					return widget;
 				}

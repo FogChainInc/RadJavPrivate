@@ -25,6 +25,7 @@ RadJav._included = [];
 RadJav._animations = [];
 RadJav.animationFrameRate = 16;
 RadJav.prevTime = (Date.now() / 1000);
+RadJav.screens = [];
 
 RadJav.GUI = function ()
 {
@@ -71,6 +72,37 @@ RadJav.Crypto = function ()
 RadJav.OS.type = "";
 RadJav.OS.numBits = 32;
 RadJav.OS.args = [];
+
+RadJav.OS.ScreenInfo = function (width, height, scale)
+{
+	if (width == null)
+		width = 0;
+
+	if (height == null)
+		height = 0;
+
+	if (scale == null)
+		scale = 1;
+
+	this.width = width;
+	this.height = height;
+	this.scale = scale;
+
+	this.getWidth = function ()
+	{
+		return (this._width);
+	}
+
+	this.getHeight = function ()
+	{
+		return (this._height);
+	}
+
+	this.getScale = function ()
+	{
+		return (this._scale);
+	}
+}
 
 RadJav.initialize = function (libraries)
 {
@@ -158,9 +190,10 @@ RadJav.getMUILibrary = function ()
 			{ file: "RadJav.MUI.Button", themeFile: true },
 			{ file: "RadJav.MUI.Label", themeFile: true },
 			{ file: "RadJav.MUI.Image", themeFile: true },
-			{ file: "RadJav.MUI.CheckBox", themeFile: true },
+			{ file: "RadJav.MUI.Checkbox", themeFile: true },
 			{ file: "RadJav.MUI.ViewController", themeFile: true },
-			{ file: "RadJav.MUI.NavigationViewController", themeFile: true }];
+			{ file: "RadJav.MUI.NavigationViewController", themeFile: true },
+			{ file: "RadJav.MUI.Textbox", themeFile: true }];
 
 	return (includes);
 };
@@ -199,6 +232,16 @@ RadJav.getGameLibrary = function ()
 
 	return (includes);
 };
+
+RadJav.getPrimaryScreen = function ()
+{
+	return (this.screens[0]);
+}
+
+RadJav.addScreen = function (screen)
+{
+	this.screens.push (screen);
+}
 
 RadJav._loadLanguages = function ()
 {

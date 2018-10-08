@@ -17,34 +17,28 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#ifndef _RADJAV_MUI_CPP_SCREEN_H_
-#define _RADJAV_MUI_CPP_SCREEN_H_
+#ifndef _RADJAV_OS_JSC_SCREENINFO_H_
+    #define _RADJAV_OS_JSC_SCREENINFO_H_
 
-#include "RadJavPreprocessor.h"
-#include "RadJavString.h"
+    #include "RadJavPreprocessor.h"
+    #include <JavaScriptCore/JavaScriptCore.h>
 
-#include "cpp/RadJavCPPGUIGObject.h"
+    namespace RadJAV
+    {
+        namespace JSC
+        {
+            namespace OS
+            {
+                class RADJAV_EXPORT ScreenInfo
+                {
+                    public:
+                        static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
 
-namespace RadJAV
-{
-	namespace CPP
-	{
-		namespace MUI
-		{
-			class RADJAV_EXPORT Screen
-			{
-			public:
-				Screen() = delete;
-				Screen(const Screen& other) = delete;
-				
-				~Screen();
-				
-				static RJUINT getWidth();
-				static RJUINT getHeight();
-				static RJNUMBER getScale();
-			};
-		}
-	}
-}
+                        static JSValueRef getNumberOfScreens(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
+                        static JSValueRef getScreenInfo(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
+                };
+            }
+        }
+    }
+
 #endif
-
