@@ -77,7 +77,7 @@ macro (embedJavascript jsFilesList jsFilesPath headerName headerPath)
 				string (SUBSTRING "${jsFileContentChunk}" ${index} 1 lastCharacter)
 				
 				#Fixing escaped sequence if any
-				if ("${lastCharacter}" STREQUAL "\\")
+				if (lastCharacter STREQUAL "\\")
 					#Move first character from rest of file content to chunk content so escape sequence will be preserved
 					string (SUBSTRING "${jsFileContent}" 0 1 firstCharacter)
 					string (CONCAT jsFileContentChunk "${jsFileContentChunk}" "${firstCharacter}")
