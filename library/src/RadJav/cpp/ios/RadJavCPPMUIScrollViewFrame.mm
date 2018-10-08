@@ -17,7 +17,7 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#include "cpp/RadJavCPPMUITextarea.h"
+#include "cpp/RadJavCPPMUIScrollView.h"
 #import "cpp/ios/RadJavCPPMUIEventDelegates.h"
 
 #import "cpp/RadJavCPPMUIView.h"
@@ -29,22 +29,18 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
-			TextareaFrame::TextareaFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size)
-			: widget([[UITextView alloc] init])
+			ScrollViewFrame::ScrollViewFrame(GUI::GObject *parent, const Vector2 &pos, const Vector2 &size)
+			: widget([[UIScrollView alloc] init])
 			{
 				//TODO: add delegate
-				//widgetDelegate = [[TextFieldDelegate alloc] init];
-				//widgetDelegate.widget = this;
-				//widget.delegate = widgetDelegate;
 				
 				[parent->_appObj->getNativeWidget() addSubview:widget];
 				
-				setText(text);
 				setSize(size);
 				setPosition(pos);
 			}
 			
-			TextareaFrame::~TextareaFrame()
+			ScrollViewFrame::~ScrollViewFrame()
 			{
 				[widget release];
 				
@@ -52,52 +48,39 @@ namespace RadJAV
 				//[widgetDelegate release];
 			}
 			
-			void TextareaFrame::setText(String text)
-			{
-				NSString *objcString = [NSString stringWithUTF8String:text.c_str()];
-				[widget setText:objcString];
-			}
-			
-			String TextareaFrame::getText()
-			{
-				return [widget.text UTF8String];
-			}
-			
-			void TextareaFrame::setFont(CPP::Font *font)
-			{
-				//TODO: Add implementation
-				//[widget setFont:(UIFont * _Nullable)];
-			}
-			
-			CPP::Font* TextareaFrame::getFont()
-			{
-				//TODO: Add implementation
-				return nullptr;
-			}
-			
-			void TextareaFrame::setEnabled(RJBOOL enabled)
+			void ScrollViewFrame::setEnabled(RJBOOL enabled)
 			{
 				[widget setUserInteractionEnabled:enabled];
 			}
 			
-			RJBOOL TextareaFrame::getEnabled()
+			RJBOOL ScrollViewFrame::getEnabled()
 			{
 				return widget.isUserInteractionEnabled;
 			}
 			
-			bool TextareaFrame::bindEvent(const String& eventName, const GUI::Event* /*event*/)
+			void ScrollViewFrame::setContentSize(const CPP::Vector2& size)
+			{
+				[widget setContentSize: CGSizeMake(size.x, size.y)];
+			}
+			
+			CPP::Vector2 ScrollViewFrame::getContentSize() const
+			{
+				return Vector2(widget.contentSize.width, widget.contentSize.height);
+			}
+
+			bool ScrollViewFrame::bindEvent(const String& eventName, const GUI::Event* /*event*/)
 			{
 				//return [widgetDelegate bindEvent:widget eventName:eventName];
 				return false;
 			}
 			
 			#ifdef USE_IOS
-				UIView* TextareaFrame::getNativeWidget()
+				UIView* ScrollViewFrame::getNativeWidget()
 				{
 					return widget;
 				}
 			#elif defined USE_ANDROID
-				void* TextareaFrame::getNativeWidget()
+				void* ScrollViewFrame::getNativeWidget()
 				{
 					return widget;
 				}

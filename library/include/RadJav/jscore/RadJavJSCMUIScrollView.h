@@ -17,8 +17,8 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#ifndef _RADJAV_MUI_JSC_TEXTAREA_H_
-#define _RADJAV_MUI_JSC_TEXTAREA_H_
+#ifndef _RADJAV_MUI_JSC_SCROLLVIEW_H_
+#define _RADJAV_MUI_JSC_SCROLLVIEW_H_
 
 #include "RadJavPreprocessor.h"
 #include <JavaScriptCore/JavaScriptCore.h>
@@ -29,12 +29,15 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
-			class RADJAV_EXPORT Textarea
+			class RADJAV_EXPORT ScrollView
 			{
 			public:
 				static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
 				
 				static JSValueRef create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+
+				static JSValueRef setContentSize(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+				static JSValueRef getContentSize(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
 			};
 		}
 	}

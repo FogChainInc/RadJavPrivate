@@ -76,6 +76,7 @@
         #include "jscore/RadJavJSCMUINavigationViewController.h"
         #include "jscore/RadJavJSCMUITableViewController.h"
         #include "jscore/RadJavJSCMUITableView.h"
+		#include "jscore/RadJavJSCMUIScrollView.h"
 		#include "jscore/RadJavJSCMUIButton.h"
 		#include "jscore/RadJavJSCMUILabel.h"
 		#include "jscore/RadJavJSCMUIImage.h"
@@ -1282,6 +1283,14 @@ namespace RadJAV
                         JSC::MUI::TableView::createJSCCallbacks(globalContext, viewPrototype);
                     }
 					
+					// RadJav.MUI.ScrollView
+					{
+						JSObjectRef scrollviewFunc = jscGetFunction(muiFunc, "ScrollView");
+						JSObjectRef scrollviewPrototype = jscGetObject(scrollviewFunc, "prototype");
+						
+						JSC::MUI::ScrollView::createJSCCallbacks(globalContext, scrollviewPrototype);
+					}
+
 					// RadJav.MUI.Button
 					{
 						JSObjectRef buttonFunc = jscGetFunction(muiFunc, "Button");
