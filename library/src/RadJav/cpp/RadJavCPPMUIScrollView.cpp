@@ -1,0 +1,97 @@
+/*
+ MIT-LICENSE
+ Copyright (c) 2018 Higher Edge Software, LLC
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+ and associated documentation files (the "Software"), to deal in the Software without restriction,
+ including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
+ subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in all copies or substantial
+ portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+ LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+#include "cpp/RadJavCPPMUIScrollView.h"
+
+#include "RadJav.h"
+#include "RadJavString.h"
+
+namespace RadJAV
+{
+	namespace CPP
+	{
+		namespace MUI
+		{
+			#ifdef USE_V8
+				ScrollView::ScrollView(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
+				: GObject (jsEngine, args)
+				{
+				}
+			#elif USE_JAVASCRIPTCORE
+				ScrollView::ScrollView(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[])
+				: GObject (jsEngine, thisObj, numArgs, args)
+				{
+				}
+			#endif
+			
+			ScrollView::ScrollView(String name, String text, CPP::GUI::GObject *parent)
+			: GObject(name, text, parent)
+			{
+			}
+			
+			void ScrollView::create()
+			{
+				GUI::GObjectWidget* parentWin = nullptr;
+				
+				if (_parent != nullptr)
+					parentWin = _parent->_appObj;
+				
+				ScrollViewFrame* object = RJNEW ScrollViewFrame(_parent,
+															Vector2(_transform->x, _transform->y),
+															Vector2(_transform->width, _transform->height));
+				
+				object->setVisibility(_visible);
+				_appObj = object;
+				linkWith(object);
+				setup();
+			}
+			
+			void ScrollView::setContentSize(const CPP::Vector2& size)
+			{
+				if (_appObj)
+				{
+					ScrollViewFrame* scrollView = static_cast<ScrollViewFrame*>(_appObj);
+					scrollView->setContentSize(size);
+				}
+			}
+			
+			CPP::Vector2 ScrollView::getContentSize() const
+			{
+				if (_appObj)
+				{
+					ScrollViewFrame* scrollView = static_cast<ScrollViewFrame*>(_appObj);
+					return scrollView->getContentSize();
+				}
+				
+				return Vector2();
+			}
+
+			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+				void ScrollView::on(String event, RJ_FUNC_TYPE func)
+				{
+					if (_appObj)
+					{
+						_appObj->addNewEvent(event, func);
+					}
+				}
+			#endif
+		}
+	}
+}
+

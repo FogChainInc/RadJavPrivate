@@ -17,8 +17,8 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#ifndef _RADJAV_MUI_JSC_LABEL_H_
-#define _RADJAV_MUI_JSC_LABEL_H_
+#ifndef _RADJAV_MUI_JSC_TEXTAREA_H_
+#define _RADJAV_MUI_JSC_TEXTAREA_H_
 
 #include "RadJavPreprocessor.h"
 #include <JavaScriptCore/JavaScriptCore.h>
@@ -29,7 +29,7 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
-			class RADJAV_EXPORT Label
+			class RADJAV_EXPORT Textarea
 			{
 			public:
 				static void createJSCCallbacks(JSContextRef context, JSObjectRef object);

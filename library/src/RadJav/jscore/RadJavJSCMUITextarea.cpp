@@ -17,11 +17,13 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#ifndef _RADJAV_MUI_JSC_LABEL_H_
-#define _RADJAV_MUI_JSC_LABEL_H_
+#include "jscore/RadJavJSCMUITextarea.h"
 
-#include "RadJavPreprocessor.h"
-#include <JavaScriptCore/JavaScriptCore.h>
+#include "RadJav.h"
+
+#include "jscore/RadJavJSCJavascriptEngine.h"
+
+#include "cpp/RadJavCPPMUITextarea.h"
 
 namespace RadJAV
 {
@@ -29,15 +31,24 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
-			class RADJAV_EXPORT Label
+			using CppMuiObject = CPP::MUI::Textarea;
+			
+			void Textarea::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 			{
-			public:
-				static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
+				JSC_CALLBACK(object, "create", Textarea::create);
+			}
+			
+			JSValueRef Textarea::create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+			{
+				CppMuiObject *appObject = RJNEW CppMuiObject(JSC_JAVASCRIPT_ENGINE, thisObject, argumentCount, arguments);
+				appObject->create();
 				
-				static JSValueRef create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
-			};
+				JSC_JAVASCRIPT_ENGINE->jscSetExternal(ctx, thisObject, "_appObj", appObject);
+				JSObjectRef _guiFinishedCreatingGObject = JSC_JAVASCRIPT_ENGINE->jscGetFunction(JSC_RADJAV, "_guiFinishedCreatingGObject");
+				JSObjectRef promise = JSC_JAVASCRIPT_ENGINE->createPromise(thisObject, _guiFinishedCreatingGObject);
+				
+				return promise;
+			}
 		}
 	}
 }
-
-#endif

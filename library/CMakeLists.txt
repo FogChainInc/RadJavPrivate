@@ -606,6 +606,7 @@ if (libRadJav_EMBEDFILE)
 			RadJav.MUI.ViewController.js
 			RadJav.MUI.NavigationViewController.js
 			RadJav.MUI.View.js
+			RadJav.MUI.ScrollView.js
 			RadJav.MUI.Button.js
 			RadJav.MUI.Label.js
 			RadJav.MUI.Image.js
@@ -613,6 +614,7 @@ if (libRadJav_EMBEDFILE)
 			RadJav.MUI.Textbox.js
 			RadJav.MUI.TableViewController.js
 			RadJav.MUI.TableView.js
+			RadJav.MUI.Textarea.js
 		)
 
 	endif ()

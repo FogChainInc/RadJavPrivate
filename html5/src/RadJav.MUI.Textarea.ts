@@ -17,27 +17,45 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#ifndef _RADJAV_MUI_JSC_BUTTON_H_
-#define _RADJAV_MUI_JSC_BUTTON_H_
 
-#include "RadJavPreprocessor.h"
-#include <JavaScriptCore/JavaScriptCore.h>
+/// <reference path="RadJav.ts" />
+/// <reference path="RadJav.Vector2.ts" />
 
-namespace RadJAV
+namespace RadJav
 {
-	namespace JSC
+	export namespace MUI
 	{
-		namespace MUI
+		/** @class RadJav.MUI.Textarea
+		 * @extends RadJav.GUI.GObject
+		 * A mobile textarea.
+		 * Available on platforms: iOS,Android,HTML5
+		 */
+		export class Textarea extends RadJav.GUI.GObject
 		{
-			class RADJAV_EXPORT Button
-			{
-				public:
-					static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
+			static xmlTag: RadJav.TagType = { tag: "textarea", type: "Textarea" };
 
-					static JSValueRef create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
-			};
+			constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject)
+			{
+				if (obj == null)
+					obj = {};
+
+				if (typeof obj == "string")
+				{
+					var name = obj;
+					obj = { name: name };
+				}
+
+				if (obj.size == null)
+				{
+					obj.size = new RadJav.Vector2();
+					obj.size.x = 200;
+					obj.size.y = 100;
+				}
+
+				super(obj, text, parent);
+
+				this.type = "RadJav.MUI.Textarea";
+			}
 		}
 	}
 }
-
-#endif

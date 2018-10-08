@@ -237,11 +237,13 @@ if (USE_JAVASCRIPTCORE)
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUINavigationViewController.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUITableViewController.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUITableView.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUIScrollView.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUIButton.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUILabel.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUIImage.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUICheckbox.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUITextbox.h")
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUITextbox.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUITextarea.h")
 		source_group ("RadJav\\JavaScriptCore\\MUI" FILES ${SOURCES_files_RadJav__JSC__MUI__Headers})
 
 		set (SOURCES ${SOURCES_files_RadJav__JSC__MUI__Headers} ${SOURCES})
@@ -491,13 +493,15 @@ if (IS_MOBILE)
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIViewController.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUINavigationViewController.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUITableViewController.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUITableView.h" 
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUITableView.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIScrollView.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIButton.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIAlert.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUILabel.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIImage.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUICheckbox.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUITextbox.h")
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUITextbox.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUITextarea.h")
 
 	source_group ("RadJav\\CPP\\MUI" FILES ${SOURCES_files_RadJav__cpp__MUI__Headers})
 

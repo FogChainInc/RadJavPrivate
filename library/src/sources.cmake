@@ -233,12 +233,14 @@ if (USE_JAVASCRIPTCORE)
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUIViewController.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUINavigationViewController.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUITableViewController.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUITableView.cpp" 
+			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUITableView.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUIScrollView.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUIButton.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUILabel.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUIImage.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUICheckbox.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUITextbox.cpp")
+			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUITextbox.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUITextarea.cpp")
 		source_group ("RadJav\\JavaScriptCore\\MUI" FILES ${SOURCES_files_RadJav__JSC__MUI__Sources})
 
 		set (SOURCES ${SOURCES_files_RadJav__JSC__MUI__Sources} ${SOURCES})
@@ -486,12 +488,14 @@ if (IS_MOBILE)
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUIViewController.cpp" 
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUINavigationViewController.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUITableViewController.cpp"
-		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUITableView.cpp"  
+		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUITableView.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUIScrollView.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUIButton.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUILabel.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUIImage.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUICheckbox.cpp"
-		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUITextbox.cpp")
+		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUITextbox.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUITextarea.cpp")
 
 
 	source_group ("RadJav\\CPP\\MUI" FILES ${SOURCES_files_RadJav__cpp__MUI__Sources})
@@ -511,12 +515,14 @@ if (IS_MOBILE)
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUINavigationViewControllerFrame.mm"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUITableViewControllerFrame.mm"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUITableViewFrame.mm"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUIScrollViewFrame.mm"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUIAlertFrame.mm"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUIEventDelegates.mm"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUILabelFrame.mm"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUIImageFrame.mm"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUICheckboxFrame.mm"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUITextboxFrame.mm")
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUITextboxFrame.mm"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUITextareaFrame.mm")
 
 		source_group ("RadJav\\CPP\\MUI\\iOS" FILES ${SOURCES_files_RadJav__cpp__MUI__Sources})
 		set (SOURCES ${SOURCES_files_RadJav__cpp__MUI__Sources} ${SOURCES})

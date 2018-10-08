@@ -1,6 +1,6 @@
 /*
 	MIT-LICENSE
-	Copyright (c) 2018 Higher Edge Software, LLC
+	Copyright (c) 2017-2018 Higher Edge Software, LLC
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 	and associated documentation files (the "Software"), to deal in the Software without restriction, 
@@ -17,27 +17,44 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#ifndef _RADJAV_MUI_JSC_BUTTON_H_
-#define _RADJAV_MUI_JSC_BUTTON_H_
 
-#include "RadJavPreprocessor.h"
-#include <JavaScriptCore/JavaScriptCore.h>
+/// <reference path="RadJav.ts" />
+/// <reference path="RadJav.Vector2.ts" />
 
-namespace RadJAV
+namespace RadJav
 {
-	namespace JSC
+	export namespace MUI
 	{
-		namespace MUI
+		/** @class RadJav.MUI.ScrollView
+		 * @extends RadJav.GUI.GObject
+		 * A mobile scrollview.
+		 * Available on platforms: iOS,Android,HTML5
+		 */
+		export class ScrollView extends RadJav.GUI.GObject
 		{
-			class RADJAV_EXPORT Button
-			{
-				public:
-					static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
+			static xmlTag: TagType = { tag: "scrollview", type: "ScrollView" };
 
-					static JSValueRef create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
-			};
+			constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject)
+			{
+				if (obj == null) obj = {};
+
+				if (typeof obj == "string")
+				{
+					var name = obj;
+					obj = { name: name };
+				}
+
+				if (obj.size == null)
+				{
+					obj.size = new RadJav.Vector2();
+					obj.size.x = 500;
+					obj.size.y = 350;
+				}
+
+				super(obj, text, parent) || this;
+
+				this.type = "RadJav.MUI.ScrollView";
+			}
 		}
 	}
 }
-
-#endif
