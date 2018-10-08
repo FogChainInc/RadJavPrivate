@@ -27,13 +27,13 @@
 
 namespace RadJAV
 {
-	namespace V8
+	namespace V8B
 	{
 		namespace MUI
 		{
 			using CppMuiObject = CPP::MUI::Button;
 			
-			void Button::createJSCCallbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
+			void Button::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 			{
 				V8_CALLBACK(object, "create", Button::create);
 			}
@@ -43,9 +43,9 @@ namespace RadJAV
 				CppMuiObject *appObject = RJNEW CppMuiObject(V8_JAVASCRIPT_ENGINE, args);
 				appObject->create();
 
-				V8_JAVASCRIPT_ENGINE->v8SetExternal(thisObject, "_appObj", appObject);
-				JSObjectRef _guiFinishedCreatingGObject = V8_JAVASCRIPT_ENGINE->v8GetFunction(JSC_RADJAV, "_guiFinishedCreatingGObject");
-				JSObjectRef promise = V8_JAVASCRIPT_ENGINE->createPromise(thisObject, _guiFinishedCreatingGObject);
+				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This (), "_appObj", appObject);
+				v8::Local<v8::Function> _guiFinishedCreatingGObject = V8_JAVASCRIPT_ENGINE->v8GetFunction(V8_RADJAV, "_guiFinishedCreatingGObject");
+				v8::Local<v8::Object> promise = V8_JAVASCRIPT_ENGINE->createPromise(args.This(), _guiFinishedCreatingGObject);
 
 				args.GetReturnValue().Set(promise);
 			}

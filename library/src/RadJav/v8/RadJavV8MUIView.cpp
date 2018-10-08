@@ -27,13 +27,13 @@
 
 namespace RadJAV
 {
-	namespace V8
+	namespace V8B
 	{
 		namespace MUI
 		{
 			using CppMuiObject = CPP::MUI::View;
 			
-			void View::createJSCCallbacks(JSContextRef context, JSObjectRef object)
+			void View::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 			{
 				V8_CALLBACK(object, "create", View::create);
                 V8_CALLBACK(object, "setSize", View::setSize);
@@ -69,89 +69,135 @@ namespace RadJAV
 
 			}
 
-			JSValueRef View::create(const v8::FunctionCallbackInfo<v8::Value> &args)
+			void View::create(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				CppMuiObject *appObject = RJNEW CppMuiObject(V8_JAVASCRIPT_ENGINE, args);
 				appObject->create();
 
-				V8_JAVASCRIPT_ENGINE->v8SetExternal(thisObject, "_appObj", appObject);
-				JSObjectRef _guiFinishedCreatingGObject = V8_JAVASCRIPT_ENGINE->v8GetFunction(V8_RADJAV, "_guiFinishedCreatingGObject");
-				JSObjectRef promise = V8_JAVASCRIPT_ENGINE->createPromise(thisObject, _guiFinishedCreatingGObject);
+				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_appObj", appObject);
+				v8::Local<v8::Function> _guiFinishedCreatingGObject = V8_JAVASCRIPT_ENGINE->v8GetFunction(V8_RADJAV, "_guiFinishedCreatingGObject");
+				v8::Local<v8::Object> promise = V8_JAVASCRIPT_ENGINE->createPromise(args.This(), _guiFinishedCreatingGObject);
 				
-				return promise;
+				args.GetReturnValue().Set(promise);
 			}
             
-            JSValueRef View::setSize(const v8::FunctionCallbackInfo<v8::Value> &args)
+            void View::setSize(const v8::FunctionCallbackInfo<v8::Value> &args)
             {
-                CppMuiObject *appObject = (CppMuiObject *) V8_JAVASCRIPT_ENGINE->v8GetExternal(thisObject, "_appObj");
-                
-                int width = 0;
-                int height = 0;
+                CppMuiObject *appObject = (CppMuiObject *) V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				RJINT x = 0;
+				RJINT y = 0;
 
-                
-                if (argumentCount >= 2){
-                    width =  JSValueToNumber(arguments[0], exception);
-                    height =  JSValueToNumber(arguments[1], exception);
-                }
-                
-                appObject->setSize(width, height);
-                
-                JSObjectRef _guiFinishedCreatingGObject = V8_JAVASCRIPT_ENGINE->v8GetFunction(V8_RADJAV, "_guiFinishedCreatingGObject");
-                JSObjectRef promise = V8_JAVASCRIPT_ENGINE->createPromise(thisObject, _guiFinishedCreatingGObject);
-                
-                return promise;
+				if (args.Length() > 1)
+				{
+					x = V8_JAVASCRIPT_ENGINE->v8ParseInt(args[0]);
+					y = V8_JAVASCRIPT_ENGINE->v8ParseInt(args[1]);
+				}
+				else
+				{
+					v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(args[0]);
+					x = V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "x");
+					y = V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "y");
+				}
+
+				v8::Handle<v8::Object> transform = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "_transform");
+				v8::Local<v8::Value> *args2 = RJNEW v8::Local<v8::Value>[2];
+				args2[0] = v8::Number::New(args.GetIsolate(), x);
+				args2[1] = v8::Number::New(args.GetIsolate(), y);
+				V8_JAVASCRIPT_ENGINE->v8CallFunction(transform, "setSize", 2, args2);
+
+				DELETE_ARRAY(args2);
+
+				if (appObject != NULL)
+					appObject->setSize(x, y);
             }
             
             
-            JSValueRef View::getSize(const v8::FunctionCallbackInfo<v8::Value> &args)
+            void View::getSize(const v8::FunctionCallbackInfo<v8::Value> &args)
             {
-                 CppMuiObject *appObject = (CppMuiObject *) V8_JAVASCRIPT_ENGINE->v8GetExternal(thisObject, "_appObj");
+                CppMuiObject *appObject = (CppMuiObject *) V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				RJINT x = 0;
+				RJINT y = 0;
+
+				v8::Handle<v8::Object> transform = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "_transform");
+				x = V8_JAVASCRIPT_ENGINE->v8GetInt(transform, "width");
+				y = V8_JAVASCRIPT_ENGINE->v8GetInt(transform, "height");
+
+				if (appObject != NULL)
+				{
+					CPP::Vector2 size = appObject->getSize();
+					x = size.x;
+					y = size.y;
+				}
+
+				v8::Local<v8::Object> vector2 = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_RADJAV, "Vector2");
+				v8::Local<v8::Object> vector2obj = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(vector2, 0, NULL);
+				vector2obj->Set(String("x").toV8String(args.GetIsolate()), v8::Number::New(args.GetIsolate(), x));
+				vector2obj->Set(String("y").toV8String(args.GetIsolate()), v8::Number::New(args.GetIsolate(), y));
+
+				args.GetReturnValue().Set(vector2obj);
             }
             
-            JSValueRef View::setPosition(const v8::FunctionCallbackInfo<v8::Value> &args)
+            void View::setPosition(const v8::FunctionCallbackInfo<v8::Value> &args)
             {
-                CppMuiObject *appObject = (CppMuiObject *) V8_JAVASCRIPT_ENGINE->v8GetExternal(thisObject, "_appObj");
-                
-                int x = 0;
-                int y = 0;
-                
-                
-                if (argumentCount >= 2){
-                    x =  JSValueToNumber(arguments[0], exception);
-                    y =  JSValueToNumber(arguments[1], exception);
-                }
-                
-                appObject->setPosition(x, y);
-                
-                JSObjectRef _guiFinishedCreatingGObject = V8_JAVASCRIPT_ENGINE->v8GetFunction(V8_RADJAV, "_guiFinishedCreatingGObject");
-                JSObjectRef promise = V8_JAVASCRIPT_ENGINE->createPromise(thisObject, _guiFinishedCreatingGObject);
-                
-                return promise;
+                CppMuiObject *appObject = (CppMuiObject *) V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				RJINT x = 0;
+				RJINT y = 0;
+
+				if (args.Length() > 1)
+				{
+					x = V8_JAVASCRIPT_ENGINE->v8ParseInt(args[0]);
+					y = V8_JAVASCRIPT_ENGINE->v8ParseInt(args[1]);
+				}
+				else
+				{
+					v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(args[0]);
+					x = V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "x");
+					y = V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "y");
+				}
+
+				v8::Handle<v8::Object> transform = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "_transform");
+				v8::Local<v8::Value> *args2 = RJNEW v8::Local<v8::Value>[2];
+				args2[0] = v8::Number::New(args.GetIsolate(), x);
+				args2[1] = v8::Number::New(args.GetIsolate(), y);
+				V8_JAVASCRIPT_ENGINE->v8CallFunction(transform, "setPosition", 2, args2);
+
+				DELETE_ARRAY(args2);
+
+				if (appObject != NULL)
+					appObject->setPosition(x, y);
             }
             
             
-            JSValueRef View::getPosition(const v8::FunctionCallbackInfo<v8::Value> &args)
+            void View::getPosition(const v8::FunctionCallbackInfo<v8::Value> &args)
             {
-                
+                CppMuiObject *appObject = (CppMuiObject *) V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				RJINT x = 0;
+				RJINT y = 0;
+
+				v8::Handle<v8::Object> transform = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "_transform");
+				x = V8_JAVASCRIPT_ENGINE->v8GetInt(transform, "x");
+				y = V8_JAVASCRIPT_ENGINE->v8GetInt(transform, "y");
+
+				CPP::Vector2 pos;
+
+				if (appObject != NULL)
+					pos = appObject->getPosition();
+
+				x = pos.x;
+				y = pos.y;
+
+				v8::Local<v8::Object> vector2 = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_RADJAV, "Vector2");
+				v8::Local<v8::Object> vector2obj = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(vector2, 0, NULL);
+				vector2obj->Set(String("x").toV8String(args.GetIsolate()), v8::Number::New(args.GetIsolate(), x));
+				vector2obj->Set(String("y").toV8String(args.GetIsolate()), v8::Number::New(args.GetIsolate(), y));
+
+				args.GetReturnValue().Set(vector2obj);
             }
-            
-            
-            
-            JSValueRef View::setParent(const v8::FunctionCallbackInfo<v8::Value> &args)
+
+            void View::setParent(const v8::FunctionCallbackInfo<v8::Value> &args)
             {
-                CppMuiObject *appObject = (CppMuiObject *) V8_JAVASCRIPT_ENGINE->v8GetExternal(thisObject, "_appObj");
+                CppMuiObject *appObject = (CppMuiObject *) V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
  
-                if (argumentCount > 0){
-                   JSObjectRef argument =  JSValueToObject(arguments[0], exception);
-                  
-                }
-                //TODO: implement lookup and addSubview: according to it
-                //appObject->setParent(x, y);
-                
-                JSObjectRef _guiFinishedCreatingGObject = V8_JAVASCRIPT_ENGINE->v8GetFunction(V8_RADJAV, "_guiFinishedCreatingGObject");
-                JSObjectRef promise = V8_JAVASCRIPT_ENGINE->createPromise(thisObject, _guiFinishedCreatingGObject);
-                
-                return promise;
             }
             
 		}

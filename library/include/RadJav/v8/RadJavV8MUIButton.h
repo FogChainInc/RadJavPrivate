@@ -31,7 +31,7 @@
 		{
 			namespace MUI
 			{
-				class RADJAV_EXPORT Button : public GObject
+				class RADJAV_EXPORT Button : public V8B::GUI::GObject
 				{
 					public:
 						static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);

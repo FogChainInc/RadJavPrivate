@@ -1,6 +1,8 @@
 leaks.csv
 .vs
 .DS_Store
+.package-lock.json
+node_modules
 
 library/include/RadJav/RadJavJavascriptCode.h
 library/build*

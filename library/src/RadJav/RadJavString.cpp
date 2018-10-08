@@ -513,7 +513,7 @@ namespace RadJAV
 		if (value.IsEmpty() == true)
 			return ("");
 
-		v8::String::Utf8Value newStr(V8_JAVASCRIPT_ENGINE->isolate, str);
+		v8::String::Utf8Value newStr(V8_JAVASCRIPT_ENGINE->isolate, value);
 
 		return (*newStr);
 	}

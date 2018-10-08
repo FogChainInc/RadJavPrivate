@@ -31,7 +31,7 @@
 		{
 			namespace MUI
 			{
-				class RADJAV_EXPORT View : public GObject
+				class RADJAV_EXPORT View : public V8B::GUI::GObject
 				{
 				public:
 					static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
@@ -58,6 +58,7 @@
 					static void setIcon(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void on(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void destroy(const v8::FunctionCallbackInfo<v8::Value> &args);
+					static void setParent(const v8::FunctionCallbackInfo<v8::Value> &args);
 				};
 			}
 		}
