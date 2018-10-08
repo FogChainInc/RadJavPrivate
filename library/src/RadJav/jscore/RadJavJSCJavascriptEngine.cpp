@@ -81,6 +81,7 @@
 		#include "jscore/RadJavJSCMUIImage.h"
 		#include "jscore/RadJavJSCMUICheckbox.h"
 		#include "jscore/RadJavJSCMUITextbox.h"
+		#include "jscore/RadJavJSCMUITextarea.h"
 	#endif
 
 	// Database
@@ -1319,6 +1320,14 @@ namespace RadJAV
 						JSObjectRef textboxPrototype = jscGetObject(textboxFunc, "prototype");
 						
 						JSC::MUI::Textbox::createJSCCallbacks(globalContext, textboxPrototype);
+					}
+
+					// RadJav.MUI.Textarea
+					{
+						JSObjectRef textareaFunc = jscGetFunction(muiFunc, "Textarea");
+						JSObjectRef textareaPrototype = jscGetObject(textareaFunc, "prototype");
+						
+						JSC::MUI::Textarea::createJSCCallbacks(globalContext, textareaPrototype);
 					}
 				}
 				#endif
