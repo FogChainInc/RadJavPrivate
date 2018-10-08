@@ -33,6 +33,17 @@ namespace RadJAV
 	}
 }
 
+namespace RadJAV
+{
+    namespace CPP
+    {
+        namespace MUI
+        {
+            class TableViewFrame;
+        }
+    }
+}
+
 @interface ButtonDelegate : NSObject
 
 - (bool)bindEvent:(nullable id)nativeWidget eventName:(const std::string&)eventName;
@@ -57,3 +68,27 @@ namespace RadJAV
 
 @end
 
+@interface TableViewDelegate : NSObject <UITableViewDelegate>
+
+- (bool)bindEvent:(nullable id)nativeWidget eventName:(const std::string&)eventName;
+
+- (CGFloat)tableView:(nonnull UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath;
+- (CGFloat)tableView:(nonnull UITableView *)tableView heightForHeaderInSection:(NSInteger)section;
+- (CGFloat)tableView:(nonnull UITableView *)tableView heightForFooterInSection:(NSInteger)section;
+- (void)tableView:(nonnull UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath;
+
+
+@property (nonatomic, assign) RadJAV::CPP::MUI::TableViewFrame* _Nullable widget;
+
+@end
+
+
+@interface TableViewDataSource : NSObject <UITableViewDataSource>
+
+- (bool)bindEvent:(nullable id)nativeWidget eventName:(const std::string&)eventName;
+@property (nonatomic, assign) RadJAV::CPP::MUI::TableViewFrame* _Nullable widget;
+
+- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section;
+- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath;
+
+@end
