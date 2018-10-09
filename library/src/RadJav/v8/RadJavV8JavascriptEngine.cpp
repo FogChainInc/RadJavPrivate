@@ -679,7 +679,7 @@ namespace RadJAV
 			v8::Local<v8::String> script = v8::String::NewFromUtf8(isolate, "");
 
 			for (RJINT iIdx = 0; iIdx < code.size(); iIdx++)
-				script = v8::String::Concat(script, code.at(iIdx).toV8String(isolate));
+				script = v8::String::Concat(isolate, script, code.at(iIdx).toV8String(isolate));
 
 			executeScript(script, fileName.toV8String(isolate), globalContext->Global());
 		}
@@ -711,7 +711,7 @@ namespace RadJAV
 			if (scriptTemp.IsEmpty() == true)
 			{
 				v8::Local<v8::Value> exception = tryCatch.Exception();
-				v8::Local<v8::Value> stackTrace = tryCatch.StackTrace();
+				v8::Local<v8::Value> stackTrace = tryCatch.StackTrace(globalContext).ToLocalChecked ();
 				String exceptionStr = parseV8Value(exception);
 				String stackTraceStr = parseV8Value(stackTrace);
 
@@ -724,7 +724,7 @@ namespace RadJAV
 			if (result.IsEmpty() == true)
 			{
 				v8::Local<v8::Value> exception = tryCatch.Exception();
-				v8::Local<v8::Value> stackTrace = tryCatch.StackTrace();
+				v8::Local<v8::Value> stackTrace = tryCatch.StackTrace(globalContext).ToLocalChecked ();
 				String exceptionStr = parseV8Value(exception);
 				String stackTraceStr = parseV8Value(stackTrace);
 
@@ -1631,7 +1631,7 @@ namespace RadJAV
 
 			v8::Handle<v8::Number> val = v8::Handle<v8::Number>::Cast(value);
 
-			return (val->Int32Value());
+			return (val->Int32Value(globalContext).FromMaybe (0));
 		}
 
 		RDECIMAL V8JavascriptEngine::v8GetDecimal(v8::Local<v8::Object> context, String functionName)
@@ -1644,7 +1644,7 @@ namespace RadJAV
 
 			v8::Handle<v8::Number> val = v8::Handle<v8::Number>::Cast(value);
 
-			return (val->NumberValue());
+			return (val->NumberValue(globalContext).FromMaybe(0));
 		}
 
 		void V8JavascriptEngine::v8SetBool(v8::Local<v8::Object> context, String functionName, bool value)
@@ -1780,17 +1780,17 @@ namespace RadJAV
 
 		RJBOOL V8JavascriptEngine::v8ParseBool(v8::Local<v8::Value> val)
 		{
-			return (val->BooleanValue());
+			return (val->BooleanValue(globalContext).FromMaybe (false));
 		}
 
 		RJINT V8JavascriptEngine::v8ParseInt(v8::Local<v8::Value> val)
 		{
-			return (val->Int32Value());
+			return (val->Int32Value(globalContext).FromMaybe (0));
 		}
 
 		RDECIMAL V8JavascriptEngine::v8ParseDecimal(v8::Local<v8::Value> val)
 		{
-			return (val->NumberValue ());
+			return (val->NumberValue(globalContext).FromMaybe(0));
 		}
 
 		v8::Local<v8::Object> V8JavascriptEngine::createPromise(v8::Local<v8::Function> function)

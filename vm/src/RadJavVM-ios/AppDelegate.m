@@ -43,14 +43,14 @@
 	//Executable path
 	NSString* appPath = [[[NSBundle mainBundle] executablePath] stringByDeletingLastPathComponent];
 	NSString* appFullPath = [appPath stringByAppendingString:@"/RadJavVM"];
-	NSLog(@"%@", appFullPath);
+	//NSLog(@"%@", appFullPath);
 
 	//Test Javascript file
 	NSString *docDirPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)objectAtIndex:0];
 	NSMutableString *jsAppFilePath = [NSMutableString stringWithString:appPath];
 	[jsAppFilePath appendString:@"/examples/window/window.xrj"];
 	
-	NSLog(@"%@", jsAppFilePath);
+	//NSLog(@"%@", jsAppFilePath);
 
 	const char* args[2] = {[appFullPath UTF8String], [jsAppFilePath UTF8String]};
 	

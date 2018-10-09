@@ -25,6 +25,8 @@
 	#include "RadJavArray.h"
 	#include "RadJavHashMap.h"
 
+	#include <functional>
+
 	namespace RadJAV
 	{
 		namespace CPP

@@ -94,7 +94,7 @@ namespace RadJAV
 				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
 
 				if (appObject != NULL)
-					font = CPP::Font::toV8Object(V8_JAVASCRIPT_ENGINE, appObject->getFont());
+					font = appObject->getFont()->toV8Object();
 
 				args.GetReturnValue().Set(font);
 			}

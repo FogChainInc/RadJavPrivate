@@ -35,24 +35,22 @@ namespace RadJAV
 			
 			void ScreenInfo::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 			{
-                V8_CALLBACK(object, "getWidth", ScreenInfo::getWidth);
-                V8_CALLBACK(object, "getHeight", ScreenInfo::getHeight);
-                V8_CALLBACK(object, "getScale", ScreenInfo::getScale);
+				V8_CALLBACK(object, "getNumberOfScreens", ScreenInfo::getNumberOfScreens);
+				V8_CALLBACK(object, "getScreenInfo", ScreenInfo::getScreenInfo);
 			}
 
-			void ScreenInfo::getWidth(const v8::FunctionCallbackInfo<v8::Value> &args)
+			void ScreenInfo::getNumberOfScreens(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				args.GetReturnValue().Set(v8::Integer::New(args.GetIsolate(), CppMuiObject::getWidth()));
+				args.GetReturnValue().Set(v8::Integer::New(args.GetIsolate(), CppMuiObject::getNumberOfScreens()));
 			}
 
-			void ScreenInfo::getHeight(const v8::FunctionCallbackInfo<v8::Value> &args)
+			void ScreenInfo::getScreenInfo(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				args.GetReturnValue().Set(v8::Integer::New(args.GetIsolate(), CppMuiObject::getHeight()));
-			}
+				RJINT screenIndex = V8_JAVASCRIPT_ENGINE->v8ParseInt(args[0]);
+				CppMuiObject screenInfo = CppMuiObject::getScreenInfo(screenIndex);
+				v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast (screenInfo.toV8Object());
 
-			void ScreenInfo::getScale(const v8::FunctionCallbackInfo<v8::Value> &args)
-			{
-				args.GetReturnValue().Set(v8::Integer::New(args.GetIsolate(), CppMuiObject::getScale()));
+				args.GetReturnValue().Set(obj);
 			}
 		}
 	}

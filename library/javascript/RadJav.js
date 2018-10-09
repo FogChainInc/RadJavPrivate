@@ -90,17 +90,17 @@ RadJav.OS.ScreenInfo = function (width, height, scale)
 
 	this.getWidth = function ()
 	{
-		return (this._width);
+		return (this.width);
 	}
 
 	this.getHeight = function ()
 	{
-		return (this._height);
+		return (this.height);
 	}
 
 	this.getScale = function ()
 	{
-		return (this._scale);
+		return (this.scale);
 	}
 }
 

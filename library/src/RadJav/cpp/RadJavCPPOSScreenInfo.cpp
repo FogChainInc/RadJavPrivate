@@ -61,9 +61,9 @@ namespace RadJAV
 					v8::Handle<v8::Function> func2 = V8_JAVASCRIPT_ENGINE->v8GetFunction(func, "ScreenInfo");
 					v8::Local<v8::Object> ScreenInfoObj = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(func2, 0, NULL);
 
-					V8_JAVASCRIPT_ENGINE->v8SetNumber(ScreenInfoObj, "width", screen->width);
-					V8_JAVASCRIPT_ENGINE->v8SetNumber(ScreenInfoObj, "height", screen->height);
-					V8_JAVASCRIPT_ENGINE->v8SetDecimal(ScreenInfoObj, "scale", screen->scale);
+					V8_JAVASCRIPT_ENGINE->v8SetNumber(ScreenInfoObj, "width", width);
+					V8_JAVASCRIPT_ENGINE->v8SetNumber(ScreenInfoObj, "height", height);
+					V8_JAVASCRIPT_ENGINE->v8SetNumber(ScreenInfoObj, "scale", scale);
 
 					return (ScreenInfoObj);
 				}
