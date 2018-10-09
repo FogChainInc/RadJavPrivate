@@ -49,14 +49,14 @@ namespace RadJAV
 
 				fontFamily = parseV8Value(obj->Get(String("fontFamily").toV8String(jsEngine->isolate)));
 				v8::Handle<v8::Object> colorv8 = v8::Handle<v8::Object>::Cast(obj->Get(String("color").toV8String(jsEngine->isolate)));
-				color.r = colorv8->Get(String("r").toV8String(jsEngine->isolate))->NumberValue();
-				color.g = colorv8->Get(String("g").toV8String(jsEngine->isolate))->NumberValue();
-				color.b = colorv8->Get(String("b").toV8String(jsEngine->isolate))->NumberValue();
-				color.a = colorv8->Get(String("a").toV8String(jsEngine->isolate))->NumberValue();
-				size = obj->Get(String("size").toV8String(jsEngine->isolate))->IntegerValue();
-				underline = obj->Get(String("underline").toV8String(jsEngine->isolate))->BooleanValue();
-				bold = obj->Get(String("bold").toV8String(jsEngine->isolate))->BooleanValue();
-				italic = obj->Get(String("italic").toV8String(jsEngine->isolate))->BooleanValue();
+				color.r = colorv8->Get(String("r").toV8String(jsEngine->isolate))->NumberValue(jsEngine->globalContext).FromMaybe (0);
+				color.g = colorv8->Get(String("g").toV8String(jsEngine->isolate))->NumberValue(jsEngine->globalContext).FromMaybe(0);
+				color.b = colorv8->Get(String("b").toV8String(jsEngine->isolate))->NumberValue(jsEngine->globalContext).FromMaybe(0);
+				color.a = colorv8->Get(String("a").toV8String(jsEngine->isolate))->NumberValue(jsEngine->globalContext).FromMaybe(0);
+				size = obj->Get(String("size").toV8String(jsEngine->isolate))->IntegerValue(jsEngine->globalContext).FromMaybe(0);
+				underline = obj->Get(String("underline").toV8String(jsEngine->isolate))->BooleanValue(jsEngine->globalContext).FromMaybe(false);
+				bold = obj->Get(String("bold").toV8String(jsEngine->isolate))->BooleanValue(jsEngine->globalContext).FromMaybe(false);
+				italic = obj->Get(String("italic").toV8String(jsEngine->isolate))->BooleanValue(jsEngine->globalContext).FromMaybe(false);
 			}
 
 			v8::Local<v8::Object> Font::toV8Object()

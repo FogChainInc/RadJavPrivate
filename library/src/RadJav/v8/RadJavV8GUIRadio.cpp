@@ -97,7 +97,7 @@ namespace RadJAV
 
 				#ifdef GUI_USE_WXWIDGETS
 					if (appObject != NULL) {
-						font = CPP::Font::toV8Object(V8_JAVASCRIPT_ENGINE, appObject->getFont());
+						font = appObject->getFont()->toV8Object();
 					}
 				#endif
 				args.GetReturnValue().Set(font);

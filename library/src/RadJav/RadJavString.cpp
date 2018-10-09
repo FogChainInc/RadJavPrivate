@@ -25,6 +25,11 @@
     #include <JavaScriptCore/JSStringRef.h>
 #endif
 
+#ifdef USE_V8
+	#include "RadJav.h"
+	#include "v8/RadJavV8JavascriptEngine.h"
+#endif
+
 #include <sstream>
 #include <stdlib.h>
 
@@ -509,7 +514,7 @@ namespace RadJAV
 		if (value.IsEmpty() == true)
 			return ("");
 
-		v8::String::Utf8Value newStr(value);
+		v8::String::Utf8Value newStr(V8_JAVASCRIPT_ENGINE->isolate, value);
 
 		return (*newStr);
 	}

@@ -43,7 +43,7 @@
     #include "jscore/RadJavJSCJavascriptEngine.h"
 #endif
 
-#ifdef USE_IOS
+#if defined (USE_IOS)
 	#ifdef __OBJC__
 		#define OBJC_CLASS(name) @class name
 	#else
@@ -51,8 +51,8 @@
 	#endif
 
 	OBJC_CLASS(UIView);
-#elif defined USE_ANDROID
-	#warning Add forward declaration of Android specific class/type
+#elif defined (USE_ANDROID)
+	#pragma message ("Add forward declaration of Android specific class/type")
 #endif
 
 
