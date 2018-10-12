@@ -576,6 +576,7 @@ if (libRadJav_EMBEDFILE)
 			RadJav.Animation.js
 			RadJav.IO.js
 			RadJav.Interact.js
+			RadJav.Testing.js
 	)
 	
 	if (INCLUDE_DATABASES)

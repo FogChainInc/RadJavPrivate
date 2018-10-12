@@ -110,15 +110,22 @@ if (USE_V8)
 	source_group ("RadJav\\V8\\Global" FILES ${SOURCES_files_RadJav__v8__Global__Headers})
 	
 	set (SOURCES ${SOURCES_files_RadJav__v8__Global__Headers} ${SOURCES})
-	
+
 	# V8 OS
 	set (SOURCES_files_RadJav__v8__OS__Headers 
 		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8OS.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8OSScreenInfo.h")
 	source_group ("RadJav\\V8\\OS" FILES ${SOURCES_files_RadJav__v8__OS__Headers})
-	
+
 	set (SOURCES ${SOURCES_files_RadJav__v8__OS__Headers} ${SOURCES})
-	
+
+	# V8 Testing
+	set (SOURCES_files_RadJav__v8__Testing__Headers 
+		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8Testing.h")
+	source_group ("RadJav\\V8\\Testing" FILES ${SOURCES_files_RadJav__v8__Testing__Headers})
+
+	set (SOURCES ${SOURCES_files_RadJav__v8__Testing__Headers} ${SOURCES})
+
 	# V8 Console
 	set (SOURCES_files_RadJav__v8__Console__Headers 
 		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8Console.h")
@@ -281,6 +288,13 @@ if (USE_JAVASCRIPTCORE)
 
 	set (SOURCES ${SOURCES_files_RadJav__JSC__OS__Headers} ${SOURCES})
 
+	# JavaScriptCore Testing
+	set (SOURCES_files_RadJav__JSC__Testing__Headers 
+		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCTesting.h")
+	source_group ("RadJav\\JavaScriptCore\\Testing" FILES ${SOURCES_files_RadJav__JSC__Testing__Headers})
+
+	set (SOURCES ${SOURCES_files_RadJav__JSC__Testing__Headers} ${SOURCES})
+
 	# JavaScriptCore Console
 	set (SOURCES_files_RadJav__JSC__Console__Headers 
 		"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCConsole.h")
@@ -387,6 +401,13 @@ set (SOURCES_files_RadJav__cpp__OS__Headers
 source_group ("RadJav\\CPP\\OS" FILES ${SOURCES_files_RadJav__cpp__OS__Headers})
 
 set (SOURCES ${SOURCES_files_RadJav__cpp__OS__Headers} ${SOURCES})
+
+# C++ Testing
+set (SOURCES_files_RadJav__cpp__Testing__Headers 
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPTesting.h")
+source_group ("RadJav\\CPP\\Testing" FILES ${SOURCES_files_RadJav__cpp__Testing__Headers})
+
+set (SOURCES ${SOURCES_files_RadJav__cpp__Testing__Headers} ${SOURCES})
 
 if (USE_V8)
 	# C++ Networking
