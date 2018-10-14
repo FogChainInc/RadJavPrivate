@@ -39,12 +39,38 @@ namespace RadJAV
 			JSValueRef KeyboardSimulator::keyPress(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception)
 			{
 				JSValueRef arg = args[0];
-				String key = parseV8Value (arg);
+				String key = parseJSCValue (context, arg);
 
 				CPP::Testing::KeyboardSimulator::keyPress(key);
 
 				return (JSValueMakeUndefined(context));
 			}
+
+            void MouseSimulator::createJSCCallbacks(JSContextRef context, JSObjectRef object)
+            {
+                JSC_CALLBACK(object, "click", MouseSimulator::click);
+                JSC_CALLBACK(object, "setPosition", MouseSimulator::setPosition);
+            }
+
+            JSValueRef MouseSimulator::click(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception)
+            {
+                JSValueRef arg = args[0];
+                RJINT button = JSC_JAVASCRIPT_ENGINE->jscParseInt (arg);
+
+                CPP::Testing::MouseSimulator::click(button);
+
+                return (JSValueMakeUndefined(context));
+            }
+
+            JSValueRef MouseSimulator::setPosition(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception)
+            {
+                JSValueRef arg = args[0];
+                CPP::Vector2 pos(JSC_JAVASCRIPT_ENGINE->jscCastValueToObject(arg));
+
+                CPP::Testing::MouseSimulator::setPosition(pos);
+                
+                return (JSValueMakeUndefined(context));
+            }
 		}
 	}
 }

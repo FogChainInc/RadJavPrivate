@@ -22,8 +22,15 @@
 
     #include "RadJavPreprocessor.h"
     #include "RadJavString.h"
+    #include "RadJavHashMap.h"
 
 	#include "RadJavCPPVector2.h"
+
+    #ifdef __APPLE__
+        #ifdef TARGET_OS_MAC
+            #include <ApplicationServices/ApplicationServices.h>
+        #endif
+    #endif
 
     namespace RadJAV
     {
@@ -35,8 +42,20 @@
                 class RADJAV_EXPORT KeyboardSimulator
                 {
                     public:
+                        #ifdef __APPLE__
+                            #ifdef TARGET_OS_MAC
+                                static CGKeyCode charToKeyCode (RJCHAR key);
+                            #endif
+                        #endif
+
                         /// Simulate a key being pressed.
                         static void keyPress(String key);
+                    
+                        #ifdef __APPLE__
+                            #ifdef TARGET_OS_MAC
+                                static HashMap<CFStringRef, RJINT> *dictionary;
+                            #endif
+                        #endif
                 };
 
 				/// Simulates a mouse.

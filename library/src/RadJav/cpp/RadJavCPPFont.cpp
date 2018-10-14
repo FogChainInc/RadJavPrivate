@@ -142,10 +142,10 @@ namespace RadJAV
                     if (wfont.IsOk() == true)
                     {
                         String nfontFamily = parsewxString(wfont.GetFaceName());
-                        RJNUMBER nr = font->color.r / 255;
-                        RJNUMBER ng = font->color.g / 255;
-                        RJNUMBER nb = font->color.b / 255;
-                        RJNUMBER na = font->color.a / 255;
+                        RJNUMBER nr = color.r / 255;
+                        RJNUMBER ng = color.g / 255;
+                        RJNUMBER nb = color.b / 255;
+                        RJNUMBER na = color.a / 255;
                         RJINT nsize = wfont.GetPixelSize().x;
                         RJBOOL nunderlined = false;
                         RJBOOL nbold = false;

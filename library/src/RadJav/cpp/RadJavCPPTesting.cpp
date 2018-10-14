@@ -26,18 +26,67 @@
 	#include <windows.h>
 #endif
 
+#ifdef __APPLE__
+    #ifdef TARGET_OS_MAC
+        #include <CoreFoundation/CoreFoundation.h>
+        #include <Carbon/Carbon.h>
+    #endif
+#endif
+
 namespace RadJAV
 {
 	namespace CPP
 	{
 		namespace Testing
 		{
+            HashMap<CFStringRef, RJINT> *KeyboardSimulator::dictionary = NULL;
+
+            #ifdef __APPLE__
+                #ifdef TARGET_OS_MAC
+                    CGKeyCode KeyboardSimulator::charToKeyCode (RJCHAR key)
+                    {
+                        if (dictionary == NULL)
+                        {
+                            dictionary = RJNEW HashMap<CFStringRef, RJINT> ();
+
+                            TISInputSourceRef keyboard = TISCopyCurrentKeyboardInputSource ();
+                            CFDataRef layoutData = (CFDataRef)TISGetInputSourceProperty (keyboard, kTISPropertyUnicodeKeyLayoutData);
+                            const UCKeyboardLayout *layout = (const UCKeyboardLayout *)CFDataGetBytePtr(layoutData);
+
+                            for (RJINT iIdx = 0; iIdx < 128; iIdx++)
+                            {
+                                UInt32 keyDown = 0;
+                                UniChar chars[4];
+                                UniCharCount count;
+
+                                UCKeyTranslate (layout, (CGKeyCode)iIdx, kUCKeyActionDisplay, 0, LMGetKbdType(), kUCKeyTranslateNoDeadKeysBit, &keyDown, sizeof (chars) / sizeof (chars[0]), &count, chars);
+                                CFStringRef str = CFStringCreateWithCharacters(kCFAllocatorDefault, chars, 1);
+
+                                if (str != NULL)
+                                {
+                                    dictionary->insert (std::pair<CFStringRef, RJINT> (str, iIdx));
+                                    CFRelease (str);
+                                }
+                            }
+
+                            CFRelease (keyboard);
+                        }
+
+                        UniChar unichar = key;
+                        CFStringRef str = CFStringCreateWithCharacters (kCFAllocatorDefault, &unichar, 1);
+                        CGKeyCode result = (CGKeyCode)dictionary->at (str);
+                        CFRelease (str);
+
+                        return (result);
+                    }
+                #endif
+            #endif
+
             void KeyboardSimulator::keyPress(String key)
             {
-				String temp = key.toUpperCase();
-				RJCHAR value = temp.at (0);
-
 				#ifdef WIN32
+                    String temp = key.toUpperCase();
+                    RJCHAR value = temp.at (0);
 					INPUT input;
 
 					input.type = INPUT_KEYBOARD;
@@ -53,14 +102,26 @@ namespace RadJAV
 					input.ki.dwFlags = KEYEVENTF_KEYUP;
 					SendInput(1, &input, sizeof(INPUT));
 				#endif
+
+                #ifdef __APPLE__
+                    #ifdef TARGET_OS_MAC
+                        String temp = key.toLowerCase();
+                        RJCHAR value = temp.at (0);
+                        CGKeyCode keyCode = charToKeyCode (value);
+                        CGEventRef event = CGEventCreateKeyboardEvent (NULL, keyCode, true);
+
+                        CGEventPost (kCGHIDEventTap, event);
+                        CFRelease (event);
+                    #endif
+                #endif
             }
 
 			void MouseSimulator::click(RJINT button)
 			{
 				#ifdef WIN32
 					INPUT input;
-					RJINT flagDown = 0;
-					RJINT flagUp = 0;
+                    RJINT flagDown = 0;
+                    RJINT flagUp = 0;
 
 					if (button == 0)
 					{
@@ -94,6 +155,29 @@ namespace RadJAV
 					input.mi.dwFlags = flagUp;
 					SendInput(1, &input, sizeof(INPUT));
 				#endif
+
+                #ifdef __APPLE__
+                    #ifdef TARGET_OS_MAC
+                        CGEventRef event = NULL;
+                        CGEventSourceRef source = CGEventSourceCreate (kCGEventSourceStateHIDSystemState);
+                        CGEventRef tempEvent = CGEventCreate (source);
+                        CGPoint pos = CGEventGetLocation (tempEvent);
+
+                        CFRelease(tempEvent);
+
+                        if (button == 0)
+                            event = CGEventCreateMouseEvent (NULL, kCGEventLeftMouseDown, pos, kCGMouseButtonLeft);
+
+                        if (button == 1)
+                            event = CGEventCreateMouseEvent (NULL, kCGEventRightMouseDown, pos, kCGMouseButtonRight);
+
+                        if (button == 2)
+                            event = CGEventCreateMouseEvent (NULL, kCGEventOtherMouseDown, pos, kCGMouseButtonCenter);
+
+                        CGEventPost (kCGHIDEventTap, event);
+                        CFRelease (event);
+                    #endif
+                #endif
 			}
 
 			void MouseSimulator::setPosition(CPP::Vector2 pos)
@@ -112,6 +196,15 @@ namespace RadJAV
 
 					SendInput(1, &input, sizeof(INPUT));
 				#endif
+
+                #ifdef __APPLE__
+                    #ifdef TARGET_OS_MAC
+                        CGEventRef event = CGEventCreateMouseEvent (NULL, kCGEventMouseMoved, CGPointMake(pos.x, pos.y), kCGMouseButtonLeft);
+
+                        CGEventPost (kCGHIDEventTap, event);
+                        CFRelease (event);
+                    #endif
+                #endif
 			}
 		}
 	}
