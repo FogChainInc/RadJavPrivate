@@ -18,19 +18,26 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 #ifndef _RADJAV_MUI_CPP_TableCellModel_H_
-	#define _RADJAV_MUI_CPP_TableCellModel_H_
-	#include "cpp/RadJavCPPGUIGObject.h"
-    #include "jscore/RadJavJSCGUIGObject.h"
-#ifdef USE_IOS
-#ifdef __OBJC__
-#define OBJC_CLASS(name) @class name
-#else
-#define OBJC_CLASS(name) typedef struct objc_object name
+#define _RADJAV_MUI_CPP_TableCellModel_H_
+
+#include "cpp/RadJavCPPGUIGObject.h"
+
+#ifdef USE_V8
+	#include "v8/RadJavV8GUIGObject.h"
+#elif defined USE_JAVASCRIPTCORE
+	#include "jscore/RadJavJSCGUIGObject.h"
 #endif
 
-OBJC_CLASS(UITableView);
+#ifdef USE_IOS
+	#ifdef __OBJC__
+		#define OBJC_CLASS(name) @class name
+	#else
+		#define OBJC_CLASS(name) typedef struct objc_object name
+	#endif
+
+	OBJC_CLASS(UITableView);
 #elif defined USE_ANDROID
-#warning Add forward declaration of Android specific class/type
+	#warning Add forward declaration of Android specific class/type
 #endif
 
 

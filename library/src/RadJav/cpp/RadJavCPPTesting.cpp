@@ -39,10 +39,10 @@ namespace RadJAV
 	{
 		namespace Testing
 		{
-            HashMap<CFStringRef, RJINT> *KeyboardSimulator::dictionary = NULL;
+			#ifdef __APPLE__
+				#ifdef TARGET_OS_MAC
+            		HashMap<CFStringRef, RJINT> *KeyboardSimulator::dictionary = NULL;
 
-            #ifdef __APPLE__
-                #ifdef TARGET_OS_MAC
                     CGKeyCode KeyboardSimulator::charToKeyCode (RJCHAR key)
                     {
                         if (dictionary == NULL)
