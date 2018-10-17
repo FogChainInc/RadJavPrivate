@@ -18,10 +18,18 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 #ifndef _RADJAV_MUI_CPP_TableView_H_
-	#define _RADJAV_MUI_CPP_TableView_H_
-	#include "cpp/RadJavCPPGUIGObject.h"
-    #include "cpp/RadJavCPPMUITableViewModel.h"
-    #include "jscore/RadJavJSCGUIGObject.h"
+#define _RADJAV_MUI_CPP_TableView_H_
+#include "cpp/RadJavCPPGUIGObject.h"
+#include "cpp/RadJavCPPMUITableViewModel.h"
+#include "jscore/RadJavJSCGUIGObject.h"
+
+
+#ifdef USE_V8
+	#include "v8/RadJavV8GUIGObject.h"
+#elif defined USE_JAVASCRIPTCORE
+	#include "jscore/RadJavJSCGUIGObject.h"
+#endif
+
 #ifdef USE_IOS
 #ifdef __OBJC__
 #define OBJC_CLASS(name) @class name

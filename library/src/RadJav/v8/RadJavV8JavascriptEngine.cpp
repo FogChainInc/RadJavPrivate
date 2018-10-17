@@ -40,6 +40,7 @@
 #ifdef USE_V8
 	#include "v8/RadJavV8Global.h"
 	#include "v8/RadJavV8OS.h"
+	#include "v8/RadJavV8Testing.h"
 
 	#include "v8/RadJavV8Console.h"
 	#include "v8/RadJavV8IO.h"
@@ -1162,6 +1163,23 @@ namespace RadJAV
 
 							args->Set(iIdx, arg.toV8String(isolate));
 						}
+					}
+				}
+
+				// RadJav.Testing
+				{
+					v8::Handle<v8::Function> testingFunc = v8GetFunction(radJavFunc, "Testing");
+
+					// RadJav.Testing.KeyboardSimulator
+					{
+						v8::Handle<v8::Function> keyboardSimulatorFunc = v8GetFunction(testingFunc, "KeyboardSimulator");
+						V8B::Testing::KeyboardSimulator::createV8Callbacks(isolate, keyboardSimulatorFunc);
+					}
+
+					// RadJav.Testing.MouseSimulator
+					{
+						v8::Handle<v8::Function> mouseSimulatorFunc = v8GetFunction(testingFunc, "MouseSimulator");
+						V8B::Testing::MouseSimulator::createV8Callbacks(isolate, mouseSimulatorFunc);
 					}
 				}
 

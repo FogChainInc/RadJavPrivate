@@ -5,7 +5,7 @@ fixPath (OGRE_SOURCE)
 set (OGRE_SEARCH_PATHS "${OGRE_SOURCE}" ${RADJAV_DEPENDENCIES})
 
 if (APPLE)
-	set (OGRE_SEARCH_PATHS "${OGRE_SOURCE}/lib/macosx" "${OGRE_SOURCE}/lib/debug" ${OGRE_SEARCH_PATHS})
+	set (OGRE_SEARCH_PATHS "${OGRE_SOURCE}/lib/macosx" "${OGRE_SOURCE}/lib/debug" "${OGRE_SOURCE}/build/lib/macosx" ${OGRE_SEARCH_PATHS})
 endif ()
 
 searchForHeader (OGRE Ogre.h "${OGRE_SEARCH_PATHS}" FALSE)

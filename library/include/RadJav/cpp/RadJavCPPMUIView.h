@@ -20,7 +20,12 @@
 #ifndef _RADJAV_MUI_CPP_VIEW_H_
 	#define _RADJAV_MUI_CPP_VIEW_H_
 	#include "cpp/RadJavCPPGUIGObject.h"
-    #include "jscore/RadJavJSCGUIGObject.h"
+
+	#ifdef USE_V8
+		#include "v8/RadJavV8GUIGObject.h"
+	#elif defined USE_JAVASCRIPTCORE
+		#include "jscore/RadJavJSCGUIGObject.h"
+	#endif
 
 
 	namespace RadJAV

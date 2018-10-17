@@ -106,7 +106,7 @@ if (USE_V8)
 	source_group ("RadJav\\V8\\Global" FILES ${SOURCES_files_RadJav__v8__Global__Sources})
 	
 	set (SOURCES ${SOURCES_files_RadJav__v8__Global__Sources} ${SOURCES})
-	
+
 	# V8 OS
 	set (SOURCES_files_RadJav__v8__OS__Sources 
 		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8OS.cpp"
@@ -114,7 +114,14 @@ if (USE_V8)
 	source_group ("RadJav\\V8\\OS" FILES ${SOURCES_files_RadJav__v8__OS__Sources})
 	
 	set (SOURCES ${SOURCES_files_RadJav__v8__OS__Sources} ${SOURCES})
-	
+
+	# V8 Testing
+	set (SOURCES_files_RadJav__v8__Testing__Sources 
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8Testing.cpp")
+	source_group ("RadJav\\V8\\Testing" FILES ${SOURCES_files_RadJav__v8__Testing__Sources})
+
+	set (SOURCES ${SOURCES_files_RadJav__v8__Testing__Sources} ${SOURCES})
+
 	# V8 Console
 	set (SOURCES_files_RadJav__v8__Console__Sources 
 		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8Console.cpp")
@@ -280,6 +287,13 @@ if (USE_JAVASCRIPTCORE)
 
 	set (SOURCES ${SOURCES_files_RadJav__JSC__OS__Sources} ${SOURCES})
 
+	# JavaScriptCore Testing
+	set (SOURCES_files_RadJav__JSC__Testing__Sources 
+		"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCTesting.cpp")
+	source_group ("RadJav\\JavaScriptCore\\Testing" FILES ${SOURCES_files_RadJav__JSC__Testing__Sources})
+
+	set (SOURCES ${SOURCES_files_RadJav__JSC__Testing__Sources} ${SOURCES})
+
 	# JavaScriptCore Console
 	set (SOURCES_files_RadJav__JSC__Console__Sources 
 		"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCConsole.cpp")
@@ -387,6 +401,13 @@ set (SOURCES_files_RadJav__cpp__OS__Sources
 source_group ("RadJav\\CPP\\OS" FILES ${SOURCES_files_RadJav__cpp__OS__Sources})
 
 set (SOURCES ${SOURCES_files_RadJav__cpp__OS__Sources} ${SOURCES})
+
+# C++ Testing
+set (SOURCES_files_RadJav__cpp__Testing__Sources 
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPTesting.cpp")
+source_group ("RadJav\\CPP\\Testing" FILES ${SOURCES_files_RadJav__cpp__Testing__Sources})
+
+set (SOURCES ${SOURCES_files_RadJav__cpp__Testing__Sources} ${SOURCES})
 
 if (USE_V8)
 	# C++ Networking

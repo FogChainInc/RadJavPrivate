@@ -21,7 +21,6 @@
 	#define _RADJAV_MUI_V8_VIEW_H_
 
 	#include "RadJavPreprocessor.h"
-	#include "RadJavString.h"
 
 	#include "v8/RadJavV8GUIGObject.h"
 
@@ -31,7 +30,7 @@
 		{
 			namespace MUI
 			{
-				class RADJAV_EXPORT View : public GObject
+				class RADJAV_EXPORT View : public GUI::GObject
 				{
 				public:
 					static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
@@ -55,7 +54,6 @@
 					static void getVisibility(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void setEnabled(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void getEnabled(const v8::FunctionCallbackInfo<v8::Value> &args);
-					static void setIcon(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void on(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void destroy(const v8::FunctionCallbackInfo<v8::Value> &args);
 				};

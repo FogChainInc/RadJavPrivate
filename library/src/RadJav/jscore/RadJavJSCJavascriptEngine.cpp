@@ -41,6 +41,7 @@
     #include "jscore/RadJavJSCGlobal.h"
     #include "jscore/RadJavJSCOS.h"
     #include "jscore/RadJavJSCOSScreenInfo.h"
+    #include "jscore/RadJavJSCTesting.h"
 
 	#include "jscore/RadJavJSCIO.h"
     #include "jscore/RadJavJSCConsole.h"
@@ -991,6 +992,23 @@ namespace RadJAV
 						}
 					}
 				}
+
+                // RadJav.Testing
+                {
+                    JSObjectRef testingFunc = jscGetFunction(radJavFunc, "Testing");
+
+                    // RadJav.Testing.KeyboardSimulator
+                    {
+                        JSObjectRef keyboardSimulatorFunc = jscGetFunction(testingFunc, "KeyboardSimulator");
+                        JSC::Testing::KeyboardSimulator::createJSCCallbacks(globalContext, keyboardSimulatorFunc);
+                    }
+
+                    // RadJav.Testing.MouseSimulator
+                    {
+                        JSObjectRef mouseSimulatorFunc = jscGetFunction(testingFunc, "MouseSimulator");
+                        JSC::Testing::MouseSimulator::createJSCCallbacks(globalContext, mouseSimulatorFunc);
+                    }
+                }
 
 				// RadJav.Console
 				{

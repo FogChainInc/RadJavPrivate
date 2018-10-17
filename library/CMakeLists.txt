@@ -142,7 +142,10 @@ if (USE_OGRE)
 	include (FindOgre3D)
 
 	set (libRadJav_USE_OGRE_COLLADA TRUE CACHE BOOL "Use Ogre Collada?")
-	include (FindColladaLoader)
+
+	if (libRadJav_USE_OGRE_COLLADA)
+		include (FindColladaLoader)
+	endif ()
 endif ()
 
 if (USE_V8)
@@ -576,6 +579,7 @@ if (libRadJav_EMBEDFILE)
 			RadJav.Animation.js
 			RadJav.IO.js
 			RadJav.Interact.js
+			RadJav.Testing.js
 	)
 	
 	if (INCLUDE_DATABASES)
@@ -680,12 +684,14 @@ if (libRadJav_EMBEDFILE)
 	endif ()
 endif()
 
-set (libRadJav_CPP_DEFS2 ${libRadJav_CPP_DEFS} PARENT_SCOPE)
-set (libRadJav_CPP_DEFS_DEBUG2 ${libRadJav_CPP_DEFS_DEBUG} PARENT_SCOPE)
-set (libRadJav_INCLUDE_DIRS2 ${libRadJav_INCLUDE_DIRS} PARENT_SCOPE)
-set (libRadJav_LINK_LIBRARIES2 ${libRadJav_LINK_LIBRARIES} PARENT_SCOPE)
-set (libRadJav_LINK_LIBRARY_DIRS2 ${libRadJav_LINK_LIBRARY_DIRS} PARENT_SCOPE)
-set (libRadJav_CXX_FLAGS2 ${libRadJav_CXX_FLAGS} PARENT_SCOPE)
-set (libRadJav_USE_V8 ${USE_V8} PARENT_SCOPE)
-set (CMAKE_CXX_FLAGS2 ${CMAKE_CXX_FLAGS} PARENT_SCOPE)
-
+# Do not export several variables on Android builds (we didn't expect parent scope here)
+if (NOT ANDROID)
+	set (libRadJav_CPP_DEFS2 ${libRadJav_CPP_DEFS} PARENT_SCOPE)
+	set (libRadJav_CPP_DEFS_DEBUG2 ${libRadJav_CPP_DEFS_DEBUG} PARENT_SCOPE)
+	set (libRadJav_INCLUDE_DIRS2 ${libRadJav_INCLUDE_DIRS} PARENT_SCOPE)
+	set (libRadJav_LINK_LIBRARIES2 ${libRadJav_LINK_LIBRARIES} PARENT_SCOPE)
+	set (libRadJav_LINK_LIBRARY_DIRS2 ${libRadJav_LINK_LIBRARY_DIRS} PARENT_SCOPE)
+	set (libRadJav_CXX_FLAGS2 ${libRadJav_CXX_FLAGS} PARENT_SCOPE)
+	set (libRadJav_USE_V8 ${USE_V8} PARENT_SCOPE)
+	set (CMAKE_CXX_FLAGS2 ${CMAKE_CXX_FLAGS} PARENT_SCOPE)
+endif ()
