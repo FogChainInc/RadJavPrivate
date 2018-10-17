@@ -36,6 +36,11 @@ namespace RadJAV
 
             }
             
+            void TableViewFrame::setModel(MUI::TableViewModel *model){
+                
+                
+            }
+            
 			TableViewFrame::~TableViewFrame()
 			{
 				//Release button here

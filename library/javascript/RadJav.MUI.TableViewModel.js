@@ -33,6 +33,7 @@ var RadJav;
         var TableViewModel = /** @class */ (function (_super) {
             __extends(TableViewModel, _super);
             function TableViewModel(obj, text, parent) {
+            	this.cells = [];
                 var _this = this;
                 if (obj == null)
                     obj = {};

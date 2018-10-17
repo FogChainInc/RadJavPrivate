@@ -36,6 +36,7 @@ namespace RadJAV
 			void ViewController::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 			{
 				JSC_CALLBACK(object, "create", ViewController::create);
+                JSC_CALLBACK(object, "addChild", ViewController::addChild);
                 JSC_CALLBACK(object, "makeRootViewController", ViewController::makeRootViewController);
                 JSC_CALLBACK(object, "presentViewControllerAnimated", ViewController::presentViewControllerAnimated);
                 JSC_CALLBACK(object, "dismissViewControllerAnimated", ViewController::dismissViewControllerAnimated);

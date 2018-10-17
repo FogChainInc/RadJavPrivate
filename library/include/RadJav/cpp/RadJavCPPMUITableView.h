@@ -20,6 +20,7 @@
 #ifndef _RADJAV_MUI_CPP_TableView_H_
 	#define _RADJAV_MUI_CPP_TableView_H_
 	#include "cpp/RadJavCPPGUIGObject.h"
+    #include "cpp/RadJavCPPMUITableViewModel.h"
     #include "jscore/RadJavJSCGUIGObject.h"
 #ifdef USE_IOS
 #ifdef __OBJC__
@@ -48,10 +49,14 @@ OBJC_CLASS(UITableView);
                     ~TableViewFrame();
 
 					void setText(String text);
+                    
 					String getText();
 
 					bool bindEvent(const String& eventName, const GUI::Event* event);
-
+                    void setModel(MUI::TableViewModel *model);
+                    
+                    MUI::TableViewModel *model;
+                    
 					#ifdef USE_IOS
 						UIView* getNativeWidget();
 					#elif defined USE_ANDROID
@@ -81,6 +86,7 @@ OBJC_CLASS(UITableView);
 						TableView(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 
 						void create();
+                        void setModel(MUI::TableViewModel *model);
 
 						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
                         	/// Execute when an event is triggered.
