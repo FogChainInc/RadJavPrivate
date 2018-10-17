@@ -50,10 +50,17 @@ namespace RadJAV
 			#endif
 		#endif
 		#ifdef __APPLE__
-			#ifdef TARGET_OS_MAC
+            #include <TargetConditionals.h>
+
+			#if TARGET_OS_OSX == 1
 				String OS::type = "mac";
 				RJINT OS::numBits = 64;
 			#endif
+
+            #if TARGET_OS_IOS == 1
+                String OS::type = "ios";
+                RJINT OS::numBits = 64;
+            #endif
 		#endif
 		Array<String> OS::args;
 		std::function<void()> *OS::onReadyFunction = NULL;

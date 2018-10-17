@@ -27,7 +27,9 @@
 	#include "RadJavCPPVector2.h"
 
     #ifdef __APPLE__
-        #ifdef TARGET_OS_MAC
+        #include <TargetConditionals.h>
+
+        #if TARGET_OS_OSX == 1
             #include <ApplicationServices/ApplicationServices.h>
         #endif
     #endif
@@ -43,7 +45,7 @@
                 {
                     public:
                         #ifdef __APPLE__
-                            #ifdef TARGET_OS_MAC
+                            #if TARGET_OS_OSX == 1
                                 static CGKeyCode charToKeyCode (RJCHAR key);
                             #endif
                         #endif
@@ -52,7 +54,7 @@
                         static void keyPress(String key);
                     
                         #ifdef __APPLE__
-                            #ifdef TARGET_OS_MAC
+                            #if TARGET_OS_OSX == 1
                                 static HashMap<CFStringRef, RJINT> *dictionary;
                             #endif
                         #endif

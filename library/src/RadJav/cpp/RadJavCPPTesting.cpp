@@ -27,7 +27,7 @@
 #endif
 
 #ifdef __APPLE__
-    #ifdef TARGET_OS_MAC
+    #if TARGET_OS_OSX == 1
         #include <CoreFoundation/CoreFoundation.h>
         #include <Carbon/Carbon.h>
     #endif
@@ -40,7 +40,7 @@ namespace RadJAV
 		namespace Testing
 		{
 			#ifdef __APPLE__
-				#ifdef TARGET_OS_MAC
+				#if TARGET_OS_OSX == 1
             		HashMap<CFStringRef, RJINT> *KeyboardSimulator::dictionary = NULL;
 
                     CGKeyCode KeyboardSimulator::charToKeyCode (RJCHAR key)
@@ -104,7 +104,7 @@ namespace RadJAV
 				#endif
 
                 #ifdef __APPLE__
-                    #ifdef TARGET_OS_MAC
+                    #if TARGET_OS_OSX == 1
                         String temp = key.toLowerCase();
                         RJCHAR value = temp.at (0);
                         CGKeyCode keyCode = charToKeyCode (value);
@@ -157,7 +157,7 @@ namespace RadJAV
 				#endif
 
                 #ifdef __APPLE__
-                    #ifdef TARGET_OS_MAC
+                    #if TARGET_OS_OSX == 1
                         CGEventRef event = NULL;
                         CGEventSourceRef source = CGEventSourceCreate (kCGEventSourceStateHIDSystemState);
                         CGEventRef tempEvent = CGEventCreate (source);
@@ -198,7 +198,7 @@ namespace RadJAV
 				#endif
 
                 #ifdef __APPLE__
-                    #ifdef TARGET_OS_MAC
+                    #if TARGET_OS_OSX == 1
                         CGEventRef event = CGEventCreateMouseEvent (NULL, kCGEventMouseMoved, CGPointMake(pos.x, pos.y), kCGMouseButtonLeft);
 
                         CGEventPost (kCGHIDEventTap, event);

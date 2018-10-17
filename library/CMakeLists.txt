@@ -142,7 +142,10 @@ if (USE_OGRE)
 	include (FindOgre3D)
 
 	set (libRadJav_USE_OGRE_COLLADA TRUE CACHE BOOL "Use Ogre Collada?")
-	include (FindColladaLoader)
+
+	if (libRadJav_USE_OGRE_COLLADA)
+		include (FindColladaLoader)
+	endif ()
 endif ()
 
 if (USE_V8)
