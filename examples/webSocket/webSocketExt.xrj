@@ -15,6 +15,7 @@ webSocketServer.onReceive (function (id, msg)
 	{
 		//echo back
 		webSocketServer.send(id, msg);
+		RadJav.Console.println("Received " + msg);
 	});
 
 webSocketServer.listen("9229");

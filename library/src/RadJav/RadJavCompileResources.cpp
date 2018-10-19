@@ -178,6 +178,8 @@ int main(int iArgs, char **cArgs)
 	ary.push_back("RadJav.GUI.MouseEvent.js");
 	ary.push_back("RadJav.Net.WebSocketServer.js");
 	ary.push_back("RadJav.Net.WebSocketClient.js");
+	ary.push_back("RadJav.Net.WebSocketServerSsl.js");
+	ary.push_back("RadJav.Net.WebSocketClientSsl.js");
 	ary.push_back("RadJav.Net.WebServer.js");
 #ifdef C3D_USE_OGRE
 	ary.push_back("RadJav.GUI.Canvas3D.js");

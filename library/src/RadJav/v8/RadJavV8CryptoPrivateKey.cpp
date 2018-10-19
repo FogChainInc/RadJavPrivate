@@ -53,7 +53,7 @@ namespace RadJAV
 		  
 				void PrivateKey::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 				{
-					std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
+				  //					std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
 
 					V8_CALLBACK(object, "_init", PrivateKey::_init);
 					V8_CALLBACK(object, "sign", PrivateKey::sign);
@@ -72,7 +72,7 @@ namespace RadJAV
 		  
 				void PrivateKey::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
-					std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
+				  //					std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
 					std::shared_ptr<ENGINE> engine(RJNEW ENGINE(V8_JAVASCRIPT_ENGINE, args), [](ENGINE* p){DELETEOBJ(p)});
 					V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_engine", engine);
 
@@ -141,7 +141,7 @@ namespace RadJAV
 															  v8::Local<v8::Object> privateKeyParms)
 				{
 
-				  std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
+				  //				  std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
 				  //std::cout << "Args length: " << args.Length() << std::endl;
 				  //auto isolate = args.GetIsolate();
 				  const unsigned argc = 1;

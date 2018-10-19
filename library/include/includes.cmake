@@ -87,6 +87,7 @@ if (USE_V8)
 	set (SOURCES_files_RadJav__v8__Net__Headers 
 		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8Net.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8NetWebSocket.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8NetWebSocketSsl.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8NetWebServer.h")
 	source_group ("RadJav\\V8\\Net" FILES ${SOURCES_files_RadJav__v8__Net__Headers})
 	
@@ -164,6 +165,8 @@ if (USE_V8)
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNet.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebSocketServer.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebSocketClient.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebSocketServerSsl.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebSocketClientSsl.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebServer.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebServerUpgradable.h")
 	source_group ("RadJav\\CPP\\Net" FILES ${SOURCES_files_RadJav__cpp__Net__Headers})

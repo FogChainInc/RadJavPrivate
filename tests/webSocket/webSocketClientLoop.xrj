@@ -1,0 +1,24 @@
+var win = new RadJav.GUI.Window ("win", "Window Example");
+
+// Stupid hack for now. Delete in the future. Should throw errors in HTML5.
+win.create ().then (function (win2)
+	{
+	});
+
+port = 9229;
+if (RadJav.OS.args.length > 0 && RadJav.OS.args[0] != undefined)
+    port = RadJav.OS.args[0];
+
+var webSocketClient = new RadJav.Net.WebSocketClient();
+
+webSocketClient.connect("127.0.0.1", port);
+
+for (var i = 0; i<1000; i++) {
+    RadJav.Console.println("Sending Msg" + i);
+    webSocketClient.send("Msg" + i);
+}
+
+var str = webSocketClient.receive();
+
+
+webSocketClient.close();

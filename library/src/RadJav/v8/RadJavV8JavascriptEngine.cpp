@@ -53,6 +53,7 @@
 
 	// Net
 	#include "v8/RadJavV8NetWebSocket.h"
+	#include "v8/RadJavV8NetWebSocketSsl.h"
 	#include "v8/RadJavV8NetWebServer.h"
 
 	// GUI
@@ -1254,6 +1255,21 @@ namespace RadJAV
 						v8::Handle<v8::Object> webSocketClientPrototype = v8GetObject(webSocketClientFunc, "prototype");
 
 						V8B::Net::WebSocketClient::createV8Callbacks(isolate, webSocketClientPrototype);
+					}
+					// WebSocketServerSsl
+					{
+						v8::Handle<v8::Function> webSocketServerFunc = v8GetFunction(netFunc, "WebSocketServerSsl");
+						v8::Handle<v8::Object> webSocketServerPrototype = v8GetObject(webSocketServerFunc, "prototype");
+
+						V8B::Net::WebSocketServerSsl::createV8Callbacks(isolate, webSocketServerPrototype);
+					}
+
+					// WebSocketClientSsl
+					{
+						v8::Handle<v8::Function> webSocketClientFunc = v8GetFunction(netFunc, "WebSocketClientSsl");
+						v8::Handle<v8::Object> webSocketClientPrototype = v8GetObject(webSocketClientFunc, "prototype");
+
+						V8B::Net::WebSocketClientSsl::createV8Callbacks(isolate, webSocketClientPrototype);
 					}
 				}
 

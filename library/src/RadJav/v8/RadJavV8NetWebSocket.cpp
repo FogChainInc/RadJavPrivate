@@ -182,6 +182,8 @@ namespace RadJAV
 
 			void WebSocketClient::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 			{
+				V8_CALLBACK(object, "_init", WebSocketClient::_init);
+
 				V8_CALLBACK(object, "connect", WebSocketClient::connect);
 				V8_CALLBACK(object, "send", WebSocketClient::send);
 				V8_CALLBACK(object, "receive", WebSocketClient::receive);
@@ -197,10 +199,10 @@ namespace RadJAV
 				val = v8::Local<v8::String>::Cast(args[1]);
 				String port = parseV8Value(val);
 
-				CPP::Net::WebSocketClient *webSocket = RJNEW CPP::Net::WebSocketClient();
+				CPP::Net::WebSocketClient *webSocket = (CPP::Net::WebSocketClient *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_webSocket");
 
 				webSocket->connect(host, port);
-				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This (), "_webSocket", webSocket);
+
 				
 			}
 
