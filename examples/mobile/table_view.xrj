@@ -1,0 +1,42 @@
+var window1;
+var globalTable;
+var globalModel;
+
+// Initialize RadJav and load all necessary libraries.
+RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav.getMUILibrary ()).then (function ()
+   {
+       // Execute the application, in this case, a simple function. Can also be a file.
+       RadJav.runApplication (function ()
+           {
+
+               
+
+                   var win3 = new RadJav.MUI.ViewController ("win", "Window Example");
+                   win3.create ().then (function (win4)
+                   {
+                       window1 = win4;
+                       
+                       win4.makeRootViewController();
+                       
+                       var table = new RadJav.MUI.TableView ("table","table example");
+                       table.create ().then (function (tableParam){
+                       
+                       		globalTable = tableParam;
+                       		
+                       		window1.addChild(tableParam);
+                       		tableParam.setSize(400,600);
+                       		
+                       		var model = new RadJav.MUI.TableViewModel();
+                       		globalModel = model;
+                       		model.create ().then (function (modelParam){
+                       			
+                       			globalTable.setModel(modelParam);
+                       		});
+                       		
+                       		
+                       		
+                       });
+                         
+                   });
+           });
+   });

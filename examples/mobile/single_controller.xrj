@@ -1,0 +1,23 @@
+var window1;
+
+// Initialize RadJav and load all necessary libraries.
+RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav.getMUILibrary ()).then (function ()
+   {
+       // Execute the application, in this case, a simple function. Can also be a file.
+       RadJav.runApplication (function ()
+           {
+
+               
+
+                   var win3 = new RadJav.MUI.ViewController ("win", "Window Example");
+                   win3.create ().then (function (win4)
+                   {
+                       window1 = win4;
+                       
+                       win4.makeRootViewController();
+                       
+                       
+                         
+                   });
+           });
+   });

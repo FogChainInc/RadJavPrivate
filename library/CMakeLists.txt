@@ -27,26 +27,59 @@ elseif (WIN32)
 	list (APPEND guiLibraries wxWidgets)
 endif ()
 
-set (libRadJav_JS_LIBRARY V8 CACHE STRING "Javascript library to use")
+#Default settings per platform
+if (WIN32)
+	message (STATUS "Building for Windows")
+	set (DEFAULT_JS_LIBRARY V8)
+	set (DEFAULT_GUI_LIBRARY wxWidgets)
+elseif (IOS)
+	message (STATUS "Building for iOS")
+	set (DEFAULT_JS_LIBRARY V8)
+	set (DEFAULT_GUI_LIBRARY "iOS-UIKit")
+elseif (ANDROID)
+	message (STATUS "Building for Android")
+	set (DEFAULT_JS_LIBRARY V8)
+	set (DEFAULT_GUI_LIBRARY Android)
+elseif (APPLE)
+	message (STATUS "Building for MacOS")
+	set (DEFAULT_JS_LIBRARY JavaScriptCore)
+	set (DEFAULT_GUI_LIBRARY wxWidgets)
+elseif (UNIX)
+	message (STATUS "Building for UNIX")
+	set (DEFAULT_JS_LIBRARY V8)
+	set (DEFAULT_GUI_LIBRARY wxWidgets)
+endif ()
+
+#Common default settings
+set (DEFAULT_INCLUDE_C3D_API FALSE)
+set (DEFAULT_ALLOW_NETWORKING FALSE)
+set (DEFAULT_STATIC TRUE)
+set (DEFAULT_EMBEDFILE TRUE)
+set (DEFAULT_INCLUDE_BLOCKCHAIN_V1 FALSE)
+set (DEFAULT_FIND_MEMORY_LEAKS FALSE)
+set (DEFAULT_INCLUDE_DATABASES FALSE)
+set (DEFAULT_XML_SUPPORT FALSE)
+set (DEFAULT_INCLUDE_CRYPTOGRAPHY FALSE)
+
+#Cached variables
+set (libRadJav_JS_LIBRARY ${DEFAULT_JS_LIBRARY} CACHE STRING "Javascript library to use")
 set_property (CACHE libRadJav_JS_LIBRARY PROPERTY STRINGS ${javascriptEngineLibraries})
 
-set (libRadJav_GUI_LIBRARY wxWidgets CACHE STRING "GUI library to use")
+set (libRadJav_GUI_LIBRARY ${DEFAULT_GUI_LIBRARY} CACHE STRING "GUI library to use")
 set_property (CACHE libRadJav_GUI_LIBRARY PROPERTY STRINGS ${guiLibraries})
 
 set (libRadJav_HTTP_LIBRARY "curl" CACHE STRING "HTTP library to use")
-set (libRadJav_INCLUDE_C3D_API TRUE CACHE BOOL "Include the C3D API?")
-set (libRadJav_ALLOW_NETWORKING TRUE CACHE BOOL "Allow Networking?")
+set (libRadJav_INCLUDE_C3D_API ${DEFAULT_INCLUDE_C3D_API} CACHE BOOL "Include the C3D API?")
+set (libRadJav_ALLOW_NETWORKING ${DEFAULT_ALLOW_NETWORKING} CACHE BOOL "Allow Networking?")
 set (libRadJav_DEPENDENCIES $ENV{RADJAV_DEPENDENCIES} CACHE PATH "RadJav Dependencies path")
 set (libRadJav_LANGUAGE "en_us" CACHE STRING "Select language to compile with")
-set (libRadJav_STATIC false CACHE BOOL "Static build of RadJav")
-set (libRadJav_EMBEDFILE true CACHE BOOL "Embed Javascript into RadJav?")
-set (libRadJav_EMBEDFILE_CMAKE ON CACHE BOOL "Embed Javascript with CMAKE?")
-set (libRadJav_INCLUDE_BLOCKCHAIN_V1 true CACHE BOOL "Include Blockchain V1?")
-set (FIND_MEMORY_LEAKS true CACHE BOOL "Find memory leaks?")
-set (INCLUDE_DATABASES true CACHE BOOL "Includes databases")
-set (XML_SUPPORT true CACHE BOOL "XML Support")
-set (INCLUDE_CRYPTOGRAPHY true CACHE BOOL "Includes cryptography")
-set (WEBVIEW_TYPE "wxWidgetsDefault" CACHE STRING "Type of webview to use")
+set (libRadJav_STATIC ${DEFAULT_STATIC} CACHE BOOL "Static build of RadJav")
+set (libRadJav_EMBEDFILE ${DEFAULT_EMBEDFILE} CACHE BOOL "Embed Javascript into RadJav?")
+set (libRadJav_INCLUDE_BLOCKCHAIN_V1 ${DEFAULT_INCLUDE_BLOCKCHAIN_V1} CACHE BOOL "Include Blockchain V1?")
+set (FIND_MEMORY_LEAKS ${DEFAULT_FIND_MEMORY_LEAKS} CACHE BOOL "Find memory leaks?")
+set (INCLUDE_DATABASES ${DEFAULT_INCLUDE_DATABASES} CACHE BOOL "Includes databases")
+set (XML_SUPPORT ${DEFAULT_XML_SUPPORT} CACHE BOOL "XML Support")
+set (INCLUDE_CRYPTOGRAPHY ${DEFAULT_INCLUDE_CRYPTOGRAPHY} CACHE BOOL "Includes cryptography")
 set (BOOST_ROOT "" CACHE PATH "BOOST_ROOT")
 
 set (TEMP_ARCH "x86")
@@ -108,6 +141,7 @@ if (libRadJav_JS_LIBRARY STREQUAL "JavaScriptCore")
 endif ()
 
 if (libRadJav_GUI_LIBRARY STREQUAL "wxWidgets")
+	set (WEBVIEW_TYPE "wxWidgetsDefault" CACHE STRING "Type of webview to use")
 	set (USE_WXWIDGETS true)
 endif ()
 
@@ -553,20 +587,6 @@ endif ()
 set_property (TARGET libRadJav PROPERTY PROJECT_LABEL "libRadJav")
 
 if (libRadJav_EMBEDFILE)
-	if (NOT libRadJav_EMBEDFILE_CMAKE)
-	#<TODO: Comment these to use CMake for embedding Javascript files into RadJavJavascriptCode.h>
-	add_custom_command (OUTPUT ${libRadJav_SOURCE_DIR}/include/RadJav/RadJavJavascriptCode.h
-		COMMAND RadJavCompileResources
-		DEPENDS ${libRadJav_SOURCE_DIR}/javascript/RadJav.js)
-
-	add_executable (RadJavCompileResources ${libRadJav_SOURCE_DIR}/src/RadJav/RadJavCompileResources.cpp)
-	set_property (TARGET RadJavCompileResources APPEND PROPERTY COMPILE_DEFINITIONS ${libRadJav_CPP_DEFS})
-	set_property (TARGET RadJavCompileResources APPEND PROPERTY COMPILE_DEFINITIONS $<$<CONFIG:Debug>:${libRadJav_CPP_DEFS} ${libRadJav_CPP_DEFS_DEBUG}>)
-
-	add_dependencies (libRadJav RadJavCompileResources)
-	#</TODO>
-	endif()
-
 	set (jsFiles Math.js
 			String.js
 			RadJav.js
@@ -679,12 +699,9 @@ if (libRadJav_EMBEDFILE)
 		)
 	endif ()
 	
-	if (libRadJav_EMBEDFILE_CMAKE)
-		#TODO: Un-comment these to use CMake for embedding Javascript files into RadJavJavascriptCode.h
-		include (EmbedJavascript)
-	
-		embedJavascript( "${jsFiles}" "${CMAKE_CURRENT_SOURCE_DIR}/javascript" "RadJavJavascriptCode.h" "${CMAKE_CURRENT_SOURCE_DIR}/include/RadJav")
-	endif ()
+	include (EmbedJavascript)
+
+	embedJavascript( "${jsFiles}" "${CMAKE_CURRENT_SOURCE_DIR}/javascript" "RadJavJavascriptCode.h" "${CMAKE_CURRENT_SOURCE_DIR}/include/RadJav")
 endif()
 
 # Do not export several variables on Android builds (we didn't expect parent scope here)

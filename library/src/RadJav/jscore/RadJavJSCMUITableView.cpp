@@ -24,6 +24,7 @@
 #include "jscore/RadJavJSCJavascriptEngine.h"
 
 #include "cpp/RadJavCPPMUITableView.h"
+#include "cpp/RadJavCPPMUITableViewModel.h"
 
 namespace RadJAV
 {
@@ -36,6 +37,7 @@ namespace RadJAV
             void TableView::createJSCCallbacks(JSContextRef context, JSObjectRef object)
             {
                 JSC_CALLBACK(object, "create", TableView::create);
+                JSC_CALLBACK(object, "setModel", TableView::setModel);
                 
             }
 			JSValueRef TableView::create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
@@ -49,6 +51,27 @@ namespace RadJAV
 				
 				return promise;
 			}
+            
+            JSValueRef TableView::setModel(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+            {
+                CppMuiObject *appObject = RJNEW CppMuiObject(JSC_JAVASCRIPT_ENGINE, thisObject, argumentCount, arguments);
+
+                
+                if (argumentCount > 0){
+                    JSObjectRef argument =  JSValueToObject(ctx, arguments[0], exception);
+                    CPP::MUI::TableViewModel *model = (CPP::MUI::TableViewModel *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, argument, "_appObj");
+                    if (model != NULL){
+                        
+                        appObject->setModel(model);
+                    }
+                    
+                }
+                JSC_JAVASCRIPT_ENGINE->jscSetExternal(ctx, thisObject, "_appObj", appObject);
+                JSObjectRef _guiFinishedCreatingGObject = JSC_JAVASCRIPT_ENGINE->jscGetFunction(JSC_RADJAV, "_guiFinishedCreatingGObject");
+                JSObjectRef promise = JSC_JAVASCRIPT_ENGINE->createPromise(thisObject, _guiFinishedCreatingGObject);
+                
+                return promise;
+            }
            
 		}
 	}
