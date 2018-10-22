@@ -35,9 +35,15 @@ set (libRadJav_DEPENDENCIES $ENV{RADJAV_DEPENDENCIES} CACHE PATH "RadJav Depende
 set (RadJavVM_LANGUAGE "en_us" CACHE STRING "Select language to compile with")
 set (libRadJav_STATIC false CACHE BOOL "Use static build of libRadJav")
 set (RadJavVM_CREATE_INSTALL_PACKAGES false CACHE BOOL "Create install packages")
+set (RadJavVM_EMBED_EXAMPLES true CACHE BOOL "Embed examples into application bundle")
+set (RadJavVM_EMBED_HTML5 true CACHE BOOL "Embed HTML5 into application bundle")
 
-if (libRadJav_USE_V8)
+if (libRadJav_JS_LIBRARY STREQUAL "V8")
 	set (RadJavVM_DEPENDENCY_OBJECTS_LIST "./natives_blob.bin;./snapshot_blob.bin" CACHE STRING "Semicolon separated list of paths to dependencies \
+												which are indirectly will be used by application, i.e. loading \
+												during runtime")
+else ()
+	set (RadJavVM_DEPENDENCY_OBJECTS_LIST "" CACHE STRING "Semicolon separated list of paths to dependencies \
 												which are indirectly will be used by application, i.e. loading \
 												during runtime")
 endif ()
@@ -46,8 +52,6 @@ if (APPLE)
 	set (MAC_CODESIGN_IDENTITY CACHE STRING "Sign identity which can be determined by issuing command:\
 							security find-identity -v -p codesigning\
 							Example: Mac Developer")
-	
-	set (RadJavVM_EMBED_EXAMPLES true CACHE BOOL "Embed examples into application bundle")
 endif ()
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
@@ -101,6 +105,7 @@ if (libRadJav_FOUND)
 	set (RadJavVM_INCLUDE_DIRS ${libRadJav_INCLUDE_DIRS2} ${RadJavVM_INCLUDE_DIRS})
 	set (RadJavVM_LINK_LIBRARIES ${libRadJav_LINK_LIBRARIES2} ${RadJavVM_LINK_LIBRARIES})
 	set (RadJavVM_LINK_LIBRARY_DIRS ${libRadJav_LINK_LIBRARY_DIRS2} ${RadJavVM_LINK_LIBRARY_DIRS})
+	set (RadJavVM_JS_LIBRARY ${libRadJav_JS_LIBRARY2} ${RadJavVM_JS_LIBRARY})
 	set (RadJavVM_CXX_FLAGS ${libRadJav_CXX_FLAGS2} ${RadJavVM_CXX_FLAGS})
 	set (CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS2} ${CMAKE_CXX_FLAGS})
 
@@ -169,6 +174,35 @@ set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 set_property (TARGET ${CMAKE_PROJECT_NAME} APPEND PROPERTY COMPILE_DEFINITIONS ${RadJavVM_CPP_DEFS})
 set_property (TARGET ${CMAKE_PROJECT_NAME} APPEND PROPERTY COMPILE_DEFINITIONS $<$<CONFIG:Debug>:${RadJavVM_CPP_DEFS} ${RadJavVM_CPP_DEFS_DEBUG}>)
 
+set (CMAKE_PROJECT_NAME_LAUNCHER ${CMAKE_PROJECT_NAME})
+
+#Set destinations of a bundle
+message(STATUS "Binary dir: ${CMAKE_CURRENT_BINARY_DIR}")
+message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
+message(STATUS "Project name: ${CMAKE_PROJECT_NAME}")
+
+#Copying dependencies
+foreach (dependency ${RadJavVM_DEPENDENCY_OBJECTS_LIST})
+	add_custom_command (TARGET ${CMAKE_PROJECT_NAME} POST_BUILD 
+				COMMAND ${CMAKE_COMMAND} -E copy_if_different ${dependency} ${CMAKE_CURRENT_BINARY_DIR}
+				COMMENT "Adding extra dependency into application bundle: ${dependency}"
+				VERBATIM )
+endforeach (dependency)
+
+if (RadJavVM_EMBED_HTML5)
+	message(STATUS "HTML5 platform will be built...")
+
+	add_custom_command (TARGET ${CMAKE_PROJECT_NAME} POST_BUILD 
+				COMMAND npm install
+				WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}/../html5/" 
+				VERBATIM )
+	add_custom_command (TARGET ${CMAKE_PROJECT_NAME} POST_BUILD 
+				COMMAND npm run build-radjav doNotCopyFilesToLibrary 
+				WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}/../html5/" 
+				COMMENT "Building HTML5..." 
+				VERBATIM )
+endif ()
+
 if (WIN32)
 	set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:WINDOWS")
 	set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES LINK_FLAGS_RELWITHDEBINFO "/SUBSYSTEM:WINDOWS")
@@ -176,11 +210,6 @@ if (WIN32)
 	set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:WINDOWS")
 elseif (APPLE)
 	if (IOS)
-		#Set destinations of a bundle
-		message(STATUS ${CMAKE_CURRENT_BINARY_DIR})
-		message(STATUS ${CMAKE_BUILD_TYPE})
-		message(STATUS ${CMAKE_PROJECT_NAME})
-		
 		set (APP_BUNDLE_LOCATION "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE}/${CMAKE_PROJECT_NAME}.app")
 		set (APP_BUNDLE_ICON_FILE "RadJav.icns")
 	
@@ -258,16 +287,6 @@ elseif (APPLE)
 									RUNTIME_OUTPUT_DIRECTORY_RELEASE ${APP_EXECUTABLE_DIR}
 									RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL ${APP_EXECUTABLE_DIR}
 									RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO ${APP_EXECUTABLE_DIR})
-		
-		if (libRadJav_USE_V8)
-			#Copying dependencies
-			foreach (dependency ${RadJavVM_DEPENDENCY_OBJECTS_LIST})
-				add_custom_command (TARGET ${CMAKE_PROJECT_NAME} POST_BUILD 
-							COMMAND ${CMAKE_COMMAND} -E copy_if_different ${dependency} ${APP_EXECUTABLE_DIR}
-							COMMENT "Adding extra dependency into application bundle: ${dependency}"
-							VERBATIM )
-			endforeach (dependency)
-		endif()
 		
 		#Embed examples
 		if (RadJavVM_EMBED_EXAMPLES)
