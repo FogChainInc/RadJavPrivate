@@ -102,7 +102,7 @@ namespace RadJAV
 					return;
 				
 				CPP::GUI::Canvas3D* canvas =
-					(CPP::GUI::Canvas3D*)V8_JAVASCRIPT_ENGINE->v8GetExternal(args[0]->ToObject(), "_appObj");
+					(CPP::GUI::Canvas3D*)V8_JAVASCRIPT_ENGINE->v8GetExternal(args[0]->ToObject(args.GetIsolate()), "_appObj");
 				
 				if(!canvas)
 					return;
@@ -117,7 +117,7 @@ namespace RadJAV
 				RJINT type = 1; //directional light
 				
 				if (args.Length() > 0)
-					type = v8::Local<v8::Integer>::Cast(args[0])->IntegerValue();
+					type = V8_JAVASCRIPT_ENGINE->v8ParseInt(args[0]);
 				
 				std::shared_ptr<C3DTYPE> light = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
 				
@@ -144,11 +144,11 @@ namespace RadJAV
 				{
 					v8::Isolate* isolate = args.GetIsolate();
 					v8::Handle<v8::Object> color = v8::Handle<v8::Object>::Cast(args[0]);
-					
-					nativeColor.r = color->Get( String("r").toV8String(isolate))->NumberValue();
-					nativeColor.g = color->Get( String("g").toV8String(isolate))->NumberValue();
-					nativeColor.b = color->Get( String("b").toV8String(isolate))->NumberValue();
-					nativeColor.a = color->Get( String("a").toV8String(isolate))->NumberValue();
+
+					nativeColor.r = V8_JAVASCRIPT_ENGINE->v8GetDecimal(color, "r");
+					nativeColor.g = V8_JAVASCRIPT_ENGINE->v8GetDecimal(color, "g");
+					nativeColor.b = V8_JAVASCRIPT_ENGINE->v8GetDecimal(color, "b");
+					nativeColor.a = V8_JAVASCRIPT_ENGINE->v8GetDecimal(color, "a");
 				}
 				
 				std::shared_ptr<C3DTYPE> light = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");

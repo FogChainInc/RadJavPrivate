@@ -46,7 +46,7 @@ namespace inspector {
 		return v8_inspector::StringBuffer::create(view);
 	}
 
-	std::unique_ptr<v8_inspector::StringBuffer> ToProtocolString(Isolate* isolate, Local<Value> value) {
+	std::unique_ptr<v8_inspector::StringBuffer> ToProtocolString(v8::Isolate *isolate, Local<Value> value) {
 		if (value.IsEmpty() || value->IsNull() || value->IsUndefined() ||
 			!value->IsString()) {
 			return v8_inspector::StringBuffer::create(v8_inspector::StringView());
