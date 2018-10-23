@@ -31,6 +31,12 @@ android {
     }
     productFlavors {
     }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs "../../../Dependencies/lib"
+        }
+    }
 }
 
 dependencies {
