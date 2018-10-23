@@ -55,7 +55,7 @@ namespace RadJAV
 					return;
 				
 				CPP::GUI::Canvas3D* canvas =
-				(CPP::GUI::Canvas3D*)V8_JAVASCRIPT_ENGINE->v8GetExternal(args[0]->ToObject(), "_appObj");
+				(CPP::GUI::Canvas3D*)V8_JAVASCRIPT_ENGINE->v8GetExternal(args[0]->ToObject(args.GetIsolate()), "_appObj");
 				
 				if(!canvas)
 					return;

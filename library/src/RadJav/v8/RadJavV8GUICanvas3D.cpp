@@ -112,7 +112,7 @@ namespace RadJAV
 				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
 
 				if (appObject != NULL)
-					font = CPP::Font::toV8Object(V8_JAVASCRIPT_ENGINE, appObject->getFont());
+					font = appObject->getFont()->toV8Object ();
 
 				args.GetReturnValue().Set(font);
 			}
@@ -353,11 +353,11 @@ namespace RadJAV
 				{
 					v8::Isolate* isolate = args.GetIsolate();
 					v8::Handle<v8::Object> color = v8::Handle<v8::Object>::Cast(args[0]);
-					
-					nativeColor.r = color->Get( String("r").toV8String(isolate))->NumberValue();
-					nativeColor.g = color->Get( String("g").toV8String(isolate))->NumberValue();
-					nativeColor.b = color->Get( String("b").toV8String(isolate))->NumberValue();
-					nativeColor.a = color->Get( String("a").toV8String(isolate))->NumberValue();
+
+					nativeColor.r = V8_JAVASCRIPT_ENGINE->v8GetDecimal(color, "r");
+					nativeColor.g = V8_JAVASCRIPT_ENGINE->v8GetDecimal(color, "g");
+					nativeColor.b = V8_JAVASCRIPT_ENGINE->v8GetDecimal(color, "b");
+					nativeColor.a = V8_JAVASCRIPT_ENGINE->v8GetDecimal(color, "a");
 				}
 				
 				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
@@ -399,7 +399,7 @@ namespace RadJAV
 				if (!appObject || args.Length() == 0)
 					return;
 				
-				v8::Local<v8::Object> child = args[0]->ToObject();
+				v8::Local<v8::Object> child = args[0]->ToObject(args.GetIsolate ());
 				
 				std::shared_ptr<CPP::C3D::Transform> childNative = V8_JAVASCRIPT_ENGINE->v8GetExternal<CPP::C3D::Transform>(child, "_c3dObj");
 
@@ -420,7 +420,7 @@ namespace RadJAV
 				if (!appObject || args.Length() == 0)
 					return;
 				
-				v8::Local<v8::Object> child = args[0]->ToObject();
+				v8::Local<v8::Object> child = args[0]->ToObject(args.GetIsolate());
 				
 				std::shared_ptr<CPP::C3D::Transform> childNative = V8_JAVASCRIPT_ENGINE->v8GetExternal<CPP::C3D::Transform>(child, "_c3dObj");
 
@@ -431,7 +431,7 @@ namespace RadJAV
 			void Canvas3D::createObject3D(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				v8::Local<v8::Value> nameObj;
-				v8::Local<v8::Value> thisObj = args.This()->ToObject();
+				v8::Local<v8::Value> thisObj = args.This()->ToObject(args.GetIsolate ());
 				
 				if(args.Length())
 					nameObj = args[0];
@@ -450,7 +450,7 @@ namespace RadJAV
 			void Canvas3D::createCamera(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				v8::Local<v8::Value> nameObj;
-				v8::Local<v8::Value> thisObj = args.This()->ToObject();
+				v8::Local<v8::Value> thisObj = args.This()->ToObject(args.GetIsolate());
 				
 				if(args.Length())
 					nameObj = args[0];
@@ -469,7 +469,7 @@ namespace RadJAV
 			void Canvas3D::createLight(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				v8::Local<v8::Value> nameObj;
-				v8::Local<v8::Value> thisObj = args.This()->ToObject();
+				v8::Local<v8::Value> thisObj = args.This()->ToObject(args.GetIsolate());
 				
 				if(args.Length())
 					nameObj = args[0];
@@ -488,7 +488,7 @@ namespace RadJAV
 			void Canvas3D::createPlane(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				v8::Local<v8::Value> nameObj;
-				v8::Local<v8::Value> thisObj = args.This()->ToObject();
+				v8::Local<v8::Value> thisObj = args.This()->ToObject(args.GetIsolate());
 				
 				if(args.Length())
 					nameObj = args[0];
@@ -507,7 +507,7 @@ namespace RadJAV
 			void Canvas3D::createCube(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				v8::Local<v8::Value> nameObj;
-				v8::Local<v8::Value> thisObj = args.This()->ToObject();
+				v8::Local<v8::Value> thisObj = args.This()->ToObject(args.GetIsolate());
 				
 				if(args.Length())
 					nameObj = args[0];
@@ -526,7 +526,7 @@ namespace RadJAV
 			void Canvas3D::createSphere(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				v8::Local<v8::Value> nameObj;
-				v8::Local<v8::Value> thisObj = args.This()->ToObject();
+				v8::Local<v8::Value> thisObj = args.This()->ToObject(args.GetIsolate());
 				
 				if(args.Length())
 					nameObj = args[0];
@@ -546,7 +546,7 @@ namespace RadJAV
 			{
 				v8::Local<v8::Value> pathObj;
 				v8::Local<v8::Value> nameObj;
-				v8::Local<v8::Value> thisObj = args.This()->ToObject();
+				v8::Local<v8::Value> thisObj = args.This()->ToObject(args.GetIsolate());
 				
 				size_t numOfArgs = args.Length();
 				if(numOfArgs == 0)

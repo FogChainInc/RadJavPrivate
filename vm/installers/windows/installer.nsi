@@ -14,7 +14,7 @@
   !define PRODUCT_NAME "RadJavVM"
   !define PRODUCT_WEB_SITE "https://www.radjav.com/"
   !define PRODUCT_PUBLISHER "Higher Edge Software, LLC"
-  !define PRODUCT_VERSION 0.21
+  !define PRODUCT_VERSION 0.25
   !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 ;  !define PRODUCT_ARCH "x64" ; This has to always be commented out, this must be passed in from the .bat or .sh file.
 

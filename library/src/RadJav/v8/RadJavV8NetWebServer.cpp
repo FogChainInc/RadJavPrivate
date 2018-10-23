@@ -51,7 +51,7 @@ namespace RadJAV
 			void WebServer::listen(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				v8::Local<v8::Number> val = v8::Local<v8::Number>::Cast(args[0]);
-				RJINT port = val->IntegerValue();
+				RJINT port = V8_JAVASCRIPT_ENGINE->v8ParseInt (val);
 
 				NETTYPE *webServer = (NETTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_webServer");
 				webServer->port = port;

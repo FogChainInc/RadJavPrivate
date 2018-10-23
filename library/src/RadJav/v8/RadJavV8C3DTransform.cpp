@@ -67,7 +67,7 @@ namespace RadJAV
 					return;
 				
 				CPP::GUI::Canvas3D* canvas =
-					(CPP::GUI::Canvas3D*)V8_JAVASCRIPT_ENGINE->v8GetExternal(args[0]->ToObject(), "_appObj");
+					(CPP::GUI::Canvas3D*)V8_JAVASCRIPT_ENGINE->v8GetExternal(args[0]->ToObject(args.GetIsolate ()), "_appObj");
 				
 				if(!canvas)
 					return;
@@ -252,7 +252,7 @@ namespace RadJAV
 				if(args.Length() == 0)
 					return;
 				
-				v8::Handle<v8::Object> childObject = args[0]->ToObject();
+				v8::Handle<v8::Object> childObject = args[0]->ToObject(args.GetIsolate());
 				std::shared_ptr<C3DTYPE> c3dChildObject = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(childObject, "_c3dObj");
 				
 				std::shared_ptr<C3DTYPE> c3dObject = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
@@ -266,7 +266,7 @@ namespace RadJAV
 				if(args.Length() == 0)
 					return;
 				
-				v8::Handle<v8::Object> childObject = args[0]->ToObject();
+				v8::Handle<v8::Object> childObject = args[0]->ToObject(args.GetIsolate());
 				std::shared_ptr<C3DTYPE> c3dChildObject = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(childObject, "_c3dObj");
 				
 				std::shared_ptr<C3DTYPE> c3dObject = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");

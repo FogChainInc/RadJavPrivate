@@ -55,7 +55,7 @@ namespace RadJAV
 					return;
 
 				CPP::GUI::Canvas3D* canvas =
-					(CPP::GUI::Canvas3D*)V8_JAVASCRIPT_ENGINE->v8GetExternal(args[0]->ToObject(), "_appObj");
+					(CPP::GUI::Canvas3D*)V8_JAVASCRIPT_ENGINE->v8GetExternal(args[0]->ToObject(args.GetIsolate()), "_appObj");
 				
 				if(!canvas)
 					return;
@@ -70,7 +70,7 @@ namespace RadJAV
 				RJBOOL visible = true;
 				
 				if (args.Length() > 0)
-					visible = v8::Local<v8::Boolean>::Cast(args[0])->BooleanValue();
+					visible = V8_JAVASCRIPT_ENGINE->v8ParseBool (args[0]);
 
 				std::shared_ptr<C3DTYPE> c3dObject = V8_JAVASCRIPT_ENGINE->v8GetExternal<C3DTYPE>(args.This(), "_c3dObj");
 				

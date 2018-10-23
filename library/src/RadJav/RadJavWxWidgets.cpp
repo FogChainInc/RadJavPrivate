@@ -28,14 +28,14 @@
 	#include <wx/string.h>
 
 	#ifdef NET_ON
-		#include "RadJavWxWidgetsNetworking.h"
+		//#include "RadJavWxWidgetsNetworking.h"
 	#endif
 
 BEGIN_EVENT_TABLE(RadJAV::wxWidgetsRadJav, wxApp)
 	#ifdef NET_ON
-		EVT_SOCKET(SOCKET_SERVER, RadJAV::wxWidgetsRadJav::ServerEvent)
+		//EVT_SOCKET(SOCKET_SERVER, RadJAV::wxWidgetsRadJav::ServerEvent)
 
-		EVT_SOCKET(SOCKET_SOCKET, RadJAV::wxWidgetsRadJav::SocketEvent)
+		//EVT_SOCKET(SOCKET_SOCKET, RadJAV::wxWidgetsRadJav::SocketEvent)
 	#endif
 END_EVENT_TABLE()
 
@@ -47,7 +47,7 @@ namespace RadJAV
 		wxApp::OnInit();
 		
 		#ifdef NET_ON
-			wxSocketBase::Initialize();
+			//wxSocketBase::Initialize();
 		#endif
 
 		return (true);
@@ -78,7 +78,7 @@ namespace RadJAV
 	}
 
 	#ifdef NET_ON
-	void wxWidgetsRadJav::ServerEvent (wxSocketEvent &evtEvent)
+	/*void wxWidgetsRadJav::ServerEvent (wxSocketEvent &evtEvent)
 	{
 		switch (evtEvent.GetSocketEvent ())
 		{
@@ -102,7 +102,7 @@ namespace RadJAV
 				//scbMultiplayer_PuzzleCallback->Execute (NET_HANDLE_TYPE_ERROR, -1);
 				break;
 		}
-	}
+	}*/
 	#endif
 }
 #endif

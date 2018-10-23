@@ -50,31 +50,31 @@ namespace RadJAV
 			int iPos1 = 0, iPos2 = (int)line.find (".");
 
 			strOctet = line.substr (iPos1, iPos2);
-			octets[0] = RadJAV::stringToInt (strOctet);
+			octets[0] = parseInt (strOctet);
 
 			iPos1 = (iPos2 + 1); iPos2 = (int)line.find (".", (iPos2 + 1));
 			strOctet = line.substr (iPos1, iPos2);
-			octets[1] = RadJAV::stringToInt (strOctet);
+			octets[1] = parseInt(strOctet);
 
 			iPos1 = (iPos2 + 1); iPos2 = (int)line.find (".", (iPos2 + 1));
 			strOctet = line.substr (iPos1, iPos2);
-			octets[2] = RadJAV::stringToInt (strOctet);
+			octets[2] = parseInt(strOctet);
 
 			iPos1 = (iPos2 + 1); iPos2 = (int)line.size ();
 			strOctet = line.substr (iPos1, iPos2);
-			octets[3] = RadJAV::stringToInt (strOctet);
+			octets[3] = parseInt (strOctet);
 		}
 
 		String IPv4::getString ()
 		{
 			String ipReturn = "";
-			ipReturn += RadJAV::intToString ((int)octets[0]);
+			ipReturn += String::fromInt((int)octets[0]);
 			ipReturn += ".";
-			ipReturn += RadJAV::intToString ((int)octets[1]);
+			ipReturn += String::fromInt((int)octets[1]);
 			ipReturn += ".";
-			ipReturn += RadJAV::intToString ((int)octets[2]);
+			ipReturn += String::fromInt((int)octets[2]);
 			ipReturn += ".";
-			ipReturn += RadJAV::intToString ((int)octets[3]);
+			ipReturn += String::fromInt((int)octets[3]);
 
 			return (ipReturn);
 		}
@@ -226,9 +226,9 @@ namespace RadJAV
 			strSendString += " HTTP/1.1\n";
 
 			if (serverAddress == "")
-				strSendString += "Host: " + connection.get()->getIP() + ":" + (String)RadJAV::intToString (getPort ()) + "\n";
+				strSendString += "Host: " + connection.get()->getIP() + ":" + String::fromInt (getPort ()) + "\n";
 			else
-				strSendString += "Host: " + serverAddress + ":" + (String)RadJAV::intToString (getPort ()) + "\n";
+				strSendString += "Host: " + serverAddress + ":" + String::fromInt(getPort ()) + "\n";
 
 			strSendString += "User-Agent: " + (String)NET_USERAGENT + "\n";
 			strSendString += "\n";
@@ -260,13 +260,13 @@ namespace RadJAV
 				strSendString += "Authorization: " + strAuth;
 
 			if (serverAddress == "")
-				strSendString += "Host: " + connection.get()->getIP() + ":" + (String)RadJAV::intToString (getPort ()) + "\n";
+				strSendString += "Host: " + connection.get()->getIP() + ":" + String::fromInt(getPort ()) + "\n";
 			else
-				strSendString += "Host: " + serverAddress + ":" + (String)RadJAV::intToString (getPort ()) + "\n";
+				strSendString += "Host: " + serverAddress + ":" + String::fromInt(getPort ()) + "\n";
 
 			strSendString += "User-Agent: " + (String)NET_USERAGENT + "\n";
 			strSendString += "Content-Type: " + strContentType + "\n";
-			strSendString += "Content-Length: " + (String)RadJAV::intToString ((size_t)line.size ()) + "\n";
+			strSendString += "Content-Length: " + String::fromInt ((size_t)line.size ()) + "\n";
 			strSendString += "\n";
 			strSendString += line;
 			strSendString += "\n";
@@ -290,7 +290,7 @@ namespace RadJAV
 			strTemp = strTemp.substr (iStartPos, (iEndPos - iStartPos));
 			iEndPos += strNewLine.size ();
 			int iVeryEndPos = strReturn.find ("0" + strNewLine + strNewLine);
-			int iCount = RadJAV::stringToInt (strTemp);
+			int iCount = parseInt (strTemp);
 
 			strReturn = strReturn.substr (iEndPos, (iVeryEndPos - (iEndPos + strNewLine.size ())));
 
