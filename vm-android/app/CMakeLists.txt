@@ -5,13 +5,18 @@
 
 cmake_minimum_required(VERSION 3.4.1)
 
-set(libRadJav_SRC_DIR ../../library)
-set(libRadJav_BUILD_DIR ../../library/build-android)
+message (STATUS "Building for architecture ${ANDROID_ABI}")
+set(CMAKE_LIBRARY_ARCHITECTURE ${ANDROID_ABI})
+
+#Set path for pre-compiled dependencies
+set(ENV{RADJAV_DEPENDENCIES} "${CMAKE_CURRENT_SOURCE_DIR}/../../../Dependencies")
+
+set(libRadJav_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../library)
+set(libRadJav_BUILD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../library/build-android)
 file(MAKE_DIRECTORY ${libRadJav_BUILD_DIR})
 add_subdirectory(${libRadJav_SRC_DIR} ${libRadJav_BUILD_DIR})
-add_library(RadJav STATIC IMPORTED)
-set_target_properties(RadJav PROPERTIES IMPORTED_LOCATION ${libRadJav_BUILD_DIR}/${ANDROID_ABI}/liblibRadJav.a)
-include_directories(${libRadJav_SRC_DIR}/include)
+
+include_directories(${libRadJav_INCLUDE_DIRS2})
 
 # Creates and names a library, sets it as either STATIC
 # or SHARED, and provides the relative paths to its source code.
@@ -40,13 +45,15 @@ find_library( # Sets the name of the path variable.
                 # you want CMake to locate.
                 log)
 
+add_dependencies(RadJavWrapper libRadJav)
+
 # Specifies libraries CMake should link to your target library. You
 # can link multiple libraries, such as libraries you define in this
 # build script, prebuilt third-party libraries, or system libraries.
 
 target_link_libraries( # Specifies the target library.
                         RadJavWrapper
-                        RadJav
+                        libRadJav
 
                         # Links the target library to the log library
                         # included in the NDK.

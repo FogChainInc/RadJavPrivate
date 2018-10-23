@@ -1,7 +1,6 @@
 
-macro (embedJavascript jsFilesList jsFilesPath headerName headerPath)
+macro (embedJavascript jsFilesList jsFilesPath headerFilePath)
 	
-	set (headerFilePath "${headerPath}/${headerName}")
 	message (STATUS "Embedding Javascript into ${headerFilePath}")
 	
 	#Header start

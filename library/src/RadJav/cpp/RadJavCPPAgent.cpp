@@ -46,7 +46,7 @@ namespace inspector {
 		return v8_inspector::StringBuffer::create(view);
 	}
 
-	std::unique_ptr<v8_inspector::StringBuffer> ToProtocolString(Local<Value> value) {
+	std::unique_ptr<v8_inspector::StringBuffer> ToProtocolString(Isolate* isolate, Local<Value> value) {
 		if (value.IsEmpty() || value->IsNull() || value->IsUndefined() ||
 			!value->IsString()) {
 			return v8_inspector::StringBuffer::create(v8_inspector::StringView());
@@ -54,7 +54,7 @@ namespace inspector {
 		Local<String> string_value = Local<String>::Cast(value);
 		size_t len = string_value->Length();
 		std::basic_string<uint16_t> buffer(len, '\0');
-		string_value->Write(&buffer[0], 0, len);
+		string_value->Write(isolate, &buffer[0], 0, len);
 		return v8_inspector::StringBuffer::create(v8_inspector::StringView(buffer.data(), len));
 	}
 
@@ -190,7 +190,7 @@ namespace inspector {
 
 			if (!stack_trace.IsEmpty() &&
 				stack_trace->GetFrameCount() > 0 &&
-				script_id == stack_trace->GetFrame(0)->GetScriptId()) {
+				script_id == stack_trace->GetFrame(isolate_, 0)->GetScriptId()) {
 				script_id = 0;
 			}
 
@@ -201,8 +201,8 @@ namespace inspector {
 				context,
 				v8_inspector::StringView(DETAILS, sizeof(DETAILS) - 1),
 				error,
-				ToProtocolString(message->Get())->string(),
-				ToProtocolString(message->GetScriptResourceName())->string(),
+				ToProtocolString(isolate_, message->Get())->string(),
+				ToProtocolString(isolate_, message->GetScriptResourceName())->string(),
 				message->GetLineNumber(context).FromMaybe(0),
 				message->GetStartColumn(context).FromMaybe(0),
 				client_->createStackTrace(stack_trace),

@@ -129,11 +129,14 @@ endif ()
 if (libRadJav_DEPENDENCIES)
 	fixPath (libRadJav_DEPENDENCIES)
 	message (STATUS "RadJav Dependencies path set to: ${libRadJav_DEPENDENCIES}")
+	
+	#Add additional folder where CMake will search for dependencies like 3rd party libraries
+	set(CMAKE_FIND_ROOT_PATH ${libRadJav_DEPENDENCIES} ${CMAKE_FIND_ROOT_PATH})
 endif ()
 
 if (libRadJav_JS_LIBRARY STREQUAL "V8")
 	set (USE_V8 true)
-	set (libRadJav_DEBUG_INSPECTOR true CACHE BOOL "Include V8 js inspector?")
+	set (libRadJav_DEBUG_INSPECTOR FALSE CACHE BOOL "Include V8 js inspector?")
 endif ()
 
 if (libRadJav_JS_LIBRARY STREQUAL "JavaScriptCore")
@@ -700,18 +703,27 @@ if (libRadJav_EMBEDFILE)
 	endif ()
 	
 	include (EmbedJavascript)
+	
+	set (headersDir "${CMAKE_CURRENT_SOURCE_DIR}/include/RadJav")
 
-	embedJavascript( "${jsFiles}" "${CMAKE_CURRENT_SOURCE_DIR}/javascript" "RadJavJavascriptCode.h" "${CMAKE_CURRENT_SOURCE_DIR}/include/RadJav")
+	# We need to lock folder with headers to make it sure that embedding happens only
+	# in one instance of CMake, f.e. Android Studio will spawn CMake
+	# for Release/Debug and multiple architectures
+	file (LOCK ${headersDir} DIRECTORY RESULT_VARIABLE lockResult TIMEOUT 0)
+	
+	if (${lockResult} EQUAL 0)
+		embedJavascript( "${jsFiles}" "${CMAKE_CURRENT_SOURCE_DIR}/javascript" "${headersDir}/RadJavJavascriptCode.h")
+		file (LOCK ${headersDir} DIRECTORY RELEASE RESULT_VARIABLE lockResult)
+	else ()
+		message (STATUS "Not embedding Javascript because another CMake process work on it")
+	endif ()
 endif()
 
-# Do not export several variables on Android builds (we didn't expect parent scope here)
-if (NOT ANDROID)
-	set (libRadJav_CPP_DEFS2 ${libRadJav_CPP_DEFS} PARENT_SCOPE)
-	set (libRadJav_CPP_DEFS_DEBUG2 ${libRadJav_CPP_DEFS_DEBUG} PARENT_SCOPE)
-	set (libRadJav_INCLUDE_DIRS2 ${libRadJav_INCLUDE_DIRS} PARENT_SCOPE)
-	set (libRadJav_LINK_LIBRARIES2 ${libRadJav_LINK_LIBRARIES} PARENT_SCOPE)
-	set (libRadJav_LINK_LIBRARY_DIRS2 ${libRadJav_LINK_LIBRARY_DIRS} PARENT_SCOPE)
-	set (libRadJav_CXX_FLAGS2 ${libRadJav_CXX_FLAGS} PARENT_SCOPE)
-	set (libRadJav_JS_LIBRARY2 ${libRadJav_JS_LIBRARY} PARENT_SCOPE)
-	set (CMAKE_CXX_FLAGS2 ${CMAKE_CXX_FLAGS} PARENT_SCOPE)
-endif ()
+set (libRadJav_CPP_DEFS2 ${libRadJav_CPP_DEFS} PARENT_SCOPE)
+set (libRadJav_CPP_DEFS_DEBUG2 ${libRadJav_CPP_DEFS_DEBUG} PARENT_SCOPE)
+set (libRadJav_INCLUDE_DIRS2 ${libRadJav_INCLUDE_DIRS} PARENT_SCOPE)
+set (libRadJav_LINK_LIBRARIES2 ${libRadJav_LINK_LIBRARIES} PARENT_SCOPE)
+set (libRadJav_LINK_LIBRARY_DIRS2 ${libRadJav_LINK_LIBRARY_DIRS} PARENT_SCOPE)
+set (libRadJav_CXX_FLAGS2 ${libRadJav_CXX_FLAGS} PARENT_SCOPE)
+set (libRadJav_JS_LIBRARY2 ${libRadJav_JS_LIBRARY} PARENT_SCOPE)
+set (CMAKE_CXX_FLAGS2 ${CMAKE_CXX_FLAGS} PARENT_SCOPE)

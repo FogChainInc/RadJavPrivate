@@ -1,21 +1,34 @@
 message (STATUS "Searching for Boost...")
 
-set (BOOSTROOT $ENV{BOOSTROOT} CACHE PATH "Boost path")
+if (NOT ANDROID)
+	set (BOOSTROOT $ENV{BOOSTROOT} CACHE PATH "Boost path")
+	
+	set (Boost_LIBRARY_DIR_DEBUG "")
+	set (Boost_LIBRARY_DIR_RELEASE "")
+	
+	fixPath (BOOSTROOT)
+	#set (Boost_USE_STATIC_LIBS TRUE)
+	#set (Boost_USE_STATIC_RUNTIME TRUE)
+	set (Boost_USE_MULTITHREADED TRUE)
+	
+	find_package (Boost 1.67.0 REQUIRED COMPONENTS thread system filesystem)
+	
+	#include (FindBoost)
+	
+	set (Boost_INCLUDE ${Boost_INCLUDE_DIRS})
+	set (Boost_LIBRARIES ${Boost_THREAD_LIBRARY_DEBUG} ${Boost_LIBRARIES})
+	set (Boost_LIBRARIES ${Boost_THREAD_LIBRARY_RELEASE} ${Boost_LIBRARIES})
+	
+	hasLibBeenFound (Boost)
+else ()
+	searchForHeader (Boost config.hpp "" TRUE)
+	#message (STATUS "Boost_INCLUDE is ${Boost_INCLUDE}")
 
-set (Boost_LIBRARY_DIR_DEBUG "")
-set (Boost_LIBRARY_DIR_RELEASE "")
-
-fixPath (BOOSTROOT)
-#set (Boost_USE_STATIC_LIBS TRUE)
-#set (Boost_USE_STATIC_RUNTIME TRUE)
-set (Boost_USE_MULTITHREADED TRUE)
-
-find_package (Boost 1.67.0 REQUIRED COMPONENTS thread system filesystem)
-
-#include (FindBoost)
-
-set (Boost_INCLUDE ${Boost_INCLUDE_DIRS})
-set(Boost_LIBRARIES ${Boost_THREAD_LIBRARY_DEBUG} ${Boost_LIBRARIES})
-set(Boost_LIBRARIES ${Boost_THREAD_LIBRARY_RELEASE} ${Boost_LIBRARIES})
-
-hasLibBeenFound (Boost)
+	searchForLibrary (Boost_thread boost_thread-mt boost_thread-mt "")
+	searchForLibrary (Boost_system boost_system-mt boost_system-mt "")
+	searchForLibrary (Boost_filesystem boost_filesystem-mt boost_filesystem-mt "")
+	
+	set (Boost_LIBRARIES ${Boost_thread_LIBRARIES} ${Boost_system_LIBRARIES} ${Boost_filesystem_LIBRARIES})
+	
+	#message (STATUS "Boost_LIBRARIES is ${Boost_LIBRARIES}")
+endif ()
