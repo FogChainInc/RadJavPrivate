@@ -76,8 +76,8 @@
 	#define RJNUMBER RDECIMAL
 
 	#define PACKAGE_NAME "RadJav"
-	#define RADJAV_VERSION_MAJOR 0
-	#define RADJAV_VERSION_MINOR 21
+
+	#include "RadJavVersion.h"
 
 	#ifdef COPYRIGHT_HOLDERS
 		#undef COPYRIGHT_HOLDERS
