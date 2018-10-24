@@ -7,11 +7,8 @@ endif ()
 project (RadJavVM)
 
 message (STATUS "Configuring RadJav VM...")
-message (STATUS "Version 0.1")
 
-set (PROJECT_VERSION_MAJOR "0")
-set (PROJECT_VERSION_MINOR "1")
-set (PROJECT_VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR})
+set (VENDOR "FogChain, Corp")
 
 set (CMAKE_MODULE_PATH "${RadJavVM_SOURCE_DIR}/../library/CMake"
 			"${RadJavVM_SOURCE_DIR}/../library/CMake/lib"
@@ -81,6 +78,13 @@ include (sources)
 include (res)
 
 include (FindRadJav)
+
+set (PROJECT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR2})
+set (PROJECT_VERSION_MINOR ${PROJECT_VERSION_MINOR2})
+set (PROJECT_VERSION_PATCH ${PROJECT_VERSION_PATCH2})
+
+set (PROJECT_VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH})
+message (STATUS "RadJavVM Version ${PROJECT_VERSION}")
 
 set (RadJavVM_INCLUDE_DIRS)
 set (RadJavVM_LINK_LIBRARIES)

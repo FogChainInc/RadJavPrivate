@@ -6,7 +6,7 @@ if (UNIX)
 			
 			#Copying examples
 			install (DIRECTORY "${PROJECT_SOURCE_DIR}/../examples"
-					DESTINATION "share/radjavvm/examples/")
+					DESTINATION "share/radjavvm/")
 		endif ()
 
 		if (RadJavVM_EMBED_HTML5)
