@@ -20,8 +20,7 @@ set (SOURCES ${SOURCES_files_RADJAV__Main__Headers} ${SOURCES})
 
 # wxWidgets
 set (SOURCES_files_wxWidgets__Main__Headers 
-	"${libRadJav_SOURCE_DIR}/include/RadJav/RadJavWxWidgets.h"
-	"${libRadJav_SOURCE_DIR}/include/RadJav/RadJavWxWidgetsNetworking.h")
+	"${libRadJav_SOURCE_DIR}/include/RadJav/RadJavWxWidgets.h")
 source_group ("RadJav\\wxWidgets" FILES ${SOURCES_files_wxWidgets__Main__Headers})
 
 set (SOURCES ${SOURCES_files_wxWidgets__Main__Headers} ${SOURCES})

@@ -18,11 +18,9 @@
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 #import "cpp/RadJavCPPMUITableView.h"
-
+#import "cpp/ios/RadJavCPPMUIEventDelegates.h"
 #import <UIKit/UIKit.h>
 #import "cpp/RadJavCPPGUIGObject.h"
-#import "cpp/RadJavCPPMUIButton.h"
-
 
 namespace RadJAV
 {
@@ -31,15 +29,27 @@ namespace RadJAV
         namespace MUI
         {
             TableViewFrame::TableViewFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size)
-            : widget([[UITableView alloc] init])
+            : widget([[[UITableView alloc] init]retain])
             {
-
+                widgetDelegate = [[TableViewDelegate alloc] init];
+                widgetDelegate.widget = this;
+                widget.dataSource = widgetDelegate;
+                widget.delegate = widgetDelegate;
             }
             
             void TableViewFrame::setModel(MUI::TableViewModel *model){
                 
-                
+                this->model = model;
+                model->linkedFrame = this;
+                widgetDelegate.model = model;
+                reload();
             }
+            
+            void TableViewFrame::reload(){
+
+                [widget reloadData];
+            }
+
             
 			TableViewFrame::~TableViewFrame()
 			{

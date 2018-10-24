@@ -41,7 +41,7 @@ namespace RadJAV
 			ipAddress.Hostname (wxGetFullHostName ());
 
 			wxString strAddr = ipAddress.IPAddress ();
-			aryReturn.push_back (RadJAV::convertwxStringToString (strAddr));
+			aryReturn.push_back (parsewxString (strAddr));
 
 			return (aryReturn);
 		}
@@ -1084,19 +1084,19 @@ namespace RadJAV
 			Array<String> aryIPs;
 
 			for (size_t uiIdx = 0; uiIdx < aryAddresses.size (); uiIdx++)
-				aryIPs.push_back (RadJAV::convertwxStringToString (aryAddresses.at (uiIdx).IPAddress ()));
+				aryIPs.push_back (parsewxString (aryAddresses.at (uiIdx).IPAddress ()));
 
 			return (aryIPs);
 		}
 
 		String wxWidgetsTCPServer::GetConnectedIp (size_t uiId)
 		{
-			return (RadJAV::convertwxStringToString (aryAddresses.at (uiId).IPAddress ()));
+			return (parsewxString (aryAddresses.at (uiId).IPAddress ()));
 		}
 
 		String wxWidgetsTCPServer::GetLastConnectedIp ()
 		{
-			return (RadJAV::convertwxStringToString (aryAddresses.at ((aryAddresses.size () - 1)).IPAddress ()));
+			return (parsewxString (aryAddresses.at ((aryAddresses.size () - 1)).IPAddress ()));
 		}
 
 		bool wxWidgetsTCPServer::IsSocketOpen (wxSocketBase *socSocket)
@@ -1619,7 +1619,7 @@ namespace RadJAV
 		{
 			wxIPV4address ipAddr;
 			socSocket->GetPeer (ipAddr);
-			String strReturn = RadJAV::convertwxStringToString (ipAddr.IPAddress ());
+			String strReturn = parsewxString (ipAddr.IPAddress ());
 
 			return (strReturn);
 		}

@@ -36,31 +36,43 @@ namespace RadJAV
             void TableViewModel::createJSCCallbacks(JSContextRef context, JSObjectRef object)
             {
                 JSC_CALLBACK(object, "create", TableViewModel::create);
-                
+                JSC_CALLBACK(object, "setCellModels", TableViewModel::setCellModels);
             }
-            
-            
             
             JSValueRef TableViewModel::setCellModels(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
             {
-                CppMuiObject *appObject = RJNEW CppMuiObject(JSC_JAVASCRIPT_ENGINE, thisObject, argumentCount, arguments);
-                
-                
-                if (argumentCount > 0){
-                    JSObjectRef argument =  JSValueToObject(ctx, arguments[0], exception);
-                    Array<CPP::MUI::TableCellModel> *model = (Array<CPP::MUI::TableCellModel> *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, argument, "_appObj");
-                    if (model != NULL){
+       
+                if (argumentCount)
+                {
+                    std::vector<CPP::MUI::TableCellModel*> arrayData;
+                    
+                    if (JSValueIsArray(ctx, arguments[0]))
+                    {
+                        JSObjectRef array = JSValueToObject(ctx, arguments[0], nullptr);
+                        JSStringRef arrayLengthProperty = JSStringCreateWithUTF8CString("length");
                         
-                        appObject->setCellModels(model);
+                        JSValueRef lengthValue = JSObjectGetProperty(ctx, array, arrayLengthProperty, nullptr);
+                        JSStringRelease(arrayLengthProperty);
+                        
+                        size_t arraySize = JSValueToNumber(ctx, lengthValue, nullptr);
+                        
+                        for (size_t i = 0; i < arraySize; i++)
+                        {
+                            JSObjectRef item = JSValueToObject(ctx,JSObjectGetPropertyAtIndex(ctx, array, i, nullptr),nullptr);
+                            CPP::MUI::TableCellModel * cell = (CPP::MUI::TableCellModel*)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, item, "_appObj");
+                            arrayData.push_back(cell);
+                        }
                     }
                     
+                    CppMuiObject *appObject = (CppMuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+                    appObject->setCellModels(&arrayData);
                 }
-                JSC_JAVASCRIPT_ENGINE->jscSetExternal(ctx, thisObject, "_appObj", appObject);
-                JSObjectRef _guiFinishedCreatingGObject = JSC_JAVASCRIPT_ENGINE->jscGetFunction(JSC_RADJAV, "_guiFinishedCreatingGObject");
-                JSObjectRef promise = JSC_JAVASCRIPT_ENGINE->createPromise(thisObject, _guiFinishedCreatingGObject);
                 
-                return promise;
+                return JSValueMakeUndefined(ctx);
             }
+            
+            
+        
             
 			JSValueRef TableViewModel::create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
 			{

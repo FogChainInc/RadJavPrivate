@@ -510,8 +510,12 @@ namespace RadJAV
 			//{
 				wxMessageBox(message.towxString(), title.towxString(), wxOK);
 			//});
-		#elif defined USE_IOS || defined USE_ANDROID
+		#elif defined USE_IOS
 			CPP::MUI::AlertFrame::show(title, message);
+        #elif defined USE_ANDROID
+			//Basically it will be the same as for iOS
+			//but for now we leave it here
+			#warning Add Alert(Message Box) implementation for Android
 		#else
 			#warning Add Alert(Message Box) implementation
 		#endif

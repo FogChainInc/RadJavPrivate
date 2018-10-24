@@ -16,8 +16,7 @@ set (SOURCES ${SOURCES_files_RADJAV__Main__Sources} ${SOURCES})
 
 # wxWidgets
 set (SOURCES_files_wxWidgets__Main__Sources 
-	"${libRadJav_SOURCE_DIR}/src/RadJav/RadJavWxWidgets.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/RadJavWxWidgetsNetworking.cpp")
+	"${libRadJav_SOURCE_DIR}/src/RadJav/RadJavWxWidgets.cpp")
 source_group ("RadJav\\wxWidgets" FILES ${SOURCES_files_wxWidgets__Main__Sources})
 
 set (SOURCES ${SOURCES_files_wxWidgets__Main__Sources} ${SOURCES})

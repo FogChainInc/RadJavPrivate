@@ -20,6 +20,10 @@
 #import "cpp/ios/RadJavCPPMUIEventDelegates.h"
 
 #include "cpp/RadJavCPPGUIGObject.h"
+#include "cpp/RadJavCPPMUITableViewModel.h"
+#include "cpp/RadJavCPPMUITableCellModel.h"
+
+ #include <JavaScriptCore/JSStringRef.h>
 
 @implementation ButtonDelegate
 - (bool)bindEvent:(nullable id)nativeWidget eventName:(const std::string&)eventName
@@ -144,18 +148,37 @@
     
 }
 
-@end
-
-
-@implementation TableViewDataSource
+//@end
+//@implementation TableViewDataSource
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    
+    return 1;//one section for now
+}
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (self.model == nullptr){
+        return 0;
+    }
     
-    return 1;
+    
+    return self.model->models->size();
 }
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
+    RadJAV::CPP::MUI::TableCellModel * model = self.model->models->at(indexPath.row);
     
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"identifier"];//tableView.dequeueReusableCell(withIdentifier: "LabelCell", for: indexPath)
+    
+    JSStringRef jsString = model->name.toJSCString();
+    
+    size_t maxBufferSize = JSStringGetMaximumUTF8CStringSize(jsString);
+    char* utf8Buffer = new char[maxBufferSize];
+    JSStringGetUTF8CString(jsString, utf8Buffer, maxBufferSize);
+    
+    
+    cell.textLabel.text = [NSString stringWithUTF8String:utf8Buffer];
+    
+    return cell;
 }
 @end
 

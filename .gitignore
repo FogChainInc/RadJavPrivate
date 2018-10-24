@@ -34,3 +34,6 @@ library/engines/KrispyCrypto/build*
 # COLLADA loader for Ogre 3D engine
 library/engines/OgreCollada/build*
 
+# CMake lock files for directories
+# Used during embedding Javascript files
+cmake.lock

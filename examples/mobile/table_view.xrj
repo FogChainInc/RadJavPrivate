@@ -1,6 +1,8 @@
 var window1;
 var globalTable;
 var globalModel;
+var globalButton;
+
 
 // Initialize RadJav and load all necessary libraries.
 RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav.getMUILibrary ()).then (function ()
@@ -18,19 +20,32 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
                        
                        win4.makeRootViewController();
                        
+
                        var table = new RadJav.MUI.TableView ("table","table example");
                        table.create ().then (function (tableParam){
                        
                        		globalTable = tableParam;
                        		
                        		window1.addChild(tableParam);
-                       		tableParam.setSize(400,600);
+                       		tableParam.setSize(300,300);
                        		
                        		var model = new RadJav.MUI.TableViewModel();
                        		globalModel = model;
+                       		
+
                        		model.create ().then (function (modelParam){
                        			
-                       			globalTable.setModel(modelParam);
+                       			var cellModel = new RadJav.MUI.TableCellModel();
+                       			cellModel.create ().then (function (cellParam){
+                       			
+                       				var array = [cellModel];
+                       			
+                       				globalModel.setCellModels(array);
+                       				globalTable.setModel(globalModel);
+                       			});
+                       			
+                       			
+                       			
                        		});
                        		
                        		
