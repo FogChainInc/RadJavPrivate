@@ -372,6 +372,13 @@ namespace RadJAV
 #endif
 	}
 
+#ifdef __APPLE__
+    NSString *String::toNSString ()
+    {
+        return ([NSString stringWithUTF8String: this->c_str ()]);
+    }
+#endif
+    
 #ifdef GUI_USE_WXWIDGETS
 	wxString String::towxString()
 	{
@@ -401,6 +408,13 @@ namespace RadJAV
         JSStringRelease(str);
 
         return (value);
+    }
+#endif
+    
+#ifdef __APPLE__
+    String parseNSString (NSString *str)
+    {
+        return ([str UTF8String]);
     }
 #endif
 

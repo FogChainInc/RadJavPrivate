@@ -26,8 +26,8 @@ set (CMAKE_CXX_FLAGS_MINSIZEREL "" CACHE STRING "CMAKE_CXX_FLAGS_MINSIZEREL")
 set (CMAKE_CXX_FLAGS_RELWITHDEBINFO "" CACHE STRING "CMAKE_CXX_FLAGS_RELWITHDEBINFO")
 set (RadJavVM_CPP_DEFS "" CACHE STRING "C++ Definitions")
 set (RadJavVM_CPP_DEFS_DEBUG "" CACHE STRING "C++ Debug Definitions")
-set (libRadJav_PATH $ENV{RADJAV_PATH} CACHE PATH "RadJav path")
-set (libRadJav_CMAKE_BUILD_PATH "" CACHE PATH "libRadJav CMake Build Path")
+set (libRadJav_PATH "${RadJavVM_SOURCE_DIR}/../library/" CACHE PATH "RadJav path")
+set (libRadJav_CMAKE_BUILD_PATH "${RadJavVM_SOURCE_DIR}/../library/build/" CACHE PATH "libRadJav CMake Build Path")
 set (libRadJav_DEPENDENCIES $ENV{RADJAV_DEPENDENCIES} CACHE PATH "RadJav Dependencies path")
 set (RadJavVM_LANGUAGE "en_us" CACHE STRING "Select language to compile with")
 set (libRadJav_STATIC false CACHE BOOL "Use static build of libRadJav")
@@ -43,12 +43,6 @@ else ()
 	set (RadJavVM_DEPENDENCY_OBJECTS_LIST "" CACHE STRING "Semicolon separated list of paths to dependencies \
 												which are indirectly will be used by application, i.e. loading \
 												during runtime")
-endif ()
-
-if (APPLE)
-	set (MAC_CODESIGN_IDENTITY CACHE STRING "Sign identity which can be determined by issuing command:\
-							security find-identity -v -p codesigning\
-							Example: Mac Developer")
 endif ()
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
@@ -98,11 +92,7 @@ if (libRadJav_FOUND)
 	set (RadJavVM_INCLUDE_DIRS ${libRadJav_INCLUDE} ${RadJavVM_INCLUDE_DIRS})
 	set (RadJavVM_LINK_LIBRARIES ${libRadJav_LIBRARIES} ${RadJavVM_LINK_LIBRARIES})
 
-	if (libRadJav_CMAKE_BUILD_PATH)
-		add_subdirectory (${libRadJav_PATH} ${libRadJav_CMAKE_BUILD_PATH})
-	else ()
-		add_subdirectory (${libRadJav_PATH} ${libRadJav_PATH}/build)
-	endif ()
+	add_subdirectory (${libRadJav_PATH} ${libRadJav_CMAKE_BUILD_PATH})
 
 	set (RadJavVM_CPP_DEFS_DEBUG ${libRadJav_CPP_DEFS_DEBUG2} ${RadJavVM_CPP_DEFS_DEBUG})
 	set (RadJavVM_CPP_DEFS ${libRadJav_CPP_DEFS2} ${RadJavVM_CPP_DEFS})
@@ -219,7 +209,7 @@ elseif (APPLE)
 	
 		#Creating Launcher
 		#TODO: add conditional for frameworks here
-		target_link_libraries (${CMAKE_PROJECT_NAME} "-framework UIKit -framework JavaScriptCore")
+		target_link_libraries (${CMAKE_PROJECT_NAME} "-framework UIKit -framework JavaScriptCore -framework WebKit")
 	
 		#These needs to be defined outside of set_target_properties otherwise they will not be included
 		set (MACOSX_BUNDLE_DISPLAY_NAME ${CMAKE_PROJECT_NAME})
@@ -312,6 +302,17 @@ if (${CMAKE_VERSION} VERSION_GREATER "3.6.0")
 	if (MSVC)
 		set_property (DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${CMAKE_PROJECT_NAME})
 	endif ()
+endif ()
+
+if (APPLE)
+	set (XCODE_DEVTEAM_ID "" CACHE STRING "The developer team id")
+	set (XCODE_CODESIGN_IDENTITY "" CACHE STRING "Sign identity which can be determined by issuing command:\
+							security find-identity -v -p codesigning\
+							Get the hash from Example: Mac Developer")
+	set (XCODE_PROVISIONING_PROFILE_NAME "" CACHE STRING "The provisioning profile name")
+	set_property (TARGET RadJavVM PROPERTY XCODE_ATTRIBUTE_DEVELOPMENT_TEAM "${XCODE_DEVTEAM_ID}")
+	set_property (TARGET RadJavVM PROPERTY XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "${XCODE_CODESIGN_IDENTITY}")
+	set_property (TARGET RadJavVM PROPERTY XCODE_ATTRIBUTE_PROVISIONING_PROFILE_SPECIFIER "${XCODE_PROVISIONING_PROFILE_NAME}")
 endif ()
 
 if (RadJavVM_CREATE_INSTALL_PACKAGES)

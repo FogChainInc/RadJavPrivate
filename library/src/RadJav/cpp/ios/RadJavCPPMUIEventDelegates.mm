@@ -127,6 +127,33 @@
 @end
 
 
+@implementation WebViewDelegate
+- (bool)bindEvent:(nullable id)nativeWidget eventName:(const std::string&)eventName
+{
+    //We already subscribed to UITextView events here by this delegate
+    //So we need only execute events to which we were subscribed (events subscription added in GObjectEvents class)
+    if (eventName == "changed")
+        return true;
+    
+    return false;
+}
+
+@end
+
+
+@implementation WebViewNavigationDelegate
+- (bool)bindEvent:(nullable id)nativeWidget eventName:(const std::string&)eventName
+{
+    //We already subscribed to UITextView events here by this delegate
+    //So we need only execute events to which we were subscribed (events subscription added in GObjectEvents class)
+    if (eventName == "changed")
+        return true;
+    
+    return false;
+}
+
+@end
+
 @implementation TableViewDelegate
 
 //- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

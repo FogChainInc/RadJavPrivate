@@ -2,7 +2,7 @@ Generating DMG for Mac
 1. set CMAKE_INSTALL_PREFIX to /Users/mikalaiturankou/Work/Compilation/RadJavPrivate/vm/build-xcode/install
 2. enable RadJavVM_CREATE_INSTALL_PACKAGES
 3. set RadJavVM_PACKAGER_TYPE to DragNDrop
-4. set MAC_CODESIGN_IDENTITY to Mac Developer (can be determined by "security find-identity -v -p codesigning")
+4. set XCODE_CODESIGN_IDENTITY to Mac Developer (can be determined by "security find-identity -v -p codesigning" The hash is what you want.)
 5. hit configure
 6. hit generate
 7. build project
