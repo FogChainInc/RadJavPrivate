@@ -65,7 +65,7 @@ namespace RadJAV
 				if (args.Length() > 0)
 				{
 					port = v8::Local<v8::Number>::Cast(args[0]);
-					portI = port->IntegerValue();
+					portI = V8_JAVASCRIPT_ENGINE->v8ParseInt (port);
 					V8_JAVASCRIPT_ENGINE->v8SetNumber(args.This(), "port", portI);
 				}
 

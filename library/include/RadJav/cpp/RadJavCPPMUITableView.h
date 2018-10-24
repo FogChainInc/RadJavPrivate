@@ -21,8 +21,6 @@
 #define _RADJAV_MUI_CPP_TableView_H_
 #include "cpp/RadJavCPPGUIGObject.h"
 #include "cpp/RadJavCPPMUITableViewModel.h"
-#include "jscore/RadJavJSCGUIGObject.h"
-
 
 #ifdef USE_V8
 	#include "v8/RadJavV8GUIGObject.h"

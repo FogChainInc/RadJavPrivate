@@ -34,7 +34,7 @@
 		#include <wx/app.h>
 
 		class wxDynamicLibrary;
-		class wxSocketEvent;
+		//class wxSocketEvent;
 
 		namespace RadJAV
 		{
@@ -55,9 +55,9 @@
 
 					// Networking
 					#ifdef NET_ON
-						void ServerEvent (wxSocketEvent &evtEvent);
+						//void ServerEvent (wxSocketEvent &evtEvent);
 
-						void SocketEvent (wxSocketEvent &evtEvent);
+						//void SocketEvent (wxSocketEvent &evtEvent);
 					#endif
 
 					Array<wxThread *> aryThreads;
