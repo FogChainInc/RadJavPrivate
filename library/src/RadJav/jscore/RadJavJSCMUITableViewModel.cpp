@@ -44,7 +44,7 @@ namespace RadJAV
        
                 if (argumentCount)
                 {
-                    std::vector<CPP::MUI::TableCellModel*> arrayData;
+                    std::vector<CPP::MUI::TableCellModel*> *arrayData = new std::vector<CPP::MUI::TableCellModel*>();
                     
                     if (JSValueIsArray(ctx, arguments[0]))
                     {
@@ -60,12 +60,12 @@ namespace RadJAV
                         {
                             JSObjectRef item = JSValueToObject(ctx,JSObjectGetPropertyAtIndex(ctx, array, i, nullptr),nullptr);
                             CPP::MUI::TableCellModel * cell = (CPP::MUI::TableCellModel*)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, item, "_appObj");
-                            arrayData.push_back(cell);
+                            arrayData->push_back(cell);
                         }
                     }
                     
                     CppMuiObject *appObject = (CppMuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
-                    appObject->setCellModels(&arrayData);
+                    appObject->setCellModels(arrayData);
                 }
                 
                 return JSValueMakeUndefined(ctx);

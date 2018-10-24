@@ -31,6 +31,7 @@ namespace RadJAV
             TableViewFrame::TableViewFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size)
             : widget([[[UITableView alloc] init]retain])
             {
+                [widget registerClass:[UITableViewCell class] forCellReuseIdentifier:@"identifier"];
                 widgetDelegate = [[TableViewDelegate alloc] init];
                 widgetDelegate.widget = this;
                 widget.dataSource = widgetDelegate;

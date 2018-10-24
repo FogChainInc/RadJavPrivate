@@ -35,7 +35,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 
                        		model.create ().then (function (modelParam){
                        			
-                       			var cellModel = new RadJav.MUI.TableCellModel();
+                       			var cellModel = new RadJav.MUI.TableCellModel("title","subtitle");
                        			cellModel.create ().then (function (cellParam){
                        			
                        				var array = [cellModel];
