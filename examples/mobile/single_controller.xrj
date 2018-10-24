@@ -1,5 +1,16 @@
 var window1;
 
+
+async function createButton(win)
+{
+    var button = new RadJav.GUI.Button ("Button", "Click me!", win);
+    
+    button = await button.create();
+    
+    return button;
+}
+
+
 // Initialize RadJav and load all necessary libraries.
 RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav.getMUILibrary ()).then (function ()
    {
@@ -13,7 +24,9 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
                    win3.create ().then (function (win4)
                    {
                        window1 = win4;
+                       var button = createButton(win4);
                        
+                       //win4.addChild(button);
                        win4.makeRootViewController();
                        
                        

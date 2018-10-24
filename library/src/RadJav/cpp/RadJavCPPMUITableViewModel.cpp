@@ -18,6 +18,7 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 #include "cpp/RadJavCPPMUITableViewModel.h"
+#include "cpp/RadJavCPPMUITableView.h"
 
 #include "RadJav.h"
 #include "RadJavString.h"
@@ -55,6 +56,14 @@ namespace RadJAV
 				
 				setup();
 			}
+            
+            void TableViewModel::setCellModels(std::vector<CPP::MUI::TableCellModel *> *models)
+            {
+                this->models = models;
+                if (this->linkedFrame != nullptr){
+                    ((RadJAV::CPP::MUI::TableViewFrame*)this->linkedFrame)->reload();
+                }
+            }
 
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
             	void TableViewModel::on(String event, RJ_FUNC_TYPE func)

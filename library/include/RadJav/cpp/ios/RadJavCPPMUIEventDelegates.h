@@ -40,6 +40,7 @@ namespace RadJAV
         namespace MUI
         {
             class TableViewFrame;
+            class TableViewModel;
         }
     }
 }
@@ -68,7 +69,7 @@ namespace RadJAV
 
 @end
 
-@interface TableViewDelegate : NSObject <UITableViewDelegate>
+@interface TableViewDelegate : NSObject <UITableViewDelegate,UITableViewDataSource>
 
 - (bool)bindEvent:(nullable id)nativeWidget eventName:(const std::string&)eventName;
 
@@ -79,14 +80,13 @@ namespace RadJAV
 
 
 @property (nonatomic, assign) RadJAV::CPP::MUI::TableViewFrame* _Nullable widget;
+@property (nonatomic, assign) RadJAV::CPP::MUI::TableViewModel* _Nullable model;
+//@end
+//TODO: decide should we decouple datasource
+//@interface TableViewDataSource : NSObject <UITableViewDataSource>
 
-@end
-
-
-@interface TableViewDataSource : NSObject <UITableViewDataSource>
-
-- (bool)bindEvent:(nullable id)nativeWidget eventName:(const std::string&)eventName;
-@property (nonatomic, assign) RadJAV::CPP::MUI::TableViewFrame* _Nullable widget;
+//- (bool)bindEvent:(nullable id)nativeWidget eventName:(const std::string&)eventName;
+//@property (nonatomic, assign) RadJAV::CPP::MUI::TableViewFrame* _Nullable widget;
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section;
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath;

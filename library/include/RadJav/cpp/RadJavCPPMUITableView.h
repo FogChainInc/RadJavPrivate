@@ -38,6 +38,7 @@
 #endif
 
 OBJC_CLASS(UITableView);
+OBJC_CLASS(TableViewDelegate);
 #elif defined USE_ANDROID
 #warning Add forward declaration of Android specific class/type
 #endif
@@ -62,11 +63,12 @@ OBJC_CLASS(UITableView);
 
 					bool bindEvent(const String& eventName, const GUI::Event* event);
                     void setModel(MUI::TableViewModel *model);
-                    
+                    void reload();
                     MUI::TableViewModel *model;
                     
 					#ifdef USE_IOS
 						UIView* getNativeWidget();
+                        TableViewDelegate* widgetDelegate;
 					#elif defined USE_ANDROID
 						void* getNativeWidget();
 					#endif

@@ -34,8 +34,6 @@
 	#include "jscore/RadJavJSCGUIGObject.h"
 #endif
 
-
-
 	namespace RadJAV
 	{
 		namespace CPP
@@ -55,8 +53,11 @@
 
 						void create();
 
-                    void setCellModels(Array<TableCellModel> *models);
-                    Array<TableCellModel> *models;
+                    void setCellModels(std::vector<CPP::MUI::TableCellModel*> *models);
+                    std::vector<CPP::MUI::TableCellModel*> *models;
+                    GUI::GObjectWidget *linkedFrame;
+                    
+                    
 						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
                         	/// Execute when an event is triggered.
                         	void on(String event, RJ_FUNC_TYPE func);

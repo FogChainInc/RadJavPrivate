@@ -54,9 +54,7 @@ namespace RadJAV
             
             JSValueRef TableView::setModel(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
             {
-                CppMuiObject *appObject = RJNEW CppMuiObject(JSC_JAVASCRIPT_ENGINE, thisObject, argumentCount, arguments);
-
-                
+                CppMuiObject *appObject = (CppMuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
                 if (argumentCount > 0){
                     JSObjectRef argument =  JSValueToObject(ctx, arguments[0], exception);
                     CPP::MUI::TableViewModel *model = (CPP::MUI::TableViewModel *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, argument, "_appObj");
@@ -66,7 +64,6 @@ namespace RadJAV
                     }
                     
                 }
-                JSC_JAVASCRIPT_ENGINE->jscSetExternal(ctx, thisObject, "_appObj", appObject);
                 JSObjectRef _guiFinishedCreatingGObject = JSC_JAVASCRIPT_ENGINE->jscGetFunction(JSC_RADJAV, "_guiFinishedCreatingGObject");
                 JSObjectRef promise = JSC_JAVASCRIPT_ENGINE->createPromise(thisObject, _guiFinishedCreatingGObject);
                 
