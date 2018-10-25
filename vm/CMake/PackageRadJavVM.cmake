@@ -103,5 +103,5 @@ include (CPack)
 
 #Signing installation image
 #if (APPLE)
-#	execute_process (COMMAND codesign --force --deep --verbose --verify --sign "${MAC_CODESIGN_IDENTITY}" "${CMAKE_CURRENT_BINARY_DIR}/${CPACK_PACKAGE_FILE_NAME}.dmg")
+#	execute_process (COMMAND codesign --force --deep --verbose --verify --sign "${XCODE_CODESIGN_IDENTITY}" "${CMAKE_CURRENT_BINARY_DIR}/${CPACK_PACKAGE_FILE_NAME}.dmg")
 #endif ()

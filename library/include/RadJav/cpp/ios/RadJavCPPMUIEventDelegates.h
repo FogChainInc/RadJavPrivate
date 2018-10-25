@@ -20,6 +20,7 @@
 
 #import <objc/NSObject.h>
 #import <UIKit/UIKit.h>
+#import <WebKit/WebKit.h>
 #include <string>
 
 namespace RadJAV
@@ -65,6 +66,20 @@ namespace RadJAV
 
 - (bool)bindEvent:(nullable id)nativeWidget eventName:(const std::string&)eventName;
 - (void)valueChanged;
+@property (nonatomic, assign) RadJAV::CPP::GUI::GObjectWidget* _Nullable widget;
+
+@end
+
+@interface WebViewDelegate : NSObject <WKUIDelegate>
+
+- (bool)bindEvent:(nullable id)nativeWidget eventName:(const std::string&)eventName;
+@property (nonatomic, assign) RadJAV::CPP::GUI::GObjectWidget* _Nullable widget;
+
+@end
+
+@interface WebViewNavigationDelegate : NSObject <WKNavigationDelegate>
+
+- (bool)bindEvent:(nullable id)nativeWidget eventName:(const std::string&)eventName;
 @property (nonatomic, assign) RadJAV::CPP::GUI::GObjectWidget* _Nullable widget;
 
 @end

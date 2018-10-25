@@ -16,6 +16,8 @@ set (CMAKE_MODULE_PATH "${libRadJav_SOURCE_DIR}/CMake"
 include (Utils)
 include (CreateVersionHeader)
 
+set (libRadJav_CURRENT_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR} PARENT_SCOPE)
+
 set (PROJECT_VERSION_MAJOR "0" CACHE INTERNAL "Major version" FORCE)
 set (PROJECT_VERSION_MINOR "25" CACHE INTERNAL "Minor version" FORCE)
 set (PROJECT_VERSION_PATCH "0" CACHE INTERNAL "Patch version" FORCE)
@@ -503,14 +505,19 @@ if (INCLUDE_CRYPTOGRAPHY)
 	set (libRadJav_CPP_DEFS USE_OPENSSL ${libRadJav_CPP_DEFS})
 	set (libRadJav_CPP_DEFS_DEBUG USE_OPENSSL ${libRadJav_CPP_DEFS_DEBUG})
 
+	set (libKrispyCrypto_CMAKE_BUILD_PATH "${libKrispyCrypto_PATH}/build" CACHE PATH "KrispyCrypto CMake build path")
+
 	include (FindModuleOpenSSL)
 
 	set (libRadJav_INCLUDE_DIRS ${OPENSSL_INCLUDE_DIR} ${libRadJav_INCLUDE_DIRS})
 	set (libRadJav_LINK_LIBRARIES ${OPENSSL_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
 
 	set (libKrispyCrypto_PATH "${libRadJav_PATH}/engines/KrispyCrypto" CACHE PATH "Crypto path")
-	add_subdirectory (${libKrispyCrypto_PATH} ${libKrispyCrypto_PATH}/build)
+
+	add_subdirectory (${libKrispyCrypto_PATH} ${libKrispyCrypto_CMAKE_BUILD_PATH})
+
 	set (libRadJav_INCLUDE_DIRS ${libKrispyCrypto_INTERFACE_DIR} ${libRadJav_INCLUDE_DIRS})
+	set (libRadJav_LINK_LIBRARIES ${libKrispyCrypto_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
 endif ()
 
 if (libRadJav_ALLOW_NETWORKING)
@@ -588,6 +595,7 @@ endif ()
 
 include_directories (${libRadJav_INCLUDE_DIRS})
 target_link_libraries (libRadJav ${libRadJav_LINK_LIBRARIES})
+target_link_libraries (libRadJav KrispyCrypto)
 
 set_target_properties (libRadJav PROPERTIES LINKER_LANGUAGE CXX)
 set_property (TARGET libRadJav APPEND PROPERTY COMPILE_DEFINITIONS ${libRadJav_CPP_DEFS})
@@ -601,6 +609,10 @@ if (WIN32)
 endif ()
 
 set_property (TARGET libRadJav PROPERTY PROJECT_LABEL "libRadJav")
+
+if (INCLUDE_CRYPTOGRAPHY)
+	add_dependencies (libRadJav KrispyCrypto)
+endif ()
 
 if (libRadJav_EMBEDFILE)
 	set (jsFiles Math.js
@@ -660,6 +672,7 @@ if (libRadJav_EMBEDFILE)
 			RadJav.MUI.TableViewModel.js
 			RadJav.MUI.TableCellModel.js
 			RadJav.MUI.Textarea.js
+			RadJav.MUI.WebView.js
 		)
 
 	endif ()
@@ -732,11 +745,14 @@ if (libRadJav_EMBEDFILE)
 	endif ()
 endif()
 
-set (libRadJav_CPP_DEFS2 ${libRadJav_CPP_DEFS} PARENT_SCOPE)
-set (libRadJav_CPP_DEFS_DEBUG2 ${libRadJav_CPP_DEFS_DEBUG} PARENT_SCOPE)
-set (libRadJav_INCLUDE_DIRS2 ${libRadJav_INCLUDE_DIRS} PARENT_SCOPE)
-set (libRadJav_LINK_LIBRARIES2 ${libRadJav_LINK_LIBRARIES} PARENT_SCOPE)
-set (libRadJav_LINK_LIBRARY_DIRS2 ${libRadJav_LINK_LIBRARY_DIRS} PARENT_SCOPE)
-set (libRadJav_CXX_FLAGS2 ${libRadJav_CXX_FLAGS} PARENT_SCOPE)
-set (libRadJav_JS_LIBRARY2 ${libRadJav_JS_LIBRARY} PARENT_SCOPE)
-set (CMAKE_CXX_FLAGS2 ${CMAKE_CXX_FLAGS} PARENT_SCOPE)
+# Do not export several variables on Android builds (we didn't expect parent scope here)
+if (NOT ANDROID)
+	set (libRadJav_CPP_DEFS2 ${libRadJav_CPP_DEFS} PARENT_SCOPE)
+	set (libRadJav_CPP_DEFS_DEBUG2 ${libRadJav_CPP_DEFS_DEBUG} PARENT_SCOPE)
+	set (libRadJav_INCLUDE_DIRS2 ${libRadJav_INCLUDE_DIRS} PARENT_SCOPE)
+	set (libRadJav_LINK_LIBRARIES2 ${libRadJav_LINK_LIBRARIES} PARENT_SCOPE)
+	set (libRadJav_LINK_LIBRARY_DIRS2 ${libRadJav_LINK_LIBRARY_DIRS} PARENT_SCOPE)
+	set (libRadJav_CXX_FLAGS2 ${libRadJav_CXX_FLAGS} PARENT_SCOPE)
+	set (libRadJav_JS_LIBRARY2 ${libRadJav_JS_LIBRARY} PARENT_SCOPE)
+	set (CMAKE_CXX_FLAGS2 ${CMAKE_CXX_FLAGS} PARENT_SCOPE)
+endif ()

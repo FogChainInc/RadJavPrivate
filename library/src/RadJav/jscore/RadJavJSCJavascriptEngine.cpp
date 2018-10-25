@@ -86,6 +86,7 @@
 		#include "jscore/RadJavJSCMUICheckbox.h"
 		#include "jscore/RadJavJSCMUITextbox.h"
 		#include "jscore/RadJavJSCMUITextarea.h"
+        #include "jscore/RadJavJSCMUIWebView.h"
 	#endif
 
 	// Database
@@ -1374,6 +1375,14 @@ namespace RadJAV
 						
 						JSC::MUI::Textarea::createJSCCallbacks(globalContext, textareaPrototype);
 					}
+                    
+                    // RadJav.MUI.WebView
+                    {
+                        JSObjectRef webViewFunc = jscGetFunction(muiFunc, "WebView");
+                        JSObjectRef webViewPrototype = jscGetObject(webViewFunc, "prototype");
+                        
+                        JSC::MUI::WebView::createJSCCallbacks(globalContext, webViewPrototype);
+                    }
 				}
 				#endif
 

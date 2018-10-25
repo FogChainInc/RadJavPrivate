@@ -248,7 +248,8 @@ if (USE_JAVASCRIPTCORE)
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUIImage.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUICheckbox.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUITextbox.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUITextarea.cpp")
+			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUITextarea.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUIWebView.cpp")
 		source_group ("RadJav\\JavaScriptCore\\MUI" FILES ${SOURCES_files_RadJav__JSC__MUI__Sources})
 
 		set (SOURCES ${SOURCES_files_RadJav__JSC__MUI__Sources} ${SOURCES})
@@ -519,7 +520,8 @@ if (IS_MOBILE)
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUIImage.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUICheckbox.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUITextbox.cpp"
-		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUITextarea.cpp")
+		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUITextarea.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUIWebView.cpp")
 
 
 	source_group ("RadJav\\CPP\\MUI" FILES ${SOURCES_files_RadJav__cpp__MUI__Sources})
@@ -547,7 +549,8 @@ if (IS_MOBILE)
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUIImageFrame.mm"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUICheckboxFrame.mm"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUITextboxFrame.mm"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUITextareaFrame.mm")
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUITextareaFrame.mm"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUIWebView.mm")
 
 		source_group ("RadJav\\CPP\\MUI\\iOS" FILES ${SOURCES_files_RadJav__cpp__MUI__Sources})
 		set (SOURCES ${SOURCES_files_RadJav__cpp__MUI__Sources} ${SOURCES})

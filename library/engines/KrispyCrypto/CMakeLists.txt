@@ -16,6 +16,7 @@ set (${PROJECT_NAME}_CPP_DEFS USE_CRYPTOGRAPHY ${${PROJECT_NAME}_CPP_DEFS})
 set (${PROJECT_NAME}_CPP_DEFS USE_OPENSSL ${${PROJECT_NAME}_CPP_DEFS})
 
 set (${PROJECT_NAME}_BUILD_TESTS FALSE CACHE BOOL "Build tests")
+set (KrispyCrypto_STATIC ${DEFAULT_STATIC} CACHE BOOL "Static build of KrispyCrypto")
 
 file (GLOB OpenSSLSources
   OpenSSL/src/*.cpp
@@ -31,7 +32,7 @@ set (SOURCES
   ${OpenSSLSources}
   )
 
-if (WIN32)
+if (KrispyCrypto_STATIC)
   add_library(${PROJECT_NAME} STATIC ${SOURCES})
 else ()
   add_library(${PROJECT_NAME} SHARED ${SOURCES})
@@ -40,20 +41,18 @@ endif ()
 set_property (TARGET ${PROJECT_NAME} PROPERTY FOLDER "KrispyCrypto")
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-set (OPENSSL_ROOT_DIR "${KrispyCrypto}_SOURCE_DIR/../../../../sdk/openssl/build/install" CACHE PATH "OPENSSL_ROOT_DIR" FORCE)
-set(OPENSSL_CRYPTO_LIBRARY "${KrispyCrypto_SOURCE_DIR}/../../../../sdk/openssl/build/install/lib/libcrypto.so" CACHE FILEPATH "libcrypto" FORCE) 
-set(OPENSSL_SSL_LIBRARY "${KrispyCrypto_SOURCE_DIR}/../../../../sdk/openssl/build/install/lib/libssl.so" CACHE FILEPATH "libssl" FORCE) 
-set(OPENSSL_INCLUDE_DIR "${KrispyCrypto_SOURCE_DIR}/../../../../sdk/openssl/build/install/include" CACHE PATH "OpenSSL include" FORCE)
+	set (OPENSSL_ROOT_DIR "${KrispyCrypto}_SOURCE_DIR/../../../../sdk/openssl/build/install" CACHE PATH "OPENSSL_ROOT_DIR" FORCE)
+	set(OPENSSL_CRYPTO_LIBRARY "${KrispyCrypto_SOURCE_DIR}/../../../../sdk/openssl/build/install/lib/libcrypto.so" CACHE FILEPATH "libcrypto" FORCE) 
+	set(OPENSSL_SSL_LIBRARY "${KrispyCrypto_SOURCE_DIR}/../../../../sdk/openssl/build/install/lib/libssl.so" CACHE FILEPATH "libssl" FORCE) 
+	set(OPENSSL_INCLUDE_DIR "${KrispyCrypto_SOURCE_DIR}/../../../../sdk/openssl/build/install/include" CACHE PATH "OpenSSL include" FORCE)
 endif()
-
-
 
 include (FindOpenSSL)
 
 if (OPENSSL_FOUND)
-  message("OpenSSL found")
-  message("Include: ${OPENSSL_INCLUDE_DIR}")
-  message("KrispyCrypto lib: ${OPENSSL_CRYPTO_LIBRARY}")
+  message(STATUS "OpenSSL found")
+  message(STATUS "Include: ${OPENSSL_INCLUDE_DIR}")
+  message(STATUS "KrispyCrypto lib: ${OPENSSL_CRYPTO_LIBRARY}")
 
   target_include_directories(${PROJECT_NAME}
     PRIVATE
@@ -66,34 +65,18 @@ endif()
 
 set (libKrispyCrypto_INTERFACE_DIR "${PROJECT_SOURCE_DIR}/Interface" CACHE PATH "KrispyCrypto Interface")
 
-if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-	set (libKrispyCrypto_LIBRARIES "${PROJECT_SOURCE_DIR}/build/lib${PROJECT_NAME}_d.so" CACHE STRING "KrispyCrypto libraries" FORCE)
-	set (libKrispyCrypto_NAME "lib${PROJECT_NAME}_d.so" CACHE STRING "KrispyCrypto library" FORCE)
-endif()
-
-if (WIN32) 
-	set (libKrispyCrypto_LIBRARIES "${PROJECT_SOURCE_DIR}/build/Debug/${PROJECT_NAME}_d.lib" CACHE STRING "KrispyCrypto libraries" FORCE)
-	set (libKrispyCrypto_NAME "${PROJECT_NAME}_d.lib" CACHE STRING "KrispyCrypto library" FORCE)
-endif()
-
-if (APPLE)
-	set (libKrispyCrypto_LIBRARIES "${PROJECT_SOURCE_DIR}/build/Debug/lib${PROJECT_NAME}_d.dylib" CACHE STRING "KrispyCrypto libraries" FORCE)
-	set (libKrispyCrypto_NAME "lib${PROJECT_NAME}_d.dylib" CACHE STRING "KrispyCrypto library" FORCE)
-endif ()
+set_property (TARGET KrispyCrypto PROPERTY PROJECT_LABEL "KrispyCrypto")
 
 target_include_directories(${PROJECT_NAME}
   PRIVATE
   ${PROJECT_SOURCE_DIR}/Interface
   )
 
-
 target_link_libraries(${PROJECT_NAME}
   PRIVATE
   ${OPENSSL_CRYPTO_LIBRARY}
   ${OPENSSL_SSL_LIBRARY}
 )
-
-
 
 if (${PROJECT_NAME}_BUILD_TESTS)
 	# -------------------------
@@ -242,7 +225,6 @@ if (${PROJECT_NAME}_BUILD_TESTS)
       
 endif ()
 
-
 set_property (TARGET ${PROJECT_NAME} APPEND PROPERTY COMPILE_DEFINITIONS ${${PROJECT_NAME}_CPP_DEFS})
 
 if (CMAKE_BUILD_TYPE MATCHES "Debug")
@@ -250,6 +232,6 @@ if (CMAKE_BUILD_TYPE MATCHES "Debug")
 	set (${PROJECT_NAME}_CPP_DEFS_DEBUG ${${PROJECT_NAME}_CPP_DEFS} ${${PROJECT_NAME}_CPP_DEFS_DEBUG})
 endif ()
 
-message("${PROJECT_NAME} uses the following definitions: ${${PROJECT_NAME}_CPP_DEFS}")
+message(STATUS "${PROJECT_NAME} uses the following definitions: ${${PROJECT_NAME}_CPP_DEFS}")
 
 

@@ -1,0 +1,31 @@
+var window;
+var button;
+
+RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav.getMUILibrary ())
+    .then (function ()
+    {
+        RadJav.runApplication (function ()
+            {
+                var win = new RadJav.MUI.View ("win", "Window Example");
+                win.create ().then (function (win2)
+                    {
+    	                var screenWidth = RadJav.getPrimaryScreen ().getWidth ();
+    	                var screenHeight = RadJav.getPrimaryScreen ().getHeight ();
+						window = win2;
+                        //window.makeRootViewController();
+                        window.setSize(screenWidth, screenHeight);
+
+                        var btn = new RadJav.MUI.WebView ("webview", "http://www.google.com/", win2);
+                        btn.create().then (function (btn2)
+                        {
+                            button = btn2;
+                            button.setSize(screenWidth, screenHeight);
+                            
+                            /*button.on ("click", function ()
+                                {
+                                    alert ("Hello World!");
+                                });*/
+                        });
+                    });
+            });
+    });

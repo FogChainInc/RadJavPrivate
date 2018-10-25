@@ -189,6 +189,10 @@
                 /// Convert a string into a JavascriptCore value. No need to use JSStringRelease.
                 JSValueRef toJSCValue (JSContextRef context);
             #endif
+
+            #ifdef __APPLE__
+                NSString *toNSString ();
+            #endif
 		};
 
 		/// Parse a decimal value.
@@ -222,6 +226,10 @@
 
         #ifdef USE_JAVASCRIPTCORE
             String parseJSCValue (JSContextRef context, JSValueRef value);
+        #endif
+        
+        #ifdef __APPLE__
+            String parseNSString (NSString *str);
         #endif
 
 		/// Convert a hex string into an integer.
