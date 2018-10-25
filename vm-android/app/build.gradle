@@ -1,11 +1,15 @@
 apply plugin: 'com.android.application'
 
+//Path to 3rd-party precompiled C/C++ libraries
+def dependenciesDir = "${projectDir}/../../../Dependencies"
+def dependenciesLibDir = "${dependenciesDir}/lib"
+
 android {
-    compileSdkVersion 25
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.fogchain.radjavvm"
         minSdkVersion 25
-        targetSdkVersion 25
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -20,29 +24,51 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             ndk {
-                abiFilters "armeabi-v7a", "arm64-v8a", "x86_64", "x86"
+                abiFilters "x86" //"armeabi-v7a", "arm64-v8a", "x86_64",
             }
         }
         debug {
             jniDebuggable true
             ndk {
-                abiFilters "armeabi-v7a", "arm64-v8a", "x86_64", "x86"
+                abiFilters "x86" //"armeabi-v7a", "arm64-v8a", "x86_64",
             }
         }
     }
+
     externalNativeBuild {
         cmake {
             path "CMakeLists.txt"
         }
     }
+
     productFlavors {
     }
 
     sourceSets {
         main {
-            jniLibs.srcDirs "../../../Dependencies/lib"
+            jniLibs.srcDirs dependenciesLibDir
         }
     }
+}
+
+task copyV8FilesToAssets(type: Copy) {
+    println("Copying V8 precompiled files to assets folder")
+
+    from dependenciesLibDir
+    into "${projectDir}/src/main/assets/v8"
+    include "**/natives_blob.bin"
+    include "**/snapshot_blob.bin"
+}
+
+task copyExamplesToAssets(type: Copy){
+    println("Copying examples to assets folder")
+    from "../../examples"
+    into "${projectDir}/src/main/assets/examples"
+}
+
+project.afterEvaluate {
+    preBuild.dependsOn copyV8FilesToAssets
+    preBuild.dependsOn copyExamplesToAssets
 }
 
 dependencies {
