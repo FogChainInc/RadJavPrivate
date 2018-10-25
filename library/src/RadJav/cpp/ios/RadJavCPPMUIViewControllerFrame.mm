@@ -18,7 +18,7 @@
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 #import "cpp/RadJavCPPMUIViewController.h"
-
+#import "cpp/ios/RadJavCPPMUIUtils.h"
 #import <UIKit/UIKit.h>
 #import "cpp/RadJavCPPGUIGObject.h"
 #import "cpp/RadJavCPPMUIButton.h"
@@ -42,7 +42,10 @@ namespace RadJAV
             ViewControllerFrame::ViewControllerFrame(void *parent, const String &text, const Vector2 &pos, const Vector2 &size)
             : widget([[UIViewController alloc] init])
             {
-     
+                UIWindow * keyWindow = [UIApplication sharedApplication].keyWindow;
+                if (keyWindow.rootViewController == nil){
+                    [keyWindow setRootViewController:widget];
+                }
             }
             
             void ViewControllerFrame::setPosition(RJINT x, RJINT y)
@@ -74,13 +77,13 @@ namespace RadJAV
             }
             
             void ViewControllerFrame::makeRootViewController(){
-                UIWindow * keyWindow = [UIApplication sharedApplication].keyWindow;
-                [keyWindow setRootViewController:widget];
+                RadJavSetRootViewController(widget);
             }
             void ViewControllerFrame::makeRootViewControllerIfRootIsEmpty(){
-                UIWindow * keyWindow = [UIApplication sharedApplication].keyWindow;                
-                if (keyWindow.rootViewController == nil){
-                    [keyWindow setRootViewController:widget];
+                
+                if (!RadJavRootControllerWasSet()){
+                    
+                    RadJavSetRootViewController(widget);
                 }
             }
             

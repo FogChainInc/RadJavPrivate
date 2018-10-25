@@ -35,4 +35,19 @@ NSString* RadJavCocoaStringFromJSCString(JSStringRef jsString)
 
 }
 
+static BOOL radJavRootControllerWasSet = false;
+
+extern BOOL RadJavRootControllerWasSet(){
+    return radJavRootControllerWasSet;
+}
+extern void RadJavSetRootViewController(UIViewController *controller){
+    
+    if (controller == nil){
+        return;
+    }
+    radJavRootControllerWasSet = true;
+    
+    UIWindow * keyWindow = [UIApplication sharedApplication].keyWindow;
+    [keyWindow setRootViewController:controller];
+}
 

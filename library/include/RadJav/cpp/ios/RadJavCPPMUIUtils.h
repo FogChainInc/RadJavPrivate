@@ -26,3 +26,6 @@
 
 extern NSString* RadJavCocoaStringFromRadJavString(RadJAV::String string);
 extern NSString* RadJavCocoaStringFromJSCString(JSStringRef jsString);
+
+extern BOOL RadJavRootControllerWasSet();
+extern void RadJavSetRootViewController(UIViewController *controller);
