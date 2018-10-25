@@ -26,8 +26,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
                        window1 = win4;
                        var button = createButton(win4);
                        
-                       //win4.addChild(button);
-                       win4.makeRootViewController();
+                       win4.addChild(button);
                        
                        
                          

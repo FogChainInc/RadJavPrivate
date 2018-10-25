@@ -33,11 +33,7 @@ namespace RadJAV
             ViewFrame::ViewFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size)
             : widget([[UIView alloc] init])
             {
-                UIWindow * keyWindow = [UIApplication sharedApplication].keyWindow;
-                
-                UIView * greenView = keyWindow.rootViewController.view ;
-                [greenView  addSubview:widget];
-				
+            
 				setText(text);
             }
             
