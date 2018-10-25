@@ -533,7 +533,8 @@ if (IS_MOBILE)
 	
 	if (IOS)
 		set (SOURCES_files_RadJav__cpp__MUI__Headers 
-			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/ios/RadJavCPPMUIEventDelegates.h")
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/ios/RadJavCPPMUIEventDelegates.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/ios/RadJavCPPMUIUtils.h")
 			
 		source_group ("RadJav\\CPP\\MUI\\iOS" FILES ${SOURCES_files_RadJav__cpp__MUI__Headers})
 		set (SOURCES ${SOURCES_files_RadJav__cpp__MUI__Headers} ${SOURCES})

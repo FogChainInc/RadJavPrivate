@@ -18,12 +18,11 @@
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 #import "cpp/ios/RadJavCPPMUIEventDelegates.h"
-
+#import "cpp/ios/RadJavCPPMUIUtils.h"
 #include "cpp/RadJavCPPGUIGObject.h"
 #include "cpp/RadJavCPPMUITableViewModel.h"
 #include "cpp/RadJavCPPMUITableCellModel.h"
-
- #include <JavaScriptCore/JSStringRef.h>
+#include <JavaScriptCore/JSStringRef.h>
 
 @implementation ButtonDelegate
 - (bool)bindEvent:(nullable id)nativeWidget eventName:(const std::string&)eventName
@@ -167,16 +166,16 @@
 {
     RadJAV::CPP::MUI::TableCellModel * model = self.model->models->at(indexPath.row);
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"identifier"];//tableView.dequeueReusableCell(withIdentifier: "LabelCell", for: indexPath)
+    UITableViewCell *cell = nil;//[tableView dequeueReusableCellWithIdentifier:@"identifier"];//tableView.dequeueReusableCell(withIdentifier: "LabelCell", for: indexPath)
     
-    JSStringRef jsString = model->name.toJSCString();
+    if (cell == nil){
+        
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"identifier"];
+ 
+    }
     
-    size_t maxBufferSize = JSStringGetMaximumUTF8CStringSize(jsString);
-    char* utf8Buffer = new char[maxBufferSize];
-    JSStringGetUTF8CString(jsString, utf8Buffer, maxBufferSize);
-    
-    
-    cell.textLabel.text = [NSString stringWithUTF8String:utf8Buffer];
+    cell.textLabel.text = RadJavCocoaStringFromRadJavString(model->name);
+    cell.detailTextLabel.text = RadJavCocoaStringFromRadJavString(model->name);
     
     return cell;
 }
