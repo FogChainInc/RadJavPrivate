@@ -12,7 +12,7 @@ set(CMAKE_LIBRARY_ARCHITECTURE ${ANDROID_ABI})
 set(ENV{RADJAV_DEPENDENCIES} "${CMAKE_CURRENT_SOURCE_DIR}/../../../Dependencies")
 
 set(libRadJav_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../library)
-set(libRadJav_BUILD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../library/build-android)
+set(libRadJav_BUILD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../library/build-android-${ANDROID_ABI})
 file(MAKE_DIRECTORY ${libRadJav_BUILD_DIR})
 add_subdirectory(${libRadJav_SRC_DIR} ${libRadJav_BUILD_DIR})
 
