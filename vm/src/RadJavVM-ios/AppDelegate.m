@@ -19,7 +19,6 @@
  */
 
 #import "AppDelegate.h"
-#import "ViewController.h"
 #include "RadJavC.h"
 
 @interface AppDelegate ()
@@ -99,22 +98,8 @@
 	{
 		_window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
 		_window.tintAdjustmentMode = UIViewTintAdjustmentModeNormal;
-		_window.rootViewController = self.rootViewController;
 	}
 	
 	return _window;
 }
-
-#pragma mark - RootViewController
-
-- (UIViewController *)rootViewController
-{
-	if (!_rootViewController)
-	{
-		_rootViewController = [[ViewController alloc] init];
-	}
-	
-	return _rootViewController;
-}
-
 @end

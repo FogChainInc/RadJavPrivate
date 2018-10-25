@@ -2,9 +2,7 @@ if (IOS)
 	set (SOURCES_files_RadJavVM__Main__Sources
 		"${RadJavVM_SOURCE_DIR}/src/RadJavVM-ios/main.m"
 		"${RadJavVM_SOURCE_DIR}/src/RadJavVM-ios/AppDelegate.m"
-		"${RadJavVM_SOURCE_DIR}/src/RadJavVM-ios/AppDelegate.h"
-		"${RadJavVM_SOURCE_DIR}/src/RadJavVM-ios/ViewController.m"
-		"${RadJavVM_SOURCE_DIR}/src/RadJavVM-ios/ViewController.h")
+		"${RadJavVM_SOURCE_DIR}/src/RadJavVM-ios/AppDelegate.h")
 	source_group ("RadJavVM\\Main" FILES ${SOURCES_files_RadJavVM__Main__Sources})
 	
 	set (RadJavVM_SOURCES ${SOURCES_files_RadJavVM__Main__Sources} ${RadJavVM_SOURCES})

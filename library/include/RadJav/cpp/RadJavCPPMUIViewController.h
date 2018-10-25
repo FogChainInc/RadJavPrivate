@@ -58,6 +58,7 @@ namespace RadJAV
                 ViewControllerFrame(void *parent, const String &text, const Vector2 &pos, const Vector2 &size);
                 ~ViewControllerFrame();
                 void makeRootViewController();
+                void makeRootViewControllerIfRootIsEmpty();
                 void addChild(GUI::GObject *child);
                 void presentViewControllerAnimated(CPP::GUI::GObject *presentedController);
                 void dismissViewControllerAnimated();

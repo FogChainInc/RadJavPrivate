@@ -82,6 +82,7 @@ namespace RadJAV
 				_appObj = object;
 				linkWith(object);
 				setup();
+                object->makeRootViewControllerIfRootIsEmpty();
             }
             
             void ViewController::setPosition(RJINT x, RJINT y)

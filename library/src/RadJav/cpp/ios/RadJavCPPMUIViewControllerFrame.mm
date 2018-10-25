@@ -77,7 +77,12 @@ namespace RadJAV
                 UIWindow * keyWindow = [UIApplication sharedApplication].keyWindow;
                 [keyWindow setRootViewController:widget];
             }
-            
+            void ViewControllerFrame::makeRootViewControllerIfRootIsEmpty(){
+                UIWindow * keyWindow = [UIApplication sharedApplication].keyWindow;                
+                if (keyWindow.rootViewController == nil){
+                    [keyWindow setRootViewController:widget];
+                }
+            }
             
 			void ViewControllerFrame::setFont(CPP::Font *font)
 			{

@@ -18,9 +18,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
                    {
                        window1 = win4;
                        
-                       win4.makeRootViewController();
                        
-
                        var table = new RadJav.MUI.TableView ("table","table example");
                        table.create ().then (function (tableParam){
                        
