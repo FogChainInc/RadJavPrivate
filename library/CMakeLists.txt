@@ -232,10 +232,13 @@ else ()
 	set (libRadJav_CPP_DEFS RADJAV_LIB_DLL ${libRadJav_CPP_DEFS})
 endif ()
 
+if (APPLE)
+	set (CMAKE_CXX_FLAGS "-x objective-c++" ${CMAKE_CXX_FLAGS})
+endif ()
+
 if (IS_MOBILE)
 	if (libRadJav_GUI_LIBRARY STREQUAL "iOS-UIKit")
 		set (libRadJav_CPP_DEFS USE_IOS ${libRadJav_CPP_DEFS})
-		set (CMAKE_CXX_FLAGS "-x objective-c++" ${CMAKE_CXX_FLAGS})
 	endif ()
 
 	if (libRadJav_GUI_LIBRARY STREQUAL "Android")

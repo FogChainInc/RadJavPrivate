@@ -1,5 +1,6 @@
 var window;
 var button;
+var webView;
 
 RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav.getMUILibrary ())
     .then (function ()
@@ -15,17 +16,18 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
                         //window.makeRootViewController();
                         window.setSize(screenWidth, screenHeight);
 
-                        var btn = new RadJav.MUI.WebView ("webview", "http://www.google.com/", win2);
+                        var btn = new RadJav.MUI.Button ("button", "Say Hello", win2);
                         btn.create().then (function (btn2)
-                        {
-                            button = btn2;
-                            button.setSize(screenWidth, screenHeight);
-                            
-                            /*button.on ("click", function ()
-                                {
-                                    alert ("Hello World!");
-                                });*/
-                        });
+                            {
+                                button = btn2;
+                                button.setPosition (100, 100);
+                                button.setSize (300, 100);
+
+                                button.on ("click", function ()
+                                    {
+                                        alert ("Hello World!");
+                                    });
+                            });
                     });
             });
     });
