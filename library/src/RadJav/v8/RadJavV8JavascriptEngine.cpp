@@ -1208,9 +1208,8 @@ namespace RadJAV
 				// RadJav.IO
 				{
 					v8::Handle<v8::Function> ioFunc = v8GetFunction(radJavFunc, "IO");
-					v8::Handle<v8::Object> fileioPrototype = v8GetObject(ioFunc, "prototype");
 
-					V8B::IO::createV8Callbacks(isolate, fileioPrototype);
+					V8B::IO::createV8Callbacks(isolate, ioFunc);
 
 					// RadJav.IO.SerialComm
 					{

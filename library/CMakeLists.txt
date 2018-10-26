@@ -597,7 +597,8 @@ include (includes)
 include (sources)
 
 # Header file RadJavJavascriptCode.h will be generated using CMake, see below
-set (SOURCES "${libRadJav_INCLUDE_DIR}/RadJavJavascriptCode.h" ${SOURCES})
+set (SOURCES "${CMAKE_CURRENT_BINARY_DIR}/include/RadJavJavascriptCode.h" ${SOURCES})
+include_directories ("${CMAKE_CURRENT_BINARY_DIR}/include/")
 
 # Create static/shared library for RadJav
 if (libRadJav_STATIC)
@@ -670,8 +671,6 @@ if (libRadJav_EMBEDFILE)
 				RadJav.Crypto.HashMultipart.js
 		)
 	endif ()
-	
-	
 
 	if (IS_MOBILE)
 		set (jsFiles ${jsFiles}
@@ -748,18 +747,7 @@ if (libRadJav_EMBEDFILE)
 	
 	include (EmbedJavascript)
 
-	# Generating RadJavJavascriptCode.h
-	# We need to lock folder with headers to make it sure that embedding happens only
-	# in one instance of CMake, f.e. Android Studio will spawn CMake
-	# for Release/Debug and multiple architectures
-	file (LOCK ${libRadJav_INCLUDE_DIR} DIRECTORY RESULT_VARIABLE lockResult TIMEOUT 0)
-	
-	if (${lockResult} EQUAL 0)
-		embedJavascript( "${jsFiles}" "${CMAKE_CURRENT_SOURCE_DIR}/javascript" "${libRadJav_INCLUDE_DIR}/RadJavJavascriptCode.h")
-		file (LOCK ${libRadJav_INCLUDE_DIR} DIRECTORY RELEASE RESULT_VARIABLE lockResult)
-	else ()
-		message (STATUS "Not embedding Javascript because another CMake process work on it")
-	endif ()
+	embedJavascript( "${jsFiles}" "${CMAKE_CURRENT_SOURCE_DIR}/javascript" "${CMAKE_CURRENT_BINARY_DIR}/include/RadJavJavascriptCode.h")
 endif()
 
 set (libRadJav_CPP_DEFS2 ${libRadJav_CPP_DEFS} PARENT_SCOPE)
