@@ -7,7 +7,9 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary ()).then (
 					{
 						var gotData = function (data)
 							{
+								RadJav.Console.println ("HERRRRPPPPPPPPPPPPPP");
 								var json = JSON.parse (data);
+								RadJav.Console.println ("DERRRRPPPP");
 								RadJav.GUI.createObjects (json, win2).then (function (objs)
 									{
 										for (var iIdx = 0; iIdx < objs.length; iIdx++)
@@ -34,7 +36,8 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary ()).then (
 							RadJav.Net.httpRequest ("./gui.json").then (gotData);
 						else
 						{
-							var data = RadJav.IO.TextFile.readEntireFile ("./gui.json");
+							var textFile = new RadJav.IO.TextFile ();
+							var data = textFile.readFile ("./gui.json");
 							gotData (data);
 						}
 					});
