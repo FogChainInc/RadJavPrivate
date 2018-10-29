@@ -66,7 +66,7 @@ OBJC_CLASS(TableViewDelegate);
                     
 					#ifdef USE_IOS
 						UIView* getNativeWidget();
-                        TableViewDelegate* widgetDelegate;
+                    
 					#elif defined USE_ANDROID
 						void* getNativeWidget();
 					#endif
@@ -74,8 +74,7 @@ OBJC_CLASS(TableViewDelegate);
 				private:
 					#ifdef USE_IOS
 						UITableView* widget;
-						//TODO: do we need to handle events of the UITableView?
-						//TableViewDelegate* widgetDelegate;
+                        TableViewDelegate* widgetDelegate;
 					#elif defined USE_ANDROID
                     	//TODO: Wrap Android specific type here
 					#endif

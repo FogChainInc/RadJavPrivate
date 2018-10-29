@@ -25,18 +25,55 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
                        		globalTable = tableParam;
                        		
                        		window1.addChild(tableParam);
-                       		tableParam.setSize(300,300);
+                       		var screenWidth = RadJav.getPrimaryScreen ().getWidth ();
+    	                	var screenHeight = RadJav.getPrimaryScreen ().getHeight ();
+                       		tableParam.setSize(screenWidth,screenHeight);
                        		
                        		var model = new RadJav.MUI.TableViewModel();
                        		globalModel = model;
+                       		                     		
                        		
-
                        		model.create ().then (function (modelParam){
                        			
-                       			var cellModel = new RadJav.MUI.TableCellModel("title","subtitle");
+                       		var array = [];
+                       		
+                       		var i;
+							for (i = 0; i < 5; i++) { 
+							
+								var text = "number " + i;
+    							var cellModel1 = new RadJav.MUI.TableCellModel(text,"");
+                       			cellModel1.create ().then (function (cellParam){
+                       			
+                       				cellParam.on ("click", function ()
+                                	{
+                                    	alert ("Selected " + cellParam.name);
+                                	});
+                                	cellParam.on ("delete", function ()
+                                	{
+                                    	var index = array.indexOf(cellParam);
+                                    	array.splice(index,1);
+                                    	globalModel.setCellModels(array);
+                       					globalTable.setModel(globalModel);
+                                    	
+                                	});
+                                	cellParam.on ("accessory_click", function ()
+                                	{
+                                    	alert ("Accessory tapped " + cellParam.name);
+                                	});
+                                	
+                                	
+                                	
+                       				array.push(cellParam);
+
+                       			});
+							}
+                       			
+                       			
+                       			
+                       			var cellModel = new RadJav.MUI.TableCellModel("last one","subtitle");
                        			cellModel.create ().then (function (cellParam){
                        			
-                       				var array = [cellModel];
+                       				array.push(cellModel);
                        			
                        				globalModel.setCellModels(array);
                        				globalTable.setModel(globalModel);

@@ -36,6 +36,7 @@
 	#endif
 
 	OBJC_CLASS(UITableView);
+    OBJC_CLASS(TableViewDelegate);
 #elif defined USE_ANDROID
 	#warning Add forward declaration of Android specific class/type
 #endif
@@ -47,7 +48,7 @@
 		{
 			namespace MUI
 			{
-				class RADJAV_EXPORT TableCellModel : public CPP::GUI::GObject
+				class RADJAV_EXPORT TableCellModel : public CPP::GUI::GObject, public GUI::GObjectWidget
 				{
 					public:
 						#ifdef USE_V8
@@ -59,7 +60,15 @@
 						TableCellModel(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 
 						void create();
-
+                        bool bindEvent(const String& eventName, const GUI::Event* event);
+#ifdef USE_IOS
+                    UITableView* widget;
+                    UIView* getNativeWidget();
+                    TableViewDelegate* widgetDelegate;
+#elif defined USE_ANDROID
+                    void* getNativeWidget();
+#endif
+                    
 						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
                         	/// Execute when an event is triggered.
                         	void on(String event, RJ_FUNC_TYPE func);

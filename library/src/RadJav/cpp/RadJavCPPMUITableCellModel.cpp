@@ -18,7 +18,7 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 #include "cpp/RadJavCPPMUITableCellModel.h"
-
+#import "cpp/ios/RadJavCPPMUIEventDelegates.h"
 #include "RadJav.h"
 #include "RadJavString.h"
 
@@ -56,14 +56,28 @@ namespace RadJAV
 
 				setup();
 			}
-
+            bool TableCellModel::bindEvent(const String& eventName, const GUI::Event* /*event*/)
+            {
+                return true;//[widgetDelegate bindEvent:widget eventName:eventName];
+            }
+            
+#ifdef USE_IOS
+            UIView* TableCellModel::getNativeWidget()
+            {
+                return widget;
+            }
+#elif defined USE_ANDROID
+            void* TableCellModel::getNativeWidget()
+            {
+                return widget;
+            }
+#endif
+            
+            
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
             	void TableCellModel::on(String event, RJ_FUNC_TYPE func)
 				{
-					if (_appObj)
-					{
-						_appObj->addNewEvent(event, func);
-					}
+                    addNewEvent(event, func);
 				}
 			#endif
 		}

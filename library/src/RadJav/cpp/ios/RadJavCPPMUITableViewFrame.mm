@@ -71,9 +71,9 @@ namespace RadJAV
 			
 			bool TableViewFrame::bindEvent(const String& eventName, const GUI::Event* event)
 			{
-				return false;
+				 return [widgetDelegate bindEvent:widget eventName:eventName];
 			}
-			
+            
 			#ifdef USE_IOS
 				UIView* TableViewFrame::getNativeWidget()
 				{

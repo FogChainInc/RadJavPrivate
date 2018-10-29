@@ -21,6 +21,7 @@
 #import "cpp/ios/RadJavCPPMUIUtils.h"
 #include "cpp/RadJavCPPGUIGObject.h"
 #include "cpp/RadJavCPPMUITableViewModel.h"
+#include "cpp/RadJavCPPMUITableView.h"
 #include "cpp/RadJavCPPMUITableCellModel.h"
 #include <JavaScriptCore/JSStringRef.h>
 
@@ -168,10 +169,47 @@
 //{
 //
 //}
+
+
+- (bool)bindEvent:(nullable id)nativeWidget eventName:(const std::string&)eventName
+{
+    if (eventName == "click")
+    {
+        //[nativeWidget removeTarget:self action:@selector(touchUp) forControlEvents:UIControlEventTouchUpInside];
+       // [nativeWidget addTarget:self action:@selector(touchUp) forControlEvents:UIControlEventTouchUpInside];
+        
+        return true;
+    }
+    
+    return false;
+}
+
+//- (void)touchUp
+//{
+//    self.widget->executeEvent("click");
+//}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //self.widget->
-    
+    RadJAV::CPP::MUI::TableCellModel * model = self.model->models->at(indexPath.row);
+    model->executeEvent("click");
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //TODO: implement deletable and selectable fields on model
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    RadJAV::CPP::MUI::TableCellModel * model = self.model->models->at(indexPath.row);
+    model->executeEvent("delete");
+}
+
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(nonnull NSIndexPath *)indexPath
+{
+    RadJAV::CPP::MUI::TableCellModel * model = self.model->models->at(indexPath.row);
+    model->executeEvent("accessory_click");
 }
 
 //@end
@@ -192,12 +230,13 @@
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
     RadJAV::CPP::MUI::TableCellModel * model = self.model->models->at(indexPath.row);
-    
+    model->widgetDelegate = self;
     UITableViewCell *cell = nil;//[tableView dequeueReusableCellWithIdentifier:@"identifier"];//tableView.dequeueReusableCell(withIdentifier: "LabelCell", for: indexPath)
     
     if (cell == nil){
         
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"identifier"];
+        cell.accessoryType = UITableViewCellAccessoryDetailButton;
  
     }
     
