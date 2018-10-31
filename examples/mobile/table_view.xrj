@@ -44,6 +44,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
     							var cellModel1 = new RadJav.MUI.TableCellModel(text,"");
                        			cellModel1.create ().then (function (cellParam){
                        			
+                       				cellParam.setIsDeletable(true);
                        				cellParam.on ("click", function ()
                                 	{
                                     	alert ("Selected " + cellParam.name);
@@ -73,6 +74,12 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
                        			var cellModel = new RadJav.MUI.TableCellModel("last one","subtitle");
                        			cellModel.create ().then (function (cellParam){
                        			
+                       				cellModel.setUsesAccessoryButton(true);
+                       				cellParam.on ("accessory_click", function ()
+                                	{
+                                    	alert ("Accessory tapped " + cellParam.name);
+                                	});
+                       				
                        				array.push(cellModel);
                        			
                        				globalModel.setCellModels(array);

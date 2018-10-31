@@ -191,13 +191,24 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     RadJAV::CPP::MUI::TableCellModel * model = self.model->models->at(indexPath.row);
+    
+    model->setIsSelected(true);
+    
     model->executeEvent("click");
 }
 
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
+{
+    RadJAV::CPP::MUI::TableCellModel * model = self.model->models->at(indexPath.row);
+    
+    model->setIsSelected(false);
+}
+
+
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //TODO: implement deletable and selectable fields on model
-    return YES;
+    RadJAV::CPP::MUI::TableCellModel * model = self.model->models->at(indexPath.row);
+    return model->getIsDeletable();
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -236,7 +247,10 @@
     if (cell == nil){
         
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"identifier"];
-        cell.accessoryType = UITableViewCellAccessoryDetailButton;
+        if (model->getUsesAccessoryButton()){
+            cell.accessoryType = UITableViewCellAccessoryDetailButton;
+        }
+        
  
     }
     

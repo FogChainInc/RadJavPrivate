@@ -61,6 +61,48 @@ namespace RadJAV
                 return true;//[widgetDelegate bindEvent:widget eventName:eventName];
             }
             
+            bool TableCellModel::getUsesAccessoryButton()
+            {
+                return this->usesAccessoryButton;
+            }
+            void TableCellModel::setUsesAccessoryButton(bool value)
+            {
+                this->usesAccessoryButton = value;
+                if (value){
+                    this->usesCheckmark = false;
+                }
+            }
+            
+            bool TableCellModel::getUsesCheckmark()
+            {
+                return this->usesCheckmark;
+            }
+            void TableCellModel::setUsesCheckmark(bool value)
+            {
+                this->usesCheckmark = value;
+                if (value){
+                    this->usesAccessoryButton = false;
+                }
+            }
+            
+            bool TableCellModel::getIsSelected()
+            {
+                return this->isSelected;
+            }
+            void TableCellModel::setIsSelected(bool value)
+            {
+                this->isSelected = value;
+            }
+            
+            bool TableCellModel::getIsDeletable()
+            {
+                return this->isDeletable;
+            }
+            void TableCellModel::setIsDeletable(bool value)
+            {
+                this->isDeletable = value;
+            }
+            
 #ifdef USE_IOS
             UIView* TableCellModel::getNativeWidget()
             {

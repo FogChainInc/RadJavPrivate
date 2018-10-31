@@ -37,6 +37,17 @@ namespace RadJAV
             {
                 JSC_CALLBACK(object, "create", TableCellModel::create);
                 
+                JSC_CALLBACK(object, "setUsesAccessoryButton", TableCellModel::setUsesAccessoryButton);
+                JSC_CALLBACK(object, "getUsesAccessoryButton", TableCellModel::getUsesAccessoryButton);
+                
+                JSC_CALLBACK(object, "setUsesCheckmark", TableCellModel::setUsesCheckmark);
+                JSC_CALLBACK(object, "getUsesCheckmark", TableCellModel::getUsesCheckmark);
+                
+                JSC_CALLBACK(object, "setIsSelected", TableCellModel::setIsSelected);
+                JSC_CALLBACK(object, "getIsSelected", TableCellModel::getIsSelected);
+                
+                JSC_CALLBACK(object, "setIsDeletable", TableCellModel::setIsDeletable);
+                JSC_CALLBACK(object, "getIsDeletable", TableCellModel::getIsDeletable);
             }
 			JSValueRef TableCellModel::create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
 			{
@@ -49,6 +60,107 @@ namespace RadJAV
 				
 				return promise;
 			}
+            
+            JSValueRef TableCellModel::getUsesAccessoryButton(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+            {
+                CppMuiObject *appObject = (CppMuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+                RJBOOL value = JSC_JAVASCRIPT_ENGINE->jscGetBool(thisObject, "_usesAccessoryButton");
+                
+                if (appObject != NULL)
+                    value = appObject->getUsesAccessoryButton();
+                
+                return JSValueMakeBoolean(ctx, value);
+            }
+            
+            
+            JSValueRef TableCellModel::setUsesAccessoryButton(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+            {
+                RJBOOL value = JSC_JAVASCRIPT_ENGINE->jscParseBool(arguments[0]);
+                JSC_JAVASCRIPT_ENGINE->jscSetBool(thisObject, "_usesAccessoryButton", value);
+                
+                CppMuiObject *appObject = (CppMuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+                
+                if (appObject != NULL)
+                    appObject->setUsesAccessoryButton(value);
+                
+                return JSValueMakeUndefined(ctx);
+            }
+            
+            
+            JSValueRef TableCellModel::getUsesCheckmark(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+            {
+                CppMuiObject *appObject = (CppMuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+                RJBOOL value = JSC_JAVASCRIPT_ENGINE->jscGetBool(thisObject, "_usesCheckmark");
+                
+                if (appObject != NULL)
+                    value = appObject->getUsesCheckmark();
+                
+                return JSValueMakeBoolean(ctx, value);
+            }
+            
+            
+            JSValueRef TableCellModel::setUsesCheckmark(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+            {
+                RJBOOL value = JSC_JAVASCRIPT_ENGINE->jscParseBool(arguments[0]);
+                JSC_JAVASCRIPT_ENGINE->jscSetBool(thisObject, "_usesCheckmark", value);
+                
+                CppMuiObject *appObject = (CppMuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+                
+                if (appObject != NULL)
+                    appObject->setUsesCheckmark(value);
+                
+                return JSValueMakeUndefined(ctx);
+            }
+            
+            JSValueRef TableCellModel::getIsDeletable(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+            {
+                CppMuiObject *appObject = (CppMuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+                RJBOOL value = JSC_JAVASCRIPT_ENGINE->jscGetBool(thisObject, "_isDeletable");
+                
+                if (appObject != NULL)
+                    value = appObject->getIsDeletable();
+                
+                return JSValueMakeBoolean(ctx, value);
+            }
+            
+            
+            JSValueRef TableCellModel::setIsDeletable(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+            {
+                RJBOOL value = JSC_JAVASCRIPT_ENGINE->jscParseBool(arguments[0]);
+                JSC_JAVASCRIPT_ENGINE->jscSetBool(thisObject, "_isDeletable", value);
+                
+                CppMuiObject *appObject = (CppMuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+                
+                if (appObject != NULL)
+                    appObject->setIsDeletable(value);
+                
+                return JSValueMakeUndefined(ctx);
+            }
+            
+            JSValueRef TableCellModel::getIsSelected(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+            {
+                CppMuiObject *appObject = (CppMuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+                RJBOOL value = JSC_JAVASCRIPT_ENGINE->jscGetBool(thisObject, "_isSelected");
+                
+                if (appObject != NULL)
+                    value = appObject->getIsSelected();
+                
+                return JSValueMakeBoolean(ctx, value);
+            }
+            
+            
+            JSValueRef TableCellModel::setIsSelected(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+            {
+                RJBOOL value = JSC_JAVASCRIPT_ENGINE->jscParseBool(arguments[0]);
+                JSC_JAVASCRIPT_ENGINE->jscSetBool(thisObject, "_isSelected", value);
+                
+                CppMuiObject *appObject = (CppMuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+                
+                if (appObject != NULL)
+                    appObject->setIsSelected(value);
+                
+                return JSValueMakeUndefined(ctx);
+            }
            
 		}
 	}

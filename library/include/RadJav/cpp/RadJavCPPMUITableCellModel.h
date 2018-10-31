@@ -50,6 +50,10 @@
 			{
 				class RADJAV_EXPORT TableCellModel : public CPP::GUI::GObject, public GUI::GObjectWidget
 				{
+                    bool usesAccessoryButton;
+                    bool usesCheckmark;
+                    bool isSelected;
+                    bool isDeletable;
 					public:
 						#ifdef USE_V8
 							TableCellModel(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
@@ -60,6 +64,15 @@
 						TableCellModel(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 
 						void create();
+                        bool getUsesAccessoryButton();
+                        void setUsesAccessoryButton(bool value);
+                        bool getUsesCheckmark();
+                        void setUsesCheckmark(bool value);
+                        bool getIsSelected();
+                        void setIsSelected(bool value);
+                        bool getIsDeletable();
+                        void setIsDeletable(bool value);
+
                         bool bindEvent(const String& eventName, const GUI::Event* event);
 #ifdef USE_IOS
                     UITableView* widget;
