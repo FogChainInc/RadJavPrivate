@@ -1,0 +1,95 @@
+\hypertarget{class_rad_jav_alloc}{}\section{Rad\+Jav\+Alloc Class Reference}
+\label{class_rad_jav_alloc}\index{Rad\+Jav\+Alloc@{Rad\+Jav\+Alloc}}
+
+
+Memory allocator and logger.  
+
+
+
+
+{\ttfamily \#include $<$Rad\+Jav\+Preprocessor.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_rad_jav_alloc_a32358738d91b063c25b5d6de93536196}{Rad\+Jav\+Alloc}} (R\+J\+C\+S\+TR new\+File, R\+J\+I\+NT new\+Line, R\+J\+C\+S\+TR new\+Func)
+\item 
+void \mbox{\hyperlink{class_rad_jav_alloc_a478f36666978708f484bcef5011f1066}{log\+Alloc}} (void $\ast$alloc)
+\item 
+{\footnotesize template$<$class C\+Alloc $>$ }\\C\+Alloc $\ast$ \mbox{\hyperlink{class_rad_jav_alloc_a70787a1914f1b9fbc18a6b02d82a2da2}{operator-\/$>$ $\ast$}} (C\+Alloc $\ast$alloc)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \mbox{\hyperlink{class_rad_jav_alloc_aae26840980f093248de63c51d2a180e8}{log\+Free}} (void $\ast$alloc)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+R\+J\+C\+S\+TR \mbox{\hyperlink{class_rad_jav_alloc_a0b2ef413d85a3f2cfdd0f7e9291780c3}{file}}
+\item 
+R\+J\+I\+NT \mbox{\hyperlink{class_rad_jav_alloc_aa10c5e9f6add930e639a7d2bfdae3d1a}{line}}
+\item 
+R\+J\+C\+S\+TR \mbox{\hyperlink{class_rad_jav_alloc_a7bf5d2d5d7d610929cc4aa9001772091}{func}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Memory allocator and logger. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_rad_jav_alloc_a32358738d91b063c25b5d6de93536196}\label{class_rad_jav_alloc_a32358738d91b063c25b5d6de93536196}} 
+\index{Rad\+Jav\+Alloc@{Rad\+Jav\+Alloc}!Rad\+Jav\+Alloc@{Rad\+Jav\+Alloc}}
+\index{Rad\+Jav\+Alloc@{Rad\+Jav\+Alloc}!Rad\+Jav\+Alloc@{Rad\+Jav\+Alloc}}
+\subsubsection{\texorpdfstring{Rad\+Jav\+Alloc()}{RadJavAlloc()}}
+{\footnotesize\ttfamily Rad\+Jav\+Alloc\+::\+Rad\+Jav\+Alloc (\begin{DoxyParamCaption}\item[{R\+J\+C\+S\+TR}]{new\+File,  }\item[{R\+J\+I\+NT}]{new\+Line,  }\item[{R\+J\+C\+S\+TR}]{new\+Func }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_rad_jav_alloc_a478f36666978708f484bcef5011f1066}\label{class_rad_jav_alloc_a478f36666978708f484bcef5011f1066}} 
+\index{Rad\+Jav\+Alloc@{Rad\+Jav\+Alloc}!log\+Alloc@{log\+Alloc}}
+\index{log\+Alloc@{log\+Alloc}!Rad\+Jav\+Alloc@{Rad\+Jav\+Alloc}}
+\subsubsection{\texorpdfstring{log\+Alloc()}{logAlloc()}}
+{\footnotesize\ttfamily void Rad\+Jav\+Alloc\+::log\+Alloc (\begin{DoxyParamCaption}\item[{void $\ast$}]{alloc }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_rad_jav_alloc_aae26840980f093248de63c51d2a180e8}\label{class_rad_jav_alloc_aae26840980f093248de63c51d2a180e8}} 
+\index{Rad\+Jav\+Alloc@{Rad\+Jav\+Alloc}!log\+Free@{log\+Free}}
+\index{log\+Free@{log\+Free}!Rad\+Jav\+Alloc@{Rad\+Jav\+Alloc}}
+\subsubsection{\texorpdfstring{log\+Free()}{logFree()}}
+{\footnotesize\ttfamily void Rad\+Jav\+Alloc\+::log\+Free (\begin{DoxyParamCaption}\item[{void $\ast$}]{alloc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{class_rad_jav_alloc_a70787a1914f1b9fbc18a6b02d82a2da2}\label{class_rad_jav_alloc_a70787a1914f1b9fbc18a6b02d82a2da2}} 
+\index{Rad\+Jav\+Alloc@{Rad\+Jav\+Alloc}!operator-\/$>$ $\ast$@{operator-\/$>$ $\ast$}}
+\index{operator-\/$>$ $\ast$@{operator-\/$>$ $\ast$}!Rad\+Jav\+Alloc@{Rad\+Jav\+Alloc}}
+\subsubsection{\texorpdfstring{operator-\/$>$ $\ast$()}{operator-> *()}}
+{\footnotesize\ttfamily template$<$class C\+Alloc $>$ \\
+C\+Alloc$\ast$ Rad\+Jav\+Alloc\+::operator-\/$>$$\ast$ (\begin{DoxyParamCaption}\item[{C\+Alloc $\ast$}]{alloc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_rad_jav_alloc_a0b2ef413d85a3f2cfdd0f7e9291780c3}\label{class_rad_jav_alloc_a0b2ef413d85a3f2cfdd0f7e9291780c3}} 
+\index{Rad\+Jav\+Alloc@{Rad\+Jav\+Alloc}!file@{file}}
+\index{file@{file}!Rad\+Jav\+Alloc@{Rad\+Jav\+Alloc}}
+\subsubsection{\texorpdfstring{file}{file}}
+{\footnotesize\ttfamily R\+J\+C\+S\+TR Rad\+Jav\+Alloc\+::file\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_rad_jav_alloc_a7bf5d2d5d7d610929cc4aa9001772091}\label{class_rad_jav_alloc_a7bf5d2d5d7d610929cc4aa9001772091}} 
+\index{Rad\+Jav\+Alloc@{Rad\+Jav\+Alloc}!func@{func}}
+\index{func@{func}!Rad\+Jav\+Alloc@{Rad\+Jav\+Alloc}}
+\subsubsection{\texorpdfstring{func}{func}}
+{\footnotesize\ttfamily R\+J\+C\+S\+TR Rad\+Jav\+Alloc\+::func\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_rad_jav_alloc_aa10c5e9f6add930e639a7d2bfdae3d1a}\label{class_rad_jav_alloc_aa10c5e9f6add930e639a7d2bfdae3d1a}} 
+\index{Rad\+Jav\+Alloc@{Rad\+Jav\+Alloc}!line@{line}}
+\index{line@{line}!Rad\+Jav\+Alloc@{Rad\+Jav\+Alloc}}
+\subsubsection{\texorpdfstring{line}{line}}
+{\footnotesize\ttfamily R\+J\+I\+NT Rad\+Jav\+Alloc\+::line\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/editing/projects/\+Rad\+Jav\+Private/library/include/\+Rad\+Jav/\mbox{\hyperlink{_rad_jav_preprocessor_8h}{Rad\+Jav\+Preprocessor.\+h}}\item 
+C\+:/editing/projects/\+Rad\+Jav\+Private/library/src/\+Rad\+Jav/\mbox{\hyperlink{_rad_jav_8cpp}{Rad\+Jav.\+cpp}}\end{DoxyCompactItemize}

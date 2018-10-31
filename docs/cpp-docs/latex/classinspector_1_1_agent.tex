@@ -1,0 +1,149 @@
+\hypertarget{classinspector_1_1_agent}{}\section{inspector\+:\+:Agent Class Reference}
+\label{classinspector_1_1_agent}\index{inspector\+::\+Agent@{inspector\+::\+Agent}}
+
+
+{\ttfamily \#include $<$Rad\+Jav\+C\+P\+P\+Agent.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classinspector_1_1_agent_acbcb0affe1e4983a26e2cc9e0e860760}{Agent}} (std\+::string host\+\_\+name, std\+::string log\+\_\+output\+\_\+path)
+\item 
+\mbox{\hyperlink{classinspector_1_1_agent_ae87efd598019ad68c063feb29ca6776b}{$\sim$\+Agent}} ()
+\item 
+bool \mbox{\hyperlink{classinspector_1_1_agent_ac0ed8675130028de8936e89c7a121009}{Start}} (Isolate $\ast$isolate, Platform $\ast$platform, \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{Rad\+J\+A\+V\+::\+String}} path\+\_\+to\+\_\+script)
+\item 
+void \mbox{\hyperlink{classinspector_1_1_agent_a11c602c34f762c34104b7adafd9ac14d}{Stop}} ()
+\item 
+bool \mbox{\hyperlink{classinspector_1_1_agent_a97221cc70d0e5c140e4a1329d4933bab}{Is\+Started}} () const
+\item 
+bool \mbox{\hyperlink{classinspector_1_1_agent_a848dbb65865ad21cab7da610f25914ce}{Is\+Connected}} () const
+\item 
+void \mbox{\hyperlink{classinspector_1_1_agent_a32f340980b0127e291f5e29ad2ffc242}{Wait\+For\+Disconnect}} ()
+\item 
+void \mbox{\hyperlink{classinspector_1_1_agent_a115bd9899db960f3dee6dd467626afdc}{Fatal\+Exception}} (Local$<$ Value $>$ error, v8\+::\+Local$<$ v8\+::\+Message $>$ message)
+\item 
+void \mbox{\hyperlink{classinspector_1_1_agent_aa0a2630f92b832b9a1a9b555a85eda20}{Connect}} (\mbox{\hyperlink{classinspector_1_1_inspector_session_delegate}{Inspector\+Session\+Delegate}} $\ast$\mbox{\hyperlink{classinspector_1_1_agent_ada09e3cb8f00412f84d326ac9adb9bc4}{delegate}})
+\item 
+void \mbox{\hyperlink{classinspector_1_1_agent_adf147bf1a05114207faf9a7c096feb34}{Disconnect}} ()
+\item 
+void \mbox{\hyperlink{classinspector_1_1_agent_aece62e0fb28d838eb64a6e40f3ef95c5}{Dispatch}} (const v8\+\_\+inspector\+::\+String\+View \&message)
+\item 
+\mbox{\hyperlink{classinspector_1_1_inspector_session_delegate}{Inspector\+Session\+Delegate}} $\ast$ \mbox{\hyperlink{classinspector_1_1_agent_ada09e3cb8f00412f84d326ac9adb9bc4}{delegate}} ()
+\item 
+void \mbox{\hyperlink{classinspector_1_1_agent_ab0426fa4f8fec619f137d21bb8c31c08}{Run\+Message\+Loop}} ()
+\item 
+void \mbox{\hyperlink{classinspector_1_1_agent_a9b9d071255b5cbc05696becfee9c717a}{Pause\+On\+Next\+Javascript\+Statement}} (const \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{Rad\+J\+A\+V\+::\+String}} \&reason)
+\item 
+\mbox{\hyperlink{classinspector_1_1_inspector_io}{Inspector\+Io}} $\ast$ \mbox{\hyperlink{classinspector_1_1_agent_aa92c8691c66f3c0d2f0235917c9dd570}{io}} ()
+\item 
+bool \mbox{\hyperlink{classinspector_1_1_agent_a36367ff527cef4a4543183c90696edc9}{Start\+Io\+Thread}} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classinspector_1_1_agent_acbcb0affe1e4983a26e2cc9e0e860760}\label{classinspector_1_1_agent_acbcb0affe1e4983a26e2cc9e0e860760}} 
+\index{inspector\+::\+Agent@{inspector\+::\+Agent}!Agent@{Agent}}
+\index{Agent@{Agent}!inspector\+::\+Agent@{inspector\+::\+Agent}}
+\subsubsection{\texorpdfstring{Agent()}{Agent()}}
+{\footnotesize\ttfamily inspector\+::\+Agent\+::\+Agent (\begin{DoxyParamCaption}\item[{std\+::string}]{host\+\_\+name,  }\item[{std\+::string}]{log\+\_\+output\+\_\+path }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classinspector_1_1_agent_ae87efd598019ad68c063feb29ca6776b}\label{classinspector_1_1_agent_ae87efd598019ad68c063feb29ca6776b}} 
+\index{inspector\+::\+Agent@{inspector\+::\+Agent}!````~Agent@{$\sim$\+Agent}}
+\index{````~Agent@{$\sim$\+Agent}!inspector\+::\+Agent@{inspector\+::\+Agent}}
+\subsubsection{\texorpdfstring{$\sim$\+Agent()}{~Agent()}}
+{\footnotesize\ttfamily inspector\+::\+Agent\+::$\sim$\+Agent (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classinspector_1_1_agent_aa0a2630f92b832b9a1a9b555a85eda20}\label{classinspector_1_1_agent_aa0a2630f92b832b9a1a9b555a85eda20}} 
+\index{inspector\+::\+Agent@{inspector\+::\+Agent}!Connect@{Connect}}
+\index{Connect@{Connect}!inspector\+::\+Agent@{inspector\+::\+Agent}}
+\subsubsection{\texorpdfstring{Connect()}{Connect()}}
+{\footnotesize\ttfamily void inspector\+::\+Agent\+::\+Connect (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classinspector_1_1_inspector_session_delegate}{Inspector\+Session\+Delegate}} $\ast$}]{delegate }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classinspector_1_1_agent_ada09e3cb8f00412f84d326ac9adb9bc4}\label{classinspector_1_1_agent_ada09e3cb8f00412f84d326ac9adb9bc4}} 
+\index{inspector\+::\+Agent@{inspector\+::\+Agent}!delegate@{delegate}}
+\index{delegate@{delegate}!inspector\+::\+Agent@{inspector\+::\+Agent}}
+\subsubsection{\texorpdfstring{delegate()}{delegate()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classinspector_1_1_inspector_session_delegate}{Inspector\+Session\+Delegate}} $\ast$ inspector\+::\+Agent\+::delegate (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classinspector_1_1_agent_adf147bf1a05114207faf9a7c096feb34}\label{classinspector_1_1_agent_adf147bf1a05114207faf9a7c096feb34}} 
+\index{inspector\+::\+Agent@{inspector\+::\+Agent}!Disconnect@{Disconnect}}
+\index{Disconnect@{Disconnect}!inspector\+::\+Agent@{inspector\+::\+Agent}}
+\subsubsection{\texorpdfstring{Disconnect()}{Disconnect()}}
+{\footnotesize\ttfamily void inspector\+::\+Agent\+::\+Disconnect (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classinspector_1_1_agent_aece62e0fb28d838eb64a6e40f3ef95c5}\label{classinspector_1_1_agent_aece62e0fb28d838eb64a6e40f3ef95c5}} 
+\index{inspector\+::\+Agent@{inspector\+::\+Agent}!Dispatch@{Dispatch}}
+\index{Dispatch@{Dispatch}!inspector\+::\+Agent@{inspector\+::\+Agent}}
+\subsubsection{\texorpdfstring{Dispatch()}{Dispatch()}}
+{\footnotesize\ttfamily void inspector\+::\+Agent\+::\+Dispatch (\begin{DoxyParamCaption}\item[{const v8\+\_\+inspector\+::\+String\+View \&}]{message }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classinspector_1_1_agent_a115bd9899db960f3dee6dd467626afdc}\label{classinspector_1_1_agent_a115bd9899db960f3dee6dd467626afdc}} 
+\index{inspector\+::\+Agent@{inspector\+::\+Agent}!Fatal\+Exception@{Fatal\+Exception}}
+\index{Fatal\+Exception@{Fatal\+Exception}!inspector\+::\+Agent@{inspector\+::\+Agent}}
+\subsubsection{\texorpdfstring{Fatal\+Exception()}{FatalException()}}
+{\footnotesize\ttfamily void inspector\+::\+Agent\+::\+Fatal\+Exception (\begin{DoxyParamCaption}\item[{Local$<$ Value $>$}]{error,  }\item[{v8\+::\+Local$<$ v8\+::\+Message $>$}]{message }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classinspector_1_1_agent_aa92c8691c66f3c0d2f0235917c9dd570}\label{classinspector_1_1_agent_aa92c8691c66f3c0d2f0235917c9dd570}} 
+\index{inspector\+::\+Agent@{inspector\+::\+Agent}!io@{io}}
+\index{io@{io}!inspector\+::\+Agent@{inspector\+::\+Agent}}
+\subsubsection{\texorpdfstring{io()}{io()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classinspector_1_1_inspector_io}{Inspector\+Io}}$\ast$ inspector\+::\+Agent\+::io (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classinspector_1_1_agent_a848dbb65865ad21cab7da610f25914ce}\label{classinspector_1_1_agent_a848dbb65865ad21cab7da610f25914ce}} 
+\index{inspector\+::\+Agent@{inspector\+::\+Agent}!Is\+Connected@{Is\+Connected}}
+\index{Is\+Connected@{Is\+Connected}!inspector\+::\+Agent@{inspector\+::\+Agent}}
+\subsubsection{\texorpdfstring{Is\+Connected()}{IsConnected()}}
+{\footnotesize\ttfamily bool inspector\+::\+Agent\+::\+Is\+Connected (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classinspector_1_1_agent_a97221cc70d0e5c140e4a1329d4933bab}\label{classinspector_1_1_agent_a97221cc70d0e5c140e4a1329d4933bab}} 
+\index{inspector\+::\+Agent@{inspector\+::\+Agent}!Is\+Started@{Is\+Started}}
+\index{Is\+Started@{Is\+Started}!inspector\+::\+Agent@{inspector\+::\+Agent}}
+\subsubsection{\texorpdfstring{Is\+Started()}{IsStarted()}}
+{\footnotesize\ttfamily bool inspector\+::\+Agent\+::\+Is\+Started (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classinspector_1_1_agent_a9b9d071255b5cbc05696becfee9c717a}\label{classinspector_1_1_agent_a9b9d071255b5cbc05696becfee9c717a}} 
+\index{inspector\+::\+Agent@{inspector\+::\+Agent}!Pause\+On\+Next\+Javascript\+Statement@{Pause\+On\+Next\+Javascript\+Statement}}
+\index{Pause\+On\+Next\+Javascript\+Statement@{Pause\+On\+Next\+Javascript\+Statement}!inspector\+::\+Agent@{inspector\+::\+Agent}}
+\subsubsection{\texorpdfstring{Pause\+On\+Next\+Javascript\+Statement()}{PauseOnNextJavascriptStatement()}}
+{\footnotesize\ttfamily void inspector\+::\+Agent\+::\+Pause\+On\+Next\+Javascript\+Statement (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{Rad\+J\+A\+V\+::\+String}} \&}]{reason }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classinspector_1_1_agent_ab0426fa4f8fec619f137d21bb8c31c08}\label{classinspector_1_1_agent_ab0426fa4f8fec619f137d21bb8c31c08}} 
+\index{inspector\+::\+Agent@{inspector\+::\+Agent}!Run\+Message\+Loop@{Run\+Message\+Loop}}
+\index{Run\+Message\+Loop@{Run\+Message\+Loop}!inspector\+::\+Agent@{inspector\+::\+Agent}}
+\subsubsection{\texorpdfstring{Run\+Message\+Loop()}{RunMessageLoop()}}
+{\footnotesize\ttfamily void inspector\+::\+Agent\+::\+Run\+Message\+Loop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classinspector_1_1_agent_ac0ed8675130028de8936e89c7a121009}\label{classinspector_1_1_agent_ac0ed8675130028de8936e89c7a121009}} 
+\index{inspector\+::\+Agent@{inspector\+::\+Agent}!Start@{Start}}
+\index{Start@{Start}!inspector\+::\+Agent@{inspector\+::\+Agent}}
+\subsubsection{\texorpdfstring{Start()}{Start()}}
+{\footnotesize\ttfamily bool inspector\+::\+Agent\+::\+Start (\begin{DoxyParamCaption}\item[{Isolate $\ast$}]{isolate,  }\item[{Platform $\ast$}]{platform,  }\item[{\mbox{\hyperlink{class_rad_j_a_v_1_1_string}{Rad\+J\+A\+V\+::\+String}}}]{path\+\_\+to\+\_\+script }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classinspector_1_1_agent_a36367ff527cef4a4543183c90696edc9}\label{classinspector_1_1_agent_a36367ff527cef4a4543183c90696edc9}} 
+\index{inspector\+::\+Agent@{inspector\+::\+Agent}!Start\+Io\+Thread@{Start\+Io\+Thread}}
+\index{Start\+Io\+Thread@{Start\+Io\+Thread}!inspector\+::\+Agent@{inspector\+::\+Agent}}
+\subsubsection{\texorpdfstring{Start\+Io\+Thread()}{StartIoThread()}}
+{\footnotesize\ttfamily bool inspector\+::\+Agent\+::\+Start\+Io\+Thread (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classinspector_1_1_agent_a11c602c34f762c34104b7adafd9ac14d}\label{classinspector_1_1_agent_a11c602c34f762c34104b7adafd9ac14d}} 
+\index{inspector\+::\+Agent@{inspector\+::\+Agent}!Stop@{Stop}}
+\index{Stop@{Stop}!inspector\+::\+Agent@{inspector\+::\+Agent}}
+\subsubsection{\texorpdfstring{Stop()}{Stop()}}
+{\footnotesize\ttfamily void inspector\+::\+Agent\+::\+Stop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classinspector_1_1_agent_a32f340980b0127e291f5e29ad2ffc242}\label{classinspector_1_1_agent_a32f340980b0127e291f5e29ad2ffc242}} 
+\index{inspector\+::\+Agent@{inspector\+::\+Agent}!Wait\+For\+Disconnect@{Wait\+For\+Disconnect}}
+\index{Wait\+For\+Disconnect@{Wait\+For\+Disconnect}!inspector\+::\+Agent@{inspector\+::\+Agent}}
+\subsubsection{\texorpdfstring{Wait\+For\+Disconnect()}{WaitForDisconnect()}}
+{\footnotesize\ttfamily void inspector\+::\+Agent\+::\+Wait\+For\+Disconnect (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/editing/projects/\+Rad\+Jav\+Private/library/include/\+Rad\+Jav/cpp/\mbox{\hyperlink{_rad_jav_c_p_p_agent_8h}{Rad\+Jav\+C\+P\+P\+Agent.\+h}}\item 
+C\+:/editing/projects/\+Rad\+Jav\+Private/library/src/\+Rad\+Jav/cpp/\mbox{\hyperlink{_rad_jav_c_p_p_agent_8cpp}{Rad\+Jav\+C\+P\+P\+Agent.\+cpp}}\end{DoxyCompactItemize}

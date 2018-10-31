@@ -1,0 +1,111 @@
+\hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr_hook}{}\section{Rad\+J\+AV\+:\+:C\+PP\+:\+:Chained\+Ptr\+Hook Class Reference}
+\label{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr_hook}\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook}}
+
+
+{\ttfamily \#include $<$Rad\+Jav\+C\+P\+P\+Chained\+Ptr.\+h$>$}
+
+Inheritance diagram for Rad\+J\+AV\+:\+:C\+PP\+:\+:Chained\+Ptr\+Hook\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr_hook}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr_hook_a4bc8e44c4ffc1348d51f338c9f41c96f}{Chained\+Ptr\+Hook}} (\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr}{Chained\+Ptr}} $\ast$target, std\+::function$<$ void()$>$ about\+To\+Delete)
+\item 
+virtual \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr_hook_a0436dcfdf44034941913926bf6b3ef21}{$\sim$\+Chained\+Ptr\+Hook}} ()
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr_hook_aa434dbddc88065afb978fb3213062ac6}{Chained\+Ptr\+Hook}} ()=delete
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr_hook_a8c04ae4434fec15a4a51603ebacc1581}{Chained\+Ptr\+Hook}} (const \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr_hook}{Chained\+Ptr\+Hook}} \&)=delete
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr_hook}{Chained\+Ptr\+Hook}} \& \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr_hook_af12a3b495d92d9dd7476f5869375519b}{operator=}} (const \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr_hook}{Chained\+Ptr\+Hook}} \&other)=delete
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr}{Chained\+Ptr}} $\ast$ \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr_hook_a8c4dd529676b5154a58430eb0d963401}{object}} () const
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::function$<$ void()$>$ \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr_hook_aa5f87aad114c923f1b8300f16af8ea3a}{about\+Delete}}
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr}{Chained\+Ptr}} $\ast$ \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr_hook_a585b0aaa53ea006d370b66ab58f789c3}{hooked\+Object}}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+Wrapper class to notify user when hooked \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr}{Chained\+Ptr}} class does out of scope 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr_hook_a4bc8e44c4ffc1348d51f338c9f41c96f}\label{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr_hook_a4bc8e44c4ffc1348d51f338c9f41c96f}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook}!Chained\+Ptr\+Hook@{Chained\+Ptr\+Hook}}
+\index{Chained\+Ptr\+Hook@{Chained\+Ptr\+Hook}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook}}
+\subsubsection{\texorpdfstring{Chained\+Ptr\+Hook()}{ChainedPtrHook()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook\+::\+Chained\+Ptr\+Hook (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr}{Chained\+Ptr}} $\ast$}]{target,  }\item[{std\+::function$<$ void()$>$}]{about\+To\+Delete }\end{DoxyParamCaption})}
+
+A constructor. User must provide valid pointer to \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr}{Chained\+Ptr}} derived class to hook on with and callback function which will be called when this and hooked object goes out of scope. 
+\begin{DoxyParams}{Parameters}
+{\em target} & a pointer to \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr}{Chained\+Ptr}} derived class which will be hooked. \\
+\hline
+{\em about\+To\+Delete} & a callback function which will be called when object goes out of scope. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr_hook_a0436dcfdf44034941913926bf6b3ef21}\label{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr_hook_a0436dcfdf44034941913926bf6b3ef21}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook}!````~Chained\+Ptr\+Hook@{$\sim$\+Chained\+Ptr\+Hook}}
+\index{````~Chained\+Ptr\+Hook@{$\sim$\+Chained\+Ptr\+Hook}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook}}
+\subsubsection{\texorpdfstring{$\sim$\+Chained\+Ptr\+Hook()}{~ChainedPtrHook()}}
+{\footnotesize\ttfamily Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook\+::$\sim$\+Chained\+Ptr\+Hook (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr_hook_aa434dbddc88065afb978fb3213062ac6}\label{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr_hook_aa434dbddc88065afb978fb3213062ac6}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook}!Chained\+Ptr\+Hook@{Chained\+Ptr\+Hook}}
+\index{Chained\+Ptr\+Hook@{Chained\+Ptr\+Hook}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook}}
+\subsubsection{\texorpdfstring{Chained\+Ptr\+Hook()}{ChainedPtrHook()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook\+::\+Chained\+Ptr\+Hook (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr_hook_a8c04ae4434fec15a4a51603ebacc1581}\label{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr_hook_a8c04ae4434fec15a4a51603ebacc1581}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook}!Chained\+Ptr\+Hook@{Chained\+Ptr\+Hook}}
+\index{Chained\+Ptr\+Hook@{Chained\+Ptr\+Hook}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook}}
+\subsubsection{\texorpdfstring{Chained\+Ptr\+Hook()}{ChainedPtrHook()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook\+::\+Chained\+Ptr\+Hook (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr_hook}{Chained\+Ptr\+Hook}} \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr_hook_a8c4dd529676b5154a58430eb0d963401}\label{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr_hook_a8c4dd529676b5154a58430eb0d963401}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook}!object@{object}}
+\index{object@{object}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook}}
+\subsubsection{\texorpdfstring{object()}{object()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr}{Chained\+Ptr}} $\ast$ Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook\+::object (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Get pointer of underlying hooked object. \begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr}{Chained\+Ptr}} a pointer to underlying hooked object. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr_hook_af12a3b495d92d9dd7476f5869375519b}\label{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr_hook_af12a3b495d92d9dd7476f5869375519b}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook}!operator=@{operator=}}
+\index{operator=@{operator=}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook}}
+\subsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr_hook}{Chained\+Ptr\+Hook}}\& Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr_hook}{Chained\+Ptr\+Hook}} \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr_hook_aa5f87aad114c923f1b8300f16af8ea3a}\label{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr_hook_aa5f87aad114c923f1b8300f16af8ea3a}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook}!about\+Delete@{about\+Delete}}
+\index{about\+Delete@{about\+Delete}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook}}
+\subsubsection{\texorpdfstring{about\+Delete}{aboutDelete}}
+{\footnotesize\ttfamily std\+::function$<$void ()$>$ Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook\+::about\+Delete\hspace{0.3cm}{\ttfamily [protected]}}
+
+Pointer to callback function which will be called on destructor. \mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr_hook_a585b0aaa53ea006d370b66ab58f789c3}\label{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr_hook_a585b0aaa53ea006d370b66ab58f789c3}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook}!hooked\+Object@{hooked\+Object}}
+\index{hooked\+Object@{hooked\+Object}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook}}
+\subsubsection{\texorpdfstring{hooked\+Object}{hookedObject}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr}{Chained\+Ptr}}$\ast$ Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Chained\+Ptr\+Hook\+::hooked\+Object\hspace{0.3cm}{\ttfamily [protected]}}
+
+Pointer to \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr}{Chained\+Ptr}} derived class on which we hook. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/editing/projects/\+Rad\+Jav\+Private/library/include/\+Rad\+Jav/cpp/\mbox{\hyperlink{_rad_jav_c_p_p_chained_ptr_8h}{Rad\+Jav\+C\+P\+P\+Chained\+Ptr.\+h}}\item 
+C\+:/editing/projects/\+Rad\+Jav\+Private/library/src/\+Rad\+Jav/cpp/\mbox{\hyperlink{_rad_jav_c_p_p_chained_ptr_8cpp}{Rad\+Jav\+C\+P\+P\+Chained\+Ptr.\+cpp}}\end{DoxyCompactItemize}

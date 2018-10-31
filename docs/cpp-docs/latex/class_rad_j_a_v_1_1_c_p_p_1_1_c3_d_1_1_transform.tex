@@ -1,0 +1,209 @@
+\hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform}{}\section{Rad\+J\+AV\+:\+:C\+PP\+:\+:C3D\+:\+:Transform Class Reference}
+\label{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform}\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}}
+
+
+{\ttfamily \#include $<$Rad\+Jav\+C\+P\+P\+C3\+D\+Transform.\+h$>$}
+
+Inheritance diagram for Rad\+J\+AV\+:\+:C\+PP\+:\+:C3D\+:\+:Transform\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=1.458333cm]{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a7ccfee4d2e76eca2cb1a8c8ab671fdcf}{Transform}} (const \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_g_u_i_1_1_canvas3_d}{G\+U\+I\+::\+Canvas3D}} \&canvas, const \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \&name, \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform}{Transform}} $\ast$parent=N\+U\+LL)
+\item 
+virtual \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_ab24b6be15835b701b1e6b24a1560c0fe}{$\sim$\+Transform}} ()
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a2f067fbc0ea5065a1423f92fa4917884}{get\+Name}} () const
+\item 
+Ogre\+::\+Vector3 \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_abde878d29dff1078011bec209de2dfb3}{get\+Position}} () const
+\item 
+Ogre\+::\+Vector3 \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a791fb092b559690445f587bf0c7b0ab5}{get\+Scale}} () const
+\item 
+void \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_af535f208fedcfe2a80130ea4cbe291b4}{add\+Child}} (\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform}{Transform}} $\ast$child)
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform}{Transform}} $\ast$ \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a795b6d2118624a52c89b91dd78251002}{remove\+Child}} (\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform}{Transform}} $\ast$child)
+\item 
+void \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_ab4a54fbda8e9a4718e4bb81dd0f3dae3}{remove\+And\+Destroy\+Child}} (\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform}{Transform}} $\ast$child)
+\item 
+void \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a74f902b79f2c036b608f5e617b61b075}{pitch}} (const Ogre\+::\+Radian \&angle, Ogre\+::\+Node\+::\+Transform\+Space relative\+To=Ogre\+::\+Node\+::\+T\+S\+\_\+\+L\+O\+C\+AL)
+\item 
+void \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_aa7ab9b428152555033f98eb519c40060}{roll}} (const Ogre\+::\+Radian \&angle, Ogre\+::\+Node\+::\+Transform\+Space relative\+To=Ogre\+::\+Node\+::\+T\+S\+\_\+\+L\+O\+C\+AL)
+\item 
+void \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a43b150a0e6fa98e69070f3d7196be967}{yaw}} (const Ogre\+::\+Radian \&angle, Ogre\+::\+Node\+::\+Transform\+Space relative\+To=Ogre\+::\+Node\+::\+T\+S\+\_\+\+L\+O\+C\+AL)
+\item 
+void \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a88ab8b8b87f52ff894acc15ae4c1eaff}{set\+Direction}} (const Ogre\+::\+Vector3 \&direction, Ogre\+::\+Node\+::\+Transform\+Space relative\+To=Ogre\+::\+Node\+::\+T\+S\+\_\+\+L\+O\+C\+AL, const Ogre\+::\+Vector3 \&local\+Direction\+Vector=Ogre\+::\+Vector3\+::\+N\+E\+G\+A\+T\+I\+V\+E\+\_\+\+U\+N\+I\+T\+\_\+Z)
+\item 
+void \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a91def8296ebfff0fdb686e976dbc691f}{set\+Direction}} (Ogre\+::\+Real x, Ogre\+::\+Real y, Ogre\+::\+Real z, Ogre\+::\+Node\+::\+Transform\+Space relative\+To=Ogre\+::\+Node\+::\+T\+S\+\_\+\+L\+O\+C\+AL, const Ogre\+::\+Vector3 \&local\+Direction\+Vector=Ogre\+::\+Vector3\+::\+N\+E\+G\+A\+T\+I\+V\+E\+\_\+\+U\+N\+I\+T\+\_\+Z)
+\item 
+void \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a2fd42fde6252bdd0c2102fb1af7d2d00}{set\+Orientation}} (const Ogre\+::\+Quaternion \&orientation)
+\item 
+void \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a7c4b3c574d52ee2a16c61d34ca1906d0}{set\+Position}} (const Ogre\+::\+Vector3 \&position)
+\item 
+void \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a587d7ab35f09e197109dfa87d3c9d950}{set\+Scale}} (const Ogre\+::\+Vector3 \&scale)
+\item 
+void \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a98b54ba58a33bc655ef6de5f40611018}{look\+At}} (const Ogre\+::\+Vector3 \&target\+Point, Ogre\+::\+Node\+::\+Transform\+Space relative\+To, const Ogre\+::\+Vector3 \&local\+Direction\+Vector=Ogre\+::\+Vector3\+::\+N\+E\+G\+A\+T\+I\+V\+E\+\_\+\+U\+N\+I\+T\+\_\+Z)
+\item 
+void \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_ad62c540d6e43016e46db6e4231c24321}{translate}} (const Ogre\+::\+Vector3 \&direction, Ogre\+::\+Node\+::\+Transform\+Space relative\+To=Ogre\+::\+Node\+::\+T\+S\+\_\+\+P\+A\+R\+E\+NT)
+\item 
+void \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_af0b311a2bab5b6bb53a304889752a181}{look\+At}} (Ogre\+::\+Real x, Ogre\+::\+Real y, Ogre\+::\+Real z, Ogre\+::\+Node\+::\+Transform\+Space relative\+To=Ogre\+::\+Node\+::\+T\+S\+\_\+\+P\+A\+R\+E\+NT)
+\item 
+void \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a651eca0b344e9dd0686d2defcfc6e063}{look\+At}} (const Ogre\+::\+Vector3 \&point, Ogre\+::\+Node\+::\+Transform\+Space relative\+To=Ogre\+::\+Node\+::\+T\+S\+\_\+\+P\+A\+R\+E\+NT)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Ogre\+::\+Scene\+Node $\ast$ \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a2e47334f53e5222bff6b02efa2955196}{node}}
+\item 
+Ogre\+::\+Scene\+Manager $\ast$ \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_aeab26ea47b4aea454116759e01883ce6}{scene\+Manager}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a7ccfee4d2e76eca2cb1a8c8ab671fdcf}\label{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a7ccfee4d2e76eca2cb1a8c8ab671fdcf}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}!Transform@{Transform}}
+\index{Transform@{Transform}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}}
+\subsubsection{\texorpdfstring{Transform()}{Transform()}}
+{\footnotesize\ttfamily Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform\+::\+Transform (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_g_u_i_1_1_canvas3_d}{G\+U\+I\+::\+Canvas3D}} \&}]{canvas,  }\item[{const \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \&}]{name,  }\item[{\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform}{Transform}} $\ast$}]{parent = {\ttfamily NULL} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_ab24b6be15835b701b1e6b24a1560c0fe}\label{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_ab24b6be15835b701b1e6b24a1560c0fe}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}!````~Transform@{$\sim$\+Transform}}
+\index{````~Transform@{$\sim$\+Transform}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}}
+\subsubsection{\texorpdfstring{$\sim$\+Transform()}{~Transform()}}
+{\footnotesize\ttfamily Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform\+::$\sim$\+Transform (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_af535f208fedcfe2a80130ea4cbe291b4}\label{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_af535f208fedcfe2a80130ea4cbe291b4}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}!add\+Child@{add\+Child}}
+\index{add\+Child@{add\+Child}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}}
+\subsubsection{\texorpdfstring{add\+Child()}{addChild()}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform\+::add\+Child (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform}{Transform}} $\ast$}]{child }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a2f067fbc0ea5065a1423f92fa4917884}\label{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a2f067fbc0ea5065a1423f92fa4917884}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}!get\+Name@{get\+Name}}
+\index{get\+Name@{get\+Name}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}}
+\subsubsection{\texorpdfstring{get\+Name()}{getName()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform\+::get\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_abde878d29dff1078011bec209de2dfb3}\label{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_abde878d29dff1078011bec209de2dfb3}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}!get\+Position@{get\+Position}}
+\index{get\+Position@{get\+Position}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}}
+\subsubsection{\texorpdfstring{get\+Position()}{getPosition()}}
+{\footnotesize\ttfamily Ogre\+::\+Vector3 Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform\+::get\+Position (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a791fb092b559690445f587bf0c7b0ab5}\label{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a791fb092b559690445f587bf0c7b0ab5}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}!get\+Scale@{get\+Scale}}
+\index{get\+Scale@{get\+Scale}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}}
+\subsubsection{\texorpdfstring{get\+Scale()}{getScale()}}
+{\footnotesize\ttfamily Ogre\+::\+Vector3 Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform\+::get\+Scale (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a98b54ba58a33bc655ef6de5f40611018}\label{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a98b54ba58a33bc655ef6de5f40611018}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}!look\+At@{look\+At}}
+\index{look\+At@{look\+At}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}}
+\subsubsection{\texorpdfstring{look\+At()}{lookAt()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform\+::look\+At (\begin{DoxyParamCaption}\item[{const Ogre\+::\+Vector3 \&}]{target\+Point,  }\item[{Ogre\+::\+Node\+::\+Transform\+Space}]{relative\+To,  }\item[{const Ogre\+::\+Vector3 \&}]{local\+Direction\+Vector = {\ttfamily Ogre\+:\+:Vector3\+:\+:NEGATIVE\+\_\+UNIT\+\_\+Z} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_af0b311a2bab5b6bb53a304889752a181}\label{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_af0b311a2bab5b6bb53a304889752a181}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}!look\+At@{look\+At}}
+\index{look\+At@{look\+At}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}}
+\subsubsection{\texorpdfstring{look\+At()}{lookAt()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform\+::look\+At (\begin{DoxyParamCaption}\item[{Ogre\+::\+Real}]{x,  }\item[{Ogre\+::\+Real}]{y,  }\item[{Ogre\+::\+Real}]{z,  }\item[{Ogre\+::\+Node\+::\+Transform\+Space}]{relative\+To = {\ttfamily Ogre\+:\+:Node\+:\+:TS\+\_\+PARENT} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a651eca0b344e9dd0686d2defcfc6e063}\label{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a651eca0b344e9dd0686d2defcfc6e063}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}!look\+At@{look\+At}}
+\index{look\+At@{look\+At}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}}
+\subsubsection{\texorpdfstring{look\+At()}{lookAt()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform\+::look\+At (\begin{DoxyParamCaption}\item[{const Ogre\+::\+Vector3 \&}]{point,  }\item[{Ogre\+::\+Node\+::\+Transform\+Space}]{relative\+To = {\ttfamily Ogre\+:\+:Node\+:\+:TS\+\_\+PARENT} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a74f902b79f2c036b608f5e617b61b075}\label{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a74f902b79f2c036b608f5e617b61b075}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}!pitch@{pitch}}
+\index{pitch@{pitch}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}}
+\subsubsection{\texorpdfstring{pitch()}{pitch()}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform\+::pitch (\begin{DoxyParamCaption}\item[{const Ogre\+::\+Radian \&}]{angle,  }\item[{Ogre\+::\+Node\+::\+Transform\+Space}]{relative\+To = {\ttfamily Ogre\+:\+:Node\+:\+:TS\+\_\+LOCAL} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_ab4a54fbda8e9a4718e4bb81dd0f3dae3}\label{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_ab4a54fbda8e9a4718e4bb81dd0f3dae3}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}!remove\+And\+Destroy\+Child@{remove\+And\+Destroy\+Child}}
+\index{remove\+And\+Destroy\+Child@{remove\+And\+Destroy\+Child}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}}
+\subsubsection{\texorpdfstring{remove\+And\+Destroy\+Child()}{removeAndDestroyChild()}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform\+::remove\+And\+Destroy\+Child (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform}{Transform}} $\ast$}]{child }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a795b6d2118624a52c89b91dd78251002}\label{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a795b6d2118624a52c89b91dd78251002}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}!remove\+Child@{remove\+Child}}
+\index{remove\+Child@{remove\+Child}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}}
+\subsubsection{\texorpdfstring{remove\+Child()}{removeChild()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform}{Transform}} $\ast$ Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform\+::remove\+Child (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform}{Transform}} $\ast$}]{child }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_aa7ab9b428152555033f98eb519c40060}\label{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_aa7ab9b428152555033f98eb519c40060}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}!roll@{roll}}
+\index{roll@{roll}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}}
+\subsubsection{\texorpdfstring{roll()}{roll()}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform\+::roll (\begin{DoxyParamCaption}\item[{const Ogre\+::\+Radian \&}]{angle,  }\item[{Ogre\+::\+Node\+::\+Transform\+Space}]{relative\+To = {\ttfamily Ogre\+:\+:Node\+:\+:TS\+\_\+LOCAL} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a88ab8b8b87f52ff894acc15ae4c1eaff}\label{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a88ab8b8b87f52ff894acc15ae4c1eaff}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}!set\+Direction@{set\+Direction}}
+\index{set\+Direction@{set\+Direction}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}}
+\subsubsection{\texorpdfstring{set\+Direction()}{setDirection()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform\+::set\+Direction (\begin{DoxyParamCaption}\item[{const Ogre\+::\+Vector3 \&}]{direction,  }\item[{Ogre\+::\+Node\+::\+Transform\+Space}]{relative\+To = {\ttfamily Ogre\+:\+:Node\+:\+:TS\+\_\+LOCAL},  }\item[{const Ogre\+::\+Vector3 \&}]{local\+Direction\+Vector = {\ttfamily Ogre\+:\+:Vector3\+:\+:NEGATIVE\+\_\+UNIT\+\_\+Z} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a91def8296ebfff0fdb686e976dbc691f}\label{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a91def8296ebfff0fdb686e976dbc691f}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}!set\+Direction@{set\+Direction}}
+\index{set\+Direction@{set\+Direction}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}}
+\subsubsection{\texorpdfstring{set\+Direction()}{setDirection()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform\+::set\+Direction (\begin{DoxyParamCaption}\item[{Ogre\+::\+Real}]{x,  }\item[{Ogre\+::\+Real}]{y,  }\item[{Ogre\+::\+Real}]{z,  }\item[{Ogre\+::\+Node\+::\+Transform\+Space}]{relative\+To = {\ttfamily Ogre\+:\+:Node\+:\+:TS\+\_\+LOCAL},  }\item[{const Ogre\+::\+Vector3 \&}]{local\+Direction\+Vector = {\ttfamily Ogre\+:\+:Vector3\+:\+:NEGATIVE\+\_\+UNIT\+\_\+Z} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a2fd42fde6252bdd0c2102fb1af7d2d00}\label{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a2fd42fde6252bdd0c2102fb1af7d2d00}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}!set\+Orientation@{set\+Orientation}}
+\index{set\+Orientation@{set\+Orientation}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}}
+\subsubsection{\texorpdfstring{set\+Orientation()}{setOrientation()}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform\+::set\+Orientation (\begin{DoxyParamCaption}\item[{const Ogre\+::\+Quaternion \&}]{orientation }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a7c4b3c574d52ee2a16c61d34ca1906d0}\label{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a7c4b3c574d52ee2a16c61d34ca1906d0}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}!set\+Position@{set\+Position}}
+\index{set\+Position@{set\+Position}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}}
+\subsubsection{\texorpdfstring{set\+Position()}{setPosition()}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform\+::set\+Position (\begin{DoxyParamCaption}\item[{const Ogre\+::\+Vector3 \&}]{position }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a587d7ab35f09e197109dfa87d3c9d950}\label{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a587d7ab35f09e197109dfa87d3c9d950}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}!set\+Scale@{set\+Scale}}
+\index{set\+Scale@{set\+Scale}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}}
+\subsubsection{\texorpdfstring{set\+Scale()}{setScale()}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform\+::set\+Scale (\begin{DoxyParamCaption}\item[{const Ogre\+::\+Vector3 \&}]{scale }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_ad62c540d6e43016e46db6e4231c24321}\label{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_ad62c540d6e43016e46db6e4231c24321}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}!translate@{translate}}
+\index{translate@{translate}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}}
+\subsubsection{\texorpdfstring{translate()}{translate()}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform\+::translate (\begin{DoxyParamCaption}\item[{const Ogre\+::\+Vector3 \&}]{direction,  }\item[{Ogre\+::\+Node\+::\+Transform\+Space}]{relative\+To = {\ttfamily Ogre\+:\+:Node\+:\+:TS\+\_\+PARENT} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a43b150a0e6fa98e69070f3d7196be967}\label{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a43b150a0e6fa98e69070f3d7196be967}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}!yaw@{yaw}}
+\index{yaw@{yaw}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}}
+\subsubsection{\texorpdfstring{yaw()}{yaw()}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform\+::yaw (\begin{DoxyParamCaption}\item[{const Ogre\+::\+Radian \&}]{angle,  }\item[{Ogre\+::\+Node\+::\+Transform\+Space}]{relative\+To = {\ttfamily Ogre\+:\+:Node\+:\+:TS\+\_\+LOCAL} }\end{DoxyParamCaption})}
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a2e47334f53e5222bff6b02efa2955196}\label{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_a2e47334f53e5222bff6b02efa2955196}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}!node@{node}}
+\index{node@{node}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}}
+\subsubsection{\texorpdfstring{node}{node}}
+{\footnotesize\ttfamily Ogre\+::\+Scene\+Node$\ast$ Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform\+::node}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_aeab26ea47b4aea454116759e01883ce6}\label{class_rad_j_a_v_1_1_c_p_p_1_1_c3_d_1_1_transform_aeab26ea47b4aea454116759e01883ce6}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}!scene\+Manager@{scene\+Manager}}
+\index{scene\+Manager@{scene\+Manager}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform}}
+\subsubsection{\texorpdfstring{scene\+Manager}{sceneManager}}
+{\footnotesize\ttfamily Ogre\+::\+Scene\+Manager$\ast$ Rad\+J\+A\+V\+::\+C\+P\+P\+::\+C3\+D\+::\+Transform\+::scene\+Manager}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/editing/projects/\+Rad\+Jav\+Private/library/include/\+Rad\+Jav/cpp/\mbox{\hyperlink{_rad_jav_c_p_p_c3_d_transform_8h}{Rad\+Jav\+C\+P\+P\+C3\+D\+Transform.\+h}}\item 
+C\+:/editing/projects/\+Rad\+Jav\+Private/library/src/\+Rad\+Jav/cpp/\mbox{\hyperlink{_rad_jav_c_p_p_c3_d_transform_8cpp}{Rad\+Jav\+C\+P\+P\+C3\+D\+Transform.\+cpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,123 @@
+\hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b}{}\section{Rad\+J\+AV\+:\+:C\+PP\+:\+:Database\+:\+:Nu\+DB Class Reference}
+\label{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b}\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB}}
+
+
+{\ttfamily \#include $<$Rad\+Jav\+C\+P\+P\+D\+B\+Nu\+D\+B.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b_a65e9f33ab23f54e2105bf6e5c06a45db}{Nu\+DB}} ()
+\item 
+virtual \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b_a8683701380eaf2d7df04418e58729b09}{$\sim$\+Nu\+DB}} ()
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b_ae710837b9fa7ae67e83e0f470cae8d5a}{Nu\+DB}} (const \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b}{Nu\+DB}} \&)=delete
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b}{Nu\+DB}} \& \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b_abef37d9f5ce1bc13bc81c8e085a6558b}{operator=}} (const \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b}{Nu\+DB}} \&)=delete
+\item 
+virtual void \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b_a14e0fe55e0d210d5d75b6f65c77c190f}{open}} (\mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b_add402d7b0dec9257e55059f28101ad24}{path}}, std\+::uint64\+\_\+t appid, std\+::size\+\_\+t key\+\_\+size, boost\+::system\+::error\+\_\+code \&ec)
+\begin{DoxyCompactList}\small\item\em The path to the database to open. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b_a26b63e8847842c0b3136898848c14928}{insert}} (\mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} key, \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} value, boost\+::system\+::error\+\_\+code \&ec)
+\begin{DoxyCompactList}\small\item\em Insert data into the database. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b_a09a1dae5b18c1df1a7f36b4e2b0670f0}{read}} (\mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} key, boost\+::system\+::error\+\_\+code \&ec)
+\begin{DoxyCompactList}\small\item\em Read from data by key in the database. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b_aec4c2f770395c600e71ed9075f630e87}{close}} (boost\+::system\+::error\+\_\+code \&ec)
+\begin{DoxyCompactList}\small\item\em Close the database. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b_add402d7b0dec9257e55059f28101ad24}{path}}
+\item 
+nudb\+::store $\ast$ \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b_a78bc4b4a3f63c570827e444f12c78e04}{db}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b_a65e9f33ab23f54e2105bf6e5c06a45db}\label{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b_a65e9f33ab23f54e2105bf6e5c06a45db}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB}!Nu\+DB@{Nu\+DB}}
+\index{Nu\+DB@{Nu\+DB}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB}}
+\subsubsection{\texorpdfstring{Nu\+D\+B()}{NuDB()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+D\+B\+::\+Nu\+DB (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b_a8683701380eaf2d7df04418e58729b09}\label{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b_a8683701380eaf2d7df04418e58729b09}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB}!````~Nu\+DB@{$\sim$\+Nu\+DB}}
+\index{````~Nu\+DB@{$\sim$\+Nu\+DB}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB}}
+\subsubsection{\texorpdfstring{$\sim$\+Nu\+D\+B()}{~NuDB()}}
+{\footnotesize\ttfamily Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+D\+B\+::$\sim$\+Nu\+DB (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b_ae710837b9fa7ae67e83e0f470cae8d5a}\label{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b_ae710837b9fa7ae67e83e0f470cae8d5a}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB}!Nu\+DB@{Nu\+DB}}
+\index{Nu\+DB@{Nu\+DB}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB}}
+\subsubsection{\texorpdfstring{Nu\+D\+B()}{NuDB()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+D\+B\+::\+Nu\+DB (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b}{Nu\+DB}} \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b_aec4c2f770395c600e71ed9075f630e87}\label{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b_aec4c2f770395c600e71ed9075f630e87}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB}!close@{close}}
+\index{close@{close}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB}}
+\subsubsection{\texorpdfstring{close()}{close()}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+D\+B\+::close (\begin{DoxyParamCaption}\item[{boost\+::system\+::error\+\_\+code \&}]{ec }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Close the database. 
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b_a26b63e8847842c0b3136898848c14928}\label{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b_a26b63e8847842c0b3136898848c14928}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB}!insert@{insert}}
+\index{insert@{insert}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB}}
+\subsubsection{\texorpdfstring{insert()}{insert()}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+D\+B\+::insert (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}}}]{key,  }\item[{\mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}}}]{value,  }\item[{boost\+::system\+::error\+\_\+code \&}]{ec }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Insert data into the database. 
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b_a14e0fe55e0d210d5d75b6f65c77c190f}\label{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b_a14e0fe55e0d210d5d75b6f65c77c190f}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB}!open@{open}}
+\index{open@{open}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB}}
+\subsubsection{\texorpdfstring{open()}{open()}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+D\+B\+::open (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}}}]{path,  }\item[{std\+::uint64\+\_\+t}]{appid,  }\item[{std\+::size\+\_\+t}]{key\+\_\+size,  }\item[{boost\+::system\+::error\+\_\+code \&}]{ec }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+The path to the database to open. 
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b_abef37d9f5ce1bc13bc81c8e085a6558b}\label{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b_abef37d9f5ce1bc13bc81c8e085a6558b}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB}!operator=@{operator=}}
+\index{operator=@{operator=}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB}}
+\subsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b}{Nu\+DB}}\& Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+D\+B\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b}{Nu\+DB}} \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b_a09a1dae5b18c1df1a7f36b4e2b0670f0}\label{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b_a09a1dae5b18c1df1a7f36b4e2b0670f0}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB}!read@{read}}
+\index{read@{read}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB}}
+\subsubsection{\texorpdfstring{read()}{read()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+D\+B\+::read (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}}}]{key,  }\item[{boost\+::system\+::error\+\_\+code \&}]{ec }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Read from data by key in the database. 
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b_a78bc4b4a3f63c570827e444f12c78e04}\label{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b_a78bc4b4a3f63c570827e444f12c78e04}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB}!db@{db}}
+\index{db@{db}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB}}
+\subsubsection{\texorpdfstring{db}{db}}
+{\footnotesize\ttfamily nudb\+::store$\ast$ Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+D\+B\+::db\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b_add402d7b0dec9257e55059f28101ad24}\label{class_rad_j_a_v_1_1_c_p_p_1_1_database_1_1_nu_d_b_add402d7b0dec9257e55059f28101ad24}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB}!path@{path}}
+\index{path@{path}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+DB}}
+\subsubsection{\texorpdfstring{path}{path}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Database\+::\+Nu\+D\+B\+::path\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/editing/projects/\+Rad\+Jav\+Private/library/include/\+Rad\+Jav/cpp/\mbox{\hyperlink{_rad_jav_c_p_p_d_b_nu_d_b_8h}{Rad\+Jav\+C\+P\+P\+D\+B\+Nu\+D\+B.\+h}}\item 
+C\+:/editing/projects/\+Rad\+Jav\+Private/library/src/\+Rad\+Jav/cpp/\mbox{\hyperlink{_rad_jav_c_p_p_d_b_nu_d_b_8cpp}{Rad\+Jav\+C\+P\+P\+D\+B\+Nu\+D\+B.\+cpp}}\end{DoxyCompactItemize}

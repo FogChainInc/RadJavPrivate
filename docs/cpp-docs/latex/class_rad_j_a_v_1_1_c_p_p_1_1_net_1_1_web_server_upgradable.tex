@@ -1,0 +1,195 @@
+\hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable}{}\section{Rad\+J\+AV\+:\+:C\+PP\+:\+:Net\+:\+:Web\+Server\+Upgradable Class Reference}
+\label{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable}\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}}
+
+
+{\ttfamily \#include $<$Rad\+Jav\+C\+P\+P\+Net\+Web\+Server\+Upgradable.\+h$>$}
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_1_1_http_upgradable_session}{Http\+Upgradable\+Session}}
+\item 
+class \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_1_1_upgradable_listener}{Upgradable\+Listener}}
+\item 
+class \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_1_1_web_socket_session}{Web\+Socket\+Session}}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a0f843da55de399d229ed1e6fb83166f7}{Web\+Server\+Upgradable}} (\mbox{\hyperlink{classinspector_1_1_inspector_io_delegate}{inspector\+::\+Inspector\+Io\+Delegate}} $\ast$delegate, \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} path\+\_\+name, \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} script\+\_\+name, R\+J\+B\+O\+OL \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_ac3685eba9ae28eba3c13a4d460dfd418}{wait\+\_\+for\+\_\+connect\+\_\+}})
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a5382f1f84c73be94a2ac76f3d49c2086}{$\sim$\+Web\+Server\+Upgradable}} ()
+\item 
+void \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a5ab5c5ea00e2eabb4c735b7667132da0}{set\+I\+O\+Callback}} (\mbox{\hyperlink{classinspector_1_1_inspector_io_delegate}{inspector\+::\+Inspector\+Io\+Delegate}} $\ast$delegate)
+\item 
+void \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a962168911d70141c1d42cb2219387ec6}{listen}} (v8\+::\+Isolate $\ast$isolate, \mbox{\hyperlink{classinspector_1_1_semaphore}{inspector\+::\+Semaphore}} $\ast$lock)
+\item 
+void \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a992eec7b59439992e1d0cf65f5801884}{send}} (\mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} id, \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} message)
+\item 
+void \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_abb4e0693f8a8ccde5654a99132c3433a}{close}} ()
+\item 
+R\+J\+B\+O\+OL \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a2cd6bc7e9a7ca26ca7274bc58f8b9f82}{is\+Waiting}} ()
+\item 
+void \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_ab1c311a743c846bef92494f06baba497}{set\+Web\+Socket\+Session}} (const std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_1_1_web_socket_session}{Web\+Socket\+Session}} $>$ \&\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1session}{session}})
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+R\+J\+I\+NT \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a65733f435545dab59a4d147751dfaf32}{port}}
+\item 
+boost\+::asio\+::io\+\_\+context $\ast$ \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_ae206d180cfcbb6cef8c9ab2d57e8d087}{io\+\_\+context\+\_\+}}
+\item 
+R\+J\+B\+O\+OL \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a5873b65113b0030916e92cd242ee727c}{is\+Alive}}
+\begin{DoxyCompactList}\small\item\em Flag that indicates if listening context available. \end{DoxyCompactList}\item 
+R\+J\+B\+O\+OL \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a54fd99c70d1762886fcf7640d5489389}{is\+\_\+waiting\+\_\+}}
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a6c501945bd2385268e4ebfd68aa0b797}{path\+\_\+name\+\_\+}}
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_aa741318cd55667bc607af1b930d631c2}{script\+\_\+name\+\_\+}}
+\item 
+\mbox{\hyperlink{classinspector_1_1_inspector_io_delegate}{inspector\+::\+Inspector\+Io\+Delegate}} $\ast$ \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a11ad9a07ba96816d78b7109652eb42b3}{io\+\_\+delegate\+\_\+}}
+\item 
+R\+J\+B\+O\+OL \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_ac3685eba9ae28eba3c13a4d460dfd418}{wait\+\_\+for\+\_\+connect\+\_\+}}
+\item 
+\mbox{\hyperlink{classinspector_1_1_semaphore}{inspector\+::\+Semaphore}} $\ast$ \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a7c7f3338337922c8604d3ee5049e25b5}{lock\+\_\+}}
+\item 
+std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_1_1_web_socket_session}{Web\+Server\+Upgradable\+::\+Web\+Socket\+Session}} $>$ \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_aa5a53353fc6199b71605fe4726ae390d}{websocket\+\_\+session\+\_\+}}
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::vector$<$ std\+::pair$<$ std\+::string, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_1_1_http_upgradable_session}{Http\+Upgradable\+Session}} $>$ $>$ $>$ \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a15529848d55b789bde9482a85fd406a7}{sessions\+\_\+}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a0f843da55de399d229ed1e6fb83166f7}\label{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a0f843da55de399d229ed1e6fb83166f7}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}!Web\+Server\+Upgradable@{Web\+Server\+Upgradable}}
+\index{Web\+Server\+Upgradable@{Web\+Server\+Upgradable}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}}
+\subsubsection{\texorpdfstring{Web\+Server\+Upgradable()}{WebServerUpgradable()}}
+{\footnotesize\ttfamily Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable\+::\+Web\+Server\+Upgradable (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classinspector_1_1_inspector_io_delegate}{inspector\+::\+Inspector\+Io\+Delegate}} $\ast$}]{delegate,  }\item[{\mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}}}]{path\+\_\+name,  }\item[{\mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}}}]{script\+\_\+name,  }\item[{R\+J\+B\+O\+OL}]{wait\+\_\+for\+\_\+connect\+\_\+ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a5382f1f84c73be94a2ac76f3d49c2086}\label{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a5382f1f84c73be94a2ac76f3d49c2086}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}!````~Web\+Server\+Upgradable@{$\sim$\+Web\+Server\+Upgradable}}
+\index{````~Web\+Server\+Upgradable@{$\sim$\+Web\+Server\+Upgradable}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}}
+\subsubsection{\texorpdfstring{$\sim$\+Web\+Server\+Upgradable()}{~WebServerUpgradable()}}
+{\footnotesize\ttfamily Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable\+::$\sim$\+Web\+Server\+Upgradable (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_abb4e0693f8a8ccde5654a99132c3433a}\label{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_abb4e0693f8a8ccde5654a99132c3433a}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}!close@{close}}
+\index{close@{close}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}}
+\subsubsection{\texorpdfstring{close()}{close()}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable\+::close (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a2cd6bc7e9a7ca26ca7274bc58f8b9f82}\label{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a2cd6bc7e9a7ca26ca7274bc58f8b9f82}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}!is\+Waiting@{is\+Waiting}}
+\index{is\+Waiting@{is\+Waiting}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}}
+\subsubsection{\texorpdfstring{is\+Waiting()}{isWaiting()}}
+{\footnotesize\ttfamily R\+J\+B\+O\+OL Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable\+::is\+Waiting (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a962168911d70141c1d42cb2219387ec6}\label{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a962168911d70141c1d42cb2219387ec6}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}!listen@{listen}}
+\index{listen@{listen}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}}
+\subsubsection{\texorpdfstring{listen()}{listen()}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable\+::listen (\begin{DoxyParamCaption}\item[{v8\+::\+Isolate $\ast$}]{isolate,  }\item[{\mbox{\hyperlink{classinspector_1_1_semaphore}{inspector\+::\+Semaphore}} $\ast$}]{lock }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a992eec7b59439992e1d0cf65f5801884}\label{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a992eec7b59439992e1d0cf65f5801884}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}!send@{send}}
+\index{send@{send}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}}
+\subsubsection{\texorpdfstring{send()}{send()}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable\+::send (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}}}]{id,  }\item[{\mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}}}]{message }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a5ab5c5ea00e2eabb4c735b7667132da0}\label{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a5ab5c5ea00e2eabb4c735b7667132da0}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}!set\+I\+O\+Callback@{set\+I\+O\+Callback}}
+\index{set\+I\+O\+Callback@{set\+I\+O\+Callback}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}}
+\subsubsection{\texorpdfstring{set\+I\+O\+Callback()}{setIOCallback()}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable\+::set\+I\+O\+Callback (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classinspector_1_1_inspector_io_delegate}{inspector\+::\+Inspector\+Io\+Delegate}} $\ast$}]{delegate }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_ab1c311a743c846bef92494f06baba497}\label{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_ab1c311a743c846bef92494f06baba497}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}!set\+Web\+Socket\+Session@{set\+Web\+Socket\+Session}}
+\index{set\+Web\+Socket\+Session@{set\+Web\+Socket\+Session}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}}
+\subsubsection{\texorpdfstring{set\+Web\+Socket\+Session()}{setWebSocketSession()}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable\+::set\+Web\+Socket\+Session (\begin{DoxyParamCaption}\item[{const std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_1_1_web_socket_session}{Web\+Socket\+Session}} $>$ \&}]{session }\end{DoxyParamCaption})}
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_ae206d180cfcbb6cef8c9ab2d57e8d087}\label{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_ae206d180cfcbb6cef8c9ab2d57e8d087}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}!io\+\_\+context\+\_\+@{io\+\_\+context\+\_\+}}
+\index{io\+\_\+context\+\_\+@{io\+\_\+context\+\_\+}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}}
+\subsubsection{\texorpdfstring{io\+\_\+context\+\_\+}{io\_context\_}}
+{\footnotesize\ttfamily boost\+::asio\+::io\+\_\+context$\ast$ Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable\+::io\+\_\+context\+\_\+}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a11ad9a07ba96816d78b7109652eb42b3}\label{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a11ad9a07ba96816d78b7109652eb42b3}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}!io\+\_\+delegate\+\_\+@{io\+\_\+delegate\+\_\+}}
+\index{io\+\_\+delegate\+\_\+@{io\+\_\+delegate\+\_\+}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}}
+\subsubsection{\texorpdfstring{io\+\_\+delegate\+\_\+}{io\_delegate\_}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classinspector_1_1_inspector_io_delegate}{inspector\+::\+Inspector\+Io\+Delegate}}$\ast$ Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable\+::io\+\_\+delegate\+\_\+}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a54fd99c70d1762886fcf7640d5489389}\label{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a54fd99c70d1762886fcf7640d5489389}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}!is\+\_\+waiting\+\_\+@{is\+\_\+waiting\+\_\+}}
+\index{is\+\_\+waiting\+\_\+@{is\+\_\+waiting\+\_\+}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}}
+\subsubsection{\texorpdfstring{is\+\_\+waiting\+\_\+}{is\_waiting\_}}
+{\footnotesize\ttfamily R\+J\+B\+O\+OL Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable\+::is\+\_\+waiting\+\_\+}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a5873b65113b0030916e92cd242ee727c}\label{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a5873b65113b0030916e92cd242ee727c}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}!is\+Alive@{is\+Alive}}
+\index{is\+Alive@{is\+Alive}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}}
+\subsubsection{\texorpdfstring{is\+Alive}{isAlive}}
+{\footnotesize\ttfamily R\+J\+B\+O\+OL Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable\+::is\+Alive}
+
+
+
+Flag that indicates if listening context available. 
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a7c7f3338337922c8604d3ee5049e25b5}\label{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a7c7f3338337922c8604d3ee5049e25b5}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}!lock\+\_\+@{lock\+\_\+}}
+\index{lock\+\_\+@{lock\+\_\+}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}}
+\subsubsection{\texorpdfstring{lock\+\_\+}{lock\_}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classinspector_1_1_semaphore}{inspector\+::\+Semaphore}}$\ast$ Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable\+::lock\+\_\+}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a6c501945bd2385268e4ebfd68aa0b797}\label{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a6c501945bd2385268e4ebfd68aa0b797}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}!path\+\_\+name\+\_\+@{path\+\_\+name\+\_\+}}
+\index{path\+\_\+name\+\_\+@{path\+\_\+name\+\_\+}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}}
+\subsubsection{\texorpdfstring{path\+\_\+name\+\_\+}{path\_name\_}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable\+::path\+\_\+name\+\_\+}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a65733f435545dab59a4d147751dfaf32}\label{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a65733f435545dab59a4d147751dfaf32}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}!port@{port}}
+\index{port@{port}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}}
+\subsubsection{\texorpdfstring{port}{port}}
+{\footnotesize\ttfamily R\+J\+I\+NT Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable\+::port}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_aa741318cd55667bc607af1b930d631c2}\label{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_aa741318cd55667bc607af1b930d631c2}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}!script\+\_\+name\+\_\+@{script\+\_\+name\+\_\+}}
+\index{script\+\_\+name\+\_\+@{script\+\_\+name\+\_\+}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}}
+\subsubsection{\texorpdfstring{script\+\_\+name\+\_\+}{script\_name\_}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable\+::script\+\_\+name\+\_\+}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a15529848d55b789bde9482a85fd406a7}\label{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_a15529848d55b789bde9482a85fd406a7}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}!sessions\+\_\+@{sessions\+\_\+}}
+\index{sessions\+\_\+@{sessions\+\_\+}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}}
+\subsubsection{\texorpdfstring{sessions\+\_\+}{sessions\_}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::pair$<$ std\+::string, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_1_1_http_upgradable_session}{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable\+::\+Http\+Upgradable\+Session}} $>$ $>$ $>$ Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable\+::sessions\+\_\+\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_ac3685eba9ae28eba3c13a4d460dfd418}\label{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_ac3685eba9ae28eba3c13a4d460dfd418}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}!wait\+\_\+for\+\_\+connect\+\_\+@{wait\+\_\+for\+\_\+connect\+\_\+}}
+\index{wait\+\_\+for\+\_\+connect\+\_\+@{wait\+\_\+for\+\_\+connect\+\_\+}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}}
+\subsubsection{\texorpdfstring{wait\+\_\+for\+\_\+connect\+\_\+}{wait\_for\_connect\_}}
+{\footnotesize\ttfamily R\+J\+B\+O\+OL Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable\+::wait\+\_\+for\+\_\+connect\+\_\+}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_aa5a53353fc6199b71605fe4726ae390d}\label{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_aa5a53353fc6199b71605fe4726ae390d}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}!websocket\+\_\+session\+\_\+@{websocket\+\_\+session\+\_\+}}
+\index{websocket\+\_\+session\+\_\+@{websocket\+\_\+session\+\_\+}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable}}
+\subsubsection{\texorpdfstring{websocket\+\_\+session\+\_\+}{websocket\_session\_}}
+{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_upgradable_1_1_web_socket_session}{Web\+Server\+Upgradable\+::\+Web\+Socket\+Session}}$>$ Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+Upgradable\+::websocket\+\_\+session\+\_\+}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/editing/projects/\+Rad\+Jav\+Private/library/include/\+Rad\+Jav/cpp/\mbox{\hyperlink{_rad_jav_c_p_p_net_web_server_upgradable_8h}{Rad\+Jav\+C\+P\+P\+Net\+Web\+Server\+Upgradable.\+h}}\item 
+C\+:/editing/projects/\+Rad\+Jav\+Private/library/src/\+Rad\+Jav/cpp/\mbox{\hyperlink{_rad_jav_c_p_p_net_web_server_upgradable_8cpp}{Rad\+Jav\+C\+P\+P\+Net\+Web\+Server\+Upgradable.\+cpp}}\end{DoxyCompactItemize}

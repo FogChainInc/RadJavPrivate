@@ -1,0 +1,189 @@
+\hypertarget{class_rad_j_a_v_1_1_chained_ptr_wrapper}{}\section{Rad\+J\+AV\+:\+:Chained\+Ptr\+Wrapper Class Reference}
+\label{class_rad_j_a_v_1_1_chained_ptr_wrapper}\index{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper@{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper}}
+
+
+{\ttfamily \#include $<$Rad\+Jav\+V8\+Externals\+Details.\+h$>$}
+
+Inheritance diagram for Rad\+J\+AV\+:\+:Chained\+Ptr\+Wrapper\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_rad_j_a_v_1_1_chained_ptr_wrapper}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_chained_ptr_wrapper_a1daff75cc44ea958d7f9bceb1650c428}{Chained\+Ptr\+Wrapper}} (uint32\+\_\+t \mbox{\hyperlink{class_rad_j_a_v_1_1_field_wrapper_a52fee51d56bf3d90f34c48bf89977a0d}{object\+Id}}, J\+S\+Context\+Ref context, J\+S\+Object\+Ref handle, const \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \&function\+Name, \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr}{C\+P\+P\+::\+Chained\+Ptr}} $\ast$data)
+\item 
+virtual \mbox{\hyperlink{class_rad_j_a_v_1_1_chained_ptr_wrapper_a28ffde69467975bd375966be1cf9aee7}{$\sim$\+Chained\+Ptr\+Wrapper}} ()
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr}{C\+P\+P\+::\+Chained\+Ptr}} $\ast$ \mbox{\hyperlink{class_rad_j_a_v_1_1_chained_ptr_wrapper_a5ca8bc694df93d22959d2668e63c3263}{object\+Ptr}} ()
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_chained_ptr_wrapper_a9c8832586ffa31dcb59c986a5c495e79}{Chained\+Ptr\+Wrapper}} (const v8\+::\+Local$<$ v8\+::\+Object $>$ \&handle, const v8\+::\+Local$<$ v8\+::\+Object $>$ \&object\+Instance, uint32\+\_\+t \mbox{\hyperlink{class_rad_j_a_v_1_1_field_wrapper_a52fee51d56bf3d90f34c48bf89977a0d}{object\+Id}}, \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr}{C\+P\+P\+::\+Chained\+Ptr}} $\ast$data)
+\item 
+virtual \mbox{\hyperlink{class_rad_j_a_v_1_1_chained_ptr_wrapper_adb3655d19f2bc457c0c2268538f1a2e6}{$\sim$\+Chained\+Ptr\+Wrapper}} ()
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr}{C\+P\+P\+::\+Chained\+Ptr}} $\ast$ \mbox{\hyperlink{class_rad_j_a_v_1_1_chained_ptr_wrapper_ab3d920de1c5ef05ac0e746ae6861bc8c}{object\+Ptr}} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \mbox{\hyperlink{class_rad_j_a_v_1_1_chained_ptr_wrapper_a67bedd9d4f6d9a17ba8bdb55cf278622}{wrap}} ()
+\item 
+void \mbox{\hyperlink{class_rad_j_a_v_1_1_chained_ptr_wrapper_a23a12b88be6d3f105e8f3cb0f51719f9}{object\+Destroyed}} ()
+\item 
+virtual void \mbox{\hyperlink{class_rad_j_a_v_1_1_chained_ptr_wrapper_a9646fcba4762ab0026c5012041d27fbb}{wrap}} (const v8\+::\+Local$<$ v8\+::\+Object $>$ \&handle, const v8\+::\+Local$<$ v8\+::\+Object $>$ \&object\+Instance)
+\item 
+void \mbox{\hyperlink{class_rad_j_a_v_1_1_chained_ptr_wrapper_a23a12b88be6d3f105e8f3cb0f51719f9}{object\+Destroyed}} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr_hook}{C\+P\+P\+::\+Chained\+Ptr\+Hook}} $\ast$ \mbox{\hyperlink{class_rad_j_a_v_1_1_chained_ptr_wrapper_a949aa9e63d756b057d5063a6dbf60527}{object\+Hook}}
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr}{C\+P\+P\+::\+Chained\+Ptr}} $\ast$ \mbox{\hyperlink{class_rad_j_a_v_1_1_chained_ptr_wrapper_a202fc8939e1fa5b19bc235642141023a}{object}}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+Class to wrap Chained\+Ptr derived C++ objects within V8. This class will hook on object destruction from C++ side as well as listen for garbage collector weak callback for underlying object. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_chained_ptr_wrapper_a1daff75cc44ea958d7f9bceb1650c428}\label{class_rad_j_a_v_1_1_chained_ptr_wrapper_a1daff75cc44ea958d7f9bceb1650c428}} 
+\index{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper@{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper}!Chained\+Ptr\+Wrapper@{Chained\+Ptr\+Wrapper}}
+\index{Chained\+Ptr\+Wrapper@{Chained\+Ptr\+Wrapper}!Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper@{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper}}
+\subsubsection{\texorpdfstring{Chained\+Ptr\+Wrapper()}{ChainedPtrWrapper()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper\+::\+Chained\+Ptr\+Wrapper (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{object\+Id,  }\item[{J\+S\+Context\+Ref}]{context,  }\item[{J\+S\+Object\+Ref}]{handle,  }\item[{const \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \&}]{function\+Name,  }\item[{\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr}{C\+P\+P\+::\+Chained\+Ptr}} $\ast$}]{data }\end{DoxyParamCaption})}
+
+A constructor. 
+\begin{DoxyParams}{Parameters}
+{\em object\+Id} & is a unique ID of external object. \\
+\hline
+{\em context} & Javascript virtual machine context. \\
+\hline
+{\em handle} & Javascript object to which we attach C++ object. \\
+\hline
+{\em function\+Name} & Javascript object\textquotesingle{}s property name to which we attach C++ object. \\
+\hline
+{\em data} & a pointer to Chained\+Ptr derived class which will be exposed to V8. Object can be deleted from C++ or V8 side. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_chained_ptr_wrapper_a28ffde69467975bd375966be1cf9aee7}\label{class_rad_j_a_v_1_1_chained_ptr_wrapper_a28ffde69467975bd375966be1cf9aee7}} 
+\index{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper@{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper}!````~Chained\+Ptr\+Wrapper@{$\sim$\+Chained\+Ptr\+Wrapper}}
+\index{````~Chained\+Ptr\+Wrapper@{$\sim$\+Chained\+Ptr\+Wrapper}!Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper@{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper}}
+\subsubsection{\texorpdfstring{$\sim$\+Chained\+Ptr\+Wrapper()}{~ChainedPtrWrapper()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper\+::$\sim$\+Chained\+Ptr\+Wrapper (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+A destructor. \mbox{\Hypertarget{class_rad_j_a_v_1_1_chained_ptr_wrapper_a9c8832586ffa31dcb59c986a5c495e79}\label{class_rad_j_a_v_1_1_chained_ptr_wrapper_a9c8832586ffa31dcb59c986a5c495e79}} 
+\index{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper@{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper}!Chained\+Ptr\+Wrapper@{Chained\+Ptr\+Wrapper}}
+\index{Chained\+Ptr\+Wrapper@{Chained\+Ptr\+Wrapper}!Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper@{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper}}
+\subsubsection{\texorpdfstring{Chained\+Ptr\+Wrapper()}{ChainedPtrWrapper()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper\+::\+Chained\+Ptr\+Wrapper (\begin{DoxyParamCaption}\item[{const v8\+::\+Local$<$ v8\+::\+Object $>$ \&}]{handle,  }\item[{const v8\+::\+Local$<$ v8\+::\+Object $>$ \&}]{object\+Instance,  }\item[{uint32\+\_\+t}]{object\+Id,  }\item[{\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr}{C\+P\+P\+::\+Chained\+Ptr}} $\ast$}]{data }\end{DoxyParamCaption})}
+
+A constructor. 
+\begin{DoxyParams}{Parameters}
+{\em handle} & a context to which we will add new V8 object. \\
+\hline
+{\em object\+Instance} & a newly created Object\+Template instance for external object. \\
+\hline
+{\em object\+Id} & a unique ID of external object. \\
+\hline
+{\em data} & a pointer to Chained\+Ptr derived class which will be exposed to V8. Object can be deleted from C++ or V8 side. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_chained_ptr_wrapper_adb3655d19f2bc457c0c2268538f1a2e6}\label{class_rad_j_a_v_1_1_chained_ptr_wrapper_adb3655d19f2bc457c0c2268538f1a2e6}} 
+\index{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper@{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper}!````~Chained\+Ptr\+Wrapper@{$\sim$\+Chained\+Ptr\+Wrapper}}
+\index{````~Chained\+Ptr\+Wrapper@{$\sim$\+Chained\+Ptr\+Wrapper}!Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper@{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper}}
+\subsubsection{\texorpdfstring{$\sim$\+Chained\+Ptr\+Wrapper()}{~ChainedPtrWrapper()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily virtual Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper\+::$\sim$\+Chained\+Ptr\+Wrapper (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+A destructor. 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_chained_ptr_wrapper_a23a12b88be6d3f105e8f3cb0f51719f9}\label{class_rad_j_a_v_1_1_chained_ptr_wrapper_a23a12b88be6d3f105e8f3cb0f51719f9}} 
+\index{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper@{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper}!object\+Destroyed@{object\+Destroyed}}
+\index{object\+Destroyed@{object\+Destroyed}!Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper@{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper}}
+\subsubsection{\texorpdfstring{object\+Destroyed()}{objectDestroyed()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper\+::object\+Destroyed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Notification on raw pointer destruction. \begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_chained_ptr_wrapper_a23a12b88be6d3f105e8f3cb0f51719f9}\label{class_rad_j_a_v_1_1_chained_ptr_wrapper_a23a12b88be6d3f105e8f3cb0f51719f9}} 
+\index{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper@{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper}!object\+Destroyed@{object\+Destroyed}}
+\index{object\+Destroyed@{object\+Destroyed}!Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper@{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper}}
+\subsubsection{\texorpdfstring{object\+Destroyed()}{objectDestroyed()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper\+::object\+Destroyed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Notification on raw pointer destruction. \begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_chained_ptr_wrapper_ab3d920de1c5ef05ac0e746ae6861bc8c}\label{class_rad_j_a_v_1_1_chained_ptr_wrapper_ab3d920de1c5ef05ac0e746ae6861bc8c}} 
+\index{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper@{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper}!object\+Ptr@{object\+Ptr}}
+\index{object\+Ptr@{object\+Ptr}!Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper@{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper}}
+\subsubsection{\texorpdfstring{object\+Ptr()}{objectPtr()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr}{C\+P\+P\+::\+Chained\+Ptr}}$\ast$ Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper\+::object\+Ptr (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Get underlying external object. \begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr}{C\+P\+P\+::\+Chained\+Ptr}} a pointer to external object. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_chained_ptr_wrapper_a5ca8bc694df93d22959d2668e63c3263}\label{class_rad_j_a_v_1_1_chained_ptr_wrapper_a5ca8bc694df93d22959d2668e63c3263}} 
+\index{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper@{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper}!object\+Ptr@{object\+Ptr}}
+\index{object\+Ptr@{object\+Ptr}!Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper@{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper}}
+\subsubsection{\texorpdfstring{object\+Ptr()}{objectPtr()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr}{C\+P\+P\+::\+Chained\+Ptr}} $\ast$ Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper\+::object\+Ptr (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Get underlying external object. \begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr}{C\+P\+P\+::\+Chained\+Ptr}} a pointer to external object. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_chained_ptr_wrapper_a9646fcba4762ab0026c5012041d27fbb}\label{class_rad_j_a_v_1_1_chained_ptr_wrapper_a9646fcba4762ab0026c5012041d27fbb}} 
+\index{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper@{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper}!wrap@{wrap}}
+\index{wrap@{wrap}!Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper@{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper}}
+\subsubsection{\texorpdfstring{wrap()}{wrap()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper\+::wrap (\begin{DoxyParamCaption}\item[{const v8\+::\+Local$<$ v8\+::\+Object $>$ \&}]{handle,  }\item[{const v8\+::\+Local$<$ v8\+::\+Object $>$ \&}]{object\+Instance }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+Hook on C++ object destruction and subscribe to garbage collector event. 
+\begin{DoxyParams}{Parameters}
+{\em handle} & is a context to which we plan to add new V8 object. \\
+\hline
+{\em object\+Instance} & a newly created Object\+Template instance for external object. \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \mbox{\hyperlink{class_rad_j_a_v_1_1_field_wrapper_a5655f520b977aa317ff7d35eea65d3ff}{Rad\+J\+A\+V\+::\+Field\+Wrapper}}.
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_chained_ptr_wrapper_a67bedd9d4f6d9a17ba8bdb55cf278622}\label{class_rad_j_a_v_1_1_chained_ptr_wrapper_a67bedd9d4f6d9a17ba8bdb55cf278622}} 
+\index{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper@{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper}!wrap@{wrap}}
+\index{wrap@{wrap}!Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper@{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper}}
+\subsubsection{\texorpdfstring{wrap()}{wrap()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper\+::wrap (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+Hook on C++ object destruction and subscribe to garbage collector event. 
+
+Reimplemented from \mbox{\hyperlink{class_rad_j_a_v_1_1_field_wrapper_ad13be4dd179dbfe1e84264597d7f750f}{Rad\+J\+A\+V\+::\+Field\+Wrapper}}.
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_chained_ptr_wrapper_a202fc8939e1fa5b19bc235642141023a}\label{class_rad_j_a_v_1_1_chained_ptr_wrapper_a202fc8939e1fa5b19bc235642141023a}} 
+\index{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper@{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper}!object@{object}}
+\index{object@{object}!Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper@{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper}}
+\subsubsection{\texorpdfstring{object}{object}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr}{C\+P\+P\+::\+Chained\+Ptr}} $\ast$ Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper\+::object\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_chained_ptr_wrapper_a949aa9e63d756b057d5063a6dbf60527}\label{class_rad_j_a_v_1_1_chained_ptr_wrapper_a949aa9e63d756b057d5063a6dbf60527}} 
+\index{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper@{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper}!object\+Hook@{object\+Hook}}
+\index{object\+Hook@{object\+Hook}!Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper@{Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper}}
+\subsubsection{\texorpdfstring{object\+Hook}{objectHook}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr_hook}{C\+P\+P\+::\+Chained\+Ptr\+Hook}} $\ast$ Rad\+J\+A\+V\+::\+Chained\+Ptr\+Wrapper\+::object\+Hook\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/editing/projects/\+Rad\+Jav\+Private/library/include/\+Rad\+Jav/jscore/\mbox{\hyperlink{_rad_jav_j_s_c_externals_details_8h}{Rad\+Jav\+J\+S\+C\+Externals\+Details.\+h}}\item 
+C\+:/editing/projects/\+Rad\+Jav\+Private/library/include/\+Rad\+Jav/v8/\mbox{\hyperlink{_rad_jav_v8_externals_details_8h}{Rad\+Jav\+V8\+Externals\+Details.\+h}}\item 
+C\+:/editing/projects/\+Rad\+Jav\+Private/library/src/\+Rad\+Jav/jscore/\mbox{\hyperlink{_rad_jav_j_s_c_externals_details_8cpp}{Rad\+Jav\+J\+S\+C\+Externals\+Details.\+cpp}}\item 
+C\+:/editing/projects/\+Rad\+Jav\+Private/library/src/\+Rad\+Jav/v8/\mbox{\hyperlink{_rad_jav_v8_externals_details_8cpp}{Rad\+Jav\+V8\+Externals\+Details.\+cpp}}\end{DoxyCompactItemize}

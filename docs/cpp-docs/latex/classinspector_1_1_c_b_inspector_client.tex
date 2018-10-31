@@ -1,0 +1,110 @@
+\hypertarget{classinspector_1_1_c_b_inspector_client}{}\section{inspector\+:\+:C\+B\+Inspector\+Client Class Reference}
+\label{classinspector_1_1_c_b_inspector_client}\index{inspector\+::\+C\+B\+Inspector\+Client@{inspector\+::\+C\+B\+Inspector\+Client}}
+Inheritance diagram for inspector\+:\+:C\+B\+Inspector\+Client\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classinspector_1_1_c_b_inspector_client}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classinspector_1_1_c_b_inspector_client_a5e0ddb4458f4d7a7b16a8f4f9d955f70}{C\+B\+Inspector\+Client}} (Isolate $\ast$isolate, Platform $\ast$platform)
+\item 
+void \mbox{\hyperlink{classinspector_1_1_c_b_inspector_client_a8a843f3bce892f6783e2922af400ea1c}{run\+Message\+Loop\+On\+Pause}} (int context\+\_\+group\+\_\+id) override
+\item 
+void \mbox{\hyperlink{classinspector_1_1_c_b_inspector_client_a74e9cfc2194154c0693faf7e45537966}{context\+Created}} (Local$<$ Context $>$ context, const std\+::string \&name) const
+\item 
+void \mbox{\hyperlink{classinspector_1_1_c_b_inspector_client_a7512904397a0f56bd7fe5b207fd4ee7f}{context\+Destroyed}} (Local$<$ Context $>$ context) const
+\item 
+void \mbox{\hyperlink{classinspector_1_1_c_b_inspector_client_a913af0acbac66792151c2586bc1350f5}{quit\+Message\+Loop\+On\+Pause}} () override
+\item 
+void \mbox{\hyperlink{classinspector_1_1_c_b_inspector_client_ab1d65056efa2615c49cc985a6f0d2653}{connect\+Frontend}} (\mbox{\hyperlink{classinspector_1_1_inspector_session_delegate}{Inspector\+Session\+Delegate}} $\ast$delegate)
+\item 
+void \mbox{\hyperlink{classinspector_1_1_c_b_inspector_client_ab6ae958fce8cf9c4f3a25128e32ef754}{disconnect\+Frontend}} ()
+\item 
+void \mbox{\hyperlink{classinspector_1_1_c_b_inspector_client_a9f61476ac61af0fdabc43d2bc54344f5}{dispatch\+Message\+From\+Frontend}} (const v8\+\_\+inspector\+::\+String\+View \&message) const
+\item 
+Local$<$ Context $>$ \mbox{\hyperlink{classinspector_1_1_c_b_inspector_client_acfdf0a7e23981d91d0c598d485fa812a}{ensure\+Default\+Context\+In\+Group}} (int context\+Group\+Id) override
+\item 
+void \mbox{\hyperlink{classinspector_1_1_c_b_inspector_client_a6ec1748a7c5b7c65f8e0c80250370a94}{Fatal\+Exception}} (Local$<$ Value $>$ error, Local$<$ Message $>$ message)
+\item 
+Channel\+Impl $\ast$ \mbox{\hyperlink{classinspector_1_1_c_b_inspector_client_a1ecc6bddebf295359d5f6b1e1316c56a}{channel}} () const
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classinspector_1_1_c_b_inspector_client_a5e0ddb4458f4d7a7b16a8f4f9d955f70}\label{classinspector_1_1_c_b_inspector_client_a5e0ddb4458f4d7a7b16a8f4f9d955f70}} 
+\index{inspector\+::\+C\+B\+Inspector\+Client@{inspector\+::\+C\+B\+Inspector\+Client}!C\+B\+Inspector\+Client@{C\+B\+Inspector\+Client}}
+\index{C\+B\+Inspector\+Client@{C\+B\+Inspector\+Client}!inspector\+::\+C\+B\+Inspector\+Client@{inspector\+::\+C\+B\+Inspector\+Client}}
+\subsubsection{\texorpdfstring{C\+B\+Inspector\+Client()}{CBInspectorClient()}}
+{\footnotesize\ttfamily inspector\+::\+C\+B\+Inspector\+Client\+::\+C\+B\+Inspector\+Client (\begin{DoxyParamCaption}\item[{Isolate $\ast$}]{isolate,  }\item[{Platform $\ast$}]{platform }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classinspector_1_1_c_b_inspector_client_a1ecc6bddebf295359d5f6b1e1316c56a}\label{classinspector_1_1_c_b_inspector_client_a1ecc6bddebf295359d5f6b1e1316c56a}} 
+\index{inspector\+::\+C\+B\+Inspector\+Client@{inspector\+::\+C\+B\+Inspector\+Client}!channel@{channel}}
+\index{channel@{channel}!inspector\+::\+C\+B\+Inspector\+Client@{inspector\+::\+C\+B\+Inspector\+Client}}
+\subsubsection{\texorpdfstring{channel()}{channel()}}
+{\footnotesize\ttfamily Channel\+Impl$\ast$ inspector\+::\+C\+B\+Inspector\+Client\+::channel (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classinspector_1_1_c_b_inspector_client_ab1d65056efa2615c49cc985a6f0d2653}\label{classinspector_1_1_c_b_inspector_client_ab1d65056efa2615c49cc985a6f0d2653}} 
+\index{inspector\+::\+C\+B\+Inspector\+Client@{inspector\+::\+C\+B\+Inspector\+Client}!connect\+Frontend@{connect\+Frontend}}
+\index{connect\+Frontend@{connect\+Frontend}!inspector\+::\+C\+B\+Inspector\+Client@{inspector\+::\+C\+B\+Inspector\+Client}}
+\subsubsection{\texorpdfstring{connect\+Frontend()}{connectFrontend()}}
+{\footnotesize\ttfamily void inspector\+::\+C\+B\+Inspector\+Client\+::connect\+Frontend (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classinspector_1_1_inspector_session_delegate}{Inspector\+Session\+Delegate}} $\ast$}]{delegate }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classinspector_1_1_c_b_inspector_client_a74e9cfc2194154c0693faf7e45537966}\label{classinspector_1_1_c_b_inspector_client_a74e9cfc2194154c0693faf7e45537966}} 
+\index{inspector\+::\+C\+B\+Inspector\+Client@{inspector\+::\+C\+B\+Inspector\+Client}!context\+Created@{context\+Created}}
+\index{context\+Created@{context\+Created}!inspector\+::\+C\+B\+Inspector\+Client@{inspector\+::\+C\+B\+Inspector\+Client}}
+\subsubsection{\texorpdfstring{context\+Created()}{contextCreated()}}
+{\footnotesize\ttfamily void inspector\+::\+C\+B\+Inspector\+Client\+::context\+Created (\begin{DoxyParamCaption}\item[{Local$<$ Context $>$}]{context,  }\item[{const std\+::string \&}]{name }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classinspector_1_1_c_b_inspector_client_a7512904397a0f56bd7fe5b207fd4ee7f}\label{classinspector_1_1_c_b_inspector_client_a7512904397a0f56bd7fe5b207fd4ee7f}} 
+\index{inspector\+::\+C\+B\+Inspector\+Client@{inspector\+::\+C\+B\+Inspector\+Client}!context\+Destroyed@{context\+Destroyed}}
+\index{context\+Destroyed@{context\+Destroyed}!inspector\+::\+C\+B\+Inspector\+Client@{inspector\+::\+C\+B\+Inspector\+Client}}
+\subsubsection{\texorpdfstring{context\+Destroyed()}{contextDestroyed()}}
+{\footnotesize\ttfamily void inspector\+::\+C\+B\+Inspector\+Client\+::context\+Destroyed (\begin{DoxyParamCaption}\item[{Local$<$ Context $>$}]{context }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classinspector_1_1_c_b_inspector_client_ab6ae958fce8cf9c4f3a25128e32ef754}\label{classinspector_1_1_c_b_inspector_client_ab6ae958fce8cf9c4f3a25128e32ef754}} 
+\index{inspector\+::\+C\+B\+Inspector\+Client@{inspector\+::\+C\+B\+Inspector\+Client}!disconnect\+Frontend@{disconnect\+Frontend}}
+\index{disconnect\+Frontend@{disconnect\+Frontend}!inspector\+::\+C\+B\+Inspector\+Client@{inspector\+::\+C\+B\+Inspector\+Client}}
+\subsubsection{\texorpdfstring{disconnect\+Frontend()}{disconnectFrontend()}}
+{\footnotesize\ttfamily void inspector\+::\+C\+B\+Inspector\+Client\+::disconnect\+Frontend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classinspector_1_1_c_b_inspector_client_a9f61476ac61af0fdabc43d2bc54344f5}\label{classinspector_1_1_c_b_inspector_client_a9f61476ac61af0fdabc43d2bc54344f5}} 
+\index{inspector\+::\+C\+B\+Inspector\+Client@{inspector\+::\+C\+B\+Inspector\+Client}!dispatch\+Message\+From\+Frontend@{dispatch\+Message\+From\+Frontend}}
+\index{dispatch\+Message\+From\+Frontend@{dispatch\+Message\+From\+Frontend}!inspector\+::\+C\+B\+Inspector\+Client@{inspector\+::\+C\+B\+Inspector\+Client}}
+\subsubsection{\texorpdfstring{dispatch\+Message\+From\+Frontend()}{dispatchMessageFromFrontend()}}
+{\footnotesize\ttfamily void inspector\+::\+C\+B\+Inspector\+Client\+::dispatch\+Message\+From\+Frontend (\begin{DoxyParamCaption}\item[{const v8\+\_\+inspector\+::\+String\+View \&}]{message }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classinspector_1_1_c_b_inspector_client_acfdf0a7e23981d91d0c598d485fa812a}\label{classinspector_1_1_c_b_inspector_client_acfdf0a7e23981d91d0c598d485fa812a}} 
+\index{inspector\+::\+C\+B\+Inspector\+Client@{inspector\+::\+C\+B\+Inspector\+Client}!ensure\+Default\+Context\+In\+Group@{ensure\+Default\+Context\+In\+Group}}
+\index{ensure\+Default\+Context\+In\+Group@{ensure\+Default\+Context\+In\+Group}!inspector\+::\+C\+B\+Inspector\+Client@{inspector\+::\+C\+B\+Inspector\+Client}}
+\subsubsection{\texorpdfstring{ensure\+Default\+Context\+In\+Group()}{ensureDefaultContextInGroup()}}
+{\footnotesize\ttfamily Local$<$Context$>$ inspector\+::\+C\+B\+Inspector\+Client\+::ensure\+Default\+Context\+In\+Group (\begin{DoxyParamCaption}\item[{int}]{context\+Group\+Id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}}
+
+\mbox{\Hypertarget{classinspector_1_1_c_b_inspector_client_a6ec1748a7c5b7c65f8e0c80250370a94}\label{classinspector_1_1_c_b_inspector_client_a6ec1748a7c5b7c65f8e0c80250370a94}} 
+\index{inspector\+::\+C\+B\+Inspector\+Client@{inspector\+::\+C\+B\+Inspector\+Client}!Fatal\+Exception@{Fatal\+Exception}}
+\index{Fatal\+Exception@{Fatal\+Exception}!inspector\+::\+C\+B\+Inspector\+Client@{inspector\+::\+C\+B\+Inspector\+Client}}
+\subsubsection{\texorpdfstring{Fatal\+Exception()}{FatalException()}}
+{\footnotesize\ttfamily void inspector\+::\+C\+B\+Inspector\+Client\+::\+Fatal\+Exception (\begin{DoxyParamCaption}\item[{Local$<$ Value $>$}]{error,  }\item[{Local$<$ Message $>$}]{message }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classinspector_1_1_c_b_inspector_client_a913af0acbac66792151c2586bc1350f5}\label{classinspector_1_1_c_b_inspector_client_a913af0acbac66792151c2586bc1350f5}} 
+\index{inspector\+::\+C\+B\+Inspector\+Client@{inspector\+::\+C\+B\+Inspector\+Client}!quit\+Message\+Loop\+On\+Pause@{quit\+Message\+Loop\+On\+Pause}}
+\index{quit\+Message\+Loop\+On\+Pause@{quit\+Message\+Loop\+On\+Pause}!inspector\+::\+C\+B\+Inspector\+Client@{inspector\+::\+C\+B\+Inspector\+Client}}
+\subsubsection{\texorpdfstring{quit\+Message\+Loop\+On\+Pause()}{quitMessageLoopOnPause()}}
+{\footnotesize\ttfamily void inspector\+::\+C\+B\+Inspector\+Client\+::quit\+Message\+Loop\+On\+Pause (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}}
+
+\mbox{\Hypertarget{classinspector_1_1_c_b_inspector_client_a8a843f3bce892f6783e2922af400ea1c}\label{classinspector_1_1_c_b_inspector_client_a8a843f3bce892f6783e2922af400ea1c}} 
+\index{inspector\+::\+C\+B\+Inspector\+Client@{inspector\+::\+C\+B\+Inspector\+Client}!run\+Message\+Loop\+On\+Pause@{run\+Message\+Loop\+On\+Pause}}
+\index{run\+Message\+Loop\+On\+Pause@{run\+Message\+Loop\+On\+Pause}!inspector\+::\+C\+B\+Inspector\+Client@{inspector\+::\+C\+B\+Inspector\+Client}}
+\subsubsection{\texorpdfstring{run\+Message\+Loop\+On\+Pause()}{runMessageLoopOnPause()}}
+{\footnotesize\ttfamily void inspector\+::\+C\+B\+Inspector\+Client\+::run\+Message\+Loop\+On\+Pause (\begin{DoxyParamCaption}\item[{int}]{context\+\_\+group\+\_\+id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/editing/projects/\+Rad\+Jav\+Private/library/src/\+Rad\+Jav/cpp/\mbox{\hyperlink{_rad_jav_c_p_p_agent_8cpp}{Rad\+Jav\+C\+P\+P\+Agent.\+cpp}}\end{DoxyCompactItemize}

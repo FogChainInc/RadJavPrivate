@@ -1,0 +1,158 @@
+\hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server}{}\section{Rad\+J\+AV\+:\+:C\+PP\+:\+:Net\+:\+:Web\+Server Class Reference}
+\label{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server}\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server}}
+
+
+{\ttfamily \#include $<$Rad\+Jav\+C\+P\+P\+Net\+Web\+Server.\+h$>$}
+
+Inheritance diagram for Rad\+J\+AV\+:\+:C\+PP\+:\+:Net\+:\+:Web\+Server\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_af2c46256a8c7aea65bed90fc926d53d6}{Web\+Server}} ()
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_a1a3c683880d5a6e32ccb2e422ddcf8e4}{$\sim$\+Web\+Server}} ()
+\item 
+void \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_aa57a4f9c9bb0723c90a35bedc23050b9}{listen}} (R\+J\+I\+NT \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_a3a63ccc0c5a30a5a1c2a6e5ce0f1fe71}{port}}=0)
+\begin{DoxyCompactList}\small\item\em Listen for any incoming connections. Default 0 port will use port member value instead of wildcard. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_aa381d9e00b48933d4464363fbc6e6f9c}{serve}} (v8\+::\+Local$<$ v8\+::\+Function $>$ function)
+\begin{DoxyCompactList}\small\item\em Serve any G\+ET or P\+O\+ST requests. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_a09b9b9c874b2994607721f8aa3d8f985}{serve}} (J\+S\+Object\+Ref function)
+\begin{DoxyCompactList}\small\item\em Serve any G\+ET or P\+O\+ST requests. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_ad89e7fcb25a82d69640e09b8f54bebb4}{stop}} ()
+\begin{DoxyCompactList}\small\item\em Stop the web server. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+v8\+::\+Persistent$<$ v8\+::\+Function $>$ $\ast$ \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_a9e83c85bf817e2d9b698295ac44f0593}{serve\+Persistent}}
+\begin{DoxyCompactList}\small\item\em The V8 serve function. \end{DoxyCompactList}\item 
+J\+S\+Object\+Ref \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_a01e85169b216650ed66e2001534f9031}{serve\+Persistent}}
+\begin{DoxyCompactList}\small\item\em The V8 serve function. \end{DoxyCompactList}\item 
+R\+J\+I\+NT \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_a3a63ccc0c5a30a5a1c2a6e5ce0f1fe71}{port}}
+\begin{DoxyCompactList}\small\item\em The port. \end{DoxyCompactList}\item 
+R\+J\+I\+NT \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_ac095f3ff6802e4171ce748fba19d287c}{server\+Type}}
+\begin{DoxyCompactList}\small\item\em The server type. \end{DoxyCompactList}\item 
+R\+J\+B\+O\+OL \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_accc50990f1976a560f2e7d69dfa439df}{is\+Alive}}
+\begin{DoxyCompactList}\small\item\em Flag that indicates if listening context available. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_af2c46256a8c7aea65bed90fc926d53d6}\label{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_af2c46256a8c7aea65bed90fc926d53d6}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server}!Web\+Server@{Web\+Server}}
+\index{Web\+Server@{Web\+Server}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server}}
+\subsubsection{\texorpdfstring{Web\+Server()}{WebServer()}}
+{\footnotesize\ttfamily Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+::\+Web\+Server (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_a1a3c683880d5a6e32ccb2e422ddcf8e4}\label{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_a1a3c683880d5a6e32ccb2e422ddcf8e4}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server}!````~Web\+Server@{$\sim$\+Web\+Server}}
+\index{````~Web\+Server@{$\sim$\+Web\+Server}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server}}
+\subsubsection{\texorpdfstring{$\sim$\+Web\+Server()}{~WebServer()}}
+{\footnotesize\ttfamily Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+::$\sim$\+Web\+Server (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_aa57a4f9c9bb0723c90a35bedc23050b9}\label{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_aa57a4f9c9bb0723c90a35bedc23050b9}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server}!listen@{listen}}
+\index{listen@{listen}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server}}
+\subsubsection{\texorpdfstring{listen()}{listen()}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+::listen (\begin{DoxyParamCaption}\item[{R\+J\+I\+NT}]{port = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+
+
+Listen for any incoming connections. Default 0 port will use port member value instead of wildcard. 
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_aa381d9e00b48933d4464363fbc6e6f9c}\label{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_aa381d9e00b48933d4464363fbc6e6f9c}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server}!serve@{serve}}
+\index{serve@{serve}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server}}
+\subsubsection{\texorpdfstring{serve()}{serve()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+::serve (\begin{DoxyParamCaption}\item[{v8\+::\+Local$<$ v8\+::\+Function $>$}]{function }\end{DoxyParamCaption})}
+
+
+
+Serve any G\+ET or P\+O\+ST requests. 
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_a09b9b9c874b2994607721f8aa3d8f985}\label{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_a09b9b9c874b2994607721f8aa3d8f985}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server}!serve@{serve}}
+\index{serve@{serve}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server}}
+\subsubsection{\texorpdfstring{serve()}{serve()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+::serve (\begin{DoxyParamCaption}\item[{J\+S\+Object\+Ref}]{function }\end{DoxyParamCaption})}
+
+
+
+Serve any G\+ET or P\+O\+ST requests. 
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_ad89e7fcb25a82d69640e09b8f54bebb4}\label{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_ad89e7fcb25a82d69640e09b8f54bebb4}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server}!stop@{stop}}
+\index{stop@{stop}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server}}
+\subsubsection{\texorpdfstring{stop()}{stop()}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+::stop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Stop the web server. 
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_accc50990f1976a560f2e7d69dfa439df}\label{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_accc50990f1976a560f2e7d69dfa439df}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server}!is\+Alive@{is\+Alive}}
+\index{is\+Alive@{is\+Alive}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server}}
+\subsubsection{\texorpdfstring{is\+Alive}{isAlive}}
+{\footnotesize\ttfamily R\+J\+B\+O\+OL Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+::is\+Alive}
+
+
+
+Flag that indicates if listening context available. 
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_a3a63ccc0c5a30a5a1c2a6e5ce0f1fe71}\label{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_a3a63ccc0c5a30a5a1c2a6e5ce0f1fe71}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server}!port@{port}}
+\index{port@{port}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server}}
+\subsubsection{\texorpdfstring{port}{port}}
+{\footnotesize\ttfamily R\+J\+I\+NT Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+::port}
+
+
+
+The port. 
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_a9e83c85bf817e2d9b698295ac44f0593}\label{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_a9e83c85bf817e2d9b698295ac44f0593}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server}!serve\+Persistent@{serve\+Persistent}}
+\index{serve\+Persistent@{serve\+Persistent}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server}}
+\subsubsection{\texorpdfstring{serve\+Persistent}{servePersistent}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily v8\+::\+Persistent$<$v8\+::\+Function$>$$\ast$ Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+::serve\+Persistent}
+
+
+
+The V8 serve function. 
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_a01e85169b216650ed66e2001534f9031}\label{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_a01e85169b216650ed66e2001534f9031}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server}!serve\+Persistent@{serve\+Persistent}}
+\index{serve\+Persistent@{serve\+Persistent}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server}}
+\subsubsection{\texorpdfstring{serve\+Persistent}{servePersistent}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily J\+S\+Object\+Ref Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+::serve\+Persistent}
+
+
+
+The V8 serve function. 
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_ac095f3ff6802e4171ce748fba19d287c}\label{class_rad_j_a_v_1_1_c_p_p_1_1_net_1_1_web_server_ac095f3ff6802e4171ce748fba19d287c}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server}!server\+Type@{server\+Type}}
+\index{server\+Type@{server\+Type}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server}}
+\subsubsection{\texorpdfstring{server\+Type}{serverType}}
+{\footnotesize\ttfamily R\+J\+I\+NT Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Net\+::\+Web\+Server\+::server\+Type}
+
+
+
+The server type. 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/editing/projects/\+Rad\+Jav\+Private/library/include/\+Rad\+Jav/cpp/\mbox{\hyperlink{_rad_jav_c_p_p_net_web_server_8h}{Rad\+Jav\+C\+P\+P\+Net\+Web\+Server.\+h}}\item 
+C\+:/editing/projects/\+Rad\+Jav\+Private/library/src/\+Rad\+Jav/cpp/\mbox{\hyperlink{_rad_jav_c_p_p_net_web_server_8cpp}{Rad\+Jav\+C\+P\+P\+Net\+Web\+Server.\+cpp}}\end{DoxyCompactItemize}

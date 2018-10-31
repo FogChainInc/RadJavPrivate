@@ -1,0 +1,146 @@
+\hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart}{}\section{Rad\+J\+AV\+:\+:C\+PP\+:\+:Crypto\+:\+:Cipher\+Multipart Class Reference}
+\label{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart}\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart}}
+
+
+{\ttfamily \#include $<$Rad\+Jav\+C\+P\+P\+Crypto\+Cipher\+Multipart.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_ae5f2a9436765e9427bf08197a31b116f}{Cipher\+Multipart}} (\mbox{\hyperlink{class_rad_j_a_v_1_1_v8_javascript_engine}{V8\+Javascript\+Engine}} $\ast$\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_a0d0d6d8f24a179fae6d10e2e8d47427b}{js\+Engine}}, const v8\+::\+Function\+Callback\+Info$<$ v8\+::\+Value $>$ \&args)
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_ad62fa04fbdf258372243886e046027e6}{Cipher\+Multipart}} (\mbox{\hyperlink{class_rad_j_a_v_1_1_j_s_c_javascript_engine}{J\+S\+C\+Javascript\+Engine}} $\ast$\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_a0d0d6d8f24a179fae6d10e2e8d47427b}{js\+Engine}}, J\+S\+Context\+Ref ctx, R\+J\+U\+I\+NT argument\+Count, const J\+S\+Value\+Ref arguments\mbox{[}$\,$\mbox{]})
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_af58fa86ba98bafd239dbb967decfa934}{$\sim$\+Cipher\+Multipart}} ()
+\item 
+void \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_a7ac101da8ecb0e57fa304f50dc656b3b}{update}} (const void $\ast$plain\+Text, int text\+Length, const std\+::string \&input\+Encoding, std\+::function$<$ void(const std\+::string \&str)$>$ string\+Setter, std\+::function$<$ void(void $\ast$buf, int buf\+Len)$>$ bin\+Setter)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher}{Cipher}} data. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_add80d79c5b2f0f3ede0df995a1e5f232}{finalize}} (std\+::function$<$ void(const std\+::string \&str)$>$ string\+Setter, std\+::function$<$ void(void $\ast$buf, int buf\+Len)$>$ bin\+Setter)
+\item 
+void \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_a1db01641b0ac9311369fb6d4820dd953}{reset}} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::shared\+\_\+ptr$<$ Engine\+::\+Crypto\+::\+I\+Cipher\+Multipart $>$ \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_a34a80ec34bddd6d89a1013c1d7e620b0}{my\+Cipher}}
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_a5de2f4b8717df28ea342745ee8f3e174}{my\+Crypto\+Library}}
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_a43a07abe8af9471221dd527a13e829cc}{my\+Cipher\+Algorithm}}
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_af3792c164b6f7134fd947f4370eafae5}{my\+Secret}}
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_a6bb20b7c99791aee7447cec0eff8b61b}{my\+Iv}}
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_a93b8b7cf2593598573e10b438792ea6d}{my\+Input\+Encoding}}
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_a301523f51bc299467b4fa49117c6a905}{my\+Output\+Encoding}}
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_v8_javascript_engine}{V8\+Javascript\+Engine}} \mbox{\hyperlink{class_rad_j_a_v_1_1_j_s_c_javascript_engine}{J\+S\+C\+Javascript\+Engine}} $\ast$ \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_a0d0d6d8f24a179fae6d10e2e8d47427b}{js\+Engine}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_ae5f2a9436765e9427bf08197a31b116f}\label{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_ae5f2a9436765e9427bf08197a31b116f}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart}!Cipher\+Multipart@{Cipher\+Multipart}}
+\index{Cipher\+Multipart@{Cipher\+Multipart}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart}}
+\subsubsection{\texorpdfstring{Cipher\+Multipart()}{CipherMultipart()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart\+::\+Cipher\+Multipart (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_rad_j_a_v_1_1_v8_javascript_engine}{V8\+Javascript\+Engine}} $\ast$}]{js\+Engine,  }\item[{const v8\+::\+Function\+Callback\+Info$<$ v8\+::\+Value $>$ \&}]{args }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_ad62fa04fbdf258372243886e046027e6}\label{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_ad62fa04fbdf258372243886e046027e6}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart}!Cipher\+Multipart@{Cipher\+Multipart}}
+\index{Cipher\+Multipart@{Cipher\+Multipart}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart}}
+\subsubsection{\texorpdfstring{Cipher\+Multipart()}{CipherMultipart()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart\+::\+Cipher\+Multipart (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_rad_j_a_v_1_1_j_s_c_javascript_engine}{J\+S\+C\+Javascript\+Engine}} $\ast$}]{js\+Engine,  }\item[{J\+S\+Context\+Ref}]{ctx,  }\item[{R\+J\+U\+I\+NT}]{argument\+Count,  }\item[{const J\+S\+Value\+Ref}]{arguments\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_af58fa86ba98bafd239dbb967decfa934}\label{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_af58fa86ba98bafd239dbb967decfa934}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart}!````~Cipher\+Multipart@{$\sim$\+Cipher\+Multipart}}
+\index{````~Cipher\+Multipart@{$\sim$\+Cipher\+Multipart}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart}}
+\subsubsection{\texorpdfstring{$\sim$\+Cipher\+Multipart()}{~CipherMultipart()}}
+{\footnotesize\ttfamily Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart\+::$\sim$\+Cipher\+Multipart (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_add80d79c5b2f0f3ede0df995a1e5f232}\label{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_add80d79c5b2f0f3ede0df995a1e5f232}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart}!finalize@{finalize}}
+\index{finalize@{finalize}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart}}
+\subsubsection{\texorpdfstring{finalize()}{finalize()}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart\+::finalize (\begin{DoxyParamCaption}\item[{std\+::function$<$ void(const std\+::string \&str)$>$}]{string\+Setter,  }\item[{std\+::function$<$ void(void $\ast$buf, int buf\+Len)$>$}]{bin\+Setter }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_a1db01641b0ac9311369fb6d4820dd953}\label{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_a1db01641b0ac9311369fb6d4820dd953}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart}!reset@{reset}}
+\index{reset@{reset}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart}}
+\subsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart\+::reset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_a7ac101da8ecb0e57fa304f50dc656b3b}\label{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_a7ac101da8ecb0e57fa304f50dc656b3b}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart}!update@{update}}
+\index{update@{update}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart}}
+\subsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart\+::update (\begin{DoxyParamCaption}\item[{const void $\ast$}]{plain\+Text,  }\item[{int}]{text\+Length,  }\item[{const std\+::string \&}]{input\+Encoding,  }\item[{std\+::function$<$ void(const std\+::string \&str)$>$}]{string\+Setter,  }\item[{std\+::function$<$ void(void $\ast$buf, int buf\+Len)$>$}]{bin\+Setter }\end{DoxyParamCaption})}
+
+
+
+\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher}{Cipher}} data. 
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_a0d0d6d8f24a179fae6d10e2e8d47427b}\label{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_a0d0d6d8f24a179fae6d10e2e8d47427b}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart}!js\+Engine@{js\+Engine}}
+\index{js\+Engine@{js\+Engine}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart}}
+\subsubsection{\texorpdfstring{js\+Engine}{jsEngine}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_rad_j_a_v_1_1_v8_javascript_engine}{V8\+Javascript\+Engine}} \mbox{\hyperlink{class_rad_j_a_v_1_1_j_s_c_javascript_engine}{J\+S\+C\+Javascript\+Engine}}$\ast$ Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart\+::js\+Engine\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_a34a80ec34bddd6d89a1013c1d7e620b0}\label{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_a34a80ec34bddd6d89a1013c1d7e620b0}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart}!my\+Cipher@{my\+Cipher}}
+\index{my\+Cipher@{my\+Cipher}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart}}
+\subsubsection{\texorpdfstring{my\+Cipher}{myCipher}}
+{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$Engine\+::\+Crypto\+::\+I\+Cipher\+Multipart$>$ Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart\+::my\+Cipher}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_a43a07abe8af9471221dd527a13e829cc}\label{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_a43a07abe8af9471221dd527a13e829cc}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart}!my\+Cipher\+Algorithm@{my\+Cipher\+Algorithm}}
+\index{my\+Cipher\+Algorithm@{my\+Cipher\+Algorithm}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart}}
+\subsubsection{\texorpdfstring{my\+Cipher\+Algorithm}{myCipherAlgorithm}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart\+::my\+Cipher\+Algorithm}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_a5de2f4b8717df28ea342745ee8f3e174}\label{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_a5de2f4b8717df28ea342745ee8f3e174}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart}!my\+Crypto\+Library@{my\+Crypto\+Library}}
+\index{my\+Crypto\+Library@{my\+Crypto\+Library}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart}}
+\subsubsection{\texorpdfstring{my\+Crypto\+Library}{myCryptoLibrary}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart\+::my\+Crypto\+Library}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_a93b8b7cf2593598573e10b438792ea6d}\label{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_a93b8b7cf2593598573e10b438792ea6d}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart}!my\+Input\+Encoding@{my\+Input\+Encoding}}
+\index{my\+Input\+Encoding@{my\+Input\+Encoding}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart}}
+\subsubsection{\texorpdfstring{my\+Input\+Encoding}{myInputEncoding}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart\+::my\+Input\+Encoding}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_a6bb20b7c99791aee7447cec0eff8b61b}\label{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_a6bb20b7c99791aee7447cec0eff8b61b}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart}!my\+Iv@{my\+Iv}}
+\index{my\+Iv@{my\+Iv}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart}}
+\subsubsection{\texorpdfstring{my\+Iv}{myIv}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart\+::my\+Iv}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_a301523f51bc299467b4fa49117c6a905}\label{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_a301523f51bc299467b4fa49117c6a905}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart}!my\+Output\+Encoding@{my\+Output\+Encoding}}
+\index{my\+Output\+Encoding@{my\+Output\+Encoding}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart}}
+\subsubsection{\texorpdfstring{my\+Output\+Encoding}{myOutputEncoding}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart\+::my\+Output\+Encoding}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_af3792c164b6f7134fd947f4370eafae5}\label{class_rad_j_a_v_1_1_c_p_p_1_1_crypto_1_1_cipher_multipart_af3792c164b6f7134fd947f4370eafae5}} 
+\index{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart}!my\+Secret@{my\+Secret}}
+\index{my\+Secret@{my\+Secret}!Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart@{Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart}}
+\subsubsection{\texorpdfstring{my\+Secret}{mySecret}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} Rad\+J\+A\+V\+::\+C\+P\+P\+::\+Crypto\+::\+Cipher\+Multipart\+::my\+Secret}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/editing/projects/\+Rad\+Jav\+Private/library/include/\+Rad\+Jav/cpp/\mbox{\hyperlink{_rad_jav_c_p_p_crypto_cipher_multipart_8h}{Rad\+Jav\+C\+P\+P\+Crypto\+Cipher\+Multipart.\+h}}\item 
+C\+:/editing/projects/\+Rad\+Jav\+Private/library/src/\+Rad\+Jav/cpp/\mbox{\hyperlink{_rad_jav_c_p_p_crypto_cipher_multipart_8cpp}{Rad\+Jav\+C\+P\+P\+Crypto\+Cipher\+Multipart.\+cpp}}\end{DoxyCompactItemize}

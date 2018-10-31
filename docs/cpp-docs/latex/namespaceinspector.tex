@@ -1,0 +1,109 @@
+\hypertarget{namespaceinspector}{}\section{inspector Namespace Reference}
+\label{namespaceinspector}\index{inspector@{inspector}}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classinspector_1_1_agent}{Agent}}
+\item 
+class \mbox{\hyperlink{classinspector_1_1_c_b_inspector_client}{C\+B\+Inspector\+Client}}
+\item 
+class \mbox{\hyperlink{classinspector_1_1_dispatch_messages_task}{Dispatch\+Messages\+Task}}
+\item 
+class \mbox{\hyperlink{classinspector_1_1_inspector_io}{Inspector\+Io}}
+\item 
+class \mbox{\hyperlink{classinspector_1_1_inspector_io_delegate}{Inspector\+Io\+Delegate}}
+\item 
+class \mbox{\hyperlink{classinspector_1_1_inspector_session_delegate}{Inspector\+Session\+Delegate}}
+\item 
+class \mbox{\hyperlink{classinspector_1_1_io_session_delegate}{Io\+Session\+Delegate}}
+\item 
+class \mbox{\hyperlink{classinspector_1_1_semaphore}{Semaphore}}
+\item 
+class \mbox{\hyperlink{classinspector_1_1_socket_server_delegate}{Socket\+Server\+Delegate}}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{namespaceinspector_acd4912414d27dac5821d9f4cdb73a796}{Inspector\+Action}} \{ \mbox{\hyperlink{namespaceinspector_acd4912414d27dac5821d9f4cdb73a796a4670082059eb90aca95675ba1d0d2032}{Inspector\+Action\+::k\+Start\+Session}}, 
+\mbox{\hyperlink{namespaceinspector_acd4912414d27dac5821d9f4cdb73a796aa39874f67d7d69ac27dc4bf17e3bde45}{Inspector\+Action\+::k\+End\+Session}}, 
+\mbox{\hyperlink{namespaceinspector_acd4912414d27dac5821d9f4cdb73a796a2e672fee66e187690f00620af8f5ea63}{Inspector\+Action\+::k\+Send\+Message}}
+ \}
+\item 
+enum \mbox{\hyperlink{namespaceinspector_a6f6d357a382ca5177c433a0753305661}{Transport\+Action}} \{ \mbox{\hyperlink{namespaceinspector_a6f6d357a382ca5177c433a0753305661a5eb05f4e2d95b7eb810fdae96d7c3082}{Transport\+Action\+::k\+Kill}}, 
+\mbox{\hyperlink{namespaceinspector_a6f6d357a382ca5177c433a0753305661a2e672fee66e187690f00620af8f5ea63}{Transport\+Action\+::k\+Send\+Message}}, 
+\mbox{\hyperlink{namespaceinspector_a6f6d357a382ca5177c433a0753305661a97bebae73e3334ef0c946c5df81e440b}{Transport\+Action\+::k\+Stop}}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::unique\+\_\+ptr$<$ v8\+\_\+inspector\+::\+String\+Buffer $>$ \mbox{\hyperlink{namespaceinspector_a057ffd442580366c526ad0018675ce6d}{Utf8\+To\+String\+View}} (const std\+::string \&message)
+\item 
+std\+::unique\+\_\+ptr$<$ v8\+\_\+inspector\+::\+String\+Buffer $>$ \mbox{\hyperlink{namespaceinspector_a1ee23c2194d06e360e12dcd75235aa0b}{To\+Protocol\+String}} (v8\+::\+Isolate $\ast$isolate, Local$<$ Value $>$ value)
+\item 
+void \mbox{\hyperlink{namespaceinspector_a08ccd788fc37077533475421ec71619d}{Interrupt\+Callback}} (Isolate $\ast$, void $\ast$agent)
+\end{DoxyCompactItemize}
+
+
+\subsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{namespaceinspector_acd4912414d27dac5821d9f4cdb73a796}\label{namespaceinspector_acd4912414d27dac5821d9f4cdb73a796}} 
+\index{inspector@{inspector}!Inspector\+Action@{Inspector\+Action}}
+\index{Inspector\+Action@{Inspector\+Action}!inspector@{inspector}}
+\subsubsection{\texorpdfstring{Inspector\+Action}{InspectorAction}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{namespaceinspector_acd4912414d27dac5821d9f4cdb73a796}{inspector\+::\+Inspector\+Action}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{k\+Start\+Session@{k\+Start\+Session}!inspector@{inspector}}\index{inspector@{inspector}!k\+Start\+Session@{k\+Start\+Session}}}\mbox{\Hypertarget{namespaceinspector_acd4912414d27dac5821d9f4cdb73a796a4670082059eb90aca95675ba1d0d2032}\label{namespaceinspector_acd4912414d27dac5821d9f4cdb73a796a4670082059eb90aca95675ba1d0d2032}} 
+k\+Start\+Session&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{k\+End\+Session@{k\+End\+Session}!inspector@{inspector}}\index{inspector@{inspector}!k\+End\+Session@{k\+End\+Session}}}\mbox{\Hypertarget{namespaceinspector_acd4912414d27dac5821d9f4cdb73a796aa39874f67d7d69ac27dc4bf17e3bde45}\label{namespaceinspector_acd4912414d27dac5821d9f4cdb73a796aa39874f67d7d69ac27dc4bf17e3bde45}} 
+k\+End\+Session&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{k\+Send\+Message@{k\+Send\+Message}!inspector@{inspector}}\index{inspector@{inspector}!k\+Send\+Message@{k\+Send\+Message}}}\mbox{\Hypertarget{namespaceinspector_acd4912414d27dac5821d9f4cdb73a796a2e672fee66e187690f00620af8f5ea63}\label{namespaceinspector_acd4912414d27dac5821d9f4cdb73a796a2e672fee66e187690f00620af8f5ea63}} 
+k\+Send\+Message&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{namespaceinspector_a6f6d357a382ca5177c433a0753305661}\label{namespaceinspector_a6f6d357a382ca5177c433a0753305661}} 
+\index{inspector@{inspector}!Transport\+Action@{Transport\+Action}}
+\index{Transport\+Action@{Transport\+Action}!inspector@{inspector}}
+\subsubsection{\texorpdfstring{Transport\+Action}{TransportAction}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{namespaceinspector_a6f6d357a382ca5177c433a0753305661}{inspector\+::\+Transport\+Action}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{k\+Kill@{k\+Kill}!inspector@{inspector}}\index{inspector@{inspector}!k\+Kill@{k\+Kill}}}\mbox{\Hypertarget{namespaceinspector_a6f6d357a382ca5177c433a0753305661a5eb05f4e2d95b7eb810fdae96d7c3082}\label{namespaceinspector_a6f6d357a382ca5177c433a0753305661a5eb05f4e2d95b7eb810fdae96d7c3082}} 
+k\+Kill&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{k\+Send\+Message@{k\+Send\+Message}!inspector@{inspector}}\index{inspector@{inspector}!k\+Send\+Message@{k\+Send\+Message}}}\mbox{\Hypertarget{namespaceinspector_a6f6d357a382ca5177c433a0753305661a2e672fee66e187690f00620af8f5ea63}\label{namespaceinspector_a6f6d357a382ca5177c433a0753305661a2e672fee66e187690f00620af8f5ea63}} 
+k\+Send\+Message&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{k\+Stop@{k\+Stop}!inspector@{inspector}}\index{inspector@{inspector}!k\+Stop@{k\+Stop}}}\mbox{\Hypertarget{namespaceinspector_a6f6d357a382ca5177c433a0753305661a97bebae73e3334ef0c946c5df81e440b}\label{namespaceinspector_a6f6d357a382ca5177c433a0753305661a97bebae73e3334ef0c946c5df81e440b}} 
+k\+Stop&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{namespaceinspector_a08ccd788fc37077533475421ec71619d}\label{namespaceinspector_a08ccd788fc37077533475421ec71619d}} 
+\index{inspector@{inspector}!Interrupt\+Callback@{Interrupt\+Callback}}
+\index{Interrupt\+Callback@{Interrupt\+Callback}!inspector@{inspector}}
+\subsubsection{\texorpdfstring{Interrupt\+Callback()}{InterruptCallback()}}
+{\footnotesize\ttfamily void inspector\+::\+Interrupt\+Callback (\begin{DoxyParamCaption}\item[{Isolate $\ast$}]{,  }\item[{void $\ast$}]{agent }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceinspector_a1ee23c2194d06e360e12dcd75235aa0b}\label{namespaceinspector_a1ee23c2194d06e360e12dcd75235aa0b}} 
+\index{inspector@{inspector}!To\+Protocol\+String@{To\+Protocol\+String}}
+\index{To\+Protocol\+String@{To\+Protocol\+String}!inspector@{inspector}}
+\subsubsection{\texorpdfstring{To\+Protocol\+String()}{ToProtocolString()}}
+{\footnotesize\ttfamily std\+::unique\+\_\+ptr$<$v8\+\_\+inspector\+::\+String\+Buffer$>$ inspector\+::\+To\+Protocol\+String (\begin{DoxyParamCaption}\item[{v8\+::\+Isolate $\ast$}]{isolate,  }\item[{Local$<$ Value $>$}]{value }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceinspector_a057ffd442580366c526ad0018675ce6d}\label{namespaceinspector_a057ffd442580366c526ad0018675ce6d}} 
+\index{inspector@{inspector}!Utf8\+To\+String\+View@{Utf8\+To\+String\+View}}
+\index{Utf8\+To\+String\+View@{Utf8\+To\+String\+View}!inspector@{inspector}}
+\subsubsection{\texorpdfstring{Utf8\+To\+String\+View()}{Utf8ToStringView()}}
+{\footnotesize\ttfamily std\+::unique\+\_\+ptr$<$ v8\+\_\+inspector\+::\+String\+Buffer $>$ inspector\+::\+Utf8\+To\+String\+View (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{message }\end{DoxyParamCaption})}
+

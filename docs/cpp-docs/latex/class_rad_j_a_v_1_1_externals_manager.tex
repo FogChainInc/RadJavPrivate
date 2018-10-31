@@ -1,0 +1,246 @@
+\hypertarget{class_rad_j_a_v_1_1_externals_manager}{}\section{Rad\+J\+AV\+:\+:Externals\+Manager Class Reference}
+\label{class_rad_j_a_v_1_1_externals_manager}\index{Rad\+J\+A\+V\+::\+Externals\+Manager@{Rad\+J\+A\+V\+::\+Externals\+Manager}}
+
+
+{\ttfamily \#include $<$Rad\+Jav\+J\+S\+Externals.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_externals_manager_aba173c459ae98b0ba5e5bba8279b149e}{Externals\+Manager}} ()
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_externals_manager_ae7180e063c09552fe92cd72ec9f26783}{$\sim$\+Externals\+Manager}} ()
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_externals_manager_aafe7a73ecbddac0cb2a81d38b85cafed}{Externals\+Manager}} (const \mbox{\hyperlink{class_rad_j_a_v_1_1_externals_manager}{Externals\+Manager}} \&)=delete
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_externals_manager}{Externals\+Manager}} \& \mbox{\hyperlink{class_rad_j_a_v_1_1_externals_manager_a26376b8ab9a7b540b907185b71f36c5a}{operator=}} (const \mbox{\hyperlink{class_rad_j_a_v_1_1_externals_manager}{Externals\+Manager}} \&)=delete
+\item 
+void \mbox{\hyperlink{class_rad_j_a_v_1_1_externals_manager_a5ce3994fd37c59f890397aa945c7c8fc}{set}} (const v8\+::\+Local$<$ v8\+::\+Object $>$ \&handle, const \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \&function\+Name, \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr}{C\+P\+P\+::\+Chained\+Ptr}} $\ast$object)
+\item 
+{\footnotesize template$<$class T $>$ }\\void \mbox{\hyperlink{class_rad_j_a_v_1_1_externals_manager_a599514469718cdb46c44841d08c16050}{set}} (const v8\+::\+Local$<$ v8\+::\+Object $>$ \&handle, const \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \&function\+Name, std\+::shared\+\_\+ptr$<$ T $>$ object)
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr}{C\+P\+P\+::\+Chained\+Ptr}} $\ast$ \mbox{\hyperlink{class_rad_j_a_v_1_1_externals_manager_a96228ab99f49470129cf6eba7c4b042d}{get}} (const v8\+::\+Local$<$ v8\+::\+Object $>$ \&handle, const \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \&function\+Name)
+\item 
+{\footnotesize template$<$class T $>$ }\\std\+::shared\+\_\+ptr$<$ T $>$ \mbox{\hyperlink{class_rad_j_a_v_1_1_externals_manager_af753aee0e3d26fea97c5e2384bcbb7e5}{get}} (const v8\+::\+Local$<$ v8\+::\+Object $>$ \&handle, const \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \&function\+Name)
+\item 
+void \mbox{\hyperlink{class_rad_j_a_v_1_1_externals_manager_a2844fd47b1b3d2e593f9086361320b64}{clear}} (const v8\+::\+Local$<$ v8\+::\+Object $>$ \&handle, const \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \&function\+Name)
+\item 
+void \mbox{\hyperlink{class_rad_j_a_v_1_1_externals_manager_a467e13c3de48cc068f1f5b94413cb855}{set}} (J\+S\+Context\+Ref context, J\+S\+Object\+Ref handle, const \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \&function\+Name, \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr}{C\+P\+P\+::\+Chained\+Ptr}} $\ast$object)
+\item 
+{\footnotesize template$<$class T $>$ }\\void \mbox{\hyperlink{class_rad_j_a_v_1_1_externals_manager_a331d6da2a7006bdeae2413d6d1e8c7a6}{set}} (J\+S\+Context\+Ref context, J\+S\+Object\+Ref handle, const \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \&function\+Name, std\+::shared\+\_\+ptr$<$ T $>$ object)
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr}{C\+P\+P\+::\+Chained\+Ptr}} $\ast$ \mbox{\hyperlink{class_rad_j_a_v_1_1_externals_manager_a75c501db8ba15f1547e3332749b3a866}{get}} (J\+S\+Context\+Ref context, J\+S\+Object\+Ref handle, const \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \&function\+Name)
+\item 
+{\footnotesize template$<$class T $>$ }\\std\+::shared\+\_\+ptr$<$ T $>$ \mbox{\hyperlink{class_rad_j_a_v_1_1_externals_manager_a864a70d161dc98e8f99235ee15596ad1}{get}} (J\+S\+Context\+Ref context, J\+S\+Object\+Ref handle, const \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \&function\+Name)
+\item 
+void \mbox{\hyperlink{class_rad_j_a_v_1_1_externals_manager_a27d93a24816c85dfd91aeb11daeb3e9d}{clear}} (J\+S\+Context\+Ref context, J\+S\+Object\+Ref handle, const \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \&function\+Name)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Main class for managing external C++ objects within withing Javascript engine. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_externals_manager_aba173c459ae98b0ba5e5bba8279b149e}\label{class_rad_j_a_v_1_1_externals_manager_aba173c459ae98b0ba5e5bba8279b149e}} 
+\index{Rad\+J\+A\+V\+::\+Externals\+Manager@{Rad\+J\+A\+V\+::\+Externals\+Manager}!Externals\+Manager@{Externals\+Manager}}
+\index{Externals\+Manager@{Externals\+Manager}!Rad\+J\+A\+V\+::\+Externals\+Manager@{Rad\+J\+A\+V\+::\+Externals\+Manager}}
+\subsubsection{\texorpdfstring{Externals\+Manager()}{ExternalsManager()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Rad\+J\+A\+V\+::\+Externals\+Manager\+::\+Externals\+Manager (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Contructor. \mbox{\Hypertarget{class_rad_j_a_v_1_1_externals_manager_ae7180e063c09552fe92cd72ec9f26783}\label{class_rad_j_a_v_1_1_externals_manager_ae7180e063c09552fe92cd72ec9f26783}} 
+\index{Rad\+J\+A\+V\+::\+Externals\+Manager@{Rad\+J\+A\+V\+::\+Externals\+Manager}!````~Externals\+Manager@{$\sim$\+Externals\+Manager}}
+\index{````~Externals\+Manager@{$\sim$\+Externals\+Manager}!Rad\+J\+A\+V\+::\+Externals\+Manager@{Rad\+J\+A\+V\+::\+Externals\+Manager}}
+\subsubsection{\texorpdfstring{$\sim$\+Externals\+Manager()}{~ExternalsManager()}}
+{\footnotesize\ttfamily Rad\+J\+A\+V\+::\+Externals\+Manager\+::$\sim$\+Externals\+Manager (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Destructor. \mbox{\Hypertarget{class_rad_j_a_v_1_1_externals_manager_aafe7a73ecbddac0cb2a81d38b85cafed}\label{class_rad_j_a_v_1_1_externals_manager_aafe7a73ecbddac0cb2a81d38b85cafed}} 
+\index{Rad\+J\+A\+V\+::\+Externals\+Manager@{Rad\+J\+A\+V\+::\+Externals\+Manager}!Externals\+Manager@{Externals\+Manager}}
+\index{Externals\+Manager@{Externals\+Manager}!Rad\+J\+A\+V\+::\+Externals\+Manager@{Rad\+J\+A\+V\+::\+Externals\+Manager}}
+\subsubsection{\texorpdfstring{Externals\+Manager()}{ExternalsManager()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Rad\+J\+A\+V\+::\+Externals\+Manager\+::\+Externals\+Manager (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_rad_j_a_v_1_1_externals_manager}{Externals\+Manager}} \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_externals_manager_a2844fd47b1b3d2e593f9086361320b64}\label{class_rad_j_a_v_1_1_externals_manager_a2844fd47b1b3d2e593f9086361320b64}} 
+\index{Rad\+J\+A\+V\+::\+Externals\+Manager@{Rad\+J\+A\+V\+::\+Externals\+Manager}!clear@{clear}}
+\index{clear@{clear}!Rad\+J\+A\+V\+::\+Externals\+Manager@{Rad\+J\+A\+V\+::\+Externals\+Manager}}
+\subsubsection{\texorpdfstring{clear()}{clear()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+Externals\+Manager\+::clear (\begin{DoxyParamCaption}\item[{const v8\+::\+Local$<$ v8\+::\+Object $>$ \&}]{handle,  }\item[{const \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \&}]{function\+Name }\end{DoxyParamCaption})}
+
+Clear Javascript object\textquotesingle{}s field which hold external object ID. Underlying C++ object will not be freed/reset during that call. Subsequent calls to \mbox{\hyperlink{class_rad_j_a_v_1_1_externals_manager_a96228ab99f49470129cf6eba7c4b042d}{get()}} for this function\+Name will return nullptr. 
+\begin{DoxyParams}{Parameters}
+{\em handle} & is a context(\+Javascript object) for which we clear external object ID. \\
+\hline
+{\em function\+Name} & a name of the property of Javascript object from which to retrieve external object. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+function is usefull in cases where we trying to delete wrapped C++ object from C++ side, lets say by \mbox{\hyperlink{namespace_rad_j_a_v_1_1_c_p_p_1_1_o_s_a66366d6effe3544eeb5a0180e1fcd227}{destroy()}} function which were called from Javascript side. 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_externals_manager_a27d93a24816c85dfd91aeb11daeb3e9d}\label{class_rad_j_a_v_1_1_externals_manager_a27d93a24816c85dfd91aeb11daeb3e9d}} 
+\index{Rad\+J\+A\+V\+::\+Externals\+Manager@{Rad\+J\+A\+V\+::\+Externals\+Manager}!clear@{clear}}
+\index{clear@{clear}!Rad\+J\+A\+V\+::\+Externals\+Manager@{Rad\+J\+A\+V\+::\+Externals\+Manager}}
+\subsubsection{\texorpdfstring{clear()}{clear()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+Externals\+Manager\+::clear (\begin{DoxyParamCaption}\item[{J\+S\+Context\+Ref}]{context,  }\item[{J\+S\+Object\+Ref}]{handle,  }\item[{const \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \&}]{function\+Name }\end{DoxyParamCaption})}
+
+Clear Javascript object\textquotesingle{}s field which hold external object ID. Underlying C++ object will not be freed/reset during that call. Subsequent calls to \mbox{\hyperlink{class_rad_j_a_v_1_1_externals_manager_a96228ab99f49470129cf6eba7c4b042d}{get()}} for this function\+Name will return nullptr. 
+\begin{DoxyParams}{Parameters}
+{\em context} & is a context of Javascript virtual machine. \\
+\hline
+{\em handle} & is a Javascript object for which we get clear object ID related to C++ object. \\
+\hline
+{\em function\+Name} & a name of the property of Javascript object from which to retrieve external object. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+function is usefull in cases where we trying to delete wrapped C++ object from C++ side, lets say by \mbox{\hyperlink{namespace_rad_j_a_v_1_1_c_p_p_1_1_o_s_a66366d6effe3544eeb5a0180e1fcd227}{destroy()}} function which were called from Javascript side. 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_externals_manager_a96228ab99f49470129cf6eba7c4b042d}\label{class_rad_j_a_v_1_1_externals_manager_a96228ab99f49470129cf6eba7c4b042d}} 
+\index{Rad\+J\+A\+V\+::\+Externals\+Manager@{Rad\+J\+A\+V\+::\+Externals\+Manager}!get@{get}}
+\index{get@{get}!Rad\+J\+A\+V\+::\+Externals\+Manager@{Rad\+J\+A\+V\+::\+Externals\+Manager}}
+\subsubsection{\texorpdfstring{get()}{get()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr}{C\+P\+P\+::\+Chained\+Ptr}} $\ast$ Rad\+J\+A\+V\+::\+Externals\+Manager\+::get (\begin{DoxyParamCaption}\item[{const v8\+::\+Local$<$ v8\+::\+Object $>$ \&}]{handle,  }\item[{const \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \&}]{function\+Name }\end{DoxyParamCaption})}
+
+Get external object from Javascript object\textquotesingle{}s field. If C++ external object is out of scope function will return nullptr. 
+\begin{DoxyParams}{Parameters}
+{\em handle} & is a context(\+Javascript object) for which we query. \\
+\hline
+{\em function\+Name} & a name of the property of Javascript object from which to retrieve external object. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Chained\+Ptr a pointer to Chained\+Ptr derived class which where stored by \mbox{\hyperlink{class_rad_j_a_v_1_1_externals_manager_a5ce3994fd37c59f890397aa945c7c8fc}{set()}}. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_externals_manager_af753aee0e3d26fea97c5e2384bcbb7e5}\label{class_rad_j_a_v_1_1_externals_manager_af753aee0e3d26fea97c5e2384bcbb7e5}} 
+\index{Rad\+J\+A\+V\+::\+Externals\+Manager@{Rad\+J\+A\+V\+::\+Externals\+Manager}!get@{get}}
+\index{get@{get}!Rad\+J\+A\+V\+::\+Externals\+Manager@{Rad\+J\+A\+V\+::\+Externals\+Manager}}
+\subsubsection{\texorpdfstring{get()}{get()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+std\+::shared\+\_\+ptr$<$T$>$ Rad\+J\+A\+V\+::\+Externals\+Manager\+::get (\begin{DoxyParamCaption}\item[{const v8\+::\+Local$<$ v8\+::\+Object $>$ \&}]{handle,  }\item[{const \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \&}]{function\+Name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Template function to get external object from Javascript object\textquotesingle{}s field. If C++ external object where freed by garbage collector callback then function will return empty shared pointer. 
+\begin{DoxyParams}{Parameters}
+{\em handle} & is a context(\+Javascript object) for which we query. \\
+\hline
+{\em function\+Name} & a name of the property of Javascript object from which to retrieve external object. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+shared\+\_\+ptr$<$\+T$>$ a shared pointer to arbitrary C++ object previously stored by \mbox{\hyperlink{class_rad_j_a_v_1_1_externals_manager_a5ce3994fd37c59f890397aa945c7c8fc}{set()}}. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_externals_manager_a75c501db8ba15f1547e3332749b3a866}\label{class_rad_j_a_v_1_1_externals_manager_a75c501db8ba15f1547e3332749b3a866}} 
+\index{Rad\+J\+A\+V\+::\+Externals\+Manager@{Rad\+J\+A\+V\+::\+Externals\+Manager}!get@{get}}
+\index{get@{get}!Rad\+J\+A\+V\+::\+Externals\+Manager@{Rad\+J\+A\+V\+::\+Externals\+Manager}}
+\subsubsection{\texorpdfstring{get()}{get()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr}{C\+P\+P\+::\+Chained\+Ptr}} $\ast$ Rad\+J\+A\+V\+::\+Externals\+Manager\+::get (\begin{DoxyParamCaption}\item[{J\+S\+Context\+Ref}]{context,  }\item[{J\+S\+Object\+Ref}]{handle,  }\item[{const \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \&}]{function\+Name }\end{DoxyParamCaption})}
+
+Get external object from Javascript object\textquotesingle{}s field. If C++ external object is out of scope function will return nullptr. 
+\begin{DoxyParams}{Parameters}
+{\em context} & is a context of Javascript virtual machine. \\
+\hline
+{\em handle} & is a Javascript object from which we get C++ object. \\
+\hline
+{\em function\+Name} & a name of the property of Javascript object from which to retrieve external object. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Chained\+Ptr a pointer to Chained\+Ptr derived class which where stored by \mbox{\hyperlink{class_rad_j_a_v_1_1_externals_manager_a5ce3994fd37c59f890397aa945c7c8fc}{set()}}. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_externals_manager_a864a70d161dc98e8f99235ee15596ad1}\label{class_rad_j_a_v_1_1_externals_manager_a864a70d161dc98e8f99235ee15596ad1}} 
+\index{Rad\+J\+A\+V\+::\+Externals\+Manager@{Rad\+J\+A\+V\+::\+Externals\+Manager}!get@{get}}
+\index{get@{get}!Rad\+J\+A\+V\+::\+Externals\+Manager@{Rad\+J\+A\+V\+::\+Externals\+Manager}}
+\subsubsection{\texorpdfstring{get()}{get()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+std\+::shared\+\_\+ptr$<$T$>$ Rad\+J\+A\+V\+::\+Externals\+Manager\+::get (\begin{DoxyParamCaption}\item[{J\+S\+Context\+Ref}]{context,  }\item[{J\+S\+Object\+Ref}]{handle,  }\item[{const \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \&}]{function\+Name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Template function to get external object from Javascript object\textquotesingle{}s field. If C++ external object where freed by garbage collector callback then function will return empty shared pointer. 
+\begin{DoxyParams}{Parameters}
+{\em context} & is a context of Javascript virtual machine. \\
+\hline
+{\em handle} & is a Javascript object from which we get C++ object. \\
+\hline
+{\em function\+Name} & a name of the property of Javascript object from which to retrieve external object. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+shared\+\_\+ptr$<$\+T$>$ a shared pointer to arbitrary C++ object previously stored by \mbox{\hyperlink{class_rad_j_a_v_1_1_externals_manager_a5ce3994fd37c59f890397aa945c7c8fc}{set()}}. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_externals_manager_a26376b8ab9a7b540b907185b71f36c5a}\label{class_rad_j_a_v_1_1_externals_manager_a26376b8ab9a7b540b907185b71f36c5a}} 
+\index{Rad\+J\+A\+V\+::\+Externals\+Manager@{Rad\+J\+A\+V\+::\+Externals\+Manager}!operator=@{operator=}}
+\index{operator=@{operator=}!Rad\+J\+A\+V\+::\+Externals\+Manager@{Rad\+J\+A\+V\+::\+Externals\+Manager}}
+\subsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_rad_j_a_v_1_1_externals_manager}{Externals\+Manager}}\& Rad\+J\+A\+V\+::\+Externals\+Manager\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_rad_j_a_v_1_1_externals_manager}{Externals\+Manager}} \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_externals_manager_a5ce3994fd37c59f890397aa945c7c8fc}\label{class_rad_j_a_v_1_1_externals_manager_a5ce3994fd37c59f890397aa945c7c8fc}} 
+\index{Rad\+J\+A\+V\+::\+Externals\+Manager@{Rad\+J\+A\+V\+::\+Externals\+Manager}!set@{set}}
+\index{set@{set}!Rad\+J\+A\+V\+::\+Externals\+Manager@{Rad\+J\+A\+V\+::\+Externals\+Manager}}
+\subsubsection{\texorpdfstring{set()}{set()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+Externals\+Manager\+::set (\begin{DoxyParamCaption}\item[{const v8\+::\+Local$<$ v8\+::\+Object $>$ \&}]{handle,  }\item[{const \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \&}]{function\+Name,  }\item[{\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr}{C\+P\+P\+::\+Chained\+Ptr}} $\ast$}]{object }\end{DoxyParamCaption})}
+
+Add relation between C++ object and corresponding Javascript object field. Object will be destroyed during Javascript engine garbage collector notification or directly from C++ side. 
+\begin{DoxyParams}{Parameters}
+{\em handle} & is a context to which we plan to add new C++ object. \\
+\hline
+{\em function\+Name} & a name of the property of Javascript object to bind external object with. \\
+\hline
+{\em object} & a pointer to external object derived from Chained\+Ptr class. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_externals_manager_a599514469718cdb46c44841d08c16050}\label{class_rad_j_a_v_1_1_externals_manager_a599514469718cdb46c44841d08c16050}} 
+\index{Rad\+J\+A\+V\+::\+Externals\+Manager@{Rad\+J\+A\+V\+::\+Externals\+Manager}!set@{set}}
+\index{set@{set}!Rad\+J\+A\+V\+::\+Externals\+Manager@{Rad\+J\+A\+V\+::\+Externals\+Manager}}
+\subsubsection{\texorpdfstring{set()}{set()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+void Rad\+J\+A\+V\+::\+Externals\+Manager\+::set (\begin{DoxyParamCaption}\item[{const v8\+::\+Local$<$ v8\+::\+Object $>$ \&}]{handle,  }\item[{const \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \&}]{function\+Name,  }\item[{std\+::shared\+\_\+ptr$<$ T $>$}]{object }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Template function to add a relation between C++ object and corresponding Javascript object field. Object will be reset during Javascript garbage collector callback or when \mbox{\hyperlink{class_rad_j_a_v_1_1_externals_manager}{Externals\+Manager}} will go out of scope. 
+\begin{DoxyParams}{Parameters}
+{\em handle} & is a context to which we plan to add new C++ object. \\
+\hline
+{\em function\+Name} & a name of the property of Javascript object to bind external object with. \\
+\hline
+{\em object} & a shared pointer to external object. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_externals_manager_a467e13c3de48cc068f1f5b94413cb855}\label{class_rad_j_a_v_1_1_externals_manager_a467e13c3de48cc068f1f5b94413cb855}} 
+\index{Rad\+J\+A\+V\+::\+Externals\+Manager@{Rad\+J\+A\+V\+::\+Externals\+Manager}!set@{set}}
+\index{set@{set}!Rad\+J\+A\+V\+::\+Externals\+Manager@{Rad\+J\+A\+V\+::\+Externals\+Manager}}
+\subsubsection{\texorpdfstring{set()}{set()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+Externals\+Manager\+::set (\begin{DoxyParamCaption}\item[{J\+S\+Context\+Ref}]{context,  }\item[{J\+S\+Object\+Ref}]{handle,  }\item[{const \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \&}]{function\+Name,  }\item[{\mbox{\hyperlink{class_rad_j_a_v_1_1_c_p_p_1_1_chained_ptr}{C\+P\+P\+::\+Chained\+Ptr}} $\ast$}]{object }\end{DoxyParamCaption})}
+
+Add relation between C++ object and corresponding Javascript object field. Object will be destroyed during Javascript engine garbage collector notification or directly from C++ side. 
+\begin{DoxyParams}{Parameters}
+{\em context} & is a context of Javascript virtual machine. \\
+\hline
+{\em handle} & is a Javascript object to which we plan to add new C++ object. \\
+\hline
+{\em function\+Name} & a name of the property of Javascript object to bind external object with. \\
+\hline
+{\em object} & a pointer to external object derived from Chained\+Ptr class. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_externals_manager_a331d6da2a7006bdeae2413d6d1e8c7a6}\label{class_rad_j_a_v_1_1_externals_manager_a331d6da2a7006bdeae2413d6d1e8c7a6}} 
+\index{Rad\+J\+A\+V\+::\+Externals\+Manager@{Rad\+J\+A\+V\+::\+Externals\+Manager}!set@{set}}
+\index{set@{set}!Rad\+J\+A\+V\+::\+Externals\+Manager@{Rad\+J\+A\+V\+::\+Externals\+Manager}}
+\subsubsection{\texorpdfstring{set()}{set()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+void Rad\+J\+A\+V\+::\+Externals\+Manager\+::set (\begin{DoxyParamCaption}\item[{J\+S\+Context\+Ref}]{context,  }\item[{J\+S\+Object\+Ref}]{handle,  }\item[{const \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \&}]{function\+Name,  }\item[{std\+::shared\+\_\+ptr$<$ T $>$}]{object }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Template function to add a relation between C++ object and corresponding Javascript object field. Object will be reset during Javascript garbage collector callback or when \mbox{\hyperlink{class_rad_j_a_v_1_1_externals_manager}{Externals\+Manager}} will go out of scope. 
+\begin{DoxyParams}{Parameters}
+{\em context} & is a context of Javascript virtual machine. \\
+\hline
+{\em handle} & is a Javascript object to which we plan to add new C++ object. \\
+\hline
+{\em function\+Name} & a name of the property of Javascript object to bind external object with. \\
+\hline
+{\em object} & a shared pointer to external object. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/editing/projects/\+Rad\+Jav\+Private/library/include/\+Rad\+Jav/\mbox{\hyperlink{_rad_jav_j_s_externals_8h}{Rad\+Jav\+J\+S\+Externals.\+h}}\item 
+C\+:/editing/projects/\+Rad\+Jav\+Private/library/src/\+Rad\+Jav/\mbox{\hyperlink{_rad_jav_j_s_externals_8cpp}{Rad\+Jav\+J\+S\+Externals.\+cpp}}\end{DoxyCompactItemize}

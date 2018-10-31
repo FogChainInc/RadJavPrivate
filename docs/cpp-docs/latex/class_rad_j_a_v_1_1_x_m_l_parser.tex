@@ -1,0 +1,118 @@
+\hypertarget{class_rad_j_a_v_1_1_x_m_l_parser}{}\section{Rad\+J\+AV\+:\+:X\+M\+L\+Parser Class Reference}
+\label{class_rad_j_a_v_1_1_x_m_l_parser}\index{Rad\+J\+A\+V\+::\+X\+M\+L\+Parser@{Rad\+J\+A\+V\+::\+X\+M\+L\+Parser}}
+
+
+{\ttfamily \#include $<$Rad\+Jav\+X\+M\+L.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_x_m_l_parser_a8ad57c4c2de9f61121ffda5d332cb206}{X\+M\+L\+Parser}} ()
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_x_m_l_parser_a11f7490ac246d5212ae7f501130f340c}{X\+M\+L\+Parser}} (\mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} file)
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_x_m_l_parser_ad84a017bff97601b8e8174818fe74a10}{$\sim$\+X\+M\+L\+Parser}} ()
+\item 
+bool \mbox{\hyperlink{class_rad_j_a_v_1_1_x_m_l_parser_a04202927239d88befa3abe5b34dd4d69}{parse\+File}} (\mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} file)
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_x_m_l_element}{X\+M\+L\+Element}} $\ast$ \mbox{\hyperlink{class_rad_j_a_v_1_1_x_m_l_parser_a0b569df9b96e88892571e6b3d68f339c}{find\+Tag}} (\mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} tag\+To\+Find)
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_array}{Array}}$<$ \mbox{\hyperlink{class_rad_j_a_v_1_1_x_m_l_element}{X\+M\+L\+Element}} $\ast$ $>$ \mbox{\hyperlink{class_rad_j_a_v_1_1_x_m_l_parser_a8e5cbe6c970eea6badc484f8717726e6}{find\+All\+Tags}} (\mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} tag\+To\+Find)
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \mbox{\hyperlink{class_rad_j_a_v_1_1_x_m_l_parser_a77876c949c79265dcb16ab0a54f65331}{get\+Filename}} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_rad_j_a_v_1_1_x_m_l_parser_a797367399966980f8bf282bc59d1ba71}{navigate\+Children}} (int depth, \mbox{\hyperlink{class_rad_j_a_v_1_1_x_m_l_element}{X\+M\+L\+Element}} $\ast$parent, tinyxml2\+::\+X\+M\+L\+Element $\ast$element)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+tinyxml2\+::\+X\+M\+L\+Document \mbox{\hyperlink{class_rad_j_a_v_1_1_x_m_l_parser_a775563925e86884ccec821901d40e20a}{td\+File}}
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} \mbox{\hyperlink{class_rad_j_a_v_1_1_x_m_l_parser_a270768f11af639de9ecae1f8b02ca366}{str\+Filename}}
+\item 
+\mbox{\hyperlink{class_rad_j_a_v_1_1_array}{Array}}$<$ \mbox{\hyperlink{class_rad_j_a_v_1_1_x_m_l_element}{X\+M\+L\+Element}} $\ast$ $>$ $\ast$ \mbox{\hyperlink{class_rad_j_a_v_1_1_x_m_l_parser_a409b0959aca98071afe83bba9d25e654}{ary\+Elements}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_x_m_l_parser_a8ad57c4c2de9f61121ffda5d332cb206}\label{class_rad_j_a_v_1_1_x_m_l_parser_a8ad57c4c2de9f61121ffda5d332cb206}} 
+\index{Rad\+J\+A\+V\+::\+X\+M\+L\+Parser@{Rad\+J\+A\+V\+::\+X\+M\+L\+Parser}!X\+M\+L\+Parser@{X\+M\+L\+Parser}}
+\index{X\+M\+L\+Parser@{X\+M\+L\+Parser}!Rad\+J\+A\+V\+::\+X\+M\+L\+Parser@{Rad\+J\+A\+V\+::\+X\+M\+L\+Parser}}
+\subsubsection{\texorpdfstring{X\+M\+L\+Parser()}{XMLParser()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Rad\+J\+A\+V\+::\+X\+M\+L\+Parser\+::\+X\+M\+L\+Parser (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_x_m_l_parser_a11f7490ac246d5212ae7f501130f340c}\label{class_rad_j_a_v_1_1_x_m_l_parser_a11f7490ac246d5212ae7f501130f340c}} 
+\index{Rad\+J\+A\+V\+::\+X\+M\+L\+Parser@{Rad\+J\+A\+V\+::\+X\+M\+L\+Parser}!X\+M\+L\+Parser@{X\+M\+L\+Parser}}
+\index{X\+M\+L\+Parser@{X\+M\+L\+Parser}!Rad\+J\+A\+V\+::\+X\+M\+L\+Parser@{Rad\+J\+A\+V\+::\+X\+M\+L\+Parser}}
+\subsubsection{\texorpdfstring{X\+M\+L\+Parser()}{XMLParser()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Rad\+J\+A\+V\+::\+X\+M\+L\+Parser\+::\+X\+M\+L\+Parser (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}}}]{file }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_x_m_l_parser_ad84a017bff97601b8e8174818fe74a10}\label{class_rad_j_a_v_1_1_x_m_l_parser_ad84a017bff97601b8e8174818fe74a10}} 
+\index{Rad\+J\+A\+V\+::\+X\+M\+L\+Parser@{Rad\+J\+A\+V\+::\+X\+M\+L\+Parser}!````~X\+M\+L\+Parser@{$\sim$\+X\+M\+L\+Parser}}
+\index{````~X\+M\+L\+Parser@{$\sim$\+X\+M\+L\+Parser}!Rad\+J\+A\+V\+::\+X\+M\+L\+Parser@{Rad\+J\+A\+V\+::\+X\+M\+L\+Parser}}
+\subsubsection{\texorpdfstring{$\sim$\+X\+M\+L\+Parser()}{~XMLParser()}}
+{\footnotesize\ttfamily Rad\+J\+A\+V\+::\+X\+M\+L\+Parser\+::$\sim$\+X\+M\+L\+Parser (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_x_m_l_parser_a8e5cbe6c970eea6badc484f8717726e6}\label{class_rad_j_a_v_1_1_x_m_l_parser_a8e5cbe6c970eea6badc484f8717726e6}} 
+\index{Rad\+J\+A\+V\+::\+X\+M\+L\+Parser@{Rad\+J\+A\+V\+::\+X\+M\+L\+Parser}!find\+All\+Tags@{find\+All\+Tags}}
+\index{find\+All\+Tags@{find\+All\+Tags}!Rad\+J\+A\+V\+::\+X\+M\+L\+Parser@{Rad\+J\+A\+V\+::\+X\+M\+L\+Parser}}
+\subsubsection{\texorpdfstring{find\+All\+Tags()}{findAllTags()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_rad_j_a_v_1_1_array}{Array}}$<$ \mbox{\hyperlink{class_rad_j_a_v_1_1_x_m_l_element}{X\+M\+L\+Element}} $\ast$ $>$ Rad\+J\+A\+V\+::\+X\+M\+L\+Parser\+::find\+All\+Tags (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}}}]{tag\+To\+Find }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_x_m_l_parser_a0b569df9b96e88892571e6b3d68f339c}\label{class_rad_j_a_v_1_1_x_m_l_parser_a0b569df9b96e88892571e6b3d68f339c}} 
+\index{Rad\+J\+A\+V\+::\+X\+M\+L\+Parser@{Rad\+J\+A\+V\+::\+X\+M\+L\+Parser}!find\+Tag@{find\+Tag}}
+\index{find\+Tag@{find\+Tag}!Rad\+J\+A\+V\+::\+X\+M\+L\+Parser@{Rad\+J\+A\+V\+::\+X\+M\+L\+Parser}}
+\subsubsection{\texorpdfstring{find\+Tag()}{findTag()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_rad_j_a_v_1_1_x_m_l_element}{X\+M\+L\+Element}} $\ast$ Rad\+J\+A\+V\+::\+X\+M\+L\+Parser\+::find\+Tag (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}}}]{tag\+To\+Find }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_x_m_l_parser_a77876c949c79265dcb16ab0a54f65331}\label{class_rad_j_a_v_1_1_x_m_l_parser_a77876c949c79265dcb16ab0a54f65331}} 
+\index{Rad\+J\+A\+V\+::\+X\+M\+L\+Parser@{Rad\+J\+A\+V\+::\+X\+M\+L\+Parser}!get\+Filename@{get\+Filename}}
+\index{get\+Filename@{get\+Filename}!Rad\+J\+A\+V\+::\+X\+M\+L\+Parser@{Rad\+J\+A\+V\+::\+X\+M\+L\+Parser}}
+\subsubsection{\texorpdfstring{get\+Filename()}{getFilename()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} Rad\+J\+A\+V\+::\+X\+M\+L\+Parser\+::get\+Filename (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_x_m_l_parser_a797367399966980f8bf282bc59d1ba71}\label{class_rad_j_a_v_1_1_x_m_l_parser_a797367399966980f8bf282bc59d1ba71}} 
+\index{Rad\+J\+A\+V\+::\+X\+M\+L\+Parser@{Rad\+J\+A\+V\+::\+X\+M\+L\+Parser}!navigate\+Children@{navigate\+Children}}
+\index{navigate\+Children@{navigate\+Children}!Rad\+J\+A\+V\+::\+X\+M\+L\+Parser@{Rad\+J\+A\+V\+::\+X\+M\+L\+Parser}}
+\subsubsection{\texorpdfstring{navigate\+Children()}{navigateChildren()}}
+{\footnotesize\ttfamily void Rad\+J\+A\+V\+::\+X\+M\+L\+Parser\+::navigate\+Children (\begin{DoxyParamCaption}\item[{int}]{depth,  }\item[{\mbox{\hyperlink{class_rad_j_a_v_1_1_x_m_l_element}{X\+M\+L\+Element}} $\ast$}]{parent,  }\item[{tinyxml2\+::\+X\+M\+L\+Element $\ast$}]{element }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_x_m_l_parser_a04202927239d88befa3abe5b34dd4d69}\label{class_rad_j_a_v_1_1_x_m_l_parser_a04202927239d88befa3abe5b34dd4d69}} 
+\index{Rad\+J\+A\+V\+::\+X\+M\+L\+Parser@{Rad\+J\+A\+V\+::\+X\+M\+L\+Parser}!parse\+File@{parse\+File}}
+\index{parse\+File@{parse\+File}!Rad\+J\+A\+V\+::\+X\+M\+L\+Parser@{Rad\+J\+A\+V\+::\+X\+M\+L\+Parser}}
+\subsubsection{\texorpdfstring{parse\+File()}{parseFile()}}
+{\footnotesize\ttfamily bool Rad\+J\+A\+V\+::\+X\+M\+L\+Parser\+::parse\+File (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}}}]{file }\end{DoxyParamCaption})}
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_x_m_l_parser_a409b0959aca98071afe83bba9d25e654}\label{class_rad_j_a_v_1_1_x_m_l_parser_a409b0959aca98071afe83bba9d25e654}} 
+\index{Rad\+J\+A\+V\+::\+X\+M\+L\+Parser@{Rad\+J\+A\+V\+::\+X\+M\+L\+Parser}!ary\+Elements@{ary\+Elements}}
+\index{ary\+Elements@{ary\+Elements}!Rad\+J\+A\+V\+::\+X\+M\+L\+Parser@{Rad\+J\+A\+V\+::\+X\+M\+L\+Parser}}
+\subsubsection{\texorpdfstring{ary\+Elements}{aryElements}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_rad_j_a_v_1_1_array}{Array}}$<$\mbox{\hyperlink{class_rad_j_a_v_1_1_x_m_l_element}{X\+M\+L\+Element}} $\ast$$>$$\ast$ Rad\+J\+A\+V\+::\+X\+M\+L\+Parser\+::ary\+Elements\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_x_m_l_parser_a270768f11af639de9ecae1f8b02ca366}\label{class_rad_j_a_v_1_1_x_m_l_parser_a270768f11af639de9ecae1f8b02ca366}} 
+\index{Rad\+J\+A\+V\+::\+X\+M\+L\+Parser@{Rad\+J\+A\+V\+::\+X\+M\+L\+Parser}!str\+Filename@{str\+Filename}}
+\index{str\+Filename@{str\+Filename}!Rad\+J\+A\+V\+::\+X\+M\+L\+Parser@{Rad\+J\+A\+V\+::\+X\+M\+L\+Parser}}
+\subsubsection{\texorpdfstring{str\+Filename}{strFilename}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_rad_j_a_v_1_1_string}{String}} Rad\+J\+A\+V\+::\+X\+M\+L\+Parser\+::str\+Filename\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_rad_j_a_v_1_1_x_m_l_parser_a775563925e86884ccec821901d40e20a}\label{class_rad_j_a_v_1_1_x_m_l_parser_a775563925e86884ccec821901d40e20a}} 
+\index{Rad\+J\+A\+V\+::\+X\+M\+L\+Parser@{Rad\+J\+A\+V\+::\+X\+M\+L\+Parser}!td\+File@{td\+File}}
+\index{td\+File@{td\+File}!Rad\+J\+A\+V\+::\+X\+M\+L\+Parser@{Rad\+J\+A\+V\+::\+X\+M\+L\+Parser}}
+\subsubsection{\texorpdfstring{td\+File}{tdFile}}
+{\footnotesize\ttfamily tinyxml2\+::\+X\+M\+L\+Document Rad\+J\+A\+V\+::\+X\+M\+L\+Parser\+::td\+File\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/editing/projects/\+Rad\+Jav\+Private/library/include/\+Rad\+Jav/\mbox{\hyperlink{_rad_jav_x_m_l_8h}{Rad\+Jav\+X\+M\+L.\+h}}\item 
+C\+:/editing/projects/\+Rad\+Jav\+Private/library/src/\+Rad\+Jav/\mbox{\hyperlink{_rad_jav_x_m_l_8cpp}{Rad\+Jav\+X\+M\+L.\+cpp}}\end{DoxyCompactItemize}
