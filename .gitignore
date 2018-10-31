@@ -4,6 +4,9 @@ leaks.csv
 node_modules
 packages-lock.json
 
+docs/js-docs
+docs/cpp-docs
+
 library/include/RadJav/RadJavJavascriptCode.h
 library/build*
 vm/build*
