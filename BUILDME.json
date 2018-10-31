@@ -1,0 +1,40 @@
+{
+	"name": "RadJav VM", 
+	"builds": [
+		{
+			"name": "RadJav VM Linux", 
+			"os": "ubuntu 18.04 x64", 
+			"apt": {
+					"packages": [
+							"libgtk2.0-dev", 
+							"libgtk-3-dev", 
+							"libwebkitgtk-dev", 
+							"libwxgtk3.0-dev", 
+							"libogre-1.9-dev"
+						]
+				}, 
+			"testing": {
+					"tests": [
+						{
+							"cmd": "RadJavVM", 
+							"args": ["$file"], 
+							"workingDir": "tests/crypto"
+						}
+					]
+				}
+		}, 
+		{
+			"name": "RadJav VM Windows", 
+			"os": "windows 18.04 x64", 
+			"apt": {
+					"packages": [
+							"libgtk2.0-dev", 
+							"libgtk-3-dev", 
+							"libwebkitgtk-dev", 
+							"libwxgtk3.0-dev", 
+							"libogre-1.9-dev"
+						]
+				}
+		}
+	]
+}
