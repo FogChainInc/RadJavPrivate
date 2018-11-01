@@ -62,7 +62,11 @@ namespace RadJAV
 			V8_CALLBACK(object, "normalizePath", IO::normalizePath);
 			V8_CALLBACK(object, "normalizeAndVerifyPath", IO::normalizeAndVerifyPath);
 			V8_CALLBACK(object, "normalizeCurrentPath", IO::normalizeCurrentPath);
-			
+
+			V8_CALLBACK(object, "watchFile", IO::watchFile);
+			V8_CALLBACK(object, "watchFolder", IO::watchFolder);
+			V8_CALLBACK(object, "unwatch", IO::unwatch);
+
 			V8_CALLBACK(object, "onFileList", IO::onFileList);
 		}
 
@@ -462,6 +466,83 @@ namespace RadJAV
 
 			args.GetReturnValue().Set(path);
 		}
+
+
+		// ###################################################################
+
+
+		void IO::watchFile(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+			v8::Local<v8::Function> asyncCallback = v8::Local<v8::Function>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+			v8::Local<v8::String> file = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
+
+			RadJAV::CPP::IO::FileWatch::watchFile([asyncCallback, args](String file_, int action_) {
+				v8::Local<v8::Value> strs[2];
+				strs[0] = file_.toV8String(args.GetIsolate());
+				strs[1] = String(std::to_string(action_)).toV8String(args.GetIsolate());
+
+				auto result = asyncCallback->Call(args.This(), 2, strs);
+				v8::Local<v8::Boolean> finalResult;
+				RJBOOL isEmpty = false;
+
+				if (result.IsEmpty() == true)
+					isEmpty = true;
+				else
+				{
+					if (result->IsNullOrUndefined() == true)
+						isEmpty = true;
+				}
+
+				if (isEmpty == true)
+					finalResult = v8::Boolean::New(args.GetIsolate(), true);
+				else
+					finalResult = v8::Local<v8::Boolean>::Cast(result);
+
+				return (finalResult->Value());
+			}, parseV8Value(file));
+		}
+
+
+		void IO::watchFolder(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+			v8::Local<v8::Function> asyncCallback = v8::Local<v8::Function>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
+
+			RadJAV::CPP::IO::FileWatch::watchFolder([asyncCallback, args](String file_, int action_) {
+				v8::Local<v8::Value> strs[2];
+				strs[0] = file_.toV8String(args.GetIsolate());
+				strs[1] = String(std::to_string(action_)).toV8String(args.GetIsolate());
+
+				auto result = asyncCallback->Call(args.This(), 2, strs);
+				v8::Local<v8::Boolean> finalResult;
+				RJBOOL isEmpty = false;
+
+				if (result.IsEmpty() == true)
+					isEmpty = true;
+				else
+				{
+					if (result->IsNullOrUndefined() == true)
+						isEmpty = true;
+				}
+
+				if (isEmpty == true)
+					finalResult = v8::Boolean::New(args.GetIsolate(), true);
+				else
+					finalResult = v8::Local<v8::Boolean>::Cast(result);
+
+				return (finalResult->Value());
+			}, parseV8Value(path));
+		}
+
+		void IO::unwatch(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+			v8::Local<v8::String> file = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+			RadJAV::CPP::IO::FileWatch::stop(parseV8Value(file));
+		}
+
+
+		// ###################################################################
+
 
 		void IO::onFileList(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{

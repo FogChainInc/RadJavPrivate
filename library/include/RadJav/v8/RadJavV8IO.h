@@ -64,8 +64,13 @@
 					void normalizePath(const v8::FunctionCallbackInfo<v8::Value> &args);
 					void normalizeAndVerifyPath(const v8::FunctionCallbackInfo<v8::Value> &args);
 					void normalizeCurrentPath(const v8::FunctionCallbackInfo<v8::Value> &args);
+					
 
 					void onFileList(const v8::FunctionCallbackInfo<v8::Value> &args);
+
+					void watchFile(const v8::FunctionCallbackInfo<v8::Value> &args);
+					void watchFolder(const v8::FunctionCallbackInfo<v8::Value> &args);
+					void unwatch(const v8::FunctionCallbackInfo<v8::Value> &args);
 
 					class RADJAV_EXPORT SerialComm
 					{

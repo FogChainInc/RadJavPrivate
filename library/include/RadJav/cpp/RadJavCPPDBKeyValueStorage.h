@@ -23,6 +23,8 @@
 #include "RadJavPreprocessor.h"
 #include "RadJavString.h"
 
+#define USE_LEVELDB 1
+
 #ifdef USE_LEVELDB
 	namespace leveldb
 #elif defined USE_ROCKSDB

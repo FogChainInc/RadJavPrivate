@@ -388,7 +388,11 @@ set (SOURCES ${SOURCES_files_RadJav__cpp__Global__Sources} ${SOURCES})
 # C++ IO
 set (SOURCES_files_RadJav__cpp__IO__Sources 
 	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPIO.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPIOXML.cpp")
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPIOXML.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/FileWatcher.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/FileWatcherLinux.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/FileWatcherOSX.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/FileWatcherWin32.cpp")
 source_group ("RadJav\\CPP\\IO" FILES ${SOURCES_files_RadJav__cpp__IO__Sources})
 
 set (SOURCES ${SOURCES_files_RadJav__cpp__IO__Sources} ${SOURCES})
@@ -413,6 +417,7 @@ if (USE_V8)
 	if (libRadJav_ALLOW_NETWORKING)
 		set (SOURCES_files_RadJav__cpp__Net__Sources 
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNet.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetUriParser.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebSocketServer.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebSocketClient.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebServer.cpp"

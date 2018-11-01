@@ -40,6 +40,11 @@ var RadJav;
             return;
         };
         IO.normalizeCurrentPath = function (path) { return; };
+        
+        IO.watchFile = function (asyncCallback, file) { };
+		IO.watchFolder = function (asyncCallback, path) { };
+		IO.unwatch = function (file) { };
+
         return IO;
     }());
     RadJav.IO = IO;

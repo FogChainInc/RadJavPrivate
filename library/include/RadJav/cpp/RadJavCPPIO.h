@@ -30,6 +30,7 @@
 #include "RadJavHashMap.h"
 
 #include "cpp/RadJavCPPChainedPtr.h"
+#include "FileWatcher.h"
 
 #ifdef USE_TINYXML2
 	#include <tinyxml2.h>
@@ -97,6 +98,17 @@ namespace RadJAV
 			String normalizeAndVerifyPath(String path, String basePath = "");
 			/// Normalize a file/directory path relative to the current directory path.
 			String normalizeCurrentPath(String path);
+
+			class RADJAV_EXPORT FileWatch
+			{
+			public:
+				static void watchFile(std::function<void(const std::string& file_, const int action_)> asyncCallback_, const String file_);
+				static void watchFolder(std::function<void(const std::string& file_, const int action_)> asyncCallback_, const String folder_);
+				static void stop(const String file_);
+
+			private:
+				static FW::fileWatcher* m_watcher;
+			};
 
 			/// Handles serial communications.
 			class RADJAV_EXPORT SerialComm

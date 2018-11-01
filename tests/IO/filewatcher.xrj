@@ -1,0 +1,38 @@
+var win = new RadJav.GUI.Window ("win", "Window Example");
+
+// Stupid hack for now. Delete in the future. Should throw errors in HTML5.
+win.create ().then (function (win2)
+	{
+	});
+
+var io = new RadJav.IO();
+
+var tempDir;
+var sep;
+
+if (RadJav.OS.type == "windows") {
+    tempDir = "c:\\temp";
+    sep = "\\";
+} else {
+    tempDir = "/temp";
+    sep = "/";
+}
+
+RadJav.Console.println("PROGRAM START - FILEWATCHER");
+
+try
+{
+    RadJav.Console.println("##################### Test 1 ######################################");
+    io.watchFolder(function (file, status)
+    {
+    }, "C:\\temp\\");
+    io.watchFile(function (file, status)
+    {
+    }, "C:\\temp\\foo.txt");
+}
+catch (error)
+{
+    RadJav.Console.println(error);
+}
+
+RadJav.Console.println("PROGRAM COMPLETE - FILEWATCHER");

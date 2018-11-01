@@ -36,7 +36,7 @@ set (RadJavVM_LANGUAGE "en_us" CACHE STRING "Select language to compile with")
 set (libRadJav_STATIC false CACHE BOOL "Use static build of libRadJav")
 set (RadJavVM_CREATE_INSTALL_PACKAGES false CACHE BOOL "Create install packages")
 set (RadJavVM_EMBED_EXAMPLES true CACHE BOOL "Embed examples into application bundle")
-set (RadJavVM_EMBED_HTML5 true CACHE BOOL "Embed HTML5 into application bundle")
+set (RadJavVM_EMBED_HTML5 false CACHE BOOL "Embed HTML5 into application bundle")
 
 if (libRadJav_JS_LIBRARY STREQUAL "V8")
 	set (RadJavVM_DEPENDENCY_OBJECTS_LIST "./natives_blob.bin;./snapshot_blob.bin" CACHE STRING "Semicolon separated list of paths to dependencies \

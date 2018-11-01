@@ -36,19 +36,19 @@
 #endif
 
 RadJAV::Array<int> RadJAV::CPP::IO::SerialComm::m_baudRates = RadJAV::Array<int> ({ 110, 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 38400, 57600, 115200, 128000, 256000 });
+FW::fileWatcher* RadJAV::CPP::IO::FileWatch::m_watcher = new FW::fileWatcher();
+
 
 #ifdef USE_V8
 	#include "v8/RadJavV8JavascriptEngine.h"
 
 	v8::Persistent<v8::Function>* RadJAV::CPP::IO::TextFile::m_textfileReadEvent = nullptr;
 	v8::Persistent<v8::Function>* RadJAV::CPP::IO::StreamFile::m_streamfileReadEvent = nullptr;
-	//v8::Persistent<v8::Function>* RadJAV::CPP::IO::m_fileListEvent = nullptr;
 #elif defined USE_JAVASCRIPTCORE
 	#include "jscore/RadJavJSCJavascriptEngine.h"
 
 	JSObjectRef RadJAV::CPP::IO::TextFile::m_textfileReadEvent = nullptr;
 	JSObjectRef RadJAV::CPP::IO::StreamFile::m_streamfileReadEvent = nullptr;
-	//JSObjectRef RadJAV::CPP::IO::m_fileListEvent = nullptr;
 #endif
 
 namespace RadJAV
@@ -361,6 +361,21 @@ namespace RadJAV
 				}
 				catch (fs::filesystem_error ex) {}
 			#endif
+		}
+
+		void RadJAV::CPP::IO::FileWatch::watchFile(std::function<void(const std::string& file_, const int action_)> callback_, const String file_)
+		{
+			m_watcher->addFile(file_, callback_);
+		}
+
+		void RadJAV::CPP::IO::FileWatch::watchFolder(std::function<void(const std::string& file_, const int action_)> callback_, const String folder_)
+		{
+			m_watcher->addFolder(folder_, true, callback_);
+		}
+
+		void RadJAV::CPP::IO::FileWatch::stop(const String file_)
+		{
+			m_watcher->remove(file_);
 		}
 
 		RJBOOL IO::SerialComm::open(String port_, RJINT baudRate_)

@@ -390,7 +390,12 @@ set (SOURCES ${SOURCES_files_RadJav__cpp__Global__Headers} ${SOURCES})
 
 # C++ IO
 set (SOURCES_files_RadJav__cpp__IO__Headers 
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPIO.h")
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPIO.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/FileWatcher.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/FileWatcherImpl.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/FileWatcherLinux.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/FileWatcherOSX.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/FileWatcherWin32.h")
 source_group ("RadJav\\CPP\\IO" FILES ${SOURCES_files_RadJav__cpp__IO__Headers})
 
 set (SOURCES ${SOURCES_files_RadJav__cpp__IO__Headers} ${SOURCES})
