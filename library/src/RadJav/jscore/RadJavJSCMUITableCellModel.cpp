@@ -161,6 +161,57 @@ namespace RadJAV
                 
                 return JSValueMakeUndefined(ctx);
             }
+            
+            
+            JSValueRef TableCellModel::getIsHeader(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+            {
+                CppMuiObject *appObject = (CppMuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+                RJBOOL value = JSC_JAVASCRIPT_ENGINE->jscGetBool(thisObject, "_isHeader");
+                
+                if (appObject != NULL)
+                    value = appObject->getIsHeader();
+                
+                return JSValueMakeBoolean(ctx, value);
+            }
+            
+            
+            JSValueRef TableCellModel::setIsHeader(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+            {
+                RJBOOL value = JSC_JAVASCRIPT_ENGINE->jscParseBool(arguments[0]);
+                JSC_JAVASCRIPT_ENGINE->jscSetBool(thisObject, "_isHeader", value);
+                
+                CppMuiObject *appObject = (CppMuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+                
+                if (appObject != NULL)
+                    appObject->setIsHeader(value);
+                
+                return JSValueMakeUndefined(ctx);
+            }
+            
+            JSValueRef TableCellModel::getIsFooter(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+            {
+                CppMuiObject *appObject = (CppMuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+                RJBOOL value = JSC_JAVASCRIPT_ENGINE->jscGetBool(thisObject, "_isFooter");
+                
+                if (appObject != NULL)
+                    value = appObject->getIsFooter();
+                
+                return JSValueMakeBoolean(ctx, value);
+            }
+            
+            
+            JSValueRef TableCellModel::setIsFooter(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+            {
+                RJBOOL value = JSC_JAVASCRIPT_ENGINE->jscParseBool(arguments[0]);
+                JSC_JAVASCRIPT_ENGINE->jscSetBool(thisObject, "_isFooter", value);
+                
+                CppMuiObject *appObject = (CppMuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+                
+                if (appObject != NULL)
+                    appObject->setIsFooter(value);
+                
+                return JSValueMakeUndefined(ctx);
+            }
            
 		}
 	}

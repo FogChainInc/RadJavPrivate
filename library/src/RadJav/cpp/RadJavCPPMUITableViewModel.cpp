@@ -60,6 +60,48 @@ namespace RadJAV
             void TableViewModel::setCellModels(std::vector<CPP::MUI::TableCellModel *> *models)
             {
                 this->models = models;
+                
+                if (models->size()!= 0){
+                    this->cells = new std::vector< std::vector<CPP::MUI::TableCellModel*> >();
+                    this->headers = new std::vector<CPP::MUI::TableCellModel*>();
+                    //use headers and multiple sections
+                    if (models->at(0)->getIsHeader()){
+                        
+                        CPP::MUI::TableCellModel * currentHeader = models->at(0);
+                        headers->push_back(currentHeader);
+                        std::vector<CPP::MUI::TableCellModel *> *currentSection = new std::vector<CPP::MUI::TableCellModel*>();
+                        
+                        for (int i = 1; i < models->size(); i++) {
+                            
+                            CPP::MUI::TableCellModel * currentModel = models->at(i);
+                            
+                            if (currentModel->getIsHeader()){
+                                
+                                cells->push_back(*currentSection);
+                                currentSection = new std::vector<CPP::MUI::TableCellModel*>();
+                                currentHeader =  currentModel;
+                                headers->push_back(currentHeader);
+                            }
+                            else {
+                                currentSection->push_back(currentModel);
+                            }
+                        }
+                        cells->push_back(*currentSection);
+                    }
+                    //single section. ignore further headers and footers
+                    else {
+                        std::vector<CPP::MUI::TableCellModel *> *currentSection = new std::vector<CPP::MUI::TableCellModel*>();
+                        for (int i = 0; i < models->size(); i++) {
+                            CPP::MUI::TableCellModel * currentModel = models->at(i);
+                            
+                            if ( !currentModel->getIsHeader() && !currentModel->getIsFooter() ){
+                                currentSection->push_back(currentModel);
+                            }
+                        }
+                        cells->push_back(*currentSection);
+                    }
+                }
+
                 if (this->linkedFrame != nullptr){
                     ((RadJAV::CPP::MUI::TableViewFrame*)this->linkedFrame)->reload();
                 }

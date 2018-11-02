@@ -184,10 +184,16 @@
     return false;
 }
 
-//- (void)touchUp
-//{
-//    self.widget->executeEvent("click");
-//}
+
+
+
+- (std::vector<RadJAV::CPP::MUI::TableCellModel *>*)cellsInSection:(NSInteger)section
+{
+    return &self.model->cells->at(section);
+}
+
+
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     RadJAV::CPP::MUI::TableCellModel * model = self.model->models->at(indexPath.row);
@@ -227,7 +233,12 @@
 //@implementation TableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
-    return 1;//one section for now
+    if (self.model == nullptr){
+        return 0;
+    }
+    
+    
+    return self.model->cells->size();
 }
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -235,12 +246,14 @@
         return 0;
     }
     
+    std::vector<RadJAV::CPP::MUI::TableCellModel *>* vector = [self cellsInSection:section];
     
-    return self.model->models->size();
+    return vector->size();
 }
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
-    RadJAV::CPP::MUI::TableCellModel * model = self.model->models->at(indexPath.row);
+     std::vector<RadJAV::CPP::MUI::TableCellModel *>* section = [self cellsInSection:indexPath.section];
+    RadJAV::CPP::MUI::TableCellModel * model = section->at(indexPath.row);
     model->widgetDelegate = self;
     UITableViewCell *cell = nil;//[tableView dequeueReusableCellWithIdentifier:@"identifier"];//tableView.dequeueReusableCell(withIdentifier: "LabelCell", for: indexPath)
     
@@ -250,8 +263,6 @@
         if (model->getUsesAccessoryButton()){
             cell.accessoryType = UITableViewCellAccessoryDetailButton;
         }
-        
- 
     }
     
     cell.textLabel.text = RadJavCocoaStringFromRadJavString(model->name);

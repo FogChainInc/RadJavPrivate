@@ -38,6 +38,8 @@ namespace RadJAV
                 TableCellModel::TableCellModel(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[])
                     : GObject (jsEngine, thisObj, numArgs, args)
                 {
+                    isHeader = false;
+                    isFooter = false;
                 }
             #endif
 
@@ -101,6 +103,24 @@ namespace RadJAV
             void TableCellModel::setIsDeletable(bool value)
             {
                 this->isDeletable = value;
+            }
+            
+            bool TableCellModel::getIsHeader()
+            {
+                return this->isHeader;
+            }
+            void TableCellModel::setIsHeader(bool value)
+            {
+                this->isHeader = value;
+            }
+            
+            bool TableCellModel::getIsFooter()
+            {
+                return this->isFooter;
+            }
+            void TableCellModel::setIsFooter(bool value)
+            {
+                this->isFooter = value;
             }
             
 #ifdef USE_IOS

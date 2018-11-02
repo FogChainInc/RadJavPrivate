@@ -54,6 +54,8 @@
                     bool usesCheckmark;
                     bool isSelected;
                     bool isDeletable;
+                    bool isHeader;
+                    bool isFooter;
 					public:
 						#ifdef USE_V8
 							TableCellModel(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
@@ -72,6 +74,10 @@
                         void setIsSelected(bool value);
                         bool getIsDeletable();
                         void setIsDeletable(bool value);
+                        bool getIsHeader();
+                        void setIsHeader(bool value);
+                        bool getIsFooter();
+                        void setIsFooter(bool value);
 
                         bool bindEvent(const String& eventName, const GUI::Event* event);
 #ifdef USE_IOS
