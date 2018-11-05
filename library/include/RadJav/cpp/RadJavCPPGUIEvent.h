@@ -78,7 +78,7 @@ namespace RadJAV
                     {
                         // Execute a persistent function.
                         v8::Local<v8::Function> function = v8::Local<v8::Function>::Cast( VariantObject<UserData>::object->Get(V8_JAVASCRIPT_ENGINE->isolate));
-                        v8::Local<v8::Value> result;
+                        v8::Local<v8::Value> result = v8::Undefined (V8_JAVASCRIPT_ENGINE->isolate);
                         
                         if (V8_JAVASCRIPT_ENGINE->v8IsNull(function) == false)
                             result = function->Call(V8_JAVASCRIPT_ENGINE->globalContext->Global(), numArgs, args);
