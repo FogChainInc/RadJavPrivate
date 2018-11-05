@@ -503,6 +503,11 @@ namespace RadJAV
 					
 					if (tbegin == tend)
 						continue;
+
+					#ifdef THREADS_USE_STD_THREAD
+						Thread *thread = tbegin->second;
+						thread->stop();
+					#endif
 					
 					/// @bug tbegin->second should be deleted, or does wxWidgets delete it automatically?
 					/// @note wxWidgets delete wxThread automatically, we need to update removeThreads only
@@ -519,17 +524,8 @@ namespace RadJAV
 				while (tbegin != tend)
 				{
 					Thread *thread = tbegin->second;
-					
-					#ifdef GUI_USE_WXWIDGETS
-						wxThread *wthread = (wxThread *)thread;
-					
-						if (thread->hasThreadStarted () == false)
-						{
-							wthread->Create();
-							wthread->Run();
-							thread->setAsStarted(true);
-						}
-					#endif
+
+					thread->run();
 					
 					tbegin++;
 				}

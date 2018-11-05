@@ -35,6 +35,7 @@ namespace RadJav
 		public attachedObject: HTMLElement | RadJav.Interact.Component | RadJav.GUI.GObject | RadJav.C3D.Object3D;
 		public lerpAnimators: Animation.LerpAnimator[];
 		public onUpdate: (timeDelta: number) => void;
+		public onAnimation: (animationObj: any, data: any, timeDelta: number) => void;
 		public onCompleted: () => void;
 		public playState: Animation.PlayState;
 
@@ -44,6 +45,7 @@ namespace RadJav
 			this.attachedObject = null;
 			this.lerpAnimators = [];
 			this.onUpdate = null;
+			this.onAnimation = null;
 			this.onCompleted = null;
 			this.playState = Animation.PlayState.Stopped;
 			RadJav.addAnimation (this);
@@ -125,6 +127,9 @@ namespace RadJav
 								(<RadJav.C3D.Object3D>animObj).setPosition (newPos);
 						}
 					}
+
+					if (this.animation.onAnimation != null)
+						this.animation.onAnimation (animObj, newPos, timeDelta);
 				};
 			this.lerpAnimators.push (animator);
 		}
@@ -176,7 +181,10 @@ namespace RadJav
 			if (event == "update")
 				this.onUpdate = func;
 
-			if (event == "completed")
+			if (event == "animation")
+				this.onAnimation = func;
+
+			if (event == "complete")
 				this.onCompleted = func;
 		}
 

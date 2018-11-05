@@ -455,17 +455,8 @@ namespace RadJAV
 				while (tbegin != tend)
 				{
 					Thread *thread = tbegin->second;
-					
-					#ifdef GUI_USE_WXWIDGETS
-						wxThread *wthread = (wxThread *)thread;
-					
-						if (thread->hasThreadStarted () == false)
-						{
-							wthread->Create();
-							wthread->Run();
-							thread->setAsStarted(true);
-						}
-					#endif
+
+					thread->run();
 					
 					tbegin++;
 				}

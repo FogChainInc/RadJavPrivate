@@ -22,10 +22,11 @@
 
 	#include "RadJavPreprocessor.h"
 
-	#ifdef GUI_USE_WXWIDGETS
+	#ifdef THREADS_USE_WXWIDGETS
 		#include <wx/thread.h>
 		#define LOCK_GUARD(x) wxMutexLocker guard(x)
-	#else
+	#endif
+	#ifdef THREADS_USE_STD_THREAD
 		#include <mutex>
 		#define LOCK_GUARD(x) std::lock_guard<std::mutex> guard(x)
 		#include <thread>
@@ -51,16 +52,19 @@
         #endif
 
 		/// The thread class.
-		#ifdef GUI_USE_WXWIDGETS
+		#ifdef THREADS_USE_WXWIDGETS
 			/// Basic threading class.
 			class RADJAV_EXPORT Thread: public wxThread
-        #else
+		#endif
+		#ifdef THREADS_USE_STD_THREAD
             /// Basic threading class.
-            class RADJAV_EXPORT Thread: public std::thread
+            class RADJAV_EXPORT Thread
         #endif
 			{
 				public:
 					Thread();
+					Thread(void *storeValue);
+					~Thread();
 
 					/// Set whether or not this thread has started executing.
 					/// This is mostly for use in the main app loop.
@@ -75,8 +79,22 @@
 						return (hasStarted);
 					}
 
+					void run();
+					void stop();
+
+					#ifdef THREADS_USE_STD_THREAD
+						virtual void Entry() = 0;
+					#endif
+
 				protected:
+					#ifdef THREADS_USE_STD_THREAD
+						std::thread *thread;
+					#endif
+
+					/// Has the thread started?
 					RJBOOL hasStarted;
+					/// Store a value associated with this thread.
+					void *storeValue;
 			};
 
 		/// Create a thread.
@@ -85,13 +103,16 @@
 			public:
 				SimpleThread();
 
-				#ifdef GUI_USE_WXWIDGETS
+				#ifdef THREADS_USE_WXWIDGETS
 					wxThread::ExitCode Entry();
-				#else
-					RJINT Entry();
+				#endif
+				#ifdef THREADS_USE_STD_THREAD
+					void Entry();
 				#endif
 
+				/// Execute this function at the start of the thread.
 				std::function<void()> onStart;
+				/// When the thread has completed, execute this function.
 				std::function<void()> onComplete;
 		};
 

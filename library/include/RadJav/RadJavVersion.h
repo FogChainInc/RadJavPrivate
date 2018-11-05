@@ -19,7 +19,6 @@
 #ifndef _RADJAV_VERSION_H_
 	#define _RADJAV_VERSION_H_
 
-	/// @version 0.25
 	#define RADJAV_VERSION_MAJOR 0
 	#define RADJAV_VERSION_MINOR 25
 	#define RADJAV_VERSION_PATCH 0

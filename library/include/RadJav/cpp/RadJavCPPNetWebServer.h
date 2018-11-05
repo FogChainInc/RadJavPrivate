@@ -51,7 +51,7 @@
 		{
 			namespace Net
 			{
-				class RADJAV_EXPORT WebServerThread : public Thread
+				/*class RADJAV_EXPORT WebServerThread : public Thread
 				{
 				public:
 					WebServerThread(boost::asio::io_context* ioc);
@@ -65,7 +65,7 @@
 #endif
 				private:
 					boost::asio::io_context* ioc;
-				};
+				};*/
 
 				// Accepts incoming connections and launches the sessions
 				class RADJAV_EXPORT WebServer : public std::enable_shared_from_this<WebServer>, public ChainedPtr

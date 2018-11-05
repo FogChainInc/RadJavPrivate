@@ -41,24 +41,16 @@ if (typeof (window) == "undefined")
  */
 namespace RadJav
 {
-	/** @property 
-	* Allow the use of eval.
-	*/
+	/// Allow the use of eval.
 	export let defaults: any;
 
-	/** @property {Boolean} [useEval=false]
-	* Allow the use of eval.
-	*/
+	/// Allow the use of eval.
 	export let useEval: boolean = true;
 
-	/** @property {Number} [MIN_VERSION=0.05]
-	* The minimum version of code that can be ran.
-	*/
+	/// The minimum version of code that can be ran.
 	export let MIN_VERSION: number = 0.05;
 
-	/** @property {Number} [VERSION=0.05]
-	* The current version.
-	*/
+	/// The current version.
 	export let VERSION: number = 0.05;
 
 	/** @property {String} [baseUrl="./RadJav"]

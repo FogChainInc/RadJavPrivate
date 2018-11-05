@@ -114,8 +114,63 @@ namespace RadJAV
 					timeoutValue = timeout->Value();
 				}
 
-				HttpThread *thread = RJNEW HttpThread(uri, post, timeoutValue, resolvep);
-				V8_JAVASCRIPT_ENGINE->addThread(thread);
+				SimpleThread *thread = RJNEW SimpleThread();
+				thread->onStart = [thread, uri, post, timeoutValue, resolvep]()
+					{
+						String *str = NULL;
+
+						#ifdef HTTP_USE_CURL
+							CURL *curl = curl_easy_init();
+
+							if (curl != NULL)
+							{
+								str = RJNEW String();
+								curl_easy_setopt(curl, CURLOPT_URL, uri.c_str());
+								curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, true);
+								curl_easy_setopt(curl, CURLOPT_WRITEDATA, str);
+								curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, NetCallbacks::curlWrite);
+								curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, timeout);
+								CURLcode result = curl_easy_perform(curl);
+							}
+
+							curl_easy_cleanup(curl);
+						#endif
+						#ifdef USE_NET_BEAST
+							//call the http request using Beast
+							try
+							{
+								RadJAV::CPP::Net::HttpRequest req(uri.c_str());
+								req.connect();
+								req.send(post);
+								*str = req.receivedData();
+								req.close();
+							}
+							catch (std::exception const& e)
+							{
+								RadJav::throwException("HttpRequest failed");
+							}
+						#endif
+
+						RJINT numArgs = 0;
+						v8::Persistent<v8::Array> *results = NULL;
+
+						if (str != NULL)
+						{
+							numArgs = 1;
+							results = RJNEW v8::Persistent<v8::Array>();
+							v8::Local<v8::Array> ary = v8::Array::New(V8_JAVASCRIPT_ENGINE->isolate);
+							ary->Set(0, str->toV8String(V8_JAVASCRIPT_ENGINE->isolate));
+							results->Reset(V8_JAVASCRIPT_ENGINE->isolate, ary);
+						}
+
+						V8_JAVASCRIPT_ENGINE->callFunctionOnNextTick(RJNEW AsyncFunctionCall(resolvep, results));
+
+						DELETEOBJ(str);
+						V8_JAVASCRIPT_ENGINE->removeThread(thread);
+					};
+				 
+				//HttpThread *thread = RJNEW HttpThread(uri, post, timeoutValue, resolvep);
+				//V8_JAVASCRIPT_ENGINE->addThread(thread);
 			}
 
 			RJINT NetCallbacks::curlWrite(RJCHAR *data, RJUINT size, RJUINT nmemb, String *output)
@@ -128,7 +183,7 @@ namespace RadJAV
 				return (size * nmemb);
 			}
 
-			HttpThread::HttpThread(String uri, RJBOOL post, RJLONG timeout, v8::Persistent<v8::Function> *resolvep)
+			/*HttpThread::HttpThread(String uri, RJBOOL post, RJLONG timeout, v8::Persistent<v8::Function> *resolvep)
 				: Thread()
 			{
 				this->uri = uri;
@@ -194,7 +249,7 @@ namespace RadJAV
 				V8_JAVASCRIPT_ENGINE->removeThread(this);
 
 				return (0);
-			}
+			}*/
 		}
 	}
 }

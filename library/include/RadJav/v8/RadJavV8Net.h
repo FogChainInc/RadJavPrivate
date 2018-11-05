@@ -49,7 +49,7 @@
 							static RJINT curlWrite(RJCHAR *data, RJUINT size, RJUINT nmemb, String *output);
 					};
 
-						class RADJAV_EXPORT HttpThread : public Thread
+						/*class RADJAV_EXPORT HttpThread : public Thread
 						{
 							public:
 								HttpThread(String uri, RJBOOL post, RJLONG timeout, v8::Persistent<v8::Function> *resolvep);
@@ -63,7 +63,7 @@
 								String uri;
 								v8::Persistent<v8::Function> *resolvep;
 								RJBOOL post;
-						};
+						};*/
 				}
 			}
 		}

@@ -37,7 +37,7 @@ namespace RadJAV
 	{
 		namespace Net
 		{
-			WebServerThread::WebServerThread(boost::asio::io_context* ioc)
+			/*WebServerThread::WebServerThread(boost::asio::io_context* ioc)
 			: ioc(ioc)
 			{
 			}
@@ -56,7 +56,7 @@ namespace RadJAV
 				V8_JAVASCRIPT_ENGINE->removeThread(this);
 				return (0);
 			};
-#endif
+#endif*/
 			// Report a failure
 			void fail(boost::system::error_code ec, char const* what)
 			{
@@ -471,7 +471,18 @@ namespace RadJAV
 				
 				this->run();
 
-#ifdef GUI_USE_WXWIDGETS	
+				SimpleThread *thread = RJNEW SimpleThread();
+				thread->onStart = [this]()
+					{
+						this->isAlive = true;
+						this->ioc.run();
+					};
+
+				#ifdef USE_V8
+					V8_JAVASCRIPT_ENGINE->addThread(thread);
+				#endif
+
+/*#ifdef GUI_USE_WXWIDGETS	
 				WebServerThread* thread = new WebServerThread(&ioc);
 				thread->Run();
 				isAlive = thread->IsAlive();
@@ -479,7 +490,7 @@ namespace RadJAV
 				//blocking execution
 				isAlive = true;
 				ioc.run();
-#endif
+#endif*/
 			}
 
 #ifdef USE_V8

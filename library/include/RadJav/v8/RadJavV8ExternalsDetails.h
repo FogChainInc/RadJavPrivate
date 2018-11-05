@@ -300,9 +300,10 @@ namespace RadJAV
 		
 	private:
 		std::map<uint32_t, FieldWrapper*> externals;
-		#ifdef GUI_USE_WXWIDGETS
+		#ifdef THREADS_USE_WXWIDGETS
 			wxMutex s_mutexExternalsAccess;
-		#else
+		#endif
+		#ifdef THREADS_USE_STD_THREAD
 			std::mutex s_mutexExternalsAccess;
 		#endif
 	};

@@ -183,7 +183,9 @@ namespace RadJAV
 			void MouseSimulator::setPosition(CPP::Vector2 pos)
 			{
 				#ifdef WIN32
-					INPUT input;
+					SetCursorPos(pos.x, pos.y);
+
+					/*INPUT input;
 
 					input.type = INPUT_MOUSE;
 					input.mi.dx = pos.x;
@@ -194,7 +196,7 @@ namespace RadJAV
 					input.mi.time = 0;
 					input.mi.dwFlags = MOUSEEVENTF_MOVE | MOUSEEVENTF_VIRTUALDESK | MOUSEEVENTF_ABSOLUTE;
 
-					SendInput(1, &input, sizeof(INPUT));
+					SendInput(1, &input, sizeof(INPUT));*/
 				#endif
 
                 #ifdef __APPLE__
