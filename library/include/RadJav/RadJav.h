@@ -108,6 +108,11 @@
 				/// to the console if on another platform.
 				static void printToOutputWindow (String message);
 
+				/// Add a thread for processing.
+				static void addThread(Thread *thread);
+				/// Remove a thread from processing.
+				static void removeThread(Thread *thread);
+
                 /// Screen info attached to this device.
                 static Array<RadJAV::CPP::OS::ScreenInfo> screens;
 

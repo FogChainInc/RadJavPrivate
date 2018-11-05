@@ -43,12 +43,14 @@ namespace RadJAV
 		{
 			WebSocketServer::WebSocketServer()
 			{
+				thread = NULL;
 				m_port = 0;
 				m_isAlive = false;
 			}
 
 			WebSocketServer::~WebSocketServer()
 			{
+				DELETEOBJ(thread);
 				DELETEOBJ(m_io_context);
 			}
 			
@@ -76,16 +78,15 @@ namespace RadJAV
 				m_isAlive = true;
 #endif*/
 
-				SimpleThread *thread = RJNEW SimpleThread();
+				DELETEOBJ(thread);
+				thread = RJNEW SimpleThread();
 				thread->onStart = [this]()
 				{
 					this->m_isAlive = true;
 					this->m_io_context->run();
 				};
 
-				#ifdef USE_V8
-					V8_JAVASCRIPT_ENGINE->addThread(thread);
-				#endif
+				RadJav::addThread(thread);
 			}
 
 			void WebSocketServer::send(String id_, String message_)

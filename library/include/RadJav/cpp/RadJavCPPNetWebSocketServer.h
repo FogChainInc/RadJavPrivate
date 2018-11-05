@@ -33,6 +33,7 @@
 	#include "RadJavString.h"
 	#include "RadJavHashMap.h"
 	#include "cpp/RadJavCPPChainedPtr.h"
+	#include "RadJavThread.h"
 
 	namespace RadJAV
 	{
@@ -61,6 +62,8 @@
 						String receive();
 
 						void close();
+
+						SimpleThread *thread;
 
 						class RADJAV_EXPORT WebSocketServerSession : public std::enable_shared_from_this<WebSocketServerSession>
 						{

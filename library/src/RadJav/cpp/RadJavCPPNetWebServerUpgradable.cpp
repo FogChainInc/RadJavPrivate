@@ -156,10 +156,12 @@ namespace RadJAV
 				is_waiting_ = true;
 				wait_for_connect_ = wait_for_connect;
 				lock_ = nullptr;
+				thread = NULL;
 			}
 
 			WebServerUpgradable::~WebServerUpgradable()
 			{
+				DELETEOBJ(thread);
 				DELETEOBJ(io_context_);
 			}
 
@@ -189,16 +191,16 @@ namespace RadJAV
 				io_context_->run();
 #endif*/
 
-				SimpleThread *thread = RJNEW SimpleThread();
+				DELETEOBJ(thread);
+
+				thread = RJNEW SimpleThread();
 				thread->onStart = [this]()
 				{
 					this->isAlive = true;
 					this->io_context_->run();
 				};
 
-				#ifdef USE_V8
-					V8_JAVASCRIPT_ENGINE->addThread(thread);
-				#endif
+				RadJav::addThread(thread);
 			}
 
 			void WebServerUpgradable::send(String id, String message)

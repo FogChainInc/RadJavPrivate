@@ -418,10 +418,12 @@ namespace RadJAV
 				serverType = WebServerTypes::HTTP;
 				address = boost::asio::ip::make_address("127.0.0.1");
 				port = 80;
+				thread = NULL;
 			}
 
 			WebServer::~WebServer()
 			{
+				DELETEOBJ(thread);
 			}
 
 			void WebServer::listen(RJINT portNumber)
@@ -471,16 +473,16 @@ namespace RadJAV
 				
 				this->run();
 
-				SimpleThread *thread = RJNEW SimpleThread();
+				DELETEOBJ(thread);
+
+				thread = RJNEW SimpleThread();
 				thread->onStart = [this]()
 					{
 						this->isAlive = true;
 						this->ioc.run();
 					};
 
-				#ifdef USE_V8
-					V8_JAVASCRIPT_ENGINE->addThread(thread);
-				#endif
+				RadJav::addThread(thread);
 
 /*#ifdef GUI_USE_WXWIDGETS	
 				WebServerThread* thread = new WebServerThread(&ioc);
@@ -506,6 +508,8 @@ namespace RadJAV
 
 			void WebServer::stop()
 			{
+				RadJav::removeThread(thread);
+
 				ioc.stop();
 				while (false == ioc.stopped()) {
                     #if defined (__WINDOWS__) || defined(WIN32)
@@ -514,7 +518,10 @@ namespace RadJAV
                         usleep(1 * 50 * 1000);
                     #endif
 				}
-				this->close();
+
+				//TODO: check graceful exit behavior on ioc.stop()
+				acceptor.close();
+				isAlive = false;
 			}
 
 			// Start accepting incoming connections
@@ -549,13 +556,6 @@ namespace RadJAV
 
 				// Accept another connection
 				do_accept();
-			}
-
-			void WebServer::close()
-			{
-				//TODO: check graceful exit behavior on ioc.stop()
-				acceptor.close();
-				isAlive = false;
 			}
 		}
 	}

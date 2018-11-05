@@ -551,6 +551,26 @@ namespace RadJAV
 		LOGI("%s: %s", "RadJav::printToOutputWindow", message.c_str());
 	}
 
+	void RadJav::addThread(Thread *thread)
+	{
+		#ifdef USE_V8
+			V8_JAVASCRIPT_ENGINE->addThread(thread);
+		#endif
+		#ifdef USE_JAVASCRIPTCORE
+			JSC_JAVASCRIPT_ENGINE->addThread(thread);
+		#endif
+	}
+
+	void RadJav::removeThread(Thread *thread)
+	{
+		#ifdef USE_V8
+			V8_JAVASCRIPT_ENGINE->removeThread(thread);
+		#endif
+		#ifdef USE_JAVASCRIPTCORE
+			JSC_JAVASCRIPT_ENGINE->removeThread(thread);
+		#endif
+	}
+
 	void RadJav::shutdown()
 	{
 		DELETEOBJ(javascriptEngine);
