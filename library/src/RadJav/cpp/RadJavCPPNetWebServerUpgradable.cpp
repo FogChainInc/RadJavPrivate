@@ -180,18 +180,17 @@ namespace RadJAV
 				io_context_ = RJNEW boost::asio::io_context{ threads };
 				std::make_shared<UpgradableListener>(*io_context_, boost::asio::ip::tcp::endpoint{ address, port }, this)->run();
 
-/*#ifdef GUI_USE_WXWIDGETS
-				
-				WebServerThread* thread = RJNEW WebServerThread(io_context_);
-				thread->Run();
-				isAlive = thread->IsAlive();
-#else
-				//blocking execution
-				isAlive = true;
-				io_context_->run();
-#endif*/
+				#ifdef GUI_USE_WXWIDGETS
+					WebServerThread* thread = RJNEW WebServerThread(io_context_);
+					thread->Run();
+					isAlive = thread->IsAlive();
+				#else
+					//blocking execution
+					isAlive = true;
+					io_context_->run();
+				#endif
 
-				DELETEOBJ(thread);
+				/*DELETEOBJ(thread);
 
 				thread = RJNEW SimpleThread();
 				thread->onStart = [this]()
@@ -200,7 +199,7 @@ namespace RadJAV
 					this->io_context_->run();
 				};
 
-				RadJav::addThread(thread);
+				RadJav::addThread(thread);*/
 			}
 
 			void WebServerUpgradable::send(String id, String message)

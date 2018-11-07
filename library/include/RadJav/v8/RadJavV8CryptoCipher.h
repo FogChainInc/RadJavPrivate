@@ -30,6 +30,18 @@
 			/// RadJav Cryptography
 			namespace Crypto
 			{
+				/// Base crypto callbacks.
+				class RADJAV_EXPORT Base
+				{
+					public:
+						static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
+
+						static void addCertificate(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void getCertificate(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void getCertificates(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void getDefaultCertificates(const v8::FunctionCallbackInfo<v8::Value> &args);
+				};
+
 				/// A Key/Value Database, uses LevelDB.
 				class RADJAV_EXPORT Cipher
 				{

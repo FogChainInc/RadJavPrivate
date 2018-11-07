@@ -24,6 +24,7 @@
 #ifdef USE_V8
 #include "v8/RadJavV8JavascriptEngine.h"
 
+#include "cpp/RadJavCPPCryptoBase.h"
 #include "cpp/RadJavCPPCryptoCipher.h"
 
 #ifdef USE_CRYPTOGRAPHY
@@ -52,6 +53,46 @@ namespace RadJAV
 		namespace Crypto
 		{
 			#ifdef USE_CRYPTOGRAPHY
+				void Base::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
+				{
+					V8_CALLBACK(object, "addCertificate", Base::addCertificate);
+					V8_CALLBACK(object, "getCertificate", Base::getCertificate);
+					V8_CALLBACK(object, "getCertificates", Base::getCertificates);
+					V8_CALLBACK(object, "getDefaultCertificates", Base::getDefaultCertificates);
+				}
+
+				void Base::addCertificate(const v8::FunctionCallbackInfo<v8::Value> &args)
+				{
+					String cert = parseV8Value (args[0]);
+
+					CPP::Crypto::addCertificate(cert);
+				}
+
+				void Base::getCertificate(const v8::FunctionCallbackInfo<v8::Value> &args)
+				{
+					v8::Local<v8::Value> index = args[0];
+
+					String cert = CPP::Crypto::getCertificate(V8_JAVASCRIPT_ENGINE->v8ParseInt (index));
+
+					args.GetReturnValue().Set(cert.toV8String (args.GetIsolate ()));
+				}
+
+				void Base::getCertificates(const v8::FunctionCallbackInfo<v8::Value> &args)
+				{
+					Array<String> *certs = CPP::Crypto::getCertificates();
+					v8::Local<v8::Array> ary = convertArrayToV8Array(*certs, args.GetIsolate());
+
+					args.GetReturnValue().Set(ary);
+				}
+
+				void Base::getDefaultCertificates(const v8::FunctionCallbackInfo<v8::Value> &args)
+				{
+					Array<String> certs = CPP::Crypto::getDefaultCertificates();
+					v8::Local<v8::Array> ary = convertArrayToV8Array(certs, args.GetIsolate());
+
+					args.GetReturnValue().Set(ary);
+				}
+
 				void Cipher::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 				{
 				  //std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
@@ -85,8 +126,6 @@ namespace RadJAV
 					
 					//std::cout << __PRETTY_FUNCTION__ << std::endl;
 				}
-
-
 		    
 				void Cipher::cipherSync(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{

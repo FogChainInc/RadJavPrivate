@@ -1391,106 +1391,80 @@ namespace RadJAV
 				}
 				#endif
 
-				// RadJav.Crypto.Hash
 				#ifdef USE_CRYPTOGRAPHY
+				// RadJav.Crypto
 				{
 					JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
-					
+
+					// Callbacks
+					{
+						JSC::Crypto::Base::createJSCCallbacks(isolate, cryptoFunc);
+					}
+
+					// RadJav.Crypto.Hash
 					{
 						JSObjectRef func = jscGetFunction(cryptoFunc, "Hash");
 						JSC_CCALLBACK(globalContext, func, "getCapabilities", JSC::Crypto::Hash::getCapabilities);
 						JSObjectRef prototype = jscGetObject(func, "prototype");
 						JSC::Crypto::Hash::createJSCCallbacks(globalContext, prototype);
 					}
-				}
 
-				// RadJav.Crypto.HashMultipart
-				{
-					JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
-					
+					// RadJav.Crypto.HashMultipart
 					{
 						JSObjectRef func = jscGetFunction(cryptoFunc, "HashMultipart");
 						JSC_CCALLBACK(globalContext, func, "getCapabilities", JSC::Crypto::HashMultipart::getCapabilities);
 						JSObjectRef prototype = jscGetObject(func, "prototype");
 						JSC::Crypto::HashMultipart::createJSCCallbacks(globalContext, prototype);
 					}
-				}
-				
-				// RadJav.Crypto.Cipher
-				{
-					JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
-					
+
+					// RadJav.Crypto.Cipher
 					{
 						JSObjectRef func = jscGetFunction(cryptoFunc, "Cipher");
 						JSC_CCALLBACK(globalContext, func, "getCapabilities", JSC::Crypto::Cipher::getCapabilities);
 						JSObjectRef prototype = jscGetObject(func, "prototype");
 						JSC::Crypto::Cipher::createJSCCallbacks(globalContext, prototype);
 					}
-				}
-				
-				// RadJav.Crypto.Decipher
-				{
-					JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
-					
+
+					// RadJav.Crypto.Decipher
 					{
 						JSObjectRef func = jscGetFunction(cryptoFunc, "Decipher");
 						JSC_CCALLBACK(globalContext, func, "getCapabilities", JSC::Crypto::Decipher::getCapabilities);
 						JSObjectRef prototype = jscGetObject(func, "prototype");
 						JSC::Crypto::Decipher::createJSCCallbacks(globalContext, prototype);
 					}
-				}
-				
-				// RadJav.Crypto.CipherMultipart
-				{
-					JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
-					
+
+					// RadJav.Crypto.CipherMultipart
 					{
 						JSObjectRef func = jscGetFunction(cryptoFunc, "CipherMultipart");
 						JSC_CCALLBACK(globalContext, func, "getCapabilities", JSC::Crypto::CipherMultipart::getCapabilities);
 						JSObjectRef prototype = jscGetObject(func, "prototype");
 						JSC::Crypto::CipherMultipart::createJSCCallbacks(globalContext, prototype);
 					}
-				}
 
-				// RadJav.Crypto.DecipherMultipart
-				{
-					JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
-					
+					// RadJav.Crypto.DecipherMultipart
 					{
 						JSObjectRef func = jscGetFunction(cryptoFunc, "DecipherMultipart");
 						JSC_CCALLBACK(globalContext, func, "getCapabilities", JSC::Crypto::DecipherMultipart::getCapabilities);
 						JSObjectRef prototype = jscGetObject(func, "prototype");
 						JSC::Crypto::DecipherMultipart::createJSCCallbacks(globalContext, prototype);
 					}
-				}
 
-				// RadJav.Crypto.KeyGenerator
-				{
-					JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
-					
+					// RadJav.Crypto.KeyGenerator
 					{
 						JSObjectRef func = jscGetFunction(cryptoFunc, "KeyGenerator");
 						//JSC_CCALLBACK(globalContext, func, "getCapabilities", JSC::Crypto::DecipherMultipart::getCapabilities);
 						JSObjectRef prototype = jscGetObject(func, "prototype");
 						JSC::Crypto::KeyGenerator::createJSCCallbacks(globalContext, prototype);
 					}
-				}
 
-				// RadJav.Crypto.PrivateKey
-				{
-					JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
-					
+					// RadJav.Crypto.PrivateKey
 					{
 						JSObjectRef func = jscGetFunction(cryptoFunc, "PrivateKey");
 						JSObjectRef prototype = jscGetObject(func, "prototype");
 						JSC::Crypto::PrivateKey::createJSCCallbacks(globalContext, prototype);
 					}
-				}
 
-				// RadJav.Crypto.PublicKey
-				{
-					JSObjectRef cryptoFunc = jscGetFunction(radJavFunc, "Crypto");
-					
+					// RadJav.Crypto.PublicKey
 					{
 						JSObjectRef func = jscGetFunction(cryptoFunc, "PublicKey");
 						JSObjectRef prototype = jscGetObject(func, "prototype");

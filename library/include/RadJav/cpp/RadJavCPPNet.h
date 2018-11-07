@@ -78,8 +78,17 @@ namespace RadJAV
 					explicit HttpRequest(String url);
 
 					void connect();
-
 					void send();
+
+					inline void setUserAgent(String userAgent)
+					{
+						this->userAgent = userAgent;
+					}
+
+					inline String getUserAgent()
+					{
+						return (userAgent);
+					}
 
 					String receivedData();
 
@@ -99,6 +108,7 @@ namespace RadJAV
 					/// The URL connection info.
 					URI location;
 					RJINT version_;
+					String userAgent;
 			};
 		}
 	}

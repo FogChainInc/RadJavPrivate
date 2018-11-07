@@ -37,26 +37,27 @@ namespace RadJAV
 	{
 		namespace Net
 		{
-			/*WebServerThread::WebServerThread(boost::asio::io_context* ioc)
+			WebServerThread::WebServerThread(boost::asio::io_context* ioc)
 			: ioc(ioc)
 			{
 			}
 
-#ifdef GUI_USE_WXWIDGETS
-			WebServerThread::ExitCode WebServerThread::Entry() {
-				ioc->run();
+			#ifdef GUI_USE_WXWIDGETS
+				WebServerThread::ExitCode WebServerThread::Entry() {
+					ioc->run();
 
-				V8_JAVASCRIPT_ENGINE->removeThread(this);
-				return (0);
-			};
-#else
-			RJINT WebServerThread::Entry() {
-				ioc->run();
+					V8_JAVASCRIPT_ENGINE->removeThread(this);
+					return (0);
+				};
+			#else
+				RJINT WebServerThread::Entry() {
+					ioc->run();
 
-				V8_JAVASCRIPT_ENGINE->removeThread(this);
-				return (0);
-			};
-#endif*/
+					V8_JAVASCRIPT_ENGINE->removeThread(this);
+					return (0);
+				};
+			#endif
+
 			// Report a failure
 			void fail(boost::system::error_code ec, char const* what)
 			{

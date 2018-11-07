@@ -70,6 +70,7 @@ namespace RadJAV
 			{
 				location = URI::parse (url);
 				version_ = 11;
+				userAgent = HTTP_USER_AGENT;
 			}
 
 			void HttpRequest::connect()
@@ -117,7 +118,7 @@ namespace RadJAV
 				req.method(action);
 				req.target(location.target);
 				req.set(http::field::host, location.host);
-				req.set(http::field::user_agent, HTTP_USER_AGENT);
+				req.set(http::field::user_agent, userAgent);
 
 				//send the HTTP request to the remote host
 				if (location.protocol == "https")

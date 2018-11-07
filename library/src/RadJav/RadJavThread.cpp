@@ -70,23 +70,20 @@ Thread::~Thread()
 
 void Thread::run()
 {
-	#ifdef THREADS_USE_WXWIDGETS
-		wxThread *wthread = (wxThread *)this;
+	if (hasThreadStarted() == false)
+	{
+		#ifdef THREADS_USE_WXWIDGETS
+			wxThread *wthread = (wxThread *)this;
 
-		if (hasThreadStarted() == false)
-		{
 			wthread->Create();
 			wthread->Run();
-			setAsStarted(true);
-		}
-	#endif
-	#ifdef THREADS_USE_STD_THREAD
-		if (hasThreadStarted() == false)
-		{
+		#endif
+		#ifdef THREADS_USE_STD_THREAD
 			thread = RJNEW std::thread(&Thread::Entry, this);
-			setAsStarted(true);
-		}
-	#endif
+		#endif
+
+		setAsStarted(true);
+	}
 }
 
 void Thread::stop()
