@@ -23,8 +23,14 @@
 #include "RadJav.h"
 #include "RadJavString.h"
 #include <boost/algorithm/string.hpp>
-#include <regex>
 
+#ifdef USE_CRYPTOGRAPHY
+	#include "cpp/RadJavCPPCryptoBase.h"
+#else
+	#pragma message ("NOT using cryptography library. HTTPS Support is disabled.")
+#endif
+
+#include <regex>
 
 namespace RadJAV
 {
@@ -32,37 +38,99 @@ namespace RadJAV
 	{
 		namespace Net
 		{
+			URI URI::parse(const String &url)
+			{
+				URI result;
+
+				auto validate_match = [](const std::string& value, std::string&& default_value) -> String
+				{
+					return (value.empty() ? default_value : value);
+				};
+
+				// Note: only "http", "https", "ws", and "wss" protocols are supported
+				static const std::regex PARSE_URL{ R"((([httpsw]{2,5})://)?([^/ :]+)(:(\d+))?(/([^ ?]+)?)?/?\??([^/ ]+\=[^/ ]+)?)",
+					std::regex_constants::ECMAScript | std::regex_constants::icase };
+				std::smatch match;
+
+				if (std::regex_match(url, match, PARSE_URL) && match.size() == 9)
+				{
+					result.protocol = validate_match(boost::algorithm::to_lower_copy(std::string(match[2])), "http");
+					result.host = (String)match[3];
+					const bool secure_protocol = (result.protocol == "https" || result.protocol == "wss");
+					result.port = parseInt (validate_match(match[5], (secure_protocol) ? "443" : "80"));
+					result.resource = validate_match(match[6], "/");
+					result.query = (String)match[8];
+					result.target = result.query + (result.resource.size() > 0, std::string("?") + result.resource, result.resource);
+				}
+
+				return result;
+			}
+
 			HttpRequest::HttpRequest(String url)
 			{
-				auto const results = parse_uri(url);
-
-				host_ = results.host;
-				port_ = results.port;
-				target_ = results.query + (results.resource.size() > 0, std::string("?") + results.resource, "");
+				location = URI::parse (url);
+				version_ = 11;
 			}
 
 			void HttpRequest::connect()
 			{
+				#ifdef USE_CRYPTOGRAPHY
+					if (SSL_set_tlsext_host_name(sslsocket_.native_handle(), location.host.c_str ()) == false)
+					{
+						/// @fixme Throw an error message.
+
+						return;
+					}
+				#endif
+
 				//look up the domain name
-				auto const results = resolver_.resolve(host_, port_);
+				auto const results = resolver_.resolve(location.host, String::fromInt(location.port));
 
 				//make the connection on the IP address we get from a lookup
-				boost::asio::connect(socket_, results.begin(), results.end());
+				if (location.protocol == "https")
+				{
+					#ifdef USE_CRYPTOGRAPHY
+						boost::asio::connect(sslsocket_.next_layer (), results.begin(), results.end());
+					#else
+					/// @fixme Throw an error message saying cryptography library is not enabled.
+					return;
+					#endif
+				}
+				else
+					boost::asio::connect(socket_, results.begin(), results.end());
+
+				#ifdef USE_CRYPTOGRAPHY
+					sslsocket_.handshake(boost::asio::ssl::stream_base::client);
+				#endif
 			}
 
-			void HttpRequest::send(bool post)
+			void HttpRequest::send()
 			{
 				auto action = http::verb::get;
 
-				if (post) action = http::verb::post;
+				//if (post)
+					//action = http::verb::post;
 
 				//set up an HTTP GET/POST request message
-				http::request<http::string_body> req{ action, target_, version_ };
-				req.set(http::field::host, host_);
-				req.set(http::field::user_agent, BOOST_BEAST_VERSION_STRING);
+				http::request<http::string_body> req;
+				req.version(version_);
+				req.method(action);
+				req.target(location.target);
+				req.set(http::field::host, location.host);
+				req.set(http::field::user_agent, HTTP_USER_AGENT);
 
 				//send the HTTP request to the remote host
-				http::write(socket_, req);
+				if (location.protocol == "https")
+				{
+					#ifdef USE_CRYPTOGRAPHY
+						http::write(sslsocket_, req);
+					#else
+						/// @fixme Throw an error message saying cryptography library is not enabled.
+						return;
+					#endif
+				}
+				else
+					http::write(socket_, req);
 			}
 
 			String HttpRequest::receivedData()
@@ -74,7 +142,17 @@ namespace RadJAV
 				http::response<http::dynamic_body> res;
 
 				//receive the HTTP response
-				http::read(socket_, buffer, res);
+				if (location.protocol == "https")
+				{
+					#ifdef USE_CRYPTOGRAPHY
+						http::read(sslsocket_, buffer, res);
+					#else
+						/// @fixme Throw an error message saying cryptography library is not enabled.
+						return;
+					#endif
+				}
+				else
+					http::read(socket_, buffer, res);
 
 				//return the response
 				return boost::beast::buffers_to_string(res.body().data());
@@ -84,7 +162,18 @@ namespace RadJAV
 			{
 				//gracefully close the socket
 				boost::system::error_code ec;
-				socket_.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ec);
+
+				if (location.protocol == "https")
+				{
+					#ifdef USE_CRYPTOGRAPHY
+						sslsocket_.shutdown(ec);
+					#else
+						/// @fixme Throw an error message saying cryptography library is not enabled.
+						return;
+					#endif
+				}
+				else
+					socket_.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ec);
 			}
 		}
 	}

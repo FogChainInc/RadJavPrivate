@@ -66,6 +66,10 @@
 #include <fstream>
 #include <stdlib.h>
 
+#ifdef USE_CRYPTOGRAPHY
+	#include "cpp/RadJavCPPCryptoBase.h"
+#endif
+
 #ifdef __ANDROID__
 #include <android/log.h>
 #define  LOG_TAG    "RADJAV"
@@ -217,12 +221,12 @@ namespace RadJAV
 		HashMap<size_t, MemoryAllocLog> *RadJav::memoryAllocs;
 	#endif
 
-	void Pause()
-	{
-		#ifdef WIN32
-			system("PAUSE");
-		#endif
-	}
+		void systemPause()
+		{
+			#ifdef WIN32
+				system("PAUSE");
+			#endif
+		}
 
 		RadJavType RadJav::initialize(Array<String> newArgs, String &file)
 		{
@@ -293,14 +297,13 @@ namespace RadJAV
 							DELETEARRAY(argv);
 						#else
 							RadJav::showError("BlockchainV1 was not compiled with this version of RadJav.");
-							#ifdef WIN32
-								if (pause == false)
-									system("PAUSE");
-							#endif
+							
+
+							systemPause();
 						#endif
 
 						if (pause == true)
-							Pause();
+							systemPause();
 
 						return (RadJavType::XRJ_NODE);
 					}
@@ -329,14 +332,12 @@ namespace RadJAV
 							DELETEARRAY(argv);
 						#else
 							RadJav::showError("BlockchainV1 was not compiled with this version of RadJav.");
-							#ifdef WIN32
-								if (pause == false)
-									system("PAUSE");
-							#endif
+							
+							systemPause();
 						#endif
 
 						if (pause == true)
-							Pause();
+							systemPause();
 
 						return (RadJavType::XRJ_NODE);
 					}
@@ -357,7 +358,7 @@ namespace RadJAV
 						#endif
 
 						if (pause == true)
-							Pause();
+							systemPause();
 
 						return (RadJavType::XRJ_NODE);
 					}
@@ -394,7 +395,7 @@ namespace RadJAV
 				}
 
 				if (pause == true)
-					Pause();
+					systemPause();
 			}
 
 			#ifdef GUI_USE_WXWIDGETS
@@ -432,6 +433,9 @@ namespace RadJAV
 			#endif
 
             setupScreens ();
+			#ifdef USE_CRYPTOGRAPHY
+				setupCrypto();
+			#endif
 			theme = RJNEW Theme ();
 
 			#ifdef USE_V8
@@ -502,6 +506,22 @@ namespace RadJAV
         for (RJINT iIdx = 0; iIdx < numScreens; iIdx++)
             RadJav::screens.push_back (RadJAV::CPP::OS::ScreenInfo::getScreenInfo (iIdx));
     }
+
+	#ifdef USE_CRYPTOGRAPHY
+		void RadJav::setupCrypto()
+		{
+			RadJAV::CPP::Crypto::initializeCertificates();
+
+			Array<String> certificates = RadJAV::CPP::Crypto::getDefaultCertificates();
+
+			for (RJINT iIdx = 0; iIdx < certificates.size(); iIdx++)
+			{
+				String certificate = certificates.at (iIdx);
+
+				RadJAV::CPP::Crypto::addCertificate(certificate);
+			}
+		}
+	#endif
 
 	void RadJav::showMessageBox(String message, String title)
 	{
@@ -702,6 +722,13 @@ namespace RadJAV
         void setupScreens() {
             return RadJav::setupScreens();
         };
+
+		#ifdef USE_CRYPTOGRAPHY
+			/// Setup the Crypto library.
+			void setupCrypto() {
+				return RadJav::setupCrypto();
+			};
+		#endif
 
 		/// Run an application.
 		int runApplication(const char* application, const char* fileName) {

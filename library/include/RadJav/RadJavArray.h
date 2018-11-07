@@ -89,12 +89,19 @@
 				{
 				}
 
+				/// Delete all elements within an array. Does not delete the array itself.
 				static inline void deleteElements(Array<_Ty> *ary)
 				{
 					for (size_t iIdx = 0; iIdx < ary->size(); iIdx++)
 					{
 						DELETEOBJ (ary->at(iIdx));
 					}
+				}
+
+				/// Remove an element from the array.
+				inline void removeAt(RJINT index)
+				{
+					this->erase(this->begin () + index);
 				}
 		};
 

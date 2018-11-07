@@ -83,8 +83,8 @@
 		#undef COPYRIGHT_HOLDERS
 	#endif
 
-	#define COPYRIGHT_HOLDERS "Higher Edge Software"
-	#define COPYRIGHT_HOLDERS_SUBSTITUTION "Higher Edge Software"
+	#define COPYRIGHT_HOLDERS "FogChain, Corp"
+	#define COPYRIGHT_HOLDERS_SUBSTITUTION "FogChain, Corp"
 
 	#ifdef USE_V8
 		#define RJ_FUNC_TYPE v8::Local<v8::Function>

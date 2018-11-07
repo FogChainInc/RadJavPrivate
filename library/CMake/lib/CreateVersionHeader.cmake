@@ -37,6 +37,14 @@ macro (createVersionHeader HEADERPATH versionMajor versionMinor versionPatch)
     file (APPEND ${HEADERPATH} ${fileContent})
 
     set (fileContent "
+	#define RADJAV_FULL_VERSION \"${versionMajor}.${versionMinor}.${versionPatch}\"")
+    file (APPEND ${HEADERPATH} ${fileContent})
+
+    set (fileContent "
+	#define HTTP_USER_AGENT \"RADJAV/${versionMajor}.${versionMinor}.${versionPatch}\"")
+    file (APPEND ${HEADERPATH} ${fileContent})
+
+    set (fileContent "
 #endif")
     file (APPEND ${HEADERPATH} ${fileContent})
 

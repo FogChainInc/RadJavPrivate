@@ -30,6 +30,13 @@
 #include <boost/asio/ip/tcp.hpp>
 #include <boost/beast/http.hpp>
 
+#ifdef USE_CRYPTOGRAPHY
+	#include <boost/asio/ssl.hpp>
+	#include <boost/asio/ssl/error.hpp>
+	#include <boost/asio/ssl/stream.hpp>
+
+	#include "cpp/RadJavCPPCryptoBase.h"
+#endif
 
 namespace http = boost::beast::http;    // from <boost/beast/http.hpp>
 
@@ -39,6 +46,32 @@ namespace RadJAV
 	{
 		namespace Net
 		{
+			/// A parsed URI.
+			class RADJAV_EXPORT URI
+			{
+				public:
+					URI()
+					{
+						protocol = "";
+						host = "";
+						port = 80;
+						resource = "";
+						query = "";
+						target = "";
+					}
+
+					/// Parse a URL.
+					static URI parse(const String &url);
+
+					String protocol;
+					String host;
+					RJINT port;
+					String resource;
+					String query;
+					String target;
+			};
+
+			/// Make HTTP Requests.
 			class RADJAV_EXPORT HttpRequest
 			{
 				public:
@@ -46,7 +79,7 @@ namespace RadJAV
 
 					void connect();
 
-					void send(bool post);
+					void send();
 
 					String receivedData();
 
@@ -59,12 +92,13 @@ namespace RadJAV
 					//these objects perform the I/O
 					boost::asio::ip::tcp::resolver resolver_{ ioc_ };
 					boost::asio::ip::tcp::socket socket_{ ioc_ };
+					#ifdef USE_CRYPTOGRAPHY
+						boost::asio::ssl::stream<boost::asio::ip::tcp::socket> sslsocket_{ ioc_, RadJAV::CPP::Crypto::SSLContext };
+					#endif
 
-					//target information
-					String host_;
-					String port_ = "80";
-					String target_;
-					int version_ = 1;
+					/// The URL connection info.
+					URI location;
+					RJINT version_;
 			};
 		}
 	}

@@ -26,9 +26,7 @@
 #include <curl/curl.h>
 #endif
 
-#ifdef USE_NET_BEAST
 #include "cpp/RadJavCPPNet.h"
-#endif
 
 #ifdef USE_V8
 	#include "v8/RadJavV8JavascriptEngine.h"
@@ -44,52 +42,42 @@ namespace RadJAV
 			void NetCallbacks::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 			{
 				V8_CALLBACK(object, "httpRequest", NetCallbacks::httpRequest);
-				V8_CALLBACK(object, "httpPost", NetCallbacks::httpPost);
-			}
-
-			void NetCallbacks::httpPost(const v8::FunctionCallbackInfo<v8::Value> &args)
-			{
-				v8::Local<v8::Value> uri = V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0);
-				v8::Local<v8::Value> timeout = V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1);
-				v8::Local<v8::Value> post = V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 2);
-
-				v8::MaybeLocal<v8::Function> func = v8::Function::New(args.This()->CreationContext(), NetCallbacks::completeHttpRequest);
-				v8::Local<v8::Function> func2 = func.ToLocalChecked();
-
-				v8::Local<v8::Array> ary = v8::Array::New(args.GetIsolate());
-				ary->Set(0, uri);
-				ary->Set(1, v8::True(args.GetIsolate()));
-
-				if (timeout.IsEmpty() == false)
-				{
-					if ((timeout->IsNull() == false) && (timeout->IsUndefined() == false))
-						ary->Set(2, timeout);
-				}
-
-				v8::Local<v8::Object> promise = V8_JAVASCRIPT_ENGINE->createPromise(args.This(), func2, ary);
-
-				args.GetReturnValue().Set(promise);
 			}
 
 			void NetCallbacks::httpRequest(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				v8::Local<v8::Value> uri = V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0);
 				v8::Local<v8::Value> timeout = V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1);
+				v8::Local<v8::Value> promise;
 
-				v8::MaybeLocal<v8::Function> func = v8::Function::New(args.This()->CreationContext(), NetCallbacks::completeHttpRequest);
-				v8::Local<v8::Function> func2 = func.ToLocalChecked();
-
-				v8::Local<v8::Array> ary = v8::Array::New(args.GetIsolate());
-				ary->Set(0, uri);
-				ary->Set(1, v8::False(args.GetIsolate()));
-
-				if (timeout.IsEmpty() == false)
+				try
 				{
-					if ((timeout->IsNull() == false) && (timeout->IsUndefined() == false))
-						ary->Set(2, timeout);
-				}
+					String struri = parseV8Value(uri);
 
-				v8::Local<v8::Object> promise = V8_JAVASCRIPT_ENGINE->createPromise(args.This(), func2, ary);
+					PromiseThread *thread = RJNEW PromiseThread ();
+					thread->onStart = [struri, args, thread]()
+						{
+							RadJAV::CPP::Net::HttpRequest req(struri.c_str());
+							req.connect();
+							req.send();
+							String str = req.receivedData();
+							req.close();
+
+							v8::Local<v8::String> v8str = str.toV8String(V8_JAVASCRIPT_ENGINE->isolate);
+							v8::Local<v8::Array> ary = v8::Array::New (V8_JAVASCRIPT_ENGINE->isolate);
+							ary->Set(0, v8str);
+							thread->setResolveArgs(V8_JAVASCRIPT_ENGINE->isolate, ary);
+
+							thread->resolvePromise();
+						};
+					promise = thread->createV8Promise(V8_JAVASCRIPT_ENGINE, args.This ());
+					V8_JAVASCRIPT_ENGINE->addThread(thread);
+				}
+				catch (std::exception const& ex)
+				{
+					promise = v8::Undefined(args.GetIsolate());
+					RadJav::throwException((String)"HttpRequest failed: " + (String)ex.what ());
+				}
 
 				args.GetReturnValue().Set(promise);
 			}

@@ -90,6 +90,11 @@
                 /// Setup the screen info.
                 static void setupScreens ();
 
+				#ifdef USE_CRYPTOGRAPHY
+					/// Setup the Crypto library.
+					static void setupCrypto ();
+				#endif
+
 				/// Run an application.
 				static int runApplication (String application, String fileName);
 				/// Run an application from a javascript file.
@@ -159,6 +164,11 @@
 
                 /// Setup the screen info.
                 RADJAV_EXPORT void setupScreens ();
+
+				#ifdef USE_CRYPTOGRAPHY
+					/// Setup the Crypto library.
+					RADJAV_EXPORT void setupCrypto();
+				#endif
 
 				/// Run an application.
 				RADJAV_EXPORT int runApplication(const char* application, const char* fileName);
