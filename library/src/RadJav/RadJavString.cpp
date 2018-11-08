@@ -33,6 +33,11 @@
 #include <sstream>
 #include <stdlib.h>
 
+// Mixing C++ and Objective-C is so confusing
+#ifdef __APPLE__
+	#import <Foundation/NSString.h>
+#endif
+
 namespace RadJAV
 {
 	Array<String> String::split(String delimiter)

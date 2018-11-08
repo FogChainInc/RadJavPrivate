@@ -18,9 +18,13 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 #include "cpp/RadJavCPPMUITableCellModel.h"
-#import "cpp/ios/RadJavCPPMUIEventDelegates.h"
 #include "RadJav.h"
 #include "RadJavString.h"
+
+#warning We expect this file to be pure C++ without Android/iOS internals, need to split it and place implementation in separate folders like ios, android
+#ifdef USE_IOS
+	#import <UIKit/UIKit.h>
+#endif
 
 namespace RadJAV
 {

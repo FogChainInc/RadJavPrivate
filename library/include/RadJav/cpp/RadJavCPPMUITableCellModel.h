@@ -79,6 +79,7 @@
                     UIView* getNativeWidget();
                     TableViewDelegate* widgetDelegate;
 #elif defined USE_ANDROID
+                    void* widget;
                     void* getNativeWidget();
 #endif
                     

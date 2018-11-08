@@ -768,7 +768,19 @@ if (libRadJav_EMBEDFILE)
 	
 	include (EmbedJavascript)
 
-	embedJavascript( "${jsFiles}" "${CMAKE_CURRENT_SOURCE_DIR}/javascript" "${CMAKE_CURRENT_BINARY_DIR}/include/RadJavJavascriptCode.h")
+	# Generating RadJavJavascriptCode.h
+	# We need to lock folder with headers to make it sure that RadJavJavascriptCode.h file generation happens only
+	# in one instance of CMake, f.e. Android Studio will spawn CMake
+	# for Release/Debug and multiple architectures
+	file (LOCK "${CMAKE_CURRENT_BINARY_DIR}/include" DIRECTORY RESULT_VARIABLE lockResult TIMEOUT 0)
+
+	if (${lockResult} EQUAL 0)
+		embedJavascript( "${jsFiles}" "${CMAKE_CURRENT_SOURCE_DIR}/javascript" "${CMAKE_CURRENT_BINARY_DIR}/include/RadJavJavascriptCode.h")
+		file (LOCK "${CMAKE_CURRENT_BINARY_DIR}/include" DIRECTORY RELEASE RESULT_VARIABLE lockResult)
+	else ()
+		message (STATUS "Not generating RadJavJavascriptCode.h file because another CMake process work on it")
+	endif ()
+
 endif()
 
 set (libRadJav_CPP_DEFS2 ${libRadJav_CPP_DEFS} PARENT_SCOPE)
