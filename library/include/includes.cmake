@@ -18,6 +18,18 @@ source_group ("RadJav\\Main" FILES ${SOURCES_files_RADJAV__Main__Headers})
 
 set (SOURCES ${SOURCES_files_RADJAV__Main__Headers} ${SOURCES})
 
+# Main RadJav Android
+if (ANDROID)
+	set (SOURCES_files_RADJAV__Android__Headers
+		"${libRadJav_SOURCE_DIR}/include/RadJav/android/Jni.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/android/ClassesCache.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/android/Local.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/android/Utils.h")
+	source_group ("RadJav\\Main\\Android" FILES ${SOURCES_files_RADJAV__Android__Headers})
+	
+	set (SOURCES ${SOURCES_files_RADJAV__Android__Headers} ${SOURCES})
+endif ()
+
 # wxWidgets
 set (SOURCES_files_wxWidgets__Main__Headers 
 	"${libRadJav_SOURCE_DIR}/include/RadJav/RadJavWxWidgets.h")
