@@ -158,7 +158,8 @@ namespace RadJAV
 
                 #ifdef __APPLE__
                     #if TARGET_OS_OSX == 1
-                        CGEventRef event = NULL;
+                        CGEventRef eventDown = NULL;
+                        CGEventRef eventUp = NULL;
                         CGEventSourceRef source = CGEventSourceCreate (kCGEventSourceStateHIDSystemState);
                         CGEventRef tempEvent = CGEventCreate (source);
                         CGPoint pos = CGEventGetLocation (tempEvent);
@@ -166,16 +167,28 @@ namespace RadJAV
                         CFRelease(tempEvent);
 
                         if (button == 0)
-                            event = CGEventCreateMouseEvent (NULL, kCGEventLeftMouseDown, pos, kCGMouseButtonLeft);
+                        {
+                            eventDown = CGEventCreateMouseEvent (NULL, kCGEventLeftMouseDown, pos, kCGMouseButtonLeft);
+                            eventUp = CGEventCreateMouseEvent (NULL, kCGEventLeftMouseUp, pos, kCGMouseButtonLeft);
+                        }
 
                         if (button == 1)
-                            event = CGEventCreateMouseEvent (NULL, kCGEventRightMouseDown, pos, kCGMouseButtonRight);
+                        {
+                            eventDown = CGEventCreateMouseEvent (NULL, kCGEventRightMouseDown, pos, kCGMouseButtonRight);
+                            eventUp = CGEventCreateMouseEvent (NULL, kCGEventRightMouseUp, pos, kCGMouseButtonRight);
+                        }
 
                         if (button == 2)
-                            event = CGEventCreateMouseEvent (NULL, kCGEventOtherMouseDown, pos, kCGMouseButtonCenter);
+                        {
+                            eventDown = CGEventCreateMouseEvent (NULL, kCGEventOtherMouseDown, pos, kCGMouseButtonCenter);
+                            eventUp = CGEventCreateMouseEvent (NULL, kCGEventOtherMouseUp, pos, kCGMouseButtonCenter);
+                        }
 
-                        CGEventPost (kCGHIDEventTap, event);
-                        CFRelease (event);
+                        CGEventPost (kCGHIDEventTap, eventDown);
+                        CFRelease (eventDown);
+
+                        CGEventPost (kCGHIDEventTap, eventUp);
+                        CFRelease (eventUp);
                     #endif
                 #endif
 			}
