@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.ViewGroup;
 
+import java.io.File;
+
 
 public class RadJavActivity extends Activity
 {
@@ -12,7 +14,6 @@ public class RadJavActivity extends Activity
     }
 
     protected ViewGroup mainViewGroup;
-    protected final String appPath = "/path/to/init.xrj";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +33,10 @@ public class RadJavActivity extends Activity
 
         //Continue native code execution
         RadJavApplication app = (RadJavApplication)getApplication();
-        app.run(appPath);
+
+        final String appFile = app.prependWithExternalCacheDir("examples" + File.separator + "mobile" + File.separator + "init.xrj");
+
+        app.run(appFile);
     }
 
     @Override

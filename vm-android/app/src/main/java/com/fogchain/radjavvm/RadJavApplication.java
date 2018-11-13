@@ -2,7 +2,13 @@ package com.fogchain.radjavvm;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.res.AssetManager;
 import android.view.ViewGroup;
+import android.os.Build;
+
+import java.io.File;
+import java.io.IOException;
+
 
 public final class RadJavApplication extends Application
 {
@@ -17,18 +23,93 @@ public final class RadJavApplication extends Application
 
     static private ViewGroup mainWindow;
 
+    public static String getAbi()
+    {
+        return Build.SUPPORTED_ABIS[0];
+    }
+
+    public String prependWithExternalCacheDir(String fileName)
+    {
+        String result = getExternalCacheDir().getAbsolutePath();
+
+        result += File.separator + fileName;
+
+        return result;
+    }
+
+    private boolean cacheJsEngineFiles()
+    {
+        AssetManager assetManager = getAssets();
+
+        String abi = getAbi();
+        String sourcePath = "v8" + File.separator + abi;
+
+        String filesToCopy[] = {"natives_blob.bin",
+                                "snapshot_blob.bin"};
+
+        for (String fileName : filesToCopy)
+        {
+            String sourceFilePath = sourcePath + File.separator + fileName;
+
+            File outputFile = new File(prependWithExternalCacheDir(fileName));
+
+            try
+            {
+                if(!outputFile.exists())
+                {
+                    if (!outputFile.createNewFile())
+                        return false;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+            catch (IOException e)
+            {
+                return false;
+            }
+
+            //if (!AssetsUtils.copyRawFileFromAssets(assetManager, sourceFilePath, outputFile))
+            if (!AssetsUtils.copyCompressedFileFromAssets(assetManager, sourceFilePath, outputFile))
+                return false;
+        }
+
+        return true;
+    }
+
+    private boolean cacheExamples()
+    {
+        String source = "examples.zip";
+        String destination = prependWithExternalCacheDir("examples");
+
+        File examplesDir = new File(destination);
+        if (examplesDir.exists())
+            return true;
+
+        if (examplesDir.mkdir())
+        {
+            return AssetsUtils.unzipFileFromAssets(getAssets(), source, destination);
+        }
+
+        return false;
+    }
+
     public ViewGroup initialize(Activity activity)
     {
         if (!initialized)
         {
             mainWindow = new RadJavLayout(activity);
             initialized = true;
+
+            cacheJsEngineFiles();
+            cacheExamples();
         }
 
         return mainWindow;
     }
 
-    public void run(String appFile)
+    public void run(final String appFile)
     {
         paused = false;
 
@@ -39,7 +120,7 @@ public final class RadJavApplication extends Application
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    RadJavRun(app, mainWindow, "app.xrj");
+                    RadJavRun(app, mainWindow, prependWithExternalCacheDir(""), appFile);
                 }
             });
 
@@ -60,5 +141,5 @@ public final class RadJavApplication extends Application
         shutdown = true;
     }
 
-    public native int RadJavRun(RadJavApplication application, ViewGroup mainViewGroup, String appFile);
+    public native int RadJavRun(RadJavApplication application, ViewGroup mainViewGroup, String cacheDir, String appFile);
 }

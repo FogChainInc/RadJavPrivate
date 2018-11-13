@@ -198,12 +198,6 @@ namespace RadJAV
 				}
 			}
 
-			#ifdef GUI_USE_WXWIDGETS
-				execPath = parsewxString (wxStandardPaths::Get ().GetExecutablePath());
-			#else 
-				execPath = _radjav_exec_path;
-			#endif
-
 			v8::V8::SetFlagsFromString(flags.c_str(), flags.size());
 			v8::V8::InitializeExternalStartupData(execPath.c_str ());
 			platform = v8::platform::CreateDefaultPlatform();

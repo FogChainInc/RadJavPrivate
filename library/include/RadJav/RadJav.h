@@ -46,6 +46,10 @@
     #include "cpp/RadJavCPPOSScreenInfo.h"
     #undef TEMP_HEADER_INCLUDE
 
+    #ifdef USE_ANDROID
+    #include "android/UiThreadCallbackFunction.h"
+    #endif
+
 	/// The RadJAV namespace.
 	namespace RadJAV
 	{
@@ -60,10 +64,14 @@
 //#ifdef __cplusplus
 		}
 //#endif
+        #ifdef USE_ANDROID
+            class RadJavAndroid;
+        #endif
 
-	#ifndef GUI_USE_WXWIDGETS
-		extern String _radjav_exec_path;
-	#endif
+	    #ifndef GUI_USE_WXWIDGETS
+		    extern String _radjav_exec_path;
+        #endif
+
 		/// The main RadJav class, this class handles most if not all functionality.
 		class RADJAV_EXPORT RadJav
 		{
@@ -78,6 +86,10 @@
 
 				/// Start RadJav.
 				static RadJavType initialize(Array<String> newArgs, String &file);
+
+				#ifdef USE_ANDROID
+					static RadJavType initialize(JavaVM* jvm);
+                #endif
 
 				#ifdef WIN32
 					/// Setup console output.
@@ -144,7 +156,22 @@
 
 					/// Memory allocations made during debug.
 					static HashMap<size_t, MemoryAllocLog> *memoryAllocs;
-				#endif
+                #endif
+
+			#ifdef USE_ANDROID
+		    public:
+                ///Request function execution on Java UI thread
+                static void runOnUiThreadAsync(UiThreadCallbackFunctionType function, void *data);
+
+                ///Get main java application instance
+                static jobject getJavaApplication();
+
+                ///Get main java ViewGroup
+                static jobject getJavaViewGroup();
+
+			private:
+		        static RadJavAndroid* impl;
+			#endif
 		};
 //#ifdef __cplusplus
 		extern "C" {

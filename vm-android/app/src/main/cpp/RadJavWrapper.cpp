@@ -1,12 +1,12 @@
 #include <jni.h>
-#include "RadJav.h"
+#include "RadJavC.h"
+#include <cstdlib>
 
 
 extern "C" JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* reserved)
 {
-//    TODO: update libRadJav code
-//    if (!RadJAV::RadJav::initialize(vm))
-//        return -1;
+    if (RadJav_initialize(vm) == EXIT_FAILURE)
+        return -1;
 
     return JNI_VERSION_1_6;
 }

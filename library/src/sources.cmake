@@ -19,7 +19,9 @@ if (ANDROID)
 	set (SOURCES_files_RADJAV__Android__Sources
 		"${libRadJav_SOURCE_DIR}/src/RadJav/android/Jni.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/android/ClassesCache.cpp"
-		"${libRadJav_SOURCE_DIR}/src/RadJav/android/Utils.cpp")
+		"${libRadJav_SOURCE_DIR}/src/RadJav/android/Utils.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/android/RadJavAndroid.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/android/UiThreadCallbackFunction.cpp")
 	source_group ("RadJav\\Main\\Android" FILES ${SOURCES_files_RADJAV__Android__Sources})
 	
 	set (SOURCES ${SOURCES_files_RADJAV__Android__Sources} ${SOURCES})
