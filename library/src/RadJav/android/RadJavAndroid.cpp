@@ -114,7 +114,13 @@ namespace RadJAV
 
     RadJavAndroid::RadJavAndroid()
     {
-        _instance = this;
+		_java_application = nullptr;
+		_java_view_group = nullptr;
+		_terminated = false;
+		_exit_code = 0;
+		_ui_thread_request_counter = 0;
+
+		_instance = this;
     }
 
     bool RadJavAndroid::isWaitingForUiThread()
@@ -138,7 +144,7 @@ namespace RadJAV
         _ui_thread_request_counter--;
     }
 
-    bool RadJavAndroid::paused() const
+    bool RadJavAndroid::isPaused() const
     {
         Jni &jni = Jni::instance();
         JNIEnv *env = jni.getJniEnv();

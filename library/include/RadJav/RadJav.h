@@ -169,6 +169,10 @@
                 ///Get main java ViewGroup
                 static jobject getJavaViewGroup();
 
+                static bool isWaitingForUiThread();
+
+                static bool isPaused();
+
 			private:
 		        static RadJavAndroid* impl;
 			#endif

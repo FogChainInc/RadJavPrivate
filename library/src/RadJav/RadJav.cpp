@@ -651,7 +651,23 @@ namespace RadJAV
 
         return nullptr;
     }
-    #endif
+
+	bool RadJav::isWaitingForUiThread()
+	{
+		if (impl)
+			return impl->isWaitingForUiThread();
+
+		return false;
+	}
+
+	bool RadJav::isPaused()
+	{
+		if (impl)
+			return impl->isPaused();
+
+		return false;
+	}
+	#endif
 
 	#ifdef RADJAV_DEBUG
 	void RadJav::logNewMemoryAlloc(MemoryAllocLog alloc)

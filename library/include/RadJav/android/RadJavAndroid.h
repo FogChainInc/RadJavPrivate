@@ -35,6 +35,12 @@ namespace RadJAV
         ///Get main java ViewGroup
         jobject getJavaViewGroup() const;
 
+        ///Determine if there is some unfinished job requested on Android UI thread
+        bool isWaitingForUiThread();
+
+        ///Check if Android application was paused (Activity is in a background or destroyed)
+        bool isPaused() const;
+
     private:
         //Java thread entry point
         static jint onRun(JNIEnv *env,
@@ -55,13 +61,9 @@ namespace RadJAV
                                   jobject data,
                                   jobjectArray arguments);
 
-        bool isWaitingForUiThread();
-
         void uiThreadRequested();
 
         void uiThreadArrived();
-
-        bool paused() const;
 
     private:
         jobject _java_application;
