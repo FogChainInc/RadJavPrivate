@@ -1,4 +1,4 @@
-RadJav.Theme.themeObjects["RadJav.GUI.Checkbox"] =
+module.exports = 
 {
 	create: function (obj)
 	{

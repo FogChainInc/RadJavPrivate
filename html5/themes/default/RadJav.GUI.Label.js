@@ -1,4 +1,4 @@
-RadJav.Theme.themeObjects["RadJav.GUI.Label"] =
+module.exports = 
 {
 	create: function (obj)
 	{

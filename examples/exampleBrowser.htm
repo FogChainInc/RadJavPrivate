@@ -4,16 +4,27 @@
 <head>
 	<title>Example Browser</title>
 
-	<link href = "../html5/build/themes/default/dojo/themes/claro/claro.css" rel = "stylesheet" type = "text/css" />
-	<link href = "../html5/build/themes/default/dojox/grid/resources/Grid.css" rel = "stylesheet" type = "text/css" />
-	<link href = "../html5/build/themes/default/dojox/grid/resources/claroGrid.css" rel = "stylesheet" type = "text/css" />
-	<link href = "../html5/build/themes/default/dojox/calendar/themes/claro/Calendar.css" rel = "stylesheet" type = "text/css" />
-	<link href = "../html5/build/themes/default/dojox/calendar/themes/claro/MonthColumnView.css" rel = "stylesheet" type = "text/css" />
-	<link href = "../html5/build/themes/default/dojo/resources/FloatingPane.css" rel = "stylesheet" type = "text/css" />
-	<link href = "../html5/build/themes/default/dojo/resources/ResizeHandle.css" rel = "stylesheet" type = "text/css" />
+	<link href = "../html5/dependencies/dojo/dijit/themes/claro/claro.css" rel = "stylesheet" type = "text/css" />
+	<link href = "../html5/dependencies/dojo/dojox/grid/resources/Grid.css" rel = "stylesheet" type = "text/css" />
+	<link href = "../html5/dependencies/dojo/dojox/grid/resources/claroGrid.css" rel = "stylesheet" type = "text/css" />
+	<link href = "../html5/dependencies/dojo/dojox/calendar/themes/claro/Calendar.css" rel = "stylesheet" type = "text/css" />
+	<link href = "../html5/dependencies/dojo/dojox/calendar/themes/claro/MonthColumnView.css" rel = "stylesheet" type = "text/css" />
+	<link href = "../html5/dependencies/dojo/dojox/layout/resources/FloatingPane.css" rel = "stylesheet" type = "text/css" />
+	<link href = "../html5/dependencies/dojo/dojox/layout/resources/ResizeHandle.css" rel = "stylesheet" type = "text/css" />
 
-	<script type = "text/javascript" src = "../html5/dependencies/three.js/three.min.js"></script>
+	<script type = "text/javascript">
+		var dojoConfig = {
+				async: true, 
+				deps: ["dojo/ready", "dojo/parser", "dojo/dnd/move", "dojox/layout/FloatingPane", 
+						"dijit/form/Button", "dijit/form/TextBox", "dijit/form/CheckBox", 
+						"dojox/grid/DataGrid", "dojo/data/ItemFileWriteStore", 
+						"dojo/store/Memory", "dojo/store/Observable", "dijit/form/ComboBox", 
+						"dijit/MenuBar", "dijit/PopupMenuBarItem", "dijit/Menu", "dijit/MenuItem",
+						"dijit/DropDownMenu", "dojo/query"]
+			};
+	</script>
 	<script type = "text/javascript" src = "../html5/dependencies/dojo/dojo/dojo.js"></script>
+	<script type = "text/javascript" src = "../html5/dependencies/three.js/three.min.js"></script>
 	<script type = "text/javascript" src = "../html5/build/RadJav.js"></script>
 
 	<script type = "text/javascript">
@@ -23,16 +34,23 @@
 		
 		function setup ()
 		{
-			var relPath = RadJav.OS.HTML5.getUrlParam ("relpath");
-
-			if ((relPath == "") || (relPath == null))
-				relPath = "./exampleBrowser.xrj";
-			else
-				relPath = "./" + decodeURIComponent (relPath);
-
-			RadJav.runApplicationFromFile (relPath).then (function ()
+			dojo.ready (function ()
 				{
-					document.getElementById ("loading").style.visibility = "hidden";
+					var relPath = RadJav.OS.HTML5.getUrlParam ("relpath");
+					var devTools = RadJav.OS.HTML5.getUrlParam ("devtools");
+
+					if ((relPath == "") || (relPath == null))
+						relPath = "./exampleBrowser.xrj";
+					else
+						relPath = "./" + decodeURIComponent (relPath);
+
+					if (devTools == 1)
+						RadJav.connectDevTools ();
+
+					RadJav.runApplicationFromFile (relPath).then (function ()
+						{
+							document.getElementById ("loading").style.visibility = "hidden";
+						});
 				});
 		}
 	</script>

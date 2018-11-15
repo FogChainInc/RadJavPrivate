@@ -1,4 +1,4 @@
-RadJav.Theme.themeObjects["RadJav.GUI.Window"] =
+module.exports = 
 {
 	create: function (obj)
 	{
@@ -11,18 +11,18 @@ RadJav.Theme.themeObjects["RadJav.GUI.Window"] =
 				html += "</div>";
 				RadJav.OS.HTML5.appendHTML (parentDOM, html);
 
-				var window = new dojox.layout.FloatingPane ({
+				var win = new dojox.layout.FloatingPane ({
 							id: obj.name, title: obj._text, 
 							resizable: true, dockable: false, 
 							style: "width: " + obj.getWidth () + 
 								"px; height: " + obj.getHeight () + "px; visibility: hidden;", 
 						}, dojo.byId (obj.name));
-				window.startup ();
+				win.startup ();
 
 				if (obj._visible == true)
-					window.show ();
+					win.show ();
 
-				resolve (window);
+				resolve (win);
 			});
 
 		return (promise);

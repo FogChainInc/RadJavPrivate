@@ -7,10 +7,10 @@ declare namespace RadJav {
             b: 0;
             a: 1;
         }, g?: number, b?: number, a?: number);
-        r: Number;
-        g: Number;
-        b: Number;
-        a: Number;
+        r: number;
+        g: number;
+        b: number;
+        a: number;
         toHex(): string;
         toHTMLColor(): String;
         toHexInt(): Number;
@@ -21,4 +21,4 @@ declare namespace RadJav {
         static Blue: Color;
     }
 }
-declare function parseColor(str: String): RadJav.Color;
+declare function parseColor(str: string): RadJav.Color;

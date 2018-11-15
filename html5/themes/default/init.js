@@ -1,19 +1,9 @@
-RadJav.Theme.exports =
+module.exports =
 {
 	init: function ()
 	{
 		var promise = new Promise (function (resolve, reject)
 			{
-				require (["dojo/parser", "dojo/dnd/move", "dojox/layout/FloatingPane", 
-						"dijit/form/Button", "dijit/form/TextBox", "dijit/form/CheckBox", 
-						"dojox/grid/DataGrid", "dojo/data/ItemFileWriteStore", 
-						"dojo/store/Memory", "dojo/store/Observable", "dijit/form/ComboBox", 
-						"dijit/MenuBar", "dijit/PopupMenuBarItem", "dijit/Menu", "dijit/MenuItem",
-						"dijit/DropDownMenu", "dojo/query"], function ()
-					{
-						resolve ();
-					});
-
 				RadJav.themeUtils.menuOffset = 0;
 				RadJav.themeUtils.getGObjectSizeString = function (obj, offset, addSize)
 					{
@@ -76,6 +66,7 @@ RadJav.Theme.exports =
 
 						return (str);
 					};
+				resolve ();
 			});
 
 		return (promise);

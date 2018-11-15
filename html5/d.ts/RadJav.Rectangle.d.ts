@@ -1,4 +1,6 @@
 /// <reference path="RadJav.d.ts" />
+/// <reference path="RadJav.Vector2.d.ts" />
+/// <reference path="RadJav.Vector4.d.ts" />
 declare namespace RadJav {
     class Rectangle {
         constructor(x?: any, y?: number, w?: number, h?: number);

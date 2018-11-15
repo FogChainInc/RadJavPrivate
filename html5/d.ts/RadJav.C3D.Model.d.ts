@@ -4,12 +4,12 @@ declare namespace RadJav {
         class Model {
             constructor(object3d: any, obj: any, materials: any);
             protected _object3d: RadJav.C3D.Object3D;
-            protected _name: String;
+            protected _name: string;
             protected mesh: Model.Mesh;
             protected materials: RadJav.C3D.Material[];
             create(): Promise<Model>;
-            protected _setName(name: String): void;
-            getName(): String;
+            protected _setName(name: string): void;
+            getName(): string;
         }
         namespace Model {
             class Mesh {
@@ -20,7 +20,8 @@ declare namespace RadJav {
                 data: Mesh.Data | object;
                 _mesh: Object;
                 model: Model;
-                create(): any;
+                getName(): String;
+                create(): Promise<{}>;
             }
             namespace Mesh {
                 class Data {

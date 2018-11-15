@@ -5,11 +5,11 @@ declare namespace RadJav {
         class Entity extends RadJav.C3D.Object3D {
             constructor(canvas3d: any, obj: any, parent: any, model: any);
             protected _model: any;
-            protected _c3dEntity: Object;
+            protected _c3dEntity: any;
             create(): Promise<Entity>;
             setModel(newModel: string): void;
             getModel(): any;
-            Types: {
+            static Types: {
                 None: number;
                 Cube: number;
                 Sphere: number;

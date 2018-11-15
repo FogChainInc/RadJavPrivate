@@ -26,9 +26,12 @@
 /// <reference path="RadJav.Rectangle.ts" />
 /// <reference path="RadJav.Font.ts" />
 
- namespace RadJav {
-	export namespace GUI {
-	 export class GObject {
+ namespace RadJav
+ {
+	export namespace GUI
+	{
+		export class GObject
+		{
 			/** @property {string} [name=""]
 			 * The name of this object.
 			 */
@@ -116,7 +119,6 @@
 			 * The function to execute once the object has been created.
 			 */
 			onCreated(obj: Object):void {}
-
 
 			/** @event [_events={}]
 			 * Events to call.

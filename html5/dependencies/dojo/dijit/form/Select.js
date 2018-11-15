@@ -124,7 +124,7 @@ this._isLoaded=false;
 this._set("options",_28);
 },_setDisplay:function(_29){
 var lbl=(this.labelType==="text"?(_29||"").replace(/&/g,"&amp;").replace(/</g,"&lt;"):_29)||this.emptyLabel;
-this.containerNode.innerHTML="<span role=\"option\" class=\"dijitReset dijitInline "+this.baseClass.replace(/\s+|$/g,"Label ")+"\">"+lbl+"</span>";
+this.containerNode.innerHTML="<span role=\"option\" aria-selected=\"true\" class=\"dijitReset dijitInline "+this.baseClass.replace(/\s+|$/g,"Label ")+"\">"+lbl+"</span>";
 },validate:function(_2a){
 var _2b=this.disabled||this.isValid(_2a);
 this._set("state",_2b?"":(this._hasBeenBlurred?"Error":"Incomplete"));

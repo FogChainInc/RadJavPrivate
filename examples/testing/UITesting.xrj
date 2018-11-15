@@ -9,7 +9,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary ()).then (
 		RadJav.runApplication (function ()
 			{
 				// Create the window gui object.
-				var win = new RadJav.GUI.Window ("win", "Animations Example");
+				var win = new RadJav.GUI.Window ("win", "UI Testing Example");
 
 				win.create ().then (function (win2)
 					{
@@ -30,7 +30,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary ()).then (
 														winPos.add (targetButton.getPosition ().x + 20, targetButton.getPosition ().y + 50);
 														var end = winPos;
 
-														animation.lerp (start, end, 3);
+														animation.lerp (start, end, 2);
 														animation.on ("animation", function (obj, pos, timeDelta)
 																{
 																	RadJav.Testing.MouseSimulator.setPosition (pos);

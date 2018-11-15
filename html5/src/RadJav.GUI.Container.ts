@@ -23,38 +23,39 @@
 
 namespace RadJav
 {
-  export namespace GUI
-  {
-    /** @class RadJav.GUI.Container
-     * @extends RadJav.GUI.GObject
-     * A container.
-     * Available on platforms: Windows,Linux,OSX,HTML5
-     */
-    export  class Container extends RadJav.GUI.GObject
-    {
-      static xmlTag: TagType = { tag: "container", type: "Container" };
+	export namespace GUI
+	{
+		/** @class RadJav.GUI.Container
+		 * @extends RadJav.GUI.GObject
+		 * A container.
+		 * Available on platforms: Windows,Linux,OSX,HTML5
+		 */
+		export class Container extends RadJav.GUI.GObject
+		{
+			static xmlTag: TagType = { tag: "container", type: "Container" };
 
-      constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject)
-      {
-        if (obj == null) {
-          obj = {};
-        }
+			constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject)
+			{
+				if (obj == null)
+					obj = {};
 
-        if (typeof obj == "string") {
-          var name = obj;
-          obj = { name: name };
-        }
+				if (typeof obj == "string")
+				{
+					var name = obj;
+					obj = { name: name };
+				}
 
-        if (obj.size == null) {
-          obj.size = new RadJav.Vector2();
-          obj.size.x = 100;
-          obj.size.y = 100;
-        }
+				if (obj.size == null)
+				{
+					obj.size = new RadJav.Vector2();
+					obj.size.x = 100;
+					obj.size.y = 100;
+				}
 
-        super(obj, text, parent);
+				super(obj, text, parent);
 
-        this.type = "RadJav.GUI.Container";
-      }
-    }
-  }
+				this.type = "RadJav.GUI.Container";
+			}
+		}
+	}
 }

@@ -87,6 +87,7 @@ _16(url);
 },250);
 },_connectTagEvents:function(){
 this.editor.onLoadDeferred.then(_5.hitch(this,function(){
+this.own(on(this.editor.editNode,"mouseup",_5.hitch(this,"_onMouseUp")));
 this.own(on(this.editor.editNode,"dblclick",_5.hitch(this,"_onDblClick")));
 }));
 },_isValid:function(){
@@ -98,6 +99,8 @@ if(_1a&&_1a.urlInput){
 _1a.urlInput=_1a.urlInput.replace(/"/g,"&quot;");
 }
 return _1a;
+},_createlinkEnabledImpl:function(){
+return true;
 },setValue:function(_1b){
 this._onCloseDialog();
 if(_6("ie")<9){
@@ -198,17 +201,37 @@ _21.dropDown.focus();
 },10);
 }
 }
+},_onMouseUp:function(){
+if(_6("ff")){
+var a=this.editor.selection.getAncestorElement(this.tag);
+if(a){
+var _22=_b.getSelection(this.editor.window);
+var _23=_22.getRangeAt(0);
+if(_23.collapsed&&a.childNodes.length){
+var _24=_23.cloneRange();
+_24.selectNodeContents(a.childNodes[a.childNodes.length-1]);
+_24.setStart(a.childNodes[0],0);
+if(_23.compareBoundaryPoints(_24.START_TO_START,_24)!==1){
+_23.setStartBefore(a);
+}else{
+if(_23.compareBoundaryPoints(_24.END_TO_START,_24)!==-1){
+_23.setStartAfter(a);
+}
+}
+}
+}
+}
 }});
-var _22=_2("dijit._editor.plugins.ImgLinkDialog",[_c],{linkDialogTemplate:["<table role='presentation'><tr><td>","<label for='${id}_urlInput'>${url}</label>","</td><td>","<input dojoType='dijit.form.ValidationTextBox' regExp='${urlRegExp}' "+"required='true' id='${id}_urlInput' name='urlInput' data-dojo-props='intermediateChanges:true'/>","</td></tr><tr><td>","<label for='${id}_textInput'>${text}</label>","</td><td>","<input data-dojo-type='dijit.form.ValidationTextBox' required='false' id='${id}_textInput' "+"name='textInput' data-dojo-props='intermediateChanges:true'/>","</td></tr><tr><td>","</td><td>","</td></tr><tr><td colspan='2'>","<button data-dojo-type='dijit.form.Button' type='submit' id='${id}_setButton'>${set}</button>","<button data-dojo-type='dijit.form.Button' type='button' id='${id}_cancelButton'>${buttonCancel}</button>","</td></tr></table>"].join(""),htmlTemplate:"<img src=\"${urlInput}\" _djrealurl=\"${urlInput}\" alt=\"${textInput}\" />",tag:"img",_getCurrentValues:function(img){
-var url,_23;
+var _25=_2("dijit._editor.plugins.ImgLinkDialog",[_c],{linkDialogTemplate:["<table role='presentation'><tr><td>","<label for='${id}_urlInput'>${url}</label>","</td><td>","<input dojoType='dijit.form.ValidationTextBox' regExp='${urlRegExp}' "+"required='true' id='${id}_urlInput' name='urlInput' data-dojo-props='intermediateChanges:true'/>","</td></tr><tr><td>","<label for='${id}_textInput'>${text}</label>","</td><td>","<input data-dojo-type='dijit.form.ValidationTextBox' required='false' id='${id}_textInput' "+"name='textInput' data-dojo-props='intermediateChanges:true'/>","</td></tr><tr><td>","</td><td>","</td></tr><tr><td colspan='2'>","<button data-dojo-type='dijit.form.Button' type='submit' id='${id}_setButton'>${set}</button>","<button data-dojo-type='dijit.form.Button' type='button' id='${id}_cancelButton'>${buttonCancel}</button>","</td></tr></table>"].join(""),htmlTemplate:"<img src=\"${urlInput}\" _djrealurl=\"${urlInput}\" alt=\"${textInput}\" />",tag:"img",_getCurrentValues:function(img){
+var url,_26;
 if(img&&img.tagName.toLowerCase()===this.tag){
 url=img.getAttribute("_djrealurl")||img.getAttribute("src");
-_23=img.getAttribute("alt");
+_26=img.getAttribute("alt");
 this.editor.selection.selectElement(img,true);
 }else{
-_23=this.editor.selection.getSelectedText();
+_26=this.editor.selection.getSelectedText();
 }
-return {urlInput:url||"",textInput:_23||""};
+return {urlInput:url||"",textInput:_26||""};
 },_isValid:function(){
 return this._urlInput.isValid();
 },_connectTagEvents:function(){
@@ -224,33 +247,33 @@ if(tg===this.tag){
 this.editor.selection.selectElement(t);
 }
 }
-},_checkValues:function(_24){
-if(_24&&_24.urlInput){
-_24.urlInput=_24.urlInput.replace(/"/g,"&quot;");
+},_checkValues:function(_27){
+if(_27&&_27.urlInput){
+_27.urlInput=_27.urlInput.replace(/"/g,"&quot;");
 }
-if(_24&&_24.textInput){
-_24.textInput=_24.textInput.replace(/"/g,"&quot;");
+if(_27&&_27.textInput){
+_27.textInput=_27.textInput.replace(/"/g,"&quot;");
 }
-return _24;
+return _27;
 },_onDblClick:function(e){
 if(e&&e.target){
 var t=e.target;
 var tg=t.tagName?t.tagName.toLowerCase():"";
 if(tg===this.tag&&_3.get(t,"src")){
-var _25=this.editor;
+var _28=this.editor;
 this.editor.selection.selectElement(t);
-_25.onDisplayChanged();
-if(_25._updateTimer){
-_25._updateTimer.remove();
-delete _25._updateTimer;
+_28.onDisplayChanged();
+if(_28._updateTimer){
+_28._updateTimer.remove();
+delete _28._updateTimer;
 }
-_25.onNormalizedDisplayChanged();
-var _26=this.button;
+_28.onNormalizedDisplayChanged();
+var _29=this.button;
 setTimeout(function(){
-_26.set("disabled",false);
-_26.loadAndOpenDropDown().then(function(){
-if(_26.dropDown.focus){
-_26.dropDown.focus();
+_29.set("disabled",false);
+_29.loadAndOpenDropDown().then(function(){
+if(_29.dropDown.focus){
+_29.dropDown.focus();
 }
 });
 },10);
@@ -261,8 +284,8 @@ _9.registry["createLink"]=function(){
 return new _c({command:"createLink"});
 };
 _9.registry["insertImage"]=function(){
-return new _22({command:"insertImage"});
+return new _25({command:"insertImage"});
 };
-_c.ImgLinkDialog=_22;
+_c.ImgLinkDialog=_25;
 return _c;
 });

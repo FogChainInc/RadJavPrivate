@@ -23,189 +23,197 @@
 
 namespace RadJav
 {
-  export  namespace GUI
-  {
-    /** @class RadJav.GUI.Combobox
-     * @extends RadJav.GUI.GObject
-     * A combobox.
-     * Available on platforms: Windows,Linux,OSX,HTML5
-     */
-    export class Combobox extends RadJav.GUI.GObject
-    {
+	export  namespace GUI
+	{
+		/** @class RadJav.GUI.Combobox
+		 * @extends RadJav.GUI.GObject
+		 * A combobox.
+		 * Available on platforms: Windows,Linux,OSX,HTML5
+		 */
+		export class Combobox extends RadJav.GUI.GObject
+		{
 			static xmlTag: TagType = { tag: "combobox", type: "Combobox" };
 
-      constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject)
-      {
-        if (obj == null) {
-          obj = {};
-        }
+			constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject)
+			{
+				if (obj == null)
+					obj = {};
 
-        if (typeof obj == "string") {
-          var name = obj;
-          obj = { name: name };
-        }
+				if (typeof obj == "string")
+				{
+					var name = obj;
+					obj = { name: name };
+				}
 
-        if (obj.items != null) {
-          obj._items = obj.items;
-        }
+				if (obj.items != null)
+					obj._items = obj.items;
 
-        if (obj.size == null) {
-          obj.size = new RadJav.Vector2();
-          obj.size.x = 120;
-          obj.size.y = 40;
-        }
+				if (obj.size == null)
+				{
+					obj.size = new RadJav.Vector2();
+					obj.size.x = 120;
+					obj.size.y = 40;
+				}
 
-        super(obj, text, parent);
+				super(obj, text, parent);
 
-        this.type = "RadJav.GUI.Combobox";
+				this.type = "RadJav.GUI.Combobox";
+				this._items = RadJav.setDefaultValue (obj._items, []);
+			}
 
+			/** @property {String} [_items=[]]
+			 * The items associated with this object.
+			 */
+			public _items: Combobox.Item[];
 
-    		/** @property {String} [_items=[]]
-    		* The items associated with this object.
-    		*/
-    		this._items = RadJav.setDefaultValue (obj._items, []);
-      }
+			onCreated(): void
+			{
+				for (var iIdx = 0; iIdx < this._items.length; iIdx++)
+				{
+					var item = this._items[iIdx];
+					this.addItem(item);
+				}
+			}
 
-        /** @property {String} [_items=[]]
-       * The items associated with this object.
-       */
-      _items: Combobox.Item[];
-      onCreated(): void {
-        for (var iIdx = 0; iIdx < this._items.length; iIdx++) {
-          var item = this._items[iIdx];
-          this.addItem(item);
-        }
-      }
+			/** @method addItem
+			 * Add an item to the combo box.
+			 * Theme Event: addItem
+			 * Is Theme Event Asynchronous: No
+			 * Parameters Passed to Theme Event: RadJav.GUI.GObject, RadJav.GUI.Combobox.Item
+			 * @param {RadJav.GUI.Combobox.Item/String} item The item to add.
+			 */
+			addItem(item: any): void
+			{
+				if (typeof item == "string")
+					item = { text: item };
 
-      /** @method addItem
-       * Add an item to the combo box.
-       * Theme Event: addItem
-       * Is Theme Event Asynchronous: No
-       * Parameters Passed to Theme Event: RadJav.GUI.GObject, RadJav.GUI.Combobox.Item
-       * @param {RadJav.GUI.Combobox.Item/String} item The item to add.
-       */
-      addItem(item: any): void {
-        if (typeof item == "string") {
-          item = { text: item };
-        }
+				RadJav.currentTheme.eventSync(this.type, "addItem", this, item);
+			}
 
-        RadJav.currentTheme.eventSync(this.type, "addItem", this, item);
-      }
+			/** @method setItems
+			 * Set an array of items to the combo box.
+			 * Theme Event: setItems
+			 * Is Theme Event Asynchronous: No
+			 * Parameters Passed to Theme Event: RadJav.GUI.GObject, RadJav.GUI.Combobox.Item[]
+			 * @param {RadJav.GUI.Combobox.Item[]} items The items to set to this combo box.
+			 */
+			setItems(items: Combobox.Item[]): void
+			{
+				RadJav.currentTheme.eventSync(this.type, "setItems", this, items);
+			}
 
-      /** @method setItems
-       * Set an array of items to the combo box.
-       * Theme Event: setItems
-       * Is Theme Event Asynchronous: No
-       * Parameters Passed to Theme Event: RadJav.GUI.GObject, RadJav.GUI.Combobox.Item[]
-       * @param {RadJav.GUI.Combobox.Item[]} items The items to set to this combo box.
-       */
-      setItems(items: Combobox.Item[]): void {
-        RadJav.currentTheme.eventSync(this.type, "setItems", this, items);
-      }
+			/** @method deleteItem
+			 * Remove an item from this combobox.
+			 * Theme Event: deleteItem
+			 * Is Theme Event Asynchronous: No
+			 * Parameters Passed to Theme Event: RadJav.GUI.GObject, Number
+			 * @param {Number} The item index to delete.
+			 */
+			deleteItem(index: Number): void
+			{
+				RadJav.currentTheme.eventSync(this.type, "deleteItem", this, index);
+			}
 
-      /** @method deleteItem
-       * Remove an item from this combobox.
-       * Theme Event: deleteItem
-       * Is Theme Event Asynchronous: No
-       * Parameters Passed to Theme Event: RadJav.GUI.GObject, Number
-       * @param {Number} The item index to delete.
-       */
-      deleteItem(index: Number): void {
-        RadJav.currentTheme.eventSync(this.type, "deleteItem", this, index);
-      }
+			/** @method getItem
+			 * Get an item from this combobox.
+			 * Theme Event: getItem
+			 * Is Theme Event Asynchronous: No
+			 * Parameters Passed to Theme Event: RadJav.GUI.GObject, Number
+			 * @return {RadJav.GUI.Combobox.Item} The item.
+			 */
+			getItem(index: Number): Combobox.Item
+			{
+				return RadJav.currentTheme.eventSync(this.type, "getItem", this, index);
+			}
 
-      /** @method getItem
-       * Get an item from this combobox.
-       * Theme Event: getItem
-       * Is Theme Event Asynchronous: No
-       * Parameters Passed to Theme Event: RadJav.GUI.GObject, Number
-       * @return {RadJav.GUI.Combobox.Item} The item.
-       */
-      getItem(index: Number): Combobox.Item {
-        return RadJav.currentTheme.eventSync(this.type, "getItem", this, index);
-      }
+			/** @method getItems
+			 * Get all items from this combobox.
+			 * Theme Event: getItems
+			 * Is Theme Event Asynchronous: No
+			 * Parameters Passed to Theme Event: RadJav.GUI.GObject
+			 * @return {RadJav.GUI.Combobox.Item[]} The items.
+			 */
+			getItems(): Combobox.Item[]
+			{
+				return RadJav.currentTheme.eventSync(this.type, "getItems", this);
+			}
 
-      /** @method getItems
-       * Get all items from this combobox.
-       * Theme Event: getItems
-       * Is Theme Event Asynchronous: No
-       * Parameters Passed to Theme Event: RadJav.GUI.GObject
-       * @return {RadJav.GUI.Combobox.Item[]} The items.
-       */
-      getItems(): Combobox.Item[] {
-        return RadJav.currentTheme.eventSync(this.type, "getItems", this);
-      }
+			/** @method getNumItems
+			 * Get the number of items.
+			 * Theme Event: getNumItems
+			 * Is Theme Event Asynchronous: No
+			 * Parameters Passed to Theme Event: RadJav.GUI.GObject
+			 * @return {Number} The number of items.
+			 */
+			getNumItems(): Number
+			{
+				return RadJav.currentTheme.eventSync(this.type, "getNumItems", this);
+			}
 
-      /** @method getNumItems
-       * Get the number of items.
-       * Theme Event: getNumItems
-       * Is Theme Event Asynchronous: No
-       * Parameters Passed to Theme Event: RadJav.GUI.GObject
-       * @return {Number} The number of items.
-       */
-      getNumItems(): Number {
-        return RadJav.currentTheme.eventSync(this.type, "getNumItems", this);
-      }
+			/** @method clear
+			 * Clear this object of all items.
+			 * Theme Event: clear
+			 * Is Theme Event Asynchronous: No
+			 * Parameters Passed to Theme Event: RadJav.GUI.GObject
+			 */
+			clear(): void
+			{
+				return RadJav.currentTheme.eventSync(this.type, "clear", this);
+			}
 
-      /** @method clear
-       * Clear this object of all items.
-       * Theme Event: clear
-       * Is Theme Event Asynchronous: No
-       * Parameters Passed to Theme Event: RadJav.GUI.GObject
-       */
-      clear(): void {
-        return RadJav.currentTheme.eventSync(this.type, "clear", this);
-      }
+			/** @method setSelectedItemIndex
+			 * Set the selected item index.
+			 * Theme Event: setSelectedItemIndex
+			 * Is Theme Event Asynchronous: No
+			 * Parameters Passed to Theme Event: RadJav.GUI.GObject
+			 * Returned from Theme Event: Boolean
+			 * @param {Number} index The selected item index.
+			 */
+			setSelectedItemIndex(index: Number): void
+			{
+				RadJav.currentTheme.eventSync(this.type, "setSelectedItemIndex", this, index);
+			}
 
-      /** @method setSelectedItemIndex
-       * Set the selected item index.
-       * Theme Event: setSelectedItemIndex
-       * Is Theme Event Asynchronous: No
-       * Parameters Passed to Theme Event: RadJav.GUI.GObject
-       * Returned from Theme Event: Boolean
-       * @param {Number} index The selected item index.
-       */
-      setSelectedItemIndex(index: Number): void {
-        RadJav.currentTheme.eventSync(this.type, "setSelectedItemIndex", this, index);
-      }
+			/** @method getSelectedItemIndex
+			 * Get the selected item index.
+			 * Theme Event: getSelectedItemIndex
+			 * Is Theme Event Asynchronous: No
+			 * Parameters Passed to Theme Event: RadJav.GUI.GObject
+			 * Returned from Theme Event: Boolean
+			 * @return {Number} The selected item index.
+			 */
+			getSelectedItemIndex(): Number
+			{
+				return RadJav.currentTheme.eventSync(this.type, "getSelectedItemIndex", this);
+			}
+		}
 
-      /** @method getSelectedItemIndex
-       * Get the selected item index.
-       * Theme Event: getSelectedItemIndex
-       * Is Theme Event Asynchronous: No
-       * Parameters Passed to Theme Event: RadJav.GUI.GObject
-       * Returned from Theme Event: Boolean
-       * @return {Number} The selected item index.
-       */
-      getSelectedItemIndex(): Number {
-        return RadJav.currentTheme.eventSync(this.type, "getSelectedItemIndex", this);
-      }
-    }
+		export namespace Combobox
+		{
+			/** @class RadJav.GUI.Combobox.Item
+			 * A combobox item.
+			 * Available on platforms: Windows,Linux,OSX,HTML5
+			 */
+			export class Item
+			{
+				constructor(obj)
+				{
+					if (obj == null)
+						obj = {};
 
-    export namespace Combobox {
-      /** @class RadJav.GUI.Combobox.Item
-       * A combobox item.
-       * Available on platforms: Windows,Linux,OSX,HTML5
-       */
-      export class Item {
-        constructor(obj) {
-          if (obj == null) {
-            obj = {};
-          }
+					this.name = RadJav.setDefaultValue(obj.name, "");
+					this.text = RadJav.setDefaultValue(obj.text, "");
+				}
 
-          this.name = RadJav.setDefaultValue(obj.name, "");
-          this.text = RadJav.setDefaultValue(obj.text, "");
-        }
-
-        /** @property {String} [name=""]
-         * The name.
-         */
-        name: String;
-        /** @property {String} [text=""]
-         * The item's display text.
-         */
-        text: String;
-      }
-    }
-  }
+				/** @property {String} [name=""]
+				 * The name.
+				 */
+				public name: String;
+				/** @property {String} [text=""]
+				 * The item's display text.
+				 */
+				public text: String;
+			}
+		}
+	}
 }

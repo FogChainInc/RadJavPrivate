@@ -1,8 +1,10 @@
 /// <reference path="RadJav.d.ts" />
+/// <reference path="RadJav.Vector2.d.ts" />
 declare namespace RadJav {
     namespace GUI {
         class List extends RadJav.GUI.GObject {
-            constructor(obj?: any, text?: String, parent?: RadJav.GUI.GObject);
+            static xmlTag: TagType;
+            constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject);
             protected _canSort: any;
             protected _hasCheckBoxes: any;
             protected _columns: any;
@@ -32,8 +34,8 @@ declare namespace RadJav {
             }
             class Selection {
                 constructor(obj: any);
-                _html: any;
-                _appObj: any;
+                protected _html: any;
+                protected _appObj: any;
             }
         }
     }
