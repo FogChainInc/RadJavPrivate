@@ -32,6 +32,8 @@
 #ifdef _WIN32
 //#include <direct.h>
 //#define getcwd _getcwd // stupid MSFT "deprecation" warning
+#elif defined USE_ANDROID
+#include "android/Utils.h"
 #else
 #include <unistd.h>
 #endif
@@ -201,12 +203,6 @@ namespace RadJAV
 					flags += arg + endSpace;
 				}
 			}
-
-			#ifdef GUI_USE_WXWIDGETS
-				execPath = parsewxString (wxStandardPaths::Get ().GetExecutablePath());
-			#else 
-				execPath = _radjav_exec_path;
-			#endif
 
 			v8::V8::SetFlagsFromString(flags.c_str(), flags.size());
 			v8::V8::InitializeExternalStartupData(execPath.c_str ());
@@ -403,6 +399,34 @@ namespace RadJAV
 					// Enter the main loop of app
 					exitCode = wxTheApp->OnRun();
 				}
+			#elif defined USE_ANDROID
+				while(true)
+				{
+					if (RadJav::isWaitingForUiThread())
+					{
+						LOGI("Waiting for UI thread");
+
+						threadSleep(1);
+						continue;
+					}
+
+					if (RadJav::isPaused())
+					{
+						LOGI("OnPause");
+						threadSleep(500);
+
+						if(!runApplicationSingleStep())
+							break;
+
+						continue;
+					}
+
+					if(!runApplicationSingleStep())
+						break;
+
+					threadSleep(1);
+				}
+				LOGI("Exiting");
 			#else
 				while (runApplicationSingleStep()) {}
 			#endif

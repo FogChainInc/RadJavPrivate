@@ -29,7 +29,7 @@
 	OBJC_CLASS(UIScrollView);
 	OBJC_CLASS(ScrollViewDelegate);
 #elif defined USE_ANDROID
-	#warning Add ScrollView implementation for Android platform
+	JNI_CLASS(jobject);
 #endif
 
 namespace RadJAV
@@ -78,7 +78,7 @@ namespace RadJAV
 				#ifdef USE_IOS
 					UIView* getNativeWidget();
 				#elif defined USE_ANDROID
-					void* getNativeWidget();
+					jobject getNativeWidget();
 				#endif
 				
 			private:
@@ -86,8 +86,7 @@ namespace RadJAV
 					UIScrollView* widget;
 					ScrollViewDelegate* widgetDelegate;
 				#elif defined USE_ANDROID
-					//TODO: Wrap Android specific type here
-					void* widget;
+					jobject widget;
 				#endif
 			};
 		}

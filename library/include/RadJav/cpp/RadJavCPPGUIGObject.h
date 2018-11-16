@@ -52,7 +52,9 @@
 
 	OBJC_CLASS(UIView);
 #elif defined (USE_ANDROID)
-	#pragma message ("Add forward declaration of Android specific class/type")
+	#define JNI_CLASS(name) typedef class _jobject* name
+
+	JNI_CLASS(jobject);
 #endif
 
 
@@ -359,40 +361,61 @@ namespace RadJAV
 			class RADJAV_EXPORT GObjectWidget : public GObjectInterface
 												,public GObjectEvents
 			{
-                public:
-                    GObjectWidget ();
-                    virtual ~GObjectWidget() {};
-                
-                    void addChild(GObject *child);
-                    void setFont(CPP::Font *font);
-                    CPP::Font *getFont();
-                    void setPosition(RJINT x, RJINT y);
-                    void setPosition(CPP::Vector2 pos);
-                    CPP::Vector2 getPosition();
-                    RJINT getX();
-                    RJINT getY();
-                    void setSize(RJINT width, RJINT height);
-                    void setSize(CPP::Vector2 size);
-                    CPP::Vector2 getSize();
-                    RJINT getWidth();
-                    RJINT getHeight();
-                    void setText(String text);
-                    String getText();
-                    GObject *getParent();
-                    void setVisibility(RJBOOL visible);
-                    RJBOOL getVisibility();
-                    void setEnabled(RJBOOL enabled);
-                    RJBOOL getEnabled();
+			public:
+				GObjectWidget();
+				virtual ~GObjectWidget() {};
+				
+				void addChild(GObject *child);
+				void setFont(CPP::Font *font);
+				CPP::Font *getFont();
+				void setPosition(RJINT x, RJINT y);
+				void setPosition(CPP::Vector2 pos);
+				CPP::Vector2 getPosition();
+				RJINT getX();
+				RJINT getY();
+				void setSize(RJINT width, RJINT height);
+				void setSize(CPP::Vector2 size);
+				CPP::Vector2 getSize();
+				RJINT getWidth();
+				RJINT getHeight();
+				void setText(String text);
+				String getText();
+				GObject *getParent();
+				void setVisibility(RJBOOL visible);
+				RJBOOL getVisibility();
+				void setEnabled(RJBOOL enabled);
+				RJBOOL getEnabled();
 
-                    #ifdef USE_IOS
-                        virtual UIView* getNativeWidget() = 0;
-                    #elif defined USE_ANDROID
-                        //TODO: Add correct type here for Android
-                        virtual void* getNativeWidget() = 0;
-                    #endif
-                
-                    /// The parent of this object.
-                    GObject *_parent;
+				#ifdef USE_IOS
+					virtual UIView* getNativeWidget() = 0;
+				#elif defined USE_ANDROID
+					jobject getNativeWidget();
+				#endif
+
+			#ifdef USE_ANDROID
+			protected:
+				jobject widget;
+
+			protected:
+				//Java methods IDs
+				static jmethodID nativeSetLeft;
+				static jmethodID nativeSetTop;
+				static jmethodID nativeSetRight;
+				static jmethodID nativeSetBottom;
+				static jmethodID nativeSetVisibility;
+				static jmethodID nativeSetEnabled;
+
+				static jmethodID nativeGetLeft;
+				static jmethodID nativeGetTop;
+				static jmethodID nativeGetRight;
+				static jmethodID nativeGetBottom;
+				static jmethodID nativeGetWidth;
+				static jmethodID nativeGetHeight;
+				static jmethodID nativeGetVisibility;
+				static jmethodID nativeIsEnabled;
+
+				static jclass nativeViewClass;
+			#endif
 			};
 		}
 	}

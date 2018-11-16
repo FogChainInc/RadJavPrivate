@@ -60,15 +60,22 @@ task copyV8FilesToAssets(type: Copy) {
     include "**/snapshot_blob.bin"
 }
 
-task copyExamplesToAssets(type: Copy){
-    println("Copying examples to assets folder")
+//task copyExamplesToAssets(type: Copy){
+//    println("Copying examples to assets folder")
+//    from "../../examples"
+//    into "${projectDir}/src/main/assets/examples"
+//}
+
+task archiveExamplesAndPutToAssets(type: Zip) {
     from "../../examples"
-    into "${projectDir}/src/main/assets/examples"
+    destinationDir = file("${projectDir}/src/main/assets")
+    archiveName = "examples.zip"
 }
 
 project.afterEvaluate {
     preBuild.dependsOn copyV8FilesToAssets
-    preBuild.dependsOn copyExamplesToAssets
+    //preBuild.dependsOn copyExamplesToAssets
+    preBuild.dependsOn archiveExamplesAndPutToAssets
 }
 
 dependencies {
