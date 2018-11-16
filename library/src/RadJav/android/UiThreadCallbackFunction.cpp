@@ -21,16 +21,18 @@
 #include "android/UiThreadDispatcher.h"
 
 UiThreadCallbackFunction::UiThreadCallbackFunction(UiThreadDispatcher* dispatcher,
-                                                   UiThreadCallbackFunctionType function, void* data)
+                                                   UiThreadCallbackFunctionType function, void* data,
+                                                   bool asynchronous)
 : _dispatcher(dispatcher),
   _function(function),
-  _data(data)
+  _data(data),
+  _asynchronous(asynchronous)
 {
 }
 
-UiThreadDispatcher* UiThreadCallbackFunction::getDispatcher() const
+void UiThreadCallbackFunction::dispatch()
 {
-    return _dispatcher;
+    _dispatcher->uiThreadArrived(_asynchronous);
 }
 
 void UiThreadCallbackFunction::operator ()(JNIEnv* env)

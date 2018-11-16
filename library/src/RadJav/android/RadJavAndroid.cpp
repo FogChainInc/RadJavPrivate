@@ -66,7 +66,21 @@ namespace RadJAV
         return result == 0;
     }
 
+    void RadJavAndroid::runOnUiThread(UiThreadCallbackFunctionType function, void *data)
+    {
+        LOGI(__FUNCTION__);
+
+        runOnUiThread(function, data, false);
+    }
+
     void RadJavAndroid::runOnUiThreadAsync(UiThreadCallbackFunctionType function, void *data)
+    {
+        LOGI(__FUNCTION__);
+
+        runOnUiThread(function, data, true);
+    }
+
+    void RadJavAndroid::runOnUiThread(UiThreadCallbackFunctionType function, void *data, bool asynchronously)
     {
         LOGI(__FUNCTION__);
 
@@ -98,7 +112,7 @@ namespace RadJAV
                 env->NewObject(handlerClass, handlerConstructor, mainLooper.get()));
 
         //Wrap data
-        UiThreadCallbackFunction *func = new UiThreadCallbackFunction(this, function, data);
+        UiThreadCallbackFunction *func = new UiThreadCallbackFunction(this, function, data, asynchronously);
 
         auto functionObject = jni.wrapLocalRef(env->NewDirectByteBuffer(func, sizeof(func)));
 
@@ -108,6 +122,12 @@ namespace RadJAV
         jboolean result = env->CallBooleanMethod(handler, post, uiCallback.get());
 
         uiThreadRequested();
+
+        if (!asynchronously)
+        {
+            _sync_ui_call_mutex.lock();
+            _sync_ui_call_mutex.lock();
+        }
     }
 
     void RadJavAndroid::terminate(int exitCode)
@@ -144,23 +164,26 @@ namespace RadJAV
 
     bool RadJavAndroid::isWaitingForUiThread()
     {
-        std::unique_lock<std::mutex> lock{_mutex};
+        std::unique_lock<std::mutex> lock{_counter_protector_mutex};
 
         return _ui_thread_request_counter != 0;
     }
 
     void RadJavAndroid::uiThreadRequested()
     {
-        std::unique_lock<std::mutex> lock{_mutex};
+        std::unique_lock<std::mutex> lock{_counter_protector_mutex};
 
         _ui_thread_request_counter++;
     }
 
-    void RadJavAndroid::uiThreadArrived()
+    void RadJavAndroid::uiThreadArrived(bool async)
     {
-        std::unique_lock<std::mutex> lock{_mutex};
+        std::unique_lock<std::mutex> lock{_counter_protector_mutex};
 
         _ui_thread_request_counter--;
+
+        if (!async)
+            _sync_ui_call_mutex.unlock();
     }
 
     bool RadJavAndroid::isPaused() const
@@ -234,7 +257,7 @@ namespace RadJAV
         (*callback)(env);
 
         //Notify about received UI callback
-        callback->getDispatcher()->uiThreadArrived();
+        callback->dispatch();
 
         delete callback;
     }

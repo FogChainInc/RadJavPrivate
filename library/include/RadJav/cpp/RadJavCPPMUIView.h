@@ -41,6 +41,10 @@
                     ViewFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size);
                     ~ViewFrame();
 
+					#ifdef USE_ANDROID
+						void addChild(GUI::GObject *child);
+					#endif
+
 					void setText(String text);
 					String getText();
 
@@ -48,8 +52,6 @@
 
 					#ifdef USE_IOS
 						UIView* getNativeWidget();
-					#elif defined USE_ANDROID
-						void* getNativeWidget();
 					#endif
 
 				private:
@@ -58,7 +60,11 @@
 						//TODO: do we need to handle events of the UIView?
 						//ViewDelegate* widgetDelegate;
 					#elif defined USE_ANDROID
-                    	//TODO: Wrap Android specific type here
+						static jmethodID nativeConstructor;
+						static jmethodID nativeAddView;
+						static jmethodID nativeRemoveView;
+
+						static jclass nativeLayoutClass;
 					#endif
                 };
                 

@@ -567,6 +567,35 @@ if (IS_MOBILE)
 
 		source_group ("RadJav\\CPP\\MUI\\iOS" FILES ${SOURCES_files_RadJav__cpp__MUI__Sources})
 		set (SOURCES ${SOURCES_files_RadJav__cpp__MUI__Sources} ${SOURCES})
+
+	elseif (ANDROID)
+		set (SOURCES_files_RadJav__cpp__GUI__Sources 
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPGUIGObjectWidget.cpp")
+
+		source_group ("RadJav\\CPP\\GUI\\Android" FILES ${SOURCES_files_RadJav__cpp__GUI__Sources})
+		set (SOURCES ${SOURCES_files_RadJav__cpp__GUI__Sources} ${SOURCES})
+
+		set (SOURCES_files_RadJav__cpp__MUI__Sources 
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIButtonFrame.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIViewFrame.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIViewControllerFrame.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUINavigationViewControllerFrame.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUITableViewControllerFrame.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUITableViewFrame.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIScrollViewFrame.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIAlertFrame.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIEventDelegates.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIUtils.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUILabelFrame.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIImageFrame.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUICheckboxFrame.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUITextboxFrame.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUITextareaFrame.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIWebView.cpp"
+			)
+
+		source_group ("RadJav\\CPP\\MUI\\Android" FILES ${SOURCES_files_RadJav__cpp__MUI__Sources})
+		set (SOURCES ${SOURCES_files_RadJav__cpp__MUI__Sources} ${SOURCES})
 	endif ()
 endif ()
 

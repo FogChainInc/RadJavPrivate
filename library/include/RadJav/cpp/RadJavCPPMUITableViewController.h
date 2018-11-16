@@ -31,15 +31,9 @@
 #include "RadJavCPPMUIViewController.h"
 
 #ifdef USE_IOS
-#ifdef __OBJC__
-#define OBJC_CLASS(name) @class name
-#else
-#define OBJC_CLASS(name) typedef struct objc_object name
-#endif
-
-OBJC_CLASS(UINavigationController);
+	OBJC_CLASS(UINavigationController);
 #elif defined USE_ANDROID
-#warning Add Button implementation for Android platform
+	JNI_CLASS(jobject);
 #endif
 
 
@@ -49,8 +43,6 @@ namespace RadJAV
     {
         namespace MUI
         {
-            
-            //TODO: Add some base class here with common UI controls interface
             class RADJAV_EXPORT TableViewControllerFrame : public ViewControllerFrame
             {
             public:
@@ -63,45 +55,42 @@ namespace RadJAV
                 void pushViewController(CPP::GUI::GObject *presentedController);
                 void popViewController();
                 
-#ifdef USE_IOS
-                UIView* getNativeWidget();
-                
-#elif defined USE_ANDROID
-                //TODO: Add correct type here for Android
-                void* getNativeWidget();
-#endif
+                #ifdef USE_IOS
+                    UIView* getNativeWidget();
+                #elif defined USE_ANDROID
+                    jobject getNativeWidget();
+                #endif
                 
             private:
-#ifdef USE_IOS
-                UINavigationController* widget;
-#elif defined USE_ANDROID
-                //TODO: Wrap Android specific type here
-#endif
+                #ifdef USE_IOS
+                    UINavigationController* widget;
+                #elif defined USE_ANDROID
+                    jobject widget;
+                #endif
             };
             
             
             class RADJAV_EXPORT TableViewController : public CPP::GUI::GObject
             {
             public:
-#ifdef USE_V8
-                TableViewController(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
-#endif
-#ifdef USE_JAVASCRIPTCORE
-                TableViewController(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
-#endif
+                #ifdef USE_V8
+                    TableViewController(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
+                #endif
+                #ifdef USE_JAVASCRIPTCORE
+                    TableViewController(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
+                #endif
                 TableViewController(String name, String text = "", CPP::GUI::GObject *parent = NULL);
                 
-#if defined USE_V8 || defined USE_JAVASCRIPTCORE
-                /// Execute when an event is triggered.
-                void on(String event, RJ_FUNC_TYPE func);
-#endif
+                #if defined USE_V8 || defined USE_JAVASCRIPTCORE
+                    /// Execute when an event is triggered.
+                    void on(String event, RJ_FUNC_TYPE func);
+                #endif
                 void create();
                 void setRootViewController(CPP::GUI::GObject *presentedController);
                 void pushViewController(CPP::GUI::GObject *presentedController);
                 void popViewController();                
                 
                 TableViewControllerFrame* _appObject;
-                String icon;
             };
         }
     }

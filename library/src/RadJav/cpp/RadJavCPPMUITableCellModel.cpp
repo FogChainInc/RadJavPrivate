@@ -113,7 +113,7 @@ namespace RadJAV
                 return widget;
             }
 #elif defined USE_ANDROID
-            void* TableCellModel::getNativeWidget()
+            jobject TableCellModel::getNativeWidget()
             {
                 return widget;
             }

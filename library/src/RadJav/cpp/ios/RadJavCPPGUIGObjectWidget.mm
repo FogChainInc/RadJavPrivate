@@ -27,6 +27,10 @@ namespace RadJAV
 	{
 		namespace GUI
 		{
+			GObjectWidget::GObjectWidget()
+			{
+			}
+			
 			void GObjectWidget::addChild(GObject *child)
 			{
 				UIView* widget = getNativeWidget();

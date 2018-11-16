@@ -26,6 +26,6 @@ class UiThreadDispatcher
 public:
     virtual ~UiThreadDispatcher() {}
 
-    virtual void uiThreadArrived() = 0;
+	virtual void uiThreadArrived(bool async) = 0;
 };
 #endif //_RADJAV_UITHREADDISPATCHER_H

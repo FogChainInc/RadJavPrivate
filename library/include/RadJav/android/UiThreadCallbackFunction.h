@@ -35,9 +35,10 @@ public:
     UiThreadCallbackFunction(const UiThreadCallbackFunction&) = delete;
 
     UiThreadCallbackFunction(UiThreadDispatcher* dispatcher,
-                             UiThreadCallbackFunctionType function, void* data);
+								UiThreadCallbackFunctionType function, void* data,
+								bool asynchronous = true);
 
-    UiThreadDispatcher* getDispatcher() const;
+    void dispatch();
 
     void operator ()(JNIEnv* env);
 
@@ -45,6 +46,7 @@ private:
     UiThreadDispatcher* _dispatcher;
     UiThreadCallbackFunctionType _function;
     void* _data;
+    bool _asynchronous;
 };
 
 #endif //RADJAV_UITHREADCALLBACKFUNCTION_H

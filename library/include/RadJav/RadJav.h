@@ -160,8 +160,11 @@
 
 			#ifdef USE_ANDROID
 		    public:
-                ///Request function execution on Java UI thread
-                static void runOnUiThreadAsync(UiThreadCallbackFunctionType function, void *data);
+				///Request function execution on Java UI thread synchronously
+				static void runOnUiThread(UiThreadCallbackFunctionType function, void *data = nullptr);
+
+                ///Request function execution on Java UI thread asynchronously
+                static void runOnUiThreadAsync(UiThreadCallbackFunctionType function, void *data = nullptr);
 
                 ///Get main java application instance
                 static jobject getJavaApplication();

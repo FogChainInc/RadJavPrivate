@@ -42,8 +42,11 @@ namespace RadJAV
         static RadJavAndroid *instance();
         static bool registerNatives();
 
+        ///Request function execution on Java UI thread synchronously
+        void runOnUiThread(UiThreadCallbackFunctionType function, void *data = nullptr);
+
         ///Request function execution on Java UI thread
-        void runOnUiThreadAsync(UiThreadCallbackFunctionType function, void *data);
+        void runOnUiThreadAsync(UiThreadCallbackFunctionType function, void *data = nullptr);
 
         ///Terminate main loop
         void terminate(int exitCode);
@@ -61,7 +64,13 @@ namespace RadJAV
         bool isPaused() const;
 
     private:
-        //Java thread entry point
+        void uiThreadRequested();
+
+        void uiThreadArrived(bool async);
+
+        void runOnUiThread(UiThreadCallbackFunctionType function, void *data, bool asynchronously);
+
+        ///Java thread entry point
         static jint onRun(JNIEnv *env,
                           jobject thisObject,
                           jobject application,
@@ -69,20 +78,17 @@ namespace RadJAV
                           jstring cachePath,
                           jstring appPath);
 
-        //Ui thread callback called by request from runOnUiThreadAsynch
+        ///Ui thread callback called by request from runOnUiThreadAsynch
         static void onUiThread(JNIEnv *env,
                                jobject javaUiCallbackObject,
                                jobject data);
 
-        //UI thread callback when UI event occur
+        ///UI thread callback when UI event occur
         static jboolean onUiEvent(JNIEnv *env,
                                   jobject javaUiEventListenerObject,
                                   jobject data,
                                   jobjectArray arguments);
 
-        void uiThreadRequested();
-
-        void uiThreadArrived();
 
     private:
         jobject _java_application;
@@ -90,7 +96,8 @@ namespace RadJAV
         bool _terminated;
         int _exit_code;
         unsigned long _ui_thread_request_counter;
-        std::mutex _mutex;
+        std::mutex _counter_protector_mutex;
+        std::mutex _sync_ui_call_mutex;
 
         static RadJavAndroid *_instance;
     };
