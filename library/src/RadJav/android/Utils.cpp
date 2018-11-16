@@ -35,4 +35,27 @@ namespace utils
         return static_cast<jclass>(env->NewGlobalRef(clazz));
     }
 
+    std::string CharSequenceToString(jobject charSequence)
+    {
+        Jni& jni = Jni::instance();
+
+        CharSequenceToString(jni.getJniEnv(), charSequence);
+    }
+
+    std::string CharSequenceToString(JNIEnv* env, jobject charSequence)
+    {
+        //We assume that everyone on Java side implement CharSequence interface correctly
+        //so toString method will return String with corresponding chars from CharSequence
+
+        jclass charSequenceClass = Jni::instance().findClass("java/lang/CharSequence");
+        static jmethodID toString = env->GetMethodID(charSequenceClass, "toString", "(V)Ljava/lang/String;");
+
+        auto javaString = wrap_local(env, env->CallObjectMethod(charSequence, toString));
+        const char* tempCharSequence = env->GetStringUTFChars(static_cast<jstring>(javaString.get()), NULL);
+        std::string ret = tempCharSequence;
+
+        env->ReleaseStringUTFChars(static_cast<jstring>(javaString.get()), tempCharSequence);
+
+        return ret;
+    }
 }

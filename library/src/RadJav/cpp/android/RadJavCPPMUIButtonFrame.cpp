@@ -20,6 +20,8 @@
 #include "cpp/RadJavCPPMUIButton.h"
 
 #include "cpp/RadJavCPPMUIView.h"
+#include "android/Utils.h"
+
 
 namespace RadJAV
 {
@@ -82,8 +84,11 @@ namespace RadJAV
 				String text;
 
 				RadJav::runOnUiThread([&](JNIEnv* env, void* data) {
-					env->CallObjectMethod(widget, nativeGetText);
+					jobject charSequence = env->CallObjectMethod(widget, nativeGetText);
+					text = utils::CharSequenceToString(charSequence);
 				});
+
+				return text;
             }
             
 			void ButtonFrame::setFont(CPP::Font *font)
@@ -99,30 +104,20 @@ namespace RadJAV
 
 			void ButtonFrame::setEnabled(RJBOOL enabled)
 			{
-				[widget setEnabled:enabled];
+				GObjectWidget::setEnabled(enabled);
 			}
 			
 			RJBOOL ButtonFrame::getEnabled()
 			{
-				return widget.isEnabled;
+				return GObjectWidget::getEnabled();
 			}
 			
 			bool ButtonFrame::bindEvent(const String& eventName, const GUI::Event* /*event*/)
 			{
-				return [widgetDelegate bindEvent:widget eventName:eventName];
+				//TODO: add events handling
+
+				return false;
 			}
-			
-			#ifdef USE_IOS
-				UIView* ButtonFrame::getNativeWidget()
-				{
-					return widget;
-				}
-			#elif defined USE_ANDROID
-				void* ButtonFrame::getNativeWidget()
-				{
-					return widget;
-				}
-			#endif
 		}
 	}
 }
