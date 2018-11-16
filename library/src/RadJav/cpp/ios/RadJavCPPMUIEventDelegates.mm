@@ -254,8 +254,8 @@
  
     }
     
-    cell.textLabel.text = RadJavCocoaStringFromRadJavString(model->name);
-    cell.detailTextLabel.text = RadJavCocoaStringFromRadJavString(model->name);
+    //cell.textLabel.text = RadJavCocoaStringFromRadJavString(model->name);
+    //cell.detailTextLabel.text = RadJavCocoaStringFromRadJavString(model->name);
     
     return cell;
 }

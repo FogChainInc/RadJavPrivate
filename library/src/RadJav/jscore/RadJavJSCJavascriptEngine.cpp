@@ -1398,7 +1398,7 @@ namespace RadJAV
 
 					// Callbacks
 					{
-						JSC::Crypto::Base::createJSCCallbacks(isolate, cryptoFunc);
+						JSC::Crypto::Base::createJSCCallbacks(globalContext, cryptoFunc);
 					}
 
 					// RadJav.Crypto.Hash

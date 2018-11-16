@@ -537,7 +537,7 @@ namespace RadJAV
 					{
 						object->Bind(wxEVT_MIDDLE_DOWN, GObjectEvents::onMiddleDown, -1, -1, createEvent(event, func));
 					}
-
+œ
 					if (event == "focus")
 					{
 						object->Bind(wxEVT_SET_FOCUS, GObjectEvents::onFocusSet, -1, -1, createEvent(event, func));

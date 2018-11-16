@@ -40,13 +40,13 @@ namespace RadJAV
 			#endif
             #ifdef USE_JAVASCRIPTCORE
                 TableCellModel::TableCellModel(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[])
-                    : GObject (jsEngine, thisObj, numArgs, args)
+                    //: GObjectWidget ()
                 {
                 }
             #endif
 
 			TableCellModel::TableCellModel(String name, String text, CPP::GUI::GObject *parent)
-				: GObject(name, text, parent)
+				//: GObject(name, text, parent)
 			{
 			}
 
@@ -54,11 +54,11 @@ namespace RadJAV
 			{
 				GUI::GObjectWidget* parentWin = nullptr;
 				
-				if (_parent != nullptr)
-					parentWin = _parent->_appObj;
+				//if (parent != nullptr)
+					//parentWin = parent->_appObj;
 				
 
-				setup();
+				//setup();
 			}
             bool TableCellModel::bindEvent(const String& eventName, const GUI::Event* /*event*/)
             {

@@ -48,7 +48,7 @@
 		{
 			namespace MUI
 			{
-				class RADJAV_EXPORT TableCellModel : public CPP::GUI::GObject, public GUI::GObjectWidget
+				class RADJAV_EXPORT TableCellModel : public GUI::GObjectWidget
 				{
                     bool usesAccessoryButton;
                     bool usesCheckmark;

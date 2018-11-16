@@ -50,7 +50,7 @@ namespace RadJAV
 		namespace Crypto
 		{
 			#ifdef USE_CRYPTOGRAPHY
-			void Base::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
+			void Base::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 			{
 				JSC_CALLBACK(object, "addCertificate", Base::addCertificate);
 				JSC_CALLBACK(object, "getCertificate", Base::getCertificate);
@@ -60,7 +60,7 @@ namespace RadJAV
 
 			JSValueRef Base::addCertificate(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
 			{
-				String cert = parseJSCValue (arguments[0]);
+				String cert = parseJSCValue (ctx, arguments[0]);
 
 				CPP::Crypto::addCertificate(cert);
 
@@ -92,7 +92,7 @@ namespace RadJAV
 				return (ary);
 			}
 
-			JSValueRef Cipher::createJSCCallbacks(JSContextRef context, JSObjectRef object)
+			void Cipher::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 			{
 				JSC_CALLBACK(object, "_init", Cipher::_init);
 				JSC_CALLBACK(object, "cipherSync", Cipher::cipherSync);
