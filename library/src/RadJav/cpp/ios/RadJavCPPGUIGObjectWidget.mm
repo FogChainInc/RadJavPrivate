@@ -31,10 +31,10 @@ namespace RadJAV
 			{
 			}
 			
-			void GObjectWidget::addChild(GObject *child)
+			void GObjectWidget::addChild(GObjectWidget *child)
 			{
 				UIView* widget = getNativeWidget();
-				UIView* childObj = child->_appObj->getNativeWidget();
+				UIView* childObj = child->getNativeWidget();
 				[widget addSubview:childObj];
 			}
 			
