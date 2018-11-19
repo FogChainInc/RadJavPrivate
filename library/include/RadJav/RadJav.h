@@ -46,6 +46,10 @@
     #include "cpp/RadJavCPPOSScreenInfo.h"
     #undef TEMP_HEADER_INCLUDE
 
+    #ifdef USE_ANDROID
+    #include "android/UiThreadCallbackFunction.h"
+    #endif
+
 	/// The RadJAV namespace.
 	namespace RadJAV
 	{
@@ -60,10 +64,14 @@
 //#ifdef __cplusplus
 		}
 //#endif
+        #ifdef USE_ANDROID
+            class RadJavAndroid;
+        #endif
 
-	#ifndef GUI_USE_WXWIDGETS
-		extern String _radjav_exec_path;
-	#endif
+	    #ifndef GUI_USE_WXWIDGETS
+		    extern String _radjav_exec_path;
+        #endif
+
 		/// The main RadJav class, this class handles most if not all functionality.
 		class RADJAV_EXPORT RadJav
 		{
@@ -79,6 +87,10 @@
 				/// Start RadJav.
 				static RadJavType initialize(Array<String> newArgs, String &file);
 
+				#ifdef USE_ANDROID
+					static RadJavType initialize(JavaVM* jvm);
+                #endif
+
 				#ifdef WIN32
 					/// Setup console output.
 					static void setupConsoleOutput();
@@ -89,6 +101,11 @@
 
                 /// Setup the screen info.
                 static void setupScreens ();
+
+				#ifdef USE_CRYPTOGRAPHY
+					/// Setup the Crypto library.
+					static void setupCrypto ();
+				#endif
 
 				/// Run an application.
 				static int runApplication (String application, String fileName);
@@ -107,6 +124,11 @@
 				/// Primarily for Visual Studio debugging. This will print to the output window, or 
 				/// to the console if on another platform.
 				static void printToOutputWindow (String message);
+
+				/// Add a thread for processing.
+				static void addThread(Thread *thread);
+				/// Remove a thread from processing.
+				static void removeThread(Thread *thread);
 
                 /// Screen info attached to this device.
                 static Array<RadJAV::CPP::OS::ScreenInfo> screens;
@@ -134,7 +156,29 @@
 
 					/// Memory allocations made during debug.
 					static HashMap<size_t, MemoryAllocLog> *memoryAllocs;
-				#endif
+                #endif
+
+			#ifdef USE_ANDROID
+		    public:
+				///Request function execution on Java UI thread synchronously
+				static void runOnUiThread(UiThreadCallbackFunctionType function, void *data = nullptr);
+
+                ///Request function execution on Java UI thread asynchronously
+                static void runOnUiThreadAsync(UiThreadCallbackFunctionType function, void *data = nullptr);
+
+                ///Get main java application instance
+                static jobject getJavaApplication();
+
+                ///Get main java ViewGroup
+                static jobject getJavaViewGroup();
+
+                static bool isWaitingForUiThread();
+
+                static bool isPaused();
+
+			private:
+		        static RadJavAndroid* impl;
+			#endif
 		};
 //#ifdef __cplusplus
 		extern "C" {
@@ -154,6 +198,11 @@
 
                 /// Setup the screen info.
                 RADJAV_EXPORT void setupScreens ();
+
+				#ifdef USE_CRYPTOGRAPHY
+					/// Setup the Crypto library.
+					RADJAV_EXPORT void setupCrypto();
+				#endif
 
 				/// Run an application.
 				RADJAV_EXPORT int runApplication(const char* application, const char* fileName);

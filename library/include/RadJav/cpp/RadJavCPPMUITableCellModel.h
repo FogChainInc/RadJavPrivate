@@ -29,16 +29,10 @@
 #endif
 
 #ifdef USE_IOS
-	#ifdef __OBJC__
-		#define OBJC_CLASS(name) @class name
-	#else
-		#define OBJC_CLASS(name) typedef struct objc_object name
-	#endif
-
 	OBJC_CLASS(UITableView);
     OBJC_CLASS(TableViewDelegate);
 #elif defined USE_ANDROID
-	#warning Add forward declaration of Android specific class/type
+	JNI_CLASS(jobject);
 #endif
 
 
@@ -48,7 +42,7 @@
 		{
 			namespace MUI
 			{
-				class RADJAV_EXPORT TableCellModel : public CPP::GUI::GObject, public GUI::GObjectWidget
+				class RADJAV_EXPORT TableCellModel : public GUI::GObjectWidget
 				{
                     bool usesAccessoryButton;
                     bool usesCheckmark;
@@ -80,21 +74,31 @@
                         void setIsFooter(bool value);
 
                         bool bindEvent(const String& eventName, const GUI::Event* event);
-#ifdef USE_IOS
-                    UITableView* widget;
-                    UIView* getNativeWidget();
-                    TableViewDelegate* widgetDelegate;
-#elif defined USE_ANDROID
-                    void* getNativeWidget();
-#endif
+
+						#ifdef USE_IOS
+                    		UIView* getNativeWidget();
+						#elif defined USE_ANDROID
+                    		jobject getNativeWidget();
+						#endif
                     
 						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
                         	/// Execute when an event is triggered.
                         	void on(String event, RJ_FUNC_TYPE func);
 						#endif
-					
-						///???
-						String icon;
+
+						#ifdef USE_IOS
+							UITableView* widget;
+							TableViewDelegate* widgetDelegate;
+						#elif defined USE_ANDROID
+							jobject widget;
+						#endif
+
+					private:
+
+						bool usesAccessoryButton;
+						bool usesCheckmark;
+						bool isSelected;
+						bool isDeletable;
 				};
 			}
 		}

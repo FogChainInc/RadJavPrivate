@@ -23,6 +23,7 @@
 
 #include "jscore/RadJavJSCJavascriptEngine.h"
 
+#include "cpp/RadJavCPPCryptoBase.h"
 #include "cpp/RadJavCPPCryptoCipher.h"
 
 #include <orb/ORB_EngineCrypto.h>
@@ -48,6 +49,49 @@ namespace RadJAV
 	{
 		namespace Crypto
 		{
+			#ifdef USE_CRYPTOGRAPHY
+			void Base::createJSCCallbacks(JSContextRef context, JSObjectRef object)
+			{
+				JSC_CALLBACK(object, "addCertificate", Base::addCertificate);
+				JSC_CALLBACK(object, "getCertificate", Base::getCertificate);
+				JSC_CALLBACK(object, "getCertificates", Base::getCertificates);
+				JSC_CALLBACK(object, "getDefaultCertificates", Base::getDefaultCertificates);
+			}
+
+			JSValueRef Base::addCertificate(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+			{
+				String cert = parseJSCValue (ctx, arguments[0]);
+
+				CPP::Crypto::addCertificate(cert);
+
+				return (JSValueMakeUndefined(ctx));
+			}
+
+			JSValueRef Base::getCertificate(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+			{
+				JSValueRef index = arguments[0];
+
+				String cert = CPP::Crypto::getCertificate(JSC_JAVASCRIPT_ENGINE->jscParseInt (index));
+
+				return (cert.toJSCValue(ctx));
+			}
+
+			JSValueRef Base::getCertificates(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+			{
+				Array<String> *certs = CPP::Crypto::getCertificates();
+				JSObjectRef ary = convertArrayToJSCArray(*certs, ctx);
+
+				return (ary);
+			}
+
+			JSValueRef Base::getDefaultCertificates(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+			{
+				Array<String> certs = CPP::Crypto::getDefaultCertificates();
+				JSObjectRef ary = convertArrayToJSCArray(certs, ctx);
+
+				return (ary);
+			}
+
 			void Cipher::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 			{
 				JSC_CALLBACK(object, "_init", Cipher::_init);
@@ -242,6 +286,7 @@ namespace RadJAV
 				
 				return ret;
 			}
+			#endif
 		}
 	}
 }

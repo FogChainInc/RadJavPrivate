@@ -29,7 +29,7 @@
 	OBJC_CLASS(UILabel);
 	OBJC_CLASS(LabelDelegate);
 #elif defined USE_ANDROID
-	#warning Add Label implementation for Android platform
+	JNI_CLASS(jobject);
 #endif
 
 namespace RadJAV
@@ -57,7 +57,7 @@ namespace RadJAV
 				#ifdef USE_IOS
 					UIView* getNativeWidget();
 				#elif defined USE_ANDROID
-					void* getNativeWidget();
+					jobject getNativeWidget();
 				#endif
 
 			private:
@@ -66,8 +66,7 @@ namespace RadJAV
 					//TODO: do we need to handle events of the UILabel?
 					//LabelDelegate* widgetDelegate;
 				#elif defined USE_ANDROID
-					//TODO: Wrap Android specific type here
-					void* widget;
+					jobject widget;
 				#endif
 			};
 			

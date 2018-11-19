@@ -51,7 +51,7 @@ namespace RadJav
           obj.size.y = 40;
         }
 
-        super(obj, text, parent) || this;
+        super(obj, text, parent);
 
         this.type = "RadJav.GUI.Radio";
 

@@ -29,7 +29,7 @@
 	OBJC_CLASS(UITextField);
 	OBJC_CLASS(TextFieldDelegate);
 #elif defined USE_ANDROID
-	#warning Add Textbox implementation for Android platform
+	JNI_CLASS(jobject);
 #endif
 
 namespace RadJAV
@@ -93,7 +93,7 @@ namespace RadJAV
 				#ifdef USE_IOS
 					UIView* getNativeWidget();
 				#elif defined USE_ANDROID
-					void* getNativeWidget();
+					jobject getNativeWidget();
 				#endif
 				
 			private:
@@ -101,8 +101,7 @@ namespace RadJAV
 					UITextField* widget;
 					TextFieldDelegate* widgetDelegate;
 				#elif defined USE_ANDROID
-					//TODO: Wrap Android specific type here
-					void* widget;
+					jobject widget;
 				#endif
 			};
 			

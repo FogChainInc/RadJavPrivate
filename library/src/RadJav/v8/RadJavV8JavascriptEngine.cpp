@@ -32,9 +32,15 @@
 #ifdef _WIN32
 //#include <direct.h>
 //#define getcwd _getcwd // stupid MSFT "deprecation" warning
+#elif defined USE_ANDROID
+#include "android/Utils.h"
 #else
 #include <unistd.h>
 #endif
+#endif
+
+#ifdef USE_NODEJS
+	#include <node.h>
 #endif
 
 #ifdef USE_V8
@@ -158,11 +164,11 @@ namespace RadJAV
 			
 			String execPath = "";
 
-#ifdef GUI_USE_WXWIDGETS
-			execPath = parsewxString(wxStandardPaths::Get().GetExecutablePath());
-#else 
-			execPath = RadJAV::_radjav_exec_path;
-#endif
+			#ifdef GUI_USE_WXWIDGETS
+				execPath = parsewxString(wxStandardPaths::Get().GetExecutablePath());
+			#else 
+				execPath = RadJAV::_radjav_exec_path;
+			#endif
 
 			v8::V8::InitializeICUDefaultLocation(execPath.c_str ());
 			String flags = "";
@@ -197,12 +203,6 @@ namespace RadJAV
 					flags += arg + endSpace;
 				}
 			}
-
-			#ifdef GUI_USE_WXWIDGETS
-				execPath = parsewxString (wxStandardPaths::Get ().GetExecutablePath());
-			#else 
-				execPath = _radjav_exec_path;
-			#endif
 
 			v8::V8::SetFlagsFromString(flags.c_str(), flags.size());
 			v8::V8::InitializeExternalStartupData(execPath.c_str ());
@@ -381,6 +381,10 @@ namespace RadJAV
 				return EXIT_FAILURE;
 			}
 
+			#ifdef USE_NODEJS
+				node::Start(0, NULL);
+			#endif
+
 			int exitCode = EXIT_SUCCESS;
 			#ifdef GUI_USE_WXWIDGETS
 				// Here we enter main loop of wxApp and set our IdleEvent handler
@@ -395,6 +399,34 @@ namespace RadJAV
 					// Enter the main loop of app
 					exitCode = wxTheApp->OnRun();
 				}
+			#elif defined USE_ANDROID
+				while(true)
+				{
+					if (RadJav::isWaitingForUiThread())
+					{
+						LOGI("Waiting for UI thread");
+
+						threadSleep(1);
+						continue;
+					}
+
+					if (RadJav::isPaused())
+					{
+						LOGI("OnPause");
+						threadSleep(500);
+
+						if(!runApplicationSingleStep())
+							break;
+
+						continue;
+					}
+
+					if(!runApplicationSingleStep())
+						break;
+
+					threadSleep(1);
+				}
+				LOGI("Exiting");
 			#else
 				while (runApplicationSingleStep()) {}
 			#endif
@@ -503,6 +535,11 @@ namespace RadJAV
 					
 					if (tbegin == tend)
 						continue;
+
+					#ifdef THREADS_USE_STD_THREAD
+						Thread *thread = tbegin->second;
+						thread->stop();
+					#endif
 					
 					/// @bug tbegin->second should be deleted, or does wxWidgets delete it automatically?
 					/// @note wxWidgets delete wxThread automatically, we need to update removeThreads only
@@ -519,17 +556,8 @@ namespace RadJAV
 				while (tbegin != tend)
 				{
 					Thread *thread = tbegin->second;
-					
-					#ifdef GUI_USE_WXWIDGETS
-						wxThread *wthread = (wxThread *)thread;
-					
-						if (thread->hasThreadStarted () == false)
-						{
-							wthread->Create();
-							wthread->Run();
-							thread->setAsStarted(true);
-						}
-					#endif
+
+					thread->run();
 					
 					tbegin++;
 				}
@@ -1441,136 +1469,103 @@ namespace RadJAV
 				}
 				#endif
 				#ifdef USE_CRYPTOGRAPHY
-				// RadJav.Crypto.Hash
+				// RadJav.Crypto
 				{
-				  v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
+					v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
 
-				  {
+					// Callbacks
+					{
+						V8B::Crypto::Base::createV8Callbacks(isolate, cryptoFunc);
+					}
 
-				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "Hash");
-				    V8_CALLBACK(func, "getCapabilities", V8B::Crypto::Hash::getCapabilities);
-				    //std::cout << "Obj FieldCount: " << func -> InternalFieldCount() << std::endl << std::flush;
-				    //std::cout << "Obj ExtFieldCount: " << func -> GetIndexedPropertiesExternalArrayDataLength() << std::endl << std::flush;
-				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
-				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    //std::cout <<  "Len: " << str -> Length() << std::endl << std::flush;
-				    //std::cout << "Obj FieldCount: " << prototype -> InternalFieldCount() << std::endl << std::flush;
-				    
+					// RadJav.Crypto.Hash
+					{
+						v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "Hash");
+						V8_CALLBACK(func, "getCapabilities", V8B::Crypto::Hash::getCapabilities);
+						//std::cout << "Obj FieldCount: " << func -> InternalFieldCount() << std::endl << std::flush;
+						//std::cout << "Obj ExtFieldCount: " << func -> GetIndexedPropertiesExternalArrayDataLength() << std::endl << std::flush;
+						v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
+						v8::Local<v8::String> str = String("_init").toV8String(isolate);
+						//std::cout <<  "Len: " << str -> Length() << std::endl << std::flush;
+						//std::cout << "Obj FieldCount: " << prototype -> InternalFieldCount() << std::endl << std::flush;
 
-				    V8B::Crypto::Hash::createV8Callbacks(isolate, prototype);
-				  }
+						V8B::Crypto::Hash::createV8Callbacks(isolate, prototype);
+					}
 
+					// RadJav.Crypto.HashMultipart
+					{
+						v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "HashMultipart");
+						V8_CALLBACK(func, "getCapabilities", V8B::Crypto::HashMultipart::getCapabilities);
+						v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
+						v8::Local<v8::String> str = String("_init").toV8String(isolate);
+						V8B::Crypto::HashMultipart::createV8Callbacks(isolate, prototype);
+					}
+
+					// RadJav.Crypto.Cipher
+					{
+						v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "Cipher");
+						V8_CALLBACK(func, "getCapabilities", V8B::Crypto::Cipher::getCapabilities);
+						v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
+						v8::Local<v8::String> str = String("_init").toV8String(isolate);
+						V8B::Crypto::Cipher::createV8Callbacks(isolate, prototype);
+					}
+
+					// RadJav.Crypto.Decipher
+					{
+						v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "Decipher");
+						V8_CALLBACK(func, "getCapabilities", V8B::Crypto::Decipher::getCapabilities);
+						v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
+						v8::Local<v8::String> str = String("_init").toV8String(isolate);
+						V8B::Crypto::Decipher::createV8Callbacks(isolate, prototype);
+					}
+
+					// RadJav.Crypto.CipherMultipart
+					{
+						v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "CipherMultipart");
+						V8_CALLBACK(func, "getCapabilities", V8B::Crypto::CipherMultipart::getCapabilities);
+						v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
+						v8::Local<v8::String> str = String("_init").toV8String(isolate);
+						V8B::Crypto::CipherMultipart::createV8Callbacks(isolate, prototype);
+					}
+
+					// RadJav.Crypto.DecipherMultipart
+					{
+						v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "DecipherMultipart");
+						V8_CALLBACK(func, "getCapabilities", V8B::Crypto::DecipherMultipart::getCapabilities);
+						v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
+						v8::Local<v8::String> str = String("_init").toV8String(isolate);
+						V8B::Crypto::DecipherMultipart::createV8Callbacks(isolate, prototype);
+					}
+
+					// RadJav.Crypto.KeyGenerator
+					{
+						v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "KeyGenerator");
+						//				    V8_CALLBACK(func, "getCapabilities", V8B::Crypto::DecipherMultipart::getCapabilities);
+						v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
+						//				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
+						V8B::Crypto::KeyGenerator::createV8Callbacks(isolate, prototype);
+					}
+
+					// RadJav.Crypto.PrivateKey
+					{
+						v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "PrivateKey");
+						v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
+
+						V8B::Crypto::PrivateKey::createV8Callbacks(isolate, prototype);
+						V8B::Crypto::PrivateKey::setConstructor(isolate, func);
+
+						v8::Handle<v8::Object> init = v8GetObject(prototype, "_init");
+					}
+
+					// RadJav.Crypto.PublicKey
+					{
+						v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "PublicKey");
+						v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
+
+						V8B::Crypto::PublicKey::createV8Callbacks(isolate, prototype);
+						V8B::Crypto::PublicKey::setConstructor(isolate, func);
+					}
 				}
-
-
-				// RadJav.Crypto.HashMultipart
-				{
-				  v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
-
-				  {
-				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "HashMultipart");
-				    V8_CALLBACK(func, "getCapabilities", V8B::Crypto::HashMultipart::getCapabilities);
-				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
-				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    V8B::Crypto::HashMultipart::createV8Callbacks(isolate, prototype);
-				  }
-
-				}
-				// RadJav.Crypto.Cipher
-				{
-				  v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
-
-				  {
-				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "Cipher");
-				    V8_CALLBACK(func, "getCapabilities", V8B::Crypto::Cipher::getCapabilities);
-				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
-				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    V8B::Crypto::Cipher::createV8Callbacks(isolate, prototype);
-				  }
-				}
-				// RadJav.Crypto.Decipher
-				{
-				  v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
-
-				  {
-				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "Decipher");
-				    V8_CALLBACK(func, "getCapabilities", V8B::Crypto::Decipher::getCapabilities);
-				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
-				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    V8B::Crypto::Decipher::createV8Callbacks(isolate, prototype);
-				  }
-				}
-				// RadJav.Crypto.CipherMultipart
-				{
-				  v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
-
-				  {
-				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "CipherMultipart");
-				    V8_CALLBACK(func, "getCapabilities", V8B::Crypto::CipherMultipart::getCapabilities);
-				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
-				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    V8B::Crypto::CipherMultipart::createV8Callbacks(isolate, prototype);
-				  }
-				}
-
-
-				// RadJav.Crypto.DecipherMultipart
-				{
-				  v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
-
-				  {
-				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "DecipherMultipart");
-				    V8_CALLBACK(func, "getCapabilities", V8B::Crypto::DecipherMultipart::getCapabilities);
-				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
-				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    V8B::Crypto::DecipherMultipart::createV8Callbacks(isolate, prototype);
-
-				  }
-				}
-
-				// RadJav.Crypto.KeyGenerator
-				{
-				  v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
-
-				  {
-				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "KeyGenerator");
-				    //				    V8_CALLBACK(func, "getCapabilities", V8B::Crypto::DecipherMultipart::getCapabilities);
-				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
-				    //				    v8::Local<v8::String> str = String("_init").toV8String(isolate);
-				    V8B::Crypto::KeyGenerator::createV8Callbacks(isolate, prototype);
-				  }
-				}
-
-				// RadJav.Crypto.PrivateKey
-				{
-				  v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
-
-				  {
-				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "PrivateKey");
-				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
-
-				    V8B::Crypto::PrivateKey::createV8Callbacks(isolate, prototype);
-				    V8B::Crypto::PrivateKey::setConstructor(isolate, func);
-
-				    v8::Handle<v8::Object> init = v8GetObject(prototype, "_init");
-				    
-				  }
-				}
-
-				// RadJav.Crypto.PublicKey
-				{
-				  v8::Handle<v8::Function> cryptoFunc = v8GetFunction(radJavFunc, "Crypto");
-
-				  {
-				    v8::Handle<v8::Function> func = v8GetFunction(cryptoFunc, "PublicKey");
-				    v8::Handle<v8::Object> prototype = v8GetObject(func, "prototype");
-
-				    V8B::Crypto::PublicKey::createV8Callbacks(isolate, prototype);
-				    V8B::Crypto::PublicKey::setConstructor(isolate, func);
-
-				  }
-				}
-
 				#endif
 				
 			}

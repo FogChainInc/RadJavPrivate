@@ -53,18 +53,18 @@
 			{
 				class RADJAV_EXPORT WebServerThread : public Thread
 				{
-				public:
-					WebServerThread(boost::asio::io_context* ioc);
-#ifdef GUI_USE_WXWIDGETS
-					wxThread::ExitCode Entry();
-#else
-					RJINT Entry();
-					void Run() {
-						ioc->run();
-					};
-#endif
-				private:
-					boost::asio::io_context* ioc;
+					public:
+						WebServerThread(boost::asio::io_context* ioc);
+					#ifdef GUI_USE_WXWIDGETS
+						wxThread::ExitCode Entry();
+					#else
+						RJINT Entry();
+						void Run() {
+							ioc->run();
+						};
+					#endif
+					private:
+						boost::asio::io_context* ioc;
 				};
 
 				// Accepts incoming connections and launches the sessions
@@ -103,12 +103,13 @@
 						void run();
 						void do_accept();
 						void on_accept(boost::system::error_code ec);
-						void close();
 
 						boost::asio::ip::address address;
 						boost::asio::io_context ioc;
 						tcp::acceptor acceptor;
 						tcp::socket socket;
+
+						SimpleThread *thread;
 				};
 
 				/// Web server types.

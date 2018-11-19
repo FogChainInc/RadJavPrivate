@@ -52,7 +52,9 @@
 
 	OBJC_CLASS(UIView);
 #elif defined (USE_ANDROID)
-	#pragma message ("Add forward declaration of Android specific class/type")
+	#define JNI_CLASS(name) typedef class _jobject* name
+
+	JNI_CLASS(jobject);
 #endif
 
 
@@ -360,6 +362,7 @@ namespace RadJAV
 												,public GObjectEvents
 			{
 			public:
+				GObjectWidget();
 				virtual ~GObjectWidget() {};
 				
 				void addChild(GObject *child);
@@ -386,9 +389,33 @@ namespace RadJAV
 				#ifdef USE_IOS
 					virtual UIView* getNativeWidget() = 0;
 				#elif defined USE_ANDROID
-					//TODO: Add correct type here for Android
-					virtual void* getNativeWidget() = 0;
+					jobject getNativeWidget();
 				#endif
+
+			#ifdef USE_ANDROID
+			protected:
+				jobject widget;
+
+			protected:
+				//Java methods IDs
+				static jmethodID nativeSetLeft;
+				static jmethodID nativeSetTop;
+				static jmethodID nativeSetRight;
+				static jmethodID nativeSetBottom;
+				static jmethodID nativeSetVisibility;
+				static jmethodID nativeSetEnabled;
+
+				static jmethodID nativeGetLeft;
+				static jmethodID nativeGetTop;
+				static jmethodID nativeGetRight;
+				static jmethodID nativeGetBottom;
+				static jmethodID nativeGetWidth;
+				static jmethodID nativeGetHeight;
+				static jmethodID nativeGetVisibility;
+				static jmethodID nativeIsEnabled;
+
+				static jclass nativeViewClass;
+			#endif
 			};
 		}
 	}

@@ -14,6 +14,19 @@ source_group ("RadJav\\Main" FILES ${SOURCES_files_RADJAV__Main__Sources})
 
 set (SOURCES ${SOURCES_files_RADJAV__Main__Sources} ${SOURCES})
 
+# Main RadJav Android
+if (ANDROID)
+	set (SOURCES_files_RADJAV__Android__Sources
+		"${libRadJav_SOURCE_DIR}/src/RadJav/android/Jni.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/android/ClassesCache.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/android/Utils.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/android/RadJavAndroid.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/android/UiThreadCallbackFunction.cpp")
+	source_group ("RadJav\\Main\\Android" FILES ${SOURCES_files_RADJAV__Android__Sources})
+	
+	set (SOURCES ${SOURCES_files_RADJAV__Android__Sources} ${SOURCES})
+endif ()
+
 # wxWidgets
 set (SOURCES_files_wxWidgets__Main__Sources 
 	"${libRadJav_SOURCE_DIR}/src/RadJav/RadJavWxWidgets.cpp")
@@ -553,6 +566,35 @@ if (IS_MOBILE)
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUIWebView.mm")
 
 		source_group ("RadJav\\CPP\\MUI\\iOS" FILES ${SOURCES_files_RadJav__cpp__MUI__Sources})
+		set (SOURCES ${SOURCES_files_RadJav__cpp__MUI__Sources} ${SOURCES})
+
+	elseif (ANDROID)
+		set (SOURCES_files_RadJav__cpp__GUI__Sources 
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPGUIGObjectWidget.cpp")
+
+		source_group ("RadJav\\CPP\\GUI\\Android" FILES ${SOURCES_files_RadJav__cpp__GUI__Sources})
+		set (SOURCES ${SOURCES_files_RadJav__cpp__GUI__Sources} ${SOURCES})
+
+		set (SOURCES_files_RadJav__cpp__MUI__Sources 
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIButtonFrame.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIViewFrame.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIViewControllerFrame.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUINavigationViewControllerFrame.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUITableViewControllerFrame.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUITableViewFrame.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIScrollViewFrame.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIAlertFrame.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIEventDelegates.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIUtils.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUILabelFrame.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIImageFrame.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUICheckboxFrame.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUITextboxFrame.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUITextareaFrame.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIWebView.cpp"
+			)
+
+		source_group ("RadJav\\CPP\\MUI\\Android" FILES ${SOURCES_files_RadJav__cpp__MUI__Sources})
 		set (SOURCES ${SOURCES_files_RadJav__cpp__MUI__Sources} ${SOURCES})
 	endif ()
 endif ()

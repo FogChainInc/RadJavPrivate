@@ -15,6 +15,7 @@ declare namespace RadJav {
         dot(dotVector2: Vector2): number;
         length(): number;
         normalize(): Vector2;
+        lerp(start: Vector2, end: Vector2, time: number): Vector2;
         static parseVector2(str: string): Vector2;
     }
 }

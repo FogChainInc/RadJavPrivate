@@ -1,0 +1,15 @@
+var win = new RadJav.GUI.Window ("win", "Window Example");
+
+// Stupid hack for now. Delete in the future. Should throw errors in HTML5.
+win.create ().then (function (win2)
+	{
+	});
+
+var textFile = new RadJav.IO.TextFile();
+var strFile = textFile.readFile ("./book.xml");
+
+var xmlFile = new RadJav.XML.XMLFile ();
+var xml = xmlFile.parseXML (strFile);
+var root = xml.getRoot ();
+
+RadJav.Console.println("PROGRAM COMPLETE - XML");

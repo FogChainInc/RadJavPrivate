@@ -16,6 +16,7 @@ var RadJav;
             this.attachedObject = null;
             this.lerpAnimators = [];
             this.onUpdate = null;
+            this.onAnimation = null;
             this.onCompleted = null;
             this.playState = Animation.PlayState.Stopped;
             RadJav.addAnimation(this);
@@ -69,6 +70,8 @@ var RadJav;
                             animObj.setPosition(newPos);
                     }
                 }
+                if (this.animation.onAnimation != null)
+                    this.animation.onAnimation(animObj, newPos, timeDelta);
             };
             this.lerpAnimators.push(animator);
         };
@@ -101,7 +104,9 @@ var RadJav;
         Animation.prototype.on = function (event, func) {
             if (event == "update")
                 this.onUpdate = func;
-            if (event == "completed")
+            if (event == "animation")
+                this.onAnimation = func;
+            if (event == "complete")
                 this.onCompleted = func;
         };
         Animation.prototype.update = function (timeDelta) {

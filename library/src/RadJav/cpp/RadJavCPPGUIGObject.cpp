@@ -537,7 +537,7 @@ namespace RadJAV
 					{
 						object->Bind(wxEVT_MIDDLE_DOWN, GObjectEvents::onMiddleDown, -1, -1, createEvent(event, func));
 					}
-
+œ
 					if (event == "focus")
 					{
 						object->Bind(wxEVT_SET_FOCUS, GObjectEvents::onFocusSet, -1, -1, createEvent(event, func));
@@ -553,108 +553,144 @@ namespace RadJAV
 				{
 					Event *pevent = (Event *)event.GetEventUserData();
 					executeEvent(pevent);
+
+					event.Skip(true);	/// @fixme Is this needed? Seems to be necessary on Windows.
 				}
 
 				void GObjectEvents::onKeyUp(wxKeyEvent &event)
 				{
 					Event *pevent = (Event *)event.GetEventUserData();
 					executeEvent(pevent);
+
+					event.Skip(true);
 				}
 				
 				void GObjectEvents::onKeyDown(wxKeyEvent &event)
 				{
 					Event *pevent = (Event *)event.GetEventUserData();
 					executeEvent(pevent);
+
+					event.Skip(true);
 				}
 
 				void GObjectEvents::onDoubleClick(wxMouseEvent &event)
 				{
 					Event *pevent = (Event *)event.GetEventUserData();
 					executeEvent(pevent);
+
+					event.Skip(true);
 				}
 
 				void GObjectEvents::onRightClick(wxMouseEvent &event)
 				{
 					Event *pevent = (Event *)event.GetEventUserData();
 					executeEvent(pevent);
+
+					event.Skip(true);
 				}
 
 				void GObjectEvents::onMouseAux1Down(wxMouseEvent &event)
 				{
 					Event *pevent = (Event *)event.GetEventUserData();
 					executeEvent(pevent);
+
+					event.Skip(true);
 				}
 
 				void GObjectEvents::onMouseAux1Up(wxMouseEvent &event)
 				{
 					Event *pevent = (Event *)event.GetEventUserData();
 					executeEvent(pevent);
+
+					event.Skip(true);
 				}
 
 				void GObjectEvents::onMouseEnterWindow(wxMouseEvent &event)
 				{
 					Event *pevent = (Event *)event.GetEventUserData();
 					executeEvent(pevent);
+
+					event.Skip(true);
 				}
 
 				void GObjectEvents::onMouseLeaveWindow(wxMouseEvent &event)
 				{
 					Event *pevent = (Event *)event.GetEventUserData();
 					executeEvent(pevent);
+
+					event.Skip(true);
 				}
 
 				void GObjectEvents::onMouseMotion(wxMouseEvent &event)
 				{
 					Event *pevent = (Event *)event.GetEventUserData();
 					executeEvent(pevent);
+
+					event.Skip(true);
 				}
 
 				void GObjectEvents::onMouseWheel(wxMouseEvent &event)
 				{
 					Event *pevent = (Event *)event.GetEventUserData();
 					executeEvent(pevent);
+
+					event.Skip(true);
 				}
 
 				void GObjectEvents::onRightDoubleClick(wxMouseEvent &event)
 				{
 					Event *pevent = (Event *)event.GetEventUserData();
 					executeEvent(pevent);
+
+					event.Skip(true);
 				}
 
 				void GObjectEvents::onRightDown(wxMouseEvent &event)
 				{
 					Event *pevent = (Event *)event.GetEventUserData();
 					executeEvent(pevent);
+
+					event.Skip(true);
 				}
 
 				void GObjectEvents::onMiddleClick(wxMouseEvent &event)
 				{
 					Event *pevent = (Event *)event.GetEventUserData();
 					executeEvent(pevent);
+
+					event.Skip(true);
 				}
 
 				void GObjectEvents::onMiddleDoubleClick(wxMouseEvent &event)
 				{
 					Event *pevent = (Event *)event.GetEventUserData();
 					executeEvent(pevent);
+
+					event.Skip(true);
 				}
 				
 				void GObjectEvents::onMiddleDown(wxMouseEvent &event)
 				{
 					Event *pevent = (Event *)event.GetEventUserData();
 					executeEvent(pevent);
+
+					event.Skip(true);
 				}
 
 				void GObjectEvents::onFocusSet(wxFocusEvent &event)
 				{
 					Event *pevent = (Event *)event.GetEventUserData();
 					executeEvent(pevent);
+
+					event.Skip(true);
 				}
 
 				void GObjectEvents::onFocusOut(wxFocusEvent &event)
 				{
 					Event *pevent = (Event *)event.GetEventUserData();
 					executeEvent(pevent);
+
+					event.Skip(true);
 				}
 			#elif defined USE_IOS || defined USE_ANDROID
 				#ifdef USE_V8
@@ -833,7 +869,7 @@ namespace RadJAV
 						}
 					}
 					
-					return v8::Local<v8::Value>();
+					return v8::Undefined (V8_JAVASCRIPT_ENGINE->isolate);
 				}
 			
 			#elif defined USE_JAVASCRIPTCORE

@@ -26,6 +26,11 @@
 
 #include "RadJav.h"
 
+#ifdef USE_ANDROID
+	#include "android/Jni.h"
+	#include "android/RadJavAndroid.h"
+#endif
+
 #ifdef GUI_USE_WXWIDGETS
 	IMPLEMENT_APP_NO_MAIN(RadJAV::wxWidgetsRadJav)
 #else
@@ -66,19 +71,18 @@
 #include <fstream>
 #include <stdlib.h>
 
-#ifdef __ANDROID__
-#include <android/log.h>
-#define  LOG_TAG    "RADJAV"
+#ifdef USE_CRYPTOGRAPHY
+	#include "cpp/RadJavCPPCryptoBase.h"
+#endif
 
-#define  LOGE(...)  __android_log_print(ANDROID_LOG_ERROR,LOG_TAG,__VA_ARGS__)
-#define  LOGW(...)  __android_log_print(ANDROID_LOG_WARN,LOG_TAG,__VA_ARGS__)
-#define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
-#define  LOGI(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
+#ifdef USE_ANDROID
+	#include "android/Utils.h"
 #else
-#define  LOGE(...)
-#define  LOGW(...)
-#define  LOGD(...)
-#define  LOGI(...)
+	#warning Need to add debug.h/cpp for logging macroses
+	#define  LOGE(...)
+	#define  LOGW(...)
+	#define  LOGD(...)
+	#define  LOGI(...)
 #endif
 
 #ifdef RADJAV_DEBUG
@@ -213,16 +217,20 @@ namespace RadJAV
 	Array<String> RadJav::arguments;
     Array<RadJAV::CPP::OS::ScreenInfo> RadJav::screens;
 
+	#ifdef USE_ANDROID
+    	RadJavAndroid* RadJav::impl = nullptr;
+    #endif
+
 	#ifdef RADJAV_DEBUG
 		HashMap<size_t, MemoryAllocLog> *RadJav::memoryAllocs;
 	#endif
 
-	void Pause()
-	{
-		#ifdef WIN32
-			system("PAUSE");
-		#endif
-	}
+		void systemPause()
+		{
+			#ifdef WIN32
+				system("PAUSE");
+			#endif
+		}
 
 		RadJavType RadJav::initialize(Array<String> newArgs, String &file)
 		{
@@ -293,14 +301,13 @@ namespace RadJAV
 							DELETEARRAY(argv);
 						#else
 							RadJav::showError("BlockchainV1 was not compiled with this version of RadJav.");
-							#ifdef WIN32
-								if (pause == false)
-									system("PAUSE");
-							#endif
+							
+
+							systemPause();
 						#endif
 
 						if (pause == true)
-							Pause();
+							systemPause();
 
 						return (RadJavType::XRJ_NODE);
 					}
@@ -329,14 +336,12 @@ namespace RadJAV
 							DELETEARRAY(argv);
 						#else
 							RadJav::showError("BlockchainV1 was not compiled with this version of RadJav.");
-							#ifdef WIN32
-								if (pause == false)
-									system("PAUSE");
-							#endif
+							
+							systemPause();
 						#endif
 
 						if (pause == true)
-							Pause();
+							systemPause();
 
 						return (RadJavType::XRJ_NODE);
 					}
@@ -357,7 +362,7 @@ namespace RadJAV
 						#endif
 
 						if (pause == true)
-							Pause();
+							systemPause();
 
 						return (RadJavType::XRJ_NODE);
 					}
@@ -394,7 +399,7 @@ namespace RadJAV
 				}
 
 				if (pause == true)
-					Pause();
+					systemPause();
 			}
 
 			#ifdef GUI_USE_WXWIDGETS
@@ -432,6 +437,9 @@ namespace RadJAV
 			#endif
 
             setupScreens ();
+			#ifdef USE_CRYPTOGRAPHY
+				setupCrypto();
+			#endif
 			theme = RJNEW Theme ();
 
 			#ifdef USE_V8
@@ -444,6 +452,20 @@ namespace RadJAV
 
 			return (RadJavType::VM);
 		}
+
+	#ifdef USE_ANDROID
+		RadJavType RadJav::initialize(JavaVM* jvm)
+		{
+			Jni& jni = Jni::instance();
+			jni.storeJvm(jvm);
+
+			impl = new RadJavAndroid();
+
+			RadJavAndroid::registerNatives();
+
+			return RadJavType::VM;
+		}
+	#endif
 
 	#ifdef WIN32
 	void RadJav::setupConsoleOutput()
@@ -503,6 +525,22 @@ namespace RadJAV
             RadJav::screens.push_back (RadJAV::CPP::OS::ScreenInfo::getScreenInfo (iIdx));
     }
 
+	#ifdef USE_CRYPTOGRAPHY
+		void RadJav::setupCrypto()
+		{
+			RadJAV::CPP::Crypto::initializeCertificates();
+
+			Array<String> certificates = RadJAV::CPP::Crypto::getDefaultCertificates();
+
+			for (RJINT iIdx = 0; iIdx < certificates.size(); iIdx++)
+			{
+				String certificate = certificates.at (iIdx);
+
+				RadJAV::CPP::Crypto::addCertificate(certificate);
+			}
+		}
+	#endif
+
 	void RadJav::showMessageBox(String message, String title)
 	{
 		#ifdef GUI_USE_WXWIDGETS
@@ -551,6 +589,26 @@ namespace RadJAV
 		LOGI("%s: %s", "RadJav::printToOutputWindow", message.c_str());
 	}
 
+	void RadJav::addThread(Thread *thread)
+	{
+		#ifdef USE_V8
+			V8_JAVASCRIPT_ENGINE->addThread(thread);
+		#endif
+		#ifdef USE_JAVASCRIPTCORE
+			JSC_JAVASCRIPT_ENGINE->addThread(thread);
+		#endif
+	}
+
+	void RadJav::removeThread(Thread *thread)
+	{
+		#ifdef USE_V8
+			V8_JAVASCRIPT_ENGINE->removeThread(thread);
+		#endif
+		#ifdef USE_JAVASCRIPTCORE
+			JSC_JAVASCRIPT_ENGINE->removeThread(thread);
+		#endif
+	}
+
 	void RadJav::shutdown()
 	{
 		DELETEOBJ(javascriptEngine);
@@ -570,6 +628,52 @@ namespace RadJAV
 			RadJav::writeMemoryLeaksToFile("./leaks.csv");
 		#endif
 	}
+
+	#ifdef USE_ANDROID
+	void RadJav::runOnUiThread(UiThreadCallbackFunctionType function, void *data)
+	{
+		if (impl)
+			impl->runOnUiThread(function, data);
+	}
+
+    void RadJav::runOnUiThreadAsync(UiThreadCallbackFunctionType function, void *data)
+    {
+        if (impl)
+            impl->runOnUiThreadAsync(function, data);
+    }
+
+    jobject RadJav::getJavaApplication()
+    {
+        if (impl)
+            return impl->getJavaApplication();
+
+        return nullptr;
+    }
+
+    jobject RadJav::getJavaViewGroup()
+    {
+        if (impl)
+            return impl->getJavaViewGroup();
+
+        return nullptr;
+    }
+
+	bool RadJav::isWaitingForUiThread()
+	{
+		if (impl)
+			return impl->isWaitingForUiThread();
+
+		return false;
+	}
+
+	bool RadJav::isPaused()
+	{
+		if (impl)
+			return impl->isPaused();
+
+		return false;
+	}
+	#endif
 
 	#ifdef RADJAV_DEBUG
 	void RadJav::logNewMemoryAlloc(MemoryAllocLog alloc)
@@ -682,6 +786,13 @@ namespace RadJAV
         void setupScreens() {
             return RadJav::setupScreens();
         };
+
+		#ifdef USE_CRYPTOGRAPHY
+			/// Setup the Crypto library.
+			void setupCrypto() {
+				return RadJav::setupCrypto();
+			};
+		#endif
 
 		/// Run an application.
 		int runApplication(const char* application, const char* fileName) {

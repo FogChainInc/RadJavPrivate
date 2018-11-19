@@ -25,6 +25,7 @@ var helpHeader = "RadJav JavaScript Builder\n";
 helpHeader += "Copyright(c) 2018, Higher Edge Software, LLC\n";
 helpHeader += "Under the MIT License\n\n";
 var canRebuild = true;
+var canRecopy = true;
 
 function getCommand (cmdList, cmdName)
 {
@@ -46,7 +47,7 @@ function getTypeScriptFiles (dirPath)
 	let tsfiles = [];
 
 	if (dirPath == null)
-		dirPath = path.normalize ("./src/");
+		dirPath = path.normalize (__dirname + "/src/");
 
 	let files = fs.readdirSync (dirPath);
 	files.forEach (function (file)
@@ -109,7 +110,13 @@ function watchFiles (watchLocations, broadCastMessage)
 			locations += "\t" + wl + "\n";
 
 		if (typeof wl == "object")
-			locations += "\t" + wl.path + " -- Rebuild JS when file changes: " + wl.rebuild.toString () + "\n";
+		{
+			if (wl.rebuild != null)
+				locations += "\t" + wl.path + " -- Rebuild JS when file changes: " + wl.rebuild.toString () + "\n";
+
+			if (wl.recopyOnChanges != null)
+				locations += "\t" + wl.path + " -- Recopy files when file changes: " + wl.recopyOnChanges.toString () + "\n";
+		}
 	}
 
 	console.log ("\nWatching files located at: \n" + locations);
@@ -131,11 +138,13 @@ function watchFiles (watchLocations, broadCastMessage)
 						let wl3 = wl2[0];
 						let loc2 = wl3;
 						let rebuild = false;
+						let recopyOnChanges = false;
 
 						if (typeof wl3 == "object")
 						{
 							loc2 = wl3.path;
 							rebuild = wl3.rebuild;
+							recopyOnChanges = wl3.recopyOnChanges;
 						}
 
 						let changedFilePath = path.normalize (loc2 + "/" + filename);
@@ -148,7 +157,7 @@ function watchFiles (watchLocations, broadCastMessage)
 							compile (tsfiles, {
 									noImplicitUseStrict: true, removeComments: true, importHelpers: true, 
 									target: typescript.ScriptTarget.ES3, module: typescript.ModuleKind.None, 
-									lib: tsLibs, outDir: "./build"
+									lib: tsLibs, sourceMap: true, outDir: __dirname + "/build"
 								});
 							console.log ("Finishing rebuilding.");
 							canRebuild = false;
@@ -156,6 +165,32 @@ function watchFiles (watchLocations, broadCastMessage)
 									{
 										canRebuild = true;
 									}, 200);
+						}
+
+						/// @fixme Fix this to actually copy the files from wl.path to the build directory...
+						if ((recopyOnChanges == true) && (canRecopy == true))
+						{
+							try
+							{
+								fs.mkdirSync (__dirname + "/build/themes/");
+								fs.mkdirSync (__dirname + "/build/languages/");
+							}
+							catch (ex)
+							{
+							}
+
+							let promises = [];
+							promises.push (rcopy (__dirname + "/themes/", __dirname + "/build/themes/", { overwrite: true }));
+							promises.push (rcopy (__dirname + "/languages/", __dirname + "/build/languages/", { overwrite: true }));
+
+							canRecopy = false;
+							broadCastMessage = false;
+							Promise.all (promises).then (function ()
+									{
+										canRecopy = true;
+										broadCastMessage = true;
+										httpOptions.wsServer.broadcast ("refresh");
+									});
 						}
 
 						if (broadCastMessage == true)
@@ -168,21 +203,16 @@ function startHTTP ()
 {
 	httpOptions.watchFilesAtLocations.push (path.normalize (__dirname + "/../examples"));
 	httpOptions.watchFilesAtLocations.push (path.normalize (__dirname + "/build"));
+	httpOptions.watchFilesAtLocations.push ({ path: path.normalize (__dirname + "/themes"), recopyOnChanges: true });
 	httpOptions.watchFilesAtLocations.push ({ path: path.normalize (__dirname + "/src"), rebuild: true });
 
 	app.use (express.static (httpOptions.location));
 	app.get ("/", function (req, res)
 		{
 			if (httpOptions.locationChanged == false)
-			{
-				res.redirect ("/builder?url=" + encodeURIComponent (httpOptions.url + "examples") + "&ws=" + encodeURIComponent ("ws://" + httpOptions.listeningAddr + ":" + httpOptions.wsPort));
-			}
+				res.redirect ("examples/exampleBrowser.htm?devtools=1");
 			else
 				res.sendFile (path.normalize (httpOptions.location + "/" + httpOptions.index));
-		});
-	app.get ("/builder", function (req, res)
-		{
-			res.sendFile (path.normalize (httpOptions.location + "/html5/RadJavBuilder/RadJavBuilder.htm"));
 		});
 
 	if (httpOptions.locationChanged == false)
@@ -272,6 +302,7 @@ var commands = [
 					let outputPath = path.normalize (args[1]);
 					let tempTsLibs = tsLibs;
 					let tsDecFiles = getTypeScriptFiles (path.normalize (__dirname + "/d.ts/"));
+					let generateSourceMap = false;
 
 					for (let iIdx = 0; iIdx < tsDecFiles.length; iIdx++)
 					{
@@ -285,7 +316,7 @@ var commands = [
 					compile (tsfiles, {
 							noImplicitUseStrict: true, removeComments: true, importHelpers: true, 
 							target: typescript.ScriptTarget.ES3, module: typescript.ModuleKind.None, 
-							lib: tempTsLibs, outDir: outputPath
+							sourceMap: generateSourceMap, lib: tempTsLibs, outDir: outputPath
 						});
 
 					console.log ("Done.");
@@ -310,6 +341,10 @@ var commands = [
 				{
 					cmd: ["watch"],
 					desc: "Watch locations and rebuild when files are updated."
+				}, 
+				{
+					cmd: ["generateSourceMap"],
+					desc: "Generate source maps for each generated JS file."
 				}], 
 			evt: function (args)
 				{
@@ -318,6 +353,7 @@ var commands = [
 					let minify = true;
 					let watch = false;
 					let tsfiles = getTypeScriptFiles ();
+					let generateSourceMap = false;
 
 					for (let iIdx = 0; iIdx < args.length; iIdx++)
 					{
@@ -329,6 +365,9 @@ var commands = [
 
 						if (args[iIdx] == "doNotMinify")
 							minify = false;
+
+						if (args[iIdx] == "generateSourceMap")
+							generateSourceMap = true;
 
 						if (args[iIdx] == "watch")
 							watch = true;
@@ -379,7 +418,7 @@ var commands = [
 					compile (tsfiles, {
 							noImplicitUseStrict: true, removeComments: true, importHelpers: true, 
 							target: typescript.ScriptTarget.ES3, module: typescript.ModuleKind.None, 
-							lib: tsLibs, outDir: "./build"
+							sourceMap: generateSourceMap, lib: tsLibs, outDir: "./build"
 						});
 
 					console.log ("Done.");
@@ -448,7 +487,7 @@ var commands = [
 							if (compilerType == 1)
 							{
 								output = execSync ("java -jar " + compiler + " --compilation_level WHITESPACE_ONLY " + 
-									" --js_output_file=./build/RadJav.min.js " + list + "./src/RadJavMinify.js").toString ();
+								" --js_output_file=./build/RadJav.min.js " + list + __dirname + "/src/RadJavMinify.js").toString ();
 							}
 						}
 						catch (ex)
@@ -465,7 +504,7 @@ var commands = [
 					}
 
 					if (watch == true)
-						watchFiles ([{ path: "./src/", rebuild: true } ], false);
+						watchFiles ([{ path: __dirname + "/src/", rebuild: true } ], false);
 				}
 		}, 
 		{

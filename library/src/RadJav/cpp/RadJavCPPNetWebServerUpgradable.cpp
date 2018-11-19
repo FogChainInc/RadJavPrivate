@@ -156,10 +156,12 @@ namespace RadJAV
 				is_waiting_ = true;
 				wait_for_connect_ = wait_for_connect;
 				lock_ = nullptr;
+				thread = NULL;
 			}
 
 			WebServerUpgradable::~WebServerUpgradable()
 			{
+				DELETEOBJ(thread);
 				DELETEOBJ(io_context_);
 			}
 
@@ -178,16 +180,26 @@ namespace RadJAV
 				io_context_ = RJNEW boost::asio::io_context{ threads };
 				std::make_shared<UpgradableListener>(*io_context_, boost::asio::ip::tcp::endpoint{ address, port }, this)->run();
 
-#ifdef GUI_USE_WXWIDGETS
-				
-				WebServerThread* thread = RJNEW WebServerThread(io_context_);
-				thread->Run();
-				isAlive = thread->IsAlive();
-#else
-				//blocking execution
-				isAlive = true;
-				io_context_->run();
-#endif
+				#ifdef GUI_USE_WXWIDGETS
+					WebServerThread* thread = RJNEW WebServerThread(io_context_);
+					thread->Run();
+					isAlive = thread->IsAlive();
+				#else
+					//blocking execution
+					isAlive = true;
+					io_context_->run();
+				#endif
+
+				/*DELETEOBJ(thread);
+
+				thread = RJNEW SimpleThread();
+				thread->onStart = [this]()
+				{
+					this->isAlive = true;
+					this->io_context_->run();
+				};
+
+				RadJav::addThread(thread);*/
 			}
 
 			void WebServerUpgradable::send(String id, String message)

@@ -43,12 +43,14 @@ namespace RadJAV
 		{
 			WebSocketServer::WebSocketServer()
 			{
+				thread = NULL;
 				m_port = 0;
 				m_isAlive = false;
 			}
 
 			WebSocketServer::~WebSocketServer()
 			{
+				DELETEOBJ(thread);
 				DELETEOBJ(m_io_context);
 			}
 			
@@ -68,13 +70,23 @@ namespace RadJAV
 				m_io_context = RJNEW boost::asio::io_context{ threads };
 				std::make_shared<WebSocketServerListener>(*m_io_context, boost::asio::ip::tcp::endpoint{ address, m_port })->run();
 
-				WebServerThread* thread = RJNEW WebServerThread(m_io_context);
+				/*WebServerThread* thread = RJNEW WebServerThread(m_io_context);
 				thread->Run();
 #ifdef GUI_USE_WXWIDGETS
 				m_isAlive = thread->IsAlive();
 #else
 				m_isAlive = true;
-#endif
+#endif*/
+
+				DELETEOBJ(thread);
+				thread = RJNEW SimpleThread();
+				thread->onStart = [this]()
+				{
+					this->m_isAlive = true;
+					this->m_io_context->run();
+				};
+
+				RadJav::addThread(thread);
 			}
 
 			void WebSocketServer::send(String id_, String message_)

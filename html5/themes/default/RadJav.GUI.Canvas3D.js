@@ -1,4 +1,4 @@
-RadJav.Theme.themeObjects["RadJav.GUI.Canvas3D"] =
+module.exports = 
 {
 	create: function (obj)
 	{

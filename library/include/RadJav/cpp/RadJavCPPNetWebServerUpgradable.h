@@ -22,6 +22,8 @@
 
 	#include "RadJavPreprocessor.h"
 
+	#include "RadJavThread.h"
+
 #ifdef USE_INSPECTOR
 	#include <boost/beast/core.hpp>
 	#include <boost/beast/http.hpp>
@@ -79,6 +81,7 @@ namespace inspector {
 					inspector::InspectorIoDelegate* io_delegate_;
 					RJBOOL wait_for_connect_;
 					inspector::Semaphore* lock_;
+					SimpleThread *thread;
 
 					RJBOOL isWaiting() { return is_waiting_; }
 						

@@ -20,14 +20,22 @@
 #ifndef _RADJAVC_H_
 #define _RADJAVC_H_
 
+#ifdef USE_ANDROID
+    #include "android/Jni.h"
+#endif
+
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-	/// Start RadJav
-	int RadJav_initialize(int argc, const char* argv[]);
-	
+    /// Start RadJav
+	#ifndef USE_ANDROID
+		int RadJav_initialize(int argc, const char* argv[]);
+    #else
+        int RadJav_initialize(JavaVM* jvm);
+    #endif
+
 	/// Shut down and stop all applications
 	void RadJav_shutdown(void);
 	

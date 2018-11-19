@@ -1,4 +1,4 @@
-RadJav.Theme.themeObjects["RadJav.GUI.Textbox"] =
+module.exports = 
 {
 	create: function (obj)
 	{

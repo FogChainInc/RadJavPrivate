@@ -1,11 +1,10 @@
 include ("./mocha.min.js").then (function ()
 	{
-		sdfgsdfg ();
 		mocha.setup ({
 				ui: "bdd", 
 				reporter: "json"
 			});
-		Mocha.process.stdout.write = function (str){alert (str);};
+		Mocha.process.stdout.write = function (str){RadJav.Console.println (str);};
 
 		describe('Array', function()
 				{

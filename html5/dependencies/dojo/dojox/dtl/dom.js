@@ -720,7 +720,7 @@ var _86=this.nodelist.dummyRender(_84);
 if(dd.BOOLS[key]){
 _86=!(_86=="false"||_86=="undefined"||!_86);
 }
-if(_86!==this.contents){
+if(_86!==this.contents||_86===""){
 this.contents=_86;
 return _85.setAttribute(key,_86);
 }

@@ -28,10 +28,10 @@ declare let define: any;
 // Hack for the desktop/mobile versions.
 if (typeof (window) == "undefined")
 {
-	namespace window
+	interface window
 	{
-		export let innerWidth: number = 0;
-		export let innerHeight: number = 0;
+		innerWidth: number;
+		innerHeight: number;
 	}
 }
 
@@ -41,24 +41,16 @@ if (typeof (window) == "undefined")
  */
 namespace RadJav
 {
-	/** @property 
-	* Allow the use of eval.
-	*/
+	/// Allow the use of eval.
 	export let defaults: any;
 
-	/** @property {Boolean} [useEval=false]
-	* Allow the use of eval.
-	*/
+	/// Allow the use of eval.
 	export let useEval: boolean = true;
 
-	/** @property {Number} [MIN_VERSION=0.05]
-	* The minimum version of code that can be ran.
-	*/
+	/// The minimum version of code that can be ran.
 	export let MIN_VERSION: number = 0.05;
 
-	/** @property {Number} [VERSION=0.05]
-	* The current version.
-	*/
+	/// The current version.
 	export let VERSION: number = 0.05;
 
 	/** @property {String} [baseUrl="./RadJav"]
@@ -163,10 +155,7 @@ namespace RadJav
 						if (response != null)
 						{
 							if (response != "")
-							{
-								var func = new _Function(response);
-								func.apply(window, []);
-							}
+								_eval(response);
 						}
 					}, this));
 		}
@@ -223,7 +212,7 @@ namespace RadJav
 	* @param {Object[]} [libraries=null] The libraries to include.
 	* @return {Promise} The promise to execute.
 	*/
-	export function initialize(libraries: { [key: string]: any }[]): Promise<void>
+	export function initialize(libraries: { [key: string]: any }[] = null): Promise<void>
 	{
 		var promise = new Promise<void>(
 			RadJav.keepContext(function(resolve, reject, args)
@@ -426,105 +415,156 @@ namespace RadJav
 		RadJav.screens.push (RadJav.OS.ScreenInfo.getScreenInfo (0));
 	}
 
+	/** @method connectDevTools
+	* Connect to the developer tools to help build/debug RadJav apps.
+	* @param {string} [server="ws://127.0.0.1:8585/"] The WebSocket server url to connect to.
+	*/
+	export function connectDevTools(server: string = "ws://127.0.0.1:8585/", showMessage: boolean = true): void
+	{
+		var displayMessageVis = function (msg, visibility)
+			{
+				var visible = "visible";
+
+				if (visibility == false)
+					visible = "hidden";
+
+				var dialog = document.getElementById ("dialog");
+				dialog.style.visibility = visible;
+
+				var message = document.getElementById ("message");
+				message.innerHTML = msg;
+			};
+		var displayMessage = function (msg)
+			{
+				displayMessageVis (msg, true);
+			};
+
+		var html = "<div id = \"dialog\" style = \"position: absolute; background-color: #000000; ";
+		html += "color: #FFFFFF; width: 100%; height: 100%; visibility: visible;\">";
+		html += "<div id = \"message\">";
+		html += "Connecting to server...";
+		html += "</div>";
+		html += "</div>";
+
+		if (showMessage == true)
+			RadJav.OS.HTML5.appendHTML (document.body, html);
+
+		var msg = "Connecting to web socket server at: " + server + "<br />\n";
+		displayMessage (msg);
+
+		var webSocket = new WebSocket (server);
+		webSocket.onopen = function ()
+			{
+				displayMessageVis ("", false);
+			};
+		webSocket.onerror = function (error)
+			{
+				displayMessage ("Unable to connect to web socket server.");
+			};
+		webSocket.onmessage = function (message)
+			{
+				if (message.data == "refresh")
+					location.reload ();
+			};
+		webSocket.onclose = function ()
+			{
+				displayMessage ("Disconnected from WebSocket server. Please refresh the page to reconnect.");
+			};
+	}
+
 	/** @method includeLibraries
 	 * Include libraries.
 	 * @param {Object[]} libraries The libraries to include.
 	 * @return {Promise} The promise to execute when the including has completed.
 	 */
-	export function includeLibraries(libraries): Promise<void> {
-		for (var iIdx = 0; iIdx < libraries.length; iIdx++) {
-			RadJav._included.push(libraries[iIdx]);
-		}
+	export function includeLibraries(libraries): Promise<void>
+	{
+		for (var iIdx = 0; iIdx < libraries.length; iIdx++)
+			RadJav._included.push (libraries[iIdx]);
 
-		var promise = new Promise<void>(
-			RadJav.keepContext(function(resolve, reject) {
-				var promises = [];
-
-				for (var iIdx = 0; iIdx < RadJav._included.length; iIdx++) {
-					var includeObj = RadJav._included[iIdx];
-				}
-				var promise = new Promise(
-					RadJav.keepContext(function(resolve, reject) {
+		var promise = new Promise<void> (RadJav.keepContext (function (resolve, reject)
+					{
 						var promises = [];
 
-						for (var iIdx = 0; iIdx < RadJav._included.length; iIdx++) {
+						for (var iIdx = 0; iIdx < RadJav._included.length; iIdx++)
+						{
 							var includeObj = RadJav._included[iIdx];
 
-							if (typeof includeObj != "string") {
-								if (includeObj.loadFirst == true) {
+							if (typeof (includeObj) != "string")
+							{
+								if (includeObj.loadFirst == true)
+								{
 									var file = "";
 									var shouldIncludeFile = false;
 
-									if (typeof includeObj != "string") {
-										if (typeof includeObj.file == "string") {
+									if (typeof (includeObj) != "string")
+									{
+										if (typeof (includeObj.file) == "string")
 											file = includeObj.file;
-										}
-									} else {
+									}
+									else
 										file = includeObj;
-									}
-									if (
-										_eval("if (" + file + " != null){true;}else{false;}") ==
-										false
-									) {
+
+									if (_eval ("if (" + file + " != null){true;}else{false;}") == false)
 										shouldIncludeFile = true;
-									}
 
-									if (RadJav.isMinified == false) {
-										if (file == "Math" || file == "String") {
+									if (RadJav.isMinified == false)
+									{
+										if ((file == "Math") || (file == "String"))
 											shouldIncludeFile = true;
-										}
 									}
 
-									if (shouldIncludeFile == true) {
+									if (shouldIncludeFile == true)
+									{
 										var includeFile = RadJav.baseUrl + "/" + file + ".js";
-										promises.push(RadJav.include(includeFile));
+										promises.push (RadJav.include (includeFile));
 									}
 								}
 							}
 						}
 
-						Promise.all(promises).then(function() {
-							var promises2 = [];
+						Promise.all (promises).then (function ()
+							{
+								var promises2 = [];
 
-							for (var iIdx = 0; iIdx < RadJav._included.length; iIdx++) {
-								var includeObj = RadJav._included[iIdx];
-								var file = "";
-								var shouldIncludeFile = false;
+								for (var iIdx = 0; iIdx < RadJav._included.length; iIdx++)
+								{
+									var includeObj = RadJav._included[iIdx];
+									var file = "";
+									var shouldIncludeFile = false;
 
-								if (typeof includeObj != "string") {
-									if (typeof includeObj.file == "string") {
-										file = includeObj.file;
+									if (typeof (includeObj) != "string")
+									{
+										if (typeof (includeObj.file) == "string")
+											file = includeObj.file;
 									}
-								} else {
-									file = includeObj;
-								}
-								if (
-									_eval("if (" + file + " != null){true;}else{false;}") == false
-								) {
-									shouldIncludeFile = true;
-								}
+									else
+										file = includeObj;
 
-								if (RadJav.isMinified == false) {
-									if (file == "Math" || file == "String") {
+									if (_eval ("if (" + file + " != null){true;}else{false;}") == false)
 										shouldIncludeFile = true;
+
+									if (RadJav.isMinified == false)
+									{
+										if ((file == "Math") || (file == "String"))
+											shouldIncludeFile = true;
+									}
+
+									if (shouldIncludeFile == true)
+									{
+										var includeFile = RadJav.baseUrl + "/" + file + ".js";
+										promises2.push (RadJav.include (includeFile));
 									}
 								}
 
-								if (shouldIncludeFile == true) {
-									var includeFile = RadJav.baseUrl + "/" + file + ".js";
-									promises2.push(RadJav.include(includeFile));
-								}
-							}
-
-							Promise.all(promises2).then(function() {
-								resolve();
+								Promise.all (promises2).then (function ()
+									{
+										resolve ();
+									});
 							});
-						});
-					}, RadJav)
-				);
-			},null,null)
-		);
-		return promise;
+					}, RadJav));
+
+		return (promise);
 	}
 
 	/** @method _loadLanguages
@@ -535,9 +575,9 @@ namespace RadJav
 		var promise = new Promise(function(resolve, reject) {
 			if (RadJav.useAjax == true) {
 				RadJav._getResponse(
-					RadJav.baseUrl + "/languages/" + RadJav.selectedLanguage + ".js"
+					RadJav.baseUrl + "/languages/" + RadJav.selectedLanguage + ".json"
 				).then(function(data) {
-					RadJav._lang = _eval(data);
+					RadJav._lang = JSON.parse(data);
 					resolve();
 				});
 			} else {
@@ -561,8 +601,9 @@ namespace RadJav
 
 		var promise = new Promise(function(resolve, reject) {
 			if (RadJav.useAjax == true) {
-				RadJav._getResponse(url + "/theme.js").then(function(data) {
-					var theme = RadJav.Theme.loadTheme(url, data);
+				RadJav._getResponse(url + "/theme.json").then(function(data) {
+					var jsonData = JSON.parse (data);
+					var theme = RadJav.Theme.loadTheme(url, jsonData);
 					RadJav.currentTheme = theme;
 					var promises2 = [];
 
@@ -599,26 +640,31 @@ namespace RadJav
 	*/
 	export function runApplication(file: string | Function): Promise<any>
 	{
-		let promise = null;
+		let promise = RadJav.initialize ().then (RadJav.keepContext (function ()
+			{
+				let promise = null;
 
-		if (typeof file == "string")
-		{
-			promise = RadJav.include(file).then(
-				RadJav.keepContext(function(data)
+				if (typeof file == "string")
 				{
-					let func = new _Function(data);
-					func();
-				}, this));
-		}
-		else
-		{
-			promise = new Promise(RadJav.keepContext(
-				function(resolve, reject, func)
+					promise = RadJav.include(file).then(
+						RadJav.keepContext(function(data)
+						{
+							let func = new _Function(data);
+							func();
+						}, this));
+				}
+				else
 				{
-					func();
-					resolve();
-				}, this, file));
-		}
+					promise = new Promise(RadJav.keepContext(
+						function(resolve, reject, func)
+						{
+							func();
+							resolve();
+						}, this, file));
+				}
+
+				return (promise);
+			}, this));
 
 		return promise;
 	}
@@ -725,7 +771,7 @@ namespace RadJav
 
 								appPromise = elm.create ().then (function (mainWindow)
 															{
-																resolve (mainWindow);
+																return (mainWindow);
 															});
 							}
 							else
@@ -734,7 +780,7 @@ namespace RadJav
 
 								appPromise = win.create ().then (function (mainWindow)
 															{
-																resolve (mainWindow);
+																return (mainWindow);
 															});
 							}
 						}
@@ -743,9 +789,7 @@ namespace RadJav
 						{
 							appPromise.then (function (win)
 								{
-									RadJav.loadAppXML (win, app.children).then (function (data)
-										{
-										});
+									RadJav.loadAppXML (win, app.children);
 								});
 						}
 					}
@@ -1058,6 +1102,13 @@ namespace RadJav
 		return (param);
 	}
 
+	/**Load a CommonJS module.
+	 */
+	export function loadModule (moduleData: string)
+	{
+		return (_eval("(function (module){ " + moduleData + "; return module; })({});"));
+	}
+
 	/** @method keepContext
 	 * @static
 	 * Keep the context the object is currently in.
@@ -1222,6 +1273,18 @@ namespace RadJav
 		*/
 		fonts: object[] = [];
 
+		/** @property exports
+		 * @static
+		 * The functions and properties associated with this theme.
+		 */
+		public exports: any;
+
+		/** @property themeObjects
+		 * @static
+		 * The theme objects associated with this theme.
+		 */
+		public themeObjects: any[];
+
 		constructor(obj: Theme = null)
 		{
 			this.name = RadJav.setDefaultValue(obj.name, "");
@@ -1233,6 +1296,8 @@ namespace RadJav
 			this.initFile = RadJav.setDefaultValue(obj.initFile, "");
 			this.cssFiles = RadJav.setDefaultValue(obj.cssFiles, []);
 			this.fonts = RadJav.setDefaultValue(obj.fonts, []);
+			this.exports = RadJav.setDefaultValue(obj.exports, null);
+			this.themeObjects = RadJav.setDefaultValue(obj.themeObjects, {});
 		}
 
 		/** @method loadInitializationFile
@@ -1248,11 +1313,18 @@ namespace RadJav
 					{
 						try
 						{
+							var promises = [];
+
 							if (typeof data == "string")
-								RadJav.currentTheme.exports = _eval(data);
+								RadJav.currentTheme.exports = RadJav.loadModule (data).exports;
 
 							if (typeof (RadJav.currentTheme.exports.init) != "undefined")
-								RadJav.currentTheme.exports.init();
+							{
+								var hasPromise = RadJav.currentTheme.exports.init();
+
+								if (hasPromise != null)
+									promises.push (hasPromise);
+							}
 
 							let fontCSS = "";
 
@@ -1274,8 +1346,6 @@ namespace RadJav
 								style.innerHTML = fontCSS;
 								document.head.appendChild(style);
 							}
-
-							var promises = [];
 
 							if (RadJav.useAjax == true)
 							{
@@ -1322,7 +1392,8 @@ namespace RadJav
 		 */
 		loadJavascriptFiles(): Promise<any> {
 			var promise = new Promise(
-				RadJav.keepContext(function(resolve, reject) {
+				RadJav.keepContext(function(resolve, reject)
+				{
 					var files = [];
 
 					for (var iIdx = 0; iIdx < RadJav._included.length; iIdx++) {
@@ -1351,39 +1422,40 @@ namespace RadJav
 								}
 
 								if (RadJav.useAjax == true) {
-									RadJav._getResponse(url + "/" + tfile + ".js").then(function(
-										data
-									) {
-										try {
-											RadJav.currentTheme.themeObjects[tfile] = _eval(data);
-										} catch (ex) {
-											throw RadJav.getLangString(
-												"themeThrewErrorInFile",
-												theme.name,
-												tfile + ".js",
-												ex.message
-											);
-										}
+									RadJav._getResponse(url + "/" + tfile + ".js").then(
+										function(data)
+										{
+											try {
+												RadJav.currentTheme.themeObjects[tfile] = RadJav.loadModule (data);
+											} catch (ex)
+											{
+												throw RadJav.getLangString(
+													"themeThrewErrorInFile",
+													theme.name,
+													tfile + ".js",
+													ex.message
+												);
+											}
 
-										/*var js = "return (function (module, theme){";
-												js += data + "\n";
-												js += "});";
+											/*var js = "return (function (module, theme){";
+													js += data + "\n";
+													js += "});";
 
-												try
-												{
-													var obj = new Function (js);
-													RadJav.Theme.themeObjects[tfile].javascript = obj.apply (this, [{}, theme]);
-												}
-												catch (ex)
-												{
-													throw (RadJav.getLangString ("themeThrewErrorInFile", theme.name, 
-															tfile + ".js", ex.message));
-												}*/
+													try
+													{
+														var obj = new Function (js);
+														RadJav.Theme.themeObjects[tfile].javascript = obj.apply (this, [{}, theme]);
+													}
+													catch (ex)
+													{
+														throw (RadJav.getLangString ("themeThrewErrorInFile", theme.name, 
+																tfile + ".js", ex.message));
+													}*/
 
-										if (index >= numFiles - 1) {
-											resolve();
-										}
-									});
+											if (index >= numFiles - 1) {
+												resolve();
+											}
+										});
 								} else {
 									resolve();
 								}
@@ -1410,18 +1482,18 @@ namespace RadJav
 			}
 			try {
 				if (RadJav.currentTheme.themeObjects[file] != null) {
-					if (RadJav.currentTheme.themeObjects[file][event] != null) {
-						return RadJav.currentTheme.themeObjects[file][event].apply(
-							RadJav.currentTheme.themeObjects[file],
+					if (RadJav.currentTheme.themeObjects[file].exports[event] != null) {
+						return RadJav.currentTheme.themeObjects[file].exports[event].apply(
+							RadJav.currentTheme.themeObjects[file].exports,
 							args
 						);
 					} else {
 						if (file.indexOf("GUI") > -1) {
 							var tempfile = "RadJav.GUI.GObject";
 
-							if (RadJav.currentTheme.themeObjects[tempfile][event] != null) {
-								return RadJav.currentTheme.themeObjects[tempfile][event].apply(
-									RadJav.currentTheme.themeObjects[tempfile],
+							if (RadJav.currentTheme.themeObjects[tempfile].exports[event] != null) {
+								return RadJav.currentTheme.themeObjects[tempfile].exports[event].apply(
+									RadJav.currentTheme.themeObjects[tempfile].exports,
 									args
 								);
 							}
@@ -1470,18 +1542,18 @@ namespace RadJav
 
 			try {
 				if (RadJav.currentTheme.themeObjects[file] != null) {
-					if (RadJav.currentTheme.themeObjects[file][event] != null) {
-						result = RadJav.currentTheme.themeObjects[file][event].apply(
-							RadJav.currentTheme.themeObjects[file],
+					if (RadJav.currentTheme.themeObjects[file].exports[event] != null) {
+						result = RadJav.currentTheme.themeObjects[file].exports[event].apply(
+							RadJav.currentTheme.themeObjects[file].exports,
 							args
 						);
 					} else {
 						if (file.indexOf("GUI") > -1) {
 							var tempfile = "RadJav.GUI.GObject";
 
-							if (RadJav.currentTheme.themeObjects[tempfile][event] != null) {
-								result = RadJav.currentTheme.themeObjects[tempfile][event].apply(
-									RadJav.currentTheme.themeObjects[tempfile],
+							if (RadJav.currentTheme.themeObjects[tempfile].exports[event] != null) {
+								result = RadJav.currentTheme.themeObjects[tempfile].exports[event].apply(
+									RadJav.currentTheme.themeObjects[tempfile].exports,
 									args
 								);
 							}
@@ -1514,19 +1586,6 @@ namespace RadJav
 			return result;
 		}
 
-		/** @property exports
-		 * @static
-		 * The functions and properties associated with this theme.
-		 */
-		public exports: any;
-
-		/** @property themeObjects
-		 * @static
-		 * The theme objects associated with this theme.
-		 */
-		public themeObjects: any[];
-
-
 		/** @method loadTheme
 		 * @static
 		 * Load the theme.
@@ -1534,23 +1593,22 @@ namespace RadJav
 		 * @param {String} data The JSON to parse and get the data from.
 		 */
 		public static loadTheme(url: string, data: any): Theme
-	{
-		var theme = null;
-
-		try
 		{
-			var obj = _eval(data);
-			theme = new RadJav.Theme(obj);
-			theme.url = url;
-		}
-		catch (ex)
-		{
-			console.error(ex.message);
-		}
+			var theme = null;
 
-		return theme;
+			try
+			{
+				theme = new RadJav.Theme(data);
+				theme.url = url;
+			}
+			catch (ex)
+			{
+				console.error(ex.message);
+			}
+
+			return theme;
+		}
 	}
-}
 
 	export namespace GUI
 	{
@@ -2464,10 +2522,11 @@ var _eval = eval;
 var _Function = Function;
 RadJav.defaults = RadJav;
 
-if (typeof (define) != "undefined")
+// This may be needed for Dojo, idk.
+/*if (typeof (define) != "undefined")
 {
 	define(function()
 		{
 			return RadJav;
 		});
-}
+}*/

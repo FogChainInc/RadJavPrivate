@@ -42,21 +42,22 @@ namespace RadJAV
 			{
 			}
 
-#ifdef GUI_USE_WXWIDGETS
-			WebServerThread::ExitCode WebServerThread::Entry() {
-				ioc->run();
+			#ifdef GUI_USE_WXWIDGETS
+				WebServerThread::ExitCode WebServerThread::Entry() {
+					ioc->run();
 
-				V8_JAVASCRIPT_ENGINE->removeThread(this);
-				return (0);
-			};
-#else
-			RJINT WebServerThread::Entry() {
-				ioc->run();
+					V8_JAVASCRIPT_ENGINE->removeThread(this);
+					return (0);
+				};
+			#else
+				RJINT WebServerThread::Entry() {
+					ioc->run();
 
-				V8_JAVASCRIPT_ENGINE->removeThread(this);
-				return (0);
-			};
-#endif
+					V8_JAVASCRIPT_ENGINE->removeThread(this);
+					return (0);
+				};
+			#endif
+
 			// Report a failure
 			void fail(boost::system::error_code ec, char const* what)
 			{
@@ -418,10 +419,12 @@ namespace RadJAV
 				serverType = WebServerTypes::HTTP;
 				address = boost::asio::ip::make_address("127.0.0.1");
 				port = 80;
+				thread = NULL;
 			}
 
 			WebServer::~WebServer()
 			{
+				DELETEOBJ(thread);
 			}
 
 			void WebServer::listen(RJINT portNumber)
@@ -471,7 +474,18 @@ namespace RadJAV
 				
 				this->run();
 
-#ifdef GUI_USE_WXWIDGETS	
+				DELETEOBJ(thread);
+
+				thread = RJNEW SimpleThread();
+				thread->onStart = [this]()
+					{
+						this->isAlive = true;
+						this->ioc.run();
+					};
+
+				RadJav::addThread(thread);
+
+/*#ifdef GUI_USE_WXWIDGETS	
 				WebServerThread* thread = new WebServerThread(&ioc);
 				thread->Run();
 				isAlive = thread->IsAlive();
@@ -479,7 +493,7 @@ namespace RadJAV
 				//blocking execution
 				isAlive = true;
 				ioc.run();
-#endif
+#endif*/
 			}
 
 #ifdef USE_V8
@@ -495,6 +509,8 @@ namespace RadJAV
 
 			void WebServer::stop()
 			{
+				RadJav::removeThread(thread);
+
 				ioc.stop();
 				while (false == ioc.stopped()) {
                     #if defined (__WINDOWS__) || defined(WIN32)
@@ -503,7 +519,10 @@ namespace RadJAV
                         usleep(1 * 50 * 1000);
                     #endif
 				}
-				this->close();
+
+				//TODO: check graceful exit behavior on ioc.stop()
+				acceptor.close();
+				isAlive = false;
 			}
 
 			// Start accepting incoming connections
@@ -538,13 +557,6 @@ namespace RadJAV
 
 				// Accept another connection
 				do_accept();
-			}
-
-			void WebServer::close()
-			{
-				//TODO: check graceful exit behavior on ioc.stop()
-				acceptor.close();
-				isAlive = false;
 			}
 		}
 	}

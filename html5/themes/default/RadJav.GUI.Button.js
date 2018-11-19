@@ -1,4 +1,4 @@
-RadJav.Theme.themeObjects["RadJav.GUI.Button"] =
+module.exports = 
 {
 	init: function ()
 	{

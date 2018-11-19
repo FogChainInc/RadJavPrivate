@@ -30,17 +30,29 @@ namespace RadJAV
 		/// RadJav Cryptography
 		namespace Crypto
 		{
+			/// Base crypto callbacks.
+			class RADJAV_EXPORT Base
+			{
+				public:
+					static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
+					
+					static JSValueRef addCertificate(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+					static JSValueRef getCertificate(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+					static JSValueRef getCertificates(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+					static JSValueRef getDefaultCertificates(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+			};
+
 			/// A Cipher
 			class RADJAV_EXPORT Cipher
 			{
-			public:
-				static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
-				
-				static JSValueRef _init(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
-				static JSValueRef cipherSync(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
-				static JSValueRef cipher(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
-				
-				static JSValueRef getCapabilities(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+				public:
+					static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
+					
+					static JSValueRef _init(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+					static JSValueRef cipherSync(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+					static JSValueRef cipher(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+					
+					static JSValueRef getCapabilities(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
 			};
 		}
 	}

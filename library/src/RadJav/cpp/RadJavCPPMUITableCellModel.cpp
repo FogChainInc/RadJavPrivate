@@ -18,9 +18,13 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 #include "cpp/RadJavCPPMUITableCellModel.h"
-#import "cpp/ios/RadJavCPPMUIEventDelegates.h"
 #include "RadJav.h"
 #include "RadJavString.h"
+
+#warning We expect this file to be pure C++ without Android/iOS internals, need to split it and place implementation in separate folders like ios, android
+#ifdef USE_IOS
+	#import <UIKit/UIKit.h>
+#endif
 
 namespace RadJAV
 {
@@ -36,7 +40,7 @@ namespace RadJAV
 			#endif
             #ifdef USE_JAVASCRIPTCORE
                 TableCellModel::TableCellModel(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[])
-                    : GObject (jsEngine, thisObj, numArgs, args)
+                    //: GObjectWidget ()
                 {
                     isHeader = false;
                     isFooter = false;
@@ -44,7 +48,7 @@ namespace RadJAV
             #endif
 
 			TableCellModel::TableCellModel(String name, String text, CPP::GUI::GObject *parent)
-				: GObject(name, text, parent)
+				//: GObject(name, text, parent)
 			{
 			}
 
@@ -52,11 +56,11 @@ namespace RadJAV
 			{
 				GUI::GObjectWidget* parentWin = nullptr;
 				
-				if (_parent != nullptr)
-					parentWin = _parent->_appObj;
+				//if (parent != nullptr)
+					//parentWin = parent->_appObj;
 				
 
-				setup();
+				//setup();
 			}
             bool TableCellModel::bindEvent(const String& eventName, const GUI::Event* /*event*/)
             {
@@ -129,7 +133,7 @@ namespace RadJAV
                 return widget;
             }
 #elif defined USE_ANDROID
-            void* TableCellModel::getNativeWidget()
+            jobject TableCellModel::getNativeWidget()
             {
                 return widget;
             }

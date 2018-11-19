@@ -18,13 +18,13 @@ declare namespace RadJav {
             destroy(): void;
             getParent(): Object3D;
             getTransform(): C3D.Transform;
-            setPosition(x: Number, y: number, z: number): void;
+            setPosition(x: number | RadJav.Vector3, y?: number, z?: number): void;
             getPosition(): Vector3;
             setVisibility(visible: boolean): void;
             getVisibility(): boolean;
             show(): void;
             hide(): void;
-            on(eventName: String, func: Function): void;
+            on(eventName: string, func: Function): void;
         }
     }
 }

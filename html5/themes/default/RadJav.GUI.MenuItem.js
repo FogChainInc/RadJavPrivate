@@ -1,4 +1,4 @@
-RadJav.Theme.themeObjects["RadJav.GUI.MenuItem"] =
+module.exports = 
 {
 	create: function (obj)
 	{

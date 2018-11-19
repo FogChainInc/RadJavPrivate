@@ -32,38 +32,88 @@
 
 namespace RadJAV
 {
-#ifdef GUI_USE_WXWIDGETS
+#ifdef THREADS_USE_WXWIDGETS
 	Thread::Thread()
 		: wxThread(wxTHREAD_DETACHED)
 	{
 		hasStarted = false;
+		this->storeValue = NULL;
 	}
-#else
-	Thread::Thread()
-		: std::thread()
+
+	Thread::Thread(void *storeValue)
+		: wxThread(wxTHREAD_DETACHED)
 	{
 		hasStarted = false;
+		this->storeValue = storeValue;
 	}
 #endif
+#ifdef THREADS_USE_STD_THREAD
+	Thread::Thread()
+	{
+		hasStarted = false;
+		this->storeValue = NULL;
+		thread = NULL;
+	}
+
+	Thread::Thread(void *storeValue)
+	{
+		hasStarted = false;
+		this->storeValue = storeValue;
+		thread = NULL;
+	}
+#endif
+
+Thread::~Thread()
+{
+	stop();
+}
+
+void Thread::run()
+{
+	if (hasThreadStarted() == false)
+	{
+		#ifdef THREADS_USE_WXWIDGETS
+			wxThread *wthread = (wxThread *)this;
+
+			wthread->Create();
+			wthread->Run();
+		#endif
+		#ifdef THREADS_USE_STD_THREAD
+			thread = RJNEW std::thread(&Thread::Entry, this);
+		#endif
+
+		setAsStarted(true);
+	}
+}
+
+void Thread::stop()
+{
+	#ifdef THREADS_USE_STD_THREAD
+		if (thread != NULL)
+		{
+			thread->join();
+			DELETEOBJ(thread);
+		}
+	#endif
+}
 
 SimpleThread::SimpleThread()
 	: Thread ()
 {
 }
 
-#ifdef GUI_USE_WXWIDGETS
+#ifdef THREADS_USE_WXWIDGETS
 wxThread::ExitCode SimpleThread::Entry()
 {
 	onStart();
 
 	return (0);
 }
-#else
-RJINT SimpleThread::Entry()
+#endif
+#ifdef THREADS_USE_STD_THREAD
+void SimpleThread::Entry()
 {
 	onStart();
-
-	return (0);
 }
 #endif
 

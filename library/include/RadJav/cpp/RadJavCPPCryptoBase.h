@@ -34,7 +34,7 @@
 	#include "RadJavThread.h"
 
 #ifdef USE_CRYPTOGRAPHY
-
+	#include <boost/asio/ssl.hpp>
 #endif 
 
 	namespace RadJAV
@@ -44,39 +44,54 @@
 			namespace Crypto
 			{
 				#ifdef USE_CRYPTOGRAPHY
-				// Accepts incoming connections and launches the sessions
-				class RADJAV_EXPORT Base
-				{
-				public:
-					#ifdef USE_V8
-					Base(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
-					#elif defined USE_JAVASCRIPTCORE
-					Base(JSCJavascriptEngine *jsEngine, JSContextRef ctx, RJUINT argumentCount, const JSValueRef arguments[]);
-					#endif
+					// Accepts incoming connections and launches the sessions
+					class RADJAV_EXPORT Base
+					{
+						public:
+							#ifdef USE_V8
+							Base(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
+							#elif defined USE_JAVASCRIPTCORE
+							Base(JSCJavascriptEngine *jsEngine, JSContextRef ctx, RJUINT argumentCount, const JSValueRef arguments[]);
+							#endif
 					
-					~Base();
+							~Base();
 					
-					void processInput(const void *plainText, int textLength,
-									  std::string &decodedText,
-									  const void *&binPlainText, int &binPlainTextLength);
-					void processOutput(std::tuple<std::shared_ptr<void>, unsigned int> result,
-									   std::function <void (const std::string& str)> stringSetter,
-									   std::function <void (void* buf, int bufLen)> binSetter);
+							void processInput(const void *plainText, int textLength,
+											  std::string &decodedText,
+											  const void *&binPlainText, int &binPlainTextLength);
+							void processOutput(std::tuple<std::shared_ptr<void>, unsigned int> result,
+											   std::function <void (const std::string& str)> stringSetter,
+											   std::function <void (void* buf, int bufLen)> binSetter);
+
+						public:
+							String myCryptoLibrary;
+							String myAlgorithm;
+							String myInputEncoding;
+							String myOutputEncoding;
 					
-				public:
-					String myCryptoLibrary;
-					String myAlgorithm;
-					String myInputEncoding;
-					String myOutputEncoding;
-					
-				protected:
-					#ifdef USE_V8
-					V8JavascriptEngine
-					#elif defined USE_JAVASCRIPTCORE
-					JSCJavascriptEngine
-					#endif
-						*jsEngine;
-				};
+						protected:
+							#ifdef USE_V8
+							V8JavascriptEngine
+							#elif defined USE_JAVASCRIPTCORE
+							JSCJavascriptEngine
+							#endif
+								*jsEngine;
+					};
+
+					/// Initialize SSL certificates.
+					void initializeCertificates();
+					/// Add an SSL certificate.
+					void addCertificate(String certificate);
+					/// Get a SSL certificate at an index.
+					String getCertificate(RJINT index);
+					/// Get all loaded SSL certificates.
+					Array<String> *getCertificates();
+					/// Get the default SSL certificates.
+					Array<String> getDefaultCertificates();
+
+					/// The SSL context.
+					static boost::asio::ssl::context SSLContext{ boost::asio::ssl::context::sslv23_client };
+					static Array<String> *SSLCertificates = NULL;
 				#endif
 			}
 		}

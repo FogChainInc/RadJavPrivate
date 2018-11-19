@@ -95,6 +95,24 @@ set (XML_SUPPORT ${DEFAULT_XML_SUPPORT} CACHE BOOL "XML Support")
 set (INCLUDE_CRYPTOGRAPHY ${DEFAULT_INCLUDE_CRYPTOGRAPHY} CACHE BOOL "Includes cryptography")
 set (BOOST_ROOT "" CACHE PATH "BOOST_ROOT")
 
+set (DEFAULT_THREAD_LIBRARY "wxWidgets")
+list (APPEND threadingLibraries wxWidgets "std::thread")
+
+if (NOT libRadJav_GUI_LIBRARY STREQUAL "wxWidgets")
+	set (DEFAULT_THREAD_LIBRARY "std::thread")
+endif ()
+
+set (libRadJav_THREAD_LIBRARY ${DEFAULT_THREAD_LIBRARY} CACHE STRING "Threading library to use")
+set_property (CACHE libRadJav_THREAD_LIBRARY PROPERTY STRINGS ${threadingLibraries})
+
+if (libRadJav_THREAD_LIBRARY STREQUAL "wxWidgets")
+	set (libRadJav_CPP_DEFS THREADS_USE_WXWIDGETS ${libRadJav_CPP_DEFS})
+endif ()
+
+if (libRadJav_THREAD_LIBRARY STREQUAL "std::thread")
+	set (libRadJav_CPP_DEFS THREADS_USE_STD_THREAD ${libRadJav_CPP_DEFS})
+endif ()
+
 set (TEMP_ARCH "x86")
 set (IS_MOBILE false)
 
@@ -750,7 +768,19 @@ if (libRadJav_EMBEDFILE)
 	
 	include (EmbedJavascript)
 
-	embedJavascript( "${jsFiles}" "${CMAKE_CURRENT_SOURCE_DIR}/javascript" "${CMAKE_CURRENT_BINARY_DIR}/include/RadJavJavascriptCode.h")
+	# Generating RadJavJavascriptCode.h
+	# We need to lock folder with headers to make it sure that RadJavJavascriptCode.h file generation happens only
+	# in one instance of CMake, f.e. Android Studio will spawn CMake
+	# for Release/Debug and multiple architectures
+	file (LOCK "${CMAKE_CURRENT_BINARY_DIR}/include" DIRECTORY RESULT_VARIABLE lockResult TIMEOUT 0)
+
+	if (${lockResult} EQUAL 0)
+		embedJavascript( "${jsFiles}" "${CMAKE_CURRENT_SOURCE_DIR}/javascript" "${CMAKE_CURRENT_BINARY_DIR}/include/RadJavJavascriptCode.h")
+		file (LOCK "${CMAKE_CURRENT_BINARY_DIR}/include" DIRECTORY RELEASE RESULT_VARIABLE lockResult)
+	else ()
+		message (STATUS "Not generating RadJavJavascriptCode.h file because another CMake process work on it")
+	endif ()
+
 endif()
 
 set (libRadJav_CPP_DEFS2 ${libRadJav_CPP_DEFS} PARENT_SCOPE)

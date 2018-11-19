@@ -1,10 +1,12 @@
 #include <jni.h>
-#include <string>
+#include "RadJavC.h"
+#include <cstdlib>
 
-extern "C" JNIEXPORT jstring JNICALL
-Java_com_fogchain_radjavvm_RadJavActivity_stringFromJNI(
-        JNIEnv *env,
-        jobject /* this */) {
-    std::string hello = "Hello from C++";
-    return env->NewStringUTF(hello.c_str());
+
+extern "C" JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* reserved)
+{
+    if (RadJav_initialize(vm) == EXIT_FAILURE)
+        return -1;
+
+    return JNI_VERSION_1_6;
 }
