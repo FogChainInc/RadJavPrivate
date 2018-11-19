@@ -53,7 +53,7 @@ public class RadJavActivity extends Activity
         //Continue native code execution
         RadJavApplication app = (RadJavApplication)getApplication();
 
-        final String appFile = app.prependWithExternalCacheDir("examples" + File.separator + "mobile" + File.separator + "init.xrj");
+        final String appFile = app.prependWithExternalCacheDir("examples" + File.separator + "mobile" + File.separator + "window.xrj");
 
         app.run(appFile);
     }
