@@ -53,10 +53,12 @@ jclass ClassesCache::get(const char* classPath)
     if ( it != _classes.end())
     {
         return it->second;
-    } else{
-        jclass clazz = utils::FindClass(classPath);
-        _classes[classPath] = clazz;
     }
 
-    return nullptr;
+    jclass clazz = utils::FindClass(classPath);
+
+    if(clazz)
+        _classes[classPath] = clazz;
+
+    return clazz;
 }

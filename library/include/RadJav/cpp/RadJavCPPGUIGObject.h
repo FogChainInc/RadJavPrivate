@@ -74,9 +74,6 @@ namespace RadJAV
 			public:
 				virtual ~GObjectInterface() {};
 				
-				/// Using the existing parameters in this object, create it.
-				virtual void addChild(GObject *child) = 0;
-				
 				/** Set this object's font.
 				 * Theme Event: setFont
 				 * Is Theme Event Asynchronous: No
@@ -234,8 +231,9 @@ namespace RadJAV
 					virtual void setup();
 					void setupCursor();
 
-					//From GObjectInterface:
 					void addChild(GObject *child);
+
+					//From GObjectInterface:
 					void setFont(CPP::Font *font);
 					CPP::Font *getFont();
 					void setPosition(RJINT x, RJINT y);
@@ -365,7 +363,8 @@ namespace RadJAV
 				GObjectWidget();
 				virtual ~GObjectWidget() {};
 				
-				void addChild(GObject *child);
+				virtual void addChild(GObjectWidget *child);
+
 				void setFont(CPP::Font *font);
 				CPP::Font *getFont();
 				void setPosition(RJINT x, RJINT y);

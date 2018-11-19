@@ -35,7 +35,7 @@ namespace RadJAV
 			jmethodID ButtonFrame::nativeSetText = nullptr;
 			jmethodID ButtonFrame::nativeGetText = nullptr;
 
-			ButtonFrame::ButtonFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size)
+			ButtonFrame::ButtonFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
 			{
 				if (!nativeButtonClass)
 				{
@@ -46,19 +46,17 @@ namespace RadJAV
 
 					nativeConstructor = env->GetMethodID(nativeButtonClass, "<init>", "(Landroid/content/Context;)V");
 					nativeSetText = env->GetMethodID(nativeButtonClass, "setText", "(Ljava/lang/CharSequence;)V");
-					nativeGetText = env->GetMethodID(nativeButtonClass, "getText", "(V)Ljava/lang/CharSequence;");
+					nativeGetText = env->GetMethodID(nativeButtonClass, "getText", "()Ljava/lang/CharSequence;");
 				}
 
-				RadJav::runOnUiThreadAsync([&](JNIEnv* env, void* data) {
+				RadJav::runOnUiThreadAsync([&, parent](JNIEnv* env, void* data) {
 					auto layout = wrap_local(env, env->NewObject(nativeButtonClass, nativeConstructor, RadJav::getJavaApplication()));
 
 					widget = env->NewGlobalRef(layout);
 				});
 
-                GObjectWidget* parentWidget = parent->_appObj;
-
-                //TODO: add to parent
-                //parentWidget->addChild()
+				if (parent)
+					parent->addChild(this);
 
 				setText(text);
 				setSize(size);

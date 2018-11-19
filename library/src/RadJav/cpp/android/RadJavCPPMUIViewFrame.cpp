@@ -34,7 +34,7 @@ namespace RadJAV
 
 			jclass ViewFrame::nativeLayoutClass = nullptr;
 
-			ViewFrame::ViewFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size)
+			ViewFrame::ViewFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
             {
             	if (!nativeLayoutClass)
 				{
@@ -48,11 +48,20 @@ namespace RadJAV
 					nativeRemoveView = env->GetMethodID(nativeLayoutClass, "removeView", "(Landroid/view/View;)V");
 				}
 
-            	RadJav::runOnUiThreadAsync([&](JNIEnv* env, void* data) {
+            	RadJav::runOnUiThreadAsync([&, parent](JNIEnv* env, void* data) {
 					auto layout = wrap_local(env, env->NewObject(nativeLayoutClass, nativeConstructor, RadJav::getJavaApplication()));
 
 					widget = env->NewGlobalRef(layout);
             	});
+
+            	if (parent)
+            		parent->addChild(this);
+            	else
+				{
+					RadJav::runOnUiThreadAsync([&](JNIEnv* env, void* data) {
+						env->CallVoidMethod(RadJav::getJavaViewGroup(), nativeAddView, widget);
+					});
+				}
 
 				setText(text);
             }
@@ -63,10 +72,10 @@ namespace RadJAV
 				//TODO: need to add implementation
 			}
 
-			void ViewFrame::addChild(GUI::GObject *child)
+			void ViewFrame::addChild(GUI::GObjectWidget *child)
 			{
-				RadJav::runOnUiThreadAsync([&](JNIEnv* env, void* data) {
-					env->CallVoidMethod(widget, nativeAddView, child->_appObj->getNativeWidget());
+				RadJav::runOnUiThreadAsync([&, child](JNIEnv* env, void* data) {
+					env->CallVoidMethod(widget, nativeAddView, child->getNativeWidget());
 				});
 			}
 

@@ -51,8 +51,6 @@ jclass Jni::findClass(const char* classPath)
 
 JNIEnv* Jni::getJniEnv()
 {
-    std::unique_lock<std::mutex> lock {_mutex};
-
     if (!_env)
     {
         JNIEnv* env;
@@ -67,8 +65,6 @@ JNIEnv* Jni::getJniEnv()
 
 JavaVM* Jni::getJavaVm()
 {
-    std::unique_lock<std::mutex> lock {_mutex};
-
     return _jvm;
 }
 
@@ -94,14 +90,14 @@ void Jni::setJvm(JavaVM* jvm)
 }
 void Jni::setJniEnv(JNIEnv* env)
 {
-    std::unique_lock<std::mutex> lock {_mutex};
-
     if (env != _env)
         _env = env;
 }
 
 void Jni::initClassesCache()
 {
+    std::unique_lock<std::mutex> lock {_mutex};
+
     //Init with default classes
     //We can add more here to be loaded at startup
     _classes = new ClassesCache({"com/fogchain/radjavvm/RadJavApplication",

@@ -113,7 +113,7 @@ namespace RadJAV
 					#ifdef GUI_USE_WXWIDGETS
 						_appObj->AddChild(child->_appObj);
 					#elif defined USE_IOS || defined USE_ANDROID
-						_appObj->addChild(child);
+						_appObj->addChild(child->_appObj);
 					#endif
 				}
 

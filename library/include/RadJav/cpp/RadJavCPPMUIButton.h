@@ -40,7 +40,7 @@
 												, public ChainedPtr
 				{
 				public:
-					ButtonFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size);
+					ButtonFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
 					~ButtonFrame();
 
                     void setText(String text);
