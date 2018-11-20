@@ -72,8 +72,8 @@ namespace RadJAV
 											,public ChainedPtr
 			{
 			public:
-				ImageFrame(GUI::GObject *parent, const String &imageFile, const Vector2 &pos, const Vector2 &size);
-				ImageFrame(GUI::GObject *parent, const Vector2 &pos, const Vector2 &size);
+				ImageFrame(GUI::GObjectWidget *parent, const String &imageFile, const Vector2 &pos, const Vector2 &size);
+				ImageFrame(GUI::GObjectWidget *parent, const Vector2 &pos, const Vector2 &size);
 				~ImageFrame();
 				
 				RJBOOL loadImage(const String& imageFile);

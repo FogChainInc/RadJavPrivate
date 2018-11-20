@@ -75,7 +75,7 @@ namespace RadJAV
 												,public ChainedPtr
 			{
 			public:
-				TextboxFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size);
+				TextboxFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
 				~TextboxFrame();
 				
 				void setText(String text);

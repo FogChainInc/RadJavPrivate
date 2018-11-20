@@ -55,7 +55,7 @@ namespace RadJAV
 				if (_parent != nullptr)
 					parentWin = _parent->_appObj;
 				
-				NavigationViewControllerFrame* object = RJNEW NavigationViewControllerFrame(_parent, _text,
+				NavigationViewControllerFrame* object = RJNEW NavigationViewControllerFrame(parentWin, _text,
 													Vector2(_transform->x, _transform->y),
 													Vector2(_transform->width, _transform->height));
 				

@@ -42,7 +42,7 @@ namespace RadJAV
 												,public ChainedPtr
 			{
 			public:
-				CheckboxFrame(GUI::GObject *parent, RJBOOL checked, const Vector2 &pos, const Vector2 &size);
+				CheckboxFrame(GUI::GObjectWidget *parent, RJBOOL checked, const Vector2 &pos, const Vector2 &size);
 				~CheckboxFrame();
 				
 				void setChecked(RJBOOL checked);

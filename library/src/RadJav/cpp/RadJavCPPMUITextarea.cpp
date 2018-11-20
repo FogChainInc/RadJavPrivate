@@ -52,7 +52,7 @@ namespace RadJAV
 				if (_parent != nullptr)
 					parentWin = _parent->_appObj;
 				
-				TextareaFrame* object = RJNEW TextareaFrame(_parent, _text,
+				TextareaFrame* object = RJNEW TextareaFrame(parentWin, _text,
 														  Vector2(_transform->x, _transform->y),
 														  Vector2(_transform->width, _transform->height));
 				

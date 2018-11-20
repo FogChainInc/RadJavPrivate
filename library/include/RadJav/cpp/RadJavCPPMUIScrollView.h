@@ -64,7 +64,7 @@ namespace RadJAV
 												,public ChainedPtr
 			{
 			public:
-				ScrollViewFrame(GUI::GObject *parent, const Vector2 &pos, const Vector2 &size);
+				ScrollViewFrame(GUI::GObjectWidget *parent, const Vector2 &pos, const Vector2 &size);
 				~ScrollViewFrame();
 				
 				void setEnabled(RJBOOL enabled);

@@ -49,12 +49,12 @@ namespace RadJAV
             public:
                 //TODO: Add correct parent type here, usually some base C++ container class (which still not created)
                 ViewControllerFrame();
-                ViewControllerFrame(void *parent, const String &text, const Vector2 &pos, const Vector2 &size);
+                ViewControllerFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
                 ~ViewControllerFrame();
 
                 void makeRootViewController();
                 void makeRootViewControllerIfRootIsEmpty();
-                void addChild(GUI::GObject *child);
+                void addChild(GUI::GObjectWidget *child);
                 void presentViewControllerAnimated(CPP::GUI::GObject *presentedController);
                 void dismissViewControllerAnimated();
                 void setFont(CPP::Font *font);

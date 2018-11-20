@@ -29,7 +29,7 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
-			TextareaFrame::TextareaFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size)
+			TextareaFrame::TextareaFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
 			: widget([[UITextView alloc] init])
 			{
 				//TODO: add delegate
@@ -37,7 +37,7 @@ namespace RadJAV
 				//widgetDelegate.widget = this;
 				//widget.delegate = widgetDelegate;
 				
-				[parent->_appObj->getNativeWidget() addSubview:widget];
+				[parent->getNativeWidget() addSubview:widget];
 				
 				setText(text);
 				setSize(size);

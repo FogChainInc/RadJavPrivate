@@ -42,7 +42,7 @@ namespace RadJAV
 											,public ChainedPtr
 			{
 			public:
-				LabelFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size);
+				LabelFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
 				~LabelFrame();
 
 				void setText(String text);

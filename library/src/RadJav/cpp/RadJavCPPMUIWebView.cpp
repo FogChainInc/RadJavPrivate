@@ -52,7 +52,7 @@ namespace RadJAV
 				if (_parent != nullptr)
 					parentWin = _parent->_appObj;
 				
-				WebViewFrame* object = RJNEW WebViewFrame(_parent, _text,
+				WebViewFrame* object = RJNEW WebViewFrame(parentWin, _text,
 													  Vector2(_transform->x, _transform->y),
 													  Vector2(_transform->width, _transform->height));
 				
