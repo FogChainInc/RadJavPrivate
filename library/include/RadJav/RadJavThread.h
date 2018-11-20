@@ -64,7 +64,7 @@
 				public:
 					Thread();
 					Thread(void *storeValue);
-					~Thread();
+					virtual ~Thread();
 
 					/// Set whether or not this thread has started executing.
 					/// This is mostly for use in the main app loop.
