@@ -36,7 +36,6 @@ namespace RadJAV
 			void ViewController::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 			{
 				JSC_CALLBACK(object, "create", ViewController::create);
-                JSC_CALLBACK(object, "addChild", ViewController::addChild);
                 JSC_CALLBACK(object, "makeRootViewController", ViewController::makeRootViewController);
                 JSC_CALLBACK(object, "presentViewControllerAnimated", ViewController::presentViewControllerAnimated);
                 JSC_CALLBACK(object, "dismissViewControllerAnimated", ViewController::dismissViewControllerAnimated);
@@ -97,83 +96,6 @@ namespace RadJAV
                 
                 return promise;
             }
-            
-            JSValueRef ViewController::setSize(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
-            {
-                CppMuiObject *appObject = (CppMuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
-                
-                int width = 0;
-                int height = 0;
-
-                
-                if (argumentCount >= 2){
-                    width =  JSValueToNumber(ctx, arguments[0], exception);
-                    height =  JSValueToNumber(ctx, arguments[1], exception);
-                }
-                
-                appObject->setSize(width, height);
-                
-                JSObjectRef _guiFinishedCreatingGObject = JSC_JAVASCRIPT_ENGINE->jscGetFunction(JSC_RADJAV, "_guiFinishedCreatingGObject");
-                JSObjectRef promise = JSC_JAVASCRIPT_ENGINE->createPromise(thisObject, _guiFinishedCreatingGObject);
-                
-                return promise;
-            }
-            
-            
-            JSValueRef ViewController::getSize(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
-            {
-                 CppMuiObject *appObject = (CppMuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
-            }
-            
-            JSValueRef ViewController::setPosition(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
-            {
-                CppMuiObject *appObject = (CppMuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
-                
-                int x = 0;
-                int y = 0;
-                
-                
-                if (argumentCount >= 2){
-                    x =  JSValueToNumber(ctx, arguments[0], exception);
-                    y =  JSValueToNumber(ctx, arguments[1], exception);
-                }
-                
-                appObject->setPosition(x, y);
-                
-                JSObjectRef _guiFinishedCreatingGObject = JSC_JAVASCRIPT_ENGINE->jscGetFunction(JSC_RADJAV, "_guiFinishedCreatingGObject");
-                JSObjectRef promise = JSC_JAVASCRIPT_ENGINE->createPromise(thisObject, _guiFinishedCreatingGObject);
-                
-                return promise;
-            }
-            
-            
-            JSValueRef ViewController::getPosition(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
-            {
-                
-            }
-            
-            
-            
-            JSValueRef ViewController::addChild(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
-            {
-                CppMuiObject *appObject = (CppMuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
- 
-                if (argumentCount > 0){
-                   JSObjectRef argument =  JSValueToObject(ctx, arguments[0], exception);
-                    CppMuiObject *childAppObject = (CppMuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, argument, "_appObj");
-                    if (childAppObject != NULL){
-                        
-                        appObject->addChild(childAppObject);
-                    }
-                    
-                }
-
-                JSObjectRef _guiFinishedCreatingGObject = JSC_JAVASCRIPT_ENGINE->jscGetFunction(JSC_RADJAV, "_guiFinishedCreatingGObject");
-                JSObjectRef promise = JSC_JAVASCRIPT_ENGINE->createPromise(thisObject, _guiFinishedCreatingGObject);
-                
-                return promise;
-            }
-            
 		}
 	}
 }
