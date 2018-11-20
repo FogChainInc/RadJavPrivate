@@ -441,7 +441,7 @@ namespace RadJAV
 		JNIEnv* env = jni.getJniEnv();
 
 		jclass charSequenceClass = jni.findClass("java/lang/CharSequence");
-		static jmethodID toString = env->GetMethodID(charSequenceClass, "toString", "(V)Ljava/lang/String;");
+		static jmethodID toString = env->GetMethodID(charSequenceClass, "toString", "()Ljava/lang/String;");
 
 		auto javaString = wrap_local(env, env->CallObjectMethod(charSequence, toString));
 		const char* tempCharSequence = env->GetStringUTFChars(static_cast<jstring>(javaString.get()), NULL);
