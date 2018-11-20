@@ -1,0 +1,11 @@
+{
+	"generators": [
+		"JNI.js", 
+		"RadJavV8Generator.js", 
+		"RadJavJSCGenerator.js"
+	], 
+	"files": [
+			"RadJav.GUI.GObject.js", 
+			"RadJav.GUI.Button.js"
+		]
+}

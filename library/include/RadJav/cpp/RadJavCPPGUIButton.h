@@ -46,7 +46,7 @@
 							wxDECLARE_EVENT_TABLE();
 					};
 				#endif
-
+					
 				class RADJAV_EXPORT Button : public CPP::GUI::GObject
 				{
 					public:
@@ -64,6 +64,9 @@
 						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
 							void on(String event, RJ_FUNC_TYPE func);
 						#endif
+
+						/*^:jni.outputStart ("jniHeaders");*/
+						/*^:jni.outputEnd ("jniHeaders");*/
 				};
 			}
 		}

@@ -1,0 +1,17 @@
+{
+  "name": "bindergen",
+  "version": "0.1.0",
+  "description": "Generates V8, JavaScriptCore, JNI and other bindings for RadJav.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "generator"
+  ],
+  "author": "FogChain, Corp",
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^10.12.9"
+  }
+}

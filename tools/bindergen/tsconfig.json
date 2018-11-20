@@ -1,0 +1,31 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "target": "ES6",
+        "sourceMap": true,
+        "watch": true,
+        "outDir": "./build",
+        "rootDir": "./src",
+
+        "noImplicitAny": false,
+        "removeComments": false,
+        "noUnusedLocals": true,
+        "noImplicitThis": true,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitReturns": true,
+
+        "types": [
+            "node"
+        ], 
+
+        "lib": [
+            "es2015"
+        ]
+    },
+    "exclude": [
+        "node_modules/",
+        "testapp/",
+        "testdata/"
+    ]
+}

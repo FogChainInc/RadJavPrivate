@@ -1,0 +1,25 @@
+{
+	"definitions": {},
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"$id": "http://example.com/root.json",
+	"type": "object",
+	"title": "Buildergen config JSON",
+	"required": [
+		"generators", 
+		"files"
+		],
+	"properties":
+	{
+		"generators": 
+		{
+			"$id": "#/properties/generators",
+			"type": "array",
+			"title": "Generators to use."
+		}, 
+		"files": {
+			"$id": "#/properties/files",
+			"type": "array",
+			"title": "Files to use to build."
+		  }
+	}
+}

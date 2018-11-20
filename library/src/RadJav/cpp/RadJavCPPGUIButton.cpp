@@ -76,6 +76,8 @@ namespace RadJAV
 			{
 				_text = text;
 
+				/*^:jni.view.methods.setText ("_text.toJNIString ();");*/
+
 				#ifdef GUI_USE_WXWIDGETS
 					if (_appObj != NULL)
 						((ButtonFrame *)_appObj)->SetLabelText(_text.towxString());
