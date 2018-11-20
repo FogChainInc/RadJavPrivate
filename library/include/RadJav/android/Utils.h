@@ -38,12 +38,6 @@ namespace utils
 
     ///Return global reference to java class
     jclass FindClass(JNIEnv* env, const char* classPath);
-
-    ///Convert Java CharSequence to std::string
-    std::string CharSequenceToString(jobject charSequence);
-
-    ///Convert Java CharSequence to std::string
-    std::string CharSequenceToString(JNIEnv* env, jobject charSequence);
 }
 
 #endif //_RADJAV_UTILS_H

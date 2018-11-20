@@ -29,7 +29,8 @@ namespace RadJAV
 {
 	namespace V8B
 	{
-		namespace MUI {
+		namespace MUI
+		{
 			using CppMuiObject = CPP::MUI::Button;
 
 			void Button::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object) {

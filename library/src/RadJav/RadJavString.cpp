@@ -415,12 +415,42 @@ namespace RadJAV
         return (value);
     }
 #endif
-    
+
+#ifdef USE_ANDROID
+	jstring String::toJNIString() const
+	{
+		JNIEnv* env = Jni::instance().getJniEnv();
+		return env->NewStringUTF(c_str());
+	}
+#endif
+
 #ifdef __APPLE__
     String parseNSString (NSString *str)
     {
         return ([str UTF8String]);
     }
+#endif
+
+#ifdef USE_ANDROID
+	String parseJNIString(jobject charSequence)
+	{
+		//We assume that everyone on Java side implement CharSequence interface correctly
+		//so toString method will return String with corresponding chars from CharSequence
+
+		Jni& jni = Jni::instance();
+		JNIEnv* env = jni.getJniEnv();
+
+		jclass charSequenceClass = jni.findClass("java/lang/CharSequence");
+		static jmethodID toString = env->GetMethodID(charSequenceClass, "toString", "(V)Ljava/lang/String;");
+
+		auto javaString = wrap_local(env, env->CallObjectMethod(charSequence, toString));
+		const char* tempCharSequence = env->GetStringUTFChars(static_cast<jstring>(javaString.get()), NULL);
+		std::string ret = tempCharSequence;
+
+		env->ReleaseStringUTFChars(static_cast<jstring>(javaString.get()), tempCharSequence);
+
+		return ret;
+	}
 #endif
 
 	RDECIMAL parseDecimal(String decimal)

@@ -20,8 +20,7 @@
 #include "cpp/RadJavCPPMUIButton.h"
 
 #include "cpp/RadJavCPPMUIView.h"
-#include "android/Utils.h"
-
+#include "RadJavString.h"
 
 namespace RadJAV
 {
@@ -71,7 +70,7 @@ namespace RadJAV
             void ButtonFrame::setText(String text)
             {
             	RadJav::runOnUiThreadAsync([&, text](JNIEnv* env, void* data) {
-					auto jtext = wrap_local(env, env->NewStringUTF(text.c_str()));
+					auto jtext = wrap_local(env, text.toJNIString());
 
 					env->CallNonvirtualVoidMethod(widget, nativeButtonClass, nativeSetText, jtext.get());
             	});
@@ -83,7 +82,7 @@ namespace RadJAV
 
 				RadJav::runOnUiThread([&](JNIEnv* env, void* data) {
 					jobject charSequence = env->CallObjectMethod(widget, nativeGetText);
-					text = utils::CharSequenceToString(charSequence);
+					text = parseJNIString(charSequence);
 				});
 
 				return text;

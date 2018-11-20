@@ -38,7 +38,12 @@
 
     #ifdef USE_JAVASCRIPTCORE
         #include <JavaScriptCore/JavaScriptCore.h>
-    #endif
+	#endif
+
+	#ifdef USE_ANDROID
+		typedef class _jobject* jobject;
+		typedef class _jstring* jstring;
+	#endif
 
 	#define USE_CHAR
 
@@ -192,7 +197,12 @@
 
             #ifdef __APPLE__
                 NSString *toNSString ();
-            #endif
+			#endif
+
+			#ifdef USE_ANDROID
+                ///Convert to JNI string, require explicit delete using DeleteLocalRef()
+				jstring toJNIString() const;
+			#endif
 		};
 
 		/// Parse a decimal value.
@@ -230,7 +240,11 @@
         
         #ifdef __APPLE__
             String parseNSString (NSString *str);
-        #endif
+		#endif
+
+		#ifdef USE_ANDROID
+			String parseJNIString(jobject charSequence);
+		#endif
 
 		/// Convert a hex string into an integer.
 		int hexStringToInt(String hexString);
