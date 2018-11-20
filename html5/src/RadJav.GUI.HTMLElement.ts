@@ -52,7 +52,7 @@ namespace RadJav
 					obj.size.y = 350;
 				}
 
-				super(obj, text, parent) || this;
+				super(obj, (<string>text), parent);
 
 				this.type = "RadJav.GUI.HTMLElement";
 

@@ -10,4 +10,5 @@ interface Math {
     degreesToRadians(degrees: number): number;
     radiansToDegrees(radians: number): number;
     randomRange(min: number, max: number): number;
+    lerp(start: number, end: number, time: number): number;
 }

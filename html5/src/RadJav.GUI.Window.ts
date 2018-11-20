@@ -19,8 +19,8 @@
 */
 
 /// <reference path="RadJav.ts" />
+/// <reference path="RadJav.GUI.GObject.ts" />
 /// <reference path="RadJav.Vector2.ts" />
-
 
 namespace RadJav
 {
@@ -50,7 +50,7 @@ namespace RadJav
           obj.size.y = 350;
         }
 
-        super(obj, text, parent) || this;
+        super(obj, text, parent);
 
         this.type = "RadJav.GUI.Window";
       }

@@ -36,6 +36,14 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
                        		model.create ().then (function (modelParam){
                        			
                        		var array = [];
+
+                       		var headerModel = new RadJav.MUI.TableCellModel("header","subtitle");
+                       		
+                       		headerModel.create ().then (function (headerParam){
+                       			array.push(headerModel);
+                       			headerParam.setIsHeader(true);
+                       			
+                       		});
                        		
                        		var i;
 							for (i = 0; i < 5; i++) { 

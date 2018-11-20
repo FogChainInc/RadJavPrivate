@@ -1,0 +1,12 @@
+<book>
+	<info language = "english">
+		<author>Nathanael Coonrod</author>
+		<title>The Facility</title>
+	</info>
+	<chapter>
+		Bla bla bla.
+	</chapter>
+	<chapter>
+		Bla bla bla again.
+	</chapter>
+</book>

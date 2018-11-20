@@ -63,6 +63,7 @@ _1c.splice(_1.indexOf(_1c,_22),1);
 if(!_19){
 _1d("error",{error:_24},_22);
 if(!_1c.length){
+clearTimeout(_1b);
 _1f.readyState=3;
 _1d("close",{wasClean:false},_22);
 }
@@ -96,7 +97,7 @@ on.emit(_1f,_27,_28);
 }
 };
 _1e=function(){
-if(_1f.readyState==0){
+if(_1f.readyState===0){
 _1d("open",{});
 }
 if(!_1c.length){

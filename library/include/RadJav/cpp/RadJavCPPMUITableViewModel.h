@@ -55,6 +55,10 @@
 
                     void setCellModels(std::vector<CPP::MUI::TableCellModel*> *models);
                     std::vector<CPP::MUI::TableCellModel*> *models;
+                    std::vector< std::vector<CPP::MUI::TableCellModel*> > *cells;
+                    std::vector<CPP::MUI::TableCellModel*> *headers;
+                    std::vector<CPP::MUI::TableCellModel*> *footers;
+                    
                     GUI::GObjectWidget *linkedFrame;
                     
                     

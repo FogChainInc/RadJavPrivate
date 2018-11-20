@@ -1,5 +1,5 @@
-RadJav.Theme.themeObjects["RadJav.GUI.GObject"] =
-{
+module.exports = {
+
 	setVisibility: function (obj, visible)
 	{
 		if (visible == true)

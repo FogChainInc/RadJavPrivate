@@ -73,7 +73,15 @@ namespace RadJAV
             
 			void ButtonFrame::setFont(CPP::Font *font)
 			{
-				//TODO: Add implementation
+                widget.titleLabel.font = font->toUIFont ();
+
+                if (font->underline == true)
+                {
+                    NSString* title = [widget currentTitle];
+                    NSMutableAttributedString *attrText = [[NSMutableAttributedString alloc] initWithString: title];
+                    [attrText addAttribute: NSUnderlineStyleAttributeName value: [NSNumber numberWithInt: 1] range: (NSRange){0, [attrText length]}];
+                    widget.titleLabel.attributedText = attrText;
+                }
 			}
 			
 			CPP::Font* ButtonFrame::getFont()

@@ -448,7 +448,7 @@ namespace RadJav
 						}
 						else
 						{
-							let data = RadJav.IO.TextFile.readFile (path);
+							let data = new RadJav.IO.TextFile ().readFile (path);
 							this._parseXML (data);
 
 							resolve (data);

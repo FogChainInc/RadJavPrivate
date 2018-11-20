@@ -30,11 +30,10 @@ namespace RadJav
 		 * A button.
 		 * Available on platforms: Windows,Linux,OSX,HTML5
 		 */
-		class Button extends RadJav.GUI.GObject
+		export class Button extends RadJav.GUI.GObject
 		{
 			constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject)
 			{
-				super(obj, text, parent);
 				if (obj == null) {
 					obj = {};
 				}
@@ -49,6 +48,10 @@ namespace RadJav
 					obj.size.x = 80;
 					obj.size.y = 40;
 				}
+
+				super(obj, text, parent);
+
+				this.type = "RadJav.GUI.Button";
 			}
 
 			static xmlTag: RadJav.TagType = { tag: "button", type: "Button" };

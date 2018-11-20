@@ -23,7 +23,7 @@
 
 namespace RadJav
 {
-  export   namespace GUI
+  export namespace GUI
   {
     /** @class RadJav.GUI.Label
      * @extends RadJav.GUI.GObject

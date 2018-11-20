@@ -29,6 +29,7 @@ namespace RadJAV
 		{
 			GObjectWidget::GObjectWidget()
 			{
+                _parent = NULL;
 			}
 			
 			void GObjectWidget::addChild(GObjectWidget *child)
@@ -118,8 +119,7 @@ namespace RadJAV
 			
 			GObject* GObjectWidget::getParent()
 			{
-				//TODO: Need to think about the solution
-				return nullptr;
+                return (_parent);
 			}
 			
 			void GObjectWidget::setVisibility(RJBOOL visible)
@@ -136,13 +136,14 @@ namespace RadJAV
 			
 			void GObjectWidget::setEnabled(RJBOOL enabled)
 			{
-				//Do nothing here
+                UIView* widget = getNativeWidget();
+                widget.userInteractionEnabled = enabled;
 			}
 			
 			RJBOOL GObjectWidget::getEnabled()
 			{
-				//Do nothing here
-				return true;
+                UIView* widget = getNativeWidget();
+                return (widget.userInteractionEnabled);
 			}
 		}
 	}

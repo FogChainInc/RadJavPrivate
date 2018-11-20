@@ -40,13 +40,15 @@ namespace RadJAV
 			#endif
             #ifdef USE_JAVASCRIPTCORE
                 TableCellModel::TableCellModel(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[])
-                    : GObject (jsEngine, thisObj, numArgs, args)
+                    //: GObjectWidget ()
                 {
+                    isHeader = false;
+                    isFooter = false;
                 }
             #endif
 
 			TableCellModel::TableCellModel(String name, String text, CPP::GUI::GObject *parent)
-				: GObject(name, text, parent)
+				//: GObject(name, text, parent)
 			{
 			}
 
@@ -54,11 +56,11 @@ namespace RadJAV
 			{
 				GUI::GObjectWidget* parentWin = nullptr;
 				
-				if (_parent != nullptr)
-					parentWin = _parent->_appObj;
+				//if (parent != nullptr)
+					//parentWin = parent->_appObj;
 				
 
-				setup();
+				//setup();
 			}
             bool TableCellModel::bindEvent(const String& eventName, const GUI::Event* /*event*/)
             {
@@ -105,6 +107,24 @@ namespace RadJAV
             void TableCellModel::setIsDeletable(bool value)
             {
                 this->isDeletable = value;
+            }
+            
+            bool TableCellModel::getIsHeader()
+            {
+                return this->isHeader;
+            }
+            void TableCellModel::setIsHeader(bool value)
+            {
+                this->isHeader = value;
+            }
+            
+            bool TableCellModel::getIsFooter()
+            {
+                return this->isFooter;
+            }
+            void TableCellModel::setIsFooter(bool value)
+            {
+                this->isFooter = value;
             }
             
 #ifdef USE_IOS

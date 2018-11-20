@@ -39,6 +39,10 @@
 #endif
 #endif
 
+#ifdef USE_NODEJS
+	#include <node.h>
+#endif
+
 #ifdef USE_V8
 	#include "v8/RadJavV8Global.h"
 	#include "v8/RadJavV8OS.h"
@@ -192,11 +196,11 @@ namespace RadJAV
 			
 			String execPath = "";
 
-#ifdef GUI_USE_WXWIDGETS
-			execPath = parsewxString(wxStandardPaths::Get().GetExecutablePath());
-#else 
-			execPath = RadJAV::_radjav_exec_path;
-#endif
+			#ifdef GUI_USE_WXWIDGETS
+				execPath = parsewxString(wxStandardPaths::Get().GetExecutablePath());
+			#else 
+				execPath = RadJAV::_radjav_exec_path;
+			#endif
 
 			v8::V8::InitializeICUDefaultLocation(execPath.c_str ());
 			String flags = "";
@@ -408,6 +412,10 @@ namespace RadJAV
 
 				return EXIT_FAILURE;
 			}
+
+			#ifdef USE_NODEJS
+				node::Start(0, NULL);
+			#endif
 
 			int exitCode = EXIT_SUCCESS;
 			#ifdef GUI_USE_WXWIDGETS

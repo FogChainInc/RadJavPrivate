@@ -1,4 +1,4 @@
-RadJav.Theme.themeObjects["RadJav.GUI.Combobox"] =
+module.exports = 
 {
 	create: function (obj)
 	{

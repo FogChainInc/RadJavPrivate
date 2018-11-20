@@ -196,6 +196,7 @@
             #endif
 
             #ifdef __APPLE__
+                /// Convert this string to a NSString.
                 NSString *toNSString ();
 			#endif
 
