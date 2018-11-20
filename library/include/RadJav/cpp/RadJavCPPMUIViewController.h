@@ -71,7 +71,7 @@ namespace RadJAV
                 RJINT getHeight();
                 void setText(String text);
                 String getText();
-                GUI::GObject *getParent();
+                GUI::GObjectWidget *getParent();
                 void setVisibility(RJBOOL visible);
                 RJBOOL getVisibility();
                 void setEnabled(RJBOOL enabled);

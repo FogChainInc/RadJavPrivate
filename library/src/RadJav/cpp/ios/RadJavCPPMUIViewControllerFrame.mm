@@ -160,7 +160,7 @@ namespace RadJAV
 				return String();
 			}
 			
-			GUI::GObject* ViewControllerFrame::getParent()
+			GUI::GObjectWidget* ViewControllerFrame::getParent()
 			{
 				//TODO: Add implementation
 				return nullptr;

@@ -46,6 +46,7 @@ namespace RadJAV
 			GObjectWidget::GObjectWidget()
 			{
 				widget = nullptr;
+				parent = nullptr;
 
 				//Store native pointers
 				if (nativeViewClass)
@@ -193,10 +194,9 @@ namespace RadJAV
 				return String();
 			}
 			
-			GObject* GObjectWidget::getParent()
+			GObjectWidget* GObjectWidget::getParent()
 			{
-				//TODO: Need to think about the solution
-				return nullptr;
+				return parent;
 			}
 			
 			void GObjectWidget::setVisibility(RJBOOL visible)

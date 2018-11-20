@@ -29,7 +29,7 @@ namespace RadJAV
 		{
 			GObjectWidget::GObjectWidget()
 			{
-                _parent = NULL;
+                parent = NULL;
 			}
 			
 			void GObjectWidget::addChild(GObjectWidget *child)
@@ -117,9 +117,9 @@ namespace RadJAV
 				return String();
 			}
 			
-			GObject* GObjectWidget::getParent()
+			GObjectWidget* GObjectWidget::getParent()
 			{
-                return (_parent);
+                return (parent);
 			}
 			
 			void GObjectWidget::setVisibility(RJBOOL visible)

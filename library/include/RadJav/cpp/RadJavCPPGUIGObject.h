@@ -164,13 +164,6 @@ namespace RadJAV
 				 */
 				virtual String getText() = 0;
 				
-				/** Get the parent.
-				 * Theme Event: None
-				 * Is Theme Event Asynchronous: No
-				 * @return {RadJav.GUI.GObject} The parent of this object.
-				 */
-				virtual GObject *getParent() = 0;
-				
 				/** Set the visibility of this object.
 				 * Theme Event: setVisibility
 				 * Is Theme Event Asynchronous: Yes
@@ -232,6 +225,7 @@ namespace RadJAV
 					void setupCursor();
 
 					void addChild(GObject *child);
+					GObject *getParent();
 
 					//From GObjectInterface:
 					void setFont(CPP::Font *font);
@@ -248,7 +242,6 @@ namespace RadJAV
 					RJINT getHeight();
 					void setText(String text);
 					String getText();
-					GObject *getParent();
 					void setVisibility(RJBOOL visible);
 					RJBOOL getVisibility();
 					void setEnabled(RJBOOL enabled);
@@ -364,6 +357,7 @@ namespace RadJAV
 				virtual ~GObjectWidget() {};
 				
 				virtual void addChild(GObjectWidget *child);
+				virtual GObjectWidget *getParent();
 
 				void setFont(CPP::Font *font);
 				CPP::Font *getFont();
@@ -379,7 +373,6 @@ namespace RadJAV
 				RJINT getHeight();
 				void setText(String text);
 				String getText();
-				GObject *getParent();
 				void setVisibility(RJBOOL visible);
 				RJBOOL getVisibility();
 				void setEnabled(RJBOOL enabled);
@@ -391,6 +384,9 @@ namespace RadJAV
 					jobject getNativeWidget();
 				#endif
 
+			protected:
+				GObjectWidget* parent;
+				
 			#ifdef USE_ANDROID
 			protected:
 				jobject widget;
