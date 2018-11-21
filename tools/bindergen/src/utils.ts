@@ -3,6 +3,46 @@ export function showError (err: string): void
 	console.error (err);
 }
 
+export function getCommandLineArgKeyword (arg: string): string
+{
+	let start: number = arg.indexOf ("=");
+	let value: string = arg;
+
+	if (start > -1)
+		value = arg.substr (0, start);
+
+	return (value);
+}
+
+export function getCommandLineArgValue (arg: string): string
+{
+	let start: number = arg.indexOf ("=");
+	let value: string = arg;
+
+	if (start > -1)
+	{
+		let pos: number = arg.indexOf ("\"", start);
+
+		if (pos > -1)
+		{
+			/// @fixme Add support for putting \" inside strings.
+			let matches: string[] = arg.match (/\"(.*?)\"/gm);
+
+			if (matches == null)
+				throw new Error ("Quotations do not match up!");
+
+			value = matches[0];
+
+			// Remove the quotations around the value.
+			value = value.substr (1, value.length - 2);
+		}
+		else
+			value = arg.substr (1, arg.length);
+	}
+
+	return (value);
+}
+
 export function commandLine (commands: any[]): void
 {
 	var helpHeader = `Bindergen
@@ -67,7 +107,10 @@ Under the MIT License\n\n`;
 
 	process.argv.forEach (function (val, index)
 			{
-				if (index == 2)
+				let valKey = getCommandLineArgKeyword (val);
+				let valVal = getCommandLineArgValue (val);
+
+				if (index >= 2)
 				{
 					commands.forEach (function (val2, index2)
 						{
@@ -78,14 +121,16 @@ Under the MIT License\n\n`;
 								if (iIdx == 0)
 									cmd = "--" + cmd;
 
-								if (val == cmd)
-									execFunc = val2.evt;
+								if (valKey == cmd)
+								{
+									if (val2.executeLast == true)
+										execFunc = val2.evt;
+									else
+										val2.evt (valVal);
+								}
 							}
 						});
 				}
-
-				if (index > 2)
-					args.push (val);
 			});
 
 	if (execFunc != null)

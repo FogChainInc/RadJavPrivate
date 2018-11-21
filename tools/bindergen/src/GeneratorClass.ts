@@ -13,8 +13,6 @@ export class GeneratorClass
 	public functions: GeneratorFunction[];
 	/// The functions this generator will generate.
 	public parseEvents: { [name: string]: Function };
-	/// The object this one extends. Can include the namespace.
-	public references: GeneratorReference[];
 
 	constructor ()
 	{
@@ -22,13 +20,6 @@ export class GeneratorClass
 		this.extends = "";
 		this.functions = [];
 		this.parseEvents = {};
-		this.references = [];
-	}
-
-	/// During generation, refer to a reference for something.
-	referFrom (reference: GeneratorReference): void
-	{
-		this.references.push (reference);
 	}
 
 	/// Create a parse event.

@@ -11,7 +11,9 @@
 			"program": "${workspaceFolder}/build/index.js", 
 			"cwd": "${workspaceFolder}/build/",
 			"args": [
-				"--build"
+				"--build", 
+				"--root=\"C:\\editing\\projects\\RadJavPrivate\"", 
+				"--android-docs=\"C:\\Users\\NathanaelCoonrod\\AppData\\Local\\Android\\Sdk\\docs\""
 			]
 		}
 	]

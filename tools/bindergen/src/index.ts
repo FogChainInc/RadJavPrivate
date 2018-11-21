@@ -4,14 +4,14 @@ import * as utils from "./utils";
 import { Bindergen } from "./Bindergen";
 import { Generator } from "./Generator";
 
-var config = null;
-
 function build (configPath): void
 {
 	let parentDir: string = path.dirname (configPath);
 	let configStr: string = fs.readFileSync (configPath).toString ();
 	config = JSON.parse (configStr);
-	config.parentDir = parentDir;
+
+	if ((config.root == undefined) || (config.root == ""))
+		config.root = parentDir;
 
 	for (let iIdx = 0; iIdx < config.generators.length; iIdx++)
 	{
@@ -27,11 +27,11 @@ function build (configPath): void
 			if (fs.existsSync (`${__dirname}/build/gen/${generatorPath}`) == true)
 				foundGenPath = `${__dirname}/build/gen/${generatorPath}`;
 
-			if (fs.existsSync (`${parentDir}/${generatorPath}`) == true)
+			/*if (fs.existsSync (`${parentDir}/${generatorPath}`) == true)
 				foundGenPath = `${parentDir}/${generatorPath}`;
 
 			if (fs.existsSync (`${parentDir}/gen/${generatorPath}`) == true)
-				foundGenPath = `${parentDir}/gen/${generatorPath}`;
+				foundGenPath = `${parentDir}/gen/${generatorPath}`;*/
 
 			if (foundGenPath != "")
 			{
@@ -59,6 +59,7 @@ const commands = [
 		cmd: ["build", "b"], 
 		desc: "Generate the bindings.", 
 		help: "", 
+		executeLast: true, 
 		evt: function ()
 			{
 				let configPath: string = path.normalize (
@@ -73,8 +74,22 @@ const commands = [
 		evt: function (args)
 			{
 			}
+	}, 
+	{
+		cmd: ["root", "r"], 
+		desc: "Set the root directory.", 
+		help: "", 
+		evt: function (args)
+			{
+				config.root = args;
+			}
 	}
 ];
+
+process.argv.forEach (function (val, index)
+			{
+				Bindergen.setArg (val);
+			});
 
 utils.commandLine (commands);
 

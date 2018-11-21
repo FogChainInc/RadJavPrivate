@@ -1,7 +1,8 @@
 debugger;
-let embed = Bindergen.useGenerator ("RadJavV8");
+let embed = Bindergen.useGenerator ("RadJav");
+embed.usePasses (["V8", "JSC"]);
 embed.appendToCustomFile ("cmakeV8Includes", "${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIButton.h");
-embed.outputFileName ("RadJavV8GUIButton");
+embed.outputFilename ("RadJav%PASS%GUIButton");
 let obj = embed.createClass ({
 		name: "RadJav.GUI.Button", 
 		extends: "RadJav.GUI.GObject", 
@@ -16,13 +17,13 @@ let obj = embed.createClass ({
 						native: "appObject", 
 						external: "_appObj"
 					}], 
-					returns: embed.RadJavGUIFinishedCreatingObject ()
+					returns: "%_guiFinishedCreatingObject%"
 				}
 			]
 	});
 //embed.generate ();
 
-let jni = Bindergen.useGenerator ("JNI");
+let jni = Bindergen.useGenerator ("AndroidJNI");
 jni.parseFiles ([
 		"library/include/cpp/RadJavCPPGUIButton.h", 
 		"library/src/cpp/RadJavCPPGUIButton.cpp"
