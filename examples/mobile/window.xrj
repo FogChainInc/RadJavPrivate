@@ -15,17 +15,35 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 			window.setPosition(0, 0);
                         window.setSize(screenWidth, screenHeight);
 
-                        var btn = new RadJav.MUI.Button ("button", "Say Hello", win2);
+                        var btn = new RadJav.MUI.Button ("button", "onClick", win2);
                         btn.create().then (function (btn2)
                             {
                                 button = btn2;
                                 button.setPosition (50, 100);
                                 button.setSize (200, 100);
+								button.flag = false;
 
                                 button.on ("click", function ()
                                     {
-                                        alert ("Hello World!");
+										RadJav.Console.println("radjav message");
+										if (button.flag) {
+											button.flag = false;
+											RadJav.Console.println("radjav false");
+											button.setText("False");
+										} else
+										{
+											button.flag = true;
+											RadJav.Console.println("radjav true");
+											button.setText("True");
+										}
+                                        //alert ("Hello World!");
                                     });
+									
+								button.on ("longClick", function () {
+									RadJav.Console.println("radjav longClick (true)");
+									button.setText("longClick");
+									return true;
+								});
                             });
                     });
             });

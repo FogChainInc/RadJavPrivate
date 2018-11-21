@@ -53,7 +53,8 @@
 					RJBOOL getEnabled();
 
 					bool bindEvent(const String& eventName, const GUI::Event* event);
-
+					static void onBindEvent(JNIEnv *env, void *data);
+					bool executeEvent(const GUI::EventData& evtData, jobjectArray arguments);
 					#ifdef USE_IOS
 						UIView* getNativeWidget();
 					#endif

@@ -139,6 +139,7 @@
 #include "cpp/RadJavCPPOS.h"
 
 #include <cstring>
+#include <android/RadJavAndroid.h>
 #include "cpp/RadJavCPPAgent.h"
 
 namespace RadJAV
@@ -431,16 +432,18 @@ namespace RadJAV
 					// Enter the main loop of app
 					exitCode = wxTheApp->OnRun();
 				}
-			#elif defined USE_ANDROID
+            #elif defined USE_ANDROID
+//				RadJav& vm = RadJav::instance();
+                RadJavAndroid::defaultLockGuiThread();
 				while(true)
 				{
-					if (RadJav::isWaitingForUiThread())
-					{
-						LOGI("Waiting for UI thread");
-
-						threadSleep(1);
-						continue;
-					}
+//					if (RadJav::isWaitingForUiThread())
+//					{
+//						LOGI("Waiting for UI thread");
+//
+//						threadSleep(1);
+//						continue;
+//					}
 
 					if (RadJav::isPaused())
 					{
@@ -452,6 +455,9 @@ namespace RadJAV
 
 						continue;
 					}
+
+                    RadJavAndroid::instance()->handleUIEvent();
+
 
 					if(!runApplicationSingleStep())
 						break;
