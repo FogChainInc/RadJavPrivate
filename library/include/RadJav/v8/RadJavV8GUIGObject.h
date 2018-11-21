@@ -21,6 +21,7 @@
 #define _RADJAV_GUI_V8_GOBJECT_H_
 
 #include "RadJavPreprocessor.h"
+
 #include <v8.h>
 
 namespace RadJAV

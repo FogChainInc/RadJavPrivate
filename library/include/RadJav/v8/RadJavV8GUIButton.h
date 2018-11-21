@@ -21,13 +21,8 @@
 	#define _RADJAV_GUI_V8_BUTTON_H_
 
 	#include "RadJavPreprocessor.h"
-	#include "RadJavString.h"
 
-	#include "v8/RadJavV8GUIGObject.h"
-
-	#ifdef GUI_USE_WXWIDGETS
-		#include <wx/wx.h>
-	#endif
+	#include <v8.h>
 
 	namespace RadJAV
 	{
@@ -35,32 +30,12 @@
 		{
 			namespace GUI
 			{
-				class RADJAV_EXPORT Button : public GObject
+				class RADJAV_EXPORT Button
 				{
 					public:
 						static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
 						static void create(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void setFont(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void getFont(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void setPosition(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void getPosition(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void getX(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void getY(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void setSize(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void getSize(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void getWidth(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void getHeight(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void setText(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void getText(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void getParent(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void getAppObj(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void setVisibility(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void getVisibility(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void setEnabled(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void getEnabled(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void on(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void destroy(const v8::FunctionCallbackInfo<v8::Value> &args);
 				};
 			}
 		}
