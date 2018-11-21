@@ -257,7 +257,7 @@
 }
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
-     std::vector<RadJAV::CPP::MUI::TableCellModel *>* section = [self cellsInSection:indexPath.section];
+    std::vector<RadJAV::CPP::MUI::TableCellModel *>* section = [self cellsInSection:indexPath.section];
     RadJAV::CPP::MUI::TableCellModel * model = section->at(indexPath.row);
     model->widgetDelegate = self;
     UITableViewCell *cell = nil;//[tableView dequeueReusableCellWithIdentifier:@"identifier"];//tableView.dequeueReusableCell(withIdentifier: "LabelCell", for: indexPath)
@@ -270,8 +270,8 @@
         }
     }
     
-    //cell.textLabel.text = RadJavCocoaStringFromRadJavString(model->name);
-    //cell.detailTextLabel.text = RadJavCocoaStringFromRadJavString(model->name);
+    cell.textLabel.text = RadJavCocoaStringFromRadJavString(model->name);
+    cell.detailTextLabel.text = RadJavCocoaStringFromRadJavString(model->name);
     
     return cell;
 }

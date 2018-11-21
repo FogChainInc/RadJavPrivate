@@ -60,7 +60,7 @@ namespace RadJAV
                         {
                             JSObjectRef item = JSValueToObject(ctx,JSObjectGetPropertyAtIndex(ctx, array, i, nullptr),nullptr);
                             CPP::MUI::TableCellModel * cell = (CPP::MUI::TableCellModel*)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, item, "_appObj");
-                            arrayData->push_back(cell);
+                            if (cell != NULL)arrayData->push_back(cell);
                         }
                     }
                     

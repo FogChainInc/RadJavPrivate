@@ -50,7 +50,7 @@ namespace RadJAV
 			void TableViewModel::create()
 			{
 				GUI::GObjectWidget* parentWin = nullptr;
-				
+                this->linkedFrame = nullptr;
 				if (_parent != nullptr)
 					parentWin = _parent->_appObj;
 				
