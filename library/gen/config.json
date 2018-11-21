@@ -1,8 +1,8 @@
 {
 	"generators": [
 		"JNI.js", 
-		"RadJavV8Generator.js", 
-		"RadJavJSCGenerator.js"
+		"RadJavV8.js", 
+		"RadJavJSC.js"
 	], 
 	"files": [
 			"RadJav.GUI.GObject.js", 

@@ -12,7 +12,8 @@ class Bindergen {
     }
     /// Use a generator.
     static useGenerator(name) {
-        return (Bindergen.generators[name]);
+        let gen = Bindergen.generators[name];
+        return (new gen());
     }
     /// Start generating.
     static generate(config) {

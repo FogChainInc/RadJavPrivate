@@ -8,7 +8,7 @@ import * as path from "path";
 export class Bindergen
 {
 	/// The generators.
-	protected static generators: { [name: string]: Generator } = {};
+	protected static generators: { [name: string]: any } = {};
 
 	/// Add a generator.
 	static addGenerator (generator: Generator): void
@@ -19,7 +19,8 @@ export class Bindergen
 	/// Use a generator.
 	static useGenerator (name: string): Generator
 	{
-		return (Bindergen.generators[name]);
+		let gen = Bindergen.generators[name];
+		return (new gen ());
 	}
 
 	/// Start generating.

@@ -35,9 +35,14 @@ function build (configPath): void
 
 			if (foundGenPath != "")
 			{
-				let generator: Generator = require (foundGenPath);
+				let content: string = fs.readFileSync (foundGenPath).toString ();
 
-				Bindergen.addGenerator (generator);
+				if (content != "")
+				{
+					let generator: Generator = eval (content);
+
+					Bindergen.addGenerator (generator);
+				}
 			}
 		}
 		catch (ex)
@@ -56,7 +61,8 @@ const commands = [
 		help: "", 
 		evt: function ()
 			{
-				let configPath: string = path.normalize (__dirname + "/../../../library/gen/config.json");
+				let configPath: string = path.normalize (
+						__dirname + "/../../../library/gen/config.json");
 				build (configPath);
 			}
 	}, 

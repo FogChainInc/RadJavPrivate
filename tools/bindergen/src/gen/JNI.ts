@@ -1,7 +1,7 @@
-import { GeneratorClass } from "../GeneratorClass";
+import { Generator } from "./Generator";
 
 /// The JNI class to use for parsing.
-export class JNI extends GeneratorClass
+export class JNI extends Generator
 {
 	public name: string;
 

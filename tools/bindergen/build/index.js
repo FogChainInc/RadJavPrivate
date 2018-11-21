@@ -23,8 +23,11 @@ function build(configPath) {
             if (fs.existsSync(`${parentDir}/gen/${generatorPath}`) == true)
                 foundGenPath = `${parentDir}/gen/${generatorPath}`;
             if (foundGenPath != "") {
-                let generator = require(foundGenPath);
-                Bindergen_1.Bindergen.addGenerator(generator);
+                let content = fs.readFileSync(foundGenPath).toString();
+                if (content != "") {
+                    let generator = eval(content);
+                    Bindergen_1.Bindergen.addGenerator(generator);
+                }
             }
         }
         catch (ex) {

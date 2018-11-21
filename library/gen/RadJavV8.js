@@ -1,4 +1,6 @@
-class RadJavV8 extends Generator
+const Generator = require ("./Generator");
+
+class RadJavV8 extends Generator.Generator
 {
 	constructor ()
 	{
