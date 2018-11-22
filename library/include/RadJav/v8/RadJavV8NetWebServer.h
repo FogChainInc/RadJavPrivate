@@ -21,7 +21,8 @@
 	#define _RADJAV_GUI_V8_NET_WEBSERVER_H_
 
 	#include "RadJavPreprocessor.h"
-	#include "RadJavString.h"
+
+	#include <v8.h>
 
 	namespace RadJAV
 	{

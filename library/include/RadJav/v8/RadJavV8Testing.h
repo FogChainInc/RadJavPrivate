@@ -22,34 +22,32 @@
 
 	#include "RadJavPreprocessor.h"
 
-	#ifdef USE_V8
-		#include <v8.h>
+	#include <v8.h>
 
-		namespace RadJAV
+	namespace RadJAV
+	{
+		namespace V8B
 		{
-			namespace V8B
+			namespace Testing
 			{
-				namespace Testing
+				class RADJAV_EXPORT KeyboardSimulator
 				{
-					class RADJAV_EXPORT KeyboardSimulator
-					{
-						public:
-							static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
+					public:
+						static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
-							static void keyPress(const v8::FunctionCallbackInfo<v8::Value> &args);
-					};
+						static void keyPress(const v8::FunctionCallbackInfo<v8::Value> &args);
+				};
 
-					class RADJAV_EXPORT MouseSimulator
-					{
-						public:
-							static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
+				class RADJAV_EXPORT MouseSimulator
+				{
+					public:
+						static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
-							static void click(const v8::FunctionCallbackInfo<v8::Value> &args);
-							static void setPosition(const v8::FunctionCallbackInfo<v8::Value> &args);
-					};
-				}
+						static void click(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void setPosition(const v8::FunctionCallbackInfo<v8::Value> &args);
+				};
 			}
 		}
-	#endif
+	}
 #endif
 

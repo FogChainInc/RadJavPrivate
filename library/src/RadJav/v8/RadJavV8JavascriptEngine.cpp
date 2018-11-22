@@ -89,11 +89,11 @@
 		//#include "v8/RadJavV8MUITableCellModel.h"
 		//#include "v8/RadJavV8MUIScrollView.h"
 		#include "v8/RadJavV8MUIButton.h"
-		//#include "v8/RadJavV8MUILabel.h"
-		//#include "v8/RadJavV8MUIImage.h"
-		//#include "v8/RadJavV8MUICheckbox.h"
-		//#include "v8/RadJavV8MUITextbox.h"
-		//#include "v8/RadJavV8MUITextarea.h"
+		#include "v8/RadJavV8MUILabel.h"
+		#include "v8/RadJavV8MUIImage.h"
+		#include "v8/RadJavV8MUICheckbox.h"
+		#include "v8/RadJavV8MUITextbox.h"
+		#include "v8/RadJavV8MUITextarea.h"
 		//#include "v8/RadJavV8MUIWebView.h"
 	#endif
 
@@ -1579,47 +1579,47 @@ namespace RadJAV
 						V8B::MUI::Button::createV8Callbacks(isolate, buttonPrototype);
 					}
 
-					#if 0
 					// RadJav.MUI.Label
 					{
-						JSObjectRef labelFunc = jscGetFunction(muiFunc, "Label");
-						JSObjectRef labelPrototype = jscGetObject(labelFunc, "prototype");
-						
-						JSC::MUI::Label::createJSCCallbacks(globalContext, labelPrototype);
+						v8::Handle<v8::Function> labelFunc = v8GetFunction(muiFunc, "Label");
+						v8::Handle<v8::Object> labelPrototype = v8GetObject(labelFunc, "prototype");
+
+						V8B::MUI::Label::createV8Callbacks(isolate, labelPrototype);
 					}
 
 					// RadJav.MUI.Image
 					{
-						JSObjectRef imageFunc = jscGetFunction(muiFunc, "Image");
-						JSObjectRef imagePrototype = jscGetObject(imageFunc, "prototype");
-						
-						JSC::MUI::Image::createJSCCallbacks(globalContext, imagePrototype);
+						v8::Handle<v8::Function> imageFunc = v8GetFunction(muiFunc, "Image");
+						v8::Handle<v8::Object> imagePrototype = v8GetObject(imageFunc, "prototype");
+
+						V8B::MUI::Image::createV8Callbacks(isolate, imagePrototype);
 					}
 
 					// RadJav.MUI.Checkbox
 					{
-						JSObjectRef checkboxFunc = jscGetFunction(muiFunc, "Checkbox");
-						JSObjectRef checkboxPrototype = jscGetObject(checkboxFunc, "prototype");
-						
-						JSC::MUI::Checkbox::createJSCCallbacks(globalContext, checkboxPrototype);
+						v8::Handle<v8::Function> checkboxFunc = v8GetFunction(muiFunc, "Checkbox");
+						v8::Handle<v8::Object> checkboxPrototype = v8GetObject(checkboxFunc, "prototype");
+
+						V8B::MUI::Checkbox::createV8Callbacks(isolate, checkboxPrototype);
 					}
 					
 					// RadJav.MUI.Textbox
 					{
-						JSObjectRef textboxFunc = jscGetFunction(muiFunc, "Textbox");
-						JSObjectRef textboxPrototype = jscGetObject(textboxFunc, "prototype");
-						
-						JSC::MUI::Textbox::createJSCCallbacks(globalContext, textboxPrototype);
+						v8::Handle<v8::Function> textboxFunc = v8GetFunction(muiFunc, "Textbox");
+						v8::Handle<v8::Object> textboxPrototype = v8GetObject(textboxFunc, "prototype");
+
+						V8B::MUI::Textbox::createV8Callbacks(isolate, textboxPrototype);
 					}
 
 					// RadJav.MUI.Textarea
 					{
-						JSObjectRef textareaFunc = jscGetFunction(muiFunc, "Textarea");
-						JSObjectRef textareaPrototype = jscGetObject(textareaFunc, "prototype");
-						
-						JSC::MUI::Textarea::createJSCCallbacks(globalContext, textareaPrototype);
+						v8::Handle<v8::Function> textareaFunc = v8GetFunction(muiFunc, "Textarea");
+						v8::Handle<v8::Object> textareaPrototype = v8GetObject(textareaFunc, "prototype");
+
+						V8B::MUI::Textarea::createV8Callbacks(isolate, textareaPrototype);
 					}
                     
+					#if 0
                     // RadJav.MUI.WebView
                     {
                         JSObjectRef webViewFunc = jscGetFunction(muiFunc, "WebView");

@@ -19,8 +19,6 @@
 */
 #include "v8/RadJavV8MUIView.h"
 
-#include "RadJav.h"
-
 #include "v8/RadJavV8JavascriptEngine.h"
 
 #include "cpp/RadJavCPPMUIView.h"
