@@ -25,9 +25,34 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
+			jclass CheckboxFrame::nativeSwitchClass = nullptr;
+
+			jmethodID CheckboxFrame::nativeConstructor = nullptr;
+			jmethodID CheckboxFrame::nativeSetChecked = nullptr;
+			jmethodID CheckboxFrame::nativeIsChecked = nullptr;
+
 			CheckboxFrame::CheckboxFrame(GUI::GObjectWidget *parent, RJBOOL checked, const Vector2 &pos, const Vector2 &size)
 			{
-				//TODO: Add implementation
+				if (!nativeSwitchClass)
+				{
+					Jni& jni = Jni::instance();
+					JNIEnv* env = jni.getJniEnv();
+
+					nativeSwitchClass = jni.findClass("android/widget/Switch");
+
+					nativeConstructor = env->GetMethodID(nativeSwitchClass, "<init>", "(Landroid/content/Context;)V");
+					nativeSetChecked = env->GetMethodID(nativeSwitchClass, "setChecked", "(Z)V");
+					nativeIsChecked = env->GetMethodID(nativeSwitchClass, "isChecked", "()Z");
+				}
+
+				RadJav::runOnUiThreadAsync([&, parent](JNIEnv* env, void* data) {
+					auto layout = wrap_local(env, env->NewObject(nativeSwitchClass, nativeConstructor, RadJav::getJavaApplication()));
+
+					widget = env->NewGlobalRef(layout);
+				});
+
+				if (parent)
+					parent->addChild(this);
 
 				setChecked(checked);
 				setSize(size);
@@ -41,37 +66,26 @@ namespace RadJAV
 			
 			void CheckboxFrame::setChecked(RJBOOL checked)
 			{
-				//TODO: Add implementation
-
+				RadJav::runOnUiThreadAsync([&, checked](JNIEnv* env, void* data) {
+					env->CallVoidMethod(widget, nativeSetChecked, checked);
+				});
 			}
 			
 			RJBOOL CheckboxFrame::getChecked() const
 			{
-				//TODO: Add implementation
+				RJBOOL checked;
 
+				RadJav::runOnUiThread([&](JNIEnv* env, void* data) {
+					checked = env->CallBooleanMethod(widget, nativeIsChecked);
+				});
+
+				return checked;
 			}
 
-			void CheckboxFrame::setEnabled(RJBOOL enabled)
-			{
-				//TODO: Add implementation
-
-			}
-			
-			RJBOOL CheckboxFrame::getEnabled()
-			{
-				//TODO: Add implementation
-
-			}
-			
 			bool CheckboxFrame::bindEvent(const String& eventName, const GUI::Event* /*event*/)
 			{
 				//TODO: Add implementation
-
-			}
-
-			jobject CheckboxFrame::getNativeWidget()
-			{
-				return widget;
+				return false;
 			}
 		}
 	}

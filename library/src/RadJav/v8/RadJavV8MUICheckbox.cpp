@@ -54,47 +54,41 @@ namespace RadJAV
 
 			void Checkbox::setChecked(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				/* TODO: add implementation
-				JSValueRef undefined = JSValueMakeUndefined(ctx);
-				
-				CppMuiObject *appObject = (CppMuiObject*)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				CppMuiObject *appObject = (CppMuiObject*)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+
 				if (!appObject)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Checkbox not initialized");
-					return undefined;
+					V8_JAVASCRIPT_ENGINE->throwException("Checkbox not initialized");
+
+					return;
 				}
 
-				JSValueRef checkedValue = JSC_JAVASCRIPT_ENGINE->jscGetArgument(arguments, argumentCount, 0);
+				RJBOOL checked = true;
 
-				if (checkedValue &&
-					(JSValueIsBoolean(ctx, checkedValue) ||
-					 JSValueIsNumber(ctx, checkedValue)))
+				if (args.Length() > 0)
 				{
-					RJBOOL checked = JSC_JAVASCRIPT_ENGINE->jscValueToBoolean(checkedValue);
-					
+					checked = V8_JAVASCRIPT_ENGINE->v8ParseBool(args[0]);
+
 					appObject->setChecked(checked);
-					return undefined;
+
+					return;
 				}
-				
-				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Parameter required");
-				
-				return undefined;
-				 */
+
+				V8_JAVASCRIPT_ENGINE->throwException("Parameter required");
 			}
 
 			void Checkbox::isChecked(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				/* TODO: add implementation
-				CppMuiObject *appObject = (CppMuiObject*)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				CppMuiObject *appObject = (CppMuiObject*)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
 
 				if (!appObject)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Checkbox not initialized");
-					return JSValueMakeUndefined(ctx);
+					V8_JAVASCRIPT_ENGINE->throwException("Checkbox not initialized");
+
+					return;
 				}
-				
-				return JSValueMakeBoolean(ctx, appObject->getChecked());
-				 */
+
+				args.GetReturnValue().Set(appObject->getChecked());
 			}
 		}
 	}

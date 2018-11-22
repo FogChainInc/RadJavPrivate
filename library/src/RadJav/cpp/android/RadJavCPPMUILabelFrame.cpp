@@ -25,9 +25,34 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
+			jclass LabelFrame::nativeTextViewClass = nullptr;
+
+			jmethodID LabelFrame::nativeConstructor = nullptr;
+			jmethodID LabelFrame::nativeSetText = nullptr;
+			jmethodID LabelFrame::nativeGetText = nullptr;
+
 			LabelFrame::LabelFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
 			{
-				//TODO: add implementation
+				if (!nativeTextViewClass)
+				{
+					Jni& jni = Jni::instance();
+					JNIEnv* env = jni.getJniEnv();
+
+					nativeTextViewClass = jni.findClass("android/widget/TextView");
+
+					nativeConstructor = env->GetMethodID(nativeTextViewClass, "<init>", "(Landroid/content/Context;)V");
+					nativeSetText = env->GetMethodID(nativeTextViewClass, "setText", "(Ljava/lang/CharSequence;)V");
+					nativeGetText = env->GetMethodID(nativeTextViewClass, "getText", "()Ljava/lang/CharSequence;");
+				}
+
+				RadJav::runOnUiThreadAsync([&, parent](JNIEnv* env, void* data) {
+					auto layout = wrap_local(env, env->NewObject(nativeTextViewClass, nativeConstructor, RadJav::getJavaApplication()));
+
+					widget = env->NewGlobalRef(layout);
+				});
+
+				if (parent)
+					parent->addChild(this);
 
 				setText(text);
 				setSize(size);
@@ -41,12 +66,23 @@ namespace RadJAV
 			
 			void LabelFrame::setText(String text)
 			{
-				//TODO: add implementation
+				RadJav::runOnUiThreadAsync([&, text](JNIEnv* env, void* data) {
+					auto jtext = wrap_local(env, text.toJNIString());
+
+					env->CallNonvirtualVoidMethod(widget, nativeTextViewClass, nativeSetText, jtext.get());
+				});
 			}
 			
 			String LabelFrame::getText()
 			{
-				//TODO: add implementation
+				String text;
+
+				RadJav::runOnUiThread([&](JNIEnv* env, void* data) {
+					jobject charSequence = env->CallObjectMethod(widget, nativeGetText);
+					text = parseJNIString(charSequence);
+				});
+
+				return text;
 			}
 			
 			void LabelFrame::setFont(CPP::Font *font)
@@ -60,23 +96,10 @@ namespace RadJAV
 				return nullptr;
 			}
 			
-			void LabelFrame::setEnabled(RJBOOL enabled)
-			{
-			}
-			
-			RJBOOL LabelFrame::getEnabled()
-			{
-			}
-			
 			bool LabelFrame::bindEvent(const String& eventName, const GUI::Event* /*event*/)
 			{
 				//TODO: do we need to handle UILabel events?
 				return false;
-			}
-
-			jobject LabelFrame::getNativeWidget()
-			{
-				return widget;
 			}
 		}
 	}

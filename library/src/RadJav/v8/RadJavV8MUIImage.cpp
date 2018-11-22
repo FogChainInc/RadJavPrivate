@@ -54,56 +54,49 @@ namespace RadJAV
 			
 			void Image::setImage(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				/* TODO: add implementation
-				JSValueRef undefined = JSValueMakeUndefined(ctx);
-				
-				CppMuiObject *appObject = (CppMuiObject*)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
-				
+				CppMuiObject *appObject = (CppMuiObject*)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+
 				if (!appObject)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Image not initialized");
-					return undefined;
+					V8_JAVASCRIPT_ENGINE->throwException("Image not initialized");
+
+					return;
 				}
-				
-				JSValueRef imagePathValue = JSC_JAVASCRIPT_ENGINE->jscGetArgument(arguments, argumentCount, 0);
-				
-				if (!imagePathValue ||
-					!JSValueIsString(ctx, imagePathValue))
+
+				v8::Local<v8::String> pathJs = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+
+				if (V8_JAVASCRIPT_ENGINE->v8IsNull(pathJs))
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Path argument required");
-					return undefined;
+					V8_JAVASCRIPT_ENGINE->throwException("Path argument required");
+
+					return;
 				}
-				
-				appObject->setImage(parseJSCValue(ctx, imagePathValue));
-				
-				return undefined;
-				 */
+
+				appObject->setImage(parseV8Value(pathJs));
 			}
 			
 			void Image::setScaleMode(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				/* TODO: add implementation
-				JSValueRef undefined = JSValueMakeUndefined(ctx);
-				
-				CppMuiObject *appObject = (CppMuiObject*)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
-				
+				CppMuiObject *appObject = (CppMuiObject*)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+
 				if (!appObject)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Image not initialized");
-					return undefined;
+					V8_JAVASCRIPT_ENGINE->throwException("Image not initialized");
+
+					return;
 				}
-				
-				JSValueRef scaleModeValue = JSC_JAVASCRIPT_ENGINE->jscGetArgument(arguments, argumentCount, 0);
-				
-				if (!scaleModeValue ||
-					!JSValueIsNumber(ctx, scaleModeValue))
+
+				v8::Local<v8::Integer> scaleModeJs = v8::Local<v8::Integer>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+
+				if (V8_JAVASCRIPT_ENGINE->v8IsNull(scaleModeJs))
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "ScaleMode argument required");
-					return undefined;
+					V8_JAVASCRIPT_ENGINE->throwException("Scale mode argument required");
+
+					return;
 				}
-				
-				RJINT scaleMode = JSC_JAVASCRIPT_ENGINE->jscValueToInt(scaleModeValue);
-				
+
+				RJINT scaleMode = V8_JAVASCRIPT_ENGINE->v8ParseInt(scaleModeJs);
+
 				switch (scaleMode)
 				{
 					case 1:
@@ -113,36 +106,31 @@ namespace RadJAV
 						appObject->setScaleMode(CPP::MUI::Image::ScaleMode::AspectFill);
 						break;
 					default:
-						JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Unsupported ScaleMode");
+						V8_JAVASCRIPT_ENGINE->throwException("Unsupported ScaleMode");
 				}
-				return undefined;
-				 */
 			}
 
 			void Image::getScaleMode(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				/* TODO: add implementation
-				JSValueRef undefined = JSValueMakeUndefined(ctx);
-				
-				CppMuiObject *appObject = (CppMuiObject*)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
-				
+				CppMuiObject *appObject = (CppMuiObject*)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+
 				if (!appObject)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Image not initialized");
-					return undefined;
+					V8_JAVASCRIPT_ENGINE->throwException("Image not initialized");
+
+					return;
 				}
 
 				auto scaleMode = appObject->getScaleMode();
-				
+
 				switch (scaleMode)
 				{
 					case CPP::MUI::Image::ScaleMode::AspectFill:
-						return JSValueMakeNumber(ctx, 2.0);
+						args.GetReturnValue().Set(2);
 					case CPP::MUI::Image::ScaleMode::AspectFit:
 					default:
-						return JSValueMakeNumber(ctx, 1.0);
+						args.GetReturnValue().Set(1);
 				}
-				 */
 			}
 		}
 	}

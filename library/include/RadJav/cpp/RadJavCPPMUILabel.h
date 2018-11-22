@@ -49,15 +49,16 @@ namespace RadJAV
 				String getText();
 				void setFont(CPP::Font *font);
 				CPP::Font *getFont();
-				void setEnabled(RJBOOL enabled);
-				RJBOOL getEnabled();
+
+				#ifdef USE_IOS
+					void setEnabled(RJBOOL enabled);
+					RJBOOL getEnabled();
+				#endif
 
 				bool bindEvent(const String& eventName, const GUI::Event* event);
 
 				#ifdef USE_IOS
 					UIView* getNativeWidget();
-				#elif defined USE_ANDROID
-					jobject getNativeWidget();
 				#endif
 
 			private:
@@ -66,7 +67,11 @@ namespace RadJAV
 					//TODO: do we need to handle events of the UILabel?
 					//LabelDelegate* widgetDelegate;
 				#elif defined USE_ANDROID
-					jobject widget;
+					static jclass nativeTextViewClass;
+
+					static jmethodID nativeConstructor;
+					static jmethodID nativeSetText;
+					static jmethodID nativeGetText;
 				#endif
 			};
 			

@@ -55,28 +55,26 @@ namespace RadJAV
 			
 			void Textbox::setInputMode(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				/* TODO: add implementation
-				JSValueRef undefined = JSValueMakeUndefined(ctx);
-				
-				CppMuiObject *appObject = (CppMuiObject*)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
-				
+				CppMuiObject *appObject = (CppMuiObject*)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+
 				if (!appObject)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Textbox not initialized");
-					return undefined;
+					V8_JAVASCRIPT_ENGINE->throwException("Textbox not initialized");
+
+					return;
 				}
-				
-				JSValueRef inputModeValue = JSC_JAVASCRIPT_ENGINE->jscGetArgument(arguments, argumentCount, 0);
-				
-				if (!inputModeValue ||
-					!JSValueIsNumber(ctx, inputModeValue))
+
+				v8::Local<v8::Integer> inputModeJs = v8::Local<v8::Integer>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+
+				if (V8_JAVASCRIPT_ENGINE->v8IsNull(inputModeJs))
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "InputMode argument required");
-					return undefined;
+					V8_JAVASCRIPT_ENGINE->throwException("Input mode argument required");
+
+					return;
 				}
-				
-				RJINT inputMode = JSC_JAVASCRIPT_ENGINE->jscValueToInt(inputModeValue);
-				
+
+				RJINT inputMode = V8_JAVASCRIPT_ENGINE->v8ParseInt(inputModeJs);
+
 				switch (inputMode)
 				{
 					case 1:
@@ -98,44 +96,39 @@ namespace RadJAV
 						appObject->setInputMode(CPP::MUI::Textbox::InputMode::Password);
 						break;
 					default:
-						JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Unsupported InputMode");
+						V8_JAVASCRIPT_ENGINE->throwException("Unsupported InputMode");
 				}
-				return undefined;
-				 */
 			}
 			
 			void Textbox::getInputMode(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				/* TODO: add implementation
-				JSValueRef undefined = JSValueMakeUndefined(ctx);
-				
-				CppMuiObject *appObject = (CppMuiObject*)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
-				
+				CppMuiObject *appObject = (CppMuiObject*)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+
 				if (!appObject)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Textbox not initialized");
-					return undefined;
+					V8_JAVASCRIPT_ENGINE->throwException("Textbox not initialized");
+
+					return;
 				}
-				
+
 				auto inputMode = appObject->getInputMode();
-				
+
 				switch (inputMode)
 				{
 					case CPP::MUI::Textbox::InputMode::Number:
-						return JSValueMakeNumber(ctx, 2.0);
+						args.GetReturnValue().Set(2);
 					case CPP::MUI::Textbox::InputMode::Decimal:
-						return JSValueMakeNumber(ctx, 3.0);
+						args.GetReturnValue().Set(3);
 					case CPP::MUI::Textbox::InputMode::Phone:
-						return JSValueMakeNumber(ctx, 4.0);
+						args.GetReturnValue().Set(4);
 					case CPP::MUI::Textbox::InputMode::Email:
-						return JSValueMakeNumber(ctx, 5.0);
+						args.GetReturnValue().Set(5);
 					case CPP::MUI::Textbox::InputMode::Password:
-						return JSValueMakeNumber(ctx, 6.0);
+						args.GetReturnValue().Set(6);
 					case CPP::MUI::Textbox::InputMode::Text:
 					default:
-						return JSValueMakeNumber(ctx, 1.0);
+						args.GetReturnValue().Set(1);
 				}
-				 */
 			}
 		}
 	}
