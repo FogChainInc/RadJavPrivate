@@ -48,6 +48,12 @@ namespace RadJAV
                 
                 JSC_CALLBACK(object, "setIsDeletable", TableCellModel::setIsDeletable);
                 JSC_CALLBACK(object, "getIsDeletable", TableCellModel::getIsDeletable);
+                
+                JSC_CALLBACK(object, "setIsHeader", TableCellModel::setIsHeader);
+                JSC_CALLBACK(object, "getIsHeader", TableCellModel::getIsHeader);
+                
+                JSC_CALLBACK(object, "setIsFooter", TableCellModel::setIsFooter);
+                JSC_CALLBACK(object, "getIsFooter", TableCellModel::getIsFooter);
             }
 			JSValueRef TableCellModel::create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
 			{
