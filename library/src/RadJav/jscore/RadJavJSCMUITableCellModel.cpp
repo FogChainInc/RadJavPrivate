@@ -35,7 +35,7 @@ namespace RadJAV
 			
             void TableCellModel::createJSCCallbacks(JSContextRef context, JSObjectRef object)
             {
-                JSC_CALLBACK(object, "create", TableCellModel::create);
+                JSC_CALLBACK(object, "init", TableCellModel::init);
                 
                 JSC_CALLBACK(object, "setUsesAccessoryButton", TableCellModel::setUsesAccessoryButton);
                 JSC_CALLBACK(object, "getUsesAccessoryButton", TableCellModel::getUsesAccessoryButton);
@@ -55,7 +55,7 @@ namespace RadJAV
                 JSC_CALLBACK(object, "setIsFooter", TableCellModel::setIsFooter);
                 JSC_CALLBACK(object, "getIsFooter", TableCellModel::getIsFooter);
             }
-			JSValueRef TableCellModel::create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+			JSValueRef TableCellModel::init(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
 			{
 				CppMuiObject *appObject = RJNEW CppMuiObject(JSC_JAVASCRIPT_ENGINE, thisObject, argumentCount, arguments);
 				appObject->create();
