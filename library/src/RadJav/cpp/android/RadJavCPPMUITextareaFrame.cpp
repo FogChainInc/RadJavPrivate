@@ -25,9 +25,34 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
+			jclass TextareaFrame::nativeEditTextClass = nullptr;
+
+			jmethodID TextareaFrame::nativeConstructor = nullptr;
+			jmethodID TextareaFrame::nativeSetText = nullptr;
+			jmethodID TextareaFrame::nativeGetText = nullptr;
+
 			TextareaFrame::TextareaFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
 			{
-				//TODO: Add implementation
+				if (!nativeEditTextClass)
+				{
+					Jni& jni = Jni::instance();
+					JNIEnv* env = jni.getJniEnv();
+
+					nativeEditTextClass = jni.findClass("android/widget/EditText");
+
+					nativeConstructor = env->GetMethodID(nativeEditTextClass, "<init>", "(Landroid/content/Context;)V");
+					nativeSetText = env->GetMethodID(nativeEditTextClass, "setText", "(Ljava/lang/CharSequence;)V");
+					nativeGetText = env->GetMethodID(nativeEditTextClass, "getText", "()Ljava/lang/CharSequence;");
+				}
+
+				RadJav::runOnUiThreadAsync([&, parent](JNIEnv* env, void* data) {
+					auto layout = wrap_local(env, env->NewObject(nativeEditTextClass, nativeConstructor, RadJav::getJavaApplication()));
+
+					widget = env->NewGlobalRef(layout);
+				});
+
+				if (parent)
+					parent->addChild(this);
 
 				setText(text);
 				setSize(size);
@@ -41,13 +66,23 @@ namespace RadJAV
 			
 			void TextareaFrame::setText(String text)
 			{
-				//TODO: Add implementation
+				RadJav::runOnUiThreadAsync([&, text](JNIEnv* env, void* data) {
+					auto jtext = wrap_local(env, text.toJNIString());
+
+					env->CallNonvirtualVoidMethod(widget, nativeEditTextClass, nativeSetText, jtext.get());
+				});
 			}
 			
 			String TextareaFrame::getText()
 			{
-				//TODO: Add implementation
-				return String();
+				String text;
+
+				RadJav::runOnUiThread([&](JNIEnv* env, void* data) {
+					jobject charSequence = env->CallObjectMethod(widget, nativeGetText);
+					text = parseJNIString(charSequence);
+				});
+
+				return text;
 			}
 			
 			void TextareaFrame::setFont(CPP::Font *font)
@@ -61,25 +96,9 @@ namespace RadJAV
 				return nullptr;
 			}
 			
-			void TextareaFrame::setEnabled(RJBOOL enabled)
-			{
-				//TODO: Add implementation
-			}
-			
-			RJBOOL TextareaFrame::getEnabled()
-			{
-				//TODO: Add implementation
-				return true;
-			}
-			
 			bool TextareaFrame::bindEvent(const String& eventName, const GUI::Event* /*event*/)
 			{
 				return false;
-			}
-
-			jobject TextareaFrame::getNativeWidget()
-			{
-				return widget;
 			}
 		}
 	}

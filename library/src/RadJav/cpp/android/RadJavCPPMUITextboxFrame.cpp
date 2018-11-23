@@ -25,9 +25,43 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
+			jclass TextboxFrame::nativeEditTextClass = nullptr;
+
+			jmethodID TextboxFrame::nativeConstructor = nullptr;
+			jmethodID TextboxFrame::nativeSetText = nullptr;
+			jmethodID TextboxFrame::nativeGetText = nullptr;
+			jmethodID TextboxFrame::nativeSetInputType = nullptr;
+			jmethodID TextboxFrame::nativeGetInputType = nullptr;
+			jmethodID TextboxFrame::nativeSetLines = nullptr;
+
 			TextboxFrame::TextboxFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
 			{
-				//TODO: Add implementation
+				if (!nativeEditTextClass)
+				{
+					Jni& jni = Jni::instance();
+					JNIEnv* env = jni.getJniEnv();
+
+					nativeEditTextClass = jni.findClass("android/widget/EditText");
+
+					nativeConstructor = env->GetMethodID(nativeEditTextClass, "<init>", "(Landroid/content/Context;)V");
+					nativeSetText = env->GetMethodID(nativeEditTextClass, "setText", "(Ljava/lang/CharSequence;)V");
+					nativeGetText = env->GetMethodID(nativeEditTextClass, "getText", "()Ljava/lang/CharSequence;");
+					nativeSetInputType = env->GetMethodID(nativeEditTextClass, "setInputType", "(I)V");
+					nativeGetInputType = env->GetMethodID(nativeEditTextClass, "getInputType", "()I");
+					nativeSetLines = env->GetMethodID(nativeEditTextClass, "setLines", "(I)V");
+				}
+
+				RadJav::runOnUiThreadAsync([&, parent](JNIEnv* env, void* data) {
+					auto layout = wrap_local(env, env->NewObject(nativeEditTextClass, nativeConstructor, RadJav::getJavaApplication()));
+
+					widget = env->NewGlobalRef(layout);
+
+					//One line EditText control
+					env->CallVoidMethod(widget, nativeSetLines, 1);
+				});
+
+				if (parent)
+					parent->addChild(this);
 
 				setText(text);
 				setSize(size);
@@ -41,13 +75,23 @@ namespace RadJAV
 			
 			void TextboxFrame::setText(String text)
 			{
-				//TODO: Add implementation
+				RadJav::runOnUiThreadAsync([&, text](JNIEnv* env, void* data) {
+					auto jtext = wrap_local(env, text.toJNIString());
+
+					env->CallNonvirtualVoidMethod(widget, nativeEditTextClass, nativeSetText, jtext.get());
+				});
 			}
 			
 			String TextboxFrame::getText()
 			{
-				//TODO: Add implementation
-				return String();
+				String text;
+
+				RadJav::runOnUiThread([&](JNIEnv* env, void* data) {
+					jobject charSequence = env->CallObjectMethod(widget, nativeGetText);
+					text = parseJNIString(charSequence);
+				});
+
+				return text;
 			}
 			
 			void TextboxFrame::setFont(CPP::Font *font)
@@ -61,92 +105,67 @@ namespace RadJAV
 				return nullptr;
 			}
 			
-			void TextboxFrame::setEnabled(RJBOOL enabled)
-			{
-				//TODO: Add implementation
-			}
-			
-			RJBOOL TextboxFrame::getEnabled()
-			{
-				//TODO: Add implementation
-				return true;
-			}
-			
 			void TextboxFrame::setInputMode(Textbox::InputMode mode)
 			{
-				//TODO: Add implementation
-				/*
-				UIKeyboardType keyboardType = UIKeyboardTypeDefault;
-				
+				int keyboardType = 0x01; //TYPE_CLASS_TEXT
+
 				switch (mode)
 				{
 					case Textbox::InputMode::Text:
-						keyboardType = UIKeyboardTypeDefault;
+						keyboardType = 0x01; //TYPE_CLASS_TEXT
 						break;
 					case Textbox::InputMode::Number:
-						keyboardType = UIKeyboardTypeNumberPad;
+						keyboardType = 0x02; //TYPE_CLASS_NUMBER
 						break;
 					case Textbox::InputMode::Decimal:
-						keyboardType = UIKeyboardTypeDecimalPad;
+						keyboardType = 0x02 | 0x2000; //TYPE_CLASS_NUMBER | TYPE_NUMBER_FLAG_DECIMAL
 						break;
 					case Textbox::InputMode::Phone:
-						keyboardType = UIKeyboardTypePhonePad;
+						keyboardType = 0x03; //TYPE_CLASS_PHONE
 						break;
 					case Textbox::InputMode::Email:
-						keyboardType = UIKeyboardTypeEmailAddress;
+						keyboardType = 0x02 | 0x20; //TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_EMAIL_ADDRESS
 						break;
 					case Textbox::InputMode::Password:
-						[widget setSecureTextEntry:true];
+						keyboardType = 0x02 | 0x80; //TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_PASSWORD
 						return;
 					default:;
 				}
 
-				if (widget.keyboardType != keyboardType)
-					widget.keyboardType = keyboardType;
-				 */
+				RadJav::runOnUiThreadAsync([&, mode, keyboardType](JNIEnv* env, void* data) {
+					env->CallVoidMethod(widget, nativeSetInputType, keyboardType);
+				});
 			}
 			
 			Textbox::InputMode TextboxFrame::getInputMode() const
 			{
-				//TODO: Add implementation
-				/*
-				if ([widget isSecureTextEntry])
-					return Textbox::InputMode::Password;
-				
-				switch (widget.keyboardType)
+				int keyboardType;
+
+				RadJav::runOnUiThread([&](JNIEnv* env, void* data) {
+					keyboardType = env->CallIntMethod(widget, nativeGetInputType);
+				});
+
+				switch (keyboardType)
 				{
-					case UIKeyboardTypeNumberPad:
-					case UIKeyboardTypeNumbersAndPunctuation:
+					case 0x02: //TYPE_CLASS_NUMBER
 						return Textbox::InputMode::Number;
-					case UIKeyboardTypeDecimalPad:
+					case 0x02 | 0x2000: //TYPE_CLASS_NUMBER | TYPE_NUMBER_FLAG_DECIMAL
 						return Textbox::InputMode::Decimal;
-					case UIKeyboardTypePhonePad:
+					case 0x03: //TYPE_CLASS_PHONE
 						return Textbox::InputMode::Phone;
-					case UIKeyboardTypeEmailAddress:
+					case 0x02 | 0x20: //TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_EMAIL_ADDRESS
 						return Textbox::InputMode::Email;
-					case UIKeyboardTypeDefault:
-					case UIKeyboardTypeASCIICapable:
-					case UIKeyboardTypeURL:
-					case UIKeyboardTypeNamePhonePad:
-					case UIKeyboardTypeASCIICapableNumberPad:
-					case UIKeyboardTypeWebSearch:
-					case UIKeyboardTypeTwitter:
+					case 0x02 | 0x80: //TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_PASSWORD
+						return Textbox::InputMode::Password;
+					case 0x01: //TYPE_CLASS_TEXT
 					default:
 						return Textbox::InputMode::Text;
 				}
-				 */
-
-				return Textbox::InputMode::Text;
 			}
 
 			bool TextboxFrame::bindEvent(const String& eventName, const GUI::Event* /*event*/)
 			{
 				//TODO: Add implementation
-			}
-
-			jobject TextboxFrame::getNativeWidget()
-			{
-				return widget;
 			}
 		}
 	}
