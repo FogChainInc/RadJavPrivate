@@ -128,8 +128,9 @@ namespace RadJAV
 						break;
 					case Textbox::InputMode::Password:
 						keyboardType = 0x01 | 0x80; //TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_PASSWORD
-						return;
-					default:;
+                        break;
+					default:
+					    break;
 				}
 
 				RadJav::runOnUiThreadAsync([&, mode, keyboardType](JNIEnv* env, void* data) {
