@@ -124,10 +124,10 @@ namespace RadJAV
 						keyboardType = 0x03; //TYPE_CLASS_PHONE
 						break;
 					case Textbox::InputMode::Email:
-						keyboardType = 0x02 | 0x20; //TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+						keyboardType = 0x01 | 0x20; //TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_EMAIL_ADDRESS
 						break;
 					case Textbox::InputMode::Password:
-						keyboardType = 0x02 | 0x80; //TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_PASSWORD
+						keyboardType = 0x01 | 0x80; //TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_PASSWORD
 						return;
 					default:;
 				}
