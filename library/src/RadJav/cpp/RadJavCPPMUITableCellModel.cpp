@@ -40,15 +40,14 @@ namespace RadJAV
 			#endif
             #ifdef USE_JAVASCRIPTCORE
                 TableCellModel::TableCellModel(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[])
-                	: GObject(jsEngine, thisObj, numArgs, args)
                 {
                     isHeader = false;
                     isFooter = false;
+                    name = jsEngine->jscGetString(thisObj, "name");
                 }
             #endif
 
 			TableCellModel::TableCellModel(String name, String text, CPP::GUI::GObject *parent)
-				: GObject(name, text, parent)
 			{
 			}
 

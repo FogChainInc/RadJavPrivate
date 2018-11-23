@@ -36,6 +36,7 @@ namespace RadJAV
             void TableCellModel::createJSCCallbacks(JSContextRef context, JSObjectRef object)
             {
                 JSC_CALLBACK(object, "init", TableCellModel::init);
+                JSC_CALLBACK(object, "on", TableCellModel::on);
                 
                 JSC_CALLBACK(object, "setUsesAccessoryButton", TableCellModel::setUsesAccessoryButton);
                 JSC_CALLBACK(object, "getUsesAccessoryButton", TableCellModel::getUsesAccessoryButton);
@@ -66,6 +67,18 @@ namespace RadJAV
 				
 				return promise;
 			}
+            
+            JSValueRef TableCellModel::on(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+            {
+                String event = parseJSCValue(ctx, arguments[0]);
+                JSObjectRef func2 = JSC_JAVASCRIPT_ENGINE->jscCastValueToObject(ctx, arguments[1]);
+                CppMuiObject *appObject = (CppMuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+                
+                if (appObject != NULL)
+                    appObject->on(event, func2);
+                
+                return JSValueMakeUndefined(ctx);
+            }
             
             JSValueRef TableCellModel::getUsesAccessoryButton(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
             {

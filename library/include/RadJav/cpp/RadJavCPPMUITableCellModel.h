@@ -42,7 +42,7 @@
 		{
 			namespace MUI
 			{
-				class RADJAV_EXPORT TableCellModel : public GUI::GObject
+                class RADJAV_EXPORT TableCellModel : public CPP::ChainedPtr
 				{
 					public:
 						#ifdef USE_V8
@@ -52,7 +52,9 @@
                             TableCellModel(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
                         #endif
 						TableCellModel(String name, String text = "", CPP::GUI::GObject *parent = NULL);
-
+                    
+                        String name;
+                    
 						void create();
                         bool getUsesAccessoryButton();
                         void setUsesAccessoryButton(bool value);
