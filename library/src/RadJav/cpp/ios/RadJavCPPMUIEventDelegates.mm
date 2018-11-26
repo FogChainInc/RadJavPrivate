@@ -170,23 +170,6 @@
 //
 //}
 
-
-- (bool)bindEvent:(nullable id)nativeWidget eventName:(const std::string&)eventName
-{
-    if (eventName == "click")
-    {
-        //[nativeWidget removeTarget:self action:@selector(touchUp) forControlEvents:UIControlEventTouchUpInside];
-       // [nativeWidget addTarget:self action:@selector(touchUp) forControlEvents:UIControlEventTouchUpInside];
-        
-        return true;
-    }
-    
-    return false;
-}
-
-
-
-
 - (std::vector<RadJAV::CPP::MUI::TableCellModel *>*)cellsInSection:(NSInteger)section
 {
     return &self.model->cells->at(section);
@@ -199,9 +182,7 @@
     RadJAV::CPP::MUI::TableCellModel * model = self.model->models->at(indexPath.row);
     
     model->setIsSelected(true);
-	
-	//TODO: Refactor MUITableCellModel
-    //model->executeEvent("click");
+    model->nativeImplementation->executeEvent("click");
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
@@ -222,8 +203,7 @@
 {
     RadJAV::CPP::MUI::TableCellModel * model = self.model->models->at(indexPath.row);
 	
-	//TODO: Refactor MUITableCellModel
-	//model->executeEvent("delete");
+	model->nativeImplementation->executeEvent("delete");
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(nonnull NSIndexPath *)indexPath
@@ -231,7 +211,7 @@
     RadJAV::CPP::MUI::TableCellModel * model = self.model->models->at(indexPath.row);
 	
 	//TODO: Refactor MUITableCellModel
-	//model->executeEvent("accessory_click");
+	model->nativeImplementation->executeEvent("accessory_click");
 }
 
 //@end
@@ -259,7 +239,7 @@
 {
     std::vector<RadJAV::CPP::MUI::TableCellModel *>* section = [self cellsInSection:indexPath.section];
     RadJAV::CPP::MUI::TableCellModel * model = section->at(indexPath.row);
-    model->widgetDelegate = self;
+    model->nativeImplementation->widgetDelegate = self;
     UITableViewCell *cell = nil;//[tableView dequeueReusableCellWithIdentifier:@"identifier"];//tableView.dequeueReusableCell(withIdentifier: "LabelCell", for: indexPath)
     
     if (cell == nil){

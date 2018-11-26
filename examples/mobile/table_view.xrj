@@ -41,6 +41,15 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
                        		headerModel.setIsHeader(true);
                        		array.push(headerModel);
 
+
+							var cell1 = new RadJav.MUI.TableCellModel("text111","subtitle");
+
+                       			
+                       		cell1.on ("click", function ()
+                            {
+                                alert ("Selected cell1");
+                            });
+                            array.push(cell1);
                        		
                        		var i;
 							for (i = 0; i < 5; i++) { 

@@ -42,6 +42,26 @@
 		{
 			namespace MUI
 			{
+                class RADJAV_EXPORT TableCellModelFrame : public GUI::GObjectEvents
+                {
+                public:
+                    TableCellModelFrame();
+                    ~TableCellModelFrame();
+  
+                    bool bindEvent(const String& eventName,const GUI::Event* evt);
+                   
+                    #ifdef USE_IOS
+                        TableViewDelegate* widgetDelegate;
+                    #endif
+                    void addNewEvent(String event,
+#ifdef USE_V8
+                                                          v8::Local<v8::Function> func
+#elif defined USE_JAVASCRIPTCORE
+                                                          JSObjectRef func
+#endif
+                    );
+                };
+                
                 class RADJAV_EXPORT TableCellModel : public CPP::ChainedPtr
 				{
 					public:
@@ -54,8 +74,6 @@
 						TableCellModel(String name, String text = "", CPP::GUI::GObject *parent = NULL);
                     
                         String name;
-                    
-						void create();
                         bool getUsesAccessoryButton();
                         void setUsesAccessoryButton(bool value);
                         bool getUsesCheckmark();
@@ -69,24 +87,16 @@
                         bool getIsFooter();
                         void setIsFooter(bool value);
 
-                        bool bindEvent(const String& eventName, const GUI::Event* event);
-
-						#ifdef USE_IOS
-                    		UIView* getNativeWidget();
-						#elif defined USE_ANDROID
-                    		jobject getNativeWidget();
-						#endif
-                    
 						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
                         	/// Execute when an event is triggered.
                         	void on(String event, RJ_FUNC_TYPE func);
 						#endif
 
 						#ifdef USE_IOS
-							UITableView* widget;
-							TableViewDelegate* widgetDelegate;
+                            TableCellModelFrame *nativeImplementation;
 						#elif defined USE_ANDROID
-							jobject widget;
+                            //TODO:add Android native implementation?
+							//TableCellModelFrame *nativeImplementation;
 						#endif
 
 					private:
