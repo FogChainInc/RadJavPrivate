@@ -20,12 +20,14 @@
 package com.fogchain.radjavvm;
 
 import android.view.View;
+import android.widget.CompoundButton;
 
 import java.nio.ByteBuffer;
 
 //TODO: Implement other interfaces
 public class UiEventListener implements View.OnClickListener,
-                                        View.OnLongClickListener
+                                        View.OnLongClickListener,
+                                        android.widget.CompoundButton.OnCheckedChangeListener
 {
     static {
         System.loadLibrary("RadJavWrapper");
@@ -51,4 +53,9 @@ public class UiEventListener implements View.OnClickListener,
     private native boolean RadJavUiEvent(ByteBuffer data, Object... args);
 
     private ByteBuffer _data;
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        RadJavUiEvent(_data);
+    }
 }
