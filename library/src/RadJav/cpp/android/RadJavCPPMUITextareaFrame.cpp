@@ -79,7 +79,7 @@ namespace RadJAV
 
 				RadJav::runOnUiThread([&](JNIEnv* env, void* data) {
 					jobject charSequence = env->CallObjectMethod(widget, nativeGetText);
-					text = parseJNIString(charSequence);
+					text = parseJNICharSequence(charSequence);
 				});
 
 				return text;

@@ -17,6 +17,7 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+#include <android/Utils.h>
 #include "cpp/RadJavCPPMUIImage.h"
 
 namespace RadJAV
@@ -25,19 +26,70 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
+			jclass ImageFrame::nativeImageViewClass = nullptr;
+
+			jmethodID ImageFrame::nativeConstructor = nullptr;
+			jmethodID ImageFrame::nativeSetImageBitmap = nullptr;
+			jmethodID ImageFrame::nativeSetScaleType = nullptr;
+			jmethodID ImageFrame::nativeGetScaleType = nullptr;
+
 			ImageFrame::ImageFrame(GUI::GObjectWidget *parent, const String &imageFile, const Vector2 &pos, const Vector2 &size)
 			{
-				//TODO: Add implementation
+				if (!nativeImageViewClass)
+				{
+					Jni& jni = Jni::instance();
+					JNIEnv* env = jni.getJniEnv();
+
+					nativeImageViewClass = jni.findClass("android/widget/ImageView");
+
+					nativeConstructor = env->GetMethodID(nativeImageViewClass, "<init>", "(Landroid/content/Context;)V");
+					nativeSetImageBitmap = env->GetMethodID(nativeImageViewClass, "setImageBitmap", "(Landroid/graphics/Bitmap;)V");
+					nativeSetScaleType = env->GetMethodID(nativeImageViewClass, "setScaleType", "(Landroid/widget/ImageView/ScaleType;)V");
+					nativeGetScaleType = env->GetMethodID(nativeImageViewClass, "getScaleType", "()Landroid/widget/ImageView/ScaleType;");
+				}
+
+				RadJav::runOnUiThreadAsync([&, parent](JNIEnv* env, void* data) {
+					auto layout = wrap_local(env, env->NewObject(nativeImageViewClass, nativeConstructor, RadJav::getJavaApplication()));
+
+					widget = env->NewGlobalRef(layout);
+				});
+
+				if (parent)
+					parent->addChild(this);
 
 				setSize(size);
 				setPosition(pos);
-				
-				loadImage(imageFile);
+
+				if (imageFile.size())
+					loadImage(imageFile);
 			}
 			
 			ImageFrame::ImageFrame(GUI::GObjectWidget *parent, const Vector2 &pos, const Vector2 &size)
 			{
-				//TODO: Add implementation
+				if (!nativeImageViewClass)
+				{
+					Jni& jni = Jni::instance();
+					JNIEnv* env = jni.getJniEnv();
+
+					nativeImageViewClass = jni.findClass("android/widget/ImageView");
+
+					nativeConstructor = env->GetMethodID(nativeImageViewClass, "<init>", "(Landroid/content/Context;)V");
+					nativeSetImageBitmap = env->GetMethodID(nativeImageViewClass, "setImageBitmap", "(Landroid/graphics/Bitmap;)V");
+					nativeSetScaleType = env->GetMethodID(nativeImageViewClass, "setScaleType", "(Landroid/widget/ImageView$ScaleType;)V");
+					nativeGetScaleType = env->GetMethodID(nativeImageViewClass, "getScaleType", "()Landroid/widget/ImageView$ScaleType;");
+				}
+
+				RadJav::runOnUiThreadAsync([&, parent](JNIEnv* env, void* data) {
+					auto layout = wrap_local(env, env->NewObject(nativeImageViewClass, nativeConstructor, RadJav::getJavaApplication()));
+
+					widget = env->NewGlobalRef(layout);
+				});
+
+				if (parent)
+					parent->addChild(this);
+
+				setSize(size);
+				setPosition(pos);
 
 				setSize(size);
 				setPosition(pos);
@@ -50,59 +102,86 @@ namespace RadJAV
 			
 			RJBOOL ImageFrame::loadImage(const String& imageFile)
 			{
-				//TODO: Add implementation
-//				if (image)
-//				{
-//					//Do we need to release old one?
-//					[widget setImage:nil];
-//					image = nullptr;
-//				}
-//
-//				NSString *path = [NSString stringWithUTF8String:imageFile.c_str()];
-//
-//				/* Temporarily, for testing
-//				NSString *docDirPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)objectAtIndex:0];
-//				NSMutableString *path = [NSMutableString stringWithString:docDirPath];
-//				[path appendString:@"/christmas-tree.png"];
-//				 */
-//
-//				image = [UIImage imageWithContentsOfFile:path];
-//
-//				[widget setImage:image];
-//
-//				return image;
-				return false;
+				Jni& jni = Jni::instance();
+				JNIEnv* env = jni.getJniEnv();
+
+				jclass bitmapFactoryClass = jni.findClass("android/graphics/BitmapFactory");
+
+				jmethodID decodeFileMethod = env->GetStaticMethodID(bitmapFactoryClass, "decodeFile", "(Ljava/lang/String;)Landroid/graphics/Bitmap;");
+
+				auto imagePathJava = wrap_local(env, env->NewStringUTF(imageFile.c_str()));
+
+				jobject bitmap = env->CallStaticObjectMethod(bitmapFactoryClass, decodeFileMethod, imagePathJava.get());
+
+				if (AndroidUtils::IsNull(bitmap))
+					return false;
+
+				bitmap = env->NewGlobalRef(bitmap);
+
+				RadJav::runOnUiThreadAsync([&, bitmap](JNIEnv* env, void* data) {
+					env->CallVoidMethod(widget, nativeSetImageBitmap, bitmap);
+					env->DeleteGlobalRef(bitmap);
+				});
+
+				return true;
 			}
 			
 			void ImageFrame::setScaleMode(Image::ScaleMode mode)
 			{
-				switch (mode)
-				{
-					case Image::ScaleMode::AspectFit:
-						//TODO: add implementation
-						break;
-					case Image::ScaleMode::AspectFill:
-						//TODO: add implementation
-						break;
-					default:;
-				}
+				RadJav::runOnUiThreadAsync([&, mode](JNIEnv* env, void*) {
+					Jni& jni = Jni::instance();
+
+					jclass scaleTypeClass = jni.findClass("android/widget/ImageView$ScaleType");
+
+					switch (mode)
+					{
+						case Image::ScaleMode::AspectFit:
+						{
+							jfieldID center_inside = env->GetStaticFieldID(scaleTypeClass,
+																		   "CENTER_INSIDE",
+																		   "Landroid/widget/ImageView$ScaleType;");
+
+							auto centerInsideValue = wrap_local(env, env->GetStaticObjectField(scaleTypeClass, center_inside));
+							env->CallVoidMethod(widget, nativeSetScaleType, centerInsideValue.get());
+
+							break;
+						}
+						case Image::ScaleMode::AspectFill:
+						{
+							jfieldID center_crop = env->GetStaticFieldID(scaleTypeClass,
+																		 "CENTER_CROP",
+																		 "Landroid/widget/ImageView$ScaleType;");
+
+							auto centerCropValue = wrap_local(env, env->GetStaticObjectField(scaleTypeClass, center_crop));
+							env->CallVoidMethod(widget, nativeSetScaleType,centerCropValue.get());
+
+							break;
+						}
+						default:;
+					}
+				});
 			}
 
 			Image::ScaleMode ImageFrame::getScaleMode() const
 			{
-				//TODO: add implementation
+				Image::ScaleMode scaleMode = Image::ScaleMode::AspectFit;
 
-				/*
-				switch (widget.contentMode)
-				{
-					case UIViewContentModeScaleAspectFill:
-						return Image::ScaleMode::AspectFill;
-					case UIViewContentModeScaleAspectFit:
-					default:
-						return Image::ScaleMode::AspectFit;
-				}*/
+				RadJav::runOnUiThread([&](JNIEnv* env, void* data) {
+					auto scaleModeJava = wrap_local(env, env->CallObjectMethod(widget, nativeGetScaleType));
 
-				return Image::ScaleMode::AspectFit;
+					String scaleModeStr = AndroidUtils::EnumValueToString("android/widget/ImageView$ScaleType", scaleModeJava);
+
+					if (scaleModeStr == "CENTER_CROP")
+					{
+						scaleMode = Image::ScaleMode::AspectFill;
+					}
+					else if (scaleModeStr == "CENTER_INSIDE")
+					{
+						scaleMode = Image::ScaleMode::AspectFit;
+					}
+				});
+
+				return scaleMode;
 			}
 			
 			bool ImageFrame::bindEvent(const String& eventName, const GUI::Event* /*event*/)
@@ -110,11 +189,6 @@ namespace RadJAV
 				//TODO: do we need to handle UIImageView events?
 				//return [widgetDelegate bindEvent:widget eventName:eventName];
 				return false;
-			}
-
-			jobject ImageFrame::getNativeWidget()
-			{
-				return widget;
 			}
 		}
 	}

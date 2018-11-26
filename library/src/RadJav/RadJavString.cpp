@@ -432,7 +432,7 @@ namespace RadJAV
 #endif
 
 #ifdef USE_ANDROID
-	String parseJNIString(jobject charSequence)
+	String parseJNICharSequence(jobject charSequence)
 	{
 		//We assume that everyone on Java side implement CharSequence interface correctly
 		//so toString method will return String with corresponding chars from CharSequence
@@ -444,10 +444,19 @@ namespace RadJAV
 		static jmethodID toString = env->GetMethodID(charSequenceClass, "toString", "()Ljava/lang/String;");
 
 		auto javaString = wrap_local(env, env->CallObjectMethod(charSequence, toString));
-		const char* tempCharSequence = env->GetStringUTFChars(static_cast<jstring>(javaString.get()), NULL);
-		std::string ret = tempCharSequence;
 
-		env->ReleaseStringUTFChars(static_cast<jstring>(javaString.get()), tempCharSequence);
+		return parseJNIString( static_cast<jstring>(javaString.get()));
+	}
+
+	String parseJNIString(jstring str)
+	{
+		Jni& jni = Jni::instance();
+		JNIEnv* env = jni.getJniEnv();
+
+		const char* tempString = env->GetStringUTFChars(str, NULL);
+		String ret(tempString);
+
+		env->ReleaseStringUTFChars(str, tempString);
 
 		return ret;
 	}
