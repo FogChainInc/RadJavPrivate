@@ -175,12 +175,12 @@ jniCreate.on ("first", function (output: GeneratorOutput)
 jniCreate.on ("start", function ()
 	{
 		let content = `
-		if (!nativeButtonClass)
+		if (!native%jniType%Class)
 		{
 			Jni& jni = Jni::instance();
 			JNIEnv* env = jni.getJniEnv();
 
-			nativeButtonClass = jni.findClass("android/widget/Button");
+			native%jniType%Class = jni.findClass("android/widget/Button");
 			nativeConstructor = env->GetMethodID(nativeButtonClass, "<init>", "(Landroid/content/Context;)V");`;
 
 		return (content);
