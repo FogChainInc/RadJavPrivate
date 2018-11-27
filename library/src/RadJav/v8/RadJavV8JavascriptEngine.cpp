@@ -139,8 +139,11 @@
 #include "cpp/RadJavCPPOS.h"
 
 #include <cstring>
-#include <android/RadJavAndroid.h>
 #include "cpp/RadJavCPPAgent.h"
+
+#ifdef USE_ANDROID
+	#include <android/RadJavAndroid.h>
+#endif
 
 namespace RadJAV
 {
