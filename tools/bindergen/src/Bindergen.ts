@@ -28,7 +28,7 @@ export class Bindergen
 	/// Get a command line argument.
 	static getArg (arg: string): string
 	{
-		return (this.args[arg]);
+		return (this.args["--" + arg]);
 	}
 
 	/// Add a generator.
@@ -46,11 +46,11 @@ export class Bindergen
 	}
 
 	/// Start generating.
-	static generate (config: any): void
+	static generate (): void
 	{
-		for (let iIdx = 0; iIdx < config.files.length; iIdx++)
+		for (let iIdx = 0; iIdx < Bindergen.config.files.length; iIdx++)
 		{
-			let file: string = path.normalize (config.root + "/" + config.files[iIdx]);
+			let file: string = path.normalize (Bindergen.config.root + "/" + Bindergen.config.files[iIdx]);
 
 			try
 			{

@@ -4,7 +4,7 @@
 		"RadJav.js"
 	], 
 	"files": [
-			"RadJav.GUI.GObject.js", 
-			"RadJav.GUI.Button.js"
+			"library/gen/RadJav.GUI.GObject.js", 
+			"library/gen/RadJav.GUI.Button.js"
 		]
 }

@@ -1,8 +1,59 @@
+/// Show an error.
 export function showError (err: string): void
 {
 	console.error (err);
 }
 
+/// Keep a context.
+export function keepContext(func: Function, context: object, val?: any): any
+{
+	let objReturn = function ()
+		{
+			let aryArgs = Array.prototype.slice.call(arguments);
+
+			if (val != undefined)
+				aryArgs.push(val);
+
+			if (context == null)
+				return func.apply(this, aryArgs);
+			else
+				return func.apply(context, aryArgs);
+		};
+
+	return objReturn;
+}
+
+/// Remove all whitespaces from a string.
+export function removeWhitespaces (str: string): string
+{
+	str = str.replace (/\s/g, "");
+
+	return (str);
+}
+
+/// Remove all content between two positions in a string.
+export function removeStringBetween (str: string, start: number, end: number): string
+{
+	let temp: string = str.substring (0, start);
+	temp += str.substring (end);
+
+	return (temp);
+}
+
+/// Insert a string at a position.
+export function insertString (original: string, insert: string, index: number): string
+{
+	let temp: string = "";
+	let temp2: string = original.substring (index);
+
+	temp = original.substring (0, index);
+	temp += insert;
+	temp += temp2;
+
+	return (temp);
+}
+
+/// Get a command line keyword. For example --keyword
 export function getCommandLineArgKeyword (arg: string): string
 {
 	let start: number = arg.indexOf ("=");
@@ -14,6 +65,7 @@ export function getCommandLineArgKeyword (arg: string): string
 	return (value);
 }
 
+/// Get the value associated with a command line keyword. For example --keyword=value
 export function getCommandLineArgValue (arg: string): string
 {
 	let start: number = arg.indexOf ("=");
@@ -43,6 +95,7 @@ export function getCommandLineArgValue (arg: string): string
 	return (value);
 }
 
+/// Handle the command line arguments.
 export function commandLine (commands: any[]): void
 {
 	var helpHeader = `Bindergen

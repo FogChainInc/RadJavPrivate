@@ -8,14 +8,18 @@ function build (configPath): void
 {
 	let parentDir: string = path.dirname (configPath);
 	let configStr: string = fs.readFileSync (configPath).toString ();
-	config = JSON.parse (configStr);
 
-	if ((config.root == undefined) || (config.root == ""))
-		config.root = parentDir;
+	if (Bindergen.config.root != "")
+		parentDir = Bindergen.config.root;
 
-	for (let iIdx = 0; iIdx < config.generators.length; iIdx++)
+	Bindergen.config = JSON.parse (configStr);
+
+	if ((Bindergen.config.root == undefined) || (Bindergen.config.root == ""))
+		Bindergen.config.root = parentDir;
+
+	for (let iIdx = 0; iIdx < Bindergen.config.generators.length; iIdx++)
 	{
-		let generatorPath: string = config.generators[iIdx];
+		let generatorPath: string = Bindergen.config.generators[iIdx];
 		
 		try
 		{
@@ -51,7 +55,7 @@ function build (configPath): void
 		}
 	}
 
-	Bindergen.generate (config);
+	Bindergen.generate ();
 }
 
 const commands = [
@@ -81,7 +85,7 @@ const commands = [
 		help: "", 
 		evt: function (args)
 			{
-				config.root = args;
+				Bindergen.config.root = args;
 			}
 	}
 ];
