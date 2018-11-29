@@ -26,6 +26,11 @@
     #import <UIKit/UIKit.h>
 #endif
 
+#ifdef USE_ANDROID
+	#include "android/RadJavAndroid.h"
+	#include "android/Utils.h"
+#endif
+
 #ifdef USE_JAVASCRIPTCORE
     #include "jscore/RadJavJSCJavascriptEngine.h"
 #endif
@@ -163,7 +168,64 @@ namespace RadJAV
                     info.width = screenRect.size.width;
                     info.height = screenRect.size.height;
                     info.scale = screen.scale;
-                #else
+				#elif defined USE_ANDROID
+                    RadJav::runOnUiThread([&](JNIEnv* env, void* data) {
+                    	/* Java example
+						Application app = getApplication();
+
+						WindowManager win_manager = (WindowManager) app.getSystemService(Context.WINDOW_SERVICE);
+
+						Display display = win_manager.getDefaultDisplay();
+
+						DisplayMetrics metrics = new DisplayMetrics();
+
+						display.getMetrics(metrics);
+
+                    	//Actual values
+                    	metrics.widthPixels;
+                    	metrics.heightPixels;
+                    	 */
+
+                    	Jni& jni = Jni::instance();
+                    	RadJavAndroid* radJavApp = RadJavAndroid::instance();
+                    	jobject appJava = radJavApp->getJavaApplication();
+
+                    	auto appClass = jni.wrapLocalRef(env->GetObjectClass(appJava));
+
+                    	jmethodID getSystemService = env->GetMethodID(appClass, "getSystemService", "(Ljava/lang/String;)Ljava/lang/Object;");
+
+                    	jclass contextClass = jni.findClass("android/content/Context");
+                    	jfieldID window_service = env->GetStaticFieldID(contextClass, "WINDOW_SERVICE", "Ljava/lang/String;");
+                    	auto window_service_str = jni.wrapLocalRef(env->GetStaticObjectField(contextClass, window_service));
+
+                    	auto object = jni.wrapLocalRef(env->CallObjectMethod(appJava, getSystemService, window_service_str.get()));
+
+						auto windowManager = jni.wrapLocalRef(AndroidUtils::Cast(object, "android.view.WindowManager"));
+
+						jclass windowManagerClass = jni.findClass("android/view/WindowManager");
+
+						jmethodID getDefaultDisplay = env->GetMethodID(windowManagerClass, "getDefaultDisplay", "()Landroid/view/Display;");
+
+						auto display = jni.wrapLocalRef(env->CallObjectMethod(windowManager, getDefaultDisplay));
+
+						jclass displayMetricsClass = jni.findClass("android/util/DisplayMetrics");
+						jmethodID displayMetricsConstructor = env->GetMethodID(displayMetricsClass, "<init>", "()V");
+
+						auto displayMetrics = jni.wrapLocalRef(env->NewObject(displayMetricsClass, displayMetricsConstructor));
+
+						auto displayClass = jni.wrapLocalRef(env->GetObjectClass(display));
+
+						jmethodID getMetrics = env->GetMethodID(displayClass, "getMetrics", "(Landroid/util/DisplayMetrics;)V");
+
+						env->CallVoidMethod(display, getMetrics, displayMetrics.get());
+
+						jfieldID widthPixels = env->GetFieldID(displayMetricsClass, "widthPixels", "I");
+						jfieldID heightPixels = env->GetFieldID(displayMetricsClass, "heightPixels", "I");
+
+						info.width = env->GetIntField(displayMetrics, widthPixels);
+						info.height = env->GetIntField(displayMetrics, heightPixels);
+					});
+				#else
 					#warning Add ScreenInfo support
 				#endif
 

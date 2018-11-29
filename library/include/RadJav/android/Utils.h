@@ -49,6 +49,9 @@ namespace RadJAV
 
         ///Check if Java object is null
         bool IsNull(jobject obj);
+
+        ///Cast one java object class to another java object class if possible, use dots instead of slashes in toClass parameter
+        jobject Cast(jobject fromClass, const char* toClass);
     }
 }
 

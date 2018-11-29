@@ -55,5 +55,32 @@ namespace RadJAV
 		{
 			return Jni::instance().getJniEnv()->IsSameObject(obj, nullptr);
 		}
+
+		jobject Cast(jobject fromClass, const char* toClass)
+		{
+			Jni& jni = Jni::instance();
+			JNIEnv* env = jni.getJniEnv();
+
+			jclass clazz = jni.findClass("java/lang/Class");
+			jmethodID forName = env->GetStaticMethodID(clazz, "forName", "(Ljava/lang/String;)Ljava/lang/Class;");
+
+			String destName(toClass);
+			auto destNameJava = jni.wrapLocalRef(destName.toJNIString());
+
+			auto classObject = jni.wrapLocalRef(env->CallStaticObjectMethod(clazz, forName, destNameJava.get()));
+
+			jboolean exception = env->ExceptionCheck();
+			if (exception)
+			{
+				env->ExceptionClear();
+				return nullptr;
+			}
+
+			jmethodID cast = env->GetMethodID(clazz, "cast", "(Ljava/lang/Object;)Ljava/lang/Object;");
+
+			jobject ret = env->CallObjectMethod(classObject, cast, fromClass);
+
+			return ret;
+		}
 	}
 }

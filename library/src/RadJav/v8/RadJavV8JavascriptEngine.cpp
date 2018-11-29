@@ -46,6 +46,7 @@
 #ifdef USE_V8
 	#include "v8/RadJavV8Global.h"
 	#include "v8/RadJavV8OS.h"
+    #include "v8/RadJavV8OSScreenInfo.h"
 	#include "v8/RadJavV8Testing.h"
 
 	#include "v8/RadJavV8Console.h"
@@ -323,12 +324,12 @@ namespace RadJAV
 				executeScript(contentStr, jsfile.filename);
 			}
 
-			loadNativeCode();
-
 			v8::Local<v8::Object> obj = v8GetObject(globalContext->Global(), "RadJav");
 			radJav = RJNEW v8::Persistent<v8::Object>();
 			radJav->Reset(isolate, obj);
-			
+
+			loadNativeCode();
+
 			#ifdef USE_INSPECTOR
 				if (useInspector) {
 					//TODO: move to startInspector
@@ -1221,6 +1222,22 @@ namespace RadJAV
 					v8::Handle<v8::Function> osFunc = v8GetFunction(radJavFunc, "OS");
 
 					V8B::OS::createV8Callbacks(isolate, osFunc);
+
+                    // RadJav.OS.ScreenInfo
+                    {
+                        v8::Handle<v8::Function> screenInfoFunc = v8GetFunction(osFunc, "ScreenInfo");
+
+                        for (RJINT iIdx = 0; iIdx < RadJav::screens.size (); iIdx++)
+                        {
+                            RadJAV::CPP::OS::ScreenInfo screen = RadJav::screens.at (iIdx);
+                            v8::Local<v8::Object> jsScreen = screen.toV8Object();
+							v8::Local<v8::Value> jsScreenVal = v8::Local<v8::Value>::Cast(jsScreen);
+                            v8CallFunction(radJavFunc, "addScreen", 1, &jsScreenVal);
+                        }
+
+                        // This loads only the static functions.
+                        V8B::OS::ScreenInfo::createV8Callbacks(isolate, screenInfoFunc);
+                    }
 
 					// Command line arguments
 					{
