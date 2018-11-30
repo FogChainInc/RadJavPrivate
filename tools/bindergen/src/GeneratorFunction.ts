@@ -1,5 +1,6 @@
 import { GeneratorMap } from "./GeneratorMap";
 import { GeneratorFunctionArgument } from "./GeneratorFunctionArgument";
+import { GeneratorClass } from "./GeneratorClass";
 
 /// A function 
 export class GeneratorFunction
@@ -16,8 +17,15 @@ export class GeneratorFunction
 	public data: string;
 	/// Arguments for this function.
 	public arguments: GeneratorFunctionArgument[];
+	/// The parent class storing this function.
+	public parentClass: GeneratorClass;
+	/** Events. Types can be:
+	 * * generate
+	 *  * Executes when a string is being generated.
+	 */
+	public events: { [name: string]: Function };
 
-	constructor ()
+	constructor (parentClass: GeneratorClass = null)
 	{
 		this.name = "";
 		this.code = "";
@@ -25,5 +33,24 @@ export class GeneratorFunction
 		this.returns = "";
 		this.data = "";
 		this.arguments = [];
+		this.parentClass = parentClass;
+		this.events = {};
+	}
+
+	/// Trigger on an event.
+	on (event: string, func: Function): void
+	{
+		this.events[event] = func;
+	}
+
+	/// Generate a string from this function.
+	generate (): string
+	{
+		let str: string = "";
+
+		if (this.events["generate"] != null)
+			str = this.events["generate"].apply (this, arguments);
+
+		return (str);
 	}
 }

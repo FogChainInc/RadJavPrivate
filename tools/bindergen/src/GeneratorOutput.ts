@@ -3,6 +3,8 @@ export class GeneratorOutput
 {
 	/// The name of this output.
 	public name: string;
+	/// Whether or not this output is ending.
+	public isEnding: boolean;
 	/// The content.
 	public content: string;
 	/// Where to start placing the content.
@@ -36,6 +38,7 @@ export class GeneratorOutput
 	constructor (name: string)
 	{
 		this.name = name;
+		this.isEnding = false;
 		this.content = "";
 		this.start = -1;
 		this.end = -1;

@@ -3,6 +3,8 @@ import * as path from "path";
 import * as utils from "./utils";
 import { Bindergen } from "./Bindergen";
 import { Generator } from "./Generator";
+import * as vm from "vm";
+import * as mod from "module";
 
 function build (configPath): void
 {
@@ -43,7 +45,10 @@ function build (configPath): void
 
 				if (content != "")
 				{
-					let generator: Generator = eval (content);
+					let wrappedContent: string = mod.wrap (content);
+					let genMod: Function = vm.runInThisContext (wrappedContent);
+					genMod (exports, require, module, __filename, __dirname);
+					let generator: Generator = module.exports;
 
 					Bindergen.addGenerator (generator);
 				}

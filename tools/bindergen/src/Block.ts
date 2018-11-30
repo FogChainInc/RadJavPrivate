@@ -13,6 +13,8 @@ export class Block
 	public contents: string;
 	/// The full file content.
 	public fileContent: string;
+	/// The full line.
+	public fullLine: string;
 
 	constructor (start: number, end: number)
 	{
@@ -22,6 +24,7 @@ export class Block
 		this.keywordStart = this.start + `/*^:`.length;
 		this.contents = "";
 		this.fileContent = "";
+		this.fullLine = "";
 	}
 
 	/// Find a block in some content.
@@ -36,6 +39,7 @@ export class Block
 			block = new Block (start, end);
 			block.fileContent = content;
 			block.contents = content.substring (block.keywordStart, end);
+			block.fullLine = content.substring (start, end + 2);
 		}
 	
 		return (block);

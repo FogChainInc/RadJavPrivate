@@ -58,7 +58,6 @@
 	let jniHeaders = AndroidJNI.getOutput ("jniHeaders");
 	let jniCreate = AndroidJNI.getOutput ("jniCreate");
 
-	jni.createKeyword ("jniType", "Button");
-
+	AndroidJNI.createKeyword ("jniType", "Button");
 	AndroidJNI.generate ();
 }())

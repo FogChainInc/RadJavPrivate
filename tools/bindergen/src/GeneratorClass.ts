@@ -8,6 +8,9 @@ export class GeneratorClass
 	/// The name of the class. Can include the namespace as well.
 	/// Example: RadJav.GUI.Button
 	public $name: string;
+	/// The code-friendly name of the class. Does not include the namespace.
+	/// Example: Button
+	public $typeName: string;
 	/// The object this one extends. Can include the namespace.
 	public $extends: string;
 	/// The functions this generator will generate.
@@ -26,6 +29,7 @@ export class GeneratorClass
 		if (typeof obj == "string")
 		{
 			this.$name = (<string>obj);
+			this.$typeName = "";
 			this.$extends = "";
 			this.$functions = [];
 			this.$parseEvents = {};
@@ -37,20 +41,73 @@ export class GeneratorClass
 		{
 			let tempObj: GeneratorClass = (<GeneratorClass>obj);
 
-			this.$name = tempObj.$name;
-			this.$extends = tempObj.$extends;
-			this.$functions = tempObj.$functions;
-			this.$parseEvents = tempObj.$parseEvents;
-			this.$methods = tempObj.$methods;
-			this.$properties = tempObj.$properties;
-			this.$generator = tempObj.$generator;
+			// For the devs who don't want to use the $ in front of the properties.
+			if (tempObj.name != null)
+				this.$name = tempObj.name;
+
+			if (tempObj.typeName != null)
+				this.$typeName = tempObj.typeName;
+
+			if (tempObj.extends != null)
+				this.$extends = tempObj.extends;
+
+			if (tempObj.functions != null)
+				this.$functions = tempObj.functions;
+
+			if (tempObj.parseEvents != null)
+				this.$parseEvents = tempObj.parseEvents;
+
+			if (tempObj.methods != null)
+				this.$methods = tempObj.methods;
+
+			if (tempObj.properties != null)
+				this.$properties = tempObj.properties;
+
+			if (tempObj.generator != null)
+				this.$generator = tempObj.generator;
+
+			if (tempObj.$name != null)
+				this.$name = tempObj.$name;
+
+			if (tempObj.$typeName != null)
+				this.$typeName = tempObj.$typeName;
+
+			if (tempObj.$extends != null)
+				this.$extends = tempObj.$extends;
+
+			if (tempObj.$functions != null)
+				this.$functions = tempObj.$functions;
+
+			if (tempObj.$parseEvents != null)
+				this.$parseEvents = tempObj.$parseEvents;
+
+			if (tempObj.$methods != null)
+				this.$methods = tempObj.$methods;
+
+			if (tempObj.$properties != null)
+				this.$properties = tempObj.$properties;
+
+			if (tempObj.$generator != null)
+				this.$generator = tempObj.$generator;
+		}
+
+		if ((this.$name.indexOf (".") > -1) || (this.$name.indexOf ("/") > -1))
+		{
+			let classes: string[] = GeneratorClass.getClassFromString (this.$name);
+			this.$typeName = classes[classes.length - 1];
 		}
 	}
 
-	/// Get this class's name.
+	/// Get this class's name. Include the namespace.
 	getName (): string
 	{
 		return (this.$name);
+	}
+
+	/// Get this class's typename. Does not include the namespace.
+	getTypeName (): string
+	{
+		return (this.$typeName);
 	}
 
 	/// Get a class and its namespace(s) from a string.
@@ -67,12 +124,29 @@ export class GeneratorClass
 		return (strs);
 	}
 
+	/// Get the full class name using a different separators.
+	getClassUsingSeparator (separator: string): string
+	{
+		let classes: string[] = GeneratorClass.getClassFromString (this.getName());
+		let output: string = "";
+
+		for (let iIdx = 0; iIdx < classes.length; iIdx++)
+		{
+			if (iIdx == (classes.length - 1))
+				output += classes[iIdx];
+			else
+				output += classes[iIdx] + separator;
+		}
+
+		return (output);
+	}
+
 	/// Add a function.
 	addFunction (func: GeneratorFunction): void
 	{
 		this[func.name] = utils.keepContext (function (...args): void
 			{
-				this.$generator.functionCalled (func, args[0]);
+				this.$generator.functionCalled.call (this.$generator, func, args);
 			}, this, [func]);
 		this.$methods[func.name] = func;
 	}

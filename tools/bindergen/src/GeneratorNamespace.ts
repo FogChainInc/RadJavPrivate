@@ -38,6 +38,8 @@ export class GeneratorNamespace
 		this[variableName] = genClass;
 		this.$classes[variableName] = genClass;
 
+		this.$generator.classCreated (genClass, []);
+
 		return (genClass);
 	}
 }

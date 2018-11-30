@@ -23,6 +23,14 @@ export function keepContext(func: Function, context: object, val?: any): any
 	return objReturn;
 }
 
+/// Replace a keyword in a string with a value.
+export function replaceKeyword (content: string, keyword: string, value: string): string
+{
+	content = content.replace (new RegExp (`%${keyword}%`, "g"), value);
+
+	return (content);
+}
+
 /// Remove all whitespaces from a string.
 export function removeWhitespaces (str: string): string
 {
