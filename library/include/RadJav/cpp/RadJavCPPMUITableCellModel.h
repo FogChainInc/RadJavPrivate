@@ -42,14 +42,8 @@
 		{
 			namespace MUI
 			{
-				class RADJAV_EXPORT TableCellModel : public GUI::GObjectWidget
+				class RADJAV_EXPORT TableCellModel : public GUI::GObject
 				{
-                    bool usesAccessoryButton;
-                    bool usesCheckmark;
-                    bool isSelected;
-                    bool isDeletable;
-                    bool isHeader;
-                    bool isFooter;
 					public:
 						#ifdef USE_V8
 							TableCellModel(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
@@ -94,11 +88,12 @@
 						#endif
 
 					private:
-
 						bool usesAccessoryButton;
 						bool usesCheckmark;
 						bool isSelected;
 						bool isDeletable;
+						bool isHeader;
+						bool isFooter;
 				};
 			}
 		}

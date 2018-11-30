@@ -62,7 +62,7 @@ namespace RadJAV
 												,public ChainedPtr
 			{
 			public:
-				WebViewFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size);
+				WebViewFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
 				~WebViewFrame();
 				
 				void setText(String text);

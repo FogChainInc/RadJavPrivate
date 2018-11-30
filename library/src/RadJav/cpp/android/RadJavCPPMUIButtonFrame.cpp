@@ -17,11 +17,11 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+#include <android/Utils.h>
 #include "cpp/RadJavCPPMUIButton.h"
 
 #include "cpp/RadJavCPPMUIView.h"
-#include "android/Utils.h"
-
+#include "RadJavString.h"
 
 namespace RadJAV
 {
@@ -35,7 +35,7 @@ namespace RadJAV
 			jmethodID ButtonFrame::nativeSetText = nullptr;
 			jmethodID ButtonFrame::nativeGetText = nullptr;
 
-			ButtonFrame::ButtonFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size)
+			ButtonFrame::ButtonFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
 			{
 				if (!nativeButtonClass)
 				{
@@ -46,19 +46,17 @@ namespace RadJAV
 
 					nativeConstructor = env->GetMethodID(nativeButtonClass, "<init>", "(Landroid/content/Context;)V");
 					nativeSetText = env->GetMethodID(nativeButtonClass, "setText", "(Ljava/lang/CharSequence;)V");
-					nativeGetText = env->GetMethodID(nativeButtonClass, "getText", "(V)Ljava/lang/CharSequence;");
+					nativeGetText = env->GetMethodID(nativeButtonClass, "getText", "()Ljava/lang/CharSequence;");
 				}
 
-				RadJav::runOnUiThreadAsync([&](JNIEnv* env, void* data) {
+				RadJav::runOnUiThreadAsync([&, parent](JNIEnv* env, void* data) {
 					auto layout = wrap_local(env, env->NewObject(nativeButtonClass, nativeConstructor, RadJav::getJavaApplication()));
 
 					widget = env->NewGlobalRef(layout);
 				});
 
-                GObjectWidget* parentWidget = parent->_appObj;
-
-                //TODO: add to parent
-                //parentWidget->addChild()
+				if (parent)
+					parent->addChild(this);
 
 				setText(text);
 				setSize(size);
@@ -73,7 +71,7 @@ namespace RadJAV
             void ButtonFrame::setText(String text)
             {
             	RadJav::runOnUiThreadAsync([&, text](JNIEnv* env, void* data) {
-					auto jtext = wrap_local(env, env->NewStringUTF(text.c_str()));
+					auto jtext = wrap_local(env, text.toJNIString());
 
 					env->CallNonvirtualVoidMethod(widget, nativeButtonClass, nativeSetText, jtext.get());
             	});
@@ -85,7 +83,7 @@ namespace RadJAV
 
 				RadJav::runOnUiThread([&](JNIEnv* env, void* data) {
 					jobject charSequence = env->CallObjectMethod(widget, nativeGetText);
-					text = utils::CharSequenceToString(charSequence);
+					text = parseJNICharSequence(charSequence);
 				});
 
 				return text;
@@ -112,11 +110,44 @@ namespace RadJAV
 				return GObjectWidget::getEnabled();
 			}
 			
-			bool ButtonFrame::bindEvent(const String& eventName, const GUI::Event* /*event*/)
+			bool ButtonFrame::bindEvent(const String& eventName, const GUI::Event* event)
 			{
-				//TODO: add events handling
+				RadJav::runOnUiThreadAsync([&, eventName, event](JNIEnv* env, void* data) {
+					Jni& jni = Jni::instance();
 
-				return false;
+					GUI::EventData* eventData = new GUI::EventData(this, eventName, (void*)event);
+
+					jclass _class = jni.findClass("android/widget/Button");
+					jclass _eventListenerClass = jni.findClass("com/fogchain/radjavvm/UiEventListener");
+					jmethodID _eventListenerConstructor = env->GetMethodID(_eventListenerClass, "<init>", "(Ljava/nio/ByteBuffer;)V");
+
+					LOGI("%s: %s", __FUNCTION__, eventData->_eventName.c_str());
+
+					if (eventData->_eventName.compare("click") == 0)
+					{
+						jmethodID setOnClickListener = env->GetMethodID(_class, "setOnClickListener", "(Landroid/view/View$OnClickListener;)V");
+
+						auto eventBuffer = jni.wrapLocalRef(env->NewDirectByteBuffer(eventData, sizeof(eventData)));
+						auto listenerInstance = jni.wrapLocalRef(env->NewObject(_eventListenerClass, _eventListenerConstructor, eventBuffer.get()));
+
+						env->CallVoidMethod(widget, setOnClickListener, listenerInstance.get());
+					}
+					else if (eventData->_eventName.compare("longClick") == 0)
+					{
+						jmethodID setOnLongClickListener = env->GetMethodID(_class, "setOnLongClickListener", "(Landroid/view/View$OnLongClickListener;)V");
+
+						auto eventBuffer = jni.wrapLocalRef(env->NewDirectByteBuffer(eventData, sizeof(eventData)));
+						auto listenerInstance = jni.wrapLocalRef(env->NewObject(_eventListenerClass, _eventListenerConstructor, eventBuffer.get()));
+
+						env->CallVoidMethod(widget, setOnLongClickListener, listenerInstance.get());
+					}
+					else
+					{
+						LOGE("%s: undefined event handled in button.onBindEvent [ %s ]", __FUNCTION__, eventData->_eventName.c_str());
+					}
+				});
+
+				return true;
 			}
 		}
 	}

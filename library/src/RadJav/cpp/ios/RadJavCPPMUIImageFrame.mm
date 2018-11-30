@@ -29,13 +29,13 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
-			ImageFrame::ImageFrame(GUI::GObject *parent, const String &imageFile, const Vector2 &pos, const Vector2 &size)
+			ImageFrame::ImageFrame(GUI::GObjectWidget *parent, const String &imageFile, const Vector2 &pos, const Vector2 &size)
 			: widget([[UIImageView alloc] init]),
 			  image(nullptr)
 			{
 				widget.contentMode = UIViewContentModeScaleAspectFit;
 
-				[parent->_appObj->getNativeWidget() addSubview:widget];
+				[parent->getNativeWidget() addSubview:widget];
 				
 				setSize(size);
 				setPosition(pos);
@@ -43,13 +43,13 @@ namespace RadJAV
 				loadImage(imageFile);
 			}
 			
-			ImageFrame::ImageFrame(GUI::GObject *parent, const Vector2 &pos, const Vector2 &size)
+			ImageFrame::ImageFrame(GUI::GObjectWidget *parent, const Vector2 &pos, const Vector2 &size)
 			: widget([[UIImageView alloc] init]),
 			  image(nullptr)
 			{
 				widget.contentMode = UIViewContentModeScaleAspectFit;
 				
-				[parent->_appObj->getNativeWidget() addSubview:widget];
+				[parent->getNativeWidget() addSubview:widget];
 
 				setSize(size);
 				setPosition(pos);

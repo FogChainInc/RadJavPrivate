@@ -1,0 +1,26 @@
+var window;
+var textarea;
+
+RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav.getMUILibrary ()).then (function ()
+{
+	RadJav.runApplication (function ()
+	{
+		var win = new RadJav.MUI.View ("win", "Window Example");
+		win.create ().then (function (win2)
+		{
+			var screenWidth = 400;//= RadJav.getPrimaryScreen ().getWidth ();
+			var screenHeight = 600;//= RadJav.getPrimaryScreen ().getHeight ();
+			window = win2;
+			window.setPosition(0, 0);
+			window.setSize(screenWidth, screenHeight);
+			
+			var txt = new RadJav.MUI.Textarea ("textarea", "", win2);
+			txt.create().then (function (txt2)
+			{
+				textarea = txt2;
+				textarea.setPosition (50, 100);
+				textarea.setSize (200, 100);
+			});
+		});
+	});
+});

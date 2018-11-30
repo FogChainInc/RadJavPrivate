@@ -27,15 +27,15 @@ namespace RadJAV
 	{
 		namespace GUI
 		{
-            GObjectWidget::GObjectWidget ()
-            {
-                _parent = NULL;
-            }
-
-			void GObjectWidget::addChild(GObject *child)
+			GObjectWidget::GObjectWidget()
+			{
+                parent = NULL;
+			}
+			
+			void GObjectWidget::addChild(GObjectWidget *child)
 			{
 				UIView* widget = getNativeWidget();
-				UIView* childObj = child->_appObj->getNativeWidget();
+				UIView* childObj = child->getNativeWidget();
 				[widget addSubview:childObj];
 			}
 			
@@ -117,9 +117,9 @@ namespace RadJAV
 				return String();
 			}
 			
-			GObject* GObjectWidget::getParent()
+			GObjectWidget* GObjectWidget::getParent()
 			{
-                return (_parent);
+                return (parent);
 			}
 			
 			void GObjectWidget::setVisibility(RJBOOL visible)

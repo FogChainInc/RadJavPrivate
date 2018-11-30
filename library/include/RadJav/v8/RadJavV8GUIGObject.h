@@ -22,10 +22,8 @@
 
 #include "RadJavPreprocessor.h"
 
-#include "RadJavString.h"
-#include "RadJavHashMap.h"
+#include <v8.h>
 
-#ifdef USE_V8
 namespace RadJAV
 {
 	namespace V8B
@@ -60,10 +58,10 @@ namespace RadJAV
 					static void setEnabled(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void getEnabled(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void on(const v8::FunctionCallbackInfo<v8::Value> &args);
+					static void destroy(const v8::FunctionCallbackInfo<v8::Value> &args);
 			};
 		}
 	}
 }
-#endif
-#endif
 
+#endif

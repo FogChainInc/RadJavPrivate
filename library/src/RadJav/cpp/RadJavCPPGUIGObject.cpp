@@ -113,7 +113,7 @@ namespace RadJAV
 					#ifdef GUI_USE_WXWIDGETS
 						_appObj->AddChild(child->_appObj);
 					#elif defined USE_IOS || defined USE_ANDROID
-						_appObj->addChild(child);
+						_appObj->addChild(child->_appObj);
 					#endif
 				}
 
@@ -537,7 +537,7 @@ namespace RadJAV
 					{
 						object->Bind(wxEVT_MIDDLE_DOWN, GObjectEvents::onMiddleDown, -1, -1, createEvent(event, func));
 					}
-œ
+
 					if (event == "focus")
 					{
 						object->Bind(wxEVT_SET_FOCUS, GObjectEvents::onFocusSet, -1, -1, createEvent(event, func));
@@ -696,7 +696,7 @@ namespace RadJAV
 				#ifdef USE_V8
 					Event* GObjectEvents::createEvent(String event, v8::Local<v8::Function> function)
 					{
-						// Create a persistent function to execute asych later.
+						// Create a persistent function to execute async later.
 						v8::Persistent<v8::Value> *persistent = RJNEW v8::Persistent<v8::Value>();
 						persistent->Reset(function->GetIsolate(), function);
 						

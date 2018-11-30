@@ -39,7 +39,7 @@ namespace RadJAV
                 
                 return (UIView*)widget;
             }
-            ViewControllerFrame::ViewControllerFrame(void *parent, const String &text, const Vector2 &pos, const Vector2 &size)
+            ViewControllerFrame::ViewControllerFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
             : widget([[UIViewController alloc] init])
             {
                 UIWindow * keyWindow = [UIApplication sharedApplication].keyWindow;
@@ -60,9 +60,9 @@ namespace RadJAV
 				[widget release];
 			}
 
-            void ViewControllerFrame::addChild(GUI::GObject *child)
+            void ViewControllerFrame::addChild(GUI::GObjectWidget *child)
             {
-				UIView* childObj = child->_appObj->getNativeWidget();
+				UIView* childObj = child->getNativeWidget();
                 [widget.view addSubview:childObj];
             }
             
@@ -160,7 +160,7 @@ namespace RadJAV
 				return String();
 			}
 			
-			GUI::GObject* ViewControllerFrame::getParent()
+			GUI::GObjectWidget* ViewControllerFrame::getParent()
 			{
 				//TODO: Add implementation
 				return nullptr;

@@ -50,7 +50,7 @@ namespace RadJAV
             public:
                 //TODO: Add correct parent type here, usually some base C++ container class (which still not created)
                 NavigationViewControllerFrame();
-                NavigationViewControllerFrame(void *parent, const String &text, const Vector2 &pos, const Vector2 &size);
+                NavigationViewControllerFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
                 ~NavigationViewControllerFrame();
                 void create();
                 void setRootViewController(CPP::GUI::GObject *presentedController);

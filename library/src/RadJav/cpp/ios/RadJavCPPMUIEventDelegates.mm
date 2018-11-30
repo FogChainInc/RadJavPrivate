@@ -199,8 +199,9 @@
     RadJAV::CPP::MUI::TableCellModel * model = self.model->models->at(indexPath.row);
     
     model->setIsSelected(true);
-    
-    model->executeEvent("click");
+	
+	//TODO: Refactor MUITableCellModel
+    //model->executeEvent("click");
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
@@ -220,13 +221,17 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     RadJAV::CPP::MUI::TableCellModel * model = self.model->models->at(indexPath.row);
-    model->executeEvent("delete");
+	
+	//TODO: Refactor MUITableCellModel
+	//model->executeEvent("delete");
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(nonnull NSIndexPath *)indexPath
 {
     RadJAV::CPP::MUI::TableCellModel * model = self.model->models->at(indexPath.row);
-    model->executeEvent("accessory_click");
+	
+	//TODO: Refactor MUITableCellModel
+	//model->executeEvent("accessory_click");
 }
 
 //@end

@@ -42,21 +42,21 @@ namespace RadJAV
 												,public ChainedPtr
 			{
 			public:
-				CheckboxFrame(GUI::GObject *parent, RJBOOL checked, const Vector2 &pos, const Vector2 &size);
+				CheckboxFrame(GUI::GObjectWidget *parent, RJBOOL checked, const Vector2 &pos, const Vector2 &size);
 				~CheckboxFrame();
 				
 				void setChecked(RJBOOL checked);
 				RJBOOL getChecked() const;
 
-				void setEnabled(RJBOOL enabled);
-				RJBOOL getEnabled();
+				#ifdef USE_IOS
+					void setEnabled(RJBOOL enabled);
+					RJBOOL getEnabled();
+				#endif
 				
 				bool bindEvent(const String& eventName, const GUI::Event* event);
 				
 				#ifdef USE_IOS
 					UIView* getNativeWidget();
-				#elif defined USE_ANDROID
-					jobject getNativeWidget();
 				#endif
 				
 			private:
@@ -64,7 +64,11 @@ namespace RadJAV
 					UISwitch* widget;
 					SwitchDelegate* widgetDelegate;
 				#elif defined USE_ANDROID
-					jobject widget;
+					static jclass nativeSwitchClass;
+
+					static jmethodID nativeConstructor;
+					static jmethodID nativeSetChecked;
+					static jmethodID nativeIsChecked;
 				#endif
 			};
 			

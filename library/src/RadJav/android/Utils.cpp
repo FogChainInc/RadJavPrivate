@@ -19,43 +19,41 @@
  */
 #include "android/Utils.h"
 #include "android/Local.h"
+#include "RadJavPreprocessor.h"
 
-namespace utils
+namespace RadJAV
 {
-    jclass FindClass(const char* classPath)
-    {
-        JNIEnv* env = Jni::instance().getJniEnv();
+	namespace AndroidUtils
+	{
+		jclass FindClass(const char* classPath)
+		{
+			JNIEnv* env = Jni::instance().getJniEnv();
 
-        return FindClass(env, classPath);
-    }
+			return FindClass(env, classPath);
+		}
 
-    jclass FindClass(JNIEnv* env, const char* classPath)
-    {
-        auto clazz = wrap_local(env, env->FindClass(classPath));
-        return static_cast<jclass>(env->NewGlobalRef(clazz));
-    }
+		jclass FindClass(JNIEnv* env, const char* classPath)
+		{
+			auto clazz = wrap_local(env, env->FindClass(classPath));
+			return static_cast<jclass>(env->NewGlobalRef(clazz));
+		}
 
-    std::string CharSequenceToString(jobject charSequence)
-    {
-        Jni& jni = Jni::instance();
+		String EnumValueToString(const char* enumClass, jobject enumeration)
+		{
+			Jni& jni = Jni::instance();
+			JNIEnv* env = jni.getJniEnv();
 
-        CharSequenceToString(jni.getJniEnv(), charSequence);
-    }
+			auto clazz = jni.findClass(enumClass);
+			jmethodID nameMethod = env->GetMethodID(clazz, "name", "()Ljava/lang/String;");
 
-    std::string CharSequenceToString(JNIEnv* env, jobject charSequence)
-    {
-        //We assume that everyone on Java side implement CharSequence interface correctly
-        //so toString method will return String with corresponding chars from CharSequence
+			auto valueJava = wrap_local(env, env->CallNonvirtualObjectMethod(enumeration, clazz, nameMethod));
 
-        jclass charSequenceClass = Jni::instance().findClass("java/lang/CharSequence");
-        static jmethodID toString = env->GetMethodID(charSequenceClass, "toString", "(V)Ljava/lang/String;");
+			return RadJAV::parseJNIString(static_cast<jstring>(valueJava.get()));
+		}
 
-        auto javaString = wrap_local(env, env->CallObjectMethod(charSequence, toString));
-        const char* tempCharSequence = env->GetStringUTFChars(static_cast<jstring>(javaString.get()), NULL);
-        std::string ret = tempCharSequence;
-
-        env->ReleaseStringUTFChars(static_cast<jstring>(javaString.get()), tempCharSequence);
-
-        return ret;
-    }
+		bool IsNull(jobject obj)
+		{
+			return Jni::instance().getJniEnv()->IsSameObject(obj, nullptr);
+		}
+	}
 }

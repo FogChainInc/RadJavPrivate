@@ -29,12 +29,12 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
-			ScrollViewFrame::ScrollViewFrame(GUI::GObject *parent, const Vector2 &pos, const Vector2 &size)
+			ScrollViewFrame::ScrollViewFrame(GUI::GObjectWidget *parent, const Vector2 &pos, const Vector2 &size)
 			: widget([[UIScrollView alloc] init])
 			{
 				//TODO: add delegate
 				
-				[parent->_appObj->getNativeWidget() addSubview:widget];
+				[parent->getNativeWidget() addSubview:widget];
 				
 				setSize(size);
 				setPosition(pos);

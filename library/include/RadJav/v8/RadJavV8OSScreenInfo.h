@@ -22,26 +22,24 @@
 
 	#include "RadJavPreprocessor.h"
 
-	#ifdef USE_V8
-		#include <v8.h>
+	#include <v8.h>
 
-		namespace RadJAV
+	namespace RadJAV
+	{
+		namespace V8B
 		{
-			namespace V8B
+			namespace OS
 			{
-				namespace OS
+				class RADJAV_EXPORT ScreenInfo
 				{
-					class RADJAV_EXPORT ScreenInfo
-					{
-						public:
-							static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
+					public:
+						static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
-							static void getNumberOfScreens(const v8::FunctionCallbackInfo<v8::Value> &args);
-							static void getScreenInfo(const v8::FunctionCallbackInfo<v8::Value> &args);
-					};
-				}
+						static void getNumberOfScreens(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void getScreenInfo(const v8::FunctionCallbackInfo<v8::Value> &args);
+				};
 			}
 		}
-	#endif
+	}
 #endif
 

@@ -20,12 +20,15 @@
 #ifndef _RADJAV_UITHREADDISPATCHER_H
 #define _RADJAV_UITHREADDISPATCHER_H
 
-
-class UiThreadDispatcher
+namespace RadJAV
 {
-public:
-    virtual ~UiThreadDispatcher() {}
+	class UiThreadDispatcher
+	{
+	public:
+		virtual ~UiThreadDispatcher() {}
 
-	virtual void uiThreadArrived(bool async) = 0;
-};
+		virtual void uiThreadArrived(bool async) = 0;
+	};
+}
+
 #endif //_RADJAV_UITHREADDISPATCHER_H

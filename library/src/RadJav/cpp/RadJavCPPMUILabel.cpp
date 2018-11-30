@@ -52,7 +52,7 @@ namespace RadJAV
 				if (_parent != nullptr)
 					parentWin = _parent->_appObj;
 				
-				LabelFrame* object = RJNEW LabelFrame(_parent, _text,
+				LabelFrame* object = RJNEW LabelFrame(parentWin, _text,
 														Vector2(_transform->x, _transform->y),
 														Vector2(_transform->width, _transform->height));
 				

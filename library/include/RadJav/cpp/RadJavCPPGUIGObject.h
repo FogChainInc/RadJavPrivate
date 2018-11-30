@@ -74,9 +74,6 @@ namespace RadJAV
 			public:
 				virtual ~GObjectInterface() {};
 				
-				/// Using the existing parameters in this object, create it.
-				virtual void addChild(GObject *child) = 0;
-				
 				/** Set this object's font.
 				 * Theme Event: setFont
 				 * Is Theme Event Asynchronous: No
@@ -167,13 +164,6 @@ namespace RadJAV
 				 */
 				virtual String getText() = 0;
 				
-				/** Get the parent.
-				 * Theme Event: None
-				 * Is Theme Event Asynchronous: No
-				 * @return {RadJav.GUI.GObject} The parent of this object.
-				 */
-				virtual GObject *getParent() = 0;
-				
 				/** Set the visibility of this object.
 				 * Theme Event: setVisibility
 				 * Is Theme Event Asynchronous: Yes
@@ -234,8 +224,10 @@ namespace RadJAV
 					virtual void setup();
 					void setupCursor();
 
-					//From GObjectInterface:
 					void addChild(GObject *child);
+					GObject *getParent();
+
+					//From GObjectInterface:
 					void setFont(CPP::Font *font);
 					CPP::Font *getFont();
 					void setPosition(RJINT x, RJINT y);
@@ -250,7 +242,6 @@ namespace RadJAV
 					RJINT getHeight();
 					void setText(String text);
 					String getText();
-					GObject *getParent();
 					void setVisibility(RJBOOL visible);
 					RJBOOL getVisibility();
 					void setEnabled(RJBOOL enabled);
@@ -365,7 +356,9 @@ namespace RadJAV
 				GObjectWidget();
 				virtual ~GObjectWidget() {};
 				
-				void addChild(GObject *child);
+				virtual void addChild(GObjectWidget *child);
+				virtual GObjectWidget *getParent();
+
 				void setFont(CPP::Font *font);
 				CPP::Font *getFont();
 				void setPosition(RJINT x, RJINT y);
@@ -380,7 +373,6 @@ namespace RadJAV
 				RJINT getHeight();
 				void setText(String text);
 				String getText();
-				GObject *getParent();
 				void setVisibility(RJBOOL visible);
 				RJBOOL getVisibility();
 				void setEnabled(RJBOOL enabled);
@@ -392,6 +384,9 @@ namespace RadJAV
 					jobject getNativeWidget();
 				#endif
 
+			protected:
+				GObjectWidget* parent;
+				
 			#ifdef USE_ANDROID
 			protected:
 				jobject widget;
@@ -417,6 +412,21 @@ namespace RadJAV
 				static jclass nativeViewClass;
 			#endif
 			};
+
+            struct EventData
+            {
+                EventData(GObjectWidget* widget, String eventName, void* event)
+                {
+                    _widget = widget;
+                    _event = event;
+                    _eventName = eventName;
+                }
+
+                GObjectWidget* _widget;
+                String _eventName;
+                void* _event;
+            };
+
 		}
 	}
 }

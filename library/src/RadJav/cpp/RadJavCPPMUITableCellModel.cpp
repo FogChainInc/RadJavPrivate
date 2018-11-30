@@ -40,7 +40,7 @@ namespace RadJAV
 			#endif
             #ifdef USE_JAVASCRIPTCORE
                 TableCellModel::TableCellModel(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[])
-                    //: GObjectWidget ()
+                	: GObject(jsEngine, thisObj, numArgs, args)
                 {
                     isHeader = false;
                     isFooter = false;
@@ -48,7 +48,7 @@ namespace RadJAV
             #endif
 
 			TableCellModel::TableCellModel(String name, String text, CPP::GUI::GObject *parent)
-				//: GObject(name, text, parent)
+				: GObject(name, text, parent)
 			{
 			}
 
@@ -143,7 +143,11 @@ namespace RadJAV
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
             	void TableCellModel::on(String event, RJ_FUNC_TYPE func)
 				{
-                    addNewEvent(event, func);
+					//TODO: need to refactor TableCellModel(this) class
+					//GObject class is not a native widget class
+					//Base native widget class is GObjectWidget which derived from GObjectEvents and can handle
+					//events. See also top most #warning in this file
+                    //addNewEvent(event, func);
 				}
 			#endif
 		}

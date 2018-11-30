@@ -22,7 +22,6 @@
 
 	#include "RadJavPreprocessor.h"
 
-	#ifdef USE_V8
 	#include <v8.h>
 
 	namespace RadJAV
@@ -44,6 +43,5 @@
 			};
 		}
 	}
-	#endif
 #endif
 

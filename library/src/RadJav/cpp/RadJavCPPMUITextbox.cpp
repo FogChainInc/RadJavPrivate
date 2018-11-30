@@ -52,7 +52,7 @@ namespace RadJAV
 				if (_parent != nullptr)
 					parentWin = _parent->_appObj;
 				
-				TextboxFrame* object = RJNEW TextboxFrame(_parent, _text,
+				TextboxFrame* object = RJNEW TextboxFrame(parentWin, _text,
 													  Vector2(_transform->x, _transform->y),
 													  Vector2(_transform->width, _transform->height));
 				

@@ -75,8 +75,19 @@ namespace RadJAV
 
 			JSValueRef GObject::addChild(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
 			{
-				//TODO: not sure what to do here
-				return (JSValueMakeUndefined(ctx));
+				CppGuiObject *appObject = (CppGuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				
+				if (argumentCount > 0)
+				{
+					JSObjectRef argument =  JSValueToObject(ctx, arguments[0], exception);
+					CppGuiObject *childAppObject = (CppGuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, argument, "_appObj");
+					if (childAppObject)
+					{
+						appObject->addChild(childAppObject);
+					}
+				}
+				
+				return JSValueMakeUndefined(ctx);
 			}
 
 			JSValueRef GObject::setFont(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)

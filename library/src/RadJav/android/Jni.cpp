@@ -20,97 +20,96 @@
 #include "android/Jni.h"
 #include "android/ClassesCache.h"
 
-thread_local JNIEnv* Jni::_env = nullptr;
-
-Jni& Jni::instance()
+namespace RadJAV
 {
-    static Jni object;
-    return object;
-}
+    thread_local JNIEnv* Jni::_env = nullptr;
 
-void Jni::storeJvm(JavaVM* jvm)
-{
-    Jni& jni = Jni::instance();
-
-    jni.setJvm(jvm);
-}
-
-void Jni::storeJniEnvForThread(JNIEnv* env)
-{
-    Jni& jni = Jni::instance();
-
-    jni.setJniEnv(env);
-}
-
-jclass Jni::findClass(const char* classPath)
-{
-    std::unique_lock<std::mutex> lock {_mutex};
-
-    return _classes->get(classPath);
-}
-
-JNIEnv* Jni::getJniEnv()
-{
-    std::unique_lock<std::mutex> lock {_mutex};
-
-    if (!_env)
+    Jni& Jni::instance()
     {
-        JNIEnv* env;
-        if (_jvm->GetEnv((void**)&env, JNI_VERSION_1_6))
-            return nullptr;
-
-        _env = env;
+        static Jni object;
+        return object;
     }
 
-    return _env;
-}
+    void Jni::storeJvm(JavaVM* jvm)
+    {
+        Jni& jni = Jni::instance();
 
-JavaVM* Jni::getJavaVm()
-{
-    std::unique_lock<std::mutex> lock {_mutex};
+        jni.setJvm(jvm);
+    }
 
-    return _jvm;
-}
+    void Jni::storeJniEnvForThread(JNIEnv* env)
+    {
+        Jni& jni = Jni::instance();
 
-Jni::~Jni()
-{
-    delete _classes;
-}
+        jni.setJniEnv(env);
+    }
 
-Jni::Jni()
-: _jvm(nullptr),
-  _classes(nullptr)
-{
-}
+    jclass Jni::findClass(const char* classPath)
+    {
+        std::unique_lock<std::mutex> lock {_mutex};
 
-void Jni::setJvm(JavaVM* jvm)
-{
-    if (jvm != _jvm)
-        _jvm = jvm;
+        return _classes->get(classPath);
+    }
 
-    if (!_classes)
-        initClassesCache();
+    JNIEnv* Jni::getJniEnv()
+    {
+        if (!_env)
+        {
+            JNIEnv* env;
+            if (_jvm->GetEnv((void**)&env, JNI_VERSION_1_6))
+                return nullptr;
 
-}
-void Jni::setJniEnv(JNIEnv* env)
-{
-    std::unique_lock<std::mutex> lock {_mutex};
+            _env = env;
+        }
 
-    if (env != _env)
-        _env = env;
-}
+        return _env;
+    }
 
-void Jni::initClassesCache()
-{
-    //Init with default classes
-    //We can add more here to be loaded at startup
-    _classes = new ClassesCache({"com/fogchain/radjavvm/RadJavApplication",
-                                 "com/fogchain/radjavvm/UiCallback",
-                                 "com/fogchain/radjavvm/UiEventListener",
-                                 "com/fogchain/radjavvm/UiCallback",
-                                 "com/fogchain/radjavvm/RadJavLayout",
-                                 "android/widget/Button",
-                                 "android/os/Handler",
-                                 "android/os/Looper"});
+    JavaVM* Jni::getJavaVm()
+    {
+        return _jvm;
+    }
 
+    Jni::~Jni()
+    {
+        delete _classes;
+    }
+
+    Jni::Jni()
+            : _jvm(nullptr),
+              _classes(nullptr)
+    {
+    }
+
+    void Jni::setJvm(JavaVM* jvm)
+    {
+        if (jvm != _jvm)
+            _jvm = jvm;
+
+        if (!_classes)
+            initClassesCache();
+
+    }
+    void Jni::setJniEnv(JNIEnv* env)
+    {
+        if (env != _env)
+            _env = env;
+    }
+
+    void Jni::initClassesCache()
+    {
+        std::unique_lock<std::mutex> lock {_mutex};
+
+        //Init with default classes
+        //We can add more here to be loaded at startup
+        _classes = new ClassesCache({"com/fogchain/radjavvm/RadJavApplication",
+                                     "com/fogchain/radjavvm/UiCallback",
+                                     "com/fogchain/radjavvm/UiEventListener",
+                                     "com/fogchain/radjavvm/UiCallback",
+                                     "com/fogchain/radjavvm/RadJavLayout",
+                                     "android/widget/Button",
+                                     "android/os/Handler",
+                                     "android/os/Looper"});
+
+    }
 }

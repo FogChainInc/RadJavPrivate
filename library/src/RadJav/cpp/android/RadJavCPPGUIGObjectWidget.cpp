@@ -46,6 +46,7 @@ namespace RadJAV
 			GObjectWidget::GObjectWidget()
 			{
 				widget = nullptr;
+				parent = nullptr;
 
 				//Store native pointers
 				if (nativeViewClass)
@@ -64,17 +65,17 @@ namespace RadJAV
 				nativeSetVisibility = env->GetMethodID(nativeViewClass, "setVisibility", "(I)V");
 				nativeSetEnabled = env->GetMethodID(nativeViewClass, "setEnabled", "(Z)V");
 
-				nativeGetLeft = env->GetMethodID(nativeViewClass, "getLeft", "(V)I");
-				nativeGetTop = env->GetMethodID(nativeViewClass, "getTop", "(V)I");
-				nativeGetRight = env->GetMethodID(nativeViewClass, "getRight", "(V)I");
-				nativeGetBottom = env->GetMethodID(nativeViewClass, "getBottom", "(V)I");
-				nativeGetWidth = env->GetMethodID(nativeViewClass, "getWidth", "(V)I");
-				nativeGetHeight = env->GetMethodID(nativeViewClass, "getHeight", "(V)I");
-				nativeGetVisibility = env->GetMethodID(nativeViewClass, "getVisibility", "(V)I");
-				nativeIsEnabled = env->GetMethodID(nativeViewClass, "isEnabled", "(V)Z");
+				nativeGetLeft = env->GetMethodID(nativeViewClass, "getLeft", "()I");
+				nativeGetTop = env->GetMethodID(nativeViewClass, "getTop", "()I");
+				nativeGetRight = env->GetMethodID(nativeViewClass, "getRight", "()I");
+				nativeGetBottom = env->GetMethodID(nativeViewClass, "getBottom", "()I");
+				nativeGetWidth = env->GetMethodID(nativeViewClass, "getWidth", "()I");
+				nativeGetHeight = env->GetMethodID(nativeViewClass, "getHeight", "()I");
+				nativeGetVisibility = env->GetMethodID(nativeViewClass, "getVisibility", "()I");
+				nativeIsEnabled = env->GetMethodID(nativeViewClass, "isEnabled", "()Z");
 			}
 
-			void GObjectWidget::addChild(GObject *child)
+			void GObjectWidget::addChild(GObjectWidget *child)
 			{
 				//This functionality is only available for ViewGroup derived Containers/Windows
 				//Controls lack this functionality since they derived from View
@@ -193,10 +194,9 @@ namespace RadJAV
 				return String();
 			}
 			
-			GObject* GObjectWidget::getParent()
+			GObjectWidget* GObjectWidget::getParent()
 			{
-				//TODO: Need to think about the solution
-				return nullptr;
+				return parent;
 			}
 			
 			void GObjectWidget::setVisibility(RJBOOL visible)

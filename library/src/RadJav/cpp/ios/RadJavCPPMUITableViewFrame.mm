@@ -28,7 +28,7 @@ namespace RadJAV
     {
         namespace MUI
         {
-            TableViewFrame::TableViewFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size)
+            TableViewFrame::TableViewFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
             : widget([[[UITableView alloc] init]retain])
             {
                 [widget registerClass:[UITableViewCell class] forCellReuseIdentifier:@"identifier"];

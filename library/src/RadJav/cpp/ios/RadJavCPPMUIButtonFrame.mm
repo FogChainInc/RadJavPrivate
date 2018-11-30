@@ -29,13 +29,13 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
-			ButtonFrame::ButtonFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size)
+			ButtonFrame::ButtonFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
 			: widget([[UIButton alloc] init])
 			{
                 widgetDelegate = [[ButtonDelegate alloc] init];
                 widgetDelegate.widget = this;
 				
-                id parentWidget = parent->_appObj->getNativeWidget();
+                id parentWidget = parent->getNativeWidget();
                 
                 if ([parentWidget isKindOfClass:[UIView class]]){
                     [parentWidget addSubview:widget];

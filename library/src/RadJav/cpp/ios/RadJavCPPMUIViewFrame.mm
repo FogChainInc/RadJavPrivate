@@ -29,7 +29,7 @@ namespace RadJAV
     {
         namespace MUI
         {
-            ViewFrame::ViewFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size)
+            ViewFrame::ViewFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
             : widget([[UIView alloc] init])
             {
             

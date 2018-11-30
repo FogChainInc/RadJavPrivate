@@ -38,11 +38,11 @@
 												, public ChainedPtr
                 {
                 public:
-                    ViewFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size);
+                    ViewFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
                     ~ViewFrame();
 
 					#ifdef USE_ANDROID
-						void addChild(GUI::GObject *child);
+						void addChild(GUI::GObjectWidget *child);
 					#endif
 
 					void setText(String text);

@@ -48,7 +48,7 @@ namespace RadJAV
             }
 
             void ViewController::addChild(GUI::GObject *child){
-                _appObject->addChild(child);
+                _appObject->addChild(child->_appObj);
             }
             
             void ViewController::presentViewControllerAnimated(CPP::GUI::GObject *presentedController){
@@ -70,7 +70,7 @@ namespace RadJAV
 				if (_parent != nullptr)
 					parentWin = _parent->_appObj;
 				
-				ViewControllerFrame* object = RJNEW ViewControllerFrame(_parent, _text,
+				ViewControllerFrame* object = RJNEW ViewControllerFrame(parentWin, _text,
 													Vector2(_transform->x, _transform->y),
 													Vector2(_transform->width, _transform->height));
 				

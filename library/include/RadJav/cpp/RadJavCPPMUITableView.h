@@ -46,7 +46,7 @@
 												, public ChainedPtr
                 {
                 public:
-                    TableViewFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size);
+                    TableViewFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
                     ~TableViewFrame();
 
 					void setText(String text);

@@ -29,14 +29,14 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
-			TextboxFrame::TextboxFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size)
+			TextboxFrame::TextboxFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
 			: widget([[UITextField alloc] init])
 			{
 				widgetDelegate = [[TextFieldDelegate alloc] init];
 				widgetDelegate.widget = this;
 				widget.delegate = widgetDelegate;
 
-				[parent->_appObj->getNativeWidget() addSubview:widget];
+				[parent->getNativeWidget() addSubview:widget];
 				
 				widget.clearButtonMode = UITextFieldViewModeWhileEditing;
 				widget.borderStyle = UITextBorderStyleRoundedRect;
