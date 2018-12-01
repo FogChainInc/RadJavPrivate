@@ -50,11 +50,11 @@
 
 	let AndroidJNI = Bindergen.useGenerator ("AndroidJNI");
 	AndroidJNI.parseFiles ([
-			"library/include/RadJav/cpp/RadJavCPPGUIButton.h", 
-			"library/src/RadJav/cpp/RadJavCPPGUIButton.cpp"
+			"library/include/RadJav/cpp/RadJavCPPMUIButton.h", 
+			"library/src/RadJav/cpp/android/RadJavCPPMUIButtonFrame.cpp"
 		]);
 	let jni = AndroidJNI.createNamespace ("jni");
-	let view = await jni.createClass ("view", "android.view.View");
+	let button = await jni.createClass ("button", "android.widget.Button");
 	let jniHeaders = AndroidJNI.getOutput ("jniHeaders");
 	let jniCreate = AndroidJNI.getOutput ("jniCreate");
 

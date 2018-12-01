@@ -146,7 +146,7 @@ export class GeneratorClass
 	{
 		this[func.name] = utils.keepContext (function (...args): void
 			{
-				this.$generator.functionCalled.call (this.$generator, func, args);
+				this.$generator.functionCalled.apply (this.$generator, [func, args]);
 			}, this, [func]);
 		this.$methods[func.name] = func;
 	}

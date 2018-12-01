@@ -24,6 +24,8 @@ export class GeneratorFunction
 	 *  * Executes when a string is being generated.
 	 */
 	public events: { [name: string]: Function };
+	/// The function to execute when this function is called.
+	public execFunc: Function;
 
 	constructor (parentClass: GeneratorClass = null)
 	{
@@ -35,6 +37,13 @@ export class GeneratorFunction
 		this.arguments = [];
 		this.parentClass = parentClass;
 		this.events = {};
+		this.execFunc = null;
+	}
+
+	/// Execute a function when this function is called.
+	exec (func: Function)
+	{
+		this.execFunc = func;
 	}
 
 	/// Trigger on an event.

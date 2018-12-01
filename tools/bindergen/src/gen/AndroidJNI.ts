@@ -91,66 +91,89 @@ reference.on ("classReference", async function (genClass: GeneratorClass)
 			let contents: string = await this.lookup ("/reference/" + path);
 
 			let $ = cheerio.load (contents);
-			let pubmethods = $("#pubmethods tr");
 
-			for (let iIdx = 0; iIdx < pubmethods.length; iIdx++)
+			for (let passes = 0; passes < 2; passes++)
 			{
-				if (iIdx == 0)	// Skip the Public Methods table header.
-					continue;
+				let skipFirst: boolean = true;
+				let methods = null;
 
-				let returnType = $(pubmethods[iIdx]).find ("td code")[0];
-				let method = $(pubmethods[iIdx]).find ("td code")[1];
-				let methodName = $(method).find ("a")[0];
-				let returnTypeHTML = $(returnType).html ();
+				if (passes == 0)
+					methods = $("#pubmethods tr");
 
-				let func: GeneratorFunction = new GeneratorFunction (genClass);
-				func.on ("generate", function (type: string, data: string)
+				if (passes == 1)
+				{
+					methods = $("#inhmethods tr table tr");
+					skipFirst = false;
+				}
+
+				for (let iIdx = 0; iIdx < methods.length; iIdx++)
+				{
+					if (skipFirst == true)
 					{
-						let content: string = "";
+						if (iIdx == 0)	// Skip the Public Methods table header.
+							continue;
+					}
 
-						if (type == "jniHeaders")
-							content = `static jmethodID native${this.parentClass.$typeName}${this.name};\n`;
+					let returnType = $(methods[iIdx]).find ("td code")[0];
+					let method = $(methods[iIdx]).find ("td code")[1];
+					let methodName = $(method).find ("a")[0];
 
-						if (type == "jniCreate")
-							content = `native${this.parentClass.$typeName}${this.name} = env->GetMethodID(${data}, "${this.name}", "${this.data}");\n`;
+					let temp = $(returnType).find ("a");
 
-						return (content);
-					});
+					if (temp.length > 0)
+						returnType = temp;
 
-				func.name = utils.removeWhitespaces ($(methodName).html ());
+					let returnTypeHTML = $(returnType).html ();
 
-				if (returnTypeHTML.search (/(s|final\s)/g) > -1)
-					returnTypeHTML = returnTypeHTML.replace (/(s|final\s)/g, "");
+					let func: GeneratorFunction = new GeneratorFunction (genClass);
+					func.on ("generate", function (type: string, data: string)
+						{
+							let content: string = "";
 
-				func.returns = utils.removeWhitespaces (returnTypeHTML);
+							if (type == "jniHeaders")
+								content = `static jmethodID native${this.parentClass.$typeName}${this.name};\n`;
 
-				let args: string = $(method).html ();
-				let argsStart = args.indexOf ("(");
-				let argsEnd = args.indexOf (")");
-				let argsStr: string = args.substring (argsStart, argsEnd + 1);
-				let realArgs: string[] = argsStr.match (/(?<=[\(,])[^\),]*(,)*()/g);
+							if (type == "jniCreate")
+								content = `native${this.parentClass.$typeName}${this.name} = env->GetMethodID(${data}, "${this.name}", "${this.data}");\n`;
 
-				for (let iJdx = 0; iJdx < realArgs.length; iJdx++)
-				{
-					let tempStr: string = realArgs[iJdx];
-					let foundArg: string = "";
+							return (content);
+						});
 
-					foundArg = fixGenericHTML (tempStr);
-					func.arguments.push (new GeneratorFunctionArgument ("", foundArg));
+					func.name = utils.removeWhitespaces ($(methodName).html ());
+
+					if (returnTypeHTML.search (/(s|final\s)/g) > -1)
+						returnTypeHTML = returnTypeHTML.replace (/(s|final\s)/g, "");
+
+					func.returns = utils.removeWhitespaces (returnTypeHTML);
+
+					let args: string = $(method).html ();
+					let argsStart = args.indexOf ("(");
+					let argsEnd = args.indexOf (")");
+					let argsStr: string = args.substring (argsStart, argsEnd + 1);
+					let realArgs: string[] = argsStr.match (/(?<=[\(,])[^\),]*(,)*()/g);
+
+					for (let iJdx = 0; iJdx < realArgs.length; iJdx++)
+					{
+						let tempStr: string = realArgs[iJdx];
+						let foundArg: string = "";
+
+						foundArg = fixGenericHTML (tempStr);
+						func.arguments.push (new GeneratorFunctionArgument ("", foundArg));
+					}
+
+					// Create the JNI signature.
+					func.data = "(";
+
+					for (let iJdx = 0; iJdx < func.arguments.length; iJdx++)
+					{
+						let arg: GeneratorFunctionArgument = func.arguments[iJdx];
+
+						func.data += getJNISignatureDataType(arg.dataType);
+					}
+
+					func.data += ")" + getJNISignatureDataType (returnTypeHTML);
+					genClass.addFunction (func);
 				}
-
-				// Create the JNI signature.
-				func.data = "(";
-
-				for (let iJdx = 0; iJdx < func.arguments.length; iJdx++)
-				{
-					let arg: GeneratorFunctionArgument = func.arguments[iJdx];
-
-					func.data += getJNISignatureDataType(arg.dataType);
-				}
-
-				func.data += ")" + getJNISignatureDataType (returnTypeHTML);
-				genClass.addFunction (func);
 			}
 		}
 		catch (ex)
@@ -234,8 +257,22 @@ jniCreate.on ("functionCall", function (func, ...args)
 jni.on ("inlineFunctionCall", function (block: Block, func: GeneratorFunction, ...args)
 	{
 		let argsStr: string = "";
+		let argsAry: any[] = args[0];
 
 		debugger;
+		if ((argsAry.length - 1) > 0)
+			argsStr = ", ";
+
+		for (let iIdx = 0; iIdx < (argsAry.length - 1); iIdx++)
+		{
+			let arg: string = argsAry[iIdx];
+
+			if (iIdx == (argsAry.length - 2))
+				argsStr += arg;
+			else
+				argsStr += `${arg}, `;
+		}
+
 		let content: string = `env->CallNonvirtualVoidMethod(widget, native${func.parentClass.$typeName}Class, native${func.parentClass.$typeName}${func.name}${argsStr});`;
 
 		return (content);
