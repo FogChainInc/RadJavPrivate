@@ -54,8 +54,6 @@ namespace RadJAV
 				#endif
 				
 				bool bindEvent(const String& eventName, const GUI::Event* event);
-				static void onBindEvent(JNIEnv *env, void *data);
-
 				#ifdef USE_IOS
 					UIView* getNativeWidget();
 				#endif

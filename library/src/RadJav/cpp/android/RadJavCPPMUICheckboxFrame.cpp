@@ -19,7 +19,7 @@
  */
 #include <android/Utils.h>
 #include "cpp/RadJavCPPMUICheckbox.h"
-//#include "cpp/RadJavCPPMUIView.h"
+#include "cpp/RadJavCPPMUIView.h"
 
 namespace RadJAV
 {
@@ -86,50 +86,47 @@ namespace RadJAV
 
 			bool CheckboxFrame::bindEvent(const String& eventName, const GUI::Event* event)
 			{
-				GUI::EventData* eventData = new GUI::EventData(this, eventName, (void*)event);
-				RadJav::runOnUiThreadAsync(CheckboxFrame::onBindEvent, eventData);
+				RadJav::runOnUiThreadAsync([&, eventName, event](JNIEnv* env, void* data) {
+					Jni& jni = Jni::instance();
+					GUI::EventData* eventData = new GUI::EventData(this, eventName, (void*)event);
+					 //CheckboxFrame* checkbox = static_cast<CheckboxFrame*> (eventData->_widget);
+                    jclass _eventListenerClass = jni.findClass("com/fogchain/radjavvm/UiEventListener");
+                    jmethodID _eventListenerConstructor = env->GetMethodID(_eventListenerClass, "<init>", "(Ljava/nio/ByteBuffer;)V");
+                    LOGI("%s: %s", __FUNCTION__, eventData->_eventName.c_str());
+
+                    if (eventData->_eventName.compare("click") == 0) {
+                        jmethodID setOnClickListener = env->GetMethodID(nativeSwitchClass, "setOnClickListener", "(Landroid/view/View$OnClickListener;)V");
+
+                        auto eventBuffer = jni.wrapLocalRef(env->NewDirectByteBuffer(eventData, sizeof(eventData)));
+                        auto listenerInstance = jni.wrapLocalRef(env->NewObject(_eventListenerClass, _eventListenerConstructor, eventBuffer.get()));
+
+                        env->CallVoidMethod(widget, setOnClickListener, listenerInstance.get());
+                    }
+                    else if (eventData->_eventName.compare("longClick") == 0) {
+                        jmethodID setOnLongClickListener = env->GetMethodID(nativeSwitchClass, "setOnLongClickListener", "(Landroid/view/View$OnLongClickListener;)V");
+
+                        auto eventBuffer = jni.wrapLocalRef(env->NewDirectByteBuffer(eventData, sizeof(eventData)));
+                        auto listenerInstance = jni.wrapLocalRef(env->NewObject(_eventListenerClass, _eventListenerConstructor, eventBuffer.get()));
+
+                        env->CallVoidMethod(widget, setOnLongClickListener, listenerInstance.get());
+                    }
+                    else if (eventData->_eventName.compare("changed") == 0) {
+                        jclass _class = jni.findClass("android/widget/CompoundButton");
+
+                        jmethodID setOnCheckedChangeListener = env->GetMethodID(_class, "setOnCheckedChangeListener", "(Landroid/widget/CompoundButton$OnCheckedChangeListener;)V");
+
+                        auto eventBuffer = jni.wrapLocalRef(env->NewDirectByteBuffer(eventData, sizeof(eventData)));
+                        auto listenerInstance = jni.wrapLocalRef(env->NewObject(_eventListenerClass, _eventListenerConstructor, eventBuffer.get()));
+
+                        env->CallVoidMethod(widget, setOnCheckedChangeListener, listenerInstance.get());
+                    }
+                    else {
+                        LOGE("%s: undefined event handled in button.onBindEvent [ %s ]", __FUNCTION__, eventData->_eventName.c_str());
+                    }
+                });
 
 				return true;
 			}
-
-            void CheckboxFrame::onBindEvent(JNIEnv *env, void *data) {
-                Jni& jni = Jni::instance();
-                GUI::EventData* eventData = static_cast<GUI::EventData*> (data);
-                CheckboxFrame* checkbox = static_cast<CheckboxFrame*> (eventData->_widget);
-                jclass _eventListenerClass = jni.findClass("com/fogchain/radjavvm/UiEventListener");
-                jmethodID _eventListenerConstructor = env->GetMethodID(_eventListenerClass, "<init>", "(Ljava/nio/ByteBuffer;)V");
-                LOGI("%s: %s", __FUNCTION__, eventData->_eventName.c_str());
-
-                if (eventData->_eventName.compare("click") == 0) {
-                    jmethodID setOnClickListener = env->GetMethodID(nativeSwitchClass, "setOnClickListener", "(Landroid/view/View$OnClickListener;)V");
-
-                    auto eventBuffer = jni.wrapLocalRef(env->NewDirectByteBuffer(eventData, sizeof(eventData)));
-                    auto listenerInstance = jni.wrapLocalRef(env->NewObject(_eventListenerClass, _eventListenerConstructor, eventBuffer.get()));
-
-                    env->CallVoidMethod(checkbox->widget, setOnClickListener, listenerInstance.get());
-                }
-                else if (eventData->_eventName.compare("longClick") == 0) {
-                    jmethodID setOnLongClickListener = env->GetMethodID(nativeSwitchClass, "setOnLongClickListener", "(Landroid/view/View$OnLongClickListener;)V");
-
-                    auto eventBuffer = jni.wrapLocalRef(env->NewDirectByteBuffer(eventData, sizeof(eventData)));
-                    auto listenerInstance = jni.wrapLocalRef(env->NewObject(_eventListenerClass, _eventListenerConstructor, eventBuffer.get()));
-
-                    env->CallVoidMethod(checkbox->widget, setOnLongClickListener, listenerInstance.get());
-                }
-                else if (eventData->_eventName.compare("changed") == 0) {
-                    jclass _class = jni.findClass("android/widget/CompoundButton");
-
-                    jmethodID setOnCheckedChangeListener = env->GetMethodID(_class, "setOnCheckedChangeListener", "(Landroid/widget/CompoundButton$OnCheckedChangeListener;)V");
-
-                    auto eventBuffer = jni.wrapLocalRef(env->NewDirectByteBuffer(eventData, sizeof(eventData)));
-                    auto listenerInstance = jni.wrapLocalRef(env->NewObject(_eventListenerClass, _eventListenerConstructor, eventBuffer.get()));
-
-                    env->CallVoidMethod(checkbox->widget, setOnCheckedChangeListener, listenerInstance.get());
-                }
-                else {
-                    LOGE("%s: undefined event handled in button.onBindEvent [ %s ]", __FUNCTION__, eventData->_eventName.c_str());
-                }
-            }
 		}
 	}
 }
