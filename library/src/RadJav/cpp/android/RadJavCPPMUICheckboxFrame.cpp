@@ -88,40 +88,56 @@ namespace RadJAV
 			{
 				RadJav::runOnUiThreadAsync([&, eventName, event](JNIEnv* env, void* data) {
 					Jni& jni = Jni::instance();
-					GUI::EventData* eventData = new GUI::EventData(this, eventName, (void*)event);
-					 //CheckboxFrame* checkbox = static_cast<CheckboxFrame*> (eventData->_widget);
-                    jclass _eventListenerClass = jni.findClass("com/fogchain/radjavvm/UiEventListener");
-                    jmethodID _eventListenerConstructor = env->GetMethodID(_eventListenerClass, "<init>", "(Ljava/nio/ByteBuffer;)V");
+                    GUI::EventData* eventData = new GUI::EventData(this, eventName, (void*)event);
                     LOGI("%s: %s", __FUNCTION__, eventData->_eventName.c_str());
 
+                    jmethodID method = nullptr;
+
+                    //setOnClickListener - Callback when the view is clicked
                     if (eventData->_eventName.compare("click") == 0) {
-                        jmethodID setOnClickListener = env->GetMethodID(nativeSwitchClass, "setOnClickListener", "(Landroid/view/View$OnClickListener;)V");
-
-                        auto eventBuffer = jni.wrapLocalRef(env->NewDirectByteBuffer(eventData, sizeof(eventData)));
-                        auto listenerInstance = jni.wrapLocalRef(env->NewObject(_eventListenerClass, _eventListenerConstructor, eventBuffer.get()));
-
-                        env->CallVoidMethod(widget, setOnClickListener, listenerInstance.get());
+                        method = env->GetMethodID(nativeSwitchClass, "setOnClickListener", "(Landroid/view/View$OnClickListener;)V");
                     }
+                        //onCreateContextMenu - Callback for pressing and holding a view for a long time
+                    else if (eventData->_eventName.compare("createContextMenu") == 0) {
+                        method = env->GetMethodID(nativeSwitchClass, "setOnCreateContextMenuListener", "(Landroid/view/View$OnCreateContextMenuListener;)V");
+                    }
+                        //setOnDragListener - Callback when the view is dragged
+                        //setOnFocusChangeListener - Callback when the view changes focus
+                    else if (eventData->_eventName.compare("focusChange") == 0) {
+                        method = env->GetMethodID(nativeSwitchClass, "setOnFocusChangeListener", "(Landroid/view/View$OnFocusChangeListener;)V");
+                    }
+                        //setOnGenericMotionListener - Callback for arbitrary gestures
+                        //setOnHoverListener - Callback for hovering over the view
+                        //setOnKeyListener - Callback for pressing a hardware key when view has focus
+                    else if (eventData->_eventName.compare("key") == 0) {
+                        method = env->GetMethodID(nativeSwitchClass, "setOnKeyListener", "(Landroid/view/View$OnKeyListener;)V");
+                    }
+                        //setOnLongClickListener - Callback for pressing and holding a view
                     else if (eventData->_eventName.compare("longClick") == 0) {
-                        jmethodID setOnLongClickListener = env->GetMethodID(nativeSwitchClass, "setOnLongClickListener", "(Landroid/view/View$OnLongClickListener;)V");
-
-                        auto eventBuffer = jni.wrapLocalRef(env->NewDirectByteBuffer(eventData, sizeof(eventData)));
-                        auto listenerInstance = jni.wrapLocalRef(env->NewObject(_eventListenerClass, _eventListenerConstructor, eventBuffer.get()));
-
-                        env->CallVoidMethod(widget, setOnLongClickListener, listenerInstance.get());
+                        method = env->GetMethodID(nativeSwitchClass, "setOnLongClickListener", "(Landroid/view/View$OnLongClickListener;)V");
                     }
+                        //setOnTouchListener - Callback for touching down or up on a view
+                    else if (eventData->_eventName.compare("touch") == 0) {
+                        method = env->GetMethodID(nativeSwitchClass, "setOnTouchListener", "(Landroid/view/View$OnTouchListener;)V");
+                    }
+                        //setOnChangeListener - Callback for changing state of control
                     else if (eventData->_eventName.compare("changed") == 0) {
-                        jclass _class = jni.findClass("android/widget/CompoundButton");
-
-                        jmethodID setOnCheckedChangeListener = env->GetMethodID(_class, "setOnCheckedChangeListener", "(Landroid/widget/CompoundButton$OnCheckedChangeListener;)V");
-
-                        auto eventBuffer = jni.wrapLocalRef(env->NewDirectByteBuffer(eventData, sizeof(eventData)));
-                        auto listenerInstance = jni.wrapLocalRef(env->NewObject(_eventListenerClass, _eventListenerConstructor, eventBuffer.get()));
-
-                        env->CallVoidMethod(widget, setOnCheckedChangeListener, listenerInstance.get());
+                        method = env->GetMethodID(nativeSwitchClass, "setOnCheckedChangeListener", "(Landroid/widget/CompoundButton$OnCheckedChangeListener;)V");
                     }
                     else {
                         LOGE("%s: undefined event handled in button.onBindEvent [ %s ]", __FUNCTION__, eventData->_eventName.c_str());
+                    }
+
+                    if (method != nullptr) {
+                        Jni& jni = Jni::instance();
+
+                        jclass _eventListenerClass = jni.findClass("com/fogchain/radjavvm/UiEventListener");
+                        jmethodID _eventListenerConstructor = env->GetMethodID(_eventListenerClass, "<init>", "(Ljava/nio/ByteBuffer;)V");
+
+                        auto eventBuffer = jni.wrapLocalRef(env->NewDirectByteBuffer(eventData, sizeof(eventData)));
+                        auto listenerInstance = jni.wrapLocalRef(env->NewObject(_eventListenerClass, _eventListenerConstructor, eventBuffer.get()));
+
+                        env->CallVoidMethod(widget, method, listenerInstance.get());
                     }
                 });
 
