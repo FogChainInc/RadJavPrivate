@@ -88,6 +88,7 @@ if (USE_V8)
 
 		set (SOURCES_files_RadJav__v8__MUI__Sources 
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUIView.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUINavigator.cpp"
 			#"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUIViewController.cpp"
 			#"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUINavigationViewController.cpp"
 			#"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUITableViewController.cpp"
@@ -535,6 +536,7 @@ if (IS_MOBILE)
 
 	set (SOURCES_files_RadJav__cpp__MUI__Sources 
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUIView.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUINavigator.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUIViewController.cpp" 
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUINavigationViewController.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUITableViewController.cpp"
@@ -592,6 +594,7 @@ if (IS_MOBILE)
 		set (SOURCES_files_RadJav__cpp__MUI__Sources 
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIButtonFrame.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIViewFrame.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUINavigatorFrame.cpp"
 			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIViewControllerFrame.cpp"
 			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUINavigationViewControllerFrame.cpp"
 			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUITableViewControllerFrame.cpp"

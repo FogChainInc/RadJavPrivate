@@ -82,6 +82,7 @@
 	#ifdef USE_ANDROID
 		#include "v8/RadJavV8GUIGObject.h"
 		#include "v8/RadJavV8MUIView.h"
+		#include "v8/RadJavV8MUINavigator.h"
 		//#include "v8/RadJavV8MUIViewController.h"
 		//#include "v8/RadJavV8MUINavigationViewController.h"
 		//#include "v8/RadJavV8MUITableViewController.h"
@@ -1533,6 +1534,14 @@ namespace RadJAV
 						v8::Handle<v8::Object> viewPrototype = v8GetObject(viewFunc, "prototype");
 
 						V8B::MUI::View::createV8Callbacks(isolate, viewPrototype);
+					}
+
+					// RadJav.MUI.Navigator
+					{
+						v8::Handle<v8::Function> navigatorFunc = v8GetFunction(muiFunc, "Navigator");
+						v8::Handle<v8::Object> navigatorPrototype = v8GetObject(navigatorFunc, "prototype");
+
+						V8B::MUI::Navigator::createV8Callbacks(isolate, navigatorPrototype);
 					}
 
 					#if 0

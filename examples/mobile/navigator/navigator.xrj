@@ -1,0 +1,157 @@
+var navi;
+
+var win1;
+var win2;
+var win3;
+
+var btnBackToWin1;
+var btnBackToWin2;
+
+var btnGoToWin1;
+var btnGoToWin2;
+var btnGoToWin3;
+
+var img1;
+var img2;
+var img3;
+
+RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav.getMUILibrary ()).then (function () {
+	RadJav.runApplication (function () {
+		var screenWidth = RadJav.getPrimaryScreen ().getWidth ();
+		var screenHeight = RadJav.getPrimaryScreen ().getHeight ();
+		
+		navi = new RadJav.MUI.Navigator();
+		
+		var win = new RadJav.MUI.View ("win", "Window 1");
+		win.create ().then (function (win_created) {
+			win1 = win_created;
+			
+			win1.setPosition(0, 0);
+			win1.setSize(screenWidth, screenHeight);
+			
+			RadJav.Console.println("Switching to Win1");
+			navi.push(win1);
+			
+			var img = new RadJav.MUI.Image ("image", "", win1);
+			img.create().then (function (img_created)
+			{
+				img1 = img_created;
+				img1.setPosition ((screenWidth-256)/2, screenHeight/5);
+				img1.setSize (256, 256);
+				img1.setScaleMode(RadJav.MUI.Image.ScaleModeAspectFit);
+				
+				if (RadJav.OS.type == "android")
+				    img1.setImage("/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/examples/mobile/navigator/window_one.png");
+				else //iOS
+				    img1.setImage("");
+			});
+			
+			var btn = new RadJav.MUI.Button("button", "Go to Win 2", win1);
+			btn.create().then (function (btn_created) {
+				btnGoToWin2 = btn_created;
+				
+				btnGoToWin2.setPosition(screenWidth - screenWidth/3, screenHeight/2);
+				
+				btnGoToWin2.on("click", function() {
+					RadJav.Console.println("Switching to Win2");
+					navi.push(win2);
+				});
+			});
+		});
+		
+		win = new RadJav.MUI.View ("win", "Window 2");
+		win.create ().then (function (win_created) {
+			win2 = win_created;
+			
+			win2.setPosition(0, 0);
+			win2.setSize(screenWidth, screenHeight);
+			
+			var img = new RadJav.MUI.Image ("image", "", win2);
+			img.create().then (function (img_created)
+			{
+				img2 = img_created;
+				img2.setPosition ((screenWidth-256)/2, screenHeight/5);
+				img2.setSize (256, 256);
+				img2.setScaleMode(RadJav.MUI.Image.ScaleModeAspectFit);
+				
+				if (RadJav.OS.type == "android")
+				    img2.setImage("/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/examples/mobile/navigator/window_two.png");
+				else //iOS
+				    img2.setImage("");
+			});
+			
+			var btn = new RadJav.MUI.Button("button", "Go back to Win 1", win2);
+			btn.create().then (function (btn_created) {
+				btnBackToWin1 = btn_created;
+				
+				btnBackToWin1.setPosition(20, screenHeight/2);
+				
+				btnBackToWin1.on("click", function() {
+					RadJav.Console.println("Switching back");
+					navi.pop();
+					//navi.pop(null);
+				});
+			});
+
+			btn = new RadJav.MUI.Button("button", "Go to Win 3", win2);
+			btn.create().then (function (btn_created) {
+				btnGoToWin3 = btn_created;
+				
+				btnGoToWin3.setPosition(screenWidth - screenWidth/3, screenHeight/2);
+				
+				btnGoToWin3.on("click", function() {
+					RadJav.Console.println("Switching to Win3");
+					navi.push(win3);
+				});
+			});
+		});
+		
+		win = new RadJav.MUI.View ("win", "Window 3");
+		win.create ().then (function (win_created) {
+			win3 = win_created;
+			
+			win3.setPosition(0, 0);
+			win3.setSize(screenWidth, screenHeight);
+			
+			var img = new RadJav.MUI.Image ("image", "", win3);
+			img.create().then (function (img_created)
+			{
+				img3 = img_created;
+				img3.setPosition ((screenWidth-256)/2, screenHeight/5);
+				img3.setSize (256, 256);
+				img3.setScaleMode(RadJav.MUI.Image.ScaleModeAspectFit);
+				
+				if (RadJav.OS.type == "android")
+				    img3.setImage("/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/examples/mobile/navigator/window_three.png");
+				else //iOS
+				    img3.setImage("");
+			});
+			
+			var btn = new RadJav.MUI.Button("button", "Go back to Win 2", win3);
+			btn.create().then (function (btn_created) {
+				btnBackToWin2 = btn_created;
+				
+				btnBackToWin2.setPosition(20, screenHeight/2);
+				
+				btnBackToWin2.on("click", function() {
+					RadJav.Console.println("Switching back");
+					navi.pop();
+					//navi.pop(win2);
+				});
+			});
+			
+			var btn = new RadJav.MUI.Button("button", "Go to Win 1", win3);
+			btn.create().then (function (btn_created) {
+				btnGoToWin1 = btn_created;
+				
+				btnGoToWin1.setPosition(screenWidth/2, screenHeight/2);
+				
+				btnGoToWin1.on("click", function() {
+					RadJav.Console.println("Switching to Win1");
+					navi.pop(win1);
+					//navi.pop(null);
+				});
+			});
+		});
+	});
+});

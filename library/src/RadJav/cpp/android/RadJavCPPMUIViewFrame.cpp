@@ -58,6 +58,8 @@ namespace RadJAV
             		parent->addChild(this);
             	else
 				{
+					//TODO: re-think, for Navigator we need a detached Views
+					//This can be done by adding method like setAsRootView or implement MUI.MainView control
 					RadJav::runOnUiThreadAsync([&](JNIEnv* env, void* data) {
 						env->CallVoidMethod(RadJav::getJavaViewGroup(), nativeAddView, widget);
 					});

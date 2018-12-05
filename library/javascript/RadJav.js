@@ -187,6 +187,7 @@ RadJav.getMUILibrary = function ()
 	var includes = [{ file: "RadJav.GUI.GObject", themeFile: false, loadFirst: true }, 
 			{ file: "RadJav.Font", themeFile: false, loadFirst: true }, 
 			{ file: "RadJav.MUI.View", themeFile: true }, 
+			{ file: "RadJav.MUI.Navigator", themeFile: false },
 			{ file: "RadJav.MUI.Button", themeFile: true },
 			{ file: "RadJav.MUI.Label", themeFile: true },
 			{ file: "RadJav.MUI.Image", themeFile: true },
