@@ -34,9 +34,9 @@ namespace RadJAV
 
 			jclass ViewFrame::nativeLayoutClass = nullptr;
 
-			ViewFrame::ViewFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
-            {
-            	if (!nativeLayoutClass)
+			void ViewFrame::initNatives()
+			{
+				if (!nativeLayoutClass)
 				{
 					Jni& jni = Jni::instance();
 					JNIEnv* env = jni.getJniEnv();
@@ -47,6 +47,11 @@ namespace RadJAV
 					nativeAddView = env->GetMethodID(nativeLayoutClass, "addView", "(Landroid/view/View;)V");
 					nativeRemoveView = env->GetMethodID(nativeLayoutClass, "removeView", "(Landroid/view/View;)V");
 				}
+			}
+
+			ViewFrame::ViewFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
+            {
+            	initNatives();
 
             	RadJav::runOnUiThreadAsync([&, parent](JNIEnv* env, void* data) {
 					auto layout = wrap_local(env, env->NewObject(nativeLayoutClass, nativeConstructor, RadJav::getJavaApplication()));
@@ -56,18 +61,22 @@ namespace RadJAV
 
             	if (parent)
             		parent->addChild(this);
-            	else
-				{
-					//TODO: re-think, for Navigator we need a detached Views
-					//This can be done by adding method like setAsRootView or implement MUI.MainView control
-					RadJav::runOnUiThreadAsync([&](JNIEnv* env, void* data) {
-						env->CallVoidMethod(RadJav::getJavaViewGroup(), nativeAddView, widget);
-					});
-				}
 
 				setText(text);
             }
-            
+
+			ViewFrame::ViewFrame(const String &text, const Vector2 &pos, const Vector2 &size)
+			{
+				//Constructor to make this View point to RootView created at app startup
+
+				initNatives();
+
+				Jni& jni = Jni::instance();
+				widget = jni.getJniEnv()->NewGlobalRef(RadJav::getJavaViewGroup());
+
+				setText(text);
+			}
+
 			ViewFrame::~ViewFrame()
 			{
 				//Release native widget here

@@ -37,7 +37,7 @@ namespace RadJAV
 					v8::Local<v8::Object> rootWinJs = jsEngine->v8GetObject(args.This(), "rootWin");
 					if(!jsEngine->v8IsNull(rootWinJs))
 					{
-						rootView = (View*)jsEngine->v8GetExternal(args.This(), "_appObj");
+						rootView = (View*)jsEngine->v8GetExternal(rootWinJs, "_appObj");
 					}
 				}
 			#elif defined USE_JAVASCRIPTCORE
@@ -68,12 +68,20 @@ namespace RadJAV
 
 			void Navigator::push(View* view, bool replace)
 			{
+				//We can't deal with parented Views
+				if (view->getParent())
+					return;
+
 				if (impl)
 					impl->push(view ? static_cast<ViewFrame*>(view->_appObj) : nullptr, replace);
 			}
 
 			void Navigator::pop(View* view)
 			{
+				//We can't deal with parented Views
+				if (view->getParent())
+					return;
+
 				if (impl)
 					impl->pop(view ? static_cast<ViewFrame*>(view->_appObj) : nullptr);
 			}

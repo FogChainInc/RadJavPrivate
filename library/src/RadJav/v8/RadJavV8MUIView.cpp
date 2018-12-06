@@ -34,12 +34,25 @@ namespace RadJAV
 			void View::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 			{
 				V8_CALLBACK(object, "create", View::create);
+				V8_CALLBACK(object, "createMainView", View::createMainView);
 			}
 
 			void View::create(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				CppMuiObject *appObject = RJNEW CppMuiObject(V8_JAVASCRIPT_ENGINE, args);
 				appObject->create();
+
+				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_appObj", appObject);
+				v8::Local<v8::Function> _guiFinishedCreatingGObject = V8_JAVASCRIPT_ENGINE->v8GetFunction(V8_RADJAV, "_guiFinishedCreatingGObject");
+				v8::Local<v8::Object> promise = V8_JAVASCRIPT_ENGINE->createPromise(args.This(), _guiFinishedCreatingGObject);
+
+				args.GetReturnValue().Set(promise);
+			}
+
+			void View::createMainView(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				CppMuiObject *appObject = RJNEW CppMuiObject(V8_JAVASCRIPT_ENGINE, args);
+				appObject->createMainView();
 
 				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_appObj", appObject);
 				v8::Local<v8::Function> _guiFinishedCreatingGObject = V8_JAVASCRIPT_ENGINE->v8GetFunction(V8_RADJAV, "_guiFinishedCreatingGObject");
