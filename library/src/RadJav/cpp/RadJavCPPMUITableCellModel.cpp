@@ -38,6 +38,7 @@ namespace RadJAV
                     isHeader = false;
                     isFooter = false;
                     name = jsEngine->jscGetString(thisObj, "name");
+                    subtitle = jsEngine->jscGetString(thisObj, "text");
                     nativeImplementation = new TableCellModelFrame();
                 }
             #endif

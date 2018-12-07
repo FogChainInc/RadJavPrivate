@@ -74,6 +74,7 @@
 						TableCellModel(String name, String text = "", CPP::GUI::GObject *parent = NULL);
                     
                         String name;
+                        String subtitle;
                         bool getUsesAccessoryButton();
                         void setUsesAccessoryButton(bool value);
                         bool getUsesCheckmark();

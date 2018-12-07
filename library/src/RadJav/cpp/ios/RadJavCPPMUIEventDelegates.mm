@@ -160,15 +160,34 @@
 //{
 //
 //}
-//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-//{
-//
-//}
-//
-//- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-//{
-//
-//}
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 18)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, tableView.frame.size.width, 18)];
+    [label setFont:[UIFont boldSystemFontOfSize:16]];
+    
+    RadJAV::CPP::MUI::TableCellModel * model = self.model->headers->at(section);
+    
+    NSString *string = RadJavCocoaStringFromRadJavString(model->name);
+    [label setText:string];
+    [view addSubview:label];
+    [view setBackgroundColor:[UIColor lightGrayColor]];
+    return view;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (self.model->headers->size() > section){
+       return 34.0f;
+    }
+    return 0;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+        return 34.0f;
+}
 
 - (std::vector<RadJAV::CPP::MUI::TableCellModel *>*)cellsInSection:(NSInteger)section
 {
@@ -210,7 +229,6 @@
 {
     RadJAV::CPP::MUI::TableCellModel * model = self.model->models->at(indexPath.row);
 	
-	//TODO: Refactor MUITableCellModel
 	model->nativeImplementation->executeEvent("accessory_click");
 }
 
@@ -251,7 +269,7 @@
     }
     
     cell.textLabel.text = RadJavCocoaStringFromRadJavString(model->name);
-    cell.detailTextLabel.text = RadJavCocoaStringFromRadJavString(model->name);
+    cell.detailTextLabel.text = RadJavCocoaStringFromRadJavString(model->subtitle);
     
     return cell;
 }
