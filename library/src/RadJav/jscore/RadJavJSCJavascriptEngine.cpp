@@ -962,7 +962,7 @@ namespace RadJAV
 
                             args[0] = jsScreen;
 
-                            jscCallFunction(radJav, "addScreen", 1, args);
+                            jscCallFunction(radJavFunc, "addScreen", 1, args);
                         }
 
                         // This loads only the static functions.
