@@ -21,9 +21,8 @@
 	#define _RADJAV_V8_C3D_CAMERA_H_
 
 	#include "RadJavPreprocessor.h"
-	#include "RadJavString.h"
 
-	#include "v8/RadJavV8C3DObject3D.h"
+	#include <v8.h>
 
 	namespace RadJAV
 	{
@@ -31,8 +30,7 @@
 		{
 			namespace C3D
 			{
-#ifdef C3D_USE_OGRE
-				class RADJAV_EXPORT Camera : public Object3D
+				class RADJAV_EXPORT Camera
 				{
 				public:
 					static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
@@ -53,7 +51,6 @@
 					static void setBackgroundColor(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void getBackgroundColor(const v8::FunctionCallbackInfo<v8::Value> &args);
 				};
-#endif
 			}
 		}
 	}

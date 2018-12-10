@@ -23,26 +23,29 @@
 #include <jni.h>
 #include <memory>
 
-template <class T>
-class Local : public std::shared_ptr<T>
+namespace RadJAV
 {
-public:
-    Local(JNIEnv* env, T* reference)
-            : std::shared_ptr<T>(reference, [env](T* p){env->DeleteLocalRef(p);})
+    template <class T>
+    class Local : public std::shared_ptr<T>
     {
-        static_assert(std::is_base_of<_jobject, T>::value, "Type provided is not a JNI reference type");
-    }
+    public:
+        Local(JNIEnv* env, T* reference)
+                : std::shared_ptr<T>(reference, [env](T* p){env->DeleteLocalRef(p);})
+        {
+            static_assert(std::is_base_of<_jobject, T>::value, "Type provided is not a JNI reference type");
+        }
 
-    operator T*()
+        operator T*()
+        {
+            return std::shared_ptr<T>::get();
+        }
+    };
+
+    template <class T>
+    Local<T> wrap_local(JNIEnv* env, T* reference)
     {
-        return std::shared_ptr<T>::get();
+        return Local<T>(env, reference);
     }
-};
-
-template <class T>
-Local<T> wrap_local(JNIEnv* env, T* reference)
-{
-    return Local<T>(env, reference);
 }
 
 #endif //_LOCAL_H

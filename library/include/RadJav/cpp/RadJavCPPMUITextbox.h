@@ -82,8 +82,11 @@ namespace RadJAV
 				String getText();
 				void setFont(CPP::Font *font);
 				CPP::Font *getFont();
-				void setEnabled(RJBOOL enabled);
-				RJBOOL getEnabled();
+
+				#ifdef USE_IOS
+					void setEnabled(RJBOOL enabled);
+					RJBOOL getEnabled();
+				#endif
 				
 				void setInputMode(Textbox::InputMode mode);
 				Textbox::InputMode getInputMode() const;
@@ -92,8 +95,6 @@ namespace RadJAV
 				
 				#ifdef USE_IOS
 					UIView* getNativeWidget();
-				#elif defined USE_ANDROID
-					jobject getNativeWidget();
 				#endif
 				
 			private:
@@ -101,10 +102,16 @@ namespace RadJAV
 					UITextField* widget;
 					TextFieldDelegate* widgetDelegate;
 				#elif defined USE_ANDROID
-					jobject widget;
+					static jclass nativeEditTextClass;
+
+					static jmethodID nativeConstructor;
+					static jmethodID nativeSetText;
+					static jmethodID nativeGetText;
+					static jmethodID nativeSetInputType;
+					static jmethodID nativeGetInputType;
+					static jmethodID nativeSetLines;
 				#endif
 			};
-			
 		}
 	}
 }

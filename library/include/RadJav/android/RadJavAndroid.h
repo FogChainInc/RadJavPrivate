@@ -24,6 +24,7 @@
 #include "android/Jni.h"
 #include "android/UiThreadDispatcher.h"
 #include "android/UiThreadCallbackFunction.h"
+#include "cpp/RadJavCPPGUIGObject.h"
 
 namespace RadJAV
 {
@@ -63,6 +64,9 @@ namespace RadJAV
         ///Check if Android application was paused (Activity is in a background or destroyed)
         bool isPaused() const;
 
+        static void handleUIEvent();
+        static void defaultLockGuiThread();
+
     private:
         void uiThreadRequested();
 
@@ -89,7 +93,6 @@ namespace RadJAV
                                   jobject data,
                                   jobjectArray arguments);
 
-
     private:
         jobject _java_application;
         jobject _java_view_group;
@@ -98,6 +101,12 @@ namespace RadJAV
         unsigned long _ui_thread_request_counter;
         std::mutex _counter_protector_mutex;
         std::mutex _sync_ui_call_mutex;
+
+        static std::mutex _eventMutex1;
+        static CPP::GUI::EventData* _eventData;
+        static jobjectArray _eventArguments;
+        static std::mutex _eventMutex2;
+        static int _eventResult;
 
         static RadJavAndroid *_instance;
     };

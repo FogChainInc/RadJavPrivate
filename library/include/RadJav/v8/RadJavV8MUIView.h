@@ -34,8 +34,9 @@
 				{
 				public:
 					static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
-
+					
 					static void create(const v8::FunctionCallbackInfo<v8::Value> &args);
+					static void createMainView(const v8::FunctionCallbackInfo<v8::Value> &args);
 				};
 			}
 		}

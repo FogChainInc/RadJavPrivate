@@ -26,6 +26,12 @@ namespace RadJAV
 {
     RadJavAndroid *RadJavAndroid::_instance = nullptr;
 
+    std::mutex RadJavAndroid::_eventMutex1;
+    CPP::GUI::EventData* RadJavAndroid::_eventData;
+    jobjectArray RadJavAndroid::_eventArguments;
+    std::mutex RadJavAndroid::_eventMutex2;
+    int RadJavAndroid::_eventResult;
+
     RadJavAndroid *RadJavAndroid::instance() {
         return _instance;
     }
@@ -267,24 +273,61 @@ namespace RadJAV
                                       jobject data,
                                       jobjectArray arguments)
     {
-        LOGI(__FUNCTION__);
-
         Jni::instance().storeJniEnvForThread(env);
 
-        //TODO: Add implementation
-        /*
-        jsize argumentsSize = env->GetArrayLength(arguments);
-        if(argumentsSize)
-        {
-            jobject item = env->GetObjectArrayElement(arguments, 0);
+        CPP::GUI::EventData* eventData = (CPP::GUI::EventData*)env->GetDirectBufferAddress(data);
+
+        //post event for execution
+        _eventMutex1.lock();
+        _eventData = eventData;
+        _eventArguments = arguments;
+        _eventResult = 2; //set default return value
+        _eventMutex1.unlock();
+
+        //wait for result
+        _eventMutex2.lock();
+
+        // return true if event is boolean and consumed, false if event is void or not consumed
+        if (_eventResult == 1) return JNI_TRUE;
+
+        return JNI_FALSE;
+    }
+
+    void RadJavAndroid::handleUIEvent(){
+        //TODO: check if JS execution performance affected by locking this mutex,
+        //possible solution here is to read variable without mutex first and lock it only if
+        //there is any data available to proceed
+        _eventMutex1.lock();
+        if (_eventData != nullptr) {
+            auto retVal = _eventData->_widget->executeEvent(static_cast<CPP::GUI::Event*>(_eventData->_event));
+
+            //check for boolean return value, if exists - return it to the UiEventListener
+            if ( (false == V8_JAVASCRIPT_ENGINE->v8IsNull(retVal)) &&
+                    (retVal->IsBoolean()) )
+            {
+                // true from event means it is consumed
+                bool consumeEvent = retVal->IsTrue();
+
+                if (consumeEvent) {
+                    _eventResult = 1;
+                }
+                else {
+                    _eventResult = 0;
+                }
+
+            }
+
+            _eventData = nullptr;
+            _eventArguments = nullptr;
+
+            //unlock gui thread so it will pick up the result
+            _eventMutex2.unlock();
         }
 
-        EventData* eventData = (EventData*)env->GetDirectBufferAddress(byteBuffer);
+        _eventMutex1.unlock();
+    }
 
-        return eventData->_widget->executeEvent(*eventData, arguments);
-         */
-
-
-        return JNI_TRUE;
+    void RadJavAndroid::defaultLockGuiThread() {
+        _eventMutex2.lock();
     }
 }

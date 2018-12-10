@@ -93,8 +93,23 @@ if (USE_V8)
 		set (SOURCES ${SOURCES_files_RadJav__v8__GUI__Headers} ${SOURCES})
 
 		set (SOURCES_files_RadJav__v8__MUI__Headers 
-			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIView.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIButton.h")
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIView.h" 
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUINavigator.h"
+			#"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIViewController.h"
+			#"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUINavigationViewController.h"
+			#"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUITableViewController.h"
+			#"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUITableView.h"
+			#"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUITableViewModel.h"
+			#"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUITableCellModel.h"
+			#"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIScrollView.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIButton.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUILabel.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIImage.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUICheckbox.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUITextbox.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUITextarea.h"
+			#"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIWebView.h"
+			)
 
 			source_group ("RadJav\\V8\\MUI" FILES ${SOURCES_files_RadJav__v8__MUI__Headers})
 
@@ -527,7 +542,8 @@ if (IS_MOBILE)
 	set (SOURCES ${SOURCES_files_RadJav__cpp__GUI__Headers} ${SOURCES})
 
 	set (SOURCES_files_RadJav__cpp__MUI__Headers 
-		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIView.h" 
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIView.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUINavigator.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIViewController.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUINavigationViewController.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUITableViewController.h"

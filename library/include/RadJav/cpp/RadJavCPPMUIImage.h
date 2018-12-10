@@ -84,8 +84,6 @@ namespace RadJAV
 				
 				#ifdef USE_IOS
 					UIView* getNativeWidget();
-				#elif defined USE_ANDROID
-					jobject getNativeWidget();
 				#endif
 				
 			private:
@@ -95,7 +93,12 @@ namespace RadJAV
 					//TODO: do we need to handle events of the UIImage?
 					//ImageDelegate* widgetDelegate;
 				#elif defined USE_ANDROID
-					jobject widget;
+					static jclass nativeImageViewClass;
+
+					static jmethodID nativeConstructor;
+					static jmethodID nativeSetImageBitmap;
+					static jmethodID nativeSetScaleType;
+					static jmethodID nativeGetScaleType;
 				#endif
 			};
 		}

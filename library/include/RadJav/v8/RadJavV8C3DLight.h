@@ -21,9 +21,8 @@
 #define _RADJAV_V8_C3D_LIGHT_H_
 
 #include "RadJavPreprocessor.h"
-#include "RadJavString.h"
 
-#include "v8/RadJavV8C3DObject3D.h"
+#include <v8.h>
 
 namespace RadJAV
 {
@@ -31,8 +30,7 @@ namespace RadJAV
 	{
 		namespace C3D
 		{
-#ifdef C3D_USE_OGRE
-			class RADJAV_EXPORT Light : public Object3D
+			class RADJAV_EXPORT Light
 			{
 			public:
 				static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
@@ -43,7 +41,6 @@ namespace RadJAV
 				static void setColor(const v8::FunctionCallbackInfo<v8::Value> &args);
 				static void getColor(const v8::FunctionCallbackInfo<v8::Value> &args);
 			};
-#endif
 		}
 	}
 }

@@ -39,6 +39,7 @@
                 {
                 public:
                     ViewFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
+					ViewFrame(const String &text, const Vector2 &pos, const Vector2 &size);
                     ~ViewFrame();
 
 					#ifdef USE_ANDROID
@@ -60,6 +61,8 @@
 						//TODO: do we need to handle events of the UIView?
 						//ViewDelegate* widgetDelegate;
 					#elif defined USE_ANDROID
+						static void initNatives();
+
 						static jmethodID nativeConstructor;
 						static jmethodID nativeAddView;
 						static jmethodID nativeRemoveView;
@@ -81,6 +84,7 @@
 						View(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 
 						void create();
+						void createMainView();
 
 						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
                         	/// Execute when an event is triggered.

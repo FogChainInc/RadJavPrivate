@@ -23,30 +23,34 @@
 #include "Jni.h"
 #include <functional>
 
-class UiThreadDispatcher;
-class AppInterface;
-
-typedef std::function<void (JNIEnv* env, void* data)> UiThreadCallbackFunctionType;
-
-class UiThreadCallbackFunction
+namespace RadJAV
 {
-public:
-    UiThreadCallbackFunction() = delete;
-    UiThreadCallbackFunction(const UiThreadCallbackFunction&) = delete;
+	class UiThreadDispatcher;
+	class AppInterface;
 
-    UiThreadCallbackFunction(UiThreadDispatcher* dispatcher,
-								UiThreadCallbackFunctionType function, void* data,
-								bool asynchronous = true);
+	typedef std::function<void (JNIEnv* env, void* data)> UiThreadCallbackFunctionType;
 
-    void dispatch();
+	class UiThreadCallbackFunction
+	{
+	public:
+		UiThreadCallbackFunction() = delete;
+		UiThreadCallbackFunction(const UiThreadCallbackFunction&) = delete;
 
-    void operator ()(JNIEnv* env);
+		UiThreadCallbackFunction(UiThreadDispatcher* dispatcher,
+								 UiThreadCallbackFunctionType function, void* data,
+								 bool asynchronous = true);
 
-private:
-    UiThreadDispatcher* _dispatcher;
-    UiThreadCallbackFunctionType _function;
-    void* _data;
-    bool _asynchronous;
-};
+		void dispatch();
+
+		void operator ()(JNIEnv* env);
+
+	private:
+		UiThreadDispatcher* _dispatcher;
+		UiThreadCallbackFunctionType _function;
+		void* _data;
+		bool _asynchronous;
+	};
+
+}
 
 #endif //RADJAV_UITHREADCALLBACKFUNCTION_H

@@ -21,7 +21,8 @@
 	#define _RADJAV_GUI_V8_CRYPTO_DECIPHERMULTIPART_H_
 
 	#include "RadJavPreprocessor.h"
-	#include "RadJavString.h"
+
+	#include <v8.h>
 
 	namespace RadJAV
 	{
@@ -30,7 +31,6 @@
 			/// RadJav Cryptography
 			namespace Crypto
 			{
-				/// A Key/Value Database, uses LevelDB.
 				class RADJAV_EXPORT DecipherMultipart
 				{
 					public:

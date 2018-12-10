@@ -412,6 +412,21 @@ namespace RadJAV
 				static jclass nativeViewClass;
 			#endif
 			};
+
+            struct EventData
+            {
+                EventData(GObjectWidget* widget, String eventName, void* event)
+                {
+                    _widget = widget;
+                    _event = event;
+                    _eventName = eventName;
+                }
+
+                GObjectWidget* _widget;
+                String _eventName;
+                void* _event;
+            };
+
 		}
 	}
 }

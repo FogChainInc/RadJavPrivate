@@ -87,8 +87,23 @@ if (USE_V8)
 		set (SOURCES ${SOURCES_files_RadJav__v8__GUI__Sources} ${SOURCES})
 
 		set (SOURCES_files_RadJav__v8__MUI__Sources 
-			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUIView.cpp" 
-			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUIButton.cpp")
+			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUIView.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUINavigator.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUIViewController.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUINavigationViewController.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUITableViewController.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUITableView.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUITableViewModel.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUITableCellModel.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUIScrollView.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUIButton.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUILabel.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUIImage.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUICheckbox.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUITextbox.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUITextarea.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUIWebView.cpp"
+			)
 
 		source_group ("RadJav\\V8\\MUI" FILES ${SOURCES_files_RadJav__v8__MUI__Sources})
 
@@ -521,6 +536,7 @@ if (IS_MOBILE)
 
 	set (SOURCES_files_RadJav__cpp__MUI__Sources 
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUIView.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUINavigator.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUIViewController.cpp" 
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUINavigationViewController.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUITableViewController.cpp"
@@ -579,6 +595,7 @@ if (IS_MOBILE)
 		set (SOURCES_files_RadJav__cpp__MUI__Sources 
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIButtonFrame.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIViewFrame.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUINavigatorFrame.cpp"
 			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIViewControllerFrame.cpp"
 			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUINavigationViewControllerFrame.cpp"
 			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUITableViewControllerFrame.cpp"
@@ -587,11 +604,11 @@ if (IS_MOBILE)
 			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIAlertFrame.cpp"
 			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIEventDelegates.cpp"
 			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIUtils.cpp"
-			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUILabelFrame.cpp"
-			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIImageFrame.cpp"
-			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUICheckboxFrame.cpp"
-			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUITextboxFrame.cpp"
-			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUITextareaFrame.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUILabelFrame.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIImageFrame.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUICheckboxFrame.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUITextboxFrame.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUITextareaFrame.cpp"
 			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIWebView.cpp"
 			)
 

@@ -67,6 +67,8 @@ namespace RadJAV
 
                 if (italic == true)
                     wxfont.MakeItalic();
+				
+				return wxfont;
             }
         #endif
 

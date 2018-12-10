@@ -22,35 +22,33 @@
 
 	#include "RadJavPreprocessor.h"
 
-	#ifdef USE_V8
 	#include <v8.h>
 
 	namespace RadJAV
 	{
 		namespace V8B
 		{
-			class RADJAV_EXPORT OS
+			namespace OS
 			{
-			public:
-				static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
-				static void destroy();
+				void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
+				void destroy();
 
-				static void onReady(const v8::FunctionCallbackInfo<v8::Value> &args);
-				static void openWebBrowserURL(const v8::FunctionCallbackInfo<v8::Value> &args);
-				static void exec(const v8::FunctionCallbackInfo<v8::Value> &args);
-				static void getDocumentsPath(const v8::FunctionCallbackInfo<v8::Value> &args);
-				static void getTempPath(const v8::FunctionCallbackInfo<v8::Value> &args);
-				static void getUserDataPath(const v8::FunctionCallbackInfo<v8::Value> &args);
-				static void getApplicationPath(const v8::FunctionCallbackInfo<v8::Value> &args);
-				static void getCurrentWorkingPath(const v8::FunctionCallbackInfo<v8::Value> &args);
-				static void setCurrentWorkingPath(const v8::FunctionCallbackInfo<v8::Value> &args);
-				static void saveFileAs(const v8::FunctionCallbackInfo<v8::Value> &args);
-				static void openFileAs(const v8::FunctionCallbackInfo<v8::Value> &args);
+				void onReady(const v8::FunctionCallbackInfo<v8::Value> &args);
+				void openWebBrowserURL(const v8::FunctionCallbackInfo<v8::Value> &args);
+				void exec(const v8::FunctionCallbackInfo<v8::Value> &args);
+				void getDocumentsPath(const v8::FunctionCallbackInfo<v8::Value> &args);
+				void getTempPath(const v8::FunctionCallbackInfo<v8::Value> &args);
+				void getUserDataPath(const v8::FunctionCallbackInfo<v8::Value> &args);
+				void getApplicationPath(const v8::FunctionCallbackInfo<v8::Value> &args);
+				void getCurrentWorkingPath(const v8::FunctionCallbackInfo<v8::Value> &args);
+				void setCurrentWorkingPath(const v8::FunctionCallbackInfo<v8::Value> &args);
+				void saveFileAs(const v8::FunctionCallbackInfo<v8::Value> &args);
+				void openFileAs(const v8::FunctionCallbackInfo<v8::Value> &args);
 
-				static v8::Persistent<v8::Value> *onReadyFunction;
+				extern v8::Persistent<v8::Value> *onReadyFunction;
 			};
 		}
 	}
-	#endif
+
 #endif
 

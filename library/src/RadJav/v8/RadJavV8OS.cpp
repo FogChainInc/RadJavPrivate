@@ -22,10 +22,10 @@
 #include "RadJav.h"
 #include "RadJavString.h"
 
+#include "v8/RadJavV8JavascriptEngine.h"
+
 #include "cpp/RadJavCPPOS.h"
 
-#ifdef USE_V8
-	#include "v8/RadJavV8JavascriptEngine.h"
 
 namespace RadJAV
 {
@@ -183,5 +183,3 @@ namespace RadJAV
 		}
 	}
 }
-#endif
-

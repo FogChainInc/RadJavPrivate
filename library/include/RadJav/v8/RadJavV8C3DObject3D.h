@@ -22,7 +22,6 @@
 
 #include "RadJavPreprocessor.h"
 
-#ifdef USE_V8
 #include <v8.h>
 
 namespace RadJAV
@@ -31,7 +30,6 @@ namespace RadJAV
 	{
 		namespace C3D
 		{
-#ifdef C3D_USE_OGRE
 			class RADJAV_EXPORT Object3D
 			{
 			public:
@@ -41,10 +39,8 @@ namespace RadJAV
 				static void setVisibility(const v8::FunctionCallbackInfo<v8::Value> &args);
 				static void getVisibility(const v8::FunctionCallbackInfo<v8::Value> &args);
 			};
-#endif
 		}
 	}
 }
-#endif
 #endif
 
