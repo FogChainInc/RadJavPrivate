@@ -15,7 +15,7 @@ import { GeneratorClass } from "./GeneratorClass";
 export class Generator
 {
 	/// The name of the generator.
-	public name: string;
+	protected names: string[];
 	/// The custom files to write to.
 	protected customFiles: { [name: string]: CustomFile };
 	/// The filename to use when outputting all files.
@@ -41,10 +41,12 @@ export class Generator
 	public outputs: { [name: string]: GeneratorOutput };
 	/// Inline contents to write.
 	protected inlineContents: { searchString: string, file: string,  content: string }[];
+	/// Additional JS objects to utilize during generation.
+	public jsObjects: { [name: string]: any };
 
 	constructor (name: string)
 	{
-		this.name = name;
+		this.names = [name];
 		this.customFiles = {};
 		this.filename = "";
 		this.filesToParse = [];
@@ -56,13 +58,72 @@ export class Generator
 		this.events = {};
 		this.outputs = {};
 		this.inlineContents = [];
+		this.jsObjects = {};
+	}
+
+	/// Copy properties from another Generator.
+	copyProperties (other: Generator)
+	{
+		/// @fixme Add collision checks through here.
+		for (let iIdx = 0; iIdx < other.names.length; iIdx++)
+			this.names.push (other.names[iIdx]);
+
+		for (let key in other.customFiles)
+			this.customFiles[key] = utils.cloneObject (other.customFiles[key]);
+
+		this.filename = "," + other.filename;
+
+		for (let iIdx = 0; iIdx < other.filesToParse.length; iIdx++)
+			this.filesToParse.push (utils.cloneObject (other.filesToParse[iIdx]));
+
+		for (let key in other.keywords)
+			this.keywords[key] = utils.cloneObject (other.keywords[key]);
+
+		for (let iIdx = 0; iIdx < other.passes.length; iIdx++)
+			this.passes.push (utils.cloneObject (other.passes[iIdx]));
+
+		for (let iIdx = 0; iIdx < other.references.length; iIdx++)
+			this.references.push (utils.cloneObject (other.references[iIdx]));
+
+		this.tempBlock = null;
+
+		for (let iIdx = 0; iIdx < other.namespaces.length; iIdx++)
+			this.namespaces.push (utils.cloneObject (other.namespaces[iIdx]));
+
+		for (let key in other.events)
+			this.events[key] = utils.cloneObject (other.events[key]);
+
+		for (let key in other.outputs)
+			this.outputs[key] = utils.cloneObject (other.outputs[key]);
+
+		for (let iIdx = 0; iIdx < other.inlineContents.length; iIdx++)
+			this.inlineContents.push (utils.cloneObject (other.inlineContents[iIdx]));
+
+		for (let key in other.jsObjects)
+			this.jsObjects[key] = other.jsObjects[key];
+	}
+
+	/// Get the full name of this generator.
+	getName (): string
+	{
+		let name: string = "";
+
+		for (let iIdx = 0; iIdx < this.names.length; iIdx++)
+		{
+			if (iIdx == 0)
+				name = this.names[iIdx];
+			else
+				name = "," + this.names[iIdx];
+		}
+
+		return (name);
 	}
 
 	/// During generation, refer to a reference for something.
 	referFrom (reference: GeneratorReference): void
 	{
 		if (reference.name == "")
-			reference.name = this.name;
+			reference.name = this.getName ();
 
 		this.references.push (reference);
 	}
@@ -127,6 +188,39 @@ export class Generator
 		return (this.outputs[name]);
 	}
 
+	/// Fix Generator references.
+	fixGeneratorReferences (nspace: GeneratorNamespace[] = null): void
+	{
+		if (nspace == null)
+			nspace = this.namespaces;
+
+		for (let iIdx = 0; iIdx < nspace.length; iIdx++)
+		{
+			let gennspace: GeneratorNamespace = nspace[iIdx];
+
+			gennspace.$generator = this;
+
+			if (nspace != null)
+			{
+				if (gennspace[gennspace.$name] != null)
+					gennspace[gennspace.$name].$generator = this;
+			}
+
+			for (let key in gennspace.$classes)
+			{
+				let clss: GeneratorClass = gennspace.$classes[key];
+
+				clss.$generator = this;
+
+				if (clss.$namespaces != null)
+				{
+					if (clss.$namespaces.length > 0)
+						this.fixGeneratorReferences (clss.$namespaces);
+				}
+			}
+		}
+	}
+
 	/// A class has been created.
 	classCreated (genClass: GeneratorClass, args: any[]): void
 	{
@@ -140,27 +234,51 @@ export class Generator
 		}
 	}
 
-	/// Call a function.
-	functionCalled (func: GeneratorFunction, args: any[]): void
+	/// Add a custom JS object.
+	addJSObject (objectName: string, newObject: any): void
 	{
+		this.jsObjects[objectName] = newObject;
+	}
+
+	/// Call a function.
+	functionCalled (func: GeneratorFunction, args: any[]): string
+	{
+		let output: string = "";
+
+		if (func.execFunc != null)
+		{
+			output = this.replaceKeywords (func.execFunc.apply (this, [this.tempBlock, func, args]));
+
+			this.inlineContents.push ({
+						searchString: this.tempBlock.fullLine, 
+						file: this.tempBlock.file, 
+						content: output
+					});
+
+			return (output);
+		}
+
 		for (let key in this.outputs)
 		{
 			if (this.outputs[key].events["functionCall"] != null)
 			{
-				this.outputs[key].content += 
-					this.replaceKeywords (this.outputs[key].events["functionCall"] (func, args));
+				output = this.replaceKeywords (this.outputs[key].events["functionCall"] (func, args));
+				this.outputs[key].content += output;
 			}
 		}
 
 		if (this.events["inlineFunctionCall"] != null)
 		{
+			output = this.replaceKeywords (this.events["inlineFunctionCall"].apply (this, [this.tempBlock, func, args]));
+
 			this.inlineContents.push ({
 						searchString: this.tempBlock.fullLine, 
 						file: this.tempBlock.file, 
-						content: 
-							this.replaceKeywords (this.events["inlineFunctionCall"].apply (this, [this.tempBlock, func, args]))
+						content: output
 					});
 		}
+
+		return (output);
 	}
 
 	/// Add content to an output.
@@ -290,6 +408,19 @@ export class Generator
 	{
 		this.setOutputEndings (false);
 		let endings: any[] = [];
+		let runJSObjects: string = `
+for (let key in _jsobjects)
+{
+	if (key == "String")
+	{
+		utils.copyMissingProperties (_jsobjects[key].prototype, String.prototype);
+
+		continue;
+	}
+
+	this[key] = _jsobjects[key];
+}
+`;
 
 		for (let iIdx = 0; iIdx < this.filesToParse.length; iIdx++)
 		{
@@ -304,7 +435,16 @@ export class Generator
 	
 				block.file = file;
 				this.tempBlock = block;
-				sandbox[this.name] = this;
+
+				for (let iKdx = 0; iKdx < this.names.length; iKdx++)
+				{
+					let name: string = this.names[iKdx];
+					sandbox[name] = this;
+					sandbox[name].tempBlock = block;
+				}
+
+				sandbox["_jsobjects"] = this.jsObjects;
+				sandbox["utils"] = utils;
 
 				for (let iKdx = 0; iKdx < this.namespaces.length; iKdx++)
 				{
@@ -313,19 +453,26 @@ export class Generator
 					sandbox[nspace.$name] = nspace;
 				}
 
-				vm.createContext (sandbox);
-				let result: any = vm.runInContext (block.contents, sandbox);
-
-				if ((result != undefined) && (result != null))
+				try
 				{
-					if (typeof (result) == "object")
+					vm.createContext (sandbox);
+					let result: any = vm.runInContext (runJSObjects + " " + block.contents, sandbox);
+
+					if ((result != undefined) && (result != null))
 					{
-						if (result.isEnding == false)
+						if (typeof (result) == "object")
 						{
-							endings.push ({ name: this.name, type: result.type, 
-								sandbox: sandbox, block: block });
+							if (result.isEnding == false)
+							{
+								endings.push ({ names: this.names, type: result.type, 
+									sandbox: sandbox, block: block });
+							}
 						}
 					}
+				}
+				catch (ex)
+				{
+					throw new Error (`{ex.message}. Stack: ${ex.stack}`);
 				}
 			}
 		}
@@ -336,9 +483,24 @@ export class Generator
 		{
 			let ending = endings[iIdx];
 
-			ending.sandbox[ending.name].tempBlock = ending.block;
+			try
+			{
+				let selectedName: string = "";
 
-			vm.runInContext (`${ending.name}.outputEnd ("${ending.type}");`, ending.sandbox);
+				for (let iJdx = 0; iJdx < ending.names.length; iJdx++)
+				{
+					if (iJdx == 0)
+						selectedName = ending.names[iJdx];
+
+					ending.sandbox[ending.names[iJdx]].tempBlock = ending.block;
+				}
+
+				vm.runInContext (`${runJSObjects} ${selectedName}.outputEnd ("${ending.type}");`, ending.sandbox);
+			}
+			catch (ex)
+			{
+				throw new Error (`{ex.message}. Stack: ${ex.stack}`);
+			}
 		}
 
 		// Insert the inline content.
@@ -349,6 +511,7 @@ export class Generator
 			let pos: number = content.indexOf (inlineContent.searchString);
 			let lineStart: number = content.indexOf ("\n", ((inlineContent.searchString.length - 1) + pos));
 			let kStart: number = content.indexOf ("/*(>^o^)>*/", pos);
+			let endline: string = "\n";
 
 			if (kStart > -1)
 			{
@@ -357,10 +520,11 @@ export class Generator
 				if (kEnd < 0)
 					throw new Error ("Adorable guys don't match up!");
 
-				content = utils.removeStringBetween (content, kStart, (kEnd + "/*<(^o^<)*/".length + 1));
+				content = utils.removeStringBetween (content, kStart, (kEnd + "/*<(^o^<)*/".length));
+				endline = "";
 			}
 
-			let output: string = `/*(>^o^)>*/${inlineContent.content}/*<(^o^<)*/\n`;
+			let output: string = `/*(>^o^)>*/${inlineContent.content}/*<(^o^<)*/${endline}`;
 			content = utils.insertString (content, output, (lineStart + 1));
 
 			fs.writeFileSync (inlineContent.file, content);

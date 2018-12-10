@@ -1,3 +1,6 @@
+/** @class Math
+* The math class.
+*/
 interface Math {
     inv180: number;
     invPI: number;

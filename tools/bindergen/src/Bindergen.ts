@@ -16,6 +16,8 @@ export class Bindergen
 	protected static generators: { [name: string]: any } = {};
 	/// The command line arguments.
 	protected static args: { [name: string]: string } = {};
+	/// The command line arguments.
+	public static isReady: boolean = false;
 
 	/// Set a command line argument.
 	static setArg (arg: string): void
@@ -34,7 +36,7 @@ export class Bindergen
 	/// Add a generator.
 	static addGenerator (generator: Generator): void
 	{
-		Bindergen.generators[generator.name] = generator;
+		Bindergen.generators[generator.getName ()] = generator;
 	}
 
 	/// Use a generator.
@@ -42,7 +44,34 @@ export class Bindergen
 	{
 		let gen: Generator = Bindergen.generators[name];
 
+		if (gen == null)
+			throw new Error (`Unable to find generator ${name}!`);
+
 		return (gen);
+	}
+
+	/// Use several generators at the same time.
+	static useGenerators (names: string[]): Generator
+	{
+		let generator: Generator = null;
+
+		for (let iIdx = 0; iIdx < names.length; iIdx++)
+		{
+			let name: string = names[iIdx];
+			let gen: Generator = Bindergen.generators[name];
+
+			if (gen == null)
+				throw new Error (`Unable to find generator ${name}!`);
+
+			if (generator == null)
+				generator = gen;
+			else
+				generator.copyProperties (gen);
+		}
+
+		generator.fixGeneratorReferences ();
+
+		return (generator);
 	}
 
 	/// Start generating.
@@ -58,7 +87,7 @@ export class Bindergen
 				const sandbox = { Bindergen: Bindergen };
 
 				vm.createContext (sandbox);
-				vm.runInContext (content, sandbox);
+				vm.runInContext (content, sandbox, { filename: file });
 			}
 			catch (ex)
 			{

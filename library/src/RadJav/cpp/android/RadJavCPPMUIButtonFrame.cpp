@@ -87,19 +87,23 @@ nativeButtonsetText = env->GetMethodID(nativeButtonClass, "setText", "(Lcha;Lint
             void ButtonFrame::setText(String text)
             {
 				/*^:
-					//RadJav.Android.runOnUiThreadAsync (["text"], function (text)
-						//{
-							//let jniText = text.toWrappedJNIString ();
+					RadJav.Android.runOnUiThreadAsync (["&", "text"], function (defCap, text)
+						{
+							let jniText = text.toWrappedJNIString ();
+							let output = `
+							auto jniText = ${jniText};
+							${jni.button.setText ("text")}`;
 
-							//return (jni.button.setText (text));
-						//});
-					let jniText = "text".toWrappedJNIString ();
-					jni.button.setText (jniText);
+							return (output);
+						});
 				*/
-/*(>^o^)>*/env->CallNonvirtualVoidMethod(widget, nativeButtonClass, nativeButtonsetText, wrap_local(env, text.toJNIString()).get ());/*<(^o^<)*/
+/*(>^o^)>*/RadJav::runOnUiThreadAsync ([&,text](JNIEnv *env, void *data){
+				
+							auto jniText = wrap_local(env, text.toJNIString()).get ();
+							env->CallNonvirtualVoidMethod(widget, nativeButtonClass, nativeButtonsetText, text);
+			});/*<(^o^<)*/
 
-
-            	RadJav::runOnUiThreadAsync([&, text](JNIEnv* env, void* data) {
+				RadJav::runOnUiThreadAsync([&, text](JNIEnv* env, void* data) {
 					auto jtext = wrap_local(env, text.toJNIString());
 
 					env->CallNonvirtualVoidMethod(widget, nativeButtonClass, nativeSetText, jtext.get());

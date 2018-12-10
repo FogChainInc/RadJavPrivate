@@ -1,6 +1,7 @@
 import { Generator } from "./Generator";
 import { GeneratorClass } from "./GeneratorClass";
 import { GeneratorReference } from "./GeneratorReference";
+import { Bindergen } from "./Bindergen";
 
 /// A namespace.
 export class GeneratorNamespace
@@ -10,7 +11,7 @@ export class GeneratorNamespace
 	/// The parent generator.
 	public $generator: Generator;
 	/// The classes that will generate bindings or parse.
-	protected $classes: { [name: string]: GeneratorClass };
+	public $classes: { [name: string]: GeneratorClass };
 
 	constructor (generator: Generator, name: string)
 	{
@@ -38,7 +39,8 @@ export class GeneratorNamespace
 		this[variableName] = genClass;
 		this.$classes[variableName] = genClass;
 
-		this.$generator.classCreated (genClass, []);
+		if (Bindergen.isReady == true)
+			this.$generator.classCreated (genClass, []);
 
 		return (genClass);
 	}

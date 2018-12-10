@@ -1,5 +1,6 @@
 import { GeneratorFunction } from "./GeneratorFunction";
-import { GeneratorReference } from "./GeneratorReference";
+import { Generator } from "./Generator";
+import { GeneratorNamespace } from "./GeneratorNamespace";
 import * as utils from "./utils";
 
 /// A class to be used for generating bindings or parsing.
@@ -23,6 +24,8 @@ export class GeneratorClass
 	public $properties: object;
 	/// The generator associated with this class.
 	public $generator: Generator;
+	/// The namespaces used.
+	public $namespaces: GeneratorNamespace[];
 
 	constructor (obj: string | GeneratorClass)
 	{
@@ -36,35 +39,57 @@ export class GeneratorClass
 			this.$methods = {};
 			this.$properties = {};
 			this.$generator = null;
+			this.$namespaces = [];
 		}
 		else
 		{
 			let tempObj: GeneratorClass = (<GeneratorClass>obj);
 
 			// For the devs who don't want to use the $ in front of the properties.
+			// @ts-ignore
 			if (tempObj.name != null)
+			// @ts-ignore
 				this.$name = tempObj.name;
 
+			// @ts-ignore
 			if (tempObj.typeName != null)
+				// @ts-ignore
 				this.$typeName = tempObj.typeName;
 
+			// @ts-ignore
 			if (tempObj.extends != null)
+				// @ts-ignore
 				this.$extends = tempObj.extends;
 
+			// @ts-ignore
 			if (tempObj.functions != null)
+				// @ts-ignore
 				this.$functions = tempObj.functions;
 
+			// @ts-ignore
 			if (tempObj.parseEvents != null)
+				// @ts-ignore
 				this.$parseEvents = tempObj.parseEvents;
 
+			// @ts-ignore
 			if (tempObj.methods != null)
+				// @ts-ignore
 				this.$methods = tempObj.methods;
 
+			// @ts-ignore
 			if (tempObj.properties != null)
+				// @ts-ignore
 				this.$properties = tempObj.properties;
 
+			// @ts-ignore
 			if (tempObj.generator != null)
+				// @ts-ignore
 				this.$generator = tempObj.generator;
+
+			// @ts-ignore
+			if (tempObj.namespaces != null)
+				// @ts-ignore
+				this.$namespaces = tempObj.namespaces;
 
 			if (tempObj.$name != null)
 				this.$name = tempObj.$name;
@@ -89,6 +114,9 @@ export class GeneratorClass
 
 			if (tempObj.$generator != null)
 				this.$generator = tempObj.$generator;
+
+			if (tempObj.$namespaces != null)
+				this.$namespaces = tempObj.$namespaces;
 		}
 
 		if ((this.$name.indexOf (".") > -1) || (this.$name.indexOf ("/") > -1))
@@ -144,9 +172,12 @@ export class GeneratorClass
 	/// Add a function.
 	addFunction (func: GeneratorFunction): void
 	{
-		this[func.name] = utils.keepContext (function (...args): void
+		this[func.name] = utils.keepContext (function (...args): string
 			{
-				this.$generator.functionCalled.apply (this.$generator, [func, args]);
+				let genClass: GeneratorClass = this;	// Why is this an error?
+				let result: string = genClass.$generator.functionCalled.apply (genClass.$generator, [func, args]);
+
+				return (result);
 			}, this, [func]);
 		this.$methods[func.name] = func;
 	}
@@ -155,10 +186,5 @@ export class GeneratorClass
 	parse (event: string, func: Function): void
 	{
 		this.$parseEvents[event] = func;
-	}
-
-	/// Generate bindings and parse files.
-	generate ():  void
-	{
 	}
 }

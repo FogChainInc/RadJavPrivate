@@ -1,5 +1,3 @@
-import { GeneratorMap } from "./GeneratorMap";
-
 /// An argument for a function
 export class GeneratorFunctionArgument
 {

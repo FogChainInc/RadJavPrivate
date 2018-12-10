@@ -19,48 +19,60 @@ function build (configPath): void
 	if ((Bindergen.config.root == undefined) || (Bindergen.config.root == ""))
 		Bindergen.config.root = parentDir;
 
-	for (let iIdx = 0; iIdx < Bindergen.config.generators.length; iIdx++)
+	(async function ()
 	{
-		let generatorPath: string = Bindergen.config.generators[iIdx];
-		
-		try
+		for (let iIdx = 0; iIdx < Bindergen.config.generators.length; iIdx++)
 		{
-			let foundGenPath: string = "";
-
-			if (fs.existsSync (`${__dirname}/gen/${generatorPath}`) == true)
-				foundGenPath = `${__dirname}/gen/${generatorPath}`;
-
-			if (fs.existsSync (`${__dirname}/build/gen/${generatorPath}`) == true)
-				foundGenPath = `${__dirname}/build/gen/${generatorPath}`;
-
-			/*if (fs.existsSync (`${parentDir}/${generatorPath}`) == true)
-				foundGenPath = `${parentDir}/${generatorPath}`;
-
-			if (fs.existsSync (`${parentDir}/gen/${generatorPath}`) == true)
-				foundGenPath = `${parentDir}/gen/${generatorPath}`;*/
-
-			if (foundGenPath != "")
+			let generatorPath: string = Bindergen.config.generators[iIdx];
+			
+			try
 			{
-				let content: string = fs.readFileSync (foundGenPath).toString ();
+				let foundGenPath: string = "";
 
-				if (content != "")
+				if (fs.existsSync (`${__dirname}/gen/${generatorPath}`) == true)
+					foundGenPath = `${__dirname}/gen/${generatorPath}`;
+
+				if (fs.existsSync (`${__dirname}/build/gen/${generatorPath}`) == true)
+					foundGenPath = `${__dirname}/build/gen/${generatorPath}`;
+
+				/*if (fs.existsSync (`${parentDir}/${generatorPath}`) == true)
+					foundGenPath = `${parentDir}/${generatorPath}`;
+
+				if (fs.existsSync (`${parentDir}/gen/${generatorPath}`) == true)
+					foundGenPath = `${parentDir}/gen/${generatorPath}`;*/
+
+				if (foundGenPath != "")
 				{
-					let wrappedContent: string = mod.wrap (content);
-					let genMod: Function = vm.runInThisContext (wrappedContent);
-					genMod (exports, require, module, __filename, __dirname);
-					let generator: Generator = module.exports;
+					foundGenPath = path.normalize (foundGenPath);
+					let content: string = fs.readFileSync (foundGenPath).toString ();
 
-					Bindergen.addGenerator (generator);
+					if (content != "")
+					{
+						let wrappedContent = mod.wrap (content);
+						let newModule: Function = vm.runInThisContext (wrappedContent, { filename: foundGenPath });
+						let generator: Generator = null;
+						let genPathDir: string = path.dirname (foundGenPath);
+
+						newModule (exports, require, module, foundGenPath, genPathDir);
+
+						if (module.exports["keywords"] == null)
+							generator = await module.exports ();
+						else
+							generator = module.exports;
+
+						Bindergen.addGenerator (generator);
+					}
 				}
 			}
+			catch (ex)
+			{
+				utils.showError (ex.message);
+			}
 		}
-		catch (ex)
-		{
-			utils.showError (ex.message);
-		}
-	}
 
-	Bindergen.generate ();
+		Bindergen.isReady = true;
+		Bindergen.generate ();
+	}());
 }
 
 const commands = [

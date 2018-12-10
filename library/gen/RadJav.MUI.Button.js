@@ -1,6 +1,6 @@
 (async function ()
 {
-	let embed = Bindergen.useGenerator ("RadJav");
+	let embed = Bindergen.useGenerator ("RadJavGenerator");
 	embed.usePasses (["V8", "JSC"]);
 	embed.appendToCustomFile ("cmakeV8Includes", "${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIButton.h");
 	embed.outputFilename ("RadJav%PASS%GUIButton");
@@ -48,16 +48,13 @@
 		});
 	//embed.generate ();
 
-	let AndroidJNI = Bindergen.useGenerator ("AndroidJNI");
-	AndroidJNI.parseFiles ([
+	let generators = Bindergen.useGenerators (["AndroidJNI", "RadJavGenerator"]);
+	generators.parseFiles ([
 			"library/include/RadJav/cpp/RadJavCPPMUIButton.h", 
 			"library/src/RadJav/cpp/android/RadJavCPPMUIButtonFrame.cpp"
 		]);
-	let jni = AndroidJNI.createNamespace ("jni");
-	let button = await jni.createClass ("button", "android.widget.Button");
-	let jniHeaders = AndroidJNI.getOutput ("jniHeaders");
-	let jniCreate = AndroidJNI.getOutput ("jniCreate");
+	let jni = generators.createNamespace ("jni");
+	await jni.createClass ("button", "android.widget.Button");
 
-	AndroidJNI.createKeyword ("jniType", "Button");
-	AndroidJNI.generate ();
+	generators.generate ();
 }())

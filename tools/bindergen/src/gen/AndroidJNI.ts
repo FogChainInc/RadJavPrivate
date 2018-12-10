@@ -1,14 +1,25 @@
+// @ts-ignore
 import { Bindergen } from "./Bindergen";
+// @ts-ignore
 import { Generator } from "./Generator";
+// @ts-ignore
 import { GeneratorReference } from "./GeneratorReference";
+// @ts-ignore
 import { GeneratorClass } from "./GeneratorClass";
+// @ts-ignore
 import { GeneratorFunction } from "./GeneratorFunction";
+// @ts-ignore
 import { GeneratorFunctionArgument } from "./GeneratorFunctionArgument";
+// @ts-ignore
 import * as utils from "./utils";
 import * as cheerio from "cheerio";
+// @ts-ignore
 import { GeneratorOutput } from "./GeneratorOutput";
+// @ts-ignore
 import { GeneratorClass } from "./GeneratorClass";
+// @ts-ignore
 import { GeneratorFunction } from "./GeneratorFunction";
+// @ts-ignore
 import { Block } from "./Block";
 
 function fixGenericHTML (str: string): string
@@ -131,9 +142,11 @@ reference.on ("classReference", async function (genClass: GeneratorClass)
 							let content: string = "";
 
 							if (type == "jniHeaders")
+								// @ts-ignore
 								content = `static jmethodID native${this.parentClass.$typeName}${this.name};\n`;
 
 							if (type == "jniCreate")
+								// @ts-ignore
 								content = `native${this.parentClass.$typeName}${this.name} = env->GetMethodID(${data}, "${this.name}", "${this.data}");\n`;
 
 							return (content);
@@ -259,7 +272,6 @@ jni.on ("inlineFunctionCall", function (block: Block, func: GeneratorFunction, .
 		let argsStr: string = "";
 		let argsAry: any[] = args[0];
 
-		debugger;
 		if ((argsAry.length - 1) > 0)
 			argsStr = ", ";
 
