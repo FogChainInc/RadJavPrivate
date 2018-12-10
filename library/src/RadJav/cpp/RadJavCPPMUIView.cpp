@@ -63,6 +63,17 @@ namespace RadJAV
 				setup();
 			}
 
+			void View::createMainView()
+			{
+				ViewFrame* object = RJNEW ViewFrame(_text,
+													Vector2(_transform->x, _transform->y),
+													Vector2(_transform->width, _transform->height));
+
+				_appObj = object;
+				linkWith(object);
+				setup();
+			}
+
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
             	void View::on(String event, RJ_FUNC_TYPE func)
 				{

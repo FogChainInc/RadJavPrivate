@@ -1,0 +1,90 @@
+var window;
+var button;
+
+RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav.getMUILibrary ())
+    .then (function ()
+    {
+        RadJav.runApplication (function ()
+            {
+                var win = new RadJav.MUI.View ("win", "Button Example");
+                win.create ().then (function (win2)
+                    {
+    	                var screenWidth = RadJav.getPrimaryScreen ().getWidth ();
+    	                var screenHeight = RadJav.getPrimaryScreen ().getHeight ();
+    	                
+						window = win2;
+						window.setPosition(0, 0);
+                        window.setSize(screenWidth, screenHeight);
+						
+                        var btn = new RadJav.MUI.Button ("button", "touch, key", win2);
+                        btn.create().then (function (btn1){
+							button = btn1;
+							button.setPosition (50, 100);
+							button.setSize (200, 100);
+												
+							button.on ("touch", function () {
+								RadJav.Console.println("radjav touch");
+								btn1.setText("touch");
+								return true;
+							});
+								
+							button.on ("key", function () {
+								RadJav.Console.println("radjav key");
+								btn1.setText("key");
+								return true;
+							});								
+						});
+						
+													
+                        var btn = new RadJav.MUI.Button ("button", "focus, longclick", win2);
+                        btn.create().then (function (btn2){
+							button = btn2;
+							button.setPosition (50, 300);
+							button.setSize (400, 100);
+							
+							button.on ("focusChange", function () {
+								RadJav.Console.println("radjav focusChange");
+								btn2.setText("focusChange");
+							});							
+							button.on ("longClick", function () {
+								RadJav.Console.println("radjav longClick");
+								btn2.setText("longClick");
+								return true;
+							});								
+						});
+						
+						var btn = new RadJav.MUI.Button ("button", "click, context, undef", win2);
+                        btn.create().then (function (btn3){
+							button = btn3;
+							button.setPosition (50, 500);
+							button.setSize (600, 100);
+							button.flag = false;
+
+							button.on ("click", function ()
+								{
+									RadJav.Console.println("radjav message");
+									if (button.flag) {
+										button.flag = false;
+										RadJav.Console.println("radjav false");
+										button.setText("False");
+									} else
+									{
+										button.flag = true;
+										RadJav.Console.println("radjav true");
+										button.setText("True");
+									}
+									//alert ("Hello World!");
+								});
+							
+							button.on ("createContextMenu", function () {
+								RadJav.Console.println("radjav createContextMenu");
+								button.setText("context");
+							});							
+							button.on ("undefinedEvent", function () {
+								RadJav.Console.println("radjav undefinedEvent");
+								button.setText("undefined");
+							});
+						});
+                    });
+            });
+    });

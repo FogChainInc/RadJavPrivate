@@ -1,0 +1,27 @@
+var window;
+var label;
+
+RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav.getMUILibrary ())
+    .then (function ()
+    {
+        RadJav.runApplication (function ()
+            {
+                var win = new RadJav.MUI.View ("win", "Window Example");
+                win.create ().then (function (win2)
+                    {
+    	                var screenWidth = 400;//= RadJav.getPrimaryScreen ().getWidth ();
+    	                var screenHeight = 600;//= RadJav.getPrimaryScreen ().getHeight ();
+			window = win2;
+			window.setPosition(0, 0);
+                        window.setSize(screenWidth, screenHeight);
+
+                        var lbl = new RadJav.MUI.Label ("label", "Label text", win2);
+                        lbl.create().then (function (lbl2)
+                            {
+                                label = lbl2;
+                                label.setPosition (50, 100);
+                                label.setSize (200, 100);
+                            });
+                    });
+            });
+    });

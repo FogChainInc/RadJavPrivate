@@ -28,45 +28,43 @@
 		#include <wx/wx.h>
 	#endif
 
-	#ifdef USE_V8
-		#include <v8.h>
+	#include <v8.h>
 
-		namespace RadJAV
+	namespace RadJAV
+	{
+		namespace V8B
 		{
-			namespace V8B
+			namespace Net
 			{
-				namespace Net
+				class RADJAV_EXPORT NetCallbacks
 				{
-					class RADJAV_EXPORT NetCallbacks
+					public:
+						static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
+
+						static void httpRequest(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void httpPost(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void completeHttpRequest(const v8::FunctionCallbackInfo<v8::Value> &args);
+
+						static RJINT curlWrite(RJCHAR *data, RJUINT size, RJUINT nmemb, String *output);
+				};
+
+					/*class RADJAV_EXPORT HttpThread : public Thread
 					{
 						public:
-							static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
-
-							static void httpRequest(const v8::FunctionCallbackInfo<v8::Value> &args);
-							static void httpPost(const v8::FunctionCallbackInfo<v8::Value> &args);
-							static void completeHttpRequest(const v8::FunctionCallbackInfo<v8::Value> &args);
-
-							static RJINT curlWrite(RJCHAR *data, RJUINT size, RJUINT nmemb, String *output);
-					};
-
-						/*class RADJAV_EXPORT HttpThread : public Thread
-						{
-							public:
-								HttpThread(String uri, RJBOOL post, RJLONG timeout, v8::Persistent<v8::Function> *resolvep);
+							HttpThread(String uri, RJBOOL post, RJLONG timeout, v8::Persistent<v8::Function> *resolvep);
 #ifdef GUI_USE_WXWIDGETS
-								wxThread::ExitCode Entry();
+							wxThread::ExitCode Entry();
 #else 
-								RJINT Entry();
+							RJINT Entry();
 #endif
 
-								RJLONG timeout;
-								String uri;
-								v8::Persistent<v8::Function> *resolvep;
-								RJBOOL post;
-						};*/
-				}
+							RJLONG timeout;
+							String uri;
+							v8::Persistent<v8::Function> *resolvep;
+							RJBOOL post;
+					};*/
 			}
 		}
-	#endif
+	}
 #endif
 

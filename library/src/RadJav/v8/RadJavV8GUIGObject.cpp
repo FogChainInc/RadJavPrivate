@@ -19,8 +19,6 @@
 */
 #include "v8/RadJavV8GUIGObject.h"
 
-#include "RadJav.h"
-
 #include "v8/RadJavV8JavascriptEngine.h"
 
 #include "cpp/RadJavCPPGUIGObject.h"

@@ -244,7 +244,8 @@
 		#endif
 
 		#ifdef USE_ANDROID
-			String parseJNIString(jobject charSequence);
+			String parseJNICharSequence(jobject charSequence);
+			String parseJNIString(jstring str);
 		#endif
 
 		/// Convert a hex string into an integer.

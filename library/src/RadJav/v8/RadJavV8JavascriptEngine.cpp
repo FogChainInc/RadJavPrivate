@@ -46,6 +46,7 @@
 #ifdef USE_V8
 	#include "v8/RadJavV8Global.h"
 	#include "v8/RadJavV8OS.h"
+    #include "v8/RadJavV8OSScreenInfo.h"
 	#include "v8/RadJavV8Testing.h"
 
 	#include "v8/RadJavV8Console.h"
@@ -81,6 +82,7 @@
 	#ifdef USE_ANDROID
 		#include "v8/RadJavV8GUIGObject.h"
 		#include "v8/RadJavV8MUIView.h"
+		#include "v8/RadJavV8MUINavigator.h"
 		//#include "v8/RadJavV8MUIViewController.h"
 		//#include "v8/RadJavV8MUINavigationViewController.h"
 		//#include "v8/RadJavV8MUITableViewController.h"
@@ -89,11 +91,11 @@
 		//#include "v8/RadJavV8MUITableCellModel.h"
 		//#include "v8/RadJavV8MUIScrollView.h"
 		#include "v8/RadJavV8MUIButton.h"
-		//#include "v8/RadJavV8MUILabel.h"
-		//#include "v8/RadJavV8MUIImage.h"
-		//#include "v8/RadJavV8MUICheckbox.h"
-		//#include "v8/RadJavV8MUITextbox.h"
-		//#include "v8/RadJavV8MUITextarea.h"
+		#include "v8/RadJavV8MUILabel.h"
+		#include "v8/RadJavV8MUIImage.h"
+		#include "v8/RadJavV8MUICheckbox.h"
+		#include "v8/RadJavV8MUITextbox.h"
+		#include "v8/RadJavV8MUITextarea.h"
 		//#include "v8/RadJavV8MUIWebView.h"
 	#endif
 
@@ -140,6 +142,10 @@
 
 #include <cstring>
 #include "cpp/RadJavCPPAgent.h"
+
+#ifdef USE_ANDROID
+	#include <android/RadJavAndroid.h>
+#endif
 
 namespace RadJAV
 {
@@ -319,12 +325,12 @@ namespace RadJAV
 				executeScript(contentStr, jsfile.filename);
 			}
 
-			loadNativeCode();
-
 			v8::Local<v8::Object> obj = v8GetObject(globalContext->Global(), "RadJav");
 			radJav = RJNEW v8::Persistent<v8::Object>();
 			radJav->Reset(isolate, obj);
-			
+
+			loadNativeCode();
+
 			#ifdef USE_INSPECTOR
 				if (useInspector) {
 					//TODO: move to startInspector
@@ -431,16 +437,18 @@ namespace RadJAV
 					// Enter the main loop of app
 					exitCode = wxTheApp->OnRun();
 				}
-			#elif defined USE_ANDROID
+            #elif defined USE_ANDROID
+//				RadJav& vm = RadJav::instance();
+                RadJavAndroid::defaultLockGuiThread();
 				while(true)
 				{
-					if (RadJav::isWaitingForUiThread())
-					{
-						LOGI("Waiting for UI thread");
-
-						threadSleep(1);
-						continue;
-					}
+//					if (RadJav::isWaitingForUiThread())
+//					{
+//						LOGI("Waiting for UI thread");
+//
+//						threadSleep(1);
+//						continue;
+//					}
 
 					if (RadJav::isPaused())
 					{
@@ -452,6 +460,9 @@ namespace RadJAV
 
 						continue;
 					}
+
+                    RadJavAndroid::instance()->handleUIEvent();
+
 
 					if(!runApplicationSingleStep())
 						break;
@@ -1213,6 +1224,22 @@ namespace RadJAV
 
 					V8B::OS::createV8Callbacks(isolate, osFunc);
 
+                    // RadJav.OS.ScreenInfo
+                    {
+                        v8::Handle<v8::Function> screenInfoFunc = v8GetFunction(osFunc, "ScreenInfo");
+
+                        for (RJINT iIdx = 0; iIdx < RadJav::screens.size (); iIdx++)
+                        {
+                            RadJAV::CPP::OS::ScreenInfo screen = RadJav::screens.at (iIdx);
+                            v8::Local<v8::Object> jsScreen = screen.toV8Object();
+							v8::Local<v8::Value> jsScreenVal = v8::Local<v8::Value>::Cast(jsScreen);
+                            v8CallFunction(radJavFunc, "addScreen", 1, &jsScreenVal);
+                        }
+
+                        // This loads only the static functions.
+                        V8B::OS::ScreenInfo::createV8Callbacks(isolate, screenInfoFunc);
+                    }
+
 					// Command line arguments
 					{
 						v8::Handle<v8::Array> args = v8::Handle<v8::Array>::Cast (v8GetValue(osFunc, "args"));
@@ -1509,6 +1536,14 @@ namespace RadJAV
 						V8B::MUI::View::createV8Callbacks(isolate, viewPrototype);
 					}
 
+					// RadJav.MUI.Navigator
+					{
+						v8::Handle<v8::Function> navigatorFunc = v8GetFunction(muiFunc, "Navigator");
+						v8::Handle<v8::Object> navigatorPrototype = v8GetObject(navigatorFunc, "prototype");
+
+						V8B::MUI::Navigator::createV8Callbacks(isolate, navigatorPrototype);
+					}
+
 					#if 0
                     // RadJav.MUI.ViewController
                     {
@@ -1573,47 +1608,47 @@ namespace RadJAV
 						V8B::MUI::Button::createV8Callbacks(isolate, buttonPrototype);
 					}
 
-					#if 0
 					// RadJav.MUI.Label
 					{
-						JSObjectRef labelFunc = jscGetFunction(muiFunc, "Label");
-						JSObjectRef labelPrototype = jscGetObject(labelFunc, "prototype");
-						
-						JSC::MUI::Label::createJSCCallbacks(globalContext, labelPrototype);
+						v8::Handle<v8::Function> labelFunc = v8GetFunction(muiFunc, "Label");
+						v8::Handle<v8::Object> labelPrototype = v8GetObject(labelFunc, "prototype");
+
+						V8B::MUI::Label::createV8Callbacks(isolate, labelPrototype);
 					}
 
 					// RadJav.MUI.Image
 					{
-						JSObjectRef imageFunc = jscGetFunction(muiFunc, "Image");
-						JSObjectRef imagePrototype = jscGetObject(imageFunc, "prototype");
-						
-						JSC::MUI::Image::createJSCCallbacks(globalContext, imagePrototype);
+						v8::Handle<v8::Function> imageFunc = v8GetFunction(muiFunc, "Image");
+						v8::Handle<v8::Object> imagePrototype = v8GetObject(imageFunc, "prototype");
+
+						V8B::MUI::Image::createV8Callbacks(isolate, imagePrototype);
 					}
 
 					// RadJav.MUI.Checkbox
 					{
-						JSObjectRef checkboxFunc = jscGetFunction(muiFunc, "Checkbox");
-						JSObjectRef checkboxPrototype = jscGetObject(checkboxFunc, "prototype");
-						
-						JSC::MUI::Checkbox::createJSCCallbacks(globalContext, checkboxPrototype);
+						v8::Handle<v8::Function> checkboxFunc = v8GetFunction(muiFunc, "Checkbox");
+						v8::Handle<v8::Object> checkboxPrototype = v8GetObject(checkboxFunc, "prototype");
+
+						V8B::MUI::Checkbox::createV8Callbacks(isolate, checkboxPrototype);
 					}
 					
 					// RadJav.MUI.Textbox
 					{
-						JSObjectRef textboxFunc = jscGetFunction(muiFunc, "Textbox");
-						JSObjectRef textboxPrototype = jscGetObject(textboxFunc, "prototype");
-						
-						JSC::MUI::Textbox::createJSCCallbacks(globalContext, textboxPrototype);
+						v8::Handle<v8::Function> textboxFunc = v8GetFunction(muiFunc, "Textbox");
+						v8::Handle<v8::Object> textboxPrototype = v8GetObject(textboxFunc, "prototype");
+
+						V8B::MUI::Textbox::createV8Callbacks(isolate, textboxPrototype);
 					}
 
 					// RadJav.MUI.Textarea
 					{
-						JSObjectRef textareaFunc = jscGetFunction(muiFunc, "Textarea");
-						JSObjectRef textareaPrototype = jscGetObject(textareaFunc, "prototype");
-						
-						JSC::MUI::Textarea::createJSCCallbacks(globalContext, textareaPrototype);
+						v8::Handle<v8::Function> textareaFunc = v8GetFunction(muiFunc, "Textarea");
+						v8::Handle<v8::Object> textareaPrototype = v8GetObject(textareaFunc, "prototype");
+
+						V8B::MUI::Textarea::createV8Callbacks(isolate, textareaPrototype);
 					}
                     
+					#if 0
                     // RadJav.MUI.WebView
                     {
                         JSObjectRef webViewFunc = jscGetFunction(muiFunc, "WebView");

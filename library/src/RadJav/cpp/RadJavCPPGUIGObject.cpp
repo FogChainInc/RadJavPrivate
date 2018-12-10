@@ -696,7 +696,7 @@ namespace RadJAV
 				#ifdef USE_V8
 					Event* GObjectEvents::createEvent(String event, v8::Local<v8::Function> function)
 					{
-						// Create a persistent function to execute asych later.
+						// Create a persistent function to execute async later.
 						v8::Persistent<v8::Value> *persistent = RJNEW v8::Persistent<v8::Value>();
 						persistent->Reset(function->GetIsolate(), function);
 						

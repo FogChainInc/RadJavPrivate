@@ -1,0 +1,78 @@
+var window;
+
+var textboxText;
+var textboxNumbered;
+var textboxDecimal;
+var textboxPhone;
+var textboxEmail;
+var textboxPassword;
+
+RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav.getMUILibrary ()).then (function ()
+{
+	RadJav.runApplication (function ()
+	{
+		var win = new RadJav.MUI.View ("win", "Window Example");
+		win.create ().then (function (win2)
+		{
+			var screenWidth = 400;//= RadJav.getPrimaryScreen ().getWidth ();
+			var screenHeight = 600;//= RadJav.getPrimaryScreen ().getHeight ();
+			window = win2;
+			window.setPosition(0, 0);
+			window.setSize(screenWidth, screenHeight);
+			
+			var txt = new RadJav.MUI.Textbox ("textbox", "", win2);
+			txt.create().then (function (txt2)
+			{
+				textboxText = txt2;
+				textboxText.setInputMode(RadJav.MUI.Textbox.InputModeText);
+				textboxText.setPosition (50, 50);
+				textboxText.setSize (200, 50);
+			});
+
+			txt = new RadJav.MUI.Textbox ("textbox", "", win2);
+			txt.create().then (function (txt2)
+			{
+				textboxNumbered = txt2;
+				textboxNumbered.setInputMode(RadJav.MUI.Textbox.InputModeNumber);
+				textboxNumbered.setPosition (50, 150);
+				textboxNumbered.setSize (200, 50);
+			});
+			
+			txt = new RadJav.MUI.Textbox ("textbox", "", win2);
+			txt.create().then (function (txt2)
+			{
+				textboxDecimal = txt2;
+				textboxDecimal.setInputMode(RadJav.MUI.Textbox.InputModeDecimal);
+				textboxDecimal.setPosition (50, 250);
+				textboxDecimal.setSize (200, 50);
+			});
+
+			txt = new RadJav.MUI.Textbox ("textbox", "", win2);
+			txt.create().then (function (txt2)
+			{
+				textboxPhone = txt2;
+				textboxPhone.setInputMode(RadJav.MUI.Textbox.InputModePhone);
+				textboxPhone.setPosition (50, 350);
+				textboxPhone.setSize (200, 50);
+			});
+
+			txt = new RadJav.MUI.Textbox ("textbox", "", win2);
+			txt.create().then (function (txt2)
+			{
+				textboxEmail = txt2;
+				textboxEmail.setInputMode(RadJav.MUI.Textbox.InputModeEmail);
+				textboxEmail.setPosition (50, 450);
+				textboxEmail.setSize (200, 50);
+			});
+
+			txt = new RadJav.MUI.Textbox ("textbox", "", win2);
+			txt.create().then (function (txt2)
+			{
+				textboxPassword = txt2;
+				textboxPassword.setInputMode(RadJav.MUI.Textbox.InputModePassword);
+				textboxPassword.setPosition (50, 550);
+				textboxPassword.setSize (200, 50);
+			});
+		});
+	});
+});

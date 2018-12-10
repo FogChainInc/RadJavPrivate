@@ -19,13 +19,22 @@
  */
 package com.fogchain.radjavvm;
 
+import android.view.ContextMenu;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.CompoundButton;
 
 import java.nio.ByteBuffer;
 
 //TODO: Implement other interfaces
 public class UiEventListener implements View.OnClickListener,
-                                        View.OnLongClickListener
+                                        View.OnLongClickListener,
+                                        View.OnFocusChangeListener,
+                                        View.OnKeyListener,
+                                        View.OnTouchListener,
+                                        View.OnCreateContextMenuListener,
+                                        android.widget.CompoundButton.OnCheckedChangeListener
 {
     static {
         System.loadLibrary("RadJavWrapper");
@@ -51,4 +60,29 @@ public class UiEventListener implements View.OnClickListener,
     private native boolean RadJavUiEvent(ByteBuffer data, Object... args);
 
     private ByteBuffer _data;
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        RadJavUiEvent(_data);
+    }
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        RadJavUiEvent(_data);
+    }
+
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+        return RadJavUiEvent(_data);
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        return RadJavUiEvent(_data);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        RadJavUiEvent(_data);
+    }
 }

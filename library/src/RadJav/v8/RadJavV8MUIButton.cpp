@@ -19,8 +19,6 @@
 */
 #include "v8/RadJavV8MUIButton.h"
 
-#include "RadJav.h"
-
 #include "v8/RadJavV8JavascriptEngine.h"
 
 #include "cpp/RadJavCPPMUIButton.h"
@@ -33,11 +31,13 @@ namespace RadJAV
 		{
 			using CppMuiObject = CPP::MUI::Button;
 
-			void Button::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object) {
+			void Button::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
+			{
 				V8_CALLBACK(object, "create", Button::create);
 			}
 
-			void Button::create(const v8::FunctionCallbackInfo<v8::Value> &args) {
+			void Button::create(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
 				CppMuiObject *appObject = RJNEW CppMuiObject(V8_JAVASCRIPT_ENGINE, args);
 				appObject->create();
 
