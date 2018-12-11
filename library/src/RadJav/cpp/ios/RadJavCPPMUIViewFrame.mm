@@ -32,10 +32,25 @@ namespace RadJAV
             ViewFrame::ViewFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
             : widget([[UIView alloc] init])
             {
-            
+				if (parent)
+				{
+					parent->addChild(this);
+				}
+				
 				setText(text);
             }
             
+			ViewFrame::ViewFrame(const String &text, const Vector2 &pos, const Vector2 &size)
+			: widget([[UIView alloc] init])
+			{
+				UIWindow * keyWindow = [UIApplication sharedApplication].keyWindow;
+				
+				UIView * rootView = keyWindow.rootViewController.view;
+				[rootView  addSubview:widget];
+
+				setText(text);
+			}
+
 			ViewFrame::~ViewFrame()
 			{
 				//Release native widget here
