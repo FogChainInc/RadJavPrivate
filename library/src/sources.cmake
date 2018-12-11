@@ -151,6 +151,7 @@ if (USE_V8)
 	if (libRadJav_ALLOW_NETWORKING)
 		set (SOURCES_files_RadJav__v8__Net__Sources 
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8Net.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8NetHttpRequest.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8NetWebSocket.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8NetWebServer.cpp")
 		source_group ("RadJav\\V8\\Net" FILES ${SOURCES_files_RadJav__v8__Net__Sources})
@@ -424,7 +425,9 @@ if (USE_V8)
 	# C++ Networking
 	if (libRadJav_ALLOW_NETWORKING)
 		set (SOURCES_files_RadJav__cpp__Net__Sources 
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetUriParser.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNet.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetHttpRequest.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebSocketServer.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebSocketClient.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebServer.cpp"
@@ -454,6 +457,7 @@ if (INCLUDE_DATABASES)
 
 	set (SOURCES ${SOURCES_files_RadJav__cpp__Database__Sources} ${SOURCES})
 endif ()
+
 
 # C++ Crypto
 if (INCLUDE_CRYPTOGRAPHY)

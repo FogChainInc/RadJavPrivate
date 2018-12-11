@@ -744,6 +744,7 @@ if (libRadJav_EMBEDFILE)
 
 	if (libRadJav_ALLOW_NETWORKING)
 		set (jsFiles ${jsFiles}
+			RadJav.Net.HttpRequest.js
 			RadJav.Net.WebSocketServer.js
 			RadJav.Net.WebSocketClient.js
 			RadJav.Net.WebServer.js
@@ -774,6 +775,7 @@ if (libRadJav_EMBEDFILE)
 	# for Release/Debug and multiple architectures
 	file (LOCK "${CMAKE_CURRENT_BINARY_DIR}/include" DIRECTORY RESULT_VARIABLE lockResult TIMEOUT 0)
 
+		embedJavascript( "${jsFiles}" "${CMAKE_CURRENT_SOURCE_DIR}/javascript" "${CMAKE_CURRENT_BINARY_DIR}/include/RadJavJavascriptCode.h")
 	if (${lockResult} EQUAL 0)
 		embedJavascript( "${jsFiles}" "${CMAKE_CURRENT_SOURCE_DIR}/javascript" "${CMAKE_CURRENT_BINARY_DIR}/include/RadJavJavascriptCode.h")
 		file (LOCK "${CMAKE_CURRENT_BINARY_DIR}/include" DIRECTORY RELEASE RESULT_VARIABLE lockResult)

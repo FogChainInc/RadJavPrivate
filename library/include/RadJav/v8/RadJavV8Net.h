@@ -43,6 +43,9 @@
 							static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
 							static void httpRequest(const v8::FunctionCallbackInfo<v8::Value> &args);
+							static void httpRequest2(const v8::FunctionCallbackInfo<v8::Value> &args);
+							static void httpRequestStub(const v8::FunctionCallbackInfo<v8::Value> &args);
+							
 							static void httpPost(const v8::FunctionCallbackInfo<v8::Value> &args);
 							static void completeHttpRequest(const v8::FunctionCallbackInfo<v8::Value> &args);
 

@@ -20,8 +20,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "cpp/RadJavCPPNetUriParser.h"
 
+#include <algorithm>
 #include <regex>
 #include <boost/algorithm/string.hpp>
+
+#include <iostream>
 
 namespace RadJAV
 {
@@ -29,7 +32,7 @@ namespace RadJAV
 	{
 		namespace Net
 		{
-			static uri_data parse_uri(const String& url)
+			uri_data parse_uri(const String& url)
 			{
 				uri_data result;
 
@@ -55,6 +58,144 @@ namespace RadJAV
 
 				return result;
 			}
+
+		        UriParser::UriParser()
+			{
+			}
+		  
+		        UriParser::UriParser(const std::string &uri)
+			{
+			  parse(uri);
+			}
+
+		        void UriParser::parse(const std::string &uri)
+			{
+
+			  unsigned counter = 0;
+
+			  std::regex uriRegex (
+					       R"(^(([^:\/?#]+):)?(//([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?)",
+					       std::regex::extended
+					       );
+			  std::smatch uriMatchResult;
+
+			  if (std::regex_match(uri, uriMatchResult, uriRegex)) {
+
+			    /*
+			    for (const auto& res : uriMatchResult) {
+			      std::cout << counter++ << ": " << res << std::endl;
+			    }
+			    */
+
+			    scheme = uriMatchResult[2];
+			    authority = uriMatchResult[4];
+			    path = uriMatchResult[5];
+			    query = uriMatchResult[7];
+			    fragment = uriMatchResult[9];
+
+
+			    // Convert scheme/protocol to lower case
+			    std::transform(scheme.begin(), scheme.end(), scheme.begin(), ::tolower);
+
+
+			    /*
+			    std::cout <<std::endl <<std::endl << "First Pass Results: " <<std::endl;
+			    std::cout << "Scheme:\t" << scheme <<std::endl;
+			    std::cout << "Authority:\t" << authority <<std::endl;
+			    std::cout << "Path:\t" << path <<std::endl;
+			    std::cout << "Query:\t" << query <<std::endl;
+			    std::cout << "Fragment:\t" << fragment <<std::endl;
+			    */
+
+			    {
+			      std::regex authorityRegex (
+							 R"(^(([^\/?#]+)?@)?(([^:]+)(:(.+))?))",
+							 std::regex::extended
+							 );
+			      std::smatch matchResult;
+
+			      if (std::regex_match(authority, matchResult, authorityRegex))
+				{
+				  //counter = 0;
+				  //for (const auto& res : matchResult) 
+				  //std::cout << counter++ << ": " << res << std::endl;
+
+				  std::string authData = matchResult[2];
+				  host = matchResult[4];
+				  port = matchResult[6];
+
+				  if (authData != "")
+				    {
+				      std::regex authDataRegex (
+								R"(^([^ \/?#:]+)(:([^\/?#]+)))",
+								std::regex::extended
+								);
+				      std::smatch matchResult;
+
+				      if (std::regex_match(authData, matchResult, authDataRegex))
+					{
+					  //std::cout << "Auth Data: " <<std::endl;
+					  //counter = 0;
+					  //for (const auto& res : matchResult) 
+					  //std::cout << counter++ << ": " << res << std::endl;
+	      
+					  username = matchResult[1];
+					  password = matchResult[3];
+	    
+					}
+				      else
+					throw std::invalid_argument("Malformed authentication data: " + authority + ", Expecting user[:password]  format");
+
+				    } // End of if (authData != "")
+
+
+				  { // Verify host
+				    std::regex expr (
+						     R"(^([-a-zA-Z0-9.]+))",
+						     std::regex::extended
+						     );
+				    std::smatch matchResult;
+
+
+				    if (std::regex_match(host, matchResult, expr))
+				      {
+				      }
+				    else
+				      throw std::invalid_argument("Malformed hostname: " + host + ", allowed characters are: ., -, a-z, A-Z, 0-9");
+
+				  }
+
+				  // Verify port	  
+				  if (port != "")
+				    { 
+				      std::regex expr (
+						       R"(^([0-9]+))",
+						       std::regex::extended
+						       );
+				      std::smatch matchResult;
+
+
+				      if (std::regex_match(port, matchResult, expr))
+					{
+
+					}
+				      else
+					throw std::invalid_argument("Malformed port: " + port + ", allowed characters are: 0-9");
+				    }
+				}
+			      else
+				throw std::invalid_argument("Malformed authority: " + authority + ", Expecting user:password@host:port format");
+			    }
+			  }
+			  else
+			    {
+			      throw std::invalid_argument("Malformed uri: " + uri);
+			    }
+
+
+
+			}
+		  
 		}
 	}
 }

@@ -57,6 +57,7 @@
 	#include "v8/RadJavV8DBKeyValueStorage.h"
 
 	// Net
+	#include "v8/RadJavV8NetHttpRequest.h"
 	#include "v8/RadJavV8NetWebSocket.h"
 	#include "v8/RadJavV8NetWebServer.h"
 
@@ -1264,6 +1265,14 @@ namespace RadJAV
 						v8::Handle<v8::Object> webServerPrototype = v8GetObject(webServerFunc, "prototype");
 
 						V8B::Net::WebServer::createV8Callbacks(isolate, webServerPrototype);
+					}
+
+					// HttpRequest
+					{
+						v8::Handle<v8::Function> httpRequestFunc = v8GetFunction(netFunc, "HttpRequest");
+						v8::Handle<v8::Object> httpRequestPrototype = v8GetObject(httpRequestFunc, "prototype");
+
+						V8B::Net::HttpRequest::createV8Callbacks(isolate, httpRequestPrototype);
 					}
 
 					// WebSocketServer
