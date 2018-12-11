@@ -155,6 +155,7 @@ if (USE_V8)
 	if (libRadJav_ALLOW_NETWORKING)
 		set (SOURCES_files_RadJav__v8__Net__Headers 
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8Net.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8NetHttpRequest.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8NetWebSocket.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8NetWebServer.h")
 		source_group ("RadJav\\V8\\Net" FILES ${SOURCES_files_RadJav__v8__Net__Headers})
@@ -427,7 +428,9 @@ if (USE_V8)
 	# C++ Networking
 	if (libRadJav_ALLOW_NETWORKING)
 		set (SOURCES_files_RadJav__cpp__Net__Headers 
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetUriParser.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNet.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetHttpRequest.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebSocketServer.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebSocketClient.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebServer.h"

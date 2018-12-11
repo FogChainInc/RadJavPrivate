@@ -61,6 +61,13 @@ namespace RadJAV
 					result.resource = validate_match(match[6], "/");
 					result.query = (String)match[8];
 					result.target = result.query + (result.resource.size() > 0, std::string("?") + result.resource, result.resource);
+
+
+					std::cout << "Protocol: " << result.protocol << std::endl << std::flush;
+					std::cout << "host: " << result.host << std::endl << std::flush;
+					std::cout << "port: " << result.port << std::endl << std::flush;
+					std::cout << "target: " << result.target << std::endl << std::flush;
+					
 				}
 
 				return result;
@@ -99,10 +106,11 @@ namespace RadJAV
 				}
 				else
 					boost::asio::connect(socket_, results.begin(), results.end());
-
+				/* KWJ
 				#ifdef USE_CRYPTOGRAPHY
 					sslsocket_.handshake(boost::asio::ssl::stream_base::client);
 				#endif
+				*/
 			}
 
 			void HttpRequest::send()
