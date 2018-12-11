@@ -1,0 +1,50 @@
+var win = new RadJav.GUI.Window ("win", "Window Example");
+
+// Stupid hack for now. Delete in the future. Should throw errors in HTML5.
+win.create ().then (function (win2)
+	{
+	});
+
+RadJav.Console.println("------------ httpReq.xrj test --------------");
+
+var capabilities = RadJav.Crypto.Cipher.getCapabilities();
+
+if ( (typeof capabilities.cryptoLibs === "object") && (capabilities.cryptoLibs !== null) )
+{
+    RadJav.Console.println("Has Crypto Implementation: ");
+    for (var cryptoLib in capabilities.cryptoLibs)
+    {
+	RadJav.Console.println(cryptoLib);
+    }
+}
+
+var req = new RadJav.Net.HttpRequest();
+
+req.connect("http://www.brainjar.com/java/host/test.html").then(function (data) {
+    
+    RadJav.Console.println("================= REQ1 ================");
+    RadJav.Console.println(data);
+
+    // This will yield /java/host/test.html
+    var result = req.fetchSync("http://www.brainjar.com/java/host/test.html");
+    RadJav.Console.println(result);
+
+    // This will yield 404 - File or directory not found.
+    var result = req.fetchSync("http://www.brainjaaar.com/java/host/test.html");
+    RadJav.Console.println(result);
+    
+    // This will yield contents of /
+    var result = req.fetchSync("http://www.brainjar.com/");
+    RadJav.Console.println(result);
+
+    // This will yield contents of /
+    var result = req.fetchSync("http://www.brainjar.com");
+    RadJav.Console.println(result);
+
+
+    RadJav.Console.println("We are done");
+
+    
+});
+
+

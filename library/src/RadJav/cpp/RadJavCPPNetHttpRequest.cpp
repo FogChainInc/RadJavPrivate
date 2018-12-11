@@ -171,9 +171,8 @@ namespace RadJAV
 			    service = uriParser.scheme;
 			      
 			  //look up the domain name
-			  
+
 			  boost::asio::ip::tcp::resolver resolver{myIoc};
-			  auto const results = resolver.resolve(uriParser.host, service);
 
 
 			  std::string target = uriParser.path;
@@ -198,6 +197,7 @@ namespace RadJAV
 				}
 
 			      // Make the connection on the IP address we get from a lookup
+			      auto const results = resolver.resolve(uriParser.host, service);
 			      boost::asio::connect(mySocketSsl -> next_layer(), results.begin(), results.end());
 
 			      // Perform the SSL handshake
@@ -221,11 +221,8 @@ namespace RadJAV
 			      resetSocket();
 
 			      //make the connection on the IP address we get from a lookup
+			      auto const results = resolver.resolve(uriParser.host, service);
 			      boost::asio::connect(*mySocket, results.begin(), results.end());
-
-			      //std::string target = uriParser.path;
-			      //if (uriParser.query != "") target += "?" + uriParser.query;
-			      //			  if (uriParser.fragment != "") target += "#" + uriParser.fragment;
 
 			      myRequest -> set(boost::beast::http::field::host, uriParser.host);
 			      myRequest -> set(boost::beast::http::field::user_agent, myUserAgent);
@@ -239,6 +236,7 @@ namespace RadJAV
 			    }
 			  
 			  return target;
+			  
 			}
 		  
 			String HttpRequest2::fetch(const String &target)
@@ -248,7 +246,7 @@ namespace RadJAV
 			    throw std::runtime_error("Attempting to fetch the target: '" + target + "' with object that is not connected to any host.");
 
 			  myRequest -> target(target);
-			  
+
 			  //send the HTTP request to the remote host
 			  if (!myIsSslRequest)
 			    boost::beast::http::write(*mySocket, *myRequest);
@@ -263,7 +261,6 @@ namespace RadJAV
 
 			  // This buffer is used for reading and must be persisted
 			  boost::beast::flat_buffer buffer;
-
 
 			  // Declare a container to hold the response
 			  //http::response<http::dynamic_body> res;
@@ -282,7 +279,7 @@ namespace RadJAV
 			  #endif
 
 			  return boost::beast::buffers_to_string(res.body().data());
-			  
+
 			}
 
  		        void HttpRequest2::resetHttpRequest()

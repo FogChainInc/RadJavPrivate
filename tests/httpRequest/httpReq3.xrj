@@ -22,17 +22,14 @@ var req = new RadJav.Net.HttpRequest();
 
 req.connect("Http://www.brainjar.com/java/host/test.html").then(function (target) {
     
-    RadJav.Console.println("KURWAAAAAAAAAAAAAAAAAA");
     RadJav.Console.println(target);
 
+    RadJav.Console.println("-------------------------------------------------------------------------------");
 
     RadJav.Console.println(req.fetchSync(target));
-    RadJav.Console.println("KURWAAAAAAAAAAAAAAAAAA");
+    RadJav.Console.println("-------------------------------------------------------------------------------");
     RadJav.Console.println(req.fetchSync(target));
-    
-    
 
 });
-
 
 

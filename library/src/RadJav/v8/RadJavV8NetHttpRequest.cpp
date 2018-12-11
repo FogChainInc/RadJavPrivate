@@ -125,23 +125,24 @@ namespace RadJAV
 				      {
 					value = engine->connect(url);
 
+					v8::Local<v8::String> valueStr = value.toV8String(isolate);
+					v8::Local<v8::Array> args2 = v8::Array::New(isolate, 1);
+					args2->Set(0, valueStr);
+					thread->setResolveArgs(isolate, args2);
+					thread->resolvePromise();
 				      }
 				    catch (std::exception &e)
 				      {
-
-					std::cout << "Connection error: " << e.what() << std::endl;
-					isolate -> ThrowException(v8::Exception::TypeError
-								  (v8::String::NewFromUtf8(isolate, e.what())));
+					value = e.what();
+					v8::Local<v8::String> valueStr = value.toV8String(isolate);
+					v8::Local<v8::Array> args2 = v8::Array::New(isolate, 1);
+					args2->Set(0, valueStr);
+					thread->setRejectArgs(isolate, args2);
+					thread -> rejectPromise();
 				      }
 
-				    v8::Local<v8::String> valueStr = value.toV8String(isolate);
-				    v8::Local<v8::Array> args2 = v8::Array::New(isolate, 1);
-				    args2->Set(0, valueStr);
-				    thread->setResolveArgs(isolate, args2);
-				    thread->resolvePromise();
-
 				  };
-				thread->onComplete = [thread]()
+				thread->onComplete = [thread, isolate]()
 				  {
 				    V8_JAVASCRIPT_ENGINE->removeThread(thread);
 				  };
@@ -173,19 +174,23 @@ namespace RadJAV
 				    try
 				      {
 					value = engine->fetch(target);
+					
+					v8::Local<v8::String> valueStr = value.toV8String(isolate);
+					v8::Local<v8::Array> args2 = v8::Array::New(isolate, 1);
+					args2->Set(0, valueStr);
+					thread->setResolveArgs(isolate, args2);
+					thread->resolvePromise();
 				      }
 				    catch (std::exception &e)
 				      {
-
-					isolate -> ThrowException(v8::Exception::TypeError
-								  (v8::String::NewFromUtf8(isolate, e.what())));
+					value = e.what();
+					v8::Local<v8::String> valueStr = value.toV8String(isolate);
+					v8::Local<v8::Array> args2 = v8::Array::New(isolate, 1);
+					args2->Set(0, valueStr);
+					thread->setRejectArgs(isolate, args2);
+					thread -> rejectPromise();
 				      }
 
-				    v8::Local<v8::String> valueStr = value.toV8String(isolate);
-				    v8::Local<v8::Array> args2 = v8::Array::New(isolate, 1);
-				    args2->Set(0, valueStr);
-				    thread->setResolveArgs(isolate, args2);
-				    thread->resolvePromise();
 
 				  };
 				thread->onComplete = [thread]()
@@ -250,22 +255,26 @@ namespace RadJAV
 				      {
 					String target = engine->connect(url);
 					value = engine->fetch(target);
+
+					v8::Local<v8::String> valueStr = value.toV8String(isolate);
+					v8::Local<v8::Array> args2 = v8::Array::New(isolate, 1);
+					args2->Set(0, valueStr);
+					thread->setResolveArgs(isolate, args2);
+					thread->resolvePromise();
+					
 				      }
 				    catch (std::exception &e)
 				      {
-					isolate -> ThrowException(v8::Exception::TypeError
-								  (v8::String::NewFromUtf8(isolate, e.what())));
+					value = e.what();
+					v8::Local<v8::String> valueStr = value.toV8String(isolate);
+					v8::Local<v8::Array> args2 = v8::Array::New(isolate, 1);
+					args2->Set(0, valueStr);
+					thread->setRejectArgs(isolate, args2);
+					thread -> rejectPromise();
 				      }
-				    
-
-				    v8::Local<v8::String> valueStr = value.toV8String(isolate);
-				    v8::Local<v8::Array> args2 = v8::Array::New(isolate, 1);
-				    args2->Set(0, valueStr);
-				    thread->setResolveArgs(isolate, args2);
-				    thread->resolvePromise();
-
 				  };
-				thread->onComplete = [thread]()
+
+				thread->onComplete = [thread, isolate]()
 				  {
 				    V8_JAVASCRIPT_ENGINE->removeThread(thread);
 				  };
