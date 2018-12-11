@@ -83,9 +83,12 @@ namespace RadJAV
 
                 UIFont *Font::toUIFont ()
                 {
+					if (fontFamily.empty())
+						return nil;
+					
                     NSString *attr = NULL;
 
-                    if (italic == true)
+                    if (bold == true)
                         attr = @"Bold";
 
                     if (italic == true)
@@ -98,6 +101,7 @@ namespace RadJAV
                                               @"NSFontFamilyAttribute": fontFamily.toNSString (),
                                               @"NSFontFaceAttribute": attr
                                               }];
+					
                     UIFont *font = [UIFont fontWithDescriptor: desc size: size];
 
                     return (font);

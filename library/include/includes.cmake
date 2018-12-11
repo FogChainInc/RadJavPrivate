@@ -269,6 +269,7 @@ if (USE_JAVASCRIPTCORE)
 
 		set (SOURCES_files_RadJav__JSC__MUI__Headers 
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUIView.h" 
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUINavigator.h" 
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUIViewController.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUINavigationViewController.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUITableViewController.h"

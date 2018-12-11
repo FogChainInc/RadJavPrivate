@@ -1,6 +1,6 @@
 /*
 	MIT-LICENSE
-	Copyright (c) 2018 Higher Edge Software, LLC
+	Copyright (c) 2017 Higher Edge Software, LLC
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 	and associated documentation files (the "Software"), to deal in the Software without restriction, 
@@ -17,30 +17,31 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#ifndef _RADJAV_MUI_JSC_VIEW_H_
-#define _RADJAV_MUI_JSC_VIEW_H_
+#ifndef _RADJAV_MUI_JSC_NAVIGATOR_H_
+	#define _RADJAV_MUI_JSC_NAVIGATOR_H_
 
-#include "RadJavPreprocessor.h"
+	#include "RadJavPreprocessor.h"
 
-#include <JavaScriptCore/JavaScriptCore.h>
+	#include <JavaScriptCore/JavaScriptCore.h>
 
-
-namespace RadJAV
-{
-	namespace JSC
+	namespace RadJAV
 	{
-		namespace MUI
+		namespace JSC
 		{
-			class RADJAV_EXPORT View
+			namespace MUI
 			{
+				class RADJAV_EXPORT Navigator
+				{
 				public:
 					static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
+					
+					static JSValueRef init(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
 
-					static JSValueRef create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
-					static JSValueRef createMainView(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
-			};
+					static JSValueRef push(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+					static JSValueRef pop(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+				};
+			}
 		}
 	}
-}
 #endif
 

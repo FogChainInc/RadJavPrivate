@@ -45,6 +45,11 @@ namespace RadJAV
 				: impl(nullptr),
 				  rootView(nullptr)
             	{
+					JSObjectRef rootWinJs = jsEngine->jscGetObject(thisObj, "rootWin");
+					if(!jsEngine->jscIsNull(rootWinJs))
+					{
+						rootView = (View*)jsEngine->jscGetExternal(jsEngine->globalContext, rootWinJs, "_appObj");
+					}
             	}
             #endif
 
