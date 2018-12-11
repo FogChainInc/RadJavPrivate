@@ -73,12 +73,13 @@
 	#ifdef USE_IOS
 		#include "jscore/RadJavJSCGUIGObject.h"
 		#include "jscore/RadJavJSCMUIView.h"
-        #include "jscore/RadJavJSCMUIViewController.h"
-        #include "jscore/RadJavJSCMUINavigationViewController.h"
-        #include "jscore/RadJavJSCMUITableViewController.h"
-        #include "jscore/RadJavJSCMUITableView.h"
-        #include "jscore/RadJavJSCMUITableViewModel.h"
-        #include "jscore/RadJavJSCMUITableCellModel.h"
+		#include "jscore/RadJavJSCMUINavigator.h"
+		#include "jscore/RadJavJSCMUIViewController.h"
+		#include "jscore/RadJavJSCMUINavigationViewController.h"
+		#include "jscore/RadJavJSCMUITableViewController.h"
+		#include "jscore/RadJavJSCMUITableView.h"
+		#include "jscore/RadJavJSCMUITableViewModel.h"
+		#include "jscore/RadJavJSCMUITableCellModel.h"
 		#include "jscore/RadJavJSCMUIScrollView.h"
 		#include "jscore/RadJavJSCMUIButton.h"
 		#include "jscore/RadJavJSCMUILabel.h"
@@ -86,7 +87,7 @@
 		#include "jscore/RadJavJSCMUICheckbox.h"
 		#include "jscore/RadJavJSCMUITextbox.h"
 		#include "jscore/RadJavJSCMUITextarea.h"
-        #include "jscore/RadJavJSCMUIWebView.h"
+		#include "jscore/RadJavJSCMUIWebView.h"
 	#endif
 
 	// Database
@@ -1265,6 +1266,15 @@ namespace RadJAV
 						
 						JSC::MUI::View::createJSCCallbacks(globalContext, viewPrototype);
 					}
+
+					// RadJav.MUI.Navigator
+					{
+						JSObjectRef navigatorFunc = jscGetFunction(muiFunc, "Navigator");
+						JSObjectRef navigatorPrototype = jscGetObject(navigatorFunc, "prototype");
+
+						JSC::MUI::Navigator::createJSCCallbacks(globalContext, navigatorPrototype);
+					}
+
                     // RadJav.MUI.ViewController
                     {
                         JSObjectRef viewFunc = jscGetFunction(muiFunc, "ViewController");
