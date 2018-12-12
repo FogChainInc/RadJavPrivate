@@ -1274,7 +1274,11 @@ namespace RadJAV
 				{
 					v8::Handle<v8::Function> consoleFunc = v8GetFunction(radJavFunc, "Console");
 
-					V8B::Console::createV8Callbacks(isolate, consoleFunc);
+					#ifdef USE_ANDROID
+						V8B::Console::createV8Callbacks(isolate, consoleFunc, true);
+					#else
+						V8B::Console::createV8Callbacks(isolate, consoleFunc);
+					#endif
 				}
 
 				// RadJav.DB
