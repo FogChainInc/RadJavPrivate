@@ -6,7 +6,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
         // Execute the application, in this case, a simple function. Can also be a file.
         RadJav.runApplication (function ()
             {
-		RadJav.Console.println("Hello World!");
+		RadJav.Console.log("Hello World!");
 		alert("Hello world!");
 		RadJav.exit();
             });

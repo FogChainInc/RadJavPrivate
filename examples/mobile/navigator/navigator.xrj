@@ -29,7 +29,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 			rootWin.setPosition(0, 0);
 			rootWin.setSize(screenWidth, screenHeight);
 			
-			RadJav.Console.println("Root win created");
+			RadJav.Console.log("Root win created");
 			
 			//Create View navigator
 			navi = new RadJav.MUI.Navigator(rootWin);
@@ -43,7 +43,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 				win1.setSize(screenWidth, screenHeight);
 				
 				//Set win1 as main presented View
-				RadJav.Console.println("Switching to Win1");
+				RadJav.Console.log("Switching to Win1");
 				navi.push(win1);
 				
 				var img = new RadJav.MUI.Image ("image", "", win1);
@@ -68,7 +68,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 					
 					btnGoToWin2.on("click", function() {
 						//Go to win2, win1 will remain in Navigator stack
-						RadJav.Console.println("Switching to Win2");
+						RadJav.Console.log("Switching to Win2");
 						navi.push(win2);
 					});
 				});
@@ -104,7 +104,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 					
 					btnBackToWin1.on("click", function() {
 						//Remove top most View from Navigator stack and make previous View active
-						RadJav.Console.println("Switching back");
+						RadJav.Console.log("Switching back");
 						navi.pop();
 						//navi.pop(null);
 					});
@@ -118,7 +118,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 					
 					btnGoToWin3.on("click", function() {
 						//Go to win3, win1 and win2 will remain in Navigator stack
-						RadJav.Console.println("Switching to Win3");
+						RadJav.Console.log("Switching to Win3");
 						navi.push(win3);
 					});
 				});
@@ -154,7 +154,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 					
 					btnBackToWin2.on("click", function() {
 						//Remove top most View from Navigator stack and make previous View active
-						RadJav.Console.println("Switching back");
+						RadJav.Console.log("Switching back");
 						navi.pop();
 						//navi.pop(win2);
 					});
@@ -169,7 +169,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 					btnGoToWin1.on("click", function() {
 						//Remove Views from Navigator stack until win1 found
 						//or until one View left in Navigator stack, then activate that View
-						RadJav.Console.println("Switching to Win1");
+						RadJav.Console.log("Switching to Win1");
 						navi.pop(win1);
 						//navi.pop(null);
 					});
