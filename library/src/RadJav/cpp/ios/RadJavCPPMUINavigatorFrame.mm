@@ -29,16 +29,19 @@ namespace RadJAV
         {
 			NavigatorFrame::NavigatorFrame(ViewFrame *view)
             {
-				/*
 				if (view)
 				{
 					rootView = view->getNativeWidget();
+                    UIViewController * controller = [[UIViewController alloc] init];
+                    [controller.view addSubview:rootView];
+                    widget = [[UINavigationController alloc] init];
+                    [[UIApplication sharedApplication].keyWindow addSubview:widget.view];
 				}
 				else
 				{
-					rootView = RadJavAndroid::instance()->getJavaViewGroup();
+					//rootView = [UIApplication sharedApplication].keyWindow;
 				}
-				 */
+                
             }
 
 			NavigatorFrame::~NavigatorFrame()
@@ -48,103 +51,62 @@ namespace RadJAV
 
 			void NavigatorFrame::push(ViewFrame* view, bool replace)
 			{
-				/*
+				
 				//Do nothing if there is no view provided
 				if (!view || !rootView)
 					return;
-
-				RadJav::runOnUiThreadAsync([&, view, replace](JNIEnv* env, void* data) {
-					ViewFrame* viewToRemove = nullptr;
-
-					if (!viewStack.empty())
-					{
-						viewToRemove = viewStack.top();
-
-						if (replace)
-						{
-							viewStack.pop();
-						}
-					}
-
-					viewStack.push(view);
-					env->CallVoidMethod(rootView, nativeAddView, view->getNativeWidget());
-
-					if (viewToRemove)
-						env->CallVoidMethod(rootView, nativeRemoveView, viewToRemove->getNativeWidget());
-				});
-				 */
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    UIViewController * controller = [[UIViewController alloc] init];
+                    [controller.view addSubview:view->getNativeWidget()];
+                    
+                    //if there's exactly one pop won't work
+                    if (replace && widget.viewControllers.count <= 1){
+                        
+                        [widget setViewControllers:@[controller] animated:YES];
+                    } else
+                    
+                    //if we have multiple controllers on stack pop and replace
+                    if (replace && widget.viewControllers.count > 1){
+                        
+                        [widget popViewControllerAnimated:NO];
+                        [widget pushViewController:controller animated:YES];
+                    }
+                    else {
+                        [widget pushViewController:controller animated:YES];
+                    }
+                });
 			}
 
 			void NavigatorFrame::pop(ViewFrame* view)
 			{
-				/*
 				if (!rootView)
 					return;
 
-				//Do nothing if stack is empty or top most view is the same object(view)
-				if (viewStack.empty() || viewStack.top() == view)
-					return;
-
-				RadJav::runOnUiThreadAsync([&, view](JNIEnv* env, void* data) {
-					//We always remove top most view
-					ViewFrame* viewToRemove = nullptr;
-
-					viewToRemove = viewStack.top();
-
-					//And replace it with new one
-					ViewFrame* viewToAdd = nullptr;
-
-					//Inspect stack
-					while (!viewStack.empty() &&
-						   viewStack.top() != view)
-					{
-						viewToAdd = viewStack.top();
-						viewStack.pop();
-					}
-
-					//When view was not found
-					if (viewStack.empty())
-					{
-						//We add view provided into empty view stack
-						if (view)
-							viewToAdd = view;
-
-						//Or we add an old view from the stack back to it
-						viewStack.push(viewToAdd);
-					}
-					else
-					{
-						//View to activate was found in the stack
-						viewToAdd = viewStack.top();
-					}
-
-					//Activate view
-					env->CallVoidMethod(rootView, nativeAddView, viewToAdd->getNativeWidget());
-
-					//Deactivate previous view
-					if (viewToRemove)
-						env->CallVoidMethod(rootView, nativeRemoveView, viewToRemove->getNativeWidget());
-				});
-				 */
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    UIView * nativeView = view->getNativeWidget();
+                    for (UIViewController * i in widget.viewControllers){
+                        
+                        if (nativeView.superview == i.view) {
+                            [widget popToViewController:i animated:YES];
+                            return;
+                        }
+                    }
+                    //we perform pop to root if param was empty or not on stack
+                    pop();
+                });
 			}
 
 			void NavigatorFrame::pop()
 			{
-				/*
-				if (viewStack.size() <= 1)
-					return;
-
-				RadJav::runOnUiThreadAsync([&](JNIEnv* env, void* data) {
-					ViewFrame* viewToRemove = viewStack.top();
-
-					viewStack.pop();
-
-					ViewFrame* viewToAdd = viewStack.top();
-
-					env->CallVoidMethod(rootView, nativeAddView, viewToAdd->getNativeWidget());
-					env->CallVoidMethod(rootView, nativeRemoveView, viewToRemove->getNativeWidget());
-				});
-				 */
+                if (!rootView)
+                    return;
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    [widget popViewControllerAnimated:YES];
+                });
 			}
 		}
     }
