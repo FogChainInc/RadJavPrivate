@@ -29,7 +29,6 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 			rootWin.setPosition(0, 0);
 			rootWin.setSize(screenWidth, screenHeight);
 			
-			RadJav.Console.println("Root win created");
 			
 			//Create View navigator
 			navi = new RadJav.MUI.Navigator(rootWin);
@@ -43,7 +42,6 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 				win1.setSize(screenWidth, screenHeight);
 				
 				//Set win1 as main presented View
-				RadJav.Console.println("Switching to Win1");
 				navi.push(win1);
 				
 				var img = new RadJav.MUI.Image ("image", "", win1);
@@ -57,7 +55,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 					if (RadJav.OS.type == "android")
 						img1.setImage("/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/examples/mobile/navigator/window_one.png");
 					else //iOS
-						img1.setImage("");
+						img1.setImage("/examples/mobile/navigator/window_one.png");
 				});
 				
 				var btn = new RadJav.MUI.Button("button", "Go to Win 2", win1);
@@ -68,7 +66,6 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 					
 					btnGoToWin2.on("click", function() {
 						//Go to win2, win1 will remain in Navigator stack
-						RadJav.Console.println("Switching to Win2");
 						navi.push(win2);
 					});
 				});
@@ -93,7 +90,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 					if (RadJav.OS.type == "android")
 						img2.setImage("/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/examples/mobile/navigator/window_two.png");
 					else //iOS
-						img2.setImage("");
+						img2.setImage("/examples/mobile/navigator/window_two.png");
 				});
 				
 				var btn = new RadJav.MUI.Button("button", "Go back to Win 1", win2);
@@ -104,7 +101,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 					
 					btnBackToWin1.on("click", function() {
 						//Remove top most View from Navigator stack and make previous View active
-						RadJav.Console.println("Switching back");
+						//RadJav.Console.println("Switching back");
 						navi.pop();
 						//navi.pop(null);
 					});
@@ -143,7 +140,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 					if (RadJav.OS.type == "android")
 						img3.setImage("/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/examples/mobile/navigator/window_three.png");
 					else //iOS
-						img3.setImage("");
+						img3.setImage("/examples/mobile/navigator/window_three.png");
 				});
 				
 				var btn = new RadJav.MUI.Button("button", "Go back to Win 2", win3);

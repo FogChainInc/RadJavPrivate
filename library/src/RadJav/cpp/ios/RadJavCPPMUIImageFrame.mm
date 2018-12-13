@@ -69,15 +69,15 @@ namespace RadJAV
 					[widget setImage:nil];
 					image = nullptr;
 				}
-
-				NSString *path = [NSString stringWithUTF8String:imageFile.c_str()];
-
 				/* Temporarily, for testing
 				NSString *docDirPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)objectAtIndex:0];
 				NSMutableString *path = [NSMutableString stringWithString:docDirPath];
 				[path appendString:@"/christmas-tree.png"];
 				 */
-
+                NSString *appPath = [[[NSBundle mainBundle] executablePath] stringByDeletingLastPathComponent];
+                NSString *file = [NSString stringWithUTF8String:imageFile.c_str()];
+                NSString *path = [appPath stringByAppendingPathComponent:file];
+                
 				image = [UIImage imageWithContentsOfFile:path];
 				
 				[widget setImage:image];

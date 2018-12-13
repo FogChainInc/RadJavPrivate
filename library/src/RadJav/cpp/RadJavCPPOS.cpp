@@ -21,6 +21,8 @@
 
 #include "RadJav.h"
 #include "RadJavString.h"
+#import "cpp/ios/RadJavCPPMUIUtils.h"
+
 
 #ifdef GUI_USE_WXWIDGETS
 	#include <wx/wx.h>
@@ -93,6 +95,10 @@ namespace RadJAV
 			#ifdef GUI_USE_WXWIDGETS
 				str = parsewxString(wxStandardPaths::Get().GetDocumentsDir());
 			#endif
+            
+            #ifdef USE_IOS
+            str = RadJavApplicationDocumentsDirectory();
+            #endif
 
 			return (str);
 		}
@@ -104,7 +110,11 @@ namespace RadJAV
 			#ifdef GUI_USE_WXWIDGETS
 				str = parsewxString(wxStandardPaths::Get().GetTempDir());
 			#endif
-
+            
+            #ifdef USE_IOS
+                str = RadJavApplicationTempDirectory();
+            #endif
+            
 			return (str);
 		}
 
@@ -126,7 +136,9 @@ namespace RadJAV
 			#ifdef GUI_USE_WXWIDGETS
 				str = parsewxString(wxStandardPaths::Get().GetExecutablePath());
 			#endif
-
+            #ifdef USE_IOS
+                str = RadJavApplicationDirectory();
+            #endif
 			return (str);
 		}
 

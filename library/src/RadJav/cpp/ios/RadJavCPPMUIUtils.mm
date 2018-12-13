@@ -73,3 +73,8 @@ extern RadJAV::String RadJavApplicationTempDirectory()
     return RadJavStringFromCocoaString(NSTemporaryDirectory());
 }
 
+extern RadJAV::String RadJavApplicationDirectory()
+{
+    NSString* appPath = [[[NSBundle mainBundle] executablePath] stringByDeletingLastPathComponent];
+    return RadJavStringFromCocoaString(appPath);
+}
