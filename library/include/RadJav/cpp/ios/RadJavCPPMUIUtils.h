@@ -24,8 +24,12 @@
 #include <JavaScriptCore/JSStringRef.h>
 #include "RadJavString.h"
 
+extern RadJAV::String RadJavStringFromCocoaString(NSString* string);
 extern NSString* RadJavCocoaStringFromRadJavString(RadJAV::String string);
 extern NSString* RadJavCocoaStringFromJSCString(JSStringRef jsString);
 
 extern BOOL RadJavRootControllerWasSet();
 extern void RadJavSetRootViewController(UIViewController *controller);
+
+extern RadJAV::String RadJavApplicationDocumentsDirectory();
+extern RadJAV::String RadJavApplicationTempDirectory();
