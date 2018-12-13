@@ -33,3 +33,4 @@ extern void RadJavSetRootViewController(UIViewController *controller);
 
 extern RadJAV::String RadJavApplicationDocumentsDirectory();
 extern RadJAV::String RadJavApplicationTempDirectory();
+extern RadJAV::String RadJavApplicationDirectory();
