@@ -21,7 +21,10 @@
 
 #include "RadJav.h"
 #include "RadJavString.h"
-#import "cpp/ios/RadJavCPPMUIUtils.h"
+
+#ifdef USE_IOS
+	#import "cpp/ios/RadJavCPPMUIUtils.h"
+#endif
 
 
 #ifdef GUI_USE_WXWIDGETS
