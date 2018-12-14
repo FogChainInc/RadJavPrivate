@@ -17,11 +17,10 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#import "cpp/RadJavCPPMUIView.h"
-
+#import "cpp/RadJavCPPMUITableCellModel.h"
+#import "cpp/ios/RadJavCPPMUIEventDelegates.h"
 #import <UIKit/UIKit.h>
 #import "cpp/RadJavCPPGUIGObject.h"
-
 
 namespace RadJAV
 {
@@ -29,54 +28,34 @@ namespace RadJAV
     {
         namespace MUI
         {
-            ViewFrame::ViewFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
-            : widget([[UIView alloc] init])
+            TableCellModelFrame::TableCellModelFrame()
+            
             {
-				if (parent)
-				{
-					parent->addChild(this);
-				}
-				
-				setText(text);
+
+            }
+			TableCellModelFrame::~TableCellModelFrame()
+			{
+			}
+
+            bool TableCellModelFrame::bindEvent(const String& eventName, const GUI::Event* /*event*/)
+            {
+                return true;
             }
             
-			ViewFrame::ViewFrame(const String &text, const Vector2 &pos, const Vector2 &size)
-			: widget([[UIView alloc] init])
-			{
-				UIWindow * keyWindow = [UIApplication sharedApplication].keyWindow;
-				
-				UIView * rootView = keyWindow.rootViewController.view;
-				[rootView  addSubview:widget];
+            void TableCellModelFrame::addNewEvent(String event,
+#ifdef USE_V8
+                                            v8::Local<v8::Function> func
+#elif defined USE_JAVASCRIPTCORE
+                                            JSObjectRef func
+#endif
+            )
+            {
+                
+                
+                bindEvent(event,createEvent(event, func));
+                
+            }
 
-				setText(text);
-			}
-
-			ViewFrame::~ViewFrame()
-			{
-				//Release native widget here
-				[widget release];
-			}
-
-			void ViewFrame::setText(String text)
-			{
-				//TODO: Add implementation
-			}
-			
-			String ViewFrame::getText()
-			{
-				//TODO: Add implementation
-				return String();
-			}
-			
-			bool ViewFrame::bindEvent(const String& eventName, const GUI::Event* event)
-			{
-				return false;
-			}
-			
-			UIView* ViewFrame::getNativeWidget()
-			{
-				return widget;
-			}
         }
     }
 }

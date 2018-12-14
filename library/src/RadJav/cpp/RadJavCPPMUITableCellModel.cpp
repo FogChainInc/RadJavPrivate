@@ -21,11 +21,6 @@
 #include "RadJav.h"
 #include "RadJavString.h"
 
-#warning We expect this file to be pure C++ without Android/iOS internals, need to split it and place implementation in separate folders like ios, android
-#ifdef USE_IOS
-	#import <UIKit/UIKit.h>
-#endif
-
 namespace RadJAV
 {
 	namespace CPP
@@ -34,39 +29,24 @@ namespace RadJAV
 		{
 			#ifdef USE_V8
 			TableCellModel::TableCellModel(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
-				: GObject (jsEngine, args)
 			{
 			}
 			#endif
             #ifdef USE_JAVASCRIPTCORE
                 TableCellModel::TableCellModel(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[])
-                	: GObject(jsEngine, thisObj, numArgs, args)
                 {
                     isHeader = false;
                     isFooter = false;
+                    name = jsEngine->jscGetString(thisObj, "name");
+                    subtitle = jsEngine->jscGetString(thisObj, "text");
+                    nativeImplementation = new TableCellModelFrame();
                 }
             #endif
 
 			TableCellModel::TableCellModel(String name, String text, CPP::GUI::GObject *parent)
-				: GObject(name, text, parent)
 			{
 			}
 
-			void TableCellModel::create()
-			{
-				GUI::GObjectWidget* parentWin = nullptr;
-				
-				//if (parent != nullptr)
-					//parentWin = parent->_appObj;
-				
-
-				//setup();
-			}
-            bool TableCellModel::bindEvent(const String& eventName, const GUI::Event* /*event*/)
-            {
-                return true;//[widgetDelegate bindEvent:widget eventName:eventName];
-            }
-            
             bool TableCellModel::getUsesAccessoryButton()
             {
                 return this->usesAccessoryButton;
@@ -126,28 +106,11 @@ namespace RadJAV
             {
                 this->isFooter = value;
             }
-            
-#ifdef USE_IOS
-            UIView* TableCellModel::getNativeWidget()
-            {
-                return widget;
-            }
-#elif defined USE_ANDROID
-            jobject TableCellModel::getNativeWidget()
-            {
-                return widget;
-            }
-#endif
-            
-            
+
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
             	void TableCellModel::on(String event, RJ_FUNC_TYPE func)
 				{
-					//TODO: need to refactor TableCellModel(this) class
-					//GObject class is not a native widget class
-					//Base native widget class is GObjectWidget which derived from GObjectEvents and can handle
-					//events. See also top most #warning in this file
-                    //addNewEvent(event, func);
+                    this->nativeImplementation->addNewEvent(event, func);
 				}
 			#endif
 		}

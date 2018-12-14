@@ -52,7 +52,8 @@
 
 				private:
 					#ifdef USE_IOS
-						//UIView* widget;
+                        UIView *rootView;
+						UINavigationController* widget;
 						//TODO: do we need to handle events of the UIView?
 						//ViewDelegate* widgetDelegate;
 					#elif defined USE_ANDROID

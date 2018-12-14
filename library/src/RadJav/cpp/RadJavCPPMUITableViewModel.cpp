@@ -50,7 +50,7 @@ namespace RadJAV
 			void TableViewModel::create()
 			{
 				GUI::GObjectWidget* parentWin = nullptr;
-				
+                this->linkedFrame = nullptr;
 				if (_parent != nullptr)
 					parentWin = _parent->_appObj;
 				
@@ -58,9 +58,7 @@ namespace RadJAV
 			}
             
             void TableViewModel::setCellModels(std::vector<CPP::MUI::TableCellModel *> *models)
-            {
-                this->models = models;
-                
+            {                
                 if (models->size()!= 0){
                     this->cells = new std::vector< std::vector<CPP::MUI::TableCellModel*> >();
                     this->headers = new std::vector<CPP::MUI::TableCellModel*>();

@@ -1,0 +1,79 @@
+var navi;
+
+var rootWin;
+var win1;
+var win2;
+var win3;
+
+var img1;
+var img2;
+var img3;
+
+RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav.getMUILibrary ()).then (function () {
+	RadJav.runApplication (function () {
+		var screenWidth = RadJav.getPrimaryScreen ().getWidth ();
+		var screenHeight = RadJav.getPrimaryScreen ().getHeight ();
+		
+		//Create root View
+		var win = new RadJav.MUI.View ("win", "Bottom Navigator example");
+		win.createMainView ().then (function (win_created) {
+			rootWin = win_created;
+			
+			rootWin.setPosition(0, 0);
+			rootWin.setSize(screenWidth, screenHeight);
+			
+			
+			//Create View navigator
+			navi = new RadJav.MUI.BottomNavigator(rootWin);
+			
+			//Create first View
+			win = new RadJav.MUI.View ("win", "Window 1");
+			win.create ().then (function (win_created) {
+				win1 = win_created;
+				
+				win1.setPosition(0, 0);
+				win1.setSize(screenWidth, screenHeight);
+
+				
+				var img = new RadJav.MUI.Image ("image", "", win1);
+				img.create().then (function (img_created)
+				{
+					img1 = img_created;
+					img1.setPosition ((screenWidth-256)/2, screenHeight/5);
+					img1.setSize (256, 256);
+					img1.setScaleMode(RadJav.MUI.Image.ScaleModeAspectFit);
+					
+					if (RadJav.OS.type == "android")
+						img1.setImage("/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/examples/mobile/bottomnavigator/window_one.png");
+					else //iOS
+						img1.setImage("/examples/mobile/bottomnavigator/window_one.png");
+				});
+				
+			});
+			//Create third View
+			win = new RadJav.MUI.View ("win", "Window 3");
+			win.create ().then (function (win_created) {
+				win3 = win_created;
+				
+				win3.setPosition(0, 0);
+				win3.setSize(screenWidth, screenHeight);
+				
+				var img = new RadJav.MUI.Image ("image", "", win3);
+				img.create().then (function (img_created)
+				{
+					img3 = img_created;
+					img3.setPosition ((screenWidth-256)/2, screenHeight/5);
+					img3.setSize (256, 256);
+					img3.setScaleMode(RadJav.MUI.Image.ScaleModeAspectFit);
+					
+					if (RadJav.OS.type == "android")
+						img3.setImage("/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/examples/mobile/bottomnavigator/window_three.png");
+					else //iOS
+						img3.setImage("/examples/mobile/bottomnavigator/window_three.png");
+				});
+				
+				
+			});
+		});
+	});
+});

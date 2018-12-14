@@ -1,6 +1,6 @@
 /*
 	MIT-LICENSE
-	Copyright (c) 2018 Higher Edge Software, LLC
+	Copyright (c) 2017-2018 Higher Edge Software, LLC
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 	and associated documentation files (the "Software"), to deal in the Software without restriction, 
@@ -17,30 +17,58 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#ifndef _RADJAV_MUI_JSC_VIEW_H_
-#define _RADJAV_MUI_JSC_VIEW_H_
 
-#include "RadJavPreprocessor.h"
+/// <reference path="RadJav.ts" />
+/// <reference path="RadJav.MUI.View.ts" />
 
-#include <JavaScriptCore/JavaScriptCore.h>
-
-
-namespace RadJAV
+namespace RadJav
 {
-	namespace JSC
+	export namespace MUI
 	{
-		namespace MUI
+		/** @class RadJav.MUI.Navigator
+		 * A mobile view navigator.
+		 * Available on platforms: iOS,Android,HTML5
+		 */
+		export class Navigator
 		{
-			class RADJAV_EXPORT View
-			{
-				public:
-					static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
+			static xmlTag: TagType = { tag: "navigator", type: "Navigator" };
 
-					static JSValueRef create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
-					static JSValueRef createMainView(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
-			};
+			/** @property {string} [type=""]
+			 * The type of object.
+			 */
+			type: string;
+
+			/** @property {RadJav.MUI.Window} [type=""]
+			 * The root Window object.
+			 */
+			rootWin: RadJav.MUI.Window;
+
+			constructor(view? :RadJav.MUI.Window)
+			{
+				this.type = "RadJav.MUI.Navigator";
+				this.rootWin = view;
+
+				if(this._init != null)
+				{
+					this._init.apply(this, arguments);
+				}
+			}
+
+			public push(view: RadJav.MUI.Window, replace?: boolean)
+			{
+				if(this._push != null)
+				{
+					this._push.apply(this, arguments);
+				}
+			}
+
+			public pop(view?: RadJav.MUI.Window)
+			{
+				if(this._pop != null)
+				{
+					this._pop.apply(this, arguments);
+				}
+			}
 		}
 	}
 }
-#endif
-

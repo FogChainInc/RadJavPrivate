@@ -36,63 +36,79 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
                        		model.create ().then (function (modelParam){
                        			
                        		var array = [];
+								
+							function cell_click(cell) {
+								return function () {
+									alert ("Selected " + cell.name);
+								}
+							}
+							
+							function cell_accessory_click(cell) {
+								return function () {
+									alert ("Accessory tapped " + cell.name);
+								}
+							}
+							
+							function cell_delete(cell) {
+								return function () {
+									var index = array.indexOf(cellParam);
+                                    array.splice(index,1);
+                                    globalModel.setCellModels(array);
+                       				globalTable.setModel(globalModel);
+								}
+							}
+							
+							
+                       		var headerModel = new RadJav.MUI.TableCellModel("header","");
+                       		headerModel.setIsHeader(true);
+                       		array.push(headerModel);
 
-                       		var headerModel = new RadJav.MUI.TableCellModel("header","subtitle");
-                       		
-                       		headerModel.create ().then (function (headerParam){
-                       			array.push(headerModel);
-                       			headerParam.setIsHeader(true);
-                       			
-                       		});
                        		
                        		var i;
 							for (i = 0; i < 5; i++) { 
 							
 								var text = "number " + i;
-    							var cellModel1 = new RadJav.MUI.TableCellModel(text,"");
-                       			cellModel1.create ().then (function (cellParam){
-                       			
-                       				cellParam.setIsDeletable(true);
-                       				cellParam.on ("click", function ()
-                                	{
-                                    	alert ("Selected " + cellParam.name);
-                                	});
-                                	cellParam.on ("delete", function ()
-                                	{
-                                    	var index = array.indexOf(cellParam);
-                                    	array.splice(index,1);
-                                    	globalModel.setCellModels(array);
-                       					globalTable.setModel(globalModel);
-                                    	
-                                	});
-                                	cellParam.on ("accessory_click", function ()
-                                	{
-                                    	alert ("Accessory tapped " + cellParam.name);
-                                	});
-                                	
-                                	
-                                	
-                       				array.push(cellParam);
+    							var cellParam = new RadJav.MUI.TableCellModel(text,"");
 
-                       			});
+                       			cellParam.setIsDeletable(true);
+                       			cellParam.on ("click", cell_click(cellParam));
+                       			cellParam.on ("accessory_click",cell_accessory_click(cellParam));
+                                cellParam.on ("delete",cell_delete(cellParam));
+
+
+                       			array.push(cellParam);
+
 							}
-                       			
-                       			
-                       			
-                       			var cellModel = new RadJav.MUI.TableCellModel("last one","subtitle");
-                       			cellModel.create ().then (function (cellParam){
-                       			
-                       				cellModel.setUsesAccessoryButton(true);
-                       				cellParam.on ("accessory_click", function ()
-                                	{
-                                    	alert ("Accessory tapped " + cellParam.name);
-                                	});
-                       				
-                       				array.push(cellModel);
-                       			
-                       				globalModel.setCellModels(array);
-                       				globalTable.setModel(globalModel);
-                       			});
+							
+							var footerModel = new RadJav.MUI.TableCellModel("footer","");
+                       		footerModel.setIsFooter(true);
+                       		array.push(footerModel);
+							
+							
+							var headerModel1 = new RadJav.MUI.TableCellModel("header1","");
+                       		headerModel1.setIsHeader(true);
+                       		array.push(headerModel1);
+
+                       		
+							for (i = 0; i < 5; i++) { 
+							
+								var text = "number " + i;
+    							var cellParam = new RadJav.MUI.TableCellModel(text,"");
+
+                       			cellParam.setIsDeletable(true);
+                       			cellParam.on ("click", cell_click(cellParam));
+                       			cellParam.on ("accessory_click",cell_accessory_click(cellParam));
+                                cellParam.on ("delete",cell_delete(cellParam));
+
+
+                       			array.push(cellParam);
+
+							}
+							
+							
+							
+                       		globalModel.setCellModels(array);
+                       		globalTable.setModel(globalModel);
                        			
                        			
                        			

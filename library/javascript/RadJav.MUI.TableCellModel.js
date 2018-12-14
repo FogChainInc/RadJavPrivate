@@ -47,6 +47,7 @@ var RadJav;
                 }
                 (_this = _super.call(this, obj, text, parent) || this) || _this;
                 _this.type = "RadJav.MUI.TableCellModel";
+                _this.init();
                 return _this;
             }
             TableCellModel.xmlTag = { tag: "tablecellmodel", type: "TableCellModel" };

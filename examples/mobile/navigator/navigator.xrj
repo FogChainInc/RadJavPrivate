@@ -57,7 +57,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 					if (RadJav.OS.type == "android")
 						img1.setImage("/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/examples/mobile/navigator/window_one.png");
 					else //iOS
-						img1.setImage("");
+						img1.setImage("/examples/mobile/navigator/window_one.png");
 				});
 				
 				var btn = new RadJav.MUI.Button("button", "Go to Win 2", win1);
@@ -93,7 +93,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 					if (RadJav.OS.type == "android")
 						img2.setImage("/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/examples/mobile/navigator/window_two.png");
 					else //iOS
-						img2.setImage("");
+						img2.setImage("/examples/mobile/navigator/window_two.png");
 				});
 				
 				var btn = new RadJav.MUI.Button("button", "Go back to Win 1", win2);
@@ -143,7 +143,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 					if (RadJav.OS.type == "android")
 						img3.setImage("/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/examples/mobile/navigator/window_three.png");
 					else //iOS
-						img3.setImage("");
+						img3.setImage("/examples/mobile/navigator/window_three.png");
 				});
 				
 				var btn = new RadJav.MUI.Button("button", "Go back to Win 2", win3);

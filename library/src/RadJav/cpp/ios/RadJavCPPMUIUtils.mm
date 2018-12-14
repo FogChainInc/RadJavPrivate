@@ -19,12 +19,19 @@
  */
 #import "cpp/ios/RadJavCPPMUIUtils.h"
 
+extern RadJAV::String RadJavStringFromCocoaString(NSString* string)
+{
+    const char * charbuf = [string UTF8String];
+    return * (new RadJAV::String(charbuf));
+}
+
 NSString* RadJavCocoaStringFromRadJavString(RadJAV::String string)
 {
     JSStringRef jsString = string.toJSCString();
     
     return RadJavCocoaStringFromJSCString(jsString);
 }
+
 NSString* RadJavCocoaStringFromJSCString(JSStringRef jsString)
 {
     size_t maxBufferSize = JSStringGetMaximumUTF8CStringSize(jsString);
@@ -37,10 +44,12 @@ NSString* RadJavCocoaStringFromJSCString(JSStringRef jsString)
 
 static BOOL radJavRootControllerWasSet = false;
 
-extern BOOL RadJavRootControllerWasSet(){
+extern BOOL RadJavRootControllerWasSet()
+{
     return radJavRootControllerWasSet;
 }
-extern void RadJavSetRootViewController(UIViewController *controller){
+extern void RadJavSetRootViewController(UIViewController *controller)
+{
     
     if (controller == nil){
         return;
@@ -51,3 +60,21 @@ extern void RadJavSetRootViewController(UIViewController *controller){
     [keyWindow setRootViewController:controller];
 }
 
+extern RadJAV::String RadJavApplicationDocumentsDirectory()
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    
+    return RadJavStringFromCocoaString(documentsDirectory);
+}
+
+extern RadJAV::String RadJavApplicationTempDirectory()
+{
+    return RadJavStringFromCocoaString(NSTemporaryDirectory());
+}
+
+extern RadJAV::String RadJavApplicationDirectory()
+{
+    NSString* appPath = [[[NSBundle mainBundle] executablePath] stringByDeletingLastPathComponent];
+    return RadJavStringFromCocoaString(appPath);
+}
