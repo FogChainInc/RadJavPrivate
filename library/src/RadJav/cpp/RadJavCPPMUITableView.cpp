@@ -62,9 +62,11 @@ namespace RadJAV
 				linkWith(object);
 				setup();
 			}
-            void TableView::setModel(MUI::TableViewModel *model){
-                
-                ((TableViewFrame*)_appObj)->setModel(model);
+
+			void TableView::setModel(MUI::TableViewModel *model)
+			{
+                if (_appObj)
+                	((TableViewFrame*)_appObj)->setModel(model);
             }
 
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE

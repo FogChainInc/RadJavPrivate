@@ -17,8 +17,9 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#ifndef _RADJAV_MUI_CPP_TableView_H_
-#define _RADJAV_MUI_CPP_TableView_H_
+#ifndef _RADJAV_MUI_CPP_TABLEVIEW_H_
+#define _RADJAV_MUI_CPP_TABLEVIEW_H_
+
 #include "cpp/RadJavCPPGUIGObject.h"
 #include "cpp/RadJavCPPMUITableViewModel.h"
 
@@ -49,19 +50,20 @@
                     TableViewFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
                     ~TableViewFrame();
 
-					void setText(String text);
+					#ifdef USE_IOS
+						void setText(String text);
                     
-					String getText();
+						String getText();
+					#endif
 
 					bool bindEvent(const String& eventName, const GUI::Event* event);
                     void setModel(MUI::TableViewModel *model);
                     void reload();
+
                     MUI::TableViewModel *model;
                     
 					#ifdef USE_IOS
 						UIView* getNativeWidget();
-					#elif defined USE_ANDROID
-						jobject getNativeWidget();
 					#endif
 
 				private:
@@ -69,7 +71,6 @@
 						UITableView* widget;
                         TableViewDelegate* widgetDelegate;
 					#elif defined USE_ANDROID
-						jobject widget;
 					#endif
                 };
                 
@@ -92,9 +93,6 @@
                         	/// Execute when an event is triggered.
                         	void on(String event, RJ_FUNC_TYPE func);
 						#endif
-					
-						///???
-						String icon;
 				};
 			}
 		}

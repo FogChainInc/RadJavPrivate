@@ -98,7 +98,7 @@ if (USE_V8)
 			#"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIViewController.h"
 			#"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUINavigationViewController.h"
 			#"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUITableViewController.h"
-			#"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUITableView.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUITableView.h"
 			#"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUITableViewModel.h"
 			#"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUITableCellModel.h"
 			#"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIScrollView.h"

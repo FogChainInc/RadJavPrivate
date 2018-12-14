@@ -86,7 +86,7 @@
 		//#include "v8/RadJavV8MUIViewController.h"
 		//#include "v8/RadJavV8MUINavigationViewController.h"
 		//#include "v8/RadJavV8MUITableViewController.h"
-		//#include "v8/RadJavV8MUITableView.h"
+		#include "v8/RadJavV8MUITableView.h"
 		//#include "v8/RadJavV8MUITableViewModel.h"
 		//#include "v8/RadJavV8MUITableCellModel.h"
 		//#include "v8/RadJavV8MUIScrollView.h"
@@ -1570,15 +1570,17 @@ namespace RadJAV
                         
                         JSC::MUI::TableViewController::createJSCCallbacks(globalContext, viewPrototype);
                     }
+                    #endif
+
+					// RadJav.MUI.TableView
+					{
+						v8::Handle<v8::Function> viewFunc = v8GetFunction(muiFunc, "TableView");
+						v8::Handle<v8::Object> viewPrototype = v8GetObject(viewFunc, "prototype");
+
+						V8B::MUI::TableView::createV8Callbacks(isolate, viewPrototype);
+					}
                     
-                    // RadJav.MUI.TableView
-                    {
-                        JSObjectRef viewFunc = jscGetFunction(muiFunc, "TableView");
-                        JSObjectRef viewPrototype = jscGetObject(viewFunc, "prototype");
-                        
-                        JSC::MUI::TableView::createJSCCallbacks(globalContext, viewPrototype);
-                    }
-                    
+					#if 0
                     // RadJav.MUI.TableViewModel
                     {
                         JSObjectRef viewFunc = jscGetFunction(muiFunc, "TableViewModel");
