@@ -700,6 +700,7 @@ if (libRadJav_EMBEDFILE)
 			RadJav.MUI.NavigationViewController.js
 			RadJav.MUI.View.js
 			RadJav.MUI.Navigator.js
+			RadJav.MUI.BottomNavigator.js
 			RadJav.MUI.ScrollView.js
 			RadJav.MUI.Button.js
 			RadJav.MUI.Label.js

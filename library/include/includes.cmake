@@ -270,6 +270,7 @@ if (USE_JAVASCRIPTCORE)
 		set (SOURCES_files_RadJav__JSC__MUI__Headers 
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUIView.h" 
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUINavigator.h" 
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUIBottomNavigator.h" 
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUIViewController.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUINavigationViewController.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUITableViewController.h"
@@ -545,6 +546,7 @@ if (IS_MOBILE)
 	set (SOURCES_files_RadJav__cpp__MUI__Headers 
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIView.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUINavigator.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIBottomNavigator.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIViewController.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUINavigationViewController.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUITableViewController.h"

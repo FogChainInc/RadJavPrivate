@@ -264,6 +264,7 @@ if (USE_JAVASCRIPTCORE)
 
 		set (SOURCES_files_RadJav__JSC__MUI__Sources 
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUIView.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUIBottomNavigator.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUINavigator.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUIViewController.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUINavigationViewController.cpp"
@@ -537,6 +538,7 @@ if (IS_MOBILE)
 
 	set (SOURCES_files_RadJav__cpp__MUI__Sources 
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUIView.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUIBottomNavigator.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUINavigator.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUIViewController.cpp" 
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUINavigationViewController.cpp"
@@ -568,6 +570,7 @@ if (IS_MOBILE)
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUIButtonFrame.mm"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUITableCellModelFrame.mm"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUIViewFrame.mm"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUIBottomNavigatorFrame.mm"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUINavigatorFrame.mm"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUIViewControllerFrame.mm"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUINavigationViewControllerFrame.mm"

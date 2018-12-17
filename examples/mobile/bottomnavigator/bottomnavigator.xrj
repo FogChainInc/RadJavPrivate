@@ -33,7 +33,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 				
 				win1.setPosition(0, 0);
 				win1.setSize(screenWidth, screenHeight);
-
+				navi.addTab(win1);
 				
 				var img = new RadJav.MUI.Image ("image", "", win1);
 				img.create().then (function (img_created)
@@ -50,6 +50,28 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 				});
 				
 			});
+			//Create second View
+			win = new RadJav.MUI.View ("win", "Window 2");
+			win.create ().then (function (win_created) {
+				win2 = win_created;
+				
+				win2.setPosition(0, 0);
+				win2.setSize(screenWidth, screenHeight);
+				navi.addTab(win2);
+				var img = new RadJav.MUI.Image ("image", "", win2);
+				img.create().then (function (img_created)
+				{
+					img2 = img_created;
+					img2.setPosition ((screenWidth-256)/2, screenHeight/5);
+					img2.setSize (256, 256);
+					img2.setScaleMode(RadJav.MUI.Image.ScaleModeAspectFit);
+					
+					if (RadJav.OS.type == "android")
+						img2.setImage("/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/examples/mobile/bottomnavigator/window_two.png");
+					else //iOS
+						img2.setImage("/examples/mobile/bottomnavigator/window_two.png");
+				});
+			});
 			//Create third View
 			win = new RadJav.MUI.View ("win", "Window 3");
 			win.create ().then (function (win_created) {
@@ -57,7 +79,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 				
 				win3.setPosition(0, 0);
 				win3.setSize(screenWidth, screenHeight);
-				
+				navi.addTab(win3);
 				var img = new RadJav.MUI.Image ("image", "", win3);
 				img.create().then (function (img_created)
 				{
@@ -71,8 +93,6 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 					else //iOS
 						img3.setImage("/examples/mobile/bottomnavigator/window_three.png");
 				});
-				
-				
 			});
 		});
 	});
