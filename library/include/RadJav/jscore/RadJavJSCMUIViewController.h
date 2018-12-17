@@ -31,15 +31,15 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
-            class RADJAV_EXPORT ViewController
+			class RADJAV_EXPORT ViewController
 			{
 				public:
 					static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
 
 					static JSValueRef create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
-                    static JSValueRef makeRootViewController(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
-                    static JSValueRef presentViewControllerAnimated(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
-                    static JSValueRef dismissViewControllerAnimated(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+					static JSValueRef makeRootViewController(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+					static JSValueRef presentViewControllerAnimated(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+					static JSValueRef dismissViewControllerAnimated(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
 			};
 		}
 	}

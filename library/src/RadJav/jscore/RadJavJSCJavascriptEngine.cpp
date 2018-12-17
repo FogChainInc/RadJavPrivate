@@ -1799,9 +1799,11 @@ namespace RadJAV
         JSObjectRef JSCJavascriptEngine::jscGetObject(JSObjectRef context, String functionName)
         {
             JSValueRef value = jscGetValue (context, functionName);
-            JSObjectRef result = jscCastValueToObject(globalContext, value);
-            
-            return (result);
+			
+			if (jscIsNull(value))
+				return nullptr;
+			
+            return (jscCastValueToObject(globalContext, value));
         }
 
         JSValueRef JSCJavascriptEngine::jscCallFunction(JSObjectRef context, String functionName, RJINT numArgs, JSValueRef args[])
