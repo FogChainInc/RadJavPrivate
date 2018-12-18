@@ -37,14 +37,14 @@
 			namespace MUI
 			{
 				class ViewFrame;
-
+				class View;
 				class RADJAV_EXPORT BottomNavigatorFrame : public ChainedPtr
                 {
                 public:
 					BottomNavigatorFrame(ViewFrame* view);
                     ~BottomNavigatorFrame();
 
-                    void addTab(ViewFrame* view, bool replace);
+                    void addTab(View* view, String icon);
 
 				private:
 					#ifdef USE_IOS
@@ -81,8 +81,7 @@
 
 						void create();
 
-						void addTab(View* view, bool replace);
-;
+						void addTab(View* view, String icon);
 
 					private:
 						BottomNavigatorFrame* impl;

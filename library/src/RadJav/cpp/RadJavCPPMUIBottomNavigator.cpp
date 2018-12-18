@@ -71,14 +71,14 @@ namespace RadJAV
 				linkWith(impl);
 			}
 
-			void BottomNavigator::addTab(View* view, bool replace)
+			void BottomNavigator::addTab(View* view, String icon)
 			{
 				//We can't deal with parented Views
 				if (view->getParent())
 					return;
 
 				if (impl)
-					impl->addTab(view ? static_cast<ViewFrame*>(view->_appObj) : nullptr, replace);
+					impl->addTab(view, icon);
 			}
 		}
 	}

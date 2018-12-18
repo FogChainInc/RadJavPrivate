@@ -33,7 +33,14 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 				
 				win1.setPosition(0, 0);
 				win1.setSize(screenWidth, screenHeight);
-				navi.addTab(win1);
+				
+				var icon;
+				if (RadJav.OS.type == "android")
+						icon = "/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/examples/mobile/bottomnavigator/1.png";
+				else //iOS
+						icon = "/examples/mobile/bottomnavigator/1.png";
+						
+				navi.addTab(win1,icon);
 				
 				var img = new RadJav.MUI.Image ("image", "", win1);
 				img.create().then (function (img_created)
@@ -57,7 +64,13 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 				
 				win2.setPosition(0, 0);
 				win2.setSize(screenWidth, screenHeight);
-				navi.addTab(win2);
+				var icon;
+				if (RadJav.OS.type == "android")
+						icon = "/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/examples/mobile/bottomnavigator/2.png";
+				else //iOS
+						icon = "/examples/mobile/bottomnavigator/2.png";
+						
+				navi.addTab(win2,icon);
 				var img = new RadJav.MUI.Image ("image", "", win2);
 				img.create().then (function (img_created)
 				{
@@ -79,7 +92,13 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 				
 				win3.setPosition(0, 0);
 				win3.setSize(screenWidth, screenHeight);
-				navi.addTab(win3);
+				var icon;
+				if (RadJav.OS.type == "android")
+						icon = "/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/examples/mobile/bottomnavigator/3.png";
+				else //iOS
+						icon = "/examples/mobile/bottomnavigator/3.png";
+						
+				navi.addTab(win3,icon);
 				var img = new RadJav.MUI.Image ("image", "", win3);
 				img.create().then (function (img_created)
 				{

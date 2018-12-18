@@ -20,6 +20,7 @@
 
 #include "cpp/RadJavCPPMUIBottomNavigator.h"
 #include "cpp/RadJavCPPMUIView.h"
+#include "cpp/ios/RadJavCPPMUIUtils.h"
 
 namespace RadJAV
 {
@@ -49,16 +50,26 @@ namespace RadJAV
 				//TODO: need to add implementation
 			}
 
-			void BottomNavigatorFrame::addTab(ViewFrame* view, bool replace)
+			void BottomNavigatorFrame::addTab(View* view, String icon)
 			{
 				
 				//Do nothing if there is no view provided
 				if (!view || !rootView)
 					return;
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    
+					
+					ViewFrame* viewFrame = (ViewFrame*)view->_appObj;
                     UIViewController * controller = [[UIViewController alloc] init];
-                    [controller.view addSubview:view->getNativeWidget()];
+                    [controller.view addSubview:viewFrame->getNativeWidget()];
+					NSString * name = RadJavCocoaStringFromRadJavString(view->_text);
+					UIImage *nativeImage = nil;
+					
+					NSString * iconName = RadJavCocoaStringFromRadJavString(icon);
+					if (iconName != nil && iconName.length > 0){
+						NSString *path = [RadJavCocoaStringFromRadJavString(RadJavApplicationDirectory()) stringByAppendingString: iconName];
+						nativeImage = [UIImage imageWithContentsOfFile:path];
+					}
+					controller.tabBarItem = [[UITabBarItem alloc] initWithTitle:name image:nativeImage tag:0];
 					NSArray *newControllers = [widget.viewControllers arrayByAddingObject:controller];
 					if (newControllers == nil){
 						newControllers = @[controller];

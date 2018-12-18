@@ -23,6 +23,7 @@
 
 #include "cpp/RadJavCPPMUIBottomNavigator.h"
 #include "cpp/RadJavCPPMUIView.h"
+#include "cpp/RadJavCPPGUIGObject.h"
 
 namespace RadJAV
 {
@@ -77,14 +78,14 @@ namespace RadJAV
 				}
 
 				//Extract replace parameter
-				bool replace = false;
+				String icon = "";
 				if(argumentCount > 1)
 				{
-					JSValueRef replaceJs = JSC_JAVASCRIPT_ENGINE->jscGetArgument(arguments, argumentCount, 1);
-					if(!JSC_JAVASCRIPT_ENGINE->jscIsNull(replaceJs) &&
-					   JSValueIsBoolean(ctx, replaceJs))
+					JSValueRef iconJs = JSC_JAVASCRIPT_ENGINE->jscGetArgument(arguments, argumentCount, 1);
+					if(!JSC_JAVASCRIPT_ENGINE->jscIsNull(iconJs) &&
+					   JSValueIsString(ctx, iconJs))
 					{
-						replace = JSC_JAVASCRIPT_ENGINE->jscValueToBoolean(replaceJs);
+						icon = parseJSCValue(ctx, iconJs);
 					}
 				}
 
@@ -96,7 +97,7 @@ namespace RadJAV
 				}
 
 				//Call native implementation
-				appObject->addTab(view, replace);
+				appObject->addTab(view, icon);
 				
 				return undefined;
 			}
