@@ -186,11 +186,60 @@ namespace RadJAV
 				return scaleMode;
 			}
 			
-			bool ImageFrame::bindEvent(const String& eventName, const GUI::Event* /*event*/)
+			bool ImageFrame::bindEvent(const String& eventName, const GUI::Event* event)
 			{
-				//TODO: do we need to handle UIImageView events?
-				//return [widgetDelegate bindEvent:widget eventName:eventName];
-				return false;
+				RadJav::runOnUiThreadAsync([&, eventName, event](JNIEnv* env, void* data) {
+					Jni& jni = Jni::instance();
+					GUI::EventData* eventData = new GUI::EventData(this, eventName, (void*)event);
+					LOGI("%s: %s", __FUNCTION__, eventData->_eventName.c_str());
+
+					jmethodID method = nullptr;
+
+					//setOnClickListener - Callback when the view is clicked
+					if (eventData->_eventName.compare("click") == 0) {
+						method = env->GetMethodID(nativeImageViewClass, "setOnClickListener", "(Landroid/view/View$OnClickListener;)V");
+					}
+						//onCreateContextMenu - Callback for pressing and holding a view for a long time
+					else if (eventData->_eventName.compare("createContextMenu") == 0) {
+						method = env->GetMethodID(nativeImageViewClass, "setOnCreateContextMenuListener", "(Landroid/view/View$OnCreateContextMenuListener;)V");
+					}
+						//setOnDragListener - Callback when the view is dragged
+						//setOnFocusChangeListener - Callback when the view changes focus
+					else if (eventData->_eventName.compare("focusChange") == 0) {
+						method = env->GetMethodID(nativeImageViewClass, "setOnFocusChangeListener", "(Landroid/view/View$OnFocusChangeListener;)V");
+					}
+						//setOnGenericMotionListener - Callback for arbitrary gestures
+						//setOnHoverListener - Callback for hovering over the view
+						//setOnKeyListener - Callback for pressing a hardware key when view has focus
+					else if (eventData->_eventName.compare("key") == 0) {
+						method = env->GetMethodID(nativeImageViewClass, "setOnKeyListener", "(Landroid/view/View$OnKeyListener;)V");
+					}
+						//setOnLongClickListener - Callback for pressing and holding a view
+					else if (eventData->_eventName.compare("longClick") == 0) {
+						method = env->GetMethodID(nativeImageViewClass, "setOnLongClickListener", "(Landroid/view/View$OnLongClickListener;)V");
+					}
+						//setOnTouchListener - Callback for touching down or up on a view
+					else if (eventData->_eventName.compare("touch") == 0) {
+						method = env->GetMethodID(nativeImageViewClass, "setOnTouchListener", "(Landroid/view/View$OnTouchListener;)V");
+					}
+					else {
+						LOGE("%s: undefined event handled in imageframe.onBindEvent [ %s ]", __FUNCTION__, eventData->_eventName.c_str());
+					}
+
+					if (method != nullptr) {
+						Jni& jni = Jni::instance();
+
+						jclass _eventListenerClass = jni.findClass("com/fogchain/radjavvm/UiEventListener");
+						jmethodID _eventListenerConstructor = env->GetMethodID(_eventListenerClass, "<init>", "(Ljava/nio/ByteBuffer;)V");
+
+						auto eventBuffer = jni.wrapLocalRef(env->NewDirectByteBuffer(eventData, sizeof(eventData)));
+						auto listenerInstance = jni.wrapLocalRef(env->NewObject(_eventListenerClass, _eventListenerConstructor, eventBuffer.get()));
+
+						env->CallVoidMethod(widget, method, listenerInstance.get());
+					}
+				});
+
+				return true;
 			}
 		}
 	}

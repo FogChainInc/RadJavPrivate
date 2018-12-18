@@ -99,7 +99,7 @@ namespace RadJAV
                     if (eventData->_eventName.compare("click") == 0) {
                         method = env->GetMethodID(nativeSwitchClass, "setOnClickListener", "(Landroid/view/View$OnClickListener;)V");
                     }
-                        //onCreateContextMenu - Callback for pressing and holding a view for a long time
+                        //setOnCreateContextMenu - Callback for pressing and holding a view for a long time
                     else if (eventData->_eventName.compare("createContextMenu") == 0) {
                         method = env->GetMethodID(nativeSwitchClass, "setOnCreateContextMenuListener", "(Landroid/view/View$OnCreateContextMenuListener;)V");
                     }
@@ -122,12 +122,12 @@ namespace RadJAV
                     else if (eventData->_eventName.compare("touch") == 0) {
                         method = env->GetMethodID(nativeSwitchClass, "setOnTouchListener", "(Landroid/view/View$OnTouchListener;)V");
                     }
-                        //setOnChangeListener - Callback for changing state of control
+                        //setOnCheckedChangeListener - Callback for changing state of control
                     else if (eventData->_eventName.compare("changed") == 0) {
                         method = env->GetMethodID(nativeSwitchClass, "setOnCheckedChangeListener", "(Landroid/widget/CompoundButton$OnCheckedChangeListener;)V");
                     }
                     else {
-                        LOGE("%s: undefined event handled in button.onBindEvent [ %s ]", __FUNCTION__, eventData->_eventName.c_str());
+                        LOGE("%s: undefined event handled in checkboxframe.onBindEvent [ %s ]", __FUNCTION__, eventData->_eventName.c_str());
                     }
 
                     if (method != nullptr) {

@@ -120,7 +120,7 @@ namespace RadJAV
 
                     jmethodID method = nullptr;
 
-					//setOnClickListener - Callback when the view is clicked
+					//setOnClickListener - Callback when the view is clickedOnItemClick
 					if (eventData->_eventName.compare("click") == 0)
 					{
 						method = env->GetMethodID(nativeButtonClass, "setOnClickListener", "(Landroid/view/View$OnClickListener;)V");
