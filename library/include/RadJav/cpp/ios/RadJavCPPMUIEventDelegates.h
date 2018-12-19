@@ -42,6 +42,7 @@ namespace RadJAV
         {
             class TableViewFrame;
             class TableViewModel;
+			class BottomNavigatorFrame;
         }
     }
 }
@@ -105,5 +106,12 @@ namespace RadJAV
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section;
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath;
+
+@end
+
+@interface BottomNavigatorDelegate : NSObject<UITabBarControllerDelegate>
+
+- (bool)bindEvent:(nullable id)nativeWidget eventName:(const std::string&)eventName;
+@property (nonatomic, assign) RadJAV::CPP::MUI::BottomNavigatorFrame* _Nullable widget;
 
 @end

@@ -304,3 +304,22 @@
 }
 @end
 
+@implementation BottomNavigatorDelegate
+- (bool)bindEvent:(nullable id)nativeWidget eventName:(const std::string&)eventName
+{
+	if (eventName == "tab_switch")
+	{
+		[(UITabBarController*)self.widget setDelegate:self];
+		
+		return true;
+	}
+	
+	return false;
+}
+
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+{
+	self.widget->executeEvent("tab_switch");
+}
+
+@end

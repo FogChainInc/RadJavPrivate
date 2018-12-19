@@ -28,7 +28,9 @@
 	#endif
 
 	#include <stack>
-
+#ifdef USE_IOS
+OBJC_CLASS(BottomNavigatorDelegate);
+#endif
 
 	namespace RadJAV
 	{
@@ -51,6 +53,7 @@
 					#ifdef USE_IOS
                         UIView *rootView;
 						UITabBarController* widget;
+						BottomNavigatorDelegate* widgetDelegate;
 	
 					#elif defined USE_ANDROID
 						static jmethodID nativeConstructor;
@@ -81,7 +84,10 @@
 						BottomNavigator(View* view);
 
 						void create();
-
+						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+							/// Execute when an event is triggered.
+							void on(String event, RJ_FUNC_TYPE func);
+						#endif
 						void addTab(View* view, String icon);
 						int getSelectedTab();
 

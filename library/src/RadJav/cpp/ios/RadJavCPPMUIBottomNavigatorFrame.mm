@@ -21,6 +21,7 @@
 #include "cpp/RadJavCPPMUIBottomNavigator.h"
 #include "cpp/RadJavCPPMUIView.h"
 #include "cpp/ios/RadJavCPPMUIUtils.h"
+#import "cpp/ios/RadJavCPPMUIEventDelegates.h"
 
 namespace RadJAV
 {
@@ -32,6 +33,8 @@ namespace RadJAV
             {
 				if (view)
 				{
+					widgetDelegate = [[BottomNavigatorDelegate alloc] init];
+					widgetDelegate.widget = this;
 					rootView = view->getNativeWidget();
                     UIViewController * controller = [[UIViewController alloc] init];
                     [controller.view addSubview:rootView];
