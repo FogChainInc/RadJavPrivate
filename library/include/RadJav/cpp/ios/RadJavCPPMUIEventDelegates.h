@@ -46,6 +46,22 @@ namespace RadJAV
     }
 }
 
+
+@interface ViewDelegate : NSObject
+
+- (bool)bindEvent:(nullable id)nativeWidget eventName:(const std::string&)eventName;
+- (void)viewDidAppear;
+- (void)viewDidDisappear;
+@property (nonatomic, assign) RadJAV::CPP::GUI::GObjectWidget* _Nullable widget;
+
+@end
+
+@interface RJViewController : UIViewController
+
+@property (nonatomic, assign) ViewDelegate* _Nullable delegate;
+
+@end
+
 @interface ButtonDelegate : NSObject
 
 - (bool)bindEvent:(nullable id)nativeWidget eventName:(const std::string&)eventName;

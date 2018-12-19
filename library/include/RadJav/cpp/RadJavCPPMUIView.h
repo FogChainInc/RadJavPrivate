@@ -26,6 +26,9 @@
 	#elif defined USE_JAVASCRIPTCORE
 		#include "jscore/RadJavJSCGUIGObject.h"
 	#endif
+#ifdef USE_IOS
+OBJC_CLASS(ViewDelegate);
+#endif
 
 
 	namespace RadJAV
@@ -53,13 +56,13 @@
 
 					#ifdef USE_IOS
 						UIView* getNativeWidget();
+						ViewDelegate* widgetDelegate;
 					#endif
 
 				private:
 					#ifdef USE_IOS
 						UIView* widget;
-						//TODO: do we need to handle events of the UIView?
-						//ViewDelegate* widgetDelegate;
+					
 					#elif defined USE_ANDROID
 						static void initNatives();
 

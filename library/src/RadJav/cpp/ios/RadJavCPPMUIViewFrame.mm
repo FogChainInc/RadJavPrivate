@@ -21,6 +21,7 @@
 
 #import <UIKit/UIKit.h>
 #import "cpp/RadJavCPPGUIGObject.h"
+#import "cpp/ios/RadJavCPPMUIEventDelegates.h"
 
 
 namespace RadJAV
@@ -32,6 +33,9 @@ namespace RadJAV
             ViewFrame::ViewFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
             : widget([[UIView alloc] init])
             {
+				widgetDelegate = [[ViewDelegate alloc] init];
+				widgetDelegate.widget = this;
+
 				if (parent)
 				{
 					parent->addChild(this);
@@ -43,6 +47,9 @@ namespace RadJAV
 			ViewFrame::ViewFrame(const String &text, const Vector2 &pos, const Vector2 &size)
 			: widget([[UIView alloc] init])
 			{
+				widgetDelegate = [[ViewDelegate alloc] init];
+				widgetDelegate.widget = this;
+
 				UIWindow * keyWindow = [UIApplication sharedApplication].keyWindow;
 				
 				UIView * rootView = keyWindow.rootViewController.view;
@@ -70,7 +77,7 @@ namespace RadJAV
 			
 			bool ViewFrame::bindEvent(const String& eventName, const GUI::Event* event)
 			{
-				return false;
+				return  [widgetDelegate bindEvent:widget eventName:eventName];;
 			}
 			
 			UIView* ViewFrame::getNativeWidget()

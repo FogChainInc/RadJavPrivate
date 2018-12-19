@@ -34,6 +34,12 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 				win1.setPosition(0, 0);
 				win1.setSize(screenWidth, screenHeight);
 				
+				win.on ("did_appear", function () {
+								RadJav.Console.log("win 1 did appear");
+								
+								return true;
+							});	
+				
 				var icon;
 				if (RadJav.OS.type == "android")
 						icon = "/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/examples/mobile/bottomnavigator/1.png";

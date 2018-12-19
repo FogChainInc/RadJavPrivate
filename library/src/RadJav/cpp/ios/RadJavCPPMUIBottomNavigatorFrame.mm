@@ -21,6 +21,7 @@
 #include "cpp/RadJavCPPMUIBottomNavigator.h"
 #include "cpp/RadJavCPPMUIView.h"
 #include "cpp/ios/RadJavCPPMUIUtils.h"
+#include "cpp/ios/RadJavCPPMUIEventDelegates.h"
 
 namespace RadJAV
 {
@@ -33,7 +34,7 @@ namespace RadJAV
 				if (view)
 				{
 					rootView = view->getNativeWidget();
-                    UIViewController * controller = [[UIViewController alloc] init];
+                    RJViewController * controller = [[RJViewController alloc] init];
                     [controller.view addSubview:rootView];
                     widget = [[UITabBarController alloc] init];
                     [[UIApplication sharedApplication].keyWindow addSubview:widget.view];
@@ -64,8 +65,9 @@ namespace RadJAV
                 dispatch_async(dispatch_get_main_queue(), ^{
 					
 					ViewFrame* viewFrame = (ViewFrame*)view->_appObj;
-                    UIViewController * controller = [[UIViewController alloc] init];
+                    RJViewController * controller = [[RJViewController alloc] init];
                     [controller.view addSubview:viewFrame->getNativeWidget()];
+					controller.delegate = viewFrame->widgetDelegate;
 					NSString * name = RadJavCocoaStringFromRadJavString(view->_text);
 					UIImage *nativeImage = nil;
 					

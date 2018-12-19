@@ -25,6 +25,43 @@
 #include "cpp/RadJavCPPMUITableCellModel.h"
 #include <JavaScriptCore/JSStringRef.h>
 
+@implementation ViewDelegate
+- (bool)bindEvent:(nullable id)nativeWidget eventName:(const std::string&)eventName
+{
+	if (eventName == "did_appear" || "did_disappear" )
+	{
+		return true;
+	}
+	
+	return false;
+}
+
+- (void)viewDidAppear
+{
+	self.widget->executeEvent("did_appear");
+}
+- (void)viewDidDisappear
+{
+	self.widget->executeEvent("did_disappear");
+}
+
+
+@end
+
+@implementation RJViewController
+//TODO: implement other view lifecycle events if needed
+- (void)viewDidAppear:(BOOL)animated
+{
+	[self.delegate viewDidAppear];
+}
+- (void)viewDidDisappear:(BOOL)animated
+{
+	[self.delegate viewDidDisappear];
+}
+
+
+@end
+
 @implementation ButtonDelegate
 - (bool)bindEvent:(nullable id)nativeWidget eventName:(const std::string&)eventName
 {
