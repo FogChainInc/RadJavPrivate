@@ -70,7 +70,12 @@ namespace RadJAV
 
 				linkWith(impl);
 			}
-
+			int BottomNavigator::getSelectedTab(){
+				if (impl)
+					return impl->getSelectedTab();
+				
+				return 0;
+			}
 			void BottomNavigator::addTab(View* view, String icon)
 			{
 				//We can't deal with parented Views

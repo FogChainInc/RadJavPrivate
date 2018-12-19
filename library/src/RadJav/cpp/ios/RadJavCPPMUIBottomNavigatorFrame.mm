@@ -49,7 +49,12 @@ namespace RadJAV
 			{
 				//TODO: need to add implementation
 			}
-
+			int BottomNavigatorFrame::getSelectedTab(){
+				if (widget)
+					return (int)[widget viewControllers].count;
+				
+				return 0;
+			}
 			void BottomNavigatorFrame::addTab(View* view, String icon)
 			{
 				

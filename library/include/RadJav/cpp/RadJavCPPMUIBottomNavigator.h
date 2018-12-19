@@ -45,6 +45,7 @@
                     ~BottomNavigatorFrame();
 
                     void addTab(View* view, String icon);
+					int getSelectedTab();
 
 				private:
 					#ifdef USE_IOS
@@ -82,6 +83,7 @@
 						void create();
 
 						void addTab(View* view, String icon);
+						int getSelectedTab();
 
 					private:
 						BottomNavigatorFrame* impl;

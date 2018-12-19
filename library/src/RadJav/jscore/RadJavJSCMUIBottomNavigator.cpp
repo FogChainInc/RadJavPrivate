@@ -49,6 +49,21 @@ namespace RadJAV
 				
 				return JSValueMakeUndefined(ctx);
 			}
+			
+			JSValueRef BottomNavigator::getSelectedTabIndex(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+			{
+				JSValueRef undefined = JSValueMakeUndefined(ctx);
+				
+				CppMuiObject* appObject = (CppMuiObject*)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				
+				if(!appObject)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "BottomNavigator not initialized");
+					return undefined;
+				}
+				
+				return JSValueMakeNumber(ctx, appObject->getSelectedTab());
+			}
 
 			JSValueRef BottomNavigator::addTab(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
 			{
