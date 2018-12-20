@@ -15,8 +15,8 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 		var screenHeight = RadJav.getPrimaryScreen ().getHeight ();
 		
 		//Create root View
-		var win = new RadJav.MUI.View ("win", "Bottom Navigator example");
-		win.createMainView ().then (function (win_created) {
+		var win0 = new RadJav.MUI.View ("win", "Bottom Navigator example");
+		win0.createMainView ().then (function (win_created) {
 			rootWin = win_created;
 			
 			rootWin.setPosition(0, 0);
@@ -34,11 +34,16 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 				win1.setPosition(0, 0);
 				win1.setSize(screenWidth, screenHeight);
 				
-				win.on ("did_appear", function () {
+				win1.on("did_appear", function () {
 								RadJav.Console.log("win 1 did appear");
 								
 								return true;
 							});	
+				win1.on("did_disappear", function () {
+								RadJav.Console.log("win 1 did disappear");
+								
+								return true;
+				});
 				
 				var icon;
 				if (RadJav.OS.type == "android")
