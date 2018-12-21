@@ -30,15 +30,74 @@ namespace RadJAV
 		/// Contains classes for the OS GUI.
 		namespace GUI
 		{
+			/**
+			 *  Root class for GUI anf MUI objects.
+			 */
 			class RADJAV_EXPORT GObject
 			{
 			public:
+				/** @method createJSCCallbacks
+				 * Binds static C++ methods to JS class callbacks. "This" object is resolved manually within methods.
+				 * @param context JS engine context
+				 * @param object JS class
+				 */
 				static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
 				
+				/** @method _createAppObj
+				 * //TODO: not sure what to do here
+				 * @param context JS engine context
+				 * @param func JS function 
+				 * @param thisObj reference to this object in JS
+				 * @param numArgs number of arguments for function call
+				 * @param args arguments
+				 * @param exception exception
+				 * @return JSValueRef Returns meaningful JS object for get and create methods or JSValueMakeUndefined for others.
+				 */
 				static JSValueRef _createAppObj(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
+				/** @method create
+				 * //TODO: not sure what to do here
+				 * @param context JS engine context
+				 * @param func JS function
+				 * @param thisObj reference to this object in JS
+				 * @param numArgs number of arguments for function call
+				 * @param args arguments
+				 * @param exception unused
+				 * @return JSValueRef Returns meaningful JS object for get and create methods or JSValueMakeUndefined for others.
+				 */
 				static JSValueRef create(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
+				/** @method addChild
+				 * Makes args[0] child of thisObj
+				 * @param context JS engine context
+				 * @param func JS function
+				 * @param thisObj reference to this object in JS
+				 * @param numArgs number of arguments for function call
+				 * @param args arguments
+				 * @param exception unused
+				 * @return JSValueRef Returns meaningful JS object for get and create methods or JSValueMakeUndefined for others.
+				 */
 				static JSValueRef addChild(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
+				/** @method setFont
+				 * Makes sets font for objects that support it
+				 * @param context JS engine context
+				 * @param func unused
+				 * @param thisObj reference to this object in JS
+				 * @param numArgs number of arguments for function call
+				 * @param args JSObjectRef array. arg[0] is expected to be JSObjectRef of font type. Further arguments are ignored. Will likely crash if no arguments supplied.
+				 * @param exception unused
+				 * @return unused.
+				 */
 				static JSValueRef setFont(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
+				
+				/** @method setFont
+				 * Makes sets font for objects that support it
+				 * @param context JS engine context
+				 * @param func JS function
+				 * @param thisObj reference to this object in JS
+				 * @param numArgs number of arguments for function call
+				 * @param args JSObjectRef array. arg[0] is expected to be JSObjectRef of font type. Further arguments are ignored. Will likely crash if no arguments supplied.
+				 * @param exception exception
+				 * @return JSValueRef Returns meaningful JS object for get and create methods or JSValueMakeUndefined for others.
+				 */
 				static JSValueRef getFont(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
 				static JSValueRef setPosition(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
 				static JSValueRef getPosition(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
