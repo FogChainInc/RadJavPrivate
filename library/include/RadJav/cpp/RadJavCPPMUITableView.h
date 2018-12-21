@@ -29,16 +29,10 @@
 #endif
 
 #ifdef USE_IOS
-#ifdef __OBJC__
-#define OBJC_CLASS(name) @class name
-#else
-#define OBJC_CLASS(name) typedef struct objc_object name
-#endif
-
-OBJC_CLASS(UITableView);
-OBJC_CLASS(TableViewDelegate);
+	OBJC_CLASS(UITableView);
+	OBJC_CLASS(TableViewDelegate);
 #elif defined USE_ANDROID
-#warning Add forward declaration of Android specific class/type
+	JNI_CLASS(jobject);
 #endif
 
 
@@ -52,7 +46,7 @@ OBJC_CLASS(TableViewDelegate);
 												, public ChainedPtr
                 {
                 public:
-                    TableViewFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size);
+                    TableViewFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
                     ~TableViewFrame();
 
 					void setText(String text);
@@ -66,9 +60,8 @@ OBJC_CLASS(TableViewDelegate);
                     
 					#ifdef USE_IOS
 						UIView* getNativeWidget();
-                    
 					#elif defined USE_ANDROID
-						void* getNativeWidget();
+						jobject getNativeWidget();
 					#endif
 
 				private:
@@ -76,7 +69,7 @@ OBJC_CLASS(TableViewDelegate);
 						UITableView* widget;
                         TableViewDelegate* widgetDelegate;
 					#elif defined USE_ANDROID
-                    	//TODO: Wrap Android specific type here
+						jobject widget;
 					#endif
                 };
                 

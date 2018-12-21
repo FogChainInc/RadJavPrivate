@@ -35,42 +35,66 @@
     #include "jscore/RadJavJSCJavascriptEngine.h"
 #endif
 
+#ifdef __APPLE__
+    #if TARGET_OS_IOS == 1
+        #import <UIKit/UIKit.h>
+    #endif
+#endif
+
 namespace RadJAV
 {
 	namespace CPP
 	{
+        /// The font class, pretty simple stuff.
 		class RADJAV_EXPORT Font
 		{
 			public:
+                /// Create a default font.
 				Font();
+                #ifdef GUI_USE_WXWIDGETS
+                    /// This is unable to get the color from wxFont.
+                    Font (wxFont font);
+            
+                    /// Convert this font to a wxFont.
+                    wxFont towxFont ();
+                #endif
+
+                #ifdef __APPLE__
+                    #if TARGET_OS_IOS == 1
+                        /// This is unable to get color, underline, bold, italic.
+                        Font (UIFont *font);
+
+                        /// Convert this font to a UIFont.
+                        UIFont *toUIFont ();
+                    #endif
+                #endif
+
 				#ifdef USE_V8
+                    /// Convert a V8 font object to a font.
 					Font(V8JavascriptEngine *jsEngine, v8::Local<v8::Object> obj);
 
+                    /// Create a V8 font object from a font.
                     v8::Local<v8::Object> toV8Object();
 				#endif
                 #ifdef USE_JAVASCRIPTCORE
+                    /// Convert a JavaScriptCore font object to a font.
                     Font(JSCJavascriptEngine *jsEngine, JSObjectRef obj);
 
+                    /// Create a JavaScriptCore font object from a font.
                     JSObjectRef toJSCObject();
                 #endif
 
-				/** The font family used.
-				*/
+				/// The font family used.
 				String fontFamily;
-				/** The font size.
-				*/
+				/// The font size.
 				RJNUMBER size;
-				/** The font color.
-				*/
+				/// The font color.
 				CPP::Color color;
-				/** Whether or not this font is underlined.
-				*/
+				/// Whether or not this font is underlined.
 				RJBOOL underline;
-				/** Whether or not this font is bold.
-				*/
+				/// Whether or not this font is bold.
 				RJBOOL bold;
-				/** Whether or not this font is italic.
-				*/
+				/// Whether or not this font is italic.
 				RJBOOL italic;
 		};
 	}

@@ -21,7 +21,6 @@
 
 #import <UIKit/UIKit.h>
 #import "cpp/RadJavCPPGUIGObject.h"
-#import "cpp/RadJavCPPMUIButton.h"
 
 
 namespace RadJAV
@@ -30,7 +29,7 @@ namespace RadJAV
     {
         namespace MUI
         {
-            ViewFrame::ViewFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size)
+            ViewFrame::ViewFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
             : widget([[UIView alloc] init])
             {
             
@@ -39,7 +38,7 @@ namespace RadJAV
             
 			ViewFrame::~ViewFrame()
 			{
-				//Release button here
+				//Release native widget here
 				[widget release];
 			}
 
@@ -59,17 +58,10 @@ namespace RadJAV
 				return false;
 			}
 			
-			#ifdef USE_IOS
-				UIView* ViewFrame::getNativeWidget()
-				{
-					return widget;
-				}
-			#elif defined USE_ANDROID
-				void* ViewFrame::getNativeWidget()
-				{
-					return widget;
-				}
-			#endif
+			UIView* ViewFrame::getNativeWidget()
+			{
+				return widget;
+			}
         }
     }
 }

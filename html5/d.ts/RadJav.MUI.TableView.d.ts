@@ -2,6 +2,11 @@
 /// <reference path="RadJav.Vector2.d.ts" />
 declare namespace RadJav {
     namespace MUI {
+        /** @class RadJav.MUI.TableView
+         * @extends RadJav.MUI.View
+         * A mobile TableView.
+         * Available on platforms: iOS,Android,HTML5
+         */
         class TableView extends RadJav.MUI.View {
             static xmlTag: RadJav.TagType;
             static InputModeText: number;

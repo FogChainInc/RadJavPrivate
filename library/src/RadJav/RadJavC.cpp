@@ -23,20 +23,35 @@
 
 #include <iostream>
 
-static int initialize(RadJAV::Array<RadJAV::String> args);
+#ifndef USE_ANDROID
+	static int initialize(RadJAV::Array<RadJAV::String> args);
 
-int RadJav_initialize(int argc, const char * argv[])
-{
-	RadJAV::Array<RadJAV::String> args;
-	
-	for (int i = 0; i < argc; i++)
-		args.push_back(argv[i]);
-	
-	if (args.size() < 1)
-		args.push_back("");
-	
-	return initialize(args);
-}
+	int RadJav_initialize(int argc, const char * argv[])
+	{
+		RadJAV::Array<RadJAV::String> args;
+
+		for (int i = 0; i < argc; i++)
+			args.push_back(argv[i]);
+
+		if (args.size() < 1)
+			args.push_back("");
+
+		return initialize(args);
+	}
+#else
+	int RadJav_initialize(JavaVM* jvm)
+	{
+		if (!jvm)
+		{
+			return (EXIT_FAILURE);
+		}
+
+		if (RadJAV::RadJav::initialize(jvm) == RadJAV::RadJavType::VM)
+			return (EXIT_SUCCESS);
+
+		return EXIT_FAILURE;
+	}
+#endif
 
 void RadJav_shutdown(void)
 {

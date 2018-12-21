@@ -37,6 +37,74 @@ namespace RadJAV
 			italic = false;
 		}
 
+        #ifdef GUI_USE_WXWIDGETS
+            Font::Font (wxFont font)
+            {
+                fontFamily = font.GetFamilyString ();
+                size = font.GetPixelSize ().y;
+                color = Color::Black;
+                underline = font.GetUnderlined ();
+                bold = font.GetUnderlined ();
+                italic = font.GetUnderlined ();
+            }
+
+            wxFont Font::towxFont ()
+            {
+                wxFont wxfont;
+
+                if (fontFamily != "")
+                    wxfont.SetFaceName(fontFamily.towxString());
+                else
+                    wxfont = *wxSMALL_FONT;
+
+                wxfont.SetPixelSize(wxSize(0, size));
+
+                if (underline == true)
+                    wxfont.MakeUnderlined();
+
+                if (bold == true)
+                    wxfont.MakeBold();
+
+                if (italic == true)
+                    wxfont.MakeItalic();
+				
+				return wxfont;
+            }
+        #endif
+
+        #ifdef __APPLE__
+            #if TARGET_OS_IOS == 1
+                Font::Font (UIFont *font)
+                    : Font ()
+                {
+                    fontFamily = parseNSString (font.familyName);
+                    size = font.pointSize;
+                }
+
+                UIFont *Font::toUIFont ()
+                {
+                    NSString *attr = NULL;
+
+                    if (italic == true)
+                        attr = @"Bold";
+
+                    if (italic == true)
+                        attr = @"Italic";
+
+                    if ((bold == true) && (italic == true))
+                        attr = @"Bold Italic";
+
+                    UIFontDescriptor *desc = [UIFontDescriptor fontDescriptorWithFontAttributes: @{
+                                              @"NSFontFamilyAttribute": fontFamily.toNSString (),
+                                              @"NSFontFaceAttribute": attr
+                                              }];
+                    UIFont *font = [UIFont fontWithDescriptor: desc size: size];
+
+                    return (font);
+                }
+            #endif
+        #endif
+
 		#ifdef USE_V8
 			Font::Font(V8JavascriptEngine *jsEngine, v8::Local<v8::Object> obj)
 			{

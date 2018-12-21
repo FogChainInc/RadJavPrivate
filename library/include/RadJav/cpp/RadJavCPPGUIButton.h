@@ -46,7 +46,7 @@
 							wxDECLARE_EVENT_TABLE();
 					};
 				#endif
-
+					
 				class RADJAV_EXPORT Button : public CPP::GUI::GObject
 				{
 					public:

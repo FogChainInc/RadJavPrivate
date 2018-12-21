@@ -29,13 +29,13 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
-			ButtonFrame::ButtonFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size)
+			ButtonFrame::ButtonFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
 			: widget([[UIButton alloc] init])
 			{
                 widgetDelegate = [[ButtonDelegate alloc] init];
                 widgetDelegate.widget = this;
 				
-                id parentWidget = parent->_appObj->getNativeWidget();
+                id parentWidget = parent->getNativeWidget();
                 
                 if ([parentWidget isKindOfClass:[UIView class]]){
                     [parentWidget addSubview:widget];
@@ -73,7 +73,15 @@ namespace RadJAV
             
 			void ButtonFrame::setFont(CPP::Font *font)
 			{
-				//TODO: Add implementation
+                widget.titleLabel.font = font->toUIFont ();
+
+                if (font->underline == true)
+                {
+                    NSString* title = [widget currentTitle];
+                    NSMutableAttributedString *attrText = [[NSMutableAttributedString alloc] initWithString: title];
+                    [attrText addAttribute: NSUnderlineStyleAttributeName value: [NSNumber numberWithInt: 1] range: (NSRange){0, [attrText length]}];
+                    widget.titleLabel.attributedText = attrText;
+                }
 			}
 			
 			CPP::Font* ButtonFrame::getFont()

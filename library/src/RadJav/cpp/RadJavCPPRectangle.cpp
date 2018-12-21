@@ -33,28 +33,25 @@ namespace RadJAV
 			this->y = y;
 			this->width = w;
 			this->height = h;
-			top = this->y + this->height;
-			bottom = this->y - this->height;
-			left = this->x - this->width;
-			right = this->x + this->width;
+			
+			top = y + height;
+			bottom = y - height;
+			left = x - width;
+			right = x + width;
 		}
 
 		#ifdef USE_V8
 			Rectangle::Rectangle(V8JavascriptEngine *jsEngine, v8::Local<v8::Object> obj)
 			{
-				RJINT x = jsEngine->v8GetInt(obj, "x");
-				RJINT y = jsEngine->v8GetInt(obj, "y");
-				RJINT width = jsEngine->v8GetInt(obj, "width");
-				RJINT height = jsEngine->v8GetInt(obj, "height");
+				x = jsEngine->v8GetInt(obj, "x");
+				y = jsEngine->v8GetInt(obj, "y");
+				width = jsEngine->v8GetInt(obj, "width");
+				height = jsEngine->v8GetInt(obj, "height");
 
-				this->x = x;
-				this->y = y;
-				this->width = width;
-				this->height = height;
-				top = this->y + this->height;
-				bottom = this->y - this->height;
-				left = this->x - this->width;
-				right = this->x + this->width;
+				top = y + height;
+				bottom = y - height;
+				left = x - width;
+				right = x + width;
 			}
 
 			v8::Local<v8::Object> Rectangle::toV8Object(V8JavascriptEngine *jsEngine, Rectangle *obj)
@@ -78,19 +75,15 @@ namespace RadJAV
         #ifdef USE_JAVASCRIPTCORE
             Rectangle::Rectangle(JSCJavascriptEngine *jsEngine, JSObjectRef obj)
             {
-                RJINT x = jsEngine->jscGetInt(obj, "x");
-                RJINT y = jsEngine->jscGetInt(obj, "y");
-                RJINT width = jsEngine->jscGetInt(obj, "width");
-                RJINT height = jsEngine->jscGetInt(obj, "height");
+                x = jsEngine->jscGetInt(obj, "x");
+                y = jsEngine->jscGetInt(obj, "y");
+                width = jsEngine->jscGetInt(obj, "width");
+                height = jsEngine->jscGetInt(obj, "height");
 
-                this->x = x;
-                this->y = y;
-                this->width = width;
-                this->height = height;
-                top = this->y + this->height;
-                bottom = this->y - this->height;
-                left = this->x - this->width;
-                right = this->x + this->width;
+                top = y + height;
+                bottom = y - height;
+                left = x - width;
+                right = x + width;
             }
 
             JSObjectRef Rectangle::toJSCObject(JSCJavascriptEngine *jsEngine, Rectangle *obj)
@@ -116,66 +109,67 @@ namespace RadJAV
 			x = pos.x;
 			y = pos.y;
 
-			this->x = x;
-			this->y = y;
-			this->top = this->y + this->height;
-			this->bottom = this->y - this->height;
-			this->left = this->x - this->width;
-			this->right = this->x + this->width;
+			top = y + height;
+			bottom = y - height;
+			left = x - width;
+			right = x + width;
 		}
 
 		void Rectangle::setPosition(RJNUMBER x, RJNUMBER y)
 		{
 			this->x = x;
 			this->y = y;
-			this->top = this->y + this->height;
-			this->bottom = this->y - this->height;
-			this->left = this->x - this->width;
-			this->right = this->x + this->width;
+			
+			top = y + height;
+			bottom = y - height;
+			left = x - width;
+			right = x + width;
 		}
 
 		Vector2 Rectangle::getPosition()
 		{
-			return (Vector2(this->x, this->y));
+			return (Vector2(x, y));
 		}
 
 		void Rectangle::setSize(Vector2 size)
 		{
-			this->width = size.x;
-			this->height = size.y;
-			this->top = this->y + this->height;
-			this->bottom = this->y - this->height;
-			this->left = this->x - this->width;
-			this->right = this->x + this->width;
+			width = size.x;
+			height = size.y;
+			
+			top = y + height;
+			bottom = y - height;
+			left = x - width;
+			right = x + width;
 		}
 
 		void Rectangle::setSize(RJNUMBER w, RJNUMBER h)
 		{
-			this->width = w;
-			this->height = h;
-			this->top = this->y + this->height;
-			this->bottom = this->y - this->height;
-			this->left = this->x - this->width;
-			this->right = this->x + this->width;
+			width = w;
+			height = h;
+			
+			top = y + height;
+			bottom = y - height;
+			left = x - width;
+			right = x + width;
 		}
 
 		Vector2 Rectangle::getSize()
 		{
-			return (Vector2(this->width, this->height));
+			return (Vector2(width, height));
 		}
 
 		RJBOOL Rectangle::pointInside(RJNUMBER x, RJNUMBER y)
 		{
-			if (x > this->right)
+			if (x > right)
 				return (false);
 
-			if (x < this->left)
+			if (x < left)
 				return (false);
 
-			if (y > this->top)
+			if (y > top)
 				return (false);
 
-			if (y < this->bottom)
+			if (y < bottom)
 				return (false);
 
 			return (true);
@@ -183,10 +177,10 @@ namespace RadJAV
 
 		RJBOOL Rectangle::xInside(RJNUMBER x)
 		{
-			if (x > this->right)
+			if (x > right)
 				return (false);
 
-			if (x < this->left)
+			if (x < left)
 				return (false);
 
 			return (true);
@@ -194,10 +188,10 @@ namespace RadJAV
 
 		RJBOOL Rectangle::yInside(RJNUMBER y)
 		{
-			if (y > this->top)
+			if (y > top)
 				return (false);
 
-			if (y < this->bottom)
+			if (y < bottom)
 				return (false);
 
 			return (true);

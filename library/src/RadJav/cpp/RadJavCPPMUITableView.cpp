@@ -53,7 +53,7 @@ namespace RadJAV
 				if (_parent != nullptr)
 					parentWin = _parent->_appObj;
 				
-				TableViewFrame* object = RJNEW TableViewFrame(_parent, _text,
+				TableViewFrame* object = RJNEW TableViewFrame(parentWin, _text,
 													Vector2(_transform->x, _transform->y),
 													Vector2(_transform->width, _transform->height));
 

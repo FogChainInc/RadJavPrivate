@@ -29,13 +29,13 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
-			CheckboxFrame::CheckboxFrame(GUI::GObject *parent, RJBOOL checked, const Vector2 &pos, const Vector2 &size)
+			CheckboxFrame::CheckboxFrame(GUI::GObjectWidget *parent, RJBOOL checked, const Vector2 &pos, const Vector2 &size)
 			: widget([[UISwitch alloc] init])
 			{
 				widgetDelegate = [[SwitchDelegate alloc] init];
 				widgetDelegate.widget = this;
 
-				[parent->_appObj->getNativeWidget() addSubview:widget];
+				[parent->getNativeWidget() addSubview:widget];
 				
 				setChecked(checked);
 				setSize(size);

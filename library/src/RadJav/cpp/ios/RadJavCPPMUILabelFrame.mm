@@ -29,10 +29,10 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
-			LabelFrame::LabelFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size)
+			LabelFrame::LabelFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
 			: widget([[UILabel alloc] init])
 			{
-				[parent->_appObj->getNativeWidget() addSubview:widget];
+				[parent->getNativeWidget() addSubview:widget];
 
 				setText(text);
 				setSize(size);

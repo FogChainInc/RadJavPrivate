@@ -30,7 +30,7 @@
 	OBJC_CLASS(WebViewDelegate);
     OBJC_CLASS(WebViewNavigationDelegate);
 #elif defined USE_ANDROID
-	#warning Add Textbox implementation for Android platform
+    JNI_CLASS(jobject);
 #endif
 
 namespace RadJAV
@@ -62,7 +62,7 @@ namespace RadJAV
 												,public ChainedPtr
 			{
 			public:
-				WebViewFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size);
+				WebViewFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
 				~WebViewFrame();
 				
 				void setText(String text);
@@ -77,7 +77,7 @@ namespace RadJAV
 				#ifdef USE_IOS
 					UIView* getNativeWidget();
 				#elif defined USE_ANDROID
-					void* getNativeWidget();
+					jobject getNativeWidget();
 				#endif
 				
 			private:
@@ -86,8 +86,7 @@ namespace RadJAV
 					WebViewDelegate* widgetDelegate;
                     WebViewNavigationDelegate* navDelegate;
 				#elif defined USE_ANDROID
-					//TODO: Wrap Android specific type here
-					void* widget;
+					jobject widget;
 				#endif
 			};
 			

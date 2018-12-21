@@ -29,7 +29,7 @@
 	OBJC_CLASS(UILabel);
 	OBJC_CLASS(LabelDelegate);
 #elif defined USE_ANDROID
-	#warning Add Label implementation for Android platform
+	JNI_CLASS(jobject);
 #endif
 
 namespace RadJAV
@@ -42,22 +42,23 @@ namespace RadJAV
 											,public ChainedPtr
 			{
 			public:
-				LabelFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size);
+				LabelFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
 				~LabelFrame();
 
 				void setText(String text);
 				String getText();
 				void setFont(CPP::Font *font);
 				CPP::Font *getFont();
-				void setEnabled(RJBOOL enabled);
-				RJBOOL getEnabled();
+
+				#ifdef USE_IOS
+					void setEnabled(RJBOOL enabled);
+					RJBOOL getEnabled();
+				#endif
 
 				bool bindEvent(const String& eventName, const GUI::Event* event);
 
 				#ifdef USE_IOS
 					UIView* getNativeWidget();
-				#elif defined USE_ANDROID
-					void* getNativeWidget();
 				#endif
 
 			private:
@@ -66,8 +67,11 @@ namespace RadJAV
 					//TODO: do we need to handle events of the UILabel?
 					//LabelDelegate* widgetDelegate;
 				#elif defined USE_ANDROID
-					//TODO: Wrap Android specific type here
-					void* widget;
+					static jclass nativeTextViewClass;
+
+					static jmethodID nativeConstructor;
+					static jmethodID nativeSetText;
+					static jmethodID nativeGetText;
 				#endif
 			};
 			

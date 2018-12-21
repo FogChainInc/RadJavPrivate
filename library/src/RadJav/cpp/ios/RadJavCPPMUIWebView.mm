@@ -33,7 +33,7 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
-			WebViewFrame::WebViewFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size)
+			WebViewFrame::WebViewFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
 			{
                 //WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
                 //widget = [[WKWebView alloc] initWithFrame: parent->_appObj->getNativeWidget().frame configuration: config];
@@ -44,7 +44,7 @@ namespace RadJAV
 				widgetDelegate.widget = this;
 				widget.UIDelegate = widgetDelegate;
 
-				[parent->_appObj->getNativeWidget() addSubview: widget];
+				[parent->getNativeWidget() addSubview: widget];
 				
 				setText(text);
 				setSize(size);

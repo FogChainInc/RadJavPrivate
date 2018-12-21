@@ -22,16 +22,14 @@
 
 #include "RadJavPreprocessor.h"
 
-#include "RadJavString.h"
+#include <v8.h>
 
-#ifdef USE_V8
 namespace RadJAV
 {
 	namespace V8B
 	{
 		namespace C3D
 		{
-#ifdef C3D_USE_OGRE
 			class RADJAV_EXPORT Transform
 			{
 			public:
@@ -55,11 +53,7 @@ namespace RadJAV
 				static void lookAt(const v8::FunctionCallbackInfo<v8::Value> &args);
 				static void setDirection(const v8::FunctionCallbackInfo<v8::Value> &args);
 			};
-#endif
 		}
 	}
 }
 #endif
-#endif
-
-

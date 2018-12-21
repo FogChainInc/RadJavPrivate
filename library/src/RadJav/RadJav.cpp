@@ -26,6 +26,11 @@
 
 #include "RadJav.h"
 
+#ifdef USE_ANDROID
+	#include "android/Jni.h"
+	#include "android/RadJavAndroid.h"
+#endif
+
 #ifdef GUI_USE_WXWIDGETS
 	IMPLEMENT_APP_NO_MAIN(RadJAV::wxWidgetsRadJav)
 #else
@@ -70,19 +75,14 @@
 	#include "cpp/RadJavCPPCryptoBase.h"
 #endif
 
-#ifdef __ANDROID__
-#include <android/log.h>
-#define  LOG_TAG    "RADJAV"
-
-#define  LOGE(...)  __android_log_print(ANDROID_LOG_ERROR,LOG_TAG,__VA_ARGS__)
-#define  LOGW(...)  __android_log_print(ANDROID_LOG_WARN,LOG_TAG,__VA_ARGS__)
-#define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
-#define  LOGI(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
+#ifdef USE_ANDROID
+	#include "android/Utils.h"
 #else
-#define  LOGE(...)
-#define  LOGW(...)
-#define  LOGD(...)
-#define  LOGI(...)
+	#warning Need to add debug.h/cpp for logging macroses
+	#define  LOGE(...)
+	#define  LOGW(...)
+	#define  LOGD(...)
+	#define  LOGI(...)
 #endif
 
 #ifdef RADJAV_DEBUG
@@ -216,6 +216,10 @@ namespace RadJAV
 	Lang *RadJav::lang = NULL;
 	Array<String> RadJav::arguments;
     Array<RadJAV::CPP::OS::ScreenInfo> RadJav::screens;
+
+	#ifdef USE_ANDROID
+    	RadJavAndroid* RadJav::impl = nullptr;
+    #endif
 
 	#ifdef RADJAV_DEBUG
 		HashMap<size_t, MemoryAllocLog> *RadJav::memoryAllocs;
@@ -449,6 +453,20 @@ namespace RadJAV
 			return (RadJavType::VM);
 		}
 
+	#ifdef USE_ANDROID
+		RadJavType RadJav::initialize(JavaVM* jvm)
+		{
+			Jni& jni = Jni::instance();
+			jni.storeJvm(jvm);
+
+			impl = new RadJavAndroid();
+
+			RadJavAndroid::registerNatives();
+
+			return RadJavType::VM;
+		}
+	#endif
+
 	#ifdef WIN32
 	void RadJav::setupConsoleOutput()
 	{
@@ -610,6 +628,52 @@ namespace RadJAV
 			RadJav::writeMemoryLeaksToFile("./leaks.csv");
 		#endif
 	}
+
+	#ifdef USE_ANDROID
+	void RadJav::runOnUiThread(UiThreadCallbackFunctionType function, void *data)
+	{
+		if (impl)
+			impl->runOnUiThread(function, data);
+	}
+
+    void RadJav::runOnUiThreadAsync(UiThreadCallbackFunctionType function, void *data)
+    {
+        if (impl)
+            impl->runOnUiThreadAsync(function, data);
+    }
+
+    jobject RadJav::getJavaApplication()
+    {
+        if (impl)
+            return impl->getJavaApplication();
+
+        return nullptr;
+    }
+
+    jobject RadJav::getJavaViewGroup()
+    {
+        if (impl)
+            return impl->getJavaViewGroup();
+
+        return nullptr;
+    }
+
+	bool RadJav::isWaitingForUiThread()
+	{
+		if (impl)
+			return impl->isWaitingForUiThread();
+
+		return false;
+	}
+
+	bool RadJav::isPaused()
+	{
+		if (impl)
+			return impl->isPaused();
+
+		return false;
+	}
+	#endif
 
 	#ifdef RADJAV_DEBUG
 	void RadJav::logNewMemoryAlloc(MemoryAllocLog alloc)

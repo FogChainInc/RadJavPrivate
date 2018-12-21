@@ -39,7 +39,7 @@ namespace RadJAV
                 
                 return (UIView*)widget;
             }
-            TableViewControllerFrame::TableViewControllerFrame(void *parent, const String &text, const Vector2 &pos, const Vector2 &size)
+            TableViewControllerFrame::TableViewControllerFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
             : widget([[UINavigationController alloc] initWithRootViewController:[[UIViewController alloc] init]])
             {
                 if (parent == nullptr){

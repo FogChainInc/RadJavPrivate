@@ -21,8 +21,9 @@
 	#define _RADJAV_GUI_V8_NET_WEBSOCKET_H_
 
 	#include "RadJavPreprocessor.h"
-	#include "RadJavString.h"
 	#include "cpp/RadJavCPPChainedPtr.h"
+
+	#include <v8.h>
 
 	namespace RadJAV
 	{
@@ -30,7 +31,7 @@
 		{
 			namespace Net
 			{
-				class RADJAV_EXPORT WebSocketServer : public CPP::ChainedPtr
+				class RADJAV_EXPORT WebSocketServer : public CPP::ChainedPtr //Do we really need CPP::ChainedPtr here?
 				{
 					public:
 						static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);

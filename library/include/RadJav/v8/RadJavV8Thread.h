@@ -21,7 +21,8 @@
 	#define _RADJAV_V8_GLOBAL_THREAD_H_
 
 	#include "RadJavPreprocessor.h"
-	#include "RadJavString.h"
+
+	#include <v8.h>
 
 	namespace RadJAV
 	{

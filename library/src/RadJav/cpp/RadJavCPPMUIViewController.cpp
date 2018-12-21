@@ -28,27 +28,27 @@ namespace RadJAV
     {
         namespace MUI
         {
-#ifdef USE_V8
-            ViewController::ViewController(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
-            : GObject (jsEngine, args)
-            {
-            }
-#endif
-#ifdef USE_JAVASCRIPTCORE
-            ViewController::ViewController(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[])
-            : GObject (jsEngine, thisObj, numArgs, args)
-            {
-                
-            }
-#endif
-            
+            #ifdef USE_V8
+                ViewController::ViewController(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
+                : GObject (jsEngine, args)
+                {
+                }
+            #endif
+            #ifdef USE_JAVASCRIPTCORE
+                ViewController::ViewController(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[])
+                : GObject (jsEngine, thisObj, numArgs, args)
+                {
+                    
+                }
+            #endif
+
             ViewController::ViewController(String name, String text, CPP::GUI::GObject *parent)
             : GObject(name, text, parent)
             {
             }
-            
+
             void ViewController::addChild(GUI::GObject *child){
-                _appObject->addChild(child);
+                _appObject->addChild(child->_appObj);
             }
             
             void ViewController::presentViewControllerAnimated(CPP::GUI::GObject *presentedController){
@@ -70,7 +70,7 @@ namespace RadJAV
 				if (_parent != nullptr)
 					parentWin = _parent->_appObj;
 				
-				ViewControllerFrame* object = RJNEW ViewControllerFrame(_parent, _text,
+				ViewControllerFrame* object = RJNEW ViewControllerFrame(parentWin, _text,
 													Vector2(_transform->x, _transform->y),
 													Vector2(_transform->width, _transform->height));
 				

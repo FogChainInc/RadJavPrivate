@@ -29,15 +29,9 @@
 #endif
 
 #ifdef USE_IOS
-#ifdef __OBJC__
-#define OBJC_CLASS(name) @class name
-#else
-#define OBJC_CLASS(name) typedef struct objc_object name
-#endif
-
-OBJC_CLASS(UIViewController);
+    OBJC_CLASS(UIViewController);
 #elif defined USE_ANDROID
-#warning Add Button implementation for Android platform
+    JNI_CLASS(jobject);
 #endif
 
 
@@ -50,16 +44,17 @@ namespace RadJAV
             
             //TODO: Add some base class here with common UI controls interface
             class RADJAV_EXPORT ViewControllerFrame : public GUI::GObjectWidget
-            , public ChainedPtr
+                                                    , public ChainedPtr
             {
             public:
                 //TODO: Add correct parent type here, usually some base C++ container class (which still not created)
                 ViewControllerFrame();
-                ViewControllerFrame(void *parent, const String &text, const Vector2 &pos, const Vector2 &size);
+                ViewControllerFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
                 ~ViewControllerFrame();
+
                 void makeRootViewController();
                 void makeRootViewControllerIfRootIsEmpty();
-                void addChild(GUI::GObject *child);
+                void addChild(GUI::GObjectWidget *child);
                 void presentViewControllerAnimated(CPP::GUI::GObject *presentedController);
                 void dismissViewControllerAnimated();
                 void setFont(CPP::Font *font);
@@ -76,7 +71,7 @@ namespace RadJAV
                 RJINT getHeight();
                 void setText(String text);
                 String getText();
-                GUI::GObject *getParent();
+                GUI::GObjectWidget *getParent();
                 void setVisibility(RJBOOL visible);
                 RJBOOL getVisibility();
                 void setEnabled(RJBOOL enabled);
@@ -84,31 +79,30 @@ namespace RadJAV
 				
 				bool bindEvent(const String& eventName, const GUI::Event* event);
                 
-#ifdef USE_IOS
-                UIView* getNativeWidget();
-#elif defined USE_ANDROID
-                //TODO: Add correct type here for Android
-                void* getNativeWidget();
-#endif
-                
-            
-#ifdef USE_IOS
-                UIViewController* widget;
-#elif defined USE_ANDROID
-                //TODO: Wrap Android specific type here
-#endif
+                #ifdef USE_IOS
+                    UIView* getNativeWidget();
+                #elif defined USE_ANDROID
+                    jobject getNativeWidget();
+                #endif
+
+            private:
+                #ifdef USE_IOS
+                    UIViewController* widget;
+                #elif defined USE_ANDROID
+                    jobject widget;
+                #endif
             };
             
             
             class RADJAV_EXPORT ViewController : public CPP::GUI::GObject
             {
             public:
-#ifdef USE_V8
-                ViewController(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
-#endif
-#ifdef USE_JAVASCRIPTCORE
-                ViewController(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
-#endif
+                #ifdef USE_V8
+                    ViewController(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
+                #endif
+                #ifdef USE_JAVASCRIPTCORE
+                    ViewController(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
+                #endif
                 ViewController(String name, String text = "", CPP::GUI::GObject *parent = NULL);
                 void makeRootViewController();
                 void create();
@@ -126,10 +120,11 @@ namespace RadJAV
                 void setEnabled(RJBOOL enabled);
                 RJBOOL getEnabled();
                 
-#if defined USE_V8 || defined USE_JAVASCRIPTCORE
-                /// Execute when an event is triggered.
-                void on(String event, RJ_FUNC_TYPE func);
-#endif
+                #if defined USE_V8 || defined USE_JAVASCRIPTCORE
+                    /// Execute when an event is triggered.
+                    void on(String event, RJ_FUNC_TYPE func);
+				#endif
+
                 ViewControllerFrame* _appObject;
                 String icon;
             };

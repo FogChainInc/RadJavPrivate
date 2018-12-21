@@ -24,7 +24,10 @@ if (ANDROID)
 		"${libRadJav_SOURCE_DIR}/include/RadJav/android/Jni.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/android/ClassesCache.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/android/Local.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/android/Utils.h")
+		"${libRadJav_SOURCE_DIR}/include/RadJav/android/Utils.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/android/RadJavAndroid.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/android/UiThreadCallbackFunction.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/android/UiThreadDispatcher.h")
 	source_group ("RadJav\\Main\\Android" FILES ${SOURCES_files_RADJAV__Android__Headers})
 	
 	set (SOURCES ${SOURCES_files_RADJAV__Android__Headers} ${SOURCES})
@@ -90,8 +93,22 @@ if (USE_V8)
 		set (SOURCES ${SOURCES_files_RadJav__v8__GUI__Headers} ${SOURCES})
 
 		set (SOURCES_files_RadJav__v8__MUI__Headers 
-			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIView.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIButton.h")
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIView.h" 
+			#"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIViewController.h"
+			#"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUINavigationViewController.h"
+			#"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUITableViewController.h"
+			#"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUITableView.h"
+			#"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUITableViewModel.h"
+			#"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUITableCellModel.h"
+			#"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIScrollView.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIButton.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUILabel.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIImage.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUICheckbox.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUITextbox.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUITextarea.h"
+			#"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIWebView.h"
+			)
 
 			source_group ("RadJav\\V8\\MUI" FILES ${SOURCES_files_RadJav__v8__MUI__Headers})
 

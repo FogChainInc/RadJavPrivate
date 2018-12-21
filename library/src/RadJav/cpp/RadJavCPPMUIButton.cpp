@@ -53,10 +53,10 @@ namespace RadJAV
 				if (_parent != nullptr)
 					parentWin = _parent->_appObj;
 				
-				ButtonFrame* object = RJNEW ButtonFrame(_parent, _text,
+				ButtonFrame* object = RJNEW ButtonFrame(parentWin, _text,
 														Vector2(_transform->x, _transform->y),
 														Vector2(_transform->width, _transform->height));
-			                
+
 				object->setVisibility(_visible);
                 _appObj = object;
                 linkWith(object);

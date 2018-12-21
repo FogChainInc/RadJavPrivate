@@ -517,7 +517,7 @@ var commands = [
 					let tsfiles = getTypeScriptFiles ();
 
 					compile (tsfiles, {
-							noImplicitUseStrict: true, removeComments: true, importHelpers: true, 
+							noImplicitUseStrict: true, removeComments: false, importHelpers: true, 
 							target: typescript.ScriptTarget.ES3, module: typescript.ModuleKind.None, 
 							lib: tsLibs, declaration: true, emitDeclarationOnly: true, 
 							declarationDir: "./d.ts"

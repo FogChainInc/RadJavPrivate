@@ -29,7 +29,7 @@
 	OBJC_CLASS(UIScrollView);
 	OBJC_CLASS(ScrollViewDelegate);
 #elif defined USE_ANDROID
-	#warning Add ScrollView implementation for Android platform
+	JNI_CLASS(jobject);
 #endif
 
 namespace RadJAV
@@ -64,7 +64,7 @@ namespace RadJAV
 												,public ChainedPtr
 			{
 			public:
-				ScrollViewFrame(GUI::GObject *parent, const Vector2 &pos, const Vector2 &size);
+				ScrollViewFrame(GUI::GObjectWidget *parent, const Vector2 &pos, const Vector2 &size);
 				~ScrollViewFrame();
 				
 				void setEnabled(RJBOOL enabled);
@@ -78,7 +78,7 @@ namespace RadJAV
 				#ifdef USE_IOS
 					UIView* getNativeWidget();
 				#elif defined USE_ANDROID
-					void* getNativeWidget();
+					jobject getNativeWidget();
 				#endif
 				
 			private:
@@ -86,8 +86,7 @@ namespace RadJAV
 					UIScrollView* widget;
 					ScrollViewDelegate* widgetDelegate;
 				#elif defined USE_ANDROID
-					//TODO: Wrap Android specific type here
-					void* widget;
+					jobject widget;
 				#endif
 			};
 		}

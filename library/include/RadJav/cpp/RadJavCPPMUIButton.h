@@ -28,8 +28,6 @@
 	#ifdef USE_IOS
 		OBJC_CLASS(UIButton);
         OBJC_CLASS(ButtonDelegate);
-	#elif defined USE_ANDROID
-		#warning Add Button implementation for Android platform
 	#endif
 
 	namespace RadJAV
@@ -42,7 +40,7 @@
 												, public ChainedPtr
 				{
 				public:
-					ButtonFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size);
+					ButtonFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
 					~ButtonFrame();
 
                     void setText(String text);
@@ -58,17 +56,23 @@
 
 					#ifdef USE_IOS
 						UIView* getNativeWidget();
-					#elif defined USE_ANDROID
-						void* getNativeWidget();
 					#endif
 					
 				private:
 					#ifdef USE_IOS
                     	UIButton* widget;
                     	ButtonDelegate* widgetDelegate;
-					#elif defined USE_ANDROID
-                    	//TODO: Wrap Android specific type here
-						void* widget;
+					#endif
+
+					#ifdef USE_ANDROID
+                    	static jclass nativeButtonClass;
+
+                    	static jmethodID nativeConstructor;
+                    	static jmethodID nativeSetText;
+						static jmethodID nativeGetText;
+
+						/*^:AndroidJNI.outputStart ("jniHeaders");*/
+						/*^:AndroidJNI.outputEnd ("jniHeaders");*/
 					#endif
 				};
 				

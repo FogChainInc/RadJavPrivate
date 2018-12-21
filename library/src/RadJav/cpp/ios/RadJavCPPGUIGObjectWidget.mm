@@ -27,10 +27,15 @@ namespace RadJAV
 	{
 		namespace GUI
 		{
-			void GObjectWidget::addChild(GObject *child)
+			GObjectWidget::GObjectWidget()
+			{
+                parent = NULL;
+			}
+			
+			void GObjectWidget::addChild(GObjectWidget *child)
 			{
 				UIView* widget = getNativeWidget();
-				UIView* childObj = child->_appObj->getNativeWidget();
+				UIView* childObj = child->getNativeWidget();
 				[widget addSubview:childObj];
 			}
 			
@@ -112,10 +117,9 @@ namespace RadJAV
 				return String();
 			}
 			
-			GObject* GObjectWidget::getParent()
+			GObjectWidget* GObjectWidget::getParent()
 			{
-				//TODO: Need to think about the solution
-				return nullptr;
+                return (parent);
 			}
 			
 			void GObjectWidget::setVisibility(RJBOOL visible)
@@ -132,13 +136,14 @@ namespace RadJAV
 			
 			void GObjectWidget::setEnabled(RJBOOL enabled)
 			{
-				//Do nothing here
+                UIView* widget = getNativeWidget();
+                widget.userInteractionEnabled = enabled;
 			}
 			
 			RJBOOL GObjectWidget::getEnabled()
 			{
-				//Do nothing here
-				return true;
+                UIView* widget = getNativeWidget();
+                return (widget.userInteractionEnabled);
 			}
 		}
 	}

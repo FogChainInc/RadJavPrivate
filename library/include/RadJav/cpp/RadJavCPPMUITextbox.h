@@ -29,7 +29,7 @@
 	OBJC_CLASS(UITextField);
 	OBJC_CLASS(TextFieldDelegate);
 #elif defined USE_ANDROID
-	#warning Add Textbox implementation for Android platform
+	JNI_CLASS(jobject);
 #endif
 
 namespace RadJAV
@@ -75,15 +75,18 @@ namespace RadJAV
 												,public ChainedPtr
 			{
 			public:
-				TextboxFrame(GUI::GObject *parent, const String &text, const Vector2 &pos, const Vector2 &size);
+				TextboxFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
 				~TextboxFrame();
 				
 				void setText(String text);
 				String getText();
 				void setFont(CPP::Font *font);
 				CPP::Font *getFont();
-				void setEnabled(RJBOOL enabled);
-				RJBOOL getEnabled();
+
+				#ifdef USE_IOS
+					void setEnabled(RJBOOL enabled);
+					RJBOOL getEnabled();
+				#endif
 				
 				void setInputMode(Textbox::InputMode mode);
 				Textbox::InputMode getInputMode() const;
@@ -92,8 +95,6 @@ namespace RadJAV
 				
 				#ifdef USE_IOS
 					UIView* getNativeWidget();
-				#elif defined USE_ANDROID
-					void* getNativeWidget();
 				#endif
 				
 			private:
@@ -101,11 +102,16 @@ namespace RadJAV
 					UITextField* widget;
 					TextFieldDelegate* widgetDelegate;
 				#elif defined USE_ANDROID
-					//TODO: Wrap Android specific type here
-					void* widget;
+					static jclass nativeEditTextClass;
+
+					static jmethodID nativeConstructor;
+					static jmethodID nativeSetText;
+					static jmethodID nativeGetText;
+					static jmethodID nativeSetInputType;
+					static jmethodID nativeGetInputType;
+					static jmethodID nativeSetLines;
 				#endif
 			};
-			
 		}
 	}
 }

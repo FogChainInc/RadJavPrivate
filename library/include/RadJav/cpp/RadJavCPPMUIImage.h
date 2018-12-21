@@ -30,7 +30,7 @@
 	OBJC_CLASS(UIImage);
 	OBJC_CLASS(ImageDelegate);
 #elif defined USE_ANDROID
-	#warning Add Image implementation for Android platform
+	JNI_CLASS(jobject);
 #endif
 
 namespace RadJAV
@@ -72,8 +72,8 @@ namespace RadJAV
 											,public ChainedPtr
 			{
 			public:
-				ImageFrame(GUI::GObject *parent, const String &imageFile, const Vector2 &pos, const Vector2 &size);
-				ImageFrame(GUI::GObject *parent, const Vector2 &pos, const Vector2 &size);
+				ImageFrame(GUI::GObjectWidget *parent, const String &imageFile, const Vector2 &pos, const Vector2 &size);
+				ImageFrame(GUI::GObjectWidget *parent, const Vector2 &pos, const Vector2 &size);
 				~ImageFrame();
 				
 				RJBOOL loadImage(const String& imageFile);
@@ -84,8 +84,6 @@ namespace RadJAV
 				
 				#ifdef USE_IOS
 					UIView* getNativeWidget();
-				#elif defined USE_ANDROID
-					void* getNativeWidget();
 				#endif
 				
 			private:
@@ -95,8 +93,12 @@ namespace RadJAV
 					//TODO: do we need to handle events of the UIImage?
 					//ImageDelegate* widgetDelegate;
 				#elif defined USE_ANDROID
-					//TODO: Wrap Android specific type here
-					void* widget;
+					static jclass nativeImageViewClass;
+
+					static jmethodID nativeConstructor;
+					static jmethodID nativeSetImageBitmap;
+					static jmethodID nativeSetScaleType;
+					static jmethodID nativeGetScaleType;
 				#endif
 			};
 		}

@@ -32,6 +32,9 @@ declare namespace RadJav {
             constructor(name: string);
             createView(name: string): View;
             addView(view: View): void;
+            /**
+            * Update the current view.
+            */
             updateView(): void;
             setView(root: string | HTMLElement | RadJav.GUI.GObject | RadJav.Interact.View, view: RadJav.Interact.View): void;
             setComponentEvent(name: string, eventName: string, eventFunction: Function | EventListener): void;
@@ -50,6 +53,9 @@ declare namespace RadJav {
             _mainComponent: Component;
             _app: App;
             constructor(app: App, name: string);
+            /** @method createComponent
+            *
+            */
             createComponent(obj: RadJav.Interact.Component): RadJav.Interact.Component;
             setMainComponent(component: string | Component): void;
             getMainComponent(): Component;

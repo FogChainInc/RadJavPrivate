@@ -64,7 +64,7 @@
 				public:
 					Thread();
 					Thread(void *storeValue);
-					~Thread();
+					virtual ~Thread();
 
 					/// Set whether or not this thread has started executing.
 					/// This is mostly for use in the main app loop.
@@ -190,6 +190,15 @@
                     JSObjectRef rejectArgs;
                 #endif
 		};
-	}
+
+		inline void threadSleep(long long int ms)
+		{
+			#ifdef THREADS_USE_WXWIDGETS
+				wxThread::This()->Sleep(ms);
+			#elif defined THREADS_USE_STD_THREAD
+				std::this_thread::sleep_for(std::chrono::milliseconds(ms));
+			#endif
+		}
+}
 #endif
 

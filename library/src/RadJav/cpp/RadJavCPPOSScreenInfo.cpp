@@ -30,6 +30,11 @@
     #include "jscore/RadJavJSCJavascriptEngine.h"
 #endif
 
+#ifdef GUI_USE_WXWIDGETS
+	#include <wx/window.h>
+	#include <wx/display.h>
+#endif
+
 namespace RadJAV
 {
 	namespace CPP
@@ -114,7 +119,9 @@ namespace RadJAV
             {
                 RJINT numScreens = 1;
 
-                /// @todo Fill this out later using wxWidgets.
+				#ifdef GUI_USE_WXWIDGETS
+					numScreens = wxDisplay::GetCount();
+				#endif
 
                 return (numScreens);
             }
@@ -123,15 +130,42 @@ namespace RadJAV
             {
                 ScreenInfo info;
 
-                /// @todo Fill this out later using wxWidgets.
-                #ifdef USE_IOS
+				#ifdef GUI_USE_WXWIDGETS
+					RJINT screensCount = getNumberOfScreens();
+				
+					if (screenIndex < screensCount &&
+						screenIndex >= 0)
+					{
+						wxDisplay display(screenIndex);
+
+						wxRect displayBounds = display.GetGeometry();
+						info.width = displayBounds.width;
+						info.height = displayBounds.height;
+
+						//Get scale factor for main display
+						if (screenIndex == 0)
+						{
+							wxApp* app = wxTheApp;
+							if (app)
+							{
+								wxWindow* mainWindow = app->GetTopWindow();
+								if (mainWindow)
+								{
+									info.scale = mainWindow->GetContentScaleFactor();
+								}
+							}
+						}
+					}
+				#elif defined USE_IOS
                     UIScreen *screen = [UIScreen mainScreen];
                     CGRect screenRect = [screen bounds];
 
                     info.width = screenRect.size.width;
                     info.height = screenRect.size.height;
                     info.scale = screen.scale;
-                #endif
+                #else
+					#warning Add ScreenInfo support
+				#endif
 
                 return (info);
             }

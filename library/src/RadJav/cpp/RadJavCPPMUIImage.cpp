@@ -52,7 +52,7 @@ namespace RadJAV
 				if (_parent != nullptr)
 					parentWin = _parent->_appObj;
 				
-				ImageFrame* object = RJNEW ImageFrame(_parent,
+				ImageFrame* object = RJNEW ImageFrame(parentWin,
 													  Vector2(_transform->x, _transform->y),
 													  Vector2(_transform->width, _transform->height));
 				

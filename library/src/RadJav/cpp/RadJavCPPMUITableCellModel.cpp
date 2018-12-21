@@ -40,8 +40,10 @@ namespace RadJAV
 			#endif
             #ifdef USE_JAVASCRIPTCORE
                 TableCellModel::TableCellModel(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[])
-                    : GObject (jsEngine, thisObj, numArgs, args)
+                	: GObject(jsEngine, thisObj, numArgs, args)
                 {
+                    isHeader = false;
+                    isFooter = false;
                 }
             #endif
 
@@ -54,11 +56,11 @@ namespace RadJAV
 			{
 				GUI::GObjectWidget* parentWin = nullptr;
 				
-				if (_parent != nullptr)
-					parentWin = _parent->_appObj;
+				//if (parent != nullptr)
+					//parentWin = parent->_appObj;
 				
 
-				setup();
+				//setup();
 			}
             bool TableCellModel::bindEvent(const String& eventName, const GUI::Event* /*event*/)
             {
@@ -107,13 +109,31 @@ namespace RadJAV
                 this->isDeletable = value;
             }
             
+            bool TableCellModel::getIsHeader()
+            {
+                return this->isHeader;
+            }
+            void TableCellModel::setIsHeader(bool value)
+            {
+                this->isHeader = value;
+            }
+            
+            bool TableCellModel::getIsFooter()
+            {
+                return this->isFooter;
+            }
+            void TableCellModel::setIsFooter(bool value)
+            {
+                this->isFooter = value;
+            }
+            
 #ifdef USE_IOS
             UIView* TableCellModel::getNativeWidget()
             {
                 return widget;
             }
 #elif defined USE_ANDROID
-            void* TableCellModel::getNativeWidget()
+            jobject TableCellModel::getNativeWidget()
             {
                 return widget;
             }
@@ -123,7 +143,11 @@ namespace RadJAV
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
             	void TableCellModel::on(String event, RJ_FUNC_TYPE func)
 				{
-                    addNewEvent(event, func);
+					//TODO: need to refactor TableCellModel(this) class
+					//GObject class is not a native widget class
+					//Base native widget class is GObjectWidget which derived from GObjectEvents and can handle
+					//events. See also top most #warning in this file
+                    //addNewEvent(event, func);
 				}
 			#endif
 		}
