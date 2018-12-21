@@ -5,9 +5,17 @@ var win1;
 var win2;
 var win3;
 
+var win4;
+var win5;
+var win6;
+
 var img1;
 var img2;
 var img3;
+
+var img4;
+var img5;
+var img6;
 
 RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav.getMUILibrary ()).then (function () {
 	RadJav.runApplication (function () {
@@ -124,6 +132,96 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 						img3.setImage("/examples/mobile/bottomnavigator/window_three.png");
 				});
 			});
+			
+			//Create third View
+			win = new RadJav.MUI.View ("win", "Window 4");
+			win.create ().then (function (win_created) {
+				win4 = win_created;
+				
+				win4.setPosition(0, 0);
+				win4.setSize(screenWidth, screenHeight);
+				var icon;
+				if (RadJav.OS.type == "android")
+						icon = "/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/examples/mobile/bottomnavigator/3.png";
+				else //iOS
+						icon = "/examples/mobile/bottomnavigator/3.png";
+						
+				navi.addTab(win4,icon);
+				var img = new RadJav.MUI.Image ("image", "", win4);
+				img.create().then (function (img_created)
+				{
+					img4 = img_created;
+					img4.setPosition ((screenWidth-256)/2, screenHeight/5);
+					img4.setSize (256, 256);
+					img4.setScaleMode(RadJav.MUI.Image.ScaleModeAspectFit);
+					
+					if (RadJav.OS.type == "android")
+						img4.setImage("/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/examples/mobile/bottomnavigator/window_three.png");
+					else //iOS
+						img4.setImage("/examples/mobile/bottomnavigator/window_three.png");
+				});
+			});
+			
+			
+			//Create third View
+			var win55 = new RadJav.MUI.View ("win5", "Window 5");
+			win55.create ().then (function (win_created) {
+				win5 = win_created;
+				
+				win5.setPosition(0, 0);
+				win5.setSize(screenWidth, screenHeight);
+				var icon;
+				if (RadJav.OS.type == "android")
+						icon = "/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/examples/mobile/bottomnavigator/3.png";
+				else //iOS
+						icon = "/examples/mobile/bottomnavigator/3.png";
+						
+				navi.addTab(win5,icon);
+				var img = new RadJav.MUI.Image ("image", "", win5);
+				img.create().then (function (img_created)
+				{
+					img5 = img_created;
+					img5.setPosition ((screenWidth-256)/2, screenHeight/5);
+					img5.setSize (256, 256);
+					img5.setScaleMode(RadJav.MUI.Image.ScaleModeAspectFit);
+					
+					if (RadJav.OS.type == "android")
+						img5.setImage("/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/examples/mobile/bottomnavigator/window_three.png");
+					else //iOS
+						img5.setImage("/examples/mobile/bottomnavigator/window_three.png");
+				});
+			});
+			
+			
+							//Create third View
+			var win66 = new RadJav.MUI.View ("win5", "Window 5");
+			win66.create ().then (function (win_created) {
+				win6 = win_created;
+				
+				win6.setPosition(0, 0);
+				win6.setSize(screenWidth, screenHeight);
+				var icon;
+				if (RadJav.OS.type == "android")
+						icon = "/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/examples/mobile/bottomnavigator/3.png";
+				else //iOS
+						icon = "/examples/mobile/bottomnavigator/3.png";
+						
+				navi.addTab(win6,icon);
+				var img = new RadJav.MUI.Image ("image", "", win6);
+				img.create().then (function (img_created)
+				{
+					img6 = img_created;
+					img6.setPosition ((screenWidth-256)/2, screenHeight/5);
+					img6.setSize (256, 256);
+					img6.setScaleMode(RadJav.MUI.Image.ScaleModeAspectFit);
+					
+					if (RadJav.OS.type == "android")
+						img6.setImage("/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/examples/mobile/bottomnavigator/window_three.png");
+					else //iOS
+						img6.setImage("/examples/mobile/bottomnavigator/window_three.png");
+				});
+			});
+			
 		});
 	});
 });
