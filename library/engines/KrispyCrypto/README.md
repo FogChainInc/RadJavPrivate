@@ -97,7 +97,7 @@ A question might present itself at this point: why does the interface differenti
 - support for other crypto libraries such as NaCl/libsodium, Crypto++, etc.
 
 # KrispyCrypto  Reference
-## `Hash` Object
+## Hash Object
 ### Instantiation
 ```
 var hash = new RadJav.Crypto.Hash({param:value, param1:value1, ...});
