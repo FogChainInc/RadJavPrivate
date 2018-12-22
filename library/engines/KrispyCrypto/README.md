@@ -118,24 +118,24 @@ var hash = new RadJav.Crypto.Hash({param:value, param1:value1, ...});
 - *objectName*.outputEncoding - name of the format of returned output.
 
 #### Supported Algorithms for OpenSSL
--- blake2b512: BLAKE2, 512bit
--- blake2s256:     BLAKE2, 256bit
--- md4:    MD4, 128bit
--- md5:    MD5, 128bit
--- mdc2:   MDC-2/Meyer-Schilling, 128bit
--- rmd160: RIPEMD-160, 160bit
--- sha1:   SHA-1, 160bit
--- sha224: SHA-2, 224bit
--- sha256: SHA-2, 256bit
--- sha384: SHA-2, 384bit
--- sha3_224:       SHA-3, 224bit
--- sha3_256:       SHA-3, 256bit
--- sha3_384:       SHA-3, 384bit
--- sha3_512:       SHA-3, 312bit
--- sha512: SHA-2, 512bit
--- shake128:       SHA-3 Family, extendable-output function, 128bit strenth
--- shake256:       SHA-3 Family, extendable-output function, 256bit strength
--- sm3:    SM3 (Chinese Standard), similar to SHA-2, 256bit
+- blake2b512: BLAKE2, 512bit
+- blake2s256:     BLAKE2, 256bit
+- md4:    MD4, 128bit
+- md5:    MD5, 128bit
+- mdc2:   MDC-2/Meyer-Schilling, 128bit
+- rmd160: RIPEMD-160, 160bit
+- sha1:   SHA-1, 160bit
+- sha224: SHA-2, 224bit
+- sha256: SHA-2, 256bit
+- sha384: SHA-2, 384bit
+- sha3_224:       SHA-3, 224bit
+- sha3_256:       SHA-3, 256bit
+- sha3_384:       SHA-3, 384bit
+- sha3_512:       SHA-3, 312bit
+- sha512: SHA-2, 512bit
+- shake128:       SHA-3 Family, extendable-output function, 128bit strenth
+- shake256:       SHA-3 Family, extendable-output function, 256bit strength
+- sm3:    SM3 (Chinese Standard), similar to SHA-2, 256bit
 
 ### Methods
 - hash(data) - returns a promise to perform the digest of `data`
