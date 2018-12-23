@@ -47,5 +47,5 @@ The repo has libRadJav, RadJavVM, and RadJav HTML5 in it. They all heavily refer
 # How to build
 On our wiki, we have guides on how to build libRadJav, RadJavVM, and the HTML5 version of RadJav.
 
-[Building libRadJav](https://github.com/FogChainInc/RadJav/wiki#building-libradjav)
-[Building RadJavVM from source](https://github.com/FogChainInc/RadJav/wiki#building-radjav-vm-from-source)
+* [Building libRadJav](https://github.com/FogChainInc/RadJav/wiki#building-libradjav)
+* [Building RadJavVM from source](https://github.com/FogChainInc/RadJav/wiki#building-radjav-vm-from-source)
