@@ -31,6 +31,9 @@ You can view our wiki at https://github.com/FogChainInc/RadJav/wiki
 # Online HTML5 Examples
 You can view the HTML5 online examples at https://www.radjav.com/en_us/examples/exampleBrowser.htm
 
+# Where to download
+You can download and install RadJavVM from: https://github.com/FogChainInc/RadJav/releases
+
 # Repo Structure
 The repo has libRadJav, RadJavVM, and RadJav HTML5 in it. They all heavily refer to each other and we feel its best to have them all in the same repo.
 
