@@ -39,6 +39,11 @@ namespace RadJAV
 				~AlertFrame();
 				
 			public:
+				/** @method show
+				 * Shows alert controller with supplied title and message. Currently only OK button with no action is supported.
+				 * @param String caption
+				 * @param String message
+				 */
 				static void show(const String& caption, const String& message);
 			};
 		}

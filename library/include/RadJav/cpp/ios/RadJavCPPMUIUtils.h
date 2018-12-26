@@ -24,13 +24,55 @@
 #include <JavaScriptCore/JSStringRef.h>
 #include "RadJavString.h"
 
+/** @method RadJavStringFromCocoaString
+ * Converts Cocoa string to RadJav::String.
+ * @param Cocoa string
+ * @return RadJAV::String
+ */
 extern RadJAV::String RadJavStringFromCocoaString(NSString* string);
+/** @method RadJavCocoaStringFromRadJavString
+ * Converts RadJav::String to Cocoa string.
+ * @param RadJAV::String string
+ * @return Cocoa string
+ */
 extern NSString* RadJavCocoaStringFromRadJavString(RadJAV::String string);
+/** @method RadJavCocoaStringFromJSCString
+ * Converts JSStringRef to Cocoa string.
+ * @param JSStringRef string
+ * @return Cocoa string
+ */
 extern NSString* RadJavCocoaStringFromJSCString(JSStringRef jsString);
 
+/** Following two methods are required for first created view controller to be set as root.
+ */
+/** @method RadJavRootControllerWasSet
+ * Checks underlying static variable.
+ * @return BOOL whether root controller was already set.
+ */
 extern BOOL RadJavRootControllerWasSet();
+/** @method RadJavSetRootViewController
+ * Sets rootviewcontroller and static bool value so it won't be set twice.
+ * @param UIViewController new root viewcontroller for application
+ */
 extern void RadJavSetRootViewController(UIViewController *controller);
 
+/** Util methods for file management.
+ */
+
+/** @method RadJavApplicationDocumentsDirectory
+ * Uses system API to receive path to documents directory.
+ * @return Absolute documents path
+ */
 extern RadJAV::String RadJavApplicationDocumentsDirectory();
+
+/** @method RadJavApplicationTempDirectory
+ * Uses system API to receive path to temp directory.
+ * @return Absolute temporary files path
+ */
 extern RadJAV::String RadJavApplicationTempDirectory();
+
+/** @method RadJavApplicationDirectory
+ * Uses NSBundle API to receive path to application binary.
+ * @return Absolute application path
+ */
 extern RadJAV::String RadJavApplicationDirectory();

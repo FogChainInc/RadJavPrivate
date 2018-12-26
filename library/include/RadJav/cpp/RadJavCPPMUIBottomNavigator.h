@@ -43,8 +43,16 @@
                 public:
 					BottomNavigatorFrame(ViewFrame* view);
                     ~BottomNavigatorFrame();
-
+					/** @method addTab
+					 * Adds tab to tabbar. Title property of View will be used for icon caption.
+					 * @param View this view will be wrapped in VIewController and displayed.
+					 * @param String absolute path to icon to be displayed on tabbar
+					 */
                     void addTab(View* view, String icon);
+					/** @method getSelectedTab
+					 * Returns index of currently selected tab.
+					 * @return int currently selected tab
+					 */
 					int getSelectedTab();
 
 				private:
@@ -81,8 +89,16 @@
 						BottomNavigator(View* view);
 
 						void create();
-
+						/** @method addTab
+					 	* Adds tab to tabbar. Title property of View will be used for icon caption.
+						* @param View this view will be wrapped in VIewController and displayed.
+					 	* @param String absolute path to icon to be displayed on tabbar
+					 	*/
 						void addTab(View* view, String icon);
+						/** @method getSelectedTab
+					 	* Returns index of currently selected tab.
+					 	* @return int currently selected tab
+					 	*/
 						int getSelectedTab();
 
 					private:

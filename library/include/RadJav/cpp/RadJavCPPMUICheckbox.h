@@ -42,10 +42,26 @@ namespace RadJAV
 												,public ChainedPtr
 			{
 			public:
+				/**
+				 * Constructor. Frame will be added as child to provided parent, state and size are preset from parameters.
+				 * @param GObjectWidget parent. Constructed object will be added to view hierarchy of parent.
+				 * @param BOOL checked. Initial state
+				 * @param Vector2 pos Initial position.
+				 * @param Vector2 size Initial size.
+				 */
 				CheckboxFrame(GUI::GObjectWidget *parent, RJBOOL checked, const Vector2 &pos, const Vector2 &size);
 				~CheckboxFrame();
 				
+				/** @method setChecked
+				 * Setter for control state.
+				 * @param BOOL checked
+				 */
 				void setChecked(RJBOOL checked);
+				
+				/** @method getChecked
+				 * Getter for control state.
+				 * @return BOOL checked
+				 */
 				RJBOOL getChecked() const;
 
 				#ifdef USE_IOS
@@ -79,7 +95,12 @@ namespace RadJAV
 				#elif defined USE_JAVASCRIPTCORE
 					Checkbox(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
 				#endif
-				
+				/**
+				 * Constructor.
+				 * @param String name. This goes to superclass constructor
+				 * @param String text. Will be displayed near checkbox, has default value of empty string.
+				 * @param GObjectWidget parent. Constructed object will be added to view hierarchy of parent.
+				 */
 				Checkbox(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 				
 				void create();
