@@ -54,12 +54,29 @@ namespace RadJAV
 				#elif defined USE_JAVASCRIPTCORE
 					Image(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
 				#endif
-				
+				/**
+				 * Constructor.
+				 * @param String name. Unused
+				 * @param String text. Unused.
+				 * @param GObjectWidget parent. Constructed object will be added to view hierarchy of parent.
+				 */
 				Image(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 				
 				void create();
+				/** @method setImage
+				 * Sets image.
+				 * @param String imageFile. Absolute path to file.
+				 */
 				RJBOOL setImage(const String& imageFile);
+				/** @method setScaleMode
+				 * Setter for scale mode
+				 * @param ScaleMode Only aspect fit and aspect fill are supported now.
+				 */
 				void setScaleMode(ScaleMode mode);
+				/** @method getScaleMode
+				 * Getter for scale mode
+				 * @return ScaleMode Current scale mode.
+				 */
 				ScaleMode getScaleMode() const;
 
 				#if defined USE_V8 || defined USE_JAVASCRIPTCORE
@@ -72,12 +89,38 @@ namespace RadJAV
 											,public ChainedPtr
 			{
 			public:
+				/**
+				 * Constructor.
+				 * @param GObjectWidget parent. Constructed object will be added to view hierarchy of parent.
+				 * @param String imageFile. Initial state
+				 * @param Vector2 pos Initial position.
+				 * @param Vector2 size Initial size.
+				 */
 				ImageFrame(GUI::GObjectWidget *parent, const String &imageFile, const Vector2 &pos, const Vector2 &size);
+				/**
+				 * Constructor.
+				 * @param GObjectWidget parent. Constructed object will be added to view hierarchy of parent.
+				 * @param Vector2 pos Initial position.
+				 * @param Vector2 size Initial size.
+				 */
 				ImageFrame(GUI::GObjectWidget *parent, const Vector2 &pos, const Vector2 &size);
 				~ImageFrame();
 				
+				/** @method loadImage
+				 * Loads image from supplied source.
+				 * @param imageFile Source to load from.
+				 * @return BOOL whether image was loaded.
+				 */
 				RJBOOL loadImage(const String& imageFile);
+				/** @method setScaleMode
+				 * Setter for scale mode
+				 * @param ScaleMode Only aspect fit and aspect fill are supported now.
+				 */
 				void setScaleMode(Image::ScaleMode mode);
+				/** @method getScaleMode
+				 * Getter for scale mode
+				 * @return ScaleMode Current scale mode.
+				 */
 				Image::ScaleMode getScaleMode() const;
 				
 				bool bindEvent(const String& eventName, const GUI::Event* event);

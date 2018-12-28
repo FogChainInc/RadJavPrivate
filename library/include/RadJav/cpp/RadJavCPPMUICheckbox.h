@@ -104,7 +104,15 @@ namespace RadJAV
 				Checkbox(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 				
 				void create();
+				/** @method setChecked
+				 * Setter for control state.
+				 * @param BOOL checked
+				 */
 				void setChecked(RJBOOL checked);
+				/** @method getChecked
+				 * Getter for control state.
+				 * @return BOOL checked
+				 */
 				RJBOOL getChecked() const;
 				
 				#if defined USE_V8 || defined USE_JAVASCRIPTCORE
