@@ -47,11 +47,26 @@ namespace RadJAV
 					ScrollView(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
 				#endif
 				
+				/**
+				 * Constructor.
+				 * @param String name. This goes to superclass constructor
+				 * @param String text. Unused.
+				 * @param GObjectWidget parent. Unused.
+				 */
 				ScrollView(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 				
 				void create();
-
+				
+				
+				/** @method setContentSize
+				 * Setter for content size. Contentsize is a measure of how much
+				 * @param Vector2 size. New content size.
+				 */
 				void setContentSize(const CPP::Vector2& size);
+				/** @method getContentSize
+				 * Getter for content size
+				 * @return Vector2 contentSize.
+				 */
 				CPP::Vector2 getContentSize() const;
 
 				#if defined USE_V8 || defined USE_JAVASCRIPTCORE
@@ -64,13 +79,27 @@ namespace RadJAV
 												,public ChainedPtr
 			{
 			public:
+				/**
+				 * Constructor.
+				 * @param String name. This goes to superclass constructor
+				 * @param String text. Unused.
+				 * @param GObjectWidget parent. Unused.
+				 */
 				ScrollViewFrame(GUI::GObjectWidget *parent, const Vector2 &pos, const Vector2 &size);
 				~ScrollViewFrame();
 				
 				void setEnabled(RJBOOL enabled);
 				RJBOOL getEnabled();
 				
+				/** @method setContentSize
+				 * Setter for content size. Contentsize is a measure of how much
+				 * @param Vector2 size. New content size.
+				 */
 				void setContentSize(const CPP::Vector2& size);
+				/** @method getContentSize
+				 * Getter for content size
+				 * @return Vector2 contentSize.
+				 */
 				CPP::Vector2 getContentSize() const;
 
 				bool bindEvent(const String& eventName, const GUI::Event* event);

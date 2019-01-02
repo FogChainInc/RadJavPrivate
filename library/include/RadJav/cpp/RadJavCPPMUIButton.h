@@ -43,7 +43,7 @@
 					/**
 					 * Constructor.
 					 * @param GObjectWidget parent. Constructed object will be added to view hierarchy of parent
-					 * @param String text. Will be displayed near checkbox, has default value of empty string.
+					 * @param String text. Will be displayed on button, has default value of empty string.
 					 * @param Vector2 pos Initial position.
 					 * @param Vector2 size Initial size.
 					 */
@@ -119,7 +119,7 @@
 						/**
 					 	* Constructor.
 					 	* @param String name. This goes to superclass constructor
-					 	* @param String text. Will be displayed near checkbox, has default value of empty string.
+					 	* @param String text. Button caption, has default value of empty string.
 					 	* @param GObjectWidget parent. Constructed object will be added to view hierarchy of parent.
 					 	*/
 						Button(String name, String text = "", CPP::GUI::GObject *parent = NULL);

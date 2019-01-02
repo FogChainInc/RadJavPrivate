@@ -57,12 +57,25 @@ namespace RadJAV
 				#elif defined USE_JAVASCRIPTCORE
 					Textbox(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
 				#endif
-				
+				/**
+				 * Constructor.
+				 * @param String name. This goes to superclass constructor.
+				 * @param String text. Initial text.
+				 * @param GObjectWidget parent.
+				 */
 				Textbox(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 				
 				void create();
 				
-				void setInputMode(InputMode mode);
+				/** @method setInputMode
+				 * Setter for input mode. Viable options are Text, Number, Decimal, Phone, Email, Password
+				 * @param InputMode input mode.
+				 */
+				void setInputMode(Textbox::InputMode mode);
+				/** @method getInputMode
+				 * Getter for input mode. Viable options are Text, Number, Decimal, Phone, Email, Password
+				 * @return Font
+				 */
 				InputMode getInputMode() const;
 				
 				#if defined USE_V8 || defined USE_JAVASCRIPTCORE
@@ -75,12 +88,37 @@ namespace RadJAV
 												,public ChainedPtr
 			{
 			public:
+				/**
+				 * Constructor.
+				 * @param GObjectWidget parent. Constructed object will be added to view hierarchy of parent
+				 * @param String text. Initial text, has default value of empty string.
+				 * @param Vector2 pos Initial position.
+				 * @param Vector2 size Initial size.
+				 */
 				TextboxFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
 				~TextboxFrame();
 				
+				/** @method setText
+				 * Setter for button text.
+				 * @param String text
+				 */
 				void setText(String text);
+				
+				/** @method getText
+				 * Getter for buttonText.
+				 * @return String text
+				 */
 				String getText();
+				
+				/** @method setFont
+				 * Setter for button font.
+				 * @param Font font
+				 */
 				void setFont(CPP::Font *font);
+				/** @method getFont
+				 * Getter for button font.
+				 * @return Font
+				 */
 				CPP::Font *getFont();
 
 				#ifdef USE_IOS
@@ -88,7 +126,15 @@ namespace RadJAV
 					RJBOOL getEnabled();
 				#endif
 				
+				/** @method setInputMode
+				 * Setter for input mode. Viable options are Text, Number, Decimal, Phone, Email, Password
+				 * @param InputMode input mode.
+				 */
 				void setInputMode(Textbox::InputMode mode);
+				/** @method getInputMode
+				 * Getter for input mode. Viable options are Text, Number, Decimal, Phone, Email, Password
+				 * @return Font
+				 */
 				Textbox::InputMode getInputMode() const;
 
 				bool bindEvent(const String& eventName, const GUI::Event* event);

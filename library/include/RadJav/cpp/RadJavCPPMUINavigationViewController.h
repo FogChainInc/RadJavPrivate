@@ -50,11 +50,29 @@ namespace RadJAV
             public:
                 //TODO: Add correct parent type here, usually some base C++ container class (which still not created)
                 NavigationViewControllerFrame();
+				/**
+				 * Constructor. If parent is not provided will install itself as rootviewcontroller to key window.
+				 * @param GObjectWidget parent. Constructed object will be added to view hierarchy of parent
+				 * @param String text. Unused.
+				 * @param Vector2 pos Initial position.
+				 * @param Vector2 size Initial size.
+				 */
                 NavigationViewControllerFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
                 ~NavigationViewControllerFrame();
                 void create();
+				/** @method setRootViewController
+				 *
+				 * @param Gobject controller to be set as root of navigation stack
+				 */
                 void setRootViewController(CPP::GUI::GObject *presentedController);
+				/** @method pushViewController. Adds controller to stack with default animation
+				 *
+				 * @param Gobject controller to be added on top of navigation stack.
+				 */
                 void pushViewController(CPP::GUI::GObject *presentedController);
+				/** @method popViewController. Removes last controller in stack with default animation
+				 *
+				 */
                 void popViewController();
                 
 				#ifdef USE_IOS
@@ -81,6 +99,12 @@ namespace RadJAV
 				#ifdef USE_JAVASCRIPTCORE
                 	NavigationViewController(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
 				#endif
+				/**
+				 * Constructor.
+				 * @param String name. This goes to superclass constructor
+				 * @param String text. Unused.
+				 * @param GObjectWidget parent. Unused.
+				 */
                 NavigationViewController(String name, String text = "", CPP::GUI::GObject *parent = NULL);
                 
                 #if defined USE_V8 || defined USE_JAVASCRIPTCORE
@@ -88,9 +112,20 @@ namespace RadJAV
                 	void on(String event, RJ_FUNC_TYPE func);
 				#endif
                 void create();
-                void setRootViewController(CPP::GUI::GObject *presentedController);
-                void pushViewController(CPP::GUI::GObject *presentedController);
-                void popViewController();                
+				/** @method setRootViewController
+				 *
+				 * @param Gobject controller to be set as root of navigation stack
+				 */
+				void setRootViewController(CPP::GUI::GObject *presentedController);
+				/** @method pushViewController. Adds controller to stack with default animation
+				 *
+				 * @param Gobject controller to be added on top of navigation stack.
+				 */
+				void pushViewController(CPP::GUI::GObject *presentedController);
+				/** @method popViewController. Removes last controller in stack with default animation
+				 *
+				 */
+				void popViewController();
                 
                 NavigationViewControllerFrame* _appObject;
             };

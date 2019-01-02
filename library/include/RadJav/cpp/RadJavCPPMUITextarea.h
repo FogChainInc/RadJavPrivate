@@ -46,7 +46,12 @@ namespace RadJAV
 				#elif defined USE_JAVASCRIPTCORE
 					Textarea(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
 				#endif
-				
+				/**
+				 * Constructor.
+				 * @param String name. This goes to superclass constructor.
+				 * @param String text. Initial text.
+				 * @param GObjectWidget parent.
+				 */
 				Textarea(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 				
 				void create();
@@ -61,12 +66,36 @@ namespace RadJAV
 												,public ChainedPtr
 			{
 			public:
+				/**
+				 * Constructor.
+				 * @param String name. This goes to superclass constructor.
+				 * @param String text. Initial text.
+				 * @param GObjectWidget parent.
+				 */
 				TextareaFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
 				~TextareaFrame();
 				
+				/** @method setText
+				 * Setter for button text.
+				 * @param String text
+				 */
 				void setText(String text);
+				
+				/** @method getText
+				 * Getter for buttonText.
+				 * @return String text
+				 */
 				String getText();
+				
+				/** @method setFont
+				 * Setter for button font.
+				 * @param Font font
+				 */
 				void setFont(CPP::Font *font);
+				/** @method getFont
+				 * Getter for button font.
+				 * @return Font
+				 */
 				CPP::Font *getFont();
 
 				#ifdef USE_IOS

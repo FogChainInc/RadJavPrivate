@@ -94,7 +94,7 @@ namespace RadJAV
                         }
                     }
                     //we perform pop to root if param was empty or not on stack
-                    pop();
+                    [widget popToRootViewControllerAnimated:YES];
                 });
 			}
 
