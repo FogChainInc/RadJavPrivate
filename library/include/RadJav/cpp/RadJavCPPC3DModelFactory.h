@@ -36,6 +36,11 @@ namespace RadJAV
 		namespace C3D
 		{
 #ifdef C3D_USE_OGRE
+			/**
+			 * @ingroup group_3d
+			 * @brief 3D model factory class.
+			 * @details Class for loading 3D object into scene.
+			 */
 			class RADJAV_EXPORT ModelFactory
 			{
 			public:

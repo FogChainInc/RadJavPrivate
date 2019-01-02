@@ -37,6 +37,11 @@ namespace RadJAV
 		namespace C3D
 		{
 #ifdef C3D_USE_OGRE
+			/**
+			 * @ingroup group_3d
+			 * @brief 3D camera class.
+			 * @details Class representing camera object in 3D scene.
+			 */
 			class RADJAV_EXPORT Camera : public Object3D
 			{
 			public:

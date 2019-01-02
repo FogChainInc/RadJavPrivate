@@ -35,6 +35,11 @@ namespace RadJAV
 		namespace C3D
 		{
 #ifdef C3D_USE_OGRE
+			/**
+			 * @ingroup group_3d
+			 * @brief 3D object class.
+			 * @details Base class for 3D objects in scene.
+			 */
 			class RADJAV_EXPORT Object3D : public Transform
 			{
 			public:

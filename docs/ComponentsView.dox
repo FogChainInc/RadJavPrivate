@@ -1,0 +1,100 @@
+/** @mainpage RadJav main page
+ * @section section_modules Modules
+ * @ref group_radjav
+ */
+ 
+/** @defgroup group_radjav RadJav library modules reference
+ * @brief Back end for RadJav Javascript applications.
+ * @details Details goes here.
+ */
+
+/** @defgroup group_radjav_interface Main interface
+ * @ingroup group_radjav
+ * @brief Main interfaces for RadJav library.
+ * @details There are two types of interfaces available for end users.
+ * We can use C++ or C-like interfaces.
+ */
+
+/** @defgroup group_radjav_cpp C++ interface
+ * @ingroup group_radjav_interface
+ * @brief C++ interface for RadJav library.
+ * @details Details goes here.
+ */
+
+/** @defgroup group_radjav_c C interface
+ * @ingroup group_radjav_interface
+ * @brief C-like interface for RadJav library.
+ * @details Details goes here.
+ */
+
+/**
+ * @defgroup group_3d 3D engine
+ * @ingroup group_radjav
+ * @brief 3D engine reference.
+ */
+
+/**
+ * @defgroup group_debug Debug agent
+ * @ingroup group_radjav
+ * @brief Debug agent reference.
+ */
+
+/**
+ * @defgroup group_crypto Crypto engine
+ * @ingroup group_radjav
+ * @brief Crypto engine reference.
+ */
+
+/**
+ * @defgroup group_db Database engine
+ * @ingroup group_radjav
+ * @brief Database engine reference.
+ */
+
+/**
+ * @defgroup group_gui GUI(Graphical user interface)
+ * @ingroup group_radjav
+ * @brief Graphical user interface reference.
+ */
+
+/**
+ * @defgroup group_io IO(Input output)
+ * @ingroup group_radjav
+ * @brief Input output reference.
+ */
+
+/**
+ * @defgroup group_math Math
+ * @ingroup group_radjav
+ * @brief Math reference.
+ */
+
+/**
+ * @defgroup group_mui MUI(Mobile user interface)
+ * @ingroup group_radjav
+ * @brief Mobile user interface reference.
+ */
+
+/**
+ * @defgroup group_net Network
+ * @ingroup group_radjav
+ * @brief Network reference.
+ */
+
+/**
+ * @defgroup group_os OS(Operating system)
+ * @ingroup group_radjav
+ * @brief Operating system reference.
+ */
+
+/**
+ * @defgroup group_thread Threads
+ * @ingroup group_radjav
+ * @brief Threads reference.
+ */
+
+/**
+ * @defgroup group_basic Basic types
+ * @ingroup group_radjav
+ * @brief Basic types reference
+ */
