@@ -56,37 +56,126 @@ namespace inspector {
 			namespace Net
 			{
 				/**
+				 * @class WebServerUpgradable
+				 *
+				 * @ingroup group_debug
 				 * @ingroup group_net_cpp
-				 * @brief WebServerUpgradable class.
+				 *
+				 * @brief V8 Inspector WebServer class that allows upgrade from http to websocket
+				 *
+				 * This class is meant to be used only by the v8 Inspector Agent, its implementation
+				 * is not complete and only serves as connection point for Chrome Dev Tools with
+				 * minimal functionality to allow JS debugging.
 				 */
 				class RADJAV_EXPORT WebServerUpgradable
 				{
 				public:
+					/**
+					 * @brief Create upgradable webserver
+					 *
+					 * Upgradable webserver class picks up HTTP connection from Chrome Dev Tools, upgrades it to
+					 * websocket connection and keeps communication session alive until disconnect
+					 *
+					 * @param delegate Inspector IO delegate responsible for the IO operations
+					 *
+					 * @param path_name path to script
+					 *
+					 * @param script_name script name
+					 *
+					 * @param wait_for_connect boolean flag that defines whether the server should wait for
+					 * incoming connection or return immediately
+					 *
+					 */
 					WebServerUpgradable(inspector::InspectorIoDelegate* delegate, String path_name, String script_name, RJBOOL wait_for_connect_);
 					~WebServerUpgradable();
 
+					/**
+					 * @brief set callback for IO operations
+					 *
+					 * @param delegate IO delegate
+					 *
+					 */
 					void setIOCallback(inspector::InspectorIoDelegate* delegate);
 
+					/**
+					 * @brief Start listening to connections
+					 *
+					 * @param isolate V8 isolate
+					 *
+					 * @param lock Semaphore to lock messages from different sessions
+					 */
 					void listen(v8::Isolate* isolate, inspector::Semaphore* lock);
 
+					/**
+					 * @brief send message to specific session ID
+					 *
+					 * @param id String ID
+					 *
+					 * @param message Message to send
+					 */
 					void send(String id, String message);
 
+					/**
+					 * @brief Close webserver and release sessions
+					 */
 					void close();
 
+					/**
+					 * @brief port number
+					 *
+					 * port is public to simplify JS/V8 invocation
+					 */
 					RJINT port;
 
+					/**
+					 * @brief io_context pointer
+					 */
 					boost::asio::io_context *io_context_;
 
-					/// Flag that indicates if listening context available 
+					/**
+					 * @brief Flag that indicates if listening context available
+					 */
 					RJBOOL isAlive;
+
+					/**
+					 * @brief Flag that indicates the waiting state
+					 */
 					RJBOOL is_waiting_;
+
+					/**
+					 * @brief script Path
+					 */
 					String path_name_;
+
+					/**
+					 * @brief script name
+					 */
 					String script_name_;
+
+					/**
+					 * @brief Inspector IO Delegate
+					 */
 					inspector::InspectorIoDelegate* io_delegate_;
+
+					/**
+					 * @brief flag that indicates if it is required do wait for a connection
+					 */
 					RJBOOL wait_for_connect_;
+
+					/**
+					 * @brief Simple semaphore lock
+					 *
+					 */
 					inspector::Semaphore* lock_;
+
+					/**
+					 * brief simple thread to run the IO service
+					 */
 					SimpleThread *thread;
 
+					/**
+					 * @brief Check if IO service waits for action
+					 */
 					RJBOOL isWaiting() { return is_waiting_; }
 						
 					class WebSocketSession : public std::enable_shared_from_this<WebSocketSession>

@@ -117,7 +117,7 @@
 						/**
 						 * @class WebSocketServerSession
 						 *
-						 * @ingroup DebugInspector
+						 * @ingroup group_debug
 						 *
 						 * @brief Inner Websocket session class used by WebSocketServer to keep and dispatch
 						 * one connection between external client and debug agent of JS engine
@@ -219,7 +219,7 @@
 						/**
 						* @class WebSocketServerListener
 						*
-						* @ingroup DebugInspector
+						* @ingroup group_debug
 						*
 						* @brief Inner Websocket session listener class used by WebSocketServer to dispatch
 						* all connections between external clients and debug agent of JS engine
