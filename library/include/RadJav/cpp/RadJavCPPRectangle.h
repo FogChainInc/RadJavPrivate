@@ -39,6 +39,10 @@ namespace RadJAV
 {
 	namespace CPP
 	{
+		/**
+		 * @ingroup group_basic_cpp
+		 * @brief Rectangle class.
+		 */
 		class RADJAV_EXPORT Rectangle
 		{
 			public:

@@ -76,6 +76,10 @@
 					#endif
 				};
 				
+				/**
+				 * @ingroup group_mui_cpp
+				 * @brief Button class.
+				 */
 				class RADJAV_EXPORT Button : public CPP::GUI::GObject
 				{
 					public:

@@ -37,6 +37,11 @@ namespace RadJAV
 {
 	namespace CPP
 	{
+		/**
+		 * @ingroup group_basic_cpp
+		 * @brief Color class.
+		 * @details Class to store color information.
+		 */
 		class RADJAV_EXPORT Color
 		{
 			public:

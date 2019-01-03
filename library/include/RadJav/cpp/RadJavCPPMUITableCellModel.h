@@ -42,6 +42,10 @@
 		{
 			namespace MUI
 			{
+				/**
+				 * @ingroup group_mui_cpp
+				 * @brief TableCellModel class.
+				 */
 				class RADJAV_EXPORT TableCellModel : public GUI::GObject
 				{
 					public:

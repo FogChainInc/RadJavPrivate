@@ -38,6 +38,10 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
+			/**
+			 * @ingroup group_mui_cpp
+			 * @brief Textarea class.
+			 */
 			class RADJAV_EXPORT Textarea : public CPP::GUI::GObject
 			{
 			public:

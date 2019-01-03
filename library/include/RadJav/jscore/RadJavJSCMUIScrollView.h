@@ -29,6 +29,11 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
+			/**
+			 * @ingroup group_mui_js_jsc
+			 * @brief ScrollView callbacks.
+			 * @details Class representing Javascript bindings to CPP::MUI::ScrollView.
+			 */
 			class RADJAV_EXPORT ScrollView
 			{
 			public:

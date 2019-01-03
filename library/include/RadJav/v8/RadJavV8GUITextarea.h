@@ -30,6 +30,11 @@
 		{
 			namespace GUI
 			{
+				/**
+				 * @ingroup group_gui_js_v8
+				 * @brief Textarea callbacks.
+				 * @details Class representing Javascript bindings to CPP::GUI::Textarea.
+				 */
 				class RADJAV_EXPORT Textarea
 				{
 				public:

@@ -29,6 +29,11 @@ namespace RadJAV
 	{
 		namespace Net
 		{
+			/**
+			 * @ingroup group_net_js_jsc
+			 * @brief WebServer callbacks.
+			 * @details Class representing Javascript bindings to CPP::Net::WebServer.
+			 */
 			class RADJAV_EXPORT WebServer
 			{
 			public:

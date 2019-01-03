@@ -37,6 +37,11 @@
         {
             namespace OS
             {
+				/**
+				 * @ingroup group_os_cpp
+				 * @brief ScreenInfo class.
+				 * @details Class that query screen information.
+				 */
                 class RADJAV_EXPORT ScreenInfo
                 {
                     public:

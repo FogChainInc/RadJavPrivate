@@ -38,6 +38,10 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
+			/**
+			 * @ingroup group_mui_cpp
+			 * @brief ScrollView class.
+			 */
 			class RADJAV_EXPORT ScrollView : public CPP::GUI::GObject
 			{
 			public:

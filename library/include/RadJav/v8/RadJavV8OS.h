@@ -28,6 +28,11 @@
 	{
 		namespace V8B
 		{
+			/**
+			 * @ingroup group_os_js_v8
+			 * @brief OS callbacks.
+			 * @details Class representing Javascript bindings to CPP::OS::OS.
+			 */
 			class RADJAV_EXPORT OS
 			{
 			public:

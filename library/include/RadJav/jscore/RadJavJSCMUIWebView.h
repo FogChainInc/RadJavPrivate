@@ -29,6 +29,11 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
+			/**
+			 * @ingroup group_mui_js_jsc
+			 * @brief WebView callbacks.
+			 * @details Class representing Javascript bindings to CPP::MUI::WebView.
+			 */
 			class RADJAV_EXPORT WebView
 			{
 			public:

@@ -38,7 +38,7 @@ namespace RadJAV
 		{
 #ifdef C3D_USE_OGRE
 			/**
-			 * @ingroup group_3d
+			 * @ingroup group_3d_cpp
 			 * @brief 3D camera class.
 			 * @details Class representing camera object in 3D scene.
 			 */

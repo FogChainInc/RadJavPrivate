@@ -68,7 +68,10 @@
 					#endif
                 };
                 
-                
+				/**
+				 * @ingroup group_mui_cpp
+				 * @brief View class.
+				 */
 				class RADJAV_EXPORT View : public CPP::GUI::GObject
 				{
 					public:

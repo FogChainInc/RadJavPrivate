@@ -31,6 +31,11 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
+			/**
+			 * @ingroup group_mui_js_jsc
+			 * @brief NavigationViewController callbacks.
+			 * @details Class representing Javascript bindings to CPP::MUI::NavigationViewController.
+			 */
             class RADJAV_EXPORT NavigationViewController
 			{
 				public:

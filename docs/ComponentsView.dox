@@ -31,6 +31,18 @@
  * @defgroup group_3d 3D engine
  * @ingroup group_radjav
  * @brief 3D engine reference.
+ * @{
+ *  @defgroup group_3d_cpp 3D engine C++ interface
+ *  @brief 3D engine C++ reference.
+ *  @defgroup group_3d_js 3D engine Javascript bindings
+ *  @brief 3D engine Javascript bindings reference.
+ *  @{
+ *   @defgroup group_3d_js_v8 V8
+ *   @brief V8 bindings reference.
+ *   @defgroup group_3d_js_jsc JavaScriptCore
+ *   @brief JavaScriptCore bindings reference.
+ *  @}
+ * @}
  */
 
 /**
@@ -43,58 +55,162 @@
  * @defgroup group_crypto Crypto engine
  * @ingroup group_radjav
  * @brief Crypto engine reference.
+ * @{
+ *  @defgroup group_crypto_cpp Crypto engine C++ interface
+ *  @brief Crypto engine C++ reference.
+ *  @defgroup group_crypto_js Crypto engine Javascript bindings
+ *  @brief Crypto engine Javascript bindings reference.
+ *  @{
+ *   @defgroup group_crypto_js_v8 V8
+ *   @brief V8 bindings reference.
+ *   @defgroup group_crypto_js_jsc JavaScriptCore
+ *   @brief JavaScriptCore bindings reference.
+ *  @}
+ * @}
  */
 
 /**
  * @defgroup group_db Database engine
  * @ingroup group_radjav
  * @brief Database engine reference.
+ * @{
+ *  @defgroup group_db_cpp Database engine C++ interface
+ *  @brief Database engine C++ reference.
+ *  @defgroup group_db_js Database engine Javascript bindings
+ *  @brief Database engine Javascript bindings reference.
+ *  @{
+ *   @defgroup group_db_js_v8 V8
+ *   @brief V8 bindings reference.
+ *   @defgroup group_db_js_jsc JavaScriptCore
+ *   @brief JavaScriptCore bindings reference.
+ *  @}
+ * @}
  */
 
 /**
  * @defgroup group_gui GUI(Graphical user interface)
  * @ingroup group_radjav
  * @brief Graphical user interface reference.
+ * @{
+ *  @defgroup group_gui_cpp GUI C++ interface
+ *  @brief GUI C++ reference.
+ *  @defgroup group_gui_js GUI Javascript bindings
+ *  @brief GUI Javascript bindings reference.
+ *  @{
+ *   @defgroup group_gui_js_v8 V8
+ *   @brief V8 bindings reference.
+ *   @defgroup group_gui_js_jsc JavaScriptCore
+ *   @brief JavaScriptCore bindings reference.
+ *  @}
+ * @}
  */
 
 /**
- * @defgroup group_io IO(Input output)
+ * @defgroup group_io IO(Input/output)
  * @ingroup group_radjav
- * @brief Input output reference.
+ * @brief Input/output reference.
+ * @{
+ *  @defgroup group_io_cpp IO C++ interface
+ *  @brief IO C++ reference.
+ *  @defgroup group_io_js IO Javascript bindings
+ *  @brief IO Javascript bindings reference.
+ *  @{
+ *   @defgroup group_io_js_v8 V8
+ *   @brief V8 bindings reference.
+ *   @defgroup group_io_js_jsc JavaScriptCore
+ *   @brief JavaScriptCore bindings reference.
+ *  @}
+ * @}
  */
 
 /**
  * @defgroup group_math Math
  * @ingroup group_radjav
  * @brief Math reference.
+ * @{
+ *  @defgroup group_math_cpp Math C++ interface
+ *  @brief Math C++ reference.
+ * @}
  */
 
 /**
  * @defgroup group_mui MUI(Mobile user interface)
  * @ingroup group_radjav
  * @brief Mobile user interface reference.
+ * @{
+ *  @defgroup group_mui_cpp MUI C++ interface
+ *  @brief MUI C++ reference.
+ *  @defgroup group_mui_js MUI Javascript bindings
+ *  @brief MUI Javascript bindings reference.
+ *  @{
+ *   @defgroup group_mui_js_v8 V8
+ *   @brief V8 bindings reference.
+ *   @defgroup group_mui_js_jsc JavaScriptCore
+ *   @brief JavaScriptCore bindings reference.
+ *  @}
+ * @}
  */
 
 /**
  * @defgroup group_net Network
  * @ingroup group_radjav
  * @brief Network reference.
+ * @{
+ *  @defgroup group_net_cpp Network C++ interface
+ *  @brief Network C++ reference.
+ *  @defgroup group_net_js Network Javascript bindings
+ *  @brief Network Javascript bindings reference.
+ *  @{
+ *   @defgroup group_net_js_v8 V8
+ *   @brief V8 bindings reference.
+ *   @defgroup group_net_js_jsc JavaScriptCore
+ *   @brief JavaScriptCore bindings reference.
+ *  @}
+ * @}
  */
 
 /**
- * @defgroup group_os OS(Operating system)
+ * @defgroup group_os OS(Operating system) specific
  * @ingroup group_radjav
  * @brief Operating system reference.
+ * @{
+ *  @defgroup group_os_cpp OS C++ interface
+ *  @brief OS C++ reference.
+ *  @defgroup group_os_js OS Javascript bindings
+ *  @brief OS Javascript bindings reference.
+ *  @{
+ *   @defgroup group_os_js_v8 V8
+ *   @brief V8 bindings reference.
+ *   @defgroup group_os_js_jsc JavaScriptCore
+ *   @brief JavaScriptCore bindings reference.
+ *  @}
+ * @}
  */
 
 /**
  * @defgroup group_thread Threads
  * @ingroup group_radjav
  * @brief Threads reference.
+ * @{
+ *  @defgroup group_thread_cpp Threads C++ interface
+ *  @brief Threads C++ reference.
+ *  @defgroup group_thread_js Threads Javascript bindings
+ *  @brief Threads Javascript bindings reference.
+ *  @{
+ *   @defgroup group_thread_js_v8 V8
+ *   @brief V8 bindings reference.
+ *   @defgroup group_thread_js_jsc JavaScriptCore
+ *   @brief JavaScriptCore bindings reference.
+ *  @}
+ * @}
  */
 
 /**
  * @defgroup group_basic Basic types
  * @ingroup group_radjav
- * @brief Basic types reference
+ * @brief Basic types reference.
+ * @{
+ *  @defgroup group_basic_cpp Basic types C++ interface
+ *  @brief Basic types C++ reference.
+ * @}
  */

@@ -30,6 +30,11 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
+			/**
+			 * @ingroup group_mui_js_jsc
+			 * @brief TableCellModel callbacks.
+			 * @details Class representing Javascript bindings to CPP::MUI::TableCellModel.
+			 */
             class RADJAV_EXPORT TableCellModel
 			{
 				public:

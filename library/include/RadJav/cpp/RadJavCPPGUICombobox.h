@@ -52,6 +52,10 @@
 					};
 				#endif
 
+				/**
+				 * @ingroup group_gui_cpp
+				 * @brief Combobox class.
+				 */
 				class RADJAV_EXPORT Combobox : public CPP::GUI::GObject
 				{
 					public:

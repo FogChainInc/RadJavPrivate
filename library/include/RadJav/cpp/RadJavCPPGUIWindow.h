@@ -54,6 +54,10 @@
 					};
 				#endif
 
+				/**
+				 * @ingroup group_gui_cpp
+				 * @brief Window class.
+				 */
 				class RADJAV_EXPORT Window : public CPP::GUI::GObject
 				{
 					public:

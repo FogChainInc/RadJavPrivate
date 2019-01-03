@@ -29,6 +29,11 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
+			/**
+			 * @ingroup group_mui_js_jsc
+			 * @brief Button callbacks.
+			 * @details Class representing Javascript bindings to CPP::MUI::Button.
+			 */
 			class RADJAV_EXPORT Button
 			{
 				public:

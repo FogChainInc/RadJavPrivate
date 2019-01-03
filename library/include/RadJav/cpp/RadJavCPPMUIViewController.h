@@ -93,7 +93,10 @@ namespace RadJAV
                 #endif
             };
             
-            
+			/**
+			 * @ingroup group_mui_cpp
+			 * @brief ViewController class.
+			 */
             class RADJAV_EXPORT ViewController : public CPP::GUI::GObject
             {
             public:

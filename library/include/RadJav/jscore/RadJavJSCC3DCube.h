@@ -29,6 +29,11 @@ namespace RadJAV
 	{
 		namespace C3D
 		{
+			/**
+			 * @ingroup group_3d_js_jsc
+			 * @brief Cube class.
+			 * @details Class representing Javascript bindings to CPP::C3D::Cube.
+			 */
 			class RADJAV_EXPORT Cube
 			{
 			public:

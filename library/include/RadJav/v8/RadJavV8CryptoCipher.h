@@ -31,7 +31,11 @@
 			/// RadJav Cryptography
 			namespace Crypto
 			{
-				/// Base crypto callbacks.
+				/**
+				 * @ingroup group_crypto_js_v8
+				 * @brief Base crypto callbacks.
+				 * @details Class representing Javascript bindings to CPP::Crypto::Base.
+				 */
 				class RADJAV_EXPORT Base
 				{
 					public:

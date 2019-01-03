@@ -33,6 +33,12 @@
 		{
 			namespace OS
 			{
+				/**
+				 * @ingroup group_os_cpp
+				 * @brief OS routines.
+				 * @{
+				 */
+
                 /** Represents the current type of operating system.
                 * Can be:
                 * * windows
@@ -75,6 +81,8 @@
                 String saveFileAs(String message = "", String defaultDir = "", String defaultFile = "", String wildcard = "", RJBOOL overwritePrompt = true);
                 /// Display a open file as dialog.
                 String openFileAs(String message = "", String defaultDir = "", String defaultFile = "", String wildcard = "", RJBOOL fileMustExist = true);
+                
+                /** @} */
 			};
 		}
 	}

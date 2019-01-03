@@ -51,6 +51,10 @@
 					};
 				#endif
 			  
+				/**
+				 * @ingroup group_gui_cpp
+				 * @brief MenuBar class.
+				 */
 				class RADJAV_EXPORT MenuBar : public CPP::GUI::GObject
 				{
 					public:

@@ -29,6 +29,11 @@ namespace RadJAV
 	{
 		namespace GUI
 		{
+			/**
+			 * @ingroup group_gui_js_jsc
+			 * @brief WebView callbacks.
+			 * @details Class representing Javascript bindings to CPP::GUI::WebView.
+			 */
 			class RADJAV_EXPORT WebView
 			{
 			public:

@@ -37,7 +37,7 @@ namespace RadJAV
 		{
 #ifdef C3D_USE_OGRE
 			/**
-			 * @ingroup group_3d
+			 * @ingroup group_3d_cpp
 			 * @brief 3D model class.
 			 * @details Class representing light object in 3D scene.
 			 */

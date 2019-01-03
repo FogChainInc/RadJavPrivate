@@ -30,7 +30,11 @@ namespace RadJAV
 		/// RadJav Cryptography
 		namespace Crypto
 		{
-			/// A PublicKey
+			/**
+			 * @ingroup group_crypto_js_jsc
+			 * @brief PublicKey callbacks.
+			 * @details Class representing Javascript bindings to CPP::Crypto::PublicKey.
+			 */
 			class RADJAV_EXPORT PublicKey
 			{
 			public:

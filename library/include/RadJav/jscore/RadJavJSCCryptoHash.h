@@ -30,7 +30,11 @@ namespace RadJAV
 		/// RadJav Cryptography
 		namespace Crypto
 		{
-			/// A Hash
+			/**
+			 * @ingroup group_crypto_js_jsc
+			 * @brief Hash callbacks.
+			 * @details Class representing Javascript bindings to CPP::Crypto::Hash.
+			 */
 			class RADJAV_EXPORT Hash
 			{
 			public:

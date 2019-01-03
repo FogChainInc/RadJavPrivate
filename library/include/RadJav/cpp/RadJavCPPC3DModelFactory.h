@@ -37,7 +37,7 @@ namespace RadJAV
 		{
 #ifdef C3D_USE_OGRE
 			/**
-			 * @ingroup group_3d
+			 * @ingroup group_3d_cpp
 			 * @brief 3D model factory class.
 			 * @details Class for loading 3D object into scene.
 			 */

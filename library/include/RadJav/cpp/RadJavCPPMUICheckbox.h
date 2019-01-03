@@ -72,6 +72,10 @@ namespace RadJAV
 				#endif
 			};
 			
+			/**
+			 * @ingroup group_mui_cpp
+			 * @brief Checkbox class.
+			 */
 			class RADJAV_EXPORT Checkbox : public CPP::GUI::GObject
 			{
 			public:

@@ -39,6 +39,10 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
+			/**
+			 * @ingroup group_mui_cpp
+			 * @brief WebView class.
+			 */
 			class RADJAV_EXPORT WebView : public CPP::GUI::GObject
 			{
                 public:

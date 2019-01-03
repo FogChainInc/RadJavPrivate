@@ -31,6 +31,11 @@
 			/// RadJav Cryptography
 			namespace Crypto
 			{
+				/**
+				 * @ingroup group_crypto_js_v8
+				 * @brief DecipherMultipart callbacks.
+				 * @details Class representing Javascript bindings to CPP::Crypto::DecipherMultipart.
+				 */
 				class RADJAV_EXPORT DecipherMultipart
 				{
 					public:

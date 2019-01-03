@@ -37,7 +37,7 @@ namespace RadJAV
 		{
 #ifdef C3D_USE_OGRE
 			/**
-			 * @ingroup group_3d
+			 * @ingroup group_3d_cpp
 			 * @brief 3D plane class.
 			 * @details Class representing plain in 3D scene.
 			 */

@@ -30,6 +30,12 @@
 		{
 			namespace IO
 			{
+				/**
+				 * @ingroup group_io_js_v8
+				 * @brief Generic IO callbacks.
+				 * @details Functions representing Javascript bindings to @ref group_io_cpp.
+				 * @{
+				 */
 				void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
 				void isDir(const v8::FunctionCallbackInfo<v8::Value> &args);
@@ -64,6 +70,13 @@
 
 				void onFileList(const v8::FunctionCallbackInfo<v8::Value> &args);
 
+				/** @} */
+
+				/**
+				 * @ingroup group_io_js_v8
+				 * @brief SerialComm callbacks.
+				 * @details Class representing Javascript bindings to CPP::IO::SerialComm.
+				 */
 				class RADJAV_EXPORT SerialComm
 				{
 					public:
@@ -77,6 +90,11 @@
 						static void close(const v8::FunctionCallbackInfo<v8::Value> &args);
 				};
 
+				/**
+				 * @ingroup group_io_js_v8
+				 * @brief StreamFile callbacks.
+				 * @details Class representing Javascript bindings to CPP::IO::StreamFile.
+				 */
 				class RADJAV_EXPORT StreamFile
 				{
 					public:
@@ -91,6 +109,11 @@
 						static void onFileRead(const v8::FunctionCallbackInfo<v8::Value> &args);
 				};
 
+				/**
+				 * @ingroup group_io_js_v8
+				 * @brief TextFile callbacks.
+				 * @details Class representing Javascript bindings to CPP::IO::TextFile.
+				 */
 				class RADJAV_EXPORT TextFile
 				{
 					public:
@@ -109,6 +132,11 @@
 				#ifdef HAS_XML_SUPPORT
 					namespace XML
 					{
+						/**
+						 * @ingroup group_io_js_v8
+						 * @brief XMLFile callbacks.
+						 * @details Class representing Javascript bindings to CPP::IO::XML::XMLFile.
+						 */
 						class RADJAV_EXPORT XMLFile
 						{
 							public:
@@ -120,6 +148,11 @@
 								static void getRoot(const v8::FunctionCallbackInfo<v8::Value> &args);
 						};
 
+						/**
+						 * @ingroup group_io_js_v8
+						 * @brief XMLTag callbacks.
+						 * @details Class representing Javascript bindings to CPP::IO::XML::XMLTag.
+						 */
 						class RADJAV_EXPORT XMLTag
 						{
 							public:

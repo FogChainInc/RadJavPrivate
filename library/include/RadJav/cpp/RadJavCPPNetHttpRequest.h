@@ -51,10 +51,13 @@ namespace RadJAV
 	{
 		namespace Net
 		{
+			/**
+			 * @ingroup group_net_cpp
+			 * @brief HttpRequest2 class.
+			 */
 			class RADJAV_EXPORT HttpRequest2 : public ChainedPtr
 			{
 				public:
-
 					HttpRequest2(std::map<std::string, std::string> &parms);
 
 					String fetch(const String &target);
@@ -70,32 +73,25 @@ namespace RadJAV
 					std::unique_ptr<boost::asio::ip::tcp::socket> mySocket;
 
 					std::unique_ptr<boost::beast::http::request<boost::beast::http::string_body>> myRequest;
-                                        #ifdef USE_CRYPTOGRAPHY
+				#ifdef USE_CRYPTOGRAPHY
 					boost::asio::ssl::context myCtx{boost::asio::ssl::context::sslv23_client};
 					std::unique_ptr<boost::asio::ssl::stream<boost::asio::ip::tcp::socket>> mySocketSsl;
-                                        #endif
-
+				#endif
 
 					RJINT myVersion;
 					String myUserAgent;
 					bool myLoadDefaultCerts{false};
 
-
-
-                                        bool myIsSslRequest{false};
-
+					bool myIsSslRequest{false};
 
 					void resetHttpRequest();
 					void closeSocket();
 					void resetSocket();
 
-                                        #ifdef USE_CRYPTOGRAPHY
+				#ifdef USE_CRYPTOGRAPHY
 					void closeSocketSsl();
 					void resetSocketSsl();
-                                        #endif
-					
-					
-					
+				#endif
 			};
 		}
 	}

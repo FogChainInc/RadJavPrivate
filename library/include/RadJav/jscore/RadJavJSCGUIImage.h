@@ -29,6 +29,11 @@ namespace RadJAV
 	{
 		namespace GUI
 		{
+			/**
+			 * @ingroup group_gui_js_jsc
+			 * @brief Image callbacks.
+			 * @details Class representing Javascript bindings to CPP::GUI::Image.
+			 */
 			class RADJAV_EXPORT Image
 			{
 			public:

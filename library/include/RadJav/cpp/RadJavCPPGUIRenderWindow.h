@@ -33,6 +33,11 @@ namespace RadJAV
 	{
 		namespace GUI
 		{
+			/**
+			 * @ingroup group_gui_cpp
+			 * @brief RenderWindow class.
+			 * @details Base class to hold 3D engine's RenderWindow.
+			 */
 			class RADJAV_EXPORT RenderWindow
 			{
 			public:

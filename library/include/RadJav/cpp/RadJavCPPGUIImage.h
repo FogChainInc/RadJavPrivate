@@ -58,6 +58,10 @@
 					};
 				#endif
 
+				/**
+				 * @ingroup group_gui_cpp
+				 * @brief Image class.
+				 */
 				class RADJAV_EXPORT Image : public CPP::GUI::GObject
 				{
 					public:

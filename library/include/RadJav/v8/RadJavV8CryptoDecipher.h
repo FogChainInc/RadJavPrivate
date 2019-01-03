@@ -31,7 +31,11 @@
 			/// RadJav Cryptography
 			namespace Crypto
 			{
-				/// A Key/Value Database, uses LevelDB.
+				/**
+				 * @ingroup group_crypto_js_v8
+				 * @brief Decipher callbacks.
+				 * @details Class representing Javascript bindings to CPP::Crypto::Decipher.
+				 */
 				class RADJAV_EXPORT Decipher
 				{
 					public:

@@ -29,6 +29,11 @@ namespace RadJAV
 	{
 		namespace GUI
 		{
+			/**
+			 * @ingroup group_gui_js_jsc
+			 * @brief Radio callbacks.
+			 * @details Class representing Javascript bindings to CPP::GUI::Radio.
+			 */
 			class RADJAV_EXPORT Radio
 			{
 			public:

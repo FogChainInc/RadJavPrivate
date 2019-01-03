@@ -69,7 +69,7 @@ namespace RadJAV
 			class GObjectWidget;
 			
 			/**
-			 * @ingroup group_gui
+			 * @ingroup group_gui_cpp
 			 * @brief Base class for UI controls(common interface)
 			 */
 			class RADJAV_EXPORT GObjectInterface

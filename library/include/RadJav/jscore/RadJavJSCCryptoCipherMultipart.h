@@ -30,7 +30,11 @@ namespace RadJAV
 		/// RadJav Cryptography
 		namespace Crypto
 		{
-			/// A CipherMultipart
+			/**
+			 * @ingroup group_crypto_js_jsc
+			 * @brief CipherMultipart callbacks.
+			 * @details Class representing Javascript bindings to CPP::Crypto::CipherMultipart.
+			 */
 			class RADJAV_EXPORT CipherMultipart
 			{
 			public:
