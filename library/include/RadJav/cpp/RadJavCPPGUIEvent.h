@@ -40,6 +40,10 @@ namespace RadJAV
 	{
 		namespace GUI
 		{
+				/**
+				 * @ingroup group_gui_cpp
+				 * @brief VariantObject class.
+				 */
                 template<class P>
                 class RADJAV_EXPORT VariantObject
 				#ifdef GUI_USE_WXWIDGETS

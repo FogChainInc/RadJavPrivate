@@ -106,6 +106,10 @@
 					};
 				#endif
 
+				/**
+				 * @ingroup group_gui_cpp
+				 * @brief MenuItem class.
+				 */
 				class RADJAV_EXPORT MenuItem : public CPP::GUI::GObject, public CPP::GUI::GObjectEvents
 				{
 					public:

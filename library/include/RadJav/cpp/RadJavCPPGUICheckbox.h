@@ -49,6 +49,10 @@
 					};
 				#endif
 
+				/**
+				 * @ingroup group_gui_cpp
+				 * @brief Checkbox class.
+				 */
 				class RADJAV_EXPORT Checkbox : public CPP::GUI::GObject
 				{
 					public:

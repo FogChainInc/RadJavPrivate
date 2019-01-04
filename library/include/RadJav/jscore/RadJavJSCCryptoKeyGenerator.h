@@ -30,7 +30,11 @@ namespace RadJAV
 		/// RadJav Cryptography
 		namespace Crypto
 		{
-			/// A KeyGenerator
+			/**
+			 * @ingroup group_crypto_js_jsc
+			 * @brief KeyGenerator callbacks.
+			 * @details Class representing Javascript bindings to CPP::Crypto::KeyGenerator.
+			 */
 			class RADJAV_EXPORT KeyGenerator
 			{
 			public:

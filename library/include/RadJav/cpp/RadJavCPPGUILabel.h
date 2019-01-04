@@ -60,6 +60,10 @@
 					};
 				#endif
 
+				/**
+				 * @ingroup group_gui_cpp
+				 * @brief Label class.
+				 */
 				class RADJAV_EXPORT Label : public CPP::GUI::GObject
 				{
 					public:

@@ -89,6 +89,10 @@
 					};
 				#endif
 
+				/**
+				 * @ingroup group_gui_cpp
+				 * @brief Canvas3D class.
+				 */
 				class RADJAV_EXPORT Canvas3D : public CPP::GUI::GObject
 				{
 					public:

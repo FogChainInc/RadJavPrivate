@@ -30,6 +30,11 @@
 		{
 			namespace GUI
 			{
+				/**
+				 * @ingroup group_gui_js_v8
+				 * @brief Image callbacks.
+				 * @details Class representing Javascript bindings to CPP::GUI::Image.
+				 */
 				class RADJAV_EXPORT Image
 				{
 				public:

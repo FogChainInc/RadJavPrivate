@@ -31,7 +31,11 @@
 			/// RadJav Databases.
 			namespace Database
 			{
-				/// A Key/Value Database, uses LevelDB.
+				/**
+				 * @ingroup group_db_js_v8
+				 * @brief KeyValueStorage callbacks.
+				 * @details Class representing Javascript bindings to CPP::Database::KeyValueStorage.
+				 */
 				class RADJAV_EXPORT KeyValueStorage
 				{
 					public:

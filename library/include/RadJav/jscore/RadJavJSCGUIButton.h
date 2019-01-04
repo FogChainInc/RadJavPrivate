@@ -29,6 +29,11 @@ namespace RadJAV
 	{
 		namespace GUI
 		{
+			/**
+			 * @ingroup group_gui_js_jsc
+			 * @brief Button callbacks.
+			 * @details Class representing Javascript bindings to CPP::GUI::Button.
+			 */
 			class RADJAV_EXPORT Button
 			{
 			public:

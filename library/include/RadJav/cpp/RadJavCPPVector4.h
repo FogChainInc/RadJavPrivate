@@ -39,6 +39,10 @@ namespace RadJAV
 {
 	namespace CPP
 	{
+		/**
+		 * @ingroup group_basic_cpp
+		 * @brief Vector4 class.
+		 */
 		class RADJAV_EXPORT Vector4
 		{
 			public:

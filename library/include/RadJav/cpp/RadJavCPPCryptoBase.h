@@ -44,7 +44,11 @@
 			namespace Crypto
 			{
 				#ifdef USE_CRYPTOGRAPHY
-					// Accepts incoming connections and launches the sessions
+					/**
+					 * @ingroup group_crypto_cpp
+					 * @brief Base class for cryptography.
+					 * @details Generic interface for cryptography routines.
+					 */
 					class RADJAV_EXPORT Base
 					{
 						public:

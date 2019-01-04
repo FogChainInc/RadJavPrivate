@@ -53,6 +53,10 @@
 					};
 				#endif
 
+				/**
+				 * @ingroup group_gui_cpp
+				 * @brief List class.
+				 */
 				class RADJAV_EXPORT List : public CPP::GUI::GObject
 				{
 					public:

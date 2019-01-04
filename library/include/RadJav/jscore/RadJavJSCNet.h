@@ -36,6 +36,11 @@ namespace RadJAV
 	{
 		namespace Net
 		{
+			/**
+			 * @ingroup group_net_js_jsc
+			 * @brief NetCallbacks callbacks.
+			 * @details Class representing Javascript bindings to @ref group_net_cpp.
+			 */
 			class RADJAV_EXPORT NetCallbacks
 			{
 			public:
@@ -48,6 +53,11 @@ namespace RadJAV
 				static RJINT curlWrite(RJCHAR *data, RJUINT size, RJUINT nmemb, String *output);
 			};
 			
+			/**
+			 * @ingroup group_net_js_jsc
+			 * @brief HttpThread callbacks.
+			 * @details Class representing Javascript bindings to CPP::Net::HttpThread.
+			 */
 			class RADJAV_EXPORT HttpThread : public Thread
 			{
 			public:

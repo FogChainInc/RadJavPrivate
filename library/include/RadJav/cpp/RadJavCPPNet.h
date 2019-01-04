@@ -46,7 +46,11 @@ namespace RadJAV
 	{
 		namespace Net
 		{
-			/// A parsed URI.
+			/**
+			 * @ingroup group_net_cpp
+			 * @brief URI class.
+			 * @details A parsed URI.
+			 */
 			class RADJAV_EXPORT URI
 			{
 				public:
@@ -71,7 +75,11 @@ namespace RadJAV
 					String target;
 			};
 
-			/// Make HTTP Requests.
+			/**
+			 * @ingroup group_net_cpp
+			 * @brief HttpRequest class.
+			 * @details Make HTTP Requests.
+			 */
 			class RADJAV_EXPORT HttpRequest
 			{
 				public:

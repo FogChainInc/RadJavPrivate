@@ -29,6 +29,11 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
+			/**
+			 * @ingroup group_mui_js_v8
+			 * @brief Textbox callbacks.
+			 * @details Class representing Javascript bindings to CPP::MUI::Textbox.
+			 */
 			class RADJAV_EXPORT Textbox
 			{
 			public:

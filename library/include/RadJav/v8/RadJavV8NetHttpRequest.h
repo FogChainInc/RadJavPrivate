@@ -30,6 +30,11 @@
 		{
 			namespace Net
 			{
+				/**
+				 * @ingroup group_net_js_v8
+				 * @brief HttpRequest callbacks.
+				 * @details Class representing Javascript bindings to CPP::Net::HttpRequest.
+				 */
 				class RADJAV_EXPORT HttpRequest : public CPP::ChainedPtr
 				{
 					public:

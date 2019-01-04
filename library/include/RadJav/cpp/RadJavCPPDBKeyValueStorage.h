@@ -53,7 +53,10 @@ namespace RadJAV
 	{
 		namespace Database
 		{
-			// Accepts incoming connections and launches the sessions
+			/**
+			 * @ingroup group_db_cpp
+			 * @brief KeyValueStorage class.
+			 */
 			class RADJAV_EXPORT KeyValueStorage
 			{
 			public:

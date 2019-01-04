@@ -6,7 +6,7 @@ Simple shared library to load [\.dae](https://en.wikipedia.org/wiki/COLLADA) fil
 
 The library was created to minimize complexity of projects build files.
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how include this library into your project.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See [Include in your project](#include-in-your-project) for notes on how to include this library into your project.
 
 ### Prerequisites
 
@@ -64,7 +64,7 @@ We have a patch for this library as well which tune Ogre3D version, fix material
 During library configuration we need to specify several variables in CMake utility:
 - CMAKE_INSTALL_PREFIX needs to be set to a full path were we need that library to be installed, usually this is `<path-to-OgreColladaImporter>/build/install`.
 
-- BOOST_ROOT path variable must be created and point to path where compiled Boost reside (with include and libs folders), usually it is `<absolute-path>/boost_1_68_0/stage/install`. For more information how to compile Boost libraries please see [this document]()**(Need Boost steps here)**.
+- BOOST_ROOT path variable must be created and point to path where compiled Boost reside (with include and libs folders), usually it is `<absolute-path>/boost_1_68_0/stage/install`. For more information on how to compile Boost libraries please see [Building Boost](https://github.com/FogChainInc/RadJav/wiki/Building-Boost).
 
 - COLLADA_ROOT path variable must be created and point to the root folder of OpenCOLLADA project (not a build folder), usually it is `<absolute-path>/OpenCOLLADA`.
 
@@ -76,7 +76,7 @@ Specifically for macOS X:
 
 - By default Ogre3D will not install FindOGRE.cmake, so copy it from `<absolute-path>/ogre-1.10.11/CMake/Packages` into `<absolute-path>/ogre-1.10.11/build/sdk/CMake`.
 
-For more information on how to build Ogre3D please follow [this document]()**(Need Ogre3D steps here)**.
+For more information on how to build Ogre3D please follow [Building Ogre3D](https://github.com/FogChainInc/RadJav/wiki/Building-Ogre3D).
 
 Compile library using OS specific IDE.
 
@@ -87,7 +87,7 @@ Here is a list of variables which needs to be set:
 
 - CMAKE_INSTALL_PREFIX needs to be set to a full path were we need that library to be installed, usually this is `<path-to-OgreCollada>/build/install`.
 
-- BOOST_ROOT path variable must point to path where compiled Boost reside (with include and libs folders), usually it is `<absolute-path>/boost_1_68_0/stage/install`. For more information on how to compile Boost libraries please see [this document]()**(Need Boost steps here)**.
+- BOOST_ROOT path variable must point to path where compiled Boost reside (with include and libs folders), usually it is `<absolute-path>/boost_1_68_0/stage/install`. For more information on how to compile Boost libraries please see [Building Boost](https://github.com/FogChainInc/RadJav/wiki/Building-Boost).
 
 - OGRE_HOME path variable must point to Ogre3D installation folder, usually it is `<absolute-path>/ogre-1.10.11/build/sdk`.
 
@@ -113,6 +113,12 @@ include (FindColladaLoader)
 FindColladaLoader cmake script can be found [here](../../CMake/lib/FindColladaLoader.cmake).
 
 To help CMake find library you can specify `COLLADALOADER_HOME` environment variable or `COLLADA_SOURCE` path variable with link to library install directory. When FindColladaLoader script successfully found the library it will set `COLLADA_INCLUDE` and `COLLADA_LIBRARIES` variables accordingly which in turn can be used in `target_link_libraries` and `include_directories` CMake routines.
+
+## Limitations
+
+Sometimes when exporting 3D content from modeling software using COLLADA file format not all data embedded inside that file. For example, texture data exported as an absolute link to actual file. This create problem when we transfer COLLADA file to another PC, in particular link to texture files may be broken, so to be able to load such textures their links needs to be relative inside COLLADA files. Currently we didn't have tool which can perform that transformation.
+
+Attempting to load the same COLLADA file several times will fail due to material names collision.
 
 ## Authors
 

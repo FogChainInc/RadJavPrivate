@@ -36,6 +36,10 @@
 	{
 		namespace CPP
 		{
+			/**
+			 * @ingroup group_thread_cpp
+			 * @brief Thread class.
+			 */
 			class RADJAV_EXPORT Thread : public ChainedPtr
 			{
 				public:

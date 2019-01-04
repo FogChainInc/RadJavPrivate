@@ -41,104 +41,291 @@
 		{
 			namespace Net
 			{
+				/**
+				 * @class WebSocketServer
+				 *
+				 * @ingroup group_debug
+				 *
+				 * @brief Upgradable websocket server used by the v8 Inspector Agent
+				 *
+				 * This class is meant to be used only by the v8 Inspector Agent, its implementation
+				 * is not complete and only serves as connection point for Chrome Dev Tools with
+				 * minimal functionality to allow JS debugging. WebSocketServer waits for connection
+				 * to default 9229 port and dispatches messages between V8 engine and connected
+				 * instance of Chrome Dev Tools.
+				 *
+				 */
 				class RADJAV_EXPORT WebSocketServer : public ChainedPtr
 				{
 					public:
+						/**
+						 * @brief Create websocket server instance
+						 */
 						WebSocketServer();
 						~WebSocketServer();
 
 						#ifdef USE_V8
+						/**
+						 * @brief V8 function to call when message handling event occurs
+						 */
 						static void on(String event_, v8::Local<v8::Function> func_);
 						#elif defined USE_JAVASCRIPTCORE
-						static void on(String event_, JSObjectRef func_);
+						/**
+						 * @brief JS Core function to call when message handling event occurs
+						 */
+						 static void on(String event_, JSObjectRef func_);
 						#endif
 
+						/**
+						 * @brief start port listening
+						 *
+						 * @param port_ port number to listen, default = 9229 (Chrome Dev Tools)
+						 *
+						 */
 						void listen(unsigned short port_ = 9229);
 
+						/**
+						 * @brief send message to specific client
+						 *
+						 * @param id string that contains UID of connected client
+						 * @param message contents of a message
+						 */
 						void send(String id, String message);
 
+						/**
+						 * @brief send message to all connected clients
+						 *
+						 * @param message contents of a message
+						 */
 						void sendToAll(String message);
 
+						/**
+						 * @brief dispatch message from client
+						 */
 						String receive();
 
+						/**
+						 * @brief close the WebSocketServer
+						 */
 						void close();
 
+						/**
+						 * @brief message dispatching thread
+						 */
 						SimpleThread *thread;
 
+						/**
+						 * @class WebSocketServerSession
+						 *
+						 * @ingroup DebugInspector
+						 *
+						 * @brief Inner Websocket session class used by WebSocketServer to keep and dispatch
+						 * one connection between external client and debug agent of JS engine
+						 *
+						 * This class is meant to be used only by the v8 Inspector Agent, its implementation
+						 * is not complete and only serves as connection point for Chrome Dev Tools with
+						 * minimal functionality to allow JS debugging.
+						 *
+						 */
 						class RADJAV_EXPORT WebSocketServerSession : public std::enable_shared_from_this<WebSocketServerSession>
 						{
+							/**
+							 * @brief boost tcp socket stream for incoming connections
+							 *
+							 * see the boost::beast::websocket::stream for details
+							 */
 							boost::beast::websocket::stream<boost::asio::ip::tcp::socket> m_ws;
+
+							/**
+							 * @brief boost strand for socket
+							 *
+							 * see the boost::asio::strand for details
+							 */
 							boost::asio::strand<boost::asio::io_context::executor_type> m_strand;
+
+							/**
+							 * @brief message buffer for socket connection
+							 */
 							boost::beast::multi_buffer m_readBuffer;
 
 							public:
-								// Take ownership of the socket
+								/**
+								 * @brief Take ownership of the socket
+								 */
 								WebSocketServerSession(boost::asio::ip::tcp::socket socket_, std::string sessionID_);
 
-								// Start the asynchronous operation
+								/**
+                            	 * @brief Start asynchronous operation
+                            	 */
 								void run();
 
+								/**
+								 * @brief action on accept of incoming connection
+								 *
+								 * on_accept throws an error if error code is set, otherwise reads the message
+								 *
+								 * @param ec_ boost system error code
+								 */
 								void on_accept(boost::system::error_code ec_);
 
+								/**
+								 * @brief read the message to internal buffer
+								 */
 								void do_read();
 
+								/**
+								 * @brief write message to client
+								 *
+								 * @param message_ message string
+								 */
 								void do_write(String message_);
 
+								/**
+								 * @brief on_read checks errors and writes incoming message from the
+								 * client to internal buffer. If V8 engine is used, on_read calls stored
+								 * V8 procedure for inspector agent with message as parameter
+								 *
+								 * @param ec_ error code if occurred
+								 *
+								 * @param bytes_transferred_ number of bytes transferred (parameter ignored)
+								 */
 								void on_read(
 									boost::system::error_code ec_,
 									std::size_t bytes_transferred_);
 
+								/**
+								 * @brief on_write checks errors, clears buffer and initiates new read attempt
+								 *
+								 * @param ec_ error code if occurred
+								 *
+								 * @param bytes_transferred_ number of bytes transferred (parameter ignored)
+								 */
 								void on_write(
 									boost::system::error_code ec_,
 									std::size_t bytes_transferred_);
 
 							private:
+								/**
+								 * @brief client session ID
+								 */
 								std::string m_sessionID;
+
+								/**
+								 * @brief pointer to currently dispatching message
+								 */
 								std::shared_ptr<std::string> m_activeMessage = nullptr;
 						};
 
+						/**
+						* @class WebSocketServerListener
+						*
+						* @ingroup DebugInspector
+						*
+						* @brief Inner Websocket session listener class used by WebSocketServer to dispatch
+						* all connections between external clients and debug agent of JS engine
+						*
+						* This class is meant to be used only by the v8 Inspector Agent, its implementation
+						* wraps around boost::asio::io_context to accept incoming connections and create websocket
+						* sessions
+						*
+						*/
 						class RADJAV_EXPORT WebSocketServerListener : public std::enable_shared_from_this<WebSocketServerListener>
 						{
+							/**
+							 * @brief TCP acceptor class, see boost::asio::ip::tcp::acceptor for details
+							 */
 							boost::asio::ip::tcp::acceptor m_acceptor;
+
+							/**
+							 * @brief TCP socket class, see boost::asio::ip::tcp::socket for details
+							 */
 							boost::asio::ip::tcp::socket m_socket;
 
 							public:
+								/**
+								 * @brief Create websocket server listener
+								 *
+								 * @param ioc_ input-output context
+								 *
+								 * @param endpoint_ tcp endpoint (host+port) definition
+								 */
 								WebSocketServerListener(
 									boost::asio::io_context& ioc_,
 									boost::asio::ip::tcp::endpoint endpoint_);
 
-								// Start accepting incoming connections
+								/**
+								 * @brief Start accepting incoming connections
+								 */
 								void run();
 
+								/**
+								 * @brief call on_accept
+								 */
 								void do_accept();
 
+								/**
+								 * @brief create WebSocketServerSession and run it
+								 *
+								 * check error code and throw error if required, otherwise generate UID for session,
+								 * create WebSocketServerSession and run it. If V8 JS engine is used and V8
+								 * m_serverAcceptEvent callback pointer is not null, call it with arguments
+								 */
 								void on_accept(boost::system::error_code ec_);
 						};				
 
 						#ifdef USE_V8
+						/**
+						 * @brief pointer to AcceptEvent persistent function of V8 engine
+						 */
 						static v8::Persistent<v8::Function> *m_serverAcceptEvent;
+
+						/**
+						 * @brief pointer to ReceiveEvent persistent function of V8 engine.
+						 */
 						static v8::Persistent<v8::Function> *m_serverReceiveEvent;
+
 						#elif defined USE_JAVASCRIPTCORE
+
+						/**
+						 * @brief reference to AcceptEvent persistent function of JS Core engine
+						 */
 						static JSObjectRef m_serverAcceptEvent;
+
+						/**
+						 * @brief reference to ReceiveEvent persistent function of JS Core engine
+						 */
 						static JSObjectRef m_serverReceiveEvent;
 						#endif
 				
 					private:
+						/**
+						 * @brief Port to listen (9229)
+						 */
 						unsigned short m_port;
 
+						/**
+						 * @brief Input/Output context
+						 */
 						boost::asio::io_context *m_io_context;
 
-						// Flag that indicates if listening context available 
+						/**
+						 * @brief Flag that indicates if listening context available
+						 */
 						RJBOOL m_isAlive;
 
+						/**
+						 * @brief session data, including ID, session and last message to dispatch
+						 */
 						struct session_data
 						{
-							std::string m_session_id;
-							std::shared_ptr <WebSocketServerSession> m_session;
-							std::string m_last_message;
+							std::string m_session_id; ///< Session ID
+							std::shared_ptr <WebSocketServerSession> m_session; ///< Shared pointer to session
+							std::string m_last_message; ///< Last message
 						};
 
-						//maintains the list of sessions
+						/**
+						 * List of sessions
+						 */
 						static std::vector <session_data> m_sessions;
 				};
 			}

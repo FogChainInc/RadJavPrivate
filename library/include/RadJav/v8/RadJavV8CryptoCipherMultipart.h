@@ -31,7 +31,11 @@
 			/// RadJav Cryptography
 			namespace Crypto
 			{
-				/// A Key/Value Database, uses LevelDB.
+				/**
+				 * @ingroup group_crypto_js_v8
+				 * @brief CipherMultipart callbacks.
+				 * @details Class representing Javascript bindings to CPP::Crypto::CipherMultipart.
+				 */
 				class RADJAV_EXPORT CipherMultipart
 				{
 					public:

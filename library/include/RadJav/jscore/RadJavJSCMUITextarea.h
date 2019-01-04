@@ -29,6 +29,11 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
+			/**
+			 * @ingroup group_mui_js_jsc
+			 * @brief Textarea callbacks.
+			 * @details Class representing Javascript bindings to CPP::MUI::Textarea.
+			 */
 			class RADJAV_EXPORT Textarea
 			{
 			public:

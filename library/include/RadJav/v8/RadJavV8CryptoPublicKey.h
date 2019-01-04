@@ -31,7 +31,11 @@
 			/// RadJav Cryptography
 			namespace Crypto
 			{
-				/// 
+				/**
+				 * @ingroup group_crypto_js_v8
+				 * @brief PublicKey callbacks.
+				 * @details Class representing Javascript bindings to CPP::Crypto::PublicKey.
+				 */
 				class RADJAV_EXPORT PublicKey
 				{
 					public:

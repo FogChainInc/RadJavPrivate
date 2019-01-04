@@ -30,6 +30,11 @@ namespace RadJAV
 	{
 		namespace C3D
 		{
+			/**
+			 * @ingroup group_3d_js_v8
+			 * @brief Transform class.
+			 * @details Class representing Javascript bindings to CPP::C3D::Transform.
+			 */
 			class RADJAV_EXPORT Transform
 			{
 			public:

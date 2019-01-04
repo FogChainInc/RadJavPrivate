@@ -40,6 +40,10 @@ namespace RadJAV
 	{
 		namespace Net
 		{
+			/**
+			 * @ingroup group_net_cpp
+			 * @brief WebSocketClient class.
+			 */
 			class RADJAV_EXPORT WebSocketClient : public ChainedPtr
 			{
 				public:

@@ -72,7 +72,11 @@
 		    extern String _radjav_exec_path;
         #endif
 
-		/// The main RadJav class, this class handles most if not all functionality.
+		/**
+		 * @ingroup group_radjav_cpp
+		 * @brief The main RadJav interface class.
+		 * @details This class handles most if not all functionality.
+		 */
 		class RADJAV_EXPORT RadJav
 		{
 			public:

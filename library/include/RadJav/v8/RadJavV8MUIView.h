@@ -30,6 +30,11 @@
 		{
 			namespace MUI
 			{
+				/**
+				 * @ingroup group_mui_js_v8
+				 * @brief View callbacks.
+				 * @details Class representing Javascript bindings to CPP::MUI::View.
+				 */
 				class RADJAV_EXPORT View
 				{
 				public:

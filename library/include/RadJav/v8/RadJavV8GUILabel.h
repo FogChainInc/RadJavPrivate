@@ -30,6 +30,11 @@
 		{
 			namespace GUI
 			{
+				/**
+				 * @ingroup group_gui_js_v8
+				 * @brief Label callbacks.
+				 * @details Class representing Javascript bindings to CPP::GUI::Label.
+				 */
 				class RADJAV_EXPORT Label
 				{
 				public:

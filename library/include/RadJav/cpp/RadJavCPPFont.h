@@ -45,7 +45,11 @@ namespace RadJAV
 {
 	namespace CPP
 	{
-        /// The font class, pretty simple stuff.
+		/**
+		 * @ingroup group_gui_cpp
+		 * @brief Font class.
+		 * @details Class to store font information.
+		 */
 		class RADJAV_EXPORT Font
 		{
 			public:

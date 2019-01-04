@@ -47,7 +47,10 @@
 			namespace Crypto
 			{
 				#ifdef USE_CRYPTOGRAPHY
-				// Accepts incoming connections and launches the sessions
+				/**
+				 * @ingroup group_crypto_cpp
+				 * @brief PublicKey class.
+				 */
 				class RADJAV_EXPORT PublicKey : public virtual Base
 				{
 				public:

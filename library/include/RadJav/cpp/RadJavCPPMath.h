@@ -29,6 +29,11 @@ namespace RadJAV
 {
 	namespace CPP
 	{
+		/**
+		 * @ingroup group_math_cpp
+		 * @brief Math class.
+		 * @details Provide Math routines.
+		 */
 		class RADJAV_EXPORT Math
 		{
 			public:

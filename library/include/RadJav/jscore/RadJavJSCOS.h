@@ -29,6 +29,12 @@ namespace RadJAV
 	{
 		namespace OS
 		{
+			/**
+			 * @ingroup group_os_js_jsc
+			 * @brief OS callbacks.
+			 * @details Representing Javascript bindings to @ref group_os_cpp.
+			 * @{
+			 */
 			void createJSCCallbacks(JSContextRef context, JSObjectRef object);
 			
 			JSValueRef onReady(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
@@ -42,6 +48,8 @@ namespace RadJAV
 			JSValueRef setCurrentWorkingPath(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
 			JSValueRef saveFileAs(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
 			JSValueRef openFileAs(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception);
+
+			/** @} */
 
 			extern JSObjectRef onReadyFunction;
 		};

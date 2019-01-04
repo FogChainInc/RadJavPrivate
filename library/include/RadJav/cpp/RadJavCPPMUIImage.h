@@ -39,6 +39,10 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
+			/**
+			 * @ingroup group_mui_cpp
+			 * @brief Image class.
+			 */
 			class RADJAV_EXPORT Image : public CPP::GUI::GObject
 			{
 			public:

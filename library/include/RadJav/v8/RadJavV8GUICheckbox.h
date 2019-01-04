@@ -30,6 +30,11 @@
 		{
 			namespace GUI
 			{
+				/**
+				 * @ingroup group_gui_js_v8
+				 * @brief Checkbox callbacks.
+				 * @details Class representing Javascript bindings to CPP::GUI::Checkbox.
+				 */
 				class RADJAV_EXPORT Checkbox
 				{
 					public:

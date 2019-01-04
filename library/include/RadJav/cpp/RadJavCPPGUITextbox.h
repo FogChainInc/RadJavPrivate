@@ -50,6 +50,10 @@
 					};
 				#endif
 
+				/**
+				 * @ingroup group_gui_cpp
+				 * @brief Textbox class.
+				 */
 				class RADJAV_EXPORT Textbox : public CPP::GUI::GObject
 				{
 					public:

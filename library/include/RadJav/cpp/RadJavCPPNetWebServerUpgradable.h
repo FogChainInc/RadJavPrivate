@@ -55,6 +55,10 @@ namespace inspector {
 		{
 			namespace Net
 			{
+				/**
+				 * @ingroup group_net_cpp
+				 * @brief WebServerUpgradable class.
+				 */
 				class RADJAV_EXPORT WebServerUpgradable
 				{
 				public:

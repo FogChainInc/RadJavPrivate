@@ -29,6 +29,11 @@ namespace RadJAV
 	{
 		namespace C3D
 		{
+			/**
+			 * @ingroup group_3d_js_jsc
+			 * @brief Model class.
+			 * @details Class representing Javascript bindings to CPP::C3D::Model.
+			 */
 			class RADJAV_EXPORT Model
 			{
 			public:

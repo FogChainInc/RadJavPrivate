@@ -69,7 +69,10 @@ namespace RadJAV
                 #endif
             };
             
-            
+			/**
+			 * @ingroup group_mui_cpp
+			 * @brief TableViewController class.
+			 */
             class RADJAV_EXPORT TableViewController : public CPP::GUI::GObject
             {
             public:

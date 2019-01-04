@@ -36,28 +36,28 @@ namespace RadJAV
 	}
 	
 	/**
-	 * Base class to wrap objects which we expose to V8.
+	 * @brief Base class to wrap C++ objects which we expose to Javascript engine.
 	 */
 	class FieldWrapper
 	{
 	public:
 		/**
-		 * Type of wrapper.
+		 * @brief Type of wrapper.
 		 */
 		enum class WrapperType
 		{
-			SharedPtr,
-			ChainedPtr
+			SharedPtr, /**< Wrapper use std::shared_ptr as underlying object. */
+			ChainedPtr /**< Wrapper use CPP::ChainedPtr as underlying object. */
 		};
 		
 	public:
 		/**
-		 * A constructor.
-		 * @param objectId is a unique ID of external object.
-		 * @param context Javascript virtual machine context.
-		 * @param handle Javascript object to which we attach C++ object.
-		 * @param functionName Javascript object's property name to which we attach C++ object.
-		 * @param wrapperType type of wrapper created by derived class
+		 * @brief Constructor.
+		 * @param[in] objectId is a unique ID of external object.
+		 * @param[in] context Javascript virtual machine context.
+		 * @param[in] handle Javascript object to which we attach C++ object.
+		 * @param[in] functionName Javascript object's property name to which we attach C++ object.
+		 * @param[in] wrapperType type of wrapper created by derived class
 		 */
 		FieldWrapper(uint32_t objectId,
 					 JSContextRef context,
@@ -66,68 +66,80 @@ namespace RadJAV
 					 WrapperType wrapperType);
 		
 		/**
-		 * A destructor.
+		 * @brief Virtual destructor.
 		 */
 		virtual ~FieldWrapper();
 		
 		/**
-		 * Get unique Id of external object.
+		 * @brief Get unique Id of external object.
 		 * @return uint32_t external object ID.
 		 */
 		uint32_t objectId() const;
 		
 		/**
-		 * Action to execute when wrapper is going out of scope.
-		 * Can be used to remove wrapper from global list of
+		 * @brief Action to execute when wrapper is going out of scope.
+		 * @details Can be used to remove wrapper from global list of
 		 * wrapped objects.
-		 * @param aboutToDelete a pointer to callback function.
-		 * @return void.
+		 * @param[in] aboutToDelete a pointer to callback function.
 		 */
 		void onDelete(std::function<void (FieldWrapper*)> aboutToDelete);
 		
+		/**
+		 * @brief Get type of wrapper
+		 * @see WrapperType
+		 */
 		WrapperType getType() const;
 		
+		/**
+		 * Default constructor.
+		 */
 		FieldWrapper () = delete;
+		
+		/**
+		 * @brief Copy constructor.
+		 * @details We didn't expect from user to interchange data between FieldWrapper objects.
+		 */
 		FieldWrapper (const FieldWrapper& other) = delete;
 		
 	protected:
+		/**
+		 * @brief Perform wrap operation
+		 */
 		virtual void wrap();
 		
 		/**
-		 * A static weak callback function which will be called by V8 garbage collector.
-		 * @param data reference to FieldWrapper class which hold the
-		 *  native raw pointer.
-		 * @return void.
+		 * @brief A static callback function which will be called by Javascript engine garbage collector when Javascript object
+		 * goes out of scope.
+		 * @param[in] jsObject pointer to Javascript object which hold the native raw pointer.
 		 */
 		static void finalizeCallback (JSObjectRef jsObject);
 		
 	protected:
-		uint32_t objectUniqueId;
-		JSContextRef virtualMachineContext;
-		JSObjectRef javascriptObject;
-		JSObjectRef externalJavascriptObject;
-		String propertyName;
-		WrapperType type;
-		std::function<void (FieldWrapper*)> aboutDelete;
+		uint32_t objectUniqueId; /**< Unique ID of wrapped object. */
+		JSContextRef virtualMachineContext; /**< Context to Javascript virtual machine. */
+		JSObjectRef javascriptObject; /**< Javascript object to which to add external C++ object. */
+		JSObjectRef externalJavascriptObject; /**< Helper Javascript object which hold pointer to FieldWrapper. */
+		String propertyName; /**< Name of the property of Javascript object to which we attach our helper Javascript object. */
+		WrapperType type; /**< Type of this FieldWrapper class. */
+		std::function<void (FieldWrapper*)> aboutDelete; /**< Function which will be called to notify when this FieldWrapper goes out of scope. */
 	};
 	
 	/**
-	 * Class to wrap ChainedPtr derived C++ objects within V8.
-	 * This class will hook on object destruction from C++ side
-	 * as well as listen for garbage collector weak callback
-	 * for underlying object.
+	 * @brief Class to wrap CPP::ChainedPtr derived C++ objects within Javascript engine.
+	 * @details This class will hook on object destruction from C++ side
+	 * as well as listen for garbage collector callback for corresponding Javascript object.
 	 */
 	class ChainedPtrWrapper : public FieldWrapper
 	{
 	public:
 		/**
-		 * A constructor.
-		 * @param objectId is a unique ID of external object.
-		 * @param context Javascript virtual machine context.
-		 * @param handle Javascript object to which we attach C++ object.
-		 * @param functionName Javascript object's property name to which we attach C++ object.
-		 * @param data a pointer to ChainedPtr derived class which will be
-		 *  exposed to V8. Object can be deleted from C++ or V8 side.
+		 * Constructor.
+		 * @param[in] objectId is a unique ID of external object.
+		 * @param[in] context Javascript virtual machine context.
+		 * @param[in] handle Javascript object to which we attach C++ object.
+		 * @param[in] functionName Javascript object's property name to which we attach C++ object.
+		 * @param[in] data a pointer to CPP::ChainedPtr derived class which will be
+		 *  exposed to Javascript. Object can be deleted from C++ or Javascript side.
 		 */
 		ChainedPtrWrapper (uint32_t objectId,
 						   JSContextRef context,
@@ -136,48 +148,48 @@ namespace RadJAV
 						   CPP::ChainedPtr *data);
 		
 		/**
-		 * A destructor.
+		 * Virtual destructor.
 		 */
 		virtual ~ChainedPtrWrapper ();
 		
 		/**
-		 * Get underlying external object.
-		 * @return CPP::ChainedPtr a pointer to external object.
+		 * @brief Get underlying external object.
+		 * @return CPP::ChainedPtr* a pointer to external object.
 		 */
 		CPP::ChainedPtr* objectPtr();
 		
 	protected:
 		/**
-		 * Hook on C++ object destruction and subscribe to garbage collector event.
+		 * @brief Hook on C++ object destruction and subscribe to garbage collector event.
 		 */
 		virtual void wrap ();
 		
 		/**
-		 * Notification on raw pointer destruction.
-		 * @return void.
+		 * @brief Notification on raw pointer destruction.
+		 * @details Function will be called when wrapped object were destroyed from C++ side.
 		 */
 		void objectDestroyed();
 		
 	protected:
-		CPP::ChainedPtrHook* objectHook;
-		CPP::ChainedPtr* object;
+		CPP::ChainedPtrHook* objectHook; /**< Helper hook object on CPP::ChainedPtr to be notified on C++ object destruction */
+		CPP::ChainedPtr* object; /**< Real data pointer which will be wrapped */
 	};
 	
 	/**
-	 * Template class to wrap arbitrary C++ objects within V8.
+	 * @brief Template class for wrapping arbitrary C++ objects within Javascript engine.
 	 */
 	template<class T>
 	class SharedPtrWrapper : public FieldWrapper
 	{
 	public:
 		/**
-		 * A constructor.
-		 * @param objectId is a unique ID of external object.
-		 * @param context Javascript virtual machine context.
-		 * @param handle Javascript object to which we attach C++ object.
-		 * @param functionName Javascript object's property name to which we attach C++ object.
-		 * @param data a shared pointer to an object which will be
-		 *  exposed to V8, wrapper will reset it during V8 garbage collector weak callback
+		 * @brief Constructor.
+		 * @param[in] objectId is a unique ID of external object.
+		 * @param[in] context Javascript virtual machine context.
+		 * @param[in] handle Javascript object to which we attach C++ object.
+		 * @param[in] functionName Javascript object's property name to which we attach C++ object.
+		 * @param[in] data a shared pointer(std::shared_ptr) to an object which will be
+		 * exposed to Javascript engine, wrapper will reset it during Javascript garbage collector callback.
 		 */
 		SharedPtrWrapper (uint32_t objectId,
 						  JSContextRef context,
@@ -191,7 +203,7 @@ namespace RadJAV
 		}
 		
 		/**
-		 * A destructor.
+		 * @brief Virtual destructor.
 		 */
 		virtual ~SharedPtrWrapper ()
 		{
@@ -200,8 +212,8 @@ namespace RadJAV
 		}
 		
 		/**
-		 * Get underlying external object.
-		 * @return T* a pointer to external object.
+		 * @brief Get underlying external object.
+		 * @return std::shared_ptr<T> a shared pointer to external object.
 		 */
 		std::shared_ptr<T> objectPtr()
 		{
@@ -210,18 +222,22 @@ namespace RadJAV
 		
 	protected:
 		/**
-		 * Hook on C++ object destruction and subscribe to garbage collector event.
+		 * @brief Hook on C++ object destruction and subscribe to garbage collector event.
 		 */
 		virtual void wrap ()
 		{
-			// Init Persistent object and set weak callback
+			//Hook on C++ object destruction and subscribe to garbage collector event.
 			FieldWrapper::wrap();
 		}
 		
 	protected:
-		std::shared_ptr<T> object;
+		std::shared_ptr<T> object; /**< Real data shared pointer which will be wrapped */
 	};
 	
+	/**
+	 * @brief Implementation of ExternalsManager for JavaScriptCore engine.
+	 * @see ExternalsManager for more information.
+	 */
 	class ExternalsManagerJscImpl
 	{
 	public:

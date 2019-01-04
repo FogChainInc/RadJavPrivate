@@ -36,6 +36,11 @@
 		{
 			namespace Net
 			{
+				/**
+				 * @ingroup group_net_js_v8
+				 * @brief NetCallbacks callbacks.
+				 * @details Class representing Javascript bindings to @ref group_net_cpp.
+				 */
 				class RADJAV_EXPORT NetCallbacks
 				{
 					public:
