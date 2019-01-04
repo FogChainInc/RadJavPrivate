@@ -1,9 +1,0 @@
-{
-	"generators": [
-		"AndroidJNI.js", 
-		"RadJav.js"
-	], 
-	"files": [
-			"library/gen/RadJav.MUI.Button.js"
-		]
-}

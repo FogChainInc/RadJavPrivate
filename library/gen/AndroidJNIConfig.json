@@ -1,0 +1,17 @@
+{
+	"generators": [
+		"AndroidJNI.js", 
+		"RadJav.js", 
+		"V8.js"
+	], 
+	"files": [
+			"library/gen/RadJav.GUI.GObject.js", 
+			"library/gen/RadJav.MUI.Button.js", 
+			"library/gen/RadJav.MUI.Checkbox.js", 
+			"library/gen/RadJav.MUI.Image.js", 
+			"library/gen/RadJav.MUI.Label.js", 
+			"library/gen/RadJav.MUI.Textarea.js", 
+			"library/gen/RadJav.MUI.Textbox.js", 
+			"library/gen/RadJav.MUI.View.js"
+		]
+}

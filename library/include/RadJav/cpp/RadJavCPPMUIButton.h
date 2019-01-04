@@ -72,7 +72,7 @@
 						static jmethodID nativeGetText;
 
 						/*^:AndroidJNI.outputStart ("jniHeaders");*/
-						/*^:AndroidJNI.outputEnd ("jniHeaders");*/
+/*^:AndroidJNI.outputEnd ("jniHeaders");*/
 					#endif
 				};
 				

@@ -1,5 +1,8 @@
 {
 	"name": "RadJav VM", 
+	"buildBundles": {
+			"all": "fogchain/radjav"
+		}, 
 	"builds": [
 		{
 			"name": "RadJav VM Linux", 
@@ -17,7 +20,7 @@
 					"tests": [
 						{
 							"cmd": "RadJavVM", 
-							"args": ["$file"], 
+							"args": ["${file}"], 
 							"workingDir": "tests/crypto"
 						}
 					]

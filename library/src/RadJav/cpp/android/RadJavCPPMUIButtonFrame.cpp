@@ -38,7 +38,7 @@ namespace RadJAV
 			ButtonFrame::ButtonFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
 			{
 				/*^:AndroidJNI.outputStart ("jniCreate");*/
-				/*^:AndroidJNI.outputEnd ("jniCreate");*/
+/*^:AndroidJNI.outputEnd ("jniCreate");*/
 
 				if (!nativeButtonClass)
 				{
@@ -79,7 +79,7 @@ namespace RadJAV
 							let jniText = text.toWrappedJNIString ();
 							let output = `
 							auto jniText = ${jniText};
-							${jni.button.setText ("text")}`;
+							${jni.Button.setText ("text")}`;
 
 							return (output);
 						});
