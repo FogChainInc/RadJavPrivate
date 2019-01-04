@@ -177,20 +177,59 @@ namespace inspector {
 					 * @brief Check if IO service waits for action
 					 */
 					RJBOOL isWaiting() { return is_waiting_; }
-						
+
+					/**
+					 * @class WebSocketSession
+					 *
+					 * @ingroup group_debug
+					 * @ingroup group_net_cpp
+					 *
+					 * @brief V8 Inspector websocket session class that takes ownership of a socket and
+					 * implements websocket handshake and communication
+					 *
+					 * This class is meant to be used only by the v8 Inspector Agent, its implementation
+					 * is not complete and only serves as connection point for Chrome Dev Tools with
+					 * minimal functionality to allow JS debugging.
+					 */
 					class WebSocketSession : public std::enable_shared_from_this<WebSocketSession>
 					{
 
 					public:
+						/**
+						 * @brief websocket stream
+						 */
 						websocket::stream<tcp::socket> ws_;
+
+						/**
+						 * @brief websocket strand
+						 */
 						boost::asio::strand<boost::asio::io_context::executor_type> strand_;
+
+						/**
+						 * @brief IO buffer
+						 */
 						boost::beast::multi_buffer buffer_;
+
+						/**
+						 * @brief String with session ID
+						 */
 						std::string sessionID_;
 
-						// Take ownership of the socket
+						/**
+						 * @brief Constructor for websocket session that takes ownership of underlying socket
+						 *
+						 * @param socket tcp socket
+						 *
+						 * @param sessionID session ID
+						 *
+						 * @param parent upgradable web server object that will contain current session
+						 *
+						 */
 						explicit WebSocketSession(tcp::socket socket, std::string sessionID, WebServerUpgradable* parent);
 
-						// Start the asynchronous operation
+						/**
+						 * @brief asynchronously accept websocket handshake
+						 */
 						template<class Body, class Allocator>
 						void do_accept(http::request<Body, http::basic_fields<Allocator>> req)
 						{
@@ -205,116 +244,284 @@ namespace inspector {
 										std::placeholders::_1)));
 						}
 
+						/**
+						 * @brief throw error if any, then call do_read()
+						 *
+						 * @param ec boost system error code
+						 */
 						void on_accept(boost::system::error_code ec);
 
+						/**
+						 * @brief read a message into inner buffer
+						 */
 						void do_read();
 
+						/**
+						 * @brief write a message to the socket
+						 *
+						 * @param message message to send
+						 */
 						void do_write(String message);
 
+						/**
+						 * @brief process socket close if occurs, throw error if any, then send message to inspector and perform next read
+						 *
+						 * bytes_transferred parameter is ignored
+						 *
+						 * @param ec boost system error code
+						 *
+						 * @param bytes_transferred ignored
+						 *
+						 */
 						void on_read(boost::system::error_code ec, std::size_t bytes_transferred);
 
+						/**
+						 * @brief process socket close if occurs, throw error if any, clear buffer and do another read
+						 *
+						 * @param ec boost system error code
+						 *
+						 * @param bytes_transferred ignored
+						 *
+						 */
 						void on_write(boost::system::error_code ec, std::size_t bytes_transferred);
 
 					private:
 
+						/**
+						 * @brief pointer to parent upgradable web server object in context of which the current session runs
+						 */
 						WebServerUpgradable* parent_;
 					};
 
+					/**
+					 * @brief Set websocket session
+					 */
 					void setWebSocketSession(const std::shared_ptr<WebSocketSession>& session);
 
-						class HttpUpgradableSession : public std::enable_shared_from_this<HttpUpgradableSession>
+					/**
+					 * @class HttpUpgradableSession
+					 *
+					 * @ingroup group_debug
+					 * @ingroup group_net_cpp
+					 *
+					 * @brief V8 Inspector http session class that is supposed to be upgraded to websocket
+					 * session after handshake
+					 *
+					 * This class is meant to be used only by the v8 Inspector Agent, its implementation
+					 * is not complete and only serves as connection point for Chrome Dev Tools with
+					 * minimal functionality to allow JS debugging.
+					 */
+					class HttpUpgradableSession : public std::enable_shared_from_this<HttpUpgradableSession>
+					{
+						/**
+						 * @struct send_lambda
+						 *
+						 * @brief This is the C++11 equivalent of a generic lambda.
+						 * The function object is used to send an HTTP message.
+						 *
+						 */
+
+						struct send_lambda
 						{
-							// This is the C++11 equivalent of a generic lambda.
-							// The function object is used to send an HTTP message.
-							struct send_lambda
+							HttpUpgradableSession& self_;
+
+							explicit
+								send_lambda(HttpUpgradableSession& self)
+								: self_(self)
 							{
-								HttpUpgradableSession& self_;
+							}
 
-								explicit
-									send_lambda(HttpUpgradableSession& self)
-									: self_(self)
-								{
-								}
+							template<bool isRequest, class Body, class Fields>
+							void
+								operator()(http::message<isRequest, Body, Fields>&& msg) const
+							{
+								// The lifetime of the message has to extend
+								// for the duration of the async operation so
+								// we use a shared_ptr to manage it.
+								auto sp = std::make_shared<
+									http::message<isRequest, Body, Fields>>(std::move(msg));
 
-								template<bool isRequest, class Body, class Fields>
-								void
-									operator()(http::message<isRequest, Body, Fields>&& msg) const
-								{
-									// The lifetime of the message has to extend
-									// for the duration of the async operation so
-									// we use a shared_ptr to manage it.
-									auto sp = std::make_shared<
-										http::message<isRequest, Body, Fields>>(std::move(msg));
+								// Store a type-erased version of the shared
+								// pointer in the class to keep it alive.
+								self_.res_ = sp;
 
-									// Store a type-erased version of the shared
-									// pointer in the class to keep it alive.
-									self_.res_ = sp;
-
-									// Write the response
-									http::async_write(
-										self_.socket_,
-										*sp,
-										boost::asio::bind_executor(
-											self_.strand_,
-											std::bind(
-												&HttpUpgradableSession::on_write,
-												self_.shared_from_this(),
-												std::placeholders::_1,
-												std::placeholders::_2,
-												sp->need_eof())));
-								}
-							};
-
-							tcp::socket socket_;
-							boost::asio::strand<boost::asio::io_context::executor_type> strand_;
-							boost::beast::flat_buffer buffer_;
-							http::request<http::string_body> req_{};
-							std::shared_ptr<void> res_;
-							send_lambda lambda_;
-							WebServerUpgradable* parent_;
-
-							public:
-								// Take ownership of the socket
-								explicit HttpUpgradableSession(boost::asio::ip::tcp::socket socket, std::string sessionID, WebServerUpgradable* parent);
-
-								// Start the asynchronous operation
-								void run();
-
-								void do_read();
-
-								void on_read(boost::system::error_code ec);
-
-								void on_write(boost::system::error_code ec, std::size_t bytes_transferred, bool close);
-								
-								void do_close();
-
-							private:
-								std::string sessionID_;
+								// Write the response
+								http::async_write(
+									self_.socket_,
+									*sp,
+									boost::asio::bind_executor(
+										self_.strand_,
+										std::bind(
+											&HttpUpgradableSession::on_write,
+											self_.shared_from_this(),
+											std::placeholders::_1,
+											std::placeholders::_2,
+											sp->need_eof())));
+							}
 						};
 
-						class UpgradableListener : public std::enable_shared_from_this<UpgradableListener>
-						{
-							boost::asio::ip::tcp::acceptor acceptor_;
-							boost::asio::ip::tcp::socket socket_;
-							WebServerUpgradable* parent_;
+						/**
+						 * @brief plain tcp socket
+						 */
+						tcp::socket socket_;
 
-							public:
-								UpgradableListener(
-									boost::asio::io_context& ioc,
-									boost::asio::ip::tcp::endpoint endpoint,
-									WebServerUpgradable* parent);
+						/**
+						 * @brief boost strand
+						 */
+						boost::asio::strand<boost::asio::io_context::executor_type> strand_;
 
-								// Start accepting incoming connections
-								void run();
+						/**
+						 * @brief internal buffer for incoming messages
+						 */
+						boost::beast::flat_buffer buffer_;
 
-								void do_accept();
+						/**
+						 * @brief current http request
+						 */
+						http::request<http::string_body> req_{};
 
-								void on_accept(boost::system::error_code ec);
-						};
+						/**
+						 * @brief current response
+						 */
+						std::shared_ptr<void> res_;
 
-						//maintains the list of sessions
-						static std::vector<std::pair<std::string, std::shared_ptr<HttpUpgradableSession>>> sessions_;
-						std::shared_ptr<WebServerUpgradable::WebSocketSession> websocket_session_;
+						/**
+						 * @brief message sending lambda
+						 */
+						send_lambda lambda_;
+
+						/**
+						 * @brief pointer to parent upgradable web server object in context of which the current session runs
+						 */
+						WebServerUpgradable* parent_;
+
+						public:
+							/**
+							 * @brief Create upgradable http session by taking ownership of incoming socket
+							 *
+							 * @param socket tcp socket
+							 *
+							 * @param sessionID string with session ID
+							 *
+							 * @param parent upgradable web server object that will contain current session
+							 */
+							explicit HttpUpgradableSession(boost::asio::ip::tcp::socket socket, std::string sessionID, WebServerUpgradable* parent);
+
+							/**
+							 * @brief Start the asynchronous operation
+							 */
+							void run();
+
+							/**
+							 * @brief
+							 */
+							void do_read();
+
+							/**
+							 * @brief throw error if any, then call do_read()
+							 *
+							 * @param ec boost system error code
+							 */
+							void on_read(boost::system::error_code ec);
+
+							/**
+							 * @brief throw error if any, close connection if close flag is true,
+							 * otherwise clear the buffer and perform another read
+							 *
+							 * bytes_transferred parameter is ignored
+							 *
+							 * @param ec boost system error code
+							 *
+							 * @param bytes_transferred ignored
+							 *
+							 * @param close boolean flag that usually is set because
+							 * the response indicated the "Connection: close" semantic.
+							 */
+							void on_write(boost::system::error_code ec, std::size_t bytes_transferred, bool close);
+
+							/**
+							 * @brief close current session
+							 */
+							void do_close();
+
+						private:
+							/**
+							 * @brief session ID
+							 */
+							std::string sessionID_;
+					};
+
+					/**
+					 * @class UpgradableListener
+					 *
+					 * @ingroup group_debug
+					 * @ingroup group_net_cpp
+					 *
+					 * @brief V8 Inspector upgradable tcp socket listener class
+					 *
+					 * This class is meant to be used only by the v8 Inspector Agent, its implementation
+					 * is not complete and only serves as connection point for Chrome Dev Tools with
+					 * minimal functionality to allow JS debugging.
+					 */
+					class UpgradableListener : public std::enable_shared_from_this<UpgradableListener>
+					{
+						/**
+						 * @brief tcp acceptor
+						 */
+						boost::asio::ip::tcp::acceptor acceptor_;
+
+						/**
+						 * @brief tcp socket
+						 */
+						boost::asio::ip::tcp::socket socket_;
+
+						/**
+						 * @brief pointer to parent upgradable web server object
+						 */
+						WebServerUpgradable* parent_;
+
+						public:
+							/**
+							 * @brief Create upgradable listener
+							 *
+							 * @param ioc boost io_context
+							 *
+							 * @param endpoint ip and port values to listen
+							 *
+							 * @param parent pointer to parent upgradable web server object
+							 */
+							UpgradableListener(
+								boost::asio::io_context& ioc,
+								boost::asio::ip::tcp::endpoint endpoint,
+								WebServerUpgradable* parent);
+
+							/**
+							 * @brief Start accepting incoming connections
+							 */
+							void run();
+
+							/**
+							 * @brief call on_accept()
+							 */
+							void do_accept();
+
+							/**
+							 * @brief throw error if any, create the http session and run it, then call do_accept
+							 *
+							 * @param ec boost system error code
+							 */
+							void on_accept(boost::system::error_code ec);
+					};
+
+					/**
+					 * @brief list of active http sessions
+					 */
+					static std::vector<std::pair<std::string, std::shared_ptr<HttpUpgradableSession>>> sessions_;
+
+					/**
+					 * @brief current websocket session
+					 */
+					std::shared_ptr<WebServerUpgradable::WebSocketSession> websocket_session_;
 
 				};
 			}
