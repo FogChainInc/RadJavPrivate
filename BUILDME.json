@@ -3,6 +3,14 @@
 	"buildBundles": {
 			"all": "fogchain/radjav"
 		}, 
+	"devDependencies": [
+		{ "program": "git" }, 
+		{ "program": "cmake" }, 
+		{ "library": "boost", "version": ">1.66.0", "buildBundle": "fogchain/boost/all" }, 
+		{ "library": "v8", "buildBundle": "fogchain/v8/all" }, 
+		{ "library": "wxWidgets", "buildBundle": "fogchain/wxwidgets/all", "optional": true }, 
+		{ "library": "openssl", "buildBundle": "fogchain/openssl/all", "optional": true }
+	], 
 	"builds": [
 		{
 			"name": "RadJav VM Linux", 
