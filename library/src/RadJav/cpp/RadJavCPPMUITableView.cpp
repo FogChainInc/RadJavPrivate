@@ -67,6 +67,7 @@ namespace RadJAV
 													Vector2(_transform->width, _transform->height));
 
 				object->setVisibility(_visible);
+				object->tableView = this;
 				_appObj = object;
 				linkWith(object);
 				setup();
@@ -91,7 +92,12 @@ namespace RadJAV
 				//V8_JAVASCRIPT_ENGINE->v8CallFunction(constructor, 0, nullptr);
 				//V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(constructor, 0, nullptr);
 			}
-
+			TableCellModelFrame* TableViewFrame::viewForCellModel(RadJAV::CPP::MUI::TableCellModel * model)
+			{
+				
+				
+			}
+			
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
             	void TableView::on(String event, RJ_FUNC_TYPE func)
 				{

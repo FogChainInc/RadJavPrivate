@@ -48,7 +48,8 @@
 				#ifdef USE_ANDROID
 					class ListAdapter;
 				#endif
-
+				class TableView;
+				
 				class RADJAV_EXPORT TableViewFrame : public GUI::GObjectWidget
 												, public ChainedPtr
                 {
@@ -65,9 +66,10 @@
 					bool bindEvent(const String& eventName, const GUI::Event* event);
                     void setModel(MUI::TableViewModel *model);
                     void reload();
+					TableCellModelFrame* viewForCellModel(RadJAV::CPP::MUI::TableCellModel * model);
 
                     MUI::TableViewModel *model;
-                    
+					TableView *tableView;
 					#ifdef USE_IOS
 						UIView* getNativeWidget();
 					#endif
@@ -102,6 +104,7 @@
 
 						void create();
                         void setModel(MUI::TableViewModel *model);
+						TableCellModelFrame* viewForCellModel(RadJAV::CPP::MUI::TableCellModel * model);
 
 						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
 							/// Set TableView item delegate

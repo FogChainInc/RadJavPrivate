@@ -73,6 +73,12 @@ namespace RadJAV
 			{
 				 return [widgetDelegate bindEvent:widget eventName:eventName];
 			}
+			
+			TableCellModelFrame* TableViewFrame::viewForCellModel(RadJAV::CPP::MUI::TableCellModel * model)
+			{
+				tableView->viewForCellModel(model);
+				
+			}
             
 			#ifdef USE_IOS
 				UIView* TableViewFrame::getNativeWidget()
