@@ -44,7 +44,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 
 		//Create main view of application
 		window = new RadJav.MUI.View("win", "TableView Example");
-		window.createMainView()
+		window.createMainView();
 		
 		//Create list
 		tableView = new RadJav.MUI.TableView("list", "list example", window);

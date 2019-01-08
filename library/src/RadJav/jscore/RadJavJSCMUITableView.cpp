@@ -38,18 +38,24 @@ namespace RadJAV
             {
                 JSC_CALLBACK(object, "create", TableView::create);
                 JSC_CALLBACK(object, "setModel", TableView::setModel);
-                
+				JSC_CALLBACK(object, "setDelegate", TableView::setDelegate);
             }
 			JSValueRef TableView::create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
 			{
 				CppMuiObject *appObject = RJNEW CppMuiObject(JSC_JAVASCRIPT_ENGINE, thisObject, argumentCount, arguments);
 				appObject->create();
-				
+
 				JSC_JAVASCRIPT_ENGINE->jscSetExternal(ctx, thisObject, "_appObj", appObject);
+
+				//TODO: this is temporary for TableView second version
+				/*
 				JSObjectRef _guiFinishedCreatingGObject = JSC_JAVASCRIPT_ENGINE->jscGetFunction(JSC_RADJAV, "_guiFinishedCreatingGObject");
 				JSObjectRef promise = JSC_JAVASCRIPT_ENGINE->createPromise(thisObject, _guiFinishedCreatingGObject);
 				
 				return promise;
+				 */
+
+				return JSValueMakeUndefined(ctx);
 			}
             
             JSValueRef TableView::setModel(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
@@ -64,12 +70,41 @@ namespace RadJAV
                     }
                     
                 }
+				
+				/*
                 JSObjectRef _guiFinishedCreatingGObject = JSC_JAVASCRIPT_ENGINE->jscGetFunction(JSC_RADJAV, "_guiFinishedCreatingGObject");
                 JSObjectRef promise = JSC_JAVASCRIPT_ENGINE->createPromise(thisObject, _guiFinishedCreatingGObject);
                 
                 return promise;
+				 */
+				
+				return JSValueMakeUndefined(ctx);
             }
-           
+
+			JSValueRef TableView::setDelegate(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+			{
+				JSValueRef undefined = JSValueMakeUndefined(ctx);
+				
+				CppMuiObject *appObject = (CppMuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				if (!appObject)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "TableView not initialized");
+					return undefined;
+				}
+				
+				JSValueRef delegateJs = JSC_JAVASCRIPT_ENGINE->jscGetArgument(arguments, argumentCount, 0);
+				
+				if (delegateJs)
+				{
+					JSObjectRef delegateJsObj = JSC_JAVASCRIPT_ENGINE->jscCastValueToObject(delegateJs);
+					if(delegateJsObj && JSObjectIsFunction(ctx, delegateJsObj))
+					{
+						appObject->setDelegate(delegateJsObj);
+					}
+				}
+				
+				return undefined;
+			}
 		}
 	}
 }

@@ -43,10 +43,16 @@ namespace RadJAV
 				appObject->create();
 				
 				JSC_JAVASCRIPT_ENGINE->jscSetExternal(ctx, thisObject, "_appObj", appObject);
+
+				//TODO: this is temporary for TableView second version
+				/*
 				JSObjectRef _guiFinishedCreatingGObject = JSC_JAVASCRIPT_ENGINE->jscGetFunction(JSC_RADJAV, "_guiFinishedCreatingGObject");
 				JSObjectRef promise = JSC_JAVASCRIPT_ENGINE->createPromise(thisObject, _guiFinishedCreatingGObject);
 				
 				return promise;
+				 */
+
+				return JSValueMakeUndefined(ctx);
 			}
 
 			JSValueRef View::createMainView(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
