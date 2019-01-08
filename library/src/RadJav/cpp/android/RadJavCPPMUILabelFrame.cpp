@@ -25,6 +25,8 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
+			using namespace Android;
+
 			jclass LabelFrame::nativeTextViewClass = nullptr;
 
 			jmethodID LabelFrame::nativeConstructor = nullptr;

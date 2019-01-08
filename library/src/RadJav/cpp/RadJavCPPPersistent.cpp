@@ -17,21 +17,50 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#ifndef _RADJAV_UITHREADDISPATCHER_H
-#define _RADJAV_UITHREADDISPATCHER_H
+
+#include "cpp/RadJavCPPPersistent.h"
+#include "RadJav.h"
 
 namespace RadJAV
 {
-	namespace Android
+	namespace CPP
 	{
-		class UiThreadDispatcher
-		{
-		public:
-			virtual ~UiThreadDispatcher() {}
+		#ifdef USE_V8
+			Persistent::Persistent(v8::Local<v8::Object> jsObject)
+			{
+				persistent = RJNEW v8::Persistent<v8::Object>();
+				persistent->Reset(jsObject->GetIsolate(), jsObject);
+			}
 
-			virtual void uiThreadArrived(bool async) = 0;
-		};
+		#elif defined USE_JAVASCRIPTCORE
+			Persistent::Persistent(JSObjectRef object)
+			{
+				persistent = object;
+				JSValueProtect(JSC_JAVASCRIPT_ENGINE->globalContext, persistent);
+			}
+		#endif
+
+		Persistent::~Persistent()
+		{
+			#ifdef USE_V8
+				persistent->Reset();
+				RJDELETE persistent;
+			#elif defined USE_JAVASCRIPTCORE
+				JSValueUnprotect(JSC_JAVASCRIPT_ENGINE->globalContext, persistent);
+			#endif
+		}
+
+		#ifdef USE_V8
+			v8::Local<v8::Object> Persistent::get() const
+			{
+				return persistent->Get(V8_JAVASCRIPT_ENGINE->isolate);
+			}
+		#elif defined USE_JAVASCRIPTCORE
+			JSObjectRef Persistent::get() const
+			{
+				return persistent;
+			}
+		#endif
+
 	}
 }
-
-#endif //_RADJAV_UITHREADDISPATCHER_H

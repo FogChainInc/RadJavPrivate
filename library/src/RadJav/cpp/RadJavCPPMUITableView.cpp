@@ -21,6 +21,7 @@
 
 #include "RadJav.h"
 #include "RadJavString.h"
+#include "cpp/RadJavCPPPersistent.h"
 
 namespace RadJAV
 {
@@ -30,20 +31,28 @@ namespace RadJAV
 		{
 			#ifdef USE_V8
 			TableView::TableView(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
-				: GObject (jsEngine, args)
+				: GObject (jsEngine, args),
+				  delegateConstructor(nullptr)
 			{
 			}
 			#endif
             #ifdef USE_JAVASCRIPTCORE
                 TableView::TableView(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[])
-                    : GObject (jsEngine, thisObj, numArgs, args)
+                    : GObject (jsEngine, thisObj, numArgs, args),
+					  delegateConstructor(nullptr)
                 {
                 }
             #endif
 
 			TableView::TableView(String name, String text, CPP::GUI::GObject *parent)
-				: GObject(name, text, parent)
+				: GObject(name, text, parent),
+				  delegateConstructor(nullptr)
 			{
+			}
+
+			TableView::~TableView()
+			{
+				RJDELETE delegateConstructor;
 			}
 
 			void TableView::create()
@@ -68,6 +77,20 @@ namespace RadJAV
                 if (_appObj)
                 	((TableViewFrame*)_appObj)->setModel(model);
             }
+
+			void TableView::setDelegate(RJ_FUNC_TYPE constructor)
+			{
+				if (delegateConstructor)
+				{
+					RJDELETE delegateConstructor;
+				}
+
+				delegateConstructor = RJNEW Persistent(constructor);
+
+				//constructor->Call(V8_JAVASCRIPT_ENGINE->globalContext, 0, nullptr);
+				V8_JAVASCRIPT_ENGINE->v8CallFunction(constructor, 0, nullptr);
+				//V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(constructor, 0, nullptr);
+			}
 
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
             	void TableView::on(String event, RJ_FUNC_TYPE func)

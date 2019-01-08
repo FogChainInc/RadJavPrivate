@@ -21,7 +21,8 @@ if (ANDROID)
 		"${libRadJav_SOURCE_DIR}/src/RadJav/android/ClassesCache.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/android/Utils.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/android/RadJavAndroid.cpp"
-		"${libRadJav_SOURCE_DIR}/src/RadJav/android/UiThreadCallbackFunction.cpp")
+		"${libRadJav_SOURCE_DIR}/src/RadJav/android/UiThreadCallbackFunction.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/android/NativeCallbackFunction.cpp")
 	source_group ("RadJav\\Main\\Android" FILES ${SOURCES_files_RADJAV__Android__Sources})
 	
 	set (SOURCES ${SOURCES_files_RADJAV__Android__Sources} ${SOURCES})
@@ -410,7 +411,8 @@ set (SOURCES_files_RadJav__cpp__Global__Sources
 	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPVector3.cpp"
 	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPVector4.cpp"
 	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPThread.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPChainedPtr.cpp")
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPChainedPtr.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPPersistent.cpp")
 source_group ("RadJav\\CPP\\Global" FILES ${SOURCES_files_RadJav__cpp__Global__Sources})
 
 set (SOURCES ${SOURCES_files_RadJav__cpp__Global__Sources} ${SOURCES})
@@ -612,6 +614,7 @@ if (IS_MOBILE)
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUITextboxFrame.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUITextareaFrame.cpp"
 			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUIWebView.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUIListAdapter.cpp"
 			)
 
 		source_group ("RadJav\\CPP\\MUI\\Android" FILES ${SOURCES_files_RadJav__cpp__MUI__Sources})

@@ -19,6 +19,9 @@
  */
 #include "cpp/RadJavCPPMUITableView.h"
 #include "cpp/RadJavCPPGUIGObject.h"
+#include "android/Utils.h"
+#include "android/NativeCallbackFunction.h"
+#include "cpp/android/RadJavCPPMUIListAdapter.h"
 
 namespace RadJAV
 {
@@ -26,9 +29,15 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
+			using namespace Android;
+
+			jclass TableViewFrame::nativeListViewClass = nullptr;
+
+			jmethodID TableViewFrame::nativeConstructor = nullptr;
+			jmethodID TableViewFrame::nativeSetAdapter = nullptr;
+
 			TableViewFrame::TableViewFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
 			{
-				/*
 				if (!nativeListViewClass)
 				{
 					Jni& jni = Jni::instance();
@@ -40,12 +49,15 @@ namespace RadJAV
 					nativeSetAdapter = env->GetMethodID(nativeListViewClass, "setAdapter", "(Landroid/widget/ListAdapter;)V");
 				}
 
-				RadJav::runOnUiThreadAsync([&, parent](JNIEnv* env, void* data) {
-					auto layout = wrap_local(env, env->NewObject(nativeListViewClass, nativeConstructor, RadJav::getJavaApplication()));
+				listAdapter = RJNEW ListAdapter();
 
-					widget = env->NewGlobalRef(layout);
+				RadJav::runOnUiThreadAsync([&, parent](JNIEnv* env, void* data) {
+					auto nativeWidget = wrap_local(env, env->NewObject(nativeListViewClass, nativeConstructor, RadJav::getJavaApplication()));
+
+					widget = env->NewGlobalRef(nativeWidget);
+
+					env->CallVoidMethod(widget, nativeSetAdapter, listAdapter->getNativeObject());
 				});
-				*/
 
 				if (parent)
 					parent->addChild(this);
@@ -55,7 +67,13 @@ namespace RadJAV
 				setPosition(pos);
 			}
 
-			void TableViewFrame::setModel(MUI::TableViewModel *model){
+			void TableViewFrame::setModel(MUI::TableViewModel *model)
+			{
+				if (listAdapter)
+				{
+					//TODO: Add model interface into Adapter
+					//listAdapter->setModel();
+				}
 
 				this->model = model;
 
@@ -71,6 +89,11 @@ namespace RadJAV
 			TableViewFrame::~TableViewFrame()
 			{
 				//TODO: add implementation
+				if (listAdapter)
+				{
+					RJDELETE listAdapter;
+					listAdapter = nullptr;
+				}
 			}
 
 			bool TableViewFrame::bindEvent(const String& eventName, const GUI::Event* event)

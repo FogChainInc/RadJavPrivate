@@ -53,19 +53,15 @@
 
 						void create();
 
-                    void setCellModels(std::vector<CPP::MUI::TableCellModel*> *models);
-                    std::vector< std::vector<CPP::MUI::TableCellModel*> > *cells;
-                    std::vector<CPP::MUI::TableCellModel*> *headers;                    
-                    GUI::GObjectWidget *linkedFrame;
-                    
-                    
+						void setCellModels(std::vector<CPP::MUI::TableCellModel*> *models);
+						std::vector< std::vector<CPP::MUI::TableCellModel*> > *cells;
+						std::vector<CPP::MUI::TableCellModel*> *headers;
+						GUI::GObjectWidget *linkedFrame;
+
 						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
                         	/// Execute when an event is triggered.
                         	void on(String event, RJ_FUNC_TYPE func);
 						#endif
-					
-						///???
-						String icon;
 				};
 			}
 		}

@@ -47,15 +47,15 @@ public class RadJavActivity extends Activity
     protected void onResume() {
         super.onResume();
 
-        //Attach main UI to this activity
-        setContentView(mainViewGroup);
-
         //Continue native code execution
         RadJavApplication app = (RadJavApplication)getApplication();
 
         final String appFile = app.prependWithExternalCacheDir("examples" + File.separator + "mobile" + File.separator + "window.xrj");
 
         app.run(appFile);
+
+        //Attach main UI to this activity
+        setContentView(mainViewGroup);
     }
 
     @Override

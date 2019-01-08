@@ -218,7 +218,7 @@ namespace RadJAV
     Array<RadJAV::CPP::OS::ScreenInfo> RadJav::screens;
 
 	#ifdef USE_ANDROID
-    	RadJavAndroid* RadJav::impl = nullptr;
+    	Android::RadJavAndroid* RadJav::impl = nullptr;
     #endif
 
 	#ifdef RADJAV_DEBUG
@@ -456,6 +456,8 @@ namespace RadJAV
 	#ifdef USE_ANDROID
 		RadJavType RadJav::initialize(JavaVM* jvm)
 		{
+			using namespace Android;
+
 			Jni& jni = Jni::instance();
 			jni.storeJvm(jvm);
 
@@ -630,13 +632,13 @@ namespace RadJAV
 	}
 
 	#ifdef USE_ANDROID
-	void RadJav::runOnUiThread(UiThreadCallbackFunctionType function, void *data)
+	void RadJav::runOnUiThread(Android::UiThreadCallbackFunctionType function, void *data)
 	{
 		if (impl)
 			impl->runOnUiThread(function, data);
 	}
 
-    void RadJav::runOnUiThreadAsync(UiThreadCallbackFunctionType function, void *data)
+    void RadJav::runOnUiThreadAsync(Android::UiThreadCallbackFunctionType function, void *data)
     {
         if (impl)
             impl->runOnUiThreadAsync(function, data);

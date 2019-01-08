@@ -17,21 +17,30 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#ifndef _RADJAV_UITHREADDISPATCHER_H
-#define _RADJAV_UITHREADDISPATCHER_H
+
+#ifndef _RADJAV_CPP_TABLEVIEW_ITEM_BUILDER_H_
+#define _RADJAV_CPP_TABLEVIEW_ITEM_BUILDER_H_
+
+#include "RadJavPreprocessor.h"
 
 namespace RadJAV
 {
-	namespace Android
+	namespace CPP
 	{
-		class UiThreadDispatcher
+		namespace MUI
 		{
-		public:
-			virtual ~UiThreadDispatcher() {}
+			class View;
 
-			virtual void uiThreadArrived(bool async) = 0;
-		};
+			class RADJAV_EXPORT TableViewItemBuilderInterface
+			{
+			public:
+				#ifdef USE_ANDROID
+					virtual View* createItem(const View*) = 0;
+				#elif defined USE_IOS
+					#warning
+				#endif
+			};
+		}
 	}
 }
-
-#endif //_RADJAV_UITHREADDISPATCHER_H
+#endif

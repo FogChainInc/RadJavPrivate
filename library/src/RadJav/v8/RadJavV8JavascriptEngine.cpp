@@ -437,38 +437,45 @@ namespace RadJAV
 					// Enter the main loop of app
 					exitCode = wxTheApp->OnRun();
 				}
-            #elif defined USE_ANDROID
-//				RadJav& vm = RadJav::instance();
-                RadJavAndroid::defaultLockGuiThread();
-				while(true)
-				{
-//					if (RadJav::isWaitingForUiThread())
-//					{
-//						LOGI("Waiting for UI thread");
-//
-//						threadSleep(1);
-//						continue;
-//					}
+			#elif defined USE_ANDROID
+				using namespace Android;
 
-					if (RadJav::isPaused())
+				RadJavAndroid* app = RadJavAndroid::instance();
+				if (app)
+				{
+					//app->defaultLockGuiThread();
+
+					while(true)
 					{
-						LOGI("OnPause");
-						threadSleep(500);
+//						if (RadJav::isWaitingForUiThread())
+//						{
+//							LOGI("Waiting for UI thread");
+//
+//							threadSleep(1);
+//							continue;
+// 						}
+
+						if (RadJav::isPaused())
+						{
+							LOGI("OnPause");
+							threadSleep(500);
+
+							if(!runApplicationSingleStep())
+								break;
+
+							continue;
+						}
+
+						app->handleNativeCallback();
+						app->handleUIEvent();
 
 						if(!runApplicationSingleStep())
 							break;
 
-						continue;
+						threadSleep(1);
 					}
-
-                    RadJavAndroid::instance()->handleUIEvent();
-
-
-					if(!runApplicationSingleStep())
-						break;
-
-					threadSleep(1);
 				}
+
 				LOGI("Exiting");
 			#else
 				while (runApplicationSingleStep()) {}

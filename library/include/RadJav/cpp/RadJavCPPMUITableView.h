@@ -41,8 +41,14 @@
 	{
 		namespace CPP
 		{
+			class Persistent;
+			
 			namespace MUI
 			{
+				#ifdef USE_ANDROID
+					class ListAdapter;
+				#endif
+
 				class RADJAV_EXPORT TableViewFrame : public GUI::GObjectWidget
 												, public ChainedPtr
                 {
@@ -71,6 +77,12 @@
 						UITableView* widget;
                         TableViewDelegate* widgetDelegate;
 					#elif defined USE_ANDROID
+						ListAdapter* listAdapter;
+
+						static jclass nativeListViewClass;
+
+						static jmethodID nativeConstructor;
+						static jmethodID nativeSetAdapter;
 					#endif
                 };
                 
@@ -86,13 +98,21 @@
                         #endif
 						TableView(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 
+						~TableView();
+
 						void create();
                         void setModel(MUI::TableViewModel *model);
 
 						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
-                        	/// Execute when an event is triggered.
+							/// Set TableView item delegate
+                        	void setDelegate(RJ_FUNC_TYPE function);
+
+							/// Execute when an event is triggered.
                         	void on(String event, RJ_FUNC_TYPE func);
 						#endif
+
+					protected:
+						Persistent* delegateConstructor;
 				};
 			}
 		}

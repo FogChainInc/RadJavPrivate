@@ -25,6 +25,8 @@ namespace RadJAV
 	{
 		namespace GUI
 		{
+			using namespace Android;
+
 			jmethodID GObjectWidget::nativeSetLeft = nullptr;
 			jmethodID GObjectWidget::nativeSetTop = nullptr;
 			jmethodID GObjectWidget::nativeSetRight = nullptr;

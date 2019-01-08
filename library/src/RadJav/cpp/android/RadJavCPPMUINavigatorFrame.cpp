@@ -29,6 +29,8 @@ namespace RadJAV
     {
         namespace MUI
         {
+			using namespace Android;
+
 			jmethodID NavigatorFrame::nativeConstructor = nullptr;
 			jmethodID NavigatorFrame::nativeAddView = nullptr;
 			jmethodID NavigatorFrame::nativeRemoveView = nullptr;

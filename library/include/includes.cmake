@@ -27,6 +27,7 @@ if (ANDROID)
 		"${libRadJav_SOURCE_DIR}/include/RadJav/android/Utils.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/android/RadJavAndroid.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/android/UiThreadCallbackFunction.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/android/NativeCallbackFunction.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/android/UiThreadDispatcher.h")
 	source_group ("RadJav\\Main\\Android" FILES ${SOURCES_files_RADJAV__Android__Headers})
 	
@@ -415,7 +416,8 @@ set (SOURCES_files_RadJav__cpp__Global__Headers
 	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPVector3.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPVector4.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPThread.h"
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPChainedPtr.h")
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPChainedPtr.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPPersistent.h")
 source_group ("RadJav\\CPP\\Global" FILES ${SOURCES_files_RadJav__cpp__Global__Headers})
 
 set (SOURCES ${SOURCES_files_RadJav__cpp__Global__Headers} ${SOURCES})
@@ -549,6 +551,7 @@ if (IS_MOBILE)
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUINavigationViewController.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUITableViewController.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUITableView.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUITableViewItemBuilder.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUITableViewModel.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUITableCellModel.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIScrollView.h"
@@ -571,6 +574,12 @@ if (IS_MOBILE)
 			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/ios/RadJavCPPMUIUtils.h")
 			
 		source_group ("RadJav\\CPP\\MUI\\iOS" FILES ${SOURCES_files_RadJav__cpp__MUI__Headers})
+		set (SOURCES ${SOURCES_files_RadJav__cpp__MUI__Headers} ${SOURCES})
+	elseif (ANDROID)
+		set (SOURCES_files_RadJav__cpp__MUI__Headers 
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/android/RadJavCPPMUIListAdapter.h")
+			
+		source_group ("RadJav\\CPP\\MUI\\Android" FILES ${SOURCES_files_RadJav__cpp__MUI__Headers})
 		set (SOURCES ${SOURCES_files_RadJav__cpp__MUI__Headers} ${SOURCES})
 	endif ()
 endif ()

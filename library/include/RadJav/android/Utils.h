@@ -36,23 +36,38 @@
 
 namespace RadJAV
 {
-    namespace AndroidUtils
-    {
-        ///Return global reference to java class
-        jclass FindClass(const char* classPath);
+	namespace Android
+	{
+		namespace Utils
+		{
+			///Return global reference to java class
+			jclass FindClass(const char* classPath);
 
-        ///Return global reference to java class
-        jclass FindClass(JNIEnv* env, const char* classPath);
+			///Return global reference to java class
+			jclass FindClass(JNIEnv* env, const char* classPath);
 
-        ///Return string representation of Java enum class value
-        String EnumValueToString(const char* enumClass, jobject enumeration);
+			///Return string representation of Java enum class value
+			String EnumValueToString(const char* enumClass, jobject enumeration);
 
-        ///Check if Java object is null
-        bool IsNull(jobject obj);
+			//Return JNI enum object value from string representation
+			Local<_jobject> StringToEnumValue(const char* enumClass, const char* enumerationValue);
 
-        ///Cast one java object class to another java object class if possible, use dots instead of slashes in toClass parameter
-        jobject Cast(jobject fromClass, const char* toClass);
-    }
+			///Check if Java object is null
+			bool IsNull(jobject obj);
+
+			///Cast one java object class to another java object class if possible, use dots instead of slashes in toClass parameter
+			jobject Cast(jobject fromClass, const char* toClass);
+
+			///Create new java Integer instance with specific value
+			Local<_jobject> NewInteger(int value);
+
+			///Create new java Long instance with specific value
+			Local<_jobject> NewLong(long value);
+
+			///Create new java Boolean instance with specific value
+			Local<_jobject> NewBoolean(bool value);
+		}
+	}
 }
 
 #endif //_RADJAV_UTILS_H

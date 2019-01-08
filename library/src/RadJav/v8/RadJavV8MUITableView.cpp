@@ -38,7 +38,7 @@ namespace RadJAV
             {
                 V8_CALLBACK(object, "create", TableView::create);
                 V8_CALLBACK(object, "setModel", TableView::setModel);
-                
+				V8_CALLBACK(object, "setDelegate", TableView::setDelegate);
             }
 
 			void TableView::create(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -71,6 +71,27 @@ namespace RadJAV
 					appObject->setModel(model);
                 }
             }
+
+			void TableView::setDelegate(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				CppMuiObject *appObject = (CppMuiObject *) V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+
+				if (!appObject)
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("TableView not initialized");
+					return;
+				}
+
+				if (!args.Length())
+					return;
+
+				if (args[0]->IsFunction())
+				{
+					v8::Local<v8::Function> argument = v8::Local<v8::Function>::Cast(args[0]);
+
+					appObject->setDelegate(argument);
+				}
+			}
 		}
 	}
 }

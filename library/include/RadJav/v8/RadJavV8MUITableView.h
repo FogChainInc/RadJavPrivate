@@ -37,6 +37,7 @@ namespace RadJAV
 
 					static void create(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void setModel(const v8::FunctionCallbackInfo<v8::Value> &args);
+					static void setDelegate(const v8::FunctionCallbackInfo<v8::Value> &args);
 			};
 		}
 	}

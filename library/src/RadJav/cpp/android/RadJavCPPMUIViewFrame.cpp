@@ -28,6 +28,8 @@ namespace RadJAV
     {
         namespace MUI
         {
+        	using namespace Android;
+
 			jmethodID ViewFrame::nativeConstructor = nullptr;
 			jmethodID ViewFrame::nativeAddView = nullptr;
 			jmethodID ViewFrame::nativeRemoveView = nullptr;
