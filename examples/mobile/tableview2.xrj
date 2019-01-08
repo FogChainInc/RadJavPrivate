@@ -1,0 +1,65 @@
+var window;
+var tableView;
+var tableViewModel;
+var screenWidth;
+var screenHeight;
+
+var tableViewDelegate = function (itemData)
+{
+	var itemHeight = 100; //Hardcoded height, but it can be different for each item
+	
+	//Create View
+	var view = new RadJav.MUI.View("tableviewitem", "");
+	view.create();
+	view.setSize(screenWidth, itemHeight);
+	
+	var itemText = "";
+	if (itemData && itemData.text)
+		itemText = itemData.text;
+	
+	//Create Label
+	var label = new RadJav.MUI.Label("label", itemText, view);
+	label.create();
+	label.setSize(screenWidth/2, itemHeight/2);
+	label.setPosition(screenWidth/20, (itemHeight - text.getHeight())/2);
+	
+	//Return root control for this TableView item
+	return view;
+}
+
+function populateItems(model)
+{
+	var i;
+	for(i = 0; i < 10; i++)
+	{
+		model.add({text: "Item "+ i});
+	}
+}
+
+RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav.getMUILibrary ()).then (function () {
+	RadJav.runApplication (function () {
+		//Get screen dimentions
+		screenWidth = RadJav.getPrimaryScreen().getWidth();
+		screenHeight = RadJav.getPrimaryScreen().getHeight();
+
+		//Create main view of application
+		window = new RadJav.MUI.View("win", "TableView Example");
+		window.createMainView()
+		
+		//Create list
+		tableView = new RadJav.MUI.TableView("list", "list example", window);
+		tableView.create();
+		tableView.setSize(screenWidth, screenHeight);
+		
+		//Set list item delegate
+		tableView.setDelegate(tableViewDelegate);
+		
+		//Create model for list
+		tableViewModel = new RadJav.MUI.TableViewModel();
+		tableViewModel.create();
+		
+		populateItems(tableViewModel);
+		
+		tableView.setModel(tableViewModel);
+	});
+});
