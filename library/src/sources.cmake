@@ -21,7 +21,8 @@ if (ANDROID)
 		"${libRadJav_SOURCE_DIR}/src/RadJav/android/ClassesCache.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/android/Utils.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/android/RadJavAndroid.cpp"
-		"${libRadJav_SOURCE_DIR}/src/RadJav/android/UiThreadCallbackFunction.cpp")
+		"${libRadJav_SOURCE_DIR}/src/RadJav/android/UiThreadCallbackFunction.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/android/NativeCallbackFunction.cpp")
 	source_group ("RadJav\\Main\\Android" FILES ${SOURCES_files_RADJAV__Android__Sources})
 	
 	set (SOURCES ${SOURCES_files_RADJAV__Android__Sources} ${SOURCES})
@@ -92,7 +93,7 @@ if (USE_V8)
 			#"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUIViewController.cpp"
 			#"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUINavigationViewController.cpp"
 			#"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUITableViewController.cpp"
-			#"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUITableView.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUITableView.cpp"
 			#"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUITableViewModel.cpp"
 			#"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUITableCellModel.cpp"
 			#"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUIScrollView.cpp"
@@ -411,7 +412,8 @@ set (SOURCES_files_RadJav__cpp__Global__Sources
 	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPVector3.cpp"
 	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPVector4.cpp"
 	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPThread.cpp"
-	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPChainedPtr.cpp")
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPChainedPtr.cpp"
+	"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPPersistent.cpp")
 source_group ("RadJav\\CPP\\Global" FILES ${SOURCES_files_RadJav__cpp__Global__Sources})
 
 set (SOURCES ${SOURCES_files_RadJav__cpp__Global__Sources} ${SOURCES})
@@ -598,23 +600,24 @@ if (IS_MOBILE)
 		set (SOURCES ${SOURCES_files_RadJav__cpp__GUI__Sources} ${SOURCES})
 
 		set (SOURCES_files_RadJav__cpp__MUI__Sources 
-			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIButtonFrame.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIViewFrame.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUINavigatorFrame.cpp"
-			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIViewControllerFrame.cpp"
-			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUINavigationViewControllerFrame.cpp"
-			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUITableViewControllerFrame.cpp"
-			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUITableViewFrame.cpp"
-			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIScrollViewFrame.cpp"
-			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIAlertFrame.cpp"
-			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIEventDelegates.cpp"
-			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIUtils.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUILabelFrame.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIImageFrame.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUICheckboxFrame.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUITextboxFrame.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUITextareaFrame.cpp"
-			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/Android/RadJavCPPMUIWebView.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUIButtonFrame.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUIViewFrame.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUINavigatorFrame.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUIViewControllerFrame.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUINavigationViewControllerFrame.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUITableViewControllerFrame.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUITableViewFrame.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUIScrollViewFrame.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUIAlertFrame.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUIEventDelegates.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUIUtils.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUILabelFrame.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUIImageFrame.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUICheckboxFrame.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUITextboxFrame.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUITextareaFrame.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUIWebView.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUIListAdapter.cpp"
 			)
 
 		source_group ("RadJav\\CPP\\MUI\\Android" FILES ${SOURCES_files_RadJav__cpp__MUI__Sources})

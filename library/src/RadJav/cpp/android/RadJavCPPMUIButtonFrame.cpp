@@ -29,6 +29,8 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
+			using namespace Android;
+
 			jclass ButtonFrame::nativeButtonClass = nullptr;
 
 			jmethodID ButtonFrame::nativeConstructor = nullptr;

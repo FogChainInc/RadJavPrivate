@@ -186,6 +186,8 @@ namespace RadJAV
                     	metrics.heightPixels;
                     	 */
 
+                    	using namespace Android;
+
                     	Jni& jni = Jni::instance();
                     	RadJavAndroid* radJavApp = RadJavAndroid::instance();
                     	jobject appJava = radJavApp->getJavaApplication();
@@ -200,7 +202,7 @@ namespace RadJAV
 
                     	auto object = jni.wrapLocalRef(env->CallObjectMethod(appJava, getSystemService, window_service_str.get()));
 
-						auto windowManager = jni.wrapLocalRef(AndroidUtils::Cast(object, "android.view.WindowManager"));
+						auto windowManager = jni.wrapLocalRef(Utils::Cast(object, "android.view.WindowManager"));
 
 						jclass windowManagerClass = jni.findClass("android/view/WindowManager");
 

@@ -22,94 +22,97 @@
 
 namespace RadJAV
 {
-    thread_local JNIEnv* Jni::_env = nullptr;
+	namespace Android
+	{
+		thread_local JNIEnv* Jni::_env = nullptr;
 
-    Jni& Jni::instance()
-    {
-        static Jni object;
-        return object;
-    }
+		Jni& Jni::instance()
+		{
+			static Jni object;
+			return object;
+		}
 
-    void Jni::storeJvm(JavaVM* jvm)
-    {
-        Jni& jni = Jni::instance();
+		void Jni::storeJvm(JavaVM* jvm)
+		{
+			Jni& jni = Jni::instance();
 
-        jni.setJvm(jvm);
-    }
+			jni.setJvm(jvm);
+		}
 
-    void Jni::storeJniEnvForThread(JNIEnv* env)
-    {
-        Jni& jni = Jni::instance();
+		void Jni::storeJniEnvForThread(JNIEnv* env)
+		{
+			Jni& jni = Jni::instance();
 
-        jni.setJniEnv(env);
-    }
+			jni.setJniEnv(env);
+		}
 
-    jclass Jni::findClass(const char* classPath)
-    {
-        std::unique_lock<std::mutex> lock {_mutex};
+		jclass Jni::findClass(const char* classPath)
+		{
+			std::unique_lock<std::mutex> lock {_mutex};
 
-        return _classes->get(classPath);
-    }
+			return _classes->get(classPath);
+		}
 
-    JNIEnv* Jni::getJniEnv()
-    {
-        if (!_env)
-        {
-            JNIEnv* env;
-            if (_jvm->GetEnv((void**)&env, JNI_VERSION_1_6))
-                return nullptr;
+		JNIEnv* Jni::getJniEnv()
+		{
+			if (!_env)
+			{
+				JNIEnv* env;
+				if (_jvm->GetEnv((void**)&env, JNI_VERSION_1_6))
+					return nullptr;
 
-            _env = env;
-        }
+				_env = env;
+			}
 
-        return _env;
-    }
+			return _env;
+		}
 
-    JavaVM* Jni::getJavaVm()
-    {
-        return _jvm;
-    }
+		JavaVM* Jni::getJavaVm()
+		{
+			return _jvm;
+		}
 
-    Jni::~Jni()
-    {
-        delete _classes;
-    }
+		Jni::~Jni()
+		{
+			delete _classes;
+		}
 
-    Jni::Jni()
-            : _jvm(nullptr),
-              _classes(nullptr)
-    {
-    }
+		Jni::Jni()
+				: _jvm(nullptr),
+				  _classes(nullptr)
+		{
+		}
 
-    void Jni::setJvm(JavaVM* jvm)
-    {
-        if (jvm != _jvm)
-            _jvm = jvm;
+		void Jni::setJvm(JavaVM* jvm)
+		{
+			if (jvm != _jvm)
+				_jvm = jvm;
 
-        if (!_classes)
-            initClassesCache();
+			if (!_classes)
+				initClassesCache();
 
-    }
-    void Jni::setJniEnv(JNIEnv* env)
-    {
-        if (env != _env)
-            _env = env;
-    }
+		}
+		void Jni::setJniEnv(JNIEnv* env)
+		{
+			if (env != _env)
+				_env = env;
+		}
 
-    void Jni::initClassesCache()
-    {
-        std::unique_lock<std::mutex> lock {_mutex};
+		void Jni::initClassesCache()
+		{
+			std::unique_lock<std::mutex> lock {_mutex};
 
-        //Init with default classes
-        //We can add more here to be loaded at startup
-        _classes = new ClassesCache({"com/fogchain/radjavvm/RadJavApplication",
-                                     "com/fogchain/radjavvm/UiCallback",
-                                     "com/fogchain/radjavvm/UiEventListener",
-                                     "com/fogchain/radjavvm/UiCallback",
-                                     "com/fogchain/radjavvm/RadJavLayout",
-                                     "android/widget/Button",
-                                     "android/os/Handler",
-                                     "android/os/Looper"});
+			//Init with default classes
+			//We can add more here to be loaded at startup
+			_classes = new ClassesCache({"com/fogchain/radjavvm/RadJavApplication",
+										 "com/fogchain/radjavvm/UiCallback",
+										 "com/fogchain/radjavvm/UiEventListener",
+										 "com/fogchain/radjavvm/UiCallback",
+										 "com/fogchain/radjavvm/RadJavLayout",
+										 "android/widget/Button",
+										 "android/os/Handler",
+										 "android/os/Looper"});
 
-    }
+		}
+	}
 }

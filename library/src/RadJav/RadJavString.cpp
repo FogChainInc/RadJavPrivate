@@ -419,6 +419,8 @@ namespace RadJAV
 #ifdef USE_ANDROID
 	jstring String::toJNIString() const
 	{
+		using namespace Android;
+
 		JNIEnv* env = Jni::instance().getJniEnv();
 		return env->NewStringUTF(c_str());
 	}
@@ -437,6 +439,8 @@ namespace RadJAV
 		//We assume that everyone on Java side implement CharSequence interface correctly
 		//so toString method will return String with corresponding chars from CharSequence
 
+		using namespace Android;
+
 		Jni& jni = Jni::instance();
 		JNIEnv* env = jni.getJniEnv();
 
@@ -450,6 +454,8 @@ namespace RadJAV
 
 	String parseJNIString(jstring str)
 	{
+		using namespace Android;
+
 		Jni& jni = Jni::instance();
 		JNIEnv* env = jni.getJniEnv();
 

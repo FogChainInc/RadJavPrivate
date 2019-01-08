@@ -8,7 +8,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
         RadJav.runApplication (function ()
             {
                 var win = new RadJav.MUI.View ("win", "Window Example");
-                win.create ().then (function (win2)
+                win.createMainView ().then (function (win2)
                     {
     	                var screenWidth = RadJav.getPrimaryScreen ().getWidth ();
     	                var screenHeight = RadJav.getPrimaryScreen ().getHeight ();

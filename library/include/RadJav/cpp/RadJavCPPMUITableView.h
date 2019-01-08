@@ -17,8 +17,9 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#ifndef _RADJAV_MUI_CPP_TableView_H_
-#define _RADJAV_MUI_CPP_TableView_H_
+#ifndef _RADJAV_MUI_CPP_TABLEVIEW_H_
+#define _RADJAV_MUI_CPP_TABLEVIEW_H_
+
 #include "cpp/RadJavCPPGUIGObject.h"
 #include "cpp/RadJavCPPMUITableViewModel.h"
 
@@ -40,8 +41,14 @@
 	{
 		namespace CPP
 		{
+			class Persistent;
+			
 			namespace MUI
 			{
+				#ifdef USE_ANDROID
+					class ListAdapter;
+				#endif
+
 				class RADJAV_EXPORT TableViewFrame : public GUI::GObjectWidget
 												, public ChainedPtr
                 {
@@ -49,19 +56,20 @@
                     TableViewFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
                     ~TableViewFrame();
 
-					void setText(String text);
+					#ifdef USE_IOS
+						void setText(String text);
                     
-					String getText();
+						String getText();
+					#endif
 
 					bool bindEvent(const String& eventName, const GUI::Event* event);
                     void setModel(MUI::TableViewModel *model);
                     void reload();
+
                     MUI::TableViewModel *model;
                     
 					#ifdef USE_IOS
 						UIView* getNativeWidget();
-					#elif defined USE_ANDROID
-						jobject getNativeWidget();
 					#endif
 
 				private:
@@ -69,7 +77,12 @@
 						UITableView* widget;
                         TableViewDelegate* widgetDelegate;
 					#elif defined USE_ANDROID
-						jobject widget;
+						ListAdapter* listAdapter;
+
+						static jclass nativeListViewClass;
+
+						static jmethodID nativeConstructor;
+						static jmethodID nativeSetAdapter;
 					#endif
                 };
                 
@@ -85,16 +98,21 @@
                         #endif
 						TableView(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 
+						~TableView();
+
 						void create();
                         void setModel(MUI::TableViewModel *model);
 
 						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
-                        	/// Execute when an event is triggered.
+							/// Set TableView item delegate
+                        	void setDelegate(RJ_FUNC_TYPE function);
+
+							/// Execute when an event is triggered.
                         	void on(String event, RJ_FUNC_TYPE func);
 						#endif
-					
-						///???
-						String icon;
+
+					protected:
+						Persistent* delegateConstructor;
 				};
 			}
 		}

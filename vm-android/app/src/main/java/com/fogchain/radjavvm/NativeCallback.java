@@ -17,21 +17,27 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#ifndef _RADJAV_UITHREADDISPATCHER_H
-#define _RADJAV_UITHREADDISPATCHER_H
 
-namespace RadJAV
-{
-	namespace Android
-	{
-		class UiThreadDispatcher
-		{
-		public:
-			virtual ~UiThreadDispatcher() {}
+package com.fogchain.radjavvm;
 
-			virtual void uiThreadArrived(bool async) = 0;
-		};
-	}
+import java.nio.ByteBuffer;
+
+public class NativeCallback {
+    static {
+        System.loadLibrary("RadJavWrapper");
+    }
+
+    private ByteBuffer callbackData;
+
+    NativeCallback(ByteBuffer data)
+    {
+        this.callbackData = data;
+    }
+
+    public Object run(Object... args)
+    {
+        return RadJavNativeCallback(callbackData, args);
+    }
+
+    private native Object RadJavNativeCallback(ByteBuffer data, Object... args);
 }
-
-#endif //_RADJAV_UITHREADDISPATCHER_H

@@ -26,6 +26,8 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
+			using namespace Android;
+
 			jclass ImageFrame::nativeImageViewClass = nullptr;
 
 			jmethodID ImageFrame::nativeConstructor = nullptr;
@@ -113,7 +115,7 @@ namespace RadJAV
 
 				jobject bitmap = env->CallStaticObjectMethod(bitmapFactoryClass, decodeFileMethod, imagePathJava.get());
 
-				if (AndroidUtils::IsNull(bitmap))
+				if (Utils::IsNull(bitmap))
 					return false;
 
 				bitmap = env->NewGlobalRef(bitmap);
@@ -169,7 +171,7 @@ namespace RadJAV
 				RadJav::runOnUiThread([&](JNIEnv* env, void* data) {
 					auto scaleModeJava = wrap_local(env, env->CallObjectMethod(widget, nativeGetScaleType));
 
-					String scaleModeStr = AndroidUtils::EnumValueToString("android/widget/ImageView$ScaleType", scaleModeJava);
+					String scaleModeStr = Utils::EnumValueToString("android/widget/ImageView$ScaleType", scaleModeJava);
 
 					if (scaleModeStr == "CENTER_CROP")
 					{

@@ -22,23 +22,26 @@
 
 namespace RadJAV
 {
-    UiThreadCallbackFunction::UiThreadCallbackFunction(UiThreadDispatcher* dispatcher,
-                                                       UiThreadCallbackFunctionType function, void* data,
-                                                       bool asynchronous)
-            : _dispatcher(dispatcher),
-              _function(function),
-              _data(data),
-              _asynchronous(asynchronous)
-    {
-    }
+    namespace Android
+	{
+		UiThreadCallbackFunction::UiThreadCallbackFunction(UiThreadDispatcher* dispatcher,
+														   UiThreadCallbackFunctionType function, void* data,
+														   bool asynchronous)
+				: _dispatcher(dispatcher),
+				  _function(function),
+				  _data(data),
+				  _asynchronous(asynchronous)
+		{
+		}
 
-    void UiThreadCallbackFunction::dispatch()
-    {
-        _dispatcher->uiThreadArrived(_asynchronous);
-    }
+		void UiThreadCallbackFunction::dispatch()
+		{
+			_dispatcher->uiThreadArrived(_asynchronous);
+		}
 
-    void UiThreadCallbackFunction::operator ()(JNIEnv* env)
-    {
-        _function(env, _data);
-    }
+		void UiThreadCallbackFunction::operator ()(JNIEnv* env)
+		{
+			_function(env, _data);
+		}
+	}
 }

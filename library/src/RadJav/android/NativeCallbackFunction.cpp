@@ -17,21 +17,21 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#ifndef _RADJAV_UITHREADDISPATCHER_H
-#define _RADJAV_UITHREADDISPATCHER_H
+#include "android/NativeCallbackFunction.h"
 
 namespace RadJAV
 {
-	namespace Android
-	{
-		class UiThreadDispatcher
+    namespace Android
+    {
+		NativeCallbackFunction::NativeCallbackFunction(NativeCallbackFunctionType function, void* data)
+				: _function(function),
+				  _data(data)
 		{
-		public:
-			virtual ~UiThreadDispatcher() {}
+		}
 
-			virtual void uiThreadArrived(bool async) = 0;
-		};
-	}
+		jobject NativeCallbackFunction::operator ()(JNIEnv* env, jobjectArray parameters)
+		{
+			return _function(env, _data, parameters);
+		}
+    }
 }
-
-#endif //_RADJAV_UITHREADDISPATCHER_H

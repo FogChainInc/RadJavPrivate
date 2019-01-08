@@ -7,7 +7,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
         RadJav.runApplication (function ()
             {
                 var win = new RadJav.MUI.View ("win", "Button Example");
-                win.create ().then (function (win2)
+                win.createMainView ().then (function (win2)
                     {
     	                var screenWidth = RadJav.getPrimaryScreen ().getWidth ();
     	                var screenHeight = RadJav.getPrimaryScreen ().getHeight ();
@@ -23,13 +23,13 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 							button.setSize (200, 100);
 												
 							button.on ("touch", function () {
-								RadJav.Console.println("radjav touch");
+								RadJav.Console.log("radjav touch");
 								btn1.setText("touch");
 								return true;
 							});
 								
 							button.on ("key", function () {
-								RadJav.Console.println("radjav key");
+								RadJav.Console.log("radjav key");
 								btn1.setText("key");
 								return true;
 							});								
@@ -43,11 +43,11 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 							button.setSize (400, 100);
 							
 							button.on ("focusChange", function () {
-								RadJav.Console.println("radjav focusChange");
+								RadJav.Console.log("radjav focusChange");
 								btn2.setText("focusChange");
 							});							
 							button.on ("longClick", function () {
-								RadJav.Console.println("radjav longClick");
+								RadJav.Console.log("radjav longClick");
 								btn2.setText("longClick");
 								return true;
 							});								
@@ -62,26 +62,26 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 
 							button.on ("click", function ()
 								{
-									RadJav.Console.println("radjav message");
+									RadJav.Console.log("radjav message");
 									if (button.flag) {
 										button.flag = false;
-										RadJav.Console.println("radjav false");
+										RadJav.Console.log("radjav false");
 										button.setText("False");
 									} else
 									{
 										button.flag = true;
-										RadJav.Console.println("radjav true");
+										RadJav.Console.log("radjav true");
 										button.setText("True");
 									}
 									//alert ("Hello World!");
 								});
 							
 							button.on ("createContextMenu", function () {
-								RadJav.Console.println("radjav createContextMenu");
+								RadJav.Console.log("radjav createContextMenu");
 								button.setText("context");
 							});							
 							button.on ("undefinedEvent", function () {
-								RadJav.Console.println("radjav undefinedEvent");
+								RadJav.Console.log("radjav undefinedEvent");
 								button.setText("undefined");
 							});
 						});

@@ -110,7 +110,10 @@ namespace RadJAV
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
             	void TableCellModel::on(String event, RJ_FUNC_TYPE func)
 				{
-                    this->nativeImplementation->addNewEvent(event, func);
+					//TODO: this has issue with Android build
+					#ifdef USE_IOS
+                    	this->nativeImplementation->addNewEvent(event, func);
+					#endif
 				}
 			#endif
 		}

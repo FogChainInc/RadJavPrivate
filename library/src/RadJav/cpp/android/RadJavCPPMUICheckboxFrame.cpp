@@ -27,6 +27,8 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
+			using namespace Android;
+
 			jclass CheckboxFrame::nativeSwitchClass = nullptr;
 
 			jmethodID CheckboxFrame::nativeConstructor = nullptr;

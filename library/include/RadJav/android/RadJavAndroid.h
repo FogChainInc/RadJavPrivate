@@ -24,92 +24,108 @@
 #include "android/Jni.h"
 #include "android/UiThreadDispatcher.h"
 #include "android/UiThreadCallbackFunction.h"
+#include "android/NativeCallbackFunction.h"
 #include "cpp/RadJavCPPGUIGObject.h"
 
 namespace RadJAV
 {
-    class RadJavAndroid : public UiThreadDispatcher {
-    public:
-        RadJavAndroid();
+	namespace Android
+	{
+		class RadJavAndroid : public UiThreadDispatcher {
+		public:
+			RadJavAndroid();
 
-        ~RadJavAndroid();
+			~RadJavAndroid();
 
-        RadJavAndroid(const RadJavAndroid &) = delete;
+			RadJavAndroid(const RadJavAndroid &) = delete;
 
-        RadJavAndroid(RadJavAndroid &&) = delete;
+			RadJavAndroid(RadJavAndroid &&) = delete;
 
-        RadJavAndroid &operator=(const RadJavAndroid &) = delete;
+			RadJavAndroid &operator=(const RadJavAndroid &) = delete;
 
-        static RadJavAndroid *instance();
-        static bool registerNatives();
+			static RadJavAndroid *instance();
+			static bool registerNatives();
 
-        ///Request function execution on Java UI thread synchronously
-        void runOnUiThread(UiThreadCallbackFunctionType function, void *data = nullptr);
+			///Request function execution on Java UI thread synchronously
+			void runOnUiThread(UiThreadCallbackFunctionType function, void *data = nullptr);
 
-        ///Request function execution on Java UI thread
-        void runOnUiThreadAsync(UiThreadCallbackFunctionType function, void *data = nullptr);
+			///Request function execution on Java UI thread
+			void runOnUiThreadAsync(UiThreadCallbackFunctionType function, void *data = nullptr);
 
-        ///Terminate main loop
-        void terminate(int exitCode);
+			///Terminate main loop
+			void terminate(int exitCode);
 
-        ///Get main java application instance
-        jobject getJavaApplication() const;
+			///Get main java application instance
+			jobject getJavaApplication() const;
 
-        ///Get main java ViewGroup
-        jobject getJavaViewGroup() const;
+			///Get main java ViewGroup
+			jobject getJavaViewGroup() const;
 
-        ///Determine if there is some unfinished job requested on Android UI thread
-        bool isWaitingForUiThread();
+			///Determine if there is some unfinished job requested on Android UI thread
+			bool isWaitingForUiThread();
 
-        ///Check if Android application was paused (Activity is in a background or destroyed)
-        bool isPaused() const;
+			///Check if Android application was paused (Activity is in a background or destroyed)
+			bool isPaused() const;
 
-        static void handleUIEvent();
-        static void defaultLockGuiThread();
+			void handleNativeCallback();
+			void handleUIEvent();
 
-    private:
-        void uiThreadRequested();
+		private:
+			void defaultLockGuiThread();
 
-        void uiThreadArrived(bool async);
+			void uiThreadRequested();
 
-        void runOnUiThread(UiThreadCallbackFunctionType function, void *data, bool asynchronously);
+			void uiThreadArrived(bool async);
 
-        ///Java thread entry point
-        static jint onRun(JNIEnv *env,
-                          jobject thisObject,
-                          jobject application,
-                          jobject viewGroup,
-                          jstring cachePath,
-                          jstring appPath);
+			void runOnUiThread(UiThreadCallbackFunctionType function, void *data, bool asynchronously);
 
-        ///Ui thread callback called by request from runOnUiThreadAsynch
-        static void onUiThread(JNIEnv *env,
-                               jobject javaUiCallbackObject,
-                               jobject data);
+			///Java thread entry point
+			static jint onRun(JNIEnv *env,
+							  jobject thisObject,
+							  jobject application,
+							  jobject viewGroup,
+							  jstring cachePath,
+							  jstring appPath);
 
-        ///UI thread callback when UI event occur
-        static jboolean onUiEvent(JNIEnv *env,
-                                  jobject javaUiEventListenerObject,
-                                  jobject data,
-                                  jobjectArray arguments);
+			///Ui thread callback called by request from runOnUiThreadAsynch/runOnUiThread from C++ side
+			static void onUiThread(JNIEnv *env,
+								   jobject javaUiCallbackObject,
+								   jobject data);
 
-    private:
-        jobject _java_application;
-        jobject _java_view_group;
-        bool _terminated;
-        int _exit_code;
-        unsigned long _ui_thread_request_counter;
-        std::mutex _counter_protector_mutex;
-        std::mutex _sync_ui_call_mutex;
+			///UI thread callback when UI event occur on some GUI controls
+			static jboolean onUiEvent(JNIEnv *env,
+									  jobject javaUiEventListenerObject,
+									  jobject data,
+									  jobjectArray arguments);
 
-        static std::mutex _eventMutex1;
-        static CPP::GUI::EventData* _eventData;
-        static jobjectArray _eventArguments;
-        static std::mutex _eventMutex2;
-        static int _eventResult;
+			///UI thread callback when need to run a specific C++ code from Java
+			static jobject onUiCall(JNIEnv *env,
+									jobject javaNativeCallbackObject,
+									jobject data,
+									jobjectArray arguments);
 
-        static RadJavAndroid *_instance;
-    };
+		private:
+			jobject _java_application;
+			jobject _java_view_group;
+			bool _terminated;
+			int _exit_code;
+			unsigned long _ui_thread_request_counter;
+			std::mutex _counter_protector_mutex;
+			std::mutex _sync_ui_call_mutex;
+
+			std::mutex _eventMutex1;
+			CPP::GUI::EventData* _eventData;
+			jobjectArray _eventArguments;
+			std::mutex _eventMutex2;
+			int _eventResult;
+
+			NativeCallbackFunction* _native_callback;
+			jobjectArray _native_callback_parameters;
+			jobject _native_callback_result;
+
+			static RadJavAndroid *_instance;
+		};
+	}
 }
 
 #endif

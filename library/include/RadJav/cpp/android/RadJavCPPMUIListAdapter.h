@@ -17,21 +17,53 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#ifndef _RADJAV_UITHREADDISPATCHER_H
-#define _RADJAV_UITHREADDISPATCHER_H
+
+#ifndef _RADJAV_MUI_CPP_LISTADAPTER_H_
+#define _RADJAV_MUI_CPP_LISTADAPTER_H_
+
+#include "android/Jni.h"
+#include <vector>
+
 
 namespace RadJAV
 {
 	namespace Android
 	{
-		class UiThreadDispatcher
-		{
-		public:
-			virtual ~UiThreadDispatcher() {}
+		class NativeCallbackFunction;
+	}
 
-			virtual void uiThreadArrived(bool async) = 0;
-		};
+	namespace CPP
+	{
+		namespace MUI
+		{
+			class ListAdapter
+			{
+			public:
+				ListAdapter();
+				virtual ~ListAdapter();
+
+				jobject getNativeObject() const;
+
+			protected:
+				virtual void registerCallbacks();
+				virtual void registerCallback(JNIEnv* env, const char* callbackType, Android::NativeCallbackFunction* function);
+
+			protected:
+				jobject object;
+				std::vector<Android::NativeCallbackFunction*> callbacks;
+
+				static jclass listViewClass;
+				static jclass listAdapterClass;
+				static jclass nativeCallbackClass;
+
+				static jmethodID listAdapterConstructor;
+				static jmethodID nativeCallbackConstructor;
+				static jmethodID setCallback;
+				static jmethodID notifyChanged;
+				static jmethodID notifyInvalidated;
+			};
+		}
 	}
 }
 
-#endif //_RADJAV_UITHREADDISPATCHER_H
+#endif

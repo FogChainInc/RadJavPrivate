@@ -5,9 +5,9 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
     .then (function (){
         RadJav.runApplication (function () {
             var win = new RadJav.MUI.View ("win", "Window Example");
-            win.create ().then (function (win2) {
-    	        var screenWidth = 400;//= RadJav.getPrimaryScreen ().getWidth ();
-    	        var screenHeight = 600;//= RadJav.getPrimaryScreen ().getHeight ();
+            win.createMainView ().then (function (win2) {
+    	        var screenWidth = RadJav.getPrimaryScreen ().getWidth ();
+    	        var screenHeight = RadJav.getPrimaryScreen ().getHeight ();
 		
 				window = win2;
 				window.setPosition(0, 0);
@@ -20,15 +20,15 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
                     checkbox.setSize (200, 100);
 
 					checkbox.on ("click", function () {
-						RadJav.Console.println("radjav checkbox onClick");
+						RadJav.Console.log("radjav checkbox onClick");
 					});
                     checkbox.on ("longClick", function () {
-						RadJav.Console.println("radjav checkbox longClick");
+						RadJav.Console.log("radjav checkbox longClick");
                     });
 					
 					checkbox.on ("changed", function () {
-						RadJav.Console.println("radjav checkbox onChanged");
-						RadJav.Console.println(checkbox.getChecked()? "true":"false");
+						RadJav.Console.log("radjav checkbox onChanged");
+						RadJav.Console.log(checkbox.getChecked()? "true":"false");
                         alert ("Checkbox value changed");
                     });
                 });

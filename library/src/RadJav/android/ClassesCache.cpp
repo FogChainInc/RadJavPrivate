@@ -22,46 +22,49 @@
 
 namespace RadJAV
 {
-    ClassesCache::ClassesCache()
-    {
-    }
+	namespace Android
+	{
+		ClassesCache::ClassesCache()
+		{
+		}
 
-    ClassesCache::ClassesCache(std::initializer_list<const char*> preloadClasses)
-    {
-        JNIEnv* env = Jni::instance().getJniEnv();
+		ClassesCache::ClassesCache(std::initializer_list<const char*> preloadClasses)
+		{
+			JNIEnv* env = Jni::instance().getJniEnv();
 
-        for (auto classPath : preloadClasses)
-        {
-            auto clazz = AndroidUtils::FindClass(classPath);
+			for (auto classPath : preloadClasses)
+			{
+				auto clazz = Utils::FindClass(classPath);
 
-            _classes[classPath] = clazz;
-        }
-    }
+				_classes[classPath] = clazz;
+			}
+		}
 
-    ClassesCache::~ClassesCache()
-    {
-        JNIEnv* env = Jni::instance().getJniEnv();
+		ClassesCache::~ClassesCache()
+		{
+			JNIEnv* env = Jni::instance().getJniEnv();
 
-        for (auto& clazz : _classes)
-        {
-            env->DeleteGlobalRef(clazz.second);
-        }
-    }
+			for (auto& clazz : _classes)
+			{
+				env->DeleteGlobalRef(clazz.second);
+			}
+		}
 
-    jclass ClassesCache::get(const char* classPath)
-    {
-        auto it = _classes.find(classPath);
+		jclass ClassesCache::get(const char* classPath)
+		{
+			auto it = _classes.find(classPath);
 
-        if ( it != _classes.end())
-        {
-            return it->second;
-        }
+			if ( it != _classes.end())
+			{
+				return it->second;
+			}
 
-        jclass clazz = AndroidUtils::FindClass(classPath);
+			jclass clazz = Utils::FindClass(classPath);
 
-        if(clazz)
-            _classes[classPath] = clazz;
+			if(clazz)
+				_classes[classPath] = clazz;
 
-        return clazz;
-    }
+			return clazz;
+		}
+	}
 }

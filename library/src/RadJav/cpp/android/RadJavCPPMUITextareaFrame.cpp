@@ -25,6 +25,8 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
+			using namespace Android;
+
 			jclass TextareaFrame::nativeEditTextClass = nullptr;
 
 			jmethodID TextareaFrame::nativeConstructor = nullptr;

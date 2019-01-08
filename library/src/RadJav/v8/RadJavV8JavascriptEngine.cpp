@@ -86,7 +86,7 @@
 		//#include "v8/RadJavV8MUIViewController.h"
 		//#include "v8/RadJavV8MUINavigationViewController.h"
 		//#include "v8/RadJavV8MUITableViewController.h"
-		//#include "v8/RadJavV8MUITableView.h"
+		#include "v8/RadJavV8MUITableView.h"
 		//#include "v8/RadJavV8MUITableViewModel.h"
 		//#include "v8/RadJavV8MUITableCellModel.h"
 		//#include "v8/RadJavV8MUIScrollView.h"
@@ -437,38 +437,45 @@ namespace RadJAV
 					// Enter the main loop of app
 					exitCode = wxTheApp->OnRun();
 				}
-            #elif defined USE_ANDROID
-//				RadJav& vm = RadJav::instance();
-                RadJavAndroid::defaultLockGuiThread();
-				while(true)
-				{
-//					if (RadJav::isWaitingForUiThread())
-//					{
-//						LOGI("Waiting for UI thread");
-//
-//						threadSleep(1);
-//						continue;
-//					}
+			#elif defined USE_ANDROID
+				using namespace Android;
 
-					if (RadJav::isPaused())
+				RadJavAndroid* app = RadJavAndroid::instance();
+				if (app)
+				{
+					//app->defaultLockGuiThread();
+
+					while(true)
 					{
-						LOGI("OnPause");
-						threadSleep(500);
+//						if (RadJav::isWaitingForUiThread())
+//						{
+//							LOGI("Waiting for UI thread");
+//
+//							threadSleep(1);
+//							continue;
+// 						}
+
+						if (RadJav::isPaused())
+						{
+							LOGI("OnPause");
+							threadSleep(500);
+
+							if(!runApplicationSingleStep())
+								break;
+
+							continue;
+						}
+
+						app->handleNativeCallback();
+						app->handleUIEvent();
 
 						if(!runApplicationSingleStep())
 							break;
 
-						continue;
+						threadSleep(1);
 					}
-
-                    RadJavAndroid::instance()->handleUIEvent();
-
-
-					if(!runApplicationSingleStep())
-						break;
-
-					threadSleep(1);
 				}
+
 				LOGI("Exiting");
 			#else
 				while (runApplicationSingleStep()) {}
@@ -1274,7 +1281,11 @@ namespace RadJAV
 				{
 					v8::Handle<v8::Function> consoleFunc = v8GetFunction(radJavFunc, "Console");
 
-					V8B::Console::createV8Callbacks(isolate, consoleFunc);
+					#ifdef USE_ANDROID
+						V8B::Console::createV8Callbacks(isolate, consoleFunc, true);
+					#else
+						V8B::Console::createV8Callbacks(isolate, consoleFunc);
+					#endif
 				}
 
 				// RadJav.DB
@@ -1566,15 +1577,17 @@ namespace RadJAV
                         
                         JSC::MUI::TableViewController::createJSCCallbacks(globalContext, viewPrototype);
                     }
+                    #endif
+
+					// RadJav.MUI.TableView
+					{
+						v8::Handle<v8::Function> viewFunc = v8GetFunction(muiFunc, "TableView");
+						v8::Handle<v8::Object> viewPrototype = v8GetObject(viewFunc, "prototype");
+
+						V8B::MUI::TableView::createV8Callbacks(isolate, viewPrototype);
+					}
                     
-                    // RadJav.MUI.TableView
-                    {
-                        JSObjectRef viewFunc = jscGetFunction(muiFunc, "TableView");
-                        JSObjectRef viewPrototype = jscGetObject(viewFunc, "prototype");
-                        
-                        JSC::MUI::TableView::createJSCCallbacks(globalContext, viewPrototype);
-                    }
-                    
+					#if 0
                     // RadJav.MUI.TableViewModel
                     {
                         JSObjectRef viewFunc = jscGetFunction(muiFunc, "TableViewModel");

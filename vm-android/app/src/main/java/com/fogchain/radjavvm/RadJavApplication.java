@@ -22,6 +22,7 @@ package com.fogchain.radjavvm;
 import android.app.Activity;
 import android.app.Application;
 import android.content.res.AssetManager;
+//import android.util.Log;
 import android.view.ViewGroup;
 import android.os.Build;
 
@@ -41,6 +42,8 @@ public final class RadJavApplication extends Application
     static private boolean shutdown = false;
 
     static private ViewGroup mainWindow;
+
+    private static final String TAG = "RadJavApplication";
 
     public static String getAbi()
     {
@@ -118,6 +121,8 @@ public final class RadJavApplication extends Application
     {
         if (!initialized)
         {
+            //Log.i(TAG, "Initialize (create mainView)");
+
             mainWindow = new RadJavLayout(activity);
             initialized = true;
 
@@ -130,10 +135,16 @@ public final class RadJavApplication extends Application
 
     public void run(final String appFile)
     {
-        paused = false;
+        if (paused)
+        {
+            paused = false;
+            //Log.i(TAG, "App unpaused");
+        }
 
         if (!thread_started)
         {
+            //Log.i(TAG, "Run libRadJav");
+
             final RadJavApplication app = this;
 
             Thread thread = new Thread(new Runnable() {
@@ -151,6 +162,7 @@ public final class RadJavApplication extends Application
 
     public void pause()
     {
+        //Log.i(TAG, "App paused");
         paused = true;
     }
 

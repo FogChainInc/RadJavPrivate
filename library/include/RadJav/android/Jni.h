@@ -26,55 +26,58 @@
 
 namespace RadJAV
 {
-    class ClassesCache;
+	namespace Android
+	{
+		class ClassesCache;
 
-    class Jni {
-    public:
-        static Jni& instance();
+		class Jni {
+		public:
+			static Jni& instance();
 
-        ///Call this during JNI_OnLoad
-        static void storeJvm(JavaVM* jvm);
+			///Call this during JNI_OnLoad
+			static void storeJvm(JavaVM* jvm);
 
-        ///Call this for each thread function callback because JNIEnv is valid per native call
-        static void storeJniEnvForThread(JNIEnv* env);
+			///Call this for each thread function callback because JNIEnv is valid per native call
+			static void storeJniEnvForThread(JNIEnv* env);
 
-        ///Call this to get java class, classes cached and stored as global references, thread safe
-        jclass findClass(const char* classPath);
+			///Call this to get java class, classes cached and stored as global references, thread safe
+			jclass findClass(const char* classPath);
 
-        ///Call this to get JNIEnv, thread safe
-        JNIEnv* getJniEnv();
+			///Call this to get JNIEnv, thread safe
+			JNIEnv* getJniEnv();
 
-        ///Call this to get JavaVM, thread safe
-        JavaVM* getJavaVm();
+			///Call this to get JavaVM, thread safe
+			JavaVM* getJavaVm();
 
-        ///Make auto release-able local reference
-        template<class T>
-        Local<T> wrapLocalRef(T* reference)
-        {
-            return wrap_local<T>(_env, reference);
-        }
+			///Make auto release-able local reference
+			template<class T>
+			Local<T> wrapLocalRef(T* reference)
+			{
+				return wrap_local<T>(_env, reference);
+			}
 
-    public:
-        ~Jni();
+		public:
+			~Jni();
 
-        Jni(const Jni&) = delete;
-        Jni(Jni&&) = delete;
-        Jni& operator =(const Jni&) = delete;
+			Jni(const Jni&) = delete;
+			Jni(Jni&&) = delete;
+			Jni& operator =(const Jni&) = delete;
 
-    private:
-        Jni();
+		private:
+			Jni();
 
-        void setJvm(JavaVM* jvm);
-        void setJniEnv(JNIEnv* env);
+			void setJvm(JavaVM* jvm);
+			void setJniEnv(JNIEnv* env);
 
-        void initClassesCache();
+			void initClassesCache();
 
-    private:
-        JavaVM* _jvm;
-        thread_local static JNIEnv* _env;
-        ClassesCache* _classes;
-        std::mutex _mutex;
-    };
+		private:
+			JavaVM* _jvm;
+			thread_local static JNIEnv* _env;
+			ClassesCache* _classes;
+			std::mutex _mutex;
+		};
+	}
 }
 
 #endif //_JNI_H
