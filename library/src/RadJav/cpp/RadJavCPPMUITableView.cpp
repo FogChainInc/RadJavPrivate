@@ -88,7 +88,7 @@ namespace RadJAV
 				delegateConstructor = RJNEW Persistent(constructor);
 
 				//constructor->Call(V8_JAVASCRIPT_ENGINE->globalContext, 0, nullptr);
-				V8_JAVASCRIPT_ENGINE->v8CallFunction(constructor, 0, nullptr);
+				//V8_JAVASCRIPT_ENGINE->v8CallFunction(constructor, 0, nullptr);
 				//V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(constructor, 0, nullptr);
 			}
 
