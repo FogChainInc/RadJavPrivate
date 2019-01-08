@@ -111,13 +111,13 @@
 					 	* @param View view to be added on top of navigation stack.
 					 	* @param Bool replace. If true - replaces topmost controller on stack
 						 */
-						void push(ViewFrame* view, bool replace);
+						void push(View* view, bool replace);
 					
 						/** @method pop.
 						*
 					 	* @param ViewFrame view. If view is on navigation stack - pop back all the way to it, otherwise pop to root
 					 	*/
-						void pop(ViewFrame* view);
+						void pop(View* view);
 						/** @method pop. Removes last controller in stack with default animation
 						 *
 						 */
