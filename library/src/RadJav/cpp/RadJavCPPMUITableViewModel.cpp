@@ -31,32 +31,42 @@ namespace RadJAV
 		{
 			#ifdef USE_V8
 			TableViewModel::TableViewModel(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
-				: GObject (jsEngine, args)
+			: itemsCount(0)
 			{
 			}
 			#endif
             #ifdef USE_JAVASCRIPTCORE
                 TableViewModel::TableViewModel(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[])
-                    : GObject (jsEngine, thisObj, numArgs, args)
+				: itemsCount(0)
                 {
                 }
             #endif
 
-			TableViewModel::TableViewModel(String name, String text, CPP::GUI::GObject *parent)
-				: GObject(name, text, parent)
+			TableViewModel::TableViewModel()
+			: itemsCount(0)
 			{
 			}
 
-			void TableViewModel::create()
+			void TableViewModel::itemAdded(unsigned int index)
 			{
-				GUI::GObjectWidget* parentWin = nullptr;
-                this->linkedFrame = nullptr;
-				if (_parent != nullptr)
-					parentWin = _parent->_appObj;
-				
-				setup();
+				itemsCount++;
 			}
-            
+			
+			void TableViewModel::itemRemoved(unsigned int index)
+			{
+				itemsCount--;
+			}
+			
+			void TableViewModel::itemsCleared()
+			{
+				itemsCount = 0;
+			}
+			
+			unsigned int TableViewModel::size() const
+			{
+				return itemsCount;
+			}
+
             void TableViewModel::setCellModels(std::vector<CPP::MUI::TableCellModel *> *models)
             {                
                 if (models->size()!= 0){
@@ -108,10 +118,11 @@ namespace RadJAV
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
             	void TableViewModel::on(String event, RJ_FUNC_TYPE func)
 				{
+					/*
 					if (_appObj)
 					{
 						_appObj->addNewEvent(event, func);
-					}
+					}*/
 				}
 			#endif
 		}

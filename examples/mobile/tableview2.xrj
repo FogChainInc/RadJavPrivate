@@ -32,7 +32,7 @@ function populateItems(model)
 	var i;
 	for(i = 0; i < 10; i++)
 	{
-		model.add({text: "Item "+ i});
+		model.push({text: "Item "+ i});
 	}
 }
 
@@ -56,7 +56,6 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 		
 		//Create model for list
 		tableViewModel = new RadJav.MUI.TableViewModel();
-		tableViewModel.create();
 		
 		populateItems(tableViewModel);
 		

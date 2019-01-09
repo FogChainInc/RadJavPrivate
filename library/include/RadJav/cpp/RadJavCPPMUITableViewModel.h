@@ -40,7 +40,7 @@
 		{
 			namespace MUI
 			{
-				class RADJAV_EXPORT TableViewModel : public CPP::GUI::GObject
+				class RADJAV_EXPORT TableViewModel : public ChainedPtr
 				{
 					public:
 						#ifdef USE_V8
@@ -49,19 +49,26 @@
                         #ifdef USE_JAVASCRIPTCORE
                             TableViewModel(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
                         #endif
-						TableViewModel(String name, String text = "", CPP::GUI::GObject *parent = NULL);
+						TableViewModel();
 
-						void create();
+						void itemAdded(unsigned int index);
+						void itemRemoved(unsigned int index);
+						void itemsCleared();
 
+						unsigned int size() const;
+					
 						void setCellModels(std::vector<CPP::MUI::TableCellModel*> *models);
 						std::vector< std::vector<CPP::MUI::TableCellModel*> > *cells;
 						std::vector<CPP::MUI::TableCellModel*> *headers;
 						GUI::GObjectWidget *linkedFrame;
-
+					
 						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
-                        	/// Execute when an event is triggered.
-                        	void on(String event, RJ_FUNC_TYPE func);
+							/// Execute when an event is triggered.
+							void on(String event, RJ_FUNC_TYPE func);
 						#endif
+					protected:
+						unsigned int itemsCount;
+
 				};
 			}
 		}
