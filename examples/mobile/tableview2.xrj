@@ -21,7 +21,7 @@ var tableViewDelegate = function (itemData)
 	var label = new RadJav.MUI.Label("label", itemText, view);
 	label.create();
 	label.setSize(screenWidth/2, itemHeight/2);
-	label.setPosition(screenWidth/20, (itemHeight - text.getHeight())/2);
+	label.setPosition(screenWidth/20, (itemHeight - label.getHeight())/2);
 	
 	//Return root control for this TableView item
 	return view;
