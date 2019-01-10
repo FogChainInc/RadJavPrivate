@@ -88,7 +88,8 @@
 					#endif
                 };
                 
-                
+				class View;
+				
 				class RADJAV_EXPORT TableView : public CPP::GUI::GObject
 				{
 					public:
@@ -103,19 +104,28 @@
 						~TableView();
 
 						void create();
-                        void setModel(MUI::TableViewModel *model);
-						TableCellModelFrame* viewForCellModel(RadJAV::CPP::MUI::TableCellModel * model);
+					
+						//void setModel(MUI::TableViewModel *model);
+						#ifdef USE_V8
+							//TODO: add V8 engine implementation
+							//void setModel(MUI::TableViewModel *model);
+						#elif defined USE_JAVASCRIPTCORE
+							void setModel(JSObjectRef model);
+						#endif
+					
+						View* createViewForItem(unsigned int itemIndex);
 
 						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
 							/// Set TableView item delegate
-                        	void setDelegate(RJ_FUNC_TYPE function);
+                        	void setDelegate(RJ_FUNC_TYPE delegateFunction);
 
 							/// Execute when an event is triggered.
                         	void on(String event, RJ_FUNC_TYPE func);
 						#endif
 
 					protected:
-						Persistent* delegateConstructor;
+						Persistent* delegateJs;
+						Persistent* modelJs;
 				};
 			}
 		}

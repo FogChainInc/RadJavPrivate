@@ -39,6 +39,9 @@ namespace RadJAV
                 TableViewModel::TableViewModel(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[])
 				: itemsCount(0)
                 {
+					//This is temporalily, needs to be removed
+					cells = RJNEW std::vector<std::vector<CPP::MUI::TableCellModel*> >();
+					headers = RJNEW std::vector<CPP::MUI::TableCellModel*>();
                 }
             #endif
 

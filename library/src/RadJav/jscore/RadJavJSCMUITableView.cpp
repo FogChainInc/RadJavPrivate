@@ -60,15 +60,21 @@ namespace RadJAV
             
             JSValueRef TableView::setModel(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
             {
+				JSValueRef undefined = JSValueMakeUndefined(ctx);
+				
                 CppMuiObject *appObject = (CppMuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
-                if (argumentCount > 0){
-                    JSObjectRef argument =  JSValueToObject(ctx, arguments[0], exception);
-                    CPP::MUI::TableViewModel *model = (CPP::MUI::TableViewModel *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, argument, "_appObj");
-                    if (model != NULL){
-                        
-                        appObject->setModel(model);
-                    }
-                    
+				
+				if (!appObject)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "TableView not initialized");
+				}
+				
+				JSValueRef modelJs = JSC_JAVASCRIPT_ENGINE->jscGetArgument(arguments, argumentCount, 0);
+                if (argumentCount > 0 &&
+					JSValueIsObject(ctx, modelJs))
+				{
+                    JSObjectRef modelObjectJs =  JSValueToObject(ctx, modelJs, exception);
+					appObject->setModel(modelObjectJs);
                 }
 				
 				/*
@@ -78,7 +84,7 @@ namespace RadJAV
                 return promise;
 				 */
 				
-				return JSValueMakeUndefined(ctx);
+				return undefined;
             }
 
 			JSValueRef TableView::setDelegate(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)

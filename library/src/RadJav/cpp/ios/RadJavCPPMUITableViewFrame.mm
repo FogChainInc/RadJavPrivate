@@ -76,8 +76,10 @@ namespace RadJAV
 			
 			TableCellModelFrame* TableViewFrame::viewForCellModel(RadJAV::CPP::MUI::TableCellModel * model)
 			{
-				tableView->viewForCellModel(model);
+				//TODO: Add implementation
+				//return tableView->createViewForItem(itemIndex);
 				
+				return nullptr;
 			}
             
 			#ifdef USE_IOS

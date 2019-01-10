@@ -18,6 +18,7 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 #include "cpp/RadJavCPPMUITableView.h"
+#include "cpp/RadJavCPPMUIView.h"
 
 #include "RadJav.h"
 #include "RadJavString.h"
@@ -32,27 +33,31 @@ namespace RadJAV
 			#ifdef USE_V8
 			TableView::TableView(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
 				: GObject (jsEngine, args),
-				  delegateConstructor(nullptr)
+				  delegateJs(nullptr),
+				  modelJs(nullptr)
 			{
 			}
 			#endif
             #ifdef USE_JAVASCRIPTCORE
                 TableView::TableView(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[])
                     : GObject (jsEngine, thisObj, numArgs, args),
-					  delegateConstructor(nullptr)
+					  delegateJs(nullptr),
+					  modelJs(nullptr)
                 {
                 }
             #endif
 
 			TableView::TableView(String name, String text, CPP::GUI::GObject *parent)
 				: GObject(name, text, parent),
-				  delegateConstructor(nullptr)
+				  delegateJs(nullptr),
+				  modelJs(nullptr)
 			{
 			}
 
 			TableView::~TableView()
 			{
-				RJDELETE delegateConstructor;
+				RJDELETE delegateJs;
+				RJDELETE modelJs;
 			}
 
 			void TableView::create()
@@ -73,43 +78,88 @@ namespace RadJAV
 				setup();
 			}
 
-			void TableView::setModel(MUI::TableViewModel *model)
-			{
-                if (_appObj)
-                	((TableViewFrame*)_appObj)->setModel(model);
-            }
-
-			void TableView::setDelegate(RJ_FUNC_TYPE constructor)
-			{
-				if (delegateConstructor)
+			#ifdef USE_V8
+			/* TODO: Add V8 engine implementation
+				void TableView::setModel(MUI::TableViewModel *model)
 				{
-					RJDELETE delegateConstructor;
+					if (_appObj)
+						((TableViewFrame*)_appObj)->setModel(model);
+				}
+			 */
+			#elif defined USE_JAVASCRIPTCORE
+				void TableView::setModel(JSObjectRef model)
+				{
+					if (modelJs)
+					{
+						RJDELETE modelJs;
+					}
+					
+					modelJs = RJNEW Persistent(model);
+					
+					if (_appObj)
+					{
+						TableViewModel* modelObj = (TableViewModel*) JSC_JAVASCRIPT_ENGINE->jscGetExternal(JSC_JAVASCRIPT_ENGINE->globalContext, model, "_appObj");
+						
+						if(modelObj)
+						{
+							((TableViewFrame*)_appObj)->setModel(modelObj);
+						}
+					}
+				}
+			#endif
+
+			void TableView::setDelegate(RJ_FUNC_TYPE delegateFunction)
+			{
+				if (delegateJs)
+				{
+					RJDELETE delegateJs;
 				}
 
-				delegateConstructor = RJNEW Persistent(constructor);
-
-				//constructor->Call(V8_JAVASCRIPT_ENGINE->globalContext, 0, nullptr);
-				//V8_JAVASCRIPT_ENGINE->v8CallFunction(constructor, 0, nullptr);
-				//V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(constructor, 0, nullptr);
+				delegateJs = RJNEW Persistent(delegateFunction);
 			}
 
-			TableCellModelFrame* TableView::viewForCellModel(RadJAV::CPP::MUI::TableCellModel * model)
+			View* TableView::createViewForItem(unsigned int itemIndex)
 			{
-				JSObjectRef delegate = delegateConstructor->get();
-				JSValueRef args2[1];
-				args2[0] = model->thisJS;
-				JSValueRef exception = nullptr;
-				if (JSC_JAVASCRIPT_ENGINE->jscIsNull (delegate) == false)
-				{
-					JSValueRef result = JSObjectCallAsFunction (JSC_JAVASCRIPT_ENGINE->globalContext, delegate, JSC_JAVASCRIPT_ENGINE->globalObj, 2, args2, &exception);
-					JSObjectRef resObject = JSC_JAVASCRIPT_ENGINE->jscCastValueToObject(result);
-					
-					TableCellModelFrame *appObject = (TableCellModelFrame *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(((JSContextRef)JSC_JAVASCRIPT_ENGINE->globalContext), resObject, "_appObj");
-					return appObject;
-					
-				}
+				View* view = nullptr;
+
+				#ifdef USE_V8
+					//TODO: make it work for V8 engine
+					//V8_JAVASCRIPT_ENGINE->v8CallFunction(delegateConstructor, 0, nullptr);
+				#elif defined USE_JAVASCRIPTCORE
+					JSGlobalContextRef ctx = JSC_JAVASCRIPT_ENGINE->globalContext;
 				
-				return NULL;
+					//Get model item as JS object to pass to delegate
+					JSObjectRef modelItemObjectJs = nullptr;
+				
+					JSValueRef args[1];
+					args[0] = JSValueMakeNumber(ctx, itemIndex);
+				
+					JSValueRef modelItemJs = JSC_JAVASCRIPT_ENGINE->jscCallFunction(modelJs->get(), "get", 1, args);
+				
+					if (!JSC_JAVASCRIPT_ENGINE->jscIsNull(modelItemJs) &&
+						JSValueIsObject(ctx, modelItemJs))
+					{
+						modelItemObjectJs = JSC_JAVASCRIPT_ENGINE->jscCastValueToObject(modelItemJs);
+					}
+				
+					if (!modelItemObjectJs)
+						return nullptr;
+				
+					args[0] = modelItemObjectJs;
+				
+					//Create View control from JS side by calling delegate JS function
+					JSValueRef viewJs = JSObjectCallAsFunction(JSC_JAVASCRIPT_ENGINE->globalContext, delegateJs->get(), JSC_JAVASCRIPT_ENGINE->globalObj, 1, args, nullptr);
+					if (!JSC_JAVASCRIPT_ENGINE->jscIsNull(viewJs) &&
+						JSValueIsObject(JSC_JAVASCRIPT_ENGINE->globalContext, viewJs))
+					{
+						JSObjectRef viewObjectJs = JSC_JAVASCRIPT_ENGINE->jscCastValueToObject(viewJs);
+						//TODO: need to store it to prevent garbage collected by JS engine
+						
+						view = (View*)JSC_JAVASCRIPT_ENGINE->jscGetExternal(JSC_JAVASCRIPT_ENGINE->globalContext, viewObjectJs, "_appObj");
+					}
+				#endif
+				
+				return view;
 			}
 			
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
