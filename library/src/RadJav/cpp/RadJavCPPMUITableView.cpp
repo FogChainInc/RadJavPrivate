@@ -92,10 +92,24 @@ namespace RadJAV
 				//V8_JAVASCRIPT_ENGINE->v8CallFunction(constructor, 0, nullptr);
 				//V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(constructor, 0, nullptr);
 			}
-			
+
 			TableCellModelFrame* TableView::viewForCellModel(RadJAV::CPP::MUI::TableCellModel * model)
 			{
-				return nullptr;
+				JSObjectRef delegate = delegateConstructor->get();
+				JSValueRef args2[1];
+				args2[0] = model->thisJS;
+				JSValueRef exception = nullptr;
+				if (JSC_JAVASCRIPT_ENGINE->jscIsNull (delegate) == false)
+				{
+					JSValueRef result = JSObjectCallAsFunction (JSC_JAVASCRIPT_ENGINE->globalContext, delegate, JSC_JAVASCRIPT_ENGINE->globalObj, 2, args2, &exception);
+					JSObjectRef resObject = JSC_JAVASCRIPT_ENGINE->jscCastValueToObject(result);
+					
+					TableCellModelFrame *appObject = (TableCellModelFrame *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(((JSContextRef)JSC_JAVASCRIPT_ENGINE->globalContext), resObject, "_appObj");
+					return appObject;
+					
+				}
+				
+				return NULL;
 			}
 			
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE

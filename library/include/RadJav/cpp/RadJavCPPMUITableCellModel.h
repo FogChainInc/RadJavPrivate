@@ -47,12 +47,13 @@
                 public:
                     TableCellModelFrame();
                     ~TableCellModelFrame();
-  
+					
                     bool bindEvent(const String& eventName,const GUI::Event* evt);
-                   
+
                     #ifdef USE_IOS
                         TableViewDelegate* widgetDelegate;
                     #endif
+
                     void addNewEvent(String event,
 #ifdef USE_V8
                                                           v8::Local<v8::Function> func
@@ -72,7 +73,7 @@
                             TableCellModel(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
                         #endif
 						TableCellModel(String name, String text = "", CPP::GUI::GObject *parent = NULL);
-                    
+                    	JSObjectRef thisJS;
                         String name;
                         String subtitle;
                         bool getUsesAccessoryButton();
