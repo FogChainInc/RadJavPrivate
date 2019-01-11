@@ -30,6 +30,32 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
+			using JsObject =
+			#ifdef USE_V8
+				v8::Local<v8::Object>
+			#elif defined USE_JAVASCRIPTCORE
+				JSObjectRef
+			#endif
+			;
+			
+			class ChainedPersistent : public Persistent,
+										public ChainedPtr
+			{
+			public:
+				static void linkObjects(ChainedPtr* hooked,
+										JsObject jsObject)
+				{
+					RJNEW ChainedPersistent(hooked, jsObject);
+				}
+				
+			private:
+				ChainedPersistent(ChainedPtr* hooked, JsObject jsObject)
+				: Persistent(jsObject)
+				{
+					linkWith(hooked);
+				}
+			};
+			
 			#ifdef USE_V8
 			TableView::TableView(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
 				: GObject (jsEngine, args),
@@ -153,9 +179,9 @@ namespace RadJAV
 						JSValueIsObject(JSC_JAVASCRIPT_ENGINE->globalContext, viewJs))
 					{
 						JSObjectRef viewObjectJs = JSC_JAVASCRIPT_ENGINE->jscCastValueToObject(viewJs);
-						//TODO: need to store it to prevent garbage collected by JS engine
-						
 						view = (View*)JSC_JAVASCRIPT_ENGINE->jscGetExternal(JSC_JAVASCRIPT_ENGINE->globalContext, viewObjectJs, "_appObj");
+						
+						ChainedPersistent::linkObjects(view, viewObjectJs);
 					}
 				#endif
 				

@@ -53,7 +53,7 @@ namespace RadJAV
 			Persistent(Persistent&&) = delete;
 			const Persistent& operator =(const Persistent&) = delete;
 
-			~Persistent();
+			virtual ~Persistent();
 
 			#ifdef USE_V8
 				v8::Local<v8::Object> get() const;
@@ -61,7 +61,7 @@ namespace RadJAV
 				JSObjectRef get() const;
 			#endif
 
-		private:
+		protected:
 			#ifdef USE_V8
 				v8::Persistent<v8::Object> *persistent;
 			#elif defined USE_JAVASCRIPTCORE
