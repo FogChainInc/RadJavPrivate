@@ -255,8 +255,6 @@
     return &self.model->cells->at(section);
 }
 
-
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     std::vector<RadJAV::CPP::MUI::TableCellModel *>* section = [self cellsInSection:indexPath.section];
@@ -326,21 +324,21 @@
     model->nativeImplementation->widgetDelegate = self;
 	
 	RadJAV::CPP::MUI::TableViewFrame * widget = self.widget;
-	widget->viewForCellModel(model);
+	RadJAV::CPP::MUI::View *contentView =  widget->viewForCellModel((int)indexPath.row);
 	
-	UITableViewCell *cell = nil; ///[tableView dequeueReusableCellWithIdentifier:@"identifier"];
-    
-//    if (cell == nil){
-//        
-//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"identifier"];
-//        if (model->getUsesAccessoryButton()){
-//            cell.accessoryType = UITableViewCellAccessoryDetailButton;
-//        }
-//    }
-//    
-//    cell.textLabel.text = RadJavCocoaStringFromRadJavString(model->name);
-//    cell.detailTextLabel.text = RadJavCocoaStringFromRadJavString(model->subtitle);
-    
+	
+	
+	UITableViewCell *cell = nil;
+		
+	cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"identifier"];
+	if (model->getUsesAccessoryButton()){
+		cell.accessoryType = UITableViewCellAccessoryDetailButton;
+	}
+	[cell.contentView addSubview:contentView->_appObj->getNativeWidget()];
+	
+    //cell.textLabel.text = RadJavCocoaStringFromRadJavString(model->name);
+    //cell.detailTextLabel.text = RadJavCocoaStringFromRadJavString(model->subtitle);
+	
     return cell;
 }
 @end

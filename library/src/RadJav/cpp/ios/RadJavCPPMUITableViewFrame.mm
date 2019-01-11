@@ -74,12 +74,10 @@ namespace RadJAV
 				 return [widgetDelegate bindEvent:widget eventName:eventName];
 			}
 			
-			TableCellModelFrame* TableViewFrame::viewForCellModel(RadJAV::CPP::MUI::TableCellModel * model)
+			View* TableViewFrame::viewForCellModel(int index)
 			{
-				//TODO: Add implementation
-				//return tableView->createViewForItem(itemIndex);
 				
-				return nullptr;
+				return tableView->createViewForItem(index);
 			}
             
 			#ifdef USE_IOS

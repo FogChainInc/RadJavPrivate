@@ -22,6 +22,7 @@
 
 #include "cpp/RadJavCPPGUIGObject.h"
 #include "cpp/RadJavCPPMUITableViewModel.h"
+#include "cpp/RadJavCPPMUIView.h"
 
 #ifdef USE_V8
 	#include "v8/RadJavV8GUIGObject.h"
@@ -66,7 +67,7 @@
 					bool bindEvent(const String& eventName, const GUI::Event* event);
                     void setModel(MUI::TableViewModel *model);
                     void reload();
-					TableCellModelFrame* viewForCellModel(RadJAV::CPP::MUI::TableCellModel * model);
+					CPP::MUI::View* viewForCellModel(int index);
 
                     MUI::TableViewModel *model;
 					TableView *tableView;
