@@ -50,7 +50,7 @@ namespace RadJAV
 
 		        void TcpClient::connect(std::string host, std::string service)
 			{
-			  std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
+			  //std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
 
 			  boost::asio::ip::tcp::resolver resolver{myIoc};
 			  boost::asio::ip::tcp::endpoint remoteEndpoint =
@@ -61,21 +61,17 @@ namespace RadJAV
 
 		        void TcpClient::send(std::string message)
 			{
-			  std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
+			  //std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
 			  send(message.c_str(), message.size());
 			}
 
 		  
 		        void TcpClient::send(const void *message, int msgLen)
 			{
-			  std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
+			  //std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
 			  boost::asio::ip::tcp::resolver resolver{myIoc};
 
-
-			  std::cout << "S2" << std::endl << std::flush;
 			  mySocket -> send(boost::asio::buffer(message, msgLen));
-			  std::cout << "S3" << std::endl << std::flush;
-			  
 			}
 		  
 

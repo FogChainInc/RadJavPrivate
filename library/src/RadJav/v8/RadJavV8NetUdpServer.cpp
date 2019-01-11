@@ -40,7 +40,6 @@ namespace RadJAV
 			void UdpServer::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 			{
 
-			  std::cout << "JAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" << std::endl << std::flush;
 				V8_CALLBACK(object, "_init", UdpServer::_init);
 
 				V8_CALLBACK(object, "listen", UdpServer::listen);
@@ -50,8 +49,6 @@ namespace RadJAV
 				V8_CALLBACK(object, "onReceive", UdpServer::onReceive);
 				V8_CALLBACK(object, "on", UdpServer::on);
 
-			  std::cout << "JAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA2" << std::endl << std::flush;
-				
 			} // End of createV8Callbacks
 
 			void UdpServer::_init(const v8::FunctionCallbackInfo<v8::Value> &args)

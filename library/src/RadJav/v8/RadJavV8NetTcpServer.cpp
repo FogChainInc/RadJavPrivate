@@ -39,8 +39,6 @@ namespace RadJAV
 		{
 			void TcpServer::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 			{
-
-			  std::cout << "JAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" << std::endl << std::flush;
 				V8_CALLBACK(object, "_init", TcpServer::_init);
 
 				V8_CALLBACK(object, "listen", TcpServer::listen);
@@ -50,8 +48,6 @@ namespace RadJAV
 				V8_CALLBACK(object, "onAccept", TcpServer::onAccept);
 				V8_CALLBACK(object, "onReceive", TcpServer::onReceive);
 				V8_CALLBACK(object, "on", TcpServer::on);
-
-			  std::cout << "JAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA2" << std::endl << std::flush;
 				
 			} // End of createV8Callbacks
 
@@ -67,12 +63,17 @@ namespace RadJAV
 				   }
 				 else if (args.Length() == 1 && args[0] -> IsObject())
 				   {
-					
+
+
 				     v8::Local<v8::Object> parmsObj = v8::Local<v8::Object>::Cast(args[0]);
 
+				     v8::Local<v8::Array> keys = parmsObj -> GetOwnPropertyNames();
+				     int length = keys -> Length();
+
+				       
 
 				     parms["threads"] = V8_JAVASCRIPT_ENGINE -> v8GetString(parmsObj, "threads");
-				     std::cout << "Threadsssssssss: " << parms["threads"] << std::endl;
+				     std::cout << "Threads: " << parms["threads"] << std::endl;
 				     
 				     parms["bufferSize"] = V8_JAVASCRIPT_ENGINE -> v8GetString(parmsObj, "bufferSize");
 				     parms["fastServerMode"] = V8_JAVASCRIPT_ENGINE -> v8GetString(parmsObj, "fastServerMode");
@@ -138,7 +139,7 @@ namespace RadJAV
 				v8::Isolate *isolate = args.GetIsolate();
 
 
-				std::cout << __PRETTY_FUNCTION__ << ": Args: " << args.Length() << std::endl;
+				//std::cout << __PRETTY_FUNCTION__ << ": Args: " << args.Length() << std::endl;
 				
 				if (args.Length() != 2)
 				  isolate -> ThrowException(v8::Exception::TypeError
@@ -195,7 +196,7 @@ namespace RadJAV
 
 			void TcpServer::onAccept(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-			  std::cout << __PRETTY_FUNCTION__ << std::endl;
+			  //std::cout << __PRETTY_FUNCTION__ << std::endl;
 				std::shared_ptr<ENGINE> engine = V8_JAVASCRIPT_ENGINE->v8GetExternal<ENGINE>(args.This(), "_engine");
 
 				v8::Isolate *isolate = args.GetIsolate();
@@ -234,7 +235,7 @@ namespace RadJAV
 
 			void TcpServer::onReceive(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-			  std::cout << __PRETTY_FUNCTION__ << std::endl;
+			  //std::cout << __PRETTY_FUNCTION__ << std::endl;
 				std::shared_ptr<ENGINE> engine = V8_JAVASCRIPT_ENGINE->v8GetExternal<ENGINE>(args.This(), "_engine");
 
 				v8::Isolate *isolate = args.GetIsolate();

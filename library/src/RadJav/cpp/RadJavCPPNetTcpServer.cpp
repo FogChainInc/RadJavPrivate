@@ -36,7 +36,7 @@ namespace RadJAV
 
 		  TcpServer::TcpServer(std::map<std::string, std::string> &parms) 
 		  {
-		    std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
+		    //std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
 
 		    if (parms.find("threads") == parms.end() || parms["threads"] == "")
 		      parms["threads"] = "1";
@@ -127,7 +127,7 @@ namespace RadJAV
 
 		  void TcpServer::doAccept()
 		  {
-		    std::cout << __PRETTY_FUNCTION__ << std::endl;
+		    //std::cout << __PRETTY_FUNCTION__ << std::endl;
 		    
 		    myAcceptor -> async_accept(
 					       [this](boost::system::error_code ec, boost::asio::ip::tcp::socket socket)
@@ -174,7 +174,7 @@ namespace RadJAV
 							 )
 		  {
 
-		    std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
+		    //std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
 			  
 		    auto recvBuffer = myRecvBuffer;
 
@@ -272,7 +272,7 @@ namespace RadJAV
 
 		  void TcpServer::send(const std::string &sessionId, const void *data, int dataSize)
 		  {
-		    std::cout << __PRETTY_FUNCTION__ << std::endl;
+		    //std::cout << __PRETTY_FUNCTION__ << std::endl;
 		    
 		    auto session = mySessions.find(sessionId);
 		    if (session != mySessions.end())
@@ -295,7 +295,7 @@ namespace RadJAV
 
 		  void TcpServer::Session::send(std::shared_ptr<const unsigned char> data, int dataSize)
 		  {
-		    std::cout  << __PRETTY_FUNCTION__ << ": Queuing" << std::endl;
+		    //std::cout  << __PRETTY_FUNCTION__ << ": Queuing" << std::endl;
 		    
 		    myParent -> myIoc -> post(boost::asio::bind_executor(myWriteStrand,
 									 [this, data, dataSize] ()
@@ -394,7 +394,7 @@ namespace RadJAV
 		      myParent{parent},
 		      myWriteStrand{*parent -> myIoc}
 		  {
-		    std::cout << __PRETTY_FUNCTION__ << std::endl;
+		    //std::cout << __PRETTY_FUNCTION__ << std::endl;
 		    myRecvBuffer = 
 		      std::shared_ptr<unsigned char>(new unsigned char[myParent -> myBufferSize],
 						     std::default_delete<unsigned char[]>());

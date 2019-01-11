@@ -40,7 +40,7 @@ namespace RadJAV
 
 		  UdpServer::UdpServer(std::map<std::string, std::string> &parms) 
 		  {
-		    std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
+		    //std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
 
 		    if (parms.find("threads") == parms.end() || parms["threads"] == "")
 		      parms["threads"] = "1";
@@ -153,7 +153,7 @@ namespace RadJAV
 						)
 		  {
 
-		    std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
+		    //std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
 			  
 		    auto recvBuffer = myRecvBuffer;
 		    auto receiveFromEndpoint = myReceiveFromEndpoint;

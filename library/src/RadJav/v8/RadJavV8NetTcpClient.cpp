@@ -37,7 +37,7 @@ namespace RadJAV
 		{
 			void TcpClient::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 			{
-			  std::cout << __PRETTY_FUNCTION__ << std::endl;
+			  //std::cout << __PRETTY_FUNCTION__ << std::endl;
 				V8_CALLBACK(object, "_init", TcpClient::_init);
 
 				V8_CALLBACK(object, "connect", TcpClient::connect);
@@ -127,8 +127,8 @@ namespace RadJAV
 				std::shared_ptr<ENGINE> engine = V8_JAVASCRIPT_ENGINE -> v8GetExternal<ENGINE>(args.This(), "_engine");
 				v8::Isolate *isolate = args.GetIsolate();
 
-				std::cout << __PRETTY_FUNCTION__ << std::endl;
-				std::cout << "Args : " << args.Length() << std::endl;
+				//std::cout << __PRETTY_FUNCTION__ << std::endl;
+				//std::cout << "Args : " << args.Length() << std::endl;
 
 				try
 				  {
@@ -196,8 +196,8 @@ namespace RadJAV
 				v8::Local<v8::Value> ret;
 				v8::Isolate *isolate = args.GetIsolate();
 
-				std::cout << __PRETTY_FUNCTION__ << std::endl;
-				std::cout << "Args : " << args.Length() << std::endl;
+				//std::cout << __PRETTY_FUNCTION__ << std::endl;
+				//std::cout << "Args : " << args.Length() << std::endl;
 
 				try
 				  {

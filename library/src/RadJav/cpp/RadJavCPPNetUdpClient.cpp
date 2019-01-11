@@ -50,7 +50,7 @@ namespace RadJAV
 
 		        void UdpClient::connect(std::string host, std::string service)
 			{
-			  std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
+			  //std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
 
 			  boost::asio::ip::udp::resolver resolver{myIoc};
 			  boost::asio::ip::udp::endpoint remoteEndpoint =
@@ -61,42 +61,37 @@ namespace RadJAV
 
 		        void UdpClient::send(std::string message)
 			{
-			  std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
+			  //std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
 			  send(message.c_str(), message.size());
 			}
 
 		  
 		        void UdpClient::send(const void *message, int msgLen)
 			{
-			  std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
+			  //std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
 			  boost::asio::ip::udp::resolver resolver{myIoc};
 
-
-			  std::cout << "S2" << std::endl << std::flush;
 			  mySocket -> send(boost::asio::buffer(message, msgLen));
-			  std::cout << "S3" << std::endl << std::flush;
+
 			  
 			}
 		  
 		        void UdpClient::send(std::string message, std::string host, std::string service)
 			{
-			  std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
+			  //std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
 			  send(message.c_str(), message.size(), host, service);
 			}
 
 		  
 		        void UdpClient::send(const void *message, int msgLen, std::string host, std::string service)
 			{
-			  std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
+			  //std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
 			  boost::asio::ip::udp::resolver resolver{myIoc};
-			  std::cout << "S1" << std::endl << std::flush;
+
 			  boost::asio::ip::udp::endpoint remoteEndpoint =
 			    *resolver.resolve(boost::asio::ip::udp::v4(), host, service).begin();
 
-			  std::cout << "S2" << std::endl << std::flush;
 			  mySocket -> send_to(boost::asio::buffer(message, msgLen), remoteEndpoint);
-			  std::cout << "S3" << std::endl << std::flush;
-			  
 			}
 
 		        void UdpClient::receive(std::function <void (const void *buf, int bufLen)> binSetter,
@@ -110,7 +105,6 @@ namespace RadJAV
 			    *resolver.resolve(boost::asio::ip::udp::v4(), host, service).begin();
 
 			  size_t len = mySocket -> receive_from(boost::asio::buffer(myRecvBuffer.get(), myMaxDatagramSize), senderEndpoint);
-
 
 			  std::cout << "REceived " << len << " bytes" << std::endl;
 
