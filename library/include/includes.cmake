@@ -157,6 +157,10 @@ if (USE_V8)
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8Net.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8NetHttpRequest.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8NetWebSocket.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8NetUdpServer.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8NetUdpClient.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8NetTcpServer.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8NetTcpClient.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8NetWebServer.h")
 		source_group ("RadJav\\V8\\Net" FILES ${SOURCES_files_RadJav__v8__Net__Headers})
 		
@@ -329,6 +333,10 @@ if (USE_JAVASCRIPTCORE)
 		set (SOURCES_files_RadJav__JSC__Net__Headers 
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCNet.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCNetWebSocket.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCNetUdpServer.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCNetUdpClient.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCNetTcpServer.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCNetTcpClient.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCNetWebServer.h")
 		source_group ("RadJav\\JavaScriptCore\\Net" FILES ${SOURCES_files_RadJav__JSC__Net__Headers})
 		
@@ -433,6 +441,10 @@ if (USE_V8)
 			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetHttpRequest.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebSocketServer.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebSocketClient.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetUdpServer.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetUdpClient.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetTcpServer.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetTcpClient.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebServer.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebServerUpgradable.h")
 		source_group ("RadJav\\CPP\\Net" FILES ${SOURCES_files_RadJav__cpp__Net__Headers})

@@ -1,0 +1,6 @@
+Debugger entered--Lisp error: (void-variable this\._init\.app)
+  eval(this\._init\.app nil)
+  eval-last-sexp-1(nil)
+  eval-last-sexp(nil)
+  call-interactively(eval-last-sexp nil nil)
+  command-execute(eval-last-sexp)

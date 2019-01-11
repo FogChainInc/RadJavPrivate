@@ -59,6 +59,10 @@
 	// Net
 	#include "v8/RadJavV8NetHttpRequest.h"
 	#include "v8/RadJavV8NetWebSocket.h"
+	#include "v8/RadJavV8NetUdpServer.h"
+	#include "v8/RadJavV8NetUdpClient.h"
+	#include "v8/RadJavV8NetTcpServer.h"
+	#include "v8/RadJavV8NetTcpClient.h"
 	#include "v8/RadJavV8NetWebServer.h"
 
 	// GUI
@@ -1269,10 +1273,12 @@ namespace RadJAV
 
 					// HttpRequest
 					{
+					  std::cout << "HttpRequest V8 callbacks" << std::endl << std::flush;
 						v8::Handle<v8::Function> httpRequestFunc = v8GetFunction(netFunc, "HttpRequest");
 						v8::Handle<v8::Object> httpRequestPrototype = v8GetObject(httpRequestFunc, "prototype");
 
 						V8B::Net::HttpRequest::createV8Callbacks(isolate, httpRequestPrototype);
+						std::cout << "HttpRequest V8 callbacks done" << std::endl << std::flush;
 					}
 
 					// WebSocketServer
@@ -1289,6 +1295,42 @@ namespace RadJAV
 						v8::Handle<v8::Object> webSocketClientPrototype = v8GetObject(webSocketClientFunc, "prototype");
 
 						V8B::Net::WebSocketClient::createV8Callbacks(isolate, webSocketClientPrototype);
+					}
+					// UdpServer
+					{
+					  std::cout << "UdpServer V8 callbacks" << std::endl << std::flush;
+						v8::Handle<v8::Function> udpServerFunc = v8GetFunction(netFunc, "UdpServer");
+						v8::Handle<v8::Object> udpServerPrototype = v8GetObject(udpServerFunc, "prototype");
+
+						V8B::Net::UdpServer::createV8Callbacks(isolate, udpServerPrototype);
+						std::cout << "UdpServer V8 callbacks done" << std::endl << std::flush;
+					}
+					// UdpClient
+					{
+					  std::cout << "UdpClient V8 callbacks" << std::endl << std::flush;
+						v8::Handle<v8::Function> udpClientFunc = v8GetFunction(netFunc, "UdpClient");
+						v8::Handle<v8::Object> udpClientPrototype = v8GetObject(udpClientFunc, "prototype");
+
+						V8B::Net::UdpClient::createV8Callbacks(isolate, udpClientPrototype);
+					  std::cout << "UdpClient V8 callbacks done" << std::endl << std::flush;
+					}
+					// TcpServer
+					{
+					  std::cout << "TcpServer V8 callbacks" << std::endl << std::flush;
+						v8::Handle<v8::Function> udpServerFunc = v8GetFunction(netFunc, "TcpServer");
+						v8::Handle<v8::Object> udpServerPrototype = v8GetObject(udpServerFunc, "prototype");
+
+						V8B::Net::TcpServer::createV8Callbacks(isolate, udpServerPrototype);
+						std::cout << "TcpServer V8 callbacks done" << std::endl << std::flush;
+					}
+					// TcpClient
+					{
+					  std::cout << "TcpClient V8 callbacks" << std::endl << std::flush;
+						v8::Handle<v8::Function> udpClientFunc = v8GetFunction(netFunc, "TcpClient");
+						v8::Handle<v8::Object> udpClientPrototype = v8GetObject(udpClientFunc, "prototype");
+
+						V8B::Net::TcpClient::createV8Callbacks(isolate, udpClientPrototype);
+					  std::cout << "TcpClient V8 callbacks done" << std::endl << std::flush;
 					}
 				}
 				#endif
