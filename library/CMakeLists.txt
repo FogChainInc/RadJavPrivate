@@ -747,6 +747,10 @@ if (libRadJav_EMBEDFILE)
 			RadJav.Net.HttpRequest.js
 			RadJav.Net.WebSocketServer.js
 			RadJav.Net.WebSocketClient.js
+			RadJav.Net.UdpServer.js
+			RadJav.Net.UdpClient.js
+			RadJav.Net.TcpServer.js
+			RadJav.Net.TcpClient.js
 			RadJav.Net.WebServer.js
 		)
 	endif ()
