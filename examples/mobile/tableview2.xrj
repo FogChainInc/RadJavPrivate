@@ -29,24 +29,11 @@ var tableViewDelegate = function (itemData)
 
 function populateItems(model)
 {
-                       			
-    var array = [];
-
-                       		
-                       		var i;
-							for (i = 0; i < 5; i++) { 
-							
-								var text = "number " + i;
-    							var cellParam = new RadJav.MUI.TableCellModel(text,"");
-
-
-                       			array.push(cellParam);
-
-							}
-							
-							
-							
-    model.setCellModels(array);
+	var i;
+	for(i = 0; i < 10; i++)
+	{
+		model.push({text: "Item "+ i});
+	}
 }
 
 RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav.getMUILibrary ()).then (function () {
@@ -58,6 +45,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 		//Create main view of application
 		window = new RadJav.MUI.View("win", "TableView Example");
 		window.createMainView();
+		window.setSize(screenWidth, screenHeight);
 		
 		//Create list
 		tableView = new RadJav.MUI.TableView("list", "list example", window);
