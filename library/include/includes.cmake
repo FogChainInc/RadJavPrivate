@@ -102,7 +102,7 @@ if (USE_V8)
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUITableView.h"
 			#"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUITableViewModel.h"
 			#"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUITableCellModel.h"
-			#"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIScrollView.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIScrollView.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIButton.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUILabel.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIImage.h"

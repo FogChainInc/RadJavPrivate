@@ -89,7 +89,7 @@
 		#include "v8/RadJavV8MUITableView.h"
 		//#include "v8/RadJavV8MUITableViewModel.h"
 		//#include "v8/RadJavV8MUITableCellModel.h"
-		//#include "v8/RadJavV8MUIScrollView.h"
+		#include "v8/RadJavV8MUIScrollView.h"
 		#include "v8/RadJavV8MUIButton.h"
 		#include "v8/RadJavV8MUILabel.h"
 		#include "v8/RadJavV8MUIImage.h"
@@ -145,6 +145,8 @@
 
 #ifdef USE_ANDROID
 	#include <android/RadJavAndroid.h>
+#include <v8/RadJavV8MUIScrollView.h>
+
 #endif
 
 namespace RadJAV
@@ -1585,6 +1587,14 @@ namespace RadJAV
 						v8::Handle<v8::Object> viewPrototype = v8GetObject(viewFunc, "prototype");
 
 						V8B::MUI::TableView::createV8Callbacks(isolate, viewPrototype);
+					}
+
+					// RadJav.MUI.ScrollView
+					{
+						v8::Handle<v8::Function> viewFunc = v8GetFunction(muiFunc, "ScrollView");
+						v8::Handle<v8::Object> viewPrototype = v8GetObject(viewFunc, "prototype");
+
+						V8B::MUI::ScrollView::createV8Callbacks(isolate, viewPrototype);
 					}
                     
 					#if 0

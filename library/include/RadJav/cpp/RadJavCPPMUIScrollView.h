@@ -25,12 +25,11 @@
 
 #include "cpp/RadJavCPPGUIGObject.h"
 
-#ifdef USE_IOS
-	OBJC_CLASS(UIScrollView);
-	OBJC_CLASS(ScrollViewDelegate);
-#elif defined USE_ANDROID
-	JNI_CLASS(jobject);
-#endif
+	#ifdef USE_V8
+		#include "v8/RadJavV8GUIGObject.h"
+	#elif defined USE_JAVASCRIPTCORE
+		#include "jscore/RadJavJSCGUIGObject.h"
+    #endif
 
 namespace RadJAV
 {
@@ -38,6 +37,49 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
+
+			class RADJAV_EXPORT ScrollViewFrame : public GUI::GObjectWidget
+					,public ChainedPtr
+			{
+			public:
+				ScrollViewFrame(GUI::GObjectWidget *parent, const Vector2 &pos, const Vector2 &size);
+				~ScrollViewFrame();
+
+				void setEnabled(RJBOOL enabled);
+				RJBOOL getEnabled();
+
+				#ifdef USE_ANDROID
+					void addChild(GUI::GObjectWidget *child);
+				#endif
+                //void setContentSize(const CPP::Vector2& size);
+                //CPP::Vector2 getContentSize() const;
+
+				bool bindEvent(const String& eventName, const GUI::Event* event);
+
+				#ifdef USE_IOS
+					UIView* getNativeWidget();
+				#elif defined USE_ANDROID
+					jobject getNativeWidget();
+				#endif
+
+			private:
+				#ifdef USE_IOS
+					UIScrollView* widget;
+					ScrollViewDelegate* widgetDelegate;
+				#elif defined USE_ANDROID
+					static void initNatives();
+                    
+                    static jmethodID nativeConstructor;
+                    static jmethodID nativeAddView;
+                    static jmethodID nativeRemoveView;	
+					
+					static jclass nativeLayoutClass;
+
+                //    static jmethodID nativeSetContentSize;
+                //    static jmethodID nativeGetContentSize;
+				#endif
+			};
+
 			class RADJAV_EXPORT ScrollView : public CPP::GUI::GObject
 			{
 			public:
@@ -51,46 +93,17 @@ namespace RadJAV
 				
 				void create();
 
-				void setContentSize(const CPP::Vector2& size);
-				CPP::Vector2 getContentSize() const;
+                void setContentSize(const CPP::Vector2& size);
+                CPP::Vector2 getContentSize() const;
 
 				#if defined USE_V8 || defined USE_JAVASCRIPTCORE
 					/// Execute when an event is triggered.
 					void on(String event, RJ_FUNC_TYPE func);
 				#endif
 			};
-			
-			class RADJAV_EXPORT ScrollViewFrame : public GUI::GObjectWidget
-												,public ChainedPtr
-			{
-			public:
-				ScrollViewFrame(GUI::GObjectWidget *parent, const Vector2 &pos, const Vector2 &size);
-				~ScrollViewFrame();
-				
-				void setEnabled(RJBOOL enabled);
-				RJBOOL getEnabled();
-				
-				void setContentSize(const CPP::Vector2& size);
-				CPP::Vector2 getContentSize() const;
 
-				bool bindEvent(const String& eventName, const GUI::Event* event);
-				
-				#ifdef USE_IOS
-					UIView* getNativeWidget();
-				#elif defined USE_ANDROID
-					jobject getNativeWidget();
-				#endif
-				
-			private:
-				#ifdef USE_IOS
-					UIScrollView* widget;
-					ScrollViewDelegate* widgetDelegate;
-				#elif defined USE_ANDROID
-					jobject widget;
-				#endif
-			};
 		}
 	}
 }
-#endif
 
+#endif
