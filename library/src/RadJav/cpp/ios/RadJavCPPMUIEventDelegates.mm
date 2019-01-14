@@ -198,147 +198,127 @@
 //
 //}
 
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 18)];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, tableView.frame.size.width, 18)];
-    [label setFont:[UIFont boldSystemFontOfSize:16]];
-    
-    RadJAV::CPP::MUI::TableCellModel * model = self.model->headers->at(section);
-    
-    NSString *string = RadJavCocoaStringFromRadJavString(model->name);
-    [label setText:string];
-    [view addSubview:label];
-    [view setBackgroundColor:[UIColor lightGrayColor]];
-    return view;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    if (self.model->headers->size() > section){
-       return 34.0f;
-    }
-    return 0;
-}
-
--(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 18)];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, tableView.frame.size.width, 18)];
-    [label setFont:[UIFont boldSystemFontOfSize:16]];
-    
-    std::vector<RadJAV::CPP::MUI::TableCellModel *>* models = [self cellsInSection:section];
-    RadJAV::CPP::MUI::TableCellModel * model = models->back();
-    
-    NSString *string = RadJavCocoaStringFromRadJavString(model->name);
-    [label setText:string];
-    [view addSubview:label];
-    [view setBackgroundColor:[UIColor lightGrayColor]];
-    return view;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    
-    std::vector<RadJAV::CPP::MUI::TableCellModel *>* models = [self cellsInSection:section];
-    RadJAV::CPP::MUI::TableCellModel * model = models->back();
-    
-    if (model->getIsFooter()){
-        return 34.0f;
-    }else {
-        return 0.0f;
-    }
-}
-
-- (std::vector<RadJAV::CPP::MUI::TableCellModel *>*)cellsInSection:(NSInteger)section
-{
-    return &self.model->cells->at(section);
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    std::vector<RadJAV::CPP::MUI::TableCellModel *>* section = [self cellsInSection:indexPath.section];
-    RadJAV::CPP::MUI::TableCellModel * model = section->at(indexPath.row);
-    
-    model->setIsSelected(true);
-    model->nativeImplementation->executeEvent("click");
-}
-
-- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
-{
-    std::vector<RadJAV::CPP::MUI::TableCellModel *>* section = [self cellsInSection:indexPath.section];
-    RadJAV::CPP::MUI::TableCellModel * model = section->at(indexPath.row);
-    
-    model->setIsSelected(false);
-}
-
-
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    std::vector<RadJAV::CPP::MUI::TableCellModel *>* section = [self cellsInSection:indexPath.section];
-    RadJAV::CPP::MUI::TableCellModel * model = section->at(indexPath.row);
-    return model->getIsDeletable();
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    std::vector<RadJAV::CPP::MUI::TableCellModel *>* section = [self cellsInSection:indexPath.section];
-    RadJAV::CPP::MUI::TableCellModel * model = section->at(indexPath.row);
-	
-	model->nativeImplementation->executeEvent("delete");
-}
-
-- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(nonnull NSIndexPath *)indexPath
-{
-    std::vector<RadJAV::CPP::MUI::TableCellModel *>* section = [self cellsInSection:indexPath.section];
-    RadJAV::CPP::MUI::TableCellModel * model = section->at(indexPath.row);
-	
-	model->nativeImplementation->executeEvent("accessory_click");
-}
+//-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+//{
+//    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 18)];
+//    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, tableView.frame.size.width, 18)];
+//    [label setFont:[UIFont boldSystemFontOfSize:16]];
+//
+//    RadJAV::CPP::MUI::TableCellModel * model = self.model->headers->at(section);
+//
+//    NSString *string = RadJavCocoaStringFromRadJavString(model->name);
+//    [label setText:string];
+//    [view addSubview:label];
+//    [view setBackgroundColor:[UIColor lightGrayColor]];
+//    return view;
+//}
+//
+//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+//{
+//    if (self.model->headers->size() > section){
+//       return 34.0f;
+//    }
+//    return 0;
+//}
+//
+//-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+//{
+//    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 18)];
+//    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, tableView.frame.size.width, 18)];
+//    [label setFont:[UIFont boldSystemFontOfSize:16]];
+//
+//    std::vector<RadJAV::CPP::MUI::TableCellModel *>* models = [self cellsInSection:section];
+//    RadJAV::CPP::MUI::TableCellModel * model = models->back();
+//
+//    NSString *string = RadJavCocoaStringFromRadJavString(model->name);
+//    [label setText:string];
+//    [view addSubview:label];
+//    [view setBackgroundColor:[UIColor lightGrayColor]];
+//    return view;
+//}
+//
+//- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+//{
+//
+//    std::vector<RadJAV::CPP::MUI::TableCellModel *>* models = [self cellsInSection:section];
+//    RadJAV::CPP::MUI::TableCellModel * model = models->back();
+//
+//    if (model->getIsFooter()){
+//        return 34.0f;
+//    }else {
+//        return 0.0f;
+//    }
+//}
+//
+//
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    std::vector<RadJAV::CPP::MUI::TableCellModel *>* section = [self cellsInSection:indexPath.section];
+//    RadJAV::CPP::MUI::TableCellModel * model = section->at(indexPath.row);
+//
+//    model->setIsSelected(true);
+//    model->nativeImplementation->executeEvent("click");
+//}
+//
+//- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
+//{
+//    std::vector<RadJAV::CPP::MUI::TableCellModel *>* section = [self cellsInSection:indexPath.section];
+//    RadJAV::CPP::MUI::TableCellModel * model = section->at(indexPath.row);
+//
+//    model->setIsSelected(false);
+//}
+//
+//
+//- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    std::vector<RadJAV::CPP::MUI::TableCellModel *>* section = [self cellsInSection:indexPath.section];
+//    RadJAV::CPP::MUI::TableCellModel * model = section->at(indexPath.row);
+//    return model->getIsDeletable();
+//}
+//
+//- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    std::vector<RadJAV::CPP::MUI::TableCellModel *>* section = [self cellsInSection:indexPath.section];
+//    RadJAV::CPP::MUI::TableCellModel * model = section->at(indexPath.row);
+//
+//	model->nativeImplementation->executeEvent("delete");
+//}
+//
+//- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(nonnull NSIndexPath *)indexPath
+//{
+//    std::vector<RadJAV::CPP::MUI::TableCellModel *>* section = [self cellsInSection:indexPath.section];
+//    RadJAV::CPP::MUI::TableCellModel * model = section->at(indexPath.row);
+//
+//	model->nativeImplementation->executeEvent("accessory_click");
+//}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
     if (self.model == nullptr){
         return 0;
     }
-    
-    
-    return self.model->cells->size();
+	
+    return 1;
 }
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (self.model == nullptr){
         return 0;
     }
-    std::vector<RadJAV::CPP::MUI::TableCellModel *>* vector = [self cellsInSection:section];
-    RadJAV::CPP::MUI::TableCellModel * model = vector->back();
-    if (model->getIsFooter()){
-        return vector->size() - 1;
-    }
-    return vector->size();
+	return self.model->itemsCount;
 }
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
-    std::vector<RadJAV::CPP::MUI::TableCellModel *>* section = [self cellsInSection:indexPath.section];
-    RadJAV::CPP::MUI::TableCellModel * model = section->at(indexPath.row);
-    model->nativeImplementation->widgetDelegate = self;
-	
 	RadJAV::CPP::MUI::TableViewFrame * widget = self.widget;
 	RadJAV::CPP::MUI::View *contentView =  widget->viewForCellModel((int)indexPath.row);
 	
 	
-	
-	UITableViewCell *cell = nil;
-		
-	cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"identifier"];
-	if (model->getUsesAccessoryButton()){
-		cell.accessoryType = UITableViewCellAccessoryDetailButton;
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"identifier"];
+	if (cell == nil){
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"identifier"];
 	}
 	[cell.contentView addSubview:contentView->_appObj->getNativeWidget()];
-	
-    //cell.textLabel.text = RadJavCocoaStringFromRadJavString(model->name);
-    //cell.detailTextLabel.text = RadJavCocoaStringFromRadJavString(model->subtitle);
-	
+
     return cell;
 }
 @end

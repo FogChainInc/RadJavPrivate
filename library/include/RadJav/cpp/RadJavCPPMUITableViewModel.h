@@ -66,8 +66,9 @@
 							/// Execute when an event is triggered.
 							void on(String event, RJ_FUNC_TYPE func);
 						#endif
+					unsigned int itemsCount;
 					protected:
-						unsigned int itemsCount;
+					
 
 				};
 			}
