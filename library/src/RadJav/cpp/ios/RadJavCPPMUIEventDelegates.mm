@@ -226,7 +226,6 @@
 //
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-
     return 0;
 }
 //
@@ -314,31 +313,50 @@
     if (self.model == nullptr){
         return 0;
     }
-	return self.model->itemsCount;
+	return self.model->size();
 }
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
-	RadJAV::CPP::MUI::TableViewFrame * widget = self.widget;
-	RadJAV::CPP::MUI::View *contentView =  widget->viewForCellModel((int)indexPath.row);
+	const int contentViewTag = 101;
 	
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"identifier"];
-	if (cell == nil){
+	if (cell != nil)
+	{
+		UIView* previousCellContent = [cell.contentView viewWithTag:contentViewTag];
+		if (previousCellContent != nil)
+		{
+			[previousCellContent removeFromSuperview];
+			
+			//TODO: Need to notify C++ side that Objective-C object is deleted, basically dealloc method of UIView need to call some C++ routine
+			[previousCellContent release];
+		}
+	}
+	else
+	{
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"identifier"];
 	}
-	UIView * view = contentView->_appObj->getNativeWidget();
-	
-	[self.heightMap setObject:[NSNumber numberWithFloat:view.frame.size.height] forKey:[NSString stringWithFormat:@"%ld",indexPath.row]];
-	
-	int viewTag = 101;
-	view.tag = viewTag;
-	
-	UIView * viewAdded = [cell.contentView viewWithTag:viewTag];
-	[viewAdded removeFromSuperview];
-	
-	[cell.contentView addSubview:view];
-	[cell.contentView bringSubviewToFront:view];
 
-    return cell;
+	RadJAV::CPP::MUI::TableViewFrame * widget = self.widget;
+	RadJAV::CPP::MUI::View *contentView =  widget->viewForCellModel((int)indexPath.row);
+	UIView* nativeContentView = nullptr;
+	
+	if (contentView)
+	{
+		nativeContentView = contentView->_appObj->getNativeWidget();
+		if (nativeContentView)
+		{
+			nativeContentView.tag = contentViewTag;
+		}
+	}
+
+	if (nativeContentView != nil)
+	{
+		[cell.contentView addSubview:nativeContentView];
+		[cell.contentView bringSubviewToFront:nativeContentView];
+		[self.heightMap setObject:[NSNumber numberWithFloat:nativeContentView.frame.size.height] forKey:[NSString stringWithFormat:@"%ld",indexPath.row]];
+	}
+
+	return cell;
 }
 @end
 

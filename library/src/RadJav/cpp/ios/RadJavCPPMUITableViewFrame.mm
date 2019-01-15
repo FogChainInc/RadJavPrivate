@@ -77,7 +77,6 @@ namespace RadJAV
 			
 			View* TableViewFrame::viewForCellModel(int index)
 			{
-				
 				return tableView->createViewForItem(index);
 			}
             
