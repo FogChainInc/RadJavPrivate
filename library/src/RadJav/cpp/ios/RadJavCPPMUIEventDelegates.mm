@@ -193,10 +193,14 @@
 
 @implementation TableViewDelegate
 
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//
-//}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	RadJAV::CPP::MUI::TableViewFrame * widget = self.widget;
+	RadJAV::CPP::MUI::View *contentView =  widget->viewForCellModel((int)indexPath.row);
+	
+	UIView * view = contentView->_appObj->getNativeWidget();
+	return view.frame.size.height;
+}
 
 //-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 //{
@@ -213,13 +217,11 @@
 //    return view;
 //}
 //
-//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-//{
-//    if (self.model->headers->size() > section){
-//       return 34.0f;
-//    }
-//    return 0;
-//}
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+
+    return 0;
+}
 //
 //-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 //{
@@ -312,12 +314,20 @@
 	RadJAV::CPP::MUI::TableViewFrame * widget = self.widget;
 	RadJAV::CPP::MUI::View *contentView =  widget->viewForCellModel((int)indexPath.row);
 	
-	
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"identifier"];
 	if (cell == nil){
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"identifier"];
 	}
-	[cell.contentView addSubview:contentView->_appObj->getNativeWidget()];
+	UIView * view = contentView->_appObj->getNativeWidget();
+	
+	int viewTag = 101;
+	view.tag = viewTag;
+	
+	UIView * viewAdded = [cell.contentView viewWithTag:viewTag];
+	[viewAdded removeFromSuperview];
+	
+	[cell.contentView addSubview:view];
+	[cell.contentView bringSubviewToFront:view];
 
     return cell;
 }
