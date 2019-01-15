@@ -193,13 +193,20 @@
 
 @implementation TableViewDelegate
 
+- (instancetype)init
+{
+	self = [super init];
+	if (self) {
+		self.heightMap = [[NSMutableDictionary alloc] initWithCapacity:10];
+	}
+	return self;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	RadJAV::CPP::MUI::TableViewFrame * widget = self.widget;
-	RadJAV::CPP::MUI::View *contentView =  widget->viewForCellModel((int)indexPath.row);
-	
-	UIView * view = contentView->_appObj->getNativeWidget();
-	return view.frame.size.height;
+	NSNumber * height = [self.heightMap objectForKey:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
+
+	return height.floatValue;
 }
 
 //-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -319,6 +326,8 @@
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"identifier"];
 	}
 	UIView * view = contentView->_appObj->getNativeWidget();
+	
+	[self.heightMap setObject:[NSNumber numberWithFloat:view.frame.size.height] forKey:[NSString stringWithFormat:@"%ld",indexPath.row]];
 	
 	int viewTag = 101;
 	view.tag = viewTag;
