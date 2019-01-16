@@ -39,11 +39,11 @@ namespace RadJAV
                     Jni& jni = Jni::instance();
                     JNIEnv* env = jni.getJniEnv();
 
-                    nativeLayoutClass = jni.findClass("com/fogchain/radjavvm/RadJavLayout");
+                    nativeLayoutClass = jni.findClass("com/fogchain/radjavvm/ZoomableViewGroup");
 
                     nativeConstructor = env->GetMethodID(nativeLayoutClass, "<init>", "(Landroid/content/Context;)V");
                     nativeAddView = env->GetMethodID(nativeLayoutClass, "addView", "(Landroid/view/View;)V");
-                    nativeRemoveView = env->GetMethodID(nativeLayoutClass, "removeView", "(Landroid/view/View;)V");
+                    //nativeRemoveView = env->GetMethodID(nativeLayoutClass, "removeView", "(Landroid/view/View;)V");
                 }
             }
 			ScrollViewFrame::ScrollViewFrame(GUI::GObjectWidget *parent, const Vector2 &pos, const Vector2 &size)
@@ -51,37 +51,20 @@ namespace RadJAV
 				Jni& jni = Jni::instance();
 				JNIEnv* env = jni.getJniEnv();
 
-				if (!nativeLayoutClass) {
-					//best option so far, but under apache 2.0 license
-                    //nativeLayoutClass = jni.findClass("com/fogchain/radjavvm/TwoDScrollView");
+                initNatives();
 
-					//option #2, simpler but gives worse look&feel, still this can be enough for our needs
-					//nativeLayoutClass = jni.findClass("com/fogchain/radjavvm/BiDirectionScrollView");
-
-					//debug option #3 - simple view instead of scrollview
-                    nativeLayoutClass = jni.findClass("com/fogchain/radjavvm/RadJavLayout");
-
-                    nativeConstructor = env->GetMethodID(nativeLayoutClass, "<init>", "(Landroid/content/Context;)V");
-                    nativeAddView = env->GetMethodID(nativeLayoutClass, "addView", "(Landroid/view/View;)V");
-					//nativeSetContentSize;
-					//nativeGetContentSize;
-				}
-                    RadJav::runOnUiThreadAsync([&, parent](JNIEnv* env, void* data) {
-					auto layout = wrap_local(env, env->NewObject(nativeLayoutClass, nativeConstructor, RadJav::getJavaApplication()));
-
+                RadJav::runOnUiThreadAsync([&, parent](JNIEnv* env, void* data) {
+				    auto layout = wrap_local(env, env->NewObject(nativeLayoutClass, nativeConstructor, RadJav::getJavaApplication()));
 					widget = env->NewGlobalRef(layout);
             	});
 
 				if (parent)
 					parent->addChild(this);
-
-
 			}
 
 
 			ScrollViewFrame::~ScrollViewFrame()
 			{
-				//TODO: add implementation
 			}
 
 
@@ -114,18 +97,16 @@ namespace RadJAV
 //			}
 
 /**
- * binding events will probably override the fallback bindings. TODO: verify this
+ * binding events will likely override the fallback bindings, so it left empty
  */
 			bool ScrollViewFrame::bindEvent(const String& eventName, const GUI::Event* event)
 			{
 				RadJav::runOnUiThreadAsync([&, eventName, event](JNIEnv* env, void* data) {
 					GUI::EventData* eventData = new GUI::EventData(this, eventName, (void*)event);
-					LOGI("%s: %s", __FUNCTION__, eventData->_eventName.c_str());
-
-					jmethodID method = nullptr;
 
 					{
-						LOGE("%s: undefined event handled in button.onBindEvent [ %s ]", __FUNCTION__, eventData->_eventName.c_str());
+						LOGE("%s: undefined event handled in ScrollViewFrame.onBindEvent [ %s ]",
+                             __FUNCTION__, eventData->_eventName.c_str());
 					}
 
 				});
