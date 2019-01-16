@@ -6,7 +6,7 @@ var screenHeight;
 
 var tableViewDelegate = function (itemData)
 {
-	var itemHeight = 100; //Hardcoded height, but it can be different for each item
+	var itemHeight = 80; //Hardcoded height, but it can be different for each item
 	
 	//Create View
 	var view = new RadJav.MUI.View("tableviewitem", "");
@@ -23,6 +23,18 @@ var tableViewDelegate = function (itemData)
 	label.setSize(screenWidth/2, itemHeight/2);
 	label.setPosition(screenWidth/20, (itemHeight - label.getHeight())/2);
 	
+	//Create Checkbox
+	var checkbox = new RadJav.MUI.Checkbox("checkbox", "", view);
+	checkbox.create();
+	checkbox.setSize(screenWidth/5, itemHeight/2);
+	checkbox.setPosition(screenWidth - screenWidth/5, (itemHeight - checkbox.getHeight())/2);
+	checkbox.setChecked(itemData.checked);
+	checkbox.on("changed", function () {
+		var isChecked = checkbox.isChecked();
+		itemData.checked = isChecked;
+		alert( itemText + " checkbox changed to " + isChecked);
+	});
+	
 	//Return root control for this TableView item
 	return view;
 }
@@ -30,9 +42,9 @@ var tableViewDelegate = function (itemData)
 function populateItems(model)
 {
 	var i;
-	for(i = 0; i < 10; i++)
+	for(i = 0; i < 1000; i++)
 	{
-		model.push({text: "Item "+ i});
+		model.push({text: "Item "+ i, checked: false});
 	}
 }
 
