@@ -28,14 +28,38 @@ namespace Engine
 {
   namespace Crypto
   {
+    /**
+     * @class IKey
+     *
+     * @brief Generic key interface, public and private keys inherit from this.
+     */
     class IKey
     {
     public:
+      /**
+       * @brief Ensure destructor is virtual;
+       */
       virtual ~IKey() = default;
 
+      /**
+       * @brief Encrypts data with the key.
+       *
+       * @param data Pointer to the buffer containing data.
+       * @param dataLen Size of data to be encrypted.
+       *
+       * @returns A tuple containing encrypted data.
+       */
       virtual std::tuple<std::shared_ptr<void>, unsigned int>
 	encrypt(const unsigned char* data, unsigned int dataLength) const = 0;
       
+      /**
+       * @brief Decrypts data with the key.
+       *
+       * @param data Pointer to the buffer containing data.
+       * @param dataLen Size of data to be decrypted.
+       *
+       * @returns A tuple containing decrypted data.
+       */
       virtual std::tuple<std::shared_ptr<void>, unsigned int>
 	decrypt(const unsigned char* data, unsigned int dataLength) const = 0;
 

@@ -53,38 +53,103 @@
 				{
 				public:
 					#ifdef USE_V8
+				        /**
+					 * @brief Constructs the object.
+					 *
+					 * @param jsEngine JavaScript engine object.
+					 * @param args Array of arguments passed from JavaScript.
+					 */
 					PrivateKey(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
 					#elif defined USE_JAVASCRIPTCORE
+				        /**
+					 * @brief Constructs the object.
+					 *
+					 * @param jsEngine JavaScript engine object.
+					 * @param ctx JavaScript engine context.
+					 * @param argumentCount Number of arguments.
+					 * @param arguments Argument array.
+					 */
 					PrivateKey(JSCJavascriptEngine *jsEngine, JSContextRef ctx, RJUINT argumentCount, const JSValueRef arguments[]);
 					#endif
+					
+				        /**
+					 * @brief Destroys the object.
+					 */
 					~PrivateKey();
+
+					/**
+					 * @brief Sets the KrispyCrypto object.
+					 *
+					 * @param KrispyCrypto object.
+					 */
 					void setEngine(std::shared_ptr<Engine::Crypto::IPrivateKey> privateKey);
 					
 				public:
-					
-					/// PrivateKey data
+					/**
+					 * @brief Encrypts a block..
+					 *
+					 * @param text Pointer to binary data.
+					 * @param textLength Data size/length.
+					 * @param stringSetter If a requested encoding resulted in a ASCII result, this setter will be used.
+					 * @param binSetter If a requested encoding resulted in a binary result, this setter will be used.
+					 */
 					void encrypt(const void* text, int textLength,
 								 std::function <void (const std::string& str)> stringSetter,
 								 std::function <void (void* buf, int bufLen)> binSetter);
 					
+					/**
+					 * @brief Decrypts a block..
+					 *
+					 * @param text Pointer to binary data.
+					 * @param textLength Data size/length.
+					 * @param stringSetter If a requested encoding resulted in a ASCII result, this setter will be used.
+					 * @param binSetter If a requested encoding resulted in a binary result, this setter will be used.
+					 */
+					void decrypt(const void *text, int textLength,
+								 std::function <void (const std::string &str)> stringSetter,
+								 std::function <void (void* buf, int bufLen)> binSetter);
+
+					/**
+					 * @brief Signs a block.
+					 *
+					 * @param text Pointer to binary data.
+					 * @param textLength Data size/length.
+					 * @param stringSetter If a requested encoding resulted in a ASCII result, this setter will be used.
+					 * @param binSetter If a requested encoding resulted in a binary result, this setter will be used.
+					 */
 					void sign(const void* text, int textLength,
 							  std::function <void (const std::string& str)> stringSetter,
 							  std::function <void (void* buf, int bufLen)> binSetter);
-					
+
+					/**
+					 * @brief Provides access to the public key.
+					 *
+					 * @returns the public key associated with this private key.
+					 */
 					std::shared_ptr<const Engine::Crypto::IPublicKey> getPublicKey();
 					
+					/**
+					 * @brief Saves the key into a PEM file.
+					 *
+					 * @param path Path to the filename.
+					 * @param cipher String determining which ciphter to use.
+					 * @param pwd Password to use to protect the file. If null provided, no password will be used.
+					 */
 					void savePem(const char *path, const char *cipherType, const char *pwd);
 					
 				public:
+					/** @name KrispyCrypto object */
+					//@{
 					std::shared_ptr<Engine::Crypto::IPrivateKey> myPrivateKey;
-					
-					// RSA specific
+					//@}
+
+					/** @name RSA Specific Parameters */
+					//@{
 					String myBits;
 					String myEncryptPadding;
 					String mySignatureType;
+					//@}
 					
-					//
-					String myData;
 				};
 				#endif
 			}

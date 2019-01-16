@@ -33,47 +33,115 @@ namespace Engine
     #ifdef USE_OPENSSL
     namespace OpenSSL
     {
+      
+      /**
+       * @class Cipher
+       *
+       * @brief Provides functionality for encrypting data. It implements the multipart and simple (one shot) encryption interfaces.
+       */
       class Cipher : virtual public ICipher,
 	virtual public ICipherMultipart
 	{
 	public:
 	  static const int s_bufSize = 1600;
-	  
+
+	  /**
+	   * @brief Constructs a Cipher object.
+	   *
+	   * @param cipherType A string representing the type.
+	   * @param key A string representing secret/password.
+	   * @param iv A string representing the initialization vector.
+	   */
 	  Cipher(const std::string& cipherType, const std::string &key, const std::string &iv="");
 
+	  /**
+	   * @brief Destroys the object.
+	   */
 	  virtual ~Cipher();
       
+	  /**
+	   * @brief Prepares object for another encryption operation.
+	   */
 	  virtual void reset();
+
+	  /**
+	   * @brief Encrypts a binary chunk of data.
+	   *
+	   * @param data Pointer to the buffer containing data.
+	   * @param dataLen Size of data to be encrypted.
+	   *
+	   * @returns A tuple containing encrypted data.
+	   */
 	  virtual std::tuple<std::shared_ptr<void>, unsigned int>
 	    update(const void* data, int dataLen);
+
+	  
+	  /**
+	   * @brief Encrypts a chunk of data
+	   *
+	   * @param str String to be encrypted.
+	   *
+	   * @returns A tuple containing encrypted data.
+	   */
 	  virtual std::tuple<std::shared_ptr<void>, unsigned int>
 	    update(const std::string& str);
       
+	  /**
+	   * @brief Finishes the encryption operation.
+	   *
+	   * @returns A tuple containing encrypted data and its size. 
+	   *
+	   * The caller owns the resource.
+	   */
 	  virtual std::tuple<std::shared_ptr<void>, unsigned int> finalize();
 	
+	  /**
+	   * @brief Finishes the encryption operation.
+	   *
+	   * @returns A tuple containing encrypted data and its size. 
+	   *
+	   * The caller owns the resource.
+	   */
 	  virtual std::tuple<std::shared_ptr<void>, unsigned int>
 	    cipher(const void* data, int dataLen);
+
+	  /**
+	   * @brief Finishes the encryption operation.
+	   *
+	   * @returns A tuple containing encrypted data and its size. 
+	   *
+	   * The caller owns the resource.
+	   */
 	  virtual std::tuple<std::shared_ptr<void>, unsigned int>
 	    cipher(const std::string& str);
 
 	private:
+
+	  /** @name Cipher specification and structures */
+	  //@{
 	  std::string myCipherType;
 
 	  const EVP_CIPHER *myCipher;
 	  EVP_CIPHER_CTX *myCipherCtx; // cipher context
+	  //@}
 
+	  /** @name Key generation */
+	  //@{
 	  std::tuple<std::shared_ptr<void>, unsigned int> myKeyDigest;
 	  std::tuple<std::shared_ptr<void>, unsigned int> myIvDigest;
 	  unsigned char* myKeyData;
 	  unsigned char* myIvData;
-
+	  //@}
+	  
+	  /** @name Buffer */
+	  //@{
 	  int myBlockSize;
 	  unsigned char myCipherText[s_bufSize];
 	  unsigned char myPos;
-		
-      };
+	  //@}
+	};
     } // End of OpenSSL
-    #endif 
+#endif 
   } // End of Crypto
 } // End of Engine
 

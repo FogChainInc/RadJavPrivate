@@ -39,9 +39,19 @@
 				class RADJAV_EXPORT KeyGenerator
 				{
 					public:
+				                /**
+						 * @brief Invoked during initialization, creates V8 callbacks.
+						 */
 						static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
+				                /**
+						 * @brief Implements javascript constructor.
+						 */
 						static void _init(const v8::FunctionCallbackInfo<v8::Value> &args);
+
+				                /**
+						 * @brief Implements javascript generate.
+						 */
 						static void generate(const v8::FunctionCallbackInfo<v8::Value> &args);
 
 				};

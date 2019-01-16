@@ -39,24 +39,60 @@
 				class RADJAV_EXPORT Base
 				{
 					public:
+				                /**
+						 * @brief Invoked during initialization, creates V8 callbacks.
+						 */
 						static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
+				                /**
+						 * @brief Implements javascript addCertificate
+						 */
 						static void addCertificate(const v8::FunctionCallbackInfo<v8::Value> &args);
+				                /**
+						 * @brief Implements javascript getCertificate
+						 */
 						static void getCertificate(const v8::FunctionCallbackInfo<v8::Value> &args);
+				                /**
+						 * @brief Implements javascript getCertificates
+						 */
 						static void getCertificates(const v8::FunctionCallbackInfo<v8::Value> &args);
+				                /**
+						 * @brief Implements javascript getDefaultCertificates
+						 */
 						static void getDefaultCertificates(const v8::FunctionCallbackInfo<v8::Value> &args);
 				};
 
-				/// A Key/Value Database, uses LevelDB.
+
+				/**
+				 * @ingroup group_crypto_js_v8
+				 * @brief Cipher callbacks
+				 * @details Class representing Javascript bindings to CPP::Crypto::Cipher.
+				 */
 				class RADJAV_EXPORT Cipher
 				{
 					public:
+				                /**
+						 * @brief Invoked during initialization, creates V8 callbacks.
+						 */
 						static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
+				                /**
+						 * @brief Implements javascript constructor.
+						 */
 						static void _init(const v8::FunctionCallbackInfo<v8::Value> &args);
+						
+				                /**
+						 * @brief Implements javascript cipherSync
+						 */
 						static void cipherSync(const v8::FunctionCallbackInfo<v8::Value> &args);
+				                /**
+						 * @brief Implements javascript cipher
+						 */
 						static void cipher(const v8::FunctionCallbackInfo<v8::Value> &args);
 
+				                /**
+						 * @brief Implements javascript getCapabilities
+						 */
 						static void getCapabilities(const v8::FunctionCallbackInfo<v8::Value> &args);
 				};
 			}

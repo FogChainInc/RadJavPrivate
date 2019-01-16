@@ -55,6 +55,8 @@ namespace RadJAV
 					V8_CALLBACK(object, "_init", PublicKey::_init);
 					V8_CALLBACK(object, "verify", PublicKey::verify);
 					V8_CALLBACK(object, "verifySync", PublicKey::verifySync);
+					V8_CALLBACK(object, "encrypt", PublicKey::encrypt);
+					V8_CALLBACK(object, "encryptSync", PublicKey::encryptSync);
 					V8_CALLBACK(object, "decrypt", PublicKey::decrypt);
 					V8_CALLBACK(object, "decryptSync", PublicKey::decryptSync);
 					V8_CALLBACK(object, "savePemSync", PublicKey::savePemSync);
@@ -91,47 +93,6 @@ namespace RadJAV
 					
 					//std::cout << __PRETTY_FUNCTION__ << std::endl;
 				}
-
-		  /*
-		  void PublicKey::init2(v8::Isolate* isolate, v8::Handle<v8::Function> constr)
-				{
-				  std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
-				  v8::Local<v8::FunctionTemplate> tpl = v8::FunctionTemplate::New(isolate, makeInstance);
-				  tpl->SetClassName(v8::String::NewFromUtf8(isolate, "PublicKey"));
-				  tpl->InstanceTemplate()->SetInternalFieldCount(1);
-
-				  //constructor.Reset(isolate, tpl->GetFunction());
-				  constructor.Reset(isolate, constr);
-				}
-
-		  
-				void PublicKey::makeInstance(const v8::FunctionCallbackInfo<v8::Value> &args)
-				{
-				  std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
-				  v8::Isolate* isolate = args.GetIsolate();
-
-		   		  std::shared_ptr<ENGINE> engine(RJNEW ENGINE(V8_JAVASCRIPT_ENGINE, args), [](ENGINE* p){DELETEOBJ(p)});
-				  V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_engine", engine);
-
-				  if (args.IsConstructCall()) {
-				    // Invoked as constructor: `new MyObject(...)`
-
-
-				    //MyObject* obj = new MyObject(value);
-				    //obj->Wrap(args.This());
-				    args.GetReturnValue().Set(args.This());
-				  } else {
-				    // Invoked as plain function `MyObject(...)`, turn into construct call.
-				    const int argc = 1;
-				    v8::Local<v8::Value> argv[argc] = { args[0] };
-				    v8::Local<v8::Function> cons = v8::Local<v8::Function>::New(isolate, constructor);
-				    v8::Local<v8::Context> context = isolate->GetCurrentContext();
-				    v8::Local<v8::Object> instance =
-				      cons->NewInstance(context, argc, argv).ToLocalChecked();
-				    args.GetReturnValue().Set(instance);
-				  }
-				}
-		  */		    
 				    
 				v8::Local<v8::Object> PublicKey::newInstance(v8::Isolate *isolate,
 															 v8::Local<v8::Object> publicKeyParms)
@@ -367,6 +328,160 @@ namespace RadJAV
 				} // End of verify()
 		  
 		  
+				void PublicKey::encryptSync(const v8::FunctionCallbackInfo<v8::Value> &args)
+				{
+					std::shared_ptr<ENGINE> engine = V8_JAVASCRIPT_ENGINE->v8GetExternal<ENGINE>(args.This(), "_engine");
+					v8::Isolate *isolate = args.GetIsolate();
+					v8::Local<v8::Value> ret;
+
+					String strArgHolder; // If a string is passed, it will be parsed and held here.
+					const void* text;
+					int textLength;
+					if (args[0] -> IsString())
+					  {
+					    strArgHolder = parseV8Value(args[0]);
+					    text = strArgHolder.c_str();
+					    textLength = strArgHolder.length();
+					  }
+					else if (args[0] -> IsArray())
+					  {
+					    // TODO
+					  }
+					else if (args[0] -> IsObject())
+					  {
+					    String constructor = parseV8Value(v8::Local<v8::Object>::Cast(args[0]) -> GetConstructorName());
+					    if (constructor.find("Array") != std::string::npos)
+					      {
+						auto ab = v8::Local<v8::ArrayBuffer>::Cast(args[0]);
+						text = ab -> GetContents().Data();
+						textLength = ab -> ByteLength();
+					      }
+					    else
+					      isolate -> ThrowException(v8::Exception::TypeError
+									(v8::String::NewFromUtf8(isolate, "Only ArrayBuffers are supported")));
+					    
+					  }
+					else
+					  isolate -> ThrowException(v8::Exception::TypeError
+								    (v8::String::NewFromUtf8(isolate, "Unsupported argument")));
+					
+
+					try
+					  {
+					    engine -> encrypt(text, textLength,
+							      [&ret, isolate](const std::string &str)
+							      {
+								std::cout << "STRING SETTER LEN: " << str.length() << std::endl;
+								ret = v8::String::NewFromUtf8(isolate,
+											      str.c_str());
+							      },
+							      [&ret, isolate](void* bufPtr, int bufLen)
+							      {
+								auto ab = v8::ArrayBuffer::New(isolate, bufLen);
+								std::memcpy(ab -> GetContents().Data(), bufPtr, bufLen);
+								ret = ab;
+							      }
+							      );
+					  }
+					catch (std::invalid_argument &e)
+					  {
+					    isolate -> ThrowException(v8::Exception::TypeError
+								      (v8::String::NewFromUtf8(isolate,
+											       e.what())));
+					  }
+					
+
+					args.GetReturnValue().Set(ret);
+					
+				} // End of encryptSync()
+		  
+				void PublicKey::encrypt(const v8::FunctionCallbackInfo<v8::Value> &args)
+				{
+					std::shared_ptr<ENGINE> engine = V8_JAVASCRIPT_ENGINE->v8GetExternal<ENGINE>(args.This(), "_engine");
+					v8::Isolate *isolate = args.GetIsolate();
+					
+					std::shared_ptr<String> strArgHolder; // If a string is passed, it will be parsed and held here.
+					std::shared_ptr<unsigned char> arrBufArgHolder; // If ArryayBuffer is passed, it's data will be held here
+					
+					const void* plainText;
+					int plainTextLength;
+
+					if (args[0] -> IsString())
+					  {
+					    strArgHolder = std::make_shared<String>(parseV8Value(args[0]));
+					    plainText = strArgHolder -> c_str();
+					    plainTextLength = strArgHolder -> length();
+					  }
+					else if (args[0] -> IsArray())
+					  {
+					    // TODO
+					  }
+					else if (args[0] -> IsObject())
+					  {
+					    String constructor = parseV8Value(v8::Local<v8::Object>::Cast(args[0]) -> GetConstructorName());
+					    if (constructor.find("Array") != std::string::npos)
+					      {
+						auto ab = v8::Local<v8::ArrayBuffer>::Cast(args[0]);
+						plainTextLength = ab -> ByteLength();
+						
+						arrBufArgHolder = std::shared_ptr<unsigned char>(new unsigned char[plainTextLength],
+												 std::default_delete<unsigned char[]>());
+						std::memcpy(arrBufArgHolder.get(), ab -> GetContents().Data(), plainTextLength);
+					      }
+					    else
+					      isolate -> ThrowException(v8::Exception::TypeError
+									(v8::String::NewFromUtf8(isolate, "Only ArrayBuffers are supported")));
+					    
+					  }
+					else
+					  isolate -> ThrowException(v8::Exception::TypeError
+								    (v8::String::NewFromUtf8(isolate, "Unsupported argument")));
+					
+
+					PromiseThread *thread = RJNEW PromiseThread();
+
+					v8::Local<v8::Object> promise = thread->createV8Promise(V8_JAVASCRIPT_ENGINE, args.This());
+					thread->onStart = [thread, plainText, plainTextLength, strArgHolder, arrBufArgHolder, engine, isolate]()
+					  {
+					    v8::Local<v8::Array> args2 = v8::Array::New (isolate, 1);
+
+					    try
+					      {
+						engine -> encrypt(plainText, plainTextLength,
+								  [&args2, isolate](const std::string &str)
+								  {
+								    args2 -> Set(0, v8::String::NewFromUtf8(isolate,
+													    str.c_str()));
+								  },
+								  [&args2, isolate](void* bufPtr, int bufLen)
+								  {
+								    auto jsData = v8::ArrayBuffer::New(isolate, bufLen);
+								    std::memcpy(jsData -> GetContents().Data(), bufPtr, bufLen);
+								    args2 -> Set(0, jsData);
+								   
+								  }
+								  );
+					      }
+					    catch (std::invalid_argument &e)
+					      {
+						isolate -> ThrowException(v8::Exception::TypeError
+									  (v8::String::NewFromUtf8(isolate,
+												   e.what())));
+					      }
+					    
+					    thread->setResolveArgs(isolate, args2);
+
+					    thread->resolvePromise();
+					  };
+					thread->onComplete = [thread]()
+					  {
+					    V8_JAVASCRIPT_ENGINE->removeThread(thread);
+					  };
+
+					V8_JAVASCRIPT_ENGINE->addThread(thread);
+					args.GetReturnValue().Set(promise);
+				} // End of encrypt()
+
 				void PublicKey::decryptSync(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
 					std::shared_ptr<ENGINE> engine = V8_JAVASCRIPT_ENGINE->v8GetExternal<ENGINE>(args.This(), "_engine");

@@ -54,38 +54,79 @@
 				{
 				public:
 					#ifdef USE_V8
+				        /**
+					 * @brief Constructs the object.
+					 *
+					 * @param jsEngine JavaScript engine object.
+					 * @param args Array of arguments passed from JavaScript.
+					 */
 					DecipherMultipart(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
 					#elif defined USE_JAVASCRIPTCORE
+				        /**
+					 * @brief Constructs the object.
+					 *
+					 * @param jsEngine JavaScript engine object.
+					 * @param ctx JavaScript engine context.
+					 * @param argumentCount Number of arguments.
+					 * @param arguments Argument array.
+					 */
 					DecipherMultipart(JSCJavascriptEngine *jsEngine, JSContextRef ctx, RJUINT argumentCount, const JSValueRef arguments[]);
 					#endif
 					
+				        /**
+					 * @brief Destroys the object.
+					 */
 					~DecipherMultipart();
 					
 				public:
-					
-					/// Cipher data
+					/**
+					 * @brief Decrypts of a chunk of data.
+					 *
+					 * @param text Pointer to binary data.
+					 * @param textLength Data size/length.
+					 * @param stringSetter If a requested encoding resulted in a ASCII result, this setter will be used.
+					 * @param binSetter If a requested encoding resulted in a binary result, this setter will be used.
+					 */
 					void update(const void *plainText, int textLength,
 								std::function <void (const std::string &str)> stringSetter,
 								std::function <void (void *buf, int bufLen)> binSetter);
+					
+					/**
+					 * @brief Finalizes the encryption operation.
+					 *
+					 * @param stringSetter If a requested encoding resulted in a ASCII result, this setter will be used.
+					 * @param binSetter If a requested encoding resulted in a binary result, this setter will be used.
+					 */
 					void finalize(std::function <void (const std::string &str)> stringSetter,
 								  std::function <void (void *buf, int bufLen)> binSetter);
 					
+					/**
+					 * @brief Prepares the object for another digest operation.
+					 */
 					void reset();
 					
 				public:
+					/** @name KrispyCrypto object */
+					//@{
 					std::shared_ptr<Engine::Crypto::IDecipherMultipart> myDecipher;
+					//@}
 					
+					/** @name Parameters */
+					//@{
 					String myCryptoLibrary;
 					String myCipherAlgorithm;
 					String mySecret;
 					String myIv;
 					String myInputEncoding;
 					String myOutputEncoding;
+					//@}
 					
 				protected:
 					#ifdef USE_V8
+					/** @name JavaScript engine object */
 					V8JavascriptEngine
 					#elif defined USE_JAVASCRIPTCORE
+					/** @name JavaScript engine object */
 					JSCJavascriptEngine
 					#endif
 						*jsEngine;

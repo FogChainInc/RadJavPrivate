@@ -35,31 +35,65 @@ namespace Engine
 {
   namespace Crypto
   {
-    #ifdef USE_OPENSSL
+#ifdef USE_OPENSSL
     namespace OpenSSL
     {
+      /**
+       * @class RsaKey
+       *
+       * @brief Base for RsaPrivateKey and RsaPublicKey classes.
+       */
       class RsaKey : virtual public IKey
       {
 
       public:
+	/**
+	 * @brief Constructs a RsaKey object from RSA structure
+	 *
+	 * @param rsa RSA structure.
+	 * @param encryptPadding Should encrypt padding be used (usually yes).
+	 * @param signatureType.
+	 */
 	RsaKey(RsaStructUniquePtr rsa, int bits, int encryptPadding, int signatureType);
+	
+	/**
+	 * @brief Constructs a RsaKey object from RSA structure
+	 *
+	 * @param rsa RSA structure.
+	 * @param bits Length of the key.
+	 */
 	RsaKey(RsaStructUniquePtr rsa, int bits);
+
+	/**
+	 * @brief Constructs a blank RsaKey object.
+	 *
+	 * @param encryptPadding Should encrypt padding be used (usually yes).
+	 * @param signatureType.
+	 */
 	RsaKey(int encryptPadding, int signatureType);
-	//	RsaKey();
+
+	/**
+	 * @brief Destroys the object.
+	 */
 	virtual ~RsaKey();
       
-
-	//void setBits(int bits);
       protected:
+	/** @name Key structures and parameters */
+	//@{
 	RsaStructUniquePtr myRsa;
 	EvpPkeyUniquePtr myEvpPkey;
 	int myBits;
+	//@}
 
+	/** @name Encryption parameters */
+	//@{
 	int myEncryptPadding;
 	int mySignatureType;
+	//@}
+
       };
     } // End of OpenSSL
-    #endif 
+#endif 
   } // End of Crypto
 } // End of Engine
 

@@ -213,6 +213,29 @@ namespace RadJAV
 
 			}
 
+			void PublicKey::encrypt(const void* plainText, int textLength,
+									std::function <void (const std::string& str)> stringSetter,
+									std::function <void (void* buf, int bufLen)> binSetter)
+			{
+				
+				String _inputEncoding = myInputEncoding;
+				
+				const void *binPlainText;
+				int binPlainTextLength;
+				std::string decodedText;
+				
+				processInput(plainText, textLength,
+							 decodedText,
+							 binPlainText, binPlainTextLength);
+				
+				auto result = myPublicKey -> encrypt(static_cast<const unsigned char*>(binPlainText), binPlainTextLength);
+				std::cout << "Encryption Result Length: " << std::get<1>(result) << std::endl;
+				
+				processOutput(result, stringSetter, binSetter);
+				
+				
+			}
+
 			void PublicKey::decrypt(const void* plainText, int textLength,
 									std::function <void (const std::string& str)> stringSetter,
 									std::function <void (void* buf, int bufLen)> binSetter)
@@ -235,7 +258,7 @@ namespace RadJAV
 				
 				
 			}
-			
+		  
 			bool PublicKey::verify(const void* plainText, int textLength,
 								   const void* signature, int signatureLength)
 			

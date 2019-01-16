@@ -33,28 +33,58 @@ namespace Engine
     #ifdef USE_OPENSSL
     namespace OpenSSL
     {
+      /**
+       * @class KeyGenerator
+       *
+       * @brief Generates private/public key pairs.
+       *
+       * Note, public key can be obtained from a private key object.
+       */
       class RsaKeyGenerator : virtual public IKeyGenerator
       {
 	using BigNumUniquePtr = std::unique_ptr<BIGNUM, decltype(&::BN_free)>;
 	
       public:
+	/**
+	 * @brief Constructs a RsaKeyGenerator object.
+	 *
+	 * @param bits Length of the key.
+	 * @param encryptPadding Should encrypt padding be used (usually yes).
+	 * @param signatureType.
+	 */
 	RsaKeyGenerator(int bits, unsigned long pubExponent, int encryptPadding, int signatureType);
+
+	/**
+	 * Destroys the object.
+	 */
 	virtual ~RsaKeyGenerator();
       
+	/**
+	 * @brief Generates another key pair.
+	 *
+	 * @returns the key pair object (public key can be always obtained from the private key object).
+	 */
 	virtual std::shared_ptr<IPrivateKey> generate();
       
       private:
+	/** @name Key parameters */
+	//@{
 	int myBits;
 	  
 	BigNumUniquePtr myBigNumExponent;
 	unsigned long myPubExponent;
+	//@}
 
+	
+	/** @name encryption parameters */
+	//@{
 	int myEncryptPadding;
 	int mySignatureType;
+	//@}
 	  
       };
     } // End of OpenSSL
-    #endif 
+#endif 
   } // End of Crypto
 } // End of Engine
 

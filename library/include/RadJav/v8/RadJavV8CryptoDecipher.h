@@ -39,12 +39,28 @@
 				class RADJAV_EXPORT Decipher
 				{
 					public:
+				                /**
+						 * @brief Invoked during initialization, creates V8 callbacks.
+						 */
 						static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
+				                /**
+						 * @brief Implements javascript constructor.
+						 */
 						static void _init(const v8::FunctionCallbackInfo<v8::Value> &args);
+
+				                /**
+						 * @brief Implements javascript decipherSync
+						 */
 						static void decipherSync(const v8::FunctionCallbackInfo<v8::Value> &args);
+				                /**
+						 * @brief Implements javascript decipher
+						 */
 						static void decipher(const v8::FunctionCallbackInfo<v8::Value> &args);
 
+				                /**
+						 * @brief Implements javascript getCapabilities
+						 */
 						static void getCapabilities(const v8::FunctionCallbackInfo<v8::Value> &args);
 				};
 			}

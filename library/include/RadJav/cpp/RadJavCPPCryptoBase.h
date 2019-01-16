@@ -53,48 +53,110 @@
 					{
 						public:
 							#ifdef USE_V8
+					                /**
+							 * @brief Constructs the object.
+							 *
+							 * @param jsEngine JavaScript engine object.
+							 * @param args Array of arguments passed from JavaScript.
+							 */
 							Base(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
 							#elif defined USE_JAVASCRIPTCORE
+							/**
+							 * @brief Constructs the object.
+							 *
+							 * @param jsEngine JavaScript engine object.
+							 * @param ctx JavaScript engine context.
+							 * @param argumentCount Number of arguments.
+							 * @param arguments Argument array.
+							 */
 							Base(JSCJavascriptEngine *jsEngine, JSContextRef ctx, RJUINT argumentCount, const JSValueRef arguments[]);
 							#endif
-					
+							
+							/**
+							 * @brief Destroys the object.
+							 */
 							~Base();
 					
+							/**
+							 * @brief Processes input into from its encoding into a binary format.
+							 *
+							 * @param plainText A pointer to input data.
+							 * @param plainTextLength Data size/length.
+							 * @param stringSetter If a requested encoding resulted in a ASCII result, this setter will be used.
+							 * @param binSetter If a requested encoding resulted in a binary result, this setter will be used.
+							 * @param binPlainText An output argument, will contain the pointer to binary plain text.
+							 * @param binPlainTextLength An output argument, will contain binary buffer size.
+							 */
 							void processInput(const void *plainText, int textLength,
 											  std::string &decodedText,
 											  const void *&binPlainText, int &binPlainTextLength);
+							
+							/**
+							 * @brief Processes output binary data into a requested encoding.
+							 *
+							 * @param result A tuple containing a pointer to binary data and data size/length.
+							 * @param stringSetter If a requested encoding resulted in a ASCII result, this setter will be used.
+							 * @param binSetter If a requested encoding resulted in a binary result, this setter will be used.
+							 */
 							void processOutput(std::tuple<std::shared_ptr<void>, unsigned int> result,
 											   std::function <void (const std::string& str)> stringSetter,
 											   std::function <void (void* buf, int bufLen)> binSetter);
 
 						public:
+							/** @name Parameters */
+							//@{
 							String myCryptoLibrary;
 							String myAlgorithm;
 							String myInputEncoding;
 							String myOutputEncoding;
+							//@}
 					
 						protected:
 							#ifdef USE_V8
+							/** @name JavaScript engine object */
 							V8JavascriptEngine
 							#elif defined USE_JAVASCRIPTCORE
+							/** @name JavaScript engine object */
 							JSCJavascriptEngine
 							#endif
 								*jsEngine;
 					};
 
-					/// Initialize SSL certificates.
+					//@{
+					/**
+					 * @brief Initializes SSL certificates.
+					 */
 					void initializeCertificates();
-					/// Add an SSL certificate.
+					
+					/**
+					 * @brief Add an SSL certificate.
+					 */
 					void addCertificate(String certificate);
-					/// Get a SSL certificate at an index.
-					String getCertificate(RJINT index);
-					/// Get all loaded SSL certificates.
-					Array<String> *getCertificates();
-					/// Get the default SSL certificates.
-					Array<String> getDefaultCertificates();
 
-					/// The SSL context.
+					/**
+					 * @brief Get a SSL certificate at an index.
+					 */
+					String getCertificate(RJINT index);
+
+					/**
+					 * @brief Get all loaded SSL certificates.
+					 */
+					Array<String> *getCertificates();
+
+					/**
+					 * @brief Get the default SSL certificates.
+					 */
+					Array<String> getDefaultCertificates();
+					//@}
+
+					/**
+					 * @brief The SSL context.
+					 */
 					static boost::asio::ssl::context SSLContext{ boost::asio::ssl::context::sslv23_client };
+
+					/**
+					 * Default cert storage.
+					 */
 					static Array<String> *SSLCertificates = NULL;
 				#endif
 			}

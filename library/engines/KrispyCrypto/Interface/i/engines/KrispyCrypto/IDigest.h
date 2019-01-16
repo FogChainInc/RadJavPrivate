@@ -31,26 +31,101 @@ namespace Engine
   {
     class IKey;
 
-    class IDigestMultipart {
+    /**
+     * @class IDigestMultipart
+     *
+     * @brief An interface to a cipher object which can hashes data in one call.
+     *
+     * This is useful for dealing with smaller data, that fits in one buffer.
+     */
+    class IDigestMultipart
+    {
     public:
+      /**
+       * @brief Ensure destructor is virtual;
+       */
       virtual ~IDigestMultipart() = default;
       
-      
+      /**
+       * @brief Prepares object for another hash operation.
+       */
       virtual void reset() = 0;
+
+      /**
+       * @brief Hashes a binary chunk of data.
+       *
+       * @param data Pointer to the buffer containing data.
+       * @param dataLen Size of data to be hashed.
+       */
       virtual void update(const void* data, int dataLen) = 0;
+
+      /**
+       * @brief Hashes a string.
+       *
+       * @param str String to be hashed.
+       */
       virtual void update(const std::string& str) = 0;
+
+      /**
+       * @brief Hashes a key.
+       *
+       * The caller owns the resource.
+       */
       virtual void update(std::shared_ptr<IKey>) = 0;
       
+      /**
+       * @brief Finishes the hash operation.
+       *
+       * @returns A tuple containing hashed data and its size. 
+       *
+       * The caller owns the resource.
+       */
       virtual std::tuple<std::shared_ptr<void>, unsigned int> finalize() = 0;
       
     };
 
+    /**
+     * @class IDigest
+     *
+     * @brief An interface to a cipher object which can hashes data in one call.
+     *
+     * This is useful for dealing with smaller data, that fits in one buffer.
+     */
     class IDigest {
     public:
+      /**
+       * @brief Ensure destructor is virtual;
+       */
+      virtual ~IDigest() = default;
+      
+      /**
+       * @brief Hashes a binary chunk of data.
+       *
+       * @param data Pointer to the buffer containing data.
+       * @param dataLen Size of data to be hashed.
+       *
+       * @returns A tuple containing hashed data.
+       */
       virtual std::tuple<std::shared_ptr<void>, unsigned int>
 	digest(const void* data, int dataLen) = 0;
+
+      /**
+       * @brief Hashes a string.
+       *
+       * @param str String to be hashed.
+       *
+       * @returns A tuple containing hashed data.
+       */
       virtual std::tuple<std::shared_ptr<void>, unsigned int>
 	digest(const std::string& str) = 0;
+      
+      /**
+       * @brief Hashes a key..
+       *
+       * @param key Key to be hashed.
+       *
+       * @returns A tuple containing hashed data.
+       */
       virtual std::tuple<std::shared_ptr<void>, unsigned int>
 	digest(std::shared_ptr<IKey> key) = 0;
     };
