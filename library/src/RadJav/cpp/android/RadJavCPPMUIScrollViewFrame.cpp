@@ -18,6 +18,7 @@
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 #include <android/Utils.h>
+#include <android/Jni.h>
 #include "cpp/RadJavCPPMUIScrollView.h"
 #include "cpp/RadJavCPPGUIGObject.h"
 
@@ -27,6 +28,8 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
+            using namespace Android;
+
 			jmethodID ScrollViewFrame::nativeConstructor = nullptr;
             jmethodID ScrollViewFrame::nativeAddView = nullptr;
             jmethodID ScrollViewFrame::nativeRemoveView = nullptr;
