@@ -25,9 +25,11 @@ public class ZoomableViewGroup extends ViewGroup {
     private float mLastTouchX;
     private float mLastTouchY;
 
+    private float mFocusX;
     private float mFocusY;
 
-    private float mFocusX;
+    private int mCanvasWidth;
+    private int mCanvasHeight;
 
     private float[] mInvalidateWorkingArray = new float[6];
     private float[] mDispatchTouchEventWorkingArray = new float[2];
@@ -45,6 +47,7 @@ public class ZoomableViewGroup extends ViewGroup {
                     mFocusX = detector.getFocusX();
                     mFocusY = detector.getFocusY();
                 }
+
                 mScaleFactor = Math.max(0.5f, Math.min(mScaleFactor, 2.0f));
                 mScaleMatrix.setScale(mScaleFactor, mScaleFactor,
                         mFocusX, mFocusY);
@@ -74,14 +77,19 @@ public class ZoomableViewGroup extends ViewGroup {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
+        int height = 0;
+        int width = 0;
         int childCount = getChildCount();
         for (int i = 0; i < childCount; i++) {
             View child = getChildAt(i);
             if (child.getVisibility() != GONE) {
                 measureChild(child, widthMeasureSpec, heightMeasureSpec);
+                height = Math.max(height, child.getMeasuredHeight());
+                width = Math.max(width, child.getMeasuredWidth());
             }
         }
+        mCanvasWidth = width;
+        mCanvasHeight = height;
     }
 
     @Override
@@ -145,11 +153,25 @@ public class ZoomableViewGroup extends ViewGroup {
                 final float x = ev.getX(pointerIndex);
                 final float y = ev.getY(pointerIndex);
 
-                final float dx = x - mLastTouchX;
-                final float dy = y - mLastTouchY;
+                float dx = x - mLastTouchX;
+                float dy = y - mLastTouchY;
+
+                float[] topLeft = {0f, 0f};
+                float[] bottomRight = {getWidth(), getHeight()};
+
+                /*
+                 * Corners of the view in screen coordinates, so dx/dy should not be allowed to
+                 * push these beyond the canvas bounds.
+                 */
+                float[] scaledTopLeft = screenPointsToScaledPoints(topLeft);
+                float[] scaledBottomRight = screenPointsToScaledPoints(bottomRight);
+
+                dx = Math.min(Math.max(dx, scaledBottomRight[0] - mCanvasWidth), scaledTopLeft[0]);
+                dy = Math.min(Math.max(dy, scaledBottomRight[1] - mCanvasHeight), scaledTopLeft[1]);
 
                 mPosX += dx;
                 mPosY += dy;
+
                 mTranslateMatrix.preTranslate(dx, dy);
                 mTranslateMatrix.invert(mTranslateMatrixInverse);
 
