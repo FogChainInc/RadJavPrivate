@@ -68,8 +68,8 @@ namespace RadJAV
 				    input.erase(std::remove_if(input.begin(), 
 							       input.end(),
 							       [](char x){return std::isspace(x);}),input.end());
-
-				    boost::asio::ssl::verify_mode verifyMode;
+				    
+				    //boost::asio::ssl::verify_mode verifyMode;
 				    while ((posBegin = input.find_first_not_of(delims,posEnd)) != std::string::npos)
 				      {
 					posEnd = input.find_first_of(delims,posBegin);
@@ -78,24 +78,33 @@ namespace RadJAV
 					std::cout << '\'' << input.substr(posBegin,posEnd-posBegin) << '\'' << std::endl;
 
 					if (input.substr(posBegin,posEnd-posBegin) == "VerifyNone")
-					  verifyMode |= boost::asio::ssl::verify_none;
+					  m_verifyMode |= boost::asio::ssl::verify_none;
 					else if (input.substr(posBegin,posEnd-posBegin) == "VerifyPeer")
-					  verifyMode |= boost::asio::ssl::verify_peer;
+					  m_verifyMode |= boost::asio::ssl::verify_peer;
 					else if (input.substr(posBegin,posEnd-posBegin) == "VerifyFailIfNoPeerCert")
-					  verifyMode |= boost::asio::ssl::verify_fail_if_no_peer_cert;
+					  m_verifyMode |= boost::asio::ssl::verify_fail_if_no_peer_cert;
 					else if (input.substr(posBegin,posEnd-posBegin) == "VerifyClientOnce")
-					  verifyMode |= boost::asio::ssl::verify_client_once;
+					  m_verifyMode |= boost::asio::ssl::verify_client_once;
 					else
 					  {
-					    RadJav::throwException(std::string("WebSocket Client: invalid sll verifier flag: ") + input.substr(posBegin,posEnd-posBegin));
+					    RadJav::throwException(std::string("WebSocket Server: invalid sll verifier flag: ") + input.substr(posBegin,posEnd-posBegin));
 					    break;
 					  }
-
 				      }
 
-				    m_ctx.set_verify_mode(verifyMode);
-				    m_ctx.load_verify_file(parms["trustStore"]);
+				    m_ctx.set_verify_mode(m_verifyMode);
 			      
+				  }
+
+				// If trustStore provided, load it.
+				if (parms.find("trustStore") != parms.end() && parms["trustStore"] != "")
+				  m_ctx.load_verify_file(parms["trustStore"]);
+				else
+				  {
+				    if (m_verifyMode & boost::asio::ssl::verify_peer ||
+					m_verifyMode & boost::asio::ssl::verify_fail_if_no_peer_cert ||
+					m_verifyMode & boost::asio::ssl::verify_client_once)
+					    RadJav::throwException("WebSocket Server: no trustStore defined, but one of VerifyPeer, VerifyFailIfNoPeerCert or VerifyClientOnce was specified");				      
 				  }
 				
 			}

@@ -84,8 +84,8 @@ namespace RadJAV
 				    parms["trustStoreType"] = V8_JAVASCRIPT_ENGINE -> v8GetString(parmsObj, "trustStoreType");
 				    parms["trustkeyStorePwd"] = V8_JAVASCRIPT_ENGINE -> v8GetString(parmsObj, "trustStorePwd");
 
-				    parms["verifyMode"] = V8_JAVASCRIPT_ENGINE -> v8GetString(parmsObj, "verifyMode");				    
-				    
+				    parms["verifyMode"] = V8_JAVASCRIPT_ENGINE -> v8GetString(parmsObj, "verifyMode");
+
 
 				  }
 

@@ -186,11 +186,14 @@
 						// Flag that indicates if listening context available 
 						RJBOOL m_isAlive;
 
-						  std::shared_ptr<WebSocketServerSslListener> m_listener;
+						std::shared_ptr<WebSocketServerSslListener> m_listener;
 						
-
 						//maintains the list of sessions
-						  std::vector <session_data> m_sessions;
+						std::vector <session_data> m_sessions;
+
+
+						boost::asio::ssl::verify_mode m_verifyMode;
+						
 						  
 				};
 			}

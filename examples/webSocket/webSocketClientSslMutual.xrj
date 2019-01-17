@@ -19,7 +19,7 @@ RadJav.Console.println("Connecting");
 
 alert("About to connect");
 
-webSocketClient.connect("127.0.0.1", port);
+webSocketClient.connect("127.0.0.1", port;
 
 RadJav.Console.println("Connected");
 alert("Connected");
