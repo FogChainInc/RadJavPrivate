@@ -17,14 +17,15 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#ifndef _RADJAV_CPP_NET_WEBSOCKETCLIENT_H_
-#define _RADJAV_CPP_NET_WEBSOCKETCLIENT_H_
+#ifndef _RADJAV_CPP_NET_WEBSOCKETCLIENT_SSL_H_
+#define _RADJAV_CPP_NET_WEBSOCKETCLIENT_SSL_H_
 
 #include "RadJavPreprocessor.h"
 
 #include <boost/asio.hpp>
 #include <boost/beast/core.hpp>
 #include <boost/beast/websocket.hpp>
+#include <boost/beast/websocket/ssl.hpp>
 #include <boost/asio/bind_executor.hpp>
 #include <boost/asio/strand.hpp>
 #include <boost/asio/ip/tcp.hpp>
@@ -40,21 +41,13 @@ namespace RadJAV
 	{
 		namespace Net
 		{
-			/**
-			 * @ingroup group_net_cpp
-			 * @brief WebSocketClient class.
-			 */
-			class RADJAV_EXPORT WebSocketClient : public ChainedPtr
+			class RADJAV_EXPORT WebSocketClientSsl : public ChainedPtr
 			{
 				public:
-					WebSocketClient();
+			                WebSocketClientSsl(std::map<std::string, std::string> &parms);
 
-					#ifdef USE_V8
-					static void on(String event_, v8::Local<v8::Function> func_);
-					#elif defined USE_JAVASCRIPTCORE
-					static void on(String event_, JSObjectRef func_);
-					#endif
-
+					bool verify_cert(bool preVerified, boost::asio::ssl::verify_context &vctx);
+					
 					void connect(String host_, String port_);
 
 					void send(String message_);
@@ -70,11 +63,15 @@ namespace RadJAV
 					//the io_context is required for all I/O
 					boost::asio::io_context m_ioc;
 
+					boost::asio::ssl::context m_ctx;
+
 					//these objects perform our I/O
 					boost::asio::ip::tcp::resolver resolver{ m_ioc };
-					boost::beast::websocket::stream<boost::asio::ip::tcp::socket> m_ws{ m_ioc };
+					//boost::beast::websocket::stream<boost::asio::ssl::stream<boost::asio::ip::tcp::socket>> m_ws{ m_ioc, m_ctx };
+					std::shared_ptr<boost::beast::websocket::stream<boost::asio::ssl::stream<boost::asio::ip::tcp::socket>>> m_ws;
 
 					String m_received_message;
+
 			};
 		}
 	}

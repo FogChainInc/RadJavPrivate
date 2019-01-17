@@ -13,10 +13,12 @@ var webSocketClient = new RadJav.Net.WebSocketClient();
 
 webSocketClient.connect("127.0.0.1", port);
 
-webSocketClient.send("WebSocket rocks");
-alert("Sent: WebSocket rocks");
+for (var i = 0; i<1000; i++) {
+    RadJav.Console.println("Sending Msg" + i);
+    webSocketClient.send("Msg" + i);
+}
 
 var str = webSocketClient.receive();
-alert("Received: " + str);
+
 
 webSocketClient.close();

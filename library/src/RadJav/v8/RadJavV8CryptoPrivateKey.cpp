@@ -75,6 +75,7 @@ namespace RadJAV
 				void PrivateKey::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
 				{
 					//std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
+
 					std::shared_ptr<ENGINE> engine(RJNEW ENGINE(V8_JAVASCRIPT_ENGINE, args), [](ENGINE* p){DELETEOBJ(p)});
 					V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_engine", engine);
 
@@ -104,6 +105,7 @@ namespace RadJAV
 				{
 
 				  //std::cout << __PRETTY_FUNCTION__ << ": begin" << std::endl << std::flush;
+
 				  //std::cout << "Args length: " << args.Length() << std::endl;
 				  //auto isolate = args.GetIsolate();
 				  const unsigned argc = 1;

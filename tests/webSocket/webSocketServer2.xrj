@@ -1,0 +1,60 @@
+var win = new RadJav.GUI.Window ("win", "Window Example");
+
+// Stupid hack for now. Delete in the future. Should throw errors in HTML5.
+win.create ().then (function (win2)
+	{
+	});
+
+var webSocketServer = new RadJav.Net.WebSocketServer();
+
+webSocketServer.onAccept (function (id)
+			  {
+			      RadJav.Console.println("Accepted");
+
+			      var digest2 = new RadJav.Crypto.Hash({cryptoLibrary: "OpenSSL", hashAlgorithm: "sha256", outputEncoding: "base64"});
+			      
+			      var digestResult2 = digest2.digestSync('asdfadfadsf');
+			      RadJav.Console.println("Digest Algorithm2: " + digest2.hashAlgorithm);
+			      RadJav.Console.println("Digest Result2: " + digestResult2);
+
+			  });
+
+webSocketServer.onReceive (function (id, msg)
+			   {
+
+			       var digest2 = new RadJav.Crypto.Hash({cryptoLibrary: "OpenSSL", hashAlgorithm: "sha256", outputEncoding: "base64"});
+			       
+			       var digestResult2 = digest2.digestSync('asdfadfadsf');
+			       RadJav.Console.println("Digest Algorithm2: " + digest2.hashAlgorithm);
+			       RadJav.Console.println("Digest Result2: " + digestResult2);
+
+			       //echo back
+			       webSocketServer.send(id, msg);
+			   });
+
+webSocketServer.listen("9229");
+
+
+
+var webSocketServer2 = new RadJav.Net.WebSocketServer();
+
+webSocketServer2.onAccept (function (id)
+			   {
+			       RadJav.Console.println("ooooooooooooooooooooooon Accepttttttttttttttttttt: " + id);
+			       
+
+			   });
+
+webSocketServer2.onReceive (function (id, msg)
+			    {
+
+				RadJav.Console.println("ooooooooooooooooooooooon Receiveeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee: " + id
+						       + ", " + msg);
+				//echo back
+				webSocketServer2.send(id, msg + " back");
+	});
+
+webSocketServer2.listen("9230");
+
+
+alert("Servers listening");

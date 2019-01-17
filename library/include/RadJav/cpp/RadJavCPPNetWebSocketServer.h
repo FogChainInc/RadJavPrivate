@@ -57,6 +57,21 @@
 				 */
 				class RADJAV_EXPORT WebSocketServer : public ChainedPtr
 				{
+				public:
+				  class WebSocketServerSession;
+				private:
+
+						/**
+						 * @brief session data, including ID, session and last message to dispatch
+						 */
+						struct session_data
+						{
+							std::string m_session_id;
+							std::shared_ptr <WebSocketServerSession> m_session;
+							std::string m_last_message;
+
+						};
+				  
 					public:
 						/**
 						 * @brief Create websocket server instance
@@ -91,6 +106,7 @@
 						 * @param message contents of a message
 						 */
 						void send(String id, String message);
+						void send(String id, const void *message, int msg_len);
 
 						/**
 						 * @brief send message to all connected clients
@@ -110,6 +126,22 @@
 						void close();
 
 						/**
+						 * @brief Set onAccept callback.
+						 *
+						 * @param callback A Persistent function to be called on event.
+						 */
+						void set_on_accept_callback(v8::Persistent<v8::Function> *callback);
+
+						/**
+						 * @brief Set onReceive callback.
+						 *
+						 * @param callback A Persistent function to be called on event.
+						 */
+						void set_on_receive_callback(v8::Persistent<v8::Function> *callback);						
+
+						
+
+						/**
 						 * @brief message dispatching thread
 						 */
 						SimpleThread *thread;
@@ -127,6 +159,7 @@
 						 * minimal functionality to allow JS debugging.
 						 *
 						 */
+
 						class RADJAV_EXPORT WebSocketServerSession : public std::enable_shared_from_this<WebSocketServerSession>
 						{
 							/**
@@ -146,17 +179,19 @@
 							/**
 							 * @brief message buffer for socket connection
 							 */
-							boost::beast::multi_buffer m_readBuffer;
+							boost::beast::flat_buffer m_readBuffer;
 
 							public:
+								// Take ownership of the socket
 								/**
 								 * @brief Take ownership of the socket
-								 */
-								WebSocketServerSession(boost::asio::ip::tcp::socket socket_, std::string sessionID_);
+								 */							
+							        WebSocketServerSession(boost::asio::ip::tcp::socket socket_, std::string sessionID_,
+									       std::vector <RadJAV::CPP::Net::WebSocketServer::session_data> *sessions_);
 
 								/**
-                            	 * @brief Start asynchronous operation
-                            	 */
+								 * @brief Start asynchronous operation
+								 */
 								void run();
 
 								/**
@@ -179,6 +214,7 @@
 								 * @param message_ message string
 								 */
 								void do_write(String message_);
+								void do_write(const void *message_, int msg_len);
 
 								/**
 								 * @brief on_read checks errors and writes incoming message from the
@@ -204,7 +240,25 @@
 									boost::system::error_code ec_,
 									std::size_t bytes_transferred_);
 
+								void set_on_receive_callback(v8::Persistent<v8::Function>*);
+
+								
+
 							private:
+								/**
+								 * @brief Obtains the onReceive callback.
+								 *
+								 * @returns Localized onReceive callback.
+								 */
+								v8::Local<v8::Function> get_on_receive_callback();
+
+								/**
+								 * @brief Persistent onReceiveEvent.
+								 */
+						                #ifdef USE_V8
+								v8::Persistent<v8::Function> *m_serverReceiveEvent;
+						                #endif
+								
 								/**
 								 * @brief client session ID
 								 */
@@ -214,6 +268,7 @@
 								 * @brief pointer to currently dispatching message
 								 */
 								std::shared_ptr<std::string> m_activeMessage = nullptr;
+								std::vector <RadJAV::CPP::Net::WebSocketServer::session_data> *m_sessions;
 						};
 
 						/**
@@ -241,6 +296,9 @@
 							 */
 							boost::asio::ip::tcp::socket m_socket;
 
+							std::vector <RadJAV::CPP::Net::WebSocketServer::session_data> *m_sessions;
+							
+
 							public:
 								/**
 								 * @brief Create websocket server listener
@@ -251,7 +309,8 @@
 								 */
 								WebSocketServerListener(
 									boost::asio::io_context& ioc_,
-									boost::asio::ip::tcp::endpoint endpoint_);
+									boost::asio::ip::tcp::endpoint endpoint_,
+									std::vector <RadJAV::CPP::Net::WebSocketServer::session_data> *sessions_);
 
 								/**
 								 * @brief Start accepting incoming connections
@@ -271,32 +330,48 @@
 								 * m_serverAcceptEvent callback pointer is not null, call it with arguments
 								 */
 								void on_accept(boost::system::error_code ec_);
-						};				
+
+								void set_on_accept_callback(v8::Persistent<v8::Function>*);	  
+								void set_on_receive_callback(v8::Persistent<v8::Function>*);	  
+
 
 						#ifdef USE_V8
 						/**
 						 * @brief pointer to AcceptEvent persistent function of V8 engine
 						 */
-						static v8::Persistent<v8::Function> *m_serverAcceptEvent;
+	                                         v8::Persistent<v8::Function> *m_serverAcceptEvent;
 
 						/**
 						 * @brief pointer to ReceiveEvent persistent function of V8 engine.
 						 */
-						static v8::Persistent<v8::Function> *m_serverReceiveEvent;
+						v8::Persistent<v8::Function> *m_serverReceiveEvent;
 
 						#elif defined USE_JAVASCRIPTCORE
 
 						/**
 						 * @brief reference to AcceptEvent persistent function of JS Core engine
 						 */
-						static JSObjectRef m_serverAcceptEvent;
+						JSObjectRef *m_serverAcceptEvent;
 
 						/**
 						 * @brief reference to ReceiveEvent persistent function of JS Core engine
 						 */
-						static JSObjectRef m_serverReceiveEvent;
+						JSObjectRef *m_serverReceiveEvent;
 						#endif
-				
+						
+						         private:
+								v8::Local<v8::Function> get_on_accept_callback();
+								v8::Persistent<v8::Function> *get_on_receive_persistent_evt();
+								
+
+								
+						};
+
+						#ifdef USE_V8
+						v8::Persistent<v8::Function> *m_serverAcceptEvent;
+						v8::Persistent<v8::Function> *m_serverReceiveEvent;
+						#endif
+
 					private:
 						/**
 						 * @brief Port to listen (9229)
@@ -314,19 +389,15 @@
 						RJBOOL m_isAlive;
 
 						/**
-						 * @brief session data, including ID, session and last message to dispatch
-						 */
-						struct session_data
-						{
-							std::string m_session_id; ///< Session ID
-							std::shared_ptr <WebSocketServerSession> m_session; ///< Shared pointer to session
-							std::string m_last_message; ///< Last message
-						};
+						 * @brief Litener object.
+						 */						
+						std::shared_ptr<WebSocketServerListener> m_listener;
 
 						/**
 						 * List of sessions
 						 */
-						static std::vector <session_data> m_sessions;
+						std::vector <session_data> m_sessions;
+						  
 				};
 			}
 		}
