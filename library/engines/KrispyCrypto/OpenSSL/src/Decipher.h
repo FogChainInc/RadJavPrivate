@@ -42,8 +42,6 @@ namespace Engine
 	virtual public IDecipherMultipart
 	{
 	public:
-	  static const int s_bufSize = 1600;
-	  
 	  /**
 	   * @brief Constructs a Decipher object.
 	   *
@@ -134,8 +132,6 @@ namespace Engine
 	  /** @name Buffer */
 	  //@{
 	  int myBlockSize;
-	  unsigned char myPlainText[s_bufSize];
-	  unsigned char myPos;
 	  //@}
 		
       };

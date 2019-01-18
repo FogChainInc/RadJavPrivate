@@ -43,8 +43,6 @@ namespace Engine
 	virtual public ICipherMultipart
 	{
 	public:
-	  static const int s_bufSize = 1600;
-
 	  /**
 	   * @brief Constructs a Cipher object.
 	   *
@@ -136,8 +134,6 @@ namespace Engine
 	  /** @name Buffer */
 	  //@{
 	  int myBlockSize;
-	  unsigned char myCipherText[s_bufSize];
-	  unsigned char myPos;
 	  //@}
 	};
     } // End of OpenSSL

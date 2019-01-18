@@ -34,8 +34,7 @@ namespace Engine
     namespace OpenSSL
     {
 
-      Cipher::Cipher(const std::string &cipherType, const std::string &key, const std::string &iv) :
-	myPos(0)
+      Cipher::Cipher(const std::string &cipherType, const std::string &key, const std::string &iv) 
       {
 	myCipherType = cipherType;
 	myCipher = EVP_get_cipherbyname(cipherType.c_str());
