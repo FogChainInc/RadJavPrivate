@@ -54,6 +54,10 @@
 				 * to default 9229 port and dispatches messages between V8 engine and connected
 				 * instance of Chrome Dev Tools.
 				 *
+				 * @fixme Possible issue to address: looks like this class was intended for a specific purpose, but we made 
+				 * @fixme it more "general purpose" over time. This slightly changed how the server operates. New read operations are no
+				 * @fixme longer triggered by write requests, they are now issued after previous read was handled.
+				 *
 				 */
 				class RADJAV_EXPORT WebSocketServer : public ChainedPtr
 				{
@@ -204,16 +208,29 @@
 								void on_accept(boost::system::error_code ec_);
 
 								/**
-								 * @brief read the message to internal buffer
+								 * @brief Initiates an asynchronouse read operation. 
+								 *
+								 * The on_read() method is called when the socket is ready to receive data.
 								 */
 								void do_read();
 
 								/**
-								 * @brief write message to client
+								 * @brief Initiates an asynchronous wrie operation.
 								 *
 								 * @param message_ message string
+								 * 
+								 * The on_write() method will be called when socket transfered data.
 								 */
 								void do_write(String message_);
+
+								/**
+								 * @brief Initiates an asynchronous wrie operation.
+								 *
+								 * @param message_ Binary message data
+								 * @param msg_len Data size.
+								 * 
+								 * The on_write() method will be called when socket transfered data.
+								 */
 								void do_write(const void *message_, int msg_len);
 
 								/**
@@ -224,6 +241,9 @@
 								 * @param ec_ error code if occurred
 								 *
 								 * @param bytes_transferred_ number of bytes transferred (parameter ignored)
+								 *
+								 * @fixme Possible issue to address. Right now, on_read() method, after consuming the data, 
+								 * @fixme initiates another read operation by invoking do_read(). 
 								 */
 								void on_read(
 									boost::system::error_code ec_,
@@ -235,6 +255,10 @@
 								 * @param ec_ error code if occurred
 								 *
 								 * @param bytes_transferred_ number of bytes transferred (parameter ignored)
+								 *
+								 * @fixme A possible issue to address, in the course of recent work, on_write no longer initiates the new read.
+								 * @fixme This is now done right after receiving data, so the server is ready for new requests regardless of
+								 * @fixme whether write requests are ussued. 
 								 */
 								void on_write(
 									boost::system::error_code ec_,

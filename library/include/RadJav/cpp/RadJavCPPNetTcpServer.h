@@ -44,9 +44,16 @@
 			{
 
 			        /**
-				 * @bug In a test case with 10 threads, and a small buffer (10 bytes), if we flood the TCP server with echo requests (write to server 
+				 * @brief Careful with cases where we try to send a larger buffer than the internal buffer.
+				 *
+				 * In these cases ASIO will split the request in smaller ones to deliver all the data. But, we found out that when the data is received, 
+				 * and the receiving buffer is large, then in some cases the pieces will not assembled in correct order, resulting in garbled data. Also,
+				 * there is a huge performance hit when we deal with such split messages. But interestingly, if the receiver buffer is adjusted to match
+				 * the size of sender buffer, then we see no problem.
+				 *
+				 * For example, In a test case with 10 threads, and a small buffer (10 bytes), if we flood the TCP server with echo requests (write to server 
 				 *   something that is 3 or so times larger than the buffer and  send data back in the onReceive callback, in some cases the data comes 
-				 *   back garbled. This issue doesn't not occur when the number of threads is set to 1.
+				 *   back garbled. Note, this issue doesn't not occur when the number of threads is set to 1.
 				 */
 			  
 			        //@{
