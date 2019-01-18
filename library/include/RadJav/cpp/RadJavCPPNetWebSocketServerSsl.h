@@ -36,18 +36,37 @@
 	#include "RadJavHashMap.h"
 	#include "cpp/RadJavCPPChainedPtr.h"
 
+        #include <vector>
+        #include <list>
+        #include <tuple>
+
 	namespace RadJAV
 	{
 		namespace CPP
 		{
 			namespace Net
 			{
+			        using CertAttrType  = std::tuple<int, std::string>;
+				using CertMatchType = std::list<CertAttrType>;
+
+				/**
+				 * @class WebSocketServerSsl
+				 * 
+				 * @brief WebSocketServer with SSL layer.
+				 */
 				class RADJAV_EXPORT WebSocketServerSsl : public ChainedPtr
 				{
 				public:
 				  class WebSocketServerSslSession;
 				private:
+				                /**
+						 * @brief used to specify the certificate filtering mode.
+						 */
+				                 enum class CertFilterMode : int { noFiltering, partialMatch, exactMatch };
 
+						/**
+						 * @brief session data, including ID, session and last message to dispatch
+						 */
 						struct session_data
 						{
 							std::string m_session_id;
@@ -57,24 +76,94 @@
 						};
 				  
 					public:
+						/**
+						 * @brief Constructs the object
+						 */						 
 						WebSocketServerSsl(std::map<std::string, std::string> &parms);
+						
+						/**
+						 * @brief Destroys the object
+						 */						 						
 						~WebSocketServerSsl();
 
 
+						/**
+						 * @brief Start listening
+						 * 
+						 * @param port_ The port to listen on.
+						 */
 						void listen(unsigned short port_ = 9229);
 
+						/**
+						 * @brief send a string message to a client.
+						 * 
+						 * @param id Session ID.
+						 * @param message Message to send.
+						 */
 						void send(String id, String message);
+						/**
+						 * @brief send a binary message to a client.
+						 * 
+						 * @param id Session ID.
+						 * @param message Message to send.
+						 * @param message Message size.
+						 */
 						void send(String id, const void *message, int msg_len);
 
+						/**
+						 * @brief send a string message to all clients.
+						 * 
+						 * @param message Message to send.
+						 */
 						void sendToAll(String message);
 
+						/**
+						 * @brief Displatch message from client.
+						 */
 						String receive();
 
+						/**
+						 * @brief Close the server.
+						 */
 						void close();
 
+						/**
+						 * @brief set onAccept callback for this object.
+						 *
+						 * @param callback A Persistent function to be called on event.
+						 */
 						void set_on_accept_callback(v8::Persistent<v8::Function>*);
+						/**
+						 * @brief set onReceive callback for this object.
+						 *
+						 * @param callback A Persistent function to be called on event.
+						 */
 						void set_on_receive_callback(v8::Persistent<v8::Function>*);
 
+						/**
+						 * @brief Create a new certificate match set.
+						 *
+						 * This method is called from the V8 binder, after the instance of this object was created. The V8 binder 
+						 * parses the array of parameters passed from JavaScript and calls this method for each element of the array.
+						 */
+						void open_new_cert_match();
+						/**
+						 * @brief Add and attribute to certificate match set.
+						 *
+						 * @param nid A string representing a well known ID of the attribute.
+						 * @param str A string value of the attribute.
+						 *
+						 * This method is called from the V8 binder, after the instance of this object was created. The V8 binder 
+						 * parses the array of parameters passed from JavaScript, and calls this method for each attribute found in a match set.
+						 *
+						 */
+						void add_cert_match(std::string nid, std::string str);
+
+						/**
+						 * @class WebSocketServerSession
+						 *
+						 * @brief Session object
+						 */
 						class RADJAV_EXPORT WebSocketServerSslSession : public std::enable_shared_from_this<WebSocketServerSslSession>
 						{
 						  boost::beast::websocket::stream<boost::asio::ssl::stream<boost::asio::ip::tcp::socket>> m_ws;
@@ -82,87 +171,221 @@
 							boost::beast::flat_buffer m_readBuffer;
 
 							public:
-								// Take ownership of the socket
+
+							/**
+							 * @brief Constructs the object.
+							 */
 							WebSocketServerSslSession(boost::asio::ip::tcp::socket socket_,
 										  boost::asio::ssl::context &context_,
 										  std::string sessionID_,
-									       std::vector <RadJAV::CPP::Net::WebSocketServerSsl::session_data> *sessions_);
+										  std::vector <RadJAV::CPP::Net::WebSocketServerSsl::session_data> *sessions_,
+										  WebSocketServerSsl *parent
+										  );
 
+							        /**
+								 * @brief verify_cert Called from Beast to perform additional certificate verification.
+								 *
+								 * @param preVerified Passed from the previous verification operation.
+								 * @param vctx An opaque verify context.
+								 */
 							        bool verify_cert(bool preVerified, boost::asio::ssl::verify_context &vctx);
 
 							
 
-								// Start the asynchronous operation
+								/**
+								 * @brief starts asynchronous operation.
+								 */
 								void run();
 
+								/**
+								 * @brief Called when handshake is finished.
+								 *
+								 * @param ec_ Error code.
+								 */
 								void on_handshake (boost::system::error_code ec_);
+								/**
+								 * @brief Called when a connection was accepted
+								 *
+								 * @param ec_ Error code.
+								 */
 								void on_accept(boost::system::error_code ec_);
 
+								/**
+								 * @brief Read the message
+								 */
 								void do_read();
 
+								/**
+								 * @brief Write message out
+								 *
+								 * @param message_ A string content
+								 */
 								void do_write(String message_);
+								/**
+								 * @brief Write message out
+								 *
+								 * @param message_ Binary data.
+								 * @param msg_len Data size.
+								 */
 								void do_write(const void *message_, int msg_len);
 
+								/**
+								 * @brief Called after session received data from client.
+								 *
+								 * @param ec_ Error code.
+								 * @param bytes_transferred_ Number of bytes received.
+								 *
+								 * This method executes a JavaScript callback if one is set. Received data is passed to the callback.
+								 */
 								void on_read(
 									boost::system::error_code ec_,
 									std::size_t bytes_transferred_);
 
+								/**
+								 * @brief Called after data was sent out.
+								 *
+								 * @param ec_ Error code.
+								 * @param bytes_transferred_ Number of bytes received.
+								 */
 								void on_write(
 									boost::system::error_code ec_,
 									std::size_t bytes_transferred_);
 
-								void set_on_receive_callback(v8::Persistent<v8::Function>*);
-
-								
+								/**
+								 * @brief Sets the onReceive callback for the session.
+								 *
+								 * @param callback Persistent JavaScript object.
+								 */
+								void set_on_receive_callback(v8::Persistent<v8::Function> *callback);
 
 							private:
+								/**
+								 * @brief Gets the localized JavaScript callback object.
+								 */
 								v8::Local<v8::Function> get_on_receive_callback();
 
 						                #ifdef USE_V8
+								/**
+								 * @brief Persistent onReceive event.
+								 */
 								v8::Persistent<v8::Function> *m_serverReceiveEvent;
 						                #endif
 								
 								
+								/**
+								 * @brief client session ID
+								 */
 								std::string m_sessionID;
+								/**
+								 * @brief pointer to currently dispatching message
+								 */
 								std::shared_ptr<std::string> m_activeMessage = nullptr;
+								/**
+								 * @brief Session holder.
+								 */
 								std::vector <RadJAV::CPP::Net::WebSocketServerSsl::session_data> *m_sessions;
+
+								WebSocketServerSsl *m_parent;
 						};
 
+						/**
+						* @class WebSocketServerListener
+						*
+						*/
 						class RADJAV_EXPORT WebSocketServerSslListener : public std::enable_shared_from_this<WebSocketServerSslListener>
 						{
+						        /**
+							 *  @brief TCP acceptor object.
+							 */
 							boost::asio::ip::tcp::acceptor m_acceptor;
+						        /**
+							 * @brief TCP socket.
+							 */
 							boost::asio::ip::tcp::socket m_socket;
+						        /**
+							 *  @brief TCP context object
+							 */
 							std::reference_wrapper<boost::asio::ssl::context> m_ctx;
+
+						        /**
+							 *  @brief Reference to the parent object.
+							 * 
+							 * THis reference is used to access various parameters, set earlier during object contruction from JavaScript.
+							 */
+							WebSocketServerSsl *m_parent;
+							
 							//boost::asio::ssl::context m_ctx;
 							
 
+							/**
+							 * @brief Session holder.
+							 */
 							std::vector <RadJAV::CPP::Net::WebSocketServerSsl::session_data> *m_sessions;
 							
 
 							public:
+							        /**
+								 * Constructs the object
+								 */
 								WebSocketServerSslListener(
 									boost::asio::io_context& ioc_,
 									std::reference_wrapper<boost::asio::ssl::context> context_,
 									boost::asio::ip::tcp::endpoint endpoint_,
-									std::vector <RadJAV::CPP::Net::WebSocketServerSsl::session_data> *sessions_);
+									std::vector <RadJAV::CPP::Net::WebSocketServerSsl::session_data> *sessions_,
+									WebSocketServerSsl *parent
+											   );
 
-								// Start accepting incoming connections
+								/**
+								 * @brief Start accepting incoming connections
+								 */
 								void run();
 
+								/**
+								 * @brief Initiate asynchronous operation.
+								 */
 								void do_accept();
 
+								/**
+								 * @brief Callback called from Beast.
+								 *
+								 * The method creates and starts another session.
+								 *
+								 * @param ec_ Error Code
+								 */
 								void on_accept(boost::system::error_code ec_);
 
+								/**
+								 * @brief Sets the onReceive callback for the session.
+								 *
+								 * @param callback Persistent JavaScript object.
+								 */
 								void set_on_accept_callback(v8::Persistent<v8::Function>*);	  
+								/**
+								 * @brief Sets the onAccept callback for the session.
+								 *
+								 * @param callback Persistent JavaScript object.
+								 */
 								void set_on_receive_callback(v8::Persistent<v8::Function>*);	  
 
 
 						#ifdef USE_V8
+								/**
+								 * @brief pointer to AcceptEvent persistent function of V8 engine
+								 */
 								v8::Persistent<v8::Function> *m_serverAcceptEvent;
+								/**
+								 * @brief pointer to ReceiveEvent persistent function of V8 engine
+								 */
 								v8::Persistent<v8::Function> *m_serverReceiveEvent;
 						#endif
 						         private:
+						                /**
+								 * @brief obtains localized callback object.
+								 */
 								v8::Local<v8::Function> get_on_accept_callback();
+						                /**
+								 * @brief obtains persistent onReceive callback object.
+								 */
 								v8::Persistent<v8::Function> *get_on_receive_persistent_evt();
 								
 
@@ -170,29 +393,70 @@
 						};
 
 						#ifdef USE_V8
+						/**
+						 * @brief Persistent JavaScript callback object
+						 */
 						v8::Persistent<v8::Function> *m_serverAcceptEvent;
+						/**
+						 * @brief Persistent JavaScript callback object
+						 */
 						v8::Persistent<v8::Function> *m_serverReceiveEvent;
 						#endif
 
 					private:
 
-
 						
+						/**
+						 * @brief Port the server listens on.
+						 */
 						unsigned short m_port;
 
+						/**
+						 * @brief ASIO context
+						 */
 						boost::asio::io_context *m_io_context;
+						/**
+						 * @brief ASIO SSL context
+						 */
 						boost::asio::ssl::context m_ctx;
 
-						// Flag that indicates if listening context available 
+						/**
+						 * @brief Flag that indicates if listening context available 
+						 */
 						RJBOOL m_isAlive;
 
+						/**
+						 * @brief Handle to the listener object.
+						 */
 						std::shared_ptr<WebSocketServerSslListener> m_listener;
 						
-						//maintains the list of sessions
+						/**
+						 * @brief Maintains the list of sessions.
+						 */
 						std::vector <session_data> m_sessions;
 
 
+						/**
+						 * @brief ASIO SLL verify mode controlling how client certificate verification is done.
+						 */
 						boost::asio::ssl::verify_mode m_verifyMode;
+
+						/**
+						 * @brief Certificate filtering mode.
+						 * 
+						 * Dictates how additional certificate verification is performed
+						 */
+						CertFilterMode m_certFilterMode;
+
+						/**
+						 * @brief Contains data from JavaScript, representing certificate match patterns.
+						 */
+						std::vector<std::shared_ptr<CertMatchType>> m_certFilter;
+
+						/**
+						 * @brief Stores ASIO context delivery threads.
+						 */
+						std::vector<std::thread> m_IocThreads;
 						
 						  
 				};

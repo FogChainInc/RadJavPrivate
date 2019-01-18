@@ -86,15 +86,16 @@ namespace RadJAV
 
 				    parms["verifyMode"] = V8_JAVASCRIPT_ENGINE -> v8GetString(parmsObj, "verifyMode");
 
-
+				    parms["certFilterMode"] = V8_JAVASCRIPT_ENGINE -> v8GetString(parmsObj, "certFilterMode");
+				      
 				  }
 
 				for (auto elem: {"certificateStore", "keyStore"})
 				  {
 				    if (parms.find(elem) == parms.end() || parms[elem] == "")
-					args.GetIsolate() -> ThrowException(v8::Exception::TypeError
-									    (v8::String::NewFromUtf8(isolate,
-												     (std::string("'") + elem + "' must be defined").c_str())));
+					isolate -> ThrowException(v8::Exception::Error
+								  (v8::String::NewFromUtf8(isolate,
+											   (std::string("'") + elem + "' must be defined").c_str())));
 				  }
 				
 				if (parms.find("certificateStoreType") == parms.end() || parms["certificateStoreType"] == "")
@@ -104,21 +105,73 @@ namespace RadJAV
 				if (parms.find("keyStorePwd") == parms.end())
 				  parms["keyStorePwd"] = "";
 
-				
+
 
 				try
 				  {
 				    CPP::Net::WebSocketServerSsl *webSocket = RJNEW CPP::Net::WebSocketServerSsl(parms);
 				    V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_webSocket", webSocket);
+
+
+				    if (args[0] -> IsObject())
+				      {
+
+					v8::Local<v8::Object> parmsObj = v8::Local<v8::Object>::Cast(args[0]);
+					v8::Local<v8::Object> certFilter = V8_JAVASCRIPT_ENGINE -> v8GetObject(parmsObj, "certFilter");
+
+
+					String constructor = parseV8Value(certFilter -> GetConstructorName());
+					std::cout << "IsObjeeeeeeeeeeect: " << constructor << std::endl;
+					
+					
+
+					if (certFilter -> IsArray())
+					  {
+					    v8::Local<v8::Array> cf = v8::Local<v8::Array>::Cast(certFilter);
+					    std::cout << "Array length " << cf -> Length() << std::endl;
+
+					    for (int i=0; i < cf -> Length(); i++)
+					      {
+						v8::Local<v8::Value> val = cf -> Get(i);
+
+						webSocket -> open_new_cert_match();
+
+						if (val -> IsObject())
+						  {
+						    v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(val);
+						    v8::Local<v8::Array> certAttributes = obj -> GetOwnPropertyNames();
+
+						    for (int cIdx = 0; cIdx < certAttributes -> Length(); cIdx++)
+						      {
+							// Some more error checking is needed here.
+							v8::Local<v8::String> cAttrName = certAttributes -> Get(cIdx) -> ToString(isolate);
+
+							String cAttrN = parseV8Value(cAttrName);
+							String cAttrVal = V8_JAVASCRIPT_ENGINE -> v8GetString(obj, cAttrN);
+							std::cout << "JOPIERDOLA: " << cAttrN << ": " << cAttrVal << std::endl;
+							webSocket -> add_cert_match(cAttrN, cAttrVal);
+						      }
+						  }
+						else 
+						  isolate -> ThrowException(v8::Exception::Error
+									    (v8::String::NewFromUtf8(isolate, "Error while parsing certFilter")
+									     )
+									    );
+					      }
+
+					  }
+
+
+				      }
 				  }
 				catch (std::exception &e)
 				  {
-				    args.GetIsolate() -> ThrowException(v8::Exception::TypeError
-									(v8::String::NewFromUtf8(args.GetIsolate(),
-												 e.what()
-												 )
-									 )
-									);
+				    isolate -> ThrowException(v8::Exception::Error
+							      (v8::String::NewFromUtf8(args.GetIsolate(),
+										       e.what()
+										       )
+							       )
+							      );
 				  }
 			}
 
@@ -178,7 +231,7 @@ namespace RadJAV
 					webSocket->send(id, msgData, msgLen);
 				      }
 				    else
-				      isolate -> ThrowException(v8::Exception::TypeError
+				      isolate -> ThrowException(v8::Exception::Error
 								(v8::String::NewFromUtf8(isolate, "Only ArrayBuffers are supported")));
 
 				  }
@@ -273,7 +326,7 @@ namespace RadJAV
 				for (auto elem: {"trustStore"})
 				  {
 				    if (parms.find(elem) == parms.end() || parms[elem] == "")
-					args.GetIsolate() -> ThrowException(v8::Exception::TypeError
+					args.GetIsolate() -> ThrowException(v8::Exception::Error
 									    (v8::String::NewFromUtf8(isolate,
 												     (std::string("'") + elem + "' must be defined").c_str())));
 				  }
@@ -347,7 +400,7 @@ namespace RadJAV
 					webSocket->send(msgData, msgLen);
 				      }
 				    else
-				      isolate -> ThrowException(v8::Exception::TypeError
+				      isolate -> ThrowException(v8::Exception::Error
 								(v8::String::NewFromUtf8(isolate, "Only ArrayBuffers are supported")));
 
 				  }

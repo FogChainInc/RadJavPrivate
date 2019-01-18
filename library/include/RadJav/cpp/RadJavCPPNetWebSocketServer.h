@@ -268,6 +268,9 @@
 								 * @brief pointer to currently dispatching message
 								 */
 								std::shared_ptr<std::string> m_activeMessage = nullptr;
+								/**
+								 * @brief Session holder.
+								 */
 								std::vector <RadJAV::CPP::Net::WebSocketServer::session_data> *m_sessions;
 						};
 
@@ -360,7 +363,13 @@
 						#endif
 						
 						         private:
+						                /**
+								 * @brief obtains localized callback object.
+								 */
 								v8::Local<v8::Function> get_on_accept_callback();
+						                /**
+								 * @brief obtains persistent onReceive callback object.
+								 */
 								v8::Persistent<v8::Function> *get_on_receive_persistent_evt();
 								
 
@@ -368,7 +377,13 @@
 						};
 
 						#ifdef USE_V8
+						/**
+						 * @brief Persistent JavaScript callback object
+						 */
 						v8::Persistent<v8::Function> *m_serverAcceptEvent;
+						/**
+						 * @brief Persistent JavaScript callback object
+						 */
 						v8::Persistent<v8::Function> *m_serverReceiveEvent;
 						#endif
 

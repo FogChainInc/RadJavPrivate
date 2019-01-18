@@ -31,17 +31,39 @@
 #endif
 
 
+
 namespace RadJAV
 {
 	namespace CPP
 	{
 		namespace Net
 		{
+		        const int NID_COMMON_NAME = 13;
+		        const int NID_COUNTRY = 14;
+		        const int NID_LOCALITY = 15;
+		        const int NID_STATE = 16;
+		        const int NID_ORGANIZATION = 17;
+		        const int NID_ORGANIZATIONAL_UNIT = 18;
+		  
+   		        const int NID_EMAIL_ADDRESS = 48;
+
+		        const int NID_GIVEN_NAME = 99;
+		        const int NID_SURNAME = 100;
+		        const int NID_INITIALS = 101;
+		        const int NID_SERIAL_NUMBER = 105;
+		        const int NID_TITLE = 106;
+		        const int NID_DESCRIPTION = 107;
+
+		        const int NID_STREET_ADDRESS = 660;
+		  
+
+		        bool partialMatch(const X509_NAME* name, const std::vector<std::shared_ptr<CertMatchType>> &certFilter);
+		        bool exactMatch(const X509_NAME* name, const std::vector<std::shared_ptr<CertMatchType>> &certFilter);
+		  
 		        WebSocketServerSsl::WebSocketServerSsl(std::map<std::string, std::string> &parms) :
 			m_ctx(boost::asio::ssl::context::sslv23)
 			{
 
-			  //std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
 				m_port = 0;
 				m_isAlive = false;
 
@@ -93,10 +115,21 @@ namespace RadJAV
 				      }
 
 				    m_ctx.set_verify_mode(m_verifyMode);
-			      
-				  }
-				std::cout << "DUUUPA" << std::endl << std::flush;
 
+				  }
+
+				if (parms.find("certFilterMode") == parms.end())
+				  m_certFilterMode = CertFilterMode::noFiltering;
+				else if (parms.find("certFilterMode") != parms.end() && parms["certFilterMode"] == "")
+				  m_certFilterMode = CertFilterMode::noFiltering;
+				else if (parms["certFilterMode"] == "exactMatch")
+				  m_certFilterMode = CertFilterMode::exactMatch;
+				else if (parms["certFilterMode"] == "partialMatch")
+				  m_certFilterMode = CertFilterMode::partialMatch;
+				else
+				  throw std::invalid_argument("WebSocketServer: invalid certFilterMode: " + parms["certFilterMode"] +
+							      ". Supported values: empty/undefined, 'exactMatch', 'partialMatch'.");
+				  
 				// If trustStore provided, load it.
 				if (parms.find("trustStore") != parms.end() && parms["trustStore"] != "")
 				  m_ctx.load_verify_file(parms["trustStore"]);
@@ -106,38 +139,109 @@ namespace RadJAV
 					m_verifyMode & boost::asio::ssl::verify_fail_if_no_peer_cert ||
 					m_verifyMode & boost::asio::ssl::verify_client_once)
 					throw std::invalid_argument("WebSocket Server: no trustStore defined, but one of VerifyPeer, VerifyFailIfNoPeerCert or VerifyClientOnce was specified");
-				      }
 				  }
+				  
 			}
 
 			WebSocketServerSsl::~WebSocketServerSsl()
 			{
 				DELETEOBJ(m_io_context);
 			}
+
+		         void WebSocketServerSsl::open_new_cert_match()
+			 {
+			   m_certFilter.push_back(std::make_shared<CertMatchType>());
+			 }
+		  
+		         void WebSocketServerSsl::add_cert_match(std::string nidStr, std::string str)
+			 {
+
+			   std::cout << "Adding cert match: " << nidStr << ": " << str << std::endl;
+			   int nid;
+
+			   if (nidStr == "commonName")
+			     nid = NID_COMMON_NAME;
+			   else if (nidStr == "country")
+			     nid = NID_COUNTRY;
+			   else if (nidStr == "locality")
+			     nid = NID_LOCALITY;
+			   else if (nidStr == "state")
+			     nid = NID_STATE;
+			   else if (nidStr == "organization")
+			     nid = NID_ORGANIZATION;
+			   else if (nidStr == "organizationalUnit")
+			     nid = NID_ORGANIZATIONAL_UNIT;
+			   else if (nidStr == "emailAddress")
+			     nid = NID_EMAIL_ADDRESS;
+			   else if (nidStr == "givenName")
+			     nid = NID_GIVEN_NAME;
+			   else if (nidStr == "surname")
+			     nid = NID_SURNAME;
+			   else if (nidStr == "initials")
+			     nid = NID_INITIALS;
+			   else if (nidStr == "serialNumber")
+			     nid = NID_SERIAL_NUMBER;
+			   else if (nidStr == "title")
+			     nid = NID_TITLE;
+			   else if (nidStr == "description")
+			     nid = NID_DESCRIPTION;
+			   else if (nidStr == "streetAddress")
+			     nid = NID_STREET_ADDRESS;
+			   else
+			     {
+			       throw std::invalid_argument("Unsupported certificate attribute: " + nidStr);
+			     }
+			     
+			   m_certFilter.back() -> push_back(std::make_tuple(nid, str));
+			 }
+		  
 			
 			void WebSocketServerSsl::listen(unsigned short port_)
 			{
-			  //std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
 				auto const address = boost::asio::ip::make_address("127.0.0.1");
 				m_port = port_;
 																				
 				// The io_context is required for all I/O
 				auto const threads = std::max<int>(1, std::atoi("1"));
 				m_io_context = RJNEW boost::asio::io_context{ threads };
-				m_listener = std::make_shared<WebSocketServerSslListener>(*m_io_context, std::ref(m_ctx), boost::asio::ip::tcp::endpoint(address, m_port), &m_sessions);
+				m_listener = std::make_shared<WebSocketServerSslListener>(*m_io_context, std::ref(m_ctx), boost::asio::ip::tcp::endpoint(address, m_port), &m_sessions, this);
 
 				m_listener -> set_on_accept_callback(m_serverAcceptEvent);
 				m_listener -> set_on_receive_callback(m_serverReceiveEvent);
 				
 				m_listener -> run();
 
+				/*
 				WebServerThread* thread = RJNEW WebServerThread(m_io_context);
 				thread->Run();
-#ifdef GUI_USE_WXWIDGETS
-				m_isAlive = thread->IsAlive();
-#else
+				*/
+
+				// Just one thread now.
+				for  (int i=0; i<threads; i++)
+				  {
+				    std::cout << "----> Thread: " << i << std::endl;
+				    std::thread th{[this]
+					{
+					  /// @fixme If we throw and exception in any of the handlers, it will come out of m_io_context -> run()
+					  try
+					    {
+					      m_io_context -> run();
+					    }
+					  catch (std::exception &e)
+					    {
+					      /// @fixme Exception handler here can propagate the error to JavaScript
+					      std::cout << "======================= CAUGHT: " << e.what() << std::endl;
+					    }
+					}
+				    };
+				    m_IocThreads.push_back(std::move(th));
+				  }
+				
+				//#ifdef GUI_USE_WXWIDGETS
+				//				m_isAlive = thread->IsAlive();
+				//#else
 				m_isAlive = true;
-#endif
+				//#endif
 			}
 
 			void WebSocketServerSsl::send(String id_, String message_)
@@ -201,10 +305,11 @@ namespace RadJAV
 		        WebSocketServerSsl::WebSocketServerSslSession::WebSocketServerSslSession(boost::asio::ip::tcp::socket socket_, 
 												 boost::asio::ssl::context &context_,
 												 std::string sessionID_,
-											std::vector <RadJAV::CPP::Net::WebSocketServerSsl::session_data> *sessions_)
-			  : m_ws(std::move(socket_), context_), m_strand(m_ws.get_executor()), m_sessionID(sessionID_), m_sessions(sessions_)
+												 std::vector <RadJAV::CPP::Net::WebSocketServerSsl::session_data> *sessions_,
+												 WebSocketServerSsl *parent
+												 )
+			  : m_ws(std::move(socket_), context_), m_strand(m_ws.get_executor()), m_sessionID(sessionID_), m_sessions(sessions_), m_parent(parent)
 			{
-			  //			  std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
 
 			  m_ws.next_layer().set_verify_callback([this](bool preVerified, boost::asio::ssl::verify_context& vctx) -> bool {
 			      return verify_cert(preVerified, vctx);
@@ -218,47 +323,52 @@ namespace RadJAV
 											boost::asio::ssl::verify_context &vctx)
 			{
 
-			  //			  std::cout << __PRETTY_FUNCTION__ << ": PreVerified status: " << preVerified << std::endl;
-
-
-			  char subject_name[256];
 			  X509* cert = X509_STORE_CTX_get_current_cert(vctx.native_handle());
-			  X509_NAME_oneline(X509_get_subject_name(cert), subject_name, 256);
-			  std::cout << "Verifying " << subject_name << ": " << preVerified << "\n";
 			  
-			  char issuer_name[256];
-			  X509_NAME_oneline(X509_get_issuer_name(cert), issuer_name, 256);
-			  std::cout << "ISSUER " << subject_name << ": " << preVerified << "\n";
+
+			  int isCa = X509_check_ca(cert);
+			  std::cout << "CA status: " << isCa << std::endl << std::flush;
+
+			  X509_NAME *name = X509_get_subject_name(cert);
 			  
-			  BIO *mem = BIO_new(BIO_s_mem());
-			  X509_NAME_print_ex(mem, X509_get_subject_name(cert), 0, XN_FLAG_ONELINE & ~XN_FLAG_SPC_EQ);
+			  bool certVerificationResult = true;
+
+
+
+			  if (!isCa)
+			    {
+			      
+			      std::cout << "OKAY, might be doing more verification" << std::endl;
+			      
+			      //certVerificationResult = false;
+				  
+			      switch (m_parent -> m_certFilterMode)
+				{
+				case CertFilterMode::noFiltering:
+				  std::cout << "########## noFiltering" << std::endl;
+				  certVerificationResult = true;
+				  break;
+
+				case CertFilterMode::partialMatch:
+				  std::cout << "########## partialMatch" << std::endl;
+				  certVerificationResult = partialMatch(name, m_parent -> m_certFilter);
+				  break;
+
+				case CertFilterMode::exactMatch:
+				  std::cout << "########## exactMatch" << std::endl;
+				  certVerificationResult = exactMatch(name, m_parent -> m_certFilter);
+				  break;				  
+				}
+
+			    }
+
+
 			  
-			  BUF_MEM *ptr;
-			  BIO_get_mem_ptr(mem, &ptr);
-
-			  std::cout << "Length: " << ptr -> length << std::endl << std::flush;
-			  std::cout << ptr -> data << std::endl << std::flush;
-
-
-			  int status = X509_check_ca(cert);
-			  std::cout << "CA status: " << status << std::endl << std::flush;
-    
-
-			  BIO_set_close(mem, BIO_NOCLOSE); /* So BIO_free() leaves BUF_MEM alone */
-			  BIO_free(mem);
-			  
-			  std::cout << "Length: " << ptr -> length << std::endl << std::flush;
-			  std::cout << ptr -> data << std::endl << std::flush;
-
-			  delete ptr;
-
-			  
-			  return preVerified;
+			  return certVerificationResult;
 			}
 			  
 			void WebSocketServerSsl::WebSocketServerSslSession::run()
 			{
-			  //			  std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
 			  m_ws.next_layer().async_handshake(
 							    boost::asio::ssl::stream_base::server,
 							    boost::asio::bind_executor(
@@ -269,16 +379,17 @@ namespace RadJAV
 												 std::placeholders::_1)));
 			}
 
-		        void WebSocketServerSsl::WebSocketServerSslSession::on_handshake (boost::system::error_code ec_)
+		        void WebSocketServerSsl::WebSocketServerSslSession::on_handshake (boost::system::error_code ec)
 			{
-			  //			  std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
 
-				if (ec_)
+				if (ec)
 				{
-				  //				  std::cout << __PRETTY_FUNCTION__ << ": HANDSHAKE ERROR: " << ec_.message() << std::endl << std::flush;
-					RadJav::throwException("on_handshake error");
+
+				  /// @fixme This doesn't work, we need to throw a regular exception, catch it in io_service thread, then propagate to JavaScript.
+				  RadJav::throwException(ec.message());
 
 					return;
+				  
 				}
 
 				m_ws.async_accept(
@@ -296,12 +407,12 @@ namespace RadJAV
 			  m_serverReceiveEvent = callback;
 			}
 		  
-			void WebSocketServerSsl::WebSocketServerSslSession::on_accept(boost::system::error_code ec_)
+			void WebSocketServerSsl::WebSocketServerSslSession::on_accept(boost::system::error_code ec)
 			{
-			  //			  std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
-				if (ec_)
+				if (ec)
 				{
-					RadJav::throwException("on_accept error");
+				        /// @fixme This doesn't work, we need to throw a regular exception, catch it in io_service thread, then propagate to JavaScript.
+					RadJav::throwException(ec.message());
 
 					return;
 				}
@@ -312,7 +423,6 @@ namespace RadJAV
 
 			void WebSocketServerSsl::WebSocketServerSslSession::do_read()
 			{
-			  //			  std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
 			  
 				// Read a message into our buffer
 				m_ws.async_read(
@@ -328,7 +438,6 @@ namespace RadJAV
 
 			void WebSocketServerSsl::WebSocketServerSslSession::do_write(String message_)
 			{
-			  //			  std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
 			  m_ws.text(true);
 				m_activeMessage = std::make_shared<std::string>(std::move(message_));
 				m_ws.async_write(
@@ -346,7 +455,6 @@ namespace RadJAV
 		        void WebSocketServerSsl::WebSocketServerSslSession::do_write(const void *message_, int msg_len)
 			{
 			  //TODO: will have to copy the message
-			  //			  std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;
 			  m_ws.binary(true);
 				m_ws.async_write(
 					boost::asio::buffer(message_, msg_len),
@@ -359,7 +467,7 @@ namespace RadJAV
 							std::placeholders::_2)));
 			}
 
-		  v8::Local<v8::Function> WebSocketServerSsl::WebSocketServerSslSession::get_on_receive_callback()
+		        v8::Local<v8::Function> WebSocketServerSsl::WebSocketServerSslSession::get_on_receive_callback()
 			{
 			  return m_serverReceiveEvent->Get(V8_JAVASCRIPT_ENGINE->isolate);
 			}
@@ -368,7 +476,6 @@ namespace RadJAV
 				boost::system::error_code ec,
 				std::size_t bytes_transferred)
 			{
-			  //			  std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;			  
 			  
 				boost::ignore_unused(bytes_transferred);
 
@@ -389,9 +496,11 @@ namespace RadJAV
 
 				if (ec)
 				{
-					RadJav::throwException("Read error");
+				        /// @fixme This doesn't work, we need to throw a regular exception, catch it in io_service thread, then propagate to JavaScript.
+					RadJav::throwException(ec.message());
 
 					return;
+
 				}
 
 				#ifdef USE_V8
@@ -439,11 +548,11 @@ namespace RadJAV
 				std::size_t bytes_transferred)
 			{
 				boost::ignore_unused(bytes_transferred);
-				//			  std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;			  
 
 				if (ec)
 				{
-					RadJav::throwException("Write error");
+				        /// @fixme This doesn't work, we need to throw a regular exception, catch it in io_service thread, then propagate to JavaScript.
+					RadJav::throwException(ec.message());
 
 					return;
 				}
@@ -454,20 +563,21 @@ namespace RadJAV
 				boost::asio::io_context& ioc_,
 				std::reference_wrapper<boost::asio::ssl::context> context_,
 				boost::asio::ip::tcp::endpoint endpoint_,
-				std::vector <RadJAV::CPP::Net::WebSocketServerSsl::session_data> *sessions_
+				std::vector <RadJAV::CPP::Net::WebSocketServerSsl::session_data> *sessions_,
+				WebSocketServerSsl *parent
+				
 								  )
-			    : m_acceptor(ioc_), m_ctx(context_), m_socket(ioc_), m_sessions(sessions_)
+			  : m_acceptor(ioc_), m_ctx(context_), m_socket(ioc_), m_sessions(sessions_), m_parent(parent)
 			    
 			{
 			  
-			  //			  std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;			  
 				boost::system::error_code ec;
 
 				// Open the acceptor
 				m_acceptor.open(endpoint_.protocol(), ec);
 				if (ec)
 				{
-					RadJav::throwException("Open error");
+					RadJav::throwException(ec.message());
 
 					return;
 				}
@@ -476,7 +586,7 @@ namespace RadJAV
 				m_acceptor.set_option(boost::asio::socket_base::reuse_address(true));
 				if (ec)
 				{
-					RadJav::throwException("set_option error");
+					RadJav::throwException(ec.message());
 
 					return;
 				}
@@ -485,7 +595,7 @@ namespace RadJAV
 				m_acceptor.bind(endpoint_, ec);
 				if (ec)
 				{
-					RadJav::throwException("Bind error");
+					RadJav::throwException(ec.message());
 
 					return;
 				}
@@ -495,7 +605,7 @@ namespace RadJAV
 					boost::asio::socket_base::max_listen_connections, ec);
 				if (ec)
 				{
-					RadJav::throwException("Listen error");
+					RadJav::throwException(ec.message());
 
 					return;
 				}
@@ -514,7 +624,6 @@ namespace RadJAV
 			// Start accepting incoming connections
 			void WebSocketServerSsl::WebSocketServerSslListener::run()
 			{
-			  //			  std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;			  
 				if (!m_acceptor.is_open())
 					return;
 
@@ -524,7 +633,6 @@ namespace RadJAV
 			void WebSocketServerSsl::WebSocketServerSslListener::do_accept()
 			{
 			  
-			  //			  std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;			  
 				m_acceptor.async_accept(
 					m_socket,
 					std::bind(
@@ -547,10 +655,11 @@ namespace RadJAV
 
 			void WebSocketServerSsl::WebSocketServerSslListener::on_accept(boost::system::error_code ec)
 			{
-			  //			  std::cout << __PRETTY_FUNCTION__ << std::endl << std::flush;			  
 				if (ec)
 				{
-					RadJav::throwException("Accept error");
+					RadJav::throwException(ec.message());
+
+					return;
 				}
 				else
 				{
@@ -558,7 +667,7 @@ namespace RadJAV
 					session_data this_session;
 
 					std::string sessionId = boost::uuids::to_string(boost::uuids::random_generator()());
-					auto session = std::make_shared<WebSocketServerSslSession>(std::move(m_socket), m_ctx, sessionId, m_sessions);
+					auto session = std::make_shared<WebSocketServerSslSession>(std::move(m_socket), m_ctx, sessionId, m_sessions, m_parent);
 					session -> set_on_receive_callback(get_on_receive_persistent_evt());
 					
 
@@ -595,8 +704,199 @@ namespace RadJAV
 
 				// Accept another connection
 				do_accept();
-			}
-		}
-	}
-}
+			} // End of on_accept()
+		  
+
+
+		        bool partialMatch(const X509_NAME* name, const CertMatchType &certMatch)
+			{
+			  bool match = false;
+			  for (int i = 0; i < X509_NAME_entry_count(name); i++)
+			    {
+			      X509_NAME_ENTRY *nameEntry = X509_NAME_get_entry(name, i);
+			      ASN1_STRING *nameStr = X509_NAME_ENTRY_get_data(nameEntry);
+			      //const unsigned char *str = ASN1_STRING_get0_data(nameStr);
+			      const char *str = reinterpret_cast<const char*>(ASN1_STRING_get0_data(nameStr));
+
+			      ASN1_OBJECT *asn1Obj = X509_NAME_ENTRY_get_object(nameEntry);
+
+			      int attrNid = OBJ_obj2nid(asn1Obj);
+			      int attrLen = ASN1_STRING_length(nameStr);
+
+			      for (auto matchAttr : certMatch)
+				{
+				  std::cout << "Checking:" << std::get<1>(matchAttr) << std::endl;
+	  
+				  if (attrNid == std::get<0>(matchAttr))
+				    {
+
+				      std::cout << "NID match: " << attrNid << std::endl;
+				      if (attrLen == std::get<1>(matchAttr).size() &&
+					  !std::strncmp(str, std::get<1>(matchAttr).c_str(), attrLen))
+					{
+					  match = true;
+					  std::cout << "Checking the match: " << std::get<0>(matchAttr) << ':' << std::get<1>(matchAttr)
+						    << " -> " << match<< std::endl;
+		
+					}
+				      else
+					{
+					  match = false;
+					  std::cout << "Checking the match: " << std::get<0>(matchAttr) << ':' << std::get<1>(matchAttr)
+						    << " -> " << match<< std::endl;
+					  return match;
+					}
+				    }
+
+				}
+      
+
+			      std::cout << "N: " << ASN1_STRING_type(nameStr) << ": " << OBJ_obj2nid(asn1Obj) << ": ";
+			      for (int i=0; i<ASN1_STRING_length(nameStr); i++)
+				std::cout << str[i];
+			      std::cout << std::endl;
+			    }
+
+			  return match;
+			} // End of partialMatch()
+		  
+  		        bool exactMatch(const X509_NAME *name, const CertMatchType &certMatch)
+			{
+
+			  // If elements counts are different, obviously, we have no match.
+
+			  int certAttrCount = X509_NAME_entry_count(name);
+			  if (certAttrCount != certMatch.size())
+			    return false;
+
+			  // Since a certificate can have more than one organizational unit, we will tackle these separately, after parsing through other elements.
+			  std::vector <std::tuple<const char*, int>> certOu;
+			  std::vector <const std::string*> matchOu;
+  
+			  bool match = false;
+			  for (int i = 0; i < certAttrCount; i++)
+			    {
+			      X509_NAME_ENTRY *nameEntry = X509_NAME_get_entry(name, i);
+			      ASN1_STRING *nameStr = X509_NAME_ENTRY_get_data(nameEntry);
+			      //const unsigned char *str = ASN1_STRING_get0_data(nameStr);
+			      const char *str = reinterpret_cast<const char*>(ASN1_STRING_get0_data(nameStr));
+
+			      ASN1_OBJECT *asn1Obj = X509_NAME_ENTRY_get_object(nameEntry);
+
+			      int attrNid = OBJ_obj2nid(asn1Obj);
+			      int attrLen = ASN1_STRING_length(nameStr);
+
+			      for (auto& matchAttr : certMatch)
+				{
+	  
+				  std::cout << "Checking:" << std::get<1>(matchAttr) << ", Addr: "  << " -> " << &std::get<1>(matchAttr) << std::endl;
+	  
+				  if (attrNid == std::get<0>(matchAttr))
+				    {
+				      std::cout << "NID match: " << attrNid << std::endl;
+	      
+				      if (attrNid == NID_ORGANIZATIONAL_UNIT)
+					{
+					  certOu.push_back(std::make_tuple(str, attrLen));
+					  matchOu.push_back(&std::get<1>(matchAttr));
+					  std::cout << "PUSHING cert, match attributes: ";
+					  std::cout.write(str, attrLen);
+					  std::cout << std::get<1>(matchAttr)
+						    << " -> " << &std::get<1>(matchAttr) << std::endl;
+					}
+				      else
+					if (attrLen == std::get<1>(matchAttr).size() &&
+					    !std::strncmp(str, std::get<1>(matchAttr).c_str(), attrLen))
+					  {
+					    match = true;
+					    std::cout << "Checking the match: " << std::get<0>(matchAttr) << ':' << std::get<1>(matchAttr)
+						      << " -> " << match<< std::endl;
+					  }
+					else
+					  {
+					    match = false;
+					    std::cout << "Checking the match: " << std::get<0>(matchAttr) << ':' << std::get<1>(matchAttr)
+						      << " -> " << match<< std::endl;
+					    return match;
+					  }
+				    }
+
+				}
+
+
+			      std::cout << "N: " << ASN1_STRING_type(nameStr) << ": " << OBJ_obj2nid(asn1Obj) << ": ";
+			      for (int i=0; i<ASN1_STRING_length(nameStr); i++)
+				std::cout << str[i];
+			      std::cout << std::endl;
+			    }
+
+			  std::cout << "PHASE 2: " << certOu.size() << ", " << matchOu.size() << std::endl;
+
+			  for (auto certOuAttr = certOu.begin(); certOuAttr != certOu.end(); )
+			    {
+			      int certOuSize = certOu.size();
+			      for (auto matchOuAttr = matchOu.begin(); matchOuAttr != matchOu.end(); )
+				{
+				  std::cout << "Comparing OU: ";
+				  std::cout.write(std::get<0>(*certOuAttr), std::get<1>(*certOuAttr));
+				  std::cout << " <-> " << **matchOuAttr << std::endl;
+
+				  // Comparison.
+				  if (std::get<1>(*certOuAttr) == (*matchOuAttr) -> size() &&
+				      !std::strncmp(std::get<0>(*certOuAttr), (*matchOuAttr) -> c_str(), std::get<1>(*certOuAttr)))
+				    {
+				      //std::cout << "Erasing: " << *certOuAttr << ", " << *matchOuAttr << std::endl;
+				      certOuAttr = certOu.erase(certOuAttr);
+				      matchOuAttr = matchOu.erase(matchOuAttr);
+				    }
+				  else
+				    {
+				      ++matchOuAttr;
+				      if (matchOuAttr != matchOu.end())
+					std::cout << "will try matchOuAttr = " << **matchOuAttr << std::endl;
+				      else 
+					std::cout << "matchOu loop done" << std::endl;
+	      
+				    }
+				}
+			      if (matchOu.size() && certOu.size() == certOuSize && certOuAttr != certOu.end() )
+				++certOuAttr;
+
+			      std::cout << "Still here" << std::endl;
+			    }
+
+			  if (certOu.size() || matchOu.size())
+			    match = false;
+			  else
+			    match = true;
+
+			  return match;
+			} // End of exactmatch
+
+		        bool partialMatch(const X509_NAME* name, const std::vector<std::shared_ptr<CertMatchType>> &certFilter)
+			{
+
+			  // If any of the patterns matches, return success, otherwise return failure (false)
+			  for (auto certMatch : certFilter)
+			    {
+			      if (partialMatch(name, *certMatch))
+				return true;
+			    }
+			  return false;
+			} // End of partialMatch
+		  
+		        bool exactMatch(const X509_NAME* name, const std::vector<std::shared_ptr<CertMatchType>> &certFilter)
+			{
+			  // If any of the patterns matches, return success, otherwise return failure (false)
+			  for (auto certMatch : certFilter)
+			    {
+			      if (exactMatch(name, *certMatch.get()))
+				return true;
+			    }
+			  return false;
+			} // End of exactMatch
+		  
+		} // namespace Net
+	} // namespace CPP
+} // namespace RadJav
 
