@@ -141,17 +141,17 @@ namespace RadJAV
 					throw std::invalid_argument("WebSocket Server: no trustStore defined, but one of VerifyPeer, VerifyFailIfNoPeerCert or VerifyClientOnce was specified");
 				  }
 				  
-			}
+			} // End of constructor
 
 			WebSocketServerSsl::~WebSocketServerSsl()
 			{
 				DELETEOBJ(m_io_context);
-			}
+			} // End of destructor
 
 		         void WebSocketServerSsl::open_new_cert_match()
 			 {
 			   m_certFilter.push_back(std::make_shared<CertMatchType>());
-			 }
+			 } // End of open_new_cert_match
 		  
 		         void WebSocketServerSsl::add_cert_match(std::string nidStr, std::string str)
 			 {
@@ -193,7 +193,7 @@ namespace RadJAV
 			     }
 			     
 			   m_certFilter.back() -> push_back(std::make_tuple(nid, str));
-			 }
+			 } // End of add_cert_match
 		  
 			
 			void WebSocketServerSsl::listen(unsigned short port_)
@@ -242,7 +242,7 @@ namespace RadJAV
 				//#else
 				m_isAlive = true;
 				//#endif
-			}
+			} // End of listen
 
 			void WebSocketServerSsl::send(String id_, String message_)
 			{
@@ -252,7 +252,7 @@ namespace RadJAV
 						s.m_session->do_write(message_);
 						break;
 					}
-			}
+			} // End of send
 
 
 		        void WebSocketServerSsl::send(String id_, const void* message_, int msg_len)
@@ -263,13 +263,13 @@ namespace RadJAV
 					        s.m_session->do_write(message_, msg_len);
 						break;
 					}
-			}
+			} // End of send
 		  
 			void WebSocketServerSsl::sendToAll(String message_)
 			{
 				for(const auto& s: m_sessions)
 					s.m_session->do_write(message_);
-			}
+			} // End of sendToAll
 
 			String WebSocketServerSsl::receive()
 			{
@@ -283,24 +283,23 @@ namespace RadJAV
 					
 
 				return String("");
-			}
+			} // End of receive
 
 			void WebSocketServerSsl::close()
 			{
 				m_io_context->stop();
-			}
+			} // End of close
 
 			void WebSocketServerSsl::set_on_accept_callback(v8::Persistent<v8::Function>* callback)
 			{
 			  m_serverAcceptEvent = callback;
-			}
+			} // End of set_on_accept_callback
 
 			void WebSocketServerSsl::set_on_receive_callback(v8::Persistent<v8::Function>* callback)
 			{
 			  m_serverReceiveEvent = callback;
-			}
+			} // End of set_on_receive_callback
 		  
-
 		  
 		        WebSocketServerSsl::WebSocketServerSslSession::WebSocketServerSslSession(boost::asio::ip::tcp::socket socket_, 
 												 boost::asio::ssl::context &context_,
@@ -316,7 +315,7 @@ namespace RadJAV
 			    });
 
 
-			}
+			} // End of WebSocketServerSslSession constructor
 
 		  
 		        bool WebSocketServerSsl::WebSocketServerSslSession::verify_cert(bool preVerified,
@@ -365,7 +364,7 @@ namespace RadJAV
 
 			  
 			  return certVerificationResult;
-			}
+			} // End of verify_cert
 			  
 			void WebSocketServerSsl::WebSocketServerSslSession::run()
 			{
@@ -377,7 +376,7 @@ namespace RadJAV
 												 &WebSocketServerSslSession::on_handshake,
 												 shared_from_this(),
 												 std::placeholders::_1)));
-			}
+			} // End of run
 
 		        void WebSocketServerSsl::WebSocketServerSslSession::on_handshake (boost::system::error_code ec)
 			{
@@ -400,12 +399,12 @@ namespace RadJAV
 							shared_from_this(),
 							std::placeholders::_1)));
 
-			}
+			} // End of on_handshake
 		  
 		        void WebSocketServerSsl::WebSocketServerSslSession::set_on_receive_callback(v8::Persistent<v8::Function>* callback)
 			{
 			  m_serverReceiveEvent = callback;
-			}
+			} // End of set_on_receive_callback
 		  
 			void WebSocketServerSsl::WebSocketServerSslSession::on_accept(boost::system::error_code ec)
 			{
@@ -419,7 +418,7 @@ namespace RadJAV
 
 				// Read a message
 				do_read();
-			}
+			} // End of on_accept
 
 			void WebSocketServerSsl::WebSocketServerSslSession::do_read()
 			{
@@ -434,7 +433,7 @@ namespace RadJAV
 							shared_from_this(),
 							std::placeholders::_1,
 							std::placeholders::_2)));
-			}
+			} // End of do_read
 
 			void WebSocketServerSsl::WebSocketServerSslSession::do_write(String message_)
 			{
@@ -449,7 +448,7 @@ namespace RadJAV
 							shared_from_this(),
 							std::placeholders::_1,
 							std::placeholders::_2)));
-			}
+			} // End of do_write
 
 
 		        void WebSocketServerSsl::WebSocketServerSslSession::do_write(const void *message_, int msg_len)
@@ -465,12 +464,12 @@ namespace RadJAV
 							shared_from_this(),
 							std::placeholders::_1,
 							std::placeholders::_2)));
-			}
+			} // End of do_write
 
 		        v8::Local<v8::Function> WebSocketServerSsl::WebSocketServerSslSession::get_on_receive_callback()
 			{
 			  return m_serverReceiveEvent->Get(V8_JAVASCRIPT_ENGINE->isolate);
-			}
+			} // End of get_on_receive_callback
 		  
 			void WebSocketServerSsl::WebSocketServerSslSession::on_read(
 				boost::system::error_code ec,
@@ -557,7 +556,7 @@ namespace RadJAV
 					return;
 				}
 
-			}
+			} // End of on_read
 
 			WebSocketServerSsl::WebSocketServerSslListener::WebSocketServerSslListener(
 				boost::asio::io_context& ioc_,
@@ -609,17 +608,17 @@ namespace RadJAV
 
 					return;
 				}
-			}
+			} // End of WebSocketServerSslListener
 		  
 		        void WebSocketServerSsl::WebSocketServerSslListener::set_on_accept_callback(v8::Persistent<v8::Function>* callback)
 			{
 			  m_serverAcceptEvent = callback;
-			}
+			} // End of set_on_accept_callback
 
 		        void WebSocketServerSsl::WebSocketServerSslListener::set_on_receive_callback(v8::Persistent<v8::Function>* callback)
 			{
 			  m_serverReceiveEvent = callback;
-			}
+			} // End of set_on_receive_callback
 		  
 			// Start accepting incoming connections
 			void WebSocketServerSsl::WebSocketServerSslListener::run()
@@ -628,7 +627,7 @@ namespace RadJAV
 					return;
 
 				do_accept();
-			}
+			} // End of run
 
 			void WebSocketServerSsl::WebSocketServerSslListener::do_accept()
 			{
@@ -639,18 +638,18 @@ namespace RadJAV
 						&WebSocketServerSslListener::on_accept,
 						shared_from_this(),
 						std::placeholders::_1));
-			}
+			} // End of do_accept
 
 		        v8::Local<v8::Function> WebSocketServerSsl::WebSocketServerSslListener::get_on_accept_callback()
 			{
 
 			  return v8::Local<v8::Function>::Cast(RadJAV::CPP::Net::WebSocketServerSsl::WebSocketServerSslListener::m_serverAcceptEvent->Get(V8_JAVASCRIPT_ENGINE->isolate));
-			}
+			} // End of get_on_accept_callback
 		        v8::Persistent<v8::Function> *WebSocketServerSsl::WebSocketServerSslListener::get_on_receive_persistent_evt()
 			{
 
 			  return m_serverReceiveEvent;
-			}
+			} // get_on_receive_callback
 		  
 
 			void WebSocketServerSsl::WebSocketServerSslListener::on_accept(boost::system::error_code ec)
@@ -704,7 +703,7 @@ namespace RadJAV
 
 				// Accept another connection
 				do_accept();
-			} // End of on_accept()
+			} // End of on_accept
 		  
 
 
@@ -758,7 +757,7 @@ namespace RadJAV
 			    }
 
 			  return match;
-			} // End of partialMatch()
+			} // End of partialMatch
 		  
   		        bool exactMatch(const X509_NAME *name, const CertMatchType &certMatch)
 			{

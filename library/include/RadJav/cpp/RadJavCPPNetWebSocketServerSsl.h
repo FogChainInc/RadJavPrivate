@@ -61,6 +61,10 @@
 				private:
 				                /**
 						 * @brief used to specify the certificate filtering mode.
+						 *  - noFiltering means no additional verification (so as long as the certificate was signed with allowed root cert, it will 
+						 *    be allowed to connect.
+						 *  - partialMatch - The server will allow connection as long as the certificate has the attributes in the match list.
+						 *  - exactMatch - In this mode, all attributes of a certificate must be provided to allow the connection.
 						 */
 				                 enum class CertFilterMode : int { noFiltering, partialMatch, exactMatch };
 
@@ -83,7 +87,7 @@
 						
 						/**
 						 * @brief Destroys the object
-						 */						 						
+						 */
 						~WebSocketServerSsl();
 
 
@@ -143,8 +147,23 @@
 						/**
 						 * @brief Create a new certificate match set.
 						 *
-						 * This method is called from the V8 binder, after the instance of this object was created. The V8 binder 
-						 * parses the array of parameters passed from JavaScript and calls this method for each element of the array.
+						 * This method is called from the V8 binder, more specifically, from the V8B::net::WebSocketServerSsl::_init method.
+						 * After the instance of this object was created. The V8 _init will parse the certFilter parameter, which contains an array
+						 * of hashes. Each hash contains a set of key <-> value pairs, where keys are allowed certificate attributes
+						 * and values are strings.
+						 * 
+						 * For example: [{commonName: "MyThisAndThatServer", organizationalUnit: "Accounting"}, 
+						 *               {commonName: "SomeOtherEntity", organizationalUnit: "Enginnering"}]
+						 * 
+						 * The _init method will execute open_new_cert_match() for each element of above array.
+						 *
+						 * Note, there are two modes for certificate matcihng:
+						 *  - partialMatch
+						 *  - exactMatch
+						 *
+						 * The partial match will work with an example like above. Any certificate that matches the listed commonName/organizationalUnit
+						 * will satisfy the certificate verification. For exactMatch, all attributes of an certificate must be correctly listed, to allow
+						 * that client to connect. 
 						 */
 						void open_new_cert_match();
 						/**
@@ -155,7 +174,18 @@
 						 *
 						 * This method is called from the V8 binder, after the instance of this object was created. The V8 binder 
 						 * parses the array of parameters passed from JavaScript, and calls this method for each attribute found in a match set.
+						 * Supported attributes: Refer to implementation of this function in a cpp file. Most frequently used 
+						 * attributes:
+						 *  - commonName
+						 *  - organization
+						 *  - organizationalUnit
+						 *  - country
+						 *  - locality
+						 *  - serialNumber
 						 *
+						 * Note, a x509 certificate supports one of each attribute with one exception of organizationalUnit. More 
+						 * than one organizationalUnit attributes are allowed. For example, a person could be certified to be 
+						 * a part of Enginnering Group and management.
 						 */
 						void add_cert_match(std::string nid, std::string str);
 
@@ -325,14 +355,20 @@
 
 							public:
 							        /**
-								 * Constructs the object
+								 * @brief Constructs the object
+								 *
+								 * @param ioc_ ASIO context.
+								 * @param context_ SSL context (needed for SSL handshake)
+								 * @param endpoint_ Tells the listener which interface/port to listen on.
+								 * @param sessions_ The structure storing all current session data.
+								 * @param parent_ The reference to the WebSocketServerSsl object, used to access some parameters.
 								 */
 								WebSocketServerSslListener(
 									boost::asio::io_context& ioc_,
 									std::reference_wrapper<boost::asio::ssl::context> context_,
 									boost::asio::ip::tcp::endpoint endpoint_,
 									std::vector <RadJAV::CPP::Net::WebSocketServerSsl::session_data> *sessions_,
-									WebSocketServerSsl *parent
+									WebSocketServerSsl *parent_
 											   );
 
 								/**
