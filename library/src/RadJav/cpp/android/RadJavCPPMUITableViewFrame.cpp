@@ -38,10 +38,11 @@ namespace RadJAV
 
 			TableViewFrame::TableViewFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
 			{
+				JNIEnv* env = Jni::getJniEnv();
+
 				if (!nativeListViewClass)
 				{
 					Jni& jni = Jni::instance();
-					JNIEnv* env = jni.getJniEnv();
 
 					nativeListViewClass = jni.findClass("android/widget/ListView");
 
@@ -51,13 +52,9 @@ namespace RadJAV
 
 				listAdapter = RJNEW ListAdapter();
 
-				RadJav::runOnUiThreadAsync([&, parent](JNIEnv* env, void* data) {
-					auto nativeWidget = wrap_local(env, env->NewObject(nativeListViewClass, nativeConstructor, RadJav::getJavaApplication()));
-
-					widget = env->NewGlobalRef(nativeWidget);
-
-					env->CallVoidMethod(widget, nativeSetAdapter, listAdapter->getNativeObject());
-				});
+				auto nativeWidget = wrap_local(env, env->NewObject(nativeListViewClass, nativeConstructor, RadJav::getJavaApplication()));
+				widget = env->NewGlobalRef(nativeWidget);
+				env->CallVoidMethod(widget, nativeSetAdapter, listAdapter->getNativeObject());
 
 				if (parent)
 					parent->addChild(this);

@@ -40,7 +40,7 @@ namespace RadJAV
                 if (!nativeLayoutClass)
                 {
                     Jni& jni = Jni::instance();
-                    JNIEnv* env = jni.getJniEnv();
+                    JNIEnv* env = Jni::getJniEnv();
 
                     nativeLayoutClass = jni.findClass("com/fogchain/radjavvm/ZoomableViewGroup");
 
@@ -51,15 +51,12 @@ namespace RadJAV
             }
 			ScrollViewFrame::ScrollViewFrame(GUI::GObjectWidget *parent, const Vector2 &pos, const Vector2 &size)
 			{
-				Jni& jni = Jni::instance();
-				JNIEnv* env = jni.getJniEnv();
-
                 initNatives();
 
-                RadJav::runOnUiThreadAsync([&, parent](JNIEnv* env, void* data) {
-				    auto layout = wrap_local(env, env->NewObject(nativeLayoutClass, nativeConstructor, RadJav::getJavaApplication()));
-					widget = env->NewGlobalRef(layout);
-            	});
+				JNIEnv* env = Jni::getJniEnv();
+
+				auto layout = wrap_local(env, env->NewObject(nativeLayoutClass, nativeConstructor, RadJav::getJavaApplication()));
+				widget = env->NewGlobalRef(layout);
 
 				if (parent)
 					parent->addChild(this);
@@ -83,9 +80,9 @@ namespace RadJAV
 
             void ScrollViewFrame::addChild(GUI::GObjectWidget *child)
             {
-				RadJav::runOnUiThreadAsync([&, child](JNIEnv* env, void* data) {
-					env->CallVoidMethod(widget, nativeAddView, child->getNativeWidget());
-				});
+            	JNIEnv* env = Jni::getJniEnv();
+
+				env->CallVoidMethod(widget, nativeAddView, child->getNativeWidget());
             }
 
 //            void ScrollViewFrame::setContentSize(const CPP::Vector2& size)
@@ -104,16 +101,13 @@ namespace RadJAV
  */
 			bool ScrollViewFrame::bindEvent(const String& eventName, const GUI::Event* event)
 			{
-				RadJav::runOnUiThreadAsync([&, eventName, event](JNIEnv* env, void* data) {
-					GUI::EventData* eventData = new GUI::EventData(this, eventName, (void*)event);
-
-					{
-						LOGE("%s: undefined event handled in ScrollViewFrame.onBindEvent [ %s ]",
-                             __FUNCTION__, eventData->_eventName.c_str());
-					}
-
-				});
-
+//				GUI::EventData* eventData = new GUI::EventData(this, eventName, (void*)event);
+//
+//				{
+//					LOGE("%s: undefined event handled in ScrollViewFrame.onBindEvent [ %s ]",
+//						 __FUNCTION__, eventData->_eventName.c_str());
+//				}
+//
 				return false;
 			}
 		}

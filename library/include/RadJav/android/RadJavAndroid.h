@@ -46,9 +46,6 @@ namespace RadJAV
 			static RadJavAndroid *instance();
 			static bool registerNatives();
 
-			///Request function execution on Java UI thread synchronously
-			void runOnUiThread(UiThreadCallbackFunctionType function, void *data = nullptr);
-
 			///Request function execution on Java UI thread
 			void runOnUiThreadAsync(UiThreadCallbackFunctionType function, void *data = nullptr);
 
@@ -71,13 +68,11 @@ namespace RadJAV
 			void handleUIEvent();
 
 		private:
-			void defaultLockGuiThread();
-
 			void uiThreadRequested();
 
-			void uiThreadArrived(bool async);
+			void uiThreadArrived();
 
-			void runOnUiThread(UiThreadCallbackFunctionType function, void *data, bool asynchronously);
+			void runOnUiThread(UiThreadCallbackFunctionType function, void *data);
 
 			///Java thread entry point
 			static jint onRun(JNIEnv *env,
@@ -111,16 +106,7 @@ namespace RadJAV
 			int _exit_code;
 			unsigned long _ui_thread_request_counter;
 			std::mutex _counter_protector_mutex;
-			std::mutex _sync_ui_call_mutex;
 
-			std::mutex _eventMutex1;
-			CPP::GUI::EventData* _eventData;
-			jobjectArray _eventArguments;
-			std::mutex _eventMutex2;
-			int _eventResult;
-
-			NativeCallbackFunction* _native_callback;
-			jobjectArray _native_callback_parameters;
 			jobject _native_callback_result;
 
 			static RadJavAndroid *_instance;

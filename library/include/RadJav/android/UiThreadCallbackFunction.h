@@ -39,8 +39,7 @@ namespace RadJAV
 			UiThreadCallbackFunction(const UiThreadCallbackFunction&) = delete;
 
 			UiThreadCallbackFunction(UiThreadDispatcher* dispatcher,
-									 UiThreadCallbackFunctionType function, void* data,
-									 bool asynchronous = true);
+									 UiThreadCallbackFunctionType function, void* data);
 
 			void dispatch();
 
@@ -50,7 +49,6 @@ namespace RadJAV
 			UiThreadDispatcher* _dispatcher;
 			UiThreadCallbackFunctionType _function;
 			void* _data;
-			bool _asynchronous;
 		};
 	}
 }

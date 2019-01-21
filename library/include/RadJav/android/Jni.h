@@ -44,10 +44,10 @@ namespace RadJAV
 			jclass findClass(const char* classPath);
 
 			///Call this to get JNIEnv, thread safe
-			JNIEnv* getJniEnv();
+			static JNIEnv* getJniEnv();
 
 			///Call this to get JavaVM, thread safe
-			JavaVM* getJavaVm();
+			static JavaVM* getJavaVm();
 
 			///Make auto release-able local reference
 			template<class T>

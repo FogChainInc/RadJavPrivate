@@ -29,7 +29,7 @@ namespace RadJAV
 		public:
 			virtual ~UiThreadDispatcher() {}
 
-			virtual void uiThreadArrived(bool async) = 0;
+			virtual void uiThreadArrived() = 0;
 		};
 	}
 }

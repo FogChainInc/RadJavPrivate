@@ -44,10 +44,11 @@ namespace RadJAV
 			ListAdapter::ListAdapter()
 			: object(nullptr)
 			{
+				JNIEnv* env = Jni::getJniEnv();
+
 				if (!listViewClass)
 				{
 					Jni& jni = Jni::instance();
-					JNIEnv* env = jni.getJniEnv();
 
 					listViewClass = jni.findClass("android/widget/ListView");
 					listAdapterClass = jni.findClass("com/fogchain/radjavvm/RadJavListAdapter");
@@ -59,9 +60,6 @@ namespace RadJAV
 					notifyChanged = env->GetMethodID(listAdapterClass, "notifyChanged", "()V");
 					notifyInvalidated = env->GetMethodID(listAdapterClass, "notifyInvalidated", "()V");
 				}
-
-				Jni& jni = Jni::instance();
-				JNIEnv* env = jni.getJniEnv();
 
 				auto adapter = wrap_local(env, env->NewObject(listAdapterClass, listAdapterConstructor));
 
@@ -75,7 +73,7 @@ namespace RadJAV
 				if (object)
 				{
 					Jni& jni = Jni::instance();
-					JNIEnv* env = jni.getJniEnv();
+					JNIEnv* env = Jni::getJniEnv();
 					env->DeleteGlobalRef(object);
 					object = nullptr;
 				}
@@ -96,8 +94,7 @@ namespace RadJAV
 
 			void ListAdapter::registerCallbacks()
 			{
-				Jni& jni = Jni::instance();
-				JNIEnv* env = jni.getJniEnv();
+				JNIEnv* env = Jni::getJniEnv();
 
 				registerCallback(env, "GET_COUNT",
 								 RJNEW NativeCallbackFunction([&](JNIEnv* env, void* data, jobjectArray parameters) {

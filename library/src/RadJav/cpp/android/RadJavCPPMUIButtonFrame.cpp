@@ -39,10 +39,11 @@ namespace RadJAV
 
 			ButtonFrame::ButtonFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
 			{
+				JNIEnv* env = Jni::getJniEnv();
+
 				if (!nativeButtonClass)
 				{
 					Jni& jni = Jni::instance();
-					JNIEnv* env = jni.getJniEnv();
 
 					nativeButtonClass = jni.findClass("android/widget/Button");
 
@@ -51,11 +52,8 @@ namespace RadJAV
 					nativeGetText = env->GetMethodID(nativeButtonClass, "getText", "()Ljava/lang/CharSequence;");
 				}
 
-				RadJav::runOnUiThreadAsync([&, parent](JNIEnv* env, void* data) {
-					auto layout = wrap_local(env, env->NewObject(nativeButtonClass, nativeConstructor, RadJav::getJavaApplication()));
-
-					widget = env->NewGlobalRef(layout);
-				});
+				auto layout = wrap_local(env, env->NewObject(nativeButtonClass, nativeConstructor, RadJav::getJavaApplication()));
+				widget = env->NewGlobalRef(layout);
 
 				if (parent)
 					parent->addChild(this);
@@ -72,21 +70,20 @@ namespace RadJAV
 
             void ButtonFrame::setText(String text)
             {
-            	RadJav::runOnUiThreadAsync([&, text](JNIEnv* env, void* data) {
-					auto jtext = wrap_local(env, text.toJNIString());
+				JNIEnv* env = Jni::getJniEnv();
 
-					env->CallNonvirtualVoidMethod(widget, nativeButtonClass, nativeSetText, jtext.get());
-            	});
+				auto jtext = wrap_local(env, text.toJNIString());
+				env->CallNonvirtualVoidMethod(widget, nativeButtonClass, nativeSetText, jtext.get());
             }
             
             String ButtonFrame::getText()
 			{
 				String text;
 
-				RadJav::runOnUiThread([&](JNIEnv* env, void* data) {
-					jobject charSequence = env->CallObjectMethod(widget, nativeGetText);
-					text = parseJNICharSequence(charSequence);
-				});
+				JNIEnv* env = Jni::getJniEnv();
+
+				jobject charSequence = env->CallObjectMethod(widget, nativeGetText);
+				text = parseJNICharSequence(charSequence);
 
 				return text;
             }
@@ -114,63 +111,62 @@ namespace RadJAV
 			
 			bool ButtonFrame::bindEvent(const String& eventName, const GUI::Event* event)
 			{
-				RadJav::runOnUiThreadAsync([&, eventName, event](JNIEnv* env, void* data) {
-				    GUI::EventData* eventData = new GUI::EventData(this, eventName, (void*)event);
-                    LOGI("%s: %s", __FUNCTION__, eventData->_eventName.c_str());
+				JNIEnv* env = Jni::getJniEnv();
 
-                    jmethodID method = nullptr;
+				GUI::EventData* eventData = new GUI::EventData(this, eventName, (void*)event);
+				LOGI("%s: %s", __FUNCTION__, eventData->_eventName.c_str());
 
-					//setOnClickListener - Callback when the view is clickedOnItemClick
-					if (eventData->_eventName.compare("click") == 0)
-					{
-						method = env->GetMethodID(nativeButtonClass, "setOnClickListener", "(Landroid/view/View$OnClickListener;)V");
-					}
-                    //onCreateContextMenu - Callback for pressing and holding a view for a long time
-                    else if (eventData->_eventName.compare("createContextMenu") == 0)
-                    {
-                        method = env->GetMethodID(nativeButtonClass, "setOnCreateContextMenuListener", "(Landroid/view/View$OnCreateContextMenuListener;)V");
-                    }
+				jmethodID method = nullptr;
+
+				//setOnClickListener - Callback when the view is clickedOnItemClick
+				if (eventData->_eventName.compare("click") == 0)
+				{
+					method = env->GetMethodID(nativeButtonClass, "setOnClickListener", "(Landroid/view/View$OnClickListener;)V");
+				}
+					//onCreateContextMenu - Callback for pressing and holding a view for a long time
+				else if (eventData->_eventName.compare("createContextMenu") == 0)
+				{
+					method = env->GetMethodID(nativeButtonClass, "setOnCreateContextMenuListener", "(Landroid/view/View$OnCreateContextMenuListener;)V");
+				}
 					//setOnDragListener - Callback when the view is dragged
 					//setOnFocusChangeListener - Callback when the view changes focus
-					else if (eventData->_eventName.compare("focusChange") == 0)
-					{
-                        method = env->GetMethodID(nativeButtonClass, "setOnFocusChangeListener", "(Landroid/view/View$OnFocusChangeListener;)V");
-                    }
-                    //setOnGenericMotionListener - Callback for arbitrary gestures
-                    //setOnHoverListener - Callback for hovering over the view
-                    //setOnKeyListener - Callback for pressing a hardware key when view has focus
-                    else if (eventData->_eventName.compare("key") == 0)
-                    {
-                        method = env->GetMethodID(nativeButtonClass, "setOnKeyListener", "(Landroid/view/View$OnKeyListener;)V");
-                    }
-                    //setOnLongClickListener - Callback for pressing and holding a view
-                    else if (eventData->_eventName.compare("longClick") == 0)
-                    {
-                        method = env->GetMethodID(nativeButtonClass, "setOnLongClickListener", "(Landroid/view/View$OnLongClickListener;)V");
-                    }
-                    //setOnTouchListener - Callback for touching down or up on a view
-                    else if (eventData->_eventName.compare("touch") == 0)
-                    {
-                        method = env->GetMethodID(nativeButtonClass, "setOnTouchListener", "(Landroid/view/View$OnTouchListener;)V");
-                    }
-					else
-					{
-						LOGE("%s: undefined event handled in button.onBindEvent [ %s ]", __FUNCTION__, eventData->_eventName.c_str());
-					}
+				else if (eventData->_eventName.compare("focusChange") == 0)
+				{
+					method = env->GetMethodID(nativeButtonClass, "setOnFocusChangeListener", "(Landroid/view/View$OnFocusChangeListener;)V");
+				}
+					//setOnGenericMotionListener - Callback for arbitrary gestures
+					//setOnHoverListener - Callback for hovering over the view
+					//setOnKeyListener - Callback for pressing a hardware key when view has focus
+				else if (eventData->_eventName.compare("key") == 0)
+				{
+					method = env->GetMethodID(nativeButtonClass, "setOnKeyListener", "(Landroid/view/View$OnKeyListener;)V");
+				}
+					//setOnLongClickListener - Callback for pressing and holding a view
+				else if (eventData->_eventName.compare("longClick") == 0)
+				{
+					method = env->GetMethodID(nativeButtonClass, "setOnLongClickListener", "(Landroid/view/View$OnLongClickListener;)V");
+				}
+					//setOnTouchListener - Callback for touching down or up on a view
+				else if (eventData->_eventName.compare("touch") == 0)
+				{
+					method = env->GetMethodID(nativeButtonClass, "setOnTouchListener", "(Landroid/view/View$OnTouchListener;)V");
+				}
+				else
+				{
+					LOGE("%s: undefined event handled in button.onBindEvent [ %s ]", __FUNCTION__, eventData->_eventName.c_str());
+				}
 
-					if (method != nullptr) {
-                        Jni& jni = Jni::instance();
+				if (method != nullptr) {
+					Jni& jni = Jni::instance();
 
-                        jclass _eventListenerClass = jni.findClass("com/fogchain/radjavvm/UiEventListener");
-                        jmethodID _eventListenerConstructor = env->GetMethodID(_eventListenerClass, "<init>", "(Ljava/nio/ByteBuffer;)V");
+					jclass _eventListenerClass = jni.findClass("com/fogchain/radjavvm/UiEventListener");
+					jmethodID _eventListenerConstructor = env->GetMethodID(_eventListenerClass, "<init>", "(Ljava/nio/ByteBuffer;)V");
 
-                        auto eventBuffer = jni.wrapLocalRef(env->NewDirectByteBuffer(eventData, sizeof(eventData)));
-                        auto listenerInstance = jni.wrapLocalRef(env->NewObject(_eventListenerClass, _eventListenerConstructor, eventBuffer.get()));
+					auto eventBuffer = jni.wrapLocalRef(env->NewDirectByteBuffer(eventData, sizeof(eventData)));
+					auto listenerInstance = jni.wrapLocalRef(env->NewObject(_eventListenerClass, _eventListenerConstructor, eventBuffer.get()));
 
-                        env->CallVoidMethod(widget, method, listenerInstance.get());
-                    }
-
-                });
+					env->CallVoidMethod(widget, method, listenerInstance.get());
+				}
 
 				return true;
 			}

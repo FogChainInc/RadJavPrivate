@@ -37,7 +37,7 @@ public final class RadJavApplication extends Application
     }
 
     static private boolean initialized = false;
-    static private boolean thread_started = false;
+    static private boolean vm_started = false;
     static private boolean paused = false;
     static private boolean shutdown = false;
 
@@ -141,22 +141,12 @@ public final class RadJavApplication extends Application
             //Log.i(TAG, "App unpaused");
         }
 
-        if (!thread_started)
+        if (!vm_started)
         {
             //Log.i(TAG, "Run libRadJav");
+            RadJavRun(this, mainWindow, prependWithExternalCacheDir(""), appFile);
 
-            final RadJavApplication app = this;
-
-            Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    RadJavRun(app, mainWindow, prependWithExternalCacheDir(""), appFile);
-                }
-            });
-
-            thread.start();
-
-            thread_started = true;
+            vm_started = true;
         }
     }
 
@@ -168,8 +158,7 @@ public final class RadJavApplication extends Application
 
     public void shutdown()
     {
-        initialized = false;
-        shutdown = true;
+        android.os.Process.killProcess(android.os.Process.myPid());
     }
 
     public native int RadJavRun(RadJavApplication application, ViewGroup mainViewGroup, String cacheDir, String appFile);

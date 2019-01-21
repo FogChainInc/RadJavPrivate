@@ -55,11 +55,10 @@ namespace RadJAV
             {
             	initNatives();
 
-            	RadJav::runOnUiThreadAsync([&, parent](JNIEnv* env, void* data) {
-					auto layout = wrap_local(env, env->NewObject(nativeLayoutClass, nativeConstructor, RadJav::getJavaApplication()));
+				JNIEnv* env = Jni::getJniEnv();
 
-					widget = env->NewGlobalRef(layout);
-            	});
+				auto layout = wrap_local(env, env->NewObject(nativeLayoutClass, nativeConstructor, RadJav::getJavaApplication()));
+				widget = env->NewGlobalRef(layout);
 
             	if (parent)
             		parent->addChild(this);
@@ -73,8 +72,8 @@ namespace RadJAV
 
 				initNatives();
 
-				Jni& jni = Jni::instance();
-				widget = jni.getJniEnv()->NewGlobalRef(RadJav::getJavaViewGroup());
+				JNIEnv* env = Jni::getJniEnv();
+				widget = env->NewGlobalRef(RadJav::getJavaViewGroup());
 
 				setText(text);
 			}
@@ -87,9 +86,9 @@ namespace RadJAV
 
 			void ViewFrame::addChild(GUI::GObjectWidget *child)
 			{
-				RadJav::runOnUiThreadAsync([&, child](JNIEnv* env, void* data) {
-					env->CallVoidMethod(widget, nativeAddView, child->getNativeWidget());
-				});
+				JNIEnv* env = Jni::getJniEnv();
+
+				env->CallVoidMethod(widget, nativeAddView, child->getNativeWidget());
 			}
 
 			void ViewFrame::setText(String text)

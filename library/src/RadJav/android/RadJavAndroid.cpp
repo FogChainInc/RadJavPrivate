@@ -75,23 +75,16 @@ namespace RadJAV
 			return result == 0;
 		}
 
-		void RadJavAndroid::runOnUiThread(UiThreadCallbackFunctionType function, void *data)
-		{
-			LOGI(__FUNCTION__);
-
-			runOnUiThread(function, data, false);
-		}
-
 		void RadJavAndroid::runOnUiThreadAsync(UiThreadCallbackFunctionType function, void *data)
 		{
-			LOGI(__FUNCTION__);
+			//LOGI(__FUNCTION__);
 
-			runOnUiThread(function, data, true);
+			runOnUiThread(function, data);
 		}
 
-		void RadJavAndroid::runOnUiThread(UiThreadCallbackFunctionType function, void *data, bool asynchronously)
+		void RadJavAndroid::runOnUiThread(UiThreadCallbackFunctionType function, void *data)
 		{
-			LOGI(__FUNCTION__);
+			//LOGI(__FUNCTION__);
 
 //        Handler handler = new Handler(Looper.getMainLooper());
 //        handler.post(new Runnable() {
@@ -121,7 +114,7 @@ namespace RadJAV
 					env->NewObject(handlerClass, handlerConstructor, mainLooper.get()));
 
 			//Wrap data
-			UiThreadCallbackFunction *func = new UiThreadCallbackFunction(this, function, data, asynchronously);
+			UiThreadCallbackFunction *func = new UiThreadCallbackFunction(this, function, data);
 
 			auto functionObject = jni.wrapLocalRef(env->NewDirectByteBuffer(func, sizeof(func)));
 
@@ -131,18 +124,21 @@ namespace RadJAV
 			jboolean result = env->CallBooleanMethod(handler, post, uiCallback.get());
 
 			uiThreadRequested();
-
-			if (!asynchronously)
-			{
-				_sync_ui_call_mutex.lock();
-				_sync_ui_call_mutex.lock();
-			}
 		}
 
 		void RadJavAndroid::terminate(int exitCode)
 		{
 			_terminated = true;
 			_exit_code = exitCode;
+
+			Jni &jni = Jni::instance();
+			JNIEnv *env = jni.getJniEnv();
+
+			auto appClass = jni.wrapLocalRef(env->GetObjectClass(_java_application));
+
+			jmethodID shutdownMethodId = env->GetMethodID(appClass, "shutdown", "()V");
+
+			env->CallVoidMethod(_java_application, shutdownMethodId);
 		}
 
 		jobject RadJavAndroid::getJavaApplication() const
@@ -165,20 +161,13 @@ namespace RadJAV
 			_java_application = nullptr;
 			_java_view_group = nullptr;
 			_terminated = false;
-			_exit_code = 0;
+			_exit_code = EXIT_SUCCESS;
 
 			_ui_thread_request_counter = 0;
 
-			_eventData = nullptr;
-			_eventArguments = nullptr;
-			_eventResult = 2;
-
-			_native_callback_parameters = nullptr;
 			_native_callback_result = nullptr;
 
 			_instance = this;
-
-			defaultLockGuiThread();
 		}
 
 		bool RadJavAndroid::isWaitingForUiThread()
@@ -195,14 +184,11 @@ namespace RadJAV
 			_ui_thread_request_counter++;
 		}
 
-		void RadJavAndroid::uiThreadArrived(bool async)
+		void RadJavAndroid::uiThreadArrived()
 		{
 			std::unique_lock<std::mutex> lock{_counter_protector_mutex};
 
 			_ui_thread_request_counter--;
-
-			if (!async)
-				_sync_ui_call_mutex.unlock();
 		}
 
 		bool RadJavAndroid::isPaused() const
@@ -264,7 +250,7 @@ namespace RadJAV
 									   jobject javaUiCallbackObject,
 									   jobject data)
 		{
-			LOGI(__FUNCTION__);
+			//LOGI(__FUNCTION__);
 
 			Jni::instance().storeJniEnvForThread(env);
 
@@ -295,76 +281,24 @@ namespace RadJAV
 
 			CPP::GUI::EventData* eventData = (CPP::GUI::EventData*)env->GetDirectBufferAddress(data);
 
-			//post event for execution
-			app->_eventMutex1.lock();
-			app->_eventData = eventData;
-			app->_eventArguments = arguments;
-			app->_eventResult = 2; //set default return value
-			app->_eventMutex1.unlock();
+			jboolean result = JNI_FALSE;
 
-			//wait for result
-			app->_eventMutex2.lock();
-
-			// return true if event is boolean and consumed, false if event is void or not consumed
-			if (app->_eventResult == 1) return JNI_TRUE;
-
-			return JNI_FALSE;
-		}
-
-		void RadJavAndroid::handleUIEvent(){
-			//TODO: check if JS execution performance affected by locking this mutex,
-			//possible solution here is to read variable without mutex first and lock it only if
-			//there is any data available to proceed
-			_eventMutex1.lock();
-			if (_eventData != nullptr) {
-				auto retVal = _eventData->_widget->executeEvent(static_cast<CPP::GUI::Event*>(_eventData->_event));
+			if (eventData != nullptr)
+			{
+				auto retVal = eventData->_widget->executeEvent(static_cast<CPP::GUI::Event*>(eventData->_event));
 
 				//check for boolean return value, if exists - return it to the UiEventListener
-				if ( (false == V8_JAVASCRIPT_ENGINE->v8IsNull(retVal)) &&
-					 (retVal->IsBoolean()) )
+				if (!V8_JAVASCRIPT_ENGINE->v8IsNull(retVal) &&
+					retVal->IsBoolean())
 				{
 					// true from event means it is consumed
 					bool consumeEvent = retVal->IsTrue();
 
-					if (consumeEvent) {
-						_eventResult = 1;
-					}
-					else {
-						_eventResult = 0;
-					}
-
+					result = consumeEvent ? JNI_TRUE : JNI_FALSE;
 				}
-
-				_eventData = nullptr;
-				_eventArguments = nullptr;
-
-				//unlock gui thread so it will pick up the result
-				_eventMutex2.unlock();
 			}
 
-			_eventMutex1.unlock();
-		}
-
-		void RadJavAndroid::defaultLockGuiThread() {
-			_eventMutex2.lock();
-		}
-
-		void RadJavAndroid::handleNativeCallback()
-		{
-			_eventMutex1.lock();
-
-			if (_native_callback && _native_callback_parameters)
-			{
-				_native_callback_result = (*_native_callback)(Jni::instance().getJniEnv(), _native_callback_parameters);
-
-				_native_callback = nullptr;
-				_native_callback_parameters = nullptr;
-
-				//unlock gui thread so it will pick up the result
-				_eventMutex2.unlock();
-			}
-
-			_eventMutex1.unlock();
+			return result;
 		}
 
 		jobject RadJavAndroid::onUiCall(JNIEnv *env,
@@ -383,23 +317,19 @@ namespace RadJAV
 				return nullptr;
 			}
 
-			//post event for execution
-			app->_eventMutex1.lock();
-
-			app->_native_callback_parameters = arguments;
-
 			if (app->_native_callback_result)
 			{
 				env->DeleteGlobalRef(app->_native_callback_result);
 			}
 
 			app->_native_callback_result = nullptr;
-			app->_native_callback = static_cast<NativeCallbackFunction*>(env->GetDirectBufferAddress(data));
+			NativeCallbackFunction* nativeCallback = static_cast<NativeCallbackFunction*>(env->GetDirectBufferAddress(data));
 
-			app->_eventMutex1.unlock();
-
-			//wait for result
-			app->_eventMutex2.lock();
+			if (nativeCallback &&
+				arguments)
+			{
+				app->_native_callback_result = (*nativeCallback)(Jni::instance().getJniEnv(), arguments);
+			}
 
 			if (!app->_native_callback_result)
 			{

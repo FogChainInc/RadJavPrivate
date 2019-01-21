@@ -108,6 +108,8 @@
 				void Free(void *data, size_t length);
 		};*/
 
+		class JsVirtualMachine;
+
 		/// The V8 javascript engine.
 		class RADJAV_EXPORT V8JavascriptEngine: public JavascriptEngine
 		{
@@ -126,6 +128,9 @@
 			
 				#ifdef GUI_USE_WXWIDGETS
 					void runApplicationInIdleEvent(wxIdleEvent& event);
+				#endif
+				#ifdef USE_ANDROID
+					void runApplicationInIdleEvent();
 				#endif
 			
 				/// Run an application from a javascript file.
@@ -277,6 +282,7 @@
 									const char* typeName);
 
 			protected:
+				JsVirtualMachine* jsvm;
 				v8::ArrayBuffer::Allocator* arrayBufferAllocator;
 				Array<String> jsToExecuteNextCode;
 				Array<String> jsToExecuteNextFilename;

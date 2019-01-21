@@ -77,7 +77,8 @@ namespace RadJAV
                     v8::Local<v8::Value> operator ()(RJINT numArgs = 0, v8::Local<v8::Value> *args = NULL)
                     {
                         // Execute a persistent function.
-                        v8::Local<v8::Function> function = v8::Local<v8::Function>::Cast( VariantObject<UserData>::object->Get(V8_JAVASCRIPT_ENGINE->isolate));
+						v8::Local<v8::Value> functionValue = VariantObject<UserData>::object->Get(V8_JAVASCRIPT_ENGINE->isolate);
+                        v8::Local<v8::Function> function = v8::Local<v8::Function>::Cast(functionValue);
                         v8::Local<v8::Value> result = v8::Undefined (V8_JAVASCRIPT_ENGINE->isolate);
                         
                         if (V8_JAVASCRIPT_ENGINE->v8IsNull(function) == false)
