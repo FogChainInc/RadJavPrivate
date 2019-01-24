@@ -94,7 +94,7 @@ if (USE_V8)
 			#"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUINavigationViewController.cpp"
 			#"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUITableViewController.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUITableView.cpp"
-			#"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUITableViewModel.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUITableViewModel.cpp"
 			#"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUITableCellModel.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUIScrollView.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUIButton.cpp"
@@ -614,7 +614,7 @@ if (IS_MOBILE)
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUITextboxFrame.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUITextareaFrame.cpp"
 			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUIWebView.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUIListAdapter.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUITableViewDelegate.cpp"
 			)
 
 		source_group ("RadJav\\CPP\\MUI\\Android" FILES ${SOURCES_files_RadJav__cpp__MUI__Sources})

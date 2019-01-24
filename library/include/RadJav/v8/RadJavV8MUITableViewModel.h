@@ -17,67 +17,31 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#include "cpp/RadJavCPPMUITableViewModel.h"
-#include "cpp/RadJavCPPMUITableView.h"
+#ifndef _RADJAV_MUI_V8_TABLEVIEWMODEL_H_
+#define _RADJAV_MUI_V8_TABLEVIEWMODEL_H_
 
-#include "RadJav.h"
-#include "RadJavString.h"
+#include "RadJavPreprocessor.h"
+#include <v8.h>
+
 
 namespace RadJAV
 {
-	namespace CPP
+	namespace V8B
 	{
 		namespace MUI
 		{
-			#ifdef USE_V8
-				TableViewModel::TableViewModel(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
-				: itemsCount(0)
-				{
-				}
-			#endif
-			#ifdef USE_JAVASCRIPTCORE
-				TableViewModel::TableViewModel(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[])
-				: itemsCount(0)
-				{
-				}
-			#endif
+			class RADJAV_EXPORT TableViewModel
+			{
+				public:
+					static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
-			TableViewModel::TableViewModel()
-			: itemsCount(0)
-			{
-			}
-
-			void TableViewModel::itemAdded(unsigned int index)
-			{
-				itemsCount++;
-			}
-			
-			void TableViewModel::itemRemoved(unsigned int index)
-			{
-				itemsCount--;
-			}
-			
-			void TableViewModel::itemsCleared()
-			{
-				itemsCount = 0;
-			}
-			
-			unsigned int TableViewModel::size() const
-			{
-				return itemsCount;
-			}
-
-			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
-            	void TableViewModel::on(String event, RJ_FUNC_TYPE func)
-				{
-					/*
-					if (_appObj)
-					{
-						_appObj->addNewEvent(event, func);
-					}*/
-				}
-			#endif
+					static void init(const v8::FunctionCallbackInfo<v8::Value> &args);
+					static void itemPushed(const v8::FunctionCallbackInfo<v8::Value> &args);
+					static void itemRemoved(const v8::FunctionCallbackInfo<v8::Value> &args);
+					static void itemsCleared(const v8::FunctionCallbackInfo<v8::Value> &args);
+			};
 		}
 	}
 }
 
+#endif

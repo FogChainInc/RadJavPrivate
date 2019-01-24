@@ -66,6 +66,30 @@ namespace RadJAV
 
 			///Create new java Boolean instance with specific value
 			Local<_jobject> NewBoolean(bool value);
+
+			///Return primitive type from corresponding Java box class
+			jboolean BooleanToJboolean(jobject obj);
+
+			///Return primitive type from corresponding Java box class
+			jbyte ByteToJbyte(jobject obj);
+
+			///Return primitive type from corresponding Java box class
+			jchar CharToJchar(jobject obj);
+
+			///Return primitive type from corresponding Java box class
+			jshort ShortToJshort(jobject obj);
+
+			///Return primitive type from corresponding Java box class
+			jint IntegerToJint(jobject obj);
+
+			///Return primitive type from corresponding Java box class
+			jlong LongToJlong(jobject obj);
+
+			///Return primitive type from corresponding Java box class
+			jfloat FloatToJfloat(jobject obj);
+
+			///Return primitive type from corresponding Java box class
+			jdouble DoubleToJdouble(jobject obj);
 		}
 	}
 }

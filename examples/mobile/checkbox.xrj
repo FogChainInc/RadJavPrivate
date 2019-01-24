@@ -1,37 +1,33 @@
 var window;
 var checkbox;
 
-RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav.getMUILibrary ())
-    .then (function (){
-        RadJav.runApplication (function () {
-            var win = new RadJav.MUI.View ("win", "Window Example");
-            win.createMainView ().then (function (win2) {
-    	        var screenWidth = RadJav.getPrimaryScreen ().getWidth ();
-    	        var screenHeight = RadJav.getPrimaryScreen ().getHeight ();
+RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav.getMUILibrary ()).then (function () {
+	RadJav.runApplication (function () {
+		var screenWidth = RadJav.getPrimaryScreen().getWidth();
+		var screenHeight = RadJav.getPrimaryScreen().getHeight();
 		
-				window = win2;
-				window.setPosition(0, 0);
-                window.setSize(screenWidth, screenHeight);
-
-                var chk = new RadJav.MUI.Checkbox ("checkbox", "", win2);
-                chk.create().then (function (chk2) {
-                    checkbox = chk2;
-                    checkbox.setPosition (50, 100);
-                    checkbox.setSize (200, 100);
-
-					checkbox.on ("click", function () {
-						RadJav.Console.log("radjav checkbox onClick");
-					});
-                    checkbox.on ("longClick", function () {
-						RadJav.Console.log("radjav checkbox longClick");
-                    });
-					
-					checkbox.on ("changed", function () {
-						RadJav.Console.log("radjav checkbox onChanged");
-						RadJav.Console.log(checkbox.getChecked()? "true":"false");
-                        alert ("Checkbox value changed");
-                    });
-                });
-            });
-        });
-    });
+		window = new RadJav.MUI.View("win", "Window Example");
+		window.createMainView();
+		window.setPosition(0, 0);
+		window.setSize(screenWidth, screenHeight);
+		
+		var checkbox = new RadJav.MUI.Checkbox("checkbox", "", window);
+		checkbox.create();
+		checkbox.setPosition(50, 100);
+		checkbox.setSize(200, 100);
+		
+		checkbox.on("click", function () {
+			RadJav.Console.log("radjav checkbox onClick");
+		});
+		
+		checkbox.on("longClick", function () {
+			RadJav.Console.log("radjav checkbox longClick");
+		});
+		
+		checkbox.on("changed", function () {
+			RadJav.Console.log("radjav checkbox onChanged");
+			RadJav.Console.log(checkbox.getChecked() ? "true" : "false");
+			alert ("Checkbox value changed");
+		});
+	});
+});

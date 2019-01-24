@@ -134,6 +134,94 @@ namespace RadJAV
 
 				return wrap_local(env, env->NewObject(boolClass, boolConstructor, value));
 			}
+
+			jboolean BooleanToJboolean(jobject obj)
+			{
+				JNIEnv* env = Jni::getJniEnv();
+
+				auto clazz = env->GetObjectClass(obj);
+
+				jmethodID valueMethodId = env->GetMethodID(clazz, "booleanValue", "()Z");
+
+				return env->CallBooleanMethod(obj, valueMethodId);
+			}
+
+			jbyte ByteToJbyte(jobject obj)
+			{
+				JNIEnv* env = Jni::getJniEnv();
+
+				auto clazz = env->GetObjectClass(obj);
+
+				jmethodID valueMethodId = env->GetMethodID(clazz, "byteValue", "()B");
+
+				return env->CallByteMethod(obj, valueMethodId);
+			}
+
+			jchar CharToJchar(jobject obj)
+			{
+				JNIEnv* env = Jni::getJniEnv();
+
+				auto clazz = env->GetObjectClass(obj);
+
+				jmethodID valueMethodId = env->GetMethodID(clazz, "charValue", "()C");
+
+				return env->CallCharMethod(obj, valueMethodId);
+			}
+
+			jshort ShortToJshort(jobject obj)
+			{
+				JNIEnv* env = Jni::getJniEnv();
+
+				auto clazz = env->GetObjectClass(obj);
+
+				jmethodID valueMethodId = env->GetMethodID(clazz, "shortValue", "()S");
+
+				return env->CallShortMethod(obj, valueMethodId);
+			}
+
+			jint IntegerToJint(jobject obj)
+			{
+				JNIEnv* env = Jni::getJniEnv();
+
+				auto clazz = env->GetObjectClass(obj);
+
+				jmethodID valueMethodId = env->GetMethodID(clazz, "intValue", "()I");
+
+				return env->CallIntMethod(obj, valueMethodId);
+			}
+
+			jlong LongToJlong(jobject obj)
+			{
+				JNIEnv* env = Jni::getJniEnv();
+
+				auto clazz = env->GetObjectClass(obj);
+
+				jmethodID valueMethodId = env->GetMethodID(clazz, "longValue", "()J");
+
+				return env->CallLongMethod(obj, valueMethodId);
+			}
+
+			jfloat FloatToJfloat(jobject obj)
+			{
+				JNIEnv* env = Jni::getJniEnv();
+
+				auto clazz = env->GetObjectClass(obj);
+
+				jmethodID valueMethodId = env->GetMethodID(clazz, "floatValue", "()F");
+
+				return env->CallFloatMethod(obj, valueMethodId);
+			}
+
+			jdouble DoubleToJdouble(jobject obj)
+			{
+				JNIEnv* env = Jni::getJniEnv();
+
+				auto clazz = env->GetObjectClass(obj);
+
+				jmethodID valueMethodId = env->GetMethodID(clazz, "doubleValue", "()D");
+
+				return env->CallDoubleMethod(obj, valueMethodId);
+			}
 		}
 	}
 }

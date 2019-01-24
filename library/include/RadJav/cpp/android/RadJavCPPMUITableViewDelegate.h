@@ -18,10 +18,11 @@
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef _RADJAV_MUI_CPP_LISTADAPTER_H_
-#define _RADJAV_MUI_CPP_LISTADAPTER_H_
+#ifndef _RADJAV_MUI_CPP_TABLEVIEWDELEGATE_H_
+#define _RADJAV_MUI_CPP_TABLEVIEWDELEGATE_H_
 
 #include "android/Jni.h"
+#include "cpp/RadJavCPPMUITableViewCellCreator.h"
 #include <vector>
 
 
@@ -36,11 +37,15 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
-			class ListAdapter
+			class TableViewModel;
+
+			class TableViewDelegate
 			{
 			public:
-				ListAdapter();
-				virtual ~ListAdapter();
+				TableViewDelegate(TableViewCellCreator& cellCreator);
+				virtual ~TableViewDelegate();
+
+				void setModel(TableViewModel* listModel);
 
 				jobject getNativeObject() const;
 
@@ -49,6 +54,9 @@ namespace RadJAV
 				virtual void registerCallback(JNIEnv* env, const char* callbackType, Android::NativeCallbackFunction* function);
 
 			protected:
+				TableViewModel* model;
+				TableViewCellCreator& viewCreator;
+
 				jobject object;
 				std::vector<Android::NativeCallbackFunction*> callbacks;
 

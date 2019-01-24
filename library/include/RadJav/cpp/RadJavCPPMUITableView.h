@@ -22,6 +22,8 @@
 
 #include "cpp/RadJavCPPGUIGObject.h"
 #include "cpp/RadJavCPPMUITableViewModel.h"
+#include "cpp/RadJavCPPMUIView.h"
+#include "cpp/RadJavCPPMUITableViewCellCreator.h"
 
 #ifdef USE_V8
 	#include "v8/RadJavV8GUIGObject.h"
@@ -45,15 +47,16 @@
 			
 			namespace MUI
 			{
+				class TableView;
 				#ifdef USE_ANDROID
-					class ListAdapter;
+					class TableViewDelegate;
 				#endif
 
 				class RADJAV_EXPORT TableViewFrame : public GUI::GObjectWidget
 												, public ChainedPtr
                 {
                 public:
-                    TableViewFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
+                    TableViewFrame(GUI::GObjectWidget *parent, TableViewCellCreator& cellCreator, const String &text, const Vector2 &pos, const Vector2 &size);
                     ~TableViewFrame();
 
 					#ifdef USE_IOS
@@ -65,19 +68,20 @@
 					bool bindEvent(const String& eventName, const GUI::Event* event);
                     void setModel(MUI::TableViewModel *model);
                     void reload();
+					CPP::MUI::View* viewForCellModel(int index);
 
                     MUI::TableViewModel *model;
-                    
+					TableView *tableView;
 					#ifdef USE_IOS
 						UIView* getNativeWidget();
 					#endif
 
 				private:
+					TableViewDelegate* widgetDelegate;
+
 					#ifdef USE_IOS
 						UITableView* widget;
-                        TableViewDelegate* widgetDelegate;
 					#elif defined USE_ANDROID
-						ListAdapter* listAdapter;
 
 						static jclass nativeListViewClass;
 
@@ -86,8 +90,10 @@
 					#endif
                 };
                 
-                
-				class RADJAV_EXPORT TableView : public CPP::GUI::GObject
+				class View;
+
+				class RADJAV_EXPORT TableView : public CPP::GUI::GObject,
+												public TableViewCellCreator
 				{
 					public:
 						#ifdef USE_V8
@@ -101,18 +107,26 @@
 						~TableView();
 
 						void create();
-                        void setModel(MUI::TableViewModel *model);
+					
+						#ifdef USE_V8
+							void setModel(v8::Local<v8::Object> model);
+						#elif defined USE_JAVASCRIPTCORE
+							void setModel(JSObjectRef model);
+						#endif
+					
+						View* createViewForItem(unsigned int itemIndex);
 
 						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
 							/// Set TableView item delegate
-                        	void setDelegate(RJ_FUNC_TYPE function);
+                        	void setDelegate(RJ_FUNC_TYPE delegateFunction);
 
 							/// Execute when an event is triggered.
                         	void on(String event, RJ_FUNC_TYPE func);
 						#endif
 
 					protected:
-						Persistent* delegateConstructor;
+						Persistent* delegateJs;
+						Persistent* modelJs;
 				};
 			}
 		}

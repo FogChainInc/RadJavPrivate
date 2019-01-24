@@ -21,7 +21,7 @@
 #include "cpp/RadJavCPPGUIGObject.h"
 #include "android/Utils.h"
 #include "android/NativeCallbackFunction.h"
-#include "cpp/android/RadJavCPPMUIListAdapter.h"
+#include "cpp/android/RadJavCPPMUITableViewDelegate.h"
 
 namespace RadJAV
 {
@@ -36,7 +36,11 @@ namespace RadJAV
 			jmethodID TableViewFrame::nativeConstructor = nullptr;
 			jmethodID TableViewFrame::nativeSetAdapter = nullptr;
 
-			TableViewFrame::TableViewFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
+			TableViewFrame::TableViewFrame(GUI::GObjectWidget *parent,
+											TableViewCellCreator& cellCreator,
+											const String &text,
+											const Vector2 &pos,
+											const Vector2 &size)
 			{
 				JNIEnv* env = Jni::getJniEnv();
 
@@ -50,11 +54,11 @@ namespace RadJAV
 					nativeSetAdapter = env->GetMethodID(nativeListViewClass, "setAdapter", "(Landroid/widget/ListAdapter;)V");
 				}
 
-				listAdapter = RJNEW ListAdapter();
+				widgetDelegate = RJNEW TableViewDelegate(cellCreator);
 
 				auto nativeWidget = wrap_local(env, env->NewObject(nativeListViewClass, nativeConstructor, RadJav::getJavaApplication()));
 				widget = env->NewGlobalRef(nativeWidget);
-				env->CallVoidMethod(widget, nativeSetAdapter, listAdapter->getNativeObject());
+				env->CallVoidMethod(widget, nativeSetAdapter, widgetDelegate->getNativeObject());
 
 				if (parent)
 					parent->addChild(this);
@@ -66,10 +70,9 @@ namespace RadJAV
 
 			void TableViewFrame::setModel(MUI::TableViewModel *model)
 			{
-				if (listAdapter)
+				if (widgetDelegate)
 				{
-					//TODO: Add model interface into Adapter
-					//listAdapter->setModel();
+					widgetDelegate->setModel(model);
 				}
 
 				this->model = model;
@@ -86,10 +89,10 @@ namespace RadJAV
 			TableViewFrame::~TableViewFrame()
 			{
 				//TODO: add implementation
-				if (listAdapter)
+				if (widgetDelegate)
 				{
-					RJDELETE listAdapter;
-					listAdapter = nullptr;
+					RJDELETE widgetDelegate;
+					widgetDelegate = nullptr;
 				}
 			}
 

@@ -17,13 +17,12 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#include "v8/RadJavV8MUITableView.h"
+#include "v8/RadJavV8MUITableViewModel.h"
 
 #include "RadJav.h"
 
 #include "v8/RadJavV8JavascriptEngine.h"
 
-#include "cpp/RadJavCPPMUITableView.h"
 #include "cpp/RadJavCPPMUITableViewModel.h"
 
 namespace RadJAV
@@ -32,55 +31,63 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
-			using CppMuiObject = CPP::MUI::TableView;
+			using CppMuiObject = CPP::MUI::TableViewModel;
 			
-            void TableView::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
+            void TableViewModel::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
             {
-                V8_CALLBACK(object, "create", TableView::create);
-                V8_CALLBACK(object, "setModel", TableView::setModel);
-				V8_CALLBACK(object, "setDelegate", TableView::setDelegate);
+				V8_CALLBACK(object, "_init", TableViewModel::init);
+				V8_CALLBACK(object, "_itemPushed", TableViewModel::itemPushed);
+				V8_CALLBACK(object, "_itemRemoved", TableViewModel::itemRemoved);
+				V8_CALLBACK(object, "_itemsCleared", TableViewModel::itemsCleared);
             }
-
-			void TableView::create(const v8::FunctionCallbackInfo<v8::Value> &args)
+			
+			void TableViewModel::init(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				CppMuiObject *appObject = RJNEW CppMuiObject(V8_JAVASCRIPT_ENGINE, args);
-				appObject->create();
 				
 				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_appObj", appObject);
 			}
-            
-            void TableView::setModel(const v8::FunctionCallbackInfo<v8::Value> &args)
-            {
-                CppMuiObject *appObject = (CppMuiObject *) V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-
-                if (!appObject)
-				{
-                	V8_JAVASCRIPT_ENGINE->throwException("TableView not initialized");
-                	return;
-				}
-
-                if (args.Length() && args[0]->IsObject())
-                {
-                	v8::Local<v8::Object> modelObjectJs = v8::Local<v8::Object>::Cast(args[0]);
-					appObject->setModel(modelObjectJs);
-                }
-            }
-
-			void TableView::setDelegate(const v8::FunctionCallbackInfo<v8::Value> &args)
+			
+			void TableViewModel::itemPushed(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				CppMuiObject *appObject = (CppMuiObject *) V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-
 				if (!appObject)
 				{
-					V8_JAVASCRIPT_ENGINE->throwException("TableView not initialized");
+					V8_JAVASCRIPT_ENGINE->throwException("TableViewModel not initialized");
+					return;
+				}
+				
+				if (args.Length() && args[0]->IsNumber())
+				{
+					appObject->itemAdded(V8_JAVASCRIPT_ENGINE->v8ParseInt(args[0]));
+				}
+			}
+			
+			void TableViewModel::itemRemoved(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				CppMuiObject *appObject = (CppMuiObject *) V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				if (!appObject)
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("TableViewModel not initialized");
 					return;
 				}
 
-				if (args.Length() && args[0]->IsFunction())
+				if (args.Length() && args[0]->IsNumber())
 				{
-					v8::Local<v8::Function> delegateJs = v8::Local<v8::Function>::Cast(args[0]);
-					appObject->setDelegate(delegateJs);
+					appObject->itemRemoved(V8_JAVASCRIPT_ENGINE->v8ParseInt(args[0]));
 				}
+			}
+			
+			void TableViewModel::itemsCleared(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				CppMuiObject *appObject = (CppMuiObject *) V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				if (!appObject)
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("TableViewModel not initialized");
+					return;
+				}
+				
+				appObject->itemsCleared();
 			}
 		}
 	}
