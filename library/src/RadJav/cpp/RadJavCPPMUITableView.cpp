@@ -31,11 +31,11 @@ namespace RadJAV
 		namespace MUI
 		{
 			using JsObject =
-#ifdef USE_V8
-			v8::Local<v8::Object>
-#elif defined USE_JAVASCRIPTCORE
-			JSObjectRef
-#endif
+			#ifdef USE_V8
+				v8::Local<v8::Object>
+			#elif defined USE_JAVASCRIPTCORE
+				JSObjectRef
+			#endif
 			;
 
 			class ChainedPersistent : public Persistent,
@@ -50,33 +50,33 @@ namespace RadJAV
 
 			private:
 				ChainedPersistent(ChainedPtr* hooked, JsObject jsObject)
-						: Persistent(jsObject)
+				: Persistent(jsObject)
 				{
 					linkWith(hooked);
 				}
 			};
 
-#ifdef USE_V8
+			#ifdef USE_V8
 			TableView::TableView(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
-					: GObject (jsEngine, args),
-					  delegateJs(nullptr),
-					  modelJs(nullptr)
+				: GObject (jsEngine, args),
+				  delegateJs(nullptr),
+				  modelJs(nullptr)
 			{
 			}
-#endif
-#ifdef USE_JAVASCRIPTCORE
+			#endif
+			#ifdef USE_JAVASCRIPTCORE
 			TableView::TableView(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[])
                     : GObject (jsEngine, thisObj, numArgs, args),
 					  delegateJs(nullptr),
 					  modelJs(nullptr)
-                {
-                }
-#endif
+			{
+			}
+			#endif
 
 			TableView::TableView(String name, String text, CPP::GUI::GObject *parent)
-					: GObject(name, text, parent),
-					  delegateJs(nullptr),
-					  modelJs(nullptr)
+			: GObject(name, text, parent),
+			  delegateJs(nullptr),
+			  modelJs(nullptr)
 			{
 			}
 
@@ -104,28 +104,28 @@ namespace RadJAV
 				setup();
 			}
 
-#ifdef USE_V8
-			void TableView::setModel(v8::Local<v8::Object> model)
-			{
-				if (modelJs)
+			#ifdef USE_V8
+				void TableView::setModel(v8::Local<v8::Object> model)
 				{
-					RJDELETE modelJs;
-				}
-
-				modelJs = RJNEW Persistent(model);
-
-				if (_appObj)
-				{
-					TableViewModel* modelObj = (TableViewModel*) V8_JAVASCRIPT_ENGINE->v8GetExternal(model, "_appObj");
-
-					if(modelObj)
+					if (modelJs)
 					{
-						((TableViewFrame*)_appObj)->setModel(modelObj);
+						RJDELETE modelJs;
+					}
+
+					modelJs = RJNEW Persistent(model);
+
+					if (_appObj)
+					{
+						TableViewModel* modelObj = (TableViewModel*) V8_JAVASCRIPT_ENGINE->v8GetExternal(model, "_appObj");
+
+						if(modelObj)
+						{
+							((TableViewFrame*)_appObj)->setModel(modelObj);
+						}
 					}
 				}
-			}
-#elif defined USE_JAVASCRIPTCORE
-			void TableView::setModel(JSObjectRef model)
+			#elif defined USE_JAVASCRIPTCORE
+				void TableView::setModel(JSObjectRef model)
 				{
 					if (modelJs)
 					{
@@ -160,41 +160,41 @@ namespace RadJAV
 			{
 				View* view = nullptr;
 
-#ifdef USE_V8
-				v8::Local<v8::Context> ctx = V8_JAVASCRIPT_ENGINE->globalContext;
+				#ifdef USE_V8
+					v8::Local<v8::Context> ctx = V8_JAVASCRIPT_ENGINE->globalContext;
 
-				//Get model item as JS object to pass to delegate
-				v8::Local<v8::Object> modelItemObjectJs;
+					//Get model item as JS object to pass to delegate
+					v8::Local<v8::Object> modelItemObjectJs;
 
-				v8::Local<v8::Value> args[1];
-				args[0] = v8::Integer::New(V8_JAVASCRIPT_ENGINE->isolate, itemIndex);
+					v8::Local<v8::Value> args[1];
+					args[0] = v8::Integer::New(V8_JAVASCRIPT_ENGINE->isolate, itemIndex);
 
-				v8::Local<v8::Value> modelItemJs = V8_JAVASCRIPT_ENGINE->v8CallFunction(modelJs->get(), "get", 1, args);
+					v8::Local<v8::Value> modelItemJs = V8_JAVASCRIPT_ENGINE->v8CallFunction(modelJs->get(), "get", 1, args);
 
-				if (!V8_JAVASCRIPT_ENGINE->v8IsNull(modelItemJs) &&
-					modelItemJs->IsObject())
-				{
-					modelItemObjectJs = v8::Local<v8::Object>::Cast(modelItemJs);
-				}
+					if (!V8_JAVASCRIPT_ENGINE->v8IsNull(modelItemJs) &&
+						modelItemJs->IsObject())
+					{
+						modelItemObjectJs = v8::Local<v8::Object>::Cast(modelItemJs);
+					}
 
-				if (V8_JAVASCRIPT_ENGINE->v8IsNull(modelItemObjectJs))
-					return nullptr;
+					if (V8_JAVASCRIPT_ENGINE->v8IsNull(modelItemObjectJs))
+						return nullptr;
 
-				args[0] = modelItemObjectJs;
+					args[0] = modelItemObjectJs;
 
-				//Create View control from JS side by calling delegate JS function
-				v8::Local<v8::Function> delegateFunctionJs = v8::Local<v8::Function>::Cast(delegateJs->get());
-				v8::Local<v8::Value> viewJs = delegateFunctionJs->Call(ctx->Global(), 1, args);
-				if (!V8_JAVASCRIPT_ENGINE->v8IsNull(viewJs) &&
-					viewJs->IsObject())
-				{
-					v8::Local<v8::Object> viewObjectJs = v8::Local<v8::Object>::Cast(viewJs);
-					view = (View*)V8_JAVASCRIPT_ENGINE->v8GetExternal(viewObjectJs, "_appObj");
+					//Create View control from JS side by calling delegate JS function
+					v8::Local<v8::Function> delegateFunctionJs = v8::Local<v8::Function>::Cast(delegateJs->get());
+					v8::Local<v8::Value> viewJs = delegateFunctionJs->Call(ctx->Global(), 1, args);
+					if (!V8_JAVASCRIPT_ENGINE->v8IsNull(viewJs) &&
+						viewJs->IsObject())
+					{
+						v8::Local<v8::Object> viewObjectJs = v8::Local<v8::Object>::Cast(viewJs);
+						view = (View*)V8_JAVASCRIPT_ENGINE->v8GetExternal(viewObjectJs, "_appObj");
 
-					ChainedPersistent::linkObjects(view, viewObjectJs);
-				}
-#elif defined USE_JAVASCRIPTCORE
-				JSGlobalContextRef ctx = JSC_JAVASCRIPT_ENGINE->globalContext;
+						ChainedPersistent::linkObjects(view, viewObjectJs);
+					}
+				#elif defined USE_JAVASCRIPTCORE
+					JSGlobalContextRef ctx = JSC_JAVASCRIPT_ENGINE->globalContext;
 				
 					//Get model item as JS object to pass to delegate
 					JSObjectRef modelItemObjectJs = nullptr;
@@ -225,20 +225,20 @@ namespace RadJAV
 						
 						ChainedPersistent::linkObjects(view, viewObjectJs);
 					}
-#endif
+				#endif
 
 				return view;
 			}
 
-#if defined USE_V8 || defined USE_JAVASCRIPTCORE
-			void TableView::on(String event, RJ_FUNC_TYPE func)
-			{
-				if (_appObj)
+			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+				void TableView::on(String event, RJ_FUNC_TYPE func)
 				{
-					_appObj->addNewEvent(event, func);
+					if (_appObj)
+					{
+						appObj->addNewEvent(event, func);
+					}
 				}
-			}
-#endif
+			#endif
 		}
 	}
 }

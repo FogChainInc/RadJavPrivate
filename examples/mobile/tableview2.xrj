@@ -6,7 +6,7 @@ var screenHeight;
 
 var tableViewDelegate = function (itemData)
 {
-	var itemHeight = 80 + Math.random()*80; //Hardcoded height, but it can be different for each item
+	var itemHeight = 80; //Hardcoded height, but it can be different for each item
 	
 	//Create View
 	var view = new RadJav.MUI.View("tableviewitem", "");

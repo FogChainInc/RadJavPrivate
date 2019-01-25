@@ -36,6 +36,7 @@ namespace RadJAV
                 widgetDelegate.widget = this;
                 widget.dataSource = widgetDelegate;
                 widget.delegate = widgetDelegate;
+				[parent->getNativeWidget() addSubview:widget];
             }
             
             void TableViewFrame::setModel(MUI::TableViewModel *model){
@@ -72,6 +73,11 @@ namespace RadJAV
 			bool TableViewFrame::bindEvent(const String& eventName, const GUI::Event* event)
 			{
 				 return [widgetDelegate bindEvent:widget eventName:eventName];
+			}
+			
+			View* TableViewFrame::viewForCellModel(int index)
+			{
+				return tableView->createViewForItem(index);
 			}
             
 			#ifdef USE_IOS

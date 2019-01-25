@@ -26,34 +26,84 @@ namespace RadJav
 	export namespace MUI
 	{
 		/** @class RadJav.MUI.TableViewModel
-		 * @extends RadJav.GUI.GObject
-		 * A mobile view controller.
+		 * A model for TableView control.
 		 * Available on platforms: iOS,Android,HTML5
 		 */
-		export class TableViewModel extends RadJav.GUI.GObject
+		export class TableViewModel
 		{
 			static xmlTag: TagType = { tag: "tableviewmodel", type: "TableViewModel" };
 
-			constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject)
+			/** @property {string} [type=""]
+			 * The type of object.
+			 */
+			type: string;
+
+			/** @property {Array} [items=[]]
+			 * The items hold by this model.
+			 */
+			private items: object[];
+
+			/** @property {any} [_appObj=null]
+			 * The type of object.
+			 */
+			private _appObj: any;
+
+			constructor()
 			{
-				if (obj == null) obj = {};
-
-				if (typeof obj == "string")
-				{
-					var name = obj;
-					obj = { name: name };
-				}
-
-				if (obj.size == null)
-				{
-					obj.size = new RadJav.Vector2();
-					obj.size.x = 500;
-					obj.size.y = 350;
-				}
-
-				super(obj, text, parent) || this;
-
 				this.type = "RadJav.MUI.TableViewModel";
+				this.items = [];
+				this._appObj = null;
+
+				if (this._init != null)
+				{
+					this._init.apply(this, arguments);
+				}
+			}
+
+			push (item :any)
+			{
+				this.items.push(item);
+
+				if (this._itemPushed != null)
+				{
+					this._itemPushed(this.items.length-1);
+				}
+			}
+
+			remove (index :number)
+			{
+				if (index < 0 || index > this.items.length-1)
+					return;
+				
+				this.items.splice(index, 1);
+
+				if (this._itemRemoved != null)
+				{
+					this._itemRemoved(index);
+				}
+			}
+
+			pop ()
+			{
+				this.remove(this.items.length-1);
+			}
+
+			clear ()
+			{
+				this.items.splice(0, this.items.length);
+
+				if (this._itemsCleared != null)
+				{
+					this._itemsCleared();
+				}
+			}
+
+			get (index :number)
+			{
+				if (index < 0 || index > this.items.length-1)
+					return null;
+
+				return this.items[index];
 			}
 		}
 	}

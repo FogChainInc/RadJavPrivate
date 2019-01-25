@@ -40,6 +40,7 @@ namespace RadJAV
                     name = jsEngine->jscGetString(thisObj, "name");
                     subtitle = jsEngine->jscGetString(thisObj, "text");
                     nativeImplementation = new TableCellModelFrame();
+					thisJS = thisObj;
                 }
             #endif
 

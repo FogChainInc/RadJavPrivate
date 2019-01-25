@@ -35,11 +35,81 @@ namespace RadJAV
 			
             void TableViewModel::createJSCCallbacks(JSContextRef context, JSObjectRef object)
             {
-                JSC_CALLBACK(object, "create", TableViewModel::create);
-                JSC_CALLBACK(object, "setCellModels", TableViewModel::setCellModels);
+                //JSC_CALLBACK(object, "create", TableViewModel::create);
+				//JSC_CALLBACK(object, "setCellModels", TableViewModel::setCellModels);
+				JSC_CALLBACK(object, "_init", TableViewModel::init);
+				JSC_CALLBACK(object, "_itemPushed", TableViewModel::itemPushed);
+				JSC_CALLBACK(object, "_itemRemoved", TableViewModel::itemRemoved);
+				JSC_CALLBACK(object, "_itemsCleared", TableViewModel::itemsCleared);
             }
-            
-            JSValueRef TableViewModel::setCellModels(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
+			
+			JSValueRef TableViewModel::init(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+			{
+				CppMuiObject *appObject = RJNEW CppMuiObject(JSC_JAVASCRIPT_ENGINE, thisObject, argumentCount, arguments);
+				
+				JSC_JAVASCRIPT_ENGINE->jscSetExternal(ctx, thisObject, "_appObj", appObject);
+				
+				return JSValueMakeUndefined(ctx);
+			}
+			
+			JSValueRef TableViewModel::itemPushed(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+			{
+				JSValueRef undefined = JSValueMakeUndefined(ctx);
+				
+				CppMuiObject *appObject = (CppMuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				if (!appObject)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "TableViewModel not initialized");
+					return undefined;
+				}
+				
+				JSValueRef indexJs = JSC_JAVASCRIPT_ENGINE->jscGetArgument(arguments, argumentCount, 0);
+				if (indexJs && JSValueIsNumber(ctx, indexJs))
+				{
+					appObject->itemAdded( JSC_JAVASCRIPT_ENGINE->jscValueToInt(ctx, indexJs));
+				}
+				
+				return undefined;
+			}
+			
+			JSValueRef TableViewModel::itemRemoved(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+			{
+				JSValueRef undefined = JSValueMakeUndefined(ctx);
+				
+				CppMuiObject *appObject = (CppMuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				if (!appObject)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "TableViewModel not initialized");
+					return undefined;
+				}
+				
+				JSValueRef indexJs = JSC_JAVASCRIPT_ENGINE->jscGetArgument(arguments, argumentCount, 0);
+				if (indexJs && JSValueIsNumber(ctx, indexJs))
+				{
+					appObject->itemRemoved( JSC_JAVASCRIPT_ENGINE->jscValueToInt(ctx, indexJs));
+				}
+				
+				return undefined;
+			}
+			
+			JSValueRef TableViewModel::itemsCleared(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+			{
+				JSValueRef undefined = JSValueMakeUndefined(ctx);
+				
+				CppMuiObject *appObject = (CppMuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				if (!appObject)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "TableViewModel not initialized");
+					return undefined;
+				}
+				
+				appObject->itemsCleared();
+				
+				return undefined;
+			}
+
+			//TODO: temporarily removed to implement TableView version 2
+            /*JSValueRef TableViewModel::setCellModels(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
             {
        
                 if (argumentCount)
@@ -70,10 +140,7 @@ namespace RadJAV
                 
                 return JSValueMakeUndefined(ctx);
             }
-            
-            
-        
-            
+			 
 			JSValueRef TableViewModel::create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
 			{
 				CppMuiObject *appObject = RJNEW CppMuiObject(JSC_JAVASCRIPT_ENGINE, thisObject, argumentCount, arguments);
@@ -85,7 +152,7 @@ namespace RadJAV
 				
 				return promise;
 			}
-           
+           */
 		}
 	}
 }
