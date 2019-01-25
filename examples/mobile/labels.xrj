@@ -6,41 +6,35 @@ var label;
 RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav.getMUILibrary ()).then (function () {
 	// Execute the application, in this case, a simple function. Can also be a file.
 	RadJav.runApplication (function () {
-		var screenWidth = RadJav.getPrimaryScreen ().getWidth ();
-		var screenHeight = RadJav.getPrimaryScreen ().getHeight ();
+		var screenWidth = RadJav.getPrimaryScreen().getWidth();
+		var screenHeight = RadJav.getPrimaryScreen().getHeight();
 		
-		var win = new RadJav.MUI.View ("win", "Window Example");
-		win.createMainView ().then (function (win2) {
-			window = win2;
-			window.setSize(screenWidth, screenHeight);
-			
-			var btn = new RadJav.MUI.Button ("Button", "Click me!", win2);
-			btn.create().then (function (btn2) {
-				button = btn2;
-				
-				var buttonWidth = screenWidth/2;
-				var buttonHeight = screenHeight/12;
-				
-				btn2.setPosition((screenWidth - buttonWidth)/2, (screenHeight - buttonHeight)/2);
-				btn2.setSize(screenWidth/2, buttonHeight);
-				
-				btn2.on("click", function() {
-					alert("Button clicked!");
-				});
-			});
-			
-			var lbl = new RadJav.MUI.Label ("Label", "Label text", win2);
-			lbl.create().then (function (lbl2) {
-				label = lbl2;
-				
-				var labelWidth = screenWidth;
-				var labelHeight = screenHeight/12;
-				
-				label.setPosition((screenWidth-labelWidth)/2, screenHeight/3);
-				label.setSize(labelWidth, labelHeight);
-				
-				label.setText("What if text will be very very very very very very long?");
-			});
+		window = new RadJav.MUI.View ("win", "Window Example");
+		window.createMainView();
+		window.setSize(screenWidth, screenHeight);
+		
+		label = new RadJav.MUI.Label("Label", "Label text", window);
+		label.create();
+		var labelWidth = screenWidth;
+		var labelHeight = screenHeight/12;
+		
+		label.setPosition((screenWidth-labelWidth)/2, screenHeight/3);
+		label.setSize(labelWidth, labelHeight);
+		
+		label.setText("What if text will be very very very very very very very very very very very long?");
+		
+		button = new RadJav.MUI.Button("Button", "Click me!", window);
+		button.create();
+		var buttonWidth = screenWidth/2;
+		var buttonHeight = screenHeight/12;
+		
+		button.setPosition((screenWidth - buttonWidth)/2, (screenHeight - buttonHeight)/2);
+		button.setSize(screenWidth/2, buttonHeight);
+		
+		button.on("click", function() {
+			alert("Button clicked!");
+			label.setText("Button clicked");
 		});
+		
 	});
 });

@@ -17,11 +17,11 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#include "v8/RadJavV8MUIView.h"
+#include "v8/RadJavV8MUIScrollView.h"
 
 #include "v8/RadJavV8JavascriptEngine.h"
 
-#include "cpp/RadJavCPPMUIView.h"
+#include "cpp/RadJavCPPMUIScrollView.h"
 
 namespace RadJAV
 {
@@ -29,26 +29,17 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
-			using CppMuiObject = CPP::MUI::View;
+			using CppMuiObject = CPP::MUI::ScrollView;
 			
-			void View::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
+			void ScrollView::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 			{
-				V8_CALLBACK(object, "create", View::create);
-				V8_CALLBACK(object, "createMainView", View::createMainView);
+				V8_CALLBACK(object, "create", ScrollView::create);
 			}
 
-			void View::create(const v8::FunctionCallbackInfo<v8::Value> &args)
+			void ScrollView::create(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				CppMuiObject *appObject = RJNEW CppMuiObject(V8_JAVASCRIPT_ENGINE, args);
 				appObject->create();
-
-				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_appObj", appObject);
-			}
-
-			void View::createMainView(const v8::FunctionCallbackInfo<v8::Value> &args)
-			{
-				CppMuiObject *appObject = RJNEW CppMuiObject(V8_JAVASCRIPT_ENGINE, args);
-				appObject->createMainView();
 
 				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_appObj", appObject);
 			}

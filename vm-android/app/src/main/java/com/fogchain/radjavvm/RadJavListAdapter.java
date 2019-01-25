@@ -50,8 +50,10 @@ public class RadJavListAdapter implements ListAdapter {
     @Override
     public boolean isEnabled(int position) {
         NativeCallback nativeCallback = callbacks.get(CallbackType.IS_ENABLED);
-        if (nativeCallback != null)
-            return (boolean) nativeCallback.run(position);
+        if (nativeCallback != null) {
+            //Box primitive type here, because we don't know how to convert jobject to jint on C++ side
+            return (boolean) nativeCallback.run(Integer.valueOf(position));
+        }
 
         return true;
     }
@@ -84,8 +86,10 @@ public class RadJavListAdapter implements ListAdapter {
     @Override
     public Object getItem(int position) {
         NativeCallback nativeCallback = callbacks.get(CallbackType.GET_ITEM);
-        if (nativeCallback != null)
-            return nativeCallback.run(position);
+        if (nativeCallback != null) {
+            //Box primitive type here, because we don't know how to convert jobject to jint on C++ side
+            return nativeCallback.run(Integer.valueOf(position));
+        }
 
         return null;
     }
@@ -93,8 +97,10 @@ public class RadJavListAdapter implements ListAdapter {
     @Override
     public long getItemId(int position) {
         NativeCallback nativeCallback = callbacks.get(CallbackType.GET_ITEM_ID);
-        if (nativeCallback != null)
-            return (long) nativeCallback.run(position);
+        if (nativeCallback != null) {
+            //Box primitive type here, because we don't know how to convert jobject to jint on C++ side
+            return (long) nativeCallback.run(Integer.valueOf(position));
+        }
 
         return 0;
     }
@@ -111,8 +117,10 @@ public class RadJavListAdapter implements ListAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         NativeCallback nativeCallback = callbacks.get(CallbackType.GET_VIEW);
-        if (nativeCallback != null)
-            return (View) nativeCallback.run(position, convertView, parent);
+        if (nativeCallback != null) {
+            //Box primitive type here, because we don't know how to convert jobject to jint on C++ side
+            return (View) nativeCallback.run(Integer.valueOf(position), convertView, parent);
+        }
 
         return null;
     }
@@ -120,8 +128,10 @@ public class RadJavListAdapter implements ListAdapter {
     @Override
     public int getItemViewType(int position) {
         NativeCallback nativeCallback = callbacks.get(CallbackType.GET_ITEM_VIEW_TYPE);
-        if (nativeCallback != null)
-            return (int) nativeCallback.run(position);
+        if (nativeCallback != null) {
+            //Box primitive type here, because we don't know how to convert jobject to jint on C++ side
+            return (int) nativeCallback.run(Integer.valueOf(position));
+        }
 
         return 0;
     }

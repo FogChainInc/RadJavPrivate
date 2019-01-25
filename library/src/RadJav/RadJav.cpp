@@ -632,12 +632,6 @@ namespace RadJAV
 	}
 
 	#ifdef USE_ANDROID
-	void RadJav::runOnUiThread(Android::UiThreadCallbackFunctionType function, void *data)
-	{
-		if (impl)
-			impl->runOnUiThread(function, data);
-	}
-
     void RadJav::runOnUiThreadAsync(Android::UiThreadCallbackFunctionType function, void *data)
     {
         if (impl)

@@ -101,10 +101,10 @@ namespace RadJAV
 			
 			void GObjectWidget::setPosition(RJINT x, RJINT y)
 			{
-				RadJav::runOnUiThreadAsync([& ,x, y](JNIEnv* env, void* data) {
-					env->CallNonvirtualVoidMethod(widget, nativeViewClass, nativeSetLeft, x);
-					env->CallNonvirtualVoidMethod(widget, nativeViewClass, nativeSetTop, y);
-				});
+				JNIEnv* env = Jni::getJniEnv();
+
+				env->CallNonvirtualVoidMethod(widget, nativeViewClass, nativeSetLeft, x);
+				env->CallNonvirtualVoidMethod(widget, nativeViewClass, nativeSetTop, y);
 			}
 			
 			void GObjectWidget::setPosition(CPP::Vector2 pos)
@@ -121,9 +121,9 @@ namespace RadJAV
 			{
 				RJINT x = 0;
 
-				RadJav::runOnUiThread([&](JNIEnv* env, void* data) {
-					x = env->CallNonvirtualIntMethod(widget, nativeViewClass, nativeGetLeft);
-				});
+				JNIEnv* env = Jni::getJniEnv();
+
+				x = env->CallNonvirtualIntMethod(widget, nativeViewClass, nativeGetLeft);
 
 				return x;
 			}
@@ -132,25 +132,25 @@ namespace RadJAV
 			{
 				RJINT y = 0;
 
-				RadJav::runOnUiThread([&](JNIEnv* env, void* data) {
-					y = env->CallNonvirtualIntMethod(widget, nativeViewClass, nativeGetLeft);
-				});
+				JNIEnv* env = Jni::getJniEnv();
+
+				y = env->CallNonvirtualIntMethod(widget, nativeViewClass, nativeGetLeft);
 
 				return y;
 			}
 			
 			void GObjectWidget::setSize(RJINT width, RJINT height)
 			{
-				RadJav::runOnUiThreadAsync([&, width, height](JNIEnv* env, void* data) {
-					jint right = env->CallNonvirtualIntMethod(widget, nativeViewClass, nativeGetLeft);
-					jint bottom = env->CallNonvirtualIntMethod(widget, nativeViewClass, nativeGetTop);
+				JNIEnv* env = Jni::getJniEnv();
 
-					right += width;
-					bottom += height;
+				jint right = env->CallNonvirtualIntMethod(widget, nativeViewClass, nativeGetLeft);
+				jint bottom = env->CallNonvirtualIntMethod(widget, nativeViewClass, nativeGetTop);
 
-					env->CallNonvirtualVoidMethod(widget, nativeViewClass, nativeSetRight, right);
-					env->CallNonvirtualVoidMethod(widget, nativeViewClass, nativeSetBottom, bottom);
-				});
+				right += width;
+				bottom += height;
+
+				env->CallNonvirtualVoidMethod(widget, nativeViewClass, nativeSetRight, right);
+				env->CallNonvirtualVoidMethod(widget, nativeViewClass, nativeSetBottom, bottom);
 			}
 			
 			void GObjectWidget::setSize(CPP::Vector2 size)
@@ -167,9 +167,9 @@ namespace RadJAV
 			{
 				RJINT width = 0;
 
-				RadJav::runOnUiThread([&](JNIEnv* env, void* data) {
-					width = env->CallNonvirtualIntMethod(widget, nativeViewClass, nativeGetWidth);
-				});
+				JNIEnv* env = Jni::getJniEnv();
+
+				width = env->CallNonvirtualIntMethod(widget, nativeViewClass, nativeGetWidth);
 
 				return width;
 			}
@@ -178,9 +178,9 @@ namespace RadJAV
 			{
 				RJINT height = 0;
 
-				RadJav::runOnUiThread([&](JNIEnv* env, void* data) {
-					height = env->CallNonvirtualIntMethod(widget, nativeViewClass, nativeGetHeight);
-				});
+				JNIEnv* env = Jni::getJniEnv();
+
+				height = env->CallNonvirtualIntMethod(widget, nativeViewClass, nativeGetHeight);
 
 				return height;
 			}
@@ -203,36 +203,36 @@ namespace RadJAV
 			
 			void GObjectWidget::setVisibility(RJBOOL visible)
 			{
-				RadJav::runOnUiThreadAsync([&, visible](JNIEnv* env, void* data) {
-					env->CallNonvirtualVoidMethod(widget, nativeViewClass, nativeSetVisibility, visible ? 0x0 : 0x4);
-				});
+				JNIEnv* env = Jni::getJniEnv();
+
+				env->CallNonvirtualVoidMethod(widget, nativeViewClass, nativeSetVisibility, visible ? 0x0 : 0x4);
 			}
 			
 			RJBOOL GObjectWidget::getVisibility()
 			{
 				bool visible = true;
 
-				RadJav::runOnUiThread([&](JNIEnv* env, void* data) {
-					visible = env->CallIntMethod(widget, nativeGetVisibility) == 0x0;
-				});
+				JNIEnv* env = Jni::getJniEnv();
+
+				visible = env->CallIntMethod(widget, nativeGetVisibility) == 0x0;
 
 				return visible;
 			}
 			
 			void GObjectWidget::setEnabled(RJBOOL enabled)
 			{
-				RadJav::runOnUiThreadAsync([&, enabled](JNIEnv* env, void* data) {
-					env->CallVoidMethod(widget, nativeSetEnabled, enabled);
-				});
+				JNIEnv* env = Jni::getJniEnv();
+
+				env->CallVoidMethod(widget, nativeSetEnabled, enabled);
 			}
 			
 			RJBOOL GObjectWidget::getEnabled()
 			{
 				RJBOOL enabled = true;
 
-				RadJav::runOnUiThread([&](JNIEnv* env, void* data) {
-					enabled = env->CallBooleanMethod(widget, nativeIsEnabled);
-				});
+				JNIEnv* env = Jni::getJniEnv();
+
+				enabled = env->CallBooleanMethod(widget, nativeIsEnabled);
 
 				return enabled;
 			}

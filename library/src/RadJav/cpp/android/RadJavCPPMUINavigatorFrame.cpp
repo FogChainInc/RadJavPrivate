@@ -41,10 +41,11 @@ namespace RadJAV
 
 			NavigatorFrame::NavigatorFrame(ViewFrame *view)
             {
-            	if (!nativeLayoutClass)
+				JNIEnv* env = Jni::getJniEnv();
+
+				if (!nativeLayoutClass)
 				{
 					Jni& jni = Jni::instance();
-					JNIEnv* env = jni.getJniEnv();
 
 					nativeLayoutTransitionClass = jni.findClass("android/animation/LayoutTransition");
 					nativeLayoutClass = jni.findClass("com/fogchain/radjavvm/RadJavLayout");
@@ -65,11 +66,8 @@ namespace RadJAV
 					rootView = RadJavAndroid::instance()->getJavaViewGroup();
 				}
 
-            	RadJav::runOnUiThreadAsync([&](JNIEnv* env, void* data) {
-            		auto layoutTransition = wrap_local(env, env->NewObject(nativeLayoutTransitionClass, nativeConstructor));
-
-            		env->CallVoidMethod(rootView, nativeSetLayoutTransition, layoutTransition.get());
-            	});
+				auto layoutTransition = wrap_local(env, env->NewObject(nativeLayoutTransitionClass, nativeConstructor));
+				env->CallVoidMethod(rootView, nativeSetLayoutTransition, layoutTransition.get());
             }
 
 			NavigatorFrame::~NavigatorFrame()
@@ -84,25 +82,26 @@ namespace RadJAV
 				if (!view || !rootView)
 					return;
 
-				RadJav::runOnUiThreadAsync([&, view, replace](JNIEnv* env, void* data) {
-					ViewFrame* viewToRemove = nullptr;
+				ViewFrame* viewToRemove = nullptr;
 
-					if (!viewStack.empty())
+				if (!viewStack.empty())
+				{
+					viewToRemove = viewStack.top();
+
+					if (replace)
 					{
-						viewToRemove = viewStack.top();
-
-						if (replace)
-						{
-							viewStack.pop();
-						}
+						viewStack.pop();
 					}
+				}
 
-					viewStack.push(view);
-					env->CallVoidMethod(rootView, nativeAddView, view->getNativeWidget());
+				viewStack.push(view);
 
-					if (viewToRemove)
-						env->CallVoidMethod(rootView, nativeRemoveView, viewToRemove->getNativeWidget());
-				});
+				JNIEnv* env = Jni::getJniEnv();
+
+				env->CallVoidMethod(rootView, nativeAddView, view->getNativeWidget());
+
+				if (viewToRemove)
+					env->CallVoidMethod(rootView, nativeRemoveView, viewToRemove->getNativeWidget());
 			}
 
 			void NavigatorFrame::pop(ViewFrame* view)
@@ -114,46 +113,46 @@ namespace RadJAV
 				if (viewStack.empty() || viewStack.top() == view)
 					return;
 
-				RadJav::runOnUiThreadAsync([&, view](JNIEnv* env, void* data) {
-					//We always remove top most view
-					ViewFrame* viewToRemove = nullptr;
+				//We always remove top most view
+				ViewFrame* viewToRemove = nullptr;
 
-					viewToRemove = viewStack.top();
+				viewToRemove = viewStack.top();
 
-					//And replace it with new one
-					ViewFrame* viewToAdd = nullptr;
+				//And replace it with new one
+				ViewFrame* viewToAdd = nullptr;
 
-					//Inspect stack
-					while (!viewStack.empty() &&
-						   viewStack.top() != view)
-					{
-						viewToAdd = viewStack.top();
-						viewStack.pop();
-					}
+				//Inspect stack
+				while (!viewStack.empty() &&
+					   viewStack.top() != view)
+				{
+					viewToAdd = viewStack.top();
+					viewStack.pop();
+				}
 
-					//When view was not found
-					if (viewStack.empty())
-					{
-						//We add view provided into empty view stack
-						if (view)
-							viewToAdd = view;
+				//When view was not found
+				if (viewStack.empty())
+				{
+					//We add view provided into empty view stack
+					if (view)
+						viewToAdd = view;
 
-						//Or we add an old view from the stack back to it
-						viewStack.push(viewToAdd);
-					}
-					else
-					{
-						//View to activate was found in the stack
-						viewToAdd = viewStack.top();
-					}
+					//Or we add an old view from the stack back to it
+					viewStack.push(viewToAdd);
+				}
+				else
+				{
+					//View to activate was found in the stack
+					viewToAdd = viewStack.top();
+				}
 
-					//Activate view
-					env->CallVoidMethod(rootView, nativeAddView, viewToAdd->getNativeWidget());
+				JNIEnv* env = Jni::getJniEnv();
 
-					//Deactivate previous view
-					if (viewToRemove)
-						env->CallVoidMethod(rootView, nativeRemoveView, viewToRemove->getNativeWidget());
-				});
+				//Activate view
+				env->CallVoidMethod(rootView, nativeAddView, viewToAdd->getNativeWidget());
+
+				//Deactivate previous view
+				if (viewToRemove)
+					env->CallVoidMethod(rootView, nativeRemoveView, viewToRemove->getNativeWidget());
 			}
 
 			void NavigatorFrame::pop()
@@ -161,16 +160,16 @@ namespace RadJAV
 				if (viewStack.size() <= 1)
 					return;
 
-				RadJav::runOnUiThreadAsync([&](JNIEnv* env, void* data) {
-					ViewFrame* viewToRemove = viewStack.top();
+				ViewFrame* viewToRemove = viewStack.top();
 
-					viewStack.pop();
+				viewStack.pop();
 
-					ViewFrame* viewToAdd = viewStack.top();
+				ViewFrame* viewToAdd = viewStack.top();
 
-					env->CallVoidMethod(rootView, nativeAddView, viewToAdd->getNativeWidget());
-					env->CallVoidMethod(rootView, nativeRemoveView, viewToRemove->getNativeWidget());
-				});
+				JNIEnv* env = Jni::getJniEnv();
+
+				env->CallVoidMethod(rootView, nativeAddView, viewToAdd->getNativeWidget());
+				env->CallVoidMethod(rootView, nativeRemoveView, viewToRemove->getNativeWidget());
 			}
 		}
     }

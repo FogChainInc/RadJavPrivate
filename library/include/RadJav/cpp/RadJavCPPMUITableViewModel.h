@@ -17,8 +17,8 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#ifndef _RADJAV_MUI_CPP_TableViewModel_H_
-#define _RADJAV_MUI_CPP_TableViewModel_H_
+#ifndef _RADJAV_MUI_CPP_TABLEVIEWMODEL_H_
+#define _RADJAV_MUI_CPP_TABLEVIEWMODEL_H_
 
 #include "cpp/RadJavCPPMUITableCellModel.h"
 #ifdef USE_IOS
@@ -40,28 +40,29 @@
 		{
 			namespace MUI
 			{
-				class RADJAV_EXPORT TableViewModel : public CPP::GUI::GObject
+				class RADJAV_EXPORT TableViewModel : public ChainedPtr
 				{
 					public:
 						#ifdef USE_V8
 							TableViewModel(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
 						#endif
-                        #ifdef USE_JAVASCRIPTCORE
-                            TableViewModel(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
-                        #endif
-						TableViewModel(String name, String text = "", CPP::GUI::GObject *parent = NULL);
-
-						void create();
-
-						void setCellModels(std::vector<CPP::MUI::TableCellModel*> *models);
-						std::vector< std::vector<CPP::MUI::TableCellModel*> > *cells;
-						std::vector<CPP::MUI::TableCellModel*> *headers;
-						GUI::GObjectWidget *linkedFrame;
-
-						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
-                        	/// Execute when an event is triggered.
-                        	void on(String event, RJ_FUNC_TYPE func);
+						#ifdef USE_JAVASCRIPTCORE
+							TableViewModel(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
 						#endif
+						TableViewModel();
+
+						void itemAdded(unsigned int index);
+						void itemRemoved(unsigned int index);
+						void itemsCleared();
+
+						unsigned int size() const;
+					
+						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+							/// Execute when an event is triggered.
+							void on(String event, RJ_FUNC_TYPE func);
+						#endif
+					protected:
+						unsigned int itemsCount;
 				};
 			}
 		}

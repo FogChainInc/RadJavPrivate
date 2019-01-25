@@ -17,8 +17,6 @@
     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
     WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
-
 /// <reference path="RadJav.ts" />
 /// <reference path="RadJav.Vector2.ts" />
 var RadJav;
@@ -26,33 +24,49 @@ var RadJav;
     var MUI;
     (function (MUI) {
         /** @class RadJav.MUI.TableViewModel
-         * @extends RadJav.GUI.GObject
-         * A mobile view.
+         * A model for TableView control.
          * Available on platforms: iOS,Android,HTML5
          */
-        var TableViewModel = /** @class */ (function (_super) {
-            __extends(TableViewModel, _super);
-            function TableViewModel(obj, text, parent) {
-            	this.cells = [];
-                var _this = this;
-                if (obj == null)
-                    obj = {};
-                if (typeof obj == "string") {
-                    var name = obj;
-                    obj = { name: name };
+        var TableViewModel = /** @class */ (function () {
+            function TableViewModel() {
+                this.type = "RadJav.MUI.TableViewModel";
+                this.items = [];
+                this._appObj = null;
+                if (this._init != null) {
+                    this._init.apply(this, arguments);
                 }
-                if (obj.size == null) {
-                    obj.size = new RadJav.Vector2();
-                    obj.size.x = 500;
-                    obj.size.y = 350;
-                }
-                (_this = _super.call(this, obj, text, parent) || this) || _this;
-                _this.type = "RadJav.MUI.TableViewModel";
-                return _this;
             }
+            TableViewModel.prototype.push = function (item) {
+                this.items.push(item);
+                if (this._itemPushed != null) {
+                    this._itemPushed(this.items.length - 1);
+                }
+            };
+            TableViewModel.prototype.remove = function (index) {
+                if (index < 0 || index > this.items.length - 1)
+                    return;
+                this.items.splice(index, 1);
+                if (this._itemRemoved != null) {
+                    this._itemRemoved(index);
+                }
+            };
+            TableViewModel.prototype.pop = function () {
+                this.remove(this.items.length - 1);
+            };
+            TableViewModel.prototype.clear = function () {
+                this.items.splice(0, this.items.length);
+                if (this._itemsCleared != null) {
+                    this._itemsCleared();
+                }
+            };
+            TableViewModel.prototype.get = function (index) {
+                if (index < 0 || index > this.items.length - 1)
+                    return null;
+                return this.items[index];
+            };
             TableViewModel.xmlTag = { tag: "tableviewmodel", type: "TableViewModel" };
             return TableViewModel;
-        }(RadJav.MUI.View));
+        }());
         MUI.TableViewModel = TableViewModel;
     })(MUI = RadJav.MUI || (RadJav.MUI = {}));
 })(RadJav || (RadJav = {}));

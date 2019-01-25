@@ -1,33 +1,22 @@
 var window;
 var button;
-var webView;
 
-RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav.getMUILibrary ())
-    .then (function ()
-    {
-        RadJav.runApplication (function ()
-            {
-                var win = new RadJav.MUI.View ("win", "Window Example");
-                win.createMainView ().then (function (win2)
-                    {
-    	                var screenWidth = RadJav.getPrimaryScreen ().getWidth ();
-    	                var screenHeight = RadJav.getPrimaryScreen ().getHeight ();
-						window = win2;
-                        //window.makeRootViewController();
-                        window.setSize(screenWidth, screenHeight);
-
-                        var btn = new RadJav.MUI.Button ("button", "Say Hello", win2);
-                        btn.create().then (function (btn2)
-                            {
-                                button = btn2;
-                                button.setPosition (100, 100);
-                                button.setSize (300, 100);
-
-                                button.on ("click", function ()
-                                    {
-                                        alert ("Hello World!");
-                                    });
-                            });
-                    });
-            });
-    });
+RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav.getMUILibrary ()).then (function () {
+	RadJav.runApplication (function () {
+		var screenWidth = RadJav.getPrimaryScreen().getWidth();
+		var screenHeight = RadJav.getPrimaryScreen().getHeight();
+		
+		window = new RadJav.MUI.View("win", "Window Example");
+		window.createMainView();
+		window.setSize(screenWidth, screenHeight);
+		
+		var button = new RadJav.MUI.Button("button", "Say Hello", window);
+		button.create();
+		button.setPosition(100, 100);
+		button.setSize(300, 100);
+		
+		button.on ("click", function () {
+			alert ("Hello World!");
+		});
+	});
+});

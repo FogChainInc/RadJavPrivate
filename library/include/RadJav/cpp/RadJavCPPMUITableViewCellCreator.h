@@ -18,8 +18,8 @@
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef _RADJAV_CPP_TABLEVIEW_ITEM_BUILDER_H_
-#define _RADJAV_CPP_TABLEVIEW_ITEM_BUILDER_H_
+#ifndef _RADJAV_CPP_TABLEVIEW_CELL_CREATOR_H_
+#define _RADJAV_CPP_TABLEVIEW_CELL_CREATOR_H_
 
 #include "RadJavPreprocessor.h"
 
@@ -31,14 +31,14 @@ namespace RadJAV
 		{
 			class View;
 
-			class RADJAV_EXPORT TableViewItemBuilderInterface
+			class TableViewCellCreator
 			{
 			public:
-				#ifdef USE_ANDROID
-					virtual View* createItem(const View*) = 0;
-				#elif defined USE_IOS
-					#warning
-				#endif
+				virtual ~TableViewCellCreator() {};
+				virtual View* createViewForItem(unsigned int itemIndex) = 0;
+
+			protected:
+				TableViewCellCreator() {};
 			};
 		}
 	}

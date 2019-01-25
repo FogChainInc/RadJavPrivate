@@ -38,10 +38,11 @@ namespace RadJAV
 
 			TextboxFrame::TextboxFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
 			{
+				JNIEnv* env = Jni::getJniEnv();
+
 				if (!nativeEditTextClass)
 				{
 					Jni& jni = Jni::instance();
-					JNIEnv* env = jni.getJniEnv();
 
 					nativeEditTextClass = jni.findClass("android/widget/EditText");
 
@@ -53,14 +54,11 @@ namespace RadJAV
 					nativeSetLines = env->GetMethodID(nativeEditTextClass, "setLines", "(I)V");
 				}
 
-				RadJav::runOnUiThreadAsync([&, parent](JNIEnv* env, void* data) {
-					auto layout = wrap_local(env, env->NewObject(nativeEditTextClass, nativeConstructor, RadJav::getJavaApplication()));
+				auto layout = wrap_local(env, env->NewObject(nativeEditTextClass, nativeConstructor, RadJav::getJavaApplication()));
+				widget = env->NewGlobalRef(layout);
 
-					widget = env->NewGlobalRef(layout);
-
-					//One line EditText control
-					env->CallVoidMethod(widget, nativeSetLines, 1);
-				});
+				//One line EditText control
+				env->CallVoidMethod(widget, nativeSetLines, 1);
 
 				if (parent)
 					parent->addChild(this);
@@ -77,21 +75,20 @@ namespace RadJAV
 			
 			void TextboxFrame::setText(String text)
 			{
-				RadJav::runOnUiThreadAsync([&, text](JNIEnv* env, void* data) {
-					auto jtext = wrap_local(env, text.toJNIString());
+				JNIEnv* env = Jni::getJniEnv();
 
-					env->CallNonvirtualVoidMethod(widget, nativeEditTextClass, nativeSetText, jtext.get());
-				});
+				auto jtext = wrap_local(env, text.toJNIString());
+				env->CallNonvirtualVoidMethod(widget, nativeEditTextClass, nativeSetText, jtext.get());
 			}
 			
 			String TextboxFrame::getText()
 			{
 				String text;
 
-				RadJav::runOnUiThread([&](JNIEnv* env, void* data) {
-					jobject charSequence = env->CallObjectMethod(widget, nativeGetText);
-					text = parseJNICharSequence(charSequence);
-				});
+				JNIEnv* env = Jni::getJniEnv();
+
+				jobject charSequence = env->CallObjectMethod(widget, nativeGetText);
+				text = parseJNICharSequence(charSequence);
 
 				return text;
 			}
@@ -135,18 +132,18 @@ namespace RadJAV
 					    break;
 				}
 
-				RadJav::runOnUiThreadAsync([&, mode, keyboardType](JNIEnv* env, void* data) {
-					env->CallVoidMethod(widget, nativeSetInputType, keyboardType);
-				});
+				JNIEnv* env = Jni::getJniEnv();
+
+				env->CallVoidMethod(widget, nativeSetInputType, keyboardType);
 			}
 			
 			Textbox::InputMode TextboxFrame::getInputMode() const
 			{
 				int keyboardType;
 
-				RadJav::runOnUiThread([&](JNIEnv* env, void* data) {
-					keyboardType = env->CallIntMethod(widget, nativeGetInputType);
-				});
+				JNIEnv* env = Jni::getJniEnv();
+
+				keyboardType = env->CallIntMethod(widget, nativeGetInputType);
 
 				switch (keyboardType)
 				{

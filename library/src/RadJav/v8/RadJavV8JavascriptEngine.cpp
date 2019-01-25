@@ -87,9 +87,9 @@
 		//#include "v8/RadJavV8MUINavigationViewController.h"
 		//#include "v8/RadJavV8MUITableViewController.h"
 		#include "v8/RadJavV8MUITableView.h"
-		//#include "v8/RadJavV8MUITableViewModel.h"
+		#include "v8/RadJavV8MUITableViewModel.h"
 		//#include "v8/RadJavV8MUITableCellModel.h"
-		//#include "v8/RadJavV8MUIScrollView.h"
+		#include "v8/RadJavV8MUIScrollView.h"
 		#include "v8/RadJavV8MUIButton.h"
 		#include "v8/RadJavV8MUILabel.h"
 		#include "v8/RadJavV8MUIImage.h"
@@ -145,6 +145,8 @@
 
 #ifdef USE_ANDROID
 	#include <android/RadJavAndroid.h>
+#include <v8/RadJavV8MUIScrollView.h>
+
 #endif
 
 namespace RadJAV
@@ -193,8 +195,75 @@ namespace RadJAV
 			free(data);
 		}*/
 
+		class JsVirtualMachine
+		{
+		public:
+			static JsVirtualMachine* create()
+			{
+				v8::Isolate::CreateParams createParams;
+
+				// ArrayBuffer allocator needs to be freed by us
+				v8::ArrayBuffer::Allocator* arrayBufferAllocator = v8::ArrayBuffer::Allocator::NewDefaultAllocator ();
+
+				createParams.array_buffer_allocator = arrayBufferAllocator;
+
+				v8::Isolate* isolate = v8::Isolate::New(createParams);
+
+				JsVirtualMachine* vm = RJNEW JsVirtualMachine(isolate, arrayBufferAllocator);
+
+				return vm;
+			}
+
+			~JsVirtualMachine()
+			{
+				if (isolate)
+				{
+					isolate->ContextDisposedNotification();
+					isolate->LowMemoryNotification();
+
+					isolate->Dispose();
+					isolate = nullptr;
+				}
+
+				delete arrayBufferAllocator;
+				arrayBufferAllocator = nullptr;
+			}
+
+			v8::Isolate* getIsolate()
+			{
+				return isolate;
+			}
+
+			v8::Local<v8::Context>& getGlobalContext()
+			{
+				return globalContext;
+			}
+
+		private:
+			JsVirtualMachine(v8::Isolate* vm, v8::ArrayBuffer::Allocator* abAllocator)
+			: isolate(vm),
+			  isolateScope(isolate),
+			  handleScope(isolate),
+			  globalTemplate(v8::ObjectTemplate::New(isolate)),
+			  globalContext(v8::Context::New(isolate, nullptr, globalTemplate)),
+			  globalContextScope(globalContext),
+			  arrayBufferAllocator(abAllocator)
+			{
+			}
+
+		private:
+			v8::Isolate* isolate;
+			v8::Isolate::Scope isolateScope;
+			v8::HandleScope handleScope;
+			v8::Local<v8::ObjectTemplate> globalTemplate;
+			v8::Local<v8::Context> globalContext;
+			v8::Context::Scope globalContextScope;
+			v8::ArrayBuffer::Allocator* arrayBufferAllocator;
+		};
+
 		V8JavascriptEngine::V8JavascriptEngine()
 			: JavascriptEngine(),
+			  jsvm(nullptr),
 			  arrayBufferAllocator(nullptr),
 			  externalsManager(nullptr)
 		{
@@ -248,16 +317,6 @@ namespace RadJAV
 			v8::V8::InitializePlatform(platform);
 			v8::V8::Initialize();
 
-			v8::Isolate::CreateParams createParams;
-			//V8ArrayBufferAllocator allocator;
-			//createParams.array_buffer_allocator = &allocator;
-			
-			// ArrayBuffer allocator needs to be freed by us
-			arrayBufferAllocator = v8::ArrayBuffer::Allocator::NewDefaultAllocator ();
-			createParams.array_buffer_allocator = arrayBufferAllocator;
-
-			isolate = v8::Isolate::New(createParams);
-
 			#ifdef GUI_USE_WXWIDGETS
 				criticalSection = RJNEW wxCriticalSection ();
 			#endif
@@ -265,13 +324,14 @@ namespace RadJAV
 
 		V8JavascriptEngine::~V8JavascriptEngine()
 		{
+			DELETEOBJ(jsvm);
+			isolate = nullptr;
+
 			DELETEOBJ(externalsManager);
 
 			DELETEOBJ(radJav);
 			destroyJSObjects();
 
-			//v8::Unlocker unlocker(isolate);
-			isolate->Dispose();
 			v8::V8::Dispose();
 			v8::V8::ShutdownPlatform();
 
@@ -280,9 +340,6 @@ namespace RadJAV
 			#endif
 
 			DELETEOBJ(platform);
-
-			delete arrayBufferAllocator;
-			arrayBufferAllocator = nullptr;
 		}
 
 		void V8JavascriptEngine::startInspector(v8::Local<v8::Context> context)
@@ -306,13 +363,16 @@ namespace RadJAV
 				wxSetWorkingDirectory(parentDir);
 			#endif
 
-			//v8::Locker locker(isolate);
-			v8::Isolate::Scope scope(isolate);
-			v8::HandleScope handleScope(isolate);
+			if (jsvm)
+			{
+				RJDELETE jsvm;
+			}
 
-			v8::Local<v8::ObjectTemplate> global = v8::ObjectTemplate::New(isolate);
-			globalContext = v8::Context::New(isolate, NULL, global);
-			v8::Context::Scope contextScope(globalContext);
+			jsvm = JsVirtualMachine::create();
+
+			//This is ugly for now but in that case we didn't change the interface
+			isolate = jsvm->getIsolate();
+			globalContext = jsvm->getGlobalContext();
 
 			loadJavascriptLibrary();
 
@@ -438,45 +498,8 @@ namespace RadJAV
 					exitCode = wxTheApp->OnRun();
 				}
 			#elif defined USE_ANDROID
-				using namespace Android;
-
-				RadJavAndroid* app = RadJavAndroid::instance();
-				if (app)
-				{
-					//app->defaultLockGuiThread();
-
-					while(true)
-					{
-//						if (RadJav::isWaitingForUiThread())
-//						{
-//							LOGI("Waiting for UI thread");
-//
-//							threadSleep(1);
-//							continue;
-// 						}
-
-						if (RadJav::isPaused())
-						{
-							LOGI("OnPause");
-							threadSleep(500);
-
-							if(!runApplicationSingleStep())
-								break;
-
-							continue;
-						}
-
-						app->handleNativeCallback();
-						app->handleUIEvent();
-
-						if(!runApplicationSingleStep())
-							break;
-
-						threadSleep(1);
-					}
-				}
-
-				LOGI("Exiting");
+				runApplicationInIdleEvent();
+				return exitCode;
 			#else
 				while (runApplicationSingleStep()) {}
 			#endif
@@ -484,9 +507,6 @@ namespace RadJAV
 			#ifdef USE_INSPECTOR
 				DELETEOBJ(agent_);
 			#endif
-
-			isolate->ContextDisposedNotification();
-			isolate->LowMemoryNotification();
 
 			return exitCode;
 		}
@@ -499,6 +519,42 @@ namespace RadJAV
 			
 			event.RequestMore();
 			wxMilliSleep(1);
+		}
+#endif
+
+#ifdef USE_ANDROID
+		void V8JavascriptEngine::runApplicationInIdleEvent()
+		{
+			using namespace Android;
+
+			RadJavAndroid* app = RadJavAndroid::instance();
+			if (app)
+			{
+				app->runOnUiThreadAsync([&](JNIEnv* env, void* data) {
+						RadJavAndroid* app = RadJavAndroid::instance();
+						if (app)
+						{
+							if (app->isPaused())
+							{
+								LOGI("in pause");
+								threadSleep(500);
+							}
+							else
+							{
+								if(!runApplicationSingleStep())
+								{
+									//Exit from application
+									app->terminate(EXIT_SUCCESS);
+									return;
+								}
+
+								threadSleep(1);
+							}
+
+							runApplicationInIdleEvent();
+						}
+					}, nullptr);
+			}
 		}
 #endif
 
@@ -1586,16 +1642,24 @@ namespace RadJAV
 
 						V8B::MUI::TableView::createV8Callbacks(isolate, viewPrototype);
 					}
+
+					// RadJav.MUI.ScrollView
+					{
+						v8::Handle<v8::Function> viewFunc = v8GetFunction(muiFunc, "ScrollView");
+						v8::Handle<v8::Object> viewPrototype = v8GetObject(viewFunc, "prototype");
+
+						V8B::MUI::ScrollView::createV8Callbacks(isolate, viewPrototype);
+					}
                     
-					#if 0
                     // RadJav.MUI.TableViewModel
                     {
-                        JSObjectRef viewFunc = jscGetFunction(muiFunc, "TableViewModel");
-                        JSObjectRef viewPrototype = jscGetObject(viewFunc, "prototype");
+						v8::Handle<v8::Function> tableviewFunc = v8GetFunction(muiFunc, "TableViewModel");
+						v8::Handle<v8::Object> tableviewPrototype = v8GetObject(tableviewFunc, "prototype");
                         
-                        JSC::MUI::TableViewModel::createJSCCallbacks(globalContext, viewPrototype);
+                        V8B::MUI::TableViewModel::createV8Callbacks(isolate, tableviewPrototype);
                     }
-                    
+
+					#if 0
                     // RadJav.MUI.TableCellModel
                     {
                         JSObjectRef viewFunc = jscGetFunction(muiFunc, "TableCellModel");

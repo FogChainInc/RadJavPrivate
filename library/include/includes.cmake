@@ -100,9 +100,9 @@ if (USE_V8)
 			#"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUINavigationViewController.h"
 			#"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUITableViewController.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUITableView.h"
-			#"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUITableViewModel.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUITableViewModel.h"
 			#"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUITableCellModel.h"
-			#"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIScrollView.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIScrollView.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIButton.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUILabel.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIImage.h"
@@ -553,7 +553,7 @@ if (IS_MOBILE)
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUINavigationViewController.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUITableViewController.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUITableView.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUITableViewItemBuilder.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUITableViewCellCreator.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUITableViewModel.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUITableCellModel.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIScrollView.h"
@@ -579,7 +579,7 @@ if (IS_MOBILE)
 		set (SOURCES ${SOURCES_files_RadJav__cpp__MUI__Headers} ${SOURCES})
 	elseif (ANDROID)
 		set (SOURCES_files_RadJav__cpp__MUI__Headers 
-			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/android/RadJavCPPMUIListAdapter.h")
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/android/RadJavCPPMUITableViewDelegate.h")
 			
 		source_group ("RadJav\\CPP\\MUI\\Android" FILES ${SOURCES_files_RadJav__cpp__MUI__Headers})
 		set (SOURCES ${SOURCES_files_RadJav__cpp__MUI__Headers} ${SOURCES})

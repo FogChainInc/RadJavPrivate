@@ -35,10 +35,11 @@ namespace RadJAV
 
 			TextareaFrame::TextareaFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
 			{
+				JNIEnv* env = Jni::getJniEnv();
+
 				if (!nativeEditTextClass)
 				{
 					Jni& jni = Jni::instance();
-					JNIEnv* env = jni.getJniEnv();
 
 					nativeEditTextClass = jni.findClass("android/widget/EditText");
 
@@ -47,11 +48,8 @@ namespace RadJAV
 					nativeGetText = env->GetMethodID(nativeEditTextClass, "getText", "()Ljava/lang/CharSequence;");
 				}
 
-				RadJav::runOnUiThreadAsync([&, parent](JNIEnv* env, void* data) {
-					auto layout = wrap_local(env, env->NewObject(nativeEditTextClass, nativeConstructor, RadJav::getJavaApplication()));
-
-					widget = env->NewGlobalRef(layout);
-				});
+				auto layout = wrap_local(env, env->NewObject(nativeEditTextClass, nativeConstructor, RadJav::getJavaApplication()));
+				widget = env->NewGlobalRef(layout);
 
 				if (parent)
 					parent->addChild(this);
@@ -68,21 +66,20 @@ namespace RadJAV
 			
 			void TextareaFrame::setText(String text)
 			{
-				RadJav::runOnUiThreadAsync([&, text](JNIEnv* env, void* data) {
-					auto jtext = wrap_local(env, text.toJNIString());
+				JNIEnv* env = Jni::getJniEnv();
 
-					env->CallNonvirtualVoidMethod(widget, nativeEditTextClass, nativeSetText, jtext.get());
-				});
+				auto jtext = wrap_local(env, text.toJNIString());
+				env->CallNonvirtualVoidMethod(widget, nativeEditTextClass, nativeSetText, jtext.get());
 			}
 			
 			String TextareaFrame::getText()
 			{
 				String text;
 
-				RadJav::runOnUiThread([&](JNIEnv* env, void* data) {
-					jobject charSequence = env->CallObjectMethod(widget, nativeGetText);
-					text = parseJNICharSequence(charSequence);
-				});
+				JNIEnv* env = Jni::getJniEnv();
+
+				jobject charSequence = env->CallObjectMethod(widget, nativeGetText);
+				text = parseJNICharSequence(charSequence);
 
 				return text;
 			}

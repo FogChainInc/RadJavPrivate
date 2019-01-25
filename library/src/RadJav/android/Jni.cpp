@@ -55,21 +55,24 @@ namespace RadJAV
 
 		JNIEnv* Jni::getJniEnv()
 		{
-			if (!_env)
+			Jni& jni = instance();
+
+			if (!jni._env)
 			{
 				JNIEnv* env;
-				if (_jvm->GetEnv((void**)&env, JNI_VERSION_1_6))
+				if (jni._jvm->GetEnv((void**)&env, JNI_VERSION_1_6))
 					return nullptr;
 
-				_env = env;
+				jni._env = env;
 			}
 
-			return _env;
+			return jni._env;
 		}
 
 		JavaVM* Jni::getJavaVm()
 		{
-			return _jvm;
+			Jni& jni = instance();
+			return jni._jvm;
 		}
 
 		Jni::~Jni()

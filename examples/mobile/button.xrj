@@ -1,90 +1,79 @@
 var window;
-var button;
+var button1;
+var button3;
+var button3;
 
-RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav.getMUILibrary ())
-    .then (function ()
-    {
-        RadJav.runApplication (function ()
-            {
-                var win = new RadJav.MUI.View ("win", "Button Example");
-                win.createMainView ().then (function (win2)
-                    {
-    	                var screenWidth = RadJav.getPrimaryScreen ().getWidth ();
-    	                var screenHeight = RadJav.getPrimaryScreen ().getHeight ();
-    	                
-						window = win2;
-						window.setPosition(0, 0);
-                        window.setSize(screenWidth, screenHeight);
-						
-                        var btn = new RadJav.MUI.Button ("button", "touch, key", win2);
-                        btn.create().then (function (btn1){
-							button = btn1;
-							button.setPosition (50, 100);
-							button.setSize (200, 100);
-												
-							button.on ("touch", function () {
-								RadJav.Console.log("radjav touch");
-								btn1.setText("touch");
-								return true;
-							});
-								
-							button.on ("key", function () {
-								RadJav.Console.log("radjav key");
-								btn1.setText("key");
-								return true;
-							});								
-						});
-						
-													
-                        var btn = new RadJav.MUI.Button ("button", "focus, longclick", win2);
-                        btn.create().then (function (btn2){
-							button = btn2;
-							button.setPosition (50, 300);
-							button.setSize (400, 100);
+RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav.getMUILibrary ()).then (function () {
+	RadJav.runApplication (function () {
+		var screenWidth = RadJav.getPrimaryScreen().getWidth();
+		var screenHeight = RadJav.getPrimaryScreen().getHeight();
+		
+		window = new RadJav.MUI.View("win", "Button Example");
+		window.createMainView();
+		window.setPosition(0, 0);
+		window.setSize(screenWidth, screenHeight);
+		
+		button1 = new RadJav.MUI.Button("button", "touch, key", window);
+		button1.create();
+		button1.setPosition(50, 100);
+		button1.setSize(200, 100);
 							
-							button.on ("focusChange", function () {
-								RadJav.Console.log("radjav focusChange");
-								btn2.setText("focusChange");
-							});							
-							button.on ("longClick", function () {
-								RadJav.Console.log("radjav longClick");
-								btn2.setText("longClick");
-								return true;
-							});								
-						});
-						
-						var btn = new RadJav.MUI.Button ("button", "click, context, undef", win2);
-                        btn.create().then (function (btn3){
-							button = btn3;
-							button.setPosition (50, 500);
-							button.setSize (600, 100);
-							button.flag = false;
-
-							button.on ("click", function ()
-								{
-									RadJav.Console.log("radjav message");
-									if (button.flag) {
-										button.flag = false;
-										RadJav.Console.log("radjav false");
-										button.setText("False");
-									} else
-									{
-										button.flag = true;
-										RadJav.Console.log("radjav true");
-										button.setText("True");
-									}
-									//alert ("Hello World!");
-								});
-							
-							button.on ("createContextMenu", function () {
-								RadJav.Console.log("radjav createContextMenu");
-								button.setText("context");
-							});							
-							button.on ("undefinedEvent", function () {
-								RadJav.Console.log("radjav undefinedEvent");
-								button.setText("undefined");
-							});
-						});
-                    });
-            });
-    });
+		button1.on("touch", function () {
+			RadJav.Console.log("radjav touch");
+			button1.setText("touch");
+			return true;
+		});
+			
+		button1.on("key", function () {
+			RadJav.Console.log("radjav key");
+			button1.setText("key");
+			return true;
+		});
+		
+		button2 = new RadJav.MUI.Button("button", "focus, longclick", window);
+		button2.create();
+		button2.setPosition(50, 300);
+		button2.setSize(400, 100);
+		
+		button2.on("focusChange", function () {
+			RadJav.Console.log("radjav focusChange");
+			button2.setText("focusChange");
+		});
+		
+		button2.on("longClick", function () {
+			RadJav.Console.log("radjav longClick");
+			button2.setText("longClick");
+			return true;
+		});
+		
+		button3 = new RadJav.MUI.Button("button", "click, context, undef", window);
+		button3.create();
+		button3.setPosition(50, 500);
+		button3.setSize(600, 100);
+		button3.flag = false;
+		
+		button3.on("click", function () {
+			RadJav.Console.log("radjav message");
+			if (button3.flag) {
+				button3.flag = false;
+				RadJav.Console.log("radjav false");
+				button3.setText("False");
+			} else
+			{
+				button3.flag = true;
+				RadJav.Console.log("radjav true");
+				button3.setText("True");
+			}
+		});
+		
+		button3.on("createContextMenu", function () {
+			RadJav.Console.log("radjav createContextMenu");
+			button3.setText("context");
+		});
+		
+		button3.on("undefinedEvent", function () {
+			RadJav.Console.log("radjav undefinedEvent");
+			button3.setText("undefined");
+		});
+	});
+});

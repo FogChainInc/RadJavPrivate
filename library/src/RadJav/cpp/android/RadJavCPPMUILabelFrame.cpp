@@ -35,10 +35,11 @@ namespace RadJAV
 
 			LabelFrame::LabelFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
 			{
+				JNIEnv* env = Jni::getJniEnv();
+
 				if (!nativeTextViewClass)
 				{
 					Jni& jni = Jni::instance();
-					JNIEnv* env = jni.getJniEnv();
 
 					nativeTextViewClass = jni.findClass("android/widget/TextView");
 
@@ -47,11 +48,8 @@ namespace RadJAV
 					nativeGetText = env->GetMethodID(nativeTextViewClass, "getText", "()Ljava/lang/CharSequence;");
 				}
 
-				RadJav::runOnUiThreadAsync([&, parent](JNIEnv* env, void* data) {
-					auto layout = wrap_local(env, env->NewObject(nativeTextViewClass, nativeConstructor, RadJav::getJavaApplication()));
-
-					widget = env->NewGlobalRef(layout);
-				});
+				auto layout = wrap_local(env, env->NewObject(nativeTextViewClass, nativeConstructor, RadJav::getJavaApplication()));
+				widget = env->NewGlobalRef(layout);
 
 				if (parent)
 					parent->addChild(this);
@@ -68,21 +66,20 @@ namespace RadJAV
 			
 			void LabelFrame::setText(String text)
 			{
-				RadJav::runOnUiThreadAsync([&, text](JNIEnv* env, void* data) {
-					auto jtext = wrap_local(env, text.toJNIString());
+				JNIEnv* env = Jni::getJniEnv();
 
-					env->CallNonvirtualVoidMethod(widget, nativeTextViewClass, nativeSetText, jtext.get());
-				});
+				auto jtext = wrap_local(env, text.toJNIString());
+				env->CallNonvirtualVoidMethod(widget, nativeTextViewClass, nativeSetText, jtext.get());
 			}
 			
 			String LabelFrame::getText()
 			{
 				String text;
 
-				RadJav::runOnUiThread([&](JNIEnv* env, void* data) {
-					jobject charSequence = env->CallObjectMethod(widget, nativeGetText);
-					text = parseJNICharSequence(charSequence);
-				});
+				JNIEnv* env = Jni::getJniEnv();
+
+				jobject charSequence = env->CallObjectMethod(widget, nativeGetText);
+				text = parseJNICharSequence(charSequence);
 
 				return text;
 			}

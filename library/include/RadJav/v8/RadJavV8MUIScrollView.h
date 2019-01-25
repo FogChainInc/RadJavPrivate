@@ -1,6 +1,6 @@
 /*
 	MIT-LICENSE
-	Copyright (c) 2018 Higher Edge Software, LLC
+	Copyright (c) 2017 Higher Edge Software, LLC
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 	and associated documentation files (the "Software"), to deal in the Software without restriction, 
@@ -17,32 +17,28 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#include "v8/RadJavV8MUIButton.h"
+#ifndef _RADJAV_MUI_V8_SCROLLVIEW_H_
+	#define _RADJAV_MUI_V8_SCROLLVIEW_H_
 
-#include "v8/RadJavV8JavascriptEngine.h"
+	#include "RadJavPreprocessor.h"
 
-#include "cpp/RadJavCPPMUIButton.h"
+	#include <v8.h>
 
-namespace RadJAV
-{
-	namespace V8B
+	namespace RadJAV
 	{
-		namespace MUI
+		namespace V8B
 		{
-			using CppMuiObject = CPP::MUI::Button;
-
-			void Button::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
+			namespace MUI
 			{
-				V8_CALLBACK(object, "create", Button::create);
-			}
-
-			void Button::create(const v8::FunctionCallbackInfo<v8::Value> &args)
-			{
-				CppMuiObject *appObject = RJNEW CppMuiObject(V8_JAVASCRIPT_ENGINE, args);
-				appObject->create();
-
-				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_appObj", appObject);
+				class RADJAV_EXPORT ScrollView
+				{
+				public:
+					static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
+					
+					static void create(const v8::FunctionCallbackInfo<v8::Value> &args);
+				};
 			}
 		}
 	}
-}
+#endif //_RADJAV_MUI_V8_SCROLLVIEW_H_
+

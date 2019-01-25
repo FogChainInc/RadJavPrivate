@@ -18,7 +18,9 @@
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include "cpp/android/RadJavCPPMUIListAdapter.h"
+#include "cpp/android/RadJavCPPMUITableViewDelegate.h"
+#include "cpp/RadJavCPPMUITableViewModel.h"
+#include "cpp/RadJavCPPMUIView.h"
 #include "android/NativeCallbackFunction.h"
 #include "android/Utils.h"
 #include "RadJav.h"
@@ -31,23 +33,26 @@ namespace RadJAV
 		{
 			using namespace Android;
 
-			jclass ListAdapter::listViewClass = nullptr;
-			jclass ListAdapter::listAdapterClass = nullptr;
-			jclass ListAdapter::nativeCallbackClass = nullptr;
+			jclass TableViewDelegate::listViewClass = nullptr;
+			jclass TableViewDelegate::listAdapterClass = nullptr;
+			jclass TableViewDelegate::nativeCallbackClass = nullptr;
 
-			jmethodID ListAdapter::listAdapterConstructor = nullptr;
-			jmethodID ListAdapter::nativeCallbackConstructor = nullptr;
-			jmethodID ListAdapter::setCallback = nullptr;
-			jmethodID ListAdapter::notifyChanged = nullptr;
-			jmethodID ListAdapter::notifyInvalidated = nullptr;
+			jmethodID TableViewDelegate::listAdapterConstructor = nullptr;
+			jmethodID TableViewDelegate::nativeCallbackConstructor = nullptr;
+			jmethodID TableViewDelegate::setCallback = nullptr;
+			jmethodID TableViewDelegate::notifyChanged = nullptr;
+			jmethodID TableViewDelegate::notifyInvalidated = nullptr;
 
-			ListAdapter::ListAdapter()
-			: object(nullptr)
+			TableViewDelegate::TableViewDelegate(TableViewCellCreator& cellCreator)
+			: model(nullptr),
+			  viewCreator(cellCreator),
+			  object(nullptr)
 			{
+				JNIEnv* env = Jni::getJniEnv();
+
 				if (!listViewClass)
 				{
 					Jni& jni = Jni::instance();
-					JNIEnv* env = jni.getJniEnv();
 
 					listViewClass = jni.findClass("android/widget/ListView");
 					listAdapterClass = jni.findClass("com/fogchain/radjavvm/RadJavListAdapter");
@@ -60,9 +65,6 @@ namespace RadJAV
 					notifyInvalidated = env->GetMethodID(listAdapterClass, "notifyInvalidated", "()V");
 				}
 
-				Jni& jni = Jni::instance();
-				JNIEnv* env = jni.getJniEnv();
-
 				auto adapter = wrap_local(env, env->NewObject(listAdapterClass, listAdapterConstructor));
 
 				object = env->NewGlobalRef(adapter);
@@ -70,12 +72,12 @@ namespace RadJAV
 				registerCallbacks();
 			}
 
-			ListAdapter::~ListAdapter()
+			TableViewDelegate::~TableViewDelegate()
 			{
 				if (object)
 				{
 					Jni& jni = Jni::instance();
-					JNIEnv* env = jni.getJniEnv();
+					JNIEnv* env = Jni::getJniEnv();
 					env->DeleteGlobalRef(object);
 					object = nullptr;
 				}
@@ -89,21 +91,29 @@ namespace RadJAV
 				}
 			}
 
-			jobject ListAdapter::getNativeObject() const
+			void TableViewDelegate::setModel(TableViewModel* listModel)
+			{
+				model = listModel;
+
+				//Notify java adapter about model changes
+				JNIEnv* env = Jni::getJniEnv();
+				env->CallVoidMethod(object, notifyChanged);
+			}
+
+			jobject TableViewDelegate::getNativeObject() const
 			{
 				return object;
 			}
 
-			void ListAdapter::registerCallbacks()
+			void TableViewDelegate::registerCallbacks()
 			{
-				Jni& jni = Jni::instance();
-				JNIEnv* env = jni.getJniEnv();
+				JNIEnv* env = Jni::getJniEnv();
 
 				registerCallback(env, "GET_COUNT",
 								 RJNEW NativeCallbackFunction([&](JNIEnv* env, void* data, jobjectArray parameters) {
-									 LOGI("Adapter getCount");
+									 //LOGI("Adapter getCount");
 
-									 auto intObj = Utils::NewInteger(0);
+									 auto intObj = Utils::NewInteger(model ? model->size() : 0);
 
 									 return env->NewGlobalRef(intObj);
 								 })
@@ -113,7 +123,7 @@ namespace RadJAV
 								 RJNEW NativeCallbackFunction([&](JNIEnv* env, void* data, jobjectArray parameters) {
 								 	 //Indicates whether all the items in this adapter are enabled.
 
-									 LOGI("Adapter areAllItemsEnabled");
+									 //LOGI("Adapter areAllItemsEnabled");
 
 									 auto boolObj = Utils::NewBoolean(true);
 
@@ -124,8 +134,8 @@ namespace RadJAV
 				registerCallback(env, "IS_ENABLED",
 								 RJNEW NativeCallbackFunction([&](JNIEnv* env, void* data, jobjectArray parameters) {
 								 	 //Returns true if the item at the specified position is not a separator.
-									 LOGI("Adapter isEnabled");
-									 LOGI("Parameters count %d", env->GetArrayLength(parameters));
+									 //LOGI("Adapter isEnabled");
+									 //LOGI("Parameters count %d", env->GetArrayLength(parameters));
 									 auto boolObj = Utils::NewBoolean(true);
 
 									 return env->NewGlobalRef(boolObj);
@@ -135,8 +145,8 @@ namespace RadJAV
 				registerCallback(env, "GET_ITEM",
 								 RJNEW NativeCallbackFunction([&](JNIEnv* env, void* data, jobjectArray parameters) {
 									 //Get the data item associated with the specified position in the data set.
-									 LOGI("Adapter getItem");
-									 LOGI("Parameters count %d", env->GetArrayLength(parameters));
+									 //LOGI("Adapter getItem");
+									 //LOGI("Parameters count %d", env->GetArrayLength(parameters));
 
 									 //TODO: what if model item is on JS side?
 									 auto boolObj = Utils::NewBoolean(true);
@@ -148,8 +158,8 @@ namespace RadJAV
 				registerCallback(env, "GET_ITEM_ID",
 								 RJNEW NativeCallbackFunction([&](JNIEnv* env, void* data, jobjectArray parameters) {
 									 //Get the row id associated with the specified position in the list.
-									 LOGI("Adapter getItemId");
-									 LOGI("Parameters count %d", env->GetArrayLength(parameters));
+									 //LOGI("Adapter getItemId");
+									 //LOGI("Parameters count %d", env->GetArrayLength(parameters));
 
 									 auto longObj = Utils::NewLong(0);
 
@@ -160,7 +170,7 @@ namespace RadJAV
 				registerCallback(env, "HAS_STABLE_IDS",
 								 RJNEW NativeCallbackFunction([&](JNIEnv* env, void* data, jobjectArray parameters) {
 									 //Indicates whether the item ids are stable across changes to the underlying data.
-									 LOGI("Adapter hasStableIds");
+									 //LOGI("Adapter hasStableIds");
 
 									 auto boolObj = Utils::NewBoolean(false);
 
@@ -171,21 +181,27 @@ namespace RadJAV
 				registerCallback(env, "GET_VIEW",
 								 RJNEW NativeCallbackFunction([&](JNIEnv* env, void* data, jobjectArray parameters) {
 									 //Get a View that displays the data at the specified position in the data set.
-									 LOGI("Adapter getView");
-									 LOGI("Parameters count %d", env->GetArrayLength(parameters));
+									 //LOGI("Adapter getView");
 
-									 //TODO: request view from viewCreator
-									 auto boolObj = Utils::NewBoolean(false);
+									 //jsize argsSize = env->GetArrayLength(parameters);
+									 //LOGI("Parameters count %d", argsSize);
 
-									 return env->NewGlobalRef(boolObj);
+									 auto indexObject = wrap_local(env, env->GetObjectArrayElement(parameters, 0));
+
+									 jint index = Utils::IntegerToJint(indexObject);
+									 View* view = viewCreator.createViewForItem(index);
+									 int height = view->getHeight();
+									 int width = view->getWidth();
+
+									 return view->_appObj->getNativeWidget();
 								 })
 				);
 
 				registerCallback(env, "GET_ITEM_VIEW_TYPE",
 								 RJNEW NativeCallbackFunction([&](JNIEnv* env, void* data, jobjectArray parameters) {
 									 //Get the type of View that will be created by getView(int, View, ViewGroup) for the specified item.
-									 LOGI("Adapter getItemViewType");
-									 LOGI("Parameters count %d", env->GetArrayLength(parameters));
+									 //LOGI("Adapter getItemViewType");
+									 //LOGI("Parameters count %d", env->GetArrayLength(parameters));
 
 									 auto intObj = Utils::NewInteger(0);
 
@@ -196,7 +212,7 @@ namespace RadJAV
 				registerCallback(env, "GET_VIEW_TYPE_COUNT",
 								 RJNEW NativeCallbackFunction([&](JNIEnv* env, void* data, jobjectArray parameters) {
 									 //Returns the number of types of Views that will be created by getView(int, View, ViewGroup).
-									 LOGI("Adapter getViewTypeCount");
+									 //LOGI("Adapter getViewTypeCount");
 
 									 auto intObj = Utils::NewInteger(1);
 
@@ -209,16 +225,16 @@ namespace RadJAV
 									 //true if this adapter doesn't contain any data. This is used to determine whether the empty
 									 // view should be displayed. A typical implementation will return getCount() == 0 but since
 									 // getCount() includes the headers and footers, specialized adapters might want a different behavior.
-									 LOGI("Adapter isEmpty");
+									 //LOGI("Adapter isEmpty");
 
-									 auto boolObj = Utils::NewBoolean(true);
+									 auto boolObj = Utils::NewBoolean(model ? model->size() == 0 : true);
 
 									 return env->NewGlobalRef(boolObj);
 								 })
 				);
 			}
 
-			void ListAdapter::registerCallback(JNIEnv* env, const char* callbackType, NativeCallbackFunction* function)
+			void TableViewDelegate::registerCallback(JNIEnv* env, const char* callbackType, NativeCallbackFunction* function)
 			{
 				callbacks.push_back(function);
 

@@ -154,28 +154,25 @@
 
 					/// Memory allocations made during debug.
 					static HashMap<size_t, MemoryAllocLog> *memoryAllocs;
-                #endif
+				#endif
 
 			#ifdef USE_ANDROID
-		    public:
-				///Request function execution on Java UI thread synchronously
-				static void runOnUiThread(Android::UiThreadCallbackFunctionType function, void *data = nullptr);
+			public:
+				///Request function execution on Java UI thread asynchronously
+				static void runOnUiThreadAsync(Android::UiThreadCallbackFunctionType function, void *data = nullptr);
 
-                ///Request function execution on Java UI thread asynchronously
-                static void runOnUiThreadAsync(Android::UiThreadCallbackFunctionType function, void *data = nullptr);
+				///Get main java application instance
+				static jobject getJavaApplication();
 
-                ///Get main java application instance
-                static jobject getJavaApplication();
+				///Get main java ViewGroup
+				static jobject getJavaViewGroup();
 
-                ///Get main java ViewGroup
-                static jobject getJavaViewGroup();
+				static bool isWaitingForUiThread();
 
-                static bool isWaitingForUiThread();
-
-                static bool isPaused();
+				static bool isPaused();
 
 			private:
-		        static Android::RadJavAndroid* impl;
+				static Android::RadJavAndroid* impl;
 			#endif
 		};
 	}

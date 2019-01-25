@@ -172,7 +172,8 @@ namespace RadJAV
 		ChainedPtrWrapper* wrapper = RJNEW ChainedPtrWrapper(handle, objectInstance, objectId, object);
 		wrapper->onDelete( [&](FieldWrapper* wrapper)
 						  {
-							  LOCK_GUARD(s_mutexExternalsAccess);
+							  //This will lead to deadlock when using TableView, removed temporarily
+							  //LOCK_GUARD(s_mutexExternalsAccess);
 							  
 							  auto pos = externals.find( wrapper->objectId());
 							  if(pos != externals.end())
