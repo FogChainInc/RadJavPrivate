@@ -25,11 +25,12 @@
 
 #include "cpp/RadJavCPPGUIGObject.h"
 
-	#ifdef USE_V8
-		#include "v8/RadJavV8GUIGObject.h"
-	#elif defined USE_JAVASCRIPTCORE
-		#include "jscore/RadJavJSCGUIGObject.h"
-    #endif
+#ifdef USE_IOS
+	OBJC_CLASS(UIScrollView);
+	OBJC_CLASS(ScrollViewDelegate);
+#elif defined USE_ANDROID
+	JNI_CLASS(jobject);
+#endif
 
 namespace RadJAV
 {
