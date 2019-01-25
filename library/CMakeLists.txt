@@ -707,10 +707,8 @@ if (libRadJav_EMBEDFILE)
 			RadJav.MUI.Image.js
 			RadJav.MUI.Checkbox.js
 			RadJav.MUI.Textbox.js
-			RadJav.MUI.TableViewController.js
 			RadJav.MUI.TableView.js
 			RadJav.MUI.TableViewModel.js
-			RadJav.MUI.TableCellModel.js
 			RadJav.MUI.Textarea.js
 			RadJav.MUI.WebView.js
 		)

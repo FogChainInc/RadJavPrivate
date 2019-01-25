@@ -62,14 +62,14 @@ namespace RadJAV
 				setup();
 			}
 			
-//			void ScrollView::setContentSize(const CPP::Vector2& size)
-//			{
+			void ScrollView::setContentSize(const CPP::Vector2& size)
+			{
 //				if (_appObj)
 //				{
 //					ScrollViewFrame* scrollView = static_cast<ScrollViewFrame*>(_appObj);
 //					scrollView->setContentSize(size);
 //				}
-//			}
+			}
 
 //			void ScrollView::addChild(RadJAV::CPP::GUI::GObject *child)
 //			{
@@ -80,16 +80,16 @@ namespace RadJAV
 //				}
 //			}
 
-//			CPP::Vector2 ScrollView::getContentSize() const
-//			{
+			CPP::Vector2 ScrollView::getContentSize() const
+			{
 //				if (_appObj)
 //				{
 //					ScrollViewFrame* scrollView = static_cast<ScrollViewFrame*>(_appObj);
 //					return scrollView->getContentSize();
 //				}
 //
-//				return Vector2();
-//			}
+				return Vector2();
+			}
 
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
 				void ScrollView::on(String event, RJ_FUNC_TYPE func)

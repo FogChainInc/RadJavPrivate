@@ -47,7 +47,7 @@
 	//Test Javascript file
 	NSString *docDirPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)objectAtIndex:0];
 	NSMutableString *jsAppFilePath = [NSMutableString stringWithString:appPath];
-	[jsAppFilePath appendString:@"/examples/mobile/tableview2.xrj"];
+	[jsAppFilePath appendString:@"/examples/mobile/window.xrj"];
 	
 	NSLog(@"%@", jsAppFilePath);
 

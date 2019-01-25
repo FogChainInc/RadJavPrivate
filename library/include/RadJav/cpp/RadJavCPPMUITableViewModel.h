@@ -20,19 +20,15 @@
 #ifndef _RADJAV_MUI_CPP_TABLEVIEWMODEL_H_
 #define _RADJAV_MUI_CPP_TABLEVIEWMODEL_H_
 
-#include "cpp/RadJavCPPMUITableCellModel.h"
-#ifdef USE_IOS
-#ifdef __OBJC__
-#define OBJC_CLASS(name) @class name
-#else
-#define OBJC_CLASS(name) typedef struct objc_object name
-#endif
-#endif
+#include "RadJavPreprocessor.h"
+#include "cpp/RadJavCPPChainedPtr.h"
+
 #ifdef USE_V8
-	#include "v8/RadJavV8GUIGObject.h"
+	#include "v8/RadJavV8JavascriptEngine.h"
 #elif defined USE_JAVASCRIPTCORE
-	#include "jscore/RadJavJSCGUIGObject.h"
+	#include "jscore/RadJavJSCJavascriptEngine.h"
 #endif
+
 
 	namespace RadJAV
 	{

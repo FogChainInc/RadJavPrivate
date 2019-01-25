@@ -22,7 +22,6 @@
 #include "cpp/RadJavCPPGUIGObject.h"
 #include "cpp/RadJavCPPMUITableViewModel.h"
 #include "cpp/RadJavCPPMUITableView.h"
-#include "cpp/RadJavCPPMUITableCellModel.h"
 #include <JavaScriptCore/JSStringRef.h>
 
 @implementation ViewDelegate

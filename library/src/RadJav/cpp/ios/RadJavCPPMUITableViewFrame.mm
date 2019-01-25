@@ -28,27 +28,32 @@ namespace RadJAV
     {
         namespace MUI
         {
-            TableViewFrame::TableViewFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
+            TableViewFrame::TableViewFrame(GUI::GObjectWidget *parent,
+										   TableViewCellCreator& cellCreator,
+										   const String &text,
+										   const Vector2 &pos,
+										   const Vector2 &size)
             : widget([[[UITableView alloc] init]retain])
             {
                 [widget registerClass:[UITableViewCell class] forCellReuseIdentifier:@"identifier"];
                 widgetDelegate = [[TableViewDelegate alloc] init];
                 widgetDelegate.widget = this;
+				//TODO: pass it by reference to Objective-C code
+				widgetDelegate.cellCreator = &cellCreator;
                 widget.dataSource = widgetDelegate;
                 widget.delegate = widgetDelegate;
 				[parent->getNativeWidget() addSubview:widget];
             }
             
-            void TableViewFrame::setModel(MUI::TableViewModel *model){
-                
+            void TableViewFrame::setModel(MUI::TableViewModel *model)
+			{
                 this->model = model;
-                model->linkedFrame = this;
                 widgetDelegate.model = model;
                 reload();
             }
             
-            void TableViewFrame::reload(){
-
+            void TableViewFrame::reload()
+			{
                 [widget reloadData];
             }
 
@@ -80,17 +85,10 @@ namespace RadJAV
 				return tableView->createViewForItem(index);
 			}
             
-			#ifdef USE_IOS
-				UIView* TableViewFrame::getNativeWidget()
-				{
-					return (UIView*)widget;
-				}
-			#elif defined USE_ANDROID
-				void* TableViewFrame::getNativeWidget()
-				{
-					return widget;
-				}
-			#endif
+			UIView* TableViewFrame::getNativeWidget()
+			{
+				return (UIView*)widget;
+			}
         }
     }
 }

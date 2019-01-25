@@ -77,10 +77,8 @@
 		#include "jscore/RadJavJSCMUIBottomNavigator.h"
 		#include "jscore/RadJavJSCMUIViewController.h"
 		#include "jscore/RadJavJSCMUINavigationViewController.h"
-		#include "jscore/RadJavJSCMUITableViewController.h"
 		#include "jscore/RadJavJSCMUITableView.h"
 		#include "jscore/RadJavJSCMUITableViewModel.h"
-		#include "jscore/RadJavJSCMUITableCellModel.h"
 		#include "jscore/RadJavJSCMUIScrollView.h"
 		#include "jscore/RadJavJSCMUIButton.h"
 		#include "jscore/RadJavJSCMUILabel.h"
@@ -1298,14 +1296,7 @@ namespace RadJAV
                         
                         JSC::MUI::NavigationViewController::createJSCCallbacks(globalContext, viewPrototype);
                     }
-                    // RadJav.MUI.TableViewController
-                    {
-                        JSObjectRef viewFunc = jscGetFunction(muiFunc, "TableViewController");
-                        JSObjectRef viewPrototype = jscGetObject(viewFunc, "prototype");
-                        
-                        JSC::MUI::TableViewController::createJSCCallbacks(globalContext, viewPrototype);
-                    }
-                    
+					
                     // RadJav.MUI.TableView
                     {
                         JSObjectRef viewFunc = jscGetFunction(muiFunc, "TableView");
@@ -1322,14 +1313,6 @@ namespace RadJAV
                         JSC::MUI::TableViewModel::createJSCCallbacks(globalContext, viewPrototype);
                     }
                     
-                    // RadJav.MUI.TableCellModel
-                    {
-                        JSObjectRef viewFunc = jscGetFunction(muiFunc, "TableCellModel");
-                        JSObjectRef viewPrototype = jscGetObject(viewFunc, "prototype");
-                        
-                        JSC::MUI::TableCellModel::createJSCCallbacks(globalContext, viewPrototype);
-                    }
-					
 					// RadJav.MUI.ScrollView
 					{
 						JSObjectRef scrollviewFunc = jscGetFunction(muiFunc, "ScrollView");

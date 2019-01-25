@@ -166,7 +166,8 @@ namespace RadJAV
 		ChainedPtrWrapper* wrapper = RJNEW ChainedPtrWrapper(objectId, context, handle, functionName, object);
 		wrapper->onDelete( [&](FieldWrapper* wrapper)
 						  {
-							  LOCK_GUARD(s_mutexExternalsAccess);
+							  //TODO: temporarily disabled, caused deadlock while using MUI.TableView
+							  //LOCK_GUARD(s_mutexExternalsAccess);
 							  
 							  auto pos = externals.find( wrapper->objectId());
 							  if(pos != externals.end())

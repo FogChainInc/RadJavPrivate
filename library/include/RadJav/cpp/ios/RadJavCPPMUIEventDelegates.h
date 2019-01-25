@@ -42,6 +42,7 @@ namespace RadJAV
         {
             class TableViewFrame;
             class TableViewModel;
+			class TableViewCellCreator;
         }
     }
 }
@@ -112,6 +113,7 @@ namespace RadJAV
 
 @property (nonatomic, assign) RadJAV::CPP::MUI::TableViewFrame* _Nullable widget;
 @property (nonatomic, assign) RadJAV::CPP::MUI::TableViewModel* _Nullable model;
+@property (nonatomic, assign) RadJAV::CPP::MUI::TableViewCellCreator* _Nullable cellCreator;
 @property (nonatomic, retain) NSMutableDictionary *heightMap;
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section;

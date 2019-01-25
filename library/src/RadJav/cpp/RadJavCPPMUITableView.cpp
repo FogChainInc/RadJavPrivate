@@ -235,7 +235,7 @@ namespace RadJAV
 				{
 					if (_appObj)
 					{
-						appObj->addNewEvent(event, func);
+						_appObj->addNewEvent(event, func);
 					}
 				}
 			#endif

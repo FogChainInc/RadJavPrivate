@@ -166,6 +166,7 @@ namespace RadJAV
 			bool TextboxFrame::bindEvent(const String& eventName, const GUI::Event* /*event*/)
 			{
 				//TODO: Add implementation
+				return false;
 			}
 		}
 	}

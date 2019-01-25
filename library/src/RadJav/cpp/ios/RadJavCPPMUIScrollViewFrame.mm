@@ -57,16 +57,17 @@ namespace RadJAV
 			{
 				return widget.isUserInteractionEnabled;
 			}
-			
-			void ScrollViewFrame::setContentSize(const CPP::Vector2& size)
-			{
-				[widget setContentSize: CGSizeMake(size.x, size.y)];
-			}
-			
-			CPP::Vector2 ScrollViewFrame::getContentSize() const
-			{
-				return Vector2(widget.contentSize.width, widget.contentSize.height);
-			}
+
+			//TODO: add ScrollView implementation for iOS. Android implementation is available
+//			void ScrollViewFrame::setContentSize(const CPP::Vector2& size)
+//			{
+//				[widget setContentSize: CGSizeMake(size.x, size.y)];
+//			}
+//
+//			CPP::Vector2 ScrollViewFrame::getContentSize() const
+//			{
+//				return Vector2(widget.contentSize.width, widget.contentSize.height);
+//			}
 
 			bool ScrollViewFrame::bindEvent(const String& eventName, const GUI::Event* /*event*/)
 			{
