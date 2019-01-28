@@ -1,9 +1,8 @@
 module.exports = async function (Bindergen)
 {
-	let embed = Bindergen.useGenerator ("RadJavGenerator");
-	embed.usePasses (["V8", "JSC"]);
-	embed.appendToCustomFile ("cmakeV8Includes", "${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIButton.h");
-	embed.outputFilename ("RadJav%PASS%GUIButton");
+	let embed = Bindergen.useGenerators (["RadJavGenerator", "V8"]);
+	//embed.appendToCustomFile ("cmakeV8Includes", "${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIButton.h");
+	//embed.outputFilename ("RadJav%PASS%GUIButton");
 	let RadJavGUI = embed.useNamespace ("RadJav.GUI");
 	let GObject = RadJavGUI.getClass ("GObject");
 

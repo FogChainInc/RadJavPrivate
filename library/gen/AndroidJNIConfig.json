@@ -1,8 +1,7 @@
 {
 	"generators": [
 		"AndroidJNI.js", 
-		"RadJav.js", 
-		"V8.js"
+		"RadJav.js"
 	], 
 	"files": [
 			"library/gen/RadJav.GUI.GObject.js", 
