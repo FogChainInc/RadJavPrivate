@@ -1,8 +1,6 @@
 {
 	"name": "RadJav VM", 
-	"buildBundles": {
-			"all": "fogchain/radjav"
-		}, 
+	"version": "0.27.0", 
 	"devDependencies": [
 		{ "program": "git" }, 
 		{ "program": "cmake" }, 
@@ -13,10 +11,27 @@
 	], 
 	"builds": [
 		{
+			"name": "RadJav VM Windows", 
+			"os": "windows", 
+			"specificOS": "windows 10", 
+			"arch": "x64", 
+			"installers": {
+					"packages": [
+							"visual_studio_community", 
+							"cmake"
+						]
+				}, 
+			"onStart": "./build.js"
+		}, 
+		{
 			"name": "RadJav VM Linux", 
-			"os": "ubuntu 18.04 x64", 
+			"os": "linux", 
+			"specificOS": "ubuntu 18.04", 
+			"arch": "x64", 
 			"apt": {
 					"packages": [
+							"build-essential", 
+							"cmake", 
 							"libgtk2.0-dev", 
 							"libgtk-3-dev", 
 							"libwebkitgtk-dev", 
@@ -32,19 +47,6 @@
 							"workingDir": "tests/crypto"
 						}
 					]
-				}
-		}, 
-		{
-			"name": "RadJav VM Windows", 
-			"os": "windows 18.04 x64", 
-			"apt": {
-					"packages": [
-							"libgtk2.0-dev", 
-							"libgtk-3-dev", 
-							"libwebkitgtk-dev", 
-							"libwxgtk3.0-dev", 
-							"libogre-1.9-dev"
-						]
 				}
 		}
 	]

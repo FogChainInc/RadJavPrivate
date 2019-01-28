@@ -1,0 +1,9 @@
+{
+	"generators": [
+		"V8.js", 
+		"RadJav.js"
+	], 
+	"files": [
+			"library/gen/RadJav.GUI.GObject.js"
+		]
+}
