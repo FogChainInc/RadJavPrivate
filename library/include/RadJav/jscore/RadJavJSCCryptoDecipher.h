@@ -30,7 +30,11 @@ namespace RadJAV
 		/// RadJav Cryptography
 		namespace Crypto
 		{
-			/// A Decipher
+			/**
+			 * @ingroup group_crypto_js_jsc
+			 * @brief Decipher callbacks.
+			 * @details Class representing Javascript bindings to CPP::Crypto::Decipher.
+			 */
 			class RADJAV_EXPORT Decipher
 			{
 			public:

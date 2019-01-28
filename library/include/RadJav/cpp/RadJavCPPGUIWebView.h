@@ -56,6 +56,10 @@
 						};
 					#endif
 
+					/**
+					 * @ingroup group_gui_cpp
+					 * @brief WebView class.
+					 */
 					class RADJAV_EXPORT WebView : public CPP::GUI::GObject
 					{
 						public:

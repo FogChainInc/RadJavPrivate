@@ -36,7 +36,10 @@ namespace RadJAV
 		namespace Database
 		{
 #ifdef USE_NUDB
-			// Accepts incoming connections and launches the sessions
+			/**
+			 * @ingroup group_db_cpp
+			 * @brief NuDB class.
+			 */
 			class RADJAV_EXPORT NuDB
 			{
 			public:

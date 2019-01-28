@@ -1,0 +1,62 @@
+var win = new RadJav.GUI.Window ("win", "Window Example");
+
+// Stupid hack for now. Delete in the future. Should throw errors in HTML5.
+win.create ().then (function (win2)
+	{
+	});
+
+
+RadJav.Console.println("Args: " + RadJav.OS.args[0]);
+
+port1 = 8013;
+port2 = 8014
+if (RadJav.OS.args.length > 0 && RadJav.OS.args[0] != undefined)
+    port1 = RadJav.OS.args[0];
+
+if (RadJav.OS.args.length > 0 && RadJav.OS.args[1] != undefined)
+    port2 = RadJav.OS.args[0];
+
+// It crashes when I try to send with UdpServer. Weird, I should be able to.
+//var udpClient = new RadJav.Net.UdpServer();
+var udpClient = new RadJav.Net.UdpClient();
+
+{
+    //udpClient.connect(
+    udpClient.send("0123456789", "localhost", port1);
+
+    var result = udpClient.receive("localhost", port1);
+
+    RadJav.Console.println("Type: " + typeof result);
+    RadJav.Console.println("Result: " + ab2str(result));
+}
+
+{
+    //udpClient.connect(
+    udpClient.send("ABCDEFGH", "localhost", port2);
+
+    var result = udpClient.receive("localhost", port2);
+
+    RadJav.Console.println("Type: " + typeof result);
+    RadJav.Console.println("Result: " + ab2str(result));
+}
+
+
+
+
+
+
+function ab2str(buf) {
+  return String.fromCharCode.apply(null, new Uint8Array(buf));
+}
+function str2ab(str) {
+  var buf = new ArrayBuffer(str.length); // 2 bytes for each char
+  var bufView = new Uint8Array(buf);
+  for (var i=0, strLen=str.length; i < strLen; i++) {
+    bufView[i] = str.charCodeAt(i);
+  }
+  return buf;
+}
+
+function buf2hex(buffer) { // buffer is an ArrayBuffer
+  return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
+}

@@ -29,6 +29,11 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
+			/**
+			 * @ingroup group_mui_js_jsc
+			 * @brief Image callbacks.
+			 * @details Class representing Javascript bindings to CPP::MUI::Image.
+			 */
 			class RADJAV_EXPORT Image
 			{
 			public:

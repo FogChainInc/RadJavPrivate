@@ -1,0 +1,53 @@
+var win = new RadJav.GUI.Window ("win", "Window Example");
+
+// Stupid hack for now. Delete in the future. Should throw errors in HTML5.
+win.create ().then (function (win2)
+	{
+	});
+
+
+RadJav.Console.println("Args: " + RadJav.OS.args[0]);
+
+port = 8013;
+if (RadJav.OS.args.length > 0 && RadJav.OS.args[0] != undefined)
+    port = RadJav.OS.args[0];
+
+// It crashes when I try to send with TcpServer. Weird, I should be able to.
+//var tcpClient = new RadJav.Net.TcpServer();
+var tcpClient = new RadJav.Net.TcpClient();
+
+tcpClient.connect("localhost", port);
+tcpClient.send("0123456789");
+
+var result = tcpClient.receive();
+
+RadJav.Console.println("Type: " + typeof result);
+RadJav.Console.println("Result: " + ab2str(result));
+
+
+
+for (i=0; i<100; i++)
+{
+    tcpClient.send("ABCDEFGH");
+    var result = tcpClient.receive();
+
+    RadJav.Console.println("Type: " + typeof result);
+    RadJav.Console.println("Result: " + ab2str(result));
+}
+
+
+function ab2str(buf) {
+  return String.fromCharCode.apply(null, new Uint8Array(buf));
+}
+function str2ab(str) {
+  var buf = new ArrayBuffer(str.length); // 2 bytes for each char
+  var bufView = new Uint8Array(buf);
+  for (var i=0, strLen=str.length; i < strLen; i++) {
+    bufView[i] = str.charCodeAt(i);
+  }
+  return buf;
+}
+
+function buf2hex(buffer) { // buffer is an ArrayBuffer
+  return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
+}

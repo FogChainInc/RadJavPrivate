@@ -41,6 +41,12 @@ namespace RadJAV
 	{
 		namespace IO
 		{
+			/**
+			 * @ingroup group_io_cpp
+			 * @brief IO utilities.
+			 * @{
+			 */
+
 			#ifdef USE_BOOST
 				static boost::asio::thread_pool m_ioQueue(4);
 			#endif
@@ -97,8 +103,14 @@ namespace RadJAV
 			String normalizeAndVerifyPath(String path, String basePath = "");
 			/// Normalize a file/directory path relative to the current directory path.
 			String normalizeCurrentPath(String path);
+			
+			/** @} */
 
-			/// Handles serial communications.
+			/**
+			 * @ingroup group_io_cpp
+			 * @brief SerialComm class.
+			 * @details Handles serial communications.
+			 */
 			class RADJAV_EXPORT SerialComm
 			{
 				public:
@@ -121,195 +133,220 @@ namespace RadJAV
 					#endif
 
 					static Array<int> m_baudRates;
-				};
+			};
 
-				class RADJAV_EXPORT TextFile
-				{
-					public:
-						enum class operation : int
-						{
-							read = 0,
-							write,
-							append
-						};
-
-						static void writeFile(String path_, String contents_, RJINT outputType_ = static_cast<int>(IO::TextFile::operation::write));
-						static void writeFileAsync(String path_, String contents_, RJINT outputType_ = static_cast<int>(IO::TextFile::operation::write));
-
-						static String readFile(String path_);
-						static void readFileAsync(String path_);
-						
-						#ifdef USE_V8
-							static v8::Persistent<v8::Function> *
-						#elif defined USE_JAVASCRIPTCORE
-							static JSObjectRef
-						#endif
-							m_textfileReadEvent;
-				};
-
-				class RADJAV_EXPORT StreamFile
-				{
-					public:
-						enum class operation : int
-						{
-							read = 0,
-							write,
-							append
-						};
-
-                        #ifdef USE_V8
-                            static void writeStream(const String path_, const v8::Local<v8::ArrayBuffer> buffer_, const RJINT outputType_ = static_cast<int>(IO::StreamFile::operation::write));
-                            static void writeStreamAsync(const String path_, const v8::Local<v8::ArrayBuffer> buffer_, const RJINT outputType_ = static_cast<int>(IO::StreamFile::operation::write));
-						#endif
-						
-						static void writeStream(const String path_, const String& buffer_, const RJINT outputType_ = static_cast<int>(IO::StreamFile::operation::write));
-						static void writeStreamAsync(const String path_, const String& buffer_, const RJINT outputType_ = static_cast<int>(IO::StreamFile::operation::write));
-
-						static String readStream(const String path_);
-						static void readStreamAsync(const String path_);
-
-						#ifdef USE_V8
-							static v8::Persistent<v8::Function>*
-						#elif defined USE_JAVASCRIPTCORE
-							static JSObjectRef
-						#endif
-							m_streamfileReadEvent;
-				};
-
-				#ifdef HAS_XML_SUPPORT
-					namespace XML
+			/**
+			 * @ingroup group_io_cpp
+			 * @brief TextFile class.
+			 * @details Operations on text files.
+			 */
+			class RADJAV_EXPORT TextFile
+			{
+				public:
+					enum class operation : int
 					{
-						class XMLTag;
-						class XMLAttribute;
-						class XMLParser;
+						read = 0,
+						write,
+						append
+					};
 
-						class RADJAV_EXPORT XMLFile: public std::enable_shared_from_this<XMLFile>, public ChainedPtr
-						{
-							public:
-								XMLFile();
-								~XMLFile();
+					static void writeFile(String path_, String contents_, RJINT outputType_ = static_cast<int>(IO::TextFile::operation::write));
+					static void writeFileAsync(String path_, String contents_, RJINT outputType_ = static_cast<int>(IO::TextFile::operation::write));
 
-								/// Open a XML and load it.
-								void parseXMLFile(String filePath);
-								/// Load XML from a string.
-								void parseXML(String xmlString);
+					static String readFile(String path_);
+					static void readFileAsync(String path_);
+					
+					#ifdef USE_V8
+						static v8::Persistent<v8::Function> *
+					#elif defined USE_JAVASCRIPTCORE
+						static JSObjectRef
+					#endif
+						m_textfileReadEvent;
+			};
 
-								#ifdef USE_TINYXML2
-									tinyxml2::XMLDocument *parser;
-								#endif
+			/**
+			 * @ingroup group_io_cpp
+			 * @brief StreamFile class.
+			 */
+			class RADJAV_EXPORT StreamFile
+			{
+				public:
+					enum class operation : int
+					{
+						read = 0,
+						write,
+						append
+					};
 
-								XMLTag *root;
-								XMLParser *loadedFile;
-						};
+					#ifdef USE_V8
+						static void writeStream(const String path_, const v8::Local<v8::ArrayBuffer> buffer_, const RJINT outputType_ = static_cast<int>(IO::StreamFile::operation::write));
+						static void writeStreamAsync(const String path_, const v8::Local<v8::ArrayBuffer> buffer_, const RJINT outputType_ = static_cast<int>(IO::StreamFile::operation::write));
+					#endif
+					
+					static void writeStream(const String path_, const String& buffer_, const RJINT outputType_ = static_cast<int>(IO::StreamFile::operation::write));
+					static void writeStreamAsync(const String path_, const String& buffer_, const RJINT outputType_ = static_cast<int>(IO::StreamFile::operation::write));
 
-						class RADJAV_EXPORT XMLParser
-						{
-							/// The XML file that has been loaded.
-							public:
-								#ifdef USE_TINYXML2
-									XMLParser(tinyxml2::XMLElement *xmlFile = null)
-									{
-										this->xmlFile = xmlFile;
-									}
+					static String readStream(const String path_);
+					static void readStreamAsync(const String path_);
 
-									tinyxml2::XMLElement *xmlFile;
-								#endif
-						};
+					#ifdef USE_V8
+						static v8::Persistent<v8::Function>*
+					#elif defined USE_JAVASCRIPTCORE
+						static JSObjectRef
+					#endif
+						m_streamfileReadEvent;
+			};
 
-						class RADJAV_EXPORT XMLTag
-						{
-							public:
-								XMLTag(String tag);
-								#ifdef USE_TINYXML2
-									XMLTag(tinyxml2::XMLElement *tag);
-								#endif
+			#ifdef HAS_XML_SUPPORT
+				namespace XML
+				{
+					class XMLTag;
+					class XMLAttribute;
+					class XMLParser;
 
-								~XMLTag();
+					/**
+					 * @ingroup group_io_cpp
+					 * @brief XMLFile class.
+					 */
+					class RADJAV_EXPORT XMLFile: public std::enable_shared_from_this<XMLFile>, public ChainedPtr
+					{
+						public:
+							XMLFile();
+							~XMLFile();
 
-								Array<XMLTag *> getTags(String tag);
+							/// Open a XML and load it.
+							void parseXMLFile(String filePath);
+							/// Load XML from a string.
+							void parseXML(String xmlString);
 
-								/// Set an attribute for this tag.
-								void setAttribute(String attribute, String value);
+							#ifdef USE_TINYXML2
+								tinyxml2::XMLDocument *parser;
+							#endif
 
-								/// Checks if an attribute has been set.
-								RJBOOL hasAttribute(String attribute);
+							XMLTag *root;
+							XMLParser *loadedFile;
+					};
 
-								/// Get an attribute from this tag.
-								XMLAttribute *getAttribute(String attribute);
-
-								/// Get an attribute from this tag.
-								String getAttributeString(String attribute, String defaultValue = "");
-
-								/// Get an attribute integer value from this tag.
-								RJNUMBER getAttributeInt(String attribute, RJNUMBER defaultValue = 0);
-
-								/// Get an attribute float value from this tag.
-								RJNUMBER getAttributeFloat(String attribute, RJNUMBER defaultValue = 0.0);
-
-								/// Get a boolean result from an attribute.
-								RJBOOL getAttributeBoolean(String attribute, RJBOOL defaultValue = false);
-
-									/// Convert this tag to a string.
-								String toString();
-
-								#ifdef USE_V8
-									v8::Local<v8::Object> toV8Object(v8::Isolate *isolate);
-								#endif
-
-								String tag;
-								HashMap<RJCSTR, XMLAttribute *> attributes;
-								String value;
-								Array<XMLTag *> children;
-								XMLParser *loadedFile;
-						};
-
-						class RADJAV_EXPORT XMLAttribute
-						{
-							public:
-								/// The attribute's name.
-								String name;
-								/// The value of the attribute.
-								String value;
-
-								XMLAttribute (String name, String value)
+					/**
+					 * @ingroup group_io_cpp
+					 * @brief XMLParser class.
+					 */
+					class RADJAV_EXPORT XMLParser
+					{
+						/// The XML file that has been loaded.
+						public:
+							#ifdef USE_TINYXML2
+								XMLParser(tinyxml2::XMLElement *xmlFile = null)
 								{
-									this->name = name;
-									this->value = value;
+									this->xmlFile = xmlFile;
 								}
 
-								/// Get the value of the attribute.
-								String getValue()
-								{
-									return (value);
-								}
+								tinyxml2::XMLElement *xmlFile;
+							#endif
+					};
 
-									/// Get the integer value of the attribute.
-								RJNUMBER toInt()
-								{
-									return (parseInt(value));
-								}
+					/**
+					 * @ingroup group_io_cpp
+					 * @brief XMLTag class.
+					 */
+					class RADJAV_EXPORT XMLTag
+					{
+						public:
+							XMLTag(String tag);
+							#ifdef USE_TINYXML2
+								XMLTag(tinyxml2::XMLElement *tag);
+							#endif
 
-								/// Get the float value of the attribute.
-								RJNUMBER toFloat()
-								{
-									return (parseFloat(value));
-								}
+							~XMLTag();
 
-								/// Get the boolean value of the attribute.
-								RJBOOL toBoolean()
-								{
-									return (parseBoolean(value));
-								}
+							Array<XMLTag *> getTags(String tag);
 
-								/// Convert attribute to a string.
-								String toString()
-								{
-									return (name + " = \"" + value + "\"");
-								}
-						};
-					}
-				#endif
-		};
+							/// Set an attribute for this tag.
+							void setAttribute(String attribute, String value);
+
+							/// Checks if an attribute has been set.
+							RJBOOL hasAttribute(String attribute);
+
+							/// Get an attribute from this tag.
+							XMLAttribute *getAttribute(String attribute);
+
+							/// Get an attribute from this tag.
+							String getAttributeString(String attribute, String defaultValue = "");
+
+							/// Get an attribute integer value from this tag.
+							RJNUMBER getAttributeInt(String attribute, RJNUMBER defaultValue = 0);
+
+							/// Get an attribute float value from this tag.
+							RJNUMBER getAttributeFloat(String attribute, RJNUMBER defaultValue = 0.0);
+
+							/// Get a boolean result from an attribute.
+							RJBOOL getAttributeBoolean(String attribute, RJBOOL defaultValue = false);
+
+								/// Convert this tag to a string.
+							String toString();
+
+							#ifdef USE_V8
+								v8::Local<v8::Object> toV8Object(v8::Isolate *isolate);
+							#endif
+
+							String tag;
+							HashMap<RJCSTR, XMLAttribute *> attributes;
+							String value;
+							Array<XMLTag *> children;
+							XMLParser *loadedFile;
+					};
+
+					/**
+					 * @ingroup group_io_cpp
+					 * @brief XMLAttribute class.
+					 */
+					class RADJAV_EXPORT XMLAttribute
+					{
+						public:
+							/// The attribute's name.
+							String name;
+							/// The value of the attribute.
+							String value;
+
+							XMLAttribute (String name, String value)
+							{
+								this->name = name;
+								this->value = value;
+							}
+
+							/// Get the value of the attribute.
+							String getValue()
+							{
+								return (value);
+							}
+
+								/// Get the integer value of the attribute.
+							RJNUMBER toInt()
+							{
+								return (parseInt(value));
+							}
+
+							/// Get the float value of the attribute.
+							RJNUMBER toFloat()
+							{
+								return (parseFloat(value));
+							}
+
+							/// Get the boolean value of the attribute.
+							RJBOOL toBoolean()
+							{
+								return (parseBoolean(value));
+							}
+
+							/// Convert attribute to a string.
+							String toString()
+							{
+								return (name + " = \"" + value + "\"");
+							}
+					};
+				}
+			#endif
+		}
 	}
 }
 #endif

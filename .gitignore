@@ -34,6 +34,9 @@ html5/package-lock.json
 # Crypto engine build
 library/engines/KrispyCrypto/build*
 
+# Bindergen output
+tools/bindergen/build/*
+
 # COLLADA loader for Ogre 3D engine
 library/engines/OgreCollada/build*
 

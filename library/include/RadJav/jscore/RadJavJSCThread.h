@@ -29,6 +29,11 @@ namespace RadJAV
 {
 	namespace JSC
 	{
+		/**
+		 * @ingroup group_thread_js_jsc
+		 * @brief Thread callbacks.
+		 * @details Class representing Javascript bindings to CPP::Thread.
+		 */
 		class RADJAV_EXPORT Thread
 		{
 		public:

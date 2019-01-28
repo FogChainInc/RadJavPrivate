@@ -28,7 +28,12 @@
 extern "C"
 {
 #endif
-
+	/**
+	 * @ingroup group_radjav_c
+	 * @brief C-like exports for RadJav library.
+	 * @details Details.
+	 * @{
+	 */
     /// Start RadJav
 	#ifndef USE_ANDROID
 		int RadJav_initialize(int argc, const char* argv[]);
@@ -41,7 +46,8 @@ extern "C"
 	
 	/// Show an error message.
 	void RadJav_showError(const char* message);
-
+	
+	/** @} */
 #ifdef __cplusplus
 }
 #endif

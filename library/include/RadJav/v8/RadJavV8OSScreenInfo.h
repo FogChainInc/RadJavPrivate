@@ -30,6 +30,11 @@
 		{
 			namespace OS
 			{
+				/**
+				 * @ingroup group_os_js_v8
+				 * @brief ScreenInfo callbacks.
+				 * @details Class representing Javascript bindings to CPP::OS::ScreenInfo.
+				 */
 				class RADJAV_EXPORT ScreenInfo
 				{
 					public:

@@ -31,26 +31,83 @@ namespace Engine
   {
     class IKey;
 
+    /**
+     * @class IDeipherMultipart
+     *
+     * @brief An interface to a decipher object which can decrypt data provided to it in multiple chunks.
+     *
+     * This is useful for dealing with large data or streaming.
+     */
     class IDecipherMultipart {
     public:
+
+      /**
+       * @brief Ensure destructor is virtual;
+       */
       virtual ~IDecipherMultipart() = default;
       
       
+      /**
+       * @brief Prepares object for another decryption operation.
+       */
       virtual void reset() = 0;
 
+      /**
+       * @brief Prepares object for another decryption operation.
+       */
       virtual std::tuple<std::shared_ptr<void>, unsigned int>
 	update(const void* data, int dataLen) = 0;
+
+      /**
+       * @brief Decrypts a string.
+       */
       virtual std::tuple<std::shared_ptr<void>, unsigned int>
 	update(const std::string& str) = 0;
       
+      /**
+       * @brief Finishes the decryption operation.
+       *
+       * @returns A tuple containing decrypted data and its size. 
+       *
+       * The caller owns the resource.
+       */
       virtual std::tuple<std::shared_ptr<void>, unsigned int> finalize() = 0;
       
     };
 
+    /**
+     * @class IDecipher
+     *
+     * @brief An interface to a cipher object which can decrypts data in one call.
+     *
+     * This is useful for dealing with smaller data, that fits in one buffer.
+     */
     class IDecipher {
     public:
+
+      /**
+       * @brief Ensure destructor is virtual;
+       */
+      virtual ~IDecipher() = default;
+
+      /**
+       * @brief Decrypts a binary chunk of data.
+       *
+       * @param data Pointer to the buffer containing data.
+       * @param dataLen Size of data to be decrypted.
+       *
+       * @returns A tuple containing decrypted data.
+       */
       virtual std::tuple<std::shared_ptr<void>, unsigned int>
 	decipher(const void* data, int dataLen) = 0;
+
+      /**
+       * @brief Decrypts a string.
+       *
+       * @param str String to be decrypted.
+       *
+       * @returns A tuple containing decrypted data.
+       */
       virtual std::tuple<std::shared_ptr<void>, unsigned int>
 	decipher(const std::string& str) = 0;
     };

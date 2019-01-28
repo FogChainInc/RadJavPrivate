@@ -51,6 +51,10 @@
 		{
 			namespace Net
 			{
+				/**
+				 * @ingroup group_net_cpp
+				 * @brief WebServerThread class.
+				 */
 				class RADJAV_EXPORT WebServerThread : public Thread
 				{
 					public:
@@ -67,7 +71,11 @@
 						boost::asio::io_context* ioc;
 				};
 
-				// Accepts incoming connections and launches the sessions
+				/**
+				 * @ingroup group_net_cpp
+				 * @brief WebServer class.
+				 * @details Accepts incoming connections and launches the sessions.
+				 */
 				class RADJAV_EXPORT WebServer : public std::enable_shared_from_this<WebServer>, public ChainedPtr
 				{
 					public:
@@ -112,7 +120,11 @@
 						SimpleThread *thread;
 				};
 
-				/// Web server types.
+				/**
+				 * @ingroup group_net_cpp
+				 * @brief WebServerTypes class.
+				 * @details Web server types.
+				 */
 				enum RADJAV_EXPORT WebServerTypes
 				{
 					HTTP = 1, 

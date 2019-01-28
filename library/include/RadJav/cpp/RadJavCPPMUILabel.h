@@ -107,6 +107,10 @@ namespace RadJAV
 				#endif
 			};
 			
+			/**
+			 * @ingroup group_mui_cpp
+			 * @brief Label class.
+			 */
 			class RADJAV_EXPORT Label : public CPP::GUI::GObject
 			{
 			public:

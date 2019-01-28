@@ -29,6 +29,11 @@ namespace RadJAV
 	{
 		namespace Database
 		{
+			/**
+			 * @ingroup group_db_js_jsc
+			 * @brief KeyValueStorage callbacks.
+			 * @details Class representing Javascript bindings to CPP::Database::KeyValueStorage.
+			 */
 			class RADJAV_EXPORT KeyValueStorage
 			{
 			public:

@@ -31,6 +31,11 @@ namespace RadJAV
 	{
 		namespace Net
 		{
+			/**
+			 * @ingroup group_net_js_jsc
+			 * @brief WebSocketServer callbacks.
+			 * @details Class representing Javascript bindings to CPP::Net::WebSocketServer.
+			 */
 			class RADJAV_EXPORT WebSocketServer : public CPP::ChainedPtr
 			{
 			public:
@@ -49,6 +54,11 @@ namespace RadJAV
 				static JSValueRef on(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
 			};
 			
+			/**
+			 * @ingroup group_net_js_jsc
+			 * @brief WebSocketClient callbacks.
+			 * @details Class representing Javascript bindings to CPP::Net::WebSocketClient.
+			 */
 			class RADJAV_EXPORT WebSocketClient
 			{
 			public:

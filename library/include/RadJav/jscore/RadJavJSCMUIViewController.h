@@ -31,6 +31,11 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
+			/**
+			 * @ingroup group_mui_js_jsc
+			 * @brief ViewController callbacks.
+			 * @details Class representing Javascript bindings to CPP::MUI::ViewController.
+			 */
 			class RADJAV_EXPORT ViewController
 			{
 				public:

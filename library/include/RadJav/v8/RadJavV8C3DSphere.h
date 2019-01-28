@@ -30,6 +30,11 @@ namespace RadJAV
 	{
 		namespace C3D
 		{
+			/**
+			 * @ingroup group_3d_js_v8
+			 * @brief Sphere class.
+			 * @details Class representing Javascript bindings to CPP::C3D::Sphere.
+			 */
 			class RADJAV_EXPORT Sphere
 			{
 			public:

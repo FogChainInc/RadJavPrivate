@@ -37,59 +37,209 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
             class CBInspectorClient;
             class InspectorIo;
-
+            /**
+             * @class InspectorSessionDelegate
+             *
+             * @ingroup group_debug
+             *
+             * @brief V8 Inspector session delegate class for waiting and sending message to frontend part of debugger
+             *
+             * This prototype class is meant to be used only by the v8 Inspector Agent, its implementation
+             * is not complete and only serves as connection point for Chrome Dev Tools with
+             * minimal functionality to allow JS debugging.
+             *
+             */
             class InspectorSessionDelegate {
             public:
                 virtual ~InspectorSessionDelegate() = default;
                 virtual bool WaitForFrontendMessageWhilePaused() = 0;
                 virtual void SendMessageToFrontend(const v8_inspector::StringView& message) = 0;
             };
-
+            /**
+             * @class Agent
+             *
+             * @ingroup group_debug
+             *
+             * @brief V8 Inspector Agent class
+             *
+             * This class is meant to be used only by the v8 Inspector code, its implementation
+             * is not complete and only serves as connection point for Chrome Dev Tools with
+             * minimal functionality to allow JS debugging.
+             *
+             */
             class Agent {
             public:
+                /**
+                 * @brief Create agent class
+                 *
+                 * usage:
+                 * #ifdef USE_INSPECTOR
+				 * if (useInspector) {
+				 * 	agent_ = RJNEW inspector::Agent("0.0.0.0", "inspector.log");
+				 * 	agent_->Start(isolate, platform, fileName);
+				 * 	agent_->PauseOnNextJavascriptStatement("Break on start");
+				 * }
+			     * #endif
+                 *
+                 * @param host_name address to listen
+                 *
+                 * @param log_output_path string with log file name
+                 */
                 Agent(std::string host_name, std::string log_output_path);
                 ~Agent();
 
+                /**
+                 * @brief Initialize agent and start listening to incoming connection from external debugger
+                 *
+                 * @param isolate V8 isolate under debug
+                 *
+                 * @param platform V8 platform under debug
+                 *
+                 * @param path_to_script name of the script to debug with full path. This value is used to
+                 * present unit for testing in Chrome Dev tools
+                 *
+                 * @return returns true if successful
+                 */
                 bool Start(Isolate* isolate, Platform* platform, RadJAV::String path_to_script);
-                
+
+                /**
+                 * @brief Stop agent
+                 */
                 void Stop();
 
+                /**
+                 * @brief Check if debug client exists
+                 *
+                 * @return true if client exists
+                 */
                 bool IsStarted() const { return !!client_; }
 
-                // IO thread started, and client connected
+                 /**
+                 * @brief Check if IO thread started and client connected
+                 *
+                 * @return true if IO thread started and client connected
+                 */
                 bool IsConnected() const;
-                
+
+                /**
+                 * @brief Wait for disconnect
+                 */
                 void WaitForDisconnect();
 
-                void FatalException(Local<Value> error,	v8::Local<v8::Message> message);
+                /**
+                 * @brief Dispatch fatal exception
+                 *
+                 * @param error V8 local value with error
+                 *
+                 * @param message V8 exception message
+                 *
+                 */
+                void FatalException(Local<Value> error, v8::Local<v8::Message> message);
 
-                // These methods are called by the WS protocol and JS binding to create
-                // inspector sessions.  The inspector responds by using the delegate to send
-                // messages back.
+                /**
+                 * @brief Connect Inspector and CDT with InspectorSessionDelegate
+                 *
+                 * Method called by the WS protocol and JS binding to create inspector sessions.
+                 * The inspector responds by using the delegate to send messages back.
+                 *
+                 * @param delegate communication delegate
+                 */
                 void Connect(InspectorSessionDelegate* delegate);
+
+                /**
+                 * @brief Disconnect Inspector and CDT
+                 *
+                 * Method called by the WS protocol and JS binding to release inspector sessions.
+                 *
+                 */
                 void Disconnect();
+
+                /**
+                 * @brief Dispatch message between Inspector and CDT
+                 *
+                 * Method called by the WS protocol and JS binding to process message of inspector session.
+                 *
+                 * @param message StringView& message to dispatch
+                 */
                 void Dispatch(const v8_inspector::StringView& message);
-                
+
+                /**
+                 * @brief Get Inspector delegate
+                 *
+                 * Method called by the WS protocol and JS binding to process inspector session.
+                 *
+                 * @return pointer to session delegate
+                 *
+                 */
                 InspectorSessionDelegate* delegate();
 
+                /**
+                 * @brief Proceed with V8 message loop
+                 */
                 void RunMessageLoop();
-                
+
+
+                /**
+                 * @brief Set V8 debugger to pause on next JS statement
+                 *
+                 * Pause reason appears in the logs, useful to stop at the beginning of debug session
+                 *
+                 * @param reason Pause reason that appears in the logs
+                 */
                 void PauseOnNextJavascriptStatement(const RadJAV::String& reason);
 
+                /**
+                 * @brief Get Inspector IO object pointer
+                 *
+                 * @return Inspector IO object pointer
+                 */
                 InspectorIo* io() {
                     return io_.get();
                 }
 
-                // Can only be called from the the main thread.
+                /**
+                 * @brief Start IO thread of Agent
+                 *
+                 * Can only be called from the the main thread.
+                 *
+                 * @return success
+                 */
                 bool StartIoThread();
 
             private:
+                /**
+                 * @brief pointer to Inspector Client object
+                 */
                 std::unique_ptr<CBInspectorClient> client_{};
+
+                /**
+                 * @brief Pointer to Inspector IO object
+                 */
                 std::unique_ptr<InspectorIo> io_{};
+
+                /**
+                 * @brief Pointer to V8 Platform object
+                 */
                 Platform* platform_;
+
+                /**
+                 * @brief Pointer to V8 Isolate object
+                 */
                 Isolate * isolate_;
+
+                /**
+                 * @brief path to script under debug
+                 */
                 RadJAV::String path_;
+
+                /**
+                 * @brief host name Chrome Dev tools will connect to (0.0.0.0)
+                 */
                 RadJAV::String host_name_;
+
+                /**
+                 * @brief path to log file used by inspector
+                 */
                 RadJAV::String log_output_path_;
             };
 

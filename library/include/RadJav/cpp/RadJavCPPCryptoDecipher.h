@@ -46,39 +46,73 @@
 			namespace Crypto
 			{
 				#ifdef USE_CRYPTOGRAPHY
-				// Accepts incoming connections and launches the sessions
+				/**
+				 * @ingroup group_crypto_cpp
+				 * @brief Decipher class.
+				 */
 				class RADJAV_EXPORT Decipher
 				{
 				public:
 					#ifdef USE_V8
+				        /**
+					 * @brief Constructs the object.
+					 *
+					 * @param jsEngine JavaScript engine object.
+					 * @param args Array of arguments passed from JavaScript.
+					 */
 					Decipher(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
 					#elif defined USE_JAVASCRIPTCORE
+				        /**
+					 * @brief Constructs the object.
+					 *
+					 * @param jsEngine JavaScript engine object.
+					 * @param ctx JavaScript engine context.
+					 * @param argumentCount Number of arguments.
+					 * @param arguments Argument array.
+					 */
 					Decipher(JSCJavascriptEngine *jsEngine, JSContextRef ctx, RJUINT argumentCount, const JSValueRef arguments[]);
 					#endif
 					
+				        /**
+					 * @brief Destroys the object.
+					 */
 					~Decipher();
 					
 				public:
-					
-					/// Decipher data
+					/**
+					 * @brief Decrypts data.
+					 *
+					 * @param text Pointer to binary data.
+					 * @param textLength Data size/length.
+					 * @param stringSetter If a requested encoding resulted in a ASCII result, this setter will be used.
+					 * @param binSetter If a requested encoding resulted in a binary result, this setter will be used.
+					 */
 					void decipher(const void *cipherText, int textLength,
 								  std::function <void (const std::string &str)> stringSetter,
 								  std::function <void (void *buf, int bufLen)> binSetter);
 					
 				public:
+					/** @name KrispyCrypto object */
+					//@{
 					std::shared_ptr<Engine::Crypto::IDecipher> myDecipher;
+					//@}
 					
+					/** @name Parameters */
+					//@{
 					String myCryptoLibrary;
 					String myCipherAlgorithm;
 					String mySecret;
 					String myIv;
 					String myInputEncoding;
 					String myOutputEncoding;
+					//@}
 					
 				protected:
 					#ifdef USE_V8
+					/** @name JavaScript engine object */
 					V8JavascriptEngine
 					#elif defined USE_JAVASCRIPTCORE
+					/** @name JavaScript engine object */
 					JSCJavascriptEngine
 					#endif
 						*jsEngine;

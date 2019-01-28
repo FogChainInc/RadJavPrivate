@@ -29,6 +29,11 @@ namespace RadJAV
 	{
 		namespace C3D
 		{
+			/**
+			 * @ingroup group_3d_js_jsc
+			 * @brief Plane class.
+			 * @details Class representing Javascript bindings to CPP::C3D::Plane.
+			 */
 			class RADJAV_EXPORT Plane
 			{
 			public:

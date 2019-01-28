@@ -29,6 +29,11 @@ namespace RadJAV
 	{
 		namespace GUI
 		{
+			/**
+			 * @ingroup group_gui_js_jsc
+			 * @brief Combobox callbacks.
+			 * @details Class representing Javascript bindings to CPP::GUI::Combobox.
+			 */
 			class RADJAV_EXPORT Combobox
 			{
 			public:

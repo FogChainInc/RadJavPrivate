@@ -29,6 +29,11 @@ namespace RadJAV
 	{
 		namespace GUI
 		{
+			/**
+			 * @ingroup group_gui_js_jsc
+			 * @brief MenuBar callbacks.
+			 * @details Class representing Javascript bindings to CPP::GUI::MenuBar.
+			 */
 			class RADJAV_EXPORT MenuBar
 			{
 			public:

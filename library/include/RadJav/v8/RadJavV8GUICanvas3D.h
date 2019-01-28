@@ -30,6 +30,11 @@
 		{
 			namespace GUI
 			{
+				/**
+				 * @ingroup group_gui_js_v8
+				 * @brief Canvas3D callbacks.
+				 * @details Class representing Javascript bindings to CPP::GUI::Canvas3D.
+				 */
 				class RADJAV_EXPORT Canvas3D
 				{
 					public:

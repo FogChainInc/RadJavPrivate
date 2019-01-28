@@ -49,6 +49,10 @@
 					};
 				#endif
 
+				/**
+				 * @ingroup group_gui_cpp
+				 * @brief Radio class.
+				 */
 				class RADJAV_EXPORT Radio : public CPP::GUI::GObject
 				{
 					public:

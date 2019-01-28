@@ -29,6 +29,11 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
+			/**
+			 * @ingroup group_mui_js_jsc
+			 * @brief Label callbacks.
+			 * @details Class representing Javascript bindings to CPP::MUI::Label.
+			 */
 			class RADJAV_EXPORT Label
 			{
 			public:

@@ -62,59 +62,200 @@ namespace ORB
 
       namespace OpenSSL
       {
+	/**
+	 * @brief Creates a Digest object.
+	 *
+	 * @param digestType A string repreenting the digest algorithm to be used.
+	 *
+	 * @returns the digest object.
+	 *
+	 * Exception will be thrown if ORB cannot find either the requested library or algorithm.
+	 */
 	std::shared_ptr<::Engine::Crypto::IDigest> createDigest(const std::string &digestType);
+	
+	/**
+	 * @brief Creates a DigestMultipart object.
+	 *
+	 * @param digestType A string repreenting the digest algorithm to be used.
+	 *
+	 * @returns the digest object.
+	 *
+	 * Exception will be thrown if ORB cannot find either the requested library or algorithm.
+	 */
 	std::shared_ptr<::Engine::Crypto::IDigestMultipart> createDigestMultipart(const std::string &digestType);
+
+	
+	/**
+	 * @brief Returns a list of supported digests.
+	 *
+	 * @returns a map of key (digest string/tag) <-> value (human readable description of the algorithm) pair.
+	 *
+	 * Exception will be thrown if ORB cannot find either the requested library.
+	 */
 	std::map<std::string, std::string> getListOfDigests();
 
+	
+	/**
+	 * @brief Creates a Cipher object.
+	 *
+	 * @param cipherType A string repreenting the cipher algorithm to be used.
+	 * @param secret A string repreenting the password/secred used for encryption key generation.
+	 * @param iv A string representing initialization vector.
+	 *
+	 * @returns the cipher object.
+	 *
+	 * Exception will be thrown if ORB cannot find either the requested cipher type or library.
+	 */
 	std::shared_ptr<::Engine::Crypto::ICipher> createCipher(const std::string &cipherType,
 								const std::string &secret,
 								const std::string &iv="");
 	
+	/**
+	 * @brief Creates a CipherMultipart object.
+	 *
+	 * @param cipherType A string repreenting the cipher algorithm to be used.
+	 * @param secret A string repreenting the password/secred used for encryption key generation.
+	 * @param iv A string representing initialization vector.
+	 *
+	 * @returns the cipher object.
+	 *
+	 * Exception will be thrown if ORB cannot find either the requested cipher type or library.
+	 */
 	std::shared_ptr<::Engine::Crypto::ICipherMultipart> createCipherMultipart(const std::string &cipherType,
 										  const std::string &secret,
 										  const std::string &iv="");
 	
+	/**
+	 * @brief Creates a Decipher object.
+	 *
+	 * @param cipherType A string repreenting the cipher algorithm to be used.
+	 * @param secret A string repreenting the password/secred used for encryption key generation.
+	 * @param iv A string representing initialization vector.
+	 *
+	 * @returns the decipher object.
+	 *
+	 * Exception will be thrown if ORB cannot find either the requested cipher type or library.
+	 */
 	std::shared_ptr<::Engine::Crypto::IDecipher> createDecipher(const std::string &cipherType,
 								    const std::string &secret,
 								    const std::string &iv="");
 	
+	/**
+	 * @brief Creates a DecipherMultipart object.
+	 *
+	 * @param cipherType A string repreenting the cipher algorithm to be used.
+	 * @param secret A string repreenting the password/secred used for encryption key generation.
+	 * @param iv A string representing initialization vector.
+	 *
+	 * @returns the decipher object.
+	 *
+	 * Exception will be thrown if ORB cannot find either the requested cipher type or library.
+	 */
 	std::shared_ptr<::Engine::Crypto::IDecipherMultipart> createDecipherMultipart(const std::string &cipherType,
 										      const std::string &secret,
 										      const std::string &iv="");
+	/**
+	 * @brief Returns a list of supported ciphers.
+	 *
+	 * @returns a map of key (cipher string/tag) <-> value (human readable description of the algorithm) pair.
+	 *
+	 * Exception will be thrown if ORB cannot find either the requested cipher type or library.
+	 */
 	std::map<std::string, std::string> getListOfCiphers();
 
-	//rsa-f4, rsa-3
+	/**
+	 * @brief Creates a RSA key generator.
+	 *
+	 * @param pubExponent specifies which public exponent to use: RSA_F4, or RSA_F3.
+	 * @param encryptPadding specifies if padding should be used (most of the time yes).
+	 * @param signatureType
+	 *
+	 * @returns the key generator object.
+	 */
 	std::shared_ptr<::Engine::Crypto::OpenSSL::RsaKeyGenerator> createRsaKeyGenerator(int bits,
 											  unsigned long pubExponent=RSA_F4,
 											  int encryptPadding=RSA_PKCS1_PADDING,
 											  int signatureType=NID_sha256);
 
+	/**
+	 * @brief Creates RSA private key from RSA structure.
+	 *
+	 * @param rsa A pointer to RSA structure.
+	 * @param bits Length of the generatedkey.
+	 * @param encryptPadding Should the padding be used (most of the time yes).
+	 * @param signatureType
+	 *
+	 * @returns the private key object.
+	 *
+	 * This is a higher level funciton, which is intended to be used by other modules, hence it doesn't depend on OpenSSL
+	 * constants directly.
+	 */
 	std::unique_ptr<::Engine::Crypto::OpenSSL::RsaPrivateKey> createRsaPrivateKey(::Engine::Crypto::OpenSSL::RsaStructUniquePtr rsa,
 										      int bits,
 										      const std::string &encryptPadding,
 										      const std::string &signatureType);
 
+	/**
+	 * @brief Creates RSA private key from RSA structure.
+	 *
+	 * @param rsa A pointer to RSA structure.
+	 * @param bits Length of the generatedkey.
+	 * @param encryptPadding Should the padding be used (most of the time yes).
+	 * @param signatureType
+	 *
+	 * @returns the private key object.
+	 */
 	std::unique_ptr<::Engine::Crypto::OpenSSL::RsaPrivateKey> createRsaPrivateKey(::Engine::Crypto::OpenSSL::RsaStructUniquePtr rsa,
 										      int bits,
 										      int encryptPadding = RSA_PKCS1_PADDING,
 										      int signatureType = NID_sha256);
 
+	/**
+	 * @brief Creates RSA private key from file.
+	 *
+	 * @param path The path to the file.
+	 * @param format A format of the file.
+	 * @param encryptPadding 
+	 * @param signatureType
+	 *
+	 * @returns the private key object.
+	 */
 	std::unique_ptr<::Engine::Crypto::OpenSSL::RsaPrivateKey> createRsaPrivateKey(const char *path, const char *format, const char *pwd,
 										      int encryptPadding = RSA_PKCS1_PADDING,
 										      int signatureType = NID_sha256);
 	
+	/**
+	 * @brief Creates RSA public key from RSA structure.
+	 *
+	 * @param rsa A pointer to RSA structure.
+	 * @param bits Length of the generatedkey.
+	 * @param encryptPadding Should the padding be used (most of the time yes).
+	 * @param signatureType
+	 *
+	 * @returns the public key object.
+	 */
 	std::shared_ptr<::Engine::Crypto::OpenSSL::RsaPublicKey> createRsaPublicKey(::Engine::Crypto::OpenSSL::RsaStructUniquePtr rsa,
 										    int bits,
 										    int encryptPadding = RSA_PKCS1_PADDING,
 										    int signatureType = NID_sha256);
 	
+	/**
+	 * @brief Creates RSA public key from file.
+	 *
+	 * @param path The path to the file.
+	 * @param format A format of the file.
+	 * @param encryptPadding 
+	 * @param signatureType
+	 *
+	 * @returns the public key object.
+	 */
 	std::unique_ptr<::Engine::Crypto::OpenSSL::RsaPublicKey> createRsaPublicKey(const char *path, const char *format,
 										    int encryptPadding = RSA_PKCS1_PADDING,
 										    int signatureType = NID_sha256);
 
       } // End of OpenSSL
       
-      #endif
+#endif
       
     } // End of Crypto
   } // End of Engine

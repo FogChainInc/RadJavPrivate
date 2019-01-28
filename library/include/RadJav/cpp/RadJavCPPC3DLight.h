@@ -36,6 +36,11 @@ namespace RadJAV
 		namespace C3D
 		{
 #ifdef C3D_USE_OGRE
+			/**
+			 * @ingroup group_3d_cpp
+			 * @brief 3D light class.
+			 * @details Class representing light object in 3D scene.
+			 */
 			class RADJAV_EXPORT Light : public Object3D
 			{
 			public:

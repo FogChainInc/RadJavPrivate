@@ -29,15 +29,45 @@ namespace Engine
   {
     class IPublicKey;
     
+    /**
+     * @class IPrivateKey
+     *
+     * @brief An interface to a private key.
+     *
+     */
     class IPrivateKey : virtual public IKey
     {
     public:
+      /**
+       * @brief Ensure destructor is virtual;
+       */
       virtual ~IPrivateKey() = default;
+
+      /**
+       * @brief Provides access to the public key
+       *
+       * @returns A public key object
+       */
       virtual std::shared_ptr<const IPublicKey> getPublicKey() = 0;
 
+      /**
+       * @brief Signs data with the key.
+       *
+       * @param data Pointer to the buffer containing data.
+       * @param dataLen Size of data to be encrypted.
+       *
+       * @returns A tuple containing encrypted data.
+       */
       virtual std::tuple<std::shared_ptr<void>, unsigned int> sign(const unsigned char* data,
 								   unsigned int dataLength) = 0;
 
+      /**
+       * @brief Saves the key into a PEM file.
+       *
+       * @param path Path to the filename.
+       * @param cipher String determining which ciphter to use.
+       * @param pwd Password to use to protect the file. If null provided, no password will be used.
+       */
        virtual void savePem(const char* path, const char* cipher, const char* pwd) const = 0;
       
    };

@@ -36,14 +36,22 @@
 		{
 			namespace Net
 			{
+				/**
+				 * @ingroup group_net_js_v8
+				 * @brief NetCallbacks callbacks.
+				 * @details Class representing Javascript bindings to @ref group_net_cpp.
+				 */
 				class RADJAV_EXPORT NetCallbacks
 				{
 					public:
 						static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
-						static void httpRequest(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void httpPost(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void completeHttpRequest(const v8::FunctionCallbackInfo<v8::Value> &args);
+							static void httpRequest(const v8::FunctionCallbackInfo<v8::Value> &args);
+							static void httpRequest2(const v8::FunctionCallbackInfo<v8::Value> &args);
+							static void httpRequestStub(const v8::FunctionCallbackInfo<v8::Value> &args);
+							
+							static void httpPost(const v8::FunctionCallbackInfo<v8::Value> &args);
+							static void completeHttpRequest(const v8::FunctionCallbackInfo<v8::Value> &args);
 
 						static RJINT curlWrite(RJCHAR *data, RJUINT size, RJUINT nmemb, String *output);
 				};

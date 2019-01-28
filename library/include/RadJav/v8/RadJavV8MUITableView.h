@@ -30,6 +30,11 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
+			/**
+			 * @ingroup group_mui_js_v8
+			 * @brief TableViewController callbacks.
+			 * @details Class representing Javascript bindings to CPP::MUI::TableViewController.
+			 */
 			class RADJAV_EXPORT TableView
 			{
 				public:

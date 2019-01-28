@@ -28,6 +28,11 @@ namespace RadJAV
 	{
 		namespace Net
 		{
+			/**
+			 * @ingroup group_net_cpp
+			 * @brief Uri parser.
+			 * @{
+			 */
 			struct uri_data {
 				std::string protocol;
 				std::string host;
@@ -37,6 +42,28 @@ namespace RadJAV
 			};
 
 			uri_data parse_uri(const String& url);
+
+			struct UriParser {
+			public:
+			  UriParser();
+			  UriParser(const std::string &uri);
+			  void parse(const std::string &uri);
+
+			  // General URI components
+			  std::string scheme; // protocol
+			  std::string authority; // user:pwd@host:port
+			  std::string path; // also referred to as a target
+			  std::string query; // ?a=1&b=2
+			  std::string fragment; // #Fragment (from http://ala.com/ola.html#Fragment
+
+			  // URL components
+			  std::string username;
+			  std::string password;
+			  std::string host;
+			  std::string port;
+			};
+			
+			/** @} */
 		}
 	}
 }

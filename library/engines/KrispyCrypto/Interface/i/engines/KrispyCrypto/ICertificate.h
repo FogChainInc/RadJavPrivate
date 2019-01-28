@@ -28,14 +28,45 @@ namespace Engine
 {
   namespace Crypto
   {
+
+    /**
+     * @class ICertificate
+     * 
+     * @brief An interface to a Public Key Infrastructure Certificate object, such us X509 certificate.
+     */				  
     class ICertificate
     {
     public:
       virtual ~ICertificate() = default;
 
+      /**
+       * @brief Verifies whether the provided public key is certified by this object
+       *
+       * @param key Public Key to be verified.
+       *
+       * @returns true if certificate matches the key, false otherwise.
+       */
       virtual bool verify(const IPublicKey *key) = 0;
+
+      /**
+       * @brief Returns certificate data in DER format.
+       *
+       * @returns A tuple containing certificate data and its size.
+       */
       virtual std::tuple<const void *certData, unsigned int certLength> getDer() = 0;
+
+      /**
+       * @brief Returns certificate data in PEM format.
+       *
+       * @returns A reference to string containing PEM data.
+       */
       virtual const char *getPem() = 0;
+
+      /**
+       * @brief return an interface to the public key associated with this certificate.
+       *
+       * @returns IPublicKey object.
+       */
       virtual const IPublicKey *getPublicKey() = 0;
       
     };

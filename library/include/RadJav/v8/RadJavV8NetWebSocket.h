@@ -31,6 +31,11 @@
 		{
 			namespace Net
 			{
+				/**
+				 * @ingroup group_net_js_v8
+				 * @brief WebSocketServer callbacks.
+				 * @details Class representing Javascript bindings to CPP::Net::WebSocketServer.
+				 */
 				class RADJAV_EXPORT WebSocketServer : public CPP::ChainedPtr //Do we really need CPP::ChainedPtr here?
 				{
 					public:
@@ -49,6 +54,11 @@
 						static void on(const v8::FunctionCallbackInfo<v8::Value> &args);
 				};
 
+				/**
+				 * @ingroup group_net_js_v8
+				 * @brief WebSocketClient callbacks.
+				 * @details Class representing Javascript bindings to CPP::Net::WebSocketClient.
+				 */
 				class RADJAV_EXPORT WebSocketClient
 				{
 					public:

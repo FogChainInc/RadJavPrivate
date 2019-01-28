@@ -92,6 +92,10 @@
                 
 				class View;
 
+				/**
+				 * @ingroup group_mui_cpp
+				 * @brief TableView class.
+				 */
 				class RADJAV_EXPORT TableView : public CPP::GUI::GObject,
 												public TableViewCellCreator
 				{

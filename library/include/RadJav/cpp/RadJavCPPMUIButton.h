@@ -104,9 +104,16 @@
                     	static jmethodID nativeConstructor;
                     	static jmethodID nativeSetText;
 						static jmethodID nativeGetText;
+
+						/*^:AndroidJNI.outputStart ("jniHeaders");*/
+/*^:AndroidJNI.outputEnd ("jniHeaders");*/
 					#endif
 				};
 				
+				/**
+				 * @ingroup group_mui_cpp
+				 * @brief Button class.
+				 */
 				class RADJAV_EXPORT Button : public CPP::GUI::GObject
 				{
 					public:

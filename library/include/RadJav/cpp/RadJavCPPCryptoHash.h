@@ -44,38 +44,73 @@
 			namespace Crypto
 			{
 				#ifdef USE_CRYPTOGRAPHY
-				// Accepts incoming connections and launches the sessions
+				/**
+				 * @ingroup group_crypto_cpp
+				 * @brief Hash class.
+				 */
 				class RADJAV_EXPORT Hash
 				{
 				public:
 					#ifdef USE_V8
+				        /**
+					 * @brief Constructs the object.
+					 *
+					 * @param jsEngine JavaScript engine object.
+					 * @param args Array of arguments passed from JavaScript.
+					 */
 					Hash(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
 					#elif defined USE_JAVASCRIPTCORE
+				        /**
+					 * @brief Constructs the object.
+					 *
+					 * @param jsEngine JavaScript engine object.
+					 * @param ctx JavaScript engine context.
+					 * @param argumentCount Number of arguments.
+					 * @param arguments Argument array.
+					 */
 					Hash(JSCJavascriptEngine *jsEngine, JSContextRef ctx, RJUINT argumentCount, const JSValueRef arguments[]);
 					#endif
 					
+				        /**
+					 * @brief Destroys the object.
+					 */
 					~Hash();
 					
 				public:
 					
-					/// Read from a key in the database.
+					/**
+					 * @brief Performs a digest.
+					 *
+					 * @param text Pointer to binary data.
+					 * @param textLength Data size/length.
+					 * @param stringSetter If a requested encoding resulted in a ASCII result, this setter will be used.
+					 * @param binSetter If a requested encoding resulted in a binary result, this setter will be used.
+					 */
 					void digest(const void* text, int textLength,
 								std::function <void (const std::string& str)> stringSetter,
 								std::function <void (void* buf, int bufLen)> binSetter);
 					
 					
 				public:
+					/** @name KrispyCrypto object */
+					//@{
 					std::shared_ptr<Engine::Crypto::IDigest> myDigest;
-					
+					//@}
+
+					/** @name Parameters */
+					//@{
 					String myHashAlgorithm;
 					String myCryptoLibrary;
 					String myInputEncoding;
 					String myOutputEncoding;
+					//@}
 					
 				protected:
 					#ifdef USE_V8
+					/** @name JavaScript engine object */
 					V8JavascriptEngine
 					#elif defined USE_JAVASCRIPTCORE
+					/** @name JavaScript engine object */
 					JSCJavascriptEngine
 					#endif
 						*jsEngine;

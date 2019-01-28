@@ -27,20 +27,37 @@ namespace Engine
 {
   namespace Crypto
   {
+    /**
+     * @class IPublicKey
+     *
+     * @brief An interface to a public key.
+     */
     class IPublicKey : virtual public IKey
     {
     public:
+      /**
+       * @brief Ensure destructor is virtual;
+       */
       virtual ~IPublicKey() = default;
 
       //virtual std::tuple<std::shared_ptr<const void *> keyData, unsigned int keyLength> getDer() = 0;
       //virtual std::shared_ptr<const char> getPem() = 0;
 
-      // Returns true if verification 
+      /**
+       * @brief Verify if provided signature was created by the privatekey.
+       *
+       * @returns true if the signature was created by the private key, false otherwise.
+       */
       virtual bool verify(const unsigned char* data,
 			  unsigned int dataLength,
 			  const unsigned char* signature,
 			  unsigned int signatureLength) const = 0;
 
+	/**
+	 * @brief Saves the key into a PEM file.
+	 *
+	 * @param path Path to the filename.
+	 */
       virtual void savePem(const char* path) const = 0;
       
     };

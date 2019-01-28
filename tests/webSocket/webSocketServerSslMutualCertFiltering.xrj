@@ -1,0 +1,81 @@
+var win = new RadJav.GUI.Window ("win", "Window Example");
+
+// Stupid hack for now. Delete in the future. Should throw errors in HTML5.
+win.create ().then (function (win2)
+	{
+	});
+
+
+RadJav.Console.println("Args: " + RadJav.OS.args[0]);
+
+port = 9229;
+if (RadJav.OS.args.length > 0 && RadJav.OS.args[0] != undefined)
+    port = RadJav.OS.args[0];
+
+
+var certFilter =
+    [
+	{ commonName: "ClientCA3",
+	  organizationalUnit: "ClientCA2-OU"
+	},
+    
+	{ commonName: "ClientCA3",
+	  organizationalUnit: "ClientCA3-OU"
+	}
+    ];
+
+
+
+var webSocketServer = new RadJav.Net.WebSocketServerSsl({certificateStore: "cert/user.crt",
+							 keyStore: "cert/user.key",
+							 trustStore: "cert2/rootca2.crt",
+							 verifyMode: "VerifyPeer, VerifyFailIfNoPeerCert",
+							 certFilterMode: "partialMatch",
+							 certFilter: certFilter
+							});
+
+webSocketServer.onAccept (function (id)
+			  {
+//			      RadJav.Console.println("### Accepted:" + id);
+
+			      /*
+var digest2 = new RadJav.Crypto.Hash({cryptoLibrary: "OpenSSL", hashAlgorithm: "sha256", outputEncoding: "base64"});
+
+var digestResult2 = digest2.digestSync('asdfadfadsf');
+RadJav.Console.println("Digest Algorithm2: " + digest2.hashAlgorithm);
+RadJav.Console.println("Digest Result2: " + digestResult2);
+*/
+
+	});
+
+webSocketServer.onReceive (function (id, msg)
+	{
+
+	    RadJav.Console.println("### Received at:" + id + ", msg: " + msg);
+
+	    /*
+var digest2 = new RadJav.Crypto.Hash({cryptoLibrary: "OpenSSL", hashAlgorithm: "sha256", outputEncoding: "base64"});
+
+var digestResult2 = digest2.digestSync('asdfadfadsf');
+RadJav.Console.println("Digest Algorithm2: " + digest2.hashAlgorithm);
+RadJav.Console.println("Digest Result2: " + digestResult2);
+*/
+
+		//echo back
+//	    webSocketServer.send(id, msg + ' back');
+	    webSocketServer.send(id, msg);
+	});
+
+try
+{
+    webSocketServer.listen(port);
+    alert("Server listening");    
+}
+catch (err)
+{
+    RadJav.Console.println(err);
+}
+
+
+
+

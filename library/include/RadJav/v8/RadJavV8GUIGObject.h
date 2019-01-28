@@ -31,6 +31,11 @@ namespace RadJAV
 		/// Contains classes for the OS GUI.
 		namespace GUI
 		{
+			/**
+			 * @ingroup group_gui_js_v8
+			 * @brief GObject callbacks.
+			 * @details Class representing Javascript bindings to CPP::GUI::GObject.
+			 */
 			class RADJAV_EXPORT GObject
 			{
 				public:

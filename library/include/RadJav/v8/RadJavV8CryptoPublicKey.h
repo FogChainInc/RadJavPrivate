@@ -31,27 +31,75 @@
 			/// RadJav Cryptography
 			namespace Crypto
 			{
-				/// 
+				/**
+				 * @ingroup group_crypto_js_v8
+				 * @brief PublicKey callbacks.
+				 * @details Class representing Javascript bindings to CPP::Crypto::PublicKey.
+				 */
 				class RADJAV_EXPORT PublicKey
 				{
 					public:
+				                /**
+						 * @brief Invoked during initialization, creates V8 callbacks.
+						 */
 						static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
+				                /**
+						 * @brief Implements javascript constructor.
+						 */
 						static void _init(const v8::FunctionCallbackInfo<v8::Value> &args);
+
+				                /**
+						 * @brief Implements constructor replacement
+						 *
+						 * @param isolate Isolate object.
+						 * @param constr New constructor.
+						 */
 						static void setConstructor(v8::Isolate *isolate, v8::Handle<v8::Function> constr);
 						
+				                /**
+						 * @brief Implements javascript verify.
+						 */
 						static void verify(const v8::FunctionCallbackInfo<v8::Value> &args);
+				                /**
+						 * @brief Implements javascript verifySync.
+						 */
 						static void verifySync(const v8::FunctionCallbackInfo<v8::Value> &args);
+				                /**
+						 * @brief Implements javascript encrypt.
+						 */
+						static void encrypt(const v8::FunctionCallbackInfo<v8::Value> &args);
+				                /**
+						 * @brief Implements javascript encryptSync.
+						 */
+						static void encryptSync(const v8::FunctionCallbackInfo<v8::Value> &args);
+				                /**
+						 * @brief Implements javascript decrypt.
+						 */
 						static void decrypt(const v8::FunctionCallbackInfo<v8::Value> &args);
+				                /**
+						 * @brief Implements javascript decryptSync.
+						 */
 						static void decryptSync(const v8::FunctionCallbackInfo<v8::Value> &args);
-
+				                /**
+						 * @brief Implements javascript savePemSync.
+						 */
 						static void savePemSync(const v8::FunctionCallbackInfo<v8::Value> &args);
 
+				                /**
+						 * @brief Creates a new instance of PrivateKey in JavaScript engine.
+						 *
+						 * @param privateKeyParms Key parameters.
+						 *
+						 * @returns a new V8 Object.
+						 */
 						static v8::Local<v8::Object>
 						  newInstance(v8::Isolate* isolate, 
 							      v8::Local<v8::Object> privateKeyParms);
 						
-						
+						/**
+						 * @brief Constructor object.
+						 */
 						static v8::Persistent<v8::Function> constructor;
 
 				};

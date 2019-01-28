@@ -30,6 +30,11 @@
 		{
 			namespace GUI
 			{
+				/**
+				 * @ingroup group_gui_js_v8
+				 * @brief Button callbacks.
+				 * @details Class representing Javascript bindings to CPP::GUI::Button.
+				 */
 				class RADJAV_EXPORT Button
 				{
 					public:

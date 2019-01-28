@@ -29,6 +29,11 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
+			/**
+			 * @ingroup group_mui_js_v8
+			 * @brief Checkbox callbacks.
+			 * @details Class representing Javascript bindings to CPP::MUI::Checkbox.
+			 */
 			class RADJAV_EXPORT Checkbox
 			{
 			public:

@@ -50,6 +50,10 @@
 					};
 				#endif
 
+				/**
+				 * @ingroup group_gui_cpp
+				 * @brief Textarea class.
+				 */
 				class RADJAV_EXPORT Textarea : public CPP::GUI::GObject
 				{
 					public:

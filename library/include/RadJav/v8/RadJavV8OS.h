@@ -28,6 +28,11 @@
 	{
 		namespace V8B
 		{
+			/**
+			 * @ingroup group_os_js_v8
+			 * @brief OS callbacks.
+			 * @details Class representing Javascript bindings to CPP::OS::OS.
+			 */
 			namespace OS
 			{
 				void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);

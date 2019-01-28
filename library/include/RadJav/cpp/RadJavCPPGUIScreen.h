@@ -39,6 +39,10 @@
 		{
 			namespace GUI
 			{
+				/**
+				 * @ingroup group_gui_cpp
+				 * @brief Screen class.
+				 */
 				class RADJAV_EXPORT Screen
 				{
 					public:

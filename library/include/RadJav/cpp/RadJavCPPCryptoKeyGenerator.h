@@ -49,35 +49,65 @@
 			namespace Crypto
 			{
 				#ifdef USE_CRYPTOGRAPHY
-				// Accepts incoming connections and launches the sessions
+				/**
+				 * @ingroup group_crypto_cpp
+				 * @brief KeyGenerator class.
+				 */
 				class RADJAV_EXPORT KeyGenerator : public virtual Base
 				{
 				public:
 					#ifdef USE_V8
+				        /**
+					 * @brief Constructs the object.
+					 *
+					 * @param jsEngine JavaScript engine object.
+					 * @param args Array of arguments passed from JavaScript.
+					 */
 					KeyGenerator(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
 					#elif defined USE_JAVASCRIPTCORE
+				        /**
+					 * @brief Constructs the object.
+					 *
+					 * @param jsEngine JavaScript engine object.
+					 * @param ctx JavaScript engine context.
+					 * @param argumentCount Number of arguments.
+					 * @param arguments Argument array.
+					 */
 					KeyGenerator(JSCJavascriptEngine *jsEngine, JSContextRef ctx, RJUINT argumentCount, const JSValueRef arguments[]);
 					#endif
 					
+				        /**
+					 * @brief Destroys the object.
+					 */
 					~KeyGenerator();
 					
-				public:
-					
-					/// KeyGenerator data
+					/**
+					 * @brief generates a private/public key pair.
+					 *
+					 * @returns the private key object, which contains its public key too.
+					 */
 					std::shared_ptr<Engine::Crypto::IPrivateKey> generate();
 					
 				public:
+					/** @name KrispyCrypto object */
+					//@{
 					std::shared_ptr<Engine::Crypto::IKeyGenerator> myKeyGenerator;
+					//@}
 					
-					// RSA specific
+					
+					/** @name RSA specific parameters */
+					//@{
 					String myBits;
 					String myEncryptPadding;
 					String mySignatureType;
+					//@}
 					
 				protected:
 					#ifdef USE_V8
+					/** @name JavaScript engine object */
 					V8JavascriptEngine
 					#elif defined USE_JAVASCRIPTCORE
+					/** @name JavaScript engine object */
 					JSCJavascriptEngine
 					#endif
 						*jsEngine;

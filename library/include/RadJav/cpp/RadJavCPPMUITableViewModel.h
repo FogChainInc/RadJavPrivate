@@ -36,6 +36,10 @@
 		{
 			namespace MUI
 			{
+				/**
+				 * @ingroup group_mui_cpp
+				 * @brief TableViewModel class.
+				 */
 				class RADJAV_EXPORT TableViewModel : public ChainedPtr
 				{
 					public:

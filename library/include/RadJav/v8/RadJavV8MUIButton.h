@@ -30,6 +30,11 @@
 		{
 			namespace MUI
 			{
+				/**
+				 * @ingroup group_mui_js_v8
+				 * @brief Button callbacks.
+				 * @details Class representing Javascript bindings to CPP::MUI::Button.
+				 */
 				class RADJAV_EXPORT Button
 				{
 					public:

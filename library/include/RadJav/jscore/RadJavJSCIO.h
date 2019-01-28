@@ -29,6 +29,12 @@ namespace RadJAV
 	{
 		namespace IO
 		{
+			/**
+			 * @ingroup group_io_js_jsc
+			 * @brief Generic IO callbacks.
+			 * @details Functions representing Javascript bindings to @ref group_io_cpp.
+			 * @{
+			 */
 			void createJSCCallbacks(JSContextRef context, JSObjectRef object);
 			
 			JSValueRef isDir(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
@@ -63,6 +69,13 @@ namespace RadJAV
 			
 			JSValueRef onFileList(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
 			
+			/** @} */
+			
+			/**
+			 * @ingroup group_io_js_jsc
+			 * @brief SerialComm callbacks.
+			 * @details Class representing Javascript bindings to CPP::IO::SerialComm.
+			 */
 			class RADJAV_EXPORT SerialComm
 			{
 			public:
@@ -76,6 +89,11 @@ namespace RadJAV
 				static JSValueRef close(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
 			};
 			
+			/**
+			 * @ingroup group_io_js_jsc
+			 * @brief StreamFile callbacks.
+			 * @details Class representing Javascript bindings to CPP::IO::StreamFile.
+			 */
 			class RADJAV_EXPORT StreamFile
 			{
 			public:
@@ -90,6 +108,11 @@ namespace RadJAV
 				static JSValueRef onFileRead(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
 			};
 			
+			/**
+			 * @ingroup group_io_js_jsc
+			 * @brief TextFile callbacks.
+			 * @details Class representing Javascript bindings to CPP::IO::TextFile.
+			 */
 			class RADJAV_EXPORT TextFile
 			{
 			public:
@@ -108,6 +131,11 @@ namespace RadJAV
 #ifdef HAS_XML_SUPPORT
 			namespace XML
 			{
+				/**
+				 * @ingroup group_io_js_jsc
+				 * @brief XMLFile callbacks.
+				 * @details Class representing Javascript bindings to CPP::IO::XML::XMLFile.
+				 */
 				class RADJAV_EXPORT XMLFile
 				{
 				public:
@@ -119,6 +147,11 @@ namespace RadJAV
 					static JSValueRef getRoot(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
 				};
 				
+				/**
+				 * @ingroup group_io_js_jsc
+				 * @brief XMLTag callbacks.
+				 * @details Class representing Javascript bindings to CPP::IO::XML::XMLTag.
+				 */
 				class RADJAV_EXPORT XMLTag
 				{
 				public:

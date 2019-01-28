@@ -28,6 +28,11 @@
 	{
 		namespace V8B
 		{
+			/**
+			 * @ingroup group_thread_js_v8
+			 * @brief Thread callbacks.
+			 * @details Class representing Javascript bindings to CPP::Thread.
+			 */
 			class RADJAV_EXPORT Thread
 			{
 				public:

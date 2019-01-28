@@ -31,7 +31,9 @@ namespace RadJAV
 		namespace GUI
 		{
 			/**
-			 *  Root class for GUI anf MUI objects.
+			 * @ingroup group_gui_js_jsc
+			 * @brief GObject callbacks.
+			 * @details Class representing Javascript bindings to CPP::GUI::GObject.
 			 */
 			class RADJAV_EXPORT GObject
 			{

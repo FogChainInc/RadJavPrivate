@@ -31,16 +31,37 @@
 			/// RadJav Cryptography
 			namespace Crypto
 			{
-				/// 
+				/**
+				 * @ingroup group_crypto_js_v8
+				 * @brief Hash callbacks.
+				 * @details Class representing Javascript bindings to CPP::Crypto::Hash.
+				 */
 				class RADJAV_EXPORT Hash
 				{
 					public:
+				                /**
+						 * @brief Invoked during initialization, creates V8 callbacks.
+						 */
 						static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
+				                /**
+						 * @brief Implements javascript constructor.
+						 */
 						static void _init(const v8::FunctionCallbackInfo<v8::Value> &args);
+
+				                /**
+						 * @brief Implements javascript digestSync
+						 */
 						static void digestSync(const v8::FunctionCallbackInfo<v8::Value> &args);
+
+				                /**
+						 * @brief Implements javascript digest
+						 */
 						static void digest(const v8::FunctionCallbackInfo<v8::Value> &args);
 
+				                /**
+						 * @brief Implements javascript getCapabilities
+						 */
 						static void getCapabilities(const v8::FunctionCallbackInfo<v8::Value> &args);
 				};
 			}

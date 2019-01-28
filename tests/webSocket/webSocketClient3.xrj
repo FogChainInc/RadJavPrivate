@@ -1,0 +1,55 @@
+var win = new RadJav.GUI.Window ("win", "Window Example");
+
+// Stupid hack for now. Delete in the future. Should throw errors in HTML5.
+win.create ().then (function (win2)
+	{
+	});
+
+port = 9229;
+if (RadJav.OS.args.length > 0 && RadJav.OS.args[0] != undefined)
+    port = RadJav.OS.args[0];
+
+var webSocketClient = new RadJav.Net.WebSocketClient();
+
+RadJav.Console.println("Connecting");
+
+alert("About to connect");
+
+webSocketClient.connect("127.0.0.1", port);
+
+RadJav.Console.println("Connected");
+alert("Connected");
+
+try {
+    var cipher = new RadJav.Crypto.Cipher({cryptoLibrary: "OpenSSL",
+					    cipherAlgorithm: "aes-128-cbc",
+					    secret: "Beer",
+					   });
+    var cipherResult = cipher.cipherSync('asdfadfadsf');
+
+    webSocketClient.send(cipherResult);
+    alert("Sent: cipher result");
+}
+catch (error)
+{
+    RadJav.Console.println(error);
+}
+
+
+RadJav.Console.println("Now receive");
+
+
+var result = webSocketClient.receive();
+
+var decipher = new RadJav.Crypto.Decipher({cryptoLibrary: "OpenSSL",
+					   cipherAlgorithm: "aes-128-cbc",
+					   secret: "Beer"
+					  });
+
+var decipherResult = decipher.decipherSync(result);
+RadJav.Console.println("Decipher Result: " + decipherResult + ", len:" + decipherResult.length);
+
+
+webSocketClient.close();
+RadJav.Console.println("Connection closed");
+alert("Closed client");

@@ -89,7 +89,10 @@ namespace RadJAV
 				#endif
             };
             
-            
+			/**
+			 * @ingroup group_mui_cpp
+			 * @brief NavigationViewController class.
+			 */
             class RADJAV_EXPORT NavigationViewController : public CPP::GUI::GObject
             {
             public:

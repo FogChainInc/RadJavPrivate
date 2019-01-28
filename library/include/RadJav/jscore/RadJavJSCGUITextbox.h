@@ -29,6 +29,11 @@ namespace RadJAV
 	{
 		namespace GUI
 		{
+			/**
+			 * @ingroup group_gui_js_jsc
+			 * @brief Textbox callbacks.
+			 * @details Class representing Javascript bindings to CPP::GUI::Textbox.
+			 */
 			class RADJAV_EXPORT Textbox
 			{
 			public:

@@ -29,11 +29,25 @@ namespace Engine
   {
     class IPrivateKey;
     
+    /**
+     * @class IKeyPairGenerator
+     *
+     * @brief An interface to a key genrator object. 
+     *
+     */
     class IKeyPairGenerator
     {
     public:
+      /**
+       * @brief Ensure destructor is virtual;
+       */
       virtual ~IKeyPairGenerator() = default;
 
+      /**
+       * @brief Genrate a private key.
+       *
+       * @returns An interface to the generated key.
+       */
       virtual std::shared_ptr<IPrivateKey> generate(int bits) = 0;
       
     };
