@@ -36,7 +36,8 @@ namespace RadJAV
 				widgetDelegate.widget = this;
 				widget.delegate = widgetDelegate;
 
-				[parent->getNativeWidget() addSubview:widget];
+				if (parent)
+					parent->addChild(this);
 				
 				widget.clearButtonMode = UITextFieldViewModeWhileEditing;
 				widget.borderStyle = UITextBorderStyleRoundedRect;

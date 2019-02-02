@@ -36,9 +36,6 @@ namespace RadJAV
 			void ScrollView::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 			{
 				JSC_CALLBACK(object, "create", ScrollView::create);
-
-				JSC_CALLBACK(object, "setContentSize", ScrollView::setContentSize);
-				JSC_CALLBACK(object, "getContentSize", ScrollView::getContentSize);
 			}
 			
 			JSValueRef ScrollView::create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
@@ -47,79 +44,8 @@ namespace RadJAV
 				appObject->create();
 				
 				JSC_JAVASCRIPT_ENGINE->jscSetExternal(ctx, thisObject, "_appObj", appObject);
-				JSObjectRef _guiFinishedCreatingGObject = JSC_JAVASCRIPT_ENGINE->jscGetFunction(JSC_RADJAV, "_guiFinishedCreatingGObject");
-				JSObjectRef promise = JSC_JAVASCRIPT_ENGINE->createPromise(thisObject, _guiFinishedCreatingGObject);
 				
-				return promise;
-			}
-			
-			JSValueRef ScrollView::setContentSize(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
-			{
-				JSValueRef undefined = JSValueMakeUndefined(ctx);
-
-				CppMuiObject *appObject = (CppMuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
-
-				if (!appObject)
-				{
-					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "ScrollView not initialized");
-					return undefined;
-				}
-				
-				JSValueRef xValue = JSC_JAVASCRIPT_ENGINE->jscGetArgument(arguments, argumentCount, 0);
-				JSValueRef yValue = JSC_JAVASCRIPT_ENGINE->jscGetArgument(arguments, argumentCount, 1);
-
-				if (!xValue)
-				{
-					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "No arguments provided");
-					return undefined;
-				}
-				
-				CPP::Vector2 size;
-
-				if (JSValueIsObject(ctx, xValue))
-				{
-					JSObjectRef obj = JSC_JAVASCRIPT_ENGINE->jscCastValueToObject(arguments[0]);
-					size.x = JSC_JAVASCRIPT_ENGINE->jscGetInt(obj, "x");
-					size.y = JSC_JAVASCRIPT_ENGINE->jscGetInt(obj, "y");
-				}
-				else if (JSValueIsNumber(ctx, xValue) &&
-						 yValue &&
-						 JSValueIsNumber(ctx, yValue))
-				{
-					size.x = JSC_JAVASCRIPT_ENGINE->jscValueToInt(ctx, xValue);
-					size.y = JSC_JAVASCRIPT_ENGINE->jscValueToInt(ctx, yValue);
-				}
-				else
-				{
-					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Bad arguments");
-					return undefined;
-				}
-				
-				appObject->setContentSize(size);
-
-				return undefined;
-			}
-			
-			JSValueRef ScrollView::getContentSize(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
-			{
-				JSValueRef undefined = JSValueMakeUndefined(ctx);
-				
-				CppMuiObject *appObject = (CppMuiObject*)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
-				
-				if (!appObject)
-				{
-					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "ScrollView not initialized");
-					return undefined;
-				}
-				
-				CPP::Vector2 size = appObject->getContentSize();
-				
-				JSObjectRef vector2 = JSC_JAVASCRIPT_ENGINE->jscGetObject(JSC_RADJAV, "Vector2");
-				JSObjectRef vector2Js = JSC_JAVASCRIPT_ENGINE->jscCallAsConstructor(vector2, 0, NULL);
-				JSC_JAVASCRIPT_ENGINE->jscSetNumber(vector2Js, "x", size.x);
-				JSC_JAVASCRIPT_ENGINE->jscSetNumber(vector2Js, "y", size.y);
-				
-				return vector2Js;
+				return JSValueMakeUndefined(ctx);
 			}
 		}
 	}

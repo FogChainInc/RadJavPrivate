@@ -35,7 +35,8 @@ namespace RadJAV
 			{
 				widget.contentMode = UIViewContentModeScaleAspectFit;
 
-				[parent->getNativeWidget() addSubview:widget];
+				if (parent)
+					parent->addChild(this);
 				
 				setSize(size);
 				setPosition(pos);
@@ -49,7 +50,8 @@ namespace RadJAV
 			{
 				widget.contentMode = UIViewContentModeScaleAspectFit;
 				
-				[parent->getNativeWidget() addSubview:widget];
+				if (parent)
+					parent->addChild(this);
 
 				setSize(size);
 				setPosition(pos);

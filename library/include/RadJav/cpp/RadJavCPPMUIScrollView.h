@@ -55,9 +55,7 @@ namespace RadJAV
 				void setEnabled(RJBOOL enabled);
 				RJBOOL getEnabled();
 
-				#ifdef USE_ANDROID
-					void addChild(GUI::GObjectWidget *child);
-				#endif
+				void addChild(GUI::GObjectWidget *child);
 
 				/** @method setContentSize
 				 * Setter for content size. Contentsize is a measure of how much

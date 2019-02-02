@@ -37,9 +37,7 @@ namespace RadJAV
 				widgetDelegate.widget = this;
 
 				if (parent)
-				{
 					parent->addChild(this);
-				}
 				
 				setText(text);
             }

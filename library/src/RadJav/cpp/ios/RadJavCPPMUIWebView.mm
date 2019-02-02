@@ -44,7 +44,8 @@ namespace RadJAV
 				widgetDelegate.widget = this;
 				widget.UIDelegate = widgetDelegate;
 
-				[parent->getNativeWidget() addSubview: widget];
+				if (parent)
+					parent->addChild(this);
 				
 				setText(text);
 				setSize(size);

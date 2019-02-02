@@ -35,7 +35,8 @@ namespace RadJAV
 				widgetDelegate = [[SwitchDelegate alloc] init];
 				widgetDelegate.widget = this;
 
-				[parent->getNativeWidget() addSubview:widget];
+				if (parent)
+					parent->addChild(this);
 				
 				setChecked(checked);
 				setSize(size);

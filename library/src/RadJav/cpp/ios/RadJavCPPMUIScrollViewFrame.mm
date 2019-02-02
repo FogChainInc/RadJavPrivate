@@ -34,7 +34,8 @@ namespace RadJAV
 			{
 				//TODO: add delegate
 				
-				[parent->getNativeWidget() addSubview:widget];
+				if (parent)
+					parent->addChild(this);
 				
 				setSize(size);
 				setPosition(pos);
@@ -56,6 +57,14 @@ namespace RadJAV
 			RJBOOL ScrollViewFrame::getEnabled()
 			{
 				return widget.isUserInteractionEnabled;
+			}
+
+			void ScrollViewFrame::addChild(GUI::GObjectWidget *child)
+			{
+				GObjectWidget::addChild(child);
+				CPP::Vector2 size = child->getSize();
+				
+				[widget setContentSize: CGSizeMake(size.x, size.y)];
 			}
 
 			//TODO: add ScrollView implementation for iOS. Android implementation is available

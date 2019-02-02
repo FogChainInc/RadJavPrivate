@@ -42,7 +42,9 @@ namespace RadJAV
 				widgetDelegate.cellCreator = &cellCreator;
                 widget.dataSource = widgetDelegate;
                 widget.delegate = widgetDelegate;
-				[parent->getNativeWidget() addSubview:widget];
+				
+				if (parent)
+					parent->addChild(this);
             }
             
             void TableViewFrame::setModel(MUI::TableViewModel *model)

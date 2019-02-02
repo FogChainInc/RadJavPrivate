@@ -20,6 +20,8 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 		//Create 2D scrollview
 		scrollview = new RadJav.MUI.ScrollView("sw", "", rootwin);
 		scrollview.create();
+		scrollview.setPosition(0, 0);
+		scrollview.setSize(screenWidth, screenHeight);
 		
 		RadJav.Console.log("scrollview.create");
 		
@@ -27,11 +29,11 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 		content = new RadJav.MUI.View("win", "");
 		content.create();
 		content.setPosition(0,0);
-		content.setSize(screenWidth, screenHeight);
+		content.setSize(screenWidth*2, screenHeight*2);
 		
 		RadJav.Console.log("scrollview content view created");
 		
-		contentbutton1 = new RadJav.MUI.Button ("button", "touch x", content);
+		contentbutton1 = new RadJav.MUI.Button("button", "touch x", content);
 		contentbutton1.create()
 		contentbutton1.setPosition(50, 100);
 		contentbutton1.setSize(100, 100);
@@ -50,7 +52,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 			return false;
 		});
 		
-		var contentbutton2 = new RadJav.MUI.Button ("button", "touch y", content);
+		var contentbutton2 = new RadJav.MUI.Button("button", "touch y", content);
 		contentbutton2.create();
 		contentbutton2.setPosition(50, 300);
 		contentbutton2.setSize(100, 100);

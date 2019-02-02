@@ -32,7 +32,8 @@ namespace RadJAV
 			LabelFrame::LabelFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
 			: widget([[UILabel alloc] init])
 			{
-				[parent->getNativeWidget() addSubview:widget];
+				if (parent)
+					parent->addChild(this);
 
 				setText(text);
 				setSize(size);
