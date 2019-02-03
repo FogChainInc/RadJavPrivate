@@ -16,7 +16,6 @@ var RadJav;
             __extends(Navigator, _super);
             function Navigator(rootView, obj, text, parent) {
                 var _this = this;
-                debugger;
                 if (obj == null)
                     obj = {};
                 if (typeof obj == "string") {
