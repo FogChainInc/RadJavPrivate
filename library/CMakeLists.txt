@@ -733,6 +733,9 @@ if (libRadJav_EMBEDFILE)
 			RadJav.GUI.MenuItem.js
 			RadJav.GUI.KeyEvent.js
 			RadJav.GUI.MouseEvent.js
+			RadJav.MUI.ScrollView.js
+			RadJav.MUI.Navigator.js
+			RadJav.MUI.View.js
 		)
 		
 		if (USE_WXWIDGETS_WEBVIEW)

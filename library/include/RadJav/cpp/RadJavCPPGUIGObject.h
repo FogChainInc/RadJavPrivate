@@ -255,6 +255,9 @@ namespace RadJAV
 						virtual void on(String event, RJ_FUNC_TYPE func) = 0;
 					#endif
 
+					/// Call the parent GObject to inform it, one of its children has finished creating.
+					void _callChildCreated(GObject *child);
+
 				public:
 					/// The name of this object.
 					String name;
@@ -283,6 +286,9 @@ namespace RadJAV
 					#elif defined USE_IOS || defined USE_ANDROID
 						GObjectWidget* _appObj;
 					#endif
+					/// Execute this function when a child is added. If this function 
+					/// returns false, the child will not be added.
+					std::function<void(GUI::GObject *)> onChildCreated;
 			};
 
 			/// Base class for events utils/handling

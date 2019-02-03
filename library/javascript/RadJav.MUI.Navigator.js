@@ -1,53 +1,94 @@
-/*
-    MIT-LICENSE
-    Copyright (c) 2017-2018 Higher Edge Software, LLC
-
-    Permission is hereby granted, free of charge, to any person obtaining a copy of this software
-    and associated documentation files (the "Software"), to deal in the Software without restriction,
-    including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
-    and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
-    subject to the following conditions:
-
-    The above copyright notice and this permission notice shall be included in all copies or substantial
-    portions of the Software.
-
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
-    LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-    WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
-/// <reference path="RadJav.ts" />
-/// <reference path="RadJav.MUI.View.ts" />
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var RadJav;
 (function (RadJav) {
     var MUI;
     (function (MUI) {
-        /** @class RadJav.MUI.Navigator
-         * A mobile view navigator.
-         * Available on platforms: iOS,Android,HTML5
-         */
-        var Navigator = /** @class */ (function () {
-            function Navigator(view) {
-                this.type = "RadJav.MUI.Navigator";
-                this.rootWin = view;
-                if (this._init != null) {
-                    this._init.apply(this, arguments);
+        var Navigator = (function (_super) {
+            __extends(Navigator, _super);
+            function Navigator(rootView, obj, text, parent) {
+                var _this = this;
+                debugger;
+                if (obj == null)
+                    obj = {};
+                if (typeof obj == "string") {
+                    var name = obj;
+                    obj = { name: name };
                 }
+                if (obj.size == null) {
+                    obj.size = new RadJav.Vector2();
+                    obj.size.x = 300;
+                    obj.size.y = 300;
+                }
+                _this = _super.call(this, obj, text, parent) || this;
+                _this.type = "RadJav.MUI.Navigator";
+                _this.rootWin = rootView;
+                _this.views = [];
+                _this.animation = new RadJav.Animation();
+                return _this;
             }
+            Navigator.prototype.setAnimation = function (animation) {
+                this.animation = animation;
+            };
+            Navigator.prototype.getAnimation = function () {
+                return (this.animation);
+            };
             Navigator.prototype.push = function (view, replace) {
-                if (this._push != null) {
-                    this._push.apply(this, arguments);
+                if (view.type != "RadJav.MUI.View") {
+                    throw new Error("View must be of type RadJav.MUI.View!");
+                    return;
+                }
+                {
+                    var pos = this.getSize();
+                    pos.setY(0);
+                    RadJav.Console.println("YAY0");
+                    view.setPosition(pos);
+                    RadJav.Console.println("YAY1");
+                    this.animation.attach(view);
+                    RadJav.Console.println("YAY2");
+                    this.animation.lerp(pos, new RadJav.Vector2(0, 0), 1.3);
+                    RadJav.Console.println("YAY3");
+                    this.animation.play();
+                    RadJav.Console.println("YAY4");
+                }
+                this.views.push(view);
+                if (this["_push"] != null) {
+                    this["_push"].apply(this, arguments);
+                    return;
+                }
+                else {
                 }
             };
             Navigator.prototype.pop = function (view) {
-                if (this._pop != null) {
-                    this._pop.apply(this, arguments);
+                if (view.type != "RadJav.MUI.View") {
+                    throw new Error("View must be of type RadJav.MUI.View!");
+                    return;
+                }
+                if (this["_pop"] != null) {
+                    this["_pop"].apply(this, arguments);
+                    return;
+                }
+                else {
+                    RadJav.currentTheme.eventSync(this.type, "pop", this, view);
+                    for (var iIdx = 0; iIdx < this.views.length; iIdx++) {
+                        if (this.views[iIdx].name == view.name)
+                            this.views.splice(iIdx, 1);
+                    }
                 }
             };
             Navigator.xmlTag = { tag: "navigator", type: "Navigator" };
             return Navigator;
-        }());
+        }(RadJav.GUI.GObject));
         MUI.Navigator = Navigator;
     })(MUI = RadJav.MUI || (RadJav.MUI = {}));
 })(RadJav || (RadJav = {}));
+if (RadJav.GUI != null)
+    RadJav.GUI["Navigator"] = RadJav.MUI.Navigator;

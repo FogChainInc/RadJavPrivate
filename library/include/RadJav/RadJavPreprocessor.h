@@ -44,6 +44,10 @@
 
 	#define RADJAV_PLUGIN			__declspec(dllexport)
 
+	#if defined (USE_IOS) || defined (USE_ANDROID)
+		#define RADJAV_MOBILE
+	#endif
+
 	#ifdef RADJAV_USE_FLOAT
 		#define RDECIMAL float
 	#endif

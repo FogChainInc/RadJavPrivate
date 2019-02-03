@@ -25,6 +25,10 @@
 
 #include "cpp/RadJavCPPGUIGObject.h"
 
+#ifdef GUI_USE_WXWIDGETS
+	#include <wx/wx.h>
+#endif
+
 #ifdef USE_IOS
 	OBJC_CLASS(UIScrollView);
 	OBJC_CLASS(ScrollViewDelegate);
@@ -38,7 +42,7 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
-
+			#ifdef RADJAV_MOBILE
 			class RADJAV_EXPORT ScrollViewFrame : public GUI::GObjectWidget
 					,public ChainedPtr
 			{
@@ -94,6 +98,21 @@ namespace RadJAV
                 //    static jmethodID nativeGetContentSize;
 				#endif
 			};
+			#endif
+
+			#ifdef GUI_USE_WXWIDGETS
+				/// The wxWidgets button to use.
+				class RADJAV_EXPORT ScrollViewFrame : public wxScrolledWindow, public CPP::GUI::GObjectEvents, public ChainedPtr
+				{
+					public:
+						ScrollViewFrame(wxWindow *parent, const wxPoint &pos, const wxSize &size);
+
+						void onClick(wxMouseEvent &event);
+
+					protected:
+						wxDECLARE_EVENT_TABLE();
+				};
+			#endif
 
 			/**
 			 * @ingroup group_mui_cpp

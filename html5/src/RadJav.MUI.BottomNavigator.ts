@@ -38,12 +38,12 @@ namespace RadJav
 			 */
 			type: string;
 
-			/** @property {RadJav.MUI.Window} [type=""]
-			 * The root Window object.
+			/** @property {RadJav.MUI.View} [type=""]
+			 * The root view object.
 			 */
-			rootWin: RadJav.MUI.Window;
+			rootWin: RadJav.MUI.View;
 
-			constructor(view? :RadJav.MUI.Window)
+			constructor(view? :RadJav.MUI.View)
 			{
 				this.type = "RadJav.MUI.BottomNavigator";
 				this.rootWin = view;
@@ -55,7 +55,7 @@ namespace RadJav
 			}
 			
 			
-			public addTab(view: RadJav.MUI.Window, replace?: boolean)
+			public addTab(view: RadJav.MUI.View, replace?: boolean)
 			{
 				if(this._addTab != null)
 				{

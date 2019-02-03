@@ -78,7 +78,7 @@
 #ifdef USE_ANDROID
 	#include "android/Utils.h"
 #else
-	#warning Need to add debug.h/cpp for logging macroses
+	#pragma warning Need to add debug.h/cpp for logging macroses
 	#define  LOGE(...)
 	#define  LOGW(...)
 	#define  LOGD(...)

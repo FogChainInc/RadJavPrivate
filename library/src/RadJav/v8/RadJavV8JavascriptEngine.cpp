@@ -73,6 +73,9 @@
 		#include "v8/RadJavV8GUIMenuBar.h"
 		#include "v8/RadJavV8GUIMenuItem.h"
 		#include "v8/RadJavV8GUICanvas3D.h"
+		#include "v8/RadJavV8MUIScrollView.h"
+		#include "v8/RadJavV8MUIView.h"
+		#include "v8/RadJavV8MUINavigator.h"
 		#ifdef WXWIDGETS_HAS_WEBVIEW
 			#include "v8/RadJavV8GUIWebView.h"
 		#endif
@@ -1643,6 +1646,30 @@ namespace RadJAV
 						v8::Handle<v8::Object> menuItemPrototype = v8GetObject(menuItemFunc, "prototype");
 
 						V8B::GUI::MenuItem::createV8Callbacks(isolate, menuItemPrototype);
+					}
+
+					// RadJav.GUI.ScrollView
+					{
+						v8::Handle<v8::Function> viewFunc = v8GetFunction(guiFunc, "ScrollView");
+						v8::Handle<v8::Object> viewPrototype = v8GetObject(viewFunc, "prototype");
+
+						V8B::MUI::ScrollView::createV8Callbacks(isolate, viewPrototype);
+					}
+
+					// RadJav.GUI.View
+					{
+						v8::Handle<v8::Function> viewFunc = v8GetFunction(guiFunc, "View");
+						v8::Handle<v8::Object> viewPrototype = v8GetObject(viewFunc, "prototype");
+
+						V8B::MUI::View::createV8Callbacks(isolate, viewPrototype);
+					}
+
+					// RadJav.GUI.Navigator
+					{
+						v8::Handle<v8::Function> navigatorFunc = v8GetFunction(guiFunc, "Navigator");
+						v8::Handle<v8::Object> navigatorPrototype = v8GetObject(navigatorFunc, "prototype");
+
+						V8B::MUI::Navigator::createV8Callbacks(isolate, navigatorPrototype);
 					}
 
 					// RadJav.GUI.WebView

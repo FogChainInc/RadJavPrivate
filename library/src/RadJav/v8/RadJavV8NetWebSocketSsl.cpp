@@ -283,7 +283,7 @@ namespace RadJAV
 			void WebSocketClientSsl::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 
-			  std::cout << __PRETTY_FUNCTION__ << std::endl;
+			  //std::cout << __PRETTY_FUNCTION__ << std::endl;
 			  
 				v8::Isolate *isolate = args.GetIsolate();
 				std::map<std::string, std::string> parms;
@@ -369,7 +369,7 @@ namespace RadJAV
 				String host = parseV8Value(val);
 				val = v8::Local<v8::String>::Cast(args[1]);
 				String port = parseV8Value(val);
-				std::cout  << __PRETTY_FUNCTION__ << ": about to connect" << std::endl << std::flush;
+				//std::cout  << __PRETTY_FUNCTION__ << ": about to connect" << std::endl << std::flush;
 
 				webSocket->connect(host, port);
 			}

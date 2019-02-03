@@ -288,6 +288,7 @@ namespace RadJav
 				{ file: "RadJav.Circle", themeFile: false },
 				{ file: "RadJav.Rectangle", themeFile: false },
 				{ file: "RadJav.Vector2", themeFile: false },
+				{ file: "RadJav.Vector3", themeFile: false },
 				{ file: "RadJav.Color", themeFile: false },
 				{ file: "Math", themeFile: false, loadFirst: true },
 				{ file: "String", themeFile: false, loadFirst: true }
@@ -309,6 +310,7 @@ namespace RadJav
 		var includes = [
 				{ file: "RadJav.GUI.GObject", themeFile: true, loadFirst: true },
 				{ file: "RadJav.Font", themeFile: false, loadFirst: true },
+				{ file: "RadJav.Animation", themeFile: false, loadFirst: true },
 				{ file: "RadJav.GUI.Window", themeFile: true },
 				{ file: "RadJav.GUI.MenuBar", themeFile: true },
 				{ file: "RadJav.GUI.MenuItem", themeFile: true },
@@ -322,7 +324,10 @@ namespace RadJav
 				{ file: "RadJav.GUI.Container", themeFile: true },
 				{ file: "RadJav.GUI.HTMLElement", themeFile: true },
 				{ file: "RadJav.GUI.Combobox", themeFile: true },
-				{ file: "RadJav.GUI.Textarea", themeFile: true }
+				{ file: "RadJav.GUI.Textarea", themeFile: true }, 
+				{ file: "RadJav.MUI.ScrollView", themeFile: true }, 
+				{ file: "RadJav.MUI.Navigator", themeFile: true }, 
+				{ file: "RadJav.MUI.View", themeFile: true }
 			];
 
 		return includes;
@@ -638,30 +643,65 @@ namespace RadJav
 	* function that will immediately be executed.
 	* @return {Promise} The promise that will be executed when this module has completed executing.
 	*/
-	export function runApplication(file: string | Function): Promise<any>
+	export function runApplication(file: string | Function, createRootGObj: boolean = false): Promise<any>
 	{
 		let promise = RadJav.initialize ().then (RadJav.keepContext (function ()
 			{
 				let promise = null;
+				let rootGObj: RadJav.GUI.GObject = null;
 
-				if (typeof file == "string")
+				if (createRootGObj == true)
 				{
-					promise = RadJav.include(file).then(
-						RadJav.keepContext(function(data)
+					/// @fixme This is done both synchronously and asynchronously. Fix this.
+					if (RadJav.isMobile () == true)
+					{
+						rootGObj = new RadJav.MUI["View"] ("win", "Navigator example");
+						promise = rootGObj["createMainView"] ();
+
+						if (promise == null)
 						{
-							let func = new _Function(data);
-							func();
-						}, this));
+							// Temporary hack.
+							promise = new Promise<void> (function (resolve, reject)
+								{
+									resolve ();
+								});
+						}
+					}
+					else
+					{
+						rootGObj = new RadJav.GUI.Window ("win", "Window Example");
+						promise = rootGObj.create ();
+					}
 				}
 				else
 				{
-					promise = new Promise(RadJav.keepContext(
-						function(resolve, reject, func)
+					promise = new Promise<void> (function (resolve, reject)
 						{
-							func();
-							resolve();
-						}, this, file));
+							resolve ();
+						});
 				}
+
+				promise.then (RadJav.keepContext(function (createdGObj)
+					{
+						if (typeof file == "string")
+						{
+							promise = RadJav.include(file).then(
+								RadJav.keepContext(function(data)
+								{
+									let func = new _Function(data);
+									func(createdGObj);
+								}, this));
+						}
+						else
+						{
+							promise = new Promise(RadJav.keepContext(
+								function(resolve, reject, func)
+								{
+									func(createdGObj);
+									resolve();
+								}, this, file));
+						}
+					}, this));
 
 				return (promise);
 			}, this));
@@ -844,6 +884,34 @@ namespace RadJav
 		}
 
 		return (newObjs);
+	}
+
+	/// Check if this is a mobile application.
+	export function isMobile ()
+	{
+		if (RadJav.OS.HTML5 != null)
+		{
+			let os: string = RadJav.OS.HTML5.getOS ();
+
+			if (os == "android")
+				return (true);
+
+			if (os == "iphone")
+				return (true);
+
+			if (os == "ipad")
+				return (true);
+
+			if (os == "ipod")
+				return (true);
+		}
+		else
+		{
+			if (RadJav.MUI.Button != null)
+				return (true);
+		}
+
+		return (false);
 	}
 
 	/** @method _isUsingInternetExplorerTheWorstWebBrowserEver
@@ -1474,24 +1542,32 @@ namespace RadJav
 		 * @param {String} event The name of the event to trigger.
 		 * @return {Promise} The promise to execute when this event is completed.
 		 */
-		 event(file: string, event: string,...other): Promise<any> {
+		 event(file: string, event: string,...other): Promise<any>
+		 {
 			var args = new Array();
 
-			for (var iIdx = 2; iIdx < arguments.length; iIdx++) {
+			for (var iIdx = 2; iIdx < arguments.length; iIdx++)
 				args.push(arguments[iIdx]);
-			}
-			try {
-				if (RadJav.currentTheme.themeObjects[file] != null) {
-					if (RadJav.currentTheme.themeObjects[file].exports[event] != null) {
+
+			try
+			{
+				if (RadJav.currentTheme.themeObjects[file] != null)
+				{
+					if (RadJav.currentTheme.themeObjects[file].exports[event] != null)
+					{
 						return RadJav.currentTheme.themeObjects[file].exports[event].apply(
 							RadJav.currentTheme.themeObjects[file].exports,
 							args
 						);
-					} else {
-						if (file.indexOf("GUI") > -1) {
+					}
+					else
+					{
+						if ((file.indexOf("GUI") > -1) || (file.indexOf("MUI") > -1))
+						{
 							var tempfile = "RadJav.GUI.GObject";
 
-							if (RadJav.currentTheme.themeObjects[tempfile].exports[event] != null) {
+							if (RadJav.currentTheme.themeObjects[tempfile].exports[event] != null)
+							{
 								return RadJav.currentTheme.themeObjects[tempfile].exports[event].apply(
 									RadJav.currentTheme.themeObjects[tempfile].exports,
 									args
@@ -1532,23 +1608,29 @@ namespace RadJav
 		 * @param {String} event The name of the event to trigger.
 		 * @return {Mixed} The data returned from the event.
 		 */
-		eventSync(file: string, event: string, ...other): any {
+		eventSync(file: string, event: string, ...other): any
+		{
 			var args = new Array();
 			var result = null;
 
-			for (var iIdx = 2; iIdx < arguments.length; iIdx++) {
+			for (var iIdx = 2; iIdx < arguments.length; iIdx++)
 				args.push(arguments[iIdx]);
-			}
 
-			try {
-				if (RadJav.currentTheme.themeObjects[file] != null) {
-					if (RadJav.currentTheme.themeObjects[file].exports[event] != null) {
+			try
+			{
+				if (RadJav.currentTheme.themeObjects[file] != null)
+				{
+					if (RadJav.currentTheme.themeObjects[file].exports[event] != null)
+					{
 						result = RadJav.currentTheme.themeObjects[file].exports[event].apply(
 							RadJav.currentTheme.themeObjects[file].exports,
 							args
 						);
-					} else {
-						if (file.indexOf("GUI") > -1) {
+					}
+					else
+					{
+						if ((file.indexOf("GUI") > -1) || (file.indexOf("MUI") > -1))
+						{
 							var tempfile = "RadJav.GUI.GObject";
 
 							if (RadJav.currentTheme.themeObjects[tempfile].exports[event] != null) {
@@ -1560,7 +1642,9 @@ namespace RadJav
 						}
 					}
 				}
-			} catch (ex) {
+			}
+			catch (ex)
+			{
 				throw "Error in " +
 					file +
 					" message: " +
@@ -1641,13 +1725,14 @@ namespace RadJav
 				}
 			}
 
-			if (tempType.indexOf("RadJav.GUI") > -1) {
+			if (tempType.indexOf("RadJav.GUI") > -1)
 				tempType = tempType.substr(11);
-			}
 
-			if (RadJav.GUI[tempType] == null) {
+			if (tempType.indexOf("RadJav.MUI") > -1)
+				tempType = tempType.substr(11);
+
+			if (RadJav.GUI[tempType] == null)
 				throw RadJav.getLangString("unableToFindClass", tempType);
-			}
 
 			var properties = {
 					name: name,
@@ -1659,7 +1744,12 @@ namespace RadJav
 				RadJav.copyProperties(properties, type, false);
 			}
 
-			var obj = new RadJav.GUI[tempType](properties);
+			var obj = null;
+
+			if (tempType == "Navigator")
+				obj = new RadJav.GUI["Navigator"](null, properties);
+			else
+				obj = new RadJav.GUI[tempType](properties);
 
 			return obj;
 		}
@@ -1942,55 +2032,38 @@ namespace RadJav
 		}
 	}
 
-	/** @class RadJav.OS
-	* @static
-	* Contains Operating System specific functions.
-	*/
+	/// Contains Operating System specific functions.
 	export namespace OS
 	{
-		/** @property {String} [type="html5"]
-		* @static
-		* Represents the current type of operating system.
+		/** Represents the current type of operating system.
 		* Can be:
 		* * windows
 		* * linux
 		* * macosx
+		* * android
+		* * ios
 		* * html5
 		*/
 		export let type: string = "html5";
 
-		/** @property {Number} [numBits=32]
-		* @static
-		* The number of bits this operating system is.
-		*/
+		/// The number of bits this operating system is.
 		export let numBits: number = 32;
 
-		/** @property {string[]} [args=[]]
-		* @static
-		* The command line arguments.
-		*/
+		/// The command line arguments.
 		export let args: string[] = [];
 
-		/**
-		 * @class ScreenInfo
-		 * Describes the screen used by the user.
+		/** Describes the screen used by the user.
 		 * Available on platforms: Windows,Linux,OSX,iOS,Android,HTML5
 		 */
 		export class ScreenInfo
 		{
-			/** @property {Number} [_width=window.innerWidth]
-			* The width of the device's screen.
-			*/
+			/// The width of the device's screen.
 			public width: number;
 
-			/** @property {Number} [_height=window.innerHeight]
-			* The height of the device's screen.
-			*/
+			/// The height of the device's screen.
 			public height: number;
 
-			/** @property {Number} [_scale=1]
-			* The scale of points to pixels on the user's screen.
-			*/
+			/// The scale of points to pixels on the user's screen.
 			public scale: number;
 
 			constructor (width: number = 0, height: number = 0, scale: number = 1)
@@ -2000,7 +2073,7 @@ namespace RadJav
 				this.scale = scale;
 			}
 
-			/** @method getWidth
+			/** 
 			 * Get the width of the current screen.
 			 * @return {Number} The width of the current screen.
 			 */
@@ -2010,7 +2083,7 @@ namespace RadJav
 				return (this.width - 16);
 			}
 
-			/** @method getHeight
+			/** 
 			 * Get the height of the current screen.
 			 * @return {Number} The height of the current screen.
 			 */
@@ -2020,7 +2093,7 @@ namespace RadJav
 				return (this.height - 38);
 			}
 
-			/** @method getScale
+			/** 
 			 * Get the scale of point to pixel.
 			 * @return {Number} The point to pixel scale.
 			 */
@@ -2029,7 +2102,7 @@ namespace RadJav
 				return (this.scale);
 			}
 
-			/** @method getNumberOfScreens
+			/** 
 			 * Get the number of screens on the device.
 			 * @return {Number} The height of the current screen.
 			 */
@@ -2038,7 +2111,7 @@ namespace RadJav
 				return (1);
 			}
 
-			/** @method getScreenInfo
+			/** 
 			 * Get the screen info for the selected screen.
 			 * @return {Number} The height of the current screen.
 			 */
@@ -2048,7 +2121,7 @@ namespace RadJav
 			}
 		}
 
-		/** @method onReady
+		/** 
 		* Execute code when RadJav has finished loading.
 		* Available on platforms: Windows,Linux,OSX,HTML5
 		* @param {Function} func The function to execute.
@@ -2059,8 +2132,7 @@ namespace RadJav
 			return RadJav.OS.HTML5.ready(window).then(func);
 		}
 
-		/** @method getDocumentsPath
-		 * @static
+		/** 
 		 * Get the path to the user's documents folder.
 		 * Available on platforms: Windows,Linux,OSX
 		 * @return {String} The current user's documents folder path.
@@ -2068,8 +2140,7 @@ namespace RadJav
 		/*export function getDocumentsPath() {
 		}*/
 
-		/** @method getTempPath
-		 * @static
+		/** 
 		 * Get the path to the user's temporary files folder.
 		 * Available on platforms: Windows,Linux,OSX
 		 * @return {String} The current user's temporary files path.
@@ -2077,8 +2148,7 @@ namespace RadJav
 		/*export function getTempPath() {
 		}*/
 
-		/** @method getUserDataPath
-		 * @static
+		/** 
 		 * Get the path to the user's data files folder.
 		 * Available on platforms: Windows,Linux,OSX
 		 * @return {String} The current user's data files path.
@@ -2086,8 +2156,7 @@ namespace RadJav
 		/*export function getUserDataPath() {
 		}*/
 
-		/** @method getApplicationPath
-		 * @static
+		/** 
 		 * Get the path to the application.
 		 * Available on platforms: Windows,Linux,OSX
 		 * @return {String} The path to the application.
@@ -2095,8 +2164,7 @@ namespace RadJav
 		/*export function getApplicationPath(){
 		}*/
 
-		/** @method getCurrentWorkingPath
-		 * @static
+		/** 
 		 * Get the current working path.
 		 * Available on platforms: Windows,Linux,OSX
 		 * @return {String} The current working path.
@@ -2104,8 +2172,7 @@ namespace RadJav
 		/*export function getCurrentWorkingPath(){
 		}*/
 
-		/** @method openWebBrowserURL
-		 * @static
+		/** 
 		 * Open a URL in the default web browser.
 		 * Available on platforms: Windows,Linux,OSX,HTML5
 		 * @param {String} url The url to open.
@@ -2143,9 +2210,9 @@ namespace RadJav
 
 			/** @static
 			 * Get the operating system from the browser's user agent.
-			 * @return {String} The operating system.
+			 * @return {string} The operating system.
 			 */
-			export function getOS(): String {
+			export function getOS(): string {
 				var userAgent = navigator.userAgent.toLowerCase();
 
 				if (userAgent.indexOf("win32") > -1) {
