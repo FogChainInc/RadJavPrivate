@@ -97,16 +97,22 @@ namespace RadJav
 					return;
 				}
 
-				if (this.views.length > 0)
+				if ((RadJav.OS.type == "windows") && 
+					(RadJav.OS.type == "linux") && 
+					(RadJav.OS.type == "macosx") && 
+					(RadJav.OS.type == "html5"))
 				{
-					let pos: RadJav.Vector2 = this.getSize ();
-					pos.setY (0);
+					if (this.views.length > 0)
+					{
+						let pos: RadJav.Vector2 = this.getSize ();
+						pos.setY (0);
 
-					view.setPosition (pos);
+						view.setPosition (pos);
 
-					this.animation.attach (view);
-					this.animation.lerp (pos, new RadJav.Vector2 (0, 0), 1.3);
-					this.animation.play ();
+						this.animation.attach (view);
+						this.animation.lerp (pos, new RadJav.Vector2 (0, 0), 1.3);
+						this.animation.play ();
+					}
 				}
 
 				this.views.push (view);
