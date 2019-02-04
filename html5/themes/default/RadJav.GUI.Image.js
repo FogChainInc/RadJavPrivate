@@ -19,8 +19,12 @@ module.exports =
 
 				var html = "<img id = \"" + obj.name + "\" name = \"" + obj.name + 
 					"\" style = \"" + RadJav.themeUtils.getGObjectSizeString (obj, offset);
-				html += " " + RadJav.themeUtils.getGObjectCursorString (obj);
-				html += "\" src = \"" + obj._image + "\" />";
+				html += " " + RadJav.themeUtils.getGObjectCursorString (obj) + "\"";
+
+				if ((obj._image != null) && (obj._image != ""))
+					html += " src = \"" + obj._image + "\"";
+
+				html += " />";
 				var image = RadJav.OS.HTML5.appendHTML (parentDOM, html);
 
 				if (obj._visible == true)
@@ -42,6 +46,14 @@ module.exports =
 	getText: function (obj)
 	{
 		return (obj._html.get ("text"));
+	}, 
+
+	setImage: function (obj, img)
+	{
+		if (obj._html == null)
+			return (null);
+
+		dojo.attr (obj._html, "src", img)
 	}
 };
 

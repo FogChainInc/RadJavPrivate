@@ -70,8 +70,11 @@ module.exports = {
 
 	setSize: function (obj, size)
 	{
-		dojo.query (obj._html).style ("left", size.x + "px");
-		dojo.query (obj._html).style ("top", size.y + "px");
+		if (obj._html == null)
+			return (null);
+
+		dojo.query (obj._html).style ("width", size.x + "px");
+		dojo.query (obj._html).style ("height", size.y + "px");
 	}, 
 
 	getSize: function (obj)
@@ -80,11 +83,11 @@ module.exports = {
 			return (null);
 
 		var size = new RadJav.Vector2 ();
-		var x = dojo.query (obj._html).style ("width");
-		var y = dojo.query (obj._html).style ("height");
+		var x = obj._html.get ("offsetWidth");
+		var y = obj._html.get ("offsetHeight");
 
-		size.x = x[0];
-		size.y = y[0];
+		size.x = x;
+		size.y = y;
 
 		return (size);
 	}, 

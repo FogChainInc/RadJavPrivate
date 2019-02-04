@@ -32,18 +32,11 @@
 	{
 		export class GObject
 		{
-			/** @property {string} [name=""]
-			 * The name of this object.
-			 */
+			/// The name of this object.
 			name: string;
-			/** @property {string} [type=""]
-			 * The type of object.
-			 */
+			/// The type of object.
 			type: string;
-			/** @property {RadJav.Rectangle} [_transform=new Rectangle ()]
-			 * @protected
-			 * The transform of this object.
-			 */
+			/// The transform of this object.
 			_transform: Rectangle;
 			/** @property {Boolean} [_visible=true]
 			 * @protected

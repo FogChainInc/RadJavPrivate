@@ -55,6 +55,11 @@ namespace RadJav
 
 				this.type = "RadJav.MUI.View";
 			}
+
+			createMainView (): Promise<RadJav.GUI.GObject>
+			{
+				return (this.create ());
+			}
 		}
 	}
 }
