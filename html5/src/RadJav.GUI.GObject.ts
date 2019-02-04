@@ -119,9 +119,6 @@
 			 * The function to execute once the object has been created.
 			 */
 			onCreated(obj: Object):void {}
-			/// Execute this function when a child is added. If this function 
-			/// returns false, the child will not be added.
-			onChildAdded(obj: GObject):void {}
 
 			/** @event [_events={}]
 			 * Events to call.
@@ -214,7 +211,6 @@
 					null
 				);
 				this.onCreated = RadJav.setDefaultValue(obj.onCreated, null);
-				this.onChildAdded = RadJav.setDefaultValue(obj.onChildAdded, null);
 				this._events = RadJav.setDefaultValue(obj._events, {});
 
 				if (obj.events != null) {
@@ -238,8 +234,9 @@
 						}
 					}
 
-					if (createObject == true)
-						this.addChild (obj2);
+					if (createObject == true) {
+						this._children.push(obj2);
+					}
 				}
 
 				if (obj.position != null) {
@@ -267,20 +264,7 @@
 				}
 			}
 
-			/// Add a child.
-			public addChild (child: GObject): void
-			{
-				if (this.onChildAdded != null)
-				{
-					if (this.onChildAdded (child) === false)
-						return;
-				}
-
-				child._parent = this;
-				this._children.push(child);
-			}
-
-			/**
+			/** @method create
 			 * Using the existing parameters in this object, create it.
 			 * Theme Event: create
 			 * Is Theme Event Asynchronous: Yes
@@ -383,7 +367,7 @@
 				return (obj);
 			}
 
-		/** 
+		/** @method setFont
 		* Set this object's font.
 		* Theme Event: setFont
 		* Is Theme Event Asynchronous: No
@@ -395,7 +379,7 @@
 			RadJav.currentTheme.eventSync(this.type, "setFont", this, font);
 		}
 
-		/** 
+		/** @method getFont
 		* Get this object's font.
 		* Theme Event: getFont
 		* Is Theme Event Asynchronous: No
@@ -406,7 +390,7 @@
 			return RadJav.currentTheme.eventSync(this.type, "getFont", this);
 		}
 
-		/** 
+		/** @method setPosition
 		* Set the position of this object.
 		* Theme Event: None
 		* Is Theme Event Asynchronous: No
@@ -415,117 +399,79 @@
 		*/
 		setPosition(x: number | RadJav.Vector2, y: number = 0): void
 		{
-			let pos: RadJav.Vector2 = new RadJav.Vector2 ();
-
-			if (typeof (x) == "object")
+			if (x instanceof RadJav.Vector2)
 			{
-				pos.x = (<RadJav.Vector2>x).x;
-				pos.y = (<RadJav.Vector2>x).y;
-			}
-			else
-			{
-				pos.x = x;
-				pos.y = y;
+				let temp: RadJav.Vector2 = (<RadJav.Vector2>x);
+				x = temp.x;
+				y = temp.y;
 			}
 
-			RadJav.currentTheme.eventSync(this.type, "setPosition", this, pos);
-			this._transform.setPosition(pos);
+			this._transform.setPosition(x, y);
 		}
 
-		/** 
+		/** @method getPosition
 		* Get the position of this object.
 		* Theme Event: None
 		* Is Theme Event Asynchronous: No
 		* @return {RadJav.Vector2} The position of this object.
 		*/
-		getPosition(): RadJav.Vector2
+		getPosition(): Vector2
 		{
-			let pos: RadJav.Vector2 = this._transform.getPosition ();
-
-			if (this._html != null)
-				pos = RadJav.currentTheme.eventSync(this.type, "getPosition", this);
-
-			return pos;
+			return this._transform.getPosition();
 		}
 
-		/** 
-		 * Get the X position of this object.
-		 * Theme Event: None
-		 * Is Theme Event Asynchronous: No
-		 * @return {RadJav.Vector2} The position of this object.
-		 */
-		getX(): number
-		{
-			let pos: number = this._transform.x;
+			/** @method getX
+			 * Get the X position of this object.
+			 * Theme Event: None
+			 * Is Theme Event Asynchronous: No
+			 * @return {RadJav.Vector2} The position of this object.
+			 */
+			getX(): number {
+				return this._transform.x;
+			}
 
-			if (this._html != null)
-				pos = RadJav.currentTheme.eventSync(this.type, "getPosition", this).x;
+			/** @method getY
+			 * Get the Y position of this object.
+			 * Theme Event: None
+			 * Is Theme Event Asynchronous: No
+			 * @return {RadJav.Vector2} The position of this object.
+			 */
+			getY(): number {
+				return this._transform.y;
+			}
 
-			return pos;
-		}
+			/** @method setSize
+			 * Set the size of this object.
+			 * Theme Event: None
+			 * Is Theme Event Asynchronous: No
+			 * @param {number/RadJav.Vector2} width The object's new size, or new width.
+			 * @param {number} [height=null] The object's new height.
+			 */
+			setSize(width: number, height: number): void {
+				this._transform.setSize(width, height);
+			}
 
-		/** 
-		 * Get the Y position of this object.
-		 * Theme Event: None
-		 * Is Theme Event Asynchronous: No
-		 * @return {RadJav.Vector2} The position of this object.
-		 */
-		getY(): number 
-		{
-			let pos: number = this._transform.y;
+			/** @method getSize
+			 * Get the size of this object.
+			 * Theme Event: None
+			 * Is Theme Event Asynchronous: No
+			 * @return {RadJav.Vector2} The size of this object.
+			 */
+			getSize(): Vector2 {
+				return this._transform.getSize();
+			}
 
-			if (this._html != null)
-				pos = RadJav.currentTheme.eventSync(this.type, "getPosition", this).y;
+			/** @method getWidth
+			 * Get the width of this object.
+			 * Theme Event: None
+			 * Is Theme Event Asynchronous: No
+			 * @return {number} The width of this object.
+			 */
+			getWidth(): number {
+				return this._transform.width;
+			}
 
-			return pos;
-		}
-
-		/** 
-		 * Set the size of this object.
-		 * Theme Event: None
-		 * Is Theme Event Asynchronous: No
-		 * @param {number/RadJav.Vector2} width The object's new size, or new width.
-		 * @param {number} [height=null] The object's new height.
-		 */
-		setSize(width: number, height: number): void
-		{
-			RadJav.currentTheme.eventSync(this.type, "setSize", this, new RadJav.Vector2 (width, height));
-			this._transform.setSize(width, height);
-		}
-
-		/** 
-		 * Get the size of this object.
-		 * Theme Event: None
-		 * Is Theme Event Asynchronous: No
-		 * @return {RadJav.Vector2} The size of this object.
-		 */
-		getSize(): RadJav.Vector2
-		{
-			let size: RadJav.Vector2 = this._transform.getSize ();
-
-			if (this._html != null)
-				size = RadJav.currentTheme.eventSync(this.type, "getSize", this);
-
-			return size;
-		}
-
-		/** 
-		 * Get the width of this object.
-		 * Theme Event: None
-		 * Is Theme Event Asynchronous: No
-		 * @return {number} The width of this object.
-		 */
-		getWidth(): number
-		{
-			let size: number = this._transform.width;
-
-			if (this._html != null)
-				size = RadJav.currentTheme.eventSync(this.type, "getSize", this).x;
-
-			return size;
-		}
-
-		/** 
+		/** @method getHeight
 		* Get the height of this object.
 		* Theme Event: None
 		* Is Theme Event Asynchronous: No
@@ -533,15 +479,10 @@
 		*/
 		getHeight(): number
 		{
-			let size: number = this._transform.height;
-
-			if (this._html != null)
-				size = RadJav.currentTheme.eventSync(this.type, "getSize", this).y;
-
-			return size;
+			return this._transform.height;
 		}
 
-		/** 
+		/** @method setText
 		* Set the object's text.
 		* Theme Event: setText
 		* Is Theme Event Asynchronous: Yes
@@ -553,7 +494,7 @@
 			RadJav.currentTheme.event(this.type, "setText", this, text);
 		}
 
-		/** 
+		/** @method getText
 		* Get the object's text.
 		* Theme Event: getText
 		* Is Theme Event Asynchronous: No
@@ -564,7 +505,7 @@
 			return RadJav.currentTheme.eventSync(this.type, "getText", this);
 		}
 
-			/** 
+			/** @method getParent
 			 * Get the parent.
 			 * Theme Event: None
 			 * Is Theme Event Asynchronous: No
@@ -574,7 +515,7 @@
 				return this._parent;
 			}
 
-			/** 
+			/** @method getHTML
 			 * Get the HTML from this object.
 			 * Theme Event: None
 			 * Is Theme Event Asynchronous: No
@@ -584,7 +525,7 @@
 				return this._html;
 			}
 
-			/** 
+			/** @method setVisibility
 			 * Set the visibility of this object.
 			 * Theme Event: setVisibility
 			 * Is Theme Event Asynchronous: Yes
@@ -595,7 +536,7 @@
 				RadJav.currentTheme.event(this.type, "setVisibility", this, visible);
 			}
 
-			/** 
+			/** @method getVisibility
 			 * Get the visibility of this object.
 			 * Theme Event: setVisibility
 			 * Is Theme Event Asynchronous: No
@@ -606,7 +547,7 @@
 				return RadJav.currentTheme.eventSync(this.type, "getVisibility", this);
 			}
 
-			/** 
+			/** @method show
 			 * Show this object.
 			 * Theme Event: setVisibility
 			 * Is Theme Event Asynchronous: Yes
@@ -616,7 +557,7 @@
 				this.setVisibility(true);
 			}
 
-			/** 
+			/** @method hide
 			 * Show this object.
 			 * Theme Event: setVisibility
 			 * Is Theme Event Asynchronous: Yes
@@ -626,7 +567,7 @@
 				this.setVisibility(false);
 			}
 
-			/** 
+			/** @method setEnabled
 			 * Enable or disable this object.
 			 * Theme Event: setEnabled
 			 * Is Theme Event Asynchronous: Yes
@@ -636,7 +577,7 @@
 				RadJav.currentTheme.event(this.type, "setEnabled", this, enabled);
 			}
 
-			/** 
+			/** @method getEnabled
 			 * Get whether or not this object is enabled.
 			 * Theme Event: getEnabled
 			 * Is Theme Event Asynchronous: No
@@ -647,7 +588,7 @@
 				return RadJav.currentTheme.eventSync(this.type, "getEnabled", this);
 			}
 
-			/** 
+			/** @method on
 			 * Calls a function when an event is triggered.
 			 * Theme Event: on
 			 * Is Theme Event Asynchronous: No
@@ -660,7 +601,7 @@
 				return RadJav.currentTheme.event(this.type, "on", this, eventName, func);
 			}
 
-			/** 
+			/** @method getHTMLDOM
 			 * Get the HTML dom object.
 			 * Theme Event: getHTMLDOM
 			 * Is Theme Event Asynchronous: No

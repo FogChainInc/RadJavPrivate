@@ -30,7 +30,7 @@ namespace RadJav
 		 * A mobile view.
 		 * Available on platforms: iOS,Android,HTML5
 		 */
-		export class View extends RadJav.GUI.GObject
+		export class Window extends RadJav.GUI.GObject
 		{
 			static xmlTag: TagType = { tag: "view", type: "View" };
 
@@ -51,14 +51,10 @@ namespace RadJav
 					obj.size.y = 350;
 				}
 
-				super(obj, text, parent);
+				super(obj, text, parent) || this;
 
 				this.type = "RadJav.MUI.View";
 			}
 		}
 	}
 }
-
-if (RadJav.GUI != null)
-	RadJav.GUI["View"] = RadJav.MUI.View;
-

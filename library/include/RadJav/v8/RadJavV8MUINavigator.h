@@ -34,8 +34,8 @@
 				{
 				public:
 					static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
-
-					static void create(const v8::FunctionCallbackInfo<v8::Value> &args);
+					
+					static void init(const v8::FunctionCallbackInfo<v8::Value> &args);
 
 					static void push(const v8::FunctionCallbackInfo<v8::Value> &args);
 					static void pop(const v8::FunctionCallbackInfo<v8::Value> &args);

@@ -29,27 +29,11 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
-			#ifdef GUI_USE_WXWIDGETS
-				NavigatorFrame::NavigatorFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size)
-					: wxStaticText(parent, wxID_ANY, text, pos, size)
-				{
-				}
-
-				void NavigatorFrame::onClick(wxMouseEvent &event)
-				{
-					CPP::GUI::Event *pevent = (CPP::GUI::Event *)event.GetEventUserData();
-					executeEvent(pevent);
-				}
-			#endif
-
 			#ifdef USE_V8
 				Navigator::Navigator(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
-					: GObject(jsEngine, args), rootView(nullptr)
+				: impl(nullptr),
+				  rootView(nullptr)
 				{
-					#ifdef RADJAV_MOBILE
-						impl = nullptr;
-					#endif
-
 					v8::Local<v8::Object> rootWinJs = jsEngine->v8GetObject(args.This(), "rootWin");
 					if(!jsEngine->v8IsNull(rootWinJs))
 					{
@@ -58,12 +42,9 @@ namespace RadJAV
 				}
 			#elif defined USE_JAVASCRIPTCORE
 				Navigator::Navigator(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[])
-					: GObject(jsEngine, thisObj, numArgs, args), rootView(nullptr)
+				: impl(nullptr),
+				  rootView(nullptr)
             	{
-					#ifdef RADJAV_MOBILE
-						impl = nullptr;
-					#endif
-
 					JSObjectRef rootWinJs = jsEngine->jscGetObject(thisObj, "rootWin");
 					if(!jsEngine->jscIsNull(rootWinJs))
 					{
@@ -72,96 +53,50 @@ namespace RadJAV
             	}
             #endif
 
-			Navigator::Navigator(View* view, String name, String text, CPP::GUI::GObject *parent)
-				: GObject(name, text, parent)
+			Navigator::Navigator(View* view)
 			{
+				impl = nullptr;
 				rootView = view;
-
-				#ifdef RADJAV_MOBILE
-					impl = nullptr;
-				#endif
 			}
 
 			void Navigator::create()
 			{
-				#ifdef RADJAV_MOBILE
-					ViewFrame* root = nullptr;
+				ViewFrame* root = nullptr;
 
-					if(rootView)
-						root = static_cast<ViewFrame*>(rootView->_appObj);
+				if(rootView)
+					root = static_cast<ViewFrame*>(rootView->_appObj);
 
-					impl = RJNEW NavigatorFrame(root);
-					linkWith(impl);
-				#endif
+				impl = RJNEW NavigatorFrame(root);
 
-				#ifdef GUI_USE_WXWIDGETS
-					wxWindow *parentWin = NULL;
-
-					if (_parent != NULL)
-						parentWin = (wxWindow *)_parent->_appObj;
-
-					NavigatorFrame *object = RJNEW NavigatorFrame(parentWin, _text.towxString(),
-						wxPoint(_transform->x, _transform->y), wxSize(_transform->width, _transform->height));
-					object->Show(_visible);
-
-					_appObj = object;
-					linkWith(object);
-					setup();
-				#endif
+				linkWith(impl);
 			}
 
 			void Navigator::push(View* view, bool replace)
 			{
-				#ifdef RADJAV_MOBILE
-					//We can't deal with parented Views
-					if (view->getParent())
-						return;
+				//We can't deal with parented Views
+				if (view->getParent())
+					return;
 
-					if (impl)
-						impl->push(view ? static_cast<ViewFrame*>(view->_appObj) : nullptr, replace);
-				#endif
+				if (impl)
+					impl->push(view ? static_cast<ViewFrame*>(view->_appObj) : nullptr, replace);
 			}
 
 			void Navigator::pop(View* view)
 			{
-				#ifdef RADJAV_MOBILE
-					//We can't deal with parented Views
-					if (view->getParent())
-						return;
+				//We can't deal with parented Views
+				if (view->getParent())
+					return;
 
-					if (impl)
-						impl->pop(view ? static_cast<ViewFrame*>(view->_appObj) : nullptr);
-				#endif
+				if (impl)
+					impl->pop(view ? static_cast<ViewFrame*>(view->_appObj) : nullptr);
 			}
 
 			void Navigator::pop()
 			{
-				#ifdef RADJAV_MOBILE
-					if (impl)
-						impl->pop();
-				#endif
+				if (impl)
+					impl->pop();
 			}
-
-			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
-				void Navigator::on(String event, RJ_FUNC_TYPE func)
-				{
-					#ifdef RADJAV_MOBILE
-						if (_appObj)
-						{
-							_appObj->addNewEvent(event, func);
-						}
-					#endif
-
-					#ifdef GUI_USE_WXWIDGETS
-					#endif
-				}
-			#endif
 		}
 	}
 }
-
-#ifdef GUI_USE_WXWIDGETS
-	wxBEGIN_EVENT_TABLE(RadJAV::CPP::MUI::NavigatorFrame, wxStaticText)
-	wxEND_EVENT_TABLE()
-#endif
 

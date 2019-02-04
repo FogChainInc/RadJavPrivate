@@ -47,10 +47,7 @@ namespace RadJAV
 					v8::Handle<v8::Object> parent = jsEngine->v8GetObject(args.This(), "_parent");
 
 					if (jsEngine->v8IsNull(parent) == false)
-					{
 						_parent = (GObject *)jsEngine->v8GetExternal(parent, "_appObj");
-						_parent->addChild(this);
-					}
 
 					v8::Local<v8::Object> transform = jsEngine->v8GetObject(args.This(), "_transform");
 					_transform = RJNEW Rectangle(jsEngine, transform);
@@ -74,11 +71,8 @@ namespace RadJAV
 
                     JSObjectRef parent = jsEngine->jscGetObject(thisObj, "_parent");
 
-					if (jsEngine->jscIsNull(parent) == false)
-					{
-						_parent = (GObject *)jsEngine->jscGetExternal(jsEngine->globalContext, parent, "_appObj");
-						_parent->addChild(this);
-					}
+                    if (jsEngine->jscIsNull(parent) == false)
+                        _parent = (GObject *)jsEngine->jscGetExternal(jsEngine->globalContext, parent, "_appObj");
 
                     JSObjectRef transform = jsEngine->jscGetObject(thisObj, "_transform");
                     _transform = RJNEW Rectangle(jsEngine, transform);
@@ -100,9 +94,6 @@ namespace RadJAV
 				_cursor = "default";
 				_parent = parent;
 				_appObj = NULL;
-
-				if (_parent != NULL)
-					_parent->addChild(this);
 			}
 
 			GObject::~GObject()
@@ -119,14 +110,11 @@ namespace RadJAV
 			{
 				if (_appObj)
 				{
-					if (child->_appObj != NULL)
-					{
-						#ifdef GUI_USE_WXWIDGETS
-							_appObj->AddChild(child->_appObj);
-						#elif defined USE_IOS || defined USE_ANDROID
-							_appObj->addChild(child->_appObj);
-						#endif
-					}
+					#ifdef GUI_USE_WXWIDGETS
+						_appObj->AddChild(child->_appObj);
+					#elif defined USE_IOS || defined USE_ANDROID
+						_appObj->addChild(child->_appObj);
+					#endif
 				}
 
 				child->_parent = this;
@@ -375,12 +363,6 @@ namespace RadJAV
 				}
 
 				return enabled;
-			}
-
-			void GObject::_callChildCreated(GObject *child)
-			{
-				if (onChildCreated != NULL)
-					onChildCreated(child);
 			}
 
 			void GObject::setup()

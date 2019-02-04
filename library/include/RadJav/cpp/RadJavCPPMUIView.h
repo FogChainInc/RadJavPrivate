@@ -19,25 +19,17 @@
 */
 #ifndef _RADJAV_MUI_CPP_VIEW_H_
 	#define _RADJAV_MUI_CPP_VIEW_H_
-
-	#include "RadJavPreprocessor.h"
-	#include "RadJavString.h"
-
 	#include "cpp/RadJavCPPGUIGObject.h"
-
-	#ifdef GUI_USE_WXWIDGETS
-		#include <wx/wx.h>
-	#endif
 
 	#ifdef USE_V8
 		#include "v8/RadJavV8GUIGObject.h"
 	#elif defined USE_JAVASCRIPTCORE
 		#include "jscore/RadJavJSCGUIGObject.h"
 	#endif
+#ifdef USE_IOS
+OBJC_CLASS(ViewDelegate);
+#endif
 
-	#ifdef USE_IOS
-		OBJC_CLASS(ViewDelegate);
-	#endif
 
 	namespace RadJAV
 	{
@@ -45,58 +37,42 @@
 		{
 			namespace MUI
 			{
-				#ifdef RADJAV_MOBILE
-					class RADJAV_EXPORT ViewFrame : public GUI::GObjectWidget
-													, public ChainedPtr
-					{
-						public:
-							ViewFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
-							ViewFrame(const String &text, const Vector2 &pos, const Vector2 &size);
-							~ViewFrame();
+				class RADJAV_EXPORT ViewFrame : public GUI::GObjectWidget
+												, public ChainedPtr
+                {
+                public:
+                    ViewFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
+					ViewFrame(const String &text, const Vector2 &pos, const Vector2 &size);
+                    ~ViewFrame();
 
-							#ifdef USE_ANDROID
-								void addChild(GUI::GObjectWidget *child);
-							#endif
+					#ifdef USE_ANDROID
+						void addChild(GUI::GObjectWidget *child);
+					#endif
 
-							void setText(String text);
-							String getText();
+					void setText(String text);
+					String getText();
 
-							bool bindEvent(const String& eventName, const GUI::Event* event);
+					bool bindEvent(const String& eventName, const GUI::Event* event);
 
-							#ifdef USE_IOS
-								UIView* getNativeWidget();
-								ViewDelegate* widgetDelegate;
-							#endif
+					#ifdef USE_IOS
+						UIView* getNativeWidget();
+						ViewDelegate* widgetDelegate;
+					#endif
 
-						private:
-							#ifdef USE_IOS
-								UIView* widget;
+				private:
+					#ifdef USE_IOS
+						UIView* widget;
 					
-							#elif defined USE_ANDROID
-								static void initNatives();
+					#elif defined USE_ANDROID
+						static void initNatives();
 
-								static jmethodID nativeConstructor;
-								static jmethodID nativeAddView;
-								static jmethodID nativeRemoveView;
+						static jmethodID nativeConstructor;
+						static jmethodID nativeAddView;
+						static jmethodID nativeRemoveView;
 
-								static jclass nativeLayoutClass;
-							#endif
-					};
-				#endif
-
-				#ifdef GUI_USE_WXWIDGETS
-					/// The wxWidgets button to use.
-					class RADJAV_EXPORT ViewFrame : public wxStaticText, public CPP::GUI::GObjectEvents, public ChainedPtr
-					{
-					public:
-						ViewFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size);
-
-						void onClick(wxMouseEvent &event);
-
-					protected:
-						wxDECLARE_EVENT_TABLE();
-					};
-				#endif
+						static jclass nativeLayoutClass;
+					#endif
+                };
                 
 				/**
 				 * @ingroup group_mui_cpp

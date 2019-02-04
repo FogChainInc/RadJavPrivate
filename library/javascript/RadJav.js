@@ -260,68 +260,34 @@ RadJav._loadLanguages = function ()
 	return (promise);
 };
 
-RadJav.isMobile = function () {
-	if (RadJav.OS.HTML5 != null) {
-		var os = RadJav.OS.HTML5.getOS();
-		if (os == "android")
-			return (true);
-		if (os == "iphone")
-			return (true);
-		if (os == "ipad")
-			return (true);
-		if (os == "ipod")
-			return (true);
-	}
-	else {
-		if (RadJav.MUI.Button != null)
-			return (true);
-	}
-	return (false);
-}
-
-RadJav.runApp = RadJav.runApplication = function (file, createRootGObj)
+RadJav.runApp = RadJav.runApplication = function (file)
 {
-	if (createRootGObj === void 0) { createRootGObj = false; }
-	var promise = RadJav.initialize().then(RadJav.keepContext(function () {
-		var promise = null;
-		var rootGObj = null;
-		if (createRootGObj == true) {
-			if (RadJav.isMobile() == true) {
-				rootGObj = new RadJav.MUI["View"]("win", "Navigator example");
-				promise = rootGObj["createMainView"]();
-				if (promise == null) {
-					promise = new Promise(function (resolve, reject) {
-						resolve();
+	var promise = RadJav.initialize ().then (function ()
+		{
+			var promise = null;
+
+			if (typeof (file) == "string")
+			{
+				promise = include (file).then (function (data)
+					{
+						var func = new _Function (data);
+						func ();
+						resolve ();
 					});
-				}
 			}
-			else {
-				rootGObj = new RadJav.GUI.Window("win", "Window Example");
-				promise = rootGObj.create();
+			else
+			{
+				promise = new Promise (RadJav.keepContext (function (resolve, reject, func)
+					{
+						func ();
+						resolve ();
+					}, this, file));
 			}
-		}
-		else {
-			promise = new Promise(function (resolve, reject) {
-				resolve();
-			});
-		}
-		promise.then(RadJav.keepContext(function (createdGObj) {
-			if (typeof file == "string") {
-				promise = RadJav.include(file).then(RadJav.keepContext(function (data) {
-					var func = new _Function(data);
-					func(createdGObj);
-				}, this));
-			}
-			else {
-				promise = new Promise(RadJav.keepContext(function (resolve, reject, func) {
-					func(createdGObj);
-					resolve();
-				}, this, file));
-			}
-		}, this));
-		return (promise);
-	}, this));
-	return promise;
+
+			return (promise);
+		});
+
+	return (promise);
 }
 
 RadJav.includeLibraries = function (libraries)
@@ -666,9 +632,6 @@ RadJav.GUI.initObj = function (type, name, text, parent)
 	if (tempType.indexOf ("RadJav.GUI") > -1)
 		tempType = tempType.substr (11);
 
-	if (tempType.indexOf ("RadJav.MUI") > -1)
-		tempType = tempType.substr (11);
-
 	if (RadJav.GUI[tempType] == null)
 		throw (RadJav.getLangString ("unableToFindClass", tempType));
 
@@ -681,12 +644,9 @@ RadJav.GUI.initObj = function (type, name, text, parent)
 	if (typeof (type) == "object")
 		RadJav.copyProperties (properties, type, false);
 
-	var obj = null;
-	if (tempType == "Navigator")
-		obj = new RadJav.GUI["Navigator"](null, properties);
-	else
-		obj = new RadJav.GUI[tempType](properties);
-	return obj;
+	var obj = new RadJav.GUI[tempType] (properties);
+
+	return (obj);
 }
 
 RadJav.GUI.create = function (type, name, text, parent)

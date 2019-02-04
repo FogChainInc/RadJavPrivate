@@ -477,10 +477,7 @@ var commands = [
 						localFiles.forEach (function (file)
 							{
 								if (file.indexOf (".js") > -1)
-								{
-									if (! (file.indexOf (".js.map") > -1))
-										list += "./build/" + file + " ";
-								}
+									list += "./build/" + file + " ";
 							});
 
 						var output = "";
@@ -495,7 +492,6 @@ var commands = [
 						}
 						catch (ex)
 						{
-							console.log (ex.message);
 						}
 
 						if (output != "")

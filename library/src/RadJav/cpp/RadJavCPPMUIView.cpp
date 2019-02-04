@@ -28,19 +28,6 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
-			#ifdef GUI_USE_WXWIDGETS
-				ViewFrame::ViewFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size)
-					: wxStaticText(parent, wxID_ANY, text, pos, size)
-				{
-				}
-
-				void ViewFrame::onClick(wxMouseEvent &event)
-				{
-					CPP::GUI::Event *pevent = (CPP::GUI::Event *)event.GetEventUserData();
-					executeEvent(pevent);
-				}
-			#endif
-
 			#ifdef USE_V8
 			View::View(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
 				: GObject (jsEngine, args)
@@ -61,30 +48,16 @@ namespace RadJAV
 
 			void View::create()
 			{
-				#ifdef RADJAV_MOBILE
-					GUI::GObjectWidget* parentWin = nullptr;
+				GUI::GObjectWidget* parentWin = nullptr;
 				
-					if (_parent != nullptr)
-						parentWin = _parent->_appObj;
+				if (_parent != nullptr)
+					parentWin = _parent->_appObj;
 				
-					ViewFrame* object = RJNEW ViewFrame(parentWin, _text,
-														Vector2(_transform->x, _transform->y),
-														Vector2(_transform->width, _transform->height));
+				ViewFrame* object = RJNEW ViewFrame(parentWin, _text,
+													Vector2(_transform->x, _transform->y),
+													Vector2(_transform->width, _transform->height));
 
-					object->setVisibility(_visible);
-				#endif
-
-				#ifdef GUI_USE_WXWIDGETS
-					wxWindow *parentWin = NULL;
-
-					if (_parent != NULL)
-						parentWin = (wxWindow *)_parent->_appObj;
-
-					ViewFrame *object = RJNEW ViewFrame(parentWin, _text.towxString(),
-						wxPoint(_transform->x, _transform->y), wxSize(_transform->width, _transform->height));
-					object->Show(_visible);
-				#endif
-
+				object->setVisibility(_visible);
 				_appObj = object;
 				linkWith(object);
 				setup();
@@ -92,22 +65,9 @@ namespace RadJAV
 
 			void View::createMainView()
 			{
-				#ifdef RADJAV_MOBILE
-					ViewFrame* object = RJNEW ViewFrame(_text,
+				ViewFrame* object = RJNEW ViewFrame(_text,
 													Vector2(_transform->x, _transform->y),
 													Vector2(_transform->width, _transform->height));
-				#endif
-
-				#ifdef GUI_USE_WXWIDGETS
-					wxWindow *parentWin = NULL;
-
-					if (_parent != NULL)
-						parentWin = (wxWindow *)_parent->_appObj;
-
-					ViewFrame *object = RJNEW ViewFrame(parentWin, _text.towxString(),
-						wxPoint(_transform->x, _transform->y), wxSize(_transform->width, _transform->height));
-					object->Show(_visible);
-				#endif
 
 				_appObj = object;
 				linkWith(object);
@@ -117,20 +77,13 @@ namespace RadJAV
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
             	void View::on(String event, RJ_FUNC_TYPE func)
 				{
-					#ifdef RADJAV_MOBILE
-						if (_appObj)
-						{
-							_appObj->addNewEvent(event, func);
-						}
-					#endif
+					if (_appObj)
+					{
+						_appObj->addNewEvent(event, func);
+					}
 				}
 			#endif
 		}
 	}
 }
-
-#ifdef GUI_USE_WXWIDGETS
-	wxBEGIN_EVENT_TABLE(RadJAV::CPP::MUI::ViewFrame, wxStaticText)
-	wxEND_EVENT_TABLE()
-#endif
 

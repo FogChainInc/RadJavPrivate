@@ -66,10 +66,7 @@ if (USE_V8)
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIRadio.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIList.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIMenuBar.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIMenuItem.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIScrollView.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIView.h" 
-			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUINavigator.h")
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIMenuItem.h")
 		# V8 GUI WebView
 		if (USE_WXWIDGETS_WEBVIEW)
 			set (SOURCES_files_RadJav__v8__GUI__Headers
@@ -533,10 +530,7 @@ if (USE_WXWIDGETS)
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIList.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIMenuBar.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIMenuItem.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIEvent.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIScrollView.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIView.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUINavigator.h")
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIEvent.h")
 	# C++ GUI WebView
 	if (USE_WXWIDGETS_WEBVIEW)
 		set (SOURCES_files_RadJav__cpp__GUI__Headers

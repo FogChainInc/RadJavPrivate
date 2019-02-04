@@ -19,7 +19,6 @@
 */
 
 /// <reference path="RadJav.ts" />
-/// <reference path="RadJav.Animation.ts" />
 /// <reference path="RadJav.MUI.View.ts" />
 
 namespace RadJav
@@ -30,7 +29,7 @@ namespace RadJav
 		 * A mobile view navigator.
 		 * Available on platforms: iOS,Android,HTML5
 		 */
-		export class Navigator extends RadJav.GUI.GObject
+		export class Navigator
 		{
 			static xmlTag: TagType = { tag: "navigator", type: "Navigator" };
 
@@ -38,126 +37,38 @@ namespace RadJav
 			 * The type of object.
 			 */
 			type: string;
-			/** @property {RadJav.MUI.View} [type=""]
-			 * The root view object.
+
+			/** @property {RadJav.MUI.Window} [type=""]
+			 * The root Window object.
 			 */
-			rootWin: RadJav.MUI.View;
-			/// The views in this navigator.
-			views: RadJav.MUI.View[];
-			/// The animation to use, not available for iOS/Android.
-			animation: RadJav.Animation;
+			rootWin: RadJav.MUI.Window;
 
-			constructor(rootView: RadJav.MUI.View, obj?: any, text?: string, parent?: RadJav.GUI.GObject)
+			constructor(view? :RadJav.MUI.Window)
 			{
-				if (obj == null)
-					obj = {};
-
-				if (typeof obj == "string")
-				{
-					var name = obj;
-					obj = { name: name };
-				}
-
-				if (obj.size == null)
-				{
-					obj.size = new RadJav.Vector2();
-					obj.size.x = 300;
-					obj.size.y = 300;
-				}
-
-				super(obj, text, parent);
-
 				this.type = "RadJav.MUI.Navigator";
-				this.rootWin = rootView;
-				this.views = [];
-				this.animation = new RadJav.Animation ();
-			}
+				this.rootWin = view;
 
-			/// Set the animation to use.
-		 	/// Available on platforms: Windows,Linux,Mac,HTML5
-			public setAnimation (animation: RadJav.Animation)
-			{
-				this.animation = animation;
-			}
-
-			/// Get the animation to use.
-		 	/// Available on platforms: Windows,Linux,Mac,HTML5
-			public getAnimation (): RadJav.Animation
-			{
-				return (this.animation);
-			}
-
-			/// Push a view on to a navigator.
-			public push(view: RadJav.MUI.View, replace?: boolean)
-			{
-				if (view.type != "RadJav.MUI.View")
+				if(this._init != null)
 				{
-					throw new Error ("View must be of type RadJav.MUI.View!");
-
-					return;
-				}
-
-				if ((RadJav.OS.type == "windows") && 
-					(RadJav.OS.type == "linux") && 
-					(RadJav.OS.type == "macosx") && 
-					(RadJav.OS.type == "html5"))
-				{
-					if (this.views.length > 0)
-					{
-						let pos: RadJav.Vector2 = this.getSize ();
-						pos.setY (0);
-
-						view.setPosition (pos);
-
-						this.animation.attach (view);
-						this.animation.lerp (pos, new RadJav.Vector2 (0, 0), 1.3);
-						this.animation.play ();
-					}
-				}
-
-				this.views.push (view);
-
-				if(this["_push"] != null)
-				{
-					this["_push"].apply(this, arguments);
-
-					return;
-				}
-				else
-				{
+					this._init.apply(this, arguments);
 				}
 			}
 
-			/// Pop a view off the navigator.
-			public pop(view?: RadJav.MUI.View)
+			public push(view: RadJav.MUI.Window, replace?: boolean)
 			{
-				if (view.type != "RadJav.MUI.View")
+				if(this._push != null)
 				{
-					throw new Error ("View must be of type RadJav.MUI.View!");
-
-					return;
+					this._push.apply(this, arguments);
 				}
+			}
 
-				if(this["_pop"] != null)
+			public pop(view?: RadJav.MUI.Window)
+			{
+				if(this._pop != null)
 				{
-					this["_pop"].apply(this, arguments);
-
-					return;
-				}
-				else
-				{
-					RadJav.currentTheme.eventSync(this.type, "pop", this, view);
-
-					for (let iIdx = 0; iIdx < this.views.length; iIdx++)
-					{
-						if (this.views[iIdx].name == view.name)
-							this.views.splice (iIdx, 1);
-					}
+					this._pop.apply(this, arguments);
 				}
 			}
 		}
 	}
 }
-
-if (RadJav.GUI != null)
-	RadJav.GUI["Navigator"] = RadJav.MUI.Navigator;

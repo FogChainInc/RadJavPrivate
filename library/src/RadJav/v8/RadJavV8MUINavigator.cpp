@@ -35,21 +35,17 @@ namespace RadJAV
 
 			void Navigator::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 			{
-				V8_CALLBACK(object, "create", Navigator::create);
+				V8_CALLBACK(object, "_init", Navigator::init);
 				V8_CALLBACK(object, "_push", Navigator::push);
 				V8_CALLBACK(object, "_pop", Navigator::pop);
 			}
 
-			void Navigator::create(const v8::FunctionCallbackInfo<v8::Value> &args)
+			void Navigator::init(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				CppMuiObject *appObject = RJNEW CppMuiObject(V8_JAVASCRIPT_ENGINE, args);
 				appObject->create();
 
 				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_appObj", appObject);
-				v8::Local<v8::Function> _guiFinishedCreatingGObject = V8_JAVASCRIPT_ENGINE->v8GetFunction(V8_RADJAV, "_guiFinishedCreatingGObject");
-				v8::Local<v8::Object> promise = V8_JAVASCRIPT_ENGINE->createPromise(args.This(), _guiFinishedCreatingGObject);
-
-				args.GetReturnValue().Set(promise);
 			}
 
 			void Navigator::push(const v8::FunctionCallbackInfo<v8::Value> &args)

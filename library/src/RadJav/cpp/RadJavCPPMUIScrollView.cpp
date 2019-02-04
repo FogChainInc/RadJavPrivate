@@ -28,19 +28,6 @@ namespace RadJAV
 	{
 		namespace MUI
 		{
-			#ifdef GUI_USE_WXWIDGETS
-				ScrollViewFrame::ScrollViewFrame(wxWindow *parent, const wxPoint &pos, const wxSize &size)
-					: wxScrolledWindow (parent, wxID_ANY, pos, size)
-				{
-				}
-
-				void ScrollViewFrame::onClick(wxMouseEvent &event)
-				{
-					CPP::GUI::Event *pevent = (CPP::GUI::Event *)event.GetEventUserData();
-					executeEvent(pevent);
-				}
-			#endif
-
 			#ifdef USE_V8
 				ScrollView::ScrollView(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
 				: GObject (jsEngine, args)
@@ -60,47 +47,19 @@ namespace RadJAV
 			
 			void ScrollView::create()
 			{
-				#ifdef RADJAV_MOBILE
-					GUI::GObjectWidget* parentWin = nullptr;
+				GUI::GObjectWidget* parentWin = nullptr;
 				
-					if (_parent != nullptr)
-						parentWin = _parent->_appObj;
+				if (_parent != nullptr)
+					parentWin = _parent->_appObj;
 				
-					ScrollViewFrame* object = RJNEW ScrollViewFrame(
-															parentWin,
+				ScrollViewFrame* object = RJNEW ScrollViewFrame(parentWin,
 															Vector2(_transform->x, _transform->y),
 															Vector2(_transform->width, _transform->height));
-				#endif
-
-				#ifdef GUI_USE_WXWIDGETS
-					wxWindow *parentWin = NULL;
-
-					if (_parent != NULL)
-						parentWin = (wxWindow *)_parent->_appObj;
-
-					ScrollViewFrame *object = RJNEW ScrollViewFrame(parentWin,
-						wxPoint(_transform->x, _transform->y), wxSize(_transform->width, _transform->height));
-					object->AlwaysShowScrollbars(false, false);
-					//object->SetScrollRate(10, 10);
-
-					onChildCreated = [object](GUI::GObject *obj)
-						{
-							wxPoint pos = obj->_appObj->GetPosition();
-							wxSize size = obj->_appObj->GetSize();
-							RJINT xsize = object->GetScrollPageSize(wxHORIZONTAL) + pos.x + size.GetWidth ();
-							RJINT ysize = object->GetScrollPageSize (wxVERTICAL) + pos.y + size.GetHeight ();
-
-							object->SetScrollbars (1, 1, xsize, ysize);
-						};
-				#endif
 				
-				setVisibility(_visible);
+				object->setVisibility(_visible);
 				_appObj = object;
 				linkWith(object);
 				setup();
-
-				if (_parent != NULL)
-					_parent->_callChildCreated(this);
 			}
 			
 			void ScrollView::setContentSize(const CPP::Vector2& size)
@@ -135,31 +94,13 @@ namespace RadJAV
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
 				void ScrollView::on(String event, RJ_FUNC_TYPE func)
 				{
-					#ifdef RADJAV_MOBILE
-						if (_appObj)
-						{
-							_appObj->addNewEvent(event, func);
-						}
-					#endif
-
-					#ifdef GUI_USE_WXWIDGETS
-						ScrollViewFrame *object = (ScrollViewFrame *)_appObj;
-
-						object->addNewEvent(event, object, func);
-
-						if (event == "click")
-						{
-							object->Connect(wxEVT_LEFT_UP, wxMouseEventHandler(ScrollViewFrame::onClick), object->createEvent(event, func));
-						}
-					#endif
+					if (_appObj)
+					{
+						_appObj->addNewEvent(event, func);
+					}
 				}
 			#endif
 		}
 	}
 }
 
-
-#ifdef GUI_USE_WXWIDGETS
-	wxBEGIN_EVENT_TABLE(RadJAV::CPP::MUI::ScrollViewFrame, wxScrolledWindow)
-	wxEND_EVENT_TABLE()
-#endif

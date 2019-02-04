@@ -36,64 +36,6 @@ module.exports = {
 		return (obj._html.value);
 	}, 
 
-	setPosition: function (obj, pos)
-	{
-		if (obj._html == null)
-			return (null);
-
-		var offset = 0;
-
-		if (obj._parent != null)
-		{
-			if ((obj._parent.type == "Window") || (obj._parent.type == "RadJav.GUI.Window"))
-				offset = 35;
-		}
-
-		dojo.query (obj._html).style ("left", pos.x + "px");
-		dojo.query (obj._html).style ("top", (pos.y) + "px");
-	}, 
-
-	getPosition: function (obj)
-	{
-		if (obj._html == null)
-			return (null);
-
-		var pos = new RadJav.Vector2 ();
-		var x = dojo.query (obj._html).style ("left");
-		var y = dojo.query (obj._html).style ("top");
-
-		pos.x = x[0];
-		pos.y = y[0];
-
-		return (pos);
-	}, 
-
-	setSize: function (obj, size)
-	{
-		dojo.query (obj._html).style ("left", size.x + "px");
-		dojo.query (obj._html).style ("top", size.y + "px");
-	}, 
-
-	getSize: function (obj)
-	{
-		if (obj._html == null)
-			return (null);
-
-		var size = new RadJav.Vector2 ();
-		var x = dojo.query (obj._html).style ("width");
-		var y = dojo.query (obj._html).style ("height");
-
-		size.x = x[0];
-		size.y = y[0];
-
-		return (size);
-	}, 
-
-	setEnabled: function (obj, enabled)
-	{
-		obj._html.disabled = !enabled;
-	}, 
-
 	setEnabled: function (obj, enabled)
 	{
 		obj._html.disabled = !enabled;

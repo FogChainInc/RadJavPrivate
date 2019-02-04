@@ -170,9 +170,6 @@ namespace RadJAV
 
 					setup();
 				#endif
-
-				if (_parent != NULL)
-					_parent->_callChildCreated(this);
 			}
 
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
