@@ -22,7 +22,6 @@ module.exports =
 				html += " " + RadJav.themeUtils.getGObjectFontString (obj);
 				html += " " + RadJav.themeUtils.getGObjectCursorString (obj);
 				html += "overflow-x: hidden; overflow-y: hidden;\">";
-				html += obj._text;
 				html += "</div>";
 				var container = RadJav.OS.HTML5.appendHTML (parentDOM, html);
 

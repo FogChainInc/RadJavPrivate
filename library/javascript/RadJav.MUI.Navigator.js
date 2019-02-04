@@ -41,30 +41,26 @@ var RadJav;
                 return (this.animation);
             };
             Navigator.prototype.push = function (view, replace) {
-                if (view.type != "RadJav.MUI.View") {
+                var promise = null;
+                if (view.type != "RadJav.MUI.View")
                     throw new Error("View must be of type RadJav.MUI.View!");
-                    return;
-                }
-                {
-                    var pos = this.getSize();
-                    pos.setY(0);
-                    RadJav.Console.log("YAY0");
-                    view.setPosition(pos);
-                    RadJav.Console.log("YAY1");
-                    this.animation.attach(view);
-                    RadJav.Console.log("YAY2");
-                    this.animation.lerp(pos, new RadJav.Vector2(0, 0), 1.3);
-                    RadJav.Console.log("YAY3");
-                    this.animation.play();
-                    RadJav.Console.log("YAY4");
+                if ((RadJav.OS.type == "windows") &&
+                    (RadJav.OS.type == "linux") &&
+                    (RadJav.OS.type == "macosx") &&
+                    (RadJav.OS.type == "html5")) {
+                    if (this.views.length > 0) {
+                        var pos = this.getSize();
+                        pos.setY(0);
+                        view.setPosition(pos);
+                        this.animation.attach(view);
+                        this.animation.lerp(pos, new RadJav.Vector2(0, 0), 1.3);
+                        this.animation.play();
+                    }
                 }
                 this.views.push(view);
-                if (this["_push"] != null) {
+                if (this["_push"] != null)
                     this["_push"].apply(this, arguments);
-                    return;
-                }
-                else {
-                }
+                return (promise);
             };
             Navigator.prototype.pop = function (view) {
                 if (view.type != "RadJav.MUI.View") {

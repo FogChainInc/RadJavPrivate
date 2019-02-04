@@ -22,7 +22,6 @@ module.exports =
 				html += " " + RadJav.themeUtils.getGObjectFontString (obj);
 				html += " " + RadJav.themeUtils.getGObjectCursorString (obj);
 				html += "\">";
-				html += obj._text;
 				html += "</div>";
 				var container = RadJav.OS.HTML5.appendHTML (parentDOM, html);
 

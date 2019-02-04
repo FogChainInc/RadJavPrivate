@@ -22,7 +22,6 @@ module.exports =
 				html += " " + RadJav.themeUtils.getGObjectFontString (obj);
 				html += " " + RadJav.themeUtils.getGObjectCursorString (obj);
 				html += "overflow-x: auto; overflow-y: auto;\">";
-				html += obj._text;
 				html += "</div>";
 				var scrollView = RadJav.OS.HTML5.appendHTML (parentDOM, html);
 

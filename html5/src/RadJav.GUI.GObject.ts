@@ -183,6 +183,12 @@
 					obj._parent = obj.parent;
 				}
 
+				if (obj._parent != null)
+				{
+					if (obj._parent.type == "Navigator")
+						obj._parent = null;
+				}
+
 				this.name = RadJav.setDefaultValue(obj.name, "");
 				this.type = RadJav.setDefaultValue(obj.type, "");
 				this._transform = RadJav.setDefaultValue(

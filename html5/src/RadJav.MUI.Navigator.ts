@@ -88,14 +88,12 @@ namespace RadJav
 			}
 
 			/// Push a view on to a navigator.
-			public push(view: RadJav.MUI.View, replace?: boolean)
+			public push(view: RadJav.MUI.View, replace?: boolean): Promise<RadJav.GUI.GObject>
 			{
-				if (view.type != "RadJav.MUI.View")
-				{
-					throw new Error ("View must be of type RadJav.MUI.View!");
+				let promise: Promise<RadJav.GUI.GObject> = null;
 
-					return;
-				}
+				if (view.type != "RadJav.MUI.View")
+					throw new Error ("View must be of type RadJav.MUI.View!");
 
 				if ((RadJav.OS.type == "windows") && 
 					(RadJav.OS.type == "linux") && 
@@ -118,14 +116,9 @@ namespace RadJav
 				this.views.push (view);
 
 				if(this["_push"] != null)
-				{
 					this["_push"].apply(this, arguments);
 
-					return;
-				}
-				else
-				{
-				}
+				return (promise);
 			}
 
 			/// Pop a view off the navigator.
