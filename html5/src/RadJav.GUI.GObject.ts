@@ -185,7 +185,7 @@
 
 				if (obj._parent != null)
 				{
-					if (obj._parent.type == "Navigator")
+					if (obj._parent.type == "RadJav.MUI.Navigator")
 						obj._parent = null;
 				}
 
