@@ -63,7 +63,7 @@ var RadJav;
                 return (promise);
             };
             Navigator.prototype.pop = function (view) {
-                if (view.type != "RadJav.MUI.View") {
+                if (view != null && view.type != "RadJav.MUI.View") {
                     throw new Error("View must be of type RadJav.MUI.View!");
                     return;
                 }
