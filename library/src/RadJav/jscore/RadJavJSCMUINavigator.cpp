@@ -35,19 +35,22 @@ namespace RadJAV
 
 			void Navigator::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 			{
-				JSC_CALLBACK(object, "_init", Navigator::init);
+				JSC_CALLBACK(object, "create", Navigator::create);
 				JSC_CALLBACK(object, "_push", Navigator::push);
 				JSC_CALLBACK(object, "_pop", Navigator::pop);
 			}
 
-			JSValueRef Navigator::init(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+			JSValueRef Navigator::create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
 			{
 				CppMuiObject *appObject = RJNEW CppMuiObject(JSC_JAVASCRIPT_ENGINE, thisObject, argumentCount, arguments);
 				appObject->create();
-
+				
 				JSC_JAVASCRIPT_ENGINE->jscSetExternal(ctx, thisObject, "_appObj", appObject);
 				
-				return JSValueMakeUndefined(ctx);
+				JSObjectRef _guiFinishedCreatingGObject = JSC_JAVASCRIPT_ENGINE->jscGetFunction(JSC_RADJAV, "_guiFinishedCreatingGObject");
+				JSObjectRef promise = JSC_JAVASCRIPT_ENGINE->createPromise(thisObject, _guiFinishedCreatingGObject);
+				
+				return promise;
 			}
 
 			JSValueRef Navigator::push(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)

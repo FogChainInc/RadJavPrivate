@@ -48,15 +48,15 @@ var RadJav;
                 {
                     var pos = this.getSize();
                     pos.setY(0);
-                    RadJav.Console.println("YAY0");
+                    RadJav.Console.log("YAY0");
                     view.setPosition(pos);
-                    RadJav.Console.println("YAY1");
+                    RadJav.Console.log("YAY1");
                     this.animation.attach(view);
-                    RadJav.Console.println("YAY2");
+                    RadJav.Console.log("YAY2");
                     this.animation.lerp(pos, new RadJav.Vector2(0, 0), 1.3);
-                    RadJav.Console.println("YAY3");
+                    RadJav.Console.log("YAY3");
                     this.animation.play();
-                    RadJav.Console.println("YAY4");
+                    RadJav.Console.log("YAY4");
                 }
                 this.views.push(view);
                 if (this["_push"] != null) {
