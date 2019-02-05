@@ -62,3 +62,6 @@ namespace RadJav
 		}
 	}
 }
+
+if (RadJav.GUI != null)
+	RadJav.GUI["Image"] = RadJav.MUI.Image;

@@ -56,3 +56,5 @@ var RadJav;
         MUI.Image = Image;
     })(MUI = RadJav.MUI || (RadJav.MUI = {}));
 })(RadJav || (RadJav = {}));
+if (RadJav.GUI != null)
+    RadJav.GUI["Image"] = RadJav.MUI.Image;
