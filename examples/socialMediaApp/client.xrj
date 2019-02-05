@@ -23,7 +23,7 @@ RadJav.initialize ([
 					var gotData = function (data)
 						{
 							var json = JSON.parse (data);
-RadJav.Console.log ("YAY");
+							RadJav.Console.log ("YAY");
 							RadJav.GUI.createObjects (json, rootWin).then (function (objs)
 									{
 										RadJav.Console.log ("YAY2");
@@ -35,7 +35,14 @@ RadJav.Console.log ("YAY");
 					else
 					{
 						var textFile = new RadJav.IO.TextFile ();
-						var data = textFile.readFile ("./gui.json");
+						
+						let path = "./gui.json";
+						if (RadJav.OS.type == "android")
+							path = "/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/examples/socialMediaApp/gui.json";
+						else if (RadJav.OS.type == "ios")
+							path = RadJav.OS.getApplicationPath() + "/examples/socialMediaApp/gui.json";
+
+						var data = textFile.readFile (path);
 						gotData (data);
 					}
 				}, true);
