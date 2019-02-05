@@ -54,14 +54,14 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 		img1.setPosition((screenWidth-256)/2, screenHeight/5);
 		img1.setSize(256, 256);
 		//img1.setScaleMode(RadJav.MUI.Image.ScaleModeAspectFit);
-
+		
 		if (RadJav.OS.type == "android")
-			img1.setImage("/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/window_one.png");
+			img1.setImage("/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/examples/mobile/navigator/window_one.png");
 		else if ((RadJav.OS.type == "ios") || RadJav.OS.type == "html5")
 			img1.setImage("/examples/mobile/navigator/window_one.png");
 		else
 			img1.setImage("./window_one.png");
-debugger;
+		
 		btnGoToWin2 = new RadJav.MUI.Button("button", "Go to Win 2", win1);
 		await btnGoToWin2.create();
 		btnGoToWin2.setPosition(screenWidth - screenWidth/3, screenHeight/2);
@@ -85,7 +85,7 @@ debugger;
 		//img2.setScaleMode(RadJav.MUI.Image.ScaleModeAspectFit);
 		
 		if (RadJav.OS.type == "android")
-			img2.setImage("/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/window_two.png");
+			img2.setImage("/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/examples/mobile/navigator/window_two.png");
 		else if ((RadJav.OS.type == "ios") || RadJav.OS.type == "html5")
 			img2.setImage("/examples/mobile/navigator/window_two.png");
 		else
@@ -123,7 +123,7 @@ debugger;
 		//img3.setScaleMode(RadJav.MUI.Image.ScaleModeAspectFit);
 		
 		if (RadJav.OS.type == "android")
-			img3.setImage("/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/window_three.png");
+			img3.setImage("/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/examples/mobile/navigator/window_three.png");
 		else if ((RadJav.OS.type == "ios") || RadJav.OS.type == "html5")
 			img3.setImage("/examples/mobile/navigator/window_three.png");
 		else

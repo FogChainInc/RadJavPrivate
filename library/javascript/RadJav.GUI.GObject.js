@@ -48,10 +48,11 @@ var RadJav;
                 }
                 if (obj._parent != null) {
                     if (obj._parent.type == "RadJav.MUI.Navigator") {
-                        obj._visible = false;
                         if ((RadJav.OS.type == "android") ||
                             (RadJav.OS.type == "ios")) {
                             obj._parent = null;
+                        } else {
+                            obj._visible = false;
                         }
                     }
                 }
