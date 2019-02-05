@@ -30,7 +30,7 @@ namespace RadJAV
 		{
 			#ifdef GUI_USE_WXWIDGETS
 				ImageFrame::ImageFrame(wxWindow *parent, const wxString &file, wxSize fileSize, const wxPoint &pos, const wxSize &size)
-					: wxPanel(parent, wxID_ANY, pos, size)
+					: wxStaticBitmap(parent, wxID_ANY, wxBitmap (), pos, size, wxTRANSPARENT_WINDOW | wxBORDER_NONE)
 				{
 					isImageLoaded = false;
 					loadImage(file, fileSize);
@@ -86,14 +86,11 @@ namespace RadJAV
 					return (type);
 				}
 
-				void ImageFrame::loadImage(wxString file)
-				{
-					wxBitmapType type = getImageType(file);
-					image.LoadFile(file, type);
-				}
-
 				void ImageFrame::loadImage(wxString file, wxSize fileSize)
 				{
+					if (file.IsEmpty() == true)
+						return;
+
 					wxBitmapType type = getImageType(file);
 					RJBOOL hasLoaded = image.LoadFile(file, type);
 
@@ -128,7 +125,7 @@ namespace RadJAV
 						return;
 
 					image.Rescale(imageSize.GetWidth(), imageSize.GetHeight(), wxImageResizeQuality::wxIMAGE_QUALITY_HIGH);
-					dc.DrawBitmap(image, 0, 0);
+					dc.DrawBitmap(image, 0, 0, true);
 				}
 			#endif
 
@@ -189,11 +186,16 @@ namespace RadJAV
 
 			void Image::setImage(String image)
 			{
+				if (image == "")
+					return;
+
+				_image = image;
+
 				#ifdef GUI_USE_WXWIDGETS
 					ImageFrame *object = (ImageFrame *)_appObj;
 
 					if (object != NULL) {
-						object->loadImage(_image.towxString());
+						object->loadImage(_image.towxString(), wxSize (getWidth (), getHeight ()));
 					}
 				#endif
 			}
@@ -202,7 +204,7 @@ namespace RadJAV
 }
 
 #ifdef GUI_USE_WXWIDGETS
-	wxBEGIN_EVENT_TABLE(RadJAV::CPP::GUI::ImageFrame, wxPanel)
+	wxBEGIN_EVENT_TABLE(RadJAV::CPP::GUI::ImageFrame, wxStaticBitmap)
 		EVT_PAINT(RadJAV::CPP::GUI::ImageFrame::paintEvent)
 	wxEND_EVENT_TABLE()
 #endif

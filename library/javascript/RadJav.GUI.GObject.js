@@ -47,8 +47,13 @@ var RadJav;
                     obj._parent = obj.parent;
                 }
                 if (obj._parent != null) {
-                    if (obj._parent.type == "RadJav.MUI.Navigator")
-                        obj._parent = null;
+                    if (obj._parent.type == "RadJav.MUI.Navigator") {
+                        obj._visible = false;
+                        if ((RadJav.OS.type == "android") ||
+                            (RadJav.OS.type == "ios")) {
+                            obj._parent = null;
+                        }
+                    }
                 }
                 this.name = RadJav.setDefaultValue(obj.name, "");
                 this.type = RadJav.setDefaultValue(obj.type, "");
@@ -108,16 +113,22 @@ var RadJav;
                     this._transform.setSize(size);
                 }
             }
-            GObject.prototype.onBeforeChildCreated = function (obj, parent) { };
-            ;
-            GObject.prototype.onCreated = function (obj) { };
-            GObject.prototype.onChildAdded = function (obj) { };
             GObject.prototype.addChild = function (child) {
                 if (this.onChildAdded != null) {
                     if (this.onChildAdded(child) === false)
                         return;
                 }
-                child._parent = this;
+                var doParentLOL = true;
+                if (this._parent.type == "RadJav.MUI.Navigator") {
+                    child._visible = false;
+                    if ((RadJav.OS.type == "android") ||
+                        (RadJav.OS.type == "ios")) {
+                        child._parent = null;
+                        doParentLOL = false;
+                    }
+                }
+                if (doParentLOL == true)
+                    child._parent = this;
                 this._children.push(child);
             };
             GObject.prototype.create = function () {
@@ -140,8 +151,21 @@ var RadJav;
                         this._html = htmlObj;
                         var promises = [];
                         for (var iIdx = 0; iIdx < this._children.length; iIdx++) {
-                            this._children[iIdx] = RadJav.GUI.initObj(this._children[iIdx], "", "", this);
-                            promises.push(this._children[iIdx].create());
+                            var justCreateTheObject = true;
+                            if (this.type == "RadJav.MUI.Navigator") {
+                                if (this["pushView"] != "") {
+                                    justCreateTheObject = false;
+                                    this._children[iIdx] = RadJav.GUI.initObj(this._children[iIdx], "", "", this);
+                                    promises.push(this._children[iIdx].create().then(RadJav.keepContext(function (result) {
+                                        this["push"](result);
+                                        return (result);
+                                    }, this)));
+                                }
+                            }
+                            if (justCreateTheObject == true) {
+                                this._children[iIdx] = RadJav.GUI.initObj(this._children[iIdx], "", "", this);
+                                promises.push(this._children[iIdx].create());
+                            }
                         }
                         Promise.all(promises).then(RadJav.keepContext(function () {
                             for (var key in this._events) {

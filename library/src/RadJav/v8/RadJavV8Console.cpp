@@ -39,6 +39,7 @@ namespace RadJAV
 			{
 				V8_CALLBACK(object, "print", Console::print);
 				V8_CALLBACK(object, "println", Console::println);
+				V8_CALLBACK(object, "log", Console::println);
 			}
 		}
 

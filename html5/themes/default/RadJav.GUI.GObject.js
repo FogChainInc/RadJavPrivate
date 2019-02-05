@@ -2,6 +2,9 @@ module.exports = {
 
 	setVisibility: function (obj, visible)
 	{
+		if (obj._html == null)
+			return;
+
 		if (visible == true)
 			dojo.query (obj._html).style ("visibility", "visible");
 		else
@@ -10,6 +13,9 @@ module.exports = {
 
 	getVisibility: function (obj)
 	{
+		if (obj._html == null)
+			return (obj._visible);
+
 		var value = dojo.query (obj._html).style ("visibility");
 		value = value.toLowerCase ();
 		var isVisible = true;
@@ -83,11 +89,17 @@ module.exports = {
 			return (null);
 
 		var size = new RadJav.Vector2 ();
-		var x = obj._html.get ("offsetWidth");
-		var y = obj._html.get ("offsetHeight");
 
-		size.x = x;
-		size.y = y;
+		if (obj._html.domNode != null)
+		{
+			size.x = obj._html.domNode.offsetWidth;
+			size.y = obj._html.domNode.offsetHeight;
+		}
+		else
+		{
+			size.x = obj._html.offsetWidth;
+			size.y = obj._html.offsetHeight;
+		}
 
 		return (size);
 	}, 

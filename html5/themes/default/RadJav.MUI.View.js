@@ -26,14 +26,40 @@ module.exports =
 				var container = RadJav.OS.HTML5.appendHTML (parentDOM, html);
 
 				if (obj._visible == true)
-					dojo.query (container).style ("visibility", "visible");
+					dojo.query (container).style ("display", "block");
 				else
-					dojo.query (container).style ("visibility", "hidden");
+					dojo.query (container).style ("display", "none");
 
 				resolve (container);
 			});
 
 		return (promise);
+	}, 
+
+	setVisibility: function (obj, visible)
+	{
+		if (obj._html == null)
+			return;
+
+		if (visible == true)
+			dojo.query (obj._html).style ("display", "block");
+		else
+			dojo.query (obj._html).style ("display", "none");
+	}, 
+
+	getVisibility: function (obj)
+	{
+		if (obj._html == null)
+			return (obj._visible);
+
+		var value = dojo.query (obj._html).style ("display");
+		value = value.toLowerCase ();
+		var isVisible = true;
+
+		if (value == "none")
+			isVisible = false;
+
+		return (isVisible);
 	}
 };
 

@@ -107,14 +107,14 @@
 			/** @event [onBeforeChildCreated=null]
 			 * The function to execute before a child is created.
 			 */
-			onBeforeChildCreated(obj: Object,parent?:any):void{};
+			onBeforeChildCreated: ((obj: Object,parent?:any) => void);
 			/** @event [onCreated=null]
 			 * The function to execute once the object has been created.
 			 */
-			onCreated(obj: Object):void {}
+			onCreated: ((obj: Object) => void);
 			/// Execute this function when a child is added. If this function 
 			/// returns false, the child will not be added.
-			onChildAdded(obj: GObject):void {}
+			onChildAdded: ((obj: GObject) => boolean);
 
 			/** @event [_events={}]
 			 * Events to call.
@@ -186,7 +186,15 @@
 				if (obj._parent != null)
 				{
 					if (obj._parent.type == "RadJav.MUI.Navigator")
-						obj._parent = null;
+					{
+						obj._visible = false;
+
+						if ((RadJav.OS.type == "android") || 
+							(RadJav.OS.type == "ios"))
+						{
+							obj._parent = null;
+						}
+					}
 				}
 
 				this.name = RadJav.setDefaultValue(obj.name, "");
@@ -226,7 +234,7 @@
 
 				if (obj.children != null) {
 					for (var iIdx = 0; iIdx < obj.children.length; iIdx++) {
-						var obj2 = obj.children[iIdx];
+						var obj2: RadJav.GUI.GObject = obj.children[iIdx];
 						var createObject:any = true;
 
 						if (this.onBeforeChildCreated != null) {
@@ -275,7 +283,23 @@
 						return;
 				}
 
-				child._parent = this;
+				let doParentLOL: boolean = true;
+
+				if (this._parent.type == "RadJav.MUI.Navigator")
+				{
+					child._visible = false;
+
+					if ((RadJav.OS.type == "android") || 
+						(RadJav.OS.type == "ios"))
+					{
+						child._parent = null;
+						doParentLOL = false;
+					}
+				}
+
+				if (doParentLOL == true)
+					child._parent = this;
+
 				this._children.push(child);
 			}
 
@@ -309,15 +333,44 @@
 								this._html = htmlObj;
 								var promises = [];
 
-								for (var iIdx = 0; iIdx < this._children.length; iIdx++) {
-									this._children[iIdx] = RadJav.GUI.initObj(
-										this._children[iIdx],
-										"",
-										"",
-										this
-									);
+								for (var iIdx = 0; iIdx < this._children.length; iIdx++)
+								{
+									let justCreateTheObject: boolean = true;
 
-									promises.push(this._children[iIdx].create());
+									if (this.type == "RadJav.MUI.Navigator")
+									{
+										if (this["pushView"] != "")
+										{
+											justCreateTheObject = false;
+
+											this._children[iIdx] = RadJav.GUI.initObj(
+												this._children[iIdx],
+												"",
+												"",
+												this
+											);
+
+											promises.push(this._children[iIdx].create().then (
+												RadJav.keepContext(function (result)
+												{
+													this["push"] (result);
+
+													return (result);
+												}, this)));
+										}
+									}
+
+									if (justCreateTheObject == true)
+									{
+										this._children[iIdx] = RadJav.GUI.initObj(
+											this._children[iIdx],
+											"",
+											"",
+											this
+										);
+
+										promises.push(this._children[iIdx].create());
+									}
 								}
 
 								Promise.all(promises).then(

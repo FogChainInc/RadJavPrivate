@@ -1,4 +1,5 @@
 var rootWin = null;
+var screenSize = new RadJav.Vector2 ();
 
 RadJav.initialize ([
 		RadJav.getStandardLibrary (), 
@@ -10,41 +11,32 @@ RadJav.initialize ([
 				{
 					rootWin = rootGObj;
 
-					RadJav.GUI.create ("Navigator", "navigator", "", rootGObj).then (
-								function (navigator)
-								{
-									RadJav.GUI.create ({
-										type: "RadJav.GUI.View", 
-										name: "view", 
-										size: "300, 300", 
-										position: "0, 0", 
-										parent: navigator
-									}).then (function (view)
-										{
-											RadJav.GUI.create ({
-												type: "RadJav.GUI.Image", 
-												name: "img", 
-												image: "../image/radjav-med.png", 
-												size: "400, 662", 
-												position: "40, 120", 
-												parent: view
-											}).then (function (img)
-												{
-													navigator.push (view);
-												});
-										});
-								});
-					/*RadJav.GUI.create ("ScrollView", "scrollView", "", rootGObj).then (
-								function (scrollView)
-								{
-									RadJav.GUI.create ({
-										type: "RadJav.GUI.Image", 
-										name: "view", 
-										image: "../image/radjav-med.png", 
-										size: "400, 662", 
-										position: "40, 120", 
-										parent: scrollView
+					screenSize.x = rootWin.getWidth ();
+					screenSize.y = rootWin.getHeight();
+
+					if (RadJav.isMobile () == true)
+					{
+						screenSize.x = RadJav.getPrimaryScreen().getWidth();
+						screenSize.y = RadJav.getPrimaryScreen().getHeight();
+					}
+
+					var gotData = function (data)
+						{
+							var json = JSON.parse (data);
+RadJav.Console.log ("YAY");
+							RadJav.GUI.createObjects (json, rootWin).then (function (objs)
+									{
+										RadJav.Console.log ("YAY2");
 									});
-								});*/
+						};
+
+					if (RadJav.OS.HTML5 != null)
+						RadJav.Net.httpRequest ("./gui.json").then (gotData);
+					else
+					{
+						var textFile = new RadJav.IO.TextFile ();
+						var data = textFile.readFile ("./gui.json");
+						gotData (data);
+					}
 				}, true);
 		});

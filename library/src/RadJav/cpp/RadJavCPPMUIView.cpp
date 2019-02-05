@@ -80,7 +80,7 @@ namespace RadJAV
 					if (_parent != NULL)
 						parentWin = (wxWindow *)_parent->_appObj;
 
-					ViewFrame *object = RJNEW ViewFrame(parentWin, _text.towxString(),
+					ViewFrame *object = RJNEW ViewFrame(parentWin, "",
 						wxPoint(_transform->x, _transform->y), wxSize(_transform->width, _transform->height));
 					object->Show(_visible);
 				#endif
@@ -104,7 +104,7 @@ namespace RadJAV
 					if (_parent != NULL)
 						parentWin = (wxWindow *)_parent->_appObj;
 
-					ViewFrame *object = RJNEW ViewFrame(parentWin, _text.towxString(),
+					ViewFrame *object = RJNEW ViewFrame(parentWin, "",
 						wxPoint(_transform->x, _transform->y), wxSize(_transform->width, _transform->height));
 					object->Show(_visible);
 				#endif
@@ -112,6 +112,10 @@ namespace RadJAV
 				_appObj = object;
 				linkWith(object);
 				setup();
+			}
+
+			void View::setText(String text)
+			{
 			}
 
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE

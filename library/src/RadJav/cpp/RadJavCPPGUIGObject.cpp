@@ -388,6 +388,11 @@ namespace RadJAV
 				setText(_text);
 				setupCursor();
 				setFont(_font);
+
+				#ifdef GUI_USE_WXWIDGETS
+					if (_appObj != NULL)
+						_appObj->Raise();
+				#endif
 			}
 
 			void GObject::setupCursor()

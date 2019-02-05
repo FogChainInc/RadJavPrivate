@@ -37,13 +37,12 @@
 			{
 				#ifdef GUI_USE_WXWIDGETS
 					/// The wxWidgets button to use.
-					class RADJAV_EXPORT ImageFrame : public wxPanel, public GObjectEvents, public ChainedPtr
+					class RADJAV_EXPORT ImageFrame : public wxStaticBitmap, public GObjectEvents, public ChainedPtr
 					{
 					public:
 						ImageFrame(wxWindow *parent, const wxString &file, wxSize fileSize, const wxPoint &pos, const wxSize &size);
 
 						wxBitmapType getImageType(wxString file);
-						void loadImage(wxString file);
 						void loadImage(wxString file, wxSize fileSize);
 
 						void paintEvent(wxPaintEvent &event);

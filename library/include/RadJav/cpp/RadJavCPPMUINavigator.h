@@ -121,6 +121,8 @@
 
 						void create();
 
+						void setText(String text);
+
 						/** @method push. Wraps view in controller. Adds controller to stack with default animation
 					 	*
 					 	* @param View view to be added on top of navigation stack.
@@ -145,6 +147,7 @@
 
 					private:
 						View* rootView;
+						Array<View *> views;
 
 						#ifdef RADJAV_MOBILE
 							NavigatorFrame* impl;

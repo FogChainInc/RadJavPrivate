@@ -23,6 +23,8 @@
 #include "RadJav.h"
 #include "RadJavString.h"
 
+#include "cpp/RadJavCPPVector2.h"
+
 namespace RadJAV
 {
 	namespace CPP
@@ -100,7 +102,7 @@ namespace RadJAV
 					if (_parent != NULL)
 						parentWin = (wxWindow *)_parent->_appObj;
 
-					NavigatorFrame *object = RJNEW NavigatorFrame(parentWin, _text.towxString(),
+					NavigatorFrame *object = RJNEW NavigatorFrame(parentWin, "",
 						wxPoint(_transform->x, _transform->y), wxSize(_transform->width, _transform->height));
 					object->Show(_visible);
 
@@ -108,6 +110,10 @@ namespace RadJAV
 					linkWith(object);
 					setup();
 				#endif
+			}
+
+			void Navigator::setText(String text)
+			{
 			}
 
 			void Navigator::push(View* view, bool replace)
@@ -119,6 +125,31 @@ namespace RadJAV
 
 					if (impl)
 						impl->push(view ? static_cast<ViewFrame*>(view->_appObj) : nullptr, replace);
+				#endif
+
+				#ifdef GUI_USE_WXWIDGETS
+					for (RJINT iIdx = 0; iIdx < views.size (); iIdx++)
+					{
+						View *view2 = views.at (iIdx);
+
+						view2->setVisibility(false);
+					}
+
+					view->setVisibility(true);
+
+					/*if (views.size () > 0)
+					{
+						Vector2 pos = getSize();
+						pos.setY(0);
+
+						view->setPosition(pos);
+
+						this.animation.attach(view);
+						this.animation.lerp(pos, new RadJav.Vector2(0, 0), 1.3);
+						this.animation.play();
+					}*/
+
+					views.push_back(view);
 				#endif
 			}
 

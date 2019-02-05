@@ -31,6 +31,10 @@ RadJav.GUI = function ()
 {
 }
 
+RadJav.MUI = function ()
+{
+}
+
 RadJav.C3D = function ()
 {
 }
@@ -273,7 +277,9 @@ RadJav.isMobile = function () {
 			return (true);
 	}
 	else {
-		if (RadJav.MUI.Button != null)
+		if (RadJav.OS.type == "Android")
+			return (true);
+		if (RadJav.OS.type == "iOS")
 			return (true);
 	}
 	return (false);
@@ -588,10 +594,21 @@ RadJav._guiFinishedCreatingGObject = function (resolve, reject)
 
 	for (var iIdx = 0; iIdx < this._children.length; iIdx++)
 	{
-		this._children[iIdx] = 
-			RadJav.GUI.initObj (this._children[iIdx], "", "", this);
-
-		this._children[iIdx].create ();
+		var justCreateTheObject = true;
+		if (this.type == "RadJav.MUI.Navigator") {
+			if (this["pushView"] != "") {
+				justCreateTheObject = false;
+				this._children[iIdx] = RadJav.GUI.initObj(this._children[iIdx], "", "", this);
+				promises.push(this._children[iIdx].create().then(RadJav.keepContext(function (result) {
+					this["push"](result);
+					return (result);
+				}, this)));
+			}
+		}
+		if (justCreateTheObject == true) {
+			this._children[iIdx] = RadJav.GUI.initObj(this._children[iIdx], "", "", this);
+			promises.push(this._children[iIdx].create());
+		}
 	}
 
 	Promise.all (promises).then (RadJav.keepContext (function ()
@@ -601,8 +618,8 @@ RadJav._guiFinishedCreatingGObject = function (resolve, reject)
 				if (this._events[key] != null)
 				{
 					/// @bug Must separate .'s so classes can be used.
-					var func = window[this._events[key]];
-					RadJav.theme.event (this.type, "on", this, key, func);
+					//var func = window[this._events[key]];
+					//RadJav.theme.event (this.type, "on", this, key, func);
 				}
 			}
 
@@ -645,83 +662,83 @@ function animationUpdate() {
 
 RadJav.animationUpdate = animationUpdate;
 
-RadJav.GUI.initObj = function (type, name, text, parent)
+RadJav.GUI.initObj = function (type, name, text, parent, args)
 {
+	if (args === void 0) { args = []; }
 	var tempType = type;
-
-	if (typeof (type) == "object")
-	{
+	if (typeof type == "object") {
 		tempType = type.type;
-
-		if (type.name != null)
+		if (type.name != null) {
 			name = type.name;
-
-		if (type.text != null)
+		}
+		if (type.text != null) {
 			text = type.text;
-
-		if (type._text != null)
+		}
+		if (type._text != null) {
 			text = type._text;
+		}
 	}
-
-	if (tempType.indexOf ("RadJav.GUI") > -1)
-		tempType = tempType.substr (11);
-
-	if (tempType.indexOf ("RadJav.MUI") > -1)
-		tempType = tempType.substr (11);
-
+	if (tempType.indexOf("RadJav.GUI") > -1)
+		tempType = tempType.substr(11);
+	if (tempType.indexOf("RadJav.MUI") > -1)
+		tempType = tempType.substr(11);
 	if (RadJav.GUI[tempType] == null)
-		throw (RadJav.getLangString ("unableToFindClass", tempType));
-
+		throw RadJav.getLangString("unableToFindClass", tempType);
 	var properties = {
-			name: name, 
-			text: text, 
-			parent: parent
-		};
-
-	if (typeof (type) == "object")
-		RadJav.copyProperties (properties, type, false);
-
+		name: name,
+		text: text,
+		parent: parent
+	};
+	if (typeof type == "object") {
+		RadJav.copyProperties(properties, type, false);
+	}
 	var obj = null;
-	if (tempType == "Navigator")
-		obj = new RadJav.GUI["Navigator"](null, properties);
+	if (tempType == "Navigator") {
+		var parentObj = null;
+		if (args.length > 0)
+			parentObj = args[0];
+		obj = new RadJav.GUI["Navigator"](parentObj, properties);
+	}
 	else
 		obj = new RadJav.GUI[tempType](properties);
 	return obj;
 }
 
-RadJav.GUI.create = function (type, name, text, parent)
+RadJav.MUI.create = RadJav.GUI.create = function (type, name, text, parent, args)
 {
-	var obj = RadJav.GUI.initObj (type, name, text, parent);
+	var obj = RadJav.GUI.initObj (type, name, text, parent, args);
 
 	return (obj.create ());
 }
 
-RadJav.GUI.createObjects = function (objects, parent, beforeCreated)
+RadJav.MUI.createObjects = RadJav.GUI.createObjects = function (objects, parent, beforeCreated)
 {
+	if (beforeCreated === void 0) { beforeCreated = null; }
 	var promises = [];
-
 	if (beforeCreated == undefined)
 		beforeCreated = null;
-	
-	for (var iIdx = 0; iIdx < objects.length; iIdx++)
-	{
+	for (var iIdx = 0; iIdx < objects.length; iIdx++) {
 		var obj = objects[iIdx];
 		var createObject = true;
-
-		if (beforeCreated != null)
-		{
+		if (beforeCreated != null) {
 			obj.onBeforeChildCreated = beforeCreated;
-			var result = beforeCreated (obj, parent);
-
+			var result = beforeCreated(obj, parent);
 			if (result != null)
 				createObject = result;
 		}
-
-		if (createObject == true)
-			promises.push (RadJav.GUI.create (obj, "", "", parent));
+		if (createObject == true) {
+			var justCreateTheObject = true;
+			if (obj.type == "RadJav.MUI.Navigator") {
+				if (obj["useParentForRootView"] != null) {
+					promises.push(this.create(obj, "", "", parent, [parent]));
+					justCreateTheObject = false;
+				}
+			}
+			if (justCreateTheObject == true)
+				promises.push(this.create(obj, "", "", parent));
+		}
 	}
-
-	return (Promise.all (promises));
+	return Promise.all(promises);
 }
 
 RadJav.C3D.create = function (type, name, parent)

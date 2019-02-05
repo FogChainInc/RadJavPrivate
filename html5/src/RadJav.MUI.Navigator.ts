@@ -34,18 +34,16 @@ namespace RadJav
 		{
 			static xmlTag: TagType = { tag: "navigator", type: "Navigator" };
 
-			/** @property {string} [type=""]
-			 * The type of object.
-			 */
+			/// The type of object.
 			type: string;
-			/** @property {RadJav.MUI.View} [type=""]
-			 * The root view object.
-			 */
+			/// The root view object.
 			rootWin: RadJav.MUI.View;
 			/// The views in this navigator.
 			views: RadJav.MUI.View[];
 			/// The animation to use, not available for iOS/Android.
 			animation: RadJav.Animation;
+			/// For creation objects from JSON or other methods.
+			pushView: string;
 
 			constructor(rootView: RadJav.MUI.View, obj?: any, text?: string, parent?: RadJav.GUI.GObject)
 			{
@@ -69,8 +67,9 @@ namespace RadJav
 
 				this.type = "RadJav.MUI.Navigator";
 				this.rootWin = rootView;
-				this.views = [];
-				this.animation = new RadJav.Animation ();
+				this.views = RadJav.setDefaultValue(obj.views, []);
+				this.animation = RadJav.setDefaultValue(obj.animation, new RadJav.Animation ());
+				this.pushView = RadJav.setDefaultValue(obj.pushView, "");
 			}
 
 			/// Set the animation to use.
@@ -88,19 +87,26 @@ namespace RadJav
 			}
 
 			/// Push a view on to a navigator.
-			public push(view: RadJav.MUI.View, replace?: boolean): Promise<RadJav.GUI.GObject>
+			public push(view: RadJav.MUI.View, replace?: boolean)
 			{
-				let promise: Promise<RadJav.GUI.GObject> = null;
-
 				if (view.type != "RadJav.MUI.View")
 					throw new Error ("View must be of type RadJav.MUI.View!");
 
-				if ((RadJav.OS.type == "windows") && 
-					(RadJav.OS.type == "linux") && 
-					(RadJav.OS.type == "macosx") && 
+				if ((RadJav.OS.type == "windows") || 
+					(RadJav.OS.type == "linux") || 
+					(RadJav.OS.type == "macosx") || 
 					(RadJav.OS.type == "html5"))
 				{
-					if (this.views.length > 0)
+					for (let iIdx = 0; iIdx < this.views.length; iIdx++)
+					{
+						let view2: RadJav.MUI.View = this.views[iIdx];
+	
+						view2.setVisibility (false);
+					}
+	
+					view.setVisibility (true);
+
+					/*if (this.views.length > 0)
 					{
 						let pos: RadJav.Vector2 = this.getSize ();
 						pos.setY (0);
@@ -110,15 +116,13 @@ namespace RadJav
 						this.animation.attach (view);
 						this.animation.lerp (pos, new RadJav.Vector2 (0, 0), 1.3);
 						this.animation.play ();
-					}
+					}*/
 				}
 
 				this.views.push (view);
 
 				if(this["_push"] != null)
 					this["_push"].apply(this, arguments);
-
-				return (promise);
 			}
 
 			/// Pop a view off the navigator.

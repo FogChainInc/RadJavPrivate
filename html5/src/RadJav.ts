@@ -907,7 +907,10 @@ namespace RadJav
 		}
 		else
 		{
-			if (RadJav.MUI.Button != null)
+			if (RadJav.OS.type == "Android")
+				return (true);
+
+			if (RadJav.OS.type == "iOS")
 				return (true);
 		}
 
@@ -1705,7 +1708,8 @@ namespace RadJav
 		* @param {RadJav.GUI.GObject} parent The parent of this object.
 		* @param {Promise} The promise to execute when this object has finished being created.
 		*/
-		export function initObj(type: string | object | any, name: any, text: string, parent: object): object
+		export function initObj(type: string | object | any, 
+			name: any, text: string, parent: object, args: any[] = []): RadJav.GUI.GObject
 		{
 			let tempType = type;
 
@@ -1747,7 +1751,14 @@ namespace RadJav
 			var obj = null;
 
 			if (tempType == "Navigator")
-				obj = new RadJav.GUI["Navigator"](null, properties);
+			{
+				let parentObj: any = null;
+
+				if (args.length > 0)
+					parentObj = args[0];
+
+				obj = new RadJav.GUI["Navigator"](parentObj, properties);
+			}
 			else
 				obj = new RadJav.GUI[tempType](properties);
 
@@ -1763,9 +1774,9 @@ namespace RadJav
 		* @param {RadJav.GUI.GObject} parent The parent of this object.
 		* @param {Promise} The promise to execute when this object has finished being created.
 		*/
-		export function create(type: string, name: string, text: string, parent: object): any
+		export function create(type: string, name: string, text: string, parent: object, args: any[] = []): any
 		{
-			var obj = this.initObj(type, name, text, parent);
+			var obj = this.initObj(type, name, text, parent, args);
 
 			return obj.create();
 		}
@@ -1783,25 +1794,38 @@ namespace RadJav
 		{
 			var promises = [];
 
-			if (beforeCreated == undefined) {
+			if (beforeCreated == undefined)
 				beforeCreated = null;
-			}
 
-			for (var iIdx = 0; iIdx < objects.length; iIdx++) {
+			for (var iIdx = 0; iIdx < objects.length; iIdx++)
+			{
 				var obj = objects[iIdx];
 				var createObject = true;
 
-				if (beforeCreated != null) {
+				if (beforeCreated != null)
+				{
 					obj.onBeforeChildCreated = beforeCreated;
 					var result = beforeCreated(obj, parent);
 
-					if (result != null) {
+					if (result != null)
 						createObject = result;
-					}
 				}
 
-				if (createObject == true) {
-					promises.push(this.create(obj, "", "", parent));
+				if (createObject == true)
+				{
+					let justCreateTheObject: boolean = true;
+
+					if (obj.type == "RadJav.MUI.Navigator")
+					{
+						if (obj["useParentForRootView"] != null)
+						{
+							promises.push(this.create(obj, "", "", parent, [parent]));
+							justCreateTheObject = false;
+						}
+					}
+
+					if (justCreateTheObject == true)
+						promises.push(this.create(obj, "", "", parent));
 				}
 			}
 
@@ -2005,14 +2029,10 @@ namespace RadJav
 		}
 	}
 
-	/** @class Console
-	* @static
-	* Contains classes handling console operations.
-	*/
+	/// Contains classes handling console operations.
 	export class Console
 	{
-		/** @method print
-		* @static
+		/** 
 		* Print a message to the console.
 		* @param {String} message The message to output.
 		*/
@@ -2021,12 +2041,20 @@ namespace RadJav
 			console.log(message);
 		}
 
-		/** @method println
-		* @static
+		/** 
 		* Print a message to the console with a new line at the end.
 		* @param {String} message The message to output.
 		*/
 		public static println(message: string): void
+		{
+			this.print(message + "\n");
+		}
+
+		/** 
+		* Print a message to the console with a new line at the end.
+		* @param {String} message The message to output.
+		*/
+		public static log(message: string): void
 		{
 			this.print(message + "\n");
 		}
@@ -2373,6 +2401,9 @@ namespace RadJav
 				if (parent == null) {
 					parentHTML = document.body;
 				} else {
+					if (parent["getHTML"] == null)
+						debugger;
+
 					parentHTML = parent.getHTML();
 				}
 

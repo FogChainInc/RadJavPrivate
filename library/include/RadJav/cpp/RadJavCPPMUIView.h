@@ -116,6 +116,8 @@
 						void create();
 						void createMainView();
 
+						void setText(String text);
+
 						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
                         	/// Execute when an event is triggered.
                         	void on(String event, RJ_FUNC_TYPE func);

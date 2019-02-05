@@ -25,8 +25,7 @@ namespace RadJav
 {
   export namespace GUI
   {
-    /** @class RadJav.GUI.Image
-     * @extends RadJav.GUI.GObject
+    /** 
      * An image.
      * Available on platforms: Windows,Linux,OSX,HTML5
      */
@@ -61,8 +60,7 @@ namespace RadJav
         this._image = RadJav.setDefaultValue(obj._image, null);
       }
 
-      /** @property {String/Image} [_image=null]
-       * @protected
+      /** 
        * The image thats being used. If a string, it will be converted into
        * an Image when the image is set.
        */
@@ -76,7 +74,7 @@ namespace RadJav
         }
       }
 
-      /** @method setImage
+      /** 
        * Set the image.
        * Theme Event: setImage
        * Is Theme Event Asynchronous: Yes

@@ -30,8 +30,9 @@ var RadJav;
                 _this = _super.call(this, obj, text, parent) || this;
                 _this.type = "RadJav.MUI.Navigator";
                 _this.rootWin = rootView;
-                _this.views = [];
-                _this.animation = new RadJav.Animation();
+                _this.views = RadJav.setDefaultValue(obj.views, []);
+                _this.animation = RadJav.setDefaultValue(obj.animation, new RadJav.Animation());
+                _this.pushView = RadJav.setDefaultValue(obj.pushView, "");
                 return _this;
             }
             Navigator.prototype.setAnimation = function (animation) {
@@ -41,26 +42,21 @@ var RadJav;
                 return (this.animation);
             };
             Navigator.prototype.push = function (view, replace) {
-                var promise = null;
                 if (view.type != "RadJav.MUI.View")
                     throw new Error("View must be of type RadJav.MUI.View!");
-                if ((RadJav.OS.type == "windows") &&
-                    (RadJav.OS.type == "linux") &&
-                    (RadJav.OS.type == "macosx") &&
+                if ((RadJav.OS.type == "windows") ||
+                    (RadJav.OS.type == "linux") ||
+                    (RadJav.OS.type == "macosx") ||
                     (RadJav.OS.type == "html5")) {
-                    if (this.views.length > 0) {
-                        var pos = this.getSize();
-                        pos.setY(0);
-                        view.setPosition(pos);
-                        this.animation.attach(view);
-                        this.animation.lerp(pos, new RadJav.Vector2(0, 0), 1.3);
-                        this.animation.play();
+                    for (var iIdx = 0; iIdx < this.views.length; iIdx++) {
+                        var view2 = this.views[iIdx];
+                        view2.setVisibility(false);
                     }
+                    view.setVisibility(true);
                 }
                 this.views.push(view);
                 if (this["_push"] != null)
                     this["_push"].apply(this, arguments);
-                return (promise);
             };
             Navigator.prototype.pop = function (view) {
                 if (view != null && view.type != "RadJav.MUI.View") {
