@@ -61,6 +61,21 @@ RadJav.GUI.GObject = (function ()
 		if (obj.parent != null)
 			obj._parent = obj.parent;
 
+		﻿if (obj._parent != null)
+		{
+			if (obj._parent.type == "RadJav.MUI.Navigator")
+			{
+				if ((RadJav.OS.type == "android") || 
+					(RadJav.OS.type == "ios"))
+				{
+					obj._parent = null;
+				}
+				else
+				{
+					obj._visible = false;
+				}
+			}
+		}
 		/** @property {String} [name=""]
 		* The name of this object.
 		*/
