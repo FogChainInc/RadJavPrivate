@@ -344,11 +344,11 @@
 											justCreateTheObject = false;
 
 											this._children[iIdx] = RadJav.GUI.initObj(
-												this._children[iIdx],
-												"",
-												"",
-												this
-											);
+													this._children[iIdx],
+													"",
+													"",
+													this
+												);
 
 											promises.push(this._children[iIdx].create().then (
 												RadJav.keepContext(function (result)

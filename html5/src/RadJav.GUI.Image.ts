@@ -82,6 +82,7 @@ namespace RadJav
        * @return {Promise} Executes the promise when the image has loaded.
        */
       public setImage(image: string | any): void {
+        this._image = image;
         RadJav.currentTheme.event(this.type, "setImage", this, image);
       }
     }

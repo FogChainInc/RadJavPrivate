@@ -57,9 +57,11 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 
 		if (RadJav.OS.type == "android")
 			img1.setImage("/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/window_one.png");
-		else //iOS
+		else if ((RadJav.OS.type == "ios") || RadJav.OS.type == "html5")
+			img1.setImage("/examples/mobile/navigator/window_one.png");
+		else
 			img1.setImage("./window_one.png");
-
+debugger;
 		btnGoToWin2 = new RadJav.MUI.Button("button", "Go to Win 2", win1);
 		await btnGoToWin2.create();
 		btnGoToWin2.setPosition(screenWidth - screenWidth/3, screenHeight/2);
@@ -84,7 +86,9 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 		
 		if (RadJav.OS.type == "android")
 			img2.setImage("/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/window_two.png");
-		else //iOS
+		else if ((RadJav.OS.type == "ios") || RadJav.OS.type == "html5")
+			img2.setImage("/examples/mobile/navigator/window_two.png");
+		else
 			img2.setImage("./window_two.png");
 		
 		btnBackToWin1 = new RadJav.MUI.Button("button", "Go back to Win 1", win2);
@@ -120,7 +124,9 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 		
 		if (RadJav.OS.type == "android")
 			img3.setImage("/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/window_three.png");
-		else //iOS
+		else if ((RadJav.OS.type == "ios") || RadJav.OS.type == "html5")
+			img3.setImage("/examples/mobile/navigator/window_three.png");
+		else
 			img3.setImage("./window_three.png");
 		
 		btnBackToWin2 = new RadJav.MUI.Button("button", "Go back to Win 2", win3);
