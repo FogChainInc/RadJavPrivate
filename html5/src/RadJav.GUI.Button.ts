@@ -61,8 +61,8 @@ namespace RadJav
 
 if (RadJav.MUI["Button"] == null)
 {
-	if ((RadJav.OS.type == "android") || 
-		(RadJav.OS.type == "ios"))
+	if ((RadJav.OS.type != "android") && 
+		(RadJav.OS.type != "ios"))
 	{
 		RadJav.MUI["Button"] = RadJav.GUI.Button;
 	}

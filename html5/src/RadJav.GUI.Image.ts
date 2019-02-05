@@ -90,8 +90,8 @@ namespace RadJav
 
 if (RadJav.MUI["Image"] == null)
 {
-  if ((RadJav.OS.type == "android") || 
-    (RadJav.OS.type == "ios"))
+  if ((RadJav.OS.type != "android") && 
+    (RadJav.OS.type != "ios"))
   {
     RadJav.MUI["Image"] = RadJav.GUI.Image;
   }
