@@ -277,9 +277,9 @@ RadJav.isMobile = function () {
 			return (true);
 	}
 	else {
-		if (RadJav.OS.type == "Android")
+		if (RadJav.OS.type == "android")
 			return (true);
-		if (RadJav.OS.type == "iOS")
+		if (RadJav.OS.type == "ios")
 			return (true);
 	}
 	return (false);

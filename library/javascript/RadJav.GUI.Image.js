@@ -50,5 +50,11 @@ var RadJav;
         GUI.Image = Image;
     })(GUI = RadJav.GUI || (RadJav.GUI = {}));
 })(RadJav || (RadJav = {}));
-if (RadJav.MUI["Image"] == null)
-    RadJav.MUI["Image"] = RadJav.GUI.Image;
+if (RadJav.MUI["Image"] == null) {
+    if ((RadJav.OS.type == "windows") ||
+        (RadJav.OS.type == "linux") ||
+        (RadJav.OS.type == "macosx") ||
+        (RadJav.OS.type == "html5")) {
+        RadJav.MUI["Image"] = RadJav.GUI.Image;
+    }
+}
