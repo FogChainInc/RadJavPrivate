@@ -160,11 +160,10 @@ namespace RadJav
       deleteRows(selection) {
         return RadJav.currentTheme.eventSync(this.type, "deleteRows", this, selection);
       }
-
-
     }
 
-    /** @class RadJav.GUI.List.Row
+    export namespace List {
+    /** 
      * A List row.
      * Available on platforms: Windows,Linux,OSX,HTML5
      */
@@ -175,12 +174,12 @@ namespace RadJav
         }
         this.items = RadJav.setDefaultValue(obj.items, []);
       }
-      /** @property {RadJav.GUI.List.Item[]} [items=[]]
+      /** 
        * The items to display.
        */
       items;
 
-      /** @method addItem
+      /** 
        * Add an item to this row.
        * @param {RadJav.GUI.List.Item} item The item to add.
        */
@@ -192,8 +191,6 @@ namespace RadJav
         this.items.push(item);
       }
     }
-
-    export namespace List {
 
       /** @class RadJav.GUI.List.Item
        * A List item.

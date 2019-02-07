@@ -27,6 +27,8 @@
 #include "cpp/RadJavCPPNetWebSocketServer.h"
 #include "cpp/RadJavCPPNetWebSocketClient.h"
 
+#include "cpp/RadJavCPPNet.h"
+
 namespace RadJAV
 {
 	namespace V8B
@@ -60,7 +62,7 @@ namespace RadJAV
 				CPP::Net::WebSocketServer * webSocket = (CPP::Net::WebSocketServer *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_webSocket");
 				
 				v8::Local<v8::Number> port;
-				RJINT portI = 0;
+				RJINT portI = V8_JAVASCRIPT_ENGINE->v8GetInt(args.This(), "port");
 
 				if (args.Length() > 0)
 				{
@@ -194,16 +196,12 @@ namespace RadJAV
 
 			void WebSocketClient::connect(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				v8::Local<v8::String> val = v8::Local<v8::String>::Cast(args[0]);
-				String host = parseV8Value(val);
-				val = v8::Local<v8::String>::Cast(args[1]);
-				String port = parseV8Value(val);
+				String url = V8_JAVASCRIPT_ENGINE->v8GetString (args.This (), "url");
+				RadJAV::CPP::Net::URI uri = RadJAV::CPP::Net::URI::parse(url);
 
 				CPP::Net::WebSocketClient *webSocket = (CPP::Net::WebSocketClient *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_webSocket");
 
-				webSocket->connect(host, port);
-
-				
+				webSocket->connect(uri.host, uri.port);
 			}
 
 			void WebSocketClient::send(const v8::FunctionCallbackInfo<v8::Value> &args)

@@ -25,8 +25,7 @@ namespace RadJav
 {
 	export namespace GUI
 	{
-		/** @class RadJav.GUI.Combobox
-		 * @extends RadJav.GUI.GObject
+		/** 
 		 * A combobox.
 		 * Available on platforms: Windows,Linux,OSX,HTML5
 		 */
@@ -61,28 +60,23 @@ namespace RadJav
 				this._materials = RadJav.setDefaultValue(obj._materials, {});
 			}
 
-			/** @property {Mixed} [_renderer=null]
-			 * @protected
+			/** 
 			 * The renderer used to render the canvas.
 			 */
 			protected _renderer: any;
-			/** @property {Number} [_rendererType=1]
-			 * @protected
+			/** 
 			 * The renderer type used to render the canvas.
 			 */
 			protected _rendererType: Number;
-			/** @property {Object} [_currentCamera=null]
-			 * @protected
+			/** 
 			 * The current camera used to render the scene.
 			 */
 			protected _currentCamera: any;
-			/** @property {Object} [_models={}]
-			 * @protected
+			/** 
 			 * The models that have been loaded for use. Each key is a RadJav.C3D.Model.
 			 */
 			protected _models: Object[];
-			/** @property {Object} [_materials={}]
-			 * @protected
+			/** 
 			 * The materials that have been loaded for use. Each key is a RadJav.C3D.Material.
 			 */
 			protected _materials: object[];
@@ -159,8 +153,7 @@ namespace RadJav
 				return promise;
 			}
 
-			/** @method _setupDefaultCamera
-			 * @protected
+			/** 
 			 * Setup the default camera.
 			 * @return {Promise} The promise to execute when the camera has finished being
 			 * created.
@@ -175,8 +168,7 @@ namespace RadJav
 				);
 			}
 
-			/** @method _setupDefaultSceneManager
-			 * @protected
+			/** 
 			 * Setup the default scene manager.
 			 * @return {RadJav.GUI.GObject} The parent of this object.
 			 */
@@ -184,7 +176,7 @@ namespace RadJav
 				this._sceneManager = new THREE.Scene();
 			}
 
-			/** @method setAmbientLightColor
+			/** 
 			 * Set the ambient light color of the scene.
 			 * @param {RadJav.Color} color The color.
 			 */
@@ -204,7 +196,7 @@ namespace RadJav
 				return entity.create();
 			}
 
-			/** @method addModel
+			/** 
 			 * Add a loaded model for use.
 			 * @param {RadJav.C3D.Model} model The model to add.
 			 */
@@ -212,7 +204,7 @@ namespace RadJav
 				this._models[model.getName()] = model;
 			}
 
-			/** @method addMaterial
+			/** 
 			 * Add a loaded material for use.
 			 * @param {RadJav.C3D.Material} material The material to add.
 			 */
@@ -220,21 +212,21 @@ namespace RadJav
 				this._materials[material.getName()] = material;
 			}
 
-			/** @method getNumModels
+			/** 
 			 * Get the number of models that have been loaded.
 			 */
 			public getNumModels(): number {
 				return Object.keys(this._models).length;
 			}
 
-			/** @method getNumMaterials
+			/** 
 			 * Get the number of materials that have been loaded.
 			 */
 			public getNumMaterials(): number {
 				return Object.keys(this._materials).length;
 			}
 
-			/** @method render
+			/** 
 			 * Perform the actual rendering.
 			 */
 			public render(): void {
@@ -242,7 +234,7 @@ namespace RadJav
 				this._renderer.render(this._sceneManager, this._currentCamera._obj3d);
 			}
 
-			/** @method createWorld
+			/** 
 			 * Set the ambient light color of the scene.
 			 * @param {RadJav.Color} color The color.
 			 */
@@ -250,7 +242,7 @@ namespace RadJav
 				this._sceneManager.add(new THREE.AmbientLight(colour.toHexInt()));
 			}
 
-			/** @method createWorld
+			/** 
 			 * Set the ambient light color of the scene.
 			 * @param {RadJav.Color} color The color.
 			 */

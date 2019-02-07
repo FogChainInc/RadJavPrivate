@@ -24,52 +24,63 @@ namespace RadJav
 {
 	export namespace Net
 	{
+		/// A WebSocket Server.
 		export class WebSocketServer
 		{
-			port: string;
+			/// The port to listen on.
+			port: number;
+			/// The websocket to use.
 			_webSocket: any;	// This will only be used on desktop machines and will be instantiated in _init().
 			
-			constructor ()
+			constructor (port: number)
 			{
-				this.port = "9229";
+				this.port = port;
 				this._webSocket = null;
 				
 				// Only call _init() if this is running on desktop.
 				if (typeof this["_init"] == "function")
 					this["_init"] ();
 			}
-			
-			onAccept (id: string): void
-			{
-				alert (this.id);
-			}
-			
-			onReceive (id: string, msg: string): void
-			{
-				alert (this.msg);
-			}
-		}
 
-		export class WebSocketClient
-		{
-			/** @property {Number} [port=0]
-			* The port.
-			*/
-			port: Number;
-			/** @property {String} [url=""]
-			* The URL.
-			*/
-			url: String;
-			/** @property {Mixed} [_webSocket=null]
-			* The port.
-			*/
-			_webSocket: any;
-
-			constructor ()
+			/// Send a message to someone.
+			send (id: string, msg: string | string[])
 			{
-				this.port = 0;
-				this.url = "";
-				this._webSocket = null;
+			}
+
+			/// Send a message to everyone.
+			sendToAll (msg: string)
+			{
+			}
+
+			/// Receive a message.
+			receive (): string
+			{
+				return ("");
+			}
+
+			/// Start the server and listen on the port.
+			listen (port: number)
+			{
+			}
+
+			/// Executes on an event.
+			on (eventName: string, func: Function): any
+			{
+			}
+
+			/// Stop the server and close.
+			close ()
+			{
+			}
+
+			/// The on accept event.
+			onAccept (func: ((id: string) => void)): void
+			{
+			}
+
+			// The on receive event.
+			onReceive (func: ((id: string, msg: string) => void)): void
+			{
 			}
 		}
 	}

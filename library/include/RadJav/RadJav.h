@@ -107,6 +107,7 @@
 				#ifdef USE_CRYPTOGRAPHY
 					/// Setup the Crypto library.
 					static void setupCrypto ();
+					static void destroyCrypto();
 				#endif
 
 				/// Run an application.

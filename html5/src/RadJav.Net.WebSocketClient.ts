@@ -20,10 +20,12 @@
 
 /// <reference path="RadJav.ts" />
 
-namespace RadJav {
-  export namespace Net {
-    /** @class RadJav.Net.WebSocketClient
-     * A web socket.
+namespace RadJav
+{
+  export namespace Net
+  {
+    /** 
+     * A web socket client.
      * Available on platforms: Windows,Linux,OSX,HTML5
      */
     export class WebSocketClient {
@@ -45,27 +47,25 @@ namespace RadJav {
           (<any>this)._init();
       }
 
-      /** @property {String} [url=""]
-       * @protected
+      /** 
        * The URL to open.
        */
       url: string;
-      /** @property {Object} [_socket=null]
-       * @protected
+      /** 
        * The web socket that will be used for the connection.
        */
       _socket: any;
-      /** @property {Object} [_events={}]
-       * @protected
+      /** 
        * The events to execute when triggered.
        */
       _events: Object;
 
-      /** @method connect
+      /** 
        * Connect to the URL.
        * @return {Promise} The promise to execute when the connection has completed.
        */
-      connect(eventName, func: Function): Promise<any> {
+      connect(): Promise<any>
+      {
         var promise = new Promise(
           RadJav.keepContext(function (resolve, reject) {
             if (WebSocket == null) {
@@ -73,33 +73,33 @@ namespace RadJav {
               return;
             }
 
-            this._socket = new WebSocket(this.url, ["xmpp"]);
+            this._socket = new WebSocket(this.url);
 
             this._socket.onopen = RadJav.keepContext(function () {
               resolve();
 
-              if (this._events["onopen"] != null) {
-                this._events["onopen"]();
+              if (this._events["connected"] != null) {
+                this._events["connected"]();
               }
             }, this);
 
             this._socket.onerror = RadJav.keepContext(function (error) {
               reject(error);
 
-              if (this._events["onerror"] != null) {
-                this._events["onerror"](error);
+              if (this._events["error"] != null) {
+                this._events["error"](error);
               }
             }, this);
 
             this._socket.onmessage = RadJav.keepContext(function (message) {
-              if (this._events["onmessage"] != null) {
-                this._events["onmessage"](message);
+              if (this._events["receive"] != null) {
+                this._events["receive"](message.data);
               }
             }, this);
 
             this._socket.onclose = RadJav.keepContext(function (message) {
-              if (this._events["onclose"] != null) {
-                this._events["onclose"]();
+              if (this._events["close"] != null) {
+                this._events["close"]();
               }
             }, this);
           }, this)
@@ -108,7 +108,7 @@ namespace RadJav {
         return promise;
       }
 
-      /** @method send
+      /** 
        * Send a message to the server.
        * @param {String/Object} message The message to send.
        */
@@ -116,7 +116,7 @@ namespace RadJav {
         this._socket.send(message);
       }
 
-      /** @method on
+      /** 
        * Call a function when an event is executed.
        * @param {String} eventName The name of the event.
        * @param {Function} func The function to execute when the event has been executed.

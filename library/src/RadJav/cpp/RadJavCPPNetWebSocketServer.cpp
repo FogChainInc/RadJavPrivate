@@ -58,7 +58,7 @@ namespace RadJAV
 
 			void WebSocketServer::listen(unsigned short port_)
 			{
-				auto const address = boost::asio::ip::make_address("127.0.0.1");
+				auto const address = boost::asio::ip::make_address("0.0.0.0");
 				m_port = port_;
 																				
 				// The io_context is required for all I/O
@@ -295,7 +295,6 @@ namespace RadJAV
 					    args[1] = message;
 					  }
 
-
 					if (V8_JAVASCRIPT_ENGINE->v8IsNull(evt) == false)
 						evt->Call(V8_JAVASCRIPT_ENGINE->globalContext->Global(), 2, args);
 
@@ -399,12 +398,12 @@ namespace RadJAV
 						std::placeholders::_1));
 			}
 
-		        v8::Local<v8::Function> WebSocketServer::WebSocketServerListener::get_on_accept_callback()
+		    v8::Local<v8::Function> WebSocketServer::WebSocketServerListener::get_on_accept_callback()
 			{
 
 			  return v8::Local<v8::Function>::Cast(RadJAV::CPP::Net::WebSocketServer::WebSocketServerListener::m_serverAcceptEvent->Get(V8_JAVASCRIPT_ENGINE->isolate));
 			}
-		        v8::Persistent<v8::Function> *WebSocketServer::WebSocketServerListener::get_on_receive_persistent_evt()
+		    v8::Persistent<v8::Function> *WebSocketServer::WebSocketServerListener::get_on_receive_persistent_evt()
 			{
 
 			  return m_serverReceiveEvent;

@@ -72,7 +72,8 @@
 		"visibility": true, 
 		"position": "253, 257", 
 		"size": "75, 23", 
-		"text": "Send"
+		"text": "Send", 
+		"click": "sendChat ();"
 	}, 
 	{
 		"type": "RadJav.GUI.Label", 

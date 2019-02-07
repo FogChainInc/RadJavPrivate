@@ -127,6 +127,12 @@
 					 * @brief Initializes SSL certificates.
 					 */
 					void initializeCertificates();
+
+					//@{
+					/**
+					 * @brief Destroys the SSL certificates.
+					 */
+					void destroyCertificates();
 					
 					/**
 					 * @brief Add an SSL certificate.

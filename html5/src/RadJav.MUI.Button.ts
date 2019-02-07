@@ -25,8 +25,7 @@ namespace RadJav
 {
 	export namespace MUI
 	{
-		/** @class RadJav.MUI.Button
-		 * @extends RadJav.GUI.GObject
+		/** 
 		 * A mobile button.
 		 * Available on platforms: iOS,Android,HTML5
 		 */

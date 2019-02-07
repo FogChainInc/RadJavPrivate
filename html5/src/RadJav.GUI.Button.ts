@@ -25,8 +25,7 @@ namespace RadJav
 {
 	export namespace GUI
 	 {
-		/** @class RadJav.GUI.Button
-		 * @extends RadJav.GUI.GObject
+		/**
 		 * A button.
 		 * Available on platforms: Windows,Linux,OSX,HTML5
 		 */

@@ -47,7 +47,7 @@
 					if (devTools == 1)
 						RadJav.connectDevTools ();
 
-					RadJav.runApplicationFromFile (relPath).then (function ()
+					RadJav.include (relPath).then (function ()
 						{
 							document.getElementById ("loading").style.visibility = "hidden";
 						});

@@ -541,6 +541,11 @@ namespace RadJAV
 				RadJAV::CPP::Crypto::addCertificate(certificate);
 			}
 		}
+
+		void RadJav::destroyCrypto()
+		{
+			RadJAV::CPP::Crypto::destroyCertificates();
+		}
 	#endif
 
 	void RadJav::showMessageBox(String message, String title)
@@ -624,6 +629,10 @@ namespace RadJAV
 		
 		#ifdef HTTP_USE_CURL
 			curl_global_cleanup ();
+		#endif
+
+		#ifdef USE_CRYPTOGRAPHY
+			destroyCrypto();
 		#endif
 
 		#if defined (RADJAV_DEBUG) && defined (LOG_MEMORY_LEAKS)

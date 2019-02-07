@@ -186,6 +186,11 @@ namespace RadJAV
 				SSLCertificates = RJNEW Array<String> ();
 			}
 
+			void destroyCertificates()
+			{
+				DELETEOBJ(SSLCertificates);
+			}
+
 			void addCertificate(String certificate)
 			{
 				boost::system::error_code err;
