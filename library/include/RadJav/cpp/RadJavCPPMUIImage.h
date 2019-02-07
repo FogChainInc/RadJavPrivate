@@ -25,14 +25,6 @@
 
 #include "cpp/RadJavCPPGUIGObject.h"
 
-#ifdef USE_IOS
-	OBJC_CLASS(UIImageView);
-	OBJC_CLASS(UIImage);
-	OBJC_CLASS(ImageDelegate);
-#elif defined USE_ANDROID
-	JNI_CLASS(jobject);
-#endif
-
 namespace RadJAV
 {
 	namespace CPP
@@ -88,68 +80,7 @@ namespace RadJAV
 					void on(String event, RJ_FUNC_TYPE func);
 				#endif
 			};
-
-			class RADJAV_EXPORT ImageFrame : public GUI::GObjectWidget
-											,public ChainedPtr
-			{
-			public:
-				/**
-				 * Constructor.
-				 * @param GObjectWidget parent. Constructed object will be added to view hierarchy of parent.
-				 * @param String imageFile. Initial state
-				 * @param Vector2 pos Initial position.
-				 * @param Vector2 size Initial size.
-				 */
-				ImageFrame(GUI::GObjectWidget *parent, const String &imageFile, const Vector2 &pos, const Vector2 &size);
-				/**
-				 * Constructor.
-				 * @param GObjectWidget parent. Constructed object will be added to view hierarchy of parent.
-				 * @param Vector2 pos Initial position.
-				 * @param Vector2 size Initial size.
-				 */
-				ImageFrame(GUI::GObjectWidget *parent, const Vector2 &pos, const Vector2 &size);
-				~ImageFrame();
-				
-				/** @method loadImage
-				 * Loads image from supplied source.
-				 * @param imageFile Source to load from.
-				 * @return BOOL whether image was loaded.
-				 */
-				RJBOOL loadImage(const String& imageFile);
-				/** @method setScaleMode
-				 * Setter for scale mode
-				 * @param ScaleMode Only aspect fit and aspect fill are supported now.
-				 */
-				void setScaleMode(Image::ScaleMode mode);
-				/** @method getScaleMode
-				 * Getter for scale mode
-				 * @return ScaleMode Current scale mode.
-				 */
-				Image::ScaleMode getScaleMode() const;
-				
-				bool bindEvent(const String& eventName, const GUI::Event* event);
-				
-				#ifdef USE_IOS
-					UIView* getNativeWidget();
-				#endif
-				
-			private:
-				#ifdef USE_IOS
-					UIImageView* widget;
-					UIImage* image;
-					//TODO: do we need to handle events of the UIImage?
-					//ImageDelegate* widgetDelegate;
-				#elif defined USE_ANDROID
-					static jclass nativeImageViewClass;
-
-					static jmethodID nativeConstructor;
-					static jmethodID nativeSetImageBitmap;
-					static jmethodID nativeSetScaleType;
-					static jmethodID nativeGetScaleType;
-				#endif
-			};
 		}
 	}
 }
 #endif
-

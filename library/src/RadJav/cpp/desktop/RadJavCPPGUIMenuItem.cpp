@@ -17,44 +17,38 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
+#include "cpp/desktop/RadJavCPPGUIMenuItem.h"
 
-/// <reference path="RadJav.ts" />
-/// <reference path="RadJav.Vector2.ts" />
+#include "RadJav.h"
+#include "RadJavString.h"
 
-namespace RadJav
+namespace RadJAV
 {
-	export namespace MUI
+	namespace CPP
 	{
-		/** @class RadJav.MUI.ViewController
-		 * @extends RadJav.GUI.GObject
-		 * A mobile view controller.
-		 * Available on platforms: iOS,Android,HTML5
-		 */
-		export class ViewController extends RadJav.GUI.GObject
+		namespace GUI
 		{
-			static xmlTag: TagType = { tag: "viewcontroller", type: "ViewController" };
+			#ifdef GUI_USE_WXWIDGETS
+				RJINT MenuItemGUI::nextId = 0;
 
-			constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject)
-			{
-				if (obj == null) obj = {};
-
-				if (typeof obj == "string")
+				void MenuItemGUI::addData(RJINT menuId, void *data, RJINT dataType)
 				{
-					var name = obj;
-					obj = { name: name };
+					auto found = this->data.find(menuId);
+					auto end = this->data.end();
+
+					if (found != end)
+					{
+						void *temp = this->data.at(menuId);
+						DELETE_OBJ(temp);
+
+						this->data.erase(menuId);
+						this->dataType.erase(menuId);
+					}
+
+					this->data.insert(HashMapPair<RJINT, void *>(menuId, data));
+					this->dataType.insert(HashMapPair<RJINT, RJINT>(menuId, dataType));
 				}
-
-				if (obj.size == null)
-				{
-					obj.size = new RadJav.Vector2();
-					obj.size.x = 500;
-					obj.size.y = 350;
-				}
-
-				super(obj, text, parent) || this;
-
-				this.type = "RadJav.MUI.ViewController";
-			}
+			#endif
 		}
 	}
 }

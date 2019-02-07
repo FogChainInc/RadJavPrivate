@@ -25,13 +25,6 @@
 
 #include "cpp/RadJavCPPGUIGObject.h"
 
-#ifdef USE_IOS
-	OBJC_CLASS(UITextView);
-	OBJC_CLASS(TextFieldDelegate);
-#elif defined USE_ANDROID
-	JNI_CLASS(jobject);
-#endif
-
 namespace RadJAV
 {
 	namespace CPP
@@ -65,69 +58,7 @@ namespace RadJAV
 					void on(String event, RJ_FUNC_TYPE func);
 				#endif
 			};
-			
-			class RADJAV_EXPORT TextareaFrame : public GUI::GObjectWidget
-												,public ChainedPtr
-			{
-			public:
-				/**
-				 * Constructor.
-				 * @param String name. This goes to superclass constructor.
-				 * @param String text. Initial text.
-				 * @param GObjectWidget parent.
-				 */
-				TextareaFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
-				~TextareaFrame();
-				
-				/** @method setText
-				 * Setter for button text.
-				 * @param String text
-				 */
-				void setText(String text);
-				
-				/** @method getText
-				 * Getter for buttonText.
-				 * @return String text
-				 */
-				String getText();
-				
-				/** @method setFont
-				 * Setter for button font.
-				 * @param Font font
-				 */
-				void setFont(CPP::Font *font);
-				/** @method getFont
-				 * Getter for button font.
-				 * @return Font
-				 */
-				CPP::Font *getFont();
-
-				#ifdef USE_IOS
-					void setEnabled(RJBOOL enabled);
-					RJBOOL getEnabled();
-				#endif
-				
-				bool bindEvent(const String& eventName, const GUI::Event* event);
-				
-				#ifdef USE_IOS
-					UIView* getNativeWidget();
-				#endif
-				
-			private:
-				#ifdef USE_IOS
-					UITextView* widget;
-					TextFieldDelegate* widgetDelegate;
-				#elif defined USE_ANDROID
-					static jclass nativeEditTextClass;
-
-					static jmethodID nativeConstructor;
-					static jmethodID nativeSetText;
-					static jmethodID nativeGetText;
-				#endif
-			};
-			
 		}
 	}
 }
 #endif
-

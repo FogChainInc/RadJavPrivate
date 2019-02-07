@@ -23,11 +23,11 @@
 #include "RadJavString.h"
 
 #ifdef GUI_USE_WXWIDGETS
-    #ifdef __WXOSX__
-        /// @todo Fix this later. This is throwing issues on OSX.
-        //#import <AppKit/AppKit.h>
-        //#import <AppKit/NSScreen.h>
-    #endif
+	#include "cpp/desktop/RadJavCPPGUIWindowFrame.h"
+#elif defined USE_ANDROID
+	#include "cpp/android/RadJavCPPGUIWindowFrame.h"
+#elif defined USE_IOS
+	#include "cpp/ios/RadJavCPPGUIWindowFrame.h"
 #endif
 
 namespace RadJAV
@@ -36,86 +36,6 @@ namespace RadJAV
 	{
 		namespace GUI
 		{
-			#ifdef GUI_USE_WXWIDGETS
-				WindowFrame::WindowFrame(const wxString &text, const wxPoint &pos, const wxSize &size)
-					: wxFrame(NULL, wxID_ANY, text, pos, size)
-				{
-				}
-
-				void WindowFrame::onClose(wxCloseEvent &evt)
-				{
-					if (IsTopLevel() == true)
-					{
-                        RadJav::javascriptEngine->exit(0);
-
-						return;
-					}
-
-					Destroy();
-				}
-
-				void WindowFrame::onJSClose(wxCloseEvent &evt)
-				{
-					Event *pevent = (Event *)evt.GetEventUserData();
-                    
-                    #ifdef USE_V8
-                        v8::Local<v8::Value> result = executeEvent(pevent);
-
-                        if (result.IsEmpty() == false)
-                        {
-                            if ((result->IsNull() == false) && (result->IsUndefined() == false))
-                            {
-                                v8::Local<v8::Boolean> change = v8::Local<v8::Boolean>::Cast(result);
-
-                                if (change->Value() == false)
-                                    evt.Veto();
-                            }
-                        }
-                    #endif
-                    
-                    #ifdef USE_JAVASCRIPTCORE
-                        JSValueRef result = executeEvent(pevent);
-                    
-                        if (result != NULL)
-                        {
-                            if ((JSValueIsNull (JSC_JAVASCRIPT_ENGINE->globalContext, result) == false) &&
-                                (JSValueIsUndefined (JSC_JAVASCRIPT_ENGINE->globalContext, result) == false))
-                            {
-                                RJBOOL change = JSC_JAVASCRIPT_ENGINE->jscParseBool (result);
-
-                                if (change == false)
-                                    evt.Veto();
-                            }
-                        }
-                    #endif
-				}
-
-				void WindowFrame::onJSMinimized(wxIconizeEvent &evt)
-				{
-					Event *pevent = (Event *)evt.GetEventUserData();
-					executeEvent(pevent);
-				}
-
-				void WindowFrame::onJSMaximized(wxMaximizeEvent &evt)
-				{
-					Event *pevent = (Event *)evt.GetEventUserData();
-					executeEvent(pevent);
-				}
-
-				void WindowFrame::onClick(wxMouseEvent &evt)
-				{
-					Event *pevent = (Event *)evt.GetEventUserData();
-					executeEvent(pevent);
-				}
-
-				void WindowFrame::onMenuSelected(wxCommandEvent &evt)
-				{
-					Event *pevent = (Event *)evt.GetEventUserData();
-					executeEvent(pevent);
-				}
-		  
-			#endif
-
 			#ifdef USE_V8
 			Window::Window(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
 				: GObject (jsEngine, args)
@@ -354,10 +274,3 @@ namespace RadJAV
 		}
 	}
 }
-
-#ifdef GUI_USE_WXWIDGETS
-	wxBEGIN_EVENT_TABLE(RadJAV::CPP::GUI::WindowFrame, wxFrame)
-		EVT_CLOSE(RadJAV::CPP::GUI::WindowFrame::onClose)
-	wxEND_EVENT_TABLE()
-#endif
-

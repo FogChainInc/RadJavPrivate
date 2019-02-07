@@ -22,32 +22,20 @@
 #include "RadJav.h"
 #include "RadJavString.h"
 
+#ifdef GUI_USE_WXWIDGETS
+	#include "cpp/desktop/RadJavCPPGUITextboxFrame.h"
+#elif defined USE_ANDROID
+	#include "cpp/android/RadJavCPPGUITextboxFrame.h"
+#elif defined USE_IOS
+	#include "cpp/ios/RadJavCPPGUITextboxFrame.h"
+#endif
+
 namespace RadJAV
 {
 	namespace CPP
 	{
 		namespace GUI
 		{
-			#ifdef GUI_USE_WXWIDGETS
-				TextboxFrame::TextboxFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size)
-					: wxTextCtrl(parent, wxID_ANY, text, pos, size, wxTE_PROCESS_ENTER)
-				{
-				}
-
-				void TextboxFrame::onText(wxCommandEvent &evt)
-				{
-					Event *pevent = (Event *)evt.GetEventUserData();
-					executeEvent(pevent);
-				}
-		  
-				void TextboxFrame::onTextEnter(wxCommandEvent &evt)
-				{
-					Event *pevent = (Event *)evt.GetEventUserData();
-					executeEvent(pevent);
-				}
-		  
-			#endif
-
 			#ifdef USE_V8
 				Textbox::Textbox(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
 					: GObject (jsEngine, args)
@@ -134,9 +122,3 @@ namespace RadJAV
 		}
 	}
 }
-
-#ifdef GUI_USE_WXWIDGETS
-	wxBEGIN_EVENT_TABLE(RadJAV::CPP::GUI::TextboxFrame, wxTextCtrl)
-	wxEND_EVENT_TABLE()
-#endif
-

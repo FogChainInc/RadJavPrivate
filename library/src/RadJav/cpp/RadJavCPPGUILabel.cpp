@@ -24,26 +24,20 @@
 
 #include <iostream>
 
+#ifdef GUI_USE_WXWIDGETS
+	#include "cpp/desktop/RadJavCPPGUILabelFrame.h"
+#elif defined USE_ANDROID
+	#include "cpp/android/RadJavCPPGUILabelFrame.h"
+#elif defined USE_IOS
+	#include "cpp/ios/RadJavCPPGUILabelFrame.h"
+#endif
+
 namespace RadJAV
 {
 	namespace CPP
 	{
 		namespace GUI
 		{
-			#ifdef GUI_USE_WXWIDGETS
-				LabelFrame::LabelFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size)
-					: wxStaticText(parent, wxID_ANY, text, pos, size)
-				{
-				}
-		  
-				void LabelFrame::onClick(wxMouseEvent &event)
-				{
-				  std::cout << "Label clicked" << std::endl;
-					Event *pevent = (Event *)event.GetEventUserData();
-					executeEvent(pevent);
-				}
-			#endif
-
 			#ifdef USE_V8
 				Label::Label(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
 					: GObject (jsEngine, args)
@@ -103,9 +97,3 @@ namespace RadJAV
 		}
 	}
 }
-
-#ifdef GUI_USE_WXWIDGETS
-	wxBEGIN_EVENT_TABLE(RadJAV::CPP::GUI::LabelFrame, wxStaticText)
-	wxEND_EVENT_TABLE()
-#endif
-

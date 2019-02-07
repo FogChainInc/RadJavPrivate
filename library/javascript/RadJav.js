@@ -196,8 +196,6 @@ RadJav.getMUILibrary = function ()
 			{ file: "RadJav.MUI.Label", themeFile: true },
 			{ file: "RadJav.MUI.Image", themeFile: true },
 			{ file: "RadJav.MUI.Checkbox", themeFile: true },
-			{ file: "RadJav.MUI.ViewController", themeFile: true },
-			{ file: "RadJav.MUI.NavigationViewController", themeFile: true },
 			{ file: "RadJav.MUI.Textbox", themeFile: true },
 			{ file: "RadJav.MUI.Textarea", themeFile: true },
 			{ file: "RadJav.MUI.ScrollView", themeFile: true },

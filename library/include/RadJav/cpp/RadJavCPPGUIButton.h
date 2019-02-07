@@ -25,28 +25,12 @@
 
 	#include "cpp/RadJavCPPGUIGObject.h"
 
-	#ifdef GUI_USE_WXWIDGETS
-		#include <wx/wx.h>
-	#endif
-
 	namespace RadJAV
 	{
 		namespace CPP
 		{
 			namespace GUI
 			{
-				#ifdef GUI_USE_WXWIDGETS
-					/// The wxWidgets button to use.
-					class RADJAV_EXPORT ButtonFrame : public wxButton, public GObjectEvents, public ChainedPtr
-					{
-						public:
-							ButtonFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size);
-
-						protected:
-							wxDECLARE_EVENT_TABLE();
-					};
-				#endif
-
 				/**
 				 * @ingroup group_gui_cpp
 				 * @brief Button class.

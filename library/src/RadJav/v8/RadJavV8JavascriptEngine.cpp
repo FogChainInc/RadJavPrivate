@@ -73,9 +73,6 @@
 		#include "v8/RadJavV8GUIMenuBar.h"
 		#include "v8/RadJavV8GUIMenuItem.h"
 		#include "v8/RadJavV8GUICanvas3D.h"
-		#include "v8/RadJavV8MUIScrollView.h"
-		#include "v8/RadJavV8MUIView.h"
-		#include "v8/RadJavV8MUINavigator.h"
 		#ifdef WXWIDGETS_HAS_WEBVIEW
 			#include "v8/RadJavV8GUIWebView.h"
 		#endif
@@ -86,12 +83,8 @@
 		#include "v8/RadJavV8GUIGObject.h"
 		#include "v8/RadJavV8MUIView.h"
 		#include "v8/RadJavV8MUINavigator.h"
-		//#include "v8/RadJavV8MUIViewController.h"
-		//#include "v8/RadJavV8MUINavigationViewController.h"
-		//#include "v8/RadJavV8MUITableViewController.h"
 		#include "v8/RadJavV8MUITableView.h"
 		#include "v8/RadJavV8MUITableViewModel.h"
-		//#include "v8/RadJavV8MUITableCellModel.h"
 		#include "v8/RadJavV8MUIScrollView.h"
 		#include "v8/RadJavV8MUIButton.h"
 		#include "v8/RadJavV8MUILabel.h"
@@ -246,8 +239,9 @@ namespace RadJAV
 					isolate->ContextDisposedNotification();
 					isolate->LowMemoryNotification();
 
-					isolate->Dispose();
-					isolate = nullptr;
+					//This is just a hack, isolate must be disposed after context and scope objects
+					//isolate->Dispose();
+					//isolate = nullptr;
 				}
 
 				delete arrayBufferAllocator;
@@ -350,6 +344,9 @@ namespace RadJAV
 		V8JavascriptEngine::~V8JavascriptEngine()
 		{
 			DELETEOBJ(jsvm);
+
+			//This is just a hack, isolate must be disposed after context and scope objects
+			isolate->Dispose();
 			isolate = nullptr;
 
 			DELETEOBJ(externalsManager);
@@ -1648,29 +1645,30 @@ namespace RadJAV
 						V8B::GUI::MenuItem::createV8Callbacks(isolate, menuItemPrototype);
 					}
 
-					// RadJav.GUI.ScrollView
-					{
-						v8::Handle<v8::Function> viewFunc = v8GetFunction(guiFunc, "ScrollView");
-						v8::Handle<v8::Object> viewPrototype = v8GetObject(viewFunc, "prototype");
-
-						V8B::MUI::ScrollView::createV8Callbacks(isolate, viewPrototype);
-					}
-
-					// RadJav.GUI.View
-					{
-						v8::Handle<v8::Function> viewFunc = v8GetFunction(guiFunc, "View");
-						v8::Handle<v8::Object> viewPrototype = v8GetObject(viewFunc, "prototype");
-
-						V8B::MUI::View::createV8Callbacks(isolate, viewPrototype);
-					}
-
-					// RadJav.GUI.Navigator
-					{
-						v8::Handle<v8::Function> navigatorFunc = v8GetFunction(guiFunc, "Navigator");
-						v8::Handle<v8::Object> navigatorPrototype = v8GetObject(navigatorFunc, "prototype");
-
-						V8B::MUI::Navigator::createV8Callbacks(isolate, navigatorPrototype);
-					}
+					//TODO: need to add such controls for desktop
+//					// RadJav.GUI.ScrollView
+//					{
+//						v8::Handle<v8::Function> viewFunc = v8GetFunction(guiFunc, "ScrollView");
+//						v8::Handle<v8::Object> viewPrototype = v8GetObject(viewFunc, "prototype");
+//
+//						V8B::MUI::ScrollView::createV8Callbacks(isolate, viewPrototype);
+//					}
+//
+//					// RadJav.GUI.View
+//					{
+//						v8::Handle<v8::Function> viewFunc = v8GetFunction(guiFunc, "View");
+//						v8::Handle<v8::Object> viewPrototype = v8GetObject(viewFunc, "prototype");
+//
+//						V8B::MUI::View::createV8Callbacks(isolate, viewPrototype);
+//					}
+//
+//					// RadJav.GUI.Navigator
+//					{
+//						v8::Handle<v8::Function> navigatorFunc = v8GetFunction(guiFunc, "Navigator");
+//						v8::Handle<v8::Object> navigatorPrototype = v8GetObject(navigatorFunc, "prototype");
+//
+//						V8B::MUI::Navigator::createV8Callbacks(isolate, navigatorPrototype);
+//					}
 
 					// RadJav.GUI.WebView
 					#ifdef WXWIDGETS_HAS_WEBVIEW
@@ -1723,30 +1721,6 @@ namespace RadJAV
 						V8B::MUI::Navigator::createV8Callbacks(isolate, navigatorPrototype);
 					}
 
-					#if 0
-                    // RadJav.MUI.ViewController
-                    {
-                        JSObjectRef viewFunc = jscGetFunction(muiFunc, "ViewController");
-                        JSObjectRef viewPrototype = jscGetObject(viewFunc, "prototype");
-                        
-                        JSC::MUI::ViewController::createJSCCallbacks(globalContext, viewPrototype);
-                    }
-                    // RadJav.MUI.NavigationViewController
-                    {
-                        JSObjectRef viewFunc = jscGetFunction(muiFunc, "NavigationViewController");
-                        JSObjectRef viewPrototype = jscGetObject(viewFunc, "prototype");
-                        
-                        JSC::MUI::NavigationViewController::createJSCCallbacks(globalContext, viewPrototype);
-                    }
-                    // RadJav.MUI.TableViewController
-                    {
-                        JSObjectRef viewFunc = jscGetFunction(muiFunc, "TableViewController");
-                        JSObjectRef viewPrototype = jscGetObject(viewFunc, "prototype");
-                        
-                        JSC::MUI::TableViewController::createJSCCallbacks(globalContext, viewPrototype);
-                    }
-                    #endif
-
 					// RadJav.MUI.TableView
 					{
 						v8::Handle<v8::Function> viewFunc = v8GetFunction(muiFunc, "TableView");
@@ -1770,24 +1744,6 @@ namespace RadJAV
                         
                         V8B::MUI::TableViewModel::createV8Callbacks(isolate, tableviewPrototype);
                     }
-
-					#if 0
-                    // RadJav.MUI.TableCellModel
-                    {
-                        JSObjectRef viewFunc = jscGetFunction(muiFunc, "TableCellModel");
-                        JSObjectRef viewPrototype = jscGetObject(viewFunc, "prototype");
-                        
-                        JSC::MUI::TableCellModel::createJSCCallbacks(globalContext, viewPrototype);
-                    }
-					
-					// RadJav.MUI.ScrollView
-					{
-						JSObjectRef scrollviewFunc = jscGetFunction(muiFunc, "ScrollView");
-						JSObjectRef scrollviewPrototype = jscGetObject(scrollviewFunc, "prototype");
-						
-						JSC::MUI::ScrollView::createJSCCallbacks(globalContext, scrollviewPrototype);
-					}
-					#endif
 
 					// RadJav.MUI.Button
 					{

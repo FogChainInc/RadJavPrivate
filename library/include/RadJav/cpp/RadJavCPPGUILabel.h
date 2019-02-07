@@ -25,41 +25,12 @@
 
 	#include "cpp/RadJavCPPGUIGObject.h"
 
-	#ifdef GUI_USE_WXWIDGETS
-		#include <wx/wx.h>
-	#endif
-
 	namespace RadJAV
 	{
 		namespace CPP
 		{
 			namespace GUI
 			{
-				#ifdef GUI_USE_WXWIDGETS
-					/// The wxWidgets label to use.
-					class RADJAV_EXPORT LabelFrame : public wxStaticText, public GObjectEvents, public ChainedPtr
-					{
-						public:
-							LabelFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size);
-
-
-							void onClick(wxMouseEvent &event);
-							/*
-							   void onDoubleClick(wxMouseEvent &event);
-							   void onRightClick(wxMouseEvent &event);
-							   void onRightDoubleClick(wxMouseEvent &event);
-							   void onRightDown(wxMouseEvent &event);
-							   void onMiddleClick(wxMouseEvent &event);
-							   void onMiddleDoubleClick(wxMouseEvent &event);
-							   void onMiddleDown(wxMouseEvent &event);
-							*/
-							
-
-						protected:
-							wxDECLARE_EVENT_TABLE();
-					};
-				#endif
-
 				/**
 				 * @ingroup group_gui_cpp
 				 * @brief Label class.

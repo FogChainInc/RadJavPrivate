@@ -19,15 +19,8 @@
 */
 #ifndef _RADJAV_MUI_CPP_BOTTOM_NAVIGATOR_H_
 	#define _RADJAV_MUI_CPP_BOTTOM_NAVIGATOR_H_
+
 	#include "cpp/RadJavCPPGUIGObject.h"
-
-	#ifdef USE_V8
-		#include "v8/RadJavV8GUIGObject.h"
-	#elif defined USE_JAVASCRIPTCORE
-		#include "jscore/RadJavJSCGUIGObject.h"
-	#endif
-
-	#include <stack>
 
 
 	namespace RadJAV
@@ -36,47 +29,9 @@
 		{
 			namespace MUI
 			{
-				class ViewFrame;
 				class View;
-				class RADJAV_EXPORT BottomNavigatorFrame : public ChainedPtr
-                {
-                public:
-					BottomNavigatorFrame(ViewFrame* view);
-                    ~BottomNavigatorFrame();
-					/** @method addTab
-					 * Adds tab to tabbar. Title property of View will be used for icon caption.
-					 * @param View this view will be wrapped in VIewController and displayed.
-					 * @param String absolute path to icon to be displayed on tabbar
-					 */
-                    void addTab(View* view, String icon);
-					/** @method getSelectedTab
-					 * Returns index of currently selected tab.
-					 * @return int currently selected tab
-					 */
-					int getSelectedTab();
-
-				private:
-					#ifdef USE_IOS
-                        UIView *rootView;
-						UITabBarController* widget;
-	
-					#elif defined USE_ANDROID
-						static jmethodID nativeConstructor;
-						static jmethodID nativeAddView;
-						static jmethodID nativeRemoveView;
-						static jmethodID nativeSetLayoutTransition;
-
-						static jclass nativeLayoutTransitionClass;
-						static jclass nativeLayoutClass;
-
-						jobject rootView;
-						std::stack<ViewFrame*> viewStack;
-					#endif
-                };
-                
-
-				class View;
-
+				class BottomNavigatorFrame;
+				
 				class RADJAV_EXPORT BottomNavigator : public ChainedPtr
 				{
 					public:
@@ -109,4 +64,3 @@
 		}
 	}
 #endif
-

@@ -17,36 +17,42 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#ifndef _RADJAV_MUI_JSC_NAVIGATIONVIEWCONTROLLER_H_
-#define _RADJAV_MUI_JSC_NAVIGATIONVIEWCONTROLLER_H_
+#ifndef _RADJAV_MUI_CPP_VIEW_FRAME_H_
+#define _RADJAV_MUI_CPP_VIEW_FRAME_H_
 
 #include "RadJavPreprocessor.h"
-#include <JavaScriptCore/JavaScriptCore.h>
+#include "RadJavString.h"
 
+#include "cpp/RadJavCPPGUIGObject.h"
+
+OBJC_CLASS(ViewDelegate);
 
 namespace RadJAV
 {
-	namespace JSC
+	namespace CPP
 	{
 		namespace MUI
 		{
-			/**
-			 * @ingroup group_mui_js_jsc
-			 * @brief NavigationViewController callbacks.
-			 * @details Class representing Javascript bindings to CPP::MUI::NavigationViewController.
-			 */
-			class RADJAV_EXPORT NavigationViewController
+			class RADJAV_EXPORT ViewFrame : public GUI::GObjectWidget
+											, public ChainedPtr
 			{
-				public:
-					static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
+			public:
+				ViewFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
+				ViewFrame(const String &text, const Vector2 &pos, const Vector2 &size);
+				~ViewFrame();
 
-					static JSValueRef create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
-					static JSValueRef setRootViewController(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
-					static JSValueRef pushViewController(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
-					static JSValueRef popViewController(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+				void setText(String text);
+				String getText();
+
+				bool bindEvent(const String& eventName, const GUI::Event* event);
+
+				UIView* getNativeWidget();
+				ViewDelegate* widgetDelegate;
+
+			private:
+				UIView* widget;
 			};
 		}
 	}
 }
-
 #endif

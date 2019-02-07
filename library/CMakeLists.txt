@@ -696,8 +696,6 @@ if (libRadJav_EMBEDFILE)
 	if (IS_MOBILE)
 		set (jsFiles ${jsFiles}
 			RadJav.GUI.GObject.js # This must be compiled before any other GUI object.
-			RadJav.MUI.ViewController.js
-			RadJav.MUI.NavigationViewController.js
 			RadJav.MUI.View.js
 			RadJav.MUI.Navigator.js
 			RadJav.MUI.BottomNavigator.js
@@ -733,9 +731,6 @@ if (libRadJav_EMBEDFILE)
 			RadJav.GUI.MenuItem.js
 			RadJav.GUI.KeyEvent.js
 			RadJav.GUI.MouseEvent.js
-			RadJav.MUI.ScrollView.js
-			RadJav.MUI.Navigator.js
-			RadJav.MUI.View.js
 		)
 		
 		if (USE_WXWIDGETS_WEBVIEW)

@@ -25,38 +25,12 @@
 
 	#include "cpp/RadJavCPPGUIGObject.h"
 
-	#ifdef GUI_USE_WXWIDGETS
-		#include <wx/wx.h>
-	#endif
-
 	namespace RadJAV
 	{
 		namespace CPP
 		{
 			namespace GUI
 			{
-				#ifdef GUI_USE_WXWIDGETS
-					/// The wxWidgets button to use.
-					class RADJAV_EXPORT ImageFrame : public wxStaticBitmap, public GObjectEvents, public ChainedPtr
-					{
-					public:
-						ImageFrame(wxWindow *parent, const wxString &file, wxSize fileSize, const wxPoint &pos, const wxSize &size);
-
-						wxBitmapType getImageType(wxString file);
-						void loadImage(wxString file, wxSize fileSize);
-
-						void paintEvent(wxPaintEvent &event);
-						void render(wxDC &dc);
-
-					protected:
-						RJBOOL isImageLoaded;
-						wxImage image;
-						wxSize imageSize;
-
-						wxDECLARE_EVENT_TABLE();
-					};
-				#endif
-
 				/**
 				 * @ingroup group_gui_cpp
 				 * @brief Image class.

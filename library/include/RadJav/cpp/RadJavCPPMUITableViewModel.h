@@ -30,42 +30,42 @@
 #endif
 
 
-	namespace RadJAV
+namespace RadJAV
+{
+	namespace CPP
 	{
-		namespace CPP
+		namespace MUI
 		{
-			namespace MUI
+			/**
+			 * @ingroup group_mui_cpp
+			 * @brief TableViewModel class.
+			 */
+			class RADJAV_EXPORT TableViewModel : public ChainedPtr
 			{
-				/**
-				 * @ingroup group_mui_cpp
-				 * @brief TableViewModel class.
-				 */
-				class RADJAV_EXPORT TableViewModel : public ChainedPtr
-				{
-					public:
-						#ifdef USE_V8
-							TableViewModel(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
-						#endif
-						#ifdef USE_JAVASCRIPTCORE
-							TableViewModel(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
-						#endif
-						TableViewModel();
+				public:
+					#ifdef USE_V8
+						TableViewModel(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
+					#endif
+					#ifdef USE_JAVASCRIPTCORE
+						TableViewModel(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
+					#endif
+					TableViewModel();
 
-						void itemAdded(unsigned int index);
-						void itemRemoved(unsigned int index);
-						void itemsCleared();
+					void itemAdded(unsigned int index);
+					void itemRemoved(unsigned int index);
+					void itemsCleared();
 
-						unsigned int size() const;
-					
-						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
-							/// Execute when an event is triggered.
-							void on(String event, RJ_FUNC_TYPE func);
-						#endif
-					protected:
-						unsigned int itemsCount;
-				};
-			}
+					unsigned int size() const;
+				
+					#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+						/// Execute when an event is triggered.
+						void on(String event, RJ_FUNC_TYPE func);
+					#endif
+				protected:
+					unsigned int itemsCount;
+			};
 		}
 	}
+}
 #endif
 

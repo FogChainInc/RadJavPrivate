@@ -18,6 +18,7 @@
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 #include "cpp/RadJavCPPMUIImage.h"
+#include "cpp/ios/RadJavCPPMUIImageFrame.h"
 #import "cpp/ios/RadJavCPPMUIEventDelegates.h"
 
 #import "cpp/RadJavCPPMUIView.h"

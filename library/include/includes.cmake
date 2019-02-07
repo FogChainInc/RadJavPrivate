@@ -66,10 +66,7 @@ if (USE_V8)
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIRadio.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIList.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIMenuBar.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIMenuItem.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIScrollView.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIView.h" 
-			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUINavigator.h")
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIMenuItem.h")
 		# V8 GUI WebView
 		if (USE_WXWIDGETS_WEBVIEW)
 			set (SOURCES_files_RadJav__v8__GUI__Headers
@@ -99,8 +96,6 @@ if (USE_V8)
 		set (SOURCES_files_RadJav__v8__MUI__Headers 
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIView.h" 
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUINavigator.h"
-			#"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIViewController.h"
-			#"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUINavigationViewController.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUITableView.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUITableViewModel.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIScrollView.h"
@@ -279,8 +274,6 @@ if (USE_JAVASCRIPTCORE)
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUIView.h" 
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUINavigator.h" 
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUIBottomNavigator.h" 
-			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUIViewController.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUINavigationViewController.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUITableView.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUITableViewModel.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUIScrollView.h"
@@ -518,6 +511,7 @@ endif ()
 
 # C++ GUI
 if (USE_WXWIDGETS)
+	# Main sources
 	set (SOURCES_files_RadJav__cpp__GUI__Headers 
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIGObject.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIWindow.h"
@@ -533,27 +527,54 @@ if (USE_WXWIDGETS)
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIList.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIMenuBar.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIMenuItem.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIEvent.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIScrollView.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIView.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUINavigator.h")
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIEvent.h")
+
+	# wxWidgets implementation of GUI controls
+	set (SOURCES_files_RadJav__cpp__GUI__wxWidgets_Headers
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/desktop/RadJavCPPGUIWindowFrame.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/desktop/RadJavCPPGUIButtonFrame.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/desktop/RadJavCPPGUILabelFrame.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/desktop/RadJavCPPGUIImageFrame.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/desktop/RadJavCPPGUIContainerFrame.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/desktop/RadJavCPPGUIComboboxFrame.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/desktop/RadJavCPPGUITextboxFrame.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/desktop/RadJavCPPGUITextareaFrame.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/desktop/RadJavCPPGUICheckboxFrame.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/desktop/RadJavCPPGUIRadioFrame.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/desktop/RadJavCPPGUIListFrame.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/desktop/RadJavCPPGUIMenuBarFrame.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/desktop/RadJavCPPGUIMenuItem.h")
+
 	# C++ GUI WebView
 	if (USE_WXWIDGETS_WEBVIEW)
 		set (SOURCES_files_RadJav__cpp__GUI__Headers
 			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIWebView.h"
 			${SOURCES_files_RadJav__cpp__GUI__Headers})
+
+		set (SOURCES_files_RadJav__cpp__GUI__wxWidgets_Headers
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/desktop/RadJavCPPGUIWebViewFrame.h"
+			${SOURCES_files_RadJav__cpp__GUI__wxWidgets_Headers})
 	endif ()
+
 	# C++ GUI Canvas3D
 	if (USE_OGRE)
 		set (SOURCES_files_RadJav__cpp__GUI__Headers
 			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUICanvas3D.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIRenderWindow.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/wxOgreRenderWindow.h"
 			${SOURCES_files_RadJav__cpp__GUI__Headers})
+
+		set (SOURCES_files_RadJav__cpp__GUI__wxWidgets_Headers
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/desktop/RadJavCPPGUICanvas3DFrame.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/desktop/RadJavCPPGUIRenderWindow.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/desktop/wxOgreRenderWindow.h"
+			${SOURCES_files_RadJav__cpp__GUI__wxWidgets_Headers})
 	endif ()
 	source_group ("RadJav\\CPP\\GUI" FILES ${SOURCES_files_RadJav__cpp__GUI__Headers})
 	
 	set (SOURCES ${SOURCES_files_RadJav__cpp__GUI__Headers} ${SOURCES})
+
+	source_group ("RadJav\\CPP\\GUI\\desktop" FILES ${SOURCES_files_RadJav__cpp__GUI__wxWidgets_Headers})
+	
+	set (SOURCES ${SOURCES_files_RadJav__cpp__GUI__wxWidgets_Headers} ${SOURCES})
 endif ()
 
 # C++ MUI
@@ -570,8 +591,6 @@ if (IS_MOBILE)
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIView.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUINavigator.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIBottomNavigator.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIViewController.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUINavigationViewController.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUITableView.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUITableViewCellCreator.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUITableViewModel.h"
@@ -591,15 +610,39 @@ if (IS_MOBILE)
 	
 	if (IOS)
 		set (SOURCES_files_RadJav__cpp__MUI__Headers 
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/ios/RadJavCPPMUIBottomNavigatorFrame.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/ios/RadJavCPPMUIButtonFrame.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/ios/RadJavCPPMUICheckboxFrame.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/ios/RadJavCPPMUIEventDelegates.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/ios/RadJavCPPMUIUtils.h")
-			
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/ios/RadJavCPPMUIImageFrame.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/ios/RadJavCPPMUILabelFrame.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/ios/RadJavCPPMUINavigatorFrame.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/ios/RadJavCPPMUIScrollViewFrame.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/ios/RadJavCPPMUITableViewFrame.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/ios/RadJavCPPMUITextareaFrame.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/ios/RadJavCPPMUITextboxFrame.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/ios/RadJavCPPMUIUtils.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/ios/RadJavCPPMUIViewFrame.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/ios/RadJavCPPMUIWebViewFrame.h")
+		
 		source_group ("RadJav\\CPP\\MUI\\iOS" FILES ${SOURCES_files_RadJav__cpp__MUI__Headers})
 		set (SOURCES ${SOURCES_files_RadJav__cpp__MUI__Headers} ${SOURCES})
 	elseif (ANDROID)
 		set (SOURCES_files_RadJav__cpp__MUI__Headers 
-			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/android/RadJavCPPMUITableViewDelegate.h")
-			
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/android/RadJavCPPMUIBottomNavigatorFrame.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/android/RadJavCPPMUIButtonFrame.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/android/RadJavCPPMUICheckboxFrame.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/android/RadJavCPPMUIImageFrame.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/android/RadJavCPPMUILabelFrame.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/android/RadJavCPPMUINavigatorFrame.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/android/RadJavCPPMUIScrollViewFrame.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/android/RadJavCPPMUITableViewDelegate.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/android/RadJavCPPMUITableViewFrame.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/android/RadJavCPPMUITextareaFrame.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/android/RadJavCPPMUITextboxFrame.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/android/RadJavCPPMUIViewFrame.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/android/RadJavCPPMUIWebViewFrame.h")
+		
 		source_group ("RadJav\\CPP\\MUI\\Android" FILES ${SOURCES_files_RadJav__cpp__MUI__Headers})
 		set (SOURCES ${SOURCES_files_RadJav__cpp__MUI__Headers} ${SOURCES})
 	endif ()

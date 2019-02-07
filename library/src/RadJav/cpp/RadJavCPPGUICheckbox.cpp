@@ -22,26 +22,20 @@
 #include "RadJav.h"
 #include "RadJavString.h"
 
+#ifdef GUI_USE_WXWIDGETS
+	#include "cpp/desktop/RadJavCPPGUICheckboxFrame.h"
+#elif defined USE_ANDROID
+	#include "cpp/android/RadJavCPPGUICheckboxFrame.h"
+#elif defined USE_IOS
+	#include "cpp/ios/RadJavCPPGUICheckboxFrame.h"
+#endif
+
 namespace RadJAV
 {
 	namespace CPP
 	{
 		namespace GUI
 		{
-			#ifdef GUI_USE_WXWIDGETS
-				CheckboxFrame::CheckboxFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size)
-					: wxCheckBox(parent, wxID_ANY, text, pos, size)
-				{
-				}
-		  
-				void CheckboxFrame::onChanged(wxCommandEvent &event)
-				{
-					Event *pevent = (Event *)event.GetEventUserData();
-					executeEvent(pevent);
-				}
-		  
-			#endif
-
 			#ifdef USE_V8
 				Checkbox::Checkbox(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
 					: GObject (jsEngine, args)
@@ -149,9 +143,3 @@ namespace RadJAV
 		}
 	}
 }
-
-#ifdef GUI_USE_WXWIDGETS
-	wxBEGIN_EVENT_TABLE(RadJAV::CPP::GUI::CheckboxFrame, wxCheckBox)
-	wxEND_EVENT_TABLE()
-#endif
-

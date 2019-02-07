@@ -17,44 +17,40 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
+#include "cpp/desktop/RadJavCPPGUITextboxFrame.h"
 
-/// <reference path="RadJav.ts" />
-/// <reference path="RadJav.Vector2.ts" />
+#include "RadJav.h"
+#include "RadJavString.h"
 
-namespace RadJav
+namespace RadJAV
 {
-	export namespace MUI
+	namespace CPP
 	{
-		/** @class RadJav.MUI.NavigationViewController
-		 * @extends RadJav.MUI.ViewController
-		 * A mobile view.
-		 * Available on platforms: iOS,Android,HTML5
-		 */
-		export class NavigationViewController extends RadJav.MUI.ViewController
+		namespace GUI
 		{
-			static xmlTag: TagType = { tag: "navigationviewcontroller", type: "NavigationViewController" };
-
-			constructor(obj?: any, text?: string, parent?: RadJav.MUI.ViewController)
-			{
-				if (obj == null) obj = {};
-
-				if (typeof obj == "string")
+			#ifdef GUI_USE_WXWIDGETS
+				TextboxFrame::TextboxFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size)
+					: wxTextCtrl(parent, wxID_ANY, text, pos, size, wxTE_PROCESS_ENTER)
 				{
-					var name = obj;
-					obj = { name: name };
 				}
 
-				if (obj.size == null)
+				void TextboxFrame::onText(wxCommandEvent &evt)
 				{
-					obj.size = new RadJav.Vector2();
-					obj.size.x = 500;
-					obj.size.y = 350;
+					Event *pevent = (Event *)evt.GetEventUserData();
+					executeEvent(pevent);
 				}
 
-				super(obj, text, parent) || this;
-
-				this.type = "RadJav.MUI.NavigationViewController";
-			}
+				void TextboxFrame::onTextEnter(wxCommandEvent &evt)
+				{
+					Event *pevent = (Event *)evt.GetEventUserData();
+					executeEvent(pevent);
+				}
+			#endif
 		}
 	}
 }
+
+#ifdef GUI_USE_WXWIDGETS
+	wxBEGIN_EVENT_TABLE(RadJAV::CPP::GUI::TextboxFrame, wxTextCtrl)
+	wxEND_EVENT_TABLE()
+#endif

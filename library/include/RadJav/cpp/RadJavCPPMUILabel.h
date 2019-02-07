@@ -25,88 +25,12 @@
 
 #include "cpp/RadJavCPPGUIGObject.h"
 
-#ifdef USE_IOS
-	OBJC_CLASS(UILabel);
-	OBJC_CLASS(LabelDelegate);
-#elif defined USE_ANDROID
-	JNI_CLASS(jobject);
-#endif
-
 namespace RadJAV
 {
 	namespace CPP
 	{
 		namespace MUI
 		{
-			class RADJAV_EXPORT LabelFrame : public GUI::GObjectWidget
-											,public ChainedPtr
-			{
-			public:
-				/**
-				 * Constructor.
-				 * @param GObjectWidget parent. Constructed object will be added to view hierarchy of parent
-				 * @param String text. Display text, has default value of empty string.
-				 * @param Vector2 pos Initial position.
-				 * @param Vector2 size Initial size.
-				 */
-				LabelFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
-				~LabelFrame();
-
-				/** @method setText
-				 * Setter for button text.
-				 * @param String text
-				 */
-				void setText(String text);
-				
-				/** @method getText
-				 * Getter for buttonText.
-				 * @return String text
-				 */
-				String getText();
-				
-				/** @method setFont
-				 * Setter for button font.
-				 * @param Font font
-				 */
-				void setFont(CPP::Font *font);
-				/** @method getFont
-				 * Getter for button font.
-				 * @return Font
-				 */
-				CPP::Font *getFont();
-				#ifdef USE_IOS
-					/** @method setEnabled
-				 	* Setter for enabled.
-				 	* @param BOOL enabled
-				 	*/
-					void setEnabled(RJBOOL enabled);
-					/** @method getEnabled
-				 	* Getter for enabled.
-				 	* @return Bool enabled
-				 	*/
-					RJBOOL getEnabled();
-				#endif
-
-				bool bindEvent(const String& eventName, const GUI::Event* event);
-
-				#ifdef USE_IOS
-					UIView* getNativeWidget();
-				#endif
-
-			private:
-				#ifdef USE_IOS
-					UILabel* widget;
-					//TODO: do we need to handle events of the UILabel?
-					//LabelDelegate* widgetDelegate;
-				#elif defined USE_ANDROID
-					static jclass nativeTextViewClass;
-
-					static jmethodID nativeConstructor;
-					static jmethodID nativeSetText;
-					static jmethodID nativeGetText;
-				#endif
-			};
-			
 			/**
 			 * @ingroup group_mui_cpp
 			 * @brief Label class.
@@ -138,4 +62,3 @@ namespace RadJAV
 	}
 }
 #endif
-

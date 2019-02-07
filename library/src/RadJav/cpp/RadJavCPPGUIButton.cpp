@@ -22,19 +22,20 @@
 #include "RadJav.h"
 #include "RadJavString.h"
 
+#ifdef GUI_USE_WXWIDGETS
+	#include "cpp/desktop/RadJavCPPGUIButtonFrame.h"
+#elif defined USE_ANDROID
+	#include "cpp/android/RadJavCPPGUIButtonFrame.h"
+#elif defined USE_IOS
+	#include "cpp/ios/RadJavCPPGUIButtonFrame.h"
+#endif
+
 namespace RadJAV
 {
 	namespace CPP
 	{
 		namespace GUI
 		{
-			#ifdef GUI_USE_WXWIDGETS
-				ButtonFrame::ButtonFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size)
-					: wxButton(parent, wxID_ANY, text, pos, size)
-				{
-				}
-			#endif
-
 			#ifdef USE_V8
 				Button::Button(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
 					: GObject (jsEngine, args)
@@ -111,9 +112,3 @@ namespace RadJAV
 		}
 	}
 }
-
-#ifdef GUI_USE_WXWIDGETS
-	wxBEGIN_EVENT_TABLE(RadJAV::CPP::GUI::ButtonFrame, wxButton)
-	wxEND_EVENT_TABLE()
-#endif
-

@@ -25,124 +25,41 @@
 
 	#include "cpp/RadJavCPPGUIGObject.h"
 
-	#ifdef USE_IOS
-		OBJC_CLASS(UIButton);
-        OBJC_CLASS(ButtonDelegate);
-	#endif
-
 	namespace RadJAV
 	{
 		namespace CPP
 		{
 			namespace MUI
 			{
-				class RADJAV_EXPORT ButtonFrame : public GUI::GObjectWidget
-												, public ChainedPtr
-				{
-				public:
-					/**
-					 * Constructor.
-					 * @param GObjectWidget parent. Constructed object will be added to view hierarchy of parent
-					 * @param String text. Will be displayed on button, has default value of empty string.
-					 * @param Vector2 pos Initial position.
-					 * @param Vector2 size Initial size.
-					 */
-					ButtonFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
-					~ButtonFrame();
-					
-					void create();
-					
-					/** @method setText
-					 * Setter for button text.
-					 * @param String text
-					 */
-                    void setText(String text);
-					
-					/** @method getText
-					 * Getter for buttonText.
-					 * @return String text
-					 */
-                    String getText();
-					
-					/** @method setFont
-					 * Setter for button font.
-					 * @param Font font
-					 */
-					void setFont(CPP::Font *font);
-					/** @method getFont
-					 * Getter for button font.
-					 * @return Font
-					 */
-					CPP::Font *getFont();
-					
-					/** @method setEnabled
-					 * Setter for enabled.
-					 * @param BOOL enabled
-					 */
-					void setEnabled(RJBOOL enabled);
-					/** @method getEnabled
-					 * Getter for enabled.
-					 * @return Bool enabled
-					 */
-					RJBOOL getEnabled();
-
-					bool bindEvent(const String& eventName, const GUI::Event* event);
-
-					#ifdef USE_IOS
-						UIView* getNativeWidget();
-					#endif
-					
-				private:
-					#ifdef USE_IOS
-                    	UIButton* widget;
-                    	ButtonDelegate* widgetDelegate;
-					#endif
-
-					#ifdef USE_ANDROID
-                    	static jclass nativeButtonClass;
-
-                    	static jmethodID nativeConstructor;
-                    	static jmethodID nativeSetText;
-						static jmethodID nativeGetText;
-
-						/*^:AndroidJNI.outputStart ("jniHeaders");*/
-/*^:AndroidJNI.outputEnd ("jniHeaders");*/
-					#endif
-				};
-				
 				/**
 				 * @ingroup group_mui_cpp
 				 * @brief Button class.
 				 */
 				class RADJAV_EXPORT Button : public CPP::GUI::GObject
 				{
-					public:
-						#ifdef USE_V8
-							Button(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
-						#endif
-                        #ifdef USE_JAVASCRIPTCORE
-                            Button(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
-                        #endif
-						/**
-					 	* Constructor.
-					 	* @param String name. This goes to superclass constructor
-					 	* @param String text. Button caption, has default value of empty string.
-					 	* @param GObjectWidget parent. Constructed object will be added to view hierarchy of parent.
-					 	*/
-						Button(String name, String text = "", CPP::GUI::GObject *parent = NULL);
+				public:
+					#ifdef USE_V8
+						Button(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
+					#endif
+					#ifdef USE_JAVASCRIPTCORE
+						Button(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
+					#endif
+					/**
+					* Constructor.
+					* @param String name. This goes to superclass constructor
+					* @param String text. Button caption, has default value of empty string.
+					* @param GObjectWidget parent. Constructed object will be added to view hierarchy of parent.
+					*/
+					Button(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 
-						void create();
+					void create();
 
-						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
-                        	/// Execute when an event is triggered.
-                        	void on(String event, RJ_FUNC_TYPE func);
-						#endif
-					
-						///???
-						String icon;
+					#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+						/// Execute when an event is triggered.
+						void on(String event, RJ_FUNC_TYPE func);
+					#endif
 				};
 			}
 		}
 	}
 #endif
-

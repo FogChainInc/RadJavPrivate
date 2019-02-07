@@ -28,135 +28,20 @@
 	#include <Ogre.h>
 #endif
 
+#ifdef GUI_USE_WXWIDGETS
+	#include "cpp/desktop/RadJavCPPGUICanvas3DFrame.h"
+#elif defined USE_ANDROID
+	#include "cpp/android/RadJavCPPGUICanvas3DFrame.h"
+#elif defined USE_IOS
+	#include "cpp/ios/RadJavCPPGUICanvas3DFrame.h"
+#endif
+
 namespace RadJAV
 {
 	namespace CPP
 	{
 		namespace GUI
 		{
-			#ifdef GUI_USE_WXWIDGETS
-				Canvas3DFrame::Canvas3DFrame(const wxString &text, const wxPoint &pos, const wxSize &size, Array<CanvasResource *> resources)
-					: wxFrame(NULL, wxID_ANY, text, pos, size),
-					  renderingWidget(nullptr),
-					  sceneManager(nullptr)
-				{
-					// Create dummy window just to hold device, prevents constant lost devices
-					// when resizing the 'real' viewable windows
-					// We'll never render to this window or give it a viewport or camera, it's
-					// only there to hold the rendering device
-					createRenderWindow(this, wxSize(1, 1), false);
-					
-                    // Creation of first window will have created rendering context
-                    Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
-
-					for (RJUINT iIdx = 0; iIdx < resources.size(); iIdx++)
-					{
-						CanvasResource *resource = resources.at(iIdx);
-						Ogre::ResourceGroupManager::getSingleton().addResourceLocation(resource->name, resource->type, resource->group);
-						Ogre::ResourceGroupManager::getSingleton().initialiseResourceGroup(resource->group);
-
-						if (resource->loadAtStart == true)
-						{
-							Ogre::ResourceManager::ResourceMapIterator rmiIterator =
-								Ogre::MaterialManager::getSingletonPtr()->getResourceIterator();
-
-							while (rmiIterator.hasMoreElements() == true)
-							{
-								Ogre::ResourceManager::ResourceHandleMap::mapped_type mtResource = rmiIterator.getNext();
-								std::string groupName = mtResource->getGroup();
-
-								if (groupName.find(resource->group) != std::string::npos)
-								{
-									mtResource->load();
-									mtResource->touch();
-								}
-							}
-						}
-					}
-
-					Ogre::Root* ogreRoot = Ogre::Root::getSingletonPtr();
-					if(!ogreRoot)
-						return;
-					
-					//Create widget to render to
-					renderingWidget = RJNEW wxOgreRenderWindow( ogreRoot, this, wxID_ANY, wxPoint(0, 0), size);
-
-					//Create SceneManager if not already
-					try
-					{
-						sceneManager = ogreRoot->getSceneManager("sceneManager");
-					}
-					catch(Ogre::Exception)
-					{
-						if(!sceneManager)
-						{
-							sceneManager = ogreRoot->createSceneManager(Ogre::String("OctreeSceneManager"),
-																		Ogre::String("sceneManager"));
-							
-						}
-					}
-				}
-
-				void Canvas3DFrame::addChild(const C3D::Transform& child)
-				{
-					if(sceneManager)
-					{
-						sceneManager->getRootSceneNode()->addChild(child.node);
-					}
-				}
-
-				void Canvas3DFrame::removeChild(const C3D::Transform& child)
-				{
-					if(sceneManager)
-					{
-						sceneManager->getRootSceneNode()->removeChild(child.node);
-					}
-				}
-
-				void Canvas3DFrame::onClose(wxCloseEvent &evt)
-				{
-					if (IsTopLevel() == true)
-					{
-						wxExit();
-						return;
-					}
-					
-					Destroy();
-				}
-
-				void Canvas3DFrame::onJSClose(wxCloseEvent &evt)
-				{
-					//TODO: add JavaScriptCore implementation
-					#ifdef USE_V8
-						Event *pevent = (Event *)evt.GetEventUserData();
-						v8::Local<v8::Value> result = executeEvent(pevent);
-					
-						if (result.IsEmpty() == false)
-						{
-							if ((result->IsNull() == false) && (result->IsUndefined() == false))
-							{
-								v8::Local<v8::Boolean> change = v8::Local<v8::Boolean>::Cast(result);
-								
-								if (change->Value() == false)
-									evt.Veto();
-							}
-						}
-					#endif
-				}
-
-				void Canvas3DFrame::onJSMinimized(wxIconizeEvent &evt)
-				{
-					Event *pevent = (Event *)evt.GetEventUserData();
-					executeEvent(pevent);
-				}
-
-				void Canvas3DFrame::onClick(wxMouseEvent &evt)
-				{
-					Event *pevent = (Event *)evt.GetEventUserData();
-					executeEvent(pevent);
-				}
-			#endif
-
 			#ifdef USE_V8
 			Canvas3D::Canvas3D(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
 				: GObject (jsEngine, args)
@@ -434,13 +319,6 @@ namespace RadJAV
 					object->addChild(child);
 				}
 			}
-			
-#ifdef GUI_USE_WXWIDGETS
-			wxBEGIN_EVENT_TABLE(Canvas3DFrame, wxFrame)
-			EVT_CLOSE(Canvas3DFrame::onClose)
-			wxEND_EVENT_TABLE()
-#endif
 		}
 	}
 }
-

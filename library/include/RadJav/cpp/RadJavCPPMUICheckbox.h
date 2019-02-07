@@ -25,68 +25,12 @@
 
 #include "cpp/RadJavCPPGUIGObject.h"
 
-#ifdef USE_IOS
-	OBJC_CLASS(UISwitch);
-	OBJC_CLASS(SwitchDelegate);
-#elif defined USE_ANDROID
-	JNI_CLASS(jobject);
-#endif
-
 namespace RadJAV
 {
 	namespace CPP
 	{
 		namespace MUI
 		{
-			class RADJAV_EXPORT CheckboxFrame : public GUI::GObjectWidget
-												,public ChainedPtr
-			{
-			public:
-				/**
-				 * Constructor. Frame will be added as child to provided parent, state and size are preset from parameters.
-				 * @param GObjectWidget parent. Constructed object will be added to view hierarchy of parent.
-				 * @param BOOL checked. Initial state
-				 * @param Vector2 pos Initial position.
-				 * @param Vector2 size Initial size.
-				 */
-				CheckboxFrame(GUI::GObjectWidget *parent, RJBOOL checked, const Vector2 &pos, const Vector2 &size);
-				~CheckboxFrame();
-				
-				/** @method setChecked
-				 * Setter for control state.
-				 * @param BOOL checked
-				 */
-				void setChecked(RJBOOL checked);
-				
-				/** @method getChecked
-				 * Getter for control state.
-				 * @return BOOL checked
-				 */
-				RJBOOL getChecked() const;
-
-				#ifdef USE_IOS
-					void setEnabled(RJBOOL enabled);
-					RJBOOL getEnabled();
-				#endif
-				
-				bool bindEvent(const String& eventName, const GUI::Event* event);
-				#ifdef USE_IOS
-					UIView* getNativeWidget();
-				#endif
-				
-			private:
-				#ifdef USE_IOS
-					UISwitch* widget;
-					SwitchDelegate* widgetDelegate;
-				#elif defined USE_ANDROID
-					static jclass nativeSwitchClass;
-
-					static jmethodID nativeConstructor;
-					static jmethodID nativeSetChecked;
-					static jmethodID nativeIsChecked;
-				#endif
-			};
-			
 			/**
 			 * @ingroup group_mui_cpp
 			 * @brief Checkbox class.
@@ -128,4 +72,3 @@ namespace RadJAV
 	}
 }
 #endif
-

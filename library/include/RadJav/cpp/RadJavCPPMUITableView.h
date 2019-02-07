@@ -25,115 +25,57 @@
 #include "cpp/RadJavCPPMUIView.h"
 #include "cpp/RadJavCPPMUITableViewCellCreator.h"
 
-#ifdef USE_V8
-	#include "v8/RadJavV8GUIGObject.h"
-#elif defined USE_JAVASCRIPTCORE
-	#include "jscore/RadJavJSCGUIGObject.h"
-#endif
-
-#ifdef USE_IOS
-	OBJC_CLASS(UITableView);
-	OBJC_CLASS(TableViewDelegate);
-#elif defined USE_ANDROID
-	JNI_CLASS(jobject);
-#endif
-
-
-	namespace RadJAV
+namespace RadJAV
+{
+	namespace CPP
 	{
-		namespace CPP
+		class Persistent;
+		
+		namespace MUI
 		{
-			class Persistent;
-			
-			namespace MUI
+			class View;
+
+			/**
+			 * @ingroup group_mui_cpp
+			 * @brief TableView class.
+			 */
+			class RADJAV_EXPORT TableView : public CPP::GUI::GObject,
+											public TableViewCellCreator
 			{
-				class TableView;
-				#ifdef USE_ANDROID
-					class TableViewDelegate;
-				#endif
+				public:
+					#ifdef USE_V8
+						TableView(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
+					#endif
+					#ifdef USE_JAVASCRIPTCORE
+						TableView(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
+					#endif
+					TableView(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 
-				class RADJAV_EXPORT TableViewFrame : public GUI::GObjectWidget
-												, public ChainedPtr
-                {
-                public:
-                    TableViewFrame(GUI::GObjectWidget *parent, TableViewCellCreator& cellCreator, const String &text, const Vector2 &pos, const Vector2 &size);
-                    ~TableViewFrame();
+					~TableView();
 
-					#ifdef USE_IOS
-						void setText(String text);
-                    
-						String getText();
+					void create();
+				
+					#ifdef USE_V8
+						void setModel(v8::Local<v8::Object> model);
+					#elif defined USE_JAVASCRIPTCORE
+						void setModel(JSObjectRef model);
+					#endif
+				
+					View* createViewForItem(unsigned int itemIndex);
+
+					#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+						/// Set TableView item delegate
+						void setDelegate(RJ_FUNC_TYPE delegateFunction);
+
+						/// Execute when an event is triggered.
+						void on(String event, RJ_FUNC_TYPE func);
 					#endif
 
-					bool bindEvent(const String& eventName, const GUI::Event* event);
-                    void setModel(MUI::TableViewModel *model);
-                    void reload();
-					CPP::MUI::View* viewForCellModel(int index);
-
-                    MUI::TableViewModel *model;
-					TableView *tableView;
-					#ifdef USE_IOS
-						UIView* getNativeWidget();
-					#endif
-
-				private:
-					TableViewDelegate* widgetDelegate;
-
-					#ifdef USE_IOS
-						UITableView* widget;
-					#elif defined USE_ANDROID
-
-						static jclass nativeListViewClass;
-
-						static jmethodID nativeConstructor;
-						static jmethodID nativeSetAdapter;
-					#endif
-                };
-                
-				class View;
-
-				/**
-				 * @ingroup group_mui_cpp
-				 * @brief TableView class.
-				 */
-				class RADJAV_EXPORT TableView : public CPP::GUI::GObject,
-												public TableViewCellCreator
-				{
-					public:
-						#ifdef USE_V8
-							TableView(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
-						#endif
-                        #ifdef USE_JAVASCRIPTCORE
-                            TableView(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
-                        #endif
-						TableView(String name, String text = "", CPP::GUI::GObject *parent = NULL);
-
-						~TableView();
-
-						void create();
-					
-						#ifdef USE_V8
-							void setModel(v8::Local<v8::Object> model);
-						#elif defined USE_JAVASCRIPTCORE
-							void setModel(JSObjectRef model);
-						#endif
-					
-						View* createViewForItem(unsigned int itemIndex);
-
-						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
-							/// Set TableView item delegate
-                        	void setDelegate(RJ_FUNC_TYPE delegateFunction);
-
-							/// Execute when an event is triggered.
-                        	void on(String event, RJ_FUNC_TYPE func);
-						#endif
-
-					protected:
-						Persistent* delegateJs;
-						Persistent* modelJs;
-				};
-			}
+				protected:
+					Persistent* delegateJs;
+					Persistent* modelJs;
+			};
 		}
 	}
+}
 #endif
-

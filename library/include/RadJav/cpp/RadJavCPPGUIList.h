@@ -25,34 +25,12 @@
 
 	#include "cpp/RadJavCPPGUIGObject.h"
 
-	#ifdef GUI_USE_WXWIDGETS
-		#include <wx/wx.h>
-		#include <wx/listctrl.h>
-	#endif
-
 	namespace RadJAV
 	{
 		namespace CPP
 		{
 			namespace GUI
 			{
-				#ifdef GUI_USE_WXWIDGETS
-					/// The wxWidgets button to use.
-					class RADJAV_EXPORT ListFrame : public wxListView, public GObjectEvents, public ChainedPtr
-					{
-						public:
-							ListFrame(wxWindow *parent, const wxPoint &pos, const wxSize &size);
-
-							void onRowClick(wxListEvent &event);
-							void onRowRightClick(wxListEvent &event);
-							void onRowMiddleClick(wxListEvent &event);
-							void onRowFocused(wxListEvent &event);
-
-						protected:
-							wxDECLARE_EVENT_TABLE();
-					};
-				#endif
-
 				/**
 				 * @ingroup group_gui_cpp
 				 * @brief List class.

@@ -24,41 +24,20 @@
 
 #include "cpp/RadJavCPPGUIWindow.h"
 
+#ifdef GUI_USE_WXWIDGETS
+	#include "cpp/desktop/RadJavCPPGUIMenuBarFrame.h"
+#elif defined USE_ANDROID
+	#include "cpp/android/RadJavCPPGUIMenuBarFrame.h"
+#elif defined USE_IOS
+	#include "cpp/ios/RadJavCPPGUIMenuBarFrame.h"
+#endif
+
 namespace RadJAV
 {
 	namespace CPP
 	{
 		namespace GUI
 		{
-  			#ifdef GUI_USE_WXWIDGETS
-				MenuBarFrame::MenuBarFrame(const wxString &text)
-				  : wxMenuBar()
-				{
-				}
-
-				void MenuBarFrame::onMenuOpen(wxMenuEvent &event)
-				{
-					Event *pevent = (Event *)event.GetEventUserData();
-					executeEvent(pevent);
-				}
-				void MenuBarFrame::onMenuClose(wxMenuEvent &event)
-				{
-					Event *pevent = (Event *)event.GetEventUserData();
-					executeEvent(pevent);
-				}
-				void MenuBarFrame::onMenuHighLight(wxMenuEvent &event)
-				{
-					Event *pevent = (Event *)event.GetEventUserData();
-					executeEvent(pevent);
-				}
-				void MenuBarFrame::onMenuSelected(wxCommandEvent &event)
-				{
-					Event *pevent = (Event *)event.GetEventUserData();
-					executeEvent(pevent);
-				}
-
-			#endif
-
 			#ifdef USE_V8
 				MenuBar::MenuBar(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
 					: GObject (jsEngine, args)
@@ -135,8 +114,3 @@ namespace RadJAV
 		}
 	}
 }
-
-#ifdef GUI_USE_WXWIDGETS
-	wxBEGIN_EVENT_TABLE(RadJAV::CPP::GUI::MenuBarFrame, wxMenuBar)
-	wxEND_EVENT_TABLE()
-#endif

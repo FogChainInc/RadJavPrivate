@@ -60,10 +60,7 @@ if (USE_V8)
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIRadio.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIList.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIMenuBar.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIMenuItem.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUIScrollView.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUINavigator.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUIView.cpp")
+			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIMenuItem.cpp")
 		# V8 GUI WebView
 		if (USE_WXWIDGETS_WEBVIEW)
 			set (SOURCES_files_RadJav__v8__GUI__Sources
@@ -93,8 +90,6 @@ if (USE_V8)
 		set (SOURCES_files_RadJav__v8__MUI__Sources 
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUIView.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUINavigator.cpp"
-			#"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUIViewController.cpp"
-			#"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUINavigationViewController.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUITableView.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUITableViewModel.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUIScrollView.cpp"
@@ -274,8 +269,6 @@ if (USE_JAVASCRIPTCORE)
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUIView.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUIBottomNavigator.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUINavigator.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUIViewController.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUINavigationViewController.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUITableView.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUITableViewModel.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUIScrollView.cpp"
@@ -515,6 +508,7 @@ endif ()
 
 # C++ GUI
 if (USE_WXWIDGETS)
+	# Main sources
 	set (SOURCES_files_RadJav__cpp__GUI__Sources 
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUIGObject.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUIWindow.cpp"
@@ -529,27 +523,52 @@ if (USE_WXWIDGETS)
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUIRadio.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUIList.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUIMenuBar.cpp"
-		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUIMenuItem.cpp"
-		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUIScrollView.cpp"
-		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUINavigator.cpp"
-		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUIView.cpp")
+		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUIMenuItem.cpp")
+
+	# wxWidgets implementation of GUI controls
+	set (SOURCES_files_RadJav__cpp__GUI__wxWidgets_Sources 
+		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/desktop/RadJavCPPGUIWindowFrame.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/desktop/RadJavCPPGUIButtonFrame.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/desktop/RadJavCPPGUILabelFrame.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/desktop/RadJavCPPGUIImageFrame.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/desktop/RadJavCPPGUIContainerFrame.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/desktop/RadJavCPPGUIComboboxFrame.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/desktop/RadJavCPPGUITextboxFrame.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/desktop/RadJavCPPGUITextareaFrame.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/desktop/RadJavCPPGUICheckboxFrame.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/desktop/RadJavCPPGUIRadioFrame.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/desktop/RadJavCPPGUIListFrame.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/desktop/RadJavCPPGUIMenuBarFrame.cpp"
+		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/desktop/RadJavCPPGUIMenuItem.cpp")
+
 	# C++ GUI WebView
 	if (USE_WXWIDGETS_WEBVIEW)
 		set (SOURCES_files_RadJav__cpp__GUI__Sources
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUIWebView.cpp"
 			${SOURCES_files_RadJav__cpp__GUI__Sources})
+
+		set (SOURCES_files_RadJav__cpp__GUI__wxWidgets_Sources
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/desktop/RadJavCPPGUIWebViewFrame.cpp"
+			${SOURCES_files_RadJav__cpp__GUI__wxWidgets_Sources})
 	endif ()
 	# C++ GUI Canvas3D
 	if (USE_OGRE)
 		set (SOURCES_files_RadJav__cpp__GUI__Sources
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUICanvas3D.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPGUIRenderWindow.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/wxOgreRenderWindow.cpp"
 			${SOURCES_files_RadJav__cpp__GUI__Sources})
+
+		set (SOURCES_files_RadJav__cpp__GUI__wxWidgets_Sources
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/desktop/RadJavCPPGUICanvas3DFrame.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/desktop/RadJavCPPGUIRenderWindow.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/desktop/wxOgreRenderWindow.cpp"
+			${SOURCES_files_RadJav__cpp__GUI__wxWidgets_Sources})
 	endif ()
 
 	source_group ("RadJav\\CPP\\GUI" FILES ${SOURCES_files_RadJav__cpp__GUI__Sources})
 	set (SOURCES ${SOURCES_files_RadJav__cpp__GUI__Sources} ${SOURCES})
+
+	source_group ("RadJav\\CPP\\GUI\\desktop" FILES ${SOURCES_files_RadJav__cpp__GUI__wxWidgets_Sources})
+	set (SOURCES ${SOURCES_files_RadJav__cpp__GUI__wxWidgets_Sources} ${SOURCES})
 endif ()
 
 # C++ MUI
@@ -564,8 +583,6 @@ if (IS_MOBILE)
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUIView.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUIBottomNavigator.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUINavigator.cpp"
-		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUIViewController.cpp" 
-		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUINavigationViewController.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUITableView.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUITableViewModel.cpp"
 		"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPMUIScrollView.cpp"
@@ -593,8 +610,6 @@ if (IS_MOBILE)
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUIViewFrame.mm"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUIBottomNavigatorFrame.mm"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUINavigatorFrame.mm"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUIViewControllerFrame.mm"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUINavigationViewControllerFrame.mm"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUITableViewFrame.mm"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUIScrollViewFrame.mm"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/ios/RadJavCPPMUIAlertFrame.mm"
@@ -621,13 +636,9 @@ if (IS_MOBILE)
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUIButtonFrame.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUIViewFrame.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUINavigatorFrame.cpp"
-			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUIViewControllerFrame.cpp"
-			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUINavigationViewControllerFrame.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUITableViewFrame.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUIScrollViewFrame.cpp"
 			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUIAlertFrame.cpp"
-			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUIEventDelegates.cpp"
-			#"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUIUtils.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUILabelFrame.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUIImageFrame.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/android/RadJavCPPMUICheckboxFrame.cpp"

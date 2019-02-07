@@ -25,13 +25,6 @@
 
 #include "cpp/RadJavCPPGUIGObject.h"
 
-#ifdef USE_IOS
-	OBJC_CLASS(UITextField);
-	OBJC_CLASS(TextFieldDelegate);
-#elif defined USE_ANDROID
-	JNI_CLASS(jobject);
-#endif
-
 namespace RadJAV
 {
 	namespace CPP
@@ -87,83 +80,7 @@ namespace RadJAV
 					void on(String event, RJ_FUNC_TYPE func);
 				#endif
 			};
-
-			class RADJAV_EXPORT TextboxFrame : public GUI::GObjectWidget
-												,public ChainedPtr
-			{
-			public:
-				/**
-				 * Constructor.
-				 * @param GObjectWidget parent. Constructed object will be added to view hierarchy of parent
-				 * @param String text. Initial text, has default value of empty string.
-				 * @param Vector2 pos Initial position.
-				 * @param Vector2 size Initial size.
-				 */
-				TextboxFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
-				~TextboxFrame();
-				
-				/** @method setText
-				 * Setter for button text.
-				 * @param String text
-				 */
-				void setText(String text);
-				
-				/** @method getText
-				 * Getter for buttonText.
-				 * @return String text
-				 */
-				String getText();
-				
-				/** @method setFont
-				 * Setter for button font.
-				 * @param Font font
-				 */
-				void setFont(CPP::Font *font);
-				/** @method getFont
-				 * Getter for button font.
-				 * @return Font
-				 */
-				CPP::Font *getFont();
-
-				#ifdef USE_IOS
-					void setEnabled(RJBOOL enabled);
-					RJBOOL getEnabled();
-				#endif
-				
-				/** @method setInputMode
-				 * Setter for input mode. Viable options are Text, Number, Decimal, Phone, Email, Password
-				 * @param InputMode input mode.
-				 */
-				void setInputMode(Textbox::InputMode mode);
-				/** @method getInputMode
-				 * Getter for input mode. Viable options are Text, Number, Decimal, Phone, Email, Password
-				 * @return Font
-				 */
-				Textbox::InputMode getInputMode() const;
-
-				bool bindEvent(const String& eventName, const GUI::Event* event);
-				
-				#ifdef USE_IOS
-					UIView* getNativeWidget();
-				#endif
-				
-			private:
-				#ifdef USE_IOS
-					UITextField* widget;
-					TextFieldDelegate* widgetDelegate;
-				#elif defined USE_ANDROID
-					static jclass nativeEditTextClass;
-
-					static jmethodID nativeConstructor;
-					static jmethodID nativeSetText;
-					static jmethodID nativeGetText;
-					static jmethodID nativeSetInputType;
-					static jmethodID nativeGetInputType;
-					static jmethodID nativeSetLines;
-				#endif
-			};
 		}
 	}
 }
 #endif
-

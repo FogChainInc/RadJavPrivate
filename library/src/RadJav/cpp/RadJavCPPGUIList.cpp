@@ -22,84 +22,20 @@
 #include "RadJav.h"
 #include "RadJavString.h"
 
+#ifdef GUI_USE_WXWIDGETS
+	#include "cpp/desktop/RadJavCPPGUIListFrame.h"
+#elif defined USE_ANDROID
+	#include "cpp/android/RadJavCPPGUIListFrame.h"
+#elif defined USE_IOS
+	#include "cpp/ios/RadJavCPPGUIListFrame.h"
+#endif
+
 namespace RadJAV
 {
 	namespace CPP
 	{
 		namespace GUI
 		{
-			#ifdef GUI_USE_WXWIDGETS
-				ListFrame::ListFrame(wxWindow *parent, const wxPoint &pos, const wxSize &size)
-					: wxListView(parent, wxID_ANY, pos, size)
-				{
-				}
-
-				void ListFrame::onRowClick(wxListEvent &event)
-				{
-					#ifdef USE_V8
-
-					Event *pevent = (Event *)event.GetEventUserData();
-					v8::Local<v8::Array> selectedRows = v8::Array::New(V8_JAVASCRIPT_ENGINE->isolate);
-
-					ListFrame *object = (ListFrame *)event.GetEventObject();
-					RJINT count = object->GetSelectedItemCount();
-
-					for (RJINT iIdx = 0; iIdx < count; iIdx++)
-					{
-						RJLONG index = object->GetNextSelected(iIdx);
-
-						if (index == -1)
-							break;
-
-						RJINT numCols = object->GetColumnCount();
-						v8::Local<v8::Object> items = v8::Object::New(V8_JAVASCRIPT_ENGINE->isolate);
-						v8::Local<v8::Array> itemsArray = v8::Array::New(V8_JAVASCRIPT_ENGINE->isolate);
-
-						for (RJINT iJdx = 0; iJdx < numCols; iJdx++)
-						{
-							wxString itemText = object->GetItemText(index, iJdx);
-							String temp = parsewxString(itemText);
-							v8::Local<v8::Object> item = v8::Object::New(V8_JAVASCRIPT_ENGINE->isolate);
-
-							item->Set(String("text").toV8String(V8_JAVASCRIPT_ENGINE->isolate), temp.toV8String(V8_JAVASCRIPT_ENGINE->isolate));
-							itemsArray->Set(iJdx, item);
-						}
-
-						items->Set(String("items").toV8String(V8_JAVASCRIPT_ENGINE->isolate), itemsArray);
-						selectedRows->Set(iIdx, items);
-					}
-
-					v8::Local<v8::Value> *args = RJNEW v8::Local<v8::Value>[1];
-					args[0] = selectedRows;
-					//args[0] = v8::Number::New (V8_JAVASCRIPT_ENGINE->isolate, temp);
-
-					executeEvent(pevent, 1, args);
-					DELETE_ARRAY(args);
-
-				  
-					#endif
-				}
-		  
-				void ListFrame::onRowFocused(wxListEvent &evt)
-				{
-					Event *pevent = (Event *)evt.GetEventUserData();
-					executeEvent(pevent);
-				}
-				
-				void ListFrame::onRowRightClick(wxListEvent &evt)
-				{
-					Event *pevent = (Event *)evt.GetEventUserData();
-					executeEvent(pevent);
-				}
-				
-				void ListFrame::onRowMiddleClick(wxListEvent &evt)
-				{
-					Event *pevent = (Event *)evt.GetEventUserData();
-					executeEvent(pevent);
-				}
-
-			#endif
-
 			#ifdef USE_V8
 				List::List(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
 					: GObject (jsEngine, args)
@@ -436,9 +372,3 @@ namespace RadJAV
 		}
 	}
 }
-
-#ifdef GUI_USE_WXWIDGETS
-	wxBEGIN_EVENT_TABLE(RadJAV::CPP::GUI::ListFrame, wxListView)
-	wxEND_EVENT_TABLE()
-#endif
-

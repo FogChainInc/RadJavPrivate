@@ -22,16 +22,20 @@
 #include "RadJav.h"
 #include "RadJavString.h"
 
+#ifdef GUI_USE_WXWIDGETS
+	#include "cpp/desktop/RadJavCPPGUIMenuItem.h"
+#elif defined USE_ANDROID
+	#include "cpp/android/RadJavCPPGUIMenuItem.h"
+#elif defined USE_IOS
+	#include "cpp/ios/RadJavCPPGUIMenuItem.h"
+#endif
+
 namespace RadJAV
 {
 	namespace CPP
 	{
 		namespace GUI
 		{
-			#ifdef GUI_USE_WXWIDGETS
-				RJINT MenuItemGUI::nextId = 0;
-			#endif
-
 			#ifdef USE_V8
 				MenuItem::MenuItem(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
 					: GObject(jsEngine, args)
@@ -165,26 +169,6 @@ namespace RadJAV
 						String code = str->c_str();
                         RadJav::javascriptEngine->executeScript(code, "");
 					}
-				}
-			#endif
-
-			#ifdef GUI_USE_WXWIDGETS
-				void MenuItemGUI::addData(RJINT menuId, void *data, RJINT dataType)
-				{
-					auto found = this->data.find(menuId);
-					auto end = this->data.end();
-
-					if (found != end)
-					{
-						void *temp = this->data.at(menuId);
-						DELETE_OBJ(temp);
-
-						this->data.erase(menuId);
-						this->dataType.erase(menuId);
-					}
-
-					this->data.insert(HashMapPair<RJINT, void *>(menuId, data));
-					this->dataType.insert(HashMapPair<RJINT, RJINT>(menuId, dataType));
 				}
 			#endif
 		}

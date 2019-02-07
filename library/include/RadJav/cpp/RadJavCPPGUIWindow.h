@@ -25,35 +25,12 @@
 
 	#include "cpp/RadJavCPPGUIGObject.h"
 
-	#ifdef GUI_USE_WXWIDGETS
-		#include <wx/wx.h>
-	#endif
-
 	namespace RadJAV
 	{
 		namespace CPP
 		{
 			namespace GUI
 			{
-				#ifdef GUI_USE_WXWIDGETS
-					/// The wxWidgets window to use.
-					class RADJAV_EXPORT WindowFrame : public wxFrame, public GObjectEvents, public ChainedPtr
-					{
-						public:
-							WindowFrame(const wxString &text, const wxPoint &pos, const wxSize &size);
-
-							void onClose(wxCloseEvent &evt);
-							void onJSClose(wxCloseEvent &evt);
-							void onJSMinimized(wxIconizeEvent &evt);
-							void onJSMaximized(wxMaximizeEvent &evt);
-							void onClick(wxMouseEvent &evt);
-							void onMenuSelected(wxCommandEvent &evt);
-
-						protected:
-							wxDECLARE_EVENT_TABLE();
-					};
-				#endif
-
 				/**
 				 * @ingroup group_gui_cpp
 				 * @brief Window class.

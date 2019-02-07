@@ -22,6 +22,14 @@
 #include "RadJav.h"
 #include "RadJavString.h"
 
+#ifdef GUI_USE_WXWIDGETS
+	#include "cpp/desktop/RadJavCPPMUIButtonFrame.h"
+#elif defined USE_ANDROID
+	#include "cpp/android/RadJavCPPMUIButtonFrame.h"
+#elif defined USE_IOS
+	#include "cpp/ios/RadJavCPPMUIButtonFrame.h"
+#endif
+
 namespace RadJAV
 {
 	namespace CPP

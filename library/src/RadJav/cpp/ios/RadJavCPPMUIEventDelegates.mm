@@ -21,7 +21,7 @@
 #import "cpp/ios/RadJavCPPMUIUtils.h"
 #include "cpp/RadJavCPPGUIGObject.h"
 #include "cpp/RadJavCPPMUITableViewModel.h"
-#include "cpp/RadJavCPPMUITableView.h"
+#include "cpp/ios/RadJavCPPMUITableViewFrame.h"
 #include <JavaScriptCore/JSStringRef.h>
 
 @implementation ViewDelegate
