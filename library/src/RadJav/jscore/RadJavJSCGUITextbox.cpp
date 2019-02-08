@@ -36,6 +36,9 @@ namespace RadJAV
 			void Textbox::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 			{
 				JSC_CALLBACK(object, "create", Textbox::create);
+				
+				JSC_CALLBACK(object, "setInputMode", Textbox::setInputMode);
+				JSC_CALLBACK(object, "getInputMode", Textbox::getInputMode);
 			}
 
 			JSValueRef Textbox::create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
@@ -49,6 +52,88 @@ namespace RadJAV
 
 				return promise;
 			}
+			
+			JSValueRef Textbox::setInputMode(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+			{
+				JSValueRef undefined = JSValueMakeUndefined(ctx);
+				
+				CppGuiObject *appObject = (CppGuiObject*)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				
+				if (!appObject)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Textbox not initialized");
+					return undefined;
+				}
+				
+				JSValueRef inputModeValue = JSC_JAVASCRIPT_ENGINE->jscGetArgument(arguments, argumentCount, 0);
+				
+				if (!inputModeValue ||
+					!JSValueIsNumber(ctx, inputModeValue))
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "InputMode argument required");
+					return undefined;
+				}
+				
+				RJINT inputMode = JSC_JAVASCRIPT_ENGINE->jscValueToInt(inputModeValue);
+				
+				switch (inputMode)
+				{
+					case 1:
+						appObject->setInputMode(CPP::GUI::Textbox::InputMode::Text);
+						break;
+					case 2:
+						appObject->setInputMode(CPP::GUI::Textbox::InputMode::Number);
+						break;
+					case 3:
+						appObject->setInputMode(CPP::GUI::Textbox::InputMode::Decimal);
+						break;
+					case 4:
+						appObject->setInputMode(CPP::GUI::Textbox::InputMode::Phone);
+						break;
+					case 5:
+						appObject->setInputMode(CPP::GUI::Textbox::InputMode::Email);
+						break;
+					case 6:
+						appObject->setInputMode(CPP::GUI::Textbox::InputMode::Password);
+						break;
+					default:
+						JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Unsupported InputMode");
+				}
+				return undefined;
+			}
+			
+			JSValueRef Textbox::getInputMode(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+			{
+				JSValueRef undefined = JSValueMakeUndefined(ctx);
+				
+				CppGuiObject *appObject = (CppGuiObject*)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				
+				if (!appObject)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Textbox not initialized");
+					return undefined;
+				}
+				
+				auto inputMode = appObject->getInputMode();
+				
+				switch (inputMode)
+				{
+					case CPP::GUI::Textbox::InputMode::Number:
+						return JSValueMakeNumber(ctx, 2.0);
+					case CPP::GUI::Textbox::InputMode::Decimal:
+						return JSValueMakeNumber(ctx, 3.0);
+					case CPP::GUI::Textbox::InputMode::Phone:
+						return JSValueMakeNumber(ctx, 4.0);
+					case CPP::GUI::Textbox::InputMode::Email:
+						return JSValueMakeNumber(ctx, 5.0);
+					case CPP::GUI::Textbox::InputMode::Password:
+						return JSValueMakeNumber(ctx, 6.0);
+					case CPP::GUI::Textbox::InputMode::Text:
+					default:
+						return JSValueMakeNumber(ctx, 1.0);
+				}
+			}
+
 		}
 	}
 }

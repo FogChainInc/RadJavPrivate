@@ -223,19 +223,27 @@ if (USE_JAVASCRIPTCORE)
 
 	set (SOURCES ${SOURCES_files_RadJav__JSC__Sources} ${SOURCES})
 
-	# JavaScriptCore GUI
-	if (USE_WXWIDGETS)
+	# JavaScriptCore common GUI
+	if (USE_WXWIDGETS OR IS_MOBILE)
 		set (SOURCES_files_RadJav__JSC__GUI__Sources 
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUIGObject.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUIWindow.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUIButton.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUILabel.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUIImage.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUIContainer.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUICombobox.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUITextbox.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUITextarea.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUICheckbox.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUICheckbox.cpp")
+		source_group ("RadJav\\JavaScriptCore\\GUI" FILES ${SOURCES_files_RadJav__JSC__GUI__Sources})
+		
+		set (SOURCES ${SOURCES_files_RadJav__JSC__GUI__Sources} ${SOURCES})
+	endif ()
+	
+	# JavaScriptCore GUI
+	if (USE_WXWIDGETS)
+		set (SOURCES_files_RadJav__JSC__GUI__Sources 
+			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUIWindow.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUIContainer.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUICombobox.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUIRadio.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUIList.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUIMenuBar.cpp"
@@ -259,12 +267,6 @@ if (USE_JAVASCRIPTCORE)
 
 	# JavaScriptCore MUI
 	if (IS_MOBILE)
-		set (SOURCES_files_RadJav__JSC__GUI__Sources 
-			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCGUIGObject.cpp")
-		source_group ("RadJav\\JavaScriptCore\\GUI" FILES ${SOURCES_files_RadJav__JSC__GUI__Sources})
-
-		set (SOURCES ${SOURCES_files_RadJav__JSC__GUI__Sources} ${SOURCES})
-
 		set (SOURCES_files_RadJav__JSC__MUI__Sources 
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUIView.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUIBottomNavigator.cpp"
@@ -272,12 +274,6 @@ if (USE_JAVASCRIPTCORE)
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUITableView.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUITableViewModel.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUIScrollView.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUIButton.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUILabel.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUIImage.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUICheckbox.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUITextbox.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUITextarea.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCMUIWebView.cpp")
 		source_group ("RadJav\\JavaScriptCore\\MUI" FILES ${SOURCES_files_RadJav__JSC__MUI__Sources})
 

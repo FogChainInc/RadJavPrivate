@@ -40,6 +40,9 @@ namespace RadJAV
 				static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
 				
 				static JSValueRef create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+				
+				static JSValueRef setInputMode(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+				static JSValueRef getInputMode(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
 			};
 		}
 	}

@@ -693,39 +693,40 @@ if (libRadJav_EMBEDFILE)
 		)
 	endif ()
 
-	if (IS_MOBILE)
+	# Common GUI controls for desktop and mobile
+	if (USE_WXWIDGETS OR IS_MOBILE)
 		set (jsFiles ${jsFiles}
 			RadJav.GUI.GObject.js # This must be compiled before any other GUI object.
+			RadJav.GUI.Button.js
+			RadJav.GUI.Checkbox.js
+			RadJav.GUI.Image.js
+			RadJav.GUI.Label.js
+			RadJav.GUI.Textarea.js
+			RadJav.GUI.Textbox.js
+		)
+	endif ()
+	
+	# Mobile GUI controls
+	if (IS_MOBILE)
+		set (jsFiles ${jsFiles}
 			RadJav.MUI.View.js
 			RadJav.MUI.Navigator.js
 			RadJav.MUI.BottomNavigator.js
 			RadJav.MUI.ScrollView.js
-			RadJav.MUI.Button.js
-			RadJav.MUI.Label.js
-			RadJav.MUI.Image.js
-			RadJav.MUI.Checkbox.js
-			RadJav.MUI.Textbox.js
 			RadJav.MUI.TableView.js
 			RadJav.MUI.TableViewModel.js
-			RadJav.MUI.Textarea.js
 			RadJav.MUI.WebView.js
 		)
 
 	endif ()
 
+	# Desktop GUI controls
 	if (USE_WXWIDGETS)
 		set (jsFiles ${jsFiles}
-			RadJav.GUI.GObject.js # This must be compiled before any other GUI object.
-			RadJav.GUI.Button.js
-			RadJav.GUI.Checkbox.js
 			RadJav.GUI.Combobox.js
 			RadJav.GUI.Container.js
-			RadJav.GUI.Image.js
-			RadJav.GUI.Label.js
 			RadJav.GUI.List.js
 			RadJav.GUI.Radio.js
-			RadJav.GUI.Textarea.js
-			RadJav.GUI.Textbox.js
 			RadJav.GUI.Window.js
 			RadJav.GUI.MenuBar.js
 			RadJav.GUI.MenuItem.js

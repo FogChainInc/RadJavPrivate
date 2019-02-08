@@ -228,19 +228,27 @@ if (USE_JAVASCRIPTCORE)
 
 	set (SOURCES ${SOURCES_files_RadJav__JSC__Headers} ${SOURCES})
 
-	# JavaScriptCore GUI
-	if (USE_WXWIDGETS)
+	# JavaScriptCore common GUI
+	if (USE_WXWIDGETS OR IS_MOBILE)
 		set (SOURCES_files_RadJav__JSC__GUI__Headers 
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIGObject.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIWindow.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIButton.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUILabel.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIImage.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIContainer.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUICombobox.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUITextbox.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUITextarea.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUICheckbox.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUICheckbox.h")
+		source_group ("RadJav\\JavaScriptCore\\GUI" FILES ${SOURCES_files_RadJav__JSC__GUI__Headers})
+	
+		set (SOURCES ${SOURCES_files_RadJav__JSC__GUI__Headers} ${SOURCES})
+	endif ()
+	
+	# JavaScriptCore GUI
+	if (USE_WXWIDGETS)
+		set (SOURCES_files_RadJav__JSC__GUI__Headers 
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIWindow.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIContainer.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUICombobox.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIRadio.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIList.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIMenuBar.h"
@@ -264,12 +272,6 @@ if (USE_JAVASCRIPTCORE)
 
 	# JavaScriptCore MUI
 	if (IS_MOBILE)
-		set (SOURCES_files_RadJav__JSC__GUI__Headers 
-			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCGUIGObject.h")
-		source_group ("RadJav\\JavaScriptCore\\GUI" FILES ${SOURCES_files_RadJav__JSC__GUI__Headers})
-
-		set (SOURCES ${SOURCES_files_RadJav__JSC__GUI__Headers} ${SOURCES})
-
 		set (SOURCES_files_RadJav__JSC__MUI__Headers 
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUIView.h" 
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUINavigator.h" 
@@ -277,12 +279,6 @@ if (USE_JAVASCRIPTCORE)
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUITableView.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUITableViewModel.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUIScrollView.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUIButton.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUILabel.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUIImage.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUICheckbox.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUITextbox.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUITextarea.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/jscore/RadJavJSCMUIWebView.h")
 		source_group ("RadJav\\JavaScriptCore\\MUI" FILES ${SOURCES_files_RadJav__JSC__MUI__Headers})
 

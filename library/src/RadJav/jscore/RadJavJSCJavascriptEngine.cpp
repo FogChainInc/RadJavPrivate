@@ -47,18 +47,22 @@
     #include "jscore/RadJavJSCConsole.h"
     #include "jscore/RadJavJSCThread.h"
 
-	// GUI
-	#ifdef GUI_USE_WXWIDGETS
+	// Common GUI (desktop/mobile platforms)
+	#if defined GUI_USE_WXWIDGETS || defined USE_IOS
 		#include "jscore/RadJavJSCGUIGObject.h"
-		#include "jscore/RadJavJSCGUIWindow.h"
 		#include "jscore/RadJavJSCGUIButton.h"
 		#include "jscore/RadJavJSCGUILabel.h"
 		#include "jscore/RadJavJSCGUIImage.h"
-		#include "jscore/RadJavJSCGUIContainer.h"
-		#include "jscore/RadJavJSCGUICombobox.h"
 		#include "jscore/RadJavJSCGUITextbox.h"
 		#include "jscore/RadJavJSCGUITextarea.h"
 		#include "jscore/RadJavJSCGUICheckbox.h"
+	#endif
+
+	// Desktop specific GUI
+	#ifdef GUI_USE_WXWIDGETS
+		#include "jscore/RadJavJSCGUIWindow.h"
+		#include "jscore/RadJavJSCGUIContainer.h"
+		#include "jscore/RadJavJSCGUICombobox.h"
 		#include "jscore/RadJavJSCGUIRadio.h"
 		#include "jscore/RadJavJSCGUIList.h"
 		#include "jscore/RadJavJSCGUIMenuBar.h"
@@ -69,21 +73,14 @@
 		#endif
 	#endif
 
-	// Mobile GUI
+	// Mobile specific GUI
 	#ifdef USE_IOS
-		#include "jscore/RadJavJSCGUIGObject.h"
 		#include "jscore/RadJavJSCMUIView.h"
 		#include "jscore/RadJavJSCMUINavigator.h"
 		#include "jscore/RadJavJSCMUIBottomNavigator.h"
 		#include "jscore/RadJavJSCMUITableView.h"
 		#include "jscore/RadJavJSCMUITableViewModel.h"
 		#include "jscore/RadJavJSCMUIScrollView.h"
-		#include "jscore/RadJavJSCMUIButton.h"
-		#include "jscore/RadJavJSCMUILabel.h"
-		#include "jscore/RadJavJSCMUIImage.h"
-		#include "jscore/RadJavJSCMUICheckbox.h"
-		#include "jscore/RadJavJSCMUITextbox.h"
-		#include "jscore/RadJavJSCMUITextarea.h"
 		#include "jscore/RadJavJSCMUIWebView.h"
 	#endif
 
@@ -1104,8 +1101,8 @@ namespace RadJAV
 				}
 				#endif
 
-				// RadJav.GUI
-				#ifdef GUI_USE_WXWIDGETS
+				// RadJav.GUI common controls for desktop/mobile
+				#if defined GUI_USE_WXWIDGETS || defined USE_IOS
 				{
 					JSObjectRef guiFunc = jscGetFunction(radJavFunc, "GUI");
 
@@ -1113,23 +1110,15 @@ namespace RadJAV
 					{
 						JSObjectRef gobjectFunc = jscGetFunction(guiFunc, "GObject");
 						JSObjectRef gobjectPrototype = jscGetObject(gobjectFunc, "prototype");
-
+						
 						JSC::GUI::GObject::createJSCCallbacks(globalContext, gobjectPrototype);
 					}
-
-					// RadJav.GUI.Window
-					{
-						JSObjectRef windowFunc = jscGetFunction(guiFunc, "Window");
-						JSObjectRef windowPrototype = jscGetObject(windowFunc, "prototype");
-
-						JSC::GUI::Window::createJSCCallbacks(globalContext, windowPrototype);
-					}
-
+					
 					// RadJav.GUI.Button
 					{
 						JSObjectRef buttonFunc = jscGetFunction(guiFunc, "Button");
 						JSObjectRef buttonPrototype = jscGetObject(buttonFunc, "prototype");
-
+						
 						JSC::GUI::Button::createJSCCallbacks(globalContext, buttonPrototype);
 					}
 
@@ -1137,16 +1126,55 @@ namespace RadJAV
 					{
 						JSObjectRef labelFunc = jscGetFunction(guiFunc, "Label");
 						JSObjectRef labelPrototype = jscGetObject(labelFunc, "prototype");
-
+						
 						JSC::GUI::Label::createJSCCallbacks(globalContext, labelPrototype);
 					}
-
+					
 					// RadJav.GUI.Image
 					{
 						JSObjectRef imageFunc = jscGetFunction(guiFunc, "Image");
 						JSObjectRef imagePrototype = jscGetObject(imageFunc, "prototype");
-
+						
 						JSC::GUI::Image::createJSCCallbacks(globalContext, imagePrototype);
+					}
+					
+					// RadJav.GUI.Textbox
+					{
+						JSObjectRef textboxFunc = jscGetFunction(guiFunc, "Textbox");
+						JSObjectRef textboxPrototype = jscGetObject(textboxFunc, "prototype");
+						
+						JSC::GUI::Textbox::createJSCCallbacks(globalContext, textboxPrototype);
+					}
+					
+					// RadJav.GUI.Textarea
+					{
+						JSObjectRef textareaFunc = jscGetFunction(guiFunc, "Textarea");
+						JSObjectRef textareaPrototype = jscGetObject(textareaFunc, "prototype");
+						
+						JSC::GUI::Textarea::createJSCCallbacks(globalContext, textareaPrototype);
+					}
+					
+					// RadJav.GUI.Checkbox
+					{
+						JSObjectRef checkboxFunc = jscGetFunction(guiFunc, "Checkbox");
+						JSObjectRef checkboxPrototype = jscGetObject(checkboxFunc, "prototype");
+						
+						JSC::GUI::Checkbox::createJSCCallbacks(globalContext, checkboxPrototype);
+					}
+				}
+				#endif
+				
+				// RadJav.GUI desktop specific controls
+				#ifdef GUI_USE_WXWIDGETS
+				{
+					JSObjectRef guiFunc = jscGetFunction(radJavFunc, "GUI");
+
+					// RadJav.GUI.Window
+					{
+						JSObjectRef windowFunc = jscGetFunction(guiFunc, "Window");
+						JSObjectRef windowPrototype = jscGetObject(windowFunc, "prototype");
+
+						JSC::GUI::Window::createJSCCallbacks(globalContext, windowPrototype);
 					}
 
 					// RadJav.GUI.Container
@@ -1163,30 +1191,6 @@ namespace RadJAV
 						JSObjectRef comboboxPrototype = jscGetObject(comboboxFunc, "prototype");
 
 						JSC::GUI::Combobox::createJSCCallbacks(globalContext, comboboxPrototype);
-					}
-
-					// RadJav.GUI.Textbox
-					{
-						JSObjectRef textboxFunc = jscGetFunction(guiFunc, "Textbox");
-						JSObjectRef textboxPrototype = jscGetObject(textboxFunc, "prototype");
-
-						JSC::GUI::Textbox::createJSCCallbacks(globalContext, textboxPrototype);
-					}
-
-					// RadJav.GUI.Textarea
-					{
-						JSObjectRef textareaFunc = jscGetFunction(guiFunc, "Textarea");
-						JSObjectRef textareaPrototype = jscGetObject(textareaFunc, "prototype");
-
-						JSC::GUI::Textarea::createJSCCallbacks(globalContext, textareaPrototype);
-					}
-
-					// RadJav.GUI.Checkbox
-					{
-						JSObjectRef checkboxFunc = jscGetFunction(guiFunc, "Checkbox");
-						JSObjectRef checkboxPrototype = jscGetObject(checkboxFunc, "prototype");
-
-						JSC::GUI::Checkbox::createJSCCallbacks(globalContext, checkboxPrototype);
 					}
 
 					// RadJav.GUI.Radio
@@ -1242,20 +1246,11 @@ namespace RadJAV
 				}
 				#endif
 
-				// RadJav.MUI
+				// RadJav.MUI mobile specific controls
 				#ifdef USE_IOS
 				{
-					JSObjectRef guiFunc = jscGetFunction(radJavFunc, "GUI");
 					JSObjectRef muiFunc = jscGetFunction(radJavFunc, "MUI");
-					
-					// RadJav.GUI.GObject
-					{
-						JSObjectRef gobjectFunc = jscGetFunction(guiFunc, "GObject");
-						JSObjectRef gobjectPrototype = jscGetObject(gobjectFunc, "prototype");
-						
-						JSC::GUI::GObject::createJSCCallbacks(globalContext, gobjectPrototype);
-					}
-					
+
 					// RadJav.MUI.View
 					{
 						JSObjectRef viewFunc = jscGetFunction(muiFunc, "View");
@@ -1304,54 +1299,6 @@ namespace RadJAV
 						JSC::MUI::ScrollView::createJSCCallbacks(globalContext, scrollviewPrototype);
 					}
 
-					// RadJav.MUI.Button
-					{
-						JSObjectRef buttonFunc = jscGetFunction(muiFunc, "Button");
-						JSObjectRef buttonPrototype = jscGetObject(buttonFunc, "prototype");
-
-						JSC::MUI::Button::createJSCCallbacks(globalContext, buttonPrototype);
-					}
-
-					// RadJav.MUI.Label
-					{
-						JSObjectRef labelFunc = jscGetFunction(muiFunc, "Label");
-						JSObjectRef labelPrototype = jscGetObject(labelFunc, "prototype");
-						
-						JSC::MUI::Label::createJSCCallbacks(globalContext, labelPrototype);
-					}
-
-					// RadJav.MUI.Image
-					{
-						JSObjectRef imageFunc = jscGetFunction(muiFunc, "Image");
-						JSObjectRef imagePrototype = jscGetObject(imageFunc, "prototype");
-						
-						JSC::MUI::Image::createJSCCallbacks(globalContext, imagePrototype);
-					}
-
-					// RadJav.MUI.Checkbox
-					{
-						JSObjectRef checkboxFunc = jscGetFunction(muiFunc, "Checkbox");
-						JSObjectRef checkboxPrototype = jscGetObject(checkboxFunc, "prototype");
-						
-						JSC::MUI::Checkbox::createJSCCallbacks(globalContext, checkboxPrototype);
-					}
-					
-					// RadJav.MUI.Textbox
-					{
-						JSObjectRef textboxFunc = jscGetFunction(muiFunc, "Textbox");
-						JSObjectRef textboxPrototype = jscGetObject(textboxFunc, "prototype");
-						
-						JSC::MUI::Textbox::createJSCCallbacks(globalContext, textboxPrototype);
-					}
-
-					// RadJav.MUI.Textarea
-					{
-						JSObjectRef textareaFunc = jscGetFunction(muiFunc, "Textarea");
-						JSObjectRef textareaPrototype = jscGetObject(textareaFunc, "prototype");
-						
-						JSC::MUI::Textarea::createJSCCallbacks(globalContext, textareaPrototype);
-					}
-                    
                     // RadJav.MUI.WebView
                     {
                         JSObjectRef webViewFunc = jscGetFunction(muiFunc, "WebView");
