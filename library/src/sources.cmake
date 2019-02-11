@@ -44,19 +44,27 @@ if (USE_V8)
 	
 	set (SOURCES ${SOURCES_files_RadJav__v8__Sources} ${SOURCES})
 	
-	# V8 GUI
-	if (USE_WXWIDGETS)
+	# V8 common GUI
+	if (USE_WXWIDGETS OR IS_MOBILE)
 		set (SOURCES_files_RadJav__v8__GUI__Sources 
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIGObject.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIWindow.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIButton.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUILabel.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIImage.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIContainer.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUICombobox.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUITextbox.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUITextarea.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUICheckbox.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUICheckbox.cpp")
+		source_group ("RadJav\\V8\\GUI" FILES ${SOURCES_files_RadJav__v8__GUI__Sources})
+		
+		set (SOURCES ${SOURCES_files_RadJav__v8__GUI__Sources} ${SOURCES})
+	endif ()
+	
+	# V8 GUI
+	if (USE_WXWIDGETS)
+		set (SOURCES_files_RadJav__v8__GUI__Sources 
+			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIWindow.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIContainer.cpp"
+			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUICombobox.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIRadio.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIList.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIMenuBar.cpp"
@@ -80,25 +88,12 @@ if (USE_V8)
 
 	# V8 MUI
 	if (IS_MOBILE)
-		set (SOURCES_files_RadJav__v8__GUI__Sources 
-			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8GUIGObject.cpp")
-
-		source_group ("RadJav\\V8\\GUI" FILES ${SOURCES_files_RadJav__v8__GUI__Sources})
-
-		set (SOURCES ${SOURCES_files_RadJav__v8__GUI__Sources} ${SOURCES})
-
 		set (SOURCES_files_RadJav__v8__MUI__Sources 
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUIView.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUINavigator.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUITableView.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUITableViewModel.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUIScrollView.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUIButton.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUILabel.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUIImage.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUICheckbox.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUITextbox.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUITextarea.cpp"
 			#"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8MUIWebView.cpp"
 			)
 

@@ -23,7 +23,6 @@
 
 #include "cpp/RadJavCPPGUITextarea.h"
 
-#define UITYPE CPP::GUI::Textarea
 
 namespace RadJAV
 {
@@ -31,6 +30,8 @@ namespace RadJAV
 	{
 		namespace GUI
 		{
+			using CppGuiObject = CPP::GUI::Textarea;
+			
 			void Textarea::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 			{
 				V8_CALLBACK(object, "create", Textarea::create);
@@ -38,7 +39,7 @@ namespace RadJAV
 
 			void Textarea::create(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				UITYPE *appObject = RJNEW UITYPE(V8_JAVASCRIPT_ENGINE, args);
+				CppGuiObject *appObject = RJNEW CppGuiObject(V8_JAVASCRIPT_ENGINE, args);
 				appObject->create();
 
 				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_appObj", appObject);
@@ -50,3 +51,4 @@ namespace RadJAV
 		}
 	}
 }
+

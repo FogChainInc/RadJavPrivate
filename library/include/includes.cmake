@@ -50,19 +50,27 @@ if (USE_V8)
 	
 	set (SOURCES ${SOURCES_files_RadJav__v8__Headers} ${SOURCES})
 	
-	# V8 GUI
-	if (USE_WXWIDGETS)
+	# V8 common GUI
+	if (USE_WXWIDGETS OR IS_MOBILE)
 		set (SOURCES_files_RadJav__v8__GUI__Headers 
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIGObject.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIWindow.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIButton.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUILabel.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIImage.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIContainer.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUICombobox.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUITextbox.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUITextarea.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUICheckbox.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUICheckbox.h")
+		source_group ("RadJav\\V8\\GUI" FILES ${SOURCES_files_RadJav__v8__GUI__Headers})
+	
+		set (SOURCES ${SOURCES_files_RadJav__v8__GUI__Headers} ${SOURCES})
+	endif ()
+
+	# V8 GUI
+	if (USE_WXWIDGETS)
+		set (SOURCES_files_RadJav__v8__GUI__Headers 
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIWindow.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIContainer.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUICombobox.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIRadio.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIList.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIMenuBar.h"
@@ -86,31 +94,18 @@ if (USE_V8)
 
 	# V8 MUI
 	if (IS_MOBILE)
-		set (SOURCES_files_RadJav__v8__GUI__Headers 
-			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8GUIGObject.h")
-
-		source_group ("RadJav\\V8\\GUI" FILES ${SOURCES_files_RadJav__v8__GUI__Headers})
-
-		set (SOURCES ${SOURCES_files_RadJav__v8__GUI__Headers} ${SOURCES})
-
 		set (SOURCES_files_RadJav__v8__MUI__Headers 
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIView.h" 
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUINavigator.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUITableView.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUITableViewModel.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIScrollView.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIButton.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUILabel.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIImage.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUICheckbox.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUITextbox.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUITextarea.h"
 			#"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8MUIWebView.h"
 			)
 
-			source_group ("RadJav\\V8\\MUI" FILES ${SOURCES_files_RadJav__v8__MUI__Headers})
+		source_group ("RadJav\\V8\\MUI" FILES ${SOURCES_files_RadJav__v8__MUI__Headers})
 
-			set (SOURCES ${SOURCES_files_RadJav__v8__MUI__Headers} ${SOURCES})
+		set (SOURCES ${SOURCES_files_RadJav__v8__MUI__Headers} ${SOURCES})
 	endif()
 
 	# V8 C3D
