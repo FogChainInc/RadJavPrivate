@@ -36,14 +36,19 @@
 			namespace GUI
 			{
 				#ifdef GUI_USE_WXWIDGETS
-					/// The wxWidgets button to use.
-					class RADJAV_EXPORT ButtonFrame : public wxButton, public GObjectEvents, public ChainedPtr
+					/// The wxWidgets button
+					class RADJAV_EXPORT ButtonFrame : public wxButton, public GObjectWidget, public ChainedPtr
 					{
-						public:
-							ButtonFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size);
-
-						protected:
-							wxDECLARE_EVENT_TABLE();
+					public:
+						ButtonFrame(GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
+						
+						void setText(String text);
+						String getText();
+						
+						wxWindow* getNativeWidget();
+						
+					protected:
+						wxDECLARE_EVENT_TABLE();
 					};
 				#endif
 			}

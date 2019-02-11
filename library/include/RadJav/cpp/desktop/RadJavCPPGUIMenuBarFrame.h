@@ -37,7 +37,7 @@
 			{
 				#ifdef GUI_USE_WXWIDGETS
 					/// The wxWidgets window to use.
-					class RADJAV_EXPORT MenuBarFrame : public wxMenuBar, public GObjectEvents, public ChainedPtr
+					class RADJAV_EXPORT MenuBarFrame : public wxMenuBar, public GObjectWidget, public ChainedPtr
 					{
 						public:
 							MenuBarFrame(const wxString &text);

@@ -385,7 +385,7 @@ namespace RadJAV
 #endif
     
 #ifdef GUI_USE_WXWIDGETS
-	wxString String::towxString()
+	wxString String::towxString() const
 	{
 		return (wxString::FromAscii(this->c_str()));
 	}

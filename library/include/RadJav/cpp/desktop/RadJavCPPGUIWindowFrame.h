@@ -37,7 +37,7 @@
 			{
 				#ifdef GUI_USE_WXWIDGETS
 					/// The wxWidgets window to use.
-					class RADJAV_EXPORT WindowFrame : public wxFrame, public GObjectEvents, public ChainedPtr
+					class RADJAV_EXPORT WindowFrame : public wxFrame, public GObjectWidget, public ChainedPtr
 					{
 						public:
 							WindowFrame(const wxString &text, const wxPoint &pos, const wxSize &size);

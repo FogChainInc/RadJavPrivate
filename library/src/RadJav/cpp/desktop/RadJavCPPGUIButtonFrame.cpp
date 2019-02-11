@@ -29,9 +29,25 @@ namespace RadJAV
 		namespace GUI
 		{
 			#ifdef GUI_USE_WXWIDGETS
-				ButtonFrame::ButtonFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size)
-					: wxButton(parent, wxID_ANY, text, pos, size)
+				ButtonFrame::ButtonFrame(GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
+				: wxButton(parent ? parent->getNativeWidget(): nullptr, wxID_ANY, text.towxString(), wxPoint(pos.x, pos.y), wxSize(size.x, size.y))
 				{
+				}
+
+				void ButtonFrame::setText(String text)
+				{
+					SetLabelText(text.towxString());
+				}
+
+				String ButtonFrame::getText()
+				{
+					wxString wxtext = GetLabelText();
+					return parsewxString(wxtext);
+				}
+
+				wxWindow* ButtonFrame::getNativeWidget()
+				{
+					return this;
 				}
 			#endif
 		}

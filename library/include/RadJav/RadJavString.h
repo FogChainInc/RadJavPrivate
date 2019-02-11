@@ -179,7 +179,7 @@
 
 			#ifdef GUI_USE_WXWIDGETS
 				/// Convert a string into a wxWidgets string.
-				wxString towxString();
+				wxString towxString() const;
 			#endif
 
 			#ifdef USE_V8

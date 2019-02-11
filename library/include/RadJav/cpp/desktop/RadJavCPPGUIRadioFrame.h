@@ -37,7 +37,7 @@
 			{
 				#ifdef GUI_USE_WXWIDGETS
 					/// The wxWidgets button to use.
-					class RADJAV_EXPORT RadioFrame : public wxRadioButton, public GObjectEvents, public ChainedPtr
+					class RADJAV_EXPORT RadioFrame : public wxRadioButton, public GObjectWidget, public ChainedPtr
 					{
 						public:
 							RadioFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size);
