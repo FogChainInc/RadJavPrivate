@@ -40,7 +40,11 @@
 					class RADJAV_EXPORT TextareaFrame : public wxTextCtrl, public GObjectWidget, public ChainedPtr
 					{
 					public:
-						TextareaFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size);
+						TextareaFrame(GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
+
+						void setText(String text);
+						String getText();
+						wxWindow* getNativeWidget();
 
 						void onText(wxCommandEvent &evt);
 						void onTextEnter(wxCommandEvent &evt);

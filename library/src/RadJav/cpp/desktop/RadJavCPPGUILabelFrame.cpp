@@ -31,8 +31,8 @@ namespace RadJAV
 		namespace GUI
 		{
 			#ifdef GUI_USE_WXWIDGETS
-				LabelFrame::LabelFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size)
-					: wxStaticText(parent, wxID_ANY, text, pos, size)
+				LabelFrame::LabelFrame(GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
+					: wxStaticText(parent ? parent->getNativeWidget(): nullptr, wxID_ANY, text.towxString(), wxPoint(pos.x, pos.y), wxSize(size.x, size.y))
 				{
 				}
 
@@ -40,6 +40,11 @@ namespace RadJAV
 				{
 					Event *pevent = (Event *)event.GetEventUserData();
 					executeEvent(pevent);
+				}
+
+				wxWindow* LabelFrame::getNativeWidget()
+				{
+					return this;
 				}
 			#endif
 		}

@@ -17,7 +17,7 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#include "cpp/ios/RadJavCPPMUILabelFrame.h"
+#include "cpp/ios/RadJavCPPGUILabelFrame.h"
 #import "cpp/ios/RadJavCPPMUIEventDelegates.h"
 
 #import "cpp/RadJavCPPMUIView.h"
@@ -27,9 +27,9 @@ namespace RadJAV
 {
 	namespace CPP
 	{
-		namespace MUI
+		namespace GUI
 		{
-			LabelFrame::LabelFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
+			LabelFrame::LabelFrame(GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
 			: widget([[UILabel alloc] init])
 			{
 				if (parent)
@@ -85,17 +85,10 @@ namespace RadJAV
 				return false;
 			}
 			
-			#ifdef USE_IOS
-				UIView* LabelFrame::getNativeWidget()
-				{
-					return widget;
-				}
-			#elif defined USE_ANDROID
-				void* LabelFrame::getNativeWidget()
-				{
-					return widget;
-				}
-			#endif
+			UIView* LabelFrame::getNativeWidget()
+			{
+				return widget;
+			}
 		}
 	}
 }

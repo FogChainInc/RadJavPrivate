@@ -17,8 +17,8 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#ifndef _RADJAV_MUI_CPP_CHECKBOX_FRAME_H_
-#define _RADJAV_MUI_CPP_CHECKBOX_FRAME_H_
+#ifndef _RADJAV_GUI_CPP_CHECKBOX_FRAME_H_
+#define _RADJAV_GUI_CPP_CHECKBOX_FRAME_H_
 
 #include "RadJavPreprocessor.h"
 #include "RadJavString.h"
@@ -32,9 +32,9 @@ namespace RadJAV
 {
 	namespace CPP
 	{
-		namespace MUI
+		namespace GUI
 		{
-			class RADJAV_EXPORT CheckboxFrame : public GUI::GObjectWidget
+			class RADJAV_EXPORT CheckboxFrame : public GObjectWidget
 												,public ChainedPtr
 			{
 			public:
@@ -42,10 +42,11 @@ namespace RadJAV
 				 * Constructor. Frame will be added as child to provided parent, state and size are preset from parameters.
 				 * @param GObjectWidget parent. Constructed object will be added to view hierarchy of parent.
 				 * @param BOOL checked. Initial state
+				 * @param String for compatibility with desktop CheckboxFrame mirror
 				 * @param Vector2 pos Initial position.
 				 * @param Vector2 size Initial size.
 				 */
-				CheckboxFrame(GUI::GObjectWidget *parent, RJBOOL checked, const Vector2 &pos, const Vector2 &size);
+				CheckboxFrame(GObjectWidget *parent, RJBOOL checked, String text, const Vector2 &pos, const Vector2 &size);
 				~CheckboxFrame();
 				
 				/** @method setChecked
@@ -54,11 +55,11 @@ namespace RadJAV
 				 */
 				void setChecked(RJBOOL checked);
 				
-				/** @method getChecked
+				/** @method isChecked
 				 * Getter for control state.
 				 * @return BOOL checked
 				 */
-				RJBOOL getChecked() const;
+				RJBOOL isChecked() const;
 
 				void setEnabled(RJBOOL enabled);
 				RJBOOL getEnabled();

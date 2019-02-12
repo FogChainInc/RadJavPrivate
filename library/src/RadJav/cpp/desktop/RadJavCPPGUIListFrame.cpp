@@ -97,6 +97,12 @@ namespace RadJAV
 					Event *pevent = (Event *)evt.GetEventUserData();
 					executeEvent(pevent);
 				}
+
+				wxWindow* ListFrame::getNativeWidget()
+				{
+					return this;
+				}
+
 			#endif
 		}
 	}

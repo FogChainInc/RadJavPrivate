@@ -51,6 +51,7 @@
 								static void onNewWindow(wxWebViewEvent &event);
 								static void onTitleChanged(wxWebViewEvent &event);
 
+								wxWindow* getNativeWidget();
 
 								wxWebView *webView;
 						};

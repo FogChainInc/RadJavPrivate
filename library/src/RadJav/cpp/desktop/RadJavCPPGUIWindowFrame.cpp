@@ -38,6 +38,29 @@ namespace RadJAV
 				WindowFrame::WindowFrame(const wxString &text, const wxPoint &pos, const wxSize &size)
 					: wxFrame(NULL, wxID_ANY, text, pos, size)
 				{
+					panel = RJNEW wxPanel(this, wxID_ANY);
+					/*wxBoxSizer *sizer = RJNEW wxBoxSizer(wxVERTICAL);
+					 panel->SetSizer(sizer);
+					 sizer->SetSizeHints(object);*/
+				}
+
+				void WindowFrame::addChild(GObjectWidget *child)
+				{
+					if (child)
+					{
+						panel->AddChild(child->getNativeWidget());
+						child->parent = this;
+					}
+				}
+
+				void WindowFrame::setText(String text)
+				{
+					SetTitle(text.towxString());
+				}
+
+				String WindowFrame::getText()
+				{
+					return parsewxString(GetTitle());
 				}
 
 				void WindowFrame::onClose(wxCloseEvent &evt)
@@ -111,6 +134,12 @@ namespace RadJAV
 					Event *pevent = (Event *)evt.GetEventUserData();
 					executeEvent(pevent);
 				}
+			
+				wxWindow* WindowFrame::getNativeWidget()
+				{
+					return this;
+				}
+			
 			#endif
 		}
 	}

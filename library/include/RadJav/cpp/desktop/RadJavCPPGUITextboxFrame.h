@@ -24,6 +24,7 @@
 	#include "RadJavString.h"
 
 	#include "cpp/RadJavCPPGUIGObject.h"
+	#include "cpp/RadJavCPPGUITextbox.h"
 
 	#ifdef GUI_USE_WXWIDGETS
 		#include <wx/wx.h>
@@ -40,11 +41,17 @@
 					class RADJAV_EXPORT TextboxFrame : public wxTextCtrl, public GObjectWidget, public ChainedPtr
 					{
 						public:
-							TextboxFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size);
+							TextboxFrame(GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
 
+							void setInputMode(Textbox::InputMode inputMode);
+							Textbox::InputMode getInputMode() const;
+							wxWindow* getNativeWidget();
+							void setText(String text);
+							String getText();
+						
 							void onText(wxCommandEvent &evt);
 							void onTextEnter(wxCommandEvent &evt);
-							
+						
 						protected:
 							wxDECLARE_EVENT_TABLE();
 					};

@@ -17,8 +17,8 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#ifndef _RADJAV_MUI_CPP_TEXTAREA_FRAME_H_
-#define _RADJAV_MUI_CPP_TEXTAREA_FRAME_H_
+#ifndef _RADJAV_GUI_CPP_TEXTAREA_FRAME_H_
+#define _RADJAV_GUI_CPP_TEXTAREA_FRAME_H_
 
 #include "RadJavPreprocessor.h"
 #include "RadJavString.h"
@@ -29,9 +29,9 @@ namespace RadJAV
 {
 	namespace CPP
 	{
-		namespace MUI
+		namespace GUI
 		{
-			class RADJAV_EXPORT TextareaFrame : public GUI::GObjectWidget
+			class RADJAV_EXPORT TextareaFrame : public GObjectWidget
 												,public ChainedPtr
 			{
 			public:
@@ -41,7 +41,7 @@ namespace RadJAV
 				 * @param String text. Initial text.
 				 * @param GObjectWidget parent.
 				 */
-				TextareaFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
+				TextareaFrame(GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
 				~TextareaFrame();
 				
 				/** @method setText

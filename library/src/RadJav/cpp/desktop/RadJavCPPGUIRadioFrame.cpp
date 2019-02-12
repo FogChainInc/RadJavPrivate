@@ -39,6 +39,11 @@ namespace RadJAV
 					Event *pevent = (Event *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
+
+				wxWindow* RadioFrame::getNativeWidget()
+				{
+					return this;
+				}
 			#endif
 		}
 	}

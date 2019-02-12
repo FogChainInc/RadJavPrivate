@@ -42,6 +42,11 @@
 						public:
 							WindowFrame(const wxString &text, const wxPoint &pos, const wxSize &size);
 
+							void addChild(GObjectWidget *child);
+
+							void setText(String text);
+							String getText();
+
 							void onClose(wxCloseEvent &evt);
 							void onJSClose(wxCloseEvent &evt);
 							void onJSMinimized(wxIconizeEvent &evt);
@@ -49,7 +54,10 @@
 							void onClick(wxMouseEvent &evt);
 							void onMenuSelected(wxCommandEvent &evt);
 
+							wxWindow* getNativeWidget();
+
 						protected:
+							wxPanel *panel;
 							wxDECLARE_EVENT_TABLE();
 					};
 				#endif

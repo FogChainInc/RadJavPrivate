@@ -40,8 +40,14 @@
 					class RADJAV_EXPORT CheckboxFrame : public wxCheckBox, public GObjectWidget, public ChainedPtr
 					{
 						public:
-							CheckboxFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size);
+							CheckboxFrame(GObjectWidget *parent, RJBOOL checked, const String &text, const Vector2 &pos, const Vector2 &size);
 
+							void setText(String text);
+							String getText();
+							void setChecked(RJBOOL checked);
+							RJBOOL isChecked() const;
+							wxWindow* getNativeWidget();
+						
 							void onChanged(wxCommandEvent &event);
 							
 						protected:

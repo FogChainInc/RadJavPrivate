@@ -17,13 +17,13 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#include "cpp/android/RadJavCPPMUITextboxFrame.h"
+#include "cpp/android/RadJavCPPGUITextboxFrame.h"
 
 namespace RadJAV
 {
 	namespace CPP
 	{
-		namespace MUI
+		namespace GUI
 		{
 			using namespace Android;
 
@@ -36,7 +36,7 @@ namespace RadJAV
 			jmethodID TextboxFrame::nativeGetInputType = nullptr;
 			jmethodID TextboxFrame::nativeSetLines = nullptr;
 
-			TextboxFrame::TextboxFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
+			TextboxFrame::TextboxFrame(GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
 			{
 				JNIEnv* env = Jni::getJniEnv();
 

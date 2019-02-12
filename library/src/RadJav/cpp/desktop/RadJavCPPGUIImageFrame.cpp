@@ -29,11 +29,13 @@ namespace RadJAV
 		namespace GUI
 		{
 			#ifdef GUI_USE_WXWIDGETS
-				ImageFrame::ImageFrame(wxWindow *parent, const wxString &file, wxSize fileSize, const wxPoint &pos, const wxSize &size)
-					: wxStaticBitmap(parent, wxID_ANY, wxBitmap (), pos, size, wxTRANSPARENT_WINDOW | wxBORDER_NONE)
+				ImageFrame::ImageFrame(GObjectWidget *parent, const String &filePath, const Vector2 &pos, const Vector2 &size)
+					: wxStaticBitmap(parent ? parent->getNativeWidget() : nullptr, wxID_ANY, wxBitmap(), wxPoint(pos.x, pos.y), wxSize(size.x, size.y), wxTRANSPARENT_WINDOW | wxBORDER_NONE)
 				{
 					isImageLoaded = false;
-					loadImage(file, fileSize);
+					scaleMode = Image::ScaleMode::AspectFit;
+					
+					loadImage(filePath);
 				}
 
 				wxBitmapType ImageFrame::getImageType(wxString file)
@@ -86,28 +88,80 @@ namespace RadJAV
 					return (type);
 				}
 
-				void ImageFrame::loadImage(wxString file, wxSize fileSize)
+				RJBOOL ImageFrame::loadImage(const String& imageFile)
 				{
-					if (file.IsEmpty() == true)
-						return;
-
+					if (imageFile == "")
+						return false;
+					
+					wxString file = imageFile.towxString();
+					
 					wxBitmapType type = getImageType(file);
-					RJBOOL hasLoaded = image.LoadFile(file, type);
-
-					if (hasLoaded == false)
-					{
-						#ifdef USE_V8
-							V8_JAVASCRIPT_ENGINE->throwException("Unable to load image " + parsewxString (file));
-						#endif
-
-						return;
-					}
-
+					if (!image.LoadFile(file, type))
+						return false;
+					
 					isImageLoaded = true;
+					
+					adaptImage();
+					
+					return true;
+				}
+			
+				void ImageFrame::setScaleMode(Image::ScaleMode mode)
+				{
+					scaleMode = mode;
+					adaptImage();
+				}
+			
+				Image::ScaleMode ImageFrame::getScaleMode() const
+				{
+					return scaleMode;
+				}
 
-					//image = image.Scale(fileSize.GetWidth(), fileSize.GetHeight());
-					image.Rescale(fileSize.GetWidth(), fileSize.GetHeight(), wxImageResizeQuality::wxIMAGE_QUALITY_HIGH);
-					imageSize = fileSize;
+				void ImageFrame::setSize(RJINT width, RJINT height)
+				{
+					GObjectWidget::setSize(width, height);
+					
+					adaptImage();
+				}
+
+				wxWindow* ImageFrame::getNativeWidget()
+				{
+					return this;
+				}
+
+				void ImageFrame::adaptImage()
+				{
+					if (!isImageLoaded)
+						return;
+					
+					int controlWidth;
+					int controlHeight;
+					GetSize(&controlWidth, &controlHeight);
+					
+					int imageWidth = image.GetWidth();
+					int imageHeight = image.GetHeight();
+
+					switch (scaleMode)
+					{
+						case Image::ScaleMode::AspectFit:
+						{
+							RDECIMAL xScale = controlWidth/imageWidth;
+							RDECIMAL yScale = controlHeight/imageHeight;
+							RDECIMAL scale = std::min(xScale, yScale);
+							imageSize = wxSize(imageWidth*scale, imageHeight*scale);
+							imagePosition = wxPoint((controlWidth-imageWidth)/2.0, (controlHeight-imageHeight)/2.0);
+							image.Rescale(imageSize.GetWidth(), imageSize.GetHeight(), wxImageResizeQuality::wxIMAGE_QUALITY_HIGH);
+							break;
+						}
+						case Image::ScaleMode::AspectFill:
+						{
+							imageSize = wxSize(controlWidth, controlHeight);
+							imagePosition = wxPoint(0, 0);
+							image.Rescale(controlWidth, controlHeight, wxImageResizeQuality::wxIMAGE_QUALITY_HIGH);
+							break;
+						}
+						default:;
+					}
 				}
 
 				void ImageFrame::paintEvent(wxPaintEvent &evt)
@@ -116,16 +170,7 @@ namespace RadJAV
 						return;
 
 					wxPaintDC dc(this);
-					render(dc);
-				}
-
-				void ImageFrame::render(wxDC &dc)
-				{
-					if (isImageLoaded == false)
-						return;
-
-					image.Rescale(imageSize.GetWidth(), imageSize.GetHeight(), wxImageResizeQuality::wxIMAGE_QUALITY_HIGH);
-					dc.DrawBitmap(image, 0, 0, true);
+					dc.DrawBitmap(image, imagePosition);
 				}
 			#endif
 		}

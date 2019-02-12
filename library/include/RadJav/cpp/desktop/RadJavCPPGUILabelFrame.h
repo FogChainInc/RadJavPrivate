@@ -40,8 +40,7 @@
 					class RADJAV_EXPORT LabelFrame : public wxStaticText, public GObjectWidget, public ChainedPtr
 					{
 						public:
-							LabelFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size);
-
+							LabelFrame(GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
 
 							void onClick(wxMouseEvent &event);
 							/*
@@ -53,7 +52,8 @@
 							   void onMiddleDoubleClick(wxMouseEvent &event);
 							   void onMiddleDown(wxMouseEvent &event);
 							*/
-							
+
+						wxWindow* getNativeWidget();
 
 						protected:
 							wxDECLARE_EVENT_TABLE();

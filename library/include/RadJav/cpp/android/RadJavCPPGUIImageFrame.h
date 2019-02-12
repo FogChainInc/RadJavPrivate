@@ -17,22 +17,22 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#ifndef _RADJAV_MUI_CPP_IMAGE_FRAME_H_
-#define _RADJAV_MUI_CPP_IMAGE_FRAME_H_
+#ifndef _RADJAV_GUI_CPP_IMAGE_FRAME_H_
+#define _RADJAV_GUI_CPP_IMAGE_FRAME_H_
 
 #include "RadJavPreprocessor.h"
 #include "RadJavString.h"
 
 #include "cpp/RadJavCPPGUIGObject.h"
-#include "cpp/RadJavCPPMUIImage.h"
+#include "cpp/RadJavCPPGUIImage.h"
 
 namespace RadJAV
 {
 	namespace CPP
 	{
-		namespace MUI
+		namespace GUI
 		{
-			class RADJAV_EXPORT ImageFrame : public GUI::GObjectWidget
+			class RADJAV_EXPORT ImageFrame : public GObjectWidget
 											,public ChainedPtr
 			{
 			public:
@@ -43,14 +43,14 @@ namespace RadJAV
 				 * @param Vector2 pos Initial position.
 				 * @param Vector2 size Initial size.
 				 */
-				ImageFrame(GUI::GObjectWidget *parent, const String &imageFile, const Vector2 &pos, const Vector2 &size);
+				ImageFrame(GObjectWidget *parent, const String &imageFile, const Vector2 &pos, const Vector2 &size);
 				/**
 				 * Constructor.
 				 * @param GObjectWidget parent. Constructed object will be added to view hierarchy of parent.
 				 * @param Vector2 pos Initial position.
 				 * @param Vector2 size Initial size.
 				 */
-				ImageFrame(GUI::GObjectWidget *parent, const Vector2 &pos, const Vector2 &size);
+				ImageFrame(GObjectWidget *parent, const Vector2 &pos, const Vector2 &size);
 				~ImageFrame();
 				
 				/** @method loadImage

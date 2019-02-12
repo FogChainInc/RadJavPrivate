@@ -46,6 +46,8 @@
 							void onMenuHighLight(wxMenuEvent &evt);
 							void onMenuSelected(wxCommandEvent &evt);
 
+							wxWindow* getNativeWidget();
+
 						protected:
 							wxDECLARE_EVENT_TABLE();
 					};

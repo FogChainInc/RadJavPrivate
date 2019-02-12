@@ -17,14 +17,14 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#ifndef _RADJAV_MUI_CPP_TEXTBOX_FRAME_H_
-#define _RADJAV_MUI_CPP_TEXTBOX_FRAME_H_
+#ifndef _RADJAV_GUI_CPP_TEXTBOX_FRAME_H_
+#define _RADJAV_GUI_CPP_TEXTBOX_FRAME_H_
 
 #include "RadJavPreprocessor.h"
 #include "RadJavString.h"
 
 #include "cpp/RadJavCPPGUIGObject.h"
-#include "cpp/RadJavCPPMUITextbox.h"
+#include "cpp/RadJavCPPGUITextbox.h"
 
 OBJC_CLASS(UITextField);
 OBJC_CLASS(TextFieldDelegate);
@@ -33,9 +33,9 @@ namespace RadJAV
 {
 	namespace CPP
 	{
-		namespace MUI
+		namespace GUI
 		{
-			class RADJAV_EXPORT TextboxFrame : public GUI::GObjectWidget
+			class RADJAV_EXPORT TextboxFrame : public GObjectWidget
 												,public ChainedPtr
 			{
 			public:
@@ -46,7 +46,7 @@ namespace RadJAV
 				 * @param Vector2 pos Initial position.
 				 * @param Vector2 size Initial size.
 				 */
-				TextboxFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
+				TextboxFrame(GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
 				~TextboxFrame();
 				
 				/** @method setText

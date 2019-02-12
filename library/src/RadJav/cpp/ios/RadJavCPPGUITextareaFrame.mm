@@ -17,7 +17,7 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#include "cpp/ios/RadJavCPPMUITextareaFrame.h"
+#include "cpp/ios/RadJavCPPGUITextareaFrame.h"
 #import "cpp/ios/RadJavCPPMUIEventDelegates.h"
 
 #import "cpp/RadJavCPPMUIView.h"
@@ -27,9 +27,9 @@ namespace RadJAV
 {
 	namespace CPP
 	{
-		namespace MUI
+		namespace GUI
 		{
-			TextareaFrame::TextareaFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
+			TextareaFrame::TextareaFrame(GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
 			: widget([[UITextView alloc] init])
 			{
 				//TODO: add delegate
@@ -92,17 +92,10 @@ namespace RadJAV
 				return false;
 			}
 			
-			#ifdef USE_IOS
-				UIView* TextareaFrame::getNativeWidget()
-				{
-					return widget;
-				}
-			#elif defined USE_ANDROID
-				void* TextareaFrame::getNativeWidget()
-				{
-					return widget;
-				}
-			#endif
+			UIView* TextareaFrame::getNativeWidget()
+			{
+				return widget;
+			}
 		}
 	}
 }

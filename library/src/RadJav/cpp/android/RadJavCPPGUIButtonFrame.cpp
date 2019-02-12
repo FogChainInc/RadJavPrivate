@@ -17,7 +17,7 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#include "cpp/android/RadJavCPPMUIButtonFrame.h"
+#include "cpp/android/RadJavCPPGUIButtonFrame.h"
 
 #include "RadJavString.h"
 #include <android/Utils.h>
@@ -26,7 +26,7 @@ namespace RadJAV
 {
 	namespace CPP
 	{
-		namespace MUI
+		namespace GUI
 		{
 			using namespace Android;
 
@@ -36,7 +36,7 @@ namespace RadJAV
 			jmethodID ButtonFrame::nativeSetText = nullptr;
 			jmethodID ButtonFrame::nativeGetText = nullptr;
 
-			ButtonFrame::ButtonFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
+			ButtonFrame::ButtonFrame(GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
 			{
 				/*^:AndroidJNI.outputStart ("jniCreate");*/
 				/*^:AndroidJNI.outputEnd ("jniCreate");*/

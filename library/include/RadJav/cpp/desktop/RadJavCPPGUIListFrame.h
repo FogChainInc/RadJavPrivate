@@ -48,6 +48,8 @@
 							void onRowMiddleClick(wxListEvent &event);
 							void onRowFocused(wxListEvent &event);
 
+							wxWindow* getNativeWidget();
+
 						protected:
 							wxDECLARE_EVENT_TABLE();
 					};

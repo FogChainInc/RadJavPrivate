@@ -75,151 +75,17 @@ namespace RadJAV
 				
 					linkWith(object);
 				
-					wxPanel *panel = RJNEW wxPanel(object, wxID_ANY);
-					/*wxBoxSizer *sizer = RJNEW wxBoxSizer(wxVERTICAL);
-					panel->SetSizer(sizer);
-					sizer->SetSizeHints(object);*/
 					RadJav::app->SetTopWindow(object);
-					object->Show(_visible);
+					object->setVisibility(_visible);
 					RadJav::app->SetActive(_visible, object);
 
-					_appObj = panel;
+					_appObj = object;
 
 					if (icon != "")
 						setIcon(icon);
 
 					setup();
 				#endif
-			}
-
-			void Window::setPosition(RJINT x, RJINT y)
-			{
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
-					{
-						CPP::GUI::WindowFrame *obj = (CPP::GUI::WindowFrame *)_appObj->GetParent();
-						obj->SetPosition(wxPoint(x, y));
-					}
-				#endif
-			}
-
-			CPP::Vector2 Window::getPosition()
-			{
-				CPP::Vector2 newpos;
-
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
-					{
-						wxPoint pos = _appObj->GetParent ()->GetPosition();
-						newpos.x = pos.x;
-						newpos.y = pos.y;
-					}
-				#endif
-
-				return (newpos);
-			}
-
-			void Window::setSize(RJINT width, RJINT height)
-			{
-				_transform->setSize(width, height);
-
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
-						_appObj->GetParent ()->SetSize(width, height);
-				#endif
-			}
-
-			CPP::Vector2 Window::getSize()
-			{
-				CPP::Vector2 size = _transform->getSize();
-
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
-					{
-						wxSize wxsize = _appObj->GetParent ()->GetSize();
-						size.x = wxsize.GetWidth();
-						size.y = wxsize.GetHeight();
-					}
-				#endif
-
-				return (size);
-			}
-
-			void Window::setText(String text)
-			{
-				_text = text;
-
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
-						((WindowFrame *)_appObj->GetParent())->SetTitle(text.towxString());
-				#endif
-			}
-
-			String Window::getText()
-			{
-				String text = _text;
-
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
-					{
-						wxString wxtext = ((WindowFrame *)_appObj->GetParent ())->GetTitle ();
-						text = parsewxString(wxtext);
-					}
-				#endif
-
-				return (text);
-			}
-
-			void Window::setVisibility(RJBOOL visible)
-			{
-				_visible = visible;
-
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
-					{
-						if (visible == true)
-							_appObj->GetParent()->Show();
-						else
-							_appObj->GetParent()->Hide();
-					}
-				#endif
-			}
-
-			RJBOOL Window::getVisibility()
-			{
-				RJBOOL visible = _visible;
-
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
-						visible = _appObj->GetParent ()->IsShown();
-				#endif
-
-				return (visible);
-			}
-
-			void Window::setEnabled(RJBOOL enabled)
-			{
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
-					{
-						if (enabled == true)
-							((WindowFrame *)_appObj->GetParent())->Enable();
-						else
-							((WindowFrame *)_appObj->GetParent())->Disable();
-					}
-				#endif
-			}
-
-			RJBOOL Window::getEnabled()
-			{
-				RJBOOL enabled = false;
-
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
-						enabled = ((WindowFrame *)_appObj->GetParent())->IsEnabled();
-				#endif
-
-				return (enabled);
 			}
 
 			void Window::setIcon(String newIcon)

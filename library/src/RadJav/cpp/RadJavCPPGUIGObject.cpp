@@ -306,7 +306,7 @@ namespace RadJAV
 
 				#ifdef GUI_USE_WXWIDGETS
 					if (_appObj != NULL)
-						_appObj->Raise();
+						_appObj->getNativeWidget()->Raise();
 				#endif
 			}
 
@@ -316,7 +316,7 @@ namespace RadJAV
 				{
 					#ifdef GUI_USE_WXWIDGETS
 						if (_cursor == "hand")
-							_appObj->SetCursor(wxCursor(wxCURSOR_HAND));
+							_appObj->getNativeWidget()->SetCursor(wxCursor(wxCURSOR_HAND));
 					#elif defined USE_IOS || defined USE_ANDROID
 						#warning No cursor support in MUI
 					#endif

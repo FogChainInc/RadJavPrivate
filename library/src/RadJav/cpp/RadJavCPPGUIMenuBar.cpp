@@ -61,7 +61,7 @@ namespace RadJAV
 					wxFrame *parentWin = NULL;
 
 					if (_parent != NULL)
-						parentWin = dynamic_cast<wxFrame*>(_parent->_appObj->GetParent());
+						parentWin = dynamic_cast<wxFrame*>(_parent->_appObj->getNativeWidget()->GetParent());
 
 					MenuBarFrame *object = RJNEW MenuBarFrame("");
 					parentWin->SetMenuBar(object);

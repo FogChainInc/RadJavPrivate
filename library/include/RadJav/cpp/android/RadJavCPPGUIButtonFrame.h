@@ -17,8 +17,8 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#ifndef _RADJAV_MUI_CPP_BUTTON_FRAME_H_
-#define _RADJAV_MUI_CPP_BUTTON_FRAME_H_
+#ifndef _RADJAV_GUI_CPP_BUTTON_FRAME_H_
+#define _RADJAV_GUI_CPP_BUTTON_FRAME_H_
 
 #include "RadJavPreprocessor.h"
 #include "RadJavString.h"
@@ -29,9 +29,9 @@ namespace RadJAV
 {
 	namespace CPP
 	{
-		namespace MUI
+		namespace GUI
 		{
-			class RADJAV_EXPORT ButtonFrame : public GUI::GObjectWidget
+			class RADJAV_EXPORT ButtonFrame : public GObjectWidget
 											, public ChainedPtr
 			{
 			public:
@@ -42,7 +42,7 @@ namespace RadJAV
 				 * @param Vector2 pos Initial position.
 				 * @param Vector2 size Initial size.
 				 */
-				ButtonFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
+				ButtonFrame(GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
 				~ButtonFrame();
 				
 				void create();

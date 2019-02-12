@@ -47,6 +47,8 @@
 						void onCloseup(wxCommandEvent &event);
 						void onText(wxCommandEvent &event);
 
+						wxWindow* getNativeWidget();
+
 					protected:
 						wxDECLARE_EVENT_TABLE();
 					};

@@ -17,7 +17,7 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#include "cpp/ios/RadJavCPPMUIButtonFrame.h"
+#include "cpp/ios/RadJavCPPGUIButtonFrame.h"
 #import "cpp/ios/RadJavCPPMUIEventDelegates.h"
 
 #import "cpp/RadJavCPPMUIView.h"
@@ -27,9 +27,9 @@ namespace RadJAV
 {
 	namespace CPP
 	{
-		namespace MUI
+		namespace GUI
 		{
-			ButtonFrame::ButtonFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
+			ButtonFrame::ButtonFrame(GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
 			: widget([[UIButton alloc] init])
 			{
                 widgetDelegate = [[ButtonDelegate alloc] init];
@@ -105,17 +105,10 @@ namespace RadJAV
 				return [widgetDelegate bindEvent:widget eventName:eventName];
 			}
 			
-			#ifdef USE_IOS
-				UIView* ButtonFrame::getNativeWidget()
-				{
-					return widget;
-				}
-			#elif defined USE_ANDROID
-				void* ButtonFrame::getNativeWidget()
-				{
-					return widget;
-				}
-			#endif
+			UIView* ButtonFrame::getNativeWidget()
+			{
+				return widget;
+			}
 		}
 	}
 }

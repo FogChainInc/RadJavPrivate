@@ -29,9 +29,25 @@ namespace RadJAV
 		namespace GUI
 		{
 			#ifdef GUI_USE_WXWIDGETS
-				TextareaFrame::TextareaFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size)
-					: wxTextCtrl(parent, wxID_ANY, text, pos, size, wxTE_MULTILINE)
+				TextareaFrame::TextareaFrame(GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
+				: wxTextCtrl(parent ? parent->getNativeWidget() : nullptr, wxID_ANY, text.towxString(), wxPoint(pos.x, pos.y), wxSize(size.x, size.y), wxTE_MULTILINE)
 				{
+				}
+
+				void TextareaFrame::setText(String text)
+				{
+					SetValue(text.towxString());
+				}
+
+				String TextareaFrame::getText()
+				{
+					wxString text = GetValue();
+					return parsewxString(text);
+				}
+
+				wxWindow* TextareaFrame::getNativeWidget()
+				{
+					return this;
 				}
 
 				void TextareaFrame::onText(wxCommandEvent &evt)

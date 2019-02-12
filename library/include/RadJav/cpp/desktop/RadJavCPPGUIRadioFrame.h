@@ -44,6 +44,8 @@
 
 							void onChanged(wxCommandEvent &event);
 
+						wxWindow* getNativeWidget();
+
 						protected:
 							wxDECLARE_EVENT_TABLE();
 					};

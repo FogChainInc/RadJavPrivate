@@ -58,54 +58,76 @@ namespace RadJAV
 
 			void Image::create()
 			{
-				#ifdef GUI_USE_WXWIDGETS
-					wxWindow *parentWin = NULL;
-
-					if (_parent != NULL)
-						parentWin = (wxWindow *)_parent->_appObj;
-
-					ImageFrame *object = RJNEW ImageFrame(parentWin, _image.towxString(), wxSize(_transform->width, _transform->height),
-						wxPoint(_transform->x, _transform->y), wxSize(_transform->width, _transform->height));
-					object->Show(_visible);
-
-					_appObj = object;
+				GObjectWidget* parentWin = nullptr;
 				
-					linkWith(object);
-
-					setup();
-				#endif
+				if (_parent != nullptr)
+					parentWin = _parent->_appObj;
+				
+				ImageFrame* object = RJNEW ImageFrame(parentWin, _image,
+													  Vector2(_transform->x, _transform->y),
+													  Vector2(_transform->width, _transform->height));
+				
+				object->setVisibility(_visible);
+				_appObj = object;
+				linkWith(object);
+				setup();
 
 				if (_parent != NULL)
 					_parent->_callChildCreated(this);
 			}
 
+			RJBOOL Image::setImage(const String& imageFile)
+			{
+				if (imageFile == "")
+					return false;
+
+				if (_appObj)
+				{
+					_image = imageFile;
+
+					ImageFrame* image = static_cast<ImageFrame*>(_appObj);
+					return image->loadImage(imageFile);
+				}
+				
+				return false;
+			}
+			
+			void Image::setScaleMode(Image::ScaleMode mode)
+			{
+				if (_appObj)
+				{
+					ImageFrame* image = static_cast<ImageFrame*>(_appObj);
+					return image->setScaleMode(mode);
+				}
+			}
+
+			Image::ScaleMode Image::getScaleMode() const
+			{
+				if (_appObj)
+				{
+					ImageFrame* image = static_cast<ImageFrame*>(_appObj);
+					return image->getScaleMode();
+				}
+				
+				return ScaleMode::AspectFit;
+			}
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
 				void Image::on(String event, RJ_FUNC_TYPE func)
 				{
-					#ifdef GUI_USE_WXWIDGETS 
-						
-						CPP::GUI::ImageFrame *object = (CPP::GUI::ImageFrame *)_appObj;
-						object->addNewEvent(event, object, func);
-					
-					#endif
+					if (_appObj)
+					{
+						#ifdef GUI_USE_WXWIDGETS 
+							
+							CPP::GUI::ImageFrame *object = (CPP::GUI::ImageFrame *)_appObj;
+							object->addNewEvent(event, object, func);
+							
+						#else
+							_appObj->addNewEvent(event, func);
+						#endif
+					}
 				}
 			#endif
-
-			void Image::setImage(String image)
-			{
-				if (image == "")
-					return;
-
-				_image = image;
-
-				#ifdef GUI_USE_WXWIDGETS
-					ImageFrame *object = (ImageFrame *)_appObj;
-
-					if (object != NULL) {
-						object->loadImage(_image.towxString(), wxSize (getWidth (), getHeight ()));
-					}
-				#endif
-			}
 		}
 	}
 }
+

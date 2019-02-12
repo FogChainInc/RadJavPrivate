@@ -29,9 +29,47 @@ namespace RadJAV
 		namespace GUI
 		{
 			#ifdef GUI_USE_WXWIDGETS
-				TextboxFrame::TextboxFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size)
-					: wxTextCtrl(parent, wxID_ANY, text, pos, size, wxTE_PROCESS_ENTER)
+				TextboxFrame::TextboxFrame(GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size)
+					: wxTextCtrl(parent ? parent->getNativeWidget() : nullptr, wxID_ANY, text.towxString(), wxPoint(pos.x, pos.y), wxSize(size.x, size.y), wxTE_PROCESS_ENTER)
 				{
+				}
+
+				void TextboxFrame::setInputMode(Textbox::InputMode inputMode)
+				{
+					//TODO: looks like wxWidgets can't change style of window for some controls
+					switch (inputMode)
+					{
+						case Textbox::InputMode::Text:
+						case Textbox::InputMode::Number:
+						case Textbox::InputMode::Decimal:
+						case Textbox::InputMode::Phone:
+						case Textbox::InputMode::Email:
+							break;
+						case Textbox::InputMode::Password:
+							break;
+					}
+				}
+
+				Textbox::InputMode TextboxFrame::getInputMode() const
+				{
+					//TODO: need to support different styles of Textbox
+					return Textbox::InputMode::Text;
+				}
+
+				void TextboxFrame::setText(String text)
+				{
+					SetValue(text.towxString());
+				}
+			
+				String TextboxFrame::getText()
+				{
+					wxString text = GetValue();
+					return parsewxString(text);
+				}
+			
+				wxWindow* TextboxFrame::getNativeWidget()
+				{
+					return this;
 				}
 
 				void TextboxFrame::onText(wxCommandEvent &evt)

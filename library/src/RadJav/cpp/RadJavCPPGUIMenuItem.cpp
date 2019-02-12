@@ -72,7 +72,7 @@ namespace RadJAV
 					if (_parent != NULL)
 					{
 						type = _parent->type;
-						parentWin = (wxWindow *)_parent->_appObj;
+						parentWin = _parent->_appObj->getNativeWidget();
 					}
 
 					MenuItemGUI *menuItem = RJNEW MenuItemGUI();

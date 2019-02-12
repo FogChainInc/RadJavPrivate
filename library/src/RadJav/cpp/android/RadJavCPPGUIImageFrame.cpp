@@ -17,14 +17,14 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#include "cpp/android/RadJavCPPMUIImageFrame.h"
+#include "cpp/android/RadJavCPPGUIImageFrame.h"
 #include <android/Utils.h>
 
 namespace RadJAV
 {
 	namespace CPP
 	{
-		namespace MUI
+		namespace GUI
 		{
 			using namespace Android;
 
@@ -35,7 +35,7 @@ namespace RadJAV
 			jmethodID ImageFrame::nativeSetScaleType = nullptr;
 			jmethodID ImageFrame::nativeGetScaleType = nullptr;
 
-			ImageFrame::ImageFrame(GUI::GObjectWidget *parent, const String &imageFile, const Vector2 &pos, const Vector2 &size)
+			ImageFrame::ImageFrame(GObjectWidget *parent, const String &imageFile, const Vector2 &pos, const Vector2 &size)
 			{
 				JNIEnv* env = Jni::getJniEnv();
 
@@ -64,7 +64,7 @@ namespace RadJAV
 					loadImage(imageFile);
 			}
 			
-			ImageFrame::ImageFrame(GUI::GObjectWidget *parent, const Vector2 &pos, const Vector2 &size)
+			ImageFrame::ImageFrame(GObjectWidget *parent, const Vector2 &pos, const Vector2 &size)
 			{
 				JNIEnv* env = Jni::getJniEnv();
 

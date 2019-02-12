@@ -90,7 +90,7 @@ namespace RadJAV
 					return;
 				}
 
-				args.GetReturnValue().Set(v8::Boolean::New(V8_JAVASCRIPT_ENGINE->isolate, appObject->getChecked()));
+				args.GetReturnValue().Set(v8::Boolean::New(V8_JAVASCRIPT_ENGINE->isolate, appObject->isChecked()));
 			}
 		}
 	}

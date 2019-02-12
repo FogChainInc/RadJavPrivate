@@ -17,8 +17,8 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#include "cpp/RadJavCPPMUIImage.h"
-#include "cpp/ios/RadJavCPPMUIImageFrame.h"
+#include "cpp/RadJavCPPGUIImage.h"
+#include "cpp/ios/RadJavCPPGUIImageFrame.h"
 #import "cpp/ios/RadJavCPPMUIEventDelegates.h"
 
 #import "cpp/RadJavCPPMUIView.h"
@@ -28,9 +28,9 @@ namespace RadJAV
 {
 	namespace CPP
 	{
-		namespace MUI
+		namespace GUI
 		{
-			ImageFrame::ImageFrame(GUI::GObjectWidget *parent, const String &imageFile, const Vector2 &pos, const Vector2 &size)
+			ImageFrame::ImageFrame(GObjectWidget *parent, const String &imageFile, const Vector2 &pos, const Vector2 &size)
 			: widget([[UIImageView alloc] init]),
 			  image(nullptr)
 			{
@@ -45,7 +45,7 @@ namespace RadJAV
 				loadImage(imageFile);
 			}
 			
-			ImageFrame::ImageFrame(GUI::GObjectWidget *parent, const Vector2 &pos, const Vector2 &size)
+			ImageFrame::ImageFrame(GObjectWidget *parent, const Vector2 &pos, const Vector2 &size)
 			: widget([[UIImageView alloc] init]),
 			  image(nullptr)
 			{
@@ -123,17 +123,10 @@ namespace RadJAV
 				return false;
 			}
 			
-			#ifdef USE_IOS
-				UIView* ImageFrame::getNativeWidget()
-				{
-					return widget;
-				}
-			#elif defined USE_ANDROID
-				void* ImageFrame::getNativeWidget()
-				{
-					return widget;
-				}
-			#endif
+			UIView* ImageFrame::getNativeWidget()
+			{
+				return widget;
+			}
 		}
 	}
 }

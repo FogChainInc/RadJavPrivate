@@ -391,7 +391,8 @@ namespace RadJAV
 					jobject getNativeWidget();
 				#endif
 
-			protected:
+			//TODO: this must be protected but WindowFrame class has custom addChild method which touch this
+			//protected:
 				GObjectWidget* parent;
 				
 			#ifdef USE_ANDROID

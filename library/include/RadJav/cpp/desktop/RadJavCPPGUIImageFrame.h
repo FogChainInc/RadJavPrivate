@@ -24,6 +24,7 @@
 	#include "RadJavString.h"
 
 	#include "cpp/RadJavCPPGUIGObject.h"
+	#include "cpp/RadJavCPPGUIImage.h"
 
 	#ifdef GUI_USE_WXWIDGETS
 		#include <wx/wx.h>
@@ -40,17 +41,42 @@
 					class RADJAV_EXPORT ImageFrame : public wxStaticBitmap, public GObjectWidget, public ChainedPtr
 					{
 					public:
-						ImageFrame(wxWindow *parent, const wxString &file, wxSize fileSize, const wxPoint &pos, const wxSize &size);
+						ImageFrame(GObjectWidget *parent, const String &filePath, const Vector2 &pos, const Vector2 &size);
 
+						/** @method loadImage
+						 * Loads image from supplied source.
+						 * @param imageFile Source to load from.
+						 * @return BOOL whether image was loaded.
+						 */
+						RJBOOL loadImage(const String& imageFile);
+						
+						/** @method setScaleMode
+						 * Setter for scale mode
+						 * @param ScaleMode Only aspect fit and aspect fill are supported now.
+						 */
+						void setScaleMode(Image::ScaleMode mode);
+						
+						/** @method getScaleMode
+						 * Getter for scale mode
+						 * @return ScaleMode Current scale mode.
+						 */
+						Image::ScaleMode getScaleMode() const;
+						
+						void setSize(RJINT width, RJINT height);
+						
+						wxWindow* getNativeWidget();
+
+					protected:
+						void adaptImage();
+						
 						wxBitmapType getImageType(wxString file);
-						void loadImage(wxString file, wxSize fileSize);
-
 						void paintEvent(wxPaintEvent &event);
-						void render(wxDC &dc);
 
 					protected:
 						RJBOOL isImageLoaded;
 						wxImage image;
+						Image::ScaleMode scaleMode;
+						wxPoint imagePosition;
 						wxSize imageSize;
 
 						wxDECLARE_EVENT_TABLE();

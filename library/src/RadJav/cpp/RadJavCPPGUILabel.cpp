@@ -22,8 +22,6 @@
 #include "RadJav.h"
 #include "RadJavString.h"
 
-#include <iostream>
-
 #ifdef GUI_USE_WXWIDGETS
 	#include "cpp/desktop/RadJavCPPGUILabelFrame.h"
 #elif defined USE_ANDROID
@@ -57,41 +55,41 @@ namespace RadJAV
 
 			void Label::create()
 			{
-				#ifdef GUI_USE_WXWIDGETS
-					wxWindow *parentWin = NULL;
-
-					if (_parent != NULL)
-						parentWin = (wxWindow *)_parent->_appObj;
-
-					LabelFrame *object = RJNEW LabelFrame(parentWin, _text.towxString(),
-						wxPoint(_transform->x, _transform->y), wxSize(_transform->width, _transform->height));
-					object->Show(_visible);
-
-					_appObj = object;
-
-					linkWith(object);
+				GObjectWidget* parentWin = nullptr;
 				
-					setup();
-				#endif
+				if (_parent != nullptr)
+					parentWin = _parent->_appObj;
+				
+				LabelFrame* object = RJNEW LabelFrame(parentWin, _text,
+														Vector2(_transform->x, _transform->y),
+														Vector2(_transform->width, _transform->height));
+				
+				object->setVisibility(_visible);
+				_appObj = object;
+				linkWith(object);
+				setup();
 			}
 
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
 				void Label::on(String event, RJ_FUNC_TYPE func)
 				{
-					#ifdef GUI_USE_WXWIDGETS
+					if (_appObj)
+					{
+						#ifdef GUI_USE_WXWIDGETS
 
-						CPP::GUI::LabelFrame *object = (CPP::GUI::LabelFrame *)_appObj;
+							CPP::GUI::LabelFrame *object = (CPP::GUI::LabelFrame *)_appObj;
 
-						object->addNewEvent(event, object, func);
+							object->addNewEvent(event, object, func);
 
-						  std::cout << "Entering Label::on" << std::endl;
-						if (event == "click")
-						{
-						  std::cout << "Connecting Label click event" << std::endl;
-							object->Connect(wxEVT_LEFT_UP, wxMouseEventHandler(LabelFrame::onClick), object->createEvent(event, func));
-						}
+							if (event == "click")
+							{
+								object->Connect(wxEVT_LEFT_UP, wxMouseEventHandler(LabelFrame::onClick), object->createEvent(event, func));
+							}
 
-					#endif	
+						#else
+							_appObj->addNewEvent(event, func);
+						#endif
+					}
 				}
 			#endif
 		}

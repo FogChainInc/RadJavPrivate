@@ -54,6 +54,12 @@ namespace RadJAV
 					Event *pevent = (Event *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
+			
+				wxWindow* ComboboxFrame::getNativeWidget()
+				{
+					return this;
+				}
+
 			#endif
 		}
 	}

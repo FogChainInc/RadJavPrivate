@@ -48,6 +48,12 @@ namespace RadJAV
 					this->data.insert(HashMapPair<RJINT, void *>(menuId, data));
 					this->dataType.insert(HashMapPair<RJINT, RJINT>(menuId, dataType));
 				}
+			
+				wxWindow* MenuItemGUI::getNativeWidget()
+				{
+					return this;
+				}
+
 			#endif
 		}
 	}

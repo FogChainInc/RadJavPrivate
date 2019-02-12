@@ -17,14 +17,14 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#include "cpp/android/RadJavCPPMUICheckboxFrame.h"
+#include "cpp/android/RadJavCPPGUICheckboxFrame.h"
 #include <android/Utils.h>
 
 namespace RadJAV
 {
 	namespace CPP
 	{
-		namespace MUI
+		namespace GUI
 		{
 			using namespace Android;
 
@@ -34,7 +34,7 @@ namespace RadJAV
 			jmethodID CheckboxFrame::nativeSetChecked = nullptr;
 			jmethodID CheckboxFrame::nativeIsChecked = nullptr;
 
-			CheckboxFrame::CheckboxFrame(GUI::GObjectWidget *parent, RJBOOL checked, const Vector2 &pos, const Vector2 &size)
+			CheckboxFrame::CheckboxFrame(GObjectWidget *parent, RJBOOL checked, String text, const Vector2 &pos, const Vector2 &size)
 			{
 				JNIEnv* env = Jni::getJniEnv();
 
@@ -72,7 +72,7 @@ namespace RadJAV
 				env->CallVoidMethod(widget, nativeSetChecked, checked);
 			}
 			
-			RJBOOL CheckboxFrame::getChecked() const
+			RJBOOL CheckboxFrame::isChecked() const
 			{
 				RJBOOL checked;
 

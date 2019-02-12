@@ -17,7 +17,7 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#include "cpp/ios/RadJavCPPMUICheckboxFrame.h"
+#include "cpp/ios/RadJavCPPGUICheckboxFrame.h"
 #import "cpp/ios/RadJavCPPMUIEventDelegates.h"
 
 #import "cpp/RadJavCPPMUIView.h"
@@ -27,9 +27,9 @@ namespace RadJAV
 {
 	namespace CPP
 	{
-		namespace MUI
+		namespace GUI
 		{
-			CheckboxFrame::CheckboxFrame(GUI::GObjectWidget *parent, RJBOOL checked, const Vector2 &pos, const Vector2 &size)
+			CheckboxFrame::CheckboxFrame(GObjectWidget *parent, RJBOOL checked, String text, const Vector2 &pos, const Vector2 &size)
 			: widget([[UISwitch alloc] init])
 			{
 				widgetDelegate = [[SwitchDelegate alloc] init];
@@ -54,7 +54,7 @@ namespace RadJAV
 				[widget setOn:checked];
 			}
 			
-			RJBOOL CheckboxFrame::getChecked() const
+			RJBOOL CheckboxFrame::isChecked() const
 			{
 				return widget.on;
 			}
@@ -74,17 +74,10 @@ namespace RadJAV
 				return [widgetDelegate bindEvent:widget eventName:eventName];
 			}
 			
-			#ifdef USE_IOS
-				UIView* CheckboxFrame::getNativeWidget()
-				{
-					return widget;
-				}
-			#elif defined USE_ANDROID
-				void* CheckboxFrame::getNativeWidget()
-				{
-					return widget;
-				}
-			#endif
+			UIView* CheckboxFrame::getNativeWidget()
+			{
+				return widget;
+			}
 		}
 	}
 }

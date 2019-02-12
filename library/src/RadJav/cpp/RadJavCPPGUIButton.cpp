@@ -55,7 +55,7 @@ namespace RadJAV
 
 			void Button::create()
 			{
-				GUI::GObjectWidget* parentWin = nullptr;
+				GObjectWidget* parentWin = nullptr;
 				
 				if (_parent != nullptr)
 					parentWin = _parent->_appObj;
@@ -73,13 +73,16 @@ namespace RadJAV
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
 				void Button::on(String event, RJ_FUNC_TYPE func)
 				{
-					//TODO: we need common interface for events
-					#ifdef GUI_USE_WXWIDGETS
-						CPP::GUI::ButtonFrame *object = (CPP::GUI::ButtonFrame *)_appObj;
-						object->addNewEvent(event, object, func);
-					#else
-						_appObj->addNewEvent(event, func);
-					#endif
+					if (_appObj)
+					{
+						//TODO: we need common interface for events
+						#ifdef GUI_USE_WXWIDGETS
+							CPP::GUI::ButtonFrame *object = (CPP::GUI::ButtonFrame *)_appObj;
+							object->addNewEvent(event, object, func);
+						#else
+							_appObj->addNewEvent(event, func);
+						#endif
+					}
 				}
 			#endif
 		}

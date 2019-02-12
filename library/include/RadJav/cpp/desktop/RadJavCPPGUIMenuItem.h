@@ -48,7 +48,7 @@
 						MENU = 2
 					};
 
-					class RADJAV_EXPORT MenuItemGUI: public wxWindow, public ChainedPtr
+					class RADJAV_EXPORT MenuItemGUI: public wxWindow, public GObjectWidget, public ChainedPtr
 					{
 						public:
 							inline MenuItemGUI()
@@ -95,6 +95,8 @@
 								return (data.size());
 							}
 
+							wxWindow* getNativeWidget();
+						
 							wxMenu *menu;
 							wxMenuItem *menuItem;
 							void *parent;

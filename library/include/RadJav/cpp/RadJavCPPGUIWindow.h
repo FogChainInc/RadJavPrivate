@@ -47,16 +47,6 @@
 						Window(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 
 						void create();
-						void setPosition(RJINT x, RJINT y);
-						CPP::Vector2 getPosition();
-						void setSize(RJINT x, RJINT y);
-						CPP::Vector2 getSize();
-						void setText(String text);
-						String getText();
-						void setVisibility(RJBOOL visible);
-						RJBOOL getVisibility();
-						void setEnabled(RJBOOL enabled);
-						RJBOOL getEnabled();
 						void setIcon(String newIcon);
 
 						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
