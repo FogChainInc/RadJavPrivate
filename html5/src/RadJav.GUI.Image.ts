@@ -27,11 +27,13 @@ namespace RadJav
   {
     /** 
      * An image.
-     * Available on platforms: Windows,Linux,OSX,HTML5
+     * Available on platforms: Windows,Linux,OSX,iOS,Android,HTML5
      */
     export class Image extends RadJav.GUI.GObject
     {
       static xmlTag: TagType = { tag: "image", type: "Image" };
+      static ScaleModeAspectFit: number = 1;
+      static ScaleModeAspectFill: number = 2;
 
       constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject)
       {
@@ -83,19 +85,38 @@ namespace RadJav
        */
       public setImage(image: string | any): void {
         this._image = image;
+
+        if(this["_setImage"] != null)
+				{
+					this["_setImage"].apply(this, arguments);
+					return;
+				}
+
         RadJav.currentTheme.event(this.type, "setImage", this, image);
+      }
+
+      /** 
+       * Set scale mode.
+       */
+      public setScaleMode(mode: number): void {
+        if(this["_setScaleMode"] != null)
+				{
+					this["_setScaleMode"].apply(this, arguments);
+				}
+      }
+
+      /** 
+       * Get scale mode.
+       */
+      public getScaleMode(): number {
+        if(this["_getScaleMode"] != null)
+				{
+					return this["_getScaleMode"].apply(this, arguments);
+        }
+        
+        return Image.ScaleModeAspectFit;
       }
     }
   }
 }
 
-if (RadJav.MUI["Image"] == null)
-{
-  if ((RadJav.OS.type == "windows") || 
-    (RadJav.OS.type == "linux") || 
-    (RadJav.OS.type == "macosx") || 
-    (RadJav.OS.type == "html5"))
-  {
-    RadJav.MUI["Image"] = RadJav.GUI.Image;
-  }
-}

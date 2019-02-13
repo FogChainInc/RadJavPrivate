@@ -28,33 +28,62 @@ namespace RadJav
     /** @class RadJav.GUI.Textbox
      * @extends RadJav.GUI.GObject
      * A Textbox.
-     * Available on platforms: Windows,Linux,OSX,HTML5
+     * Available on platforms: Windows,Linux,OSX,iOS,Android,HTML5
      */
    export class Textbox extends RadJav.GUI.GObject
    {
     static xmlTag: TagType = { tag: "textbox", type: "Textbox" };
 
-      constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject)
-      {
-        if (obj == null) {
-          obj = {};
-        }
+    static InputModeText: number = 1;
+    static InputModeNumber: number = 2;
+    static InputModeDecimal: number = 3;
+    static InputModePhone: number = 4;
+    static InputModeEmail: number = 5;
+    static InputModePassword: number = 6;
 
-        if (typeof obj == "string") {
-          var name = obj;
-          obj = { name: name };
-        }
-
-        if (obj.size == null) {
-          obj.size = new RadJav.Vector2();
-          obj.size.x = 120;
-          obj.size.y = 40;
-        }
-
-        super(obj, text, parent);
-
-        this.type = "RadJav.GUI.Textbox";
+    constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject)
+    {
+      if (obj == null) {
+        obj = {};
       }
+
+      if (typeof obj == "string") {
+        var name = obj;
+        obj = { name: name };
+      }
+
+      if (obj.size == null) {
+        obj.size = new RadJav.Vector2();
+        obj.size.x = 120;
+        obj.size.y = 40;
+      }
+
+      super(obj, text, parent);
+
+      this.type = "RadJav.GUI.Textbox";
     }
+
+    /** 
+     * Set input mode.
+     */
+    public setInputMode(mode: number): void {
+      if(this["_setInputMode"] != null)
+		  {
+			  this["_setInputMode"].apply(this, arguments);
+		  }
+    }
+
+    /** 
+     * Get input mode.
+     */
+    public getInputMode(): number {
+      if(this["_getInputMode"] != null)
+			{
+			  return this["_getInputMode"].apply(this, arguments);
+      }
+        
+      return Textbox.InputModeText;
+    }
+   }
   }
 }

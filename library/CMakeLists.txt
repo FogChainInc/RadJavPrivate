@@ -684,15 +684,15 @@ if (libRadJav_EMBEDFILE)
 	
 	if (INCLUDE_CRYPTOGRAPHY)
 		set (jsFiles ${jsFiles}
-				RadJav.Crypto.Cipher.js
-				RadJav.Crypto.Decipher.js
-				RadJav.Crypto.CipherMultipart.js
-				RadJav.Crypto.DecipherMultipart.js
-				RadJav.Crypto.KeyGenerator.js
-				RadJav.Crypto.PrivateKey.js
-				RadJav.Crypto.PublicKey.js
-				RadJav.Crypto.Hash.js
-				RadJav.Crypto.HashMultipart.js
+			RadJav.Crypto.Cipher.js
+			RadJav.Crypto.Decipher.js
+			RadJav.Crypto.CipherMultipart.js
+			RadJav.Crypto.DecipherMultipart.js
+			RadJav.Crypto.KeyGenerator.js
+			RadJav.Crypto.PrivateKey.js
+			RadJav.Crypto.PublicKey.js
+			RadJav.Crypto.Hash.js
+			RadJav.Crypto.HashMultipart.js
 		)
 	endif ()
 
@@ -762,16 +762,16 @@ if (libRadJav_EMBEDFILE)
 	
 	if (USE_OGRE)
 		set (jsFiles ${jsFiles}
-				RadJav.GUI.Canvas3D.js
-				RadJav.C3D.Transform.js # This must be compiled before any other C3D object.
-				RadJav.C3D.Object3D.js
-				RadJav.C3D.Plane.js
-				RadJav.C3D.Cube.js
-				RadJav.C3D.Sphere.js
-				RadJav.C3D.Camera.js
-				RadJav.C3D.Light.js
-				RadJav.C3D.Material.js
-				RadJav.C3D.Model.js
+			RadJav.GUI.Canvas3D.js
+			RadJav.C3D.Transform.js # This must be compiled before any other C3D object.
+			RadJav.C3D.Object3D.js
+			RadJav.C3D.Plane.js
+			RadJav.C3D.Cube.js
+			RadJav.C3D.Sphere.js
+			RadJav.C3D.Camera.js
+			RadJav.C3D.Light.js
+			RadJav.C3D.Material.js
+			RadJav.C3D.Model.js
 		)
 	endif ()
 	

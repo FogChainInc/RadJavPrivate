@@ -36,8 +36,8 @@ namespace RadJAV
 			{
 				V8_CALLBACK(object, "create", Checkbox::create);
 
-				V8_CALLBACK(object, "setChecked", Checkbox::setChecked);
-				V8_CALLBACK(object, "isChecked", Checkbox::isChecked);
+				V8_CALLBACK(object, "_setChecked", Checkbox::setChecked);
+				V8_CALLBACK(object, "_isChecked", Checkbox::isChecked);
 			}
 
 			void Checkbox::create(const v8::FunctionCallbackInfo<v8::Value> &args)

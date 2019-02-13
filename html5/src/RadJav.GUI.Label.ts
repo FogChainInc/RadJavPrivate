@@ -28,7 +28,7 @@ namespace RadJav
     /** @class RadJav.GUI.Label
      * @extends RadJav.GUI.GObject
      * A label.
-     * Available on platforms: Windows,Linux,OSX,HTML5
+     * Available on platforms: Windows,Linux,OSX,iOS,Android,HTML5
      */
     export class Label extends RadJav.GUI.GObject
     {

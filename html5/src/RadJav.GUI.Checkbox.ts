@@ -28,7 +28,7 @@ namespace RadJav
 		/** @class RadJav.GUI.Checkbox
 		* @extends RadJav.GUI.GObject
 		* A checkbox.
-		* Available on platforms: Windows,Linux,OSX,HTML5
+		* Available on platforms: Windows,Linux,OSX,iOS,Android,HTML5
 		*/
 		export class Checkbox extends RadJav.GUI.GObject
 		{
@@ -79,6 +79,14 @@ namespace RadJav
 			*/
 			public setChecked(checked: boolean): void
 			{
+				this._checked = checked;
+				
+				if(this["_setChecked"] != null)
+				{
+					this["_setChecked"].apply(this, arguments);
+					return;
+				}
+
 				RadJav.currentTheme.eventSync(this.type, "setChecked", this, checked);
 			}
 
@@ -89,6 +97,11 @@ namespace RadJav
 			*/
 			public isChecked(): boolean
 			{
+				if(this["_isChecked"] != null)
+				{
+					return this["_isChecked"].apply(this, arguments);
+				}
+
 				return RadJav.currentTheme.eventSync(this.type, "isChecked", this);
 			}
 		}

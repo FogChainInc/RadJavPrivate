@@ -36,8 +36,8 @@ namespace RadJAV
 			{
 				V8_CALLBACK(object, "create", Textbox::create);
 				
-				V8_CALLBACK(object, "setInputMode", Textbox::setInputMode);
-				V8_CALLBACK(object, "getInputMode", Textbox::getInputMode);
+				V8_CALLBACK(object, "_setInputMode", Textbox::setInputMode);
+				V8_CALLBACK(object, "_getInputMode", Textbox::getInputMode);
 
 			}
 

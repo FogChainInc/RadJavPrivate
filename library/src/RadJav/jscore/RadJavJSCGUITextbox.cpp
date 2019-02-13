@@ -37,8 +37,8 @@ namespace RadJAV
 			{
 				JSC_CALLBACK(object, "create", Textbox::create);
 				
-				JSC_CALLBACK(object, "setInputMode", Textbox::setInputMode);
-				JSC_CALLBACK(object, "getInputMode", Textbox::getInputMode);
+				JSC_CALLBACK(object, "_setInputMode", Textbox::setInputMode);
+				JSC_CALLBACK(object, "_getInputMode", Textbox::getInputMode);
 			}
 
 			JSValueRef Textbox::create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)

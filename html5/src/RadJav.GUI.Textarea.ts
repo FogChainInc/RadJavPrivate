@@ -28,9 +28,9 @@ namespace RadJav
     /** @class RadJav.GUI.Textarea
      * @extends RadJav.GUI.GObject
      * A Textarea.
-     * Available on platforms: Windows,Linux,OSX,HTML5
+     * Available on platforms: Windows,Linux,OSX,iOS,Android,HTML5
      */
-  export  class Textarea extends RadJav.GUI.GObject
+  export class Textarea extends RadJav.GUI.GObject
   {
     static xmlTag: TagType = { tag: "textarea", type: "Textarea" };
 

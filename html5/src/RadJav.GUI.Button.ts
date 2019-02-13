@@ -24,10 +24,10 @@
 namespace RadJav
 {
 	export namespace GUI
-	 {
+	{
 		/**
 		 * A button.
-		 * Available on platforms: Windows,Linux,OSX,HTML5
+		 * Available on platforms: Windows,Linux,OSX,iOS,Android,HTML5
 		 */
 		export class Button extends RadJav.GUI.GObject
 		{
@@ -53,18 +53,8 @@ namespace RadJav
 				this.type = "RadJav.GUI.Button";
 			}
 
-			static xmlTag: RadJav.TagType = { tag: "button", type: "Button" };
+			static xmlTag: TagType = { tag: "button", type: "Button" };
 		}
 	}
 }
 
-if (RadJav.MUI["Button"] == null)
-{
-	if ((RadJav.OS.type == "windows") || 
-		(RadJav.OS.type == "linux") || 
-		(RadJav.OS.type == "macosx") || 
-		(RadJav.OS.type == "html5"))
-	{
-		RadJav.MUI["Button"] = RadJav.GUI.Button;
-	}
-}

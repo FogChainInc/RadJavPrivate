@@ -36,9 +36,9 @@ namespace RadJAV
 			void Image::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 			{
 				JSC_CALLBACK(object, "create", Image::create);
-				JSC_CALLBACK(object, "setImage", Image::setImage);
-				JSC_CALLBACK(object, "setScaleMode", Image::setScaleMode);
-				JSC_CALLBACK(object, "getScaleMode", Image::getScaleMode);
+				JSC_CALLBACK(object, "_setImage", Image::setImage);
+				JSC_CALLBACK(object, "_setScaleMode", Image::setScaleMode);
+				JSC_CALLBACK(object, "_getScaleMode", Image::getScaleMode);
 			}
 
 			JSValueRef Image::create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
@@ -73,8 +73,6 @@ namespace RadJAV
 					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Path argument required");
 					return undefined;
 				}
-				
-				JSC_JAVASCRIPT_ENGINE->jscSetObject(thisObject, "_image", JSC_JAVASCRIPT_ENGINE->jscCastValueToObject(imagePathValue));
 				
 				appObject->setImage(parseJSCValue(ctx, imagePathValue));
 				

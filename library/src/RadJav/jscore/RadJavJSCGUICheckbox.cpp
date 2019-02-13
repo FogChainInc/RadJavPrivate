@@ -37,8 +37,8 @@ namespace RadJAV
 			{
 				JSC_CALLBACK(object, "create", Checkbox::create);
 
-				JSC_CALLBACK(object, "setChecked", Checkbox::setChecked);
-				JSC_CALLBACK(object, "isChecked", Checkbox::isChecked);
+				JSC_CALLBACK(object, "_setChecked", Checkbox::setChecked);
+				JSC_CALLBACK(object, "_isChecked", Checkbox::isChecked);
 			}
 
 			JSValueRef Checkbox::create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)

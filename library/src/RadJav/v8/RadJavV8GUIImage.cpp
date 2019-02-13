@@ -35,9 +35,9 @@ namespace RadJAV
 			void Image::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 			{
 				V8_CALLBACK(object, "create", Image::create);
-				V8_CALLBACK(object, "setImage", Image::setImage);
-				V8_CALLBACK(object, "setScaleMode", Image::setScaleMode);
-				V8_CALLBACK(object, "getScaleMode", Image::getScaleMode);
+				V8_CALLBACK(object, "_setImage", Image::setImage);
+				V8_CALLBACK(object, "_setScaleMode", Image::setScaleMode);
+				V8_CALLBACK(object, "_getScaleMode", Image::getScaleMode);
 			}
 
 			void Image::create(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -71,8 +71,6 @@ namespace RadJAV
 
 					return;
 				}
-
-				args.This()->Set(String("_image").toV8String(args.GetIsolate()), pathJs);
 
 				appObject->setImage(parseV8Value(pathJs));
 			}
