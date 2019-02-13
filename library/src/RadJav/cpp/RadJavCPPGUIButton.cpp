@@ -22,19 +22,20 @@
 #include "RadJav.h"
 #include "RadJavString.h"
 
+#ifdef GUI_USE_WXWIDGETS
+	#include "cpp/desktop/RadJavCPPGUIButtonFrame.h"
+#elif defined USE_ANDROID
+	#include "cpp/android/RadJavCPPGUIButtonFrame.h"
+#elif defined USE_IOS
+	#include "cpp/ios/RadJavCPPGUIButtonFrame.h"
+#endif
+
 namespace RadJAV
 {
 	namespace CPP
 	{
 		namespace GUI
 		{
-			#ifdef GUI_USE_WXWIDGETS
-				ButtonFrame::ButtonFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size)
-					: wxButton(parent, wxID_ANY, text, pos, size)
-				{
-				}
-			#endif
-
 			#ifdef USE_V8
 				Button::Button(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
 					: GObject (jsEngine, args)
@@ -54,66 +55,36 @@ namespace RadJAV
 
 			void Button::create()
 			{
-				#ifdef GUI_USE_WXWIDGETS
-					wxWindow *parentWin = NULL;
-
-					if (_parent != NULL)
-						parentWin = (wxWindow *)_parent->_appObj;
-
-					ButtonFrame *object = RJNEW ButtonFrame(parentWin, _text.towxString(), 
-						wxPoint(_transform->x, _transform->y), wxSize(_transform->width, _transform->height));
-					object->Show(_visible);
-
-					_appObj = object;
+				GObjectWidget* parentWin = nullptr;
 				
-					linkWith(object);
-				
-					setup();
-				#endif
-			}
+				if (_parent != nullptr)
+					parentWin = _parent->_appObj;
 
-			void Button::setText(String text)
-			{
-				_text = text;
+				ButtonFrame *object = RJNEW ButtonFrame(parentWin, _text,
+														Vector2(_transform->x, _transform->y),
+														Vector2(_transform->width, _transform->height));
 
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
-						((ButtonFrame *)_appObj)->SetLabelText(_text.towxString());
-				#endif
-			}
-
-			String Button::getText()
-			{
-				String text = _text;
-
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
-					{
-						wxString wxtext = ((ButtonFrame *)_appObj)->GetLabelText();
-						text = parsewxString(wxtext);
-					}
-				#endif
-
-				return (text);
+				object->setVisibility(_visible);
+				_appObj = object;
+				linkWith(object);
+				setup();
 			}
 
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
 				void Button::on(String event, RJ_FUNC_TYPE func)
 				{
-					#ifdef GUI_USE_WXWIDGETS
-						
-						CPP::GUI::ButtonFrame *object = (CPP::GUI::ButtonFrame *)_appObj;
-						object->addNewEvent(event, object, func);
-
-					#endif
+					if (_appObj)
+					{
+						//TODO: we need common interface for events
+						#ifdef GUI_USE_WXWIDGETS
+							CPP::GUI::ButtonFrame *object = (CPP::GUI::ButtonFrame *)_appObj;
+							object->addNewEvent(event, object, func);
+						#else
+							_appObj->addNewEvent(event, func);
+						#endif
+					}
 				}
 			#endif
 		}
 	}
 }
-
-#ifdef GUI_USE_WXWIDGETS
-	wxBEGIN_EVENT_TABLE(RadJAV::CPP::GUI::ButtonFrame, wxButton)
-	wxEND_EVENT_TABLE()
-#endif
-

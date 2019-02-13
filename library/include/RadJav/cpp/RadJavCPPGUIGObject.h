@@ -281,12 +281,8 @@ namespace RadJAV
 					/// This object's children.
 					Array<GObject *> _children;
 					/// The native os gui object associated with this object.
-					#ifdef GUI_USE_WXWIDGETS
-						wxWindow *_appObj;
-					#elif defined USE_IOS || defined USE_ANDROID
-						GObjectWidget* _appObj;
-					#endif
-					/// Execute this function when a child is added. If this function 
+					GObjectWidget* _appObj;
+					/// Execute this function when a child is added. If this function
 					/// returns false, the child will not be added.
 					std::function<void(GUI::GObject *)> onChildCreated;
 			};
@@ -366,13 +362,16 @@ namespace RadJAV
 				void setEnabled(RJBOOL enabled);
 				RJBOOL getEnabled();
 
-				#ifdef USE_IOS
+				#ifdef GUI_USE_WXWIDGETS
+					virtual wxWindow* getNativeWidget() = 0;
+				#elif defined USE_IOS
 					virtual UIView* getNativeWidget() = 0;
 				#elif defined USE_ANDROID
 					jobject getNativeWidget();
 				#endif
 
-			protected:
+			//TODO: this must be protected but WindowFrame class has custom addChild method which touch this
+			//protected:
 				GObjectWidget* parent;
 				
 			#ifdef USE_ANDROID

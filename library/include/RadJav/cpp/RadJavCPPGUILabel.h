@@ -25,60 +25,39 @@
 
 	#include "cpp/RadJavCPPGUIGObject.h"
 
-	#ifdef GUI_USE_WXWIDGETS
-		#include <wx/wx.h>
-	#endif
-
 	namespace RadJAV
 	{
 		namespace CPP
 		{
 			namespace GUI
 			{
-				#ifdef GUI_USE_WXWIDGETS
-					/// The wxWidgets label to use.
-					class RADJAV_EXPORT LabelFrame : public wxStaticText, public GObjectEvents, public ChainedPtr
-					{
-						public:
-							LabelFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size);
-
-
-							void onClick(wxMouseEvent &event);
-							/*
-							   void onDoubleClick(wxMouseEvent &event);
-							   void onRightClick(wxMouseEvent &event);
-							   void onRightDoubleClick(wxMouseEvent &event);
-							   void onRightDown(wxMouseEvent &event);
-							   void onMiddleClick(wxMouseEvent &event);
-							   void onMiddleDoubleClick(wxMouseEvent &event);
-							   void onMiddleDown(wxMouseEvent &event);
-							*/
-							
-
-						protected:
-							wxDECLARE_EVENT_TABLE();
-					};
-				#endif
-
 				/**
 				 * @ingroup group_gui_cpp
 				 * @brief Label class.
 				 */
 				class RADJAV_EXPORT Label : public CPP::GUI::GObject
 				{
-					public:
-						#ifdef USE_V8
-							Label(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
-						#elif defined USE_JAVASCRIPTCORE
-							Label(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[]);
-						#endif
-						Label(String name, String text = "", CPP::GUI::GObject *parent = NULL);
+				public:
+					#ifdef USE_V8
+						Label(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
+					#elif defined USE_JAVASCRIPTCORE
+						Label(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[]);
+					#endif
 
-						void create();
+					/**
+					 * Constructor.
+					 * @param String name. This goes to superclass constructor
+					 * @param String text. Display text, has default value of empty string.
+					 * @param GObjectWidget parent. Constructed object will be added to view hierarchy of parent.
+					 */
+					Label(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 
-						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
-							void on(String event, RJ_FUNC_TYPE func);
-						#endif
+					void create();
+
+					#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+						/// Execute when an event is triggered.
+						void on(String event, RJ_FUNC_TYPE func);
+					#endif
 				};
 			}
 		}

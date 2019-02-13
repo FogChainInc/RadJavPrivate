@@ -24,6 +24,14 @@
 #include "RadJavString.h"
 #include "cpp/RadJavCPPPersistent.h"
 
+#ifdef GUI_USE_WXWIDGETS
+	#include "cpp/desktop/RadJavCPPMUITableViewFrame.h"
+#elif defined USE_ANDROID
+	#include "cpp/android/RadJavCPPMUITableViewFrame.h"
+#elif defined USE_IOS
+	#include "cpp/ios/RadJavCPPMUITableViewFrame.h"
+#endif
+
 namespace RadJAV
 {
 	namespace CPP
@@ -144,7 +152,7 @@ namespace RadJAV
 						}
 					}
 				}
-#endif
+			#endif
 
 			void TableView::setDelegate(RJ_FUNC_TYPE delegateFunction)
 			{

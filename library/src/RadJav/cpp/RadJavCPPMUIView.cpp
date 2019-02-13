@@ -22,25 +22,20 @@
 #include "RadJav.h"
 #include "RadJavString.h"
 
+#ifdef GUI_USE_WXWIDGETS
+	#include "cpp/desktop/RadJavCPPMUIViewFrame.h"
+#elif defined USE_ANDROID
+	#include "cpp/android/RadJavCPPMUIViewFrame.h"
+#elif defined USE_IOS
+	#include "cpp/ios/RadJavCPPMUIViewFrame.h"
+#endif
+
 namespace RadJAV
 {
 	namespace CPP
 	{
 		namespace MUI
 		{
-			#ifdef GUI_USE_WXWIDGETS
-				ViewFrame::ViewFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size)
-					: wxStaticText(parent, wxID_ANY, text, pos, size)
-				{
-				}
-
-				void ViewFrame::onClick(wxMouseEvent &event)
-				{
-					CPP::Event *pevent = (CPP::Event *)event.GetEventUserData();
-					executeEvent(pevent);
-				}
-			#endif
-
 			#ifdef USE_V8
 			View::View(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
 				: GObject (jsEngine, args)
@@ -132,9 +127,3 @@ namespace RadJAV
 		}
 	}
 }
-
-#ifdef GUI_USE_WXWIDGETS
-	wxBEGIN_EVENT_TABLE(RadJAV::CPP::MUI::ViewFrame, wxStaticText)
-	wxEND_EVENT_TABLE()
-#endif
-

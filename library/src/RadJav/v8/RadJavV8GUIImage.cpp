@@ -23,7 +23,6 @@
 
 #include "cpp/RadJavCPPGUIImage.h"
 
-#define UITYPE CPP::GUI::Image
 
 namespace RadJAV
 {
@@ -31,15 +30,19 @@ namespace RadJAV
 	{
 		namespace GUI
 		{
+			using CppGuiObject = CPP::GUI::Image;
+			
 			void Image::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 			{
 				V8_CALLBACK(object, "create", Image::create);
 				V8_CALLBACK(object, "setImage", Image::setImage);
+				V8_CALLBACK(object, "setScaleMode", Image::setScaleMode);
+				V8_CALLBACK(object, "getScaleMode", Image::getScaleMode);
 			}
 
 			void Image::create(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				UITYPE *appObject = RJNEW UITYPE(V8_JAVASCRIPT_ENGINE, args);
+				CppGuiObject *appObject = RJNEW CppGuiObject(V8_JAVASCRIPT_ENGINE, args);
 				appObject->create();
 
 				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_appObj", appObject);
@@ -51,28 +54,87 @@ namespace RadJAV
 
 			void Image::setImage(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				v8::Local<v8::Value> value = v8::Local<v8::Value>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-				args.This()->Set(String("_image").toV8String(args.GetIsolate()), value);
-				String src = "";
-				RJINT width = 0;
-				RJINT height = 0;
+				CppGuiObject *appObject = (CppGuiObject*)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
 
-				if (value->IsString() == true)
-					src = parseV8Value(value);
-
-				if (value->IsObject() == true)
+				if (!appObject)
 				{
-					v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(value);
-					src = V8_JAVASCRIPT_ENGINE->v8GetString(obj, "src");
-					width = V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "width");
-					height = V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "height");
+					V8_JAVASCRIPT_ENGINE->throwException("Image not initialized");
+
+					return;
 				}
 
-				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				v8::Local<v8::String> pathJs = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
 
-				if (appObject != NULL)
-					appObject->setImage(src);
+				if (V8_JAVASCRIPT_ENGINE->v8IsNull(pathJs))
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("Path argument required");
+
+					return;
+				}
+
+				args.This()->Set(String("_image").toV8String(args.GetIsolate()), pathJs);
+
+				appObject->setImage(parseV8Value(pathJs));
+			}
+			
+			void Image::setScaleMode(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				CppGuiObject *appObject = (CppGuiObject*)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+
+				if (!appObject)
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("Image not initialized");
+
+					return;
+				}
+
+				v8::Local<v8::Integer> scaleModeJs = v8::Local<v8::Integer>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+
+				if (V8_JAVASCRIPT_ENGINE->v8IsNull(scaleModeJs))
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("Scale mode argument required");
+
+					return;
+				}
+
+				RJINT scaleMode = V8_JAVASCRIPT_ENGINE->v8ParseInt(scaleModeJs);
+
+				switch (scaleMode)
+				{
+					case 1:
+						appObject->setScaleMode(CPP::GUI::Image::ScaleMode::AspectFit);
+						break;
+					case 2:
+						appObject->setScaleMode(CPP::GUI::Image::ScaleMode::AspectFill);
+						break;
+					default:
+						V8_JAVASCRIPT_ENGINE->throwException("Unsupported ScaleMode");
+				}
+			}
+
+			void Image::getScaleMode(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				CppGuiObject *appObject = (CppGuiObject*)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+
+				if (!appObject)
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("Image not initialized");
+
+					return;
+				}
+
+				auto scaleMode = appObject->getScaleMode();
+
+				switch (scaleMode)
+				{
+					case CPP::GUI::Image::ScaleMode::AspectFill:
+						args.GetReturnValue().Set(2);
+					case CPP::GUI::Image::ScaleMode::AspectFit:
+					default:
+						args.GetReturnValue().Set(1);
+				}
 			}
 		}
 	}
 }
+

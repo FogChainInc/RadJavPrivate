@@ -43,6 +43,8 @@
 					static void create(const v8::FunctionCallbackInfo<v8::Value> &args);
 					
 					static void setImage(const v8::FunctionCallbackInfo<v8::Value> &args);
+					static void setScaleMode(const v8::FunctionCallbackInfo<v8::Value> &args);
+					static void getScaleMode(const v8::FunctionCallbackInfo<v8::Value> &args);
 				};
 			}
 		}

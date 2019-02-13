@@ -22,32 +22,20 @@
 #include "RadJav.h"
 #include "RadJavString.h"
 
+#ifdef GUI_USE_WXWIDGETS
+	#include "cpp/desktop/RadJavCPPGUITextareaFrame.h"
+#elif defined USE_ANDROID
+	#include "cpp/android/RadJavCPPGUITextareaFrame.h"
+#elif defined USE_IOS
+	#include "cpp/ios/RadJavCPPGUITextareaFrame.h"
+#endif
+
 namespace RadJAV
 {
 	namespace CPP
 	{
 		namespace GUI
 		{
-			#ifdef GUI_USE_WXWIDGETS
-				TextareaFrame::TextareaFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size)
-					: wxTextCtrl(parent, wxID_ANY, text, pos, size, wxTE_MULTILINE)
-				{
-				}
-		  
-				void TextareaFrame::onText(wxCommandEvent &evt)
-				{
-					Event *pevent = (Event *)evt.GetEventUserData();
-					executeEvent(pevent);
-				}
-		  
-				void TextareaFrame::onTextEnter(wxCommandEvent &evt)
-				{
-					Event *pevent = (Event *)evt.GetEventUserData();
-					executeEvent(pevent);
-				}
-		  
-			#endif
-
 			#ifdef USE_V8
 				Textarea::Textarea(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
 					: GObject (jsEngine, args)
@@ -67,77 +55,46 @@ namespace RadJAV
 
 			void Textarea::create()
 			{
-				#ifdef GUI_USE_WXWIDGETS
-					wxWindow *parentWin = NULL;
-
-					if (_parent != NULL)
-						parentWin = (wxWindow *)_parent->_appObj;
-
-					TextareaFrame *object = RJNEW TextareaFrame(parentWin, _text.towxString(),
-						wxPoint(_transform->x, _transform->y), wxSize(_transform->width, _transform->height));
-					object->Show(_visible);
-
-					_appObj = object;
-
-					linkWith(object);
-
-					setup();
-				#endif
-			}
-
-			void Textarea::setText(String text)
-			{
-				_text = text;
-
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
-						((TextareaFrame *)_appObj)->SetValue(text.towxString());
-				#endif
-			}
-
-			String Textarea::getText()
-			{
-				String text = _text;
-
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
-					{
-						wxString wxtext = ((TextareaFrame *)_appObj)->GetValue();
-						text = parsewxString(wxtext);
-					}
-				#endif
-
-				return (text);
+				GObjectWidget* parentWin = nullptr;
+				
+				if (_parent != nullptr)
+					parentWin = _parent->_appObj;
+				
+				TextareaFrame* object = RJNEW TextareaFrame(parentWin, _text,
+														  Vector2(_transform->x, _transform->y),
+														  Vector2(_transform->width, _transform->height));
+				
+				object->setVisibility(_visible);
+				_appObj = object;
+				linkWith(object);
+				setup();
 			}
 
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
 				void Textarea::on(String event, RJ_FUNC_TYPE func)
 				{
-					#ifdef GUI_USE_WXWIDGETS
+					if (_appObj)
+					{
+						#ifdef GUI_USE_WXWIDGETS
+							CPP::GUI::TextareaFrame *obj = (CPP::GUI::TextareaFrame *)_appObj;
 
-						CPP::GUI::TextareaFrame *obj = (CPP::GUI::TextareaFrame *)_appObj;
+							obj->addNewEvent(event, obj, func);
 
-						obj->addNewEvent(event, obj, func);
+							if (event == "onText")
+							{
+								obj->Connect(wxEVT_TEXT, wxCommandEventHandler(TextareaFrame::onText), obj->createEvent(event, func));
+							}
 
-						if (event == "onText")
-						{
-							obj->Connect(wxEVT_TEXT, wxCommandEventHandler(TextareaFrame::onText), obj->createEvent(event, func));
-						}
-
-						if (event == "onTextEnter")
-						{
-							obj->Connect(wxEVT_TEXT_ENTER, wxCommandEventHandler(TextareaFrame::onTextEnter), obj->createEvent(event, func));
-						}
-
-					#endif
+							if (event == "onTextEnter")
+							{
+								obj->Connect(wxEVT_TEXT_ENTER, wxCommandEventHandler(TextareaFrame::onTextEnter), obj->createEvent(event, func));
+							}
+						#else
+							_appObj->addNewEvent(event, func);
+						#endif
+					}
 				}
 			#endif
 		}
 	}
 }
-
-#ifdef GUI_USE_WXWIDGETS
-	wxBEGIN_EVENT_TABLE(RadJAV::CPP::GUI::TextareaFrame, wxTextCtrl)
-	wxEND_EVENT_TABLE()
-#endif
-

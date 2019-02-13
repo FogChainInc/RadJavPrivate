@@ -25,87 +25,12 @@
 
 	#include "cpp/RadJavCPPGUIGObject.h"
 
-	#ifdef GUI_USE_WXWIDGETS
-		#include <wx/wx.h>
-	#endif
-
 	namespace RadJAV
 	{
 		namespace CPP
 		{
 			namespace GUI
 			{
-				#ifdef GUI_USE_WXWIDGETS
-					enum MenuItemGUIDataTypes
-					{
-						STRING = 1,
-						FUNCTION = 2
-					};
-
-					enum MenuItemGUIParentTypes
-					{
-						MENU_BAR = 1,
-						MENU = 2
-					};
-
-					class RADJAV_EXPORT MenuItemGUI: public wxWindow, public ChainedPtr
-					{
-						public:
-							inline MenuItemGUI()
-							{
-								menu = NULL;
-								menuItem = NULL;
-								parent = NULL;
-								parentType = MenuItemGUIParentTypes::MENU_BAR;
-							}
-
-							inline ~MenuItemGUI()
-							{
-								//DELETE_OBJ(menu);
-								//DELETE_OBJ(menuItem);
-
-								auto begin = data.begin();
-								auto end = data.end();
-
-								while (begin != end)
-								{
-									DELETE_OBJ(begin->second);
-									begin++;
-								}
-							}
-
-							/// Add data to this menu.
-							void addData(RJINT menuId, void *data, RJINT dataType);
-
-							/// Get stored data.
-							inline void *getData(RJINT menuId)
-							{
-								return (data.at(menuId));
-							}
-
-							/// Get stored data type.
-							RJINT getDataType(RJINT menuId)
-							{
-								return (dataType.at(menuId));
-							}
-
-							/// Get the amount of data stored.
-							inline RJINT getNumData()
-							{
-								return (data.size());
-							}
-
-							wxMenu *menu;
-							wxMenuItem *menuItem;
-							void *parent;
-							RJINT parentType;
-							HashMap<RJINT, void *> data;
-							HashMap<RJINT, RJINT> dataType;
-
-							static RJINT nextId;
-					};
-				#endif
-
 				/**
 				 * @ingroup group_gui_cpp
 				 * @brief MenuItem class.

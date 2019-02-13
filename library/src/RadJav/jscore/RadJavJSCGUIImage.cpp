@@ -37,6 +37,8 @@ namespace RadJAV
 			{
 				JSC_CALLBACK(object, "create", Image::create);
 				JSC_CALLBACK(object, "setImage", Image::setImage);
+				JSC_CALLBACK(object, "setScaleMode", Image::setScaleMode);
+				JSC_CALLBACK(object, "getScaleMode", Image::getScaleMode);
 			}
 
 			JSValueRef Image::create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
@@ -53,36 +55,91 @@ namespace RadJAV
 
 			JSValueRef Image::setImage(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
 			{
-				JSValueRef value = JSC_JAVASCRIPT_ENGINE->jscGetArgument(arguments, argumentCount, 0);
+				JSValueRef undefined = JSValueMakeUndefined(ctx);
 				
-				if (value)
+				CppGuiObject *appObject = (CppGuiObject*)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				
+				if (!appObject)
 				{
-					JSC_JAVASCRIPT_ENGINE->jscSetObject(thisObject, "_image", JSC_JAVASCRIPT_ENGINE->jscCastValueToObject(value));
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Image not initialized");
+					return undefined;
+				}
+				
+				JSValueRef imagePathValue = JSC_JAVASCRIPT_ENGINE->jscGetArgument(arguments, argumentCount, 0);
+				
+				if (!imagePathValue ||
+					!JSValueIsString(ctx, imagePathValue))
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Path argument required");
+					return undefined;
+				}
+				
+				JSC_JAVASCRIPT_ENGINE->jscSetObject(thisObject, "_image", JSC_JAVASCRIPT_ENGINE->jscCastValueToObject(imagePathValue));
+				
+				appObject->setImage(parseJSCValue(ctx, imagePathValue));
+				
+				return undefined;
+			}
+			
+			JSValueRef Image::setScaleMode(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+			{
+				JSValueRef undefined = JSValueMakeUndefined(ctx);
+				
+				CppGuiObject *appObject = (CppGuiObject*)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				
+				if (!appObject)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Image not initialized");
+					return undefined;
+				}
+				
+				JSValueRef scaleModeValue = JSC_JAVASCRIPT_ENGINE->jscGetArgument(arguments, argumentCount, 0);
+				
+				if (!scaleModeValue ||
+					!JSValueIsNumber(ctx, scaleModeValue))
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "ScaleMode argument required");
+					return undefined;
+				}
+				
+				RJINT scaleMode = JSC_JAVASCRIPT_ENGINE->jscValueToInt(scaleModeValue);
+				
+				switch (scaleMode)
+				{
+					case 1:
+						appObject->setScaleMode(CPP::GUI::Image::ScaleMode::AspectFit);
+						break;
+					case 2:
+						appObject->setScaleMode(CPP::GUI::Image::ScaleMode::AspectFill);
+						break;
+					default:
+						JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Unsupported ScaleMode");
+				}
+				return undefined;
+			}
 
-					String src = "";
-					RJINT width = 0;
-					RJINT height = 0;
-
-					if (JSValueIsString(ctx, value))
-					{
-						src = parseJSCValue(ctx, value);
-					}
-					else if (JSValueIsObject(ctx, value))
-					{
-						JSObjectRef obj = JSC_JAVASCRIPT_ENGINE->jscCastValueToObject(ctx, value);
-						src = JSC_JAVASCRIPT_ENGINE->jscGetString(obj, "src");
-						width = JSC_JAVASCRIPT_ENGINE->jscGetInt(obj, "width");
-						height = JSC_JAVASCRIPT_ENGINE->jscGetInt(obj, "height");
-					}
-
-					CppGuiObject *appObject = (CppGuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
-					
-					if (appObject != NULL)
-						appObject->setImage(src);
-					
-					return JSValueMakeUndefined(ctx);
+			JSValueRef Image::getScaleMode(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+			{
+				JSValueRef undefined = JSValueMakeUndefined(ctx);
+				
+				CppGuiObject *appObject = (CppGuiObject*)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				
+				if (!appObject)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Image not initialized");
+					return undefined;
 				}
 
+				auto scaleMode = appObject->getScaleMode();
+				
+				switch (scaleMode)
+				{
+					case CPP::GUI::Image::ScaleMode::AspectFill:
+						return JSValueMakeNumber(ctx, 2.0);
+					case CPP::GUI::Image::ScaleMode::AspectFit:
+					default:
+						return JSValueMakeNumber(ctx, 1.0);
+				}
 			}
 		}
 	}

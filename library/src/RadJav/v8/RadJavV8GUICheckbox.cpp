@@ -23,7 +23,6 @@
 
 #include "cpp/RadJavCPPGUICheckbox.h"
 
-#define UITYPE CPP::GUI::Checkbox
 
 namespace RadJAV
 {
@@ -31,16 +30,19 @@ namespace RadJAV
 	{
 		namespace GUI
 		{
+			using CppGuiObject = CPP::GUI::Checkbox;
+			
 			void Checkbox::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 			{
 				V8_CALLBACK(object, "create", Checkbox::create);
+
 				V8_CALLBACK(object, "setChecked", Checkbox::setChecked);
 				V8_CALLBACK(object, "isChecked", Checkbox::isChecked);
 			}
 
 			void Checkbox::create(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				UITYPE *appObject = RJNEW UITYPE(V8_JAVASCRIPT_ENGINE, args);
+				CppGuiObject *appObject = RJNEW CppGuiObject(V8_JAVASCRIPT_ENGINE, args);
 				appObject->create();
 
 				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_appObj", appObject);
@@ -52,24 +54,45 @@ namespace RadJAV
 
 			void Checkbox::setChecked(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				RJBOOL value = V8_JAVASCRIPT_ENGINE->v8ParseBool(args[0]);
-				V8_JAVASCRIPT_ENGINE->v8SetBool(args.This(), "_checked", value);
-				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				CppGuiObject *appObject = (CppGuiObject*)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
 
-				if (appObject != NULL)
-					appObject->setChecked (value);
+				if (!appObject)
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("Checkbox not initialized");
+
+					return;
+				}
+
+				RJBOOL checked = true;
+
+				if (args.Length() > 0)
+				{
+					checked = V8_JAVASCRIPT_ENGINE->v8ParseBool(args[0]);
+
+					V8_JAVASCRIPT_ENGINE->v8SetBool(args.This(), "_checked", checked);
+
+					appObject->setChecked(checked);
+
+					return;
+				}
+
+				V8_JAVASCRIPT_ENGINE->throwException("Parameter required");
 			}
 
 			void Checkbox::isChecked(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				RJBOOL value = V8_JAVASCRIPT_ENGINE->v8GetBool(args.This(), "_checked");
-				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				CppGuiObject *appObject = (CppGuiObject*)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
 
-				if (appObject != NULL)
-					value = appObject->isChecked();
+				if (!appObject)
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("Checkbox not initialized");
 
-				args.GetReturnValue().Set(v8::Boolean::New(V8_JAVASCRIPT_ENGINE->isolate, value));
+					return;
+				}
+
+				args.GetReturnValue().Set(v8::Boolean::New(V8_JAVASCRIPT_ENGINE->isolate, appObject->isChecked()));
 			}
 		}
 	}
 }
+

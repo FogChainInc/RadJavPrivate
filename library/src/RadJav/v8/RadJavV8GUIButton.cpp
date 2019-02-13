@@ -23,7 +23,6 @@
 
 #include "cpp/RadJavCPPGUIButton.h"
 
-#define UITYPE CPP::GUI::Button
 
 namespace RadJAV
 {
@@ -31,6 +30,8 @@ namespace RadJAV
 	{
 		namespace GUI
 		{
+			using CppGuiObject = CPP::GUI::Button;
+
 			void Button::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 			{
 				V8_CALLBACK(object, "create", Button::create);
@@ -38,7 +39,7 @@ namespace RadJAV
 
 			void Button::create(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				UITYPE *appObject = RJNEW UITYPE(V8_JAVASCRIPT_ENGINE, args);
+				CppGuiObject *appObject = RJNEW CppGuiObject(V8_JAVASCRIPT_ENGINE, args);
 				appObject->create();
 
 				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_appObj", appObject);

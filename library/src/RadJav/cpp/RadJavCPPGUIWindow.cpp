@@ -23,11 +23,11 @@
 #include "RadJavString.h"
 
 #ifdef GUI_USE_WXWIDGETS
-    #ifdef __WXOSX__
-        /// @todo Fix this later. This is throwing issues on OSX.
-        //#import <AppKit/AppKit.h>
-        //#import <AppKit/NSScreen.h>
-    #endif
+	#include "cpp/desktop/RadJavCPPGUIWindowFrame.h"
+#elif defined USE_ANDROID
+	#include "cpp/android/RadJavCPPGUIWindowFrame.h"
+#elif defined USE_IOS
+	#include "cpp/ios/RadJavCPPGUIWindowFrame.h"
 #endif
 
 namespace RadJAV
@@ -36,86 +36,6 @@ namespace RadJAV
 	{
 		namespace GUI
 		{
-			#ifdef GUI_USE_WXWIDGETS
-				WindowFrame::WindowFrame(const wxString &text, const wxPoint &pos, const wxSize &size)
-					: wxFrame(NULL, wxID_ANY, text, pos, size)
-				{
-				}
-
-				void WindowFrame::onClose(wxCloseEvent &evt)
-				{
-					if (IsTopLevel() == true)
-					{
-                        RadJav::javascriptEngine->exit(0);
-
-						return;
-					}
-
-					Destroy();
-				}
-
-				void WindowFrame::onJSClose(wxCloseEvent &evt)
-				{
-					Event *pevent = (Event *)evt.GetEventUserData();
-                    
-                    #ifdef USE_V8
-                        v8::Local<v8::Value> result = executeEvent(pevent);
-
-                        if (result.IsEmpty() == false)
-                        {
-                            if ((result->IsNull() == false) && (result->IsUndefined() == false))
-                            {
-                                v8::Local<v8::Boolean> change = v8::Local<v8::Boolean>::Cast(result);
-
-                                if (change->Value() == false)
-                                    evt.Veto();
-                            }
-                        }
-                    #endif
-                    
-                    #ifdef USE_JAVASCRIPTCORE
-                        JSValueRef result = executeEvent(pevent);
-                    
-                        if (result != NULL)
-                        {
-                            if ((JSValueIsNull (JSC_JAVASCRIPT_ENGINE->globalContext, result) == false) &&
-                                (JSValueIsUndefined (JSC_JAVASCRIPT_ENGINE->globalContext, result) == false))
-                            {
-                                RJBOOL change = JSC_JAVASCRIPT_ENGINE->jscParseBool (result);
-
-                                if (change == false)
-                                    evt.Veto();
-                            }
-                        }
-                    #endif
-				}
-
-				void WindowFrame::onJSMinimized(wxIconizeEvent &evt)
-				{
-					Event *pevent = (Event *)evt.GetEventUserData();
-					executeEvent(pevent);
-				}
-
-				void WindowFrame::onJSMaximized(wxMaximizeEvent &evt)
-				{
-					Event *pevent = (Event *)evt.GetEventUserData();
-					executeEvent(pevent);
-				}
-
-				void WindowFrame::onClick(wxMouseEvent &evt)
-				{
-					Event *pevent = (Event *)evt.GetEventUserData();
-					executeEvent(pevent);
-				}
-
-				void WindowFrame::onMenuSelected(wxCommandEvent &evt)
-				{
-					Event *pevent = (Event *)evt.GetEventUserData();
-					executeEvent(pevent);
-				}
-		  
-			#endif
-
 			#ifdef USE_V8
 			Window::Window(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
 				: GObject (jsEngine, args)
@@ -155,151 +75,17 @@ namespace RadJAV
 				
 					linkWith(object);
 				
-					wxPanel *panel = RJNEW wxPanel(object, wxID_ANY);
-					/*wxBoxSizer *sizer = RJNEW wxBoxSizer(wxVERTICAL);
-					panel->SetSizer(sizer);
-					sizer->SetSizeHints(object);*/
 					RadJav::app->SetTopWindow(object);
-					object->Show(_visible);
+					object->setVisibility(_visible);
 					RadJav::app->SetActive(_visible, object);
 
-					_appObj = panel;
+					_appObj = object;
 
 					if (icon != "")
 						setIcon(icon);
 
 					setup();
 				#endif
-			}
-
-			void Window::setPosition(RJINT x, RJINT y)
-			{
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
-					{
-						CPP::GUI::WindowFrame *obj = (CPP::GUI::WindowFrame *)_appObj->GetParent();
-						obj->SetPosition(wxPoint(x, y));
-					}
-				#endif
-			}
-
-			CPP::Vector2 Window::getPosition()
-			{
-				CPP::Vector2 newpos;
-
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
-					{
-						wxPoint pos = _appObj->GetParent ()->GetPosition();
-						newpos.x = pos.x;
-						newpos.y = pos.y;
-					}
-				#endif
-
-				return (newpos);
-			}
-
-			void Window::setSize(RJINT width, RJINT height)
-			{
-				_transform->setSize(width, height);
-
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
-						_appObj->GetParent ()->SetSize(width, height);
-				#endif
-			}
-
-			CPP::Vector2 Window::getSize()
-			{
-				CPP::Vector2 size = _transform->getSize();
-
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
-					{
-						wxSize wxsize = _appObj->GetParent ()->GetSize();
-						size.x = wxsize.GetWidth();
-						size.y = wxsize.GetHeight();
-					}
-				#endif
-
-				return (size);
-			}
-
-			void Window::setText(String text)
-			{
-				_text = text;
-
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
-						((WindowFrame *)_appObj->GetParent())->SetTitle(text.towxString());
-				#endif
-			}
-
-			String Window::getText()
-			{
-				String text = _text;
-
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
-					{
-						wxString wxtext = ((WindowFrame *)_appObj->GetParent ())->GetTitle ();
-						text = parsewxString(wxtext);
-					}
-				#endif
-
-				return (text);
-			}
-
-			void Window::setVisibility(RJBOOL visible)
-			{
-				_visible = visible;
-
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
-					{
-						if (visible == true)
-							_appObj->GetParent()->Show();
-						else
-							_appObj->GetParent()->Hide();
-					}
-				#endif
-			}
-
-			RJBOOL Window::getVisibility()
-			{
-				RJBOOL visible = _visible;
-
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
-						visible = _appObj->GetParent ()->IsShown();
-				#endif
-
-				return (visible);
-			}
-
-			void Window::setEnabled(RJBOOL enabled)
-			{
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
-					{
-						if (enabled == true)
-							((WindowFrame *)_appObj->GetParent())->Enable();
-						else
-							((WindowFrame *)_appObj->GetParent())->Disable();
-					}
-				#endif
-			}
-
-			RJBOOL Window::getEnabled()
-			{
-				RJBOOL enabled = false;
-
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
-						enabled = ((WindowFrame *)_appObj->GetParent())->IsEnabled();
-				#endif
-
-				return (enabled);
 			}
 
 			void Window::setIcon(String newIcon)
@@ -354,10 +140,3 @@ namespace RadJAV
 		}
 	}
 }
-
-#ifdef GUI_USE_WXWIDGETS
-	wxBEGIN_EVENT_TABLE(RadJAV::CPP::GUI::WindowFrame, wxFrame)
-		EVT_CLOSE(RadJAV::CPP::GUI::WindowFrame::onClose)
-	wxEND_EVENT_TABLE()
-#endif
-

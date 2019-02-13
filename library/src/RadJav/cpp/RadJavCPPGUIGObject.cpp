@@ -117,16 +117,11 @@ namespace RadJAV
 
 			void GObject::addChild(GObject *child)
 			{
-				if (_appObj)
+				if (_appObj &&
+					child &&
+					child->_appObj)
 				{
-					if (child->_appObj != NULL)
-					{
-						#ifdef GUI_USE_WXWIDGETS
-							_appObj->AddChild(child->_appObj);
-						#elif defined USE_IOS || defined USE_ANDROID
-							_appObj->addChild(child->_appObj);
-						#endif
-					}
+					_appObj->addChild(child->_appObj);
 				}
 
 				child->_parent = this;
@@ -137,35 +132,8 @@ namespace RadJAV
 			{
 				_font = font;
 
-				#ifdef GUI_USE_WXWIDGETS
-					wxFont wxfont;
-
-					if (font->fontFamily != "")
-						wxfont.SetFaceName(font->fontFamily.towxString());
-					else
-						wxfont = *wxSMALL_FONT;
-
-					wxfont.SetPixelSize(wxSize(0, font->size));
-
-					if (font->underline == true)
-						wxfont.MakeUnderlined();
-
-					if (font->bold == true)
-						wxfont.MakeBold();
-
-					if (font->italic == true)
-						wxfont.MakeItalic();
-
-					if ( _appObj != NULL)
-					{
-						_appObj->SetFont(wxfont);
-						_appObj->SetForegroundColour(wxColor(font->color.r * 255,
-						font->color.g * 255, font->color.b * 255, font->color.a * 255));
-					}
-				#elif defined USE_IOS || defined USE_ANDROID
-					if (_appObj)
-						_appObj->setFont(font);
-				#endif
+				if (_appObj)
+					_appObj->setFont(font);
 			}
 
 			CPP::Font *GObject::getFont()
@@ -179,11 +147,7 @@ namespace RadJAV
 
 				if (_appObj)
 				{
-					#ifdef GUI_USE_WXWIDGETS
-						_appObj->SetPosition(wxPoint(x, y));
-					#elif defined USE_IOS || defined USE_ANDROID
-						_appObj->setPosition(x, y);
-					#endif
+					_appObj->setPosition(x, y);
 				}
 			}
 
@@ -198,13 +162,7 @@ namespace RadJAV
 
 				if (_appObj)
 				{
-					#ifdef GUI_USE_WXWIDGETS
-						wxPoint wxpos = _appObj->GetPosition();
-						pos.x = wxpos.x;
-						pos.y = wxpos.y;
-					#elif defined USE_IOS || defined USE_ANDROID
-						pos = _appObj->getPosition();
-					#endif
+					pos = _appObj->getPosition();
 				}
 
 				return pos;
@@ -230,11 +188,7 @@ namespace RadJAV
 
 				if (_appObj)
 				{
-					#ifdef GUI_USE_WXWIDGETS
-						_appObj->SetSize(width, height);
-					#elif defined USE_IOS || defined USE_ANDROID
-						_appObj->setSize(width, height);
-					#endif
+					_appObj->setSize(width, height);
 				}
 			}
 
@@ -249,13 +203,7 @@ namespace RadJAV
 
 				if (_appObj)
 				{
-					#ifdef GUI_USE_WXWIDGETS
-						wxSize wxsize = _appObj->GetSize();
-						size.x = wxsize.GetWidth ();
-						size.y = wxsize.GetHeight ();
-					#elif defined USE_IOS || defined USE_ANDROID
-						size = _appObj->getSize();
-					#endif
+					size = _appObj->getSize();
 				}
 
 				return size;
@@ -281,11 +229,7 @@ namespace RadJAV
 
 				if (_appObj)
 				{
-					#ifdef GUI_USE_WXWIDGETS
-						_appObj->SetLabel(text.towxString());
-					#elif defined USE_IOS || defined USE_ANDROID
-						_appObj->setText(text);
-					#endif
+					_appObj->setText(text);
 				}
 			}
 
@@ -295,12 +239,7 @@ namespace RadJAV
 
 				if (_appObj)
 				{
-					#ifdef GUI_USE_WXWIDGETS
-						wxString wxtext = _appObj->GetLabel();
-						text = parsewxString (wxtext);
-					#elif defined USE_IOS || defined USE_ANDROID
-						text = _appObj->getText();
-					#endif
+					text = _appObj->getText();
 				}
 
 				return text;
@@ -317,16 +256,7 @@ namespace RadJAV
 
 				if (_appObj)
 				{
-					#ifdef GUI_USE_WXWIDGETS
-						if (visible == true) {
-							_appObj->Show();
-						}
-						else {
-							_appObj->Hide();
-						}
-					#elif defined USE_IOS || defined USE_ANDROID
-						_appObj->setVisibility(visible);
-					#endif
+					_appObj->setVisibility(visible);
 				}
 			}
 
@@ -336,11 +266,7 @@ namespace RadJAV
 
 				if (_appObj)
 				{
-					#ifdef GUI_USE_WXWIDGETS
-						visible = _appObj->IsShown();
-					#elif defined USE_IOS || defined USE_ANDROID
-						visible = _appObj->getVisibility();
-					#endif
+					visible = _appObj->getVisibility();
 				}
 
 				return visible;
@@ -350,14 +276,7 @@ namespace RadJAV
 			{
 				if (_appObj)
 				{
-					#ifdef GUI_USE_WXWIDGETS
-						if (enabled == true)
-							_appObj->Enable();
-						else
-							_appObj->Disable();
-					#elif defined USE_IOS || defined USE_ANDROID
-						_appObj->setEnabled(enabled);
-					#endif
+					_appObj->setEnabled(enabled);
 				}
 			}
 
@@ -367,11 +286,7 @@ namespace RadJAV
 
 				if (_appObj)
 				{
-					#ifdef GUI_USE_WXWIDGETS
-						enabled = _appObj->IsEnabled();
-					#elif defined USE_IOS || defined USE_ANDROID
-						enabled = _appObj->getEnabled();
-					#endif
+					enabled = _appObj->getEnabled();
 				}
 
 				return enabled;
@@ -391,7 +306,7 @@ namespace RadJAV
 
 				#ifdef GUI_USE_WXWIDGETS
 					if (_appObj != NULL)
-						_appObj->Raise();
+						_appObj->getNativeWidget()->Raise();
 				#endif
 			}
 
@@ -401,7 +316,7 @@ namespace RadJAV
 				{
 					#ifdef GUI_USE_WXWIDGETS
 						if (_cursor == "hand")
-							_appObj->SetCursor(wxCursor(wxCURSOR_HAND));
+							_appObj->getNativeWidget()->SetCursor(wxCursor(wxCURSOR_HAND));
 					#elif defined USE_IOS || defined USE_ANDROID
 						#warning No cursor support in MUI
 					#endif

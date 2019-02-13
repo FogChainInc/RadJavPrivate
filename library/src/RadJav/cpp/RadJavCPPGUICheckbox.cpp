@@ -22,26 +22,20 @@
 #include "RadJav.h"
 #include "RadJavString.h"
 
+#ifdef GUI_USE_WXWIDGETS
+	#include "cpp/desktop/RadJavCPPGUICheckboxFrame.h"
+#elif defined USE_ANDROID
+	#include "cpp/android/RadJavCPPGUICheckboxFrame.h"
+#elif defined USE_IOS
+	#include "cpp/ios/RadJavCPPGUICheckboxFrame.h"
+#endif
+
 namespace RadJAV
 {
 	namespace CPP
 	{
 		namespace GUI
 		{
-			#ifdef GUI_USE_WXWIDGETS
-				CheckboxFrame::CheckboxFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size)
-					: wxCheckBox(parent, wxID_ANY, text, pos, size)
-				{
-				}
-		  
-				void CheckboxFrame::onChanged(wxCommandEvent &event)
-				{
-					Event *pevent = (Event *)event.GetEventUserData();
-					executeEvent(pevent);
-				}
-		  
-			#endif
-
 			#ifdef USE_V8
 				Checkbox::Checkbox(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
 					: GObject (jsEngine, args)
@@ -64,94 +58,62 @@ namespace RadJAV
 
 			void Checkbox::create()
 			{
-				#ifdef GUI_USE_WXWIDGETS
-					wxWindow *parentWin = NULL;
-
-					if (_parent != NULL)
-						parentWin = (wxWindow *)_parent->_appObj;
-
-					CheckboxFrame *object = RJNEW CheckboxFrame(parentWin, _text.towxString(), 
-						wxPoint(_transform->x, _transform->y), wxSize(_transform->width, _transform->height));
-					object->Show(_visible);
-					object->SetValue(_checked);
-
-					_appObj = object;
+				GObjectWidget* parentWin = nullptr;
 				
-					linkWith(object);
+				if (_parent != nullptr)
+					parentWin = _parent->_appObj;
+				
+				CheckboxFrame* object = RJNEW CheckboxFrame(parentWin, _checked, _text,
+											 Vector2(_transform->x, _transform->y),
+											 Vector2(_transform->width, _transform->height));
 
-					setup();
-				#endif
+				object->setVisibility(_visible);
+				_appObj = object;
+				linkWith(object);
+				setup();
 			}
 
-			void Checkbox::setText(String text)
+			void Checkbox::setChecked(RJBOOL checked)
 			{
-				_text = text;
-
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
-						((CheckboxFrame *)_appObj)->SetLabelText(_text.towxString());
-				#endif
+				if (_appObj)
+				{
+					CheckboxFrame* box = static_cast<CheckboxFrame*>(_appObj);
+					box->setChecked(checked);
+				}
 			}
-
-			String Checkbox::getText()
+			
+			RJBOOL Checkbox::isChecked() const
 			{
-				String text = _text;
-
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
-					{
-						wxString wxtext = ((CheckboxFrame *)_appObj)->GetLabelText();
-						text = parsewxString(wxtext);
-					}
-				#endif
-
-				return (text);
+				if (_appObj)
+				{
+					CheckboxFrame* box = static_cast<CheckboxFrame*>(_appObj);
+					return box->isChecked();
+				}
+				
+				return false;
 			}
 
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
 				void Checkbox::on(String event, RJ_FUNC_TYPE func)
 				{
-					#ifdef GUI_USE_WXWIDGETS
-						CPP::GUI::CheckboxFrame *object = (CPP::GUI::CheckboxFrame *)_appObj;
+					if (_appObj)
+					{
+						#ifdef GUI_USE_WXWIDGETS
+							CPP::GUI::CheckboxFrame *object = (CPP::GUI::CheckboxFrame *)_appObj;
 
-						object->addNewEvent(event, object, func);
+							object->addNewEvent(event, object, func);
 
-						if (event == "change")
-						{
-							object->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(CheckboxFrame::onChanged), object->createEvent(event, func));
-						}
-					#endif
+							if (event == "change")
+							{
+								object->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(CheckboxFrame::onChanged), object->createEvent(event, func));
+							}
+						#else
+							_appObj->addNewEvent(event, func);
+						#endif
+					}
 				}
 			#endif
-
-			void Checkbox::setChecked(RJBOOL checked)
-			{
-				_checked = checked;
-
-				#ifdef GUI_USE_WXWIDGETS
-					CheckboxFrame *object = (CheckboxFrame *)_appObj;
-
-					object->SetValue(_checked);
-				#endif
-			}
-
-			RJBOOL Checkbox::isChecked()
-			{
-				RJBOOL value = _checked;
-
-				#ifdef GUI_USE_WXWIDGETS
-					CheckboxFrame *object = (CheckboxFrame *)_appObj;
-					value = object->IsChecked();
-				#endif
-
-				return (value);
-			}
 		}
 	}
 }
-
-#ifdef GUI_USE_WXWIDGETS
-	wxBEGIN_EVENT_TABLE(RadJAV::CPP::GUI::CheckboxFrame, wxCheckBox)
-	wxEND_EVENT_TABLE()
-#endif
 

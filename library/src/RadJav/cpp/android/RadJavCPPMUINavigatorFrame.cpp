@@ -18,8 +18,8 @@
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include "cpp/RadJavCPPMUINavigator.h"
-#include "cpp/RadJavCPPMUIView.h"
+#include "cpp/android/RadJavCPPMUINavigatorFrame.h"
+#include "cpp/android/RadJavCPPMUIViewFrame.h"
 #include "android/RadJavAndroid.h"
 
 

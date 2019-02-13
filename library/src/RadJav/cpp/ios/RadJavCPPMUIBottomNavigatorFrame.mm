@@ -18,8 +18,9 @@
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include "cpp/RadJavCPPMUIBottomNavigator.h"
+#include "cpp/ios/RadJavCPPMUIBottomNavigatorFrame.h"
 #include "cpp/RadJavCPPMUIView.h"
+#include "cpp/ios/RadJavCPPMUIViewFrame.h"
 #include "cpp/ios/RadJavCPPMUIUtils.h"
 #include "cpp/ios/RadJavCPPMUIEventDelegates.h"
 

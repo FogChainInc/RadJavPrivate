@@ -22,6 +22,14 @@
 #include "RadJav.h"
 #include "RadJavString.h"
 
+#ifdef GUI_USE_WXWIDGETS
+	#include "cpp/desktop/RadJavCPPGUIWebViewFrame.h"
+#elif defined USE_ANDROID
+	#include "cpp/android/RadJavCPPGUIWebViewFrame.h"
+#elif defined USE_IOS
+	#include "cpp/ios/RadJavCPPGUIWebViewFrame.h"
+#endif
+
 namespace RadJAV
 {
 	namespace CPP
@@ -29,68 +37,6 @@ namespace RadJAV
 		namespace GUI
 		{
 			#ifdef WXWIDGETS_HAS_WEBVIEW
-			#ifdef GUI_USE_WXWIDGETS
-				WebViewFrame::WebViewFrame(wxWebView *webView)
-				{
-					this->webView = webView;
-				}
-
-				void WebViewFrame::onPageLoaded(wxWebViewEvent &event)
-				{
-					Event *pevent = (Event *)event.GetEventUserData();
-					executeEvent(pevent);
-				}
-
-				void WebViewFrame::onPageChange(wxWebViewEvent &event)
-				{
-					Event *pevent = (Event *)event.GetEventUserData();
-					String url = parsewxString(event.GetURL());
-                    
-#ifdef USE_V8
-					v8::Local<v8::Value> *args = RJNEW v8::Local<v8::Value>[1];
-					args[0] = url.toV8String(V8_JAVASCRIPT_ENGINE->isolate);
-
-					v8::Local<v8::Value> result = executeEvent(pevent, 1, args);
-					DELETE_ARRAY(args);
-
-					if (result.IsEmpty() == false)
-					{
-						if ((result->IsNull() == false) && (result->IsUndefined() == false))
-						{
-							v8::Local<v8::Boolean> change = v8::Local<v8::Boolean>::Cast(result);
-
-							if (change->Value() == false)
-								event.Veto();
-						}
-					}
-#endif
-                    
-#ifdef USE_JAVASCRIPTCORE
-    /// @todo Fix this.
-#endif
-				}
-				void WebViewFrame::onPageNavigated(wxWebViewEvent &event)
-				{
-					Event *pevent = (Event *)event.GetEventUserData();
-					executeEvent(pevent);
-				}
-				void WebViewFrame::onPageNavigationError(wxWebViewEvent &event)
-				{
-					Event *pevent = (Event *)event.GetEventUserData();
-					executeEvent(pevent);
-				}
-				void WebViewFrame::onNewWindow(wxWebViewEvent &event)
-				{
-					Event *pevent = (Event *)event.GetEventUserData();
-					executeEvent(pevent);
-				}
-				void WebViewFrame::onTitleChanged(wxWebViewEvent &event)
-				{
-					Event *pevent = (Event *)event.GetEventUserData();
-					executeEvent(pevent);
-				}
-			#endif
-
 			#ifdef USE_V8
 				WebView::WebView(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
 					: GObject (jsEngine, args)
@@ -297,4 +243,3 @@ namespace RadJAV
 		}
 	}
 }
-

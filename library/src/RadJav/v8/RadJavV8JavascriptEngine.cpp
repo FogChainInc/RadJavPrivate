@@ -56,49 +56,39 @@
 
 	#include "v8/RadJavV8BlockchainV1.h"
 
-	// GUI
-	#ifdef GUI_USE_WXWIDGETS
+	// Common GUI (desktop/mobile platforms)
+	#if defined GUI_USE_WXWIDGETS || defined USE_ANDROID
 		#include "v8/RadJavV8GUIGObject.h"
-		#include "v8/RadJavV8GUIWindow.h"
 		#include "v8/RadJavV8GUIButton.h"
 		#include "v8/RadJavV8GUILabel.h"
 		#include "v8/RadJavV8GUIImage.h"
-		#include "v8/RadJavV8GUIContainer.h"
-		#include "v8/RadJavV8GUICombobox.h"
 		#include "v8/RadJavV8GUITextbox.h"
 		#include "v8/RadJavV8GUITextarea.h"
 		#include "v8/RadJavV8GUICheckbox.h"
+	#endif
+
+	// Desktop specific GUI
+	#ifdef GUI_USE_WXWIDGETS
+		#include "v8/RadJavV8GUIWindow.h"
+		#include "v8/RadJavV8GUIContainer.h"
+		#include "v8/RadJavV8GUICombobox.h"
 		#include "v8/RadJavV8GUIRadio.h"
 		#include "v8/RadJavV8GUIList.h"
 		#include "v8/RadJavV8GUIMenuBar.h"
 		#include "v8/RadJavV8GUIMenuItem.h"
 		#include "v8/RadJavV8GUICanvas3D.h"
-		#include "v8/RadJavV8MUIScrollView.h"
-		#include "v8/RadJavV8MUIView.h"
-		#include "v8/RadJavV8MUINavigator.h"
 		#ifdef WXWIDGETS_HAS_WEBVIEW
 			#include "v8/RadJavV8GUIWebView.h"
 		#endif
 	#endif
 
-	// Mobile GUI
+	// Mobile specific GUI
 	#ifdef USE_ANDROID
-		#include "v8/RadJavV8GUIGObject.h"
 		#include "v8/RadJavV8MUIView.h"
 		#include "v8/RadJavV8MUINavigator.h"
-		//#include "v8/RadJavV8MUIViewController.h"
-		//#include "v8/RadJavV8MUINavigationViewController.h"
-		//#include "v8/RadJavV8MUITableViewController.h"
 		#include "v8/RadJavV8MUITableView.h"
 		#include "v8/RadJavV8MUITableViewModel.h"
-		//#include "v8/RadJavV8MUITableCellModel.h"
 		#include "v8/RadJavV8MUIScrollView.h"
-		#include "v8/RadJavV8MUIButton.h"
-		#include "v8/RadJavV8MUILabel.h"
-		#include "v8/RadJavV8MUIImage.h"
-		#include "v8/RadJavV8MUICheckbox.h"
-		#include "v8/RadJavV8MUITextbox.h"
-		#include "v8/RadJavV8MUITextarea.h"
 		//#include "v8/RadJavV8MUIWebView.h"
 	#endif
 
@@ -108,32 +98,16 @@
 	#endif
 
 	// Net
-	#include "v8/RadJavV8NetHttpRequest.h"
-	#include "v8/RadJavV8NetWebSocket.h"
-	#include "v8/RadJavV8NetWebSocketSsl.h"
-	#include "v8/RadJavV8NetUdpServer.h"
-	#include "v8/RadJavV8NetUdpClient.h"
-	#include "v8/RadJavV8NetTcpServer.h"
-	#include "v8/RadJavV8NetTcpClient.h"
-	#include "v8/RadJavV8NetWebServer.h"
-
-	// GUI
-	#include "v8/RadJavV8GUIGObject.h"
-	#include "v8/RadJavV8GUIWindow.h"
-	#include "v8/RadJavV8GUIButton.h"
-	#include "v8/RadJavV8GUILabel.h"
-	#include "v8/RadJavV8GUIImage.h"
-	#include "v8/RadJavV8GUIContainer.h"
-	#include "v8/RadJavV8GUICombobox.h"
-	#include "v8/RadJavV8GUITextbox.h"
-	#include "v8/RadJavV8GUITextarea.h"
-	#include "v8/RadJavV8GUICheckbox.h"
-	#include "v8/RadJavV8GUIRadio.h"
-	#include "v8/RadJavV8GUIList.h"
-	#include "v8/RadJavV8GUIMenuBar.h"
-	#include "v8/RadJavV8GUIMenuItem.h"
-	#include "v8/RadJavV8GUIWebView.h"
-	#include "v8/RadJavV8GUICanvas3D.h"
+	#ifdef NET_ON
+		#include "v8/RadJavV8NetHttpRequest.h"
+		#include "v8/RadJavV8NetWebSocket.h"
+		#include "v8/RadJavV8NetWebSocketSsl.h"
+		#include "v8/RadJavV8NetUdpServer.h"
+		#include "v8/RadJavV8NetUdpClient.h"
+		#include "v8/RadJavV8NetTcpServer.h"
+		#include "v8/RadJavV8NetTcpClient.h"
+		#include "v8/RadJavV8NetWebServer.h"
+	#endif
 
 	// C3D
 	#ifdef C3D_USE_OGRE
@@ -246,8 +220,9 @@ namespace RadJAV
 					isolate->ContextDisposedNotification();
 					isolate->LowMemoryNotification();
 
-					isolate->Dispose();
-					isolate = nullptr;
+					//This is just a hack, isolate must be disposed after context and scope objects
+					//isolate->Dispose();
+					//isolate = nullptr;
 				}
 
 				delete arrayBufferAllocator;
@@ -350,6 +325,9 @@ namespace RadJAV
 		V8JavascriptEngine::~V8JavascriptEngine()
 		{
 			DELETEOBJ(jsvm);
+
+			//This is just a hack, isolate must be disposed after context and scope objects
+			isolate->Dispose();
 			isolate = nullptr;
 
 			DELETEOBJ(externalsManager);
@@ -1531,8 +1509,7 @@ namespace RadJAV
 				}
 				#endif
 
-				#ifdef GUI_USE_WXWIDGETS
-				// RadJav.GUI
+				#if defined GUI_USE_WXWIDGETS || defined USE_ANDROID
 				{
 					v8::Handle<v8::Function> guiFunc = v8GetFunction(radJavFunc, "GUI");
 
@@ -1542,14 +1519,6 @@ namespace RadJAV
 						v8::Handle<v8::Object> gobjectPrototype = v8GetObject(gobjectFunc, "prototype");
 
 						V8B::GUI::GObject::createV8Callbacks(isolate, gobjectPrototype);
-					}
-
-					// RadJav.GUI.Window
-					{
-						v8::Handle<v8::Function> windowFunc = v8GetFunction(guiFunc, "Window");
-						v8::Handle<v8::Object> windowPrototype = v8GetObject(windowFunc, "prototype");
-
-						V8B::GUI::Window::createV8Callbacks(isolate, windowPrototype);
 					}
 
 					// RadJav.GUI.Button
@@ -1576,22 +1545,6 @@ namespace RadJAV
 						V8B::GUI::Image::createV8Callbacks(isolate, imagePrototype);
 					}
 
-					// RadJav.GUI.Container
-					{
-						v8::Handle<v8::Function> containerFunc = v8GetFunction(guiFunc, "Container");
-						v8::Handle<v8::Object> containerPrototype = v8GetObject(containerFunc, "prototype");
-
-						V8B::GUI::Container::createV8Callbacks(isolate, containerPrototype);
-					}
-
-					// RadJav.GUI.Combobox
-					{
-						v8::Handle<v8::Function> comboboxFunc = v8GetFunction(guiFunc, "Combobox");
-						v8::Handle<v8::Object> comboboxPrototype = v8GetObject(comboboxFunc, "prototype");
-
-						V8B::GUI::Combobox::createV8Callbacks(isolate, comboboxPrototype);
-					}
-
 					// RadJav.GUI.Textbox
 					{
 						v8::Handle<v8::Function> textboxFunc = v8GetFunction(guiFunc, "Textbox");
@@ -1614,6 +1567,37 @@ namespace RadJAV
 						v8::Handle<v8::Object> checkboxPrototype = v8GetObject(checkboxFunc, "prototype");
 
 						V8B::GUI::Checkbox::createV8Callbacks(isolate, checkboxPrototype);
+					}
+				}
+				#endif
+
+				#ifdef GUI_USE_WXWIDGETS
+				// RadJav.GUI
+				{
+					v8::Handle<v8::Function> guiFunc = v8GetFunction(radJavFunc, "GUI");
+
+					// RadJav.GUI.Window
+					{
+						v8::Handle<v8::Function> windowFunc = v8GetFunction(guiFunc, "Window");
+						v8::Handle<v8::Object> windowPrototype = v8GetObject(windowFunc, "prototype");
+
+						V8B::GUI::Window::createV8Callbacks(isolate, windowPrototype);
+					}
+
+					// RadJav.GUI.Container
+					{
+						v8::Handle<v8::Function> containerFunc = v8GetFunction(guiFunc, "Container");
+						v8::Handle<v8::Object> containerPrototype = v8GetObject(containerFunc, "prototype");
+
+						V8B::GUI::Container::createV8Callbacks(isolate, containerPrototype);
+					}
+
+					// RadJav.GUI.Combobox
+					{
+						v8::Handle<v8::Function> comboboxFunc = v8GetFunction(guiFunc, "Combobox");
+						v8::Handle<v8::Object> comboboxPrototype = v8GetObject(comboboxFunc, "prototype");
+
+						V8B::GUI::Combobox::createV8Callbacks(isolate, comboboxPrototype);
 					}
 
 					// RadJav.GUI.Radio
@@ -1648,29 +1632,30 @@ namespace RadJAV
 						V8B::GUI::MenuItem::createV8Callbacks(isolate, menuItemPrototype);
 					}
 
-					// RadJav.GUI.ScrollView
-					{
-						v8::Handle<v8::Function> viewFunc = v8GetFunction(guiFunc, "ScrollView");
-						v8::Handle<v8::Object> viewPrototype = v8GetObject(viewFunc, "prototype");
-
-						V8B::MUI::ScrollView::createV8Callbacks(isolate, viewPrototype);
-					}
-
-					// RadJav.GUI.View
-					{
-						v8::Handle<v8::Function> viewFunc = v8GetFunction(guiFunc, "View");
-						v8::Handle<v8::Object> viewPrototype = v8GetObject(viewFunc, "prototype");
-
-						V8B::MUI::View::createV8Callbacks(isolate, viewPrototype);
-					}
-
-					// RadJav.GUI.Navigator
-					{
-						v8::Handle<v8::Function> navigatorFunc = v8GetFunction(guiFunc, "Navigator");
-						v8::Handle<v8::Object> navigatorPrototype = v8GetObject(navigatorFunc, "prototype");
-
-						V8B::MUI::Navigator::createV8Callbacks(isolate, navigatorPrototype);
-					}
+					//TODO: need to add such controls for desktop
+//					// RadJav.GUI.ScrollView
+//					{
+//						v8::Handle<v8::Function> viewFunc = v8GetFunction(guiFunc, "ScrollView");
+//						v8::Handle<v8::Object> viewPrototype = v8GetObject(viewFunc, "prototype");
+//
+//						V8B::MUI::ScrollView::createV8Callbacks(isolate, viewPrototype);
+//					}
+//
+//					// RadJav.GUI.View
+//					{
+//						v8::Handle<v8::Function> viewFunc = v8GetFunction(guiFunc, "View");
+//						v8::Handle<v8::Object> viewPrototype = v8GetObject(viewFunc, "prototype");
+//
+//						V8B::MUI::View::createV8Callbacks(isolate, viewPrototype);
+//					}
+//
+//					// RadJav.GUI.Navigator
+//					{
+//						v8::Handle<v8::Function> navigatorFunc = v8GetFunction(guiFunc, "Navigator");
+//						v8::Handle<v8::Object> navigatorPrototype = v8GetObject(navigatorFunc, "prototype");
+//
+//						V8B::MUI::Navigator::createV8Callbacks(isolate, navigatorPrototype);
+//					}
 
 					// RadJav.GUI.WebView
 					#ifdef WXWIDGETS_HAS_WEBVIEW
@@ -1696,16 +1681,7 @@ namespace RadJAV
 				// RadJav.MUI
 				#ifdef USE_ANDROID
 				{
-					v8::Handle<v8::Function> guiFunc = v8GetFunction(radJavFunc, "GUI");
 					v8::Handle<v8::Function> muiFunc = v8GetFunction(radJavFunc, "MUI");
-					
-					// RadJav.GUI.GObject
-					{
-						v8::Handle<v8::Function> gobjectFunc = v8GetFunction(guiFunc, "GObject");
-						v8::Handle<v8::Object> gobjectPrototype = v8GetObject(gobjectFunc, "prototype");
-						
-						V8B::GUI::GObject::createV8Callbacks(isolate, gobjectPrototype);
-					}
 					
 					// RadJav.MUI.View
 					{
@@ -1722,30 +1698,6 @@ namespace RadJAV
 
 						V8B::MUI::Navigator::createV8Callbacks(isolate, navigatorPrototype);
 					}
-
-					#if 0
-                    // RadJav.MUI.ViewController
-                    {
-                        JSObjectRef viewFunc = jscGetFunction(muiFunc, "ViewController");
-                        JSObjectRef viewPrototype = jscGetObject(viewFunc, "prototype");
-                        
-                        JSC::MUI::ViewController::createJSCCallbacks(globalContext, viewPrototype);
-                    }
-                    // RadJav.MUI.NavigationViewController
-                    {
-                        JSObjectRef viewFunc = jscGetFunction(muiFunc, "NavigationViewController");
-                        JSObjectRef viewPrototype = jscGetObject(viewFunc, "prototype");
-                        
-                        JSC::MUI::NavigationViewController::createJSCCallbacks(globalContext, viewPrototype);
-                    }
-                    // RadJav.MUI.TableViewController
-                    {
-                        JSObjectRef viewFunc = jscGetFunction(muiFunc, "TableViewController");
-                        JSObjectRef viewPrototype = jscGetObject(viewFunc, "prototype");
-                        
-                        JSC::MUI::TableViewController::createJSCCallbacks(globalContext, viewPrototype);
-                    }
-                    #endif
 
 					// RadJav.MUI.TableView
 					{
@@ -1771,72 +1723,7 @@ namespace RadJAV
                         V8B::MUI::TableViewModel::createV8Callbacks(isolate, tableviewPrototype);
                     }
 
-					#if 0
-                    // RadJav.MUI.TableCellModel
-                    {
-                        JSObjectRef viewFunc = jscGetFunction(muiFunc, "TableCellModel");
-                        JSObjectRef viewPrototype = jscGetObject(viewFunc, "prototype");
-                        
-                        JSC::MUI::TableCellModel::createJSCCallbacks(globalContext, viewPrototype);
-                    }
-					
-					// RadJav.MUI.ScrollView
-					{
-						JSObjectRef scrollviewFunc = jscGetFunction(muiFunc, "ScrollView");
-						JSObjectRef scrollviewPrototype = jscGetObject(scrollviewFunc, "prototype");
-						
-						JSC::MUI::ScrollView::createJSCCallbacks(globalContext, scrollviewPrototype);
-					}
-					#endif
-
-					// RadJav.MUI.Button
-					{
-						v8::Handle<v8::Function> buttonFunc = v8GetFunction(muiFunc, "Button");
-						v8::Handle<v8::Object> buttonPrototype = v8GetObject(buttonFunc, "prototype");
-
-						V8B::MUI::Button::createV8Callbacks(isolate, buttonPrototype);
-					}
-
-					// RadJav.MUI.Label
-					{
-						v8::Handle<v8::Function> labelFunc = v8GetFunction(muiFunc, "Label");
-						v8::Handle<v8::Object> labelPrototype = v8GetObject(labelFunc, "prototype");
-
-						V8B::MUI::Label::createV8Callbacks(isolate, labelPrototype);
-					}
-
-					// RadJav.MUI.Image
-					{
-						v8::Handle<v8::Function> imageFunc = v8GetFunction(muiFunc, "Image");
-						v8::Handle<v8::Object> imagePrototype = v8GetObject(imageFunc, "prototype");
-
-						V8B::MUI::Image::createV8Callbacks(isolate, imagePrototype);
-					}
-
-					// RadJav.MUI.Checkbox
-					{
-						v8::Handle<v8::Function> checkboxFunc = v8GetFunction(muiFunc, "Checkbox");
-						v8::Handle<v8::Object> checkboxPrototype = v8GetObject(checkboxFunc, "prototype");
-
-						V8B::MUI::Checkbox::createV8Callbacks(isolate, checkboxPrototype);
-					}
-					
-					// RadJav.MUI.Textbox
-					{
-						v8::Handle<v8::Function> textboxFunc = v8GetFunction(muiFunc, "Textbox");
-						v8::Handle<v8::Object> textboxPrototype = v8GetObject(textboxFunc, "prototype");
-
-						V8B::MUI::Textbox::createV8Callbacks(isolate, textboxPrototype);
-					}
-
-					// RadJav.MUI.Textarea
-					{
-						v8::Handle<v8::Function> textareaFunc = v8GetFunction(muiFunc, "Textarea");
-						v8::Handle<v8::Object> textareaPrototype = v8GetObject(textareaFunc, "prototype");
-
-						V8B::MUI::Textarea::createV8Callbacks(isolate, textareaPrototype);
-					}
-                    
+                    // TODO: add implementation
 					#if 0
                     // RadJav.MUI.WebView
                     {

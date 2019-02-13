@@ -22,25 +22,20 @@
 #include "RadJav.h"
 #include "RadJavString.h"
 
+#ifdef GUI_USE_WXWIDGETS
+	#include "cpp/desktop/RadJavCPPMUIScrollViewFrame.h"
+#elif defined USE_ANDROID
+	#include "cpp/android/RadJavCPPMUIScrollViewFrame.h"
+#elif defined USE_IOS
+	#include "cpp/ios/RadJavCPPMUIScrollViewFrame.h"
+#endif
+
 namespace RadJAV
 {
 	namespace CPP
 	{
 		namespace MUI
 		{
-			#ifdef GUI_USE_WXWIDGETS
-				ScrollViewFrame::ScrollViewFrame(wxWindow *parent, const wxPoint &pos, const wxSize &size)
-					: wxScrolledWindow (parent, wxID_ANY, pos, size)
-				{
-				}
-
-				void ScrollViewFrame::onClick(wxMouseEvent &event)
-				{
-					CPP::Event *pevent = (CPP::Event *)event.GetEventUserData();
-					executeEvent(pevent);
-				}
-			#endif
-
 			#ifdef USE_V8
 				ScrollView::ScrollView(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
 				: GObject (jsEngine, args)
@@ -157,9 +152,3 @@ namespace RadJAV
 		}
 	}
 }
-
-
-#ifdef GUI_USE_WXWIDGETS
-	wxBEGIN_EVENT_TABLE(RadJAV::CPP::MUI::ScrollViewFrame, wxScrolledWindow)
-	wxEND_EVENT_TABLE()
-#endif

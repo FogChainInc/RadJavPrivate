@@ -22,26 +22,20 @@
 #include "RadJav.h"
 #include "RadJavString.h"
 
+#ifdef GUI_USE_WXWIDGETS
+	#include "cpp/desktop/RadJavCPPGUIRadioFrame.h"
+#elif defined USE_ANDROID
+	#include "cpp/android/RadJavCPPGUIRadioFrame.h"
+#elif defined USE_IOS
+	#include "cpp/ios/RadJavCPPGUIRadioFrame.h"
+#endif
+
 namespace RadJAV
 {
 	namespace CPP
 	{
 		namespace GUI
 		{
-			#ifdef GUI_USE_WXWIDGETS
-				RadioFrame::RadioFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size)
-					: wxRadioButton(parent, wxID_ANY, text, pos, size)
-				{
-				}
-
-				void RadioFrame::onChanged(wxCommandEvent &event)
-				{
-					Event *pevent = (Event *)event.GetEventUserData();
-					executeEvent(pevent);
-				}
-
-			#endif
-
 			#ifdef USE_V8
 				Radio::Radio(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
 					: GObject (jsEngine, args)
@@ -124,9 +118,3 @@ namespace RadJAV
 		}
 	}
 }
-
-#ifdef GUI_USE_WXWIDGETS
-	wxBEGIN_EVENT_TABLE(RadJAV::CPP::GUI::RadioFrame, wxRadioButton)
-	wxEND_EVENT_TABLE()
-#endif
-

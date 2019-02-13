@@ -25,32 +25,12 @@
 
 	#include "cpp/RadJavCPPGUIGObject.h"
 
-	#ifdef GUI_USE_WXWIDGETS
-		#include <wx/wx.h>
-	#endif
-
 	namespace RadJAV
 	{
 		namespace CPP
 		{
 			namespace GUI
 			{
-				#ifdef GUI_USE_WXWIDGETS
-					/// The wxWidgets window to use.
-					class RADJAV_EXPORT MenuBarFrame : public wxMenuBar, public GObjectEvents, public ChainedPtr
-					{
-						public:
-							MenuBarFrame(const wxString &text);
-							void onMenuOpen(wxMenuEvent &evt);
-							void onMenuClose(wxMenuEvent &evt);
-							void onMenuHighLight(wxMenuEvent &evt);
-							void onMenuSelected(wxCommandEvent &evt);
-
-						protected:
-							wxDECLARE_EVENT_TABLE();
-					};
-				#endif
-			  
 				/**
 				 * @ingroup group_gui_cpp
 				 * @brief MenuBar class.
