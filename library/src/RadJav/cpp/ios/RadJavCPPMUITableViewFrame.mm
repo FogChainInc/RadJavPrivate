@@ -18,6 +18,7 @@
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 #import "cpp/RadJavCPPMUITableView.h"
+#import "cpp/ios/RadJavCPPMUITableViewFrame.h"
 #import "cpp/ios/RadJavCPPMUIEventDelegates.h"
 #import <UIKit/UIKit.h>
 #import "cpp/RadJavCPPGUIGObject.h"

@@ -22,113 +22,20 @@
 #include "RadJav.h"
 #include "RadJavString.h"
 
+#ifdef GUI_USE_WXWIDGETS
+	#include "cpp/desktop/RadJavCPPGUIImageFrame.h"
+#elif defined USE_ANDROID
+	#include "cpp/android/RadJavCPPGUIImageFrame.h"
+#elif defined USE_IOS
+	#include "cpp/ios/RadJavCPPGUIImageFrame.h"
+#endif
+
 namespace RadJAV
 {
 	namespace CPP
 	{
 		namespace GUI
 		{
-			#ifdef GUI_USE_WXWIDGETS
-				ImageFrame::ImageFrame(wxWindow *parent, const wxString &file, wxSize fileSize, const wxPoint &pos, const wxSize &size)
-					: wxStaticBitmap(parent, wxID_ANY, wxBitmap (), pos, size, wxTRANSPARENT_WINDOW | wxBORDER_NONE)
-				{
-					isImageLoaded = false;
-					loadImage(file, fileSize);
-				}
-
-				wxBitmapType ImageFrame::getImageType(wxString file)
-				{
-					String temp = parsewxString(file);
-					String ext = "";
-					wxBitmapType type;
-
-					temp = temp.toLowerCase();
-					size_t posext = temp.rfind(".bmp");
-
-					if (posext != String::npos)
-						type = wxBitmapType::wxBITMAP_TYPE_BMP;
-
-					posext = temp.rfind(".jpg");
-
-					if (posext != String::npos)
-						type = wxBitmapType::wxBITMAP_TYPE_JPEG;
-
-					posext = temp.rfind(".jpeg");
-
-					if (posext != String::npos)
-						type = wxBitmapType::wxBITMAP_TYPE_JPEG;
-
-					posext = temp.rfind(".png");
-
-					if (posext != String::npos)
-						type = wxBitmapType::wxBITMAP_TYPE_PNG;
-
-					posext = temp.rfind(".gif");
-
-					if (posext != String::npos)
-						type = wxBitmapType::wxBITMAP_TYPE_GIF;
-
-					posext = temp.rfind(".tga");
-
-					if (posext != String::npos)
-						type = wxBitmapType::wxBITMAP_TYPE_TGA;
-
-					posext = temp.rfind(".tiff");
-
-					if (posext != String::npos)
-						type = wxBitmapType::wxBITMAP_TYPE_TIFF;
-
-					posext = temp.rfind(".pcx");
-
-					if (posext != String::npos)
-						type = wxBitmapType::wxBITMAP_TYPE_PCX;
-
-					return (type);
-				}
-
-				void ImageFrame::loadImage(wxString file, wxSize fileSize)
-				{
-					if (file.IsEmpty() == true)
-						return;
-
-					wxBitmapType type = getImageType(file);
-					RJBOOL hasLoaded = image.LoadFile(file, type);
-
-					if (hasLoaded == false)
-					{
-						#ifdef USE_V8
-							V8_JAVASCRIPT_ENGINE->throwException("Unable to load image " + parsewxString (file));
-						#endif
-
-						return;
-					}
-
-					isImageLoaded = true;
-
-					//image = image.Scale(fileSize.GetWidth(), fileSize.GetHeight());
-					image.Rescale(fileSize.GetWidth(), fileSize.GetHeight(), wxImageResizeQuality::wxIMAGE_QUALITY_HIGH);
-					imageSize = fileSize;
-				}
-
-				void ImageFrame::paintEvent(wxPaintEvent &evt)
-				{
-					if (isImageLoaded == false)
-						return;
-
-					wxPaintDC dc(this);
-					render(dc);
-				}
-
-				void ImageFrame::render(wxDC &dc)
-				{
-					if (isImageLoaded == false)
-						return;
-
-					image.Rescale(imageSize.GetWidth(), imageSize.GetHeight(), wxImageResizeQuality::wxIMAGE_QUALITY_HIGH);
-					dc.DrawBitmap(image, 0, 0, true);
-				}
-			#endif
-
 			#ifdef USE_V8
 				Image::Image(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
 					: GObject (jsEngine, args)
@@ -151,61 +58,76 @@ namespace RadJAV
 
 			void Image::create()
 			{
-				#ifdef GUI_USE_WXWIDGETS
-					wxWindow *parentWin = NULL;
-
-					if (_parent != NULL)
-						parentWin = (wxWindow *)_parent->_appObj;
-
-					ImageFrame *object = RJNEW ImageFrame(parentWin, _image.towxString(), wxSize(_transform->width, _transform->height),
-						wxPoint(_transform->x, _transform->y), wxSize(_transform->width, _transform->height));
-					object->Show(_visible);
-
-					_appObj = object;
+				GObjectWidget* parentWin = nullptr;
 				
-					linkWith(object);
-
-					setup();
-				#endif
+				if (_parent != nullptr)
+					parentWin = _parent->_appObj;
+				
+				ImageFrame* object = RJNEW ImageFrame(parentWin, _image,
+													  Vector2(_transform->x, _transform->y),
+													  Vector2(_transform->width, _transform->height));
+				
+				object->setVisibility(_visible);
+				_appObj = object;
+				linkWith(object);
+				setup();
 
 				if (_parent != NULL)
 					_parent->_callChildCreated(this);
 			}
 
+			RJBOOL Image::setImage(const String& imageFile)
+			{
+				if (imageFile == "")
+					return false;
+
+				if (_appObj)
+				{
+					_image = imageFile;
+
+					ImageFrame* image = static_cast<ImageFrame*>(_appObj);
+					return image->loadImage(imageFile);
+				}
+				
+				return false;
+			}
+			
+			void Image::setScaleMode(Image::ScaleMode mode)
+			{
+				if (_appObj)
+				{
+					ImageFrame* image = static_cast<ImageFrame*>(_appObj);
+					return image->setScaleMode(mode);
+				}
+			}
+
+			Image::ScaleMode Image::getScaleMode() const
+			{
+				if (_appObj)
+				{
+					ImageFrame* image = static_cast<ImageFrame*>(_appObj);
+					return image->getScaleMode();
+				}
+				
+				return ScaleMode::AspectFit;
+			}
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
 				void Image::on(String event, RJ_FUNC_TYPE func)
 				{
-					#ifdef GUI_USE_WXWIDGETS 
-						
-						CPP::GUI::ImageFrame *object = (CPP::GUI::ImageFrame *)_appObj;
-						object->addNewEvent(event, object, func);
-					
-					#endif
+					if (_appObj)
+					{
+						#ifdef GUI_USE_WXWIDGETS 
+							
+							CPP::GUI::ImageFrame *object = (CPP::GUI::ImageFrame *)_appObj;
+							object->addNewEvent(event, object, func);
+							
+						#else
+							_appObj->addNewEvent(event, func);
+						#endif
+					}
 				}
 			#endif
-
-			void Image::setImage(String image)
-			{
-				if (image == "")
-					return;
-
-				_image = image;
-
-				#ifdef GUI_USE_WXWIDGETS
-					ImageFrame *object = (ImageFrame *)_appObj;
-
-					if (object != NULL) {
-						object->loadImage(_image.towxString(), wxSize (getWidth (), getHeight ()));
-					}
-				#endif
-			}
 		}
 	}
 }
-
-#ifdef GUI_USE_WXWIDGETS
-	wxBEGIN_EVENT_TABLE(RadJAV::CPP::GUI::ImageFrame, wxStaticBitmap)
-		EVT_PAINT(RadJAV::CPP::GUI::ImageFrame::paintEvent)
-	wxEND_EVENT_TABLE()
-#endif
 

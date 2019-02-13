@@ -19,7 +19,7 @@
  */
 #include <android/Utils.h>
 #include <android/Jni.h>
-#include "cpp/RadJavCPPMUIScrollView.h"
+#include "cpp/android/RadJavCPPMUIScrollViewFrame.h"
 #include "cpp/RadJavCPPGUIGObject.h"
 
 namespace RadJAV

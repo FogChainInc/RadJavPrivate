@@ -25,14 +25,6 @@
 
 #include "cpp/RadJavCPPGUIGObject.h"
 
-#ifdef USE_IOS
-	OBJC_CLASS(WKWebView);
-	OBJC_CLASS(WebViewDelegate);
-    OBJC_CLASS(WebViewNavigationDelegate);
-#elif defined USE_ANDROID
-    JNI_CLASS(jobject);
-#endif
-
 namespace RadJAV
 {
 	namespace CPP
@@ -45,57 +37,23 @@ namespace RadJAV
 			 */
 			class RADJAV_EXPORT WebView : public CPP::GUI::GObject
 			{
-                public:
-                    #ifdef USE_V8
-                        WebView(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
-                    #elif defined USE_JAVASCRIPTCORE
-                        WebView(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
-                    #endif
-                
-                    WebView(String name, String text = "", CPP::GUI::GObject *parent = NULL);
-                
-                    void create();
-                
-                    #if defined USE_V8 || defined USE_JAVASCRIPTCORE
-                        /// Execute when an event is triggered.
-                        void on(String event, RJ_FUNC_TYPE func);
-                    #endif
-			};
-
-			class RADJAV_EXPORT WebViewFrame : public GUI::GObjectWidget
-												,public ChainedPtr
-			{
 			public:
-				WebViewFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
-				~WebViewFrame();
-				
-				void setText(String text);
-				String getText();
-				void setFont(CPP::Font *font);
-				CPP::Font *getFont();
-				void setEnabled(RJBOOL enabled);
-				RJBOOL getEnabled();
-
-				bool bindEvent(const String& eventName, const GUI::Event* event);
-				
-				#ifdef USE_IOS
-					UIView* getNativeWidget();
-				#elif defined USE_ANDROID
-					jobject getNativeWidget();
+				#ifdef USE_V8
+					WebView(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
+				#elif defined USE_JAVASCRIPTCORE
+					WebView(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
 				#endif
 				
-			private:
-				#ifdef USE_IOS
-					WKWebView* widget;
-					WebViewDelegate* widgetDelegate;
-                    WebViewNavigationDelegate* navDelegate;
-				#elif defined USE_ANDROID
-					jobject widget;
+				WebView(String name, String text = "", CPP::GUI::GObject *parent = NULL);
+				
+				void create();
+				
+				#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+					/// Execute when an event is triggered.
+					void on(String event, RJ_FUNC_TYPE func);
 				#endif
 			};
-			
 		}
 	}
 }
 #endif
-

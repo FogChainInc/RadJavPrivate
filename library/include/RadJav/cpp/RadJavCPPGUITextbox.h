@@ -25,53 +25,62 @@
 
 	#include "cpp/RadJavCPPGUIGObject.h"
 
-	#ifdef GUI_USE_WXWIDGETS
-		#include <wx/wx.h>
-	#endif
-
 	namespace RadJAV
 	{
 		namespace CPP
 		{
 			namespace GUI
 			{
-				#ifdef GUI_USE_WXWIDGETS
-					/// The wxWidgets button to use.
-					class RADJAV_EXPORT TextboxFrame : public wxTextCtrl, public GObjectEvents, public ChainedPtr
-					{
-						public:
-							TextboxFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size);
-
-							void onText(wxCommandEvent &evt);
-							void onTextEnter(wxCommandEvent &evt);
-							
-						protected:
-							wxDECLARE_EVENT_TABLE();
-					};
-				#endif
-
 				/**
 				 * @ingroup group_gui_cpp
 				 * @brief Textbox class.
 				 */
 				class RADJAV_EXPORT Textbox : public CPP::GUI::GObject
 				{
-					public:
-						#ifdef USE_V8
-							Textbox(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
-						#elif defined USE_JAVASCRIPTCORE
-							Textbox(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[]);
-						#endif
-						Textbox(String name, String text = "", CPP::GUI::GObject *parent = NULL);
+				public:
+					enum class InputMode
+					{
+						Text,
+						Number,
+						Decimal,
+						Phone,
+						Email,
+						Password
+					};
 
-						void create();
-						void setText(String text);
-						String getText();
+				public:
+					#ifdef USE_V8
+						Textbox(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
+					#elif defined USE_JAVASCRIPTCORE
+						Textbox(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[]);
+					#endif
 
+					/**
+					 * Constructor.
+					 * @param String name. This goes to superclass constructor.
+					 * @param String text. Initial text.
+					 * @param GObjectWidget parent.
+					 */
+					Textbox(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 
-						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
-							void on(String event, RJ_FUNC_TYPE func);
-						#endif
+					void create();
+
+					/** @method setInputMode
+					 * Setter for input mode. Viable options are Text, Number, Decimal, Phone, Email, Password
+					 * @param InputMode input mode.
+					 */
+					void setInputMode(Textbox::InputMode mode);
+
+					/** @method getInputMode
+					 * Getter for input mode. Viable options are Text, Number, Decimal, Phone, Email, Password
+					 * @return Font
+					 */
+					InputMode getInputMode() const;
+
+					#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+						/// Execute when an event is triggered.
+						void on(String event, RJ_FUNC_TYPE func);
+					#endif
 				};
 			}
 		}

@@ -25,109 +25,38 @@
 
 	#include "cpp/RadJavCPPGUIGObject.h"
 
-	#ifdef GUI_USE_WXWIDGETS
-		#include <wx/wx.h>
-	#endif
-
-	#ifdef USE_V8
-		#include "v8/RadJavV8GUIGObject.h"
-	#elif defined USE_JAVASCRIPTCORE
-		#include "jscore/RadJavJSCGUIGObject.h"
-	#endif
-
-	#ifdef USE_IOS
-		OBJC_CLASS(ViewDelegate);
-	#endif
-
 	namespace RadJAV
 	{
 		namespace CPP
 		{
 			namespace MUI
 			{
-				#ifdef RADJAV_MOBILE
-					class RADJAV_EXPORT ViewFrame : public GUI::GObjectWidget
-													, public ChainedPtr
-					{
-						public:
-							ViewFrame(GUI::GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
-							ViewFrame(const String &text, const Vector2 &pos, const Vector2 &size);
-							~ViewFrame();
-
-							#ifdef USE_ANDROID
-								void addChild(GUI::GObjectWidget *child);
-							#endif
-
-							void setText(String text);
-							String getText();
-
-							bool bindEvent(const String& eventName, const GUI::Event* event);
-
-							#ifdef USE_IOS
-								UIView* getNativeWidget();
-								ViewDelegate* widgetDelegate;
-							#endif
-
-						private:
-							#ifdef USE_IOS
-								UIView* widget;
-					
-							#elif defined USE_ANDROID
-								static void initNatives();
-
-								static jmethodID nativeConstructor;
-								static jmethodID nativeAddView;
-								static jmethodID nativeRemoveView;
-
-								static jclass nativeLayoutClass;
-							#endif
-					};
-				#endif
-
-				#ifdef GUI_USE_WXWIDGETS
-					/// The wxWidgets button to use.
-					class RADJAV_EXPORT ViewFrame : public wxStaticText, public CPP::GUI::GObjectEvents, public ChainedPtr
-					{
-					public:
-						ViewFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size);
-
-						void onClick(wxMouseEvent &event);
-
-					protected:
-						wxDECLARE_EVENT_TABLE();
-					};
-				#endif
-                
 				/**
 				 * @ingroup group_mui_cpp
 				 * @brief View class.
 				 */
 				class RADJAV_EXPORT View : public CPP::GUI::GObject
 				{
-					public:
-						#ifdef USE_V8
-							View(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
-						#endif
-                        #ifdef USE_JAVASCRIPTCORE
-                            View(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
-                        #endif
-						View(String name, String text = "", CPP::GUI::GObject *parent = NULL);
+				public:
+					#ifdef USE_V8
+						View(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
+					#endif
+					#ifdef USE_JAVASCRIPTCORE
+						View(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[]);
+					#endif
+					View(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 
-						void create();
-						void createMainView();
+					void create();
+					void createMainView();
 
-						void setText(String text);
+					void setText(String text);
 
-						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
-                        	/// Execute when an event is triggered.
-                        	void on(String event, RJ_FUNC_TYPE func);
-						#endif
-					
-						///???
-						String icon;
+					#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+						/// Execute when an event is triggered.
+						void on(String event, RJ_FUNC_TYPE func);
+					#endif
 				};
 			}
 		}
 	}
 #endif
-

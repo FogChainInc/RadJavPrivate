@@ -25,35 +25,12 @@
 
 	#include "cpp/RadJavCPPGUIGObject.h"
 
-	#ifdef GUI_USE_WXWIDGETS
-		#include <wx/wx.h>
-	#endif
-
 	namespace RadJAV
 	{
 		namespace CPP
 		{
 			namespace GUI
 			{
-				#ifdef GUI_USE_WXWIDGETS
-					/// The wxWidgets window to use.
-					class RADJAV_EXPORT WindowFrame : public wxFrame, public GObjectEvents, public ChainedPtr
-					{
-						public:
-							WindowFrame(const wxString &text, const wxPoint &pos, const wxSize &size);
-
-							void onClose(wxCloseEvent &evt);
-							void onJSClose(wxCloseEvent &evt);
-							void onJSMinimized(wxIconizeEvent &evt);
-							void onJSMaximized(wxMaximizeEvent &evt);
-							void onClick(wxMouseEvent &evt);
-							void onMenuSelected(wxCommandEvent &evt);
-
-						protected:
-							wxDECLARE_EVENT_TABLE();
-					};
-				#endif
-
 				/**
 				 * @ingroup group_gui_cpp
 				 * @brief Window class.
@@ -70,16 +47,6 @@
 						Window(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 
 						void create();
-						void setPosition(RJINT x, RJINT y);
-						CPP::Vector2 getPosition();
-						void setSize(RJINT x, RJINT y);
-						CPP::Vector2 getSize();
-						void setText(String text);
-						String getText();
-						void setVisibility(RJBOOL visible);
-						RJBOOL getVisibility();
-						void setEnabled(RJBOOL enabled);
-						RJBOOL getEnabled();
 						void setIcon(String newIcon);
 
 						#if defined USE_V8 || defined USE_JAVASCRIPTCORE

@@ -22,13 +22,6 @@
 
 	#include "cpp/RadJavCPPGUIGObject.h"
 
-	#ifdef USE_V8
-		#include "v8/RadJavV8GUIGObject.h"
-	#elif defined USE_JAVASCRIPTCORE
-		#include "jscore/RadJavJSCGUIGObject.h"
-	#endif
-
-	#include <stack>
 
 	namespace RadJAV
 	{
@@ -36,73 +29,9 @@
 		{
 			namespace MUI
 			{
-				#ifdef RADJAV_MOBILE
-					class ViewFrame;
-
-					class RADJAV_EXPORT NavigatorFrame : public ChainedPtr
-					{
-					public:
-						/**
-						 * Constructor.
-						 * @param ViewFrame view. Initial view to be placed in stack.
-						 */
-						NavigatorFrame(ViewFrame* view);
-						~NavigatorFrame();
-
-						/** @method push. Wraps view in controller. Adds controller to stack with default animation
-						 *
-						 * @param View view to be added on top of navigation stack.
-						 * @param Bool replace. If true - replaces topmost controller on stack
-						 */
-						void push(ViewFrame* view, bool replace);
-
-						/** @method pop.
-						 *
-						 * @param ViewFrame view. If view is on navigation stack - pop back all the way to it, otherwise pop to root
-						 */
-						void pop(ViewFrame* view);
-						/** @method pop. Removes last controller in stack with default animation
-						 *
-						 */
-						void pop();
-
-					private:
-						#ifdef USE_IOS
-							UIView *rootView;
-							UINavigationController* widget;
-							//TODO: do we need to handle events of the UIView?
-							//ViewDelegate* widgetDelegate;
-						#elif defined USE_ANDROID
-							static jmethodID nativeConstructor;
-							static jmethodID nativeAddView;
-							static jmethodID nativeRemoveView;
-							static jmethodID nativeSetLayoutTransition;
-
-							static jclass nativeLayoutTransitionClass;
-							static jclass nativeLayoutClass;
-
-							jobject rootView;
-							std::stack<ViewFrame*> viewStack;
-						#endif
-					};
-				#endif
-
-				#ifdef GUI_USE_WXWIDGETS
-					/// The wxWidgets button to use.
-					class RADJAV_EXPORT NavigatorFrame : public wxStaticText, public CPP::GUI::GObjectEvents, public ChainedPtr
-					{
-						public:
-							NavigatorFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size);
-
-							void onClick(wxMouseEvent &event);
-
-						protected:
-							wxDECLARE_EVENT_TABLE();
-					};
-				#endif
-
 				class View;
-
+				class NavigatorFrame;
+				
 				class RADJAV_EXPORT Navigator : public CPP::GUI::GObject
 				{
 					public:
@@ -157,4 +86,3 @@
 		}
 	}
 #endif
-

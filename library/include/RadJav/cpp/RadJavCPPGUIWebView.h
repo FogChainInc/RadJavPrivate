@@ -25,11 +25,6 @@
 
 	#include "cpp/RadJavCPPGUIGObject.h"
 
-	#ifdef GUI_USE_WXWIDGETS
-		#include <wx/wx.h>
-		#include <wx/webview.h>
-	#endif
-
 	namespace RadJAV
 	{
 		namespace CPP
@@ -37,25 +32,6 @@
 			namespace GUI
 			{
 				#ifdef WXWIDGETS_HAS_WEBVIEW
-					#ifdef GUI_USE_WXWIDGETS
-						/// The wxWidgets button to use.
-						class RADJAV_EXPORT WebViewFrame : public wxWindow, public GObjectEvents, public ChainedPtr
-						{
-							public:
-								WebViewFrame(wxWebView *webView);
-
-								static void onPageLoaded(wxWebViewEvent &event);
-								static void onPageChange(wxWebViewEvent &event);
-								static void onPageNavigated(wxWebViewEvent &event);
-								static void onPageNavigationError(wxWebViewEvent &event);
-								static void onNewWindow(wxWebViewEvent &event);
-								static void onTitleChanged(wxWebViewEvent &event);
-
-
-								wxWebView *webView;
-						};
-					#endif
-
 					/**
 					 * @ingroup group_gui_cpp
 					 * @brief WebView class.

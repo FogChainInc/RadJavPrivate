@@ -25,56 +25,54 @@
 
 	#include "cpp/RadJavCPPGUIGObject.h"
 
-	#ifdef GUI_USE_WXWIDGETS
-		#include <wx/wx.h>
-	#endif
-
 	namespace RadJAV
 	{
 		namespace CPP
 		{
 			namespace GUI
 			{
-				#ifdef GUI_USE_WXWIDGETS
-					/// The wxWidgets button to use.
-					class RADJAV_EXPORT CheckboxFrame : public wxCheckBox, public GObjectEvents, public ChainedPtr
-					{
-						public:
-							CheckboxFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size);
-
-							void onChanged(wxCommandEvent &event);
-							
-						protected:
-							wxDECLARE_EVENT_TABLE();
-					};
-				#endif
-
 				/**
 				 * @ingroup group_gui_cpp
 				 * @brief Checkbox class.
 				 */
 				class RADJAV_EXPORT Checkbox : public CPP::GUI::GObject
 				{
-					public:
-						#ifdef USE_V8
-							Checkbox(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
-						#elif defined USE_JAVASCRIPTCORE
-							Checkbox(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[]);
-						#endif
-						Checkbox(String name, String text = "", CPP::GUI::GObject *parent = NULL);
+				public:
+					#ifdef USE_V8
+						Checkbox(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
+					#elif defined USE_JAVASCRIPTCORE
+						Checkbox(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[]);
+					#endif
 
-						void create();
-						void setText(String text);
-						String getText();
+					/**
+					 * Constructor.
+					 * @param String name. This goes to superclass constructor
+					 * @param String text. Will be displayed near checkbox, has default value of empty string.
+					 * @param GObjectWidget parent. Constructed object will be added to view hierarchy of parent.
+					 */
+					Checkbox(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 
-						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
-							void on(String event, RJ_FUNC_TYPE func);
-						#endif
+					void create();
 
-						void setChecked(RJBOOL checked);
-						RJBOOL isChecked();
+					/** @method setChecked
+					 * Setter for control state.
+					 * @param BOOL checked
+					 */
+					void setChecked(RJBOOL checked);
 
-						RJBOOL _checked;
+					/** @method isChecked
+					 * Getter for control state.
+					 * @return BOOL checked
+					 */
+					RJBOOL isChecked() const;
+
+					#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+						/// Execute when an event is triggered.
+						void on(String event, RJ_FUNC_TYPE func);
+					#endif
+
+				protected:
+					RJBOOL _checked;
 				};
 			}
 		}

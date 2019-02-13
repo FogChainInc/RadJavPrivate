@@ -22,32 +22,20 @@
 #include "RadJav.h"
 #include "RadJavString.h"
 
+#ifdef GUI_USE_WXWIDGETS
+	#include "cpp/desktop/RadJavCPPGUITextboxFrame.h"
+#elif defined USE_ANDROID
+	#include "cpp/android/RadJavCPPGUITextboxFrame.h"
+#elif defined USE_IOS
+	#include "cpp/ios/RadJavCPPGUITextboxFrame.h"
+#endif
+
 namespace RadJAV
 {
 	namespace CPP
 	{
 		namespace GUI
 		{
-			#ifdef GUI_USE_WXWIDGETS
-				TextboxFrame::TextboxFrame(wxWindow *parent, const wxString &text, const wxPoint &pos, const wxSize &size)
-					: wxTextCtrl(parent, wxID_ANY, text, pos, size, wxTE_PROCESS_ENTER)
-				{
-				}
-
-				void TextboxFrame::onText(wxCommandEvent &evt)
-				{
-					Event *pevent = (Event *)evt.GetEventUserData();
-					executeEvent(pevent);
-				}
-		  
-				void TextboxFrame::onTextEnter(wxCommandEvent &evt)
-				{
-					Event *pevent = (Event *)evt.GetEventUserData();
-					executeEvent(pevent);
-				}
-		  
-			#endif
-
 			#ifdef USE_V8
 				Textbox::Textbox(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
 					: GObject (jsEngine, args)
@@ -67,76 +55,66 @@ namespace RadJAV
 
 			void Textbox::create()
 			{
-				#ifdef GUI_USE_WXWIDGETS
-					wxWindow *parentWin = NULL;
-
-					if (_parent != NULL)
-						parentWin = (wxWindow *)_parent->_appObj;
-
-					TextboxFrame *object = RJNEW TextboxFrame(parentWin, _text.towxString(),
-						wxPoint(_transform->x, _transform->y), wxSize(_transform->width, _transform->height));
-					object->Show(_visible);
-
-					_appObj = object;
+				GObjectWidget* parentWin = nullptr;
 				
-					linkWith(object);
-
-					setup();
-				#endif
+				if (_parent != nullptr)
+					parentWin = _parent->_appObj;
+				
+				TextboxFrame* object = RJNEW TextboxFrame(parentWin, _text,
+													  Vector2(_transform->x, _transform->y),
+													  Vector2(_transform->width, _transform->height));
+				
+				object->setVisibility(_visible);
+				_appObj = object;
+				linkWith(object);
+				setup();
 			}
 
-			void Textbox::setText(String text)
+			void Textbox::setInputMode(Textbox::InputMode mode)
 			{
-				_text = text;
-
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
-						((TextboxFrame *)_appObj)->SetValue(text.towxString());
-				#endif
+				if (_appObj)
+				{
+					TextboxFrame* textbox = static_cast<TextboxFrame*>(_appObj);
+					return textbox->setInputMode(mode);
+				}
 			}
 
-			String Textbox::getText()
+			Textbox::InputMode Textbox::getInputMode() const
 			{
-				String text = _text;
-
-				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
-					{
-						wxString wxtext = ((TextboxFrame *)_appObj)->GetValue();
-						text = parsewxString(wxtext);
-					}
-				#endif
-
-				return (text);
+				if (_appObj)
+				{
+					TextboxFrame* textbox = static_cast<TextboxFrame*>(_appObj);
+					return textbox->getInputMode();
+				}
+				
+				return InputMode::Text;
 			}
 
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
 				void Textbox::on(String event, RJ_FUNC_TYPE func)
 				{
-					#ifdef GUI_USE_WXWIDGETS
+					if (_appObj)
+					{
+						#ifdef GUI_USE_WXWIDGETS
+							CPP::GUI::TextboxFrame *obj = (CPP::GUI::TextboxFrame *)_appObj;
 
-						CPP::GUI::TextboxFrame *obj = (CPP::GUI::TextboxFrame *)_appObj;
+							obj->addNewEvent(event, obj, func);
+							
+							if (event == "onText")
+							{
+								obj->Connect(wxEVT_TEXT, wxCommandEventHandler(TextboxFrame::onText), obj->createEvent(event, func));
+							}
 
-						obj->addNewEvent(event, obj, func);
-					
-						if (event == "onText")
-						{
-							obj->Connect(wxEVT_TEXT, wxCommandEventHandler(TextboxFrame::onText), obj->createEvent(event, func));
-						}
-
-						if (event == "onTextEnter")
-						{
-							obj->Connect(wxEVT_TEXT_ENTER, wxCommandEventHandler(TextboxFrame::onTextEnter), obj->createEvent(event, func));
-						}
-					#endif
+							if (event == "onTextEnter")
+							{
+								obj->Connect(wxEVT_TEXT_ENTER, wxCommandEventHandler(TextboxFrame::onTextEnter), obj->createEvent(event, func));
+							}
+						#else
+							_appObj->addNewEvent(event, func);
+						#endif
+					}
 				}
 			#endif
 		}
 	}
 }
-
-#ifdef GUI_USE_WXWIDGETS
-	wxBEGIN_EVENT_TABLE(RadJAV::CPP::GUI::TextboxFrame, wxTextCtrl)
-	wxEND_EVENT_TABLE()
-#endif
-

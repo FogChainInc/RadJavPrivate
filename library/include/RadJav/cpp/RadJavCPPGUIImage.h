@@ -25,62 +25,67 @@
 
 	#include "cpp/RadJavCPPGUIGObject.h"
 
-	#ifdef GUI_USE_WXWIDGETS
-		#include <wx/wx.h>
-	#endif
-
 	namespace RadJAV
 	{
 		namespace CPP
 		{
 			namespace GUI
 			{
-				#ifdef GUI_USE_WXWIDGETS
-					/// The wxWidgets button to use.
-					class RADJAV_EXPORT ImageFrame : public wxStaticBitmap, public GObjectEvents, public ChainedPtr
-					{
-					public:
-						ImageFrame(wxWindow *parent, const wxString &file, wxSize fileSize, const wxPoint &pos, const wxSize &size);
-
-						wxBitmapType getImageType(wxString file);
-						void loadImage(wxString file, wxSize fileSize);
-
-						void paintEvent(wxPaintEvent &event);
-						void render(wxDC &dc);
-
-					protected:
-						RJBOOL isImageLoaded;
-						wxImage image;
-						wxSize imageSize;
-
-						wxDECLARE_EVENT_TABLE();
-					};
-				#endif
-
 				/**
 				 * @ingroup group_gui_cpp
 				 * @brief Image class.
 				 */
 				class RADJAV_EXPORT Image : public CPP::GUI::GObject
 				{
-					public:
-						#ifdef USE_V8
-							Image(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
-						#elif defined USE_JAVASCRIPTCORE
-							Image(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[]);
-						#endif
-					
-						Image(String name, String text = "", CPP::GUI::GObject *parent = NULL);
+				public:
+					enum class ScaleMode
+					{
+						AspectFit,
+						AspectFill
+					};
+				
+				public:
+					#ifdef USE_V8
+						Image(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
+					#elif defined USE_JAVASCRIPTCORE
+						Image(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[]);
+					#endif
 
-						void create();
+					/**
+					 * Constructor.
+					 * @param String name. Unused
+					 * @param String text. Unused.
+					 * @param GObjectWidget parent. Constructed object will be added to view hierarchy of parent.
+					 */
+					Image(String name, String text = "", CPP::GUI::GObject *parent = NULL);
 
-						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
-							void on(String event, RJ_FUNC_TYPE func);
-						#endif
+					void create();
 
-						void setImage(String image);
+					/** @method setImage
+					 * Sets image.
+					 * @param String imageFile. Absolute path to file.
+					 */
+					RJBOOL setImage(const String& imageFile);
 
-						String _image;
+					/** @method setScaleMode
+					 * Setter for scale mode
+					 * @param ScaleMode Only aspect fit and aspect fill are supported now.
+					 */
+					void setScaleMode(ScaleMode mode);
+
+					/** @method getScaleMode
+					 * Getter for scale mode
+					 * @return ScaleMode Current scale mode.
+					 */
+					ScaleMode getScaleMode() const;
+
+					#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+						/// Execute when an event is triggered.
+						void on(String event, RJ_FUNC_TYPE func);
+					#endif
+
+				protected:
+					String _image;
 				};
 			}
 		}

@@ -55,26 +55,47 @@ namespace RadJAV
 
 			JSValueRef Checkbox::setChecked(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
 			{
-				RJBOOL value = JSC_JAVASCRIPT_ENGINE->jscParseBool(arguments[0]);
-				JSC_JAVASCRIPT_ENGINE->jscSetBool(thisObject, "_checked", value);
-				CppGuiObject *appObject = (CppGuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
-
-				if (appObject != NULL)
-					appObject->setChecked (value);
+				JSValueRef undefined = JSValueMakeUndefined(ctx);
 				
-				return JSValueMakeUndefined(ctx);
+				CppGuiObject *appObject = (CppGuiObject*)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				if (!appObject)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Checkbox not initialized");
+					return undefined;
+				}
+
+				JSValueRef checkedValue = JSC_JAVASCRIPT_ENGINE->jscGetArgument(arguments, argumentCount, 0);
+
+				if (checkedValue &&
+					(JSValueIsBoolean(ctx, checkedValue) ||
+					 JSValueIsNumber(ctx, checkedValue)))
+				{
+					RJBOOL checked = JSC_JAVASCRIPT_ENGINE->jscValueToBoolean(checkedValue);
+					
+					JSC_JAVASCRIPT_ENGINE->jscSetBool(thisObject, "_checked", checked);
+					
+					appObject->setChecked(checked);
+					return undefined;
+				}
+				
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Parameter required");
+				
+				return undefined;
 			}
 
 			JSValueRef Checkbox::isChecked(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
 			{
-				RJBOOL value = JSC_JAVASCRIPT_ENGINE->jscGetBool(thisObject, "_checked");
-				CppGuiObject *appObject = (CppGuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				CppGuiObject *appObject = (CppGuiObject*)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
 
-				if (appObject != NULL)
-					value = appObject->isChecked();
-
-				return JSValueMakeBoolean(ctx, value);
+				if (!appObject)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Checkbox not initialized");
+					return JSValueMakeUndefined(ctx);
+				}
+				
+				return JSValueMakeBoolean(ctx, appObject->isChecked());
 			}
 		}
 	}
 }
+

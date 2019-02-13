@@ -25,95 +25,12 @@
 
 #include "cpp/RadJavCPPGUIGObject.h"
 
-#ifdef GUI_USE_WXWIDGETS
-	#include <wx/wx.h>
-#endif
-
-#ifdef USE_IOS
-	OBJC_CLASS(UIScrollView);
-	OBJC_CLASS(ScrollViewDelegate);
-#elif defined USE_ANDROID
-	JNI_CLASS(jobject);
-#endif
-
 namespace RadJAV
 {
 	namespace CPP
 	{
 		namespace MUI
 		{
-			#ifdef RADJAV_MOBILE
-			class RADJAV_EXPORT ScrollViewFrame : public GUI::GObjectWidget
-					,public ChainedPtr
-			{
-			public:
-				/**
-				 * Constructor.
-				 * @param String name. This goes to superclass constructor
-				 * @param String text. Unused.
-				 * @param GObjectWidget parent. Unused.
-				 */
-				ScrollViewFrame(GUI::GObjectWidget *parent, const Vector2 &pos, const Vector2 &size);
-				~ScrollViewFrame();
-
-				void setEnabled(RJBOOL enabled);
-				RJBOOL getEnabled();
-
-				void addChild(GUI::GObjectWidget *child);
-
-				/** @method setContentSize
-				 * Setter for content size. Contentsize is a measure of how much
-				 * @param Vector2 size. New content size.
-				 */
-                //void setContentSize(const CPP::Vector2& size);
-
-				/** @method getContentSize
-				 * Getter for content size
-				 * @return Vector2 contentSize.
-				 */
-                //CPP::Vector2 getContentSize() const;
-
-				bool bindEvent(const String& eventName, const GUI::Event* event);
-
-				#ifdef USE_IOS
-					UIView* getNativeWidget();
-				#elif defined USE_ANDROID
-					jobject getNativeWidget();
-				#endif
-
-			private:
-				#ifdef USE_IOS
-					UIScrollView* widget;
-					ScrollViewDelegate* widgetDelegate;
-				#elif defined USE_ANDROID
-					static void initNatives();
-                    
-                    static jmethodID nativeConstructor;
-                    static jmethodID nativeAddView;
-                    static jmethodID nativeRemoveView;	
-					
-					static jclass nativeLayoutClass;
-
-                //    static jmethodID nativeSetContentSize;
-                //    static jmethodID nativeGetContentSize;
-				#endif
-			};
-			#endif
-
-			#ifdef GUI_USE_WXWIDGETS
-				/// The wxWidgets button to use.
-				class RADJAV_EXPORT ScrollViewFrame : public wxScrolledWindow, public CPP::GUI::GObjectEvents, public ChainedPtr
-				{
-					public:
-						ScrollViewFrame(wxWindow *parent, const wxPoint &pos, const wxSize &size);
-
-						void onClick(wxMouseEvent &event);
-
-					protected:
-						wxDECLARE_EVENT_TABLE();
-				};
-			#endif
-
 			/**
 			 * @ingroup group_mui_cpp
 			 * @brief ScrollView class.
@@ -154,9 +71,7 @@ namespace RadJAV
 					void on(String event, RJ_FUNC_TYPE func);
 				#endif
 			};
-
 		}
 	}
 }
-
 #endif

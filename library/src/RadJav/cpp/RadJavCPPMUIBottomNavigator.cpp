@@ -20,6 +20,17 @@
 #include "cpp/RadJavCPPMUIBottomNavigator.h"
 #include "cpp/RadJavCPPMUIView.h"
 
+#ifdef GUI_USE_WXWIDGETS
+	#include "cpp/desktop/RadJavCPPMUIBottomNavigatorFrame.h"
+	#include "cpp/desktop/RadJavCPPMUIViewFrame.h"
+#elif defined USE_ANDROID
+	#include "cpp/android/RadJavCPPMUIBottomNavigatorFrame.h"
+	#include "cpp/android/RadJavCPPMUIViewFrame.h"
+#elif defined USE_IOS
+	#include "cpp/ios/RadJavCPPMUIBottomNavigatorFrame.h"
+	#include "cpp/ios/RadJavCPPMUIViewFrame.h"
+#endif
+
 #include "RadJav.h"
 #include "RadJavString.h"
 
