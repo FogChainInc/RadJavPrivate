@@ -32,7 +32,24 @@ var RadJav;
                 _this.type = "RadJav.GUI.Textbox";
                 return _this;
             }
+            Textbox.prototype.setInputMode = function (mode) {
+                if (this["_setInputMode"] != null) {
+                    this["_setInputMode"].apply(this, arguments);
+                }
+            };
+            Textbox.prototype.getInputMode = function () {
+                if (this["_getInputMode"] != null) {
+                    return this["_getInputMode"].apply(this, arguments);
+                }
+                return Textbox.InputModeText;
+            };
             Textbox.xmlTag = { tag: "textbox", type: "Textbox" };
+            Textbox.InputModeText = 1;
+            Textbox.InputModeNumber = 2;
+            Textbox.InputModeDecimal = 3;
+            Textbox.InputModePhone = 4;
+            Textbox.InputModeEmail = 5;
+            Textbox.InputModePassword = 6;
             return Textbox;
         }(RadJav.GUI.GObject));
         GUI.Textbox = Textbox;

@@ -35,9 +35,17 @@ var RadJav;
                 return _this;
             }
             Checkbox.prototype.setChecked = function (checked) {
+                this._checked = checked;
+                if (this["_setChecked"] != null) {
+                    this["_setChecked"].apply(this, arguments);
+                    return;
+                }
                 RadJav.currentTheme.eventSync(this.type, "setChecked", this, checked);
             };
             Checkbox.prototype.isChecked = function () {
+                if (this["_isChecked"] != null) {
+                    return this["_isChecked"].apply(this, arguments);
+                }
                 return RadJav.currentTheme.eventSync(this.type, "isChecked", this);
             };
             Checkbox.xmlTag = { tag: "checkbox", type: "Checkbox" };

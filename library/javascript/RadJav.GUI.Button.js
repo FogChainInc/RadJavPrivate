@@ -38,11 +38,3 @@ var RadJav;
         GUI.Button = Button;
     })(GUI = RadJav.GUI || (RadJav.GUI = {}));
 })(RadJav || (RadJav = {}));
-if (RadJav.MUI["Button"] == null) {
-    if ((RadJav.OS.type == "windows") ||
-        (RadJav.OS.type == "linux") ||
-        (RadJav.OS.type == "macosx") ||
-        (RadJav.OS.type == "html5")) {
-        RadJav.MUI["Button"] = RadJav.GUI.Button;
-    }
-}

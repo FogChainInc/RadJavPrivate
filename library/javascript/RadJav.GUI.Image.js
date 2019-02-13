@@ -43,19 +43,28 @@ var RadJav;
             };
             Image.prototype.setImage = function (image) {
                 this._image = image;
+                if (this["_setImage"] != null) {
+                    this["_setImage"].apply(this, arguments);
+                    return;
+                }
                 RadJav.currentTheme.event(this.type, "setImage", this, image);
             };
+            Image.prototype.setScaleMode = function (mode) {
+                if (this["_setScaleMode"] != null) {
+                    this["_setScaleMode"].apply(this, arguments);
+                }
+            };
+            Image.prototype.getScaleMode = function () {
+                if (this["_getScaleMode"] != null) {
+                    return this["_getScaleMode"].apply(this, arguments);
+                }
+                return Image.ScaleModeAspectFit;
+            };
             Image.xmlTag = { tag: "image", type: "Image" };
+            Image.ScaleModeAspectFit = 1;
+            Image.ScaleModeAspectFill = 2;
             return Image;
         }(RadJav.GUI.GObject));
         GUI.Image = Image;
     })(GUI = RadJav.GUI || (RadJav.GUI = {}));
 })(RadJav || (RadJav = {}));
-if (RadJav.MUI["Image"] == null) {
-    if ((RadJav.OS.type == "windows") ||
-        (RadJav.OS.type == "linux") ||
-        (RadJav.OS.type == "macosx") ||
-        (RadJav.OS.type == "html5")) {
-        RadJav.MUI["Image"] = RadJav.GUI.Image;
-    }
-}
