@@ -25,6 +25,7 @@
 
 #include "cpp/RadJavCPPGUIGObject.h"
 #include "cpp/RadJavCPPGUITextbox.h"
+#include "cpp/RadJavCPPEvent.h"
 
 namespace RadJAV
 {
@@ -80,7 +81,7 @@ namespace RadJAV
 				 */
 				Textbox::InputMode getInputMode() const;
 
-				bool bindEvent(const String& eventName, const GUI::Event* event);
+				bool bindEvent(const String& eventName, const CPP::Event* event);
 				
 			private:
 				static jclass nativeEditTextClass;

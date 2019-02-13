@@ -24,6 +24,7 @@
 #include "RadJavString.h"
 
 #include "cpp/RadJavCPPGUIGObject.h"
+#include "cpp/RadJavCPPEvent.h"
 
 OBJC_CLASS(UISwitch);
 OBJC_CLASS(SwitchDelegate);
@@ -64,7 +65,7 @@ namespace RadJAV
 				void setEnabled(RJBOOL enabled);
 				RJBOOL getEnabled();
 				
-				bool bindEvent(const String& eventName, const GUI::Event* event);
+				bool bindEvent(const String& eventName, const CPP::Event* event);
 				UIView* getNativeWidget();
 				
 			private:

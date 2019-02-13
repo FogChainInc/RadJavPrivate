@@ -21,6 +21,7 @@
 #define _RADJAV_MUI_CPP_NAVIGATOR_FRAME_H_
 
 #include "cpp/RadJavCPPGUIGObject.h"
+#include "cpp/RadJavCPPEvent.h"
 
 #include <stack>
 

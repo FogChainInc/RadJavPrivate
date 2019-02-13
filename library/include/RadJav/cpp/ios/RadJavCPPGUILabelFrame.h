@@ -24,6 +24,7 @@
 #include "RadJavString.h"
 
 #include "cpp/RadJavCPPGUIGObject.h"
+#include "cpp/RadJavCPPEvent.h"
 
 OBJC_CLASS(UILabel);
 OBJC_CLASS(LabelDelegate);
@@ -82,7 +83,7 @@ namespace RadJAV
 				*/
 				RJBOOL getEnabled();
 
-				bool bindEvent(const String& eventName, const GUI::Event* event);
+				bool bindEvent(const String& eventName, const CPP::Event* event);
 
 				UIView* getNativeWidget();
 

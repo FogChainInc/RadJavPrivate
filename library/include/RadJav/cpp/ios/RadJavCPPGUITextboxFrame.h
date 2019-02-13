@@ -25,6 +25,7 @@
 
 #include "cpp/RadJavCPPGUIGObject.h"
 #include "cpp/RadJavCPPGUITextbox.h"
+#include "cpp/RadJavCPPEvent.h"
 
 OBJC_CLASS(UITextField);
 OBJC_CLASS(TextFieldDelegate);
@@ -86,7 +87,7 @@ namespace RadJAV
 				 */
 				Textbox::InputMode getInputMode() const;
 				
-				bool bindEvent(const String& eventName, const GUI::Event* event);
+				bool bindEvent(const String& eventName, const CPP::Event* event);
 				
 				UIView* getNativeWidget();
 				

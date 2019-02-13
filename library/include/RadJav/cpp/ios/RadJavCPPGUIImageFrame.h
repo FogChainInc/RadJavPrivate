@@ -24,6 +24,7 @@
 #include "RadJavString.h"
 
 #include "cpp/RadJavCPPGUIGObject.h"
+#include "cpp/RadJavCPPEvent.h"
 
 OBJC_CLASS(UIImageView);
 OBJC_CLASS(UIImage);
@@ -73,7 +74,7 @@ namespace RadJAV
 				 */
 				Image::ScaleMode getScaleMode() const;
 				
-				bool bindEvent(const String& eventName, const GUI::Event* event);
+				bool bindEvent(const String& eventName, const CPP::Event* event);
 				
 				UIView* getNativeWidget();
 				

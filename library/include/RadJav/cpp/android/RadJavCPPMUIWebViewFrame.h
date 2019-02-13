@@ -24,6 +24,7 @@
 #include "RadJavString.h"
 
 #include "cpp/RadJavCPPGUIGObject.h"
+#include "cpp/RadJavCPPEvent.h"
 
 namespace RadJAV
 {
@@ -45,7 +46,7 @@ namespace RadJAV
 				void setEnabled(RJBOOL enabled);
 				RJBOOL getEnabled();
 
-				bool bindEvent(const String& eventName, const GUI::Event* event);
+				bool bindEvent(const String& eventName, const CPP::Event* event);
 
 			private:
 				jobject widget;

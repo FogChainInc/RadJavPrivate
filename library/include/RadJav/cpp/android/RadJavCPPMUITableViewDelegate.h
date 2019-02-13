@@ -23,8 +23,9 @@
 
 #include "android/Jni.h"
 #include "cpp/RadJavCPPMUITableViewCellCreator.h"
-#include <vector>
+#include "cpp/RadJavCPPEvent.h"
 
+#include <vector>
 
 namespace RadJAV
 {

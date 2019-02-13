@@ -24,6 +24,7 @@
 #include "RadJavString.h"
 
 #include "cpp/RadJavCPPGUIGObject.h"
+#include "cpp/RadJavCPPEvent.h"
 
 namespace RadJAV
 {
@@ -61,7 +62,7 @@ namespace RadJAV
 				 */
 				//CPP::Vector2 getContentSize() const;
 
-				bool bindEvent(const String& eventName, const GUI::Event* event);
+				bool bindEvent(const String& eventName, const CPP::Event* event);
 
 			private:
 				static void initNatives();

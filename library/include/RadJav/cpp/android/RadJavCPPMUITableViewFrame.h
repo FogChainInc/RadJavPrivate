@@ -24,6 +24,7 @@
 #include "cpp/RadJavCPPMUITableViewModel.h"
 #include "cpp/RadJavCPPMUIView.h"
 #include "cpp/RadJavCPPMUITableViewCellCreator.h"
+#include "cpp/RadJavCPPEvent.h"
 
 namespace RadJAV
 {
@@ -43,7 +44,7 @@ namespace RadJAV
 				TableViewFrame(GUI::GObjectWidget *parent, TableViewCellCreator& cellCreator, const String &text, const Vector2 &pos, const Vector2 &size);
 				~TableViewFrame();
 
-				bool bindEvent(const String& eventName, const GUI::Event* event);
+				bool bindEvent(const String& eventName, const CPP::Event* event);
 				void setModel(MUI::TableViewModel *model);
 				void reload();
 				CPP::MUI::View* viewForCellModel(int index);

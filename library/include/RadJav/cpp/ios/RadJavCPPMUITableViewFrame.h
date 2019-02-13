@@ -24,6 +24,7 @@
 #include "cpp/RadJavCPPMUITableViewModel.h"
 #include "cpp/RadJavCPPMUIView.h"
 #include "cpp/RadJavCPPMUITableViewCellCreator.h"
+#include "cpp/RadJavCPPEvent.h"
 
 OBJC_CLASS(UITableView);
 OBJC_CLASS(TableViewDelegate);
@@ -49,7 +50,7 @@ namespace RadJAV
 
 				String getText();
 
-				bool bindEvent(const String& eventName, const GUI::Event* event);
+				bool bindEvent(const String& eventName, const CPP::Event* event);
 				void setModel(MUI::TableViewModel *model);
 				void reload();
 				CPP::MUI::View* viewForCellModel(int index);

@@ -25,6 +25,7 @@
 
 #include "cpp/RadJavCPPGUIGObject.h"
 #include "cpp/RadJavCPPGUIImage.h"
+#include "cpp/RadJavCPPEvent.h"
 
 namespace RadJAV
 {
@@ -70,7 +71,7 @@ namespace RadJAV
 				 */
 				Image::ScaleMode getScaleMode() const;
 				
-				bool bindEvent(const String& eventName, const GUI::Event* event);
+				bool bindEvent(const String& eventName, const CPP::Event* event);
 				
 			private:
 				static jclass nativeImageViewClass;
