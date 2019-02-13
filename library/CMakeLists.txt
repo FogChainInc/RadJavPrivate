@@ -306,7 +306,7 @@ set (libRadJav_INCLUDE_DIRS ${libRadJav_INCLUDE_DIR} ${libRadJav_INCLUDE_DIRS})
 file (LOCK ${libRadJav_INCLUDE_DIR} DIRECTORY RESULT_VARIABLE lockResult TIMEOUT 0)
 
 if (${lockResult} EQUAL 0)
-	createVersionHeader ("${libRadJav_INCLUDE_DIR}/RadJavVersion.h" "${PROJECT_VERSION_MAJOR}" "${PROJECT_VERSION_MINOR}" "${PROJECT_VERSION_PATCH}")
+	createVersionHeader ("${CMAKE_CURRENT_BINARY_DIR}/include/RadJavVersion.h" "${PROJECT_VERSION_MAJOR}" "${PROJECT_VERSION_MINOR}" "${PROJECT_VERSION_PATCH}")
 	file (LOCK ${libRadJav_INCLUDE_DIR} DIRECTORY RELEASE RESULT_VARIABLE lockResult)
 else ()
 	message (STATUS "Not generating RadJavVersion.h file because another CMake process work on it")

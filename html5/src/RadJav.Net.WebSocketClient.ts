@@ -44,7 +44,7 @@ namespace RadJav
         this._events = RadJav.setDefaultValue(obj._events, {});
 
         if ((<any>this)._init != null)
-          (<any>this)._init();
+          (<any>this)._init(this.url);
       }
 
       /** 
@@ -57,6 +57,11 @@ namespace RadJav
       _socket: any;
       /** 
        * The events to execute when triggered.
+       * Possible events:
+       * * connected
+       * * error
+       * * receive
+       * * close
        */
       _events: Object;
 

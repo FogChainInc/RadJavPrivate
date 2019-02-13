@@ -16,7 +16,7 @@ var RadJav;
                 this._socket = RadJav.setDefaultValue(obj._socket, null);
                 this._events = RadJav.setDefaultValue(obj._events, {});
                 if (this._init != null)
-                    this._init();
+                    this._init(this.url);
             }
             WebSocketClient.prototype.connect = function () {
                 var promise = new Promise(RadJav.keepContext(function (resolve, reject) {
@@ -39,7 +39,7 @@ var RadJav;
                     }, this);
                     this._socket.onmessage = RadJav.keepContext(function (message) {
                         if (this._events["receive"] != null) {
-                            this._events["receive"](message);
+                            this._events["receive"](message.data);
                         }
                     }, this);
                     this._socket.onclose = RadJav.keepContext(function (message) {

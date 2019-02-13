@@ -1,233 +1,313 @@
-/*
-	MIT-LICENSE
-	Copyright (c) 2017 Higher Edge Software, LLC
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
-	and associated documentation files (the "Software"), to deal in the Software without restriction, 
-	including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
-	and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
-	subject to the following conditions:
-
-	The above copyright notice and this permission notice shall be included in all copies or substantial 
-	portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
-	LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-	IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
-	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
-RadJav.GUI.GObject = (function ()
-{
-	function GObject (obj, text, parent, beforeCreatedChild)
-	{
-		if (obj == null)
-			obj = new Object ();
-
-		if (typeof (obj) == "string")
-		{
-			var tempObj = obj;
-			obj = {};
-			obj.name = tempObj;
-		}
-
-		if (beforeCreatedChild == undefined)
-			beforeCreatedChild = null;
-
-		if (text != null)
-			obj._text = text;
-
-		if (parent != null)
-			obj._parent = parent;
-
-		if (obj.text != null)
-			obj._text = obj.text;
-
-		if (obj.cursor != null)
-			obj._cursor = obj.cursor;
-
-		if (obj.visible != null)
-			obj._visible = obj.visible;
-
-		if (obj.visibility != null)
-			obj._visible = obj.visibility;
-
-		if (obj.zIndex != null)
-			obj._zIndex = obj.zIndex;
-
-		if (obj.font != null)
-			obj._font = new RadJav.Font (obj.font);
-
-		if (obj.parent != null)
-			obj._parent = obj.parent;
-
-		﻿if (obj._parent != null)
-		{
-			if (obj._parent.type == "RadJav.MUI.Navigator")
-			{
-				if ((RadJav.OS.type == "android") || 
-					(RadJav.OS.type == "ios"))
-				{
-					obj._parent = null;
-				}
-				else
-				{
-					obj._visible = false;
-				}
-			}
-		}
-		/** @property {String} [name=""]
-		* The name of this object.
-		*/
-		this.name = RadJav.setDefaultValue (obj.name, "");
-		/** @property {String} [type=""]
-		* The type of object.
-		*/
-		this.type = RadJav.setDefaultValue (obj.type, "");
-		/** @property {RadJav.Rectangle} [_transform=new Rectangle ()]
-		* @protected
-		* The transform of this object.
-		*/
-		this._transform = RadJav.setDefaultValue (obj._transform, new RadJav.Rectangle ());
-		/** @property {Boolean} [_visible=true]
-		* @protected
-		* The visibility of the object.
-		*/
-		this._visible = RadJav.setDefaultValue (obj._visible, true);
-		/** @property {Number} [_zIndex=0]
-		* @protected
-		* The initial z-index of this object. The higher the value the more "on top" the 
-		* object will be compared to other objects.
-		*/
-		this._zIndex = RadJav.setDefaultValue (obj._zIndex, 0);
-		/** @property {String} [_text=""]
-		* @protected
-		* The text associated with this object.
-		*/
-		this._text = RadJav.setDefaultValue (obj._text, "");
-		/** @property {RadJav.Font} [_font=new RadJav.Font ()]
-		* @protected
-		* The font associated with this object.
-		*/
-		this._font = RadJav.setDefaultValue (obj._font, new RadJav.Font ());
-		/** @property {String} [_cursor="default"]
-		* @protected
-		* The cursor to use.
-		*/
-		this._cursor = RadJav.setDefaultValue (obj._cursor, "default");
-		/** @property {Mixed} [_parent=null]
-		* @protected
-		* The parent of this object.
-		*/
-		this._parent = RadJav.setDefaultValue (obj._parent, null);
-		/** @property {RadJav.GUI.GObject[]} [_children=[]]
-		* @protected
-		* This object's children.
-		*/
-		this._children = RadJav.setDefaultValue (obj._children, []);
-		/** @property {Mixed} [_html=null]
-		* @protected
-		* The native web object associated with this object.
-		*/
-		this._html = RadJav.setDefaultValue (obj._html, null);
-		/** @property {Mixed} [_appObj=null]
-		* @protected
-		* The native os gui object associated with this object.
-		*/
-		this._appObj = RadJav.setDefaultValue(obj._appObj, null);
-		/** @property {Object} [createOnPlatforms=null]
-		* @protected
-		* Create this object only on certain platforms. All platforms will be enabled 
-		* by default, only the ones listed in each key will either be created or 
-		* denied by their boolean value. Ex: { "WIN32": true, "HTML5": false }.
-		* Possible keys are: 
-		* WIN32
-		* WIN64
-		* LINUX32
-		* LINUX64
-		* MACOSX32
-		* MACOSX64
-		* HTML5
-		*/
-		this.createOnPlatforms = RadJav.setDefaultValue(obj.createOnPlatforms, null);
-		/** @event [onBeforeChildCreated=null]
-		* The function to execute before a child is created.
-		*/
-		this.onBeforeChildCreated = RadJav.setDefaultValue(obj.onBeforeChildCreated, null);
-		/** @event [onCreated=null]
-		* The function to execute once the object has been created.
-		*/
-		this.onCreated = RadJav.setDefaultValue(obj.onCreated, null);
-		/** @event [_events={}]
-		* Events to call.
-		*/
-		this._events = RadJav.setDefaultValue(obj._events, {});
-
-		//this._text = this._text.replaceAll (" ", "&nbsp;");
-
-		//if (this._parent != null)
-			//this._parent._children.push (this);
-
-		if (obj.events != null)
-			this._events = obj.events;
-
-		if (obj.click != null)
-			this._events.click = obj.click;
-
-		if (obj.children != null)
-		{
-			for (var iIdx = 0; iIdx < obj.children.length; iIdx++)
-			{
-				var obj2 = obj.children[iIdx];
-				var createObject = true;
-
-				if (this.onBeforeChildCreated != null)
-				{
-					var result = this.onBeforeChildCreated (obj2, parent);
-
-					if (result != null)
-						createObject = result;
-				}
-
-				if (createObject == true)
-					this._children.push (obj2);
-			}
-		}
-
-		if (obj.position != null)
-		{
-			var position = new RadJav.Vector2 ();
-
-			if (typeof (obj.position) == "string")
-				position = RadJav.Vector2.parseVector2 (obj.position);
-			else
-				position = obj.position;
-
-			this._transform.setPosition (position);
-		}
-
-		if (obj.size != null)
-		{
-			var size = new RadJav.Vector2 ();
-
-			if (typeof (obj.size) == "string")
-				size = RadJav.Vector2.parseVector2 (obj.size);
-			else
-				size = obj.size;
-
-			this._transform.setSize (size);
-		}
-	}
-
-	GObject.prototype.show = function()
-	{
-		this.setVisibility(true);
-	}
-
-	GObject.prototype.hide = function()
-	{
-		this.setVisibility(false);
-	}
-
-	return (GObject);
-} ());
+var RadJav;
+(function (RadJav) {
+    var GUI;
+    (function (GUI) {
+        var GObject = (function () {
+            function GObject(obj, text, parent, beforeCreatedChild) {
+                if (obj == null) {
+                    obj = new Object();
+                }
+                if (typeof (RadJav.XML) != "undefined") {
+                    if (obj instanceof RadJav.XML.XMLTag)
+                        obj = GObject.parseGObjectXML(obj);
+                }
+                if (typeof obj == "string") {
+                    var tempObj = obj;
+                    obj = {};
+                    obj.name = tempObj;
+                }
+                if (beforeCreatedChild == undefined) {
+                    beforeCreatedChild = null;
+                }
+                if (text != null) {
+                    obj._text = text;
+                }
+                if (parent != null) {
+                    obj._parent = parent;
+                }
+                if (obj.text != null) {
+                    obj._text = obj.text;
+                }
+                if (obj.cursor != null) {
+                    obj._cursor = obj.cursor;
+                }
+                if (obj.visible != null) {
+                    obj._visible = obj.visible;
+                }
+                if (obj.visibility != null) {
+                    obj._visible = obj.visibility;
+                }
+                if (obj.zIndex != null) {
+                    obj._zIndex = obj.zIndex;
+                }
+                if (obj.font != null) {
+                    obj._font = new RadJav.Font(obj.font);
+                }
+                if (obj.parent != null) {
+                    obj._parent = obj.parent;
+                }
+                if (obj._parent != null) {
+                    if (obj._parent.type == "RadJav.MUI.Navigator") {
+                        if ((RadJav.OS.type == "android") ||
+                            (RadJav.OS.type == "ios")) {
+                            obj._parent = null;
+                        }
+                        else {
+                            obj._visible = false;
+                        }
+                    }
+                }
+                this.name = RadJav.setDefaultValue(obj.name, "");
+                this.type = RadJav.setDefaultValue(obj.type, "");
+                this._transform = RadJav.setDefaultValue(obj._transform, new RadJav.Rectangle());
+                this._visible = RadJav.setDefaultValue(obj._visible, true);
+                this._zIndex = RadJav.setDefaultValue(obj._zIndex, 0);
+                this._text = RadJav.setDefaultValue(obj._text, "");
+                this._font = RadJav.setDefaultValue(obj._font, new RadJav.Font());
+                this._cursor = RadJav.setDefaultValue(obj._cursor, "default");
+                this._parent = RadJav.setDefaultValue(obj._parent, null);
+                this._children = RadJav.setDefaultValue(obj._children, []);
+                this._html = RadJav.setDefaultValue(obj._html, null);
+                this._appObj = RadJav.setDefaultValue(obj._appObj, null);
+                this.createOnPlatforms = RadJav.setDefaultValue(obj.createOnPlatforms, null);
+                this.onBeforeChildCreated = RadJav.setDefaultValue(obj.onBeforeChildCreated, null);
+                this.onCreated = RadJav.setDefaultValue(obj.onCreated, null);
+                this.onChildAdded = RadJav.setDefaultValue(obj.onChildAdded, null);
+                this._events = RadJav.setDefaultValue(obj._events, {});
+                if (obj.events != null) {
+                    this._events = obj.events;
+                }
+                if (obj.click != null) {
+                    this._events.click = obj.click;
+                }
+                if (obj.children != null) {
+                    for (var iIdx = 0; iIdx < obj.children.length; iIdx++) {
+                        var obj2 = obj.children[iIdx];
+                        var createObject = true;
+                        if (this.onBeforeChildCreated != null) {
+                            var result = this.onBeforeChildCreated(obj2, parent);
+                        }
+                        if (result != null) {
+                            createObject = result;
+                        }
+                    }
+                    if (createObject == true)
+                        this.addChild(obj2);
+                }
+                if (obj.position != null) {
+                    var position = new RadJav.Vector2();
+                    if (typeof obj.position == "string") {
+                        position = RadJav.Vector2.parseVector2(obj.position);
+                    }
+                    else {
+                        position = obj.position;
+                    }
+                    this._transform.setPosition(position);
+                }
+                if (obj.size != null) {
+                    var size = new RadJav.Vector2();
+                    if (typeof obj.size == "string") {
+                        size = RadJav.Vector2.parseVector2(obj.size);
+                    }
+                    else {
+                        size = obj.size;
+                    }
+                    this._transform.setSize(size);
+                }
+            }
+            GObject.prototype.addChild = function (child) {
+                if (this.onChildAdded != null) {
+                    if (this.onChildAdded(child) === false)
+                        return;
+                }
+                var doParentLOL = true;
+                if (this._parent.type == "RadJav.MUI.Navigator") {
+                    child._visible = false;
+                    if ((RadJav.OS.type == "android") ||
+                        (RadJav.OS.type == "ios")) {
+                        child._parent = null;
+                        doParentLOL = false;
+                    }
+                }
+                if (doParentLOL == true)
+                    child._parent = this;
+                this._children.push(child);
+            };
+            GObject.prototype.create = function () {
+                var promise = new Promise(RadJav.keepContext(function (resolve, reject) {
+                    if (this.createOnPlatforms != null) {
+                        for (var key in this.createOnPlatforms) {
+                            if (key == "HTML5") {
+                                if (this.createOnPlatforms[key] == false) {
+                                    resolve(this);
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                    var promise2 = RadJav.currentTheme.event(this.type, "create", this);
+                    if (promise2 == null) {
+                        debugger;
+                    }
+                    promise2.then(RadJav.keepContext(function (htmlObj) {
+                        this._html = htmlObj;
+                        var promises = [];
+                        for (var iIdx = 0; iIdx < this._children.length; iIdx++) {
+                            var justCreateTheObject = true;
+                            if (this.type == "RadJav.MUI.Navigator") {
+                                if (this["pushView"] != "") {
+                                    justCreateTheObject = false;
+                                    this._children[iIdx] = RadJav.GUI.initObj(this._children[iIdx], "", "", this);
+                                    promises.push(this._children[iIdx].create().then(RadJav.keepContext(function (result) {
+                                        this["push"](result);
+                                        return (result);
+                                    }, this)));
+                                }
+                            }
+                            if (justCreateTheObject == true) {
+                                this._children[iIdx] = RadJav.GUI.initObj(this._children[iIdx], "", "", this);
+                                promises.push(this._children[iIdx].create());
+                            }
+                        }
+                        Promise.all(promises).then(RadJav.keepContext(function () {
+                            for (var key in this._events) {
+                                if (this._events[key] != null) {
+                                    var func = new Function(this._events[key]);
+                                    RadJav.currentTheme.event(this.type, "on", this, key, func);
+                                }
+                            }
+                            if (this.onCreated != null) {
+                                this.onCreated();
+                            }
+                            resolve(this);
+                        }, this));
+                    }, this));
+                }, this));
+                return promise;
+            };
+            GObject.parseGObjectXML = function (xmlTag) {
+                var obj = new GObject();
+                if (xmlTag.hasAttribute("name") == true)
+                    obj.name = xmlTag.getAttributeString("name", "");
+                var pos = new RadJav.Vector2();
+                var size = new RadJav.Vector2();
+                if (xmlTag.hasAttribute("x") == true) {
+                    pos.x = xmlTag.getAttributeFloat("x", 0);
+                    obj._transform.setPosition(pos);
+                }
+                if (xmlTag.hasAttribute("y") == true) {
+                    pos.y = xmlTag.getAttributeFloat("y", 0);
+                    obj._transform.setPosition(pos);
+                }
+                if (xmlTag.hasAttribute("width") == true) {
+                    size.x = xmlTag.getAttributeFloat("width", 0);
+                    obj._transform.setSize(size);
+                }
+                if (xmlTag.hasAttribute("height") == true) {
+                    size.y = xmlTag.getAttributeFloat("height", 0);
+                    obj._transform.setSize(size);
+                }
+                return (obj);
+            };
+            GObject.prototype.setFont = function (font) {
+                this._font = font;
+                RadJav.currentTheme.eventSync(this.type, "setFont", this, font);
+            };
+            GObject.prototype.getFont = function () {
+                return RadJav.currentTheme.eventSync(this.type, "getFont", this);
+            };
+            GObject.prototype.setPosition = function (x, y) {
+                if (y === void 0) { y = 0; }
+                var pos = new RadJav.Vector2();
+                if (typeof (x) == "object") {
+                    pos.x = x.x;
+                    pos.y = x.y;
+                }
+                else {
+                    pos.x = x;
+                    pos.y = y;
+                }
+                RadJav.currentTheme.eventSync(this.type, "setPosition", this, pos);
+                this._transform.setPosition(pos);
+            };
+            GObject.prototype.getPosition = function () {
+                var pos = this._transform.getPosition();
+                if (this._html != null)
+                    pos = RadJav.currentTheme.eventSync(this.type, "getPosition", this);
+                return pos;
+            };
+            GObject.prototype.getX = function () {
+                var pos = this._transform.x;
+                if (this._html != null)
+                    pos = RadJav.currentTheme.eventSync(this.type, "getPosition", this).x;
+                return pos;
+            };
+            GObject.prototype.getY = function () {
+                var pos = this._transform.y;
+                if (this._html != null)
+                    pos = RadJav.currentTheme.eventSync(this.type, "getPosition", this).y;
+                return pos;
+            };
+            GObject.prototype.setSize = function (width, height) {
+                RadJav.currentTheme.eventSync(this.type, "setSize", this, new RadJav.Vector2(width, height));
+                this._transform.setSize(width, height);
+            };
+            GObject.prototype.getSize = function () {
+                var size = this._transform.getSize();
+                if (this._html != null)
+                    size = RadJav.currentTheme.eventSync(this.type, "getSize", this);
+                return size;
+            };
+            GObject.prototype.getWidth = function () {
+                var size = this._transform.width;
+                if (this._html != null)
+                    size = RadJav.currentTheme.eventSync(this.type, "getSize", this).x;
+                return size;
+            };
+            GObject.prototype.getHeight = function () {
+                var size = this._transform.height;
+                if (this._html != null)
+                    size = RadJav.currentTheme.eventSync(this.type, "getSize", this).y;
+                return size;
+            };
+            GObject.prototype.setText = function (text) {
+                RadJav.currentTheme.event(this.type, "setText", this, text);
+            };
+            GObject.prototype.getText = function () {
+                return RadJav.currentTheme.eventSync(this.type, "getText", this);
+            };
+            GObject.prototype.getParent = function () {
+                return this._parent;
+            };
+            GObject.prototype.getHTML = function () {
+                return this._html;
+            };
+            GObject.prototype.setVisibility = function (visible) {
+                RadJav.currentTheme.event(this.type, "setVisibility", this, visible);
+            };
+            GObject.prototype.getVisibility = function () {
+                return RadJav.currentTheme.eventSync(this.type, "getVisibility", this);
+            };
+            GObject.prototype.show = function () {
+                this.setVisibility(true);
+            };
+            GObject.prototype.hide = function () {
+                this.setVisibility(false);
+            };
+            GObject.prototype.setEnabled = function (enabled) {
+                RadJav.currentTheme.event(this.type, "setEnabled", this, enabled);
+            };
+            GObject.prototype.getEnabled = function () {
+                return RadJav.currentTheme.eventSync(this.type, "getEnabled", this);
+            };
+            GObject.prototype.on = function (eventName, func) {
+                return RadJav.currentTheme.event(this.type, "on", this, eventName, func);
+            };
+            GObject.prototype.getHTMLDOM = function () {
+                return RadJav.currentTheme.eventSync(this.type, "getHTMLDOM", this);
+            };
+            return GObject;
+        }());
+        GUI.GObject = GObject;
+    })(GUI = RadJav.GUI || (RadJav.GUI = {}));
+})(RadJav || (RadJav = {}));

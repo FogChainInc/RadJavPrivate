@@ -428,7 +428,8 @@ set (SOURCES_files_RadJav__cpp__Global__Headers
 	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPVector4.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPThread.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPChainedPtr.h"
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPPersistent.h")
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPPersistent.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPEvent.h")
 source_group ("RadJav\\CPP\\Global" FILES ${SOURCES_files_RadJav__cpp__Global__Headers})
 
 set (SOURCES ${SOURCES_files_RadJav__cpp__Global__Headers} ${SOURCES})
@@ -533,7 +534,6 @@ if (USE_WXWIDGETS)
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIList.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIMenuBar.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIMenuItem.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPGUIEvent.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIScrollView.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUIView.h"
 		"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPMUINavigator.h")

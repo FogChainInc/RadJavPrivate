@@ -408,513 +408,249 @@ namespace RadJAV
 				}
 			}
 
-			GObjectEvents::GObjectEvents()
+			void GObjectEvents::addNewEvent(String event, wxWindow *object,
+					#ifdef USE_V8
+						v8::Local<v8::Function> func
+					#endif
+					#ifdef USE_JAVASCRIPTCORE
+						JSObjectRef func
+					#endif
+				)
 			{
-				events = RJNEW HashMap<std::string, Event* >();
+				if (event == "click")
+				{
+					object->Bind(wxEVT_LEFT_UP, GObjectEvents::onClick, -1, -1, createEvent(event, func));
+				}
+
+				if (event == "keyup")
+				{
+					object->Bind(wxEVT_KEY_UP, GObjectEvents::onKeyUp, -1, -1, createEvent(event, func));
+				}
+
+				if (event == "keydown")
+				{
+					object->Bind(wxEVT_KEY_DOWN, GObjectEvents::onKeyDown, -1, -1, createEvent(event, func));
+				}
+
+				if (event == "dblclick" || event == "doubleclick")
+				{
+					object->Bind(wxEVT_LEFT_DCLICK, GObjectEvents::onDoubleClick, -1, -1, createEvent(event, func));
+				}
+
+				if (event == "rightclick" || event == "contextmenu")
+				{
+					object->Bind(wxEVT_RIGHT_UP, GObjectEvents::onRightClick, -1, -1, createEvent(event, func));
+				}
+
+				if (event == "mousedown")
+				{
+					object->Bind(wxEVT_AUX1_DOWN, GObjectEvents::onMouseAux1Down, -1, -1, createEvent(event, func));
+				}
+
+				if (event == "mouseup")
+				{
+					object->Bind(wxEVT_AUX1_UP, GObjectEvents::onMouseAux1Up, -1, -1, createEvent(event, func));
+				}
+
+				if (event == "mouseenter")
+				{
+					object->Bind(wxEVT_ENTER_WINDOW, GObjectEvents::onMouseEnterWindow, -1, -1, createEvent(event, func));
+				}
+
+				if (event == "mouseleave")
+				{
+					object->Bind(wxEVT_LEAVE_WINDOW, GObjectEvents::onMouseLeaveWindow, -1, -1, createEvent(event, func));
+				}
+
+				if (event == "mousemove")
+				{
+					object->Bind(wxEVT_MOTION, GObjectEvents::onMouseMotion, -1, -1, createEvent(event, func));
+				}
+
+				if (event == "mousewheel")
+				{
+					object->Bind(wxEVT_MOUSEWHEEL, GObjectEvents::onMouseWheel, -1, -1, createEvent(event, func));
+				}
+
+				if (event == "rightdblclick" || event == "rightdoubleclick")
+				{
+					object->Bind(wxEVT_RIGHT_DCLICK, GObjectEvents::onRightDoubleClick, -1, -1, createEvent(event, func));
+				}
+
+				if (event == "rightdown")
+				{
+					object->Bind(wxEVT_RIGHT_DOWN, GObjectEvents::onRightDown, -1, -1, createEvent(event, func));
+				}
+
+				if (event == "middleclick")
+				{
+					object->Bind(wxEVT_MIDDLE_UP, GObjectEvents::onMiddleClick, -1, -1, createEvent(event, func));
+				}
+
+				if (event == "middledblclick" || event == "middledoubleclick")
+				{
+					object->Bind(wxEVT_MIDDLE_UP, GObjectEvents::onMiddleDoubleClick, -1, -1, createEvent(event, func));
+				}
+
+				if (event == "middledown")
+				{
+					object->Bind(wxEVT_MIDDLE_DOWN, GObjectEvents::onMiddleDown, -1, -1, createEvent(event, func));
+				}
+
+				if (event == "focus")
+				{
+					object->Bind(wxEVT_SET_FOCUS, GObjectEvents::onFocusSet, -1, -1, createEvent(event, func));
+				}
+
+				if (event == "focusout")
+				{
+					object->Bind(wxEVT_KILL_FOCUS, GObjectEvents::onFocusOut, -1, -1, createEvent(event, func));
+				}
 			}
 
-			GObjectEvents::~GObjectEvents()
+			void GObjectEvents::onClick(wxMouseEvent &event)
 			{
-				DELETEOBJ(events);
+				Event *pevent = (Event *)event.GetEventUserData();
+				executeEvent(pevent);
+
+				event.Skip(true);	/// @fixme Is this needed? Seems to be necessary on Windows.
 			}
 
-			#ifdef GUI_USE_WXWIDGETS
-                #ifdef USE_V8
-					Event* GObjectEvents::createEvent(String event, v8::Local<v8::Function> function)
-					{
-						// Create a persistent function to execute asych later.
-						v8::Persistent<v8::Value> *persistent = RJNEW v8::Persistent<v8::Value>();
-						persistent->Reset(function->GetIsolate(), function);
-						
-						Event* evt = RJNEW Event(persistent);
-						
-						if (events->size() > 0)
-						{
-							auto found = events->find(event);
-							auto end = events->end();
-							
-							if (found != end)
-							{
-								Event *evtToRemove = events->at(event);
-								DELETEOBJ(evtToRemove);
-								
-								events->erase(event);
-							}
-						}
-						
-						events->insert(HashMapPair<std::string, Event *>(event, evt));
-						
-						return evt;
-					}
-                #elif defined USE_JAVASCRIPTCORE
-                    Event* GObjectEvents::createEvent(String event, JSObjectRef function)
-                    {
-                        // Create a persistent function to execute asych later.
-                        Event* evt = RJNEW Event(function);
-                        
-                        if (events->size() > 0)
-                        {
-                            auto found = events->find(event);
-                            auto end = events->end();
-                            
-                            if (found != end)
-                            {
-                                Event *evtToRemove = events->at(event);
-                                DELETEOBJ(evtToRemove);
-                                
-                                events->erase(event);
-                            }
-                        }
-                        
-                        events->insert(HashMapPair<std::string, Event *>(event, evt));
-                        
-                        return evt;
-                    }
-                #endif
-			
-				void GObjectEvents::addNewEvent(String event, wxWindow *object,
-                                            #ifdef USE_V8
-                                              v8::Local<v8::Function> func
-                                            #endif
-                                            #ifdef USE_JAVASCRIPTCORE
-                                              JSObjectRef func
-                                            #endif
-                                              )
-				{
-					if (event == "click")
-					{
-						object->Bind(wxEVT_LEFT_UP, GObjectEvents::onClick, -1, -1, createEvent(event, func));
-					}
+			void GObjectEvents::onKeyUp(wxKeyEvent &event)
+			{
+				Event *pevent = (Event *)event.GetEventUserData();
+				executeEvent(pevent);
 
-					if (event == "keyup")
-					{
-						object->Bind(wxEVT_KEY_UP, GObjectEvents::onKeyUp, -1, -1, createEvent(event, func));
-					}
-					
-					if (event == "keydown")
-					{
-						object->Bind(wxEVT_KEY_DOWN, GObjectEvents::onKeyDown, -1, -1, createEvent(event, func));
-					}
+				event.Skip(true);
+			}
 
-					if (event == "dblclick" || event == "doubleclick" )
-					{
-						object->Bind(wxEVT_LEFT_DCLICK, GObjectEvents::onDoubleClick, -1, -1, createEvent(event, func));
-					}
+			void GObjectEvents::onKeyDown(wxKeyEvent &event)
+			{
+				Event *pevent = (Event *)event.GetEventUserData();
+				executeEvent(pevent);
 
-					if (event == "rightclick" || event == "contextmenu")
-					{
-						object->Bind(wxEVT_RIGHT_UP, GObjectEvents::onRightClick, -1, -1, createEvent(event, func));
-					}
-					
-					if (event == "mousedown")
-					{
-						object->Bind(wxEVT_AUX1_DOWN, GObjectEvents::onMouseAux1Down, -1, -1, createEvent(event, func));
-					}
+				event.Skip(true);
+			}
 
-					if (event == "mouseup")
-					{
-						object->Bind(wxEVT_AUX1_UP, GObjectEvents::onMouseAux1Up, -1, -1, createEvent(event, func));
-					}
+			void GObjectEvents::onDoubleClick(wxMouseEvent &event)
+			{
+				Event *pevent = (Event *)event.GetEventUserData();
+				executeEvent(pevent);
 
-					if (event == "mouseenter")
-					{
-						object->Bind(wxEVT_ENTER_WINDOW, GObjectEvents::onMouseEnterWindow, -1, -1, createEvent(event, func));
-					}
+				event.Skip(true);
+			}
 
-					if (event == "mouseleave")
-					{
-						object->Bind(wxEVT_LEAVE_WINDOW, GObjectEvents::onMouseLeaveWindow, -1, -1, createEvent(event, func));
-					}
+			void GObjectEvents::onRightClick(wxMouseEvent &event)
+			{
+				Event *pevent = (Event *)event.GetEventUserData();
+				executeEvent(pevent);
 
-					if (event == "mousemove")
-					{
-						object->Bind(wxEVT_MOTION, GObjectEvents::onMouseMotion, -1, -1, createEvent(event, func));
-					}
+				event.Skip(true);
+			}
 
-					if (event == "mousewheel")
-					{
-						object->Bind(wxEVT_MOUSEWHEEL, GObjectEvents::onMouseWheel, -1, -1, createEvent(event, func));
-					}
+			void GObjectEvents::onMouseAux1Down(wxMouseEvent &event)
+			{
+				Event *pevent = (Event *)event.GetEventUserData();
+				executeEvent(pevent);
 
-					if (event == "rightdblclick" || event == "rightdoubleclick")
-					{
-						object->Bind(wxEVT_RIGHT_DCLICK, GObjectEvents::onRightDoubleClick, -1, -1, createEvent(event, func));
-					}
+				event.Skip(true);
+			}
 
-					if (event == "rightdown")
-					{
-						object->Bind(wxEVT_RIGHT_DOWN, GObjectEvents::onRightDown, -1, -1, createEvent(event, func));
-					}
+			void GObjectEvents::onMouseAux1Up(wxMouseEvent &event)
+			{
+				Event *pevent = (Event *)event.GetEventUserData();
+				executeEvent(pevent);
 
-					if (event == "middleclick")
-					{
-						object->Bind(wxEVT_MIDDLE_UP, GObjectEvents::onMiddleClick, -1, -1, createEvent(event, func));
-					}
+				event.Skip(true);
+			}
 
-					if (event == "middledblclick" || event == "middledoubleclick")
-					{
-						object->Bind(wxEVT_MIDDLE_UP, GObjectEvents::onMiddleDoubleClick, -1, -1, createEvent(event, func));
-					}
+			void GObjectEvents::onMouseEnterWindow(wxMouseEvent &event)
+			{
+				Event *pevent = (Event *)event.GetEventUserData();
+				executeEvent(pevent);
 
-					if (event == "middledown")
-					{
-						object->Bind(wxEVT_MIDDLE_DOWN, GObjectEvents::onMiddleDown, -1, -1, createEvent(event, func));
-					}
+				event.Skip(true);
+			}
 
-					if (event == "focus")
-					{
-						object->Bind(wxEVT_SET_FOCUS, GObjectEvents::onFocusSet, -1, -1, createEvent(event, func));
-					}
+			void GObjectEvents::onMouseLeaveWindow(wxMouseEvent &event)
+			{
+				Event *pevent = (Event *)event.GetEventUserData();
+				executeEvent(pevent);
 
-					if (event == "focusout")
-					{
-						object->Bind(wxEVT_KILL_FOCUS, GObjectEvents::onFocusOut, -1, -1, createEvent(event, func));
-					}
-				}
+				event.Skip(true);
+			}
 
-				void GObjectEvents::onClick(wxMouseEvent &event)
-				{
-					Event *pevent = (Event *)event.GetEventUserData();
-					executeEvent(pevent);
+			void GObjectEvents::onMouseMotion(wxMouseEvent &event)
+			{
+				Event *pevent = (Event *)event.GetEventUserData();
+				executeEvent(pevent);
 
-					event.Skip(true);	/// @fixme Is this needed? Seems to be necessary on Windows.
-				}
+				event.Skip(true);
+			}
 
-				void GObjectEvents::onKeyUp(wxKeyEvent &event)
-				{
-					Event *pevent = (Event *)event.GetEventUserData();
-					executeEvent(pevent);
+			void GObjectEvents::onMouseWheel(wxMouseEvent &event)
+			{
+				Event *pevent = (Event *)event.GetEventUserData();
+				executeEvent(pevent);
 
-					event.Skip(true);
-				}
-				
-				void GObjectEvents::onKeyDown(wxKeyEvent &event)
-				{
-					Event *pevent = (Event *)event.GetEventUserData();
-					executeEvent(pevent);
+				event.Skip(true);
+			}
 
-					event.Skip(true);
-				}
+			void GObjectEvents::onRightDoubleClick(wxMouseEvent &event)
+			{
+				Event *pevent = (Event *)event.GetEventUserData();
+				executeEvent(pevent);
 
-				void GObjectEvents::onDoubleClick(wxMouseEvent &event)
-				{
-					Event *pevent = (Event *)event.GetEventUserData();
-					executeEvent(pevent);
+				event.Skip(true);
+			}
 
-					event.Skip(true);
-				}
+			void GObjectEvents::onRightDown(wxMouseEvent &event)
+			{
+				Event *pevent = (Event *)event.GetEventUserData();
+				executeEvent(pevent);
 
-				void GObjectEvents::onRightClick(wxMouseEvent &event)
-				{
-					Event *pevent = (Event *)event.GetEventUserData();
-					executeEvent(pevent);
+				event.Skip(true);
+			}
 
-					event.Skip(true);
-				}
+			void GObjectEvents::onMiddleClick(wxMouseEvent &event)
+			{
+				Event *pevent = (Event *)event.GetEventUserData();
+				executeEvent(pevent);
 
-				void GObjectEvents::onMouseAux1Down(wxMouseEvent &event)
-				{
-					Event *pevent = (Event *)event.GetEventUserData();
-					executeEvent(pevent);
+				event.Skip(true);
+			}
 
-					event.Skip(true);
-				}
+			void GObjectEvents::onMiddleDoubleClick(wxMouseEvent &event)
+			{
+				Event *pevent = (Event *)event.GetEventUserData();
+				executeEvent(pevent);
 
-				void GObjectEvents::onMouseAux1Up(wxMouseEvent &event)
-				{
-					Event *pevent = (Event *)event.GetEventUserData();
-					executeEvent(pevent);
+				event.Skip(true);
+			}
 
-					event.Skip(true);
-				}
+			void GObjectEvents::onMiddleDown(wxMouseEvent &event)
+			{
+				Event *pevent = (Event *)event.GetEventUserData();
+				executeEvent(pevent);
 
-				void GObjectEvents::onMouseEnterWindow(wxMouseEvent &event)
-				{
-					Event *pevent = (Event *)event.GetEventUserData();
-					executeEvent(pevent);
+				event.Skip(true);
+			}
 
-					event.Skip(true);
-				}
+			void GObjectEvents::onFocusSet(wxFocusEvent &event)
+			{
+				Event *pevent = (Event *)event.GetEventUserData();
+				executeEvent(pevent);
 
-				void GObjectEvents::onMouseLeaveWindow(wxMouseEvent &event)
-				{
-					Event *pevent = (Event *)event.GetEventUserData();
-					executeEvent(pevent);
+				event.Skip(true);
+			}
 
-					event.Skip(true);
-				}
+			void GObjectEvents::onFocusOut(wxFocusEvent &event)
+			{
+				Event *pevent = (Event *)event.GetEventUserData();
+				executeEvent(pevent);
 
-				void GObjectEvents::onMouseMotion(wxMouseEvent &event)
-				{
-					Event *pevent = (Event *)event.GetEventUserData();
-					executeEvent(pevent);
-
-					event.Skip(true);
-				}
-
-				void GObjectEvents::onMouseWheel(wxMouseEvent &event)
-				{
-					Event *pevent = (Event *)event.GetEventUserData();
-					executeEvent(pevent);
-
-					event.Skip(true);
-				}
-
-				void GObjectEvents::onRightDoubleClick(wxMouseEvent &event)
-				{
-					Event *pevent = (Event *)event.GetEventUserData();
-					executeEvent(pevent);
-
-					event.Skip(true);
-				}
-
-				void GObjectEvents::onRightDown(wxMouseEvent &event)
-				{
-					Event *pevent = (Event *)event.GetEventUserData();
-					executeEvent(pevent);
-
-					event.Skip(true);
-				}
-
-				void GObjectEvents::onMiddleClick(wxMouseEvent &event)
-				{
-					Event *pevent = (Event *)event.GetEventUserData();
-					executeEvent(pevent);
-
-					event.Skip(true);
-				}
-
-				void GObjectEvents::onMiddleDoubleClick(wxMouseEvent &event)
-				{
-					Event *pevent = (Event *)event.GetEventUserData();
-					executeEvent(pevent);
-
-					event.Skip(true);
-				}
-				
-				void GObjectEvents::onMiddleDown(wxMouseEvent &event)
-				{
-					Event *pevent = (Event *)event.GetEventUserData();
-					executeEvent(pevent);
-
-					event.Skip(true);
-				}
-
-				void GObjectEvents::onFocusSet(wxFocusEvent &event)
-				{
-					Event *pevent = (Event *)event.GetEventUserData();
-					executeEvent(pevent);
-
-					event.Skip(true);
-				}
-
-				void GObjectEvents::onFocusOut(wxFocusEvent &event)
-				{
-					Event *pevent = (Event *)event.GetEventUserData();
-					executeEvent(pevent);
-
-					event.Skip(true);
-				}
-			#elif defined USE_IOS || defined USE_ANDROID
-				#ifdef USE_V8
-					Event* GObjectEvents::createEvent(String event, v8::Local<v8::Function> function)
-					{
-						// Create a persistent function to execute async later.
-						v8::Persistent<v8::Value> *persistent = RJNEW v8::Persistent<v8::Value>();
-						persistent->Reset(function->GetIsolate(), function);
-						
-						Event* evt = RJNEW Event(persistent);
-						
-						if (events->size() > 0)
-						{
-							auto found = events->find(event);
-							auto end = events->end();
-							
-							if (found != end)
-							{
-								Event *evtToRemove = events->at(event);
-								DELETEOBJ(evtToRemove);
-								
-								events->erase(event);
-							}
-						}
-						
-						events->insert(HashMapPair<std::string, Event *>(event, evt));
-						
-						return evt;
-					}
-				#elif defined USE_JAVASCRIPTCORE
-					Event* GObjectEvents::createEvent(String event, JSObjectRef function)
-					{
-						// Create a persistent function to execute asych later.
-						Event* evt = RJNEW Event(function);
-						
-						if (events->size() > 0)
-						{
-							auto found = events->find(event);
-							auto end = events->end();
-							
-							if (found != end)
-							{
-								Event *evtToRemove = events->at(event);
-								DELETEOBJ(evtToRemove);
-								
-								events->erase(event);
-							}
-						}
-						
-						events->insert(HashMapPair<std::string, Event *>(event, evt));
-						
-						return evt;
-					}
-				#endif
-			
-				void GObjectEvents::addNewEvent(String event,
-												#ifdef USE_V8
-													v8::Local<v8::Function> func
-												#elif defined USE_JAVASCRIPTCORE
-													JSObjectRef func
-												#endif
-												)
-				{
-					Event* evt = createEvent(event, func);
-					
-					bindEvent(event, evt);
-					
-					/* TODO: Add relevant implementation
-					if (event == "click")
-					{
-						object->Bind(wxEVT_LEFT_UP, GObjectEvents::onClick, -1, -1, createEvent(event, func));
-					}
-					
-					if (event == "keyup")
-					{
-						object->Bind(wxEVT_KEY_UP, GObjectEvents::onKeyUp, -1, -1, createEvent(event, func));
-					}
-					
-					if (event == "keydown")
-					{
-						object->Bind(wxEVT_KEY_DOWN, GObjectEvents::onKeyDown, -1, -1, createEvent(event, func));
-					}
-					
-					if (event == "dblclick" || event == "doubleclick" )
-					{
-						object->Bind(wxEVT_LEFT_DCLICK, GObjectEvents::onDoubleClick, -1, -1, createEvent(event, func));
-					}
-					
-					if (event == "rightclick" || event == "contextmenu")
-					{
-						object->Bind(wxEVT_RIGHT_UP, GObjectEvents::onRightClick, -1, -1, createEvent(event, func));
-					}
-					
-					if (event == "mousedown")
-					{
-						object->Bind(wxEVT_AUX1_DOWN, GObjectEvents::onMouseAux1Down, -1, -1, createEvent(event, func));
-					}
-					
-					if (event == "mouseup")
-					{
-						object->Bind(wxEVT_AUX1_UP, GObjectEvents::onMouseAux1Up, -1, -1, createEvent(event, func));
-					}
-					
-					if (event == "mouseenter")
-					{
-						object->Bind(wxEVT_ENTER_WINDOW, GObjectEvents::onMouseEnterWindow, -1, -1, createEvent(event, func));
-					}
-					
-					if (event == "mouseleave")
-					{
-						object->Bind(wxEVT_LEAVE_WINDOW, GObjectEvents::onMouseLeaveWindow, -1, -1, createEvent(event, func));
-					}
-					
-					if (event == "mousemove")
-					{
-						object->Bind(wxEVT_MOTION, GObjectEvents::onMouseMotion, -1, -1, createEvent(event, func));
-					}
-					
-					if (event == "mousewheel")
-					{
-						object->Bind(wxEVT_MOUSEWHEEL, GObjectEvents::onMouseWheel, -1, -1, createEvent(event, func));
-					}
-					
-					if (event == "rightdblclick" || event == "rightdoubleclick")
-					{
-						object->Bind(wxEVT_RIGHT_DCLICK, GObjectEvents::onRightDoubleClick, -1, -1, createEvent(event, func));
-					}
-					
-					if (event == "rightdown")
-					{
-						object->Bind(wxEVT_RIGHT_DOWN, GObjectEvents::onRightDown, -1, -1, createEvent(event, func));
-					}
-					
-					if (event == "middleclick")
-					{
-						object->Bind(wxEVT_MIDDLE_UP, GObjectEvents::onMiddleClick, -1, -1, createEvent(event, func));
-					}
-					
-					if (event == "middledblclick" || event == "middledoubleclick")
-					{
-						object->Bind(wxEVT_MIDDLE_UP, GObjectEvents::onMiddleDoubleClick, -1, -1, createEvent(event, func));
-					}
-					
-					if (event == "middledown")
-					{
-						object->Bind(wxEVT_MIDDLE_DOWN, GObjectEvents::onMiddleDown, -1, -1, createEvent(event, func));
-					}
-					
-					if (event == "focus")
-					{
-						object->Bind(wxEVT_SET_FOCUS, GObjectEvents::onFocusSet, -1, -1, createEvent(event, func));
-					}
-					
-					if (event == "focusout")
-					{
-						object->Bind(wxEVT_KILL_FOCUS, GObjectEvents::onFocusOut, -1, -1, createEvent(event, func));
-					}
-					 */
-				}
-			#endif
-			
-			#ifdef USE_V8
-				v8::Local<v8::Value> GObjectEvents::executeEvent(Event *pevent, RJINT numArgs, v8::Local<v8::Value> *args)
-				{
-					return (*pevent)(numArgs, args);
-				}
-
-				v8::Local<v8::Value> GObjectEvents::executeEvent(const String& event, RJINT numArgs, v8::Local<v8::Value> *args)
-				{
-					if (events)
-					{
-						auto evt = events->find(event);
-						if (evt != events->end())
-						{
-							return executeEvent(evt->second, numArgs, args);
-						}
-					}
-					
-					return v8::Undefined (V8_JAVASCRIPT_ENGINE->isolate);
-				}
-			
-			#elif defined USE_JAVASCRIPTCORE
-				JSValueRef GObjectEvents::executeEvent(Event *pevent, RJINT numArgs, JSValueRef *args)
-				{
-					return (*pevent)(numArgs, args);
-				}
-
-				JSValueRef GObjectEvents::executeEvent(const String& event, RJINT numArgs, JSValueRef *args)
-				{
-					if (events)
-					{
-						auto evt = events->find(event);
-						if (evt != events->end())
-						{
-							return executeEvent(evt->second, numArgs, args);
-						}
-					}
-					
-					return JSValueMakeUndefined(JSC_JAVASCRIPT_ENGINE->globalContext);
-				}
-			#endif
+				event.Skip(true);
+			}
 		}
 	}
 }

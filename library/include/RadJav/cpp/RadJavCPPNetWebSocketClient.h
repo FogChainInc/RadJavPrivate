@@ -32,7 +32,10 @@
 
 #include "RadJavString.h"
 #include "RadJavHashMap.h"
+
+#include "cpp/RadJavCPPEvent.h"
 #include "cpp/RadJavCPPChainedPtr.h"
+#include "cpp/RadJavCPPNet.h"
 
 namespace RadJAV
 {
@@ -44,18 +47,12 @@ namespace RadJAV
 			 * @ingroup group_net_cpp
 			 * @brief WebSocketClient class.
 			 */
-			class RADJAV_EXPORT WebSocketClient : public ChainedPtr
+			class RADJAV_EXPORT WebSocketClient : public Events, public ChainedPtr
 			{
 				public:
-					WebSocketClient();
+					WebSocketClient(String url);
 
-					#ifdef USE_V8
-					static void on(String event_, v8::Local<v8::Function> func_);
-					#elif defined USE_JAVASCRIPTCORE
-					static void on(String event_, JSObjectRef func_);
-					#endif
-
-					void connect(String host_, String port_);
+					void connect();
 
 					void send(String message_);
 					void send(const void *message_, int msgLen);
@@ -63,14 +60,21 @@ namespace RadJAV
 					void receive(std::function <void (const std::string &str)> stringSetter,
 						     std::function <void (const void *buf, int bufLen)> binSetter);
 
+					#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+						/// Execute when an event is triggered.
+						void on(String event, RJ_FUNC_TYPE func);
+					#endif
 
 					void close();
 
 				private:
-					//the io_context is required for all I/O
+					// The uri used to connect.
+					URI uri;
+
+					// The io_context is required for all I/O
 					boost::asio::io_context m_ioc;
 
-					//these objects perform our I/O
+					// These objects perform our I/O
 					boost::asio::ip::tcp::resolver resolver{ m_ioc };
 					boost::beast::websocket::stream<boost::asio::ip::tcp::socket> m_ws{ m_ioc };
 

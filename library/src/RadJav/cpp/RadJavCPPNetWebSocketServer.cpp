@@ -49,11 +49,12 @@ namespace RadJAV
 				DELETEOBJ(thread);
 				DELETEOBJ(m_io_context);
 			}
-			
-			#ifdef USE_V8
-			void WebSocketServer::on(String event_, v8::Local<v8::Function> func_)
-			{
-			}
+
+			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+				void WebSocketServer::on(String event, RJ_FUNC_TYPE func)
+				{
+					createEvent(event, func);
+				}
 			#endif
 
 			void WebSocketServer::listen(unsigned short port_)

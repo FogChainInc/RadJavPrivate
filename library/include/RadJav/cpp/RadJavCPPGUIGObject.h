@@ -28,7 +28,7 @@
 #include "cpp/RadJavCPPRectangle.h"
 #include "cpp/RadJavCPPFont.h"
 #include "cpp/RadJavCPPVector2.h"
-#include "cpp/RadJavCPPGUIEvent.h"
+#include "cpp/RadJavCPPEvent.h"
 #include "cpp/RadJavCPPChainedPtr.h"
 
 #include "RadJavXML.h"
@@ -292,69 +292,48 @@ namespace RadJAV
 			};
 
 			/// Base class for events utils/handling
-			class RADJAV_EXPORT GObjectEvents
+			class RADJAV_EXPORT GObjectEvents: public Events
 			{
-			public:
-				GObjectEvents();
-				GObjectEvents(const GObjectEvents& other) = delete;
-				GObjectEvents& operator =(const GObjectEvents& other) = delete;
-				
-				virtual ~GObjectEvents();
-				
-				#ifdef GUI_USE_WXWIDGETS
-					#ifdef USE_V8
-						Event* createEvent(String event, v8::Local<v8::Function> function);
-						void addNewEvent(String event, wxWindow *object, v8::Local<v8::Function> func);
-					#elif defined USE_JAVASCRIPTCORE
-						Event* createEvent(String event, JSObjectRef function);
-						void addNewEvent(String event, wxWindow *object, JSObjectRef func);
-					#endif
-				
-					static void onClick(wxMouseEvent &event);
-					static void onDoubleClick(wxMouseEvent &event);
-					static void onRightClick(wxMouseEvent &event);
-					static void onRightDoubleClick(wxMouseEvent &event);
-					static void onRightDown(wxMouseEvent &event);
-					static void onMiddleClick(wxMouseEvent &event);
-					static void onMiddleDoubleClick(wxMouseEvent &event);
-					static void onMiddleDown(wxMouseEvent &event);
-				
-					static void onMouseAux1Down(wxMouseEvent &event);
-					static void onMouseAux1Up(wxMouseEvent &event);
-					static void onMouseEnterWindow(wxMouseEvent &event);
-					static void onMouseLeaveWindow(wxMouseEvent &event);
-					static void onMouseMotion(wxMouseEvent &event);
-					static void onMouseWheel(wxMouseEvent &event);
-				
-					static void onKeyUp(wxKeyEvent &event);
-					static void onKeyDown(wxKeyEvent &event);
-				
-					static void onFocusSet(wxFocusEvent &event);
-					static void onFocusOut(wxFocusEvent &event);
-				
-				#elif defined USE_IOS || defined USE_ANDROID
-					#ifdef USE_V8
-						Event* createEvent(String event, v8::Local<v8::Function> function);
-						void addNewEvent(String event, v8::Local<v8::Function> func);
-					#elif defined USE_JAVASCRIPTCORE
-						Event* createEvent(String event, JSObjectRef function);
-						void addNewEvent(String event, JSObjectRef func);
-					#endif
+				public:
+					GObjectEvents()
+						: Events ()
+					{
+					}
 
-					//Add iOS and Android specific events handling
-
-					virtual bool bindEvent(const String& eventName, const Event* event) = 0;
-				#endif
+					GObjectEvents(const GObjectEvents& other) = delete;
+					GObjectEvents& operator =(const GObjectEvents& other) = delete;
 				
-				#ifdef USE_V8
-					static v8::Local<v8::Value> executeEvent(Event *pevent, RJINT numArgs = 0, v8::Local<v8::Value> *args = NULL);
-					v8::Local<v8::Value> executeEvent(const String& event, RJINT numArgs = 0, v8::Local<v8::Value> *args = NULL);
-				#elif defined USE_JAVASCRIPTCORE
-					static JSValueRef executeEvent(Event *pevent, RJINT numArgs = 0, JSValueRef *args = NULL);
-					JSValueRef executeEvent(const String& event, RJINT numArgs = 0, JSValueRef *args = NULL);
-				#endif
+					#ifdef GUI_USE_WXWIDGETS
+						void addNewEvent(String event, wxWindow *object,
+								#ifdef USE_V8
+									v8::Local<v8::Function> func
+								#endif
+								#ifdef USE_JAVASCRIPTCORE
+									JSObjectRef func
+								#endif
+							);
+						static void onClick(wxMouseEvent &event);
+						static void onDoubleClick(wxMouseEvent &event);
+						static void onRightClick(wxMouseEvent &event);
+						static void onRightDoubleClick(wxMouseEvent &event);
+						static void onRightDown(wxMouseEvent &event);
+						static void onMiddleClick(wxMouseEvent &event);
+						static void onMiddleDoubleClick(wxMouseEvent &event);
+						static void onMiddleDown(wxMouseEvent &event);
 				
-				HashMap<std::string, Event* > *events;
+						static void onMouseAux1Down(wxMouseEvent &event);
+						static void onMouseAux1Up(wxMouseEvent &event);
+						static void onMouseEnterWindow(wxMouseEvent &event);
+						static void onMouseLeaveWindow(wxMouseEvent &event);
+						static void onMouseMotion(wxMouseEvent &event);
+						static void onMouseWheel(wxMouseEvent &event);
+				
+						static void onKeyUp(wxKeyEvent &event);
+						static void onKeyDown(wxKeyEvent &event);
+				
+						static void onFocusSet(wxFocusEvent &event);
+						static void onFocusOut(wxFocusEvent &event);
+					#endif
 			};
 			
 			/// Base class for wrapped native controls using composition method (not used for wxWidgets based controls)

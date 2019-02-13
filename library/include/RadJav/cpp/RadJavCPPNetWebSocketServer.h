@@ -33,6 +33,7 @@
 	#include "RadJavString.h"
 	#include "RadJavHashMap.h"
 	#include "cpp/RadJavCPPChainedPtr.h"
+	#include "cpp/RadJavCPPEvent.h"
 	#include "RadJavThread.h"
 
 	namespace RadJAV
@@ -59,7 +60,7 @@
 				 * @fixme longer triggered by write requests, they are now issued after previous read was handled.
 				 *
 				 */
-				class RADJAV_EXPORT WebSocketServer : public ChainedPtr
+				class RADJAV_EXPORT WebSocketServer : public Events, public ChainedPtr
 				{
 				public:
 				  class WebSocketServerSession;
@@ -83,16 +84,9 @@
 						WebSocketServer();
 						~WebSocketServer();
 
-						#ifdef USE_V8
-						/**
-						 * @brief V8 function to call when message handling event occurs
-						 */
-						static void on(String event_, v8::Local<v8::Function> func_);
-						#elif defined USE_JAVASCRIPTCORE
-						/**
-						 * @brief JS Core function to call when message handling event occurs
-						 */
-						 static void on(String event_, JSObjectRef func_);
+						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+							/// Execute when an event is triggered.
+							void on(String event, RJ_FUNC_TYPE func);
 						#endif
 
 						/**

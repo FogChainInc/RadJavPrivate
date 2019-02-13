@@ -1,48 +1,83 @@
-/*
-    MIT-LICENSE
-    Copyright (c) 2017-2018 Higher Edge Software, LLC
-
-    Permission is hereby granted, free of charge, to any person obtaining a copy of this software
-    and associated documentation files (the "Software"), to deal in the Software without restriction,
-    including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
-    and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
-    subject to the following conditions:
-
-    The above copyright notice and this permission notice shall be included in all copies or substantial
-    portions of the Software.
-
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
-    LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-    WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
-
 var RadJav;
 (function (RadJav) {
     var C3D;
     (function (C3D) {
-        var Object3D = /** @class */ (function (_super) {
-            __extends(Object3D, _super);
-            function Object3D(view, name) {
-                var _this = _super.call(this, view, name) || this;
-                if (_this._init != null) {
-                    _this._init.apply(_this, arguments);
+        var Object3D = (function () {
+            function Object3D(canvas3d, obj, parent) {
+                this.name = "";
+                this.type = "";
+                this._visible = true;
+                this._parent = null;
+                this._obj3d = null;
+                if (obj == null) {
+                    obj = new Object();
                 }
-                return _this;
+                if (typeof obj == "string") {
+                    var tempObj = obj;
+                    obj = {};
+                    obj.name = tempObj;
+                }
+                if (parent != null) {
+                    obj._parent = parent;
+                }
+                if (obj.visible != null) {
+                    obj._visible = obj.visible;
+                }
+                if (obj.parent != null) {
+                    obj._parent = obj.parent;
+                }
+                this.name = RadJav.setDefaultValue(obj.name, "");
+                this.type = RadJav.setDefaultValue(obj.type, "");
+                this._visible = RadJav.setDefaultValue(obj._visible, true);
+                this._parent = RadJav.setDefaultValue(obj._parent, null);
+                this._canvas3D = canvas3d;
+                this._c3dObj = RadJav.setDefaultValue(obj._c3dObj, null);
+                this._transform = RadJav.setDefaultValue(obj._transform, new RadJav.C3D.Transform(this));
             }
-            Object3D.prototype.setVisibility = function (visible) {
-                if (this._setVisibility != null) {
-                    this._setVisibility.apply(this, arguments);
+            Object3D.prototype.getCanvas3D = function () {
+                return this._canvas3D;
+            };
+            Object3D.prototype.getObj3D = function () {
+                return this._obj3d;
+            };
+            Object3D.prototype.create = function () {
+                return null;
+            };
+            Object3D.prototype.destroy = function () { };
+            Object3D.prototype.getParent = function () {
+                return this._parent;
+            };
+            Object3D.prototype.getTransform = function () {
+                return this._transform;
+            };
+            Object3D.prototype.setPosition = function (x, y, z) {
+                if (y === void 0) { y = 0; }
+                if (z === void 0) { z = 0; }
+                if (x instanceof RadJav.Vector3) {
+                    var temp = x;
+                    x = temp.x;
+                    y = temp.y;
+                    z = temp.z;
                 }
+                return this._transform.setPosition(x, y, z);
+            };
+            Object3D.prototype.getPosition = function () {
+                return this._transform.getPosition();
+            };
+            Object3D.prototype.setVisibility = function (visible) {
             };
             Object3D.prototype.getVisibility = function () {
-                if (this._getVisibility != null) {
-                    return this._getVisibility();
-                }
+                return;
             };
+            Object3D.prototype.show = function () {
+                this.setVisibility(true);
+            };
+            Object3D.prototype.hide = function () {
+                this.setVisibility(false);
+            };
+            Object3D.prototype.on = function (eventName, func) { };
             return Object3D;
-        }(C3D.Transform));
+        }());
         C3D.Object3D = Object3D;
     })(C3D = RadJav.C3D || (RadJav.C3D = {}));
 })(RadJav || (RadJav = {}));

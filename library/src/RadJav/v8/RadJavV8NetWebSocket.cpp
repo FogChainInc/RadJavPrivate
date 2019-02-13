@@ -174,11 +174,9 @@ namespace RadJAV
 			void WebSocketClient::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				v8::Local<v8::String> val = v8::Local<v8::String>::Cast(args[0]);
-				String host = parseV8Value(val);
-				val = v8::Local<v8::String>::Cast(args[1]);
-				String port = parseV8Value(val);
+				String url = parseV8Value(val);
 
-				CPP::Net::WebSocketClient *webSocket = RJNEW CPP::Net::WebSocketClient();
+				CPP::Net::WebSocketClient *webSocket = RJNEW CPP::Net::WebSocketClient(url);
 				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_webSocket", webSocket);
 			}
 
@@ -191,7 +189,7 @@ namespace RadJAV
 				V8_CALLBACK(object, "receive", WebSocketClient::receive);
 				V8_CALLBACK(object, "close", WebSocketClient::close);
 
-				V8_CALLBACK(object, "on", WebSocketServer::on);
+				V8_CALLBACK(object, "on", WebSocketClient::on);
 			}
 
 			void WebSocketClient::connect(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -200,8 +198,28 @@ namespace RadJAV
 				RadJAV::CPP::Net::URI uri = RadJAV::CPP::Net::URI::parse(url);
 
 				CPP::Net::WebSocketClient *webSocket = (CPP::Net::WebSocketClient *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_webSocket");
+				PromiseThread *thread = RJNEW PromiseThread();
 
-				webSocket->connect(uri.host, uri.port);
+				thread->onStart = [webSocket, uri, thread]()
+					{
+						try
+						{
+							webSocket->connect();
+							thread->resolvePromise();
+
+							while (webSocket->isRunning == true)
+								webSocket->receive();
+						}
+						catch (std::exception ex)
+						{
+							thread->rejectPromise();
+						}
+					};
+
+				v8::Local<v8::Value> promise = thread->createV8Promise(V8_JAVASCRIPT_ENGINE, args.This());
+				V8_JAVASCRIPT_ENGINE->addThread(thread);
+
+				args.GetReturnValue().Set(promise);
 			}
 
 			void WebSocketClient::send(const v8::FunctionCallbackInfo<v8::Value> &args)

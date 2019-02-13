@@ -27,7 +27,7 @@ var RadJav;
                     obj.size.x = 500;
                     obj.size.y = 350;
                 }
-                (_this = _super.call(this, obj, text, parent) || this) || _this;
+                _this = _super.call(this, obj, text, parent) || this;
                 _this.type = "RadJav.MUI.ScrollView";
                 return _this;
             }

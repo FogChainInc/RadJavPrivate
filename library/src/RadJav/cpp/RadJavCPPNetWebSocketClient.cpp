@@ -28,25 +28,39 @@ namespace RadJAV
 	{
 		namespace Net
 		{
-			WebSocketClient::WebSocketClient() {}
-
-			#ifdef USE_V8
-			void WebSocketClient::on(String event_, v8::Local<v8::Function> func_)
+			WebSocketClient::WebSocketClient(String url)
 			{
+				uri = URI::parse(url);
+			}
+
+			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+			void WebSocketClient::on(String event, RJ_FUNC_TYPE func)
+			{
+				createEvent(event, func);
 			}
 			#endif
 
-			void WebSocketClient::connect(String host_, String port_)
+			void WebSocketClient::connect()
 			{
-				//look up the domain name
-				auto const results = resolver.resolve(host_, port_);
+				try
+				{
+					//look up the domain name
+					auto const results = resolver.resolve(uri.host, String::fromInt (uri.port));
 
-				//make the connection on the IP address we get from a lookup
-				boost::asio::connect(m_ws.next_layer(), results.begin(), results.end());
+					//make the connection on the IP address we get from a lookup
+					boost::asio::connect(m_ws.next_layer(), results.begin(), results.end());
 
-				//perform the websocket handshake
-				m_ws.handshake(host_, "/");
+					//perform the websocket handshake
+					m_ws.handshake(uri.host, uri.resource);
 
+					executeEvent("connected");
+				}
+				catch (std::exception ex)
+				{
+					executeEvent("error", (String)ex.what ());
+
+					throw ex;
+				}
 			}
 
 			void WebSocketClient::send(String message_)

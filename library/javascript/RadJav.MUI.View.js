@@ -31,6 +31,9 @@ var RadJav;
                 _this.type = "RadJav.MUI.View";
                 return _this;
             }
+            View.prototype.createMainView = function () {
+                return (this.create());
+            };
             View.xmlTag = { tag: "view", type: "View" };
             return View;
         }(RadJav.GUI.GObject));

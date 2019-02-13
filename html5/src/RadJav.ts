@@ -123,21 +123,21 @@ namespace RadJav
 	*/
 	export let screens: RadJav.OS.ScreenInfo[] = [];
 
-	/** @method quit
+	/** 
 	* Exit the application.
 	* Available on platforms: Windows,Linux,OSX
 	* @param {Number} [exitCode=0] The exit code to end the application with.
 	*/
 	export function quit(exitCode: number = 0) {}
 
-	/** @method exit
+	/** 
 	* Exit the application.
 	* Available on platforms: Windows,Linux,OSX
 	* @param {Number} [exitCode=0] The exit code to end the application with.
 	*/
 	export function exit(exitCode: number) {}
 
-	/** @method include
+	/** 
 	* Load and return a module. If the module has not already been loaded, this will create
 	* an asynchronous connection to the server and include whatever javascript files it needs.
 	* @param {String} path The path to the module to load.
@@ -146,6 +146,9 @@ namespace RadJav
 	export function include(path: string): Promise<any>
 	{
 		var promise: Promise<string> = null;
+
+		if (RadJav.OS.HTML5 == null)
+			return (null);
 
 		if (RadJav.useAjax == true)
 		{
@@ -207,7 +210,7 @@ namespace RadJav
 		return promise;
 	}
 
-	/** @method initialize
+	/** 
 	* Initialize RadJav.
 	* @param {Object[]} [libraries=null] The libraries to include.
 	* @return {Promise} The promise to execute.
@@ -274,7 +277,7 @@ namespace RadJav
 		return promise;
 	}
 
-	/** @method getStandardLibrary
+	/** 
 	* Get the paths to the standard library.
 	* @return {Object[]} The standard library.
 	*/
@@ -297,7 +300,7 @@ namespace RadJav
 		return includes;
 	}
 
-	/** @method getGUILibrary
+	/** 
 	* Get the paths to the gui library.
 	* @return {Object[]} The gui library.
 	*/
@@ -333,7 +336,7 @@ namespace RadJav
 		return includes;
 	}
 
-	/** @method getMUILibrary
+	/** 
 	* Get the paths to the MUI library.
 	* @return {Object[]} The MUI library.
 	*/
@@ -353,7 +356,7 @@ namespace RadJav
 		return includes;
 	}
 
-	/** @method getC3DLibrary
+	/** 
 	* Get the paths to the C3D library.
 	* @return {Object[]} The C3D library.
 	*/
@@ -382,7 +385,7 @@ namespace RadJav
 		return includes;
 	}
 
-	/** @method getNetLibrary
+	/** 
 	* Get the paths to the Net library.
 	* @return {Object[]} The Net library.
 	*/
@@ -394,7 +397,7 @@ namespace RadJav
 		return includes;
 	}
 
-	/** @method getPrimaryScreen
+	/** 
 	* Get the primary screen being used.
 	* @return {RadJav.OS.ScreenInfo} The screen being used.
 	*/
@@ -403,7 +406,7 @@ namespace RadJav
 		return (this.screens[0]);
 	}
 
-	/** @method addScreen
+	/** 
 	* Add a screen.
 	* @param {RadJav.OS.ScreenInfo} The screen to add.
 	*/
@@ -412,15 +415,16 @@ namespace RadJav
 		this.screens.push (screen);
 	}
 
-	/** @method setupScreens
+	/** 
 	* Setup the screens used on this device.
 	*/
 	export function setupScreens(): void
 	{
-		RadJav.screens.push (RadJav.OS.ScreenInfo.getScreenInfo (0));
+		if (RadJav.OS.type == "html5")
+			RadJav.screens.push (RadJav.OS.ScreenInfo.getScreenInfo (0));
 	}
 
-	/** @method connectDevTools
+	/** 
 	* Connect to the developer tools to help build/debug RadJav apps.
 	* @param {string} [server="ws://127.0.0.1:8585/"] The WebSocket server url to connect to.
 	*/
@@ -477,7 +481,7 @@ namespace RadJav
 			};
 	}
 
-	/** @method includeLibraries
+	/** 
 	 * Include libraries.
 	 * @param {Object[]} libraries The libraries to include.
 	 * @return {Promise} The promise to execute when the including has completed.
@@ -489,6 +493,13 @@ namespace RadJav
 
 		var promise = new Promise<void> (RadJav.keepContext (function (resolve, reject)
 					{
+						if (RadJav.OS.HTML5 == null)
+						{
+							resolve ();
+
+							return;
+						}
+
 						var promises = [];
 
 						for (var iIdx = 0; iIdx < RadJav._included.length; iIdx++)
@@ -572,43 +583,72 @@ namespace RadJav
 		return (promise);
 	}
 
-	/** @method _loadLanguages
+	/** 
 	 * Load the selected language.
 	 * @return {Promise} The promise to execute when the language has been loaded.
 	 */
-	export function _loadLanguages(): Promise<any> {
-		var promise = new Promise(function(resolve, reject) {
-			if (RadJav.useAjax == true) {
-				RadJav._getResponse(
-					RadJav.baseUrl + "/languages/" + RadJav.selectedLanguage + ".json"
-				).then(function(data) {
-					RadJav._lang = JSON.parse(data);
+	export function _loadLanguages(): Promise<any>
+	{
+		var promise = new Promise(function(resolve, reject)
+			{
+				if (RadJav.OS.HTML5 != null)
+				{
+					RadJav._getResponse(
+							RadJav.baseUrl + "/languages/" + RadJav.selectedLanguage + ".json"
+						).then(function(data)
+							{
+								RadJav._lang = JSON.parse(data);
+								resolve();
+							});
+				}
+				else
 					resolve();
-				});
-			} else {
-				resolve();
-			}
-		});
+			});
 
 		return promise;
 	}
 
-	/** @method _loadTheme
+	/** 
 	 * Load a theme.
 	 * @param {String} themeURL The URL to the theme to load.
 	 */
-	export function _loadTheme(themeURL: string): Promise<any> {
+	export function _loadTheme(themeURL: string): Promise<any>
+	{
 		var url = themeURL;
 
-		if (url[themeURL.length - 1] == "/") {
+		if (url[themeURL.length - 1] == "/")
 			url = url.substr(0, themeURL.length - 1);
-		}
 
-		var promise = new Promise(function(resolve, reject) {
-			if (RadJav.useAjax == true) {
-				RadJav._getResponse(url + "/theme.json").then(function(data) {
-					var jsonData = JSON.parse (data);
-					var theme = RadJav.Theme.loadTheme(url, jsonData);
+		var promise = new Promise(function(resolve, reject)
+			{
+				if (RadJav.OS.HTML5 == null)
+				{
+					resolve ();
+
+					return;
+				}
+
+				if (RadJav.useAjax == true)
+				{
+					RadJav._getResponse(url + "/theme.json").then(function(data)
+						{
+							var jsonData = JSON.parse (data);
+							var theme = RadJav.Theme.loadTheme(url, jsonData);
+							RadJav.currentTheme = theme;
+							var promises2 = [];
+
+							promises2.push(RadJav.currentTheme.loadInitializationFile());
+							promises2.push(RadJav.currentTheme.loadJavascriptFiles());
+
+							Promise.all(promises2).then(function()
+								{
+									resolve();
+								});
+						});
+				}
+				else
+				{
+					var theme = RadJav.Theme.loadTheme(url, RadJav.currentTheme);
 					RadJav.currentTheme = theme;
 					var promises2 = [];
 
@@ -618,25 +658,13 @@ namespace RadJav
 					Promise.all(promises2).then(function() {
 						resolve();
 					});
-				});
-			} else {
-				var theme = RadJav.Theme.loadTheme(url, RadJav.currentTheme);
-				RadJav.currentTheme = theme;
-				var promises2 = [];
+				}
+			});
 
-				promises2.push(RadJav.currentTheme.loadInitializationFile());
-				promises2.push(RadJav.currentTheme.loadJavascriptFiles());
-
-				Promise.all(promises2).then(function() {
-					resolve();
-				});
-			}
-		});
 		return promise;
 	}
 
-	
-	/** @method runApplication
+	/** 
 	* Run an application from a file or a function.
 	* Available on platforms: Windows,Linux,OSX,HTML5
 	* @param {String/Function} file The path to the file to execute the javascript. Or a
@@ -709,7 +737,13 @@ namespace RadJav
 		return promise;
 	}
 
-	/** @method runApplicationFromFile
+	/// An alias for runApplication
+	export function runApp(file: string | Function, createRootGObj: boolean = false): Promise<any>
+	{
+		return (RadJav.runApplication (file, createRootGObj));
+	}
+
+	/** 
 	* Run an application from a file.
 	* Available on platforms: Windows,Linux,OSX,HTML5
 	* @param {String} file The path to the file to execute the javascript. Or a
@@ -721,7 +755,7 @@ namespace RadJav
 		return RadJav.runApplication(file);
 	}
 
-	/** @method loadObjects
+	/** 
 	* Load RadJav objects.
 	* Available on platforms: Windows,Linux,OSX,HTML5
 	* @param {String/RadJav.GUI.GObject[]/RadJav.C3D.Object3D[]} objs The objects to load.
@@ -774,7 +808,7 @@ namespace RadJav
 		return promise;
 	}
 
-	/** @method loadXML
+	/** 
 	* Load RadJav objects from XML.
 	* Available on platforms: Windows,Linux,OSX,HTML5
 	* @param {String} xml The XML to load.
@@ -917,7 +951,7 @@ namespace RadJav
 		return (false);
 	}
 
-	/** @method _isUsingInternetExplorerTheWorstWebBrowserEver
+	/** 
 	* Checks to see if the current web browser is using Internet Explorer.
 	* @return {Boolean} Returns true if the web browser is Internet Explorer.
 	*/
@@ -932,7 +966,7 @@ namespace RadJav
 		return false;
 	}
 
-	/** @method _getSyncResponse
+	/** 
 	 * Get a synchronous response from HTTP. This will lock whatever thread it is currently on!
 	 * @param {String} addr The address to connect to.
 	 * @return {String} The response from the HTTP server.
@@ -971,7 +1005,7 @@ namespace RadJav
 		return response;
 	}
 
-	/** @method _getResponse
+	/** 
 	 * Get an asynchronous response from HTTP.
 	 * @param {String} addr The address to connect to.
 	 * @return {String} The response from the HTTP server.
@@ -990,7 +1024,7 @@ namespace RadJav
 		return promise;
 	}
 
-	/** @method clone
+	/** 
 	 * Perform a deep copy of an object. This has been copied from jQuery.
 	 * Thank you jQuery!
 	 * Available on platforms: Windows,Linux,OSX,HTML5
@@ -1098,7 +1132,7 @@ namespace RadJav
 		return target;
 	}
 
-	/** @method cloneObject
+	/** 
 	* Perform a deep copy of an object.
 	* Available on platforms: Windows,Linux,OSX,HTML5
 	* @param {Object} obj The object to clone.
@@ -1109,7 +1143,7 @@ namespace RadJav
 		return RadJav.clone({}, obj);
 	}
 
-	/** @method cloneArray
+	/** 
 	 * Perform a deep copy of an array.
 	 * Available on platforms: Windows,Linux,OSX,HTML5
 	 * @param {Array} obj The array to clone.
@@ -1119,7 +1153,7 @@ namespace RadJav
 		return RadJav.clone([], obj);
 	}
 
-	/** @method copyProperties
+	/** 
 	 * Copy the properties of one object to another.
 	 * Available on platforms: Windows,Linux,OSX,HTML5
 	 * @param {Object} obj1 The object to receive the properties.
@@ -1150,8 +1184,7 @@ namespace RadJav
 		return obj1;
 	}
 	
-	/** @method setDefaultValue
-	* @static
+	/** 
 	* Set a default value to a parameter should it the parameter be set to 
 	* undefined.
 	* Available on platforms: Windows,Linux,OSX,HTML5
@@ -1180,8 +1213,7 @@ namespace RadJav
 		return (_eval("(function (module){ " + moduleData + "; return module; })({});"));
 	}
 
-	/** @method keepContext
-	 * @static
+	/** 
 	 * Keep the context the object is currently in.
 	 * Available on platforms: Windows,Linux,OSX,HTML5
 	 * @param {Function} func The document element's id.
@@ -1207,8 +1239,7 @@ namespace RadJav
 		return objReturn;
 	}
 
-	/** @method getLangString
-	 * @static
+	/** 
 	 * Get a language string from the current lanuage. Additional arguments can be
 	 * added to this method to combine the strings together using Utils.combineString.
 	 * @param {String} keyword The keyword to use when getting the language string.
@@ -1222,8 +1253,7 @@ namespace RadJav
 		return RadJav.combineString.apply(RadJav, args);
 	}
 
-	/** @method combineString
-	* @static
+	/** 
 	* Combine multiple strings together using %s in the first argument.
 	*
 	*     @example
@@ -1247,6 +1277,50 @@ namespace RadJav
 			strReturn = strReturn.replace("%s", arguments[iIdx]);
 
 		return (strReturn);
+	}
+
+	/// For easily handling resolves on desktop/mobile.
+	export function _resolveThis (resolve: Function, reject: Function): void
+	{
+		resolve (this);
+	}
+
+	/// For easily handling resolves on desktop/mobile.
+	export function _emptyResolve (resolve: Function, reject: Function): any
+	{
+		return (resolve ());
+	}
+
+	/// For handling created desktop/mobile GUI objects.
+	export function _guiFinishedCreatingGObject (resolve, reject)
+	{
+		var promises = [];
+
+		for (var iIdx = 0; iIdx < this._children.length; iIdx++)
+		{
+			this._children[iIdx] = 
+				RadJav.GUI.initObj (this._children[iIdx], "", "", this);
+
+			this._children[iIdx].create ();
+		}
+
+		Promise.all (promises).then (RadJav.keepContext (function ()
+			{
+				for (var key in this._events)
+				{
+					if (this._events[key] != null)
+					{
+						/// @bug Must separate .'s so classes can be used.
+						var func = window[this._events[key]];
+						RadJav.theme.event (this.type, "on", this, key, func);
+					}
+				}
+
+				if (this.onCreated != null)
+					this.onCreated ();
+
+				resolve (this);
+			}, this));
 	}
 
 	export function getTime (): number
@@ -1371,7 +1445,7 @@ namespace RadJav
 			this.themeObjects = RadJav.setDefaultValue(obj.themeObjects, {});
 		}
 
-		/** @method loadInitializationFile
+		/** 
 		 * Load the initialization file and execute it.
 		 * @return {Promise} Executes when the loading has completed.
 		 */
@@ -1457,7 +1531,7 @@ namespace RadJav
 			return promise;
 		}
 
-		/** @method loadJavascriptFiles
+		/** 
 		 * Load the javascript files for this theme.
 		 * @return {Promise} Executes when the loading has completed.
 		 */
@@ -1539,7 +1613,7 @@ namespace RadJav
 			return promise;
 		}
 
-		/** @method event
+		/** 
 		 * Execute a theme event.
 		 * @param {String} file The file associated with the event.
 		 * @param {String} event The name of the event to trigger.
@@ -1605,7 +1679,7 @@ namespace RadJav
 			return null;
 		}
 
-		/** @method eventSync
+		/** 
 		 * Execute a theme event synchronously.
 		 * @param {String} file The file associated with the event.
 		 * @param {String} event The name of the event to trigger.
@@ -1673,8 +1747,7 @@ namespace RadJav
 			return result;
 		}
 
-		/** @method loadTheme
-		 * @static
+		/** 
 		 * Load the theme.
 		 * @param {String} url The URL to this theme.
 		 * @param {String} data The JSON to parse and get the data from.
@@ -1699,8 +1772,7 @@ namespace RadJav
 
 	export namespace GUI
 	{
-		/** @method initObj
-		* @static
+		/** 
 		* Initialize a GUI object.
 		* @param {String} type The object type to create.
 		* @param {String/Mixed} name The name of the object.
@@ -1765,8 +1837,7 @@ namespace RadJav
 			return obj;
 		}
 
-		/** @method create
-		* @static
+		/** 
 		* Create a GUI object.
 		* @param {String} type The object type to create.
 		* @param {String/Mixed} name The name of the object.
@@ -1781,8 +1852,7 @@ namespace RadJav
 			return obj.create();
 		}
 
-		/** @method createObjects
-		* @static
+		/** 
 		* Create GUI objects.
 		* @param {String/RadJav.GUI.GObject[]} objects The objects to create.
 		* @param {RadJav.GUI.GObject} parent The parent of this object.
@@ -1836,8 +1906,7 @@ namespace RadJav
 	/// The mobile UI API.
 	export namespace MUI
 	{
-		/** @method initObj
-		* @static
+		/** 
 		* Initialize a MUI object.
 		* @param {String} type The object type to create.
 		* @param {String/Mixed} name The name of the object.
@@ -1888,8 +1957,7 @@ namespace RadJav
 			return obj;
 		}
 
-		/** @method create
-		* @static
+		/** 
 		* Create a MUI object.
 		* @param {String} type The object type to create.
 		* @param {String/Mixed} name The name of the object.
@@ -1904,8 +1972,7 @@ namespace RadJav
 			return obj.create();
 		}
 
-		/** @method createObjects
-		* @static
+		/** 
 		* Create MUI objects.
 		* @param {String/RadJav.GUI.GObject[]} objects The objects to create.
 		* @param {RadJav.GUI.GObject} parent The parent of this object.
@@ -1949,8 +2016,7 @@ namespace RadJav
 	*/
 	export namespace C3D
 	{
-		/** @method create
-		* @static
+		/** 
 		* Create a 3D object.
 		* @param {String} type The object type to create.
 		* @param {String|Mixed} name The name of the object.
@@ -1979,8 +2045,7 @@ namespace RadJav
 	*/
 	export namespace Net
 	{
-		/** @method httpRequest
-		* @static
+		/** 
 		* Make an ajax request to a HTTP server.
 		* Available on platforms: Windows,Linux,OSX,HTML5
 		* @param {String/Object} req The URL or request object to send to the server.
@@ -2218,8 +2283,7 @@ namespace RadJav
 			 */
 			export let absolutePositioning: boolean = true;
 
-			/** @method showElement
-			 * @static
+			/** 
 			 * Show a HTML element.
 			 * @param {String/HTMLElement} elm The element to show or hide.
 			 * @param {Boolean} [show=true] If set to true the element will be shown.
@@ -2488,7 +2552,7 @@ namespace RadJav
 				return promise;
 			}
 
-			/** @method interfaceConnector
+			/** 
 			 * For use when using a javascript interface to a webview callback. It will attempt
 			 * to call the native javascript interface using the connectorName.
 			 * @param {String/Object} connectorName On Android, this would be the name of the
@@ -2612,6 +2676,20 @@ function parseBoolean (str: string): boolean
 	}
 
 	return (false);
+}
+
+// @ts-ignore
+// Do not change anything about this next line.
+RadJav.GENERATORS_INJECT_RADJAV_OS_CODE_HERE;
+
+if (typeof (console) == "undefined")
+{
+	// @ts-ignore
+	var console = function ()
+	{
+	}
+
+	console.log = RadJav.Console.println;
 }
 
 RadJav.setupScreens ();

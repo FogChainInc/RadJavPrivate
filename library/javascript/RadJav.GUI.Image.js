@@ -42,6 +42,7 @@ var RadJav;
                 }
             };
             Image.prototype.setImage = function (image) {
+                this._image = image;
                 RadJav.currentTheme.event(this.type, "setImage", this, image);
             };
             Image.xmlTag = { tag: "image", type: "Image" };

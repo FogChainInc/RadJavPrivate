@@ -149,11 +149,14 @@ function (addOsTypePrototype out headerFileContent)
 RadJav.OS.${_osType} = function()\n\
 {\n\
 }\n\
+\n\
+RadJav.OS.HTML5 = null;\n\
 ")
 	
-	string (CONCAT headerFileContent "${headerFileContent}" "${_osTypePrototype}")
+	string (REPLACE "RadJav.GENERATORS_INJECT_RADJAV_OS_CODE_HERE;" "${_osTypePrototype}" headerFileContent "${headerFileContent}")
+	string (CONCAT headerFileContent "${headerFileContent}")
 
-	set (${out} ${headerFileContent} )
+	set (${out} ${headerFileContent})
 	set (${out} ${${out}} PARENT_SCOPE)
 
 endfunction (addOsTypePrototype)

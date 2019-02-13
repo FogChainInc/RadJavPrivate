@@ -10,11 +10,11 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var RadJav;
 (function (RadJav) {
-    var MUI;
-    (function (MUI) {
-        var TableView = (function (_super) {
-            __extends(TableView, _super);
-            function TableView(obj, text, parent) {
+    var GUI;
+    (function (GUI) {
+        var HTMLElement = (function (_super) {
+            __extends(HTMLElement, _super);
+            function HTMLElement(obj, text, parent) {
                 var _this = this;
                 if (obj == null)
                     obj = {};
@@ -24,22 +24,25 @@ var RadJav;
                 }
                 if (obj.size == null) {
                     obj.size = new RadJav.Vector2();
-                    obj.size.x = 80;
-                    obj.size.y = 40;
+                    obj.size.x = 500;
+                    obj.size.y = 350;
                 }
                 _this = _super.call(this, obj, text, parent) || this;
-                _this.type = "RadJav.MUI.TableView";
+                _this.type = "RadJav.GUI.HTMLElement";
+                if (typeof (_this._text) == "string") {
+                    if (_this._text != "") {
+                        var parser = new DOMParser();
+                        var parsedStr = parser.parseFromString(_this._text, "text/xml");
+                        _this._html = parsedStr.firstChild;
+                    }
+                }
+                if (typeof (_this._text) == "object")
+                    _this._html = _this._text;
                 return _this;
             }
-            TableView.xmlTag = { tag: "tableview", type: "TableView" };
-            TableView.InputModeText = 1;
-            TableView.InputModeNumber = 2;
-            TableView.InputModeDecimal = 3;
-            TableView.InputModePhone = 4;
-            TableView.InputModeEmail = 5;
-            TableView.InputModePassword = 6;
-            return TableView;
-        }(RadJav.MUI.View));
-        MUI.TableView = TableView;
-    })(MUI = RadJav.MUI || (RadJav.MUI = {}));
+            HTMLElement.xmlTag = { tag: "htmlelement", type: "HTMLElement" };
+            return HTMLElement;
+        }(RadJav.GUI.GObject));
+        GUI.HTMLElement = HTMLElement;
+    })(GUI = RadJav.GUI || (RadJav.GUI = {}));
 })(RadJav || (RadJav = {}));

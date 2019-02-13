@@ -39,7 +39,7 @@ namespace RadJAV
 
 				void NavigatorFrame::onClick(wxMouseEvent &event)
 				{
-					CPP::GUI::Event *pevent = (CPP::GUI::Event *)event.GetEventUserData();
+					CPP::Event *pevent = (CPP::Event *)event.GetEventUserData();
 					executeEvent(pevent);
 				}
 			#endif

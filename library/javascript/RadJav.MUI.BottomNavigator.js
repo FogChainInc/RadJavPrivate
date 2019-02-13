@@ -15,8 +15,7 @@ var RadJav;
                     this._addTab.apply(this, arguments);
                 }
             };
-
-            BottomNavigator.xmlTag = { tag: "bottomnavigator", type: "BottomNavigator" };
+            BottomNavigator.xmlTag = { tag: "BottomNavigator", type: "BottomNavigator" };
             return BottomNavigator;
         }());
         MUI.BottomNavigator = BottomNavigator;
