@@ -200,7 +200,7 @@ namespace RadJAV
 				CPP::Net::WebSocketClient *webSocket = (CPP::Net::WebSocketClient *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_webSocket");
 				PromiseThread *thread = RJNEW PromiseThread();
 
-				thread->onStart = [&webSocket, &thread, &args]()
+				thread->onStart = [webSocket, thread, &args]()
 					{
 						try
 						{

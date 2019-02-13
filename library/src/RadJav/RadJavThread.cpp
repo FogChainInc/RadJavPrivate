@@ -221,7 +221,8 @@ PromiseThread::PromiseThread()
             JSC_JAVASCRIPT_ENGINE->callFunctionOnNextTick(RJNEW AsyncFunctionCall (resolvep, resolveArgs));
         #endif
 
-		onComplete();
+		if (onComplete != NULL)
+			onComplete();
 	}
 
 	void PromiseThread::rejectPromise()
@@ -233,7 +234,8 @@ PromiseThread::PromiseThread()
             JSC_JAVASCRIPT_ENGINE->callFunctionOnNextTick(RJNEW AsyncFunctionCall (rejectp, rejectArgs));
         #endif
 
-		onComplete();
+		if (onComplete != NULL)
+			onComplete();
 	}
 }
 

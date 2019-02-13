@@ -20,50 +20,52 @@
 
 /// <reference path="RadJav.ts" />
 
-namespace RadJav {
-  /** The font class.
-   * Available on platforms: Windows,Linux,OSX,HTML5
-   */
-  export class Font {
-    constructor(obj?) {
-      if (obj == null) {
-        obj = {};
-      }
+namespace RadJav
+{
+	/** The font class.
+	 * Available on platforms: Windows,Linux,OSX,HTML5
+	 */
+	export class Font
+	{
+		constructor(obj?)
+		{
+			if (obj == null)
+				obj = {};
 
-      if (obj.color != null) {
-        obj.color = new RadJav.Color(obj.color);
-      }
+			if (obj.color != null)
+				obj.color = new RadJav.Color(obj.color);
 
-      this.fontFamily = RadJav.setDefaultValue(obj.fontFamily, "Open Sans");
-      this.size = RadJav.setDefaultValue(obj.size, 10);
-      this.color = RadJav.setDefaultValue(obj.color, RadJav.Color.Black);
-      this.underline = RadJav.setDefaultValue(obj.underline, false);
-      this.bold = RadJav.setDefaultValue(obj.bold, false);
-      this.italic = RadJav.setDefaultValue(obj.italic, false);
-    }
-    /** The font family used.
-     * @default "Open Sans"
-     */
-    fontFamily: String;
-    /** The font size.
-     * @default 10
-     */
-    size: Number;
-    /** The font color.
-     * @default RadJav.Color.Black
-     */
-    color: Color;
-    /** Whether or not this font is underlined.
-     * @default false
-     */
-    underline: boolean;
-    /** Whether or not this font is bold.
-     * @default false
-     */
-    bold: boolean;
-    /** Whether or not this font is italic.
-     * @default false
-     */
-    italic: boolean;
-  }
+			this.fontFamily = RadJav.setDefaultValue(obj.fontFamily, "Open Sans");
+			this.size = RadJav.setDefaultValue(obj.size, 10);
+			this.color = RadJav.setDefaultValue(obj.color, RadJav.Color.Black);
+			this.underline = RadJav.setDefaultValue(obj.underline, false);
+			this.bold = RadJav.setDefaultValue(obj.bold, false);
+			this.italic = RadJav.setDefaultValue(obj.italic, false);
+		}
+
+		/** The font family used.
+		 * @default "Open Sans"
+		 */
+		fontFamily: String;
+		/** The font size.
+		 * @default 10
+		 */
+		size: Number;
+		/** The font color.
+		 * @default RadJav.Color.Black
+		 */
+		color: Color;
+		/** Whether or not this font is underlined.
+		 * @default false
+		 */
+		underline: boolean;
+		/** Whether or not this font is bold.
+		 * @default false
+		 */
+		bold: boolean;
+		/** Whether or not this font is italic.
+		 * @default false
+		 */
+		italic: boolean;
+	}
 }

@@ -86,6 +86,7 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 						client = new RadJav.Net.WebSocketClient ("ws://127.0.0.1:6351/");
 						client.on ("receive", function (data)
 							{
+								debugger;
 								var info = JSON.parse (data);
 
 								if (info.type == "updateNames")

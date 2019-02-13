@@ -1,0 +1,39 @@
+[
+	{
+		"type": "RadJav.GUI.MenuBar", 
+		"name": "menubar", 
+		"visibility": true, 
+		"children": [
+				{
+					"type": "RadJav.GUI.MenuItem", 
+					"name": "ProgramToolStripMenuItem", 
+					"text": "Program", 
+					"children": [
+							{
+								"type": "RadJav.GUI.MenuItem", 
+								"name": "LoginToolStripMenuItem", 
+								"text": "Connect to Server...", 
+								"click": "connectToServer();"
+							}, 
+							{
+								"type": "RadJav.GUI.MenuItem", 
+								"name": "ToolStripMenuItem2", 
+								"text": "-", 
+								"createOnPlatforms": {
+										"HTML5": false
+									}
+							}, 
+							{
+								"type": "RadJav.GUI.MenuItem", 
+								"name": "ExitToolStripMenuItem", 
+								"text": "Exit", 
+								"createOnPlatforms": {
+										"HTML5": false
+									}, 
+								"click": "RadJav.exit();"
+							}
+						]
+				}
+			]
+	}
+]
