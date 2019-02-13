@@ -123,7 +123,7 @@ namespace RadJAV
 				return GObjectWidget::getEnabled();
 			}
 			
-			bool ButtonFrame::bindEvent(const String& eventName, const GUI::Event* event)
+			bool ButtonFrame::bindEvent(const String& eventName, const CPP::Event* event)
 			{
 				JNIEnv* env = Jni::getJniEnv();
 

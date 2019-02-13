@@ -78,7 +78,7 @@ namespace RadJAV
 //				return Vector2(widget.contentSize.width, widget.contentSize.height);
 //			}
 
-			bool ScrollViewFrame::bindEvent(const String& eventName, const GUI::Event* /*event*/)
+			bool ScrollViewFrame::bindEvent(const String& eventName, const CPP::Event* /*event*/)
 			{
 				//return [widgetDelegate bindEvent:widget eventName:eventName];
 				return false;

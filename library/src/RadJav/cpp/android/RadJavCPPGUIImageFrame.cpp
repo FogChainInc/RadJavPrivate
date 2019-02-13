@@ -178,7 +178,7 @@ namespace RadJAV
 				return scaleMode;
 			}
 			
-			bool ImageFrame::bindEvent(const String& eventName, const GUI::Event* event)
+			bool ImageFrame::bindEvent(const String& eventName, const CPP::Event* event)
 			{
 				JNIEnv* env = Jni::getJniEnv();
 				GUI::EventData* eventData = new GUI::EventData(this, eventName, (void*)event);

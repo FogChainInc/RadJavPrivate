@@ -116,7 +116,7 @@ namespace RadJAV
 				}
 			}
 			
-			bool ImageFrame::bindEvent(const String& eventName, const GUI::Event* /*event*/)
+			bool ImageFrame::bindEvent(const String& eventName, const CPP::Event* /*event*/)
 			{
 				//TODO: do we need to handle UIImageView events?
 				//return [widgetDelegate bindEvent:widget eventName:eventName];

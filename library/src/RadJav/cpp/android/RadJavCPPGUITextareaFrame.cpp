@@ -95,7 +95,7 @@ namespace RadJAV
 				return nullptr;
 			}
 			
-			bool TextareaFrame::bindEvent(const String& eventName, const GUI::Event* /*event*/)
+			bool TextareaFrame::bindEvent(const String& eventName, const CPP::Event* /*event*/)
 			{
 				return false;
 			}

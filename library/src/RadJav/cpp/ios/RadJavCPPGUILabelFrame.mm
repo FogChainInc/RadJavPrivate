@@ -78,7 +78,7 @@ namespace RadJAV
 				return widget.isEnabled;
 			}
 			
-			bool LabelFrame::bindEvent(const String& eventName, const GUI::Event* /*event*/)
+			bool LabelFrame::bindEvent(const String& eventName, const CPP::Event* /*event*/)
 			{
 				//TODO: do we need to handle UILabel events?
 				//return [widgetDelegate bindEvent:widget eventName:eventName];

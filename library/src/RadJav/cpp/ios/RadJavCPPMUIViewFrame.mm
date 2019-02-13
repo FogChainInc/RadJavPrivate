@@ -73,7 +73,7 @@ namespace RadJAV
 				return String();
 			}
 			
-			bool ViewFrame::bindEvent(const String& eventName, const GUI::Event* event)
+			bool ViewFrame::bindEvent(const String& eventName, const CPP::Event* event)
 			{
 				return  [widgetDelegate bindEvent:widget eventName:eventName];;
 			}

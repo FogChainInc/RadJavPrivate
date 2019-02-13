@@ -285,7 +285,7 @@ namespace RadJAV
 
 			if (eventData != nullptr)
 			{
-				auto retVal = eventData->_widget->executeEvent(static_cast<CPP::GUI::Event*>(eventData->_event));
+				auto retVal = eventData->_widget->executeEvent(static_cast<CPP::Event*>(eventData->_event));
 
 				//check for boolean return value, if exists - return it to the UiEventListener
 				if (!V8_JAVASCRIPT_ENGINE->v8IsNull(retVal) &&

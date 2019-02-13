@@ -86,7 +86,7 @@ namespace RadJAV
 				return widget.isUserInteractionEnabled;
 			}
 			
-			bool TextareaFrame::bindEvent(const String& eventName, const GUI::Event* /*event*/)
+			bool TextareaFrame::bindEvent(const String& eventName, const CPP::Event* /*event*/)
 			{
 				//return [widgetDelegate bindEvent:widget eventName:eventName];
 				return false;

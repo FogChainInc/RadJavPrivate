@@ -100,7 +100,7 @@ namespace RadJAV
 				return true;
 			}
 
-			bool WebViewFrame::bindEvent(const String& eventName, const GUI::Event* /*event*/)
+			bool WebViewFrame::bindEvent(const String& eventName, const CPP::Event* /*event*/)
 			{
 				return [widgetDelegate bindEvent:widget eventName:eventName];
 			}

@@ -99,7 +99,7 @@ namespace RadJAV
 /**
  * binding events will likely override the fallback bindings, so it left empty
  */
-			bool ScrollViewFrame::bindEvent(const String& eventName, const GUI::Event* event)
+			bool ScrollViewFrame::bindEvent(const String& eventName, const CPP::Event* event)
 			{
 //				GUI::EventData* eventData = new GUI::EventData(this, eventName, (void*)event);
 //
