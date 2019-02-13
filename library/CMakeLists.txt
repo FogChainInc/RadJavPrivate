@@ -619,7 +619,10 @@ include (sources)
 
 # Header file RadJavJavascriptCode.h will be generated using CMake, see below
 set (SOURCES "${CMAKE_CURRENT_BINARY_DIR}/include/RadJavJavascriptCode.h" ${SOURCES})
+set (SOURCES "${CMAKE_CURRENT_BINARY_DIR}/include/RadJavVersion.h" ${SOURCES})
+set (libRadJav_VERSIONPATH "${CMAKE_CURRENT_BINARY_DIR}/include/RadJavVersion.h")
 include_directories ("${CMAKE_CURRENT_BINARY_DIR}/include/")
+set (libRadJav_ADDITIONAL_INCLUDE_PATH "${CMAKE_CURRENT_BINARY_DIR}/include/")
 
 # Create static/shared library for RadJav
 if (libRadJav_STATIC)
@@ -799,4 +802,6 @@ set (libRadJav_LINK_LIBRARIES2 ${libRadJav_LINK_LIBRARIES} PARENT_SCOPE)
 set (libRadJav_LINK_LIBRARY_DIRS2 ${libRadJav_LINK_LIBRARY_DIRS} PARENT_SCOPE)
 set (libRadJav_CXX_FLAGS2 ${libRadJav_CXX_FLAGS} PARENT_SCOPE)
 set (libRadJav_JS_LIBRARY2 ${libRadJav_JS_LIBRARY} PARENT_SCOPE)
+set (libRadJav_VERSIONPATH2 ${libRadJav_VERSIONPATH} PARENT_SCOPE)
+set (libRadJav_ADDITIONAL_INCLUDE_PATH2 ${libRadJav_ADDITIONAL_INCLUDE_PATH} PARENT_SCOPE)
 set (CMAKE_CXX_FLAGS2 ${CMAKE_CXX_FLAGS} PARENT_SCOPE)

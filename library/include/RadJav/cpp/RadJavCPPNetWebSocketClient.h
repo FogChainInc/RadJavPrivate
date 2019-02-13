@@ -67,6 +67,8 @@ namespace RadJAV
 
 					void close();
 
+					RJBOOL isRunning;
+
 				private:
 					// The uri used to connect.
 					URI uri;

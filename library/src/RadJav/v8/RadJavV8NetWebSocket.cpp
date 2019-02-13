@@ -200,7 +200,7 @@ namespace RadJAV
 				CPP::Net::WebSocketClient *webSocket = (CPP::Net::WebSocketClient *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_webSocket");
 				PromiseThread *thread = RJNEW PromiseThread();
 
-				thread->onStart = [webSocket, uri, thread]()
+				thread->onStart = [&]()
 					{
 						try
 						{
@@ -208,7 +208,25 @@ namespace RadJAV
 							thread->resolvePromise();
 
 							while (webSocket->isRunning == true)
-								webSocket->receive();
+							{
+								String message = "";
+								RJCHAR *bin = NULL;
+
+								webSocket->receive([&message](const std::string &str)
+										{
+											message = str;
+										}, 
+										[&message, &bin](const void* bufPtr, int bufLen)
+										{
+											DELETEARRAY(bin);
+											bin = RJNEW RJCHAR[bufLen];
+
+											std::memcpy(bin, bufPtr, bufLen);
+										}
+									);
+
+								webSocket->executeEvent("receive", message);
+							}
 						}
 						catch (std::exception ex)
 						{

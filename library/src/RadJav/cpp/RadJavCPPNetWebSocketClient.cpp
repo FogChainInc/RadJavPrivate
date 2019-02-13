@@ -31,6 +31,7 @@ namespace RadJAV
 			WebSocketClient::WebSocketClient(String url)
 			{
 				uri = URI::parse(url);
+				isRunning = false;
 			}
 
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
@@ -53,10 +54,12 @@ namespace RadJAV
 					//perform the websocket handshake
 					m_ws.handshake(uri.host, uri.resource);
 
+					isRunning = true;
 					executeEvent("connected");
 				}
 				catch (std::exception ex)
 				{
+					isRunning = false;
 					executeEvent("error", (String)ex.what ());
 
 					throw ex;
@@ -97,6 +100,8 @@ namespace RadJAV
 
 			void WebSocketClient::close()
 			{
+				isRunning = false;
+
 				//close the WebSocket connection
 				m_ws.close(boost::beast::websocket::close_code::normal);
 			}

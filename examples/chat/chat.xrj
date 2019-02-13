@@ -62,6 +62,27 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 					{
 						me.name = prompt ("Please enter your name: ");
 
+						// You don't wanna create spam using the while loop below on HTML5.
+						// Hence why there's this if statement, to prevent that.
+						if (RadJav.OS.HTML5 != null)
+						{
+							if (me.name == "")
+							{
+								alert ("You must enter a name!");
+
+								win.close ();
+							}
+						}
+						else
+						{
+							while (me.name == "")
+							{
+								alert ("You must enter a name!");
+
+								me.name = prompt ("Please enter your name: ");
+							}
+						}
+
 						client = new RadJav.Net.WebSocketClient ("ws://127.0.0.1:6351/");
 						client.on ("receive", function (data)
 							{
@@ -113,10 +134,12 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 											});
 									};
 
+								RadJav.Console.println ("YAY1");
 								if (RadJav.OS.HTML5 != null)
 									RadJav.Net.httpRequest ("./chat/gui.json").then (gotData);
 								else
 								{
+									RadJav.Console.println ("YAY2");
 									var textFile = new RadJav.IO.TextFile ();
 									var data = textFile.readFile ("./gui.json");
 									gotData (data);
