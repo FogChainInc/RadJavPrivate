@@ -134,12 +134,14 @@
 
 					virtual ~Events();
 
-					#ifdef USE_V8
-						virtual Event* createEvent(String event, v8::Local<v8::Function> function);
-						virtual void addNewEvent(String event, wxWindow *object, v8::Local<v8::Function> func);
-					#elif defined USE_JAVASCRIPTCORE
-						virtual Event* createEvent(String event, JSObjectRef function);
-						virtual void addNewEvent(String event, wxWindow *object, JSObjectRef func);
+					#ifdef GUI_USE_WXWIDGETS
+						#ifdef USE_V8
+							virtual Event* createEvent(String event, v8::Local<v8::Function> function);
+							virtual void addNewEvent(String event, wxWindow *object, v8::Local<v8::Function> func);
+						#elif defined USE_JAVASCRIPTCORE
+							virtual Event* createEvent(String event, JSObjectRef function);
+							virtual void addNewEvent(String event, wxWindow *object, JSObjectRef func);
+						#endif
 					#endif
 
 					#if defined USE_IOS || defined USE_ANDROID
