@@ -26,10 +26,13 @@
 
 #ifdef GUI_USE_WXWIDGETS
 	#include "cpp/desktop/RadJavCPPGUIMenuBarFrame.h"
+	#include "cpp/desktop/RadJavCPPGUIWindowFrame.h"
 #elif defined USE_ANDROID
 	#include "cpp/android/RadJavCPPGUIMenuBarFrame.h"
+	#include "cpp/android/RadJavCPPGUIWindowFrame.h"
 #elif defined USE_IOS
 	#include "cpp/ios/RadJavCPPGUIMenuBarFrame.h"
+	#include "cpp/ios/RadJavCPPGUIWindowFrame.h"
 #endif
 
 namespace RadJAV
@@ -68,7 +71,7 @@ namespace RadJAV
 
 					_appObj = object;
 				
-					setup();
+					//setup();
 				#endif
 			}
 
@@ -78,7 +81,7 @@ namespace RadJAV
 					#ifdef GUI_USE_WXWIDGETS
 
 						CPP::GUI::MenuBarFrame *object = (CPP::GUI::MenuBarFrame *)_appObj;
-						CPP::GUI::MenuBarFrame *obj = (CPP::GUI::MenuBarFrame *)object->GetParent();
+						CPP::GUI::WindowFrame *obj = (CPP::GUI::WindowFrame *)object->GetParent();
 					
 						obj->addNewEvent(event, object, func);
 
