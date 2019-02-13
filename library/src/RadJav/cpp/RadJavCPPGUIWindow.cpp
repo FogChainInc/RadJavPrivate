@@ -99,7 +99,7 @@ namespace RadJAV
                         if (wxicon.IsOk() == false)
                             throw RadJAV::Exception("Invalid icon");
                 
-                        ((WindowFrame *)((WindowFrame *)_appObj)->GetParent())->SetIcon(wxicon);
+                        ((WindowFrame *)_appObj)->SetIcon(wxicon);
                     #else
                         /// @todo Add Window Icon support for non Windows platforms.
                         #warning "TODO: Add Window Icon support for non Windows platforms"

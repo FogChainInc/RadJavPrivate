@@ -323,6 +323,7 @@ namespace RadJAV
 				}
 			}
 
+			#ifdef GUI_USE_WXWIDGETS
 			void GObjectEvents::addNewEvent(String event, wxWindow *object,
 					#ifdef USE_V8
 						v8::Local<v8::Function> func
@@ -566,6 +567,7 @@ namespace RadJAV
 
 				event.Skip(true);
 			}
+		#endif
 		}
 	}
 }
