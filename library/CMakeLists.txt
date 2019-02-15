@@ -179,6 +179,10 @@ if (libRadJav_GUI_LIBRARY STREQUAL "wxWidgets")
 	set (USE_WXWIDGETS true)
 endif ()
 
+if (libRadJav_HTTP_LIBRARY STREQUAL "curl")
+	set (USE_CURL true)
+endif ()
+
 if (libRadJav_HTTP_LIBRARY STREQUAL "civetweb")
 	set (USE_CIVETWEB true)
 endif ()
@@ -207,7 +211,9 @@ set (libRadJav_CPP_DEFS "LANG_${libRadJav_LANGUAGE_UPPER}" ${libRadJav_CPP_DEFS}
 set (libRadJav_CPP_DEFS_DEBUG RADJAV_DEBUG ${libRadJav_CPP_DEFS_DEBUG})
 set (libRadJav_CXX_FLAGS "")
 
-include (FindModuleCurl)
+if (USE_CURL)
+	include (FindModuleCurl)
+endif ()
 
 if (USE_OGRE)
 	include (FindOgre3D)
