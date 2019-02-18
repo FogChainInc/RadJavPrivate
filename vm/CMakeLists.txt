@@ -208,14 +208,33 @@ if (WIN32)
 	set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS")
 	set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:WINDOWS")
 elseif (APPLE)
+	set (XCODE_DEVTEAM_ID "" CACHE STRING "The developer team id")
+	set (XCODE_CODESIGN_IDENTITY "" CACHE STRING "Sign identity which can be determined by issuing command:\
+							security find-identity -v -p codesigning\
+							Get the hash from Example: Mac Developer")
+	set (XCODE_PROVISIONING_PROFILE_NAME "" CACHE STRING "The provisioning profile name")
+	
+	#Bundle identifier, required for archiving
+	set (BUNDLE_IDENTIFIER "com.highersoftware.${CMAKE_PROJECT_NAME}")
+		
+	#Configuring Xcode
+	set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES
+							XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER ${BUNDLE_IDENTIFIER}
+							XCODE_ATTRIBUTE_INSTALL_PATH ${CMAKE_INSTALL_PREFIX}
+							XCODE_ATTRIBUTE_SKIP_INSTALL "NO"
+							XCODE_ATTRIBUTE_CODE_SIGN_STYLE "Automatic"
+							XCODE_ATTRIBUTE_DEVELOPMENT_TEAM "${XCODE_DEVTEAM_ID}"
+							XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "${XCODE_CODESIGN_IDENTITY}"
+							XCODE_ATTRIBUTE_PROVISIONING_PROFILE_SPECIFIER "${XCODE_PROVISIONING_PROFILE_NAME}")
+
 	if (IOS)
 		set (APP_BUNDLE_LOCATION "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE}/${CMAKE_PROJECT_NAME}.app")
 		set (APP_BUNDLE_ICON_FILE "RadJav.icns")
-	
+		
 		#Creating Launcher
 		#TODO: add conditional for frameworks here
 		target_link_libraries (${CMAKE_PROJECT_NAME} "-framework UIKit -framework JavaScriptCore -framework WebKit")
-	
+		
 		#These needs to be defined outside of set_target_properties otherwise they will not be included
 		set (MACOSX_BUNDLE_DISPLAY_NAME ${CMAKE_PROJECT_NAME})
 		set (MACOSX_BUNDLE_SIGNATURE "rjvm")
@@ -227,7 +246,7 @@ elseif (APPLE)
 									MACOSX_BUNDLE_LONG_VERSION_STRING ${PROJECT_VERSION}
 									MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION}
 									MACOSX_BUNDLE_ICON_FILE ${APP_BUNDLE_ICON_FILE}
-									MACOSX_BUNDLE_GUI_IDENTIFIER "com.highersoftware.${CMAKE_PROJECT_NAME}"
+									MACOSX_BUNDLE_GUI_IDENTIFIER ${BUNDLE_IDENTIFIER}
 									MACOSX_BUNDLE_INFO_PLIST "${CMAKE_SOURCE_DIR}/CMake/Info.plist.ios.in")
 		
 		#Copying icons
@@ -273,7 +292,7 @@ elseif (APPLE)
 										MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION}
 										MACOSX_BUNDLE_ICON_FILE ${APP_BUNDLE_ICON_FILE}
 										MACOSX_BUNDLE_COPYRIGHT "© 2018, Higher Edge Software"
-										MACOSX_BUNDLE_GUI_IDENTIFIER "com.highersoftware.${CMAKE_PROJECT_NAME}"
+										MACOSX_BUNDLE_GUI_IDENTIFIER ${BUNDLE_IDENTIFIER}
 										MACOSX_BUNDLE_INFO_PLIST "${CMAKE_SOURCE_DIR}/CMake/Info.plist.in")
 		
 		#Copying icons
@@ -307,19 +326,6 @@ if (${CMAKE_VERSION} VERSION_GREATER "3.6.0")
 	if (MSVC)
 		set_property (DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${CMAKE_PROJECT_NAME})
 	endif ()
-endif ()
-
-if (APPLE)
-	set (XCODE_DEVTEAM_ID "" CACHE STRING "The developer team id")
-	set (XCODE_CODESIGN_IDENTITY "" CACHE STRING "Sign identity which can be determined by issuing command:\
-							security find-identity -v -p codesigning\
-							Get the hash from Example: Mac Developer")
-	set (XCODE_PROVISIONING_PROFILE_NAME "" CACHE STRING "The provisioning profile name")
-	
-	set_property (TARGET RadJavVM PROPERTY XCODE_ATTRIBUTE_CODE_SIGN_STYLE "Automatic")
-	set_property (TARGET RadJavVM PROPERTY XCODE_ATTRIBUTE_DEVELOPMENT_TEAM "${XCODE_DEVTEAM_ID}")
-	set_property (TARGET RadJavVM PROPERTY XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "${XCODE_CODESIGN_IDENTITY}")
-	set_property (TARGET RadJavVM PROPERTY XCODE_ATTRIBUTE_PROVISIONING_PROFILE_SPECIFIER "${XCODE_PROVISIONING_PROFILE_NAME}")
 endif ()
 
 if (RadJavVM_CREATE_INSTALL_PACKAGES)
