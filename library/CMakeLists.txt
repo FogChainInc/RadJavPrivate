@@ -257,7 +257,7 @@ else ()
 endif ()
 
 if (APPLE)
-	set (CMAKE_CXX_FLAGS "-x objective-c++" ${CMAKE_CXX_FLAGS})
+	set (CMAKE_CXX_FLAGS "-x objective-c++ -fembed-bitcode" ${CMAKE_CXX_FLAGS})
 endif ()
 
 if (IS_MOBILE)
