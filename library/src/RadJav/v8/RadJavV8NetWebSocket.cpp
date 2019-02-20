@@ -53,7 +53,16 @@ namespace RadJAV
 
 			void WebSocketServer::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				CPP::Net::WebSocketServer *webSocket = RJNEW CPP::Net::WebSocketServer();
+				String listenAddress = "0.0.0.0";
+				RJINT port = 9229;
+
+				if (args.Length() > 0)
+					listenAddress = parseV8Value (args[0]);
+				
+				if (args.Length () > 1)
+					port = V8_JAVASCRIPT_ENGINE->v8ParseInt(args[1]);
+
+				CPP::Net::WebSocketServer *webSocket = RJNEW CPP::Net::WebSocketServer(listenAddress, port);
 				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_webSocket", webSocket);
 			}
 
@@ -69,9 +78,10 @@ namespace RadJAV
 					port = v8::Local<v8::Number>::Cast(args[0]);
 					portI = V8_JAVASCRIPT_ENGINE->v8ParseInt (port);
 					V8_JAVASCRIPT_ENGINE->v8SetNumber(args.This(), "port", portI);
+					webSocket->m_port = portI;
 				}
 
-				webSocket->listen(portI);
+				webSocket->listen();
 			}
 
 			void WebSocketServer::sendToAll(const v8::FunctionCallbackInfo<v8::Value> &args)

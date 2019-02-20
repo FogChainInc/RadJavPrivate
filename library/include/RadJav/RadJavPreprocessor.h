@@ -73,7 +73,9 @@
 	#define RJUINT unsigned int
 	#define RJBOOL bool
 	#define RJLONG long
+	#define RJSHORT short
 	#define RJULONG unsigned long
+	#define RJUSHORT unsigned short
 	#define RJCHAR char
 	#define RJSTR RJCHAR *
 	#define RJCSTR const RJCHAR *

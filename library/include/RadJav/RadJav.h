@@ -42,9 +42,9 @@
 	#include "RadJavJavascriptEngine.h"
 	#include "RadJavLang.h"
 
-    #define TEMP_HEADER_INCLUDE
+    /*#define TEMP_HEADER_INCLUDE
     #include "cpp/RadJavCPPOSScreenInfo.h"
-    #undef TEMP_HEADER_INCLUDE
+    #undef TEMP_HEADER_INCLUDE*/
 
     #ifdef USE_ANDROID
     #include "android/UiThreadCallbackFunction.h"
@@ -69,6 +69,14 @@
 	    #ifndef GUI_USE_WXWIDGETS
 		    extern String _radjav_exec_path;
         #endif
+
+		namespace CPP
+		{
+			namespace OS
+			{
+				class ScreenInfo;
+			}
+		}
 
 		/**
 		 * @ingroup group_radjav_cpp

@@ -36,6 +36,8 @@
 	#include "cpp/RadJavCPPEvent.h"
 	#include "RadJavThread.h"
 
+	#include <thread>
+
 	namespace RadJAV
 	{
 		namespace CPP
@@ -62,27 +64,34 @@
 				 */
 				class RADJAV_EXPORT WebSocketServer : public Events, public ChainedPtr
 				{
-				public:
-				  class WebSocketServerSession;
-				private:
+					public:
+					  class WebSocketServerSession;
 
-						/**
-						 * @brief session data, including ID, session and last message to dispatch
-						 */
-						struct session_data
-						{
-							std::string m_session_id;
-							std::shared_ptr <WebSocketServerSession> m_session;
-							std::string m_last_message;
+					private:
 
-						};
+							/**
+							 * @brief session data, including ID, session and last message to dispatch
+							 */
+							struct session_data
+							{
+								std::string m_session_id;
+								std::shared_ptr <WebSocketServerSession> m_session;
+								std::string m_last_message;
+
+							};
 				  
 					public:
-						/**
-						 * @brief Create websocket server instance
-						 */
-						WebSocketServer();
+						/// Create websocket server instance
+						WebSocketServer(String listenAddress = "0.0.0.0", RJUSHORT port = 9229, RJBOOL useOwnThread = false);
 						~WebSocketServer();
+
+						/// If this sever needs to use it's own internal thread instead of RadJav's use it.
+						RJBOOL useOwnThread;
+						/// The internal thread to use.
+						std::thread *myThread;
+
+						/// This server's listen thread, separate from RadJav.
+						void myListenThread();
 
 						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
 							/// Execute when an event is triggered.
@@ -95,7 +104,21 @@
 						 * @param port_ port number to listen, default = 9229 (Chrome Dev Tools)
 						 *
 						 */
-						void listen(unsigned short port_ = 9229);
+						void listen();
+
+						/// Set the maximum number of connections.
+						inline void setMaxConnections(RJINT maxConnections)
+						{
+							this->maxConnections = maxConnections;
+						}
+
+						/// Get the maximum number of connections.
+						inline RJINT getMaxConnections()
+						{
+							return (maxConnections);
+						}
+
+						RJINT maxConnections;
 
 						/**
 						 * @brief send message to specific client
@@ -105,6 +128,12 @@
 						 */
 						void send(String id, String message);
 						void send(String id, const void *message, int msg_len);
+
+						/// Get the connected sessions from the server.
+						inline Array<session_data> getSessions()
+						{
+							return (m_sessions);
+						}
 
 						/**
 						 * @brief send message to all connected clients
@@ -178,6 +207,9 @@
 							 * @brief message buffer for socket connection
 							 */
 							boost::beast::flat_buffer m_readBuffer;
+							
+							/// The parent websocket server.
+							WebSocketServer *webSocketServer;
 
 							public:
 								// Take ownership of the socket
@@ -185,12 +217,14 @@
 								 * @brief Take ownership of the socket
 								 */							
 							        WebSocketServerSession(boost::asio::ip::tcp::socket socket_, std::string sessionID_,
-									       std::vector <RadJAV::CPP::Net::WebSocketServer::session_data> *sessions_);
+										WebSocketServer *webSocketServer);
 
 								/**
 								 * @brief Start asynchronous operation
 								 */
 								void run();
+								/// Close the connection.
+								void close();
 
 								/**
 								 * @brief action on accept of incoming connection
@@ -286,10 +320,6 @@
 								 * @brief pointer to currently dispatching message
 								 */
 								std::shared_ptr<std::string> m_activeMessage = nullptr;
-								/**
-								 * @brief Session holder.
-								 */
-								std::vector <RadJAV::CPP::Net::WebSocketServer::session_data> *m_sessions;
 						};
 
 						/**
@@ -317,10 +347,13 @@
 							 */
 							boost::asio::ip::tcp::socket m_socket;
 
-							std::vector <RadJAV::CPP::Net::WebSocketServer::session_data> *m_sessions;
+							/// The parent websocket server.
+							WebSocketServer *webSocketServer;
 							
 
 							public:
+								RJINT connectionCounter;
+
 								/**
 								 * @brief Create websocket server listener
 								 *
@@ -331,7 +364,7 @@
 								WebSocketServerListener(
 									boost::asio::io_context& ioc_,
 									boost::asio::ip::tcp::endpoint endpoint_,
-									std::vector <RadJAV::CPP::Net::WebSocketServer::session_data> *sessions_);
+									WebSocketServer *webSocketServer);
 
 								/**
 								 * @brief Start accepting incoming connections
@@ -355,42 +388,39 @@
 								void set_on_accept_callback(v8::Persistent<v8::Function>*);	  
 								void set_on_receive_callback(v8::Persistent<v8::Function>*);	  
 
+								#ifdef USE_V8
+									/**
+									 * @brief pointer to AcceptEvent persistent function of V8 engine
+									 */
+									v8::Persistent<v8::Function> *m_serverAcceptEvent;
 
-						#ifdef USE_V8
-						/**
-						 * @brief pointer to AcceptEvent persistent function of V8 engine
-						 */
-	                                         v8::Persistent<v8::Function> *m_serverAcceptEvent;
+									/**
+									 * @brief pointer to ReceiveEvent persistent function of V8 engine.
+									 */
+									v8::Persistent<v8::Function> *m_serverReceiveEvent;
 
-						/**
-						 * @brief pointer to ReceiveEvent persistent function of V8 engine.
-						 */
-						v8::Persistent<v8::Function> *m_serverReceiveEvent;
+								#elif defined USE_JAVASCRIPTCORE
 
-						#elif defined USE_JAVASCRIPTCORE
+									/**
+									 * @brief reference to AcceptEvent persistent function of JS Core engine
+									 */
+									JSObjectRef *m_serverAcceptEvent;
 
-						/**
-						 * @brief reference to AcceptEvent persistent function of JS Core engine
-						 */
-						JSObjectRef *m_serverAcceptEvent;
-
-						/**
-						 * @brief reference to ReceiveEvent persistent function of JS Core engine
-						 */
-						JSObjectRef *m_serverReceiveEvent;
-						#endif
+									/**
+									 * @brief reference to ReceiveEvent persistent function of JS Core engine
+									 */
+									JSObjectRef *m_serverReceiveEvent;
+								#endif
 						
 						         private:
 						                /**
 								 * @brief obtains localized callback object.
 								 */
 								v8::Local<v8::Function> get_on_accept_callback();
-						                /**
+						       /**
 								 * @brief obtains persistent onReceive callback object.
 								 */
 								v8::Persistent<v8::Function> *get_on_receive_persistent_evt();
-								
-
 								
 						};
 
@@ -405,12 +435,19 @@
 						v8::Persistent<v8::Function> *m_serverReceiveEvent;
 						#endif
 
-					private:
+						/// The address to listen on. Default: 0.0.0.0
+						String listenAddress;
 						/**
 						 * @brief Port to listen (9229)
 						 */
-						unsigned short m_port;
+						RJUSHORT m_port;
 
+						/**
+						 * List of sessions
+						 */
+						Array<session_data> m_sessions;
+
+					protected:
 						/**
 						 * @brief Input/Output context
 						 */
@@ -425,11 +462,6 @@
 						 * @brief Litener object.
 						 */						
 						std::shared_ptr<WebSocketServerListener> m_listener;
-
-						/**
-						 * List of sessions
-						 */
-						std::vector <session_data> m_sessions;
 						  
 				};
 			}

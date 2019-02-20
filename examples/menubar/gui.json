@@ -6,26 +6,29 @@
 		"children": [
 				{
 					"type": "RadJav.GUI.MenuItem", 
-					"name": "ProgramToolStripMenuItem", 
+					"name": "program", 
 					"text": "Program", 
 					"children": [
 							{
 								"type": "RadJav.GUI.MenuItem", 
-								"name": "LoginToolStripMenuItem", 
-								"text": "Connect to Server...", 
-								"click": "connectToServer();"
+								"name": "example1", 
+								"text": "Example 1", 
+								"click": "alert ('Example 1 clicked!');"
 							}, 
 							{
 								"type": "RadJav.GUI.MenuItem", 
-								"name": "ToolStripMenuItem2", 
-								"text": "-", 
-								"createOnPlatforms": {
-										"HTML5": false
-									}
+								"name": "example2", 
+								"text": "-"
 							}, 
 							{
 								"type": "RadJav.GUI.MenuItem", 
-								"name": "ExitToolStripMenuItem", 
+								"name": "example3", 
+								"text": "Example 3", 
+								"click": "alert ('Example 3 clicked!');"
+							}, 
+							{
+								"type": "RadJav.GUI.MenuItem", 
+								"name": "exit", 
 								"text": "Exit", 
 								"createOnPlatforms": {
 										"HTML5": false

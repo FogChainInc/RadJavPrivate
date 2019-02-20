@@ -134,12 +134,22 @@
 
 					virtual ~Events();
 
+					/// Handle events.
+					virtual void cppOn(const String &event, std::function<void *(Array<void *>)> function);
+
+					/// Create a C++ event.
+					virtual void createCppEvent(const String &event, std::function<void *(Array<void *>)> function);
+
 					#ifdef GUI_USE_WXWIDGETS
 						#ifdef USE_V8
+							/// Create a V8 JS event.
 							virtual Event* createEvent(String event, v8::Local<v8::Function> function);
+							/// Create a V8 JS wxWidgets event.
 							virtual void addNewEvent(String event, wxWindow *object, v8::Local<v8::Function> func);
 						#elif defined USE_JAVASCRIPTCORE
+							/// Create a JavaScriptCore JS event.
 							virtual Event* createEvent(String event, JSObjectRef function);
+							/// Create a JavaScriptCore JS wxWidgets event.
 							virtual void addNewEvent(String event, wxWindow *object, JSObjectRef func);
 						#endif
 					#endif
@@ -153,22 +163,36 @@
 							virtual void addNewEvent(String event, JSObjectRef func);
 						#endif
 
-						//Add iOS and Android specific events handling
-
+						/// @todo Add iOS and Android specific events handling
 						virtual bool bindEvent(const String& eventName, const Event* event) = 0;
 					#endif
 
 					#ifdef USE_V8
+						/// Call a V8 JS event.
 						static v8::Local<v8::Value> executeEvent(Event *pevent, RJINT numArgs = 0, v8::Local<v8::Value> *args = NULL);
+						/// Call a V8 JS event.
 						v8::Local<v8::Value> executeEvent(const String& event, RJINT numArgs = 0, v8::Local<v8::Value> *args = NULL);
 					#elif defined USE_JAVASCRIPTCORE
+						/// Call a JavaScriptCore JS event.
 						static JSValueRef executeEvent(Event *pevent, RJINT numArgs = 0, JSValueRef *args = NULL);
+						/// Call a JavaScriptCore JS event.
 						JSValueRef executeEvent(const String& event, RJINT numArgs = 0, JSValueRef *args = NULL);
 					#endif
 
-					void executeEvent(const String &pevent, String message);
+					/// Call an event. Executes events for both JavaScript and C++.
+					void executeEvent(const String &event, String message);
 
+					/// Call a C++ event.
+					void *executeCppEvent(const String &event);
+					/// Call a C++ event.
+					void *executeCppEvent(const String &event, const String &data);
+					/// Call a C++ event.
+					void *executeCppEvent(const String &event, Array<void *> args);
+
+					/// The JavaScript events.
 					HashMap<std::string, Event* > *events;
+					/// The C++ events.
+					HashMap<std::string, std::function<void *(Array<void *>)> > *cppEvents;
 			};
 		}
 	}

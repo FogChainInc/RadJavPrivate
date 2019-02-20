@@ -59,6 +59,9 @@
                 /// Destroy any OS objects.
                 void destroy();
 
+				/// Sleep for x number of milliseconds.
+				void sleep(RJINT milliseconds);
+
                 /// Get the path to the user's documents folder.
                 void onReady(std::function<void()> asyncCallback);
                 /// Get the path to the user's documents folder.

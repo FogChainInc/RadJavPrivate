@@ -37,27 +37,6 @@ namespace RadJAV
 	{
 		namespace Net
 		{
-			WebServerThread::WebServerThread(boost::asio::io_context* ioc)
-			: ioc(ioc)
-			{
-			}
-
-			#ifdef GUI_USE_WXWIDGETS
-				WebServerThread::ExitCode WebServerThread::Entry() {
-					ioc->run();
-
-					V8_JAVASCRIPT_ENGINE->removeThread(this);
-					return (0);
-				};
-			#else
-				RJINT WebServerThread::Entry() {
-					ioc->run();
-
-					V8_JAVASCRIPT_ENGINE->removeThread(this);
-					return (0);
-				};
-			#endif
-
 			// Report a failure
 			void fail(boost::system::error_code ec, char const* what)
 			{
@@ -69,28 +48,27 @@ namespace RadJAV
 
 			// Append an HTTP rel-path to a local filesystem path.
 			// The returned path is normalized for the platform.
-			std::string
-				path_cat(
+			std::string path_cat(
 					boost::beast::string_view base,
 					boost::beast::string_view path)
 			{
 				if (base.empty())
 					return path.to_string();
 				std::string result = base.to_string();
-#if BOOST_MSVC
-				char constexpr path_separator = '\\';
-				if (result.back() == path_separator)
-					result.resize(result.size() - 1);
-				result.append(path.data(), path.size());
-				for (auto& c : result)
-					if (c == '/')
-						c = path_separator;
-#else
-				char constexpr path_separator = '/';
-				if (result.back() == path_separator)
-					result.resize(result.size() - 1);
-				result.append(path.data(), path.size());
-#endif
+				#if BOOST_MSVC
+					char constexpr path_separator = '\\';
+					if (result.back() == path_separator)
+						result.resize(result.size() - 1);
+					result.append(path.data(), path.size());
+					for (auto& c : result)
+						if (c == '/')
+							c = path_separator;
+				#else
+					char constexpr path_separator = '/';
+					if (result.back() == path_separator)
+						result.resize(result.size() - 1);
+					result.append(path.data(), path.size());
+				#endif
 				return result;
 			}
 
@@ -148,7 +126,7 @@ namespace RadJAV
 					[&req](boost::beast::string_view why)
 				{
 					http::response<http::string_body> res{ http::status::bad_request, req.version() };
-					res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+					res.set(http::field::server, HTTP_USER_AGENT);
 					res.set(http::field::content_type, "text/html");
 					res.keep_alive(req.keep_alive());
 					res.body() = why.to_string();
@@ -161,7 +139,7 @@ namespace RadJAV
 					[&req](boost::beast::string_view target)
 				{
 					http::response<http::string_body> res{ http::status::not_found, req.version() };
-					res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+					res.set(http::field::server, HTTP_USER_AGENT);
 					res.set(http::field::content_type, "text/html");
 					res.keep_alive(req.keep_alive());
 					res.body() = "The resource '" + target.to_string() + "' was not found.";
@@ -174,7 +152,7 @@ namespace RadJAV
 					[&req](boost::beast::string_view what)
 				{
 					http::response<http::string_body> res{ http::status::internal_server_error, req.version() };
-					res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+					res.set(http::field::server, HTTP_USER_AGENT);
 					res.set(http::field::content_type, "text/html");
 					res.keep_alive(req.keep_alive());
 					res.body() = "An error occurred: '" + what.to_string() + "'";
@@ -253,7 +231,7 @@ namespace RadJAV
 						if (req.method() == http::verb::head)
 						{
 							http::response<http::empty_body> res{ http::status::ok, req.version() };
-							res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+							res.set(http::field::server, HTTP_USER_AGENT);
 							res.set(http::field::content_type, mime_type(path));
 							res.content_length(size);
 							res.keep_alive(req.keep_alive());
@@ -265,7 +243,7 @@ namespace RadJAV
 							std::piecewise_construct,
 							std::make_tuple(std::move(body)),
 							std::make_tuple(http::status::ok, req.version()) };
-						res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+						res.set(http::field::server, HTTP_USER_AGENT);
 						res.set(http::field::content_type, mime_type(path));
 						res.content_length(size);
 						res.keep_alive(req.keep_alive());
@@ -277,16 +255,16 @@ namespace RadJAV
 			}
 
 			//define inner worker classes
-			class session : public std::enable_shared_from_this<session>
+			class HTTPSession : public std::enable_shared_from_this<HTTPSession>
 			{
 				// This is the C++11 equivalent of a generic lambda.
 				// The function object is used to send an HTTP message.
 				struct send_lambda
 				{
-					session& self_;
+					HTTPSession &self_;
 
 					explicit
-						send_lambda(session& self)
+						send_lambda(HTTPSession& self)
 						: self_(self)
 					{
 					}
@@ -311,7 +289,7 @@ namespace RadJAV
 							boost::asio::bind_executor(
 								self_.strand_,
 								std::bind(
-									&session::on_write,
+									&HTTPSession::on_write,
 									self_.shared_from_this(),
 									std::placeholders::_1,
 									std::placeholders::_2,
@@ -329,7 +307,7 @@ namespace RadJAV
 
 			public:
 				// Take ownership of the socket
-				explicit session(tcp::socket socket, v8::Persistent<v8::Function> * servePersistent)
+				explicit HTTPSession(tcp::socket socket, v8::Persistent<v8::Function> * servePersistent)
 					: socket_(std::move(socket))
 					, strand_(socket_.get_executor())
 					, lambda_(*this)
@@ -354,7 +332,7 @@ namespace RadJAV
 						boost::asio::bind_executor(
 							strand_,
 							std::bind(
-								&session::on_read,
+								&HTTPSession::on_read,
 								shared_from_this(),
 								std::placeholders::_1,
 								std::placeholders::_2)));
@@ -552,7 +530,7 @@ namespace RadJAV
 				else
 				{
 					// Create the session and run it
-					std::make_shared<session>(std::move(socket), servePersistent)->run();
+					std::make_shared<HTTPSession>(std::move(socket), servePersistent)->run();
 				}
 
 				// Accept another connection

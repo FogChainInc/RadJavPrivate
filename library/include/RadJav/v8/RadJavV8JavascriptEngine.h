@@ -26,7 +26,12 @@
 	#include "RadJavJSExternals.h"
 
 	#include <v8.h>
-	#include <v8-inspector.h>
+
+	#ifdef USE_INSPECTOR
+		#include <v8-inspector.h>
+	
+		#include "cpp/RadJavCPPAgent.h"
+	#endif
 
 	#include <libplatform/libplatform.h>
 
@@ -67,6 +72,13 @@
 	namespace RadJAV
 	{
 		class V8JavascriptEngine;
+
+		#ifdef USE_INSPECTOR
+			namespace V8inspector
+			{
+				class Agent;
+			}
+		#endif
 
 		/// Create an asynchronous function call.
 		class RADJAV_EXPORT AsyncFunctionCall
@@ -118,7 +130,7 @@
 				~V8JavascriptEngine();
 
 				/// Start the inspector.
-				void startInspector(v8::Local<v8::Context> context);
+				V8inspector::Agent *startInspector(String filePath);
 
 				/// Run an application.
 				int runApplication(String applicationSource, String fileName);

@@ -130,7 +130,7 @@ namespace RadJAV
 					    v8::Local<v8::Array> cf = v8::Local<v8::Array>::Cast(certFilter);
 					    std::cout << "Array length " << cf -> Length() << std::endl;
 
-					    for (int i=0; i < cf -> Length(); i++)
+					    for (RJUINT i=0; i < cf -> Length(); i++)
 					      {
 						v8::Local<v8::Value> val = cf -> Get(i);
 
@@ -141,7 +141,7 @@ namespace RadJAV
 						    v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(val);
 						    v8::Local<v8::Array> certAttributes = obj -> GetOwnPropertyNames();
 
-						    for (int cIdx = 0; cIdx < certAttributes -> Length(); cIdx++)
+						    for (RJUINT cIdx = 0; cIdx < certAttributes -> Length(); cIdx++)
 						      {
 							// Some more error checking is needed here.
 							v8::Local<v8::String> cAttrName = certAttributes -> Get(cIdx) -> ToString(isolate);

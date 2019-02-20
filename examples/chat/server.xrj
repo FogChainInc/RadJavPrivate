@@ -31,8 +31,10 @@ RadJav.startServer = function ()
 
 RadJav.stopServer = function ()
 	{
-		webSocketServer.stop ();
+		webSocketServer.close ();
 		webSocketServer = null;
+		clients = {};
+		chatHistory = "";
 	};
 
 RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary ()).then (function ()

@@ -43,6 +43,8 @@
 	#include <node.h>
 #endif
 
+#include "cpp/RadJavCPPOSScreenInfo.h"
+
 #ifdef USE_V8
 	#include "v8/RadJavV8Global.h"
 	#include "v8/RadJavV8OS.h"
@@ -144,8 +146,11 @@
 
 #ifdef USE_ANDROID
 	#include <android/RadJavAndroid.h>
-#include <v8/RadJavV8MUIScrollView.h>
+	#include <v8/RadJavV8MUIScrollView.h>
+#endif
 
+#ifdef USE_INSPECTOR
+	#include "v8/RadJavV8Inspector.h"
 #endif
 
 namespace RadJAV
@@ -303,7 +308,7 @@ namespace RadJAV
 					{
 						useInspector = true;
 
-						//consume non-v8 flag
+						// Consume non-v8 flag. Nom, nom.
 						continue;
 					}
 						
@@ -345,18 +350,32 @@ namespace RadJAV
 			DELETEOBJ(platform);
 		}
 
-		void V8JavascriptEngine::startInspector(v8::Local<v8::Context> context)
+		V8inspector::Agent *V8JavascriptEngine::startInspector(String filePath)
 		{
-			//TODO: move inspector init code here
+			#ifdef USE_INSPECTOR
+				V8inspector::Agent *agent_ = nullptr;
+
+			if (useInspector)
+			{
+				V8Inspector *inspector = RJNEW V8Inspector(isolate, globalContext);
+				inspector->start("127.0.0.1", 9229);
+
+				inspector->waitForConnection();
+
+				/*agent_ = RJNEW V8inspector::Agent("0.0.0.0", "inspector.log");
+				agent_->Start(isolate, platform, filePath);
+				agent_->PauseOnNextJavascriptStatement("Break on start");*/
+			}
+
+			return (agent_);
+			#else
+			return (NULL);
+			#endif
 		}
 
 		int V8JavascriptEngine::runApplication(String applicationSource, String fileName)
 		{
 			String parentDir = fileName;
-			
-			#ifdef USE_INSPECTOR
-				inspector::Agent* agent_ = nullptr;
-			#endif
 			
 			#ifdef GUI_USE_WXWIDGETS
 				wxFileName file(parentDir.towxString());
@@ -377,6 +396,10 @@ namespace RadJAV
 			isolate = jsvm->getIsolate();
 			globalContext = jsvm->getGlobalContext();
 
+			#ifdef USE_INSPECTOR
+				V8inspector::Agent *agent_ = startInspector(fileName);
+			#endif
+
 			loadJavascriptLibrary();
 
 			// Insert the javascript libraries to be used.
@@ -393,15 +416,6 @@ namespace RadJAV
 			radJav->Reset(isolate, obj);
 
 			loadNativeCode();
-
-			#ifdef USE_INSPECTOR
-				if (useInspector) {
-					//TODO: move to startInspector
-					agent_ = RJNEW inspector::Agent("0.0.0.0", "inspector.log");
-					agent_->Start(isolate, platform, fileName);
-					agent_->PauseOnNextJavascriptStatement("Break on start");
-				}
-			#endif
 			
 			try
 			{

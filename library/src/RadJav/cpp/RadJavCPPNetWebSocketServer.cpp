@@ -21,7 +21,6 @@
 
 #include "RadJav.h"
 #include "RadJavString.h"
-#include "cpp/RadJavCPPNetWebServer.h"
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
@@ -30,24 +29,38 @@
 #include "v8/RadJavV8JavascriptEngine.h"
 #endif
 
-
 namespace RadJAV
 {
 	namespace CPP
 	{
 		namespace Net
 		{
-			WebSocketServer::WebSocketServer()
+			WebSocketServer::WebSocketServer(String listenAddress, RJUSHORT port, RJBOOL useOwnThread)
 			{
 				thread = NULL;
-				m_port = 0;
 				m_isAlive = false;
+				this->listenAddress = listenAddress;
+				this->useOwnThread = useOwnThread;
+				this->m_port = port;
+				myThread = NULL;
+				maxConnections = 1000000;
+
+				m_serverAcceptEvent = NULL;
+				m_serverReceiveEvent = NULL;
 			}
 
 			WebSocketServer::~WebSocketServer()
 			{
+				close();
+
 				DELETEOBJ(thread);
 				DELETEOBJ(m_io_context);
+
+				if (myThread != NULL)
+				{
+					myThread->join();
+					DELETEOBJ(myThread);
+				}
 			}
 
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
@@ -57,19 +70,28 @@ namespace RadJAV
 				}
 			#endif
 
-			void WebSocketServer::listen(unsigned short port_)
+			void WebSocketServer::myListenThread()
 			{
-				auto const address = boost::asio::ip::make_address("0.0.0.0");
-				m_port = port_;
+				this->m_isAlive = true;
+				this->m_io_context->run();
+			}
+
+			void WebSocketServer::listen()
+			{
+				auto const address = boost::asio::ip::make_address(listenAddress);
 																				
 				// The io_context is required for all I/O
 				auto const threads = std::max<int>(1, std::atoi("1"));
 				m_io_context = RJNEW boost::asio::io_context{ threads };
 				//std::make_shared<WebSocketServerListener>(*m_io_context, boost::asio::ip::tcp::endpoint{ address, m_port })->run();
-				m_listener = std::make_shared<WebSocketServerListener>(*m_io_context, boost::asio::ip::tcp::endpoint(address, m_port), &m_sessions);
+				m_listener = std::make_shared<WebSocketServerListener>(*m_io_context, 
+						boost::asio::ip::tcp::endpoint(address, m_port), this);
 
-				m_listener -> set_on_accept_callback(m_serverAcceptEvent);
-				m_listener -> set_on_receive_callback(m_serverReceiveEvent);
+				if (m_serverAcceptEvent != NULL)
+					m_listener -> set_on_accept_callback(m_serverAcceptEvent);
+
+				if (m_serverReceiveEvent != NULL)
+					m_listener -> set_on_receive_callback(m_serverReceiveEvent);
 				
 				m_listener -> run();
 
@@ -81,15 +103,22 @@ namespace RadJAV
 				m_isAlive = true;
 #endif*/
 
-				DELETEOBJ(thread);
-				thread = RJNEW SimpleThread();
-				thread->onStart = [this]()
+				if (useOwnThread == true)
 				{
-					this->m_isAlive = true;
-					this->m_io_context->run();
-				};
+					myThread = RJNEW std::thread(&WebSocketServer::myListenThread, this);
+				}
+				else
+				{
+					DELETEOBJ(thread);
+					thread = RJNEW SimpleThread();
+					thread->onStart = [this]()
+					{
+						this->m_isAlive = true;
+						this->m_io_context->run();
+					};
 
-				RadJav::addThread(thread);
+					RadJav::addThread(thread);
+				}
 			}
 
 			void WebSocketServer::send(String id_, String message_)
@@ -135,7 +164,19 @@ namespace RadJAV
 
 			void WebSocketServer::close()
 			{
+				m_isAlive = false;
 				m_io_context->stop();
+
+				if (useOwnThread == true)
+				{
+					if (myThread != NULL)
+					{
+						myThread->join();
+						DELETEOBJ(myThread);
+					}
+				}
+				else
+					RadJav::javascriptEngine->removeThread(thread);
 			}
 
 			void WebSocketServer::set_on_accept_callback(v8::Persistent<v8::Function>* callback)
@@ -147,18 +188,17 @@ namespace RadJAV
 			{
 			  m_serverReceiveEvent = callback;
 			}
-		  
-
-		  
-		        WebSocketServer::WebSocketServerSession::WebSocketServerSession(boost::asio::ip::tcp::socket socket_, std::string sessionID_,
-											std::vector <RadJAV::CPP::Net::WebSocketServer::session_data> *sessions_)
-			  : m_ws(std::move(socket_)), m_strand(m_ws.get_executor()), m_sessionID(sessionID_), m_sessions(sessions_)
+			
+			WebSocketServer::WebSocketServerSession::WebSocketServerSession(boost::asio::ip::tcp::socket socket_, std::string sessionID_,
+											WebSocketServer *webSocketServer)
+			  : m_ws(std::move(socket_)), m_strand(m_ws.get_executor()), m_sessionID(sessionID_)
 			{
+				this->webSocketServer = webSocketServer;
+				m_serverReceiveEvent = NULL;
 			}
 
 			void WebSocketServer::WebSocketServerSession::run ()
 			{
-
 				// Accept the websocket handshake
 				m_ws.async_accept(
 					boost::asio::bind_executor(
@@ -167,20 +207,25 @@ namespace RadJAV
 							&WebSocketServerSession::on_accept,
 							shared_from_this(),
 							std::placeholders::_1)));
-
 			}
 
-		        void WebSocketServer::WebSocketServerSession::set_on_receive_callback(v8::Persistent<v8::Function>* callback)
+			void WebSocketServer::WebSocketServerSession::close()
 			{
-			  m_serverReceiveEvent = callback;
+				m_ws.next_layer().shutdown(boost::asio::ip::tcp::socket::shutdown_both);
+				m_ws.next_layer().close();
+			}
+
+		    void WebSocketServer::WebSocketServerSession::set_on_receive_callback(v8::Persistent<v8::Function>* callback)
+			{
+				m_serverReceiveEvent = callback;
 			}
 		  
 			void WebSocketServer::WebSocketServerSession::on_accept(boost::system::error_code ec_)
 			{
 				if (ec_)
 				{
-					RadJav::throwException("on_accept error");
-
+					RadJav::throwException("on_accept error: " + ec_.message ());
+					
 					return;
 				}
 
@@ -250,10 +295,17 @@ namespace RadJAV
 				if (ec == boost::beast::websocket::error::closed)
 				{
 					//Remove the session from the list
-					for (auto it = m_sessions -> begin(); it != m_sessions -> end(); ++it)
+					for (auto it = webSocketServer->m_sessions.begin(); it != webSocketServer->m_sessions.end(); ++it)
 						if (it->m_session_id == m_sessionID)
 						{
-							m_sessions -> erase(it);
+							webSocketServer->m_sessions.erase(it);
+
+							String *id = RJNEW String(m_sessionID.c_str());
+
+							webSocketServer->executeCppEvent("close", Array<void *>({ id }));
+
+							DELETEOBJ(id);
+
 							break;
 						}
 
@@ -268,6 +320,11 @@ namespace RadJAV
 					return;
 				}
 
+				String *id = RJNEW String (m_sessionID.c_str());
+				String *message = RJNEW String (boost::beast::buffers_to_string(m_readBuffer.data()).c_str());
+
+				webSocketServer->executeCppEvent("receive", Array<void *> ({ id, message }));
+
 				#ifdef USE_V8
 				
 				if (m_serverReceiveEvent != nullptr)				
@@ -277,16 +334,13 @@ namespace RadJAV
 				  
 				v8::Local<v8::Function> evt = get_on_receive_callback();
 
-					String id = m_sessionID.c_str();
-
 					v8::Local<v8::Value> *args = RJNEW v8::Local<v8::Value>[2];
 
-					args[0] = id.toV8String(V8_JAVASCRIPT_ENGINE->isolate);
+					args[0] = id->toV8String(V8_JAVASCRIPT_ENGINE->isolate);
 
 					if (m_ws.got_text())
 					  {
-					    String message = boost::beast::buffers_to_string(m_readBuffer.data()).c_str();
-					    args[1] = message.toV8String(V8_JAVASCRIPT_ENGINE->isolate);
+					    args[1] = message->toV8String(V8_JAVASCRIPT_ENGINE->isolate);
 					  }
 					else
 					  {
@@ -303,6 +357,10 @@ namespace RadJAV
 				V8_JAVASCRIPT_ENGINE->isolate -> Exit();					  					
 				}
 				#endif
+
+				DELETEOBJ(id);
+				DELETEOBJ(message);
+
 				m_readBuffer.consume(m_readBuffer.size());
 				do_read();				  
 			}
@@ -325,10 +383,14 @@ namespace RadJAV
 			WebSocketServer::WebSocketServerListener::WebSocketServerListener(
 				boost::asio::io_context& ioc_,
 				boost::asio::ip::tcp::endpoint endpoint_,
-				std::vector <RadJAV::CPP::Net::WebSocketServer::session_data> *sessions_
+				WebSocketServer *webSocketServer
 								  )
-			  : m_acceptor(ioc_), m_socket(ioc_), m_sessions(sessions_)
+			  : m_acceptor(ioc_), m_socket(ioc_)
 			{
+				m_serverAcceptEvent = NULL;
+				m_serverReceiveEvent = NULL;
+				connectionCounter = 0;
+
 				boost::system::error_code ec;
 
 				// Open the acceptor
@@ -363,20 +425,22 @@ namespace RadJAV
 					boost::asio::socket_base::max_listen_connections, ec);
 				if (ec)
 				{
-					RadJav::throwException("Listen error");
+					RadJav::throwException("Listen error: " + ec.message ());
 
 					return;
 				}
-			}
-		  
-		        void WebSocketServer::WebSocketServerListener::set_on_accept_callback(v8::Persistent<v8::Function>* callback)
-			{
-			  m_serverAcceptEvent = callback;
+
+				this->webSocketServer = webSocketServer;
 			}
 
-		        void WebSocketServer::WebSocketServerListener::set_on_receive_callback(v8::Persistent<v8::Function>* callback)
+			void WebSocketServer::WebSocketServerListener::set_on_accept_callback(v8::Persistent<v8::Function>* callback)
 			{
-			  m_serverReceiveEvent = callback;
+				m_serverAcceptEvent = callback;
+			}
+			
+			void WebSocketServer::WebSocketServerListener::set_on_receive_callback(v8::Persistent<v8::Function>* callback)
+			{
+				m_serverReceiveEvent = callback;
 			}
 		  
 			// Start accepting incoming connections
@@ -390,7 +454,9 @@ namespace RadJAV
 
 			void WebSocketServer::WebSocketServerListener::do_accept()
 			{
-			  
+				if (connectionCounter >= webSocketServer->maxConnections)
+					return;
+
 				m_acceptor.async_accept(
 					m_socket,
 					std::bind(
@@ -399,23 +465,21 @@ namespace RadJAV
 						std::placeholders::_1));
 			}
 
-		    v8::Local<v8::Function> WebSocketServer::WebSocketServerListener::get_on_accept_callback()
+			v8::Local<v8::Function> WebSocketServer::WebSocketServerListener::get_on_accept_callback()
 			{
-
-			  return v8::Local<v8::Function>::Cast(RadJAV::CPP::Net::WebSocketServer::WebSocketServerListener::m_serverAcceptEvent->Get(V8_JAVASCRIPT_ENGINE->isolate));
+				return v8::Local<v8::Function>::Cast(RadJAV::CPP::Net::WebSocketServer::WebSocketServerListener::m_serverAcceptEvent->Get(V8_JAVASCRIPT_ENGINE->isolate));
 			}
-		    v8::Persistent<v8::Function> *WebSocketServer::WebSocketServerListener::get_on_receive_persistent_evt()
+
+			v8::Persistent<v8::Function> *WebSocketServer::WebSocketServerListener::get_on_receive_persistent_evt()
 			{
-
-			  return m_serverReceiveEvent;
+				return m_serverReceiveEvent;
 			}
-		  
 
 			void WebSocketServer::WebSocketServerListener::on_accept(boost::system::error_code ec)
 			{
 				if (ec)
 				{
-					RadJav::throwException("Accept error");
+					RadJav::throwException("Accept error: " + ec.message ());
 				}
 				else
 				{
@@ -423,41 +487,60 @@ namespace RadJAV
 					session_data this_session;
 
 					std::string sessionId = boost::uuids::to_string(boost::uuids::random_generator()());
-					auto session = std::make_shared<WebSocketServerSession>(std::move(m_socket), sessionId, m_sessions);
-					session -> set_on_receive_callback(get_on_receive_persistent_evt());
-					
+					auto session = std::make_shared<WebSocketServerSession>(std::move(m_socket), sessionId, webSocketServer);
 
+					if (m_serverReceiveEvent != NULL)
+						session -> set_on_receive_callback(get_on_receive_persistent_evt());
+					
 					this_session.m_session = session;
 					this_session.m_session_id = sessionId;
-					m_sessions -> push_back(this_session);
+					webSocketServer->m_sessions.push_back(this_session);
 					session->run();
 
+					String *id = RJNEW String (sessionId.c_str());
+					RJBOOL acceptConnection = true;
+					RJBOOL *accepted = (RJBOOL *)webSocketServer->executeCppEvent("accept", Array<void *>({ id }));
+
+					if (accepted != NULL)
+					{
+						if (*accepted == false)
+							acceptConnection = false;
+					}
 
 					#ifdef USE_V8
 					if (m_serverAcceptEvent != nullptr)					
 					{
-					  v8::Locker myLocker(V8_JAVASCRIPT_ENGINE->isolate);
-					  V8_JAVASCRIPT_ENGINE->isolate -> Enter();					  
+						v8::Locker myLocker(V8_JAVASCRIPT_ENGINE->isolate);
+						V8_JAVASCRIPT_ENGINE->isolate -> Enter();					  
 
-					  v8::Local<v8::Function> evt = get_on_accept_callback();
+						v8::Local<v8::Function> evt = get_on_accept_callback();
 						
-
-						String id = sessionId.c_str();
 						v8::Local<v8::Value> *args = RJNEW v8::Local<v8::Value>[1];
-						args[0] = id.toV8String(V8_JAVASCRIPT_ENGINE->isolate);
+						args[0] = id->toV8String(V8_JAVASCRIPT_ENGINE->isolate);
 						
 						if (V8_JAVASCRIPT_ENGINE->v8IsNull(evt) == false)
-						  evt->Call(V8_JAVASCRIPT_ENGINE->globalContext->Global(), 1, args);
+						{
+							v8::Local<v8::Value> result = evt->Call(V8_JAVASCRIPT_ENGINE->globalContext->Global(), 1, args);
+
+							if (result->IsNullOrUndefined () == false)
+								acceptConnection = V8_JAVASCRIPT_ENGINE->v8ParseBool(result);
+						}
 						
 						DELETE_ARRAY(args);
-					  V8_JAVASCRIPT_ENGINE->isolate -> Exit();					  
-					  
-						
+						V8_JAVASCRIPT_ENGINE->isolate -> Exit();
 					}
 					#endif
 
+					DELETEOBJ(id);
+
+					if (acceptConnection == false)
+					{
+						webSocketServer->m_sessions.pop_back();
+						session->close();
+					}
 				}	
 
+				connectionCounter++;
 				// Accept another connection
 				do_accept();
 			}

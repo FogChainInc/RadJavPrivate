@@ -75,6 +75,15 @@ namespace RadJAV
 			DELETEOBJ(onReadyFunction);
 		}
 
+		void OS::sleep(RJINT milliseconds)
+		{
+			#ifdef WIN32
+				Sleep(milliseconds);
+			#else
+				usleep(milliseconds * 1000);
+			#endif
+		}
+
 		void OS::onReady(std::function<void()> asyncCallback)
 		{
 			onReadyFunction = RJNEW std::function<void()>(asyncCallback);

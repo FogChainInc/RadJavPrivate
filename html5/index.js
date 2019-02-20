@@ -6,6 +6,7 @@ var rcopy = require ("recursive-copy");
 var execSync = require ("child_process").execSync;
 var ws = require ("ws");
 var app = express ();
+var crypto = require ("crypto");
 
 var tsLibs = ["lib.es5.d.ts", "lib.es2015.promise.d.ts", "lib.dom.d.ts", "lib.scripthost.d.ts"];
 var tsTypes = [];
@@ -57,6 +58,16 @@ function getTypeScriptFiles (dirPath)
 		});
 
 	return (tsfiles);
+}
+
+/// Get the SHA256 checksum of a file.
+function sha256FileHash (filePath)
+{
+	let hash = crypto.createHash ("sha256");
+	hash.update (fs.readFileSync (filePath));
+	let result = hash.digest ("hex");
+
+	return (result);
 }
 
 function keepContext (func, context, val)
@@ -297,6 +308,12 @@ var commands = [
 			help: "", 
 			evt: function (args)
 				{
+					if (args[0] == null)
+						args[0] = path.normalize (__dirname + "/src/");
+
+					if (args[1] == null)
+						args[1] = path.normalize (__dirname + "/build/");
+
 					let buildPath = path.normalize (args[0]);
 					let tsfiles = getTypeScriptFiles (buildPath);
 					let outputPath = path.normalize (args[1]);
@@ -415,11 +432,44 @@ var commands = [
 
 					console.log ("Building JavaScript from TypeScript...");
 
-					compile (tsfiles, {
-							noImplicitUseStrict: true, removeComments: true, importHelpers: true, 
-							target: typescript.ScriptTarget.ES3, module: typescript.ModuleKind.None, 
-							sourceMap: generateSourceMap, lib: tsLibs, outDir: "./build"
-						});
+					let temptsFiles = [];
+					let fileDiffs = {};
+					debugger;
+					if (fs.existsSync ("./fileDiffs.json"))
+					{
+						let fileDiffsStr = fs.readFileSync ("./fileDiffs.json").toString ();
+
+						fileDiffs = JSON.parse (fileDiffsStr);
+
+						for (let key in fileDiffs)
+						{
+							let checkHash = fileDiffs[key];
+							let hash = sha256FileHash (key);
+
+							if (checkHash != hash)
+								temptsFiles.push (key);
+						}
+					}
+					else
+						temptsFiles = tsfiles;
+
+					if (temptsFiles.length > 0)
+					{
+						compile (temptsFiles, {
+								noImplicitUseStrict: true, removeComments: true, importHelpers: true, 
+								target: typescript.ScriptTarget.ES3, module: typescript.ModuleKind.None, 
+								sourceMap: generateSourceMap, lib: tsLibs, outDir: "./build"
+							});
+
+						for (let iIdx = 0; iIdx < temptsFiles.length; iIdx++)
+						{
+							let tempFile = temptsFiles[iIdx];
+
+							fileDiffs[tempFile] = sha256FileHash (tempFile);
+						}
+
+						fs.writeFileSync ("./fileDiffs.json", JSON.stringify (fileDiffs));
+					}
 
 					console.log ("Done.");
 
@@ -489,13 +539,16 @@ var commands = [
 						{
 							if (compilerType == 1)
 							{
+								if (fs.existsSync ("./build/RadJav.min.js"))
+									fs.unlinkSync ("./build/RadJav.min.js");
+
 								output = execSync ("java -jar " + compiler + " --compilation_level WHITESPACE_ONLY " + 
 								" --js_output_file=./build/RadJav.min.js " + list + __dirname + "/src/RadJavMinify.js").toString ();
 							}
 						}
 						catch (ex)
 						{
-							console.log (ex.message);
+							console.log (ex.stack);
 						}
 
 						if (output != "")

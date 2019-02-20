@@ -27,19 +27,31 @@ namespace RadJav
 		/// A WebSocket Server.
 		export class WebSocketServer
 		{
+			/// The address to listen on.
+			listenAddress: string;
 			/// The port to listen on.
 			port: number;
 			/// The websocket to use.
 			_webSocket: any;	// This will only be used on desktop machines and will be instantiated in _init().
 			
-			constructor (port: number)
+			constructor (listenAddress: string | number = "0.0.0.0", port: number = 9229)
 			{
-				this.port = port;
+				if (typeof (listenAddress) == "number")
+				{
+					this.listenAddress = "0.0.0.0";
+					this.port = listenAddress;
+				}
+				else
+				{
+					this.listenAddress = listenAddress;
+					this.port = port;
+				}
+
 				this._webSocket = null;
 				
 				// Only call _init() if this is running on desktop.
 				if (typeof this["_init"] == "function")
-					this["_init"] ();
+					this["_init"] (this.listenAddress, this.port);
 			}
 
 			/// Send a message to someone.

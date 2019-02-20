@@ -75,7 +75,7 @@ namespace RadJAV
 				
 					linkWith(object);
 
-					wxPanel *panel = RJNEW wxPanel(object, wxID_ANY);
+					//wxPanel *panel = RJNEW wxPanel(object, wxID_ANY);
 				
 					RadJav::app->SetTopWindow(object);
 					object->setVisibility(_visible);

@@ -20,6 +20,7 @@
 #include "cpp/RadJavCPPGUIGObject.h"
 #include "cpp/RadJavCPPFont.h"
 #include "cpp/RadJavCPPColor.h"
+#include "cpp/RadJavCPPEvent.h"
 
 #include "RadJav.h"
 #include "RadJavString.h"
@@ -321,6 +322,11 @@ namespace RadJAV
 						#warning No cursor support in MUI
 					#endif
 				}
+			}
+
+			GObjectEvents::GObjectEvents ()
+				: Events()
+			{
 			}
 
 			#ifdef GUI_USE_WXWIDGETS

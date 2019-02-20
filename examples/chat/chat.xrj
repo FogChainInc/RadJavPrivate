@@ -51,6 +51,40 @@ function updateChatHistory (newChatHistory)
 	chatarea.setText (newChatHistory);
 }
 
+function connectToServer ()
+{
+	var url = prompt ("Enter server url: ", "ws://127.0.0.1:6351/");
+
+	client = new RadJav.Net.WebSocketClient (url);
+	client.on ("receive", function (data)
+		{
+			var info = JSON.parse (data);
+
+			if (info.type == "updateNames")
+			{
+				chatHistory = info.chatHistory;
+				updateClients (info.clients);
+			}
+
+			if (info.type == "chatHistory")
+				updateChatHistory (info.message);
+		});
+	client.on ("error", function ()
+		{
+			alert ("Unable to connect to server.");
+
+			RadJav.exit ();
+		});
+	var promise = client.connect ();
+
+	promise = promise.then (function ()
+		{
+			client.send (JSON.stringify ({ type: "changeName", name: me.name }));
+		});
+
+	return (promise);
+}
+
 RadJav.initialize (RadJav.getStandardLibrary (), 
 		RadJav.getGUILibrary (), RadJav.getNetLibrary ()).then (
 	function ()
@@ -60,7 +94,7 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 				var win = new RadJav.GUI.Window ("win", "Chat");
 				win.create ().then (function (win2)
 					{
-						me.name = prompt ("Please enter your name: ");
+						me.name = prompt ("Please enter your name: ", "Person" + Math.randomRange (1, 9));
 
 						// You don't wanna create spam using the while loop below on HTML5.
 						// Hence why there's this if statement, to prevent that.
@@ -83,31 +117,8 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 							}
 						}
 
-						client = new RadJav.Net.WebSocketClient ("ws://127.0.0.1:6351/");
-						client.on ("receive", function (data)
+						connectToServer ().then (function ()
 							{
-								debugger;
-								var info = JSON.parse (data);
-
-								if (info.type == "updateNames")
-								{
-									chatHistory = info.chatHistory;
-									updateClients (info.clients);
-								}
-
-								if (info.type == "chatHistory")
-									updateChatHistory (info.message);
-							});
-						client.on ("error", function ()
-							{
-								alert ("Unable to connect to server.");
-
-								RadJav.exit ();
-							});
-						client.connect ().then (function ()
-							{
-								client.send (JSON.stringify ({ type: "changeName", name: me.name }));
-
 								var gotData = function (data)
 									{
 										var json = JSON.parse (data);
@@ -135,12 +146,10 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 											});
 									};
 
-								RadJav.Console.println ("YAY1");
 								if (RadJav.OS.HTML5 != null)
 									RadJav.Net.httpRequest ("./chat/gui.json").then (gotData);
 								else
 								{
-									RadJav.Console.println ("YAY2");
 									var textFile = new RadJav.IO.TextFile ();
 									var data = textFile.readFile ("./gui.json");
 									gotData (data);

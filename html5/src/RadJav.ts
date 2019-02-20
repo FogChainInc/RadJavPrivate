@@ -1298,28 +1298,62 @@ namespace RadJav
 
 		for (var iIdx = 0; iIdx < this._children.length; iIdx++)
 		{
-			this._children[iIdx] = 
-				RadJav.GUI.initObj (this._children[iIdx], "", "", this);
+			let justCreateTheObject: boolean = true;
 
-			this._children[iIdx].create ();
+			if (this.type == "RadJav.MUI.Navigator")
+			{
+				if (this["pushView"] != "")
+				{
+					justCreateTheObject = false;
+
+					this._children[iIdx] = RadJav.GUI.initObj(
+							this._children[iIdx],
+							"",
+							"",
+							this
+						);
+
+					promises.push(this._children[iIdx].create().then (
+						RadJav.keepContext(function (result)
+						{
+							this["push"] (result);
+
+							return (result);
+						}, this)));
+				}
+			}
+
+			if (justCreateTheObject == true)
+			{
+				this._children[iIdx] = RadJav.GUI.initObj(
+					this._children[iIdx],
+					"",
+					"",
+					this
+				);
+
+				promises.push(this._children[iIdx].create());
+			}
 		}
 
-		Promise.all (promises).then (RadJav.keepContext (function ()
+		Promise.all(promises).then(
+			RadJav.keepContext(function()
 			{
 				for (var key in this._events)
 				{
 					if (this._events[key] != null)
 					{
-						/// @bug Must separate .'s so classes can be used.
-						var func = window[this._events[key]];
-						RadJav.theme.event (this.type, "on", this, key, func);
+						var func = new Function(this._events[key]);
+
+						if (RadJav["currentTheme"] != null)
+							RadJav.currentTheme.event(this.type, "on", this, key, func);
 					}
 				}
 
 				if (this.onCreated != null)
-					this.onCreated ();
+					this.onCreated();
 
-				resolve (this);
+				resolve(this);
 			}, this));
 	}
 
@@ -2629,15 +2663,18 @@ namespace RadJav
 					}
 				}
 
-				if (found == false) {
-					if (webViewType == "iOSWebView") {
+				if (found == false)
+				{
+					if (webViewType == "iOSWebView")
+					{
 						var userAgent = window.navigator.userAgent.toLowerCase();
 
 						if (
 							userAgent.match(/iphone/i) ||
 							userAgent.match(/ipad/i) ||
 							userAgent.match(/ipod/i)
-						) {
+						)
+						{
 							var standalone = (<any>window.navigator).standalone;
 							var isSafari = userAgent.match(/safari/i);
 

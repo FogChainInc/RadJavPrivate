@@ -53,26 +53,6 @@
 			{
 				/**
 				 * @ingroup group_net_cpp
-				 * @brief WebServerThread class.
-				 */
-				class RADJAV_EXPORT WebServerThread : public Thread
-				{
-					public:
-						WebServerThread(boost::asio::io_context* ioc);
-					#ifdef GUI_USE_WXWIDGETS
-						wxThread::ExitCode Entry();
-					#else
-						RJINT Entry();
-						void Run() {
-							ioc->run();
-						};
-					#endif
-					private:
-						boost::asio::io_context* ioc;
-				};
-
-				/**
-				 * @ingroup group_net_cpp
 				 * @brief WebServer class.
 				 * @details Accepts incoming connections and launches the sessions.
 				 */

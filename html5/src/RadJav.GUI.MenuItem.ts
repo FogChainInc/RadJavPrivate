@@ -19,42 +19,44 @@
 */
 
 /// <reference path="RadJav.ts" />
+/// <reference path="RadJav.GUI.GObject.ts" />
 /// <reference path="RadJav.Vector2.ts" />
 
 namespace RadJav
 {
-  export namespace GUI
-  {
-    /** @class RadJav.GUI.MenuItem
-     * @extends RadJav.GUI.GObject
-     * A menu item.
-     * Available on platforms: Windows,Linux,OSX,HTML5
-     */
-  export class MenuItem extends RadJav.GUI.GObject
-  {
-    static xmlTag: TagType = { tag: "menuitem", type: "MenuItem" };
+	export namespace GUI
+	{
+		/** @class RadJav.GUI.MenuItem
+		 * @extends RadJav.GUI.GObject
+		 * A menu item.
+		 * Available on platforms: Windows,Linux,OSX,HTML5
+		 */
+		export class MenuItem extends RadJav.GUI.GObject
+		{
+			static xmlTag: TagType = { tag: "menuitem", type: "MenuItem" };
 
-      constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject)
-      {
-        if (obj == null) {
-          obj = {};
-        }
+			constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject)
+			{
+				if (obj == null)
+					obj = {};
 
-        if (typeof obj == "string") {
-          var name = obj;
-          obj = { name: name };
-        }
+				if (typeof obj == "string")
+				{
+					var name = obj;
+					obj = { name: name };
+				}
 
-        if (obj.size == null) {
-          obj.size = new RadJav.Vector2();
-          obj.size.x = 120;
-          obj.size.y = 40;
-        }
+				if (obj.size == null)
+				{
+					obj.size = new RadJav.Vector2();
+					obj.size.x = 120;
+					obj.size.y = 40;
+				}
 
-        super(obj, text, parent);
+				super(obj, text, parent);
 
-        this.type = "RadJav.GUI.MenuItem";
-      }
-    }
-  }
+				this.type = "RadJav.GUI.MenuItem";
+			}
+		}
+	}
 }

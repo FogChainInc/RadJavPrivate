@@ -45,7 +45,8 @@ if (USE_V8)
 	# V8 JavaScript Engine
 	set (SOURCES_files_RadJav__v8__Headers 
 		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8JavascriptEngine.h"
-		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8ExternalsDetails.h")
+		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8ExternalsDetails.h"
+		"${libRadJav_SOURCE_DIR}/include/RadJav/v8/RadJavV8Inspector.h")
 	source_group ("RadJav\\V8" FILES ${SOURCES_files_RadJav__v8__Headers})
 	
 	set (SOURCES ${SOURCES_files_RadJav__v8__Headers} ${SOURCES})

@@ -28,8 +28,8 @@
 #include "cpp/RadJavCPPRectangle.h"
 #include "cpp/RadJavCPPFont.h"
 #include "cpp/RadJavCPPVector2.h"
-#include "cpp/RadJavCPPEvent.h"
 #include "cpp/RadJavCPPChainedPtr.h"
+#include "cpp/RadJavCPPEvent.h"
 
 #include "RadJavXML.h"
 
@@ -291,11 +291,7 @@ namespace RadJAV
 			class RADJAV_EXPORT GObjectEvents: public Events
 			{
 				public:
-					GObjectEvents()
-						: Events ()
-					{
-					}
-
+					GObjectEvents();
 					GObjectEvents(const GObjectEvents& other) = delete;
 					GObjectEvents& operator =(const GObjectEvents& other) = delete;
 				

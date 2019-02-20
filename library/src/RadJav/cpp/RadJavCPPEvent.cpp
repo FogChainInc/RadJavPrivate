@@ -29,11 +29,23 @@ namespace RadJAV
 		Events::Events()
 		{
 			events = RJNEW HashMap<std::string, Event* >();
+			cppEvents = RJNEW HashMap<std::string, std::function<void *(Array<void *>)> >();
 		}
 
 		Events::~Events()
 		{
 			DELETEOBJ(events);
+			DELETEOBJ(cppEvents);
+		}
+
+		void Events::cppOn(const String &event, std::function<void *(Array<void *>)> function)
+		{
+			createCppEvent(event, function);
+		}
+
+		void Events::createCppEvent(const String &event, std::function<void *(Array<void *>)> function)
+		{
+			cppEvents->insert(HashMapPair<std::string, std::function<void *(Array<void *>)> > (event, function));
 		}
 
 		#ifdef GUI_USE_WXWIDGETS
@@ -278,12 +290,12 @@ namespace RadJAV
 			return v8::Undefined(V8_JAVASCRIPT_ENGINE->isolate);
 		}
 
-		void Events::executeEvent(const String &pevent, String message)
+		void Events::executeEvent(const String &event, String message)
 		{
 			v8::Local<v8::Value> *args = RJNEW v8::Local<v8::Value>[1];
 			args[0] = message.toV8String (V8_JAVASCRIPT_ENGINE->isolate);
 
-			executeEvent(pevent, 1, args);
+			executeEvent(event, 1, args);
 
 			DELETEARRAY(args);
 		}
@@ -308,16 +320,50 @@ namespace RadJAV
 			return JSValueMakeUndefined(JSC_JAVASCRIPT_ENGINE->globalContext);
 		}
 
-		void Events::executeEvent(const String &pevent, String message)
+		void Events::executeEvent(const String &event, String message)
 		{
 			/// @todo Translate this over to JSC.
 			/*v8::Local<v8::Value> *args = RJNEW v8::Local<v8::Value>[1];
 			args[0] = message.toV8String(V8_JAVASCRIPT_ENGINE->isolate);
 
-			executeEvent(pevent, 1, args);
+			executeEvent(event, 1, args);
 
 			DELETEARRAY(args);*/
 		}
 		#endif
+
+		void *Events::executeCppEvent(const String &event)
+		{
+			return (executeCppEvent(event, Array<void *>()));
+		}
+
+		void *Events::executeCppEvent(const String &event, const String &data)
+		{
+			Array<void *> args;
+			String *tempStr = RJNEW String (data);
+			args.push_back(tempStr);
+			void *result = executeCppEvent(event, args);
+
+			DELETEOBJ(tempStr);
+
+			return (result);
+		}
+
+		void *Events::executeCppEvent(const String &event, Array<void *> args)
+		{
+			if (cppEvents != NULL)
+			{
+				auto evt = cppEvents->find(event);
+
+				if (evt != cppEvents->end())
+				{
+					void *result = evt->second(args);
+
+					return (result);
+				}
+			}
+			
+			return (NULL);
+		}
 	}
 }

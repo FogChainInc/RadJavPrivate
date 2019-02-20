@@ -16,9 +16,8 @@ var RadJav;
             __extends(MenuItem, _super);
             function MenuItem(obj, text, parent) {
                 var _this = this;
-                if (obj == null) {
+                if (obj == null)
                     obj = {};
-                }
                 if (typeof obj == "string") {
                     var name = obj;
                     obj = { name: name };

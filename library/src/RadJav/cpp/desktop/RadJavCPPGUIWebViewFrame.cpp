@@ -18,6 +18,7 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 #include "cpp/desktop/RadJavCPPGUIWebViewFrame.h"
+#include "cpp/RadJavCPPEvent.h"
 
 #include "RadJav.h"
 #include "RadJavString.h"

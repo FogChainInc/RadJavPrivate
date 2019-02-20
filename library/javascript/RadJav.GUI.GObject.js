@@ -4,11 +4,10 @@ var RadJav;
     (function (GUI) {
         var GObject = (function () {
             function GObject(obj, text, parent, beforeCreatedChild) {
-                if (obj == null) {
+                if (obj == null)
                     obj = new Object();
-                }
-                if (typeof (RadJav.XML) != "undefined") {
-                    if (obj instanceof RadJav.XML.XMLTag)
+                if (typeof (RadJav["XML"]) != "undefined") {
+                    if (obj instanceof RadJav["XML"]["XMLTag"])
                         obj = GObject.parseGObjectXML(obj);
                 }
                 if (typeof obj == "string") {
@@ -16,36 +15,26 @@ var RadJav;
                     obj = {};
                     obj.name = tempObj;
                 }
-                if (beforeCreatedChild == undefined) {
+                if (beforeCreatedChild == undefined)
                     beforeCreatedChild = null;
-                }
-                if (text != null) {
+                if (text != null)
                     obj._text = text;
-                }
-                if (parent != null) {
+                if (parent != null)
                     obj._parent = parent;
-                }
-                if (obj.text != null) {
+                if (obj.text != null)
                     obj._text = obj.text;
-                }
-                if (obj.cursor != null) {
+                if (obj.cursor != null)
                     obj._cursor = obj.cursor;
-                }
-                if (obj.visible != null) {
+                if (obj.visible != null)
                     obj._visible = obj.visible;
-                }
-                if (obj.visibility != null) {
+                if (obj.visibility != null)
                     obj._visible = obj.visibility;
-                }
-                if (obj.zIndex != null) {
+                if (obj.zIndex != null)
                     obj._zIndex = obj.zIndex;
-                }
-                if (obj.font != null) {
+                if (obj.font != null)
                     obj._font = new RadJav.Font(obj.font);
-                }
-                if (obj.parent != null) {
+                if (obj.parent != null)
                     obj._parent = obj.parent;
-                }
                 if (obj._parent != null) {
                     if (obj._parent.type == "RadJav.MUI.Navigator") {
                         if ((RadJav.OS.type == "android") ||
@@ -83,16 +72,11 @@ var RadJav;
                 if (obj.children != null) {
                     for (var iIdx = 0; iIdx < obj.children.length; iIdx++) {
                         var obj2 = obj.children[iIdx];
-                        var createObject = true;
-                        if (this.onBeforeChildCreated != null) {
-                            var result = this.onBeforeChildCreated(obj2, parent);
-                        }
-                        if (result != null) {
-                            createObject = result;
-                        }
+                        var createObject = obj2;
+                        if (this.onBeforeChildCreated != null)
+                            createObject = this.onBeforeChildCreated(obj2, parent);
+                        this.addChild(createObject);
                     }
-                    if (createObject == true)
-                        this.addChild(obj2);
                 }
                 if (obj.position != null) {
                     var position = new RadJav.Vector2();
@@ -146,9 +130,8 @@ var RadJav;
                         }
                     }
                     var promise2 = RadJav.currentTheme.event(this.type, "create", this);
-                    if (promise2 == null) {
+                    if (promise2 == null)
                         debugger;
-                    }
                     promise2.then(RadJav.keepContext(function (htmlObj) {
                         this._html = htmlObj;
                         var promises = [];
@@ -176,14 +159,13 @@ var RadJav;
                                     RadJav.currentTheme.event(this.type, "on", this, key, func);
                                 }
                             }
-                            if (this.onCreated != null) {
+                            if (this.onCreated != null)
                                 this.onCreated();
-                            }
                             resolve(this);
                         }, this));
                     }, this));
                 }, this));
-                return promise;
+                return (promise);
             };
             GObject.parseGObjectXML = function (xmlTag) {
                 var obj = new GObject();

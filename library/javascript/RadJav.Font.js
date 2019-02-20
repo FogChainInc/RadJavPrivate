@@ -2,12 +2,10 @@ var RadJav;
 (function (RadJav) {
     var Font = (function () {
         function Font(obj) {
-            if (obj == null) {
+            if (obj == null)
                 obj = {};
-            }
-            if (obj.color != null) {
+            if (obj.color != null)
                 obj.color = new RadJav.Color(obj.color);
-            }
             this.fontFamily = RadJav.setDefaultValue(obj.fontFamily, "Open Sans");
             this.size = RadJav.setDefaultValue(obj.size, 10);
             this.color = RadJav.setDefaultValue(obj.color, RadJav.Color.Black);

@@ -85,6 +85,8 @@
 	#define  LOGI(...)
 #endif
 
+#include "cpp/RadJavCPPOSScreenInfo.h"
+
 #ifdef RADJAV_DEBUG
 #ifdef LOG_MEMORY_LEAKS
 void RadJavAlloc::logAlloc(void *alloc)

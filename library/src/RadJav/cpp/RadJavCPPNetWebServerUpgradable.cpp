@@ -18,11 +18,12 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 #include "cpp/RadJavCPPNetWebServerUpgradable.h"
+#include "cpp/RadJavCPPEvent.h"
 
 #ifdef USE_INSPECTOR
 #include "RadJav.h"
 #include "RadJavString.h"
-#include "cpp/RadJavCPPNetWebServer.h"
+
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
 #include <utility>
@@ -30,9 +31,6 @@
 #include <algorithm>
 #include <string>
 #include <cctype>
-#include "cpp/RadJavCPPAgentIO.h"
-
-std::vector<std::pair<std::string, std::shared_ptr<RadJAV::CPP::Net::WebServerUpgradable::HttpUpgradableSession>>> RadJAV::CPP::Net::WebServerUpgradable::sessions_;
 
 namespace RadJAV
 {
@@ -58,8 +56,7 @@ namespace RadJAV
 			template<
 				class Body, class Allocator,
 				class Send>
-				void
-				handle_request(
+			void handle_request(
 					http::request<Body, http::basic_fields<Allocator>>&& req,
 					Send&& send)
 			{
@@ -91,7 +88,7 @@ namespace RadJAV
 				res.set(http::field::cache_control, "no-cache");
 				res.keep_alive(false);// req.keep_alive());
 
-				std::string payload;
+				String payload;
 				
 				do //switch for request type
 				{
@@ -104,12 +101,12 @@ namespace RadJAV
 						payload.append("[ {"); payload.append("\n");
 						payload.append("  \"description\": \"v8inspector instance\","); payload.append("\n");
 						payload.append("  \"devtoolsFrontendUrl\": \"chrome-devtools://devtools/bundled/inspector.html?"
-												"experiments=true&v8only=true&ws=10.130.41.58:9229/003000e9-00ee-406d-80ac-008100d3000e\","); payload.append("\r\n");
+												"experiments=true&v8only=true&ws=127.0.0.1:9229/003000e9-00ee-406d-80ac-008100d3000e\","); payload.append("\r\n");
 						payload.append("  \"id\": \"003000e9-00ee-406d-80ac-008100d3000e\","); payload.append("\n");
-						payload.append("  \"title\": \"../../../examples/window/window.xrj\","); payload.append("\n");
+						payload.append("  \"title\": \"RadJav\","); payload.append("\n");
 						payload.append("  \"type\": \"node\","); payload.append("\n");
 						payload.append("  \"url\": \"file://\","); payload.append("\n");
-						payload.append("  \"webSocketDebuggerUrl\": \"ws://10.130.41.58:9229/003000e9-00ee-406d-80ac-008100d3000e\""); payload.append("\n");
+						payload.append("  \"webSocketDebuggerUrl\": \"ws://127.0.0.1:9229/003000e9-00ee-406d-80ac-008100d3000e\""); payload.append("\n");
 						payload.append("} ]"); payload.append("\n\n");
 						break;
 					}
@@ -124,7 +121,7 @@ namespace RadJAV
 						//return;//send nothing
 						payload.append("[ {"); payload.append("\r\n");
 						payload.append("  \"Browser\": \"v8inspector\","); payload.append("\r\n");
-						payload.append("  \"Protocol-Version\": \"1.1\","); payload.append("\r\n");
+						payload.append("  \"Protocol-Version\": \"1.3\","); payload.append("\r\n");
 						payload.append("] }"); payload.append("\r\n");
 						break;
 					}
@@ -145,84 +142,91 @@ namespace RadJAV
 				return send(std::move(res));
 			}
 
-			WebServerUpgradable::WebServerUpgradable(inspector::InspectorIoDelegate* delegate, String path_name, String script_name, RJBOOL wait_for_connect)
+			WebServerUpgradable::WebServerUpgradable(String listenAddress, RJUSHORT port, RJBOOL useOwnThread)
 			{
-				port = 0;
-				isAlive = false;
 				io_context_ = nullptr;
-				io_delegate_ = delegate;
-				path_name_ = path_name;
-				script_name_ = script_name;
-				is_waiting_ = true;
-				wait_for_connect_ = wait_for_connect;
-				lock_ = nullptr;
+				this->listenAddress = listenAddress;
+				this->useOwnThread = useOwnThread;
+				this->port = port;
+				isAlive = false;
 				thread = NULL;
+
+				this->useOwnThread = true;
+				myThread = NULL;
 			}
 
 			WebServerUpgradable::~WebServerUpgradable()
 			{
+				close();
+
 				DELETEOBJ(thread);
 				DELETEOBJ(io_context_);
+
+				if (myThread != NULL)
+				{
+					myThread->join();
+					DELETEOBJ(myThread);
+				}
 			}
 
-			void WebServerUpgradable::setIOCallback(inspector::InspectorIoDelegate* delegate)
+			void WebServerUpgradable::myListenThread()
 			{
-				io_delegate_ = delegate;
+				io_context_->run();
+				isAlive = true;
 			}
 
-			void WebServerUpgradable::listen(v8::Isolate* isolate, inspector::Semaphore* lock)
+			void WebServerUpgradable::listen()
 			{
-				auto const address = boost::asio::ip::make_address("0.0.0.0");
-				const unsigned short port = 9229;
+				auto const address = boost::asio::ip::make_address(listenAddress);
 				const int threads = 1;
 
-				lock_ = lock;
 				io_context_ = RJNEW boost::asio::io_context{ threads };
 				std::make_shared<UpgradableListener>(*io_context_, boost::asio::ip::tcp::endpoint{ address, port }, this)->run();
 
-				#ifdef GUI_USE_WXWIDGETS
-					WebServerThread* thread = RJNEW WebServerThread(io_context_);
-					thread->Run();
-					isAlive = thread->IsAlive();
-				#else
-					//blocking execution
-					isAlive = true;
-					io_context_->run();
-				#endif
-
-				/*DELETEOBJ(thread);
-
-				thread = RJNEW SimpleThread();
-				thread->onStart = [this]()
+				if (useOwnThread == true)
 				{
-					this->isAlive = true;
-					this->io_context_->run();
-				};
+					myThread = RJNEW std::thread(&WebServerUpgradable::myListenThread, this);
+				}
+				else
+				{
+					DELETEOBJ(thread);
+					thread = RJNEW SimpleThread();
+					thread->onStart = [this]()
+						{
+							io_context_->run();
+							isAlive = true;
+						};
 
-				RadJav::addThread(thread);*/
+					RadJav::addThread(thread);
+				}
 			}
 
 			void WebServerUpgradable::send(String id, String message)
 			{
-				for (const auto& s : sessions_)
-					if (s.first == id)
-					{
-						//s.second->do_write(message);
-						if ((this->websocket_session_) && (this->websocket_session_->sessionID_.compare(id) == 0))
-						{
-							websocket_session_->do_write(message);
-						}
-						break;
-					}
+				if (websocketSessions.size() > 0)
+				{
+					auto wssBegin = websocketSessions.find(id);
+					auto wssEnd = websocketSessions.end ();
+
+					if (wssBegin == wssEnd)
+						return;
+
+					//s.second->do_write(message);
+					std::shared_ptr<WebServerUpgradable::WebSocketSession> session = websocketSessions.at(id);
+
+					if (session->sessionID_.compare(id) == 0)
+						session->do_write(message);
+				}
 			}
 
 			void WebServerUpgradable::close()
 			{
+				isAlive = false;
 				io_context_->stop();
 			}
 
 			WebServerUpgradable::HttpUpgradableSession::HttpUpgradableSession(
-				boost::asio::ip::tcp::socket socket, std::string sessionID, WebServerUpgradable* parent)
+				boost::asio::ip::tcp::socket socket, String sessionID, WebServerUpgradable* parent)
 				: socket_(std::move(socket))
 				, strand_(socket_.get_executor())
 				, sessionID_(std::move(sessionID))
@@ -278,16 +282,41 @@ namespace RadJAV
 				if (websocket::is_upgrade(req_))
 				{
 					// Create a WebSocket session by transferring the socket
-					assert(parent_->io_delegate_);
-					parent_->io_delegate_->setSessionID(this->sessionID_);
 					auto session = std::make_shared<WebSocketSession>(std::move(socket_), this->sessionID_, parent_);
-					parent_->setWebSocketSession(session);
+
 					session->do_accept(std::move(req_));
+
 					return;
 				}
 
+				String *id = RJNEW String(sessionID_);
+				String *message = RJNEW String(boost::beast::buffers_to_string(buffer_.data()));
+				//String *message = RJNEW String(req_.target ().to_string ());
+
+				String *result = (String *)parent_->executeCppEvent("httpReceive", Array<void *>({ id, message }));
+				String data = "";
+				
+				if (result != NULL)
+				{
+					data = *result;
+					DELETEOBJ(result);
+				}
+
+				DELETEOBJ(id);
+				DELETEOBJ(message);
+
 				// Send the Chrome response
 				handle_request(std::move(req_), lambda_);
+
+				/*http::response<http::string_body> res{ http::status::ok, 10 };
+
+				res.set(http::field::content_type, "application/json; charset=UTF-8");
+				res.set(http::field::cache_control, "no-cache");
+				res.keep_alive(false);
+
+				res.body() = data;
+				res.prepare_payload();
+				lambda_(std::move(res));*/
 
 				do_read();
 			}
@@ -308,6 +337,14 @@ namespace RadJAV
 					return do_close();
 				}
 
+				String *id = RJNEW String(sessionID_.c_str());
+				String *message = RJNEW String(boost::beast::buffers_to_string(buffer_.data()).c_str());
+
+				parent_->executeCppEvent("httpSend", Array<void *>({ id, message }));
+
+				DELETEOBJ(id);
+				DELETEOBJ(message);
+
 				// Clear the buffer
 				buffer_.consume(buffer_.size());
 
@@ -327,7 +364,7 @@ namespace RadJAV
 				// At this point the connection is closed gracefully
 			}
 
-			WebServerUpgradable::WebSocketSession::WebSocketSession(tcp::socket socket, std::string sessionID, WebServerUpgradable* parent)
+			WebServerUpgradable::WebSocketSession::WebSocketSession(tcp::socket socket, String sessionID, WebServerUpgradable* parent)
 				: ws_(std::move(socket))
 				, strand_(ws_.get_executor())
 				, sessionID_(sessionID)
@@ -342,6 +379,13 @@ namespace RadJAV
 					RadJav::throwException("websocket: on_accept error");
 					return;
 				}
+
+				String *id = RJNEW String(sessionID_);
+
+				parent_->executeCppEvent("webSocketUpgrade", Array<void *>({ id }));
+				parent_->websocketSessions.insert(HashMapPair<std::string, std::shared_ptr<WebServerUpgradable::WebSocketSession> >(sessionID_, this));
+
+				DELETEOBJ(id);
 
 				do_read();
 			}
@@ -386,6 +430,14 @@ namespace RadJAV
 				//			shared_from_this(),
 				//			std::placeholders::_1,
 				//			std::placeholders::_2)));
+
+				String *id = RJNEW String(sessionID_.c_str());
+				String *recvMsg = RJNEW String(message);
+
+				parent_->executeCppEvent("webSocketSend", Array<void *>({ id, recvMsg }));
+
+				DELETEOBJ(id);
+				DELETEOBJ(recvMsg);
 			}
 			void WebServerUpgradable::WebSocketSession::on_read(boost::system::error_code ec, std::size_t bytes_transferred)
 			{
@@ -397,23 +449,17 @@ namespace RadJAV
 
 				if (ec)
 				{
-					RadJav::throwException("websocket: on_read error");
+					RadJav::throwException("websocket: on_read error - " + ec.message ());
 					return;
 				}
 
-				if (parent_->io_delegate_)
-				{
-					if (parent_->isWaiting())
-					{
-						//check for isWaiting message that means frontend is ready
-						
-						if (boost::beast::buffers_to_string(buffer_.data()).find("\"Runtime.runIfWaitingForDebugger\"") != std::string::npos) {
-							this->parent_->is_waiting_ = false;
-							parent_->lock_->Notify();
-						}
-					}
-					parent_->io_delegate_->sendMessageToInspector(boost::beast::buffers_to_string(buffer_.data()).c_str());
-				}
+				String *id = RJNEW String(sessionID_.c_str());
+				String *message = RJNEW String(boost::beast::buffers_to_string(buffer_.data()).c_str());
+
+				parent_->executeCppEvent("webSocketReceive", Array<void *>({ id, message }));
+
+				DELETEOBJ(id);
+				DELETEOBJ(message);
 
 				// Clear the buffer
 				buffer_.consume(buffer_.size());
@@ -436,16 +482,19 @@ namespace RadJAV
 					return;
 				}
 
+				String *id = RJNEW String(sessionID_.c_str());
+				String *message = RJNEW String(boost::beast::buffers_to_string(buffer_.data()).c_str());
+
+				parent_->executeCppEvent("webSocketSend", Array<void *>({ id, message }));
+
+				DELETEOBJ(id);
+				DELETEOBJ(message);
+
 				// Clear the buffer
 				buffer_.consume(buffer_.size());
 
 				// Do another read
 				do_read();
-			}
-
-			void WebServerUpgradable::setWebSocketSession(const std::shared_ptr<WebSocketSession>& session)
-			{
-				websocket_session_ = session;
 			}
 
 			WebServerUpgradable::UpgradableListener::UpgradableListener(
@@ -517,9 +566,15 @@ namespace RadJAV
 				else
 				{
 					// Create the http session and run it
-					std::string session_id = boost::uuids::to_string(boost::uuids::random_generator()());
+					String session_id = boost::uuids::to_string(boost::uuids::random_generator()());
+					String *id = RJNEW String(session_id);
+
+					parent_->executeCppEvent("httpAccept", Array<void *>({ id }));
+
+					DELETEOBJ(id);
+
 					auto session = std::make_shared<HttpUpgradableSession>(std::move(socket_), session_id, parent_);
-					sessions_.push_back(std::make_pair(session_id, session));
+					parent_->httpSessions.push_back(std::make_pair(session_id, session));
 					session->run();
 				}
 
