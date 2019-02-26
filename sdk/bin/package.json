@@ -1,0 +1,20 @@
+{
+  "name": "radjav",
+  "version": "1.0.0",
+  "description": "Project generator for RadJav applications",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"No tests available\" && exit 1",
+    "build-ios": "node ./build/build-ios.js"
+  },
+  "keywords": [
+    "radjav"
+  ],
+  "bin": "build-ios",
+  "author": "Fogchain Inc.",
+  "license": "MIT",
+  "dependencies": {
+    "ncp": "^2.0.0",
+    "replace-in-file": "^3.4.3"
+  }
+}

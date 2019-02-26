@@ -1,0 +1,182 @@
+/*
+ MIT-LICENSE
+ Copyright (c) 2018 Higher Edge Software, LLC
+
+ Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+ and associated documentation files (the "Software"), to deal in the Software without restriction,
+ including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
+ subject to the following conditions:
+
+ The above copyright notice and this permission notice shall be included in all copies or substantial
+ portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+ LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+package com.fogchain.radjavvm;
+
+import android.app.Activity;
+import android.app.Application;
+import android.content.res.AssetManager;
+//import android.util.Log;
+import android.view.ViewGroup;
+import android.os.Build;
+
+import java.io.File;
+import java.io.IOException;
+
+
+public final class RadJavApplication extends Application
+{
+    static {
+        System.loadLibrary("RadJavWrapper");
+    }
+
+    static private boolean initialized = false;
+    static private boolean vm_started = false;
+    static private boolean paused = false;
+    static private boolean shutdown = false;
+
+    static private ViewGroup mainWindow;
+
+    private static final String TAG = "RadJavApplication";
+
+    public static String getAbi()
+    {
+        return Build.SUPPORTED_ABIS[0];
+    }
+
+    public String prependWithExternalCacheDir(String fileName)
+    {
+        String result = getExternalCacheDir().getAbsolutePath();
+
+        result += File.separator + fileName;
+
+        return result;
+    }
+
+    private boolean cacheJsEngineFiles()
+    {
+        AssetManager assetManager = getAssets();
+
+        String abi = getAbi();
+        String sourcePath = "v8" + File.separator + abi;
+
+        String filesToCopy[] = {"natives_blob.bin",
+                                "snapshot_blob.bin"};
+
+        for (String fileName : filesToCopy)
+        {
+            String sourceFilePath = sourcePath + File.separator + fileName;
+
+            File outputFile = new File(prependWithExternalCacheDir(fileName));
+
+            try
+            {
+                if(!outputFile.exists())
+                {
+                    if (!outputFile.createNewFile())
+                        return false;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+            catch (IOException e)
+            {
+                return false;
+            }
+
+            //if (!AssetsUtils.copyRawFileFromAssets(assetManager, sourceFilePath, outputFile))
+            if (!AssetsUtils.copyCompressedFileFromAssets(assetManager, sourceFilePath, outputFile))
+                return false;
+        }
+
+        return true;
+    }
+
+    private boolean cacheExamples()
+    {
+        String source = "examples.zip";
+        String destination = prependWithExternalCacheDir("examples");
+
+        File examplesDir = new File(destination);
+        if (examplesDir.exists())
+            return true;
+
+        if (examplesDir.mkdir())
+        {
+            return AssetsUtils.unzipFileFromAssets(getAssets(), source, destination);
+        }
+
+        return false;
+    }
+
+    private boolean cacheApp()
+    {
+        String source = "app.zip";
+        String destination = prependWithExternalCacheDir("app");
+
+        File examplesDir = new File(destination);
+        if (examplesDir.exists())
+            return true;
+
+        if (examplesDir.mkdir())
+        {
+            return AssetsUtils.unzipFileFromAssets(getAssets(), source, destination);
+        }
+
+        return false;
+    }
+
+    public ViewGroup initialize(Activity activity)
+    {
+        if (!initialized)
+        {
+            //Log.i(TAG, "Initialize (create mainView)");
+
+            mainWindow = new RadJavLayout(activity);
+            initialized = true;
+
+            cacheJsEngineFiles();
+            cacheApp();
+        }
+
+        return mainWindow;
+    }
+
+    public void run(final String appFile)
+    {
+        if (paused)
+        {
+            paused = false;
+            //Log.i(TAG, "App unpaused");
+        }
+
+        if (!vm_started)
+        {
+            //Log.i(TAG, "Run libRadJav");
+            RadJavRun(this, mainWindow, prependWithExternalCacheDir(""), appFile);
+
+            vm_started = true;
+        }
+    }
+
+    public void pause()
+    {
+        //Log.i(TAG, "App paused");
+        paused = true;
+    }
+
+    public void shutdown()
+    {
+        android.os.Process.killProcess(android.os.Process.myPid());
+    }
+
+    public native int RadJavRun(RadJavApplication application, ViewGroup mainViewGroup, String cacheDir, String appFile);
+}
