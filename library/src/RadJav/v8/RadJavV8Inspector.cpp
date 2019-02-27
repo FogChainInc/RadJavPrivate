@@ -40,7 +40,9 @@ namespace RadJAV
 
 	V8Inspector::~V8Inspector()
 	{
-		DELETEOBJ(server);
+		close();
+
+		DELETEOBJ(server); /// @fixme This is causing crashes upon deletion. Not sure why yet.
 	}
 
 	void V8Inspector::start(String ip, RJINT port)
@@ -50,7 +52,6 @@ namespace RadJAV
 		context->SetAlignedPointerInEmbedderData(kInspectorClientIndex, this);
 		inspector->contextCreated(v8_inspector::V8ContextInfo(context, 1, v8_inspector::StringView()));
 
-		DELETEOBJ(server);
 		server = RJNEW CPP::Net::WebServerUpgradable(ip, port, true);
 
 		server->cppOn("webSocketReceive", [&](Array<void *> args) -> void *
@@ -58,7 +59,10 @@ namespace RadJAV
 				String *id = (String *)args.at (0);
 				String *message = (String *)args.at (1);
 
-				v8_inspector::StringView msg((uint8_t *)message->c_str (), message->size ());
+				std::unique_ptr<uint16_t[]> msgBuffer(RJNEW uint16_t[message->size()]);
+				v8::Local<v8::String> v8str = message->toV8String (isolate);
+				v8str->Write(isolate, msgBuffer.get(), 0, message->size());
+				v8_inspector::StringView msg(msgBuffer.get (), message->size ());
 				session->dispatchProtocolMessage(msg);
 
 				return (NULL);
@@ -67,9 +71,6 @@ namespace RadJAV
 		{
 			String *id = (String *)args.at(0);
 			String *message = (String *)args.at(1);
-
-			//v8_inspector::StringView msg((uint8_t *)message->c_str(), message->size());
-			//session->dispatchProtocolMessage(msg);
 
 			String result = "";
 			
@@ -114,6 +115,13 @@ namespace RadJAV
 		});
 
 		server->listen();
+	}
+
+	void V8Inspector::close()
+	{
+		session.reset();
+		DELETEOBJ(channel);
+		server->close();
 	}
 
 	void V8Inspector::waitForConnection()
@@ -175,14 +183,14 @@ namespace RadJAV
 		else
 		{
 			const uint16_t *c16msg = message.characters16();
-			char *cmsg = RJNEW char[message.length () + 1];
+			std::unique_ptr<char[]> cmsg(RJNEW char[message.length() + 1]);
 
 			for (RJINT iIdx = 0; iIdx < message.length (); iIdx++)
-				cmsg[iIdx] = c16msg[iIdx];
+				cmsg.get ()[iIdx] = c16msg[iIdx];
 
-			cmsg[message.length()] = '\0';
+			cmsg.get()[message.length()] = '\0';
 
-			String msg(cmsg);
+			String msg(cmsg.get ());
 
 			server->send(clientId, msg);
 		}

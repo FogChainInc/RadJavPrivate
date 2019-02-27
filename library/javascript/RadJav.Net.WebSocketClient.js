@@ -61,3 +61,4 @@ var RadJav;
         Net.WebSocketClient = WebSocketClient;
     })(Net = RadJav.Net || (RadJav.Net = {}));
 })(RadJav || (RadJav = {}));
+//# sourceMappingURL=RadJav.Net.WebSocketClient.js.map

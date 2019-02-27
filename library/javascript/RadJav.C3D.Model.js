@@ -160,3 +160,4 @@ var RadJav;
         }(Model));
     })(C3D = RadJav.C3D || (RadJav.C3D = {}));
 })(RadJav || (RadJav = {}));
+//# sourceMappingURL=RadJav.C3D.Model.js.map

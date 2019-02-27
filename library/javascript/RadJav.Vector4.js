@@ -56,3 +56,4 @@ function parseVector4(string) {
     v4dReturn.w = parseFloat(arystrings[3]);
     return v4dReturn;
 }
+//# sourceMappingURL=RadJav.Vector4.js.map

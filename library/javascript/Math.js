@@ -39,3 +39,4 @@ Math.randomRange = function (min, max) {
 Math.lerp = function (start, end, alpha) {
     return (start + alpha * (end - start));
 };
+//# sourceMappingURL=Math.js.map

@@ -11,3 +11,4 @@ var RadJav;
         Net.GenericServer = GenericServer;
     })(Net = RadJav.Net || (RadJav.Net = {}));
 })(RadJav || (RadJav = {}));
+//# sourceMappingURL=RadJav.Net.GenericServer.js.map

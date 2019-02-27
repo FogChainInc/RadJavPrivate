@@ -715,18 +715,29 @@ namespace RadJAV
 		while (begin != end)
 		{
 			MemoryAllocLog alloc = (*begin).second;
-			memoryLeaksReport += String::fromUInt((size_t)alloc.alloc) + ",";
-			memoryLeaksReport += String (alloc.file) + ",";
-			memoryLeaksReport += String::fromInt (alloc.line) + ",";
-			memoryLeaksReport += String (alloc.func) + "\n";
+
+			memoryLeaksReport += RadJav::getMemoryLeakFromAlloc (alloc);
+
 			numLeaks++;
 			begin++;
 		}
 
 		memoryLeaksReport += "\n";
-		memoryLeaksReport += "Number of memory leaks: " + numLeaks;
+		memoryLeaksReport += "Number of memory leaks: ," + String::fromInt (numLeaks);
 
 		return (memoryLeaksReport);
+	}
+
+	String RadJav::getMemoryLeakFromAlloc(MemoryAllocLog alloc)
+	{
+		String line = "";
+
+		line += String::fromUInt((size_t)alloc.alloc) + ",";
+		line += String(alloc.file) + ",";
+		line += String::fromInt(alloc.line) + ",";
+		line += String(alloc.func) + "\n";
+
+		return (line);
 	}
 
 	void RadJav::writeMemoryLeaksToFile(String path)

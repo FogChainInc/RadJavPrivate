@@ -79,3 +79,4 @@ var RadJav;
     }());
     RadJav.Vector2 = Vector2;
 })(RadJav || (RadJav = {}));
+//# sourceMappingURL=RadJav.Vector2.js.map

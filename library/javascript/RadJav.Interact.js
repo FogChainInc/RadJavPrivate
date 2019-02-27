@@ -644,3 +644,4 @@ var RadJav;
         Interact.CompiledView = CompiledView;
     })(Interact = RadJav.Interact || (RadJav.Interact = {}));
 })(RadJav || (RadJav = {}));
+//# sourceMappingURL=RadJav.Interact.js.map

@@ -52,48 +52,48 @@
 		class RADJAV_EXPORT String : public std::string
 		{
 		public:
-			inline String()
+			String()
 				: std::string()
 			{
 			}
 
-			inline String(std::string str)
+			String(std::string str)
 				: std::string(str)
 			{
 			}
 
-			inline String(int value)
+			String(int value)
 				: std::string(fromInt(value))
 			{
 			}
 
-			inline String(const String &str)
+			String(const String &str)
 				: std::string(str)
 			{
 			}
 
-			inline String(const String &str, size_t pos, size_t len = npos)
+			String(const String &str, size_t pos, size_t len = npos)
 				: std::string(str, pos, len)
 			{
 			}
 
-			inline String(const char *str)
+			String(const char *str)
 				: std::string(str)
 			{
 			}
 
-			inline String(const char *str, size_t len)
+			String(const char *str, size_t len)
 				: std::string(str, len)
 			{
 			}
 
-			inline String(size_t len, char c)
+			String(size_t len, char c)
 				: std::string(len, c)
 			{
 			}
 
 			template <class InputIterator>
-			inline String(InputIterator first, InputIterator last)
+			String(InputIterator first, InputIterator last)
 				: std::string(first, last)
 			{
 			}

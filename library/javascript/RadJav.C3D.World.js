@@ -22,3 +22,4 @@ var RadJav;
         C3D.World = World;
     })(C3D = RadJav.C3D || (RadJav.C3D = {}));
 })(RadJav || (RadJav = {}));
+//# sourceMappingURL=RadJav.C3D.World.js.map

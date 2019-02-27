@@ -35,7 +35,7 @@ namespace RadJAV
 			{
 				V8_CALLBACK(object, "_createAppObj", GObject::_createAppObj);
 				V8_CALLBACK(object, "create", GObject::create);
-				V8_CALLBACK(object, "addChild", GObject::addChild);
+				V8_CALLBACK(object, "_addChild", GObject::addChild);
 				V8_CALLBACK(object, "setFont", GObject::setFont);
 				V8_CALLBACK(object, "getFont", GObject::getFont);
 				V8_CALLBACK(object, "setPosition", GObject::setPosition);

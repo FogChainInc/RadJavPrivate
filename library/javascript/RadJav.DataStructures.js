@@ -33,3 +33,4 @@ var RadJav;
         DataStructures.Block = Block;
     })(DataStructures = RadJav.DataStructures || (RadJav.DataStructures = {}));
 })(RadJav || (RadJav = {}));
+//# sourceMappingURL=RadJav.DataStructures.js.map

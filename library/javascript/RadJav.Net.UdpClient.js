@@ -23,3 +23,4 @@ var RadJav;
         Net.UdpClient = UdpClient;
     })(Net = RadJav.Net || (RadJav.Net = {}));
 })(RadJav || (RadJav = {}));
+//# sourceMappingURL=RadJav.Net.UdpClient.js.map

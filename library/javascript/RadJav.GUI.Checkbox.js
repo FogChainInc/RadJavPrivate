@@ -54,3 +54,4 @@ var RadJav;
         GUI.Checkbox = Checkbox;
     })(GUI = RadJav.GUI || (RadJav.GUI = {}));
 })(RadJav || (RadJav = {}));
+//# sourceMappingURL=RadJav.GUI.Checkbox.js.map

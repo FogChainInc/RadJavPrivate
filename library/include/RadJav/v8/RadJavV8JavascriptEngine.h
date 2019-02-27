@@ -72,6 +72,7 @@
 	namespace RadJAV
 	{
 		class V8JavascriptEngine;
+		class V8Inspector;
 
 		#ifdef USE_INSPECTOR
 			namespace V8inspector
@@ -130,7 +131,7 @@
 				~V8JavascriptEngine();
 
 				/// Start the inspector.
-				V8inspector::Agent *startInspector(String filePath);
+				void startInspector(String filePath);
 
 				/// Run an application.
 				int runApplication(String applicationSource, String fileName);
@@ -152,9 +153,11 @@
 				/// Execute Javascript code.
 				void executeScript(String code, String fileName);
 				/// Execute Javascript code.
+				void executeScript(String code, String fileName, String sourceMapPath);
+				/// Execute Javascript code.
 				void executeScript(String code, String fileName, v8::Local<v8::Object> context);
 				/// Execute Javascript code.
-				void executeScript(v8::Local<v8::String> code, v8::Local<v8::String> fileName, v8::Local<v8::Object> context);
+				void executeScript(v8::Local<v8::String> code, v8::Local<v8::String> fileName, v8::Local<v8::Object> context, String sourceMapPath = "");
 				/// Execute unbounded Javascript code.
 				void unboundedExecuteScript(String code, String fileName, v8::Local<v8::Object> context = v8::Local<v8::Object>());
 				/// Execute javascript on the next tick.
@@ -305,6 +308,7 @@
 				TimerVector timers;
 
 				RJBOOL useInspector;
+				V8Inspector *inspector;
 			
 				ExternalsManager* externalsManager;
 		};

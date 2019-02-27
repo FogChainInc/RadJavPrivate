@@ -81,3 +81,4 @@ var RadJav;
         C3D.Object3D = Object3D;
     })(C3D = RadJav.C3D || (RadJav.C3D = {}));
 })(RadJav || (RadJav = {}));
+//# sourceMappingURL=RadJav.C3D.Object3D.js.map

@@ -286,6 +286,7 @@ namespace RadJAV
 			String flags = "";
 			exposeGC = false;
 			useInspector = false;
+			inspector = NULL;
 			radJav = NULL;
 			exceptionsDisplayMessageBox = false;
 			shutdownOnException = false;
@@ -303,6 +304,15 @@ namespace RadJAV
 
 					if (arg == "--expose_gc")
 						exposeGC = true;
+
+					if (arg == "--radjav-maps")
+					{
+						String val = CPP::OS::args.at(iIdx + 1);
+
+						radjavSourceMapsPath = val;
+
+						continue;
+					}
 
 					if (arg == "--inspect")
 					{
@@ -330,6 +340,7 @@ namespace RadJAV
 		V8JavascriptEngine::~V8JavascriptEngine()
 		{
 			DELETEOBJ(jsvm);
+			DELETEOBJ(inspector);
 
 			//This is just a hack, isolate must be disposed after context and scope objects
 			isolate->Dispose();
@@ -350,26 +361,16 @@ namespace RadJAV
 			DELETEOBJ(platform);
 		}
 
-		V8inspector::Agent *V8JavascriptEngine::startInspector(String filePath)
+		void V8JavascriptEngine::startInspector(String filePath)
 		{
 			#ifdef USE_INSPECTOR
-				V8inspector::Agent *agent_ = nullptr;
-
 			if (useInspector)
 			{
-				V8Inspector *inspector = RJNEW V8Inspector(isolate, globalContext);
+				inspector = RJNEW V8Inspector(isolate, globalContext);
 				inspector->start("127.0.0.1", 9229);
 
 				inspector->waitForConnection();
-
-				/*agent_ = RJNEW V8inspector::Agent("0.0.0.0", "inspector.log");
-				agent_->Start(isolate, platform, filePath);
-				agent_->PauseOnNextJavascriptStatement("Break on start");*/
 			}
-
-			return (agent_);
-			#else
-			return (NULL);
 			#endif
 		}
 
@@ -397,7 +398,7 @@ namespace RadJAV
 			globalContext = jsvm->getGlobalContext();
 
 			#ifdef USE_INSPECTOR
-				V8inspector::Agent *agent_ = startInspector(fileName);
+				startInspector(fileName);
 			#endif
 
 			loadJavascriptLibrary();
@@ -407,8 +408,12 @@ namespace RadJAV
 			{
 				JSFile jsfile = javascriptFiles.at(iIdx);
 				String contentStr = jsfile.getContent();
+				String sourceMap = "";
 
-				executeScript(contentStr, jsfile.filename);
+				if (radjavSourceMapsPath != "")
+					sourceMap = radjavSourceMapsPath + "/" + jsfile.filename + ".map";
+
+				executeScript(contentStr, jsfile.filename, sourceMap);
 			}
 
 			v8::Local<v8::Object> obj = v8GetObject(globalContext->Global(), "RadJav");
@@ -519,10 +524,6 @@ namespace RadJAV
 				return exitCode;
 			#else
 				while (runApplicationSingleStep()) {}
-			#endif
-
-			#ifdef USE_INSPECTOR
-				DELETEOBJ(agent_);
 			#endif
 
 			return exitCode;
@@ -838,7 +839,12 @@ namespace RadJAV
 
 		void V8JavascriptEngine::executeScript(String code, String fileName)
 		{
-			executeScript(code, fileName, globalContext->Global());
+			executeScript(code.toV8String(isolate), fileName.toV8String(isolate), globalContext->Global());
+		}
+
+		void V8JavascriptEngine::executeScript(String code, String fileName, String sourceMapPath)
+		{
+			executeScript(code.toV8String(isolate), fileName.toV8String(isolate), globalContext->Global(), sourceMapPath);
 		}
 
 		void V8JavascriptEngine::executeScript(String code, String fileName, v8::Local<v8::Object> context)
@@ -846,7 +852,7 @@ namespace RadJAV
 			executeScript(code.toV8String(isolate), fileName.toV8String(isolate), context);
 		}
 
-		void V8JavascriptEngine::executeScript(v8::Local<v8::String> code, v8::Local<v8::String> fileName, v8::Local<v8::Object> context)
+		void V8JavascriptEngine::executeScript(v8::Local<v8::String> code, v8::Local<v8::String> fileName, v8::Local<v8::Object> context, String sourceMapPath)
 		{
 			v8::Local<v8::Context> scriptContext;
 			v8::EscapableHandleScope scope(isolate);
@@ -856,9 +862,31 @@ namespace RadJAV
 			else
 				scriptContext = context->CreationContext ();
 
+			v8::Local<v8::String> sourceMapUrl;
+			
+			if (sourceMapPath != "")
+			{
+				sourceMapPath = CPP::IO::normalizePath(sourceMapPath);
+				sourceMapPath = sourceMapPath.replaceAll("\\", "/");
+				String temp = "file:///" + sourceMapPath;
+				sourceMapUrl = temp.toV8String(isolate);
+			}
+			else
+			{
+				String fileNameStr = parseV8Value(fileName);
+				String sourceMapFile = fileNameStr + ".map";
+
+				if (CPP::IO::isFile(sourceMapFile) == true)
+				{
+					String temp = "file:///" + sourceMapFile;
+					sourceMapUrl = temp.toV8String(isolate);
+				}
+			}
+			
 			v8::TryCatch tryCatch(isolate);
-			v8::ScriptOrigin origin(fileName);
-			v8::MaybeLocal<v8::Script> scriptTemp = v8::Script::Compile(scriptContext, code, &origin);
+			v8::ScriptOrigin origin(fileName, v8::Local<v8::Integer> (), v8::Local<v8::Integer>(), v8::Local<v8::Boolean>(), v8::Local<v8::Integer>(), sourceMapUrl);
+			v8::ScriptCompiler::Source src(code, origin);
+			v8::MaybeLocal<v8::Script> scriptTemp = v8::ScriptCompiler::Compile(scriptContext, &src);
 
 			if (scriptTemp.IsEmpty() == true)
 			{

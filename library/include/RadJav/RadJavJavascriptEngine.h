@@ -78,6 +78,8 @@
 				RJBOOL shutdown;
 				RJBOOL useDebugger;
 
+				String radjavSourceMapsPath;
+
 				Array<RJULONG> removeThreads;
 				HashMap<RJULONG, Thread *> threads;
 		};

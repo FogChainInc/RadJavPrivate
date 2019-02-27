@@ -46,3 +46,4 @@ var RadJav;
         C3D.Camera = Camera;
     })(C3D = RadJav.C3D || (RadJav.C3D = {}));
 })(RadJav || (RadJav = {}));
+//# sourceMappingURL=RadJav.C3D.Camera.js.map

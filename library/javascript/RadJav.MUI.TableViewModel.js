@@ -45,3 +45,4 @@ var RadJav;
         MUI.TableViewModel = TableViewModel;
     })(MUI = RadJav.MUI || (RadJav.MUI = {}));
 })(RadJav || (RadJav = {}));
+//# sourceMappingURL=RadJav.MUI.TableViewModel.js.map

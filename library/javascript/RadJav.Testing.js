@@ -38,3 +38,4 @@ var RadJav;
         Testing.AccelerometerSimulator = AccelerometerSimulator;
     })(Testing = RadJav.Testing || (RadJav.Testing = {}));
 })(RadJav || (RadJav = {}));
+//# sourceMappingURL=RadJav.Testing.js.map

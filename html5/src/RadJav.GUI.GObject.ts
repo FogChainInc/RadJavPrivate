@@ -280,6 +280,9 @@
 					child._parent = this;
 
 				this._children.push(child);
+
+				if (this["_addChild"] != null)
+					this["_addChild"] (child);
 			}
 
 			/**

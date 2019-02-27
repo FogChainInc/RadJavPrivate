@@ -67,3 +67,4 @@ var RadJav;
         C3D.Transform = Transform;
     })(C3D = RadJav.C3D || (RadJav.C3D = {}));
 })(RadJav || (RadJav = {}));
+//# sourceMappingURL=RadJav.C3D.Transform.js.map

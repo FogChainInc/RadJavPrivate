@@ -163,6 +163,7 @@
 					static void logNewMemoryAlloc (MemoryAllocLog alloc);
 					static void removeMemoryAlloc (MemoryAllocLog alloc);
 					static String reportMemoryLeaks();
+					static String getMemoryLeakFromAlloc(MemoryAllocLog alloc);
 					static void writeMemoryLeaksToFile(String path);
 
 					/// Memory allocations made during debug.

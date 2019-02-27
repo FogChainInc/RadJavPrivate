@@ -16,3 +16,4 @@ String.prototype.removeAt = function (startPos, length) {
 String.prototype.replaceAll = function (str, replacement) {
     return this.replace(new RegExp(str, "g"), replacement);
 };
+//# sourceMappingURL=String.js.map

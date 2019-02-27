@@ -92,6 +92,7 @@ namespace RadJAV
 				
 				do //switch for request type
 				{
+					std::string tempstr = req.base().target().to_string();
 					auto str = req.base().target().to_string().substr(strlen("/json"), std::string::npos);
 
 					if ((str.length() == 0) // here /json equals to /json/list in http request
@@ -151,7 +152,6 @@ namespace RadJAV
 				isAlive = false;
 				thread = NULL;
 
-				this->useOwnThread = true;
 				myThread = NULL;
 			}
 
@@ -160,19 +160,14 @@ namespace RadJAV
 				close();
 
 				DELETEOBJ(thread);
-				DELETEOBJ(io_context_);
-
-				if (myThread != NULL)
-				{
-					myThread->join();
-					DELETEOBJ(myThread);
-				}
 			}
 
 			void WebServerUpgradable::myListenThread()
 			{
-				io_context_->run();
-				isAlive = true;
+				while (isAlive == true)
+					io_context_->run_one();
+
+				io_context_->stop();
 			}
 
 			void WebServerUpgradable::listen()
@@ -181,7 +176,10 @@ namespace RadJAV
 				const int threads = 1;
 
 				io_context_ = RJNEW boost::asio::io_context{ threads };
-				std::make_shared<UpgradableListener>(*io_context_, boost::asio::ip::tcp::endpoint{ address, port }, this)->run();
+				upgradableListener = std::make_shared<UpgradableListener>(*io_context_, boost::asio::ip::tcp::endpoint{ address, port }, this);
+				upgradableListener->run();
+
+				isAlive = true;
 
 				if (useOwnThread == true)
 				{
@@ -193,8 +191,10 @@ namespace RadJAV
 					thread = RJNEW SimpleThread();
 					thread->onStart = [this]()
 						{
-							io_context_->run();
-							isAlive = true;
+							while (isAlive == true)
+								io_context_->run_one();
+
+							io_context_->stop();
 						};
 
 					RadJav::addThread(thread);
@@ -221,8 +221,41 @@ namespace RadJAV
 
 			void WebServerUpgradable::close()
 			{
-				isAlive = false;
-				io_context_->stop();
+				{
+					auto begin = httpSessions.begin();
+					auto end = httpSessions.end();
+
+					while (begin != end)
+					{
+						(*begin).second->do_close();
+						begin++;
+					}
+				}
+
+				{
+					auto begin = websocketSessions.begin();
+					auto end = websocketSessions.end();
+
+					while (begin != end)
+					{
+						(*begin).second->do_close();
+						begin++;
+					}
+				}
+
+				if (upgradableListener)
+					upgradableListener->close();
+
+				upgradableListener.reset();
+
+				if (myThread != NULL)
+				{
+					isAlive = false;
+					myThread->join();
+
+					DELETEOBJ(io_context_);
+					DELETEOBJ(myThread);
+				}
 			}
 
 			WebServerUpgradable::HttpUpgradableSession::HttpUpgradableSession(
@@ -382,8 +415,10 @@ namespace RadJAV
 
 				String *id = RJNEW String(sessionID_);
 
-				parent_->executeCppEvent("webSocketUpgrade", Array<void *>({ id }));
+				RJBOOL *result = (RJBOOL *)parent_->executeCppEvent("webSocketUpgrade", Array<void *>({ id }));
 				parent_->websocketSessions.insert(HashMapPair<std::string, std::shared_ptr<WebServerUpgradable::WebSocketSession> >(sessionID_, this));
+
+				DELETEOBJ(result);
 
 				DELETEOBJ(id);
 
@@ -403,6 +438,7 @@ namespace RadJAV
 							std::placeholders::_1,
 							std::placeholders::_2)));
 			}
+
 			void WebServerUpgradable::WebSocketSession::do_write(String message)
 			{
 				ws_.text(true);
@@ -497,6 +533,15 @@ namespace RadJAV
 				do_read();
 			}
 
+			void WebServerUpgradable::WebSocketSession::do_close()
+			{
+				// Send a TCP shutdown
+				//boost::system::error_code ec;
+				//ws_.close(boost::beast::websocket::close_reason::close_reason ());
+
+				// At this point the connection is closed gracefully
+			}
+
 			WebServerUpgradable::UpgradableListener::UpgradableListener(
 				boost::asio::io_context& ioc,
 				boost::asio::ip::tcp::endpoint endpoint,
@@ -545,6 +590,12 @@ namespace RadJAV
 				{
 					do_accept();
 				}
+			}
+
+			void WebServerUpgradable::UpgradableListener::close()
+			{
+				boost::system::error_code ec;
+				socket_.shutdown(boost::asio::ip::tcp::socket::shutdown_send, ec);
 			}
 
 			void WebServerUpgradable::UpgradableListener::do_accept()

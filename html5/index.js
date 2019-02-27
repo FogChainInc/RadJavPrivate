@@ -304,44 +304,7 @@ var commands = [
 		}, 
 		{
 			cmd: ["build", "b"], 
-			desc: "Build Javascript from TypeScript files.", 
-			help: "", 
-			evt: function (args)
-				{
-					if (args[0] == null)
-						args[0] = path.normalize (__dirname + "/src/");
-
-					if (args[1] == null)
-						args[1] = path.normalize (__dirname + "/build/");
-
-					let buildPath = path.normalize (args[0]);
-					let tsfiles = getTypeScriptFiles (buildPath);
-					let outputPath = path.normalize (args[1]);
-					let tempTsLibs = tsLibs;
-					let tsDecFiles = getTypeScriptFiles (path.normalize (__dirname + "/d.ts/"));
-					let generateSourceMap = false;
-
-					for (let iIdx = 0; iIdx < tsDecFiles.length; iIdx++)
-					{
-						let decFile = tsDecFiles[iIdx];
-
-						tempTsLibs.push (decFile);
-					}
-
-					console.log ("Building JavaScript from TypeScript...");
-
-					compile (tsfiles, {
-							noImplicitUseStrict: true, removeComments: true, importHelpers: true, 
-							target: typescript.ScriptTarget.ES3, module: typescript.ModuleKind.None, 
-							sourceMap: generateSourceMap, lib: tempTsLibs, outDir: outputPath
-						});
-
-					console.log ("Done.");
-				}
-		}, 
-		{
-			cmd: ["build-radjav", "r"], 
-			desc: "Build RadJav's JavaScript", 
+			desc: "Build JavaScript", 
 			help: [
 				{
 					cmd: ["doNotCopyHTML5Files"],
@@ -352,8 +315,16 @@ var commands = [
 					desc: "Do not copy the generated JS to library/javascript."
 				}, 
 				{
+					cmd: ["doNotGenerateSourceMaps"],
+					desc: "Do not generate the TS-to-JS source maps."
+				}, 
+				{
 					cmd: ["doNotMinify"],
 					desc: "Do not minify the generated JS."
+				}, 
+				{
+					cmd: ["clearCache"],
+					desc: "Clear the cache."
 				}, 
 				{
 					cmd: ["watch"],
@@ -369,6 +340,9 @@ var commands = [
 					let copyFilesToLibrary = true;
 					let minify = true;
 					let watch = false;
+					let mapFiles = true;
+					let clearCache = false;
+					let sourceRoot = "";
 					let tsfiles = getTypeScriptFiles ();
 					let generateSourceMap = false;
 
@@ -383,8 +357,17 @@ var commands = [
 						if (args[iIdx] == "doNotMinify")
 							minify = false;
 
-						if (args[iIdx] == "generateSourceMap")
-							generateSourceMap = true;
+						if (args[iIdx] == "doNotGenerateSourceMaps")
+							mapFiles = false;
+
+						if (args[iIdx] == "clearCache")
+							clearCache = true;
+
+						if (args[iIdx] == "sourceRoot")
+						{
+							let sourceRootPath = args[iIdx + 1];
+							sourceRoot = sourceRootPath;
+						}
 
 						if (args[iIdx] == "watch")
 							watch = true;
@@ -432,12 +415,18 @@ var commands = [
 
 					console.log ("Building JavaScript from TypeScript...");
 
+					if (clearCache == true)
+					{
+						if (fs.existsSync ("./cache.json"))
+							fs.unlinkSync ("./cache.json");
+					}
+
 					let temptsFiles = [];
 					let fileDiffs = {};
-					debugger;
-					if (fs.existsSync ("./fileDiffs.json"))
+
+					if (fs.existsSync ("./cache.json"))
 					{
-						let fileDiffsStr = fs.readFileSync ("./fileDiffs.json").toString ();
+						let fileDiffsStr = fs.readFileSync ("./cache.json").toString ();
 
 						fileDiffs = JSON.parse (fileDiffsStr);
 
@@ -458,7 +447,8 @@ var commands = [
 						compile (temptsFiles, {
 								noImplicitUseStrict: true, removeComments: true, importHelpers: true, 
 								target: typescript.ScriptTarget.ES3, module: typescript.ModuleKind.None, 
-								sourceMap: generateSourceMap, lib: tsLibs, outDir: "./build"
+								sourceMap: generateSourceMap, lib: tsLibs, sourceMap: mapFiles, 
+								sourceRoot: sourceRoot, outDir: "./build"
 							});
 
 						for (let iIdx = 0; iIdx < temptsFiles.length; iIdx++)
@@ -468,7 +458,7 @@ var commands = [
 							fileDiffs[tempFile] = sha256FileHash (tempFile);
 						}
 
-						fs.writeFileSync ("./fileDiffs.json", JSON.stringify (fileDiffs));
+						fs.writeFileSync ("./cache.json", JSON.stringify (fileDiffs));
 					}
 
 					console.log ("Done.");

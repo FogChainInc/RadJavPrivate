@@ -87,15 +87,8 @@
 						WebServerUpgradable(String listenAddress = "0.0.0.0", RJUSHORT port = 9229, RJBOOL useOwnThread = false);
 						~WebServerUpgradable();
 
-						/// If this sever needs to use it's own internal thread instead of RadJav's use it.
-						RJBOOL useOwnThread;
-						/// The internal thread to use.
-						std::thread *myThread;
-
 						/// This server's listen thread, separate from RadJav.
 						void myListenThread();
-
-						RJBOOL isAlive;
 
 						/**
 						 * @brief Start listening to connections
@@ -146,10 +139,29 @@
 						 */
 						boost::asio::io_context *io_context_;
 
-						/**
-						 * brief simple thread to run the IO service
-						 */
+						/// Simple thread to run the IO service in RadJav.
 						SimpleThread *thread;
+
+						/// If this sever needs to use it's own internal thread instead of RadJav's use it.
+						RJBOOL useOwnThread;
+						/// The internal thread to use.
+						std::thread *myThread;
+
+						/// Is the thread running?
+						RJBOOL isAlive;
+
+						class HttpUpgradableSession;
+						class WebSocketSession;
+						class UpgradableListener;
+
+						/// List of active http sessions.
+						Array< std::pair<std::string, std::shared_ptr<HttpUpgradableSession> > > httpSessions;
+
+						/// The current websocket sessions.
+						HashMap< std::string, std::shared_ptr<WebSocketSession> > websocketSessions;
+
+						/// The listener.
+						std::shared_ptr<UpgradableListener> upgradableListener;
 
 						/**
 						 * @class WebSocketSession
@@ -166,104 +178,106 @@
 						 */
 						class WebSocketSession : public std::enable_shared_from_this<WebSocketSession>
 						{
+							public:
+								/**
+								 * @brief websocket stream
+								 */
+								websocket::stream<tcp::socket> ws_;
 
-						public:
-							/**
-							 * @brief websocket stream
-							 */
-							websocket::stream<tcp::socket> ws_;
+								/**
+								 * @brief websocket strand
+								 */
+								boost::asio::strand<boost::asio::io_context::executor_type> strand_;
 
-							/**
-							 * @brief websocket strand
-							 */
-							boost::asio::strand<boost::asio::io_context::executor_type> strand_;
+								/**
+								 * @brief IO buffer
+								 */
+								boost::beast::multi_buffer buffer_;
 
-							/**
-							 * @brief IO buffer
-							 */
-							boost::beast::multi_buffer buffer_;
+								/**
+								 * @brief String with session ID
+								 */
+								String sessionID_;
 
-							/**
-							 * @brief String with session ID
-							 */
-							String sessionID_;
+								/**
+								 * @brief Constructor for websocket session that takes ownership of underlying socket
+								 *
+								 * @param socket tcp socket
+								 *
+								 * @param sessionID session ID
+								 *
+								 * @param parent upgradable web server object that will contain current session
+								 *
+								 */
+								explicit WebSocketSession(tcp::socket socket, String sessionID, WebServerUpgradable* parent);
 
-							/**
-							 * @brief Constructor for websocket session that takes ownership of underlying socket
-							 *
-							 * @param socket tcp socket
-							 *
-							 * @param sessionID session ID
-							 *
-							 * @param parent upgradable web server object that will contain current session
-							 *
-							 */
-							explicit WebSocketSession(tcp::socket socket, String sessionID, WebServerUpgradable* parent);
+								/**
+								 * @brief asynchronously accept websocket handshake
+								 */
+								template<class Body, class Allocator>
+								void do_accept(http::request<Body, http::basic_fields<Allocator>> req)
+								{
+									// Accept the websocket handshake
+									ws_.async_accept(
+										req,
+										boost::asio::bind_executor(
+											strand_,
+											std::bind(
+												&WebSocketSession::on_accept,
+												shared_from_this(),
+												std::placeholders::_1)));
+								}
 
-							/**
-							 * @brief asynchronously accept websocket handshake
-							 */
-							template<class Body, class Allocator>
-							void do_accept(http::request<Body, http::basic_fields<Allocator>> req)
-							{
-								// Accept the websocket handshake
-								ws_.async_accept(
-									req,
-									boost::asio::bind_executor(
-										strand_,
-										std::bind(
-											&WebSocketSession::on_accept,
-											shared_from_this(),
-											std::placeholders::_1)));
-							}
+								/**
+								 * @brief throw error if any, then call do_read()
+								 *
+								 * @param ec boost system error code
+								 */
+								void on_accept(boost::system::error_code ec);
 
-							/**
-							 * @brief throw error if any, then call do_read()
-							 *
-							 * @param ec boost system error code
-							 */
-							void on_accept(boost::system::error_code ec);
+								/**
+								 * @brief read a message into inner buffer
+								 */
+								void do_read();
 
-							/**
-							 * @brief read a message into inner buffer
-							 */
-							void do_read();
+								/**
+								 * @brief write a message to the socket
+								 *
+								 * @param message message to send
+								 */
+								void do_write(String message);
 
-							/**
-							 * @brief write a message to the socket
-							 *
-							 * @param message message to send
-							 */
-							void do_write(String message);
+								/**
+								 * @brief process socket close if occurs, throw error if any, then send message to inspector and perform next read
+								 *
+								 * bytes_transferred parameter is ignored
+								 *
+								 * @param ec boost system error code
+								 *
+								 * @param bytes_transferred ignored
+								 *
+								 */
+								void on_read(boost::system::error_code ec, std::size_t bytes_transferred);
 
-							/**
-							 * @brief process socket close if occurs, throw error if any, then send message to inspector and perform next read
-							 *
-							 * bytes_transferred parameter is ignored
-							 *
-							 * @param ec boost system error code
-							 *
-							 * @param bytes_transferred ignored
-							 *
-							 */
-							void on_read(boost::system::error_code ec, std::size_t bytes_transferred);
+								/**
+								 * @brief process socket close if occurs, throw error if any, clear buffer and do another read
+								 *
+								 * @param ec boost system error code
+								 *
+								 * @param bytes_transferred ignored
+								 *
+								 */
+								void on_write(boost::system::error_code ec, std::size_t bytes_transferred);
 
-							/**
-							 * @brief process socket close if occurs, throw error if any, clear buffer and do another read
-							 *
-							 * @param ec boost system error code
-							 *
-							 * @param bytes_transferred ignored
-							 *
-							 */
-							void on_write(boost::system::error_code ec, std::size_t bytes_transferred);
+								/// Close current session.
+								void do_close();
 
-						private:
+							private:
 
-							/**
-							 * @brief pointer to parent upgradable web server object in context of which the current session runs
-							 */
-							WebServerUpgradable* parent_;
+								/**
+								 * @brief pointer to parent upgradable web server object in context of which the current session runs
+								 */
+								WebServerUpgradable* parent_;
 						};
 
 						/**
@@ -407,9 +421,7 @@
 								 */
 								void on_write(boost::system::error_code ec, std::size_t bytes_transferred, bool close);
 
-								/**
-								 * @brief close current session
-								 */
+								/// Close current session.
 								void do_close();
 
 							private:
@@ -468,6 +480,9 @@
 								 */
 								void run();
 
+								/// Close the connections.
+								void close();
+
 								/**
 								 * @brief call on_accept()
 								 */
@@ -480,16 +495,6 @@
 								 */
 								void on_accept(boost::system::error_code ec);
 						};
-
-						/**
-						 * @brief list of active http sessions
-						 */
-						Array< std::pair<std::string, std::shared_ptr<HttpUpgradableSession> > > httpSessions;
-
-						/**
-						 * @brief The current websocket sessions
-						 */
-						HashMap< std::string, std::shared_ptr<WebServerUpgradable::WebSocketSession> > websocketSessions;
 				};
 			}
 		}

@@ -17,10 +17,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node index.js --build",
-    "build-only": "node index.js --build-radjav doNotCopyHTML5Files doNotCopyFilesToLibrary doNotMinify",
-    "build-html5": "node index.js --build-radjav doNotCopyFilesToLibrary",
-    "build-radjav": "node index.js --build-radjav",
-    "build-radjav-only": "node index.js --build-radjav doNotCopyHTML5Files doNotCopyFilesToLibrary doNotMinify",
+    "build-only": "node index.js --build doNotCopyHTML5Files doNotCopyFilesToLibrary doNotMinify",
+    "build-html5": "node index.js --build doNotCopyFilesToLibrary",
+    "build-radjav-only": "node index.js --build doNotCopyHTML5Files doNotCopyFilesToLibrary doNotMinify",
     "build-defs": "node index.js --defs",
     "http": "node index.js --http",
     "defs": "node index.js --defs"

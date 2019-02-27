@@ -55,6 +55,7 @@
 				~V8Inspector();
 
 				void start(String ip, RJINT port);
+				void close();
 
 				virtual void runMessageLoopOnPause(int contextGroupId) override;
 				virtual void quitMessageLoopOnPause() override;

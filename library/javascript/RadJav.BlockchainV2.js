@@ -10,3 +10,4 @@ var RadJav;
         BlockchainV2.connect = connect;
     })(BlockchainV2 = RadJav.BlockchainV2 || (RadJav.BlockchainV2 = {}));
 })(RadJav || (RadJav = {}));
+//# sourceMappingURL=RadJav.BlockchainV2.js.map

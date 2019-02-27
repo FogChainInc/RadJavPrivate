@@ -318,3 +318,4 @@ var RadJav;
         XML.XMLAttribute = XMLAttribute;
     })(XML = RadJav.XML || (RadJav.XML = {}));
 })(RadJav || (RadJav = {}));
+//# sourceMappingURL=RadJav.IO.js.map

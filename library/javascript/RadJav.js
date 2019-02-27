@@ -722,7 +722,6 @@ var RadJav;
     RadJav._emptyResolve = _emptyResolve;
     function _guiFinishedCreatingGObject(resolve, reject) {
         var promises = [];
-        debugger;
         for (var iIdx = 0; iIdx < this._children.length; iIdx++) {
             var justCreateTheObject = true;
             if (this.type == "RadJav.MUI.Navigator") {
@@ -1489,3 +1488,4 @@ RadJav.setupScreens();
 var _eval = eval;
 var _Function = Function;
 RadJav.defaults = RadJav;
+//# sourceMappingURL=RadJav.js.map

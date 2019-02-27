@@ -17,3 +17,4 @@ var RadJav;
         Net.TcpClient = TcpClient;
     })(Net = RadJav.Net || (RadJav.Net = {}));
 })(RadJav || (RadJav = {}));
+//# sourceMappingURL=RadJav.Net.TcpClient.js.map
