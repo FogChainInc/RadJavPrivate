@@ -39,8 +39,14 @@ if (USE_V8)
 	# V8 JavaScript Engine
 	set (SOURCES_files_RadJav__v8__Sources 
 		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8JavascriptEngine.cpp"
-		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8ExternalsDetails.cpp"
-		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8Inspector.cpp")
+		"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8ExternalsDetails.cpp")
+	
+	if (libRadJav_DEBUG_INSPECTOR)
+		set (SOURCES_files_RadJav__v8__Sources
+			"${libRadJav_SOURCE_DIR}/src/RadJav/v8/RadJavV8Inspector.cpp"
+			${SOURCES_files_RadJav__v8__Sources})
+	endif ()
+	
 	source_group ("RadJav\\V8" FILES ${SOURCES_files_RadJav__v8__Sources})
 	
 	set (SOURCES ${SOURCES_files_RadJav__v8__Sources} ${SOURCES})
