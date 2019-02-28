@@ -11,7 +11,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 		window.setPosition(0, 0);
 		window.setSize(screenWidth, screenHeight);
 		
-		var checkbox = new RadJav.MUI.Checkbox("checkbox", "", window);
+		var checkbox = new RadJav.GUI.Checkbox("checkbox", "", window);
 		checkbox.create();
 		checkbox.setPosition(50, 100);
 		checkbox.setSize(200, 100);

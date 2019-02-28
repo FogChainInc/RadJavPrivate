@@ -61,13 +61,13 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 						
 				navi.addTab(win1,icon);
 				
-				var img = new RadJav.MUI.Image ("image", "", win1);
+				var img = new RadJav.GUI.Image ("image", "", win1);
 				img.create().then (function (img_created)
 				{
 					img1 = img_created;
 					img1.setPosition ((screenWidth-256)/2, screenHeight/5);
 					img1.setSize (256, 256);
-					img1.setScaleMode(RadJav.MUI.Image.ScaleModeAspectFit);
+					img1.setScaleMode(RadJav.GUI.Image.ScaleModeAspectFit);
 					
 					if (RadJav.OS.type == "android")
 						img1.setImage("/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/examples/mobile/bottomnavigator/window_one.png");
@@ -90,13 +90,13 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 						icon = "/examples/mobile/bottomnavigator/2.png";
 						
 				navi.addTab(win2,icon);
-				var img = new RadJav.MUI.Image ("image", "", win2);
+				var img = new RadJav.GUI.Image ("image", "", win2);
 				img.create().then (function (img_created)
 				{
 					img2 = img_created;
 					img2.setPosition ((screenWidth-256)/2, screenHeight/5);
 					img2.setSize (256, 256);
-					img2.setScaleMode(RadJav.MUI.Image.ScaleModeAspectFit);
+					img2.setScaleMode(RadJav.GUI.Image.ScaleModeAspectFit);
 					
 					if (RadJav.OS.type == "android")
 						img2.setImage("/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/examples/mobile/bottomnavigator/window_two.png");
@@ -118,13 +118,13 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 						icon = "/examples/mobile/bottomnavigator/3.png";
 						
 				navi.addTab(win3,icon);
-				var img = new RadJav.MUI.Image ("image", "", win3);
+				var img = new RadJav.GUI.Image ("image", "", win3);
 				img.create().then (function (img_created)
 				{
 					img3 = img_created;
 					img3.setPosition ((screenWidth-256)/2, screenHeight/5);
 					img3.setSize (256, 256);
-					img3.setScaleMode(RadJav.MUI.Image.ScaleModeAspectFit);
+					img3.setScaleMode(RadJav.GUI.Image.ScaleModeAspectFit);
 					
 					if (RadJav.OS.type == "android")
 						img3.setImage("/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/examples/mobile/bottomnavigator/window_three.png");
@@ -147,13 +147,13 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 						icon = "/examples/mobile/bottomnavigator/3.png";
 						
 				navi.addTab(win4,icon);
-				var img = new RadJav.MUI.Image ("image", "", win4);
+				var img = new RadJav.GUI.Image ("image", "", win4);
 				img.create().then (function (img_created)
 				{
 					img4 = img_created;
 					img4.setPosition ((screenWidth-256)/2, screenHeight/5);
 					img4.setSize (256, 256);
-					img4.setScaleMode(RadJav.MUI.Image.ScaleModeAspectFit);
+					img4.setScaleMode(RadJav.GUI.Image.ScaleModeAspectFit);
 					
 					if (RadJav.OS.type == "android")
 						img4.setImage("/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/examples/mobile/bottomnavigator/window_three.png");
@@ -177,13 +177,13 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 						icon = "/examples/mobile/bottomnavigator/3.png";
 						
 				navi.addTab(win5,icon);
-				var img = new RadJav.MUI.Image ("image", "", win5);
+				var img = new RadJav.GUI.Image ("image", "", win5);
 				img.create().then (function (img_created)
 				{
 					img5 = img_created;
 					img5.setPosition ((screenWidth-256)/2, screenHeight/5);
 					img5.setSize (256, 256);
-					img5.setScaleMode(RadJav.MUI.Image.ScaleModeAspectFit);
+					img5.setScaleMode(RadJav.GUI.Image.ScaleModeAspectFit);
 					
 					if (RadJav.OS.type == "android")
 						img5.setImage("/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/examples/mobile/bottomnavigator/window_three.png");
@@ -207,13 +207,13 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 						icon = "/examples/mobile/bottomnavigator/3.png";
 						
 				navi.addTab(win6,icon);
-				var img = new RadJav.MUI.Image ("image", "", win6);
+				var img = new RadJav.GUI.Image ("image", "", win6);
 				img.create().then (function (img_created)
 				{
 					img6 = img_created;
 					img6.setPosition ((screenWidth-256)/2, screenHeight/5);
 					img6.setSize (256, 256);
-					img6.setScaleMode(RadJav.MUI.Image.ScaleModeAspectFit);
+					img6.setScaleMode(RadJav.GUI.Image.ScaleModeAspectFit);
 					
 					if (RadJav.OS.type == "android")
 						img6.setImage("/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/examples/mobile/bottomnavigator/window_three.png");

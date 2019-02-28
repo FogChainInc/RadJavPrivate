@@ -18,13 +18,13 @@ var tableViewDelegate = function (itemData)
 		itemText = itemData.text;
 	
 	//Create Label
-	var label = new RadJav.MUI.Label("label", itemText, view);
+	var label = new RadJav.GUI.Label("label", itemText, view);
 	label.create();
 	label.setSize(screenWidth/2, itemHeight/2);
 	label.setPosition(screenWidth/20, (itemHeight - label.getHeight())/2);
 	
 	//Create Checkbox
-	var checkbox = new RadJav.MUI.Checkbox("checkbox", "", view);
+	var checkbox = new RadJav.GUI.Checkbox("checkbox", "", view);
 	checkbox.create();
 	checkbox.setSize(screenWidth/5, itemHeight/2);
 	checkbox.setPosition(screenWidth - screenWidth/5, (itemHeight - checkbox.getHeight())/2);

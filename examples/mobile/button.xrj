@@ -13,7 +13,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 		window.setPosition(0, 0);
 		window.setSize(screenWidth, screenHeight);
 		
-		button1 = new RadJav.MUI.Button("button", "touch, key", window);
+		button1 = new RadJav.GUI.Button("button", "touch, key", window);
 		button1.create();
 		button1.setPosition(50, 100);
 		button1.setSize(200, 100);
@@ -30,7 +30,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 			return true;
 		});
 		
-		button2 = new RadJav.MUI.Button("button", "focus, longclick", window);
+		button2 = new RadJav.GUI.Button("button", "focus, longclick", window);
 		button2.create();
 		button2.setPosition(50, 300);
 		button2.setSize(400, 100);
@@ -46,7 +46,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 			return true;
 		});
 		
-		button3 = new RadJav.MUI.Button("button", "click, context, undef", window);
+		button3 = new RadJav.GUI.Button("button", "click, context, undef", window);
 		button3.create();
 		button3.setPosition(50, 500);
 		button3.setSize(600, 100);

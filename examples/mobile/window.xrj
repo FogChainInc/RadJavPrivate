@@ -11,7 +11,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 		window.setPosition(0, 0);
 		window.setSize(screenWidth, screenHeight);
 		
-		button = new RadJav.MUI.Button ("button", "onClick", window);
+		button = new RadJav.GUI.Button ("button", "onClick", window);
 		button.create();
 		button.setPosition(50, 100);
 		button.setSize(200, 100);

@@ -25,11 +25,11 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 		RadJav.Console.log("scrollview.create");
 		
 		//Create scrollview content image
-		image = new RadJav.MUI.Image("image", "");
+		image = new RadJav.GUI.Image("image", "");
 		image.create();
 		image.setPosition(0, 0);
 		image.setSize(900, 900);
-		image.setScaleMode(RadJav.MUI.Image.ScaleModeAspectFit);
+		image.setScaleMode(RadJav.GUI.Image.ScaleModeAspectFit);
 		
 		if (RadJav.OS.type == "android")
 			image.setImage("/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/examples/mobile/test_image_android.png");

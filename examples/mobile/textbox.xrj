@@ -17,39 +17,39 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 		window.setPosition(0, 0);
 		window.setSize(screenWidth, screenHeight);
 		
-		textboxText = new RadJav.MUI.Textbox("textbox", "", window);
+		textboxText = new RadJav.GUI.Textbox("textbox", "", window);
 		textboxText.create();
-		textboxText.setInputMode(RadJav.MUI.Textbox.InputModeText);
+		textboxText.setInputMode(RadJav.GUI.Textbox.InputModeText);
 		textboxText.setPosition(50, 50);
 		textboxText.setSize(200, 50);
 		
-		textboxNumbered = new RadJav.MUI.Textbox("textbox", "", window);
+		textboxNumbered = new RadJav.GUI.Textbox("textbox", "", window);
 		textboxNumbered.create();
-		textboxNumbered.setInputMode(RadJav.MUI.Textbox.InputModeNumber);
+		textboxNumbered.setInputMode(RadJav.GUI.Textbox.InputModeNumber);
 		textboxNumbered.setPosition(50, 150);
 		textboxNumbered.setSize(200, 50);
 		
-		textboxDecimal = new RadJav.MUI.Textbox("textbox", "", window);
+		textboxDecimal = new RadJav.GUI.Textbox("textbox", "", window);
 		textboxDecimal.create();
-		textboxDecimal.setInputMode(RadJav.MUI.Textbox.InputModeDecimal);
+		textboxDecimal.setInputMode(RadJav.GUI.Textbox.InputModeDecimal);
 		textboxDecimal.setPosition(50, 250);
 		textboxDecimal.setSize(200, 50);
 		
-		textboxPhone = new RadJav.MUI.Textbox("textbox", "", window);
+		textboxPhone = new RadJav.GUI.Textbox("textbox", "", window);
 		textboxPhone.create();
-		textboxPhone.setInputMode(RadJav.MUI.Textbox.InputModePhone);
+		textboxPhone.setInputMode(RadJav.GUI.Textbox.InputModePhone);
 		textboxPhone.setPosition(50, 350);
 		textboxPhone.setSize(200, 50);
 		
-		textboxEmail = new RadJav.MUI.Textbox("textbox", "", window);
+		textboxEmail = new RadJav.GUI.Textbox("textbox", "", window);
 		textboxEmail.create();
-		textboxEmail.setInputMode(RadJav.MUI.Textbox.InputModeEmail);
+		textboxEmail.setInputMode(RadJav.GUI.Textbox.InputModeEmail);
 		textboxEmail.setPosition(50, 450);
 		textboxEmail.setSize(200, 50);
 		
-		textboxPassword = new RadJav.MUI.Textbox("textbox", "", window);
+		textboxPassword = new RadJav.GUI.Textbox("textbox", "", window);
 		textboxPassword.create();
-		textboxPassword.setInputMode(RadJav.MUI.Textbox.InputModePassword);
+		textboxPassword.setInputMode(RadJav.GUI.Textbox.InputModePassword);
 		textboxPassword.setPosition(50, 550);
 		textboxPassword.setSize(200, 50);
 	});

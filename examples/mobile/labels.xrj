@@ -13,7 +13,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 		window.createMainView();
 		window.setSize(screenWidth, screenHeight);
 		
-		label = new RadJav.MUI.Label("Label", "Label text", window);
+		label = new RadJav.GUI.Label("Label", "Label text", window);
 		label.create();
 		var labelWidth = screenWidth;
 		var labelHeight = screenHeight/12;
@@ -23,7 +23,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 		
 		label.setText("What if text will be very very very very very very very very very very very long?");
 		
-		button = new RadJav.MUI.Button("Button", "Click me!", window);
+		button = new RadJav.GUI.Button("Button", "Click me!", window);
 		button.create();
 		var buttonWidth = screenWidth/2;
 		var buttonHeight = screenHeight/12;

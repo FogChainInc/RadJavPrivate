@@ -11,11 +11,11 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 		window.setPosition(0, 0);
 		window.setSize(screenWidth, screenHeight);
 		
-		image = new RadJav.MUI.Image("image", "", window);
+		image = new RadJav.GUI.Image("image", "", window);
 		image.create();
 		image.setPosition(50, 100);
 		image.setSize(200, 100);
-		image.setScaleMode(RadJav.MUI.Image.ScaleModeAspectFit);
+		image.setScaleMode(RadJav.GUI.Image.ScaleModeAspectFit);
 		
 		if (RadJav.OS.type == "android")
 			image.setImage("/storage/emulated/0/Android/data/com.fogchain.radjavvm/cache/examples/mobile/test_image_android.png");

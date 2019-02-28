@@ -11,7 +11,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 		window.setPosition(0, 0);
 		window.setSize(screenWidth, screenHeight);
 		
-		textarea = new RadJav.MUI.Textarea("textarea", "", window);
+		textarea = new RadJav.GUI.Textarea("textarea", "", window);
 		textarea.create();
 		textarea.setPosition(50, 100);
 		textarea.setSize(200, 100);
