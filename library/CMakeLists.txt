@@ -28,13 +28,22 @@ set (PROJECT_VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT
 
 message (STATUS "libRadJav Version ${PROJECT_VERSION}")
 
-#Setting supported Javascript engines for specific platforms
+#Setting supported Javascript engines and GUI for specific platforms
 if (APPLE)
-	list (APPEND javascriptEngineLibraries JavaScriptCore V8)
-	list (APPEND guiLibraries wxWidgets "iOS-UIKit")
+	if (IOS)
+		list (APPEND javascriptEngineLibraries JavaScriptCore)
+		list (APPEND guiLibraries "iOS-UIKit")
+	else ()
+		list (APPEND javascriptEngineLibraries JavaScriptCore V8)
+		list (APPEND guiLibraries wxWidgets)
+	endif ()
 elseif (UNIX)
-	list (APPEND javascriptEngineLibraries V8 JavaScriptCore)
-	list (APPEND guiLibraries wxWidgets Android)
+	list (APPEND javascriptEngineLibraries V8)
+	if (ANDROID)
+		list (APPEND guiLibraries Android)
+	else ()
+		list (APPEND guiLibraries wxWidgets)
+	endif ()
 elseif (WIN32)
 	list (APPEND javascriptEngineLibraries V8)
 	list (APPEND guiLibraries wxWidgets)
