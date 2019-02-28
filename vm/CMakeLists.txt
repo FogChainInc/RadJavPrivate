@@ -196,7 +196,7 @@ if (RadJavVM_EMBED_HTML5)
 				WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}/../html5/" 
 				VERBATIM )
 	add_custom_command (TARGET ${CMAKE_PROJECT_NAME} POST_BUILD 
-				COMMAND npm run build-radjav doNotCopyFilesToLibrary 
+				COMMAND npm run build doNotCopyFilesToLibrary 
 				WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}/../html5/" 
 				COMMENT "Building HTML5..." 
 				VERBATIM )
