@@ -10,9 +10,12 @@ find_package (wxWidgets REQUIRED core base webview)
 include (${wxWidgets_USE_FILE})
 
 set (wxWidgets_INCLUDE ${wxWidgets_INCLUDE_DIRS})
-set (wxWidgets_LIBRARIES debug ${WX_webviewd} optimized ${WX_webview} ${wxWidgets_LIBRARIES})
 
-#set (wxWidgets_INCLUDE ${wxWidgets_INCLUDE_DIRS})
+if (wxWidgets_USE_DEBUG)
+	set (wxWidgets_LIBRARIES debug ${WX_webview} ${wxWidgets_LIBRARIES})
+else ()
+	set (wxWidgets_LIBRARIES optimized ${WX_webview} ${wxWidgets_LIBRARIES})
+endif ()
 
 if (WIN32)
 	set(wxWidgets_LIBRARIES debug
