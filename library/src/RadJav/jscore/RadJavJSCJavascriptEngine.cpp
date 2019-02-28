@@ -123,6 +123,7 @@
 
 #include "cpp/RadJavCPPIO.h"
 #include "cpp/RadJavCPPOS.h"
+#include "cpp/RadJavCPPOSScreenInfo.h"
 
 #include <cstring>
 #include <fstream>
