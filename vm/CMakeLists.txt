@@ -30,7 +30,7 @@ set (libRadJav_PATH "${RadJavVM_SOURCE_DIR}/../library/" CACHE PATH "RadJav path
 set (libRadJav_CMAKE_BUILD_PATH "${RadJavVM_SOURCE_DIR}/../library/build/" CACHE PATH "libRadJav CMake Build Path")
 set (libRadJav_DEPENDENCIES $ENV{RADJAV_DEPENDENCIES} CACHE PATH "RadJav Dependencies path")
 set (RadJavVM_LANGUAGE "en_us" CACHE STRING "Select language to compile with")
-set (libRadJav_STATIC false CACHE BOOL "Use static build of libRadJav")
+set (libRadJav_STATIC true CACHE BOOL "Use static build of libRadJav")
 set (RadJavVM_CREATE_INSTALL_PACKAGES false CACHE BOOL "Create install packages")
 set (RadJavVM_EMBED_EXAMPLES true CACHE BOOL "Embed examples into application bundle")
 set (RadJavVM_EMBED_HTML5 true CACHE BOOL "Embed HTML5 into application bundle")
