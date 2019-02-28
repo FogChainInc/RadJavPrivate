@@ -22,10 +22,13 @@
 #include "RadJav.h"
 #include "RadJavString.h"
 
+#ifndef WIN32
+	#include <unistd.h>
+#endif
+
 #ifdef USE_IOS
 	#import "cpp/ios/RadJavCPPMUIUtils.h"
 #endif
-
 
 #ifdef GUI_USE_WXWIDGETS
 	#include <wx/wx.h>
