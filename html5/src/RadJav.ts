@@ -1819,20 +1819,18 @@ namespace RadJav
 		{
 			let tempType = type;
 
-			if (typeof type == "object") {
-					tempType = type.type;
+			if (typeof type == "object")
+			{
+				tempType = type.type;
 
-					if (type.name != null) {
+				if (type.name != null)
 					name = type.name;
-				}
 
-				if (type.text != null) {
+				if (type.text != null)
 					text = type.text;
-				}
 
-				if (type._text != null) {
+				if (type._text != null)
 					text = type._text;
-				}
 			}
 
 			if (tempType.indexOf("RadJav.GUI") > -1)

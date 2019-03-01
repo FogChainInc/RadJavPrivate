@@ -60,7 +60,7 @@ namespace RadJAV
 					wxWindow *parentWin = NULL;
 
 					if (_parent != NULL)
-						parentWin = (wxWindow *)_parent->_appObj;
+						parentWin = (wxWindow *)_parent->_appObj->getNativeWidget ();
 
 					WebViewFrame *object = RJNEW WebViewFrame(wxWebView::New(parentWin, wxID_ANY, _text.towxString(), 
 						wxPoint(_transform->x, _transform->y), wxSize(_transform->width, _transform->height)));
@@ -70,7 +70,7 @@ namespace RadJAV
 				
 					linkWith(object);
 
-					setup();
+					//setup();
 				#endif
 			}
 

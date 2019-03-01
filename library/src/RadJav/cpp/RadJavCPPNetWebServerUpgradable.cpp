@@ -351,6 +351,8 @@ namespace RadJAV
 				res.prepare_payload();
 				lambda_(std::move(res));*/
 
+				buffer_.consume(buffer_.size ());
+
 				do_read();
 			}
 
@@ -380,9 +382,9 @@ namespace RadJAV
 
 				// Clear the buffer
 				buffer_.consume(buffer_.size());
-
+				
 				// We're done with the response so delete it
-				res_ = nullptr;
+				res_.reset();
 
 				// Read another request
 				do_read();
@@ -467,13 +469,15 @@ namespace RadJAV
 				//			std::placeholders::_1,
 				//			std::placeholders::_2)));
 
-				String *id = RJNEW String(sessionID_.c_str());
+				String *id = RJNEW String(sessionID_);
 				String *recvMsg = RJNEW String(message);
 
 				parent_->executeCppEvent("webSocketSend", Array<void *>({ id, recvMsg }));
 
 				DELETEOBJ(id);
 				DELETEOBJ(recvMsg);
+
+				b.consume(b.size ());
 			}
 			void WebServerUpgradable::WebSocketSession::on_read(boost::system::error_code ec, std::size_t bytes_transferred)
 			{
@@ -489,7 +493,7 @@ namespace RadJAV
 					return;
 				}
 
-				String *id = RJNEW String(sessionID_.c_str());
+				String *id = RJNEW String(sessionID_);
 				String *message = RJNEW String(boost::beast::buffers_to_string(buffer_.data()).c_str());
 
 				parent_->executeCppEvent("webSocketReceive", Array<void *>({ id, message }));

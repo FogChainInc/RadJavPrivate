@@ -134,7 +134,10 @@ module.exports =
 	getSelectedItemIndex: function (combobox)
 	{
 		var store = combobox._html.get ("store");
-		var index = store.getValue (combobox._html.item, "id");
+		var index = -1;
+
+		if (combobox._html.item != null)
+			index = store.getValue (combobox._html.item, "id");
 
 		return (index);
 	}

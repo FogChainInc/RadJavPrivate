@@ -59,10 +59,8 @@ namespace RadJAV
 				String *id = (String *)args.at (0);
 				String *message = (String *)args.at (1);
 
-				std::unique_ptr<uint16_t[]> msgBuffer(RJNEW uint16_t[message->size()]);
-				v8::Local<v8::String> v8str = message->toV8String (isolate);
-				v8str->Write(isolate, msgBuffer.get(), 0, message->size());
-				v8_inspector::StringView msg(msgBuffer.get (), message->size ());
+				std::unique_ptr<uint16_t[]> msgBuffer = createMessageBuffer_uint16 (*message);
+				v8_inspector::StringView msg(msgBuffer.get(), message->size());
 				session->dispatchProtocolMessage(msg);
 
 				return (NULL);
@@ -72,16 +70,16 @@ namespace RadJAV
 			String *id = (String *)args.at(0);
 			String *message = (String *)args.at(1);
 
-			String result = "";
+			/*String result = "";
 			
 			result += "<!DOCTYPE html>";
 			result += "<html>";
 			result += "<body>";
 			result += "You requested ws://127.0.0.1:9229/";
 			result += "</body>";
-			result += "</html>";
+			result += "</html>";*/
 
-			String *output = RJNEW String(result);
+			String *output = RJNEW String("You requested ws://127.0.0.1:9229/");
 
 			return (output);
 		});
@@ -101,6 +99,11 @@ namespace RadJAV
 
 			channel = RJNEW V8InspectorChannel(server, *id);
 			session = inspector->connect(1, channel, v8_inspector::StringView());
+
+			String pauseReason = "Break on start";
+			std::unique_ptr<uint16_t[]> msgBuffer = createMessageBuffer_uint16(pauseReason);
+			v8_inspector::StringView msg(msgBuffer.get(), pauseReason.size());
+			session->schedulePauseOnNextStatement(msg, msg);
 
 			return (RJNEW RJBOOL(true));
 		});
@@ -128,6 +131,21 @@ namespace RadJAV
 	{
 		while (server->numWebSocketConnections() < 1)
 			CPP::OS::sleep(100);
+	}
+
+	std::unique_ptr<uint16_t[]> V8Inspector::createMessageBuffer_uint16(String message)
+	{
+		/*std::unique_ptr<uint16_t[]> msgBuffer(RJNEW uint16_t[message.size()]);
+		v8::Local<v8::String> v8str = message.toV8String(isolate);
+		v8str->Write(isolate, msgBuffer.get(), 0, message.size());
+
+		v8_inspector::StringView msg(msgBuffer.get(), message.size());*/
+
+		std::unique_ptr<uint16_t[]> msgBuffer(RJNEW uint16_t[message.size()]);
+		v8::Local<v8::String> v8str = message.toV8String(isolate);
+		v8str->Write(isolate, msgBuffer.get(), 0, message.size());
+
+		return (msgBuffer);
 	}
 
 	void V8Inspector::runMessageLoopOnPause(int contextGroupId)

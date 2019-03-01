@@ -113,8 +113,8 @@ namespace RadJAV
             	void Window::on(String event, RJ_FUNC_TYPE func)
 				{
 					#ifdef GUI_USE_WXWIDGETS
-						CPP::GUI::WindowFrame *object = (CPP::GUI::WindowFrame *)_appObj;
-						CPP::GUI::WindowFrame *obj = (CPP::GUI::WindowFrame *)object->GetParent();
+						CPP::GUI::WindowFrame *obj = (CPP::GUI::WindowFrame *)_appObj->getNativeWidget ();
+						//CPP::GUI::WindowFrame *obj = (CPP::GUI::WindowFrame *)object->GetParent();
 
 						obj->addNewEvent(event, obj, func);
 
