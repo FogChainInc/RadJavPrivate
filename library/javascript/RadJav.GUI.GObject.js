@@ -72,10 +72,12 @@ var RadJav;
                 if (obj.children != null) {
                     for (var iIdx = 0; iIdx < obj.children.length; iIdx++) {
                         var obj2 = obj.children[iIdx];
-                        var createObject = obj2;
+                        var createTheObject = false;
+                        var newObj = obj2;
                         if (this.onBeforeChildCreated != null)
-                            createObject = this.onBeforeChildCreated(obj2, parent);
-                        this.addChild(createObject);
+                            createTheObject = this.onBeforeChildCreated(obj2, parent);
+                        if (createTheObject == true)
+                            this.addChild(newObj);
                     }
                 }
                 if (obj.position != null) {
@@ -116,6 +118,8 @@ var RadJav;
                 if (doParentLOL == true)
                     child._parent = this;
                 this._children.push(child);
+                if (this["_addChild"] != null)
+                    this["_addChild"](child);
             };
             GObject.prototype.create = function () {
                 var promise = new Promise(RadJav.keepContext(function (resolve, reject) {

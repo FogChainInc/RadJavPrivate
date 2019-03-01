@@ -63,6 +63,8 @@
 
 				void waitForConnection();
 
+				std::unique_ptr<uint16_t[]> createMessageBuffer_uint16(String message);
+
 			protected:
 				RJBOOL isPaused;
 				CPP::Net::WebServerUpgradable *server;

@@ -94,9 +94,10 @@
 			 */
 			createOnPlatforms: Object;
 			/** 
-			 * The function to execute before a child is created.
+			 * The function to execute before a child is created. 
+			 * If this function returns true, it will add the child object to be created.
 			 */
-			onBeforeChildCreated: ((obj: Object,parent?:any) => void);
+			onBeforeChildCreated: ((obj: Object,parent?:any) => boolean);
 			/** 
 			 * The function to execute once the object has been created.
 			 */
@@ -216,15 +217,17 @@
 
 				if (obj.children != null)
 				{
-					for (var iIdx = 0; iIdx < obj.children.length; iIdx++)
+					for (let iIdx = 0; iIdx < obj.children.length; iIdx++)
 					{
-						var obj2: RadJav.GUI.GObject = obj.children[iIdx];
-						var createObject: any = obj2;
+						let obj2: RadJav.GUI.GObject = obj.children[iIdx];
+						let createTheObject: boolean = false;
+						let newObj: any = obj2;
 
 						if (this.onBeforeChildCreated != null)
-							createObject = this.onBeforeChildCreated(obj2, parent);
+							createTheObject = this.onBeforeChildCreated(obj2, parent);
 
-						this.addChild (createObject);
+						if (createTheObject == true)
+							this.addChild (newObj);
 					}
 				}
 
