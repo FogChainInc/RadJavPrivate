@@ -1,41 +1,17 @@
 var window;
-var button;
 
-RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav.getMUILibrary ()).then (function () {
+RadJav.initialize (RadJav.getStandardLibrary (),
+					RadJav.getGUILibrary (),
+					RadJav.getMUILibrary ()).then (function () {
 	RadJav.runApplication (function () {
 		var screenWidth = RadJav.getPrimaryScreen().getWidth();
 		var screenHeight = RadJav.getPrimaryScreen().getHeight();
 		
 		window = new RadJav.MUI.View ("win", "Window Example");
-		window.createMainView();
-		window.setPosition(0, 0);
-		window.setSize(screenWidth, screenHeight);
-		
-		button = new RadJav.GUI.Button ("button", "onClick", window);
-		button.create();
-		button.setPosition(50, 100);
-		button.setSize(200, 100);
-		button.flag = false;
-		
-		button.on ("click", function () {
-			RadJav.Console.log("radjav message");
-			if (button.flag) {
-				button.flag = false;
-				RadJav.Console.log("radjav false");
-				button.setText("False");
-			} else
-			{
-				button.flag = true;
-				RadJav.Console.log("radjav true");
-				button.setText("True");
-			}
-			//alert ("Hello World!");
-		});
-								
-		button.on ("longClick", function () {
-			RadJav.Console.log("radjav longClick (true)");
-			button.setText("longClick");
-			return true;
+		window.createMainView().then(function (win) {
+			window = win;
+			window.setPosition(0, 0);
+			window.setSize(screenWidth, screenHeight);
 		});
 	});
 });
