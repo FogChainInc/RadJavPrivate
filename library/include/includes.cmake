@@ -462,7 +462,14 @@ if (USE_V8)
 			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetUdpClient.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetTcpServer.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetTcpClient.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebServer.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebServer.h")
+		source_group ("RadJav\\CPP\\Net" FILES ${SOURCES_files_RadJav__cpp__Net__Headers})
+		
+		set (SOURCES ${SOURCES_files_RadJav__cpp__Net__Headers} ${SOURCES})
+	endif ()
+	
+	if (libRadJav_ALLOW_NETWORKING OR libRadJav_DEBUG_INSPECTOR)
+		set (SOURCES_files_RadJav__cpp__Net__Headers 
 			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebServerUpgradable.h")
 		source_group ("RadJav\\CPP\\Net" FILES ${SOURCES_files_RadJav__cpp__Net__Headers})
 		

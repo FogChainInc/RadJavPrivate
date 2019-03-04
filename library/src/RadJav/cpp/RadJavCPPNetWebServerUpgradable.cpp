@@ -418,7 +418,7 @@ namespace RadJAV
 				String *id = RJNEW String(sessionID_);
 
 				RJBOOL *result = (RJBOOL *)parent_->executeCppEvent("webSocketUpgrade", Array<void *>({ id }));
-				parent_->websocketSessions.insert(HashMapPair<std::string, std::shared_ptr<WebServerUpgradable::WebSocketSession> >(sessionID_, this));
+				parent_->websocketSessions.insert(HashMapPair<std::string, std::shared_ptr<WebServerUpgradable::WebSocketSession> >(sessionID_, shared_from_this()));
 
 				DELETEOBJ(result);
 
