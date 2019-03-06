@@ -44,9 +44,14 @@ namespace RadJAV
 				wxFont wxfont;
 				
 				if (font->fontFamily != "")
-					wxfont.SetFaceName(font->fontFamily.towxString());
+				{
+					if (!wxfont.SetFaceName(font->fontFamily.towxString()))
+						return;
+				}
 				else
+				{
 					wxfont = *wxSMALL_FONT;
+				}
 				
 				wxfont.SetPixelSize(wxSize(0, font->size));
 				
