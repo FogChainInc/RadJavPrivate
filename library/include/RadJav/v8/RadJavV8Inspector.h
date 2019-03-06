@@ -29,6 +29,10 @@
 	#include "RadJavArray.h"
 	#include "RadJavHashMap.h"
 
+	#include <queue>
+	#include <mutex>
+
+
 	namespace RadJAV
 	{
 		namespace CPP
@@ -45,6 +49,47 @@
 			kInspectorClientIndex
 		};
 
+		template<class T>
+		class ThreadSafeQueue
+		{
+		public:
+			void push( const T& value )
+			{
+				std::lock_guard<std::mutex> guard(accessMutex);
+				data.push(value);
+			}
+
+			void pop()
+			{
+				std::lock_guard<std::mutex> guard(accessMutex);
+				data.pop();
+			}
+
+			const T& front()
+			{
+				std::lock_guard<std::mutex> guard(accessMutex);
+				return data.front();
+			}
+			
+			bool empty()
+			{
+				std::lock_guard<std::mutex> guard(accessMutex);
+				return data.empty();
+			}
+			
+			size_t size()
+			{
+				std::lock_guard<std::mutex> guard(accessMutex);
+				return data.size();
+			}
+			
+		private:
+			std::mutex accessMutex;
+			std::queue<T> data;
+		};
+		
+		using FrontEndMessageQueue = ThreadSafeQueue<String>;
+		
 		class V8InspectorChannel;
 
 		/// The V8 inspector.
@@ -56,14 +101,45 @@
 
 				void start(String ip, RJINT port);
 				void close();
-
-				virtual void runMessageLoopOnPause(int contextGroupId) override;
-				virtual void quitMessageLoopOnPause() override;
-				v8::Local<v8::Context> ensureDefaultContextInGroup(int groupId) override;
-
 				void waitForConnection();
-
+				void dispatchFrontendMessages();
+			
 				std::unique_ptr<uint16_t[]> createMessageBuffer_uint16(String message);
+
+				// From V8InspectorClient
+				void runMessageLoopOnPause(int contextGroupId);
+				void quitMessageLoopOnPause();
+				void runIfWaitingForDebugger(int contextGroupId);
+				void muteMetrics(int contextGroupId);
+				void unmuteMetrics(int contextGroupId);
+				void beginUserGesture();
+				void endUserGesture();
+				std::unique_ptr<v8_inspector::StringBuffer> valueSubtype(v8::Local<v8::Value>);
+				bool formatAccessorsAsProperties(v8::Local<v8::Value>);
+				bool isInspectableHeapObject(v8::Local<v8::Object>);
+				v8::Local<v8::Context> ensureDefaultContextInGroup(int contextGroupId);
+				void beginEnsureAllContextsInGroup(int contextGroupId);
+				void endEnsureAllContextsInGroup(int contextGroupId);
+				void installAdditionalCommandLineAPI(v8::Local<v8::Context>, v8::Local<v8::Object>);
+				void consoleAPIMessage(int contextGroupId,
+								   v8::Isolate::MessageErrorLevel level,
+								   const v8_inspector::StringView& message,
+								   const v8_inspector::StringView& url, unsigned lineNumber,
+								   unsigned columnNumber, v8_inspector::V8StackTrace*);
+				v8::MaybeLocal<v8::Value> memoryInfo(v8::Isolate*, v8::Local<v8::Context>);
+				void consoleTime(const v8_inspector::StringView& title);
+				void consoleTimeEnd(const v8_inspector::StringView& title);
+				void consoleTimeStamp(const v8_inspector::StringView& title);
+				void consoleClear(int contextGroupId);
+				double currentTimeMS();
+			
+				typedef void (*TimerCallback)(void*);
+			
+				void startRepeatingTimer(double, TimerCallback, void* data);
+				void cancelTimer(void* data);
+				bool canExecuteScripts(int contextGroupId);
+				void maxAsyncCallStackDepthChanged(int depth);
+				std::unique_ptr<v8_inspector::StringBuffer> resourceNameToUrl(const v8_inspector::StringView& resourceName);
 
 			protected:
 				RJBOOL isPaused;
@@ -73,6 +149,7 @@
 				std::unique_ptr<v8_inspector::V8Inspector> inspector;
 				std::unique_ptr<v8_inspector::V8InspectorSession> session;
 				V8InspectorChannel *channel;
+				FrontEndMessageQueue frontendPendingMessages;
 		};
 
 		/// The network connection between the WebSocket server and the CDT.

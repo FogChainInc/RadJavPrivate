@@ -364,13 +364,10 @@ namespace RadJAV
 		void V8JavascriptEngine::startInspector(String filePath)
 		{
 			#ifdef USE_INSPECTOR
-			if (useInspector)
-			{
 				inspector = RJNEW V8Inspector(isolate, globalContext);
 				inspector->start("127.0.0.1", 9229);
 
 				inspector->waitForConnection();
-			}
 			#endif
 		}
 
@@ -397,9 +394,8 @@ namespace RadJAV
 			isolate = jsvm->getIsolate();
 			globalContext = jsvm->getGlobalContext();
 
-			#ifdef USE_INSPECTOR
+			if (useInspector)
 				startInspector(fileName);
-			#endif
 
 			loadJavascriptLibrary();
 
@@ -585,6 +581,12 @@ namespace RadJAV
 			auto execFilenameBegin = jsToExecuteNextFilename.begin();
 			auto execContextBegin = jsToExecuteNextContext.begin();
 			auto execCodeEnd = jsToExecuteNextCode.end();
+
+			// Not sure if it needs to be before or after PumpMessageLoop of V8
+			#ifdef USE_INSPECTOR
+				if (useInspector)
+					inspector->dispatchFrontendMessages();
+			#endif
 			
 			try
 			{
@@ -899,6 +901,13 @@ namespace RadJAV
 			}
 
 			v8::Local<v8::Script> script = scriptTemp.ToLocalChecked();
+			
+			#ifdef USE_INSPECTOR
+				// Not sure if this is correct way, but we need it even if we still not entered our main loop
+				if (useInspector)
+					inspector->dispatchFrontendMessages();
+			#endif
+
 			v8::MaybeLocal<v8::Value> result = script->Run(scriptContext);
 
 			if (result.IsEmpty() == true)
