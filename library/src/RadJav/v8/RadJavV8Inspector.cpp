@@ -28,6 +28,24 @@
 #ifdef USE_V8
 namespace RadJAV
 {
+	namespace
+	{
+		std::unique_ptr<uint16_t[]> createMessageBuffer_uint16(v8::Isolate* isolate, String message)
+		{
+			/*std::unique_ptr<uint16_t[]> msgBuffer(RJNEW uint16_t[message.size()]);
+			 v8::Local<v8::String> v8str = message.toV8String(isolate);
+			 v8str->Write(isolate, msgBuffer.get(), 0, message.size());
+			 
+			 v8_inspector::StringView msg(msgBuffer.get(), message.size());*/
+			
+			std::unique_ptr<uint16_t[]> msgBuffer(RJNEW uint16_t[message.size()]);
+			v8::Local<v8::String> v8str = message.toV8String(isolate);
+			v8str->Write(isolate, msgBuffer.get(), 0, message.size());
+			
+			return (msgBuffer);
+		}
+	}
+	
 	V8Inspector::V8Inspector(v8::Isolate *isolate, v8::Local<v8::Context> context)
 	{
 		isPaused = false;
@@ -36,6 +54,7 @@ namespace RadJAV
 		this->context = context;
 		inspector = NULL;
 		channel = NULL;
+		ready = false;
 	}
 
 	V8Inspector::~V8Inspector()
@@ -57,18 +76,10 @@ namespace RadJAV
 
 		server->cppOn("webSocketReceive", [&](Array<void *> args) -> void *
 			{
+				//std::cout << "CDT message received\n";
+				
 				// We just put pending frontend(CDT) message into thread safe queue for future processing
 				frontendPendingMessages.push(String((*(String*)args.at(1))));
-				
-				// Old implementation, this leads to crash due to access to Isolate from asio thread
-				/*
-				String *id = (String *)args.at (0);
-				String *message = (String *)args.at (1);
-
-				std::unique_ptr<uint16_t[]> msgBuffer = createMessageBuffer_uint16 (*message);
-				v8_inspector::StringView msg(msgBuffer.get(), message->size());
-				session->dispatchProtocolMessage(msg);
-				 */
 				
 				return (NULL);
 			});
@@ -108,7 +119,7 @@ namespace RadJAV
 			session = inspector->connect(1, channel, v8_inspector::StringView());
 
 			String pauseReason = "Break on start";
-			std::unique_ptr<uint16_t[]> msgBuffer = createMessageBuffer_uint16(pauseReason);
+			std::unique_ptr<uint16_t[]> msgBuffer = createMessageBuffer_uint16(isolate, pauseReason);
 			v8_inspector::StringView msg(msgBuffer.get(), pauseReason.size());
 			session->schedulePauseOnNextStatement(msg, msg);
 
@@ -132,21 +143,43 @@ namespace RadJAV
 		session.reset();
 		DELETEOBJ(channel);
 		server->close();
+		ready = false;
 	}
 
 	void V8Inspector::waitForConnection()
 	{
-		while (server->numWebSocketConnections() < 1)
+		// Processing all control messages from CDT(Frontend) before compiling/executing any scripts
+		// We will be notified when we can start compiling/executing scripts by runIfWaitingForDebugger callback
+		while(!ready)
+		{
+			dispatchFrontendMessages();
+			// Wait for more CDT(Frontend) messages here if any
 			CPP::OS::sleep(100);
+		}
+		
+		// User defined breakpoints info usually comming too late, so lets wait for it
+		// so we can stop on them in the future during scripts execution
+		CPP::OS::sleep(500);
+		
+		while(!frontendPendingMessages.empty())
+		{
+			dispatchFrontendMessages();
+			// Wait for more CDT(Frontend) messages here if any
+			CPP::OS::sleep(200);
+		}
+
+		// Unlock main thread to continue application execution
 	}
 
 	void V8Inspector::dispatchFrontendMessages()
 	{
-		while (frontendPendingMessages.size())
+		while (!frontendPendingMessages.empty())
 		{
 			const String& message = frontendPendingMessages.front();
-			
-			std::unique_ptr<uint16_t[]> msgBuffer = createMessageBuffer_uint16 (message);
+
+			//std::cout << "- Processing CDT message:\n" << message << std::endl;
+
+			std::unique_ptr<uint16_t[]> msgBuffer = createMessageBuffer_uint16 (isolate, message);
 			v8_inspector::StringView msg(msgBuffer.get(), message.size());
 
 			session->dispatchProtocolMessage(msg);
@@ -155,23 +188,9 @@ namespace RadJAV
 		}
 	}
 
-	std::unique_ptr<uint16_t[]> V8Inspector::createMessageBuffer_uint16(String message)
-	{
-		/*std::unique_ptr<uint16_t[]> msgBuffer(RJNEW uint16_t[message.size()]);
-		v8::Local<v8::String> v8str = message.toV8String(isolate);
-		v8str->Write(isolate, msgBuffer.get(), 0, message.size());
-
-		v8_inspector::StringView msg(msgBuffer.get(), message.size());*/
-
-		std::unique_ptr<uint16_t[]> msgBuffer(RJNEW uint16_t[message.size()]);
-		v8::Local<v8::String> v8str = message.toV8String(isolate);
-		v8str->Write(isolate, msgBuffer.get(), 0, message.size());
-
-		return (msgBuffer);
-	}
-
 	void V8Inspector::runMessageLoopOnPause(int contextGroupId)
 	{
+		//std::cout << "- runMessageLoopOnPause\n";
 		isPaused = true;
 
 		while (isPaused == true)
@@ -183,11 +202,14 @@ namespace RadJAV
 	
 	void V8Inspector::quitMessageLoopOnPause()
 	{
+		//std::cout << "- quitMessageLoopOnPause\n";
 		isPaused = false;
 	}
 	
 	void V8Inspector::runIfWaitingForDebugger(int contextGroupId)
 	{
+		//std::cout << "- runIfWaitingForDebugger\n";
+		ready = true;
 	}
 	
 	void V8Inspector::muteMetrics(int contextGroupId)
@@ -324,6 +346,8 @@ namespace RadJAV
 		if (message.is8Bit() == true)
 		{
 			String msg((char *)message.characters8(), message.length());
+			
+			//std::cout << "- Send Backend message:\n";// << msg << std::endl;
 			server->send(clientId, msg);
 		}
 		else
@@ -338,6 +362,7 @@ namespace RadJAV
 
 			String msg(cmsg.get ());
 
+			//std::cout << "- Send Backend message:\n";// << msg << std::endl;
 			server->send(clientId, msg);
 		}
 	}

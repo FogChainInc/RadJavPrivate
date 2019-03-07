@@ -888,6 +888,9 @@ namespace RadJAV
 			v8::TryCatch tryCatch(isolate);
 			v8::ScriptOrigin origin(fileName, v8::Local<v8::Integer> (), v8::Local<v8::Integer>(), v8::Local<v8::Boolean>(), v8::Local<v8::Integer>(), sourceMapUrl);
 			v8::ScriptCompiler::Source src(code, origin);
+			
+			//String fileNameStr = parseV8Value(fileName);
+			//std::cout << "- Compiling script: " << fileNameStr << std::endl;
 			v8::MaybeLocal<v8::Script> scriptTemp = v8::ScriptCompiler::Compile(scriptContext, &src);
 
 			if (scriptTemp.IsEmpty() == true)
@@ -908,6 +911,7 @@ namespace RadJAV
 					inspector->dispatchFrontendMessages();
 			#endif
 
+			//std::cout << "- Executing script: " << fileNameStr << std::endl;
 			v8::MaybeLocal<v8::Value> result = script->Run(scriptContext);
 
 			if (result.IsEmpty() == true)
