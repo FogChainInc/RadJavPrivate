@@ -99,14 +99,31 @@
 				V8Inspector(v8::Isolate *isolate, v8::Local<v8::Context> context);
 				~V8Inspector();
 
+				/**
+				 * @brief Start WebSocketServer and listen for a connection.
+				 */
 				void start(String ip, RJINT port);
+			
+				/**
+				 * @brief Cleanup.
+				 */
 				void close();
+			
+				/**
+				 * @brief Wait until CDT(Frontend) will connect.
+				 * @details It will block until all control messages processed between Backend and Frontend(CDT).
+				 */
 				void waitForConnection();
 				void pauseOnStart();
+			
+				/**
+				 * @brief Process CDT(Frontend) requests on main thread
+				 * @details Process all outstanding CDT(Frontend) requests on main thread. We need to call this in each main loop step,
+				 *  and after each script compilation.
+				 */
 				void dispatchFrontendMessages();
 			
-				std::unique_ptr<uint16_t[]> createMessageBuffer_uint16(String message);
-
+			protected:
 				// From V8InspectorClient
 				void runMessageLoopOnPause(int contextGroupId);
 				void quitMessageLoopOnPause();
@@ -151,6 +168,7 @@
 				std::unique_ptr<v8_inspector::V8InspectorSession> session;
 				V8InspectorChannel *channel;
 				FrontEndMessageQueue frontendPendingMessages;
+				bool ready;
 		};
 
 		/// The network connection between the WebSocket server and the CDT.
