@@ -40,8 +40,8 @@ namespace RadJAV
 				{
 					panel = RJNEW wxPanel(this, wxID_ANY);
 					/*wxBoxSizer *sizer = RJNEW wxBoxSizer(wxVERTICAL);
-					 panel->SetSizer(sizer);
-					 sizer->SetSizeHints(object);*/
+					panel->SetSizer(sizer);
+					sizer->SetSizeHints(object);*/
 				}
 
 				void WindowFrame::addChild(GObjectWidget *child)
@@ -53,6 +53,98 @@ namespace RadJAV
 					}
 				}
 
+				void WindowFrame::setFont(CPP::Font *font)
+				{
+					wxFont wxfont;
+
+					if (font->fontFamily != "")
+					{
+						if (!wxfont.SetFaceName(font->fontFamily.towxString()))
+							return;
+					}
+					else
+					{
+						wxfont = *wxSMALL_FONT;
+					}
+
+					wxfont.SetPixelSize(wxSize(0, font->size));
+
+					if (font->underline == true)
+						wxfont.MakeUnderlined();
+
+					if (font->bold == true)
+						wxfont.MakeBold();
+
+					if (font->italic == true)
+						wxfont.MakeItalic();
+
+					wxWindow* widget = this;
+					if (widget)
+					{
+						widget->SetFont(wxfont);
+						widget->SetForegroundColour(wxColor(font->color.r * 255,
+							font->color.g * 255, font->color.b * 255, font->color.a * 255));
+					}
+				}
+
+				CPP::Font* WindowFrame::getFont()
+				{
+					//TODO: convert native Font to CPP::Font here
+					return nullptr;
+				}
+
+				void WindowFrame::setPosition(RJINT x, RJINT y)
+				{
+					this->SetPosition(wxPoint(x, y));
+				}
+
+				void WindowFrame::setPosition(CPP::Vector2 pos)
+				{
+					setPosition(pos.x, pos.y);
+				}
+
+				CPP::Vector2 WindowFrame::getPosition()
+				{
+					wxPoint pos = this->GetPosition();
+					return Vector2(pos.x, pos.y);
+				}
+
+				RJINT WindowFrame::getX()
+				{
+					return this->GetPosition().x;
+				}
+
+				RJINT WindowFrame::getY()
+				{
+					return this->GetPosition().y;
+				}
+
+				void WindowFrame::setSize(RJINT width, RJINT height)
+				{
+					this->SetSize(width, height);
+				}
+
+				void WindowFrame::setSize(CPP::Vector2 size)
+				{
+					setSize(size.x, size.y);
+				}
+
+				CPP::Vector2 WindowFrame::getSize()
+				{
+					wxSize size = this->GetSize();
+					return Vector2(size.GetWidth(), size.GetHeight());
+				}
+
+				RJINT WindowFrame::getWidth()
+				{
+					return this->GetSize().GetWidth();
+				}
+
+				RJINT WindowFrame::getHeight()
+				{
+					return this->GetSize().GetHeight();
+				}
+
 				void WindowFrame::setText(String text)
 				{
 					SetTitle(text.towxString());
@@ -61,6 +153,32 @@ namespace RadJAV
 				String WindowFrame::getText()
 				{
 					return parsewxString(GetTitle());
+				}
+
+				void WindowFrame::setVisibility(RJBOOL visible)
+				{
+					if (visible)
+						this->Show();
+					else
+						this->Hide();
+				}
+
+				RJBOOL WindowFrame::getVisibility()
+				{
+					return this->IsShown();
+				}
+
+				void WindowFrame::setEnabled(RJBOOL enabled)
+				{
+					if (enabled)
+						this->Enable();
+					else
+						this->Disable();
+				}
+
+				RJBOOL WindowFrame::getEnabled()
+				{
+					return getNativeWidget()->IsEnabled();
 				}
 
 				void WindowFrame::onClose(wxCloseEvent &evt)
@@ -137,7 +255,7 @@ namespace RadJAV
 			
 				wxWindow* WindowFrame::getNativeWidget()
 				{
-					return this;
+					return panel;
 				}
 			
 			#endif

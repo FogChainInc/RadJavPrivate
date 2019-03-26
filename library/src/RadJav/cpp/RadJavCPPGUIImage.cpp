@@ -66,6 +66,10 @@ namespace RadJAV
 				ImageFrame* object = RJNEW ImageFrame(parentWin, _image,
 													  Vector2(_transform->x, _transform->y),
 													  Vector2(_transform->width, _transform->height));
+
+				#ifdef GUI_USE_WXWIDGETS
+					setScaleMode(ScaleMode::AspectFill);
+				#endif
 				
 				object->setVisibility(_visible);
 				_appObj = object;

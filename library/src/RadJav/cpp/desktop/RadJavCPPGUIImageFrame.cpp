@@ -145,9 +145,9 @@ namespace RadJAV
 					{
 						case Image::ScaleMode::AspectFit:
 						{
-							RDECIMAL xScale = controlWidth/imageWidth;
-							RDECIMAL yScale = controlHeight/imageHeight;
-							RDECIMAL scale = std::min(xScale, yScale);
+							RDECIMAL xScale = (RDECIMAL)controlWidth/(RDECIMAL)imageWidth;
+							RDECIMAL yScale = (RDECIMAL)controlHeight/(RDECIMAL)imageHeight;
+							RDECIMAL scale = std::min<RDECIMAL>(xScale, yScale);
 							imageSize = wxSize(imageWidth*scale, imageHeight*scale);
 							imagePosition = wxPoint((controlWidth-imageWidth)/2.0, (controlHeight-imageHeight)/2.0);
 							image.Rescale(imageSize.GetWidth(), imageSize.GetHeight(), wxImageResizeQuality::wxIMAGE_QUALITY_HIGH);

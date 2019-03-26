@@ -61,8 +61,11 @@ namespace RadJav
 
 				this._htmlElement = RadJav.setDefaultValue(obj._htmlElement, null);
 
-				if (this._htmlElement != null)
-					this.setHTMLElement(this._htmlElement);
+				if (RadJav.OS.HTML5 != null)
+				{
+					if (this._htmlElement != null)
+						this.setHTMLElement(this._htmlElement);
+				}
 			}
 
 			/** @property {RadJav.GUI.HTMLElement/String} [_htmlElement=null]

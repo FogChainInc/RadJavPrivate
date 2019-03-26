@@ -42,7 +42,6 @@ namespace RadJAV
 			V8_CALLBACK(object, "alert", Global::alert);
 			V8_CALLBACK(object, "confirm", Global::confirm);
 			V8_CALLBACK(object, "prompt", Global::prompt);
-			V8_CALLBACK(object, "include", Global::include);
 		}
 
 		void Global::setTimeout(const v8::FunctionCallbackInfo<v8::Value> &args)

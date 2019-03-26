@@ -174,7 +174,7 @@ namespace RadJAV
 	void V8Inspector::pauseOnStart()
 	{
 		String message = "Break on start";
-		std::unique_ptr<uint16_t[]> msgBuffer = createMessageBuffer_uint16(message);
+		std::unique_ptr<uint16_t[]> msgBuffer = createMessageBuffer_uint16(isolate, message);
 		v8_inspector::StringView msg(msgBuffer.get(), message.size());
 		
 		session->schedulePauseOnNextStatement(msg, msg);

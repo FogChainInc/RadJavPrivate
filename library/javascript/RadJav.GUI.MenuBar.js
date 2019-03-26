@@ -32,8 +32,10 @@ var RadJav;
                 if (obj.htmlElement != null)
                     obj._htmlElement = obj.htmlElement;
                 _this._htmlElement = RadJav.setDefaultValue(obj._htmlElement, null);
-                if (_this._htmlElement != null)
-                    _this.setHTMLElement(_this._htmlElement);
+                if (RadJav.OS.HTML5 != null) {
+                    if (_this._htmlElement != null)
+                        _this.setHTMLElement(_this._htmlElement);
+                }
                 return _this;
             }
             MenuBar.prototype.setHTMLElement = function (element) {

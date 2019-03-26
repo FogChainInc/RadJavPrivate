@@ -335,28 +335,28 @@ namespace RadJAV
 			public:
 				GObjectWidget();
 				virtual ~GObjectWidget() {};
-				
-				virtual void addChild(GObjectWidget *child);
-				virtual GObjectWidget *getParent();
 
-				void setFont(CPP::Font *font);
-				CPP::Font *getFont();
-				void setPosition(RJINT x, RJINT y);
-				void setPosition(CPP::Vector2 pos);
-				CPP::Vector2 getPosition();
-				RJINT getX();
-				RJINT getY();
-				void setSize(RJINT width, RJINT height);
-				void setSize(CPP::Vector2 size);
-				CPP::Vector2 getSize();
-				RJINT getWidth();
-				RJINT getHeight();
-				void setText(String text);
-				String getText();
-				void setVisibility(RJBOOL visible);
-				RJBOOL getVisibility();
-				void setEnabled(RJBOOL enabled);
-				RJBOOL getEnabled();
+				GObjectWidget *getParent();
+				virtual void addChild(GObjectWidget *child);
+
+				virtual void setFont(CPP::Font *font);
+				virtual CPP::Font *getFont();
+				virtual void setPosition(RJINT x, RJINT y);
+				virtual void setPosition(CPP::Vector2 pos);
+				virtual CPP::Vector2 getPosition();
+				virtual RJINT getX();
+				virtual RJINT getY();
+				virtual void setSize(RJINT width, RJINT height);
+				virtual void setSize(CPP::Vector2 size);
+				virtual CPP::Vector2 getSize();
+				virtual RJINT getWidth();
+				virtual RJINT getHeight();
+				virtual void setText(String text);
+				virtual String getText();
+				virtual void setVisibility(RJBOOL visible);
+				virtual RJBOOL getVisibility();
+				virtual void setEnabled(RJBOOL enabled);
+				virtual RJBOOL getEnabled();
 
 				#ifdef GUI_USE_WXWIDGETS
 					virtual wxWindow* getNativeWidget() = 0;

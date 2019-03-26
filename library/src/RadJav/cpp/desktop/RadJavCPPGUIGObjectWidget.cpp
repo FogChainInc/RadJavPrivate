@@ -30,6 +30,11 @@ namespace RadJAV
 				parent = nullptr;
 			}
 
+			GObjectWidget* GObjectWidget::getParent()
+			{
+				return parent;
+			}
+
 			void GObjectWidget::addChild(GObjectWidget *child)
 			{
 				if (child)
@@ -139,11 +144,6 @@ namespace RadJAV
 			String GObjectWidget::getText()
 			{
 				return parsewxString(getNativeWidget()->GetLabel());
-			}
-			
-			GObjectWidget* GObjectWidget::getParent()
-			{
-				return parent;
 			}
 			
 			void GObjectWidget::setVisibility(RJBOOL visible)

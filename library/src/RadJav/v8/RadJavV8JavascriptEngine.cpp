@@ -1339,6 +1339,7 @@ namespace RadJAV
 
 				V8_CALLBACK(radJavFunc, "exit", V8B::Global::exit);
 				V8_CALLBACK(radJavFunc, "quit", V8B::Global::exit);
+				V8_CALLBACK(radJavFunc, "include", V8B::Global::include);
 
 				// RadJav.OS
 				{

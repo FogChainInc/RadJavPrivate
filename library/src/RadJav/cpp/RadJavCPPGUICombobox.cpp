@@ -67,7 +67,7 @@ namespace RadJAV
 					wxWindow *parentWin = NULL;
 
 					if (_parent != NULL)
-						parentWin = (wxWindow *)_parent->_appObj;
+						parentWin = (wxWindow *)_parent->_appObj->getNativeWidget();
 
 					ComboboxFrame *object = RJNEW ComboboxFrame(parentWin, _text.towxString(),
 						wxPoint(_transform->x, _transform->y), wxSize(_transform->width, _transform->height));

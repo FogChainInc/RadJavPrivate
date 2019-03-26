@@ -74,8 +74,6 @@ namespace RadJAV
 						wxPoint(_transform->x, _transform->y), wxSize(_transform->width, _transform->height));
 				
 					linkWith(object);
-
-					//wxPanel *panel = RJNEW wxPanel(object, wxID_ANY);
 				
 					RadJav::app->SetTopWindow(object);
 					object->setVisibility(_visible);
@@ -114,27 +112,27 @@ namespace RadJAV
 				{
 					#ifdef GUI_USE_WXWIDGETS
 						CPP::GUI::WindowFrame *obj = (CPP::GUI::WindowFrame *)_appObj->getNativeWidget ();
-						//CPP::GUI::WindowFrame *obj = (CPP::GUI::WindowFrame *)object->GetParent();
+						wxWindow *winObj = (wxWindow *)obj->GetParent();
 
-						obj->addNewEvent(event, obj, func);
+						obj->addNewEvent(event, winObj, func);
 
 						if (event == "close")
 						{
-							obj->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(WindowFrame::onJSClose), obj->createEvent(event, func));
+							winObj->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(WindowFrame::onJSClose), obj->createEvent(event, func));
 						}
 
 						if (event == "minimize")
 						{
-							obj->Connect(wxEVT_ICONIZE, wxIconizeEventHandler(WindowFrame::onJSMinimized), obj->createEvent(event, func));
+							winObj->Connect(wxEVT_ICONIZE, wxIconizeEventHandler(WindowFrame::onJSMinimized), obj->createEvent(event, func));
 						}
 						if (event == "maximize")
 						{
-							obj->Connect(wxEVT_MAXIMIZE, wxMaximizeEventHandler(WindowFrame::onJSMaximized), obj->createEvent(event, func));
+							winObj->Connect(wxEVT_MAXIMIZE, wxMaximizeEventHandler(WindowFrame::onJSMaximized), obj->createEvent(event, func));
 						}
 				
 						if (event == "menuselected")
 						{
-							obj->Connect(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(WindowFrame::onMenuSelected), obj->createEvent(event, func));
+							winObj->Connect(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(WindowFrame::onMenuSelected), obj->createEvent(event, func));
 						}
 					#endif
 				}
