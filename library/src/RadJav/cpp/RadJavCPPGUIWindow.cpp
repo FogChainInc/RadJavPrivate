@@ -111,28 +111,27 @@ namespace RadJAV
             	void Window::on(String event, RJ_FUNC_TYPE func)
 				{
 					#ifdef GUI_USE_WXWIDGETS
-						CPP::GUI::WindowFrame *obj = (CPP::GUI::WindowFrame *)_appObj->getNativeWidget ();
-						wxWindow *winObj = (wxWindow *)obj->GetParent();
+						CPP::GUI::WindowFrame *obj = static_cast<CPP::GUI::WindowFrame*>(_appObj);
 
-						obj->addNewEvent(event, winObj, func);
+						obj->addNewEvent(event, obj, func);
 
 						if (event == "close")
 						{
-							winObj->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(WindowFrame::onJSClose), obj->createEvent(event, func));
+							obj->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(WindowFrame::onJSClose), obj->createEvent(event, func));
 						}
 
 						if (event == "minimize")
 						{
-							winObj->Connect(wxEVT_ICONIZE, wxIconizeEventHandler(WindowFrame::onJSMinimized), obj->createEvent(event, func));
+							obj->Connect(wxEVT_ICONIZE, wxIconizeEventHandler(WindowFrame::onJSMinimized), obj->createEvent(event, func));
 						}
 						if (event == "maximize")
 						{
-							winObj->Connect(wxEVT_MAXIMIZE, wxMaximizeEventHandler(WindowFrame::onJSMaximized), obj->createEvent(event, func));
+							obj->Connect(wxEVT_MAXIMIZE, wxMaximizeEventHandler(WindowFrame::onJSMaximized), obj->createEvent(event, func));
 						}
 				
 						if (event == "menuselected")
 						{
-							winObj->Connect(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(WindowFrame::onMenuSelected), obj->createEvent(event, func));
+							obj->Connect(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(WindowFrame::onMenuSelected), obj->createEvent(event, func));
 						}
 					#endif
 				}
