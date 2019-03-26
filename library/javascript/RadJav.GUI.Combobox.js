@@ -32,16 +32,16 @@ var RadJav;
                 _this = _super.call(this, obj, text, parent) || this;
                 _this.type = "RadJav.GUI.Combobox";
                 _this._items = RadJav.setDefaultValue(obj._items, []);
+                _this.onCreated = function () {
+                    for (var iIdx = 0; iIdx < this._items.length; iIdx++) {
+                        var item = this._items[iIdx];
+                        this.addItem(item);
+                    }
+                };
                 return _this;
             }
-            Combobox.prototype.onCreated = function () {
-                for (var iIdx = 0; iIdx < this._items.length; iIdx++) {
-                    var item = this._items[iIdx];
-                    this.addItem(item);
-                }
-            };
             Combobox.prototype.addItem = function (item) {
-                if (typeof item == "string")
+                if ((typeof (item) == "string") || (typeof (item) == "number"))
                     item = { text: item };
                 RadJav.currentTheme.eventSync(this.type, "addItem", this, item);
             };
@@ -65,6 +65,9 @@ var RadJav;
             };
             Combobox.prototype.setSelectedItemIndex = function (index) {
                 RadJav.currentTheme.eventSync(this.type, "setSelectedItemIndex", this, index);
+                var item = this.getItem(index);
+                if (item.text != null)
+                    this.setText(item.text);
             };
             Combobox.prototype.getSelectedItemIndex = function () {
                 return RadJav.currentTheme.eventSync(this.type, "getSelectedItemIndex", this);

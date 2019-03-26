@@ -59,21 +59,20 @@ namespace RadJav
 
 				this.type = "RadJav.GUI.Combobox";
 				this._items = RadJav.setDefaultValue (obj._items, []);
+				this.onCreated = function (): void
+					{
+						for (var iIdx = 0; iIdx < this._items.length; iIdx++)
+						{
+							var item = this._items[iIdx];
+							this.addItem(item);
+						}
+					};
 			}
 
 			/** @property {String} [_items=[]]
 			 * The items associated with this object.
 			 */
 			public _items: Combobox.Item[];
-
-			onCreated(): void
-			{
-				for (var iIdx = 0; iIdx < this._items.length; iIdx++)
-				{
-					var item = this._items[iIdx];
-					this.addItem(item);
-				}
-			}
 
 			/** @method addItem
 			 * Add an item to the combo box.
@@ -84,7 +83,7 @@ namespace RadJav
 			 */
 			addItem(item: any): void
 			{
-				if (typeof item == "string")
+				if ((typeof (item) == "string") || (typeof (item) == "number"))
 					item = { text: item };
 
 				RadJav.currentTheme.eventSync(this.type, "addItem", this, item);
@@ -109,7 +108,7 @@ namespace RadJav
 			 * Parameters Passed to Theme Event: RadJav.GUI.GObject, Number
 			 * @param {Number} The item index to delete.
 			 */
-			deleteItem(index: Number): void
+			deleteItem(index: number): void
 			{
 				RadJav.currentTheme.eventSync(this.type, "deleteItem", this, index);
 			}
@@ -121,7 +120,7 @@ namespace RadJav
 			 * Parameters Passed to Theme Event: RadJav.GUI.GObject, Number
 			 * @return {RadJav.GUI.Combobox.Item} The item.
 			 */
-			getItem(index: Number): Combobox.Item
+			getItem(index: number): Combobox.Item
 			{
 				return RadJav.currentTheme.eventSync(this.type, "getItem", this, index);
 			}
@@ -145,7 +144,7 @@ namespace RadJav
 			 * Parameters Passed to Theme Event: RadJav.GUI.GObject
 			 * @return {Number} The number of items.
 			 */
-			getNumItems(): Number
+			getNumItems(): number
 			{
 				return RadJav.currentTheme.eventSync(this.type, "getNumItems", this);
 			}
@@ -167,11 +166,16 @@ namespace RadJav
 			 * Is Theme Event Asynchronous: No
 			 * Parameters Passed to Theme Event: RadJav.GUI.GObject
 			 * Returned from Theme Event: Boolean
-			 * @param {Number} index The selected item index.
+			 * @param {number} index The selected item index.
 			 */
-			setSelectedItemIndex(index: Number): void
+			setSelectedItemIndex(index: number): void
 			{
 				RadJav.currentTheme.eventSync(this.type, "setSelectedItemIndex", this, index);
+
+				let item: Combobox.Item = this.getItem (index);
+
+				if (item.text != null)
+					this.setText (item.text);
 			}
 
 			/** @method getSelectedItemIndex
@@ -182,7 +186,7 @@ namespace RadJav
 			 * Returned from Theme Event: Boolean
 			 * @return {Number} The selected item index.
 			 */
-			getSelectedItemIndex(): Number
+			getSelectedItemIndex(): number
 			{
 				return RadJav.currentTheme.eventSync(this.type, "getSelectedItemIndex", this);
 			}
@@ -208,11 +212,11 @@ namespace RadJav
 				/** @property {String} [name=""]
 				 * The name.
 				 */
-				public name: String;
+				public name: string;
 				/** @property {String} [text=""]
 				 * The item's display text.
 				 */
-				public text: String;
+				public text: string;
 			}
 		}
 	}

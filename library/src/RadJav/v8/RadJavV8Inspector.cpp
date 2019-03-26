@@ -77,16 +77,16 @@ namespace RadJAV
 			String *id = (String *)args.at(0);
 			String *message = (String *)args.at(1);
 
-			/*String result = "";
+			String result = "";
 			
 			result += "<!DOCTYPE html>";
 			result += "<html>";
 			result += "<body>";
 			result += "You requested ws://127.0.0.1:9229/";
 			result += "</body>";
-			result += "</html>";*/
+			result += "</html>";
 
-			String *output = RJNEW String("You requested ws://127.0.0.1:9229/");
+			String *output = RJNEW String(result);
 
 			return (output);
 		});
@@ -138,6 +138,15 @@ namespace RadJAV
 	{
 		while (server->numWebSocketConnections() < 1)
 			CPP::OS::sleep(100);
+	}
+
+	void V8Inspector::pauseOnStart()
+	{
+		String message = "Break on start";
+		std::unique_ptr<uint16_t[]> msgBuffer = createMessageBuffer_uint16(message);
+		v8_inspector::StringView msg(msgBuffer.get(), message.size());
+		
+		session->schedulePauseOnNextStatement(msg, msg);
 	}
 
 	void V8Inspector::dispatchFrontendMessages()

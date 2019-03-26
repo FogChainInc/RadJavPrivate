@@ -220,14 +220,17 @@
 					for (let iIdx = 0; iIdx < obj.children.length; iIdx++)
 					{
 						let obj2: RadJav.GUI.GObject = obj.children[iIdx];
-						let createTheObject: boolean = false;
+						let createTheObject: boolean = true;
 						let newObj: any = obj2;
 
 						if (this.onBeforeChildCreated != null)
 							createTheObject = this.onBeforeChildCreated(obj2, parent);
 
 						if (createTheObject == true)
+						{
+							newObj["_visible"] = this._visible;
 							this.addChild (newObj);
+						}
 					}
 				}
 
@@ -366,7 +369,7 @@
 									}
 								}
 
-								Promise.all(promises).then(
+								return (Promise.all(promises).then(
 									RadJav.keepContext(function()
 									{
 										for (var key in this._events)
@@ -382,7 +385,7 @@
 											this.onCreated();
 
 										resolve(this);
-									}, this));
+									}, this)));
 							}, this));
 					}, this));
 
@@ -594,6 +597,8 @@
 			*/
 			setText(text: string): void
 			{
+				this._text = text;
+
 				RadJav.currentTheme.event(this.type, "setText", this, text);
 			}
 
@@ -639,7 +644,16 @@
 			 */
 			setVisibility(visible: boolean): void
 			{
+				this._visible = visible;
+
 				RadJav.currentTheme.event(this.type, "setVisibility", this, visible);
+
+				for (var iIdx = 0; iIdx < this._children.length; iIdx++)
+				{
+					let child: GObject = this._children[iIdx];
+
+					child.setVisibility (visible);
+				}
 			}
 
 			/** 

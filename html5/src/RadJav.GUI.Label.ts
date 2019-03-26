@@ -23,38 +23,45 @@
 
 namespace RadJav
 {
-  export namespace GUI
-  {
-    /** @class RadJav.GUI.Label
-     * @extends RadJav.GUI.GObject
-     * A label.
-     * Available on platforms: Windows,Linux,OSX,iOS,Android,HTML5
-     */
-    export class Label extends RadJav.GUI.GObject
-    {
-      static xmlTag: TagType = { tag: "label", type: "Label" };
+	export namespace GUI
+	{
+		/** @class RadJav.GUI.Label
+		 * @extends RadJav.GUI.GObject
+		 * A label.
+		 * Available on platforms: Windows,Linux,OSX,iOS,Android,HTML5
+		 */
+		export class Label extends RadJav.GUI.GObject
+		{
+			static xmlTag: TagType = { tag: "label", type: "Label" };
 
-      constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject)
-      {
-        if (obj == null) {
-          obj = {};
-        }
+			constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject)
+			{
+				if (obj == null)
+					obj = {};
 
-        if (typeof obj == "string") {
-          var name = obj;
-          obj = { name: name };
-        }
+				if (typeof obj == "string")
+				{
+					var name = obj;
+					obj = { name: name };
+				}
 
-        if (obj.size == null) {
-          obj.size = new RadJav.Vector2();
-          obj.size.x = 120;
-          obj.size.y = 40;
-        }
+				if (obj.size == null)
+				{
+					obj.size = new RadJav.Vector2();
+					obj.size.x = 120;
+					obj.size.y = 40;
+				}
 
-        super(obj, text, parent);
+				super(obj, text, parent);
 
-        this.type = "RadJav.GUI.Label";
-      }
-    }
-  }
+				if (RadJav.OS.HTML5 != null)
+				{
+					this._text = this._text.replaceAll (" ", "&nbsp;");
+					this._text = this._text.replaceAll ("\n", "<br />");
+				}
+
+				this.type = "RadJav.GUI.Label";
+			}
+		}
+	}
 }

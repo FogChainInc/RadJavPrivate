@@ -102,6 +102,7 @@
 				void start(String ip, RJINT port);
 				void close();
 				void waitForConnection();
+				void pauseOnStart();
 				void dispatchFrontendMessages();
 			
 				std::unique_ptr<uint16_t[]> createMessageBuffer_uint16(String message);

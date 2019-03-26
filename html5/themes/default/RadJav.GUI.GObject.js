@@ -28,17 +28,11 @@ module.exports = {
 
 	setText: function (obj, text)
 	{
-		if (obj._html.value == null)
-			debugger;
-
 		obj._html.value = text;
 	}, 
 
 	getText: function (obj)
 	{
-		if (obj._html.value == null)
-			debugger;
-		
 		return (obj._html.value);
 	}, 
 

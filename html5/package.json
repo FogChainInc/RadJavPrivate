@@ -22,7 +22,8 @@
     "build-radjav-only": "node index.js --build doNotCopyHTML5Files doNotCopyFilesToLibrary doNotMinify",
     "build-defs": "node index.js --defs",
     "http": "node index.js --http",
-    "defs": "node index.js --defs"
+    "defs": "node index.js --defs",
+    "convert-form": "node index.js --convertFormDesignerToJSON"
   },
   "repository": {
     "type": "git",

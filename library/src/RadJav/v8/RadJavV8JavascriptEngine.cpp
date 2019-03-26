@@ -368,6 +368,7 @@ namespace RadJAV
 				inspector->start("127.0.0.1", 9229);
 
 				inspector->waitForConnection();
+				inspector->pauseOnStart();
 			#endif
 		}
 

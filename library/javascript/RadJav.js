@@ -8,6 +8,7 @@ var RadJav;
     RadJav.baseUrl = "./RadJav/";
     RadJav.themeUrl = "./RadJav/themes/default";
     RadJav.selectedLanguage = "en_us";
+    RadJav.isThemeLoaded = false;
     RadJav.currentTheme = null;
     RadJav._isInitialized = false;
     RadJav._included = [];
@@ -41,6 +42,8 @@ var RadJav;
             promise = new Promise(RadJav.keepContext(function (resolve, reject) {
                 var script = document.createElement("script");
                 script.type = "text/javascript";
+                script.async = false;
+                script.defer = false;
                 var str = "";
                 if (RadJav._isUsingInternetExplorerTheWorstWebBrowserEver() == true)
                     script.text = str;
@@ -321,7 +324,7 @@ var RadJav;
                 resolve();
                 return;
             }
-            if (RadJav.useAjax == true) {
+            if (RadJav.isThemeLoaded == false) {
                 RadJav._getResponse(url + "/theme.json").then(function (data) {
                     var jsonData = JSON.parse(data);
                     var theme = RadJav.Theme.loadTheme(url, jsonData);
@@ -330,6 +333,7 @@ var RadJav;
                     promises2.push(RadJav.currentTheme.loadInitializationFile());
                     promises2.push(RadJav.currentTheme.loadJavascriptFiles());
                     Promise.all(promises2).then(function () {
+                        RadJav.isThemeLoaded = true;
                         resolve();
                     });
                 });
@@ -341,6 +345,7 @@ var RadJav;
                 promises2.push(RadJav.currentTheme.loadInitializationFile());
                 promises2.push(RadJav.currentTheme.loadJavascriptFiles());
                 Promise.all(promises2).then(function () {
+                    RadJav.isThemeLoaded = true;
                     resolve();
                 });
             }
@@ -560,15 +565,7 @@ var RadJav;
     }
     RadJav._getSyncResponse = _getSyncResponse;
     function _getResponse(addr) {
-        var promise = null;
-        if (RadJav.useAjax == true) {
-            promise = RadJav.Net.httpRequest(addr);
-        }
-        else {
-            RadJav._lang["cannotGetAjaxResponse"] =
-                "Cannot get ajax response, RadJav is set to not use Ajax.";
-            throw RadJav.getLangString("cannotGetAjaxResponse");
-        }
+        var promise = RadJav.Net.httpRequest(addr);
         return promise;
     }
     RadJav._getResponse = _getResponse;
@@ -837,14 +834,12 @@ var RadJav;
                             style.innerHTML = fontCSS;
                             document.head.appendChild(style);
                         }
-                        if (RadJav.useAjax == true) {
-                            for (var iIdx = 0; iIdx < this.cssFiles.length; iIdx++) {
-                                promises.push(RadJav._getResponse(this.url + "/" + this.cssFiles[iIdx]).then(function (data) {
-                                    var style = document.createElement("style");
-                                    style.innerHTML = data;
-                                    document.head.appendChild(style);
-                                }));
-                            }
+                        for (var iIdx = 0; iIdx < this.cssFiles.length; iIdx++) {
+                            promises.push(RadJav._getResponse(this.url + "/" + this.cssFiles[iIdx]).then(function (data) {
+                                var style = document.createElement("style");
+                                style.innerHTML = data;
+                                document.head.appendChild(style);
+                            }));
                         }
                         Promise.all(promises).then(function () {
                             resolve();
@@ -854,7 +849,7 @@ var RadJav;
                         throw RadJav.getLangString("themeThrewErrorInFile", this.name, this.initFile, ex.message);
                     }
                 }, this);
-                if (RadJav.useAjax == true)
+                if (RadJav.isThemeLoaded == false)
                     RadJav._getResponse(this.url + "/" + this.initFile).then(func);
                 else {
                     func(RadJav.currentTheme.exports);
@@ -869,16 +864,14 @@ var RadJav;
                 for (var iIdx = 0; iIdx < RadJav._included.length; iIdx++) {
                     var includeObj = RadJav._included[iIdx];
                     if (typeof includeObj != "string") {
-                        if (typeof includeObj.themeFile == "string") {
+                        if (typeof includeObj.themeFile == "string")
                             files.push(includeObj.themeFile);
-                        }
                         else {
                             if (includeObj.themeFile == true) {
                                 files.push(includeObj.file);
                             }
-                            else {
+                            else
                                 continue;
-                            }
                         }
                     }
                 }
@@ -886,10 +879,9 @@ var RadJav;
                     var file = files[iIdx];
                     (function (theme, url, tfile, index, numFiles) {
                         try {
-                            if (RadJav.currentTheme.themeObjects[tfile] == null) {
+                            if (RadJav.currentTheme.themeObjects[tfile] == null)
                                 RadJav.currentTheme.themeObjects[tfile] = new Object();
-                            }
-                            if (RadJav.useAjax == true) {
+                            if (RadJav.isThemeLoaded == false) {
                                 RadJav._getResponse(url + "/" + tfile + ".js").then(function (data) {
                                     try {
                                         RadJav.currentTheme.themeObjects[tfile] = RadJav.loadModule(data);

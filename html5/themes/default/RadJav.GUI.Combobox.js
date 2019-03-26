@@ -44,6 +44,32 @@ module.exports =
 		return (promise);
 	}, 
 
+	setVisibility: function (obj, visible)
+	{
+		if (obj._html == null)
+			return;
+
+		if (visible == true)
+			dojo.query (obj._html.domNode).style ("visibility", "visible");
+		else
+			dojo.query (obj._html.domNode).style ("visibility", "hidden");
+	}, 
+
+	getVisibility: function (obj)
+	{
+		if (obj._html == null)
+			return (obj._visible);
+
+		var value = dojo.query (obj._html.domNode).style ("visibility");
+		value = value.toLowerCase ();
+		var isVisible = true;
+
+		if (value == "hidden")
+			isVisible = false;
+
+		return (isVisible);
+	}, 
+
 	setText: function (obj, text)
 	{
 		obj._html.set ("value", text);
@@ -128,7 +154,8 @@ module.exports =
 	setSelectedItemIndex: function (combobox, index)
 	{
 		var item = combobox._html.get ("store").data[index];
-		combobox._html.set ("item", item);
+		combobox._html.set ("item", item);	/// @fixme This was working fine in a previous version of Dojo...
+		combobox._html.item2 = item;	// Temporary hack.
 	}, 
 
 	getSelectedItemIndex: function (combobox)
@@ -136,8 +163,8 @@ module.exports =
 		var store = combobox._html.get ("store");
 		var index = -1;
 
-		if (combobox._html.item != null)
-			index = store.getValue (combobox._html.item, "id");
+		if (combobox._html.item2 != null)
+			index = store.getValue (combobox._html.item2, "id");
 
 		return (index);
 	}

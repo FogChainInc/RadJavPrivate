@@ -68,6 +68,9 @@ namespace RadJav
 	*/
 	export let selectedLanguage: string = "en_us";
 
+	/// Determines if the theme is loaded.
+	export let isThemeLoaded: boolean = false;
+
 	/** @property {RadJav.Theme} [currentTheme=null]
 	* The current theme that has been loaded.
 	*/
@@ -169,8 +172,8 @@ namespace RadJav
 				{
 					var script:any = document.createElement("script");
 					script.type = "text/javascript";
-					//script.async = false;
-					//script.defer = false;
+					script.async = false;
+					script.defer = false;
 					var str = "";
 
 					if (RadJav._isUsingInternetExplorerTheWorstWebBrowserEver() == true)
@@ -628,7 +631,7 @@ namespace RadJav
 					return;
 				}
 
-				if (RadJav.useAjax == true)
+				if (RadJav.isThemeLoaded == false)
 				{
 					RadJav._getResponse(url + "/theme.json").then(function(data)
 						{
@@ -642,6 +645,8 @@ namespace RadJav
 
 							Promise.all(promises2).then(function()
 								{
+									RadJav.isThemeLoaded = true;
+
 									resolve();
 								});
 						});
@@ -655,9 +660,12 @@ namespace RadJav
 					promises2.push(RadJav.currentTheme.loadInitializationFile());
 					promises2.push(RadJav.currentTheme.loadJavascriptFiles());
 
-					Promise.all(promises2).then(function() {
-						resolve();
-					});
+					Promise.all(promises2).then(function()
+						{
+							RadJav.isThemeLoaded = true;
+
+							resolve();
+						});
 				}
 			});
 
@@ -1011,15 +1019,7 @@ namespace RadJav
 	 * @return {String} The response from the HTTP server.
 	 */
 	export function _getResponse(addr: string): Promise<string> {
-		var promise = null;
-
-		if (RadJav.useAjax == true) {
-			promise = RadJav.Net.httpRequest(addr);
-		} else {
-			RadJav._lang["cannotGetAjaxResponse"] =
-				"Cannot get ajax response, RadJav is set to not use Ajax.";
-			throw RadJav.getLangString("cannotGetAjaxResponse");
-		}
+		var promise = RadJav.Net.httpRequest(addr);
 
 		return promise;
 	}
@@ -1526,19 +1526,16 @@ namespace RadJav
 								document.head.appendChild(style);
 							}
 
-							if (RadJav.useAjax == true)
+							for (var iIdx = 0; iIdx < this.cssFiles.length; iIdx++)
 							{
-								for (var iIdx = 0; iIdx < this.cssFiles.length; iIdx++)
-								{
-									promises.push(
-										RadJav._getResponse(this.url + "/" + this.cssFiles[iIdx]).then(
-											function(data)
-											{
-												var style = document.createElement("style");
-												style.innerHTML = data;
-												document.head.appendChild(style);
-											}));
-								}
+								promises.push(
+									RadJav._getResponse(this.url + "/" + this.cssFiles[iIdx]).then(
+										function(data)
+										{
+											var style = document.createElement("style");
+											style.innerHTML = data;
+											document.head.appendChild(style);
+										}));
 							}
 
 							Promise.all(promises).then(function()
@@ -1552,7 +1549,7 @@ namespace RadJav
 						}
 					}, this);
 
-					if (RadJav.useAjax == true)
+					if (RadJav.isThemeLoaded == false)
 						RadJav._getResponse(this.url + "/" + this.initFile).then(func);
 					else
 					{
@@ -1578,35 +1575,43 @@ namespace RadJav
 					for (var iIdx = 0; iIdx < RadJav._included.length; iIdx++) {
 						var includeObj = RadJav._included[iIdx];
 
-						if (typeof includeObj != "string") {
-							if (typeof includeObj.themeFile == "string") {
+						if (typeof includeObj != "string")
+						{
+							if (typeof includeObj.themeFile == "string")
 								files.push(includeObj.themeFile);
-							} else {
-								if (includeObj.themeFile == true) {
+							else
+							{
+								if (includeObj.themeFile == true)
+								{
 									files.push(includeObj.file);
-								} else {
-									continue;
 								}
+								else
+									continue;
 							}
 						}
 					}
 
-					for (var iIdx = 0; iIdx < files.length; iIdx++) {
+					for (var iIdx = 0; iIdx < files.length; iIdx++)
+					{
 						var file = files[iIdx];
 
-						(function(theme, url, tfile, index, numFiles) {
-							try {
-								if (RadJav.currentTheme.themeObjects[tfile] == null) {
+						(function(theme, url, tfile, index, numFiles)
+						{
+							try
+							{
+								if (RadJav.currentTheme.themeObjects[tfile] == null)
 									RadJav.currentTheme.themeObjects[tfile] = new Object();
-								}
 
-								if (RadJav.useAjax == true) {
+								if (RadJav.isThemeLoaded == false)
+								{
 									RadJav._getResponse(url + "/" + tfile + ".js").then(
 										function(data)
 										{
-											try {
+											try
+											{
 												RadJav.currentTheme.themeObjects[tfile] = RadJav.loadModule (data);
-											} catch (ex)
+											}
+											catch (ex)
 											{
 												throw RadJav.getLangString(
 													"themeThrewErrorInFile",
@@ -1635,7 +1640,9 @@ namespace RadJav
 												resolve();
 											}
 										});
-								} else {
+								}
+								else
+								{
 									resolve();
 								}
 							} catch (ex) {}

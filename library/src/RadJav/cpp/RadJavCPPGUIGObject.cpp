@@ -259,6 +259,13 @@ namespace RadJAV
 				{
 					_appObj->setVisibility(visible);
 				}
+
+				for (RJINT iIdx = 0; iIdx < _children.size(); iIdx++)
+				{
+					GObject *child = _children.at (iIdx);
+
+					child->setVisibility(visible);
+				}
 			}
 
 			RJBOOL GObject::getVisibility()

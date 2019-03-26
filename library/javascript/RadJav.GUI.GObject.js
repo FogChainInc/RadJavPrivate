@@ -72,12 +72,14 @@ var RadJav;
                 if (obj.children != null) {
                     for (var iIdx = 0; iIdx < obj.children.length; iIdx++) {
                         var obj2 = obj.children[iIdx];
-                        var createTheObject = false;
+                        var createTheObject = true;
                         var newObj = obj2;
                         if (this.onBeforeChildCreated != null)
                             createTheObject = this.onBeforeChildCreated(obj2, parent);
-                        if (createTheObject == true)
+                        if (createTheObject == true) {
+                            newObj["_visible"] = this._visible;
                             this.addChild(newObj);
+                        }
                     }
                 }
                 if (obj.position != null) {
@@ -156,7 +158,7 @@ var RadJav;
                                 promises.push(this._children[iIdx].create());
                             }
                         }
-                        Promise.all(promises).then(RadJav.keepContext(function () {
+                        return (Promise.all(promises).then(RadJav.keepContext(function () {
                             for (var key in this._events) {
                                 if (this._events[key] != null) {
                                     var func = new Function(this._events[key]);
@@ -166,7 +168,7 @@ var RadJav;
                             if (this.onCreated != null)
                                 this.onCreated();
                             resolve(this);
-                        }, this));
+                        }, this)));
                     }, this));
                 }, this));
                 return (promise);
@@ -257,6 +259,7 @@ var RadJav;
                 return size;
             };
             GObject.prototype.setText = function (text) {
+                this._text = text;
                 RadJav.currentTheme.event(this.type, "setText", this, text);
             };
             GObject.prototype.getText = function () {
@@ -269,7 +272,12 @@ var RadJav;
                 return this._html;
             };
             GObject.prototype.setVisibility = function (visible) {
+                this._visible = visible;
                 RadJav.currentTheme.event(this.type, "setVisibility", this, visible);
+                for (var iIdx = 0; iIdx < this._children.length; iIdx++) {
+                    var child = this._children[iIdx];
+                    child.setVisibility(visible);
+                }
             };
             GObject.prototype.getVisibility = function () {
                 return RadJav.currentTheme.eventSync(this.type, "getVisibility", this);

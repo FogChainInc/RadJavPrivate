@@ -16,9 +16,8 @@ var RadJav;
             __extends(Label, _super);
             function Label(obj, text, parent) {
                 var _this = this;
-                if (obj == null) {
+                if (obj == null)
                     obj = {};
-                }
                 if (typeof obj == "string") {
                     var name = obj;
                     obj = { name: name };
@@ -29,6 +28,10 @@ var RadJav;
                     obj.size.y = 40;
                 }
                 _this = _super.call(this, obj, text, parent) || this;
+                if (RadJav.OS.HTML5 != null) {
+                    _this._text = _this._text.replaceAll(" ", "&nbsp;");
+                    _this._text = _this._text.replaceAll("\n", "<br />");
+                }
                 _this.type = "RadJav.GUI.Label";
                 return _this;
             }
