@@ -41,7 +41,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary ()).then (
 							RadJav.Net.httpRequest ("./gui.json").then (loadObjs);
 						else
 						{
-							var data = RadJav.IO.TextFile.readEntireFile ("./gui.json");
+							var data = new RadJav.IO.TextFile ().readFile ("./gui.json");
 							loadObjs (data);
 						}
 					});

@@ -33,5 +33,12 @@
 		"visibility": true, 
 		"position": "60, 125", 
 		"text": "Button"
+	}, 
+	{
+		"type": "RadJav.GUI.Combobox", 
+		"name": "combobox1", 
+		"visibility": true, 
+		"position": "60, 225", 
+		"text": "Combobox"
 	}
 ]

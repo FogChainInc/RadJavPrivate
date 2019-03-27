@@ -44,6 +44,7 @@ namespace RadJAV
 					_text = jsEngine->v8GetString(args.This(), "_text");
 					_visible = jsEngine->v8GetBool(args.This(), "_visible");
 					_cursor = jsEngine->v8GetString(args.This(), "_cursor");
+					_zIndex = jsEngine->v8GetInt(args.This(), "_zIndex");
 
 					v8::Handle<v8::Object> parent = jsEngine->v8GetObject(args.This(), "_parent");
 
@@ -72,6 +73,7 @@ namespace RadJAV
                     _text = jsEngine->jscGetString(thisObj, "_text");
                     _visible = jsEngine->jscGetBool(thisObj, "_visible");
                     _cursor = jsEngine->jscGetString(thisObj, "_cursor");
+					_zIndex = jsEngine->jscGetInt(thisObj, "_zIndex");
 
                     JSObjectRef parent = jsEngine->jscGetObject(thisObj, "_parent");
 

@@ -9,12 +9,6 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary ()).then (
 					});
 				win.create ().then (function (win2)
 					{
-						win2.on ("close", function ()
-							{
-								alert ("Window closing!");
-
-								return (true);
-							});
 						RadJav.GUI.create ({
 								type: "WebView", 
 								name: "view", 
