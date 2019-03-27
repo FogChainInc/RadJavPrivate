@@ -41,6 +41,7 @@
 					{
 						public:
 							MenuBarFrame(const wxString &text);
+							~MenuBarFrame();
 							void onMenuOpen(wxMenuEvent &evt);
 							void onMenuClose(wxMenuEvent &evt);
 							void onMenuHighLight(wxMenuEvent &evt);

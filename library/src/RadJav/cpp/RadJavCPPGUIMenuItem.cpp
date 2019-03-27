@@ -148,7 +148,9 @@ namespace RadJAV
 
 				#endif
 
-				setup();
+				// Do we really need this here?
+				// For now it is crashed on MacOS
+				//setup();
 			}
 
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE

@@ -70,7 +70,10 @@ namespace RadJAV
 					parentWin->SetMenuBar(object);
 
 					_appObj = object;
+					linkWith(object);
 				
+					// Do we really need this here?
+					// For now it is crashed on MacOS
 					//setup();
 				#endif
 			}

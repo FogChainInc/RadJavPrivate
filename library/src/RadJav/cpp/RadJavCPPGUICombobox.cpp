@@ -58,7 +58,7 @@ namespace RadJAV
 
 			Combobox::~Combobox()
 			{
-				DELETEARRAY(_items);
+				DELETEOBJ(_items);
 			}
 
 			void Combobox::create()
@@ -215,7 +215,7 @@ namespace RadJAV
 						items->push_back(Combobox::Item (text));
 					}
 
-					DELETEARRAY(_items);
+					DELETEOBJ(_items);
 					_items = items;
 				#endif
 

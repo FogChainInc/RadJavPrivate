@@ -36,6 +36,16 @@ namespace RadJAV
 				{
 				}
 
+				MenuBarFrame::~MenuBarFrame()
+				{
+					//This is very dirty hack for now
+					//we need to revisit it
+					wxFrame* parent = static_cast<wxFrame*>(GetParent());
+					
+					if (parent)
+						parent->SetMenuBar(nullptr);
+				}
+
 				void MenuBarFrame::onMenuOpen(wxMenuEvent &event)
 				{
 					Event *pevent = (Event *)event.GetEventUserData();
