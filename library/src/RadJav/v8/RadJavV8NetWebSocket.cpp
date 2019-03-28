@@ -35,6 +35,9 @@ namespace RadJAV
 	{
 		namespace Net
 		{
+			using CppWebSocketClient = CPP::Net::WebSocketClient;
+			using CppWebSocketServer = CPP::Net::WebSocketServer;
+
 			void WebSocketServer::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 			{
 				V8_CALLBACK(object, "_init", WebSocketServer::_init);
@@ -183,10 +186,11 @@ namespace RadJAV
 
 			void WebSocketClient::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				v8::Local<v8::String> val = v8::Local<v8::String>::Cast(args[0]);
-				String url = parseV8Value(val);
+				std::shared_ptr<CppWebSocketClient> webSocket(RJNEW CppWebSocketClient(V8_JAVASCRIPT_ENGINE, args),
+															  [](CppWebSocketClient* p) {
+																  DELETEOBJ(p);
+															  });
 
-				CPP::Net::WebSocketClient *webSocket = RJNEW CPP::Net::WebSocketClient(url);
 				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_webSocket", webSocket);
 			}
 
@@ -196,9 +200,7 @@ namespace RadJAV
 
 				V8_CALLBACK(object, "connect", WebSocketClient::connect);
 				V8_CALLBACK(object, "send", WebSocketClient::send);
-				V8_CALLBACK(object, "receive", WebSocketClient::receive);
 				V8_CALLBACK(object, "close", WebSocketClient::close);
-
 				V8_CALLBACK(object, "on", WebSocketClient::on);
 			}
 
@@ -207,116 +209,88 @@ namespace RadJAV
 				String url = V8_JAVASCRIPT_ENGINE->v8GetString (args.This (), "url");
 				RadJAV::CPP::Net::URI uri = RadJAV::CPP::Net::URI::parse(url);
 
-				CPP::Net::WebSocketClient *webSocket = (CPP::Net::WebSocketClient *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_webSocket");
-				PromiseThread *thread = RJNEW PromiseThread();
-
-				thread->onStart = [webSocket, thread, &args]()
-					{
-						try
-						{
-							webSocket->connect();
-							thread->resolvePromise();
-
-							while (webSocket->isRunning == true)
-							{
-								String message = "";
-								RJCHAR *bin = NULL;
-
-								webSocket->receive([&message](const std::string &str)
-										{
-											message = str;
-										}, 
-										[&message, &bin](const void* bufPtr, int bufLen)
-										{
-											DELETEARRAY(bin);
-											bin = RJNEW RJCHAR[bufLen];
-
-											std::memcpy(bin, bufPtr, bufLen);
-										}
-									);
-
-								webSocket->executeEvent("receive", message);
-							}
-						}
-						catch (std::exception ex)
-						{
-							thread->rejectPromise();
-						}
-					};
-
-				v8::Local<v8::Value> promise = thread->createV8Promise(V8_JAVASCRIPT_ENGINE, args.This());
-				V8_JAVASCRIPT_ENGINE->addThread(thread);
-
-				args.GetReturnValue().Set(promise);
+				std::shared_ptr<CppWebSocketClient> webSocket = V8_JAVASCRIPT_ENGINE->v8GetExternal<CppWebSocketClient>(args.This(), "_webSocket");
+				
+				if (!webSocket)
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("WebSocketClient not initialized");
+					return;
+				}
+				
+				webSocket->connect(url);
 			}
 
 			void WebSocketClient::send(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				CPP::Net::WebSocketClient *webSocket = (CPP::Net::WebSocketClient *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_webSocket");
-				v8::Isolate *isolate = args.GetIsolate();
-
-				if (args[0] -> IsString())
-				  {
-				    v8::Local<v8::String> val = v8::Local<v8::String>::Cast(args[0]);
-				    String message = parseV8Value(val);
-
-				    webSocket->send(message);
-				  }
-				else if (args[0] -> IsObject())
-				  {
-				    String constructor = parseV8Value(v8::Local<v8::Object>::Cast(args[0]) -> GetConstructorName());
-				    if (constructor.find("Array") != std::string::npos)
-				      {
-					auto message = v8::Local<v8::ArrayBuffer>::Cast(args[0]);
-					const void *msgData;
-					int msgLen;
-					msgData = message -> GetContents().Data();
-					msgLen = message -> ByteLength();
-					webSocket->send(msgData, msgLen);
-				      }
-				    else
-				      isolate -> ThrowException(v8::Exception::TypeError
-								(v8::String::NewFromUtf8(isolate, "Only ArrayBuffers are supported")));
-
-				  }
-			}
-
-			void WebSocketClient::receive(const v8::FunctionCallbackInfo<v8::Value> &args)
-			{
-				CPP::Net::WebSocketClient *webSocket = (CPP::Net::WebSocketClient *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_webSocket");
-
-				//auto resp = webSocket->receive();
-				v8::Local<v8::Value> ret;
-				v8::Isolate *isolate = args.GetIsolate();
-
-				webSocket->receive([&ret, isolate](const std::string &str)
-						   {
-						     ret = v8::String::NewFromUtf8(isolate,
-										   str.c_str());
-						   },
-						   [&ret, isolate](const void* bufPtr, int bufLen)
-						   {
-						     auto ab = v8::ArrayBuffer::New(isolate, bufLen);
-						     std::memcpy(ab -> GetContents().Data(), bufPtr, bufLen);
-						     ret = ab;
-						   }
-						   );
-						     
+				std::shared_ptr<CppWebSocketClient> webSocket = V8_JAVASCRIPT_ENGINE->v8GetExternal<CppWebSocketClient>(args.This(), "_webSocket");
 				
-				//ret = v8::String::NewFromUtf8(isolate, resp.c_str());
-				args.GetReturnValue().Set(ret);
+				if (!webSocket)
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("WebSocketClient not initialized");
+					return;
+				}
+				
+				if (args.Length() == 0)
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("Argument data is required");
+					return;
+				}
+				
+				if (args[0]->IsString())
+				{
+					v8::Local<v8::String> val = v8::Local<v8::String>::Cast(args[0]);
+					String message = parseV8Value(val);
+					
+					webSocket->send(message);
+				}
+				else if (args[0]->IsObject())
+				{
+					String constructor = parseV8Value(v8::Local<v8::Object>::Cast(args[0])->GetConstructorName());
+					if (constructor.find("Array") != std::string::npos)
+					{
+						auto message = v8::Local<v8::ArrayBuffer>::Cast(args[0]);
+						const unsigned char *msgData = static_cast<const unsigned char*>(message->GetContents().Data());
+						
+						webSocket->send(msgData, message->ByteLength());
+					}
+					else
+					{
+						V8_JAVASCRIPT_ENGINE->throwException("Argument is not an Array object");
+					}
+				}
 			}
 
 			void WebSocketClient::close(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				CPP::Net::WebSocketClient *webSocket = (CPP::Net::WebSocketClient *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_webSocket");
+				std::shared_ptr<CppWebSocketClient> webSocket = V8_JAVASCRIPT_ENGINE->v8GetExternal<CppWebSocketClient>(args.This(), "_webSocket");
 
+				if (!webSocket)
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("WebSocketClient not initialized");
+					return;
+				}
+				
 				webSocket->close();
 			}
 
 			void WebSocketClient::on(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				CPP::Net::WebSocketClient *webSocket = (CPP::Net::WebSocketClient *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_webSocket");
+				std::shared_ptr<CppWebSocketClient> webSocket = V8_JAVASCRIPT_ENGINE->v8GetExternal<CppWebSocketClient>(args.This(), "_webSocket");
+				
+				if (!webSocket)
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("WebSocketClient not initialized");
+					return;
+				}
+				
+				if (args.Length() < 2 ||
+					!args[0]->IsString() ||
+					!args[1]->IsFunction())
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("Arguments event name and function are required");
+					return;
+				}
+				
 				String event = parseV8Value(args[0]);
 				v8::Local<v8::Function> func = v8::Local<v8::Function>::Cast(args[1]);
 
@@ -326,4 +300,3 @@ namespace RadJAV
 	}
 }
 #endif
-

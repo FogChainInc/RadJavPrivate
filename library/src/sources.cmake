@@ -447,6 +447,7 @@ if (USE_V8)
 	# C++ Networking
 	if (libRadJav_ALLOW_NETWORKING)
 		set (SOURCES_files_RadJav__cpp__Net__Sources 
+			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetNetworkManager.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetUriParser.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNet.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetHttpRequest.cpp"

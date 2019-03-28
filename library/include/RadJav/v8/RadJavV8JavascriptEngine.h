@@ -121,7 +121,18 @@
 				void Free(void *data, size_t length);
 		};*/
 
+		// Forward declarations
 		class JsVirtualMachine;
+
+		#ifdef NET_ON
+			namespace CPP
+			{
+				namespace Net
+				{
+					class NetworkManager;
+				}
+			}
+		#endif
 
 		/// The V8 javascript engine.
 		class RADJAV_EXPORT V8JavascriptEngine: public JavascriptEngine
@@ -288,6 +299,9 @@
 
 				#ifdef GUI_USE_WXWIDGETS
 					wxCriticalSection *criticalSection;
+				#endif
+				#ifdef NET_ON
+					CPP::Net::NetworkManager* networkManager;
 				#endif
 
 			protected:

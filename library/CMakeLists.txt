@@ -153,17 +153,26 @@ endif ()
 
 if (libRadJav_ALLOW_NETWORKING)
 	message (STATUS "Networking is going to be included in this build.")
+	set (USE_OPENSSL TRUE)
 else ()
 	message (STATUS "Networking will NOT be included in this build.")
 endif ()
 
 if (libRadJav_INCLUDE_BLOCKCHAIN_V1)
 	message (STATUS "Blockchain V1 will be included in this build.")
-
-	set (OPENSSL_ROOT_DIR "" CACHE PATH "OPENSSL_ROOT_DIR")
+	
+	set (USE_OPENSSL TRUE)
 	set (ZLIB_ROOT "" CACHE PATH "ZLIB_ROOT")
 else ()
 	message (STATUS "Blockchain V1 will NOT be included in this build.")
+endif ()
+
+if (INCLUDE_CRYPTOGRAPHY)
+	message (STATUS "KrispyCripto will be included in this build.")
+	
+	set (USE_OPENSSL TRUE)
+else ()
+	message (STATUS "KrispyCripto will NOT be included in this build.")
 endif ()
 
 if (libRadJav_DEPENDENCIES)
@@ -257,6 +266,19 @@ endif ()
 
 if (XML_SUPPORT)
 	include (FindTinyXML2)
+endif ()
+
+if (USE_OPENSSL)
+	# Force search of OpenSSL
+	unset (OPENSSL_FOUND CACHE)
+	unset (OPENSSL_INCLUDE_DIR CACHE)
+	unset (OPENSSL_CRYPTO_LIBRARY CACHE)
+	unset (OPENSSL_SSL_LIBRARY CACHE)
+	unset (OPENSSL_LIBRARIES CACHE)
+	unset (OPENSSL_VERSION CACHE)
+	
+	set (OPENSSL_ROOT_DIR "" CACHE PATH "Path to OpenSSL library")
+	include (FindModuleOpenSSL)
 endif ()
 
 if (libRadJav_STATIC)
@@ -404,6 +426,14 @@ if (civetweb_FOUND)
 	set (libRadJav_CPP_DEFS HTTP_USE_CIVETWEB ${libRadJav_CPP_DEFS})
 endif ()
 
+if (USE_OPENSSL)
+	set (libRadJav_CPP_DEFS USE_OPENSSL ${libRadJav_CPP_DEFS})
+	set (libRadJav_CPP_DEFS_DEBUG USE_OPENSSL ${libRadJav_CPP_DEFS_DEBUG})
+	set (libRadJav_INCLUDE_DIRS ${OPENSSL_INCLUDE_DIR} ${libRadJav_INCLUDE_DIRS})
+	set (libRadJav_LINK_LIBRARIES ${OPENSSL_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
+	
+endif ()
+
 if (libRadJav_INCLUDE_BLOCKCHAIN_V1)
 	set (libRadJav_CPP_DEFS USE_BLOCKCHAIN_V1 ${libRadJav_CPP_DEFS})
 	set (libRadJav_CPP_DEFS HAVE_CONFIG_H ${libRadJav_CPP_DEFS})
@@ -436,7 +466,6 @@ if (libRadJav_INCLUDE_BLOCKCHAIN_V1)
 
 	include (FindModuleZLIB)
 	include (FindBerkleyDB)
-	include (FindModuleOpenSSL)
 	include (FindlibEvent)
 	include (FindMiniupnpc)
 	include (Findsecp256k1)
@@ -452,8 +481,6 @@ if (libRadJav_INCLUDE_BLOCKCHAIN_V1)
 	#set (libRadJav_LINK_LIBRARIES ${ZLIB_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
 	set (libRadJav_INCLUDE_DIRS ${BerkleyDB_INCLUDE} ${libRadJav_INCLUDE_DIRS})
 	set (libRadJav_LINK_LIBRARIES ${BerkleyDB_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
-	set (libRadJav_INCLUDE_DIRS ${OPENSSL_INCLUDE} ${libRadJav_INCLUDE_DIRS})
-	set (libRadJav_LINK_LIBRARIES ${OPENSSL_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
 	set (libRadJav_INCLUDE_DIRS ${event2_INCLUDE} ${libRadJav_INCLUDE_DIRS})
 	set (libRadJav_LINK_LIBRARIES ${event2_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
 	set (libRadJav_INCLUDE_DIRS ${miniupnpc_INCLUDE} ${libRadJav_INCLUDE_DIRS})
@@ -546,20 +573,10 @@ if (INCLUDE_DATABASES)
 endif ()
 
 if (INCLUDE_CRYPTOGRAPHY)
-	set (OPENSSL_ROOT_DIR "" CACHE PATH "OPENSSL_ROOT_DIR")
-
 	set (libRadJav_CPP_DEFS USE_CRYPTOGRAPHY ${libRadJav_CPP_DEFS})
 	set (libRadJav_CPP_DEFS_DEBUG USE_CRYPTOGRAPHY ${libRadJav_CPP_DEFS_DEBUG})
 
-	set (libRadJav_CPP_DEFS USE_OPENSSL ${libRadJav_CPP_DEFS})
-	set (libRadJav_CPP_DEFS_DEBUG USE_OPENSSL ${libRadJav_CPP_DEFS_DEBUG})
-
 	set (libKrispyCrypto_CMAKE_BUILD_PATH "${libKrispyCrypto_PATH}/build" CACHE PATH "KrispyCrypto CMake build path")
-
-	include (FindModuleOpenSSL)
-
-	set (libRadJav_INCLUDE_DIRS ${OPENSSL_INCLUDE_DIR} ${libRadJav_INCLUDE_DIRS})
-	set (libRadJav_LINK_LIBRARIES ${OPENSSL_LIBRARIES} ${libRadJav_LINK_LIBRARIES})
 
 	set (libKrispyCrypto_PATH "${libRadJav_PATH}/engines/KrispyCrypto" CACHE PATH "Crypto path")
 
