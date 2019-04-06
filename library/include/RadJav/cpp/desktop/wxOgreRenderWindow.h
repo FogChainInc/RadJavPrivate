@@ -6,7 +6,7 @@
 //#include "OgreNoMemoryMacros.h"
 #include <wx/wx.h>
 //#include "OgreMemoryMacros.h"
-#include "cpp/RadJavCPPGUIRenderWindow.h"
+#include "cpp/desktop/RadJavCPPGUIRenderWindow.h"
  
 /** wxWidgets Ogre render window widget.
     Strongly based on the existing wxOgre widget implementation, this one

@@ -24,7 +24,7 @@
 	#include "RadJavString.h"
 
 	#include "cpp/RadJavCPPGUIGObject.h"
-	#include "cpp/RadJavCPPGUIRenderWindow.h"
+	#include "cpp/desktop/RadJavCPPGUIRenderWindow.h"
 	#include "cpp/RadJavCPPColor.h"
 
 	#ifdef GUI_USE_WXWIDGETS
@@ -63,26 +63,27 @@
 							RJBOOL loadAtStart;
 					};
 
-				#ifdef GUI_USE_WXWIDGETS
-					/// The wxWidgets frame to use.
-					class RADJAV_EXPORT Canvas3DFrame : public wxFrame, public GObjectWidget, public RenderWindow, public ChainedPtr
-					{
-						public:
-							Canvas3DFrame(const wxString &text, const wxPoint &pos, const wxSize &size, Array<CanvasResource *> resources);
+					#ifdef GUI_USE_WXWIDGETS
+						/// The wxWidgets frame to use.
+						class RADJAV_EXPORT Canvas3DFrame : public wxFrame, public GObjectWidget, public RenderWindow, public ChainedPtr
+						{
+							public:
+								Canvas3DFrame(const wxString &text, const wxPoint &pos, const wxSize &size, Array<CanvasResource *> resources);
 
-							void addChild(const C3D::Transform& child);
-							void removeChild(const C3D::Transform& child);
+								void addChild(const C3D::Transform& child);
+								void removeChild(const C3D::Transform& child);
 
-							void onClose(wxCloseEvent &evt);
-							void onJSClose(wxCloseEvent &evt);
-							void onJSMinimized(wxIconizeEvent &evt);
-							void onClick(wxMouseEvent &evt);
+								void onClose(wxCloseEvent &evt);
+								void onJSClose(wxCloseEvent &evt);
+								void onJSMinimized(wxIconizeEvent &evt);
+								void onClick(wxMouseEvent &evt);
 
-						public:
-							wxOgreRenderWindow *renderingWidget;
-							Ogre::SceneManager* sceneManager;
-							wxDECLARE_EVENT_TABLE();
-					};
+							public:
+								wxOgreRenderWindow *renderingWidget;
+								Ogre::SceneManager* sceneManager;
+								wxDECLARE_EVENT_TABLE();
+						};
+					#endif
 				#endif
 			}
 		}

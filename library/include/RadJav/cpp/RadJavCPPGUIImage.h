@@ -86,6 +86,7 @@
 
 				protected:
 					String _image;
+					ScaleMode scaleMode;
 				};
 			}
 		}

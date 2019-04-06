@@ -1,4 +1,4 @@
-module.exports = 
+RadJav.currentTheme.themeObjects["RadJav.GUI.Textbox"].exports =
 {
 	create: function (obj)
 	{
@@ -18,7 +18,7 @@ module.exports =
 				}
 
 				var html = "<input id = \"" + obj.name + "\" name = \"" + obj.name + "\" type = \"text\" ";
-				html += "style = \"" + RadJav.themeUtils.getGObjectSizeString (obj, offset/*, [-4, -6]*/) + " " + 
+				html += "style = \"" + RadJav.themeUtils.getGObjectSizeString (obj, offset/*, [-4, -6]*/) + " " +
 					RadJav.themeUtils.getGObjectFontString (obj);
 				html += " " + RadJav.themeUtils.getGObjectCursorString (obj);
 				html += "\" ";
@@ -26,10 +26,10 @@ module.exports =
 				var textBox = RadJav.OS.HTML5.appendHTML (parentDOM, html);
 
 				/*var textBox = new dijit.form.TextBox ({
-							name: obj.name, 
-							value: obj._text, 
-							style: "width: " + obj.getWidth () + 
-								"px; height: " + obj.getHeight () + "px; visibility: hidden;", 
+							name: obj.name,
+							value: obj._text,
+							style: "width: " + obj.getWidth () +
+								"px; height: " + obj.getHeight () + "px; visibility: hidden;",
 						}, dojo.byId (obj.name));
 				textBox.startup ();*/
 

@@ -14,7 +14,6 @@ declare namespace RadJav {
              * The items associated with this object.
              */
             _items: Combobox.Item[];
-            onCreated(): void;
             /** @method addItem
              * Add an item to the combo box.
              * Theme Event: addItem
@@ -38,7 +37,7 @@ declare namespace RadJav {
              * Parameters Passed to Theme Event: RadJav.GUI.GObject, Number
              * @param {Number} The item index to delete.
              */
-            deleteItem(index: Number): void;
+            deleteItem(index: number): void;
             /** @method getItem
              * Get an item from this combobox.
              * Theme Event: getItem
@@ -46,7 +45,7 @@ declare namespace RadJav {
              * Parameters Passed to Theme Event: RadJav.GUI.GObject, Number
              * @return {RadJav.GUI.Combobox.Item} The item.
              */
-            getItem(index: Number): Combobox.Item;
+            getItem(index: number): Combobox.Item;
             /** @method getItems
              * Get all items from this combobox.
              * Theme Event: getItems
@@ -62,7 +61,7 @@ declare namespace RadJav {
              * Parameters Passed to Theme Event: RadJav.GUI.GObject
              * @return {Number} The number of items.
              */
-            getNumItems(): Number;
+            getNumItems(): number;
             /** @method clear
              * Clear this object of all items.
              * Theme Event: clear
@@ -76,9 +75,9 @@ declare namespace RadJav {
              * Is Theme Event Asynchronous: No
              * Parameters Passed to Theme Event: RadJav.GUI.GObject
              * Returned from Theme Event: Boolean
-             * @param {Number} index The selected item index.
+             * @param {number} index The selected item index.
              */
-            setSelectedItemIndex(index: Number): void;
+            setSelectedItemIndex(index: number): void;
             /** @method getSelectedItemIndex
              * Get the selected item index.
              * Theme Event: getSelectedItemIndex
@@ -87,7 +86,7 @@ declare namespace RadJav {
              * Returned from Theme Event: Boolean
              * @return {Number} The selected item index.
              */
-            getSelectedItemIndex(): Number;
+            getSelectedItemIndex(): number;
         }
         namespace Combobox {
             /** @class RadJav.GUI.Combobox.Item
@@ -99,11 +98,11 @@ declare namespace RadJav {
                 /** @property {String} [name=""]
                  * The name.
                  */
-                name: String;
+                name: string;
                 /** @property {String} [text=""]
                  * The item's display text.
                  */
-                text: String;
+                text: string;
             }
         }
     }

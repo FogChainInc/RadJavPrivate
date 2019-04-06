@@ -7,9 +7,10 @@ declare namespace RadJav {
          * A mobile view.
          * Available on platforms: iOS,Android,HTML5
          */
-        class Window extends RadJav.GUI.GObject {
+        class View extends RadJav.GUI.GObject {
             static xmlTag: TagType;
             constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject);
+            createMainView(): Promise<RadJav.GUI.GObject>;
         }
     }
 }

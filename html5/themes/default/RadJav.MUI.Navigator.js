@@ -1,4 +1,4 @@
-module.exports = 
+RadJav.currentTheme.themeObjects["RadJav.MUI.Navigator"].exports =
 {
 	create: function (obj)
 	{

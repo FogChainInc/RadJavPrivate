@@ -41,7 +41,7 @@
 					class RADJAV_EXPORT ImageFrame : public wxStaticBitmap, public GObjectWidget, public ChainedPtr
 					{
 					public:
-						ImageFrame(GObjectWidget *parent, const String &filePath, const Vector2 &pos, const Vector2 &size);
+						ImageFrame(Image::ScaleMode scaleMode, GObjectWidget *parent, const String &filePath, const Vector2 &pos, const Vector2 &size);
 
 						/** @method loadImage
 						 * Loads image from supplied source.

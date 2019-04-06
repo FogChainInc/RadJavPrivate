@@ -5,7 +5,7 @@ declare namespace RadJav {
         /** @class RadJav.GUI.Checkbox
         * @extends RadJav.GUI.GObject
         * A checkbox.
-        * Available on platforms: Windows,Linux,OSX,HTML5
+        * Available on platforms: Windows,Linux,OSX,iOS,Android,HTML5
         */
         class Checkbox extends RadJav.GUI.GObject {
             static xmlTag: TagType;

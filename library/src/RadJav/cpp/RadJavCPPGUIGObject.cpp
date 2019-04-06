@@ -262,6 +262,9 @@ namespace RadJAV
 					_appObj->setVisibility(visible);
 				}
 
+				if (type == "RadJav.GUI.Window")
+					return;
+
 				for (RJINT iIdx = 0; iIdx < _children.size(); iIdx++)
 				{
 					GObject *child = _children.at (iIdx);
@@ -315,8 +318,11 @@ namespace RadJAV
 				setFont(_font);
 
 				#ifdef GUI_USE_WXWIDGETS
-					if (_appObj != NULL)
-						_appObj->getNativeWidget()->Raise();
+				if (_appObj != NULL)
+				{
+					_appObj->getNativeWidget()->Raise();
+					_appObj->getNativeWidget()->Show(_visible);
+				}
 				#endif
 			}
 

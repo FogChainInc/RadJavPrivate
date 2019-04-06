@@ -1,4 +1,4 @@
-module.exports = 
+RadJav.currentTheme.themeObjects["RadJav.MUI.ScrollView"].exports =
 {
 	create: function (obj)
 	{

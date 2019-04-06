@@ -1,4 +1,4 @@
-#include "wxOgreRenderWindow.h"
+#include "cpp/desktop/wxOgreRenderWindow.h"
 
 #if defined C3D_USE_OGRE && defined GUI_USE_WXWIDGETS
 

@@ -29,11 +29,11 @@ namespace RadJAV
 		namespace GUI
 		{
 			#ifdef GUI_USE_WXWIDGETS
-				ImageFrame::ImageFrame(GObjectWidget *parent, const String &filePath, const Vector2 &pos, const Vector2 &size)
+				ImageFrame::ImageFrame(Image::ScaleMode scaleMode, GObjectWidget *parent, const String &filePath, const Vector2 &pos, const Vector2 &size)
 					: wxStaticBitmap(parent ? parent->getNativeWidget() : nullptr, wxID_ANY, wxBitmap(), wxPoint(pos.x, pos.y), wxSize(size.x, size.y), wxTRANSPARENT_WINDOW | wxBORDER_NONE)
 				{
 					isImageLoaded = false;
-					scaleMode = Image::ScaleMode::AspectFit;
+					this->scaleMode = scaleMode;
 					
 					loadImage(filePath);
 				}

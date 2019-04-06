@@ -68,23 +68,23 @@ declare namespace RadJav {
              */
             deleteRows(selection: any): any;
         }
-        /** @class RadJav.GUI.List.Row
-         * A List row.
-         * Available on platforms: Windows,Linux,OSX,HTML5
-         */
-        class Row {
-            constructor(obj: any);
-            /** @property {RadJav.GUI.List.Item[]} [items=[]]
-             * The items to display.
-             */
-            items: any;
-            /** @method addItem
-             * Add an item to this row.
-             * @param {RadJav.GUI.List.Item} item The item to add.
-             */
-            addItem(item: any): void;
-        }
         namespace List {
+            /**
+             * A List row.
+             * Available on platforms: Windows,Linux,OSX,HTML5
+             */
+            class Row {
+                constructor(obj: any);
+                /**
+                 * The items to display.
+                 */
+                items: any;
+                /**
+                 * Add an item to this row.
+                 * @param {RadJav.GUI.List.Item} item The item to add.
+                 */
+                addItem(item: any): void;
+            }
             /** @class RadJav.GUI.List.Item
              * A List item.
              * Available on platforms: Windows,Linux,OSX,HTML5

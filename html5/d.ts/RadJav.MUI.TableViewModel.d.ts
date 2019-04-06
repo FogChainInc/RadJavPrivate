@@ -3,13 +3,29 @@
 declare namespace RadJav {
     namespace MUI {
         /** @class RadJav.MUI.TableViewModel
-         * @extends RadJav.GUI.GObject
-         * A mobile view controller.
+         * A model for TableView control.
          * Available on platforms: iOS,Android,HTML5
          */
-        class TableViewModel extends RadJav.GUI.GObject {
+        class TableViewModel {
             static xmlTag: TagType;
-            constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject);
+            /** @property {string} [type=""]
+             * The type of object.
+             */
+            type: string;
+            /** @property {Array} [items=[]]
+             * The items hold by this model.
+             */
+            private items;
+            /** @property {any} [_appObj=null]
+             * The type of object.
+             */
+            private _appObj;
+            constructor();
+            push(item: any): void;
+            remove(index: number): void;
+            pop(): void;
+            clear(): void;
+            get(index: number): object;
         }
     }
 }

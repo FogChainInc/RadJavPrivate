@@ -2,22 +2,22 @@
 /// <reference path="RadJav.Vector2.d.ts" />
 declare namespace RadJav {
     namespace GUI {
-        /** @class RadJav.GUI.Image
-         * @extends RadJav.GUI.GObject
+        /**
          * An image.
-         * Available on platforms: Windows,Linux,OSX,HTML5
+         * Available on platforms: Windows,Linux,OSX,iOS,Android,HTML5
          */
         class Image extends RadJav.GUI.GObject {
             static xmlTag: TagType;
+            static ScaleModeAspectFit: number;
+            static ScaleModeAspectFill: number;
             constructor(obj?: any, text?: string, parent?: RadJav.GUI.GObject);
-            /** @property {String/Image} [_image=null]
-             * @protected
+            /**
              * The image thats being used. If a string, it will be converted into
              * an Image when the image is set.
              */
             protected _image: any;
             onCreated(): void;
-            /** @method setImage
+            /**
              * Set the image.
              * Theme Event: setImage
              * Is Theme Event Asynchronous: Yes
@@ -25,6 +25,14 @@ declare namespace RadJav {
              * @return {Promise} Executes the promise when the image has loaded.
              */
             setImage(image: string | any): void;
+            /**
+             * Set scale mode.
+             */
+            setScaleMode(mode: number): void;
+            /**
+             * Get scale mode.
+             */
+            getScaleMode(): number;
         }
     }
 }

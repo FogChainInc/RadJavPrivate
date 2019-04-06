@@ -1,16 +1,16 @@
-module.exports = 
+RadJav.currentTheme.themeObjects["RadJav.GUI.Button"].exports =
 {
 	init: function ()
 	{
 		//RadJav.Theme.
-	}, 
+	},
 
 	create: function (obj)
 	{
 		var promise = new Promise (function (resolve, reject)
 			{
 				var parentDOM = RadJav.OS.HTML5.getParentHTML (obj);
-				/*var parentDOM2 = RadJav.OS.HTML5.selectDOM (parentDOM.domNode, 
+				/*var parentDOM2 = RadJav.OS.HTML5.selectDOM (parentDOM.domNode,
 						"#" + parentDOM.id + " [data-window-type='content']");
 
 				if (parentDOM2 != null)
@@ -27,7 +27,7 @@ module.exports =
 						offset = 35;
 				}
 
-				var html = "<button id = \"" + obj.name + "\" name = \"" + obj.name + 
+				var html = "<button id = \"" + obj.name + "\" name = \"" + obj.name +
 					"\" style = \"" + RadJav.themeUtils.getGObjectSizeString (obj, offset);
 				html += " " + RadJav.themeUtils.getGObjectFontString (obj);
 				html += " " + RadJav.themeUtils.getGObjectCursorString (obj);
@@ -42,10 +42,10 @@ module.exports =
 					dojo.query (button).style ("visibility", "hidden");
 
 				/*var button = new dijit.form.Button ({
-							name: obj.name, 
-							label: obj._text, 
-							style: "width: " + obj.getWidth () + 
-								"px; height: " + obj.getHeight () + "px; visibility: hidden;", 
+							name: obj.name,
+							label: obj._text,
+							style: "width: " + obj.getWidth () +
+								"px; height: " + obj.getHeight () + "px; visibility: hidden;",
 						}, dojo.byId (obj.name));
 				button.startup ();
 

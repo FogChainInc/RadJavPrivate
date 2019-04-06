@@ -1,4 +1,4 @@
-module.exports = 
+RadJav.currentTheme.themeObjects["RadJav.GUI.Image"].exports =
 {
 	create: function (obj)
 	{
@@ -17,7 +17,7 @@ module.exports =
 						offset = 35;
 				}
 
-				var html = "<img id = \"" + obj.name + "\" name = \"" + obj.name + 
+				var html = "<img id = \"" + obj.name + "\" name = \"" + obj.name +
 					"\" style = \"" + RadJav.themeUtils.getGObjectSizeString (obj, offset);
 				html += " " + RadJav.themeUtils.getGObjectCursorString (obj) + "\"";
 
@@ -36,17 +36,17 @@ module.exports =
 			});
 
 		return (promise);
-	}, 
+	},
 
 	setText: function (obj, text)
 	{
 		obj._html.set ("text", text);
-	}, 
+	},
 
 	getText: function (obj)
 	{
 		return (obj._html.get ("text"));
-	}, 
+	},
 
 	setImage: function (obj, img)
 	{

@@ -1,4 +1,4 @@
-module.exports = 
+RadJav.currentTheme.themeObjects["RadJav.MUI.View"].exports =
 {
 	create: function (obj)
 	{
@@ -34,7 +34,7 @@ module.exports =
 			});
 
 		return (promise);
-	}, 
+	},
 
 	setVisibility: function (obj, visible)
 	{
@@ -45,7 +45,7 @@ module.exports =
 			dojo.query (obj._html).style ("display", "block");
 		else
 			dojo.query (obj._html).style ("display", "none");
-	}, 
+	},
 
 	getVisibility: function (obj)
 	{

@@ -1,4 +1,4 @@
-module.exports = 
+RadJav.currentTheme.themeObjects["RadJav.GUI.Window"].exports =
 {
 	create: function (obj)
 	{
@@ -12,10 +12,10 @@ module.exports =
 				RadJav.OS.HTML5.appendHTML (parentDOM, html);
 
 				var win = new dojox.layout.FloatingPane ({
-							id: obj.name, title: obj._text, 
-							resizable: true, dockable: false, 
-							style: "width: " + obj.getWidth () + 
-								"px; height: " + obj.getHeight () + "px; visibility: hidden;", 
+							id: obj.name, title: obj._text,
+							resizable: true, dockable: false,
+							style: "width: " + obj.getWidth () +
+								"px; height: " + obj.getHeight () + "px; visibility: hidden;",
 						}, dojo.byId (obj.name));
 				win.startup ();
 
@@ -26,17 +26,17 @@ module.exports =
 			});
 
 		return (promise);
-	}, 
+	},
 
 	setText: function (obj, text)
 	{
 		obj._html.set ("title", text);
-	}, 
+	},
 
 	getText: function (obj)
 	{
 		return (obj._html.get ("title"));
-	}, 
+	},
 
 	setVisibility: function (obj, visible)
 	{
@@ -44,12 +44,12 @@ module.exports =
 			obj._html.show ();
 		else
 			obj._html.hide ();
-	}, 
+	},
 
 	getVisibility: function ()
 	{
 		return (obj._html.get ("display"));
-	}, 
+	},
 
 	on: function (obj, eventName, func)
 	{

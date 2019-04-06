@@ -22,7 +22,7 @@
 #include "RadJav.h"
 #include "RadJavString.h"
 #include "cpp/RadJavCPPC3DTransform.h"
-#include "wxOgreRenderWindow.h"
+#include "cpp/desktop/wxOgreRenderWindow.h"
 
 #ifdef C3D_USE_OGRE
 	#include <Ogre.h>

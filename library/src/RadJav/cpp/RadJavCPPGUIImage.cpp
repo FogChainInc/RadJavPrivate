@@ -41,12 +41,24 @@ namespace RadJAV
 					: GObject (jsEngine, args)
 				{
 					_image = V8_JAVASCRIPT_ENGINE->v8GetString(args.This(), "_image");
+
+					#ifdef GUI_USE_WXWIDGETS
+						scaleMode = ScaleMode::AspectFill;
+					#else
+						scaleMode = ScaleMode::AspectFit;
+					#endif
 				}
 			#elif defined USE_JAVASCRIPTCORE
 				Image::Image(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[])
 					: GObject (jsEngine, thisObject, argumentCount, arguments)
 				{
 					_image = JSC_JAVASCRIPT_ENGINE->jscGetString(thisObject, "_image");
+
+					#ifdef GUI_USE_WXWIDGETS
+						scaleMode = ScaleMode::AspectFill;
+					#else
+						scaleMode = ScaleMode::AspectFit;
+					#endif
 				}
 			#endif
 
@@ -54,6 +66,12 @@ namespace RadJAV
 				: GObject(name, text, parent)
 			{
 				_image = "";
+
+				#ifdef GUI_USE_WXWIDGETS
+					scaleMode = ScaleMode::AspectFill;
+				#else
+					scaleMode = ScaleMode::AspectFit;
+				#endif
 			}
 
 			void Image::create()
@@ -63,13 +81,9 @@ namespace RadJAV
 				if (_parent != nullptr)
 					parentWin = _parent->_appObj;
 				
-				ImageFrame* object = RJNEW ImageFrame(parentWin, _image,
+				ImageFrame* object = RJNEW ImageFrame(scaleMode, parentWin, _image,
 													  Vector2(_transform->x, _transform->y),
 													  Vector2(_transform->width, _transform->height));
-
-				#ifdef GUI_USE_WXWIDGETS
-					setScaleMode(ScaleMode::AspectFill);
-				#endif
 				
 				object->setVisibility(_visible);
 				_appObj = object;

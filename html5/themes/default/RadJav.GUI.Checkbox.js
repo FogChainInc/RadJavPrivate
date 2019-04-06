@@ -1,4 +1,4 @@
-module.exports = 
+RadJav.currentTheme.themeObjects["RadJav.GUI.Checkbox"].exports =
 {
 	create: function (obj)
 	{
@@ -24,8 +24,8 @@ module.exports =
 					html += "checked ";
 
 				html += "/>";
-				html += "<label for = \"" + obj.name + "\" style = \"" + 
-					RadJav.themeUtils.getGObjectFontString (obj) + " " + 
+				html += "<label for = \"" + obj.name + "\" style = \"" +
+					RadJav.themeUtils.getGObjectFontString (obj) + " " +
 					RadJav.themeUtils.getGObjectCursorString (obj) + "\">" + obj._text + "</label></div>";
 				var checkbox = RadJav.OS.HTML5.appendHTML (parentDOM, html);
 
@@ -33,24 +33,24 @@ module.exports =
 			});
 
 		return (promise);
-	}, 
+	},
 
 	setText: function (obj, text)
 	{
 		text = text.replaceAll (" ", "&nbsp;");
 		obj._html.set ("text", text);
-	}, 
+	},
 
 	getText: function (obj)
 	{
 		return (obj._html.get ("text"));
-	}, 
+	},
 
 	setChecked: function (obj, checked)
 	{
 		var dom = RadJav.OS.HTML5.selectDOM (obj._html, "input");
 		dom.checked = checked;
-	}, 
+	},
 
 	isChecked: function (obj)
 	{

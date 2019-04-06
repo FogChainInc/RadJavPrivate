@@ -1,4 +1,4 @@
-module.exports =
+RadJav.currentTheme.exports =
 {
 	init: function ()
 	{
@@ -20,14 +20,14 @@ module.exports =
 						if (RadJav.OS.HTML5.absolutePositioning == true)
 						{
 							str = "position: absolute;";
-							str += "left: " + obj.getX () + "px; top: " + 
+							str += "left: " + obj.getX () + "px; top: " +
 									(obj.getY () + offset + RadJav.themeUtils.menuOffset) + "px;";
-							str += "width: " + (obj.getWidth () + width) + "px; height: " + 
+							str += "width: " + (obj.getWidth () + width) + "px; height: " +
 														(obj.getHeight () + height) + "px;";
 						}
 						else
 						{
-							str += "width: " + (obj.getWidth () + width) + "px; height: " + 
+							str += "width: " + (obj.getWidth () + width) + "px; height: " +
 															(obj.getHeight () + height) + "px;";
 						}
 
@@ -60,7 +60,7 @@ module.exports =
 
 						if (obj._cursor == "hand")
 							str = "cursor: pointer;";
-						
+
 						if (obj._cursor == "none")
 							str = "cursor: none;";
 

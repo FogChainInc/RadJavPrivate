@@ -1,16 +1,16 @@
 /*
  MIT-LICENSE
  Copyright (c) 2018 Higher Edge Software, LLC
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy of this software
  and associated documentation files (the "Software"), to deal in the Software without restriction,
  including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
  and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
  subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in all copies or substantial
  portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
  LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
@@ -35,9 +35,10 @@ namespace RadJAV
 			jmethodID ImageFrame::nativeSetScaleType = nullptr;
 			jmethodID ImageFrame::nativeGetScaleType = nullptr;
 
-			ImageFrame::ImageFrame(GObjectWidget *parent, const String &imageFile, const Vector2 &pos, const Vector2 &size)
+			ImageFrame::ImageFrame(Image::ScaleMode scaleMode, GObjectWidget *parent, const String &imageFile, const Vector2 &pos, const Vector2 &size)
 			{
 				JNIEnv* env = Jni::getJniEnv();
+				this->scaleMode = scaleMode;
 
 				if (!nativeImageViewClass)
 				{
@@ -63,7 +64,7 @@ namespace RadJAV
 				if (imageFile.size())
 					loadImage(imageFile);
 			}
-			
+
 			ImageFrame::ImageFrame(GObjectWidget *parent, const Vector2 &pos, const Vector2 &size)
 			{
 				JNIEnv* env = Jni::getJniEnv();
@@ -97,7 +98,7 @@ namespace RadJAV
 			{
 				//TODO: Add implementation
 			}
-			
+
 			RJBOOL ImageFrame::loadImage(const String& imageFile)
 			{
 				Jni& jni = Jni::instance();
@@ -121,11 +122,12 @@ namespace RadJAV
 
 				return true;
 			}
-			
+
 			void ImageFrame::setScaleMode(Image::ScaleMode mode)
 			{
 				Jni& jni = Jni::instance();
 				JNIEnv* env = Jni::getJniEnv();
+				scaleMode = mode;
 
 				jclass scaleTypeClass = jni.findClass("android/widget/ImageView$ScaleType");
 
@@ -177,7 +179,7 @@ namespace RadJAV
 
 				return scaleMode;
 			}
-			
+
 			bool ImageFrame::bindEvent(const String& eventName, const CPP::Event* event)
 			{
 				JNIEnv* env = Jni::getJniEnv();

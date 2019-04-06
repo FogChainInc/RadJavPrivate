@@ -20,6 +20,8 @@
 
 #include "cpp/RadJavCPPNetNetworkManager.h"
 
+#include <algorithm>
+
 namespace RadJAV
 {
 	namespace CPP

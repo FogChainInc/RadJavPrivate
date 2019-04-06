@@ -1,4 +1,4 @@
-module.exports = 
+RadJav.currentTheme.themeObjects["RadJav.GUI.List"].exports =
 {
 	create: function (obj)
 	{
@@ -17,8 +17,8 @@ module.exports =
 						offset = 35;
 				}
 
-				var html = "<div id = \"" + obj.name + "\" name = \"" + obj.name + 
-					"\" style = \"" + RadJav.themeUtils.getGObjectSizeString (obj, offset) + " " + 
+				var html = "<div id = \"" + obj.name + "\" name = \"" + obj.name +
+					"\" style = \"" + RadJav.themeUtils.getGObjectSizeString (obj, offset) + " " +
 					RadJav.themeUtils.getGObjectFontString (obj);
 				html += " " + RadJav.themeUtils.getGObjectCursorString (obj);
 				html += "\">";
@@ -26,9 +26,9 @@ module.exports =
 				RadJav.OS.HTML5.appendHTML (parentDOM, html);
 
 				var listobj = {
-							name: obj.name, 
-							style: RadJav.themeUtils.getGObjectSizeString (obj, offset) + " " + 
-								RadJav.themeUtils.getGObjectFontString (obj), 
+							name: obj.name,
+							style: RadJav.themeUtils.getGObjectSizeString (obj, offset) + " " +
+								RadJav.themeUtils.getGObjectFontString (obj),
 						};
 
 				if (obj._canSort == false)
@@ -55,7 +55,7 @@ module.exports =
 					if (obj._columns.length > 0)
 					{
 						layout[0].push ({
-								type: dojox.grid.cells.Bool, 
+								type: dojox.grid.cells.Bool,
 								editable: true
 							});
 					}
@@ -74,8 +74,8 @@ module.exports =
 						width = keyCol.width;
 
 					layout[0].push ({
-								name: keyCol.text, 
-								field: field, 
+								name: keyCol.text,
+								field: field,
 								width: width
 							});
 				}
@@ -91,17 +91,17 @@ module.exports =
 			});
 
 		return (promise);
-	}, 
+	},
 
 	setText: function (obj, text)
 	{
 		obj._html.set ("text", text);
-	}, 
+	},
 
 	getText: function (obj)
 	{
 		return (obj._html.get ("text"));
-	}, 
+	},
 
 	setVisibility: function (obj, visible)
 	{
@@ -109,7 +109,7 @@ module.exports =
 			dojo.query ("#" + obj.name).style ("visibility", "visible");
 		else
 			dojo.query ("#" + obj.name).style ("visibility", "hidden");
-	}, 
+	},
 
 	getVisibility: function (obj)
 	{
@@ -121,7 +121,7 @@ module.exports =
 			isVisible = false;
 
 		return (isVisible);
-	}, 
+	},
 
 	getDojoColumn: function (column)
 	{
@@ -143,7 +143,7 @@ module.exports =
 			columnObj.width = "auto";
 
 		return (columnObj);
-	}, 
+	},
 
 	addColumn: function (list, column, width, key)
 	{
@@ -171,7 +171,7 @@ module.exports =
 		}
 		else
 			this.setColumns (list, [col]);
-	}, 
+	},
 
 	setColumns: function (list, columns, passLayout)
 	{
@@ -184,7 +184,7 @@ module.exports =
 				if (columns.length > 0)
 				{
 					layout[0].push ({
-							type: dojox.grid.cells.Bool, 
+							type: dojox.grid.cells.Bool,
 							editable: true
 						});
 				}
@@ -203,7 +203,7 @@ module.exports =
 
 		list._html.setStructure (layout);
 		list._html._layout = layout;
-	}, 
+	},
 
 	addRow: function (list, row, hiddenValue)
 	{
@@ -232,7 +232,7 @@ module.exports =
 		}
 		else
 			list._html.get ("store").newItem (newRow);
-	}, 
+	},
 
 	setRows: function (list, rows, hiddenRows)
 	{
@@ -258,7 +258,7 @@ module.exports =
 				});
 
 		list._html.setStore (store);
-	}, 
+	},
 
 	getSelectedRows: function (list)
 	{
@@ -268,13 +268,13 @@ module.exports =
 		selection._html = items;
 
 		return (selection);
-	}, 
+	},
 
 	deleteRows: function (list, selection)
 	{
 		for (var iIdx = 0; iIdx < selection._html.length; iIdx++)
 			list._html.get ("store").deleteItem (selection._html[iIdx]);
-	}, 
+	},
 
 	on: function (list, eventName, func)
 	{

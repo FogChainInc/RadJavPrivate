@@ -303,9 +303,8 @@ var RadJav;
     RadJav.includeLibraries = includeLibraries;
     function _loadLanguages() {
         var promise = new Promise(function (resolve, reject) {
-            if (RadJav.OS.HTML5 != null) {
-                RadJav._getResponse(RadJav.baseUrl + "/languages/" + RadJav.selectedLanguage + ".json").then(function (data) {
-                    RadJav._lang = JSON.parse(data);
+            if ((RadJav.OS.HTML5 != null) && (RadJav._lang == null)) {
+                RadJav.include(RadJav.baseUrl + "/languages/" + RadJav.selectedLanguage + ".js").then(function () {
                     resolve();
                 });
             }
@@ -325,9 +324,9 @@ var RadJav;
                 return;
             }
             if (RadJav.isThemeLoaded == false) {
-                RadJav._getResponse(url + "/theme.json").then(function (data) {
-                    var jsonData = JSON.parse(data);
-                    var theme = RadJav.Theme.loadTheme(url, jsonData);
+                RadJav._getResponse(url + "/theme.js").then(function (data) {
+                    _eval(data);
+                    var theme = RadJav.Theme.loadTheme(url, RadJav.currentTheme);
                     RadJav.currentTheme = theme;
                     var promises2 = [];
                     promises2.push(RadJav.currentTheme.loadInitializationFile());
@@ -339,6 +338,7 @@ var RadJav;
                 });
             }
             else {
+                RadJav.isThemeLoaded = false;
                 var theme = RadJav.Theme.loadTheme(url, RadJav.currentTheme);
                 RadJav.currentTheme = theme;
                 var promises2 = [];
@@ -835,11 +835,17 @@ var RadJav;
                             document.head.appendChild(style);
                         }
                         for (var iIdx = 0; iIdx < this.cssFiles.length; iIdx++) {
-                            promises.push(RadJav._getResponse(this.url + "/" + this.cssFiles[iIdx]).then(function (data) {
+                            promises.push(new Promise(RadJav.keepContext(function (resolve, reject, index) {
+                                var iIdx2 = index[0];
                                 var style = document.createElement("style");
-                                style.innerHTML = data;
+                                style.setAttribute("rel", "stylesheet");
+                                style.setAttribute("type", "text/css");
+                                style.setAttribute("href", this.url + "/" + this.cssFiles[iIdx2]);
+                                style.onload = function () {
+                                    resolve();
+                                };
                                 document.head.appendChild(style);
-                            }));
+                            }, this, [iIdx])));
                         }
                         Promise.all(promises).then(function () {
                             resolve();
@@ -850,7 +856,7 @@ var RadJav;
                     }
                 }, this);
                 if (RadJav.isThemeLoaded == false)
-                    RadJav._getResponse(this.url + "/" + this.initFile).then(func);
+                    RadJav.include(this.url + "/" + this.initFile).then(func);
                 else {
                     func(RadJav.currentTheme.exports);
                     resolve();
@@ -882,13 +888,7 @@ var RadJav;
                             if (RadJav.currentTheme.themeObjects[tfile] == null)
                                 RadJav.currentTheme.themeObjects[tfile] = new Object();
                             if (RadJav.isThemeLoaded == false) {
-                                RadJav._getResponse(url + "/" + tfile + ".js").then(function (data) {
-                                    try {
-                                        RadJav.currentTheme.themeObjects[tfile] = RadJav.loadModule(data);
-                                    }
-                                    catch (ex) {
-                                        throw RadJav.getLangString("themeThrewErrorInFile", theme.name, tfile + ".js", ex.message);
-                                    }
+                                RadJav.include(url + "/" + tfile + ".js").then(function (data) {
                                     if (index >= numFiles - 1) {
                                         resolve();
                                     }

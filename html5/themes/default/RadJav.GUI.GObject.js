@@ -1,5 +1,5 @@
-module.exports = {
-
+RadJav.currentTheme.themeObjects["RadJav.GUI.GObject"].exports =
+{
 	setVisibility: function (obj, visible)
 	{
 		if (obj._html == null)
@@ -9,7 +9,7 @@ module.exports = {
 			dojo.query (obj._html).style ("visibility", "visible");
 		else
 			dojo.query (obj._html).style ("visibility", "hidden");
-	}, 
+	},
 
 	getVisibility: function (obj)
 	{
@@ -24,17 +24,17 @@ module.exports = {
 			isVisible = false;
 
 		return (isVisible);
-	}, 
+	},
 
 	setText: function (obj, text)
 	{
 		obj._html.value = text;
-	}, 
+	},
 
 	getText: function (obj)
 	{
 		return (obj._html.value);
-	}, 
+	},
 
 	setPosition: function (obj, pos)
 	{
@@ -51,7 +51,7 @@ module.exports = {
 
 		dojo.query (obj._html).style ("left", pos.x + "px");
 		dojo.query (obj._html).style ("top", (pos.y) + "px");
-	}, 
+	},
 
 	getPosition: function (obj)
 	{
@@ -66,7 +66,7 @@ module.exports = {
 		pos.y = y[0];
 
 		return (pos);
-	}, 
+	},
 
 	setSize: function (obj, size)
 	{
@@ -75,7 +75,7 @@ module.exports = {
 
 		dojo.query (obj._html).style ("width", size.x + "px");
 		dojo.query (obj._html).style ("height", size.y + "px");
-	}, 
+	},
 
 	getSize: function (obj)
 	{
@@ -96,22 +96,22 @@ module.exports = {
 		}
 
 		return (size);
-	}, 
+	},
 
 	setEnabled: function (obj, enabled)
 	{
 		obj._html.disabled = !enabled;
-	}, 
+	},
 
 	setEnabled: function (obj, enabled)
 	{
 		obj._html.disabled = !enabled;
-	}, 
+	},
 
 	getEnabled: function (obj)
 	{
 		return (!obj._html.disabled);
-	}, 
+	},
 
 	on: function (obj, eventName, func)
 	{

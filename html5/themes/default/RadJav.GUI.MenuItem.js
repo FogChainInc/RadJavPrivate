@@ -1,4 +1,4 @@
-module.exports = 
+RadJav.currentTheme.themeObjects["RadJav.GUI.MenuItem"].exports =
 {
 	create: function (obj)
 	{
@@ -28,7 +28,7 @@ module.exports =
 						{
 							menuitem.subMenu = new dijit.Menu ({ parentMenu: obj._parent._html.subMenu });
 							var popup = new dijit.PopupMenuItem ({
-										label: obj._text, 
+										label: obj._text,
 										popup: menuitem.subMenu
 									});
 							obj._parent._html.subMenu.addChild (popup);
@@ -41,7 +41,7 @@ module.exports =
 					{
 						var dropdownMenu = new dijit.DropDownMenu ();
 						var popup = new dijit.PopupMenuBarItem ({
-									label: obj._text, 
+									label: obj._text,
 									popup: dropdownMenu
 								});
 						popup.subMenu = dropdownMenu;
@@ -59,17 +59,17 @@ module.exports =
 			});
 
 		return (promise);
-	}, 
+	},
 
 	setText: function (obj, text)
 	{
 		obj._html.value = text;
-	}, 
+	},
 
 	getText: function (obj)
 	{
 		return (obj._html.value);
-	}, 
+	},
 
 	on: function (obj, eventName, func)
 	{

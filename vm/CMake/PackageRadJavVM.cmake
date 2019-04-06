@@ -54,15 +54,15 @@ if (APPLE)
 	else ()
 		set (CPACK_PACKAGE_FILE_NAME ${CMAKE_PROJECT_NAME_LAUNCHER}-MacOSX-${TEMP_ARCH_STR}-${JS_LIBRARY_USED}-${CPACK_PACKAGE_VERSION})
 		set_property (CACHE RadJavVM_PACKAGER_TYPE PROPERTY STRINGS "DragNDrop")
-	
+
 		if (${RadJavVM_PACKAGER_TYPE} MATCHES "DragNDrop")
 			set (CPACK_GENERATOR "DragNDrop")
 
 			set (CPACK_PACKAGE_ICON ${CMAKE_SOURCE_DIR}/installers/mac/RadJav.icns)
-			
+
 			set (CPACK_DMG_DS_STORE "${CMAKE_SOURCE_DIR}/installers/mac/DS_Store.in")
 			set (CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_SOURCE_DIR}/installers/mac/DmgBackground.png")
-			
+
 			set (CPACK_DMG_FORMAT "UDBZ")
 			set (CPACK_DMG_VOLUME_NAME ${CMAKE_PROJECT_NAME_LAUNCHER})
 		endif ()

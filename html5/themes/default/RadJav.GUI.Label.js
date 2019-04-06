@@ -1,4 +1,4 @@
-module.exports = 
+RadJav.currentTheme.themeObjects["RadJav.GUI.Label"].exports =
 {
 	create: function (obj)
 	{
@@ -35,13 +35,13 @@ module.exports =
 			});
 
 		return (promise);
-	}, 
+	},
 
 	setText: function (obj, text)
 	{
 		text = text.replaceAll (" ", "&nbsp;");
 		obj._html.innerHTML = text;
-	}, 
+	},
 
 	getText: function (obj)
 	{

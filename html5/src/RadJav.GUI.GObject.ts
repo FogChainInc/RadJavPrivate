@@ -291,6 +291,20 @@
 					this["_addChild"] (child);
 			}
 
+			/// Find a child.
+			public findChild (name: string): GObject
+			{
+				for (let iIdx = 0; iIdx < this._children.length; iIdx++)
+				{
+					let obj: GObject = this._children[iIdx];
+
+					if (obj.name == name)
+						return (obj);
+				}
+
+				return (null);
+			}
+
 			/**
 			 * Using the existing parameters in this object, create it.
 			 * Theme Event: create

@@ -1,4 +1,4 @@
-module.exports = 
+RadJav.currentTheme.themeObjects["RadJav.GUI.Combobox"].exports =
 {
 	create: function (obj)
 	{
@@ -17,19 +17,19 @@ module.exports =
 						offset = 35;
 				}
 
-				var html = "<button id = \"" + obj.name + "\" name = \"" + obj.name + 
+				var html = "<button id = \"" + obj.name + "\" name = \"" + obj.name +
 						"\" style = \"" + RadJav.themeUtils.getGObjectSizeString (obj, offset);
 				html += " " + RadJav.themeUtils.getGObjectFontString (obj) + "\">";
 				html += "</button>";
 				RadJav.OS.HTML5.appendHTML (parentDOM, html);
-				var style = RadJav.themeUtils.getGObjectSizeString (obj, offset, [-2, -2]) + 
-							" " + RadJav.themeUtils.getGObjectFontString (obj) + " " + 
+				var style = RadJav.themeUtils.getGObjectSizeString (obj, offset, [-2, -2]) +
+							" " + RadJav.themeUtils.getGObjectFontString (obj) + " " +
 							RadJav.themeUtils.getGObjectCursorString (obj);
 
 				var combobox = new dijit.form.ComboBox ({
-							name: obj.name, 
-							value: obj._text, 
-							style: style, 
+							name: obj.name,
+							value: obj._text,
+							style: style,
 						}, dojo.byId (obj.name));
 				combobox.startup ();
 
@@ -42,7 +42,7 @@ module.exports =
 			});
 
 		return (promise);
-	}, 
+	},
 
 	setVisibility: function (obj, visible)
 	{
@@ -53,7 +53,7 @@ module.exports =
 			dojo.query (obj._html.domNode).style ("visibility", "visible");
 		else
 			dojo.query (obj._html.domNode).style ("visibility", "hidden");
-	}, 
+	},
 
 	getVisibility: function (obj)
 	{
@@ -68,22 +68,22 @@ module.exports =
 			isVisible = false;
 
 		return (isVisible);
-	}, 
+	},
 
 	setText: function (obj, text)
 	{
 		obj._html.set ("value", text);
-	}, 
+	},
 
 	getText: function (obj)
 	{
 		return (obj._html.get ("value"));
-	}, 
+	},
 
 	on: function (obj, eventName, func)
 	{
 		obj._html.on (eventName, func);
-	}, 
+	},
 
 	addItem: function (combobox, item)
 	{
@@ -93,7 +93,7 @@ module.exports =
 			name = item.name;
 
 		combobox._html.get ("store").add ({ id: name, name: item.text});
-	}, 
+	},
 
 	setItems: function (combobox, items)
 	{
@@ -107,28 +107,28 @@ module.exports =
 				combobox._html.get ("store").add ({ id: item.id, name: item.text});
 			}
 		}
-	}, 
+	},
 
 	getItem: function (combobox, index)
 	{
 		var item = combobox._html.get ("store").data[index];
 
 		return (item);
-	}, 
+	},
 
 	getItems: function (combobox)
 	{
 		var items = combobox._html.get ("store").data;
 
 		return (items);
-	}, 
+	},
 
 	getNumItems: function (combobox)
 	{
 		var items = combobox._html.get ("store").data;
 
 		return (items.length);
-	}, 
+	},
 
 	deleteItem: function (combobox, index)
 	{
@@ -136,7 +136,7 @@ module.exports =
 
 		if (items != null)
 			combobox._html.get ("store").remove (items[index].id);
-	}, 
+	},
 
 	clear: function (combobox)
 	{
@@ -149,14 +149,14 @@ module.exports =
 			for (var iIdx = (length - 1); iIdx >= 0; iIdx--)
 				combobox._html.get ("store").remove (items[iIdx].id);
 		}
-	}, 
+	},
 
 	setSelectedItemIndex: function (combobox, index)
 	{
 		var item = combobox._html.get ("store").data[index];
 		combobox._html.set ("item", item);	/// @fixme This was working fine in a previous version of Dojo...
 		combobox._html.item2 = item;	// Temporary hack.
-	}, 
+	},
 
 	getSelectedItemIndex: function (combobox)
 	{

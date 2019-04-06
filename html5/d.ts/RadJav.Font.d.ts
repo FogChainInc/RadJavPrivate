@@ -1,4 +1,5 @@
 /// <reference path="RadJav.d.ts" />
+/// <reference path="RadJav.Color.d.ts" />
 declare namespace RadJav {
     /** The font class.
      * Available on platforms: Windows,Linux,OSX,HTML5

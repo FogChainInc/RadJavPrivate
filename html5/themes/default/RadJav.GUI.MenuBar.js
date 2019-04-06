@@ -1,4 +1,4 @@
-module.exports = 
+RadJav.currentTheme.themeObjects["RadJav.GUI.MenuBar"].exports =
 {
 	create: function (obj)
 	{
@@ -43,12 +43,12 @@ module.exports =
 			});
 
 		return (promise);
-	}, 
+	},
 
 	setText: function (obj, text)
 	{
 		obj._html.value = text;
-	}, 
+	},
 
 	getText: function (obj)
 	{

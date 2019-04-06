@@ -1,4 +1,4 @@
-module.exports = 
+RadJav.currentTheme.themeObjects["RadJav.GUI.Canvas3D"].exports =
 {
 	create: function (obj)
 	{
@@ -8,7 +8,7 @@ module.exports =
 
 				/*if (parentDOM.id != "")
 				{
-					var parentDOM2 = RadJav.OS.HTML5.selectDOM (parentDOM.domNode, 
+					var parentDOM2 = RadJav.OS.HTML5.selectDOM (parentDOM.domNode,
 							"#" + parentDOM.id + " [data-window-type='content']");
 
 					if (parentDOM2 != null)

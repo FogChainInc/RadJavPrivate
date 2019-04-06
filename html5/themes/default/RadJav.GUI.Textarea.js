@@ -1,4 +1,4 @@
-module.exports = 
+RadJav.currentTheme.themeObjects["RadJav.GUI.Textarea"].exports =
 {
 	create: function (obj)
 	{
@@ -18,7 +18,7 @@ module.exports =
 				}
 
 				var html = "<textarea id = \"" + obj.name + "\" name = \"" + obj.name + "\" ";
-				html += "style = \"" + RadJav.themeUtils.getGObjectSizeString (obj, offset) + " " + 
+				html += "style = \"" + RadJav.themeUtils.getGObjectSizeString (obj, offset) + " " +
 					RadJav.themeUtils.getGObjectFontString (obj);
 				html += " " + RadJav.themeUtils.getGObjectCursorString (obj);
 				html += "\">";

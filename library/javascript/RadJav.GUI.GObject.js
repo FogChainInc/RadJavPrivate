@@ -123,6 +123,14 @@ var RadJav;
                 if (this["_addChild"] != null)
                     this["_addChild"](child);
             };
+            GObject.prototype.findChild = function (name) {
+                for (var iIdx = 0; iIdx < this._children.length; iIdx++) {
+                    var obj = this._children[iIdx];
+                    if (obj.name == name)
+                        return (obj);
+                }
+                return (null);
+            };
             GObject.prototype.create = function () {
                 var promise = new Promise(RadJav.keepContext(function (resolve, reject) {
                     if (this.createOnPlatforms != null) {

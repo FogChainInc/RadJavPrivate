@@ -63,7 +63,6 @@ namespace RadJAV
 
 					ContainerFrame *object = RJNEW ContainerFrame(parentWin, _text.towxString(), 
 						wxPoint(_transform->x, _transform->y), wxSize(_transform->width, _transform->height));
-					object->Show(_visible);
 
 					_appObj = object;
 				
