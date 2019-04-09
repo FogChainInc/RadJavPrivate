@@ -86,7 +86,7 @@ namespace RadJAV
 					if (fontFamily.empty())
 						return nil;
 					
-                    NSString *attr = NULL;
+                    NSString *attr = @"";
 
                     if (bold == true)
                         attr = @"Bold";
