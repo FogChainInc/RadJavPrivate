@@ -11,7 +11,7 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary (), RadJav
 		window.setPosition(0, 0);
 		window.setSize(screenWidth, screenHeight);
 		
-		var label = new RadJav.GUI.Label("label", "Label text", window);
+		label = new RadJav.GUI.Label("label", "Label text", window);
 		label.create();
 		label.setPosition(50, 100);
 		label.setSize(200, 100);
