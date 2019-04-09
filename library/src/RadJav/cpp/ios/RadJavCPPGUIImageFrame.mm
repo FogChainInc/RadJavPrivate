@@ -1,16 +1,16 @@
 /*
  MIT-LICENSE
  Copyright (c) 2018 Higher Edge Software, LLC
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy of this software
  and associated documentation files (the "Software"), to deal in the Software without restriction,
  including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
  and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
  subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in all copies or substantial
  portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
  LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
@@ -30,27 +30,28 @@ namespace RadJAV
 	{
 		namespace GUI
 		{
-			ImageFrame::ImageFrame(GObjectWidget *parent, const String &imageFile, const Vector2 &pos, const Vector2 &size)
+			ImageFrame::ImageFrame(Image::ScaleMode scaleMode, GObjectWidget *parent, const String &imageFile, const Vector2 &pos, const Vector2 &size)
 			: widget([[UIImageView alloc] init]),
 			  image(nullptr)
 			{
 				widget.contentMode = UIViewContentModeScaleAspectFit;
+				this->scaleMode = scaleMode;
 
 				if (parent)
 					parent->addChild(this);
-				
+
 				setSize(size);
 				setPosition(pos);
-				
+
 				loadImage(imageFile);
 			}
-			
+
 			ImageFrame::ImageFrame(GObjectWidget *parent, const Vector2 &pos, const Vector2 &size)
 			: widget([[UIImageView alloc] init]),
 			  image(nullptr)
 			{
 				widget.contentMode = UIViewContentModeScaleAspectFit;
-				
+
 				if (parent)
 					parent->addChild(this);
 
@@ -63,7 +64,7 @@ namespace RadJAV
 				[widget release];
 				[image release];
 			}
-			
+
 			RJBOOL ImageFrame::loadImage(const String& imageFile)
 			{
 				if (image)
@@ -80,14 +81,14 @@ namespace RadJAV
                 NSString *appPath = [[[NSBundle mainBundle] executablePath] stringByDeletingLastPathComponent];
                 NSString *file = [NSString stringWithUTF8String:imageFile.c_str()];
                 NSString *path = [appPath stringByAppendingPathComponent:file];
-                
+
 				image = [UIImage imageWithContentsOfFile:path];
-				
+
 				[widget setImage:image];
 
 				return image;
 			}
-			
+
 			void ImageFrame::setScaleMode(Image::ScaleMode mode)
 			{
 				switch (mode)
@@ -115,14 +116,14 @@ namespace RadJAV
 						return Image::ScaleMode::AspectFit;
 				}
 			}
-			
+
 			bool ImageFrame::bindEvent(const String& eventName, const CPP::Event* /*event*/)
 			{
 				//TODO: do we need to handle UIImageView events?
 				//return [widgetDelegate bindEvent:widget eventName:eventName];
 				return false;
 			}
-			
+
 			UIView* ImageFrame::getNativeWidget()
 			{
 				return widget;

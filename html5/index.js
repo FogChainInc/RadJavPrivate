@@ -7,19 +7,21 @@ var execSync = require ("child_process").execSync;
 var ws = require ("ws");
 var app = express ();
 var crypto = require ("crypto");
+var archiver = require ("archiver");
+var OS = require('os');
 
 var tsLibs = ["lib.es5.d.ts", "lib.es2015.promise.d.ts", "lib.dom.d.ts", "lib.scripthost.d.ts"];
 var tsTypes = [];
 
 var httpOptions = {
-		location: path.normalize (path.dirname(__filename) + "/../"), 
-		index: "index.htm", 
-		port: 80, 
-		wsPort: 8585, 
-		wsServer: null, 
-		listeningAddr: "127.0.0.1", 
-		locationChanged: false, 
-		watchFilesAtLocations: [], 
+		location: path.normalize (path.dirname(__filename) + "/../"),
+		index: "index.htm",
+		port: 80,
+		wsPort: 8585,
+		wsServer: null,
+		listeningAddr: "127.0.0.1",
+		locationChanged: false,
+		watchFilesAtLocations: [],
 		url: ""
 	};
 var helpHeader = "RadJav JavaScript Builder\n";
@@ -142,7 +144,7 @@ function watchFiles (watchLocations, broadCastMessage)
 			loc = wl.path;
 
 		fs.watch (loc, {
-					persistent: true, 
+					persistent: true,
 					recursive: true
 				}, keepContext (function (eventType, filename, wl2)
 					{
@@ -166,8 +168,8 @@ function watchFiles (watchLocations, broadCastMessage)
 
 							console.log ("Rebuilding...");
 							compile (tsfiles, {
-									noImplicitUseStrict: true, removeComments: true, importHelpers: true, 
-									target: typescript.ScriptTarget.ES3, module: typescript.ModuleKind.None, 
+									noImplicitUseStrict: true, removeComments: true, importHelpers: true,
+									target: typescript.ScriptTarget.ES3, module: typescript.ModuleKind.None,
 									lib: tsLibs, sourceMap: true, outDir: __dirname + "/build"
 								});
 							console.log ("Finishing rebuilding.");
@@ -241,7 +243,7 @@ function startHTTP ()
 		{
 			connection.on ("message", function (message)
 				{
-					
+
 				});
 		});
 	httpOptions.wsServer.broadcast = function (data)
@@ -277,9 +279,9 @@ function startHTTP ()
 
 var commands = [
 		{
-			cmd: ["http", "h"], 
-			desc: "Start HTTP server", 
-			help: "", 
+			cmd: ["http", "h"],
+			desc: "Start HTTP server",
+			help: "",
 			evt: function (args)
 				{
 					if (args.length > 0)
@@ -301,11 +303,126 @@ var commands = [
 
 					startHTTP ();
 				}
-		}, 
+		},
 		{
-			cmd: ["convertFormDesignerToJSON", "c"], 
-			desc: "Convert Visual Studio's form designer output to RadJav's GUI JSON. Can either be a .cs or .vb file.", 
-			help: "", 
+			cmd: ["buildIPA", "ipa"],
+			desc: "Build an iOS IPA from a selected folder.",
+			help: "",
+			evt: function (args)
+				{
+					let appFolder = path.normalize (args[0]);
+					let dirName = path.normalize (appFolder);
+					let customFileName = "app.xrj";
+
+					if (args.length > 1)
+						customFileName = args[1];
+
+					if (fs.existsSync (`${dirName}/${customFileName}`) == false)
+					{
+						console.error (`${customFileName} not found in ${dirName}`);
+
+						return;
+					}
+
+					let file = fs.createWriteStream (__dirname + "/app.ipa");
+					let zip = archiver ("zip", { zlib: { level: 9 } });
+
+					zip.pipe (file);
+					zip.directory ("../sdk/prebuilt/ios/Payload/", "Payload");
+
+					zip.file (`${dirName}/${customFileName}`, { name: "Payload/RadJavVM.app/app.xrj" });
+					zip.directory (dirName, "Payload/RadJavVM.app/");
+
+					zip.finalize ();
+				}
+		},
+		{
+			cmd: ["buildAPK", "apk"],
+			desc: "Build an Android APK from a selected folder.",
+			help: "",
+			evt: function (args)
+				{
+					let appFolder = path.normalize (args[0]);
+					let dirName = path.normalize (appFolder);
+					let androidsdk = "";
+					let customFileName = "app.xrj";
+					let jarSignerPath = "";
+
+					if (args.length > 1)
+						customFileName = args[1];
+
+					if (args.length > 2)
+						androidsdk = args[2];
+					else
+					{
+						if (process.platform == "win32")
+						{
+							androidsdk = `${OS.homedir ()}\\AppData\\Local\\Android\\Sdk`;
+
+							if (fs.existsSync (`C:/Program Files/Android/Android Studio/jre/bin/jarsigner.exe`) == true)
+								jarSignerPath = `C:/Program Files/Android/Android Studio/jre/bin/jarsigner.exe`;
+
+							if (fs.existsSync (`C:/Program Files (x86)/Java/jdk/bin/jarsigner.exe`) == true)
+								jarSignerPath = `C:/Program Files (x86)/Java/jdk/bin/jarsigner.exe`;
+						}
+
+						if (process.platform == "linux")
+						{
+							androidsdk = `${OS.homedir ()}/Android\\Sdk`;
+							jarSignerPath = "jarsigner";
+						}
+
+						if (process.platform == "darwin")
+						{
+							androidsdk = `${OS.homedir ()}/Library/Android\\sdk`;
+							jarSignerPath = "jarsigner";
+						}
+					}
+
+					if (fs.existsSync (`${dirName}/${customFileName}`) == false)
+					{
+						console.error (`${customFileName} not found in ${dirName}`);
+
+						return;
+					}
+
+					let dirs = fs.readdirSync (`${androidsdk}/build-tools/`);
+					let buildToolsDir = path.normalize (`${androidsdk}/build-tools/${dirs[(dirs.length - 1)]}`);
+					dirs = fs.readdirSync (`${androidsdk}/platforms/`);
+					let platformDir = dirs[(dirs.length - 1)];
+					let sdkPath = path.normalize (`${__dirname}/../sdk/prebuilt/android/`);
+					let androidI = path.normalize (`${androidsdk}/platforms/${platformDir}/android.jar`);
+					let sdkAPK = path.normalize (`${sdkPath}/app.apk`);
+
+					/*execSync (`${buildToolsDir}/aapt package -f -m -J gen -M ${sdkPath}/AndroidManifest.xml -S ${sdkPath}/res -I ${androidI}`);
+					execSync (`${buildToolsDir}/aapt package -f -M ${sdkPath}/AndroidManifest.xml -S ${sdkPath}/res -I ${androidI} -F ${sdkAPK}.unaligned`);
+					execSync (`${buildToolsDir}/aapt add ${sdkAPK} ${sdkPath}/classes.dex`);*/
+
+					let file = fs.createWriteStream (__dirname + "/app.apk");
+					let zip = archiver ("zip");
+
+					file.on ("close", function ()
+						{
+							execSync (`"${buildToolsDir}/apksigner" sign --ks "${OS.homedir ()}/.android/debug.keystore" --ks-key-alias androiddebugkey --ks-pass pass:"android" "${__dirname}/app.apk"`);
+
+							//execSync (`"${jarSignerPath}" -keystore "${OS.homedir ()}/.android/debug.keystore" -storepass "android" "${__dirname}/app.apk" androiddebugkey`);
+							//execSync (`"${buildToolsDir}/zipalign" -f 4 "${__dirname}/app.apk" "${__dirname}/app-debug.apk"`);
+							//fs.unlinkSync (`${__dirname}/app.apk`);
+						}.bind (this));
+
+					zip.pipe (file);
+					zip.directory ("../sdk/prebuilt/android/", false);
+
+					zip.file (`${dirName}/${customFileName}`, { name: "assets/app.xrj" });
+					zip.directory (dirName, "assets/");
+
+					zip.finalize ();
+				}
+		},
+		{
+			cmd: ["convertFormDesignerToJSON", "c"],
+			desc: "Convert Visual Studio's form designer output to RadJav's GUI JSON. Can either be a .cs or .vb file.",
+			help: "",
 			evt: function (args)
 				{
 					let file = "";
@@ -330,14 +447,14 @@ var commands = [
 					}
 
 					let convertibleTypes = [
-							{ dotNetType: "System.Windows.Forms.Button", radjavType: "RadJav.GUI.Button"}, 
-							{ dotNetType: "System.Windows.Forms.Label", radjavType: "RadJav.GUI.Label"}, 
-							{ dotNetType: "System.Windows.Forms.TextBox", radjavType: "RadJav.GUI.Textbox"}, 
-							{ dotNetType: "System.Windows.Forms.CheckBox", radjavType: "RadJav.GUI.Checkbox"}, 
-							{ dotNetType: "System.Windows.Forms.ComboBox", radjavType: "RadJav.GUI.Combobox"}, 
-							{ dotNetType: "System.Windows.Forms.RadioButton", radjavType: "RadJav.GUI.Radio"}, 
-							{ dotNetType: "System.Windows.Forms.PictureBox", radjavType: "RadJav.GUI.Image"}, 
-							{ dotNetType: "System.Windows.Forms.ListView", radjavType: "RadJav.GUI.List"}, 
+							{ dotNetType: "System.Windows.Forms.Button", radjavType: "RadJav.GUI.Button"},
+							{ dotNetType: "System.Windows.Forms.Label", radjavType: "RadJav.GUI.Label"},
+							{ dotNetType: "System.Windows.Forms.TextBox", radjavType: "RadJav.GUI.Textbox"},
+							{ dotNetType: "System.Windows.Forms.CheckBox", radjavType: "RadJav.GUI.Checkbox"},
+							{ dotNetType: "System.Windows.Forms.ComboBox", radjavType: "RadJav.GUI.Combobox"},
+							{ dotNetType: "System.Windows.Forms.RadioButton", radjavType: "RadJav.GUI.Radio"},
+							{ dotNetType: "System.Windows.Forms.PictureBox", radjavType: "RadJav.GUI.Image"},
+							{ dotNetType: "System.Windows.Forms.ListView", radjavType: "RadJav.GUI.List"},
 							{ dotNetType: "System.Windows.Forms.GroupBox", radjavType: "RadJav.GUI.Container"}
 						];
 					let guiJSON = [];
@@ -442,39 +559,39 @@ var commands = [
 
 					fs.writeFileSync (outputFile, JSON.stringify (guiJSON, null, 4));
 				}
-		}, 
+		},
 		{
-			cmd: ["build", "b"], 
-			desc: "Build JavaScript", 
+			cmd: ["build", "b"],
+			desc: "Build JavaScript",
 			help: [
 				{
 					cmd: ["doNotCopyHTML5Files"],
 					desc: "The build is not an HTML5 build, so do not copy theme files and other HTML5 related files."
-				}, 
+				},
 				{
 					cmd: ["doNotCopyFilesToLibrary"],
 					desc: "Do not copy the generated JS to library/javascript."
-				}, 
+				},
 				{
 					cmd: ["doNotGenerateSourceMaps"],
 					desc: "Do not generate the TS-to-JS source maps."
-				}, 
+				},
 				{
 					cmd: ["doNotMinify"],
 					desc: "Do not minify the generated JS."
-				}, 
+				},
 				{
 					cmd: ["clearCache"],
 					desc: "Clear the cache."
-				}, 
+				},
 				{
 					cmd: ["watch"],
 					desc: "Watch locations and rebuild when files are updated."
-				}, 
+				},
 				{
 					cmd: ["generateSourceMap"],
 					desc: "Generate source maps for each generated JS file."
-				}], 
+				}],
 			evt: function (args)
 				{
 					let copyHTML5Files = true;
@@ -586,9 +703,9 @@ var commands = [
 					if (temptsFiles.length > 0)
 					{
 						compile (temptsFiles, {
-								noImplicitUseStrict: true, removeComments: true, importHelpers: true, 
-								target: typescript.ScriptTarget.ES3, module: typescript.ModuleKind.None, 
-								sourceMap: generateSourceMap, lib: tsLibs, sourceMap: mapFiles, 
+								noImplicitUseStrict: true, removeComments: true, importHelpers: true,
+								target: typescript.ScriptTarget.ES3, module: typescript.ModuleKind.None,
+								sourceMap: generateSourceMap, lib: tsLibs, sourceMap: mapFiles,
 								sourceRoot: sourceRoot, outDir: "./build"
 							});
 
@@ -673,7 +790,7 @@ var commands = [
 								if (fs.existsSync ("./build/RadJav.min.js"))
 									fs.unlinkSync ("./build/RadJav.min.js");
 
-								output = execSync ("java -jar " + compiler + " --compilation_level WHITESPACE_ONLY " + 
+								output = execSync ("java -jar " + compiler + " --compilation_level WHITESPACE_ONLY " +
 								" --js_output_file=./build/RadJav.min.js " + list + __dirname + "/src/RadJavMinify.js").toString ();
 							}
 						}
@@ -694,10 +811,10 @@ var commands = [
 					if (watch == true)
 						watchFiles ([{ path: __dirname + "/src/", rebuild: true } ], false);
 				}
-		}, 
+		},
 		{
-			cmd: ["defs", "d"], 
-			desc: "Build definitions", 
+			cmd: ["defs", "d"],
+			desc: "Build definitions",
 			evt: function (args)
 				{
 					console.log ("Building TypeScript declaration files...");
@@ -705,18 +822,18 @@ var commands = [
 					let tsfiles = getTypeScriptFiles ();
 
 					compile (tsfiles, {
-							noImplicitUseStrict: true, removeComments: false, importHelpers: true, 
-							target: typescript.ScriptTarget.ES3, module: typescript.ModuleKind.None, 
-							lib: tsLibs, declaration: true, emitDeclarationOnly: true, 
+							noImplicitUseStrict: true, removeComments: false, importHelpers: true,
+							target: typescript.ScriptTarget.ES3, module: typescript.ModuleKind.None,
+							lib: tsLibs, declaration: true, emitDeclarationOnly: true,
 							declarationDir: "./d.ts"
 						});
 
 					console.log ("Done.");
 				}
-		}, 
+		},
 		{
-			cmd: ["help", "h"], 
-			desc: "Help", 
+			cmd: ["help", "h"],
+			desc: "Help",
 			evt: function (args)
 				{
 					let str = helpHeader;

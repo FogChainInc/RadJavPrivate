@@ -6,6 +6,7 @@
   "dependencies": {
     "@types/jquery": "^3.3.4",
     "@types/three": "^0.92.13",
+    "archiver": "^3.0.0",
     "express": "^4.16.3",
     "recursive-copy": "^2.0.9",
     "typedoc": "^0.13.0",
@@ -23,7 +24,9 @@
     "build-defs": "node index.js --defs",
     "http": "node index.js --http",
     "defs": "node index.js --defs",
-    "convert-form": "node index.js --convertFormDesignerToJSON"
+    "convert-form": "node index.js --convertFormDesignerToJSON",
+    "build-ipa": "node index.js --buildIPA",
+    "build-apk": "node index.js --buildAPK"
   },
   "repository": {
     "type": "git",
