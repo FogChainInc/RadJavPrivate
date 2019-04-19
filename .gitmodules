@@ -1,3 +1,9 @@
 [submodule "docs/wiki"]
 	path = docs/wiki
 	url = https://github.com/FogChainInc/RadJav.wiki.git
+[submodule "tools/cli"]
+	path = tools/cli
+	url = https://github.com/FogChainInc/radjav-tools
+[submodule "tools/lib"]
+	path = tools/lib
+	url = https://github.com/FogChainInc/radjav-tools-lib

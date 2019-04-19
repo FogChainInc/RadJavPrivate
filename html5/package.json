@@ -23,20 +23,17 @@
     "build-radjav-only": "node index.js --build doNotCopyHTML5Files doNotCopyFilesToLibrary doNotMinify",
     "build-defs": "node index.js --defs",
     "http": "node index.js --http",
-    "defs": "node index.js --defs",
-    "convert-form": "node index.js --convertFormDesignerToJSON",
-    "build-ipa": "node index.js --buildIPA",
-    "build-apk": "node index.js --buildAPK"
+    "defs": "node index.js --defs"
   },
   "repository": {
     "type": "git",
-    "url": "https://www.github.com/HigherEdgeSoftware/RadJav/html5/"
+    "url": "https://www.github.com/FogChainInc/RadJav/html5/"
   },
   "keywords": [
     "RadJav",
     "JavaScript",
     "Builder"
   ],
-  "author": "Higher Edge Software <prettyface@highersoftware.com> (http://www.highersoftware.com)",
+  "author": "FogChain, Corp <support@fogchaininc.com> (http://www.fogchaininc.com)",
   "license": "MIT"
 }

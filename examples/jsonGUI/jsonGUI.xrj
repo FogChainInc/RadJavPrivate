@@ -37,11 +37,12 @@ RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary ()).then (
 						// Check to see if the user is using HTML5. If the user is using HTML5, use 
 						// RadJav.Net.httpRequest to get the JSON file. If the user isn't using HTML5 
 						// use RadJav.IO.TextFile.readEntireFile to read the file locally.
-						if (RadJav.OS.type == "html5")
+						if (RadJav.OS.HTML5 != null)
 							RadJav.Net.httpRequest ("./gui.json").then (loadObjs);
 						else
 						{
-							var data = new RadJav.IO.TextFile ().readFile ("./gui.json");
+							var textFile = new RadJav.IO.TextFile ();
+							var data = textFile.readFile ("./gui.json");
 							loadObjs (data);
 						}
 					});

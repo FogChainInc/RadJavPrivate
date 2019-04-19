@@ -1,44 +1,16 @@
 [
-	{
-		"type": "RadJav.GUI.MenuBar", 
-		"name": "menubar", 
-		"visibility": true, 
-		"children": [
-				{
-					"type": "RadJav.GUI.MenuItem", 
-					"name": "programMenu", 
-					"text": "Program", 
-					"children": [
-							{
-								"type": "RadJav.GUI.MenuItem", 
-								"name": "exitMenuItem", 
-								"text": "Exit", 
-								"click": "RadJav.exit ();"
-							}
-						]
-				}
-			]
-	}, 
-	{
-		"type": "RadJav.GUI.Label", 
-		"name": "label1", 
-		"visibility": true, 
-		"position": "60, 95", 
-		"size": "500, 20", 
-		"text": "The example works!"
-	}, 
-	{
-		"type": "RadJav.GUI.Button", 
-		"name": "button1", 
-		"visibility": true, 
-		"position": "60, 125", 
-		"text": "Button"
-	}, 
-	{
-		"type": "RadJav.GUI.Combobox", 
-		"name": "combobox1", 
-		"visibility": true, 
-		"position": "60, 225", 
-		"text": "Combobox"
-	}
+    {
+        "type": "RadJav.GUI.Button",
+        "name": "button1",
+        "position": "412, 141",
+        "size": "135, 58",
+        "text": "Button"
+    },
+    {
+        "type": "RadJav.GUI.Label",
+        "name": "label1",
+        "position": "118, 205",
+        "size": "48, 20",
+        "text": "Label"
+    }
 ]
