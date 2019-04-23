@@ -40,9 +40,8 @@
 					public:
 						static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
-						static void _init(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void listen(const v8::FunctionCallbackInfo<v8::Value> &args);
-						static void serve(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void init(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void start(const v8::FunctionCallbackInfo<v8::Value> &args);
 						static void stop(const v8::FunctionCallbackInfo<v8::Value> &args);
 
 						static void on(const v8::FunctionCallbackInfo<v8::Value> &args);

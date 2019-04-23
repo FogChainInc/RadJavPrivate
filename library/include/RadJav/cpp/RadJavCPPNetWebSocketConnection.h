@@ -17,13 +17,13 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#ifndef _RADJAV_CPP_NET_WEBSOCKETCLIENT_H_
-#define _RADJAV_CPP_NET_WEBSOCKETCLIENT_H_
+#ifndef _RADJAV_CPP_NET_WEBSOCKETCONNECTION_H_
+#define _RADJAV_CPP_NET_WEBSOCKETCONNECTION_H_
 
 #include "RadJavPreprocessor.h"
 #include "cpp/RadJavCPPEvent.h"
-#include "cpp/RadJavCPPChainedPtr.h"
 #include "cpp/RadJavCPPNet.h"
+
 
 namespace RadJAV
 {
@@ -31,13 +31,14 @@ namespace RadJAV
 	{
 		namespace Net
 		{
-			class WebSocketClientImpl;
+			class WebSocketConnectionImpl;
+			class HttpConnection;
 			
 			/**
 			 * @ingroup group_net_cpp
-			 * @brief WebSocketClient class.
+			 * @brief WebSocketConnection class.
 			 */
-			class WebSocketClient : public Events
+			class WebSocketConnection : public Events
 			{
 			public:
 				/**
@@ -45,22 +46,31 @@ namespace RadJAV
 				 * @details Constructor which intended to be used by Javascript engine
 				 */
 				#ifdef USE_V8
-					WebSocketClient(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
+					WebSocketConnection(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
 				#elif defined USE_JAVASCRIPTCORE
-					WebSocketClient(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[]);
+					WebSocketConnection(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[]);
 				#endif
 				
 				/**
 				 * @brief A constructor
-				 * @details Construct new instance of WebSocketClient
+				 * @details Construct new instance of WebSocketConnection
 				 * @param[in] networkManager the reference to NetworkManager which handle ASIO contexts
 				 */
-				WebSocketClient(NetworkManager& networkManager);
+				WebSocketConnection(NetworkManager& networkManager);
 				
 				/**
 				 * @brief A destructor
 				 */
-				~WebSocketClient();
+				~WebSocketConnection();
+
+				/**
+				 * @brief Create WebSocketConnection from HttpConnection
+				 * @details HttpConnection became invalid after calling this function
+				 * and you can safely remove it. When WebSocketConnection has been handshaked
+				 * user will be notified about that in onOpen callback
+				 */
+				static WebSocketConnection* handleUpgrade(HttpConnection* connection,
+														  const boost::beast::http::request<boost::beast::http::string_body>& request);
 				
 				/**
 				 * @brief Connect to a remote host
@@ -98,7 +108,7 @@ namespace RadJAV
 				
 				/**
 				 * @brief Close socket connection
-				 * @details Before opening new connection using the same WebSocketClient object after calling this function
+				 * @details Before opening new connection using the same WebSocketConnection object after calling this function
 				 * you must wait for onClose, or onError callbacks
 				 */
 				void close();
@@ -147,10 +157,27 @@ namespace RadJAV
 					void on(String event, RJ_FUNC_TYPE func);
 				#endif
 
-			private:
-				void createImpl();
-				void releaseImpl();
+				/**
+				 * @brief Set how to manage relatively large messages passed over WebSocket connection
+				 * @details If true will be passed then system will automatically fragment large
+				 * outgoing messages and send each fragment with opcode Continuation. Otherwise
+				 * system will not fragment large messages and will send them chung by chunk continuously.
+				 * @param[in] autoFragment allow continuation or not
+				 * @note By default AutoFragment option is turned on
+				 */
+				void setAutoFragmentMessages(bool autoFragment);
+				
+				/**
+				 * @brief Is continuation on large messages were enabled or not
+				 * @return bool
+				 */
+				bool getAutoFragmentMessages() const;
 
+			private:
+				WebSocketConnection(NetworkManager& networkManager,
+									boost::asio::ip::tcp::socket&& socket,
+									const boost::beast::http::request<boost::beast::http::string_body>& request);
+				
 				void onConnectedCallback();
 				void onReadCallback(const std::string& data);
 				void onReadBinaryCallback(const unsigned char* data, std::size_t size);
@@ -164,9 +191,10 @@ namespace RadJAV
 				std::function<void(void)> _onClose;
 				std::function<void(int, const std::string&)> _onError;
 
-				std::shared_ptr<WebSocketClientImpl> _impl;
+				std::weak_ptr<WebSocketConnectionImpl> _impl;
 				URI _uri;
 				NetworkManager& _networkManager;
+				bool _autoFragmentMessages;
 			};
 		}
 	}

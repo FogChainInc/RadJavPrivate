@@ -17,19 +17,15 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
 #include "cpp/RadJavCPPNetWebServer.h"
+#include "cpp/RadJavCPPNetNetworkManager.h"
+#include "cpp/RadJavCPPNetHttpConnection.h"
 
-#include <algorithm>
-#include <cstdlib>
-#include <functional>
-#include <iostream>
-#include <memory>
+#include "RadJav.h"
 
-#include "RadJavString.h"
-#include "v8/RadJavV8JavascriptEngine.h"
+#include <boost/asio/deadline_timer.hpp>
+#include <boost/beast/websocket.hpp>
 
-using namespace RadJAV::CPP::Net;
 
 namespace RadJAV
 {
@@ -37,506 +33,605 @@ namespace RadJAV
 	{
 		namespace Net
 		{
-			// Report a failure
-			void fail(boost::system::error_code ec, char const* what)
+			namespace http = boost::beast::http;
+
+			namespace
 			{
-				String tmp("error [");
-				tmp.append(what);
-				tmp.append("]:\n");
-				RadJAV::RadJav::throwException(tmp.append(ec.message()));
-			}
-
-			// Append an HTTP rel-path to a local filesystem path.
-			// The returned path is normalized for the platform.
-			std::string path_cat(
-					boost::beast::string_view base,
-					boost::beast::string_view path)
-			{
-				if (base.empty())
-					return path.to_string();
-				std::string result = base.to_string();
-				#if BOOST_MSVC
-					char constexpr path_separator = '\\';
-					if (result.back() == path_separator)
-						result.resize(result.size() - 1);
-					result.append(path.data(), path.size());
-					for (auto& c : result)
-						if (c == '/')
-							c = path_separator;
-				#else
-					char constexpr path_separator = '/';
-					if (result.back() == path_separator)
-						result.resize(result.size() - 1);
-					result.append(path.data(), path.size());
-				#endif
-				return result;
-			}
-
-			// Return a reasonable mime type based on the extension of a file.
-			boost::beast::string_view
-				mime_type(boost::beast::string_view path)
-			{
-				using boost::beast::iequals;
-				auto const ext = [&path]
+				#ifdef USE_V8
+				v8::Local<v8::Object> requestToJSHttpIncomingMessage(const boost::beast::http::request<boost::beast::http::string_body>& request,
+																	 bool upgradeRequest = false)
 				{
-					auto const pos = path.rfind(".");
-					if (pos == boost::beast::string_view::npos)
-						return boost::beast::string_view{};
-					return path.substr(pos);
-				}();
-				if (iequals(ext, ".htm"))  return "text/html";
-				if (iequals(ext, ".html")) return "text/html";
-				if (iequals(ext, ".php"))  return "text/html";
-				if (iequals(ext, ".css"))  return "text/css";
-				if (iequals(ext, ".txt"))  return "text/plain";
-				if (iequals(ext, ".js"))   return "application/javascript";
-				if (iequals(ext, ".json")) return "application/json";
-				if (iequals(ext, ".xml"))  return "application/xml";
-				if (iequals(ext, ".swf"))  return "application/x-shockwave-flash";
-				if (iequals(ext, ".flv"))  return "video/x-flv";
-				if (iequals(ext, ".png"))  return "image/png";
-				if (iequals(ext, ".jpe"))  return "image/jpeg";
-				if (iequals(ext, ".jpeg")) return "image/jpeg";
-				if (iequals(ext, ".jpg"))  return "image/jpeg";
-				if (iequals(ext, ".gif"))  return "image/gif";
-				if (iequals(ext, ".bmp"))  return "image/bmp";
-				if (iequals(ext, ".ico"))  return "image/vnd.microsoft.icon";
-				if (iequals(ext, ".tiff")) return "image/tiff";
-				if (iequals(ext, ".tif"))  return "image/tiff";
-				if (iequals(ext, ".svg"))  return "image/svg+xml";
-				if (iequals(ext, ".svgz")) return "image/svg+xml";
-				return "application/text";
-			}
-
-			//String(*persistentCallback)(void* persistentArgs);
-
-			// This function produces an HTTP response for the given
-			// request. The type of the response object depends on the
-			// contents of the request, so the interface requires the
-			// caller to pass a generic lambda for receiving the response.
-			template< class Body, class Allocator, class Send>
-			void handle_request(
-				http::request<Body, http::basic_fields<Allocator>>&& req,
-				Send&& send,
-				v8::Persistent<v8::Function> * servePersistent
-			)
-			{
-				// Returns a bad request response
-				auto const bad_request =
-					[&req](boost::beast::string_view why)
-				{
-					http::response<http::string_body> res{ http::status::bad_request, req.version() };
-					res.set(http::field::server, HTTP_USER_AGENT);
-					res.set(http::field::content_type, "text/html");
-					res.keep_alive(req.keep_alive());
-					res.body() = why.to_string();
-					res.prepare_payload();
-					return res;
-				};
-
-				// Returns a not found response
-				auto const not_found =
-					[&req](boost::beast::string_view target)
-				{
-					http::response<http::string_body> res{ http::status::not_found, req.version() };
-					res.set(http::field::server, HTTP_USER_AGENT);
-					res.set(http::field::content_type, "text/html");
-					res.keep_alive(req.keep_alive());
-					res.body() = "The resource '" + target.to_string() + "' was not found.";
-					res.prepare_payload();
-					return res;
-				};
-
-				// Returns a server error response
-				auto const server_error =
-					[&req](boost::beast::string_view what)
-				{
-					http::response<http::string_body> res{ http::status::internal_server_error, req.version() };
-					res.set(http::field::server, HTTP_USER_AGENT);
-					res.set(http::field::content_type, "text/html");
-					res.keep_alive(req.keep_alive());
-					res.body() = "An error occurred: '" + what.to_string() + "'";
-					res.prepare_payload();
-					return res;
-				};
-
-				// Make sure we can handle the method
-				if (req.method() != http::verb::get &&
-					req.method() != http::verb::head)
-					return send(bad_request("Unknown HTTP-method"));
-
-				// Request path must be absolute and not contain "..".
-				if (req.target().empty() ||
-					req.target()[0] != '/' ||
-					req.target().find("..") != boost::beast::string_view::npos)
-					return send(bad_request("Illegal request-target"));
-
-				v8::Local<v8::Function> func = v8::Local<v8::Function>::Cast(servePersistent->Get(V8_JAVASCRIPT_ENGINE->isolate));
-				http::response<http::string_body> res{ http::status::ok, req.version() };
-
-				if (V8_JAVASCRIPT_ENGINE->v8IsNull(func) == false)
-				{
-					AsyncFunctionCall *call = RJNEW AsyncFunctionCall(servePersistent);
-					call->deleteOnComplete = false;
-					V8_JAVASCRIPT_ENGINE->callFunctionOnNextTick(call);
-
-					while (call->checkForResult() == false)
+					v8::Local<v8::Object> httpMsgObj = V8_JAVASCRIPT_ENGINE->v8CreateNewObject("RadJav.Net.HttpIncomingMessage");
+					
+					V8_JAVASCRIPT_ENGINE->v8SetString(httpMsgObj,
+													  "method",
+													  {request.method_string().data(), request.method_string().size()});
+					
+					V8_JAVASCRIPT_ENGINE->v8SetString(httpMsgObj,
+													  "url",
+													  {request.target().data(), request.target().size()});
+					
+					auto versionMajor = request.version()/10;
+					auto versionMinor = request.version()%10;
+					
+					std::ostringstream version;
+					version << versionMajor << "." << versionMinor;
+					
+					V8_JAVASCRIPT_ENGINE->v8SetString(httpMsgObj, "httpVersion", version.str());
+					V8_JAVASCRIPT_ENGINE->v8SetNumber(httpMsgObj, "httpVersionMajor", versionMajor);
+					V8_JAVASCRIPT_ENGINE->v8SetNumber(httpMsgObj, "httpVersionMinor", versionMinor);
+					
+					v8::Local<v8::Object> headersObj = V8_JAVASCRIPT_ENGINE->v8CreateNewObject("Object");
+					
+					String headerName;
+					for(const auto& field: request)
 					{
-					}
-
-					v8::Local<v8::Value> result = call->getResult(V8_JAVASCRIPT_ENGINE);
-
-					if (result->IsString() == true)
-					{
-						String sendToClient = parseV8ValueIsolate(V8_JAVASCRIPT_ENGINE->isolate, result);
-
-						res.set(http::field::content_type, "text/html");
-						res.body() = sendToClient;
-						res.content_length(sendToClient.length());
-						res.keep_alive(req.keep_alive());
+						headerName = {field.name_string().data(), field.name_string().size()};
+						V8_JAVASCRIPT_ENGINE->v8SetString(headersObj,
+														  headerName.toLowerCase(),
+														  {field.value().data(), field.value().size()});
 					}
 					
-					if (result->IsObject() == true)
+					V8_JAVASCRIPT_ENGINE->v8SetObject(httpMsgObj, "headers", headersObj);
+					
+					auto payloadSize = request.payload_size();
+					if (payloadSize)
 					{
-						v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast (result);
-
-						v8::Local<v8::String> result = v8::Local<v8::String>::Cast (obj->Get(
-								String ("serveDir").toV8String (V8_JAVASCRIPT_ENGINE->isolate)));
-
-						String serveDir = parseV8ValueIsolate(V8_JAVASCRIPT_ENGINE->isolate, result);
-
-						// Build the path to the requested file
-						std::string path = path_cat(serveDir, req.target());
-
-						if (req.target().back() == '/')
-							path.append("index.html");
-
-						// Attempt to open the file
-						boost::beast::error_code ec;
-						http::file_body::value_type body;
-						body.open(path.c_str(), boost::beast::file_mode::scan, ec);
-
-						// Handle the case where the file doesn't exist
-						if (ec == boost::system::errc::no_such_file_or_directory)
-							return send(not_found(req.target()));
-
-						// Handle an unknown error
-						if (ec)
-							return send(server_error(ec.message()));
-
-						// Cache the size since we need it after the move
-						auto const size = body.size();
-
-						// Respond to HEAD request
-						if (req.method() == http::verb::head)
+						auto size = payloadSize.value();
+						
+						if (size)
 						{
-							http::response<http::empty_body> res{ http::status::ok, req.version() };
-							res.set(http::field::server, HTTP_USER_AGENT);
-							res.set(http::field::content_type, mime_type(path));
-							res.content_length(size);
-							res.keep_alive(req.keep_alive());
-							return send(std::move(res));
+							auto dataArrayObj = v8::ArrayBuffer::New(V8_JAVASCRIPT_ENGINE->isolate, size);
+							
+							std::memcpy(dataArrayObj->GetContents().Data(), request.body().data(), size);
+							
+							V8_JAVASCRIPT_ENGINE->v8SetObject(httpMsgObj, "payload", dataArrayObj);
 						}
-
-						// Respond to GET request
-						http::response<http::file_body> res{
-							std::piecewise_construct,
-							std::make_tuple(std::move(body)),
-							std::make_tuple(http::status::ok, req.version()) };
-						res.set(http::field::server, HTTP_USER_AGENT);
-						res.set(http::field::content_type, mime_type(path));
-						res.content_length(size);
-						res.keep_alive(req.keep_alive());
-						return send(std::move(res));
 					}
+					
+					// Just store request and disable delete on it
+					// It will only be used for creating WebSocketConnection from HttpConnection
+					if (upgradeRequest)
+					{
+						std::shared_ptr<boost::beast::http::request<boost::beast::http::string_body>> requestCopy(RJNEW boost::beast::http::request<boost::beast::http::string_body>(request),
+																												  [](boost::beast::http::request<boost::beast::http::string_body>* obj) {
+																													  DELETEOBJ(obj);
+																												  });
+						
+						V8_JAVASCRIPT_ENGINE->v8SetExternal(httpMsgObj, "_appObj", requestCopy);
+					}
+					
+					return httpMsgObj;
+				}
+				
+				bool webServerResponseToCppResponse(v8::Local<v8::Object> httpResponseObj,
+													boost::beast::http::response<boost::beast::http::string_body>& response)
+				{
+					RJINT statusCode = V8_JAVASCRIPT_ENGINE->v8GetInt(httpResponseObj, "statusCode");
+					auto status = boost::beast::http::int_to_status(statusCode);
+					
+					if (status == boost::beast::http::status::unknown)
+						return false;
+					
+					RJINT httpVersionMajor = V8_JAVASCRIPT_ENGINE->v8GetInt(httpResponseObj, "httpVersionMajor");
+					RJINT httpVersionMinor = V8_JAVASCRIPT_ENGINE->v8GetInt(httpResponseObj, "httpVersionMinor");
+					
+					int httpVersion = httpVersionMajor*10 + httpVersionMinor;
+					if (httpVersion > 100 ||
+						httpVersion < 10)
+					{
+						return false;
+					}
+					
+					response = {status, httpVersion};
+					
+					String statusMessage = V8_JAVASCRIPT_ENGINE->v8GetString(httpResponseObj, "statusMessage");
+					if (!statusMessage.empty())
+					{
+						response.base().reason(statusMessage);
+					}
+					
+					auto headersJS = V8_JAVASCRIPT_ENGINE->v8GetObject(httpResponseObj, "headers");
+					auto properties = headersJS->GetOwnPropertyNames();
+					for (int i = 0; i < properties->Length(); i++)
+					{
+						auto propertyNameJs = properties->Get(i);
+						String name = parseV8Value(propertyNameJs);
+						
+						auto propertyValueJs = V8_JAVASCRIPT_ENGINE->v8GetObject(headersJS, name);
+						
+						if (propertyValueJs->IsString())
+						{
+							String value = parseV8Value(propertyValueJs);
+							response.set(name, value);
+						}
+						else if (propertyValueJs->IsArray())
+						{
+							Array<String> values;
+							v8::Local<v8::Array> valuesArrayJs = v8::Local<v8::Array>::Cast(propertyValueJs);
+							for (int j = 0; j < valuesArrayJs->Length(); j++)
+							{
+								auto valueJs = valuesArrayJs->Get(j);
+								if (valueJs->IsString())
+								{
+									response.insert(name, parseV8Value(valueJs));
+								}
+							}
+						}
+					}
+					
+					auto payloadJs = V8_JAVASCRIPT_ENGINE->v8GetValue(httpResponseObj, "payload");
+					String data;
+					
+					if (payloadJs->IsString())
+					{
+						data = parseV8Value(payloadJs);
+					}
+					else if (payloadJs->IsObject())
+					{
+						auto payloadArrayBufferJs = v8::Local<v8::ArrayBuffer>::Cast(payloadJs);
+						data = {(char*)payloadArrayBufferJs->GetContents().Data(), payloadArrayBufferJs->ByteLength()};
+					}
+
+					if (!data.empty())
+					{
+						response.body() = data;
+						response.prepare_payload();
+					}
+
+					return true;
 				}
 
-				return send(std::move(res));
+				#elif defined USE_JAVASCRIPTCORE
+					#pragma message ("Missing implementation of requestToJSHttpIncomingMessage and webServerResponseToCppResponse for JSC")
+				#endif
 			}
-
-			//define inner worker classes
-			class HTTPSession : public std::enable_shared_from_this<HTTPSession>
+			
+			class HttpConnectionListener : public std::enable_shared_from_this<HttpConnectionListener>
 			{
-				// This is the C++11 equivalent of a generic lambda.
-				// The function object is used to send an HTTP message.
-				struct send_lambda
-				{
-					HTTPSession &self_;
-
-					explicit
-						send_lambda(HTTPSession& self)
-						: self_(self)
-					{
-					}
-
-					template<bool isRequest, class Body, class Fields>
-					void
-						operator()(http::message<isRequest, Body, Fields>&& msg) const
-					{
-						// The lifetime of the message has to extend
-						// for the duration of the async operation so
-						// we use a shared_ptr to manage it.
-						auto sp = std::make_shared<http::message<isRequest, Body, Fields>>(std::move(msg));
-
-						// Store a type-erased version of the shared
-						// pointer in the class to keep it alive.
-						self_.res_ = sp;
-
-						// Write the response
-						http::async_write(
-							self_.socket_,
-							*sp,
-							boost::asio::bind_executor(
-								self_.strand_,
-								std::bind(
-									&HTTPSession::on_write,
-									self_.shared_from_this(),
-									std::placeholders::_1,
-									std::placeholders::_2,
-									sp->need_eof())));
-					}
-				};
-
-				tcp::socket socket_;
-				boost::asio::strand<boost::asio::io_context::executor_type> strand_;
-				boost::beast::flat_buffer buffer_;
-				http::request<http::string_body> req_;
-				std::shared_ptr<void> res_;
-				send_lambda lambda_;
-				v8::Persistent<v8::Function> * servePersistent;
-
 			public:
-				// Take ownership of the socket
-				explicit HTTPSession(tcp::socket socket, v8::Persistent<v8::Function> * servePersistent)
-					: socket_(std::move(socket))
-					, strand_(socket_.get_executor())
-					, lambda_(*this)
-					, servePersistent(servePersistent)
+				HttpConnectionListener(int maxPendingConnections, NetworkManager& networkManager)
+				: _networkManager(networkManager)
+				, _acceptor(_networkManager.getContext())
 				{
+					_maxPendingConnections = maxPendingConnections;
+					_shutdown = false;
 				}
-
-				// Start the asynchronous operation
-				void run()
+				
+				~HttpConnectionListener()
 				{
-					do_read();
-				}
+					_networkManager.contextReleased(_acceptor.get_io_context());
 
-				void do_read()
-				{
-					// Make the request empty before reading,
-					// otherwise the operation behavior is undefined.
-					req_ = {};
-
-					// Read a request
-					http::async_read(socket_, buffer_, req_,
-						boost::asio::bind_executor(
-							strand_,
-							std::bind(
-								&HTTPSession::on_read,
-								shared_from_this(),
-								std::placeholders::_1,
-								std::placeholders::_2)));
-				}
-
-				void
-					on_read(
-						boost::system::error_code ec,
-						std::size_t bytes_transferred)
-				{
-					boost::ignore_unused(bytes_transferred);
-
-					// This means they closed the connection
-					if (ec == http::error::end_of_stream)
-						return do_close();
-
-					if (ec)
-						return fail(ec, "read");
-
-					// Send the response
-					handle_request(std::move(req_), lambda_, servePersistent);
-				}
-
-				void on_write(boost::system::error_code ec, std::size_t bytes_transferred, bool close)
-				{
-					boost::ignore_unused(bytes_transferred);
-
-					if (ec)
-						return fail(ec, "write");
-
-					if (close)
+					if (_errorCode.value())
 					{
-						// This means we should close the connection, usually because
-						// the response indicated the "Connection: close" semantic.
-						return do_close();
+						notifyOnError(_errorCode);
+					}
+					else
+					{
+						notifyOnStop();
+					}
+				}
+
+				void start(const std::string& address,
+						   unsigned short port,
+						   const std::function<void(std::shared_ptr<HttpConnection>)>& onConnectionHandler,
+						   const std::function<void(void)>& onStopHandler,
+						   const std::function<void(int, const std::string&)>& onErrorHandler)
+				{
+					_onConnection = onConnectionHandler;
+					_onStop = onStopHandler;
+					_onError = onErrorHandler;
+					
+					if (_acceptor.is_open())
+						return;
+					
+					auto const addr = boost::asio::ip::make_address(address);
+					const boost::asio::ip::tcp::endpoint endpoint(addr, port);
+					
+					boost::system::error_code ec;
+					boost::system::error_code ec_unused;
+
+					// Open the acceptor
+					_acceptor.open(endpoint.protocol(), ec);
+					if (ec)
+					{
+						_errorCode = ec;
+						return;
+					}
+					
+					// Allow address reuse
+					_acceptor.set_option(boost::asio::socket_base::reuse_address(true), ec);
+					if (ec)
+					{
+						_acceptor.close(ec_unused);
+						
+						_errorCode = ec;
+						return;
+					}
+					
+					// Bind to the server address
+					_acceptor.bind(endpoint, ec);
+					if (ec)
+					{
+						_acceptor.close(ec_unused);
+						
+						_errorCode = ec;
+						return;
+					}
+					
+					// Start listening for connections
+					int pendingConnections = _maxPendingConnections;
+					if (pendingConnections < 0 ||
+						pendingConnections > boost::asio::socket_base::max_listen_connections)
+					{
+						pendingConnections = boost::asio::socket_base::max_listen_connections;
 					}
 
-					// We're done with the response so delete it
-					res_ = nullptr;
-
-					// Read another request
-					do_read();
+					_acceptor.listen(pendingConnections, ec);
+					if (ec)
+					{
+						_acceptor.close(ec_unused);
+						
+						_errorCode = ec;
+						return;
+					}
+					
+					_acceptor.async_accept(_networkManager.getContext(),
+										   _peerEndpoint,
+										   std::bind(&HttpConnectionListener::onConnectionCallback,
+													 shared_from_this(),
+													 std::placeholders::_1,
+													 std::placeholders::_2));
+					
+					_networkManager.activateContext(_acceptor.get_io_context());
 				}
-
-				void do_close()
+				
+				void stop()
 				{
-					// Send a TCP shutdown
-					boost::system::error_code ec;
-					socket_.shutdown(tcp::socket::shutdown_send, ec);
-
-					// At this point the connection is closed gracefully
+					if (_shutdown)
+						return;
+					
+					_shutdown = true;
+					
+					if (_acceptor.is_open())
+					{
+						boost::system::error_code ec_unused;
+						_acceptor.close(ec_unused);
+					}
 				}
+				
+				boost::asio::io_context& getContext()
+				{
+					return _acceptor.get_io_context();
+				}
+				
+				void clearCallbacks()
+				{
+					_onConnection = nullptr;
+					_onError = nullptr;
+					_onStop = nullptr;
+				}
+				
+			private:
+				void onConnectionCallback(boost::system::error_code ec,
+										  boost::asio::ip::tcp::socket peer)
+				{
+					if (ec)
+					{
+						boost::system::error_code ec_unused;
+						_acceptor.close(ec_unused);
+						
+						if (!_shutdown)
+							_errorCode = ec;
+						
+						return;
+					}
+
+					auto connection = std::make_shared<HttpConnection>(_networkManager, std::move(peer));
+					notifyOnConnection(connection);
+					
+					// Accept another connection
+					_acceptor.async_accept(_networkManager.getContext(),
+										   _peerEndpoint,
+										   std::bind(&HttpConnectionListener::onConnectionCallback,
+													 shared_from_this(),
+													 std::placeholders::_1,
+													 std::placeholders::_2));
+				}
+				
+				void notifyOnError(boost::system::error_code& ec)
+				{
+					if (_onError)
+						_onError(ec.value(), ec.message());
+				}
+				
+				void notifyOnConnection(std::shared_ptr<HttpConnection> peer)
+				{
+					if (_onConnection)
+						_onConnection(peer);
+				}
+
+				void notifyOnStop()
+				{
+					if (_onStop)
+						_onStop();
+				}
+				
+			private:
+				std::function<void(std::shared_ptr<HttpConnection>)> _onConnection;
+				std::function<void(void)> _onStop;
+				std::function<void(int, const std::string&)> _onError;
+
+				NetworkManager& _networkManager;
+				boost::asio::ip::tcp::acceptor _acceptor;
+				boost::system::error_code _errorCode;
+				
+				int _maxPendingConnections;
+				bool _shutdown;
+				boost::asio::ip::tcp::endpoint _peerEndpoint;
 			};
 
-			// Accepts incoming connections and launches the sessions
-			WebServer::WebServer()
-				:ioc(1), //single child thread
-				acceptor(ioc),
-				socket(ioc),
-				isAlive(false)
+			#ifdef USE_V8
+				WebServer::WebServer(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
+				: _networkManager(*jsEngine->networkManager)
+				, _port(80)
+				, _maxPendingConnections(-1)
+				{}
+			#elif defined USE_JAVASCRIPTCORE
+				WebServer::WebServer(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[])
+				: _networkManager(*jsEngine->networkManager)
+				, _port(80)
+				, _maxPendingConnections(-1)
+				{}
+			#endif
+
+			WebServer::WebServer(int maxPendingConnections, NetworkManager& networkManager)
+			: _networkManager(networkManager)
+			, _port(80)
+			, _maxPendingConnections(maxPendingConnections)
 			{
-				serverType = WebServerTypes::HTTP;
-				address = boost::asio::ip::make_address("127.0.0.1");
-				port = 80;
-				thread = NULL;
 			}
 
 			WebServer::~WebServer()
 			{
-				DELETEOBJ(thread);
-			}
-
-			void WebServer::listen(RJINT portNumber)
-			{
-				//override "any port" behavior for 0 value; default http server port number is set to 80
-				//listen() call without parameters must be preceded with WebServer->port(<value>) call
-				if (portNumber != 0) {
-					port = portNumber;
-				}
-
-				boost::system::error_code ec;
-
-				tcp::endpoint endpoint{ address, static_cast<unsigned short>(port) };
-
-				// Open the acceptor
-				acceptor.open(endpoint.protocol(), ec);
-				if (ec)
+				auto listenerShared = _listener.lock();
+				if (listenerShared)
 				{
-					fail(ec, "open");
-					return;
-				}
-
-				// Allow address reuse
-				acceptor.set_option(boost::asio::socket_base::reuse_address(true));
-				if (ec)
-				{
-					fail(ec, "set_option");
-					return;
-				}
-
-				// Bind to the server address
-				acceptor.bind(endpoint, ec);
-				if (ec)
-				{
-					fail(ec, "bind");
-					return;
-				}
-
-				// Start listening for connections
-				acceptor.listen(
-					boost::asio::socket_base::max_listen_connections, ec);
-				if (ec)
-				{
-					fail(ec, "listen");
-					return;
+					listenerShared->clearCallbacks();
+					listenerShared->stop();
 				}
 				
-				this->run();
-
-				DELETEOBJ(thread);
-
-				thread = RJNEW SimpleThread();
-				thread->onStart = [this]()
-					{
-						this->isAlive = true;
-						this->ioc.run();
-					};
-
-				RadJav::addThread(thread);
-
-/*#ifdef GUI_USE_WXWIDGETS	
-				WebServerThread* thread = new WebServerThread(&ioc);
-				thread->Run();
-				isAlive = thread->IsAlive();
-#else
-				//blocking execution
-				isAlive = true;
-				ioc.run();
-#endif*/
-			}
-
-#ifdef USE_V8
-			void WebServer::serve(v8::Local<v8::Function> function)
-			{
-				if (!function.IsEmpty())
+				for(auto httpConnection : _clients)
 				{
-					servePersistent = RJNEW v8::Persistent<v8::Function>();
-					servePersistent->Reset(V8_JAVASCRIPT_ENGINE->isolate, function);
+					httpConnection->clearCallbacks();
+					httpConnection->close();
+				}
+				
+				// Events designed mostly for GUI and they will be freed by GUI library
+				// but in our case where we are not relying on GUI here we need to remove events manually
+				for(auto it = events->begin(); it != events->end(); it++)
+				{
+					DELETEOBJ(it->second);
 				}
 			}
-#endif
+
+			void WebServer::start(const std::string& address, unsigned short port)
+			{
+				if (_listener.lock())
+					return;
+				
+				auto listener = std::make_shared<HttpConnectionListener>(_maxPendingConnections, _networkManager);
+				_listener = listener;
+				
+				listener->start(address,
+								port,
+								std::bind(&WebServer::onListenerNewConnectionCallback, this, std::placeholders::_1),
+								std::bind(&WebServer::onListenerStopCallback, this),
+								std::bind(&WebServer::onListenerErrorCallback, this, std::placeholders::_1, std::placeholders::_2));
+			}
 
 			void WebServer::stop()
 			{
-				RadJav::removeThread(thread);
+				auto listenerShared = _listener.lock();
+				if (listenerShared)
+					listenerShared->stop();
 
-				ioc.stop();
-				while (false == ioc.stopped()) {
-                    #if defined (__WINDOWS__) || defined(WIN32)
-                        Sleep(1 * 50); //50 ms
-                    #else
-                        usleep(1 * 50 * 1000);
-                    #endif
+				for(auto httpConnection : _clients)
+				{
+					httpConnection->close();
 				}
-
-				//TODO: check graceful exit behavior on ioc.stop()
-				acceptor.close();
-				isAlive = false;
+			}
+			
+			void WebServer::onProcess(const std::function<void(const http::request<http::string_body>&,
+															   http::response<http::string_body>&)>& func)
+			{
+				_onProcess = func;
+			}
+			
+			void WebServer::onUpgrade(const std::function<void(HttpConnection&,
+															   const http::request<http::string_body>&)>& func)
+			{
+				_onUpgrade = func;
 			}
 
-			// Start accepting incoming connections
-			void WebServer::run()
+			void WebServer::onStop(const std::function<void(void)>& func)
 			{
-				if (!acceptor.is_open())
+				_onStop = func;
+			}
+			
+			void WebServer::onError(const std::function<void(int, const std::string&)>& func)
+			{
+				_onError = func;
+			}
+
+			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+				void WebServer::on(String event, RJ_FUNC_TYPE func)
+				{
+					createEvent(event, func);
+				}
+			#endif
+
+			void WebServer::onListenerNewConnectionCallback(std::shared_ptr<HttpConnection> connection)
+			{
+				_clients.push_back(connection);
+				
+				connection->onRequest(std::bind(&WebServer::onHttpProcessCallback, this,
+												std::placeholders::_1,
+												std::placeholders::_2,
+												std::placeholders::_3));
+				
+				connection->onError(std::bind(&WebServer::onHttpErrorCallback, this,
+											  std::placeholders::_1,
+											  std::placeholders::_2,
+											  std::placeholders::_3));
+				
+				connection->onUpgrade(std::bind(&WebServer::onHttpUpgradeCallback, this,
+												std::placeholders::_1,
+												std::placeholders::_2));
+
+				connection->onUpgraded(std::bind(&WebServer::onHttpUpgradedCallback, this,
+												 std::placeholders::_1));
+
+				connection->onClose(std::bind(&WebServer::onHttpCloseCallback, this,
+											  std::placeholders::_1));
+			}
+			
+			void WebServer::onListenerStopCallback()
+			{
+				// If we use WebServer from C++ side
+				// Then process only C++ callbacks
+				if (_onStop)
+				{
+					_onStop();
 					return;
-				do_accept();
+				}
+				
+				#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+					executeEvent("close");
+				#endif
+			}
+			
+			void WebServer::onListenerErrorCallback(int errorCode, const std::string& description)
+			{
+				// If we use WebServer from C++ side
+				// Then process only C++ callbacks
+				if (_onError)
+				{
+					_onError(errorCode, description);
+					return;
+				}
+				
+				#ifdef USE_V8
+					v8::Local<v8::Value> args[2];
+					args[0] = v8::Number::New(V8_JAVASCRIPT_ENGINE->isolate, errorCode);
+					args[1] = String(description).toV8String(V8_JAVASCRIPT_ENGINE->isolate);
+				
+					executeEvent("error", 2, args);
+				
+				#elif defined USE_JAVASCRIPTCORE
+					#pragma message("Missing implementation of WebServer.error callback for JSC")
+					//TODO: add JSC implementation
+					//executeEvent("error", description);
+				#endif
+			}
+			
+			void WebServer::onHttpProcessCallback(HttpConnection& connection,
+												  const boost::beast::http::request<boost::beast::http::string_body>& request,
+												  boost::beast::http::response<boost::beast::http::string_body>& response)
+			{
+				// If we use WebServer from C++ side
+				// Then process only C++ callbacks
+				if (_onProcess)
+				{
+					_onProcess(request, response);
+					return;
+				}
+				
+				#pragma message("Missing implementation of onHttpRequestCallback for Javascript")
+				#ifdef USE_V8
+					auto httpMsgObj = requestToJSHttpIncomingMessage(request);
+				
+					auto httpResponseObj = V8_JAVASCRIPT_ENGINE->v8CreateNewObject("RadJav.Net.WebServerResponse");
+				
+					v8::Local<v8::Value> args[2];
+					args[0] = httpMsgObj;
+					args[1] = httpResponseObj;
+				
+					executeEvent("process", 2, args);
+				
+					if (!webServerResponseToCppResponse(httpResponseObj, response))
+					{
+						response = {boost::beast::http::status::internal_server_error, request.version()};
+						return;
+					}
+				
+				#elif defined USE_JAVASCRIPTCORE
+					executeEvent("process");
+				#endif
+			}
+			
+			void WebServer::onHttpUpgradeCallback(HttpConnection& connection,
+												  const boost::beast::http::request<boost::beast::http::string_body>& request)
+			{
+				// If we use WebServer from C++ side
+				// Then process only C++ callbacks
+				if (_onUpgrade)
+				{
+					_onUpgrade(connection, request);
+					return;
+				}
+
+				#ifdef USE_V8
+					auto httpMsgObj = requestToJSHttpIncomingMessage(request, true);
+				
+					auto httpConnectionObj = V8_JAVASCRIPT_ENGINE->v8CreateNewObject("RadJav.Net.HttpConnection");
+				
+					// Do not allow removal of HttpConnection when GC do it's work
+					// HttpConnection will be freed after completed request
+					std::shared_ptr<HttpConnection> connectionPtr(&connection,
+																  [](HttpConnection* p) {
+																  });
+
+					V8_JAVASCRIPT_ENGINE->v8SetExternal(httpConnectionObj, "_appObj", connectionPtr);
+				
+					v8::Local<v8::Value> args[2];
+					args[0] = httpConnectionObj;
+					args[1] = httpMsgObj;
+				
+					executeEvent("upgrade", 2, args);
+				
+				#elif defined USE_JAVASCRIPTCORE
+					#pragma message("Missing implementation of WebServer.upgrade callback for JSC")
+					executeEvent("upgrade");
+				#endif
 			}
 
-			void WebServer::do_accept()
+			void WebServer::onHttpUpgradedCallback(HttpConnection& connection)
 			{
-				acceptor.async_accept(
-					socket,
-					std::bind(
-						&WebServer::on_accept,
-						this,
-						std::placeholders::_1));
+				removeClient(connection);
 			}
 
-			void WebServer::on_accept(boost::system::error_code ec)
+			void WebServer::onHttpCloseCallback(HttpConnection& connection)
 			{
-				if (ec)
-				{
-					fail(ec, "accept");
-				}
-				else
-				{
-					// Create the session and run it
-					std::make_shared<HTTPSession>(std::move(socket), servePersistent)->run();
-				}
-
-				// Accept another connection
-				do_accept();
+				removeClient(connection);
+			}
+			
+			void WebServer::onHttpErrorCallback(HttpConnection& connection,
+												int errorCode, const std::string& description)
+			{
+				removeClient(connection);
+			}
+			
+			void WebServer::removeClient(const HttpConnection& connection)
+			{
+				auto client = std::find_if(_clients.begin(), _clients.end(),
+										   [&](std::shared_ptr<HttpConnection> con) -> bool {
+											   return con.get() == &connection;
+										   });
+				
+				if (client != _clients.end())
+					_clients.erase(client);
 			}
 		}
 	}
 }
-

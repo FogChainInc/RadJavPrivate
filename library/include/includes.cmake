@@ -456,14 +456,12 @@ if (USE_V8)
 			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNet.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetHttpRequest.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebSocketServer.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebSocketClient.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebSocketServerSsl.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebSocketClientSsl.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetUdpServer.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetUdpClient.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetTcpServer.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetTcpClient.h"
-			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebServer.h")
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetTcpClient.h")
 		source_group ("RadJav\\CPP\\Net" FILES ${SOURCES_files_RadJav__cpp__Net__Headers})
 		
 		set (SOURCES ${SOURCES_files_RadJav__cpp__Net__Headers} ${SOURCES})
@@ -471,7 +469,9 @@ if (USE_V8)
 	
 	if (libRadJav_ALLOW_NETWORKING OR libRadJav_DEBUG_INSPECTOR)
 		set (SOURCES_files_RadJav__cpp__Net__Headers 
-			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebServerUpgradable.h")
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebServer.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetWebSocketConnection.h"
+			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetHttpConnection.h")
 		source_group ("RadJav\\CPP\\Net" FILES ${SOURCES_files_RadJav__cpp__Net__Headers})
 		
 		set (SOURCES ${SOURCES_files_RadJav__cpp__Net__Headers} ${SOURCES})

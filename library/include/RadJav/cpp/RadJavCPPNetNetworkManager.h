@@ -69,6 +69,14 @@ namespace RadJAV
 				boost::asio::io_context& getContext();
 				
 				/**
+				 * @brief Notify NetworkManager that specific context has some work to do (has outstanding requests)
+				 * @details Usually this API used by the sockets and user must not call it directly. NetworkManager will start
+				 * to execute context if not already
+				 * @param[in] context A context to activate
+				 */
+				void activateContext(boost::asio::io_context& context);
+
+				/**
 				 * @brief Notify NetworkManager on released context
 				 * @details This is a hint for to do a better job while providing new context for the sockets
 				 * @param[in] context reference to ASIO context which has been released
@@ -83,14 +91,20 @@ namespace RadJAV
 				class ContextInfo
 				{
 				public:
-					bool _active;
+					ContextInfo()
+					: _requireRestart(false)
+					, _jobs(0)
+					{}
+					
+					bool _requireRestart;
 					unsigned int _jobs;
 					boost::asio::io_context _context;
 				};
 				
 				using ContextsInfo = std::vector<ContextInfo*>;
 				
-				ContextsInfo _contextsInfo;
+				ContextsInfo _activeContexts;
+				ContextsInfo _inactiveContexts;
 			};
 		}
 	}

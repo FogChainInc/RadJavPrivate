@@ -56,15 +56,15 @@
 
 				/**
 				 * @ingroup group_net_js_v8
-				 * @brief WebSocketClient callbacks.
-				 * @details Class representing Javascript bindings to CPP::Net::WebSocketClient.
+				 * @brief WebSocketConnection callbacks.
+				 * @details Class representing Javascript bindings to CPP::Net::WebSocketConnection.
 				 */
-				class RADJAV_EXPORT WebSocketClient
+				class RADJAV_EXPORT WebSocketConnection
 				{
 					public:
 						static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
-						static void _init(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void init(const v8::FunctionCallbackInfo<v8::Value> &args);
 						static void connect(const v8::FunctionCallbackInfo<v8::Value> &args);
 						static void send(const v8::FunctionCallbackInfo<v8::Value> &args);
 						static void close(const v8::FunctionCallbackInfo<v8::Value> &args);
