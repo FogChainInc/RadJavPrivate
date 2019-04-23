@@ -26,67 +26,89 @@
 
 #include "cpp/RadJavCPPNetWebServer.h"
 
-#define NETTYPE CPP::Net::WebServer
-
 namespace RadJAV
 {
 	namespace V8B
 	{
 		namespace Net
 		{
+			using CppWebServer = CPP::Net::WebServer;
+			
 			void WebServer::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 			{
-				V8_CALLBACK(object, "_init", WebServer::_init);
-				V8_CALLBACK(object, "listen", WebServer::listen);
-				V8_CALLBACK(object, "serve", WebServer::serve);
-				V8_CALLBACK(object, "stop", WebServer::stop);
+				V8_CALLBACK(object, "_init", WebServer::init);
+				V8_CALLBACK(object, "_start", WebServer::start);
+				V8_CALLBACK(object, "_stop", WebServer::stop);
+				V8_CALLBACK(object, "_on", WebServer::on);
 			}
 
-			void WebServer::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
+			void WebServer::init(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				NETTYPE *webServer = RJNEW NETTYPE();
-				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_webServer", webServer);
+				std::shared_ptr<CppWebServer> webServer(RJNEW CppWebServer(V8_JAVASCRIPT_ENGINE, args),
+														[](CppWebServer* p) {
+															DELETEOBJ(p);
+														});
+
+				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_appObj", webServer);
 			}
 
-			void WebServer::listen(const v8::FunctionCallbackInfo<v8::Value> &args)
+			void WebServer::start(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				v8::Local<v8::Number> val = v8::Local<v8::Number>::Cast(args[0]);
-				RJINT port = V8_JAVASCRIPT_ENGINE->v8ParseInt (val);
-
-				NETTYPE *webServer = (NETTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_webServer");
-				webServer->port = port;
-				webServer->listen();
-			}
-
-			void WebServer::serve(const v8::FunctionCallbackInfo<v8::Value> &args)
-			{
-				NETTYPE *webServer = (NETTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_webServer");
-
-				if (webServer == NULL)
+				std::shared_ptr<CppWebServer> webServer = V8_JAVASCRIPT_ENGINE->v8GetExternal<CppWebServer>(args.This(), "_appObj");
+				
+				if (!webServer)
 				{
-					V8_JAVASCRIPT_ENGINE->throwException(" web server not listening");
+					V8_JAVASCRIPT_ENGINE->throwException("WebServer not initialized");
 					return;
 				}
 
-				v8::Local<v8::Function> val = v8::Local<v8::Function>::Cast(args[0]);
-
-				webServer->serve(val);
+				if (args.Length() < 2 ||
+					!args[0]->IsString() ||
+					!args[1]->IsNumber())
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("Port argument is required");
+					return;
+				}
+				
+				RJINT port = V8_JAVASCRIPT_ENGINE->v8ParseInt(args[1]);
+				
+				webServer->start(parseV8Value(args[0]), port);
 			}
 
 			void WebServer::stop(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				NETTYPE *webServer = (NETTYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_webServer");
-
-				if ((webServer == NULL) || (webServer->isAlive == false))
+				std::shared_ptr<CppWebServer> webServer = V8_JAVASCRIPT_ENGINE->v8GetExternal<CppWebServer>(args.This(), "_appObj");
+				
+				if (!webServer)
 				{
-					V8_JAVASCRIPT_ENGINE->throwException(" web server not listening");
+					V8_JAVASCRIPT_ENGINE->throwException("WebServer not initialized");
 					return;
 				}
-
+				
 				webServer->stop();
+			}
+
+			void WebServer::on(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				std::shared_ptr<CppWebServer> webServer = V8_JAVASCRIPT_ENGINE->v8GetExternal<CppWebServer>(args.This(), "_appObj");
+				
+				if (!webServer)
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("WebServer not initialized");
+					return;
+				}
+				
+				if( args.Length() < 2 ||
+				   !args[0]->IsString() ||
+				   !args[1]->IsFunction())
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("Event name and function is required");
+					return;
+				}
+				
+				webServer->on(parseV8Value(args[0]), v8::Local<v8::Function>::Cast(args[1]));
 			}
 		}
 	}
 }
 #endif
-

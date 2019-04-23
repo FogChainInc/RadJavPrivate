@@ -206,18 +206,15 @@ namespace RadJAV
 		class JsVirtualMachine
 		{
 		public:
-			static JsVirtualMachine* create()
+			static JsVirtualMachine* create(v8::ArrayBuffer::Allocator& arrayBufferAllocator)
 			{
 				v8::Isolate::CreateParams createParams;
 
-				// ArrayBuffer allocator needs to be freed by us
-				v8::ArrayBuffer::Allocator* arrayBufferAllocator = v8::ArrayBuffer::Allocator::NewDefaultAllocator ();
-
-				createParams.array_buffer_allocator = arrayBufferAllocator;
+				createParams.array_buffer_allocator = &arrayBufferAllocator;
 
 				v8::Isolate* isolate = v8::Isolate::New(createParams);
 
-				JsVirtualMachine* vm = RJNEW JsVirtualMachine(isolate, arrayBufferAllocator);
+				JsVirtualMachine* vm = RJNEW JsVirtualMachine(isolate);
 
 				return vm;
 			}
@@ -233,9 +230,6 @@ namespace RadJAV
 					//isolate->Dispose();
 					//isolate = nullptr;
 				}
-
-				delete arrayBufferAllocator;
-				arrayBufferAllocator = nullptr;
 			}
 
 			v8::Isolate* getIsolate()
@@ -249,14 +243,13 @@ namespace RadJAV
 			}
 
 		private:
-			JsVirtualMachine(v8::Isolate* vm, v8::ArrayBuffer::Allocator* abAllocator)
+			JsVirtualMachine(v8::Isolate* vm)
 			: isolate(vm),
 			  isolateScope(isolate),
 			  handleScope(isolate),
 			  globalTemplate(v8::ObjectTemplate::New(isolate)),
 			  globalContext(v8::Context::New(isolate, nullptr, globalTemplate)),
-			  globalContextScope(globalContext),
-			  arrayBufferAllocator(abAllocator)
+			  globalContextScope(globalContext)
 			{
 			}
 
@@ -267,7 +260,6 @@ namespace RadJAV
 			v8::Local<v8::ObjectTemplate> globalTemplate;
 			v8::Local<v8::Context> globalContext;
 			v8::Context::Scope globalContextScope;
-			v8::ArrayBuffer::Allocator* arrayBufferAllocator;
 		};
 
 		V8JavascriptEngine::V8JavascriptEngine()
@@ -350,12 +342,19 @@ namespace RadJAV
 			DELETEOBJ(jsvm);
 			DELETEOBJ(inspector);
 
-			//This is just a hack, isolate must be disposed after context and scope objects
-			isolate->Dispose();
-			isolate = nullptr;
-
+			// When external object were freed they access Isolate to inform about decreased memory usage
+			// so we need to free externalsManager before Isolate
 			DELETEOBJ(externalsManager);
 			
+			// This is just a hack, isolate must be disposed after context and scope objects
+			isolate->Dispose();
+			isolate = nullptr;
+			
+			// Delete arrayBufferAllocator only after the Isolate because
+			// when Isolate has been disposed it will deallocate the rest of not freed ArrayBuffers
+			delete arrayBufferAllocator;
+			arrayBufferAllocator = nullptr;
+
 			#ifdef NET_ON
 				DELETEOBJ(networkManager);
 			#endif
@@ -380,7 +379,7 @@ namespace RadJAV
 				inspector->start("127.0.0.1", 9229);
 
 				inspector->waitForConnection();
-				inspector->pauseOnStart();
+				inspector->pauseOnNextStatement();
 			#endif
 		}
 
@@ -398,10 +397,14 @@ namespace RadJAV
 
 			if (jsvm)
 			{
+				//More work needs to be done here if we'll support this
 				RJDELETE jsvm;
 			}
 
-			jsvm = JsVirtualMachine::create();
+			// ArrayBuffer allocator needs to be created and freed by us
+			arrayBufferAllocator = v8::ArrayBuffer::Allocator::NewDefaultAllocator();
+
+			jsvm = JsVirtualMachine::create(*arrayBufferAllocator);
 
 			//This is ugly for now but in that case we didn't change the interface
 			isolate = jsvm->getIsolate();
@@ -497,7 +500,17 @@ namespace RadJAV
 					}
 
 					if (executeContent == true)
+					{
+						// Pause on start of app execution
+						if (useInspector)
+						{
+							#ifdef USE_INSPECTOR
+								inspector->pauseOnNextStatement();
+							#endif
+						}
+						
 						executeScript(applicationSource, fileName);
+					}
 				}
 			}
 			catch (Exception ex)
@@ -925,9 +938,15 @@ namespace RadJAV
 			v8::Local<v8::Script> script = scriptTemp.ToLocalChecked();
 			
 			#ifdef USE_INSPECTOR
-				// Not sure if this is correct way, but we need it even if we still not entered our main loop
 				if (useInspector)
+				{
+					// Delay is needed to handle possible breakpoints
+					// which CDT will send to us after notification Debugger.scriptParsed
+					CPP::OS::sleep(50);
+					
+					// Process CDT(frontend) messages if any
 					inspector->dispatchFrontendMessages();
+				}
 			#endif
 
 			//std::cout << "- Executing script: " << fileNameStr << std::endl;
@@ -1510,12 +1529,12 @@ namespace RadJAV
 						V8B::Net::WebSocketServer::createV8Callbacks(isolate, webSocketServerPrototype);
 					}
 
-					// WebSocketClient
+					// WebSocketConnection
 					{
-						v8::Handle<v8::Function> webSocketClientFunc = v8GetFunction(netFunc, "WebSocketClient");
-						v8::Handle<v8::Object> webSocketClientPrototype = v8GetObject(webSocketClientFunc, "prototype");
+						v8::Handle<v8::Function> webSocketConnectionFunc = v8GetFunction(netFunc, "WebSocketConnection");
+						v8::Handle<v8::Object> webSocketConnectionPrototype = v8GetObject(webSocketConnectionFunc, "prototype");
 
-						V8B::Net::WebSocketClient::createV8Callbacks(isolate, webSocketClientPrototype);
+						V8B::Net::WebSocketConnection::createV8Callbacks(isolate, webSocketConnectionPrototype);
 					}
 
 					// WebSocketServerSsl

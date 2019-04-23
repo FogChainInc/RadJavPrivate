@@ -1,0 +1,89 @@
+var window;
+var button;
+var webServer;
+
+RadJav.initialize (RadJav.getStandardLibrary (), RadJav.getGUILibrary ()).then (function ()
+{
+	RadJav.runApplication (function ()
+	{
+		var win = new RadJav.GUI.Window ("win", "WebServer Example");
+		
+		win.create ().then (function (win2)
+		{
+			window = win2;
+			RadJav.GUI.create ("Button", "button", "Start server", win2).then (function (btn)
+			{
+				button = btn;
+				button.serverRunning = false;
+				button.on ("click", function ()
+				{
+					if (button.serverRunning)
+					{
+						webServer.stop();
+					}
+					else
+					{
+						webServer.start("127.0.0.1", 9230);
+						button.serverRunning = true;
+						button.setText("Stop server");
+					}
+				});
+			});
+			
+			webServer = new RadJav.Net.WebServer();
+			
+			webServer.on ("process", function(request, response)
+			{
+				RadJav.Console.log("Got HTTP request:");
+				RadJav.Console.log(JSON.stringify(request));
+				
+				response.setHttpVersion(1,1);
+				response.setStatus(200);
+				response.setHeaders({Host: "127.0.0.1:9230"});
+				response.setPayload("<html><body><h1>Hello from server!</h1></body></html>");
+			});
+			
+			webServer.on ("error", function(code, description)
+			{
+				RadJav.Console.log("WebServer error: "+code+", "+description);
+			});
+			
+			webServer.on ("upgrade", function(connection, request)
+			{
+				RadJav.Console.log("Got HTTP upgrade request");
+				RadJav.Console.log(JSON.stringify(request));
+				
+				var webSocket = RadJav.Net.handleUpgrade(connection, request);
+				
+				webSocket.on ("open", function()
+				{
+					RadJav.Console.log("WebSocket connected");
+				});
+				
+				webSocket.on ("message", RadJav.keepContext(function(data)
+				{
+					RadJav.Console.log("WebSocket message: "+data);
+					this.send("Hello from RadJav!");
+					this.close();
+				}, webSocket));
+				
+				webSocket.on ("error", function(code, description)
+				{
+					RadJav.Console.log("WebSocket error: "+code+", "+description);
+				});
+				
+				webSocket.on ("close", function()
+				{
+					RadJav.Console.log("WebSocket closed");
+				});
+			});
+			
+			webServer.on ("close", function()
+			{
+				RadJav.Console.log("WebServer closed");
+				button.serverRunning = false;
+				button.setText("Start server");
+			});
+		});
+	});
+});

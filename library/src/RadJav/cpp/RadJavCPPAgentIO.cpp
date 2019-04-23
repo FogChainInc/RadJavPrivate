@@ -27,7 +27,7 @@
 
 #include <unicode/unistr.h>
 
-#include "cpp/RadJavCPPNetWebServerUpgradable.h"
+#include "cpp/RadJavCPPNetWebServer.h"
 #include "v8/RadJavV8JavascriptEngine.h"
 
 #ifdef __POSIX__
@@ -125,14 +125,14 @@ namespace RadJAV
 			, agent_(agent)
 		{
 			delegate_ = RJNEW InspectorIoDelegate(this, file_path_, script_name_, wait_for_connect_);
-			//server_ = RJNEW RadJAV::CPP::Net::WebServerUpgradable(delegate_, file_path_, file_path_, wait_for_connect_);
+			//server_ = RJNEW RadJAV::CPP::Net::WebServer(delegate_, file_path_, file_path_, wait_for_connect_);
 		}
 
 		InspectorIo::~InspectorIo()
 		{
 			if (server_)
 			{
-				server_->close();
+				server_->stop();
 				RJDELETE server_;
 			}
 			RJDELETE delegate_;
@@ -160,7 +160,7 @@ namespace RadJAV
 		void InspectorIo::Stop() {
 			assert(state_ == State::kAccepting || state_ == State::kConnected);
 			Write(TransportAction::kKill, 0, StringView());
-			server_->close();
+			server_->stop();
 			RJDELETE server_;
 			server_ = nullptr;
 			state_ = State::kShutDown;
@@ -188,7 +188,7 @@ namespace RadJAV
 		}
 
 		void InspectorIo::ThreadMain(void* io) {
-			static_cast<InspectorIo*>(io)->ThreadMain<RadJAV::CPP::Net::WebServerUpgradable>();
+			static_cast<InspectorIo*>(io)->ThreadMain<RadJAV::CPP::Net::WebServer>();
 		}
 
 		template <typename Transport>
@@ -434,7 +434,8 @@ namespace RadJAV
 			{
 				v8_inspector::StringView v((const uint8_t*)message.c_str(), message.length());
 				printf("       from: %s\n", message.c_str());
-				this->io_->server_->send(this->getSessionID(), message);
+				//TODO: Add implementation using WebConnection
+				//this->io_->server_->send(this->getSessionID(), message);
 			}
 		}
 

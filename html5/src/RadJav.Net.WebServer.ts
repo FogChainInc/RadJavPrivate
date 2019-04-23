@@ -27,27 +27,60 @@ namespace RadJav
 		/// Web server
 		export class WebServer
 		{
-			/** @property {Number} [port=80]
+			/** @property {string} [_address=0.0.0.0]
+			* The address.
+			*/
+			private _address: string;
+
+			/** @property {number} [_port=80]
 			* The port.
 			*/
-			port: Number;
-			/** @property {Number} [_serverType=RadJav.Net.WebServerTypes.HTTP]
+			private _port: number;
+
+			/** @property {number} [_type=RadJav.Net.WebServerTypes.HTTP]
 			* The server type.
 			*/
-			_serverType: RadJav.Net.WebServerTypes;
-			/** @property {Mixed} [_webServer=null]
+			private _type: RadJav.Net.WebServerTypes;
+			
+			/** @property {Mixed} [_appObj=null]
 			* The native web server.
 			*/
-			_webServer: any;
+			private _appObj: any;
 
-			constructor ()
+			constructor (type: RadJav.Net.WebServerTypes = RadJav.Net.WebServerTypes.HTTP)
 			{
-				this.port = 80;
-				this._serverType = RadJav.Net.WebServerTypes.HTTP;
-				this._webServer = null;
+				this._type = type;
+				this._appObj = null;
 				
-				if ((<any>this)._init != null)
-					(<any>this)._init ();
+				if(this["_init"] != null)
+					this["_init"].apply(this, arguments);
+			}
+
+			start (address: string = "0.0.0.0", port: number = 80): void
+			{
+				this._address = address;
+				this._port = port;
+
+				if(this["_start"] != null)
+				{
+					this["_start"].apply(this, arguments);
+				}
+			}
+
+			stop (): void
+			{
+				if (this["_stop"] != null)
+				{
+					this["_stop"].apply(this, arguments);
+				}
+			}
+
+			on (event: string, func: Function): void
+			{
+				if (this["_on"] != null)
+				{
+					this["_on"].apply(this, arguments);
+				}
 			}
 		}
 
@@ -55,6 +88,66 @@ namespace RadJav
 		{
 			HTTP = 1, 
 			HTTPS = 2
+		}
+
+		export class WebServerResponse
+		{
+            httpVersionMajor: number;
+
+            httpVersionMinor: number;
+
+			statusCode: number;
+
+            statusMessage: string;
+
+			headers: object;
+
+            payload: ArrayBuffer | string;
+
+			setHttpVersion (major: number, minor: number)
+			{
+				this.httpVersionMajor = major;
+				this.httpVersionMinor = minor;
+			}
+
+			setStatus (status: number, statusMessage?: string)
+			{
+				this.statusCode = status;
+
+				if (statusMessage != null)
+					this.statusMessage = statusMessage;
+			}
+
+			setHeader (headerName: string, headerValue: string | Array<string>)
+			{
+				this.headers[headerName] = headerValue;
+			}
+
+			setHeaders (headers: Object)
+			{
+				for (let property in headers)
+				{
+					if (headers.hasOwnProperty(property))
+					{
+						this.headers[property] = headers[property];
+					}
+				}
+			}
+
+			setPayload (data: string | ArrayBuffer)
+			{
+				this.payload = data;
+			}
+
+            constructor()
+            {
+				this.httpVersionMajor = 1;
+				this.httpVersionMinor = 0;
+                this.statusCode = 0;
+                this.statusMessage = "";
+                this.headers = {};
+				this.payload = "";
+            }
 		}
 	}
 }

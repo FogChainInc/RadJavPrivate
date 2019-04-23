@@ -22,28 +22,14 @@
 
 	#include "RadJavPreprocessor.h"
 
-	#include <boost/beast/core.hpp>
-	#include <boost/beast/http.hpp>
-	#include <boost/beast/version.hpp>
-	#include <boost/asio.hpp>
-	#include <boost/asio/bind_executor.hpp>
-	#include <boost/asio/ip/tcp.hpp>
-	#include <boost/asio/strand.hpp>
-	#include <boost/config.hpp>
-	//#include <boost/filesystem.hpp>
-
-	#include <string>
-
-	#include "RadJav.h"
 	#include "RadJavString.h"
-	#include "RadJavHashMap.h"
-	#include "RadJavThread.h"
-	#include "cpp/RadJavCPPChainedPtr.h"
+	#include "cpp/RadJavCPPEvent.h"
 
+	#include <boost/beast/http.hpp>
 
-	namespace ip = boost::asio::ip;
-	using tcp = boost::asio::ip::tcp;
-	namespace http = boost::beast::http;
+	#include <functional>
+	#include <memory>
+	#include <vector>
 
 	namespace RadJAV
 	{
@@ -51,67 +37,124 @@
 		{
 			namespace Net
 			{
+				class HttpConnectionListener;
+				class HttpConnection;
+
 				/**
 				 * @ingroup group_net_cpp
-				 * @brief WebServer class.
-				 * @details Accepts incoming connections and launches the sessions.
+				 * @brief WebServer that handle HTTP requests and has the ability to notify on WebSocket
+				 * connections
 				 */
-				class RADJAV_EXPORT WebServer : public std::enable_shared_from_this<WebServer>, public ChainedPtr
+				class RADJAV_EXPORT WebServer: public Events
 				{
 					public:
-						WebServer();
-						~WebServer();
-
-						/// Listen for any incoming connections. Default 0 port will use port member value instead of wildcard
-						void listen(RJINT port = 0);
-
 						#ifdef USE_V8
-							/// Serve any GET or POST requests.
-							void serve(v8::Local<v8::Function> function);
-							/// The V8 serve function.
-							v8::Persistent<v8::Function> *servePersistent;
+							WebServer(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
 						#elif defined USE_JAVASCRIPTCORE
-							/// Serve any GET or POST requests.
-							void serve(JSObjectRef function);
-							/// The V8 serve function.
-							JSObjectRef servePersistent;
+							WebServer(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[]);
 						#endif
 
-						/// Stop the web server.
+						/**
+						 * @brief A constructor
+						 * @param[in] maxPendingConnections maximum size of queue of pending connections. Negative for unlimited size.
+						 * @param[in] networkManager network manager to be used for handling contexts
+						 */
+						WebServer(int maxPendingConnections, NetworkManager& networkManager);
+
+						/**
+						 * @brief A destructor
+						 * @details All active connections will be closed gracefully except WebSocket connections
+						 * ownership of which transferred to the user
+						 */
+						~WebServer();
+
+						/**
+						 * @brief Start listening for connections and process requests
+						 * @param[in] address address on which listener will be bound
+						 * @param[in] port port on which listener will be bound
+						 */
+						void start(const std::string& address, unsigned short port);
+
+						/**
+						 * @brief Stop the webserver and close all active HTTP connections
+						 */
 						void stop();
 
-						/// The port.
-						RJINT port;
-						/// The server type.
-						RJINT serverType;
-						/// Flag that indicates if listening context available 
-						RJBOOL isAlive;
+						/**
+						 * @brief Callback for processing HTTP requests
+						 * @details If user will not fill the response then server will respond with 400 error message to the client
+						 * automatically
+						 */
+						void onProcess(const std::function<void(const boost::beast::http::request<boost::beast::http::string_body>&,
+																boost::beast::http::response<boost::beast::http::string_body>&)>& func);
+
+						/**
+						 * @brief Callback for handling WebSocket upgrade request
+						 * @details To make a WebSocketConnection from HttpConnection user can use WebSocketConnection::handleUpgrade method
+						 * @note If user will not create a WebSocketConnection server will automatically reply with 400 error message to the client
+						 */
+						void onUpgrade(const std::function<void(HttpConnection&,
+																const boost::beast::http::request<boost::beast::http::string_body>&)>& func);
+					
+						/**
+						 * @brief Callback for handling when WebServer has been stopped
+						 */
+						void onStop(const std::function<void(void)>& func);
+					
+						/**
+						 * @brief Callback for handling the error
+						 */
+						void onError(const std::function<void(int, const std::string&)>& func);
+					
+						/**
+						 * @brief Register Javascript callback
+						 * @details Set the Javascript handler function for specific notification
+						 * @param[in] event name of the event. Can be "process", "upgrade", "error" and "stop"
+						 * @param[in] func Javascript callback function
+						 */
+						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+							void on(String event, RJ_FUNC_TYPE func);
+						#endif
 
 					private:
-						void run();
-						void do_accept();
-						void on_accept(boost::system::error_code ec);
+						void removeClient(const HttpConnection& connection);
+					
+						void onListenerNewConnectionCallback(std::shared_ptr<HttpConnection> connection);
+						void onListenerStopCallback();
+						void onListenerErrorCallback(int errorCode, const std::string& description);
+					
+						void onHttpProcessCallback(HttpConnection& connection,
+												   const boost::beast::http::request<boost::beast::http::string_body>& request,
+												   boost::beast::http::response<boost::beast::http::string_body>& response);
+					
+						void onHttpUpgradeCallback(HttpConnection& connection,
+												   const boost::beast::http::request<boost::beast::http::string_body>& request);
+					
+						void onHttpUpgradedCallback(HttpConnection& connection);
+						void onHttpCloseCallback(HttpConnection& connection);
+						void onHttpErrorCallback(HttpConnection& connection,
+												 int errorCode, const std::string& description);
 
-						boost::asio::ip::address address;
-						boost::asio::io_context ioc;
-						tcp::acceptor acceptor;
-						tcp::socket socket;
-
-						SimpleThread *thread;
-				};
-
-				/**
-				 * @ingroup group_net_cpp
-				 * @brief WebServerTypes class.
-				 * @details Web server types.
-				 */
-				enum RADJAV_EXPORT WebServerTypes
-				{
-					HTTP = 1, 
-					HTTPS = 2
+					private:
+						std::function<void(const boost::beast::http::request<boost::beast::http::string_body>&,
+										   boost::beast::http::response<boost::beast::http::string_body>&)> _onProcess;
+					
+						std::function<void(HttpConnection&,
+										   const boost::beast::http::request<boost::beast::http::string_body>&)> _onUpgrade;
+						
+						std::function<void(void)> _onStop;
+						std::function<void(int, const std::string&)> _onError;
+					
+						NetworkManager& _networkManager;
+						std::string _address;
+						unsigned short _port;
+						int _maxPendingConnections;
+					
+						std::weak_ptr<HttpConnectionListener> _listener;
+						std::vector<std::shared_ptr<HttpConnection>> _clients;
 				};
 			}
 		}
 	}
-#endif
 
+#endif // _RADJAV_CPP_NET_WEBSERVER_H_

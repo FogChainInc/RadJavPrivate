@@ -25,7 +25,7 @@
 #include "v8/RadJavV8JavascriptEngine.h"
 
 #include "cpp/RadJavCPPNetWebSocketServer.h"
-#include "cpp/RadJavCPPNetWebSocketClient.h"
+#include "cpp/RadJavCPPNetWebSocketConnection.h"
 
 #include "cpp/RadJavCPPNet.h"
 
@@ -35,7 +35,7 @@ namespace RadJAV
 	{
 		namespace Net
 		{
-			using CppWebSocketClient = CPP::Net::WebSocketClient;
+			using CppWebSocketConnection = CPP::Net::WebSocketConnection;
 			using CppWebSocketServer = CPP::Net::WebSocketServer;
 
 			void WebSocketServer::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
@@ -184,49 +184,82 @@ namespace RadJAV
 				webSocket->on(event, func);
 			}
 
-			void WebSocketClient::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
+			void WebSocketConnection::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 			{
-				std::shared_ptr<CppWebSocketClient> webSocket(RJNEW CppWebSocketClient(V8_JAVASCRIPT_ENGINE, args),
-															  [](CppWebSocketClient* p) {
-																  DELETEOBJ(p);
-															  });
+				V8_CALLBACK(object, "_init", WebSocketConnection::init);
 
-				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_webSocket", webSocket);
+				V8_CALLBACK(object, "_connect", WebSocketConnection::connect);
+				V8_CALLBACK(object, "_send", WebSocketConnection::send);
+				V8_CALLBACK(object, "_close", WebSocketConnection::close);
+				V8_CALLBACK(object, "_on", WebSocketConnection::on);
 			}
 
-			void WebSocketClient::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
+			void WebSocketConnection::init(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				V8_CALLBACK(object, "_init", WebSocketClient::_init);
+				std::shared_ptr<CppWebSocketConnection> webSocket;
+				
+				if (args.Length() >= 2 &&
+					args[0]->IsObject() &&
+					args[1]->IsObject())
+				{
+					auto httpConnectionObj = v8::Local<v8::Object>::Cast(args[0]);
+					auto httpRequestObj = v8::Local<v8::Object>::Cast(args[1]);
+					
+					auto httpConnection = V8_JAVASCRIPT_ENGINE->v8GetExternal<CPP::Net::HttpConnection>(httpConnectionObj, "_appObj");
+					auto httpRequest = V8_JAVASCRIPT_ENGINE->v8GetExternal<boost::beast::http::request<boost::beast::http::string_body>>(httpRequestObj, "_appObj");
 
-				V8_CALLBACK(object, "connect", WebSocketClient::connect);
-				V8_CALLBACK(object, "send", WebSocketClient::send);
-				V8_CALLBACK(object, "close", WebSocketClient::close);
-				V8_CALLBACK(object, "on", WebSocketClient::on);
+					if (httpConnection && httpRequest)
+					{
+						auto webSocketConnection = CppWebSocketConnection::handleUpgrade(httpConnection.get(), *httpRequest.get());
+						if (webSocketConnection)
+						{
+							webSocket.reset( webSocketConnection,
+											[](CppWebSocketConnection* p) {
+												DELETEOBJ(p);
+											});
+						}
+					}
+
+					if (!webSocket)
+					{
+						V8_JAVASCRIPT_ENGINE->throwException("Unable to handle WebSocket upgrade");
+						return;
+					}
+				}
+				else
+				{
+					webSocket.reset(RJNEW CppWebSocketConnection(V8_JAVASCRIPT_ENGINE, args),
+									[](CppWebSocketConnection* p) {
+										DELETEOBJ(p);
+									});
+				}
+				
+				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_appObj", webSocket);
 			}
-
-			void WebSocketClient::connect(const v8::FunctionCallbackInfo<v8::Value> &args)
+			
+			void WebSocketConnection::connect(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				String url = V8_JAVASCRIPT_ENGINE->v8GetString (args.This (), "url");
 				RadJAV::CPP::Net::URI uri = RadJAV::CPP::Net::URI::parse(url);
 
-				std::shared_ptr<CppWebSocketClient> webSocket = V8_JAVASCRIPT_ENGINE->v8GetExternal<CppWebSocketClient>(args.This(), "_webSocket");
+				std::shared_ptr<CppWebSocketConnection> webSocket = V8_JAVASCRIPT_ENGINE->v8GetExternal<CppWebSocketConnection>(args.This(), "_appObj");
 				
 				if (!webSocket)
 				{
-					V8_JAVASCRIPT_ENGINE->throwException("WebSocketClient not initialized");
+					V8_JAVASCRIPT_ENGINE->throwException("WebSocketConnection not initialized");
 					return;
 				}
 				
 				webSocket->connect(url);
 			}
 
-			void WebSocketClient::send(const v8::FunctionCallbackInfo<v8::Value> &args)
+			void WebSocketConnection::send(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				std::shared_ptr<CppWebSocketClient> webSocket = V8_JAVASCRIPT_ENGINE->v8GetExternal<CppWebSocketClient>(args.This(), "_webSocket");
+				std::shared_ptr<CppWebSocketConnection> webSocket = V8_JAVASCRIPT_ENGINE->v8GetExternal<CppWebSocketConnection>(args.This(), "_appObj");
 				
 				if (!webSocket)
 				{
-					V8_JAVASCRIPT_ENGINE->throwException("WebSocketClient not initialized");
+					V8_JAVASCRIPT_ENGINE->throwException("WebSocketConnection not initialized");
 					return;
 				}
 				
@@ -260,26 +293,26 @@ namespace RadJAV
 				}
 			}
 
-			void WebSocketClient::close(const v8::FunctionCallbackInfo<v8::Value> &args)
+			void WebSocketConnection::close(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				std::shared_ptr<CppWebSocketClient> webSocket = V8_JAVASCRIPT_ENGINE->v8GetExternal<CppWebSocketClient>(args.This(), "_webSocket");
+				std::shared_ptr<CppWebSocketConnection> webSocket = V8_JAVASCRIPT_ENGINE->v8GetExternal<CppWebSocketConnection>(args.This(), "_appObj");
 
 				if (!webSocket)
 				{
-					V8_JAVASCRIPT_ENGINE->throwException("WebSocketClient not initialized");
+					V8_JAVASCRIPT_ENGINE->throwException("WebSocketConnection not initialized");
 					return;
 				}
 				
 				webSocket->close();
 			}
 
-			void WebSocketClient::on(const v8::FunctionCallbackInfo<v8::Value> &args)
+			void WebSocketConnection::on(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				std::shared_ptr<CppWebSocketClient> webSocket = V8_JAVASCRIPT_ENGINE->v8GetExternal<CppWebSocketClient>(args.This(), "_webSocket");
+				std::shared_ptr<CppWebSocketConnection> webSocket = V8_JAVASCRIPT_ENGINE->v8GetExternal<CppWebSocketConnection>(args.This(), "_appObj");
 				
 				if (!webSocket)
 				{
-					V8_JAVASCRIPT_ENGINE->throwException("WebSocketClient not initialized");
+					V8_JAVASCRIPT_ENGINE->throwException("WebSocketConnection not initialized");
 					return;
 				}
 				

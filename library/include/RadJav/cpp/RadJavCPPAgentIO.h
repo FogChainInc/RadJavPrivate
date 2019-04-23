@@ -38,7 +38,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace RadJAV {
 	namespace CPP {
 		namespace Net {
-			class WebServerUpgradable;
+			class WebServer;
 		}
 	}
 }
@@ -423,7 +423,7 @@ namespace RadJAV
 			/**
 			 * @brief underlying upgradable web server pointer
 			 */
-			RadJAV::CPP::Net::WebServerUpgradable* server_;
+			RadJAV::CPP::Net::WebServer* server_;
 
 		private:
 			/**

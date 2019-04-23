@@ -25,12 +25,17 @@
 	#include <v8.h>
 	#include <v8-inspector.h>
 
+	#include <boost/beast/http/message.hpp>
+	#include <boost/beast/http/string_body.hpp>
+
 	#include "RadJavString.h"
 	#include "RadJavArray.h"
 	#include "RadJavHashMap.h"
+	#include "cpp/RadJavCPPNetNetworkManager.h"
 
 	#include <queue>
 	#include <mutex>
+	#include <thread>
 
 
 	namespace RadJAV
@@ -39,7 +44,9 @@
 		{
 			namespace Net
 			{
-				class WebServerUpgradable;
+				class WebServer;
+				class HttpConnection;
+				class WebSocketConnection;
 			}
 		}
 
@@ -114,7 +121,11 @@
 				 * @details It will block until all control messages processed between Backend and Frontend(CDT).
 				 */
 				void waitForConnection();
-				void pauseOnStart();
+			
+				/**
+				 * @brief Schedule pause on next statement while executing script
+				 */
+				void pauseOnNextStatement();
 			
 				/**
 				 * @brief Process CDT(Frontend) requests on main thread
@@ -124,6 +135,19 @@
 				void dispatchFrontendMessages();
 			
 			protected:
+				void onServerProcessCallback(const boost::beast::http::request<boost::beast::http::string_body>& request,
+											 boost::beast::http::response<boost::beast::http::string_body>& response);
+				void onServerUpgradeCallback(CPP::Net::HttpConnection& connection,
+											 const boost::beast::http::request<boost::beast::http::string_body>& request);
+				void onServerStopCallback();
+				void onServerErrorCallback(int errorCode, const std::string& description);
+			
+				void onWebSocketOpenCallback();
+				void onWebSocketMessageCallback(const std::string& data);
+				void onWebSocketMessageBinaryCallback(const unsigned char* data, std::size_t size);
+				void onWebSocketErrorCallback(int ec, const std::string& description);
+				void onWebSocketCloseCallback();
+
 				// From V8InspectorClient
 				void runMessageLoopOnPause(int contextGroupId);
 				void quitMessageLoopOnPause();
@@ -161,13 +185,16 @@
 
 			protected:
 				RJBOOL isPaused;
-				CPP::Net::WebServerUpgradable *server;
+				CPP::Net::WebServer *server;
+				CPP::Net::NetworkManager networkManager;
+				CPP::Net::WebSocketConnection *webSocketConnection;
 				v8::Isolate *isolate;
 				v8::Local<v8::Context> context;
 				std::unique_ptr<v8_inspector::V8Inspector> inspector;
 				std::unique_ptr<v8_inspector::V8InspectorSession> session;
 				V8InspectorChannel *channel;
 				FrontEndMessageQueue frontendPendingMessages;
+				std::thread networkThread;
 				bool ready;
 		};
 
@@ -175,7 +202,7 @@
 		class RADJAV_EXPORT V8InspectorChannel: public v8_inspector::V8Inspector::Channel
 		{
 			public:
-				V8InspectorChannel(CPP::Net::WebServerUpgradable *server, String clientId);
+				V8InspectorChannel(CPP::Net::WebSocketConnection &server);
 				~V8InspectorChannel();
 
 				void sendResponse(int callId, std::unique_ptr<v8_inspector::StringBuffer> message) override;
@@ -186,8 +213,7 @@
 				void sendMessage(const v8_inspector::StringView &message);
 
 			protected:
-				CPP::Net::WebServerUpgradable *server;
-				String clientId;
+				CPP::Net::WebSocketConnection& client;
 		};
 	}
 #endif

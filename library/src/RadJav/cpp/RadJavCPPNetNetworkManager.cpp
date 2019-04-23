@@ -44,40 +44,53 @@ namespace RadJAV
 				//Wait until all operations has been finished
 				while(run_one());
 					
-				while (_contextsInfo.size())
+				while (_activeContexts.size())
 				{
-					auto contextInfo = _contextsInfo.begin();
+					auto contextInfo = _activeContexts.begin();
 					DELETEOBJ(*contextInfo);
-					_contextsInfo.erase(contextInfo);
+					_activeContexts.erase(contextInfo);
+				}
+
+				while (_inactiveContexts.size())
+				{
+					auto contextInfo = _inactiveContexts.begin();
+					DELETEOBJ(*contextInfo);
+					_inactiveContexts.erase(contextInfo);
 				}
 			}
 			
 			bool NetworkManager::run_one()
 			{
-				bool requireMoreProcessing = false;
+				ContextsInfo contextsToProcess = _activeContexts;
 				
-				for(auto contextInfo: _contextsInfo)
+				for(auto contextInfo : contextsToProcess)
 				{
 					const bool contextStopped = contextInfo->_context.stopped();
-					const bool contextActive = contextInfo->_active;
-
-					if (contextStopped && !contextActive)
-						continue;
-						
-					if (contextStopped && contextActive)
-						contextInfo->_context.restart();
+					
+					if (contextStopped)
+					{
+						if (contextInfo->_requireRestart)
+						{
+							contextInfo->_context.restart();
+							contextInfo->_requireRestart = false;
+						}
+						else
+						{
+							auto stoppedContext = std::find(_activeContexts.begin(), _activeContexts.end(), contextInfo);
+							if (stoppedContext != _activeContexts.end())
+							{
+								_inactiveContexts.push_back(*stoppedContext);
+								_activeContexts.erase(stoppedContext);
+							}
+							
+							continue;
+						}
+					}
 					
 					// Process outstanding operations
 					try
 					{
-						const bool hasPendingOperations = contextInfo->_context.run_one() > 0;
-						if (!hasPendingOperations)
-						{
-							contextInfo->_active = false;
-							contextInfo->_jobs = 0;
-						}
-						
-						requireMoreProcessing |= hasPendingOperations;
+						contextInfo->_context.poll_one();
 					}
 					catch (boost::system::system_error error)
 					{
@@ -85,44 +98,99 @@ namespace RadJAV
 					}
 				}
 				
-				return requireMoreProcessing;
+				return !_activeContexts.empty();
 			}
 			
 			boost::asio::io_context& NetworkManager::getContext()
 			{
 				// Check if we run out of maximum allowed threads
-				if (_contextsInfo.size() >= MaxNetworkThreads)
+				std::size_t contextsSize = _activeContexts.size() + _inactiveContexts.size();
+				if (contextsSize < MaxNetworkThreads)
 				{
-					auto relaxedContext = std::min_element(_contextsInfo.begin(),
-														   _contextsInfo.end(),
-														   [](ContextInfo* a, ContextInfo* b)-> bool {
-															   return a->_jobs < b->_jobs;
-														   });
+					auto newContext = RJNEW ContextInfo();
 					
-					(*relaxedContext)->_active = true;
-					(*relaxedContext)->_jobs++;
+					_inactiveContexts.push_back(newContext);
+					
+					return newContext->_context;
+				}
 
-					return (*relaxedContext)->_context;
+				ContextInfo* relaxedContext = nullptr;
+				
+				if (!_inactiveContexts.empty())
+				{
+					auto ctx = std::min_element(_inactiveContexts.begin(),
+												_inactiveContexts.end(),
+												[](ContextInfo* a, ContextInfo* b)-> bool {
+													return a->_jobs < b->_jobs;
+												});
+					relaxedContext = *ctx;
+				}
+				else
+				{
+					auto ctx = std::min_element(_activeContexts.begin(),
+												_activeContexts.end(),
+												[](ContextInfo* a, ContextInfo* b)-> bool {
+													return a->_jobs < b->_jobs;
+												});
+					relaxedContext = *ctx;
 				}
 				
-				auto contextInfo = RJNEW ContextInfo();
-				contextInfo->_active = true;
-				contextInfo->_jobs = 1;
-
-				_contextsInfo.push_back(contextInfo);
-				
-				return contextInfo->_context;
+				return relaxedContext->_context;
 			}
 			
-			void NetworkManager::contextReleased(boost::asio::io_context& context)
+			void NetworkManager::activateContext(boost::asio::io_context& context)
 			{
-				auto contextInfo = std::find_if(_contextsInfo.begin(), _contextsInfo.end(), [&](ContextInfo* ctx)->bool {
+				auto inactiveContext = std::find_if(_inactiveContexts.begin(), _inactiveContexts.end(), [&](ContextInfo* ctx)->bool {
 					return &context == &ctx->_context;
 				});
 				
-				if (contextInfo != _contextsInfo.end())
+				if (inactiveContext != _inactiveContexts.end())
 				{
-					unsigned int& jobs = (*contextInfo)->_jobs;
+					if ((*inactiveContext)->_context.stopped())
+						(*inactiveContext)->_requireRestart = true;
+					
+					_activeContexts.push_back(*inactiveContext);
+					_inactiveContexts.erase(inactiveContext);
+					return;
+				}
+				
+				auto activeContext = std::find_if(_activeContexts.begin(), _activeContexts.end(), [&](ContextInfo* ctx)->bool {
+					return &context == &ctx->_context;
+				});
+				
+				if (activeContext != _activeContexts.end())
+				{
+					(*activeContext)->_jobs++;
+				}
+			}
+
+			void NetworkManager::contextReleased(boost::asio::io_context& context)
+			{
+				auto inactiveContext = std::find_if(_inactiveContexts.begin(),
+													_inactiveContexts.end(),
+													[&](ContextInfo* ctx)->bool {
+														return &context == &ctx->_context;
+													});
+
+				if (inactiveContext != _inactiveContexts.end())
+				{
+					unsigned int& jobs = (*inactiveContext)->_jobs;
+					
+					if (jobs > 0)
+						jobs--;
+					
+					return;
+				}
+
+				auto activeContext = std::find_if(_activeContexts.begin(),
+												  _activeContexts.end(),
+												  [&](ContextInfo* ctx)->bool {
+													  return &context == &ctx->_context;
+												  });
+
+				if (activeContext != _activeContexts.end())
+				{
+					unsigned int& jobs = (*activeContext)->_jobs;
 					
 					if (jobs > 0)
 						jobs--;

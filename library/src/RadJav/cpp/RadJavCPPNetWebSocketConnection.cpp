@@ -17,21 +17,15 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#include "cpp/RadJavCPPNetWebSocketClient.h"
+#include "cpp/RadJavCPPNetWebSocketConnection.h"
 
 #include "RadJav.h"
 #include "RadJavString.h"
-#include "cpp/RadJavCPPNet.h"
 #include "cpp/RadJavCPPNetNetworkManager.h"
+#include "cpp/RadJavCPPNetHttpConnection.h"
 
-#include <boost/beast/core.hpp>
 #include <boost/beast/websocket.hpp>
-#include <boost/asio/connect.hpp>
-#include <boost/asio/ip/tcp.hpp>
-#include <cstdlib>
-#include <functional>
-#include <memory>
-#include <string>
+
 #include <queue>
 
 
@@ -41,7 +35,7 @@ namespace RadJAV
 	{
 		namespace Net
 		{
-			class WebSocketClientImpl : public std::enable_shared_from_this<WebSocketClientImpl>
+			class WebSocketConnectionImpl : public std::enable_shared_from_this<WebSocketConnectionImpl>
 			{
 				enum class State
 				{
@@ -54,17 +48,35 @@ namespace RadJAV
 					ClosingDueToError
 				};
 			public:
-				WebSocketClientImpl(boost::asio::io_context& context)
-				: _context(context)
-				, _resolver(context)
-				, _webSocket(context)
+				WebSocketConnectionImpl(NetworkManager& networkManager)
+				: _networkManager(networkManager)
+				, _context(_networkManager.getContext())
+				, _resolver(_context)
+				, _webSocket(_context)
 				, _state(State::Idle)
 				{
 				}
 				
-				boost::asio::io_context& getContext()
+				WebSocketConnectionImpl(NetworkManager& networkManager,
+										boost::asio::ip::tcp::socket&& socket)
+				: _networkManager(networkManager)
+				, _context(socket.get_io_context())
+				, _resolver(_context)
+				, _webSocket(std::move(socket))
+				, _state(State::Idle)
 				{
-					return _context;
+				}
+
+				~WebSocketConnectionImpl()
+				{
+					if (_errorCode.value())
+					{
+						notifyOnError(_errorCode);
+					}
+					else
+					{
+						notifyOnClosed();
+					}
 				}
 				
 				void connect(const std::string& host,
@@ -80,14 +92,32 @@ namespace RadJAV
 					
 					_resolver.async_resolve(_host,
 											_port,
-											std::bind(&WebSocketClientImpl::internalOnResolve,
+											std::bind(&WebSocketConnectionImpl::internalOnResolve,
 													  shared_from_this(),
 													  std::placeholders::_1,
 													  std::placeholders::_2));
 					
 					_state = State::ResolvingHost;
+					
+					_networkManager.activateContext(_context);
 				}
 				
+				void accept(const http::request<http::string_body>& request)
+				{
+					if (_state != State::Idle)
+						return;
+					
+					_upgradeRequest = request;
+					_webSocket.async_accept(_upgradeRequest,
+											std::bind(&WebSocketConnectionImpl::internalOnHandshake,
+													  shared_from_this(),
+													  std::placeholders::_1));
+
+					_state = State::Handshaking;
+					
+					_networkManager.activateContext(_context);
+				}
+
 				void send(const std::string& data)
 				{
 					if (_state != State::Active)
@@ -106,7 +136,7 @@ namespace RadJAV
 						
 						// Send the message
 						_webSocket.async_write(boost::asio::buffer(std::get<0>(_outMessages.front())),
-											   std::bind(&WebSocketClientImpl::internalOnWrite,
+											   std::bind(&WebSocketConnectionImpl::internalOnWrite,
 														 shared_from_this(),
 														 std::placeholders::_1,
 														 std::placeholders::_2));
@@ -131,7 +161,7 @@ namespace RadJAV
 						
 						// Send the message
 						_webSocket.async_write(boost::asio::buffer(std::get<0>(_outMessages.front())),
-											   std::bind(&WebSocketClientImpl::internalOnWrite,
+											   std::bind(&WebSocketConnectionImpl::internalOnWrite,
 														 shared_from_this(),
 														 std::placeholders::_1,
 														 std::placeholders::_2));
@@ -157,7 +187,7 @@ namespace RadJAV
 					
 					// Close the WebSocket connection
 					_webSocket.async_close(boost::beast::websocket::close_code::normal,
-										   std::bind(&WebSocketClientImpl::internalOnClose,
+										   std::bind(&WebSocketConnectionImpl::internalOnClose,
 													 shared_from_this(),
 													 std::placeholders::_1));
 
@@ -186,18 +216,39 @@ namespace RadJAV
 					_onError = func;
 				}
 				
+				void setAutoFragmentMessages(bool autoFragment)
+				{
+					_webSocket.auto_fragment(autoFragment);
+				}
+				
+				bool getAutoFragmentMessages() const
+				{
+					return _webSocket.auto_fragment();
+				}
+				
+				void clearCallbacks()
+				{
+					_onConnected = nullptr;
+					_onRead = nullptr;
+					_onReadBinary = nullptr;
+					_onError = nullptr;
+					_onClosed = nullptr;
+				}
+				
 			protected:
 				void close(boost::system::error_code ec)
 				{
+					if (_errorCode.value() ||
+						_state == State::Closing)
+						return;
+					
 					_errorCode = ec;
 					
 					switch(_state)
 					{
 						case State::ResolvingHost:
 						{
-							if (_onError)
-								_onError(_errorCode.value(), _errorCode.message());
-							_state = State::Idle;
+							_state = State::ClosingDueToError;
 							return;
 						}
 						default:;
@@ -205,7 +256,7 @@ namespace RadJAV
 					
 					// Close the WebSocket connection
 					_webSocket.async_close(boost::beast::websocket::close_code::normal,
-										   std::bind(&WebSocketClientImpl::internalOnClose,
+										   std::bind(&WebSocketConnectionImpl::internalOnClose,
 													 shared_from_this(),
 													 std::placeholders::_1));
 
@@ -217,17 +268,8 @@ namespace RadJAV
 				{
 					if(ec)
 					{
-						if (_state == State::Closing)
-						{
-							_state = State::Idle;
-							if (_onClosed)
-								_onClosed();
-						}
-						else if (_state != State::ClosingDueToError)
-						{
-							close(ec);
-							return;
-						}
+						close(ec);
+						return;
 					}
 					
 					// Make the connection on the IP address we get from a lookup
@@ -235,7 +277,7 @@ namespace RadJAV
 											   results.begin(),
 											   results.end(),
 											   std::bind(
-														 &WebSocketClientImpl::internalOnConnect,
+														 &WebSocketConnectionImpl::internalOnConnect,
 														 shared_from_this(),
 														 std::placeholders::_1));
 					
@@ -246,18 +288,14 @@ namespace RadJAV
 				{
 					if(ec)
 					{
-						if (_state != State::Closing &&
-							_state != State::ClosingDueToError)
-						{
-							close(ec);
-							return;
-						}
+						close(ec);
+						return;
 					}
 					
 					// Perform the websocket handshake
 					_webSocket.async_handshake(_host, _resource,
 											   std::bind(
-														 &WebSocketClientImpl::internalOnHandshake,
+														 &WebSocketConnectionImpl::internalOnHandshake,
 														 shared_from_this(),
 														 std::placeholders::_1));
 
@@ -266,28 +304,25 @@ namespace RadJAV
 				
 				void internalOnHandshake(boost::system::error_code ec)
 				{
+					_upgradeRequest = {};
+					
 					if(ec)
 					{
-						if (_state != State::Closing &&
-							_state != State::ClosingDueToError)
-						{
-							close(ec);
-							return;
-						}
+						close(ec);
+						return;
 					}
 					
 					// Read a message into our buffer
 					_webSocket.async_read(_buffer,
 										  std::bind(
-													&WebSocketClientImpl::internalOnRead,
+													&WebSocketConnectionImpl::internalOnRead,
 													shared_from_this(),
 													std::placeholders::_1,
 													std::placeholders::_2));
 
 					_state = State::Active;
 					
-					if (_onConnected)
-						_onConnected();
+					notifyOnConnected();
 				}
 				
 				void internalOnWrite(boost::system::error_code ec,
@@ -295,15 +330,8 @@ namespace RadJAV
 				{
 					if(ec)
 					{
-						namespace error = boost::asio::error;
-						if(ec != error::make_error_code(error::operation_aborted))
-						{
-							if (_state != State::Closing &&
-								_state != State::ClosingDueToError)
-							{
-								close(ec);
-							}
-						}
+						close(ec);
+						return;
 					}
 					
 					auto message = std::get<0>(_outMessages.front());
@@ -324,7 +352,7 @@ namespace RadJAV
 						
 						// Send next message or the rest of last message
 						_webSocket.async_write(boost::asio::buffer(std::get<0>(_outMessages.front())),
-											   std::bind(&WebSocketClientImpl::internalOnWrite,
+											   std::bind(&WebSocketConnectionImpl::internalOnWrite,
 														 shared_from_this(),
 														 std::placeholders::_1,
 														 std::placeholders::_2));
@@ -336,26 +364,13 @@ namespace RadJAV
 				{
 					if(ec)
 					{
-						namespace error = boost::asio::error;
-						if(ec == error::make_error_code(error::connection_reset))
-						{
-							close(ec);
-						}
-						else if(ec != error::make_error_code(error::operation_aborted))
-						{
-							if (_state != State::Closing &&
-								_state != State::ClosingDueToError)
-							{
-								close(ec);
-							}
-						}
+						close(ec);
 						return;
 					}
 					
 					if (_webSocket.got_text())
 					{
-						if (_onRead)
-							_onRead(boost::beast::buffers_to_string(_buffer.data()));
+						notifyOnRead(boost::beast::buffers_to_string(_buffer.data()));
 					}
 					else
 					{
@@ -369,7 +384,7 @@ namespace RadJAV
 								offset += buffer.size();
 							}
 							
-							_onReadBinary(data, offset);
+							notifyOnReadBinary(data, offset);
 						}
 					}
 
@@ -378,7 +393,7 @@ namespace RadJAV
 					// Read a message into our buffer
 					_webSocket.async_read(_buffer,
 										  std::bind(
-													&WebSocketClientImpl::internalOnRead,
+													&WebSocketConnectionImpl::internalOnRead,
 													shared_from_this(),
 													std::placeholders::_1,
 													std::placeholders::_2));
@@ -393,26 +408,41 @@ namespace RadJAV
 					// queue of the same type
 					_outMessages = decltype(_outMessages){};
 					
-					// Not sure how to handle errors in that case
-					if(ec)
-					{
-						//if (_onError)
-						//	_onError(ec.value());
-					}
+					// Close notification will be done on destructor
+				}
+				
+				void notifyOnConnected()
+				{
+					if (_onConnected)
+						_onConnected();
+				}
+				
+				void notifyOnRead(const std::string& data)
+				{
+					if (_onRead)
+						_onRead(data);
+				}
+				
+				void notifyOnReadBinary(const unsigned char* data, std::size_t size)
+				{
+					if (_onReadBinary)
+						_onReadBinary(data, size);
+				}
+				
+				void notifyOnClosed()
+				{
+					_networkManager.contextReleased(_context);
 					
-					// If we get here then the connection is closed gracefully
-					if (_state == State::Closing)
-					{
-						_state = State::Idle;
-						if (_onClosed)
-							_onClosed();
-					}
-					else if (_state == State::ClosingDueToError)
-					{
-						_state = State::Idle;
-						if (_onError)
-							_onError(_errorCode.value(), _errorCode.message());
-					}
+					if (_onClosed)
+						_onClosed();
+				}
+				
+				void notifyOnError(const boost::system::error_code& errorCode)
+				{
+					_networkManager.contextReleased(_context);
+					
+					if (_onError)
+						_onError(errorCode.value(), errorCode.message());
 				}
 				
 			protected:
@@ -422,9 +452,11 @@ namespace RadJAV
 				std::function<void(const unsigned char*, std::size_t)> _onReadBinary;
 				std::function<void(int, const std::string&)> _onError;
 				
+				NetworkManager& _networkManager;
 				boost::asio::io_context& _context;
 				boost::asio::ip::tcp::resolver _resolver;
 				boost::beast::websocket::stream<boost::asio::ip::tcp::socket> _webSocket;
+				boost::beast::http::request<boost::beast::http::string_body> _upgradeRequest;
 				boost::beast::multi_buffer _buffer;
 				boost::system::error_code _errorCode;
 				std::queue<std::tuple<std::vector<unsigned char>, bool>> _outMessages;
@@ -435,29 +467,55 @@ namespace RadJAV
 			};
 
 			#ifdef USE_V8
-				WebSocketClient::WebSocketClient(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
-				: _impl(nullptr)
-				, _networkManager(*jsEngine->networkManager)
+				WebSocketConnection::WebSocketConnection(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
+				: _networkManager(*jsEngine->networkManager)
 				{
+					_autoFragmentMessages = true;
 				}
 			#elif defined USE_JAVASCRIPTCORE
-				WebSocketClient::WebSocketClient(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[])
-				: _impl(nullptr)
-				, _networkManager(*jsEngine->networkManager)
-				, _suppressCallbacks(false)
+				WebSocketConnection::WebSocketConnection(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[])
+				: _networkManager(*jsEngine->networkManager)
 				{
+					_autoFragmentMessages = true;
 				}
 			#endif
 
-			WebSocketClient::WebSocketClient(NetworkManager& networkManager)
-			: _impl(nullptr)
-			, _networkManager(networkManager)
+			WebSocketConnection::WebSocketConnection(NetworkManager& networkManager)
+			: _networkManager(networkManager)
 			{
+				_autoFragmentMessages = true;
 			}
 			
-			WebSocketClient::~WebSocketClient()
+			WebSocketConnection::WebSocketConnection(NetworkManager& networkManager,
+													 boost::asio::ip::tcp::socket&& socket,
+													 const http::request<http::string_body>& request)
+			: _networkManager(networkManager)
 			{
-				releaseImpl();
+				_autoFragmentMessages = true;
+				
+				auto impl = std::make_shared<WebSocketConnectionImpl>(_networkManager, std::move(socket));
+				_impl = impl;
+				
+				impl->onConnected(std::bind(&WebSocketConnection::onConnectedCallback, this));
+				impl->onRead(std::bind(&WebSocketConnection::onReadCallback, this, std::placeholders::_1),
+							 std::bind(&WebSocketConnection::onReadBinaryCallback, this, std::placeholders::_1,
+									   std::placeholders::_2));
+				impl->onError(std::bind(&WebSocketConnection::onErrorCallback, this, std::placeholders::_1, std::placeholders::_2));
+				impl->onClosed(std::bind(&WebSocketConnection::onClosedCallback, this));
+				
+				impl->setAutoFragmentMessages(_autoFragmentMessages);
+
+				impl->accept(request);
+			}
+
+			WebSocketConnection::~WebSocketConnection()
+			{
+				auto impl = _impl.lock();
+				if (impl)
+				{
+					impl->clearCallbacks();
+					impl->close();
+				}
 				
 				// Events designed mostly for GUI and they will be freed by GUI library
 				// but in our case where we are not relying on GUI here we need to remove events manually
@@ -467,130 +525,138 @@ namespace RadJAV
 				}
 			}
 			
-			void WebSocketClient::onOpen(std::function<void(void)> func)
+			WebSocketConnection* WebSocketConnection::handleUpgrade(HttpConnection* connection,
+																	const http::request<http::string_body>& request)
+			{
+				if (connection)
+				{
+					boost::asio::ip::tcp::socket* socket = connection->getSocket();
+					if (socket)
+					{
+						auto webSocketConnection = RJNEW WebSocketConnection(connection->getNetworkManager(),
+																			 std::move(*socket),
+																			 request);
+						connection->upgradeHandled();
+						return webSocketConnection;
+					}
+				}
+				
+				return nullptr;
+			}
+
+			void WebSocketConnection::onOpen(std::function<void(void)> func)
 			{
 				_onOpen = func;
 			}
 			
-			void WebSocketClient::onMessage(std::function<void(const std::string&)> func,
+			void WebSocketConnection::onMessage(std::function<void(const std::string&)> func,
 											std::function<void(const unsigned char*, std::size_t)> funcBinary)
 			{
 				_onMessage = func;
 				_onMessageBinary = funcBinary;
 			}
 			
-			void WebSocketClient::onClose(std::function<void(void)> func)
+			void WebSocketConnection::onClose(std::function<void(void)> func)
 			{
 				_onClose = func;
 			}
 			
-			void WebSocketClient::onError(std::function<void(int, const std::string&)> func)
+			void WebSocketConnection::onError(std::function<void(int, const std::string&)> func)
 			{
 				_onError = func;
 			}
 
-			void WebSocketClient::createImpl()
+			void WebSocketConnection::connect(const std::string& uri)
 			{
-				if (_impl)
-					return;
-				
-				_impl = std::make_shared<WebSocketClientImpl>(_networkManager.getContext());
-				
-				_impl->onConnected(std::bind(&WebSocketClient::onConnectedCallback, this));
-				_impl->onRead(std::bind(&WebSocketClient::onReadCallback, this, std::placeholders::_1),
-							  std::bind(&WebSocketClient::onReadBinaryCallback, this, std::placeholders::_1, std::placeholders::_2));
-				_impl->onError(std::bind(&WebSocketClient::onErrorCallback, this, std::placeholders::_1, std::placeholders::_2));
-				_impl->onClosed(std::bind(&WebSocketClient::onClosedCallback, this));
-			}
-
-			void WebSocketClient::releaseImpl()
-			{
-				if (_impl)
-				{
-					_impl->onConnected(nullptr);
-					_impl->onRead(nullptr, nullptr);
-					_impl->onError(nullptr);
-					_impl->onClosed(nullptr);
-					_impl = nullptr;
-				}
-			}
-
-			void WebSocketClient::connect(const std::string& uri)
-			{
-				if (_impl)
-					return;
-				
-				createImpl();
-
-				if (_impl)
-				{
-					_uri = URI::parse(uri);
-					_impl->connect(_uri.host, String::fromInt(_uri.port), _uri.resource);
-				}
+				_uri = URI::parse(uri);
+				connect(_uri.host, String::fromInt(_uri.port), _uri.resource);
 			}
 			
-			void WebSocketClient::connect(const std::string& host,
+			void WebSocketConnection::connect(const std::string& host,
 										  const std::string& port,
 										  const std::string& resource)
 			{
-				if (_impl)
+				if (_impl.lock())
 					return;
 				
-				createImpl();
+				auto impl = std::make_shared<WebSocketConnectionImpl>(_networkManager);
+				_impl = impl;
 				
-				if (_impl)
-				{
-					_uri.host = host;
-					_uri.port = parseInt(port);
-					_uri.resource = resource;
+				impl->onConnected(std::bind(&WebSocketConnection::onConnectedCallback, this));
+				impl->onRead(std::bind(&WebSocketConnection::onReadCallback, this, std::placeholders::_1),
+							 std::bind(&WebSocketConnection::onReadBinaryCallback, this, std::placeholders::_1, std::placeholders::_2));
+				impl->onError(std::bind(&WebSocketConnection::onErrorCallback, this, std::placeholders::_1, std::placeholders::_2));
+				impl->onClosed(std::bind(&WebSocketConnection::onClosedCallback, this));
+				impl->setAutoFragmentMessages(_autoFragmentMessages);
 
-					_impl->connect(host, port, resource);
-				}
-			}
-
-			void WebSocketClient::send(const std::string& data)
-			{
-				if (_impl)
-					_impl->send(data);
-			}
-			
-			void WebSocketClient::send(const unsigned char* data, unsigned int size)
-			{
-				if (_impl)
-					_impl->send(data, size);
-			}
-			
-			void WebSocketClient::close()
-			{
-				if (_impl)
-					_impl->close();
-			}
-			
-			void WebSocketClient::onConnectedCallback()
-			{
-				if (_onOpen)
-					_onOpen();
+				_uri.host = host;
+				_uri.port = parseInt(port);
+				_uri.resource = resource;
 				
+				impl->connect(host, port, resource);
+			}
+
+			void WebSocketConnection::send(const std::string& data)
+			{
+				auto impl = _impl.lock();
+				
+				if (impl)
+					impl->send(data);
+			}
+			
+			void WebSocketConnection::send(const unsigned char* data, unsigned int size)
+			{
+				auto impl = _impl.lock();
+				
+				if (impl)
+					impl->send(data, size);
+			}
+			
+			void WebSocketConnection::close()
+			{
+				auto impl = _impl.lock();
+				
+				if (impl)
+					impl->close();
+			}
+			
+			void WebSocketConnection::setAutoFragmentMessages(bool autoFragment)
+			{
+				_autoFragmentMessages = autoFragment;
+				
+				auto impl = _impl.lock();
+				
+				if (impl)
+					impl->setAutoFragmentMessages(_autoFragmentMessages);
+			}
+			
+			bool WebSocketConnection::getAutoFragmentMessages() const
+			{
+				return _autoFragmentMessages;
+			}
+
+			void WebSocketConnection::onConnectedCallback()
+			{
 				#if defined USE_V8 || defined USE_JAVASCRIPTCORE
 					executeEvent("open");
 				#endif
+
+				if (_onOpen)
+					_onOpen();
 			}
 			
-			void WebSocketClient::onReadCallback(const std::string& data)
+			void WebSocketConnection::onReadCallback(const std::string& data)
 			{
-				if (_onMessage)
-					_onMessage(data);
-				
 				#if defined USE_V8 || defined USE_JAVASCRIPTCORE
 					executeEvent("message", data);
 				#endif
+
+				if (_onMessage)
+					_onMessage(data);
 			}
 			
-			void WebSocketClient::onReadBinaryCallback(const unsigned char* data, std::size_t size)
+			void WebSocketConnection::onReadBinaryCallback(const unsigned char* data, std::size_t size)
 			{
-				if (_onMessageBinary)
-					_onMessageBinary(data, size);
-				
 				#ifdef USE_V8
 					auto dataArray = v8::ArrayBuffer::New(V8_JAVASCRIPT_ENGINE->isolate, size);
 					std::copy(data, data+size, (unsigned char*)dataArray->GetContents().Data());
@@ -604,31 +670,23 @@ namespace RadJAV
 					//TODO: add JSC implementation
 					//executeEvent("message", 1, args);
 				#endif
+
+				if (_onMessageBinary)
+					_onMessageBinary(data, size);
 			}
 
-			void WebSocketClient::onClosedCallback()
+			void WebSocketConnection::onClosedCallback()
 			{
-				_networkManager.contextReleased(_impl->getContext());
-				
-				releaseImpl();
-
-				if (_onClose)
-					_onClose();
-				
 				#if defined USE_V8 || defined USE_JAVASCRIPTCORE
 					executeEvent("close");
 				#endif
+
+				if (_onClose)
+					_onClose();
 			}
 
-			void WebSocketClient::onErrorCallback(int errorCode, const std::string& description)
+			void WebSocketConnection::onErrorCallback(int errorCode, const std::string& description)
 			{
-				_networkManager.contextReleased(_impl->getContext());
-				
-				releaseImpl();
-
-				if (_onError)
-					_onError(errorCode, description);
-				
 				#ifdef USE_V8
 					v8::Local<v8::Value> args[2];
 					args[0] = v8::Number::New(V8_JAVASCRIPT_ENGINE->isolate, errorCode);
@@ -640,10 +698,13 @@ namespace RadJAV
 					//TODO: add JSC implementation
 					//executeEvent("error", description);
 				#endif
+
+				if (_onError)
+					_onError(errorCode, description);
 			}
 			
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
-				void WebSocketClient::on(String event, RJ_FUNC_TYPE func)
+				void WebSocketConnection::on(String event, RJ_FUNC_TYPE func)
 				{
 					createEvent(event, func);
 				}
@@ -651,4 +712,3 @@ namespace RadJAV
 		}
 	}
 }
-
