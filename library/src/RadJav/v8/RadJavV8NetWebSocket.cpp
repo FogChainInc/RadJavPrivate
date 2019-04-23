@@ -239,9 +239,6 @@ namespace RadJAV
 			
 			void WebSocketConnection::connect(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				String url = V8_JAVASCRIPT_ENGINE->v8GetString (args.This (), "url");
-				RadJAV::CPP::Net::URI uri = RadJAV::CPP::Net::URI::parse(url);
-
 				std::shared_ptr<CppWebSocketConnection> webSocket = V8_JAVASCRIPT_ENGINE->v8GetExternal<CppWebSocketConnection>(args.This(), "_appObj");
 				
 				if (!webSocket)
@@ -249,8 +246,15 @@ namespace RadJAV
 					V8_JAVASCRIPT_ENGINE->throwException("WebSocketConnection not initialized");
 					return;
 				}
-				
-				webSocket->connect(url);
+
+				if (args.Length() == 0 ||
+					!args[0]->IsString())
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("URL is required");
+					return;
+				}
+
+				webSocket->connect(parseV8Value(args[0]));
 			}
 
 			void WebSocketConnection::send(const v8::FunctionCallbackInfo<v8::Value> &args)

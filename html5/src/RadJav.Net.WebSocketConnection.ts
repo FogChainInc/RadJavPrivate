@@ -19,6 +19,7 @@
 */
 
 /// <reference path="RadJav.ts" />
+/// <reference path="RadJav.Net.HttpConnection.ts" />
 
 namespace RadJav
 {
