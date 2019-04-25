@@ -62,12 +62,10 @@ namespace RadJAV
 					result.query = (String)match[8];
 					result.target = result.query + (result.resource.size() > 0, std::string("?") + result.resource, result.resource);
 
-
-					std::cout << "Protocol: " << result.protocol << std::endl << std::flush;
-					std::cout << "host: " << result.host << std::endl << std::flush;
-					std::cout << "port: " << result.port << std::endl << std::flush;
-					std::cout << "target: " << result.target << std::endl << std::flush;
-					
+					//std::cout << "Protocol: " << result.protocol << std::endl << std::flush;
+					//std::cout << "host: " << result.host << std::endl << std::flush;
+					//std::cout << "port: " << result.port << std::endl << std::flush;
+					//std::cout << "target: " << result.target << std::endl << std::flush;
 				}
 
 				return result;

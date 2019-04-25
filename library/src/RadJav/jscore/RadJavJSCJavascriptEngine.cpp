@@ -214,6 +214,8 @@ namespace RadJAV
 
 		int JSCJavascriptEngine::runApplication(String applicationSource, String fileName)
 		{
+			applicationScriptFilePath = fileName;
+			
 			String parentDir = fileName;
 
 			#ifdef GUI_USE_WXWIDGETS
@@ -984,6 +986,11 @@ namespace RadJAV
                             JSObjectSetPropertyAtIndex (globalContext, argsObj, iIdx, argVal, NULL);
                             
 						}
+					}
+					
+					// The application main file path
+					{
+						jscSetString(osFunc, "executingFile", applicationScriptFilePath);
 					}
 				}
 

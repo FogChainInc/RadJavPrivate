@@ -325,6 +325,7 @@
 				V8Inspector *inspector;
 			
 				ExternalsManager* externalsManager;
+				String applicationScriptFilePath;
 		};
 	}
 #endif

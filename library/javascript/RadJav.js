@@ -530,6 +530,18 @@ var RadJav;
         return (false);
     }
     RadJav.isMobile = isMobile;
+    function isDesktop() {
+        if (RadJav.OS.HTML5 == null) {
+            if (RadJav.OS.type == "windows")
+                return (true);
+            if (RadJav.OS.type == "linux")
+                return (true);
+            if (RadJav.OS.type == "mac")
+                return (true);
+        }
+        return (false);
+    }
+    RadJav.isDesktop = isDesktop;
     function _isUsingInternetExplorerTheWorstWebBrowserEver() {
         if (navigator.appName) {
             if (navigator.appName == "Microsoft Internet Explorer")
@@ -1190,6 +1202,7 @@ var RadJav;
         OS.type = "html5";
         OS.numBits = 32;
         OS.args = [];
+        OS.executingFile = "";
         var ScreenInfo = (function () {
             function ScreenInfo(width, height, scale) {
                 if (width === void 0) { width = 0; }

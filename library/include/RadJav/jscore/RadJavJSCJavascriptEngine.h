@@ -331,6 +331,7 @@
                 TimerVector timers;
 
                 ExternalsManager* externalsManager;
+				String applicationScriptFilePath;
 		};
 	}
 #endif

@@ -332,21 +332,21 @@ namespace RadJav
 			*/
 			static readFileAsync(path: string): string { return; }
 
-			/** @property {Number} [read=1]
+			/** @property {Number} [read=0]
 			* @static
 			* Read from a file.
 			*/
-			static read: Number;
-			/** @property {Number} [write=2]
+			static read: Number = 0;
+			/** @property {Number} [write=1]
 			* @static
 			* Write to a file.
 			*/
-			static write: Number;
-			/** @property {Number} [append=3]
+			static write: Number = 1;
+			/** @property {Number} [append=2]
 			* @static
 			* Append to a file.
 			*/
-			static append: Number;
+			static append: Number = 2;
 		}
 
 		/** @class RadJav.IO.TextFile

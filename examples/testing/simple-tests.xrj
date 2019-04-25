@@ -1,0 +1,112 @@
+RadJav.initialize (RadJav.getStandardLibrary (),
+					RadJav.getGUILibrary (),
+					RadJav.getMUILibrary ()).then (function () {
+	RadJav.runApplication (function () {
+		let tests = new RadJav.Testing.FunctionalTests("");
+
+		let test = new RadJav.Testing.Test("test001");
+		let ta = new RadJav.Testing.TestingAPI(test);
+		test.func = RadJav.keepContext(function () {
+			this.equal(1, 0, "Is 1 equal 0?");
+			this.equal(1, 1, "Is 1 equal 1?");
+		}, ta);
+		
+		tests.addTest(test);
+		
+		test = new RadJav.Testing.Test("test002");
+		ta = new RadJav.Testing.TestingAPI(test);
+		test.func = RadJav.keepContext(function () {
+			this.notEqual(1, 1, "Is 1 not equal 1?");
+			this.notEqual(1, 0, "Is 1 not equal 0?");
+		}, ta);
+		
+		tests.addTest(test);
+		
+		test = new RadJav.Testing.Test("test003");
+		ta = new RadJav.Testing.TestingAPI(test);
+		test.func = RadJav.keepContext(function () {
+			this.assert(true, "assert with true");
+			this.assert(false, "assert with false");
+		}, ta);
+		
+		tests.addTest(test);
+		
+		test = new RadJav.Testing.Test("test004");
+		ta = new RadJav.Testing.TestingAPI(test);
+		test.func = RadJav.keepContext(function () {
+			this.greaterThan(1, 0.99, "1 greater than 0.99?");
+			this.greaterThan(0.99, 1, "0.99 greater than 1?");
+		}, ta);
+		
+		tests.addTest(test);
+		
+		test = new RadJav.Testing.Test("test005");
+		ta = new RadJav.Testing.TestingAPI(test);
+		test.func = RadJav.keepContext(function () {
+			this.lessThan(1, 0.99, "1 less than 0.99?");
+			this.lessThan(0.99, 1, "0.99 less than 1?");
+		}, ta);
+		
+		tests.addTest(test);
+		
+		test = new RadJav.Testing.Test("test006");
+		ta = new RadJav.Testing.TestingAPI(test);
+		test.func = RadJav.keepContext(function () {
+			this.isNumber(1, "1 is a number?");
+			this.isNumber({}, "{} is a number?");
+			this.isNumber([], "[] is a number?");
+			this.isNumber("", "\"\" is a number?");
+		}, ta);
+		
+		tests.addTest(test);
+		
+		test = new RadJav.Testing.Test("test007");
+		ta = new RadJav.Testing.TestingAPI(test);
+		test.func = RadJav.keepContext(function () {
+			this.isString(1, "1 is string?");
+			this.isString({}, "{} is string?");
+			this.isString([], "[] is string?");
+			this.isString("", "\"\" is string?");
+		}, ta);
+		
+		tests.addTest(test);
+		
+		test = new RadJav.Testing.Test("test008");
+		ta = new RadJav.Testing.TestingAPI(test);
+		test.func = RadJav.keepContext(function () {
+			this.isArray(1, "1 is an array?");
+			this.isArray({}, "{} is an array?");
+			this.isArray([], "[] is an array?");
+			this.isArray("", "\"\" is an array?");
+		}, ta);
+		
+		tests.addTest(test);
+		
+		test = new RadJav.Testing.Test("test009");
+		ta = new RadJav.Testing.TestingAPI(test);
+		test.func = RadJav.keepContext(function () {
+			this.isObject(1, "1 is an object?");
+			this.isObject({}, "{} is an object?");
+			this.isObject([], "[] is an object?");
+			this.isObject("", "\"\" is an object?");
+		}, ta);
+		
+		tests.addTest(test);
+		
+		tests.execute().then( function(tests) {
+			RadJav.exit();
+		});
+		
+		
+		// Example of convenient API for RadJav.Testing
+		//let check = RadJav.Testing;
+		
+		//RadJav.Testing.suite("Functional", function() {
+		//	RadJav.Testing.test("Fuctional001", function() {
+		//		check.equal(1, 1, "Is 1 equal 1?");
+		//	});
+		//});
+		
+		//RadJav.Testing.run();
+	});
+});

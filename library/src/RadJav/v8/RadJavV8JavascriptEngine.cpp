@@ -385,6 +385,8 @@ namespace RadJAV
 
 		int V8JavascriptEngine::runApplication(String applicationSource, String fileName)
 		{
+			applicationScriptFilePath = fileName;
+			
 			String parentDir = fileName;
 			
 			#ifdef GUI_USE_WXWIDGETS
@@ -1410,6 +1412,11 @@ namespace RadJAV
 
 							args->Set(iIdx, arg.toV8String(isolate));
 						}
+					}
+					
+					// The application main file path
+					{
+						v8SetString(osFunc, "executingFile", applicationScriptFilePath);
 					}
 				}
 

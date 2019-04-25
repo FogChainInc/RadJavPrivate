@@ -19,6 +19,10 @@
 */
 
 /// <reference path="RadJav.ts" />
+/// <reference path="RadJav.Vector2.ts" />
+/// <reference path="RadJav.Net.WebServer.ts" />
+/// <reference path="RadJav.Net.WebSocketConnection.ts" />
+/// <reference path="RadJav.IO.ts" />
 
 namespace RadJav
 {
@@ -56,7 +60,7 @@ namespace RadJav
 			assert (expression: boolean, errorMessage: string = ""): void
 			{
 				if (expression == true)
-					this.success ();
+					this.success (errorMessage);
 				else
 					this.error (errorMessage);
 			}
@@ -67,7 +71,7 @@ namespace RadJav
 				if (expected == result)
 					this.success (message);
 				else
-					this.error ();
+					this.error (message);
 			}
 
 			/// Checks if the objects are not equal.
@@ -76,7 +80,7 @@ namespace RadJav
 				if (expected != result)
 					this.success (message);
 				else
-					this.error ();
+					this.error (message);
 			}
 
 			/// Checks if the result is greater than another number.
@@ -85,7 +89,7 @@ namespace RadJav
 				if (result > greaterThanThisNumber)
 					this.success (message);
 				else
-					this.error ();
+					this.error (message);
 			}
 
 			/// Checks if the result is less than another number.
@@ -94,7 +98,7 @@ namespace RadJav
 				if (result > lessThanThisNumber)
 					this.success (message);
 				else
-					this.error ();
+					this.error (message);
 			}
 
 			/// Checks if the incoming object is a number.
@@ -103,7 +107,7 @@ namespace RadJav
 				if (typeof (obj) == "number")
 					this.success (message);
 				else
-					this.error ();
+					this.error (message);
 			}
 
 			/// Checks if the incoming object is a string.
@@ -112,7 +116,7 @@ namespace RadJav
 				if (typeof (obj) == "string")
 					this.success (message);
 				else
-					this.error ();
+					this.error (message);
 			}
 
 			/// Checks if the incoming object is an array.
@@ -121,7 +125,7 @@ namespace RadJav
 				if (obj instanceof Array)
 					this.success (message);
 				else
-					this.error ();
+					this.error (message);
 			}
 
 			/// Checks if the incoming object is an object.
@@ -130,7 +134,7 @@ namespace RadJav
 				if (typeof (obj) == "object")
 					this.success (message);
 				else
-					this.error ();
+					this.error (message);
 			}
 		}
 
@@ -160,7 +164,7 @@ namespace RadJav
 			/// Execute the test. Store the result in this test, and return the test.
 			execute (): Promise<Test>
 			{
-				let promise: Promise<Test> = new Promise<Test> (function (resolve, reject)
+				let promise: Promise<Test> = new Promise<Test> (RadJav.keepContext(function (resolve, reject)
 					{
 						/// If on desktop/mobile open RadJavVM and have it open the file stored at applicationPath.
 						/// Then connect to the WebSocket server and have it transfer the results of the test.
@@ -168,7 +172,7 @@ namespace RadJav
 						this.func ();
 
 						resolve (this);
-					});
+					}, this));
 
 				return (promise);
 			}
@@ -204,11 +208,180 @@ namespace RadJav
 			/// Execute the tests.
 			execute (): Promise<Test[]>
 			{
-				let promise: Promise<Test[]> = new Promise<Test[]> (function (resolve, reject)
+				let promise: Promise<Test[]> = new Promise<Test[]> (RadJav.keepContext(function (resolve, reject)
 					{
+						if (this.tests.length == 0)
+						{
+							RadJav.Console.log("Nothing to execute, no tests found");
+							resolve(this.tests);
+							return;
+						}
+
+						if (RadJav.isDesktop())
+						{
+							//RadJav.Console.log("Args: "+RadJav.OS.args);
+
+							let params = {isMaster: true,
+											testCaseName: "",
+											appPath: "",
+											execFile: ""};
+							
+							if (RadJav.OS.args.length > 2 &&
+								RadJav.OS.args[0] === "--slave")
+							{
+								params.isMaster = false;
+								if (RadJav.OS.args.length > 2)
+								{
+									params.testCaseName = RadJav.OS.args[2];
+								}
+							}
+							
+							params.appPath = RadJav.OS.getApplicationPath();
+							params.execFile = RadJav.OS.executingFile;
+
+							if (params.isMaster)
+							{
+								let reportFileName = params.execFile.split('\\').pop().split('/').pop();
+								reportFileName = reportFileName.split(".")[0]+".csv";
+
+								var reporter = new CsvReporter(reportFileName);
+
+								let currentTestIndex = 0;
+
+								//RadJav.Console.log("Acting like a Master");
+
+								var server = new RadJav.Net.WebServer();
+
+								server.on("upgrade", RadJav.keepContext(function (connection, request)
+								{
+									var webSocket = RadJav.Net.handleUpgrade(connection, request);
+
+									webSocket.on("message", RadJav.keepContext( function(data)
+									{
+										//RadJav.Console.log("WebSocket message received: "+data);
+										
+										let response = {status: "OK"};
+										
+										let testResult = new RadJav.Testing.Test(this.tests[currentTestIndex], "");
+										testResult.results.push("Start test");
+										testResult.passed.push(false);
+
+										try
+										{
+											testResult = JSON.parse(data);
+										}
+										catch(err)
+										{
+											response = {status:"FAIL"};
+										}
+										finally
+										{
+											reporter.appendResult(testResult);
+											webSocket.send(JSON.stringify(response));
+										}
+
+										currentTestIndex++;
+										if (currentTestIndex == this.tests.length)
+										{
+											webSocket.close();
+											resolve (this.tests);
+											return;
+										}
+
+										let test = this.tests[currentTestIndex];
+
+										let command = params.appPath+" "+params.execFile+" --slave "+"--testcase "+test.name;
+										//RadJav.Console.log("Starting application: " + command);
+
+										RadJav.OS.exec(command);
+
+									}, this));
+								}, this));
+
+								server.on("close", function(){
+									//RadJav.Console.log("Server closed");
+								});
+
+								server.on("error", function(err, description) {
+									RadJav.Console.log("Server error: "+err+", "+description);
+									resolve(this.tests);
+								});
+
+								server.start("127.0.0.1", 9898);
+
+								let test = this.tests[currentTestIndex];
+
+								let command = params.appPath+" "+params.execFile+" --slave "+"--testcase "+test.name;
+								//RadJav.Console.log("Starting application: " + command);
+
+								RadJav.OS.exec(command);
+							}
+							else
+							{
+								//RadJav.Console.log("Acting like a Slave");
+								
+								let test = null;
+
+								for (let i = 0; i < this.tests.length; i++)
+								{
+									if (params.testCaseName === this.tests[i].name)
+									{
+										test = this.tests[i];
+									}
+								}
+
+								var client = new RadJav.Net.WebSocketConnection();
+
+								client.on("open", RadJav.keepContext(function ()
+								{
+									if (test != null)
+									{
+										test.execute().then(function (testObj) {
+											let message = JSON.stringify(testObj);
+											client.send(message);
+										});
+									}
+									else
+									{
+										let message = {name: params.testCaseName, passed: [false]};
+										client.send(JSON.stringify(message));
+									}
+								}, this));
+
+								client.on("message", RadJav.keepContext(function (data)
+								{
+									let msg = JSON.parse(data);
+									if(msg.status != null && msg.status == "OK")
+									{
+										//RadJav.Console.log("Got response: "+msg.status);
+									}
+
+									client.close();
+									resolve(this.tests);
+								}, this));
+
+								client.on("error", RadJav.keepContext( function (err, description)
+								{
+									RadJav.Console.log("Unable to connect: "+err+", "+description);
+									resolve(this.tests);
+								}, this));
+
+								client.on("close", RadJav.keepContext(function () {
+									//RadJav.Console.log("Socket closed");
+									resolve(this.tests);
+								}, this));
+
+								client.connect("ws://127.0.0.1:9898/testing");
+							}
+						}
+						else if (RadJav.OS.type == "html5")
+						{
+							//TODO: add implementation
+						}
+
 						// If on desktop/mobile, create a WebSocket server here, inside the promise.
 						// If in HTML5, open a new tab and create a connection back to the parent window.
-
+						/*
 						let promises: Promise<Test>[] = [];
 
 						for (let iIdx = 0; iIdx < this.tests.length; iIdx++)
@@ -222,9 +395,43 @@ namespace RadJav
 							{
 								resolve (tests);
 							}));
-					});
+						*/
+					}, this));
 
 				return (promise);
+			}
+		}
+
+		export class CsvReporter
+		{
+			private _filePath: string;
+			private _textFile: RadJav.IO.TextFile;
+			private _delimiter: string;
+
+			constructor (fileName: string, delimiter: string = ";")
+			{
+				this._filePath = RadJav.OS.getCurrentWorkingPath()+"/"+fileName;
+				this._textFile = new RadJav.IO.TextFile();
+				this._delimiter = delimiter;
+
+				if(RadJav.IO.exists(this._filePath))
+					RadJav.IO.deleteFile(this._filePath);
+				
+				let headerData = `Test name${this._delimiter}Steps${this._delimiter}Result\n`;
+				this._textFile.writeFile(this._filePath, headerData, RadJav.IO.TextFile.write);
+			}
+
+			appendResult(test: Test): void
+			{
+				let testHeader = test.name+`${this._delimiter}${this._delimiter}\n`;
+				this._textFile.writeFile(this._filePath, testHeader, RadJav.IO.TextFile.append);
+
+				for(let i = 0; i < test.passed.length; i++)
+				{
+					let result = test.passed[i] ? "PASS" : "FAIL";
+					let resultLine = `${this._delimiter}"${test.results[i]}"${this._delimiter}${result}\n`;
+					this._textFile.writeFile(this._filePath, resultLine, RadJav.IO.TextFile.append);
+				}
 			}
 		}
 

@@ -21,7 +21,7 @@ var RadJav;
             TestingAPI.prototype.assert = function (expression, errorMessage) {
                 if (errorMessage === void 0) { errorMessage = ""; }
                 if (expression == true)
-                    this.success();
+                    this.success(errorMessage);
                 else
                     this.error(errorMessage);
             };
@@ -30,56 +30,56 @@ var RadJav;
                 if (expected == result)
                     this.success(message);
                 else
-                    this.error();
+                    this.error(message);
             };
             TestingAPI.prototype.notEqual = function (expected, result, message) {
                 if (message === void 0) { message = ""; }
                 if (expected != result)
                     this.success(message);
                 else
-                    this.error();
+                    this.error(message);
             };
             TestingAPI.prototype.greaterThan = function (result, greaterThanThisNumber, message) {
                 if (message === void 0) { message = ""; }
                 if (result > greaterThanThisNumber)
                     this.success(message);
                 else
-                    this.error();
+                    this.error(message);
             };
             TestingAPI.prototype.lessThan = function (result, lessThanThisNumber, message) {
                 if (message === void 0) { message = ""; }
                 if (result > lessThanThisNumber)
                     this.success(message);
                 else
-                    this.error();
+                    this.error(message);
             };
             TestingAPI.prototype.isNumber = function (obj, message) {
                 if (message === void 0) { message = ""; }
                 if (typeof (obj) == "number")
                     this.success(message);
                 else
-                    this.error();
+                    this.error(message);
             };
             TestingAPI.prototype.isString = function (obj, message) {
                 if (message === void 0) { message = ""; }
                 if (typeof (obj) == "string")
                     this.success(message);
                 else
-                    this.error();
+                    this.error(message);
             };
             TestingAPI.prototype.isArray = function (obj, message) {
                 if (message === void 0) { message = ""; }
                 if (obj instanceof Array)
                     this.success(message);
                 else
-                    this.error();
+                    this.error(message);
             };
             TestingAPI.prototype.isObject = function (obj, message) {
                 if (message === void 0) { message = ""; }
                 if (typeof (obj) == "object")
                     this.success(message);
                 else
-                    this.error();
+                    this.error(message);
             };
             return TestingAPI;
         }());
@@ -93,10 +93,10 @@ var RadJav;
                 this.func = null;
             }
             Test.prototype.execute = function () {
-                var promise = new Promise(function (resolve, reject) {
+                var promise = new Promise(RadJav.keepContext(function (resolve, reject) {
                     this.func();
                     resolve(this);
-                });
+                }, this));
                 return (promise);
             };
             return Test;
@@ -116,21 +116,139 @@ var RadJav;
                 this.tests.push(test);
             };
             FunctionalTests.prototype.execute = function () {
-                var promise = new Promise(function (resolve, reject) {
-                    var promises = [];
-                    for (var iIdx = 0; iIdx < this.tests.length; iIdx++) {
-                        var test = this.tests[iIdx];
-                        promises.push(test.execute());
+                var promise = new Promise(RadJav.keepContext(function (resolve, reject) {
+                    if (this.tests.length == 0) {
+                        RadJav.Console.log("Nothing to execute, no tests found");
+                        resolve(this.tests);
+                        return;
                     }
-                    return (Promise.all(promises).then(function (tests) {
-                        resolve(tests);
-                    }));
-                });
+                    if (RadJav.isDesktop()) {
+                        var params_1 = { isMaster: true,
+                            testCaseName: "",
+                            appPath: "",
+                            execFile: "" };
+                        if (RadJav.OS.args.length > 2 &&
+                            RadJav.OS.args[0] === "--slave") {
+                            params_1.isMaster = false;
+                            if (RadJav.OS.args.length > 2) {
+                                params_1.testCaseName = RadJav.OS.args[2];
+                            }
+                        }
+                        params_1.appPath = RadJav.OS.getApplicationPath();
+                        params_1.execFile = RadJav.OS.executingFile;
+                        if (params_1.isMaster) {
+                            var reportFileName = params_1.execFile.split('\\').pop().split('/').pop();
+                            reportFileName = reportFileName.split(".")[0] + ".csv";
+                            var reporter = new CsvReporter(reportFileName);
+                            var currentTestIndex_1 = 0;
+                            var server = new RadJav.Net.WebServer();
+                            server.on("upgrade", RadJav.keepContext(function (connection, request) {
+                                var webSocket = RadJav.Net.handleUpgrade(connection, request);
+                                webSocket.on("message", RadJav.keepContext(function (data) {
+                                    var response = { status: "OK" };
+                                    var testResult = new RadJav.Testing.Test(this.tests[currentTestIndex_1], "");
+                                    testResult.results.push("Start test");
+                                    testResult.passed.push(false);
+                                    try {
+                                        testResult = JSON.parse(data);
+                                    }
+                                    catch (err) {
+                                        response = { status: "FAIL" };
+                                    }
+                                    finally {
+                                        reporter.appendResult(testResult);
+                                        webSocket.send(JSON.stringify(response));
+                                    }
+                                    currentTestIndex_1++;
+                                    if (currentTestIndex_1 == this.tests.length) {
+                                        webSocket.close();
+                                        resolve(this.tests);
+                                        return;
+                                    }
+                                    var test = this.tests[currentTestIndex_1];
+                                    var command = params_1.appPath + " " + params_1.execFile + " --slave " + "--testcase " + test.name;
+                                    RadJav.OS.exec(command);
+                                }, this));
+                            }, this));
+                            server.on("close", function () {
+                            });
+                            server.on("error", function (err, description) {
+                                RadJav.Console.log("Server error: " + err + ", " + description);
+                                resolve(this.tests);
+                            });
+                            server.start("127.0.0.1", 9898);
+                            var test = this.tests[currentTestIndex_1];
+                            var command = params_1.appPath + " " + params_1.execFile + " --slave " + "--testcase " + test.name;
+                            RadJav.OS.exec(command);
+                        }
+                        else {
+                            var test_1 = null;
+                            for (var i = 0; i < this.tests.length; i++) {
+                                if (params_1.testCaseName === this.tests[i].name) {
+                                    test_1 = this.tests[i];
+                                }
+                            }
+                            var client = new RadJav.Net.WebSocketConnection();
+                            client.on("open", RadJav.keepContext(function () {
+                                if (test_1 != null) {
+                                    test_1.execute().then(function (testObj) {
+                                        var message = JSON.stringify(testObj);
+                                        client.send(message);
+                                    });
+                                }
+                                else {
+                                    var message = { name: params_1.testCaseName, passed: [false] };
+                                    client.send(JSON.stringify(message));
+                                }
+                            }, this));
+                            client.on("message", RadJav.keepContext(function (data) {
+                                var msg = JSON.parse(data);
+                                if (msg.status != null && msg.status == "OK") {
+                                }
+                                client.close();
+                                resolve(this.tests);
+                            }, this));
+                            client.on("error", RadJav.keepContext(function (err, description) {
+                                RadJav.Console.log("Unable to connect: " + err + ", " + description);
+                                resolve(this.tests);
+                            }, this));
+                            client.on("close", RadJav.keepContext(function () {
+                                resolve(this.tests);
+                            }, this));
+                            client.connect("ws://127.0.0.1:9898/testing");
+                        }
+                    }
+                    else if (RadJav.OS.type == "html5") {
+                    }
+                }, this));
                 return (promise);
             };
             return FunctionalTests;
         }());
         Testing.FunctionalTests = FunctionalTests;
+        var CsvReporter = (function () {
+            function CsvReporter(fileName, delimiter) {
+                if (delimiter === void 0) { delimiter = ";"; }
+                this._filePath = RadJav.OS.getCurrentWorkingPath() + "/" + fileName;
+                this._textFile = new RadJav.IO.TextFile();
+                this._delimiter = delimiter;
+                if (RadJav.IO.exists(this._filePath))
+                    RadJav.IO.deleteFile(this._filePath);
+                var headerData = "Test name" + this._delimiter + "Steps" + this._delimiter + "Result\n";
+                this._textFile.writeFile(this._filePath, headerData, RadJav.IO.TextFile.write);
+            }
+            CsvReporter.prototype.appendResult = function (test) {
+                var testHeader = test.name + ("" + this._delimiter + this._delimiter + "\n");
+                this._textFile.writeFile(this._filePath, testHeader, RadJav.IO.TextFile.append);
+                for (var i = 0; i < test.passed.length; i++) {
+                    var result = test.passed[i] ? "PASS" : "FAIL";
+                    var resultLine = this._delimiter + "\"" + test.results[i] + "\"" + this._delimiter + result + "\n";
+                    this._textFile.writeFile(this._filePath, resultLine, RadJav.IO.TextFile.append);
+                }
+            };
+            return CsvReporter;
+        }());
+        Testing.CsvReporter = CsvReporter;
         var KeyboardSimulator = (function () {
             function KeyboardSimulator() {
             }

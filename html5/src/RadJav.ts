@@ -959,6 +959,24 @@ namespace RadJav
 		return (false);
 	}
 
+	/// Check if this is a desktop application.
+	export function isDesktop ()
+	{
+		if (RadJav.OS.HTML5 == null)
+		{
+			if (RadJav.OS.type == "windows")
+				return (true);
+
+			if (RadJav.OS.type == "linux")
+				return (true);
+
+			if (RadJav.OS.type == "mac")
+				return (true);
+		}
+
+		return (false);
+	}
+
 	/**
 	* Checks to see if the current web browser is using Internet Explorer.
 	* @return {Boolean} Returns true if the web browser is Internet Explorer.
@@ -2176,7 +2194,7 @@ namespace RadJav
 		* Can be:
 		* * windows
 		* * linux
-		* * macosx
+		* * mac
 		* * android
 		* * ios
 		* * html5
@@ -2188,6 +2206,9 @@ namespace RadJav
 
 		/// The command line arguments.
 		export let args: string[] = [];
+
+		/// The main application file path
+		export let executingFile: string = "";
 
 		/** Describes the screen used by the user.
 		 * Available on platforms: Windows,Linux,OSX,iOS,Android,HTML5
