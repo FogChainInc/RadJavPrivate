@@ -39,19 +39,6 @@ macro (embedJavascript jsFilesList jsFilesPath headerFilePath)
 
 		#Removing License comment
 		string (REGEX REPLACE "/\\*.*SOFTWARE\\.(\\\n)?\\*/" "" jsFileContent "${jsFileContent}")
-		#string (REGEX REPLACE "/\\*.*MIT-LICENSE.*SOFTWARE\\.\n\\*/" "" jsFileContent "${jsFileContent}")
-		
-		#Escape \n text
-		string (REGEX REPLACE "([\\])(n)" "\\1\\1\\2" jsFileContent "${jsFileContent}")
-
-		#Escape \\"
-		string (REGEX REPLACE "\\\\\\\"" "\\\\\\\\\"" jsFileContent "${jsFileContent}")
-
-		#Escape "
-		string (REGEX REPLACE "\"" "\\\\\"" jsFileContent "${jsFileContent}")
-
-		#Escape/Replace \r\n control characters
-		string (REGEX REPLACE "\r?\n" "\\\\n\\\\\n" jsFileContent "${jsFileContent}")
 		
 		string (LENGTH "${jsFileContent}" jsFileContentLength)
 		
@@ -59,7 +46,7 @@ macro (embedJavascript jsFilesList jsFilesPath headerFilePath)
 			
 			#Adding open vector code
 			file (APPEND ${headerFilePath} "
-			javascriptFiles.push_back (JSFile (\"${_jsFile}\", Array<String>({\"")
+			javascriptFiles.push_back (JSFile (\"${_jsFile}\", Array<String>({R\"jsjsjs(")
 				
 			while(jsFileContentLength GREATER ${jsFileChunkSize})
 				#for every jsFileContentChunk
@@ -89,7 +76,7 @@ macro (embedJavascript jsFilesList jsFilesPath headerFilePath)
 				file (APPEND ${headerFilePath} "${jsFileContentChunk}")
 			
 				#add ", " in between
-				file (APPEND ${headerFilePath} "\", \"")
+				file (APPEND ${headerFilePath} ")jsjsjs\", R\"jsjsjs(")
 			
 			endwhile()
 			
@@ -97,19 +84,19 @@ macro (embedJavascript jsFilesList jsFilesPath headerFilePath)
 			string (SUBSTRING "${jsFileContent}" 0 ${jsFileChunkSize} jsFileContentChunk)
 			file (APPEND ${headerFilePath} "${jsFileContentChunk}")
 			#and finalization
-			file (APPEND ${headerFilePath} "\"})));")
+			file (APPEND ${headerFilePath} ")jsjsjs\"})));")
 		
 		else ()
 		
 			#Adding open vector code
 			file (APPEND ${headerFilePath} "
-			javascriptFiles.push_back (JSFile (\"${_jsFile}\", \"")
+			javascriptFiles.push_back (JSFile (\"${_jsFile}\", R\"jsjsjs(")
 
 			#Adding content of Javascript file (use chunk here, not the full content
 			file (APPEND ${headerFilePath} "${jsFileContent}")
 			
 			#Adding close vector code
-			file (APPEND ${headerFilePath} "\"));")
+			file (APPEND ${headerFilePath} ")jsjsjs\"));")
 		
 		endif ()
 		
@@ -145,12 +132,12 @@ function (addOsTypePrototype out headerFileContent)
 	
 	string (TOLOWER ${_osType} _osTypeString)
 	
-	set (_osTypePrototype "RadJav.OS.type = \"${_osTypeString}\";\n\
-RadJav.OS.${_osType} = function()\n\
-{\n\
-}\n\
-\n\
-RadJav.OS.HTML5 = null;\n\
+	set (_osTypePrototype "RadJav.OS.type = \"${_osTypeString}\";
+RadJav.OS.${_osType} = function()
+{
+}
+
+RadJav.OS.HTML5 = null;
 ")
 	
 	string (REPLACE "RadJav.GENERATORS_INJECT_RADJAV_OS_CODE_HERE;" "${_osTypePrototype}" headerFileContent "${headerFileContent}")
