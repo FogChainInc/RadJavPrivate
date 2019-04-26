@@ -166,12 +166,30 @@ namespace RadJav
 			{
 				let promise: Promise<Test> = new Promise<Test> (RadJav.keepContext(function (resolve, reject)
 					{
-						/// If on desktop/mobile open RadJavVM and have it open the file stored at applicationPath.
-						/// Then connect to the WebSocket server and have it transfer the results of the test.
-						/// If on HTML5, simply return the results of the test back to the parent window.
-						this.func ();
+						var that = this;
 
-						resolve (this);
+						let timeoutHandler = function(test: Test) {
+							that.passed.push(false);
+							that.results.push("Test finished");
+							resolve(that);
+						}
+
+						let ret = that.func();
+
+						if (ret instanceof Promise)
+						{
+							setTimeout(timeoutHandler, 1000*60);
+
+							let result = RadJav.keepContext( function() {
+								resolve (that);
+							}, that);
+
+							ret.then(result, result).catch(result);
+						}
+						else
+						{
+							resolve(that);
+						}
 					}, this));
 
 				return (promise);
@@ -327,6 +345,7 @@ namespace RadJav
 									if (params.testCaseName === this.tests[i].name)
 									{
 										test = this.tests[i];
+										break;
 									}
 								}
 

@@ -94,8 +94,23 @@ var RadJav;
             }
             Test.prototype.execute = function () {
                 var promise = new Promise(RadJav.keepContext(function (resolve, reject) {
-                    this.func();
-                    resolve(this);
+                    var that = this;
+                    var timeoutHandler = function (test) {
+                        that.passed.push(false);
+                        that.results.push("Test finished");
+                        resolve(that);
+                    };
+                    var ret = that.func();
+                    if (ret instanceof Promise) {
+                        setTimeout(timeoutHandler, 1000 * 60);
+                        var result = RadJav.keepContext(function () {
+                            resolve(that);
+                        }, that);
+                        ret.then(result, result)["catch"](result);
+                    }
+                    else {
+                        resolve(that);
+                    }
                 }, this));
                 return (promise);
             };
@@ -186,6 +201,7 @@ var RadJav;
                             for (var i = 0; i < this.tests.length; i++) {
                                 if (params_1.testCaseName === this.tests[i].name) {
                                     test_1 = this.tests[i];
+                                    break;
                                 }
                             }
                             var client = new RadJav.Net.WebSocketConnection();
