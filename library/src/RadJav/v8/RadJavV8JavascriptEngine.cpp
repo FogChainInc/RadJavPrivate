@@ -668,23 +668,26 @@ namespace RadJAV
 				//Handle timers (setTimeout from JS)
 				std::chrono::steady_clock::time_point currentTime = std::chrono::steady_clock::now();
 				
-				for (RJINT iIdx = 0; iIdx < timers.size (); iIdx++)
+				auto timer = timers.begin();
+				while(timer != timers.end())
 				{
-					auto timer = timers.at(iIdx);
-					v8::Persistent<v8::Function> *funcp = timer.first;
-					std::chrono::time_point<std::chrono::steady_clock> fireTime = timer.second;
+					v8::Persistent<v8::Function> *funcp = timer->first;
+					std::chrono::time_point<std::chrono::steady_clock> fireTime = timer->second;
 					
 					if (fireTime <= currentTime)
 					{
-						TimerVector::iterator delTimer = timers.begin ();
-						timers.erase(delTimer);
-
+						timer = timers.erase(timer);
+						
 						v8::Local<v8::Function> func = funcp->Get(isolate);
-
+						
 						if (func->IsNullOrUndefined() == false)
 							func->Call(globalContext->Global(), 0, NULL);
 						
 						DELETEOBJ(funcp);
+					}
+					else
+					{
+						timer++;
 					}
 				}
 
