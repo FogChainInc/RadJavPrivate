@@ -157,6 +157,13 @@
 	#include "v8/RadJavV8Inspector.h"
 #endif
 
+//This is here only to bring the mac app to the foreground
+#ifdef __APPLE__
+	#if TARGET_OS_OSX == 1
+		#include <AppKit/NSApplication.h>
+	#endif
+#endif
+
 namespace RadJAV
 {
 	#ifdef USE_V8
@@ -650,7 +657,14 @@ namespace RadJAV
 						if (v8IsNull(val) == false)
 							val->Call(globalContext->Global(), 0, NULL);
 					}
-					
+
+					//This is here only to bring the mac app to the foreground
+					#ifdef __APPLE__
+						#if TARGET_OS_OSX == 1
+							[[NSApplication sharedApplication] activateIgnoringOtherApps:true];
+						#endif
+					#endif
+
 					firstRun = false;
 				}
 				

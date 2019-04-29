@@ -129,6 +129,14 @@
 #include <fstream>
 #include "cpp/RadJavCPPAgent.h"
 
+//This is here only to bring the mac app to the foreground
+#ifdef __APPLE__
+	#if TARGET_OS_OSX == 1
+		#include <AppKit/NSApplication.h>
+	#endif
+#endif
+
+
 namespace RadJAV
 {
 	#ifdef USE_JAVASCRIPTCORE
@@ -389,6 +397,13 @@ namespace RadJAV
                                 jscHandleException(globalContext, exception);
                         }
                     }
+
+					//This is here only to bring the mac app to the foreground
+					#ifdef __APPLE__
+						#if TARGET_OS_OSX == 1
+							[[NSApplication sharedApplication] activateIgnoringOtherApps:true];
+						#endif
+					#endif
 
 					firstRun = false;
 				}
