@@ -1,0 +1,65 @@
+RadJav.initialize (RadJav.getStandardLibrary (),
+					RadJav.getGUILibrary (),
+					RadJav.getMUILibrary ()).then (function () {
+	RadJav.runApplication (function () {
+		let tests = new RadJav.Testing.FunctionalTests("");
+		
+		// Declare test case
+		let test = new RadJav.Testing.Test("test001");
+		let ta = new RadJav.Testing.TestingAPI(test);
+		
+		test.func = RadJav.keepContext(function () {
+			let check = this;
+			let buttonClicked = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","Window test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.setPosition(0, 22);
+					
+					var button = new RadJav.GUI.Button("Button", "test", window);
+					button.create().then(function(btn) {
+						button = btn;
+						
+						button.setPosition(0, 0);
+						
+						button.on("click", function() {
+							buttonClicked = true;
+							check.assert(buttonClicked, "Button clicked");
+							resolve();
+						})
+						
+						var clickOnButton = function ()
+						{
+							RadJav.Testing.MouseSimulator.setPosition(new RadJav.Vector2(40, 64));
+							RadJav.Testing.MouseSimulator.click(0);
+						}
+						
+						setTimeout(clickOnButton, 1000);
+					});
+				});
+				
+				var terminateTest = function ()
+				{
+					check.assert(buttonClicked, "Button clicked");
+					resolve();
+				}
+				
+				setTimeout(terminateTest, 5000);
+			});
+			
+			return promise;
+			
+		}, ta);
+		
+		// Add test case
+		tests.addTest(test);
+		
+		// Execute test cases
+		tests.execute().then( function(tests) {
+			RadJav.exit();
+		});
+	});
+});
