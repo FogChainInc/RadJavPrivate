@@ -68,6 +68,9 @@
 						static void click(RJINT button);
 						/// Set the mouse at a position.
 						static void setPosition(CPP::Vector2 pos);
+					
+						/// Stored position of the input device
+						static CPP::Vector2 position;
 				};
             }
         }

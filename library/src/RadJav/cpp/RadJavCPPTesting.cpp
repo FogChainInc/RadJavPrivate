@@ -116,34 +116,36 @@ namespace RadJAV
                 #endif
             }
 
+			CPP::Vector2 MouseSimulator::position = CPP::Vector2(0,0);
+			
 			void MouseSimulator::click(RJINT button)
 			{
 				#ifdef WIN32
 					INPUT input;
-                    RJINT flagDown = 0;
-                    RJINT flagUp = 0;
+                    RJINT flagDown = MOUSEEVENTF_ABSOLUTE;
+                    RJINT flagUp = MOUSEEVENTF_ABSOLUTE;
 
 					if (button == 0)
 					{
-						flagDown = MOUSEEVENTF_LEFTDOWN;
-						flagUp = MOUSEEVENTF_LEFTUP;
+						flagDown |= MOUSEEVENTF_LEFTDOWN;
+						flagUp |= MOUSEEVENTF_LEFTUP;
 					}
 
 					if (button == 1)
 					{
-						flagDown = MOUSEEVENTF_RIGHTDOWN;
-						flagUp = MOUSEEVENTF_RIGHTUP;
+						flagDown |= MOUSEEVENTF_RIGHTDOWN;
+						flagUp |= MOUSEEVENTF_RIGHTUP;
 					}
 
 					if (button == 2)
 					{
-						flagDown = MOUSEEVENTF_MIDDLEDOWN;
-						flagUp = MOUSEEVENTF_MIDDLEUP;
+						flagDown |= MOUSEEVENTF_MIDDLEDOWN;
+						flagUp |= MOUSEEVENTF_MIDDLEUP;
 					}
 
 					input.type = INPUT_MOUSE;
-					input.mi.dx = 0;
-					input.mi.dy = 0;
+					input.mi.dx = position.x;
+					input.mi.dy = position.y;
 					input.mi.mouseData = 0;
 					input.mi.dwExtraInfo = 0;
 
@@ -160,11 +162,7 @@ namespace RadJAV
                     #if TARGET_OS_OSX == 1
                         CGEventRef eventDown = NULL;
                         CGEventRef eventUp = NULL;
-                        CGEventSourceRef source = CGEventSourceCreate (kCGEventSourceStateHIDSystemState);
-                        CGEventRef tempEvent = CGEventCreate (source);
-                        CGPoint pos = CGEventGetLocation (tempEvent);
-
-                        CFRelease(tempEvent);
+						const CGPoint pos = CGPointMake(position.x, position.y);
 
                         if (button == 0)
                         {
@@ -196,7 +194,8 @@ namespace RadJAV
 			void MouseSimulator::setPosition(CPP::Vector2 pos)
 			{
 				#ifdef WIN32
-					SetCursorPos(pos.x, pos.y);
+					position = pos;
+					SetCursorPos(position.x, position.y);
 
 					/*INPUT input;
 
@@ -214,7 +213,8 @@ namespace RadJAV
 
                 #ifdef __APPLE__
                     #if TARGET_OS_OSX == 1
-                        CGEventRef event = CGEventCreateMouseEvent (NULL, kCGEventMouseMoved, CGPointMake(pos.x, pos.y), kCGMouseButtonLeft);
+						position = pos;
+                        CGEventRef event = CGEventCreateMouseEvent (NULL, kCGEventMouseMoved, CGPointMake(position.x, position.y), kCGMouseButtonLeft);
 
                         CGEventPost (kCGHIDEventTap, event);
                         CFRelease (event);
