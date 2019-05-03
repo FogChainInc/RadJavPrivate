@@ -1,0 +1,601 @@
+RadJav.initialize (RadJav.getStandardLibrary (),
+					RadJav.getGUILibrary (),
+					RadJav.getMUILibrary ()).then (function () {
+	RadJav.runApplication (function () {
+		
+		//Utils
+		var leftMouseClick = function (position)
+		{
+			RadJav.Testing.MouseSimulator.setPosition(position);
+			RadJav.Testing.MouseSimulator.click(0);
+		}
+		
+		var enterText = function (text)
+		{
+			for(let i = 0; i < text.length; i++)
+			{
+				RadJav.Testing.KeyboardSimulator.keyPress(text.charAt(i));
+			}
+		}
+		
+		let tests = new RadJav.Testing.FunctionalTests("");
+		
+		// Button click test
+		let test = new RadJav.Testing.Test("test001");
+		let ta = new RadJav.Testing.TestingAPI(test);
+		
+		test.func = RadJav.keepContext(function () {
+			let check = this;
+			let buttonClicked = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","Window test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.setPosition(0, 22);
+					
+					var button = new RadJav.GUI.Button("Button", "test", window);
+					button.create().then(function(btn) {
+						button = btn;
+						
+						button.setPosition(0, 0);
+						
+						button.on("click", function() {
+							buttonClicked = true;
+							check.assert(buttonClicked, "Button clicked");
+							resolve();
+						})
+						
+						setTimeout(function()
+						{
+							leftMouseClick(new RadJav.Vector2(40, 64));
+						}, 1000);
+						
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(buttonClicked, "Button clicked");
+					resolve();
+				}, 5000);
+				
+			});
+			
+			return promise;
+			
+		}, ta);
+		
+		// Add test case
+		tests.addTest(test);
+		
+		// Checkbox test
+		test = new RadJav.Testing.Test("test002");
+		ta = new RadJav.Testing.TestingAPI(test);
+		
+		test.func = RadJav.keepContext(function () {
+			let check = this;
+			let checkboxChecked = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","Checkbox test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.setPosition(0, 22);
+					
+					var control = new RadJav.GUI.Checkbox("Checkbox", "test", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						control.setPosition(0, 0);
+						
+						control.on("change", function() {
+							checkboxChecked = control.isChecked();
+							check.assert(checkboxChecked, "Checkbox is checked after click");
+							resolve();
+						})
+						
+						setTimeout(function()
+						{
+							leftMouseClick(new RadJav.Vector2(15, 64));
+						}, 1000);
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(checkboxChecked, "Checkbox is checked");
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		}, ta);
+		
+		// Add test case
+		tests.addTest(test);
+		
+		// Combobox test
+		test = new RadJav.Testing.Test("test003");
+		ta = new RadJav.Testing.TestingAPI(test);
+		
+		test.func = RadJav.keepContext(function () {
+			let check = this;
+			let comboboxValueChanged = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","Combobox test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.setPosition(0, 22);
+					
+					var control = new RadJav.GUI.Combobox("Combobox", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						control.setPosition(0, 0);
+						
+						control.setItems([{text: "Item1"},
+											{text: "Item2"},
+											{text: "Item3"},
+											{text: "Item4"},
+											{text: "Item5"},
+											{text: "Item6"}]);
+						
+						control.on("change", function() {
+							comboboxValueChanged = true;
+							check.assert(comboboxValueChanged, "Combobox value changed");
+							resolve();
+						})
+						
+						setTimeout(function()
+						{
+							leftMouseClick(new RadJav.Vector2(106, 62));
+							setTimeout(function()
+							{
+								leftMouseClick(new RadJav.Vector2(52, 114));
+							}, 1000);
+						}, 1000);
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(comboboxValueChanged, "Combobox value changed");
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		}, ta);
+		
+		// Add test case
+		tests.addTest(test);
+		
+		// Container test
+		test = new RadJav.Testing.Test("test004");
+		ta = new RadJav.Testing.TestingAPI(test);
+		
+		test.func = RadJav.keepContext(function () {
+			let check = this;
+			let containerClicked = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","Container test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.setPosition(0, 22);
+					
+					var control = new RadJav.GUI.Container("Container", "test", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						control.setPosition(0, 0);
+						
+						control.on("click", function() {
+							containerClicked = true;
+							check.assert(containerClicked, "Container event clicked");
+							resolve();
+						})
+						
+						setTimeout(function()
+						{
+							leftMouseClick(new RadJav.Vector2(48, 92));
+						}, 1000);
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(containerClicked, "Container event clicked");
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		}, ta);
+		
+		// Add test case
+		tests.addTest(test);
+		
+		// Image test
+		test = new RadJav.Testing.Test("test005");
+		ta = new RadJav.Testing.TestingAPI(test);
+		
+		test.func = RadJav.keepContext(function () {
+			let check = this;
+			let imageClicked = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","Image test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.setPosition(0, 22);
+					
+					var control = new RadJav.GUI.Image("Image", "test", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						control.setPosition(0, 0);
+						control.setSize(512, 512);
+						control.setImage("test-image.png");
+						
+						control.on("click", function() {
+							imageClicked = true;
+							check.assert(imageClicked, "Image clicked");
+							resolve();
+						})
+						
+						setTimeout(function()
+						{
+							leftMouseClick(new RadJav.Vector2(48, 92));
+						}, 1000);
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(imageClicked, "Image clicked");
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		}, ta);
+		
+		// Add test case
+		tests.addTest(test);
+		
+		// Label test
+		test = new RadJav.Testing.Test("test006");
+		ta = new RadJav.Testing.TestingAPI(test);
+		
+		test.func = RadJav.keepContext(function () {
+			let check = this;
+			let labelClicked = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","Label test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.setPosition(0, 22);
+					
+					var control = new RadJav.GUI.Label("Label", "test", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						control.setPosition(0, 0);
+						check.equal(control.getText(), "test", "Label text check");
+						
+						control.on("click", function() {
+							labelClicked = true;
+							check.assert(labelClicked, "Label clicked");
+							resolve();
+						})
+						
+						setTimeout(function()
+						{
+							leftMouseClick(new RadJav.Vector2(14, 53));
+						}, 1000);
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(labelClicked, "Label clicked");
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		}, ta);
+		
+		// Add test case
+		tests.addTest(test);
+		
+		// Radio test
+		test = new RadJav.Testing.Test("test007");
+		ta = new RadJav.Testing.TestingAPI(test);
+		
+		test.func = RadJav.keepContext(function () {
+			let check = this;
+			let radioChanged = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","Radio test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.setPosition(0, 22);
+					
+					var control = new RadJav.GUI.Radio("Radio", "test", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						control.setPosition(0, 0);
+						check.equal(control.getText(), "test", "Radio text check");
+						
+						control.on("change", function() {
+							radioChanged = true;
+							check.assert(radioChanged, "Radio value changed");
+							resolve();
+						})
+						
+						setTimeout(function()
+						{
+							leftMouseClick(new RadJav.Vector2(8, 63));
+						}, 1000);
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(radioChanged, "Radio value changed");
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		}, ta);
+		
+		// Add test case
+		tests.addTest(test);
+		
+		// Textarea test
+		test = new RadJav.Testing.Test("test008");
+		ta = new RadJav.Testing.TestingAPI(test);
+		
+		test.func = RadJav.keepContext(function () {
+			let check = this;
+			let textChanged = false;
+			let text = "";
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","Textarea test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.setPosition(0, 22);
+					
+					var control = new RadJav.GUI.Textarea("Textarea", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						control.setPosition(0, 0);
+						
+						control.on("onText", function() {
+							textChanged = true;
+							text = control.getText();
+						})
+						
+						setTimeout(function()
+						{
+							leftMouseClick(new RadJav.Vector2(56, 105));
+							setTimeout(function()
+							{
+								enterText("test");
+							}, 1000);
+						}, 1000);
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(textChanged, "Textarea value changed");
+					check.equal(text, "test", "Textarea text check");
+					resolve();
+				}, 4000);
+			});
+			
+			return promise;
+			
+		}, ta);
+		
+		// Add test case
+		tests.addTest(test);
+		
+		// Textbox test
+		test = new RadJav.Testing.Test("test009");
+		ta = new RadJav.Testing.TestingAPI(test);
+		
+		test.func = RadJav.keepContext(function () {
+			let check = this;
+			let textChanged = false;
+			let text = "";
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","Textbox test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.setPosition(0, 22);
+					
+					var control = new RadJav.GUI.Textbox("Textbox", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						control.setPosition(0, 0);
+						
+						control.on("onText", function() {
+							textChanged = true;
+							text = control.getText();
+						})
+						
+						setTimeout(function()
+						{
+							leftMouseClick(new RadJav.Vector2(56, 62));
+							setTimeout(function()
+							{
+								enterText("test");
+							}, 1000);
+						}, 1000);
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(textChanged, "Textbox value changed");
+					check.equal(text, "test", "Textbox text check");
+					resolve();
+				}, 4000);
+			});
+			
+			return promise;
+			
+		}, ta);
+		
+		// Add test case
+		tests.addTest(test);
+		
+		// List test
+		test = new RadJav.Testing.Test("test010");
+		ta = new RadJav.Testing.TestingAPI(test);
+		
+		test.func = RadJav.keepContext(function () {
+			let check = this;
+			let rowSelected = false;
+			let selection = {};
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","List test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.setPosition(0, 22);
+					
+					var control = new RadJav.GUI.List("List", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						control.setPosition(0, 0);
+						
+						control.addColumn("Id", 100);
+						control.addColumn("Value", 100);
+						control.addRow({items: [{text: "0"},
+												{text: "Value 1"}]});
+						
+						control.addRow({items: [{text: "1"},
+												{text: "Value 2"}]});
+
+						control.on("rowClick", function() {
+							rowSelected = true;
+							selection = control.getSelectedRows();
+						})
+						
+						setTimeout(function()
+						{
+							leftMouseClick(new RadJav.Vector2(38, 70));
+						}, 1000);
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(rowSelected, "List row selected");
+					check.equal(selection._appObj[0], 0, "Selected row equal to 0");
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		}, ta);
+		
+		// Add test case
+		tests.addTest(test);
+		
+		// Menubar test
+		test = new RadJav.Testing.Test("test011");
+		ta = new RadJav.Testing.TestingAPI(test);
+		
+		test.func = RadJav.keepContext(function () {
+			let check = this;
+			let itemTriggered = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","Menubar test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.setPosition(0, 22);
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						var itemFile = new RadJav.GUI.MenuItem("Menu file", "File", control);
+						itemFile.create().then(function(itm) {
+							itemFile = itm;
+							
+							var itemTest = new RadJav.GUI.MenuItem("Menu test", "Test", itemFile);
+							itemTest.create().then(function(itm) {
+								itemTest = itm;
+								itemTest.on("click", function() {
+									itemTriggered = true;
+								})
+							});
+						});
+						
+						setTimeout(function()
+						{
+							leftMouseClick(new RadJav.Vector2(224, 11));
+							setTimeout(function()
+							{
+								leftMouseClick(new RadJav.Vector2(238, 36));
+							}, 1000);
+						}, 1000);
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(itemTriggered, "Menu triggered");
+					resolve();
+				}, 4000);
+			});
+			
+			return promise;
+			
+		}, ta);
+		
+		// Add test case
+		tests.addTest(test);
+		
+		// Execute test cases
+		tests.execute().then( function(tests) {
+			RadJav.exit();
+		});
+	});
+});
