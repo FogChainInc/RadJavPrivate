@@ -28,6 +28,7 @@
 
 	#ifdef GUI_USE_WXWIDGETS
 		#include <wx/wx.h>
+		#include <wx/generic/statbmpg.h>
 	#endif
 
 	namespace RadJAV
@@ -37,8 +38,7 @@
 			namespace GUI
 			{
 				#ifdef GUI_USE_WXWIDGETS
-					/// The wxWidgets button to use.
-					class RADJAV_EXPORT ImageFrame : public wxStaticBitmap, public GObjectWidget, public ChainedPtr
+					class RADJAV_EXPORT ImageFrame : public wxGenericStaticBitmap, public GObjectWidget, public ChainedPtr
 					{
 					public:
 						ImageFrame(Image::ScaleMode scaleMode, GObjectWidget *parent, const String &filePath, const Vector2 &pos, const Vector2 &size);
@@ -67,19 +67,12 @@
 						wxWindow* getNativeWidget();
 
 					protected:
-						void adaptImage();
-						
 						wxBitmapType getImageType(wxString file);
-						void paintEvent(wxPaintEvent &event);
 
 					protected:
 						RJBOOL isImageLoaded;
 						wxImage image;
 						Image::ScaleMode scaleMode;
-						wxPoint imagePosition;
-						wxSize imageSize;
-
-						wxDECLARE_EVENT_TABLE();
 					};
 				#endif
 			}

@@ -30,7 +30,7 @@ namespace RadJAV
 		{
 			#ifdef GUI_USE_WXWIDGETS
 				ImageFrame::ImageFrame(Image::ScaleMode scaleMode, GObjectWidget *parent, const String &filePath, const Vector2 &pos, const Vector2 &size)
-					: wxStaticBitmap(parent ? parent->getNativeWidget() : nullptr, wxID_ANY, wxBitmap(), wxPoint(pos.x, pos.y), wxSize(size.x, size.y), wxTRANSPARENT_WINDOW | wxBORDER_NONE)
+					: wxGenericStaticBitmap(parent ? parent->getNativeWidget() : nullptr, wxID_ANY, wxBitmap(), wxPoint(pos.x, pos.y), wxSize(size.x, size.y), wxTRANSPARENT_WINDOW | wxBORDER_NONE)
 				{
 					isImageLoaded = false;
 					this->scaleMode = scaleMode;
@@ -101,15 +101,34 @@ namespace RadJAV
 					
 					isImageLoaded = true;
 					
-					adaptImage();
+					wxSize size = GetSize();
+					SetBitmap(image);
 					
+					setSize(size.x, size.y);
+					setScaleMode(scaleMode);
+					
+					Refresh();
 					return true;
 				}
 			
 				void ImageFrame::setScaleMode(Image::ScaleMode mode)
 				{
 					scaleMode = mode;
-					adaptImage();
+					
+					switch (scaleMode)
+					{
+						case Image::ScaleMode::AspectFit:
+						{
+							SetScaleMode(ScaleMode::Scale_AspectFit);
+							break;
+						}
+						case Image::ScaleMode::AspectFill:
+						{
+							SetScaleMode(ScaleMode::Scale_AspectFill);
+							break;
+						}
+						default:;
+					}
 				}
 			
 				Image::ScaleMode ImageFrame::getScaleMode() const
@@ -120,65 +139,13 @@ namespace RadJAV
 				void ImageFrame::setSize(RJINT width, RJINT height)
 				{
 					GObjectWidget::setSize(width, height);
-					
-					adaptImage();
 				}
 
 				wxWindow* ImageFrame::getNativeWidget()
 				{
 					return this;
 				}
-
-				void ImageFrame::adaptImage()
-				{
-					if (!isImageLoaded)
-						return;
-					
-					int controlWidth;
-					int controlHeight;
-					GetSize(&controlWidth, &controlHeight);
-					
-					int imageWidth = image.GetWidth();
-					int imageHeight = image.GetHeight();
-
-					switch (scaleMode)
-					{
-						case Image::ScaleMode::AspectFit:
-						{
-							RDECIMAL xScale = (RDECIMAL)controlWidth/(RDECIMAL)imageWidth;
-							RDECIMAL yScale = (RDECIMAL)controlHeight/(RDECIMAL)imageHeight;
-							RDECIMAL scale = std::min<RDECIMAL>(xScale, yScale);
-							imageSize = wxSize(imageWidth*scale, imageHeight*scale);
-							imagePosition = wxPoint((controlWidth-imageWidth)/2.0, (controlHeight-imageHeight)/2.0);
-							image.Rescale(imageSize.GetWidth(), imageSize.GetHeight(), wxImageResizeQuality::wxIMAGE_QUALITY_HIGH);
-							break;
-						}
-						case Image::ScaleMode::AspectFill:
-						{
-							imageSize = wxSize(controlWidth, controlHeight);
-							imagePosition = wxPoint(0, 0);
-							image.Rescale(controlWidth, controlHeight, wxImageResizeQuality::wxIMAGE_QUALITY_HIGH);
-							break;
-						}
-						default:;
-					}
-				}
-
-				void ImageFrame::paintEvent(wxPaintEvent &evt)
-				{
-					if (isImageLoaded == false)
-						return;
-
-					wxPaintDC dc(this);
-					dc.DrawBitmap(image, imagePosition);
-				}
 			#endif
 		}
 	}
 }
-
-#ifdef GUI_USE_WXWIDGETS
-	wxBEGIN_EVENT_TABLE(RadJAV::CPP::GUI::ImageFrame, wxStaticBitmap)
-		EVT_PAINT(RadJAV::CPP::GUI::ImageFrame::paintEvent)
-	wxEND_EVENT_TABLE()
-#endif
