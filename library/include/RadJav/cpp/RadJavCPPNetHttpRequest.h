@@ -51,6 +51,14 @@ namespace RadJAV
 	{
 		namespace Net
 		{
+			///  Http encoding types.
+			enum RADJAV_EXPORT HttpEncodingType
+			{
+				APPLICATION_X_WWW_FORM_URLENCODED,
+				MULTIPART_FORM_DATA,
+				TEXT_PLAIN
+			};
+
 			/**
 			 * @ingroup group_net_cpp
 			 * @brief HttpRequest2 class.
@@ -60,16 +68,37 @@ namespace RadJAV
 				public:
 					HttpRequest2(std::map<std::string, std::string> &parms);
 
+					/// Fetch data from the web server.
 					String fetch(const String &target);
+					/// Connect to the web server.
 					String connect(const String &uri);
 
+					/// Add a post field.
+					void addPost(const String &fieldName, const String &fieldData);
+
+					/// Set the HTTP encoding type for post requests.
+					void setEncodingType(HttpEncodingType enctype)
+					{
+						this->enctype = enctype;
+					}
+
+					/// Get the HTTP encoding type.
+					HttpEncodingType getEncodingType()
+					{
+						return (enctype);
+					}
+
 				protected:
-					//the io_context is required for all I/O
+					/// The io_context is required for all I/O
 					boost::asio::io_context myIoc;
 
-					//these objects perform our I/O
+					/// These objects perform our I/O
 					boost::beast::http::verb myAction;
 
+					/// The http encoding type to use.
+					HttpEncodingType enctype;
+
+					/// The tcp socket used.
 					std::unique_ptr<boost::asio::ip::tcp::socket> mySocket;
 
 					std::unique_ptr<boost::beast::http::request<boost::beast::http::string_body>> myRequest;

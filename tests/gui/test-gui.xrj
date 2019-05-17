@@ -1,28 +1,13 @@
 RadJav.initialize (RadJav.getStandardLibrary (),
 					RadJav.getGUILibrary (),
 					RadJav.getMUILibrary ()).then (function () {
-	RadJav.runApplication (function () {
-		
-		//Utils
-		var leftMouseClick = function (position)
-		{
-			RadJav.Testing.MouseSimulator.setPosition(position);
-			RadJav.Testing.MouseSimulator.click(0);
-		}
-		
-		var enterText = function (text)
-		{
-			for(let i = 0; i < text.length; i++)
-			{
-				RadJav.Testing.KeyboardSimulator.keyPress(text.charAt(i));
-			}
-		}
-		
+	RadJav.runApplication (function ()
+	{
 		let tests = new RadJav.Testing.FunctionalTests("");
 		
 		// Button click test
 		let test = new RadJav.Testing.Test("test001");
-		let ta = new RadJav.Testing.TestingAPI(test);
+		let ta = new RadJav.Testing.TestLibrary(test);
 		
 		test.func = RadJav.keepContext(function () {
 			let check = this;
@@ -49,7 +34,7 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 						
 						setTimeout(function()
 						{
-							leftMouseClick(new RadJav.Vector2(40, 64));
+							RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(40, 64));
 						}, 1000);
 						
 					});
@@ -72,7 +57,7 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 		
 		// Checkbox test
 		test = new RadJav.Testing.Test("test002");
-		ta = new RadJav.Testing.TestingAPI(test);
+		ta = new RadJav.Testing.TestLibrary(test);
 		
 		test.func = RadJav.keepContext(function () {
 			let check = this;
@@ -99,7 +84,7 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 						
 						setTimeout(function()
 						{
-							leftMouseClick(new RadJav.Vector2(15, 64));
+							RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(15, 64));
 						}, 1000);
 					});
 				});
@@ -120,7 +105,7 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 		
 		// Combobox test
 		test = new RadJav.Testing.Test("test003");
-		ta = new RadJav.Testing.TestingAPI(test);
+		ta = new RadJav.Testing.TestLibrary(test);
 		
 		test.func = RadJav.keepContext(function () {
 			let check = this;
@@ -154,10 +139,10 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 						
 						setTimeout(function()
 						{
-							leftMouseClick(new RadJav.Vector2(106, 62));
+							RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(106, 62));
 							setTimeout(function()
 							{
-								leftMouseClick(new RadJav.Vector2(52, 114));
+								RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(52, 114));
 							}, 1000);
 						}, 1000);
 					});
@@ -179,7 +164,7 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 		
 		// Container test
 		test = new RadJav.Testing.Test("test004");
-		ta = new RadJav.Testing.TestingAPI(test);
+		ta = new RadJav.Testing.TestLibrary(test);
 		
 		test.func = RadJav.keepContext(function () {
 			let check = this;
@@ -206,7 +191,7 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 						
 						setTimeout(function()
 						{
-							leftMouseClick(new RadJav.Vector2(48, 92));
+							RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(48, 92));
 						}, 1000);
 					});
 				});
@@ -227,7 +212,7 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 		
 		// Image test
 		test = new RadJav.Testing.Test("test005");
-		ta = new RadJav.Testing.TestingAPI(test);
+		ta = new RadJav.Testing.TestLibrary(test);
 		
 		test.func = RadJav.keepContext(function () {
 			let check = this;
@@ -257,7 +242,7 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 						
 						setTimeout(function()
 						{
-							leftMouseClick(new RadJav.Vector2(48, 92));
+							RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(48, 92));
 						}, 1000);
 					});
 				});
@@ -278,7 +263,7 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 		
 		// Label test
 		test = new RadJav.Testing.Test("test006");
-		ta = new RadJav.Testing.TestingAPI(test);
+		ta = new RadJav.Testing.TestLibrary(test);
 		
 		test.func = RadJav.keepContext(function () {
 			let check = this;
@@ -306,7 +291,7 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 						
 						setTimeout(function()
 						{
-							leftMouseClick(new RadJav.Vector2(14, 53));
+							RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(14, 53));
 						}, 1000);
 					});
 				});
@@ -327,7 +312,7 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 		
 		// Radio test
 		test = new RadJav.Testing.Test("test007");
-		ta = new RadJav.Testing.TestingAPI(test);
+		ta = new RadJav.Testing.TestLibrary(test);
 		
 		test.func = RadJav.keepContext(function () {
 			let check = this;
@@ -355,7 +340,7 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 						
 						setTimeout(function()
 						{
-							leftMouseClick(new RadJav.Vector2(8, 63));
+							RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(8, 63));
 						}, 1000);
 					});
 				});
@@ -376,7 +361,7 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 		
 		// Textarea test
 		test = new RadJav.Testing.Test("test008");
-		ta = new RadJav.Testing.TestingAPI(test);
+		ta = new RadJav.Testing.TestLibrary(test);
 		
 		test.func = RadJav.keepContext(function () {
 			let check = this;
@@ -403,10 +388,10 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 						
 						setTimeout(function()
 						{
-							leftMouseClick(new RadJav.Vector2(56, 105));
+							RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(56, 105));
 							setTimeout(function()
 							{
-								enterText("test");
+								RadJav.Testing.KeyboardSimulator.enterText("test");
 							}, 1000);
 						}, 1000);
 					});
@@ -429,7 +414,7 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 		
 		// Textbox test
 		test = new RadJav.Testing.Test("test009");
-		ta = new RadJav.Testing.TestingAPI(test);
+		ta = new RadJav.Testing.TestLibrary(test);
 		
 		test.func = RadJav.keepContext(function () {
 			let check = this;
@@ -456,10 +441,10 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 						
 						setTimeout(function()
 						{
-							leftMouseClick(new RadJav.Vector2(56, 62));
+							RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(56, 62));
 							setTimeout(function()
 							{
-								enterText("test");
+								RadJav.Testing.KeyboardSimulator.enterText("test");
 							}, 1000);
 						}, 1000);
 					});
@@ -482,7 +467,7 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 		
 		// List test
 		test = new RadJav.Testing.Test("test010");
-		ta = new RadJav.Testing.TestingAPI(test);
+		ta = new RadJav.Testing.TestLibrary(test);
 		
 		test.func = RadJav.keepContext(function () {
 			let check = this;
@@ -517,7 +502,7 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 						
 						setTimeout(function()
 						{
-							leftMouseClick(new RadJav.Vector2(38, 70));
+							RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(38, 70));
 						}, 1000);
 					});
 				});
@@ -539,7 +524,7 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 		
 		// Menubar test
 		test = new RadJav.Testing.Test("test011");
-		ta = new RadJav.Testing.TestingAPI(test);
+		ta = new RadJav.Testing.TestLibrary(test);
 		
 		test.func = RadJav.keepContext(function () {
 			let check = this;
@@ -571,10 +556,10 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 						
 						setTimeout(function()
 						{
-							leftMouseClick(new RadJav.Vector2(224, 11));
+							RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(224, 11));
 							setTimeout(function()
 							{
-								leftMouseClick(new RadJav.Vector2(238, 36));
+								RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(238, 36));
 							}, 1000);
 						}, 1000);
 					});

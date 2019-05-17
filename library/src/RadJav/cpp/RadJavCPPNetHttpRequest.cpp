@@ -157,8 +157,7 @@ namespace RadJAV
 				
 			} // End of HttpRequest2()
 
-
-		        String HttpRequest2::connect(const String &uri)
+		    String HttpRequest2::connect(const String &uri)
 			{
 			  resetHttpRequest();
 
@@ -236,7 +235,32 @@ namespace RadJAV
 			    }
 			  
 			  return target;
-			  
+			}
+
+			void HttpRequest2::addPost(const String &fieldName, const String &fieldData)
+			{
+				String enctypeStr = "";
+				String encodedData = "";
+
+				switch (enctype)
+				{
+					case HttpEncodingType::APPLICATION_X_WWW_FORM_URLENCODED:
+						enctypeStr = "application/x-www-form-urlencoded";
+						encodedData = fieldName + "=" + fieldData;
+						break;
+					case HttpEncodingType::MULTIPART_FORM_DATA:
+						enctypeStr = "multipart/form-data";
+						encodedData = fieldName + "=" + fieldData;
+						break;
+					case HttpEncodingType::TEXT_PLAIN:
+						enctypeStr = "text/plain";
+						encodedData = fieldData;
+						break;
+				}
+
+				myRequest->method(boost::beast::http::verb::post);
+				myRequest->set(boost::beast::http::field::content_type, enctypeStr);
+				myRequest->body() = encodedData;
 			}
 		  
 			String HttpRequest2::fetch(const String &target)

@@ -32,8 +32,8 @@ namespace RadJav
 	*/
 	export namespace Testing
 	{
-		/// The testing API.
-		export class TestingAPI
+		/// The testing library.
+		export class TestLibrary
 		{
 			test: Test;
 
@@ -151,6 +151,8 @@ namespace RadJav
 			applicationPath: string;
 			/// The actual test to execute.
 			func: Function;
+			/// The amount of time in milliseconds before a test times out.
+			timeout: number;
 
 			constructor (name: string, applicationPath: string)
 			{
@@ -159,6 +161,7 @@ namespace RadJav
 				this.results = [];
 				this.applicationPath = applicationPath;
 				this.func = null;
+				this.timeout = 1000 * 60;
 			}
 
 			/// Execute the test. Store the result in this test, and return the test.
@@ -170,7 +173,7 @@ namespace RadJav
 
 						let timeoutHandler = function(test: Test) {
 							that.passed.push(false);
-							that.results.push("Test finished");
+							that.results.push("Test timed out.");
 							resolve(that);
 						}
 
@@ -178,7 +181,7 @@ namespace RadJav
 
 						if (ret instanceof Promise)
 						{
-							setTimeout(timeoutHandler, 1000*60);
+							setTimeout(timeoutHandler, this.timeout);
 
 							let result = RadJav.keepContext( function() {
 								resolve (that);
@@ -463,6 +466,47 @@ namespace RadJav
 			static keyPress (key: string): void
 			{
 			}
+
+			/// Enter text.
+			/// @param text The text to enter.
+			/// @param delayBetweenKeyPresses The delay between key presses in milliseconds.
+			static enterText (text: string, delayBetweenKeyPresses: number = 0): Promise<void>
+			{
+				let promise: Promise<void> = new Promise<void> (function (resolve, reject)
+					{
+						if (delayBetweenKeyPresses == 0)
+						{
+							for(let i = 0; i < text.length; i++)
+							{
+								RadJav.Testing.KeyboardSimulator.keyPress(text.charAt(i));
+							}
+
+							resolve ();
+						}
+						else
+						{
+							for(let i = 0; i <= text.length; i++)
+							{
+								if (i == text.length)
+								{
+									setTimeout (function (char)
+										{
+											resolve ();
+										}, delayBetweenKeyPresses * i);
+
+									break;
+								}
+
+								setTimeout (RadJav.keepContext (function (char)
+									{
+										RadJav.Testing.KeyboardSimulator.keyPress(char[0]);
+									}, this, [text.charAt(i)]), delayBetweenKeyPresses * i);
+							}
+						}
+					});
+
+				return (promise);
+			}
 		}
 
 		/** Simulates mouse input.
@@ -478,6 +522,13 @@ namespace RadJav
 			/// Click a mouse button.
 			static setPosition (pos: Vector2): void
 			{
+			}
+
+			/// Move to a position and click.
+			static moveClick (pos: Vector2, button: number = 0): void
+			{
+				RadJav.Testing.MouseSimulator.setPosition(pos);
+				RadJav.Testing.MouseSimulator.click(button);
 			}
 		}
 

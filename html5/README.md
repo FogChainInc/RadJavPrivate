@@ -15,3 +15,6 @@ To test the HTML5 version run:
 	npm run http
 
 This will start a web server on the local machine you can connect to. Every time you make changes to a file, the page will refresh to reflect the latest changes.
+
+## How to build documentation
+See RadJav/docs

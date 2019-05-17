@@ -165,6 +165,13 @@ RadJav.currentTheme.themeObjects["RadJav.GUI.Combobox"].exports =
 
 		if (combobox._html.item2 != null)
 			index = store.getValue (combobox._html.item2, "id");
+		else
+		{
+			var item = combobox._html.get ("store").data[0];
+
+			if (item != null)
+				index = 0;
+		}
 
 		return (index);
 	}

@@ -2,88 +2,88 @@ var RadJav;
 (function (RadJav) {
     var Testing;
     (function (Testing) {
-        var TestingAPI = (function () {
-            function TestingAPI(test) {
+        var TestLibrary = (function () {
+            function TestLibrary(test) {
                 this.test = test;
             }
-            TestingAPI.prototype.success = function (message) {
+            TestLibrary.prototype.success = function (message) {
                 if (message === void 0) { message = ""; }
                 this.test.passed.push(true);
                 this.test.results.push(message);
             };
-            TestingAPI.prototype.error = function (message, expected, result) {
+            TestLibrary.prototype.error = function (message, expected, result) {
                 if (message === void 0) { message = ""; }
                 if (expected === void 0) { expected = undefined; }
                 if (result === void 0) { result = undefined; }
                 this.test.passed.push(false);
                 this.test.results.push(message);
             };
-            TestingAPI.prototype.assert = function (expression, errorMessage) {
+            TestLibrary.prototype.assert = function (expression, errorMessage) {
                 if (errorMessage === void 0) { errorMessage = ""; }
                 if (expression == true)
                     this.success(errorMessage);
                 else
                     this.error(errorMessage);
             };
-            TestingAPI.prototype.equal = function (expected, result, message) {
+            TestLibrary.prototype.equal = function (expected, result, message) {
                 if (message === void 0) { message = ""; }
                 if (expected == result)
                     this.success(message);
                 else
                     this.error(message);
             };
-            TestingAPI.prototype.notEqual = function (expected, result, message) {
+            TestLibrary.prototype.notEqual = function (expected, result, message) {
                 if (message === void 0) { message = ""; }
                 if (expected != result)
                     this.success(message);
                 else
                     this.error(message);
             };
-            TestingAPI.prototype.greaterThan = function (result, greaterThanThisNumber, message) {
+            TestLibrary.prototype.greaterThan = function (result, greaterThanThisNumber, message) {
                 if (message === void 0) { message = ""; }
                 if (result > greaterThanThisNumber)
                     this.success(message);
                 else
                     this.error(message);
             };
-            TestingAPI.prototype.lessThan = function (result, lessThanThisNumber, message) {
+            TestLibrary.prototype.lessThan = function (result, lessThanThisNumber, message) {
                 if (message === void 0) { message = ""; }
                 if (result > lessThanThisNumber)
                     this.success(message);
                 else
                     this.error(message);
             };
-            TestingAPI.prototype.isNumber = function (obj, message) {
+            TestLibrary.prototype.isNumber = function (obj, message) {
                 if (message === void 0) { message = ""; }
                 if (typeof (obj) == "number")
                     this.success(message);
                 else
                     this.error(message);
             };
-            TestingAPI.prototype.isString = function (obj, message) {
+            TestLibrary.prototype.isString = function (obj, message) {
                 if (message === void 0) { message = ""; }
                 if (typeof (obj) == "string")
                     this.success(message);
                 else
                     this.error(message);
             };
-            TestingAPI.prototype.isArray = function (obj, message) {
+            TestLibrary.prototype.isArray = function (obj, message) {
                 if (message === void 0) { message = ""; }
                 if (obj instanceof Array)
                     this.success(message);
                 else
                     this.error(message);
             };
-            TestingAPI.prototype.isObject = function (obj, message) {
+            TestLibrary.prototype.isObject = function (obj, message) {
                 if (message === void 0) { message = ""; }
                 if (typeof (obj) == "object")
                     this.success(message);
                 else
                     this.error(message);
             };
-            return TestingAPI;
+            return TestLibrary;
         }());
-        Testing.TestingAPI = TestingAPI;
+        Testing.TestLibrary = TestLibrary;
         var Test = (function () {
             function Test(name, applicationPath) {
                 this.name = name;
@@ -91,18 +91,19 @@ var RadJav;
                 this.results = [];
                 this.applicationPath = applicationPath;
                 this.func = null;
+                this.timeout = 1000 * 60;
             }
             Test.prototype.execute = function () {
                 var promise = new Promise(RadJav.keepContext(function (resolve, reject) {
                     var that = this;
                     var timeoutHandler = function (test) {
                         that.passed.push(false);
-                        that.results.push("Test finished");
+                        that.results.push("Test timed out.");
                         resolve(that);
                     };
                     var ret = that.func();
                     if (ret instanceof Promise) {
-                        setTimeout(timeoutHandler, 1000 * 60);
+                        setTimeout(timeoutHandler, this.timeout);
                         var result = RadJav.keepContext(function () {
                             resolve(that);
                         }, that);
@@ -270,6 +271,31 @@ var RadJav;
             }
             KeyboardSimulator.keyPress = function (key) {
             };
+            KeyboardSimulator.enterText = function (text, delayBetweenKeyPresses) {
+                if (delayBetweenKeyPresses === void 0) { delayBetweenKeyPresses = 0; }
+                var promise = new Promise(function (resolve, reject) {
+                    if (delayBetweenKeyPresses == 0) {
+                        for (var i = 0; i < text.length; i++) {
+                            RadJav.Testing.KeyboardSimulator.keyPress(text.charAt(i));
+                        }
+                        resolve();
+                    }
+                    else {
+                        for (var i = 0; i <= text.length; i++) {
+                            if (i == text.length) {
+                                setTimeout(function (char) {
+                                    resolve();
+                                }, delayBetweenKeyPresses * i);
+                                break;
+                            }
+                            setTimeout(RadJav.keepContext(function (char) {
+                                RadJav.Testing.KeyboardSimulator.keyPress(char[0]);
+                            }, this, [text.charAt(i)]), delayBetweenKeyPresses * i);
+                        }
+                    }
+                });
+                return (promise);
+            };
             return KeyboardSimulator;
         }());
         Testing.KeyboardSimulator = KeyboardSimulator;
@@ -279,6 +305,11 @@ var RadJav;
             MouseSimulator.click = function (button) {
             };
             MouseSimulator.setPosition = function (pos) {
+            };
+            MouseSimulator.moveClick = function (pos, button) {
+                if (button === void 0) { button = 0; }
+                RadJav.Testing.MouseSimulator.setPosition(pos);
+                RadJav.Testing.MouseSimulator.click(button);
             };
             return MouseSimulator;
         }());
