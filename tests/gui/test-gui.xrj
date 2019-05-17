@@ -239,6 +239,7 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 					window = win;
 					
 					window.setPosition(0, 22);
+					window.setSize(512, 512);
 					
 					var control = new RadJav.GUI.Image("Image", "test", window);
 					control.create().then(function(cnt) {
