@@ -579,6 +579,50 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 		// Add test case
 		tests.addTest(test);
 		
+		// WebView test
+		test = new RadJav.Testing.Test("test012");
+		ta = new RadJav.Testing.TestLibrary(test);
+		
+		test.func = RadJav.keepContext(function () {
+			let check = this;
+			let pageLoaded = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","WebView test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.setPosition(0, 22);
+					window.setSize(800, 600);
+					
+					var control = new RadJav.GUI.WebView("WebView", "http://www.google.com", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						control.setSize(window.getWidth(), window.getHeight());
+						
+						control.on("pageLoad", function() {
+							pageLoaded = true;
+							check.assert(pageLoaded, "Page loaded");
+							resolve();
+						});
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(pageLoaded, "Page loaded");
+					resolve();
+				}, 30000);
+			});
+			
+			return promise;
+			
+		}, ta);
+		
+		// Add test case
+		tests.addTest(test);
+		
 		// Execute test cases
 		tests.execute().then( function(tests) {
 			RadJav.exit();
