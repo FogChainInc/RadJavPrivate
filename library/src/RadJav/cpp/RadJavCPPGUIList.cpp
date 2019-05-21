@@ -249,16 +249,13 @@ namespace RadJAV
 
 				#ifdef GUI_USE_WXWIDGETS
 					ListFrame *object = (ListFrame *)_appObj;
-					RJINT count = object->GetSelectedItemCount();
-
-					for (RJINT iIdx = 0; iIdx < count; iIdx++)
+				
+					RJINT index = object->GetFirstSelected();
+					while(index != -1)
 					{
-						RJLONG index = object->GetNextSelected(iIdx);
-
-						if (index == -1)
-							break;
-
 						selection.indicies.push_back(index);
+
+						index = object->GetNextSelected(index);
 					}
 				#endif
 

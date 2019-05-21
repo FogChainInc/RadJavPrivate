@@ -123,7 +123,11 @@ var RadJav;
             function FunctionalTests(applicationPath) {
                 this.applicationPath = applicationPath;
                 this.tests = [];
+                this.node = false;
             }
+            FunctionalTests.prototype.isNode = function () {
+                return this.node;
+            };
             FunctionalTests.prototype.addTest = function (test) {
                 if (typeof (test) == "function") {
                     var tempFunc = test;
@@ -140,20 +144,20 @@ var RadJav;
                         return;
                     }
                     if (RadJav.isDesktop()) {
-                        var params_1 = { isMaster: true,
+                        var params_1 = { isNode: false,
                             testCaseName: "",
                             appPath: "",
                             execFile: "" };
                         if (RadJav.OS.args.length > 2 &&
-                            RadJav.OS.args[0] === "--slave") {
-                            params_1.isMaster = false;
+                            RadJav.OS.args[0] === "--node") {
+                            params_1.isNode = true;
                             if (RadJav.OS.args.length > 2) {
                                 params_1.testCaseName = RadJav.OS.args[2];
                             }
                         }
                         params_1.appPath = RadJav.OS.getApplicationPath();
                         params_1.execFile = RadJav.OS.executingFile;
-                        if (params_1.isMaster) {
+                        if (!params_1.isNode) {
                             var reportFileName = params_1.execFile.split('\\').pop().split('/').pop();
                             reportFileName = reportFileName.split(".")[0] + ".csv";
                             var reporter = new CsvReporter(reportFileName);
@@ -183,7 +187,7 @@ var RadJav;
                                         return;
                                     }
                                     var test = this.tests[currentTestIndex_1];
-                                    var command = params_1.appPath + " " + params_1.execFile + " --slave " + "--testcase " + test.name;
+                                    var command = params_1.appPath + " " + params_1.execFile + " --node " + "--testcase " + test.name;
                                     RadJav.OS.exec(command);
                                 }, this));
                             }, this));
@@ -195,7 +199,7 @@ var RadJav;
                             });
                             server.start("127.0.0.1", 9898);
                             var test = this.tests[currentTestIndex_1];
-                            var command = params_1.appPath + " " + params_1.execFile + " --slave " + "--testcase " + test.name;
+                            var command = params_1.appPath + " " + params_1.execFile + " --node " + "--testcase " + test.name;
                             RadJav.OS.exec(command);
                         }
                         else {

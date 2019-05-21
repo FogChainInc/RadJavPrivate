@@ -472,7 +472,11 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 		test.func = RadJav.keepContext(function () {
 			let check = this;
 			let rowSelected = false;
-			let selection = {};
+			let selectedRows = {};
+			let selectionInCallback = {};
+			let expectedSelectedRow = [{items: [{text: "0"},
+												{text: "Value 1"}]
+										}];
 			
 			let promise = new Promise(function(resolve, reject) {
 				var window = new RadJav.GUI.Window("window","List test");
@@ -495,9 +499,10 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 						control.addRow({items: [{text: "1"},
 												{text: "Value 2"}]});
 
-						control.on("rowClick", function() {
+						control.on("rowClick", function(selection) {
 							rowSelected = true;
-							selection = control.getSelectedRows();
+							selectionInCallback = selection;
+							selectedRows = control.getSelectedRows();
 						})
 						
 						setTimeout(function()
@@ -510,7 +515,10 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 				setTimeout(function ()
 				{
 					check.assert(rowSelected, "List row selected");
-					check.equal(selection._appObj[0], 0, "Selected row equal to 0");
+					check.equal(JSON.stringify(selectionInCallback),
+								JSON.stringify(expectedSelectedRow), "Selection object match");
+					
+					check.equal(selectedRows._appObj[0], 0, "Selected row equal to 0");
 					resolve();
 				}, 5000);
 			});
