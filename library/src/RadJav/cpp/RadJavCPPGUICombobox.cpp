@@ -163,16 +163,18 @@ namespace RadJAV
 			{
 				#ifdef GUI_USE_WXWIDGETS
 					ComboboxFrame *object = (ComboboxFrame *)_appObj;
-					wxString *wxitems = RJNEW wxString[items->size ()];
-
+				
+					DELETEOBJ(_items);
+					object->Clear();
+				
+					wxArrayString textItems;
 					for (RJUINT iIdx = 0; iIdx < items->size(); iIdx++)
 					{
-						String text = items->at (iIdx).text;
-						wxitems[iIdx] = text.towxString();
+						textItems.Add(items->at(iIdx).text.towxString());
 					}
 
 					_items = items;
-					DELETE_ARRAY(wxitems);
+					object->Append(textItems);
 				#endif
 			}
 

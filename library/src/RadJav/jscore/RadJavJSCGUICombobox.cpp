@@ -116,7 +116,6 @@ namespace RadJAV
 						items->push_back(CPP::GUI::Combobox::Item(text));
 					}
 
-					DELETEOBJ(appObject->_items);
 					appObject->setItems(items);
 				}
 				
