@@ -206,11 +206,20 @@ namespace RadJav
 			applicationPath: string;
 			/// The tests to execute.
 			tests: Test[];
+			/// Identify if we are act like a node which execute real test case
+			node: boolean;
 
 			constructor (applicationPath: string)
 			{
 				this.applicationPath = applicationPath;
 				this.tests = [];
+				this.node = false;
+			}
+
+			/// Are we child process?
+			isNode (): boolean
+			{
+				return this.node;
 			}
 
 			/// Add a test to execute.
@@ -242,15 +251,15 @@ namespace RadJav
 						{
 							//RadJav.Console.log("Args: "+RadJav.OS.args);
 
-							let params = {isMaster: true,
+							let params = {isNode: false,
 											testCaseName: "",
 											appPath: "",
 											execFile: ""};
 							
 							if (RadJav.OS.args.length > 2 &&
-								RadJav.OS.args[0] === "--slave")
+								RadJav.OS.args[0] === "--node")
 							{
-								params.isMaster = false;
+								params.isNode = true;
 								if (RadJav.OS.args.length > 2)
 								{
 									params.testCaseName = RadJav.OS.args[2];
@@ -260,16 +269,15 @@ namespace RadJav
 							params.appPath = RadJav.OS.getApplicationPath();
 							params.execFile = RadJav.OS.executingFile;
 
-							if (params.isMaster)
+							if (!params.isNode)
 							{
+								// Acting like the server
 								let reportFileName = params.execFile.split('\\').pop().split('/').pop();
 								reportFileName = reportFileName.split(".")[0]+".csv";
 
 								var reporter = new CsvReporter(reportFileName);
 
 								let currentTestIndex = 0;
-
-								//RadJav.Console.log("Acting like a Master");
 
 								var server = new RadJav.Net.WebServer();
 
@@ -311,7 +319,7 @@ namespace RadJav
 
 										let test = this.tests[currentTestIndex];
 
-										let command = params.appPath+" "+params.execFile+" --slave "+"--testcase "+test.name;
+										let command = params.appPath+" "+params.execFile+" --node "+"--testcase "+test.name;
 										//RadJav.Console.log("Starting application: " + command);
 
 										RadJav.OS.exec(command);
@@ -332,14 +340,14 @@ namespace RadJav
 
 								let test = this.tests[currentTestIndex];
 
-								let command = params.appPath+" "+params.execFile+" --slave "+"--testcase "+test.name;
+								let command = params.appPath+" "+params.execFile+" --node "+"--testcase "+test.name;
 								//RadJav.Console.log("Starting application: " + command);
 
 								RadJav.OS.exec(command);
 							}
 							else
 							{
-								//RadJav.Console.log("Acting like a Slave");
+								// Acting like a node
 								
 								let test = null;
 
