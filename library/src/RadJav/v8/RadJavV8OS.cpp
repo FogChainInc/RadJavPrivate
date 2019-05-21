@@ -75,9 +75,13 @@ namespace RadJAV
 		void OS::exec(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
 			String command = parseV8Value(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-			RJINT output = CPP::OS::exec(command);
+			CPP::OS::SystemProcess *process = CPP::OS::exec(command);
 
-			args.GetReturnValue().Set(v8::Integer::New(args.GetIsolate(), output));
+			v8::Local<v8::Object> processV8Obj = process->toV8Object(args.GetIsolate());
+
+			DELETEOBJ(process);
+
+			args.GetReturnValue().Set(processV8Obj);
 		}
 
 		void OS::getDocumentsPath(const v8::FunctionCallbackInfo<v8::Value> &args)

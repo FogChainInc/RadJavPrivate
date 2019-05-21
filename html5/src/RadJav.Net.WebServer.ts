@@ -24,6 +24,14 @@ namespace RadJav
 {
 	export namespace Net
 	{
+		///  Http encoding types.
+		export enum HttpEncodingType
+		{
+			APPLICATION_X_WWW_FORM_URLENCODED = 0,
+			MULTIPART_FORM_DATA = 1,
+			TEXT_PLAIN = 2
+		}
+
 		/// Web server
 		export class WebServer
 		{

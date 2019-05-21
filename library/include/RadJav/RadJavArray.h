@@ -103,6 +103,12 @@
 				{
 					this->erase(this->begin () + index);
 				}
+
+				/// An alias for size.
+				inline size_t length()
+				{
+					return (size ());
+				}
 		};
 
 		#ifdef USE_V8

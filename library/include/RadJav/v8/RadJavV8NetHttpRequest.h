@@ -46,6 +46,9 @@
 						static void connect(const v8::FunctionCallbackInfo<v8::Value> &args);
 						static void fetch(const v8::FunctionCallbackInfo<v8::Value> &args);
 						static void fetchSync(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void addPost(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void setEncodingType(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void getEncodingType(const v8::FunctionCallbackInfo<v8::Value> &args);
 				};
 			}
 		}

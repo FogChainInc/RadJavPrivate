@@ -43,6 +43,9 @@ namespace RadJAV
 				V8_CALLBACK(object, "connect", HttpRequest::connect);
 				V8_CALLBACK(object, "fetch", HttpRequest::fetch);
 				V8_CALLBACK(object, "fetchSync", HttpRequest::fetchSync);
+				V8_CALLBACK(object, "addPost", HttpRequest::addPost);
+				V8_CALLBACK(object, "setEncodingType", HttpRequest::setEncodingType);
+				V8_CALLBACK(object, "getEncodingType", HttpRequest::getEncodingType);
 				
 			}
 
@@ -232,6 +235,33 @@ namespace RadJAV
 				args.GetReturnValue().Set(ret);
 
 			} // End of fetchSync()
+
+			void HttpRequest::addPost(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				std::shared_ptr<ENGINE> engine = V8_JAVASCRIPT_ENGINE->v8GetExternal<ENGINE>(args.This(), "_engine");
+				v8::Local<v8::String> fieldName = v8::Local<v8::String>::Cast(args[0]);
+				v8::Local<v8::String> data = v8::Local<v8::String>::Cast(args[1]);
+
+				engine->addPost(parseV8Value (fieldName), parseV8Value (data));
+
+			} // End of addPost()
+
+			void HttpRequest::setEncodingType(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				std::shared_ptr<ENGINE> engine = V8_JAVASCRIPT_ENGINE->v8GetExternal<ENGINE>(args.This(), "_engine");
+				v8::Local<v8::Integer> encodingType = v8::Local<v8::Integer>::Cast(args[0]);
+
+				engine->setEncodingType ((CPP::Net::HttpEncodingType)encodingType->Value ());
+
+			} // End of setEncodingType()
+
+			void HttpRequest::getEncodingType(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				std::shared_ptr<ENGINE> engine = V8_JAVASCRIPT_ENGINE->v8GetExternal<ENGINE>(args.This(), "_engine");
+
+				args.GetReturnValue().Set(v8::Integer::New (args.GetIsolate (), engine->getEncodingType()));
+
+			} // End of getEncodingType()
 		  
 			void HttpRequest::newRequest(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{

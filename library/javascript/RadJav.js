@@ -20,6 +20,7 @@ var RadJav;
     RadJav.animationFrameRate = 16;
     RadJav.prevTime = (Date.now() / 1000);
     RadJav.screens = [];
+    RadJav.functionalTests = null;
     function quit(exitCode) {
         if (exitCode === void 0) { exitCode = 0; }
     }
@@ -406,6 +407,21 @@ var RadJav;
         return RadJav.runApplication(file);
     }
     RadJav.runApplicationFromFile = runApplicationFromFile;
+    function addTest(testName, testFunction) {
+        if (RadJav.functionalTests === null)
+            RadJav.functionalTests = new RadJav.Testing.FunctionalTests("RadJav Tests");
+        var test = new RadJav.Testing.Test(testName);
+        var testLib = new RadJav.Testing.TestLibrary(test);
+        test.func = RadJav.keepContext(testFunction, this, testLib);
+        RadJav.functionalTests.addTest(test);
+    }
+    RadJav.addTest = addTest;
+    function runTests() {
+        if (RadJav.functionalTests === null)
+            throw new Error("No functional tests were added!");
+        return (RadJav.functionalTests.execute());
+    }
+    RadJav.runTests = runTests;
     function loadObjects(objs) {
         var promise = new Promise(function (resolve, reject) {
             var promises = [];
@@ -1234,6 +1250,15 @@ var RadJav;
             return RadJav.OS.HTML5.ready(window).then(func);
         }
         OS.onReady = onReady;
+        OS.exec = null;
+        OS.getDocumentsPath = null;
+        OS.getTempPath = null;
+        OS.getUserDataPath = null;
+        OS.getApplicationPath = null;
+        OS.getCurrentWorkingPath = null;
+        OS.setCurrentWorkingPath = null;
+        OS.saveFileAs = null;
+        OS.openFileAs = null;
         function openWebBrowserURL(url) {
             window.open(url, "_blank");
         }
@@ -1461,6 +1486,19 @@ var RadJav;
             }
             HTML5.interfaceConnector = interfaceConnector;
         })(HTML5 = OS.HTML5 || (OS.HTML5 = {}));
+        var SystemProcess = (function () {
+            function SystemProcess(command, args) {
+                if (command === void 0) { command = ""; }
+                if (args === void 0) { args = []; }
+                this.execute = null;
+                this.command = command;
+                this.args = args;
+                this.bufferSize = 4096;
+                this.exitCode = -1;
+                this.output = "";
+            }
+            return SystemProcess;
+        }());
     })(OS = RadJav.OS || (RadJav.OS = {}));
 })(RadJav || (RadJav = {}));
 function parseBoolean(str) {
@@ -1481,6 +1519,9 @@ function parseBoolean(str) {
     return (false);
 }
 RadJav.GENERATORS_INJECT_RADJAV_OS_CODE_HERE;
+if (RadJav.OS.type === "html5") {
+    delete RadJav.OS["SystemProcess"];
+}
 if (typeof (console) == "undefined") {
     var console = function () {
     };

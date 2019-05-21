@@ -27,12 +27,53 @@
 
 	#include <functional>
 
+	#ifdef USE_V8
+		#include "v8/RadJavV8JavascriptEngine.h"
+	#endif
+
+	#ifdef USE_JAVASCRIPTCORE
+		#include "jscore/RadJavJSCJavascriptEngine.h"
+	#endif
+
 	namespace RadJAV
 	{
 		namespace CPP
 		{
 			namespace OS
 			{
+				/// Handles subprocesses started by RadJav.
+				class RADJAV_EXPORT SystemProcess
+				{
+					public:
+						SystemProcess(String command = "");
+						SystemProcess(String command, Array<String> args);
+						#ifdef USE_V8
+							SystemProcess(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
+
+							v8::Local<v8::Object> toV8Object(v8::Isolate *isolate);
+						#elif defined USE_JAVASCRIPTCORE
+							SystemProcess(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[]);
+
+							JSObjectRef toJSCObject();
+						#endif
+
+						void execute();
+
+						/// The command to execute.
+						String command;
+						/// The arguments to execute with the command.
+						Array<String> args;
+						/// The exit code from the command. -1 means the command could not be executed.
+						RJINT exitCode;
+						/// The buffer size to get from the output.
+						RJINT bufferSize;
+						/// The collected output.
+						String output;
+
+						std::function<void(String)> onOutput;
+						std::function<void(String)> onError;
+				};
+
 				/**
 				 * @ingroup group_os_cpp
 				 * @brief OS routines.
@@ -64,8 +105,10 @@
 
                 /// Get the path to the user's documents folder.
                 void onReady(std::function<void()> asyncCallback);
-                /// Get the path to the user's documents folder.
-                RJINT exec(String command);
+                /// Execute a system command.
+				SystemProcess *exec(String command);
+				/// Execute a system command.
+				void exec(SystemProcess *process);
                 /// Get the path to the user's documents folder.
                 String getDocumentsPath();
                 /// Get the path to the user's temporary files folder.

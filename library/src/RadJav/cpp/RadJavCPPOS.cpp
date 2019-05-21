@@ -35,6 +35,11 @@
 	#include <wx/stdpaths.h>
 #endif
 
+#include <boost/process.hpp>
+#include <boost/process/async.hpp>
+
+#include <boost/asio/io_service.hpp>
+
 namespace RadJAV
 {
 	namespace CPP
@@ -92,15 +97,22 @@ namespace RadJAV
 			onReadyFunction = RJNEW std::function<void()>(asyncCallback);
 		}
 
-		RJINT OS::exec(String command)
+		CPP::OS::SystemProcess *OS::exec(String command)
 		{
-			RJINT output = 0;
+			std::future<std::string> output;
+			RJINT exitCode = boost::process::system (command.c_str (), boost::process::std_out > output);
+			String result = output.get();
 
-			#ifdef GUI_USE_WXWIDGETS
-				output = wxExecute(command.towxString());
-			#endif
+			CPP::OS::SystemProcess *process = RJNEW CPP::OS::SystemProcess(command);
+			process->exitCode = exitCode;
+			process->output = result;
 
-			return (output);
+			return (process);
+		}
+
+		void OS::exec(CPP::OS::SystemProcess *process)
+		{
+			process->execute();
 		}
 
 		String OS::getDocumentsPath()
@@ -228,6 +240,110 @@ namespace RadJAV
 			#endif
 
 			return (path);
+		}
+
+		OS::SystemProcess::SystemProcess(String command)
+		{
+			this->command = command;
+			bufferSize = 4096;
+
+			exitCode = -1;
+			output = "";
+		}
+
+		OS::SystemProcess::SystemProcess(String command, Array<String> args)
+		{
+			this->command = command;
+			this->args = args;
+			bufferSize = 4096;
+
+			exitCode = -1;
+			output = "";
+		}
+
+		#ifdef USE_V8
+			OS::SystemProcess::SystemProcess(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				command = V8_JAVASCRIPT_ENGINE->v8GetString(args.This(), "command");
+				v8::Local<v8::Object> argsObj = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "args");
+				v8::Local<v8::Array> argsAry = v8::Local<v8::Array>::Cast (argsObj);
+
+				for (RJUINT iIdx = 0; iIdx < argsAry->Length(); iIdx++)
+				{
+					v8::Local<v8::String> str = v8::Local<v8::String>::Cast (argsAry->Get(iIdx));
+
+					this->args.push_back(parseV8Value (str));
+				}
+
+				exitCode = V8_JAVASCRIPT_ENGINE->v8GetDecimal(args.This(), "exitCode");
+				bufferSize = V8_JAVASCRIPT_ENGINE->v8GetDecimal(args.This(), "bufferSize");
+				output = V8_JAVASCRIPT_ENGINE->v8GetString(args.This(), "output");
+			}
+
+			v8::Local<v8::Object> OS::SystemProcess::toV8Object(v8::Isolate *isolate)
+			{
+				v8::Local<v8::Object> v8obj = V8_JAVASCRIPT_ENGINE->v8CreateNewObject("RadJav.OS.SystemProcess");
+
+				v8obj->Set(String ("command").toV8String (isolate), command.toV8String (isolate));
+
+				v8::Local<v8::Array> argsAry = v8::Array::New (isolate);
+
+				for (RJUINT iIdx = 0; iIdx < args.length(); iIdx++)
+				{
+					v8::Local<v8::String> str = args.at (iIdx).toV8String(isolate);
+
+					argsAry->Set(iIdx, str);
+				}
+
+				v8obj->Set(String("command").toV8String(isolate), argsAry);
+
+				v8obj->Set(String("exitCode").toV8String(isolate), v8::Integer::New (isolate, exitCode));
+				v8obj->Set(String("bufferSize").toV8String(isolate), v8::Integer::New(isolate, bufferSize));
+				v8obj->Set(String("output").toV8String(isolate), output.toV8String(isolate));
+
+				return (v8obj);
+			}
+		#elif defined USE_JAVASCRIPTCORE
+			OS::SystemProcess::SystemProcess(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[])
+			{
+				/// @todo Fill this out.
+			}
+
+			JSObjectRef OS::SystemProcess::toJSCObject();
+			{
+				/// @todo Fill this out.
+
+				return (null);
+			}
+		#endif
+
+		void OS::SystemProcess::execute()
+		{
+			boost::asio::io_service ios;
+			boost::process::opstream in;
+			boost::process::async_pipe output(ios);
+			std::vector<std::string> tempArgs;
+			Array<RJCHAR> buffer(bufferSize);
+
+			for (RJUINT iIdx = 0; iIdx < args.size(); iIdx++)
+				tempArgs.push_back(args.at (iIdx));
+
+			boost::process::child child(command.c_str (), tempArgs,
+				boost::process::std_in < in, 
+				boost::process::std_out > output, 
+				//boost::process::std_err > output, ios, 
+				boost::process::on_exit([&](auto...)
+					{
+						output.close();
+					}));
+			boost::asio::async_read(output, boost::asio::buffer(buffer), 
+				[&](const boost::system::error_code &err, std::size_t size)
+					{
+						String str (buffer.begin(), buffer.end());
+						onOutput (str);
+					});
+
+			ios.run();
 		}
 	}
 }

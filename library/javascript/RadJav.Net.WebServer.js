@@ -2,6 +2,12 @@ var RadJav;
 (function (RadJav) {
     var Net;
     (function (Net) {
+        var HttpEncodingType;
+        (function (HttpEncodingType) {
+            HttpEncodingType[HttpEncodingType["APPLICATION_X_WWW_FORM_URLENCODED"] = 0] = "APPLICATION_X_WWW_FORM_URLENCODED";
+            HttpEncodingType[HttpEncodingType["MULTIPART_FORM_DATA"] = 1] = "MULTIPART_FORM_DATA";
+            HttpEncodingType[HttpEncodingType["TEXT_PLAIN"] = 2] = "TEXT_PLAIN";
+        })(HttpEncodingType = Net.HttpEncodingType || (Net.HttpEncodingType = {}));
         var WebServer = (function () {
             function WebServer(type) {
                 if (type === void 0) { type = RadJav.Net.WebServerTypes.HTTP; }

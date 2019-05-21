@@ -53,78 +53,53 @@ namespace RadJav
 	/// The current version.
 	export let VERSION: number = 0.05;
 
-	/** @property {String} [baseUrl="./RadJav"]
-	* The url to the directory where RadJav is located.
-	*/
+	/// The url to the directory where RadJav is located.
 	export let baseUrl: string = "./RadJav/";
 
-	/** @property {String} [themeUrl="./RadJav/themes/default"]
-	* The url to the directory where the theme will be loaded.
-	*/
+	/// The url to the directory where the theme will be loaded.
 	export let themeUrl: string = "./RadJav/themes/default";
 
-	/** @property {String} [selectedLanguage="en_us"]
-	* The selected language.
-	*/
+	/// The selected language.
 	export let selectedLanguage: string = "en_us";
 
 	/// Determines if the theme is loaded.
 	export let isThemeLoaded: boolean = false;
 
-	/** @property {RadJav.Theme} [currentTheme=null]
-	* The current theme that has been loaded.
-	*/
+	/// The current theme that has been loaded.
 	export let currentTheme: Theme = null;
 
-	/** @property {Boolean} [_isInitialized=false]
-	* If set to true, RadJav has been initialized.
-	*/
+	/// If set to true, RadJav has been initialized.
 	export let _isInitialized: boolean = false;
 
-	/** @property {String[]} [_included=[]]
-	* If set to true, RadJav has been initialized.
-	*/
+	/// If set to true, RadJav has been initialized.
 	export let _included: any[] = [];
 
-	/** @property {String[]} [_lang=[]]
-	* If set to true, RadJav has been initialized.
-	*/
+	/// If set to true, RadJav has been initialized.
 	export let _lang: { [key: string]: any } = {};
 
-	/** @property {Object} [themeUtils={}]
-	* Miscellaneous theme utilities to use.
-	*/
+	/// Miscellaneous theme utilities to use.
 	export let themeUtils: any = {};
 
-	/** @property {Boolean} [useAjax=true]
-	* If set to true, each file loaded by RadJav will use ajax.
-	*/
+	/// If set to true, each file loaded by RadJav will use ajax.
 	export let useAjax: boolean = true;
 
-	/** @property {Boolean} [isMinified=false]
-	* Is set to true if RadJav has been minified.
-	*/
+	/// Is set to true if RadJav has been minified.
 	export let isMinified: boolean = false;
 
-	/** @property {RadJav.Animation[]} [_animations=[]]
-	* Any animations that are playing.
-	*/
+	/// Any animations that are playing.
 	export let _animations: RadJav.Animation[] = [];
 
-	/** @property {number} [animationFrameRate=16]
-	* The frame rate for how often the animation update is called.
-	*/
+	/// The frame rate for how often the animation update is called.
 	export let animationFrameRate: number = 16;
 
-	/** @property {number} [prevTime=0]
-	* The previous time since last the last update.
-	*/
+	/// The previous time since last the last update.
 	export let prevTime: number = (Date.now () / 1000);
 
-	/** @property {RadJav.OS.ScreenInfo[]} [screens=[]]
-	* The screens attached to this device.
-	*/
+	/// The screens attached to this device.
 	export let screens: RadJav.OS.ScreenInfo[] = [];
+
+	/// Tests to have RadJav execute.
+	export let functionalTests: RadJav.Testing.FunctionalTests = null;
 
 	/**
 	* Exit the application.
@@ -674,7 +649,7 @@ namespace RadJav
 
 	/**
 	* Run an application from a file or a function.
-	* Available on platforms: Windows,Linux,OSX,HTML5
+	* Available on platforms: Windows,Linux,OSX,iOS,Android,HTML5
 	* @param {String/Function} file The path to the file to execute the javascript. Or a
 	* function that will immediately be executed.
 	* @return {Promise} The promise that will be executed when this module has completed executing.
@@ -753,7 +728,7 @@ namespace RadJav
 
 	/**
 	* Run an application from a file.
-	* Available on platforms: Windows,Linux,OSX,HTML5
+	* Available on platforms: Windows,Linux,OSX,iOS,Android,HTML5
 	* @param {String} file The path to the file to execute the javascript. Or a
 	* function that will immediately be executed.
 	* @return {Promise} The promise that will be executed when this module has completed executing.
@@ -763,9 +738,36 @@ namespace RadJav
 		return RadJav.runApplication(file);
 	}
 
+	/** 
+	 * Execute a test.
+	 * Available on platforms: Windows,Linux,OSX,iOS,Android,HTML5
+	 */
+	export function addTest (testName: string, testFunction: (tlib: RadJav.Testing.TestLibrary) => void): void
+	{
+		if (RadJav.functionalTests === null)
+			RadJav.functionalTests = new RadJav.Testing.FunctionalTests("RadJav Tests");
+
+		let test = new RadJav.Testing.Test (testName);
+		let testLib = new RadJav.Testing.TestLibrary (test);
+		test.func = RadJav.keepContext(testFunction, this, testLib);
+		RadJav.functionalTests.addTest(test);
+	}
+
+	/** 
+	 * Execute a test.
+	 * Available on platforms: Windows,Linux,OSX,iOS,Android,HTML5
+	 */
+	export function runTests (): Promise<RadJav.Testing.Test[]>
+	{
+		if (RadJav.functionalTests === null)
+			throw new Error ("No functional tests were added!");
+
+		return (RadJav.functionalTests.execute ());
+	}
+
 	/**
 	* Load RadJav objects.
-	* Available on platforms: Windows,Linux,OSX,HTML5
+	* Available on platforms: Windows,Linux,OSX,iOS,Android,HTML5
 	* @param {String/RadJav.GUI.GObject[]/RadJav.C3D.Object3D[]} objs The objects to load.
 	* @return {Promise} When loading has completed, all loaded objects will be passed into
 	* the "then" function as an object with key/value pairs.
@@ -818,7 +820,7 @@ namespace RadJav
 
 	/**
 	* Load RadJav objects from XML.
-	* Available on platforms: Windows,Linux,OSX,HTML5
+	* Available on platforms: Windows,Linux,OSX,iOS,Android,HTML5
 	* @param {String} xml The XML to load.
 	* @return {Promise} When loading has completed, all loaded objects will be passed into
 	* the "then" function as an object with key/value pairs.
@@ -928,10 +930,19 @@ namespace RadJav
 		return (newObjs);
 	}
 
+	/// Check if this is a HTML5 application.
+	export function isHTML5 ()
+	{
+		if (RadJav.OS.HTML5 !== null)
+			return (true);
+
+		return (false);
+	}
+
 	/// Check if this is a mobile application.
 	export function isMobile ()
 	{
-		if (RadJav.OS.HTML5 != null)
+		if (RadJav.OS.HTML5 !== null)
 		{
 			let os: string = RadJav.OS.HTML5.getOS ();
 
@@ -1045,7 +1056,7 @@ namespace RadJav
 	/**
 	 * Perform a deep copy of an object. This has been copied from jQuery.
 	 * Thank you jQuery!
-	 * Available on platforms: Windows,Linux,OSX,HTML5
+	 * Available on platforms: Windows,Linux,OSX,iOS,Android,HTML5
 	 * @param {Object} obj The object to clone.
 	 * @return {Object} The cloned object.
 	 */
@@ -1152,7 +1163,7 @@ namespace RadJav
 
 	/**
 	* Perform a deep copy of an object.
-	* Available on platforms: Windows,Linux,OSX,HTML5
+	* Available on platforms: Windows,Linux,OSX,iOS,Android,HTML5
 	* @param {Object} obj The object to clone.
 	* @return {Object} The cloned object.
 	*/
@@ -1163,7 +1174,7 @@ namespace RadJav
 
 	/**
 	 * Perform a deep copy of an array.
-	 * Available on platforms: Windows,Linux,OSX,HTML5
+	 * Available on platforms: Windows,Linux,OSX,iOS,Android,HTML5
 	 * @param {Array} obj The array to clone.
 	 * @return {Array} The cloned array.
 	 */
@@ -1173,7 +1184,7 @@ namespace RadJav
 
 	/**
 	 * Copy the properties of one object to another.
-	 * Available on platforms: Windows,Linux,OSX,HTML5
+	 * Available on platforms: Windows,Linux,OSX,iOS,Android,HTML5
 	 * @param {Object} obj1 The object to receive the properties.
 	 * @param {Object} obj2 The object to send the properties.
 	 * @param {Boolean} [overwriteExisting=true] If set to true, this will overwrite any
@@ -1205,7 +1216,7 @@ namespace RadJav
 	/**
 	* Set a default value to a parameter should it the parameter be set to
 	* undefined.
-	* Available on platforms: Windows,Linux,OSX,HTML5
+	* Available on platforms: Windows,Linux,OSX,iOS,Android,HTML5
 	* @param {Mixed} param The parameter value to check.
 	* @param {Mixed} defaultValue The default value to set should param be set to undefined.
 	* @param {Function} [onValue=null] This function is called when a value can be retrieved from the
@@ -1233,7 +1244,7 @@ namespace RadJav
 
 	/**
 	 * Keep the context the object is currently in.
-	 * Available on platforms: Windows,Linux,OSX,HTML5
+	 * Available on platforms: Windows,Linux,OSX,iOS,Android,HTML5
 	 * @param {Function} func The document element's id.
 	 * @param {Object} context The object to remain in context.
 	 * @param {Mixed} [val=undefined] An additional value to pass to the context.
@@ -2109,7 +2120,7 @@ namespace RadJav
 	{
 		/**
 		* Make an ajax request to a HTTP server.
-		* Available on platforms: Windows,Linux,OSX,HTML5
+		* Available on platforms: Windows,Linux,OSX,iOS,Android,HTML5
 		* @param {String/Object} req The URL or request object to send to the server.
 		* @return {Promise} The promise to execute when the request has completed.
 		*/
@@ -2281,7 +2292,7 @@ namespace RadJav
 
 		/**
 		* Execute code when RadJav has finished loading.
-		* Available on platforms: Windows,Linux,OSX,HTML5
+		* Available on platforms: Windows,Linux,OSX,iOS,Android,HTML5
 		* @param {Function} func The function to execute.
 		* @return {Promise} The promise to execute.
 		*/
@@ -2291,51 +2302,72 @@ namespace RadJav
 		}
 
 		/**
+		 * Execute a system command.
+		 * Available on platforms: Windows,Linux,OSX
+		 * @returns The termination status of the system command.
+		 */
+		export let exec: (command: string | SystemProcess) => SystemProcess = null;
+
+		/**
 		 * Get the path to the user's documents folder.
 		 * Available on platforms: Windows,Linux,OSX
-		 * @return {String} The current user's documents folder path.
+		 * @returns The current user's documents folder path.
 		 */
-		/*export function getDocumentsPath() {
-		}*/
+		export let getDocumentsPath: () => string = null;
 
 		/**
 		 * Get the path to the user's temporary files folder.
 		 * Available on platforms: Windows,Linux,OSX
-		 * @return {String} The current user's temporary files path.
+		 * @returns The current user's temporary files path.
 		 */
-		/*export function getTempPath() {
-		}*/
+		export let getTempPath: () => string = null;
 
 		/**
 		 * Get the path to the user's data files folder.
 		 * Available on platforms: Windows,Linux,OSX
-		 * @return {String} The current user's data files path.
+		 * @returns The current user's data files path.
 		 */
-		/*export function getUserDataPath() {
-		}*/
+		export let getUserDataPath: () => string = null;
 
 		/**
 		 * Get the path to the application.
 		 * Available on platforms: Windows,Linux,OSX
-		 * @return {String} The path to the application.
+		 * @returns The path to the application.
 		 */
-		/*export function getApplicationPath(){
-		}*/
+		export let getApplicationPath: () => string = null;
 
 		/**
 		 * Get the current working path.
 		 * Available on platforms: Windows,Linux,OSX
-		 * @return {String} The current working path.
+		 * @returns The current working path.
 		 */
-		/*export function getCurrentWorkingPath(){
-		}*/
+		export let getCurrentWorkingPath: () => string = null;
+
+		/**
+		 * Set the current working path.
+		 * Available on platforms: Windows,Linux,OSX
+		 */
+		export let setCurrentWorkingPath: (path: string) => void = null;
+
+		/**
+		 * Open the OS's "Save File As" dialog box.
+		 * Available on platforms: Windows,Linux,OSX
+		 */
+		export let saveFileAs: (path: string) => void = null;
+
+		/**
+		 * Open the OS's "Open File As" dialog box.
+		 * Available on platforms: Windows,Linux,OSX
+		 */
+		export let openFileAs: (path: string) => void = null;
 
 		/**
 		 * Open a URL in the default web browser.
 		 * Available on platforms: Windows,Linux,OSX,HTML5
 		 * @param {String} url The url to open.
 		 */
-		export function openWebBrowserURL(url: string): void {
+		export function openWebBrowserURL(url: string): void
+		{
 			window.open(url, "_blank");
 		}
 
@@ -2720,6 +2752,33 @@ namespace RadJav
 				return result;
 			}
 		}
+
+		/// Handles processes started by RadJav.
+		class SystemProcess
+		{
+			/// The command to execute.
+			command: string;
+			/// The arguments to execute with the command.
+			args: string[];
+			/// The exit code from the command. -1 means the command could not be executed.
+			exitCode: number;
+			/// The buffer size to get from the output.
+			bufferSize: number;
+			/// The collected output.
+			output: string;
+
+			constructor (command: string = "", args: string[] = [])
+			{
+				this.command = command;
+				this.args = args;
+				this.bufferSize = 4096;
+				this.exitCode = -1;
+				this.output = "";
+			}
+
+			/// Execute the process.
+			execute: () => void = null;
+		}
 	}
 }
 
@@ -2749,6 +2808,11 @@ function parseBoolean (str: string): boolean
 // @ts-ignore
 // Do not change anything about this next line.
 RadJav.GENERATORS_INJECT_RADJAV_OS_CODE_HERE;
+
+if (RadJav.OS.type === "html5")
+{
+	delete RadJav.OS["SystemProcess"];
+}
 
 if (typeof (console) == "undefined")
 {

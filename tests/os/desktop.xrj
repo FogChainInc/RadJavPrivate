@@ -1,0 +1,62 @@
+RadJav.initialize (RadJav.getStandardLibrary (),
+					RadJav.getGUILibrary ()).then (function ()
+	{
+		var isWindows = false;
+
+		if (RadJav.OS.type === "windows")
+			isWindows = true;
+
+		RadJav.addTest ("Check OS", function (tlib)
+			{
+				if (RadJav.OS.HTML5 !== null)
+				{
+					if (window.location !== null)
+						tlib.assert (true, "is HTML5.");
+					else
+						tlib.assert (false, "is not HTML5.");
+
+					return;
+				}
+
+				if (RadJav.OS.type === "windows")
+				{
+					var checkOS = RadJav.OS.exec ("echo %OS%");
+
+					if (checkOS.indexOf ("Windows") > -1)
+						tlib.assert (true, "is Windows.");
+					else
+						tlib.assert (false, "is not Windows.");
+
+					return;
+				}
+
+				if (RadJav.OS.type === "linux")
+				{
+					var checkOS = RadJav.OS.exec ("uname -a");
+
+					if (checkOS.indexOf ("Linux") > -1)
+						tlib.assert (true, "is Linux.");
+					else
+						tlib.assert (false, "is not Linux.");
+
+					return;
+				}
+
+				if (RadJav.OS.type === "mac")
+				{
+					var checkOS = RadJav.OS.exec ("sw_vers");
+
+					if (checkOS.indexOf ("Mac") > -1)
+						tlib.assert (true, "is Mac.");
+					else
+						tlib.assert (false, "is not Mac.");
+
+					return;
+				}
+			});
+
+		RadJav.runTests ().then (function ()
+			{
+				RadJav.exit ();
+			});
+	});

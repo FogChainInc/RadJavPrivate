@@ -154,7 +154,7 @@ namespace RadJav
 			/// The amount of time in milliseconds before a test times out.
 			timeout: number;
 
-			constructor (name: string, applicationPath: string)
+			constructor (name: string, applicationPath: string = "")
 			{
 				this.name = name;
 				this.passed = [];

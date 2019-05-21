@@ -86,6 +86,7 @@ var RadJav;
         Testing.TestLibrary = TestLibrary;
         var Test = (function () {
             function Test(name, applicationPath) {
+                if (applicationPath === void 0) { applicationPath = ""; }
                 this.name = name;
                 this.passed = [];
                 this.results = [];
