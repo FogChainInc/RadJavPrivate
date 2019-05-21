@@ -525,8 +525,14 @@ var RadJav;
         return (newObjs);
     }
     RadJav.loadAppXML = loadAppXML;
+    function isHTML5() {
+        if (RadJav.OS.HTML5 !== null)
+            return (true);
+        return (false);
+    }
+    RadJav.isHTML5 = isHTML5;
     function isMobile() {
-        if (RadJav.OS.HTML5 != null) {
+        if (RadJav.OS.HTML5 !== null) {
             var os = RadJav.OS.HTML5.getOS();
             if (os == "android")
                 return (true);
@@ -1246,6 +1252,22 @@ var RadJav;
             return ScreenInfo;
         }());
         OS.ScreenInfo = ScreenInfo;
+        function searchArgs(key) {
+            var foundIndex = -1;
+            for (var iIdx = 0; iIdx < RadJav.OS.args.length; iIdx++) {
+                var arg = RadJav.OS.args[iIdx];
+                if (arg === key) {
+                    foundIndex = iIdx;
+                    break;
+                }
+                if (arg === ("--" + key)) {
+                    foundIndex = iIdx;
+                    break;
+                }
+            }
+            return (foundIndex);
+        }
+        OS.searchArgs = searchArgs;
         function onReady(func) {
             return RadJav.OS.HTML5.ready(window).then(func);
         }

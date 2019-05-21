@@ -2291,6 +2291,36 @@ namespace RadJav
 		}
 
 		/**
+		 * Search for a argument passed from the terminal.
+		 * Available on platforms: Windows,Linux,OSX,iOS,Android
+		 */
+		export function searchArgs (key: string): number
+		{
+			let foundIndex: number = -1;
+
+			for (let iIdx = 0; iIdx < RadJav.OS.args.length; iIdx++)
+			{
+				let arg: string = RadJav.OS.args[iIdx];
+
+				if (arg === key)
+				{
+					foundIndex = iIdx;
+
+					break;
+				}
+
+				if (arg === ("--" + key))
+				{
+					foundIndex = iIdx;
+
+					break;
+				}
+			}
+
+			return (foundIndex);
+		}
+
+		/**
 		* Execute code when RadJav has finished loading.
 		* Available on platforms: Windows,Linux,OSX,iOS,Android,HTML5
 		* @param {Function} func The function to execute.

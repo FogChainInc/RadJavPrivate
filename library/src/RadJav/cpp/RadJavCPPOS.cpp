@@ -92,6 +92,32 @@ namespace RadJAV
 			#endif
 		}
 
+		RJINT OS::searchArgs(String key)
+		{
+			RJINT foundIndex = -1;
+
+			for (RJUINT iIdx = 0; iIdx < OS::args.size (); iIdx++)
+			{
+				String arg = OS::args.at (iIdx);
+
+				if (arg == key)
+				{
+					foundIndex = iIdx;
+
+					break;
+				}
+
+				if (arg == ("--" + key))
+				{
+					foundIndex = iIdx;
+
+					break;
+				}
+			}
+
+			return (foundIndex);
+		}
+
 		void OS::onReady(std::function<void()> asyncCallback)
 		{
 			onReadyFunction = RJNEW std::function<void()>(asyncCallback);

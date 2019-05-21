@@ -25,35 +25,88 @@ namespace RadJav
 {
 	export namespace Net
 	{
-		/// Web server
+		/// Web socket connection for server or client.
 		export class WebSocketConnection
 		{
-			/** @property {string} [_url=""]
-			* The URL.
-			*/
+			/// The URL.
 			private _url: string;
-
-			/** @property {Mixed} [_appObj=null]
-			* The native websocket object.
-			*/
+			/// The native websocket object.
 			private _appObj: any;
+			/// The web socket that will be used for the connection.
+			_socket: WebSocket;
+			/** 
+			 * The events to execute when triggered.
+			 * Possible events:
+			 * * connected
+			 * * error
+			 * * receive
+			 * * close
+			 */
+			_events: Object;
 
-			constructor (httpConnection?: RadJav.Net.HttpConnection, request?: RadJav.Net.HttpIncomingMessage)
+			constructor (httpConnection?: RadJav.Net.HttpConnection | WebSocketConnection, request?: RadJav.Net.HttpIncomingMessage)
 			{
-                this._url = "";
-				this._appObj = null;
-				
+				this._url = RadJav.setDefaultValue(httpConnection["_url"], "");
+				this._socket = RadJav.setDefaultValue(httpConnection["_socket"], null);
+				this._events = RadJav.setDefaultValue(httpConnection["_events"], {});
+
 				if(this["_init"] != null)
 					this["_init"].apply(this, arguments);
 			}
 
-			connect (url: string): void
+			connect (url: string = ""): Promise<void>
 			{
-				this._url = url;
+				if (url !== "")
+					this._url = url;
 
 				if(this["_connect"] != null)
 				{
-					this["_connect"].apply(this, arguments);
+					return (this["_connect"].apply(this, arguments));
+				}
+				else
+				{
+					var promise: Promise<void> = new Promise(
+					RadJav.keepContext(function (resolve, reject)
+					{
+						if (WebSocket == null)
+						{
+							reject(RadJav._lang.websocketsNotSupported);
+							return;
+						}
+			
+						this._socket = new WebSocket(this.url);
+			
+						this._socket.onopen = RadJav.keepContext(function () {
+						resolve();
+			
+						if (this._events["connected"] != null) {
+							this._events["connected"]();
+						}
+						}, this);
+			
+						this._socket.onerror = RadJav.keepContext(function (error) {
+						reject(error);
+			
+						if (this._events["error"] != null) {
+							this._events["error"](error);
+						}
+						}, this);
+			
+						this._socket.onmessage = RadJav.keepContext(function (message) {
+						if (this._events["receive"] != null) {
+							this._events["receive"](message.data);
+						}
+						}, this);
+			
+						this._socket.onclose = RadJav.keepContext(function (message) {
+						if (this._events["close"] != null) {
+							this._events["close"]();
+						}
+						}, this);
+					}, this)
+					);
+
+					return promise;
 				}
 			}
 
@@ -63,6 +116,11 @@ namespace RadJav
 				{
 					this["_send"].apply(this, arguments);
 				}
+				else
+				{
+					if (this._socket !== null)
+						this._socket.send(data);
+				}
 			}
 
 			close (): void
@@ -70,6 +128,10 @@ namespace RadJav
 				if (this["_close"] != null)
 				{
 					this["_close"].apply(this, arguments);
+				}
+				else
+				{
+					this._socket.close ();
 				}
 			}
 
@@ -79,8 +141,15 @@ namespace RadJav
 				{
 					this["_on"].apply(this, arguments);
 				}
+				else
+				{
+					this._events[event] = func;
+				}
 			}
-        }
+		}
+
+		/// Alias for WebSocketConnection.
+		export let WebSocketClient = WebSocketConnection;
 
         export function handleUpgrade(connection: RadJav.Net.HttpConnection, request: RadJav.Net.HttpIncomingMessage) : WebSocketConnection
         {

@@ -208,12 +208,18 @@ namespace RadJav
 			tests: Test[];
 			/// Identify if we are act like a node which execute real test case
 			node: boolean;
+			/// The listening address.
+			listenAddress: string;
+			/// The port.
+			port: number;
 
 			constructor (applicationPath: string)
 			{
 				this.applicationPath = applicationPath;
 				this.tests = [];
 				this.node = false;
+				this.listenAddress = "127.0.0.1";
+				this.port = 9898;
 			}
 
 			/// Are we child process?
@@ -251,21 +257,18 @@ namespace RadJav
 						{
 							//RadJav.Console.log("Args: "+RadJav.OS.args);
 
-							let params = {isNode: false,
+							let params = { isNode: false,
 											testCaseName: "",
 											appPath: "",
-											execFile: ""};
-							
-							if (RadJav.OS.args.length > 2 &&
-								RadJav.OS.args[0] === "--node")
+											execFile: "" };
+							let nodeArg: number = RadJav.OS.searchArgs ("--node");
+
+							if (nodeArg > -1)
 							{
 								params.isNode = true;
-								if (RadJav.OS.args.length > 2)
-								{
-									params.testCaseName = RadJav.OS.args[2];
-								}
+								params.testCaseName = RadJav.OS.args[(nodeArg + 1)];
 							}
-							
+
 							params.appPath = RadJav.OS.getApplicationPath();
 							params.execFile = RadJav.OS.executingFile;
 
@@ -273,12 +276,14 @@ namespace RadJav
 							{
 								// Acting like the server
 								let reportFileName = params.execFile.split('\\').pop().split('/').pop();
-								reportFileName = reportFileName.split(".")[0]+".csv";
+
+								if (reportFileName.indexOf (".") > -1)
+									reportFileName = reportFileName.split(".")[0];
+
+								reportFileName = reportFileName + ".csv";
 
 								var reporter = new CsvReporter(reportFileName);
-
 								let currentTestIndex = 0;
-
 								var server = new RadJav.Net.WebServer();
 
 								server.on("upgrade", RadJav.keepContext(function (connection, request)
@@ -336,11 +341,11 @@ namespace RadJav
 									resolve(this.tests);
 								});
 
-								server.start("127.0.0.1", 9898);
+								server.start(this.listenAddress, this.port);
 
 								let test = this.tests[currentTestIndex];
 
-								let command = params.appPath+" "+params.execFile+" --node "+"--testcase "+test.name;
+								let command = params.appPath + " " + params.execFile + " --node " + "--testcase \"" + test.name + "\"";
 								//RadJav.Console.log("Starting application: " + command);
 
 								RadJav.OS.exec(command);
@@ -401,7 +406,7 @@ namespace RadJav
 									resolve(this.tests);
 								}, this));
 
-								client.connect("ws://127.0.0.1:9898/testing");
+								client.connect("ws://" + this.listenAddress + ":" + this.port + "/testing");
 							}
 						}
 						else if (RadJav.OS.type == "html5")

@@ -435,10 +435,19 @@ var commands = [
 						for (let key in fileDiffs)
 						{
 							let checkHash = fileDiffs[key];
-							let hash = sha256FileHash (key);
 
-							if (checkHash != hash)
-								temptsFiles.push (key);
+							if (fs.existsSync (key) == true)
+							{
+								let hash = sha256FileHash (key);
+
+								if (checkHash != hash)
+									temptsFiles.push (key);
+							}
+							else
+							{
+								// The file no longer exists, so remove it from the cache.
+								delete fileDiffs[key];
+							}
 						}
 					}
 					else

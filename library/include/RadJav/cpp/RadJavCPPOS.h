@@ -103,6 +103,9 @@
 				/// Sleep for x number of milliseconds.
 				void sleep(RJINT milliseconds);
 
+				/// Search for a argument passed from the terminal.
+				RJINT searchArgs(String key);
+
                 /// Get the path to the user's documents folder.
                 void onReady(std::function<void()> asyncCallback);
                 /// Execute a system command.

@@ -124,6 +124,8 @@ var RadJav;
                 this.applicationPath = applicationPath;
                 this.tests = [];
                 this.node = false;
+                this.listenAddress = "127.0.0.1";
+                this.port = 9898;
             }
             FunctionalTests.prototype.isNode = function () {
                 return this.node;
@@ -148,18 +150,18 @@ var RadJav;
                             testCaseName: "",
                             appPath: "",
                             execFile: "" };
-                        if (RadJav.OS.args.length > 2 &&
-                            RadJav.OS.args[0] === "--node") {
+                        var nodeArg = RadJav.OS.searchArgs("--node");
+                        if (nodeArg > -1) {
                             params_1.isNode = true;
-                            if (RadJav.OS.args.length > 2) {
-                                params_1.testCaseName = RadJav.OS.args[2];
-                            }
+                            params_1.testCaseName = RadJav.OS.args[(nodeArg + 1)];
                         }
                         params_1.appPath = RadJav.OS.getApplicationPath();
                         params_1.execFile = RadJav.OS.executingFile;
                         if (!params_1.isNode) {
                             var reportFileName = params_1.execFile.split('\\').pop().split('/').pop();
-                            reportFileName = reportFileName.split(".")[0] + ".csv";
+                            if (reportFileName.indexOf(".") > -1)
+                                reportFileName = reportFileName.split(".")[0];
+                            reportFileName = reportFileName + ".csv";
                             var reporter = new CsvReporter(reportFileName);
                             var currentTestIndex_1 = 0;
                             var server = new RadJav.Net.WebServer();
@@ -197,9 +199,9 @@ var RadJav;
                                 RadJav.Console.log("Server error: " + err + ", " + description);
                                 resolve(this.tests);
                             });
-                            server.start("127.0.0.1", 9898);
+                            server.start(this.listenAddress, this.port);
                             var test = this.tests[currentTestIndex_1];
-                            var command = params_1.appPath + " " + params_1.execFile + " --node " + "--testcase " + test.name;
+                            var command = params_1.appPath + " " + params_1.execFile + " --node " + "--testcase \"" + test.name + "\"";
                             RadJav.OS.exec(command);
                         }
                         else {
@@ -237,7 +239,7 @@ var RadJav;
                             client.on("close", RadJav.keepContext(function () {
                                 resolve(this.tests);
                             }, this));
-                            client.connect("ws://127.0.0.1:9898/testing");
+                            client.connect("ws://" + this.listenAddress + ":" + this.port + "/testing");
                         }
                     }
                     else if (RadJav.OS.type == "html5") {
