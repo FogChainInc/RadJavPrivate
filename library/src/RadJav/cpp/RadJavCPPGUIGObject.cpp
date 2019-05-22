@@ -33,6 +33,7 @@ namespace RadJAV
 		{
 			#ifdef USE_V8
 				GObject::GObject(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
+					: GObjectInterface (), ChainedPtr ()
 				{
 					_zIndex = 0;
 					_cursor = "default";
@@ -62,6 +63,7 @@ namespace RadJAV
 				}
 			#elif defined USE_JAVASCRIPTCORE
                 GObject::GObject(JSCJavascriptEngine *jsEngine, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[])
+					: GObjectInterface(), ChainedPtr()
                 {
                     _zIndex = 0;
                     _cursor = "default";
@@ -92,6 +94,7 @@ namespace RadJAV
             #endif
 
 			GObject::GObject(String name, String text, GObject *parent)
+				: GObjectInterface(), ChainedPtr()
 			{
 				this->name = name;
 				type = "";

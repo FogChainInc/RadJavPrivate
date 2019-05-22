@@ -2290,6 +2290,44 @@ namespace RadJav
 			}
 		}
 
+		/// Handles processes started by RadJav.
+		export class SystemProcess
+		{
+			/// The OS object.
+			_appObj: any;
+			/// The command to execute.
+			command: string;
+			/// The arguments to execute with the command.
+			args: string[];
+			/// The exit code from the command. -1 means the command could not be executed.
+			exitCode: number;
+			/// The buffer size to get from the output.
+			bufferSize: number;
+			/// The collected output.
+			output: string;
+
+			constructor (command: string = "", args: string[] = [])
+			{
+				this._appObj = null;
+				this.command = command;
+				this.args = args;
+				this.bufferSize = 4096;
+				this.exitCode = -1;
+				this.output = "";
+
+				if (this._init !== null)
+					this._init ();
+			}
+
+			_init: () => void;
+
+			/// Execute the process.
+			execute: () => void;
+
+			/// Kill the process.
+			kill: () => void;
+		}
+
 		/**
 		 * Search for a argument passed from the terminal.
 		 * Available on platforms: Windows,Linux,OSX,iOS,Android
@@ -2336,7 +2374,7 @@ namespace RadJav
 		 * Available on platforms: Windows,Linux,OSX
 		 * @returns The termination status of the system command.
 		 */
-		export let exec: (command: string | SystemProcess) => SystemProcess = null;
+		export let exec: (command: string | RadJav.OS.SystemProcess) => RadJav.OS.SystemProcess = null;
 
 		/**
 		 * Get the path to the user's documents folder.
@@ -2781,33 +2819,6 @@ namespace RadJav
 
 				return result;
 			}
-		}
-
-		/// Handles processes started by RadJav.
-		class SystemProcess
-		{
-			/// The command to execute.
-			command: string;
-			/// The arguments to execute with the command.
-			args: string[];
-			/// The exit code from the command. -1 means the command could not be executed.
-			exitCode: number;
-			/// The buffer size to get from the output.
-			bufferSize: number;
-			/// The collected output.
-			output: string;
-
-			constructor (command: string = "", args: string[] = [])
-			{
-				this.command = command;
-				this.args = args;
-				this.bufferSize = 4096;
-				this.exitCode = -1;
-				this.output = "";
-			}
-
-			/// Execute the process.
-			execute: () => void = null;
 		}
 	}
 }

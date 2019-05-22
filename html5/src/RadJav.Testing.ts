@@ -327,12 +327,15 @@ namespace RadJav
 											return;
 										}
 
-										let test = this.tests[currentTestIndex];
+										let test: Test = this.tests[currentTestIndex];
 
-										let command = params.appPath+" "+params.execFile+" --node "+"--testcase "+test.name;
+										//let command: string = params.appPath+" "+params.execFile+" --node "+"--testcase "+test.name;
 										//RadJav.Console.log("Starting application: " + command);
+										//RadJav.OS.exec (command);
 
-										RadJav.OS.exec(command);
+										let process: RadJav.OS.SystemProcess = new RadJav.OS.SystemProcess (
+											params.appPath, [params.execFile, "--node", "--testcase", test.name]);
+										process.execute ();
 
 									}, this));
 								}, this));
@@ -350,10 +353,13 @@ namespace RadJav
 
 								let test = this.tests[currentTestIndex];
 
-								let command = params.appPath + " " + params.execFile + " --node " + "--testcase \"" + test.name + "\"";
+								//let command = params.appPath + " " + params.execFile + " --node " + "--testcase \"" + test.name + "\"";
 								//RadJav.Console.log("Starting application: " + command);
+								//RadJav.OS.exec(command);
 
-								RadJav.OS.exec(command);
+								let process: RadJav.OS.SystemProcess = new RadJav.OS.SystemProcess (
+									params.appPath, [params.execFile, "--node", "--testcase", test.name]);
+								process.execute ();
 							}
 							else
 							{

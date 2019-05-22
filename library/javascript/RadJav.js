@@ -1252,6 +1252,22 @@ var RadJav;
             return ScreenInfo;
         }());
         OS.ScreenInfo = ScreenInfo;
+        var SystemProcess = (function () {
+            function SystemProcess(command, args) {
+                if (command === void 0) { command = ""; }
+                if (args === void 0) { args = []; }
+                this._appObj = null;
+                this.command = command;
+                this.args = args;
+                this.bufferSize = 4096;
+                this.exitCode = -1;
+                this.output = "";
+                if (this._init !== null)
+                    this._init();
+            }
+            return SystemProcess;
+        }());
+        OS.SystemProcess = SystemProcess;
         function searchArgs(key) {
             var foundIndex = -1;
             for (var iIdx = 0; iIdx < RadJav.OS.args.length; iIdx++) {
@@ -1508,19 +1524,6 @@ var RadJav;
             }
             HTML5.interfaceConnector = interfaceConnector;
         })(HTML5 = OS.HTML5 || (OS.HTML5 = {}));
-        var SystemProcess = (function () {
-            function SystemProcess(command, args) {
-                if (command === void 0) { command = ""; }
-                if (args === void 0) { args = []; }
-                this.execute = null;
-                this.command = command;
-                this.args = args;
-                this.bufferSize = 4096;
-                this.exitCode = -1;
-                this.output = "";
-            }
-            return SystemProcess;
-        }());
     })(OS = RadJav.OS || (RadJav.OS = {}));
 })(RadJav || (RadJav = {}));
 function parseBoolean(str) {

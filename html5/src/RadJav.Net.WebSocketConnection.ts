@@ -47,14 +47,19 @@ namespace RadJav
 			constructor (httpConnection?: RadJav.Net.HttpConnection | WebSocketConnection, request?: RadJav.Net.HttpIncomingMessage)
 			{
                 this._url = "";
-                this._appObj = null;
+				this._appObj = null;
+				this._socket = null;
                 this._events = {};
 
                 //TODO fix this, it will throw exception on undefined value
-                //while WebSocketConnection act like a client.
-				//this._url = RadJav.setDefaultValue(httpConnection["_url"], "");
-				//this._socket = RadJav.setDefaultValue(httpConnection["_socket"], null);
-				//this._events = RadJav.setDefaultValue(httpConnection["_events"], {});
+				//while WebSocketConnection act like a client.
+
+				if (httpConnection !== null)
+				{
+					this._url = RadJav.setDefaultValue(httpConnection["_url"], "");
+					this._socket = RadJav.setDefaultValue(httpConnection["_socket"], null);
+					this._events = RadJav.setDefaultValue(httpConnection["_events"], {});
+				}
 
                 if(this["_init"] != null)
                 {

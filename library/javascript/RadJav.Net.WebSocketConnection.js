@@ -6,7 +6,13 @@ var RadJav;
             function WebSocketConnection(httpConnection, request) {
                 this._url = "";
                 this._appObj = null;
+                this._socket = null;
                 this._events = {};
+                if (httpConnection !== null) {
+                    this._url = RadJav.setDefaultValue(httpConnection["_url"], "");
+                    this._socket = RadJav.setDefaultValue(httpConnection["_socket"], null);
+                    this._events = RadJav.setDefaultValue(httpConnection["_events"], {});
+                }
                 if (this["_init"] != null) {
                     this["_init"].apply(this, arguments);
                     if (httpConnection != undefined &&

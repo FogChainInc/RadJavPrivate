@@ -35,11 +35,6 @@
 	#include <wx/stdpaths.h>
 #endif
 
-#include <boost/process.hpp>
-#include <boost/process/async.hpp>
-
-#include <boost/asio/io_service.hpp>
-
 namespace RadJAV
 {
 	namespace CPP
@@ -275,6 +270,8 @@ namespace RadJAV
 
 			exitCode = -1;
 			output = "";
+
+			thread = NULL;
 		}
 
 		OS::SystemProcess::SystemProcess(String command, Array<String> args)
@@ -285,6 +282,8 @@ namespace RadJAV
 
 			exitCode = -1;
 			output = "";
+
+			thread = NULL;
 		}
 
 		#ifdef USE_V8
@@ -304,6 +303,8 @@ namespace RadJAV
 				exitCode = V8_JAVASCRIPT_ENGINE->v8GetDecimal(args.This(), "exitCode");
 				bufferSize = V8_JAVASCRIPT_ENGINE->v8GetDecimal(args.This(), "bufferSize");
 				output = V8_JAVASCRIPT_ENGINE->v8GetString(args.This(), "output");
+
+				thread = NULL;
 			}
 
 			v8::Local<v8::Object> OS::SystemProcess::toV8Object(v8::Isolate *isolate)
@@ -343,9 +344,14 @@ namespace RadJAV
 			}
 		#endif
 
+		OS::SystemProcess::~SystemProcess()
+		{
+			DELETEOBJ(thread);
+			DELETEOBJ(child);
+		}
+
 		void OS::SystemProcess::execute()
 		{
-			boost::asio::io_service ios;
 			boost::process::opstream in;
 			boost::process::async_pipe output(ios);
 			std::vector<std::string> tempArgs;
@@ -354,12 +360,14 @@ namespace RadJAV
 			for (RJUINT iIdx = 0; iIdx < args.size(); iIdx++)
 				tempArgs.push_back(args.at (iIdx));
 
-			boost::process::child child(command.c_str (), tempArgs,
-				boost::process::std_in < in, 
+			child = RJNEW boost::process::child(command.c_str (), tempArgs,
+				//boost::process::std_in < in, 
 				boost::process::std_out > output, 
-				//boost::process::std_err > output, ios, 
-				boost::process::on_exit([&](int, const std::error_code&)
+				//boost::process::std_err > output, 
+				ios, 
+				boost::process::on_exit([&](int terminationCode, const std::error_code &err)
 					{
+						this->exitCode = terminationCode;
 						output.close();
 					}));
 			boost::asio::async_read(output, boost::asio::buffer(buffer), 
@@ -369,7 +377,23 @@ namespace RadJAV
 						onOutput (str);
 					});
 
-			ios.run();
+			/// @fixme Get async read from stdout to work.
+			/*DELETEOBJ(thread);
+			thread = RJNEW SimpleThread();
+			thread->onStart = [&]()
+			{
+				ios.run();
+			};
+
+			RadJav::addThread(thread);*/
+		}
+
+		void OS::SystemProcess::kill()
+		{
+			RadJav::javascriptEngine->removeThread(thread);
+			child->terminate();
+			ios.stop();
+			ios.reset();
 		}
 	}
 }

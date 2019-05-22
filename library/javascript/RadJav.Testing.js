@@ -192,8 +192,8 @@ var RadJav;
                                         return;
                                     }
                                     var test = this.tests[currentTestIndex_1];
-                                    var command = params_1.appPath + " " + params_1.execFile + " --node " + "--testcase " + test.name;
-                                    RadJav.OS.exec(command);
+                                    var process = new RadJav.OS.SystemProcess(params_1.appPath, [params_1.execFile, "--node", "--testcase", test.name]);
+                                    process.execute();
                                 }, this));
                             }, this));
                             server.on("close", function () {
@@ -204,8 +204,8 @@ var RadJav;
                             });
                             server.start(this.listenAddress, this.port);
                             var test = this.tests[currentTestIndex_1];
-                            var command = params_1.appPath + " " + params_1.execFile + " --node " + "--testcase \"" + test.name + "\"";
-                            RadJav.OS.exec(command);
+                            var process_1 = new RadJav.OS.SystemProcess(params_1.appPath, [params_1.execFile, "--node", "--testcase", test.name]);
+                            process_1.execute();
                         }
                         else {
                             var test_1 = null;

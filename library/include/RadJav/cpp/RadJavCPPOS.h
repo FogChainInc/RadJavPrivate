@@ -25,6 +25,8 @@
 	#include "RadJavArray.h"
 	#include "RadJavHashMap.h"
 
+	#include "cpp/RadJavCPPChainedPtr.h"
+
 	#include <functional>
 
 	#ifdef USE_V8
@@ -35,6 +37,11 @@
 		#include "jscore/RadJavJSCJavascriptEngine.h"
 	#endif
 
+	#include <boost/process.hpp>
+	#include <boost/process/async.hpp>
+
+	#include <boost/asio/io_service.hpp>
+
 	namespace RadJAV
 	{
 		namespace CPP
@@ -42,7 +49,7 @@
 			namespace OS
 			{
 				/// Handles subprocesses started by RadJav.
-				class RADJAV_EXPORT SystemProcess
+				class RADJAV_EXPORT SystemProcess: public ChainedPtr
 				{
 					public:
 						SystemProcess(String command = "");
@@ -56,8 +63,13 @@
 
 							JSObjectRef toJSCObject();
 						#endif
+						~SystemProcess();
 
+						/// Execute the process.
 						void execute();
+
+						/// Kill the process.
+						void kill();
 
 						/// The command to execute.
 						String command;
@@ -69,6 +81,13 @@
 						RJINT bufferSize;
 						/// The collected output.
 						String output;
+
+						/// The child process.
+						boost::process::child *child;
+						/// The service that handles the process.
+						boost::asio::io_context ios;
+						/// The thread that handles the process.
+						SimpleThread *thread;
 
 						std::function<void(String)> onOutput;
 						std::function<void(String)> onError;

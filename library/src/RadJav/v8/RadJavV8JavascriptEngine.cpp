@@ -1419,6 +1419,14 @@ namespace RadJAV
                         V8B::OS::ScreenInfo::createV8Callbacks(isolate, screenInfoFunc);
                     }
 
+					// RadJav.OS.SystemProcess
+					{
+						v8::Handle<v8::Function> systemProcessFunc = v8GetFunction(osFunc, "SystemProcess");
+						v8::Handle<v8::Object> systemProcessFuncPrototype = v8GetObject(systemProcessFunc, "prototype");
+
+						V8B::OS::SystemProcess::createV8Callbacks(isolate, systemProcessFuncPrototype);
+					}
+
 					// Command line arguments
 					{
 						v8::Handle<v8::Array> args = v8::Handle<v8::Array>::Cast (v8GetValue(osFunc, "args"));

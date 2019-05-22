@@ -185,5 +185,32 @@ namespace RadJAV
 
 			args.GetReturnValue().Set(path.toV8String(args.GetIsolate()));
 		}
+
+		void OS::SystemProcess::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
+		{
+			V8_CALLBACK(object, "_init", OS::SystemProcess::_init);
+			V8_CALLBACK(object, "execute", OS::SystemProcess::execute);
+			V8_CALLBACK(object, "kill", OS::SystemProcess::kill);
+		}
+
+		void OS::SystemProcess::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+			CPP::OS::SystemProcess *appObject = RJNEW CPP::OS::SystemProcess(V8_JAVASCRIPT_ENGINE, args);
+			V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_appObj", appObject);
+		}
+
+		void OS::SystemProcess::execute(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+			CPP::OS::SystemProcess *appObject = (CPP::OS::SystemProcess *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+
+			appObject->execute();
+		}
+
+		void OS::SystemProcess::kill(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+			CPP::OS::SystemProcess *appObject = (CPP::OS::SystemProcess *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+
+			appObject->kill();
+		}
 	}
 }
