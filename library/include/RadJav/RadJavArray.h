@@ -107,7 +107,7 @@
 				/// An alias for size.
 				inline size_t length()
 				{
-					return (size ());
+					return (this->size ());
 				}
 		};
 

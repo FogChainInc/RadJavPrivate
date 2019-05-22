@@ -358,7 +358,7 @@ namespace RadJAV
 				boost::process::std_in < in, 
 				boost::process::std_out > output, 
 				//boost::process::std_err > output, ios, 
-				boost::process::on_exit([&](auto...)
+				boost::process::on_exit([&](int, const std::error_code&)
 					{
 						output.close();
 					}));
