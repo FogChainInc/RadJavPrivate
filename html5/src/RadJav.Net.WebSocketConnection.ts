@@ -46,12 +46,52 @@ namespace RadJav
 
 			constructor (httpConnection?: RadJav.Net.HttpConnection | WebSocketConnection, request?: RadJav.Net.HttpIncomingMessage)
 			{
-				this._url = RadJav.setDefaultValue(httpConnection["_url"], "");
-				this._socket = RadJav.setDefaultValue(httpConnection["_socket"], null);
-				this._events = RadJav.setDefaultValue(httpConnection["_events"], {});
+                this._url = "";
+                this._appObj = null;
+                this._events = {};
 
-				if(this["_init"] != null)
-					this["_init"].apply(this, arguments);
+                //TODO fix this, it will throw exception on undefined value
+                //while WebSocketConnection act like a client.
+				//this._url = RadJav.setDefaultValue(httpConnection["_url"], "");
+				//this._socket = RadJav.setDefaultValue(httpConnection["_socket"], null);
+				//this._events = RadJav.setDefaultValue(httpConnection["_events"], {});
+
+                if(this["_init"] != null)
+                {
+                    this["_init"].apply(this, arguments);
+                    
+                    if (httpConnection != undefined &&
+                        request != undefined)
+                    {
+                        this["_on"]("open", RadJav.keepContext(function() {
+                            if (this._events["open"] != null)
+                            {
+                                this._events["open"]();
+                            }
+                        }, this));
+        
+                        this["_on"]("message", RadJav.keepContext(function(data) {
+                            if (this._events["message"] != null)
+                            {
+                                this._events["message"](data);
+                            }
+                        }, this));
+    
+                        this["_on"]("error", RadJav.keepContext(function(code, description) {
+                            if (this._events["error"] != null)
+                            {
+                                this._events["error"](code, description);
+                            }
+                        }, this));
+    
+                        this["_on"]("close", RadJav.keepContext(function() {
+                            if (this._events["close"] != null)
+                            {
+                                this._events["close"]();
+                            }
+                        }, this));
+                    }
+                }
 			}
 
 			connect (url: string = ""): Promise<void>
@@ -59,22 +99,52 @@ namespace RadJav
 				if (url !== "")
 					this._url = url;
 
-				if(this["_connect"] != null)
-				{
-					return (this["_connect"].apply(this, arguments));
-				}
-				else
-				{
-					var promise: Promise<void> = new Promise(
-					RadJav.keepContext(function (resolve, reject)
-					{
+				var promise: Promise<void> = new Promise(
+                RadJav.keepContext(function (resolve, reject)
+                {
+                    if (this["_connect"] != null)
+                    {
+                        this["_on"]("open", RadJav.keepContext(function() {
+                            if (this._events["open"] != null)
+                            {
+                                this._events["open"]();
+                            }
+                            resolve();
+                        }, this));
+        
+                        this["_on"]("message", RadJav.keepContext(function(data) {
+                            if (this._events["message"] != null)
+                            {
+                                this._events["message"](data);
+                            }
+                        }, this));
+    
+                        this["_on"]("error", RadJav.keepContext(function(code, description) {
+                            reject();
+                            if (this._events["error"] != null)
+                            {
+                                this._events["error"](code, description);
+                            }
+                        }, this));
+    
+                        this["_on"]("close", RadJav.keepContext(function() {
+                            if (this._events["close"] != null)
+                            {
+                                this._events["close"]();
+                            }
+                        }, this));
+    
+                        this["_connect"](this._url);
+                    }
+                    else
+                    {
 						if (WebSocket == null)
 						{
 							reject(RadJav._lang.websocketsNotSupported);
 							return;
 						}
 			
-						this._socket = new WebSocket(this.url);
+						this._socket = new WebSocket(this._url);
 			
 						this._socket.onopen = RadJav.keepContext(function () {
 						resolve();
@@ -103,11 +173,11 @@ namespace RadJav
 							this._events["close"]();
 						}
 						}, this);
-					}, this)
-					);
+                    }
 
-					return promise;
-				}
+                }, this));
+
+                return promise;
 			}
 
 			send (data: string | ArrayBuffer): void
@@ -137,14 +207,7 @@ namespace RadJav
 
             on (event: string, func: Function): void
 			{
-				if (this["_on"] != null)
-				{
-					this["_on"].apply(this, arguments);
-				}
-				else
-				{
-					this._events[event] = func;
-				}
+                this._events[event] = func;
 			}
 		}
 

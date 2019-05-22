@@ -254,17 +254,7 @@ namespace RadJAV
 					return;
 				}
 
-				/// @fixme Stupid hack for now. We need an easy to use promise class similar to this.
-				PromiseThread *promise = RJNEW PromiseThread();
-
-				webSocket->onOpen([&promise]()
-					{
-						promise->resolvePromise();
-						DELETEOBJ(promise);
-					});
 				webSocket->connect(parseV8Value(args[0]));
-
-				args.GetReturnValue().Set(promise->createV8Promise (V8_JAVASCRIPT_ENGINE, args.This ()));
 			}
 
 			void WebSocketConnection::send(const v8::FunctionCallbackInfo<v8::Value> &args)

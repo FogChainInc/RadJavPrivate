@@ -153,7 +153,10 @@ var RadJav;
                         var nodeArg = RadJav.OS.searchArgs("--node");
                         if (nodeArg > -1) {
                             params_1.isNode = true;
-                            params_1.testCaseName = RadJav.OS.args[(nodeArg + 1)];
+                            var testnameArg = RadJav.OS.searchArgs("--testname");
+                            if (testnameArg > -1) {
+                                params_1.testCaseName = RadJav.OS.args[(testnameArg + 1)];
+                            }
                         }
                         params_1.appPath = RadJav.OS.getApplicationPath();
                         params_1.execFile = RadJav.OS.executingFile;

@@ -266,7 +266,12 @@ namespace RadJav
 							if (nodeArg > -1)
 							{
 								params.isNode = true;
-								params.testCaseName = RadJav.OS.args[(nodeArg + 1)];
+
+								let testnameArg: number = RadJav.OS.searchArgs("--testname");
+								if (testnameArg > -1)
+								{
+									params.testCaseName = RadJav.OS.args[(testnameArg + 1)];
+								}
 							}
 
 							params.appPath = RadJav.OS.getApplicationPath();
