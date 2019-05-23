@@ -1507,7 +1507,7 @@ namespace RadJAV
 						v8::Handle<v8::Function> textFileFunc = v8GetFunction(ioFunc, "TextFile");
 						v8::Handle<v8::Object> textPrototype = v8GetObject(textFileFunc, "prototype");
 
-						V8B::IO::TextFile::createV8Callbacks(isolate, textPrototype);
+						V8B::IO::TextFile::createV8Callbacks(isolate, textFileFunc);
 					}
 
 					// RadJav.IO.StreamFile

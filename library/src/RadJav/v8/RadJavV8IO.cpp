@@ -666,7 +666,7 @@ namespace RadJAV
 
 		void IO::TextFile::writeFile(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
-			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetValue(args.This (), "filePath"));
 
 			if (V8_JAVASCRIPT_ENGINE->v8IsNull(path) == true)
 			{
@@ -675,14 +675,8 @@ namespace RadJAV
 				return;
 			}
 
-			v8::Local<v8::String> text = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
-			RJINT fileType = static_cast<int>(CPP::IO::TextFile::operation::write);
-
-			if (args.Length() > 2)
-			{
-				v8::Local<v8::Integer> type = v8::Local<v8::Integer>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 2));
-				fileType = type->Value();
-			}
+			v8::Local<v8::String> text = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+			RJINT fileType = V8_JAVASCRIPT_ENGINE->v8GetInt(args.This(), "writeType");
 
 			try
 			{
@@ -697,7 +691,7 @@ namespace RadJAV
 
 		void IO::TextFile::writeFileAsync(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
-			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+			v8::Local<v8::String> path = v8::Local<v8::String>::Cast (V8_JAVASCRIPT_ENGINE->v8GetValue(args.This(), "filePath"));
 
 			if (V8_JAVASCRIPT_ENGINE->v8IsNull(path) == true)
 			{
@@ -706,17 +700,12 @@ namespace RadJAV
 				return;
 			}
 
-			v8::Local<v8::String> text = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 1));
-			RJINT fileType = static_cast<int>(CPP::IO::TextFile::operation::write);
-
-			if (args.Length() > 2)
-			{
-				v8::Local<v8::Integer> type = v8::Local<v8::Integer>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 2));
-				fileType = type->Value();
-			}
+			v8::Local<v8::String> text = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+			RJINT fileType = V8_JAVASCRIPT_ENGINE->v8GetInt(args.This(), "writeType");
 
 			try
 			{
+				/// @fixme This should return a promise.
 				CPP::IO::TextFile::writeFileAsync(parseV8Value(path), parseV8Value(text), fileType);
 			}
 			catch (Exception ex)
@@ -728,7 +717,7 @@ namespace RadJAV
 
 		void IO::TextFile::readFile(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
-			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetValue(args.This(), "filePath"));
 
 			if (V8_JAVASCRIPT_ENGINE->v8IsNull(path) == true)
 			{
@@ -736,7 +725,8 @@ namespace RadJAV
 				return;
 			}
 
-			String contents;
+			String contents = "";
+
 			try
 			{
 				contents = CPP::IO::TextFile::readFile(parseV8Value(path));
@@ -752,7 +742,7 @@ namespace RadJAV
 
 		void IO::TextFile::readFileAsync(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
-			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
+			v8::Local<v8::String> path = v8::Local<v8::String>::Cast(V8_JAVASCRIPT_ENGINE->v8GetValue(args.This(), "filePath"));
 
 			if (V8_JAVASCRIPT_ENGINE->v8IsNull(path) == true)
 			{
@@ -762,6 +752,7 @@ namespace RadJAV
 
 			try
 			{
+				/// @fixme This should return a promise.
 				CPP::IO::TextFile::readFileAsync(parseV8Value(path));
 			}
 			catch (Exception ex)

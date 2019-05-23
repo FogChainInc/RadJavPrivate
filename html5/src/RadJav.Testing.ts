@@ -26,7 +26,7 @@
 
 namespace RadJav
 {
-	/** @class RadJav.Testing
+	/** 
 	* The testing class.
 	* Available on platforms: Windows,Linux,OSX,iOS,Android
 	*/
@@ -453,32 +453,30 @@ namespace RadJav
 		export class CsvReporter
 		{
 			private _filePath: string;
-			private _textFile: RadJav.IO.TextFile;
 			private _delimiter: string;
 
 			constructor (fileName: string, delimiter: string = ";")
 			{
 				this._filePath = RadJav.OS.getCurrentWorkingPath()+"/"+fileName;
-				this._textFile = new RadJav.IO.TextFile();
 				this._delimiter = delimiter;
 
 				if(RadJav.IO.exists(this._filePath))
 					RadJav.IO.deleteFile(this._filePath);
 				
 				let headerData = `Test name${this._delimiter}Steps${this._delimiter}Result\n`;
-				this._textFile.writeFile(this._filePath, headerData, RadJav.IO.TextFile.write);
+				RadJav.IO.TextFile.writeToFile(this._filePath, headerData, RadJav.IO.AccessType.write);
 			}
 
 			appendResult(test: Test): void
 			{
 				let testHeader = test.name+`${this._delimiter}${this._delimiter}\n`;
-				this._textFile.writeFile(this._filePath, testHeader, RadJav.IO.TextFile.append);
+				RadJav.IO.TextFile.writeToFile(this._filePath, testHeader, RadJav.IO.AccessType.append);
 
 				for(let i = 0; i < test.passed.length; i++)
 				{
 					let result = test.passed[i] ? "PASS" : "FAIL";
 					let resultLine = `${this._delimiter}"${test.results[i]}"${this._delimiter}${result}\n`;
-					this._textFile.writeFile(this._filePath, resultLine, RadJav.IO.TextFile.append);
+					RadJav.IO.TextFile.writeToFile(this._filePath, resultLine, RadJav.IO.AccessType.append);
 				}
 			}
 		}
@@ -535,8 +533,9 @@ namespace RadJav
 			}
 		}
 
-		/** Simulates mouse input.
-		* Available on platforms: Windows,Linux,OSX,iOS,Android
+		/** 
+		 * Simulates mouse input.
+		 * Available on platforms: Windows,Linux,OSX,iOS,Android
 		*/
 		export class MouseSimulator
 		{
