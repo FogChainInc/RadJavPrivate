@@ -51,10 +51,7 @@ namespace RadJav
 				this._socket = null;
                 this._events = {};
 
-                //TODO fix this, it will throw exception on undefined value
-				//while WebSocketConnection act like a client.
-
-				if (httpConnection !== null)
+				if (httpConnection !== undefined)
 				{
 					this._url = RadJav.setDefaultValue(httpConnection["_url"], "");
 					this._socket = RadJav.setDefaultValue(httpConnection["_socket"], null);
@@ -65,8 +62,8 @@ namespace RadJav
                 {
                     this["_init"].apply(this, arguments);
                     
-                    if (httpConnection != undefined &&
-                        request != undefined)
+                    if (httpConnection !== undefined &&
+                        request !== undefined)
                     {
                         this["_on"]("open", RadJav.keepContext(function() {
                             if (this._events["open"] != null)

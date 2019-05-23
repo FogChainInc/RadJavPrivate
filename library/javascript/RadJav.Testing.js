@@ -153,7 +153,7 @@ var RadJav;
                         var nodeArg = RadJav.OS.searchArgs("--node");
                         if (nodeArg > -1) {
                             params_1.isNode = true;
-                            var testnameArg = RadJav.OS.searchArgs("--testname");
+                            var testnameArg = RadJav.OS.searchArgs("--testcase");
                             if (testnameArg > -1) {
                                 params_1.testCaseName = RadJav.OS.args[(testnameArg + 1)];
                             }
@@ -204,8 +204,8 @@ var RadJav;
                             });
                             server.start(this.listenAddress, this.port);
                             var test = this.tests[currentTestIndex_1];
-                            var process_1 = new RadJav.OS.SystemProcess(params_1.appPath, [params_1.execFile, "--node", "--testcase", test.name]);
-                            process_1.execute();
+                            var process = new RadJav.OS.SystemProcess(params_1.appPath, [params_1.execFile, "--node", "--testcase", test.name]);
+                            process.execute();
                         }
                         else {
                             var test_1 = null;
@@ -224,7 +224,9 @@ var RadJav;
                                     });
                                 }
                                 else {
-                                    var message = { name: params_1.testCaseName, passed: [false] };
+                                    var message = new RadJav.Testing.Test(params_1.testCaseName);
+                                    message.passed.push(false);
+                                    message.results.push("Test case not found");
                                     client.send(JSON.stringify(message));
                                 }
                             }, this));

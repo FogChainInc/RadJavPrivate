@@ -267,7 +267,7 @@ namespace RadJav
 							{
 								params.isNode = true;
 
-								let testnameArg: number = RadJav.OS.searchArgs("--testname");
+								let testnameArg: number = RadJav.OS.searchArgs("--testcase");
 								if (testnameArg > -1)
 								{
 									params.testCaseName = RadJav.OS.args[(testnameArg + 1)];
@@ -333,7 +333,7 @@ namespace RadJav
 										//RadJav.Console.log("Starting application: " + command);
 										//RadJav.OS.exec (command);
 
-										let process: RadJav.OS.SystemProcess = new RadJav.OS.SystemProcess (
+										var process: RadJav.OS.SystemProcess = new RadJav.OS.SystemProcess (
 											params.appPath, [params.execFile, "--node", "--testcase", test.name]);
 										process.execute ();
 
@@ -357,7 +357,7 @@ namespace RadJav
 								//RadJav.Console.log("Starting application: " + command);
 								//RadJav.OS.exec(command);
 
-								let process: RadJav.OS.SystemProcess = new RadJav.OS.SystemProcess (
+								var process: RadJav.OS.SystemProcess = new RadJav.OS.SystemProcess (
 									params.appPath, [params.execFile, "--node", "--testcase", test.name]);
 								process.execute ();
 							}
@@ -389,7 +389,9 @@ namespace RadJav
 									}
 									else
 									{
-										let message = {name: params.testCaseName, passed: [false]};
+										let message = new RadJav.Testing.Test(params.testCaseName);
+										message.passed.push(false);
+										message.results.push("Test case not found");
 										client.send(JSON.stringify(message));
 									}
 								}, this));
