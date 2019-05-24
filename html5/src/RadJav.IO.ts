@@ -26,390 +26,399 @@ interface DOMElement extends HTMLElement
 
 namespace RadJav
 {
-	/** @class RadJav.IO
+	/** 
 	* The IO class.
 	* Available on platforms: Windows,Linux,OSX
 	*/
 	export class IO
 	{
-		/** @method isDir
+		/** 
 		* Check to see if a directory exists.
 		* Available on platforms: Windows,Linux,OSX
-		* @param {string} path The path to check.
-		* @return {Boolean} Returns true if the directory exists.
+		* @param path The path to check.
+		* @return Returns true if the directory exists.
 		*/
-		static isDir(path: string): boolean { return; }
+		static isDir: (path: string) => boolean = null;
 
-		/** @method isFile
+		/** 
 		* Check to see if a file exists.
 		* Available on platforms: Windows,Linux,OSX
-		* @param {string} path The path to check.
-		* @return {Boolean} Returns true if the file exists.
+		* @param path The path to check.
+		* @return Returns true if the file exists.
 		*/
-		static isFile(path: string): boolean { return; }
+		static isFile: (path: string) => boolean = null;
 
-		/** @method isSymLink
+		/** 
 		* Check to see if the file/directory is a symbolic link.
 		* Available on platforms: Windows,Linux,OSX
-		* @param {string} path The path to check.
-		* @return {Boolean} Returns true if its a symbolic link.
+		* @param path The path to check.
+		* @return Returns true if its a symbolic link.
 		*/
-		static isSymLink(path: string): boolean { return; }
+		static isSymLink: (path: string) => boolean = null;
 
 		/** @method currentPath
 		* Get the current directory path.
 		* Available on platforms: Windows,Linux,OSX
 		* @return {string} The current directory path.
 		*/
-		static currentPath(): string { return; }
+		static currentPath: () => string = null;
 
-		/** @method changePath
+		/** 
 		* Change the current directory path.
 		* Available on platforms: Windows,Linux,OSX
-		* @param {string} path Change the current directory path.
+		* @param path Change the current directory path.
 		*/
-		static changePath(path: string): void { return; }
+		static changePath: (path: string) => void = null;
 
-		/** @method exists
+		/** 
 		* Checks if the file/directory exists.
 		* Available on platforms: Windows,Linux,OSX
-		* @param {string} path Change the current directory path.
-		* @return {boolean} Returns true if its the file/directory exists.
+		* @param path Change the current directory path.
+		* @return Returns true if its the file/directory exists.
 		*/
-		static exists(path: string): boolean { return; }
+		static exists: (path: string) => boolean = null;
 
-		/** @method createDir
+		/** 
 		* Create a directory.
 		* Available on platforms: Windows,Linux,OSX
-		* @param {string} path The path to the directory to create.
+		* @param path The path to the directory to create.
 		*/
-		static createDir(path: string): void {}
+		static createDir: (path: string) => void = null;
 
-		/** @method copyDir
+		/** 
 		* Copy a directory.
 		* Available on platforms: Windows,Linux,OSX
-		* @param {string} src The source directory to copy.
-		* @param {string} dest The destination to copy the directory to.
-		* @param {boolean} [recursive=true] Recursively copy if set to true.
+		* @param src The source directory to copy.
+		* @param dest The destination to copy the directory to.
+		* @param recursive Recursively copy if set to true.
 		*/
-		static copyDir(src: string, dest: string, recursive: boolean = true): void {}
+		static copyDir: (src: string, dest: string, recursive?: boolean) => void = null;
 
-		/** @method renameDir
+		/** 
 		* Rename a directory.
 		* Available on platforms: Windows,Linux,OSX
-		* @param {string} src The directory to rename.
-		* @param {string} dest The new name of the directory.
+		* @param src The directory to rename.
+		* @param dest The new name of the directory.
 		*/
-		static renameDir(src: string, dest: string): void {}
+		static renameDir: (src: string, dest: string) => void = null;
 
-		/** @method deleteDir
+		/** 
 		* Delete a directory.
 		* Available on platforms: Windows,Linux,OSX
-		* @param {string} path The path to the directory to delete.
+		* @param path The path to the directory to delete.
 		*/
-		static deleteDir(path: string): void {}
+		static deleteDir: (path: string) => void = null;
 
-		/** @method isEmpty
+		/** 
 		* Check if a directory is empty.
 		* Available on platforms: Windows,Linux,OSX
-		* @param {string} path The path to the directory to check.
+		* @param path The path to the directory to check.
 		*/
-		static isEmpty(path: string): boolean { return; }
+		static isEmpty: (path: string) => boolean = null;
 
-		/** @method createSymLink
+		/** 
 		* Create a symbolic link.
 		* Available on platforms: Windows,Linux,OSX
-		* @param {string} src The path to create a symbolic link to.
-		* @param {string} link The path to where the symbolic link can be found.
+		* @param src The path to create a symbolic link to.
+		* @param link The path to where the symbolic link can be found.
 		*/
-		static createSymLink(path: string, link: string): void {}
+		static createSymLink: (path: string, link: string) => void = null;
 
-		/** @method copySymLink
+		/** 
 		* Copy a symbolic link.
 		* Available on platforms: Windows,Linux,OSX
-		* @param {string} src The path to copy.
-		* @param {string} dest The destination to copy to.
+		* @param src The path to copy.
+		* @param dest The destination to copy to.
 		*/
-		static copySymLink(src: string, dest: string): void {}
+		static copySymLink: (src: string, dest: string) => void = null;
 
-		/** @method renameSymLink
+		/** 
 		* Rename a symbolic link.
 		* Available on platforms: Windows,Linux,OSX
-		* @param {string} src The path to rename.
-		* @param {string} dest The new name.
+		* @param src The path to rename.
+		* @param dest The new name.
 		*/
-		static renameSymLink(src: string, dest: string): void {}
+		static renameSymLink: (src: string, dest: string) => void = null;
 
-		/** @method deleteSymLink
+		/** 
 		* Delete a symbolic link.
 		* Available on platforms: Windows,Linux,OSX
-		* @param {string} path The path to the symbolic link to delete.
+		* @param path The path to the symbolic link to delete.
 		*/
-		static deleteSymLink(path: string): void {}
+		static deleteSymLink: (path: string) => void = null;
 
-		/** @method copyFile
+		/** 
 		* Copy a file.
 		* Available on platforms: Windows,Linux,OSX
-		* @param {string} src The directory to copy.
-		* @param {string} dest The destination to copy the directory to.
+		* @param src The directory to copy.
+		* @param dest The destination to copy the directory to.
 		*/
-		static copyFile(src: string, dest: string): void {}
+		static copyFile: (src: string, dest: string) => void = null;
 
-		/** @method renameFile
+		/** 
 		* Rename a file.
 		* Available on platforms: Windows,Linux,OSX
-		* @param {string} src The file to rename.
-		* @param {string} dest The new name of the file.
+		* @param src The file to rename.
+		* @param dest The new name of the file.
 		*/
-		static renameFile(src: string, dest: string): void {}
+		static renameFile: (src: string, dest: string) => void = null;
 
-		/** @method deleteFile
+		/** 
 		* Delete a file.
 		* Available on platforms: Windows,Linux,OSX
-		* @param {string} path The path to the file to delete.
+		* @param path The path to the file to delete.
 		*/
-		static deleteFile(path: string): void {}
+		static deleteFile: (path: string) => void = null;
 
-		/** @method listFiles
+		/** 
 		* List files in a directory.
 		* Available on platforms: Windows,Linux,OSX
-		* @param {string} path The path to list files.
-		* @return {string[]} The files and directories within that path.
+		* @param path The path to list files.
+		* @return The files and directories within that path.
 		*/
-		static listFiles(path: string, recursive: boolean = true): string[] { return; }
+		static listFiles: (path: string, recursive?: boolean) => string[] = null;
 
-		/** @method listFilesAsync
+		/** 
 		* Asynchronously list files in a directory.
 		* Available on platforms: Windows,Linux,OSX
-		* @param {string} path The path to list files.
-		* @return {string[]} The files and directories within that path.
+		* @param path The path to list files.
+		* @return The files and directories within that path.
 		*/
-		static listFilesAsync(asyncCallback: (newFileOrDir: string) => boolean, path: string, recursive: boolean = true): string[] { return; }
+		static listFilesAsync: (asyncCallback: (newFileOrDir: string) => boolean, path: string, recursive?: boolean) => string[] = null;
 
-		/** @method normalizePath
+		/** 
 		* Normalize a file/directory path.
 		* Available on platforms: Windows,Linux,OSX
-		* @param {string} path The path to normalize.
-		* @param {string} basePath The base path to normalize from.
-		* @return {string} The normalized path.
+		* @param path The path to normalize.
+		* @param basePath The base path to normalize from.
+		* @return The normalized path.
 		*/
-		static normalizePath(path: string, basePath: string = ""): string { return; }
+		static normalizePath: (path: string, basePath?: string) => string = null;
 
-		/** @method normalizeAndVerifyPath
+		/** 
 		* Normalize an verify the file/directory path.
 		* Available on platforms: Windows,Linux,OSX
-		* @param {string} path The path to normalize.
-		* @param {string} basePath The base path to normalize from.
-		* @return {string} The normalized path.
+		* @param path The path to normalize.
+		* @param basePath The base path to normalize from.
+		* @return The normalized path.
 		*/
-		static normalizeAndVerifyPath(path: string, basePath: string = ""): string { return; }
+		static normalizeAndVerifyPath: (path: string, basePath?: string) => string = null;
 
-		/** @method normalizeCurrentPath
+		/** 
 		* Normalize a file/directory path relative to the current directory path.
 		* Available on platforms: Windows,Linux,OSX
-		* @param {string} path The path to normalize.
-		* @return {string} The normalized path.
+		* @param path The path to normalize.
+		* @return The normalized path.
 		*/
-		static normalizeCurrentPath(path: string): string { return; }
+		static normalizeCurrentPath: (path: string) => string = null;
 	}
 
 	export namespace IO
 	{
-		/** @class RadJav.IO.SerialComm
+		/** 
 		* Handles serial communications.
 		* Available on platforms: Windows,Linux,OSX
 		*/
 		export class SerialComm
 		{
-			/** @method getPort
+			/** 
 			* Get the serial port.
 			* Available on platforms: Windows,Linux,OSX
-			* @return {string} The port being used.
+			* @return The port being used.
 			*/
-			getPort(): string { return; }
+			getPort: () => string;
 
-			/** @method getBaud
+			/** 
 			* Get the baud.
 			* Available on platforms: Windows,Linux,OSX
-			* @return {string} The baud being used.
+			* @return The baud being used.
 			*/
-			getBaud(): Number { return; }
+			getBaud: () => number;
 
-			/** @method getByteSize
+			/** 
 			* Get the byte size being used.
 			* Available on platforms: Windows,Linux,OSX
-			* @return {string} The byte size being used.
+			* @return The byte size being used.
 			*/
-			getByteSize(): Number {return;}
+			getByteSize: () => number;
 
-			/** @method getStopBits
+			/** 
 			* Get the stop bits being used.
 			* Available on platforms: Windows,Linux,OSX
-			* @return {string} The stop bits being used.
+			* @return The stop bits being used.
 			*/
-			getStopBits(): Number { return; }
+			getStopBits: () => number;
 
-			/** @method getParity
+			/** 
 			* Get the parity being used.
 			* Available on platforms: Windows,Linux,OSX
-			* @return {string} The parity being used.
+			* @return The parity being used.
 			*/
-			getParity(): Number { return; }
+			getParity: () => number;
 
-			/** @method open
+			/** 
 			* Open the serial communications.
 			* Available on platforms: Windows,Linux,OSX
-			* @return {Boolean} Whether or not communications were able to be established.
+			* @return Whether or not communications were able to be established.
 			*/
-			open(): boolean { return; }
+			open: () => boolean;
 
-			/** @method isOpen
+			/** 
 			* Check if serial communications were opened.
 			* Available on platforms: Windows,Linux,OSX
-			* @return {Boolean} Whether or not communications were able to be established.
+			* @return Whether or not communications were able to be established.
 			*/
-			isOpen(): boolean { return; }
+			isOpen: () => boolean;
 
-			/** @method read
+			/** 
 			* Read from the opened port.
 			* Available on platforms: Windows,Linux,OSX
-			* @param {Number} bufferSize The size of the buffer to read in bytes.
-			* @return {string} The string buffer from the opened port.
+			* @param bufferSize The size of the buffer to read in bytes.
+			* @return The string buffer from the opened port.
 			*/
-			read(bufferSize: Number): string { return; }
+			read: (bufferSize: number) => string;
 
-			/** @method write
+			/** 
 			* Write to the opened port.
 			* Available on platforms: Windows,Linux,OSX
-			* @param {Number} buffer The string buffer to write.
-			* @param {Number} [bufferSize=buffer.length] The number of bytes to write from the buffer.
-			* @return {Number} The number of bytes written.
+			* @param buffer The string buffer to write.
+			* @param bufferSize The number of bytes to write from the buffer.
+			* @return The number of bytes written.
 			*/
-			write(buffer: Number, bufferSize?: Number): Number { return; }
+			write: (buffer: number, bufferSize?: number) => number;
 
-			/** @method close
+			/** 
 			* Close the opened port.
 			* Available on platforms: Windows,Linux,OSX
 			*/
-			close(): void {}
+			close: () => void;
 		}
 
-		/** @class RadJav.IO.TextFile
+		/// The file or stream access type.
+		export enum AccessType
+		{
+			read = 0,
+			write = 1,
+			append = 2
+		}
+
+		/** 
 		* Handles text files.
-		* Available on platforms: Windows,Linux,OSX
+		* Available on platforms: Windows,Linux,OSX,iOS,Android
 		*/
 		export class TextFile
 		{
-			/** @method writeFile
+			/// The path to the text file.
+			filePath: string;
+			/// How the file is open.
+			writeType: RadJav.IO.AccessType;
+
+			constructor (filePath: string, writeType: RadJav.IO.AccessType = RadJav.IO.AccessType.write)
+			{
+				this.filePath = filePath;
+				this.writeType = writeType;
+			}
+
+			/** 
 			* Write to a text file.
-			* Available on platforms: Windows,Linux,OSX
-			* @param {string} path The path to the file to write to.
-			* @param {string} content The content to write.
+			* @param content The content to write.
 			*/
-			
-			static writeFile(path: string, content: string): void {}
-			/** @method writeFileAsync
+			writeFile: (content: string) => void;
+
+			/** 
+			* Write to a text file.
+			* @param path The path to the file to write to.
+			* @param content The content to write.
+			*/
+			static writeToFile (path: string, content: string, 
+					writeType: RadJav.IO.AccessType = RadJav.IO.AccessType.write): void
+			{
+				let file: TextFile = new TextFile (path, writeType);
+
+				file.writeFile (content);
+			}
+
+			/** 
 			* Write to a text file asynchronously.
-			* Available on platforms: Windows,Linux,OSX
-			* @param {string} path The path to the file to write to.
-			* @param {string} content The content to write.
+			* @param content The content to write.
 			*/
-			static writeFileAsync(path: string, content: string): void {}
+			writeFileAsync: (content: string) => void;
 
-			/** @method readFile
+			/** 
 			* Read from a text file.
-			* Available on platforms: Windows,Linux,OSX
-			* @param {string} path The path to the file to read from.
-			* @return {string} The content read from the text file.
+			* @param path The path to the file to read from.
+			* @return The content read from the text file.
 			*/
-			static readFile(path: string): string { return; }
-			
-			/** @method readFileAsync
-			* Read from a text file asynchronously.
-			* Available on platforms: Windows,Linux,OSX
-			* @param {string} path The path to the file to read from.
-			* @return {string} The content read from the text file.
-			*/
-			static readFileAsync(path: string): string { return; }
+			readFile: () => string;
 
-			/** @property {Number} [read=0]
-			* @static
-			* Read from a file.
+			/** 
+			* Read from a text file.
+			* @param path The path to the file to read from.
+			* @return The content read from the text file.
 			*/
-			static read: Number = 0;
-			/** @property {Number} [write=1]
-			* @static
-			* Write to a file.
+			static readFromFile (path: string): string
+			{
+				let file: TextFile = new TextFile (path);
+
+				return (file.readFile ());
+			}
+
+			/** 
+			* Read from a text file asynchronously.
+			* @return The content read from the text file.
 			*/
-			static write: Number = 1;
-			/** @property {Number} [append=2]
-			* @static
-			* Append to a file.
-			*/
-			static append: Number = 2;
+			readFileAsync: () => string;
 		}
 
-		/** @class RadJav.IO.TextFile
+		/** 
 		* Handles stream files.
-		* Available on platforms: Windows,Linux,OSX
+		* Available on platforms: Windows,Linux,OSX,iOS,Android
 		*/
 		export class StreamFile
 		{
-			/** @method writeFile
+			/** 
 			* Write to a stream file.
-			* Available on platforms: Windows,Linux,OSX
-			* @param {string} path The path to the file to write to.
-			* @param {string} content The content to write.
+			* @param path The path to the file to write to.
+			* @param content The content to write.
 			*/
-			static writeStream(path: string, content: string): void {}
+			writeStream: (path: string, content: string) => void;
 			
-			/** @method writeFileAsync
+			/** 
 			* Write to a stream file asynchronously.
-			* Available on platforms: Windows,Linux,OSX
-			* @param {string} path The path to the file to write to.
-			* @param {string} content The content to write.
+			* @param path The path to the file to write to.
+			* @param content The content to write.
 			*/
-			static writeStreamAsync(path: string, content: string): void {}
+			writeStreamAsync: (path: string, content: string) => void;
 
-			/** @method readFile
+			/** 
 			* Read from a stream file.
-			* Available on platforms: Windows,Linux,OSX
-			* @param {string} path The path to the file to read from.
-			* @return {string} The content read from the text file.
+			* @param path The path to the file to read from.
+			* @return The content read from the text file.
 			*/
-			static readStream(path: string): string { return; }
+			readStream: (path: string) => string;
 			
-			/** @method readFileAsync
+			/** 
 			* Read from a stream file asynchronously.
-			* Available on platforms: Windows,Linux,OSX
-			* @param {string} path The path to the file to read from.
-			* @return {string} The content read from the text file.
+			* @param path The path to the file to read from.
+			* @return The content read from the text file.
 			*/
-			static readStreamAsync(path: string): string { return; }
+			readStreamAsync: (path: string) => string;
 
-			/** @property {Number} [read=1]
-			* @static
-			* Read from a file.
-			*/
-			static read: Number;
-			/** @property {Number} [write=2]
-			* @static
-			* Write to a file.
-			*/
-			static write: Number;
-			/** @property {Number} [append=3]
-			* @static
-			* Append to a file.
-			*/
-			static append: Number;
+			/// Read from a file.
+			static read: number = 1;
+			/// Write to a file.
+			static write: number = 2;
+			/// Append to a file.
+			static append: number = 3;
 		}
 	}
 
 	/// Handles XML.
 	export namespace XML
 	{
-		/** @class RadJav.IO.XML.XMLFile
+		/** 
 		* Opens XML files.
+		* Available on platforms: Windows,Linux,OSX,iOS,Android,HTML5
 		*/
 		export class XMLFile
 		{
@@ -807,5 +816,5 @@ namespace RadJav
 				return (this._name + " = \"" + this._value + "\"");
 			}
 		}
-    }
+		}
 }

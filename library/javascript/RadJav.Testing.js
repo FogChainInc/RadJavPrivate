@@ -282,6 +282,16 @@ var RadJav;
             function KeyboardSimulator() {
             }
             KeyboardSimulator.keyPress = function (key) {
+                var evt = new Event("keydown");
+                evt["key"] = key;
+                evt["keyCode"] = key.charCodeAt(0);
+                evt["which"] = key.charCodeAt(0);
+                evt["altKey"] = false;
+                evt["ctrlKey"] = false;
+                evt["shiftKey"] = false;
+                evt["metaKey"] = false;
+                evt["bubbles"] = true;
+                document.dispatchEvent(evt);
             };
             KeyboardSimulator.enterText = function (text, delayBetweenKeyPresses) {
                 if (delayBetweenKeyPresses === void 0) { delayBetweenKeyPresses = 0; }
