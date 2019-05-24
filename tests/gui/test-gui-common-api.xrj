@@ -432,13 +432,41 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 		
 		// MebuBar set/getFont API test
 		RadJav.addTest("test_common_setgetposition_009", function(check) {
-			return setGetPositionApiTest.call(check, "MenuBar");
+			let message = "MenuBar.getPosition() return (0,0)";
+			let expectedPosition = new RadJav.Vector2(0, 0);
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuBar set/getPosition API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+
+						control.setPosition(100, 100);
+						let pos = control.getPosition();
+						
+						check.equal(JSON.stringify(pos), JSON.stringify(expectedPosition), message);
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(false, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
 		});
 		
 		// MenuItem set/getFont API test
 		RadJav.addTest("test_common_setgetposition_010", function(check) {
-			let message = "MenuItem.set/getPosition() have the same data";
-			let expectedPosition = new RadJav.Vector2(100, 100);
+			let message = "MenuItem.getPosition() return (0,0)";
+			let expectedPosition = new RadJav.Vector2(0, 0);
 			
 			let promise = new Promise(function(resolve, reject) {
 				var window = new RadJav.GUI.Window("window","MenuItem set/getPosition API test");
@@ -451,7 +479,7 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 						
 						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
 						menuItem.create().then( function(ctl) {
-							menuItem.setPosition(expectedPosition.x, expectedPosition.y);
+							menuItem.setPosition(100, 100);
 							let pos = menuItem.getPosition();
 							
 							check.equal(JSON.stringify(pos), JSON.stringify(expectedPosition), message);
