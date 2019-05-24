@@ -49,6 +49,56 @@ namespace RadJAV
 					this->dataType.insert(HashMapPair<RJINT, RJINT>(menuId, dataType));
 				}
 			
+				void MenuItemGUI::setPosition(RJINT, RJINT)
+				{
+					//Do nothing here to avoid crash
+				}
+				
+				void MenuItemGUI::setPosition(CPP::Vector2 pos)
+				{
+					//Do nothing here to avoid crash
+				}
+				
+				CPP::Vector2 MenuItemGUI::getPosition()
+				{
+					return CPP::Vector2();
+				}
+				
+				RJINT MenuItemGUI::getX()
+				{
+					return 0;
+				}
+				
+				RJINT MenuItemGUI::getY()
+				{
+					return 0;
+				}
+				
+				void MenuItemGUI::setSize(RJINT width, RJINT height)
+				{
+					//Do nothing here to avoid crash
+				}
+				
+				void MenuItemGUI::setSize(CPP::Vector2 size)
+				{
+					//Do nothing here to avoid crash
+				}
+				
+				CPP::Vector2 MenuItemGUI::getSize()
+				{
+					return CPP::Vector2();
+				}
+				
+				RJINT MenuItemGUI::getWidth()
+				{
+					return 0;
+				}
+				
+				RJINT MenuItemGUI::getHeight()
+				{
+					return 0;
+				}
+			
 				wxWindow* MenuItemGUI::getNativeWidget()
 				{
 					return this;

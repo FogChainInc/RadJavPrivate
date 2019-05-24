@@ -47,6 +47,11 @@
 
 						void create();
 
+						void setPosition(RJINT x, RJINT y);
+						void setPosition(CPP::Vector2 pos);
+						void setSize(RJINT width, RJINT height);
+						void setSize(CPP::Vector2 size);
+
 						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
 							void on(String event, RJ_FUNC_TYPE func);
 						#endif

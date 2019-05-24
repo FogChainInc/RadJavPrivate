@@ -78,6 +78,26 @@ namespace RadJAV
 				#endif
 			}
 
+			void MenuBar::setPosition(RJINT, RJINT)
+			{
+				//Do nothing here to avoid crash
+			}
+			
+			void MenuBar::setPosition(CPP::Vector2)
+			{
+				//Do nothing here to avoid crash
+			}
+
+			void MenuBar::setSize(RJINT, RJINT)
+			{
+				//Do nothing here to avoid crash
+			}
+			
+			void MenuBar::setSize(CPP::Vector2)
+			{
+				//Do nothing here to avoid crash
+			}
+
 			#if defined USE_V8 || defined USE_JAVASCRIPTCORE
 				void MenuBar::on(String event, RJ_FUNC_TYPE func)
 				{

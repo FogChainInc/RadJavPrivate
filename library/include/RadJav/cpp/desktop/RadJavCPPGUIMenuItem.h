@@ -95,6 +95,17 @@
 								return (data.size());
 							}
 
+							void setPosition(RJINT, RJINT);
+							void setPosition(CPP::Vector2 pos);
+							CPP::Vector2 getPosition();
+							RJINT getX();
+							RJINT getY();
+							void setSize(RJINT width, RJINT height);
+							void setSize(CPP::Vector2 size);
+							CPP::Vector2 getSize();
+							RJINT getWidth();
+							RJINT getHeight();
+
 							wxWindow* getNativeWidget();
 						
 							wxMenu *menu;
