@@ -3,43 +3,29 @@ var RadJav;
     var IO = (function () {
         function IO() {
         }
-        IO.isDir = function (path) { return; };
-        IO.isFile = function (path) { return; };
-        IO.isSymLink = function (path) { return; };
-        IO.currentPath = function () { return; };
-        IO.changePath = function (path) { return; };
-        IO.exists = function (path) { return; };
-        IO.createDir = function (path) { };
-        IO.copyDir = function (src, dest, recursive) {
-            if (recursive === void 0) { recursive = true; }
-        };
-        IO.renameDir = function (src, dest) { };
-        IO.deleteDir = function (path) { };
-        IO.isEmpty = function (path) { return; };
-        IO.createSymLink = function (path, link) { };
-        IO.copySymLink = function (src, dest) { };
-        IO.renameSymLink = function (src, dest) { };
-        IO.deleteSymLink = function (path) { };
-        IO.copyFile = function (src, dest) { };
-        IO.renameFile = function (src, dest) { };
-        IO.deleteFile = function (path) { };
-        IO.listFiles = function (path, recursive) {
-            if (recursive === void 0) { recursive = true; }
-            return;
-        };
-        IO.listFilesAsync = function (asyncCallback, path, recursive) {
-            if (recursive === void 0) { recursive = true; }
-            return;
-        };
-        IO.normalizePath = function (path, basePath) {
-            if (basePath === void 0) { basePath = ""; }
-            return;
-        };
-        IO.normalizeAndVerifyPath = function (path, basePath) {
-            if (basePath === void 0) { basePath = ""; }
-            return;
-        };
-        IO.normalizeCurrentPath = function (path) { return; };
+        IO.isDir = null;
+        IO.isFile = null;
+        IO.isSymLink = null;
+        IO.currentPath = null;
+        IO.changePath = null;
+        IO.exists = null;
+        IO.createDir = null;
+        IO.copyDir = null;
+        IO.renameDir = null;
+        IO.deleteDir = null;
+        IO.isEmpty = null;
+        IO.createSymLink = null;
+        IO.copySymLink = null;
+        IO.renameSymLink = null;
+        IO.deleteSymLink = null;
+        IO.copyFile = null;
+        IO.renameFile = null;
+        IO.deleteFile = null;
+        IO.listFiles = null;
+        IO.listFilesAsync = null;
+        IO.normalizePath = null;
+        IO.normalizeAndVerifyPath = null;
+        IO.normalizeCurrentPath = null;
         return IO;
     }());
     RadJav.IO = IO;
@@ -47,39 +33,39 @@ var RadJav;
         var SerialComm = (function () {
             function SerialComm() {
             }
-            SerialComm.prototype.getPort = function () { return; };
-            SerialComm.prototype.getBaud = function () { return; };
-            SerialComm.prototype.getByteSize = function () { return; };
-            SerialComm.prototype.getStopBits = function () { return; };
-            SerialComm.prototype.getParity = function () { return; };
-            SerialComm.prototype.open = function () { return; };
-            SerialComm.prototype.isOpen = function () { return; };
-            SerialComm.prototype.read = function (bufferSize) { return; };
-            SerialComm.prototype.write = function (buffer, bufferSize) { return; };
-            SerialComm.prototype.close = function () { };
             return SerialComm;
         }());
         IO.SerialComm = SerialComm;
+        var AccessType;
+        (function (AccessType) {
+            AccessType[AccessType["read"] = 0] = "read";
+            AccessType[AccessType["write"] = 1] = "write";
+            AccessType[AccessType["append"] = 2] = "append";
+        })(AccessType = IO.AccessType || (IO.AccessType = {}));
         var TextFile = (function () {
-            function TextFile() {
+            function TextFile(filePath, writeType) {
+                if (writeType === void 0) { writeType = RadJav.IO.AccessType.write; }
+                this.filePath = filePath;
+                this.writeType = writeType;
             }
-            TextFile.writeFile = function (path, content) { };
-            TextFile.writeFileAsync = function (path, content) { };
-            TextFile.readFile = function (path) { return; };
-            TextFile.readFileAsync = function (path) { return; };
-            TextFile.read = 0;
-            TextFile.write = 1;
-            TextFile.append = 2;
+            TextFile.writeToFile = function (path, content, writeType) {
+                if (writeType === void 0) { writeType = RadJav.IO.AccessType.write; }
+                var file = new TextFile(path, writeType);
+                file.writeFile(content);
+            };
+            TextFile.readFromFile = function (path) {
+                var file = new TextFile(path);
+                return (file.readFile());
+            };
             return TextFile;
         }());
         IO.TextFile = TextFile;
         var StreamFile = (function () {
             function StreamFile() {
             }
-            StreamFile.writeStream = function (path, content) { };
-            StreamFile.writeStreamAsync = function (path, content) { };
-            StreamFile.readStream = function (path) { return; };
-            StreamFile.readStreamAsync = function (path) { return; };
+            StreamFile.read = 1;
+            StreamFile.write = 2;
+            StreamFile.append = 3;
             return StreamFile;
         }());
         IO.StreamFile = StreamFile;

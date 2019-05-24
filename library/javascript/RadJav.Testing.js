@@ -259,20 +259,19 @@ var RadJav;
             function CsvReporter(fileName, delimiter) {
                 if (delimiter === void 0) { delimiter = ";"; }
                 this._filePath = RadJav.OS.getCurrentWorkingPath() + "/" + fileName;
-                this._textFile = new RadJav.IO.TextFile();
                 this._delimiter = delimiter;
                 if (RadJav.IO.exists(this._filePath))
                     RadJav.IO.deleteFile(this._filePath);
                 var headerData = "Test name" + this._delimiter + "Steps" + this._delimiter + "Result\n";
-                this._textFile.writeFile(this._filePath, headerData, RadJav.IO.TextFile.write);
+                RadJav.IO.TextFile.writeToFile(this._filePath, headerData, RadJav.IO.AccessType.write);
             }
             CsvReporter.prototype.appendResult = function (test) {
                 var testHeader = test.name + ("" + this._delimiter + this._delimiter + "\n");
-                this._textFile.writeFile(this._filePath, testHeader, RadJav.IO.TextFile.append);
+                RadJav.IO.TextFile.writeToFile(this._filePath, testHeader, RadJav.IO.AccessType.append);
                 for (var i = 0; i < test.passed.length; i++) {
                     var result = test.passed[i] ? "PASS" : "FAIL";
                     var resultLine = this._delimiter + "\"" + test.results[i] + "\"" + this._delimiter + result + "\n";
-                    this._textFile.writeFile(this._filePath, resultLine, RadJav.IO.TextFile.append);
+                    RadJav.IO.TextFile.writeToFile(this._filePath, resultLine, RadJav.IO.AccessType.append);
                 }
             };
             return CsvReporter;
@@ -282,16 +281,6 @@ var RadJav;
             function KeyboardSimulator() {
             }
             KeyboardSimulator.keyPress = function (key) {
-                var evt = new Event("keydown");
-                evt["key"] = key;
-                evt["keyCode"] = key.charCodeAt(0);
-                evt["which"] = key.charCodeAt(0);
-                evt["altKey"] = false;
-                evt["ctrlKey"] = false;
-                evt["shiftKey"] = false;
-                evt["metaKey"] = false;
-                evt["bubbles"] = true;
-                document.dispatchEvent(evt);
             };
             KeyboardSimulator.enterText = function (text, delayBetweenKeyPresses) {
                 if (delayBetweenKeyPresses === void 0) { delayBetweenKeyPresses = 0; }
