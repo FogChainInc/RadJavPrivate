@@ -3,8 +3,6 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 					RadJav.getMUILibrary ()).then (function () {
 	RadJav.runApplication (function ()
 	{
-		let tests = new RadJav.Testing.FunctionalTests("");
-		
 		// Common GUI API test cases
 		
 		// generic create API test
@@ -43,11 +41,7 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 		}
 		
 		// Window create API test
-		let test = new RadJav.Testing.Test("test_common_create_001");
-		let ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
+		RadJav.addTest("test_common_create_001", function(check) {
 			let message = "Window.create() API return Promise";
 			
 			let promise = new Promise(function(resolve, reject) {
@@ -67,112 +61,50 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 			
 			return promise;
 			
-		}, ta);
-		
-		tests.addTest(test);
+		});
 		
 		// Button create API test
-		test = new RadJav.Testing.Test("test_common_create_002");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
-			
+		RadJav.addTest("test_common_create_002", function(check) {
 			return createApiTest.call(check, "Button");
-		}, ta);
-		
-		tests.addTest(test);
+		});
 		
 		// Checkbox create API test
-		test = new RadJav.Testing.Test("test_common_create_003");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
-			
+		RadJav.addTest("test_common_create_003", function(check) {
 			return createApiTest.call(check, "Checkbox");
-		}, ta);
-		
-		tests.addTest(test);
+		});
 		
 		// Combobox create API test
-		test = new RadJav.Testing.Test("test_common_create_004");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
-			
+		RadJav.addTest("test_common_create_004", function(check) {
 			return createApiTest.call(check, "Combobox");
-		}, ta);
-		
-		tests.addTest(test);
+		});
 		
 		// Container create API test
-		test = new RadJav.Testing.Test("test_common_create_005");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
-			
+		RadJav.addTest("test_common_create_005", function(check) {
 			return createApiTest.call(check, "Container");
-		}, ta);
-		
-		tests.addTest(test);
+		});
 		
 		// Image create API test
-		test = new RadJav.Testing.Test("test_common_create_006");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
-			
+		RadJav.addTest("test_common_create_006", function(check) {
 			return createApiTest.call(check, "Image");
-		}, ta);
-		
-		tests.addTest(test);
+		});
 		
 		// Label create API test
-		test = new RadJav.Testing.Test("test_common_create_007");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
-			
+		RadJav.addTest("test_common_create_007", function(check) {
 			return createApiTest.call(check, "Label");
-		}, ta);
-		
-		tests.addTest(test);
+		});
 		
 		// List create API test
-		test = new RadJav.Testing.Test("test_common_create_008");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
-			
+		RadJav.addTest("test_common_create_008", function(check) {
 			return createApiTest.call(check, "List");
-		}, ta);
-		
-		tests.addTest(test);
+		});
 		
 		// MebuBar create API test
-		test = new RadJav.Testing.Test("test_common_create_009");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
-			
+		RadJav.addTest("test_common_create_009", function(check) {
 			return createApiTest.call(check, "MenuBar");
-		}, ta);
-		
-		tests.addTest(test);
+		});
 		
 		// MenuItem create API test
-		test = new RadJav.Testing.Test("test_common_create_010");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
+		RadJav.addTest("test_common_create_010", function(check) {
 			let message = "MenuItem.create() API return Promise";
 			
 			let promise = new Promise(function(resolve, reject) {
@@ -208,57 +140,27 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 			
 			return promise;
 			
-		}, ta);
-		
-		tests.addTest(test);
+		});
 		
 		// Radio create API test
-		test = new RadJav.Testing.Test("test_common_create_011");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
-			
+		RadJav.addTest("test_common_create_011", function(check) {
 			return createApiTest.call(check, "Radio");
-		}, ta);
-		
-		tests.addTest(test);
+		});
 		
 		// Textarea create API test
-		test = new RadJav.Testing.Test("test_common_create_012");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
-			
+		RadJav.addTest("test_common_create_012", function(check) {
 			return createApiTest.call(check, "Textarea");
-		}, ta);
-		
-		tests.addTest(test);
+		});
 		
 		// Textbox create API test
-		test = new RadJav.Testing.Test("test_common_create_013");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
-			
+		RadJav.addTest("test_common_create_013", function(check) {
 			return createApiTest.call(check, "Textbox");
-		}, ta);
-		
-		tests.addTest(test);
+		});
 		
 		// WebView create API test
-		test = new RadJav.Testing.Test("test_common_create_014");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
-			
+		RadJav.addTest("test_common_create_014", function(check) {
 			return createApiTest.call(check, "WebView");
-		}, ta);
-		
-		tests.addTest(test);
+		});
 		
 		// generic setFont, getFont API test
 		let setGetFontApiTest = function(controlName) {
@@ -299,15 +201,11 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 		}
 		
 		// Window set/getFont API test
-		test = new RadJav.Testing.Test("test_common_setgetfont_001");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
+		RadJav.addTest("test_common_setgetfont_001", function(check) {
 			let message = "Window.set/getFont() have the same data";
 			
 			let promise = new Promise(function(resolve, reject) {
-				var window = new RadJav.GUI.Window("Window","Window create API test");
+				var window = new RadJav.GUI.Window("Window","Window set/getFont API test");
 				window.create().then(function(win) {
 					window = win;
 					
@@ -333,116 +231,54 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 			
 			return promise;
 			
-		}, ta);
-		
-		tests.addTest(test);
+		});
 		
 		// Button set/getFont API test
-		test = new RadJav.Testing.Test("test_common_setgetfont_002");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
-			
+		RadJav.addTest("test_common_setgetfont_002", function(check) {
 			return setGetFontApiTest.call(check, "Button");
-		}, ta);
-		
-		tests.addTest(test);
+		});
 		
 		// Checkbox set/getFont API test
-		test = new RadJav.Testing.Test("test_common_setgetfont_003");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
-			
+		RadJav.addTest("test_common_setgetfont_003", function(check) {
 			return setGetFontApiTest.call(check, "Checkbox");
-		}, ta);
-		
-		tests.addTest(test);
+		});
 		
 		// Combobox set/getFont API test
-		test = new RadJav.Testing.Test("test_common_setgetfont_004");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
-			
+		RadJav.addTest("test_common_setgetfont_004", function(check) {
 			return setGetFontApiTest.call(check, "Combobox");
-		}, ta);
-		
-		tests.addTest(test);
+		});
 		
 		// Container set/getFont API test
-		test = new RadJav.Testing.Test("test_common_setgetfont_005");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
-			
+		RadJav.addTest("test_common_setgetfont_005", function(check) {
 			return setGetFontApiTest.call(check, "Container");
-		}, ta);
-		
-		tests.addTest(test);
+		});
 		
 		// Image set/getFont API test
-		test = new RadJav.Testing.Test("test_common_setgetfont_006");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
-			
+		RadJav.addTest("test_common_setgetfont_006", function(check) {
 			return setGetFontApiTest.call(check, "Image");
-		}, ta);
-		
-		tests.addTest(test);
+		});
 		
 		// Label set/getFont API test
-		test = new RadJav.Testing.Test("test_common_setgetfont_007");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
-			
+		RadJav.addTest("test_common_setgetfont_007", function(check) {
 			return setGetFontApiTest.call(check, "Label");
-		}, ta);
-		
-		tests.addTest(test);
+		});
 		
 		// List set/getFont API test
-		test = new RadJav.Testing.Test("test_common_setgetfont_008");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
-			
+		RadJav.addTest("test_common_setgetfont_008", function(check) {
 			return setGetFontApiTest.call(check, "List");
-		}, ta);
-		
-		tests.addTest(test);
+		});
 		
 		// MebuBar set/getFont API test
-		test = new RadJav.Testing.Test("test_common_setgetfont_009");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
-			
+		RadJav.addTest("test_common_setgetfont_009", function(check) {
 			return setGetFontApiTest.call(check, "MenuBar");
-		}, ta);
-		
-		tests.addTest(test);
+		});
 		
 		// MenuItem set/getFont API test
-		test = new RadJav.Testing.Test("test_common_setgetfont_010");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
+		RadJav.addTest("test_common_setgetfont_010", function(check) {
 			let message = "MenuItem.set/getFont() have the same data";
 			
 			let promise = new Promise(function(resolve, reject) {
-				var window = new RadJav.GUI.Window("window","MenuItem create API test");
+				var window = new RadJav.GUI.Window("window","MenuItem set/getFont API test");
 				window.create().then(function(win) {
 					window = win;
 					
@@ -476,60 +312,187 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 			
 			return promise;
 			
-		}, ta);
-		
-		tests.addTest(test);
+		});
 		
 		// Radio set/getFont API test
-		test = new RadJav.Testing.Test("test_common_setgetfont_011");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
-			
+		RadJav.addTest("test_common_setgetfont_011", function(check) {
 			return setGetFontApiTest.call(check, "Radio");
-		}, ta);
-		
-		tests.addTest(test);
+		});
 		
 		// Textarea set/getFont API test
-		test = new RadJav.Testing.Test("test_common_setgetfont_012");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
-			
+		RadJav.addTest("test_common_setgetfont_012", function(check) {
 			return setGetFontApiTest.call(check, "Textarea");
-		}, ta);
-		
-		tests.addTest(test);
+		});
 		
 		// Textbox set/getFont API test
-		test = new RadJav.Testing.Test("test_common_setgetfont_013");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
-			
+		RadJav.addTest("test_common_setgetfont_013", function(check) {
 			return setGetFontApiTest.call(check, "Textbox");
-		}, ta);
-		
-		tests.addTest(test);
+		});
 		
 		// WebView set/getFont API test
-		test = new RadJav.Testing.Test("test_common_setgetfont_014");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
-			
+		RadJav.addTest("test_common_setgetfont_014", function(check) {
 			return setGetFontApiTest.call(check, "WebView");
-		}, ta);
+		});
 		
-		tests.addTest(test);
+		// generic setPosition, getPosition API test
+		let setGetPositionApiTest = function(controlName) {
+			let check = this;
+			let message = controlName + ".set/getPosition() have the same data";
+			let expectedPosition = new RadJav.Vector2(100, 100);
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window", controlName+" set/getPosition API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI[controlName](controlName, "test", window);
+					control.create().then( function(ctl) {
+						control = ctl;
+						
+						control.setPosition(expectedPosition.x, expectedPosition.y);
+						let pos = control.getPosition();
+						
+						check.equal(JSON.stringify(pos), JSON.stringify(expectedPosition), message);
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(false, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window set/getPosition API test
+		RadJav.addTest("test_common_setgetposition_001", function(check) {
+			let message = "Window.set/getPosition() have the same data";
+			let expectedPosition = new RadJav.Vector2(100, 100);
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window","Window set/getPosition API test");
+				window.create().then(function(win) {
+					window = win;
+
+					window.setPosition(expectedPosition.x, expectedPosition.y);
+					let pos = window.getPosition();
+					
+					check.equal(JSON.stringify(pos), JSON.stringify(expectedPosition), message);
+					resolve();
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(false, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Button set/getPosition API test
+		RadJav.addTest("test_common_setgetposition_002", function(check) {
+			return setGetPositionApiTest.call(check, "Button");
+		});
+		
+		// Checkbox set/getFont API test
+		RadJav.addTest("test_common_setgetposition_003", function(check) {
+			return setGetPositionApiTest.call(check, "Checkbox");
+		});
+		
+		// Combobox set/getFont API test
+		RadJav.addTest("test_common_setgetposition_004", function(check) {
+			return setGetPositionApiTest.call(check, "Combobox");
+		});
+		
+		// Container set/getFont API test
+		RadJav.addTest("test_common_setgetposition_005", function(check) {
+			return setGetPositionApiTest.call(check, "Container");
+		});
+		
+		// Image set/getFont API test
+		RadJav.addTest("test_common_setgetposition_006", function(check) {
+			return setGetPositionApiTest.call(check, "Image");
+		});
+		
+		// Label set/getFont API test
+		RadJav.addTest("test_common_setgetposition_007", function(check) {
+			return setGetPositionApiTest.call(check, "Label");
+		});
+		
+		// List set/getFont API test
+		RadJav.addTest("test_common_setgetposition_008", function(check) {
+			return setGetPositionApiTest.call(check, "List");
+		});
+		
+		// MebuBar set/getFont API test
+		RadJav.addTest("test_common_setgetposition_009", function(check) {
+			return setGetPositionApiTest.call(check, "MenuBar");
+		});
+		
+		// MenuItem set/getFont API test
+		RadJav.addTest("test_common_setgetposition_010", function(check) {
+			let message = "MenuItem.set/getPosition() have the same data";
+			let expectedPosition = new RadJav.Vector2(100, 100);
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuItem set/getPosition API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
+						menuItem.create().then( function(ctl) {
+							menuItem.setPosition(expectedPosition.x, expectedPosition.y);
+							let pos = menuItem.getPosition();
+							
+							check.equal(JSON.stringify(pos), JSON.stringify(expectedPosition), message);
+							resolve();
+						});
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(false, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Radio set/getFont API test
+		RadJav.addTest("test_common_setgetposition_011", function(check) {
+			return setGetPositionApiTest.call(check, "Radio");
+		});
+		
+		// Textarea set/getFont API test
+		RadJav.addTest("test_common_setgetposition_012", function(check) {
+			return setGetPositionApiTest.call(check, "Textarea");
+		});
+		
+		// Textbox set/getFont API test
+		RadJav.addTest("test_common_setgetposition_013", function(check) {
+			return setGetPositionApiTest.call(check, "Textbox");
+		});
+		
+		// WebView set/getFont API test
+		RadJav.addTest("test_common_setgetposition_014", function(check) {
+			return setGetPositionApiTest.call(check, "WebView");
+		});
 		
 		// Execute test cases
-		tests.execute().then( function(tests) {
+		RadJav.runTests().then( function() {
 			RadJav.exit();
 		});
 	});

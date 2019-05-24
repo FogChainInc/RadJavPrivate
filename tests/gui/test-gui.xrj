@@ -3,14 +3,8 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 					RadJav.getMUILibrary ()).then (function () {
 	RadJav.runApplication (function ()
 	{
-		let tests = new RadJav.Testing.FunctionalTests("");
-		
 		// Button click test
-		let test = new RadJav.Testing.Test("test001");
-		let ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
+		RadJav.addTest("test001", function(check) {
 			let buttonClicked = false;
 			
 			let promise = new Promise(function(resolve, reject) {
@@ -50,17 +44,10 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 			
 			return promise;
 			
-		}, ta);
-		
-		// Add test case
-		tests.addTest(test);
+		});
 		
 		// Checkbox test
-		test = new RadJav.Testing.Test("test002");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
+		RadJav.addTest("test002", function(check) {
 			let checkboxChecked = false;
 			
 			let promise = new Promise(function(resolve, reject) {
@@ -98,17 +85,10 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 			
 			return promise;
 			
-		}, ta);
-		
-		// Add test case
-		tests.addTest(test);
+		});
 		
 		// Combobox test
-		test = new RadJav.Testing.Test("test003");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
+		RadJav.addTest("test003", function(check) {
 			let comboboxValueChanged = false;
 			
 			let promise = new Promise(function(resolve, reject) {
@@ -157,17 +137,10 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 			
 			return promise;
 			
-		}, ta);
-		
-		// Add test case
-		tests.addTest(test);
+		});
 		
 		// Container test
-		test = new RadJav.Testing.Test("test004");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
+		RadJav.addTest("test004", function(check) {
 			let containerClicked = false;
 			
 			let promise = new Promise(function(resolve, reject) {
@@ -205,17 +178,10 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 			
 			return promise;
 			
-		}, ta);
-		
-		// Add test case
-		tests.addTest(test);
+		});
 		
 		// Image test
-		test = new RadJav.Testing.Test("test005");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
+		RadJav.addTest("test005", function(check) {
 			let imageClicked = false;
 			
 			let promise = new Promise(function(resolve, reject) {
@@ -256,17 +222,10 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 			
 			return promise;
 			
-		}, ta);
-		
-		// Add test case
-		tests.addTest(test);
+		});
 		
 		// Label test
-		test = new RadJav.Testing.Test("test006");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
+		RadJav.addTest("test006", function(check) {
 			let labelClicked = false;
 			
 			let promise = new Promise(function(resolve, reject) {
@@ -305,17 +264,10 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 			
 			return promise;
 			
-		}, ta);
-		
-		// Add test case
-		tests.addTest(test);
+		});
 		
 		// Radio test
-		test = new RadJav.Testing.Test("test007");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
+		RadJav.addTest("test007", function(check) {
 			let radioChanged = false;
 			
 			let promise = new Promise(function(resolve, reject) {
@@ -354,17 +306,10 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 			
 			return promise;
 			
-		}, ta);
-		
-		// Add test case
-		tests.addTest(test);
+		});
 		
 		// Textarea test
-		test = new RadJav.Testing.Test("test008");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
+		RadJav.addTest("test008", function(check) {
 			let textChanged = false;
 			let text = "";
 			
@@ -407,17 +352,10 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 			
 			return promise;
 			
-		}, ta);
-		
-		// Add test case
-		tests.addTest(test);
+		});
 		
 		// Textbox test
-		test = new RadJav.Testing.Test("test009");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
+		RadJav.addTest("test009", function(check) {
 			let textChanged = false;
 			let text = "";
 			
@@ -460,17 +398,10 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 			
 			return promise;
 			
-		}, ta);
-		
-		// Add test case
-		tests.addTest(test);
+		});
 		
 		// List test
-		test = new RadJav.Testing.Test("test010");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
+		RadJav.addTest("test010", function(check) {
 			let rowSelected = false;
 			let selectedRows = {};
 			let selectionInCallback = {};
@@ -525,17 +456,10 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 			
 			return promise;
 			
-		}, ta);
-		
-		// Add test case
-		tests.addTest(test);
+		});
 		
 		// Menubar test
-		test = new RadJav.Testing.Test("test011");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
+		RadJav.addTest("test011", function(check) {
 			let itemTriggered = false;
 			
 			let promise = new Promise(function(resolve, reject) {
@@ -582,17 +506,10 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 			
 			return promise;
 			
-		}, ta);
-		
-		// Add test case
-		tests.addTest(test);
+		});
 		
 		// WebView test
-		test = new RadJav.Testing.Test("test012");
-		ta = new RadJav.Testing.TestLibrary(test);
-		
-		test.func = RadJav.keepContext(function () {
-			let check = this;
+		RadJav.addTest("test012", function(check) {
 			let pageLoaded = false;
 			
 			let promise = new Promise(function(resolve, reject) {
@@ -626,13 +543,11 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 			
 			return promise;
 			
-		}, ta);
-		
-		// Add test case
-		tests.addTest(test);
+		});
 		
 		// Execute test cases
-		tests.execute().then( function(tests) {
+		RadJav.runTests().then( function()
+		{
 			RadJav.exit();
 		});
 	});
