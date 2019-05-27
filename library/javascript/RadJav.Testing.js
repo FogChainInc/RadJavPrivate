@@ -248,6 +248,31 @@ var RadJav;
                         }
                     }
                     else if (RadJav.OS.type == "html5") {
+                        var testList = this.tests.reverse();
+                        var executeSequentially = function (tests) {
+                            if (tests && tests.length > 0) {
+                                var test = tests.shift();
+                                return test.execute().then(function (output) {
+                                    return executeSequentially(tests).then(function (outputs) {
+                                        outputs.push(output);
+                                        return Promise.resolve(outputs);
+                                    });
+                                });
+                            }
+                            return Promise.resolve([]);
+                        };
+                        executeSequentially(testList).then(RadJav.keepContext(function (testResults) {
+                            this.tests = testResults;
+                            var reportFileName = RadJav.OS.executingFile.split('\\').pop().split('/').pop();
+                            if (reportFileName.indexOf(".") > -1)
+                                reportFileName = reportFileName.split(".")[0];
+                            reportFileName = reportFileName + ".csv";
+                            var reporter = new CsvReporter(reportFileName);
+                            for (var i = 0; i < this.tests.length; i++) {
+                                reporter.appendResult(this.tests[i]);
+                            }
+                            resolve(this.tests);
+                        }, this));
                     }
                 }, this));
                 return (promise);

@@ -424,7 +424,42 @@ namespace RadJav
 						}
 						else if (RadJav.OS.type == "html5")
 						{
-							//TODO: add implementation
+							let testList = this.tests.reverse();
+
+							var executeSequentially = function (tests : Test[])
+							{
+								if (tests && tests.length > 0) {
+									var test = tests.shift();
+								
+									return test.execute().then(function(output: Test) {
+										return executeSequentially(tests).then(function(outputs: Test[]) {
+											outputs.push(output);
+								
+											return Promise.resolve(outputs);  
+										  });
+									});
+								}
+								
+								return Promise.resolve([]);
+							}
+	
+							executeSequentially(testList).then( RadJav.keepContext( function(testResults: Test[]) {
+								this.tests = testResults;
+								let reportFileName = RadJav.OS.executingFile.split('\\').pop().split('/').pop();
+	
+								if (reportFileName.indexOf (".") > -1)
+									reportFileName = reportFileName.split(".")[0];
+		
+								reportFileName = reportFileName + ".csv";
+		
+								var reporter = new CsvReporter(reportFileName);
+								for (let i = 0; i < this.tests.length; i++)
+								{
+									reporter.appendResult(this.tests[i]);
+								}
+								
+								resolve(this.tests);
+							}, this));
 						}
 
 						// If on desktop/mobile, create a WebSocket server here, inside the promise.
