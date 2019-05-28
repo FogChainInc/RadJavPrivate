@@ -400,37 +400,37 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 			return setGetPositionApiTest.call(check, "Button");
 		});
 		
-		// Checkbox set/getFont API test
+		// Checkbox set/getPosition API test
 		RadJav.addTest("test_common_setgetposition_003", function(check) {
 			return setGetPositionApiTest.call(check, "Checkbox");
 		});
 		
-		// Combobox set/getFont API test
+		// Combobox set/getPosition API test
 		RadJav.addTest("test_common_setgetposition_004", function(check) {
 			return setGetPositionApiTest.call(check, "Combobox");
 		});
 		
-		// Container set/getFont API test
+		// Container set/getPosition API test
 		RadJav.addTest("test_common_setgetposition_005", function(check) {
 			return setGetPositionApiTest.call(check, "Container");
 		});
 		
-		// Image set/getFont API test
+		// Image set/getPosition API test
 		RadJav.addTest("test_common_setgetposition_006", function(check) {
 			return setGetPositionApiTest.call(check, "Image");
 		});
 		
-		// Label set/getFont API test
+		// Label set/getPosition API test
 		RadJav.addTest("test_common_setgetposition_007", function(check) {
 			return setGetPositionApiTest.call(check, "Label");
 		});
 		
-		// List set/getFont API test
+		// List set/getPosition API test
 		RadJav.addTest("test_common_setgetposition_008", function(check) {
 			return setGetPositionApiTest.call(check, "List");
 		});
 		
-		// MebuBar set/getFont API test
+		// MebuBar set/getPosition API test
 		RadJav.addTest("test_common_setgetposition_009", function(check) {
 			let message = "MenuBar.getPosition() return (0,0)";
 			let expectedPosition = new RadJav.Vector2(0, 0);
@@ -463,7 +463,7 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 			
 		});
 		
-		// MenuItem set/getFont API test
+		// MenuItem set/getPosition API test
 		RadJav.addTest("test_common_setgetposition_010", function(check) {
 			let message = "MenuItem.getPosition() return (0,0)";
 			let expectedPosition = new RadJav.Vector2(0, 0);
@@ -499,24 +499,1054 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 			
 		});
 		
-		// Radio set/getFont API test
+		// Radio set/getPosition API test
 		RadJav.addTest("test_common_setgetposition_011", function(check) {
 			return setGetPositionApiTest.call(check, "Radio");
 		});
 		
-		// Textarea set/getFont API test
+		// Textarea set/getPosition API test
 		RadJav.addTest("test_common_setgetposition_012", function(check) {
 			return setGetPositionApiTest.call(check, "Textarea");
 		});
 		
-		// Textbox set/getFont API test
+		// Textbox set/getPosition API test
 		RadJav.addTest("test_common_setgetposition_013", function(check) {
 			return setGetPositionApiTest.call(check, "Textbox");
 		});
 		
-		// WebView set/getFont API test
+		// WebView set/getPosition API test
 		RadJav.addTest("test_common_setgetposition_014", function(check) {
 			return setGetPositionApiTest.call(check, "WebView");
+		});
+		
+		// generic getX, getY API test
+		let getXYApiTest = function(controlName) {
+			let check = this;
+			let messageX = controlName + ".getX() has expected data";
+			let messageY = controlName + ".getY() has expected data";
+			let expectedPosition = new RadJav.Vector2(100, 100);
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window", controlName+" getXY API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI[controlName](controlName, "test", window);
+					control.create().then( function(ctl) {
+						control = ctl;
+						
+						control.setPosition(expectedPosition.x, expectedPosition.y);
+						check.equal(control.getX(), expectedPosition.x, messageX);
+						check.equal(control.getY(), expectedPosition.y, messageY);
+						
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(false, messageX);
+					check.assert(false, messageY);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window getX, getY API test
+		RadJav.addTest("test_common_getxy_001", function(check) {
+			let messageX = "Window.getX() has expected data";
+			let messageY = "Window.getY() has expected data";
+			let expectedPosition = new RadJav.Vector2(100, 100);
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window","Window getX/Y API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.setPosition(expectedPosition.x, expectedPosition.y);
+					check.equal(window.getX(), expectedPosition.x, messageX);
+					check.equal(window.getY(), expectedPosition.y, messageY);
+					resolve();
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(false, messageX);
+					check.assert(false, messageY);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		});
+		
+		// Button getX, getY API test
+		RadJav.addTest("test_common_getxy_002", function(check) {
+			return getXYApiTest.call(check, "Button");
+		});
+		
+		// Checkbox getX, getY API test
+		RadJav.addTest("test_common_getxy_003", function(check) {
+			return getXYApiTest.call(check, "Checkbox");
+		});
+		
+		// Combobox getX, getY API test
+		RadJav.addTest("test_common_getxy_004", function(check) {
+			return getXYApiTest.call(check, "Combobox");
+		});
+		
+		// Container getX, getY API test
+		RadJav.addTest("test_common_getxy_005", function(check) {
+			return getXYApiTest.call(check, "Container");
+		});
+		
+		// Image getX, getY API test
+		RadJav.addTest("test_common_getxy_006", function(check) {
+			return getXYApiTest.call(check, "Image");
+		});
+		
+		// Label getX, getY API test
+		RadJav.addTest("test_common_getxy_007", function(check) {
+			return getXYApiTest.call(check, "Label");
+		});
+		
+		// List getX, getY API test
+		RadJav.addTest("test_common_getxy_008", function(check) {
+			return getXYApiTest.call(check, "List");
+		});
+		
+		// MebuBar getX, getY API test
+		RadJav.addTest("test_common_getxy_009", function(check) {
+			let messageX = "MenuBar.getX() return 0";
+			let messageY = "MenuBar.getY() return 0";
+			let expectedPosition = new RadJav.Vector2(0, 0);
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuBar getX/Y API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						control.setPosition(100, 100);
+						check.equal(control.getX(), expectedPosition.x, messageX);
+						check.equal(control.getY(), expectedPosition.y, messageY);
+						
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(false, messageX);
+					check.assert(false, messageY);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// MenuItem getX, getY API test
+		RadJav.addTest("test_common_getxy_010", function(check) {
+			let messageX = "MenuItem.getX() return 0";
+			let messageY = "MenuItem.getY() return 0";
+			let expectedPosition = new RadJav.Vector2(0, 0);
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuItem getX/Y API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
+						menuItem.create().then( function(ctl) {
+							menuItem.setPosition(100, 100);
+							check.equal(menuItem.getX(), expectedPosition.x, messageX);
+							check.equal(menuItem.getY(), expectedPosition.y, messageY);
+							
+							resolve();
+						});
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(false, messageX);
+					check.assert(false, messageY);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Radio getX, getY API test
+		RadJav.addTest("test_common_getxy_011", function(check) {
+			return getXYApiTest.call(check, "Radio");
+		});
+		
+		// Textarea getX, getY API test
+		RadJav.addTest("test_common_getxy_012", function(check) {
+			return getXYApiTest.call(check, "Textarea");
+		});
+		
+		// Textbox getX, getY API test
+		RadJav.addTest("test_common_getxy_013", function(check) {
+			return getXYApiTest.call(check, "Textbox");
+		});
+		
+		// WebView getX, getY API test
+		RadJav.addTest("test_common_getxy_014", function(check) {
+			return getXYApiTest.call(check, "WebView");
+		});
+		
+		// generic setSize, getSize API test
+		let setGetSizeApiTest = function(controlName) {
+			let check = this;
+			let message = controlName + ".set/getSize() have the same data";
+			let expectedSize = new RadJav.Vector2(100, 100);
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window", controlName+" set/getSize API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI[controlName](controlName, "test", window);
+					control.create().then( function(ctl) {
+						control = ctl;
+						
+						control.setSize(expectedSize.x, expectedSize.y);
+						let size = control.getSize();
+						
+						check.equal(JSON.stringify(size), JSON.stringify(expectedSize), message);
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(false, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window set/getSize API test
+		RadJav.addTest("test_common_setgetsize_001", function(check) {
+			let message = "Window.set/getSize() have the same data";
+			let expectedSize = new RadJav.Vector2(100, 100);
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window","Window set/getSize API test");
+				window.create().then(function(win) {
+					window = win;
+
+					window.setSize(expectedSize.x, expectedSize.y);
+					let size = window.getSize();
+					
+					check.equal(JSON.stringify(size), JSON.stringify(expectedSize), message);
+					resolve();
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(false, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Button set/getSize API test
+		RadJav.addTest("test_common_setgetsize_002", function(check) {
+			return setGetSizeApiTest.call(check, "Button");
+		});
+		
+		// Checkbox set/getSize API test
+		RadJav.addTest("test_common_setgetsize_003", function(check) {
+			return setGetSizeApiTest.call(check, "Checkbox");
+		});
+		
+		// Combobox set/getSize API test
+		RadJav.addTest("test_common_setgetsize_004", function(check) {
+			return setGetSizeApiTest.call(check, "Combobox");
+		});
+		
+		// Container set/getSize API test
+		RadJav.addTest("test_common_setgetsize_005", function(check) {
+			return setGetSizeApiTest.call(check, "Container");
+		});
+		
+		// Image set/getSize API test
+		RadJav.addTest("test_common_setgetsize_006", function(check) {
+			return setGetSizeApiTest.call(check, "Image");
+		});
+		
+		// Label set/getSize API test
+		RadJav.addTest("test_common_setgetsize_007", function(check) {
+			return setGetSizeApiTest.call(check, "Label");
+		});
+		
+		// List set/getSize API test
+		RadJav.addTest("test_common_setgetsize_008", function(check) {
+			return setGetSizeApiTest.call(check, "List");
+		});
+		
+		// MebuBar set/getSize API test
+		RadJav.addTest("test_common_setgetsize_009", function(check) {
+			let message = "MenuBar.get/setSize() did not impact control itself";
+			let expectedSize = new RadJav.Vector2(0, 0);
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuBar set/getSize API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+
+						control.setSize(100, 100);
+						let size = control.getSize();
+						
+						check.equal(JSON.stringify(size), JSON.stringify(expectedSize), message);
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(false, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// MenuItem set/getSize API test
+		RadJav.addTest("test_common_setgetsize_010", function(check) {
+			let message = "MenuItem.get/setSize() did not impact control itself";
+			let expectedSize = new RadJav.Vector2(0, 0);
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuItem set/getSize API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
+						menuItem.create().then( function(ctl) {
+							menuItem.setSize(100, 100);
+							let size = menuItem.getSize();
+							
+							check.equal(JSON.stringify(size), JSON.stringify(expectedSize), message);
+							resolve();
+						});
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(false, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Radio set/getSize API test
+		RadJav.addTest("test_common_setgetsize_011", function(check) {
+			return setGetSizeApiTest.call(check, "Radio");
+		});
+		
+		// Textarea set/getSize API test
+		RadJav.addTest("test_common_setgetsize_012", function(check) {
+			return setGetSizeApiTest.call(check, "Textarea");
+		});
+		
+		// Textbox set/getSize API test
+		RadJav.addTest("test_common_setgetsize_013", function(check) {
+			return setGetSizeApiTest.call(check, "Textbox");
+		});
+		
+		// WebView set/getSize API test
+		RadJav.addTest("test_common_setgetsize_014", function(check) {
+			return setGetSizeApiTest.call(check, "WebView");
+		});
+		
+		// generic getWidth, getHeight API test
+		let getWidthHeightApiTest = function(controlName) {
+			let check = this;
+			let messageWidth = controlName + ".getWidth() has expected data";
+			let messageHeight = controlName + ".getHeight() has expected data";
+			let expectedSize = new RadJav.Vector2(100, 100);
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window", controlName+" getWidth/Height API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI[controlName](controlName, "test", window);
+					control.create().then( function(ctl) {
+						control = ctl;
+						
+						control.setSize(expectedSize.x, expectedSize.y);
+						check.equal(control.getWidth(), expectedSize.x, messageWidth);
+						check.equal(control.getHeight(), expectedSize.y, messageHeight);
+						
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(false, messageWidth);
+					check.assert(false, messageHeight);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window getWidth, getHeight API test
+		RadJav.addTest("test_common_getwidthheight_001", function(check) {
+			let messageWidth = "Window.getWidth() has expected data";
+			let messageHeight = "Window.getHeight() has expected data";
+			let expectedSize = new RadJav.Vector2(100, 100);
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window","Window getWidth/Height API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.setSize(expectedSize.x, expectedSize.y);
+					check.equal(window.getWidth(), expectedSize.x, messageWidth);
+					check.equal(window.getHeight(), expectedSize.y, messageHeight);
+					resolve();
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(false, messageWidth);
+					check.assert(false, messageHeight);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		});
+		
+		// Button getWidth, getHeight API test
+		RadJav.addTest("test_common_getwidthheight_002", function(check) {
+			return getWidthHeightApiTest.call(check, "Button");
+		});
+		
+		// Checkbox getWidth, getHeight API test
+		RadJav.addTest("test_common_widthheight_003", function(check) {
+			return getWidthHeightApiTest.call(check, "Checkbox");
+		});
+		
+		// Combobox getWidth, getHeight API test
+		RadJav.addTest("test_common_widthheight_004", function(check) {
+			return getWidthHeightApiTest.call(check, "Combobox");
+		});
+		
+		// Container getWidth, getHeight API test
+		RadJav.addTest("test_common_getwidthheight_005", function(check) {
+			return getWidthHeightApiTest.call(check, "Container");
+		});
+		
+		// Image getWidth, getHeight API test
+		RadJav.addTest("test_common_getwidthheight_006", function(check) {
+			return getWidthHeightApiTest.call(check, "Image");
+		});
+		
+		// Label getWidth, getHeight API test
+		RadJav.addTest("test_common_getwidthheight_007", function(check) {
+			return getWidthHeightApiTest.call(check, "Label");
+		});
+		
+		// List getWidth, getHeight API test
+		RadJav.addTest("test_common_getwidthheight_008", function(check) {
+			return getWidthHeightApiTest.call(check, "List");
+		});
+		
+		// MebuBar getWidth, getHeight API test
+		RadJav.addTest("test_common_getwidthheight_009", function(check) {
+			let messageWidth = "MenuBar.getWidth() return 0";
+			let messageHeight = "MenuBar.getHeight() return 0";
+			let expectedSize = new RadJav.Vector2(0, 0);
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuBar getWidth/Height API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						control.setSize(100, 100);
+						check.equal(control.getWidth(), expectedSize.x, messageWidth);
+						check.equal(control.getHeight(), expectedSize.y, messageHeight);
+						
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(false, messageWidth);
+					check.assert(false, messageHeight);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// MenuItem getWidth, getHeight API test
+		RadJav.addTest("test_common_getwidthheight_010", function(check) {
+			let messageWidth = "MenuItem.getWidth() return 0";
+			let messageHeight = "MenuItem.getHeight() return 0";
+			let expectedSize = new RadJav.Vector2(0, 0);
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuItem getWidth/Height API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
+						menuItem.create().then( function(ctl) {
+							menuItem.setSize(100, 100);
+							check.equal(menuItem.getWidth(), expectedSize.x, messageWidth);
+							check.equal(menuItem.getHeight(), expectedSize.y, messageHeight);
+							
+							resolve();
+						});
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(false, messageWidth);
+					check.assert(false, messageHeight);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Radio getWidth, getHeight API test
+		RadJav.addTest("test_common_getwidthheight_011", function(check) {
+			return getWidthHeightApiTest.call(check, "Radio");
+		});
+		
+		// Textarea getWidth, getHeight API test
+		RadJav.addTest("test_common_getwidthheight_012", function(check) {
+			return getWidthHeightApiTest.call(check, "Textarea");
+		});
+		
+		// Textbox getWidth, getHeight API test
+		RadJav.addTest("test_common_getwidthheight_013", function(check) {
+			return getWidthHeightApiTest.call(check, "Textbox");
+		});
+		
+		// WebView getWidth, getHeight API test
+		RadJav.addTest("test_common_getwidthheight_014", function(check) {
+			return getWidthHeightApiTest.call(check, "WebView");
+		});
+		
+		// generic setText, getText API test
+		let setGetTextApiTest = function(controlName) {
+			let check = this;
+			let message = controlName + ".set/getText() have the same data";
+			let expectedText = "Some text";
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window", controlName+" set/getText API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI[controlName](controlName, "test", window);
+					control.create().then( function(ctl) {
+						control = ctl;
+						
+						control.setText(expectedText);
+						let text = control.getText();
+						
+						check.equal(text, expectedText, message);
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(false, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window set/getText API test
+		RadJav.addTest("test_common_setgettext_001", function(check) {
+			let message = "Window.set/getText() have the same data";
+			let expectedText = "Some text";
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window","Window set/getText API test");
+				window.create().then(function(win) {
+					window = win;
+
+					window.setText(expectedText);
+					let text = window.getText();
+					
+					check.equal(text, expectedText, message);
+					resolve();
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(false, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Button set/getText API test
+		RadJav.addTest("test_common_setgettext_002", function(check) {
+			return setGetTextApiTest.call(check, "Button");
+		});
+		
+		// Checkbox set/getText API test
+		RadJav.addTest("test_common_setgettext_003", function(check) {
+			return setGetTextApiTest.call(check, "Checkbox");
+		});
+		
+		// Combobox set/getText API test
+		RadJav.addTest("test_common_setgettext_004", function(check) {
+			return setGetTextApiTest.call(check, "Combobox");
+		});
+		
+		// Container set/getText API test
+		RadJav.addTest("test_common_setgettext_005", function(check) {
+			return setGetTextApiTest.call(check, "Container");
+		});
+		
+		// Image set/getText API test
+		RadJav.addTest("test_common_setgettext_006", function(check) {
+			return setGetTextApiTest.call(check, "Image");
+		});
+		
+		// Label set/getText API test
+		RadJav.addTest("test_common_setgettext_007", function(check) {
+			return setGetTextApiTest.call(check, "Label");
+		});
+		
+		// List set/getText API test
+		RadJav.addTest("test_common_setgettext_008", function(check) {
+			return setGetTextApiTest.call(check, "List");
+		});
+		
+		// MebuBar set/getText API test
+		RadJav.addTest("test_common_setgettext_009", function(check) {
+			return setGetTextApiTest.call(check, "MenuBar");
+		});
+		
+		// MenuItem set/getText API test
+		RadJav.addTest("test_common_setgettext_010", function(check) {
+			let message = "MenuItem.set/getText() have the same data";
+			let expectedText = "Some text";
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuItem set/getText API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
+						menuItem.create().then( function(ctl) {
+							menuItem.setText(expectedText);
+							let text = menuItem.getText();
+							
+							check.equal(text, expectedText, message);
+							resolve();
+						});
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(false, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Radio set/getText API test
+		RadJav.addTest("test_common_setgettext_011", function(check) {
+			return setGetTextApiTest.call(check, "Radio");
+		});
+		
+		// Textarea set/getText API test
+		RadJav.addTest("test_common_setgettext_012", function(check) {
+			return setGetTextApiTest.call(check, "Textarea");
+		});
+		
+		// Textbox set/getText API test
+		RadJav.addTest("test_common_setgettext_013", function(check) {
+			return setGetTextApiTest.call(check, "Textbox");
+		});
+		
+		// WebView set/getText API test
+		RadJav.addTest("test_common_setgettext_014", function(check) {
+			return setGetTextApiTest.call(check, "WebView");
+		});
+		
+		// generic getParent API test
+		let getParentApiTest = function(controlName) {
+			let check = this;
+			let message = controlName + ".getParent() return valid parent control";
+			let expectedParent = {};
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window", controlName+" getParent API test");
+				window.create().then(function(win) {
+					window = win;
+					expectedParent = window;
+					
+					var control = new RadJav.GUI[controlName](controlName, "test", window);
+					control.create().then( function(ctl) {
+						control = ctl;
+						
+						let parent = control.getParent();
+						
+						check.equal(JSON.stringify(parent), JSON.stringify(expectedParent), message);
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(false, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window getParent API test
+		RadJav.addTest("test_common_getparent_001", function(check) {
+			let message = "Window.getParent() return valid parent control";
+			let expectedParent = {};
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window","Window getParent API test");
+				window.create().then(function(win) {
+					window = win;
+					expectedParent = window;
+					
+					var window2 = new RadJav.GUI.Window("Window2","Window getParent API test2", window);
+					window2.create().then(function(win) {
+						window2 = win;
+						
+						let parent = window2.getParent();
+						
+						check.equal(JSON.stringify(parent), JSON.stringify(expectedParent), message);
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(false, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Button getParent API test
+		RadJav.addTest("test_common_getparent_002", function(check) {
+			return getParentApiTest.call(check, "Button");
+		});
+		
+		// Checkbox getParent API test
+		RadJav.addTest("test_common_getparent_003", function(check) {
+			return getParentApiTest.call(check, "Checkbox");
+		});
+		
+		// Combobox getParent API test
+		RadJav.addTest("test_common_getparent_004", function(check) {
+			return getParentApiTest.call(check, "Combobox");
+		});
+		
+		// Container getParent API test
+		RadJav.addTest("test_common_getparent_005", function(check) {
+			return getParentApiTest.call(check, "Container");
+		});
+		
+		// Image getParent API test
+		RadJav.addTest("test_common_getparent_006", function(check) {
+			return getParentApiTest.call(check, "Image");
+		});
+		
+		// Label getParent API test
+		RadJav.addTest("test_common_getparent_007", function(check) {
+			return getParentApiTest.call(check, "Label");
+		});
+		
+		// List getParent API test
+		RadJav.addTest("test_common_getparent_008", function(check) {
+			return getParentApiTest.call(check, "List");
+		});
+		
+		// MebuBar getParent API test
+		RadJav.addTest("test_common_getparent_009", function(check) {
+			return getParentApiTest.call(check, "MenuBar");
+		});
+		
+		// MenuItem getParent API test
+		RadJav.addTest("test_common_getparent_010", function(check) {
+			let message = "MenuItem.getParent() return valid parent control";
+			let expectedParent = {};
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuItem getParent API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						expectedParent = control;
+						
+						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
+						menuItem.create().then( function(ctl) {
+							let parent = menuItem.getParent();
+							check.equal(JSON.stringify(parent), JSON.stringify(expectedParent), message);
+							resolve();
+						});
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(false, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Radio getParent API test
+		RadJav.addTest("test_common_getparent_011", function(check) {
+			return getParentApiTest.call(check, "Radio");
+		});
+		
+		// Textarea getParent API test
+		RadJav.addTest("test_common_getparent_012", function(check) {
+			return getParentApiTest.call(check, "Textarea");
+		});
+		
+		// Textbox getParent API test
+		RadJav.addTest("test_common_getparent_013", function(check) {
+			return getParentApiTest.call(check, "Textbox");
+		});
+		
+		// WebView getParent API test
+		RadJav.addTest("test_common_getparent_014", function(check) {
+			return getParentApiTest.call(check, "WebView");
+		});
+		
+		// generic getAppObj API test
+		let getAppObjApiTest = function(controlName) {
+			let check = this;
+			let message = controlName + ".getAppObj() return object";
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window", controlName+" getAppObj API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI[controlName](controlName, "test", window);
+					control.create().then( function(ctl) {
+						control = ctl;
+						
+						check.isObject(control.getAppObj(), message);
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(false, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window getAppObj API test
+		RadJav.addTest("test_common_getappobj_001", function(check) {
+			let message = "Window.getAppObj() return object";
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window","Window getParent API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					check.isObject(window.getAppObj(), message);
+					resolve();
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(false, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Button getAppObj API test
+		RadJav.addTest("test_common_getappobj_002", function(check) {
+			return getAppObjApiTest.call(check, "Button");
+		});
+		
+		// Checkbox getAppObj API test
+		RadJav.addTest("test_common_getappobj_003", function(check) {
+			return getAppObjApiTest.call(check, "Checkbox");
+		});
+		
+		// Combobox getAppObj API test
+		RadJav.addTest("test_common_getappobj_004", function(check) {
+			return getAppObjApiTest.call(check, "Combobox");
+		});
+		
+		// Container getAppObj API test
+		RadJav.addTest("test_common_getappobj_005", function(check) {
+			return getAppObjApiTest.call(check, "Container");
+		});
+		
+		// Image getAppObj API test
+		RadJav.addTest("test_common_getappobj_006", function(check) {
+			return getAppObjApiTest.call(check, "Image");
+		});
+		
+		// Label getAppObj API test
+		RadJav.addTest("test_common_getappobj_007", function(check) {
+			return getAppObjApiTest.call(check, "Label");
+		});
+		
+		// List getAppObj API test
+		RadJav.addTest("test_common_getappobj_008", function(check) {
+			return getAppObjApiTest.call(check, "List");
+		});
+		
+		// MebuBar getAppObj API test
+		RadJav.addTest("test_common_getappobj_009", function(check) {
+			return getAppObjApiTest.call(check, "MenuBar");
+		});
+		
+		// MenuItem getAppObj API test
+		RadJav.addTest("test_common_getappobj_010", function(check) {
+			let message = "MenuItem.getAppObj() return object";
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuItem getAppObj API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
+						menuItem.create().then( function(ctl) {
+							check.isObject(menuItem.getAppObj(), message);
+							resolve();
+						});
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(false, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Radio getAppObj API test
+		RadJav.addTest("test_common_getappobj_011", function(check) {
+			return getAppObjApiTest.call(check, "Radio");
+		});
+		
+		// Textarea getAppObj API test
+		RadJav.addTest("test_common_getappobj_012", function(check) {
+			return getAppObjApiTest.call(check, "Textarea");
+		});
+		
+		// Textbox getAppObj API test
+		RadJav.addTest("test_common_getappobj_013", function(check) {
+			return getAppObjApiTest.call(check, "Textbox");
+		});
+		
+		// WebView getAppObj API test
+		RadJav.addTest("test_common_getappobj_014", function(check) {
+			return getAppObjApiTest.call(check, "WebView");
 		});
 		
 		// Execute test cases
