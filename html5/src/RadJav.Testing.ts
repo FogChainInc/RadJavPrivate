@@ -171,7 +171,7 @@ namespace RadJav
 					{
 						var that = this;
 
-						let timeoutHandler = function(test: Test) {
+						let timeoutHandler = function() {
 							that.passed.push(false);
 							that.results.push("Test timed out.");
 							resolve(that);

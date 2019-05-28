@@ -97,7 +97,7 @@ var RadJav;
             Test.prototype.execute = function () {
                 var promise = new Promise(RadJav.keepContext(function (resolve, reject) {
                     var that = this;
-                    var timeoutHandler = function (test) {
+                    var timeoutHandler = function () {
                         that.passed.push(false);
                         that.results.push("Test timed out.");
                         resolve(that);
