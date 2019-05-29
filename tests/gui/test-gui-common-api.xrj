@@ -1549,6 +1549,452 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 			return getAppObjApiTest.call(check, "WebView");
 		});
 		
+		// generic setVisibility, getVisibility API test
+		let setGetVisibilityApiTest = function(controlName) {
+			let check = this;
+			
+			let steps = [];
+			steps.push({executed: false, message: controlName+" is visible by default"});
+			steps.push({executed: false, message: controlName+" not visible with setVisibility(false)"});
+			steps.push({executed: false, message: controlName+" visible with setVisibility(true)"});
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window", controlName+" set/getVisibility API test");
+				window.create().then(function(win) {
+					window = win;
+					window.setPosition(0, 22);
+					
+					var control = new RadJav.GUI[controlName](controlName, "test", window);
+					control.create().then( function(ctl) {
+						control = ctl;
+						
+						check.equal(control.getVisibility(), true, steps[0].message);
+						steps[0].executed = true;
+						
+						setTimeout(function () {
+							control.setVisibility(false);
+							check.equal(control.getVisibility(), false, steps[1].message);
+							steps[1].executed = true;
+							
+							setTimeout(function () {
+								control.setVisibility(true);
+								check.equal(control.getVisibility(), true, steps[2].message);
+								steps[2].executed = true;
+								
+								setTimeout(function () {
+									resolve();
+								}, 1000);
+							}, 1000);
+						}, 1000);
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					for(let i = 0; i < steps.length; i++)
+					{
+						if (!steps[i].executed)
+						{
+							check.assert(false, steps[i].message);
+						}
+					}
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window setVisibility, getVisibility API test
+		RadJav.addTest("test_common_setgetvisibility_001", function(check) {
+			let steps = [];
+			steps.push({executed: false, message: "Window is visible by default"});
+			steps.push({executed: false, message: "Window not visible with setVisibility(false)"});
+			steps.push({executed: false, message: "Window visible with setVisibility(true)"});
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window","Window set/getVisibility API test");
+				window.create().then(function(win) {
+					window = win;
+					window.setPosition(0, 22);
+					
+					check.equal(window.getVisibility(), true, steps[0].message);
+					steps[0].executed = true;
+					
+					setTimeout(function () {
+						window.setVisibility(false);
+						check.equal(window.getVisibility(), false, steps[1].message);
+						steps[1].executed = true;
+						
+						setTimeout(function () {
+							window.setVisibility(true);
+							check.equal(window.getVisibility(), true, steps[2].message);
+							steps[2].executed = true;
+							
+							setTimeout(function () {
+								resolve();
+							}, 1000);
+						}, 1000);
+					}, 1000);
+				});
+				
+				setTimeout(function ()
+				{
+					for(let i = 0; i < steps.length; i++)
+					{
+						if (!steps[i].executed)
+						{
+							check.assert(false, steps[i].message);
+						}
+					}
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		});
+		
+		// Button setVisibility, getVisibility API test
+		RadJav.addTest("test_common_setgetvisibility_002", function(check) {
+			return setGetVisibilityApiTest.call(check, "Button");
+		});
+		
+		// Checkbox setVisibility, getVisibility API test
+		RadJav.addTest("test_common_setgetvisibility_003", function(check) {
+			return setGetVisibilityApiTest.call(check, "Checkbox");
+		});
+		
+		// Combobox setVisibility, getVisibility API test
+		RadJav.addTest("test_common_setgetvisibility_004", function(check) {
+			return setGetVisibilityApiTest.call(check, "Combobox");
+		});
+		
+		// Container setVisibility, getVisibility API test
+		RadJav.addTest("test_common_setgetvisibility_005", function(check) {
+			return setGetVisibilityApiTest.call(check, "Container");
+		});
+		
+		// Image setVisibility, getVisibility API test
+		RadJav.addTest("test_common_setgetvisibility_006", function(check) {
+			return setGetVisibilityApiTest.call(check, "Image");
+		});
+		
+		// Label setVisibility, getVisibility API test
+		RadJav.addTest("test_common_setgetvisibility_007", function(check) {
+			return setGetVisibilityApiTest.call(check, "Label");
+		});
+		
+		// List setVisibility, getVisibility API test
+		RadJav.addTest("test_common_setgetvisibility_008", function(check) {
+			return setGetVisibilityApiTest.call(check, "List");
+		});
+		
+		// MebuBar setVisibility, getVisibility API test
+		RadJav.addTest("test_common_setgetvisibility_009", function(check) {
+			return setGetVisibilityApiTest.call(check, "MenuBar");
+		});
+		
+		// MenuItem setVisibility, getVisibility API test
+		RadJav.addTest("test_common_setgetvisibility_010", function(check) {
+			let steps = [];
+			steps.push({executed: false, message: "MenuItem is visible by default"});
+			steps.push({executed: false, message: "MenuItem not visible with setVisibility(false)"});
+			steps.push({executed: false, message: "MenuItem visible with setVisibility(true)"});
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuItem set/getVisibility API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
+						menuItem.create().then( function(ctl) {
+							menuItem = ctl;
+							check.equal(menuItem.getVisibility(), true, steps[0].message);
+							steps[0].executed = true;
+							
+							setTimeout(function () {
+								menuItem.setVisibility(false);
+								check.equal(menuItem.getVisibility(), false, steps[1].message);
+								steps[1].executed = true;
+								
+								setTimeout(function () {
+									menuItem.setVisibility(true);
+									check.equal(menuItem.getVisibility(), true, steps[2].message);
+									steps[2].executed = true;
+									
+									setTimeout(function () {
+										resolve();
+									}, 1000);
+								}, 1000);
+							}, 1000);
+						});
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					for(let i = 0; i < steps.length; i++)
+					{
+						if (!steps[i].executed)
+						{
+							check.assert(false, steps[i].message);
+						}
+					}
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Radio setVisibility, getVisibility API test
+		RadJav.addTest("test_common_setgetvisibility_011", function(check) {
+			return setGetVisibilityApiTest.call(check, "Radio");
+		});
+		
+		// Textarea setVisibility, getVisibility API test
+		RadJav.addTest("test_common_setgetvisibility_012", function(check) {
+			return setGetVisibilityApiTest.call(check, "Textarea");
+		});
+		
+		// Textbox setVisibility, getVisibility API test
+		RadJav.addTest("test_common_setgetvisibility_013", function(check) {
+			return setGetVisibilityApiTest.call(check, "Textbox");
+		});
+		
+		// WebView setVisibility, getVisibility API test
+		RadJav.addTest("test_common_setgetvisibility_014", function(check) {
+			return setGetVisibilityApiTest.call(check, "WebView");
+		});
+		
+		// generic setEnabled, getEnabled API test
+		let setGetEnabledApiTest = function(controlName) {
+			let check = this;
+			
+			let steps = [];
+			steps.push({executed: false, message: controlName+" is enabled by default"});
+			steps.push({executed: false, message: controlName+" not enabled with setEnabled(false)"});
+			steps.push({executed: false, message: controlName+" enabled with setEnabled(true)"});
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window", controlName+" set/getEnabled API test");
+				window.create().then(function(win) {
+					window = win;
+					window.setPosition(0, 22);
+					
+					var control = new RadJav.GUI[controlName](controlName, "test", window);
+					control.create().then( function(ctl) {
+						control = ctl;
+						
+						check.equal(control.getEnabled(), true, steps[0].message);
+						steps[0].executed = true;
+						
+						setTimeout(function () {
+							control.setEnabled(false);
+							check.equal(control.getEnabled(), false, steps[1].message);
+							steps[1].executed = true;
+							
+							setTimeout(function () {
+								control.setEnabled(true);
+								check.equal(control.getEnabled(), true, steps[2].message);
+								steps[2].executed = true;
+								
+								setTimeout(function () {
+									resolve();
+								}, 1000);
+							}, 1000);
+						}, 1000);
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					for(let i = 0; i < steps.length; i++)
+					{
+						if (!steps[i].executed)
+						{
+							check.assert(false, steps[i].message);
+						}
+					}
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window setEnabled, getEnabled API test
+		RadJav.addTest("test_common_setgetenabled_001", function(check) {
+			let steps = [];
+			steps.push({executed: false, message: "Window is enabled by default"});
+			steps.push({executed: false, message: "Window not enabled with setEnabled(false)"});
+			steps.push({executed: false, message: "Window enabled with setEnabled(true)"});
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window","Window set/getEnabled API test");
+				window.create().then(function(win) {
+					window = win;
+					window.setPosition(0, 22);
+					
+					check.equal(window.getEnabled(), true, steps[0].message);
+					steps[0].executed = true;
+					
+					setTimeout(function () {
+						window.setEnabled(false);
+						check.equal(window.getEnabled(), false, steps[1].message);
+						steps[1].executed = true;
+						
+						setTimeout(function () {
+							window.setEnabled(true);
+							check.equal(window.getEnabled(), true, steps[2].message);
+							steps[2].executed = true;
+							
+							setTimeout(function () {
+								resolve();
+							}, 1000);
+						}, 1000);
+					}, 1000);
+				});
+				
+				setTimeout(function ()
+				{
+					for(let i = 0; i < steps.length; i++)
+					{
+						if (!steps[i].executed)
+						{
+							check.assert(false, steps[i].message);
+						}
+					}
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		});
+		
+		// Button setEnabled, getEnabled API test
+		RadJav.addTest("test_common_setgetenabled_002", function(check) {
+			return setGetEnabledApiTest.call(check, "Button");
+		});
+		
+		// Checkbox setEnabled, getEnabled API test
+		RadJav.addTest("test_common_setgetenabled_003", function(check) {
+			return setGetEnabledApiTest.call(check, "Checkbox");
+		});
+		
+		// Combobox setEnabled, getEnabled API test
+		RadJav.addTest("test_common_setgetenabled_004", function(check) {
+			return setGetEnabledApiTest.call(check, "Combobox");
+		});
+		
+		// Container setEnabled, getEnabled API test
+		RadJav.addTest("test_common_setgetenabled_005", function(check) {
+			return setGetEnabledApiTest.call(check, "Container");
+		});
+		
+		// Image setEnabled, getEnabled API test
+		RadJav.addTest("test_common_setgetenabled_006", function(check) {
+			return setGetEnabledApiTest.call(check, "Image");
+		});
+		
+		// Label setEnabled, getEnabled API test
+		RadJav.addTest("test_common_setgetenabled_007", function(check) {
+			return setGetEnabledApiTest.call(check, "Label");
+		});
+		
+		// List setEnabled, getEnabled API test
+		RadJav.addTest("test_common_setgetenabled_008", function(check) {
+			return setGetEnabledApiTest.call(check, "List");
+		});
+		
+		// MebuBar setEnabled, getEnabled API test
+		RadJav.addTest("test_common_setgetenabled_009", function(check) {
+			return setGetEnabledApiTest.call(check, "MenuBar");
+		});
+		
+		// MenuItem setEnabled, getEnabled API test
+		RadJav.addTest("test_common_setgetenabled_010", function(check) {
+			let steps = [];
+			steps.push({executed: false, message: "MenuItem is enabled by default"});
+			steps.push({executed: false, message: "MenuItem not enabled with setEnabled(false)"});
+			steps.push({executed: false, message: "MenuItem enabled with setEnabled(true)"});
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuItem set/getEnabled API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
+						menuItem.create().then( function(ctl) {
+							menuItem = ctl;
+							check.equal(menuItem.getEnabled(), true, steps[0].message);
+							steps[0].executed = true;
+							
+							setTimeout(function () {
+								menuItem.setEnabled(false);
+								check.equal(menuItem.getEnabled(), false, steps[1].message);
+								steps[1].executed = true;
+								
+								setTimeout(function () {
+									menuItem.setEnabled(true);
+									check.equal(menuItem.getEnabled(), true, steps[2].message);
+									steps[2].executed = true;
+									
+									setTimeout(function () {
+										resolve();
+									}, 1000);
+								}, 1000);
+							}, 1000);
+						});
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					for(let i = 0; i < steps.length; i++)
+					{
+						if (!steps[i].executed)
+						{
+							check.assert(false, steps[i].message);
+						}
+					}
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Radio setEnabled, getEnabled API test
+		RadJav.addTest("test_common_setgetenabled_011", function(check) {
+			return setGetEnabledApiTest.call(check, "Radio");
+		});
+		
+		// Textarea setEnabled, getEnabled API test
+		RadJav.addTest("test_common_setgetenabled_012", function(check) {
+			return setGetEnabledApiTest.call(check, "Textarea");
+		});
+		
+		// Textbox setEnabled, getEnabled API test
+		RadJav.addTest("test_common_setgetenabled_013", function(check) {
+			return setGetEnabledApiTest.call(check, "Textbox");
+		});
+		
+		// WebView setEnabled, getEnabled API test
+		RadJav.addTest("test_common_setgetenabled_014", function(check) {
+			return setGetEnabledApiTest.call(check, "WebView");
+		});
+		
 		// Execute test cases
 		RadJav.runTests().then( function() {
 			RadJav.exit();
