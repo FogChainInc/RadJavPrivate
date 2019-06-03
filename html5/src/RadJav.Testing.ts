@@ -181,9 +181,10 @@ namespace RadJav
 
 						if (ret instanceof Promise)
 						{
-							setTimeout(timeoutHandler, this.timeout);
+							var timeoutId = setTimeout(timeoutHandler, this.timeout);
 
 							let result = RadJav.keepContext( function() {
+								clearTimeout(timeoutId);
 								resolve (that);
 							}, that);
 
@@ -212,6 +213,10 @@ namespace RadJav
 			listenAddress: string;
 			/// The port.
 			port: number;
+			/// The server
+			server: RadJav.Net.WebServer;
+			/// The client
+			client: RadJav.Net.WebSocketConnection;
 
 			constructor (applicationPath: string)
 			{
@@ -220,6 +225,9 @@ namespace RadJav
 				this.node = false;
 				this.listenAddress = "127.0.0.1";
 				this.port = 9898;
+				this.server = null;
+				this.client = null;
+
 			}
 
 			/// Are we child process?
@@ -248,7 +256,7 @@ namespace RadJav
 					{
 						if (this.tests.length == 0)
 						{
-							RadJav.Console.log("Nothing to execute, no tests found");
+							//RadJav.Console.log("Nothing to execute, no tests found");
 							resolve(this.tests);
 							return;
 						}
@@ -288,78 +296,125 @@ namespace RadJav
 								reportFileName = reportFileName + ".csv";
 
 								var reporter = new CsvReporter(reportFileName);
-								let currentTestIndex = 0;
-								var server = new RadJav.Net.WebServer();
+								var currentTestIndex = -1;
+								var testExecutionTimer = null;
+								var nodeConnection = null;
 
-								server.on("upgrade", RadJav.keepContext(function (connection, request)
+								var reportTestResult = RadJav.keepContext(function() {
+									let test = this.tests[currentTestIndex];
+									if ( test != undefined)
+									{
+										if (test.passed.length == 0)
+										{
+											test = new RadJav.Testing.Test(this.tests[currentTestIndex].name, "");
+											test.results.push("Start test");
+											test.passed.push(false);
+										}
+										
+										reporter.appendResult(test);
+									}
+								}, this);
+
+								var runNextTest = RadJav.keepContext( function()
 								{
-									var webSocket = RadJav.Net.handleUpgrade(connection, request);
+									//RadJav.Console.log("Incrementing test case");
+									currentTestIndex++;
+									if (currentTestIndex == this.tests.length)
+									{
+										//RadJav.Console.log("Last test case executed");
+										resolve (this.tests);
+										return;
+									}
 
-									webSocket.on("message", RadJav.keepContext( function(data)
+									//RadJav.Console.log("Getting test case");
+									let test: Test = this.tests[currentTestIndex];
+
+									//RadJav.Console.log("Executing test case "+test.name);
+									var process: RadJav.OS.SystemProcess = new RadJav.OS.SystemProcess (
+										params.appPath, [params.execFile, "--node", "--testcase", test.name]);
+									process.execute ();
+
+									testExecutionTimer = setTimeout( RadJav.keepContext(function () {
+										//RadJav.Console.log("Test timed out");
+										if (nodeConnection != null)
+										{
+											// If we have active node connection, close it
+											//RadJav.Console.log("Closing connection");
+											nodeConnection.close();
+										}
+										else
+										{
+											// Else report current test case status and run next test
+											reportTestResult();
+											runNextTest();
+										}
+									}, this), test.timeout);
+								}, this);
+
+								this.server = new RadJav.Net.WebServer();
+
+								this.server.on("upgrade", RadJav.keepContext(function (connection, request)
+								{
+									//RadJav.Console.log("WebSocket new connection");
+									nodeConnection = RadJav.Net.handleUpgrade(connection, request);
+
+									nodeConnection.on("message", RadJav.keepContext( function(data)
 									{
 										//RadJav.Console.log("WebSocket message received: "+data);
 										
 										let response = {status: "OK"};
 										
-										let testResult = new RadJav.Testing.Test(this.tests[currentTestIndex], "");
-										testResult.results.push("Start test");
-										testResult.passed.push(false);
-
 										try
 										{
-											testResult = JSON.parse(data);
+											//RadJav.Console.log("Parsing message");
+											let testResult = JSON.parse(data);
+
+											if (testResult.name === this.tests[currentTestIndex].name)
+											{
+												this.tests[currentTestIndex].passed = testResult["passed"];
+												this.tests[currentTestIndex].results = testResult["results"];
+												clearTimeout(testExecutionTimer);
+											}
 										}
 										catch(err)
 										{
+											//RadJav.Console.log("Unable to update test result");
 											response = {status:"FAIL"};
 										}
 										finally
 										{
-											reporter.appendResult(testResult);
-											webSocket.send(JSON.stringify(response));
+											//RadJav.Console.log("Sending response "+JSON.stringify(response));
+											nodeConnection.send(JSON.stringify(response));
 										}
-
-										currentTestIndex++;
-										if (currentTestIndex == this.tests.length)
-										{
-											webSocket.close();
-											resolve (this.tests);
-											return;
-										}
-
-										let test: Test = this.tests[currentTestIndex];
-
-										//let command: string = params.appPath+" "+params.execFile+" --node "+"--testcase "+test.name;
-										//RadJav.Console.log("Starting application: " + command);
-										//RadJav.OS.exec (command);
-
-										var process: RadJav.OS.SystemProcess = new RadJav.OS.SystemProcess (
-											params.appPath, [params.execFile, "--node", "--testcase", test.name]);
-										process.execute ();
-
 									}, this));
+
+									nodeConnection.on("close", RadJav.keepContext( function() {
+										//RadJav.Console.log("WebSocket closed");
+										nodeConnection = null;
+										reportTestResult();
+										runNextTest();
+									}, this));
+
+									nodeConnection.on("error", RadJav.keepContext( function() {
+										//RadJav.Console.log("WebSocket error");
+										nodeConnection = null;
+										reportTestResult();
+										runNextTest();
+									},this));
 								}, this));
 
-								server.on("close", function(){
+								this.server.on("close", function(){
 									//RadJav.Console.log("Server closed");
 								});
 
-								server.on("error", function(err, description) {
-									RadJav.Console.log("Server error: "+err+", "+description);
+								this.server.on("error", function(err, description) {
+									//RadJav.Console.log("Server error: "+err+", "+description);
 									resolve(this.tests);
 								});
 
-								server.start(this.listenAddress, this.port);
+								this.server.start(this.listenAddress, this.port);
 
-								let test = this.tests[currentTestIndex];
-
-								//let command = params.appPath + " " + params.execFile + " --node " + "--testcase \"" + test.name + "\"";
-								//RadJav.Console.log("Starting application: " + command);
-								//RadJav.OS.exec(command);
-
-								var process: RadJav.OS.SystemProcess = new RadJav.OS.SystemProcess (
-									params.appPath, [params.execFile, "--node", "--testcase", test.name]);
-								process.execute ();
+								runNextTest();
 							}
 							else
 							{
@@ -376,27 +431,27 @@ namespace RadJav
 									}
 								}
 
-								var client = new RadJav.Net.WebSocketConnection();
+								this.client = new RadJav.Net.WebSocketConnection();
 
-								client.on("open", RadJav.keepContext(function ()
+								this.client.on("open", RadJav.keepContext(function ()
 								{
 									if (test != null)
 									{
-										test.execute().then(function (testObj) {
+										test.execute().then(RadJav.keepContext(function (testObj) {
 											let message = JSON.stringify(testObj);
-											client.send(message);
-										});
+											this.client.send(message);
+										}, this));
 									}
 									else
 									{
 										let message = new RadJav.Testing.Test(params.testCaseName);
 										message.passed.push(false);
 										message.results.push("Test case not found");
-										client.send(JSON.stringify(message));
+										this.client.send(JSON.stringify(message));
 									}
 								}, this));
 
-								client.on("message", RadJav.keepContext(function (data)
+								this.client.on("message", RadJav.keepContext(function (data)
 								{
 									let msg = JSON.parse(data);
 									if(msg.status != null && msg.status == "OK")
@@ -404,22 +459,22 @@ namespace RadJav
 										//RadJav.Console.log("Got response: "+msg.status);
 									}
 
-									client.close();
+									this.client.close();
 									resolve(this.tests);
 								}, this));
 
-								client.on("error", RadJav.keepContext( function (err, description)
+								this.client.on("error", RadJav.keepContext( function (err, description)
 								{
-									RadJav.Console.log("Unable to connect: "+err+", "+description);
+									//RadJav.Console.log("WebSocket error: "+err+", "+description);
 									resolve(this.tests);
 								}, this));
 
-								client.on("close", RadJav.keepContext(function () {
-									//RadJav.Console.log("Socket closed");
+								this.client.on("close", RadJav.keepContext(function () {
+									//RadJav.Console.log("WebSocket closed");
 									resolve(this.tests);
 								}, this));
 
-								client.connect("ws://" + this.listenAddress + ":" + this.port + "/testing");
+								this.client.connect("ws://" + this.listenAddress + ":" + this.port + "/testing");
 							}
 						}
 						else if (RadJav.OS.type == "html5")

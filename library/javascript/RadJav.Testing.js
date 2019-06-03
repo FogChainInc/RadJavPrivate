@@ -104,8 +104,9 @@ var RadJav;
                     };
                     var ret = that.func();
                     if (ret instanceof Promise) {
-                        setTimeout(timeoutHandler, this.timeout);
+                        var timeoutId = setTimeout(timeoutHandler, this.timeout);
                         var result = RadJav.keepContext(function () {
+                            clearTimeout(timeoutId);
                             resolve(that);
                         }, that);
                         ret.then(result, result)["catch"](result);
@@ -126,6 +127,8 @@ var RadJav;
                 this.node = false;
                 this.listenAddress = "127.0.0.1";
                 this.port = 9898;
+                this.server = null;
+                this.client = null;
             }
             FunctionalTests.prototype.isNode = function () {
                 return this.node;
@@ -141,7 +144,6 @@ var RadJav;
             FunctionalTests.prototype.execute = function () {
                 var promise = new Promise(RadJav.keepContext(function (resolve, reject) {
                     if (this.tests.length == 0) {
-                        RadJav.Console.log("Nothing to execute, no tests found");
                         resolve(this.tests);
                         return;
                     }
@@ -166,46 +168,77 @@ var RadJav;
                                 reportFileName = reportFileName.split(".")[0];
                             reportFileName = reportFileName + ".csv";
                             var reporter = new CsvReporter(reportFileName);
-                            var currentTestIndex_1 = 0;
-                            var server = new RadJav.Net.WebServer();
-                            server.on("upgrade", RadJav.keepContext(function (connection, request) {
-                                var webSocket = RadJav.Net.handleUpgrade(connection, request);
-                                webSocket.on("message", RadJav.keepContext(function (data) {
+                            var currentTestIndex = -1;
+                            var testExecutionTimer = null;
+                            var nodeConnection = null;
+                            var reportTestResult = RadJav.keepContext(function () {
+                                var test = this.tests[currentTestIndex];
+                                if (test != undefined) {
+                                    if (test.passed.length == 0) {
+                                        test = new RadJav.Testing.Test(this.tests[currentTestIndex].name, "");
+                                        test.results.push("Start test");
+                                        test.passed.push(false);
+                                    }
+                                    reporter.appendResult(test);
+                                }
+                            }, this);
+                            var runNextTest = RadJav.keepContext(function () {
+                                currentTestIndex++;
+                                if (currentTestIndex == this.tests.length) {
+                                    resolve(this.tests);
+                                    return;
+                                }
+                                var test = this.tests[currentTestIndex];
+                                var process = new RadJav.OS.SystemProcess(params_1.appPath, [params_1.execFile, "--node", "--testcase", test.name]);
+                                process.execute();
+                                testExecutionTimer = setTimeout(RadJav.keepContext(function () {
+                                    if (nodeConnection != null) {
+                                        nodeConnection.close();
+                                    }
+                                    else {
+                                        reportTestResult();
+                                        runNextTest();
+                                    }
+                                }, this), test.timeout);
+                            }, this);
+                            this.server = new RadJav.Net.WebServer();
+                            this.server.on("upgrade", RadJav.keepContext(function (connection, request) {
+                                nodeConnection = RadJav.Net.handleUpgrade(connection, request);
+                                nodeConnection.on("message", RadJav.keepContext(function (data) {
                                     var response = { status: "OK" };
-                                    var testResult = new RadJav.Testing.Test(this.tests[currentTestIndex_1], "");
-                                    testResult.results.push("Start test");
-                                    testResult.passed.push(false);
                                     try {
-                                        testResult = JSON.parse(data);
+                                        var testResult = JSON.parse(data);
+                                        if (testResult.name === this.tests[currentTestIndex].name) {
+                                            this.tests[currentTestIndex].passed = testResult["passed"];
+                                            this.tests[currentTestIndex].results = testResult["results"];
+                                            clearTimeout(testExecutionTimer);
+                                        }
                                     }
                                     catch (err) {
                                         response = { status: "FAIL" };
                                     }
                                     finally {
-                                        reporter.appendResult(testResult);
-                                        webSocket.send(JSON.stringify(response));
+                                        nodeConnection.send(JSON.stringify(response));
                                     }
-                                    currentTestIndex_1++;
-                                    if (currentTestIndex_1 == this.tests.length) {
-                                        webSocket.close();
-                                        resolve(this.tests);
-                                        return;
-                                    }
-                                    var test = this.tests[currentTestIndex_1];
-                                    var process = new RadJav.OS.SystemProcess(params_1.appPath, [params_1.execFile, "--node", "--testcase", test.name]);
-                                    process.execute();
+                                }, this));
+                                nodeConnection.on("close", RadJav.keepContext(function () {
+                                    nodeConnection = null;
+                                    reportTestResult();
+                                    runNextTest();
+                                }, this));
+                                nodeConnection.on("error", RadJav.keepContext(function () {
+                                    nodeConnection = null;
+                                    reportTestResult();
+                                    runNextTest();
                                 }, this));
                             }, this));
-                            server.on("close", function () {
+                            this.server.on("close", function () {
                             });
-                            server.on("error", function (err, description) {
-                                RadJav.Console.log("Server error: " + err + ", " + description);
+                            this.server.on("error", function (err, description) {
                                 resolve(this.tests);
                             });
-                            server.start(this.listenAddress, this.port);
-                            var test = this.tests[currentTestIndex_1];
-                            var process = new RadJav.OS.SystemProcess(params_1.appPath, [params_1.execFile, "--node", "--testcase", test.name]);
-                            process.execute();
+                            this.server.start(this.listenAddress, this.port);
+                            runNextTest();
                         }
                         else {
                             var test_1 = null;
@@ -215,36 +248,35 @@ var RadJav;
                                     break;
                                 }
                             }
-                            var client = new RadJav.Net.WebSocketConnection();
-                            client.on("open", RadJav.keepContext(function () {
+                            this.client = new RadJav.Net.WebSocketConnection();
+                            this.client.on("open", RadJav.keepContext(function () {
                                 if (test_1 != null) {
-                                    test_1.execute().then(function (testObj) {
+                                    test_1.execute().then(RadJav.keepContext(function (testObj) {
                                         var message = JSON.stringify(testObj);
-                                        client.send(message);
-                                    });
+                                        this.client.send(message);
+                                    }, this));
                                 }
                                 else {
                                     var message = new RadJav.Testing.Test(params_1.testCaseName);
                                     message.passed.push(false);
                                     message.results.push("Test case not found");
-                                    client.send(JSON.stringify(message));
+                                    this.client.send(JSON.stringify(message));
                                 }
                             }, this));
-                            client.on("message", RadJav.keepContext(function (data) {
+                            this.client.on("message", RadJav.keepContext(function (data) {
                                 var msg = JSON.parse(data);
                                 if (msg.status != null && msg.status == "OK") {
                                 }
-                                client.close();
+                                this.client.close();
                                 resolve(this.tests);
                             }, this));
-                            client.on("error", RadJav.keepContext(function (err, description) {
-                                RadJav.Console.log("Unable to connect: " + err + ", " + description);
+                            this.client.on("error", RadJav.keepContext(function (err, description) {
                                 resolve(this.tests);
                             }, this));
-                            client.on("close", RadJav.keepContext(function () {
+                            this.client.on("close", RadJav.keepContext(function () {
                                 resolve(this.tests);
                             }, this));
-                            client.connect("ws://" + this.listenAddress + ":" + this.port + "/testing");
+                            this.client.connect("ws://" + this.listenAddress + ":" + this.port + "/testing");
                         }
                     }
                     else if (RadJav.OS.type == "html5") {
