@@ -108,9 +108,9 @@
 				v8::Persistent<v8::Value> *result;
 		};
 
-		typedef std::vector<
+		typedef std::unordered_map<unsigned int,
 					std::pair<v8::Persistent<v8::Function> *,
-						std::chrono::time_point<std::chrono::steady_clock> > > TimerVector;
+						std::chrono::time_point<std::chrono::steady_clock> > > TimerMap;
 
 		/// The array buffer allocator used for V8.
 		/*class RADJAV_EXPORT V8ArrayBufferAllocator: public v8::ArrayBuffer::Allocator
@@ -190,7 +190,8 @@
 				#endif
 
 				/// Add a timeout, process it.
-				void addTimeout(v8::Persistent<v8::Function> *func, RJINT time);
+				RJUINT addTimeout(v8::Persistent<v8::Function> *func, RJINT time);
+				void clearTimeout(RJUINT timerId);
 
 				/// A blockchain event has occurred, process it.
 				void blockchainEvent(String event, String dataType = "null", void *data = NULL);
@@ -319,7 +320,7 @@
 
 				Array<AsyncFunctionCall *> funcs;
 
-				TimerVector timers;
+				TimerMap timers;
 
 				RJBOOL useInspector;
 				V8Inspector *inspector;

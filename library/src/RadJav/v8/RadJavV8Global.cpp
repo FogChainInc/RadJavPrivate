@@ -39,6 +39,7 @@ namespace RadJAV
 		void Global::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 		{
 			V8_CALLBACK(object, "setTimeout", Global::setTimeout);
+			V8_CALLBACK(object, "clearTimeout", Global::clearTimeout);
 			V8_CALLBACK(object, "alert", Global::alert);
 			V8_CALLBACK(object, "confirm", Global::confirm);
 			V8_CALLBACK(object, "prompt", Global::prompt);
@@ -53,7 +54,25 @@ namespace RadJAV
 
 			persistent->Reset(V8_JAVASCRIPT_ENGINE->isolate, func);
 
-			V8_JAVASCRIPT_ENGINE->addTimeout(persistent, time->Int32Value(V8_JAVASCRIPT_ENGINE->globalContext).FromMaybe (0));
+			RJUINT timerId = V8_JAVASCRIPT_ENGINE->addTimeout(persistent, time->Int32Value(V8_JAVASCRIPT_ENGINE->globalContext).FromMaybe (0));
+			
+			args.GetReturnValue().Set(timerId);
+		}
+
+		void Global::clearTimeout(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+			if (args.Length())
+			{
+				if (args[0]->IsNumber())
+				{
+					v8::Local<v8::Number> timerIdJs = v8::Local<v8::Number>::Cast(args[0]);
+					V8_JAVASCRIPT_ENGINE->clearTimeout(timerIdJs->Value());
+				}
+				else
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("Timer ID is malformed");
+				}
+			}
 		}
 
 		void Global::alert(const v8::FunctionCallbackInfo<v8::Value> &args)

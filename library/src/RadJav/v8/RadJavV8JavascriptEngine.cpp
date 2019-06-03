@@ -680,13 +680,51 @@ namespace RadJAV
 				#endif
 				
 				//Handle timers (setTimeout from JS)
+				//Now implementation is a bit slow because timers
+				//can be removed during execution of timer function itself,
+				//so instead of iterating over the timers we search next
+				//valid timer by it's ID
 				std::chrono::steady_clock::time_point currentTime = std::chrono::steady_clock::now();
 				
+				std::vector<RJUINT> timersIds;
+				timersIds.reserve(timers.size());
+				for(auto mapItem: timers)
+				{
+					timersIds.push_back(mapItem.first);
+				}
+				
+				for(auto timerId: timersIds)
+				{
+					auto timer = timers.find(timerId);
+					if (timer != timers.end())
+					{
+						auto timerData = timer->second;
+						v8::Persistent<v8::Function> *funcp = timerData.first;
+						std::chrono::time_point<std::chrono::steady_clock> fireTime = timerData.second;
+						
+						if (fireTime <= currentTime)
+						{
+							timers.erase(timer);
+							
+							v8::Local<v8::Function> func = funcp->Get(isolate);
+							
+							if (func->IsNullOrUndefined() == false)
+								func->Call(globalContext->Global(), 0, NULL);
+							
+							DELETEOBJ(funcp);
+						}
+					}
+				}
+				
+				timersIds.clear();
+				
+				/*
 				auto timer = timers.begin();
 				while(timer != timers.end())
 				{
-					v8::Persistent<v8::Function> *funcp = timer->first;
-					std::chrono::time_point<std::chrono::steady_clock> fireTime = timer->second;
+					auto timerData = timer->second;
+					v8::Persistent<v8::Function> *funcp = timerData.first;
+					std::chrono::time_point<std::chrono::steady_clock> fireTime = timerData.second;
 					
 					if (fireTime <= currentTime)
 					{
@@ -703,7 +741,7 @@ namespace RadJAV
 					{
 						timer++;
 					}
-				}
+				}*/
 
 				for (RJUINT iIdx = 0; iIdx < removeThreads.size(); iIdx++)
 				{
@@ -1205,12 +1243,32 @@ namespace RadJAV
 		}
 		#endif
 
-		void V8JavascriptEngine::addTimeout (v8::Persistent<v8::Function> *func, RJINT time)
+		RJUINT V8JavascriptEngine::addTimeout (v8::Persistent<v8::Function> *func, RJINT time)
 		{
+			static RJUINT nextTimerId;
+			
 			auto fireTime = std::chrono::steady_clock::now();
 			fireTime += std::chrono::milliseconds(time);
+
+			while(timers.find(nextTimerId) != timers.end())
+			{
+				nextTimerId++;
+			}
 			
-			timers.push_back( std::make_pair(func, fireTime));
+			timers[nextTimerId] = std::make_pair(func, fireTime);
+			return nextTimerId++;
+		}
+
+		void V8JavascriptEngine::clearTimeout(RJUINT timerId)
+		{
+			auto index = timers.find(timerId);
+			if( index != timers.end())
+			{
+				auto timerData = index->second;
+				v8::Persistent<v8::Function> *funcp = timerData.first;
+				timers.erase(index);
+				DELETEOBJ(funcp);
+			}
 		}
 
 		void V8JavascriptEngine::blockchainEvent(String event, String dataType, void *data)
