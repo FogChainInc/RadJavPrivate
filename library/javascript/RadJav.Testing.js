@@ -190,15 +190,22 @@ var RadJav;
                                 }
                                 var test = this.tests[currentTestIndex];
                                 var process = new RadJav.OS.SystemProcess(params_1.appPath, [params_1.execFile, "--node", "--testcase", test.name]);
+                                process.on("exit", RadJav.keepContext(function (code) {
+                                    clearTimeout(testExecutionTimer);
+                                    reportTestResult();
+                                    runNextTest();
+                                }, this));
+                                process.on("error", RadJav.keepContext(function (err, description) {
+                                    clearTimeout(testExecutionTimer);
+                                    reportTestResult();
+                                    runNextTest();
+                                }, this));
                                 process.execute();
                                 testExecutionTimer = setTimeout(RadJav.keepContext(function () {
-                                    if (nodeConnection != null) {
-                                        nodeConnection.close();
-                                    }
-                                    else {
-                                        reportTestResult();
-                                        runNextTest();
-                                    }
+                                    var test = this.tests[currentTestIndex];
+                                    test.results.push("Test reach it's timeout");
+                                    test.passed.push(false);
+                                    process.kill();
                                 }, this), test.timeout);
                             }, this);
                             this.server = new RadJav.Net.WebServer();
@@ -211,7 +218,6 @@ var RadJav;
                                         if (testResult.name === this.tests[currentTestIndex].name) {
                                             this.tests[currentTestIndex].passed = testResult["passed"];
                                             this.tests[currentTestIndex].results = testResult["results"];
-                                            clearTimeout(testExecutionTimer);
                                         }
                                     }
                                     catch (err) {
@@ -221,19 +227,7 @@ var RadJav;
                                         nodeConnection.send(JSON.stringify(response));
                                     }
                                 }, this));
-                                nodeConnection.on("close", RadJav.keepContext(function () {
-                                    nodeConnection = null;
-                                    reportTestResult();
-                                    runNextTest();
-                                }, this));
-                                nodeConnection.on("error", RadJav.keepContext(function () {
-                                    nodeConnection = null;
-                                    reportTestResult();
-                                    runNextTest();
-                                }, this));
                             }, this));
-                            this.server.on("close", function () {
-                            });
                             this.server.on("error", function (err, description) {
                                 resolve(this.tests);
                             });

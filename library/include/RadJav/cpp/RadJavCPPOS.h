@@ -24,8 +24,8 @@
 	#include "RadJavString.h"
 	#include "RadJavArray.h"
 	#include "RadJavHashMap.h"
-
-	#include "cpp/RadJavCPPChainedPtr.h"
+	#include "RadJavCPPNetNetworkManager.h"
+	#include "RadJavCPPEvent.h"
 
 	#include <functional>
 
@@ -38,9 +38,6 @@
 	#endif
 
 	#include <boost/process.hpp>
-	#include <boost/process/async.hpp>
-
-	#include <boost/asio/io_service.hpp>
 
 	namespace RadJAV
 	{
@@ -48,20 +45,21 @@
 		{
 			namespace OS
 			{
+				class SystemProcessImpl;
+				
 				/// Handles subprocesses started by RadJav.
-				class RADJAV_EXPORT SystemProcess: public ChainedPtr
+				class RADJAV_EXPORT SystemProcess: public Events
 				{
 					public:
-						SystemProcess(String command = "");
-						SystemProcess(String command, Array<String> args);
+						SystemProcess(const String& command,
+									  Net::NetworkManager& networkManager);
+						SystemProcess(const String& command,
+									  const Array<String>& args,
+									  Net::NetworkManager& networkManager);
 						#ifdef USE_V8
 							SystemProcess(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
-
-							v8::Local<v8::Object> toV8Object(v8::Isolate *isolate);
 						#elif defined USE_JAVASCRIPTCORE
 							SystemProcess(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[]);
-
-							JSObjectRef toJSCObject();
 						#endif
 						~SystemProcess();
 
@@ -70,27 +68,45 @@
 
 						/// Kill the process.
 						void kill();
+					
+						void onError(std::function<void(RJINT, const String&)> func);
+						void onOutput(std::function<void(const String&)> func);
+						void onExit(std::function<void(RJINT)> func);
 
+						/**
+					 	* @brief Register Javascript callback
+					 	* @details Set the Javascript handler function for specific notification
+					 	* @param[in] event name of the event. Can be "error", "output" and "exit"
+					 	* @param[in] func Javascript callback function
+					 	*/
+						#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+							void on(String event, RJ_FUNC_TYPE func);
+						#endif
+
+					private:
+						void internalOnError(RJINT code, const String& description);
+						void internalOnOutput(const String& output);
+						void internalOnExit(RJINT exitCode);
+
+					private:
 						/// The command to execute.
 						String command;
 						/// The arguments to execute with the command.
 						Array<String> args;
 						/// The exit code from the command. -1 means the command could not be executed.
-						RJINT exitCode;
+						//RJINT exitCode;
 						/// The buffer size to get from the output.
-						RJINT bufferSize;
+						//RJINT bufferSize;
 						/// The collected output.
-						String output;
+						//String output;
 
-						/// The child process.
-						boost::process::child *child;
-						/// The service that handles the process.
-						boost::asio::io_context ios;
-						/// The thread that handles the process.
-						SimpleThread *thread;
+						Net::NetworkManager& _networkManager;
 
-						std::function<void(String)> onOutput;
-						std::function<void(String)> onError;
+						std::weak_ptr<SystemProcessImpl> _impl;
+					
+						std::function<void(const String&)> _onOutput;
+						std::function<void(RJINT, const String&)> _onError;
+						std::function<void(RJINT)> _onExit;
 				};
 
 				/**
@@ -128,9 +144,7 @@
                 /// Get the path to the user's documents folder.
                 void onReady(std::function<void()> asyncCallback);
                 /// Execute a system command.
-				SystemProcess *exec(String command);
-				/// Execute a system command.
-				void exec(SystemProcess *process);
+				RJINT exec(String command);
                 /// Get the path to the user's documents folder.
                 String getDocumentsPath();
                 /// Get the path to the user's temporary files folder.

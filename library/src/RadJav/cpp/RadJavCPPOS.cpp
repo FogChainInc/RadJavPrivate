@@ -118,22 +118,16 @@ namespace RadJAV
 			onReadyFunction = RJNEW std::function<void()>(asyncCallback);
 		}
 
-		CPP::OS::SystemProcess *OS::exec(String command)
+		RJINT OS::exec(String command)
 		{
-			std::future<std::string> output;
-			RJINT exitCode = boost::process::system (command.c_str (), boost::process::std_out > output);
-			String result = output.get();
+			//std::future<std::string> output;
+			//RJINT exitCode = boost::process::system (command.c_str (), boost::process::std_out > output);
+			//String result = output.get();
 
-			CPP::OS::SystemProcess *process = RJNEW CPP::OS::SystemProcess(command);
-			process->exitCode = exitCode;
-			process->output = result;
-
-			return (process);
-		}
-
-		void OS::exec(CPP::OS::SystemProcess *process)
-		{
-			process->execute();
+			std::error_code ec;
+			RJINT exitCode = boost::process::system(command.c_str (), ec);
+			
+			return exitCode;
 		}
 
 		String OS::getDocumentsPath()
@@ -263,31 +257,167 @@ namespace RadJAV
 			return (path);
 		}
 
-		OS::SystemProcess::SystemProcess(String command)
+		class OS::SystemProcessImpl : public std::enable_shared_from_this<OS::SystemProcessImpl>
+		{
+		public:
+			SystemProcessImpl(Net::NetworkManager& networkManager)
+			: _networkManager(networkManager)
+			  , _context(_networkManager.getContext())
+			  , _pipe(_context)
+			{
+				_exitCode = 0;
+				_child = nullptr;
+			}
+			
+			~SystemProcessImpl()
+			{
+				if (_child)
+				{
+					DELETEOBJ(_child);
+					_child = nullptr;
+					
+					if (_ec)
+					{
+						if (_onError)
+							_onError(_ec.value(), _ec.message());
+					}
+					else if (_onExit)
+					{
+						_networkManager.contextReleased(_context);
+						_onExit(_exitCode);
+					}
+				}
+			}
+			
+			void start(const std::string& command,
+					   const std::vector<std::string>& arguments,
+					   std::function<void(RJINT, const String&)> onError,
+					   std::function<void(const String&)> onOutput,
+					   std::function<void(RJINT)> onExit)
+			{
+				if (_child)
+					return;
+
+				_onError = onError;
+				_onOutput = onOutput;
+				_onExit = onExit;
+
+				std::error_code ec;
+
+				namespace process = boost::process;
+				_child = RJNEW process::child(command.c_str(),
+											  arguments,
+											  (process::std_err & process::std_out) > _pipe,
+											  process::on_exit(std::bind(&SystemProcessImpl::internalOnExit,
+																		 shared_from_this(),
+																		 std::placeholders::_1,
+																		 std::placeholders::_2)),
+											  _context,
+											  ec);
+
+				if (ec)
+				{
+					_ec = ec;
+					return;
+				}
+
+				doRead();
+
+				_networkManager.activateContext(_context);
+				
+			}
+			
+			void terminate()
+			{
+				if (_child && _child->running())
+				{
+					_child->terminate();
+				}
+			}
+
+			void terminateSilently()
+			{
+				if (_child && _child->running())
+				{
+					_onExit = nullptr;
+					_onOutput = nullptr;
+					_onError = nullptr;
+
+					_child->terminate();
+				}
+			}
+
+		private:
+			void doRead()
+			{
+				boost::asio::async_read(_pipe,
+										_output,
+										std::bind(&SystemProcessImpl::internalOnRead,
+												  shared_from_this(),
+												  std::placeholders::_1,
+												  std::placeholders::_2));
+				
+			}
+			
+			void internalOnRead(const boost::system::error_code& ec, std::size_t bytes_read)
+			{
+				if (bytes_read)
+				{
+					std::istream istream(&_output);
+					std::stringstream output;
+					istream>>output.rdbuf();
+					
+					if (_onOutput)
+					{
+						_onOutput(output.str());
+					}
+					
+					_output.consume(bytes_read);
+				}
+
+				if (!ec)
+					doRead();
+			}
+			
+			void internalOnExit(int exitCode, const std::error_code&)
+			{
+				_exitCode = exitCode;
+			}
+			
+		private:
+			std::function<void(RJINT, const String&)> _onError;
+			std::function<void(const String&)> _onOutput;
+			std::function<void(RJINT)> _onExit;
+			
+			Net::NetworkManager& _networkManager;
+			boost::asio::io_context& _context;
+			boost::process::async_pipe _pipe;
+			boost::process::child *_child;
+			boost::asio::streambuf _output;
+			std::string _command;
+			std::error_code _ec;
+			RJINT _exitCode;
+		};
+		
+		OS::SystemProcess::SystemProcess(const String& command,
+										 Net::NetworkManager& networkManager)
+		: _networkManager(networkManager)
 		{
 			this->command = command;
-			bufferSize = 4096;
-
-			exitCode = -1;
-			output = "";
-
-			thread = NULL;
 		}
 
-		OS::SystemProcess::SystemProcess(String command, Array<String> args)
+		OS::SystemProcess::SystemProcess(const String& command,
+										 const Array<String>& args,
+										 Net::NetworkManager& networkManager)
+		: _networkManager(networkManager)
 		{
 			this->command = command;
 			this->args = args;
-			bufferSize = 4096;
-
-			exitCode = -1;
-			output = "";
-
-			thread = NULL;
 		}
 
 		#ifdef USE_V8
 			OS::SystemProcess::SystemProcess(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
+			: _networkManager(*jsEngine->networkManager)
 			{
 				command = V8_JAVASCRIPT_ENGINE->v8GetString(args.This(), "command");
 				v8::Local<v8::Object> argsObj = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "args");
@@ -299,102 +429,138 @@ namespace RadJAV
 
 					this->args.push_back(parseV8Value (str));
 				}
-
-				exitCode = V8_JAVASCRIPT_ENGINE->v8GetDecimal(args.This(), "exitCode");
-				bufferSize = V8_JAVASCRIPT_ENGINE->v8GetDecimal(args.This(), "bufferSize");
-				output = V8_JAVASCRIPT_ENGINE->v8GetString(args.This(), "output");
-
-				thread = NULL;
-			}
-
-			v8::Local<v8::Object> OS::SystemProcess::toV8Object(v8::Isolate *isolate)
-			{
-				v8::Local<v8::Object> v8obj = V8_JAVASCRIPT_ENGINE->v8CreateNewObject("RadJav.OS.SystemProcess");
-
-				v8obj->Set(String ("command").toV8String (isolate), command.toV8String (isolate));
-
-				v8::Local<v8::Array> argsAry = v8::Array::New (isolate);
-
-				for (RJUINT iIdx = 0; iIdx < args.length(); iIdx++)
-				{
-					v8::Local<v8::String> str = args.at (iIdx).toV8String(isolate);
-
-					argsAry->Set(iIdx, str);
-				}
-
-				v8obj->Set(String("command").toV8String(isolate), argsAry);
-
-				v8obj->Set(String("exitCode").toV8String(isolate), v8::Integer::New (isolate, exitCode));
-				v8obj->Set(String("bufferSize").toV8String(isolate), v8::Integer::New(isolate, bufferSize));
-				v8obj->Set(String("output").toV8String(isolate), output.toV8String(isolate));
-
-				return (v8obj);
 			}
 		#elif defined USE_JAVASCRIPTCORE
 			OS::SystemProcess::SystemProcess(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[])
+			: _networkManager(*jsEngine->networkManager)
 			{
 				/// @todo Fill this out.
-			}
-
-			JSObjectRef OS::SystemProcess::toJSCObject();
-			{
-				/// @todo Fill this out.
-
-				return (null);
 			}
 		#endif
 
 		OS::SystemProcess::~SystemProcess()
 		{
-			DELETEOBJ(thread);
-			DELETEOBJ(child);
+			auto impl = _impl.lock();
+			if (impl)
+				impl->terminateSilently();
+			
+			// Events designed mostly for GUI and they will be freed by GUI library
+			// but in our case where we are not relying on GUI here we need to remove events manually
+			for(auto it = events->begin(); it != events->end(); it++)
+			{
+				DELETEOBJ(it->second);
+			}
 		}
 
 		void OS::SystemProcess::execute()
 		{
-			boost::process::opstream in;
-			boost::process::async_pipe output(ios);
-			std::vector<std::string> tempArgs;
-			Array<RJCHAR> buffer(bufferSize);
+			if (_impl.lock())
+				return;
+			
+			auto impl = std::make_shared<SystemProcessImpl>(_networkManager);
 
+			_impl = impl;
+
+			std::vector<std::string> tempArgs;
 			for (RJUINT iIdx = 0; iIdx < args.size(); iIdx++)
 				tempArgs.push_back(args.at (iIdx));
 
-			child = RJNEW boost::process::child(command.c_str (), tempArgs,
-				//boost::process::std_in < in, 
-				boost::process::std_out > output, 
-				//boost::process::std_err > output, 
-				ios, 
-				boost::process::on_exit([&](int terminationCode, const std::error_code &err)
-					{
-						this->exitCode = terminationCode;
-						output.close();
-					}));
-			boost::asio::async_read(output, boost::asio::buffer(buffer), 
-				[&](const boost::system::error_code &err, std::size_t size)
-					{
-						String str (buffer.begin(), buffer.end());
-						onOutput (str);
-					});
-
-			/// @fixme Get async read from stdout to work.
-			/*DELETEOBJ(thread);
-			thread = RJNEW SimpleThread();
-			thread->onStart = [&]()
-			{
-				ios.run();
-			};
-
-			RadJav::addThread(thread);*/
+			impl->start(command, tempArgs,
+						std::bind(&SystemProcess::internalOnError, this,
+								  std::placeholders::_1,
+								  std::placeholders::_2),
+						std::bind(&SystemProcess::internalOnOutput, this,
+								  std::placeholders::_1),
+						std::bind(&SystemProcess::internalOnExit, this,
+								  std::placeholders::_1));
 		}
 
 		void OS::SystemProcess::kill()
 		{
-			RadJav::javascriptEngine->removeThread(thread);
-			child->terminate();
-			ios.stop();
-			ios.reset();
+			auto impl = _impl.lock();
+			if (impl)
+			{
+				impl->terminate();
+			}
 		}
+		
+		void OS::SystemProcess::internalOnError(RJINT errorCode, const String& description)
+		{
+			// If we use SystemProcess from C++ side
+			// Then process only C++ callbacks
+			if (_onError)
+			{
+				_onError(errorCode, description);
+				return;
+			}
+			
+			#ifdef USE_V8
+				v8::Local<v8::Value> args[2];
+				args[0] = v8::Number::New(V8_JAVASCRIPT_ENGINE->isolate, errorCode);
+				args[1] = String(description).toV8String(V8_JAVASCRIPT_ENGINE->isolate);
+			
+				executeEvent("error", 2, args);
+			
+			#elif defined USE_JAVASCRIPTCORE
+				#pragma message("Missing implementation of SystemProcess.error callback for JSC")
+				//TODO: add JSC implementation
+				//executeEvent("error", description);
+			#endif
+		}
+		
+		void OS::SystemProcess::internalOnOutput(const String& output)
+		{
+			// If we use SystemProcess from C++ side
+			// Then process only C++ callbacks
+			if (_onOutput)
+			{
+				_onOutput(output);
+				return;
+			}
+			
+			#ifdef USE_V8
+				v8::Local<v8::Value> args[1];
+				args[0] = String(output).toV8String(V8_JAVASCRIPT_ENGINE->isolate);
+			
+				executeEvent("output", 1, args);
+			
+			#elif defined USE_JAVASCRIPTCORE
+				#pragma message("Missing implementation of SystemProcess.output callback for JSC")
+				//TODO: add JSC implementation
+				//executeEvent("error", description);
+			#endif
+		}
+		
+		void OS::SystemProcess::internalOnExit(RJINT exitCode)
+		{
+			// If we use SystemProcess from C++ side
+			// Then process only C++ callbacks
+			if (_onExit)
+			{
+				_onExit(exitCode);
+				return;
+			}
+			
+			#ifdef USE_V8
+				v8::Local<v8::Value> args[1];
+				args[0] = v8::Number::New(V8_JAVASCRIPT_ENGINE->isolate, exitCode);
+			
+				executeEvent("exit", 1, args);
+			
+			#elif defined USE_JAVASCRIPTCORE
+				#pragma message("Missing implementation of SystemProcess.error callback for JSC")
+				//TODO: add JSC implementation
+				//executeEvent("error", description);
+			#endif
+		}
+		
+		#if defined USE_V8 || defined USE_JAVASCRIPTCORE
+			void OS::SystemProcess::on(String event, RJ_FUNC_TYPE func)
+			{
+				createEvent(event, func);
+			}
+		#endif
+
 	}
 }
 

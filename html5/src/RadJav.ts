@@ -2299,21 +2299,12 @@ namespace RadJav
 			command: string;
 			/// The arguments to execute with the command.
 			args: string[];
-			/// The exit code from the command. -1 means the command could not be executed.
-			exitCode: number;
-			/// The buffer size to get from the output.
-			bufferSize: number;
-			/// The collected output.
-			output: string;
 
 			constructor (command: string = "", args: string[] = [])
 			{
 				this._appObj = null;
 				this.command = command;
 				this.args = args;
-				this.bufferSize = 4096;
-				this.exitCode = -1;
-				this.output = "";
 
 				if (this._init !== null)
 					this._init ();
@@ -2326,6 +2317,9 @@ namespace RadJav
 
 			/// Kill the process.
 			kill: () => void;
+
+			/// Register callbacks. Supported callbacks are "error", "output" and "exit"
+			on: (event: string, func: Function) => void;
 		}
 
 		/**
@@ -2374,7 +2368,7 @@ namespace RadJav
 		 * Available on platforms: Windows,Linux,OSX
 		 * @returns The termination status of the system command.
 		 */
-		export let exec: (command: string | RadJav.OS.SystemProcess) => RadJav.OS.SystemProcess = null;
+		export let exec: (command: string) => number = null;
 
 		/**
 		 * Get the path to the user's documents folder.

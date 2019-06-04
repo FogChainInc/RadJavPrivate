@@ -60,6 +60,7 @@
 						static void _init(const v8::FunctionCallbackInfo<v8::Value> &args);
 						static void execute(const v8::FunctionCallbackInfo<v8::Value> &args);
 						static void kill(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void on(const v8::FunctionCallbackInfo<v8::Value> &args);
 				};
 			};
 		}

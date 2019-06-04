@@ -74,14 +74,17 @@ namespace RadJAV
 
 		void OS::exec(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
+			if (!args.Length() ||
+				!args[0]->IsString())
+			{
+				V8_JAVASCRIPT_ENGINE->throwException("Executable parameter is required");
+				return;
+			}
+			
 			String command = parseV8Value(V8_JAVASCRIPT_ENGINE->v8GetArgument(args, 0));
-			CPP::OS::SystemProcess *process = CPP::OS::exec(command);
+			RJINT exitCode = CPP::OS::exec(command);
 
-			v8::Local<v8::Object> processV8Obj = process->toV8Object(args.GetIsolate());
-
-			DELETEOBJ(process);
-
-			args.GetReturnValue().Set(processV8Obj);
+			args.GetReturnValue().Set(v8::Number::New(V8_JAVASCRIPT_ENGINE->isolate, exitCode));
 		}
 
 		void OS::getDocumentsPath(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -191,26 +194,64 @@ namespace RadJAV
 			V8_CALLBACK(object, "_init", OS::SystemProcess::_init);
 			V8_CALLBACK(object, "execute", OS::SystemProcess::execute);
 			V8_CALLBACK(object, "kill", OS::SystemProcess::kill);
+			V8_CALLBACK(object, "on", OS::SystemProcess::on);
 		}
 
 		void OS::SystemProcess::_init(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
-			CPP::OS::SystemProcess *appObject = RJNEW CPP::OS::SystemProcess(V8_JAVASCRIPT_ENGINE, args);
+			std::shared_ptr<CPP::OS::SystemProcess> appObject(RJNEW CPP::OS::SystemProcess(V8_JAVASCRIPT_ENGINE, args),
+															  [](CPP::OS::SystemProcess* p) {
+																  DELETEOBJ(p);
+															  });
+			
 			V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_appObj", appObject);
 		}
 
 		void OS::SystemProcess::execute(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
-			CPP::OS::SystemProcess *appObject = (CPP::OS::SystemProcess *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+			std::shared_ptr<CPP::OS::SystemProcess> appObject = V8_JAVASCRIPT_ENGINE->v8GetExternal<CPP::OS::SystemProcess>(args.This(), "_appObj");
+
+			if (!appObject)
+			{
+				V8_JAVASCRIPT_ENGINE->throwException("SystemProcess not initialized");
+				return;
+			}
 
 			appObject->execute();
 		}
 
 		void OS::SystemProcess::kill(const v8::FunctionCallbackInfo<v8::Value> &args)
 		{
-			CPP::OS::SystemProcess *appObject = (CPP::OS::SystemProcess *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+			std::shared_ptr<CPP::OS::SystemProcess> appObject = V8_JAVASCRIPT_ENGINE->v8GetExternal<CPP::OS::SystemProcess>(args.This(), "_appObj");
+
+			if (!appObject)
+			{
+				V8_JAVASCRIPT_ENGINE->throwException("SystemProcess not initialized");
+				return;
+			}
 
 			appObject->kill();
+		}
+		
+		void OS::SystemProcess::on(const v8::FunctionCallbackInfo<v8::Value> &args)
+		{
+			std::shared_ptr<CPP::OS::SystemProcess> appObject = V8_JAVASCRIPT_ENGINE->v8GetExternal<CPP::OS::SystemProcess>(args.This(), "_appObj");
+			
+			if (!appObject)
+			{
+				V8_JAVASCRIPT_ENGINE->throwException("SystemProcess not initialized");
+				return;
+			}
+			
+			if( args.Length() < 2 ||
+			   !args[0]->IsString() ||
+			   !args[1]->IsFunction())
+			{
+				V8_JAVASCRIPT_ENGINE->throwException("Event name and function is required");
+				return;
+			}
+			
+			appObject->on(parseV8Value(args[0]), v8::Local<v8::Function>::Cast(args[1]));
 		}
 	}
 }

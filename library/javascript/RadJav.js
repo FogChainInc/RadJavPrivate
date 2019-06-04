@@ -1259,9 +1259,6 @@ var RadJav;
                 this._appObj = null;
                 this.command = command;
                 this.args = args;
-                this.bufferSize = 4096;
-                this.exitCode = -1;
-                this.output = "";
                 if (this._init !== null)
                     this._init();
             }

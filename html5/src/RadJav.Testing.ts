@@ -332,22 +332,29 @@ namespace RadJav
 									//RadJav.Console.log("Executing test case "+test.name);
 									var process: RadJav.OS.SystemProcess = new RadJav.OS.SystemProcess (
 										params.appPath, [params.execFile, "--node", "--testcase", test.name]);
+									
+									process.on("exit", RadJav.keepContext(function(code) {
+										clearTimeout(testExecutionTimer);
+										reportTestResult();
+										runNextTest();
+									}, this));
+
+									process.on("error", RadJav.keepContext(function(err, description) {
+										clearTimeout(testExecutionTimer);
+										reportTestResult();
+										runNextTest();
+									}, this));
+
 									process.execute ();
 
 									testExecutionTimer = setTimeout( RadJav.keepContext(function () {
 										//RadJav.Console.log("Test timed out");
-										if (nodeConnection != null)
-										{
-											// If we have active node connection, close it
-											//RadJav.Console.log("Closing connection");
-											nodeConnection.close();
-										}
-										else
-										{
-											// Else report current test case status and run next test
-											reportTestResult();
-											runNextTest();
-										}
+										let test = this.tests[currentTestIndex];
+										test.results.push("Test reach it's timeout");
+										test.passed.push(false);
+
+										// Kill child
+										process.kill();
 									}, this), test.timeout);
 								}, this);
 
@@ -373,7 +380,6 @@ namespace RadJav
 											{
 												this.tests[currentTestIndex].passed = testResult["passed"];
 												this.tests[currentTestIndex].results = testResult["results"];
-												clearTimeout(testExecutionTimer);
 											}
 										}
 										catch(err)
@@ -387,25 +393,7 @@ namespace RadJav
 											nodeConnection.send(JSON.stringify(response));
 										}
 									}, this));
-
-									nodeConnection.on("close", RadJav.keepContext( function() {
-										//RadJav.Console.log("WebSocket closed");
-										nodeConnection = null;
-										reportTestResult();
-										runNextTest();
-									}, this));
-
-									nodeConnection.on("error", RadJav.keepContext( function() {
-										//RadJav.Console.log("WebSocket error");
-										nodeConnection = null;
-										reportTestResult();
-										runNextTest();
-									},this));
 								}, this));
-
-								this.server.on("close", function(){
-									//RadJav.Console.log("Server closed");
-								});
 
 								this.server.on("error", function(err, description) {
 									//RadJav.Console.log("Server error: "+err+", "+description);
