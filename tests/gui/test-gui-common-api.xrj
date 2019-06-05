@@ -1995,6 +1995,198 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 			return setGetEnabledApiTest.call(check, "WebView");
 		});
 		
+		// generic destroy API test
+		let destroyApiTest = function(controlName) {
+			let check = this;
+			let message = controlName + " was freed by destroy() API";
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window", controlName+" destroy API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI[controlName](controlName, "test", window);
+					control.create().then( function(ctl) {
+						control = ctl;
+						
+						control.destroy();
+						let text = "";
+						
+						try
+						{
+							control.setText("Test");
+							text = control.getText();
+						}
+						catch(err)
+						{
+						}
+						finally
+						{
+							check.notEqual(text, "Test", message);
+						}
+						
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(false, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window destroy API test
+		RadJav.addTest("test_common_destroy_001", function(check) {
+			let message = "Window was freed by destroy() API";
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window","Window destroy API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.destroy();
+					let text = "";
+					
+					try
+					{
+						window.setText("Test");
+						text = window.getText();
+					}
+					catch(err)
+					{
+					}
+					finally
+					{
+						check.notEqual(text, "Test", message);
+					}
+					
+					resolve();
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(false, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Button destroy API test
+		RadJav.addTest("test_common_destroy_002", function(check) {
+			return destroyApiTest.call(check, "Button");
+		});
+		
+		// Checkbox destroy API test
+		RadJav.addTest("test_common_destroy_003", function(check) {
+			return destroyApiTest.call(check, "Checkbox");
+		});
+		
+		// Combobox destroy API test
+		RadJav.addTest("test_common_destroy_004", function(check) {
+			return destroyApiTest.call(check, "Combobox");
+		});
+		
+		// Container destroy API test
+		RadJav.addTest("test_common_destroy_005", function(check) {
+			return destroyApiTest.call(check, "Container");
+		});
+		
+		// Image destroy API test
+		RadJav.addTest("test_common_destroy_006", function(check) {
+			return destroyApiTest.call(check, "Image");
+		});
+		
+		// Label destroy API test
+		RadJav.addTest("test_common_destroy_007", function(check) {
+			return destroyApiTest.call(check, "Label");
+		});
+		
+		// List destroy API test
+		RadJav.addTest("test_common_destroy_008", function(check) {
+			return destroyApiTest.call(check, "List");
+		});
+		
+		// MebuBar destroy API test
+		RadJav.addTest("test_common_destroy_009", function(check) {
+			return destroyApiTest.call(check, "MenuBar");
+		});
+		
+		// MenuItem destroy API test
+		RadJav.addTest("test_common_destroy_010", function(check) {
+			let message = "MenuItem.destroy() will free underlying object";
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuItem destroy API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
+						menuItem.create().then( function(ctl) {
+							menuItem = ctl;
+							
+							menuItem.destroy();
+							let text = "";
+							
+							try
+							{
+								menuItem.setText("Test");
+								text = menuItem.getText();
+							}
+							catch(err)
+							{
+							}
+							finally
+							{
+								check.notEqual(text, "Test", message);
+							}
+							
+							resolve();
+						});
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(false, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Radio destroy API test
+		RadJav.addTest("test_common_destroy_011", function(check) {
+			return destroyApiTest.call(check, "Radio");
+		});
+		
+		// Textarea destroy API test
+		RadJav.addTest("test_common_destroy_012", function(check) {
+			return destroyApiTest.call(check, "Textarea");
+		});
+		
+		// Textbox destroy API test
+		RadJav.addTest("test_common_destroy_013", function(check) {
+			return destroyApiTest.call(check, "Textbox");
+		});
+		
+		// WebView destroy API test
+		RadJav.addTest("test_common_destroy_014", function(check) {
+			return destroyApiTest.call(check, "WebView");
+		});
+		
 		// Execute test cases
 		RadJav.runTests().then( function() {
 			RadJav.exit();
