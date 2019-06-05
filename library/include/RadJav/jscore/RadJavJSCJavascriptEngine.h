@@ -102,7 +102,12 @@
         typedef std::vector<
             std::pair<JSObjectRef,
                 std::chrono::time_point<std::chrono::steady_clock> > > TimerVector;
-        
+
+		namespace CPP
+		{
+			class ContextManager;
+		}
+
 		/// The JavaScriptCore javascript engine.
 		class RADJAV_EXPORT JSCJavascriptEngine: public JavascriptEngine
 		{
@@ -315,6 +320,8 @@
 				#ifdef GUI_USE_WXWIDGETS
 					wxCriticalSection *criticalSection;
 				#endif
+				CPP::ContextManager* contextManager;
+
 			protected:
 				template<class T>
 				void initJSCCallback(JSObjectRef parent,

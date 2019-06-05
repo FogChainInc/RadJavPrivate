@@ -128,6 +128,7 @@
 #include <cstring>
 #include <fstream>
 #include "cpp/RadJavCPPAgent.h"
+#include "cpp/RadJavCPPContextManager.h"
 
 //This is here only to bring the mac app to the foreground
 #ifdef __APPLE__
@@ -171,6 +172,8 @@ namespace RadJAV
 		{
 			externalsManager = RJNEW ExternalsManager();
 			
+			contextManager = RJNEW CPP::ContextManager();
+			
 			String execPath = "";
 
             #ifdef GUI_USE_WXWIDGETS
@@ -213,6 +216,8 @@ namespace RadJAV
 		{
 			DELETEOBJ(externalsManager);
 			
+			DELETEOBJ(contextManager);
+
 			destroyJSObjects();
 
 			#ifdef GUI_USE_WXWIDGETS
@@ -383,6 +388,9 @@ namespace RadJAV
 			
 			try
 			{
+				// Run ContextManager messages loop
+				contextManager->run_one();
+				
 				// Handle the on ready function.
 				if (firstRun == true)
 				{
