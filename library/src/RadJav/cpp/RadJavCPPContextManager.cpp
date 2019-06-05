@@ -18,7 +18,7 @@
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include "cpp/RadJavCPPNetNetworkManager.h"
+#include "cpp/RadJavCPPContextManager.h"
 
 #include <algorithm>
 
@@ -26,175 +26,172 @@ namespace RadJAV
 {
 	namespace CPP
 	{
-		namespace Net
+		namespace
 		{
-			namespace
-			{
-				// We can make it configurable from build script
-				///Maximum threads(contexts) to process sockets
-				const int MaxNetworkThreads = 10;
-			}
+			// We can make it configurable from build script
+			///Maximum threads(contexts) to process sockets
+			const int MaxNetworkThreads = 10;
+		}
+		
+		ContextManager::ContextManager()
+		{
+		}
+		
+		ContextManager::~ContextManager()
+		{
+			//Wait until all operations has been finished
+			while(run_one());
 			
-			NetworkManager::NetworkManager()
+			while (_activeContexts.size())
 			{
+				auto contextInfo = _activeContexts.begin();
+				DELETEOBJ(*contextInfo);
+				_activeContexts.erase(contextInfo);
 			}
-			
-			NetworkManager::~NetworkManager()
-			{
-				//Wait until all operations has been finished
-				while(run_one());
-					
-				while (_activeContexts.size())
-				{
-					auto contextInfo = _activeContexts.begin();
-					DELETEOBJ(*contextInfo);
-					_activeContexts.erase(contextInfo);
-				}
 
-				while (_inactiveContexts.size())
-				{
-					auto contextInfo = _inactiveContexts.begin();
-					DELETEOBJ(*contextInfo);
-					_inactiveContexts.erase(contextInfo);
-				}
-			}
-			
-			bool NetworkManager::run_one()
+			while (_inactiveContexts.size())
 			{
-				ContextsInfo contextsToProcess = _activeContexts;
+				auto contextInfo = _inactiveContexts.begin();
+				DELETEOBJ(*contextInfo);
+				_inactiveContexts.erase(contextInfo);
+			}
+		}
+		
+		bool ContextManager::run_one()
+		{
+			ContextsInfo contextsToProcess = _activeContexts;
+			
+			for(auto contextInfo : contextsToProcess)
+			{
+				const bool contextStopped = contextInfo->_context.stopped();
 				
-				for(auto contextInfo : contextsToProcess)
+				if (contextStopped)
 				{
-					const bool contextStopped = contextInfo->_context.stopped();
-					
-					if (contextStopped)
+					if (contextInfo->_requireRestart)
 					{
-						if (contextInfo->_requireRestart)
-						{
-							contextInfo->_context.restart();
-							contextInfo->_requireRestart = false;
-						}
-						else
-						{
-							auto stoppedContext = std::find(_activeContexts.begin(), _activeContexts.end(), contextInfo);
-							if (stoppedContext != _activeContexts.end())
-							{
-								_inactiveContexts.push_back(*stoppedContext);
-								_activeContexts.erase(stoppedContext);
-							}
-							
-							continue;
-						}
+						contextInfo->_context.restart();
+						contextInfo->_requireRestart = false;
 					}
-					
-					// Process outstanding operations
-					try
+					else
 					{
-						contextInfo->_context.poll_one();
-					}
-					catch (boost::system::system_error error)
-					{
-						// Error during context execution
+						auto stoppedContext = std::find(_activeContexts.begin(), _activeContexts.end(), contextInfo);
+						if (stoppedContext != _activeContexts.end())
+						{
+							_inactiveContexts.push_back(*stoppedContext);
+							_activeContexts.erase(stoppedContext);
+						}
+						
+						continue;
 					}
 				}
 				
-				return !_activeContexts.empty();
+				// Process outstanding operations
+				try
+				{
+					contextInfo->_context.poll_one();
+				}
+				catch (boost::system::system_error error)
+				{
+					// Error during context execution
+				}
 			}
 			
-			boost::asio::io_context& NetworkManager::getContext()
+			return !_activeContexts.empty();
+		}
+		
+		boost::asio::io_context& ContextManager::getContext()
+		{
+			// Check if we run out of maximum allowed threads
+			std::size_t contextsSize = _activeContexts.size() + _inactiveContexts.size();
+			if (contextsSize < MaxNetworkThreads)
 			{
-				// Check if we run out of maximum allowed threads
-				std::size_t contextsSize = _activeContexts.size() + _inactiveContexts.size();
-				if (contextsSize < MaxNetworkThreads)
-				{
-					auto newContext = RJNEW ContextInfo();
-					
-					_inactiveContexts.push_back(newContext);
-					
-					return newContext->_context;
-				}
+				auto newContext = RJNEW ContextInfo();
+				
+				_inactiveContexts.push_back(newContext);
+				
+				return newContext->_context;
+			}
 
-				ContextInfo* relaxedContext = nullptr;
+			ContextInfo* relaxedContext = nullptr;
+			
+			if (!_inactiveContexts.empty())
+			{
+				auto ctx = std::min_element(_inactiveContexts.begin(),
+											_inactiveContexts.end(),
+											[](ContextInfo* a, ContextInfo* b)-> bool {
+												return a->_jobs < b->_jobs;
+											});
+				relaxedContext = *ctx;
+			}
+			else
+			{
+				auto ctx = std::min_element(_activeContexts.begin(),
+											_activeContexts.end(),
+											[](ContextInfo* a, ContextInfo* b)-> bool {
+												return a->_jobs < b->_jobs;
+											});
+				relaxedContext = *ctx;
+			}
+			
+			return relaxedContext->_context;
+		}
+		
+		void ContextManager::activateContext(boost::asio::io_context& context)
+		{
+			auto inactiveContext = std::find_if(_inactiveContexts.begin(), _inactiveContexts.end(), [&](ContextInfo* ctx)->bool {
+				return &context == &ctx->_context;
+			});
+			
+			if (inactiveContext != _inactiveContexts.end())
+			{
+				if ((*inactiveContext)->_context.stopped())
+					(*inactiveContext)->_requireRestart = true;
 				
-				if (!_inactiveContexts.empty())
-				{
-					auto ctx = std::min_element(_inactiveContexts.begin(),
+				_activeContexts.push_back(*inactiveContext);
+				_inactiveContexts.erase(inactiveContext);
+				return;
+			}
+			
+			auto activeContext = std::find_if(_activeContexts.begin(), _activeContexts.end(), [&](ContextInfo* ctx)->bool {
+				return &context == &ctx->_context;
+			});
+			
+			if (activeContext != _activeContexts.end())
+			{
+				(*activeContext)->_jobs++;
+			}
+		}
+
+		void ContextManager::contextReleased(boost::asio::io_context& context)
+		{
+			auto inactiveContext = std::find_if(_inactiveContexts.begin(),
 												_inactiveContexts.end(),
-												[](ContextInfo* a, ContextInfo* b)-> bool {
-													return a->_jobs < b->_jobs;
+												[&](ContextInfo* ctx)->bool {
+													return &context == &ctx->_context;
 												});
-					relaxedContext = *ctx;
-				}
-				else
-				{
-					auto ctx = std::min_element(_activeContexts.begin(),
-												_activeContexts.end(),
-												[](ContextInfo* a, ContextInfo* b)-> bool {
-													return a->_jobs < b->_jobs;
-												});
-					relaxedContext = *ctx;
-				}
-				
-				return relaxedContext->_context;
-			}
-			
-			void NetworkManager::activateContext(boost::asio::io_context& context)
+
+			if (inactiveContext != _inactiveContexts.end())
 			{
-				auto inactiveContext = std::find_if(_inactiveContexts.begin(), _inactiveContexts.end(), [&](ContextInfo* ctx)->bool {
-					return &context == &ctx->_context;
-				});
+				unsigned int& jobs = (*inactiveContext)->_jobs;
 				
-				if (inactiveContext != _inactiveContexts.end())
-				{
-					if ((*inactiveContext)->_context.stopped())
-						(*inactiveContext)->_requireRestart = true;
-					
-					_activeContexts.push_back(*inactiveContext);
-					_inactiveContexts.erase(inactiveContext);
-					return;
-				}
+				if (jobs > 0)
+					jobs--;
 				
-				auto activeContext = std::find_if(_activeContexts.begin(), _activeContexts.end(), [&](ContextInfo* ctx)->bool {
-					return &context == &ctx->_context;
-				});
-				
-				if (activeContext != _activeContexts.end())
-				{
-					(*activeContext)->_jobs++;
-				}
+				return;
 			}
 
-			void NetworkManager::contextReleased(boost::asio::io_context& context)
+			auto activeContext = std::find_if(_activeContexts.begin(),
+											  _activeContexts.end(),
+											  [&](ContextInfo* ctx)->bool {
+												  return &context == &ctx->_context;
+											  });
+
+			if (activeContext != _activeContexts.end())
 			{
-				auto inactiveContext = std::find_if(_inactiveContexts.begin(),
-													_inactiveContexts.end(),
-													[&](ContextInfo* ctx)->bool {
-														return &context == &ctx->_context;
-													});
-
-				if (inactiveContext != _inactiveContexts.end())
-				{
-					unsigned int& jobs = (*inactiveContext)->_jobs;
-					
-					if (jobs > 0)
-						jobs--;
-					
-					return;
-				}
-
-				auto activeContext = std::find_if(_activeContexts.begin(),
-												  _activeContexts.end(),
-												  [&](ContextInfo* ctx)->bool {
-													  return &context == &ctx->_context;
-												  });
-
-				if (activeContext != _activeContexts.end())
-				{
-					unsigned int& jobs = (*activeContext)->_jobs;
-					
-					if (jobs > 0)
-						jobs--;
-				}
+				unsigned int& jobs = (*activeContext)->_jobs;
+				
+				if (jobs > 0)
+					jobs--;
 			}
 		}
 	}

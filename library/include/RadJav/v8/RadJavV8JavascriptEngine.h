@@ -127,10 +127,7 @@
 		#ifdef NET_ON
 			namespace CPP
 			{
-				namespace Net
-				{
-					class NetworkManager;
-				}
+				class ContextManager;
 			}
 		#endif
 
@@ -302,7 +299,7 @@
 					wxCriticalSection *criticalSection;
 				#endif
 				#ifdef NET_ON
-					CPP::Net::NetworkManager* networkManager;
+					CPP::ContextManager* contextManager;
 				#endif
 
 			protected:

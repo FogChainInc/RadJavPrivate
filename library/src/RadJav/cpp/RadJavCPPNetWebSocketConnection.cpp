@@ -21,7 +21,7 @@
 
 #include "RadJav.h"
 #include "RadJavString.h"
-#include "cpp/RadJavCPPNetNetworkManager.h"
+#include "cpp/RadJavCPPContextManager.h"
 #include "cpp/RadJavCPPNetHttpConnection.h"
 
 #include <boost/beast/websocket.hpp>
@@ -48,18 +48,18 @@ namespace RadJAV
 					ClosingDueToError
 				};
 			public:
-				WebSocketConnectionImpl(NetworkManager& networkManager)
-				: _networkManager(networkManager)
-				, _context(_networkManager.getContext())
+				WebSocketConnectionImpl(ContextManager& contextManager)
+				: _contextManager(contextManager)
+				, _context(_contextManager.getContext())
 				, _resolver(_context)
 				, _webSocket(_context)
 				, _state(State::Idle)
 				{
 				}
 				
-				WebSocketConnectionImpl(NetworkManager& networkManager,
+				WebSocketConnectionImpl(ContextManager& contextManager,
 										boost::asio::ip::tcp::socket&& socket)
-				: _networkManager(networkManager)
+				: _contextManager(contextManager)
 				, _context(socket.get_io_context())
 				, _resolver(_context)
 				, _webSocket(std::move(socket))
@@ -99,7 +99,7 @@ namespace RadJAV
 					
 					_state = State::ResolvingHost;
 					
-					_networkManager.activateContext(_context);
+					_contextManager.activateContext(_context);
 				}
 				
 				void accept(const http::request<http::string_body>& request)
@@ -115,7 +115,7 @@ namespace RadJAV
 
 					_state = State::Handshaking;
 					
-					_networkManager.activateContext(_context);
+					_contextManager.activateContext(_context);
 				}
 
 				void send(const std::string& data)
@@ -431,7 +431,7 @@ namespace RadJAV
 				
 				void notifyOnClosed()
 				{
-					_networkManager.contextReleased(_context);
+					_contextManager.contextReleased(_context);
 					
 					if (_onClosed)
 						_onClosed();
@@ -439,7 +439,7 @@ namespace RadJAV
 				
 				void notifyOnError(const boost::system::error_code& errorCode)
 				{
-					_networkManager.contextReleased(_context);
+					_contextManager.contextReleased(_context);
 					
 					if (_onError)
 						_onError(errorCode.value(), errorCode.message());
@@ -452,7 +452,7 @@ namespace RadJAV
 				std::function<void(const unsigned char*, std::size_t)> _onReadBinary;
 				std::function<void(int, const std::string&)> _onError;
 				
-				NetworkManager& _networkManager;
+				ContextManager& _contextManager;
 				boost::asio::io_context& _context;
 				boost::asio::ip::tcp::resolver _resolver;
 				boost::beast::websocket::stream<boost::asio::ip::tcp::socket> _webSocket;
@@ -468,32 +468,32 @@ namespace RadJAV
 
 			#ifdef USE_V8
 				WebSocketConnection::WebSocketConnection(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
-				: _networkManager(*jsEngine->networkManager)
+				: _contextManager(*jsEngine->contextManager)
 				{
 					_autoFragmentMessages = true;
 				}
 			#elif defined USE_JAVASCRIPTCORE
 				WebSocketConnection::WebSocketConnection(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[])
-				: _networkManager(*jsEngine->networkManager)
+				: _contextManager(*jsEngine->contextManager)
 				{
 					_autoFragmentMessages = true;
 				}
 			#endif
 
-			WebSocketConnection::WebSocketConnection(NetworkManager& networkManager)
-			: _networkManager(networkManager)
+			WebSocketConnection::WebSocketConnection(ContextManager& contextManager)
+			: _contextManager(contextManager)
 			{
 				_autoFragmentMessages = true;
 			}
 			
-			WebSocketConnection::WebSocketConnection(NetworkManager& networkManager,
+			WebSocketConnection::WebSocketConnection(ContextManager& contextManager,
 													 boost::asio::ip::tcp::socket&& socket,
 													 const http::request<http::string_body>& request)
-			: _networkManager(networkManager)
+			: _contextManager(contextManager)
 			{
 				_autoFragmentMessages = true;
 				
-				auto impl = std::make_shared<WebSocketConnectionImpl>(_networkManager, std::move(socket));
+				auto impl = std::make_shared<WebSocketConnectionImpl>(_contextManager, std::move(socket));
 				_impl = impl;
 				
 				impl->onConnected(std::bind(&WebSocketConnection::onConnectedCallback, this));
@@ -533,7 +533,7 @@ namespace RadJAV
 					boost::asio::ip::tcp::socket* socket = connection->getSocket();
 					if (socket)
 					{
-						auto webSocketConnection = RJNEW WebSocketConnection(connection->getNetworkManager(),
+						auto webSocketConnection = RJNEW WebSocketConnection(connection->getContextManager(),
 																			 std::move(*socket),
 																			 request);
 						connection->upgradeHandled();
@@ -579,7 +579,7 @@ namespace RadJAV
 				if (_impl.lock())
 					return;
 				
-				auto impl = std::make_shared<WebSocketConnectionImpl>(_networkManager);
+				auto impl = std::make_shared<WebSocketConnectionImpl>(_contextManager);
 				_impl = impl;
 				
 				impl->onConnected(std::bind(&WebSocketConnection::onConnectedCallback, this));

@@ -18,7 +18,7 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 #include "cpp/RadJavCPPNetWebServer.h"
-#include "cpp/RadJavCPPNetNetworkManager.h"
+#include "cpp/RadJavCPPContextManager.h"
 #include "cpp/RadJavCPPNetHttpConnection.h"
 
 #include "RadJav.h"
@@ -190,9 +190,9 @@ namespace RadJAV
 			class HttpConnectionListener : public std::enable_shared_from_this<HttpConnectionListener>
 			{
 			public:
-				HttpConnectionListener(int maxPendingConnections, NetworkManager& networkManager)
-				: _networkManager(networkManager)
-				, _acceptor(_networkManager.getContext())
+				HttpConnectionListener(int maxPendingConnections, ContextManager& contextManager)
+				: _contextManager(contextManager)
+				, _acceptor(_contextManager.getContext())
 				{
 					_maxPendingConnections = maxPendingConnections;
 					_shutdown = false;
@@ -200,7 +200,7 @@ namespace RadJAV
 				
 				~HttpConnectionListener()
 				{
-					_networkManager.contextReleased(_acceptor.get_io_context());
+					_contextManager.contextReleased(_acceptor.get_io_context());
 
 					if (_errorCode.value())
 					{
@@ -276,14 +276,14 @@ namespace RadJAV
 						return;
 					}
 					
-					_acceptor.async_accept(_networkManager.getContext(),
+					_acceptor.async_accept(_contextManager.getContext(),
 										   _peerEndpoint,
 										   std::bind(&HttpConnectionListener::onConnectionCallback,
 													 shared_from_this(),
 													 std::placeholders::_1,
 													 std::placeholders::_2));
 					
-					_networkManager.activateContext(_acceptor.get_io_context());
+					_contextManager.activateContext(_acceptor.get_io_context());
 				}
 				
 				void stop()
@@ -327,11 +327,11 @@ namespace RadJAV
 						return;
 					}
 
-					auto connection = std::make_shared<HttpConnection>(_networkManager, std::move(peer));
+					auto connection = std::make_shared<HttpConnection>(_contextManager, std::move(peer));
 					notifyOnConnection(connection);
 					
 					// Accept another connection
-					_acceptor.async_accept(_networkManager.getContext(),
+					_acceptor.async_accept(_contextManager.getContext(),
 										   _peerEndpoint,
 										   std::bind(&HttpConnectionListener::onConnectionCallback,
 													 shared_from_this(),
@@ -362,7 +362,7 @@ namespace RadJAV
 				std::function<void(void)> _onStop;
 				std::function<void(int, const std::string&)> _onError;
 
-				NetworkManager& _networkManager;
+				ContextManager& _contextManager;
 				boost::asio::ip::tcp::acceptor _acceptor;
 				boost::system::error_code _errorCode;
 				
@@ -373,20 +373,20 @@ namespace RadJAV
 
 			#ifdef USE_V8
 				WebServer::WebServer(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
-				: _networkManager(*jsEngine->networkManager)
+				: _contextManager(*jsEngine->contextManager)
 				, _port(80)
 				, _maxPendingConnections(-1)
 				{}
 			#elif defined USE_JAVASCRIPTCORE
 				WebServer::WebServer(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[])
-				: _networkManager(*jsEngine->networkManager)
+				: _contextManager(*jsEngine->contextManager)
 				, _port(80)
 				, _maxPendingConnections(-1)
 				{}
 			#endif
 
-			WebServer::WebServer(int maxPendingConnections, NetworkManager& networkManager)
-			: _networkManager(networkManager)
+			WebServer::WebServer(int maxPendingConnections, ContextManager& contextManager)
+			: _contextManager(contextManager)
 			, _port(80)
 			, _maxPendingConnections(maxPendingConnections)
 			{
@@ -420,7 +420,7 @@ namespace RadJAV
 				if (_listener.lock())
 					return;
 				
-				auto listener = std::make_shared<HttpConnectionListener>(_maxPendingConnections, _networkManager);
+				auto listener = std::make_shared<HttpConnectionListener>(_maxPendingConnections, _contextManager);
 				_listener = listener;
 				
 				listener->start(address,

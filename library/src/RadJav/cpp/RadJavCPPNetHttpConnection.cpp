@@ -18,7 +18,7 @@
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 #include "cpp/RadJavCPPNetHttpConnection.h"
-#include "cpp/RadJavCPPNetNetworkManager.h"
+#include "cpp/RadJavCPPContextManager.h"
 
 #include "RadJav.h"
 
@@ -38,10 +38,10 @@ namespace RadJAV
 			class HttpConnectionImpl : public std::enable_shared_from_this<HttpConnectionImpl>
 			{
 			public:
-				HttpConnectionImpl(NetworkManager& networkManager,
+				HttpConnectionImpl(ContextManager& contextManager,
 								   boost::asio::ip::tcp::socket&& socket,
 								   int timeoutInMilliseconds)
-				: _networkManager(networkManager)
+				: _contextManager(contextManager)
 				, _socket(std::move(socket))
 				, _inactivityTimer(_socket.get_io_context())
 				{
@@ -52,7 +52,7 @@ namespace RadJAV
 				
 				~HttpConnectionImpl()
 				{
-					_networkManager.contextReleased(_socket.get_io_context());
+					_contextManager.contextReleased(_socket.get_io_context());
 					
 					int ec = _errorCode.value();
 					if (ec == 0)
@@ -89,7 +89,7 @@ namespace RadJAV
 					
 					startTimeout(_connectionTimeout);
 					
-					_networkManager.activateContext(_socket.get_io_context());
+					_contextManager.activateContext(_socket.get_io_context());
 				}
 				
 				void close()
@@ -342,7 +342,7 @@ namespace RadJAV
 				std::function<void(void)> _onUpgraded;
 				std::function<void(int, const std::string&)> _onError;
 				
-				NetworkManager& _networkManager;
+				ContextManager& _contextManager;
 				boost::asio::ip::tcp::socket _socket;
 				http::request<http::string_body> _request;
 				http::response<http::string_body> _response;
@@ -354,12 +354,12 @@ namespace RadJAV
 				bool _upgradeRequested;
 			};
 			
-			HttpConnection::HttpConnection(NetworkManager& networkManager,
+			HttpConnection::HttpConnection(ContextManager& contextManager,
 										   boost::asio::ip::tcp::socket&& socket,
 										   int timeoutInMilliseconds)
-			: _networkManager(networkManager)
+			: _contextManager(contextManager)
 			{
-				auto impl = std::make_shared<HttpConnectionImpl>(_networkManager, std::move(socket), timeoutInMilliseconds);
+				auto impl = std::make_shared<HttpConnectionImpl>(_contextManager, std::move(socket), timeoutInMilliseconds);
 				_impl = impl;
 				
 				impl->onRequest(std::bind(&HttpConnection::onRequestCallback, this,
@@ -436,9 +436,9 @@ namespace RadJAV
 				}
 			#endif
 			
-			NetworkManager& HttpConnection::getNetworkManager()
+			ContextManager& HttpConnection::getContextManager()
 			{
-				return _networkManager;
+				return _contextManager;
 			}
 			
 			void HttpConnection::clearCallbacks()

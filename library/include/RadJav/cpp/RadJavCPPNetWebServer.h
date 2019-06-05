@@ -57,9 +57,9 @@
 						/**
 						 * @brief A constructor
 						 * @param[in] maxPendingConnections maximum size of queue of pending connections. Negative for unlimited size.
-						 * @param[in] networkManager network manager to be used for handling contexts
+						 * @param[in] contextManager context manager to be used for handling contexts
 						 */
-						WebServer(int maxPendingConnections, NetworkManager& networkManager);
+						WebServer(int maxPendingConnections, ContextManager& contextManager);
 
 						/**
 						 * @brief A destructor
@@ -145,7 +145,7 @@
 						std::function<void(void)> _onStop;
 						std::function<void(int, const std::string&)> _onError;
 					
-						NetworkManager& _networkManager;
+						ContextManager& _contextManager;
 						std::string _address;
 						unsigned short _port;
 						int _maxPendingConnections;

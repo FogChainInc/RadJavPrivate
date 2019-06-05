@@ -46,7 +46,7 @@ namespace RadJAV
 			public:
 				//TODO: make HttpConnection act like an HttpRequest
 				
-				HttpConnection(NetworkManager& networkManager,
+				HttpConnection(ContextManager& contextManager,
 							   boost::asio::ip::tcp::socket&& socket,
 							   int timeoutInMilliseconds = 5000);
 
@@ -70,7 +70,7 @@ namespace RadJAV
 					void on(String event, RJ_FUNC_TYPE func);
 				#endif
 				
-				NetworkManager& getNetworkManager();
+				ContextManager& getContextManager();
 				
 				void clearCallbacks();
 				
@@ -100,7 +100,7 @@ namespace RadJAV
 				std::function<void(HttpConnection&,
 								   int, const std::string&)> _onError;
 				
-				NetworkManager& _networkManager;
+				ContextManager& _contextManager;
 				std::weak_ptr<HttpConnectionImpl> _impl;
 			};
 		}

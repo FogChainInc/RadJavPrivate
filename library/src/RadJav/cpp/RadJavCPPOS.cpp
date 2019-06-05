@@ -260,9 +260,9 @@ namespace RadJAV
 		class OS::SystemProcessImpl : public std::enable_shared_from_this<OS::SystemProcessImpl>
 		{
 		public:
-			SystemProcessImpl(Net::NetworkManager& networkManager)
-			: _networkManager(networkManager)
-			  , _context(_networkManager.getContext())
+			SystemProcessImpl(ContextManager& contextManager)
+			: _contextManager(contextManager)
+			  , _context(_contextManager.getContext())
 			  , _pipe(_context)
 			{
 				_exitCode = 0;
@@ -283,7 +283,7 @@ namespace RadJAV
 					}
 					else if (_onExit)
 					{
-						_networkManager.contextReleased(_context);
+						_contextManager.contextReleased(_context);
 						_onExit(_exitCode);
 					}
 				}
@@ -323,7 +323,7 @@ namespace RadJAV
 
 				doRead();
 
-				_networkManager.activateContext(_context);
+				_contextManager.activateContext(_context);
 				
 			}
 			
@@ -389,7 +389,7 @@ namespace RadJAV
 			std::function<void(const String&)> _onOutput;
 			std::function<void(RJINT)> _onExit;
 			
-			Net::NetworkManager& _networkManager;
+			ContextManager& _contextManager;
 			boost::asio::io_context& _context;
 			boost::process::async_pipe _pipe;
 			boost::process::child *_child;
@@ -400,16 +400,16 @@ namespace RadJAV
 		};
 		
 		OS::SystemProcess::SystemProcess(const String& command,
-										 Net::NetworkManager& networkManager)
-		: _networkManager(networkManager)
+										 ContextManager& contextManager)
+		: _contextManager(contextManager)
 		{
 			this->command = command;
 		}
 
 		OS::SystemProcess::SystemProcess(const String& command,
 										 const Array<String>& args,
-										 Net::NetworkManager& networkManager)
-		: _networkManager(networkManager)
+										 ContextManager& contextManager)
+		: _contextManager(contextManager)
 		{
 			this->command = command;
 			this->args = args;
@@ -417,7 +417,7 @@ namespace RadJAV
 
 		#ifdef USE_V8
 			OS::SystemProcess::SystemProcess(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args)
-			: _networkManager(*jsEngine->networkManager)
+			: _contextManager(*jsEngine->contextManager)
 			{
 				command = V8_JAVASCRIPT_ENGINE->v8GetString(args.This(), "command");
 				v8::Local<v8::Object> argsObj = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "args");
@@ -432,7 +432,7 @@ namespace RadJAV
 			}
 		#elif defined USE_JAVASCRIPTCORE
 			OS::SystemProcess::SystemProcess(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[])
-			: _networkManager(*jsEngine->networkManager)
+			: _contextManager(*jsEngine->contextManager)
 			{
 				/// @todo Fill this out.
 			}
@@ -457,7 +457,7 @@ namespace RadJAV
 			if (_impl.lock())
 				return;
 			
-			auto impl = std::make_shared<SystemProcessImpl>(_networkManager);
+			auto impl = std::make_shared<SystemProcessImpl>(_contextManager);
 
 			_impl = impl;
 

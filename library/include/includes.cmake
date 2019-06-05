@@ -420,7 +420,8 @@ set (SOURCES_files_RadJav__cpp__Global__Headers
 	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPThread.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPChainedPtr.h"
 	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPPersistent.h"
-	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPEvent.h")
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPEvent.h"
+	"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPContextManager.h")
 source_group ("RadJav\\CPP\\Global" FILES ${SOURCES_files_RadJav__cpp__Global__Headers})
 
 set (SOURCES ${SOURCES_files_RadJav__cpp__Global__Headers} ${SOURCES})
@@ -451,7 +452,6 @@ if (USE_V8)
 	# C++ Networking
 	if (libRadJav_ALLOW_NETWORKING)
 		set (SOURCES_files_RadJav__cpp__Net__Headers 
-			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetNetworkManager.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetUriParser.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNet.h"
 			"${libRadJav_SOURCE_DIR}/include/RadJav/cpp/RadJavCPPNetHttpRequest.h"

@@ -24,7 +24,7 @@
 	#include "RadJavString.h"
 	#include "RadJavArray.h"
 	#include "RadJavHashMap.h"
-	#include "RadJavCPPNetNetworkManager.h"
+	#include "RadJavCPPContextManager.h"
 	#include "RadJavCPPEvent.h"
 
 	#include <functional>
@@ -52,10 +52,10 @@
 				{
 					public:
 						SystemProcess(const String& command,
-									  Net::NetworkManager& networkManager);
+									  ContextManager& contextManager);
 						SystemProcess(const String& command,
 									  const Array<String>& args,
-									  Net::NetworkManager& networkManager);
+									  ContextManager& contextManager);
 						#ifdef USE_V8
 							SystemProcess(V8JavascriptEngine *jsEngine, const v8::FunctionCallbackInfo<v8::Value> &args);
 						#elif defined USE_JAVASCRIPTCORE
@@ -100,7 +100,7 @@
 						/// The collected output.
 						//String output;
 
-						Net::NetworkManager& _networkManager;
+						ContextManager& _contextManager;
 
 						std::weak_ptr<SystemProcessImpl> _impl;
 					

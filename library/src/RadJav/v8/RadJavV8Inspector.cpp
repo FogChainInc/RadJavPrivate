@@ -49,13 +49,13 @@ namespace RadJAV
 			return (msgBuffer);
 		}
 		
-		void networkThreadFunc(CPP::Net::NetworkManager* networkManager)
+		void networkThreadFunc(CPP::ContextManager* contextManager)
 		{
-			if (networkManager)
+			if (contextManager)
 			{
 				// Run network processing here until there is
 				// nothing to do (no active contexts with pending operations)
-				while(networkManager->run_one())
+				while(contextManager->run_one())
 				{
 					// Just make it not eat too much of CPU
 					CPP::OS::sleep(1);
@@ -95,7 +95,7 @@ namespace RadJAV
 		//context->SetAlignedPointerInEmbedderData(kInspectorClientIndex, this);
 		inspector->contextCreated(v8_inspector::V8ContextInfo(context, 1, v8_inspector::StringView()));
 
-		server = RJNEW CPP::Net::WebServer(3, networkManager);
+		server = RJNEW CPP::Net::WebServer(3, contextManager);
 		server->onProcess(std::bind(&V8Inspector::onServerProcessCallback, this,
 									std::placeholders::_1,
 									std::placeholders::_2));
@@ -115,7 +115,7 @@ namespace RadJAV
 
 		// Start execution of network part separate from main one
 		// Incoming messages will be posted to frontendPendingMessages queue
-		networkThread = std::thread(networkThreadFunc, &networkManager);
+		networkThread = std::thread(networkThreadFunc, &contextManager);
 	}
 
 	void V8Inspector::close()

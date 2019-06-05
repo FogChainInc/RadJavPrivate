@@ -31,7 +31,7 @@
 	#include "RadJavString.h"
 	#include "RadJavArray.h"
 	#include "RadJavHashMap.h"
-	#include "cpp/RadJavCPPNetNetworkManager.h"
+	#include "cpp/RadJavCPPContextManager.h"
 
 	#include <queue>
 	#include <mutex>
@@ -186,7 +186,7 @@
 			protected:
 				RJBOOL isPaused;
 				CPP::Net::WebServer *server;
-				CPP::Net::NetworkManager networkManager;
+				CPP::ContextManager contextManager;
 				CPP::Net::WebSocketConnection *webSocketConnection;
 				v8::Isolate *isolate;
 				v8::Local<v8::Context> context;

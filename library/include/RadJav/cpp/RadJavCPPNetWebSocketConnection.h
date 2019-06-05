@@ -54,9 +54,9 @@ namespace RadJAV
 				/**
 				 * @brief A constructor
 				 * @details Construct new instance of WebSocketConnection
-				 * @param[in] networkManager the reference to NetworkManager which handle ASIO contexts
+				 * @param[in] contextManager the reference to ContextManager which handle ASIO contexts
 				 */
-				WebSocketConnection(NetworkManager& networkManager);
+				WebSocketConnection(ContextManager& contextManager);
 				
 				/**
 				 * @brief A destructor
@@ -174,7 +174,7 @@ namespace RadJAV
 				bool getAutoFragmentMessages() const;
 
 			private:
-				WebSocketConnection(NetworkManager& networkManager,
+				WebSocketConnection(ContextManager& contextManager,
 									boost::asio::ip::tcp::socket&& socket,
 									const boost::beast::http::request<boost::beast::http::string_body>& request);
 				
@@ -193,7 +193,7 @@ namespace RadJAV
 
 				std::weak_ptr<WebSocketConnectionImpl> _impl;
 				URI _uri;
-				NetworkManager& _networkManager;
+				ContextManager& _contextManager;
 				bool _autoFragmentMessages;
 			};
 		}

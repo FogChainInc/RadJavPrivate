@@ -145,7 +145,7 @@
 #include "cpp/RadJavCPPAgent.h"
 
 #ifdef NET_ON
-	#include "cpp/RadJavCPPNetNetworkManager.h"
+	#include "cpp/RadJavCPPContextManager.h"
 #endif
 
 #ifdef USE_ANDROID
@@ -278,7 +278,7 @@ namespace RadJAV
 			externalsManager = RJNEW ExternalsManager();
 			
 			#ifdef NET_ON
-				networkManager = RJNEW CPP::Net::NetworkManager();
+				contextManager = RJNEW CPP::ContextManager();
 			#endif
 			
 			String execPath = "";
@@ -363,7 +363,7 @@ namespace RadJAV
 			arrayBufferAllocator = nullptr;
 
 			#ifdef NET_ON
-				DELETEOBJ(networkManager);
+				DELETEOBJ(contextManager);
 			#endif
 
 			DELETEOBJ(radJav);
@@ -626,8 +626,8 @@ namespace RadJAV
 			try
 			{
 				#ifdef NET_ON
-					// Run NetworkManager messages loop
-					networkManager->run_one();
+					// Run ContextManager messages loop
+					contextManager->run_one();
 				#endif
 				
 				// Run V8 messages loop
