@@ -124,12 +124,10 @@
 		// Forward declarations
 		class JsVirtualMachine;
 
-		#ifdef NET_ON
-			namespace CPP
-			{
-				class ContextManager;
-			}
-		#endif
+		namespace CPP
+		{
+			class ContextManager;
+		}
 
 		/// The V8 javascript engine.
 		class RADJAV_EXPORT V8JavascriptEngine: public JavascriptEngine
@@ -298,9 +296,7 @@
 				#ifdef GUI_USE_WXWIDGETS
 					wxCriticalSection *criticalSection;
 				#endif
-				#ifdef NET_ON
-					CPP::ContextManager* contextManager;
-				#endif
+				CPP::ContextManager* contextManager;
 
 			protected:
 				template<class T>
