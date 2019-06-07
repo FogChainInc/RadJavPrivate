@@ -17,8 +17,8 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#ifndef _RADJAV_GUI_V8_NET_WEBSERVER_H_
-#define _RADJAV_GUI_V8_NET_WEBSERVER_H_
+#ifndef _RADJAV_JSC_NET_WEBSERVER_H_
+#define _RADJAV_JSC_NET_WEBSERVER_H_
 
 #include "RadJavPreprocessor.h"
 #include <JavaScriptCore/JavaScriptCore.h>
@@ -37,13 +37,12 @@ namespace RadJAV
 			class RADJAV_EXPORT WebServer
 			{
 			public:
-				static void createV8Callbacks(JSContextRef context, JSObjectRef object);
-				
-				static JSValueRef _init(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
-				static JSValueRef listen(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
-				static JSValueRef serve(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+				static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
+
+				static JSValueRef init(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+				static JSValueRef start(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
 				static JSValueRef stop(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
-				
+
 				static JSValueRef on(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
 			};
 		}

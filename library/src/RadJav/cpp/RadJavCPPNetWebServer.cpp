@@ -183,7 +183,148 @@ namespace RadJAV
 				}
 
 				#elif defined USE_JAVASCRIPTCORE
-					#pragma message ("Missing implementation of requestToJSHttpIncomingMessage and webServerResponseToCppResponse for JSC")
+				JSObjectRef requestToJSHttpIncomingMessage(const boost::beast::http::request<boost::beast::http::string_body>& request,
+														   bool upgradeRequest = false)
+				{
+					JSObjectRef httpMsgObj = JSC_JAVASCRIPT_ENGINE->jscCreateNewObject("RadJav.Net.HttpIncomingMessage");
+					
+					JSC_JAVASCRIPT_ENGINE->jscSetString(httpMsgObj,
+														"method",
+														{request.method_string().data(), request.method_string().size()});
+
+					JSC_JAVASCRIPT_ENGINE->jscSetString(httpMsgObj,
+														"url",
+														{request.target().data(), request.target().size()});
+
+					auto versionMajor = request.version()/10;
+					auto versionMinor = request.version()%10;
+					
+					std::ostringstream version;
+					version << versionMajor << "." << versionMinor;
+					
+					JSC_JAVASCRIPT_ENGINE->jscSetString(httpMsgObj, "httpVersion", version.str());
+					JSC_JAVASCRIPT_ENGINE->jscSetNumber(httpMsgObj, "httpVersionMajor", versionMajor);
+					JSC_JAVASCRIPT_ENGINE->jscSetNumber(httpMsgObj, "httpVersionMinor", versionMinor);
+					
+					JSObjectRef headersObj = JSC_JAVASCRIPT_ENGINE->jscCreateNewObject("Object");
+					
+					String headerName;
+					for(const auto& field: request)
+					{
+						headerName = {field.name_string().data(), field.name_string().size()};
+						JSC_JAVASCRIPT_ENGINE->jscSetString(headersObj,
+															headerName.toLowerCase(),
+															{field.value().data(), field.value().size()});
+					}
+					
+					JSC_JAVASCRIPT_ENGINE->jscSetObject(httpMsgObj, "headers", headersObj);
+					
+					auto payloadSize = request.payload_size();
+					if (payloadSize)
+					{
+						auto size = payloadSize.value();
+						
+						if (size)
+						{
+							auto data = RJNEW unsigned char[size];
+							std::memcpy(data, request.body().data(), size);
+							
+							auto dataDeallocator = [](void* bytes, void* deallocatorContext) {
+								unsigned char* data = static_cast<unsigned char*>(bytes);
+								if (data)
+								{
+									DELETEARRAY(data);
+								}
+							};
+							
+							JSObjectRef dataArrayObj = JSObjectMakeArrayBufferWithBytesNoCopy(JSC_JAVASCRIPT_ENGINE->globalContext,
+																							  data, size, dataDeallocator, nullptr, nullptr);
+
+							JSC_JAVASCRIPT_ENGINE->jscSetObject(httpMsgObj, "payload", dataArrayObj);
+						}
+					}
+					
+					// Just store request and disable delete on it
+					// It will only be used for creating WebSocketConnection from HttpConnection
+					if (upgradeRequest)
+					{
+						std::shared_ptr<boost::beast::http::request<boost::beast::http::string_body>> requestCopy(RJNEW boost::beast::http::request<boost::beast::http::string_body>(request),
+																												  [](boost::beast::http::request<boost::beast::http::string_body>* obj) {
+																													  DELETEOBJ(obj);
+																												  });
+						
+						JSC_JAVASCRIPT_ENGINE->jscSetExternal(JSC_JAVASCRIPT_ENGINE->globalContext, httpMsgObj, "_appObj", requestCopy);
+					}
+					
+					return httpMsgObj;
+				}
+				
+				bool webServerResponseToCppResponse(JSObjectRef httpResponseObj,
+													boost::beast::http::response<boost::beast::http::string_body>& response)
+				{
+					JSContextRef ctx = JSC_JAVASCRIPT_ENGINE->globalContext;
+					
+					RJINT statusCode = JSC_JAVASCRIPT_ENGINE->jscGetInt(httpResponseObj, "statusCode");
+					auto status = boost::beast::http::int_to_status(statusCode);
+					
+					if (status == boost::beast::http::status::unknown)
+						return false;
+					
+					RJINT httpVersionMajor = JSC_JAVASCRIPT_ENGINE->jscGetInt(httpResponseObj, "httpVersionMajor");
+					RJINT httpVersionMinor = JSC_JAVASCRIPT_ENGINE->jscGetInt(httpResponseObj, "httpVersionMinor");
+					
+					int httpVersion = httpVersionMajor*10 + httpVersionMinor;
+					if (httpVersion > 100 ||
+						httpVersion < 10)
+					{
+						return false;
+					}
+					
+					response = {status, httpVersion};
+					
+					String statusMessage = JSC_JAVASCRIPT_ENGINE->jscGetString(httpResponseObj, "statusMessage");
+					if (!statusMessage.empty())
+					{
+						response.base().reason(statusMessage);
+					}
+					
+					auto headersJS = JSC_JAVASCRIPT_ENGINE->jscGetObject(httpResponseObj, "headers");
+					auto properties = JSC_JAVASCRIPT_ENGINE->jscGetObjectPropertyNames(headersJS);
+					for (auto name : properties)
+					{
+						auto propertyValueJs = JSC_JAVASCRIPT_ENGINE->jscGetObject(headersJS, name);
+						
+						if (JSValueIsString(ctx, propertyValueJs))
+						{
+							String value = parseJSCValue(ctx, propertyValueJs);
+							response.set(name, value);
+						}
+						else if (JSValueIsArray(ctx, propertyValueJs))
+						{
+							RJINT arraySize = JSC_JAVASCRIPT_ENGINE->jscGetInt(propertyValueJs, "length");
+							
+							for (size_t i = 0; i < arraySize; i++)
+							{
+								JSValueRef valueJs = JSObjectGetPropertyAtIndex(ctx, propertyValueJs, i, nullptr);
+								if (JSValueIsString(ctx, valueJs))
+								{
+									response.insert(name, parseJSCValue(ctx, valueJs));
+								}
+							}
+						}
+					}
+					
+					auto payloadJs = JSC_JAVASCRIPT_ENGINE->jscGetValue(httpResponseObj, "payload");
+					String data = JSC_JAVASCRIPT_ENGINE->jscGetArgumentAsString(ctx, &payloadJs, 1, 0);
+					
+					if (!data.empty())
+					{
+						response.body() = data;
+						response.prepare_payload();
+					}
+					
+					return true;
+				}
 				#endif
 			}
 			
@@ -529,9 +670,11 @@ namespace RadJAV
 					executeEvent("error", 2, args);
 				
 				#elif defined USE_JAVASCRIPTCORE
-					#pragma message("Missing implementation of WebServer.error callback for JSC")
-					//TODO: add JSC implementation
-					//executeEvent("error", description);
+					JSValueRef args[2];
+					args[0] = JSValueMakeNumber(JSC_JAVASCRIPT_ENGINE->globalContext, errorCode);
+					args[1] = String(description).toJSCValue(JSC_JAVASCRIPT_ENGINE->globalContext);
+				
+					executeEvent("error", 2, args);
 				#endif
 			}
 			
@@ -547,7 +690,6 @@ namespace RadJAV
 					return;
 				}
 				
-				#pragma message("Missing implementation of onHttpRequestCallback for Javascript")
 				#ifdef USE_V8
 					auto httpMsgObj = requestToJSHttpIncomingMessage(request);
 				
@@ -566,7 +708,21 @@ namespace RadJAV
 					}
 				
 				#elif defined USE_JAVASCRIPTCORE
-					executeEvent("process");
+					auto httpMsgObj = requestToJSHttpIncomingMessage(request);
+				
+					auto httpResponseObj = JSC_JAVASCRIPT_ENGINE->jscCreateNewObject("RadJav.Net.WebServerResponse");
+				
+					JSValueRef args[2];
+					args[0] = httpMsgObj;
+					args[1] = httpResponseObj;
+				
+					executeEvent("process", 2, args);
+				
+					if (!webServerResponseToCppResponse(httpResponseObj, response))
+					{
+						response = {boost::beast::http::status::internal_server_error, request.version()};
+						return;
+					}
 				#endif
 			}
 			
@@ -601,8 +757,23 @@ namespace RadJAV
 					executeEvent("upgrade", 2, args);
 				
 				#elif defined USE_JAVASCRIPTCORE
-					#pragma message("Missing implementation of WebServer.upgrade callback for JSC")
-					executeEvent("upgrade");
+					auto httpMsgObj = requestToJSHttpIncomingMessage(request, true);
+				
+					auto httpConnectionObj = JSC_JAVASCRIPT_ENGINE->jscCreateNewObject("RadJav.Net.HttpConnection");
+				
+					// Do not allow removal of HttpConnection when GC do it's work
+					// HttpConnection will be freed after completed request
+					std::shared_ptr<HttpConnection> connectionPtr(&connection,
+															  	[](HttpConnection* p) {
+															  	});
+				
+					JSC_JAVASCRIPT_ENGINE->jscSetExternal(JSC_JAVASCRIPT_ENGINE->globalContext, httpConnectionObj, "_appObj", connectionPtr);
+				
+					JSValueRef args[2];
+					args[0] = httpConnectionObj;
+					args[1] = httpMsgObj;
+				
+					executeEvent("upgrade", 2, args);
 				#endif
 			}
 

@@ -177,5 +177,86 @@ namespace RadJAV
 
             return (path.toJSCValue(context));
         }
+
+		void OS::SystemProcess::createJSCCallbacks(JSContextRef context, JSObjectRef object)
+		{
+			JSC_CALLBACK(object, "_init", OS::SystemProcess::_init);
+			JSC_CALLBACK(object, "execute", OS::SystemProcess::execute);
+			JSC_CALLBACK(object, "kill", OS::SystemProcess::kill);
+			JSC_CALLBACK(object, "on", OS::SystemProcess::on);
+		}
+		
+		JSValueRef OS::SystemProcess::_init(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+		{
+			std::shared_ptr<CPP::OS::SystemProcess> appObject(RJNEW CPP::OS::SystemProcess(JSC_JAVASCRIPT_ENGINE, thisObject, argumentCount, arguments),
+															  [](CPP::OS::SystemProcess* p) {
+																  DELETEOBJ(p);
+															  });
+			
+			JSC_JAVASCRIPT_ENGINE->jscSetExternal(ctx, thisObject, "_appObj", appObject);
+			
+			return JSValueMakeUndefined(ctx);
+		}
+		
+		JSValueRef OS::SystemProcess::execute(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+		{
+			JSValueRef undefined = JSValueMakeUndefined(ctx);
+			std::shared_ptr<CPP::OS::SystemProcess> appObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CPP::OS::SystemProcess>(ctx, thisObject, "_appObj");
+			
+			if (!appObject)
+			{
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "SystemProcess not initialized");
+				return undefined;
+			}
+			
+			appObject->execute();
+			
+			return undefined;
+		}
+		
+		JSValueRef OS::SystemProcess::kill(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+		{
+			JSValueRef undefined = JSValueMakeUndefined(ctx);
+			std::shared_ptr<CPP::OS::SystemProcess> appObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CPP::OS::SystemProcess>(ctx, thisObject, "_appObj");
+			
+			if (!appObject)
+			{
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "SystemProcess not initialized");
+				return undefined;
+			}
+			
+			appObject->kill();
+			
+			return undefined;
+		}
+		
+		JSValueRef OS::SystemProcess::on(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+		{
+			JSValueRef undefined = JSValueMakeUndefined(ctx);
+			std::shared_ptr<CPP::OS::SystemProcess> appObject = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CPP::OS::SystemProcess>(ctx, thisObject, "_appObj");
+			
+			if (!appObject)
+			{
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "SystemProcess not initialized");
+				return undefined;
+			}
+			
+			JSValueRef eventJs = JSC_JAVASCRIPT_ENGINE->jscGetArgument(arguments, argumentCount, 0);
+			JSValueRef funcJs = JSC_JAVASCRIPT_ENGINE->jscGetArgument(arguments, argumentCount, 1);
+			JSObjectRef funcObjJs = JSC_JAVASCRIPT_ENGINE->jscCastValueToObject(funcJs);
+
+			if( !eventJs ||
+			    !funcObjJs ||
+			   !JSValueIsString(ctx, eventJs) ||
+			   !JSObjectIsFunction(ctx, funcObjJs))
+			{
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Event name and function is required");
+				return undefined;
+			}
+			
+			appObject->on(parseJSCValue(ctx, eventJs), funcObjJs);
+			
+			return undefined;
+		}
 	}
 }

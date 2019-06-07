@@ -52,7 +52,18 @@ namespace RadJAV
 			/** @} */
 
 			extern JSObjectRef onReadyFunction;
-		};
+
+			class SystemProcess
+			{
+			public:
+				static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
+				
+				static JSValueRef _init(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+				static JSValueRef execute(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+				static JSValueRef kill(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+				static JSValueRef on(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
+			};
+		}
 	}
 }
 

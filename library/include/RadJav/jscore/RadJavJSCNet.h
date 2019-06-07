@@ -44,7 +44,7 @@ namespace RadJAV
 			class RADJAV_EXPORT NetCallbacks
 			{
 			public:
-				static void createV8Callbacks(JSContextRef context, JSObjectRef object);
+				static void createJSCCallbacks(JSContextRef context, JSObjectRef object);
 				
 				static JSValueRef httpRequest(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
 				static JSValueRef httpPost(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);

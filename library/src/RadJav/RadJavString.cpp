@@ -619,6 +619,23 @@ namespace RadJAV
 
         return (newStr);
     }
+	
+	String parseJSCString (JSContextRef context, JSStringRef str)
+	{
+		if (!str)
+			return String();
+		
+		std::size_t bufferSize = JSStringGetLength(str) + 1;
+		
+		char* buffer = new char[bufferSize];
+		
+		JSStringGetUTF8CString(str, buffer, bufferSize);
+		std::string newStr = buffer;
+		
+		delete [] buffer;
+		
+		return newStr;
+	}
 #endif
 
 	int hexStringToInt(String hexString)

@@ -434,7 +434,19 @@ namespace RadJAV
 			OS::SystemProcess::SystemProcess(JSCJavascriptEngine *jsEngine, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[])
 			: _contextManager(*jsEngine->contextManager)
 			{
-				/// @todo Fill this out.
+				command = JSC_JAVASCRIPT_ENGINE->jscGetString(thisObject, "command");
+				JSObjectRef argsObjJs = JSC_JAVASCRIPT_ENGINE->jscGetObject(thisObject, "args");
+				
+				if (JSValueIsArray(jsEngine->globalContext, argsObjJs))
+				{
+					RJINT argsSize = JSC_JAVASCRIPT_ENGINE->jscGetInt(argsObjJs, "length");
+					
+					for (RJINT iIdx = 0; iIdx < argsSize; iIdx++)
+					{
+						JSValueRef argJs = JSObjectGetPropertyAtIndex(jsEngine->globalContext, argsObjJs, iIdx, nullptr);
+						args.push_back(parseJSCValue(jsEngine->globalContext, argJs));
+					}
+				}
 			}
 		#endif
 
@@ -502,9 +514,11 @@ namespace RadJAV
 				executeEvent("error", 2, args);
 			
 			#elif defined USE_JAVASCRIPTCORE
-				#pragma message("Missing implementation of SystemProcess.error callback for JSC")
-				//TODO: add JSC implementation
-				//executeEvent("error", description);
+				JSValueRef args[2];
+				args[0] = JSValueMakeNumber(JSC_JAVASCRIPT_ENGINE->globalContext, errorCode);
+				args[1] = String(description).toJSCValue(JSC_JAVASCRIPT_ENGINE->globalContext);
+			
+				executeEvent("error", 2, args);
 			#endif
 		}
 		
@@ -525,9 +539,10 @@ namespace RadJAV
 				executeEvent("output", 1, args);
 			
 			#elif defined USE_JAVASCRIPTCORE
-				#pragma message("Missing implementation of SystemProcess.output callback for JSC")
-				//TODO: add JSC implementation
-				//executeEvent("error", description);
+				JSValueRef args[1];
+				args[0] = String(output).toJSCValue(JSC_JAVASCRIPT_ENGINE->globalContext);
+			
+				executeEvent("output", 1, args);
 			#endif
 		}
 		
@@ -548,9 +563,10 @@ namespace RadJAV
 				executeEvent("exit", 1, args);
 			
 			#elif defined USE_JAVASCRIPTCORE
-				#pragma message("Missing implementation of SystemProcess.error callback for JSC")
-				//TODO: add JSC implementation
-				//executeEvent("error", description);
+				JSValueRef args[1];
+				args[0] = JSValueMakeNumber(JSC_JAVASCRIPT_ENGINE->globalContext, exitCode);
+			
+				executeEvent("exit", 1, args);
 			#endif
 		}
 		

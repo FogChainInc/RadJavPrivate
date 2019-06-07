@@ -342,11 +342,11 @@ if (USE_JAVASCRIPTCORE)
 		set (SOURCES_files_RadJav__JSC__Net__Sources 
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCNet.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCNetWebSocket.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCNetWebSocketSsl.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCNetUdpServer.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCNetUdpClient.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCNetTcpServer.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCNetTcpClient.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCNetWebSocketSsl.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCNetUdpServer.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCNetUdpClient.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCNetTcpServer.cpp"
+			#"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCNetTcpClient.cpp"
 			"${libRadJav_SOURCE_DIR}/src/RadJav/jscore/RadJavJSCNetWebServer.cpp")
 		source_group ("RadJav\\JavaScriptCore\\Net" FILES ${SOURCES_files_RadJav__JSC__Net__Sources})
 		
@@ -444,44 +444,64 @@ source_group ("RadJav\\CPP\\Testing" FILES ${SOURCES_files_RadJav__cpp__Testing_
 
 set (SOURCES ${SOURCES_files_RadJav__cpp__Testing__Sources} ${SOURCES})
 
+# C++ Networking
 if (USE_V8)
-	# C++ Networking
-	if (libRadJav_ALLOW_NETWORKING)
-		set (SOURCES_files_RadJav__cpp__Net__Sources 
-			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetUriParser.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNet.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetHttpRequest.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebSocketServer.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebSocketServerSsl.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebSocketClientSsl.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetUdpServer.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetUdpClient.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetTcpServer.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetTcpClient.cpp")
-		source_group ("RadJav\\CPP\\Net" FILES ${SOURCES_files_RadJav__cpp__Net__Sources})
-		
-		set (SOURCES ${SOURCES_files_RadJav__cpp__Net__Sources} ${SOURCES})
-	endif ()
-	
-	if (libRadJav_ALLOW_NETWORKING OR libRadJav_DEBUG_INSPECTOR)
-		set (SOURCES_files_RadJav__cpp__Net__Sources 
-			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebServer.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebSocketConnection.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetHttpConnection.cpp")
-		source_group ("RadJav\\CPP\\Net" FILES ${SOURCES_files_RadJav__cpp__Net__Sources})
-		
-		set (SOURCES ${SOURCES_files_RadJav__cpp__Net__Sources} ${SOURCES})
-	endif ()
-	
-	if (libRadJav_DEBUG_INSPECTOR)
-	# C++ Inspector Agent
-		set (SOURCES_files_RadJav__cpp__Agent__Sources 
-			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPAgent.cpp"
-			"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPAgentIO.cpp")
-		source_group ("RadJav\\CPP\\Agent" FILES ${SOURCES_files_RadJav__cpp__Agent__Sources})
-	
-		set (SOURCES ${SOURCES_files_RadJav__cpp__Agent__Sources} ${SOURCES})
-	endif()
+    if (libRadJav_ALLOW_NETWORKING)
+	    set (SOURCES_files_RadJav__cpp__Net__Sources 
+		    "${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetUriParser.cpp"
+		    "${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNet.cpp"
+		    "${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetHttpRequest.cpp"
+		    "${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebSocketServer.cpp"
+		    "${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebSocketServerSsl.cpp"
+		    "${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebSocketClientSsl.cpp"
+		    "${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetUdpServer.cpp"
+		    "${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetUdpClient.cpp"
+		    "${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetTcpServer.cpp"
+		    "${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetTcpClient.cpp")
+	    source_group ("RadJav\\CPP\\Net" FILES ${SOURCES_files_RadJav__cpp__Net__Sources})
+	    
+	    set (SOURCES ${SOURCES_files_RadJav__cpp__Net__Sources} ${SOURCES})
+    endif ()
+    
+    if (libRadJav_ALLOW_NETWORKING OR libRadJav_DEBUG_INSPECTOR)
+	    set (SOURCES_files_RadJav__cpp__Net__Sources 
+		    "${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebServer.cpp"
+		    "${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebSocketConnection.cpp"
+		    "${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetHttpConnection.cpp")
+	    source_group ("RadJav\\CPP\\Net" FILES ${SOURCES_files_RadJav__cpp__Net__Sources})
+	    
+	    set (SOURCES ${SOURCES_files_RadJav__cpp__Net__Sources} ${SOURCES})
+    endif ()
+    
+    if (libRadJav_DEBUG_INSPECTOR)
+    # C++ Inspector Agent
+	    set (SOURCES_files_RadJav__cpp__Agent__Sources 
+		    "${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPAgent.cpp"
+		    "${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPAgentIO.cpp")
+	    source_group ("RadJav\\CPP\\Agent" FILES ${SOURCES_files_RadJav__cpp__Agent__Sources})
+    
+	    set (SOURCES ${SOURCES_files_RadJav__cpp__Agent__Sources} ${SOURCES})
+    endif()
+elseif (USE_JAVASCRIPTCORE)
+    if (libRadJav_ALLOW_NETWORKING)
+	    set (SOURCES_files_RadJav__cpp__Net__Sources 
+		    "${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetUriParser.cpp"
+		    "${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNet.cpp"
+		    #"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetHttpRequest.cpp"
+		    #"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebSocketServer.cpp"
+		    #"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebSocketServerSsl.cpp"
+		    #"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebSocketClientSsl.cpp"
+		    #"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetUdpServer.cpp"
+		    #"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetUdpClient.cpp"
+		    #"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetTcpServer.cpp"
+		    #"${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetTcpClient.cpp"
+		    "${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebServer.cpp"
+		    "${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetWebSocketConnection.cpp"
+		    "${libRadJav_SOURCE_DIR}/src/RadJav/cpp/RadJavCPPNetHttpConnection.cpp")
+	    source_group ("RadJav\\CPP\\Net" FILES ${SOURCES_files_RadJav__cpp__Net__Sources})
+	    
+	    set (SOURCES ${SOURCES_files_RadJav__cpp__Net__Sources} ${SOURCES})
+    endif ()
 endif ()
 
 # C++ Database

@@ -322,13 +322,8 @@ namespace RadJAV
 
 		void Events::executeEvent(const String &event, String message)
 		{
-			/// @todo Translate this over to JSC.
-			/*v8::Local<v8::Value> *args = RJNEW v8::Local<v8::Value>[1];
-			args[0] = message.toV8String(V8_JAVASCRIPT_ENGINE->isolate);
-
-			executeEvent(event, 1, args);
-
-			DELETEARRAY(args);*/
+			JSValueRef arg = message.toJSCValue(JSC_JAVASCRIPT_ENGINE->globalContext);
+			executeEvent(event, 1, &arg);
 		}
 		#endif
 

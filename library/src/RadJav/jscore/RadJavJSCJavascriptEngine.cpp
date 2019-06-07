@@ -91,8 +91,11 @@
 
 	// Net
 	#ifdef NET_ON
-		#include "jscore/RadJavJSCNetWebSocket.h"
+		#include "jscore/RadJavJSCNet.h"
 		#include "jscore/RadJavJSCNetWebServer.h"
+		#include "jscore/RadJavJSCNetWebSocket.h"
+//		#include "jscore/RadJavJSCNetWebSocket.h"
+//		#include "jscore/RadJavJSCNetWebServer.h"
 	#endif
 
 	// C3D
@@ -996,19 +999,18 @@ namespace RadJAV
                         JSC::OS::ScreenInfo::createJSCCallbacks(globalContext, screenInfoFunc);
                     }
 
+					// RadJav.OS.SystemProcess
+					{
+						JSObjectRef systemProcessFunc = jscGetFunction(osFunc, "SystemProcess");
+						JSObjectRef systemProcessFuncPrototype = jscGetObject(systemProcessFunc, "prototype");
+
+						JSC::OS::SystemProcess::createJSCCallbacks(globalContext, systemProcessFuncPrototype);
+					}
+
 					// Command line arguments
 					{
-						JSValueRef argsVal = jscGetValue(osFunc, "args");
-                        JSObjectRef argsObj = jscCastValueToObject(globalContext, argsVal);
-
-                        for (RJINT iIdx = 0; iIdx < CPP::OS::args.size(); iIdx++)
-						{
-							String arg = CPP::OS::args.at(iIdx);
-                            JSValueRef argVal = arg.toJSCValue(globalContext);
-
-                            JSObjectSetPropertyAtIndex (globalContext, argsObj, iIdx, argVal, NULL);
-                            
-						}
+						JSObjectRef argsArray = convertArrayToJSCArray(RadJav::arguments, globalContext);
+						jscSetObject(osFunc, "args", argsArray);
 					}
 					
 					// The application main file path
@@ -1111,21 +1113,29 @@ namespace RadJAV
 						JSC::Net::WebServer::createJSCCallbacks(globalContext, webServerPrototype);
 					}
 
-					// WebSocketServer
+					// WebSocketConnection
 					{
-						JSObjectRef webSocketServerFunc = jscGetFunction(netFunc, "WebSocketServer");
-						JSObjectRef webSocketServerPrototype = jscGetObject(webSocketServerFunc, "prototype");
-
-						JSC::Net::WebSocketServer::createJSCCallbacks(globalContext, webSocketServerPrototype);
+						JSObjectRef webSocketConnectionFunc = jscGetFunction(netFunc, "WebSocketConnection");
+						JSObjectRef webSocketConnectionPrototype = jscGetObject(webSocketConnectionFunc, "prototype");
+						
+						JSC::Net::WebSocketConnection::createJSCCallbacks(globalContext, webSocketConnectionPrototype);
 					}
-
-					// WebSocketClient
-					{
-						JSObjectRef webSocketClientFunc = jscGetFunction(netFunc, "WebSocketClient");
-						JSObjectRef webSocketClientPrototype = jscGetObject(webSocketClientFunc, "prototype");
-
-						JSC::Net::WebSocketClient::createJSCCallbacks(globalContext, webSocketClientPrototype);
-					}
+					
+//					// WebSocketServer
+//					{
+//						JSObjectRef webSocketServerFunc = jscGetFunction(netFunc, "WebSocketServer");
+//						JSObjectRef webSocketServerPrototype = jscGetObject(webSocketServerFunc, "prototype");
+//
+//						JSC::Net::WebSocketServer::createJSCCallbacks(globalContext, webSocketServerPrototype);
+//					}
+//
+//					// WebSocketClient
+//					{
+//						JSObjectRef webSocketClientFunc = jscGetFunction(netFunc, "WebSocketClient");
+//						JSObjectRef webSocketClientPrototype = jscGetObject(webSocketClientFunc, "prototype");
+//
+//						JSC::Net::WebSocketClient::createJSCCallbacks(globalContext, webSocketClientPrototype);
+//					}
 				}
 				#endif
 				
@@ -1856,6 +1866,28 @@ namespace RadJAV
             
             return value;
         }
+
+		std::vector<std::string> JSCJavascriptEngine::jscGetObjectPropertyNames(JSObjectRef context)
+		{
+			std::vector<std::string> properties;
+			
+			if (!context)
+				return properties;
+			
+			JSPropertyNameArrayRef propertiesJs = JSObjectCopyPropertyNames(globalContext, context);
+			std::size_t propertiesSize= JSPropertyNameArrayGetCount(propertiesJs);
+			
+			for(int i = 0; i < propertiesSize; i++)
+			{
+				JSStringRef propertyNameJs = JSPropertyNameArrayGetNameAtIndex(propertiesJs, i);
+				properties.push_back(parseJSCString(globalContext, propertyNameJs));
+				JSStringRelease(propertyNameJs);
+			}
+
+			JSPropertyNameArrayRelease(propertiesJs);
+
+			return properties;
+		}
 
         JSObjectRef JSCJavascriptEngine::createPromise(JSObjectRef function)
         {

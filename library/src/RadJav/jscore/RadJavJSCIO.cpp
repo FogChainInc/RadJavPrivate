@@ -792,25 +792,28 @@ namespace RadJAV
 		{
 			JSValueRef undefined = JSValueMakeUndefined(ctx);
 			
-			if (argumentCount < 2 ||
-				JSC_JAVASCRIPT_ENGINE->jscIsNull(ctx, arguments[0]) == true ||
-				JSC_JAVASCRIPT_ENGINE->jscIsNull(ctx, arguments[1]) == true)
+			JSValueRef path = JSC_JAVASCRIPT_ENGINE->jscGetValue(thisObject, "filePath");
+			
+			if (JSC_JAVASCRIPT_ENGINE->jscIsNull(path))
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Filename and text cannot be null!");
-
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Filename cannot be null!");
+				
 				return undefined;
 			}
-
-			RJINT fileType = static_cast<int>(CPP::IO::TextFile::operation::write);
-
-			if (argumentCount > 2)
+			
+			JSValueRef text = JSC_JAVASCRIPT_ENGINE->jscGetArgument(arguments, argumentCount, 0);
+			if (!JSValueIsString(ctx, text))
 			{
-				fileType = JSC_JAVASCRIPT_ENGINE->jscValueToInt(ctx, arguments[2]);
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Data parameter is required");
+				
+				return undefined;
 			}
-
+			
+			RJINT fileType = JSC_JAVASCRIPT_ENGINE->jscGetInt(thisObject, "writeType");
+			
 			try
 			{
-				CPP::IO::TextFile::writeFile(parseJSCValue(ctx, arguments[0]), parseJSCValue(ctx, arguments[1]), fileType);
+				CPP::IO::TextFile::writeFile(parseJSCValue(ctx, path), parseJSCValue(ctx, text), fileType);
 			}
 			catch (Exception ex)
 			{
@@ -824,31 +827,35 @@ namespace RadJAV
 		{
 			JSValueRef undefined = JSValueMakeUndefined(ctx);
 			
-			if (argumentCount < 2 ||
-				JSC_JAVASCRIPT_ENGINE->jscIsNull(ctx, arguments[0]) == true ||
-				JSC_JAVASCRIPT_ENGINE->jscIsNull(ctx, arguments[1]) == true)
+			JSValueRef path = JSC_JAVASCRIPT_ENGINE->jscGetValue(thisObject, "filePath");
+			
+			if (JSC_JAVASCRIPT_ENGINE->jscIsNull(path))
 			{
-				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Filename and text cannot be null!");
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Filename cannot be null!");
 				
 				return undefined;
 			}
 			
-			RJINT fileType = static_cast<int>(CPP::IO::TextFile::operation::write);
-			
-			if (argumentCount > 2)
+			JSValueRef text = JSC_JAVASCRIPT_ENGINE->jscGetArgument(arguments, argumentCount, 0);
+			if (!JSValueIsString(ctx, text))
 			{
-				fileType = JSC_JAVASCRIPT_ENGINE->jscValueToInt(ctx, arguments[2]);
+				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Data parameter is required");
+				
+				return undefined;
 			}
+			
+			RJINT fileType = JSC_JAVASCRIPT_ENGINE->jscGetInt(thisObject, "writeType");
 			
 			try
 			{
-				CPP::IO::TextFile::writeFileAsync(parseJSCValue(ctx, arguments[0]), parseJSCValue(ctx, arguments[1]), fileType);
+				/// @fixme This should return a promise.
+				CPP::IO::TextFile::writeFileAsync(parseJSCValue(ctx, path), parseJSCValue(ctx, text), fileType);
 			}
 			catch (Exception ex)
 			{
 				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, ex.getMessage());
 			}
-
+			
 			return undefined;
 		}
 
@@ -856,17 +863,20 @@ namespace RadJAV
 		{
 			JSValueRef undefined = JSValueMakeUndefined(ctx);
 			
-			if (argumentCount == 0 ||
-				JSC_JAVASCRIPT_ENGINE->jscIsNull(ctx, arguments[0]) == true)
+			JSValueRef path = JSC_JAVASCRIPT_ENGINE->jscGetValue(thisObject, "filePath");
+			
+			if (JSC_JAVASCRIPT_ENGINE->jscIsNull(path))
 			{
 				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Filename cannot be null!");
+				
 				return undefined;
 			}
 
-			String contents;
+			String contents = "";
+			
 			try
 			{
-				contents = CPP::IO::TextFile::readFile(parseJSCValue(ctx, arguments[0]));
+				contents = CPP::IO::TextFile::readFile(parseJSCValue(ctx, path));
 			}
 			catch (Exception ex)
 			{
@@ -884,23 +894,26 @@ namespace RadJAV
 		JSValueRef IO::TextFile::readFileAsync(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
 		{
 			JSValueRef undefined = JSValueMakeUndefined(ctx);
+
+			JSValueRef path = JSC_JAVASCRIPT_ENGINE->jscGetValue(thisObject, "filePath");
 			
-			if (argumentCount == 0 ||
-				JSC_JAVASCRIPT_ENGINE->jscIsNull(ctx, arguments[0]) == true)
+			if (JSC_JAVASCRIPT_ENGINE->jscIsNull(path))
 			{
 				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Filename cannot be null!");
+				
 				return undefined;
 			}
 
 			try
 			{
-				CPP::IO::TextFile::readFileAsync(parseJSCValue(ctx, arguments[0]));
+				/// @fixme This should return a promise.
+				CPP::IO::TextFile::readFileAsync(parseJSCValue(ctx, path));
 			}
 			catch (Exception ex)
 			{
 				JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, ex.getMessage());
 			}
-
+			
 			return undefined;
 		}
 

@@ -237,6 +237,7 @@
 
         #ifdef USE_JAVASCRIPTCORE
             String parseJSCValue (JSContextRef context, JSValueRef value);
+			String parseJSCString (JSContextRef context, JSStringRef str);
         #endif
         
         #ifdef __APPLE__

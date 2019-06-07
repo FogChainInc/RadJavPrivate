@@ -290,6 +290,8 @@
                 RJINT jscParseInt(JSValueRef val);
                 /// Get a int value from a JS value.
                 RJINT jscParseInt(JSContextRef context, JSValueRef val);
+				/// Get object properties
+				std::vector<std::string> jscGetObjectPropertyNames(JSObjectRef context);
 
 				// Create a promise.
 				JSObjectRef createPromise(JSObjectRef function);

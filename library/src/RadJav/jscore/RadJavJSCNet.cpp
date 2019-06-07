@@ -39,7 +39,7 @@ namespace RadJAV
 	{
 		namespace Net
 		{
-			void NetCallbacks::createV8Callbacks(JSContextRef context, JSObjectRef object)
+			void NetCallbacks::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 			{
 				JSC_CALLBACK(object, "httpRequest", NetCallbacks::httpRequest);
 				JSC_CALLBACK(object, "httpPost", NetCallbacks::httpPost);

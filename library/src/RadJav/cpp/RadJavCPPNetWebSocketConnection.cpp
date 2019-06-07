@@ -666,9 +666,20 @@ namespace RadJAV
 				
 					executeEvent("message", 1, args);
 				#elif defined USE_JAVASCRIPTCORE
-					#pragma message("Missing implementation of onReadBinaryCallback for JSC")
-					//TODO: add JSC implementation
-					//executeEvent("message", 1, args);
+					auto dataCopy = RJNEW unsigned char[size];
+					std::memcpy(dataCopy, data, size);
+				
+					auto dataDeallocator = [](void* bytes, void* deallocatorContext) {
+						unsigned char* data = static_cast<unsigned char*>(bytes);
+						if (data)
+						{
+							DELETEARRAY(data);
+						}
+					};
+				
+					JSValueRef arg = JSObjectMakeArrayBufferWithBytesNoCopy(JSC_JAVASCRIPT_ENGINE->globalContext,
+																				  dataCopy, size, dataDeallocator, nullptr, nullptr);
+					executeEvent("message", 1, &arg);
 				#endif
 
 				if (_onMessageBinary)
@@ -694,9 +705,11 @@ namespace RadJAV
 				
 					executeEvent("error", 2, args);
 				#elif defined USE_JAVASCRIPTCORE
-					#pragma message("Missing implementation of onErrorCallback for JSC")
-					//TODO: add JSC implementation
-					//executeEvent("error", description);
+					JSValueRef args[2];
+					args[0] = JSValueMakeNumber(JSC_JAVASCRIPT_ENGINE->globalContext, errorCode);
+					args[1] = String(description).toJSCValue(JSC_JAVASCRIPT_ENGINE->globalContext);
+				
+					executeEvent("error", 2, args);
 				#endif
 
 				if (_onError)

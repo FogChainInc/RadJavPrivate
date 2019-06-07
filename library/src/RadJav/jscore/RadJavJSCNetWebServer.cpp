@@ -33,85 +33,100 @@ namespace RadJAV
 	{
 		namespace Net
 		{
-			void WebServer::createV8Callbacks(JSContextRef context, JSObjectRef object)
+			using CppWebServer = CPP::Net::WebServer;
+
+			void WebServer::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 			{
-				JSC_CALLBACK(object, "_init", WebServer::_init);
-				JSC_CALLBACK(object, "listen", WebServer::listen);
-				JSC_CALLBACK(object, "serve", WebServer::serve);
-				JSC_CALLBACK(object, "stop", WebServer::stop);
+				JSC_CALLBACK(object, "_init", WebServer::init);
+				JSC_CALLBACK(object, "_start", WebServer::start);
+				JSC_CALLBACK(object, "_stop", WebServer::stop);
+				JSC_CALLBACK(object, "_on", WebServer::on);
 			}
 
-			JSValueRef WebServer::_init(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+			JSValueRef WebServer::init(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
 			{
-				NETTYPE *webServer = RJNEW NETTYPE();
-				JSC_JAVASCRIPT_ENGINE->jscSetExternal(ctx, thisObject, "_webServer", webServer);
+				std::shared_ptr<CppWebServer> webServer(RJNEW CppWebServer(JSC_JAVASCRIPT_ENGINE, thisObject, argumentCount, arguments),
+														[](CppWebServer* p) {
+															DELETEOBJ(p);
+														});
+
+				JSC_JAVASCRIPT_ENGINE->jscSetExternal(ctx, thisObject, "_appObj", webServer);
 				
 				return JSValueMakeUndefined(ctx);
 			}
 
-			JSValueRef WebServer::listen(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+			JSValueRef WebServer::start(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
 			{
 				JSValueRef undefined = JSValueMakeUndefined(ctx);
 				
-				JSValueRef portArg = JSC_JAVASCRIPT_ENGINE->jscGetArgument(arguments, argumentCount, 0);
+				std::shared_ptr<CppWebServer> webServer = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppWebServer>(ctx, thisObject, "_appObj");
 				
-				if (!portArg)
-				{
-					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Port cannot be null!");
-					return undefined;
-				}
-				
-				RJINT port = JSC_JAVASCRIPT_ENGINE->jscValueToNumber(ctx, portArg);
-
-				NETTYPE *webServer = (NETTYPE *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_webServer");
-				if (webServer)
-				{
-					webServer->port = port;
-					webServer->listen();
-				}
-				
-				return undefined;
-			}
-
-			JSValueRef WebServer::serve(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
-			{
-				JSValueRef undefined = JSValueMakeUndefined(ctx);
-				JSValueRef funcArg = JSC_JAVASCRIPT_ENGINE->jscGetArgument(arguments, argumentCount, 0);
-				
-				if (!funcArg)
-				{
-					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Function cannot be null!");
-					return undefined;
-				}
-
-				NETTYPE *webServer = (NETTYPE *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_webServer");
-
 				if (!webServer)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Web server not listening!");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "WebServer not initialized");
 					return undefined;
 				}
+				
+				JSValueRef uriJs = JSC_JAVASCRIPT_ENGINE->jscGetArgument(arguments, argumentCount, 0);
+				JSValueRef portJs = JSC_JAVASCRIPT_ENGINE->jscGetArgument(arguments, argumentCount, 1);
+				
+				if (!uriJs ||
+					!portJs ||
+					!JSValueIsString(ctx, uriJs) ||
+					!JSValueIsNumber(ctx, portJs))
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "URI and port arguments is required");
+					return undefined;
+				}
+				
+				RJINT port = JSC_JAVASCRIPT_ENGINE->jscParseInt(portJs);
+				
+				webServer->start(parseJSCValue(ctx, uriJs), port);
 
-				JSObjectRef func = JSC_JAVASCRIPT_ENGINE->jscCastValueToObject(funcArg);
-				
-				webServer->serve(func);
-				
 				return undefined;
 			}
 
 			JSValueRef WebServer::stop(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
 			{
 				JSValueRef undefined = JSValueMakeUndefined(ctx);
-
-				NETTYPE *webServer = (NETTYPE *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_webServer");
-
-				if ((webServer == NULL) || (webServer->isAlive == false))
+				std::shared_ptr<CppWebServer> webServer = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppWebServer>(ctx, thisObject, "_appObj");
+				
+				if (!webServer)
 				{
-					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Web server not listening!");
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "WebServer not initialized");
 					return undefined;
 				}
-
+				
 				webServer->stop();
+				
+				return undefined;
+			}
+			
+			JSValueRef WebServer::on(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
+			{
+				JSValueRef undefined = JSValueMakeUndefined(ctx);
+				std::shared_ptr<CppWebServer> webServer = JSC_JAVASCRIPT_ENGINE->jscGetExternal<CppWebServer>(ctx, thisObject, "_appObj");
+				
+				if (!webServer)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "WebServer not initialized");
+					return undefined;
+				}
+				
+				JSValueRef eventJs = JSC_JAVASCRIPT_ENGINE->jscGetArgument(arguments, argumentCount, 0);
+				JSValueRef funcJs = JSC_JAVASCRIPT_ENGINE->jscGetArgument(arguments, argumentCount, 1);
+				JSObjectRef funcObjJs = JSC_JAVASCRIPT_ENGINE->jscCastValueToObject(ctx, funcJs);
+
+				if (!eventJs ||
+					!funcObjJs ||
+					!JSValueIsString(ctx, eventJs) ||
+					!JSObjectIsFunction(ctx, funcObjJs))
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Event name and function is required");
+					return undefined;
+				}
+				
+				webServer->on(parseJSCValue(ctx, eventJs), funcObjJs);
 				
 				return undefined;
 			}
