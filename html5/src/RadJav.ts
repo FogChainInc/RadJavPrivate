@@ -20,10 +20,8 @@
 declare let define: any;
 
 /// <reference path="RadJav.Animation.ts" />
-
-/** @class Promise
- * An object that executes when a process has completed.
- */
+/// <reference path="RadJav.GUI.GObject.ts" />
+/// <reference path="RadJav.GUI.Window.ts" />
 
 // Hack for the desktop/mobile versions.
 if (typeof (window) == "undefined")
@@ -35,13 +33,9 @@ if (typeof (window) == "undefined")
 	}
 }
 
-/** @class RadJav
- * @static
- * The main object that starts RadJav.
- */
+/// The main object that starts RadJav.
 namespace RadJav
 {
-	/// Allow the use of eval.
 	export let defaults: any;
 
 	/// Allow the use of eval.
@@ -75,7 +69,7 @@ namespace RadJav
 	export let _included: any[] = [];
 
 	/// If set to true, RadJav has been initialized.
-	export let _lang: { [key: string]: any } = {};
+	export let _lang: { [key: string]: any } = null;
 
 	/// Miscellaneous theme utilities to use.
 	export let themeUtils: any = {};
@@ -757,6 +751,18 @@ namespace RadJav
 	 * Execute a test.
 	 * Available on platforms: Windows,Linux,OSX,iOS,Android,HTML5
 	 */
+	export function addTests (testsFunction: (funcTests: RadJav.Testing.FunctionalTests) => void): void
+	{
+		if (RadJav.functionalTests === null)
+			RadJav.functionalTests = new RadJav.Testing.FunctionalTests("RadJav Tests");
+
+		testsFunction (RadJav.functionalTests);
+	}
+
+	/** 
+	 * Execute a test.
+	 * Available on platforms: Windows,Linux,OSX,iOS,Android,HTML5
+	 */
 	export function runTests (): Promise<RadJav.Testing.Test[]>
 	{
 		if (RadJav.functionalTests === null)
@@ -996,11 +1002,19 @@ namespace RadJav
 	{
 		if (navigator.appName)
 		{
+			// Some older versions of IE will return this.
 			if (navigator.appName == "Microsoft Internet Explorer")
-				return true;
+				return (true);
 		}
 
-		return false;
+		// IE11 will lie through its user agent, so you have to check for this.
+		if ((window["MSInputMethodContext"] !== null) && 
+			(document["documentMode"] !== null))
+		{
+			return (true);
+		}
+
+		return (false);
 	}
 
 	/**
@@ -1559,16 +1573,35 @@ namespace RadJav
 							{
 								promises.push(new Promise<void> (RadJav.keepContext(function (resolve, reject, index)
 									{
-										var iIdx2 = index[0];
-										var style = document.createElement("style");
+										let promise2: Promise<void> = null;
+										let iIdx2: number = index[0];
+										let fullCSSURL: string = this.url + "/" + this.cssFiles[iIdx2];
+										let style: HTMLStyleElement = document.createElement("style");
 										style.setAttribute ("rel", "stylesheet");
 										style.setAttribute ("type", "text/css");
-										style.setAttribute ("href", this.url + "/" + this.cssFiles[iIdx2]);
-										style.onload = function ()
-											{
-												resolve ();
-											};
+
+										if (RadJav._isUsingInternetExplorerTheWorstWebBrowserEver () == true)
+										{
+											promise2 = RadJav._getResponse(fullCSSURL).then(
+												RadJav.keepContext(function(response, style2)
+													{
+														style2.innerHTML = response;
+
+														resolve ();
+													}, this, style));
+										}
+										else
+										{
+											style.setAttribute ("href", fullCSSURL);
+											style.onload = function ()
+												{
+													resolve ();
+												};
+										}
+
 										document.head.appendChild(style);
+
+										return (promise2);
 									}, this, [iIdx])));
 							}
 

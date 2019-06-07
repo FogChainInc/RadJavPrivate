@@ -1,0 +1,79 @@
+RadJav.initialize (RadJav.getStandardLibrary (),
+					RadJav.getGUILibrary ()).then (function ()
+	{
+		RadJav.addTest ("TextFile class implementation", function (tlib)
+			{
+				if (RadJav.OS.HTML5 !== null)
+				{
+					tlib.assert (true, "not available on HTML5 yet.");
+
+					return;
+				}
+
+				tlib.testClass (RadJav.IO.TextFile, {
+						name: "TextFile", 
+						properties: [
+								{
+									name: ["writeFile", "readFile"], 
+									type: ["function", "function"], 
+									test: function (tlib2)
+										{
+											let file = new RadJav.IO.TextFile ("./temp.txt");
+											let testContent = "Test";
+
+											file.writeFile (testContent);
+
+											let content = file.readFile ();
+
+											if (content === testContent)
+												return (true);
+
+											return (false);
+										}
+								}, 
+								{
+									name: ["writeFileAsync", "readFileAsync"], 
+									type: ["function", "function"], 
+									test: function (tlib2)
+										{
+											let file = new RadJav.IO.TextFile ("./temp.txt");
+											let testContent = "Test";
+
+											return (file.writeFileAsync (testContent).then (function ()
+												{
+													return (file.readFileAsync ().then (function (content)
+														{
+															if (content === testContent)
+																return (true);
+
+															return (false);
+														}));
+												}));
+										}
+								}, 
+								{
+									name: ["writeToFile", "readFromFile"], 
+									type: ["function", "function"], 
+									static: [true, true], 
+									test: function (tlib2)
+										{
+											let testContent = "Test";
+											RadJav.IO.TextFile.writeToFile ("./temp.txt", testContent);
+
+											let content = RadJav.IO.TextFile.readFromFile ("./temp.txt");
+
+											if (content === testContent)
+												return (true);
+
+											return (false);
+										}
+								}
+							]
+					});
+			});
+
+		RadJav.runTests ().then (function ()
+			{
+				RadJav.exit ();
+			});
+	});

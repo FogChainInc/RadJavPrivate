@@ -81,6 +81,99 @@ var RadJav;
                 else
                     this.error(message);
             };
+            TestLibrary.prototype.testClass = function (classToTest, classTester) {
+                if (classToTest.name !== classTester.name) {
+                    this.error("Class name does not match!");
+                    return;
+                }
+                var successMsg = classToTest.name + " passed testing.";
+                if (classTester.test !== null) {
+                    var result = classTester.test(this);
+                    if (result !== null) {
+                        if (typeof (result) === "boolean") {
+                            if (result === false) {
+                                this.error(classToTest.name + " failed testing.");
+                                return;
+                            }
+                        }
+                        else {
+                            var resultRes = result;
+                            if (resultRes.assertion === false) {
+                                this.error(resultRes.message);
+                                return;
+                            }
+                            else
+                                successMsg = resultRes.message;
+                        }
+                    }
+                }
+                for (var iIdx = 0; iIdx < classTester.properties.length; iIdx++) {
+                    var prop = classTester.properties[iIdx];
+                    if (typeof (prop) === "string") {
+                        var propertyName = prop["name"];
+                        var propertyType = prop["type"];
+                        if (classToTest[propertyName] === null) {
+                            this.error("Property " + propertyName + " is missing!");
+                            return;
+                        }
+                        if (propertyType !== null) {
+                            var foundType = false;
+                            var globalVar = Function("return (this);")();
+                            if (typeof (classToTest[propertyName]) === propertyType)
+                                foundType = true;
+                            if (!(classToTest[propertyName] instanceof globalVar["propertyType"]))
+                                foundType = true;
+                            if (foundType === true) {
+                                this.error("Property " + propertyName + " is not of type " + prop["type"] + "!");
+                                return;
+                            }
+                        }
+                    }
+                    else {
+                        var propertyNames = prop.name;
+                        var propertyTypes = prop.type;
+                        for (var iJdx = 0; iIdx < propertyNames.length; iIdx++) {
+                            var propertyName = propertyNames[iIdx];
+                            var propertyType = propertyTypes[iIdx];
+                            if (classToTest[propertyName] === null) {
+                                this.error("Property " + propertyName + " is missing!");
+                                return;
+                            }
+                            if (propertyType !== null) {
+                                var foundType = false;
+                                var globalVar = Function("return (this);")();
+                                if (typeof (classToTest[propertyName]) === propertyType)
+                                    foundType = true;
+                                if (!(classToTest[propertyName] instanceof globalVar["propertyType"]))
+                                    foundType = true;
+                                if (foundType === true) {
+                                    this.error("Property " + propertyName + " is not of type " + prop["type"] + "!");
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                    if (prop.test !== null) {
+                        var result = prop.test(this);
+                        if (result !== null) {
+                            if (typeof (result) === "boolean") {
+                                if (result === false) {
+                                    this.error(JSON.stringify(prop.name) + " failed testing.");
+                                    return;
+                                }
+                            }
+                            else {
+                                var resultRes = result;
+                                if (resultRes.assertion === false) {
+                                    this.error(resultRes.message);
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+                this.success(successMsg);
+            };
             return TestLibrary;
         }());
         Testing.TestLibrary = TestLibrary;
@@ -140,6 +233,14 @@ var RadJav;
                     test.func = tempFunc;
                 }
                 this.tests.push(test);
+            };
+            FunctionalTests.prototype.assertTest = function (testName, expression, errorMessage) {
+                if (errorMessage === void 0) { errorMessage = ""; }
+                var test = new Test(this.applicationPath, this.applicationPath);
+                test.func = function (tlib) {
+                    tlib.assert(expression, errorMessage);
+                };
+                this.addTest(test);
             };
             FunctionalTests.prototype.execute = function () {
                 var promise = new Promise(RadJav.keepContext(function (resolve, reject) {
@@ -365,12 +466,16 @@ var RadJav;
             function MouseSimulator() {
             }
             MouseSimulator.click = function (button) {
+                if (button === void 0) { button = 0; }
             };
             MouseSimulator.setPosition = function (pos) {
             };
             MouseSimulator.moveClick = function (pos, button) {
                 if (button === void 0) { button = 0; }
-                RadJav.Testing.MouseSimulator.setPosition(pos);
+                if (pos instanceof RadJav.Vector2)
+                    RadJav.Testing.MouseSimulator.setPosition(pos);
+                if (pos instanceof RadJav.GUI.GObject)
+                    RadJav.Testing.MouseSimulator.setPosition(pos.getPosition());
                 RadJav.Testing.MouseSimulator.click(button);
             };
             return MouseSimulator;

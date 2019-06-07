@@ -32,6 +32,31 @@ namespace RadJav
 	*/
 	export namespace Testing
 	{
+		/// Tests properties inside classes.
+		export interface ClassPropertyTester
+		{
+			/// Name of the property. If this is an array, this can test multiple
+			/// properties using the same test function below. Be aware, every 
+			/// name index in this array must match up with every type index.
+			name: string | string[];
+			/// Type of property. If this is an array, every index must match up 
+			/// with every name index.
+			type: string | string[];
+			/// The test function to execute to test this property.
+			test?: (tlib: TestLibrary) => boolean | { assertion: boolean, message: string };
+		}
+
+		/// Tests classes.
+		export interface ClassTester
+		{
+			/// Check if the name of the class matches the class.
+			name: string;
+			/// The function to test this class.
+			test?: (tlib: TestLibrary) => boolean | { assertion: boolean, message: string };
+			/// The properties in this class to test.
+			properties?: ClassPropertyTester[];
+		}
+
 		/// The testing library.
 		export class TestLibrary
 		{
@@ -135,6 +160,155 @@ namespace RadJav
 					this.success (message);
 				else
 					this.error (message);
+			}
+
+			/// Test a class.
+			testClass (classToTest: any, classTester: ClassTester)
+			{
+				if (classToTest.name !== classTester.name)
+				{
+					this.error ("Class name does not match!");
+
+					return;
+				}
+
+				let successMsg: string = classToTest.name + " passed testing.";
+
+				if (classTester.test !== null)
+				{
+					let result: boolean | { assertion: boolean, message: string } = classTester.test (this);
+
+					if (result !== null)
+					{
+						if (typeof (result) === "boolean")
+						{
+							if ((<boolean>result) === false)
+							{
+								this.error (classToTest.name + " failed testing.");
+
+								return;
+							}
+						}
+						else
+						{
+							let resultRes: { assertion: boolean, message: string } = (<{ assertion: boolean, message: string }>result);
+
+							if (resultRes.assertion === false)
+							{
+								this.error (resultRes.message);
+
+								return;
+							}
+							else
+								successMsg = resultRes.message;
+						}
+					}
+				}
+
+				for (let iIdx = 0; iIdx < classTester.properties.length; iIdx++)
+				{
+					let prop: ClassPropertyTester = classTester.properties[iIdx];
+
+					if (typeof (prop) === "string")
+					{
+						let propertyName: string = (<string>prop["name"]);
+						let propertyType: string = (<string>prop["type"]);
+
+						if (classToTest[propertyName] === null)
+						{
+							this.error ("Property " + propertyName + " is missing!");
+
+							return;
+						}
+
+						if (propertyType !== null)
+						{
+							let foundType = false;
+							let globalVar = Function ("return (this);")();
+
+							if (typeof (classToTest[propertyName]) === propertyType)
+								foundType = true;
+
+							if (! (classToTest[propertyName] instanceof globalVar["propertyType"]))
+								foundType = true;
+
+							if (foundType === true)
+							{
+								this.error ("Property " + propertyName + " is not of type " + prop["type"] + "!");
+
+								return;
+							}
+						}
+					}
+					else
+					{
+						let propertyNames: string[] = (<string[]>prop.name);
+						let propertyTypes: string[] = (<string[]>prop.type);
+
+						for (let iJdx = 0; iIdx < propertyNames.length; iIdx++)
+						{
+							let propertyName: string = propertyNames[iIdx];
+							let propertyType: string = propertyTypes[iIdx];
+	
+							if (classToTest[propertyName] === null)
+							{
+								this.error ("Property " + propertyName + " is missing!");
+
+								return;
+							}
+
+							if (propertyType !== null)
+							{
+								let foundType = false;
+								let globalVar = Function ("return (this);")();
+	
+								if (typeof (classToTest[propertyName]) === propertyType)
+									foundType = true;
+	
+								if (! (classToTest[propertyName] instanceof globalVar["propertyType"]))
+									foundType = true;
+	
+								if (foundType === true)
+								{
+									this.error ("Property " + propertyName + " is not of type " + prop["type"] + "!");
+
+									return;
+								}
+							}
+						}
+					}
+
+					if (prop.test !== null)
+					{
+						let result: boolean | { assertion: boolean, message: string } = prop.test (this);
+	
+						if (result !== null)
+						{
+							if (typeof (result) === "boolean")
+							{
+								if ((<boolean>result) === false)
+								{
+									this.error (JSON.stringify (prop.name) + " failed testing.");
+	
+									return;
+								}
+							}
+							else
+							{
+								let resultRes: { assertion: boolean, message: string } = (<{ assertion: boolean, message: string }>result);
+	
+								if (resultRes.assertion === false)
+								{
+									this.error (resultRes.message);
+	
+									return;
+								}
+							}
+						}
+					}
+				}
+
+				this.success (successMsg);
 			}
 		}
 
@@ -247,6 +421,19 @@ namespace RadJav
 				}
 
 				this.tests.push (test);
+			}
+
+			/// Add an assert test.
+			assertTest (testName: string, expression: boolean, errorMessage: string = "")
+			{
+				let test: Test = new Test (this.applicationPath, this.applicationPath);
+
+				test.func = (tlib: TestLibrary) =>
+					{
+						tlib.assert (expression, errorMessage);
+					};
+
+				this.addTest (test);
 			}
 
 			/// Execute the tests.
@@ -618,19 +805,24 @@ namespace RadJav
 		export class MouseSimulator
 		{
 			/// Click a mouse button.
-			static click (button: number): void
+			static click (button: number = 0): void
 			{
 			}
 
 			/// Click a mouse button.
-			static setPosition (pos: Vector2): void
+			static setPosition (pos: RadJav.Vector2): void
 			{
 			}
 
 			/// Move to a position and click.
-			static moveClick (pos: Vector2, button: number = 0): void
+			static moveClick (pos: RadJav.Vector2 | RadJav.GUI.GObject, button: number = 0): void
 			{
-				RadJav.Testing.MouseSimulator.setPosition(pos);
+				if (pos instanceof RadJav.Vector2)
+					RadJav.Testing.MouseSimulator.setPosition(pos);
+
+				if (pos instanceof RadJav.GUI.GObject)
+					RadJav.Testing.MouseSimulator.setPosition((<RadJav.GUI.GObject>pos).getPosition ());
+
 				RadJav.Testing.MouseSimulator.click(button);
 			}
 		}

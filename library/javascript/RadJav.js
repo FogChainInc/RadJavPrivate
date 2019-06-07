@@ -12,7 +12,7 @@ var RadJav;
     RadJav.currentTheme = null;
     RadJav._isInitialized = false;
     RadJav._included = [];
-    RadJav._lang = {};
+    RadJav._lang = null;
     RadJav.themeUtils = {};
     RadJav.useAjax = true;
     RadJav.isMinified = false;
@@ -416,6 +416,12 @@ var RadJav;
         RadJav.functionalTests.addTest(test);
     }
     RadJav.addTest = addTest;
+    function addTests(testsFunction) {
+        if (RadJav.functionalTests === null)
+            RadJav.functionalTests = new RadJav.Testing.FunctionalTests("RadJav Tests");
+        testsFunction(RadJav.functionalTests);
+    }
+    RadJav.addTests = addTests;
     function runTests() {
         if (RadJav.functionalTests === null)
             throw new Error("No functional tests were added!");
@@ -567,9 +573,13 @@ var RadJav;
     function _isUsingInternetExplorerTheWorstWebBrowserEver() {
         if (navigator.appName) {
             if (navigator.appName == "Microsoft Internet Explorer")
-                return true;
+                return (true);
         }
-        return false;
+        if ((window["MSInputMethodContext"] !== null) &&
+            (document["documentMode"] !== null)) {
+            return (true);
+        }
+        return (false);
     }
     RadJav._isUsingInternetExplorerTheWorstWebBrowserEver = _isUsingInternetExplorerTheWorstWebBrowserEver;
     function _getSyncResponse(addr) {
@@ -870,15 +880,26 @@ var RadJav;
                         }
                         for (var iIdx = 0; iIdx < this.cssFiles.length; iIdx++) {
                             promises.push(new Promise(RadJav.keepContext(function (resolve, reject, index) {
+                                var promise2 = null;
                                 var iIdx2 = index[0];
+                                var fullCSSURL = this.url + "/" + this.cssFiles[iIdx2];
                                 var style = document.createElement("style");
                                 style.setAttribute("rel", "stylesheet");
                                 style.setAttribute("type", "text/css");
-                                style.setAttribute("href", this.url + "/" + this.cssFiles[iIdx2]);
-                                style.onload = function () {
-                                    resolve();
-                                };
+                                if (RadJav._isUsingInternetExplorerTheWorstWebBrowserEver() == true) {
+                                    promise2 = RadJav._getResponse(fullCSSURL).then(RadJav.keepContext(function (response, style2) {
+                                        style2.innerHTML = response;
+                                        resolve();
+                                    }, this, style));
+                                }
+                                else {
+                                    style.setAttribute("href", fullCSSURL);
+                                    style.onload = function () {
+                                        resolve();
+                                    };
+                                }
                                 document.head.appendChild(style);
+                                return (promise2);
                             }, this, [iIdx])));
                         }
                         Promise.all(promises).then(function () {
