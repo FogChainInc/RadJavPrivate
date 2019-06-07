@@ -431,33 +431,41 @@ namespace RadJAV
 				#endif
 
 				//Handle timers (setTimeout from JS)
+				//Now implementation is a bit slow because timers
+				//can be removed during execution of timer function itself,
+				//so instead of iterating over the timers we search next
+				//valid timer by it's ID
 				std::chrono::steady_clock::time_point currentTime = std::chrono::steady_clock::now();
 				
-				for (RJINT iIdx = 0; iIdx < timers.size (); iIdx++)
+				std::vector<RJUINT> timersIds;
+				timersIds.reserve(timers.size());
+				for(auto mapItem: timers)
 				{
-					auto timer = timers.at(iIdx);
-					JSObjectRef funcp = timer.first;
-					std::chrono::time_point<std::chrono::steady_clock> fireTime = timer.second;
-					
-					if (fireTime <= currentTime)
+					timersIds.push_back(mapItem.first);
+				}
+				
+				for(auto timerId: timersIds)
+				{
+					auto timer = timers.find(timerId);
+					if (timer != timers.end())
 					{
-						TimerVector::iterator delTimer = timers.begin ();
-						timers.erase(delTimer);
-
-						if ((JSValueIsNull(globalContext, funcp) == false) &&
-							(JSValueIsUndefined(globalContext, funcp) == false))
+						auto timerData = timer->second;
+						JSObjectRef funcp = timerData.first;
+						std::chrono::time_point<std::chrono::steady_clock> fireTime = timerData.second;
+						
+						if (fireTime <= currentTime)
 						{
-							JSValueRef exception = nullptr;
-							JSValueRef result = JSObjectCallAsFunction(globalContext, funcp, globalObj, 0, NULL, &exception);
-
-							if (result == NULL)
-								jscHandleException(globalContext, exception);
+							timers.erase(timer);
 							
-							//Unprotect timer function
+							if (!jscIsNull(funcp))
+								JSObjectCallAsFunction(globalContext, funcp, globalObj, 0, 0, nullptr);
+							
 							JSValueUnprotect(globalContext, funcp);
 						}
 					}
 				}
+				
+				timersIds.clear();
 
 				for (RJUINT iIdx = 0; iIdx < removeThreads.size(); iIdx++)
 				{
@@ -779,15 +787,37 @@ namespace RadJAV
 		}
 		#endif
 
-		void JSCJavascriptEngine::addTimeout (JSObjectRef func, RJINT time)
+		RJUINT JSCJavascriptEngine::addTimeout (JSObjectRef func, RJINT time)
 		{
+			static RJUINT nextTimerId;
+			
 			auto fireTime = std::chrono::steady_clock::now();
 			fireTime += std::chrono::milliseconds(time);
 
 			//Protecting timeout function from GC
 			JSValueProtect(globalContext, func);
 			
-			timers.push_back( std::make_pair(func, fireTime));
+			while(timers.find(nextTimerId) != timers.end())
+			{
+				nextTimerId++;
+			}
+			
+			timers[nextTimerId] = std::make_pair(func, fireTime);
+			return nextTimerId++;
+		}
+
+		void JSCJavascriptEngine::clearTimeout(RJUINT timerId)
+		{
+			auto index = timers.find(timerId);
+			if( index != timers.end())
+			{
+				auto timerData = index->second;
+				JSObjectRef funcp = timerData.first;
+				timers.erase(index);
+
+				//Unprotecting timeout function
+				JSValueUnprotect(globalContext, funcp);
+			}
 		}
 
 		void JSCJavascriptEngine::blockchainEvent(String event, String dataType, void *data)
@@ -973,6 +1003,10 @@ namespace RadJAV
 
 				JSC::Console::createJSCCallbacks(globalContext, radJavFunc);
 				JSC::Thread::createJSCCallbacks(globalContext, radJavFunc);
+
+				JSC_CCALLBACK(globalContext, radJavFunc, "exit", JSC::Global::exit);
+				JSC_CCALLBACK(globalContext, radJavFunc, "quit", JSC::Global::exit);
+				JSC_CCALLBACK(globalContext, radJavFunc, "include", JSC::Global::include);
 
 				// RadJav.OS
 				{

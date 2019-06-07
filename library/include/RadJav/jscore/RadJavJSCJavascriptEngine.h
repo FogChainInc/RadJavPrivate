@@ -99,9 +99,9 @@
                 JSValueRef result;
         };
         
-        typedef std::vector<
-            std::pair<JSObjectRef,
-                std::chrono::time_point<std::chrono::steady_clock> > > TimerVector;
+		typedef std::unordered_map<unsigned int,
+					std::pair<JSObjectRef,
+						std::chrono::time_point<std::chrono::steady_clock> > > TimerMap;
 
 		namespace CPP
 		{
@@ -154,7 +154,9 @@
 				#endif
 
 				/// Add a timeout, process it.
-				void addTimeout(JSObjectRef func, RJINT time);
+				RJUINT addTimeout(JSObjectRef func, RJINT time);
+				/// Clear timeout
+				void clearTimeout(RJUINT timerId);
 
 				/// A blockchain event has occurred, process it.
 				void blockchainEvent(String event, String dataType = "null", void *data = NULL);
@@ -337,7 +339,7 @@
 
                 Array<AsyncFunctionCall *> funcs;
 
-                TimerVector timers;
+				TimerMap timers;
 
                 ExternalsManager* externalsManager;
 				String applicationScriptFilePath;

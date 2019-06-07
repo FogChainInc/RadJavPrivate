@@ -33,6 +33,7 @@ namespace RadJAV
 		void Global::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 		{
             JSC_CALLBACK(object, "setTimeout", Global::setTimeout);
+			JSC_CALLBACK(object, "clearTimeout", Global::clearTimeout);
             JSC_CALLBACK(object, "alert", Global::alert);
             JSC_CALLBACK(object, "confirm", Global::confirm);
             JSC_CALLBACK(object, "prompt", Global::prompt);
@@ -43,13 +44,42 @@ namespace RadJAV
         
         JSValueRef Global::setTimeout(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception)
         {
+			JSValueRef undefined = JSValueMakeUndefined(context);
+			
+			if (numArgs < 2)
+			{
+				JSC_JAVASCRIPT_ENGINE->throwException("Function and timout were recuired");
+				return undefined;
+			}
+			
             JSObjectRef nfunc = JSC_JAVASCRIPT_ENGINE->jscCastValueToObject(args[0]);
             JSValueRef time = args[1];
+			
+            RJUINT id = JSC_JAVASCRIPT_ENGINE->addTimeout(nfunc, JSC_JAVASCRIPT_ENGINE->jscValueToInt(time));
             
-            JSC_JAVASCRIPT_ENGINE->addTimeout(nfunc, JSC_JAVASCRIPT_ENGINE->jscValueToInt(time));
-            
-            return (JSValueMakeUndefined(context));
+            return JSValueMakeNumber(context, id);
         }
+
+		JSValueRef Global::clearTimeout(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception)
+		{
+			JSValueRef undefined = JSValueMakeUndefined(context);
+
+			if (!numArgs)
+			{
+				JSC_JAVASCRIPT_ENGINE->throwException("Timer ID is recuired");
+				return undefined;
+			}
+			
+			JSValueRef idJs = args[0];
+			
+			if (idJs &&
+				JSValueIsNumber(context, idJs))
+			{
+				JSC_JAVASCRIPT_ENGINE->clearTimeout(JSC_JAVASCRIPT_ENGINE->jscValueToInt(idJs));
+			}
+			
+			return JSValueMakeUndefined(context);
+		}
 
 		JSValueRef Global::alert(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception)
 		{
