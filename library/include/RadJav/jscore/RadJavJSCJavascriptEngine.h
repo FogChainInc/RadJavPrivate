@@ -108,6 +108,8 @@
 			class ContextManager;
 		}
 
+		class WorkNotificator;
+		
 		/// The JavaScriptCore javascript engine.
 		class RADJAV_EXPORT JSCJavascriptEngine: public JavascriptEngine
 		{
@@ -325,6 +327,7 @@
 					wxCriticalSection *criticalSection;
 				#endif
 				CPP::ContextManager* contextManager;
+				WorkNotificator* workNotificator;
 
 			protected:
 				template<class T>

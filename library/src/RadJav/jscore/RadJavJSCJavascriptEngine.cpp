@@ -169,9 +169,48 @@ namespace RadJAV
             return (result);
         }
 
+		// WorkNotificator is needed to notify system that app has some activity
+		// and system should not slow down our process when we are in the background.
+		// Currently we added support for MacOS, maybe later other OS will require such
+		// notification as well.
+		class WorkNotificator
+		{
+		public:
+			WorkNotificator()
+			{
+				#ifdef __APPLE__
+					#if TARGET_OS_OSX == 1
+						NSActivityOptions options = NSActivityBackground;
+						activity = [[NSProcessInfo processInfo]
+									beginActivityWithOptions:options
+									reason:String("mainloop").toNSString()];
+						[activity retain];
+					#endif
+				#endif
+			}
+			
+			~WorkNotificator()
+			{
+				#ifdef __APPLE__
+					#if TARGET_OS_OSX == 1
+						[[NSProcessInfo processInfo]
+						 endActivity:activity];
+						activity = nil;
+					#endif
+				#endif
+			}
+		private:
+			#ifdef __APPLE__
+				#if TARGET_OS_OSX == 1
+					NSObject* activity;
+				#endif
+			#endif
+		};
+	
 		JSCJavascriptEngine::JSCJavascriptEngine()
-			: JavascriptEngine(),
-			  externalsManager(nullptr)
+			: JavascriptEngine()
+			, externalsManager(nullptr)
+			, workNotificator(nullptr)
 		{
 			externalsManager = RJNEW ExternalsManager();
 			
@@ -345,6 +384,9 @@ namespace RadJAV
 				// Here we enter main loop of wxApp and set our IdleEvent handler
 				if(wxTheApp)
 				{
+					if (!workNotificator)
+						workNotificator = RJNEW WorkNotificator();
+					
 					wxTheApp->Bind( wxEVT_IDLE,
 								   &JSCJavascriptEngine::runApplicationInIdleEvent,
 								   this,
@@ -372,7 +414,10 @@ namespace RadJAV
             void JSCJavascriptEngine::runApplicationInIdleEvent(wxIdleEvent& event)
             {
                 if(!runApplicationSingleStep())
+				{
+					DELETEOBJ(workNotificator);
                     return;
+				}
 
                 event.RequestMore();
                 wxMilliSleep(1);
