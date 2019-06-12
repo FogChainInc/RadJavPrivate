@@ -206,6 +206,54 @@ namespace RadJAV
 		{
 			free(data);
 		}*/
+	
+		void bringAppToForeground()
+		{
+			// This code will bring Mac GUI app to foreground
+			#ifdef __APPLE__
+				#if TARGET_OS_OSX == 1
+					[[NSApplication sharedApplication] activateIgnoringOtherApps:true];
+				#endif
+			#endif
+		}
+	
+		// WorkNotificator is needed to notify system that app has some activity
+		// and system should not slow down our process when we are in the background.
+		// Currently we added support for MacOS, maybe later other OS will require such
+		// notification as well.
+		class WorkNotificator
+		{
+		public:
+			WorkNotificator()
+			{
+				#ifdef __APPLE__
+					#if TARGET_OS_OSX == 1
+						NSActivityOptions options = NSActivityBackground;
+						activity = [[NSProcessInfo processInfo]
+									beginActivityWithOptions:options
+									reason:String("mainloop").toNSString()];
+						[activity retain];
+					#endif
+				#endif
+			}
+			
+			~WorkNotificator()
+			{
+				#ifdef __APPLE__
+					#if TARGET_OS_OSX == 1
+						[[NSProcessInfo processInfo]
+						 endActivity:activity];
+						activity = nil;
+					#endif
+				#endif
+			}
+		private:
+			#ifdef __APPLE__
+				#if TARGET_OS_OSX == 1
+					NSObject* activity;
+				#endif
+			#endif
+		};
 
 		class JsVirtualMachine
 		{
@@ -270,7 +318,8 @@ namespace RadJAV
 			: JavascriptEngine(),
 			  jsvm(nullptr),
 			  arrayBufferAllocator(nullptr),
-			  externalsManager(nullptr)
+			  externalsManager(nullptr),
+			  workNotificator(nullptr)
 		{
 			externalsManager = RJNEW ExternalsManager();
 			
@@ -534,6 +583,9 @@ namespace RadJAV
 				// Here we enter main loop of wxApp and set our IdleEvent handler
 				if(wxTheApp)
 				{
+					if (!workNotificator)
+						workNotificator = RJNEW WorkNotificator();
+					
 					wxTheApp->Bind( wxEVT_IDLE,
 								   &V8JavascriptEngine::runApplicationInIdleEvent,
 								   this,
@@ -649,12 +701,9 @@ namespace RadJAV
 							val->Call(globalContext->Global(), 0, NULL);
 					}
 
-					//This is here only to bring the mac app to the foreground
-					#ifdef __APPLE__
-						#if TARGET_OS_OSX == 1
-							[[NSApplication sharedApplication] activateIgnoringOtherApps:true];
-						#endif
-					#endif
+					// This is needed because sometimes app appear in the end of
+					// the stack of active windows (at least on macOS)
+					bringAppToForeground();
 
 					firstRun = false;
 				}
@@ -850,9 +899,10 @@ namespace RadJAV
 				
 				if (shutdown == true)
 				{
-#ifdef GUI_USE_WXWIDGETS
-					wxExit();
-#endif
+					#ifdef GUI_USE_WXWIDGETS
+						DELETEOBJ(workNotificator);
+						wxExit();
+					#endif
 					return false;
 				}
 			}
@@ -869,9 +919,10 @@ namespace RadJAV
 				
 				if (shutdownOnException == true)
 				{
-#ifdef GUI_USE_WXWIDGETS
-					wxExit();
-#endif
+					#ifdef GUI_USE_WXWIDGETS
+						DELETEOBJ(workNotificator);
+						wxExit();
+					#endif
 					return false;
 				}
 			}

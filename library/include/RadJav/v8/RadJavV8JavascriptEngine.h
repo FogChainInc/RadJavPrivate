@@ -128,7 +128,9 @@
 		{
 			class ContextManager;
 		}
-
+		
+		class WorkNotificator;
+		
 		/// The V8 javascript engine.
 		class RADJAV_EXPORT V8JavascriptEngine: public JavascriptEngine
 		{
@@ -319,6 +321,7 @@
 				V8Inspector *inspector;
 			
 				ExternalsManager* externalsManager;
+				WorkNotificator* workNotificator;
 				String applicationScriptFilePath;
 		};
 	}
