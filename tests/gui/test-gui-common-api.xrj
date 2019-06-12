@@ -2187,6 +2187,3943 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 			return destroyApiTest.call(check, "WebView");
 		});
 		
+		// generic destroy & setFont API test
+		let destroySetFontApiTest = function(controlName) {
+			let check = this;
+			let message = "Got exception on "+controlName+".setFont() API when control has been destroyed";
+			let exceptionCaught = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window", controlName+" destroy/setFont API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI[controlName](controlName, "test", window);
+					control.create().then( function(ctl) {
+						control = ctl;
+						
+						control.destroy();
+						try
+						{
+							let font = new RadJav.Font({fontFamily: "Arial",
+														size: 10,
+														color: RadJav.Color.Black,
+														underline: true,
+														bold: true,
+														italic: true});
+							
+							control.setFont(font);
+						}
+						catch(err)
+						{
+							exceptionCaught = true;
+						}
+						finally
+						{
+							check.assert(exceptionCaught, message);
+						}
+						
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window destroy & setFont API test
+		RadJav.addTest("test_common_destroy_015", function(check) {
+			let message = "Got exception on Window.setFont() API when control has been destroyed";
+			let exceptionCaught = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window","Window destroy/setFont API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.destroy();
+					
+					try
+					{
+						let font = new RadJav.Font({fontFamily: "Arial",
+													size: 10,
+													color: RadJav.Color.Black,
+													underline: true,
+													bold: true,
+													italic: true});
+						
+						window.setFont(font);
+					}
+					catch(err)
+					{
+						exceptionCaught = true;
+					}
+					finally
+					{
+						check.assert(exceptionCaught, message);
+					}
+					
+					resolve();
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Button destroy & setFont API test
+		RadJav.addTest("test_common_destroy_016", function(check) {
+			return destroySetFontApiTest.call(check, "Button");
+		});
+		
+		// Checkbox destroy & setFont API test
+		RadJav.addTest("test_common_destroy_017", function(check) {
+			return destroySetFontApiTest.call(check, "Checkbox");
+		});
+		
+		// Combobox destroy & setFont API test
+		RadJav.addTest("test_common_destroy_018", function(check) {
+			return destroySetFontApiTest.call(check, "Combobox");
+		});
+		
+		// Container destroy & setFont API test
+		RadJav.addTest("test_common_destroy_019", function(check) {
+			return destroySetFontApiTest.call(check, "Container");
+		});
+		
+		// Image destroy & setFont API test
+		RadJav.addTest("test_common_destroy_020", function(check) {
+			return destroySetFontApiTest.call(check, "Image");
+		});
+		
+		// Label destroy & setFont API test
+		RadJav.addTest("test_common_destroy_021", function(check) {
+			return destroySetFontApiTest.call(check, "Label");
+		});
+		
+		// List destroy & setFont API test
+		RadJav.addTest("test_common_destroy_022", function(check) {
+			return destroySetFontApiTest.call(check, "List");
+		});
+		
+		// MebuBar destroy & setFont API test
+		RadJav.addTest("test_common_destroy_023", function(check) {
+			return destroySetFontApiTest.call(check, "MenuBar");
+		});
+		
+		// MenuItem destroy & setFont API test
+		RadJav.addTest("test_common_destroy_024", function(check) {
+			let message = "Got exception on MenuItem.setFont() API when control has been destroyed";
+			let exceptionCaught = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuItem destroy/setFont API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
+						menuItem.create().then( function(ctl) {
+							menuItem = ctl;
+							
+							menuItem.destroy();
+							try
+							{
+								let font = new RadJav.Font({fontFamily: "Arial",
+															size: 10,
+															color: RadJav.Color.Black,
+															underline: true,
+															bold: true,
+															italic: true});
+								
+								menuItem.setFont(font);
+							}
+							catch(err)
+							{
+								exceptionCaught = true;
+							}
+							finally
+							{
+								check.assert(exceptionCaught, message);
+							}
+							
+							resolve();
+						});
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Radio destroy & setFont API test
+		RadJav.addTest("test_common_destroy_025", function(check) {
+			return destroySetFontApiTest.call(check, "Radio");
+		});
+		
+		// Textarea destroy & setFont API test
+		RadJav.addTest("test_common_destroy_026", function(check) {
+			return destroySetFontApiTest.call(check, "Textarea");
+		});
+		
+		// Textbox destroy & setFont API test
+		RadJav.addTest("test_common_destroy_027", function(check) {
+			return destroySetFontApiTest.call(check, "Textbox");
+		});
+		
+		// WebView destroy & setFont API test
+		RadJav.addTest("test_common_destroy_028", function(check) {
+			return destroySetFontApiTest.call(check, "WebView");
+		});
+		
+		// generic destroy & getFont API test
+		let destroyGetFontApiTest = function(controlName) {
+			let check = this;
+			let message = "Got exception on "+controlName+".getFont() API when control has been destroyed";
+			let message2 = "Returned font is undefined";
+			let exceptionCaught = false;
+			let font;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window", controlName+" destroy/getFont API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI[controlName](controlName, "test", window);
+					control.create().then( function(ctl) {
+						control = ctl;
+						
+						control.destroy();
+						try
+						{
+							font = control.getFont();
+						}
+						catch(err)
+						{
+							exceptionCaught = true;
+						}
+						finally
+						{
+							check.assert(exceptionCaught, message);
+							check.equal(font, undefined, message2);
+						}
+						
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(font, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window destroy & getFont API test
+		RadJav.addTest("test_common_destroy_029", function(check) {
+			let message = "Got exception on Window.getFont() API when control has been destroyed";
+			let message2 = "Returned font is undefined";
+			let exceptionCaught = false;
+			let font;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window","Window destroy/getFont API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.destroy();
+					
+					try
+					{
+						font = window.getFont();
+					}
+					catch(err)
+					{
+						exceptionCaught = true;
+					}
+					finally
+					{
+						check.assert(exceptionCaught, message);
+						check.equal(font, undefined, message2);
+					}
+					
+					resolve();
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(font, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Button destroy & getFont API test
+		RadJav.addTest("test_common_destroy_030", function(check) {
+			return destroyGetFontApiTest.call(check, "Button");
+		});
+		
+		// Checkbox destroy & getFont API test
+		RadJav.addTest("test_common_destroy_031", function(check) {
+			return destroyGetFontApiTest.call(check, "Checkbox");
+		});
+		
+		// Combobox destroy & getFont API test
+		RadJav.addTest("test_common_destroy_032", function(check) {
+			return destroyGetFontApiTest.call(check, "Combobox");
+		});
+		
+		// Container destroy & getFont API test
+		RadJav.addTest("test_common_destroy_033", function(check) {
+			return destroyGetFontApiTest.call(check, "Container");
+		});
+		
+		// Image destroy & getFont API test
+		RadJav.addTest("test_common_destroy_034", function(check) {
+			return destroyGetFontApiTest.call(check, "Image");
+		});
+		
+		// Label destroy & getFont API test
+		RadJav.addTest("test_common_destroy_035", function(check) {
+			return destroyGetFontApiTest.call(check, "Label");
+		});
+		
+		// List destroy & getFont API test
+		RadJav.addTest("test_common_destroy_036", function(check) {
+			return destroyGetFontApiTest.call(check, "List");
+		});
+		
+		// MebuBar destroy & getFont API test
+		RadJav.addTest("test_common_destroy_037", function(check) {
+			return destroyGetFontApiTest.call(check, "MenuBar");
+		});
+		
+		// MenuItem destroy & getFont API test
+		RadJav.addTest("test_common_destroy_038", function(check) {
+			let message = "Got exception on MenuItem.getFont() API when control has been destroyed";
+			let message2 = "Returned font is undefined";
+			let exceptionCaught = false;
+			let font;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuItem destroy/getFont API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
+						menuItem.create().then( function(ctl) {
+							menuItem = ctl;
+							
+							menuItem.destroy();
+							try
+							{
+								font = menuItem.getFont();
+							}
+							catch(err)
+							{
+								exceptionCaught = true;
+							}
+							finally
+							{
+								check.assert(exceptionCaught, message);
+								check.equal(font, undefined, message2);
+							}
+							
+							resolve();
+						});
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(font, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Radio destroy & getFont API test
+		RadJav.addTest("test_common_destroy_039", function(check) {
+			return destroyGetFontApiTest.call(check, "Radio");
+		});
+		
+		// Textarea destroy & getFont API test
+		RadJav.addTest("test_common_destroy_040", function(check) {
+			return destroyGetFontApiTest.call(check, "Textarea");
+		});
+		
+		// Textbox destroy & getFont API test
+		RadJav.addTest("test_common_destroy_041", function(check) {
+			return destroyGetFontApiTest.call(check, "Textbox");
+		});
+		
+		// WebView destroy & getFont API test
+		RadJav.addTest("test_common_destroy_042", function(check) {
+			return destroyGetFontApiTest.call(check, "WebView");
+		});
+		
+		// generic destroy & setPosition API test
+		let destroySetPositionApiTest = function(controlName) {
+			let check = this;
+			let message = "Got exception on "+controlName+".setPosition() API when control has been destroyed";
+			let exceptionCaught = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window", controlName+" destroy/setPosition API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI[controlName](controlName, "test", window);
+					control.create().then( function(ctl) {
+						control = ctl;
+						
+						control.destroy();
+						try
+						{
+							control.setPosition(100, 100);
+						}
+						catch(err)
+						{
+							exceptionCaught = true;
+						}
+						finally
+						{
+							check.assert(exceptionCaught, message);
+						}
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window destroy & setPosition API test
+		RadJav.addTest("test_common_destroy_043", function(check) {
+			let message = "Got exception on Window.setPosition() API when control has been destroyed";
+			let exceptionCaught = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window","Window destroy/setPosition API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.destroy();
+					try
+					{
+						window.setPosition(100, 100);
+					}
+					catch(err)
+					{
+						exceptionCaught = true;
+					}
+					finally
+					{
+						check.assert(exceptionCaught, message);
+					}
+					resolve();
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Button destroy & setPosition API test
+		RadJav.addTest("test_common_destroy_044", function(check) {
+			return destroySetPositionApiTest.call(check, "Button");
+		});
+		
+		// Checkbox destroy & setPosition API test
+		RadJav.addTest("test_common_destroy_045", function(check) {
+			return destroySetPositionApiTest.call(check, "Checkbox");
+		});
+		
+		// Combobox destroy & setPosition API test
+		RadJav.addTest("test_common_destroy_046", function(check) {
+			return destroySetPositionApiTest.call(check, "Combobox");
+		});
+		
+		// Container destroy & setPosition API test
+		RadJav.addTest("test_common_destroy_047", function(check) {
+			return destroySetPositionApiTest.call(check, "Container");
+		});
+		
+		// Image destroy & setPosition API test
+		RadJav.addTest("test_common_destroy_048", function(check) {
+			return destroySetPositionApiTest.call(check, "Image");
+		});
+		
+		// Label destroy & setPosition API test
+		RadJav.addTest("test_common_destroy_049", function(check) {
+			return destroySetPositionApiTest.call(check, "Label");
+		});
+		
+		// List destroy & setPosition API test
+		RadJav.addTest("test_common_destroy_050", function(check) {
+			return destroySetPositionApiTest.call(check, "List");
+		});
+		
+		// MebuBar destroy & setPosition API test
+		RadJav.addTest("test_common_destroy_051", function(check) {
+			return destroySetPositionApiTest.call(check, "MenuBar");
+		});
+		
+		// MenuItem destroy & setPosition API test
+		RadJav.addTest("test_common_destroy_052", function(check) {
+			let message = "Got exception on MenuItem.setPosition() API when control has been destroyed";
+			let exceptionCaught = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuItem destroy/setPosition API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
+						menuItem.create().then( function(ctl) {
+							menuItem = ctl;
+							
+							menuItem.destroy();
+							try
+							{
+								menuItem.setPosition(100, 100);
+							}
+							catch(err)
+							{
+								exceptionCaught = true;
+							}
+							finally
+							{
+								check.assert(exceptionCaught, message);
+							}
+							resolve();
+						});
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Radio destroy & setPosition API test
+		RadJav.addTest("test_common_destroy_053", function(check) {
+			return destroySetPositionApiTest.call(check, "Radio");
+		});
+		
+		// Textarea destroy & setPosition API test
+		RadJav.addTest("test_common_destroy_054", function(check) {
+			return destroySetPositionApiTest.call(check, "Textarea");
+		});
+		
+		// Textbox destroy & setPosition API test
+		RadJav.addTest("test_common_destroy_055", function(check) {
+			return destroySetPositionApiTest.call(check, "Textbox");
+		});
+		
+		// WebView destroy & setPosition API test
+		RadJav.addTest("test_common_destroy_056", function(check) {
+			return destroySetPositionApiTest.call(check, "WebView");
+		});
+		
+		// generic destroy & getPosition API test
+		let destroyGetPositionApiTest = function(controlName) {
+			let check = this;
+			let message = "Got exception on "+controlName+".getPosition() API when control has been destroyed";
+			let message2 = "Returned position is undefined";
+			let exceptionCaught = false;
+			let position;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window", controlName+" destroy/getPosition API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI[controlName](controlName, "test", window);
+					control.create().then( function(ctl) {
+						control = ctl;
+						
+						control.destroy();
+						try
+						{
+							position = control.getPosition();
+						}
+						catch(err)
+						{
+							exceptionCaught = true;
+						}
+						finally
+						{
+							check.assert(exceptionCaught, message);
+							check.equal(position, undefined, message2);
+						}
+						
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(position, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window destroy & getPosition API test
+		RadJav.addTest("test_common_destroy_057", function(check) {
+			let message = "Got exception on Window.getPosition() API when control has been destroyed";
+			let message2 = "Returned position is undefined";
+			let exceptionCaught = false;
+			let position;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window","Window destroy/getPosition API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.destroy();
+					
+					try
+					{
+						position = window.getPosition();
+					}
+					catch(err)
+					{
+						exceptionCaught = true;
+					}
+					finally
+					{
+						check.assert(exceptionCaught, message);
+						check.equal(position, undefined, message2);
+					}
+					
+					resolve();
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(position, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Button destroy & getPosition API test
+		RadJav.addTest("test_common_destroy_058", function(check) {
+			return destroyGetPositionApiTest.call(check, "Button");
+		});
+		
+		// Checkbox destroy & getPosition API test
+		RadJav.addTest("test_common_destroy_059", function(check) {
+			return destroyGetPositionApiTest.call(check, "Checkbox");
+		});
+		
+		// Combobox destroy & getPosition API test
+		RadJav.addTest("test_common_destroy_060", function(check) {
+			return destroyGetPositionApiTest.call(check, "Combobox");
+		});
+		
+		// Container destroy & getPosition API test
+		RadJav.addTest("test_common_destroy_061", function(check) {
+			return destroyGetPositionApiTest.call(check, "Container");
+		});
+		
+		// Image destroy & getPosition API test
+		RadJav.addTest("test_common_destroy_062", function(check) {
+			return destroyGetPositionApiTest.call(check, "Image");
+		});
+		
+		// Label destroy & getPosition API test
+		RadJav.addTest("test_common_destroy_063", function(check) {
+			return destroyGetPositionApiTest.call(check, "Label");
+		});
+		
+		// List destroy & getPosition API test
+		RadJav.addTest("test_common_destroy_064", function(check) {
+			return destroyGetPositionApiTest.call(check, "List");
+		});
+		
+		// MebuBar destroy & getPosition API test
+		RadJav.addTest("test_common_destroy_065", function(check) {
+			return destroyGetPositionApiTest.call(check, "MenuBar");
+		});
+		
+		// MenuItem destroy & getPosition API test
+		RadJav.addTest("test_common_destroy_066", function(check) {
+			let message = "Got exception on MenuItem.getPosition() API when control has been destroyed";
+			let message2 = "Returned position is undefined";
+			let exceptionCaught = false;
+			let position;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuItem destroy/getPosition API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
+						menuItem.create().then( function(ctl) {
+							menuItem = ctl;
+							
+							menuItem.destroy();
+							try
+							{
+								position = menuItem.getPosition();
+							}
+							catch(err)
+							{
+								exceptionCaught = true;
+							}
+							finally
+							{
+								check.assert(exceptionCaught, message);
+								check.equal(position, undefined, message2);
+							}
+							
+							resolve();
+						});
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(position, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Radio destroy & getPosition API test
+		RadJav.addTest("test_common_destroy_067", function(check) {
+			return destroyGetPositionApiTest.call(check, "Radio");
+		});
+		
+		// Textarea destroy & getPosition API test
+		RadJav.addTest("test_common_destroy_068", function(check) {
+			return destroyGetPositionApiTest.call(check, "Textarea");
+		});
+		
+		// Textbox destroy & getPosition API test
+		RadJav.addTest("test_common_destroy_069", function(check) {
+			return destroyGetPositionApiTest.call(check, "Textbox");
+		});
+		
+		// WebView destroy & getPosition API test
+		RadJav.addTest("test_common_destroy_070", function(check) {
+			return destroyGetPositionApiTest.call(check, "WebView");
+		});
+		
+		// generic destroy & getX API test
+		let destroyGetXApiTest = function(controlName) {
+			let check = this;
+			let message = "Got exception on "+controlName+".getX() API when control has been destroyed";
+			let message2 = "Returned x is undefined";
+			let exceptionCaught = false;
+			let x;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window", controlName+" destroy/getX API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI[controlName](controlName, "test", window);
+					control.create().then( function(ctl) {
+						control = ctl;
+						
+						control.destroy();
+						try
+						{
+							x = control.getX();
+						}
+						catch(err)
+						{
+							exceptionCaught = true;
+						}
+						finally
+						{
+							check.assert(exceptionCaught, message);
+							check.equal(x, undefined, message2);
+						}
+						
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(x, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window destroy & getX API test
+		RadJav.addTest("test_common_destroy_071", function(check) {
+			let message = "Got exception on Window.getX() API when control has been destroyed";
+			let message2 = "Returned x is undefined";
+			let exceptionCaught = false;
+			let x;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window","Window destroy/getX API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.destroy();
+					
+					try
+					{
+						x = window.getX();
+					}
+					catch(err)
+					{
+						exceptionCaught = true;
+					}
+					finally
+					{
+						check.assert(exceptionCaught, message);
+						check.equal(x, undefined, message2);
+					}
+					
+					resolve();
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(x, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Button destroy & getX API test
+		RadJav.addTest("test_common_destroy_072", function(check) {
+			return destroyGetXApiTest.call(check, "Button");
+		});
+		
+		// Checkbox destroy & getX API test
+		RadJav.addTest("test_common_destroy_073", function(check) {
+			return destroyGetXApiTest.call(check, "Checkbox");
+		});
+		
+		// Combobox destroy & getX API test
+		RadJav.addTest("test_common_destroy_074", function(check) {
+			return destroyGetXApiTest.call(check, "Combobox");
+		});
+		
+		// Container destroy & getX API test
+		RadJav.addTest("test_common_destroy_075", function(check) {
+			return destroyGetXApiTest.call(check, "Container");
+		});
+		
+		// Image destroy & getX API test
+		RadJav.addTest("test_common_destroy_076", function(check) {
+			return destroyGetXApiTest.call(check, "Image");
+		});
+		
+		// Label destroy & getX API test
+		RadJav.addTest("test_common_destroy_077", function(check) {
+			return destroyGetXApiTest.call(check, "Label");
+		});
+		
+		// List destroy & getX API test
+		RadJav.addTest("test_common_destroy_078", function(check) {
+			return destroyGetXApiTest.call(check, "List");
+		});
+		
+		// MebuBar destroy & getX API test
+		RadJav.addTest("test_common_destroy_079", function(check) {
+			return destroyGetXApiTest.call(check, "MenuBar");
+		});
+		
+		// MenuItem destroy & getX API test
+		RadJav.addTest("test_common_destroy_080", function(check) {
+			let message = "Got exception on MenuItem.getX() API when control has been destroyed";
+			let message2 = "Returned x is undefined";
+			let exceptionCaught = false;
+			let x;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuItem destroy/getX API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
+						menuItem.create().then( function(ctl) {
+							menuItem = ctl;
+							
+							menuItem.destroy();
+							try
+							{
+								x = menuItem.getX();
+							}
+							catch(err)
+							{
+								exceptionCaught = true;
+							}
+							finally
+							{
+								check.assert(exceptionCaught, message);
+								check.equal(x, undefined, message2);
+							}
+							
+							resolve();
+						});
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(x, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Radio destroy & getX API test
+		RadJav.addTest("test_common_destroy_081", function(check) {
+			return destroyGetXApiTest.call(check, "Radio");
+		});
+		
+		// Textarea destroy & getX API test
+		RadJav.addTest("test_common_destroy_082", function(check) {
+			return destroyGetXApiTest.call(check, "Textarea");
+		});
+		
+		// Textbox destroy & getX API test
+		RadJav.addTest("test_common_destroy_083", function(check) {
+			return destroyGetXApiTest.call(check, "Textbox");
+		});
+		
+		// WebView destroy & getX API test
+		RadJav.addTest("test_common_destroy_084", function(check) {
+			return destroyGetXApiTest.call(check, "WebView");
+		});
+		
+		// generic destroy & getY API test
+		let destroyGetYApiTest = function(controlName) {
+			let check = this;
+			let message = "Got exception on "+controlName+".getY() API when control has been destroyed";
+			let message2 = "Returned y is undefined";
+			let exceptionCaught = false;
+			let y;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window", controlName+" destroy/getY API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI[controlName](controlName, "test", window);
+					control.create().then( function(ctl) {
+						control = ctl;
+						
+						control.destroy();
+						try
+						{
+							y = control.getY();
+						}
+						catch(err)
+						{
+							exceptionCaught = true;
+						}
+						finally
+						{
+							check.assert(exceptionCaught, message);
+							check.equal(y, undefined, message2);
+						}
+						
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(y, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window destroy & getY API test
+		RadJav.addTest("test_common_destroy_085", function(check) {
+			let message = "Got exception on Window.getY() API when control has been destroyed";
+			let message2 = "Returned y is undefined";
+			let exceptionCaught = false;
+			let y;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window","Window destroy/getY API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.destroy();
+					
+					try
+					{
+						y = window.getY();
+					}
+					catch(err)
+					{
+						exceptionCaught = true;
+					}
+					finally
+					{
+						check.assert(exceptionCaught, message);
+						check.equal(y, undefined, message2);
+					}
+					
+					resolve();
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(y, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Button destroy & getY API test
+		RadJav.addTest("test_common_destroy_086", function(check) {
+			return destroyGetYApiTest.call(check, "Button");
+		});
+		
+		// Checkbox destroy & getY API test
+		RadJav.addTest("test_common_destroy_087", function(check) {
+			return destroyGetYApiTest.call(check, "Checkbox");
+		});
+		
+		// Combobox destroy & getY API test
+		RadJav.addTest("test_common_destroy_088", function(check) {
+			return destroyGetYApiTest.call(check, "Combobox");
+		});
+		
+		// Container destroy & getY API test
+		RadJav.addTest("test_common_destroy_089", function(check) {
+			return destroyGetYApiTest.call(check, "Container");
+		});
+		
+		// Image destroy & getY API test
+		RadJav.addTest("test_common_destroy_090", function(check) {
+			return destroyGetYApiTest.call(check, "Image");
+		});
+		
+		// Label destroy & getY API test
+		RadJav.addTest("test_common_destroy_091", function(check) {
+			return destroyGetYApiTest.call(check, "Label");
+		});
+		
+		// List destroy & getY API test
+		RadJav.addTest("test_common_destroy_092", function(check) {
+			return destroyGetYApiTest.call(check, "List");
+		});
+		
+		// MebuBar destroy & getY API test
+		RadJav.addTest("test_common_destroy_093", function(check) {
+			return destroyGetYApiTest.call(check, "MenuBar");
+		});
+		
+		// MenuItem destroy & getY API test
+		RadJav.addTest("test_common_destroy_094", function(check) {
+			let message = "Got exception on MenuItem.getY() API when control has been destroyed";
+			let message2 = "Returned y is undefined";
+			let exceptionCaught = false;
+			let y;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuItem destroy/getY API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
+						menuItem.create().then( function(ctl) {
+							menuItem = ctl;
+							
+							menuItem.destroy();
+							try
+							{
+								y = menuItem.getY();
+							}
+							catch(err)
+							{
+								exceptionCaught = true;
+							}
+							finally
+							{
+								check.assert(exceptionCaught, message);
+								check.equal(y, undefined, message2);
+							}
+							
+							resolve();
+						});
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(y, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Radio destroy & getY API test
+		RadJav.addTest("test_common_destroy_095", function(check) {
+			return destroyGetYApiTest.call(check, "Radio");
+		});
+		
+		// Textarea destroy & getY API test
+		RadJav.addTest("test_common_destroy_096", function(check) {
+			return destroyGetYApiTest.call(check, "Textarea");
+		});
+		
+		// Textbox destroy & getY API test
+		RadJav.addTest("test_common_destroy_097", function(check) {
+			return destroyGetYApiTest.call(check, "Textbox");
+		});
+		
+		// WebView destroy & getY API test
+		RadJav.addTest("test_common_destroy_098", function(check) {
+			return destroyGetYApiTest.call(check, "WebView");
+		});
+		
+		// generic destroy & setSize API test
+		let destroySetSizeApiTest = function(controlName) {
+			let check = this;
+			let message = "Got exception on "+controlName+".setSize() API when control has been destroyed";
+			let exceptionCaught = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window", controlName+" destroy/setSize API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI[controlName](controlName, "test", window);
+					control.create().then( function(ctl) {
+						control = ctl;
+						
+						control.destroy();
+						try
+						{
+							control.setSize(100, 100);
+						}
+						catch(err)
+						{
+							exceptionCaught = true;
+						}
+						finally
+						{
+							check.assert(exceptionCaught, message);
+						}
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window destroy & setSize API test
+		RadJav.addTest("test_common_destroy_099", function(check) {
+			let message = "Got exception on Window.setSize() API when control has been destroyed";
+			let exceptionCaught = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window","Window destroy/setSize API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.destroy();
+					try
+					{
+						window.setSize(100, 100);
+					}
+					catch(err)
+					{
+						exceptionCaught = true;
+					}
+					finally
+					{
+						check.assert(exceptionCaught, message);
+					}
+					resolve();
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Button destroy & setSize API test
+		RadJav.addTest("test_common_destroy_100", function(check) {
+			return destroySetSizeApiTest.call(check, "Button");
+		});
+		
+		// Checkbox destroy & setSize API test
+		RadJav.addTest("test_common_destroy_101", function(check) {
+			return destroySetSizeApiTest.call(check, "Checkbox");
+		});
+		
+		// Combobox destroy & setSize API test
+		RadJav.addTest("test_common_destroy_102", function(check) {
+			return destroySetSizeApiTest.call(check, "Combobox");
+		});
+		
+		// Container destroy & setSize API test
+		RadJav.addTest("test_common_destroy_103", function(check) {
+			return destroySetSizeApiTest.call(check, "Container");
+		});
+		
+		// Image destroy & setSize API test
+		RadJav.addTest("test_common_destroy_104", function(check) {
+			return destroySetSizeApiTest.call(check, "Image");
+		});
+		
+		// Label destroy & setSize API test
+		RadJav.addTest("test_common_destroy_105", function(check) {
+			return destroySetSizeApiTest.call(check, "Label");
+		});
+		
+		// List destroy & setSize API test
+		RadJav.addTest("test_common_destroy_106", function(check) {
+			return destroySetSizeApiTest.call(check, "List");
+		});
+		
+		// MebuBar destroy & setSize API test
+		RadJav.addTest("test_common_destroy_107", function(check) {
+			return destroySetSizeApiTest.call(check, "MenuBar");
+		});
+		
+		// MenuItem destroy & setSize API test
+		RadJav.addTest("test_common_destroy_108", function(check) {
+			let message = "Got exception on MenuItem.setSize() API when control has been destroyed";
+			let exceptionCaught = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuItem destroy/setSize API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
+						menuItem.create().then( function(ctl) {
+							menuItem = ctl;
+							
+							menuItem.destroy();
+							try
+							{
+								menuItem.setSize(100, 100);
+							}
+							catch(err)
+							{
+								exceptionCaught = true;
+							}
+							finally
+							{
+								check.assert(exceptionCaught, message);
+							}
+							resolve();
+						});
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Radio destroy & setSize API test
+		RadJav.addTest("test_common_destroy_109", function(check) {
+			return destroySetSizeApiTest.call(check, "Radio");
+		});
+		
+		// Textarea destroy & setSize API test
+		RadJav.addTest("test_common_destroy_110", function(check) {
+			return destroySetSizeApiTest.call(check, "Textarea");
+		});
+		
+		// Textbox destroy & setSize API test
+		RadJav.addTest("test_common_destroy_111", function(check) {
+			return destroySetSizeApiTest.call(check, "Textbox");
+		});
+		
+		// WebView destroy & setSize API test
+		RadJav.addTest("test_common_destroy_112", function(check) {
+			return destroySetSizeApiTest.call(check, "WebView");
+		});
+		
+		// generic destroy & getSize API test
+		let destroyGetSizeApiTest = function(controlName) {
+			let check = this;
+			let message = "Got exception on "+controlName+".getSize() API when control has been destroyed";
+			let message2 = "Returned size is undefined";
+			let exceptionCaught = false;
+			let size;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window", controlName+" destroy/getSize API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI[controlName](controlName, "test", window);
+					control.create().then( function(ctl) {
+						control = ctl;
+						
+						control.destroy();
+						try
+						{
+							size = control.getSize();
+						}
+						catch(err)
+						{
+							exceptionCaught = true;
+						}
+						finally
+						{
+							check.assert(exceptionCaught, message);
+							check.equal(size, undefined, message2);
+						}
+						
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(size, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window destroy & getSize API test
+		RadJav.addTest("test_common_destroy_113", function(check) {
+			let message = "Got exception on Window.getSize() API when control has been destroyed";
+			let message2 = "Returned size is undefined";
+			let exceptionCaught = false;
+			let size;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window","Window destroy/getSize API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.destroy();
+					
+					try
+					{
+						size = window.getSize();
+					}
+					catch(err)
+					{
+						exceptionCaught = true;
+					}
+					finally
+					{
+						check.assert(exceptionCaught, message);
+						check.equal(size, undefined, message2);
+					}
+					
+					resolve();
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(size, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Button destroy & getSize API test
+		RadJav.addTest("test_common_destroy_114", function(check) {
+			return destroyGetSizeApiTest.call(check, "Button");
+		});
+		
+		// Checkbox destroy & getSize API test
+		RadJav.addTest("test_common_destroy_115", function(check) {
+			return destroyGetSizeApiTest.call(check, "Checkbox");
+		});
+		
+		// Combobox destroy & getSize API test
+		RadJav.addTest("test_common_destroy_116", function(check) {
+			return destroyGetSizeApiTest.call(check, "Combobox");
+		});
+		
+		// Container destroy & getSize API test
+		RadJav.addTest("test_common_destroy_117", function(check) {
+			return destroyGetSizeApiTest.call(check, "Container");
+		});
+		
+		// Image destroy & getSize API test
+		RadJav.addTest("test_common_destroy_118", function(check) {
+			return destroyGetSizeApiTest.call(check, "Image");
+		});
+		
+		// Label destroy & getSize API test
+		RadJav.addTest("test_common_destroy_119", function(check) {
+			return destroyGetSizeApiTest.call(check, "Label");
+		});
+		
+		// List destroy & getSize API test
+		RadJav.addTest("test_common_destroy_120", function(check) {
+			return destroyGetSizeApiTest.call(check, "List");
+		});
+		
+		// MebuBar destroy & getSize API test
+		RadJav.addTest("test_common_destroy_121", function(check) {
+			return destroyGetSizeApiTest.call(check, "MenuBar");
+		});
+		
+		// MenuItem destroy & getSize API test
+		RadJav.addTest("test_common_destroy_122", function(check) {
+			let message = "Got exception on MenuItem.getSize() API when control has been destroyed";
+			let message2 = "Returned size is undefined";
+			let exceptionCaught = false;
+			let size;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuItem destroy/getSize API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
+						menuItem.create().then( function(ctl) {
+							menuItem = ctl;
+							
+							menuItem.destroy();
+							try
+							{
+								size = menuItem.getSize();
+							}
+							catch(err)
+							{
+								exceptionCaught = true;
+							}
+							finally
+							{
+								check.assert(exceptionCaught, message);
+								check.equal(size, undefined, message2);
+							}
+							
+							resolve();
+						});
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(size, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Radio destroy & getSize API test
+		RadJav.addTest("test_common_destroy_123", function(check) {
+			return destroyGetSizeApiTest.call(check, "Radio");
+		});
+		
+		// Textarea destroy & getSize API test
+		RadJav.addTest("test_common_destroy_124", function(check) {
+			return destroyGetSizeApiTest.call(check, "Textarea");
+		});
+		
+		// Textbox destroy & getSize API test
+		RadJav.addTest("test_common_destroy_125", function(check) {
+			return destroyGetSizeApiTest.call(check, "Textbox");
+		});
+		
+		// WebView destroy & getSize API test
+		RadJav.addTest("test_common_destroy_126", function(check) {
+			return destroyGetSizeApiTest.call(check, "WebView");
+		});
+		
+		// generic destroy & getWidth API test
+		let destroyGetWidthApiTest = function(controlName) {
+			let check = this;
+			let message = "Got exception on "+controlName+".getWidth() API when control has been destroyed";
+			let message2 = "Returned width is undefined";
+			let exceptionCaught = false;
+			let width;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window", controlName+" destroy/getWidth API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI[controlName](controlName, "test", window);
+					control.create().then( function(ctl) {
+						control = ctl;
+						
+						control.destroy();
+						try
+						{
+							width = control.getWidth();
+						}
+						catch(err)
+						{
+							exceptionCaught = true;
+						}
+						finally
+						{
+							check.assert(exceptionCaught, message);
+							check.equal(width, undefined, message2);
+						}
+						
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(width, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window destroy & getWidth API test
+		RadJav.addTest("test_common_destroy_127", function(check) {
+			let message = "Got exception on Window.getWidth() API when control has been destroyed";
+			let message2 = "Returned width is undefined";
+			let exceptionCaught = false;
+			let width;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window","Window destroy/getWidth API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.destroy();
+					
+					try
+					{
+						width = window.getWidth();
+					}
+					catch(err)
+					{
+						exceptionCaught = true;
+					}
+					finally
+					{
+						check.assert(exceptionCaught, message);
+						check.equal(width, undefined, message2);
+					}
+					
+					resolve();
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(width, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Button destroy & getWidth API test
+		RadJav.addTest("test_common_destroy_128", function(check) {
+			return destroyGetWidthApiTest.call(check, "Button");
+		});
+		
+		// Checkbox destroy & getWidth API test
+		RadJav.addTest("test_common_destroy_129", function(check) {
+			return destroyGetWidthApiTest.call(check, "Checkbox");
+		});
+		
+		// Combobox destroy & getWidth API test
+		RadJav.addTest("test_common_destroy_130", function(check) {
+			return destroyGetWidthApiTest.call(check, "Combobox");
+		});
+		
+		// Container destroy & getWidth API test
+		RadJav.addTest("test_common_destroy_131", function(check) {
+			return destroyGetWidthApiTest.call(check, "Container");
+		});
+		
+		// Image destroy & getWidth API test
+		RadJav.addTest("test_common_destroy_132", function(check) {
+			return destroyGetWidthApiTest.call(check, "Image");
+		});
+		
+		// Label destroy & getWidth API test
+		RadJav.addTest("test_common_destroy_133", function(check) {
+			return destroyGetWidthApiTest.call(check, "Label");
+		});
+		
+		// List destroy & getWidth API test
+		RadJav.addTest("test_common_destroy_134", function(check) {
+			return destroyGetWidthApiTest.call(check, "List");
+		});
+		
+		// MebuBar destroy & getWidth API test
+		RadJav.addTest("test_common_destroy_135", function(check) {
+			return destroyGetWidthApiTest.call(check, "MenuBar");
+		});
+		
+		// MenuItem destroy & getWidth API test
+		RadJav.addTest("test_common_destroy_136", function(check) {
+			let message = "Got exception on MenuItem.getWidth() API when control has been destroyed";
+			let message2 = "Returned width is undefined";
+			let exceptionCaught = false;
+			let width;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuItem destroy/getWidth API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
+						menuItem.create().then( function(ctl) {
+							menuItem = ctl;
+							
+							menuItem.destroy();
+							try
+							{
+								width = menuItem.getWidth();
+							}
+							catch(err)
+							{
+								exceptionCaught = true;
+							}
+							finally
+							{
+								check.assert(exceptionCaught, message);
+								check.equal(width, undefined, message2);
+							}
+							
+							resolve();
+						});
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(width, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Radio destroy & getWidth API test
+		RadJav.addTest("test_common_destroy_137", function(check) {
+			return destroyGetWidthApiTest.call(check, "Radio");
+		});
+		
+		// Textarea destroy & getWidth API test
+		RadJav.addTest("test_common_destroy_138", function(check) {
+			return destroyGetWidthApiTest.call(check, "Textarea");
+		});
+		
+		// Textbox destroy & getWidth API test
+		RadJav.addTest("test_common_destroy_139", function(check) {
+			return destroyGetWidthApiTest.call(check, "Textbox");
+		});
+		
+		// WebView destroy & getWidth API test
+		RadJav.addTest("test_common_destroy_140", function(check) {
+			return destroyGetWidthApiTest.call(check, "WebView");
+		});
+		
+		// generic destroy & getHeight API test
+		let destroyGetHeightApiTest = function(controlName) {
+			let check = this;
+			let message = "Got exception on "+controlName+".getHeight() API when control has been destroyed";
+			let message2 = "Returned height is undefined";
+			let exceptionCaught = false;
+			let height;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window", controlName+" destroy/getHeight API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI[controlName](controlName, "test", window);
+					control.create().then( function(ctl) {
+						control = ctl;
+						
+						control.destroy();
+						try
+						{
+							height = control.getHeight();
+						}
+						catch(err)
+						{
+							exceptionCaught = true;
+						}
+						finally
+						{
+							check.assert(exceptionCaught, message);
+							check.equal(height, undefined, message2);
+						}
+						
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(height, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window destroy & getHeight API test
+		RadJav.addTest("test_common_destroy_141", function(check) {
+			let message = "Got exception on Window.getHeight() API when control has been destroyed";
+			let message2 = "Returned height is undefined";
+			let exceptionCaught = false;
+			let height;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window","Window destroy/getHeight API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.destroy();
+					
+					try
+					{
+						height = window.getHeight();
+					}
+					catch(err)
+					{
+						exceptionCaught = true;
+					}
+					finally
+					{
+						check.assert(exceptionCaught, message);
+						check.equal(height, undefined, message2);
+					}
+					
+					resolve();
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(height, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Button destroy & getHeight API test
+		RadJav.addTest("test_common_destroy_142", function(check) {
+			return destroyGetHeightApiTest.call(check, "Button");
+		});
+		
+		// Checkbox destroy & getHeight API test
+		RadJav.addTest("test_common_destroy_143", function(check) {
+			return destroyGetHeightApiTest.call(check, "Checkbox");
+		});
+		
+		// Combobox destroy & getHeight API test
+		RadJav.addTest("test_common_destroy_144", function(check) {
+			return destroyGetHeightApiTest.call(check, "Combobox");
+		});
+		
+		// Container destroy & getHeight API test
+		RadJav.addTest("test_common_destroy_145", function(check) {
+			return destroyGetHeightApiTest.call(check, "Container");
+		});
+		
+		// Image destroy & getHeight API test
+		RadJav.addTest("test_common_destroy_146", function(check) {
+			return destroyGetHeightApiTest.call(check, "Image");
+		});
+		
+		// Label destroy & getHeight API test
+		RadJav.addTest("test_common_destroy_147", function(check) {
+			return destroyGetHeightApiTest.call(check, "Label");
+		});
+		
+		// List destroy & getHeight API test
+		RadJav.addTest("test_common_destroy_148", function(check) {
+			return destroyGetHeightApiTest.call(check, "List");
+		});
+		
+		// MebuBar destroy & getHeight API test
+		RadJav.addTest("test_common_destroy_149", function(check) {
+			return destroyGetHeightApiTest.call(check, "MenuBar");
+		});
+		
+		// MenuItem destroy & getHeight API test
+		RadJav.addTest("test_common_destroy_150", function(check) {
+			let message = "Got exception on MenuItem.getHeight() API when control has been destroyed";
+			let message2 = "Returned height is undefined";
+			let exceptionCaught = false;
+			let height;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuItem destroy/getHeight API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
+						menuItem.create().then( function(ctl) {
+							menuItem = ctl;
+							
+							menuItem.destroy();
+							try
+							{
+								height = menuItem.getHeight();
+							}
+							catch(err)
+							{
+								exceptionCaught = true;
+							}
+							finally
+							{
+								check.assert(exceptionCaught, message);
+								check.equal(height, undefined, message2);
+							}
+							
+							resolve();
+						});
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(height, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Radio destroy & getHeight API test
+		RadJav.addTest("test_common_destroy_151", function(check) {
+			return destroyGetHeightApiTest.call(check, "Radio");
+		});
+		
+		// Textarea destroy & getHeight API test
+		RadJav.addTest("test_common_destroy_152", function(check) {
+			return destroyGetHeightApiTest.call(check, "Textarea");
+		});
+		
+		// Textbox destroy & getHeight API test
+		RadJav.addTest("test_common_destroy_153", function(check) {
+			return destroyGetHeightApiTest.call(check, "Textbox");
+		});
+		
+		// WebView destroy & getHeight API test
+		RadJav.addTest("test_common_destroy_154", function(check) {
+			return destroyGetHeightApiTest.call(check, "WebView");
+		});
+		
+		// generic destroy & setText API test
+		let destroySetTextApiTest = function(controlName) {
+			let check = this;
+			let message = "Got exception on "+controlName+".setText() API when control has been destroyed";
+			let exceptionCaught = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window", controlName+" destroy/setText API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI[controlName](controlName, "test", window);
+					control.create().then( function(ctl) {
+						control = ctl;
+						
+						control.destroy();
+						try
+						{
+							control.setText("Some text");
+						}
+						catch(err)
+						{
+							exceptionCaught = true;
+						}
+						finally
+						{
+							check.assert(exceptionCaught, message);
+						}
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window destroy & setText API test
+		RadJav.addTest("test_common_destroy_155", function(check) {
+			let message = "Got exception on Window.setText() API when control has been destroyed";
+			let exceptionCaught = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window","Window destroy/setText API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.destroy();
+					try
+					{
+						window.setText("Some text");
+					}
+					catch(err)
+					{
+						exceptionCaught = true;
+					}
+					finally
+					{
+						check.assert(exceptionCaught, message);
+					}
+					resolve();
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Button destroy & setText API test
+		RadJav.addTest("test_common_destroy_156", function(check) {
+			return destroySetTextApiTest.call(check, "Button");
+		});
+		
+		// Checkbox destroy & setText API test
+		RadJav.addTest("test_common_destroy_157", function(check) {
+			return destroySetTextApiTest.call(check, "Checkbox");
+		});
+		
+		// Combobox destroy & setText API test
+		RadJav.addTest("test_common_destroy_158", function(check) {
+			return destroySetTextApiTest.call(check, "Combobox");
+		});
+		
+		// Container destroy & setText API test
+		RadJav.addTest("test_common_destroy_159", function(check) {
+			return destroySetTextApiTest.call(check, "Container");
+		});
+		
+		// Image destroy & setText API test
+		RadJav.addTest("test_common_destroy_160", function(check) {
+			return destroySetTextApiTest.call(check, "Image");
+		});
+		
+		// Label destroy & setText API test
+		RadJav.addTest("test_common_destroy_161", function(check) {
+			return destroySetTextApiTest.call(check, "Label");
+		});
+		
+		// List destroy & setText API test
+		RadJav.addTest("test_common_destroy_162", function(check) {
+			return destroySetTextApiTest.call(check, "List");
+		});
+		
+		// MebuBar destroy & setText API test
+		RadJav.addTest("test_common_destroy_163", function(check) {
+			return destroySetTextApiTest.call(check, "MenuBar");
+		});
+		
+		// MenuItem destroy & setText API test
+		RadJav.addTest("test_common_destroy_164", function(check) {
+			let message = "Got exception on MenuItem.setText() API when control has been destroyed";
+			let exceptionCaught = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuItem destroy/setText API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
+						menuItem.create().then( function(ctl) {
+							menuItem = ctl;
+							
+							menuItem.destroy();
+							try
+							{
+								menuItem.setText("Some text");
+							}
+							catch(err)
+							{
+								exceptionCaught = true;
+							}
+							finally
+							{
+								check.assert(exceptionCaught, message);
+							}
+							resolve();
+						});
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Radio destroy & setText API test
+		RadJav.addTest("test_common_destroy_165", function(check) {
+			return destroySetTextApiTest.call(check, "Radio");
+		});
+		
+		// Textarea destroy & setText API test
+		RadJav.addTest("test_common_destroy_166", function(check) {
+			return destroySetTextApiTest.call(check, "Textarea");
+		});
+		
+		// Textbox destroy & setText API test
+		RadJav.addTest("test_common_destroy_167", function(check) {
+			return destroySetTextApiTest.call(check, "Textbox");
+		});
+		
+		// WebView destroy & setText API test
+		RadJav.addTest("test_common_destroy_168", function(check) {
+			return destroySetTextApiTest.call(check, "WebView");
+		});
+		
+		// generic destroy & getText API test
+		let destroyGetTextApiTest = function(controlName) {
+			let check = this;
+			let message = "Got exception on "+controlName+".getText() API when control has been destroyed";
+			let message2 = "Returned text is undefined";
+			let exceptionCaught = false;
+			let text;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window", controlName+" destroy/getText API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI[controlName](controlName, "test", window);
+					control.create().then( function(ctl) {
+						control = ctl;
+						
+						control.destroy();
+						try
+						{
+							text = control.getText();
+						}
+						catch(err)
+						{
+							exceptionCaught = true;
+						}
+						finally
+						{
+							check.assert(exceptionCaught, message);
+							check.equal(text, undefined, message2);
+						}
+						
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(text, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window destroy & getText API test
+		RadJav.addTest("test_common_destroy_169", function(check) {
+			let message = "Got exception on Window.getText() API when control has been destroyed";
+			let message2 = "Returned text is undefined";
+			let exceptionCaught = false;
+			let text;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window","Window destroy/getText API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.destroy();
+					
+					try
+					{
+						text = window.getText();
+					}
+					catch(err)
+					{
+						exceptionCaught = true;
+					}
+					finally
+					{
+						check.assert(exceptionCaught, message);
+						check.equal(text, undefined, message2);
+					}
+					
+					resolve();
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(text, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Button destroy & getText API test
+		RadJav.addTest("test_common_destroy_170", function(check) {
+			return destroyGetTextApiTest.call(check, "Button");
+		});
+		
+		// Checkbox destroy & getText API test
+		RadJav.addTest("test_common_destroy_171", function(check) {
+			return destroyGetTextApiTest.call(check, "Checkbox");
+		});
+		
+		// Combobox destroy & getText API test
+		RadJav.addTest("test_common_destroy_172", function(check) {
+			return destroyGetTextApiTest.call(check, "Combobox");
+		});
+		
+		// Container destroy & getText API test
+		RadJav.addTest("test_common_destroy_173", function(check) {
+			return destroyGetTextApiTest.call(check, "Container");
+		});
+		
+		// Image destroy & getText API test
+		RadJav.addTest("test_common_destroy_174", function(check) {
+			return destroyGetTextApiTest.call(check, "Image");
+		});
+		
+		// Label destroy & getText API test
+		RadJav.addTest("test_common_destroy_175", function(check) {
+			return destroyGetTextApiTest.call(check, "Label");
+		});
+		
+		// List destroy & getText API test
+		RadJav.addTest("test_common_destroy_176", function(check) {
+			return destroyGetTextApiTest.call(check, "List");
+		});
+		
+		// MebuBar destroy & getText API test
+		RadJav.addTest("test_common_destroy_177", function(check) {
+			return destroyGetTextApiTest.call(check, "MenuBar");
+		});
+		
+		// MenuItem destroy & getText API test
+		RadJav.addTest("test_common_destroy_178", function(check) {
+			let message = "Got exception on MenuItem.getText() API when control has been destroyed";
+			let message2 = "Returned text is undefined";
+			let exceptionCaught = false;
+			let text;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuItem destroy/getText API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
+						menuItem.create().then( function(ctl) {
+							menuItem = ctl;
+							
+							menuItem.destroy();
+							try
+							{
+								text = menuItem.getText();
+							}
+							catch(err)
+							{
+								exceptionCaught = true;
+							}
+							finally
+							{
+								check.assert(exceptionCaught, message);
+								check.equal(text, undefined, message2);
+							}
+							
+							resolve();
+						});
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(text, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Radio destroy & getText API test
+		RadJav.addTest("test_common_destroy_179", function(check) {
+			return destroyGetTextApiTest.call(check, "Radio");
+		});
+		
+		// Textarea destroy & getText API test
+		RadJav.addTest("test_common_destroy_180", function(check) {
+			return destroyGetTextApiTest.call(check, "Textarea");
+		});
+		
+		// Textbox destroy & getText API test
+		RadJav.addTest("test_common_destroy_181", function(check) {
+			return destroyGetTextApiTest.call(check, "Textbox");
+		});
+		
+		// WebView destroy & getText API test
+		RadJav.addTest("test_common_destroy_182", function(check) {
+			return destroyGetTextApiTest.call(check, "WebView");
+		});
+		
+		// generic destroy & getParent API test
+		let destroyGetParentApiTest = function(controlName) {
+			let check = this;
+			let message = "Got exception on "+controlName+".getParent() API when control has been destroyed";
+			let message2 = "Returned parent is undefined";
+			let exceptionCaught = false;
+			let parent;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window", controlName+" destroy/getParent API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI[controlName](controlName, "test", window);
+					control.create().then( function(ctl) {
+						control = ctl;
+						
+						control.destroy();
+						try
+						{
+							parent = control.getParent();
+						}
+						catch(err)
+						{
+							exceptionCaught = true;
+						}
+						finally
+						{
+							check.assert(exceptionCaught, message);
+							check.equal(parent, undefined, message2);
+						}
+						
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(parent, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window destroy & getParent API test
+		RadJav.addTest("test_common_destroy_183", function(check) {
+			let message = "Got exception on Window.getParent() API when control has been destroyed";
+			let message2 = "Returned parent is undefined";
+			let exceptionCaught = false;
+			let parent;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window","Window destroy/getParent API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.destroy();
+					
+					try
+					{
+						parent = window.getParent();
+					}
+					catch(err)
+					{
+						exceptionCaught = true;
+					}
+					finally
+					{
+						check.assert(exceptionCaught, message);
+						check.equal(parent, undefined, message2);
+					}
+					
+					resolve();
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(parent, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Button destroy & getParent API test
+		RadJav.addTest("test_common_destroy_184", function(check) {
+			return destroyGetParentApiTest.call(check, "Button");
+		});
+		
+		// Checkbox destroy & getParent API test
+		RadJav.addTest("test_common_destroy_185", function(check) {
+			return destroyGetParentApiTest.call(check, "Checkbox");
+		});
+		
+		// Combobox destroy & getParent API test
+		RadJav.addTest("test_common_destroy_186", function(check) {
+			return destroyGetParentApiTest.call(check, "Combobox");
+		});
+		
+		// Container destroy & getParent API test
+		RadJav.addTest("test_common_destroy_187", function(check) {
+			return destroyGetParentApiTest.call(check, "Container");
+		});
+		
+		// Image destroy & getParent API test
+		RadJav.addTest("test_common_destroy_188", function(check) {
+			return destroyGetParentApiTest.call(check, "Image");
+		});
+		
+		// Label destroy & getParent API test
+		RadJav.addTest("test_common_destroy_189", function(check) {
+			return destroyGetParentApiTest.call(check, "Label");
+		});
+		
+		// List destroy & getParent API test
+		RadJav.addTest("test_common_destroy_190", function(check) {
+			return destroyGetParentApiTest.call(check, "List");
+		});
+		
+		// MebuBar destroy & getParent API test
+		RadJav.addTest("test_common_destroy_191", function(check) {
+			return destroyGetParentApiTest.call(check, "MenuBar");
+		});
+		
+		// MenuItem destroy & getParent API test
+		RadJav.addTest("test_common_destroy_192", function(check) {
+			let message = "Got exception on MenuItem.getParent() API when control has been destroyed";
+			let message2 = "Returned parent is undefined";
+			let exceptionCaught = false;
+			let parent;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuItem destroy/getParent API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
+						menuItem.create().then( function(ctl) {
+							menuItem = ctl;
+							
+							menuItem.destroy();
+							try
+							{
+								parent = menuItem.getParent();
+							}
+							catch(err)
+							{
+								exceptionCaught = true;
+							}
+							finally
+							{
+								check.assert(exceptionCaught, message);
+								check.equal(parent, undefined, message2);
+							}
+							
+							resolve();
+						});
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(parent, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Radio destroy & getParent API test
+		RadJav.addTest("test_common_destroy_193", function(check) {
+			return destroyGetParentApiTest.call(check, "Radio");
+		});
+		
+		// Textarea destroy & getParent API test
+		RadJav.addTest("test_common_destroy_194", function(check) {
+			return destroyGetParentApiTest.call(check, "Textarea");
+		});
+		
+		// Textbox destroy & getParent API test
+		RadJav.addTest("test_common_destroy_195", function(check) {
+			return destroyGetParentApiTest.call(check, "Textbox");
+		});
+		
+		// WebView destroy & getParent API test
+		RadJav.addTest("test_common_destroy_196", function(check) {
+			return destroyGetParentApiTest.call(check, "WebView");
+		});
+		
+		// generic destroy & getAppObj API test
+		let destroyGetAppObjApiTest = function(controlName) {
+			let check = this;
+			let message = "Got exception on "+controlName+".getAppObj() API when control has been destroyed";
+			let message2 = "Returned appObject is undefined";
+			let exceptionCaught = false;
+			let appObject;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window", controlName+" destroy/getAppObj API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI[controlName](controlName, "test", window);
+					control.create().then( function(ctl) {
+						control = ctl;
+						
+						control.destroy();
+						try
+						{
+							appObject = control.getAppObj();
+						}
+						catch(err)
+						{
+							exceptionCaught = true;
+						}
+						finally
+						{
+							check.assert(exceptionCaught, message);
+							check.equal(appObject, undefined, message2);
+						}
+						
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(appObject, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window destroy & getAppObj API test
+		RadJav.addTest("test_common_destroy_197", function(check) {
+			let message = "Got exception on Window.getAppObj() API when control has been destroyed";
+			let message2 = "Returned appObject is undefined";
+			let exceptionCaught = false;
+			let appObject;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window","Window destroy/getAppObj API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.destroy();
+					
+					try
+					{
+						appObject = window.getAppObj();
+					}
+					catch(err)
+					{
+						exceptionCaught = true;
+					}
+					finally
+					{
+						check.assert(exceptionCaught, message);
+						check.equal(appObject, undefined, message2);
+					}
+					
+					resolve();
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(appObject, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Button destroy & getAppObj API test
+		RadJav.addTest("test_common_destroy_198", function(check) {
+			return destroyGetAppObjApiTest.call(check, "Button");
+		});
+		
+		// Checkbox destroy & getAppObj API test
+		RadJav.addTest("test_common_destroy_199", function(check) {
+			return destroyGetAppObjApiTest.call(check, "Checkbox");
+		});
+		
+		// Combobox destroy & getAppObj API test
+		RadJav.addTest("test_common_destroy_200", function(check) {
+			return destroyGetAppObjApiTest.call(check, "Combobox");
+		});
+		
+		// Container destroy & getAppObj API test
+		RadJav.addTest("test_common_destroy_201", function(check) {
+			return destroyGetAppObjApiTest.call(check, "Container");
+		});
+		
+		// Image destroy & getAppObj API test
+		RadJav.addTest("test_common_destroy_202", function(check) {
+			return destroyGetAppObjApiTest.call(check, "Image");
+		});
+		
+		// Label destroy & getAppObj API test
+		RadJav.addTest("test_common_destroy_203", function(check) {
+			return destroyGetAppObjApiTest.call(check, "Label");
+		});
+		
+		// List destroy & getAppObj API test
+		RadJav.addTest("test_common_destroy_204", function(check) {
+			return destroyGetAppObjApiTest.call(check, "List");
+		});
+		
+		// MebuBar destroy & getAppObj API test
+		RadJav.addTest("test_common_destroy_205", function(check) {
+			return destroyGetAppObjApiTest.call(check, "MenuBar");
+		});
+		
+		// MenuItem destroy & getAppObj API test
+		RadJav.addTest("test_common_destroy_206", function(check) {
+			let message = "Got exception on MenuItem.getAppObj() API when control has been destroyed";
+			let message2 = "Returned appObject is undefined";
+			let exceptionCaught = false;
+			let appObject;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuItem destroy/getAppObj API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
+						menuItem.create().then( function(ctl) {
+							menuItem = ctl;
+							
+							menuItem.destroy();
+							try
+							{
+								appObject = menuItem.getAppObj();
+							}
+							catch(err)
+							{
+								exceptionCaught = true;
+							}
+							finally
+							{
+								check.assert(exceptionCaught, message);
+								check.equal(appObject, undefined, message2);
+							}
+							
+							resolve();
+						});
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(appObject, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Radio destroy & getAppObj API test
+		RadJav.addTest("test_common_destroy_207", function(check) {
+			return destroyGetAppObjApiTest.call(check, "Radio");
+		});
+		
+		// Textarea destroy & getAppObj API test
+		RadJav.addTest("test_common_destroy_208", function(check) {
+			return destroyGetAppObjApiTest.call(check, "Textarea");
+		});
+		
+		// Textbox destroy & getAppObj API test
+		RadJav.addTest("test_common_destroy_209", function(check) {
+			return destroyGetAppObjApiTest.call(check, "Textbox");
+		});
+		
+		// WebView destroy & getAppObj API test
+		RadJav.addTest("test_common_destroy_210", function(check) {
+			return destroyGetAppObjApiTest.call(check, "WebView");
+		});
+		
+		// generic destroy & setVisibility API test
+		let destroySetVisibilityApiTest = function(controlName) {
+			let check = this;
+			let message = "Got exception on "+controlName+".setVisibility() API when control has been destroyed";
+			let exceptionCaught = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window", controlName+" destroy/setVisibility API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI[controlName](controlName, "test", window);
+					control.create().then( function(ctl) {
+						control = ctl;
+						
+						control.destroy();
+						try
+						{
+							control.setVisibility(false);
+						}
+						catch(err)
+						{
+							exceptionCaught = true;
+						}
+						finally
+						{
+							check.assert(exceptionCaught, message);
+						}
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window destroy & setVisibility API test
+		RadJav.addTest("test_common_destroy_211", function(check) {
+			let message = "Got exception on Window.setVisibility() API when control has been destroyed";
+			let exceptionCaught = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window","Window destroy/setVisibility API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.destroy();
+					try
+					{
+						window.setVisibility(false);
+					}
+					catch(err)
+					{
+						exceptionCaught = true;
+					}
+					finally
+					{
+						check.assert(exceptionCaught, message);
+					}
+					resolve();
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Button destroy & setVisibility API test
+		RadJav.addTest("test_common_destroy_212", function(check) {
+			return destroySetVisibilityApiTest.call(check, "Button");
+		});
+		
+		// Checkbox destroy & setVisibility API test
+		RadJav.addTest("test_common_destroy_213", function(check) {
+			return destroySetVisibilityApiTest.call(check, "Checkbox");
+		});
+		
+		// Combobox destroy & setVisibility API test
+		RadJav.addTest("test_common_destroy_214", function(check) {
+			return destroySetVisibilityApiTest.call(check, "Combobox");
+		});
+		
+		// Container destroy & setVisibility API test
+		RadJav.addTest("test_common_destroy_215", function(check) {
+			return destroySetVisibilityApiTest.call(check, "Container");
+		});
+		
+		// Image destroy & setVisibility API test
+		RadJav.addTest("test_common_destroy_216", function(check) {
+			return destroySetVisibilityApiTest.call(check, "Image");
+		});
+		
+		// Label destroy & setVisibility API test
+		RadJav.addTest("test_common_destroy_217", function(check) {
+			return destroySetVisibilityApiTest.call(check, "Label");
+		});
+		
+		// List destroy & setVisibility API test
+		RadJav.addTest("test_common_destroy_218", function(check) {
+			return destroySetVisibilityApiTest.call(check, "List");
+		});
+		
+		// MebuBar destroy & setVisibility API test
+		RadJav.addTest("test_common_destroy_219", function(check) {
+			return destroySetVisibilityApiTest.call(check, "MenuBar");
+		});
+		
+		// MenuItem destroy & setVisibility API test
+		RadJav.addTest("test_common_destroy_220", function(check) {
+			let message = "Got exception on MenuItem.setVisibility() API when control has been destroyed";
+			let exceptionCaught = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuItem destroy/setVisibility API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
+						menuItem.create().then( function(ctl) {
+							menuItem = ctl;
+							
+							menuItem.destroy();
+							try
+							{
+								menuItem.setVisibility(false);
+							}
+							catch(err)
+							{
+								exceptionCaught = true;
+							}
+							finally
+							{
+								check.assert(exceptionCaught, message);
+							}
+							resolve();
+						});
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Radio destroy & setVisibility API test
+		RadJav.addTest("test_common_destroy_221", function(check) {
+			return destroySetVisibilityApiTest.call(check, "Radio");
+		});
+		
+		// Textarea destroy & setVisibility API test
+		RadJav.addTest("test_common_destroy_222", function(check) {
+			return destroySetVisibilityApiTest.call(check, "Textarea");
+		});
+		
+		// Textbox destroy & setVisibility API test
+		RadJav.addTest("test_common_destroy_223", function(check) {
+			return destroySetVisibilityApiTest.call(check, "Textbox");
+		});
+		
+		// WebView destroy & setVisibility API test
+		RadJav.addTest("test_common_destroy_224", function(check) {
+			return destroySetVisibilityApiTest.call(check, "WebView");
+		});
+		
+		// generic destroy & getVisibility API test
+		let destroyGetVisibilityApiTest = function(controlName) {
+			let check = this;
+			let message = "Got exception on "+controlName+".getVisibility() API when control has been destroyed";
+			let message2 = "Returned visibility is undefined";
+			let exceptionCaught = false;
+			let visibility;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window", controlName+" destroy/getVisibility API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI[controlName](controlName, "test", window);
+					control.create().then( function(ctl) {
+						control = ctl;
+						
+						control.destroy();
+						try
+						{
+							visibility = control.getVisibility();
+						}
+						catch(err)
+						{
+							exceptionCaught = true;
+						}
+						finally
+						{
+							check.assert(exceptionCaught, message);
+							check.equal(visibility, undefined, message2);
+						}
+						
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(visibility, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window destroy & getVisibility API test
+		RadJav.addTest("test_common_destroy_225", function(check) {
+			let message = "Got exception on Window.getVisibility() API when control has been destroyed";
+			let message2 = "Returned visibility is undefined";
+			let exceptionCaught = false;
+			let visibility;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window","Window destroy/getVisibility API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.destroy();
+					
+					try
+					{
+						visibility = window.getVisibility();
+					}
+					catch(err)
+					{
+						exceptionCaught = true;
+					}
+					finally
+					{
+						check.assert(exceptionCaught, message);
+						check.equal(visibility, undefined, message2);
+					}
+					
+					resolve();
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(visibility, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Button destroy & getVisibility API test
+		RadJav.addTest("test_common_destroy_226", function(check) {
+			return destroyGetVisibilityApiTest.call(check, "Button");
+		});
+		
+		// Checkbox destroy & getVisibility API test
+		RadJav.addTest("test_common_destroy_227", function(check) {
+			return destroyGetVisibilityApiTest.call(check, "Checkbox");
+		});
+		
+		// Combobox destroy & getVisibility API test
+		RadJav.addTest("test_common_destroy_228", function(check) {
+			return destroyGetVisibilityApiTest.call(check, "Combobox");
+		});
+		
+		// Container destroy & getVisibility API test
+		RadJav.addTest("test_common_destroy_229", function(check) {
+			return destroyGetVisibilityApiTest.call(check, "Container");
+		});
+		
+		// Image destroy & getVisibility API test
+		RadJav.addTest("test_common_destroy_230", function(check) {
+			return destroyGetVisibilityApiTest.call(check, "Image");
+		});
+		
+		// Label destroy & getVisibility API test
+		RadJav.addTest("test_common_destroy_231", function(check) {
+			return destroyGetVisibilityApiTest.call(check, "Label");
+		});
+		
+		// List destroy & getVisibility API test
+		RadJav.addTest("test_common_destroy_232", function(check) {
+			return destroyGetVisibilityApiTest.call(check, "List");
+		});
+		
+		// MebuBar destroy & getVisibility API test
+		RadJav.addTest("test_common_destroy_233", function(check) {
+			return destroyGetVisibilityApiTest.call(check, "MenuBar");
+		});
+		
+		// MenuItem destroy & getVisibility API test
+		RadJav.addTest("test_common_destroy_234", function(check) {
+			let message = "Got exception on MenuItem.getVisibility() API when control has been destroyed";
+			let message2 = "Returned visibility is undefined";
+			let exceptionCaught = false;
+			let visibility;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuItem destroy/getVisibility API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
+						menuItem.create().then( function(ctl) {
+							menuItem = ctl;
+							
+							menuItem.destroy();
+							try
+							{
+								visibility = menuItem.getVisibility();
+							}
+							catch(err)
+							{
+								exceptionCaught = true;
+							}
+							finally
+							{
+								check.assert(exceptionCaught, message);
+								check.equal(visibility, undefined, message2);
+							}
+							
+							resolve();
+						});
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(visibility, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Radio destroy & getVisibility API test
+		RadJav.addTest("test_common_destroy_235", function(check) {
+			return destroyGetVisibilityApiTest.call(check, "Radio");
+		});
+		
+		// Textarea destroy & getVisibility API test
+		RadJav.addTest("test_common_destroy_236", function(check) {
+			return destroyGetVisibilityApiTest.call(check, "Textarea");
+		});
+		
+		// Textbox destroy & getVisibility API test
+		RadJav.addTest("test_common_destroy_237", function(check) {
+			return destroyGetVisibilityApiTest.call(check, "Textbox");
+		});
+		
+		// WebView destroy & getVisibility API test
+		RadJav.addTest("test_common_destroy_238", function(check) {
+			return destroyGetVisibilityApiTest.call(check, "WebView");
+		});
+		
+		// generic destroy & setEnabled API test
+		let destroySetEnabledApiTest = function(controlName) {
+			let check = this;
+			let message = "Got exception on "+controlName+".setEnabled() API when control has been destroyed";
+			let exceptionCaught = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window", controlName+" destroy/setEnabled API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI[controlName](controlName, "test", window);
+					control.create().then( function(ctl) {
+						control = ctl;
+						
+						control.destroy();
+						try
+						{
+							control.setEnabled(false);
+						}
+						catch(err)
+						{
+							exceptionCaught = true;
+						}
+						finally
+						{
+							check.assert(exceptionCaught, message);
+						}
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window destroy & setEnabled API test
+		RadJav.addTest("test_common_destroy_239", function(check) {
+			let message = "Got exception on Window.setEnabled() API when control has been destroyed";
+			let exceptionCaught = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window","Window destroy/setEnabled API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.destroy();
+					try
+					{
+						window.setEnabled(false);
+					}
+					catch(err)
+					{
+						exceptionCaught = true;
+					}
+					finally
+					{
+						check.assert(exceptionCaught, message);
+					}
+					resolve();
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Button destroy & setEnabled API test
+		RadJav.addTest("test_common_destroy_240", function(check) {
+			return destroySetEnabledApiTest.call(check, "Button");
+		});
+		
+		// Checkbox destroy & setEnabled API test
+		RadJav.addTest("test_common_destroy_241", function(check) {
+			return destroySetEnabledApiTest.call(check, "Checkbox");
+		});
+		
+		// Combobox destroy & setEnabled API test
+		RadJav.addTest("test_common_destroy_242", function(check) {
+			return destroySetEnabledApiTest.call(check, "Combobox");
+		});
+		
+		// Container destroy & setEnabled API test
+		RadJav.addTest("test_common_destroy_243", function(check) {
+			return destroySetEnabledApiTest.call(check, "Container");
+		});
+		
+		// Image destroy & setEnabled API test
+		RadJav.addTest("test_common_destroy_244", function(check) {
+			return destroySetEnabledApiTest.call(check, "Image");
+		});
+		
+		// Label destroy & setEnabled API test
+		RadJav.addTest("test_common_destroy_245", function(check) {
+			return destroySetEnabledApiTest.call(check, "Label");
+		});
+		
+		// List destroy & setEnabled API test
+		RadJav.addTest("test_common_destroy_246", function(check) {
+			return destroySetEnabledApiTest.call(check, "List");
+		});
+		
+		// MebuBar destroy & setEnabled API test
+		RadJav.addTest("test_common_destroy_247", function(check) {
+			return destroySetEnabledApiTest.call(check, "MenuBar");
+		});
+		
+		// MenuItem destroy & setEnabled API test
+		RadJav.addTest("test_common_destroy_248", function(check) {
+			let message = "Got exception on MenuItem.setEnabled() API when control has been destroyed";
+			let exceptionCaught = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuItem destroy/setEnabled API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
+						menuItem.create().then( function(ctl) {
+							menuItem = ctl;
+							
+							menuItem.destroy();
+							try
+							{
+								menuItem.setEnabled(false);
+							}
+							catch(err)
+							{
+								exceptionCaught = true;
+							}
+							finally
+							{
+								check.assert(exceptionCaught, message);
+							}
+							resolve();
+						});
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Radio destroy & setEnabled API test
+		RadJav.addTest("test_common_destroy_249", function(check) {
+			return destroySetEnabledApiTest.call(check, "Radio");
+		});
+		
+		// Textarea destroy & setEnabled API test
+		RadJav.addTest("test_common_destroy_250", function(check) {
+			return destroySetEnabledApiTest.call(check, "Textarea");
+		});
+		
+		// Textbox destroy & setEnabled API test
+		RadJav.addTest("test_common_destroy_251", function(check) {
+			return destroySetEnabledApiTest.call(check, "Textbox");
+		});
+		
+		// WebView destroy & setEnabled API test
+		RadJav.addTest("test_common_destroy_252", function(check) {
+			return destroySetEnabledApiTest.call(check, "WebView");
+		});
+		
+		// generic destroy & getEnabled API test
+		let destroyGetEnabledApiTest = function(controlName) {
+			let check = this;
+			let message = "Got exception on "+controlName+".getEnabled() API when control has been destroyed";
+			let message2 = "Returned enabled is undefined";
+			let exceptionCaught = false;
+			let enabled;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window", controlName+" destroy/getEnabled API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI[controlName](controlName, "test", window);
+					control.create().then( function(ctl) {
+						control = ctl;
+						
+						control.destroy();
+						try
+						{
+							enabled = control.getEnabled();
+						}
+						catch(err)
+						{
+							exceptionCaught = true;
+						}
+						finally
+						{
+							check.assert(exceptionCaught, message);
+							check.equal(enabled, undefined, message2);
+						}
+						
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(enabled, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window destroy & getEnabled API test
+		RadJav.addTest("test_common_destroy_253", function(check) {
+			let message = "Got exception on Window.getEnabled() API when control has been destroyed";
+			let message2 = "Returned enabled is undefined";
+			let exceptionCaught = false;
+			let enabled;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window","Window destroy/getEnabled API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.destroy();
+					
+					try
+					{
+						enabled = window.getEnabled();
+					}
+					catch(err)
+					{
+						exceptionCaught = true;
+					}
+					finally
+					{
+						check.assert(exceptionCaught, message);
+						check.equal(enabled, undefined, message2);
+					}
+					
+					resolve();
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(enabled, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Button destroy & getEnabled API test
+		RadJav.addTest("test_common_destroy_254", function(check) {
+			return destroyGetEnabledApiTest.call(check, "Button");
+		});
+		
+		// Checkbox destroy & getEnabled API test
+		RadJav.addTest("test_common_destroy_255", function(check) {
+			return destroyGetEnabledApiTest.call(check, "Checkbox");
+		});
+		
+		// Combobox destroy & getEnabled API test
+		RadJav.addTest("test_common_destroy_256", function(check) {
+			return destroyGetEnabledApiTest.call(check, "Combobox");
+		});
+		
+		// Container destroy & getEnabled API test
+		RadJav.addTest("test_common_destroy_257", function(check) {
+			return destroyGetEnabledApiTest.call(check, "Container");
+		});
+		
+		// Image destroy & getEnabled API test
+		RadJav.addTest("test_common_destroy_258", function(check) {
+			return destroyGetEnabledApiTest.call(check, "Image");
+		});
+		
+		// Label destroy & getEnabled API test
+		RadJav.addTest("test_common_destroy_259", function(check) {
+			return destroyGetEnabledApiTest.call(check, "Label");
+		});
+		
+		// List destroy & getEnabled API test
+		RadJav.addTest("test_common_destroy_260", function(check) {
+			return destroyGetEnabledApiTest.call(check, "List");
+		});
+		
+		// MebuBar destroy & getEnabled API test
+		RadJav.addTest("test_common_destroy_261", function(check) {
+			return destroyGetEnabledApiTest.call(check, "MenuBar");
+		});
+		
+		// MenuItem destroy & getEnabled API test
+		RadJav.addTest("test_common_destroy_262", function(check) {
+			let message = "Got exception on MenuItem.getEnabled() API when control has been destroyed";
+			let message2 = "Returned enabled is undefined";
+			let exceptionCaught = false;
+			let enabled;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuItem destroy/getEnabled API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
+						menuItem.create().then( function(ctl) {
+							menuItem = ctl;
+							
+							menuItem.destroy();
+							try
+							{
+								enabled = menuItem.getEnabled();
+							}
+							catch(err)
+							{
+								exceptionCaught = true;
+							}
+							finally
+							{
+								check.assert(exceptionCaught, message);
+								check.equal(enabled, undefined, message2);
+							}
+							
+							resolve();
+						});
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					check.equal(enabled, undefined, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Radio destroy & getEnabled API test
+		RadJav.addTest("test_common_destroy_263", function(check) {
+			return destroyGetEnabledApiTest.call(check, "Radio");
+		});
+		
+		// Textarea destroy & getEnabled API test
+		RadJav.addTest("test_common_destroy_264", function(check) {
+			return destroyGetEnabledApiTest.call(check, "Textarea");
+		});
+		
+		// Textbox destroy & getEnabled API test
+		RadJav.addTest("test_common_destroy_265", function(check) {
+			return destroyGetEnabledApiTest.call(check, "Textbox");
+		});
+		
+		// WebView destroy & getEnabled API test
+		RadJav.addTest("test_common_destroy_266", function(check) {
+			return destroyGetEnabledApiTest.call(check, "WebView");
+		});
+		
+		// generic destroy & on API test
+		let destroyOnApiTest = function(controlName) {
+			let check = this;
+			let message = "Got exception on "+controlName+".on() API when control has been destroyed";
+			let exceptionCaught = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window", controlName+" destroy/on API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI[controlName](controlName, "test", window);
+					control.create().then( function(ctl) {
+						control = ctl;
+						
+						control.destroy();
+						try
+						{
+							control.on("click", function(){});
+						}
+						catch(err)
+						{
+							exceptionCaught = true;
+						}
+						finally
+						{
+							check.assert(exceptionCaught, message);
+						}
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window destroy & on API test
+		RadJav.addTest("test_common_destroy_267", function(check) {
+			let message = "Got exception on Window.on() API when control has been destroyed";
+			let exceptionCaught = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window","Window destroy/on API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.destroy();
+					try
+					{
+						window.on("click", function(){});
+					}
+					catch(err)
+					{
+						exceptionCaught = true;
+					}
+					finally
+					{
+						check.assert(exceptionCaught, message);
+					}
+					resolve();
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Button destroy & on API test
+		RadJav.addTest("test_common_destroy_268", function(check) {
+			return destroyOnApiTest.call(check, "Button");
+		});
+		
+		// Checkbox destroy & on API test
+		RadJav.addTest("test_common_destroy_269", function(check) {
+			return destroyOnApiTest.call(check, "Checkbox");
+		});
+		
+		// Combobox destroy & on API test
+		RadJav.addTest("test_common_destroy_270", function(check) {
+			return destroyOnApiTest.call(check, "Combobox");
+		});
+		
+		// Container destroy & on API test
+		RadJav.addTest("test_common_destroy_271", function(check) {
+			return destroyOnApiTest.call(check, "Container");
+		});
+		
+		// Image destroy & on API test
+		RadJav.addTest("test_common_destroy_272", function(check) {
+			return destroyOnApiTest.call(check, "Image");
+		});
+		
+		// Label destroy & on API test
+		RadJav.addTest("test_common_destroy_273", function(check) {
+			return destroyOnApiTest.call(check, "Label");
+		});
+		
+		// List destroy & on API test
+		RadJav.addTest("test_common_destroy_274", function(check) {
+			return destroyOnApiTest.call(check, "List");
+		});
+		
+		// MebuBar destroy & on API test
+		RadJav.addTest("test_common_destroy_275", function(check) {
+			return destroyOnApiTest.call(check, "MenuBar");
+		});
+		
+		// MenuItem destroy & on API test
+		RadJav.addTest("test_common_destroy_276", function(check) {
+			let message = "Got exception on MenuItem.on() API when control has been destroyed";
+			let exceptionCaught = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuItem destroy/on API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
+						menuItem.create().then( function(ctl) {
+							menuItem = ctl;
+							
+							menuItem.destroy();
+							try
+							{
+								menuItem.on("click", function(){});
+							}
+							catch(err)
+							{
+								exceptionCaught = true;
+							}
+							finally
+							{
+								check.assert(exceptionCaught, message);
+							}
+							resolve();
+						});
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Radio destroy & on API test
+		RadJav.addTest("test_common_destroy_277", function(check) {
+			return destroyOnApiTest.call(check, "Radio");
+		});
+		
+		// Textarea destroy & on API test
+		RadJav.addTest("test_common_destroy_278", function(check) {
+			return destroyOnApiTest.call(check, "Textarea");
+		});
+		
+		// Textbox destroy & on API test
+		RadJav.addTest("test_common_destroy_279", function(check) {
+			return destroyOnApiTest.call(check, "Textbox");
+		});
+		
+		// WebView destroy & on API test
+		RadJav.addTest("test_common_destroy_280", function(check) {
+			return destroyOnApiTest.call(check, "WebView");
+		});
+		
+		// generic destroy after destroy API test
+		let destroyAfterDestroyApiTest = function(controlName) {
+			let check = this;
+			let message = "Got exception on "+controlName+".destroy() API when control has been destroyed";
+			let exceptionCaught = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window", controlName+" destroy after destroy API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI[controlName](controlName, "test", window);
+					control.create().then( function(ctl) {
+						control = ctl;
+						
+						control.destroy();
+						try
+						{
+							control.destroy();
+						}
+						catch(err)
+						{
+							exceptionCaught = true;
+						}
+						finally
+						{
+							check.assert(exceptionCaught, message);
+						}
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window destroy after destroy API test
+		RadJav.addTest("test_common_destroy_281", function(check) {
+			let message = "Got exception on Window.destroy() API when control has been destroyed";
+			let exceptionCaught = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window","Window destroy after destroy API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.destroy();
+					try
+					{
+						window.destroy();
+					}
+					catch(err)
+					{
+						exceptionCaught = true;
+					}
+					finally
+					{
+						check.assert(exceptionCaught, message);
+					}
+					resolve();
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Button destroy after destroy API test
+		RadJav.addTest("test_common_destroy_282", function(check) {
+			return destroyAfterDestroyApiTest.call(check, "Button");
+		});
+		
+		// Checkbox destroy after destroy API test
+		RadJav.addTest("test_common_destroy_283", function(check) {
+			return destroyAfterDestroyApiTest.call(check, "Checkbox");
+		});
+		
+		// Combobox destroy after destroy API test
+		RadJav.addTest("test_common_destroy_284", function(check) {
+			return destroyAfterDestroyApiTest.call(check, "Combobox");
+		});
+		
+		// Container destroy after destroy API test
+		RadJav.addTest("test_common_destroy_285", function(check) {
+			return destroyAfterDestroyApiTest.call(check, "Container");
+		});
+		
+		// Image destroy after destroy API test
+		RadJav.addTest("test_common_destroy_286", function(check) {
+			return destroyAfterDestroyApiTest.call(check, "Image");
+		});
+		
+		// Label destroy after destroy API test
+		RadJav.addTest("test_common_destroy_287", function(check) {
+			return destroyAfterDestroyApiTest.call(check, "Label");
+		});
+		
+		// List destroy after destroy API test
+		RadJav.addTest("test_common_destroy_288", function(check) {
+			return destroyAfterDestroyApiTest.call(check, "List");
+		});
+		
+		// MebuBar destroy after destroy API test
+		RadJav.addTest("test_common_destroy_289", function(check) {
+			return destroyAfterDestroyApiTest.call(check, "MenuBar");
+		});
+		
+		// MenuItem destroy after destroy API test
+		RadJav.addTest("test_common_destroy_290", function(check) {
+			let message = "Got exception on MenuItem.destroy() API when control has been destroyed";
+			let exceptionCaught = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuItem destroy after destroy API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
+						menuItem.create().then( function(ctl) {
+							menuItem = ctl;
+							
+							menuItem.destroy();
+							try
+							{
+								menuItem.destroy();
+							}
+							catch(err)
+							{
+								exceptionCaught = true;
+							}
+							finally
+							{
+								check.assert(exceptionCaught, message);
+							}
+							resolve();
+						});
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Radio destroy after destroy API test
+		RadJav.addTest("test_common_destroy_291", function(check) {
+			return destroyAfterDestroyApiTest.call(check, "Radio");
+		});
+		
+		// Textarea destroy after destroy API test
+		RadJav.addTest("test_common_destroy_292", function(check) {
+			return destroyAfterDestroyApiTest.call(check, "Textarea");
+		});
+		
+		// Textbox destroy after destroy API test
+		RadJav.addTest("test_common_destroy_293", function(check) {
+			return destroyAfterDestroyApiTest.call(check, "Textbox");
+		});
+		
+		// WebView destroy after destroy API test
+		RadJav.addTest("test_common_destroy_294", function(check) {
+			return destroyAfterDestroyApiTest.call(check, "WebView");
+		});
+		
 		// Execute test cases
 		RadJav.runTests().then( function() {
 			RadJav.exit();
