@@ -327,7 +327,6 @@
 					wxCriticalSection *criticalSection;
 				#endif
 				CPP::ContextManager* contextManager;
-				WorkNotificator* workNotificator;
 
 			protected:
 				template<class T>
@@ -345,6 +344,7 @@
 				TimerMap timers;
 
                 ExternalsManager* externalsManager;
+				WorkNotificator* workNotificator;
 				String applicationScriptFilePath;
 		};
 	}

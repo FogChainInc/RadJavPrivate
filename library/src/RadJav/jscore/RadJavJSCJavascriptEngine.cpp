@@ -169,6 +169,16 @@ namespace RadJAV
             return (result);
         }
 
+		void bringAppToForeground()
+		{
+			// This code will bring Mac GUI app to foreground
+			#ifdef __APPLE__
+				#if TARGET_OS_OSX == 1
+					[[NSApplication sharedApplication] activateIgnoringOtherApps:true];
+				#endif
+			#endif
+		}
+	
 		// WorkNotificator is needed to notify system that app has some activity
 		// and system should not slow down our process when we are in the background.
 		// Currently we added support for MacOS, maybe later other OS will require such
@@ -454,12 +464,9 @@ namespace RadJAV
                         }
                     }
 
-					//This is here only to bring the mac app to the foreground
-					#ifdef __APPLE__
-						#if TARGET_OS_OSX == 1
-							[[NSApplication sharedApplication] activateIgnoringOtherApps:true];
-						#endif
-					#endif
+					// This is needed because sometimes app appear in the end of
+					// the stack of active windows (at least on macOS)
+					bringAppToForeground();
 
 					firstRun = false;
 				}
