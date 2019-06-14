@@ -1,0 +1,880 @@
+RadJav.initialize (RadJav.getStandardLibrary (),
+					RadJav.getGUILibrary (),
+					RadJav.getMUILibrary ()).then (function () {
+	RadJav.runApplication (function ()
+	{
+		// Common GUI API test cases
+		
+		// generic create API negative test
+		let createNegativeApiTest = function(controlName) {
+			let check = this;
+			let message = "Exception thrown while creating "+controlName+" without parent";
+			let exceptionCaught = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window", controlName+" create API negative test");
+				window.create().then(function(win) {
+					window = win;
+					
+					try
+					{
+						var control = new RadJav.GUI[controlName](controlName, "test");
+						control.create().then(function(ctrl){});
+					}
+					catch(err)
+					{
+						exceptionCaught = true;
+					}
+					finally
+					{
+						check.assert(exceptionCaught, message);
+						resolve();
+					}
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(false, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Skipping Window create API negative test because Window accept empty parent
+		
+		// Button create API negative test
+		RadJav.addTest("test_common_negative_create_001", function(check) {
+			return createNegativeApiTest.call(check, "Button");
+		});
+		
+		// Checkbox create API negative test
+		RadJav.addTest("test_common_negative_create_002", function(check) {
+			return createNegativeApiTest.call(check, "Checkbox");
+		});
+		
+		// Combobox create API negative test
+		RadJav.addTest("test_common_negative_create_003", function(check) {
+			return createNegativeApiTest.call(check, "Combobox");
+		});
+		
+		// Container create API negative test
+		RadJav.addTest("test_common_negative_create_004", function(check) {
+			return createNegativeApiTest.call(check, "Container");
+		});
+		
+		// Image create API negative test
+		RadJav.addTest("test_common_negative_create_005", function(check) {
+			return createNegativeApiTest.call(check, "Image");
+		});
+		
+		// Label create API negative test
+		RadJav.addTest("test_common_negative_create_006", function(check) {
+			return createNegativeApiTest.call(check, "Label");
+		});
+		
+		// List create API negative test
+		RadJav.addTest("test_common_negative_create_007", function(check) {
+			return createNegativeApiTest.call(check, "List");
+		});
+		
+		// MebuBar create API negative test
+		RadJav.addTest("test_common_negative_create_008", function(check) {
+			return createNegativeApiTest.call(check, "MenuBar");
+		});
+		
+		// MenuItem create API negative test
+		RadJav.addTest("test_common_negative_create_009", function(check) {
+			let message = "Exception thrown while creating MenuItem without parent";
+			let exceptionCaught = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuItem create API negative test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						try
+						{
+							var menuItem = new RadJav.GUI.MenuItem("Menu file", "File");
+							menuItem.create().then(function(ctrl){});
+						}
+						catch(err)
+						{
+							exceptionCaught = true;
+						}
+						finally
+						{
+							check.assert(exceptionCaught, message);
+							resolve();
+						}
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(false, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Radio create API negative test
+		RadJav.addTest("test_common_negative_create_010", function(check) {
+			return createNegativeApiTest.call(check, "Radio");
+		});
+		
+		// Textarea create API negative test
+		RadJav.addTest("test_common_negative_create_011", function(check) {
+			return createNegativeApiTest.call(check, "Textarea");
+		});
+		
+		// Textbox create API negative test
+		RadJav.addTest("test_common_negative_create_012", function(check) {
+			return createNegativeApiTest.call(check, "Textbox");
+		});
+		
+		// WebView create API negative test
+		RadJav.addTest("test_common_negative_create_013", function(check) {
+			return createNegativeApiTest.call(check, "WebView");
+		});
+		
+		// Helper for testing raised exceptions by steps
+		var exceptionStepsCheck = function(check, steps)
+		{
+			for(let i = 0; i < steps.length; i++)
+			{
+				check.assert(steps[i].exceptionCaught, steps[i].message);
+			}
+		}
+		
+		// generic setFont API negative test
+		let setFontNegativeApiTest = function(controlName) {
+			let check = this;
+			let steps = [];
+			steps.push({exceptionCaught: false, message: controlName+".setFont() with null parameter rise exception"});
+			steps.push({exceptionCaught: false, message: controlName+".setFont() with undefined parameter rise exception"});
+			steps.push({exceptionCaught: false, message: controlName+".setFont() with empty object rise exception"});
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window", controlName+" setFont negative API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI[controlName](controlName, "test", window);
+					control.create().then( function(ctl) {
+						control = ctl;
+						
+						let font1 = null;
+						let font2;
+						let font3 = {};
+						
+						try
+						{
+							control.setFont(font1);
+						}
+						catch(err)
+						{
+							steps[0].exceptionCaught = true;
+						}
+						
+						try
+						{
+							control.setFont(font2);
+						}
+						catch(err)
+						{
+							steps[1].exceptionCaught = true;
+						}
+						
+						try
+						{
+							control.setFont(font3);
+						}
+						catch(err)
+						{
+							steps[2].exceptionCaught = true;
+						}
+						
+						exceptionStepsCheck(check, steps);
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					exceptionStepsCheck(check, steps);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window setFont API negative test
+		RadJav.addTest("test_common_setfont_negative_001", function(check) {
+			let steps = [];
+			steps.push({exceptionCaught: false, message: "Window.setFont() with null parameter rise exception"});
+			steps.push({exceptionCaught: false, message: "Window.setFont() with undefined parameter rise exception"});
+			steps.push({exceptionCaught: false, message: "Window.setFont() with empty object rise exception"});
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window","Window setFont API negative test");
+				window.create().then(function(win) {
+					window = win;
+					
+					let font1 = null;
+					let font2;
+					let font3 = {};
+					
+					try
+					{
+						window.setFont(font1);
+					}
+					catch(err)
+					{
+						steps[0].exceptionCaught = true;
+					}
+					
+					try
+					{
+						window.setFont(font2);
+					}
+					catch(err)
+					{
+						steps[1].exceptionCaught = true;
+					}
+					
+					try
+					{
+						window.setFont(font3);
+					}
+					catch(err)
+					{
+						steps[2].exceptionCaught = true;
+					}
+					
+					exceptionStepsCheck(check, steps);
+					resolve();
+				});
+				
+				setTimeout(function ()
+				{
+					exceptionStepsCheck(check, steps);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Button setFont API negative test
+		RadJav.addTest("test_common_setfont_negative_002", function(check) {
+			return setFontNegativeApiTest.call(check, "Button");
+		});
+		
+		// Checkbox setFont API negative test
+		RadJav.addTest("test_common_setfont_negative_003", function(check) {
+			return setFontNegativeApiTest.call(check, "Checkbox");
+		});
+		
+		// Combobox setFont API negative test
+		RadJav.addTest("test_common_setfont_negative_004", function(check) {
+			return setFontNegativeApiTest.call(check, "Combobox");
+		});
+		
+		// Container setFont API negative test
+		RadJav.addTest("test_common_setfont_negative_005", function(check) {
+			return setFontNegativeApiTest.call(check, "Container");
+		});
+		
+		// Image setFont API negative test
+		RadJav.addTest("test_common_setfont_negative_006", function(check) {
+			return setFontNegativeApiTest.call(check, "Image");
+		});
+		
+		// Label setFont API negative test
+		RadJav.addTest("test_common_setfont_negative_007", function(check) {
+			return setFontNegativeApiTest.call(check, "Label");
+		});
+		
+		// List setFont API negative test
+		RadJav.addTest("test_common_setfont_negative_008", function(check) {
+			return setFontNegativeApiTest.call(check, "List");
+		});
+		
+		// MebuBar setFont API negative test
+		RadJav.addTest("test_common_setfont_negative_009", function(check) {
+			return setFontNegativeApiTest.call(check, "MenuBar");
+		});
+		
+		// MenuItem setFont API negative test
+		RadJav.addTest("test_common_setfont_negative_010", function(check) {
+			let steps = [];
+			steps.push({exceptionCaught: false, message: "MenuItem.setFont() with null parameter rise exception"});
+			steps.push({exceptionCaught: false, message: "MenuItem.setFont() with undefined parameter rise exception"});
+			steps.push({exceptionCaught: false, message: "MenuItem.setFont() with empty object rise exception"});
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuItem setFont API negative test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
+						menuItem.create().then( function(ctl) {
+							menuItem = ctl;
+							
+							let font1 = null;
+							let font2;
+							let font3 = {};
+							
+							try
+							{
+								menuItem.setFont(font1);
+							}
+							catch(err)
+							{
+								steps[0].exceptionCaught = true;
+							}
+							
+							try
+							{
+								menuItem.setFont(font2);
+							}
+							catch(err)
+							{
+								steps[1].exceptionCaught = true;
+							}
+							
+							try
+							{
+								menuItem.setFont(font3);
+							}
+							catch(err)
+							{
+								steps[2].exceptionCaught = true;
+							}
+							
+							exceptionStepsCheck(check, steps);
+							resolve();
+						});
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					exceptionStepsCheck(check, steps);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Radio setFont API negative test
+		RadJav.addTest("test_common_setfont_negative_011", function(check) {
+			return setFontNegativeApiTest.call(check, "Radio");
+		});
+		
+		// Textarea setFont API negative test
+		RadJav.addTest("test_common_setfont_negative_012", function(check) {
+			return setFontNegativeApiTest.call(check, "Textarea");
+		});
+		
+		// Textbox setFont API negative test
+		RadJav.addTest("test_common_setfont_negative_013", function(check) {
+			return setFontNegativeApiTest.call(check, "Textbox");
+		});
+		
+		// WebView setFont API negative test
+		RadJav.addTest("test_common_setfont_negative_014", function(check) {
+			return setFontNegativeApiTest.call(check, "WebView");
+		});
+		
+		// generic setPosition API negative test
+		let setPositionNegativeApiTest = function(controlName) {
+			let check = this;
+			let steps = [];
+			steps.push({exceptionCaught: false, message: controlName+".setPosition() with null X rise exception"});
+			steps.push({exceptionCaught: false, message: controlName+".setPosition() with null Y rise exception"});
+			steps.push({exceptionCaught: false, message: controlName+".setPosition() with undefined X rise exception"});
+			steps.push({exceptionCaught: false, message: controlName+".setPosition() with undefined Y rise exception"});
+			steps.push({exceptionCaught: false, message: controlName+".setPosition() with empty object as X rise exception"});
+			steps.push({exceptionCaught: false, message: controlName+".setPosition() with empty object as Y rise exception"});
+			
+			steps.push({exceptionCaught: false, message: controlName+".setPosition() with null parameters rise exception"});
+			steps.push({exceptionCaught: false, message: controlName+".setPosition() with undefined parameters rise exception"});
+			steps.push({exceptionCaught: false, message: controlName+".setPosition() with empty object rise exception"});
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window", controlName+" setPosition negative API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI[controlName](controlName, "test", window);
+					control.create().then( function(ctl) {
+						control = ctl;
+						
+						let posXNull = null;
+						let posYNull = null;
+						let posXUndef;
+						let posYUndef;
+						let posXObj = {};
+						let posYObj = {};
+						let pos1 = null;
+						let pos2;
+						let pos3 = {};
+						
+						//Null X or Y
+						try
+						{
+							control.setPosition(posXNull, 0);
+						}
+						catch(err)
+						{
+							steps[0].exceptionCaught = true;
+						}
+						
+						try
+						{
+							control.setPosition(0, posYNull);
+						}
+						catch(err)
+						{
+							steps[1].exceptionCaught = true;
+						}
+						
+						//Undefined X or Y
+						try
+						{
+							control.setPosition(posXUndef, 0);
+						}
+						catch(err)
+						{
+							steps[2].exceptionCaught = true;
+						}
+						
+						try
+						{
+							control.setPosition(0, posYUndef);
+						}
+						catch(err)
+						{
+							steps[3].exceptionCaught = true;
+						}
+						
+						//Empty object X or Y
+						try
+						{
+							control.setPosition(posXObj, 0);
+						}
+						catch(err)
+						{
+							steps[4].exceptionCaught = true;
+						}
+						
+						try
+						{
+							control.setPosition(0, posYObj);
+						}
+						catch(err)
+						{
+							steps[5].exceptionCaught = true;
+						}
+						
+						//Null as arg
+						try
+						{
+							control.setPosition(pos1);
+						}
+						catch(err)
+						{
+							steps[6].exceptionCaught = true;
+						}
+						
+						//Undefined as arg
+						try
+						{
+							control.setPosition(pos2);
+						}
+						catch(err)
+						{
+							steps[7].exceptionCaught = true;
+						}
+						
+						//Empty object as arg
+						try
+						{
+							control.setPosition(pos3);
+						}
+						catch(err)
+						{
+							steps[8].exceptionCaught = true;
+						}
+						
+						exceptionStepsCheck(check, steps);
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					exceptionStepsCheck(check, steps);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window setPosition API negative test
+		RadJav.addTest("test_common_setposition_negative_001", function(check) {
+			let steps = [];
+			steps.push({exceptionCaught: false, message: "Window.setPosition() with null X rise exception"});
+			steps.push({exceptionCaught: false, message: "Window.setPosition() with null Y rise exception"});
+			steps.push({exceptionCaught: false, message: "Window.setPosition() with undefined X rise exception"});
+			steps.push({exceptionCaught: false, message: "Window.setPosition() with undefined Y rise exception"});
+			steps.push({exceptionCaught: false, message: "Window.setPosition() with empty object as X rise exception"});
+			steps.push({exceptionCaught: false, message: "Window.setPosition() with empty object as Y rise exception"});
+			
+			steps.push({exceptionCaught: false, message: "Window.setPosition() with null parameters rise exception"});
+			steps.push({exceptionCaught: false, message: "Window.setPosition() with undefined parameters rise exception"});
+			steps.push({exceptionCaught: false, message: "Window.setPosition() with empty object rise exception"});
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window","Window setPosition API negative test");
+				window.create().then(function(win) {
+					window = win;
+					
+					let posXNull = null;
+					let posYNull = null;
+					let posXUndef;
+					let posYUndef;
+					let posXObj = {};
+					let posYObj = {};
+					let pos1 = null;
+					let pos2;
+					let pos3 = {};
+					
+					//Null X or Y
+					try
+					{
+						window.setPosition(posXNull, 0);
+					}
+					catch(err)
+					{
+						steps[0].exceptionCaught = true;
+					}
+					
+					try
+					{
+						window.setPosition(0, posYNull);
+					}
+					catch(err)
+					{
+						steps[1].exceptionCaught = true;
+					}
+					
+					//Undefined X or Y
+					try
+					{
+						window.setPosition(posXUndef, 0);
+					}
+					catch(err)
+					{
+						steps[2].exceptionCaught = true;
+					}
+					
+					try
+					{
+						window.setPosition(0, posYUndef);
+					}
+					catch(err)
+					{
+						steps[3].exceptionCaught = true;
+					}
+					
+					//Empty object X or Y
+					try
+					{
+						window.setPosition(posXObj, 0);
+					}
+					catch(err)
+					{
+						steps[4].exceptionCaught = true;
+					}
+					
+					try
+					{
+						window.setPosition(0, posYObj);
+					}
+					catch(err)
+					{
+						steps[5].exceptionCaught = true;
+					}
+					
+					//Null as arg
+					try
+					{
+						window.setPosition(pos1);
+					}
+					catch(err)
+					{
+						steps[6].exceptionCaught = true;
+					}
+					
+					//Undefined as arg
+					try
+					{
+						window.setPosition(pos2);
+					}
+					catch(err)
+					{
+						steps[7].exceptionCaught = true;
+					}
+					
+					//Empty object as arg
+					try
+					{
+						window.setPosition(pos3);
+					}
+					catch(err)
+					{
+						steps[8].exceptionCaught = true;
+					}
+					
+					exceptionStepsCheck(check, steps);
+					resolve();
+				});
+				
+				setTimeout(function ()
+				{
+					exceptionStepsCheck(check, steps);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Button setPosition API negative test
+		RadJav.addTest("test_common_setposition_negative_002", function(check) {
+			return setPositionNegativeApiTest.call(check, "Button");
+		});
+		
+		// Checkbox setPosition API negative test
+		RadJav.addTest("test_common_setposition_negative_003", function(check) {
+			return setPositionNegativeApiTest.call(check, "Checkbox");
+		});
+		
+		// Combobox setPosition API negative test
+		RadJav.addTest("test_common_setposition_negative_004", function(check) {
+			return setPositionNegativeApiTest.call(check, "Combobox");
+		});
+		
+		// Container setPosition API negative test
+		RadJav.addTest("test_common_setposition_negative_005", function(check) {
+			return setPositionNegativeApiTest.call(check, "Container");
+		});
+		
+		// Image setPosition API negative test
+		RadJav.addTest("test_common_setposition_negative_006", function(check) {
+			return setPositionNegativeApiTest.call(check, "Image");
+		});
+		
+		// Label setPosition API negative test
+		RadJav.addTest("test_common_setposition_negative_007", function(check) {
+			return setPositionNegativeApiTest.call(check, "Label");
+		});
+		
+		// List setPosition API negative test
+		RadJav.addTest("test_common_setposition_negative_008", function(check) {
+			return setPositionNegativeApiTest.call(check, "List");
+		});
+		
+		// MebuBar setPosition API negative test
+		RadJav.addTest("test_common_setposition_negative_009", function(check) {
+			return setPositionNegativeApiTest.call(check, "MenuBar");
+		});
+		
+		// MenuItem setPosition API negative test
+		RadJav.addTest("test_common_setposition_negative_010", function(check) {
+			let steps = [];
+			steps.push({exceptionCaught: false, message: "MenuItem.setPosition() with null X rise exception"});
+			steps.push({exceptionCaught: false, message: "MenuItem.setPosition() with null Y rise exception"});
+			steps.push({exceptionCaught: false, message: "MenuItem.setPosition() with undefined X rise exception"});
+			steps.push({exceptionCaught: false, message: "MenuItem.setPosition() with undefined Y rise exception"});
+			steps.push({exceptionCaught: false, message: "MenuItem.setPosition() with empty object as X rise exception"});
+			steps.push({exceptionCaught: false, message: "MenuItem.setPosition() with empty object as Y rise exception"});
+			
+			steps.push({exceptionCaught: false, message: "MenuItem.setPosition() with null parameters rise exception"});
+			steps.push({exceptionCaught: false, message: "MenuItem.setPosition() with undefined parameters rise exception"});
+			steps.push({exceptionCaught: false, message: "MenuItem.setPosition() with empty object rise exception"});
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuItem setPosition API negative test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(cnt) {
+						control = cnt;
+						
+						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
+						menuItem.create().then( function(ctl) {
+							menuItem = ctl;
+							
+							let posXNull = null;
+							let posYNull = null;
+							let posXUndef;
+							let posYUndef;
+							let posXObj = {};
+							let posYObj = {};
+							let pos1 = null;
+							let pos2;
+							let pos3 = {};
+							
+							//Null X or Y
+							try
+							{
+								menuItem.setPosition(posXNull, 0);
+							}
+							catch(err)
+							{
+								steps[0].exceptionCaught = true;
+							}
+							
+							try
+							{
+								menuItem.setPosition(0, posYNull);
+							}
+							catch(err)
+							{
+								steps[1].exceptionCaught = true;
+							}
+							
+							//Undefined X or Y
+							try
+							{
+								menuItem.setPosition(posXUndef, 0);
+							}
+							catch(err)
+							{
+								steps[2].exceptionCaught = true;
+							}
+							
+							try
+							{
+								menuItem.setPosition(0, posYUndef);
+							}
+							catch(err)
+							{
+								steps[3].exceptionCaught = true;
+							}
+							
+							//Empty object X or Y
+							try
+							{
+								menuItem.setPosition(posXObj, 0);
+							}
+							catch(err)
+							{
+								steps[4].exceptionCaught = true;
+							}
+							
+							try
+							{
+								menuItem.setPosition(0, posYObj);
+							}
+							catch(err)
+							{
+								steps[5].exceptionCaught = true;
+							}
+							
+							//Null as arg
+							try
+							{
+								menuItem.setPosition(pos1);
+							}
+							catch(err)
+							{
+								steps[6].exceptionCaught = true;
+							}
+							
+							//Undefined as arg
+							try
+							{
+								menuItem.setPosition(pos2);
+							}
+							catch(err)
+							{
+								steps[7].exceptionCaught = true;
+							}
+							
+							//Empty object as arg
+							try
+							{
+								menuItem.setPosition(pos3);
+							}
+							catch(err)
+							{
+								steps[8].exceptionCaught = true;
+							}
+							
+							exceptionStepsCheck(check, steps);
+							resolve();
+						});
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					exceptionStepsCheck(check, steps);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Radio setPosition API negative test
+		RadJav.addTest("test_common_setposition_negative_011", function(check) {
+			return setPositionNegativeApiTest.call(check, "Radio");
+		});
+		
+		// Textarea setPosition API negative test
+		RadJav.addTest("test_common_setposition_negative_012", function(check) {
+			return setPositionNegativeApiTest.call(check, "Textarea");
+		});
+		
+		// Textbox setPosition API negative test
+		RadJav.addTest("test_common_setposition_negative_013", function(check) {
+			return setPositionNegativeApiTest.call(check, "Textbox");
+		});
+		
+		// WebView setPosition API negative test
+		RadJav.addTest("test_common_setposition_negative_014", function(check) {
+			return setPositionNegativeApiTest.call(check, "WebView");
+		});
+		
+		// Execute test cases
+		RadJav.runTests().then( function() {
+			RadJav.exit();
+		});
+	});
+});

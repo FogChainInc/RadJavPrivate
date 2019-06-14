@@ -162,6 +162,363 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 			return createApiTest.call(check, "WebView");
 		});
 		
+		// generic create after create API test
+		let createAfterCreateApiTest = function(controlName)
+		{
+			let check = this;
+			let message = controlName+".create() API will throw an exception if "+controlName+" was created previously";
+			let exceptionCaught = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window", controlName+" create after create API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI[controlName](controlName, "test", window);
+					control.create().then(function(ctrl) {
+						control = ctrl;
+						
+						try
+						{
+							control.create().then(function(ctrl2) {
+								control = ctrl2;
+							});
+						}
+						catch(err)
+						{
+							exceptionCaught = true;
+						}
+						finally
+						{
+							check.assert(exceptionCaught, message);
+							resolve();
+						}
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window create after create API test
+		RadJav.addTest("test_common_create_015", function(check) {
+			let message = "Window.create() API will throw an exception if Window was created previously";
+			let exceptionCaught = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window","Window create after create API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					try
+					{
+						window.create().then(function(win2) {
+							window = win2;
+						});
+					}
+					catch(err)
+					{
+						exceptionCaught = true;
+					}
+					finally
+					{
+						check.assert(exceptionCaught, message);
+						resolve();
+					}
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Button create after create API test
+		RadJav.addTest("test_common_create_016", function(check) {
+			return createAfterCreateApiTest.call(check, "Button");
+		});
+		
+		// Checkbox create after create API test
+		RadJav.addTest("test_common_create_017", function(check) {
+			return createAfterCreateApiTest.call(check, "Checkbox");
+		});
+		
+		// Combobox create after create API test
+		RadJav.addTest("test_common_create_018", function(check) {
+			return createAfterCreateApiTest.call(check, "Combobox");
+		});
+		
+		// Container create after create API test
+		RadJav.addTest("test_common_create_019", function(check) {
+			return createAfterCreateApiTest.call(check, "Container");
+		});
+		
+		// Image create after create API test
+		RadJav.addTest("test_common_create_020", function(check) {
+			return createAfterCreateApiTest.call(check, "Image");
+		});
+		
+		// Label create after create API test
+		RadJav.addTest("test_common_create_021", function(check) {
+			return createAfterCreateApiTest.call(check, "Label");
+		});
+		
+		// List create after create API test
+		RadJav.addTest("test_common_create_022", function(check) {
+			return createAfterCreateApiTest.call(check, "List");
+		});
+		
+		// MebuBar create after create API test
+		RadJav.addTest("test_common_create_023", function(check) {
+			return createAfterCreateApiTest.call(check, "MenuBar");
+		});
+		
+		// MenuItem create after create API test
+		RadJav.addTest("test_common_create_024", function(check) {
+			let message = "MenuItem.create() API will throw an exception if MenuItem was created previously";
+			let exceptionCaught = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuItem create after create API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(ctrl) {
+						control = ctrl;
+						
+						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
+						menuItem.create().then(function(ctrl2) {
+							menuItem = ctrl2;
+							try
+							{
+								menuItem.create().then(function(ctrl3) {
+									menuItem = ctrl3;
+								});
+							}
+							catch(err)
+							{
+								exceptionCaught = true;
+							}
+							finally
+							{
+								check.assert(exceptionCaught, message);
+								resolve();
+							}
+						});
+						
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(exceptionCaught, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Radio create after create API test
+		RadJav.addTest("test_common_create_025", function(check) {
+			return createAfterCreateApiTest.call(check, "Radio");
+		});
+		
+		// Textarea create after create API test
+		RadJav.addTest("test_common_create_026", function(check) {
+			return createAfterCreateApiTest.call(check, "Textarea");
+		});
+		
+		// Textbox create after create API test
+		RadJav.addTest("test_common_create_027", function(check) {
+			return createAfterCreateApiTest.call(check, "Textbox");
+		});
+		
+		// WebView create after create API test
+		RadJav.addTest("test_common_create_028", function(check) {
+			return createAfterCreateApiTest.call(check, "WebView");
+		});
+		
+		// generic create after destroy API test
+		let createAfterDestroyApiTest = function(controlName)
+		{
+			let check = this;
+			let message = controlName+".create() API will return Promise after "+controlName+" has been detroyed";
+			let promiseReturned = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window", controlName+" create after destroy API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI[controlName](controlName, "test", window);
+					control.create().then(function(ctrl) {
+						control = ctrl;
+						
+						control.destroy();
+						var ret = control.create();
+						if (ret instanceof Promise)
+							promiseReturned = true;
+						
+						check.assert(promiseReturned);
+						resolve();
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(promiseReturned, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window create after destroy API test
+		RadJav.addTest("test_common_create_029", function(check) {
+			let message = "Window.create() API will return Promise after Window has been detroyed";
+			let promiseReturned = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("Window","Window create after destroy API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.destroy();
+					var ret = window.create();
+					if (ret instanceof Promise)
+						promiseReturned = true;
+					
+					check.assert(promiseReturned);
+					resolve();
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(promiseReturned, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Button create after destroy API test
+		RadJav.addTest("test_common_create_030", function(check) {
+			return createAfterDestroyApiTest.call(check, "Button");
+		});
+		
+		// Checkbox create after destroy API test
+		RadJav.addTest("test_common_create_031", function(check) {
+			return createAfterDestroyApiTest.call(check, "Checkbox");
+		});
+		
+		// Combobox create after destroy API test
+		RadJav.addTest("test_common_create_032", function(check) {
+			return createAfterDestroyApiTest.call(check, "Combobox");
+		});
+		
+		// Container create after destroy API test
+		RadJav.addTest("test_common_create_033", function(check) {
+			return createAfterDestroyApiTest.call(check, "Container");
+		});
+		
+		// Image create after destroy API test
+		RadJav.addTest("test_common_create_034", function(check) {
+			return createAfterDestroyApiTest.call(check, "Image");
+		});
+		
+		// Label create after destroy API test
+		RadJav.addTest("test_common_create_035", function(check) {
+			return createAfterDestroyApiTest.call(check, "Label");
+		});
+		
+		// List create after destroy API test
+		RadJav.addTest("test_common_create_036", function(check) {
+			return createAfterDestroyApiTest.call(check, "List");
+		});
+		
+		// MebuBar create after destroy API test
+		RadJav.addTest("test_common_create_037", function(check) {
+			return createAfterDestroyApiTest.call(check, "MenuBar");
+		});
+		
+		// MenuItem create after destroy API test
+		RadJav.addTest("test_common_create_038", function(check) {
+			let message = "MenuItem.create() API will return Promise after MenuItem has been detroyed";
+			let promiseReturned = false;
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuItem create after destroy API test");
+				window.create().then(function(win) {
+					window = win;
+					
+					var control = new RadJav.GUI.MenuBar("Menubar", "", window);
+					control.create().then(function(ctrl) {
+						control = ctrl;
+						
+						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
+						menuItem.create().then(function(ctrl2) {
+							menuItem = ctrl2;
+
+							menuItem.destroy();
+							var ret = menuItem.create();
+							if (ret instanceof Promise)
+								promiseReturned = true;
+							
+							check.assert(promiseReturned);
+							resolve();
+						});
+						
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(promiseReturned, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+			
+		});
+		
+		// Radio create after destroy API test
+		RadJav.addTest("test_common_create_039", function(check) {
+			return createAfterDestroyApiTest.call(check, "Radio");
+		});
+		
+		// Textarea create after destroy API test
+		RadJav.addTest("test_common_create_040", function(check) {
+			return createAfterDestroyApiTest.call(check, "Textarea");
+		});
+		
+		// Textbox create after destroy API test
+		RadJav.addTest("test_common_create_041", function(check) {
+			return createAfterDestroyApiTest.call(check, "Textbox");
+		});
+		
+		// WebView create after destroy API test
+		RadJav.addTest("test_common_create_042", function(check) {
+			return createAfterDestroyApiTest.call(check, "WebView");
+		});
+		
 		// generic setFont, getFont API test
 		let setGetFontApiTest = function(controlName) {
 			let check = this;
@@ -288,14 +645,15 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 						
 						var menuItem = new RadJav.GUI.MenuItem("Menu file", "File", control);
 						menuItem.create().then( function(ctl) {
+							menuItem = ctl;
 							let font = new RadJav.Font({fontFamily: "Arial",
 															size: 12,
 															color: RadJav.Color.Black,
 															underline: true,
 															bold: true,
 															italic: true});
-							control.setFont(font);
-							let font2 = control.getFont();
+							menuItem.setFont(font);
+							let font2 = menuItem.getFont();
 							
 							check.equal(font, font2, message);
 							resolve();
