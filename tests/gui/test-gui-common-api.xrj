@@ -373,7 +373,7 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 						if (ret instanceof Promise)
 							promiseReturned = true;
 						
-						check.assert(promiseReturned);
+						check.assert(promiseReturned, message);
 						resolve();
 					});
 				});
@@ -403,7 +403,7 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 					if (ret instanceof Promise)
 						promiseReturned = true;
 					
-					check.assert(promiseReturned);
+					check.assert(promiseReturned, message);
 					resolve();
 				});
 				
@@ -481,7 +481,7 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 							if (ret instanceof Promise)
 								promiseReturned = true;
 							
-							check.assert(promiseReturned);
+							check.assert(promiseReturned, message);
 							resolve();
 						});
 						
@@ -6480,6 +6480,1850 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 		// WebView destroy after destroy API test
 		RadJav.addTest("test_common_destroy_294", function(check) {
 			return destroyAfterDestroyApiTest.call(check, "WebView");
+		});
+		
+		// generic on("click") functionality test
+		let onClickApiTest = function(controlName, eventPosition, setupControl) {
+			let check = this;
+			let message = controlName + " got on(\"click\") event";
+			let eventArrived = false;
+			let windowPos = new RadJav.Vector2(0, 22);
+			
+			let promise = new Promise(function(resolve, reject) {
+				
+				var window = new RadJav.GUI.Window("Window", controlName+".on(\"click\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					window.setPosition(windowPos);
+					
+					var control;
+					
+					if (controlName == "Window")
+					{
+						control = window;
+						if (setupControl != undefined)
+							setupControl.call(check, control);
+						
+						control.on("click", function() {
+							eventArrived = true;
+							check.assert(eventArrived, message);
+							resolve();
+						});
+					}
+					else if(controlName == "MenuItem")
+					{
+						var menuBar = new RadJav.GUI.MenuBar("MenuBar", "Test", window);
+						menuBar.create().then(function(ctrl) {
+							menuBar = ctrl;
+							control = new RadJav.GUI[controlName](controlName, "File", menuBar);
+							control.create().then(function(ctrl) {
+								control = ctrl;
+								if (setupControl != undefined)
+									setupControl.call(check, control);
+								
+								control.on("click", function() {
+									eventArrived = true;
+									check.assert(eventArrived, message);
+									resolve();
+								});
+							});								
+						});
+					}
+					else
+					{
+						control = new RadJav.GUI[controlName](controlName, "Test", window);
+						control.create().then(function(ctrl) {
+							control = ctrl;
+							if (setupControl != undefined)
+								setupControl.call(check, control);
+							
+							control.on("click", function() {
+								eventArrived = true;
+								check.assert(eventArrived, message);
+								resolve();
+							});
+						});
+					}
+					
+					setTimeout(function()
+					{
+						RadJav.Testing.MouseSimulator.moveClick(eventPosition);
+					}, 1000);
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(eventArrived, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window.on("click") functionality test
+		RadJav.addTest("test_common_onclick_001", function(check) {
+			return onClickApiTest.call(check, "Window", new RadJav.Vector2(40, 64));
+		});
+		
+		// Button.on("click") functionality test
+		RadJav.addTest("test_common_onclick_002", function(check) {
+			return onClickApiTest.call(check, "Button", new RadJav.Vector2(40, 64));
+		});
+		
+		// Checkbox.on("click") functionality test
+		RadJav.addTest("test_common_onclick_003", function(check) {
+			return onClickApiTest.call(check, "Checkbox", new RadJav.Vector2(15, 64));
+		});
+		
+		// Combobox.on("click") functionality test
+		RadJav.addTest("test_common_onclick_004", function(check) {
+			return onClickApiTest.call(check, "Combobox", new RadJav.Vector2(106, 64));
+		});
+		
+		// Container.on("click") functionality test
+		RadJav.addTest("test_common_onclick_005", function(check) {
+			return onClickApiTest.call(check, "Container", new RadJav.Vector2(42, 98));
+		});
+		
+		// Image.on("click") functionality test
+		RadJav.addTest("test_common_onclick_006", function(check) {
+			return onClickApiTest.call(check, "Image", new RadJav.Vector2(48, 92), function(ctrl) {
+				ctrl.setSize(256, 256);
+				ctrl.setImage("test-image.png");
+			});
+		});
+		
+		// Label.on("click") functionality test
+		RadJav.addTest("test_common_onclick_007", function(check) {
+			return onClickApiTest.call(check, "Label", new RadJav.Vector2(14, 53));
+		});
+		
+		// List.on("click") functionality test
+		RadJav.addTest("test_common_onclick_008", function(check) {
+			return onClickApiTest.call(check, "List", new RadJav.Vector2(38, 70));
+		});
+		
+		// MebuBar.on("click") functionality test
+		RadJav.addTest("test_common_onclick_009", function(check) {
+			return onClickApiTest.call(check, "MenuBar", new RadJav.Vector2(85, 11));
+		});
+		
+		// MenuItem.on("click") functionality test
+		RadJav.addTest("test_common_onclick_010", function(check) {
+			return onClickApiTest.call(check, "MenuItem", new RadJav.Vector2(222, 11));
+		});
+		
+		// Radio.on("click") functionality test
+		RadJav.addTest("test_common_onclick_011", function(check) {
+			return onClickApiTest.call(check, "Radio", new RadJav.Vector2(8, 63));
+		});
+		
+		// Textarea.on("click") functionality test
+		RadJav.addTest("test_common_onclick_012", function(check) {
+			return onClickApiTest.call(check, "Textarea", new RadJav.Vector2(56, 105));
+		});
+		
+		// Textbox.on("click") functionality test
+		RadJav.addTest("test_common_onclick_013", function(check) {
+			return onClickApiTest.call(check, "Textbox", new RadJav.Vector2(56, 62));
+		});
+		
+		// WebView.on("click") functionality test
+		RadJav.addTest("test_common_onclick_014", function(check) {
+			return onClickApiTest.call(check, "WebView", new RadJav.Vector2(56, 105));
+		});
+		
+		// generic on("rightclick") functionality test
+		let onRightClickApiTest = function(controlName, eventPosition, setupControl) {
+			let check = this;
+			let message = controlName + " got on(\"rightclick\") event";
+			let eventArrived = false;
+			let windowPos = new RadJav.Vector2(0, 22);
+			
+			let promise = new Promise(function(resolve, reject) {
+				
+				var window = new RadJav.GUI.Window("Window", controlName+".on(\"rightclick\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					window.setPosition(windowPos);
+					
+					var control;
+					
+					if (controlName == "Window")
+					{
+						control = window;
+						if (setupControl != undefined)
+							setupControl.call(check, control);
+						
+						control.on("rightclick", function() {
+							eventArrived = true;
+							check.assert(eventArrived, message);
+							resolve();
+						});
+					}
+					else if(controlName == "MenuItem")
+					{
+						var menuBar = new RadJav.GUI.MenuBar("MenuBar", "Test", window);
+						menuBar.create().then(function(ctrl) {
+							menuBar = ctrl;
+							control = new RadJav.GUI[controlName](controlName, "File", menuBar);
+							control.create().then(function(ctrl) {
+								control = ctrl;
+								if (setupControl != undefined)
+									setupControl.call(check, control);
+								
+								control.on("rightclick", function() {
+									eventArrived = true;
+									check.assert(eventArrived, message);
+									resolve();
+								});
+							});								
+						});
+					}
+					else
+					{
+						control = new RadJav.GUI[controlName](controlName, "Test", window);
+						control.create().then(function(ctrl) {
+							control = ctrl;
+							if (setupControl != undefined)
+								setupControl.call(check, control);
+							
+							control.on("rightclick", function() {
+								eventArrived = true;
+								check.assert(eventArrived, message);
+								resolve();
+							});
+						});
+					}
+					
+					setTimeout(function()
+					{
+						RadJav.Testing.MouseSimulator.moveClick(eventPosition, 1);
+					}, 1000);
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(eventArrived, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window.on("rightclick") functionality test
+		RadJav.addTest("test_common_onrightclick_001", function(check) {
+			return onRightClickApiTest.call(check, "Window", new RadJav.Vector2(40, 64));
+		});
+		
+		// Button.on("rightclick") functionality test
+		RadJav.addTest("test_common_onrightclick_002", function(check) {
+			return onRightClickApiTest.call(check, "Button", new RadJav.Vector2(40, 64));
+		});
+		
+		// Checkbox.on("rightclick") functionality test
+		RadJav.addTest("test_common_onrightclick_003", function(check) {
+			return onRightClickApiTest.call(check, "Checkbox", new RadJav.Vector2(15, 64));
+		});
+		
+		// Combobox.on("rightclick") functionality test
+		RadJav.addTest("test_common_onrightclick_004", function(check) {
+			return onRightClickApiTest.call(check, "Combobox", new RadJav.Vector2(106, 64));
+		});
+		
+		// Container.on("rightclick") functionality test
+		RadJav.addTest("test_common_onrightclick_005", function(check) {
+			return onRightClickApiTest.call(check, "Container", new RadJav.Vector2(42, 98));
+		});
+		
+		// Image.on("rightclick") functionality test
+		RadJav.addTest("test_common_onrightclick_006", function(check) {
+			return onRightClickApiTest.call(check, "Image", new RadJav.Vector2(48, 92), function(ctrl) {
+				ctrl.setSize(256, 256);
+				ctrl.setImage("test-image.png");
+			});
+		});
+		
+		// Label.on("rightclick") functionality test
+		RadJav.addTest("test_common_onrightclick_007", function(check) {
+			return onRightClickApiTest.call(check, "Label", new RadJav.Vector2(14, 53));
+		});
+		
+		// List.on("rightclick") functionality test
+		RadJav.addTest("test_common_onrightclick_008", function(check) {
+			return onRightClickApiTest.call(check, "List", new RadJav.Vector2(38, 70));
+		});
+		
+		// MebuBar.on("rightclick") functionality test
+		RadJav.addTest("test_common_onrightclick_009", function(check) {
+			return onRightClickApiTest.call(check, "MenuBar", new RadJav.Vector2(85, 11));
+		});
+		
+		// MenuItem.on("rightclick") functionality test
+		RadJav.addTest("test_common_onrightclick_010", function(check) {
+			return onRightClickApiTest.call(check, "MenuItem", new RadJav.Vector2(222, 11));
+		});
+		
+		// Radio.on("rightclick") functionality test
+		RadJav.addTest("test_common_onrightclick_011", function(check) {
+			return onRightClickApiTest.call(check, "Radio", new RadJav.Vector2(8, 63));
+		});
+		
+		// Textarea.on("rightclick") functionality test
+		RadJav.addTest("test_common_onrightclick_012", function(check) {
+			return onRightClickApiTest.call(check, "Textarea", new RadJav.Vector2(56, 105));
+		});
+		
+		// Textbox.on("rightclick") functionality test
+		RadJav.addTest("test_common_onrightclick_013", function(check) {
+			return onRightClickApiTest.call(check, "Textbox", new RadJav.Vector2(56, 62));
+		});
+		
+		// WebView.on("rightclick") functionality test
+		RadJav.addTest("test_common_onrightclick_014", function(check) {
+			return onRightClickApiTest.call(check, "WebView", new RadJav.Vector2(56, 105));
+		});
+		
+		// generic on("contextmenu") functionality test
+		let onContextMenuApiTest = function(controlName, eventPosition, setupControl) {
+			let check = this;
+			let message = controlName + " got on(\"contextmenu\") event";
+			let eventArrived = false;
+			let windowPos = new RadJav.Vector2(0, 22);
+			
+			let promise = new Promise(function(resolve, reject) {
+				
+				var window = new RadJav.GUI.Window("Window", controlName+".on(\"contextmenu\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					window.setPosition(windowPos);
+					
+					var control;
+					
+					if (controlName == "Window")
+					{
+						control = window;
+						if (setupControl != undefined)
+							setupControl.call(check, control);
+						
+						control.on("contextmenu", function() {
+							eventArrived = true;
+							check.assert(eventArrived, message);
+							resolve();
+						});
+					}
+					else if(controlName == "MenuItem")
+					{
+						var menuBar = new RadJav.GUI.MenuBar("MenuBar", "Test", window);
+						menuBar.create().then(function(ctrl) {
+							menuBar = ctrl;
+							control = new RadJav.GUI[controlName](controlName, "File", menuBar);
+							control.create().then(function(ctrl) {
+								control = ctrl;
+								if (setupControl != undefined)
+									setupControl.call(check, control);
+								
+								control.on("contextmenu", function() {
+									eventArrived = true;
+									check.assert(eventArrived, message);
+									resolve();
+								});
+							});								
+						});
+					}
+					else
+					{
+						control = new RadJav.GUI[controlName](controlName, "Test", window);
+						control.create().then(function(ctrl) {
+							control = ctrl;
+							if (setupControl != undefined)
+								setupControl.call(check, control);
+							
+							control.on("contextmenu", function() {
+								eventArrived = true;
+								check.assert(eventArrived, message);
+								resolve();
+							});
+						});
+					}
+					
+					setTimeout(function()
+					{
+						RadJav.Testing.MouseSimulator.moveClick(eventPosition, 1);
+					}, 1000);
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(eventArrived, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window.on("contextmenu") functionality test
+		RadJav.addTest("test_common_oncontextmenu_001", function(check) {
+			return onContextMenuApiTest.call(check, "Window", new RadJav.Vector2(40, 64));
+		});
+		
+		// Button.on("contextmenu") functionality test
+		RadJav.addTest("test_common_oncontextmenu_002", function(check) {
+			return onContextMenuApiTest.call(check, "Button", new RadJav.Vector2(40, 64));
+		});
+		
+		// Checkbox.on("contextmenu") functionality test
+		RadJav.addTest("test_common_oncontextmenu_003", function(check) {
+			return onContextMenuApiTest.call(check, "Checkbox", new RadJav.Vector2(15, 64));
+		});
+		
+		// Combobox.on("contextmenu") functionality test
+		RadJav.addTest("test_common_oncontextmenu_004", function(check) {
+			return onContextMenuApiTest.call(check, "Combobox", new RadJav.Vector2(106, 64));
+		});
+		
+		// Container.on("contextmenu") functionality test
+		RadJav.addTest("test_common_oncontextmenu_005", function(check) {
+			return onContextMenuApiTest.call(check, "Container", new RadJav.Vector2(42, 98));
+		});
+		
+		// Image.on("contextmenu") functionality test
+		RadJav.addTest("test_common_oncontextmenu_006", function(check) {
+			return onContextMenuApiTest.call(check, "Image", new RadJav.Vector2(48, 92), function(ctrl) {
+				ctrl.setSize(256, 256);
+				ctrl.setImage("test-image.png");
+			});
+		});
+		
+		// Label.on("contextmenu") functionality test
+		RadJav.addTest("test_common_oncontextmenu_007", function(check) {
+			return onContextMenuApiTest.call(check, "Label", new RadJav.Vector2(14, 53));
+		});
+		
+		// List.on("contextmenu") functionality test
+		RadJav.addTest("test_common_oncontextmenu_008", function(check) {
+			return onContextMenuApiTest.call(check, "List", new RadJav.Vector2(38, 70));
+		});
+		
+		// MebuBar.on("contextmenu") functionality test
+		RadJav.addTest("test_common_oncontextmenu_009", function(check) {
+			return onContextMenuApiTest.call(check, "MenuBar", new RadJav.Vector2(85, 11));
+		});
+		
+		// MenuItem.on("contextmenu") functionality test
+		RadJav.addTest("test_common_oncontextmenu_010", function(check) {
+			return onContextMenuApiTest.call(check, "MenuItem", new RadJav.Vector2(222, 11));
+		});
+		
+		// Radio.on("contextmenu") functionality test
+		RadJav.addTest("test_common_oncontextmenu_011", function(check) {
+			return onContextMenuApiTest.call(check, "Radio", new RadJav.Vector2(8, 63));
+		});
+		
+		// Textarea.on("contextmenu") functionality test
+		RadJav.addTest("test_common_oncontextmenu_012", function(check) {
+			return onContextMenuApiTest.call(check, "Textarea", new RadJav.Vector2(56, 105));
+		});
+		
+		// Textbox.on("contextmenu") functionality test
+		RadJav.addTest("test_common_oncontextmenu_013", function(check) {
+			return onContextMenuApiTest.call(check, "Textbox", new RadJav.Vector2(56, 62));
+		});
+		
+		// WebView.on("contextmenu") functionality test
+		RadJav.addTest("test_common_oncontextmenu_014", function(check) {
+			return onContextMenuApiTest.call(check, "WebView", new RadJav.Vector2(56, 105));
+		});
+		
+		// generic on("middleclick") functionality test
+		let onMiddleClickApiTest = function(controlName, eventPosition, setupControl) {
+			let check = this;
+			let message = controlName + " got on(\"middleclick\") event";
+			let eventArrived = false;
+			let windowPos = new RadJav.Vector2(0, 22);
+			
+			let promise = new Promise(function(resolve, reject) {
+				
+				var window = new RadJav.GUI.Window("Window", controlName+".on(\"middleclick\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					window.setPosition(windowPos);
+					
+					var control;
+					
+					if (controlName == "Window")
+					{
+						control = window;
+						if (setupControl != undefined)
+							setupControl.call(check, control);
+						
+						control.on("middleclick", function() {
+							eventArrived = true;
+							check.assert(eventArrived, message);
+							resolve();
+						});
+					}
+					else if(controlName == "MenuItem")
+					{
+						var menuBar = new RadJav.GUI.MenuBar("MenuBar", "Test", window);
+						menuBar.create().then(function(ctrl) {
+							menuBar = ctrl;
+							control = new RadJav.GUI[controlName](controlName, "File", menuBar);
+							control.create().then(function(ctrl) {
+								control = ctrl;
+								if (setupControl != undefined)
+									setupControl.call(check, control);
+								
+								control.on("middleclick", function() {
+									eventArrived = true;
+									check.assert(eventArrived, message);
+									resolve();
+								});
+							});								
+						});
+					}
+					else
+					{
+						control = new RadJav.GUI[controlName](controlName, "Test", window);
+						control.create().then(function(ctrl) {
+							control = ctrl;
+							if (setupControl != undefined)
+								setupControl.call(check, control);
+							
+							control.on("middleclick", function() {
+								eventArrived = true;
+								check.assert(eventArrived, message);
+								resolve();
+							});
+						});
+					}
+					
+					setTimeout(function()
+					{
+						RadJav.Testing.MouseSimulator.moveClick(eventPosition, 2);
+					}, 1000);
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(eventArrived, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window.on("middleclick") functionality test
+		RadJav.addTest("test_common_onmiddleclick_001", function(check) {
+			return onMiddleClickApiTest.call(check, "Window", new RadJav.Vector2(40, 64));
+		});
+		
+		// Button.on("middleclick") functionality test
+		RadJav.addTest("test_common_onmiddleclick_002", function(check) {
+			return onMiddleClickApiTest.call(check, "Button", new RadJav.Vector2(40, 64));
+		});
+		
+		// Checkbox.on("middleclick") functionality test
+		RadJav.addTest("test_common_onmiddleclick_003", function(check) {
+			return onMiddleClickApiTest.call(check, "Checkbox", new RadJav.Vector2(15, 64));
+		});
+		
+		// Combobox.on("middleclick") functionality test
+		RadJav.addTest("test_common_onmiddleclick_004", function(check) {
+			return onMiddleClickApiTest.call(check, "Combobox", new RadJav.Vector2(106, 64));
+		});
+		
+		// Container.on("middleclick") functionality test
+		RadJav.addTest("test_common_onmiddleclick_005", function(check) {
+			return onMiddleClickApiTest.call(check, "Container", new RadJav.Vector2(42, 98));
+		});
+		
+		// Image.on("middleclick") functionality test
+		RadJav.addTest("test_common_onmiddleclick_006", function(check) {
+			return onMiddleClickApiTest.call(check, "Image", new RadJav.Vector2(48, 92), function(ctrl) {
+				ctrl.setSize(256, 256);
+				ctrl.setImage("test-image.png");
+			});
+		});
+		
+		// Label.on("middleclick") functionality test
+		RadJav.addTest("test_common_onmiddleclick_007", function(check) {
+			return onMiddleClickApiTest.call(check, "Label", new RadJav.Vector2(14, 53));
+		});
+		
+		// List.on("middleclick") functionality test
+		RadJav.addTest("test_common_onmiddleclick_008", function(check) {
+			return onMiddleClickApiTest.call(check, "List", new RadJav.Vector2(38, 70));
+		});
+		
+		// MebuBar.on("middleclick") functionality test
+		RadJav.addTest("test_common_onmiddleclick_009", function(check) {
+			return onMiddleClickApiTest.call(check, "MenuBar", new RadJav.Vector2(85, 11));
+		});
+		
+		// MenuItem.on("middleclick") functionality test
+		RadJav.addTest("test_common_onmiddleclick_010", function(check) {
+			return onMiddleClickApiTest.call(check, "MenuItem", new RadJav.Vector2(222, 11));
+		});
+		
+		// Radio.on("middleclick") functionality test
+		RadJav.addTest("test_common_onmiddleclick_011", function(check) {
+			return onMiddleClickApiTest.call(check, "Radio", new RadJav.Vector2(8, 63));
+		});
+		
+		// Textarea.on("middleclick") functionality test
+		RadJav.addTest("test_common_onmiddleclick_012", function(check) {
+			return onMiddleClickApiTest.call(check, "Textarea", new RadJav.Vector2(56, 105));
+		});
+		
+		// Textbox.on("middleclick") functionality test
+		RadJav.addTest("test_common_onmiddleclick_013", function(check) {
+			return onMiddleClickApiTest.call(check, "Textbox", new RadJav.Vector2(56, 62));
+		});
+		
+		// WebView.on("middleclick") functionality test
+		RadJav.addTest("test_common_onmiddleclick_014", function(check) {
+			return onMiddleClickApiTest.call(check, "WebView", new RadJav.Vector2(56, 105));
+		});
+		
+		// generic on("dblclick") functionality test
+		let onDblClickApiTest = function(controlName, eventPosition, setupControl) {
+			let check = this;
+			let message = controlName + " got on(\"dblclick\") event";
+			let eventArrived = false;
+			let windowPos = new RadJav.Vector2(0, 22);
+			
+			let promise = new Promise(function(resolve, reject) {
+				
+				var window = new RadJav.GUI.Window("Window", controlName+".on(\"dblclick\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					window.setPosition(windowPos);
+					
+					var control;
+					
+					if (controlName == "Window")
+					{
+						control = window;
+						if (setupControl != undefined)
+							setupControl.call(check, control);
+						
+						control.on("dblclick", function() {
+							eventArrived = true;
+							check.assert(eventArrived, message);
+							resolve();
+						});
+					}
+					else if(controlName == "MenuItem")
+					{
+						var menuBar = new RadJav.GUI.MenuBar("MenuBar", "Test", window);
+						menuBar.create().then(function(ctrl) {
+							menuBar = ctrl;
+							control = new RadJav.GUI[controlName](controlName, "File", menuBar);
+							control.create().then(function(ctrl) {
+								control = ctrl;
+								if (setupControl != undefined)
+									setupControl.call(check, control);
+								
+								control.on("dblclick", function() {
+									eventArrived = true;
+									check.assert(eventArrived, message);
+									resolve();
+								});
+							});								
+						});
+					}
+					else
+					{
+						control = new RadJav.GUI[controlName](controlName, "Test", window);
+						control.create().then(function(ctrl) {
+							control = ctrl;
+							if (setupControl != undefined)
+								setupControl.call(check, control);
+							
+							control.on("dblclick", function() {
+								eventArrived = true;
+								check.assert(eventArrived, message);
+								resolve();
+							});
+						});
+					}
+					
+					setTimeout(function()
+					{
+						RadJav.Testing.MouseSimulator.moveDoubleClick(eventPosition);
+					}, 1000);
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(eventArrived, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window.on("dblclick") functionality test
+		RadJav.addTest("test_common_ondblclick_001", function(check) {
+			return onDblClickApiTest.call(check, "Window", new RadJav.Vector2(40, 64));
+		});
+		
+		// Button.on("dblclick") functionality test
+		RadJav.addTest("test_common_ondblclick_002", function(check) {
+			return onDblClickApiTest.call(check, "Button", new RadJav.Vector2(40, 64));
+		});
+		
+		// Checkbox.on("dblclick") functionality test
+		RadJav.addTest("test_common_ondblclick_003", function(check) {
+			return onDblClickApiTest.call(check, "Checkbox", new RadJav.Vector2(15, 64));
+		});
+		
+		// Combobox.on("dblclick") functionality test
+		RadJav.addTest("test_common_ondblclick_004", function(check) {
+			return onDblClickApiTest.call(check, "Combobox", new RadJav.Vector2(106, 64));
+		});
+		
+		// Container.on("dblclick") functionality test
+		RadJav.addTest("test_common_ondblclick_005", function(check) {
+			return onDblClickApiTest.call(check, "Container", new RadJav.Vector2(42, 98));
+		});
+		
+		// Image.on("dblclick") functionality test
+		RadJav.addTest("test_common_ondblclick_006", function(check) {
+			return onDblClickApiTest.call(check, "Image", new RadJav.Vector2(48, 92), function(ctrl) {
+				ctrl.setSize(256, 256);
+				ctrl.setImage("test-image.png");
+			});
+		});
+		
+		// Label.on("dblclick") functionality test
+		RadJav.addTest("test_common_ondblclick_007", function(check) {
+			return onDblClickApiTest.call(check, "Label", new RadJav.Vector2(14, 53));
+		});
+		
+		// List.on("dblclick") functionality test
+		RadJav.addTest("test_common_ondblclick_008", function(check) {
+			return onDblClickApiTest.call(check, "List", new RadJav.Vector2(38, 70));
+		});
+		
+		// MebuBar.on("dblclick") functionality test
+		RadJav.addTest("test_common_ondblclick_009", function(check) {
+			return onDblClickApiTest.call(check, "MenuBar", new RadJav.Vector2(85, 11));
+		});
+		
+		// MenuItem.on("dblclick") functionality test
+		RadJav.addTest("test_common_ondblclick_010", function(check) {
+			return onDblClickApiTest.call(check, "MenuItem", new RadJav.Vector2(222, 11));
+		});
+		
+		// Radio.on("dblclick") functionality test
+		RadJav.addTest("test_common_ondblclick_011", function(check) {
+			return onDblClickApiTest.call(check, "Radio", new RadJav.Vector2(8, 63));
+		});
+		
+		// Textarea.on("dblclick") functionality test
+		RadJav.addTest("test_common_ondblclick_012", function(check) {
+			return onDblClickApiTest.call(check, "Textarea", new RadJav.Vector2(56, 105));
+		});
+		
+		// Textbox.on("dblclick") functionality test
+		RadJav.addTest("test_common_ondblclick_013", function(check) {
+			return onDblClickApiTest.call(check, "Textbox", new RadJav.Vector2(56, 62));
+		});
+		
+		// WebView.on("dblclick") functionality test
+		RadJav.addTest("test_common_ondblclick_014", function(check) {
+			return onDblClickApiTest.call(check, "WebView", new RadJav.Vector2(56, 105));
+		});
+		
+		// generic on("doubleclick") functionality test
+		let onDoubleClickApiTest = function(controlName, eventPosition, setupControl) {
+			let check = this;
+			let message = controlName + " got on(\"doubleclick\") event";
+			let eventArrived = false;
+			let windowPos = new RadJav.Vector2(0, 22);
+			
+			let promise = new Promise(function(resolve, reject) {
+				
+				var window = new RadJav.GUI.Window("Window", controlName+".on(\"doubleclick\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					window.setPosition(windowPos);
+					
+					var control;
+					
+					if (controlName == "Window")
+					{
+						control = window;
+						if (setupControl != undefined)
+							setupControl.call(check, control);
+						
+						control.on("doubleclick", function() {
+							eventArrived = true;
+							check.assert(eventArrived, message);
+							resolve();
+						});
+					}
+					else if(controlName == "MenuItem")
+					{
+						var menuBar = new RadJav.GUI.MenuBar("MenuBar", "Test", window);
+						menuBar.create().then(function(ctrl) {
+							menuBar = ctrl;
+							control = new RadJav.GUI[controlName](controlName, "File", menuBar);
+							control.create().then(function(ctrl) {
+								control = ctrl;
+								if (setupControl != undefined)
+									setupControl.call(check, control);
+								
+								control.on("doubleclick", function() {
+									eventArrived = true;
+									check.assert(eventArrived, message);
+									resolve();
+								});
+							});								
+						});
+					}
+					else
+					{
+						control = new RadJav.GUI[controlName](controlName, "Test", window);
+						control.create().then(function(ctrl) {
+							control = ctrl;
+							if (setupControl != undefined)
+								setupControl.call(check, control);
+							
+							control.on("doubleclick", function() {
+								eventArrived = true;
+								check.assert(eventArrived, message);
+								resolve();
+							});
+						});
+					}
+					
+					setTimeout(function()
+					{
+						RadJav.Testing.MouseSimulator.moveDoubleClick(eventPosition);
+					}, 1000);
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(eventArrived, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window.on("doubleclick") functionality test
+		RadJav.addTest("test_common_ondoubleclick_001", function(check) {
+			return onDoubleClickApiTest.call(check, "Window", new RadJav.Vector2(40, 64));
+		});
+		
+		// Button.on("doubleclick") functionality test
+		RadJav.addTest("test_common_ondoubleclick_002", function(check) {
+			return onDoubleClickApiTest.call(check, "Button", new RadJav.Vector2(40, 64));
+		});
+		
+		// Checkbox.on("doubleclick") functionality test
+		RadJav.addTest("test_common_ondoubleclick_003", function(check) {
+			return onDoubleClickApiTest.call(check, "Checkbox", new RadJav.Vector2(15, 64));
+		});
+		
+		// Combobox.on("doubleclick") functionality test
+		RadJav.addTest("test_common_ondoubleclick_004", function(check) {
+			return onDoubleClickApiTest.call(check, "Combobox", new RadJav.Vector2(106, 64));
+		});
+		
+		// Container.on("doubleclick") functionality test
+		RadJav.addTest("test_common_ondoubleclick_005", function(check) {
+			return onDoubleClickApiTest.call(check, "Container", new RadJav.Vector2(42, 98));
+		});
+		
+		// Image.on("doubleclick") functionality test
+		RadJav.addTest("test_common_ondoubleclick_006", function(check) {
+			return onDoubleClickApiTest.call(check, "Image", new RadJav.Vector2(48, 92), function(ctrl) {
+				ctrl.setSize(256, 256);
+				ctrl.setImage("test-image.png");
+			});
+		});
+		
+		// Label.on("doubleclick") functionality test
+		RadJav.addTest("test_common_ondoubleclick_007", function(check) {
+			return onDoubleClickApiTest.call(check, "Label", new RadJav.Vector2(14, 53));
+		});
+		
+		// List.on("doubleclick") functionality test
+		RadJav.addTest("test_common_ondoubleclick_008", function(check) {
+			return onDoubleClickApiTest.call(check, "List", new RadJav.Vector2(38, 70));
+		});
+		
+		// MebuBar.on("doubleclick") functionality test
+		RadJav.addTest("test_common_ondoubleclick_009", function(check) {
+			return onDoubleClickApiTest.call(check, "MenuBar", new RadJav.Vector2(85, 11));
+		});
+		
+		// MenuItem.on("doubleclick") functionality test
+		RadJav.addTest("test_common_ondoubleclick_010", function(check) {
+			return onDoubleClickApiTest.call(check, "MenuItem", new RadJav.Vector2(222, 11));
+		});
+		
+		// Radio.on("doubleclick") functionality test
+		RadJav.addTest("test_common_ondoubleclick_011", function(check) {
+			return onDoubleClickApiTest.call(check, "Radio", new RadJav.Vector2(8, 63));
+		});
+		
+		// Textarea.on("doubleclick") functionality test
+		RadJav.addTest("test_common_ondoubleclick_012", function(check) {
+			return onDoubleClickApiTest.call(check, "Textarea", new RadJav.Vector2(56, 105));
+		});
+		
+		// Textbox.on("doubleclick") functionality test
+		RadJav.addTest("test_common_ondoubleclick_013", function(check) {
+			return onDoubleClickApiTest.call(check, "Textbox", new RadJav.Vector2(56, 62));
+		});
+		
+		// WebView.on("doubleclick") functionality test
+		RadJav.addTest("test_common_ondoubleclick_014", function(check) {
+			return onDoubleClickApiTest.call(check, "WebView", new RadJav.Vector2(56, 105));
+		});
+		
+		// generic on("rightdblclick") functionality test
+		let onRightDblClickApiTest = function(controlName, eventPosition, setupControl) {
+			let check = this;
+			let message = controlName + " got on(\"rightdblclick\") event";
+			let eventArrived = false;
+			let windowPos = new RadJav.Vector2(0, 22);
+			
+			let promise = new Promise(function(resolve, reject) {
+				
+				var window = new RadJav.GUI.Window("Window", controlName+".on(\"rightdblclick\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					window.setPosition(windowPos);
+					
+					var control;
+					
+					if (controlName == "Window")
+					{
+						control = window;
+						if (setupControl != undefined)
+							setupControl.call(check, control);
+						
+						control.on("rightdblclick", function() {
+							eventArrived = true;
+							check.assert(eventArrived, message);
+							resolve();
+						});
+					}
+					else if(controlName == "MenuItem")
+					{
+						var menuBar = new RadJav.GUI.MenuBar("MenuBar", "Test", window);
+						menuBar.create().then(function(ctrl) {
+							menuBar = ctrl;
+							control = new RadJav.GUI[controlName](controlName, "File", menuBar);
+							control.create().then(function(ctrl) {
+								control = ctrl;
+								if (setupControl != undefined)
+									setupControl.call(check, control);
+								
+								control.on("rightdblclick", function() {
+									eventArrived = true;
+									check.assert(eventArrived, message);
+									resolve();
+								});
+							});								
+						});
+					}
+					else
+					{
+						control = new RadJav.GUI[controlName](controlName, "Test", window);
+						control.create().then(function(ctrl) {
+							control = ctrl;
+							if (setupControl != undefined)
+								setupControl.call(check, control);
+							
+							control.on("rightdblclick", function() {
+								eventArrived = true;
+								check.assert(eventArrived, message);
+								resolve();
+							});
+						});
+					}
+					
+					setTimeout(function()
+					{
+						RadJav.Testing.MouseSimulator.moveDoubleClick(eventPosition, 1);
+					}, 1000);
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(eventArrived, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window.on("rightdblclick") functionality test
+		RadJav.addTest("test_common_onrightdblclick_001", function(check) {
+			return onRightDblClickApiTest.call(check, "Window", new RadJav.Vector2(40, 64));
+		});
+		
+		// Button.on("rightdblclick") functionality test
+		RadJav.addTest("test_common_onrightdblclick_002", function(check) {
+			return onRightDblClickApiTest.call(check, "Button", new RadJav.Vector2(40, 64));
+		});
+		
+		// Checkbox.on("rightdblclick") functionality test
+		RadJav.addTest("test_common_onrightdblclick_003", function(check) {
+			return onRightDblClickApiTest.call(check, "Checkbox", new RadJav.Vector2(15, 64));
+		});
+		
+		// Combobox.on("rightdblclick") functionality test
+		RadJav.addTest("test_common_onrightdblclick_004", function(check) {
+			return onRightDblClickApiTest.call(check, "Combobox", new RadJav.Vector2(106, 64));
+		});
+		
+		// Container.on("rightdblclick") functionality test
+		RadJav.addTest("test_common_onrightdblclick_005", function(check) {
+			return onRightDblClickApiTest.call(check, "Container", new RadJav.Vector2(42, 98));
+		});
+		
+		// Image.on("rightdblclick") functionality test
+		RadJav.addTest("test_common_onrightdblclick_006", function(check) {
+			return onRightDblClickApiTest.call(check, "Image", new RadJav.Vector2(48, 92), function(ctrl) {
+				ctrl.setSize(256, 256);
+				ctrl.setImage("test-image.png");
+			});
+		});
+		
+		// Label.on("rightdblclick") functionality test
+		RadJav.addTest("test_common_onrightdblclick_007", function(check) {
+			return onRightDblClickApiTest.call(check, "Label", new RadJav.Vector2(14, 53));
+		});
+		
+		// List.on("rightdblclick") functionality test
+		RadJav.addTest("test_common_onrightdblclick_008", function(check) {
+			return onRightDblClickApiTest.call(check, "List", new RadJav.Vector2(38, 70));
+		});
+		
+		// MebuBar.on("rightdblclick") functionality test
+		RadJav.addTest("test_common_onrightdblclick_009", function(check) {
+			return onRightDblClickApiTest.call(check, "MenuBar", new RadJav.Vector2(85, 11));
+		});
+		
+		// MenuItem.on("rightdblclick") functionality test
+		RadJav.addTest("test_common_onrightdblclick_010", function(check) {
+			return onRightDblClickApiTest.call(check, "MenuItem", new RadJav.Vector2(222, 11));
+		});
+		
+		// Radio.on("rightdblclick") functionality test
+		RadJav.addTest("test_common_onrightdblclick_011", function(check) {
+			return onRightDblClickApiTest.call(check, "Radio", new RadJav.Vector2(8, 63));
+		});
+		
+		// Textarea.on("rightdblclick") functionality test
+		RadJav.addTest("test_common_onrightdblclick_012", function(check) {
+			return onRightDblClickApiTest.call(check, "Textarea", new RadJav.Vector2(56, 105));
+		});
+		
+		// Textbox.on("rightdblclick") functionality test
+		RadJav.addTest("test_common_onrightdblclick_013", function(check) {
+			return onRightDblClickApiTest.call(check, "Textbox", new RadJav.Vector2(56, 62));
+		});
+		
+		// WebView.on("rightdblclick") functionality test
+		RadJav.addTest("test_common_onrightdblclick_014", function(check) {
+			return onRightDblClickApiTest.call(check, "WebView", new RadJav.Vector2(56, 105));
+		});
+		
+		// generic on("rightdoubleclick") functionality test
+		let onRightDoubleClickApiTest = function(controlName, eventPosition, setupControl) {
+			let check = this;
+			let message = controlName + " got on(\"rightdoubleclick\") event";
+			let eventArrived = false;
+			let windowPos = new RadJav.Vector2(0, 22);
+			
+			let promise = new Promise(function(resolve, reject) {
+				
+				var window = new RadJav.GUI.Window("Window", controlName+".on(\"rightdoubleclick\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					window.setPosition(windowPos);
+					
+					var control;
+					
+					if (controlName == "Window")
+					{
+						control = window;
+						if (setupControl != undefined)
+							setupControl.call(check, control);
+						
+						control.on("rightdoubleclick", function() {
+							eventArrived = true;
+							check.assert(eventArrived, message);
+							resolve();
+						});
+					}
+					else if(controlName == "MenuItem")
+					{
+						var menuBar = new RadJav.GUI.MenuBar("MenuBar", "Test", window);
+						menuBar.create().then(function(ctrl) {
+							menuBar = ctrl;
+							control = new RadJav.GUI[controlName](controlName, "File", menuBar);
+							control.create().then(function(ctrl) {
+								control = ctrl;
+								if (setupControl != undefined)
+									setupControl.call(check, control);
+								
+								control.on("rightdoubleclick", function() {
+									eventArrived = true;
+									check.assert(eventArrived, message);
+									resolve();
+								});
+							});								
+						});
+					}
+					else
+					{
+						control = new RadJav.GUI[controlName](controlName, "Test", window);
+						control.create().then(function(ctrl) {
+							control = ctrl;
+							if (setupControl != undefined)
+								setupControl.call(check, control);
+							
+							control.on("rightdoubleclick", function() {
+								eventArrived = true;
+								check.assert(eventArrived, message);
+								resolve();
+							});
+						});
+					}
+					
+					setTimeout(function()
+					{
+						RadJav.Testing.MouseSimulator.moveDoubleClick(eventPosition, 1);
+					}, 1000);
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(eventArrived, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window.on("rightdoubleclick") functionality test
+		RadJav.addTest("test_common_onrightdoubleclick_001", function(check) {
+			return onRightDoubleClickApiTest.call(check, "Window", new RadJav.Vector2(40, 64));
+		});
+		
+		// Button.on("rightdoubleclick") functionality test
+		RadJav.addTest("test_common_onrightdoubleclick_002", function(check) {
+			return onRightDoubleClickApiTest.call(check, "Button", new RadJav.Vector2(40, 64));
+		});
+		
+		// Checkbox.on("rightdoubleclick") functionality test
+		RadJav.addTest("test_common_onrightdoubleclick_003", function(check) {
+			return onRightDoubleClickApiTest.call(check, "Checkbox", new RadJav.Vector2(15, 64));
+		});
+		
+		// Combobox.on("rightdoubleclick") functionality test
+		RadJav.addTest("test_common_onrightdoubleclick_004", function(check) {
+			return onRightDoubleClickApiTest.call(check, "Combobox", new RadJav.Vector2(106, 64));
+		});
+		
+		// Container.on("rightdoubleclick") functionality test
+		RadJav.addTest("test_common_onrightdoubleclick_005", function(check) {
+			return onRightDoubleClickApiTest.call(check, "Container", new RadJav.Vector2(42, 98));
+		});
+		
+		// Image.on("rightdoubleclick") functionality test
+		RadJav.addTest("test_common_onrightdoubleclick_006", function(check) {
+			return onRightDoubleClickApiTest.call(check, "Image", new RadJav.Vector2(48, 92), function(ctrl) {
+				ctrl.setSize(256, 256);
+				ctrl.setImage("test-image.png");
+			});
+		});
+		
+		// Label.on("rightdoubleclick") functionality test
+		RadJav.addTest("test_common_onrightdoubleclick_007", function(check) {
+			return onRightDoubleClickApiTest.call(check, "Label", new RadJav.Vector2(14, 53));
+		});
+		
+		// List.on("rightdoubleclick") functionality test
+		RadJav.addTest("test_common_onrightdoubleclick_008", function(check) {
+			return onRightDoubleClickApiTest.call(check, "List", new RadJav.Vector2(38, 70));
+		});
+		
+		// MebuBar.on("rightdoubleclick") functionality test
+		RadJav.addTest("test_common_onrightdoubleclick_009", function(check) {
+			return onRightDoubleClickApiTest.call(check, "MenuBar", new RadJav.Vector2(85, 11));
+		});
+		
+		// MenuItem.on("rightdoubleclick") functionality test
+		RadJav.addTest("test_common_onrightdoubleclick_010", function(check) {
+			return onRightDoubleClickApiTest.call(check, "MenuItem", new RadJav.Vector2(222, 11));
+		});
+		
+		// Radio.on("rightdoubleclick") functionality test
+		RadJav.addTest("test_common_onrightdoubleclick_011", function(check) {
+			return onRightDoubleClickApiTest.call(check, "Radio", new RadJav.Vector2(8, 63));
+		});
+		
+		// Textarea.on("rightdoubleclick") functionality test
+		RadJav.addTest("test_common_onrightdoubleclick_012", function(check) {
+			return onRightDoubleClickApiTest.call(check, "Textarea", new RadJav.Vector2(56, 105));
+		});
+		
+		// Textbox.on("rightdoubleclick") functionality test
+		RadJav.addTest("test_common_onrightdoubleclick_013", function(check) {
+			return onRightDoubleClickApiTest.call(check, "Textbox", new RadJav.Vector2(56, 62));
+		});
+		
+		// WebView.on("rightdoubleclick") functionality test
+		RadJav.addTest("test_common_onrightdoubleclick_014", function(check) {
+			return onRightDoubleClickApiTest.call(check, "WebView", new RadJav.Vector2(56, 105));
+		});
+		
+		// generic on("middledblclick") functionality test
+		let onMiddleDblClickApiTest = function(controlName, eventPosition, setupControl) {
+			let check = this;
+			let message = controlName + " got on(\"middledblclick\") event";
+			let eventArrived = false;
+			let windowPos = new RadJav.Vector2(0, 22);
+			
+			let promise = new Promise(function(resolve, reject) {
+				
+				var window = new RadJav.GUI.Window("Window", controlName+".on(\"middledblclick\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					window.setPosition(windowPos);
+					
+					var control;
+					
+					if (controlName == "Window")
+					{
+						control = window;
+						if (setupControl != undefined)
+							setupControl.call(check, control);
+						
+						control.on("middledblclick", function() {
+							eventArrived = true;
+							check.assert(eventArrived, message);
+							resolve();
+						});
+					}
+					else if(controlName == "MenuItem")
+					{
+						var menuBar = new RadJav.GUI.MenuBar("MenuBar", "Test", window);
+						menuBar.create().then(function(ctrl) {
+							menuBar = ctrl;
+							control = new RadJav.GUI[controlName](controlName, "File", menuBar);
+							control.create().then(function(ctrl) {
+								control = ctrl;
+								if (setupControl != undefined)
+									setupControl.call(check, control);
+								
+								control.on("middledblclick", function() {
+									eventArrived = true;
+									check.assert(eventArrived, message);
+									resolve();
+								});
+							});								
+						});
+					}
+					else
+					{
+						control = new RadJav.GUI[controlName](controlName, "Test", window);
+						control.create().then(function(ctrl) {
+							control = ctrl;
+							if (setupControl != undefined)
+								setupControl.call(check, control);
+							
+							control.on("middledblclick", function() {
+								eventArrived = true;
+								check.assert(eventArrived, message);
+								resolve();
+							});
+						});
+					}
+					
+					setTimeout(function()
+					{
+						RadJav.Testing.MouseSimulator.moveDoubleClick(eventPosition, 2);
+					}, 1000);
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(eventArrived, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window.on("middledblclick") functionality test
+		RadJav.addTest("test_common_onmiddledblclick_001", function(check) {
+			return onMiddleDblClickApiTest.call(check, "Window", new RadJav.Vector2(40, 64));
+		});
+		
+		// Button.on("middledblclick") functionality test
+		RadJav.addTest("test_common_onmiddledblclick_002", function(check) {
+			return onMiddleDblClickApiTest.call(check, "Button", new RadJav.Vector2(40, 64));
+		});
+		
+		// Checkbox.on("middledblclick") functionality test
+		RadJav.addTest("test_common_onmiddledblclick_003", function(check) {
+			return onMiddleDblClickApiTest.call(check, "Checkbox", new RadJav.Vector2(15, 64));
+		});
+		
+		// Combobox.on("middledblclick") functionality test
+		RadJav.addTest("test_common_onmiddledblclick_004", function(check) {
+			return onMiddleDblClickApiTest.call(check, "Combobox", new RadJav.Vector2(106, 64));
+		});
+		
+		// Container.on("middledblclick") functionality test
+		RadJav.addTest("test_common_onmiddledblclick_005", function(check) {
+			return onMiddleDblClickApiTest.call(check, "Container", new RadJav.Vector2(42, 98));
+		});
+		
+		// Image.on("middledblclick") functionality test
+		RadJav.addTest("test_common_onmiddledblclick_006", function(check) {
+			return onMiddleDblClickApiTest.call(check, "Image", new RadJav.Vector2(48, 92), function(ctrl) {
+				ctrl.setSize(256, 256);
+				ctrl.setImage("test-image.png");
+			});
+		});
+		
+		// Label.on("middledblclick") functionality test
+		RadJav.addTest("test_common_onmiddledblclick_007", function(check) {
+			return onMiddleDblClickApiTest.call(check, "Label", new RadJav.Vector2(14, 53));
+		});
+		
+		// List.on("middledblclick") functionality test
+		RadJav.addTest("test_common_onmiddledblclick_008", function(check) {
+			return onMiddleDblClickApiTest.call(check, "List", new RadJav.Vector2(38, 70));
+		});
+		
+		// MebuBar.on("middledblclick") functionality test
+		RadJav.addTest("test_common_onmiddledblclick_009", function(check) {
+			return onMiddleDblClickApiTest.call(check, "MenuBar", new RadJav.Vector2(85, 11));
+		});
+		
+		// MenuItem.on("middledblclick") functionality test
+		RadJav.addTest("test_common_onmiddledblclick_010", function(check) {
+			return onMiddleDblClickApiTest.call(check, "MenuItem", new RadJav.Vector2(222, 11));
+		});
+		
+		// Radio.on("middledblclick") functionality test
+		RadJav.addTest("test_common_onmiddledblclick_011", function(check) {
+			return onMiddleDblClickApiTest.call(check, "Radio", new RadJav.Vector2(8, 63));
+		});
+		
+		// Textarea.on("middledblclick") functionality test
+		RadJav.addTest("test_common_onmiddledblclick_012", function(check) {
+			return onMiddleDblClickApiTest.call(check, "Textarea", new RadJav.Vector2(56, 105));
+		});
+		
+		// Textbox.on("middledblclick") functionality test
+		RadJav.addTest("test_common_onmiddledblclick_013", function(check) {
+			return onMiddleDblClickApiTest.call(check, "Textbox", new RadJav.Vector2(56, 62));
+		});
+		
+		// WebView.on("middledblclick") functionality test
+		RadJav.addTest("test_common_onmiddledblclick_014", function(check) {
+			return onMiddleDblClickApiTest.call(check, "WebView", new RadJav.Vector2(56, 105));
+		});
+		
+		// generic on("middledoubleclick") functionality test
+		let onMiddleDoubleClickApiTest = function(controlName, eventPosition, setupControl) {
+			let check = this;
+			let message = controlName + " got on(\"middledoubleclick\") event";
+			let eventArrived = false;
+			let windowPos = new RadJav.Vector2(0, 22);
+			
+			let promise = new Promise(function(resolve, reject) {
+				
+				var window = new RadJav.GUI.Window("Window", controlName+".on(\"middledoubleclick\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					window.setPosition(windowPos);
+					
+					var control;
+					
+					if (controlName == "Window")
+					{
+						control = window;
+						if (setupControl != undefined)
+							setupControl.call(check, control);
+						
+						control.on("middledoubleclick", function() {
+							eventArrived = true;
+							check.assert(eventArrived, message);
+							resolve();
+						});
+					}
+					else if(controlName == "MenuItem")
+					{
+						var menuBar = new RadJav.GUI.MenuBar("MenuBar", "Test", window);
+						menuBar.create().then(function(ctrl) {
+							menuBar = ctrl;
+							control = new RadJav.GUI[controlName](controlName, "File", menuBar);
+							control.create().then(function(ctrl) {
+								control = ctrl;
+								if (setupControl != undefined)
+									setupControl.call(check, control);
+								
+								control.on("middledoubleclick", function() {
+									eventArrived = true;
+									check.assert(eventArrived, message);
+									resolve();
+								});
+							});								
+						});
+					}
+					else
+					{
+						control = new RadJav.GUI[controlName](controlName, "Test", window);
+						control.create().then(function(ctrl) {
+							control = ctrl;
+							if (setupControl != undefined)
+								setupControl.call(check, control);
+							
+							control.on("middledoubleclick", function() {
+								eventArrived = true;
+								check.assert(eventArrived, message);
+								resolve();
+							});
+						});
+					}
+					
+					setTimeout(function()
+					{
+						RadJav.Testing.MouseSimulator.moveDoubleClick(eventPosition, 2);
+					}, 1000);
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(eventArrived, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window.on("middledoubleclick") functionality test
+		RadJav.addTest("test_common_onmiddledoubleclick_001", function(check) {
+			return onMiddleDoubleClickApiTest.call(check, "Window", new RadJav.Vector2(40, 64));
+		});
+		
+		// Button.on("middledoubleclick") functionality test
+		RadJav.addTest("test_common_onmiddledoubleclick_002", function(check) {
+			return onMiddleDoubleClickApiTest.call(check, "Button", new RadJav.Vector2(40, 64));
+		});
+		
+		// Checkbox.on("middledoubleclick") functionality test
+		RadJav.addTest("test_common_onmiddledoubleclick_003", function(check) {
+			return onMiddleDoubleClickApiTest.call(check, "Checkbox", new RadJav.Vector2(15, 64));
+		});
+		
+		// Combobox.on("middledoubleclick") functionality test
+		RadJav.addTest("test_common_onmiddledoubleclick_004", function(check) {
+			return onMiddleDoubleClickApiTest.call(check, "Combobox", new RadJav.Vector2(106, 64));
+		});
+		
+		// Container.on("middledoubleclick") functionality test
+		RadJav.addTest("test_common_onmiddledoubleclick_005", function(check) {
+			return onMiddleDoubleClickApiTest.call(check, "Container", new RadJav.Vector2(42, 98));
+		});
+		
+		// Image.on("middledoubleclick") functionality test
+		RadJav.addTest("test_common_onmiddledoubleclick_006", function(check) {
+			return onMiddleDoubleClickApiTest.call(check, "Image", new RadJav.Vector2(48, 92), function(ctrl) {
+				ctrl.setSize(256, 256);
+				ctrl.setImage("test-image.png");
+			});
+		});
+		
+		// Label.on("middledoubleclick") functionality test
+		RadJav.addTest("test_common_onmiddledoubleclick_007", function(check) {
+			return onMiddleDoubleClickApiTest.call(check, "Label", new RadJav.Vector2(14, 53));
+		});
+		
+		// List.on("middledoubleclick") functionality test
+		RadJav.addTest("test_common_onmiddledoubleclick_008", function(check) {
+			return onMiddleDoubleClickApiTest.call(check, "List", new RadJav.Vector2(38, 70));
+		});
+		
+		// MebuBar.on("middledoubleclick") functionality test
+		RadJav.addTest("test_common_onmiddledoubleclick_009", function(check) {
+			return onMiddleDoubleClickApiTest.call(check, "MenuBar", new RadJav.Vector2(85, 11));
+		});
+		
+		// MenuItem.on("middledoubleclick") functionality test
+		RadJav.addTest("test_common_onmiddledoubleclick_010", function(check) {
+			return onMiddleDoubleClickApiTest.call(check, "MenuItem", new RadJav.Vector2(222, 11));
+		});
+		
+		// Radio.on("middledoubleclick") functionality test
+		RadJav.addTest("test_common_onmiddledoubleclick_011", function(check) {
+			return onMiddleDoubleClickApiTest.call(check, "Radio", new RadJav.Vector2(8, 63));
+		});
+		
+		// Textarea.on("middledoubleclick") functionality test
+		RadJav.addTest("test_common_onmiddledoubleclick_012", function(check) {
+			return onMiddleDoubleClickApiTest.call(check, "Textarea", new RadJav.Vector2(56, 105));
+		});
+		
+		// Textbox.on("middledoubleclick") functionality test
+		RadJav.addTest("test_common_onmiddledoubleclick_013", function(check) {
+			return onMiddleDoubleClickApiTest.call(check, "Textbox", new RadJav.Vector2(56, 62));
+		});
+		
+		// WebView.on("middledoubleclick") functionality test
+		RadJav.addTest("test_common_onmiddledoubleclick_014", function(check) {
+			return onMiddleDoubleClickApiTest.call(check, "WebView", new RadJav.Vector2(56, 105));
+		});
+		
+		// generic on("mousedown/mouseup") functionality test
+		let onMouseDownUpApiTest = function(controlName, eventPosition, setupControl) {
+			let check = this;
+			let messageDown = controlName + " got on(\"mousedown\") event";
+			let messageUp = controlName + " got on(\"mouseup\") event";
+			let mouseDownArrived = false;
+			let mouseUpArrived = false;
+			let windowPos = new RadJav.Vector2(0, 22);
+			
+			let promise = new Promise(function(resolve, reject) {
+				
+				var window = new RadJav.GUI.Window("Window", controlName+".on(\"mousedown/mouseup\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					window.setPosition(windowPos);
+					
+					var control;
+					
+					if (controlName == "Window")
+					{
+						control = window;
+						if (setupControl != undefined)
+							setupControl.call(check, control);
+						
+						control.on("mousedown", function() {
+							mouseDownArrived = true;
+						});
+						control.on("mouseup", function() {
+							mouseUpArrived = true;
+						});
+					}
+					else if(controlName == "MenuItem")
+					{
+						var menuBar = new RadJav.GUI.MenuBar("MenuBar", "Test", window);
+						menuBar.create().then(function(ctrl) {
+							menuBar = ctrl;
+							control = new RadJav.GUI[controlName](controlName, "File", menuBar);
+							control.create().then(function(ctrl) {
+								control = ctrl;
+								if (setupControl != undefined)
+									setupControl.call(check, control);
+								
+								control.on("mousedown", function() {
+									mouseDownArrived = true;
+								});
+								control.on("mouseup", function() {
+									mouseUpArrived = true;
+								});
+							});								
+						});
+					}
+					else
+					{
+						control = new RadJav.GUI[controlName](controlName, "Test", window);
+						control.create().then(function(ctrl) {
+							control = ctrl;
+							if (setupControl != undefined)
+								setupControl.call(check, control);
+							
+							control.on("mousedown", function() {
+								mouseDownArrived = true;
+							});
+							control.on("mouseup", function() {
+								mouseUpArrived = true;
+							});
+						});
+					}
+					
+					setTimeout(function()
+					{
+						RadJav.Testing.MouseSimulator.moveClick(eventPosition);
+					}, 1000);
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(mouseDownArrived, messageDown);
+					check.assert(mouseUpArrived, messageUp);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window.on("mousedown/mouseup") functionality test
+		RadJav.addTest("test_common_onmousedownup_001", function(check) {
+			return onMouseDownUpApiTest.call(check, "Window", new RadJav.Vector2(40, 64));
+		});
+		
+		// Button.on("mousedown/mouseup") functionality test
+		RadJav.addTest("test_common_onmousedownup_002", function(check) {
+			return onMouseDownUpApiTest.call(check, "Button", new RadJav.Vector2(40, 64));
+		});
+		
+		// Checkbox.on("mousedown/mouseup") functionality test
+		RadJav.addTest("test_common_onmousedownup_003", function(check) {
+			return onMouseDownUpApiTest.call(check, "Checkbox", new RadJav.Vector2(15, 64));
+		});
+		
+		// Combobox.on("mousedown/mouseup") functionality test
+		RadJav.addTest("test_common_onmousedownup_004", function(check) {
+			return onMouseDownUpApiTest.call(check, "Combobox", new RadJav.Vector2(106, 64));
+		});
+		
+		// Container.on("mousedown/mouseup") functionality test
+		RadJav.addTest("test_common_onmousedownup_005", function(check) {
+			return onMouseDownUpApiTest.call(check, "Container", new RadJav.Vector2(42, 98));
+		});
+		
+		// Image.on("mousedown/mouseup") functionality test
+		RadJav.addTest("test_common_onmousedownup_006", function(check) {
+			return onMouseDownUpApiTest.call(check, "Image", new RadJav.Vector2(48, 92), function(ctrl) {
+				ctrl.setSize(256, 256);
+				ctrl.setImage("test-image.png");
+			});
+		});
+		
+		// Label.on("mousedown/mouseup") functionality test
+		RadJav.addTest("test_common_onmousedownup_007", function(check) {
+			return onMouseDownUpApiTest.call(check, "Label", new RadJav.Vector2(14, 53));
+		});
+		
+		// List.on("mousedown/mouseup") functionality test
+		RadJav.addTest("test_common_onmousedownup_008", function(check) {
+			return onMouseDownUpApiTest.call(check, "List", new RadJav.Vector2(38, 70));
+		});
+		
+		// MebuBar.on("mousedown/mouseup") functionality test
+		RadJav.addTest("test_common_onmousedownup_009", function(check) {
+			return onMouseDownUpApiTest.call(check, "MenuBar", new RadJav.Vector2(85, 11));
+		});
+		
+		// MenuItem.on("mousedown/mouseup") functionality test
+		RadJav.addTest("test_common_onmousedownup_010", function(check) {
+			return onMouseDownUpApiTest.call(check, "MenuItem", new RadJav.Vector2(222, 11));
+		});
+		
+		// Radio.on("mousedown/mouseup") functionality test
+		RadJav.addTest("test_common_onmousedownup_011", function(check) {
+			return onMouseDownUpApiTest.call(check, "Radio", new RadJav.Vector2(8, 63));
+		});
+		
+		// Textarea.on("mousedown/mouseup") functionality test
+		RadJav.addTest("test_common_onmousedownup_012", function(check) {
+			return onMouseDownUpApiTest.call(check, "Textarea", new RadJav.Vector2(56, 105));
+		});
+		
+		// Textbox.on("mousedown/mouseup") functionality test
+		RadJav.addTest("test_common_onmousedownup_013", function(check) {
+			return onMouseDownUpApiTest.call(check, "Textbox", new RadJav.Vector2(56, 62));
+		});
+		
+		// WebView.on("mousedown/mouseup") functionality test
+		RadJav.addTest("test_common_onmousedownup_014", function(check) {
+			return onMouseDownUpApiTest.call(check, "WebView", new RadJav.Vector2(56, 105));
+		});
+		
+		// generic on("mouseenter/mouseleave") functionality test
+		let onMouseEnterLeaveApiTest = function(controlName, eventPosition, setupControl) {
+			let check = this;
+			let messageEnter = controlName + " got on(\"mouseenter\") event";
+			let messageLeave = controlName + " got on(\"mouseleave\") event";
+			let mouseEnterArrived = false;
+			let mouseLeaveArrived = false;
+			let windowPos = new RadJav.Vector2(0, 22);
+			
+			let promise = new Promise(function(resolve, reject) {
+				
+				let initialPos = new RadJav.Vector2(0,0);
+				
+				RadJav.Testing.MouseSimulator.setPosition(initialPos);
+				
+				var window = new RadJav.GUI.Window("Window", controlName+".on(\"mouseenter/mouseleave\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					window.setPosition(windowPos);
+					
+					var control;
+					
+					if (controlName == "Window")
+					{
+						control = window;
+						if (setupControl != undefined)
+							setupControl.call(check, control);
+						
+						control.on("mouseenter", function() {
+							mouseEnterArrived = true;
+						});
+						control.on("mouseleave", function() {
+							mouseLeaveArrived = true;
+						});
+					}
+					else if(controlName == "MenuItem")
+					{
+						var menuBar = new RadJav.GUI.MenuBar("MenuBar", "Test", window);
+						menuBar.create().then(function(ctrl) {
+							menuBar = ctrl;
+							control = new RadJav.GUI[controlName](controlName, "File", menuBar);
+							control.create().then(function(ctrl) {
+								control = ctrl;
+								if (setupControl != undefined)
+									setupControl.call(check, control);
+								
+								control.on("mouseenter", function() {
+									mouseEnterArrived = true;
+								});
+								control.on("mouseleave", function() {
+									mouseLeaveArrived = true;
+								});
+							});								
+						});
+					}
+					else
+					{
+						control = new RadJav.GUI[controlName](controlName, "Test", window);
+						control.create().then(function(ctrl) {
+							control = ctrl;
+							if (setupControl != undefined)
+								setupControl.call(check, control);
+							
+							control.on("mouseenter", function() {
+								mouseEnterArrived = true;
+							});
+							control.on("mouseleave", function() {
+								mouseLeaveArrived = true;
+							});
+						});
+					}
+					
+					setTimeout(function()
+					{
+						RadJav.Testing.MouseSimulator.setPosition(eventPosition);
+						setTimeout(function()
+						{
+							RadJav.Testing.MouseSimulator.setPosition(initialPos);
+						}, 1000);
+					}, 1000);
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(mouseEnterArrived, messageEnter);
+					check.assert(mouseLeaveArrived, messageLeave);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window.on("mouseenter/mouseleave") functionality test
+		RadJav.addTest("test_common_onmouseenterleave_001", function(check) {
+			return onMouseEnterLeaveApiTest.call(check, "Window", new RadJav.Vector2(40, 64));
+		});
+		
+		// Button.on("mouseenter/mouseleave") functionality test
+		RadJav.addTest("test_common_onmouseenterleave_002", function(check) {
+			return onMouseEnterLeaveApiTest.call(check, "Button", new RadJav.Vector2(40, 64));
+		});
+		
+		// Checkbox.on("mouseenter/mouseleave") functionality test
+		RadJav.addTest("test_common_onmouseenterleave_003", function(check) {
+			return onMouseEnterLeaveApiTest.call(check, "Checkbox", new RadJav.Vector2(15, 64));
+		});
+		
+		// Combobox.on("mouseenter/mouseleave") functionality test
+		RadJav.addTest("test_common_onmouseenterleave_004", function(check) {
+			return onMouseEnterLeaveApiTest.call(check, "Combobox", new RadJav.Vector2(106, 64));
+		});
+		
+		// Container.on("mouseenter/mouseleave") functionality test
+		RadJav.addTest("test_common_onmouseenterleave_005", function(check) {
+			return onMouseEnterLeaveApiTest.call(check, "Container", new RadJav.Vector2(42, 98));
+		});
+		
+		// Image.on("mouseenter/mouseleave") functionality test
+		RadJav.addTest("test_common_onmouseenterleave_006", function(check) {
+			return onMouseEnterLeaveApiTest.call(check, "Image", new RadJav.Vector2(48, 92), function(ctrl) {
+				ctrl.setSize(256, 256);
+				ctrl.setImage("test-image.png");
+			});
+		});
+		
+		// Label.on("mouseenter/mouseleave") functionality test
+		RadJav.addTest("test_common_onmouseenterleave_007", function(check) {
+			return onMouseEnterLeaveApiTest.call(check, "Label", new RadJav.Vector2(14, 53));
+		});
+		
+		// List.on("mouseenter/mouseleave") functionality test
+		RadJav.addTest("test_common_onmouseenterleave_008", function(check) {
+			return onMouseEnterLeaveApiTest.call(check, "List", new RadJav.Vector2(38, 70));
+		});
+		
+		// MebuBar.on("mouseenter/mouseleave") functionality test
+		RadJav.addTest("test_common_onmouseenterleave_009", function(check) {
+			return onMouseEnterLeaveApiTest.call(check, "MenuBar", new RadJav.Vector2(85, 11));
+		});
+		
+		// MenuItem.on("mouseenter/mouseleave") functionality test
+		RadJav.addTest("test_common_onmouseenterleave_010", function(check) {
+			return onMouseEnterLeaveApiTest.call(check, "MenuItem", new RadJav.Vector2(222, 11));
+		});
+		
+		// Radio.on("mouseenter/mouseleave") functionality test
+		RadJav.addTest("test_common_onmouseenterleave_011", function(check) {
+			return onMouseEnterLeaveApiTest.call(check, "Radio", new RadJav.Vector2(8, 63));
+		});
+		
+		// Textarea.on("mouseenter/mouseleave") functionality test
+		RadJav.addTest("test_common_onmouseenterleave_012", function(check) {
+			return onMouseEnterLeaveApiTest.call(check, "Textarea", new RadJav.Vector2(56, 105));
+		});
+		
+		// Textbox.on("mouseenter/mouseleave") functionality test
+		RadJav.addTest("test_common_onmouseenterleave_013", function(check) {
+			return onMouseEnterLeaveApiTest.call(check, "Textbox", new RadJav.Vector2(56, 62));
+		});
+		
+		// WebView.on("mouseenter/mouseleave") functionality test
+		RadJav.addTest("test_common_onmouseenterleave_014", function(check) {
+			return onMouseEnterLeaveApiTest.call(check, "WebView", new RadJav.Vector2(56, 105));
 		});
 		
 		// Execute test cases
