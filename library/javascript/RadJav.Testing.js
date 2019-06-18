@@ -470,6 +470,13 @@ var RadJav;
             };
             MouseSimulator.setPosition = function (pos) {
             };
+            MouseSimulator.doubleClick = function (button) {
+                if (button === void 0) { button = 0; }
+                RadJav.Testing.MouseSimulator.click(button);
+                setTimeout(function () {
+                    RadJav.Testing.MouseSimulator.click(button);
+                }, 200);
+            };
             MouseSimulator.moveClick = function (pos, button) {
                 if (button === void 0) { button = 0; }
                 if (pos instanceof RadJav.Vector2)
@@ -477,6 +484,17 @@ var RadJav;
                 if (pos instanceof RadJav.GUI.GObject)
                     RadJav.Testing.MouseSimulator.setPosition(pos.getPosition());
                 RadJav.Testing.MouseSimulator.click(button);
+            };
+            MouseSimulator.moveDoubleClick = function (pos, button) {
+                if (button === void 0) { button = 0; }
+                if (pos instanceof RadJav.Vector2)
+                    RadJav.Testing.MouseSimulator.setPosition(pos);
+                if (pos instanceof RadJav.GUI.GObject)
+                    RadJav.Testing.MouseSimulator.setPosition(pos.getPosition());
+                RadJav.Testing.MouseSimulator.click(button);
+                setTimeout(function () {
+                    RadJav.Testing.MouseSimulator.click(button);
+                }, 200);
             };
             return MouseSimulator;
         }());

@@ -814,6 +814,16 @@ namespace RadJav
 			{
 			}
 
+			/// Double click a mouse button.
+			static doubleClick(button: number = 0)
+			{
+				RadJav.Testing.MouseSimulator.click(button);
+
+				setTimeout(function() {
+					RadJav.Testing.MouseSimulator.click(button);
+				}, 200);
+			}
+
 			/// Move to a position and click.
 			static moveClick (pos: RadJav.Vector2 | RadJav.GUI.GObject, button: number = 0): void
 			{
@@ -824,6 +834,22 @@ namespace RadJav
 					RadJav.Testing.MouseSimulator.setPosition((<RadJav.GUI.GObject>pos).getPosition ());
 
 				RadJav.Testing.MouseSimulator.click(button);
+			}
+
+			/// Move to a position and double click.
+			static moveDoubleClick (pos: RadJav.Vector2 | RadJav.GUI.GObject, button: number = 0): void
+			{
+				if (pos instanceof RadJav.Vector2)
+					RadJav.Testing.MouseSimulator.setPosition(pos);
+
+				if (pos instanceof RadJav.GUI.GObject)
+					RadJav.Testing.MouseSimulator.setPosition((<RadJav.GUI.GObject>pos).getPosition ());
+
+				RadJav.Testing.MouseSimulator.click(button);
+				
+				setTimeout(function() {
+					RadJav.Testing.MouseSimulator.click(button);
+				}, 200);
 			}
 		}
 
