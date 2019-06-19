@@ -496,6 +496,10 @@ var RadJav;
                     RadJav.Testing.MouseSimulator.click(button);
                 }, 200);
             };
+            MouseSimulator.wheel = function (vertical, horizontal) {
+                if (vertical === void 0) { vertical = 0; }
+                if (horizontal === void 0) { horizontal = 0; }
+            };
             return MouseSimulator;
         }());
         Testing.MouseSimulator = MouseSimulator;

@@ -851,6 +851,11 @@ namespace RadJav
 					RadJav.Testing.MouseSimulator.click(button);
 				}, 200);
 			}
+
+			/// Wheel a mouse button.
+			static wheel (vertical: number = 0, horizontal: number = 0): void
+			{
+			}
 		}
 
 		/** Simulates touch input.

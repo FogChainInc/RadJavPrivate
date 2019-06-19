@@ -48,6 +48,7 @@ namespace RadJAV
 			{
 				V8_CALLBACK(object, "click", MouseSimulator::click);
 				V8_CALLBACK(object, "setPosition", MouseSimulator::setPosition);
+				V8_CALLBACK(object, "wheel", MouseSimulator::wheel);
 			}
 
 			void MouseSimulator::click(const v8::FunctionCallbackInfo<v8::Value> &args)
@@ -64,6 +65,30 @@ namespace RadJAV
 				CPP::Vector2 pos(v8::Local<v8::Object>::Cast (arg));
 
 				CPP::Testing::MouseSimulator::setPosition(pos);
+			}
+
+			void MouseSimulator::wheel(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				RJINT vertical = 0;
+				RJINT horizontal = 0;
+				
+				if (args.Length() > 0
+					&& args[0]->IsNumber())
+				{
+						vertical = V8_JAVASCRIPT_ENGINE->v8ParseInt(args[0]);
+				}
+				
+				if (args.Length() > 1
+					&& args[1]->IsNumber())
+				{
+					horizontal = V8_JAVASCRIPT_ENGINE->v8ParseInt(args[1]);
+				}
+
+				if (vertical != 0 ||
+					horizontal != 0)
+				{
+					CPP::Testing::MouseSimulator::wheel(vertical, horizontal);
+				}
 			}
 		}
 	}

@@ -193,8 +193,8 @@ namespace RadJAV
 
 			void MouseSimulator::setPosition(CPP::Vector2 pos)
 			{
+				position = pos;
 				#ifdef WIN32
-					position = pos;
 					SetCursorPos(position.x, position.y);
 
 					/*INPUT input;
@@ -213,13 +213,48 @@ namespace RadJAV
 
                 #ifdef __APPLE__
                     #if TARGET_OS_OSX == 1
-						position = pos;
                         CGEventRef event = CGEventCreateMouseEvent (NULL, kCGEventMouseMoved, CGPointMake(position.x, position.y), kCGMouseButtonLeft);
 
                         CGEventPost (kCGHIDEventTap, event);
                         CFRelease (event);
                     #endif
                 #endif
+			}
+			
+			void MouseSimulator::wheel(RJINT vertical, RJINT horizontal)
+			{
+				#ifdef WIN32
+					INPUT input;
+					RJINT flagVerticalWheel = MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_WHEEL;
+					RJINT flagHorizontalWheel = MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_HWHEEL;
+				
+					input.type = INPUT_MOUSE;
+					input.mi.dwFlags = flagVerticalWheel;
+					input.mi.mouseData = vertical;
+					input.mi.dx = position.x;
+					input.mi.dy = position.y;
+					input.mi.dwExtraInfo = 0;
+					input.mi.time = 0;
+				
+					SendInput(1, &input, sizeof(INPUT));
+				
+					input.mi.dwFlags = flagHorizontalWheel;
+					input.mi.mouseData = horizontal;
+				
+					SendInput(1, &input, sizeof(INPUT));
+				#endif
+				
+				#ifdef __APPLE__
+					#if TARGET_OS_OSX == 1
+						CGEventRef eventWheel = nullptr;
+				
+						eventWheel = CGEventCreateScrollWheelEvent(nullptr, kCGScrollEventUnitLine, 2, vertical, horizontal);
+						CGEventSetLocation(eventWheel, CGPointMake(position.x, position.y));
+						
+						CGEventPost (kCGHIDEventTap, eventWheel);
+						CFRelease (eventWheel);
+					#endif
+				#endif
 			}
 		}
 	}
