@@ -8935,6 +8935,349 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 			return onMouseMoveApiTest.call(check, "WebView", new RadJav.Vector2(56, 105));
 		});
 		
+		// generic on("focus/focusout") functionality test
+		let onFocusInOutApiTest = function(controlName, eventPosition, setupControl) {
+			let check = this;
+			let messageFocus = controlName + " got on(\"focus\") event";
+			let messageFocusOut = controlName + " got on(\"focusout\") event";
+			let focusArrived = false;
+			let focusOutArrived = false;
+			let windowPos = new RadJav.Vector2(0, 22);
+			
+			let promise = new Promise(function(resolve, reject) {
+				
+				var window = new RadJav.GUI.Window("Window", controlName+".on(\"focus/focusout\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.setPosition(windowPos);
+					let windowSize = new RadJav.Vector2(512, 600);
+					
+					var control;
+					
+					if (controlName == "Window")
+					{
+						control = window;
+						if (setupControl != undefined)
+							setupControl.call(check, control);
+						
+						control.setSize(windowSize);
+
+						control.on("focus", function() {
+							focusArrived = true;
+						});
+						control.on("focusout", function() {
+							focusOutArrived = true;
+						});
+					}
+					else if(controlName == "MenuItem")
+					{
+						window.setSize(windowSize);
+						
+						var menuBar = new RadJav.GUI.MenuBar("MenuBar", "Test", window);
+						menuBar.create().then(function(ctrl) {
+							menuBar = ctrl;
+							control = new RadJav.GUI[controlName](controlName, "File", menuBar);
+							control.create().then(function(ctrl) {
+								control = ctrl;
+								if (setupControl != undefined)
+									setupControl.call(check, control);
+								
+								control.on("focus", function() {
+									focusArrived = true;
+								});
+								control.on("focusout", function() {
+									focusOutArrived = true;
+								});
+							});								
+						});
+					}
+					else
+					{
+						window.setSize(windowSize);
+
+						control = new RadJav.GUI[controlName](controlName, "Test", window);
+						control.create().then(function(ctrl) {
+							control = ctrl;
+							if (setupControl != undefined)
+								setupControl.call(check, control);
+							
+							control.on("focus", function() {
+								focusArrived = true;
+							});
+							control.on("focusout", function() {
+								focusOutArrived = true;
+							});
+						});
+					}
+					
+					var supportControlPosition = new RadJav.Vector2(0, 512);
+					var supportControl = new RadJav.GUI.Textbox("Textbox", "", window);
+					supportControl.create().then(function(ctl) {
+						supportControl = ctl;
+						supportControl.setPosition(supportControlPosition);
+					});
+					
+					setTimeout(function()
+					{
+						RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(58, 576));
+						setTimeout(function() {
+							RadJav.Testing.MouseSimulator.moveClick(eventPosition);
+							setTimeout(function() {
+								RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(58, 576));
+								//That is needed to close any popups from controls
+								RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(58, 576));
+							}, 1000);
+						}, 1000);
+					}, 1000);
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(focusArrived, messageFocus);
+					check.assert(focusOutArrived, messageFocusOut);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window.on("focus/focusout") functionality test
+		RadJav.addTest("test_common_onfocusinout_001", function(check) {
+			return onFocusInOutApiTest.call(check, "Window", new RadJav.Vector2(40, 64));
+		});
+		
+		// Button.on("focus/focusout") functionality test
+		RadJav.addTest("test_common_onfocusinout_002", function(check) {
+			return onFocusInOutApiTest.call(check, "Button", new RadJav.Vector2(40, 64));
+		});
+		
+		// Checkbox.on("focus/focusout") functionality test
+		RadJav.addTest("test_common_onfocusinout_003", function(check) {
+			return onFocusInOutApiTest.call(check, "Checkbox", new RadJav.Vector2(15, 64));
+		});
+		
+		// Combobox.on("focus/focusout") functionality test
+		RadJav.addTest("test_common_onfocusinout_004", function(check) {
+			return onFocusInOutApiTest.call(check, "Combobox", new RadJav.Vector2(106, 64));
+		});
+		
+		// Container.on("focus/focusout") functionality test
+		RadJav.addTest("test_common_onfocusinout_005", function(check) {
+			return onFocusInOutApiTest.call(check, "Container", new RadJav.Vector2(42, 98));
+		});
+		
+		// Image.on("focus/focusout") functionality test
+		RadJav.addTest("test_common_onfocusinout_006", function(check) {
+			return onFocusInOutApiTest.call(check, "Image", new RadJav.Vector2(48, 92), function(ctrl) {
+				ctrl.setSize(256, 256);
+				ctrl.setImage("test-image.png");
+			});
+		});
+		
+		// Label.on("focus/focusout") functionality test
+		RadJav.addTest("test_common_onfocusinout_007", function(check) {
+			return onFocusInOutApiTest.call(check, "Label", new RadJav.Vector2(14, 53));
+		});
+		
+		// List.on("focus/focusout") functionality test
+		RadJav.addTest("test_common_onfocusinout_008", function(check) {
+			return onFocusInOutApiTest.call(check, "List", new RadJav.Vector2(38, 70));
+		});
+		
+		// MebuBar.on("focus/focusout") functionality test
+		RadJav.addTest("test_common_onfocusinout_009", function(check) {
+			return onFocusInOutApiTest.call(check, "MenuBar", new RadJav.Vector2(85, 11));
+		});
+		
+		// MenuItem.on("focus/focusout") functionality test
+		RadJav.addTest("test_common_onfocusinout_010", function(check) {
+			return onFocusInOutApiTest.call(check, "MenuItem", new RadJav.Vector2(222, 11));
+		});
+		
+		// Radio.on("focus/focusout") functionality test
+		RadJav.addTest("test_common_onfocusinout_011", function(check) {
+			return onFocusInOutApiTest.call(check, "Radio", new RadJav.Vector2(8, 63));
+		});
+		
+		// Textarea.on("focus/focusout") functionality test
+		RadJav.addTest("test_common_onfocusinout_012", function(check) {
+			return onFocusInOutApiTest.call(check, "Textarea", new RadJav.Vector2(56, 105));
+		});
+		
+		// Textbox.on("focus/focusout") functionality test
+		RadJav.addTest("test_common_onfocusinout_013", function(check) {
+			return onFocusInOutApiTest.call(check, "Textbox", new RadJav.Vector2(56, 62));
+		});
+		
+		// WebView.on("focus/focusout") functionality test
+		RadJav.addTest("test_common_onfocusinout_014", function(check) {
+			return onFocusInOutApiTest.call(check, "WebView", new RadJav.Vector2(56, 105));
+		});
+		
+		// generic on("keyup/keydown") functionality test
+		let onFocusInOutApiTest = function(controlName, eventPosition, setupControl) {
+			let check = this;
+			let messageKeyUp = controlName + " got on(\"keyup\") event";
+			let messageKeyDown = controlName + " got on(\"keydown\") event";
+			let keyupArrived = false;
+			let keydownArrived = false;
+			let windowPos = new RadJav.Vector2(0, 22);
+			
+			let promise = new Promise(function(resolve, reject) {
+				
+				var window = new RadJav.GUI.Window("Window", controlName+".on(\"keyup/keydown\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.setPosition(windowPos);
+					
+					var control;
+					
+					if (controlName == "Window")
+					{
+						control = window;
+						if (setupControl != undefined)
+							setupControl.call(check, control);
+						
+						control.on("keyup", function() {
+							keyupArrived = true;
+						});
+						control.on("keydown", function() {
+							keydownArrived = true;
+						});
+					}
+					else if(controlName == "MenuItem")
+					{
+						var menuBar = new RadJav.GUI.MenuBar("MenuBar", "Test", window);
+						menuBar.create().then(function(ctrl) {
+							menuBar = ctrl;
+							control = new RadJav.GUI[controlName](controlName, "File", menuBar);
+							control.create().then(function(ctrl) {
+								control = ctrl;
+								if (setupControl != undefined)
+									setupControl.call(check, control);
+								
+								control.on("keyup", function() {
+									keyupArrived = true;
+								});
+								control.on("keydown", function() {
+									keydownArrived = true;
+								});
+							});								
+						});
+					}
+					else
+					{
+						control = new RadJav.GUI[controlName](controlName, "Test", window);
+						control.create().then(function(ctrl) {
+							control = ctrl;
+							if (setupControl != undefined)
+								setupControl.call(check, control);
+							
+							control.on("keyup", function() {
+								keyupArrived = true;
+							});
+							control.on("keydown", function() {
+								keydownArrived = true;
+							});
+						});
+					}
+					
+					setTimeout(function()
+					{
+						RadJav.Testing.MouseSimulator.moveClick(eventPosition);
+						setTimeout(function() {
+							RadJav.Testing.KeyboardSimulator.keyPress("a");
+						}, 1000);
+					}, 1000);
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(keyupArrived, messageKeyUp);
+					check.assert(keydownArrived, messageKeyDown);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		}
+		
+		// Window.on("keyup/keydown") functionality test
+		RadJav.addTest("test_common_onkeyupdown_001", function(check) {
+			return onFocusInOutApiTest.call(check, "Window", new RadJav.Vector2(40, 64));
+		});
+		
+		// Button.on("keyup/keydown") functionality test
+		RadJav.addTest("test_common_onkeyupdown_002", function(check) {
+			return onFocusInOutApiTest.call(check, "Button", new RadJav.Vector2(40, 64));
+		});
+		
+		// Checkbox.on("keyup/keydown") functionality test
+		RadJav.addTest("test_common_onkeyupdown_003", function(check) {
+			return onFocusInOutApiTest.call(check, "Checkbox", new RadJav.Vector2(15, 64));
+		});
+		
+		// Combobox.on("keyup/keydown") functionality test
+		RadJav.addTest("test_common_onkeyupdown_004", function(check) {
+			return onFocusInOutApiTest.call(check, "Combobox", new RadJav.Vector2(106, 64));
+		});
+		
+		// Container.on("keyup/keydown") functionality test
+		RadJav.addTest("test_common_onkeyupdown_005", function(check) {
+			return onFocusInOutApiTest.call(check, "Container", new RadJav.Vector2(42, 98));
+		});
+		
+		// Image.on("keyup/keydown") functionality test
+		RadJav.addTest("test_common_onkeyupdown_006", function(check) {
+			return onFocusInOutApiTest.call(check, "Image", new RadJav.Vector2(48, 92), function(ctrl) {
+				ctrl.setSize(256, 256);
+				ctrl.setImage("test-image.png");
+			});
+		});
+		
+		// Label.on("keyup/keydown") functionality test
+		RadJav.addTest("test_common_onkeyupdown_007", function(check) {
+			return onFocusInOutApiTest.call(check, "Label", new RadJav.Vector2(14, 53));
+		});
+		
+		// List.on("keyup/keydown") functionality test
+		RadJav.addTest("test_common_onkeyupdown_008", function(check) {
+			return onFocusInOutApiTest.call(check, "List", new RadJav.Vector2(38, 70));
+		});
+		
+		// MebuBar.on("keyup/keydown") functionality test
+		RadJav.addTest("test_common_onkeyupdown_009", function(check) {
+			return onFocusInOutApiTest.call(check, "MenuBar", new RadJav.Vector2(85, 11));
+		});
+		
+		// MenuItem.on("keyup/keydown") functionality test
+		RadJav.addTest("test_common_onkeyupdown_010", function(check) {
+			return onFocusInOutApiTest.call(check, "MenuItem", new RadJav.Vector2(222, 11));
+		});
+		
+		// Radio.on("keyup/keydown") functionality test
+		RadJav.addTest("test_common_onkeyupdown_011", function(check) {
+			return onFocusInOutApiTest.call(check, "Radio", new RadJav.Vector2(8, 63));
+		});
+		
+		// Textarea.on("keyup/keydown") functionality test
+		RadJav.addTest("test_common_onkeyupdown_012", function(check) {
+			return onFocusInOutApiTest.call(check, "Textarea", new RadJav.Vector2(56, 105));
+		});
+		
+		// Textbox.on("keyup/keydown") functionality test
+		RadJav.addTest("test_common_onkeyupdown_013", function(check) {
+			return onFocusInOutApiTest.call(check, "Textbox", new RadJav.Vector2(56, 62));
+		});
+		
+		// WebView.on("keyup/keydown") functionality test
+		RadJav.addTest("test_common_onkeyupdown_014", function(check) {
+			return onFocusInOutApiTest.call(check, "WebView", new RadJav.Vector2(56, 105));
+		});
+		
 		// Execute test cases
 		RadJav.runTests().then( function() {
 			RadJav.exit();
