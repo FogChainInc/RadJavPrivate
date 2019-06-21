@@ -108,10 +108,13 @@ namespace RadJAV
                         String temp = key.toLowerCase();
                         RJCHAR value = temp.at (0);
                         CGKeyCode keyCode = charToKeyCode (value);
-                        CGEventRef event = CGEventCreateKeyboardEvent (NULL, keyCode, true);
+                        CGEventRef eventDown = CGEventCreateKeyboardEvent (NULL, keyCode, true);
+						CGEventRef eventUp = CGEventCreateKeyboardEvent (NULL, keyCode, false);
 
-                        CGEventPost (kCGHIDEventTap, event);
-                        CFRelease (event);
+                        CGEventPost (kCGHIDEventTap, eventDown);
+						CGEventPost (kCGHIDEventTap, eventUp);
+                        CFRelease (eventDown);
+						CFRelease (eventUp);
                     #endif
                 #endif
             }
