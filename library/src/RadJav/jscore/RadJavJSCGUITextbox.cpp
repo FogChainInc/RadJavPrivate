@@ -43,7 +43,14 @@ namespace RadJAV
 
 			JSValueRef Textbox::create(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
 			{
-				CppGuiObject *appObject = RJNEW CppGuiObject(JSC_JAVASCRIPT_ENGINE, thisObject, argumentCount, arguments);
+				CppGuiObject *appObject = (CppGuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				if (appObject)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Textbox already created");
+					return JSValueMakeUndefined(ctx);
+				}
+				
+				appObject = RJNEW CppGuiObject(JSC_JAVASCRIPT_ENGINE, thisObject, argumentCount, arguments);
 				appObject->create();
 
 				JSC_JAVASCRIPT_ENGINE->jscSetExternal(ctx, thisObject, "_appObj", appObject);

@@ -44,7 +44,14 @@ namespace RadJAV
 
 			void List::create(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				UITYPE *appObject = RJNEW UITYPE(V8_JAVASCRIPT_ENGINE, args);
+				UITYPE *appObject = (UITYPE *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				if (appObject)
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("List already created");
+					return;
+				}
+				
+				appObject = RJNEW UITYPE(V8_JAVASCRIPT_ENGINE, args);
 				appObject->create();
 
 				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_appObj", appObject);

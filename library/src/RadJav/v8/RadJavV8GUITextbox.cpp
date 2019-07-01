@@ -43,7 +43,14 @@ namespace RadJAV
 
 			void Textbox::create(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				CppGuiObject *appObject = RJNEW CppGuiObject(V8_JAVASCRIPT_ENGINE, args);
+				CppGuiObject *appObject = (CppGuiObject *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				if (appObject)
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("Textbox already created");
+					return;
+				}
+				
+				appObject = RJNEW CppGuiObject(V8_JAVASCRIPT_ENGINE, args);
 				appObject->create();
 
 				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_appObj", appObject);
