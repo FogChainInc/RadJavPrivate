@@ -8783,7 +8783,7 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 		});
 		
 		// generic on("mousewheel") functionality test
-		let onMouseMoveApiTest = function(controlName, eventPosition, setupControl) {
+		let onMouseWheelApiTest = function(controlName, eventPosition, setupControl) {
 			let check = this;
 			let message = controlName + " got on(\"mousewheel\") event";
 			let eventArrived = false;
@@ -8864,32 +8864,32 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 		
 		// Window.on("mousewheel") functionality test
 		RadJav.addTest("test_common_onmousewheel_001", function(check) {
-			return onMouseMoveApiTest.call(check, "Window", new RadJav.Vector2(40, 64));
+			return onMouseWheelApiTest.call(check, "Window", new RadJav.Vector2(40, 64));
 		});
 		
 		// Button.on("mousewheel") functionality test
 		RadJav.addTest("test_common_onmousewheel_002", function(check) {
-			return onMouseMoveApiTest.call(check, "Button", new RadJav.Vector2(40, 64));
+			return onMouseWheelApiTest.call(check, "Button", new RadJav.Vector2(40, 64));
 		});
 		
 		// Checkbox.on("mousewheel") functionality test
 		RadJav.addTest("test_common_onmousewheel_003", function(check) {
-			return onMouseMoveApiTest.call(check, "Checkbox", new RadJav.Vector2(15, 64));
+			return onMouseWheelApiTest.call(check, "Checkbox", new RadJav.Vector2(15, 64));
 		});
 		
 		// Combobox.on("mousewheel") functionality test
 		RadJav.addTest("test_common_onmousewheel_004", function(check) {
-			return onMouseMoveApiTest.call(check, "Combobox", new RadJav.Vector2(106, 64));
+			return onMouseWheelApiTest.call(check, "Combobox", new RadJav.Vector2(106, 64));
 		});
 		
 		// Container.on("mousewheel") functionality test
 		RadJav.addTest("test_common_onmousewheel_005", function(check) {
-			return onMouseMoveApiTest.call(check, "Container", new RadJav.Vector2(42, 98));
+			return onMouseWheelApiTest.call(check, "Container", new RadJav.Vector2(42, 98));
 		});
 		
 		// Image.on("mousewheel") functionality test
 		RadJav.addTest("test_common_onmousewheel_006", function(check) {
-			return onMouseMoveApiTest.call(check, "Image", new RadJav.Vector2(48, 92), function(ctrl) {
+			return onMouseWheelApiTest.call(check, "Image", new RadJav.Vector2(48, 92), function(ctrl) {
 				ctrl.setSize(256, 256);
 				ctrl.setImage("test-image.png");
 			});
@@ -8897,42 +8897,42 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 		
 		// Label.on("mousewheel") functionality test
 		RadJav.addTest("test_common_onmousewheel_007", function(check) {
-			return onMouseMoveApiTest.call(check, "Label", new RadJav.Vector2(14, 53));
+			return onMouseWheelApiTest.call(check, "Label", new RadJav.Vector2(14, 53));
 		});
 		
 		// List.on("mousewheel") functionality test
 		RadJav.addTest("test_common_onmousewheel_008", function(check) {
-			return onMouseMoveApiTest.call(check, "List", new RadJav.Vector2(38, 70));
+			return onMouseWheelApiTest.call(check, "List", new RadJav.Vector2(38, 70));
 		});
 		
 		// MebuBar.on("mousewheel") functionality test
 		RadJav.addTest("test_common_onmousewheel_009", function(check) {
-			return onMouseMoveApiTest.call(check, "MenuBar", new RadJav.Vector2(85, 11));
+			return onMouseWheelApiTest.call(check, "MenuBar", new RadJav.Vector2(85, 11));
 		});
 		
 		// MenuItem.on("mousewheel") functionality test
 		RadJav.addTest("test_common_onmousewheel_010", function(check) {
-			return onMouseMoveApiTest.call(check, "MenuItem", new RadJav.Vector2(222, 11));
+			return onMouseWheelApiTest.call(check, "MenuItem", new RadJav.Vector2(222, 11));
 		});
 		
 		// Radio.on("mousewheel") functionality test
 		RadJav.addTest("test_common_onmousewheel_011", function(check) {
-			return onMouseMoveApiTest.call(check, "Radio", new RadJav.Vector2(8, 63));
+			return onMouseWheelApiTest.call(check, "Radio", new RadJav.Vector2(8, 63));
 		});
 		
 		// Textarea.on("mousewheel") functionality test
 		RadJav.addTest("test_common_onmousewheel_012", function(check) {
-			return onMouseMoveApiTest.call(check, "Textarea", new RadJav.Vector2(56, 105));
+			return onMouseWheelApiTest.call(check, "Textarea", new RadJav.Vector2(56, 105));
 		});
 		
 		// Textbox.on("mousewheel") functionality test
 		RadJav.addTest("test_common_onmousewheel_013", function(check) {
-			return onMouseMoveApiTest.call(check, "Textbox", new RadJav.Vector2(56, 62));
+			return onMouseWheelApiTest.call(check, "Textbox", new RadJav.Vector2(56, 62));
 		});
 		
 		// WebView.on("mousewheel") functionality test
 		RadJav.addTest("test_common_onmousewheel_014", function(check) {
-			return onMouseMoveApiTest.call(check, "WebView", new RadJav.Vector2(56, 105));
+			return onMouseWheelApiTest.call(check, "WebView", new RadJav.Vector2(56, 105));
 		});
 		
 		// generic on("focus/focusout") functionality test
@@ -9117,7 +9117,7 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 		});
 		
 		// generic on("keyup/keydown") functionality test
-		let onFocusInOutApiTest = function(controlName, eventPosition, setupControl) {
+		let onKeyUpDownApiTest = function(controlName, eventPosition, setupControl) {
 			let check = this;
 			let messageKeyUp = controlName + " got on(\"keyup\") event";
 			let messageKeyDown = controlName + " got on(\"keydown\") event";
@@ -9207,32 +9207,32 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 		
 		// Window.on("keyup/keydown") functionality test
 		RadJav.addTest("test_common_onkeyupdown_001", function(check) {
-			return onFocusInOutApiTest.call(check, "Window", new RadJav.Vector2(40, 64));
+			return onKeyUpDownApiTest.call(check, "Window", new RadJav.Vector2(40, 64));
 		});
 		
 		// Button.on("keyup/keydown") functionality test
 		RadJav.addTest("test_common_onkeyupdown_002", function(check) {
-			return onFocusInOutApiTest.call(check, "Button", new RadJav.Vector2(40, 64));
+			return onKeyUpDownApiTest.call(check, "Button", new RadJav.Vector2(40, 64));
 		});
 		
 		// Checkbox.on("keyup/keydown") functionality test
 		RadJav.addTest("test_common_onkeyupdown_003", function(check) {
-			return onFocusInOutApiTest.call(check, "Checkbox", new RadJav.Vector2(15, 64));
+			return onKeyUpDownApiTest.call(check, "Checkbox", new RadJav.Vector2(15, 64));
 		});
 		
 		// Combobox.on("keyup/keydown") functionality test
 		RadJav.addTest("test_common_onkeyupdown_004", function(check) {
-			return onFocusInOutApiTest.call(check, "Combobox", new RadJav.Vector2(106, 64));
+			return onKeyUpDownApiTest.call(check, "Combobox", new RadJav.Vector2(106, 64));
 		});
 		
 		// Container.on("keyup/keydown") functionality test
 		RadJav.addTest("test_common_onkeyupdown_005", function(check) {
-			return onFocusInOutApiTest.call(check, "Container", new RadJav.Vector2(42, 98));
+			return onKeyUpDownApiTest.call(check, "Container", new RadJav.Vector2(42, 98));
 		});
 		
 		// Image.on("keyup/keydown") functionality test
 		RadJav.addTest("test_common_onkeyupdown_006", function(check) {
-			return onFocusInOutApiTest.call(check, "Image", new RadJav.Vector2(48, 92), function(ctrl) {
+			return onKeyUpDownApiTest.call(check, "Image", new RadJav.Vector2(48, 92), function(ctrl) {
 				ctrl.setSize(256, 256);
 				ctrl.setImage("test-image.png");
 			});
@@ -9240,42 +9240,42 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 		
 		// Label.on("keyup/keydown") functionality test
 		RadJav.addTest("test_common_onkeyupdown_007", function(check) {
-			return onFocusInOutApiTest.call(check, "Label", new RadJav.Vector2(14, 53));
+			return onKeyUpDownApiTest.call(check, "Label", new RadJav.Vector2(14, 53));
 		});
 		
 		// List.on("keyup/keydown") functionality test
 		RadJav.addTest("test_common_onkeyupdown_008", function(check) {
-			return onFocusInOutApiTest.call(check, "List", new RadJav.Vector2(38, 70));
+			return onKeyUpDownApiTest.call(check, "List", new RadJav.Vector2(38, 70));
 		});
 		
 		// MebuBar.on("keyup/keydown") functionality test
 		RadJav.addTest("test_common_onkeyupdown_009", function(check) {
-			return onFocusInOutApiTest.call(check, "MenuBar", new RadJav.Vector2(85, 11));
+			return onKeyUpDownApiTest.call(check, "MenuBar", new RadJav.Vector2(85, 11));
 		});
 		
 		// MenuItem.on("keyup/keydown") functionality test
 		RadJav.addTest("test_common_onkeyupdown_010", function(check) {
-			return onFocusInOutApiTest.call(check, "MenuItem", new RadJav.Vector2(222, 11));
+			return onKeyUpDownApiTest.call(check, "MenuItem", new RadJav.Vector2(222, 11));
 		});
 		
 		// Radio.on("keyup/keydown") functionality test
 		RadJav.addTest("test_common_onkeyupdown_011", function(check) {
-			return onFocusInOutApiTest.call(check, "Radio", new RadJav.Vector2(8, 63));
+			return onKeyUpDownApiTest.call(check, "Radio", new RadJav.Vector2(8, 63));
 		});
 		
 		// Textarea.on("keyup/keydown") functionality test
 		RadJav.addTest("test_common_onkeyupdown_012", function(check) {
-			return onFocusInOutApiTest.call(check, "Textarea", new RadJav.Vector2(56, 105));
+			return onKeyUpDownApiTest.call(check, "Textarea", new RadJav.Vector2(56, 105));
 		});
 		
 		// Textbox.on("keyup/keydown") functionality test
 		RadJav.addTest("test_common_onkeyupdown_013", function(check) {
-			return onFocusInOutApiTest.call(check, "Textbox", new RadJav.Vector2(56, 62));
+			return onKeyUpDownApiTest.call(check, "Textbox", new RadJav.Vector2(56, 62));
 		});
 		
 		// WebView.on("keyup/keydown") functionality test
 		RadJav.addTest("test_common_onkeyupdown_014", function(check) {
-			return onFocusInOutApiTest.call(check, "WebView", new RadJav.Vector2(56, 105));
+			return onKeyUpDownApiTest.call(check, "WebView", new RadJav.Vector2(56, 105));
 		});
 		
 		// Execute test cases
