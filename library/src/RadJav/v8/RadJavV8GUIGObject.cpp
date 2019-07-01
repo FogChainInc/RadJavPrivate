@@ -71,43 +71,58 @@ namespace RadJAV
 			void GObject::addChild(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				CppGuiObject *appObject = (CppGuiObject *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				if (!appObject)
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("Object instance was not created");
+					return;
+				}
                 
 				if (args.Length())
 				{
 					v8::Local<v8::Object> childJs = v8::Local<v8::Object>::Cast(args[0]);
 					
 					CppGuiObject *childAppObject = (CppGuiObject *) V8_JAVASCRIPT_ENGINE->v8GetExternal(childJs, "_appObj");
-					if (childAppObject != NULL)
+					if (!childAppObject)
 					{
-						appObject->addChild(childAppObject);
+						V8_JAVASCRIPT_ENGINE->throwException("Valid child object is required");
+						return;
 					}
+					
+					appObject->addChild(childAppObject);
 				}
 			}
 
 			void GObject::setFont(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
+				CppGuiObject *appObject = (CppGuiObject *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				if (!appObject)
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("Object instance was not created");
+					return;
+				}
+				
 				V8_JAVASCRIPT_ENGINE->v8SetObject(args.This(), "_font", v8::Local<v8::Object>::Cast(args[0]));
 
-				CppGuiObject *appObject = (CppGuiObject *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-
-				if (appObject != NULL)
-				{
-					CPP::Font *font = RJNEW CPP::Font(V8_JAVASCRIPT_ENGINE, v8::Local<v8::Object>::Cast(args[0]));
-					CPP::Font *oldfont = appObject->getFont();
-					DELETEOBJ(oldfont);
-
-					appObject->setFont(font);
-				}
+				CPP::Font *font = RJNEW CPP::Font(V8_JAVASCRIPT_ENGINE, v8::Local<v8::Object>::Cast(args[0]));
+				CPP::Font *oldfont = appObject->getFont();
+				DELETEOBJ(oldfont);
+				
+				appObject->setFont(font);
 			}
 
 			void GObject::getFont(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				v8::Local<v8::Object> font = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "_font");
 				CppGuiObject *appObject = (CppGuiObject *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				if (!appObject)
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("Object instance was not created");
+					return;
+				}
+				
+				v8::Local<v8::Object> font = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "_font");
 
 				#ifdef GUI_USE_WXWIDGETS
-					if (appObject != NULL)
-						font = appObject->getFont()->toV8Object();
+					font = appObject->getFont()->toV8Object();
 				#endif
 
 				args.GetReturnValue().Set(font);
@@ -116,6 +131,12 @@ namespace RadJAV
 			void GObject::setPosition(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				CppGuiObject *appObject = (CppGuiObject *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				if (!appObject)
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("Object instance was not created");
+					return;
+				}
+				
 				RJINT x = 0;
 				RJINT y = 0;
 
@@ -139,13 +160,18 @@ namespace RadJAV
 
 				DELETE_ARRAY(args2);
 
-				if (appObject != NULL)
-					appObject->setPosition(x, y);
+				appObject->setPosition(x, y);
 			}
 
 			void GObject::getPosition(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				CppGuiObject *appObject = (CppGuiObject *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				if (!appObject)
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("Object instance was not created");
+					return;
+				}
+				
 				RJINT x = 0;
 				RJINT y = 0;
 
@@ -155,8 +181,7 @@ namespace RadJAV
 
 				CPP::Vector2 pos;
 
-				if (appObject != NULL)
-					pos = appObject->getPosition();
+				pos = appObject->getPosition();
 
 				x = pos.x;
 				y = pos.y;
@@ -173,6 +198,10 @@ namespace RadJAV
 			{
 				getPosition(args);
 				v8::ReturnValue<v8::Value> ret = args.GetReturnValue();
+				
+				if(V8_JAVASCRIPT_ENGINE->v8IsNull(ret.Get()))
+					return;
+				
 				v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(ret.Get());
 
 				args.GetReturnValue().Set(V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "x"));
@@ -182,6 +211,10 @@ namespace RadJAV
 			{
 				getPosition(args);
 				v8::ReturnValue<v8::Value> ret = args.GetReturnValue();
+				
+				if(V8_JAVASCRIPT_ENGINE->v8IsNull(ret.Get()))
+					return;
+				
 				v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(ret.Get());
 
 				args.GetReturnValue().Set(V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "y"));
@@ -190,6 +223,12 @@ namespace RadJAV
 			void GObject::setSize(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				CppGuiObject *appObject = (CppGuiObject *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				if (!appObject)
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("Object instance was not created");
+					return;
+				}
+				
 				RJINT x = 0;
 				RJINT y = 0;
 
@@ -213,13 +252,18 @@ namespace RadJAV
 
 				DELETE_ARRAY(args2);
 
-				if (appObject != NULL)
-					appObject->setSize(x, y);
+				appObject->setSize(x, y);
 			}
 
 			void GObject::getSize(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				CppGuiObject *appObject = (CppGuiObject *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				if (!appObject)
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("Object instance was not created");
+					return;
+				}
+				
 				RJINT x = 0;
 				RJINT y = 0;
 
@@ -227,12 +271,9 @@ namespace RadJAV
 				x = V8_JAVASCRIPT_ENGINE->v8GetInt(transform, "width");
 				y = V8_JAVASCRIPT_ENGINE->v8GetInt(transform, "height");
 
-				if (appObject != NULL)
-				{
-					CPP::Vector2 size = appObject->getSize();
-					x = size.x;
-					y = size.y;
-				}
+				CPP::Vector2 size = appObject->getSize();
+				x = size.x;
+				y = size.y;
 
 				v8::Local<v8::Object> vector2 = V8_JAVASCRIPT_ENGINE->v8GetObject(V8_RADJAV, "Vector2");
 				v8::Local<v8::Object> vector2obj = V8_JAVASCRIPT_ENGINE->v8CallAsConstructor(vector2, 0, NULL);
@@ -246,6 +287,10 @@ namespace RadJAV
 			{
 				getSize(args);
 				v8::ReturnValue<v8::Value> ret = args.GetReturnValue();
+
+				if(V8_JAVASCRIPT_ENGINE->v8IsNull(ret.Get()))
+					return;
+				
 				v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(ret.Get());
 
 				args.GetReturnValue().Set(V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "x"));
@@ -255,6 +300,10 @@ namespace RadJAV
 			{
 				getSize(args);
 				v8::ReturnValue<v8::Value> ret = args.GetReturnValue();
+
+				if(V8_JAVASCRIPT_ENGINE->v8IsNull(ret.Get()))
+					return;
+				
 				v8::Local<v8::Object> obj = v8::Local<v8::Object>::Cast(ret.Get());
 
 				args.GetReturnValue().Set(V8_JAVASCRIPT_ENGINE->v8GetInt(obj, "y"));
@@ -262,35 +311,58 @@ namespace RadJAV
 
 			void GObject::setText(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
+				CppGuiObject *appObject = (CppGuiObject *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				if (!appObject)
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("Object instance was not created");
+					return;
+				}
+				
 				v8::Local<v8::String> val = v8::Local<v8::String>::Cast(args[0]);
 				String str = parseV8Value(val);
 				V8_JAVASCRIPT_ENGINE->v8SetString(args.This(), "_text", str);
 
-				CppGuiObject *appObject = (CppGuiObject *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-
-				if (appObject != NULL)
-					appObject->setText(str);
+				appObject->setText(str);
 			}
 
 			void GObject::getText(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				String text = V8_JAVASCRIPT_ENGINE->v8GetString(args.This(), "_text");
 				CppGuiObject *appObject = (CppGuiObject *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				if (!appObject)
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("Object instance was not created");
+					return;
+				}
+				
+				String text = V8_JAVASCRIPT_ENGINE->v8GetString(args.This(), "_text");
 
-				if (appObject != NULL)
-					text = appObject->getText();
+				text = appObject->getText();
 
 				args.GetReturnValue().Set(text.toV8String(args.GetIsolate()));
 			}
 
 			void GObject::getParent(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
+				CppGuiObject *appObject = (CppGuiObject *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				if (!appObject)
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("Object instance was not created");
+					return;
+				}
+				
 				v8::Handle<v8::Object> obj = V8_JAVASCRIPT_ENGINE->v8GetObject(args.This(), "_parent");
 				args.GetReturnValue().Set(obj);
 			}
 
 			void GObject::getAppObj(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
+				CppGuiObject *appObject = (CppGuiObject *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				if (!appObject)
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("Object instance was not created");
+					return;
+				}
+				
 				v8::Handle<v8::External> ext = v8::Handle<v8::External>::Cast(
 					args.This()->Get(String("_appObj").toV8String(args.GetIsolate())));
 				args.GetReturnValue().Set(ext);
@@ -298,61 +370,90 @@ namespace RadJAV
 
 			void GObject::setVisibility(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
+				CppGuiObject *appObject = (CppGuiObject *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				if (!appObject)
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("Object instance was not created");
+					return;
+				}
+				
 				RJBOOL value = V8_JAVASCRIPT_ENGINE->v8ParseBool(args[0]);
 				V8_JAVASCRIPT_ENGINE->v8SetBool(args.This(), "_visible", value);
 
-				CppGuiObject *appObject = (CppGuiObject *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-
-				if (appObject != NULL)
-					appObject->setVisibility(value);
+				appObject->setVisibility(value);
 			}
 
 			void GObject::getVisibility(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				RJBOOL value = V8_JAVASCRIPT_ENGINE->v8GetBool(args.This(), "_visible");
 				CppGuiObject *appObject = (CppGuiObject *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				if (!appObject)
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("Object instance was not created");
+					return;
+				}
+				
+				RJBOOL value = V8_JAVASCRIPT_ENGINE->v8GetBool(args.This(), "_visible");
 
-				if (appObject != NULL)
-					value = appObject->getVisibility();
+				value = appObject->getVisibility();
 
 				args.GetReturnValue().Set(v8::Boolean::New(args.GetIsolate(), value));
 			}
 
 			void GObject::setEnabled(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				RJBOOL value = V8_JAVASCRIPT_ENGINE->v8ParseBool(args[0]);
 				CppGuiObject *appObject = (CppGuiObject *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				if (!appObject)
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("Object instance was not created");
+					return;
+				}
+				
+				RJBOOL value = V8_JAVASCRIPT_ENGINE->v8ParseBool(args[0]);
 
-				if (appObject != NULL)
-					appObject->setEnabled(value);
+				appObject->setEnabled(value);
 			}
 
 			void GObject::getEnabled(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				RJBOOL value = false;
 				CppGuiObject *appObject = (CppGuiObject *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				if (!appObject)
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("Object instance was not created");
+					return;
+				}
+				
+				RJBOOL value = false;
 
-				if (appObject != NULL)
-					value = appObject->getEnabled();
+				value = appObject->getEnabled();
 
 				args.GetReturnValue().Set(v8::Boolean::New(args.GetIsolate(), value));
 			}
 
 			void GObject::on(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
+				CppGuiObject *appObject = (CppGuiObject *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				if (!appObject)
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("Object instance was not created");
+					return;
+				}
+				
 				String event = parseV8Value(args[0]);
 				v8::Local<v8::Function> func = v8::Local<v8::Function>::Cast(args[1]);
-				CppGuiObject *appObject = (CppGuiObject *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
 
-				if (appObject != NULL)
-					appObject->on(event, func);
+				appObject->on(event, func);
 			}
 			
 			void GObject::destroy(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
 				CppGuiObject *appObject = (CppGuiObject *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
-				if (appObject != NULL)
-					delete appObject;
+				if (!appObject)
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("Object instance was not created");
+					return;
+				}
+				
+				delete appObject;
 				
 				V8_JAVASCRIPT_ENGINE->v8ClearExternal(args.This(), "_appObj");
 			}

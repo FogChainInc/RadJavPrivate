@@ -75,53 +75,79 @@ namespace RadJAV
 
 			JSValueRef GObject::addChild(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
 			{
+				JSValueRef undefined = JSValueMakeUndefined(ctx);
 				CppGuiObject *appObject = (CppGuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				if (!appObject)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Object instance was not created");
+					return undefined;
+				}
 				
 				if (argumentCount > 0)
 				{
 					JSObjectRef argument =  JSValueToObject(ctx, arguments[0], exception);
 					CppGuiObject *childAppObject = (CppGuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, argument, "_appObj");
-					if (childAppObject)
+					if (!childAppObject)
 					{
-						appObject->addChild(childAppObject);
+						JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Valid child object is required");
+						return undefined;
 					}
+					
+					appObject->addChild(childAppObject);
 				}
 				
-				return JSValueMakeUndefined(ctx);
+				return undefined;
 			}
 
 			JSValueRef GObject::setFont(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
 			{
-				JSObjectRef arg0 = JSC_JAVASCRIPT_ENGINE->jscCastValueToObject(arguments[0]);
-				JSC_JAVASCRIPT_ENGINE->jscSetObject(thisObject, "_font", arg0);
-				CppGuiObject *appObject = (CppGuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
-				
-				if (appObject != NULL)
+				JSValueRef undefined = JSValueMakeUndefined(ctx);
+				CppGuiObject *appObject = (CppGuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				if (!appObject)
 				{
-					CPP::Font *font = RJNEW CPP::Font(JSC_JAVASCRIPT_ENGINE, arg0);
-					CPP::Font *oldfont = appObject->getFont();
-					DELETEOBJ(oldfont);
-					
-					appObject->setFont(font);
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Object instance was not created");
+					return undefined;
 				}
 				
-				return JSValueMakeUndefined(ctx);
+				JSObjectRef arg0 = JSC_JAVASCRIPT_ENGINE->jscCastValueToObject(arguments[0]);
+				JSC_JAVASCRIPT_ENGINE->jscSetObject(thisObject, "_font", arg0);
+
+				CPP::Font *font = RJNEW CPP::Font(JSC_JAVASCRIPT_ENGINE, arg0);
+				CPP::Font *oldfont = appObject->getFont();
+				DELETEOBJ(oldfont);
+				
+				appObject->setFont(font);
+
+				return undefined;
 			}
 
 			JSValueRef GObject::getFont(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
 			{
+				JSValueRef undefined = JSValueMakeUndefined(ctx);
+				CppGuiObject *appObject = (CppGuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				if (!appObject)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Object instance was not created");
+					return undefined;
+				}
+
 				JSObjectRef font = JSC_JAVASCRIPT_ENGINE->jscGetObject(thisObject, "_font");
-				CppGuiObject *appObject = (CppGuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
 				
-				if (appObject != NULL)
-					font = appObject->getFont ()->toJSCObject ();
+				font = appObject->getFont ()->toJSCObject ();
 				
 				return font;
 			}
 
 			JSValueRef GObject::setPosition(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
 			{
-				CppGuiObject *appObject = (CppGuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				JSValueRef undefined = JSValueMakeUndefined(ctx);
+				CppGuiObject *appObject = (CppGuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				if (!appObject)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Object instance was not created");
+					return undefined;
+				}
+				
 				RJINT x = 0;
 				RJINT y = 0;
 				
@@ -143,15 +169,21 @@ namespace RadJAV
 				args2[1] = JSValueMakeNumber(ctx, y);
 				JSC_JAVASCRIPT_ENGINE->jscCallFunction(transform, "setPosition", 2, args2);
 				
-				if (appObject != NULL)
-					appObject->setPosition(x, y);
+				appObject->setPosition(x, y);
 				
-				return JSValueMakeUndefined(ctx);
+				return undefined;
 			}
 
 			JSValueRef GObject::getPosition(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
 			{
-				CppGuiObject *appObject = (CppGuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				JSValueRef undefined = JSValueMakeUndefined(ctx);
+				CppGuiObject *appObject = (CppGuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				if (!appObject)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Object instance was not created");
+					return undefined;
+				}
+				
 				RJINT x = 0;
 				RJINT y = 0;
 				
@@ -161,8 +193,7 @@ namespace RadJAV
 				
 				CPP::Vector2 pos;
 				
-				if (appObject != NULL)
-					pos = appObject->getPosition();
+				pos = appObject->getPosition();
 				
 				x = pos.x;
 				y = pos.y;
@@ -178,6 +209,10 @@ namespace RadJAV
 			JSValueRef GObject::getX(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
 			{
 				JSValueRef pos = getPosition(ctx, function, thisObject, argumentCount, arguments, exception);
+				
+				if (JSValueIsUndefined(ctx, pos))
+					return pos;
+				
 				JSObjectRef obj = JSC_JAVASCRIPT_ENGINE->jscCastValueToObject(pos);
 				
 				return JSValueMakeNumber(ctx, JSC_JAVASCRIPT_ENGINE->jscGetInt(obj, "x"));
@@ -186,6 +221,10 @@ namespace RadJAV
 			JSValueRef GObject::getY(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
 			{
 				JSValueRef pos = getPosition(ctx, function, thisObject, argumentCount, arguments, exception);
+
+				if (JSValueIsUndefined(ctx, pos))
+					return pos;
+				
 				JSObjectRef obj = JSC_JAVASCRIPT_ENGINE->jscCastValueToObject(pos);
 				
 				return JSValueMakeNumber(ctx, JSC_JAVASCRIPT_ENGINE->jscGetInt(obj, "y"));
@@ -193,7 +232,14 @@ namespace RadJAV
 
 			JSValueRef GObject::setSize(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
 			{
-				CppGuiObject *appObject = (CppGuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				JSValueRef undefined = JSValueMakeUndefined(ctx);
+				CppGuiObject *appObject = (CppGuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				if (!appObject)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Object instance was not created");
+					return undefined;
+				}
+				
 				RJINT x = 0;
 				RJINT y = 0;
 				
@@ -215,15 +261,21 @@ namespace RadJAV
 				args2[1] = JSValueMakeNumber(ctx, y);
 				JSC_JAVASCRIPT_ENGINE->jscCallFunction(transform, "setSize", 2, args2);
 				
-				if (appObject != NULL)
-					appObject->setSize(x, y);
+				appObject->setSize(x, y);
 				
-				return JSValueMakeUndefined(ctx);
+				return undefined;
 			}
 
 			JSValueRef GObject::getSize(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
 			{
-				CppGuiObject *appObject = (CppGuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				JSValueRef undefined = JSValueMakeUndefined(ctx);
+				CppGuiObject *appObject = (CppGuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				if (!appObject)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Object instance was not created");
+					return undefined;
+				}
+				
 				RJINT x = 0;
 				RJINT y = 0;
 				
@@ -233,8 +285,7 @@ namespace RadJAV
 				
 				CPP::Vector2 size;
 				
-				if (appObject != NULL)
-					size = appObject->getSize();
+				size = appObject->getSize();
 				
 				x = size.x;
 				y = size.y;
@@ -250,6 +301,10 @@ namespace RadJAV
 			JSValueRef GObject::getWidth(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
 			{
 				JSValueRef size = getSize(ctx, function, thisObject, argumentCount, arguments, exception);
+
+				if (JSValueIsUndefined(ctx, size))
+					return size;
+				
 				JSObjectRef obj = JSC_JAVASCRIPT_ENGINE->jscCastValueToObject(size);
 				
 				return JSValueMakeNumber(ctx, JSC_JAVASCRIPT_ENGINE->jscGetInt(obj, "x"));
@@ -258,6 +313,10 @@ namespace RadJAV
 			JSValueRef GObject::getHeight(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
 			{
 				JSValueRef size = getSize(ctx, function, thisObject, argumentCount, arguments, exception);
+
+				if (JSValueIsUndefined(ctx, size))
+					return size;
+				
 				JSObjectRef obj = JSC_JAVASCRIPT_ENGINE->jscCastValueToObject(size);
 				
 				return JSValueMakeNumber(ctx, JSC_JAVASCRIPT_ENGINE->jscGetInt(obj, "x"));
@@ -265,30 +324,49 @@ namespace RadJAV
 
 			JSValueRef GObject::setText(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
 			{
+				JSValueRef undefined = JSValueMakeUndefined(ctx);
+				CppGuiObject *appObject = (CppGuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				if (!appObject)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Object instance was not created");
+					return undefined;
+				}
+				
 				String str = parseJSCValue(ctx, arguments[0]);
 				JSC_JAVASCRIPT_ENGINE->jscSetString(thisObject, "_text", str);
 				
-				CppGuiObject *appObject = (CppGuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				appObject->setText(str);
 				
-				if (appObject != NULL)
-					appObject->setText(str);
-				
-				return JSValueMakeUndefined(ctx);
+				return undefined;
 			}
 
 			JSValueRef GObject::getText(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
 			{
-				String text = JSC_JAVASCRIPT_ENGINE->jscGetString(thisObject, "_text");
-				CppGuiObject *appObject = (CppGuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				JSValueRef undefined = JSValueMakeUndefined(ctx);
+				CppGuiObject *appObject = (CppGuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				if (!appObject)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Object instance was not created");
+					return undefined;
+				}
 				
-				if (appObject != NULL)
-					text = appObject->getText();
+				String text = JSC_JAVASCRIPT_ENGINE->jscGetString(thisObject, "_text");
+				
+				text = appObject->getText();
 				
 				return text.toJSCValue(ctx);
 			}
 
 			JSValueRef GObject::getParent(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
 			{
+				JSValueRef undefined = JSValueMakeUndefined(ctx);
+				CppGuiObject *appObject = (CppGuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				if (!appObject)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Object instance was not created");
+					return undefined;
+				}
+				
 				JSObjectRef obj = JSC_JAVASCRIPT_ENGINE->jscGetObject(thisObject, "_parent");
 				
 				return obj;
@@ -296,6 +374,14 @@ namespace RadJAV
 
 			JSValueRef GObject::getAppObj(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
 			{
+				JSValueRef undefined = JSValueMakeUndefined(ctx);
+				CppGuiObject *appObject = (CppGuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				if (!appObject)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Object instance was not created");
+					return undefined;
+				}
+				
 				/// @todo How do you return only the _appObj object? Not the CppGuiObject
 				JSObjectRef obj = JSC_JAVASCRIPT_ENGINE->jscGetObject(thisObject, "_appObj");
 				
@@ -304,72 +390,106 @@ namespace RadJAV
 
 			JSValueRef GObject::setVisibility(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
 			{
+				JSValueRef undefined = JSValueMakeUndefined(ctx);
+				CppGuiObject *appObject = (CppGuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				if (!appObject)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Object instance was not created");
+					return undefined;
+				}
+				
 				RJBOOL value = JSC_JAVASCRIPT_ENGINE->jscParseBool(arguments[0]);
 				JSC_JAVASCRIPT_ENGINE->jscSetBool(thisObject, "_visible", value);
 				
-				CppGuiObject *appObject = (CppGuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				appObject->setVisibility(value);
 				
-				if (appObject != NULL)
-					appObject->setVisibility(value);
-				
-				return JSValueMakeUndefined(ctx);
+				return undefined;
 			}
 
 			JSValueRef GObject::getVisibility(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
 			{
-				RJBOOL value = JSC_JAVASCRIPT_ENGINE->jscGetBool(thisObject, "_visible");
-				CppGuiObject *appObject = (CppGuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				JSValueRef undefined = JSValueMakeUndefined(ctx);
+				CppGuiObject *appObject = (CppGuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				if (!appObject)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Object instance was not created");
+					return undefined;
+				}
 				
-				if (appObject != NULL)
-					value = appObject->getVisibility();
+				RJBOOL value = JSC_JAVASCRIPT_ENGINE->jscGetBool(thisObject, "_visible");
+				
+				value = appObject->getVisibility();
 				
 				return JSValueMakeBoolean(ctx, value);
 			}
 
 			JSValueRef GObject::setEnabled(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
 			{
+				JSValueRef undefined = JSValueMakeUndefined(ctx);
+				CppGuiObject *appObject = (CppGuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				if (!appObject)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Object instance was not created");
+					return undefined;
+				}
+				
 				RJBOOL value = JSC_JAVASCRIPT_ENGINE->jscParseBool(arguments[0]);
-				CppGuiObject *appObject = (CppGuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+
+				appObject->setEnabled(value);
 				
-				if (appObject != NULL)
-					appObject->setEnabled(value);
-				
-				return JSValueMakeUndefined(ctx);
+				return undefined;
 			}
 
 			JSValueRef GObject::getEnabled(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
 			{
-				RJBOOL value = JSC_JAVASCRIPT_ENGINE->jscGetBool(thisObject, "_visible");
-				CppGuiObject *appObject = (CppGuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				JSValueRef undefined = JSValueMakeUndefined(ctx);
+				CppGuiObject *appObject = (CppGuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				if (!appObject)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Object instance was not created");
+					return undefined;
+				}
 				
-				if (appObject != NULL)
-					value = appObject->getEnabled();
+				RJBOOL value = JSC_JAVASCRIPT_ENGINE->jscGetBool(thisObject, "_visible");
+
+				value = appObject->getEnabled();
 				
 				return JSValueMakeBoolean(ctx, value);
 			}
 
 			JSValueRef GObject::on(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
 			{
+				JSValueRef undefined = JSValueMakeUndefined(ctx);
+				CppGuiObject *appObject = (CppGuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				if (!appObject)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Object instance was not created");
+					return undefined;
+				}
+				
 				String event = parseJSCValue(ctx, arguments[0]);
 				JSObjectRef func2 = JSC_JAVASCRIPT_ENGINE->jscCastValueToObject(ctx, arguments[1]);
-				CppGuiObject *appObject = (CppGuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+
+				appObject->on(event, func2);
 				
-				if (appObject != NULL)
-					appObject->on(event, func2);
-				
-				return JSValueMakeUndefined(ctx);
+				return undefined;
 			}
 			
 			JSValueRef GObject::destroy(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
 			{
-				CppGuiObject *appObject = (CppGuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				JSValueRef undefined = JSValueMakeUndefined(ctx);
+				CppGuiObject *appObject = (CppGuiObject *) JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				if (!appObject)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "Object instance was not created");
+					return undefined;
+				}
 				
-				if (appObject != NULL)
-					DELETEOBJ(appObject);
+				DELETEOBJ(appObject);
 				
 				JSC_JAVASCRIPT_ENGINE->jscClearExternal(ctx, thisObject, "_appObj");
 				
-				return JSValueMakeUndefined(ctx);
+				return undefined;
 			}
 		}
 	}
