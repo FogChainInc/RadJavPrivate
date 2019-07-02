@@ -542,7 +542,7 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 						control.setFont(font);
 						let font2 = control.getFont();
 						
-						check.equal(font, font2, message);
+						check.equal(JSON.stringify(font), JSON.stringify(font2), message);
 						resolve();
 					});
 				});
@@ -575,7 +575,7 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 					window.setFont(font);
 					let font2 = window.getFont();
 					
-					check.equal(font, font2, message);
+					check.equal(JSON.stringify(font), JSON.stringify(font2), message);
 					resolve();
 				});
 				
@@ -655,7 +655,7 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 							menuItem.setFont(font);
 							let font2 = menuItem.getFont();
 							
-							check.equal(font, font2, message);
+							check.equal(JSON.stringify(font), JSON.stringify(font2), message);
 							resolve();
 						});
 					});
