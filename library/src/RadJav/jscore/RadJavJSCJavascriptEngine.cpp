@@ -1085,13 +1085,15 @@ namespace RadJAV
                         JSC::OS::ScreenInfo::createJSCCallbacks(globalContext, screenInfoFunc);
                     }
 
-					// RadJav.OS.SystemProcess
-					{
-						JSObjectRef systemProcessFunc = jscGetFunction(osFunc, "SystemProcess");
-						JSObjectRef systemProcessFuncPrototype = jscGetObject(systemProcessFunc, "prototype");
-
-						JSC::OS::SystemProcess::createJSCCallbacks(globalContext, systemProcessFuncPrototype);
-					}
+					#ifndef USE_IOS
+						// RadJav.OS.SystemProcess
+						{
+							JSObjectRef systemProcessFunc = jscGetFunction(osFunc, "SystemProcess");
+							JSObjectRef systemProcessFuncPrototype = jscGetObject(systemProcessFunc, "prototype");
+							
+							JSC::OS::SystemProcess::createJSCCallbacks(globalContext, systemProcessFuncPrototype);
+						}
+					#endif
 
 					// Command line arguments
 					{

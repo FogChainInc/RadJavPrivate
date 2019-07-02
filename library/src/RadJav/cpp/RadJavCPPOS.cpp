@@ -257,6 +257,7 @@ namespace RadJAV
 			return (path);
 		}
 
+		#if not defined USE_IOS && not defined USE_ANDROID
 		class OS::SystemProcessImpl : public std::enable_shared_from_this<OS::SystemProcessImpl>
 		{
 		public:
@@ -575,6 +576,7 @@ namespace RadJAV
 			{
 				createEvent(event, func);
 			}
+		#endif
 		#endif
 
 	}

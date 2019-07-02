@@ -53,6 +53,7 @@ namespace RadJAV
 
 			extern JSObjectRef onReadyFunction;
 
+			#ifndef USE_IOS
 			class SystemProcess
 			{
 			public:
@@ -63,6 +64,7 @@ namespace RadJAV
 				static JSValueRef kill(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
 				static JSValueRef on(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception);
 			};
+			#endif
 		}
 	}
 }

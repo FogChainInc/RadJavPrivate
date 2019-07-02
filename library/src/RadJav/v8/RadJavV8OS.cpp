@@ -189,6 +189,7 @@ namespace RadJAV
 			args.GetReturnValue().Set(path.toV8String(args.GetIsolate()));
 		}
 
+		#ifndef USE_ANDROID
 		void OS::SystemProcess::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 		{
 			V8_CALLBACK(object, "_init", OS::SystemProcess::_init);
@@ -253,5 +254,6 @@ namespace RadJAV
 			
 			appObject->on(parseV8Value(args[0]), v8::Local<v8::Function>::Cast(args[1]));
 		}
+		#endif
 	}
 }

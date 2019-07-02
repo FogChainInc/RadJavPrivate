@@ -178,6 +178,7 @@ namespace RadJAV
             return (path.toJSCValue(context));
         }
 
+		#ifndef USE_IOS
 		void OS::SystemProcess::createJSCCallbacks(JSContextRef context, JSObjectRef object)
 		{
 			JSC_CALLBACK(object, "_init", OS::SystemProcess::_init);
@@ -258,5 +259,6 @@ namespace RadJAV
 			
 			return undefined;
 		}
+		#endif
 	}
 }

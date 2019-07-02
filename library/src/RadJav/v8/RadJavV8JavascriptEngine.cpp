@@ -1519,13 +1519,15 @@ namespace RadJAV
                         V8B::OS::ScreenInfo::createV8Callbacks(isolate, screenInfoFunc);
                     }
 
-					// RadJav.OS.SystemProcess
-					{
-						v8::Handle<v8::Function> systemProcessFunc = v8GetFunction(osFunc, "SystemProcess");
-						v8::Handle<v8::Object> systemProcessFuncPrototype = v8GetObject(systemProcessFunc, "prototype");
+					#ifndef USE_ANDROID
+						// RadJav.OS.SystemProcess
+						{
+							v8::Handle<v8::Function> systemProcessFunc = v8GetFunction(osFunc, "SystemProcess");
+							v8::Handle<v8::Object> systemProcessFuncPrototype = v8GetObject(systemProcessFunc, "prototype");
 
-						V8B::OS::SystemProcess::createV8Callbacks(isolate, systemProcessFuncPrototype);
-					}
+							V8B::OS::SystemProcess::createV8Callbacks(isolate, systemProcessFuncPrototype);
+						}
+					#endif
 
 					// Command line arguments
 					{

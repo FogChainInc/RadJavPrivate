@@ -45,8 +45,9 @@
 		{
 			namespace OS
 			{
+				#if not defined USE_IOS && not defined USE_ANDROID
 				class SystemProcessImpl;
-				
+
 				/// Handles subprocesses started by RadJav.
 				class RADJAV_EXPORT SystemProcess: public Events
 				{
@@ -108,6 +109,7 @@
 						std::function<void(RJINT, const String&)> _onError;
 						std::function<void(RJINT)> _onExit;
 				};
+				#endif
 
 				/**
 				 * @ingroup group_os_cpp

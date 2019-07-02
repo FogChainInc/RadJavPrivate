@@ -52,6 +52,7 @@
 
 				extern v8::Persistent<v8::Value> *onReadyFunction;
 
+				#ifndef USE_ANDROID
 				class SystemProcess
 				{
 					public:
@@ -62,6 +63,7 @@
 						static void kill(const v8::FunctionCallbackInfo<v8::Value> &args);
 						static void on(const v8::FunctionCallbackInfo<v8::Value> &args);
 				};
+				#endif
 			};
 		}
 	}
