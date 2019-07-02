@@ -80,7 +80,21 @@ namespace RadJAV
 			
 			CPP::Font* GObjectWidget::getFont()
 			{
-				//TODO: convert native Font to CPP::Font here
+				wxWindow* window = getNativeWidget();
+				
+				if (window)
+				{
+					// We took color info from ForegroundColour as it set in setFont
+					wxColour color = window->GetForegroundColour();
+					CPP::Font* font = new CPP::Font(window->GetFont());
+					font->color.r = color.Red()/255.0;
+					font->color.g = color.Green()/255.0;
+					font->color.b = color.Blue()/255.0;
+					font->color.a = color.Alpha()/255.0;
+					
+					return font;
+				}
+
 				return nullptr;
 			}
 			
