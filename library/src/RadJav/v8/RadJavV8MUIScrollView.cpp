@@ -38,7 +38,14 @@ namespace RadJAV
 
 			void ScrollView::create(const v8::FunctionCallbackInfo<v8::Value> &args)
 			{
-				CppMuiObject *appObject = RJNEW CppMuiObject(V8_JAVASCRIPT_ENGINE, args);
+				CppMuiObject *appObject = (CppMuiObject *)V8_JAVASCRIPT_ENGINE->v8GetExternal(args.This(), "_appObj");
+				if (appObject)
+				{
+					V8_JAVASCRIPT_ENGINE->throwException("ScrollView already created");
+					return;
+				}
+
+				appObject = RJNEW CppMuiObject(V8_JAVASCRIPT_ENGINE, args);
 				appObject->create();
 
 				V8_JAVASCRIPT_ENGINE->v8SetExternal(args.This(), "_appObj", appObject);

@@ -42,12 +42,20 @@ namespace RadJAV
 
 			JSValueRef BottomNavigator::init(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception)
 			{
-				CppMuiObject *appObject = RJNEW CppMuiObject(JSC_JAVASCRIPT_ENGINE, thisObject, argumentCount, arguments);
+				JSValueRef undefined = JSValueMakeUndefined(ctx);
+				CppMuiObject *appObject = (CppMuiObject *)JSC_JAVASCRIPT_ENGINE->jscGetExternal(ctx, thisObject, "_appObj");
+				if (appObject)
+				{
+					JSC_JAVASCRIPT_ENGINE->throwException(ctx, exception, "BottomNavigator already created");
+					return undefined;
+				}
+
+				appObject = RJNEW CppMuiObject(JSC_JAVASCRIPT_ENGINE, thisObject, argumentCount, arguments);
 				appObject->create();
 
 				JSC_JAVASCRIPT_ENGINE->jscSetExternal(ctx, thisObject, "_appObj", appObject);
 				
-				return JSValueMakeUndefined(ctx);
+				return undefined;
 			}
 			
 			JSValueRef BottomNavigator::getSelectedTabIndex(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef *exception)
