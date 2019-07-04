@@ -815,13 +815,8 @@ namespace RadJav
 			}
 
 			/// Double click a mouse button.
-			static doubleClick(button: number = 0)
+			static doubleClick(button: number = 0): void
 			{
-				RadJav.Testing.MouseSimulator.click(button);
-
-				setTimeout(function() {
-					RadJav.Testing.MouseSimulator.click(button);
-				}, 200);
 			}
 
 			/// Move to a position and click.
@@ -845,11 +840,7 @@ namespace RadJav
 				if (pos instanceof RadJav.GUI.GObject)
 					RadJav.Testing.MouseSimulator.setPosition((<RadJav.GUI.GObject>pos).getPosition ());
 
-				RadJav.Testing.MouseSimulator.click(button);
-				
-				setTimeout(function() {
-					RadJav.Testing.MouseSimulator.click(button);
-				}, 200);
+				RadJav.Testing.MouseSimulator.doubleClick(button);
 			}
 
 			/// Wheel a mouse button.

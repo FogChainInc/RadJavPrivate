@@ -49,6 +49,7 @@ namespace RadJAV
             void MouseSimulator::createJSCCallbacks(JSContextRef context, JSObjectRef object)
             {
                 JSC_CALLBACK(object, "click", MouseSimulator::click);
+				JSC_CALLBACK(object, "doubleClick", MouseSimulator::doubleClick);
                 JSC_CALLBACK(object, "setPosition", MouseSimulator::setPosition);
 				JSC_CALLBACK(object, "wheel", MouseSimulator::wheel);
             }
@@ -63,7 +64,17 @@ namespace RadJAV
                 return (JSValueMakeUndefined(context));
             }
 
-            JSValueRef MouseSimulator::setPosition(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception)
+			JSValueRef MouseSimulator::doubleClick(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception)
+			{
+				JSValueRef arg = args[0];
+				RJINT button = JSC_JAVASCRIPT_ENGINE->jscParseInt (arg);
+				
+				CPP::Testing::MouseSimulator::doubleClick(button);
+				
+				return (JSValueMakeUndefined(context));
+			}
+
+			JSValueRef MouseSimulator::setPosition(JSContextRef context, JSObjectRef func, JSObjectRef thisObj, size_t numArgs, const JSValueRef args[], JSValueRef *exception)
             {
                 JSValueRef arg = args[0];
                 CPP::Vector2 pos(JSC_JAVASCRIPT_ENGINE->jscCastValueToObject(arg));

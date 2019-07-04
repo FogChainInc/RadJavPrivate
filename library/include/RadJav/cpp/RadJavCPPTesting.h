@@ -66,6 +66,8 @@
 					public:
 						/// Simulate a mouse click.
 						static void click(RJINT button);
+						/// Simulate a double click mouse event
+						static void doubleClick(RJINT button);
 						/// Set the mouse at a position.
 						static void setPosition(CPP::Vector2 pos);
 						/// Simulate a mouse wheel.

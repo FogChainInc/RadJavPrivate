@@ -47,6 +47,7 @@ namespace RadJAV
 			void MouseSimulator::createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object)
 			{
 				V8_CALLBACK(object, "click", MouseSimulator::click);
+				V8_CALLBACK(object, "doubleClick", MouseSimulator::doubleClick);
 				V8_CALLBACK(object, "setPosition", MouseSimulator::setPosition);
 				V8_CALLBACK(object, "wheel", MouseSimulator::wheel);
 			}
@@ -57,6 +58,14 @@ namespace RadJAV
 				RJINT button = V8_JAVASCRIPT_ENGINE->v8ParseInt(arg);
 
 				CPP::Testing::MouseSimulator::click(button);
+			}
+
+			void MouseSimulator::doubleClick(const v8::FunctionCallbackInfo<v8::Value> &args)
+			{
+				v8::Local<v8::Value> arg = args[0];
+				RJINT button = V8_JAVASCRIPT_ENGINE->v8ParseInt(arg);
+				
+				CPP::Testing::MouseSimulator::doubleClick(button);
 			}
 
 			void MouseSimulator::setPosition(const v8::FunctionCallbackInfo<v8::Value> &args)

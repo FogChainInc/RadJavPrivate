@@ -193,6 +193,88 @@ namespace RadJAV
                     #endif
                 #endif
 			}
+			
+			void MouseSimulator::doubleClick(RJINT button)
+			{
+				#ifdef WIN32
+					INPUT input;
+					RJINT flagDown = MOUSEEVENTF_ABSOLUTE;
+					RJINT flagUp = MOUSEEVENTF_ABSOLUTE;
+				
+					switch(button)
+					{
+						case 1:
+							flagDown |= MOUSEEVENTF_RIGHTDOWN;
+							flagUp |= MOUSEEVENTF_RIGHTUP;
+							break;
+						case 2:
+							flagDown |= MOUSEEVENTF_MIDDLEDOWN;
+							flagUp |= MOUSEEVENTF_MIDDLEUP;
+							break;
+						case 0:
+						default:
+							flagDown |= MOUSEEVENTF_LEFTDOWN;
+							flagUp |= MOUSEEVENTF_LEFTUP;
+					}
+				
+					input.type = INPUT_MOUSE;
+					input.mi.dx = position.x;
+					input.mi.dy = position.y;
+					input.mi.mouseData = 0;
+					input.mi.dwExtraInfo = 0;
+				
+					input.mi.time = 0;
+
+					// first click
+					input.mi.dwFlags = flagDown;
+					SendInput(1, &input, sizeof(INPUT));
+				
+					input.mi.dwFlags = flagUp;
+					SendInput(1, &input, sizeof(INPUT));
+				
+					// second click
+					input.mi.dwFlags = flagDown;
+					SendInput(1, &input, sizeof(INPUT));
+				
+					input.mi.dwFlags = flagUp;
+					SendInput(1, &input, sizeof(INPUT));
+				#endif
+				#ifdef __APPLE__
+					#if TARGET_OS_OSX == 1
+						CGEventRef eventDown = NULL;
+						CGEventRef eventUp = NULL;
+						const CGPoint pos = CGPointMake(position.x, position.y);
+				
+						switch(button)
+						{
+							case 1:
+								eventDown = CGEventCreateMouseEvent(NULL, kCGEventRightMouseDown, pos, kCGMouseButtonRight);
+								eventUp = CGEventCreateMouseEvent (NULL, kCGEventRightMouseUp, pos, kCGMouseButtonRight);
+								break;
+							case 2:
+								eventDown = CGEventCreateMouseEvent(NULL, kCGEventOtherMouseDown, pos, kCGMouseButtonCenter);
+								eventUp = CGEventCreateMouseEvent (NULL, kCGEventOtherMouseUp, pos, kCGMouseButtonCenter);
+								break;
+							case 0:
+							default:
+								eventDown = CGEventCreateMouseEvent(NULL, kCGEventLeftMouseDown, pos, kCGMouseButtonLeft);
+								eventUp = CGEventCreateMouseEvent (NULL, kCGEventLeftMouseUp, pos, kCGMouseButtonLeft);
+						}
+				
+						CGEventPost(kCGHIDEventTap, eventDown);
+						CGEventPost(kCGHIDEventTap, eventUp);
+				
+						CGEventSetIntegerValueField(eventDown, kCGMouseEventClickState, 2);
+						CGEventSetIntegerValueField(eventUp, kCGMouseEventClickState, 2);
+
+						CGEventPost(kCGHIDEventTap, eventDown);
+						CGEventPost(kCGHIDEventTap, eventUp);
+				
+						CFRelease(eventDown);
+						CFRelease(eventUp);
+					#endif
+				#endif
+			}
 
 			void MouseSimulator::setPosition(CPP::Vector2 pos)
 			{

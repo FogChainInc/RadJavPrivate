@@ -44,6 +44,7 @@
 						static void createV8Callbacks(v8::Isolate *isolate, v8::Local<v8::Object> object);
 
 						static void click(const v8::FunctionCallbackInfo<v8::Value> &args);
+						static void doubleClick(const v8::FunctionCallbackInfo<v8::Value> &args);
 						static void setPosition(const v8::FunctionCallbackInfo<v8::Value> &args);
 						static void wheel(const v8::FunctionCallbackInfo<v8::Value> &args);
 				};
