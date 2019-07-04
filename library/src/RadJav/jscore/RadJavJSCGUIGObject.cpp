@@ -292,8 +292,8 @@ namespace RadJAV
 				
 				JSObjectRef vector2 = JSC_JAVASCRIPT_ENGINE->jscGetObject(JSC_RADJAV, "Vector2");
 				JSObjectRef vector2obj = JSC_JAVASCRIPT_ENGINE->jscCallAsConstructor(vector2, 0, NULL);
-				JSC_JAVASCRIPT_ENGINE->jscSetNumber(vector2obj, "width", x);
-				JSC_JAVASCRIPT_ENGINE->jscSetNumber(vector2obj, "height", y);
+				JSC_JAVASCRIPT_ENGINE->jscSetNumber(vector2obj, "x", x);
+				JSC_JAVASCRIPT_ENGINE->jscSetNumber(vector2obj, "y", y);
 				
 				return vector2obj;
 			}
