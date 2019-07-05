@@ -384,12 +384,12 @@ namespace RadJAV
 
 				if (event == "mousedown")
 				{
-					object->Bind(wxEVT_AUX1_DOWN, GObjectEvents::onMouseAux1Down, -1, -1, createEvent(event, func));
+					object->Bind(wxEVT_LEFT_DOWN, GObjectEvents::onMouseAux1Down, -1, -1, createEvent(event, func));
 				}
 
 				if (event == "mouseup")
 				{
-					object->Bind(wxEVT_AUX1_UP, GObjectEvents::onMouseAux1Up, -1, -1, createEvent(event, func));
+					object->Bind(wxEVT_LEFT_UP, GObjectEvents::onMouseAux1Up, -1, -1, createEvent(event, func));
 				}
 
 				if (event == "mouseenter")
