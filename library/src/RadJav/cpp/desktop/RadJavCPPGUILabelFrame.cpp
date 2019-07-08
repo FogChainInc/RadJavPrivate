@@ -36,12 +36,6 @@ namespace RadJAV
 				{
 				}
 
-				void LabelFrame::onClick(wxMouseEvent &event)
-				{
-					Event *pevent = (Event *)event.GetEventUserData();
-					executeEvent(pevent);
-				}
-
 				wxWindow* LabelFrame::getNativeWidget()
 				{
 					return this;

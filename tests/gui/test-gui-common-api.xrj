@@ -9278,6 +9278,414 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 			return onKeyUpDownApiTest.call(check, "WebView", new RadJav.Vector2(56, 105));
 		});
 		
+		// Tests related to events for specific controls
+		// Window
+		// Window.on("close") functionality test
+		RadJav.addTest("test_window_onclose_001", function(check) {
+			
+			let promise = new Promise(function(resolve, reject) {
+				let windowPos = new RadJav.Vector2(0, 22);
+				let message = "Window got on(\"close\") event";
+				let eventArrived = false;
+
+				var window = new RadJav.GUI.Window("Window", "Window.on(\"close\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					window.setPosition(windowPos);
+					
+					window.on("close", function() {
+						eventArrived = true;
+						check.assert(eventArrived, message);
+						resolve();
+					});
+					
+					setTimeout(function()
+					{
+						RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(14, 32));
+					}, 1000);
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(eventArrived, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		});
+		
+		// Window.on("minimize") functionality test
+		RadJav.addTest("test_window_onminimize_001", function(check) {
+			
+			let promise = new Promise(function(resolve, reject) {
+				let windowPos = new RadJav.Vector2(0, 22);
+				let message = "Window got on(\"minimize\") event";
+				let eventArrived = false;
+
+				var window = new RadJav.GUI.Window("Window", "Window.on(\"minimize\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					window.setPosition(windowPos);
+					
+					window.on("minimize", function() {
+						eventArrived = true;
+						check.assert(eventArrived, message);
+						resolve();
+					});
+					
+					setTimeout(function()
+					{
+						RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(33, 32));
+					}, 1000);
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(eventArrived, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		});
+		
+		// Window.on("maximize") functionality test
+		RadJav.addTest("test_window_onmaximize_001", function(check) {
+			
+			let promise = new Promise(function(resolve, reject) {
+				let windowPos = new RadJav.Vector2(0, 22);
+				let message = "Window got on(\"maximize\") event";
+				let eventArrived = false;
+
+				var window = new RadJav.GUI.Window("Window", "Window.on(\"maximize\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					window.setPosition(windowPos);
+					
+					window.on("maximize", function() {
+						eventArrived = true;
+						check.assert(eventArrived, message);
+						resolve();
+					});
+					
+					setTimeout(function()
+					{
+						RadJav.Testing.MouseSimulator.moveDoubleClick(new RadJav.Vector2(100, 32));
+					}, 1000);
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(eventArrived, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		});
+		
+		// Window.on("menuselected") functionality test
+		RadJav.addTest("test_window_onmenuselected_001", function(check) {
+			
+			let promise = new Promise(function(resolve, reject) {
+				let windowPos = new RadJav.Vector2(0, 22);
+				let message = "Window got on(\"menuselected\") event";
+				let eventArrived = false;
+
+				var window = new RadJav.GUI.Window("Window", "Window.on(\"menuselected\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					window.setPosition(windowPos);
+					
+					window.on("menuselected", function() {
+						eventArrived = true;
+						check.assert(eventArrived, message);
+						resolve();
+					});
+					
+					var menuBar = new RadJav.GUI.MenuBar("MenuBar", "Test", window);
+					menuBar.create().then(function(ctrl) {
+						menuBar = ctrl;
+						var menuFile = new RadJav.GUI.MenuItem("MenuItem", "File", menuBar);
+						menuFile.create().then(function(ctrl) {
+							menuFile = ctrl;
+							var menuFileTest = new RadJav.GUI.MenuItem("MenuItem Test", "Test", menuFile);
+							menuFileTest.create().then(function(ctrl) {
+								menuFileTest = ctrl;
+							});
+						});
+					});
+					
+					setTimeout(function()
+					{
+						RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(221, 10));
+						setTimeout(function()
+						{
+							RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(235, 34));
+						}, 500);
+					}, 1000);
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(eventArrived, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		});
+		
+		// Checkbox.on("change") functionality test
+		RadJav.addTest("test_checkbox_onchange_001", function(check) {
+			
+			let promise = new Promise(function(resolve, reject) {
+				let windowPos = new RadJav.Vector2(0, 22);
+				let message = "Checkbox got on(\"change\") event";
+				let eventArrived = false;
+
+				var window = new RadJav.GUI.Window("Window", "Checkbox.on(\"change\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					window.setPosition(windowPos);
+
+					var checkbox = new RadJav.GUI.Checkbox("Checkbox", "Test", window);
+					checkbox.create().then(function(ctrl) {
+						checkbox = ctrl;
+						
+						checkbox.on("change", function() {
+							eventArrived = true;
+							check.assert(eventArrived, message);
+							resolve();
+						});
+						
+						setTimeout(function()
+						{
+							RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(8, 63));
+						}, 1000);
+					});
+					
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(eventArrived, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		});
+		
+		// Combobox.on("change") functionality test
+		RadJav.addTest("test_combobox_onchange_001", function(check) {
+			
+			let promise = new Promise(function(resolve, reject) {
+				let windowPos = new RadJav.Vector2(0, 22);
+				let message = "Combobox got on(\"change\") event";
+				let eventArrived = false;
+
+				var window = new RadJav.GUI.Window("Window", "Combobox.on(\"change\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					window.setPosition(windowPos);
+
+					var combobox = new RadJav.GUI.Combobox("Combobox", "", window);
+					combobox.create().then(function(ctrl) {
+						combobox = ctrl;
+						
+						combobox.setItems([{text: "Item1"},
+											{text: "Item2"},
+											{text: "Item3"},
+											{text: "Item4"},
+											{text: "Item5"},
+											{text: "Item6"}]);
+						
+						combobox.on("change", function() {
+							eventArrived = true;
+							check.assert(eventArrived, message);
+							resolve();
+						});
+						
+						setTimeout(function()
+						{
+							RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(108, 62));
+							setTimeout(function()
+							{
+								RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(20, 199));
+							}, 500);
+						}, 1000);
+					});
+					
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(eventArrived, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		});
+		
+		// Combobox.on("dropdown") functionality test
+		RadJav.addTest("test_combobox_ondropdown_001", function(check) {
+			
+			let promise = new Promise(function(resolve, reject) {
+				let windowPos = new RadJav.Vector2(0, 22);
+				let message = "Combobox got on(\"dropdown\") event";
+				let eventArrived = false;
+
+				var window = new RadJav.GUI.Window("Window", "Combobox.on(\"dropdown\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					window.setPosition(windowPos);
+
+					var combobox = new RadJav.GUI.Combobox("Combobox", "", window);
+					combobox.create().then(function(ctrl) {
+						combobox = ctrl;
+						
+						combobox.setItems([{text: "Item1"},
+											{text: "Item2"},
+											{text: "Item3"},
+											{text: "Item4"},
+											{text: "Item5"},
+											{text: "Item6"}]);
+						
+						combobox.on("dropdown", function() {
+							eventArrived = true;
+							check.assert(eventArrived, message);
+							resolve();
+						});
+						
+						setTimeout(function()
+						{
+							RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(108, 62));
+							setTimeout(function()
+							{
+								RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(190, 62));
+							}, 500);
+						}, 1000);
+					});
+					
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(eventArrived, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		});
+		
+		// Combobox.on("closeup") functionality test
+		RadJav.addTest("test_combobox_oncloseup_001", function(check) {
+			
+			let promise = new Promise(function(resolve, reject) {
+				let windowPos = new RadJav.Vector2(0, 22);
+				let message = "Combobox got on(\"closeup\") event";
+				let eventArrived = false;
+
+				var window = new RadJav.GUI.Window("Window", "Combobox.on(\"closeup\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					window.setPosition(windowPos);
+
+					var combobox = new RadJav.GUI.Combobox("Combobox", "", window);
+					combobox.create().then(function(ctrl) {
+						combobox = ctrl;
+						
+						combobox.setItems([{text: "Item1"},
+											{text: "Item2"},
+											{text: "Item3"},
+											{text: "Item4"},
+											{text: "Item5"},
+											{text: "Item6"}]);
+						
+						combobox.on("closeup", function() {
+							eventArrived = true;
+							check.assert(eventArrived, message);
+							resolve();
+						});
+						
+						setTimeout(function()
+						{
+							RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(108, 62));
+							setTimeout(function()
+							{
+								RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(190, 62));
+							}, 500);
+						}, 1000);
+					});
+					
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(eventArrived, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		});
+		
+		// Combobox.on("text") functionality test
+		RadJav.addTest("test_combobox_ontext_001", function(check) {
+			
+			let promise = new Promise(function(resolve, reject) {
+				let windowPos = new RadJav.Vector2(0, 22);
+				let message = "Combobox got on(\"text\") event";
+				let eventArrived = false;
+
+				var window = new RadJav.GUI.Window("Window", "Combobox.on(\"text\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					window.setPosition(windowPos);
+
+					var combobox = new RadJav.GUI.Combobox("Combobox", "", window);
+					combobox.create().then(function(ctrl) {
+						combobox = ctrl;
+						
+						combobox.setItems([{text: "Item1"},
+											{text: "Item2"},
+											{text: "Item3"},
+											{text: "Item4"},
+											{text: "Item5"},
+											{text: "Item6"}]);
+						
+						combobox.on("text", function() {
+							eventArrived = true;
+							check.assert(eventArrived, message);
+							resolve();
+						});
+						
+						setTimeout(function()
+						{
+							RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(46, 62));
+							setTimeout(function()
+							{
+								RadJav.Testing.KeyboardSimulator.enterText("t");
+							}, 500);
+						}, 1000);
+					});
+					
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(eventArrived, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		});
+		
 		// Execute test cases
 		RadJav.runTests().then( function() {
 			RadJav.exit();

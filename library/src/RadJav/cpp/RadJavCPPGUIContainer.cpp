@@ -105,12 +105,6 @@ namespace RadJAV
 						CPP::GUI::ContainerFrame *object = (CPP::GUI::ContainerFrame *)_appObj;
 
 						object->addNewEvent(event, object, func);
-					
-						if (event == "click")
-						{
-							object->Connect(wxEVT_LEFT_UP, wxMouseEventHandler(ContainerFrame::onClick), object->createEvent(event, func));
-						}
-
 					#endif
 				}
 			#endif

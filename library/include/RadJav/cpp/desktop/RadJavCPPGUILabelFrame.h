@@ -42,18 +42,7 @@
 						public:
 							LabelFrame(GObjectWidget *parent, const String &text, const Vector2 &pos, const Vector2 &size);
 
-							void onClick(wxMouseEvent &event);
-							/*
-							   void onDoubleClick(wxMouseEvent &event);
-							   void onRightClick(wxMouseEvent &event);
-							   void onRightDoubleClick(wxMouseEvent &event);
-							   void onRightDown(wxMouseEvent &event);
-							   void onMiddleClick(wxMouseEvent &event);
-							   void onMiddleDoubleClick(wxMouseEvent &event);
-							   void onMiddleDown(wxMouseEvent &event);
-							*/
-
-						wxWindow* getNativeWidget();
+							wxWindow* getNativeWidget();
 
 						protected:
 							wxDECLARE_EVENT_TABLE();

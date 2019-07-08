@@ -134,10 +134,11 @@ namespace RadJAV
 								object->Connect(wxEVT_COMMAND_COMBOBOX_CLOSEUP, wxCommandEventHandler(ComboboxFrame::onCloseup), object->createEvent(event, func));
 							#endif
 						}
+						
 						if (event == "text")
 						{
 							#ifdef GUI_USE_WXWIDGETS
-								object->Connect(wxEVT_COMMAND_COMBOBOX_CLOSEUP, wxCommandEventHandler(ComboboxFrame::onText), object->createEvent(event, func));
+								object->Connect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(ComboboxFrame::onText), object->createEvent(event, func));
 							#endif
 						}
 

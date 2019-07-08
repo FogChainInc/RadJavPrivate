@@ -80,12 +80,6 @@ namespace RadJAV
 							CPP::GUI::LabelFrame *object = (CPP::GUI::LabelFrame *)_appObj;
 
 							object->addNewEvent(event, object, func);
-
-							if (event == "click")
-							{
-								object->Connect(wxEVT_LEFT_UP, wxMouseEventHandler(LabelFrame::onClick), object->createEvent(event, func));
-							}
-
 						#else
 							_appObj->addNewEvent(event, func);
 						#endif

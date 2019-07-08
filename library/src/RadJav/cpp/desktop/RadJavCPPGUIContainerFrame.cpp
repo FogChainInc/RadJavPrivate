@@ -34,12 +34,6 @@ namespace RadJAV
 				{
 				}
 
-				void ContainerFrame::onClick(wxMouseEvent &event)
-				{
-					Event *pevent = (Event *)event.GetEventUserData();
-					executeEvent(pevent);
-				}
-
 				wxWindow* ContainerFrame::getNativeWidget()
 				{
 					return this;
