@@ -36,47 +36,84 @@ namespace RadJAV
 
 				void ListFrame::onRowClick(wxListEvent &event)
 				{
-					#ifdef USE_V8
-
 					Event *pevent = (Event *)event.GetEventUserData();
-					v8::Local<v8::Array> selectedRows = v8::Array::New(V8_JAVASCRIPT_ENGINE->isolate);
-
-					ListFrame *object = (ListFrame *)event.GetEventObject();
 					
-					int index = object->GetFirstSelected();
+					#ifdef USE_V8
+						v8::Local<v8::Array> selectedRows = v8::Array::New(V8_JAVASCRIPT_ENGINE->isolate);
 					
-					while (index != -1)
-					{
-						RJINT numCols = object->GetColumnCount();
-						v8::Local<v8::Object> items = v8::Object::New(V8_JAVASCRIPT_ENGINE->isolate);
-						v8::Local<v8::Array> itemsArray = v8::Array::New(V8_JAVASCRIPT_ENGINE->isolate);
-						
-						for (RJINT iJdx = 0; iJdx < numCols; iJdx++)
+						ListFrame *object = (ListFrame *)event.GetEventObject();
+					
+						int index = object->GetFirstSelected();
+					
+						while (index != -1)
 						{
-							wxString itemText = object->GetItemText(index, iJdx);
-							String temp = parsewxString(itemText);
-							v8::Local<v8::Object> item = v8::Object::New(V8_JAVASCRIPT_ENGINE->isolate);
+							RJINT numCols = object->GetColumnCount();
+							v8::Local<v8::Object> items = v8::Object::New(V8_JAVASCRIPT_ENGINE->isolate);
+							v8::Local<v8::Array> itemsArray = v8::Array::New(V8_JAVASCRIPT_ENGINE->isolate);
 							
-							item->Set(String("text").toV8String(V8_JAVASCRIPT_ENGINE->isolate), temp.toV8String(V8_JAVASCRIPT_ENGINE->isolate));
-							itemsArray->Set(iJdx, item);
+							for (RJINT iJdx = 0; iJdx < numCols; iJdx++)
+							{
+								wxString itemText = object->GetItemText(index, iJdx);
+								String temp = parsewxString(itemText);
+								v8::Local<v8::Object> item = v8::Object::New(V8_JAVASCRIPT_ENGINE->isolate);
+								
+								item->Set(String("text").toV8String(V8_JAVASCRIPT_ENGINE->isolate), temp.toV8String(V8_JAVASCRIPT_ENGINE->isolate));
+								itemsArray->Set(iJdx, item);
+							}
+							
+							items->Set(String("items").toV8String(V8_JAVASCRIPT_ENGINE->isolate), itemsArray);
+							selectedRows->Set(index, items);
+							
+							index = object->GetNextSelected(index);
 						}
-						
-						items->Set(String("items").toV8String(V8_JAVASCRIPT_ENGINE->isolate), itemsArray);
-						selectedRows->Set(index, items);
-
-						index = object->GetNextSelected(index);
-					}
 					
-					v8::Local<v8::Value> *args = RJNEW v8::Local<v8::Value>[1];
-					args[0] = selectedRows;
-					//args[0] = v8::Number::New (V8_JAVASCRIPT_ENGINE->isolate, temp);
+						v8::Local<v8::Value> *args = RJNEW v8::Local<v8::Value>[1];
+						args[0] = selectedRows;
+						//args[0] = v8::Number::New (V8_JAVASCRIPT_ENGINE->isolate, temp);
+					
+						executeEvent(pevent, 1, args);
+						DELETE_ARRAY(args);
+					#elif defined USE_JAVASCRIPTCORE
+						JSObjectRef selectedRows = JSObjectMakeArray(JSC_JAVASCRIPT_ENGINE->globalContext, 0, nullptr, nullptr);
 
-					executeEvent(pevent, 1, args);
-					DELETE_ARRAY(args);
-/// @todo Fix this for JavaScriptCore.
+						ListFrame *object = (ListFrame *)event.GetEventObject();
+					
+						int index = object->GetFirstSelected();
+					
+						while (index != -1)
+						{
+							RJINT numCols = object->GetColumnCount();
+							JSObjectRef items = JSC_JAVASCRIPT_ENGINE->jscCreateNewObject("Object", 0, nullptr);
+							
+							JSObjectRef itemsArray = JSObjectMakeArray(JSC_JAVASCRIPT_ENGINE->globalContext, 0, nullptr, nullptr);
+							
+							for (RJINT iJdx = 0; iJdx < numCols; iJdx++)
+							{
+								wxString itemText = object->GetItemText(index, iJdx);
+								String temp = parsewxString(itemText);
+								JSObjectRef item = JSC_JAVASCRIPT_ENGINE->jscCreateNewObject("Object", 0, nullptr);
+								
+								JSC_JAVASCRIPT_ENGINE->jscSetString(item, "text", temp);
+								
+								JSValueRef args[1];
+								args[0] = item;
+								JSC_JAVASCRIPT_ENGINE->jscCallFunction(itemsArray, "push", 1, args);
+							}
+							
+							JSC_JAVASCRIPT_ENGINE->jscSetObject(items, "items", itemsArray);
 
+							JSValueRef args[1];
+							args[0] = items;
+							JSC_JAVASCRIPT_ENGINE->jscCallFunction(selectedRows, "push", 1, args);
 
-					#endif
+							index = object->GetNextSelected(index);
+						}
+					
+						JSValueRef args[1];
+						args[0] = selectedRows;
+					
+						executeEvent(pevent, 1, args);
+						#endif
 				}
 
 				void ListFrame::onRowFocused(wxListEvent &evt)

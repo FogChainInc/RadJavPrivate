@@ -9686,6 +9686,664 @@ RadJav.initialize (RadJav.getStandardLibrary (),
 			return promise;
 		});
 		
+		// List.on("rowClick") functionality test
+		RadJav.addTest("test_list_onrowclick_001", function(check) {
+			let promise = new Promise(function(resolve, reject) {
+				let windowPos = new RadJav.Vector2(0, 22);
+				let eventArrived = false;
+				let selectedRows = {};
+				let selectionInCallback = {};
+				let expectedSelectedRow = [{items: [{text: "0"},
+													{text: "Value 1"}]
+											}];
+				
+				let message1 = "List got on(\"rowClick\") event";
+				let message2 = "Selection object match";
+				let message3 = "Selected row equal to 0";
+				
+				var window = new RadJav.GUI.Window("Window", "List.on(\"rowClick\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					window.setPosition(windowPos);
+					
+					var list = new RadJav.GUI.List("List", "", window);
+					list.create().then(function(ctrl) {
+						list = ctrl;
+						
+						list.addColumn("Id", 100);
+						list.addColumn("Value", 100);
+						list.addRow({items: [{text: "0"},
+											{text: "Value 1"}]});
+						
+						list.addRow({items: [{text: "1"},
+											{text: "Value 2"}]});
+						
+						list.on("rowClick", function(selection) {
+							eventArrived = true;
+							selectionInCallback = selection;
+							selectedRows = list.getSelectedRows();
+
+							check.assert(eventArrived, message1);
+							check.equal(JSON.stringify(selectionInCallback),
+										JSON.stringify(expectedSelectedRow), message2);
+							
+							check.equal(selectedRows._appObj[0], 0, message3);
+							resolve();
+						});
+						
+						setTimeout(function()
+						{
+							RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(36, 68));
+						}, 1000);
+					});
+					
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(eventArrived, message1);
+					check.equal(JSON.stringify(selectionInCallback),
+								JSON.stringify(expectedSelectedRow), message2);
+					
+					check.equal(selectedRows._appObj[0], 0, message3);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		});
+		
+		// List.on("rowFocused") functionality test
+		RadJav.addTest("test_list_onrowfocused_001", function(check) {
+			let promise = new Promise(function(resolve, reject) {
+				let windowPos = new RadJav.Vector2(0, 22);
+				let eventArrived = false;
+				
+				let message = "List got on(\"rowFocused\") event";
+				
+				var window = new RadJav.GUI.Window("Window", "List.on(\"rowFocused\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					window.setPosition(windowPos);
+					
+					var list = new RadJav.GUI.List("List", "", window);
+					list.create().then(function(ctrl) {
+						list = ctrl;
+						
+						list.addColumn("Id", 100);
+						list.addColumn("Value", 100);
+						list.addRow({items: [{text: "0"},
+											{text: "Value 1"}]});
+						
+						list.addRow({items: [{text: "1"},
+											{text: "Value 2"}]});
+						
+						list.on("rowFocused", function(selection) {
+							eventArrived = true;
+							check.assert(eventArrived, message);
+							resolve();
+						});
+						
+						setTimeout(function()
+						{
+							RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(36, 68));
+						}, 1000);
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(eventArrived, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		});
+		
+		// List.on("rowRightClick") functionality test
+		RadJav.addTest("test_list_onrowrightclick_001", function(check) {
+			let promise = new Promise(function(resolve, reject) {
+				let windowPos = new RadJav.Vector2(0, 22);
+				let eventArrived = false;
+				
+				let message = "List got on(\"rowRightClick\") event";
+				
+				var window = new RadJav.GUI.Window("Window", "List.on(\"rowRightClick\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					window.setPosition(windowPos);
+					
+					var list = new RadJav.GUI.List("List", "", window);
+					list.create().then(function(ctrl) {
+						list = ctrl;
+						
+						list.addColumn("Id", 100);
+						list.addColumn("Value", 100);
+						list.addRow({items: [{text: "0"},
+											{text: "Value 1"}]});
+						
+						list.addRow({items: [{text: "1"},
+											{text: "Value 2"}]});
+						
+						list.on("rowRightClick", function(selection) {
+							eventArrived = true;
+							check.assert(eventArrived, message);
+							resolve();
+						});
+						
+						setTimeout(function()
+						{
+							RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(36, 68), 1);
+						}, 1000);
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(eventArrived, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		});
+		
+		// List.on("rowMiddleClick") functionality test
+		RadJav.addTest("test_list_onrowmiddleclick_001", function(check) {
+			let promise = new Promise(function(resolve, reject) {
+				let windowPos = new RadJav.Vector2(0, 22);
+				let eventArrived = false;
+				
+				let message = "List got on(\"rowMiddleClick\") event";
+				
+				var window = new RadJav.GUI.Window("Window", "List.on(\"rowMiddleClick\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					window.setPosition(windowPos);
+					
+					var list = new RadJav.GUI.List("List", "", window);
+					list.create().then(function(ctrl) {
+						list = ctrl;
+						
+						list.addColumn("Id", 100);
+						list.addColumn("Value", 100);
+						list.addRow({items: [{text: "0"},
+											{text: "Value 1"}]});
+						
+						list.addRow({items: [{text: "1"},
+											{text: "Value 2"}]});
+						
+						list.on("rowMiddleClick", function(selection) {
+							eventArrived = true;
+							check.assert(eventArrived, message);
+							resolve();
+						});
+						
+						setTimeout(function()
+						{
+							RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(36, 68), 2);
+						}, 1000);
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(eventArrived, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		});
+		
+		// MenuBar.on("menuopen") functionality test
+		RadJav.addTest("test_menubar_onmenuopen_001", function(check) {
+			let eventArrived = false;
+			let eventRequested = false;
+			let message1 = "MenuBar got on(\"menuopen\") event";
+			let message2 = "MenuBar got on(\"menuopen\") event in correct time";
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuBar.on(\"menuopen\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.setPosition(0, 22);
+					
+					var menuBar = new RadJav.GUI.MenuBar("Menubar", "", window);
+					menuBar.create().then(function(ctrl) {
+						menuBar = ctrl;
+						
+						var menuFile = new RadJav.GUI.MenuItem("MenuFile", "File", menuBar);
+						menuFile.create().then(function(ctrl) {
+							menuFile = ctrl;
+							
+							var menuTest = new RadJav.GUI.MenuItem("MenuTest", "Test", menuFile);
+							menuTest.create().then(function(ctrl) {
+								menuTest = ctrl;
+							});
+						});
+						
+						menuBar.on("menuopen", function() {
+							eventArrived = true;
+							check.assert(eventArrived, message1);
+							check.assert(eventRequested, message2);
+							resolve();
+						})
+						
+						setTimeout(function()
+						{
+							RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(220, 10));
+							eventRequested = true;
+						}, 1000);
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(eventArrived, message1);
+					check.assert(eventRequested, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		});
+		
+		// MenuBar.on("menuclose") functionality test
+		RadJav.addTest("test_menubar_onmenuclose_001", function(check) {
+			let eventArrived = false;
+			let eventRequested = false;
+			let message1 = "MenuBar got on(\"menuclose\") event";
+			let message2 = "MenuBar got on(\"menuclose\") event in correct time";
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuBar.on(\"menuclose\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.setPosition(0, 22);
+					
+					var menuBar = new RadJav.GUI.MenuBar("Menubar", "", window);
+					menuBar.create().then(function(ctrl) {
+						menuBar = ctrl;
+						
+						var menuFile = new RadJav.GUI.MenuItem("MenuFile", "File", menuBar);
+						menuFile.create().then(function(ctrl) {
+							menuFile = ctrl;
+							
+							var menuTest = new RadJav.GUI.MenuItem("MenuTest", "Test", menuFile);
+							menuTest.create().then(function(ctrl) {
+								menuTest = ctrl;
+							});
+						});
+						
+						menuBar.on("menuclose", function() {
+							eventArrived = true;
+							check.assert(eventArrived, message1);
+							check.assert(eventRequested, message2);
+							resolve();
+						})
+						
+						setTimeout(function()
+						{
+							RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(220, 10));
+							setTimeout(function()
+							{
+								RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(220, 27));
+								eventRequested = true;
+							}, 1000);
+						}, 1000);
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(eventArrived, message1);
+					check.assert(eventRequested, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		});
+		
+		// MenuBar.on("menuhighlight") functionality test
+		RadJav.addTest("test_menubar_onmenuhighlight_001", function(check) {
+			let eventArrived = false;
+			let eventRequested = false;
+			let message1 = "MenuBar got on(\"menuhighlight\") event";
+			let message2 = "MenuBar got on(\"menuhighlight\") event in correct time";
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuBar.on(\"menuhighlight\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.setPosition(0, 22);
+					
+					var menuBar = new RadJav.GUI.MenuBar("Menubar", "", window);
+					menuBar.create().then(function(ctrl) {
+						menuBar = ctrl;
+						
+						var menuFile = new RadJav.GUI.MenuItem("MenuFile", "File", menuBar);
+						menuFile.create().then(function(ctrl) {
+							menuFile = ctrl;
+							
+							var menuTest = new RadJav.GUI.MenuItem("MenuTest", "Test", menuFile);
+							menuTest.create().then(function(ctrl) {
+								menuTest = ctrl;
+							});
+						});
+						
+						menuBar.on("menuhighlight", function() {
+							eventArrived = true;
+							check.assert(eventArrived, message1);
+							check.assert(eventRequested, message2);
+							resolve();
+						})
+						
+						setTimeout(function()
+						{
+							RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(220, 10));
+							setTimeout(function()
+							{
+								eventRequested = true;
+								RadJav.Testing.MouseSimulator.setPosition(new RadJav.Vector2(220, 32));
+								setTimeout(function()
+								{
+									RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(220, 60));
+								}, 1000);
+							}, 1000);
+						}, 1000);
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(eventArrived, message1);
+					check.assert(eventRequested, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		});
+		
+		// MenuBar.on("menuselected") functionality test
+		RadJav.addTest("test_menubar_onmenuselected_001", function(check) {
+			let eventArrived = false;
+			let eventRequested = false;
+			let message1 = "MenuBar got on(\"menuselected\") event";
+			let message2 = "MenuBar got on(\"menuselected\") event in correct time";
+			
+			let promise = new Promise(function(resolve, reject) {
+				var window = new RadJav.GUI.Window("window","MenuBar.on(\"menuselected\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					
+					window.setPosition(0, 22);
+					
+					var menuBar = new RadJav.GUI.MenuBar("Menubar", "", window);
+					menuBar.create().then(function(ctrl) {
+						menuBar = ctrl;
+						
+						var menuFile = new RadJav.GUI.MenuItem("MenuFile", "File", menuBar);
+						menuFile.create().then(function(ctrl) {
+							menuFile = ctrl;
+							
+							var menuTest = new RadJav.GUI.MenuItem("MenuTest", "Test", menuFile);
+							menuTest.create().then(function(ctrl) {
+								menuTest = ctrl;
+							});
+						});
+						
+						menuBar.on("menuselected", function() {
+							eventArrived = true;
+							check.assert(eventArrived, message1);
+							check.assert(eventRequested, message2);
+							resolve();
+						})
+						
+						setTimeout(function()
+						{
+							RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(220, 10));
+							setTimeout(function()
+							{
+								RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(220, 32));
+								eventRequested = true;
+								setTimeout(function()
+								{
+									RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(220, 60));
+								}, 1000);
+							}, 1000);
+						}, 1000);
+					});
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(eventArrived, message1);
+					check.assert(eventRequested, message2);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		});
+		
+		// Radio.on("change") functionality test
+		RadJav.addTest("test_radio_onchange_001", function(check) {
+			
+			let promise = new Promise(function(resolve, reject) {
+				let windowPos = new RadJav.Vector2(0, 22);
+				let message = "Radio got on(\"change\") event";
+				let eventArrived = false;
+
+				var window = new RadJav.GUI.Window("Window", "Radio.on(\"change\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					window.setPosition(windowPos);
+
+					var radio = new RadJav.GUI.Radio("Radio", "Test", window);
+					radio.create().then(function(ctrl) {
+						radio = ctrl;
+						
+						radio.on("change", function() {
+							eventArrived = true;
+							check.assert(eventArrived, message);
+							resolve();
+						});
+						
+						setTimeout(function()
+						{
+							RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(8, 63));
+						}, 1000);
+					});
+					
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(eventArrived, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		});
+		
+		// Textarea.on("onText") functionality test
+		RadJav.addTest("test_textarea_onontext_001", function(check) {
+			
+			let promise = new Promise(function(resolve, reject) {
+				let windowPos = new RadJav.Vector2(0, 22);
+				let message = "Textarea got on(\"onText\") event";
+				let eventArrived = false;
+
+				var window = new RadJav.GUI.Window("Window", "Textarea.on(\"onText\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					window.setPosition(windowPos);
+
+					var textarea = new RadJav.GUI.Textarea("Textarea", "", window);
+					textarea.create().then(function(ctrl) {
+						textarea = ctrl;
+						
+						textarea.on("onText", function() {
+							eventArrived = true;
+							check.assert(eventArrived, message);
+							resolve();
+						});
+						
+						setTimeout(function()
+						{
+							RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(22, 56));
+							RadJav.Testing.KeyboardSimulator.keyPress("t");
+						}, 1000);
+					});
+					
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(eventArrived, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		});
+		
+		// Textarea.on("onTextEnter") functionality test
+		RadJav.addTest("test_textarea_onontextenter_001", function(check) {
+			
+			let promise = new Promise(function(resolve, reject) {
+				let windowPos = new RadJav.Vector2(0, 22);
+				let message = "Textarea got on(\"onTextEnter\") event";
+				let eventArrived = false;
+
+				var window = new RadJav.GUI.Window("Window", "Textarea.on(\"onTextEnter\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					window.setPosition(windowPos);
+
+					var textarea = new RadJav.GUI.Textarea("Textarea", "", window);
+					textarea.create().then(function(ctrl) {
+						textarea = ctrl;
+						
+						textarea.on("onTextEnter", function() {
+							eventArrived = true;
+							check.assert(eventArrived, message);
+							resolve();
+						});
+						
+						setTimeout(function()
+						{
+							RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(22, 56));
+							RadJav.Testing.KeyboardSimulator.enterText("test");
+							//TODO: simulate enter keypress
+						}, 1000);
+					});
+					
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(eventArrived, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		});
+		
+		// Textbox.on("onText") functionality test
+		RadJav.addTest("test_textbox_onontext_001", function(check) {
+			
+			let promise = new Promise(function(resolve, reject) {
+				let windowPos = new RadJav.Vector2(0, 22);
+				let message = "Textbox got on(\"onText\") event";
+				let eventArrived = false;
+
+				var window = new RadJav.GUI.Window("Window", "Textbox.on(\"onText\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					window.setPosition(windowPos);
+
+					var textbox = new RadJav.GUI.Textbox("Textbox", "", window);
+					textbox.create().then(function(ctrl) {
+						textbox = ctrl;
+						
+						textbox.on("onText", function() {
+							eventArrived = true;
+							check.assert(eventArrived, message);
+							resolve();
+						});
+						
+						setTimeout(function()
+						{
+							RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(22, 56));
+							RadJav.Testing.KeyboardSimulator.keyPress("t");
+						}, 1000);
+					});
+					
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(eventArrived, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		});
+		
+		// Textbox.on("onTextEnter") functionality test
+		RadJav.addTest("test_textbox_onontextenter_001", function(check) {
+			
+			let promise = new Promise(function(resolve, reject) {
+				let windowPos = new RadJav.Vector2(0, 22);
+				let message = "Textbox got on(\"onTextEnter\") event";
+				let eventArrived = false;
+
+				var window = new RadJav.GUI.Window("Window", "Textbox.on(\"onTextEnter\") functionality test");
+				window.create().then(function(win) {
+					window = win;
+					window.setPosition(windowPos);
+
+					var textbox = new RadJav.GUI.Textbox("Textbox", "", window);
+					textbox.create().then(function(ctrl) {
+						textbox = ctrl;
+						
+						textbox.on("onTextEnter", function() {
+							eventArrived = true;
+							check.assert(eventArrived, message);
+							resolve();
+						});
+						
+						setTimeout(function()
+						{
+							RadJav.Testing.MouseSimulator.moveClick(new RadJav.Vector2(22, 56));
+							RadJav.Testing.KeyboardSimulator.enterText("test");
+							//TODO: simulate enter keypress
+						}, 1000);
+					});
+					
+				});
+				
+				setTimeout(function ()
+				{
+					check.assert(eventArrived, message);
+					resolve();
+				}, 5000);
+			});
+			
+			return promise;
+		});
+		
 		// Execute test cases
 		RadJav.runTests().then( function() {
 			RadJav.exit();
