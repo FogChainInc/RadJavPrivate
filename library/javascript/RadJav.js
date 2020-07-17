@@ -1194,11 +1194,9 @@ var RadJav;
     })(C3D = RadJav.C3D || (RadJav.C3D = {}));
     var Net;
     (function (Net) {
-        function httpRequest(req) {
+        function httpRequest(addr) {
             var promise = new Promise(RadJav.keepContext(function (resolve, reject) {
-                var addr = req;
                 var request = null;
-                var response = null;
                 try {
                     if (XMLHttpRequest != null)
                         request = new XMLHttpRequest();
@@ -1224,6 +1222,36 @@ var RadJav;
             return promise;
         }
         Net.httpRequest = httpRequest;
+        function jsonPost(addr, jsonObject) {
+            var promise = new Promise(RadJav.keepContext(function (resolve, reject) {
+                var request = null;
+                try {
+                    if (XMLHttpRequest != null)
+                        request = new XMLHttpRequest();
+                    else
+                        request = new ActiveXObject("Microsoft.XMLHTTP");
+                    request.onreadystatechange = RadJav.keepContext(function (evt, request2) {
+                        var req2 = request2[0];
+                        try {
+                            if (req2.readyState == 4 && req2.status == 200)
+                                resolve(req2.responseText);
+                        }
+                        catch (ex) {
+                            reject(ex);
+                        }
+                    }, this, [request]);
+                    request.setRequestHeader("Content-Type", "application/json");
+                    request.open("POST", addr);
+                    var data = JSON.stringify(jsonObject);
+                    request.send(data);
+                }
+                catch (ex) {
+                    reject(ex);
+                }
+            }, this));
+            return promise;
+        }
+        Net.jsonPost = jsonPost;
     })(Net = RadJav.Net || (RadJav.Net = {}));
     var Console = (function () {
         function Console() {

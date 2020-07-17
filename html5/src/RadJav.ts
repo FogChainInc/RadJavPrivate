@@ -2152,18 +2152,16 @@ namespace RadJav
 	export namespace Net
 	{
 		/**
-		* Make an ajax request to a HTTP server.
+		* Make a HTTP request to a HTTP server.
 		* Available on platforms: Windows,Linux,OSX,iOS,Android,HTML5
 		* @param {String/Object} req The URL or request object to send to the server.
 		* @return {Promise} The promise to execute when the request has completed.
 		*/
-		export function httpRequest(req: string | object): Promise<any>
+		export function httpRequest(addr: string): Promise<any>
 		{
 			var promise = new Promise(RadJav.keepContext(function(resolve, reject)
 				{
-					var addr = req;
-					var request = null;
-					var response = null;
+					var request: XMLHttpRequest = null;
 
 					try
 					{
@@ -2189,6 +2187,57 @@ namespace RadJav
 
 						request.open("GET", addr);
 						request.send();
+					}
+					catch (ex)
+					{
+						reject(ex);
+					}
+				}, this));
+
+			return promise;
+		}
+
+		/**
+		 * Make a JSON post to a HTTP server.
+		 * Available on platforms: Windows,Linux,OSX,iOS,Android,HTML5
+		 * @param {string} addr The URL to the server.
+		 * @param {any} jsonObject The JSON object to send.
+		 * @return {Promise} The promise to execute when the request has completed.
+		 */
+		export function jsonPost(addr: string, jsonObject: any): Promise<any>
+		{
+			var promise = new Promise(RadJav.keepContext(function(resolve, reject)
+				{
+					var request: XMLHttpRequest = null;
+
+					try
+					{
+						if (XMLHttpRequest != null)
+							request = new XMLHttpRequest();
+						else
+							request = new ActiveXObject("Microsoft.XMLHTTP");
+
+						request.onreadystatechange = RadJav.keepContext(function(evt, request2)
+							{
+								var req2 = request2[0];
+
+								try
+								{
+									if (req2.readyState == 4 && req2.status == 200)
+										resolve(req2.responseText);
+								}
+								catch (ex)
+								{
+									reject(ex);
+								}
+							}, this, [request]);
+
+						request.open("POST", addr);
+						request.setRequestHeader ("Content-Type", "application/json");
+
+						var data = JSON.stringify (jsonObject);
+
+						request.send(data);
 					}
 					catch (ex)
 					{

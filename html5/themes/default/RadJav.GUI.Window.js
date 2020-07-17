@@ -14,8 +14,7 @@ RadJav.currentTheme.themeObjects["RadJav.GUI.Window"].exports =
 				var win = new dojox.layout.FloatingPane ({
 							id: obj.name, title: obj._text,
 							resizable: true, dockable: false,
-							style: "width: " + obj.getWidth () +
-								"px; height: " + obj.getHeight () + "px; visibility: hidden;",
+							style: RadJav.themeUtils.getGObjectSizeString (obj, 0) + "; visibility: hidden;",
 						}, dojo.byId (obj.name));
 				win.startup ();
 
