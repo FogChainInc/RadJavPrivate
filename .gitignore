@@ -17,6 +17,8 @@ vm/installers/windows/x64/build
 vm/installers/windows/x64/RadJavVM/Debug
 vm/installers/windows/x64/RadJavVM/Release
 
+erc20/build/
+
 html5/build/*
 html5/fileDiffs.json
 html5/cache.json

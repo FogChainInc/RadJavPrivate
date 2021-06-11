@@ -5,10 +5,20 @@ import "./IERC20.sol";
 import "./extensions/IERC20Metadata.sol";
 import "./utils/Context.sol";
 
+// truffle develop
+// compile
+// migrate
+// const instance = await XRJV1.deployed ();
+// instance.address
+// Get balance:
+// (await instance.balanceOf ('0xd18793317fae6156786638a1ab2d56b48f58b37d')).toString ()
+// Transfer tokens:
+// await instance.transfer ('0x4a39e5cFD39E09e75f86e1FD81ccb52d4c5ea79f', '100569003')
+
 /**
- * The XRJ
+ * The XRJV1 token.
  */
-contract XRJ is Context, IERC20, IERC20Metadata
+contract XRJV1 is Context, IERC20, IERC20Metadata
 {
 	/**
 	 * The name of the XRJ token.
@@ -23,23 +33,26 @@ contract XRJ is Context, IERC20, IERC20Metadata
 	 */
 	uint256 private _totalSupply;
 	/**
-	 * The number of decimals.
+	 * The number of decimals allowed.
 	 */
 	uint8 public constant _decimals = 18;
 	/**
 	 * The token's account balances.
 	 */
-	mapping(address => uint) private _balances;
+	mapping(address => uint256) private _balances;
 	/**
 	 * The token's account allowances.
 	 */
-	mapping(address => uint) private _allowances;
+	mapping(address => mapping(address => uint256)) private _allowances;
 
 	constructor () public {
+		uint256 forkedTokens = 100569003 * 10**uint(_decimals);
+
 		_name = "RadJav XRJV1 Token";
 		_symbol = "XRJV1";
-		_totalSupply = 110411200 * 10**uint(_decimals);
-		_balances[tx.origin] = 10000;
+		_totalSupply = 110411199 * 10**uint(_decimals);
+		_balances[tx.origin] = _totalSupply - (_totalSupply - forkedTokens);
+		_balances[0x00661ce5500Aa1Fe19d94B9bE97c54AeA0af04d7] = (_totalSupply - forkedTokens);
 	}
 
 	/**
@@ -63,11 +76,11 @@ contract XRJ is Context, IERC20, IERC20Metadata
 	 */
 	function decimals () public view virtual override returns (uint8)
 	{
-		return (18);
+		return (_decimals);
 	}
 
 	/**
-	 * @dev Returns the decimals of the token.
+	 * @dev Returns the total token supply.
 	 */
 	function totalSupply () public view virtual override returns (uint256)
 	{
@@ -75,7 +88,7 @@ contract XRJ is Context, IERC20, IERC20Metadata
 	}
 
 	/**
-	 * @dev Returns the decimals of the token.
+	 * @dev Returns the balance of an account.
 	 */
 	function balanceOf (address account) public view virtual override returns (uint256)
 	{
