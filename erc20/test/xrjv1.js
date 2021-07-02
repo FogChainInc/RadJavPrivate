@@ -1,3 +1,13 @@
+// truffle develop
+// compile
+// migrate
+// const instance = await XRJV1.deployed ();
+// instance.address
+// Get balance:
+// (await instance.balanceOf ('0xd18793317fae6156786638a1ab2d56b48f58b37d')).toString ()
+// Transfer tokens:
+// await instance.transfer ('0x4a39e5cFD39E09e75f86e1FD81ccb52d4c5ea79f', '100569003')
+
 // Taken and modified from: https://github.com/ethereum-optimism/optimism/blob/develop/examples/truffle/test/erc20.spec.js
 let token = null;
 
@@ -18,7 +28,7 @@ contract('XRJV1 ERC20 Token', (accounts) => {
 		const balance = await token.balanceOf.call(accounts[ 0 ], {
 		gasPrice: 0
 		})
-		assert.strictEqual(balance.toNumber(), 100569003)
+		assert.strictEqual(balance.toNumber(), '100569003000000000000000000')
 	})
 
 	it('creation: test correct setting of vanity information', async () => {
@@ -43,7 +53,7 @@ contract('XRJV1 ERC20 Token', (accounts) => {
   // normal transfers without approvals
 	it('transfers: ether transfer to token address should be reversed.', async () => {
 		const balanceBefore = await token.balanceOf.call(accounts[ 0 ])
-		assert.strictEqual(balanceBefore.toNumber(), 100569003)
+		assert.strictEqual(balanceBefore.toNumber(), '100569003000000000000000000')
 
 		let threw = false
 		try {
@@ -54,7 +64,7 @@ contract('XRJV1 ERC20 Token', (accounts) => {
 		assert.equal(threw, true)
 
 		const balanceAfter = await token.balanceOf.call(accounts[ 0 ])
-		assert.strictEqual(balanceAfter.toNumber(), 100569003)
+		assert.strictEqual(balanceAfter.toNumber(), '100569003000000000000000000')
 	})
 
 	it('transfers: should transfer 10000 to accounts[1] with accounts[0] having 10000', async () => {
@@ -66,7 +76,7 @@ contract('XRJV1 ERC20 Token', (accounts) => {
 	it('transfers: should fail when trying to transfer 100569004 to accounts[1] with accounts[0] having 100569004', async () => {
 		let threw = false
 		try {
-		await token.transfer.call(accounts[ 1 ], 100569004, { from: accounts[ 0 ], gasPrice: 0 })
+		await token.transfer.call(accounts[ 1 ], '100569004000000000000000000', { from: accounts[ 0 ], gasPrice: 0 })
 		} catch (e) {
 		threw = true
 		}
@@ -100,7 +110,7 @@ contract('XRJV1 ERC20 Token', (accounts) => {
   // bit overkill. But is for testing a bug
 	it('approvals: msg.sender approves accounts[1] of 100 & withdraws 20 once.', async () => {
 		const balance0 = await token.balanceOf.call(accounts[ 0 ])
-		assert.strictEqual(balance0.toNumber(), 100569003)
+		assert.strictEqual(balance0.toNumber(), '100569003000000000000000000')
 
 		await token.approve(accounts[ 1 ], 100, { from: accounts[ 0 ], gasPrice: 0 }) // 100
 		const balance2 = await token.balanceOf.call(accounts[ 2 ])
@@ -116,7 +126,7 @@ contract('XRJV1 ERC20 Token', (accounts) => {
 		assert.strictEqual(balance22.toNumber(), 20)
 
 		const balance02 = await token.balanceOf.call(accounts[ 0 ])
-		assert.strictEqual(balance02.toNumber(), 100568983)
+		assert.strictEqual(balance02.toNumber(), '100568983000000000000000000')
 	})
 
   // should approve 100 of msg.sender & withdraw 50, twice. (should succeed)
@@ -133,7 +143,7 @@ contract('XRJV1 ERC20 Token', (accounts) => {
 		assert.strictEqual(balance2.toNumber(), 20)
 
 		const balance0 = await token.balanceOf.call(accounts[ 0 ])
-		assert.strictEqual(balance0.toNumber(), 100568983)
+		assert.strictEqual(balance0.toNumber(), '100568983000000000000000000')
 
 		// FIRST tx done.
 		// onto next.
@@ -145,7 +155,7 @@ contract('XRJV1 ERC20 Token', (accounts) => {
 		assert.strictEqual(balance22.toNumber(), 40)
 
 		const balance02 = await token.balanceOf.call(accounts[ 0 ])
-		assert.strictEqual(balance02.toNumber(), 100568963)
+		assert.strictEqual(balance02.toNumber(), '100568963000000000000000000')
 	})
 
   // should approve 100 of msg.sender & withdraw 50 & 60 (should fail).
@@ -162,7 +172,7 @@ contract('XRJV1 ERC20 Token', (accounts) => {
 		assert.strictEqual(balance2.toNumber(), 50)
 
 		const balance0 = await token.balanceOf.call(accounts[ 0 ])
-		assert.strictEqual(balance0.toNumber(), 100568953)
+		assert.strictEqual(balance0.toNumber(), '100568953000000000000000000')
 
 		// FIRST tx done.
 		// onto next.
@@ -221,7 +231,6 @@ contract('XRJV1 ERC20 Token', (accounts) => {
 		element => element.event.match('Transfer') &&
 			element.address.match(token.address)
 		)
-		debugger;
 		assert.strictEqual(transferLog.args.from, accounts[ 0 ])
 		// L2 ETH transfer also emits a transfer event
 		assert.strictEqual(transferLog.args.to, accounts[ 1 ])
