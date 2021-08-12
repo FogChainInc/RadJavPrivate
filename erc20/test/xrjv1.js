@@ -1,12 +1,13 @@
 // truffle develop
 // compile
 // migrate
+// global = this;
 // const instance = await XRJV1.deployed ();
 // instance.address
 // Get balance:
 // (await instance.balanceOf ('0xd18793317fae6156786638a1ab2d56b48f58b37d')).toString ()
 // Transfer tokens:
-// await instance.transfer ('0x4a39e5cFD39E09e75f86e1FD81ccb52d4c5ea79f', '100569003')
+// await instance.transfer ('0x4a39e5cFD39E09e75f86e1FD81ccb52d4c5ea79f', '100569003000000000000000000')
 
 // Taken and modified from: https://github.com/ethereum-optimism/optimism/blob/develop/examples/truffle/test/erc20.spec.js
 let token = null;
